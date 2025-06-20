@@ -4,8 +4,13 @@ import { createWithEqualityFn } from 'zustand/traditional'
 import type { PersistStoreProps } from '../types.js'
 import type { ChainOrderState } from './types.js'
 
-export const maxChainsToOrder = 9
-export const maxChainsToShow = 10
+// (10 tiles: 9 + 1 for "All chains")
+export const maxGridItemsToShow = 10
+export const maxChainsToShow = maxGridItemsToShow - 1
+// If there are more than maxChainsToShow chains to show,
+// -1 tile to show a button "+ N" more chains
+export const maxChainsToOrder = maxChainsToShow - 1
+
 const defaultChainState = {
   from: [],
   to: [],
@@ -52,22 +57,22 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
               },
             }
           })
-          return get().chainOrder[type]
+          return get().chainOrder[type].slice(0, maxChainsToOrder)
         },
         setChain: (chainId, type) => {
           const state = get()
           if (
+            chainId === undefined ||
             state.chainOrder[type].includes(chainId) ||
             !state.availableChains[type].includes(chainId)
           ) {
             return
           }
           set((state: ChainOrderState) => {
-            const chainOrder = state.chainOrder[type].slice()
-            chainOrder.unshift(chainId)
-            if (chainOrder.length > maxChainsToOrder) {
-              chainOrder.pop()
-            }
+            const chainOrder = [chainId, ...state.chainOrder[type]].slice(
+              0,
+              maxChainsToOrder
+            )
             return {
               chainOrder: {
                 ...state.chainOrder,

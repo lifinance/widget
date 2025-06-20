@@ -14,7 +14,7 @@ import { ChainList } from './ChainList'
 
 interface SelectChainContentProps {
   formType: FormType
-  onSelect: (chain: ExtendedChain) => void
+  onSelect: (chain: ExtendedChain | undefined) => void
   inExpansion: boolean
 }
 
@@ -31,25 +31,11 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = ({
   const elementId = useDefaultElementId()
   const scrollableContainer = useScrollableContainer(elementId)
   const [selectedChainId] = useFieldValues(FormKeyHelper.getChainKey(formType))
-
-  const [filteredChains, setFilteredChains] = useState<ExtendedChain[]>(
-    chains ?? []
-  )
+  const [searchQuery, setSearchQuery] = useState('')
 
   const handleSearchInputChange: FormEventHandler<HTMLInputElement> = (e) => {
     const value = (e.target as HTMLInputElement).value
-
-    if (!value) {
-      setFilteredChains(chains ?? [])
-    } else {
-      setFilteredChains(
-        chains
-          ? chains.filter((chain) =>
-              chain.name.toLowerCase().includes(value.toLowerCase())
-            )
-          : []
-      )
-    }
+    setSearchQuery(value)
 
     if (scrollableContainer) {
       scrollableContainer.scrollTop = 0
@@ -87,7 +73,8 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = ({
         }
       >
         <ChainList
-          chains={filteredChains}
+          chains={chains || []}
+          searchQuery={searchQuery}
           isLoading={isLoading}
           onSelect={onSelect}
           selectedChainId={selectedChainId}

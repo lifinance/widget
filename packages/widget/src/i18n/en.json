@@ -211,6 +211,7 @@
     "slippage": "The maximum percentage difference between the expected price, and the actual price at which a transfer is executed. This value can be changed in settings."
   },
   "main": {
+    "allChains": "All chains",
     "allTokens": "All tokens",
     "bridgeStepDetails": "Bridge from {{from}} to {{to}} via {{tool}}",
     "checkoutStepDetails": "Purchase via {{tool}}",

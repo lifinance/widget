@@ -21,11 +21,11 @@ export const SelectChainPage: React.FC<SelectChainPageProps> = ({
   useHeader(t('header.selectChain'))
 
   const handleClick = useCallback(
-    async (chain: ExtendedChain) => {
-      if (selectNativeToken) {
+    async (chain: ExtendedChain | undefined) => {
+      if (selectNativeToken && chain) {
         selectToken(chain.nativeToken.address, chain.id)
       } else {
-        setCurrentChain(chain.id)
+        setCurrentChain(chain?.id)
         navigateBack()
       }
     },

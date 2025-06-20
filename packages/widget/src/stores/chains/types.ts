@@ -13,5 +13,5 @@ export interface ChainOrderProps {
 
 export interface ChainOrderState extends ChainOrderProps {
   initializeChains(chainIds: number[], type: FormType): number[]
-  setChain(chainId: number, type: FormType): void
+  setChain(chainId: number | undefined, type: FormType): void
 }

@@ -3,6 +3,7 @@ import { Skeleton } from '@mui/material'
 import { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SearchNotFound } from '../Search/SearchNotFound'
+import { AllChainsAvatar } from './AllChainsAvatar'
 import {
   Avatar,
   List,
@@ -13,7 +14,8 @@ import {
 
 interface ChainListProps {
   chains: ExtendedChain[]
-  onSelect: (chain: ExtendedChain) => void
+  searchQuery: string
+  onSelect: (chain: ExtendedChain | undefined) => void
   selectedChainId?: number
   isLoading: boolean
   itemsSize: 'small' | 'medium'
@@ -22,6 +24,7 @@ interface ChainListProps {
 
 export const ChainList = ({
   chains,
+  searchQuery,
   onSelect,
   selectedChainId,
   isLoading,
@@ -32,14 +35,20 @@ export const ChainList = ({
 
   const initialSelectedChainIdRef = useRef(selectedChainId)
   const sortedChains = useMemo(() => {
-    const selectedChain = chains.find(
+    const filteredChains = searchQuery
+      ? chains.filter((chain) =>
+          chain.name.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      : chains
+
+    const selectedChain = filteredChains.find(
       (chain) => chain.id === initialSelectedChainIdRef.current
     )
-    const otherChains = chains.filter(
+    const otherChains = filteredChains.filter(
       (chain) => chain.id !== initialSelectedChainIdRef.current
     )
-    return selectedChain ? [selectedChain, ...otherChains] : chains
-  }, [chains])
+    return selectedChain ? [selectedChain, ...otherChains] : filteredChains
+  }, [chains, searchQuery])
 
   if (isLoading) {
     return (
@@ -85,6 +94,18 @@ export const ChainList = ({
 
   return (
     <List size={itemsSize} disablePadding>
+      {!searchQuery && (
+        <ListItemButton
+          onClick={() => onSelect(undefined)}
+          selected={selectedChainId === undefined}
+          size={itemsSize}
+        >
+          <ListItemAvatar size={itemsSize}>
+            <AllChainsAvatar chains={chains} size={itemsSize} />
+          </ListItemAvatar>
+          <ListItemText primary={t('main.allChains')} size={itemsSize} />
+        </ListItemButton>
+      )}
       {sortedChains.map((chain) => (
         <ListItemButton
           key={chain.id}

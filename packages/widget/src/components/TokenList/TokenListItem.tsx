@@ -13,6 +13,7 @@ import {
 import type { MouseEventHandler } from 'react'
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { shortenAddress } from '../../utils/wallet.js'
@@ -29,7 +30,6 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
   size,
   start,
   token,
-  chain,
   accountAddress,
   isBalanceLoading,
   startAdornment,
@@ -38,7 +38,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
 }) => {
   const handleClick: MouseEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation()
-    onClick?.(token.address, chain?.id)
+    onClick?.(token.address, token.chainId)
   }
   return (
     <ListItem
@@ -51,7 +51,6 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
       {startAdornment}
       <TokenListItemButton
         token={token}
-        chain={chain}
         accountAddress={accountAddress}
         isBalanceLoading={isBalanceLoading}
         onClick={handleClick}
@@ -83,7 +82,6 @@ export const TokenListItemAvatar: React.FC<TokenListItemAvatarProps> = ({
 export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   onClick,
   token,
-  chain,
   accountAddress,
   isBalanceLoading,
   isSelected,
@@ -94,9 +92,12 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   const container = useRef(null)
   const timeoutId = useRef<ReturnType<typeof setTimeout>>(undefined)
   const [showAddress, setShowAddress] = useState(false)
+  const { getChainById } = useAvailableChains()
 
   const tokenAddress =
-    chain?.chainType === ChainType.UTXO ? accountAddress : token.address
+    getChainById(token.chainId)?.chainType === ChainType.UTXO
+      ? accountAddress
+      : token.address
 
   const onMouseEnter = () => {
     timeoutId.current = setTimeout(() => {
@@ -193,7 +194,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
                 <IconButton
                   size="small"
                   LinkComponent={Link}
-                  href={getAddressLink(tokenAddress!, chain)}
+                  href={getAddressLink(tokenAddress!, token.chainId)}
                   target="_blank"
                   rel="nofollow noreferrer"
                   onClick={(e) => e.stopPropagation()}

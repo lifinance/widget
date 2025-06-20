@@ -59,8 +59,8 @@ export const Expansion = () => {
   const formType = expansionType === ExpansionType.FromChain ? 'from' : 'to'
   const { setCurrentChain } = useChainSelect(formType)
   const onSelect = useCallback(
-    (chain: ExtendedChain) => {
-      setCurrentChain(chain.id)
+    (chain: ExtendedChain | undefined) => {
+      setCurrentChain(chain?.id)
     },
     [setCurrentChain]
   )

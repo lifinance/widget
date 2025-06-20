@@ -16,9 +16,7 @@ export const useTokenBalances = (selectedChainId?: number) => {
   const { keyPrefix } = useWidgetConfig()
 
   const isBalanceLoadingEnabled =
-    Boolean(account.address) &&
-    Boolean(tokens?.length) &&
-    Boolean(selectedChainId)
+    Boolean(account.address) && Boolean(tokens?.length)
 
   const {
     data: tokensWithBalance,
