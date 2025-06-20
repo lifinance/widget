@@ -1,13 +1,12 @@
 import { ChainId, ChainType } from '@lifi/sdk'
-import { Avatar, ListItemAvatar } from '@mui/material'
 import type { WalletAdapter } from '@solana/wallet-adapter-base'
 import { useWallet } from '@solana/wallet-adapter-react'
 import type { PublicKey } from '@solana/web3.js'
-import { ListItemButton } from '../components/ListItemButton.js'
-import { ListItemText } from '../components/ListItemText.js'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { WalletManagementEvent } from '../types/events.js'
+import { WalletTagType } from '../types/walletTagType.js'
+import { CardListItemButton } from './CardListItemButton.js'
 import type { WalletListItemButtonProps } from './types.js'
 
 interface SVMListItemButtonProps extends WalletListItemButtonProps {
@@ -17,6 +16,7 @@ interface SVMListItemButtonProps extends WalletListItemButtonProps {
 export const SVMListItemButton = ({
   ecosystemSelection,
   walletAdapter,
+  tagType,
   onConnected,
   onConnecting,
   onError,
@@ -31,6 +31,11 @@ export const SVMListItemButton = ({
     : walletAdapter.name
 
   const connectWallet = async () => {
+    if (tagType === WalletTagType.Connected) {
+      onConnected?.()
+      return
+    }
+
     try {
       onConnecting?.()
       if (connected) {
@@ -56,20 +61,20 @@ export const SVMListItemButton = ({
   }
 
   return (
-    <ListItemButton key={connectorDisplayName} onClick={connectWallet}>
-      <ListItemAvatar>
-        <Avatar
-          src={
-            ecosystemSelection
-              ? 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/solana.svg'
-              : walletAdapter.icon
-          }
-          alt={connectorDisplayName}
-        >
-          {connectorDisplayName[0]}
-        </Avatar>
-      </ListItemAvatar>
-      <ListItemText primary={connectorDisplayName} />
-    </ListItemButton>
+    <CardListItemButton
+      key={connectorDisplayName}
+      icon={
+        ecosystemSelection
+          ? 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/solana.svg'
+          : walletAdapter.icon
+      }
+      onClick={connectWallet}
+      title={connectorDisplayName}
+      tagType={
+        ecosystemSelection && tagType !== WalletTagType.Connected
+          ? undefined
+          : tagType
+      }
+    />
   )
 }
