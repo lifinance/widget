@@ -1,10 +1,13 @@
 import { createContext, useContext } from 'react'
-import type { WalletMenuContext as _WalletMenuContext } from './types.js'
+import type {
+  WalletMenuOpenArgs,
+  WalletMenuContext as _WalletMenuContext,
+} from './types.js'
 
 export const WalletMenuContext = createContext<_WalletMenuContext>({
   isWalletMenuOpen: () => {},
   toggleWalletMenu: () => {},
-  openWalletMenu: () => {},
+  openWalletMenu: (_?: WalletMenuOpenArgs) => {},
   closeWalletMenu: () => {},
 })
 

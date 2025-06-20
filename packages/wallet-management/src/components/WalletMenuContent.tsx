@@ -16,11 +16,12 @@ import {
 } from '@mui/material'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import type { WalletAdapter } from '@solana/wallet-adapter-base'
-import { useReducer, useRef } from 'react'
+import { useMemo, useReducer, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Connector } from 'wagmi'
 import type { CombinedWallet } from '../hooks/useCombinedWallets.js'
 import { useCombinedWallets } from '../hooks/useCombinedWallets.js'
+import type { WalletMenuOpenArgs } from '../providers/WalletMenuProvider/types.js'
 import type { WalletConnector } from '../types/walletConnector.js'
 import { ElementId } from '../utils/elements.js'
 import { EVMListItemButton } from './EVMListItemButton.js'
@@ -33,6 +34,7 @@ import { WalletMenuContentEmpty } from './WalletMenuContentEmpty.js'
 
 interface WalletMenuContentProps {
   onClose: () => void
+  walletChainArgs?: WalletMenuOpenArgs
 }
 
 interface State {
@@ -66,6 +68,7 @@ function reducer(state: State, action: Action): State {
 
 export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
   onClose,
+  walletChainArgs,
 }) => {
   const { t } = useTranslation()
   const { installedWallets } = useCombinedWallets()
@@ -89,12 +92,35 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
     dispatch({ type: 'HANDLE_ERROR', id, error })
   }
 
+  const walletChainLabel = useMemo(() => {
+    if (!walletChainArgs) {
+      return undefined
+    }
+    if (walletChainArgs.chain) {
+      return walletChainArgs.chain.name
+    }
+    return walletChainArgs.chainType
+  }, [walletChainArgs])
+
+  const filteredWallets = useMemo(() => {
+    if (!walletChainArgs) {
+      return installedWallets
+    }
+    return installedWallets.filter((wallet) => {
+      return wallet.connectors.some(
+        (connector) =>
+          connector.chainType ===
+          (walletChainArgs.chain?.chainType ?? walletChainArgs.chainType)
+      )
+    })
+  }, [installedWallets, walletChainArgs])
+
   const isMultiEcosystem = state.view === 'multi-ecosystem'
   const isConnecting = state.view === 'connecting'
 
   // We need to preserve selectedWallet between re-renders to avoid empty state once wallet is connected
   let selectedWallet = state.selectedWalletId
-    ? installedWallets.find((wallet) => wallet.id === state.selectedWalletId)
+    ? filteredWallets.find((wallet) => wallet.id === state.selectedWalletId)
     : null
   selectedWalletRef.current = selectedWallet || selectedWalletRef.current
   selectedWallet = selectedWalletRef.current
@@ -190,7 +216,11 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
             ? t('title.selectEcosystem')
             : isConnecting
               ? t('title.connecting')
-              : t('title.connectWallet')}
+              : walletChainLabel
+                ? t('title.connectWalletWithChain', {
+                    chainLabel: walletChainLabel,
+                  })
+                : t('title.connectWallet')}
         </Typography>
         <IconButton onClick={onClose}>
           <Close />
@@ -206,7 +236,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
             timeout={{ appear: 225, enter: 100, exit: 225 }}
           >
             <List sx={{ padding: 0 }}>
-              {installedWallets.map(({ id, name, icon, connectors }) => {
+              {filteredWallets.map(({ id, name, icon, connectors }) => {
                 if (connectors.length === 1) {
                   const { chainType, connector } = connectors[0]
                   return getWalletButton(id, name, chainType, connector)
@@ -227,7 +257,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
               })}
               {/* TODO: show all connected wallets with 'Connected' badge
             and have this empty screen only when there is no installed wallets at all */}
-              {!installedWallets.length ? <WalletMenuContentEmpty /> : null}
+              {!filteredWallets.length ? <WalletMenuContentEmpty /> : null}
             </List>
           </Fade>
         </Collapse>
