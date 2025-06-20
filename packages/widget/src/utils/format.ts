@@ -95,3 +95,37 @@ export function formatTokenPrice(
   }
   return Number.parseFloat(formattedAmount) * Number.parseFloat(price)
 }
+
+export function formatDuration(
+  seconds: number,
+  maxUnits: number,
+  locale: string
+): string {
+  const units = [
+    { label: 'day', value: 86400 },
+    { label: 'hour', value: 3600 },
+    { label: 'minute', value: 60 },
+    { label: 'second', value: 1 },
+  ]
+
+  const parts: string[] = []
+  let remaining = seconds
+  for (const { label, value } of units) {
+    const amount = Math.floor(remaining / value)
+    if (amount > 0) {
+      const formatted = amount.toLocaleString(locale, {
+        style: 'unit',
+        unit: label,
+        unitDisplay: 'narrow',
+      })
+      parts.push(formatted)
+      remaining -= amount * value
+    }
+
+    if (parts.length === maxUnits) {
+      break
+    }
+  }
+
+  return parts.join(' ')
+}
