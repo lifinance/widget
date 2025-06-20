@@ -10,6 +10,7 @@ import { useListHeight } from '../../hooks/useListHeight.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useScrollableOverflowHidden } from '../../hooks/useScrollableContainer.js'
 import { useSwapOnly } from '../../hooks/useSwapOnly.js'
+import { useWideVariant } from '../../hooks/useWideVariant.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { FormTypeProps } from '../../stores/form/types.js'
 import { HiddenUI } from '../../types/widget.js'
@@ -28,6 +29,8 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   const swapOnly = useSwapOnly()
 
   const { subvariant, hiddenUI } = useWidgetConfig()
+  const wideVariant = useWideVariant()
+
   const { t } = useTranslation()
   const title =
     formType === 'from'
@@ -39,10 +42,20 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   useHeader(title)
 
   const hideChainSelect =
-    (swapOnly && formType === 'to') || hiddenUI?.includes(HiddenUI.ChainSelect)
+    wideVariant ||
+    (swapOnly && formType === 'to') ||
+    hiddenUI?.includes(HiddenUI.ChainSelect)
+
+  const withChainExpansion =
+    wideVariant &&
+    !(swapOnly && formType === 'to') &&
+    !hiddenUI?.includes(HiddenUI.ChainSelect)
 
   return (
-    <FullPageContainer disableGutters>
+    <FullPageContainer
+      className={withChainExpansion ? 'with-chain-expansion' : ''}
+      disableGutters
+    >
       <Box
         ref={headerRef}
         sx={{

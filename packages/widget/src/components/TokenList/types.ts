@@ -21,6 +21,7 @@ export interface VirtualizedTokenListProps {
   chain?: ExtendedChain
   showCategories?: boolean
   onClick(tokenAddress: string, chainId?: number): void
+  selectedTokenAddress?: string
 }
 
 export interface TokenListItemBaseProps {
@@ -36,6 +37,7 @@ export interface TokenListItemProps extends TokenListItemBaseProps {
   isBalanceLoading?: boolean
   startAdornment?: React.ReactNode
   endAdornment?: React.ReactNode
+  isSelected?: boolean
 }
 
 export interface TokenListItemButtonProps {
@@ -44,6 +46,7 @@ export interface TokenListItemButtonProps {
   token: TokenAmount
   chain?: ExtendedChain
   isBalanceLoading?: boolean
+  isSelected?: boolean
 }
 
 export interface TokenListItemAvatarProps {

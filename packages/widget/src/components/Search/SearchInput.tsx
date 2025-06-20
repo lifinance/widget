@@ -12,6 +12,8 @@ interface SearchInputProps {
   onChange?: FormEventHandler<HTMLInputElement>
   onBlur?: FocusEventHandler<HTMLInputElement>
   autoFocus?: boolean
+  size?: 'small' | 'medium'
+  iconPosition?: 'start' | 'end'
 }
 
 export const SearchInput = ({
@@ -21,17 +23,28 @@ export const SearchInput = ({
   onBlur,
   value,
   autoFocus,
+  size = 'medium',
+  iconPosition = 'end',
 }: SearchInputProps) => {
   return (
     <InputCard>
       <FormControl fullWidth>
         <Input
-          size="small"
+          size={size}
           placeholder={placeholder}
+          startAdornment={
+            iconPosition === 'start' ? (
+              <InputAdornment position="start">
+                <Search />
+              </InputAdornment>
+            ) : null
+          }
           endAdornment={
-            <InputAdornment position="end">
-              <Search />
-            </InputAdornment>
+            iconPosition === 'end' ? (
+              <InputAdornment position="end">
+                <Search />
+              </InputAdornment>
+            ) : null
           }
           inputProps={{
             inputMode: 'search',
