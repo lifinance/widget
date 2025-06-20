@@ -1,3 +1,4 @@
+import type { Token } from '@lifi/sdk'
 import { ChainType, getTokens } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
@@ -6,7 +7,7 @@ import type { TokenAmount } from '../types/token.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useChains } from './useChains.js'
 
-export const useTokens = (selectedChainId?: number) => {
+export const useTokens = (selectedChainId: number | undefined) => {
   const { tokens: configTokens, keyPrefix } = useWidgetConfig()
   const { data, isLoading } = useQuery({
     queryKey: [getQueryKey('tokens', keyPrefix)],
@@ -33,28 +34,40 @@ export const useTokens = (selectedChainId?: number) => {
       return
     }
     const chain = getChainById(selectedChainId, chains)
-    const chainAllowed = selectedChainId && chain
-    if (!chainAllowed) {
+    if (selectedChainId && !chain) {
       return
     }
-    let filteredTokens = data.tokens?.[selectedChainId] || []
-    const includedTokens = configTokens?.include?.filter(
-      (token) => token.chainId === selectedChainId
-    )
-    if (includedTokens?.length) {
+
+    let filteredTokens: Token[] = []
+    if (selectedChainId) {
+      filteredTokens = data.tokens?.[selectedChainId] || []
+      const includedTokens =
+        configTokens?.include?.filter(
+          (token) => token.chainId === selectedChainId
+        ) || []
+      filteredTokens = [...includedTokens, ...filteredTokens]
+    } else {
+      filteredTokens = Object.values(data.tokens).flat()
+      const includedTokens = configTokens?.include || []
       filteredTokens = [...includedTokens, ...filteredTokens]
     }
 
     if (configTokens?.allow?.length || configTokens?.deny?.length) {
       const allowedTokensSet = new Set(
         configTokens?.allow
-          ?.filter((token) => token.chainId === selectedChainId)
+          ?.filter(
+            (token) =>
+              token.chainId === selectedChainId || selectedChainId === undefined
+          )
           .map((token) => token.address)
       )
 
       const deniedTokenAddressesSet = new Set(
         configTokens?.deny
-          ?.filter((token) => token.chainId === selectedChainId)
+          ?.filter(
+            (token) =>
+              token.chainId === selectedChainId || selectedChainId === undefined
+          )
           .map((token) => token.address)
       )
 
@@ -74,7 +87,7 @@ export const useTokens = (selectedChainId?: number) => {
       ['popular', 'featured'] as ('popular' | 'featured')[]
     ).map((tokenType) => {
       const typedConfigTokens = configTokens?.[tokenType]?.filter(
-        (token) => token.chainId === selectedChainId
+        (token) => token.chainId === selectedChainId && !!selectedChainId
       )
 
       const populatedConfigTokens = typedConfigTokens?.map((token) => {

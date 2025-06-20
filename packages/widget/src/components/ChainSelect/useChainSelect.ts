@@ -42,7 +42,7 @@ export const useChainSelect = (formType: FormType) => {
     return selectedChains
   }
 
-  const setCurrentChain = (chainId: number) => {
+  const setCurrentChain = (chainId: number | undefined) => {
     onChange(chainId)
     if (swapOnly) {
       setFieldValue(FormKeyHelper.getChainKey('to'), chainId, {

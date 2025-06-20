@@ -1,4 +1,3 @@
-import type { ExtendedChain } from '@lifi/sdk'
 import type { Account } from '@lifi/wallet-management'
 import type { MouseEventHandler, RefObject } from 'react'
 import type { FormType } from '../../stores/form/types.js'
@@ -18,7 +17,6 @@ export interface VirtualizedTokenListProps {
   isLoading: boolean
   isBalanceLoading: boolean
   chainId?: number
-  chain?: ExtendedChain
   showCategories?: boolean
   onClick(tokenAddress: string, chainId?: number): void
   selectedTokenAddress?: string
@@ -33,7 +31,6 @@ export interface TokenListItemBaseProps {
 export interface TokenListItemProps extends TokenListItemBaseProps {
   accountAddress?: string
   token: TokenAmount
-  chain?: ExtendedChain
   isBalanceLoading?: boolean
   startAdornment?: React.ReactNode
   endAdornment?: React.ReactNode
@@ -44,7 +41,6 @@ export interface TokenListItemButtonProps {
   onClick?: MouseEventHandler<HTMLDivElement>
   accountAddress?: string
   token: TokenAmount
-  chain?: ExtendedChain
   isBalanceLoading?: boolean
   isSelected?: boolean
 }
