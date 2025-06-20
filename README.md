@@ -103,6 +103,19 @@ export const WidgetPage = () => {
 };
 ```
 
+If you are using Next.js with the Pages router, you need to import the LI.FI Widget dynamically:
+
+```tsx
+import dynamic from 'next/dynamic';
+
+const LiFiWidget = dynamic(() => import('@lifi/widget').then(mod => mod.LiFiWidget), {
+  ssr: false,
+  loading: () => <div>Loading LI.FI Widget...</div>
+});
+```
+
+Please refer to the [examples](/examples) folder in this repository to see how to import the widget in your specific context.
+
 ## Examples
 
 Visit our [playground](https://playground.li.fi) to see how you can customize your [LI.FI Widget](https://www.npmjs.com/package/@lifi/widget) experience. Additionally, see [examples](/examples) folder in this repository.
