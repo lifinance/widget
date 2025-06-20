@@ -93,7 +93,7 @@ export const ChainList = ({
   }
 
   return (
-    <List size={itemsSize} disablePadding>
+    <List className="long-list" size={itemsSize} disablePadding>
       {!searchQuery && (
         <ListItemButton
           onClick={() => onSelect(undefined)}
