@@ -90,7 +90,7 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
                 lineHeight: 1,
               }}
             >
-              {formatDuration(executionTimeSeconds, 1, i18n.language)}
+              {formatDuration(executionTimeSeconds, i18n.language)}
             </Typography>
           </Box>
         </Tooltip>
