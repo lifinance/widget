@@ -114,7 +114,9 @@ const LiFiWidget = dynamic(() => import('@lifi/widget').then(mod => mod.LiFiWidg
 });
 ```
 
-Please refer to the [examples](/examples) folder in this repository to see how to import the widget in your specific context.
+Please refer to our [documentation](https://docs.li.fi/widget/compatibility) if you encounter any issues with importing.
+
+You can also refer to the [examples](/examples) folder in this repository to see how to import the widget in your specific context.
 
 ## Examples
 
@@ -122,7 +124,7 @@ Visit our [playground](https://playground.li.fi) to see how you can customize yo
 
 ## Documentation
 
-Please visit [LI.FI Widget Documentation](https://docs.li.fi/integrate-li.fi-widget/li.fi-widget-overview).
+Please visit [LI.FI Widget Documentation](https://docs.li.fi/widget/install-widget).
 
 ## Contributing Translations
 
