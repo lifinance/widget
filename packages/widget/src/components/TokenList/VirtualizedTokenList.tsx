@@ -4,12 +4,12 @@ import type { FC } from 'react'
 import { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { TokenAmount } from '../../types/token.js'
-import {
-  TokenDetailsSheet,
-  type TokenDetailsSheetBase,
-} from './TokenDetailsSheet.js'
+import { TokenDetailsSheet } from './TokenDetailsSheet.js'
 import { TokenListItem, TokenListItemSkeleton } from './TokenListItem.js'
-import type { VirtualizedTokenListProps } from './types.js'
+import type {
+  TokenDetailsSheetBase,
+  VirtualizedTokenListProps,
+} from './types.js'
 
 export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   account,

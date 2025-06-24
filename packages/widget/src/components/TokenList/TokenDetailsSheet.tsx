@@ -1,51 +1,16 @@
-import Close from '@mui/icons-material/Close'
-import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
-import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
-import { Box, IconButton, Link, Skeleton, Typography } from '@mui/material'
-import {
-  type PropsWithChildren,
-  forwardRef,
-  useImperativeHandle,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
-import { useTranslation } from 'react-i18next'
-import { useAvailableChains } from '../../hooks/useAvailableChains.js'
-import { useExplorer } from '../../hooks/useExplorer.js'
-import { useTokenSearch } from '../../hooks/useTokenSearch.js'
-import { formatTokenPrice } from '../../utils/format.js'
-import { shortenAddress } from '../../utils/wallet.js'
-import { TokenAvatar } from '../Avatar/TokenAvatar.js'
+import { forwardRef, useImperativeHandle, useRef, useState } from 'react'
 import { BottomSheet } from '../BottomSheet/BottomSheet.js'
 import type { BottomSheetBase } from '../BottomSheet/types.js'
-import { CardIconButton } from '../Card/CardIconButton.js'
-import {
-  Label,
-  MetricContainer,
-  TokenDetailsSheetContainer,
-  TokenDetailsSheetHeader,
-} from './TokenDetailsSheet.style.js'
-
+import { TokenDetailsSheetContent } from './TokenDetailsSheetContent.js'
+import type { TokenDetailsSheetBase } from './types.js'
 interface TokenDetailsSheetProps {
   chainId: number | undefined
 }
-
-export interface TokenDetailsSheetBase {
-  isOpen(): void
-  open(address: string, noContractAddress: boolean): void
-  close(): void
-}
-
-const noDataLabel = '-'
 
 export const TokenDetailsSheet = forwardRef<
   TokenDetailsSheetBase,
   TokenDetailsSheetProps
 >(({ chainId }, ref) => {
-  const { t } = useTranslation()
-  const { getAddressLink } = useExplorer()
-  const { getChainById } = useAvailableChains()
   const bottomSheetRef = useRef<BottomSheetBase>(null)
   const [tokenAddress, setTokenAddress] = useState<string | undefined>(
     undefined
@@ -70,168 +35,14 @@ export const TokenDetailsSheet = forwardRef<
     []
   )
 
-  const { token, isLoading } = useTokenSearch(
-    chainId,
-    tokenAddress,
-    !!tokenAddress
-  )
-  const chain = useMemo(() => getChainById(chainId), [chainId, getChainById])
-
-  const copyContractAddress = async (e: React.MouseEvent) => {
-    e.stopPropagation()
-    try {
-      // Clipboard API may throw if access is denied (e.g., in insecure contexts or older browsers)
-      await navigator.clipboard.writeText(tokenAddress || '')
-    } catch {
-      // Silently fail to avoid crashing the UI if clipboard write fails
-    }
-  }
-
   return (
     <BottomSheet ref={bottomSheetRef}>
-      <TokenDetailsSheetContainer>
-        <TokenDetailsSheetHeader>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: 3,
-            }}
-          >
-            <TokenAvatar
-              token={token}
-              chain={chain}
-              tokenAvatarSize={72}
-              chainAvatarSize={28}
-              isLoading={isLoading}
-            />
-            <MetricContainer>
-              {isLoading ? (
-                <>
-                  <Skeleton variant="rounded" width={80} height={24} />
-                  <Skeleton variant="rounded" width={80} height={16} />
-                </>
-              ) : (
-                <>
-                  <Typography
-                    fontWeight={700}
-                    fontSize="24px"
-                    lineHeight="24px"
-                    color="text.primary"
-                  >
-                    {token?.symbol || noDataLabel}
-                  </Typography>
-                  <Label>{token?.name || noDataLabel}</Label>
-                </>
-              )}
-            </MetricContainer>
-          </Box>
-          <IconButton
-            onClick={(e) => {
-              e.stopPropagation()
-              if (ref && typeof ref !== 'function') {
-                ref.current?.close()
-              }
-            }}
-            sx={{ mt: '-8px', mr: '-8px' }}
-          >
-            <Close />
-          </IconButton>
-        </TokenDetailsSheetHeader>
-        <MetricWithSkeleton
-          isLoading={isLoading}
-          label={t('tokenMetric.currentPrice')}
-          width={200}
-          height={40}
-        >
-          <Typography
-            sx={{
-              fontWeight: 700,
-              fontSize: '32px',
-              lineHeight: '40px',
-              color: 'text.primary',
-            }}
-          >
-            {token
-              ? t('format.currency', {
-                  value: formatTokenPrice('1', token.priceUSD, token.decimals),
-                })
-              : noDataLabel}
-          </Typography>
-        </MetricWithSkeleton>
-        {!withoutContractAddress && (
-          <MetricWithSkeleton
-            isLoading={isLoading}
-            label={t('tokenMetric.contractAddress')}
-            width={200}
-            height={24}
-          >
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: 1,
-              }}
-            >
-              <Typography
-                sx={{
-                  fontWeight: 700,
-                  fontSize: '18px',
-                  lineHeight: '24px',
-                  color: 'text.primary',
-                }}
-              >
-                {shortenAddress(tokenAddress)}
-              </Typography>
-              {tokenAddress && (
-                <CardIconButton size="small" onClick={copyContractAddress}>
-                  <ContentCopyRounded fontSize="inherit" />
-                </CardIconButton>
-              )}
-              {tokenAddress && (
-                <CardIconButton
-                  size="small"
-                  LinkComponent={Link}
-                  href={getAddressLink(tokenAddress, chainId)}
-                  target="_blank"
-                  rel="nofollow noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <OpenInNewRounded fontSize="inherit" />
-                </CardIconButton>
-              )}
-            </Box>
-          </MetricWithSkeleton>
-        )}
-      </TokenDetailsSheetContainer>
+      <TokenDetailsSheetContent
+        ref={ref}
+        tokenAddress={tokenAddress}
+        withoutContractAddress={withoutContractAddress}
+        chainId={chainId}
+      />
     </BottomSheet>
   )
 })
-
-interface MetricWithSkeletonProps {
-  label: string
-  isLoading: boolean
-  width: number
-  height: number
-}
-
-const MetricWithSkeleton = ({
-  label,
-  width,
-  height,
-  isLoading,
-  children,
-}: PropsWithChildren<MetricWithSkeletonProps>) => {
-  return (
-    <MetricContainer>
-      <Label>{label}</Label>
-      {isLoading ? (
-        <Skeleton variant="rounded" width={width} height={height} />
-      ) : (
-        children
-      )}
-    </MetricContainer>
-  )
-}

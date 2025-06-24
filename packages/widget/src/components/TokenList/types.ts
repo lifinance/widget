@@ -51,3 +51,9 @@ export interface TokenListItemButtonProps {
 export interface TokenListItemAvatarProps {
   token: TokenAmount
 }
+
+export interface TokenDetailsSheetBase {
+  isOpen(): void
+  open(address: string, noContractAddress: boolean): void
+  close(): void
+}
