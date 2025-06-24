@@ -106,13 +106,20 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
     if (!walletChainArgs) {
       return installedWallets
     }
-    return installedWallets.filter((wallet) => {
-      return wallet.connectors.some(
-        (connector) =>
-          connector.chainType ===
-          (walletChainArgs.chain?.chainType ?? walletChainArgs.chainType)
-      )
-    })
+
+    const targetChainType =
+      walletChainArgs.chain?.chainType ?? walletChainArgs.chainType
+
+    return installedWallets
+      .map((wallet) => {
+        const filteredConnectors = wallet.connectors.filter(
+          (c) => c.chainType === targetChainType
+        )
+        return filteredConnectors.length
+          ? { ...wallet, connectors: filteredConnectors }
+          : null
+      })
+      .filter(Boolean) as typeof installedWallets
   }, [installedWallets, walletChainArgs])
 
   const isMultiEcosystem = state.view === 'multi-ecosystem'
