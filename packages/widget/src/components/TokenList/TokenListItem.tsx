@@ -161,8 +161,10 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
         secondary={
           withoutContractAddress ? (
             <Box
+              ref={container}
               sx={{
                 height: 20,
+                display: 'flex',
               }}
             >
               <Box
@@ -171,11 +173,34 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
                 }}
               >
                 {token.name}
-                <OpenTokenDetailsButton
-                  tokenAddress={token.address}
-                  withoutContractAddress={withoutContractAddress}
-                  onClick={onShowTokenDetails}
-                />
+              </Box>
+              <Box
+                sx={{
+                  position: 'relative',
+                }}
+              >
+                <Slide
+                  direction="up"
+                  in={showAddress}
+                  container={container.current}
+                  style={{
+                    position: 'absolute',
+                  }}
+                  appear={false}
+                  mountOnEnter
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                    }}
+                  >
+                    <OpenTokenDetailsButton
+                      tokenAddress={token.address}
+                      withoutContractAddress={withoutContractAddress}
+                      onClick={onShowTokenDetails}
+                    />
+                  </Box>
+                </Slide>
               </Box>
             </Box>
           ) : (
