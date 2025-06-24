@@ -32,7 +32,7 @@ export interface TokenListItemBaseProps {
 export interface TokenListItemProps extends TokenListItemBaseProps {
   accountAddress?: string
   token: TokenAmount
-  onShowTokenInfo: (tokenAddress: string) => void
+  onShowTokenDetails: (tokenAddress: string, noContractAddress: boolean) => void
   chain?: ExtendedChain
   isBalanceLoading?: boolean
   startAdornment?: React.ReactNode
@@ -40,7 +40,7 @@ export interface TokenListItemProps extends TokenListItemBaseProps {
 }
 
 export interface TokenListItemButtonProps {
-  onShowTokenInfo: (tokenAddress: string) => void
+  onShowTokenDetails: (tokenAddress: string, noContractAddress: boolean) => void
   onClick?: MouseEventHandler<HTMLDivElement>
   accountAddress?: string
   token: TokenAmount

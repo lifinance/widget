@@ -2,7 +2,7 @@ import { Box, Typography, styled } from '@mui/material'
 import type { PageContainerProps } from '../PageContainer.js'
 import { PageContainer } from '../PageContainer.js'
 
-export const TokenInfoSheetContainer = styled(
+export const TokenDetailsSheetContainer = styled(
   PageContainer
 )<PageContainerProps>(({ theme }) => ({
   display: 'flex',
@@ -12,7 +12,7 @@ export const TokenInfoSheetContainer = styled(
   paddingBottom: theme.spacing(3),
 }))
 
-export const TokenInfoSheetHeader = styled(Box)(({ theme }) => ({
+export const TokenDetailsSheetHeader = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'flex-start',

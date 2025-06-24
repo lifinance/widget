@@ -1,11 +1,13 @@
 import { List, Typography } from '@mui/material'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type { FC } from 'react'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { TokenAmount } from '../../types/token.js'
-import type { BottomSheetBase } from '../BottomSheet/types.js'
-import { TokenInfoSheet } from './TokenInfoSheet.js'
+import {
+  TokenDetailsSheet,
+  type TokenDetailsSheetBase,
+} from './TokenDetailsSheet.js'
 import { TokenListItem, TokenListItemSkeleton } from './TokenListItem.js'
 import type { VirtualizedTokenListProps } from './types.js'
 
@@ -22,18 +24,14 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
 }) => {
   const { t } = useTranslation()
 
-  const tokenInfoSheetRef = useRef<BottomSheetBase>(null)
-  const [shownTokenAddress, setShownTokenAddress] = useState<
-    string | undefined
-  >(undefined)
-  const onCloseTokenInfo = useCallback(() => {
-    tokenInfoSheetRef.current?.close()
-    setShownTokenAddress(undefined)
-  }, [])
-  const onShowTokenInfo = useCallback((tokenAddress: string) => {
-    tokenInfoSheetRef.current?.open()
-    setShownTokenAddress(tokenAddress)
-  }, [])
+  const tokenDetailsSheetRef = useRef<TokenDetailsSheetBase>(null)
+
+  const onShowTokenDetails = useCallback(
+    (tokenAddress: string, noContractAddress: boolean) => {
+      tokenDetailsSheetRef.current?.open(tokenAddress, noContractAddress)
+    },
+    []
+  )
 
   const { getVirtualItems, getTotalSize, scrollToIndex } = useVirtualizer({
     count: tokens.length,
@@ -164,17 +162,12 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
                   </Typography>
                 ) : null
               }
-              onShowTokenInfo={onShowTokenInfo}
+              onShowTokenDetails={onShowTokenDetails}
             />
           )
         })}
       </List>
-      <TokenInfoSheet
-        ref={tokenInfoSheetRef}
-        chainId={chainId}
-        tokenAddress={shownTokenAddress}
-        onClose={onCloseTokenInfo}
-      />
+      <TokenDetailsSheet ref={tokenDetailsSheetRef} chainId={chainId} />
     </>
   )
 }
