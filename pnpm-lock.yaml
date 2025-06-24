@@ -194,6 +194,15 @@ importers:
 
   examples/dynamic:
     dependencies:
+      '@bigmi/client':
+        specifier: ^0.3.1
+        version: 0.3.1(@tanstack/query-core@5.81.2)(@types/react@19.1.8)(bs58@6.0.0)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.5.0(react@19.1.0))
+      '@bigmi/core':
+        specifier: ^0.3.1
+        version: 0.3.1(@types/react@19.1.8)(bs58@6.0.0)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.5.0(react@19.1.0))
+      '@bigmi/react':
+        specifier: ^0.3.1
+        version: 0.3.1(@tanstack/query-core@5.81.2)(@tanstack/react-query@5.81.2(react@19.1.0))(@types/react@19.1.8)(bs58@6.0.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.5.0(react@19.1.0))
       '@dynamic-labs/bitcoin':
         specifier: ^4.20.8
         version: 4.20.8(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.8.3)
@@ -215,6 +224,9 @@ importers:
       '@dynamic-labs/wagmi-connector':
         specifier: ^4.20.8
         version: 4.20.8(ce5bbbe72e565b9774bdcc8fd36e82ac)
+      '@lifi/sdk':
+        specifier: ^3.7.10-beta.0
+        version: 3.7.10-beta.0(@solana/wallet-adapter-base@0.9.27(@solana/web3.js@1.98.2(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.8.3)(utf-8-validate@5.0.10)))(@solana/web3.js@1.98.2(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.8.3)(utf-8-validate@5.0.10))(@types/react@19.1.8)(bufferutil@4.0.9)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.5.0(react@19.1.0))(utf-8-validate@5.0.10)(viem@2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(zod@3.25.67)
       '@lifi/wallet-management':
         specifier: workspace:^
         version: link:../../packages/wallet-management
