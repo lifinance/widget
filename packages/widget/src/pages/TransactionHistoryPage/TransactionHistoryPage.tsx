@@ -63,6 +63,7 @@ export const TransactionHistoryPage: React.FC = () => {
           </List>
         ) : (
           <List
+            className="long-list"
             style={{
               height: getTotalSize(),
               position: 'relative',
