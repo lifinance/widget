@@ -1,6 +1,7 @@
 import { Box, Container, ScopedCssBaseline, styled } from '@mui/material'
 import type { PropsWithChildren } from 'react'
 import { defaultMaxHeight } from '../config/constants.js'
+import { useHasChainExpansion } from '../hooks/useHasChainExpansion.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useHeaderHeight } from '../stores/header/useHeaderStore.js'
 import type { WidgetVariant } from '../types/widget.js'
@@ -67,12 +68,9 @@ export const RelativeContainer = styled(Box, {
       maxHeight: theme.container?.maxHeight || defaultMaxHeight,
     },
     '&:has(.with-chain-expansion)': {
-      borderRadius: `${theme.container.borderRadius} 0 0 ${theme.container.borderRadius}`,
+      borderRadius: theme.container.borderRadius,
+      boxShadow: 'none',
       zIndex: 1,
-      borderRight: `1px solid ${theme.vars.palette.grey[300]}`,
-      ...theme.applyStyles('dark', {
-        borderRight: `1px solid ${theme.vars.palette.grey[800]}`,
-      }),
     },
     variants: [
       {
@@ -174,3 +172,26 @@ export const AppContainer: React.FC<PropsWithChildren> = ({ children }) => {
 //   }, [elementRef, pathname]);
 //   return null;
 // };
+
+export const AppWithExpansionContainer: React.FC<PropsWithChildren> = ({
+  children,
+}) => {
+  const withChainExpansion = useHasChainExpansion()
+
+  if (!withChainExpansion) {
+    return children
+  }
+
+  return (
+    <Box
+      sx={(theme) => ({
+        display: 'flex',
+        borderRadius: theme.container?.borderRadius ?? 0,
+        boxShadow: theme.container?.boxShadow ?? 'none',
+        background: theme.vars.palette.background.default,
+      })}
+    >
+      {children}
+    </Box>
+  )
+}

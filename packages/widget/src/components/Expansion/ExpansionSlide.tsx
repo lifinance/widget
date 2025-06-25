@@ -12,11 +12,14 @@ interface ExpansionSlideProps extends BoxProps {
 
 export const ExpansionSlide: React.FC<ExpansionSlideProps> = ({
   open,
-  delay = 225,
+  delay = 0,
   children,
 }) => {
   const [delayedOpen, setDelayedOpen] = useState(false)
 
+  // Make sure delayedOpen state update (start of the animation)
+  // does not happen during rendering. setTimeout schedules
+  // the start of the animation after the DOM has been updated.
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>
     if (open) {

@@ -1,4 +1,4 @@
-import { Box, Grow, styled } from '@mui/material'
+import { Box, styled } from '@mui/material'
 import { defaultMaxHeight } from '../../config/constants'
 
 export const chainExpansionWidth = '240px'
@@ -8,10 +8,6 @@ export const CollapseContainer = styled(Box)(({ theme }) => ({
   ...(theme.container.display === 'flex'
     ? { display: 'flex', maxHeight: '100%' }
     : { height: 'auto' }),
-}))
-
-export const ExpansionTopLevelGrow = styled(Grow)(({ theme }) => ({
-  ...(theme.container?.display === 'flex' ? { height: '100%' } : {}),
 }))
 
 export const SelectChainExpansionContainer = styled(Box)(({ theme }) => {
@@ -29,5 +25,10 @@ export const SelectChainExpansionContainer = styled(Box)(({ theme }) => {
     height: fullContainerHeight,
     maxHeight: '100%',
     borderRadius: `0 ${theme.container.borderRadius} ${theme.container.borderRadius} 0`,
+    boxShadow: 'none',
+    borderLeft: `1px solid ${theme.vars.palette.grey[300]}`,
+    ...theme.applyStyles('dark', {
+      borderLeft: `1px solid ${theme.vars.palette.grey[800]}`,
+    }),
   }
 })
