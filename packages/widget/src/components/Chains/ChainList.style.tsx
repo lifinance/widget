@@ -34,7 +34,10 @@ export const ListItemButton = styled(ListItemButtonBase)<{
   size?: 'small' | 'medium'
 }>(({ size = 'medium', theme }) => {
   return {
-    borderRadius: size === 'small' ? 8 : theme.vars.shape.borderRadius,
+    borderRadius:
+      size === 'small' && theme.vars.shape.borderRadius
+        ? `calc(${theme.vars.shape.borderRadius} / 2)`
+        : theme.vars.shape.borderRadius,
     paddingLeft: size === 'small' ? theme.spacing(1) : theme.spacing(1.5),
     height: size === 'small' ? 44 : 56,
   }
