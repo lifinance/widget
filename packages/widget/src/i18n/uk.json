@@ -341,5 +341,9 @@
     "noBookmarkedWallets": "Немає гаманців в закладках",
     "noConnectedWallets": "Немає підключених гаманців",
     "noRecentWallets": "Немає недавніх гаманців"
+  },
+  "tokenMetric": {
+    "currentPrice": "",
+    "contractAddress": ""
   }
 }
