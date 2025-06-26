@@ -32,6 +32,7 @@ export interface TokenListItemBaseProps {
 export interface TokenListItemProps extends TokenListItemBaseProps {
   accountAddress?: string
   token: TokenAmount
+  onShowTokenDetails: (tokenAddress: string, noContractAddress: boolean) => void
   chain?: ExtendedChain
   isBalanceLoading?: boolean
   startAdornment?: React.ReactNode
@@ -39,6 +40,7 @@ export interface TokenListItemProps extends TokenListItemBaseProps {
 }
 
 export interface TokenListItemButtonProps {
+  onShowTokenDetails: (tokenAddress: string, noContractAddress: boolean) => void
   onClick?: MouseEventHandler<HTMLDivElement>
   accountAddress?: string
   token: TokenAmount
@@ -48,4 +50,10 @@ export interface TokenListItemButtonProps {
 
 export interface TokenListItemAvatarProps {
   token: TokenAmount
+}
+
+export interface TokenDetailsSheetBase {
+  isOpen(): void
+  open(address: string, noContractAddress: boolean): void
+  close(): void
 }
