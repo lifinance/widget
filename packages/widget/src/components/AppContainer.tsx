@@ -63,9 +63,6 @@ export const RelativeContainer = styled(Box, {
       theme.container?.display === 'flex' && !theme.container?.height
         ? '100%'
         : maxHeight,
-    '&:has(.long-list)': {
-      maxHeight: theme.container?.maxHeight || defaultMaxHeight,
-    },
     variants: [
       {
         props: {
@@ -119,7 +116,12 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
         defaultMaxHeight,
     },
     '&:has(.long-list)': {
-      maxHeight: theme.container?.maxHeight || defaultMaxHeight,
+      maxHeight:
+        theme.container?.maxHeight ||
+        (theme.container?.height !== 'fit-content'
+          ? theme.container?.height
+          : undefined) ||
+        defaultMaxHeight,
     },
   }
 })
