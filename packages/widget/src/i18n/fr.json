@@ -341,5 +341,9 @@
     "noBookmarkedWallets": "Aucun portefeuille favori",
     "noConnectedWallets": "Aucun portefeuille connecté",
     "noRecentWallets": "Aucun portefeuille récent"
+  },
+  "tokenMetric": {
+    "currentPrice": "",
+    "contractAddress": ""
   }
 }
