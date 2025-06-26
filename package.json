@@ -6,6 +6,7 @@
   "scripts": {
     "build": "pnpm -r --parallel --filter './packages/**' --filter !'*-playground-*' --filter !'*-embedded' build && pnpm -r --parallel --filter './packages/**' --filter '*-playground-*' --filter '*-embedded' build",
     "clean": "pnpm -r --parallel --filter './packages/**' clean",
+    "clean:cache": "pnpm store prune",
     "dev": "pnpm --filter widget-playground-vite dev",
     "dev:next": "pnpm --filter widget-playground-next dev",
     "release": "pnpm release:version && pnpm release:build && pnpm standard-version -a -s",

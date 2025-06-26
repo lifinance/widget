@@ -4,6 +4,7 @@ import LocalGasStationRounded from '@mui/icons-material/LocalGasStationRounded'
 import { Box, Tooltip, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
+import { formatDuration } from '../../utils/format.js'
 import { FeeBreakdownTooltip } from '../FeeBreakdownTooltip.js'
 import { IconTypography } from '../IconTypography.js'
 import { TokenRate } from '../TokenRate/TokenRate.js'
@@ -19,7 +20,6 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
       0
     )
   )
-  const executionTimeMinutes = Math.floor(executionTimeSeconds / 60)
   const { gasCosts, feeCosts, combinedFeesUSD } =
     getAccumulatedFeeCostsBreakdown(route)
   const hasGaslessSupport = route.steps.some(isGaslessStep)
@@ -90,14 +90,7 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
                 lineHeight: 1,
               }}
             >
-              {(executionTimeSeconds < 60
-                ? executionTimeSeconds
-                : executionTimeMinutes
-              ).toLocaleString(i18n.language, {
-                style: 'unit',
-                unit: executionTimeSeconds < 60 ? 'second' : 'minute',
-                unitDisplay: 'narrow',
-              })}
+              {formatDuration(executionTimeSeconds, i18n.language)}
             </Typography>
           </Box>
         </Tooltip>
