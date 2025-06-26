@@ -7,7 +7,7 @@ export interface WalletMenuProps {
   onClose: () => void
 }
 
-const maxWidth = 460
+const maxWidth = 480
 
 export const WalletMenuModal: React.FC<PropsWithChildren<WalletMenuProps>> = ({
   open,
