@@ -86,6 +86,7 @@
   },
   "info": {
     "message": {
+      "accountDeployedMessage": "",
       "autoRefuel": "Gas anda hampir habis {{chainName}}. Dengan melanjutkan, anda akan mendapatkan cukup gas untuk menyelesaikan penukaran.",
       "emptyActiveTransactions": "Transaksi yang sedang berlangsung akan muncul di sini. Setelah selesai, temukan di riwayat transaksi.",
       "emptyBridgesList": "Kami tidak dapat menemukan bridge yang sesuai dengan pencarian Anda",
@@ -340,5 +341,9 @@
     "noBookmarkedWallets": "Tidak ada dompet yang ditandai",
     "noConnectedWallets": "Tida ada dompet yang di hubungkan",
     "noRecentWallets": "Tidak ada dompet terakhir yang digunakan"
+  },
+  "tokenMetric": {
+    "currentPrice": "",
+    "contractAddress": ""
   }
 }

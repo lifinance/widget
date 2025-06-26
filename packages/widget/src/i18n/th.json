@@ -86,6 +86,7 @@
   },
   "info": {
     "message": {
+      "accountDeployedMessage": "",
       "autoRefuel": "คุณใช้แก็ส {{chainName}} เหลือน้อย เมื่อดำเนินการต่อ คุณจะได้รับแก็สเพียงพอสำหรับการแลกเปลี่ยนให้เสร็จสมบูรณ์",
       "emptyActiveTransactions": "การแลกเปลี่ยนที่กำลังดำเนินการจะปรากฏที่นี่. เมื่อเสร็จสิ้น, จะพบประวัติการแลกเปลี่ยน.",
       "emptyBridgesList": "",
@@ -340,5 +341,9 @@
     "noBookmarkedWallets": "ไม่มีกระเป๋าเงินที่ bookmark ไว้",
     "noConnectedWallets": "ไม่มีกระเป๋าเงินที่เชื่อมต่อไว้",
     "noRecentWallets": "ไม่พบกระเป๋าเงินล่าสุด"
+  },
+  "tokenMetric": {
+    "currentPrice": "",
+    "contractAddress": ""
   }
 }

@@ -86,6 +86,7 @@
   },
   "info": {
     "message": {
+      "accountDeployedMessage": "",
       "autoRefuel": "Vous avez peu de gaz sur {{chainName}}. En continuant, vous aurez assez de gaz pour compléter l'échange.",
       "emptyActiveTransactions": "Les transactions en cours apparaîtront ici. Une fois terminées, retrouvez-les dans l'historique des transactions.",
       "emptyBridgesList": "",
@@ -340,5 +341,9 @@
     "noBookmarkedWallets": "Aucun portefeuille favori",
     "noConnectedWallets": "Aucun portefeuille connecté",
     "noRecentWallets": "Aucun portefeuille récent"
+  },
+  "tokenMetric": {
+    "currentPrice": "",
+    "contractAddress": ""
   }
 }

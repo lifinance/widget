@@ -1,16 +1,17 @@
 {
-  "version": "3.23.0",
+  "version": "3.23.3",
   "private": true,
   "sideEffects": false,
   "type": "module",
   "scripts": {
     "build": "pnpm -r --parallel --filter './packages/**' --filter !'*-playground-*' --filter !'*-embedded' build && pnpm -r --parallel --filter './packages/**' --filter '*-playground-*' --filter '*-embedded' build",
     "clean": "pnpm -r --parallel --filter './packages/**' clean",
+    "clean:cache": "pnpm store prune",
     "dev": "pnpm --filter widget-playground-vite dev",
     "dev:next": "pnpm --filter widget-playground-next dev",
-    "release": "pnpm release:version && pnpm release:build && pnpm standard-version -a",
-    "release:alpha": "pnpm release:version --preid alpha && pnpm release:build && pnpm standard-version -a --prerelease alpha --skip.changelog",
-    "release:beta": "pnpm release:version --preid beta && pnpm release:build && pnpm standard-version -a --prerelease beta --skip.changelog",
+    "release": "pnpm release:version && pnpm release:build && pnpm standard-version -a -s",
+    "release:alpha": "pnpm release:version --preid alpha && pnpm release:build && pnpm standard-version -a -s --prerelease alpha --skip.changelog",
+    "release:beta": "pnpm release:version --preid beta && pnpm release:build && pnpm standard-version -a -s --prerelease beta --skip.changelog",
     "release:version": "lerna version --no-changelog --no-push --no-git-tag-version --no-private",
     "release:build": "pnpm -r --parallel release:build",
     "release:publish:build": "pnpm release:build && pnpm -r --parallel build:prerelease",
@@ -49,14 +50,14 @@
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
     "@types/events": "^3.0.3",
-    "@types/node": "^22.15.27",
-    "@types/react": "^19.1.6",
+    "@types/node": "^24.0.3",
+    "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.5",
     "cpy-cli": "^5.0.0",
     "fs-extra": "^11.3.0",
     "husky": "^9.1.7",
     "lerna": "8.2.2",
-    "lint-staged": "^16.1.0",
+    "lint-staged": "^16.1.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "standard-version": "^9.5.0",
@@ -68,5 +69,5 @@
       "@safe-global/safe-apps-provider": ">=0.18.6"
     }
   },
-  "packageManager": "pnpm@10.11.0+sha512.6540583f41cc5f628eb3d9773ecee802f4f9ef9923cc45b69890fb47991d4b092964694ec3a4f738a420c918a333062c8b925d312f42e4f0c263eb603551f977"
+  "packageManager": "pnpm@10.12.3+sha512.467df2c586056165580ad6dfb54ceaad94c5a30f80893ebdec5a44c5aa73c205ae4a5bb9d5ed6bb84ea7c249ece786642bbb49d06a307df218d03da41c317417"
 }

@@ -37,25 +37,26 @@ LI.FI Widget is available as an [npm package](https://www.npmjs.com/package/@lif
 **pnpm:**
 
 ```sh
-pnpm add @lifi/widget wagmi @bigmi/react @solana/wallet-adapter-react @tanstack/react-query
+pnpm add @lifi/widget wagmi @bigmi/react @solana/wallet-adapter-react @tanstack/react-query @mysten/dapp-kit
 ```
 
 **npm:**
 
 ```sh
-npm install @lifi/widget wagmi @bigmi/react @solana/wallet-adapter-react @tanstack/react-query
+npm install @lifi/widget wagmi @bigmi/react @solana/wallet-adapter-react @tanstack/react-query @mysten/dapp-kit
 ```
 
 **yarn:**
 
 ```sh
-yarn add @lifi/widget wagmi @bigmi/react @solana/wallet-adapter-react @tanstack/react-query
+yarn add @lifi/widget wagmi @bigmi/react @solana/wallet-adapter-react @tanstack/react-query @mysten/dapp-kit
 ```
 
 - [Wagmi](https://wagmi.sh/) is type safe, extensible, and modular library for building Ethereum apps.
 - [Bigmi](https://github.com/lifinance/bigmi) is modular TypeScript library that provides reactive primitives for building Bitcoin applications.
 - [@solana/wallet-adapter-react](https://github.com/anza-xyz/wallet-adapter) is modular TypeScript wallet adapters and components for Solana applications.
 - [TanStack Query](https://tanstack.com/query/v5) is an async state manager that handles requests, caching, and more.
+- [@mysten/dapp-kit](https://sdk.mystenlabs.com/dapp-kit) provides React tools for wallet integration and data access in Sui blockchain dApps.
 
 ### LI.FI Wallet Management
 
@@ -121,8 +122,3 @@ Thank you for your support!
 ## Changelog
 
 The [changelog](/CHANGELOG.md) is regularly updated to reflect what's changed in each new release.
-
-## License
-
-This project is licensed under the terms of the
-[Apache-2.0](/LICENSE.md).

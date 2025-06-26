@@ -7,7 +7,7 @@ import {
   styled,
 } from '@mui/material'
 import type { WidgetSubvariant } from '../../types/widget.js'
-import { avatarMask12 } from '../Avatar/utils.js'
+import { getAvatarMask } from '../Avatar/utils.js'
 
 export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: 'transparent',
@@ -101,8 +101,12 @@ export const HeaderControlsContainer = styled(Box)(({ theme }) => ({
   }),
 }))
 
-export const WalletAvatar = styled(Avatar)(() => ({
-  mask: avatarMask12,
-  width: 24,
-  height: 24,
-}))
+export const WalletAvatar = styled(Avatar, {
+  shouldForwardProp: (prop) => prop !== 'avatarSize' && prop !== 'badgeSize',
+})<{ avatarSize?: number; badgeSize?: number }>(
+  ({ avatarSize = 24, badgeSize = 12 }) => ({
+    mask: getAvatarMask(badgeSize),
+    width: avatarSize,
+    height: avatarSize,
+  })
+)

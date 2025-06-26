@@ -110,6 +110,7 @@ export type HiddenUIType = `${HiddenUI}`
 
 export enum RequiredUI {
   ToAddress = 'toAddress',
+  AccountDeployedMessage = 'accountDeployedMessage',
 }
 export type RequiredUIType = `${RequiredUI}`
 

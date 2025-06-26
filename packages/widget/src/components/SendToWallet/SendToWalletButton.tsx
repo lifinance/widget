@@ -113,9 +113,10 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
   // Timeout is needed here to push the collapseTransitionTime update to the back of the event loop so that it doesn't fired too quickly
   // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       collapseTransitionTime.current = 225
     }, 0)
+    return () => clearTimeout(timeout)
   }, [collapseTransitionTime])
 
   const isOpenCollapse =
@@ -128,7 +129,7 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
 
   return (
     <Collapse
-      timeout={collapseTransitionTime.current}
+      timeout={collapseTransitionTime.current as number}
       in={isOpenCollapse}
       mountOnEnter
       unmountOnExit

@@ -86,6 +86,7 @@
   },
   "info": {
     "message": {
+      "accountDeployedMessage": "",
       "autoRefuel": "আপনার {{chainName}} গ্যাস কম। চালিয়ে যাওয়ার মাধ্যমে, আপনি সোওয়াপ সম্পূর্ণ করার জন্য পর্যাপ্ত গ্যাস পাবেন।",
       "emptyActiveTransactions": "",
       "emptyBridgesList": "",
@@ -340,5 +341,9 @@
     "noBookmarkedWallets": "",
     "noConnectedWallets": "",
     "noRecentWallets": ""
+  },
+  "tokenMetric": {
+    "currentPrice": "",
+    "contractAddress": ""
   }
 }
