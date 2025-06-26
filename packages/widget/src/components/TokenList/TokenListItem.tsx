@@ -1,9 +1,8 @@
 import { ChainType } from '@lifi/sdk'
-import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import {
   Avatar,
   Box,
-  Link,
   ListItemAvatar,
   ListItemText,
   Skeleton,
@@ -13,7 +12,6 @@ import {
 import type { MouseEventHandler } from 'react'
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useExplorer } from '../../hooks/useExplorer.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { ListItemButton } from '../ListItem/ListItemButton.js'
@@ -35,6 +33,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
   startAdornment,
   endAdornment,
   isSelected,
+  onShowTokenDetails,
 }) => {
   const handleClick: MouseEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation()
@@ -56,6 +55,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
         isBalanceLoading={isBalanceLoading}
         onClick={handleClick}
         isSelected={isSelected}
+        onShowTokenDetails={onShowTokenDetails}
       />
       {endAdornment}
     </ListItem>
@@ -80,6 +80,33 @@ export const TokenListItemAvatar: React.FC<TokenListItemAvatarProps> = ({
   )
 }
 
+interface OpenTokenDetailsButtonProps {
+  tokenAddress: string | undefined
+  withoutContractAddress: boolean
+  onClick: (tokenAddress: string, withoutContractAddress: boolean) => void
+}
+
+const OpenTokenDetailsButton = ({
+  tokenAddress,
+  withoutContractAddress,
+  onClick,
+}: OpenTokenDetailsButtonProps) => {
+  if (!tokenAddress) {
+    return null
+  }
+  return (
+    <IconButton
+      size="small"
+      onClick={(e) => {
+        e.stopPropagation()
+        onClick(tokenAddress, withoutContractAddress)
+      }}
+    >
+      <InfoOutlinedIcon />
+    </IconButton>
+  )
+}
+
 export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   onClick,
   token,
@@ -87,20 +114,18 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   accountAddress,
   isBalanceLoading,
   isSelected,
+  onShowTokenDetails,
 }) => {
   const { t } = useTranslation()
-  const { getAddressLink } = useExplorer()
-
   const container = useRef(null)
   const timeoutId = useRef<ReturnType<typeof setTimeout>>(undefined)
   const [showAddress, setShowAddress] = useState(false)
 
-  const tokenAddress =
-    chain?.chainType === ChainType.UTXO ? accountAddress : token.address
+  const withoutContractAddress = chain?.chainType === ChainType.UTXO
 
   const onMouseEnter = () => {
     timeoutId.current = setTimeout(() => {
-      if (tokenAddress) {
+      if (token.address) {
         setShowAddress(true)
       }
     }, 350)
@@ -112,6 +137,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
       setShowAddress(false)
     }
   }
+
   const tokenAmount = formatTokenAmount(token.amount, token.decimals)
   const tokenPrice = formatTokenPrice(
     token.amount,
@@ -142,21 +168,13 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
           },
         }}
         secondary={
-          <Box
-            ref={container}
-            sx={{
-              position: 'relative',
-              height: 20,
-            }}
-          >
-            <Slide
-              direction="down"
-              in={!showAddress}
-              container={container.current}
-              style={{
-                position: 'absolute',
+          withoutContractAddress ? (
+            <Box
+              ref={container}
+              sx={{
+                height: 20,
+                display: 'flex',
               }}
-              appear={false}
             >
               <Box
                 sx={{
@@ -165,44 +183,93 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
               >
                 {token.name}
               </Box>
-            </Slide>
-            <Slide
-              direction="up"
-              in={showAddress}
-              container={container.current}
-              style={{
-                position: 'absolute',
-              }}
-              appear={false}
-              mountOnEnter
-            >
               <Box
                 sx={{
-                  display: 'flex',
+                  position: 'relative',
                 }}
+              >
+                <Slide
+                  direction="up"
+                  in={showAddress}
+                  container={container.current}
+                  style={{
+                    position: 'absolute',
+                  }}
+                  appear={false}
+                  mountOnEnter
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                    }}
+                  >
+                    <OpenTokenDetailsButton
+                      tokenAddress={token.address}
+                      withoutContractAddress={withoutContractAddress}
+                      onClick={onShowTokenDetails}
+                    />
+                  </Box>
+                </Slide>
+              </Box>
+            </Box>
+          ) : (
+            <Box
+              ref={container}
+              sx={{
+                position: 'relative',
+                height: 20,
+              }}
+            >
+              <Slide
+                direction="down"
+                in={!showAddress}
+                container={container.current}
+                style={{
+                  position: 'absolute',
+                }}
+                appear={false}
+              >
+                <Box
+                  sx={{
+                    pt: 0.25,
+                  }}
+                >
+                  {token.name}
+                </Box>
+              </Slide>
+              <Slide
+                direction="up"
+                in={showAddress}
+                container={container.current}
+                style={{
+                  position: 'absolute',
+                }}
+                appear={false}
+                mountOnEnter
               >
                 <Box
                   sx={{
                     display: 'flex',
-                    alignItems: 'center',
-                    pt: 0.125,
                   }}
                 >
-                  {shortenAddress(tokenAddress)}
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      pt: 0.125,
+                    }}
+                  >
+                    {shortenAddress(token.address)}
+                  </Box>
+                  <OpenTokenDetailsButton
+                    tokenAddress={token.address}
+                    withoutContractAddress={withoutContractAddress}
+                    onClick={onShowTokenDetails}
+                  />
                 </Box>
-                <IconButton
-                  size="small"
-                  LinkComponent={Link}
-                  href={getAddressLink(tokenAddress!, chain)}
-                  target="_blank"
-                  rel="nofollow noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <OpenInNewRounded />
-                </IconButton>
-              </Box>
-            </Slide>
-          </Box>
+              </Slide>
+            </Box>
+          )
         }
       />
       {accountAddress ? (
