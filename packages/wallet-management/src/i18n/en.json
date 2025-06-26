@@ -3,6 +3,7 @@
     "connectWallet": "Connect wallet",
     "connecting": "Connecting",
     "selectWallet": "Select a wallet",
+    "selectWalletWithChain": "Select {{chainLabel}} wallet",
     "selectEcosystem": "Select an ecosystem",
     "waitingForWallet": "Waiting for {{walletName}}",
     "availableWalletsNotFound": "Available wallets not found"

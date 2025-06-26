@@ -20,6 +20,7 @@ import type { Connector } from 'wagmi'
 import { useAccount } from '../hooks/useAccount.js'
 import type { CombinedWallet } from '../hooks/useCombinedWallets.js'
 import { useCombinedWallets } from '../hooks/useCombinedWallets.js'
+import type { WalletMenuOpenArgs } from '../providers/WalletMenuProvider/types.js'
 import type { WalletConnector } from '../types/walletConnector.js'
 import type { WalletTagType } from '../types/walletTagType.js'
 import { ElementId } from '../utils/elements.js'
@@ -36,6 +37,7 @@ import { WalletMenuContentEmpty } from './WalletMenuContentEmpty.js'
 
 interface WalletMenuContentProps {
   onClose: () => void
+  walletChainArgs?: WalletMenuOpenArgs
 }
 
 interface State {
@@ -69,6 +71,7 @@ function reducer(state: State, action: Action): State {
 
 export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
   onClose,
+  walletChainArgs,
 }) => {
   const { t } = useTranslation()
   const { installedWallets } = useCombinedWallets()
@@ -100,20 +103,50 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
     dispatch({ type: 'HANDLE_ERROR', id, error })
   }
 
+  const walletChainLabel = useMemo(() => {
+    if (!walletChainArgs) {
+      return undefined
+    }
+    if (walletChainArgs.chain) {
+      return walletChainArgs.chain.name
+    }
+    return walletChainArgs.chainType
+  }, [walletChainArgs])
+
+  const filteredWallets = useMemo(() => {
+    if (!walletChainArgs) {
+      return installedWallets
+    }
+
+    const targetChainType =
+      walletChainArgs.chain?.chainType ?? walletChainArgs.chainType
+
+    return installedWallets
+      .map((wallet) => {
+        const filteredConnectors = wallet.connectors.filter(
+          (c) => c.chainType === targetChainType
+        )
+        return filteredConnectors.length
+          ? { ...wallet, connectors: filteredConnectors }
+          : null
+      })
+      .filter(Boolean) as typeof installedWallets
+  }, [installedWallets, walletChainArgs])
+
   const isMultiEcosystem = state.view === 'multi-ecosystem'
   const isConnecting = state.view === 'connecting'
 
   // We need to preserve selectedWallet between re-renders to avoid empty state once wallet is connected
   let selectedWallet = state.selectedWalletId
-    ? installedWallets.find((wallet) => wallet.id === state.selectedWalletId)
+    ? filteredWallets.find((wallet) => wallet.id === state.selectedWalletId)
     : null
   selectedWalletRef.current = selectedWallet || selectedWalletRef.current
   selectedWallet = selectedWalletRef.current
 
-  const installedWalletsWithTagTypes = useMemo(
+  const filteredWalletsWithTagTypes = useMemo(
     () =>
       getSortedByTags(
-        installedWallets
+        filteredWallets
           .filter((wallet) => wallet.connectors?.length)
           .map((wallet) => {
             return {
@@ -122,7 +155,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
             }
           })
       ),
-    [installedWallets, connectedConnectorIds]
+    [filteredWallets, connectedConnectorIds]
   )
 
   const getWalletButton = (
@@ -242,7 +275,11 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
             ? t('title.selectEcosystem')
             : isConnecting
               ? t('title.connecting')
-              : t('title.selectWallet')}
+              : walletChainLabel
+                ? t('title.selectWalletWithChain', {
+                    chainLabel: walletChainLabel,
+                  })
+                : t('title.selectWallet')}
         </Typography>
         <IconButton onClick={onClose}>
           <Close />
@@ -266,35 +303,34 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
                 gap: '8px',
               }}
             >
-              {installedWalletsWithTagTypes.map(
-                ({ id, name, icon, connectors, tagType }) => {
-                  if (connectors.length === 1) {
-                    const { chainType, connector } = connectors[0]
-                    return getWalletButton(
-                      getConnectorId(connector, chainType),
-                      name,
-                      chainType,
-                      connector,
-                      false,
-                      tagType
+              {filteredWalletsWithTagTypes.length ? (
+                filteredWalletsWithTagTypes.map(
+                  ({ id, name, icon, connectors, tagType }) => {
+                    if (connectors.length === 1) {
+                      const { chainType, connector } = connectors[0]
+                      return getWalletButton(
+                        getConnectorId(connector, chainType),
+                        name,
+                        chainType,
+                        connector,
+                        false,
+                        tagType
+                      )
+                    }
+                    return (
+                      <CardListItemButton
+                        key={name}
+                        onClick={() => handleMultiEcosystem(id)}
+                        title={name}
+                        icon={icon ?? ''}
+                        tagType={tagType}
+                      />
                     )
                   }
-                  return (
-                    <CardListItemButton
-                      key={name}
-                      onClick={() => handleMultiEcosystem(id)}
-                      title={name}
-                      icon={icon ?? ''}
-                      tagType={tagType}
-                    />
-                  )
-                }
-              )}
-              {/* TODO: show all connected wallets with 'Connected' badge
-            and have this empty screen only when there is no installed wallets at all */}
-              {!installedWalletsWithTagTypes.length ? (
+                )
+              ) : (
                 <WalletMenuContentEmpty />
-              ) : null}
+              )}
             </List>
           </Fade>
         </Collapse>
