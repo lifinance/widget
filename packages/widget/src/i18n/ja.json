@@ -341,5 +341,9 @@
     "noBookmarkedWallets": "ブックマークされたウォレットはありません",
     "noConnectedWallets": "接続中のウォレットはありません",
     "noRecentWallets": "最近使ったウォレットはありません"
+  },
+  "tokenMetric": {
+    "currentPrice": "",
+    "contractAddress": ""
   }
 }

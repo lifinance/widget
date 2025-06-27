@@ -341,5 +341,9 @@
     "noBookmarkedWallets": "No hay billeteras preferidas",
     "noConnectedWallets": "No hay billeteras conectadas",
     "noRecentWallets": "No hay billeteras recientes"
+  },
+  "tokenMetric": {
+    "currentPrice": "",
+    "contractAddress": ""
   }
 }

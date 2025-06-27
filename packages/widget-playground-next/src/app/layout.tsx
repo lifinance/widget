@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'LI.FI Widget',
-  description: 'LI.FI widget playground',
+  description: 'LI.FI Widget Playground',
 }
 
 export default function RootLayout({

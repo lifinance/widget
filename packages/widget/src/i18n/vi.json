@@ -341,5 +341,9 @@
     "noBookmarkedWallets": "Không có ví được đánh dấu",
     "noConnectedWallets": "Không có ví được kết nối",
     "noRecentWallets": "Không có ví gần đây"
+  },
+  "tokenMetric": {
+    "currentPrice": "",
+    "contractAddress": ""
   }
 }
