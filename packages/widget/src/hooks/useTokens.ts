@@ -2,11 +2,12 @@ import { ChainType, getTokens } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import type { FormType } from '../stores/form/types.js'
 import type { TokenAmount } from '../types/token.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useChains } from './useChains.js'
 
-export const useTokens = (selectedChainId?: number) => {
+export const useTokens = (selectedChainId?: number, formType?: FormType) => {
   const { tokens: configTokens, keyPrefix } = useWidgetConfig()
   const { data, isLoading } = useQuery({
     queryKey: [getQueryKey('tokens', keyPrefix)],
@@ -45,27 +46,29 @@ export const useTokens = (selectedChainId?: number) => {
       filteredTokens = [...includedTokens, ...filteredTokens]
     }
 
-    if (configTokens?.allow?.length || configTokens?.deny?.length) {
-      const allowedTokensSet = new Set(
-        configTokens?.allow
-          ?.filter((token) => token.chainId === selectedChainId)
-          .map((token) => token.address)
-      )
+    // Get the appropriate allow/deny lists based on formType
+    const formTypeConfig = formType ? configTokens?.[formType] : undefined
 
-      const deniedTokenAddressesSet = new Set(
-        configTokens?.deny
-          ?.filter((token) => token.chainId === selectedChainId)
-          .map((token) => token.address)
-      )
+    const allowedTokensSet = new Set(
+      [...(formTypeConfig?.allow || []), ...(configTokens?.allow || [])]
+        .filter((token) => token.chainId === selectedChainId)
+        .map((token) => token.address)
+    )
 
-      if (allowedTokensSet.size || deniedTokenAddressesSet.size) {
-        filteredTokens = filteredTokens.filter(
-          (token) =>
-            (!allowedTokensSet.size || allowedTokensSet.has(token.address)) &&
-            !deniedTokenAddressesSet.has(token.address)
-        )
-      }
+    const deniedTokenAddressesSet = new Set(
+      [...(formTypeConfig?.deny || []), ...(configTokens?.deny || [])]
+        .filter((token) => token.chainId === selectedChainId)
+        .map((token) => token.address)
+    )
+
+    if (allowedTokensSet.size || deniedTokenAddressesSet.size) {
+      filteredTokens = filteredTokens.filter(
+        (token) =>
+          (!allowedTokensSet.size || allowedTokensSet.has(token.address)) &&
+          !deniedTokenAddressesSet.has(token.address)
+      )
     }
+
     const filteredTokensMap = new Map(
       filteredTokens.map((token) => [token.address, token])
     )
@@ -118,6 +121,7 @@ export const useTokens = (selectedChainId?: number) => {
     getChainById,
     isSupportedChainsLoading,
     selectedChainId,
+    formType,
   ])
 
   return {

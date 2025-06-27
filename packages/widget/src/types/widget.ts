@@ -218,6 +218,8 @@ export type WidgetTokens = {
   featured?: StaticToken[]
   include?: Token[]
   popular?: StaticToken[]
+  from?: AllowDeny<BaseToken>
+  to?: AllowDeny<BaseToken>
 } & AllowDeny<BaseToken>
 
 export type WidgetLanguages = {
