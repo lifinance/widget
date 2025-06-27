@@ -25,6 +25,7 @@ import { useWalletManagementConfig } from '../providers/WalletManagementProvider
 import type { WalletConnector } from '../types/walletConnector.js'
 import { getConnectorIcon } from '../utils/getConnectorIcon.js'
 import { getWalletPriority } from '../utils/getWalletPriority.js'
+import { isDuplicateOneKeyWallet } from '../utils/isDuplicateOneKeyWallet.js'
 import { isWalletInstalled } from '../utils/isWalletInstalled.js'
 
 export type CombinedWalletConnector = {
@@ -191,7 +192,7 @@ export const useCombinedWallets = () => {
     const installedSuiWallets = includeEcosystem(ChainType.MVM)
       ? suiWallets.filter((wallet) => {
           const isConnected = wallet.accounts?.length > 0
-          return !isConnected
+          return !isConnected && !isDuplicateOneKeyWallet(wallet)
         })
       : []
 
