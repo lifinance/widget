@@ -22,18 +22,15 @@ export const useTokenSearch = (
       })
 
       if (token) {
-        // Check if the token is in the denied list for the current form type
+        // Return undefined if the token is in the denied list for the current form type
         const formTypeConfig = formType ? configTokens?.[formType] : undefined
-        const globalConfig = configTokens
 
-        const deniedTokenAddressesSet = new Set(
-          [...(formTypeConfig?.deny || []), ...(globalConfig?.deny || [])]
-            .filter((t) => t.chainId === chainId)
-            .map((t) => t.address)
-        )
+        const isDenied = [
+          ...(formTypeConfig?.deny ?? []),
+          ...(configTokens?.deny ?? []),
+        ].some((t) => t.chainId === chainId && t.address === token.address)
 
-        // If the token is in the denied list, return null
-        if (deniedTokenAddressesSet.has(token.address)) {
+        if (isDenied) {
           return undefined
         }
 

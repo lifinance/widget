@@ -48,16 +48,15 @@ export const useTokens = (selectedChainId?: number, formType?: FormType) => {
 
     // Get the appropriate allow/deny lists based on formType
     const formTypeConfig = formType ? configTokens?.[formType] : undefined
-    const globalConfig = configTokens
 
     const allowedTokensSet = new Set(
-      [...(formTypeConfig?.allow || []), ...(globalConfig?.allow || [])]
+      [...(formTypeConfig?.allow || []), ...(configTokens?.allow || [])]
         .filter((token) => token.chainId === selectedChainId)
         .map((token) => token.address)
     )
 
     const deniedTokenAddressesSet = new Set(
-      [...(formTypeConfig?.deny || []), ...(globalConfig?.deny || [])]
+      [...(formTypeConfig?.deny || []), ...(configTokens?.deny || [])]
         .filter((token) => token.chainId === selectedChainId)
         .map((token) => token.address)
     )
