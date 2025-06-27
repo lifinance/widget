@@ -1,11 +1,21 @@
 import type { IconButtonProps, LinkProps } from '@mui/material'
-import { IconButton as MuiIconButton, styled } from '@mui/material'
+import {
+  IconButton as MuiIconButton,
+  List as MuiList,
+  styled,
+} from '@mui/material'
 import { ListItem as ListItemBase } from '../ListItem/ListItem.js'
 
 export const ListItem = styled(ListItemBase)(() => ({
   position: 'absolute',
   top: 0,
   left: 0,
+}))
+
+export const List = styled(MuiList)(({ theme }) => ({
+  cursor: 'pointer',
+  marginLeft: theme.spacing(3),
+  marginRight: theme.spacing(1.5),
 }))
 
 export const IconButton = styled(MuiIconButton)<IconButtonProps & LinkProps>(

@@ -1,10 +1,11 @@
-import { List, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type { FC } from 'react'
 import { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { TokenAmount } from '../../types/token.js'
 import { TokenDetailsSheet } from './TokenDetailsSheet.js'
+import { List } from './TokenList.style.js'
 import { TokenListItem, TokenListItemSkeleton } from './TokenListItem.js'
 import type {
   TokenDetailsSheetBase,
@@ -17,6 +18,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   scrollElementRef,
   chainId,
   chain,
+  selectedTokenAddress,
   isLoading,
   isBalanceLoading,
   showCategories,
@@ -144,6 +146,8 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
               start={item.start}
               token={currentToken}
               chain={chain}
+              isSelected={currentToken.address === selectedTokenAddress}
+              onShowTokenDetails={onShowTokenDetails}
               isBalanceLoading={isBalanceLoading}
               accountAddress={account.address}
               startAdornment={
@@ -162,7 +166,6 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
                   </Typography>
                 ) : null
               }
-              onShowTokenDetails={onShowTokenDetails}
             />
           )
         })}

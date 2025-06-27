@@ -25,6 +25,7 @@ export const SearchTokenInput = () => {
       onChange={(e) => onChange((e.target as HTMLInputElement).value)}
       onBlur={onBlur}
       value={value as string | undefined}
+      autoFocus
     />
   )
 }
