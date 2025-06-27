@@ -2,6 +2,8 @@
   "title": {
     "connectWallet": "Connecter un portefeuille",
     "connecting": "",
+    "selectWallet": "",
+    "selectWalletWithChain": "",
     "selectEcosystem": "",
     "waitingForWallet": "",
     "availableWalletsNotFound": ""
@@ -10,5 +12,12 @@
     "connecting": "",
     "multipleEcosystems": "",
     "availableWalletsNotFound": ""
+  },
+  "tags": {
+    "connected": "",
+    "multichain": "",
+    "installed": "",
+    "qrCode": "",
+    "getStarted": ""
   }
 }

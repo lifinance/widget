@@ -2,6 +2,8 @@
   "title": {
     "connectWallet": "ওয়ালেট সংযুক্ত করুন",
     "connecting": "",
+    "selectWallet": "",
+    "selectWalletWithChain": "",
     "selectEcosystem": "",
     "waitingForWallet": "",
     "availableWalletsNotFound": ""
@@ -10,5 +12,12 @@
     "connecting": "",
     "multipleEcosystems": "",
     "availableWalletsNotFound": ""
+  },
+  "tags": {
+    "connected": "",
+    "multichain": "",
+    "installed": "",
+    "qrCode": "",
+    "getStarted": ""
   }
 }

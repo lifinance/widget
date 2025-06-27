@@ -341,5 +341,9 @@
     "noBookmarkedWallets": "没有收藏的钱包",
     "noConnectedWallets": "没有已连接的钱包",
     "noRecentWallets": "没有最近使用的钱包"
+  },
+  "tokenMetric": {
+    "currentPrice": "",
+    "contractAddress": ""
   }
 }

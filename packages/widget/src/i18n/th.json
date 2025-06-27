@@ -341,5 +341,9 @@
     "noBookmarkedWallets": "ไม่มีกระเป๋าเงินที่ bookmark ไว้",
     "noConnectedWallets": "ไม่มีกระเป๋าเงินที่เชื่อมต่อไว้",
     "noRecentWallets": "ไม่พบกระเป๋าเงินล่าสุด"
+  },
+  "tokenMetric": {
+    "currentPrice": "",
+    "contractAddress": ""
   }
 }

@@ -1,8 +1,5 @@
 import type { Connector as BigmiConnector } from '@bigmi/client'
-import {
-  useAccount as useBigmiAccount,
-  useConnect as useBigmiConnect,
-} from '@bigmi/react'
+import { useConnect as useBigmiConnect } from '@bigmi/react'
 import { ChainType } from '@lifi/sdk'
 import type { Theme } from '@mui/material'
 import { useMediaQuery } from '@mui/material'
@@ -13,7 +10,7 @@ import type { Wallet } from '@solana/wallet-adapter-react'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { useMemo } from 'react'
 import type { Connector } from 'wagmi'
-import { useAccount, useConnect } from 'wagmi'
+import { useConnect } from 'wagmi'
 import { defaultCoinbaseConfig } from '../config/coinbase.js'
 import { defaultMetaMaskConfig } from '../config/metaMask.js'
 import { defaultWalletConnectConfig } from '../config/walletConnect.js'
@@ -113,8 +110,6 @@ const combineWalletLists = (
 
 export const useCombinedWallets = () => {
   const walletConfig = useWalletManagementConfig()
-  const wagmiAccount = useAccount()
-  const bigmiAccount = useBigmiAccount()
   const { connectors: wagmiConnectors } = useConnect()
   const { connectors: bigmiConnectors } = useBigmiConnect()
   const { wallets: solanaWallets } = useWallet()
@@ -166,16 +161,14 @@ export const useCombinedWallets = () => {
     const installedUTXOConnectors = includeEcosystem(ChainType.UTXO)
       ? bigmiConnectors.filter((connector) => {
           const isInstalled = isWalletInstalled(connector.id)
-          const isConnected = bigmiAccount.connector?.id === connector.id
-          return isInstalled && !isConnected
+          return isInstalled
         })
       : []
 
     const installedEVMConnectors = includeEcosystem(ChainType.EVM)
       ? evmConnectors.filter((connector) => {
           const isInstalled = isWalletInstalled(connector.id)
-          const isConnected = wagmiAccount.connector?.id === connector.id
-          return isInstalled && !isConnected
+          return isInstalled
         })
       : []
 
@@ -184,16 +177,12 @@ export const useCombinedWallets = () => {
           const isInstalled =
             wallet.adapter.readyState === WalletReadyState.Installed ||
             wallet.adapter.readyState === WalletReadyState.Loadable
-          const isConnected = wallet.adapter.connected
-          return isInstalled && !isConnected
+          return isInstalled
         })
       : []
 
     const installedSuiWallets = includeEcosystem(ChainType.MVM)
-      ? suiWallets.filter((wallet) => {
-          const isConnected = wallet.accounts?.length > 0
-          return !isConnected && !isDuplicateOneKeyWallet(wallet)
-        })
+      ? suiWallets.filter((wallet) => !isDuplicateOneKeyWallet(wallet))
       : []
 
     const installedCombinedWallets = combineWalletLists(
@@ -235,12 +224,10 @@ export const useCombinedWallets = () => {
       notDetectedWallets: notDetectedCombinedWallets,
     }
   }, [
-    bigmiAccount.connector?.id,
     bigmiConnectors,
     isDesktopView,
     solanaWallets,
     suiWallets,
-    wagmiAccount.connector?.id,
     wagmiConnectors,
     walletConfig,
   ])
