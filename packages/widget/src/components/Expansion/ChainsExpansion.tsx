@@ -2,15 +2,21 @@ import type { ExtendedChain } from '@lifi/sdk'
 import { useCallback } from 'react'
 import { useExpansionRoutes } from '../../hooks/useExpansionRoutes'
 import { useHasChainExpansion } from '../../hooks/useHasChainExpansion'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider'
 import { ExpansionType } from '../../types/widget'
+import { getWidgetMaxHeight } from '../../utils/widgetSize'
 import { useChainSelect } from '../ChainSelect/useChainSelect'
 import { SelectChainContent } from '../Chains/SelectChainContent'
-import { SelectChainExpansionContainer } from './Expansion.style'
+import {
+  SelectChainExpansionContainer,
+  chainExpansionWidth,
+} from './Expansion.style'
 import { ExpansionSlide } from './ExpansionSlide'
 
 export const ChainsExpansion = () => {
   const expansionType = useExpansionRoutes()
   const withChainExpansion = useHasChainExpansion()
+  const { theme } = useWidgetConfig()
 
   const formType = expansionType === ExpansionType.FromChain ? 'from' : 'to'
 
@@ -22,13 +28,15 @@ export const ChainsExpansion = () => {
     [setCurrentChain]
   )
 
-  if (!withChainExpansion) {
-    return null
-  }
+  const expansionHeight = getWidgetMaxHeight(theme)
 
   return (
-    <ExpansionSlide open={withChainExpansion}>
-      <SelectChainExpansionContainer>
+    <ExpansionSlide
+      open={withChainExpansion}
+      expansionWidth={chainExpansionWidth}
+      expansionHeight={`${expansionHeight}${Number.isFinite(expansionHeight) ? 'px' : ''}`}
+    >
+      <SelectChainExpansionContainer expansionHeight={expansionHeight}>
         <SelectChainContent
           inExpansion
           formType={formType}

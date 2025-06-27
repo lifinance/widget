@@ -3,7 +3,6 @@ import { AppRoutes } from './AppRoutes.js'
 import {
   AppContainer,
   AppExpandedContainer,
-  AppWithExpansionContainer,
   FlexContainer,
 } from './components/AppContainer.js'
 import { Expansion } from './components/Expansion/Expansion.js'
@@ -21,16 +20,14 @@ export const AppDefault = () => {
     <AppExpandedContainer
       id={createElementId(ElementId.AppExpandedContainer, elementId)}
     >
-      <AppWithExpansionContainer>
-        <AppContainer>
-          <Header />
-          <FlexContainer disableGutters>
-            <AppRoutes />
-          </FlexContainer>
-          <Initializer />
-        </AppContainer>
-        {wideVariant && <Expansion />}
-      </AppWithExpansionContainer>
+      <AppContainer>
+        <Header />
+        <FlexContainer disableGutters>
+          <AppRoutes />
+        </FlexContainer>
+        <Initializer />
+      </AppContainer>
+      {wideVariant && <Expansion />}
     </AppExpandedContainer>
   )
 }

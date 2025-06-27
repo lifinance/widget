@@ -1,16 +1,20 @@
 import type { Route } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
-import { Grow, Stack, Typography } from '@mui/material'
+import { Stack, Typography, useTheme } from '@mui/material'
 import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import { useExpansionRoutes } from '../../hooks/useExpansionRoutes.js'
 import { useRoutes } from '../../hooks/useRoutes.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { WidgetEvent } from '../../types/events.js'
+import { ExpansionType } from '../../types/widget.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import { getWidgetMaxWidth } from '../../utils/widgetSize.js'
+import { ExpansionSlide } from '../Expansion/ExpansionSlide.js'
 import { PageContainer } from '../PageContainer.js'
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js'
 import { RouteCard } from '../RouteCard/RouteCard.js'
@@ -19,7 +23,6 @@ import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js'
 import {
   Container,
   Header,
-  RoutesExpandedCollapse,
   ScrollableContainer,
 } from './RoutesExpanded.style.js'
 
@@ -28,7 +31,9 @@ export const animationTimeout = { enter: 225, exit: 225, appear: 0 }
 export const RoutesExpanded = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const theme = useTheme()
   const { subvariant, subvariantOptions } = useWidgetConfig()
+  const expansionType = useExpansionRoutes()
   const routesRef = useRef<Route[]>(undefined)
   const emitter = useWidgetEvents()
   const routesActiveRef = useRef(false)
@@ -55,11 +60,6 @@ export const RoutesExpanded = () => {
     emitter.emit(WidgetEvent.RouteSelected, { route, routes: routes! })
   }
 
-  const onExit = () => {
-    // Clean routes cache on exit
-    routesRef.current = undefined
-  }
-
   // We cache routes results in ref for a better exit animation
   if (routesRef.current && !routes) {
     routesActiveRef.current = false
@@ -70,9 +70,16 @@ export const RoutesExpanded = () => {
 
   const currentRoute = routesRef.current?.[0]
 
-  const expanded = Boolean(
-    routesActiveRef.current || isLoading || isFetching || isFetched
-  )
+  const expanded =
+    Boolean(routesActiveRef.current || isLoading || isFetching || isFetched) &&
+    expansionType === ExpansionType.Routes
+
+  useEffect(() => {
+    if (!expanded) {
+      // Clean routes cache on exit
+      routesRef.current = undefined
+    }
+  }, [expanded])
 
   const routeNotFound = !currentRoute && !isLoading && !isFetching && expanded
   const toAddressUnsatisfied = currentRoute && requiredToAddress && !toAddress
@@ -89,75 +96,69 @@ export const RoutesExpanded = () => {
         : t('header.youPay')
       : t('header.receive')
 
+  const expansionWidth = getWidgetMaxWidth(theme)
+
   return (
-    <RoutesExpandedCollapse
-      timeout={animationTimeout.enter}
-      in={expanded}
-      orientation="horizontal"
-      onExited={onExit}
+    <ExpansionSlide
+      open={expanded}
+      expansionWidth={`${expansionWidth}${Number.isFinite(expansionWidth) ? 'px' : ''}`}
+      expansionHeight="100%"
     >
-      <Grow
-        timeout={animationTimeout.enter}
-        in={expanded}
-        mountOnEnter
-        unmountOnExit
-      >
-        <Container enableColorScheme minimumHeight={isLoading}>
-          <ScrollableContainer>
-            <Header>
-              <Typography
-                noWrap
-                sx={{
-                  fontSize: 18,
-                  fontWeight: '700',
-                  flex: 1,
-                }}
-              >
-                {title}
-              </Typography>
-              <ProgressToNextUpdate
-                updatedAt={dataUpdatedAt || new Date().getTime()}
-                timeToUpdate={refetchTime}
-                isLoading={isFetching}
-                onClick={() => refetch()}
-                sx={{ marginRight: -1 }}
-              />
-            </Header>
-            <PageContainer>
-              <Stack
-                direction="column"
-                spacing={2}
-                sx={{
-                  flex: 1,
-                  paddingBottom: 3,
-                }}
-              >
-                {routeNotFound ? (
-                  <RouteNotFoundCard />
-                ) : (isLoading || isFetching) && !routesRef.current?.length ? (
-                  Array.from({ length: 3 }).map((_, index) => (
-                    <RouteCardSkeleton key={index} />
-                  ))
-                ) : (
-                  routesRef.current?.map((route: Route, index: number) => (
-                    <RouteCard
-                      key={index}
-                      route={route}
-                      onClick={
-                        allowInteraction
-                          ? () => handleRouteClick(route)
-                          : undefined
-                      }
-                      active={index === 0}
-                      expanded={routesRef.current?.length === 1}
-                    />
-                  ))
-                )}
-              </Stack>
-            </PageContainer>
-          </ScrollableContainer>
-        </Container>
-      </Grow>
-    </RoutesExpandedCollapse>
+      <Container enableColorScheme minimumHeight={isLoading}>
+        <ScrollableContainer>
+          <Header>
+            <Typography
+              noWrap
+              sx={{
+                fontSize: 18,
+                fontWeight: '700',
+                flex: 1,
+              }}
+            >
+              {title}
+            </Typography>
+            <ProgressToNextUpdate
+              updatedAt={dataUpdatedAt || new Date().getTime()}
+              timeToUpdate={refetchTime}
+              isLoading={isFetching}
+              onClick={() => refetch()}
+              sx={{ marginRight: -1 }}
+            />
+          </Header>
+          <PageContainer>
+            <Stack
+              direction="column"
+              spacing={2}
+              sx={{
+                flex: 1,
+                paddingBottom: 3,
+              }}
+            >
+              {routeNotFound ? (
+                <RouteNotFoundCard />
+              ) : (isLoading || isFetching) && !routesRef.current?.length ? (
+                Array.from({ length: 3 }).map((_, index) => (
+                  <RouteCardSkeleton key={index} />
+                ))
+              ) : (
+                routesRef.current?.map((route: Route, index: number) => (
+                  <RouteCard
+                    key={index}
+                    route={route}
+                    onClick={
+                      allowInteraction
+                        ? () => handleRouteClick(route)
+                        : undefined
+                    }
+                    active={index === 0}
+                    expanded={routesRef.current?.length === 1}
+                  />
+                ))
+              )}
+            </Stack>
+          </PageContainer>
+        </ScrollableContainer>
+      </Container>
+    </ExpansionSlide>
   )
 }

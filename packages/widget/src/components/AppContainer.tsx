@@ -1,11 +1,11 @@
 import { Box, Container, ScopedCssBaseline, styled } from '@mui/material'
 import type { PropsWithChildren } from 'react'
 import { defaultMaxHeight } from '../config/constants.js'
-import { useHasChainExpansion } from '../hooks/useHasChainExpansion.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useHeaderHeight } from '../stores/header/useHeaderStore.js'
 import type { WidgetVariant } from '../types/widget.js'
 import { ElementId, createElementId } from '../utils/elements.js'
+import { getWidgetMaxHeight, getWidgetMaxWidth } from '../utils/widgetSize.js'
 
 // NOTE: the setting of the height in AppExpandedContainer, RelativeContainer and CssBaselineContainer can
 //  be done dynamically by values in the config - namely the config.theme.container values display, maxHeight and height
@@ -46,29 +46,22 @@ export const RelativeContainer = styled(Box, {
   const maxHeight =
     theme.container?.height === 'fit-content'
       ? 'none'
-      : theme.container?.maxHeight ||
-        theme.container?.height ||
-        defaultMaxHeight
+      : getWidgetMaxHeight(theme)
   return {
     position: 'relative',
     boxSizing: 'content-box',
     width: '100%',
     minWidth: theme.breakpoints.values.xs,
-    maxWidth: theme.breakpoints.values.sm,
+    maxWidth: getWidgetMaxWidth(theme),
     background: theme.vars.palette.background.default,
     overflow: 'auto',
     flex: 1,
-    zIndex: 0,
     ...theme.container,
     maxHeight:
       theme.container?.display === 'flex' && !theme.container?.height
         ? '100%'
         : maxHeight,
-    '&:has(.with-chain-expansion)': {
-      borderRadius: theme.container.borderRadius,
-      boxShadow: 'none',
-      zIndex: 1,
-    },
+    zIndex: 1, // NB: higher than of expansion containers
     variants: [
       {
         props: {
@@ -97,9 +90,7 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
   const maxHeight =
     theme.container?.height === 'fit-content'
       ? 'none'
-      : theme.container?.maxHeight ||
-        theme.container?.height ||
-        defaultMaxHeight
+      : getWidgetMaxHeight(theme)
   return {
     display: 'flex',
     flex: 1,
@@ -122,12 +113,7 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
         defaultMaxHeight,
     },
     '&:has(.long-list)': {
-      maxHeight:
-        theme.container?.maxHeight ||
-        (theme.container?.height !== 'fit-content'
-          ? theme.container?.height
-          : undefined) ||
-        defaultMaxHeight,
+      maxHeight: getWidgetMaxHeight(theme),
     },
   }
 })
@@ -174,26 +160,3 @@ export const AppContainer: React.FC<PropsWithChildren> = ({ children }) => {
 //   }, [elementRef, pathname]);
 //   return null;
 // };
-
-export const AppWithExpansionContainer: React.FC<PropsWithChildren> = ({
-  children,
-}) => {
-  const withChainExpansion = useHasChainExpansion()
-
-  if (!withChainExpansion) {
-    return children
-  }
-
-  return (
-    <Box
-      sx={(theme) => ({
-        display: 'flex',
-        borderRadius: theme.container?.borderRadius ?? 0,
-        boxShadow: theme.container?.boxShadow ?? 'none',
-        background: theme.vars.palette.background.default,
-      })}
-    >
-      {children}
-    </Box>
-  )
-}

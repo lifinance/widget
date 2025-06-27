@@ -1,11 +1,12 @@
+import { RoutesExpanded } from '../Routes/RoutesExpanded'
 import { ChainsExpansion } from './ChainsExpansion'
-import { RoutesExpansion } from './RoutesExpansion'
+import { ExpansionBox } from './Expansion.style'
 
 export const Expansion = () => {
   return (
-    <>
-      <RoutesExpansion />
+    <ExpansionBox>
+      <RoutesExpanded />
       <ChainsExpansion />
-    </>
+    </ExpansionBox>
   )
 }

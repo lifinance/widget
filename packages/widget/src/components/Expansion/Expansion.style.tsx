@@ -1,7 +1,10 @@
-import { Box, styled } from '@mui/material'
-import { defaultMaxHeight } from '../../config/constants'
+import { Box, type Theme, styled } from '@mui/material'
 
 export const chainExpansionWidth = '240px'
+
+export const getGapToExpansion = (theme: Theme) => {
+  return theme.spacing(3)
+}
 
 export const CollapseContainer = styled(Box)(({ theme }) => ({
   zIndex: 0,
@@ -9,26 +12,25 @@ export const CollapseContainer = styled(Box)(({ theme }) => ({
     ? { display: 'flex', maxHeight: '100%' }
     : { height: 'auto' }),
 }))
+interface SelectChainExpansionContainerProps {
+  expansionHeight: string | number
+}
 
-export const SelectChainExpansionContainer = styled(Box)(({ theme }) => {
-  const fullContainerHeight =
-    theme.container?.maxHeight || theme.container?.height || defaultMaxHeight
-  return {
-    position: 'relative',
-    boxSizing: 'content-box',
-    width: chainExpansionWidth,
-    background: theme.vars.palette.background.default,
-    overflow: 'hidden',
-    flex: 1,
-    zIndex: 0,
-    ...theme.container,
-    height: fullContainerHeight,
-    maxHeight: '100%',
-    borderRadius: `0 ${theme.container.borderRadius} ${theme.container.borderRadius} 0`,
-    boxShadow: 'none',
-    borderLeft: `1px solid ${theme.vars.palette.grey[300]}`,
-    ...theme.applyStyles('dark', {
-      borderLeft: `1px solid ${theme.vars.palette.grey[800]}`,
-    }),
-  }
-})
+export const SelectChainExpansionContainer = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'expansionHeight',
+})<SelectChainExpansionContainerProps>(({ theme, expansionHeight }) => ({
+  position: 'relative',
+  boxSizing: 'content-box',
+  width: chainExpansionWidth,
+  background: theme.vars.palette.background.default,
+  overflow: 'hidden',
+  flex: 1,
+  ...theme.container,
+  zIndex: 0,
+  height: expansionHeight,
+}))
+
+export const ExpansionBox = styled(Box)(({ theme }) => ({
+  marginLeft: getGapToExpansion(theme),
+  zIndex: 0,
+}))

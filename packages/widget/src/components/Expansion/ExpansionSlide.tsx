@@ -7,11 +7,15 @@ import {
 
 interface ExpansionSlideProps extends BoxProps {
   open: boolean
+  expansionWidth: string
+  expansionHeight: string
   delay?: number
 }
 
 export const ExpansionSlide: React.FC<ExpansionSlideProps> = ({
   open,
+  expansionWidth,
+  expansionHeight,
   delay = 0,
   children,
 }) => {
@@ -21,20 +25,19 @@ export const ExpansionSlide: React.FC<ExpansionSlideProps> = ({
   // does not happen during rendering. setTimeout schedules
   // the start of the animation after the DOM has been updated.
   useEffect(() => {
-    let timer: ReturnType<typeof setTimeout>
-    if (open) {
-      timer = setTimeout(() => setDelayedOpen(open), delay)
-    }
+    const timer = setTimeout(() => setDelayedOpen(open), delay)
     return () => {
-      if (timer) {
-        clearTimeout(timer)
-      }
+      clearTimeout(timer)
     }
   }, [open, delay])
 
   return (
-    <ExpansionSlideWrapper open={delayedOpen}>
-      <ExpansionSlideContent open={delayedOpen}>
+    <ExpansionSlideWrapper open={delayedOpen} expansionWidth={expansionWidth}>
+      <ExpansionSlideContent
+        open={delayedOpen}
+        expansionWidth={expansionWidth}
+        expansionHeight={expansionHeight}
+      >
         {children}
       </ExpansionSlideContent>
     </ExpansionSlideWrapper>

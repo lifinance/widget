@@ -1,12 +1,21 @@
 import { Box, type Theme, styled } from '@mui/material'
-import { chainExpansionWidth } from './Expansion.style'
+import { getGapToExpansion } from './Expansion.style'
 
-const slideInMixinWrapper = (theme: Theme) => ({
+interface ExpansionSlideBaseProps {
+  open: boolean
+  expansionWidth: string
+}
+
+interface ExpansionSlideContentProps extends ExpansionSlideBaseProps {
+  expansionHeight: string
+}
+
+const slideInMixinWrapper = (theme: Theme, expansionWidth: string) => ({
   transition: theme.transitions.create(['width'], {
     easing: theme.transitions.easing.easeInOut,
     duration: theme.transitions.duration.enteringScreen,
   }),
-  width: chainExpansionWidth,
+  width: expansionWidth,
 })
 
 const slideOutMixinWrapper = (theme: Theme) => ({
@@ -17,33 +26,52 @@ const slideOutMixinWrapper = (theme: Theme) => ({
   width: 0,
 })
 
-const slideInMixinContent = (theme: Theme) => ({
-  transition: theme.transitions.create(['left'], {
+const slideInMixinContent = (theme: Theme, expansionHeight: string) => ({
+  transition: theme.transitions.create(['left', 'height', 'opacity'], {
     easing: theme.transitions.easing.easeInOut,
     duration: theme.transitions.duration.enteringScreen,
   }),
   left: 0,
+  height: expansionHeight,
+  opacity: 1,
 })
 
-const slideOutMixinContent = (theme: Theme) => ({
-  transition: theme.transitions.create(['left'], {
+const slideOutMixinContent = (
+  theme: Theme,
+  expansionWidth: string,
+  gapToExpansion: string
+) => ({
+  transition: theme.transitions.create(['left', 'height', 'opacity'], {
     easing: theme.transitions.easing.easeInOut,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  left: `-${chainExpansionWidth}`,
+  left: `calc(-${expansionWidth} - ${gapToExpansion})`,
+  height: 0,
+  opacity: 0,
 })
 
 export const ExpansionSlideWrapper = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})<{ open: boolean }>(({ theme, open }) => ({
+  shouldForwardProp: (prop) =>
+    !['open', 'expansionWidth'].includes(prop as string),
+})<ExpansionSlideBaseProps>(({ theme, open, expansionWidth }) => ({
   position: 'relative',
-  ...(open ? slideInMixinWrapper(theme) : slideOutMixinWrapper(theme)),
+  ...(open
+    ? slideInMixinWrapper(theme, expansionWidth)
+    : slideOutMixinWrapper(theme)),
 }))
 
 export const ExpansionSlideContent = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})<{ open: boolean }>(({ theme, open }) => ({
-  position: 'absolute',
-  top: 0,
-  ...(open ? slideInMixinContent(theme) : slideOutMixinContent(theme)),
-}))
+  shouldForwardProp: (prop) =>
+    !['open', 'expansionWidth', 'expansionHeight'].includes(prop as string),
+})<ExpansionSlideContentProps>(
+  ({ theme, open, expansionWidth, expansionHeight }) => {
+    const gapToExpansion = getGapToExpansion(theme)
+    return {
+      position: 'absolute',
+      top: 0,
+      ...(open
+        ? slideInMixinContent(theme, expansionHeight)
+        : slideOutMixinContent(theme, expansionWidth, gapToExpansion)),
+    }
+  }
+)
