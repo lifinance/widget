@@ -116,11 +116,8 @@ const processSubstatusMessages: Record<
     REFUNDED: (t) => t('main.process.receivingChain.partial'),
   },
   FAILED: {
-    // TODO: should be moved to failed status
-    // NOT_PROCESSABLE_REFUND_NEEDED:
-    //   'The transfer cannot be completed successfully. A refund operation is required.',
-    // UNKNOWN_ERROR:
-    //   'An unexpected error occurred. Please seek assistance in the LI.FI discord server.',
+    NOT_PROCESSABLE_REFUND_NEEDED: (t) => t('main.process.receivingChain.notProcessableRefundNeeded'),
+    UNKNOWN_ERROR: (t) => t('main.process.receivingChain.unknownError'),
   },
   INVALID: {},
   NOT_FOUND: {},
