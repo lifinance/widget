@@ -48,9 +48,11 @@ export const useTokens = (selectedChainId?: number, formType?: FormType) => {
     }
 
     // Get the appropriate allow/deny lists based on formType
-    filteredTokens = filteredTokens
-      .filter((token) => token.chainId === selectedChainId)
-      .filter((token) => isTokenAllowed(token, configTokens, formType))
+    filteredTokens = filteredTokens.filter(
+      (token) =>
+        token.chainId === selectedChainId &&
+        isTokenAllowed(token, configTokens, formType)
+    )
 
     const filteredTokensMap = new Map(
       filteredTokens.map((token) => [token.address, token])
