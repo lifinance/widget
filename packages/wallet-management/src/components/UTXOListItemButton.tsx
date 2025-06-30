@@ -52,7 +52,7 @@ export const UTXOListItemButton = ({
       }
       setLastConnectedAccount(connector)
       emitter.emit(WalletManagementEvent.WalletConnected, {
-        address: data.accounts[0],
+        address: data.accounts[0].address,
         chainId: data.chainId,
         chainType: ChainType.UTXO,
         connectorId: connector.id,
