@@ -95,3 +95,22 @@ export function formatTokenPrice(
   }
   return Number.parseFloat(formattedAmount) * Number.parseFloat(price)
 }
+
+const units = [
+  ['day', 86400],
+  ['hour', 3600],
+  ['minute', 60],
+  ['second', 1],
+] as const
+
+export function formatDuration(seconds: number, locale: string): string {
+  const match = units.find(([, v]) => seconds >= v)
+  const amount = match ? Math.floor(seconds / match[1]) : 0
+  const unit = match?.[0] ?? 'second'
+
+  return amount.toLocaleString(locale, {
+    style: 'unit',
+    unit,
+    unitDisplay: 'narrow',
+  })
+}

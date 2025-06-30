@@ -86,7 +86,7 @@
   },
   "info": {
     "message": {
-      "accountDeployedMessage": "",
+      "accountDeployedMessage": "Sua conta inteligente pode não ter o mesmo endereço em outras cadeias. Por favor, verifique novamente antes de prosseguir.",
       "autoRefuel": "Você está com pouco gás na rede {{chainName}}. Ao continuar, você obterá gás suficiente para completar a conversão.",
       "emptyActiveTransactions": "As transações em andamento aparecerão aqui. Uma vez concluídas, encontre-as no histórico de transações.",
       "emptyBridgesList": "Não conseguimos encontrar nenhuma ponte que corresponda à sua pesquisa",
@@ -341,5 +341,9 @@
     "noBookmarkedWallets": "Sem carteiras favoritas",
     "noConnectedWallets": "Sem carteiras conectadas",
     "noRecentWallets": "Sem carteiras recentes"
+  },
+  "tokenMetric": {
+    "currentPrice": "Preço atual",
+    "contractAddress": "Endereço do Contrato"
   }
 }

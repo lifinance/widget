@@ -3,7 +3,6 @@ import { ChainType } from '@lifi/sdk'
 import ArrowBack from '@mui/icons-material/ArrowBack'
 import Close from '@mui/icons-material/Close'
 import {
-  Avatar,
   Box,
   Collapse,
   DialogContent,
@@ -11,28 +10,34 @@ import {
   Fade,
   IconButton,
   List,
-  ListItemAvatar,
   Typography,
 } from '@mui/material'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import type { WalletAdapter } from '@solana/wallet-adapter-base'
-import { useReducer, useRef } from 'react'
+import { useMemo, useReducer, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Connector } from 'wagmi'
+import { useAccount } from '../hooks/useAccount.js'
 import type { CombinedWallet } from '../hooks/useCombinedWallets.js'
 import { useCombinedWallets } from '../hooks/useCombinedWallets.js'
+import type { WalletMenuOpenArgs } from '../providers/WalletMenuProvider/types.js'
 import type { WalletConnector } from '../types/walletConnector.js'
+import type { WalletTagType } from '../types/walletTagType.js'
 import { ElementId } from '../utils/elements.js'
+import { getConnectorId } from '../utils/getConnectorId.js'
+import { getSortedByTags } from '../utils/getSortedByTags.js'
+import { getConnectorTagType, getWalletTagType } from '../utils/walletTags.js'
+import { CardListItemButton } from './CardListItemButton.js'
 import { EVMListItemButton } from './EVMListItemButton.js'
-import { ListItemButton } from './ListItemButton.js'
-import { ListItemText } from './ListItemText.js'
 import { SVMListItemButton } from './SVMListItemButton.js'
 import { SuiListItemButton } from './SuiListItemButton.js'
 import { UTXOListItemButton } from './UTXOListItemButton.js'
+import { WalletInfoDisplay } from './WalletInfoDisplay.js'
 import { WalletMenuContentEmpty } from './WalletMenuContentEmpty.js'
 
 interface WalletMenuContentProps {
   onClose: () => void
+  walletChainArgs?: WalletMenuOpenArgs
 }
 
 interface State {
@@ -66,10 +71,19 @@ function reducer(state: State, action: Action): State {
 
 export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
   onClose,
+  walletChainArgs,
 }) => {
   const { t } = useTranslation()
   const { installedWallets } = useCombinedWallets()
   const selectedWalletRef = useRef<CombinedWallet>(null)
+
+  const { accounts } = useAccount()
+  const connectedConnectorIds: string[] = useMemo(() => {
+    return accounts
+      .filter((account) => account.isConnected)
+      .map((account) => getConnectorId(account.connector, account.chainType))
+      .filter(Boolean)
+  }, [accounts])
 
   const [state, dispatch] = useReducer(reducer, { view: 'wallet-list' })
 
@@ -89,22 +103,68 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
     dispatch({ type: 'HANDLE_ERROR', id, error })
   }
 
+  const walletChainLabel = useMemo(() => {
+    if (!walletChainArgs) {
+      return undefined
+    }
+    if (walletChainArgs.chain) {
+      return walletChainArgs.chain.name
+    }
+    return walletChainArgs.chainType
+  }, [walletChainArgs])
+
+  const filteredWallets = useMemo(() => {
+    if (!walletChainArgs) {
+      return installedWallets
+    }
+
+    const targetChainType =
+      walletChainArgs.chain?.chainType ?? walletChainArgs.chainType
+
+    return installedWallets
+      .map((wallet) => {
+        const filteredConnectors = wallet.connectors.filter(
+          (c) => c.chainType === targetChainType
+        )
+        return filteredConnectors.length
+          ? { ...wallet, connectors: filteredConnectors }
+          : null
+      })
+      .filter(Boolean) as typeof installedWallets
+  }, [installedWallets, walletChainArgs])
+
   const isMultiEcosystem = state.view === 'multi-ecosystem'
   const isConnecting = state.view === 'connecting'
 
   // We need to preserve selectedWallet between re-renders to avoid empty state once wallet is connected
   let selectedWallet = state.selectedWalletId
-    ? installedWallets.find((wallet) => wallet.id === state.selectedWalletId)
+    ? filteredWallets.find((wallet) => wallet.id === state.selectedWalletId)
     : null
   selectedWalletRef.current = selectedWallet || selectedWalletRef.current
   selectedWallet = selectedWalletRef.current
+
+  const filteredWalletsWithTagTypes = useMemo(
+    () =>
+      getSortedByTags(
+        filteredWallets
+          .filter((wallet) => wallet.connectors?.length)
+          .map((wallet) => {
+            return {
+              ...wallet,
+              tagType: getWalletTagType(wallet, connectedConnectorIds),
+            }
+          })
+      ),
+    [filteredWallets, connectedConnectorIds]
+  )
 
   const getWalletButton = (
     id: string,
     name: string,
     chainType: ChainType,
     connector: WalletConnector,
-    ecosystemSelection?: boolean
+    ecosystemSelection?: boolean,
+    tagType?: WalletTagType
   ) => {
     const key = `${name}${ecosystemSelection ? `-${chainType}` : ''}`
 
@@ -114,6 +174,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
           <UTXOListItemButton
             key={key}
             ecosystemSelection={ecosystemSelection}
+            tagType={tagType}
             connector={connector as BigmiConnector}
             onConnected={onClose}
             onConnecting={() => handleConnecting(id)}
@@ -125,6 +186,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
           <EVMListItemButton
             key={key}
             ecosystemSelection={ecosystemSelection}
+            tagType={tagType}
             connector={connector as Connector}
             onConnected={onClose}
             onConnecting={() => handleConnecting(id)}
@@ -136,6 +198,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
           <SVMListItemButton
             key={key}
             ecosystemSelection={ecosystemSelection}
+            tagType={tagType}
             walletAdapter={connector as WalletAdapter}
             onConnected={onClose}
             onConnecting={() => handleConnecting(id)}
@@ -147,6 +210,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
           <SuiListItemButton
             key={key}
             ecosystemSelection={ecosystemSelection}
+            tagType={tagType}
             wallet={connector as WalletWithRequiredFeatures}
             onConnected={onClose}
             onConnecting={() => handleConnecting(id)}
@@ -157,6 +221,26 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
         return null
     }
   }
+
+  const selectedWalletConnectors = useMemo(() => {
+    return getSortedByTags(
+      selectedWallet?.connectors?.map((connector) => {
+        const connectorId = getConnectorId(
+          connector.connector,
+          connector.chainType
+        )
+        return {
+          ...connector,
+          tagType: connectorId
+            ? getConnectorTagType(
+                connectorId,
+                connectedConnectorIds.includes(connectorId)
+              )
+            : undefined,
+        }
+      }) || []
+    )
+  }, [selectedWallet, connectedConnectorIds])
 
   return (
     <>
@@ -183,6 +267,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
         <Typography
           sx={{
             fontWeight: 700,
+            fontSize: '18px',
             margin: 'auto',
           }}
         >
@@ -190,13 +275,17 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
             ? t('title.selectEcosystem')
             : isConnecting
               ? t('title.connecting')
-              : t('title.connectWallet')}
+              : walletChainLabel
+                ? t('title.selectWalletWithChain', {
+                    chainLabel: walletChainLabel,
+                  })
+                : t('title.selectWallet')}
         </Typography>
         <IconButton onClick={onClose}>
           <Close />
         </IconButton>
       </DialogTitle>
-      <DialogContent sx={{ padding: 2 }} id={ElementId.WalletModalContent}>
+      <DialogContent sx={{ padding: 3 }} id={ElementId.WalletModalContent}>
         <Collapse
           in={state.view === 'wallet-list'}
           timeout={{ appear: 225, enter: 225, exit: 225 }}
@@ -205,29 +294,43 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
             in={state.view === 'wallet-list'}
             timeout={{ appear: 225, enter: 100, exit: 225 }}
           >
-            <List sx={{ padding: 0 }}>
-              {installedWallets.map(({ id, name, icon, connectors }) => {
-                if (connectors.length === 1) {
-                  const { chainType, connector } = connectors[0]
-                  return getWalletButton(id, name, chainType, connector)
-                }
-                return (
-                  <ListItemButton
-                    key={name}
-                    onClick={() => handleMultiEcosystem(id)}
-                  >
-                    <ListItemAvatar>
-                      <Avatar src={icon} alt={name}>
-                        {name[0]}
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={name} />
-                  </ListItemButton>
+            <List
+              component="div"
+              sx={{
+                padding: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '8px',
+              }}
+            >
+              {filteredWalletsWithTagTypes.length ? (
+                filteredWalletsWithTagTypes.map(
+                  ({ id, name, icon, connectors, tagType }) => {
+                    if (connectors.length === 1) {
+                      const { chainType, connector } = connectors[0]
+                      return getWalletButton(
+                        getConnectorId(connector, chainType),
+                        name,
+                        chainType,
+                        connector,
+                        false,
+                        tagType
+                      )
+                    }
+                    return (
+                      <CardListItemButton
+                        key={name}
+                        onClick={() => handleMultiEcosystem(id)}
+                        title={name}
+                        icon={icon ?? ''}
+                        tagType={tagType}
+                      />
+                    )
+                  }
                 )
-              })}
-              {/* TODO: show all connected wallets with 'Connected' badge
-            and have this empty screen only when there is no installed wallets at all */}
-              {!installedWallets.length ? <WalletMenuContentEmpty /> : null}
+              ) : (
+                <WalletMenuContentEmpty />
+              )}
             </List>
           </Fade>
         </Collapse>
@@ -240,46 +343,40 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
             in={state.view === 'multi-ecosystem'}
             timeout={{ appear: 225, enter: 225, exit: 100 }}
           >
-            <List sx={{ padding: 0 }}>
-              <Box
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 4,
+              }}
+            >
+              <WalletInfoDisplay
+                selectedWallet={selectedWallet}
+                message={t('message.multipleEcosystems', {
+                  walletName: selectedWallet?.name,
+                })}
+              />
+              <List
                 sx={{
+                  padding: 0,
                   display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
                   flexDirection: 'column',
-                  px: 1,
-                  pb: 2,
+                  gap: '8px',
                 }}
               >
-                <Avatar
-                  src={selectedWallet?.icon}
-                  alt={selectedWallet?.name}
-                  sx={{ width: 80, height: 80 }}
-                >
-                  {selectedWallet?.name[0]}
-                </Avatar>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    pt: 2,
-                    textAlign: 'center',
-                  }}
-                >
-                  {t('message.multipleEcosystems', {
-                    walletName: selectedWallet?.name,
-                  })}
-                </Typography>
-              </Box>
-              {selectedWallet?.connectors.map(({ chainType, connector }) =>
-                getWalletButton(
-                  state.selectedWalletId!,
-                  selectedWallet?.name,
-                  chainType,
-                  connector,
-                  true
-                )
-              )}
-            </List>
+                {selectedWalletConnectors.map(
+                  ({ chainType, tagType, connector }) =>
+                    getWalletButton(
+                      state.selectedWalletId!,
+                      selectedWallet?.name || '',
+                      chainType,
+                      connector,
+                      true,
+                      tagType
+                    )
+                )}
+              </List>
+            </Box>
           </Fade>
         </Collapse>
         {/* Connecting View */}
@@ -291,46 +388,15 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
             in={state.view === 'connecting'}
             timeout={{ appear: 225, enter: 225, exit: 100 }}
           >
-            <List sx={{ padding: 0 }}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  flexDirection: 'column',
-                  px: 1,
-                  pb: 2,
-                }}
-              >
-                <Avatar
-                  src={selectedWallet?.icon}
-                  alt={selectedWallet?.name}
-                  sx={{ width: 80, height: 80 }}
-                >
-                  {selectedWallet?.name[0]}
-                </Avatar>
-                <Typography
-                  sx={{
-                    pt: 2,
-                    textAlign: 'center',
-                    fontWeight: 500,
-                  }}
-                >
-                  {t('title.waitingForWallet', {
-                    walletName: selectedWallet?.name,
-                  })}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    pt: 2,
-                    textAlign: 'center',
-                  }}
-                >
-                  {t('message.connecting')}
-                </Typography>
-              </Box>
-            </List>
+            <div>
+              <WalletInfoDisplay
+                selectedWallet={selectedWallet}
+                title={t('title.waitingForWallet', {
+                  walletName: selectedWallet?.name,
+                })}
+                message={t('message.connecting')}
+              />
+            </div>
           </Fade>
         </Collapse>
       </DialogContent>

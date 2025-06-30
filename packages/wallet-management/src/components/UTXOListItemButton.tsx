@@ -1,14 +1,13 @@
 import { type Connector, connect, disconnect, getAccount } from '@bigmi/client'
 import { useConfig } from '@bigmi/react'
 import { ChainType } from '@lifi/sdk'
-import { Avatar, ListItemAvatar } from '@mui/material'
-import { ListItemButton } from '../components/ListItemButton.js'
-import { ListItemText } from '../components/ListItemText.js'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { WalletManagementEvent } from '../types/events.js'
+import { WalletTagType } from '../types/walletTagType.js'
 import { getConnectorIcon } from '../utils/getConnectorIcon.js'
 import { isWalletInstalled } from '../utils/isWalletInstalled.js'
+import { CardListItemButton } from './CardListItemButton.js'
 import type { WalletListItemButtonProps } from './types.js'
 
 interface UTXOListItemButtonProps extends WalletListItemButtonProps {
@@ -18,6 +17,7 @@ interface UTXOListItemButtonProps extends WalletListItemButtonProps {
 export const UTXOListItemButton = ({
   ecosystemSelection,
   connector,
+  tagType,
   onNotInstalled,
   onConnected,
   onConnecting,
@@ -33,6 +33,11 @@ export const UTXOListItemButton = ({
     : connectorName
 
   const handleUTXOConnect = async () => {
+    if (tagType === WalletTagType.Connected) {
+      onConnected?.()
+      return
+    }
+
     try {
       const identityCheckPassed = isWalletInstalled((connector as Connector).id)
       if (!identityCheckPassed) {
@@ -47,7 +52,7 @@ export const UTXOListItemButton = ({
       }
       setLastConnectedAccount(connector)
       emitter.emit(WalletManagementEvent.WalletConnected, {
-        address: data.accounts[0],
+        address: data.accounts[0].address,
         chainId: data.chainId,
         chainType: ChainType.UTXO,
         connectorId: connector.id,
@@ -60,20 +65,20 @@ export const UTXOListItemButton = ({
   }
 
   return (
-    <ListItemButton key={connector.id} onClick={handleUTXOConnect}>
-      <ListItemAvatar>
-        <Avatar
-          src={
-            ecosystemSelection
-              ? 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/bitcoin.svg'
-              : getConnectorIcon(connector as Connector)
-          }
-          alt={connectorDisplayName}
-        >
-          {connectorDisplayName?.[0]}
-        </Avatar>
-      </ListItemAvatar>
-      <ListItemText primary={connectorDisplayName} />
-    </ListItemButton>
+    <CardListItemButton
+      key={connector.id}
+      icon={
+        ecosystemSelection
+          ? 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/bitcoin.svg'
+          : (getConnectorIcon(connector as Connector) ?? '')
+      }
+      onClick={handleUTXOConnect}
+      title={connectorDisplayName}
+      tagType={
+        ecosystemSelection && tagType !== WalletTagType.Connected
+          ? undefined
+          : tagType
+      }
+    />
   )
 }

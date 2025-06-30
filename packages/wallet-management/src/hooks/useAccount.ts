@@ -11,12 +11,15 @@ import { useAccount as useAccountInternal } from 'wagmi'
 import { create } from 'zustand'
 import type { CreateConnectorFnExtended } from '../connectors/types.js'
 
-export interface AccountBase<CT extends ChainType, ConnectorType = undefined> {
+export interface AccountBase<
+  CT extends ChainType,
+  WalletConnector = undefined,
+> {
   address?: string
   addresses?: readonly string[]
   chainId?: number
   chainType: CT
-  connector?: ConnectorType
+  connector?: WalletConnector
   isConnected: boolean
   isConnecting: boolean
   isDisconnected: boolean
@@ -134,7 +137,12 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
             status: 'disconnected',
           }
     const evm: Account = { ...wagmiAccount, chainType: ChainType.EVM }
-    const utxo: Account = { ...bigmiAccount, chainType: ChainType.UTXO }
+    const utxo: Account = {
+      ...bigmiAccount,
+      chainType: ChainType.UTXO,
+      address: bigmiAccount.account?.address,
+      addresses: bigmiAccount.accounts?.map((account) => account.address),
+    }
     const accounts = [evm, svm, utxo, sui]
     const connectedAccounts = accounts.filter(
       (account) => account.isConnected && account.address
@@ -180,7 +188,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
     bigmiAccount.connector?.uid,
     bigmiAccount.connector?.id,
     bigmiAccount.status,
-    bigmiAccount.address,
+    bigmiAccount.account?.address,
     bigmiAccount.chainId,
     args?.chainType,
     lastConnectedAccount,
