@@ -31,26 +31,21 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = ({
   const elementId = useDefaultElementId()
   const scrollableContainer = useScrollableContainer(elementId)
   const [selectedChainId] = useFieldValues(FormKeyHelper.getChainKey(formType))
+  const [searchQuery, setSearchQuery] = useState('')
 
-  const [filteredChains, setFilteredChains] = useState<ExtendedChain[]>(
-    chains ?? []
-  )
+  const filteredChains = useMemo(() => {
+    return (
+      (searchQuery
+        ? chains?.filter((chain) =>
+            chain.name.toLowerCase().includes(searchQuery.toLowerCase())
+          )
+        : chains) ?? []
+    )
+  }, [chains, searchQuery])
 
   const handleSearchInputChange: FormEventHandler<HTMLInputElement> = (e) => {
     const value = (e.target as HTMLInputElement).value
-
-    if (!value) {
-      setFilteredChains(chains ?? [])
-    } else {
-      setFilteredChains(
-        chains
-          ? chains.filter((chain) =>
-              chain.name.toLowerCase().includes(value.toLowerCase())
-            )
-          : []
-      )
-    }
-
+    setSearchQuery(value)
     if (scrollableContainer) {
       scrollableContainer.scrollTop = 0
     }

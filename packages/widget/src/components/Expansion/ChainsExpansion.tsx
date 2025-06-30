@@ -37,11 +37,14 @@ export const ChainsExpansion = () => {
       expansionHeight={`${expansionHeight}${Number.isFinite(expansionHeight) ? 'px' : ''}`}
     >
       <SelectChainExpansionContainer expansionHeight={expansionHeight}>
-        <SelectChainContent
-          inExpansion
-          formType={formType}
-          onSelect={onSelect}
-        />
+        {(expansionType === ExpansionType.FromChain ||
+          expansionType === ExpansionType.ToChain) && (
+          <SelectChainContent
+            inExpansion
+            formType={formType}
+            onSelect={onSelect}
+          />
+        )}
       </SelectChainExpansionContainer>
     </ExpansionSlide>
   )
