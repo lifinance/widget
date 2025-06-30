@@ -23,7 +23,6 @@ import type { WalletConnector } from '../types/walletConnector.js'
 import { getConnectorIcon } from '../utils/getConnectorIcon.js'
 import { getWalletPriority } from '../utils/getWalletPriority.js'
 import { isWalletInstalled } from '../utils/isWalletInstalled.js'
-import { removeDuplicateWallets } from '../utils/removeDuplicateWallets.js'
 
 export type CombinedWalletConnector = {
   connector: WalletConnector
@@ -182,7 +181,7 @@ export const useCombinedWallets = () => {
       : []
 
     const installedSuiWallets = includeEcosystem(ChainType.MVM)
-      ? removeDuplicateWallets(ChainType.MVM, suiWallets)
+      ? suiWallets
       : []
 
     const installedCombinedWallets = combineWalletLists(
