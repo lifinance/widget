@@ -4,7 +4,7 @@ import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
 import type { TokenAmount } from '../types/token.js'
-import { isTokenAllowed } from '../utils/isTokenAllowed.js'
+import { isTokenAllowed } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useChains } from './useChains.js'
 
