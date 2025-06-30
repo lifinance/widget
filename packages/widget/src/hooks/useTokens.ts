@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
 import type { TokenAmount } from '../types/token.js'
+import { isTokenAllowed } from '../utils/isTokenAllowed.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useChains } from './useChains.js'
 
@@ -47,27 +48,9 @@ export const useTokens = (selectedChainId?: number, formType?: FormType) => {
     }
 
     // Get the appropriate allow/deny lists based on formType
-    const formTypeConfig = formType ? configTokens?.[formType] : undefined
-
-    const allowedTokensSet = new Set(
-      [...(formTypeConfig?.allow || []), ...(configTokens?.allow || [])]
-        .filter((token) => token.chainId === selectedChainId)
-        .map((token) => token.address)
-    )
-
-    const deniedTokenAddressesSet = new Set(
-      [...(formTypeConfig?.deny || []), ...(configTokens?.deny || [])]
-        .filter((token) => token.chainId === selectedChainId)
-        .map((token) => token.address)
-    )
-
-    if (allowedTokensSet.size || deniedTokenAddressesSet.size) {
-      filteredTokens = filteredTokens.filter(
-        (token) =>
-          (!allowedTokensSet.size || allowedTokensSet.has(token.address)) &&
-          !deniedTokenAddressesSet.has(token.address)
-      )
-    }
+    filteredTokens = filteredTokens
+      .filter((token) => token.chainId === selectedChainId)
+      .filter((token) => isTokenAllowed(token, configTokens, formType))
 
     const filteredTokensMap = new Map(
       filteredTokens.map((token) => [token.address, token])
