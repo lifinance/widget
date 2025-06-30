@@ -7,8 +7,8 @@ import {
 
 interface ExpansionSlideProps extends BoxProps {
   open: boolean
-  expansionWidth: string
-  expansionHeight: string
+  expansionWidth: string | number
+  expansionHeight: string | number
   delay?: number
 }
 

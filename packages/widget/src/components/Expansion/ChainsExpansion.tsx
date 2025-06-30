@@ -10,7 +10,7 @@ import { SelectChainContent } from '../Chains/SelectChainContent'
 import {
   SelectChainExpansionContainer,
   chainExpansionWidth,
-} from './Expansion.style'
+} from './ChainsExpansion.style'
 import { ExpansionSlide } from './ExpansionSlide'
 
 export const ChainsExpansion = () => {
@@ -34,11 +34,10 @@ export const ChainsExpansion = () => {
     <ExpansionSlide
       open={withChainExpansion}
       expansionWidth={chainExpansionWidth}
-      expansionHeight={`${expansionHeight}${Number.isFinite(expansionHeight) ? 'px' : ''}`}
+      expansionHeight={expansionHeight}
     >
       <SelectChainExpansionContainer expansionHeight={expansionHeight}>
-        {(expansionType === ExpansionType.FromChain ||
-          expansionType === ExpansionType.ToChain) && (
+        {withChainExpansion && (
           <SelectChainContent
             inExpansion
             formType={formType}

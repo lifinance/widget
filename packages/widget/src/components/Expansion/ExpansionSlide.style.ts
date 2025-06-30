@@ -3,11 +3,11 @@ import { getGapToExpansion } from './Expansion.style'
 
 interface ExpansionSlideBaseProps {
   open: boolean
-  expansionWidth: string
+  expansionWidth: string | number
 }
 
 interface ExpansionSlideContentProps extends ExpansionSlideBaseProps {
-  expansionHeight: string
+  expansionHeight: string | number
 }
 
 const slideInMixinWrapper = (theme: Theme, expansionWidth: string) => ({
@@ -56,7 +56,10 @@ export const ExpansionSlideWrapper = styled(Box, {
 })<ExpansionSlideBaseProps>(({ theme, open, expansionWidth }) => ({
   position: 'relative',
   ...(open
-    ? slideInMixinWrapper(theme, expansionWidth)
+    ? slideInMixinWrapper(
+        theme,
+        `${expansionWidth}${Number.isFinite(expansionWidth) ? 'px' : ''}`
+      )
     : slideOutMixinWrapper(theme)),
 }))
 
@@ -70,8 +73,15 @@ export const ExpansionSlideContent = styled(Box, {
       position: 'absolute',
       top: 0,
       ...(open
-        ? slideInMixinContent(theme, expansionHeight)
-        : slideOutMixinContent(theme, expansionWidth, gapToExpansion)),
+        ? slideInMixinContent(
+            theme,
+            `${expansionHeight}${Number.isFinite(expansionHeight) ? 'px' : ''}`
+          )
+        : slideOutMixinContent(
+            theme,
+            `${expansionWidth}${Number.isFinite(expansionWidth) ? 'px' : ''}`,
+            gapToExpansion
+          )),
     }
   }
 )

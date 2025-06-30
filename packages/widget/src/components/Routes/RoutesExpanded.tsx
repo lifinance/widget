@@ -101,7 +101,7 @@ export const RoutesExpanded = () => {
   return (
     <ExpansionSlide
       open={expanded}
-      expansionWidth={`${expansionWidth}${Number.isFinite(expansionWidth) ? 'px' : ''}`}
+      expansionWidth={expansionWidth}
       expansionHeight="100%"
     >
       <Container enableColorScheme minimumHeight={isLoading}>

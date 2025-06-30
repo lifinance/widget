@@ -1,6 +1,6 @@
 import { debounce, useTheme } from '@mui/material'
 import type { RefObject } from 'react'
-import { useLayoutEffect, useMemo, useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 import {
   ElementId,
   getAppContainer,
@@ -63,18 +63,12 @@ export const useListHeight = ({
   headerRef,
 }: UseContentHeightProps) => {
   const elementId = useDefaultElementId()
-  const [listHeight, setListHeight] = useState<number>(0)
+  const [contentHeight, setContentHeight] = useState<number>(0)
   const theme = useTheme()
 
   useLayoutEffect(() => {
     const handleResize = () => {
-      const contentHeight = getContentHeight(elementId, listParentRef)
-      setListHeight(
-        Math.max(
-          contentHeight - (headerRef?.current?.offsetHeight ?? 0),
-          minListHeight
-        )
-      )
+      setContentHeight(getContentHeight(elementId, listParentRef))
     }
 
     const processResize = debounce(() => handleResize(), 40)
@@ -95,13 +89,17 @@ export const useListHeight = ({
         resizeObserver.disconnect()
       }
     }
-  }, [elementId, listParentRef, headerRef?.current?.offsetHeight])
+  }, [elementId, listParentRef])
 
-  const minListHeight = useMemo(() => {
-    return theme.container?.height === '100%'
+  const minListHeight =
+    theme.container?.height === '100%'
       ? minMobileListHeight
       : defaultMinListHeight
-  }, [theme.container?.height])
+
+  const listHeight = Math.max(
+    contentHeight - (headerRef?.current?.offsetHeight ?? 0),
+    minListHeight
+  )
 
   return {
     minListHeight,
