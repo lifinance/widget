@@ -127,12 +127,17 @@ export const RoutesExpandedElement = () => {
 
   return (
     <RoutesExpandedCollapse
-      timeout={timeout.enter}
+      timeout={timeout.enter as number}
       in={expanded}
       orientation="horizontal"
       onExited={onExit}
     >
-      <Grow timeout={timeout.enter} in={expanded} mountOnEnter unmountOnExit>
+      <Grow
+        timeout={timeout.enter as number}
+        in={expanded}
+        mountOnEnter
+        unmountOnExit
+      >
         <Container enableColorScheme minimumHeight={isLoading}>
           <ScrollableContainer>
             <Header>

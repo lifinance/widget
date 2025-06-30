@@ -2,10 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="shortcut icon" href="/favicon.png" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <link rel="apple-touch-icon" href="/logo192.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Fallback for browsers that don't support SVG favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <!-- Apple Touch Icon for iOS devices -->
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
 
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -15,7 +22,7 @@
     <title>LI.FI Widget</title>
   </head>
 
-  <body style="margin: 0;">
+  <body style="margin: 0">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <script type="module" src="/src/index.tsx"></script>
