@@ -5,7 +5,7 @@ import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useHeaderHeight } from '../stores/header/useHeaderStore.js'
 import type { WidgetVariant } from '../types/widget.js'
 import { ElementId, createElementId } from '../utils/elements.js'
-import { getWidgetMaxHeight, getWidgetMaxWidth } from '../utils/widgetSize.js'
+import { getWidgetMaxHeight } from '../utils/widgetSize.js'
 
 // NOTE: the setting of the height in AppExpandedContainer, RelativeContainer and CssBaselineContainer can
 //  be done dynamically by values in the config - namely the config.theme.container values display, maxHeight and height
@@ -52,7 +52,7 @@ export const RelativeContainer = styled(Box, {
     boxSizing: 'content-box',
     width: '100%',
     minWidth: theme.breakpoints.values.xs,
-    maxWidth: getWidgetMaxWidth(theme),
+    maxWidth: theme.breakpoints.values.sm,
     background: theme.vars.palette.background.default,
     overflow: 'auto',
     flex: 1,

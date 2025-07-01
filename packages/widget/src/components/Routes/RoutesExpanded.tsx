@@ -1,6 +1,6 @@
 import type { Route } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
-import { Stack, Typography, useTheme } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -13,7 +13,6 @@ import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { WidgetEvent } from '../../types/events.js'
 import { ExpansionType } from '../../types/widget.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { getWidgetMaxWidth } from '../../utils/widgetSize.js'
 import { ExpansionSlide } from '../Expansion/ExpansionSlide.js'
 import { PageContainer } from '../PageContainer.js'
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js'
@@ -24,14 +23,18 @@ import {
   Container,
   Header,
   ScrollableContainer,
+  routesExpansionWidth,
 } from './RoutesExpanded.style.js'
 
 export const animationTimeout = { enter: 225, exit: 225, appear: 0 }
 
-export const RoutesExpanded = () => {
+interface RoutesExpandedProps {
+  setOpenExpansion: (open: boolean) => void
+}
+
+export const RoutesExpanded = ({ setOpenExpansion }: RoutesExpandedProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const theme = useTheme()
   const { subvariant, subvariantOptions } = useWidgetConfig()
   const expansionType = useExpansionRoutes()
   const routesRef = useRef<Route[]>(undefined)
@@ -75,11 +78,12 @@ export const RoutesExpanded = () => {
     expansionType === ExpansionType.Routes
 
   useEffect(() => {
+    setOpenExpansion(expanded)
     if (!expanded) {
       // Clean routes cache on exit
       routesRef.current = undefined
     }
-  }, [expanded])
+  }, [expanded, setOpenExpansion])
 
   const routeNotFound = !currentRoute && !isLoading && !isFetching && expanded
   const toAddressUnsatisfied = currentRoute && requiredToAddress && !toAddress
@@ -96,14 +100,8 @@ export const RoutesExpanded = () => {
         : t('header.youPay')
       : t('header.receive')
 
-  const expansionWidth = getWidgetMaxWidth(theme)
-
   return (
-    <ExpansionSlide
-      open={expanded}
-      expansionWidth={expansionWidth}
-      expansionHeight="100%"
-    >
+    <ExpansionSlide open={expanded} expansionWidth={routesExpansionWidth}>
       <Container enableColorScheme minimumHeight={isLoading}>
         <ScrollableContainer>
           <Header>

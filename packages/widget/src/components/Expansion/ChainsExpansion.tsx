@@ -28,15 +28,14 @@ export const ChainsExpansion = () => {
     [setCurrentChain]
   )
 
-  const expansionHeight = getWidgetMaxHeight(theme)
-
   return (
     <ExpansionSlide
       open={withChainExpansion}
       expansionWidth={chainExpansionWidth}
-      expansionHeight={expansionHeight}
     >
-      <SelectChainExpansionContainer expansionHeight={expansionHeight}>
+      <SelectChainExpansionContainer
+        expansionHeight={getWidgetMaxHeight(theme)}
+      >
         <SelectChainContent
           inExpansion
           formType={formType}

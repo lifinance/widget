@@ -1,21 +1,16 @@
 import type { BoxProps } from '@mui/material'
 import { useEffect, useState } from 'react'
-import {
-  ExpansionSlideContent,
-  ExpansionSlideWrapper,
-} from './ExpansionSlide.style'
+import { ExpansionSlideContent } from './ExpansionSlide.style'
 
 interface ExpansionSlideProps extends BoxProps {
   open: boolean
   expansionWidth: string | number
-  expansionHeight: string | number
   delay?: number
 }
 
 export const ExpansionSlide: React.FC<ExpansionSlideProps> = ({
   open,
   expansionWidth,
-  expansionHeight,
   delay = 0,
   children,
 }) => {
@@ -32,14 +27,8 @@ export const ExpansionSlide: React.FC<ExpansionSlideProps> = ({
   }, [open, delay])
 
   return (
-    <ExpansionSlideWrapper open={delayedOpen} expansionWidth={expansionWidth}>
-      <ExpansionSlideContent
-        open={delayedOpen}
-        expansionWidth={expansionWidth}
-        expansionHeight={expansionHeight}
-      >
-        {children}
-      </ExpansionSlideContent>
-    </ExpansionSlideWrapper>
+    <ExpansionSlideContent open={delayedOpen} expansionWidth={expansionWidth}>
+      {children}
+    </ExpansionSlideContent>
   )
 }

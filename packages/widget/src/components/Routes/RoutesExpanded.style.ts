@@ -1,7 +1,8 @@
 import type { ScopedCssBaselineProps } from '@mui/material'
 import { Box, ScopedCssBaseline, styled } from '@mui/material'
 import { defaultMaxHeight } from '../../config/constants.js'
-import { getWidgetMaxWidth } from '../../utils/widgetSize.js'
+
+export const routesExpansionWidth = '416px'
 
 export const ScrollableContainer = styled(Box)({
   overflowY: 'auto',
@@ -21,7 +22,7 @@ export const Container = styled(ScopedCssBaseline, {
 })<ContainerProps>(({ theme, minimumHeight }) => ({
   backgroundColor: theme.vars.palette.background.default,
   overflow: 'auto',
-  width: getWidgetMaxWidth(theme),
+  width: routesExpansionWidth,
   display: 'flex',
   flexDirection: 'column',
   ...(theme.container?.display !== 'flex'

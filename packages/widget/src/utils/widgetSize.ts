@@ -15,7 +15,3 @@ export const getWidgetMaxHeight = (
 
   return defaultMaxHeight
 }
-
-export const getWidgetMaxWidth = (theme: Theme): string | number => {
-  return theme.breakpoints.values.sm
-}
