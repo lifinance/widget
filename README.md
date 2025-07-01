@@ -1,6 +1,6 @@
 <div align="center">
 
-[![license](https://img.shields.io/badge/license-Apache%202-blue)](/LICENSE.md)
+[![license](https://img.shields.io/github/license/lifinance/widget)](/LICENSE)
 [![npm latest package](https://img.shields.io/npm/v/@lifi/widget/latest.svg)](https://www.npmjs.com/package/@lifi/widget)
 [![npm downloads](https://img.shields.io/npm/dm/@lifi/widget.svg)](https://www.npmjs.com/package/@lifi/widget)
 [![Crowdin](https://badges.crowdin.net/lifi-widget/localized.svg)](https://crowdin.com/project/lifi-widget)
