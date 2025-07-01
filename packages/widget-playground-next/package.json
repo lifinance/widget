@@ -10,20 +10,20 @@
   "dependencies": {
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@lifi/widget": "workspace:*",
     "@lifi/widget-playground": "workspace:*",
-    "@mui/material": "^7.1.2",
-    "@mui/material-nextjs": "^7.1.0",
-    "@mui/system": "^7.1.0",
-    "@tanstack/react-query": "^5.81.2",
+    "@mui/material": "^7.2.0",
+    "@mui/material-nextjs": "^7.2.0",
+    "@mui/system": "^7.2.0",
+    "@tanstack/react-query": "^5.81.5",
     "core-js": "^3.43.0",
     "next": "^15.3.4",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
-    "@types/node": "^24.0.3",
+    "@types/node": "^24.0.8",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.5",
     "typescript": "^5.8.3"
