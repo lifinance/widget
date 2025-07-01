@@ -14,7 +14,7 @@ export const ListItem = styled(ListItemBase)(() => ({
 
 export const List = styled(MuiList)(({ theme }) => ({
   cursor: 'pointer',
-  marginLeft: theme.spacing(3),
+  marginLeft: theme.spacing(1.5),
   marginRight: theme.spacing(1.5),
 }))
 

@@ -43,7 +43,7 @@ export const ChainList = ({
 
   if (isLoading) {
     return (
-      <List size={itemsSize} disablePadding sx={{ cursor: 'default' }}>
+      <List disablePadding sx={{ cursor: 'default' }}>
         {Array.from({ length: 3 }).map((_, index) => (
           <ListItemButton
             key={index}
@@ -84,7 +84,7 @@ export const ChainList = ({
   }
 
   return (
-    <List className="long-list" size={itemsSize} disablePadding>
+    <List className="long-list" disablePadding>
       {sortedChains.map((chain) => (
         <ListItemButton
           key={chain.id}

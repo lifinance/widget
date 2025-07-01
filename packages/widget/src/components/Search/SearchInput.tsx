@@ -1,50 +1,60 @@
+import ClearIcon from '@mui/icons-material/Clear'
 import Search from '@mui/icons-material/Search'
-import { FormControl, InputAdornment } from '@mui/material'
-import type { FocusEventHandler, FormEventHandler } from 'react'
+import { FormControl, IconButton, InputAdornment } from '@mui/material'
+import type { FocusEventHandler, FormEventHandler, RefObject } from 'react'
 import { InputCard } from '../../components/Card/InputCard.js'
 import { useHeaderHeight } from '../../stores/header/useHeaderStore.js'
 import { Input, StickySearchInputContainer } from './SearchInput.style.js'
 
 interface SearchInputProps {
+  inputRef?: RefObject<HTMLInputElement | null>
   name?: string
   value?: string
   placeholder?: string
   onChange?: FormEventHandler<HTMLInputElement>
   onBlur?: FocusEventHandler<HTMLInputElement>
+  onClear?: () => void
   autoFocus?: boolean
   size?: 'small' | 'medium'
-  iconPosition?: 'start' | 'end'
 }
 
 export const SearchInput = ({
+  inputRef,
   name,
   placeholder,
   onChange,
   onBlur,
+  onClear,
   value,
   autoFocus,
   size = 'medium',
-  iconPosition = 'end',
 }: SearchInputProps) => {
   return (
     <InputCard>
       <FormControl fullWidth>
         <Input
+          inputRef={inputRef}
           size={size}
           placeholder={placeholder}
           startAdornment={
-            iconPosition === 'start' ? (
-              <InputAdornment position="start">
-                <Search />
-              </InputAdornment>
-            ) : null
+            <InputAdornment position="start">
+              <Search />
+            </InputAdornment>
           }
           endAdornment={
-            iconPosition === 'end' ? (
+            (value || inputRef?.current?.value) &&
+            onClear && (
               <InputAdornment position="end">
-                <Search />
+                <IconButton
+                  size={size}
+                  onClick={onClear}
+                  aria-label="Clear"
+                  tabIndex={-1}
+                >
+                  <ClearIcon fontSize={size} />
+                </IconButton>
               </InputAdornment>
-            ) : null
+            )
           }
           inputProps={{
             inputMode: 'search',

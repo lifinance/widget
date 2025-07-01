@@ -1,4 +1,5 @@
 import { Box, type Theme, styled } from '@mui/material'
+import { formatSize } from '../../utils/format'
 import { getGapToExpansion } from './Expansion.style'
 
 interface ExpansionSlideBaseProps {
@@ -56,10 +57,7 @@ export const ExpansionSlideWrapper = styled(Box, {
 })<ExpansionSlideBaseProps>(({ theme, open, expansionWidth }) => ({
   position: 'relative',
   ...(open
-    ? slideInMixinWrapper(
-        theme,
-        `${expansionWidth}${Number.isFinite(expansionWidth) ? 'px' : ''}`
-      )
+    ? slideInMixinWrapper(theme, formatSize(expansionWidth))
     : slideOutMixinWrapper(theme)),
 }))
 
@@ -73,13 +71,10 @@ export const ExpansionSlideContent = styled(Box, {
       position: 'absolute',
       top: 0,
       ...(open
-        ? slideInMixinContent(
-            theme,
-            `${expansionHeight}${Number.isFinite(expansionHeight) ? 'px' : ''}`
-          )
+        ? slideInMixinContent(theme, formatSize(expansionHeight))
         : slideOutMixinContent(
             theme,
-            `${expansionWidth}${Number.isFinite(expansionWidth) ? 'px' : ''}`,
+            formatSize(expansionWidth),
             gapToExpansion
           )),
     }
