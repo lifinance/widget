@@ -50,6 +50,9 @@ export const SearchInput = ({
                   onClick={onClear}
                   aria-label="Clear"
                   tabIndex={-1}
+                  sx={{
+                    padding: 0.5,
+                  }}
                 >
                   <ClearIcon fontSize={size} />
                 </IconButton>

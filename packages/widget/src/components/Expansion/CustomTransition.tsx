@@ -1,10 +1,10 @@
-import { useRef } from 'react'
+import { Box, keyframes } from '@mui/material'
+import { type PropsWithChildren, useRef } from 'react'
 import { Transition } from 'react-transition-group'
 
-const duration = 225
+export const animationDuration = 225
 
 const defaultStyle = {
-  transition: `opacity ${duration}ms ease-in-out, transform ${duration}ms ease-in-out`,
   opacity: 0,
   whiteSpace: 'nowrap',
   transform: 'translateX(-100%)',
@@ -12,39 +12,79 @@ const defaultStyle = {
   position: 'absolute' as const,
   top: 0,
   left: 0,
+  willChange: 'opacity, transform',
 }
 
+const slideIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`
+
+const slideOut = keyframes`
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+`
 const transitionStyles = {
-  entering: { opacity: 1, transform: 'translateX(0)' },
-  entered: { opacity: 1, transform: 'translateX(0)' },
-  exiting: { opacity: 0, transform: 'translateX(-100%)' },
-  exited: { opacity: 0, transform: 'translateX(-100%)' },
+  entering: {
+    animation: `${slideIn} ${animationDuration}ms ease-in-out`,
+  },
+  entered: {
+    opacity: 1,
+    transform: 'translateX(0)',
+  },
+  exiting: {
+    animation: `${slideOut} ${animationDuration}ms ease-in-out`,
+  },
+  exited: {
+    opacity: 0,
+    transform: 'translateX(-100%)',
+  },
+}
+
+interface CustomTransitionProps {
+  in: boolean
+  width?: number | string
+  onExited?: () => void
 }
 
 export function CustomTransition({
   in: inProp,
   children,
   width = 430,
-}: {
-  in: boolean
-  children: React.ReactNode
-  width?: number | string
-}) {
+  onExited,
+}: PropsWithChildren<CustomTransitionProps>) {
   const nodeRef = useRef(null)
   return (
-    <Transition nodeRef={nodeRef} in={inProp} timeout={duration}>
+    <Transition
+      nodeRef={nodeRef}
+      in={inProp}
+      timeout={animationDuration}
+      onExited={onExited}
+    >
       {(state) => {
         return (
-          <div
+          <Box
             ref={nodeRef}
             style={{
               ...defaultStyle,
               ...transitionStyles[state as keyof typeof transitionStyles],
-              width: width,
+              width,
             }}
           >
             {children}
-          </div>
+          </Box>
         )
       }}
     </Transition>

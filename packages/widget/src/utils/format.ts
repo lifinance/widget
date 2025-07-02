@@ -114,10 +114,3 @@ export function formatDuration(seconds: number, locale: string): string {
     unitDisplay: 'narrow',
   })
 }
-
-export function formatSize(size: number | string): string {
-  if (typeof size === 'number') {
-    return `${size}px`
-  }
-  return size
-}

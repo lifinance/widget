@@ -29,7 +29,7 @@ export const Input = styled(InputBase, {
       width: size === 'small' ? '1.25rem' : '1.5rem',
     },
   },
-  [`& .${inputAdornmentClasses.root}.MuiInputAdornment-positionEnd`]: {
+  [`& .${inputAdornmentClasses.root}.${inputAdornmentClasses.positionEnd}`]: {
     [`& .${svgIconClasses.root}`]: {
       width: size === 'small' ? '1rem' : '1.25rem',
       height: size === 'small' ? '1rem' : '1.25rem',

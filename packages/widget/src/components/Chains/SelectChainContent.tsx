@@ -1,18 +1,15 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { Box, debounce, useTheme } from '@mui/material'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { useDefaultElementId } from '../../hooks/useDefaultElementId'
-import { useHasChainExpansion } from '../../hooks/useHasChainExpansion'
 import { useScrollableContainer } from '../../hooks/useScrollableContainer'
 import { FormKeyHelper, type FormType } from '../../stores/form/types'
 import { useFieldValues } from '../../stores/form/useFieldValues'
-import { formatSize } from '../../utils/format'
 import { getWidgetMaxHeight } from '../../utils/widgetSize'
 import { useChainSelect } from '../ChainSelect/useChainSelect'
 import { FullPageContainer } from '../FullPageContainer'
-import { SearchInput, StickySearchInput } from '../Search/SearchInput'
 import { ChainList } from './ChainList'
+import { ChainSearchInput } from './ChainSearchInput'
 
 interface SelectChainContentProps {
   formType: FormType
@@ -27,7 +24,6 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = ({
   onSelect,
   inExpansion,
 }) => {
-  const { t } = useTranslation()
   const theme = useTheme()
   const { chains, isLoading } = useChainSelect(formType)
   const elementId = useDefaultElementId()
@@ -35,7 +31,6 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = ({
   const [selectedChainId] = useFieldValues(FormKeyHelper.getChainKey(formType))
   const inputRef = useRef<HTMLInputElement>(null)
   const listRef = useRef<HTMLUListElement>(null)
-  const isActiveChainExpansion = useHasChainExpansion()
   const [filteredChains, setFilteredChains] = useState<ExtendedChain[]>(
     chains ?? []
   )
@@ -50,20 +45,6 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = ({
       listRef.current.scrollTop = 0
     }
   }, [inExpansion, scrollableContainer])
-
-  const handleClear = useCallback(() => {
-    if (inputRef.current) {
-      inputRef.current.value = ''
-    }
-    setFilteredChains(chains ?? [])
-    scrollToTop()
-  }, [chains, scrollToTop])
-
-  useEffect(() => {
-    if (!isActiveChainExpansion) {
-      handleClear()
-    }
-  }, [isActiveChainExpansion, handleClear])
 
   const debouncedFilterChains = useMemo(
     () =>
@@ -85,30 +66,25 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = ({
 
   const listContainerHeight = useMemo(() => {
     const fullContainerHeight = getWidgetMaxHeight(theme)
-    const heightValue = formatSize(fullContainerHeight)
+    const heightValue =
+      typeof fullContainerHeight === 'number'
+        ? `${fullContainerHeight}px`
+        : fullContainerHeight
     return `calc(${heightValue} - ${searchHeaderHeight})`
   }, [theme])
 
   return (
     <FullPageContainer disableGutters>
-      {inExpansion ? (
-        <Box sx={{ pt: 3, pb: 2, px: 3, height: searchHeaderHeight }}>
-          <SearchInput
-            inputRef={inputRef}
-            onChange={() => debouncedFilterChains(chains ?? [])}
-            placeholder={t('main.searchChain')}
-            size="small"
-            onClear={handleClear}
-          />
-        </Box>
-      ) : (
-        <StickySearchInput
-          inputRef={inputRef}
-          onChange={() => debouncedFilterChains(chains ?? [])}
-          placeholder={t('main.searchChain')}
-          onClear={handleClear}
-        />
-      )}
+      <ChainSearchInput
+        inputRef={inputRef}
+        inExpansion={inExpansion}
+        onChange={() => debouncedFilterChains(chains ?? [])}
+        onClear={() => {
+          setFilteredChains(chains ?? [])
+          scrollToTop()
+        }}
+        searchHeaderHeight={searchHeaderHeight}
+      />
       <Box
         ref={listRef}
         sx={
