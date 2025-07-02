@@ -12,11 +12,11 @@
 
 ![GitHub_Repo_Card](https://github.com/user-attachments/assets/fc08ab8c-d7fb-41de-b478-c1e69c631a23)
 
-[**LI.FI Widget**](https://docs.li.fi/integrate-li.fi-widget/li.fi-widget-overview) is a set of prebuilt UI components that will help you integrate a secure cross-chain bridging and swapping experience that can be styled to match your web app design perfectly and helps drive your multi-chain strategy and attract new users from everywhere.
+[**LI.FI Widget**](https://docs.li.fi/widget/overview) is a set of prebuilt UI components that will help you integrate a secure cross-chain bridging and swapping experience that can be styled to match your web app design perfectly and helps drive your multi-chain strategy and attract new users from everywhere.
 
-[**LI.FI Widget**](https://docs.li.fi/integrate-li.fi-widget/li.fi-widget-overview) features include:
+[**LI.FI Widget**](https://docs.li.fi/widget/overview) features include:
 
-- All ecosystems, chains, bridges, exchanges, and solvers that [LI.FI](https://docs.li.fi/list-chains-bridges-dexs-solvers) supports
+- All ecosystems, chains, bridges, exchanges, and solvers that [LI.FI](https://docs.li.fi/introduction/chains) supports
 - Embeddable variants - compact, wide, and drawer
 - Options to allow or deny certain chains, tokens, bridges, and exchanges
 - Pre-configured themes and lots of customization options with dark mode support so you can match the look and feel of your web app 
