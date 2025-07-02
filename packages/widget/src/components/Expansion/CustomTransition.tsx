@@ -1,4 +1,4 @@
-import { Box, keyframes } from '@mui/material'
+import { Box } from '@mui/material'
 import { type PropsWithChildren, useRef } from 'react'
 import { Transition } from 'react-transition-group'
 
@@ -13,39 +13,21 @@ const defaultStyle = {
   top: 0,
   left: 0,
   willChange: 'opacity, transform',
+  transition: `opacity ${animationDuration}ms ease-in-out, transform ${animationDuration}ms ease-in-out`,
 }
 
-const slideIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-`
-
-const slideOut = keyframes`
-  from {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-`
 const transitionStyles = {
   entering: {
-    animation: `${slideIn} ${animationDuration}ms ease-in-out`,
+    opacity: 1,
+    transform: 'translateX(0)',
   },
   entered: {
     opacity: 1,
     transform: 'translateX(0)',
   },
   exiting: {
-    animation: `${slideOut} ${animationDuration}ms ease-in-out`,
+    opacity: 0,
+    transform: 'translateX(-100%)',
   },
   exited: {
     opacity: 0,
