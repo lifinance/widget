@@ -1,33 +1,30 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useHasChainExpansion } from '../../hooks/useHasChainExpansion'
+import { ChainsExpanded } from '../Chains/ChainsExpanded'
+import { chainExpansionWidth } from '../Chains/ChainsExpanded.style'
 import { RoutesExpanded } from '../Routes/RoutesExpanded'
 import { routesExpansionWidth } from '../Routes/RoutesExpanded.style'
-import { ChainsExpansion } from './ChainsExpansion'
-import { chainExpansionWidth } from './ChainsExpansion.style'
-import { ExpansionBox } from './Expansion.style'
-import { ExpansionSlideWrapper } from './ExpansionSlide.style'
 
-export const Expansion = () => {
+export function Expansion() {
+  const withChainExpansion = useHasChainExpansion()
+
   const [routesOpen, setRoutesOpen] = useState(false)
-  const chainsOpen = useHasChainExpansion()
-  const [nextWidth, setNextWidth] = useState('0px')
-
-  useEffect(() => {
-    if (routesOpen) {
-      setNextWidth(routesExpansionWidth)
-    } else if (chainsOpen) {
-      setNextWidth(chainExpansionWidth)
-    } else {
-      setNextWidth('0px')
-    }
-  }, [chainsOpen, routesOpen])
 
   return (
-    <ExpansionBox>
-      <ExpansionSlideWrapper expansionWidth={nextWidth}>
-        <RoutesExpanded setOpenExpansion={setRoutesOpen} />
-        <ChainsExpansion />
-      </ExpansionSlideWrapper>
-    </ExpansionBox>
+    <div
+      style={{
+        transition: 'width 225ms ease-in-out',
+        width: routesOpen
+          ? routesExpansionWidth
+          : withChainExpansion
+            ? chainExpansionWidth
+            : '0px',
+        position: 'relative',
+        marginLeft: '24px',
+      }}
+    >
+      <RoutesExpanded open={routesOpen} setOpenExpansion={setRoutesOpen} />
+      <ChainsExpanded open={withChainExpansion} />
+    </div>
   )
 }

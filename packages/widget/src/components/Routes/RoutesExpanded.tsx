@@ -13,7 +13,7 @@ import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { WidgetEvent } from '../../types/events.js'
 import { ExpansionType } from '../../types/widget.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { ExpansionSlide } from '../Expansion/ExpansionSlide.js'
+import { CustomTransition } from '../Expansion/CustomTransition'
 import { PageContainer } from '../PageContainer.js'
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js'
 import { RouteCard } from '../RouteCard/RouteCard.js'
@@ -25,14 +25,15 @@ import {
   ScrollableContainer,
   routesExpansionWidth,
 } from './RoutesExpanded.style.js'
-
-export const animationTimeout = { enter: 225, exit: 225, appear: 0 }
-
 interface RoutesExpandedProps {
   setOpenExpansion: (open: boolean) => void
+  open: boolean
 }
 
-export const RoutesExpanded = ({ setOpenExpansion }: RoutesExpandedProps) => {
+export const RoutesExpanded = ({
+  open,
+  setOpenExpansion,
+}: RoutesExpandedProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { subvariant, subvariantOptions } = useWidgetConfig()
@@ -79,10 +80,6 @@ export const RoutesExpanded = ({ setOpenExpansion }: RoutesExpandedProps) => {
 
   useEffect(() => {
     setOpenExpansion(expanded)
-    if (!expanded) {
-      // Clean routes cache on exit
-      routesRef.current = undefined
-    }
   }, [expanded, setOpenExpansion])
 
   const routeNotFound = !currentRoute && !isLoading && !isFetching && expanded
@@ -101,7 +98,7 @@ export const RoutesExpanded = ({ setOpenExpansion }: RoutesExpandedProps) => {
       : t('header.receive')
 
   return (
-    <ExpansionSlide open={expanded} expansionWidth={routesExpansionWidth}>
+    <CustomTransition in={open} width={routesExpansionWidth}>
       <Container enableColorScheme minimumHeight={isLoading}>
         <ScrollableContainer>
           <Header>
@@ -157,6 +154,6 @@ export const RoutesExpanded = ({ setOpenExpansion }: RoutesExpandedProps) => {
           </PageContainer>
         </ScrollableContainer>
       </Container>
-    </ExpansionSlide>
+    </CustomTransition>
   )
 }

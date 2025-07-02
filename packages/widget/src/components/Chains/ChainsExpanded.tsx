@@ -1,21 +1,23 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { useCallback } from 'react'
 import { useExpansionRoutes } from '../../hooks/useExpansionRoutes'
-import { useHasChainExpansion } from '../../hooks/useHasChainExpansion'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider'
 import { ExpansionType } from '../../types/widget'
 import { getWidgetMaxHeight } from '../../utils/widgetSize'
 import { useChainSelect } from '../ChainSelect/useChainSelect'
-import { SelectChainContent } from '../Chains/SelectChainContent'
+import { CustomTransition } from '../Expansion/CustomTransition'
 import {
   SelectChainExpansionContainer,
   chainExpansionWidth,
-} from './ChainsExpansion.style'
-import { ExpansionSlide } from './ExpansionSlide'
+} from './ChainsExpanded.style'
+import { SelectChainContent } from './SelectChainContent'
 
-export const ChainsExpansion = () => {
+interface ChainsExpandedProps {
+  open: boolean
+}
+
+export const ChainsExpanded = ({ open }: ChainsExpandedProps) => {
   const expansionType = useExpansionRoutes()
-  const withChainExpansion = useHasChainExpansion()
   const { theme } = useWidgetConfig()
 
   const formType = expansionType === ExpansionType.FromChain ? 'from' : 'to'
@@ -29,10 +31,7 @@ export const ChainsExpansion = () => {
   )
 
   return (
-    <ExpansionSlide
-      open={withChainExpansion}
-      expansionWidth={chainExpansionWidth}
-    >
+    <CustomTransition in={open} width={chainExpansionWidth}>
       <SelectChainExpansionContainer
         expansionHeight={getWidgetMaxHeight(theme)}
       >
@@ -42,6 +41,6 @@ export const ChainsExpansion = () => {
           onSelect={onSelect}
         />
       </SelectChainExpansionContainer>
-    </ExpansionSlide>
+    </CustomTransition>
   )
 }

@@ -787,7 +787,7 @@ importers:
         version: 5.81.2(react@19.1.0)
       '@wagmi/connectors':
         specifier: ^5.8.5
-        version: 5.8.5(@react-native-async-storage/async-storage@1.24.0(react-native@0.74.0(@babel/core@7.27.4)(@babel/preset-env@7.27.2(@babel/core@7.27.4))(@types/react@19.1.8)(bufferutil@4.0.9)(encoding@0.1.13)(react@19.1.0)(utf-8-validate@5.0.10)))(@types/react@19.1.8)(@wagmi/core@2.17.3(@tanstack/query-core@5.81.2)(@types/react@19.1.8)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.4.0(react@19.1.0))(viem@2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)))(bufferutil@4.0.9)(db0@0.3.2)(encoding@0.1.13)(ioredis@5.6.1)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(zod@3.25.67)
+        version: 5.8.5(@react-native-async-storage/async-storage@1.24.0(react-native@0.74.0(@babel/core@7.27.4)(@babel/preset-env@7.27.2(@babel/core@7.27.4))(@types/react@19.1.8)(bufferutil@4.0.9)(encoding@0.1.13)(react@19.1.0)(utf-8-validate@5.0.10)))(@types/react@19.1.8)(@wagmi/core@2.17.3(@tanstack/query-core@5.81.2)(@types/react@19.1.8)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.5.0(react@19.1.0))(viem@2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)))(bufferutil@4.0.9)(db0@0.3.2)(encoding@0.1.13)(ioredis@5.6.1)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(zod@3.25.67)
       events:
         specifier: ^3.3.0
         version: 3.3.0
@@ -1071,6 +1071,9 @@ importers:
       react-router-dom:
         specifier: ^6.30.0
         version: 6.30.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      react-transition-group:
+        specifier: ^4.4.5
+        version: 4.4.5(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       viem:
         specifier: ^2.31.4
         version: 2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)
@@ -1081,6 +1084,9 @@ importers:
         specifier: ^5.0.5
         version: 5.0.5(@types/react@19.1.8)(react@19.1.0)(use-sync-external-store@1.5.0(react@19.1.0))
     devDependencies:
+      '@types/react-transition-group':
+        specifier: ^4.4.12
+        version: 4.4.12(@types/react@19.1.8)
       cpy-cli:
         specifier: ^5.0.0
         version: 5.0.0
@@ -19869,7 +19875,7 @@ snapshots:
       viem: 2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)
       wagmi: 2.15.6(@react-native-async-storage/async-storage@1.24.0(react-native@0.74.0(@babel/core@7.27.4)(@babel/preset-env@7.27.2(@babel/core@7.27.4))(@types/react@19.1.8)(bufferutil@4.0.9)(encoding@0.1.13)(react@19.1.0)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.81.2)(@tanstack/react-query@5.81.2(react@19.1.0))(@types/react@19.1.8)(bufferutil@4.0.9)(db0@0.3.2)(encoding@0.1.13)(ioredis@5.6.1)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(zod@3.25.67)
     optionalDependencies:
-      '@wagmi/connectors': 5.8.5(@react-native-async-storage/async-storage@1.24.0(react-native@0.74.0(@babel/core@7.27.4)(@babel/preset-env@7.27.2(@babel/core@7.27.4))(@types/react@19.1.8)(bufferutil@4.0.9)(encoding@0.1.13)(react@19.1.0)(utf-8-validate@5.0.10)))(@types/react@19.1.8)(@wagmi/core@2.17.3(@tanstack/query-core@5.81.2)(@types/react@19.1.8)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.4.0(react@19.1.0))(viem@2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)))(bufferutil@4.0.9)(db0@0.3.2)(encoding@0.1.13)(ioredis@5.6.1)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(zod@3.25.67)
+      '@wagmi/connectors': 5.8.5(@react-native-async-storage/async-storage@1.24.0(react-native@0.74.0(@babel/core@7.27.4)(@babel/preset-env@7.27.2(@babel/core@7.27.4))(@types/react@19.1.8)(bufferutil@4.0.9)(encoding@0.1.13)(react@19.1.0)(utf-8-validate@5.0.10)))(@types/react@19.1.8)(@wagmi/core@2.17.3(@tanstack/query-core@5.81.2)(@types/react@19.1.8)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.5.0(react@19.1.0))(viem@2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)))(bufferutil@4.0.9)(db0@0.3.2)(encoding@0.1.13)(ioredis@5.6.1)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(zod@3.25.67)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -22406,7 +22412,7 @@ snapshots:
 
   '@vue/shared@3.5.17': {}
 
-  '@wagmi/connectors@5.8.5(@react-native-async-storage/async-storage@1.24.0(react-native@0.74.0(@babel/core@7.27.4)(@babel/preset-env@7.27.2(@babel/core@7.27.4))(@types/react@19.1.8)(bufferutil@4.0.9)(encoding@0.1.13)(react@19.1.0)(utf-8-validate@5.0.10)))(@types/react@19.1.8)(@wagmi/core@2.17.3(@tanstack/query-core@5.81.2)(@types/react@19.1.8)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.4.0(react@19.1.0))(viem@2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)))(bufferutil@4.0.9)(db0@0.3.2)(encoding@0.1.13)(ioredis@5.6.1)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(zod@3.25.67)':
+  '@wagmi/connectors@5.8.5(@react-native-async-storage/async-storage@1.24.0(react-native@0.74.0(@babel/core@7.27.4)(@babel/preset-env@7.27.2(@babel/core@7.27.4))(@types/react@19.1.8)(bufferutil@4.0.9)(encoding@0.1.13)(react@19.1.0)(utf-8-validate@5.0.10)))(@types/react@19.1.8)(@wagmi/core@2.17.3(@tanstack/query-core@5.81.2)(@types/react@19.1.8)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.5.0(react@19.1.0))(viem@2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)))(bufferutil@4.0.9)(db0@0.3.2)(encoding@0.1.13)(ioredis@5.6.1)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(zod@3.25.67)':
     dependencies:
       '@coinbase/wallet-sdk': 4.3.3
       '@metamask/sdk': 0.32.0(bufferutil@4.0.9)(encoding@0.1.13)(utf-8-validate@5.0.10)
@@ -26867,7 +26873,7 @@ snapshots:
 
   extension-port-stream@3.0.0:
     dependencies:
-      readable-stream: 3.6.2
+      readable-stream: 4.7.0
       webextension-polyfill: 0.10.0
 
   external-editor@3.1.0:
@@ -33255,7 +33261,7 @@ snapshots:
   wagmi@2.15.6(@react-native-async-storage/async-storage@1.24.0(react-native@0.74.0(@babel/core@7.27.4)(@babel/preset-env@7.27.2(@babel/core@7.27.4))(@types/react@19.1.8)(bufferutil@4.0.9)(encoding@0.1.13)(react@19.1.0)(utf-8-validate@5.0.10)))(@tanstack/query-core@5.81.2)(@tanstack/react-query@5.81.2(react@19.1.0))(@types/react@19.1.8)(bufferutil@4.0.9)(db0@0.3.2)(encoding@0.1.13)(ioredis@5.6.1)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(zod@3.25.67):
     dependencies:
       '@tanstack/react-query': 5.81.2(react@19.1.0)
-      '@wagmi/connectors': 5.8.5(@react-native-async-storage/async-storage@1.24.0(react-native@0.74.0(@babel/core@7.27.4)(@babel/preset-env@7.27.2(@babel/core@7.27.4))(@types/react@19.1.8)(bufferutil@4.0.9)(encoding@0.1.13)(react@19.1.0)(utf-8-validate@5.0.10)))(@types/react@19.1.8)(@wagmi/core@2.17.3(@tanstack/query-core@5.81.2)(@types/react@19.1.8)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.4.0(react@19.1.0))(viem@2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)))(bufferutil@4.0.9)(db0@0.3.2)(encoding@0.1.13)(ioredis@5.6.1)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(zod@3.25.67)
+      '@wagmi/connectors': 5.8.5(@react-native-async-storage/async-storage@1.24.0(react-native@0.74.0(@babel/core@7.27.4)(@babel/preset-env@7.27.2(@babel/core@7.27.4))(@types/react@19.1.8)(bufferutil@4.0.9)(encoding@0.1.13)(react@19.1.0)(utf-8-validate@5.0.10)))(@types/react@19.1.8)(@wagmi/core@2.17.3(@tanstack/query-core@5.81.2)(@types/react@19.1.8)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.5.0(react@19.1.0))(viem@2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67)))(bufferutil@4.0.9)(db0@0.3.2)(encoding@0.1.13)(ioredis@5.6.1)(react@19.1.0)(typescript@5.8.3)(utf-8-validate@5.0.10)(viem@2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))(zod@3.25.67)
       '@wagmi/core': 2.17.3(@tanstack/query-core@5.81.2)(@types/react@19.1.8)(react@19.1.0)(typescript@5.8.3)(use-sync-external-store@1.5.0(react@19.1.0))(viem@2.31.4(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.67))
       react: 19.1.0
       use-sync-external-store: 1.4.0(react@19.1.0)
