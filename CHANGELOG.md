@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.24.0](https://github.com/lifinance/widget/compare/v3.23.0...v3.24.0) (2025-07-02)
+
+
+### Features
+
+* add fit-content option for widget container ([#404](https://github.com/lifinance/widget/issues/404)) ([bc90dd4](https://github.com/lifinance/widget/commit/bc90dd430f30c3eac9027fd6b3d416e7e8331aed))
+* add optional filter for wallets in modal ([#414](https://github.com/lifinance/widget/issues/414)) ([348167f](https://github.com/lifinance/widget/commit/348167fa346b69db4975536d1d5dff36ea1da7c3))
+* add token details drawer ([#423](https://github.com/lifinance/widget/issues/423)) ([a7f3b8b](https://github.com/lifinance/widget/commit/a7f3b8b772d668e5adb6778079d9155f4d6d473a))
+* implement separate token filtering for from/to lists  ([#444](https://github.com/lifinance/widget/issues/444)) ([41732ff](https://github.com/lifinance/widget/commit/41732ff29b24fa37d49cea937ec5195d804be948))
+* restyled connect wallet view ([#418](https://github.com/lifinance/widget/issues/418)) ([8149607](https://github.com/lifinance/widget/commit/8149607a65d760a61437865f32b603b199575847))
+
+
+### Bug Fixes
+
+* adjust show all transactions button styles ([#411](https://github.com/lifinance/widget/issues/411)) ([9932617](https://github.com/lifinance/widget/commit/9932617d50905f8b14db4c77e0e84afb86ad159f))
+* adjust themed status color for processes and bottom sheet ([#448](https://github.com/lifinance/widget/issues/448)) ([f227803](https://github.com/lifinance/widget/commit/f2278037a31373c8b047e13ab0157f854350c802))
+* cutoff corners on full height ([#445](https://github.com/lifinance/widget/issues/445)) ([c9a40b5](https://github.com/lifinance/widget/commit/c9a40b527ff3a2321b24cdc294150a119957c9b6))
+* format long bridging times ([#431](https://github.com/lifinance/widget/issues/431)) ([b12e93b](https://github.com/lifinance/widget/commit/b12e93b78bdf4776ae21bb56fe00c62c85bc025e))
+* missing highlight on Azure theme ([#426](https://github.com/lifinance/widget/issues/426)) ([6539e91](https://github.com/lifinance/widget/commit/6539e91a27ddf4c2f48e1ab5069d7939e4a91013))
+* send to wallet adjustments ([#415](https://github.com/lifinance/widget/issues/415)) ([1cab928](https://github.com/lifinance/widget/commit/1cab928a3a941aa71c428a75c87bc17ce5b9df0a))
+* update height setting for restricted heights ([#436](https://github.com/lifinance/widget/issues/436)) ([1395bc6](https://github.com/lifinance/widget/commit/1395bc613532d2435df82efa7decdfff9b689834))
+* wallet toggle, add cache cleaning command ([#437](https://github.com/lifinance/widget/issues/437)) ([8b71caa](https://github.com/lifinance/widget/commit/8b71caa94ce9ace7548127857c7add636e223c03))
+
 ### [3.23.3](https://github.com/lifinance/widget/compare/v3.23.1-alpha.0...v3.23.3) (2025-06-06)
 
 
