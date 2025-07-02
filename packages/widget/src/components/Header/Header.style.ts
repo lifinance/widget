@@ -34,6 +34,7 @@ export const Container = styled(Box, {
     gap: theme.spacing(0.5),
     padding: theme.spacing(1.5, 3, 1.5, 3),
     overflow: 'auto',
+    borderRadius: theme.container?.borderRadius ?? 0,
     ...theme.header,
     ...(theme.header?.position === 'fixed'
       ? {

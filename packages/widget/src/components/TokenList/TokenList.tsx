@@ -45,7 +45,7 @@ export const TokenList: FC<TokenListProps> = ({
     isBalanceLoading,
     featuredTokens,
     popularTokens,
-  } = useTokenBalances(selectedChainId)
+  } = useTokenBalances(selectedChainId, formType)
 
   let filteredTokens = (tokensWithBalance ?? chainTokens ?? []) as TokenAmount[]
   const normalizedSearchFilter = tokenSearchFilter?.replaceAll('$', '')
@@ -73,7 +73,12 @@ export const TokenList: FC<TokenListProps> = ({
     !!selectedChainId
 
   const { token: searchedToken, isLoading: isSearchedTokenLoading } =
-    useTokenSearch(selectedChainId, normalizedSearchFilter, tokenSearchEnabled)
+    useTokenSearch(
+      selectedChainId,
+      normalizedSearchFilter,
+      tokenSearchEnabled,
+      formType
+    )
 
   const isLoading =
     isTokensLoading ||

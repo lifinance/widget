@@ -1,6 +1,6 @@
 <div align="center">
 
-[![license](https://img.shields.io/badge/license-Apache%202-blue)](/LICENSE.md)
+[![license](https://img.shields.io/github/license/lifinance/widget)](/LICENSE)
 [![npm latest package](https://img.shields.io/npm/v/@lifi/widget/latest.svg)](https://www.npmjs.com/package/@lifi/widget)
 [![npm downloads](https://img.shields.io/npm/dm/@lifi/widget.svg)](https://www.npmjs.com/package/@lifi/widget)
 [![Crowdin](https://badges.crowdin.net/lifi-widget/localized.svg)](https://crowdin.com/project/lifi-widget)
@@ -10,13 +10,13 @@
 
 <h1 align="center">LI.FI Widget</h1>
 
-![GitHub_Repo_Card](https://github.com/lifinance/widget/assets/18644653/aff106d6-2835-478a-b1f5-60970051473f)
+![GitHub_Repo_Card](https://github.com/user-attachments/assets/fc08ab8c-d7fb-41de-b478-c1e69c631a23)
 
-[**LI.FI Widget**](https://docs.li.fi/integrate-li.fi-widget/li.fi-widget-overview) is a set of prebuilt UI components that will help you integrate a secure cross-chain bridging and swapping experience that can be styled to match your web app design perfectly and helps drive your multi-chain strategy and attract new users from everywhere.
+[**LI.FI Widget**](https://docs.li.fi/widget/overview) is a set of prebuilt UI components that will help you integrate a secure cross-chain bridging and swapping experience that can be styled to match your web app design perfectly and helps drive your multi-chain strategy and attract new users from everywhere.
 
-[**LI.FI Widget**](https://docs.li.fi/integrate-li.fi-widget/li.fi-widget-overview) features include:
+[**LI.FI Widget**](https://docs.li.fi/widget/overview) features include:
 
-- All ecosystems, chains, bridges, exchanges, and solvers that [LI.FI](https://docs.li.fi/list-chains-bridges-dexs-solvers) supports
+- All ecosystems, chains, bridges, exchanges, and solvers that [LI.FI](https://docs.li.fi/introduction/chains) supports
 - Embeddable variants - compact, wide, and drawer
 - Options to allow or deny certain chains, tokens, bridges, and exchanges
 - Pre-configured themes and lots of customization options with dark mode support so you can match the look and feel of your web app 
@@ -103,13 +103,17 @@ export const WidgetPage = () => {
 };
 ```
 
+Please refer to our [documentation](https://docs.li.fi/widget/compatibility) if you encounter any issues with importing.
+
+You can also refer to the [examples](/examples) folder in this repository to see how to import the widget in your specific context.
+
 ## Examples
 
 Visit our [playground](https://playground.li.fi) to see how you can customize your [LI.FI Widget](https://www.npmjs.com/package/@lifi/widget) experience. Additionally, see [examples](/examples) folder in this repository.
 
 ## Documentation
 
-Please visit [LI.FI Widget Documentation](https://docs.li.fi/integrate-li.fi-widget/li.fi-widget-overview).
+Please visit [LI.FI Widget Documentation](https://docs.li.fi/widget/install-widget).
 
 ## Contributing Translations
 

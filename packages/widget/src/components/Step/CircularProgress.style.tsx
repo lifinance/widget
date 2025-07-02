@@ -24,29 +24,37 @@ const getStatusColor = (
     case 'FAILED':
       return `rgba(${theme.vars.palette.error.mainChannel} / 0.12)`
     default:
-      return theme.vars.palette.grey[theme.palette.mode === 'light' ? 300 : 800]
+      return null
   }
 }
 
 export const CircularIcon = styled(Box, {
   shouldForwardProp: (prop: string) => !['status', 'substatus'].includes(prop),
 })<{ status?: ProcessStatus; substatus?: Substatus }>(
-  ({ theme, status, substatus }) => ({
-    backgroundColor: ['ACTION_REQUIRED', 'DONE', 'FAILED'].includes(status!)
-      ? getStatusColor(theme, status, substatus)
-      : theme.vars.palette.background.paper,
-    borderStyle: 'solid',
-    borderColor: getStatusColor(theme, status, substatus),
-    borderWidth: !['ACTION_REQUIRED', 'DONE', 'FAILED'].includes(status!)
-      ? 3
-      : 0,
-    display: 'grid',
-    position: 'relative',
-    placeItems: 'center',
-    width: 40,
-    height: 40,
-    borderRadius: '50%',
-  })
+  ({ theme, status, substatus }) => {
+    const statusColor = getStatusColor(theme, status, substatus)
+    const isSpecialStatus = ['ACTION_REQUIRED', 'DONE', 'FAILED'].includes(
+      status!
+    )
+
+    return {
+      backgroundColor: isSpecialStatus
+        ? statusColor!
+        : theme.vars.palette.background.paper,
+      borderStyle: 'solid',
+      borderColor: statusColor || theme.vars.palette.grey[300],
+      borderWidth: !isSpecialStatus ? 3 : 0,
+      display: 'grid',
+      position: 'relative',
+      placeItems: 'center',
+      width: 40,
+      height: 40,
+      borderRadius: '50%',
+      ...theme.applyStyles('dark', {
+        borderColor: statusColor || theme.vars.palette.grey[800],
+      }),
+    }
+  }
 )
 
 const circleAnimation = keyframes`
