@@ -10,7 +10,7 @@
 
 <h1 align="center">LI.FI Widget</h1>
 
-![GitHub_Repo_Card](https://github.com/lifinance/widget/assets/18644653/aff106d6-2835-478a-b1f5-60970051473f)
+![GitHub_Repo_Card](https://github.com/user-attachments/assets/fc08ab8c-d7fb-41de-b478-c1e69c631a23)
 
 [**LI.FI Widget**](https://docs.li.fi/integrate-li.fi-widget/li.fi-widget-overview) is a set of prebuilt UI components that will help you integrate a secure cross-chain bridging and swapping experience that can be styled to match your web app design perfectly and helps drive your multi-chain strategy and attract new users from everywhere.
 
