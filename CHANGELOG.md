@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.24.1](https://github.com/lifinance/widget/compare/v3.24.0...v3.24.1) (2025-07-02)
+
+
+### Bug Fixes
+
+* export createTheme function ([121372b](https://github.com/lifinance/widget/commit/121372b3a8efc2ef27e0155de80bb819204ad4e6))
+
 ## [3.24.0](https://github.com/lifinance/widget/compare/v3.23.0...v3.24.0) (2025-07-02)
 
 
