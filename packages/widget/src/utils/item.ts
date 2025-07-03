@@ -24,10 +24,32 @@ export const isTokenAllowed = (
   configTokens: WidgetTokens | undefined,
   formType: FormType | undefined
 ) => {
+  if (!configTokens) {
+    return true
+  }
+
+  const filteredByChainConfig = {
+    ...configTokens,
+    allow: configTokens.allow?.filter((t) => t.chainId === token.chainId) ?? [],
+    deny: configTokens.deny?.filter((t) => t.chainId === token.chainId) ?? [],
+    ...(formType && {
+      [formType]: {
+        allow:
+          configTokens[formType]?.allow?.filter(
+            (t) => t.chainId === token.chainId
+          ) ?? [],
+        deny:
+          configTokens[formType]?.deny?.filter(
+            (t) => t.chainId === token.chainId
+          ) ?? [],
+      },
+    }),
+  }
+
   return (
-    isItemAllowed(token, configTokens, tokenIncludes) &&
+    isItemAllowed(token, filteredByChainConfig, tokenIncludes) &&
     (formType
-      ? isItemAllowed(token, configTokens?.[formType], tokenIncludes)
+      ? isItemAllowed(token, filteredByChainConfig?.[formType], tokenIncludes)
       : true)
   )
 }
