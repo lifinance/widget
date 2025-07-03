@@ -1,6 +1,5 @@
 import { Box } from '@mui/material'
 import { useCallback, useMemo, useState } from 'react'
-import { useExpansionRoutes } from '../../hooks/useExpansionRoutes'
 import { useHasChainExpansion } from '../../hooks/useHasChainExpansion'
 import { ExpansionType } from '../../types/widget'
 import { ChainsExpanded } from '../Chains/ChainsExpanded'
@@ -10,8 +9,7 @@ import { routesExpansionWidth } from '../Routes/RoutesExpanded.style'
 import { animationDuration } from './CustomTransition'
 
 export function Expansion() {
-  const expansionType = useExpansionRoutes()
-  const withChainExpansion = useHasChainExpansion()
+  const [withChainExpansion, expansionType] = useHasChainExpansion()
 
   const [routesOpen, setRoutesOpen] = useState(false)
 

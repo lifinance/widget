@@ -8,10 +8,11 @@ export const useHasChainExpansion = () => {
   const swapOnly = useSwapOnly()
   const expansionType = useExpansionRoutes()
 
-  return (
+  const withChainExpansion =
     (expansionType === ExpansionType.FromChain ||
       expansionType === ExpansionType.ToChain) &&
     !(swapOnly && expansionType === ExpansionType.ToChain) &&
     !hiddenUI?.includes(HiddenUI.ChainSelect)
-  )
+
+  return [withChainExpansion, expansionType] as const
 }

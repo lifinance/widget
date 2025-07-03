@@ -54,6 +54,8 @@ export function CustomTransition({
       in={inProp}
       timeout={animationDuration}
       onExited={onExited}
+      mountOnEnter
+      unmountOnExit
     >
       {(state) => {
         return (

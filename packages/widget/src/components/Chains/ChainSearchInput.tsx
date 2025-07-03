@@ -21,7 +21,7 @@ export const ChainSearchInput = ({
   searchHeaderHeight,
 }: ChainSearchInputProps) => {
   const { t } = useTranslation()
-  const isActiveChainExpansion = useHasChainExpansion()
+  const [isActiveChainExpansion] = useHasChainExpansion()
 
   const handleClear = useCallback(() => {
     if (inputRef.current) {

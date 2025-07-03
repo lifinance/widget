@@ -13,7 +13,7 @@ import { ChainSearchInput } from './ChainSearchInput'
 
 interface SelectChainContentProps {
   formType: FormType
-  onSelect: (chain: ExtendedChain) => void
+  onSelect?: (chain: ExtendedChain) => void
   inExpansion: boolean
 }
 
@@ -25,7 +25,7 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = ({
   inExpansion,
 }) => {
   const theme = useTheme()
-  const { chains, isLoading } = useChainSelect(formType)
+  const { chains, isLoading, setCurrentChain } = useChainSelect(formType)
   const elementId = useDefaultElementId()
   const scrollableContainer = useScrollableContainer(elementId)
   const [selectedChainId] = useFieldValues(FormKeyHelper.getChainKey(formType))
@@ -57,6 +57,13 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = ({
         scrollToTop()
       }, 250),
     [scrollToTop]
+  )
+
+  const onSelectChainFallback = useCallback(
+    (chain: ExtendedChain) => {
+      setCurrentChain(chain.id)
+    },
+    [setCurrentChain]
   )
 
   useEffect(() => {
@@ -94,7 +101,7 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = ({
         <ChainList
           chains={filteredChains}
           isLoading={isLoading}
-          onSelect={onSelect}
+          onSelect={onSelect ?? onSelectChainFallback}
           selectedChainId={selectedChainId}
           itemsSize={inExpansion ? 'small' : 'medium'}
           adjustForStickySearchInput={!inExpansion}
