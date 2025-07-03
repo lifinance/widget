@@ -24,32 +24,36 @@ export const isTokenAllowed = (
   configTokens: WidgetTokens | undefined,
   formType: FormType | undefined
 ) => {
+  return (
+    isItemAllowed(token, configTokens, tokenIncludes) &&
+    (formType
+      ? isItemAllowed(token, configTokens?.[formType], tokenIncludes)
+      : true)
+  )
+}
+
+export const filterConfigTokensByChain = (
+  configTokens: WidgetTokens | undefined,
+  formType: FormType | undefined,
+  chainId: number
+) => {
   if (!configTokens) {
-    return true
+    return configTokens
   }
 
-  const filteredByChainConfig = {
+  return {
     ...configTokens,
-    allow: configTokens.allow?.filter((t) => t.chainId === token.chainId) ?? [],
-    deny: configTokens.deny?.filter((t) => t.chainId === token.chainId) ?? [],
+    allow: configTokens.allow?.filter((t) => t.chainId === chainId) ?? [],
+    deny: configTokens.deny?.filter((t) => t.chainId === chainId) ?? [],
     ...(formType && {
       [formType]: {
         allow:
-          configTokens[formType]?.allow?.filter(
-            (t) => t.chainId === token.chainId
-          ) ?? [],
+          configTokens[formType]?.allow?.filter((t) => t.chainId === chainId) ??
+          [],
         deny:
-          configTokens[formType]?.deny?.filter(
-            (t) => t.chainId === token.chainId
-          ) ?? [],
+          configTokens[formType]?.deny?.filter((t) => t.chainId === chainId) ??
+          [],
       },
     }),
   }
-
-  return (
-    isItemAllowed(token, filteredByChainConfig, tokenIncludes) &&
-    (formType
-      ? isItemAllowed(token, filteredByChainConfig?.[formType], tokenIncludes)
-      : true)
-  )
 }
