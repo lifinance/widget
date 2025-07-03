@@ -31,3 +31,29 @@ export const isTokenAllowed = (
       : true)
   )
 }
+
+export const filterConfigTokensByChain = (
+  configTokens: WidgetTokens | undefined,
+  formType: FormType | undefined,
+  chainId: number
+) => {
+  if (!configTokens) {
+    return configTokens
+  }
+
+  return {
+    ...configTokens,
+    allow: configTokens.allow?.filter((t) => t.chainId === chainId) ?? [],
+    deny: configTokens.deny?.filter((t) => t.chainId === chainId) ?? [],
+    ...(formType && {
+      [formType]: {
+        allow:
+          configTokens[formType]?.allow?.filter((t) => t.chainId === chainId) ??
+          [],
+        deny:
+          configTokens[formType]?.deny?.filter((t) => t.chainId === chainId) ??
+          [],
+      },
+    }),
+  }
+}
