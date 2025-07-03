@@ -13,7 +13,7 @@ const defaultStyle = {
   top: 0,
   left: 0,
   willChange: 'opacity, transform',
-  transition: `opacity ${animationDuration}ms ease-in-out, transform ${animationDuration}ms ease-in-out`,
+  transition: `opacity ${animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1), transform ${animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`,
 }
 
 const transitionStyles = {

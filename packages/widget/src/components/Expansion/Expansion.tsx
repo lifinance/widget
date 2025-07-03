@@ -34,7 +34,7 @@ export function Expansion() {
         position: 'relative',
         display: 'flex',
         marginLeft: '24px',
-        transition: `width ${animationDuration}ms ease-in-out`,
+        transition: `width ${animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`,
         width: boxWidth,
         willChange: 'width',
       }}
