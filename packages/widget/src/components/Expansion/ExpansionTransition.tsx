@@ -3,6 +3,7 @@ import { type PropsWithChildren, useRef } from 'react'
 import { Transition } from 'react-transition-group'
 
 export const animationDuration = 225
+const offsetFromWidget = '24px'
 
 const defaultStyle = {
   opacity: 0,
@@ -19,11 +20,11 @@ const defaultStyle = {
 const transitionStyles = {
   entering: {
     opacity: 1,
-    transform: 'translateX(0)',
+    transform: `translateX(${offsetFromWidget})`,
   },
   entered: {
     opacity: 1,
-    transform: 'translateX(0)',
+    transform: `translateX(${offsetFromWidget})`,
   },
   exiting: {
     opacity: 0,
@@ -35,18 +36,18 @@ const transitionStyles = {
   },
 }
 
-interface CustomTransitionProps {
+interface ExpansionTransitionProps {
   in: boolean
-  width?: number | string
+  width: string
   onExited?: () => void
 }
 
-export function CustomTransition({
+export function ExpansionTransition({
   in: inProp,
   children,
-  width = 430,
+  width,
   onExited,
-}: PropsWithChildren<CustomTransitionProps>) {
+}: PropsWithChildren<ExpansionTransitionProps>) {
   const nodeRef = useRef(null)
   return (
     <Transition

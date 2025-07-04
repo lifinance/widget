@@ -1,17 +1,18 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { Skeleton } from '@mui/material'
-import { useMemo, useRef } from 'react'
+import type { RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SearchNotFound } from '../Search/SearchNotFound'
 import {
-  Avatar,
   List,
   ListItemAvatar,
   ListItemButton,
   ListItemText,
 } from './ChainList.style'
+import { VirtualizedChainList } from './VirtualizedChainList'
 
 interface ChainListProps {
+  parentRef: RefObject<HTMLDivElement | null>
   chains: ExtendedChain[]
   onSelect: (chain: ExtendedChain) => void
   selectedChainId?: number
@@ -21,6 +22,7 @@ interface ChainListProps {
 }
 
 export const ChainList = ({
+  parentRef,
   chains,
   onSelect,
   selectedChainId,
@@ -29,17 +31,6 @@ export const ChainList = ({
   adjustForStickySearchInput,
 }: ChainListProps) => {
   const { t } = useTranslation()
-
-  const initialSelectedChainIdRef = useRef(selectedChainId)
-  const sortedChains = useMemo(() => {
-    const selectedChain = chains.find(
-      (chain) => chain.id === initialSelectedChainIdRef.current
-    )
-    const otherChains = chains.filter(
-      (chain) => chain.id !== initialSelectedChainIdRef.current
-    )
-    return selectedChain ? [selectedChain, ...otherChains] : chains
-  }, [chains])
 
   if (isLoading) {
     return (
@@ -74,7 +65,7 @@ export const ChainList = ({
     )
   }
 
-  if (!sortedChains.length) {
+  if (!chains.length) {
     return (
       <SearchNotFound
         message={t('info.message.emptyChainList')}
@@ -84,22 +75,12 @@ export const ChainList = ({
   }
 
   return (
-    <List className="long-list" disablePadding>
-      {sortedChains.map((chain) => (
-        <ListItemButton
-          key={chain.id}
-          onClick={() => onSelect(chain)}
-          selected={chain.id === selectedChainId}
-          size={itemsSize}
-        >
-          <ListItemAvatar size={itemsSize}>
-            <Avatar src={chain.logoURI} alt={chain.name} size={itemsSize}>
-              {chain.name[0]}
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary={chain.name} size={itemsSize} />
-        </ListItemButton>
-      ))}
-    </List>
+    <VirtualizedChainList
+      scrollElementRef={parentRef}
+      chains={chains}
+      onSelect={onSelect}
+      selectedChainId={selectedChainId}
+      itemsSize={itemsSize}
+    />
   )
 }

@@ -1,6 +1,6 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { Box, debounce, useTheme } from '@mui/material'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { useDefaultElementId } from '../../hooks/useDefaultElementId'
 import { useScrollableContainer } from '../../hooks/useScrollableContainer'
 import { FormKeyHelper, type FormType } from '../../stores/form/types'
@@ -30,7 +30,7 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = ({
   const scrollableContainer = useScrollableContainer(elementId)
   const [selectedChainId] = useFieldValues(FormKeyHelper.getChainKey(formType))
   const inputRef = useRef<HTMLInputElement>(null)
-  const listRef = useRef<HTMLUListElement>(null)
+  const listRef = useRef<HTMLDivElement>(null)
   const [filteredChains, setFilteredChains] = useState<ExtendedChain[]>(
     chains ?? []
   )
@@ -66,10 +66,10 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = ({
     [setCurrentChain]
   )
 
-  useEffect(() => {
-    // When chains are loaded or change, filter with current input value
-    debouncedFilterChains(chains ?? [])
-  }, [chains, debouncedFilterChains])
+  const onClear = useCallback(() => {
+    setFilteredChains(chains ?? [])
+    scrollToTop()
+  }, [chains, scrollToTop])
 
   const listContainerHeight = useMemo(() => {
     const fullContainerHeight = getWidgetMaxHeight(theme)
@@ -86,10 +86,7 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = ({
         inputRef={inputRef}
         inExpansion={inExpansion}
         onChange={() => debouncedFilterChains(chains ?? [])}
-        onClear={() => {
-          setFilteredChains(chains ?? [])
-          scrollToTop()
-        }}
+        onClear={onClear}
         searchHeaderHeight={searchHeaderHeight}
       />
       <Box
@@ -99,6 +96,7 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = ({
         }
       >
         <ChainList
+          parentRef={listRef}
           chains={filteredChains}
           isLoading={isLoading}
           onSelect={onSelect ?? onSelectChainFallback}

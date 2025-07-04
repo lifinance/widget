@@ -6,14 +6,13 @@ import { ChainsExpanded } from '../Chains/ChainsExpanded'
 import { chainExpansionWidth } from '../Chains/ChainsExpanded.style'
 import { RoutesExpanded } from '../Routes/RoutesExpanded'
 import { routesExpansionWidth } from '../Routes/RoutesExpanded.style'
-import { animationDuration } from './CustomTransition'
+import { animationDuration } from './ExpansionTransition'
 
 export function Expansion() {
   const [withChainExpansion, expansionType] = useHasChainExpansion()
 
   const [routesOpen, setRoutesOpen] = useState(false)
 
-  // Memoize the setter function to prevent unnecessary re-renders
   const handleSetRoutesOpen = useCallback((open: boolean) => {
     setRoutesOpen(open)
   }, [])
@@ -31,7 +30,6 @@ export function Expansion() {
       sx={{
         position: 'relative',
         display: 'flex',
-        marginLeft: '24px',
         transition: `width ${animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`,
         width: boxWidth,
         willChange: 'width',

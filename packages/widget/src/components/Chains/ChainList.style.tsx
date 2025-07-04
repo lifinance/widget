@@ -1,4 +1,5 @@
 import {
+  ListItem as ListItemBase,
   Avatar as MuiAvatar,
   List as MuiList,
   ListItemAvatar as MuiListItemAvatar,
@@ -52,4 +53,10 @@ export const List = styled(MuiList)(({ theme }) => ({
   marginRight: theme.spacing(1.5),
   marginBottom: theme.spacing(1.5),
   cursor: 'pointer',
+}))
+
+export const ListItem = styled(ListItemBase)(() => ({
+  position: 'absolute',
+  top: 0,
+  left: 0,
 }))
