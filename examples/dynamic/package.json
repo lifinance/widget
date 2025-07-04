@@ -12,7 +12,7 @@
     "@bigmi/client": "^0.4.0-beta.2",
     "@bigmi/react": "^0.4.0-beta.2",
     "@bigmi/core": "^0.4.0-beta.1",
-    "@lifi/sdk": "^3.8.0-alpha.1",
+    "@lifi/sdk": "^3.8.0-beta.0",
     "@dynamic-labs/bitcoin": "^4.20.8",
     "@dynamic-labs/ethereum": "^4.20.8",
     "@dynamic-labs/ethereum-aa": "^4.20.8",
