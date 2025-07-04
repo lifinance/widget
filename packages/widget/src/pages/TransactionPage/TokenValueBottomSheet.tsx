@@ -1,5 +1,5 @@
 import type { Route } from '@lifi/sdk'
-import { isGaslessStep } from '@lifi/sdk'
+import { isRelayerStep } from '@lifi/sdk'
 import WarningRounded from '@mui/icons-material/WarningRounded'
 import { Box, Button, Typography } from '@mui/material'
 import type { RefObject } from 'react'
@@ -51,7 +51,7 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
     getAccumulatedFeeCostsBreakdown(route)
   const fromAmountUSD = Number.parseFloat(route.fromAmountUSD)
   const toAmountUSD = Number.parseFloat(route.toAmountUSD)
-  const hasGaslessSupport = route.steps.some(isGaslessStep)
+  const hasRelayerSupport = route.steps.every(isRelayerStep)
   return (
     <Box
       ref={ref}
@@ -106,14 +106,14 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
         <Typography>{t('main.fees.network')}</Typography>
         <FeeBreakdownTooltip
           gasCosts={gasCosts}
-          relayerSupport={hasGaslessSupport}
+          relayerSupport={hasRelayerSupport}
         >
           <Typography
             sx={{
               fontWeight: 600,
             }}
           >
-            {hasGaslessSupport
+            {hasRelayerSupport
               ? t('main.fees.free')
               : t('format.currency', { value: gasCostUSD })}
           </Typography>
