@@ -14,7 +14,7 @@ export const useChains = (type?: FormType, chainTypes?: ChainType[]) => {
   } = useAvailableChains()
 
   const filteredChains = useMemo(() => {
-    const filteredChains = type
+    const result = type
       ? availableChains?.filter(
           (chain) =>
             isItemAllowed(chain.id, chains) &&
@@ -23,7 +23,7 @@ export const useChains = (type?: FormType, chainTypes?: ChainType[]) => {
             (chainTypes?.includes(chain.chainType) ?? true)
         )
       : availableChains?.filter((chain) => isItemAllowed(chain.id, chains))
-    return filteredChains
+    return result
   }, [availableChains, chainTypes, chains, type])
 
   return {

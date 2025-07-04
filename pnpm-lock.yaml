@@ -1071,6 +1071,9 @@ importers:
       react-router-dom:
         specifier: ^6.30.0
         version: 6.30.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      react-transition-group:
+        specifier: ^4.4.5
+        version: 4.4.5(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       viem:
         specifier: ^2.31.6
         version: 2.31.6(bufferutil@4.0.9)(typescript@5.8.3)(utf-8-validate@5.0.10)(zod@3.25.73)
@@ -1081,6 +1084,9 @@ importers:
         specifier: ^5.0.6
         version: 5.0.6(@types/react@19.1.8)(react@19.1.0)(use-sync-external-store@1.5.0(react@19.1.0))
     devDependencies:
+      '@types/react-transition-group':
+        specifier: ^4.4.12
+        version: 4.4.12(@types/react@19.1.8)
       cpy-cli:
         specifier: ^5.0.0
         version: 5.0.0
@@ -26833,7 +26839,7 @@ snapshots:
 
   extension-port-stream@3.0.0:
     dependencies:
-      readable-stream: 3.6.2
+      readable-stream: 4.7.0
       webextension-polyfill: 0.10.0
 
   external-editor@3.1.0:

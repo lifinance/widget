@@ -13,6 +13,7 @@ export const RouteNotFoundCard: React.FC = () => {
         justifyContent: 'center',
         flexDirection: 'column',
         flex: 1,
+        whiteSpace: 'normal',
       }}
     >
       <Typography

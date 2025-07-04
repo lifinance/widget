@@ -24,6 +24,9 @@ export const TokenList: FC<TokenListProps> = ({
 }) => {
   const emitter = useWidgetEvents()
   const [selectedChainId] = useFieldValues(FormKeyHelper.getChainKey(formType))
+  const [selectedTokenAddress] = useFieldValues(
+    FormKeyHelper.getTokenKey(formType)
+  )
   const [tokenSearchFilter]: string[] = useDebouncedWatch(
     320,
     'tokenSearchFilter'
@@ -118,6 +121,7 @@ export const TokenList: FC<TokenListProps> = ({
         isBalanceLoading={isBalanceLoading}
         showCategories={showCategories}
         onClick={handleTokenClick}
+        selectedTokenAddress={selectedTokenAddress}
       />
     </Box>
   )

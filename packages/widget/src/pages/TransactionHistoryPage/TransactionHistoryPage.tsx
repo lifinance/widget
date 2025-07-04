@@ -28,7 +28,7 @@ export const TransactionHistoryPage: React.FC = () => {
 
   const { getVirtualItems, getTotalSize } = useVirtualizer({
     count: transactions.length,
-    overscan: 5,
+    overscan: 3,
     paddingEnd: 12,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 186,

@@ -364,3 +364,9 @@ export interface WidgetDrawerProps extends WidgetConfigPartialProps {
    */
   onClose?(): void
 }
+
+export enum ExpansionType {
+  Routes = 'routes',
+  FromChain = 'fromChain',
+  ToChain = 'toChain',
+}

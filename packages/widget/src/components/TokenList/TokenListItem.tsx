@@ -32,6 +32,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
   isBalanceLoading,
   startAdornment,
   endAdornment,
+  isSelected,
   onShowTokenDetails,
 }) => {
   const handleClick: MouseEventHandler<HTMLDivElement> = (e) => {
@@ -43,6 +44,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
       style={{
         height: `${size}px`,
         transform: `translateY(${start}px)`,
+        padding: 0,
       }}
     >
       {startAdornment}
@@ -52,6 +54,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
         accountAddress={accountAddress}
         isBalanceLoading={isBalanceLoading}
         onClick={handleClick}
+        isSelected={isSelected}
         onShowTokenDetails={onShowTokenDetails}
       />
       {endAdornment}
@@ -110,6 +113,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   chain,
   accountAddress,
   isBalanceLoading,
+  isSelected,
   onShowTokenDetails,
 }) => {
   const { t } = useTranslation()
@@ -147,6 +151,11 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       dense
+      selected={isSelected}
+      sx={{
+        height: 60,
+        marginBottom: '4px',
+      }}
     >
       <ListItemAvatar>
         <TokenListItemAvatar token={token} />
@@ -307,7 +316,12 @@ export const TokenListItemSkeleton = () => {
     <ListItem
       secondaryAction={<TokenAmountSkeleton />}
       disablePadding
-      sx={{ position: 'relative', flexDirection: 'row', alignItems: 'center' }}
+      sx={{
+        position: 'relative',
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 0,
+      }}
     >
       <ListItemAvatar>
         <Skeleton
