@@ -39,7 +39,7 @@ export const VirtualizedChainList = ({
 
   const virtualizer = useVirtualizer({
     count: sortedChains.length,
-    overscan: 16,
+    overscan: 3,
     paddingEnd: 0,
     getScrollElement: () => scrollElementRef.current,
     estimateSize: () => {
