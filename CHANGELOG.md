@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.24.3](https://github.com/lifinance/widget/compare/v3.24.2...v3.24.3) (2025-07-04)
+
+
+### Bug Fixes
+
+* add wallet menu args to external on connect ([#450](https://github.com/lifinance/widget/issues/450)) ([8a00045](https://github.com/lifinance/widget/commit/8a000450dd5a73bcdd1e385cf308488f82822bd0))
+
 ### [3.24.2](https://github.com/lifinance/widget/compare/v3.24.1...v3.24.2) (2025-07-03)
 
 
