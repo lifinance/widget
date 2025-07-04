@@ -1,19 +1,32 @@
 import type { WidgetSubvariant } from '@lifi/widget'
+import { Checkbox, FormControlLabel } from '@mui/material'
 import type { SyntheticEvent } from 'react'
 import { useConfigActions } from '../../../store/widgetConfig/useConfigActions'
-import { useConfigSubvariant } from '../../../store/widgetConfig/useConfigValues'
+import {
+  useConfigSubvariant,
+  useConfigSubvariantOptions,
+} from '../../../store/widgetConfig/useConfigValues'
 import { CardValue } from '../../Card/Card.style'
 import { ExpandableCard } from '../../Card/ExpandableCard'
 import { Tab, Tabs } from '../../Tabs/Tabs.style'
 
 export const SubvariantControl = () => {
   const { subvariant } = useConfigSubvariant()
-  const { setSubvariant } = useConfigActions()
+  const { subvariantOptions } = useConfigSubvariantOptions()
+  const { setSubvariant, setChainSidebarEnabled } = useConfigActions()
+
   const handleSubvariantChange = (
     _: SyntheticEvent,
     value: WidgetSubvariant
   ) => {
     setSubvariant(value)
+  }
+
+  const handleEnableChainSidebarChange = (
+    _: SyntheticEvent,
+    value: boolean
+  ) => {
+    setChainSidebarEnabled(value)
   }
 
   return (
@@ -34,6 +47,16 @@ export const SubvariantControl = () => {
         <Tab label="Split" value={'split'} disableRipple />
         <Tab label="Refuel" value={'refuel'} disableRipple />
       </Tabs>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={subvariantOptions?.wide?.enableChainSidebar}
+            onChange={handleEnableChainSidebarChange}
+          />
+        }
+        label="Enable chain sidebar"
+        sx={{ padding: 1 }}
+      />
     </ExpandableCard>
   )
 }

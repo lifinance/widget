@@ -22,6 +22,7 @@ export const useConfigActions = () => {
       setHeader: state.setHeader,
       setContainer: state.setContainer,
       setFormValues: state.setFormValues,
+      setChainSidebarEnabled: state.setChainSidebarEnabled,
     }),
     shallow
   )

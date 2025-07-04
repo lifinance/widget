@@ -4,7 +4,7 @@ import { useExpansionRoutes } from './useExpansionRoutes'
 import { useSwapOnly } from './useSwapOnly'
 
 export const useHasChainExpansion = () => {
-  const { hiddenUI } = useWidgetConfig()
+  const { hiddenUI, subvariantOptions } = useWidgetConfig()
   const swapOnly = useSwapOnly()
   const expansionType = useExpansionRoutes()
 
@@ -12,7 +12,8 @@ export const useHasChainExpansion = () => {
     (expansionType === ExpansionType.FromChain ||
       expansionType === ExpansionType.ToChain) &&
     !(swapOnly && expansionType === ExpansionType.ToChain) &&
-    !hiddenUI?.includes(HiddenUI.ChainSelect)
+    !hiddenUI?.includes(HiddenUI.ChainSelect) &&
+    !!subvariantOptions?.wide?.enableChainSidebar
 
   return [withChainExpansion, expansionType] as const
 }

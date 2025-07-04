@@ -23,7 +23,7 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
 
   const swapOnly = useSwapOnly()
 
-  const { subvariant, hiddenUI } = useWidgetConfig()
+  const { subvariant, hiddenUI, subvariantOptions } = useWidgetConfig()
   const wideVariant = useWideVariant()
 
   const { t } = useTranslation()
@@ -37,7 +37,7 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   useHeader(title)
 
   const hideChainSelect =
-    wideVariant ||
+    (wideVariant && subvariantOptions?.wide?.enableChainSidebar) ||
     (swapOnly && formType === 'to') ||
     hiddenUI?.includes(HiddenUI.ChainSelect)
 
@@ -61,7 +61,7 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
       </Box>
       <WrappedTokenList
         // Rerender component if variant changes (since chains tiles change height)
-        key={wideVariant ? 'without-offset' : 'with-offset'}
+        key={hideChainSelect ? 'without-offset' : 'with-offset'}
         headerRef={headerRef}
         formType={formType}
       />

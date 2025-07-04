@@ -64,6 +64,20 @@ export const createWidgetConfigStore = (
             },
           })
         },
+        setChainSidebarEnabled: (enabled) => {
+          set({
+            config: {
+              ...get().config,
+              subvariantOptions: {
+                ...get().config?.subvariantOptions,
+                wide: {
+                  ...get().config?.subvariantOptions?.wide,
+                  enableChainSidebar: enabled,
+                },
+              },
+            },
+          })
+        },
         setBorderRadius: (radius) => {
           set({
             config: {

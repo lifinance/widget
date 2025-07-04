@@ -50,6 +50,17 @@ export const useConfigSubvariant = () => {
   }
 }
 
+export const useConfigSubvariantOptions = () => {
+  const [subvariantOptions] = useWidgetConfigStore(
+    (store) => [store.config?.subvariantOptions],
+    shallow
+  )
+
+  return {
+    subvariantOptions,
+  }
+}
+
 export const useConfigBorderRadius = () => {
   const [borderRadius] = useWidgetConfigStore(
     (store) => [store.config?.theme?.shape?.borderRadius],

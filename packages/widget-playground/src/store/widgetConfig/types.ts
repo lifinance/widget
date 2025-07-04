@@ -40,6 +40,7 @@ export interface WidgetConfigActions {
   setHeader: (header?: CSSProperties) => void
   setContainer: (container?: CSSProperties) => void
   setFormValues: (formValues: FormValues) => void
+  setChainSidebarEnabled: (enabled: boolean) => void
 }
 
 export type WidgetConfigState = WidgetConfigValues & WidgetConfigActions
