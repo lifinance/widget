@@ -10,6 +10,7 @@ import type {
   StaticToken,
   Token,
 } from '@lifi/sdk'
+import type { WalletMenuOpenArgs } from '@lifi/wallet-management'
 import type {
   Components,
   PaletteMode,
@@ -119,7 +120,7 @@ export type DefaultUI = {
 }
 
 export interface WidgetWalletConfig {
-  onConnect?(): void
+  onConnect?(args?: WalletMenuOpenArgs): void
   walletConnect?: WalletConnectParameters
   coinbase?: CoinbaseWalletParameters
   metaMask?: MetaMaskParameters
@@ -218,6 +219,8 @@ export type WidgetTokens = {
   featured?: StaticToken[]
   include?: Token[]
   popular?: StaticToken[]
+  from?: AllowDeny<BaseToken>
+  to?: AllowDeny<BaseToken>
 } & AllowDeny<BaseToken>
 
 export type WidgetLanguages = {
