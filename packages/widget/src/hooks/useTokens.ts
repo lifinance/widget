@@ -1,10 +1,14 @@
-import { ChainType, getTokens } from '@lifi/sdk'
+import { type BaseToken, ChainType, getTokens } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
 import type { TokenAmount } from '../types/token.js'
-import { filterConfigTokensByChain, isTokenAllowed } from '../utils/item.js'
+import {
+  getTokenKey,
+  getWidgetItemSets,
+  isTokenAllowed,
+} from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useChains } from './useChains.js'
 
@@ -48,10 +52,13 @@ export const useTokens = (selectedChainId?: number, formType?: FormType) => {
     }
 
     // Filter config tokens by chain before checking if token is allowed
-    const filteredConfigTokens = filterConfigTokensByChain(
+    const filteredConfigTokens = getWidgetItemSets(
       configTokens,
       formType,
-      selectedChainId
+      (tokens: BaseToken[]) =>
+        new Set(
+          tokens.filter((t) => t.chainId === selectedChainId).map(getTokenKey)
+        )
     )
 
     // Get the appropriate allow/deny lists based on formType

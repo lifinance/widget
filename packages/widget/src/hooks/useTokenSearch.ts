@@ -1,9 +1,18 @@
-import { type ChainId, type TokensResponse, getToken } from '@lifi/sdk'
+import {
+  type BaseToken,
+  type ChainId,
+  type TokensResponse,
+  getToken,
+} from '@lifi/sdk'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
 import type { TokenAmount } from '../types/token.js'
-import { filterConfigTokensByChain, isTokenAllowed } from '../utils/item.js'
+import {
+  getTokenKey,
+  getWidgetItemSets,
+  isTokenAllowed,
+} from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 
 export const useTokenSearch = (
@@ -24,10 +33,13 @@ export const useTokenSearch = (
 
       if (token) {
         // Filter config tokens by chain before checking if token is allowed
-        const filteredConfigTokens = filterConfigTokensByChain(
+        const filteredConfigTokens = getWidgetItemSets(
           configTokens,
           formType,
-          token.chainId
+          (tokens: BaseToken[]) =>
+            new Set(
+              tokens.filter((t) => t.chainId === token.chainId).map(getTokenKey)
+            )
         )
 
         // Return undefined if the token is denied
