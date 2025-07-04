@@ -209,19 +209,30 @@ export interface AllowDeny<T> {
   deny?: T[]
 }
 
+export interface AllowDenySet {
+  allow?: Set<string>
+  deny?: Set<string>
+}
+
+export type AllowDenySets = {
+  from?: AllowDenySet
+  to?: AllowDenySet
+} & AllowDenySet
+
+export type AllowDenyItems<T> = {
+  from?: AllowDeny<T>
+  to?: AllowDeny<T>
+} & AllowDeny<T>
+
 export type WidgetChains = {
-  from?: AllowDeny<number>
-  to?: AllowDeny<number>
   types?: AllowDeny<ChainType>
-} & AllowDeny<number>
+} & AllowDenyItems<number>
 
 export type WidgetTokens = {
   featured?: StaticToken[]
   include?: Token[]
   popular?: StaticToken[]
-  from?: AllowDeny<BaseToken>
-  to?: AllowDeny<BaseToken>
-} & AllowDeny<BaseToken>
+} & AllowDenyItems<BaseToken>
 
 export type WidgetLanguages = {
   default?: LanguageKey
