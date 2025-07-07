@@ -77,6 +77,8 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     if (getVirtualItems().length) {
       scrollToIndex(0, { align: 'start' })
     }
+    // Close the token details sheet when switching the chains
+    tokenDetailsSheetRef.current?.close()
   }, [scrollToIndex, chainId, getVirtualItems])
 
   if (isLoading) {
