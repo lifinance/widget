@@ -38,7 +38,7 @@ export interface TokenListItemProps extends TokenListItemBaseProps {
   isBalanceLoading?: boolean
   startAdornment?: React.ReactNode
   endAdornment?: React.ReactNode
-  isSelected?: boolean
+  selected?: boolean
 }
 
 export interface TokenListItemButtonProps {
@@ -48,7 +48,7 @@ export interface TokenListItemButtonProps {
   token: TokenAmount
   chain?: ExtendedChain
   isBalanceLoading?: boolean
-  isSelected?: boolean
+  selected?: boolean
 }
 
 export interface TokenListItemAvatarProps {

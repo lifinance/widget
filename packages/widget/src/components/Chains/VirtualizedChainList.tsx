@@ -2,14 +2,8 @@ import type { ExtendedChain } from '@lifi/sdk'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type { RefObject } from 'react'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
-import {
-  Avatar,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemButton,
-  ListItemText,
-} from './ChainList.style'
+import { List } from './ChainList.style'
+import { ChainListItem } from './ChainListItem'
 
 interface VirtualizedChainListProps {
   scrollElementRef: RefObject<HTMLDivElement | null>
@@ -44,7 +38,7 @@ export const VirtualizedChainList = ({
     [sortedChains]
   )
 
-  const virtualizer = useVirtualizer({
+  const { getVirtualItems, getTotalSize, measure } = useVirtualizer({
     count: sortedChains.length,
     overscan: 3,
     paddingEnd: 0,
@@ -61,11 +55,9 @@ export const VirtualizedChainList = ({
   // Workaround: Re-measure when scroll element becomes available
   useEffect(() => {
     if (scrollElementRef.current) {
-      virtualizer.measure()
+      measure()
     }
-  }, [virtualizer, scrollElementRef.current])
-
-  const { getVirtualItems, getTotalSize } = virtualizer
+  }, [measure, scrollElementRef.current])
 
   return (
     <List
@@ -76,27 +68,15 @@ export const VirtualizedChainList = ({
       {getVirtualItems().map((item) => {
         const chain = sortedChains[item.index]
         return (
-          <ListItem
+          <ChainListItem
             key={item.key}
-            style={{
-              height: `${item.size}px`,
-              transform: `translateY(${item.start}px)`,
-              padding: 0,
-            }}
-          >
-            <ListItemButton
-              onClick={() => onSelect(chain)}
-              selected={chain.id === selectedChainId}
-              size={itemsSize}
-            >
-              <ListItemAvatar size={itemsSize}>
-                <Avatar src={chain.logoURI} alt={chain.name} size={itemsSize}>
-                  {chain.name[0]}
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={chain.name} size={itemsSize} />
-            </ListItemButton>
-          </ListItem>
+            chain={chain}
+            onSelect={onSelect}
+            selected={chain.id === selectedChainId}
+            itemsSize={itemsSize}
+            size={item.size}
+            start={item.start}
+          />
         )
       })}
     </List>

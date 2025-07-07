@@ -67,6 +67,10 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = memo(
       [setCurrentChain]
     )
 
+    const onChange = useCallback(() => {
+      debouncedFilterChains(chains ?? [])
+    }, [chains, debouncedFilterChains])
+
     const onClear = useCallback(() => {
       setFilteredChains(chains ?? [])
       scrollToTop()
@@ -86,7 +90,7 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = memo(
         <ChainSearchInput
           inputRef={inputRef}
           inExpansion={inExpansion}
-          onChange={() => debouncedFilterChains(chains ?? [])}
+          onChange={onChange}
           onClear={onClear}
           searchHeaderHeight={searchHeaderHeight}
         />
