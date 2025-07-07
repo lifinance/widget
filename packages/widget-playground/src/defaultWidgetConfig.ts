@@ -38,6 +38,9 @@ export const widgetBaseConfig: WidgetConfig = {
   // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton', 'toAddress'],
   // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
   // requiredUI: ['toAddress'],
+  // defaultUI: {
+  //   navigationHeaderTitleNoWrap: false,
+  // },
   // slippage: 0.003,
   // walletConfig: {
   //   usePartialWalletManagement: true,
