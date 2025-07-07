@@ -37,7 +37,7 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   useHeader(title)
 
   const hideChainSelect =
-    (wideVariant && subvariantOptions?.wide?.enableChainSidebar) ||
+    (wideVariant && (subvariantOptions?.wide?.enableChainSidebar ?? true)) ||
     (swapOnly && formType === 'to') ||
     hiddenUI?.includes(HiddenUI.ChainSelect)
 

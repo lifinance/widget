@@ -13,7 +13,7 @@ export const useHasChainExpansion = () => {
       expansionType === ExpansionType.ToChain) &&
     !(swapOnly && expansionType === ExpansionType.ToChain) &&
     !hiddenUI?.includes(HiddenUI.ChainSelect) &&
-    !!subvariantOptions?.wide?.enableChainSidebar
+    (subvariantOptions?.wide?.enableChainSidebar ?? true)
 
   return [withChainExpansion, expansionType] as const
 }

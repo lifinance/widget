@@ -53,7 +53,7 @@ export const SubvariantControl = () => {
         <FormControlLabel
           control={
             <Checkbox
-              checked={subvariantOptions?.wide?.enableChainSidebar || false}
+              checked={subvariantOptions?.wide?.enableChainSidebar ?? true}
               onChange={handleEnableChainSidebarChange}
             />
           }
