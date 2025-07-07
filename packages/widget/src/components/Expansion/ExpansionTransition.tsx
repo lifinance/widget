@@ -3,7 +3,6 @@ import { type PropsWithChildren, useRef } from 'react'
 import { Transition } from 'react-transition-group'
 
 export const animationDuration = 225
-const offsetFromWidget = '24px'
 
 const defaultStyle = {
   opacity: 0,
@@ -20,11 +19,11 @@ const defaultStyle = {
 const transitionStyles = {
   entering: {
     opacity: 1,
-    transform: `translateX(${offsetFromWidget})`,
+    transform: 'translateX(0)',
   },
   entered: {
     opacity: 1,
-    transform: `translateX(${offsetFromWidget})`,
+    transform: 'translateX(0)',
   },
   exiting: {
     opacity: 0,

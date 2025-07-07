@@ -42,6 +42,7 @@ export function Expansion() {
         transition: `width ${animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`,
         width: boxWidth,
         willChange: 'width',
+        marginLeft: boxWidth !== '0px' ? '24px' : '0px',
       }}
     >
       <RoutesExpanded
