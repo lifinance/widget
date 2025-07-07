@@ -1,6 +1,6 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { Box, debounce, useTheme } from '@mui/material'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { memo, useCallback, useMemo, useRef, useState } from 'react'
 import { useDefaultElementId } from '../../hooks/useDefaultElementId'
 import { useScrollableContainer } from '../../hooks/useScrollableContainer'
 import { FormKeyHelper, type FormType } from '../../stores/form/types'
@@ -19,92 +19,94 @@ interface SelectChainContentProps {
 
 const searchHeaderHeight = '80px'
 
-export const SelectChainContent: React.FC<SelectChainContentProps> = ({
-  formType,
-  onSelect,
-  inExpansion,
-}) => {
-  const theme = useTheme()
-  const { chains, isLoading, setCurrentChain } = useChainSelect(formType)
-  const elementId = useDefaultElementId()
-  const scrollableContainer = useScrollableContainer(elementId)
-  const [selectedChainId] = useFieldValues(FormKeyHelper.getChainKey(formType))
-  const inputRef = useRef<HTMLInputElement>(null)
-  const listRef = useRef<HTMLDivElement>(null)
-  const [filteredChains, setFilteredChains] = useState<ExtendedChain[]>(
-    chains ?? []
-  )
+export const SelectChainContent: React.FC<SelectChainContentProps> = memo(
+  ({ formType, onSelect, inExpansion }) => {
+    const theme = useTheme()
+    const { chains, isLoading, setCurrentChain } = useChainSelect(formType)
+    const elementId = useDefaultElementId()
+    const scrollableContainer = useScrollableContainer(elementId)
+    const [selectedChainId] = useFieldValues(
+      FormKeyHelper.getChainKey(formType)
+    )
+    const inputRef = useRef<HTMLInputElement>(null)
+    const listRef = useRef<HTMLDivElement>(null)
+    const [filteredChains, setFilteredChains] = useState<ExtendedChain[]>(
+      chains ?? []
+    )
 
-  const scrollToTop = useCallback(() => {
-    // Scroll widget container to top
-    if (!inExpansion && scrollableContainer) {
-      scrollableContainer.scrollTop = 0
-    }
-    // Scroll chain list to top
-    if (inExpansion && listRef.current) {
-      listRef.current.scrollTop = 0
-    }
-  }, [inExpansion, scrollableContainer])
+    const scrollToTop = useCallback(() => {
+      // Scroll widget container to top
+      if (!inExpansion && scrollableContainer) {
+        scrollableContainer.scrollTop = 0
+      }
+      // Scroll chain list to top
+      if (inExpansion && listRef.current) {
+        listRef.current.scrollTop = 0
+      }
+    }, [inExpansion, scrollableContainer])
 
-  const debouncedFilterChains = useMemo(
-    () =>
-      debounce((chains: ExtendedChain[]) => {
-        const value = inputRef.current?.value?.toLowerCase() || ''
-        const filtered = value
-          ? chains?.filter((chain) => chain.name.toLowerCase().includes(value))
-          : chains
-        setFilteredChains(filtered ?? [])
-        scrollToTop()
-      }, 250),
-    [scrollToTop]
-  )
+    const debouncedFilterChains = useMemo(
+      () =>
+        debounce((chains: ExtendedChain[]) => {
+          const value = inputRef.current?.value?.toLowerCase() || ''
+          const filtered = value
+            ? chains?.filter((chain) =>
+                chain.name.toLowerCase().includes(value)
+              )
+            : chains
+          setFilteredChains(filtered ?? [])
+          scrollToTop()
+        }, 250),
+      [scrollToTop]
+    )
 
-  const onSelectChainFallback = useCallback(
-    (chain: ExtendedChain) => {
-      setCurrentChain(chain.id)
-    },
-    [setCurrentChain]
-  )
+    const onSelectChainFallback = useCallback(
+      (chain: ExtendedChain) => {
+        setCurrentChain(chain.id)
+      },
+      [setCurrentChain]
+    )
 
-  const onClear = useCallback(() => {
-    setFilteredChains(chains ?? [])
-    scrollToTop()
-  }, [chains, scrollToTop])
+    const onClear = useCallback(() => {
+      setFilteredChains(chains ?? [])
+      scrollToTop()
+    }, [chains, scrollToTop])
 
-  const listContainerHeight = useMemo(() => {
-    const fullContainerHeight = getWidgetMaxHeight(theme)
-    const heightValue =
-      typeof fullContainerHeight === 'number'
-        ? `${fullContainerHeight}px`
-        : fullContainerHeight
-    return `calc(${heightValue} - ${searchHeaderHeight})`
-  }, [theme])
+    const listContainerHeight = useMemo(() => {
+      const fullContainerHeight = getWidgetMaxHeight(theme)
+      const heightValue =
+        typeof fullContainerHeight === 'number'
+          ? `${fullContainerHeight}px`
+          : fullContainerHeight
+      return `calc(${heightValue} - ${searchHeaderHeight})`
+    }, [theme])
 
-  return (
-    <FullPageContainer disableGutters>
-      <ChainSearchInput
-        inputRef={inputRef}
-        inExpansion={inExpansion}
-        onChange={() => debouncedFilterChains(chains ?? [])}
-        onClear={onClear}
-        searchHeaderHeight={searchHeaderHeight}
-      />
-      <Box
-        ref={listRef}
-        sx={
-          inExpansion ? { height: listContainerHeight, overflow: 'auto' } : {}
-        }
-      >
-        <ChainList
-          parentRef={listRef}
-          chains={filteredChains}
-          isLoading={isLoading}
-          onSelect={onSelect ?? onSelectChainFallback}
-          selectedChainId={selectedChainId}
-          itemsSize={inExpansion ? 'small' : 'medium'}
-          adjustForStickySearchInput={!inExpansion}
+    return (
+      <FullPageContainer disableGutters>
+        <ChainSearchInput
+          inputRef={inputRef}
+          inExpansion={inExpansion}
+          onChange={() => debouncedFilterChains(chains ?? [])}
+          onClear={onClear}
+          searchHeaderHeight={searchHeaderHeight}
         />
-      </Box>
-    </FullPageContainer>
-  )
-}
+        <Box
+          ref={listRef}
+          sx={
+            inExpansion ? { height: listContainerHeight, overflow: 'auto' } : {}
+          }
+        >
+          <ChainList
+            parentRef={listRef}
+            chains={filteredChains}
+            isLoading={isLoading}
+            onSelect={onSelect ?? onSelectChainFallback}
+            selectedChainId={selectedChainId}
+            itemsSize={inExpansion ? 'small' : 'medium'}
+            adjustForStickySearchInput={!inExpansion}
+          />
+        </Box>
+      </FullPageContainer>
+    )
+  }
+)

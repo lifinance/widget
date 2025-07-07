@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { useHasChainExpansion } from '../../hooks/useHasChainExpansion'
 import { ExpansionType } from '../../types/widget'
 import { ChainsExpanded } from '../Chains/ChainsExpanded'
@@ -10,12 +10,21 @@ import { animationDuration } from './ExpansionTransition'
 
 export function Expansion() {
   const [withChainExpansion, expansionType] = useHasChainExpansion()
+  const chainExpansionTypeRef = useRef<ExpansionType>(expansionType)
 
   const [routesOpen, setRoutesOpen] = useState(false)
 
   const handleSetRoutesOpen = useCallback((open: boolean) => {
     setRoutesOpen(open)
   }, [])
+
+  // Track the previous chain expansion type to avoid re-renders when transitioning to Routes
+  if (
+    expansionType === ExpansionType.FromChain ||
+    expansionType === ExpansionType.ToChain
+  ) {
+    chainExpansionTypeRef.current = expansionType
+  }
 
   const boxWidth = useMemo(() => {
     return routesOpen
@@ -40,7 +49,11 @@ export function Expansion() {
         setOpenExpansion={handleSetRoutesOpen}
       />
       <ChainsExpanded
-        formType={expansionType === ExpansionType.FromChain ? 'from' : 'to'}
+        formType={
+          chainExpansionTypeRef.current === ExpansionType.FromChain
+            ? 'from'
+            : 'to'
+        }
         open={withChainExpansion}
       />
     </Box>

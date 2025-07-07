@@ -23,8 +23,8 @@ export const TokenList: FC<TokenListProps> = ({
   onClick,
 }) => {
   const emitter = useWidgetEvents()
-  const [selectedChainId] = useFieldValues(FormKeyHelper.getChainKey(formType))
-  const [selectedTokenAddress] = useFieldValues(
+  const [selectedChainId, selectedTokenAddress] = useFieldValues(
+    FormKeyHelper.getChainKey(formType),
     FormKeyHelper.getTokenKey(formType)
   )
   const [tokenSearchFilter]: string[] = useDebouncedWatch(

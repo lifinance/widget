@@ -35,6 +35,13 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     []
   )
 
+  const getItemKey = useCallback(
+    (index: number) => {
+      return `${tokens[index].address}-${index}`
+    },
+    [tokens]
+  )
+
   const { getVirtualItems, getTotalSize, scrollToIndex } = useVirtualizer({
     count: tokens.length,
     overscan: 5,
@@ -68,7 +75,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
 
       return size
     },
-    getItemKey: (index) => `${tokens[index].address}-${index}`,
+    getItemKey,
   })
 
   // biome-ignore lint/correctness/useExhaustiveDependencies:

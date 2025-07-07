@@ -1,7 +1,7 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type { RefObject } from 'react'
-import { useEffect, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import {
   Avatar,
   List,
@@ -37,6 +37,13 @@ export const VirtualizedChainList = ({
     return selectedChain ? [selectedChain, ...otherChains] : chains
   }, [chains])
 
+  const getItemKey = useCallback(
+    (index: number) => {
+      return `${sortedChains[index].id}-${index}`
+    },
+    [sortedChains]
+  )
+
   const virtualizer = useVirtualizer({
     count: sortedChains.length,
     overscan: 3,
@@ -45,7 +52,7 @@ export const VirtualizedChainList = ({
     estimateSize: () => {
       return itemsSize === 'small' ? 48 : 60
     },
-    getItemKey: (index) => `${sortedChains[index].id}-${index}`,
+    getItemKey,
   })
 
   // Using mountOnEnter of the ExpansionTransition component

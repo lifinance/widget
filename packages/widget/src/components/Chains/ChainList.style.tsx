@@ -27,7 +27,7 @@ export const ListItemText = styled(MuiListItemText)<{
 }>(({ size = 'medium' }) => ({
   [`.${listItemTextClasses.primary}`]: {
     fontWeight: 500,
-    fontSize: size === 'small' ? '0.875rem' : '1.125rem',
+    fontSize: size === 'small' ? '1rem' : '1.125rem',
   },
 }))
 
@@ -35,10 +35,7 @@ export const ListItemButton = styled(ListItemButtonBase)<{
   size?: 'small' | 'medium'
 }>(({ size = 'medium', theme }) => {
   return {
-    borderRadius:
-      size === 'small' && theme.vars.shape.borderRadius
-        ? `calc(${theme.vars.shape.borderRadius} / 2)`
-        : theme.vars.shape.borderRadius,
+    borderRadius: theme.vars.shape.borderRadius,
     paddingLeft: size === 'small' ? theme.spacing(1) : theme.spacing(1.5),
     height: size === 'small' ? 44 : 56,
   }
