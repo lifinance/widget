@@ -1,6 +1,6 @@
 import { Box, styled } from '@mui/material'
 
-export const chainExpansionWidth = '240px'
+export const chainExpansionWidth = '256px'
 
 interface SelectChainExpansionContainerProps {
   expansionHeight: string | number
