@@ -1,6 +1,6 @@
 import type { Route } from '@lifi/sdk'
 import type { RouteLabel, RouteLabelRule } from '../../types/widget.js'
-import { isItemAllowed } from '../../utils/item.js'
+import { getConfigItemSets, isItemAllowedForSets } from '../../utils/item.js'
 
 export const getMatchingLabels = (
   route: Route,
@@ -19,11 +19,19 @@ export const getMatchingLabels = (
         const toolNames = route.steps.flatMap((step) =>
           step.includedSteps.map((s) => s.tool)
         )
+        const bridgesConfigSets = getConfigItemSets(
+          rule.bridges,
+          (bridges) => new Set(bridges.map(String))
+        )
+        const exchangesConfigSets = getConfigItemSets(
+          rule.exchanges,
+          (exchanges) => new Set(exchanges.map(String))
+        )
         conditions.push(
           toolNames.some(
             (toolName) =>
-              isItemAllowed(toolName, rule.bridges) &&
-              isItemAllowed(toolName, rule.exchanges)
+              isItemAllowedForSets(toolName, bridgesConfigSets, String) &&
+              isItemAllowedForSets(toolName, exchangesConfigSets, String)
           )
         )
       }

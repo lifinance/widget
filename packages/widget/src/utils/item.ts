@@ -1,4 +1,3 @@
-import type { BaseToken } from '@lifi/sdk'
 import type { FormType } from '../stores/form/types.js'
 import type {
   AllowDeny,
@@ -7,6 +6,7 @@ import type {
   AllowDenySets,
 } from '../types/widget.js'
 
+// Use for a single item check
 export const isItemAllowed = <T>(
   item: T,
   items: AllowDeny<T> | undefined
@@ -17,7 +17,7 @@ export const isItemAllowed = <T>(
   return !items?.deny?.includes(item)
 }
 
-// Optimized version for O(1) lookup
+// Use for a O(1) set lookup of multiple items check
 export const isItemAllowedForSets = <T>(
   item: T,
   items: AllowDenySet | undefined,
@@ -29,27 +29,14 @@ export const isItemAllowedForSets = <T>(
   return !items?.deny?.has(getKey(item))
 }
 
-export const getTokenKey = (token: BaseToken) =>
-  `${token.address}-${token.chainId}`
-
-export const isTokenAllowed = (
-  token: BaseToken,
-  configTokens: AllowDenySets | undefined,
-  formType: FormType | undefined
-) => {
-  return (
-    isItemAllowedForSets(token, configTokens, getTokenKey) &&
-    (formType
-      ? isItemAllowedForSets(token, configTokens?.[formType], getTokenKey)
-      : true)
-  )
-}
-
-const buildAllowDenySet = <T>(
-  items: AllowDenyItems<T>,
-  formType: FormType | undefined,
-  getSet: (items: T[]) => Set<string>
-) => {
+export const getConfigItemSets = <T>(
+  items: AllowDenyItems<T> | undefined,
+  getSet: (items: T[]) => Set<string>,
+  formType?: FormType
+): AllowDenySets | undefined => {
+  if (!items) {
+    return undefined
+  }
   return {
     allow: getSet(items.allow ?? []),
     deny: getSet(items.deny ?? []),
@@ -60,15 +47,4 @@ const buildAllowDenySet = <T>(
       },
     }),
   }
-}
-
-export const getWidgetItemSets = <T>(
-  configTokens: AllowDenyItems<T> | undefined,
-  formType: FormType | undefined,
-  getSet: (items: T[]) => Set<string>
-): AllowDenySets | undefined => {
-  if (!configTokens) {
-    return undefined
-  }
-  return buildAllowDenySet(configTokens, formType, getSet)
 }

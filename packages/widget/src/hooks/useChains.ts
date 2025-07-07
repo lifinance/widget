@@ -2,7 +2,7 @@ import type { ChainType } from '@lifi/sdk'
 import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
-import { isItemAllowed } from '../utils/item.js'
+import { getConfigItemSets, isItemAllowedForSets } from '../utils/item.js'
 import { useAvailableChains } from './useAvailableChains.js'
 
 export const useChains = (type?: FormType, chainTypes?: ChainType[]) => {
@@ -14,15 +14,27 @@ export const useChains = (type?: FormType, chainTypes?: ChainType[]) => {
   } = useAvailableChains()
 
   const filteredChains = useMemo(() => {
+    const chainsConfigSets = getConfigItemSets(
+      chains,
+      (chains) => new Set(chains.map(String))
+    )
+    const chainsConfigSetsByType = type
+      ? getConfigItemSets(
+          chains?.[type],
+          (chains) => new Set(chains.map(String))
+        )
+      : undefined
     const filteredChains = type
       ? availableChains?.filter(
           (chain) =>
-            isItemAllowed(chain.id, chains) &&
-            isItemAllowed(chain.id, chains?.[type]) &&
+            isItemAllowedForSets(chain.id, chainsConfigSets, String) &&
+            isItemAllowedForSets(chain.id, chainsConfigSetsByType, String) &&
             // Check against chain types if they are provided
             (chainTypes?.includes(chain.chainType) ?? true)
         )
-      : availableChains?.filter((chain) => isItemAllowed(chain.id, chains))
+      : availableChains?.filter((chain) =>
+          isItemAllowedForSets(chain.id, chainsConfigSets, String)
+        )
     return filteredChains
   }, [availableChains, chainTypes, chains, type])
 
