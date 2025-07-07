@@ -5,12 +5,14 @@ import { useConfigActions } from '../../../store/widgetConfig/useConfigActions'
 import {
   useConfigSubvariant,
   useConfigSubvariantOptions,
+  useConfigVariant,
 } from '../../../store/widgetConfig/useConfigValues'
 import { CardValue } from '../../Card/Card.style'
 import { ExpandableCard } from '../../Card/ExpandableCard'
 import { Tab, Tabs } from '../../Tabs/Tabs.style'
 
 export const SubvariantControl = () => {
+  const { variant } = useConfigVariant()
   const { subvariant } = useConfigSubvariant()
   const { subvariantOptions } = useConfigSubvariantOptions()
   const { setSubvariant, setChainSidebarEnabled } = useConfigActions()
@@ -47,16 +49,18 @@ export const SubvariantControl = () => {
         <Tab label="Split" value={'split'} disableRipple />
         <Tab label="Refuel" value={'refuel'} disableRipple />
       </Tabs>
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={subvariantOptions?.wide?.enableChainSidebar}
-            onChange={handleEnableChainSidebarChange}
-          />
-        }
-        label="Enable chain sidebar"
-        sx={{ padding: 1 }}
-      />
+      {variant === 'wide' && (
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={subvariantOptions?.wide?.enableChainSidebar}
+              onChange={handleEnableChainSidebarChange}
+            />
+          }
+          label="Enable chain sidebar"
+          sx={{ padding: 1 }}
+        />
+      )}
     </ExpandableCard>
   )
 }
