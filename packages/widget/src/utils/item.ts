@@ -3,6 +3,7 @@ import type {
   AllowDeny,
   AllowDenyItems,
   AllowDenySet,
+  AllowDenySetItem,
   AllowDenySets,
 } from '../types/widget.js'
 
@@ -21,17 +22,17 @@ export const isItemAllowed = <T>(
 export const isItemAllowedForSets = <T>(
   item: T,
   items: AllowDenySet | undefined,
-  getKey?: (item: T) => string
+  getKey?: (item: T) => AllowDenySetItem
 ): boolean => {
   if (items?.allow?.size) {
-    return items.allow.has(getKey?.(item) ?? (item as string))
+    return items.allow.has(getKey?.(item) ?? (item as AllowDenySetItem))
   }
-  return !items?.deny?.has(getKey?.(item) ?? (item as string))
+  return !items?.deny?.has(getKey?.(item) ?? (item as AllowDenySetItem))
 }
 
 export const getConfigItemSets = <T>(
   items: AllowDenyItems<T> | undefined,
-  getSet: (items: T[]) => Set<string>,
+  getSet: (items: T[]) => Set<AllowDenySetItem>,
   formType?: FormType
 ): AllowDenySets | undefined => {
   if (!items) {
@@ -52,8 +53,8 @@ export const getConfigItemSets = <T>(
 export const isFormItemAllowed = <T>(
   item: T,
   configTokens: AllowDenySets | undefined,
-  getKey?: (item: T) => string,
-  formType?: FormType
+  formType?: FormType,
+  getKey?: (item: T) => AllowDenySetItem
 ) => {
   return (
     isItemAllowedForSets(item, configTokens, getKey) &&

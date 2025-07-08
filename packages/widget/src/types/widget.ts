@@ -210,9 +210,10 @@ export interface AllowDeny<T> {
   deny?: T[]
 }
 
+export type AllowDenySetItem = string | number
 export interface AllowDenySet {
-  allow?: Set<string>
-  deny?: Set<string>
+  allow?: Set<AllowDenySetItem>
+  deny?: Set<AllowDenySetItem>
 }
 
 export type AllowDenySets = {

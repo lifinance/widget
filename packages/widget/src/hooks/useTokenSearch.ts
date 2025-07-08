@@ -35,7 +35,7 @@ export const useTokenSearch = (
             new Set(
               tokens
                 .filter((t) => t.chainId === token.chainId)
-                .map((t) => `${t.address}-${t.chainId}`)
+                .map((t) => t.address)
             ),
           formType
         )
@@ -45,8 +45,8 @@ export const useTokenSearch = (
           !isFormItemAllowed(
             token,
             filteredConfigTokens,
-            (t) => `${t.address}-${t.chainId}`,
-            formType
+            formType,
+            (t) => t.address
           )
         ) {
           return undefined

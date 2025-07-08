@@ -16,18 +16,18 @@ export const useChains = (type?: FormType, chainTypes?: ChainType[]) => {
   const filteredChains = useMemo(() => {
     const chainsConfigSets = getConfigItemSets(
       chains,
-      (chains) => new Set(chains.map(String)),
+      (chains) => new Set(chains),
       type
     )
     const filteredChains = type
       ? availableChains?.filter(
           (chain) =>
-            isFormItemAllowed(chain.id, chainsConfigSets, String, type) &&
+            isFormItemAllowed(chain.id, chainsConfigSets, type) &&
             // Check against chain types if they are provided
             (chainTypes?.includes(chain.chainType) ?? true)
         )
       : availableChains?.filter((chain) =>
-          isFormItemAllowed(chain.id, chainsConfigSets, String)
+          isFormItemAllowed(chain.id, chainsConfigSets)
         )
     return filteredChains
   }, [availableChains, chainTypes, chains, type])

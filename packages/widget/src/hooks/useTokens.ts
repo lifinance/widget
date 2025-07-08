@@ -54,7 +54,7 @@ export const useTokens = (selectedChainId?: number, formType?: FormType) => {
         new Set(
           tokens
             .filter((t) => t.chainId === selectedChainId)
-            .map((t) => `${t.address}-${t.chainId}`)
+            .map((t) => t.address)
         ),
       formType
     )
@@ -66,8 +66,8 @@ export const useTokens = (selectedChainId?: number, formType?: FormType) => {
         isFormItemAllowed(
           token,
           filteredConfigTokens,
-          (t) => `${t.address}-${t.chainId}`,
-          formType
+          formType,
+          (t) => t.address
         )
     )
 

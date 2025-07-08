@@ -43,11 +43,11 @@ export function ChainOrderStoreProvider({
         // Convert configChainIds to Sets for O(1) lookup
         const configChainIdsSet = getConfigItemSets(
           configChainIds,
-          (chainIds) => new Set(chainIds.map(String))
+          (chainIds) => new Set(chainIds)
         )
         const filteredChains = chains.filter((chain) => {
           const passesChainsConfigFilter = configChainIdsSet
-            ? isItemAllowedForSets(chain.id, configChainIdsSet, String)
+            ? isItemAllowedForSets(chain.id, configChainIdsSet)
             : true
           // If the integrator uses external wallet management and has not opted in for partial wallet management,
           // restrict the displayed chains to those compatible with external wallet management.
