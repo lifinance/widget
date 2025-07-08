@@ -4,7 +4,7 @@ import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
 import type { TokenAmount } from '../types/token.js'
-import { getConfigItemSets, isItemAllowedForSets } from '../utils/item.js'
+import { getConfigItemSets, isTokenAllowed } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useChains } from './useChains.js'
 
@@ -63,18 +63,7 @@ export const useTokens = (selectedChainId?: number, formType?: FormType) => {
     filteredTokens = filteredTokens.filter(
       (token) =>
         token.chainId === selectedChainId &&
-        isItemAllowedForSets(
-          token,
-          filteredConfigTokens,
-          (t) => `${t.address}-${t.chainId}`
-        ) &&
-        (formType
-          ? isItemAllowedForSets(
-              token,
-              filteredConfigTokens?.[formType],
-              (t) => `${t.address}-${t.chainId}`
-            )
-          : true)
+        isTokenAllowed(token, filteredConfigTokens, formType)
     )
 
     const filteredTokensMap = new Map(
