@@ -19,18 +19,18 @@ export const useTools = () => {
       const tools = await getTools()
       const bridgesConfigSets = getConfigItemSets(
         bridges,
-        (bridges) => new Set(bridges.map(String))
+        (bridges) => new Set(bridges)
       )
       const exchangesConfigSets = getConfigItemSets(
         exchanges,
-        (exchanges) => new Set(exchanges.map(String))
+        (exchanges) => new Set(exchanges)
       )
       const result = {
         bridges: tools.bridges.filter((bridge) =>
-          isItemAllowedForSets(bridge.key, bridgesConfigSets, String)
+          isItemAllowedForSets(bridge.key, bridgesConfigSets)
         ),
         exchanges: tools.exchanges.filter((exchange) =>
-          isItemAllowedForSets(exchange.key, exchangesConfigSets, String)
+          isItemAllowedForSets(exchange.key, exchangesConfigSets)
         ),
       }
       const { initializeTools } = useSettingsStore.getState()

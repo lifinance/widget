@@ -21,12 +21,12 @@ export const isItemAllowed = <T>(
 export const isItemAllowedForSets = <T>(
   item: T,
   items: AllowDenySet | undefined,
-  getKey: (item: T) => string
+  getKey?: (item: T) => string
 ): boolean => {
   if (items?.allow?.size) {
-    return items.allow.has(getKey(item))
+    return items.allow.has(getKey?.(item) ?? (item as string))
   }
-  return !items?.deny?.has(getKey(item))
+  return !items?.deny?.has(getKey?.(item) ?? (item as string))
 }
 
 export const getConfigItemSets = <T>(
@@ -52,7 +52,7 @@ export const getConfigItemSets = <T>(
 export const isFormItemAllowed = <T>(
   item: T,
   configTokens: AllowDenySets | undefined,
-  getKey: (item: T) => string,
+  getKey?: (item: T) => string,
   formType?: FormType
 ) => {
   return (

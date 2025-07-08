@@ -21,10 +21,10 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
   const i18n = useMemo(() => {
     const languagesConfigSets = getConfigItemSets(
       languages,
-      (languages) => new Set(languages.map(String))
+      (languages) => new Set(languages)
     )
     let resources = (Object.keys(supportedLanguages) as LanguageKey[])
-      .filter((lng) => isItemAllowedForSets(lng, languagesConfigSets, String))
+      .filter((lng) => isItemAllowedForSets(lng, languagesConfigSets))
       .reduce((resources, lng) => {
         resources[lng] = {
           translation: languageResources?.[lng]

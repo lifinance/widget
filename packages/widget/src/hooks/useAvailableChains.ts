@@ -35,12 +35,12 @@ export const useAvailableChains = (chainTypes?: ChainType[]) => {
     queryFn: async ({ queryKey: [, chainTypesConfig] }) => {
       const chainsConfigSets = getConfigItemSets(
         chainTypesConfig,
-        (chains) => new Set(chains.map(String))
+        (chains) => new Set(chains)
       )
       const chainTypesRequest = supportedChainTypes
         // providers.length > 0 ? providers : supportedChainTypes
         .filter((chainType) =>
-          isItemAllowedForSets(chainType, chainsConfigSets, String)
+          isItemAllowedForSets(chainType, chainsConfigSets)
         )
 
       const availableChains = await getChains({

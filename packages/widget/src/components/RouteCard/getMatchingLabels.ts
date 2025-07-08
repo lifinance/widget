@@ -21,17 +21,17 @@ export const getMatchingLabels = (
         )
         const bridgesConfigSets = getConfigItemSets(
           rule.bridges,
-          (bridges) => new Set(bridges.map(String))
+          (bridges) => new Set(bridges)
         )
         const exchangesConfigSets = getConfigItemSets(
           rule.exchanges,
-          (exchanges) => new Set(exchanges.map(String))
+          (exchanges) => new Set(exchanges)
         )
         conditions.push(
           toolNames.some(
             (toolName) =>
-              isItemAllowedForSets(toolName, bridgesConfigSets, String) &&
-              isItemAllowedForSets(toolName, exchangesConfigSets, String)
+              isItemAllowedForSets(toolName, bridgesConfigSets) &&
+              isItemAllowedForSets(toolName, exchangesConfigSets)
           )
         )
       }
