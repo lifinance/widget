@@ -8,7 +8,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
 import type { TokenAmount } from '../types/token.js'
-import { getConfigItemSets, isTokenAllowed } from '../utils/item.js'
+import { getConfigItemSets, isFormItemAllowed } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 
 export const useTokenSearch = (
@@ -41,7 +41,14 @@ export const useTokenSearch = (
         )
 
         // Return undefined if the token is denied
-        if (!isTokenAllowed(token, filteredConfigTokens, formType)) {
+        if (
+          !isFormItemAllowed(
+            token,
+            filteredConfigTokens,
+            (t) => `${t.address}-${t.chainId}`,
+            formType
+          )
+        ) {
           return undefined
         }
 

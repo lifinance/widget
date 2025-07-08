@@ -1,4 +1,3 @@
-import type { BaseToken } from '@lifi/sdk'
 import type { FormType } from '../stores/form/types.js'
 import type {
   AllowDeny,
@@ -50,23 +49,16 @@ export const getConfigItemSets = <T>(
   }
 }
 
-export const isTokenAllowed = (
-  token: BaseToken,
+export const isFormItemAllowed = <T>(
+  item: T,
   configTokens: AllowDenySets | undefined,
+  getKey: (item: T) => string,
   formType?: FormType
 ) => {
   return (
-    isItemAllowedForSets(
-      token,
-      configTokens,
-      (t) => `${t.address}-${t.chainId}`
-    ) &&
+    isItemAllowedForSets(item, configTokens, getKey) &&
     (formType
-      ? isItemAllowedForSets(
-          token,
-          configTokens?.[formType],
-          (t) => `${t.address}-${t.chainId}`
-        )
+      ? isItemAllowedForSets(item, configTokens?.[formType], getKey)
       : true)
   )
 }
