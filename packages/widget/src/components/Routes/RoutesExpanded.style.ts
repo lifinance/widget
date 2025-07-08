@@ -25,6 +25,7 @@ export const Container = styled(ScopedCssBaseline, {
   width: routesExpansionWidth,
   display: 'flex',
   flexDirection: 'column',
+  whiteSpace: 'normal',
   ...(theme.container?.display !== 'flex'
     ? {
         maxHeight:
