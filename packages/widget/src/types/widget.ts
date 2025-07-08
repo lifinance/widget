@@ -117,6 +117,7 @@ export type RequiredUIType = `${RequiredUI}`
 
 export type DefaultUI = {
   transactionDetailsExpanded?: boolean
+  navigationHeaderTitleNoWrap?: boolean
 }
 
 export interface WidgetWalletConfig {
