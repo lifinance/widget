@@ -1,37 +1,63 @@
+import ClearIcon from '@mui/icons-material/Clear'
 import Search from '@mui/icons-material/Search'
-import { FormControl, InputAdornment } from '@mui/material'
-import type { FocusEventHandler, FormEventHandler } from 'react'
+import { FormControl, IconButton, InputAdornment } from '@mui/material'
+import type { FocusEventHandler, FormEventHandler, RefObject } from 'react'
 import { InputCard } from '../../components/Card/InputCard.js'
 import { useHeaderHeight } from '../../stores/header/useHeaderStore.js'
 import { Input, StickySearchInputContainer } from './SearchInput.style.js'
 
 interface SearchInputProps {
+  inputRef?: RefObject<HTMLInputElement | null>
   name?: string
   value?: string
   placeholder?: string
   onChange?: FormEventHandler<HTMLInputElement>
   onBlur?: FocusEventHandler<HTMLInputElement>
+  onClear?: () => void
   autoFocus?: boolean
+  size?: 'small' | 'medium'
 }
 
 export const SearchInput = ({
+  inputRef,
   name,
   placeholder,
   onChange,
   onBlur,
+  onClear,
   value,
   autoFocus,
+  size = 'medium',
 }: SearchInputProps) => {
   return (
     <InputCard>
       <FormControl fullWidth>
         <Input
-          size="small"
+          inputRef={inputRef}
+          size={size}
           placeholder={placeholder}
-          endAdornment={
-            <InputAdornment position="end">
+          startAdornment={
+            <InputAdornment position="start">
               <Search />
             </InputAdornment>
+          }
+          endAdornment={
+            (value || inputRef?.current?.value) &&
+            onClear && (
+              <InputAdornment position="end">
+                <IconButton
+                  size={size}
+                  onClick={onClear}
+                  aria-label="Clear"
+                  tabIndex={-1}
+                  sx={{
+                    padding: 0.5,
+                  }}
+                >
+                  <ClearIcon fontSize={size} />
+                </IconButton>
+              </InputAdornment>
+            )
           }
           inputProps={{
             inputMode: 'search',

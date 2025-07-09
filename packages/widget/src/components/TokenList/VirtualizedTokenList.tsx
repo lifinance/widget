@@ -1,10 +1,11 @@
-import { List, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type { FC } from 'react'
 import { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { TokenAmount } from '../../types/token.js'
 import { TokenDetailsSheet } from './TokenDetailsSheet.js'
+import { List } from './TokenList.style.js'
 import { TokenListItem, TokenListItemSkeleton } from './TokenListItem.js'
 import type {
   TokenDetailsSheetBase,
@@ -17,6 +18,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   scrollElementRef,
   chainId,
   chain,
+  selectedTokenAddress,
   isLoading,
   isBalanceLoading,
   showCategories,
@@ -33,9 +35,16 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     []
   )
 
+  const getItemKey = useCallback(
+    (index: number) => {
+      return `${tokens[index].address}-${index}`
+    },
+    [tokens]
+  )
+
   const { getVirtualItems, getTotalSize, scrollToIndex } = useVirtualizer({
     count: tokens.length,
-    overscan: 10,
+    overscan: 5,
     paddingEnd: 12,
     getScrollElement: () => scrollElementRef.current,
     estimateSize: (index) => {
@@ -66,7 +75,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
 
       return size
     },
-    getItemKey: (index) => `${tokens[index].address}-${index}`,
+    getItemKey,
   })
 
   // biome-ignore lint/correctness/useExhaustiveDependencies:
@@ -75,6 +84,8 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     if (getVirtualItems().length) {
       scrollToIndex(0, { align: 'start' })
     }
+    // Close the token details sheet when switching the chains
+    tokenDetailsSheetRef.current?.close()
   }, [scrollToIndex, chainId, getVirtualItems])
 
   if (isLoading) {
@@ -144,6 +155,8 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
               start={item.start}
               token={currentToken}
               chain={chain}
+              selected={currentToken.address === selectedTokenAddress}
+              onShowTokenDetails={onShowTokenDetails}
               isBalanceLoading={isBalanceLoading}
               accountAddress={account.address}
               startAdornment={
@@ -162,7 +175,6 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
                   </Typography>
                 ) : null
               }
-              onShowTokenDetails={onShowTokenDetails}
             />
           )
         })}
