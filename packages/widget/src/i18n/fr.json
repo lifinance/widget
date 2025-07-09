@@ -309,8 +309,9 @@
     "to": "À",
     "tokenOnChain": "{{tokenSymbol}} sur {{chainName}}",
     "tokenOnChainAmount": "",
-    "tokenSearch": "Recherche par nom de jeton ou adresse",
+    "tokenSearch": "",
     "valueLoss": "Perte de valeur",
+    "searchChain": "",
     "searchChains": "",
     "searchBridges": "",
     "searchExchanges": ""
