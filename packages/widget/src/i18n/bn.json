@@ -309,8 +309,9 @@
     "to": "প্রতি",
     "tokenOnChain": "{{chainName}} -এ {{tokenSymbol}}",
     "tokenOnChainAmount": "",
-    "tokenSearch": "আপনার টোকেন অনুসন্ধান করুন",
+    "tokenSearch": "",
     "valueLoss": "মান ক্ষতি",
+    "searchChain": "",
     "searchChains": "",
     "searchBridges": "",
     "searchExchanges": ""
