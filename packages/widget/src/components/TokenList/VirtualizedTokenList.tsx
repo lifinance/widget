@@ -3,9 +3,10 @@ import { useVirtualizer } from '@tanstack/react-virtual'
 import type { FC } from 'react'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { TokenAmount } from '../../types/token.js'
+import type { NetworkAmount, TokenAmount } from '../../types/token.js'
 import { List } from './TokenList.style.js'
-import { TokenListItem, TokenListItemSkeleton } from './TokenListItem.js'
+import { TokenListItem } from './TokenListItem.js'
+import { TokenListItemSkeleton } from './TokenListItemButton.js'
 import type { VirtualizedTokenListProps } from './types.js'
 
 export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
@@ -83,7 +84,8 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     >
       {getVirtualItems().map((item) => {
         const currentToken = tokens[item.index]
-        const previousToken: TokenAmount | undefined = tokens[item.index - 1]
+        const previousToken: TokenAmount | NetworkAmount | undefined =
+          tokens[item.index - 1]
 
         const isFirstFeaturedToken = currentToken.featured && item.index === 0
 
@@ -130,7 +132,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
             size={item.size}
             start={item.start}
             token={currentToken}
-            isSelected={currentToken.address === selectedTokenAddress}
+            isSelected={currentToken.address === selectedTokenAddress} // TODO: tokenAddress + chainId
             isBalanceLoading={isBalanceLoading}
             accountAddress={account.address}
             startAdornment={

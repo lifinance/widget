@@ -1,7 +1,7 @@
 import type { Account } from '@lifi/wallet-management'
-import type { MouseEventHandler, RefObject } from 'react'
+import type { RefObject } from 'react'
 import type { FormType } from '../../stores/form/types.js'
-import type { TokenAmount } from '../../types/token.js'
+import type { NetworkAmount, TokenAmount } from '../../types/token.js'
 
 export interface TokenListProps {
   parentRef: RefObject<HTMLElement | null>
@@ -12,7 +12,7 @@ export interface TokenListProps {
 
 export interface VirtualizedTokenListProps {
   account: Account
-  tokens: TokenAmount[]
+  tokens: TokenAmount[] | NetworkAmount[]
   scrollElementRef: RefObject<HTMLElement | null>
   isLoading: boolean
   isBalanceLoading: boolean
@@ -30,7 +30,7 @@ export interface TokenListItemBaseProps {
 
 export interface TokenListItemProps extends TokenListItemBaseProps {
   accountAddress?: string
-  token: TokenAmount
+  token: TokenAmount | NetworkAmount
   isBalanceLoading?: boolean
   startAdornment?: React.ReactNode
   endAdornment?: React.ReactNode
@@ -38,7 +38,7 @@ export interface TokenListItemProps extends TokenListItemBaseProps {
 }
 
 export interface TokenListItemButtonProps {
-  onClick?: MouseEventHandler<HTMLDivElement>
+  onClick?(tokenAddress: string, chainId?: number): void
   accountAddress?: string
   token: TokenAmount
   isBalanceLoading?: boolean
