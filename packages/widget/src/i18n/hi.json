@@ -311,6 +311,7 @@
     "tokenOnChainAmount": "",
     "tokenSearch": "",
     "valueLoss": "",
+    "searchChain": "",
     "searchChains": "",
     "searchBridges": "",
     "searchExchanges": ""

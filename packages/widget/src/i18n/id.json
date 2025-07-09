@@ -309,8 +309,9 @@
     "to": "Kepada",
     "tokenOnChain": "{{tokenSymbol}} di {{chainName}}",
     "tokenOnChainAmount": "{{amount, numberExt}} {{tokenSymbol}} di {{chainName}}",
-    "tokenSearch": "Cari berdasarkan nama atau alamat token",
+    "tokenSearch": "",
     "valueLoss": "Kehilangan nilai",
+    "searchChain": "",
     "searchChains": "Cari berdasarkan nama rantai",
     "searchBridges": "Cari berdasarkan nama bridge",
     "searchExchanges": "Cari berdasarkan nama exchange"

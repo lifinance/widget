@@ -309,8 +309,9 @@
     "to": "Para",
     "tokenOnChain": "{{tokenSymbol}} na {{chainName}}",
     "tokenOnChainAmount": "{{amount, numberExt}} {{tokenSymbol}} na {{chainName}}",
-    "tokenSearch": "Pesquisar pelo nome do token ou endereço",
+    "tokenSearch": "",
     "valueLoss": "Perda de Valor",
+    "searchChain": "",
     "searchChains": "Pesquisar pelo nome da rede",
     "searchBridges": "Pesquisar pelo nome da ponte",
     "searchExchanges": "Pesquisar pelo nome da corretora"

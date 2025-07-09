@@ -309,8 +309,9 @@
     "to": "До",
     "tokenOnChain": "{{tokenSymbol}} на {{chainName}}",
     "tokenOnChainAmount": "{{amount, numberExt}} {{tokenSymbol}} на {{chainName}}",
-    "tokenSearch": "Шукати за ім'ям або адресою",
+    "tokenSearch": "",
     "valueLoss": "Втрата вартості",
+    "searchChain": "",
     "searchChains": "Пошук за назвою чейна",
     "searchBridges": "Пошук за назвою моста",
     "searchExchanges": "Пошук за назвою обмінника"

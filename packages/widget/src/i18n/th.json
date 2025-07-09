@@ -309,8 +309,9 @@
     "to": "ถึง",
     "tokenOnChain": "{{tokenSymbol}} บน {{chainName}}",
     "tokenOnChainAmount": "",
-    "tokenSearch": "ค้นหาชื่อของเหรียญ หรือ ที่อยู่",
+    "tokenSearch": "",
     "valueLoss": "มูลค่าที่สูญเสีย",
+    "searchChain": "",
     "searchChains": "",
     "searchBridges": "",
     "searchExchanges": ""
