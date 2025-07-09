@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@mui/material'
 import type { MouseEventHandler } from 'react'
-import { useRef, useState } from 'react'
+import { memo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { shortenAddress } from '../../utils/wallet.js'
@@ -22,42 +22,47 @@ import type {
   TokenListItemProps,
 } from './types.js'
 
-export const TokenListItem: React.FC<TokenListItemProps> = ({
-  onClick,
-  size,
-  start,
-  token,
-  chain,
-  accountAddress,
-  isBalanceLoading,
-  startAdornment,
-  endAdornment,
-  onShowTokenDetails,
-}) => {
-  const handleClick: MouseEventHandler<HTMLDivElement> = (e) => {
-    e.stopPropagation()
-    onClick?.(token.address, chain?.id)
+export const TokenListItem: React.FC<TokenListItemProps> = memo(
+  ({
+    onClick,
+    size,
+    start,
+    token,
+    chain,
+    accountAddress,
+    isBalanceLoading,
+    startAdornment,
+    endAdornment,
+    selected,
+    onShowTokenDetails,
+  }) => {
+    const handleClick: MouseEventHandler<HTMLDivElement> = (e) => {
+      e.stopPropagation()
+      onClick?.(token.address, chain?.id)
+    }
+    return (
+      <ListItem
+        style={{
+          height: `${size}px`,
+          transform: `translateY(${start}px)`,
+          padding: 0,
+        }}
+      >
+        {startAdornment}
+        <TokenListItemButton
+          token={token}
+          chain={chain}
+          accountAddress={accountAddress}
+          isBalanceLoading={isBalanceLoading}
+          onClick={handleClick}
+          selected={selected}
+          onShowTokenDetails={onShowTokenDetails}
+        />
+        {endAdornment}
+      </ListItem>
+    )
   }
-  return (
-    <ListItem
-      style={{
-        height: `${size}px`,
-        transform: `translateY(${start}px)`,
-      }}
-    >
-      {startAdornment}
-      <TokenListItemButton
-        token={token}
-        chain={chain}
-        accountAddress={accountAddress}
-        isBalanceLoading={isBalanceLoading}
-        onClick={handleClick}
-        onShowTokenDetails={onShowTokenDetails}
-      />
-      {endAdornment}
-    </ListItem>
-  )
-}
+)
 
 export const TokenListItemAvatar: React.FC<TokenListItemAvatarProps> = ({
   token,
@@ -110,6 +115,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   chain,
   accountAddress,
   isBalanceLoading,
+  selected,
   onShowTokenDetails,
 }) => {
   const { t } = useTranslation()
@@ -147,6 +153,11 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       dense
+      selected={selected}
+      sx={{
+        height: 60,
+        marginBottom: '4px',
+      }}
     >
       <ListItemAvatar>
         <TokenListItemAvatar token={token} />
@@ -307,7 +318,12 @@ export const TokenListItemSkeleton = () => {
     <ListItem
       secondaryAction={<TokenAmountSkeleton />}
       disablePadding
-      sx={{ position: 'relative', flexDirection: 'row', alignItems: 'center' }}
+      sx={{
+        position: 'relative',
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 0,
+      }}
     >
       <ListItemAvatar>
         <Skeleton

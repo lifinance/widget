@@ -1,21 +1,8 @@
 import type { ScopedCssBaselineProps } from '@mui/material'
-import { Box, Collapse, Grow, ScopedCssBaseline, styled } from '@mui/material'
+import { Box, ScopedCssBaseline, styled } from '@mui/material'
 import { defaultMaxHeight } from '../../config/constants.js'
 
-export const CollapseContainer = styled(Box)(({ theme }) => ({
-  zIndex: 0,
-  ...(theme.container.display === 'flex'
-    ? { display: 'flex', maxHeight: '100%' }
-    : { height: 'auto' }),
-}))
-
-export const RoutesExpandedCollapse = styled(Collapse)(({ theme }) => ({
-  ...(theme.container?.display === 'flex' ? { height: '100%' } : {}),
-}))
-
-export const RouteTopLevelGrow = styled(Grow)(({ theme }) => ({
-  ...(theme.container?.display === 'flex' ? { height: '100%' } : {}),
-}))
+export const routesExpansionWidth = '436px'
 
 export const ScrollableContainer = styled(Box)({
   overflowY: 'auto',
@@ -35,10 +22,10 @@ export const Container = styled(ScopedCssBaseline, {
 })<ContainerProps>(({ theme, minimumHeight }) => ({
   backgroundColor: theme.vars.palette.background.default,
   overflow: 'auto',
-  width: 436,
-  marginLeft: theme.spacing(3),
+  width: routesExpansionWidth,
   display: 'flex',
   flexDirection: 'column',
+  whiteSpace: 'normal',
   ...(theme.container?.display !== 'flex'
     ? {
         maxHeight:
