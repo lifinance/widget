@@ -36,9 +36,13 @@ export type WidgetVariant = 'compact' | 'wide' | 'drawer'
 export type WidgetSubvariant = 'default' | 'split' | 'custom' | 'refuel'
 export type SplitSubvariant = 'bridge' | 'swap'
 export type CustomSubvariant = 'checkout' | 'deposit'
+export type WideSubvariant = {
+  enableChainSidebar?: boolean
+}
 export interface SubvariantOptions {
   split?: SplitSubvariant
   custom?: CustomSubvariant
+  wide?: WideSubvariant
 }
 
 export type Appearance = PaletteMode | 'system'
@@ -364,4 +368,10 @@ export interface WidgetDrawerProps extends WidgetConfigPartialProps {
    * Make sure to make the onClose callback stable (e.g. using useCallback) to avoid causing re-renders of the entire widget
    */
   onClose?(): void
+}
+
+export enum ExpansionType {
+  Routes = 'routes',
+  FromChain = 'fromChain',
+  ToChain = 'toChain',
 }

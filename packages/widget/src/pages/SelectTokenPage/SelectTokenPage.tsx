@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import type { FC } from 'react'
+import type { FC, RefObject } from 'react'
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChainSelect } from '../../components/ChainSelect/ChainSelect.js'
@@ -10,24 +10,22 @@ import { useListHeight } from '../../hooks/useListHeight.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useScrollableOverflowHidden } from '../../hooks/useScrollableContainer.js'
 import { useSwapOnly } from '../../hooks/useSwapOnly.js'
+import { useWideVariant } from '../../hooks/useWideVariant.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import type { FormTypeProps } from '../../stores/form/types.js'
+import type { FormType, FormTypeProps } from '../../stores/form/types.js'
 import { HiddenUI } from '../../types/widget.js'
 import { SearchTokenInput } from './SearchTokenInput.js'
 
 export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   useScrollableOverflowHidden()
-  const { navigateBack } = useNavigateBack()
+
   const headerRef = useRef<HTMLElement>(null)
-  const listParentRef = useRef<HTMLUListElement | null>(null)
-  const { listHeight, minListHeight } = useListHeight({
-    listParentRef,
-    headerRef,
-  })
 
   const swapOnly = useSwapOnly()
 
-  const { subvariant, hiddenUI } = useWidgetConfig()
+  const { subvariant, hiddenUI, subvariantOptions } = useWidgetConfig()
+  const wideVariant = useWideVariant()
+
   const { t } = useTranslation()
   const title =
     formType === 'from'
@@ -39,7 +37,9 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   useHeader(title)
 
   const hideChainSelect =
-    (swapOnly && formType === 'to') || hiddenUI?.includes(HiddenUI.ChainSelect)
+    (wideVariant && (subvariantOptions?.wide?.enableChainSidebar ?? true)) ||
+    (swapOnly && formType === 'to') ||
+    hiddenUI?.includes(HiddenUI.ChainSelect)
 
   return (
     <FullPageContainer disableGutters>
@@ -59,18 +59,40 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
           <SearchTokenInput />
         </Box>
       </Box>
-      <Box
-        sx={{
-          height: minListHeight,
-        }}
-      >
-        <TokenList
-          parentRef={listParentRef}
-          height={listHeight}
-          onClick={navigateBack}
-          formType={formType}
-        />
-      </Box>
+      <WrappedTokenList
+        // Rerender component if variant changes (since chains tiles change height)
+        key={hideChainSelect ? 'without-offset' : 'with-offset'}
+        headerRef={headerRef}
+        formType={formType}
+      />
     </FullPageContainer>
+  )
+}
+
+type WrappedTokenListProps = {
+  headerRef: RefObject<HTMLElement | null>
+  formType: FormType
+}
+
+const WrappedTokenList = ({ headerRef, formType }: WrappedTokenListProps) => {
+  const { navigateBack } = useNavigateBack()
+  const listParentRef = useRef<HTMLUListElement | null>(null)
+  const { listHeight, minListHeight } = useListHeight({
+    listParentRef,
+    headerRef,
+  })
+  return (
+    <Box
+      sx={{
+        height: minListHeight,
+      }}
+    >
+      <TokenList
+        parentRef={listParentRef}
+        height={listHeight}
+        onClick={navigateBack}
+        formType={formType}
+      />
+    </Box>
   )
 }
