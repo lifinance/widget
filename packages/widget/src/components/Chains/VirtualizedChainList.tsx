@@ -19,12 +19,12 @@ interface VirtualizedChainListProps {
   onSelect: (chain: ExtendedChain | undefined) => void
   selectedChainId?: number
   itemsSize: 'small' | 'medium'
-  searchQuery: string
+  hasSearchQuery: boolean
 }
 
 export const VirtualizedChainList = ({
   chains,
-  searchQuery,
+  hasSearchQuery,
   onSelect,
   selectedChainId,
   itemsSize,
@@ -44,19 +44,17 @@ export const VirtualizedChainList = ({
 
   const getItemKey = useCallback(
     (index: number) => {
-      if (hasAllChainsItem && index === 0) {
+      if (!hasSearchQuery && index === 0) {
         return 'all-chains'
       }
-      const chainIndex = index - (hasAllChainsItem ? 1 : 0)
+      const chainIndex = index - (!hasSearchQuery ? 1 : 0)
       return `${sortedChains[chainIndex].id}-${chainIndex}`
     },
-    [sortedChains]
+    [sortedChains, hasSearchQuery]
   )
 
-  const hasAllChainsItem = !searchQuery
-
   const { getVirtualItems, getTotalSize, measure } = useVirtualizer({
-    count: sortedChains.length + (hasAllChainsItem ? 1 : 0), // +1 for the all chains item
+    count: sortedChains.length + (!hasSearchQuery ? 1 : 0), // +1 for the all chains item
     overscan: 3,
     paddingEnd: 0,
     getScrollElement: () => scrollElementRef.current,
@@ -83,7 +81,7 @@ export const VirtualizedChainList = ({
       disablePadding
     >
       {getVirtualItems().map((item) => {
-        if (hasAllChainsItem && item.index === 0) {
+        if (!hasSearchQuery && item.index === 0) {
           return (
             <ListItem
               style={{
@@ -107,7 +105,7 @@ export const VirtualizedChainList = ({
           )
         }
 
-        const chain = sortedChains[item.index - (hasAllChainsItem ? 1 : 0)]
+        const chain = sortedChains[item.index - (!hasSearchQuery ? 1 : 0)]
         return (
           <ChainListItem
             key={item.key}

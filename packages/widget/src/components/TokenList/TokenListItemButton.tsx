@@ -3,8 +3,6 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import {
   Avatar,
   Box,
-  IconButton,
-  ListItem,
   ListItemAvatar,
   ListItemText,
   Skeleton,
@@ -18,38 +16,11 @@ import { formatTokenAmount } from '../../utils/format'
 import { formatTokenPrice } from '../../utils/format'
 import { shortenAddress } from '../../utils/wallet'
 import { ListItemButton } from '../ListItem/ListItemButton.js'
+import { IconButton, ListItem } from './TokenList.style.js'
 import type {
   TokenListItemAvatarProps,
   TokenListItemButtonProps,
 } from './types'
-
-interface OpenTokenDetailsButtonProps {
-  tokenAddress: string | undefined
-  withoutContractAddress: boolean
-  onClick: (tokenAddress: string, withoutContractAddress: boolean) => void
-}
-
-const OpenTokenDetailsButton = ({
-  tokenAddress,
-  withoutContractAddress,
-
-  onClick,
-}: OpenTokenDetailsButtonProps) => {
-  if (!tokenAddress) {
-    return null
-  }
-  return (
-    <IconButton
-      size="small"
-      onClick={(e) => {
-        e.stopPropagation()
-        onClick(tokenAddress, withoutContractAddress)
-      }}
-    >
-      <InfoOutlinedIcon />
-    </IconButton>
-  )
-}
 
 export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   onClick,
@@ -275,6 +246,34 @@ export const TokenListItemAvatar: React.FC<TokenListItemAvatarProps> = ({
     >
       {token.symbol?.[0]}
     </Avatar>
+  )
+}
+
+interface OpenTokenDetailsButtonProps {
+  tokenAddress: string | undefined
+  withoutContractAddress: boolean
+  onClick: (tokenAddress: string, withoutContractAddress: boolean) => void
+}
+
+const OpenTokenDetailsButton = ({
+  tokenAddress,
+  withoutContractAddress,
+
+  onClick,
+}: OpenTokenDetailsButtonProps) => {
+  if (!tokenAddress) {
+    return null
+  }
+  return (
+    <IconButton
+      size="small"
+      onClick={(e) => {
+        e.stopPropagation()
+        onClick(tokenAddress, withoutContractAddress)
+      }}
+    >
+      <InfoOutlinedIcon />
+    </IconButton>
   )
 }
 

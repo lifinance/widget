@@ -81,9 +81,11 @@ export const useTokens = (
     const [popularTokens, featuredTokens] = (
       ['popular', 'featured'] as ('popular' | 'featured')[]
     ).map((tokenType) => {
-      const typedConfigTokens = configTokens?.[tokenType]?.filter(
-        (token) => token.chainId === selectedChainId && !!selectedChainId
-      )
+      const typedConfigTokens = selectedChainId
+        ? configTokens?.[tokenType]?.filter(
+            (token) => token.chainId === selectedChainId
+          )
+        : configTokens?.[tokenType]
 
       const populatedConfigTokens = typedConfigTokens?.map((token) => {
         // Mark token as popular

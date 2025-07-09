@@ -103,12 +103,12 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = memo(
           <ChainList
             parentRef={listRef}
             chains={filteredChains}
-            searchQuery={inputRef.current?.value || ''}
             isLoading={isLoading}
             onSelect={onSelect ?? onSelectChainFallback}
             selectedChainId={selectedChainId}
             itemsSize={inExpansion ? 'small' : 'medium'}
             adjustForStickySearchInput={!inExpansion}
+            hasSearchQuery={!!inputRef.current?.value}
           />
         </Box>
       </FullPageContainer>

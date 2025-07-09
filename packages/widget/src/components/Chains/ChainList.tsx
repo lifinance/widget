@@ -19,13 +19,13 @@ interface ChainListProps {
   isLoading: boolean
   itemsSize: 'small' | 'medium'
   adjustForStickySearchInput?: boolean
-  searchQuery: string
+  hasSearchQuery: boolean
 }
 
 export const ChainList = ({
   parentRef,
   chains,
-  searchQuery,
+  hasSearchQuery,
   onSelect,
   selectedChainId,
   isLoading,
@@ -80,7 +80,7 @@ export const ChainList = ({
     <VirtualizedChainList
       scrollElementRef={parentRef}
       chains={chains}
-      searchQuery={searchQuery}
+      hasSearchQuery={hasSearchQuery}
       onSelect={onSelect}
       selectedChainId={selectedChainId}
       itemsSize={itemsSize}

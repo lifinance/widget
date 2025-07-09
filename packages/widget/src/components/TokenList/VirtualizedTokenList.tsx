@@ -155,7 +155,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
               size={item.size}
               start={item.start}
               token={currentToken}
-              isSelected={currentToken.address === selectedTokenAddress} // TODO: tokenAddress + chainId
+              selectedTokenAddress={selectedTokenAddress}
               onShowTokenDetails={onShowTokenDetails}
               isBalanceLoading={isBalanceLoading}
               accountAddress={account.address}

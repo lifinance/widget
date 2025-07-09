@@ -14,7 +14,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
   isBalanceLoading,
   startAdornment,
   endAdornment,
-  isSelected,
+  selectedTokenAddress,
   onShowTokenDetails,
 }) => {
   const isNetwork = !('chainId' in token)
@@ -36,7 +36,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
           isBalanceLoading={isBalanceLoading}
           onClick={onClick}
           chain={chain}
-          selected={isSelected}
+          selected={token.address === selectedTokenAddress}
           onShowTokenDetails={onShowTokenDetails}
         />
       )}
