@@ -309,8 +309,9 @@
     "to": "到",
     "tokenOnChain": "{{chainName}}链上的{{tokenSymbol}}",
     "tokenOnChainAmount": "",
-    "tokenSearch": "按代币名称或者地址搜索",
+    "tokenSearch": "",
     "valueLoss": "资金损失",
+    "searchChain": "",
     "searchChains": "搜索链",
     "searchBridges": "搜索跨链桥",
     "searchExchanges": "搜索交易所"
