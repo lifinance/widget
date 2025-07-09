@@ -1,3 +1,4 @@
+import type { ExtendedChain } from '@lifi/sdk'
 import type { Account } from '@lifi/wallet-management'
 import type { RefObject } from 'react'
 import type { FormType } from '../../stores/form/types.js'
@@ -35,16 +36,26 @@ export interface TokenListItemProps extends TokenListItemBaseProps {
   startAdornment?: React.ReactNode
   endAdornment?: React.ReactNode
   isSelected?: boolean
+  chain?: ExtendedChain
+  onShowTokenDetails: (tokenAddress: string, noContractAddress: boolean) => void
 }
 
 export interface TokenListItemButtonProps {
+  onShowTokenDetails: (tokenAddress: string, noContractAddress: boolean) => void
   onClick?(tokenAddress: string, chainId?: number): void
   accountAddress?: string
   token: TokenAmount
   isBalanceLoading?: boolean
-  isSelected?: boolean
+  selected?: boolean
+  chain?: ExtendedChain
 }
 
 export interface TokenListItemAvatarProps {
   token: TokenAmount
+}
+
+export interface TokenDetailsSheetBase {
+  isOpen(): void
+  open(address: string, noContractAddress: boolean): void
+  close(): void
 }

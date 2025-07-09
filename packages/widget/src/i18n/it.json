@@ -309,8 +309,9 @@
     "to": "A",
     "tokenOnChain": "{{tokenSymbol}} su {{chainName}}",
     "tokenOnChainAmount": "",
-    "tokenSearch": "Cerca per nome token o indirizzo",
+    "tokenSearch": "",
     "valueLoss": "Perdita di valore",
+    "searchChain": "",
     "searchChains": "",
     "searchBridges": "",
     "searchExchanges": ""
@@ -341,5 +342,9 @@
     "noBookmarkedWallets": "",
     "noConnectedWallets": "",
     "noRecentWallets": ""
+  },
+  "tokenMetric": {
+    "currentPrice": "",
+    "contractAddress": ""
   }
 }

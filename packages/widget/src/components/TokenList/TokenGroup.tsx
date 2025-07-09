@@ -143,6 +143,7 @@ export const TokenGroup = ({ network, onClick }: TokenGroupProps) => {
               onClick={() => {
                 onClick?.(t.address, t.chainId)
               }}
+              onShowTokenDetails={() => {}}
             />
           ))}
         </Box>

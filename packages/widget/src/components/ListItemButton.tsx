@@ -24,6 +24,18 @@ export const ListItemButton = styled(MuiListItemButton)(({ theme }) => {
         },
       }),
     },
+    [`&.${listItemButtonClasses.selected}`]: {
+      backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 20%, white)`,
+      '&:hover': {
+        backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 24%, white)`,
+      },
+      ...theme.applyStyles('dark', {
+        backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 24%, black)`,
+        '&:hover': {
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 28%, black)`,
+        },
+      }),
+    },
     variants: [
       {
         props: ({ disabled }) => disabled,

@@ -1,101 +1,62 @@
-import type { ExtendedChain } from '@lifi/sdk'
-import { Collapse } from '@mui/material'
-import { type PropsWithChildren, useCallback } from 'react'
-import type { RouteObject } from 'react-router-dom'
-import { useRoutes as useDOMRoutes } from 'react-router-dom'
-import { useSwapOnly } from '../../hooks/useSwapOnly'
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider'
-import { HiddenUI } from '../../types/widget'
-import { navigationRoutes } from '../../utils/navigationRoutes'
-import { useChainSelect } from '../ChainSelect/useChainSelect'
-import { SelectChainContent } from '../Chains/SelectChainContent'
-import { RoutesExpanded, animationTimeout } from '../Routes/RoutesExpanded'
-import {
-  CollapseContainer,
-  ExpansionTopLevelGrow,
-  SelectChainExpansionContainer,
-} from './Expansion.style'
-import { ExpansionSlide } from './ExpansionSlide'
+import { Box } from '@mui/material'
+import { useCallback, useMemo, useRef, useState } from 'react'
+import { useHasChainExpansion } from '../../hooks/useHasChainExpansion'
+import { ExpansionType } from '../../types/widget'
+import { ChainsExpanded } from '../Chains/ChainsExpanded'
+import { chainExpansionWidth } from '../Chains/ChainsExpanded.style'
+import { RoutesExpanded } from '../Routes/RoutesExpanded'
+import { routesExpansionWidth } from '../Routes/RoutesExpanded.style'
+import { animationDuration } from './ExpansionTransition'
 
-enum ExpansionType {
-  Routes = 'routes',
-  FromChain = 'fromChain',
-  ToChain = 'toChain',
-}
+export function Expansion() {
+  const [withChainExpansion, expansionType] = useHasChainExpansion()
+  const chainExpansionTypeRef = useRef<ExpansionType>(expansionType)
 
-const routes: RouteObject[] = [
-  {
-    path: '/',
-    element: ExpansionType.Routes,
-  },
-  {
-    path: navigationRoutes.fromToken,
-    element: ExpansionType.FromChain,
-  },
-  {
-    path: navigationRoutes.toToken,
-    element: ExpansionType.ToChain,
-  },
-  {
-    path: '*',
-    element: null,
-  },
-]
+  const [routesOpen, setRoutesOpen] = useState(false)
 
-export const Expansion = () => {
-  const element = useDOMRoutes(routes)
-  const expansionType = (element?.props as PropsWithChildren)?.children
-  const match = Boolean(expansionType)
+  const handleSetRoutesOpen = useCallback((open: boolean) => {
+    setRoutesOpen(open)
+  }, [])
 
-  const { hiddenUI } = useWidgetConfig()
-  const swapOnly = useSwapOnly()
+  // Track the previous chain expansion type to avoid re-renders when transitioning to Routes
+  if (
+    expansionType === ExpansionType.FromChain ||
+    expansionType === ExpansionType.ToChain
+  ) {
+    chainExpansionTypeRef.current = expansionType
+  }
 
-  const withChainExpansion =
-    (expansionType === ExpansionType.FromChain ||
-      expansionType === ExpansionType.ToChain) &&
-    !(swapOnly && expansionType === ExpansionType.ToChain) &&
-    !hiddenUI?.includes(HiddenUI.ChainSelect)
-
-  const formType = expansionType === ExpansionType.FromChain ? 'from' : 'to'
-  const { setCurrentChain } = useChainSelect(formType)
-  const onSelect = useCallback(
-    (chain: ExtendedChain | undefined) => {
-      setCurrentChain(chain?.id)
-    },
-    [setCurrentChain]
-  )
+  const boxWidth = useMemo(() => {
+    return routesOpen
+      ? routesExpansionWidth
+      : withChainExpansion
+        ? chainExpansionWidth
+        : '0px'
+  }, [routesOpen, withChainExpansion])
 
   return (
-    <CollapseContainer>
-      {expansionType === ExpansionType.Routes && (
-        <Collapse
-          timeout={animationTimeout}
-          in={match}
-          orientation="horizontal"
-        >
-          <ExpansionTopLevelGrow
-            timeout={animationTimeout}
-            in={match}
-            mountOnEnter
-            unmountOnExit
-          >
-            <div>
-              <RoutesExpanded />
-            </div>
-          </ExpansionTopLevelGrow>
-        </Collapse>
-      )}
-      {withChainExpansion && (
-        <ExpansionSlide open={withChainExpansion}>
-          <SelectChainExpansionContainer>
-            <SelectChainContent
-              inExpansion
-              formType={formType}
-              onSelect={onSelect}
-            />
-          </SelectChainExpansionContainer>
-        </ExpansionSlide>
-      )}
-    </CollapseContainer>
+    <Box
+      sx={{
+        position: 'relative',
+        display: 'flex',
+        transition: `width ${animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`,
+        width: boxWidth,
+        willChange: 'width',
+        marginLeft: boxWidth !== '0px' ? '24px' : '0px',
+      }}
+    >
+      <RoutesExpanded
+        expansionType={expansionType}
+        setOpenExpansion={handleSetRoutesOpen}
+      />
+      <ChainsExpanded
+        formType={
+          chainExpansionTypeRef.current === ExpansionType.FromChain
+            ? 'from'
+            : 'to'
+        }
+        open={withChainExpansion}
+      />
+    </Box>
   )
 }

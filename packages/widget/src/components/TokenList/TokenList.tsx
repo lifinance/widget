@@ -25,8 +25,8 @@ export const TokenList: FC<TokenListProps> = ({
   onClick,
 }) => {
   const emitter = useWidgetEvents()
-  const [selectedChainId] = useFieldValues(FormKeyHelper.getChainKey(formType))
-  const [selectedTokenAddress] = useFieldValues(
+  const [selectedChainId, selectedTokenAddress] = useFieldValues(
+    FormKeyHelper.getChainKey(formType),
     FormKeyHelper.getTokenKey(formType)
   )
   const [tokenSearchFilter]: string[] = useDebouncedWatch(
@@ -47,7 +47,7 @@ export const TokenList: FC<TokenListProps> = ({
     isBalanceLoading,
     featuredTokens,
     popularTokens,
-  } = useTokenBalances(selectedChainId)
+  } = useTokenBalances(selectedChainId, formType)
 
   const { chains } = useAvailableChains()
 
@@ -77,7 +77,12 @@ export const TokenList: FC<TokenListProps> = ({
     !!selectedChainId // TODO: getToken needs chainId
 
   const { token: searchedToken, isLoading: isSearchedTokenLoading } =
-    useTokenSearch(selectedChainId, normalizedSearchFilter, tokenSearchEnabled) // TODO: getToken needs chainId
+    useTokenSearch(
+      selectedChainId,
+      normalizedSearchFilter,
+      tokenSearchEnabled,
+      formType
+    )
 
   const isLoading =
     isTokensLoading ||

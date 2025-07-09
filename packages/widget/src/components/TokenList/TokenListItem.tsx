@@ -9,11 +9,13 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
   size,
   start,
   token,
+  chain,
   accountAddress,
   isBalanceLoading,
   startAdornment,
   endAdornment,
   isSelected,
+  onShowTokenDetails,
 }) => {
   const isNetwork = !('chainId' in token)
   return (
@@ -33,7 +35,9 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
           accountAddress={accountAddress}
           isBalanceLoading={isBalanceLoading}
           onClick={onClick}
-          isSelected={isSelected}
+          chain={chain}
+          selected={isSelected}
+          onShowTokenDetails={onShowTokenDetails}
         />
       )}
       {endAdornment}

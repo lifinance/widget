@@ -24,6 +24,7 @@ export const SearchTokenInput = () => {
       placeholder={t('main.tokenSearch')}
       onChange={(e) => onChange((e.target as HTMLInputElement).value)}
       onBlur={onBlur}
+      onClear={() => setFieldValue('tokenSearchFilter', '')}
       value={value as string | undefined}
       autoFocus
     />

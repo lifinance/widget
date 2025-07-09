@@ -5,6 +5,7 @@ import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useHeaderHeight } from '../stores/header/useHeaderStore.js'
 import type { WidgetVariant } from '../types/widget.js'
 import { ElementId, createElementId } from '../utils/elements.js'
+import { getWidgetMaxHeight } from '../utils/widgetSize.js'
 
 // NOTE: the setting of the height in AppExpandedContainer, RelativeContainer and CssBaselineContainer can
 //  be done dynamically by values in the config - namely the config.theme.container values display, maxHeight and height
@@ -45,9 +46,7 @@ export const RelativeContainer = styled(Box, {
   const maxHeight =
     theme.container?.height === 'fit-content'
       ? 'none'
-      : theme.container?.maxHeight ||
-        theme.container?.height ||
-        defaultMaxHeight
+      : getWidgetMaxHeight(theme)
   return {
     position: 'relative',
     boxSizing: 'content-box',
@@ -57,23 +56,12 @@ export const RelativeContainer = styled(Box, {
     background: theme.vars.palette.background.default,
     overflow: 'auto',
     flex: 1,
-    zIndex: 0,
     ...theme.container,
     maxHeight:
       theme.container?.display === 'flex' && !theme.container?.height
         ? '100%'
         : maxHeight,
-    '&:has(.long-list)': {
-      maxHeight: theme.container?.maxHeight || defaultMaxHeight,
-    },
-    '&:has(.with-chain-expansion)': {
-      borderRadius: `${theme.container.borderRadius} 0 0 ${theme.container.borderRadius}`,
-      zIndex: 1,
-      borderRight: `1px solid ${theme.vars.palette.grey[300]}`,
-      ...theme.applyStyles('dark', {
-        borderRight: `1px solid ${theme.vars.palette.grey[800]}`,
-      }),
-    },
+    zIndex: 1, // NB: higher than of expansion containers
     variants: [
       {
         props: {
@@ -102,9 +90,7 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
   const maxHeight =
     theme.container?.height === 'fit-content'
       ? 'none'
-      : theme.container?.maxHeight ||
-        theme.container?.height ||
-        defaultMaxHeight
+      : getWidgetMaxHeight(theme)
   return {
     display: 'flex',
     flex: 1,
@@ -127,7 +113,7 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
         defaultMaxHeight,
     },
     '&:has(.long-list)': {
-      maxHeight: theme.container?.maxHeight || defaultMaxHeight,
+      maxHeight: getWidgetMaxHeight(theme),
     },
   }
 })

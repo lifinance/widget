@@ -309,8 +309,9 @@
     "to": "도착",
     "tokenOnChain": "{{chainName}}의 {{tokenSymbol}}",
     "tokenOnChainAmount": "",
-    "tokenSearch": "이름 또는 컨트랙트 주소를 통해 검색",
+    "tokenSearch": "",
     "valueLoss": "가치 손실",
+    "searchChain": "",
     "searchChains": "",
     "searchBridges": "",
     "searchExchanges": ""
@@ -341,5 +342,9 @@
     "noBookmarkedWallets": "",
     "noConnectedWallets": "",
     "noRecentWallets": ""
+  },
+  "tokenMetric": {
+    "currentPrice": "",
+    "contractAddress": ""
   }
 }

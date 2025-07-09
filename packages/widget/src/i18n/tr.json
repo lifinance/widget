@@ -309,8 +309,9 @@
     "to": "Şuna",
     "tokenOnChain": "{{chainName}} üzerindeki {{tokenSymbol}}",
     "tokenOnChainAmount": "",
-    "tokenSearch": "Tokenlerinizi adres ve ya isim aracılığıyla arayın",
+    "tokenSearch": "",
     "valueLoss": "Değer kaybı",
+    "searchChain": "",
     "searchChains": "Zincir adına göre ara",
     "searchBridges": "Köprü adına göre ara",
     "searchExchanges": "Borsa adına göre ara"
@@ -341,5 +342,9 @@
     "noBookmarkedWallets": "Kayıtlı cüzdan bulunamadı",
     "noConnectedWallets": "Bağlı cüzdan bulunamadı",
     "noRecentWallets": "Son kullanılan cüzdan bulunamadı"
+  },
+  "tokenMetric": {
+    "currentPrice": "",
+    "contractAddress": ""
   }
 }

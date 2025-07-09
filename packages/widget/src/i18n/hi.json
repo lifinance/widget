@@ -311,6 +311,7 @@
     "tokenOnChainAmount": "",
     "tokenSearch": "",
     "valueLoss": "",
+    "searchChain": "",
     "searchChains": "",
     "searchBridges": "",
     "searchExchanges": ""
@@ -341,5 +342,9 @@
     "noBookmarkedWallets": "",
     "noConnectedWallets": "",
     "noRecentWallets": ""
+  },
+  "tokenMetric": {
+    "currentPrice": "",
+    "contractAddress": ""
   }
 }

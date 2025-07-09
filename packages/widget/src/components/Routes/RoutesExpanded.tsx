@@ -1,36 +1,22 @@
 import type { Route } from '@lifi/sdk'
-import { useAccount } from '@lifi/wallet-management'
-import { Grow, Stack, Typography } from '@mui/material'
 import { useEffect, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { useRoutes } from '../../hooks/useRoutes.js'
-import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
-import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { WidgetEvent } from '../../types/events.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { PageContainer } from '../PageContainer.js'
-import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js'
-import { RouteCard } from '../RouteCard/RouteCard.js'
-import { RouteCardSkeleton } from '../RouteCard/RouteCardSkeleton.js'
-import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js'
-import {
-  Container,
-  Header,
-  RoutesExpandedCollapse,
-  ScrollableContainer,
-} from './RoutesExpanded.style.js'
+import { ExpansionType } from '../../types/widget.js'
+import { ExpansionTransition } from '../Expansion/ExpansionTransition.js'
+import { RoutesContent } from './RoutesContent.js'
+import { routesExpansionWidth } from './RoutesExpanded.style.js'
 
-export const animationTimeout = { enter: 225, exit: 225, appear: 0 }
+interface RoutesExpandedProps {
+  expansionType: ExpansionType
+  setOpenExpansion: (open: boolean) => void
+}
 
-export const RoutesExpanded = () => {
-  const { t } = useTranslation()
-  const navigate = useNavigate()
-  const { subvariant, subvariantOptions } = useWidgetConfig()
+export const RoutesExpanded = ({
+  expansionType,
+  setOpenExpansion,
+}: RoutesExpandedProps) => {
   const routesRef = useRef<Route[]>(undefined)
-  const emitter = useWidgetEvents()
+
   const routesActiveRef = useRef(false)
   const {
     routes,
@@ -43,17 +29,6 @@ export const RoutesExpanded = () => {
     refetch,
     setReviewableRoute,
   } = useRoutes()
-  const { account } = useAccount({ chainType: fromChain?.chainType })
-  const [toAddress] = useFieldValues('toAddress')
-  const { requiredToAddress } = useToAddressRequirements()
-
-  const handleRouteClick = (route: Route) => {
-    setReviewableRoute(route)
-    navigate(navigationRoutes.transactionExecution, {
-      state: { routeId: route.id },
-    })
-    emitter.emit(WidgetEvent.RouteSelected, { route, routes: routes! })
-  }
 
   const onExit = () => {
     // Clean routes cache on exit
@@ -68,96 +43,32 @@ export const RoutesExpanded = () => {
     routesActiveRef.current = Boolean(routes)
   }
 
-  const currentRoute = routesRef.current?.[0]
-
-  const expanded = Boolean(
-    routesActiveRef.current || isLoading || isFetching || isFetched
-  )
-
-  const routeNotFound = !currentRoute && !isLoading && !isFetching && expanded
-  const toAddressUnsatisfied = currentRoute && requiredToAddress && !toAddress
-  const allowInteraction = account.isConnected && !toAddressUnsatisfied
+  const expanded =
+    Boolean(routesActiveRef.current || isLoading || isFetching || isFetched) &&
+    expansionType === ExpansionType.Routes
 
   useEffect(() => {
-    emitter.emit(WidgetEvent.WidgetExpanded, expanded)
-  }, [emitter, expanded])
-
-  const title =
-    subvariant === 'custom'
-      ? subvariantOptions?.custom === 'deposit'
-        ? t('header.deposit')
-        : t('header.youPay')
-      : t('header.receive')
+    // To update parent's width when expansion changes
+    setOpenExpansion(expanded)
+  }, [expanded, setOpenExpansion])
 
   return (
-    <RoutesExpandedCollapse
-      timeout={animationTimeout.enter}
+    <ExpansionTransition
       in={expanded}
-      orientation="horizontal"
+      width={routesExpansionWidth}
       onExited={onExit}
     >
-      <Grow
-        timeout={animationTimeout.enter}
-        in={expanded}
-        mountOnEnter
-        unmountOnExit
-      >
-        <Container enableColorScheme minimumHeight={isLoading}>
-          <ScrollableContainer>
-            <Header>
-              <Typography
-                noWrap
-                sx={{
-                  fontSize: 18,
-                  fontWeight: '700',
-                  flex: 1,
-                }}
-              >
-                {title}
-              </Typography>
-              <ProgressToNextUpdate
-                updatedAt={dataUpdatedAt || new Date().getTime()}
-                timeToUpdate={refetchTime}
-                isLoading={isFetching}
-                onClick={() => refetch()}
-                sx={{ marginRight: -1 }}
-              />
-            </Header>
-            <PageContainer>
-              <Stack
-                direction="column"
-                spacing={2}
-                sx={{
-                  flex: 1,
-                  paddingBottom: 3,
-                }}
-              >
-                {routeNotFound ? (
-                  <RouteNotFoundCard />
-                ) : (isLoading || isFetching) && !routesRef.current?.length ? (
-                  Array.from({ length: 3 }).map((_, index) => (
-                    <RouteCardSkeleton key={index} />
-                  ))
-                ) : (
-                  routesRef.current?.map((route: Route, index: number) => (
-                    <RouteCard
-                      key={index}
-                      route={route}
-                      onClick={
-                        allowInteraction
-                          ? () => handleRouteClick(route)
-                          : undefined
-                      }
-                      active={index === 0}
-                      expanded={routesRef.current?.length === 1}
-                    />
-                  ))
-                )}
-              </Stack>
-            </PageContainer>
-          </ScrollableContainer>
-        </Container>
-      </Grow>
-    </RoutesExpandedCollapse>
+      <RoutesContent
+        routes={routesRef.current || []}
+        isFetching={isFetching}
+        isLoading={isLoading}
+        expanded={expanded}
+        setReviewableRoute={setReviewableRoute}
+        dataUpdatedAt={dataUpdatedAt}
+        refetchTime={refetchTime}
+        fromChain={fromChain}
+        refetch={refetch}
+      />
+    </ExpansionTransition>
   )
 }

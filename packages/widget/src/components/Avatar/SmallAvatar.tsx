@@ -1,16 +1,24 @@
 import { Avatar, Skeleton, styled } from '@mui/material'
 import { AvatarSkeletonContainer } from './Avatar.style.js'
 
-export const SmallAvatar = styled(Avatar)(({ theme }) => ({
+interface SmallAvatarProps {
+  size?: number
+}
+
+export const SmallAvatar = styled(Avatar, {
+  shouldForwardProp: (prop) => prop !== 'size',
+})<SmallAvatarProps>(({ theme, size = 16 }) => ({
   background: theme.vars.palette.background.paper,
-  width: 16,
-  height: 16,
+  width: size,
+  height: size,
 }))
 
-export const SmallAvatarSkeleton = () => {
+export const SmallAvatarSkeleton: React.FC<{
+  size?: number
+}> = ({ size = 16 }) => {
   return (
     <AvatarSkeletonContainer>
-      <Skeleton width={16} height={16} variant="circular" />
+      <Skeleton width={size} height={size} variant="circular" />
     </AvatarSkeletonContainer>
   )
 }

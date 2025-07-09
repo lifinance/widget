@@ -309,8 +309,9 @@
     "to": "到",
     "tokenOnChain": "{{chainName}}链上的{{tokenSymbol}}",
     "tokenOnChainAmount": "",
-    "tokenSearch": "按代币名称或者地址搜索",
+    "tokenSearch": "",
     "valueLoss": "资金损失",
+    "searchChain": "",
     "searchChains": "搜索链",
     "searchBridges": "搜索跨链桥",
     "searchExchanges": "搜索交易所"
@@ -341,5 +342,9 @@
     "noBookmarkedWallets": "没有收藏的钱包",
     "noConnectedWallets": "没有已连接的钱包",
     "noRecentWallets": "没有最近使用的钱包"
+  },
+  "tokenMetric": {
+    "currentPrice": "",
+    "contractAddress": ""
   }
 }

@@ -80,36 +80,50 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
 
   return (
     <ChainContainer itemCount={tilesCount}>
-      {hasChainsToShow && (
-        <Tooltip title={t('main.allChains')} enterNextDelay={100}>
-          <ChainCard
-            component="button"
-            onClick={() => setCurrentChain(undefined)}
-            type={chainId === undefined ? 'selected' : 'default'}
-            selectionColor="secondary"
-          >
-            <AllChainsAvatar chains={chainsToShow} size="medium" />
-          </ChainCard>
-        </Tooltip>
+      {isLoading ? (
+        Array.from({ length: maxChainsToOrder }).map((_, index) => (
+          <Skeleton
+            key={index}
+            variant="rectangular"
+            width={56}
+            height={56}
+            sx={{ borderRadius: 1 }}
+          />
+        ))
+      ) : (
+        <>
+          {hasChainsToShow && (
+            <Tooltip title={t('main.allChains')} enterNextDelay={100}>
+              <ChainCard
+                component="button"
+                onClick={() => setCurrentChain(undefined)}
+                type={chainId === undefined ? 'selected' : 'default'}
+                selectionColor="secondary"
+              >
+                <AllChainsAvatar chains={chainsToShow} size="medium" />
+              </ChainCard>
+            </Tooltip>
+          )}
+          {chainsToShow?.map((chain: EVMChain) => (
+            <Tooltip key={chain.id} title={chain.name} enterNextDelay={100}>
+              <ChainCard
+                component="button"
+                onClick={() => setCurrentChain(chain.id)}
+                type={chainId === chain.id ? 'selected' : 'default'}
+                selectionColor="secondary"
+              >
+                <Avatar
+                  src={chain.logoURI}
+                  alt={chain.key}
+                  sx={{ width: 40, height: 40 }}
+                >
+                  {chain.name[0]}
+                </Avatar>
+              </ChainCard>
+            </Tooltip>
+          ))}
+        </>
       )}
-      {chainsToShow.map((chain: EVMChain) => (
-        <Tooltip key={chain.id} title={chain.name} enterNextDelay={100}>
-          <ChainCard
-            component="button"
-            onClick={() => setCurrentChain(chain.id)}
-            type={chainId === chain.id ? 'selected' : 'default'}
-            selectionColor="secondary"
-          >
-            <Avatar
-              src={chain.logoURI}
-              alt={chain.key}
-              sx={{ width: 40, height: 40 }}
-            >
-              {chain.name[0]}
-            </Avatar>
-          </ChainCard>
-        </Tooltip>
-      ))}
       {chainsToHide > 0 ? (
         <ChainCard component="button" onClick={showAllChains}>
           <Box

@@ -1,87 +1,117 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { Box, debounce, useTheme } from '@mui/material'
-import { type FormEventHandler, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { defaultMaxHeight } from '../../config/constants'
+import { memo, useCallback, useMemo, useRef, useState } from 'react'
 import { useDefaultElementId } from '../../hooks/useDefaultElementId'
 import { useScrollableContainer } from '../../hooks/useScrollableContainer'
 import { FormKeyHelper, type FormType } from '../../stores/form/types'
 import { useFieldValues } from '../../stores/form/useFieldValues'
+import { getWidgetMaxHeight } from '../../utils/widgetSize'
 import { useChainSelect } from '../ChainSelect/useChainSelect'
 import { FullPageContainer } from '../FullPageContainer'
-import { SearchInput, StickySearchInput } from '../Search/SearchInput'
 import { ChainList } from './ChainList'
+import { ChainSearchInput } from './ChainSearchInput'
 
 interface SelectChainContentProps {
   formType: FormType
-  onSelect: (chain: ExtendedChain | undefined) => void
+  onSelect?: (chain: ExtendedChain | undefined) => void
   inExpansion: boolean
 }
 
 const searchHeaderHeight = '80px'
 
-export const SelectChainContent: React.FC<SelectChainContentProps> = ({
-  formType,
-  onSelect,
-  inExpansion,
-}) => {
-  const { t } = useTranslation()
-  const theme = useTheme()
-  const { chains, isLoading } = useChainSelect(formType)
-  const elementId = useDefaultElementId()
-  const scrollableContainer = useScrollableContainer(elementId)
-  const [selectedChainId] = useFieldValues(FormKeyHelper.getChainKey(formType))
-  const [searchQuery, setSearchQuery] = useState('')
+export const SelectChainContent: React.FC<SelectChainContentProps> = memo(
+  ({ formType, onSelect, inExpansion }) => {
+    const theme = useTheme()
+    const { chains, isLoading, setCurrentChain } = useChainSelect(formType)
+    const elementId = useDefaultElementId()
+    const scrollableContainer = useScrollableContainer(elementId)
+    const [selectedChainId] = useFieldValues(
+      FormKeyHelper.getChainKey(formType)
+    )
+    const inputRef = useRef<HTMLInputElement>(null)
+    const listRef = useRef<HTMLDivElement>(null)
+    const [filteredChains, setFilteredChains] = useState<ExtendedChain[]>(
+      chains ?? []
+    )
 
-  const handleSearchInputChange: FormEventHandler<HTMLInputElement> = (e) => {
-    const value = (e.target as HTMLInputElement).value
-    setSearchQuery(value)
+    const scrollToTop = useCallback(() => {
+      // Scroll widget container to top
+      if (!inExpansion && scrollableContainer) {
+        scrollableContainer.scrollTop = 0
+      }
+      // Scroll chain list to top
+      if (inExpansion && listRef.current) {
+        listRef.current.scrollTop = 0
+      }
+    }, [inExpansion, scrollableContainer])
 
-    if (scrollableContainer) {
-      scrollableContainer.scrollTop = 0
-    }
-  }
+    const debouncedFilterChains = useMemo(
+      () =>
+        debounce((chains: ExtendedChain[]) => {
+          const value = inputRef.current?.value?.toLowerCase() || ''
+          const filtered = value
+            ? chains?.filter((chain) =>
+                chain.name.toLowerCase().includes(value)
+              )
+            : chains
+          setFilteredChains(filtered ?? [])
+          scrollToTop()
+        }, 250),
+      [scrollToTop]
+    )
 
-  const debouncedSearchInputChange = debounce(handleSearchInputChange, 250)
+    const onSelectChainFallback = useCallback(
+      (chain: ExtendedChain | undefined) => {
+        setCurrentChain(chain?.id)
+      },
+      [setCurrentChain]
+    )
 
-  const listContainerHeight = useMemo(() => {
-    const fullContainerHeight =
-      theme.container?.maxHeight || theme.container?.height || defaultMaxHeight
-    return `calc(${fullContainerHeight}px - ${searchHeaderHeight})`
-  }, [theme.container])
+    const onChange = useCallback(() => {
+      debouncedFilterChains(chains ?? [])
+    }, [chains, debouncedFilterChains])
 
-  return (
-    <FullPageContainer disableGutters>
-      {inExpansion ? (
-        <Box sx={{ pt: 3, pb: 2, px: 3, height: searchHeaderHeight }}>
-          <SearchInput
-            onChange={handleSearchInputChange}
-            placeholder={t('main.searchChain')}
-            size="small"
-            iconPosition="start"
+    const onClear = useCallback(() => {
+      setFilteredChains(chains ?? [])
+      scrollToTop()
+    }, [chains, scrollToTop])
+
+    const listContainerHeight = useMemo(() => {
+      const fullContainerHeight = getWidgetMaxHeight(theme)
+      const heightValue =
+        typeof fullContainerHeight === 'number'
+          ? `${fullContainerHeight}px`
+          : fullContainerHeight
+      return `calc(${heightValue} - ${searchHeaderHeight})`
+    }, [theme])
+
+    return (
+      <FullPageContainer disableGutters>
+        <ChainSearchInput
+          inputRef={inputRef}
+          inExpansion={inExpansion}
+          onChange={onChange}
+          onClear={onClear}
+          searchHeaderHeight={searchHeaderHeight}
+        />
+        <Box
+          ref={listRef}
+          sx={
+            inExpansion ? { height: listContainerHeight, overflow: 'auto' } : {}
+          }
+        >
+          <ChainList
+            parentRef={listRef}
+            chains={filteredChains}
+            searchQuery={inputRef.current?.value || ''}
+            isLoading={isLoading}
+            onSelect={onSelect ?? onSelectChainFallback}
+            selectedChainId={selectedChainId}
+            itemsSize={inExpansion ? 'small' : 'medium'}
+            adjustForStickySearchInput={!inExpansion}
           />
         </Box>
-      ) : (
-        <StickySearchInput
-          onChange={debouncedSearchInputChange}
-          placeholder={t('main.searchChain')}
-        />
-      )}
-      <Box
-        sx={
-          inExpansion ? { height: listContainerHeight, overflow: 'auto' } : {}
-        }
-      >
-        <ChainList
-          chains={chains || []}
-          searchQuery={searchQuery}
-          isLoading={isLoading}
-          onSelect={onSelect}
-          selectedChainId={selectedChainId}
-          itemsSize={inExpansion ? 'small' : 'medium'}
-          adjustForStickySearchInput={!inExpansion}
-        />
-      </Box>
-    </FullPageContainer>
-  )
-}
+      </FullPageContainer>
+    )
+  }
+)

@@ -309,8 +309,9 @@
     "to": "To",
     "tokenOnChain": "{{chainName}} の {{tokenSymbol}}",
     "tokenOnChainAmount": "",
-    "tokenSearch": "トークン名またはアドレスで検索",
+    "tokenSearch": "",
     "valueLoss": "損失額",
+    "searchChain": "",
     "searchChains": "",
     "searchBridges": "",
     "searchExchanges": ""
@@ -341,5 +342,9 @@
     "noBookmarkedWallets": "ブックマークされたウォレットはありません",
     "noConnectedWallets": "接続中のウォレットはありません",
     "noRecentWallets": "最近使ったウォレットはありません"
+  },
+  "tokenMetric": {
+    "currentPrice": "",
+    "contractAddress": ""
   }
 }

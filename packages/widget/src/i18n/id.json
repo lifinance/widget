@@ -309,8 +309,9 @@
     "to": "Kepada",
     "tokenOnChain": "{{tokenSymbol}} di {{chainName}}",
     "tokenOnChainAmount": "{{amount, numberExt}} {{tokenSymbol}} di {{chainName}}",
-    "tokenSearch": "Cari berdasarkan nama atau alamat token",
+    "tokenSearch": "",
     "valueLoss": "Kehilangan nilai",
+    "searchChain": "",
     "searchChains": "Cari berdasarkan nama rantai",
     "searchBridges": "Cari berdasarkan nama bridge",
     "searchExchanges": "Cari berdasarkan nama exchange"
@@ -341,5 +342,9 @@
     "noBookmarkedWallets": "Tidak ada dompet yang ditandai",
     "noConnectedWallets": "Tida ada dompet yang di hubungkan",
     "noRecentWallets": "Tidak ada dompet terakhir yang digunakan"
+  },
+  "tokenMetric": {
+    "currentPrice": "",
+    "contractAddress": ""
   }
 }

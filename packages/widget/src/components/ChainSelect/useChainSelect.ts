@@ -1,4 +1,5 @@
 import type { EVMChain } from '@lifi/sdk'
+import { useCallback } from 'react'
 import { useChains } from '../../hooks/useChains.js'
 import { useSwapOnly } from '../../hooks/useSwapOnly.js'
 import { useToAddressReset } from '../../hooks/useToAddressReset.js'
@@ -42,30 +43,43 @@ export const useChainSelect = (formType: FormType) => {
     return selectedChains
   }
 
-  const setCurrentChain = (chainId: number | undefined) => {
-    onChange(chainId)
-    if (swapOnly) {
-      setFieldValue(FormKeyHelper.getChainKey('to'), chainId, {
-        isTouched: true,
-      })
-    }
-    const tokenKey = FormKeyHelper.getTokenKey(formType)
-    if (!disabledUI?.includes(tokenKey as DisabledUI)) {
-      setFieldValue(tokenKey, '')
-    }
-    const amountKey = FormKeyHelper.getAmountKey(formType)
-    if (!disabledUI?.includes(amountKey as DisabledUI)) {
-      setFieldValue(amountKey, '')
-    }
-    setFieldValue('tokenSearchFilter', '')
+  const setCurrentChain = useCallback(
+    (chainId: number | undefined) => {
+      onChange(chainId)
+      if (swapOnly) {
+        setFieldValue(FormKeyHelper.getChainKey('to'), chainId, {
+          isTouched: true,
+        })
+      }
+      const tokenKey = FormKeyHelper.getTokenKey(formType)
+      if (!disabledUI?.includes(tokenKey as DisabledUI)) {
+        setFieldValue(tokenKey, '')
+      }
+      const amountKey = FormKeyHelper.getAmountKey(formType)
+      if (!disabledUI?.includes(amountKey as DisabledUI)) {
+        setFieldValue(amountKey, '')
+      }
+      setFieldValue('tokenSearchFilter', '')
 
-    const [toChainId] = getFieldValues('toChain')
-    const toChain = getChainById(toChainId)
-    if (toChain) {
-      tryResetToAddress(toChain)
-    }
-    setChainOrder(chainId, formType)
-  }
+      const [toChainId] = getFieldValues('toChain')
+      const toChain = getChainById(toChainId)
+      if (toChain) {
+        tryResetToAddress(toChain)
+      }
+      setChainOrder(chainId, formType)
+    },
+    [
+      onChange,
+      swapOnly,
+      setFieldValue,
+      disabledUI,
+      formType,
+      getChainById,
+      tryResetToAddress,
+      setChainOrder,
+      getFieldValues,
+    ]
+  )
 
   return {
     chainOrder,

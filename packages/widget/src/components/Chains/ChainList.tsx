@@ -1,28 +1,29 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { Skeleton } from '@mui/material'
-import { useMemo, useRef } from 'react'
+import type { RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SearchNotFound } from '../Search/SearchNotFound'
-import { AllChainsAvatar } from './AllChainsAvatar'
 import {
-  Avatar,
   List,
   ListItemAvatar,
   ListItemButton,
   ListItemText,
 } from './ChainList.style'
+import { VirtualizedChainList } from './VirtualizedChainList'
 
 interface ChainListProps {
+  parentRef: RefObject<HTMLDivElement | null>
   chains: ExtendedChain[]
-  searchQuery: string
   onSelect: (chain: ExtendedChain | undefined) => void
   selectedChainId?: number
   isLoading: boolean
   itemsSize: 'small' | 'medium'
   adjustForStickySearchInput?: boolean
+  searchQuery: string
 }
 
 export const ChainList = ({
+  parentRef,
   chains,
   searchQuery,
   onSelect,
@@ -33,26 +34,9 @@ export const ChainList = ({
 }: ChainListProps) => {
   const { t } = useTranslation()
 
-  const initialSelectedChainIdRef = useRef(selectedChainId)
-  const sortedChains = useMemo(() => {
-    const filteredChains = searchQuery
-      ? chains.filter((chain) =>
-          chain.name.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      : chains
-
-    const selectedChain = filteredChains.find(
-      (chain) => chain.id === initialSelectedChainIdRef.current
-    )
-    const otherChains = filteredChains.filter(
-      (chain) => chain.id !== initialSelectedChainIdRef.current
-    )
-    return selectedChain ? [selectedChain, ...otherChains] : filteredChains
-  }, [chains, searchQuery])
-
   if (isLoading) {
     return (
-      <List size={itemsSize} disablePadding sx={{ cursor: 'default' }}>
+      <List disablePadding sx={{ cursor: 'default' }}>
         {Array.from({ length: 3 }).map((_, index) => (
           <ListItemButton
             key={index}
@@ -83,7 +67,7 @@ export const ChainList = ({
     )
   }
 
-  if (!sortedChains.length) {
+  if (!chains.length) {
     return (
       <SearchNotFound
         message={t('info.message.emptyChainList')}
@@ -93,34 +77,13 @@ export const ChainList = ({
   }
 
   return (
-    <List className="long-list" size={itemsSize} disablePadding>
-      {!searchQuery && (
-        <ListItemButton
-          onClick={() => onSelect(undefined)}
-          selected={selectedChainId === undefined}
-          size={itemsSize}
-        >
-          <ListItemAvatar size={itemsSize}>
-            <AllChainsAvatar chains={chains} size={itemsSize} />
-          </ListItemAvatar>
-          <ListItemText primary={t('main.allChains')} size={itemsSize} />
-        </ListItemButton>
-      )}
-      {sortedChains.map((chain) => (
-        <ListItemButton
-          key={chain.id}
-          onClick={() => onSelect(chain)}
-          selected={chain.id === selectedChainId}
-          size={itemsSize}
-        >
-          <ListItemAvatar size={itemsSize}>
-            <Avatar src={chain.logoURI} alt={chain.name} size={itemsSize}>
-              {chain.name[0]}
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary={chain.name} size={itemsSize} />
-        </ListItemButton>
-      ))}
-    </List>
+    <VirtualizedChainList
+      scrollElementRef={parentRef}
+      chains={chains}
+      searchQuery={searchQuery}
+      onSelect={onSelect}
+      selectedChainId={selectedChainId}
+      itemsSize={itemsSize}
+    />
   )
 }

@@ -29,6 +29,13 @@ export const Input = styled(InputBase, {
       width: size === 'small' ? '1.25rem' : '1.5rem',
     },
   },
+  [`& .${inputAdornmentClasses.root}.${inputAdornmentClasses.positionEnd}`]: {
+    marginRight: size === 'small' ? theme.spacing(-0.5) : theme.spacing(-1),
+    [`& .${svgIconClasses.root}`]: {
+      width: size === 'small' ? '1rem' : '1.25rem',
+      height: size === 'small' ? '1rem' : '1.25rem',
+    },
+  },
 }))
 
 interface SearchStickyContainerProps {
