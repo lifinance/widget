@@ -48,7 +48,7 @@ export const VirtualizedChainList = ({
         return 'all-chains'
       }
       const chainIndex = index - (!hasSearchQuery ? 1 : 0)
-      return `${sortedChains[chainIndex].id}-${chainIndex}`
+      return `${sortedChains[chainIndex].id}-${index}`
     },
     [sortedChains, hasSearchQuery]
   )

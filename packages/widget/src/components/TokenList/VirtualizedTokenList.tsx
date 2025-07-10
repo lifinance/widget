@@ -1,17 +1,19 @@
 import { Typography } from '@mui/material'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type { FC } from 'react'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { NetworkAmount, TokenAmount } from '../../types/token.js'
 import { TokenDetailsSheet } from './TokenDetailsSheet.js'
 import { List } from './TokenList.style.js'
 import { TokenListItem } from './TokenListItem.js'
-import { TokenListItemSkeleton } from './TokenListItemButton.js'
+import { TokenListItemSkeleton } from './TokenListItemSkeleton.js'
 import type {
   TokenDetailsSheetBase,
   VirtualizedTokenListProps,
 } from './types.js'
+
+const tokenItemHeight = 64 // 60 + 4px margin-bottom
 
 export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   account,
@@ -42,14 +44,12 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     [tokens]
   )
 
-  const { getVirtualItems, getTotalSize, scrollToIndex } = useVirtualizer({
-    count: tokens.length,
-    overscan: 5,
-    paddingEnd: 12,
-    getScrollElement: () => scrollElementRef.current,
-    estimateSize: (index) => {
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
+
+  const estimateSize = useCallback(
+    (index: number) => {
       // Base size for TokenListItem
-      let size = 64
+      let size = tokenItemHeight
       // Early return if categories are not shown
       if (!showCategories) {
         return size
@@ -73,10 +73,32 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
         size += 32
       }
 
+      // Adjust size based on expanded item
+      if (expandedIndex === index) {
+        size +=
+          ((currentToken as NetworkAmount)?.tokens?.length || 0) *
+          tokenItemHeight
+      }
+
       return size
     },
-    getItemKey,
-  })
+    [tokens, showCategories, expandedIndex]
+  )
+
+  const { getVirtualItems, getTotalSize, scrollToIndex, measure } =
+    useVirtualizer({
+      count: tokens.length,
+      overscan: 5,
+      paddingEnd: 12,
+      getScrollElement: () => scrollElementRef.current,
+      estimateSize,
+      getItemKey,
+    })
+
+  const handleToggle = (index: number) => {
+    setExpandedIndex((prev) => (prev === index ? null : index))
+    measure() // Re-measure the list to update the sizes of the items
+  }
 
   // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
@@ -157,6 +179,8 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
               token={currentToken}
               selectedTokenAddress={selectedTokenAddress}
               onShowTokenDetails={onShowTokenDetails}
+              isExpanded={expandedIndex === item.index}
+              onExpand={() => handleToggle(item.index)}
               isBalanceLoading={isBalanceLoading}
               accountAddress={account.address}
               startAdornment={

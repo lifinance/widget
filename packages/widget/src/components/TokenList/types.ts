@@ -32,6 +32,8 @@ export interface TokenListItemBaseProps {
 export interface TokenListItemProps extends TokenListItemBaseProps {
   accountAddress?: string
   token: TokenAmount | NetworkAmount
+  isExpanded: boolean
+  onExpand: (expanded: boolean) => void
   onShowTokenDetails: (tokenAddress: string, noContractAddress: boolean) => void
   chain?: ExtendedChain
   isBalanceLoading?: boolean

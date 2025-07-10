@@ -1,33 +1,27 @@
-import {
-  AccordionDetails,
-  Avatar,
-  Box,
-  ListItemAvatar,
-  ListItemText,
-  Tooltip,
-  // Typography,
-} from '@mui/material'
+import { AccordionDetails, Avatar, Box, Tooltip } from '@mui/material'
 import AccordionSummary from '@mui/material/AccordionSummary'
-import { useState } from 'react'
-// import { useTranslation } from 'react-i18next'
 import type { NetworkAmount, TokenAmount } from '../../types/token'
 import { CustomAccordion, CustomAvatarGroup } from './TokenGroup.style'
-import {
-  TokenListItemAvatar,
-  TokenListItemButton,
-} from './TokenListItemButton.js'
+import { TokenListItemButton } from './TokenListItemButton.js'
+import { TokenListItemContent } from './TokenListItemContent'
 
 interface TokenGroupProps {
   network: NetworkAmount
   onClick?(tokenAddress: string, chainId?: number): void
+  isExpanded: boolean
+  onExpand: (expanded: boolean) => void
+  onShowTokenDetails: (tokenAddress: string, noContractAddress: boolean) => void
 }
 
-export const TokenGroup = ({ network, onClick }: TokenGroupProps) => {
-  // const { t } = useTranslation()
-  const [isExpanded, setExpanded] = useState<boolean>(false)
-
+export const TokenGroup = ({
+  network,
+  onClick,
+  isExpanded,
+  onExpand,
+  onShowTokenDetails,
+}: TokenGroupProps) => {
   const handleChange = (_: React.SyntheticEvent, expanded: boolean) => {
-    setExpanded(expanded)
+    onExpand(expanded)
   }
 
   return (
@@ -35,30 +29,22 @@ export const TokenGroup = ({ network, onClick }: TokenGroupProps) => {
       expanded={isExpanded}
       disableGutters
       onChange={handleChange}
-      sx={{
-        //height: 60,
-        marginBottom: '4px',
-      }}
     >
       <AccordionSummary
         sx={{
           padding: 0,
           '& .MuiAccordionSummary-content': {
             margin: 0,
+            alignItems: 'center',
           },
         }}
+        component={Box}
       >
-        <ListItemAvatar>
-          <TokenListItemAvatar token={network as TokenAmount} />
-        </ListItemAvatar>
-        <ListItemText
-          primary={network.symbol}
-          slotProps={{
-            secondary: {
-              component: 'div',
-            },
-          }}
-          secondary={
+        <TokenListItemContent
+          token={network as TokenAmount}
+          showBalance={false}
+          isBalanceLoading={false}
+          secondaryNode={
             <Box
               sx={{
                 position: 'relative',
@@ -86,41 +72,6 @@ export const TokenGroup = ({ network, onClick }: TokenGroupProps) => {
             </Box>
           }
         />
-        {/* {accountAddress ? (
-              isBalanceLoading ? (
-                <TokenAmountSkeleton />
-              ) : (
-                <Box sx={{ textAlign: 'right' }}>
-                  {token.amount ? (
-                    <Typography
-                      noWrap
-                      sx={{
-                        fontWeight: 600,
-                      }}
-                      title={tokenAmount}
-                    >
-                      {t('format.tokenAmount', {
-                        value: tokenAmount,
-                      })}
-                    </Typography>
-                  ) : null}
-                  {tokenPrice ? (
-                    <Typography
-                      data-price={token.priceUSD}
-                      sx={{
-                        fontWeight: 500,
-                        fontSize: 12,
-                        color: 'text.secondary',
-                      }}
-                    >
-                      {t('format.currency', {
-                        value: tokenPrice,
-                      })}
-                    </Typography>
-                  ) : null}
-                </Box>
-              )
-            ) : null} */}
       </AccordionSummary>
       <AccordionDetails
         sx={{
@@ -140,10 +91,11 @@ export const TokenGroup = ({ network, onClick }: TokenGroupProps) => {
             <TokenListItemButton
               key={`${t.address}-${idx}`}
               token={t}
+              chain={network.chains?.find((c) => c.id === t.chainId)}
               onClick={() => {
                 onClick?.(t.address, t.chainId)
               }}
-              onShowTokenDetails={() => {}}
+              onShowTokenDetails={onShowTokenDetails}
             />
           ))}
         </Box>

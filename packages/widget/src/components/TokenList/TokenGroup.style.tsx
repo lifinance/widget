@@ -3,31 +3,18 @@ import { Accordion, AvatarGroup, styled } from '@mui/material'
 export const CustomAccordion = styled(Accordion)<{ isExpanded?: boolean }>(
   ({ theme }) => ({
     background: 'transparent',
-    //height: 60,
+    height: 60,
+    paddingLeft: theme.spacing(1.5),
+    paddingRight: theme.spacing(1.5),
+    paddingTop: theme.spacing(0.5),
+    paddingBottom: theme.spacing(0.5),
+    marginBottom: theme.spacing(0.5),
     borderRadius: theme.vars.shape.borderRadius,
-    border: 0,
     boxShadow: 'none',
     width: '100%',
-    '& .MuiAccordionSummary-root': {
-      padding: theme.spacing(1),
-      borderRadius: theme.vars.shape.borderRadius,
-      '&:hover': {
-        borderRadius: theme.vars.shape.borderRadius,
-        backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
-      },
+    '&:hover': {
+      backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
     },
-    variants: [
-      {
-        props: ({ isExpanded }) => isExpanded,
-        style: {
-          '& .MuiAccordionSummary-root': {
-            '&:hover': {
-              borderRadius: '16px 16px 0 0',
-            },
-          },
-        },
-      },
-    ],
   })
 )
 

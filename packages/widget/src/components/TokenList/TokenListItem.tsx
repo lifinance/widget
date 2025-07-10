@@ -16,6 +16,8 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
   endAdornment,
   selectedTokenAddress,
   onShowTokenDetails,
+  isExpanded,
+  onExpand,
 }) => {
   const isNetwork = !('chainId' in token)
   return (
@@ -28,7 +30,13 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
     >
       {startAdornment}
       {isNetwork ? (
-        <TokenGroup network={token as NetworkAmount} onClick={onClick} />
+        <TokenGroup
+          network={token as NetworkAmount}
+          onClick={onClick}
+          isExpanded={isExpanded}
+          onExpand={onExpand}
+          onShowTokenDetails={onShowTokenDetails}
+        />
       ) : (
         <TokenListItemButton
           token={token as TokenAmount}
