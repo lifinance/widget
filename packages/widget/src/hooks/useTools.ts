@@ -2,7 +2,7 @@ import { type ToolsResponse, getTools } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useSettingsStore } from '../stores/settings/useSettingsStore.js'
-import { isItemAllowed } from '../utils/item.js'
+import { getConfigItemSets, isItemAllowedForSets } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 
 export const useTools = () => {
@@ -17,12 +17,20 @@ export const useTools = () => {
     ],
     queryFn: async (): Promise<ToolsResponse> => {
       const tools = await getTools()
+      const bridgesConfigSets = getConfigItemSets(
+        bridges,
+        (bridges) => new Set(bridges)
+      )
+      const exchangesConfigSets = getConfigItemSets(
+        exchanges,
+        (exchanges) => new Set(exchanges)
+      )
       const result = {
         bridges: tools.bridges.filter((bridge) =>
-          isItemAllowed(bridge.key, bridges)
+          isItemAllowedForSets(bridge.key, bridgesConfigSets)
         ),
         exchanges: tools.exchanges.filter((exchange) =>
-          isItemAllowed(exchange.key, exchanges)
+          isItemAllowedForSets(exchange.key, exchangesConfigSets)
         ),
       }
       const { initializeTools } = useSettingsStore.getState()

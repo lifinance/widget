@@ -3,7 +3,7 @@ import { ChainType, config, getChains } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import { isItemAllowed } from '../utils/item.js'
+import { getConfigItemSets, isItemAllowedForSets } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 
 export type GetChainById = (
@@ -33,9 +33,15 @@ export const useAvailableChains = (chainTypes?: ChainType[]) => {
       chains?.to,
     ] as const,
     queryFn: async ({ queryKey: [, chainTypesConfig] }) => {
+      const chainsConfigSets = getConfigItemSets(
+        chainTypesConfig,
+        (chains) => new Set(chains)
+      )
       const chainTypesRequest = supportedChainTypes
         // providers.length > 0 ? providers : supportedChainTypes
-        .filter((chainType) => isItemAllowed(chainType, chainTypesConfig))
+        .filter((chainType) =>
+          isItemAllowedForSets(chainType, chainsConfigSets)
+        )
 
       const availableChains = await getChains({
         chainTypes: chainTypes || chainTypesRequest,
