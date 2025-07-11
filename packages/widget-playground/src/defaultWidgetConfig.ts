@@ -48,11 +48,7 @@ export const widgetBaseConfig: WidgetConfig = {
   sdkConfig: {
     apiUrl: 'https://li.quest/v1',
     rpcUrls: {
-      [ChainId.SOL]: [
-        'https://chaotic-restless-putty.solana-mainnet.quiknode.pro/',
-        'https://dacey-pp61jd-fast-mainnet.helius-rpc.com/',
-        'https://lifi-mainc49-4c2b.mainnet.rpcpool.com/',
-      ],
+      [ChainId.SOL]: ['https://dacey-pp61jd-fast-mainnet.helius-rpc.com/'],
     },
     routeOptions: {
       maxPriceImpact: 0.4,
