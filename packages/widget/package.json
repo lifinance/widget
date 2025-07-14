@@ -63,6 +63,7 @@
     "@solana/wallet-adapter-coinbase": "^0.1.23",
     "@solana/web3.js": "^1.98.2",
     "@tanstack/react-virtual": "^3.13.12",
+    "@walletconnect/solana-adapter": "^0.0.8",
     "i18next": "^25.3.0",
     "microdiff": "^1.5.0",
     "mitt": "^3.0.1",

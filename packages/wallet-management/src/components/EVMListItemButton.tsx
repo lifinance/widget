@@ -7,7 +7,6 @@ import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { WalletManagementEvent } from '../types/events.js'
 import { WalletTagType } from '../types/walletTagType.js'
-import { createWalletConnectElement } from '../utils/elements.js'
 import { getConnectorIcon } from '../utils/getConnectorIcon.js'
 import { isWalletInstalled } from '../utils/isWalletInstalled.js'
 import { CardListItemButton } from './CardListItemButton.js'
@@ -48,9 +47,9 @@ export const EVMListItemButton = ({
         onNotInstalled?.(connector as Connector)
         return
       }
-      if (connector.id === 'walletConnect') {
-        createWalletConnectElement()
-      }
+      // if (connector.id === 'walletConnect') {
+      //   createWalletConnectElement()
+      // }
       const connectedAccount = getAccount(config)
       onConnecting?.()
       const data = await connect(config, { connector })
