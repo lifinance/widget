@@ -10,7 +10,7 @@
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^5.0.3",
+    "@sveltejs/vite-plugin-svelte": "^6.0.0",
     "@tsconfig/svelte": "^5.0.4",
     "@types/events": "^3.0.3",
     "@types/node": "^24.0.10",
@@ -22,7 +22,7 @@
     "tslib": "^2.8.1",
     "typescript": "^5.8.3",
     "vite": "^7.0.2",
-    "vite-plugin-node-polyfills": "^0.23.0"
+    "vite-plugin-node-polyfills": "^0.24.0"
   },
   "dependencies": {
     "@lifi/widget": "workspace:^",

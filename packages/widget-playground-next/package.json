@@ -16,7 +16,7 @@
     "@mui/material": "^7.2.0",
     "@mui/material-nextjs": "^7.2.0",
     "@mui/system": "^7.2.0",
-    "@tanstack/react-query": "^5.81.5",
+    "@tanstack/react-query": "^5.83.0",
     "core-js": "^3.43.0",
     "next": "^15.3.5",
     "react": "^19.1.0",
