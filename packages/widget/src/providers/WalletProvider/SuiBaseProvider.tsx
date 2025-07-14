@@ -1,8 +1,8 @@
 import { ChainId } from '@lifi/sdk'
 import {
+  createNetworkConfig,
   SuiClientProvider,
   WalletProvider,
-  createNetworkConfig,
 } from '@mysten/dapp-kit'
 import { getFullnodeUrl } from '@mysten/sui/client'
 import { type FC, type PropsWithChildren, useMemo } from 'react'

@@ -4,7 +4,7 @@ import { defaultMaxHeight } from '../config/constants.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useHeaderHeight } from '../stores/header/useHeaderStore.js'
 import type { WidgetVariant } from '../types/widget.js'
-import { ElementId, createElementId } from '../utils/elements.js'
+import { createElementId, ElementId } from '../utils/elements.js'
 import { getWidgetMaxHeight } from '../utils/widgetSize.js'
 
 // NOTE: the setting of the height in AppExpandedContainer, RelativeContainer and CssBaselineContainer can

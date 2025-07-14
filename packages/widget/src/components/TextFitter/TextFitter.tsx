@@ -50,7 +50,7 @@ export const TextFitter: React.FC<PropsWithChildren<TextFitterProps>> = ({
     onFit?.()
   }, [cropBottom, cropTop, onFit])
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
+  // biome-ignore lint/correctness/useExhaustiveDependencies: run only when children changes
   useLayoutEffect(() => {
     calculateBox()
   }, [calculateBox, children])

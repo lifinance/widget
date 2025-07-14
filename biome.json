@@ -3,7 +3,7 @@
   "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
   "files": {
     "ignoreUnknown": false,
-    "ignore": ["*.md", "*.lock", "*.svelte", "*.vue"]
+    "includes": ["**", "!**/*.md", "!**/*.lock", "!**/*.svelte", "!**/*.vue"]
   },
   "formatter": {
     "enabled": true,
@@ -16,13 +16,14 @@
     "attributePosition": "auto",
     "bracketSpacing": true
   },
-  "organizeImports": { "enabled": true },
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "linter": {
     "enabled": true,
     "rules": {
       "recommended": true,
       "complexity": {
-        "noForEach": "off"
+        "noForEach": "off",
+        "noCommaOperator": "warn"
       },
       "correctness": {
         "noUnusedLabels": "error",
@@ -32,7 +33,6 @@
         "useHookAtTopLevel": "error"
       },
       "style": {
-        "noCommaOperator": "warn",
         "noDefaultExport": "off",
         "noNonNullAssertion": "off",
         "useBlockStatements": "warn"
@@ -62,7 +62,7 @@
   },
   "overrides": [
     {
-      "include": ["./examples/**"],
+      "includes": ["examples/**"],
       "linter": {
         "rules": {
           "suspicious": {

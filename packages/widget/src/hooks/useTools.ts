@@ -1,4 +1,4 @@
-import { type ToolsResponse, getTools } from '@lifi/sdk'
+import { getTools, type ToolsResponse } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useSettingsStore } from '../stores/settings/useSettingsStore.js'

@@ -1,5 +1,6 @@
 import { join } from 'node:path'
 import fsExtra from 'fs-extra'
+
 const { readFile, writeFile } = fsExtra
 
 async function run() {

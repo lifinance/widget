@@ -1,21 +1,24 @@
 import { useSyncWagmiConfig } from '@lifi/wallet-management'
 import { ChainType, type ExtendedChain, useAvailableChains } from '@lifi/widget'
+import { bitcoin, solana } from '@reown/appkit/networks'
+import { type AppKit, createAppKit } from '@reown/appkit/react'
 import { BitcoinAdapter } from '@reown/appkit-adapter-bitcoin'
 import { SolanaAdapter } from '@reown/appkit-adapter-solana'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import type { AppKitNetwork } from '@reown/appkit-common'
-import { bitcoin, solana } from '@reown/appkit/networks'
-import { type AppKit, createAppKit } from '@reown/appkit/react'
 import { useEffect, useRef } from 'react'
 import { WagmiProvider } from 'wagmi'
 import { metadata, projectId } from '../config/appkit'
 import { chainToAppKitNetworks, getChainImagesConfig } from '../utils/appkit'
-import { SolanaProvider, emitter } from './SolanaProvider'
+import { emitter, SolanaProvider } from './SolanaProvider'
 
 export function WalletProvider({
   children,
   chains,
-}: { children: React.ReactNode; chains: ExtendedChain[] }) {
+}: {
+  children: React.ReactNode
+  chains: ExtendedChain[]
+}) {
   const wagmi = useRef<WagmiAdapter | undefined>(undefined)
   const modal = useRef<AppKit | undefined>(undefined)
 
@@ -88,7 +91,9 @@ export function WalletProvider({
 
 export function SyncedWalletProvider({
   children,
-}: { children: React.ReactNode }) {
+}: {
+  children: React.ReactNode
+}) {
   // fetch available chains before rendering the WalletProvider
   const { chains, isLoading } = useAvailableChains()
 

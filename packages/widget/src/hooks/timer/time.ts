@@ -43,7 +43,7 @@ export function getTimeFromMilliseconds(
 }
 
 export function getMillisecondsFromExpiry(expiry: Date): number {
-  const now = new Date().getTime()
+  const now = Date.now()
   const milliSecondsDistance = expiry?.getTime() - now
   return milliSecondsDistance > 0 ? milliSecondsDistance : 0
 }
