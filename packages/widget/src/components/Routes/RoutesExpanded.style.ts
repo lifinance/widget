@@ -40,7 +40,6 @@ export const Container = styled(ScopedCssBaseline, {
 
 export const Header = styled(Box)(({ theme }) => ({
   backgroundColor: theme.vars.palette.background.default,
-  backdropFilter: 'blur(12px)',
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
