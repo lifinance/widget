@@ -1,10 +1,10 @@
 import { useSyncWagmiConfig } from '@lifi/wallet-management'
 import { ChainType, type ExtendedChain } from '@lifi/widget'
+import { mainnet, solana } from '@reown/appkit/networks'
+import { type AppKit, createAppKit } from '@reown/appkit/react'
 import { SolanaAdapter } from '@reown/appkit-adapter-solana'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import type { AppKitNetwork } from '@reown/appkit-common'
-import { mainnet, solana } from '@reown/appkit/networks'
-import { type AppKit, createAppKit } from '@reown/appkit/react'
 import { useEffect, useRef } from 'react'
 import { WagmiProvider } from 'wagmi'
 import { useThemeMode } from '../../hooks/useThemeMode'
@@ -22,7 +22,10 @@ const metadata = {
 export function ReownWalletProvider({
   children,
   chains,
-}: { children: React.ReactNode; chains: ExtendedChain[] }) {
+}: {
+  children: React.ReactNode
+  chains: ExtendedChain[]
+}) {
   const { EVMWalletConnectId } = useEnvVariables()
   const wagmi = useRef<WagmiAdapter | undefined>(undefined)
   const modal = useRef<AppKit | undefined>(undefined)

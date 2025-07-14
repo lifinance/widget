@@ -38,7 +38,7 @@ export const RoutesPage: React.FC<BoxProps> = () => {
   const headerAction = useMemo(
     () => (
       <ProgressToNextUpdate
-        updatedAt={dataUpdatedAt || new Date().getTime()}
+        updatedAt={dataUpdatedAt || Date.now()}
         timeToUpdate={refetchTime}
         isLoading={isFetching}
         onClick={() => refetch()}

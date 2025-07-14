@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react'
 import type {
-  WalletMenuOpenArgs,
   WalletMenuContext as _WalletMenuContext,
+  WalletMenuOpenArgs,
 } from './types.js'
 
 export const WalletMenuContext = createContext<_WalletMenuContext>({

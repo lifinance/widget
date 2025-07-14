@@ -93,7 +93,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
   const { currentWallet, connectionStatus } = useCurrentWallet()
   const { lastConnectedAccount } = useLastConnectedAccount()
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: run only when wallet changes
   return useMemo(() => {
     const svm: Account = wallet?.adapter.publicKey
       ? {

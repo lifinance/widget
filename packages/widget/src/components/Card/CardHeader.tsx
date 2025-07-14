@@ -1,6 +1,6 @@
 import {
-  CardHeader as MuiCardHeader,
   cardHeaderClasses,
+  CardHeader as MuiCardHeader,
   styled,
 } from '@mui/material'
 

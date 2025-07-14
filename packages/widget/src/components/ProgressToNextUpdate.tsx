@@ -47,7 +47,7 @@ export const ProgressToNextUpdate: React.FC<
             values={{
               value: getSecondsToUpdate(updatedAt, timeToUpdate),
             }}
-            // biome-ignore lint/correctness/useJsxKeyInIterable:
+            // biome-ignore lint/correctness/useJsxKeyInIterable: allowed in react-i18next
             components={[<br />]}
           />
         }

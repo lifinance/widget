@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@lifi/widget": "^3.24.2",
-    "nuxt": "3.17.6",
+    "nuxt": "3.17.7",
     "veaury": "^2.6.2",
-    "vite-plugin-node-polyfills": "^0.23.0",
+    "vite-plugin-node-polyfills": "^0.24.0",
     "vue": "^3.5.17",
     "vue-router": "^4.5.1"
   }

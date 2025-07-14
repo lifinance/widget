@@ -1,8 +1,8 @@
 import {
   type BaseToken,
   type ChainId,
-  type TokensResponse,
   getToken,
+  type TokensResponse,
 } from '@lifi/sdk'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'

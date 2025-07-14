@@ -1,7 +1,7 @@
 import {
+  badgeClasses,
   IconButton,
   Badge as MuiBadge,
-  badgeClasses,
   styled,
 } from '@mui/material'
 

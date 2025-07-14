@@ -94,7 +94,7 @@ export const RoutesContent = ({
             {title}
           </Typography>
           <ProgressToNextUpdate
-            updatedAt={dataUpdatedAt || new Date().getTime()}
+            updatedAt={dataUpdatedAt || Date.now()}
             timeToUpdate={refetchTime}
             isLoading={isFetching}
             onClick={() => refetch()}

@@ -1,7 +1,7 @@
 import {
-  Select as MuiSelect,
   inputBaseClasses,
   listItemIconClasses,
+  Select as MuiSelect,
   outlinedInputClasses,
   selectClasses,
   styled,
