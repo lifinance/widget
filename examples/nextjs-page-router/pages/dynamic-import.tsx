@@ -1,6 +1,5 @@
-import { Inter } from 'next/font/google'
-
 import dynamic from 'next/dynamic'
+import { Inter } from 'next/font/google'
 
 // NOTE: This is how we previously embedded the Widget
 // - We now recommend using the <ClientOnly/> component see the pages/pages-example.tsx

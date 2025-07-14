@@ -80,8 +80,8 @@ export const TokenBase: FC<TokenProps & BoxProps> = ({
     token.decimals
   )
 
-  let priceImpact: number | undefined = undefined
-  let priceImpactPercent: number | undefined = undefined
+  let priceImpact: number | undefined
+  let priceImpactPercent: number | undefined
   if (impactToken) {
     priceImpact = getPriceImpact({
       fromToken: impactToken,

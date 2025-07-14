@@ -1,4 +1,4 @@
-import { Box, Typography, styled } from '@mui/material'
+import { Box, styled, Typography } from '@mui/material'
 import type { PageContainerProps } from '../PageContainer.js'
 import { PageContainer } from '../PageContainer.js'
 

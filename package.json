@@ -33,7 +33,9 @@
     "postinstall": "husky"
   },
   "lint-staged": {
-    "*": ["pnpm pre-commit"]
+    "*": [
+      "pnpm pre-commit"
+    ]
   },
   "standard-version": {
     "scripts": {
@@ -42,7 +44,7 @@
     }
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
+    "@biomejs/biome": "^2.1.1",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@testing-library/dom": "^10.4.0",

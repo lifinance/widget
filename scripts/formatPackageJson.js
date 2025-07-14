@@ -1,5 +1,7 @@
+/** biome-ignore-all lint/correctness/noUnusedVariables: allowed in scripts */
 import { resolve } from 'node:path'
 import fsExtra from 'fs-extra'
+
 const { readFile, writeFile, copy, remove } = fsExtra
 
 export async function formatPackageFile() {

@@ -1,10 +1,10 @@
 import type { CSSObject } from '@mui/material'
 import {
   AvatarGroup,
-  Box,
-  Avatar as MuiAvatar,
   avatarClasses,
+  Box,
   badgeClasses,
+  Avatar as MuiAvatar,
   styled,
 } from '@mui/material'
 import { getAvatarMask } from './utils.js'

@@ -2,8 +2,8 @@ import { ChainType } from '@lifi/sdk'
 import { useContext, useMemo } from 'react'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 import { EVMExternalContext } from './EVMExternalContext.js'
-import { SVMExternalContext } from './SVMExternalContext.js'
 import { SuiExternalContext } from './SuiExternalContext.js'
+import { SVMExternalContext } from './SVMExternalContext.js'
 import { UTXOExternalContext } from './UTXOExternalContext.js'
 
 interface ExternalWalletProvider {

@@ -1,5 +1,5 @@
-import { Widget } from '@/components/Widget'
 import type { WidgetConfig } from '@lifi/widget'
+import { Widget } from '@/components/Widget'
 
 // NOTE: The WidgetSkeleton component can not be used currently in Next 13 with the App Router
 // as it currently produces some errors

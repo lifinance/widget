@@ -111,13 +111,12 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
   const collapseTransitionTime = useRef(0)
 
   // Timeout is needed here to push the collapseTransitionTime update to the back of the event loop so that it doesn't fired too quickly
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
     const timeout = setTimeout(() => {
       collapseTransitionTime.current = 225
     }, 0)
     return () => clearTimeout(timeout)
-  }, [collapseTransitionTime])
+  }, [])
 
   const isOpenCollapse =
     !hiddenToAddress && (requiredToAddress || showSendToWallet)
@@ -134,8 +133,8 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
       mountOnEnter
       unmountOnExit
     >
+      {/** biome-ignore lint/a11y/useSemanticElements: allowed in react */}
       <Card
-        // biome-ignore lint/a11y/useSemanticElements:
         role="button"
         onClick={disabledForChanges ? undefined : handleOnClick}
         sx={{ width: '100%', ...props.sx }}

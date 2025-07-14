@@ -102,9 +102,9 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
             feeCosts={feeCosts}
             relayerSupport={hasGaslessSupport}
           >
+            {/** biome-ignore lint/a11y/useSemanticElements: allowed in react */}
             <Box
               onClick={toggleCard}
-              // biome-ignore lint/a11y/useSemanticElements:
               role="button"
               sx={{
                 display: 'flex',

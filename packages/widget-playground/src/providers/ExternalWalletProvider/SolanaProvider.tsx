@@ -1,11 +1,11 @@
-import type { Provider as SolanaWalletProvider } from '@reown/appkit-adapter-solana'
 import { useAppKitProvider } from '@reown/appkit/react'
+import type { Provider as SolanaWalletProvider } from '@reown/appkit-adapter-solana'
 import type { Adapter, WalletName } from '@solana/wallet-adapter-base'
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
 import {
   ConnectionProvider,
-  WalletProvider,
   useWallet,
+  WalletProvider,
 } from '@solana/wallet-adapter-react'
 import { clusterApiUrl } from '@solana/web3.js'
 import mitt, { type Emitter } from 'mitt'

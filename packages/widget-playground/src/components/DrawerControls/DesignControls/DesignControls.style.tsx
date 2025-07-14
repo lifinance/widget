@@ -7,6 +7,7 @@ import type {
 import {
   Box,
   ButtonBase,
+  badgeClasses,
   InputBase,
   Alert as MuiAlert,
   Autocomplete as MuiAutocomplete,
@@ -14,7 +15,6 @@ import {
   Select as MuiSelect,
   Popper,
   Typography,
-  badgeClasses,
 } from '@mui/material'
 import { alertClasses } from '@mui/material/Alert'
 import { autocompleteClasses } from '@mui/material/Autocomplete'

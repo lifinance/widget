@@ -31,8 +31,8 @@ import {
   Header,
   HeaderRow,
   TabContentContainer,
-  WidgetConfigControls,
   tooltipPopperZIndex,
+  WidgetConfigControls,
 } from './DrawerControls.style'
 import { DrawerHandle } from './DrawerHandle'
 

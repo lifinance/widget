@@ -1,5 +1,5 @@
-import { ChainType, isBatchingSupported } from '@lifi/sdk'
 import type { ExtendedChain } from '@lifi/sdk'
+import { ChainType, isBatchingSupported } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { getQueryKey } from '../utils/queries.js'
