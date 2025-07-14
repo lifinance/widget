@@ -1,7 +1,6 @@
 import { AccordionDetails, Avatar, Box, Tooltip } from '@mui/material'
-import AccordionSummary from '@mui/material/AccordionSummary'
-import type { NetworkAmount, TokenAmount } from '../../types/token'
-import { CustomAccordion, CustomAvatarGroup } from './TokenGroup.style'
+import type { NetworkAmount } from '../../types/token'
+import { Accordion, AccordionSummary, AvatarGroup } from './TokenGroup.style'
 import { TokenListItemButton } from './TokenListItemButton.js'
 import { TokenListItemContent } from './TokenListItemContent'
 
@@ -11,6 +10,8 @@ interface TokenGroupProps {
   isExpanded: boolean
   onExpand: (expanded: boolean) => void
   onShowTokenDetails: (tokenAddress: string, noContractAddress: boolean) => void
+  showBalance: boolean
+  isBalanceLoading?: boolean
 }
 
 export const TokenGroup = ({
@@ -19,29 +20,17 @@ export const TokenGroup = ({
   isExpanded,
   onExpand,
   onShowTokenDetails,
+  showBalance,
 }: TokenGroupProps) => {
   const handleChange = (_: React.SyntheticEvent, expanded: boolean) => {
     onExpand(expanded)
   }
 
   return (
-    <CustomAccordion
-      expanded={isExpanded}
-      disableGutters
-      onChange={handleChange}
-    >
-      <AccordionSummary
-        sx={{
-          padding: 0,
-          '& .MuiAccordionSummary-content': {
-            margin: 0,
-            alignItems: 'center',
-          },
-        }}
-        component={Box}
-      >
+    <Accordion expanded={isExpanded} disableGutters onChange={handleChange}>
+      <AccordionSummary>
         <TokenListItemContent
-          token={network as TokenAmount}
+          token={network}
           showBalance={false}
           isBalanceLoading={false}
           secondaryNode={
@@ -51,11 +40,7 @@ export const TokenGroup = ({
                 height: 20,
               }}
             >
-              <CustomAvatarGroup
-                spacing={6}
-                max={15}
-                total={network.chains?.length}
-              >
+              <AvatarGroup spacing={6} max={15} total={network.chains?.length}>
                 {network.chains?.map((chain) => (
                   <Tooltip
                     title={chain.name}
@@ -68,7 +53,7 @@ export const TokenGroup = ({
                     />
                   </Tooltip>
                 ))}
-              </CustomAvatarGroup>
+              </AvatarGroup>
             </Box>
           }
         />
@@ -92,14 +77,13 @@ export const TokenGroup = ({
               key={`${t.address}-${idx}`}
               token={t}
               chain={network.chains?.find((c) => c.id === t.chainId)}
-              onClick={() => {
-                onClick?.(t.address, t.chainId)
-              }}
+              onClick={onClick}
               onShowTokenDetails={onShowTokenDetails}
+              showBalance={showBalance}
             />
           ))}
         </Box>
       </AccordionDetails>
-    </CustomAccordion>
+    </Accordion>
   )
 }

@@ -1,7 +1,6 @@
 import { useAccount } from '@lifi/wallet-management'
 import { Box } from '@mui/material'
 import { type FC, useEffect } from 'react'
-import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useChain } from '../../hooks/useChain.js'
 import { useDebouncedWatch } from '../../hooks/useDebouncedWatch.js'
 import { useTokenBalances } from '../../hooks/useTokenBalances.js'
@@ -11,7 +10,6 @@ import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { WidgetEvent } from '../../types/events.js'
 import type { TokenAmount } from '../../types/token.js'
-import { groupTokens } from '../../utils/groupTokens.js'
 import { TokenNotFound } from './TokenNotFound.js'
 import { VirtualizedTokenList } from './VirtualizedTokenList.js'
 import type { TokenListProps } from './types.js'
@@ -48,8 +46,6 @@ export const TokenList: FC<TokenListProps> = ({
     featuredTokens,
     popularTokens,
   } = useTokenBalances(selectedChainId, formType)
-
-  const { chains } = useAvailableChains()
 
   let filteredTokens = (tokensWithBalance ?? chainTokens ?? []) as TokenAmount[]
   const normalizedSearchFilter = tokenSearchFilter?.replaceAll('$', '')
@@ -110,18 +106,14 @@ export const TokenList: FC<TokenListProps> = ({
     }
   }, [normalizedSearchFilter, emitter])
 
-  const networksOrTokens = selectedChainId
-    ? tokens
-    : groupTokens(tokens, chains ?? [])
-
   return (
     <Box ref={parentRef} style={{ height, overflow: 'auto' }}>
-      {!networksOrTokens.length && !isLoading ? (
+      {!tokens.length && !isLoading ? (
         <TokenNotFound formType={formType} />
       ) : null}
       <VirtualizedTokenList
         account={account}
-        tokens={networksOrTokens}
+        tokens={tokens}
         scrollElementRef={parentRef}
         chainId={selectedChainId}
         isLoading={isLoading}

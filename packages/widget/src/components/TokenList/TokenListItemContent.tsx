@@ -1,4 +1,4 @@
-import type { ExtendedChain } from '@lifi/sdk'
+import type { ExtendedChain, StaticToken } from '@lifi/sdk'
 import {
   Avatar,
   Box,
@@ -8,13 +8,12 @@ import {
 } from '@mui/material'
 import { type ReactNode, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { TokenAmount } from '../../types/token'
+import type { NetworkAmount, TokenAmount } from '../../types/token'
 import { TokenAvatar } from '../Avatar/TokenAvatar'
 import { TokenAmountSkeleton } from './TokenListItemSkeleton'
-import type { TokenListItemAvatarProps } from './types'
 
 interface TokenListItemContentProps {
-  token: TokenAmount
+  token: TokenAmount | NetworkAmount
   chain?: ExtendedChain
   secondaryNode: ReactNode
   showBalance: boolean
@@ -38,7 +37,7 @@ export const TokenListItemContent = ({
       <ListItemAvatar>
         {chain ? (
           <TokenAvatar
-            token={token}
+            token={token as StaticToken}
             chain={chain}
             tokenAvatarSize={40}
             chainAvatarSize={16}
@@ -93,6 +92,10 @@ export const TokenListItemContent = ({
       ) : null}
     </>
   )
+}
+
+export interface TokenListItemAvatarProps {
+  token: TokenAmount | NetworkAmount
 }
 
 export const TokenListItemAvatar: React.FC<TokenListItemAvatarProps> = ({

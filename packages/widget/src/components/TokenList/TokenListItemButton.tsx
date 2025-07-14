@@ -15,7 +15,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   onClick,
   token,
   chain,
-  accountAddress,
+  showBalance,
   isBalanceLoading,
   selected,
   onShowTokenDetails,
@@ -68,7 +68,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
       <TokenListItemContent
         token={token}
         chain={chain}
-        showBalance={!!accountAddress}
+        showBalance={showBalance}
         isBalanceLoading={!!isBalanceLoading}
         tokenAmount={tokenAmount}
         tokenPrice={tokenPrice}

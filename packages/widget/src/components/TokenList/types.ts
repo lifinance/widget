@@ -13,7 +13,7 @@ export interface TokenListProps {
 
 export interface VirtualizedTokenListProps {
   account: Account
-  tokens: TokenAmount[] | NetworkAmount[]
+  tokens: TokenAmount[]
   scrollElementRef: RefObject<HTMLElement | null>
   isLoading: boolean
   isBalanceLoading: boolean
@@ -30,7 +30,7 @@ export interface TokenListItemBaseProps {
 }
 
 export interface TokenListItemProps extends TokenListItemBaseProps {
-  accountAddress?: string
+  showBalance: boolean
   token: TokenAmount | NetworkAmount
   isExpanded: boolean
   onExpand: (expanded: boolean) => void
@@ -45,15 +45,11 @@ export interface TokenListItemProps extends TokenListItemBaseProps {
 export interface TokenListItemButtonProps {
   onShowTokenDetails: (tokenAddress: string, noContractAddress: boolean) => void
   onClick?(tokenAddress: string, chainId?: number): void
-  accountAddress?: string
+  showBalance: boolean
   token: TokenAmount
   chain?: ExtendedChain
   isBalanceLoading?: boolean
   selected?: boolean
-}
-
-export interface TokenListItemAvatarProps {
-  token: TokenAmount
 }
 
 export interface TokenDetailsSheetBase {

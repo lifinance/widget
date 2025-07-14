@@ -3,7 +3,9 @@ import { useVirtualizer } from '@tanstack/react-virtual'
 import type { FC } from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import type { NetworkAmount, TokenAmount } from '../../types/token.js'
+import { groupTokens } from '../../utils/groupTokens.js'
 import { TokenDetailsSheet } from './TokenDetailsSheet.js'
 import { List } from './TokenList.style.js'
 import { TokenListItem } from './TokenListItem.js'
@@ -17,7 +19,7 @@ const tokenItemHeight = 64 // 60 + 4px margin-bottom
 
 export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   account,
-  tokens,
+  tokens: rawTokens,
   scrollElementRef,
   chainId,
   selectedTokenAddress,
@@ -27,6 +29,10 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   onClick,
 }) => {
   const { t } = useTranslation()
+
+  const { chains } = useAvailableChains()
+
+  const tokens = chainId ? rawTokens : groupTokens(rawTokens, chains ?? [])
 
   const tokenDetailsSheetRef = useRef<TokenDetailsSheetBase>(null)
 
@@ -39,7 +45,8 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
 
   const getItemKey = useCallback(
     (index: number) => {
-      return `${tokens[index].address}-${index}`
+      const token = tokens[index]
+      return 'address' in token ? token.address : token.symbol
     },
     [tokens]
   )
@@ -48,14 +55,23 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
 
   const estimateSize = useCallback(
     (index: number) => {
+      const currentToken = tokens[index]
+
       // Base size for TokenListItem
       let size = tokenItemHeight
+
+      // Adjust size based on expanded item
+      if (expandedIndex === index) {
+        size +=
+          ((currentToken as NetworkAmount)?.tokens?.length || 0) *
+          tokenItemHeight
+      }
+
       // Early return if categories are not shown
-      if (!showCategories) {
+      if (!showCategories || !chainId) {
         return size
       }
 
-      const currentToken = tokens[index]
       const previousToken = tokens[index - 1]
 
       // Adjust size for the first featured token
@@ -73,16 +89,9 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
         size += 32
       }
 
-      // Adjust size based on expanded item
-      if (expandedIndex === index) {
-        size +=
-          ((currentToken as NetworkAmount)?.tokens?.length || 0) *
-          tokenItemHeight
-      }
-
       return size
     },
-    [tokens, showCategories, expandedIndex]
+    [tokens, showCategories, expandedIndex, chainId]
   )
 
   const { getVirtualItems, getTotalSize, scrollToIndex, measure } =
@@ -132,6 +141,15 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
           const previousToken: TokenAmount | NetworkAmount | undefined =
             tokens[item.index - 1]
 
+          const chain =
+            'chainId' in currentToken
+              ? chains?.find(
+                  (chain) =>
+                    'chainId' in currentToken &&
+                    currentToken.chainId === chain.id
+                )
+              : undefined
+
           const isFirstFeaturedToken = currentToken.featured && item.index === 0
 
           const isTransitionFromFeaturedTokens =
@@ -152,23 +170,24 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
             isTransitionFromFeaturedTokens ||
             (previousToken?.popular && !currentToken.popular)
 
-          const startAdornmentLabel = showCategories
-            ? (() => {
-                if (isFirstFeaturedToken) {
-                  return t('main.featuredTokens')
-                }
-                if (isTransitionToMyTokens) {
-                  return t('main.myTokens')
-                }
-                if (isTransitionToPopularTokens) {
-                  return t('main.popularTokens')
-                }
-                if (shouldShowAllTokensCategory) {
-                  return t('main.allTokens')
-                }
-                return null
-              })()
-            : null
+          const startAdornmentLabel =
+            showCategories && chainId // TODO: do we want labels?
+              ? (() => {
+                  if (isFirstFeaturedToken) {
+                    return t('main.featuredTokens')
+                  }
+                  if (isTransitionToMyTokens) {
+                    return t('main.myTokens')
+                  }
+                  if (isTransitionToPopularTokens) {
+                    return t('main.popularTokens')
+                  }
+                  if (shouldShowAllTokensCategory) {
+                    return t('main.allTokens')
+                  }
+                  return null
+                })()
+              : null
 
           return (
             <TokenListItem
@@ -177,12 +196,13 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
               size={item.size}
               start={item.start}
               token={currentToken}
+              chain={chain}
               selectedTokenAddress={selectedTokenAddress}
               onShowTokenDetails={onShowTokenDetails}
               isExpanded={expandedIndex === item.index}
               onExpand={() => handleToggle(item.index)}
               isBalanceLoading={isBalanceLoading}
-              accountAddress={account.address}
+              showBalance={!!account.address}
               startAdornment={
                 startAdornmentLabel ? (
                   <Typography

@@ -4,13 +4,25 @@ import { ListItem } from './TokenList.style.js'
 import { TokenListItemButton } from './TokenListItemButton.js'
 import type { TokenListItemProps } from './types.js'
 
+// Type guard to check if token is NetworkAmount
+const isNetworkAmount = (
+  token: TokenAmount | NetworkAmount
+): token is NetworkAmount => {
+  return (
+    'chains' in token &&
+    'tokens' in token &&
+    Array.isArray(token.chains) &&
+    Array.isArray(token.tokens)
+  )
+}
+
 export const TokenListItem: React.FC<TokenListItemProps> = ({
   onClick,
   size,
   start,
   token,
   chain,
-  accountAddress,
+  showBalance,
   isBalanceLoading,
   startAdornment,
   endAdornment,
@@ -19,7 +31,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
   isExpanded,
   onExpand,
 }) => {
-  const isNetwork = !('chainId' in token)
+  const isNetwork = isNetworkAmount(token)
   return (
     <ListItem
       style={{
@@ -36,11 +48,13 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
           isExpanded={isExpanded}
           onExpand={onExpand}
           onShowTokenDetails={onShowTokenDetails}
+          showBalance={showBalance}
+          isBalanceLoading={isBalanceLoading}
         />
       ) : (
         <TokenListItemButton
           token={token as TokenAmount}
-          accountAddress={accountAddress}
+          showBalance={showBalance}
           isBalanceLoading={isBalanceLoading}
           onClick={onClick}
           chain={chain}

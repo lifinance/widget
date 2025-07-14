@@ -5,7 +5,11 @@ export interface TokenAmount extends SDKTokenAmount {
   popular?: boolean
 }
 
-export interface NetworkAmount extends Omit<TokenAmount, 'chainId'> {
-  chains?: ExtendedChain[]
-  tokens?: TokenAmount[]
+export interface NetworkAmount
+  extends Pick<
+    TokenAmount,
+    'symbol' | 'logoURI' | 'amount' | 'priceUSD' | 'featured' | 'popular'
+  > {
+  chains: ExtendedChain[]
+  tokens: TokenAmount[]
 }
