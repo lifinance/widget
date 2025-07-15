@@ -8,7 +8,13 @@ export interface TokenAmount extends SDKTokenAmount {
 export interface NetworkAmount
   extends Pick<
     TokenAmount,
-    'symbol' | 'logoURI' | 'amount' | 'priceUSD' | 'featured' | 'popular'
+    | 'symbol'
+    | 'logoURI'
+    | 'amount'
+    | 'priceUSD'
+    | 'featured'
+    | 'popular'
+    | 'decimals'
   > {
   chains: ExtendedChain[]
   tokens: TokenAmount[]

@@ -26,7 +26,7 @@ export const useTokenBalances = (
   const isBalanceLoadingEnabled =
     Boolean(account.address) &&
     Boolean(tokens?.length) &&
-    Boolean(selectedChainId) // TODO:
+    Boolean(selectedChainId)
 
   const {
     data: tokensWithBalance,

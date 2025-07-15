@@ -1,5 +1,6 @@
 import { AccordionDetails, Avatar, Box, Tooltip } from '@mui/material'
 import type { NetworkAmount } from '../../types/token'
+import { formatTokenAmount, formatTokenPrice } from '../../utils/format'
 import { Accordion, AccordionSummary, AvatarGroup } from './TokenGroup.style'
 import { TokenListItemButton } from './TokenListItemButton.js'
 import { TokenListItemContent } from './TokenListItemContent'
@@ -21,10 +22,18 @@ export const TokenGroup = ({
   onExpand,
   onShowTokenDetails,
   showBalance,
+  isBalanceLoading,
 }: TokenGroupProps) => {
   const handleChange = (_: React.SyntheticEvent, expanded: boolean) => {
     onExpand(expanded)
   }
+
+  const tokenAmount = formatTokenAmount(network.amount, network.decimals)
+  const tokenPrice = formatTokenPrice(
+    network.amount,
+    network.priceUSD,
+    network.decimals
+  )
 
   return (
     <Accordion expanded={isExpanded} disableGutters onChange={handleChange}>
@@ -32,10 +41,13 @@ export const TokenGroup = ({
         <TokenListItemContent
           token={network}
           showBalance={false}
-          isBalanceLoading={false}
+          isBalanceLoading={!!isBalanceLoading}
+          tokenAmount={tokenAmount}
+          tokenPrice={tokenPrice}
           secondaryNode={
             <Box
               sx={{
+                display: 'inline-block',
                 position: 'relative',
                 height: 20,
               }}

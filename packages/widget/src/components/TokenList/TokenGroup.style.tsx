@@ -17,13 +17,13 @@ export const Accordion = styled(MuiAccordion)(({ theme }) => ({
 }))
 
 export const AvatarGroup = styled(MuiAvatarGroup)(({ theme }) => ({
-  flexDirection: 'row',
   marginLeft: theme.spacing(0.75),
   [`& .${avatarGroupClasses.root}`]: {
     display: 'flex',
     flexDirection: 'row',
   },
   [`& .${avatarClasses.root}`]: {
+    fontSize: 8,
     width: 16,
     height: 16,
     '&:last-child': {

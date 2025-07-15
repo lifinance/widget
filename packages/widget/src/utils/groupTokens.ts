@@ -51,6 +51,7 @@ export const groupTokens = (
             0
           )
           .toString(),
+        decimals: group[0].decimals,
       }
       result.push(wrapperObj)
     }
