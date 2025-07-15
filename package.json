@@ -7,6 +7,8 @@
     "build": "pnpm -r --parallel --filter './packages/**' --filter !'*-playground-*' --filter !'*-embedded' build && pnpm -r --parallel --filter './packages/**' --filter '*-playground-*' --filter '*-embedded' build",
     "clean": "pnpm -r --parallel --filter './packages/**' clean",
     "clean:cache": "pnpm store prune",
+    "clean:modules": "find . -name \"node_modules\" -type d -prune -exec rm -rf {} +",
+    "clean:modules:trash": "find . -name \"node_modules\" -type d -prune -exec trash {} +",
     "dev": "pnpm --filter widget-playground-vite dev",
     "dev:next": "pnpm --filter widget-playground-next dev",
     "release": "pnpm release:version && pnpm release:build && pnpm standard-version -a -s",
