@@ -3,6 +3,7 @@ import { useVirtualizer } from '@tanstack/react-virtual'
 import type { RefObject } from 'react'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useChainOrderStoreContext } from '../../stores/chains/ChainOrderStore'
 import { AllChainsAvatar } from './AllChainsAvatar'
 import {
   List,
@@ -16,7 +17,7 @@ import { ChainListItem } from './ChainListItem'
 interface VirtualizedChainListProps {
   scrollElementRef: RefObject<HTMLDivElement | null>
   chains: ExtendedChain[]
-  onSelect: (chain: ExtendedChain | undefined) => void
+  onSelect: (chain: ExtendedChain) => void
   selectedChainId?: number
   itemsSize: 'small' | 'medium'
   hasSearchQuery: boolean
@@ -31,6 +32,8 @@ export const VirtualizedChainList = ({
   scrollElementRef,
 }: VirtualizedChainListProps) => {
   const { t } = useTranslation()
+  const chainOrderStore = useChainOrderStoreContext()
+  const { isAllNetworks, setIsAllNetworks } = chainOrderStore.getState()
   const initialSelectedChainIdRef = useRef(selectedChainId)
   const sortedChains = useMemo(() => {
     const selectedChain = chains.find(
@@ -53,8 +56,16 @@ export const VirtualizedChainList = ({
     [sortedChains, hasSearchQuery]
   )
 
+  const onChainSelect = useCallback(
+    (chain: ExtendedChain) => {
+      setIsAllNetworks(false)
+      onSelect(chain)
+    },
+    [onSelect, setIsAllNetworks]
+  )
+
   const { getVirtualItems, getTotalSize, measure } = useVirtualizer({
-    count: sortedChains.length + (!hasSearchQuery ? 1 : 0), // +1 for the all chains item
+    count: sortedChains.length + (!hasSearchQuery ? 1 : 0), // +1 for the all networks item
     overscan: 3,
     paddingEnd: 0,
     getScrollElement: () => scrollElementRef.current,
@@ -84,6 +95,7 @@ export const VirtualizedChainList = ({
         if (!hasSearchQuery && item.index === 0) {
           return (
             <ListItem
+              key={item.key}
               style={{
                 height: `${itemsSize}px`,
                 transform: `translateY(${item.start}px)`,
@@ -91,15 +103,19 @@ export const VirtualizedChainList = ({
               }}
             >
               <ListItemButton
-                key={item.key}
-                onClick={() => onSelect(undefined)}
-                selected={selectedChainId === undefined}
+                onClick={() => {
+                  setIsAllNetworks(true)
+                }}
+                selected={isAllNetworks}
                 size={itemsSize}
               >
                 <ListItemAvatar size={itemsSize}>
                   <AllChainsAvatar chains={chains} size={itemsSize} />
                 </ListItemAvatar>
-                <ListItemText primary={t('main.allChains')} size={itemsSize} />
+                <ListItemText
+                  primary={t('main.allNetworks')}
+                  size={itemsSize}
+                />
               </ListItemButton>
             </ListItem>
           )
@@ -110,8 +126,8 @@ export const VirtualizedChainList = ({
           <ChainListItem
             key={item.key}
             chain={chain}
-            onSelect={onSelect}
-            selected={chain.id === selectedChainId}
+            onSelect={onChainSelect}
+            selected={!isAllNetworks && chain.id === selectedChainId}
             itemsSize={itemsSize}
             size={item.size}
             start={item.start}

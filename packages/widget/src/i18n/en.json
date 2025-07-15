@@ -211,7 +211,7 @@
     "slippage": "The maximum percentage difference between the expected price, and the actual price at which a transfer is executed. This value can be changed in settings."
   },
   "main": {
-    "allChains": "All chains",
+    "allNetworks": "All networks",
     "allTokens": "All tokens",
     "bridgeStepDetails": "Bridge from {{from}} to {{to}} via {{tool}}",
     "checkoutStepDetails": "Purchase via {{tool}}",
@@ -312,10 +312,9 @@
     "tokenOnChainAmount": "{{amount, numberExt}} {{tokenSymbol}} on {{chainName}}",
     "tokenSearch": "Search by token or address",
     "valueLoss": "Value loss",
-    "searchChain": "Search chain",
-    "searchChains": "Search by chain name",
     "searchBridges": "Search by bridge name",
-    "searchExchanges": "Search by exchange name"
+    "searchExchanges": "Search by exchange name",
+    "searchNetwork": "Search network"
   },
   "settings": {
     "appearance": "Appearance",

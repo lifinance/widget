@@ -21,7 +21,7 @@ import type { TokenDetailsSheetBase } from './types.js'
 
 interface TokenDetailsSheetContentProps {
   tokenAddress: string | undefined
-  chainId: number | undefined
+  chainId?: number
   withoutContractAddress: boolean
 }
 

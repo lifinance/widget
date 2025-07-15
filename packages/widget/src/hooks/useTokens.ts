@@ -1,4 +1,3 @@
-import type { Token } from '@lifi/sdk'
 import { ChainType, getTokens } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
@@ -10,8 +9,9 @@ import { getQueryKey } from '../utils/queries.js'
 import { useChains } from './useChains.js'
 
 export const useTokens = (
-  selectedChainId: number | undefined,
-  formType?: FormType
+  selectedChainId?: number,
+  formType?: FormType,
+  isAllNetworks?: boolean
 ) => {
   const { tokens: configTokens, keyPrefix } = useWidgetConfig()
   const { data, isLoading } = useQuery({
@@ -38,26 +38,34 @@ export const useTokens = (
     if (isSupportedChainsLoading || !data) {
       return
     }
+
+    if (isAllNetworks) {
+      const tokens = Object.values(data.tokens).flat()
+      const includedTokens = configTokens?.include || []
+      const filteredTokens = [...includedTokens, ...tokens]
+      // TODO: filter config
+      return {
+        tokens: filteredTokens,
+        featuredTokens: configTokens?.featured,
+        popularTokens: configTokens?.popular,
+        chain: undefined,
+      }
+    }
+
     const chain = getChainById(selectedChainId, chains)
-    if (selectedChainId && !chain) {
+    const chainAllowed = selectedChainId && chain
+    if (!chainAllowed) {
       return
     }
 
-    let filteredTokens: Token[] = []
-    if (selectedChainId) {
-      filteredTokens = data.tokens?.[selectedChainId] || []
-      const includedTokens =
-        configTokens?.include?.filter(
-          (token) => token.chainId === selectedChainId
-        ) || []
-      filteredTokens = [...includedTokens, ...filteredTokens]
-    } else {
-      filteredTokens = Object.values(data.tokens).flat()
-      const includedTokens = configTokens?.include || []
+    let filteredTokens = data.tokens?.[selectedChainId] || []
+    const includedTokens = configTokens?.include?.filter(
+      (token) => token.chainId === selectedChainId
+    )
+    if (includedTokens?.length) {
       filteredTokens = [...includedTokens, ...filteredTokens]
     }
 
-    // TODO: define for "All" case
     if (selectedChainId) {
       // Filter config tokens by chain before checking if token is allowed
       const filteredConfigTokens = filterConfigTokensByChain(
@@ -129,6 +137,7 @@ export const useTokens = (
     isSupportedChainsLoading,
     selectedChainId,
     formType,
+    isAllNetworks,
   ])
 
   return {

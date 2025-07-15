@@ -21,6 +21,7 @@ export interface VirtualizedTokenListProps {
   showCategories?: boolean
   onClick(tokenAddress: string, chainId?: number): void
   selectedTokenAddress?: string
+  isAllNetworks: boolean
 }
 
 export interface TokenListItemBaseProps {

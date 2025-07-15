@@ -5,11 +5,12 @@ import { maxChainsToOrder } from './createChainOrderStore.js'
 
 export const useChainOrder = (
   type: FormType
-): [number[], (chainId: number | undefined, type: FormType) => void] => {
+): [number[], (chainId: number, type: FormType) => void, boolean] => {
   return useChainOrderStore(
     (state) => [
       state.chainOrder[type].slice(0, maxChainsToOrder),
       state.setChain,
+      state.isAllNetworks,
     ],
     shallow
   )

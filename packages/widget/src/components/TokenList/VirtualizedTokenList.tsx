@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type { FC } from 'react'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import type { NetworkAmount, TokenAmount } from '../../types/token.js'
@@ -22,6 +22,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   tokens: rawTokens,
   scrollElementRef,
   chainId,
+  isAllNetworks,
   selectedTokenAddress,
   isLoading,
   isBalanceLoading,
@@ -32,7 +33,10 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
 
   const { chains } = useAvailableChains()
 
-  const tokens = chainId ? rawTokens : groupTokens(rawTokens, chains ?? [])
+  const tokens = useMemo(
+    () => (!isAllNetworks ? rawTokens : groupTokens(rawTokens, chains ?? [])),
+    [isAllNetworks, rawTokens, chains]
+  )
 
   const tokenDetailsSheetRef = useRef<TokenDetailsSheetBase>(null)
 
@@ -170,24 +174,23 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
             isTransitionFromFeaturedTokens ||
             (previousToken?.popular && !currentToken.popular)
 
-          const startAdornmentLabel =
-            showCategories && chainId // TODO: do we want labels?
-              ? (() => {
-                  if (isFirstFeaturedToken) {
-                    return t('main.featuredTokens')
-                  }
-                  if (isTransitionToMyTokens) {
-                    return t('main.myTokens')
-                  }
-                  if (isTransitionToPopularTokens) {
-                    return t('main.popularTokens')
-                  }
-                  if (shouldShowAllTokensCategory) {
-                    return t('main.allTokens')
-                  }
-                  return null
-                })()
-              : null
+          const startAdornmentLabel = showCategories
+            ? (() => {
+                if (isFirstFeaturedToken) {
+                  return t('main.featuredTokens')
+                }
+                if (isTransitionToMyTokens) {
+                  return t('main.myTokens')
+                }
+                if (isTransitionToPopularTokens) {
+                  return t('main.popularTokens')
+                }
+                if (shouldShowAllTokensCategory) {
+                  return t('main.allTokens')
+                }
+                return null
+              })()
+            : null
 
           return (
             <TokenListItem

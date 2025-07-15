@@ -4,7 +4,7 @@ import type { BottomSheetBase } from '../BottomSheet/types.js'
 import { TokenDetailsSheetContent } from './TokenDetailsSheetContent.js'
 import type { TokenDetailsSheetBase } from './types.js'
 interface TokenDetailsSheetProps {
-  chainId: number | undefined
+  chainId?: number
 }
 
 export const TokenDetailsSheet = forwardRef<

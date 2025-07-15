@@ -3,6 +3,7 @@ import { Avatar, Box, Skeleton, Tooltip, Typography } from '@mui/material'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import { useChainOrderStoreContext } from '../../stores/chains/ChainOrderStore.js'
 import {
   maxChainsToOrder,
   maxChainsToShow,
@@ -27,6 +28,9 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
     setChainOrder,
     setCurrentChain,
   } = useChainSelect(formType)
+
+  const chainOrderStore = useChainOrderStoreContext()
+  const { isAllNetworks, setIsAllNetworks } = chainOrderStore.getState()
 
   const [chainId] = useFieldValues(FormKeyHelper.getChainKey(formType))
 
@@ -93,11 +97,11 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
       ) : (
         <>
           {hasChainsToShow && (
-            <Tooltip title={t('main.allChains')} enterNextDelay={100}>
+            <Tooltip title={t('main.allNetworks')} enterNextDelay={100}>
               <ChainCard
                 component="button"
-                onClick={() => setCurrentChain(undefined)}
-                type={chainId === undefined ? 'selected' : 'default'}
+                onClick={() => setIsAllNetworks(true)}
+                type={isAllNetworks ? 'selected' : 'default'}
                 selectionColor="secondary"
               >
                 <AllChainsAvatar chains={chainsToShow} size="medium" />
@@ -108,8 +112,15 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
             <Tooltip key={chain.id} title={chain.name} enterNextDelay={100}>
               <ChainCard
                 component="button"
-                onClick={() => setCurrentChain(chain.id)}
-                type={chainId === chain.id ? 'selected' : 'default'}
+                onClick={() => {
+                  setIsAllNetworks(false)
+                  setCurrentChain(chain.id)
+                }}
+                type={
+                  !isAllNetworks && chainId === chain.id
+                    ? 'selected'
+                    : 'default'
+                }
                 selectionColor="secondary"
               >
                 <Avatar

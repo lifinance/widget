@@ -21,6 +21,7 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
     persist(
       (set, get) => ({
         chainOrder: defaultChainState,
+        isAllNetworks: true,
         availableChains: defaultChainState,
         initializeChains: (chainIds, type) => {
           set((state: ChainOrderState) => {
@@ -62,7 +63,6 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
         setChain: (chainId, type) => {
           const state = get()
           if (
-            chainId === undefined ||
             state.chainOrder[type].includes(chainId) ||
             !state.availableChains[type].includes(chainId)
           ) {
@@ -81,11 +81,17 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
             }
           })
         },
+        setIsAllNetworks: (isAllNetworks) => {
+          set({ isAllNetworks })
+        },
       }),
       {
         name: `${namePrefix || 'li.fi'}-widget-chains-order`,
         version: 2,
-        partialize: (state) => ({ chainOrder: state.chainOrder }),
+        partialize: (state) => ({
+          chainOrder: state.chainOrder,
+          isAllNetworks: state.isAllNetworks,
+        }),
       }
     ) as StateCreator<ChainOrderState, [], [], ChainOrderState>,
     Object.is

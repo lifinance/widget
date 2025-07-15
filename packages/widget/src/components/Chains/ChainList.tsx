@@ -14,7 +14,7 @@ import { VirtualizedChainList } from './VirtualizedChainList'
 interface ChainListProps {
   parentRef: RefObject<HTMLDivElement | null>
   chains: ExtendedChain[]
-  onSelect: (chain: ExtendedChain | undefined) => void
+  onSelect: (chain: ExtendedChain) => void
   selectedChainId?: number
   isLoading: boolean
   itemsSize: 'small' | 'medium'

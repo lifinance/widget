@@ -44,7 +44,7 @@ export const useChainSelect = (formType: FormType) => {
   }
 
   const setCurrentChain = useCallback(
-    (chainId: number | undefined) => {
+    (chainId: number) => {
       onChange(chainId)
       if (swapOnly) {
         setFieldValue(FormKeyHelper.getChainKey('to'), chainId, {

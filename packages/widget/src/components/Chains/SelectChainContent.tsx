@@ -13,7 +13,7 @@ import { ChainSearchInput } from './ChainSearchInput'
 
 interface SelectChainContentProps {
   formType: FormType
-  onSelect?: (chain: ExtendedChain | undefined) => void
+  onSelect?: (chain: ExtendedChain) => void
   inExpansion: boolean
 }
 
@@ -61,8 +61,8 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = memo(
     )
 
     const onSelectChainFallback = useCallback(
-      (chain: ExtendedChain | undefined) => {
-        setCurrentChain(chain?.id)
+      (chain: ExtendedChain) => {
+        setCurrentChain(chain.id)
       },
       [setCurrentChain]
     )
