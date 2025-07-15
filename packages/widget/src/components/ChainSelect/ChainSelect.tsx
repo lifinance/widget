@@ -1,6 +1,6 @@
 import type { EVMChain } from '@lifi/sdk'
 import { Avatar, Box, Skeleton, Tooltip, Typography } from '@mui/material'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { useChainOrderStoreContext } from '../../stores/chains/ChainOrderStore.js'
@@ -43,6 +43,14 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
       }
     }
   }, [chainId, chainOrder, formType, setChainOrder])
+
+  const onChainSelect = useCallback(
+    (chainId: number) => {
+      setIsAllNetworks(false)
+      setCurrentChain(chainId)
+    },
+    [setIsAllNetworks, setCurrentChain]
+  )
 
   const showAllChains = () => {
     navigate(navigationRoutes[`${formType}Chain`])
@@ -112,10 +120,7 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
             <Tooltip key={chain.id} title={chain.name} enterNextDelay={100}>
               <ChainCard
                 component="button"
-                onClick={() => {
-                  setIsAllNetworks(false)
-                  setCurrentChain(chain.id)
-                }}
+                onClick={() => onChainSelect(chain.id)}
                 type={
                   !isAllNetworks && chainId === chain.id
                     ? 'selected'

@@ -2,7 +2,7 @@ import type { ExtendedChain } from '@lifi/sdk'
 import type { Account } from '@lifi/wallet-management'
 import type { RefObject } from 'react'
 import type { FormType } from '../../stores/form/types.js'
-import type { NetworkAmount, TokenAmount } from '../../types/token.js'
+import type { TokenAmount } from '../../types/token.js'
 
 export interface TokenListProps {
   parentRef: RefObject<HTMLElement | null>
@@ -32,9 +32,7 @@ export interface TokenListItemBaseProps {
 
 export interface TokenListItemProps extends TokenListItemBaseProps {
   showBalance: boolean
-  token: TokenAmount | NetworkAmount
-  isExpanded: boolean
-  onExpand: (expanded: boolean) => void
+  token: TokenAmount
   onShowTokenDetails: (tokenAddress: string, noContractAddress: boolean) => void
   chain?: ExtendedChain
   isBalanceLoading?: boolean
@@ -51,6 +49,10 @@ export interface TokenListItemButtonProps {
   chain?: ExtendedChain
   isBalanceLoading?: boolean
   selected?: boolean
+}
+
+export interface TokenListItemAvatarProps {
+  token: TokenAmount
 }
 
 export interface TokenDetailsSheetBase {

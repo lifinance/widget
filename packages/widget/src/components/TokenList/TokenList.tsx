@@ -120,12 +120,12 @@ export const TokenList: FC<TokenListProps> = ({
         tokens={tokens}
         scrollElementRef={parentRef}
         chainId={selectedChainId}
-        isAllNetworks={isAllNetworks}
         isLoading={isLoading}
         isBalanceLoading={isBalanceLoading}
         showCategories={showCategories}
         onClick={handleTokenClick}
         selectedTokenAddress={selectedTokenAddress}
+        isAllNetworks={isAllNetworks}
       />
     </Box>
   )

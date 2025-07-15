@@ -5,7 +5,7 @@ import { TokenDetailsSheetContent } from './TokenDetailsSheetContent.js'
 import type { TokenDetailsSheetBase } from './types.js'
 
 interface TokenDetailsSheetProps {
-  chainId?: number
+  chainId: number | undefined
 }
 
 export const TokenDetailsSheet = forwardRef<

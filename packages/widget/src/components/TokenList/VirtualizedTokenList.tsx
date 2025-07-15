@@ -1,15 +1,13 @@
 import { Typography } from '@mui/material'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type { FC } from 'react'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
-import type { NetworkAmount, TokenAmount } from '../../types/token.js'
-import { groupTokens } from '../../utils/groupTokens.js'
+import type { TokenAmount } from '../../types/token.js'
 import { TokenDetailsSheet } from './TokenDetailsSheet.js'
 import { List } from './TokenList.style.js'
-import { TokenListItem } from './TokenListItem.js'
-import { TokenListItemSkeleton } from './TokenListItemSkeleton.js'
+import { TokenListItem, TokenListItemSkeleton } from './TokenListItem.js'
 import type {
   TokenDetailsSheetBase,
   VirtualizedTokenListProps,
@@ -19,24 +17,19 @@ const tokenItemHeight = 64 // 60 + 4px margin-bottom
 
 export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   account,
-  tokens: rawTokens,
+  tokens,
   scrollElementRef,
   chainId,
-  isAllNetworks,
   selectedTokenAddress,
   isLoading,
   isBalanceLoading,
   showCategories,
   onClick,
+  isAllNetworks,
 }) => {
   const { t } = useTranslation()
 
   const { chains } = useAvailableChains()
-
-  const tokens = useMemo(
-    () => (!isAllNetworks ? rawTokens : groupTokens(rawTokens, chains ?? [])),
-    [isAllNetworks, rawTokens, chains]
-  )
 
   const tokenDetailsSheetRef = useRef<TokenDetailsSheetBase>(null)
 
@@ -50,12 +43,10 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   const getItemKey = useCallback(
     (index: number) => {
       const token = tokens[index]
-      return 'address' in token ? token.address : token.symbol
+      return `${token.chainId}-${token.address}`
     },
     [tokens]
   )
-
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
 
   const estimateSize = useCallback(
     (index: number) => {
@@ -63,13 +54,6 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
 
       // Base size for TokenListItem
       let size = tokenItemHeight
-
-      // Adjust size based on expanded item
-      if (expandedIndex === index) {
-        size +=
-          ((currentToken as NetworkAmount)?.tokens?.length || 0) *
-          tokenItemHeight
-      }
 
       // Early return if categories are not shown
       if (!showCategories || !chainId) {
@@ -95,23 +79,17 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
 
       return size
     },
-    [tokens, showCategories, expandedIndex, chainId]
+    [tokens, showCategories, chainId]
   )
 
-  const { getVirtualItems, getTotalSize, scrollToIndex, measure } =
-    useVirtualizer({
-      count: tokens.length,
-      overscan: 5,
-      paddingEnd: 12,
-      getScrollElement: () => scrollElementRef.current,
-      estimateSize,
-      getItemKey,
-    })
-
-  const handleToggle = (index: number) => {
-    setExpandedIndex((prev) => (prev === index ? null : index))
-    measure() // Re-measure the list to update the sizes of the items
-  }
+  const { getVirtualItems, getTotalSize, scrollToIndex } = useVirtualizer({
+    count: tokens.length,
+    overscan: 5,
+    paddingEnd: 12,
+    getScrollElement: () => scrollElementRef.current,
+    estimateSize,
+    getItemKey,
+  })
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when chainId changes
   useEffect(() => {
@@ -142,8 +120,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
       >
         {getVirtualItems().map((item) => {
           const currentToken = tokens[item.index]
-          const previousToken: TokenAmount | NetworkAmount | undefined =
-            tokens[item.index - 1]
+          const previousToken: TokenAmount | undefined = tokens[item.index - 1]
 
           const chain =
             'chainId' in currentToken
@@ -174,23 +151,24 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
             isTransitionFromFeaturedTokens ||
             (previousToken?.popular && !currentToken.popular)
 
-          const startAdornmentLabel = showCategories
-            ? (() => {
-                if (isFirstFeaturedToken) {
-                  return t('main.featuredTokens')
-                }
-                if (isTransitionToMyTokens) {
-                  return t('main.myTokens')
-                }
-                if (isTransitionToPopularTokens) {
-                  return t('main.popularTokens')
-                }
-                if (shouldShowAllTokensCategory) {
-                  return t('main.allTokens')
-                }
-                return null
-              })()
-            : null
+          const startAdornmentLabel =
+            !isAllNetworks && showCategories
+              ? (() => {
+                  if (isFirstFeaturedToken) {
+                    return t('main.featuredTokens')
+                  }
+                  if (isTransitionToMyTokens) {
+                    return t('main.myTokens')
+                  }
+                  if (isTransitionToPopularTokens) {
+                    return t('main.popularTokens')
+                  }
+                  if (shouldShowAllTokensCategory) {
+                    return t('main.allTokens')
+                  }
+                  return null
+                })()
+              : null
 
           return (
             <TokenListItem
@@ -202,8 +180,6 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
               chain={chain}
               selectedTokenAddress={selectedTokenAddress}
               onShowTokenDetails={onShowTokenDetails}
-              isExpanded={expandedIndex === item.index}
-              onExpand={() => handleToggle(item.index)}
               isBalanceLoading={isBalanceLoading}
               showBalance={!!account.address}
               startAdornment={
