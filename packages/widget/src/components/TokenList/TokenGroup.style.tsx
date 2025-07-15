@@ -1,10 +1,10 @@
 import {
-  Accordion as MuiAccordion,
-  AccordionSummary as MuiAccordionSummary,
-  AvatarGroup as MuiAvatarGroup,
   accordionSummaryClasses,
   avatarClasses,
   avatarGroupClasses,
+  Accordion as MuiAccordion,
+  AccordionSummary as MuiAccordionSummary,
+  AvatarGroup as MuiAvatarGroup,
   styled,
 } from '@mui/material'
 
