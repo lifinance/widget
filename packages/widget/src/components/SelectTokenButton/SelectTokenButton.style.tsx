@@ -1,6 +1,6 @@
 import {
-  CardContent as MuiCardContent,
   cardHeaderClasses,
+  CardContent as MuiCardContent,
   styled,
 } from '@mui/material'
 import type { FormType } from '../../stores/form/types.js'

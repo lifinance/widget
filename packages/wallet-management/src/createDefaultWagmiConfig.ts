@@ -1,4 +1,4 @@
-import { http, createClient } from 'viem'
+import { createClient, http } from 'viem'
 import { mainnet } from 'viem/chains'
 import type { Config, CreateConnectorFn } from 'wagmi'
 import { createConfig } from 'wagmi'

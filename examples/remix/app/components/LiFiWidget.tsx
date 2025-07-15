@@ -1,5 +1,5 @@
 import { type WidgetConfig, WidgetSkeleton } from '@lifi/widget'
-import { Suspense, lazy } from 'react'
+import { lazy, Suspense } from 'react'
 
 const LiFiWidgetLazy = lazy(async () => {
   const module = await import('@lifi/widget')

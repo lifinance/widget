@@ -1,4 +1,4 @@
-import { WidgetEvent, type WidgetEvents, useWidgetEvents } from '@lifi/widget'
+import { useWidgetEvents, WidgetEvent, type WidgetEvents } from '@lifi/widget'
 import { useEffect, useState } from 'react'
 import { useDevView } from '../../../hooks/useDevView'
 import { setQueryStringParam } from '../../../utils/setQueryStringParam'
@@ -35,7 +35,7 @@ export const WidgetEventControls = () => {
 
   useEffect(() => {
     const logFunction = (eventName: string) => (value: any) =>
-      // eslint-disable-next-line no-console
+      // biome-ignore lint/suspicious/noConsole: allowed in dev
       console.info(eventName, value)
 
     const logFunctionLookUp: Record<string, (value: any) => void> = {}

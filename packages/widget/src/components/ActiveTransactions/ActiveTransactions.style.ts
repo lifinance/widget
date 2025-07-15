@@ -1,7 +1,7 @@
 import {
+  listItemSecondaryActionClasses,
   ListItem as MuiListItem,
   ListItemButton as MuiListItemButton,
-  listItemSecondaryActionClasses,
   styled,
 } from '@mui/material'
 

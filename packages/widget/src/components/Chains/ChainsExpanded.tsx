@@ -3,8 +3,8 @@ import type { FormType } from '../../stores/form/types'
 import { getWidgetMaxHeight } from '../../utils/widgetSize'
 import { ExpansionTransition } from '../Expansion/ExpansionTransition'
 import {
-  SelectChainExpansionContainer,
   chainExpansionWidth,
+  SelectChainExpansionContainer,
 } from './ChainsExpanded.style'
 import { SelectChainContent } from './SelectChainContent'
 

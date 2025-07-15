@@ -1,12 +1,12 @@
 import type { Route, Token } from '@lifi/sdk'
 import {
   ChainType,
-  LiFiErrorCode,
   convertQuoteToRoute,
   getContractCallsQuote,
   getRelayerQuote,
   getRoutes,
   isRelayerStep,
+  LiFiErrorCode,
 } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -37,6 +37,7 @@ interface RoutesProps {
 export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
   const {
     subvariant,
+    subvariantOptions,
     sdkConfig,
     contractTool,
     bridges,
@@ -289,7 +290,12 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
         }
 
         // Prevent sending a request for the same chain token combinations.
-        if (fromChainId === toChainId && fromTokenAddress === toTokenAddress) {
+        // Exception: proceed anyway if subvariant is custom and subvariantOptions is deposit
+        if (
+          fromChainId === toChainId &&
+          fromTokenAddress === toTokenAddress &&
+          !(subvariant === 'custom' && subvariantOptions?.custom === 'deposit')
+        ) {
           return
         }
 

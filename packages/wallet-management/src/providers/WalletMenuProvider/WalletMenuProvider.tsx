@@ -4,11 +4,11 @@ import { WalletMenuContent } from '../../components/WalletMenuContent.js'
 import { WalletMenuModal } from '../../components/WalletMenuModal.js'
 import { I18nProvider } from '../I18nProvider/I18nProvider.js'
 import { useWalletManagementConfig } from '../WalletManagementProvider/WalletManagementContext.js'
-import { WalletMenuContext } from './WalletMenuContext.js'
 import type {
-  WalletMenuOpenArgs,
   WalletMenuContext as _WalletMenuContext,
+  WalletMenuOpenArgs,
 } from './types.js'
+import { WalletMenuContext } from './WalletMenuContext.js'
 
 export const WalletMenuProvider: React.FC<PropsWithChildren> = ({
   children,

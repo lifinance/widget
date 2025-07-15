@@ -29,10 +29,12 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
         resources[lng] = {
           translation: languageResources?.[lng]
             ? (deepMerge(
+                // biome-ignore lint/performance/noDynamicNamespaceImportAccess: TODO: make it dynamic
                 supportedLanguages[lng],
                 languageResources[lng]
-              ) as any)
-            : supportedLanguages[lng],
+              ) as LanguageTranslationResources)
+            : // biome-ignore lint/performance/noDynamicNamespaceImportAccess: TODO: make it dynamic
+              supportedLanguages[lng],
         }
         return resources
       }, {} as LanguageTranslationResources)

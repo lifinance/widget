@@ -140,7 +140,7 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
           } as RouteExecutionState
           try {
             // Remove failed transactions from history after 1 day
-            const currentTime = new Date().getTime()
+            const currentTime = Date.now()
             const oneDay = 1000 * 60 * 60 * 24
             Object.values(state.routes).forEach((routeExecution) => {
               const startedAt =

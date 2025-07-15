@@ -1,4 +1,4 @@
-import { Box, Typography, styled } from '@mui/material'
+import { Box, styled, Typography } from '@mui/material'
 
 export const CardLabel = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',

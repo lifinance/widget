@@ -192,19 +192,19 @@ export const useRouteExecution = ({
     [resumeRouteMutation, routeId]
   )
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
+  // biome-ignore lint/correctness/useExhaustiveDependencies: run only when routeId changes
   const restartRouteMutation = useCallback(() => {
     restartRoute(routeId)
     _resumeRoute(routeExecution?.route)
   }, [_resumeRoute, routeExecution?.route, routeId])
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
+  // biome-ignore lint/correctness/useExhaustiveDependencies: run only when routeId changes
   const deleteRouteMutation = useCallback(() => {
     deleteRoute(routeId)
   }, [routeId])
 
   // Resume route execution after page reload
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
+  // biome-ignore lint/correctness/useExhaustiveDependencies: run only when routeId changes
   useEffect(() => {
     // Check if route is eligible for automatic resuming
     const route = routeExecutionStoreContext.getState().routes[routeId]?.route

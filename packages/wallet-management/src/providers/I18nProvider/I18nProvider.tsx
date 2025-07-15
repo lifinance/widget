@@ -18,6 +18,7 @@ export const I18nProvider: FC<PropsWithChildren<I18nProviderProps>> = ({
     const resources = (Object.keys(supportedLanguages) as LanguageKey[]).reduce(
       (resources, lng) => {
         resources[lng] = {
+          // biome-ignore lint/performance/noDynamicNamespaceImportAccess: TODO: make it dynamic
           translation: supportedLanguages[lng],
         }
         return resources

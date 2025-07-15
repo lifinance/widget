@@ -78,7 +78,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     getItemKey,
   })
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
+  // biome-ignore lint/correctness/useExhaustiveDependencies: run only when chainId changes
   useEffect(() => {
     // Scroll to the top of the list when switching the chains
     if (getVirtualItems().length) {
