@@ -1,8 +1,15 @@
-import React from 'react'
+// biome-ignore assist/source/organizeImports: should be at the top
+import { scan } from 'react-scan'
+
+import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { App } from './App'
 import './index.css'
 import { reportWebVitals } from './reportWebVitals'
+
+scan({
+  enabled: true,
+})
 
 const rootElement = document.getElementById('root')
 if (!rootElement) {
@@ -12,9 +19,9 @@ if (!rootElement) {
 const root = createRoot(rootElement)
 
 root.render(
-  <React.StrictMode>
+  <StrictMode>
     <App />
-  </React.StrictMode>
+  </StrictMode>
 )
 
 // If you want to start measuring performance in your app, pass a function
