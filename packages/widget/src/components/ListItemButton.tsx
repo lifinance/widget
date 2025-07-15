@@ -1,4 +1,8 @@
-import { ListItemButton as MuiListItemButton, styled } from '@mui/material'
+import {
+  listItemButtonClasses,
+  ListItemButton as MuiListItemButton,
+  styled,
+} from '@mui/material'
 
 export const ListItemButton = styled(MuiListItemButton)(({ theme }) => {
   return {
@@ -7,6 +11,18 @@ export const ListItemButton = styled(MuiListItemButton)(({ theme }) => {
     height: 56,
     '&:hover': {
       backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+    },
+    [`&.${listItemButtonClasses.selected}`]: {
+      backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 20%, white)`,
+      '&:hover': {
+        backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 24%, white)`,
+      },
+      ...theme.applyStyles('dark', {
+        backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 24%, black)`,
+        '&:hover': {
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 28%, black)`,
+        },
+      }),
     },
     variants: [
       {

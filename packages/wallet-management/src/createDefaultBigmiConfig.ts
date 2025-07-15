@@ -1,3 +1,4 @@
+import type { Config, CreateConnectorFn } from '@bigmi/client'
 import {
   binance,
   bitget,
@@ -12,8 +13,7 @@ import {
   unisat,
   xverse,
 } from '@bigmi/client'
-import type { Config, CreateConnectorFn } from '@bigmi/client'
-import { http, bitcoin, createClient } from '@bigmi/core'
+import { bitcoin, createClient, http } from '@bigmi/core'
 import { ChainId } from '@lifi/sdk'
 
 export interface DefaultBigmiConfigProps {

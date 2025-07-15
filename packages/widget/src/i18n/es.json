@@ -309,8 +309,9 @@
     "to": "A",
     "tokenOnChain": "{{tokenSymbol}} en {{chainName}}",
     "tokenOnChainAmount": "",
-    "tokenSearch": "Busque su token",
+    "tokenSearch": "",
     "valueLoss": "Valor perdido",
+    "searchChain": "",
     "searchChains": "Buscar por nombre de cadena",
     "searchBridges": "Buscar por nombre de puente",
     "searchExchanges": "Buscar por nombre de intercambio"

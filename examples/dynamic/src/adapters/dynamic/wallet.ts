@@ -33,9 +33,9 @@ import { TurnkeyHDWalletAccount } from './account.js'
 import { icon } from './icon.js'
 import type { SolanaChain } from './solana.js'
 import {
-  SOLANA_CHAINS,
   isSolanaChain,
   isVersionedTransaction,
+  SOLANA_CHAINS,
 } from './solana.js'
 import { bytesEqual } from './util.js'
 import type { TurnkeyHD } from './window.js'
@@ -134,7 +134,7 @@ export class TurnkeyHDWallet implements Wallet {
 
   #on: StandardEventsOnMethod = (event, listener) => {
     this.#listeners[event]?.push(listener) ||
-      // biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
+      // biome-ignore lint/suspicious/noAssignInExpressions: allowed in typescript
       (this.#listeners[event] = [listener])
     return (): void => this.#off(event, listener)
   }
@@ -275,7 +275,7 @@ export class TurnkeyHDWallet implements Wallet {
 
       outputs.push({ signedTransaction: serializedTransaction })
     } else if (inputs.length > 1) {
-      let chain: SolanaChain | undefined = undefined
+      let chain: SolanaChain | undefined
       for (const input of inputs) {
         if (input.account !== this.#account) {
           throw new Error('invalid account')

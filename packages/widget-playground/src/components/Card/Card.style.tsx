@@ -1,6 +1,11 @@
-import { Box, ButtonBase, Typography } from '@mui/material'
 import type { CardProps as MuiCardProps } from '@mui/material'
-import { Card as MuiCard, styled } from '@mui/material'
+import {
+  Box,
+  ButtonBase,
+  Card as MuiCard,
+  styled,
+  Typography,
+} from '@mui/material'
 
 export interface CardProps extends MuiCardProps {
   type?: 'default' | 'selected' | 'error'
@@ -48,12 +53,12 @@ export const Card = styled(MuiCard, {
           type: 'selected',
         },
         style: {
-          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 15%, white)`,
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 20%, white)`,
           borderWidth: 1,
           borderStyle: 'solid',
-          borderColor: `rgba(${theme.vars.palette.secondary.mainChannel} / 0.2)`,
+          borderColor: `rgba(${theme.vars.palette.secondary.mainChannel} / 0.24)`,
           '&:hover': {
-            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 20%, white)`,
+            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 24%, white)`,
           },
           ...theme.applyStyles('dark', {
             backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 24%, black)`,

@@ -33,7 +33,7 @@ export const RouteTracker = ({
    * This allows us to query the route using the same tool each time we refresh.
    * The observable and reviewable routes can be the same when we first enter the review page.
    */
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
+  // biome-ignore lint/correctness/useExhaustiveDependencies: run only when currentRoute changes
   useEffect(() => {
     if (
       observableRouteIdRef.current &&
@@ -57,7 +57,7 @@ export const RouteTracker = ({
 
   return (
     <ProgressToNextUpdate
-      updatedAt={dataUpdatedAt || new Date().getTime()}
+      updatedAt={dataUpdatedAt || Date.now()}
       timeToUpdate={refetchTime}
       isLoading={isFetching}
       onClick={handleRefetch}

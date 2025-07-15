@@ -309,8 +309,9 @@
     "to": "Đến",
     "tokenOnChain": "{{tokenSymbol}} tại {{chainName}}",
     "tokenOnChainAmount": "",
-    "tokenSearch": "Tìm kiếm bằng tên token hoặc địa chỉ",
+    "tokenSearch": "",
     "valueLoss": "Bạn sẽ mất",
+    "searchChain": "",
     "searchChains": "",
     "searchBridges": "",
     "searchExchanges": ""

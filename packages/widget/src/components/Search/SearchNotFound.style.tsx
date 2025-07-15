@@ -1,5 +1,5 @@
 import type { BoxProps } from '@mui/material'
-import { Box, Typography, styled } from '@mui/material'
+import { Box, styled, Typography } from '@mui/material'
 import { searchContainerHeight } from './SearchInput.style.js'
 
 interface NotFoundContainerProps extends BoxProps {
@@ -22,6 +22,7 @@ export const NotFoundContainer = styled(Box, {
 
 export const NotFoundMessage = styled(Typography)(({ theme }) => ({
   fontSize: 14,
+  whiteSpace: 'normal',
   color: theme.vars.palette.text.secondary,
   textAlign: 'center',
   flex: 1,

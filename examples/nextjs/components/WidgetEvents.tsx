@@ -4,7 +4,7 @@ import type {
   RouteExecutionUpdate,
   RouteHighValueLossUpdate,
 } from '@lifi/widget'
-import { WidgetEvent, useWidgetEvents } from '@lifi/widget'
+import { useWidgetEvents, WidgetEvent } from '@lifi/widget'
 import { useEffect } from 'react'
 
 export const WidgetEvents = () => {

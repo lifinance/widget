@@ -2,17 +2,16 @@ import type { FullStatusData } from '@lifi/sdk'
 import { Box, List } from '@mui/material'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type React from 'react'
-import { useRef } from 'react'
+import { useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { PageContainer } from '../../components/PageContainer.js'
 import { useHeader } from '../../hooks/useHeader.js'
-import { useTransactionHistory } from '../../hooks/useTransactionHistory.js'
-
 import { useListHeight } from '../../hooks/useListHeight.js'
+import { useTransactionHistory } from '../../hooks/useTransactionHistory.js'
+import { minTransactionListHeight } from './constants.js'
 import { TransactionHistoryEmpty } from './TransactionHistoryEmpty.js'
 import { TransactionHistoryItem } from './TransactionHistoryItem.js'
 import { TransactionHistoryItemSkeleton } from './TransactionHistorySkeleton.js'
-import { minTransactionListHeight } from './constants.js'
 
 export const TransactionHistoryPage: React.FC = () => {
   // Parent ref and useVirtualizer should be in one file to avoid blank page (0 virtual items) issue
@@ -26,14 +25,20 @@ export const TransactionHistoryPage: React.FC = () => {
     listParentRef: parentRef,
   })
 
+  const getItemKey = useCallback(
+    (index: number) => {
+      return `${(transactions[index] as FullStatusData).transactionId}-${index}`
+    },
+    [transactions]
+  )
+
   const { getVirtualItems, getTotalSize } = useVirtualizer({
     count: transactions.length,
-    overscan: 5,
+    overscan: 3,
     paddingEnd: 12,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 186,
-    getItemKey: (index) =>
-      `${(transactions[index] as FullStatusData).transactionId}-${index}`,
+    getItemKey,
   })
 
   if (!transactions.length && !isLoading) {

@@ -95,7 +95,7 @@ const fromAmountLookUp: FormValuesLookUp = {
 
 const forceConfigUpdate = (nextValue: FormValues): FormValues => ({
   ...nextValue,
-  formUpdateKey: new Date().valueOf().toString(),
+  formUpdateKey: Date.now().toString(),
 })
 
 export function FormControls() {

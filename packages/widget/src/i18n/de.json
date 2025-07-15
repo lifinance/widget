@@ -309,8 +309,9 @@
     "to": "Zu",
     "tokenOnChain": "{{tokenSymbol}} auf {{chainName}}",
     "tokenOnChainAmount": "",
-    "tokenSearch": "Suchen Sie Ihren Token",
+    "tokenSearch": "",
     "valueLoss": "Wertverlust",
+    "searchChain": "",
     "searchChains": "",
     "searchBridges": "",
     "searchExchanges": ""

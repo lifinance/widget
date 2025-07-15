@@ -5,13 +5,19 @@ import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.j
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
 import { formDefaultValues } from '../../stores/form/createFormStore.js'
 import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
+import { isItemAllowed } from '../../utils/item.js'
 import type { DefaultValues } from './types.js'
 import { useFieldActions } from './useFieldActions.js'
 
 export const FormUpdater: React.FC<{
   reactiveFormValues: Partial<DefaultValues>
 }> = ({ reactiveFormValues }) => {
-  const { fromChain, toChain, toAddress } = useWidgetConfig()
+  const {
+    fromChain,
+    toChain,
+    toAddress,
+    chains: configChains,
+  } = useWidgetConfig()
   const { account } = useAccount()
   const { chains } = useChains()
   const { setSendToWallet } = useSendToWalletActions()
@@ -21,21 +27,47 @@ export const FormUpdater: React.FC<{
 
   // Set wallet chain as default if no chains are provided by config and if they were not changed during widget usage
   useEffect(() => {
-    const chainAllowed =
-      account.chainId && chains?.some((chain) => chain.id === account.chainId)
+    const fromChainAllowed =
+      account.chainId &&
+      chains?.some(
+        (chain) =>
+          chain.id === account.chainId &&
+          isItemAllowed(chain.id, configChains?.from)
+      )
+    const toChainAllowed =
+      account.chainId &&
+      chains?.some(
+        (chain) =>
+          chain.id === account.chainId &&
+          isItemAllowed(chain.id, configChains?.to)
+      )
 
-    if (!account.isConnected || !account.chainId || !chainAllowed) {
+    if (
+      !account.isConnected ||
+      !account.chainId ||
+      (!fromChainAllowed && !toChainAllowed)
+    ) {
       return
     }
 
-    if (!fromChain && !isTouched('fromChain') && !isTouched('fromToken')) {
+    if (
+      !fromChain &&
+      !isTouched('fromChain') &&
+      !isTouched('fromToken') &&
+      fromChainAllowed
+    ) {
       resetField('fromChain', { defaultValue: account.chainId })
       setFieldValue('fromToken', '')
       if (isTouched('fromAmount')) {
         setFieldValue('fromAmount', '')
       }
     }
-    if (!toChain && !isTouched('toChain') && !isTouched('toToken')) {
+    if (
+      !toChain &&
+      !isTouched('toChain') &&
+      !isTouched('toToken') &&
+      toChainAllowed
+    ) {
       resetField('toChain', { defaultValue: account.chainId })
       setFieldValue('toToken', '')
     }
@@ -48,6 +80,8 @@ export const FormUpdater: React.FC<{
     isTouched,
     resetField,
     setFieldValue,
+    configChains?.from,
+    configChains?.to,
   ])
 
   // Makes widget config options reactive to changes

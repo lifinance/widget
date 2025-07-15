@@ -19,7 +19,7 @@ import { TransactionHistoryButton } from './TransactionHistoryButton.js'
 import { SplitWalletMenuButton } from './WalletHeader.js'
 
 export const NavigationHeader: React.FC = () => {
-  const { subvariant, hiddenUI, variant } = useWidgetConfig()
+  const { subvariant, hiddenUI, variant, defaultUI } = useWidgetConfig()
   const { navigateBack } = useNavigateBack()
   const { account } = useAccount()
   const { element, title } = useHeaderStore((state) => state)
@@ -50,7 +50,7 @@ export const NavigationHeader: React.FC = () => {
         ) : (
           <Typography
             align={hasPath ? 'center' : 'left'}
-            noWrap
+            noWrap={defaultUI?.navigationHeaderTitleNoWrap ?? true}
             sx={{
               fontSize: hasPath ? 18 : 24,
               fontWeight: '700',

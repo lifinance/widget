@@ -83,5 +83,9 @@
     "react-dom": ">=18",
     "wagmi": ">=2.14.0"
   },
-  "files": ["dist/**", "src/**", "!tsconfig.json"]
+  "files": [
+    "dist/**",
+    "src/**",
+    "!tsconfig.json"
+  ]
 }

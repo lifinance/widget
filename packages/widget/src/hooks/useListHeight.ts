@@ -19,7 +19,7 @@ const getContentHeight = (
 
   const listParentElement = listParentRef?.current
 
-  let oldHeight: string | undefined = undefined
+  let oldHeight: string | undefined
 
   // This covers the case where in full height flex mode when the browser height is reduced
   // - this allows a virtualised list to be made smaller

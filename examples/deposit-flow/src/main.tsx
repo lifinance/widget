@@ -1,7 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { http, WagmiProvider, createConfig } from 'wagmi'
+import { createConfig, http, WagmiProvider } from 'wagmi'
 import { arbitrum, base, mainnet, optimism } from 'wagmi/chains'
 import { injected } from 'wagmi/connectors'
 import { App } from './App'

@@ -36,9 +36,13 @@ export type WidgetVariant = 'compact' | 'wide' | 'drawer'
 export type WidgetSubvariant = 'default' | 'split' | 'custom' | 'refuel'
 export type SplitSubvariant = 'bridge' | 'swap'
 export type CustomSubvariant = 'checkout' | 'deposit'
+export type WideSubvariant = {
+  enableChainSidebar?: boolean
+}
 export interface SubvariantOptions {
   split?: SplitSubvariant
   custom?: CustomSubvariant
+  wide?: WideSubvariant
 }
 
 export type Appearance = PaletteMode | 'system'
@@ -117,6 +121,7 @@ export type RequiredUIType = `${RequiredUI}`
 
 export type DefaultUI = {
   transactionDetailsExpanded?: boolean
+  navigationHeaderTitleNoWrap?: boolean
 }
 
 export interface WidgetWalletConfig {
@@ -209,19 +214,31 @@ export interface AllowDeny<T> {
   deny?: T[]
 }
 
+export type AllowDenySetItem = string | number
+export interface AllowDenySet {
+  allow?: Set<AllowDenySetItem>
+  deny?: Set<AllowDenySetItem>
+}
+
+export type AllowDenySets = {
+  from?: AllowDenySet
+  to?: AllowDenySet
+} & AllowDenySet
+
+export type AllowDenyItems<T> = {
+  from?: AllowDeny<T>
+  to?: AllowDeny<T>
+} & AllowDeny<T>
+
 export type WidgetChains = {
-  from?: AllowDeny<number>
-  to?: AllowDeny<number>
   types?: AllowDeny<ChainType>
-} & AllowDeny<number>
+} & AllowDenyItems<number>
 
 export type WidgetTokens = {
   featured?: StaticToken[]
   include?: Token[]
   popular?: StaticToken[]
-  from?: AllowDeny<BaseToken>
-  to?: AllowDeny<BaseToken>
-} & AllowDeny<BaseToken>
+} & AllowDenyItems<BaseToken>
 
 export type WidgetLanguages = {
   default?: LanguageKey
@@ -363,4 +380,10 @@ export interface WidgetDrawerProps extends WidgetConfigPartialProps {
    * Make sure to make the onClose callback stable (e.g. using useCallback) to avoid causing re-renders of the entire widget
    */
   onClose?(): void
+}
+
+export enum ExpansionType {
+  Routes = 'routes',
+  FromChain = 'fromChain',
+  ToChain = 'toChain',
 }

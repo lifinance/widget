@@ -69,10 +69,12 @@
     "react-i18next": "^15.6.0",
     "react-intersection-observer": "^9.16.0",
     "react-router-dom": "^6.30.0",
+    "react-transition-group": "^4.4.5",
     "viem": "^2.31.6",
     "zustand": "^5.0.6"
   },
   "devDependencies": {
+    "@types/react-transition-group": "^4.4.12",
     "cpy-cli": "^5.0.0",
     "madge": "^8.0.0",
     "react": "^19.1.0",
@@ -89,5 +91,9 @@
     "react-dom": ">=18",
     "wagmi": ">=2.14.0"
   },
-  "files": ["dist/**", "src/**", "!tsconfig.json"]
+  "files": [
+    "dist/**",
+    "src/**",
+    "!tsconfig.json"
+  ]
 }

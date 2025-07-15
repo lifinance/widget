@@ -27,7 +27,6 @@ export const Container = styled(Box, {
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: theme.vars.palette.background.default,
-    backdropFilter: 'blur(12px)',
     position: sticky ? 'sticky' : 'relative',
     top: 0,
     zIndex: 1200,
