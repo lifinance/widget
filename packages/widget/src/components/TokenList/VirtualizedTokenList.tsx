@@ -34,8 +34,12 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   const tokenDetailsSheetRef = useRef<TokenDetailsSheetBase>(null)
 
   const onShowTokenDetails = useCallback(
-    (tokenAddress: string, noContractAddress: boolean) => {
-      tokenDetailsSheetRef.current?.open(tokenAddress, noContractAddress)
+    (tokenAddress: string, noContractAddress: boolean, chainId: number) => {
+      tokenDetailsSheetRef.current?.open(
+        tokenAddress,
+        noContractAddress,
+        chainId
+      )
     },
     []
   )
@@ -43,7 +47,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   const getItemKey = useCallback(
     (index: number) => {
       const token = tokens[index]
-      return `${token.chainId}-${token.address}`
+      return `${token.chainId}-${token.address}-${index}`
     },
     [tokens]
   )
@@ -122,14 +126,9 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
           const currentToken = tokens[item.index]
           const previousToken: TokenAmount | undefined = tokens[item.index - 1]
 
-          const chain =
-            'chainId' in currentToken
-              ? chains?.find(
-                  (chain) =>
-                    'chainId' in currentToken &&
-                    currentToken.chainId === chain.id
-                )
-              : undefined
+          const chain = chains?.find(
+            (chain) => currentToken.chainId === chain.id
+          )
 
           const isFirstFeaturedToken = currentToken.featured && item.index === 0
 
@@ -178,10 +177,13 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
               start={item.start}
               token={currentToken}
               chain={chain}
-              selectedTokenAddress={selectedTokenAddress}
+              selected={
+                selectedTokenAddress === currentToken.address &&
+                chainId === currentToken.chainId
+              }
               onShowTokenDetails={onShowTokenDetails}
               isBalanceLoading={isBalanceLoading}
-              showBalance={!!account.address}
+              accountAddress={account.address}
               startAdornment={
                 startAdornmentLabel ? (
                   <Typography
@@ -202,7 +204,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
           )
         })}
       </List>
-      <TokenDetailsSheet ref={tokenDetailsSheetRef} chainId={chainId} />
+      <TokenDetailsSheet ref={tokenDetailsSheetRef} />
     </>
   )
 }

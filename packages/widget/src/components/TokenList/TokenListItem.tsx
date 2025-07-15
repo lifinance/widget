@@ -30,11 +30,11 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
   start,
   token,
   chain,
-  showBalance,
+  accountAddress,
   isBalanceLoading,
   startAdornment,
   endAdornment,
-  selectedTokenAddress,
+  selected,
   onShowTokenDetails,
 }) => {
   return (
@@ -48,11 +48,11 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
       {startAdornment}
       <TokenListItemButton
         token={token}
-        showBalance={showBalance}
+        accountAddress={accountAddress}
         isBalanceLoading={isBalanceLoading}
         onClick={onClick}
         chain={chain}
-        selected={token.address === selectedTokenAddress}
+        selected={selected}
         onShowTokenDetails={onShowTokenDetails}
       />
       {endAdornment}
@@ -81,13 +81,18 @@ export const TokenListItemAvatar: React.FC<TokenListItemAvatarProps> = ({
 interface OpenTokenDetailsButtonProps {
   tokenAddress: string | undefined
   withoutContractAddress: boolean
-  onClick: (tokenAddress: string, withoutContractAddress: boolean) => void
+  chainId: number
+  onClick: (
+    tokenAddress: string,
+    withoutContractAddress: boolean,
+    chainId: number
+  ) => void
 }
 
 const OpenTokenDetailsButton = ({
   tokenAddress,
   withoutContractAddress,
-
+  chainId,
   onClick,
 }: OpenTokenDetailsButtonProps) => {
   if (!tokenAddress) {
@@ -98,7 +103,7 @@ const OpenTokenDetailsButton = ({
       size="small"
       onClick={(e) => {
         e.stopPropagation()
-        onClick(tokenAddress, withoutContractAddress)
+        onClick(tokenAddress, withoutContractAddress, chainId)
       }}
     >
       <InfoOutlinedIcon />
@@ -110,7 +115,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   onClick,
   token,
   chain,
-  showBalance,
+  accountAddress,
   isBalanceLoading,
   selected,
   onShowTokenDetails,
@@ -219,6 +224,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
                     <OpenTokenDetailsButton
                       tokenAddress={token.address}
                       withoutContractAddress={withoutContractAddress}
+                      chainId={token.chainId}
                       onClick={onShowTokenDetails}
                     />
                   </Box>
@@ -277,6 +283,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
                   <OpenTokenDetailsButton
                     tokenAddress={token.address}
                     withoutContractAddress={withoutContractAddress}
+                    chainId={token.chainId}
                     onClick={onShowTokenDetails}
                   />
                 </Box>
@@ -285,7 +292,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
           )
         }
       />
-      {showBalance ? (
+      {accountAddress ? (
         isBalanceLoading ? (
           <TokenAmountSkeleton />
         ) : (

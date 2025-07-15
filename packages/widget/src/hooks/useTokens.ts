@@ -1,4 +1,4 @@
-import { type BaseToken, ChainType, getTokens } from '@lifi/sdk'
+import { type BaseToken, ChainType, getTokens, type Token } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
@@ -42,12 +42,40 @@ export const useTokens = (
     if (isAllNetworks) {
       const tokens = Object.values(data.tokens).flat()
       const includedTokens = configTokens?.include || []
-      const filteredTokens = [...includedTokens, ...tokens]
-      // TODO: filter config
+      const allTokens = [...includedTokens, ...tokens]
+
+      const chainIds = new Set(allTokens.map((t) => t.chainId))
+
+      const filteredTokens: Token[] = []
+
+      for (const chainId of chainIds) {
+        const chainTokens = allTokens.filter((t) => t.chainId === chainId)
+
+        const allowedAddresses = getConfigItemSets(
+          configTokens,
+          (tokens: BaseToken[]) =>
+            new Set(
+              tokens.filter((t) => t.chainId === chainId).map((t) => t.address)
+            ),
+          formType
+        )
+
+        chainTokens.forEach((token) => {
+          if (
+            isFormItemAllowed(
+              token,
+              allowedAddresses,
+              formType,
+              (t) => t.address
+            )
+          ) {
+            filteredTokens.push(token)
+          }
+        })
+      }
+
       return {
         tokens: filteredTokens,
-        featuredTokens: configTokens?.featured,
-        popularTokens: configTokens?.popular,
         chain: undefined,
       }
     }

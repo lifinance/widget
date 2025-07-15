@@ -31,20 +31,28 @@ export interface TokenListItemBaseProps {
 }
 
 export interface TokenListItemProps extends TokenListItemBaseProps {
-  showBalance: boolean
+  accountAddress?: string
   token: TokenAmount
-  onShowTokenDetails: (tokenAddress: string, noContractAddress: boolean) => void
+  onShowTokenDetails: (
+    tokenAddress: string,
+    noContractAddress: boolean,
+    chainId: number
+  ) => void
   chain?: ExtendedChain
   isBalanceLoading?: boolean
   startAdornment?: React.ReactNode
   endAdornment?: React.ReactNode
-  selectedTokenAddress?: string
+  selected?: boolean
 }
 
 export interface TokenListItemButtonProps {
-  onShowTokenDetails: (tokenAddress: string, noContractAddress: boolean) => void
+  onShowTokenDetails: (
+    tokenAddress: string,
+    noContractAddress: boolean,
+    chainId: number
+  ) => void
   onClick?(tokenAddress: string, chainId?: number): void
-  showBalance: boolean
+  accountAddress?: string
   token: TokenAmount
   chain?: ExtendedChain
   isBalanceLoading?: boolean
@@ -57,6 +65,6 @@ export interface TokenListItemAvatarProps {
 
 export interface TokenDetailsSheetBase {
   isOpen(): void
-  open(address: string, noContractAddress: boolean): void
+  open(address: string, noContractAddress: boolean, chainId: number): void
   close(): void
 }
