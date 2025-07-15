@@ -4,7 +4,7 @@ import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
 import { useChains } from '../../hooks/useChains.js'
 import { useExternalWalletProvider } from '../../providers/WalletProvider/useExternalWalletProvider.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { isItemAllowed } from '../../utils/item.js'
+import { getConfigItemSets, isItemAllowedForSets } from '../../utils/item.js'
 import type { FormType } from '../form/types.js'
 import { useFieldActions } from '../form/useFieldActions.js'
 import type { PersistStoreProviderProps } from '../types.js'
@@ -40,9 +40,14 @@ export function ChainOrderStoreProvider({
         const configChainIds = chainsConfig?.[key]
         const isFromKey = key === 'from'
 
+        // Convert configChainIds to Sets for O(1) lookup
+        const configChainIdsSet = getConfigItemSets(
+          configChainIds,
+          (chainIds) => new Set(chainIds)
+        )
         const filteredChains = chains.filter((chain) => {
-          const passesChainsConfigFilter = configChainIds
-            ? isItemAllowed(chain.id, configChainIds)
+          const passesChainsConfigFilter = configChainIdsSet
+            ? isItemAllowedForSets(chain.id, configChainIdsSet)
             : true
           // If the integrator uses external wallet management and has not opted in for partial wallet management,
           // restrict the displayed chains to those compatible with external wallet management.

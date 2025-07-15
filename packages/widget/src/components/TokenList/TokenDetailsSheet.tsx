@@ -3,6 +3,7 @@ import { BottomSheet } from '../BottomSheet/BottomSheet.js'
 import type { BottomSheetBase } from '../BottomSheet/types.js'
 import { TokenDetailsSheetContent } from './TokenDetailsSheetContent.js'
 import type { TokenDetailsSheetBase } from './types.js'
+
 interface TokenDetailsSheetProps {
   chainId?: number
 }

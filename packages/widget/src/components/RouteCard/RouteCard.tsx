@@ -14,10 +14,10 @@ import { CardIconButton } from '../Card/CardIconButton.js'
 import { CardLabel, CardLabelTypography } from '../Card/CardLabel.js'
 import { StepActions } from '../StepActions/StepActions.js'
 import { Token } from '../Token/Token.js'
+import { getMatchingLabels } from './getMatchingLabels.js'
 import { TokenContainer } from './RouteCard.style.js'
 import { RouteCardEssentials } from './RouteCardEssentials.js'
 import { RouteCardEssentialsExpanded } from './RouteCardEssentialsExpanded.js'
-import { getMatchingLabels } from './getMatchingLabels.js'
 import type { RouteCardProps } from './types.js'
 
 export const RouteCard: React.FC<

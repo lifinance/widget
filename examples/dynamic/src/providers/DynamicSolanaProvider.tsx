@@ -1,7 +1,7 @@
 import {
-  type Wallet,
   useDynamicContext,
   useDynamicEvents,
+  type Wallet,
 } from '@dynamic-labs/sdk-react-core'
 import type { SolanaWalletConnector } from '@dynamic-labs/solana'
 import { useWallet } from '@solana/wallet-adapter-react'

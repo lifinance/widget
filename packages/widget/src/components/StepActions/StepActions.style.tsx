@@ -2,10 +2,10 @@ import {
   Box,
   StepConnector as MuiStepConnector,
   StepLabel as MuiStepLabel,
-  Typography,
   stepConnectorClasses,
   stepLabelClasses,
   styled,
+  Typography,
 } from '@mui/material'
 import { AvatarMasked } from '../Avatar/Avatar.style.js'
 

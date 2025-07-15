@@ -13,7 +13,7 @@ import { ChainType, type ExtendedChain, useAvailableChains } from '@lifi/widget'
 import { type FC, type PropsWithChildren, useRef } from 'react'
 import { type Chain, mainnet } from 'viem/chains'
 import type { Config, CreateConnectorFn } from 'wagmi'
-import { http, WagmiProvider, createConfig } from 'wagmi'
+import { createConfig, http, WagmiProvider } from 'wagmi'
 import { DynamicUTXOProvider } from './DynamicUTXOProvider'
 import { SolanaProvider } from './SolanaProvider'
 

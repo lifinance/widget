@@ -104,7 +104,7 @@ export const URLSearchParamsBuilder = () => {
     addRecentWallet,
   ])
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
+  // biome-ignore lint/correctness/useExhaustiveDependencies: run only when pathname changes
   useEffect(() => {
     // set the values on the querysting
     const url = new URL(window.location as any)

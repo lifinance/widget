@@ -39,6 +39,7 @@ export const useTokenBalances = (
       selectedChainId,
       tokens?.length,
       isAllNetworks,
+      formType,
     ],
     queryFn: async ({ queryKey: [, accountAddress] }) => {
       const tokensWithBalance: TokenAmount[] = await getTokenBalances(

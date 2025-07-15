@@ -40,7 +40,7 @@ export function deepEqual(a: any, b: any) {
     }
 
     for (i = length; i-- !== 0; ) {
-      if (!Object.prototype.hasOwnProperty.call(b, keys[i]!)) {
+      if (!Object.hasOwn(b, keys[i]!)) {
         return false
       }
     }
@@ -57,6 +57,6 @@ export function deepEqual(a: any, b: any) {
   }
 
   // true if both NaN, false otherwise
-  // biome-ignore lint/suspicious/noSelfCompare: <explanation>
+  // biome-ignore lint/suspicious/noSelfCompare: allowed in typescript
   return a !== a && b !== b
 }

@@ -1,7 +1,7 @@
 import { getConnectorClient as getBigmiConnectorClient } from '@bigmi/client'
 import { useConfig as useBigmiConfig } from '@bigmi/react'
 import type { SDKProvider } from '@lifi/sdk'
-import { ChainType, EVM, Solana, Sui, UTXO, config } from '@lifi/sdk'
+import { ChainType, config, EVM, Solana, Sui, UTXO } from '@lifi/sdk'
 import { useCurrentWallet } from '@mysten/dapp-kit'
 import type { SignerWalletAdapter } from '@solana/wallet-adapter-base'
 import { useWallet } from '@solana/wallet-adapter-react'

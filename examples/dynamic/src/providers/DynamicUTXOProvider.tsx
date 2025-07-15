@@ -1,8 +1,8 @@
 import { createConfig, dynamic } from '@bigmi/client'
-import { http, bitcoin, createClient } from '@bigmi/core'
+import { bitcoin, createClient, http } from '@bigmi/core'
 import { BigmiProvider } from '@bigmi/react'
 import { type BitcoinWallet, isBitcoinWallet } from '@dynamic-labs/bitcoin'
-import { type Wallet, useDynamicContext } from '@dynamic-labs/sdk-react-core'
+import { useDynamicContext, type Wallet } from '@dynamic-labs/sdk-react-core'
 import { ChainId } from '@lifi/widget'
 import { type FC, type PropsWithChildren, useEffect, useMemo } from 'react'
 

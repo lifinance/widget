@@ -1,59 +1,65 @@
-import type { BaseToken } from '@lifi/sdk'
 import type { FormType } from '../stores/form/types.js'
-import type { AllowDeny, WidgetTokens } from '../types/widget.js'
+import type {
+  AllowDeny,
+  AllowDenyItems,
+  AllowDenySet,
+  AllowDenySetItem,
+  AllowDenySets,
+} from '../types/widget.js'
 
-type IncludesFn<T> = (list: T[], item: T) => boolean
-
+// Use for a single item check
 export const isItemAllowed = <T>(
   item: T,
-  items?: AllowDeny<T>,
-  includes: IncludesFn<T> = (list, val) => list.includes(val)
+  items: AllowDeny<T> | undefined
 ): boolean => {
   if (items?.allow?.length) {
-    return includes(items.allow, item)
+    return items.allow.includes(item)
   }
-
-  return !includes(items?.deny ?? [], item)
+  return !items?.deny?.includes(item)
 }
 
-const tokenIncludes = (list: BaseToken[], item: BaseToken) =>
-  list.some((t) => t.address === item.address && t.chainId === item.chainId)
-
-export const isTokenAllowed = (
-  token: BaseToken,
-  configTokens: WidgetTokens | undefined,
-  formType: FormType | undefined
-) => {
-  return (
-    isItemAllowed(token, configTokens, tokenIncludes) &&
-    (formType
-      ? isItemAllowed(token, configTokens?.[formType], tokenIncludes)
-      : true)
-  )
+// Use for a O(1) set lookup of multiple items check
+export const isItemAllowedForSets = <T>(
+  item: T,
+  items: AllowDenySet | undefined,
+  getKey?: (item: T) => AllowDenySetItem
+): boolean => {
+  if (items?.allow?.size) {
+    return items.allow.has(getKey?.(item) ?? (item as AllowDenySetItem))
+  }
+  return !items?.deny?.has(getKey?.(item) ?? (item as AllowDenySetItem))
 }
 
-export const filterConfigTokensByChain = (
-  configTokens: WidgetTokens | undefined,
-  formType: FormType | undefined,
-  chainId: number
-) => {
-  if (!configTokens) {
-    return configTokens
+export const getConfigItemSets = <T>(
+  items: AllowDenyItems<T> | undefined,
+  getSet: (items: T[]) => Set<AllowDenySetItem>,
+  formType?: FormType
+): AllowDenySets | undefined => {
+  if (!items) {
+    return undefined
   }
-
   return {
-    ...configTokens,
-    allow: configTokens.allow?.filter((t) => t.chainId === chainId) ?? [],
-    deny: configTokens.deny?.filter((t) => t.chainId === chainId) ?? [],
+    allow: getSet(items.allow ?? []),
+    deny: getSet(items.deny ?? []),
     ...(formType && {
       [formType]: {
-        allow:
-          configTokens[formType]?.allow?.filter((t) => t.chainId === chainId) ??
-          [],
-        deny:
-          configTokens[formType]?.deny?.filter((t) => t.chainId === chainId) ??
-          [],
+        allow: getSet(items[formType]?.allow ?? []),
+        deny: getSet(items[formType]?.deny ?? []),
       },
     }),
   }
+}
+
+export const isFormItemAllowed = <T>(
+  item: T,
+  configTokens: AllowDenySets | undefined,
+  formType?: FormType,
+  getKey?: (item: T) => AllowDenySetItem
+) => {
+  return (
+    isItemAllowedForSets(item, configTokens, getKey) &&
+    (formType
+      ? isItemAllowedForSets(item, configTokens?.[formType], getKey)
+      : true)
+  )
 }

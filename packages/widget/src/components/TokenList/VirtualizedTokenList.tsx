@@ -113,7 +113,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     measure() // Re-measure the list to update the sizes of the items
   }
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
+  // biome-ignore lint/correctness/useExhaustiveDependencies: run only when chainId changes
   useEffect(() => {
     // Scroll to the top of the list when switching the chains
     if (getVirtualItems().length) {

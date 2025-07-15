@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import {
-  type TimeFromMillisecondsType,
   getMillisecondsFromExpiry,
   getTimeFromMilliseconds,
+  type TimeFromMillisecondsType,
 } from './time.js'
 import { useInterval } from './useInterval.js'
 import { validateExpiryTimestamp, validateOnExpire } from './validate.js'

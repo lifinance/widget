@@ -1,5 +1,6 @@
 import { join } from 'node:path'
 import fsExtra from 'fs-extra'
+
 const { stat: _stat, readFile, readdir, writeFile } = fsExtra
 
 const replaceInFile = async (filePath) => {

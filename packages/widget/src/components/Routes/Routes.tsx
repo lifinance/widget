@@ -54,7 +54,7 @@ export const Routes: React.FC<CardProps> = (props) => {
     <Card {...props}>
       <CardTitle>{title}</CardTitle>
       <ProgressToNextUpdate
-        updatedAt={dataUpdatedAt || new Date().getTime()}
+        updatedAt={dataUpdatedAt || Date.now()}
         timeToUpdate={refetchTime}
         isLoading={isFetching}
         onClick={() => refetch()}

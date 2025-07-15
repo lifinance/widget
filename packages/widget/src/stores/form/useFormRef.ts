@@ -9,58 +9,54 @@ export const useFormRef = (formStore: FormStoreStore, formRef?: FormRef) => {
   const { setSendToWallet } = useSendToWalletActions()
   const { setSelectedBookmark } = useBookmarkActions()
 
-  useImperativeHandle(
-    formRef,
-    () => {
-      const sanitizeValue: {
-        [key: string]: (value: any) => GenericFormValue
-      } = {
-        fromAmount: (value) =>
-          (typeof value === 'number' ? value?.toPrecision() : value) ||
-          formDefaultValues.fromAmount,
-        toAmount: (value) =>
-          (typeof value === 'number' ? value?.toPrecision() : value) ||
-          formDefaultValues.toAmount,
-        toAddress: (value) => {
-          const isToAddressObj = typeof value !== 'string'
+  useImperativeHandle(formRef, () => {
+    const sanitizeValue: {
+      [key: string]: (value: any) => GenericFormValue
+    } = {
+      fromAmount: (value) =>
+        (typeof value === 'number' ? value?.toPrecision() : value) ||
+        formDefaultValues.fromAmount,
+      toAmount: (value) =>
+        (typeof value === 'number' ? value?.toPrecision() : value) ||
+        formDefaultValues.toAmount,
+      toAddress: (value) => {
+        const isToAddressObj = typeof value !== 'string'
 
-          const address =
-            (isToAddressObj ? value?.address : value) ||
-            formDefaultValues.toAddress
+        const address =
+          (isToAddressObj ? value?.address : value) ||
+          formDefaultValues.toAddress
 
-          // sets the send to wallet button state to be open
-          // if there is an address to display
-          if (address) {
-            setSendToWallet(address)
-          }
+        // sets the send to wallet button state to be open
+        // if there is an address to display
+        if (address) {
+          setSendToWallet(address)
+        }
 
-          // we can assume that the toAddress has been passed as ToAddress object
-          // and display it accordingly - this ensures that if a name is included
-          // that it is displayed in the Send To Wallet form field correctly
-          if (isToAddressObj) {
-            setSelectedBookmark(value)
-          }
+        // we can assume that the toAddress has been passed as ToAddress object
+        // and display it accordingly - this ensures that if a name is included
+        // that it is displayed in the Send To Wallet form field correctly
+        if (isToAddressObj) {
+          setSelectedBookmark(value)
+        }
 
-          return address
-        },
-      }
+        return address
+      },
+    }
 
-      return {
-        setFieldValue: (fieldName, value, options) => {
-          const sanitizedValue = (
-            sanitizeValue[fieldName] ? sanitizeValue[fieldName](value) : value
-          ) as GenericFormValue
+    return {
+      setFieldValue: (fieldName, value, options) => {
+        const sanitizedValue = (
+          sanitizeValue[fieldName] ? sanitizeValue[fieldName](value) : value
+        ) as GenericFormValue
 
-          const fieldValueOptions = options?.setUrlSearchParam
-            ? { isTouched: options?.setUrlSearchParam }
-            : undefined
+        const fieldValueOptions = options?.setUrlSearchParam
+          ? { isTouched: options?.setUrlSearchParam }
+          : undefined
 
-          formStore
-            .getState()
-            .setFieldValue(fieldName, sanitizedValue, fieldValueOptions)
-        },
-      }
-    },
-    [formStore, setSendToWallet, setSelectedBookmark]
-  )
+        formStore
+          .getState()
+          .setFieldValue(fieldName, sanitizedValue, fieldValueOptions)
+      },
+    }
+  }, [formStore, setSendToWallet, setSelectedBookmark])
 }

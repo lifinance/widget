@@ -7,7 +7,7 @@ import { useSettings } from '../../stores/settings/useSettings.js'
 import { compactNumberFormatter } from '../../utils/compactNumberFormatter.js'
 import { currencyExtendedFormatter } from '../../utils/currencyExtendedFormatter.js'
 import { deepMerge } from '../../utils/deepMerge.js'
-import { isItemAllowed } from '../../utils/item.js'
+import { getConfigItemSets, isItemAllowedForSets } from '../../utils/item.js'
 import { percentFormatter } from '../../utils/percentFormatter.js'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 import type { LanguageKey, LanguageTranslationResources } from './types.js'
@@ -19,16 +19,22 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
   const { language } = useSettings(['language'])
 
   const i18n = useMemo(() => {
+    const languagesConfigSets = getConfigItemSets(
+      languages,
+      (languages) => new Set(languages)
+    )
     let resources = (Object.keys(supportedLanguages) as LanguageKey[])
-      .filter((lng) => isItemAllowed(lng, languages))
+      .filter((lng) => isItemAllowedForSets(lng, languagesConfigSets))
       .reduce((resources, lng) => {
         resources[lng] = {
           translation: languageResources?.[lng]
             ? (deepMerge(
+                // biome-ignore lint/performance/noDynamicNamespaceImportAccess: TODO: make it dynamic
                 supportedLanguages[lng],
                 languageResources[lng]
-              ) as any)
-            : supportedLanguages[lng],
+              ) as LanguageTranslationResources)
+            : // biome-ignore lint/performance/noDynamicNamespaceImportAccess: TODO: make it dynamic
+              supportedLanguages[lng],
         }
         return resources
       }, {} as LanguageTranslationResources)

@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/correctness/noUnusedVariables: allowed in this store */
 import type { StateCreator } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { createWithEqualityFn } from 'zustand/traditional'

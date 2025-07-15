@@ -1,10 +1,10 @@
 import {
   ListItem as ListItemBase,
+  listItemTextClasses,
   Avatar as MuiAvatar,
   List as MuiList,
   ListItemAvatar as MuiListItemAvatar,
   ListItemText as MuiListItemText,
-  listItemTextClasses,
   styled,
 } from '@mui/material'
 import { ListItemButton as ListItemButtonBase } from '../ListItem/ListItemButton.js'
