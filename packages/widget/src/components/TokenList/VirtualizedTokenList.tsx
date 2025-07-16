@@ -176,7 +176,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
               size={item.size}
               start={item.start}
               token={currentToken}
-              chain={chain}
+              chain={isAllNetworks ? chain : undefined}
               selected={
                 selectedTokenAddress === currentToken.address &&
                 chainId === currentToken.chainId
