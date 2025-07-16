@@ -1,3 +1,4 @@
+import type { StaticToken } from '@lifi/sdk'
 import { ChainType } from '@lifi/sdk'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import {
@@ -10,59 +11,54 @@ import {
   Typography,
 } from '@mui/material'
 import type { MouseEventHandler } from 'react'
-import { memo, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
-import { shortenAddress } from '../../utils/wallet.js'
+import { formatTokenAmount, formatTokenPrice } from '../../utils/format'
+import { shortenAddress } from '../../utils/wallet'
+import { TokenAvatar } from '../Avatar/TokenAvatar'
 import { ListItemButton } from '../ListItem/ListItemButton.js'
 import { IconButton, ListItem } from './TokenList.style.js'
 import type {
   TokenListItemAvatarProps,
   TokenListItemButtonProps,
-  TokenListItemProps,
-} from './types.js'
+} from './types'
+import type { TokenListItemProps } from './types.js'
 
-export const TokenListItem: React.FC<TokenListItemProps> = memo(
-  ({
-    onClick,
-    size,
-    start,
-    token,
-    chain,
-    accountAddress,
-    isBalanceLoading,
-    startAdornment,
-    endAdornment,
-    selected,
-    onShowTokenDetails,
-  }) => {
-    const handleClick: MouseEventHandler<HTMLDivElement> = (e) => {
-      e.stopPropagation()
-      onClick?.(token.address, chain?.id)
-    }
-    return (
-      <ListItem
-        style={{
-          height: `${size}px`,
-          transform: `translateY(${start}px)`,
-          padding: 0,
-        }}
-      >
-        {startAdornment}
-        <TokenListItemButton
-          token={token}
-          chain={chain}
-          accountAddress={accountAddress}
-          isBalanceLoading={isBalanceLoading}
-          onClick={handleClick}
-          selected={selected}
-          onShowTokenDetails={onShowTokenDetails}
-        />
-        {endAdornment}
-      </ListItem>
-    )
-  }
-)
+export const TokenListItem: React.FC<TokenListItemProps> = ({
+  onClick,
+  size,
+  start,
+  token,
+  chain,
+  showBalance,
+  isBalanceLoading,
+  startAdornment,
+  endAdornment,
+  selected,
+  onShowTokenDetails,
+}) => {
+  return (
+    <ListItem
+      style={{
+        height: `${size}px`,
+        transform: `translateY(${start}px)`,
+        padding: 0,
+      }}
+    >
+      {startAdornment}
+      <TokenListItemButton
+        token={token}
+        showBalance={showBalance}
+        isBalanceLoading={isBalanceLoading}
+        onClick={onClick}
+        chain={chain}
+        selected={selected}
+        onShowTokenDetails={onShowTokenDetails}
+      />
+      {endAdornment}
+    </ListItem>
+  )
+}
 
 export const TokenListItemAvatar: React.FC<TokenListItemAvatarProps> = ({
   token,
@@ -85,12 +81,18 @@ export const TokenListItemAvatar: React.FC<TokenListItemAvatarProps> = ({
 interface OpenTokenDetailsButtonProps {
   tokenAddress: string | undefined
   withoutContractAddress: boolean
-  onClick: (tokenAddress: string, withoutContractAddress: boolean) => void
+  chainId: number
+  onClick: (
+    tokenAddress: string,
+    withoutContractAddress: boolean,
+    chainId: number
+  ) => void
 }
 
 const OpenTokenDetailsButton = ({
   tokenAddress,
   withoutContractAddress,
+  chainId,
   onClick,
 }: OpenTokenDetailsButtonProps) => {
   if (!tokenAddress) {
@@ -101,7 +103,7 @@ const OpenTokenDetailsButton = ({
       size="small"
       onClick={(e) => {
         e.stopPropagation()
-        onClick(tokenAddress, withoutContractAddress)
+        onClick(tokenAddress, withoutContractAddress, chainId)
       }}
     >
       <InfoOutlinedIcon />
@@ -113,7 +115,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   onClick,
   token,
   chain,
-  accountAddress,
+  showBalance,
   isBalanceLoading,
   selected,
   onShowTokenDetails,
@@ -140,6 +142,11 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
     }
   }
 
+  const handleClick: MouseEventHandler<HTMLDivElement> = (e) => {
+    e.stopPropagation()
+    onClick?.(token.address, token.chainId)
+  }
+
   const tokenAmount = formatTokenAmount(token.amount, token.decimals)
   const tokenPrice = formatTokenPrice(
     token.amount,
@@ -149,7 +156,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
 
   return (
     <ListItemButton
-      onClick={onClick}
+      onClick={handleClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       dense
@@ -160,7 +167,16 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
       }}
     >
       <ListItemAvatar>
-        <TokenListItemAvatar token={token} />
+        {chain ? (
+          <TokenAvatar
+            token={token as StaticToken}
+            chain={chain}
+            tokenAvatarSize={40}
+            chainAvatarSize={16}
+          />
+        ) : (
+          <TokenListItemAvatar token={token} />
+        )}
       </ListItemAvatar>
       <ListItemText
         primary={token.symbol}
@@ -208,6 +224,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
                     <OpenTokenDetailsButton
                       tokenAddress={token.address}
                       withoutContractAddress={withoutContractAddress}
+                      chainId={token.chainId}
                       onClick={onShowTokenDetails}
                     />
                   </Box>
@@ -266,6 +283,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
                   <OpenTokenDetailsButton
                     tokenAddress={token.address}
                     withoutContractAddress={withoutContractAddress}
+                    chainId={token.chainId}
                     onClick={onShowTokenDetails}
                   />
                 </Box>
@@ -274,7 +292,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
           )
         }
       />
-      {accountAddress ? (
+      {showBalance ? (
         isBalanceLoading ? (
           <TokenAmountSkeleton />
         ) : (
