@@ -31,7 +31,7 @@ export interface TokenListItemBaseProps {
 }
 
 export interface TokenListItemProps extends TokenListItemBaseProps {
-  accountAddress?: string
+  showBalance: boolean
   token: TokenAmount
   onShowTokenDetails: (
     tokenAddress: string,
@@ -52,7 +52,7 @@ export interface TokenListItemButtonProps {
     chainId: number
   ) => void
   onClick?(tokenAddress: string, chainId?: number): void
-  accountAddress?: string
+  showBalance: boolean
   token: TokenAmount
   chain?: ExtendedChain
   isBalanceLoading?: boolean

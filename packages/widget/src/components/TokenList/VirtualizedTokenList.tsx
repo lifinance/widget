@@ -60,7 +60,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
       let size = tokenItemHeight
 
       // Early return if categories are not shown
-      if (!showCategories || !chainId) {
+      if (!showCategories) {
         return size
       }
 
@@ -83,7 +83,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
 
       return size
     },
-    [tokens, showCategories, chainId]
+    [tokens, showCategories]
   )
 
   const { getVirtualItems, getTotalSize, scrollToIndex } = useVirtualizer({
@@ -183,7 +183,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
               }
               onShowTokenDetails={onShowTokenDetails}
               isBalanceLoading={isBalanceLoading}
-              accountAddress={account.address}
+              showBalance={isAllNetworks ? !!account : !!account.address}
               startAdornment={
                 startAdornmentLabel ? (
                   <Typography

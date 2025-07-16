@@ -30,7 +30,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
   start,
   token,
   chain,
-  accountAddress,
+  showBalance,
   isBalanceLoading,
   startAdornment,
   endAdornment,
@@ -48,7 +48,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = ({
       {startAdornment}
       <TokenListItemButton
         token={token}
-        accountAddress={accountAddress}
+        showBalance={showBalance}
         isBalanceLoading={isBalanceLoading}
         onClick={onClick}
         chain={chain}
@@ -115,7 +115,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
   onClick,
   token,
   chain,
-  accountAddress,
+  showBalance,
   isBalanceLoading,
   selected,
   onShowTokenDetails,
@@ -292,7 +292,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
           )
         }
       />
-      {accountAddress ? (
+      {showBalance ? (
         isBalanceLoading ? (
           <TokenAmountSkeleton />
         ) : (
