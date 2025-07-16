@@ -1,5 +1,5 @@
 import type { TokenAmount } from '@lifi/sdk'
-import { isGaslessStep } from '@lifi/sdk'
+import { isRelayerStep } from '@lifi/sdk'
 import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
 import { Box, Collapse } from '@mui/material'
@@ -53,8 +53,8 @@ export const RouteCard: React.FC<
     (tag) => tag === 'CHEAPEST' || tag === 'FASTEST'
   )
   const tags: string[] = mainTag ? [mainTag] : []
-  const hasGaslessSupport = route.steps.some(isGaslessStep)
-  if (hasGaslessSupport) {
+  const hasRelayerSupport = route.steps.every(isRelayerStep)
+  if (hasRelayerSupport) {
     tags.push('GASLESS')
   }
 

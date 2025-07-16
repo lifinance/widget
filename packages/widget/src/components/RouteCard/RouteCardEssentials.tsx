@@ -1,4 +1,4 @@
-import { isGaslessStep } from '@lifi/sdk'
+import { isRelayerStep } from '@lifi/sdk'
 import AccessTimeFilled from '@mui/icons-material/AccessTimeFilled'
 import LocalGasStationRounded from '@mui/icons-material/LocalGasStationRounded'
 import { Box, Tooltip, Typography } from '@mui/material'
@@ -22,7 +22,7 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
   )
   const { gasCosts, feeCosts, combinedFeesUSD } =
     getAccumulatedFeeCostsBreakdown(route)
-  const hasGaslessSupport = route.steps.some(isGaslessStep)
+  const hasRelayerSupport = route.steps.every(isRelayerStep)
   return (
     <Box
       sx={{
@@ -43,7 +43,7 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
         <FeeBreakdownTooltip
           gasCosts={gasCosts}
           feeCosts={feeCosts}
-          relayerSupport={hasGaslessSupport}
+          relayerSupport={hasRelayerSupport}
         >
           <Box
             sx={{
@@ -56,7 +56,7 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
               <LocalGasStationRounded fontSize="inherit" />
             </IconTypography>
             <Typography
-              data-value={hasGaslessSupport ? 0 : combinedFeesUSD}
+              data-value={hasRelayerSupport ? 0 : combinedFeesUSD}
               sx={{
                 fontSize: 14,
                 color: 'text.primary',
@@ -64,7 +64,7 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
                 lineHeight: 1,
               }}
             >
-              {hasGaslessSupport
+              {hasRelayerSupport
                 ? t('main.fees.free')
                 : t('format.currency', {
                     value: combinedFeesUSD,
