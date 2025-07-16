@@ -1,5 +1,4 @@
 import type { WidgetSubvariant } from '@lifi/widget'
-import { Checkbox, FormControlLabel } from '@mui/material'
 import type { SyntheticEvent } from 'react'
 import { useConfigActions } from '../../../store/widgetConfig/useConfigActions'
 import {
@@ -7,8 +6,9 @@ import {
   useConfigSubvariantOptions,
   useConfigVariant,
 } from '../../../store/widgetConfig/useConfigValues'
-import { CardValue } from '../../Card/Card.style'
+import { CardRowContainer, CardValue } from '../../Card/Card.style'
 import { ExpandableCard } from '../../Card/ExpandableCard'
+import { Switch } from '../../Switch'
 import { Tab, Tabs } from '../../Tabs/Tabs.style'
 
 export const SubvariantControl = () => {
@@ -50,16 +50,14 @@ export const SubvariantControl = () => {
         <Tab label="Refuel" value={'refuel'} disableRipple />
       </Tabs>
       {variant === 'wide' && (
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={subvariantOptions?.wide?.enableChainSidebar ?? true}
-              onChange={handleEnableChainSidebarChange}
-            />
-          }
-          label="Enable chain sidebar"
-          sx={{ padding: 1 }}
-        />
+        <CardRowContainer sx={{ paddingLeft: 1, paddingRight: 1 }}>
+          Enable chain sidebar
+          <Switch
+            checked={subvariantOptions?.wide?.enableChainSidebar ?? true}
+            onChange={handleEnableChainSidebarChange}
+            aria-label="Enable chain sidebar"
+          />
+        </CardRowContainer>
       )}
     </ExpandableCard>
   )
