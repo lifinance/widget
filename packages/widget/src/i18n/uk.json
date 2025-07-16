@@ -21,7 +21,7 @@
     "close": "Закрити",
     "confirm": "Підтвердити",
     "connectAnotherWallet": "Під'єднати інший гаманець",
-    "connectChainWallet": "",
+    "connectChainWallet": "Виберіть {{chain}} гаманець",
     "connectWallet": "Під'єднати гаманець",
     "contactSupport": "Служба підтримки",
     "continue": "Продовжити",
@@ -48,7 +48,7 @@
     "startSwapping": "Почати своп",
     "swap": "Своп",
     "swapReview": "Переглянути своп",
-    "system": "",
+    "system": "Системна",
     "tryAgain": "Спробувати ще раз",
     "viewCoverage": "Переглянути покриття",
     "viewOnExplorer": "Переглянути в оглядачі"
@@ -68,9 +68,9 @@
     "gas": "Газ",
     "payWith": "Сплатити за допомогою",
     "receive": "Отримаєте",
-    "received": "",
+    "received": "Отримано",
     "recentWallets": "Останні гаманці",
-    "refunded": "",
+    "refunded": "Повернено",
     "selectChain": "Виберіть чейн",
     "selectWallet": "Виберіть свій гаманець",
     "send": "Відправляєте",
@@ -86,7 +86,7 @@
   },
   "info": {
     "message": {
-      "accountDeployedMessage": "",
+      "accountDeployedMessage": "Можливо, ваш смарт-акаунт не має однакової адреси на інших чейнах. Будь ласка, перевірте, перш ніж продовжити.",
       "autoRefuel": "У вас замало {{chainName}} газу. Продовжуючи, ви отримаєте достатньо газу, щоб завершити обмін.",
       "emptyActiveTransactions": "Тут показуються незавершені транзакції. Після завершення ви можете знайти їх в історії транзакцій.",
       "emptyBridgesList": "Ми не змогли знайти жодного моста, що відповідає вашому запиту",
@@ -96,7 +96,7 @@
       "emptyTransactionHistory": "Історія транзакцій зберігається лише локально та буде видалена, якщо ви очистите дані браузера.",
       "routeNotFound": "Причинами цього можуть бути: низька ліквідність, вибрана надто низька сума, занадто високі витрати на газ або відсутність маршрутів для вибраної комбінації.",
       "toAddressIsRequired": "Для продовження переказу необхідно вказати адресу гаманця одержувача.",
-      "missingRouteRequiredAccount": ""
+      "missingRouteRequiredAccount": "Підключіть ваш гаманець {{chainName}}, щоб продовжити. {{address}}"
     },
     "title": {
       "autoRefuel": "Отримати {{chainName}} газ",
@@ -149,11 +149,11 @@
     "message": {
       "allowanceRequired": "Сума переказу для {{tokenSymbol}} перевищує поточну межу. Збільшіть доступну кількість у гаманці та спробуйте ще раз.",
       "insufficientFunds": "Не вистачає газу для покриття вартості транзакції.",
-      "rateLimitExceeded": "",
+      "rateLimitExceeded": "Занадто багато запитів зроблено за короткий проміжок часу. Будь ласка, зачекайте трохи і повторіть спробу або зверніться до служби підтримки, якщо проблема повторюватиметься.",
       "remainInYourWallet": "{{amount, numberExt}} {{tokenSymbol}} на {{chainName}} все ще знаходяться у вашому гаманці.",
       "signatureRejected": "Для завершення транзакції потрібен ваш підпис. {{amount, numberExt}} {{tokenSymbol}} на {{chainName}} залишаються у вашому гаманці.",
       "slippageThreshold": "Прослизання перевищує визначений поріг. Будь ласка, зробіть запит на новий маршрут, щоб отримати нову пропозицію.",
-      "thirdPartyError": "",
+      "thirdPartyError": "Ми не змогли виконати ваш запит через проблеми з зовнішнім сервісом. Будь ласка, спробуйте ще раз або зверніться до служби підтримки, якщо проблема не зникне.",
       "transactionCanceled": "Транзакцію скасовано.",
       "transactionConflict": "Неможливо обробити транзакцію, оскільки вона конфліктує з іншою очікуваною транзакцією за допомогою тих же коштів. Дочекайтеся підтвердження транзакції або перевірте історію транзакцій, перш ніж спробувати ще раз.",
       "transactionExpired": "Висота блоку перевищила максимально дозволену межу або хеш блоку вже не достатньо свіжий.",
@@ -173,10 +173,10 @@
       "exchangeRateUpdateCanceled": "Оновлення обмінного курсу скасовано",
       "gasLimitIsTooLow": "Занадто низький ліміт газу",
       "insufficientFunds": "Недостатньо коштів",
-      "rateLimitExceeded": "",
+      "rateLimitExceeded": "Перевищено ліміт запитів",
       "signatureRejected": "Підпис обов'язковий",
       "slippageNotMet": "Не виконані умови прослизання",
-      "thirdPartyError": "",
+      "thirdPartyError": "Сторонній сервіс недоступний",
       "transactionCanceled": "Транзакцію скасовано",
       "transactionConflict": "Конфлікт між транзакціями",
       "transactionExpired": "Транзакція прострочена",
@@ -309,15 +309,15 @@
     "to": "До",
     "tokenOnChain": "{{tokenSymbol}} на {{chainName}}",
     "tokenOnChainAmount": "{{amount, numberExt}} {{tokenSymbol}} на {{chainName}}",
-    "tokenSearch": "",
+    "tokenSearch": "Шукати за ім'ям або адресою",
     "valueLoss": "Втрата вартості",
-    "searchChain": "",
+    "searchChain": "Шукати чейн",
     "searchChains": "Пошук за назвою чейна",
     "searchBridges": "Пошук за назвою моста",
     "searchExchanges": "Пошук за назвою обмінника"
   },
   "settings": {
-    "appearance": "",
+    "appearance": "Вигляд",
     "enabledBridges": "Бриджі",
     "enabledExchanges": "Обмінники",
     "gasPrice": {
@@ -344,7 +344,7 @@
     "noRecentWallets": "Немає недавніх гаманців"
   },
   "tokenMetric": {
-    "currentPrice": "",
-    "contractAddress": ""
+    "currentPrice": "Поточна ціна",
+    "contractAddress": "Адреса контракту"
   }
 }
