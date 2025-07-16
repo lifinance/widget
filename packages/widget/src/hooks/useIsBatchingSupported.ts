@@ -20,7 +20,10 @@ export function useIsBatchingSupported(
       address,
     ],
     queryFn: () => {
-      return isBatchingSupported({ chainId: chain!.id })
+      return isBatchingSupported({
+        chainId: chain!.id,
+        skipReady: true,
+      })
     },
     enabled,
     staleTime: 3_600_000,
