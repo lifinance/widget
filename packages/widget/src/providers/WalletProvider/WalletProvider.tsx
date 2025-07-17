@@ -1,3 +1,4 @@
+// import { ChainType } from '@lifi/sdk'
 import type { WalletManagementConfig } from '@lifi/wallet-management'
 import { WalletManagementProvider } from '@lifi/wallet-management'
 import { type FC, type PropsWithChildren, useMemo } from 'react'
@@ -35,6 +36,10 @@ export const WalletMenuProvider: FC<PropsWithChildren> = ({ children }) => {
       locale: i18n.resolvedLanguage as never,
       enabledChainTypes: internalChainTypes,
       ...walletConfig,
+      // walletEcosystemsOrder: {
+      //   'io.metamask': [ChainType.EVM, ChainType.SVM],
+      //   'app.phantom': [ChainType.SVM, ChainType.EVM],
+      // },
     }
   }, [i18n.resolvedLanguage, internalChainTypes, walletConfig])
 

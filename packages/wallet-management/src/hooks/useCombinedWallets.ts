@@ -42,7 +42,8 @@ const combineWalletLists = (
   utxoConnectorList: BigmiConnector[],
   evmConnectorList: (CreateConnectorFnExtended | Connector)[],
   svmWalletList: Wallet[],
-  suiWalletList: WalletWithRequiredFeatures[]
+  suiWalletList: WalletWithRequiredFeatures[],
+  walletEcosystemsOrder: Record<string, ChainType[]> | undefined
 ): CombinedWallet[] => {
   const walletMap = new Map<string, CombinedWallet>()
 
@@ -101,7 +102,22 @@ const combineWalletLists = (
     walletMap.set(normalizedName, existing)
   })
 
-  const combinedWallets = Array.from(walletMap.values())
+  let combinedWallets = Array.from(walletMap.values())
+  if (walletEcosystemsOrder) {
+    combinedWallets = combinedWallets.map((wallet) => {
+      const order =
+        walletEcosystemsOrder[wallet.id] || walletEcosystemsOrder[wallet.name]
+      if (order) {
+        return {
+          ...wallet,
+          connectors: wallet.connectors.sort((a, b) =>
+            walletEcosystemsComparator(a, b, order)
+          ),
+        }
+      }
+      return wallet
+    })
+  }
   combinedWallets.sort(walletComparator)
 
   return combinedWallets
@@ -188,7 +204,8 @@ export const useCombinedWallets = () => {
       installedUTXOConnectors,
       installedEVMConnectors,
       installedSVMWallets,
-      installedSuiWallets
+      installedSuiWallets,
+      walletConfig.walletEcosystemsOrder
     )
 
     const notDetectedUTXOConnectors = bigmiConnectors.filter((connector) => {
@@ -212,7 +229,8 @@ export const useCombinedWallets = () => {
       notDetectedUTXOConnectors,
       notDetectedEVMConnectors,
       notDetectedSVMWallets,
-      []
+      [],
+      undefined // Do not sort ecosystems of not detected wallets
     )
 
     installedCombinedWallets.sort(walletComparator)
@@ -244,4 +262,39 @@ export const walletComparator = (a: CombinedWallet, b: CombinedWallet) => {
   }
 
   return a.id?.localeCompare(b.id)
+}
+
+export const walletEcosystemsComparator = (
+  a: CombinedWalletConnector,
+  b: CombinedWalletConnector,
+  order: ChainType[]
+) => {
+  if (!order.length) {
+    return 0
+  }
+
+  const ecosystemA = a.chainType
+  const ecosystemB = b.chainType
+
+  if (ecosystemA === ecosystemB) {
+    return 0
+  }
+
+  const indexA = order.indexOf(ecosystemA)
+  const indexB = order.indexOf(ecosystemB)
+
+  // If both are in the order list, sort by their position
+  if (indexA !== -1 && indexB !== -1) {
+    return indexA - indexB
+  }
+
+  // If only one is in the order list, prioritize it
+  if (indexA !== -1) {
+    return -1
+  }
+  if (indexB !== -1) {
+    return 1
+  }
+
+  return 0
 }
