@@ -105,8 +105,7 @@ const combineWalletLists = (
   let combinedWallets = Array.from(walletMap.values())
   if (walletEcosystemsOrder) {
     combinedWallets = combinedWallets.map((wallet) => {
-      const order =
-        walletEcosystemsOrder[wallet.id] || walletEcosystemsOrder[wallet.name]
+      const order = walletEcosystemsOrder[wallet.name]
       if (order) {
         return {
           ...wallet,
