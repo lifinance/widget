@@ -22,8 +22,8 @@
     "mitt": "^3.0.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "viem": "^2.31.6",
-    "wagmi": "^2.15.6"
+    "viem": "^2.32.0",
+    "wagmi": "^2.15.7"
   },
   "devDependencies": {
     "@types/react": "^19.1.8",
@@ -31,6 +31,6 @@
     "@vitejs/plugin-react": "^4.6.0",
     "globals": "^16.3.0",
     "typescript": "~5.8.3",
-    "vite": "^7.0.2"
+    "vite": "^7.0.5"
   }
 }

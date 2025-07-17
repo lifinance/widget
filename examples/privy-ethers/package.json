@@ -24,8 +24,8 @@
     "mitt": "^3.0.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "viem": "^2.31.6",
-    "wagmi": "^2.15.6"
+    "viem": "^2.32.0",
+    "wagmi": "^2.15.7"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",
@@ -38,7 +38,7 @@
     "globals": "^16.3.0",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.35.1",
-    "vite": "^7.0.2",
+    "vite": "^7.0.5",
     "vite-plugin-node-polyfills": "^0.24.0"
   }
 }
