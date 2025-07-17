@@ -49,11 +49,11 @@
     "lifi"
   ],
   "dependencies": {
-    "@bigmi/client": "^0.4.1",
-    "@bigmi/core": "^0.4.0",
+    "@bigmi/client": "^0.4.2",
+    "@bigmi/core": "^0.4.2",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^3.8.0",
+    "@lifi/sdk": "^3.8.1",
     "@lifi/wallet-management": "workspace:^",
     "@mui/icons-material": "^7.2.0",
     "@mui/material": "^7.2.0",
@@ -70,7 +70,7 @@
     "react-intersection-observer": "^9.16.0",
     "react-router-dom": "^6.30.0",
     "react-transition-group": "^4.4.5",
-    "viem": "^2.31.6",
+    "viem": "^2.32.0",
     "zustand": "^5.0.6"
   },
   "devDependencies": {
