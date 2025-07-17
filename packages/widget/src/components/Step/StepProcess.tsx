@@ -10,7 +10,7 @@ export const StepProcess: React.FC<{
   step: LiFiStep
   process: Process
 }> = ({ step, process }) => {
-  const { title, message } = useProcessMessage(step, process)
+  const { title, messageWrapped } = useProcessMessage(step, process)
   const { getTransactionLink } = useExplorer()
 
   return (
@@ -60,7 +60,7 @@ export const StepProcess: React.FC<{
           </CardIconButton>
         ) : null}
       </Box>
-      {message ? (
+      {messageWrapped ? (
         <Typography
           sx={{
             ml: 7,
@@ -69,7 +69,7 @@ export const StepProcess: React.FC<{
             color: 'text.secondary',
           }}
         >
-          {message}
+          {messageWrapped}
         </Typography>
       ) : null}
     </Box>

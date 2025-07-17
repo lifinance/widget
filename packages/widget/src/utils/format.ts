@@ -114,3 +114,22 @@ export function formatDuration(seconds: number, locale: string): string {
     unitDisplay: 'narrow',
   })
 }
+
+export function wrapHashes(text: string): string {
+  const shouldWrap = (text: string): boolean => {
+    const cleanText = text.replace(/[.,!?;:]$/, '')
+    const hashPattern = /^[A-Za-z0-9]{32,}$/
+    return hashPattern.test(cleanText)
+  }
+  return text
+    .split(' ')
+    .map((word) => {
+      if (shouldWrap(word)) {
+        return word.length > 12
+          ? `${word.slice(0, 8)}...${word.slice(-4)}`
+          : word
+      }
+      return word
+    })
+    .join(' ')
+}
