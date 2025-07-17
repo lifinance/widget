@@ -43,7 +43,7 @@ const combineWalletLists = (
   evmConnectorList: (CreateConnectorFnExtended | Connector)[],
   svmWalletList: Wallet[],
   suiWalletList: WalletWithRequiredFeatures[],
-  walletEcosystemsOrder: Record<string, ChainType[]> | undefined
+  walletEcosystemsOrder?: Record<string, ChainType[]>
 ): CombinedWallet[] => {
   const walletMap = new Map<string, CombinedWallet>()
 
@@ -228,8 +228,7 @@ export const useCombinedWallets = () => {
       notDetectedUTXOConnectors,
       notDetectedEVMConnectors,
       notDetectedSVMWallets,
-      [],
-      undefined // Do not sort ecosystems of not detected wallets
+      []
     )
 
     installedCombinedWallets.sort(walletComparator)
