@@ -5,6 +5,7 @@ import type { LanguageKey } from '../I18nProvider/types.js'
 export interface WalletManagementConfig extends WalletConfig {
   locale?: LanguageKey
   enabledChainTypes?: ChainType[]
+  walletEcosystemsOrder?: Record<string, ChainType[]>
 }
 
 export interface WalletManagementProviderProps {
