@@ -12,7 +12,7 @@ import type { TFunction } from 'i18next'
 import { useTranslation } from 'react-i18next'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { SubvariantOptions, WidgetSubvariant } from '../types/widget.js'
-import { formatTokenAmount } from '../utils/format.js'
+import { formatTokenAmount, wrapHashes } from '../utils/format.js'
 import { useAvailableChains } from './useAvailableChains.js'
 
 export const useProcessMessage = (step?: LiFiStep, process?: Process) => {
@@ -136,6 +136,7 @@ export function getProcessMessage(
 ): {
   title?: string
   message?: string
+  messageWrapped?: string
 } {
   if (process.error && process.status === 'FAILED') {
     const getDefaultErrorMessage = (key?: string) =>
@@ -249,7 +250,8 @@ export function getProcessMessage(
         }
         break
     }
-    return { title, message }
+    const messageWrapped = wrapHashes(message)
+    return { title, message, messageWrapped }
   }
   const title =
     processSubstatusMessages[process.status as StatusMessage]?.[

@@ -186,7 +186,7 @@ export const StatusBottomSheetContent: React.FC<
       }
       const processMessage = getProcessMessage(t, getChainById, step, process)
       title = processMessage.title
-      failedMessage = processMessage.message
+      failedMessage = processMessage.messageWrapped
       handlePrimaryButton = handleClose
       break
     }
