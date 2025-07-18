@@ -1,2 +1,2 @@
-export const LiFiToolLogo =
-  "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='none' viewBox='0 0 32 32'%3e %3cpath fill='%23f5b5ff' d='M0 0h32v32H0z'/%3e %3cpath fill='black' d='m16 6 4.116 4.116a1.25 1.25 0 0 1 0 1.768l-2.45 2.45-1.667-1.667A4.714 4.714 0 0 1 16 6'/%3e %3cpath fill='black' fill-rule='evenodd' d='m16 26-6.667-6.667a4.714 4.714 0 0 1 0-6.666l5.783 5.783a1.25 1.25 0 0 0 1.767 0l5.783-5.783a4.714 4.714 0 0 1 0 6.666z' clip-rule='evenodd'/%3e %3c/svg%3e"
+export const lifiLogoUrl =
+  'https://lifinance.github.io/types/src/assets/icons/bridges/lifi.svg'
