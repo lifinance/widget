@@ -114,6 +114,8 @@ export const createTheme = (widgetTheme: WidgetTheme = {}) => {
       },
     },
     container: widgetTheme.container,
+    routesContainer: widgetTheme.routesContainer,
+    chainSidebarContainer: widgetTheme.chainSidebarContainer,
     header: widgetTheme.header,
     navigation: {
       edge: true,
