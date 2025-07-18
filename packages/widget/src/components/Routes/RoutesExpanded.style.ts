@@ -35,7 +35,10 @@ export const Container = styled(ScopedCssBaseline, {
         ...(minimumHeight ? { '&': { height: 'auto' } } : {}),
       }
     : { height: minimumHeight ? 'auto' : '100%' }),
+  borderRadius: theme.routesContainer?.borderRadius ?? 0,
+  boxShadow: theme.routesContainer?.boxShadow ?? 'none',
   ...theme.container,
+  ...(theme.routesContainer ?? {}),
 }))
 
 export const Header = styled(Box)(({ theme }) => ({

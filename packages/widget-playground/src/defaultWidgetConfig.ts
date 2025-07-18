@@ -288,5 +288,13 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
       boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
       borderRadius: '16px',
     },
+    // routesContainer: {
+    //   boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
+    //   borderRadius: '16px',
+    // },
+    // chainSidebarContainer: {
+    //   boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
+    //   borderRadius: '16px',
+    // },
   },
 } as WidgetConfig
