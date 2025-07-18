@@ -16,7 +16,7 @@ import type { MouseEventHandler } from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
-import { LiFiToolLogo } from '../../icons/lifi.js'
+import { lifiLogoUrl } from '../../icons/lifi.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { HiddenUI } from '../../types/widget.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
@@ -68,11 +68,11 @@ export const StepActions: React.FC<StepActionsProps> = ({
         <Badge
           overlap="circular"
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          badgeContent={<SmallAvatar src={LiFiToolLogo} />}
+          badgeContent={<SmallAvatar src={lifiLogoUrl} />}
         >
           <StepAvatar
             variant="circular"
-            src={toolDetails.logoURI ?? LiFiToolLogo}
+            src={toolDetails.logoURI ?? lifiLogoUrl}
             alt={toolDetails.name}
           >
             {toolDetails.name[0]}
