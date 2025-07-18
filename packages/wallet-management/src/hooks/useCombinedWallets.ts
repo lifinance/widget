@@ -119,8 +119,13 @@ export const useCombinedWallets = () => {
   )
 
   const data = useMemo(() => {
-    const evmConnectors: (CreateConnectorFnExtended | Connector)[] =
-      Array.from(wagmiConnectors)
+    const evmConnectors: (CreateConnectorFnExtended | Connector)[] = Array.from(
+      wagmiConnectors
+      // Remove duplicate connectors
+    ).filter(
+      (connector, index, self) =>
+        index === self.findIndex((c) => c.id === connector.id)
+    )
 
     // Ensure standard connectors are included
     if (
