@@ -53,7 +53,7 @@ export const SubvariantControl = () => {
         <CardRowContainer sx={{ paddingLeft: 1, paddingRight: 1 }}>
           Enable chain sidebar
           <Switch
-            checked={subvariantOptions?.wide?.enableChainSidebar ?? true}
+            checked={!!subvariantOptions?.wide?.enableChainSidebar}
             onChange={handleEnableChainSidebarChange}
             aria-label="Enable chain sidebar"
           />
