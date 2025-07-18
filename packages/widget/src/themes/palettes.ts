@@ -3,7 +3,7 @@ export const palette = {
     main: '#5C67FF',
   },
   secondary: {
-    main: '#F5B5FF',
+    main: '#F7C2FF',
   },
   success: {
     main: '#0AA65B',

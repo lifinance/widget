@@ -3,6 +3,7 @@ import { useConnectWallet } from '@mysten/dapp-kit'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
+import { getChainTypeIcon } from '../icons.js'
 import { WalletManagementEvent } from '../types/events.js'
 import { WalletTagType } from '../types/walletTagType.js'
 import { CardListItemButton } from './CardListItemButton.js'
@@ -59,11 +60,7 @@ export const SuiListItemButton = ({
   return (
     <CardListItemButton
       key={connectorDisplayName}
-      icon={
-        ecosystemSelection
-          ? 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/sui.svg'
-          : wallet.icon
-      }
+      icon={ecosystemSelection ? getChainTypeIcon(ChainType.MVM) : wallet.icon}
       onClick={connectWallet}
       title={connectorDisplayName}
       tagType={

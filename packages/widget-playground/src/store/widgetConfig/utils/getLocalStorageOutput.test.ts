@@ -47,7 +47,7 @@ describe('getLocalStorageOutput', () => {
             main: '#5C67FF',
           },
           secondary: {
-            main: '#F5B5FF',
+            main: '#F7C2FF',
           },
           common: {
             black: '#000000',
@@ -65,7 +65,7 @@ describe('getLocalStorageOutput', () => {
             main: '#5C67FF',
           },
           secondary: {
-            main: '#F5B5FF',
+            main: '#F7C2FF',
           },
           common: {
             black: '#000000',

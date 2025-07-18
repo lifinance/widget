@@ -3,6 +3,7 @@ import { useConfig } from '@bigmi/react'
 import { ChainType } from '@lifi/sdk'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
+import { getChainTypeIcon } from '../icons.js'
 import { WalletManagementEvent } from '../types/events.js'
 import { WalletTagType } from '../types/walletTagType.js'
 import { getConnectorIcon } from '../utils/getConnectorIcon.js'
@@ -69,7 +70,7 @@ export const UTXOListItemButton = ({
       key={connector.id}
       icon={
         ecosystemSelection
-          ? 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/bitcoin.svg'
+          ? getChainTypeIcon(ChainType.UTXO)
           : (getConnectorIcon(connector as Connector) ?? '')
       }
       onClick={handleUTXOConnect}
