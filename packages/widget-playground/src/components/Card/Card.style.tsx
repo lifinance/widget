@@ -53,14 +53,15 @@ export const Card = styled(MuiCard, {
           type: 'selected',
         },
         style: {
-          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 20%, white)`,
           borderWidth: 1,
           borderStyle: 'solid',
-          borderColor: `rgba(${theme.vars.palette.secondary.mainChannel} / 0.24)`,
+          borderColor: `rgba(${theme.vars.palette.secondary.mainChannel} / 0.32)`,
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 24%, white)`,
           '&:hover': {
-            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 24%, white)`,
+            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 28%, white)`,
           },
           ...theme.applyStyles('dark', {
+            borderColor: `rgba(${theme.vars.palette.secondary.mainChannel} / 0.32)`,
             backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 24%, black)`,
             '&:hover': {
               backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 28%, black)`,
