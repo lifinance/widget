@@ -5,6 +5,7 @@ import { connect, disconnect, getAccount } from 'wagmi/actions'
 import type { CreateConnectorFnExtended } from '../connectors/types.js'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
+import { getChainTypeIcon } from '../icons.js'
 import { WalletManagementEvent } from '../types/events.js'
 import { WalletTagType } from '../types/walletTagType.js'
 import { createWalletConnectElement } from '../utils/elements.js'
@@ -76,7 +77,7 @@ export const EVMListItemButton = ({
       key={connector.id}
       icon={
         ecosystemSelection
-          ? 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/ethereum.svg'
+          ? getChainTypeIcon(ChainType.EVM)
           : (getConnectorIcon(connector as Connector) ?? '')
       }
       onClick={handleEVMConnect}

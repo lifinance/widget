@@ -4,6 +4,7 @@ import { useWallet } from '@solana/wallet-adapter-react'
 import type { PublicKey } from '@solana/web3.js'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
+import { getChainTypeIcon } from '../icons.js'
 import { WalletManagementEvent } from '../types/events.js'
 import { WalletTagType } from '../types/walletTagType.js'
 import { CardListItemButton } from './CardListItemButton.js'
@@ -65,7 +66,7 @@ export const SVMListItemButton = ({
       key={connectorDisplayName}
       icon={
         ecosystemSelection
-          ? 'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/solana.svg'
+          ? getChainTypeIcon(ChainType.SVM)
           : walletAdapter.icon
       }
       onClick={connectWallet}
