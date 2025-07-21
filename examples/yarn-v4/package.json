@@ -42,6 +42,7 @@
     "@yarnpkg/sdks": "^3.2.2",
     "typescript": "^5.8.3",
     "vite": "^7.0.5",
-    "vite-plugin-node-polyfills": "^0.24.0"
+    "vite-plugin-node-polyfills": "^0.24.0",
+    "@biomejs/biome": "^2.1.2"
   }
 }

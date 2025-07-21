@@ -1,4 +1,8 @@
 packages:
   - 'packages/*'
   - 'examples/*'
-  - '!examples/yarn'
+  - '!examples/yarn-v1'
+  - '!examples/yarn-v4'
+  - '!examples/npm'
+  - '!examples/bun'
+  - '!examples/deno'
