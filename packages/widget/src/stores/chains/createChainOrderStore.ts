@@ -17,6 +17,7 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
       (set, get) => ({
         chainOrder: defaultChainState,
         availableChains: defaultChainState,
+        pinnedChains: [],
         initializeChains: (chainIds, type) => {
           set((state: ChainOrderState) => {
             const chainOrder = state.chainOrder[type].filter((chainId) =>
@@ -73,6 +74,20 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
                 ...state.chainOrder,
                 [type]: chainOrder,
               },
+            }
+          })
+        },
+        setPinnedChain: (chainId) => {
+          set((state: ChainOrderState) => {
+            const pinnedChains = [...state.pinnedChains]
+            if (pinnedChains.includes(chainId)) {
+              return {
+                pinnedChains: pinnedChains.filter((id) => id !== chainId),
+              }
+            }
+            pinnedChains.push(chainId)
+            return {
+              pinnedChains,
             }
           })
         },

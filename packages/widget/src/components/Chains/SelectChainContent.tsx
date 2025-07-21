@@ -106,8 +106,7 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = memo(
             isLoading={isLoading}
             onSelect={onSelect ?? onSelectChainFallback}
             selectedChainId={selectedChainId}
-            itemsSize={inExpansion ? 'small' : 'medium'}
-            adjustForStickySearchInput={!inExpansion}
+            inExpansion={inExpansion}
           />
         </Box>
       </FullPageContainer>

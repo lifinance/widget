@@ -2,6 +2,7 @@ import type { ExtendedChain } from '@lifi/sdk'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type { RefObject } from 'react'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
+import { useChainOrderStore } from '../../stores/chains/ChainOrderStore'
 import { List } from './ChainList.style'
 import { ChainListItem } from './ChainListItem'
 
@@ -11,6 +12,7 @@ interface VirtualizedChainListProps {
   onSelect: (chain: ExtendedChain) => void
   selectedChainId?: number
   itemsSize: 'small' | 'medium'
+  withPinnedChains: boolean
 }
 
 export const VirtualizedChainList = ({
@@ -19,17 +21,31 @@ export const VirtualizedChainList = ({
   selectedChainId,
   itemsSize,
   scrollElementRef,
+  withPinnedChains,
 }: VirtualizedChainListProps) => {
   const initialSelectedChainIdRef = useRef(selectedChainId)
+  const pinnedChains = useChainOrderStore((state) => state.pinnedChains)
   const sortedChains = useMemo(() => {
     const selectedChain = chains.find(
       (chain) => chain.id === initialSelectedChainIdRef.current
     )
-    const otherChains = chains.filter(
+    const chainsWithoutSelected = chains.filter(
       (chain) => chain.id !== initialSelectedChainIdRef.current
     )
-    return selectedChain ? [selectedChain, ...otherChains] : chains
-  }, [chains])
+    if (!pinnedChains.length) {
+      // No pinning: just selected, then the rest
+      return selectedChain ? [selectedChain, ...chainsWithoutSelected] : chains
+    }
+    // Pinning logic: move pinned chains to the top of the list
+    const pinned = pinnedChains
+      .map((id) => chainsWithoutSelected.find((c) => c.id === id))
+      .filter(Boolean) as ExtendedChain[]
+    const pinnedIds = new Set(pinned.map((c) => c.id))
+    const rest = chainsWithoutSelected.filter((c) => !pinnedIds.has(c.id))
+    return selectedChain
+      ? [selectedChain, ...pinned, ...rest]
+      : [...pinned, ...rest]
+  }, [chains, pinnedChains])
 
   const getItemKey = useCallback(
     (index: number) => {
@@ -59,6 +75,14 @@ export const VirtualizedChainList = ({
     }
   }, [measure, scrollElementRef.current])
 
+  const setPinnedChain = useChainOrderStore((state) => state.setPinnedChain)
+  const onPin = useCallback(
+    (chainId: number) => {
+      setPinnedChain(chainId)
+    },
+    [setPinnedChain]
+  )
+
   return (
     <List
       className="long-list"
@@ -76,6 +100,9 @@ export const VirtualizedChainList = ({
             itemsSize={itemsSize}
             size={item.size}
             start={item.start}
+            withPin={withPinnedChains}
+            isPinned={pinnedChains.includes(chain.id)}
+            onPin={onPin}
           />
         )
       })}
