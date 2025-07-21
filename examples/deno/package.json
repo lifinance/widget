@@ -9,17 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/sdk": "^3.8.1",
-    "@lifi/wallet-management": "^3.12.0",
     "@lifi/widget": "^3.24.2",
-    "@mui/material": "^7.2.0",
-    "@tanstack/react-query": "^5.81.5",
-    "@wagmi/connectors": "^5.8.6",
-    "events": "^3.3.0",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "viem": "^2.32.0",
-    "wagmi": "^2.15.7"
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
     "@types/react": "^19.1.8",
