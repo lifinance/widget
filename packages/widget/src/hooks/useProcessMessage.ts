@@ -136,7 +136,6 @@ export function getProcessMessage(
 ): {
   title?: string
   message?: string
-  messageWrapped?: string
 } {
   if (process.error && process.status === 'FAILED') {
     const getDefaultErrorMessage = (key?: string) =>
@@ -250,8 +249,8 @@ export function getProcessMessage(
         }
         break
     }
-    const messageWrapped = wrapHashes(message)
-    return { title, message, messageWrapped }
+    message = wrapHashes(message)
+    return { title, message }
   }
   const title =
     processSubstatusMessages[process.status as StatusMessage]?.[
