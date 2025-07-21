@@ -1,15 +1,33 @@
+import { ChainType } from '@lifi/sdk'
+
 export const getWalletIcon = (id: string): string | undefined => {
   switch (id) {
     case 'walletConnect':
-      return "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='512' height='512'%3e %3cradialGradient id='a' cx='0%25' cy='50%25' r='100%25'%3e %3cstop offset='0' stop-color='%235d9df6'/%3e %3cstop offset='1' stop-color='%23006fff'/%3e %3c/radialGradient%3e %3cg fill='none' fill-rule='evenodd'%3e %3cpath fill='url(%23a)' d='M256 0c141.385 0 256 114.615 256 256S397.385 512 256 512 0 397.385 0 256 114.615 0 256 0z'/%3e %3cpath fill='white' fill-rule='nonzero' d='M162.692 197.709c51.533-50.279 135.084-50.279 186.617 0l6.202 6.05a6.327 6.327 0 0 1 0 9.105l-21.216 20.7a3.357 3.357 0 0 1-4.666 0l-8.535-8.328c-35.95-35.075-94.238-35.075-130.188 0l-9.14 8.918a3.357 3.357 0 0 1-4.666 0l-21.216-20.7a6.327 6.327 0 0 1 0-9.104zm230.493 42.809 18.883 18.422a6.327 6.327 0 0 1 0 9.104l-85.142 83.07c-2.577 2.514-6.754 2.514-9.33 0l-60.43-58.957a1.679 1.679 0 0 0-2.332 0l-60.427 58.958c-2.576 2.513-6.754 2.514-9.33 0l-85.145-83.072a6.327 6.327 0 0 1 0-9.104l18.883-18.422c2.576-2.514 6.754-2.514 9.33 0l60.43 58.958a1.679 1.679 0 0 0 2.332 0l60.427-58.958c2.576-2.514 6.754-2.514 9.33 0l60.43 58.958a1.679 1.679 0 0 0 2.332 0l60.428-58.957c2.577-2.514 6.755-2.514 9.331 0z'/%3e %3c/g%3e %3c/svg%3e"
+      return 'https://lifinance.github.io/types/src/assets/icons/wallets/walletConnect.svg'
     case 'coinbaseWalletSDK':
-      return "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 40 40'%3e %3cpath fill='%231652F0' d='M20 40c11.046 0 20-8.954 20-20S31.046 0 20 0 0 8.954 0 20s8.954 20 20 20Z'/%3e %3cpath fill='white' fill-rule='evenodd' d='M5.455 20c0 8.034 6.512 14.546 14.546 14.546 8.033 0 14.545-6.512 14.545-14.545 0-8.034-6.512-14.546-14.545-14.546-8.034 0-14.546 6.512-14.546 14.546Zm11.859-4.685a2 2 0 0 0-2 2v5.373a2 2 0 0 0 2 2h5.373a2 2 0 0 0 2-2v-5.373a2 2 0 0 0-2-2h-5.373Z' clip-rule='evenodd'/%3e %3c/svg%3e"
+      return 'https://lifinance.github.io/types/src/assets/icons/wallets/coinbase.svg'
     case 'safe':
-      return "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 661.62 661.47'%3e %3cpath fill='%2312ff80' d='M531.98 330.7h-49.42c-14.76 0-26.72 11.96-26.72 26.72v71.73c0 14.76-11.96 26.72-26.72 26.72H232.51c-14.76 0-26.72 11.96-26.72 26.72v49.42c0 14.76 11.96 26.72 26.72 26.72H440.5c14.76 0 26.55-11.96 26.55-26.72v-39.65c0-14.76 11.96-25.23 26.72-25.23h38.2c14.76 0 26.72-11.96 26.72-26.72v-83.3c0-14.76-11.96-26.41-26.72-26.41Zm-326.2-98.18c0-14.76 11.96-26.72 26.72-26.72h196.49c14.76 0 26.72-11.96 26.72-26.72v-49.42c0-14.76-11.96-26.72-26.72-26.72H221.11c-14.76 0-26.72 11.96-26.72 26.72v38.08c0 14.76-11.96 26.72-26.72 26.72h-38.03c-14.76 0-26.72 11.96-26.72 26.72v83.39c0 14.76 12.01 26.12 26.77 26.12h49.42c14.76 0 26.72-11.96 26.72-26.72l-.05-71.44Zm101.77 46.23h47.47c15.47 0 28.02 12.56 28.02 28.02v47.47c0 15.47-12.56 28.02-28.02 28.02h-47.47c-15.47 0-28.02-12.56-28.02-28.02v-47.47c0-15.47 12.56-28.02 28.02-28.02Z'/%3e %3c/svg%3e"
+      return 'https://lifinance.github.io/types/src/assets/icons/wallets/safe.svg'
     case 'metaMaskSDK':
     case 'io.metamask':
-      return "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='500' height='500' fill='none'%3e %3cg clip-path='url(%23a)'%3e %3cpath fill='%23FF5C16' d='M420.42 425.32 336 400.18l-63.66 38.06-44.42-.02-63.7-38.04-84.39 25.14-25.66-86.65 25.66-96.17-25.66-81.31L79.83 60.42l131.86 78.77h76.88l131.85-78.77 25.67 100.77-25.67 81.3 25.67 96.18z'/%3e %3cpath fill='%23FF5C16' d='m79.85 60.42 131.86 78.83-5.25 54.1L79.87 60.42Zm84.39 278.28 58.01 44.2-58.01 17.28zm53.38-73.06-11.16-72.25-71.37 49.13-.03-.02v.03l.22 50.57 28.94-27.46zm202.8-205.22-131.86 78.83 5.23 54.1zM336.04 338.7l-58.02 44.2 58.02 17.28zm29.16-96.17h.02zv-.03l-.02.01-71.37-49.12-11.15 72.25h53.38L365 293.1z'/%3e %3cpath fill='%23E34807' d='M164.22 400.18 79.83 425.3l-25.66-86.6h110.05v61.47Zm53.38-134.56 16.12 104.45-22.34-58.08-76.14-18.89 28.96-27.48zm118.44 134.56 84.38 25.13 25.67-86.6H336.04zm-53.38-134.56-16.12 104.45 22.34-58.08 76.14-18.89-28.98-27.48z'/%3e %3cpath fill='%23FF8D5D' d='m54.17 338.66 25.66-96.17h55.2l.2 50.6 76.15 18.88 22.33 58.08-11.48 12.79-58.01-44.2H54.17zm391.92 0-25.67-96.17h-55.2l-.2 50.6-76.14 18.88-22.34 58.08 11.48 12.79 58.02-44.2h110.05zM288.56 139.2H211.7l-5.23 54.1L233.71 370h32.83l27.27-176.7z'/%3e %3cpath fill='%23661800' d='M79.83 60.42 54.17 161.19l25.66 81.3h55.2l71.42-49.14L79.84 60.42ZM201.64 286.6h-25l-13.62 13.34 48.38 12-9.76-25.36zM420.42 60.42l25.67 100.77-25.67 81.3h-55.2l-71.41-49.14L420.4 60.42ZM298.65 286.6h25.04l13.62 13.36-48.43 12.02 9.77-25.4zm-26.33 117.16 5.7-20.88-11.48-12.8h-32.85l-11.48 12.8 5.7 20.88'/%3e %3cpath fill='%23C0C4CD' d='M272.32 403.76v34.5h-44.4v-34.5z'/%3e %3cpath fill='%23E7EBF6' d='m164.24 400.14 63.72 38.1v-34.5l-5.7-20.88zm171.8 0-63.72 38.1v-34.5l5.7-20.88z'/%3e %3c/g%3e %3cdefs%3e %3cclipPath id='a'%3e %3cpath fill='white' d='M0 0h500v500H0z'/%3e %3c/clipPath%3e %3c/defs%3e %3c/svg%3e"
+      return 'https://lifinance.github.io/types/src/assets/icons/wallets/metamask.svg'
     default:
       break
   }
 }
+
+export const getChainTypeIcon = (chainType: ChainType) => {
+  switch (chainType) {
+    case ChainType.EVM:
+      return 'https://lifinance.github.io/types/src/assets/icons/chains/ethereum.svg'
+    case ChainType.SVM:
+      return 'https://lifinance.github.io/types/src/assets/icons/chains/solana.svg'
+    case ChainType.UTXO:
+      return 'https://lifinance.github.io/types/src/assets/icons/chains/bitcoin.svg'
+    case ChainType.MVM:
+      return 'https://lifinance.github.io/types/src/assets/icons/chains/sui.svg'
+  }
+}
+
+export const lifiLogoUrl =
+  'https://lifinance.github.io/types/src/assets/icons/bridges/lifi.svg'

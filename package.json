@@ -1,5 +1,5 @@
 {
-  "version": "3.25.0-beta.0",
+  "version": "3.25.0-beta.2",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -46,7 +46,7 @@
     }
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.1.1",
+    "@biomejs/biome": "^2.1.2",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@testing-library/dom": "^10.4.0",

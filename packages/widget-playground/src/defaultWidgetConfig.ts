@@ -30,6 +30,11 @@ export const widgetBaseConfig: WidgetConfig = {
   // ],
   variant: 'wide',
   // subvariant: 'split',
+  subvariantOptions: {
+    wide: {
+      enableChainSidebar: true,
+    },
+  },
   integrator: 'li.fi-playground',
   // fee: 0.01,
   // useRecommendedRoute: true,
@@ -239,12 +244,12 @@ export const widgetBaseConfig: WidgetConfig = {
   //         marginLeft: 'auto',
   //         order: 1,
   //         backgroundImage:
-  //           'url(https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/exchanges/lifidexaggregator.svg)',
+  //           'url(https://lifinance.github.io/types/src/assets/icons/exchanges/lifidexaggregator.svg)',
   //         backgroundPosition: 'left center',
   //         backgroundRepeat: 'no-repeat',
   //         backgroundSize: '24px',
   //         paddingLeft: '12px',
-  //         backgroundColor: '#f5b5ff',
+  //         backgroundColor: '#F7C2FF',
   //       }),
   //     },
   //     fromChainId: [ChainId.OPT],
@@ -266,7 +271,7 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
             main: '#5C67FF',
           },
           secondary: {
-            main: '#F5B5FF',
+            main: '#F7C2FF',
           },
         },
       },
@@ -276,7 +281,7 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
             main: '#5C67FF',
           },
           secondary: {
-            main: '#F5B5FF',
+            main: '#F7C2FF',
           },
         },
       },
