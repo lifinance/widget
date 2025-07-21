@@ -123,13 +123,8 @@ export function wrapHashes(text: string): string {
   }
   return text
     .split(' ')
-    .map((word) => {
-      if (shouldWrap(word)) {
-        return word.length > 12
-          ? `${word.slice(0, 8)}...${word.slice(-4)}`
-          : word
-      }
-      return word
-    })
+    .map((word) =>
+      shouldWrap(word) ? `${word.slice(0, 8)}...${word.slice(-4)}` : word
+    )
     .join(' ')
 }
