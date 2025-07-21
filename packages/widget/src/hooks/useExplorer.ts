@@ -60,12 +60,8 @@ export const useExplorer = () => {
     txLink,
     chain,
   }: TransactionLinkProps): string | undefined => {
-    if (!txHash && txLink) {
-      return txLink
-    }
-
     if (!txHash) {
-      return undefined
+      return txLink
     }
 
     const config = getExplorerConfig(chain)
