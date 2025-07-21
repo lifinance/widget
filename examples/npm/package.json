@@ -29,7 +29,6 @@
     "@vitejs/plugin-react": "^4.6.0",
     "globals": "^16.3.0",
     "typescript": "~5.8.3",
-    "vite": "^7.0.4",
-    "@biomejs/biome": "^2.1.2"
+    "vite": "^7.0.4"
   }
 }
