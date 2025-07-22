@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { useTokenSearch } from '../../hooks/useTokenSearch.js'
-import { formatTokenPrice } from '../../utils/format.js'
+import { formatAmount, formatTokenPrice } from '../../utils/format.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
@@ -117,7 +117,7 @@ export const TokenDetailsSheetContent = forwardRef<
             color: 'text.primary',
           }}
         >
-          {token
+          {token?.priceUSD
             ? t('format.currency', {
                 value: formatTokenPrice('1', token.priceUSD, token.decimals),
               })
@@ -169,6 +169,48 @@ export const TokenDetailsSheetContent = forwardRef<
           </Box>
         </MetricWithSkeleton>
       )}
+      <MetricWithSkeleton
+        isLoading={isLoading}
+        label={t('tokenMetric.marketCap')}
+        width={200}
+        height={24}
+      >
+        <Typography
+          sx={{
+            fontWeight: 700,
+            fontSize: '18px',
+            lineHeight: '24px',
+            color: 'text.primary',
+          }}
+        >
+          {token?.marketCapUSD
+            ? t('format.currency', {
+                value: formatAmount(token.marketCapUSD),
+              })
+            : noDataLabel}
+        </Typography>
+      </MetricWithSkeleton>
+      <MetricWithSkeleton
+        isLoading={isLoading}
+        label={t('tokenMetric.volume24h')}
+        width={200}
+        height={24}
+      >
+        <Typography
+          sx={{
+            fontWeight: 700,
+            fontSize: '18px',
+            lineHeight: '24px',
+            color: 'text.primary',
+          }}
+        >
+          {token?.volumeUSD24H
+            ? t('format.currency', {
+                value: formatAmount(token.volumeUSD24H),
+              })
+            : noDataLabel}
+        </Typography>
+      </MetricWithSkeleton>
     </TokenDetailsSheetContainer>
   )
 })
