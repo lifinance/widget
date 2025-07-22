@@ -1,7 +1,7 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type { RefObject } from 'react'
-import { useCallback, useEffect, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore'
 import { List } from './ChainList.style'
 import { ChainListItem } from './ChainListItem'
@@ -23,14 +23,11 @@ export const VirtualizedChainList = ({
   scrollElementRef,
   withPinnedChains,
 }: VirtualizedChainListProps) => {
-  const initialSelectedChainIdRef = useRef(selectedChainId)
   const pinnedChains = useChainOrderStore((state) => state.pinnedChains)
   const sortedChains = useMemo(() => {
-    const selectedChain = chains.find(
-      (chain) => chain.id === initialSelectedChainIdRef.current
-    )
+    const selectedChain = chains.find((chain) => chain.id === selectedChainId)
     const chainsWithoutSelected = chains.filter(
-      (chain) => chain.id !== initialSelectedChainIdRef.current
+      (chain) => chain.id !== selectedChainId
     )
     if (!pinnedChains.length) {
       // No pinning: just selected, then the rest
@@ -45,7 +42,7 @@ export const VirtualizedChainList = ({
     return selectedChain
       ? [selectedChain, ...pinned, ...rest]
       : [...pinned, ...rest]
-  }, [chains, pinnedChains])
+  }, [chains, pinnedChains, selectedChainId])
 
   const getItemKey = useCallback(
     (index: number) => {

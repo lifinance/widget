@@ -1,5 +1,6 @@
 import {
   ListItem as ListItemBase,
+  listItemButtonClasses,
   listItemTextClasses,
   Avatar as MuiAvatar,
   List as MuiList,
@@ -43,7 +44,6 @@ export const ListItemButton = styled(ListItemButtonBase)<{
     paddingLeft: size === 'small' ? theme.spacing(1) : theme.spacing(1.5),
     height: size === 'small' ? 44 : 56,
     width: '100%',
-    paddingRight: theme.spacing(4),
   }
 })
 
@@ -64,5 +64,8 @@ export const ListItem = styled(ListItemBase)(({ theme }) => ({
   left: 0,
   [`& .${listItemSecondaryActionClasses.root}`]: {
     right: theme.spacing(2),
+  },
+  [`& .${listItemButtonClasses.root}`]: {
+    paddingRight: theme.spacing(4),
   },
 }))
