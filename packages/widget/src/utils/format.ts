@@ -116,10 +116,8 @@ export function formatDuration(seconds: number, locale: string): string {
 }
 
 export function wrapLongWords(text: string): string {
-  return text
-    .split(' ')
-    .map((word) =>
-      word.length >= 32 ? `${word.slice(0, 8)}...${word.slice(-4)}` : word
-    )
-    .join(' ')
+  return text.replace(
+    /\S{32,}/g,
+    (word) => `${word.slice(0, 8)}...${word.slice(-4)}`
+  )
 }
