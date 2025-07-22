@@ -1,7 +1,7 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type { RefObject } from 'react'
-import { useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore'
 import { List } from './ChainList.style'
 import { ChainListItem } from './ChainListItem'
@@ -23,26 +23,21 @@ export const VirtualizedChainList = ({
   scrollElementRef,
   withPinnedChains,
 }: VirtualizedChainListProps) => {
+  const selectedChainIdRef = useRef(selectedChainId) // Store the initial selected chain ID to scroll to it once chains are loaded
+
   const pinnedChains = useChainOrderStore((state) => state.pinnedChains)
   const sortedChains = useMemo(() => {
-    const selectedChain = chains.find((chain) => chain.id === selectedChainId)
-    const chainsWithoutSelected = chains.filter(
-      (chain) => chain.id !== selectedChainId
-    )
     if (!pinnedChains.length) {
-      // No pinning: just selected, then the rest
-      return selectedChain ? [selectedChain, ...chainsWithoutSelected] : chains
+      return chains
     }
     // Pinning logic: move pinned chains to the top of the list
     const pinned = pinnedChains
-      .map((id) => chainsWithoutSelected.find((c) => c.id === id))
+      .map((id) => chains.find((c) => c.id === id))
       .filter(Boolean) as ExtendedChain[]
     const pinnedIds = new Set(pinned.map((c) => c.id))
-    const rest = chainsWithoutSelected.filter((c) => !pinnedIds.has(c.id))
-    return selectedChain
-      ? [selectedChain, ...pinned, ...rest]
-      : [...pinned, ...rest]
-  }, [chains, pinnedChains, selectedChainId])
+    const rest = chains.filter((c) => !pinnedIds.has(c.id))
+    return [...pinned, ...rest]
+  }, [chains, pinnedChains])
 
   const getItemKey = useCallback(
     (index: number) => {
@@ -51,16 +46,17 @@ export const VirtualizedChainList = ({
     [sortedChains]
   )
 
-  const { getVirtualItems, getTotalSize, measure } = useVirtualizer({
-    count: sortedChains.length,
-    overscan: 3,
-    paddingEnd: 0,
-    getScrollElement: () => scrollElementRef.current,
-    estimateSize: () => {
-      return itemsSize === 'small' ? 48 : 60
-    },
-    getItemKey,
-  })
+  const { getVirtualItems, getTotalSize, measure, scrollToIndex } =
+    useVirtualizer({
+      count: sortedChains.length,
+      overscan: 3,
+      paddingEnd: 0,
+      getScrollElement: () => scrollElementRef.current,
+      estimateSize: () => {
+        return itemsSize === 'small' ? 48 : 60
+      },
+      getItemKey,
+    })
 
   // Using mountOnEnter of the ExpansionTransition component
   // leads to a short delay for setting up scrollElementRef,
@@ -71,6 +67,26 @@ export const VirtualizedChainList = ({
       measure()
     }
   }, [measure, scrollElementRef.current])
+
+  const hasScrolledRef = useRef(false)
+
+  useLayoutEffect(() => {
+    // Only scroll if sortedChains is not empty and we haven't scrolled yet
+    if (!hasScrolledRef.current && sortedChains.length > 0) {
+      const selectedChainIndex = sortedChains.findIndex(
+        (chain) => chain.id === selectedChainIdRef.current
+      )
+      if (selectedChainIndex !== -1) {
+        requestAnimationFrame(() => {
+          scrollToIndex(selectedChainIndex, {
+            align: 'start',
+            behavior: 'smooth',
+          })
+        })
+        hasScrolledRef.current = true // Mark as scrolled
+      }
+    }
+  }, [sortedChains, scrollToIndex])
 
   const setPinnedChain = useChainOrderStore((state) => state.setPinnedChain)
   const onPin = useCallback(

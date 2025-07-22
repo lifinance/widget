@@ -95,7 +95,10 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
       {
         name: `${namePrefix || 'li.fi'}-widget-chains-order`,
         version: 2,
-        partialize: (state) => ({ chainOrder: state.chainOrder }),
+        partialize: (state) => ({
+          chainOrder: state.chainOrder,
+          pinnedChains: state.pinnedChains,
+        }),
       }
     ) as StateCreator<ChainOrderState, [], [], ChainOrderState>,
     Object.is

@@ -1,6 +1,6 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { Box, debounce, useTheme } from '@mui/material'
-import { memo, useCallback, useMemo, useRef, useState } from 'react'
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDefaultElementId } from '../../hooks/useDefaultElementId'
 import { useScrollableContainer } from '../../hooks/useScrollableContainer'
 import { FormKeyHelper, type FormType } from '../../stores/form/types'
@@ -34,14 +34,15 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = memo(
       chains ?? []
     )
 
+    // Make sure we get the latest chains when they are fetched with a delay
+    useEffect(() => {
+      setFilteredChains(chains ?? [])
+    }, [chains])
+
     const scrollToTop = useCallback(() => {
       // Scroll widget container to top
       if (!inExpansion && scrollableContainer) {
         scrollableContainer.scrollTop = 0
-      }
-      // Scroll chain list to top
-      if (inExpansion && listRef.current) {
-        listRef.current.scrollTop = 0
       }
     }, [inExpansion, scrollableContainer])
 

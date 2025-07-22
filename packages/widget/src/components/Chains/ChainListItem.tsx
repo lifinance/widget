@@ -1,5 +1,5 @@
 import type { ExtendedChain } from '@lifi/sdk'
-import { Box, Slide } from '@mui/material'
+import { Box } from '@mui/material'
 import { memo, useRef, useState } from 'react'
 import {
   Avatar,
@@ -9,6 +9,7 @@ import {
   ListItemText,
 } from './ChainList.style'
 import { PinChainButton } from './PinChainButton'
+import { PinTransition } from './PinTransition'
 
 interface ChainListItemProps {
   chain: ExtendedChain
@@ -63,42 +64,22 @@ export const ChainListItem = memo(
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         secondaryAction={
-          withPin ? (
-            isPinned ? (
-              <PinChainButton
-                isPinned={isPinned}
-                onPin={() => onPin(chain.id)}
-              />
-            ) : (
-              <Box
-                style={{
-                  position: 'relative',
-                  height: 28,
-                  width: 28,
-                }}
-              >
-                <Slide
-                  direction="up"
-                  in={showPin}
-                  container={container.current}
-                  appear={false}
-                  mountOnEnter
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    right: 0,
-                  }}
-                >
-                  <Box>
-                    <PinChainButton
-                      isPinned={isPinned}
-                      onPin={() => onPin(chain.id)}
-                    />
-                  </Box>
-                </Slide>
-              </Box>
-            )
-          ) : null
+          withPin && (
+            <Box
+              style={{
+                position: 'relative',
+                height: 28,
+                width: 28,
+              }}
+            >
+              <PinTransition in={showPin} isPinned={isPinned}>
+                <PinChainButton
+                  isPinned={isPinned}
+                  onPin={() => onPin(chain.id)}
+                />
+              </PinTransition>
+            </Box>
+          )
         }
       >
         <ListItemButton
