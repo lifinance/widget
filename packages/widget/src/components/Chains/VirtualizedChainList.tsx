@@ -46,7 +46,7 @@ export const VirtualizedChainList = ({
     [sortedChains]
   )
 
-  const { getVirtualItems, getTotalSize, measure, scrollToIndex } =
+  const { getVirtualItems, getTotalSize, measure, scrollToIndex, range } =
     useVirtualizer({
       count: sortedChains.length,
       overscan: 3,
@@ -72,21 +72,28 @@ export const VirtualizedChainList = ({
 
   useLayoutEffect(() => {
     // Only scroll if sortedChains is not empty and we haven't scrolled yet
-    if (!hasScrolledRef.current && sortedChains.length > 0) {
+    if (!hasScrolledRef.current && sortedChains.length > 0 && range) {
       const selectedChainIndex = sortedChains.findIndex(
         (chain) => chain.id === selectedChainIdRef.current
       )
       if (selectedChainIndex !== -1) {
-        requestAnimationFrame(() => {
-          scrollToIndex(selectedChainIndex, {
-            align: 'start',
-            behavior: 'smooth',
+        // Only scroll if the selected chain is not in the visible range
+        // +1 and -1 to account for partially visible items
+        if (
+          range.startIndex + 1 > selectedChainIndex ||
+          range.endIndex - 1 < selectedChainIndex
+        ) {
+          requestAnimationFrame(() => {
+            scrollToIndex(selectedChainIndex, {
+              align: 'start',
+              behavior: 'smooth',
+            })
           })
-        })
-        hasScrolledRef.current = true // Mark as scrolled
+          hasScrolledRef.current = true // Mark as scrolled (when needed)
+        }
       }
     }
-  }, [sortedChains, scrollToIndex])
+  }, [sortedChains, scrollToIndex, range])
 
   const setPinnedChain = useChainOrderStore((state) => state.setPinnedChain)
   const onPin = useCallback(

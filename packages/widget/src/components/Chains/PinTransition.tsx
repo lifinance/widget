@@ -15,9 +15,16 @@ const defaultStyle = {
 }
 
 const transitionStyles: Record<string, React.CSSProperties> = {
-  entering: { opacity: 1, transform: 'translateY(0)' },
+  entering: {
+    opacity: 1,
+    transform: 'translateY(0)',
+    transition: `opacity ${animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1) 50ms, transform ${animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`,
+  },
   entered: { opacity: 1, transform: 'translateY(0)' },
-  exiting: { opacity: 0, transform: 'translateY(-100%)' },
+  exiting: {
+    opacity: 0,
+    transform: 'translateY(-100%)',
+  },
   exited: { opacity: 0, transform: 'translateY(-100%)' },
 }
 
