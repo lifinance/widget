@@ -13,3 +13,15 @@ export const currencyExtendedFormatter = (
     return formatter.format(value)
   }
 }
+
+export const currencyShortExtendedFormatter = (
+  lng: string | undefined,
+  options: any
+) => {
+  return currencyExtendedFormatter(lng, {
+    ...options,
+    notation: 'compact',
+    compactDisplay: 'short',
+    maximumFractionDigits: 2,
+  })
+}

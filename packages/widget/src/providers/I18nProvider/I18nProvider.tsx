@@ -5,7 +5,10 @@ import { I18nextProvider } from 'react-i18next'
 import * as supportedLanguages from '../../i18n/index.js'
 import { useSettings } from '../../stores/settings/useSettings.js'
 import { compactNumberFormatter } from '../../utils/compactNumberFormatter.js'
-import { currencyExtendedFormatter } from '../../utils/currencyExtendedFormatter.js'
+import {
+  currencyExtendedFormatter,
+  currencyShortExtendedFormatter,
+} from '../../utils/currencyExtendedFormatter.js'
 import { deepMerge } from '../../utils/deepMerge.js'
 import { getConfigItemSets, isItemAllowedForSets } from '../../utils/item.js'
 import { percentFormatter } from '../../utils/percentFormatter.js'
@@ -72,6 +75,10 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
 
     i18n.services.formatter?.addCached('numberExt', compactNumberFormatter)
     i18n.services.formatter?.addCached('currencyExt', currencyExtendedFormatter)
+    i18n.services.formatter?.addCached(
+      'currencyShortExt',
+      currencyShortExtendedFormatter
+    )
     i18n.services.formatter?.addCached('percent', percentFormatter)
 
     return i18n
