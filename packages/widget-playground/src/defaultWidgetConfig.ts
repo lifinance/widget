@@ -51,7 +51,7 @@ export const widgetBaseConfig: WidgetConfig = {
   //   usePartialWalletManagement: true,
   // },
   sdkConfig: {
-    apiUrl: 'https://develop.li.quest/v1',
+    apiUrl: 'https://li.quest/v1',
     rpcUrls: {
       [ChainId.SOL]: ['https://dacey-pp61jd-fast-mainnet.helius-rpc.com/'],
     },

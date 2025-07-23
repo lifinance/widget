@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { useTokenSearch } from '../../hooks/useTokenSearch.js'
-import { formatAmount, formatTokenPrice } from '../../utils/format.js'
+import { formatTokenPrice } from '../../utils/format.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
@@ -185,7 +185,7 @@ export const TokenDetailsSheetContent = forwardRef<
         >
           {token?.marketCapUSD
             ? t('format.currencyShort', {
-                value: formatAmount(token.marketCapUSD),
+                value: token.marketCapUSD,
               })
             : noDataLabel}
         </Typography>
@@ -206,7 +206,7 @@ export const TokenDetailsSheetContent = forwardRef<
         >
           {token?.volumeUSD24H
             ? t('format.currencyShort', {
-                value: formatAmount(token.volumeUSD24H),
+                value: token.volumeUSD24H,
               })
             : noDataLabel}
         </Typography>

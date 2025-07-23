@@ -1,19 +1,6 @@
 import { formatUnits } from 'viem'
 
 /**
- * Validate and format amount.
- * @param amount amount to format.
- * @returns formatted amount.
- */
-export function formatAmount(amount: number | null | undefined): string {
-  if (typeof amount !== 'number' || Number.isNaN(amount)) {
-    return '0'
-  }
-
-  return amount.toString()
-}
-
-/**
  * Format token amount to at least 6 decimals.
  * @param amount amount to format.
  * @returns formatted amount.
