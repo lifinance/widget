@@ -4,6 +4,7 @@ import { useFromTokenSufficiency } from '../../hooks/useFromTokenSufficiency.js'
 import { useGasSufficiency } from '../../hooks/useGasSufficiency.js'
 import { useRouteRequiredAccountConnection } from '../../hooks/useRouteRequiredAccountConnection.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 
 interface QueuedMessage {
   id: string
@@ -25,6 +26,14 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
     useGasSufficiency(route)
   const { missingChain, missingAccountAddress } =
     useRouteRequiredAccountConnection(route)
+  const { minFromAmountUSD } = useWidgetConfig()
+
+  const isLowerThanMinFromAmountUSD = useMemo(() => {
+    if (!minFromAmountUSD || !route?.fromAmountUSD) {
+      return false
+    }
+    return Number(route.fromAmountUSD) < minFromAmountUSD
+  }, [minFromAmountUSD, route?.fromAmountUSD])
 
   const messageQueue = useMemo(() => {
     const queue: QueuedMessage[] = []
@@ -52,24 +61,32 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
       })
     }
 
+    if (isLowerThanMinFromAmountUSD) {
+      queue.push({
+        id: 'MIN_FROM_AMOUNT_USD',
+        priority: 4,
+        props: { minFromAmountUSD },
+      })
+    }
+
     if (accountNotDeployedAtDestination && !allowInteraction) {
       queue.push({
         id: 'ACCOUNT_NOT_DEPLOYED',
-        priority: 4,
+        priority: 5,
       })
     }
 
     if (requiredToAddress && !toAddress) {
       queue.push({
         id: 'TO_ADDRESS_REQUIRED',
-        priority: 5,
+        priority: 6,
       })
     }
 
     if (accountDeployedAtDestination && !allowInteraction) {
       queue.push({
         id: 'ACCOUNT_DEPLOYED',
-        priority: 6,
+        priority: 7,
       })
     }
 
@@ -84,6 +101,8 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
     toAddress,
     missingChain,
     missingAccountAddress,
+    isLowerThanMinFromAmountUSD,
+    minFromAmountUSD,
   ])
 
   return {

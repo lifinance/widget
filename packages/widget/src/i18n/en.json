@@ -129,6 +129,7 @@
       "highValueLoss": "The value of the received tokens is significantly lower than the exchanged tokens and transaction cost.",
       "insufficientFunds": "You don't have enough funds to complete the transaction.",
       "insufficientGas": "You don't have enough gas to complete the transaction. You need to add at least:",
+      "minFromAmountUSD": "Minimum amount is {{amount, currencyExt(currency: USD)}}.",
       "rateChanged": "The exchange rate has changed. By continuing the transaction, you'll accept the new rate.",
       "resetSettings": "This will reset your route priority, slippage, gas price, enabled bridges and exchanges.",
       "slippageOutsideRecommendedLimits": "High slippage tolerance may result in unfavorable trade caused by front-running.",
