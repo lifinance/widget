@@ -13,7 +13,10 @@ export const PinChainButton = ({ isPinned, onPin }: PinChainButtonProps) => {
     <IconButton
       edge="end"
       aria-label="pin"
-      onClick={onPin}
+      onClick={(e) => {
+        e.stopPropagation()
+        onPin()
+      }}
       sx={{
         height: 28,
         width: 28,

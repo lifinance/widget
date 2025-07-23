@@ -8,7 +8,6 @@ import {
   ListItemText as MuiListItemText,
   styled,
 } from '@mui/material'
-import { listItemSecondaryActionClasses } from '@mui/material/ListItemSecondaryAction'
 import { ListItemButton as ListItemButtonBase } from '../ListItemButton.js'
 
 export const Avatar = styled(MuiAvatar)<{
@@ -62,10 +61,7 @@ export const ListItem = styled(ListItemBase)(({ theme }) => ({
   position: 'absolute',
   top: 0,
   left: 0,
-  [`& .${listItemSecondaryActionClasses.root}`]: {
-    right: theme.spacing(2),
-  },
   [`& .${listItemButtonClasses.root}`]: {
-    paddingRight: theme.spacing(4),
+    paddingRight: theme.spacing(1),
   },
 }))

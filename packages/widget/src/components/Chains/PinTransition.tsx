@@ -5,6 +5,8 @@ import { Transition } from 'react-transition-group'
 export const animationDuration = 225
 
 const defaultStyle = {
+  height: 28,
+  width: 28,
   opacity: 0,
   transform: 'translateY(-100%)',
   position: 'absolute',

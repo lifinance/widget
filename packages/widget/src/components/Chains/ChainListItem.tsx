@@ -63,8 +63,19 @@ export const ChainListItem = memo(
         }}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
-        secondaryAction={
-          withPin && (
+      >
+        <ListItemButton
+          onClick={() => onSelect(chain)}
+          selected={selected}
+          size={itemsSize}
+        >
+          <ListItemAvatar size={itemsSize}>
+            <Avatar src={chain.logoURI} alt={chain.name} size={itemsSize}>
+              {chain.name[0]}
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary={chain.name} size={itemsSize} />
+          {withPin && (
             <Box
               style={{
                 position: 'relative',
@@ -79,20 +90,7 @@ export const ChainListItem = memo(
                 />
               </PinTransition>
             </Box>
-          )
-        }
-      >
-        <ListItemButton
-          onClick={() => onSelect(chain)}
-          selected={selected}
-          size={itemsSize}
-        >
-          <ListItemAvatar size={itemsSize}>
-            <Avatar src={chain.logoURI} alt={chain.name} size={itemsSize}>
-              {chain.name[0]}
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary={chain.name} size={itemsSize} />
+          )}
         </ListItemButton>
       </ListItem>
     )
