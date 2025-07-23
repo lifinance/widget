@@ -148,9 +148,8 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
     token.decimals
   )
 
-  const longPressEvents = useLongPress(
-    () => onShowTokenDetails(token.address, withoutContractAddress),
-    700
+  const longPressEvents = useLongPress(() =>
+    onShowTokenDetails(token.address, withoutContractAddress)
   )
 
   return (
