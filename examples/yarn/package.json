@@ -1,0 +1,47 @@
+{
+  "name": "yarn-example",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "packageManager": "yarn@4.9.2",
+  "scripts": {
+    "analyze": "source-map-explorer 'dist/assets/*.js' --no-border-checks",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@bigmi/react": "0.4.2",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@lifi/sdk": "^3.8.1",
+    "@lifi/wallet-management": "^3.12.0",
+    "@lifi/widget": "^3.24.2",
+    "@mui/material": "^7.2.0",
+    "@mysten/dapp-kit": "0.16.15",
+    "@solana/wallet-adapter-react": "0.15.39",
+    "@solana/web3.js": "1.98.2",
+    "@tanstack/query-core": "^5.81.5",
+    "@tanstack/react-query": "^5.81.5",
+    "@wagmi/connectors": "^5.8.6",
+    "@wagmi/core": "^2.15.7",
+    "bs58": "^6.0.0",
+    "events": "^3.3.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "use-sync-external-store": "^1.2.0",
+    "viem": "^2.32.0",
+    "wagmi": "^2.15.7"
+  },
+  "devDependencies": {
+    "@types/events": "^3.0.3",
+    "@types/node": "^24.0.10",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.5",
+    "@vitejs/plugin-react": "^4.6.0",
+    "@yarnpkg/sdks": "^3.2.2",
+    "typescript": "^5.8.3",
+    "vite": "^7.0.5",
+    "vite-plugin-node-polyfills": "^0.24.0"
+  }
+}
