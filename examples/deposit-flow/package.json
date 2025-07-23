@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/sdk": "^3.8.4",
+    "@lifi/sdk": "^3.8.5",
     "@lifi/widget": "workspace:^",
     "@mui/material": "^7.2.0",
     "@tanstack/react-query": "^5.81.5",
