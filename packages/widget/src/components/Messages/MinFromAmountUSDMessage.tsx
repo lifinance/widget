@@ -24,6 +24,8 @@ export const MinFromAmountUSDMessage: React.FC<
         >
           {t('warning.message.minFromAmountUSD', {
             amount: minFromAmountUSD,
+            currency: 'USD',
+            minimumFractionDigits: 0,
           })}
         </Typography>
       }
