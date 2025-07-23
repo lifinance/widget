@@ -5,7 +5,6 @@
   },
   "format": {
     "currency": "{{value, currencyExt(currency: USD)}}",
-    "currencyShort": "{{value, currencyShortExt(currency: USD)}}",
     "number": "{{value, number(maximumFractionDigits: 9)}}",
     "percent": "{{value, percent(maximumFractionDigits: 2)}}",
     "tokenAmount": "{{value, numberExt}}"

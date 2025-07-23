@@ -184,8 +184,11 @@ export const TokenDetailsSheetContent = forwardRef<
           }}
         >
           {token?.marketCapUSD
-            ? t('format.currencyShort', {
+            ? t('format.currency', {
                 value: token.marketCapUSD,
+                notation: 'compact',
+                compactDisplay: 'short',
+                maximumFractionDigits: 2,
               })
             : noDataLabel}
         </Typography>
@@ -205,8 +208,11 @@ export const TokenDetailsSheetContent = forwardRef<
           }}
         >
           {token?.volumeUSD24H
-            ? t('format.currencyShort', {
+            ? t('format.currency', {
                 value: token.volumeUSD24H,
+                notation: 'compact',
+                compactDisplay: 'short',
+                maximumFractionDigits: 2,
               })
             : noDataLabel}
         </Typography>
