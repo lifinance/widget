@@ -11,7 +11,7 @@
   "dependencies": {
     "@lifi/widget": "^3.24.2",
     "veaury": "^2.6.2",
-    "vue": "^3.5.17"
+    "vue": "^3.5.18"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.7.0",
