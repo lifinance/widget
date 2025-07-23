@@ -148,7 +148,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
     token.decimals
   )
 
-  const { onTouchStart, onTouchEnd, onTouchCancel } = useLongPress(
+  const longPressEvents = useLongPress(
     () => onShowTokenDetails(token.address, withoutContractAddress),
     700
   )
@@ -158,9 +158,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
       onClick={onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      onTouchStart={onTouchStart}
-      onTouchEnd={onTouchEnd}
-      onTouchCancel={onTouchCancel}
+      {...longPressEvents}
       dense
       selected={selected}
       sx={{
