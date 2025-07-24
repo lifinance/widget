@@ -11,9 +11,11 @@ import { useWallet } from '@solana/wallet-adapter-react'
 import { useMemo } from 'react'
 import type { Connector } from 'wagmi'
 import { useConnect } from 'wagmi'
+import { defaultBaseAccountConfig } from '../config/baseAccount.js'
 import { defaultCoinbaseConfig } from '../config/coinbase.js'
 import { defaultMetaMaskConfig } from '../config/metaMask.js'
 import { defaultWalletConnectConfig } from '../config/walletConnect.js'
+import { createBaseAccountConnector } from '../connectors/baseAccount.js'
 import { createCoinbaseConnector } from '../connectors/coinbase.js'
 import { createMetaMaskConnector } from '../connectors/metaMask.js'
 import type { CreateConnectorFnExtended } from '../connectors/types.js'
@@ -170,6 +172,17 @@ export const useCombinedWallets = () => {
     ) {
       evmConnectors.unshift(
         createMetaMaskConnector(walletConfig?.metaMask ?? defaultMetaMaskConfig)
+      )
+    }
+    if (
+      !evmConnectors.some((connector) =>
+        connector.id.toLowerCase().includes('baseaccount')
+      )
+    ) {
+      evmConnectors.unshift(
+        createBaseAccountConnector(
+          walletConfig?.baseAccount ?? defaultBaseAccountConfig
+        )
       )
     }
 
