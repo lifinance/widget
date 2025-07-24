@@ -114,3 +114,10 @@ export function formatDuration(seconds: number, locale: string): string {
     unitDisplay: 'narrow',
   })
 }
+
+export function wrapLongWords(text: string): string {
+  return text.replace(
+    /\S{32,}/g,
+    (word) => `${word.slice(0, 8)}...${word.slice(-4)}`
+  )
+}

@@ -12,7 +12,7 @@ import type { TFunction } from 'i18next'
 import { useTranslation } from 'react-i18next'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { SubvariantOptions, WidgetSubvariant } from '../types/widget.js'
-import { formatTokenAmount } from '../utils/format.js'
+import { formatTokenAmount, wrapLongWords } from '../utils/format.js'
 import { useAvailableChains } from './useAvailableChains.js'
 
 export const useProcessMessage = (step?: LiFiStep, process?: Process) => {
@@ -249,6 +249,7 @@ export function getProcessMessage(
         }
         break
     }
+    message = wrapLongWords(message)
     return { title, message }
   }
   const title =
