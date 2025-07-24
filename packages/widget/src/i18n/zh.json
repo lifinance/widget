@@ -129,6 +129,7 @@
       "highValueLoss": "收到的代币的价值明显低于要被兑换的代币和交易成本。",
       "insufficientFunds": "你没有足够的资金来完成这笔交易。",
       "insufficientGas": "您没有足够的燃气费来完成此次交易。您至少需要添加：",
+      "minFromAmountUSD": "",
       "rateChanged": "兑换比例已经改变，如果继续兑换，您将接受新的兑换比例。",
       "resetSettings": "这将重置您的路由优先级，滑点，燃气费，选中的跨链桥和链上交易所。",
       "slippageOutsideRecommendedLimits": "过高的滑点可能会导致交易被抢跑，造成财产损失",
