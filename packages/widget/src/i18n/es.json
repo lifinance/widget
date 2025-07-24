@@ -129,6 +129,7 @@
       "highValueLoss": "El valor de los tokens recibidos es significativamente menor que los tokens intercambiados y el costo de la transacción.",
       "insufficientFunds": "No tiene fondos suficientes para ejecutar el intercambio.",
       "insufficientGas": "Debes agregar al menos:",
+      "minFromAmountUSD": "",
       "rateChanged": "La tasa de cambio ha cambiado. Continuar con el swap implica que estas de acuerdo con la nueva tasa.",
       "resetSettings": "Esto restablecerá su prioridad de ruta, deslizamiento, precio de gas, puentes e intercambios habilitados.",
       "slippageOutsideRecommendedLimits": "La tolerancia de los deslizamientos altos puede resultar en un comercio desfavorable causado por front-running.",
