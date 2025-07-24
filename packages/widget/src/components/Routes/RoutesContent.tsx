@@ -15,11 +15,7 @@ import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js'
 import { RouteCard } from '../RouteCard/RouteCard.js'
 import { RouteCardSkeleton } from '../RouteCard/RouteCardSkeleton.js'
 import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js'
-import {
-  Container,
-  Header,
-  ScrollableContainer,
-} from './RoutesExpanded.style.js'
+import { Container, Header } from './RoutesExpanded.style.js'
 
 interface RoutesContentProps {
   routes: Route[]
@@ -81,57 +77,55 @@ export const RoutesContent = ({
 
   return (
     <Container enableColorScheme minimumHeight={isLoading}>
-      <ScrollableContainer>
-        <Header>
-          <Typography
-            noWrap
-            sx={{
-              fontSize: 18,
-              fontWeight: '700',
-              flex: 1,
-            }}
-          >
-            {title}
-          </Typography>
-          <ProgressToNextUpdate
-            updatedAt={dataUpdatedAt || Date.now()}
-            timeToUpdate={refetchTime}
-            isLoading={isFetching}
-            onClick={() => refetch()}
-            sx={{ marginRight: -1 }}
-          />
-        </Header>
-        <PageContainer>
-          <Stack
-            direction="column"
-            spacing={2}
-            sx={{
-              flex: 1,
-              paddingBottom: 3,
-            }}
-          >
-            {routeNotFound ? (
-              <RouteNotFoundCard />
-            ) : (isLoading || isFetching) && !routes?.length ? (
-              Array.from({ length: 3 }).map((_, index) => (
-                <RouteCardSkeleton key={index} />
-              ))
-            ) : (
-              routes?.map((route: Route, index: number) => (
-                <RouteCard
-                  key={index}
-                  route={route}
-                  onClick={
-                    allowInteraction ? () => handleRouteClick(route) : undefined
-                  }
-                  active={index === 0}
-                  expanded={routes?.length === 1}
-                />
-              ))
-            )}
-          </Stack>
-        </PageContainer>
-      </ScrollableContainer>
+      <Header>
+        <Typography
+          noWrap
+          sx={{
+            fontSize: 18,
+            fontWeight: '700',
+            flex: 1,
+          }}
+        >
+          {title}
+        </Typography>
+        <ProgressToNextUpdate
+          updatedAt={dataUpdatedAt || Date.now()}
+          timeToUpdate={refetchTime}
+          isLoading={isFetching}
+          onClick={() => refetch()}
+          sx={{ marginRight: -1 }}
+        />
+      </Header>
+      <PageContainer>
+        <Stack
+          direction="column"
+          spacing={2}
+          sx={{
+            flex: 1,
+            paddingBottom: 3,
+          }}
+        >
+          {routeNotFound ? (
+            <RouteNotFoundCard />
+          ) : (isLoading || isFetching) && !routes?.length ? (
+            Array.from({ length: 3 }).map((_, index) => (
+              <RouteCardSkeleton key={index} />
+            ))
+          ) : (
+            routes?.map((route: Route, index: number) => (
+              <RouteCard
+                key={index}
+                route={route}
+                onClick={
+                  allowInteraction ? () => handleRouteClick(route) : undefined
+                }
+                active={index === 0}
+                expanded={routes?.length === 1}
+              />
+            ))
+          )}
+        </Stack>
+      </PageContainer>
     </Container>
   )
 }

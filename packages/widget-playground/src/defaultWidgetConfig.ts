@@ -7,6 +7,7 @@ export const widgetBaseConfig: WidgetConfig = {
   // fromToken: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
   // toToken: '0x7f5c764cbc14f9669b88837ca1490cca17c31607', // 0x0000000000000000000000000000000000000000
   // fromAmount: '20',
+  // minFromAmountUSD: 100,
   // toAddress: {
   //   name: 'Jenny',
   //   address: '0xb9c0dE368BECE5e76B52545a8E377a4C118f597B',

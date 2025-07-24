@@ -1,5 +1,5 @@
 {
-  "version": "3.25.0-beta.2",
+  "version": "3.25.0-beta.5",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -54,7 +54,7 @@
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
     "@types/events": "^3.0.3",
-    "@types/node": "^24.0.10",
+    "@types/node": "^24.1.0",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.5",
     "cpy-cli": "^5.0.0",

@@ -13,6 +13,18 @@ export const StepProcess: React.FC<{
   const { title, message } = useProcessMessage(step, process)
   const { getTransactionLink } = useExplorer()
 
+  const transactionLink = process.txHash
+    ? getTransactionLink({
+        txHash: process.txHash,
+        chain: process.chainId,
+      })
+    : process.txLink
+      ? getTransactionLink({
+          txLink: process.txLink,
+          chain: process.chainId,
+        })
+      : undefined
+
   return (
     <Box
       sx={{
@@ -38,21 +50,11 @@ export const StepProcess: React.FC<{
         >
           {title}
         </Typography>
-        {process.txHash || process.txLink ? (
+        {transactionLink ? (
           <CardIconButton
             size="small"
             LinkComponent={Link}
-            href={
-              process.txHash
-                ? getTransactionLink({
-                    txHash: process.txHash,
-                    chain: process.chainId,
-                  })
-                : getTransactionLink({
-                    txLink: process.txLink!,
-                    chain: process.chainId,
-                  })
-            }
+            href={transactionLink}
             target="_blank"
             rel="nofollow noreferrer"
           >
