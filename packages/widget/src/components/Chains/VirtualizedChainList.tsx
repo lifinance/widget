@@ -2,6 +2,7 @@ import type { ExtendedChain } from '@lifi/sdk'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type { RefObject } from 'react'
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
+import { shallow } from 'zustand/shallow'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore'
 import { List } from './ChainList.style'
 import { ChainListItem } from './ChainListItem'
@@ -24,8 +25,18 @@ export const VirtualizedChainList = ({
   withPinnedChains,
 }: VirtualizedChainListProps) => {
   const selectedChainIdRef = useRef(selectedChainId) // Store the initial selected chain ID to scroll to it once chains are loaded
+  const hasScrolledRef = useRef(false)
+  const [pinnedChains, setPinnedChain] = useChainOrderStore(
+    (state) => [state.pinnedChains, state.setPinnedChain],
+    shallow
+  )
+  const onPin = useCallback(
+    (chainId: number) => {
+      setPinnedChain(chainId)
+    },
+    [setPinnedChain]
+  )
 
-  const pinnedChains = useChainOrderStore((state) => state.pinnedChains)
   const sortedChains = useMemo(() => {
     if (!pinnedChains.length) {
       return chains
@@ -68,8 +79,6 @@ export const VirtualizedChainList = ({
     }
   }, [measure, scrollElementRef.current])
 
-  const hasScrolledRef = useRef(false)
-
   useLayoutEffect(() => {
     // Only scroll if sortedChains is not empty and we haven't scrolled yet
     if (!hasScrolledRef.current && sortedChains.length > 0 && range) {
@@ -94,14 +103,6 @@ export const VirtualizedChainList = ({
       }
     }
   }, [sortedChains, scrollToIndex, range])
-
-  const setPinnedChain = useChainOrderStore((state) => state.setPinnedChain)
-  const onPin = useCallback(
-    (chainId: number) => {
-      setPinnedChain(chainId)
-    },
-    [setPinnedChain]
-  )
 
   return (
     <List
