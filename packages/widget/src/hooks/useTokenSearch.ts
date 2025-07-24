@@ -2,12 +2,12 @@ import {
   type BaseToken,
   type ChainId,
   getToken,
+  type TokenExtended,
   type TokensResponse,
 } from '@lifi/sdk'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
-import type { TokenAmount } from '../types/token.js'
 import { getConfigItemSets, isFormItemAllowed } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 
@@ -62,13 +62,13 @@ export const useTokenSearch = (
               )
             ) {
               const clonedData = { ...data }
-              clonedData.tokens[chainId as number]?.push(token as TokenAmount)
+              clonedData.tokens[chainId as number]?.push(token as TokenExtended)
               return clonedData
             }
           }
         )
       }
-      return token as TokenAmount
+      return token as TokenExtended
     },
 
     enabled: Boolean(chainId && tokenQuery && enabled),
