@@ -1,6 +1,6 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { Box } from '@mui/material'
-import { memo, useRef, useState } from 'react'
+import { memo, useRef } from 'react'
 import {
   Avatar,
   ListItem,
@@ -8,8 +8,7 @@ import {
   ListItemButton,
   ListItemText,
 } from './ChainList.style'
-import { PinChainButton } from './PinChainButton'
-import { PinTransition } from './PinTransition'
+import { PinChainButton, pinButtonClassName } from './PinChainButton'
 
 interface ChainListItemProps {
   chain: ExtendedChain
@@ -36,21 +35,6 @@ export const ChainListItem = memo(
     withPin,
   }: ChainListItemProps) => {
     const container = useRef(null)
-    const timeoutId = useRef<ReturnType<typeof setTimeout>>(undefined)
-    const [showPin, setShowPin] = useState(false)
-
-    const onMouseEnter = () => {
-      timeoutId.current = setTimeout(() => {
-        setShowPin(true)
-      }, 0)
-    }
-
-    const onMouseLeave = () => {
-      clearTimeout(timeoutId.current)
-      if (showPin) {
-        setShowPin(false)
-      }
-    }
 
     return (
       <ListItem
@@ -61,8 +45,13 @@ export const ChainListItem = memo(
           padding: 0,
           overflow: 'hidden',
         }}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
+        sx={{
+          [`&:hover .${pinButtonClassName}`]: {
+            opacity: 1,
+            transform: 'translateY(0)',
+            visibility: 'visible',
+          },
+        }}
       >
         <ListItemButton
           onClick={() => onSelect(chain)}
@@ -83,12 +72,10 @@ export const ChainListItem = memo(
                 width: 28,
               }}
             >
-              <PinTransition in={showPin} isPinned={isPinned}>
-                <PinChainButton
-                  isPinned={isPinned}
-                  onPin={() => onPin(chain.id)}
-                />
-              </PinTransition>
+              <PinChainButton
+                isPinned={isPinned}
+                onPin={() => onPin(chain.id)}
+              />
             </Box>
           )}
         </ListItemButton>
