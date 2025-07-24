@@ -18,7 +18,7 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "viem": "^2.32.0",
-    "wagmi": "^2.15.7"
+    "wagmi": "^2.16.0"
   },
   "devDependencies": {
     "@types/events": "^3.0.3",
