@@ -129,6 +129,7 @@
       "highValueLoss": "Elde edilecek varlıkların değeri, takas edilen varlıklardan ve işlem maliyetinden önemli ölçüde düşüktür.",
       "insufficientFunds": "Takas işlemini gerçekleştirmek için yeterli bakiyeniz bulunmamaktadır.",
       "insufficientGas": "En azından şunları eklemelisiniz:",
+      "minFromAmountUSD": "",
       "rateChanged": "Takas oranı değişti. İşleme devam ederek yeni oranı kabul etmiş olursunuz.",
       "resetSettings": "Bu, rota önceliğinizi, slipajı, gaz fiyatını, etkin köprüleri ve takasları sıfırlayacaktır.",
       "slippageOutsideRecommendedLimits": "Yüksek slipaj, ani fiyat hareketleri nedeniyle zarara yol açabilir.",
