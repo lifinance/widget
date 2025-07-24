@@ -42,7 +42,7 @@ export const ChainListItem = memo(
     const onMouseEnter = () => {
       timeoutId.current = setTimeout(() => {
         setShowPin(true)
-      }, 350)
+      }, 0)
     }
 
     const onMouseLeave = () => {

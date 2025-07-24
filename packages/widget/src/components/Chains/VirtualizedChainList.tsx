@@ -85,7 +85,7 @@ export const VirtualizedChainList = ({
         ) {
           requestAnimationFrame(() => {
             scrollToIndex(selectedChainIndex, {
-              align: 'start',
+              align: 'center',
               behavior: 'smooth',
             })
           })
