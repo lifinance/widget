@@ -129,6 +129,7 @@
       "highValueLoss": "받은 토큰의 가치가 스왑된 토큰 및 트랜잭션 비용보다 상당히 낮습니다.",
       "insufficientFunds": "스왑을 진행할 자금이 부족합니다.",
       "insufficientGas": "스왑을 진행할 가스가 부족합니다. 최소 다음과 같은 가스가 필요합니다:",
+      "minFromAmountUSD": "",
       "rateChanged": "거래 비율이 변경되었습니다. 스왑을 계속하면 새로운 비율이 적용됩니다.",
       "resetSettings": "우선 경로, 슬리피지, 가스 비용, 활성화된 브릿지 및 거래소가 재설정됩니다.",
       "slippageOutsideRecommendedLimits": "",
@@ -345,6 +346,8 @@
   },
   "tokenMetric": {
     "currentPrice": "",
-    "contractAddress": ""
+    "contractAddress": "",
+    "marketCap": "",
+    "volume24h": ""
   }
 }

@@ -129,6 +129,7 @@
       "highValueLoss": "受け取るトークンの価値は、交換されたトークンとトランザクションコストよりも大幅に低くなります。",
       "insufficientFunds": "トランザクションを完了するのに十分な資金がありません。",
       "insufficientGas": "トランザクションを完了するのに十分なガスがありません。少なくとも以下を追加する必要があります：",
+      "minFromAmountUSD": "",
       "rateChanged": "交換レートが変更されました。取引を続行すると、新しい為替レートを受け入れることになります。",
       "resetSettings": "これにより、ルートの優先順位、スリッページ、ガス価格、使用可能なブリッジ、取引所がリセットされます。",
       "slippageOutsideRecommendedLimits": "スリッページ許容度が高すぎると、フロントランニングによる不利なトレードをひき起こす可能性があります。",
@@ -345,6 +346,8 @@
   },
   "tokenMetric": {
     "currentPrice": "",
-    "contractAddress": ""
+    "contractAddress": "",
+    "marketCap": "",
+    "volume24h": ""
   }
 }

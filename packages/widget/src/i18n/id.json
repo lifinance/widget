@@ -129,6 +129,7 @@
       "highValueLoss": "Nilai token yang diterima jauh lebih rendah daripada token yang ditukar dan biaya transaksi.",
       "insufficientFunds": "Anda tidak memiliki cukup dana untuk menyelesaikan penukaran.",
       "insufficientGas": "Anda tidak memiliki cukup gas untuk menyelesaikan penukaran. Anda perlu menambahkan setidaknya:",
+      "minFromAmountUSD": "",
       "rateChanged": "Nilai tukar telah berubah. Dengan melanjutkan penukaran, Anda akan menerima tarif baru.",
       "resetSettings": "Ini akan mengatur ulang prioritas rute Anda, slippage, harga gas, jembatan yang diaktifkan, dan pertukaran.",
       "slippageOutsideRecommendedLimits": "Toleransi selip yang tinggi dapat mengakibatkan perdagangan yang tidak menguntungkan yang disebabkan oleh front-running.",
@@ -345,6 +346,8 @@
   },
   "tokenMetric": {
     "currentPrice": "",
-    "contractAddress": ""
+    "contractAddress": "",
+    "marketCap": "",
+    "volume24h": ""
   }
 }
