@@ -1,10 +1,10 @@
 import type { Route } from '@lifi/sdk'
 import { useMemo } from 'react'
+import { useFromAmountSufficiency } from '../../hooks/useFromAmountSufficiency.js'
 import { useFromTokenSufficiency } from '../../hooks/useFromTokenSufficiency.js'
 import { useGasSufficiency } from '../../hooks/useGasSufficiency.js'
 import { useRouteRequiredAccountConnection } from '../../hooks/useRouteRequiredAccountConnection.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 
 interface QueuedMessage {
   id: string
@@ -26,14 +26,8 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
     useGasSufficiency(route)
   const { missingChain, missingAccountAddress } =
     useRouteRequiredAccountConnection(route)
-  const { minFromAmountUSD } = useWidgetConfig()
-
-  const isLowerThanMinFromAmountUSD = useMemo(() => {
-    if (!minFromAmountUSD || !route?.fromAmountUSD) {
-      return false
-    }
-    return Number(route.fromAmountUSD) < minFromAmountUSD
-  }, [minFromAmountUSD, route?.fromAmountUSD])
+  const { insufficientFromAmountUSD, minFromAmountUSD } =
+    useFromAmountSufficiency()
 
   const messageQueue = useMemo(() => {
     const queue: QueuedMessage[] = []
@@ -53,19 +47,19 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
       })
     }
 
-    if (insufficientGas?.length) {
+    if (insufficientFromAmountUSD) {
       queue.push({
-        id: 'INSUFFICIENT_GAS',
+        id: 'MIN_FROM_AMOUNT_USD',
         priority: 3,
-        props: { insufficientGas },
+        props: { minFromAmountUSD },
       })
     }
 
-    if (isLowerThanMinFromAmountUSD) {
+    if (insufficientGas?.length) {
       queue.push({
-        id: 'MIN_FROM_AMOUNT_USD',
+        id: 'INSUFFICIENT_GAS',
         priority: 4,
-        props: { minFromAmountUSD },
+        props: { insufficientGas },
       })
     }
 
@@ -101,7 +95,7 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
     toAddress,
     missingChain,
     missingAccountAddress,
-    isLowerThanMinFromAmountUSD,
+    insufficientFromAmountUSD,
     minFromAmountUSD,
   ])
 
