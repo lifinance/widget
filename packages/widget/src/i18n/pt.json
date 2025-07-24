@@ -345,6 +345,8 @@
   },
   "tokenMetric": {
     "currentPrice": "Preço atual",
-    "contractAddress": "Endereço do Contrato"
+    "contractAddress": "Endereço do Contrato",
+    "marketCap": "",
+    "volume24h": ""
   }
 }
