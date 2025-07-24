@@ -129,6 +129,7 @@
       "highValueLoss": "Giá trị của token nhận được đang thấp hơn rất nhiều so với token được swap và chi phí giao dịch.",
       "insufficientFunds": "Bạn không có đủ tiền để thực hiện tác vụ này.",
       "insufficientGas": "Bạn không đủ gas để thực hiện swap. Bạn cần thêm ít nhất:",
+      "minFromAmountUSD": "",
       "rateChanged": "Tỉ lệ hoán đổi đã thay đổi. Để tiếp tục Swap, bạn sẽ chấp nhận tỉ lệ mới.",
       "resetSettings": "Thao tác này sẽ đặt lại mức độ ưu tiên của tuyến đường, độ trượt giá, giá gas, bridge và sàn giao dịch.",
       "slippageOutsideRecommendedLimits": "Khả năng trượt giá cao có thể dẫn đến giao dịch không thành công do front-running.",
