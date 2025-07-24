@@ -117,7 +117,7 @@ export const TokenDetailsSheetContent = forwardRef<
             color: 'text.primary',
           }}
         >
-          {token
+          {token?.priceUSD
             ? t('format.currency', {
                 value: formatTokenPrice('1', token.priceUSD, token.decimals),
               })
@@ -169,6 +169,54 @@ export const TokenDetailsSheetContent = forwardRef<
           </Box>
         </MetricWithSkeleton>
       )}
+      <MetricWithSkeleton
+        isLoading={isLoading}
+        label={t('tokenMetric.marketCap')}
+        width={200}
+        height={24}
+      >
+        <Typography
+          sx={{
+            fontWeight: 700,
+            fontSize: '18px',
+            lineHeight: '24px',
+            color: 'text.primary',
+          }}
+        >
+          {token?.marketCapUSD
+            ? t('format.currency', {
+                value: token.marketCapUSD,
+                notation: 'compact',
+                compactDisplay: 'short',
+                maximumFractionDigits: 2,
+              })
+            : noDataLabel}
+        </Typography>
+      </MetricWithSkeleton>
+      <MetricWithSkeleton
+        isLoading={isLoading}
+        label={t('tokenMetric.volume24h')}
+        width={200}
+        height={24}
+      >
+        <Typography
+          sx={{
+            fontWeight: 700,
+            fontSize: '18px',
+            lineHeight: '24px',
+            color: 'text.primary',
+          }}
+        >
+          {token?.volumeUSD24H
+            ? t('format.currency', {
+                value: token.volumeUSD24H,
+                notation: 'compact',
+                compactDisplay: 'short',
+                maximumFractionDigits: 2,
+              })
+            : noDataLabel}
+        </Typography>
+      </MetricWithSkeleton>
     </TokenDetailsSheetContainer>
   )
 })
