@@ -1,5 +1,6 @@
 import type { Chain } from '@lifi/sdk'
-import { ChainId } from '@lifi/sdk'
+import { ChainId, ChainType } from '@lifi/sdk'
+import { isHex } from 'viem'
 import { lifiExplorerUrl } from '../config/constants.js'
 import { useAvailableChains } from '../hooks/useAvailableChains.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
@@ -50,6 +51,7 @@ export const useExplorer = () => {
       url: sanitiseBaseUrl(url),
       txPath,
       addressPath,
+      resolvedChain,
     }
   }
 
@@ -57,12 +59,20 @@ export const useExplorer = () => {
     txHash,
     txLink,
     chain,
-  }: TransactionLinkProps) => {
-    if (!txHash && txLink) {
+  }: TransactionLinkProps): string | undefined => {
+    if (!txHash) {
       return txLink
     }
 
     const config = getExplorerConfig(chain)
+
+    // For EVM chains, validate the transaction hash as some relayers return custom task hashes that are not visible on-chain
+    if (config.resolvedChain?.chainType === ChainType.EVM) {
+      if (!isHex(txHash, { strict: true })) {
+        return undefined
+      }
+    }
+
     return `${config.url}/${config.txPath}/${txHash}`
   }
 
