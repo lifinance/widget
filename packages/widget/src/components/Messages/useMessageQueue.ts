@@ -1,5 +1,6 @@
 import type { Route } from '@lifi/sdk'
 import { useMemo } from 'react'
+import { useFromAmountThreshold } from '../../hooks/useFromAmountThreshold.js'
 import { useFromTokenSufficiency } from '../../hooks/useFromTokenSufficiency.js'
 import { useGasSufficiency } from '../../hooks/useGasSufficiency.js'
 import { useRouteRequiredAccountConnection } from '../../hooks/useRouteRequiredAccountConnection.js'
@@ -25,6 +26,7 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
     useGasSufficiency(route)
   const { missingChain, missingAccountAddress } =
     useRouteRequiredAccountConnection(route)
+  const { belowMinFromAmountUSD, minFromAmountUSD } = useFromAmountThreshold()
 
   const messageQueue = useMemo(() => {
     const queue: QueuedMessage[] = []
@@ -44,10 +46,18 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
       })
     }
 
+    if (belowMinFromAmountUSD) {
+      queue.push({
+        id: 'MIN_FROM_AMOUNT_USD',
+        priority: 3,
+        props: { minFromAmountUSD },
+      })
+    }
+
     if (insufficientGas?.length) {
       queue.push({
         id: 'INSUFFICIENT_GAS',
-        priority: 3,
+        priority: 4,
         props: { insufficientGas },
       })
     }
@@ -55,21 +65,21 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
     if (accountNotDeployedAtDestination && !allowInteraction) {
       queue.push({
         id: 'ACCOUNT_NOT_DEPLOYED',
-        priority: 4,
+        priority: 5,
       })
     }
 
     if (requiredToAddress && !toAddress) {
       queue.push({
         id: 'TO_ADDRESS_REQUIRED',
-        priority: 5,
+        priority: 6,
       })
     }
 
     if (accountDeployedAtDestination && !allowInteraction) {
       queue.push({
         id: 'ACCOUNT_DEPLOYED',
-        priority: 6,
+        priority: 7,
       })
     }
 
@@ -84,6 +94,8 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
     toAddress,
     missingChain,
     missingAccountAddress,
+    belowMinFromAmountUSD,
+    minFromAmountUSD,
   ])
 
   return {

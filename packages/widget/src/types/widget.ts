@@ -280,6 +280,7 @@ export interface WidgetConfig {
   toAddress?: ToAddress
   toAddresses?: ToAddress[]
   fromAmount?: number | string
+  minFromAmountUSD?: number
   toAmount?: number | string
   formUpdateKey?: string
 
