@@ -129,6 +129,7 @@
       "highValueLoss": "",
       "insufficientFunds": "",
       "insufficientGas": "",
+      "minFromAmountUSD": "",
       "rateChanged": "",
       "resetSettings": "",
       "slippageOutsideRecommendedLimits": "",
