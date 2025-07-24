@@ -26,11 +26,11 @@
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
-    "@vitejs/plugin-react-swc": "^3.10.2",
+    "@vitejs/plugin-react-swc": "^3.11.0",
     "rollup-plugin-polyfill-node": "^0.13.0",
     "source-map-explorer": "^2.5.3",
     "typescript": "^5.8.3",
-    "vite": "^7.0.5",
+    "vite": "^7.0.6",
     "vite-plugin-node-polyfills": "0.24.0",
     "web-vitals": "^5.0.3"
   },
