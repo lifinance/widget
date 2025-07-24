@@ -4,15 +4,6 @@ import { defaultMaxHeight } from '../../config/constants.js'
 
 export const routesExpansionWidth = '436px'
 
-export const ScrollableContainer = styled(Box)({
-  overflowY: 'auto',
-  height: '100%',
-  width: '100%',
-  flex: 1,
-  display: 'flex',
-  flexDirection: 'column',
-})
-
 interface ContainerProps extends ScopedCssBaselineProps {
   minimumHeight: boolean
 }
@@ -36,6 +27,7 @@ export const Container = styled(ScopedCssBaseline, {
       }
     : { height: minimumHeight ? 'auto' : '100%' }),
   ...theme.container,
+  ...theme.routesContainer,
 }))
 
 export const Header = styled(Box)(({ theme }) => ({

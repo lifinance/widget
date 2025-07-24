@@ -5,6 +5,7 @@ import { AccountDeployedMessage } from './AccountDeployedMessage.js'
 import { AccountNotDeployedMessage } from './AccountNotDeployedMessage.js'
 import { FundsSufficiencyMessage } from './FundsSufficiencyMessage.js'
 import { GasSufficiencyMessage } from './GasSufficiencyMessage.js'
+import { MinFromAmountUSDMessage } from './MinFromAmountUSDMessage.js'
 import { MissingRouteRequiredAccountMessage } from './MissingRouteRequiredAccountMessage.js'
 import { ToAddressRequiredMessage } from './ToAddressRequiredMessage.js'
 import { useMessageQueue } from './useMessageQueue.js'
@@ -37,6 +38,13 @@ export const WarningMessages: React.FC<WarningMessagesProps> = ({
         return (
           <GasSufficiencyMessage
             insufficientGas={messages[0].props?.insufficientGas}
+            {...props}
+          />
+        )
+      case 'MIN_FROM_AMOUNT_USD':
+        return (
+          <MinFromAmountUSDMessage
+            minFromAmountUSD={messages[0].props?.minFromAmountUSD}
             {...props}
           />
         )

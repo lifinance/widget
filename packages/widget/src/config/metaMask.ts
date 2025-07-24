@@ -1,5 +1,5 @@
 import type { MetaMaskParameters } from 'wagmi/connectors'
-import { LiFiToolLogo } from '../icons/lifi.js'
+import { lifiLogoUrl } from '../icons/lifi.js'
 
 export const defaultMetaMaskConfig: MetaMaskParameters = {
   dappMetadata: {
@@ -8,6 +8,6 @@ export const defaultMetaMaskConfig: MetaMaskParameters = {
       typeof window !== 'undefined'
         ? (window as any)?.location.href
         : 'https://li.fi/',
-    base64Icon: LiFiToolLogo,
+    iconUrl: lifiLogoUrl,
   },
 }

@@ -17,9 +17,8 @@ interface ChainListProps {
   onSelect: (chain: ExtendedChain) => void
   selectedChainId?: number
   isLoading: boolean
-  itemsSize: 'small' | 'medium'
-  adjustForStickySearchInput?: boolean
   hasSearchQuery: boolean
+  inExpansion: boolean
 }
 
 export const ChainList = ({
@@ -29,10 +28,11 @@ export const ChainList = ({
   onSelect,
   selectedChainId,
   isLoading,
-  itemsSize,
-  adjustForStickySearchInput,
+  inExpansion,
 }: ChainListProps) => {
   const { t } = useTranslation()
+
+  const itemsSize = inExpansion ? 'small' : 'medium'
 
   if (isLoading) {
     return (
@@ -71,7 +71,7 @@ export const ChainList = ({
     return (
       <SearchNotFound
         message={t('info.message.emptyChainList')}
-        adjustForStickySearchInput={adjustForStickySearchInput}
+        adjustForStickySearchInput={!inExpansion}
       />
     )
   }
@@ -84,6 +84,7 @@ export const ChainList = ({
       onSelect={onSelect}
       selectedChainId={selectedChainId}
       itemsSize={itemsSize}
+      withPinnedChains={inExpansion}
     />
   )
 }

@@ -7,6 +7,7 @@ export const widgetBaseConfig: WidgetConfig = {
   // fromToken: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
   // toToken: '0x7f5c764cbc14f9669b88837ca1490cca17c31607', // 0x0000000000000000000000000000000000000000
   // fromAmount: '20',
+  // minFromAmountUSD: 100,
   // toAddress: {
   //   name: 'Jenny',
   //   address: '0xb9c0dE368BECE5e76B52545a8E377a4C118f597B',
@@ -30,6 +31,11 @@ export const widgetBaseConfig: WidgetConfig = {
   // ],
   variant: 'wide',
   // subvariant: 'split',
+  subvariantOptions: {
+    wide: {
+      enableChainSidebar: true,
+    },
+  },
   integrator: 'li.fi-playground',
   // fee: 0.01,
   // useRecommendedRoute: true,
@@ -239,12 +245,12 @@ export const widgetBaseConfig: WidgetConfig = {
   //         marginLeft: 'auto',
   //         order: 1,
   //         backgroundImage:
-  //           'url(https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/exchanges/lifidexaggregator.svg)',
+  //           'url(https://lifinance.github.io/types/src/assets/icons/exchanges/lifidexaggregator.svg)',
   //         backgroundPosition: 'left center',
   //         backgroundRepeat: 'no-repeat',
   //         backgroundSize: '24px',
   //         paddingLeft: '12px',
-  //         backgroundColor: '#f5b5ff',
+  //         backgroundColor: '#F7C2FF',
   //       }),
   //     },
   //     fromChainId: [ChainId.OPT],
@@ -266,7 +272,7 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
             main: '#5C67FF',
           },
           secondary: {
-            main: '#F5B5FF',
+            main: '#F7C2FF',
           },
         },
       },
@@ -276,7 +282,7 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
             main: '#5C67FF',
           },
           secondary: {
-            main: '#F5B5FF',
+            main: '#F7C2FF',
           },
         },
       },
@@ -288,5 +294,13 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
       boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
       borderRadius: '16px',
     },
+    // routesContainer: {
+    //   boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
+    //   borderRadius: '16px',
+    // },
+    // chainSidebarContainer: {
+    //   boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
+    //   borderRadius: '16px',
+    // },
   },
 } as WidgetConfig

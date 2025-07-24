@@ -83,6 +83,8 @@ export type WidgetTheme = {
   typography?: TypographyVariantsOptions
   components?: WidgetThemeComponents
   container?: CSSProperties
+  routesContainer?: CSSProperties
+  chainSidebarContainer?: CSSProperties
   header?: CSSProperties
   navigation?: NavigationProps
 }
@@ -278,6 +280,7 @@ export interface WidgetConfig {
   toAddress?: ToAddress
   toAddresses?: ToAddress[]
   fromAmount?: number | string
+  minFromAmountUSD?: number
   toAmount?: number | string
   formUpdateKey?: string
 

@@ -30,31 +30,28 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = memo(
     )
     const inputRef = useRef<HTMLInputElement>(null)
     const listRef = useRef<HTMLDivElement>(null)
-    const [filteredChains, setFilteredChains] = useState<ExtendedChain[]>(
-      chains ?? []
-    )
+    const [debouncedSearchValue, setDebouncedSearchValue] = useState('')
+
+    const filteredChains = useMemo(() => {
+      const value = debouncedSearchValue.toLowerCase()
+      return value
+        ? (chains?.filter((chain) =>
+            chain.name.toLowerCase().includes(value)
+          ) ?? [])
+        : (chains ?? [])
+    }, [chains, debouncedSearchValue])
 
     const scrollToTop = useCallback(() => {
       // Scroll widget container to top
       if (!inExpansion && scrollableContainer) {
         scrollableContainer.scrollTop = 0
       }
-      // Scroll chain list to top
-      if (inExpansion && listRef.current) {
-        listRef.current.scrollTop = 0
-      }
     }, [inExpansion, scrollableContainer])
 
     const debouncedFilterChains = useMemo(
       () =>
-        debounce((chains: ExtendedChain[]) => {
-          const value = inputRef.current?.value?.toLowerCase() || ''
-          const filtered = value
-            ? chains?.filter((chain) =>
-                chain.name.toLowerCase().includes(value)
-              )
-            : chains
-          setFilteredChains(filtered ?? [])
+        debounce((value: string) => {
+          setDebouncedSearchValue(value)
           scrollToTop()
         }, 250),
       [scrollToTop]
@@ -68,13 +65,14 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = memo(
     )
 
     const onChange = useCallback(() => {
-      debouncedFilterChains(chains ?? [])
-    }, [chains, debouncedFilterChains])
+      const value = inputRef.current?.value || ''
+      debouncedFilterChains(value)
+    }, [debouncedFilterChains])
 
     const onClear = useCallback(() => {
-      setFilteredChains(chains ?? [])
+      setDebouncedSearchValue('')
       scrollToTop()
-    }, [chains, scrollToTop])
+    }, [scrollToTop])
 
     const listContainerHeight = useMemo(() => {
       const fullContainerHeight = getWidgetMaxHeight(theme)
@@ -106,9 +104,8 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = memo(
             isLoading={isLoading}
             onSelect={onSelect ?? onSelectChainFallback}
             selectedChainId={selectedChainId}
-            itemsSize={inExpansion ? 'small' : 'medium'}
-            adjustForStickySearchInput={!inExpansion}
             hasSearchQuery={!!inputRef.current?.value}
+            inExpansion={inExpansion}
           />
         </Box>
       </FullPageContainer>

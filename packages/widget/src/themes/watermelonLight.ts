@@ -8,7 +8,7 @@ export const watermelonLightTheme: WidgetTheme = {
           main: '#f7557c',
         },
         secondary: {
-          main: '#027944',
+          main: '#00A35A',
         },
         background: {
           default: '#ffeff3',
