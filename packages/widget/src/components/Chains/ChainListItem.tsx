@@ -1,6 +1,6 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { Box } from '@mui/material'
-import { memo, useRef } from 'react'
+import { memo } from 'react'
 import {
   Avatar,
   ListItem,
@@ -34,11 +34,8 @@ export const ChainListItem = memo(
     onPin,
     withPin,
   }: ChainListItemProps) => {
-    const container = useRef(null)
-
     return (
       <ListItem
-        ref={container}
         style={{
           height: `${size}px`,
           transform: `translateY(${start}px)`,
@@ -49,7 +46,6 @@ export const ChainListItem = memo(
           [`&:hover .${pinButtonClassName}`]: {
             opacity: 1,
             transform: 'translateY(0)',
-            visibility: 'visible',
           },
         }}
       >

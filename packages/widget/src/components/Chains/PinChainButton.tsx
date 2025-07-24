@@ -27,19 +27,15 @@ export const PinChainButton = ({ isPinned, onPin }: PinChainButtonProps) => {
         left: 0,
         height: 28,
         width: 28,
-        willChange: 'opacity, transform, visibility',
+        transition: `opacity ${animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1), transform ${animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`,
         ...(isPinned
           ? {
               opacity: 1,
               transform: 'translateY(0)',
-              visibility: 'visible',
-              transition: 'none',
             }
           : {
               opacity: 0,
-              transform: 'translateY(-100%)',
-              visibility: 'hidden',
-              transition: `opacity ${animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1) 50ms, transform ${animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1), visibility 0ms 50ms`,
+              transform: 'translateY(-50%)',
             }),
       }}
     >
