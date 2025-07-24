@@ -1,6 +1,6 @@
 import type { Route } from '@lifi/sdk'
 import { useMemo } from 'react'
-import { useFromAmountSufficiency } from '../../hooks/useFromAmountSufficiency.js'
+import { useFromAmountThreshold } from '../../hooks/useFromAmountThreshold.js'
 import { useFromTokenSufficiency } from '../../hooks/useFromTokenSufficiency.js'
 import { useGasSufficiency } from '../../hooks/useGasSufficiency.js'
 import { useRouteRequiredAccountConnection } from '../../hooks/useRouteRequiredAccountConnection.js'
@@ -26,8 +26,7 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
     useGasSufficiency(route)
   const { missingChain, missingAccountAddress } =
     useRouteRequiredAccountConnection(route)
-  const { insufficientFromAmountUSD, minFromAmountUSD } =
-    useFromAmountSufficiency()
+  const { belowMinFromAmountUSD, minFromAmountUSD } = useFromAmountThreshold()
 
   const messageQueue = useMemo(() => {
     const queue: QueuedMessage[] = []
@@ -47,7 +46,7 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
       })
     }
 
-    if (insufficientFromAmountUSD) {
+    if (belowMinFromAmountUSD) {
       queue.push({
         id: 'MIN_FROM_AMOUNT_USD',
         priority: 3,
@@ -95,7 +94,7 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
     toAddress,
     missingChain,
     missingAccountAddress,
-    insufficientFromAmountUSD,
+    belowMinFromAmountUSD,
     minFromAmountUSD,
   ])
 

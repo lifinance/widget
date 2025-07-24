@@ -5,7 +5,7 @@ import { useFieldValues } from '../stores/form/useFieldValues'
 import { formatTokenPrice } from '../utils/format'
 import { useToken } from './useToken'
 
-export const useFromAmountSufficiency = () => {
+export const useFromAmountThreshold = () => {
   const { minFromAmountUSD } = useWidgetConfig()
 
   const [chainId, tokenAddress, fromAmount] = useFieldValues(
@@ -15,7 +15,7 @@ export const useFromAmountSufficiency = () => {
   )
   const { token } = useToken(chainId, tokenAddress)
 
-  const insufficientFromAmountUSD = useMemo(() => {
+  const belowMinFromAmountUSD = useMemo(() => {
     const fromAmountUSD = formatTokenPrice(fromAmount, token?.priceUSD)
 
     if (!minFromAmountUSD || !fromAmountUSD) {
@@ -25,7 +25,7 @@ export const useFromAmountSufficiency = () => {
   }, [minFromAmountUSD, fromAmount, token?.priceUSD])
 
   return {
-    insufficientFromAmountUSD,
+    belowMinFromAmountUSD,
     minFromAmountUSD,
   }
 }
