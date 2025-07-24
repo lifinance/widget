@@ -12,6 +12,7 @@ import {
 import type { MouseEventHandler } from 'react'
 import { memo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useLongPress } from '../../hooks/useLongPress.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { ListItemButton } from '../ListItem/ListItemButton.js'
@@ -147,11 +148,16 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
     token.decimals
   )
 
+  const longPressEvents = useLongPress(() =>
+    onShowTokenDetails(token.address, withoutContractAddress)
+  )
+
   return (
     <ListItemButton
       onClick={onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      {...longPressEvents}
       dense
       selected={selected}
       sx={{
