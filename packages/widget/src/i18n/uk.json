@@ -345,6 +345,8 @@
   },
   "tokenMetric": {
     "currentPrice": "Поточна ціна",
-    "contractAddress": "Адреса контракту"
+    "contractAddress": "Адреса контракту",
+    "marketCap": "",
+    "volume24h": ""
   }
 }
