@@ -2,9 +2,20 @@ import type { ExtendedChain } from '@lifi/sdk'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type { RefObject } from 'react'
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { shallow } from 'zustand/shallow'
-import { useChainOrderStore } from '../../stores/chains/ChainOrderStore'
-import { List } from './ChainList.style'
+import {
+  useChainOrderStore,
+  useChainOrderStoreContext,
+} from '../../stores/chains/ChainOrderStore'
+import { AllChainsAvatar } from './AllChainsAvatar'
+import {
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+} from './ChainList.style'
 import { ChainListItem } from './ChainListItem'
 
 interface VirtualizedChainListProps {
@@ -13,17 +24,22 @@ interface VirtualizedChainListProps {
   onSelect: (chain: ExtendedChain) => void
   selectedChainId?: number
   itemsSize: 'small' | 'medium'
+  hasSearchQuery: boolean
   withPinnedChains: boolean
 }
 
 export const VirtualizedChainList = ({
   chains,
+  hasSearchQuery,
   onSelect,
   selectedChainId,
   itemsSize,
   scrollElementRef,
   withPinnedChains,
 }: VirtualizedChainListProps) => {
+  const { t } = useTranslation()
+  const chainOrderStore = useChainOrderStoreContext()
+  const { isAllNetworks, setIsAllNetworks } = chainOrderStore.getState()
   const selectedChainIdRef = useRef(selectedChainId) // Store the initial selected chain ID to scroll to it once chains are loaded
   const hasScrolledRef = useRef(false)
   const [pinnedChains, setPinnedChain] = useChainOrderStore(
@@ -52,14 +68,26 @@ export const VirtualizedChainList = ({
 
   const getItemKey = useCallback(
     (index: number) => {
-      return `${sortedChains[index].id}-${index}`
+      if (!hasSearchQuery && index === 0) {
+        return 'all-chains'
+      }
+      const chainIndex = index - (!hasSearchQuery ? 1 : 0)
+      return `${sortedChains[chainIndex].id}-${index}`
     },
-    [sortedChains]
+    [sortedChains, hasSearchQuery]
+  )
+
+  const onChainSelect = useCallback(
+    (chain: ExtendedChain) => {
+      setIsAllNetworks(false)
+      onSelect(chain)
+    },
+    [onSelect, setIsAllNetworks]
   )
 
   const { getVirtualItems, getTotalSize, measure, scrollToIndex, range } =
     useVirtualizer({
-      count: sortedChains.length,
+      count: sortedChains.length + (!hasSearchQuery ? 1 : 0), // +1 for the all networks item
       overscan: 3,
       paddingEnd: 0,
       getScrollElement: () => scrollElementRef.current,
@@ -111,13 +139,42 @@ export const VirtualizedChainList = ({
       disablePadding
     >
       {getVirtualItems().map((item) => {
-        const chain = sortedChains[item.index]
+        if (!hasSearchQuery && item.index === 0) {
+          return (
+            <ListItem
+              key={item.key}
+              style={{
+                height: `${itemsSize}px`,
+                transform: `translateY(${item.start}px)`,
+                padding: 0,
+              }}
+            >
+              <ListItemButton
+                onClick={() => {
+                  setIsAllNetworks(true)
+                }}
+                selected={isAllNetworks}
+                size={itemsSize}
+              >
+                <ListItemAvatar size={itemsSize}>
+                  <AllChainsAvatar chains={chains} size={itemsSize} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={t('main.allNetworks')}
+                  size={itemsSize}
+                />
+              </ListItemButton>
+            </ListItem>
+          )
+        }
+
+        const chain = sortedChains[item.index - (!hasSearchQuery ? 1 : 0)]
         return (
           <ChainListItem
             key={item.key}
             chain={chain}
-            onSelect={onSelect}
-            selected={chain.id === selectedChainId}
+            onSelect={onChainSelect}
+            selected={!isAllNetworks && chain.id === selectedChainId}
             itemsSize={itemsSize}
             size={item.size}
             start={item.start}

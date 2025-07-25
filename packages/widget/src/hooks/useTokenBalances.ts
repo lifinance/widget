@@ -12,11 +12,13 @@ const defaultRefetchInterval = 32_000
 
 export const useTokenBalances = (
   selectedChainId?: number,
-  formType?: FormType
+  formType?: FormType,
+  isAllNetworks?: boolean
 ) => {
   const { tokens, featuredTokens, popularTokens, chain, isLoading } = useTokens(
     selectedChainId,
-    formType
+    formType,
+    isAllNetworks
   )
   const { account } = useAccount({ chainType: chain?.chainType })
   const { keyPrefix } = useWidgetConfig()
@@ -36,6 +38,7 @@ export const useTokenBalances = (
       account.address,
       selectedChainId,
       tokens?.length,
+      isAllNetworks,
       formType,
     ],
     queryFn: async ({ queryKey: [, accountAddress] }) => {

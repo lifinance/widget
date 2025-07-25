@@ -6,6 +6,7 @@ import { useDebouncedWatch } from '../../hooks/useDebouncedWatch.js'
 import { useTokenBalances } from '../../hooks/useTokenBalances.js'
 import { useTokenSearch } from '../../hooks/useTokenSearch.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
+import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { WidgetEvent } from '../../types/events.js'
@@ -27,6 +28,8 @@ export const TokenList: FC<TokenListProps> = ({
     FormKeyHelper.getChainKey(formType),
     FormKeyHelper.getTokenKey(formType)
   )
+  const isAllNetworks = useChainOrderStore((state) => state.isAllNetworks)
+
   const [tokenSearchFilter]: string[] = useDebouncedWatch(
     320,
     'tokenSearchFilter'
@@ -45,9 +48,10 @@ export const TokenList: FC<TokenListProps> = ({
     isBalanceLoading,
     featuredTokens,
     popularTokens,
-  } = useTokenBalances(selectedChainId, formType)
+  } = useTokenBalances(selectedChainId, formType, isAllNetworks)
 
   let filteredTokens = (tokensWithBalance ?? chainTokens ?? []) as TokenAmount[]
+
   const normalizedSearchFilter = tokenSearchFilter?.replaceAll('$', '')
   const searchFilter = normalizedSearchFilter?.toUpperCase() ?? ''
 
@@ -116,12 +120,12 @@ export const TokenList: FC<TokenListProps> = ({
         tokens={tokens}
         scrollElementRef={parentRef}
         chainId={selectedChainId}
-        chain={selectedChain}
         isLoading={isLoading}
         isBalanceLoading={isBalanceLoading}
         showCategories={showCategories}
         onClick={handleTokenClick}
         selectedTokenAddress={selectedTokenAddress}
+        isAllNetworks={isAllNetworks}
       />
     </Box>
   )
