@@ -3,14 +3,16 @@ import { useTokenSearch } from './useTokenSearch.js'
 import { useTokens } from './useTokens.js'
 
 export const useToken = (chainId?: number, tokenAddress?: string) => {
-  const { tokens, isLoading } = useTokens(chainId)
+  const { tokens: allTokens, isLoading } = useTokens()
+
+  const tokensForChain = useMemo(
+    () => (chainId ? allTokens?.get(chainId) : undefined),
+    [allTokens, chainId]
+  )
 
   const token = useMemo(() => {
-    const token = tokens?.find(
-      (token) => token.address === tokenAddress && token.chainId === chainId
-    )
-    return token
-  }, [chainId, tokenAddress, tokens])
+    return tokensForChain?.find((token) => token.address === tokenAddress)
+  }, [tokenAddress, tokensForChain])
 
   const tokenSearchEnabled = !isLoading && !token
   const { token: searchedToken, isLoading: isSearchedTokenLoading } =
