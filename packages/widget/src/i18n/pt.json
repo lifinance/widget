@@ -129,7 +129,7 @@
       "highValueLoss": "A quantidade de tokens a serem recebidos é significativamente menor do que os tokens convertidos e os custos da transação.",
       "insufficientFunds": "Você não possui fundos suficientes para completar a conversão.",
       "insufficientGas": "Você não tem gás suficiente para completar a conversão. É necessário adicionar pelo menos:",
-      "minFromAmountUSD": "",
+      "minFromAmountUSD": "Valor mínimo é {{amount, currencyExt(currency: USD)}}. Por favor, insira um valor maior.",
       "rateChanged": "A taxa de câmbio mudou. Ao continuar a conversão, você aceitará a nova taxa.",
       "resetSettings": "Isto redefinirá sua prioridade de rota, tolerância a derrapagem, preço de gás, pontes e trocas ativadas.",
       "slippageOutsideRecommendedLimits": "Alta tolerância na derrapagem pode resultar em negociação desfavorável ​​causada pelo front-running.",
@@ -347,7 +347,7 @@
   "tokenMetric": {
     "currentPrice": "Preço atual",
     "contractAddress": "Endereço do Contrato",
-    "marketCap": "",
-    "volume24h": ""
+    "marketCap": "Capitalização de mercado",
+    "volume24h": "Volume 24h"
   }
 }
