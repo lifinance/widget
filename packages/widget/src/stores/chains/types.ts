@@ -9,9 +9,11 @@ export interface ChainOrderProps {
     from: number[]
     to: number[]
   }
+  pinnedChains: number[]
 }
 
 export interface ChainOrderState extends ChainOrderProps {
   initializeChains(chainIds: number[], type: FormType): number[]
   setChain(chainId: number, type: FormType): void
+  setPinnedChain(chainId: number): void
 }

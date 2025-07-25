@@ -129,6 +129,7 @@
       "highValueLoss": "La valeur des jetons reçus est nettement inférieure à celle des jetons échangés et au coût de la transaction.",
       "insufficientFunds": "Vous n'avez pas assez de fonds pour finaliser l'échange.",
       "insufficientGas": "Vous n'avez pas assez de gaz pour finaliser l'échange. Vous devez avoir au moins:",
+      "minFromAmountUSD": "",
       "rateChanged": "Le taux de change a changé. En continuant l'échange, vous devrez accepter le nouveau taux.",
       "resetSettings": "Cela réinitialisera la priorité de votre itinéraire, l'effet de glissement, le prix du gaz, les ponts et les plateformes d'échanges activés.",
       "slippageOutsideRecommendedLimits": "Une tolérance élevée au glissement peut entraîner un échange défavorable causé par le front-running.",
@@ -345,6 +346,8 @@
   },
   "tokenMetric": {
     "currentPrice": "",
-    "contractAddress": ""
+    "contractAddress": "",
+    "marketCap": "",
+    "volume24h": ""
   }
 }

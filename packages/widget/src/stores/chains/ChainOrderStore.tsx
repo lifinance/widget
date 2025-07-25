@@ -27,6 +27,7 @@ export function ChainOrderStoreProvider({
   const storeRef = useRef<ChainOrderStore>(null)
   const { chains } = useChains()
   const { setFieldValue, getFieldValues } = useFieldActions()
+  const { variant, subvariantOptions } = useWidgetConfig()
   const { externalChainTypes, useExternalWalletProvidersOnly } =
     useExternalWalletProvider()
 
@@ -58,15 +59,30 @@ export function ChainOrderStoreProvider({
             : true
           return passesChainsConfigFilter && passesWalletConfigFilter
         })
+
         const chainOrder = storeRef.current?.getState().initializeChains(
           filteredChains.map((chain) => chain.id),
           key
         )
-        if (chainOrder) {
-          const [chainValue] = getFieldValues(`${key}Chain`)
-          if (!chainValue) {
-            setFieldValue(`${key}Chain`, chainOrder[0])
-          }
+
+        const [chainValue] = getFieldValues(`${key}Chain`)
+        if (chainValue) {
+          return
+        }
+
+        const firstAllowedPinnedChain = storeRef.current
+          ?.getState()
+          .pinnedChains?.find((chainId) =>
+            filteredChains.some((chain) => chain.id === chainId)
+          )
+        if (
+          variant === 'wide' &&
+          subvariantOptions?.wide?.enableChainSidebar &&
+          firstAllowedPinnedChain
+        ) {
+          setFieldValue(`${key}Chain`, firstAllowedPinnedChain)
+        } else if (chainOrder?.length) {
+          setFieldValue(`${key}Chain`, chainOrder[0])
         }
       })
     }
@@ -77,6 +93,8 @@ export function ChainOrderStoreProvider({
     getFieldValues,
     setFieldValue,
     useExternalWalletProvidersOnly,
+    variant,
+    subvariantOptions?.wide?.enableChainSidebar,
   ])
 
   return (

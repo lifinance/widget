@@ -1,5 +1,6 @@
 import {
   ListItem as ListItemBase,
+  listItemButtonClasses,
   listItemTextClasses,
   Avatar as MuiAvatar,
   List as MuiList,
@@ -7,7 +8,7 @@ import {
   ListItemText as MuiListItemText,
   styled,
 } from '@mui/material'
-import { ListItemButton as ListItemButtonBase } from '../ListItem/ListItemButton.js'
+import { ListItemButton as ListItemButtonBase } from '../ListItemButton.js'
 
 export const Avatar = styled(MuiAvatar)<{
   size?: 'small' | 'medium'
@@ -28,6 +29,9 @@ export const ListItemText = styled(MuiListItemText)<{
   [`.${listItemTextClasses.primary}`]: {
     fontWeight: 500,
     fontSize: size === 'small' ? '1rem' : '1.125rem',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
   },
 }))
 
@@ -38,6 +42,7 @@ export const ListItemButton = styled(ListItemButtonBase)<{
     borderRadius: theme.vars.shape.borderRadius,
     paddingLeft: size === 'small' ? theme.spacing(1) : theme.spacing(1.5),
     height: size === 'small' ? 44 : 56,
+    width: '100%',
   }
 })
 
@@ -52,8 +57,11 @@ export const List = styled(MuiList)(({ theme }) => ({
   cursor: 'pointer',
 }))
 
-export const ListItem = styled(ListItemBase)(() => ({
+export const ListItem = styled(ListItemBase)(({ theme }) => ({
   position: 'absolute',
   top: 0,
   left: 0,
+  [`& .${listItemButtonClasses.root}`]: {
+    paddingRight: theme.spacing(1),
+  },
 }))

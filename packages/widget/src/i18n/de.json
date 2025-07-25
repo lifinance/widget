@@ -129,6 +129,7 @@
       "highValueLoss": "Der Wert der erhaltenen Token ist deutlich niedriger als die getauschten Token und die Transaktionskosten.",
       "insufficientFunds": "Sie haben nicht genug Token, um diesen Swap abzuschließen.",
       "insufficientGas": "Sie haben nicht genug Gas um diesen Swap abzuschließen. Sie müssen mindestens hinzufügen:",
+      "minFromAmountUSD": "",
       "rateChanged": "Der Wechselkurs hat sich geändert. Durch Fortsetzen des Swaps akzeptieren Sie den neuen Kurs.",
       "resetSettings": "Dies wird Ihre Routenpriorität, Slippage, Gaspreis, aktivierte Brücken und Exchanges zurücksetzen.",
       "slippageOutsideRecommendedLimits": "",
@@ -345,6 +346,8 @@
   },
   "tokenMetric": {
     "currentPrice": "",
-    "contractAddress": ""
+    "contractAddress": "",
+    "marketCap": "",
+    "volume24h": ""
   }
 }

@@ -1,5 +1,4 @@
 import { createContext, useContext, useRef } from 'react'
-import { shallow } from 'zustand/shallow'
 import { createWithEqualityFn } from 'zustand/traditional'
 import type { PersistStoreProviderProps } from '../types.js'
 import type { HeaderState, HeaderStore } from './types.js'
@@ -42,10 +41,7 @@ export function useHeaderStore<T>(
 // To prevent the remaining page content from appearing behind the header we need to
 // pass the headers height so that the position of the page content can be adjusted
 export function useHeaderHeight() {
-  const [headerHeight] = useHeaderStore(
-    (state) => [state.headerHeight],
-    shallow
-  )
+  const headerHeight = useHeaderStore((state) => state.headerHeight)
 
   return {
     headerHeight,
@@ -53,10 +49,7 @@ export function useHeaderHeight() {
 }
 
 export function useSetHeaderHeight() {
-  const [setHeaderHeight] = useHeaderStore(
-    (state) => [state.setHeaderHeight],
-    shallow
-  )
+  const setHeaderHeight = useHeaderStore((state) => state.setHeaderHeight)
 
   return {
     setHeaderHeight,

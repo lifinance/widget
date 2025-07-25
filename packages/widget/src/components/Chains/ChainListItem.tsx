@@ -1,4 +1,5 @@
 import type { ExtendedChain } from '@lifi/sdk'
+import { Box } from '@mui/material'
 import { memo } from 'react'
 import {
   Avatar,
@@ -7,6 +8,7 @@ import {
   ListItemButton,
   ListItemText,
 } from './ChainList.style'
+import { PinChainButton, pinButtonClassName } from './PinChainButton'
 
 interface ChainListItemProps {
   chain: ExtendedChain
@@ -15,6 +17,9 @@ interface ChainListItemProps {
   itemsSize: 'small' | 'medium'
   size: number
   start: number
+  isPinned: boolean
+  onPin: (chainId: number) => void
+  withPin: boolean
 }
 
 export const ChainListItem = memo(
@@ -25,6 +30,9 @@ export const ChainListItem = memo(
     itemsSize,
     size,
     start,
+    isPinned,
+    onPin,
+    withPin,
   }: ChainListItemProps) => {
     return (
       <ListItem
@@ -32,6 +40,13 @@ export const ChainListItem = memo(
           height: `${size}px`,
           transform: `translateY(${start}px)`,
           padding: 0,
+          overflow: 'hidden',
+        }}
+        sx={{
+          [`&:hover .${pinButtonClassName}`]: {
+            opacity: 1,
+            transform: 'translateY(0)',
+          },
         }}
       >
         <ListItemButton
@@ -45,6 +60,20 @@ export const ChainListItem = memo(
             </Avatar>
           </ListItemAvatar>
           <ListItemText primary={chain.name} size={itemsSize} />
+          {withPin && (
+            <Box
+              style={{
+                position: 'relative',
+                height: 28,
+                width: 28,
+              }}
+            >
+              <PinChainButton
+                isPinned={isPinned}
+                onPin={() => onPin(chain.id)}
+              />
+            </Box>
+          )}
         </ListItemButton>
       </ListItem>
     )
