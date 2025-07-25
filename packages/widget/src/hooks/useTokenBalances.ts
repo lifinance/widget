@@ -3,21 +3,15 @@ import { useAccount } from '@lifi/wallet-management'
 import { useQuery } from '@tanstack/react-query'
 import { formatUnits } from 'viem'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import type { FormType } from '../stores/form/types.js'
 import type { TokenAmount } from '../types/token.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useTokens } from './useTokens.js'
 
 const defaultRefetchInterval = 32_000
 
-export const useTokenBalances = (
-  selectedChainId?: number,
-  formType?: FormType
-) => {
-  const { tokens, featuredTokens, popularTokens, chain, isLoading } = useTokens(
-    selectedChainId,
-    formType
-  )
+export const useTokenBalances = (selectedChainId?: number) => {
+  const { tokens, featuredTokens, popularTokens, chain, isLoading } =
+    useTokens(selectedChainId)
   const { account } = useAccount({ chainType: chain?.chainType })
   const { keyPrefix } = useWidgetConfig()
 
@@ -36,7 +30,6 @@ export const useTokenBalances = (
       account.address,
       selectedChainId,
       tokens?.length,
-      formType,
     ],
     queryFn: async ({ queryKey: [, accountAddress] }) => {
       const tokensWithBalance: TokenAmount[] = await getTokenBalances(
