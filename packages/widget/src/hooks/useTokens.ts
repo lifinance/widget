@@ -1,14 +1,12 @@
-import { type BaseToken, ChainType, getTokens } from '@lifi/sdk'
+import { ChainType, getTokens } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import type { FormType } from '../stores/form/types.js'
 import type { TokenAmount } from '../types/token.js'
-import { getConfigItemSets, isFormItemAllowed } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useChains } from './useChains.js'
 
-export const useTokens = (selectedChainId?: number, formType?: FormType) => {
+export const useTokens = (selectedChainId?: number) => {
   const { tokens: configTokens, keyPrefix } = useWidgetConfig()
   const { data, isLoading } = useQuery({
     queryKey: [getQueryKey('tokens', keyPrefix)],
@@ -46,30 +44,6 @@ export const useTokens = (selectedChainId?: number, formType?: FormType) => {
     if (includedTokens?.length) {
       filteredTokens = [...includedTokens, ...filteredTokens]
     }
-
-    // Filter config tokens by chain before checking if token is allowed
-    const filteredConfigTokens = getConfigItemSets(
-      configTokens,
-      (tokens: BaseToken[]) =>
-        new Set(
-          tokens
-            .filter((t) => t.chainId === selectedChainId)
-            .map((t) => t.address)
-        ),
-      formType
-    )
-
-    // Get the appropriate allow/deny lists based on formType
-    filteredTokens = filteredTokens.filter(
-      (token) =>
-        token.chainId === selectedChainId &&
-        isFormItemAllowed(
-          token,
-          filteredConfigTokens,
-          formType,
-          (t) => t.address
-        )
-    )
 
     const filteredTokensMap = new Map(
       filteredTokens.map((token) => [token.address, token])
@@ -123,7 +97,6 @@ export const useTokens = (selectedChainId?: number, formType?: FormType) => {
     getChainById,
     isSupportedChainsLoading,
     selectedChainId,
-    formType,
   ])
 
   return {
