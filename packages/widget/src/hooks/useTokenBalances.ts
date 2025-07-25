@@ -1,11 +1,12 @@
 import { getTokenBalances } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useQuery } from '@tanstack/react-query'
-import { formatUnits } from 'viem'
+import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
 import type { TokenAmount } from '../types/token.js'
 import { getQueryKey } from '../utils/queries.js'
+import { useChains } from './useChains.js'
 import { useTokens } from './useTokens.js'
 
 const defaultRefetchInterval = 32_000
@@ -14,31 +15,31 @@ export const useTokenBalances = (
   selectedChainId?: number,
   formType?: FormType
 ) => {
-  const { tokens, featuredTokens, popularTokens, chain, isLoading } = useTokens(
-    selectedChainId,
-    formType
-  )
-  const { account } = useAccount({ chainType: chain?.chainType })
-  const { keyPrefix } = useWidgetConfig()
-
-  const isBalanceLoadingEnabled =
-    Boolean(account.address) &&
-    Boolean(tokens?.length) &&
-    Boolean(selectedChainId)
+  const { tokens: allTokens, isLoading } = useTokens(formType)
 
   const {
-    data: tokensWithBalance,
+    chains,
+    isLoading: isSupportedChainsLoading,
+    getChainById,
+  } = useChains()
+  const chain = getChainById(selectedChainId, chains)
+
+  const { account } = useAccount({ chainType: chain?.chainType })
+
+  const isBalanceLoadingEnabled =
+    Boolean(account.address) && Boolean(allTokens) && !isSupportedChainsLoading
+
+  const { keyPrefix } = useWidgetConfig()
+
+  const {
+    data: allTokensWithBalances,
     isLoading: isBalanceLoading,
     refetch,
   } = useQuery({
-    queryKey: [
-      getQueryKey('token-balances', keyPrefix),
-      account.address,
-      selectedChainId,
-      tokens?.length,
-      formType,
-    ],
+    queryKey: [getQueryKey('token-balances', keyPrefix), account.address],
     queryFn: async ({ queryKey: [, accountAddress] }) => {
+      const tokens = Array.from(allTokens?.values() ?? []).flat()
+
       const tokensWithBalance: TokenAmount[] = await getTokenBalances(
         accountAddress as string,
         tokens!
@@ -48,53 +49,27 @@ export const useTokenBalances = (
         return tokens as TokenAmount[]
       }
 
-      const sortFn = (a: TokenAmount, b: TokenAmount) =>
-        Number.parseFloat(formatUnits(b.amount ?? 0n, b.decimals)) *
-          Number.parseFloat(b.priceUSD ?? '0') -
-        Number.parseFloat(formatUnits(a.amount ?? 0n, a.decimals)) *
-          Number.parseFloat(a.priceUSD ?? '0')
-
-      const featuredTokens: TokenAmount[] = []
-      const tokensWithAmount: TokenAmount[] = []
-      const popularTokens: TokenAmount[] = []
-      const allTokens: TokenAmount[] = []
-
-      tokensWithBalance.forEach((token) => {
-        if (token.amount) {
-          token.featured = false
-          token.popular = false
-        }
-        if (token.featured) {
-          featuredTokens.push(token)
-        } else if (token.amount) {
-          tokensWithAmount.push(token)
-        } else if (token.popular) {
-          popularTokens.push(token)
-        } else {
-          allTokens.push(token)
-        }
-      })
-
-      tokensWithAmount.sort(sortFn)
-
-      const result = [
-        ...featuredTokens,
-        ...tokensWithAmount,
-        ...popularTokens,
-        ...allTokens,
-      ]
-      return result
+      return tokensWithBalance
     },
     enabled: isBalanceLoadingEnabled,
     refetchInterval: defaultRefetchInterval,
     staleTime: defaultRefetchInterval,
   })
 
+  const chainTokens = useMemo(() => {
+    if (!selectedChainId) {
+      return undefined
+    }
+
+    const tokensWithBalances = allTokensWithBalances?.filter(
+      (token) => token.chainId === selectedChainId
+    )
+
+    return tokensWithBalances ?? allTokens?.get(selectedChainId)
+  }, [allTokensWithBalances, allTokens, selectedChainId])
+
   return {
-    tokens,
-    tokensWithBalance,
-    featuredTokens,
-    popularTokens,
+    tokens: chainTokens,
     chain,
     isLoading,
     isBalanceLoading: isBalanceLoading && isBalanceLoadingEnabled,
