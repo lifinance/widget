@@ -13,9 +13,6 @@ export const TokenDetailsSheet = forwardRef<
   TokenDetailsSheetProps
 >(({ chainId }, ref) => {
   const bottomSheetRef = useRef<BottomSheetBase>(null)
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
-    undefined
-  )
   const [tokenAddress, setTokenAddress] = useState<string | undefined>(
     undefined
   )
@@ -32,15 +29,6 @@ export const TokenDetailsSheet = forwardRef<
       },
       close: () => {
         bottomSheetRef.current?.close()
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current)
-        }
-        // Delay clearing state until after bottom sheet animation completes
-        timeoutRef.current = setTimeout(() => {
-          setTokenAddress(undefined)
-          setWithoutContractAddress(false)
-          timeoutRef.current = undefined
-        }, 200)
       },
     }),
     []
