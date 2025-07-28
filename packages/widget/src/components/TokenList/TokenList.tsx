@@ -1,3 +1,4 @@
+import type { BaseToken } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { Box } from '@mui/material'
 import { type FC, useEffect } from 'react'
@@ -6,10 +7,12 @@ import { useDebouncedWatch } from '../../hooks/useDebouncedWatch.js'
 import { useTokenBalances } from '../../hooks/useTokenBalances.js'
 import { useTokenSearch } from '../../hooks/useTokenSearch.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { WidgetEvent } from '../../types/events.js'
 import type { TokenAmount } from '../../types/token.js'
+import { getConfigItemSets, isFormItemAllowed } from '../../utils/item.js'
 import { TokenNotFound } from './TokenNotFound.js'
 import type { TokenListProps } from './types.js'
 import { useTokenSelect } from './useTokenSelect.js'
@@ -32,6 +35,8 @@ export const TokenList: FC<TokenListProps> = ({
     'tokenSearchFilter'
   )
 
+  const { tokens: configTokens } = useWidgetConfig()
+
   const { chain: selectedChain, isLoading: isSelectedChainLoading } =
     useChain(selectedChainId)
   const { account } = useAccount({
@@ -45,11 +50,29 @@ export const TokenList: FC<TokenListProps> = ({
     isBalanceLoading,
     featuredTokens,
     popularTokens,
-  } = useTokenBalances(selectedChainId, formType)
+  } = useTokenBalances(selectedChainId)
 
   let filteredTokens = (tokensWithBalance ?? chainTokens ?? []) as TokenAmount[]
   const normalizedSearchFilter = tokenSearchFilter?.replaceAll('$', '')
   const searchFilter = normalizedSearchFilter?.toUpperCase() ?? ''
+
+  const filteredConfigTokens = getConfigItemSets(
+    configTokens,
+    (tokens: BaseToken[]) =>
+      new Set(
+        tokens
+          .filter((t) => t.chainId === selectedChainId)
+          .map((t) => t.address)
+      ),
+    formType
+  )
+
+  // Get the appropriate allow/deny lists based on formType
+  filteredTokens = filteredTokens.filter(
+    (token) =>
+      token.chainId === selectedChainId &&
+      isFormItemAllowed(token, filteredConfigTokens, formType, (t) => t.address)
+  )
 
   filteredTokens = tokenSearchFilter
     ? filteredTokens
