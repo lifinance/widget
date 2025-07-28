@@ -33,6 +33,8 @@ import { AmountInputEndAdornment } from './AmountInputEndAdornment.js'
 import { AmountInputStartAdornment } from './AmountInputStartAdornment.js'
 import { PriceFormHelperText } from './PriceFormHelperText.js'
 
+const USD_DECIMALS = 2
+
 export const AmountInput: React.FC<FormTypeProps & CardProps> = ({
   formType,
   ...props
@@ -102,7 +104,10 @@ export const AmountInputBase: React.FC<
   } else {
     if (currentInputMode === 'price') {
       const priceValue = formatTokenPrice(value as string, token?.priceUSD)
-      displayValue = formatInputAmount(priceValue.toFixed(2), 2)
+      displayValue = formatInputAmount(
+        priceValue.toFixed(USD_DECIMALS),
+        USD_DECIMALS
+      )
     } else {
       displayValue = value as string
     }
@@ -117,7 +122,7 @@ export const AmountInputBase: React.FC<
     let formattedValue: string
     if (currentInputMode === 'price') {
       const cleanInputValue = inputValue.replace('$', '')
-      formattedValue = formatInputAmount(cleanInputValue, 2, true)
+      formattedValue = formatInputAmount(cleanInputValue, USD_DECIMALS, true)
       const tokenValue = priceToTokenAmount(formattedValue, token?.priceUSD)
       setFormattedPriceInput(formattedValue)
       setFieldValue(amountKey, tokenValue, { isDirty: true, isTouched: true })
@@ -139,7 +144,7 @@ export const AmountInputBase: React.FC<
     let formattedValue: string
     if (currentInputMode === 'price') {
       const cleanInputValue = inputValue.replace('$', '')
-      formattedValue = formatInputAmount(cleanInputValue, 2)
+      formattedValue = formatInputAmount(cleanInputValue, USD_DECIMALS)
       const tokenValue = priceToTokenAmount(formattedValue, token?.priceUSD)
       const formattedAmount = formatInputAmount(tokenValue, token?.decimals)
       setFieldValue(amountKey, formattedAmount, {
