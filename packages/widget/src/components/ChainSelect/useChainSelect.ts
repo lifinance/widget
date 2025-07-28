@@ -9,13 +9,11 @@ import { useChainOrder } from '../../stores/chains/useChainOrder.js'
 import type { FormType } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
-import { useFieldController } from '../../stores/form/useFieldController.js'
 import type { DisabledUI } from '../../types/widget.js'
 
 export const useChainSelect = (formType: FormType) => {
   const { disabledUI } = useWidgetConfig()
   const chainKey = FormKeyHelper.getChainKey(formType)
-  const { onChange } = useFieldController({ name: chainKey })
   const { setFieldValue, getFieldValues } = useFieldActions()
   const { useExternalWalletProvidersOnly, externalChainTypes } =
     useExternalWalletProvider()
@@ -45,7 +43,7 @@ export const useChainSelect = (formType: FormType) => {
 
   const setCurrentChain = useCallback(
     (chainId: number) => {
-      onChange(chainId)
+      setFieldValue(chainKey, chainId, { isDirty: true, isTouched: true })
       if (swapOnly) {
         setFieldValue(FormKeyHelper.getChainKey('to'), chainId, {
           isTouched: true,
@@ -69,7 +67,7 @@ export const useChainSelect = (formType: FormType) => {
       setChainOrder(chainId, formType)
     },
     [
-      onChange,
+      chainKey,
       swapOnly,
       setFieldValue,
       disabledUI,

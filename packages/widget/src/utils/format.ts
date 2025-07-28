@@ -96,6 +96,39 @@ export function formatTokenPrice(
   return Number.parseFloat(formattedAmount) * Number.parseFloat(price)
 }
 
+/**
+ * Formatter for price value to token amount
+ */
+const formatter = new Intl.NumberFormat('en', {
+  notation: 'standard',
+  roundingPriority: 'morePrecision',
+  maximumSignificantDigits: 21,
+  maximumFractionDigits: 21,
+  useGrouping: false,
+})
+
+/**
+ * Convert price value to token amount
+ */
+export function priceToTokenAmount(priceValue: string, priceUSD?: string) {
+  if (!priceValue || !priceUSD) {
+    return '0'
+  }
+
+  const numericPriceValue = Number.parseFloat(priceValue)
+  const numericPrice = Number.parseFloat(priceUSD)
+
+  if (
+    Number.isNaN(numericPriceValue) ||
+    Number.isNaN(numericPrice) ||
+    !numericPrice
+  ) {
+    return '0'
+  }
+
+  return formatter.format(numericPriceValue / numericPrice)
+}
+
 const units = [
   ['day', 86400],
   ['hour', 3600],
