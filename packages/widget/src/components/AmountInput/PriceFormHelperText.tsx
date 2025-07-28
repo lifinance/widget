@@ -70,7 +70,7 @@ export const PriceFormHelperTextBase: React.FC<
         justifyContent: 'space-between',
         alignItems: 'center',
         margin: 0,
-        marginLeft: 1.5,
+        marginLeft: 1.25,
         marginTop: 0.5,
       }}
     >
@@ -118,7 +118,7 @@ export const PriceFormHelperTextBase: React.FC<
             fontSize: 12,
             color: 'text.secondary',
             lineHeight: 1,
-            pl: 0.25,
+            paddingLeft: 0.25,
           }}
           title={tokenAmount}
         >
