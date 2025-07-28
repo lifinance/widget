@@ -1,11 +1,13 @@
 import { useAccount } from '@lifi/wallet-management'
 import { Box } from '@mui/material'
-import { type FC, useEffect } from 'react'
+import { type FC, useEffect, useMemo } from 'react'
+import { formatUnits } from 'viem'
 import { useChain } from '../../hooks/useChain.js'
 import { useDebouncedWatch } from '../../hooks/useDebouncedWatch.js'
 import { useTokenBalances } from '../../hooks/useTokenBalances.js'
 import { useTokenSearch } from '../../hooks/useTokenSearch.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
@@ -42,21 +44,96 @@ export const TokenList: FC<TokenListProps> = ({
   })
 
   const {
-    tokens: chainTokens,
-    tokensWithBalance,
+    tokens: tokensPerChain,
     isLoading: isTokensLoading,
     isBalanceLoading,
-    featuredTokens,
-    popularTokens,
   } = useTokenBalances(selectedChainId, formType, isAllNetworks)
 
-  let filteredTokens = (tokensWithBalance ?? chainTokens ?? []) as TokenAmount[]
+  const { tokens: configTokens } = useWidgetConfig()
+
+  const [sortedTokens, popularTokens, featuredTokens] = useMemo(() => {
+    const tokens = (tokensPerChain ?? []) as TokenAmount[]
+    const filteredTokensMap = new Map(
+      tokens.map((token) => [token.address, token])
+    )
+
+    const featuredTokensFromConfig: TokenAmount[] = []
+    const popularTokensFromConfig: TokenAmount[] = []
+
+    ;(['popular', 'featured'] as const).forEach((tokenType) => {
+      const typedTokens = configTokens?.[tokenType]?.filter(
+        (token) => token.chainId === selectedChainId
+      )
+
+      typedTokens?.forEach((token) => {
+        const tokenAmount = { ...token } as TokenAmount
+        tokenAmount[tokenType] = true
+
+        const match = filteredTokensMap.get(token.address)
+        if (match?.priceUSD) {
+          tokenAmount.priceUSD = match.priceUSD
+        }
+        if (!token.logoURI && match?.logoURI) {
+          tokenAmount.logoURI = match.logoURI
+        }
+
+        if (tokenType === 'popular') {
+          popularTokensFromConfig.push(tokenAmount)
+        } else {
+          featuredTokensFromConfig.push(tokenAmount)
+        }
+      })
+    })
+
+    // Filter out config-added tokens from main list
+    const configTokenAddresses = new Set(
+      [...popularTokensFromConfig, ...featuredTokensFromConfig].map(
+        (t) => t.address
+      )
+    )
+
+    const remainingTokens = tokens.filter(
+      (token) => !configTokenAddresses.has(token.address)
+    )
+
+    const tokensWithAmount: TokenAmount[] = []
+    const otherTokens: TokenAmount[] = []
+
+    for (const token of remainingTokens) {
+      if (token.featured) {
+        featuredTokensFromConfig.push(token)
+      } else if (token.amount) {
+        tokensWithAmount.push(token)
+      } else if (token.popular) {
+        popularTokensFromConfig.push(token)
+      } else {
+        otherTokens.push(token)
+      }
+    }
+
+    const sortFn = (a: TokenAmount, b: TokenAmount) =>
+      Number.parseFloat(formatUnits(b.amount ?? 0n, b.decimals)) *
+        Number.parseFloat(b.priceUSD ?? '0') -
+      Number.parseFloat(formatUnits(a.amount ?? 0n, a.decimals)) *
+        Number.parseFloat(a.priceUSD ?? '0')
+
+    tokensWithAmount.sort(sortFn)
+
+    const sortedTokens = [
+      ...featuredTokensFromConfig,
+      ...tokensWithAmount,
+      ...popularTokensFromConfig,
+      ...otherTokens,
+    ]
+
+    return [sortedTokens, popularTokensFromConfig, featuredTokensFromConfig]
+  }, [tokensPerChain, selectedChainId, configTokens])
 
   const normalizedSearchFilter = tokenSearchFilter?.replaceAll('$', '')
   const searchFilter = normalizedSearchFilter?.toUpperCase() ?? ''
 
-  filteredTokens = tokenSearchFilter
-    ? filteredTokens
+  const filteredTokens = tokenSearchFilter
+    ? sortedTokens
         .filter(
           (token) =>
             token.name?.toUpperCase().includes(searchFilter) ||
@@ -68,7 +145,7 @@ export const TokenList: FC<TokenListProps> = ({
             token.address.toUpperCase().includes(searchFilter)
         )
         .sort(filteredTokensComparator(searchFilter))
-    : filteredTokens
+    : sortedTokens
 
   const tokenSearchEnabled =
     !isTokensLoading &&

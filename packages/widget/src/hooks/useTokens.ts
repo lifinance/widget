@@ -1,19 +1,20 @@
-import { type BaseToken, ChainType, getTokens, type Token } from '@lifi/sdk'
+import {
+  type BaseToken,
+  type ChainId,
+  ChainType,
+  getTokens,
+  type Token,
+} from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
-import type { TokenAmount } from '../types/token.js'
 import { getConfigItemSets, isFormItemAllowed } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
-import { useChains } from './useChains.js'
 
-export const useTokens = (
-  selectedChainId?: number,
-  formType?: FormType,
-  isAllNetworks?: boolean
-) => {
+export const useTokens = (formType?: FormType) => {
   const { tokens: configTokens, keyPrefix } = useWidgetConfig()
+
   const { data, isLoading } = useQuery({
     queryKey: [getQueryKey('tokens', keyPrefix)],
     queryFn: () =>
@@ -28,161 +29,44 @@ export const useTokens = (
     refetchInterval: 3_600_000,
     staleTime: 3_600_000,
   })
-  const {
-    chains,
-    isLoading: isSupportedChainsLoading,
-    getChainById,
-  } = useChains()
 
-  const filteredData = useMemo(() => {
-    if (isSupportedChainsLoading || !data) {
+  const allAllowedTokens = useMemo(() => {
+    if (!data?.tokens) {
       return
     }
 
-    if (isAllNetworks) {
-      const tokens = Object.values(data.tokens).flat()
-      const includedTokens = configTokens?.include || []
-      const allTokens = [...includedTokens, ...tokens]
+    const tokens = Object.values(data.tokens).flat()
+    const includedTokens = configTokens?.include || []
+    const allTokens = [...includedTokens, ...tokens]
 
-      const chainIds = new Set(allTokens.map((t) => t.chainId))
+    const chainIds = new Set(allTokens.map((t) => t.chainId))
 
-      const filteredTokens: Token[] = []
+    const allowedTokensByChain = new Map<ChainId, Token[]>()
 
-      for (const chainId of chainIds) {
-        const chainTokens = allTokens.filter((t) => t.chainId === chainId)
+    for (const chainId of chainIds) {
+      const chainTokens = data.tokens[chainId]
 
-        const allowedAddresses = getConfigItemSets(
-          configTokens,
-          (tokens: BaseToken[]) =>
-            new Set(
-              tokens.filter((t) => t.chainId === chainId).map((t) => t.address)
-            ),
-          formType
-        )
-
-        chainTokens.forEach((token) => {
-          if (
-            isFormItemAllowed(
-              token,
-              allowedAddresses,
-              formType,
-              (t) => t.address
-            )
-          ) {
-            filteredTokens.push(token)
-          }
-        })
-      }
-
-      return {
-        tokens: filteredTokens,
-        chain: undefined,
-      }
-    }
-
-    const chain = getChainById(selectedChainId, chains)
-    const chainAllowed = selectedChainId && chain
-    if (!chainAllowed) {
-      return
-    }
-
-    let filteredTokens = data.tokens?.[selectedChainId] || []
-    const includedTokens = configTokens?.include?.filter(
-      (token) => token.chainId === selectedChainId
-    )
-    if (includedTokens?.length) {
-      filteredTokens = [...includedTokens, ...filteredTokens]
-    }
-
-    if (selectedChainId) {
-      // Filter config tokens by chain before checking if token is allowed
-      const filteredConfigTokens = getConfigItemSets(
+      const allowedAddresses = getConfigItemSets(
         configTokens,
         (tokens: BaseToken[]) =>
           new Set(
-            tokens
-              .filter((t) => t.chainId === selectedChainId)
-              .map((t) => t.address)
+            tokens.filter((t) => t.chainId === chainId).map((t) => t.address)
           ),
         formType
       )
 
-      // Get the appropriate allow/deny lists based on formType
-      filteredTokens = filteredTokens.filter(
-        (token) =>
-          token.chainId === selectedChainId &&
-          isFormItemAllowed(
-            token,
-            filteredConfigTokens,
-            formType,
-            (t) => t.address
-          )
+      const filtered = chainTokens.filter((token) =>
+        isFormItemAllowed(token, allowedAddresses, formType, (t) => t.address)
       )
+
+      allowedTokensByChain.set(chainId, filtered)
     }
 
-    const filteredTokensMap = new Map(
-      filteredTokens.map((token) => [token.address, token])
-    )
-
-    const [popularTokens, featuredTokens] = (
-      ['popular', 'featured'] as ('popular' | 'featured')[]
-    ).map((tokenType) => {
-      const typedConfigTokens = selectedChainId
-        ? configTokens?.[tokenType]?.filter(
-            (token) => token.chainId === selectedChainId
-          )
-        : configTokens?.[tokenType]
-
-      const populatedConfigTokens = typedConfigTokens?.map((token) => {
-        // Mark token as popular
-        ;(token as TokenAmount)[tokenType] = true
-        // Check if this token exists in the filteredTokensMap and add priceUSD if it does
-        const matchingFilteredToken = filteredTokensMap.get(token.address)
-        if (matchingFilteredToken?.priceUSD) {
-          ;(token as TokenAmount).priceUSD = matchingFilteredToken.priceUSD
-        }
-        if (!token.logoURI && matchingFilteredToken) {
-          ;(token as TokenAmount).logoURI = matchingFilteredToken.logoURI
-        }
-        return token
-      }) as TokenAmount[]
-
-      if (populatedConfigTokens?.length) {
-        const configTokenAddresses = new Set(
-          populatedConfigTokens?.map((token) => token.address)
-        )
-        filteredTokens = filteredTokens.filter(
-          (token) => !configTokenAddresses.has(token.address)
-        )
-        populatedConfigTokens.push(...filteredTokens)
-        filteredTokens = populatedConfigTokens
-      }
-
-      return populatedConfigTokens
-    })
-
-    return {
-      tokens: filteredTokens,
-      featuredTokens,
-      popularTokens,
-      chain,
-    }
-  }, [
-    chains,
-    configTokens,
-    data,
-    getChainById,
-    isSupportedChainsLoading,
-    selectedChainId,
-    formType,
-    isAllNetworks,
-  ])
+    return allowedTokensByChain
+  }, [data?.tokens, configTokens, formType])
 
   return {
-    tokens: filteredData?.tokens,
-    featuredTokens: filteredData?.featuredTokens,
-    popularTokens: filteredData?.popularTokens,
-    chain: filteredData?.chain,
+    tokens: allAllowedTokens,
     isLoading,
   }
 }

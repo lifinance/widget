@@ -129,6 +129,7 @@
       "highValueLoss": "Il valore dei token ricevuti è significativamente inferiore ai token scambiati più il costo della transazione.",
       "insufficientFunds": "Non hai abbastanza fondi per completare lo scambio.",
       "insufficientGas": "Non hai abbastanza gas per completare lo scambio. Devi aggiungere almeno:",
+      "minFromAmountUSD": "",
       "rateChanged": "Il tasso di scambio è cambiato. Se procedi, confermi di accettare il nuovo tasso.",
       "resetSettings": "Questo porterà al ripristino della priorità di route, slittamento di prezzo, prezzo del gas, bridge abilitati ed exchanges.",
       "slippageOutsideRecommendedLimits": "",
@@ -345,6 +346,8 @@
   },
   "tokenMetric": {
     "currentPrice": "",
-    "contractAddress": ""
+    "contractAddress": "",
+    "marketCap": "",
+    "volume24h": ""
   }
 }
