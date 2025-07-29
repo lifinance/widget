@@ -19,6 +19,12 @@ import { useTokenSelect } from './useTokenSelect.js'
 import { filteredTokensComparator } from './utils.js'
 import { VirtualizedTokenList } from './VirtualizedTokenList.js'
 
+const sortFn = (a: TokenAmount, b: TokenAmount) =>
+  Number.parseFloat(formatUnits(b.amount ?? 0n, b.decimals)) *
+    Number.parseFloat(b.priceUSD ?? '0') -
+  Number.parseFloat(formatUnits(a.amount ?? 0n, a.decimals)) *
+    Number.parseFloat(a.priceUSD ?? '0')
+
 export const TokenList: FC<TokenListProps> = ({
   formType,
   parentRef,
@@ -53,81 +59,95 @@ export const TokenList: FC<TokenListProps> = ({
 
   const [sortedTokens, popularTokens, featuredTokens] = useMemo(() => {
     const tokens = (tokensPerChain ?? []) as TokenAmount[]
-    const filteredTokensMap = new Map(
-      tokens.map((token) => [token.address, token])
-    )
 
-    const featuredTokensFromConfig: TokenAmount[] = []
-    const popularTokensFromConfig: TokenAmount[] = []
+    if (isAllNetworks) {
+      const tokensWithAmount: TokenAmount[] = []
+      const otherTokens: TokenAmount[] = []
 
-    ;(['popular', 'featured'] as const).forEach((tokenType) => {
-      const typedTokens = configTokens?.[tokenType]?.filter(
-        (token) => token.chainId === selectedChainId
-      )
-
-      typedTokens?.forEach((token) => {
-        const tokenAmount = { ...token } as TokenAmount
-        tokenAmount[tokenType] = true
-
-        const match = filteredTokensMap.get(token.address)
-        if (match?.priceUSD) {
-          tokenAmount.priceUSD = match.priceUSD
-        }
-        if (!token.logoURI && match?.logoURI) {
-          tokenAmount.logoURI = match.logoURI
-        }
-
-        if (tokenType === 'popular') {
-          popularTokensFromConfig.push(tokenAmount)
+      for (const token of tokens) {
+        if (token.amount) {
+          tokensWithAmount.push(token)
         } else {
-          featuredTokensFromConfig.push(tokenAmount)
+          otherTokens.push(token)
         }
-      })
-    })
-
-    // Filter out config-added tokens from main list
-    const configTokenAddresses = new Set(
-      [...popularTokensFromConfig, ...featuredTokensFromConfig].map(
-        (t) => t.address
-      )
-    )
-
-    const remainingTokens = tokens.filter(
-      (token) => !configTokenAddresses.has(token.address)
-    )
-
-    const tokensWithAmount: TokenAmount[] = []
-    const otherTokens: TokenAmount[] = []
-
-    for (const token of remainingTokens) {
-      if (token.featured) {
-        featuredTokensFromConfig.push(token)
-      } else if (token.amount) {
-        tokensWithAmount.push(token)
-      } else if (token.popular) {
-        popularTokensFromConfig.push(token)
-      } else {
-        otherTokens.push(token)
       }
+
+      tokensWithAmount.sort(sortFn)
+
+      const sortedTokens = [...tokensWithAmount, ...otherTokens]
+
+      return [sortedTokens, [], []]
+    } else {
+      const filteredTokensMap = new Map(
+        tokens.map((token) => [token.address, token])
+      )
+
+      const featuredTokensFromConfig: TokenAmount[] = []
+      const popularTokensFromConfig: TokenAmount[] = []
+
+      ;(['popular', 'featured'] as const).forEach((tokenType) => {
+        const typedTokens = configTokens?.[tokenType]?.filter(
+          (token) => token.chainId === selectedChainId
+        )
+
+        typedTokens?.forEach((token) => {
+          const tokenAmount = { ...token } as TokenAmount
+          tokenAmount[tokenType] = true
+
+          const match = filteredTokensMap.get(token.address)
+          if (match?.priceUSD) {
+            tokenAmount.priceUSD = match.priceUSD
+          }
+          if (!token.logoURI && match?.logoURI) {
+            tokenAmount.logoURI = match.logoURI
+          }
+
+          if (tokenType === 'popular') {
+            popularTokensFromConfig.push(tokenAmount)
+          } else {
+            featuredTokensFromConfig.push(tokenAmount)
+          }
+        })
+      })
+
+      // Filter out config-added tokens from main list
+      const configTokenAddresses = new Set(
+        [...popularTokensFromConfig, ...featuredTokensFromConfig].map(
+          (t) => t.address
+        )
+      )
+
+      const remainingTokens = tokens.filter(
+        (token) => !configTokenAddresses.has(token.address)
+      )
+
+      const tokensWithAmount: TokenAmount[] = []
+      const otherTokens: TokenAmount[] = []
+
+      for (const token of remainingTokens) {
+        if (token.featured) {
+          featuredTokensFromConfig.push(token)
+        } else if (token.amount) {
+          tokensWithAmount.push(token)
+        } else if (token.popular) {
+          popularTokensFromConfig.push(token)
+        } else {
+          otherTokens.push(token)
+        }
+      }
+
+      tokensWithAmount.sort(sortFn)
+
+      const sortedTokens = [
+        ...featuredTokensFromConfig,
+        ...tokensWithAmount,
+        ...popularTokensFromConfig,
+        ...otherTokens,
+      ]
+
+      return [sortedTokens, popularTokensFromConfig, featuredTokensFromConfig]
     }
-
-    const sortFn = (a: TokenAmount, b: TokenAmount) =>
-      Number.parseFloat(formatUnits(b.amount ?? 0n, b.decimals)) *
-        Number.parseFloat(b.priceUSD ?? '0') -
-      Number.parseFloat(formatUnits(a.amount ?? 0n, a.decimals)) *
-        Number.parseFloat(a.priceUSD ?? '0')
-
-    tokensWithAmount.sort(sortFn)
-
-    const sortedTokens = [
-      ...featuredTokensFromConfig,
-      ...tokensWithAmount,
-      ...popularTokensFromConfig,
-      ...otherTokens,
-    ]
-
-    return [sortedTokens, popularTokensFromConfig, featuredTokensFromConfig]
-  }, [tokensPerChain, selectedChainId, configTokens])
+  }, [tokensPerChain, selectedChainId, configTokens, isAllNetworks])
 
   const normalizedSearchFilter = tokenSearchFilter?.replaceAll('$', '')
   const searchFilter = normalizedSearchFilter?.toUpperCase() ?? ''
@@ -175,7 +195,8 @@ export const TokenList: FC<TokenListProps> = ({
   const handleTokenClick = useTokenSelect(formType, onClick)
   const showCategories =
     Boolean(featuredTokens?.length || popularTokens?.length) &&
-    !tokenSearchFilter
+    !tokenSearchFilter &&
+    !isAllNetworks
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: Should fire only when search filter changes
   useEffect(() => {
