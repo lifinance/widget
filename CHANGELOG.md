@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.25.0](https://github.com/lifinance/widget/compare/v3.25.0-beta.2...v3.25.0) (2025-07-28)
+
+
+### Features
+
+* add market cap and volume to token details ([#475](https://github.com/lifinance/widget/issues/475)) ([3f4f0f3](https://github.com/lifinance/widget/commit/3f4f0f37783e60fbc5bf1eff3ddd369b5aeacc46))
+* add minFromAmountUSD configuration option ([#480](https://github.com/lifinance/widget/issues/480)) ([b3b7648](https://github.com/lifinance/widget/commit/b3b7648e2cab2fd39f2258f132686008a2a0e26d))
+* add pinned chains ([#474](https://github.com/lifinance/widget/issues/474)) ([2ccde57](https://github.com/lifinance/widget/commit/2ccde572babacc4c1e22b7f519fb935d10134118))
+* add pointer events for token details ([#477](https://github.com/lifinance/widget/issues/477)) ([84332ec](https://github.com/lifinance/widget/commit/84332eccc3b118f81cd4811d77e786b641bd8989))
+* add wallet ecosystems ordering ([#464](https://github.com/lifinance/widget/issues/464)) ([ca0b42a](https://github.com/lifinance/widget/commit/ca0b42a2c512a3808b6384db309d87b880cd4fc6))
+* separate config for chain sidebar and routes ([#469](https://github.com/lifinance/widget/issues/469)) ([ed1d817](https://github.com/lifinance/widget/commit/ed1d81751d80c6ead9a18c368a8943c66e4b725e))
+
+
+### Bug Fixes
+
+* filter out duplicate EVM connectors ([#468](https://github.com/lifinance/widget/issues/468)) ([bed5130](https://github.com/lifinance/widget/commit/bed51303bd1afc6078010e412483b194f48fc1f9))
+* **format:** wrap hashes in messages for better display ([#465](https://github.com/lifinance/widget/issues/465)) ([83da273](https://github.com/lifinance/widget/commit/83da273ca8aef413d9314cd981dd11e9ad5d5f11))
+* improve tx link handling for relayed txs ([#473](https://github.com/lifinance/widget/issues/473)) ([41c19c7](https://github.com/lifinance/widget/commit/41c19c78f119371a65cab99c2181357067fc4def))
+* remove outer routes container causing unnecessary scrolling ([#476](https://github.com/lifinance/widget/issues/476)) ([21fa74d](https://github.com/lifinance/widget/commit/21fa74dbfcadf40a37589f63c8e162b538bee8f6))
+* reorg token filters ([#485](https://github.com/lifinance/widget/issues/485)) ([d97e709](https://github.com/lifinance/widget/commit/d97e709e96675b125d3cdd52fb78a52f115d4cdc))
+* token details should not have empty state on transition ([#488](https://github.com/lifinance/widget/issues/488)) ([b299eca](https://github.com/lifinance/widget/commit/b299ecaf19ac3c5430ca21e8bd6a91aec4c6f6af))
+* update color mixing for Card and ListItemButton components ([#471](https://github.com/lifinance/widget/issues/471)) ([af33afd](https://github.com/lifinance/widget/commit/af33afdffae644267176346e80588b92d231d73b))
+
 ### [3.24.3](https://github.com/lifinance/widget/compare/v3.24.2...v3.24.3) (2025-07-04)
 
 
