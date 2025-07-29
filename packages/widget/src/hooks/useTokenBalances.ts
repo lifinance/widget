@@ -1,4 +1,4 @@
-import { getTokenBalances } from '@lifi/sdk'
+import { ChainType, getTokenBalances } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useMemo, useState } from 'react'
@@ -22,21 +22,21 @@ const fetchExistingBalances = async (address: string) => {
 
     const data = await res.json()
 
-    const balanceMap = new Map<number, TokenAmount[]>()
+    const balanceMap: Record<number, TokenAmount[]> = {}
 
     for (const balance of data?.balances || []) {
       const tokensWithAmount = balance.tokens.filter((t: any) => t.amount > 0)
       const chainId = Number(balance.chainId)
-      if (balanceMap.has(chainId)) {
-        balanceMap.get(chainId)!.push(...tokensWithAmount)
+      if (balanceMap[chainId]) {
+        balanceMap[chainId].push(...tokensWithAmount)
       } else {
-        balanceMap.set(chainId, tokensWithAmount)
+        balanceMap[chainId] = tokensWithAmount
       }
     }
 
     return balanceMap
   } catch {
-    return new Map<number, TokenAmount[]>()
+    return {}
   }
 }
 
@@ -56,9 +56,9 @@ export const useTokenBalances = (
 
   const { account } = useAccount({ chainType: chain?.chainType })
 
-  const [existingBalances, setExistingBalances] = useState(
-    new Map<number, TokenAmount[]>()
-  )
+  const [existingBalances, setExistingBalances] = useState<
+    Record<number, TokenAmount[]>
+  >({})
 
   // Fetch cached balances from backend
   useEffect(() => {
@@ -66,21 +66,33 @@ export const useTokenBalances = (
       return
     }
 
-    fetchExistingBalances(account.address).then(setExistingBalances)
-  }, [account.address])
+    if (chain?.chainType === ChainType.EVM) {
+      fetchExistingBalances(account.address).then(setExistingBalances)
+    } else {
+      setExistingBalances({})
+    }
+  }, [account.address, chain?.chainType])
 
   // Filter allTokens by what's available in existingBalances
   const filteredByBalance = useMemo(() => {
     if (!allTokens || !existingBalances) {
-      return new Map<number, TokenAmount[]>()
+      return {}
     }
 
-    const result = new Map<number, TokenAmount[]>()
+    const possibleChainIds = chains
+      ?.filter((c) => c.chainType === chain?.chainType)
+      .map((c) => c.id)
+
+    const result: Record<number, TokenAmount[]> = {}
 
     for (const [chainId, tokens] of allTokens.entries()) {
-      const balances = existingBalances.get(Number(chainId))
+      if (!possibleChainIds?.includes(Number(chainId))) {
+        continue
+      }
+
+      const balances = existingBalances[Number(chainId)]
       if (!balances) {
-        result.set(Number(chainId), tokens)
+        result[Number(chainId)] = tokens
         continue
       }
 
@@ -95,11 +107,11 @@ export const useTokenBalances = (
         })
         .filter(Boolean) as TokenAmount[]
 
-      result.set(chainId, tokensWithMatch)
+      result[Number(chainId)] = tokensWithMatch
     }
 
     return result
-  }, [allTokens, existingBalances])
+  }, [allTokens, existingBalances, chains, chain?.chainType])
 
   const isBalanceLoadingEnabled =
     Boolean(account.address) &&
@@ -115,7 +127,7 @@ export const useTokenBalances = (
   } = useQuery({
     queryKey: [getQueryKey('token-balances', keyPrefix), account.address],
     queryFn: async ({ queryKey: [, accountAddress] }) => {
-      const tokens = Array.from(filteredByBalance?.values() ?? []).flat()
+      const tokens = Object.values(filteredByBalance ?? {}).flat()
 
       const tokensWithBalance: TokenAmount[] = await getTokenBalances(
         accountAddress as string,
