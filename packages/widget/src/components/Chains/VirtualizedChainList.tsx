@@ -112,13 +112,14 @@ export const VirtualizedChainList = ({
   }, [measure, scrollElementRef.current])
 
   useLayoutEffect(() => {
-    // Only scroll if sortedChains is not empty, not "All Networks" and we haven't scrolled yet
-    if (
-      !hasScrolledRef.current &&
-      sortedChains.length > 0 &&
-      range &&
-      !isAllNetworks
-    ) {
+    // Mark as scrolled if "All Networks" is initially selected
+    if (isAllNetworks) {
+      hasScrolledRef.current = true
+      return
+    }
+
+    // Only scroll if sortedChains is not empty and we haven't scrolled yet
+    if (!hasScrolledRef.current && sortedChains.length > 0 && range) {
       const selectedChainIndex = sortedChains.findIndex(
         (chain) => chain.id === selectedChainIdRef.current
       )
