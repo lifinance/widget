@@ -74,9 +74,7 @@ export const TokenList: FC<TokenListProps> = ({
 
       tokensWithAmount.sort(sortFn)
 
-      const sortedTokens = [...tokensWithAmount, ...otherTokens]
-
-      return [sortedTokens, [], []]
+      return [[...tokensWithAmount, ...otherTokens], [], []]
     } else {
       const filteredTokensMap = new Map(
         tokens.map((token) => [token.address, token])

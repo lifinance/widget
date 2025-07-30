@@ -6,7 +6,7 @@ export const useToken = (chainId?: number, tokenAddress?: string) => {
   const { tokens: allTokens, isLoading } = useTokens()
 
   const tokensForChain = useMemo(
-    () => (chainId ? allTokens?.get(chainId) : undefined),
+    () => (chainId ? allTokens?.[chainId] : undefined),
     [allTokens, chainId]
   )
 

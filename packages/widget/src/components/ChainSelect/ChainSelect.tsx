@@ -68,10 +68,10 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
   const chainsToShow = (chainsToHide > 0 ? getChains() : chains) ?? []
 
   // Number of tiles to show in the grid
-  const hasChainsToShow = !!chainsToShow.length
+  const showAllNetworks = chainsToShow.length > 1
   const tilesCount =
     chainsToShow.length +
-    (hasChainsToShow ? 1 : 0) + // 1 for "All chains"
+    (showAllNetworks ? 1 : 0) + // 1 for "All chains"
     (chainsToHide > 0 ? 1 : 0) // 1 for "+ N" more chains
 
   if (isLoading) {
@@ -104,7 +104,7 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
         ))
       ) : (
         <>
-          {hasChainsToShow && (
+          {showAllNetworks && (
             <Tooltip title={t('main.allNetworks')} enterNextDelay={100}>
               <ChainCard
                 component="button"

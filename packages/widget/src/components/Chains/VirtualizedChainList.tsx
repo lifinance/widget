@@ -66,15 +66,19 @@ export const VirtualizedChainList = ({
     return [...pinned, ...rest]
   }, [chains, pinnedChains])
 
+  const showAllNetworks = useMemo(() => {
+    return sortedChains.length > 1 && !hasSearchQuery
+  }, [sortedChains.length, hasSearchQuery])
+
   const getItemKey = useCallback(
     (index: number) => {
-      if (!hasSearchQuery && index === 0) {
+      if (showAllNetworks && index === 0) {
         return 'all-chains'
       }
-      const chainIndex = index - (!hasSearchQuery ? 1 : 0)
+      const chainIndex = index - (showAllNetworks ? 1 : 0)
       return `${sortedChains[chainIndex].id}-${index}`
     },
-    [sortedChains, hasSearchQuery]
+    [sortedChains, showAllNetworks]
   )
 
   const onChainSelect = useCallback(
@@ -87,7 +91,7 @@ export const VirtualizedChainList = ({
 
   const { getVirtualItems, getTotalSize, measure, scrollToIndex, range } =
     useVirtualizer({
-      count: sortedChains.length + (!hasSearchQuery ? 1 : 0), // +1 for the all networks item
+      count: sortedChains.length + (showAllNetworks ? 1 : 0), // +1 for the all networks item
       overscan: 3,
       paddingEnd: 0,
       getScrollElement: () => scrollElementRef.current,
@@ -108,7 +112,7 @@ export const VirtualizedChainList = ({
   }, [measure, scrollElementRef.current])
 
   useLayoutEffect(() => {
-    // Only scroll if sortedChains is not empty and we haven't scrolled yet
+    // Only scroll if sortedChains is not empty, not "All Networks" and we haven't scrolled yet
     if (!hasScrolledRef.current && sortedChains.length > 0 && range) {
       const selectedChainIndex = sortedChains.findIndex(
         (chain) => chain.id === selectedChainIdRef.current
@@ -139,7 +143,7 @@ export const VirtualizedChainList = ({
       disablePadding
     >
       {getVirtualItems().map((item) => {
-        if (!hasSearchQuery && item.index === 0) {
+        if (showAllNetworks && item.index === 0) {
           return (
             <ListItem
               key={item.key}
@@ -168,7 +172,7 @@ export const VirtualizedChainList = ({
           )
         }
 
-        const chain = sortedChains[item.index - (!hasSearchQuery ? 1 : 0)]
+        const chain = sortedChains[item.index - (showAllNetworks ? 1 : 0)]
         return (
           <ChainListItem
             key={item.key}

@@ -85,7 +85,7 @@ export const useTokenBalances = (
 
     const result: Record<number, TokenAmount[]> = {}
 
-    for (const [chainId, tokens] of allTokens.entries()) {
+    for (const [chainId, tokens] of Object.entries(allTokens)) {
       if (!possibleChainIds?.includes(Number(chainId))) {
         continue
       }
@@ -98,7 +98,7 @@ export const useTokenBalances = (
 
       const tokensWithMatch = balances
         .map((balance: any) => {
-          return tokens.find((token) =>
+          return tokens.find((token: any) =>
             balance.tokenAddress === 'native'
               ? token.symbol === balance.symbol
               : token.address.toLowerCase() ===
@@ -150,17 +150,17 @@ export const useTokenBalances = (
       return allTokensWithBalances
         ? [
             ...(allTokensWithBalances ?? []),
-            ...(Array.from(allTokens?.values() ?? [])
+            ...(Object.values(allTokens ?? {})
               .flat()
               .filter(
-                (token) =>
+                (token: any) =>
                   !allTokensWithBalances?.some(
                     (t) =>
                       t.address === token.address && t.chainId === token.chainId
                   )
               ) ?? []),
           ]
-        : Array.from(allTokens?.values() ?? []).flat()
+        : Object.values(allTokens ?? {}).flat()
     }
 
     if (!selectedChainId) {
@@ -171,15 +171,13 @@ export const useTokenBalances = (
       ...(allTokensWithBalances?.filter(
         (token) => token.chainId === selectedChainId
       ) ?? []),
-      ...(allTokens
-        ?.get(selectedChainId)
-        ?.filter(
-          (token) =>
-            !allTokensWithBalances?.some((t) => t.address === token.address)
-        ) ?? []),
+      ...(allTokens?.[selectedChainId]?.filter(
+        (token: any) =>
+          !allTokensWithBalances?.some((t) => t.address === token.address)
+      ) ?? []),
     ]
 
-    return tokensWithBalances ?? allTokens?.get(selectedChainId)
+    return tokensWithBalances ?? allTokens?.[selectedChainId]
   }, [allTokensWithBalances, allTokens, selectedChainId, isAllNetworks])
 
   return {
