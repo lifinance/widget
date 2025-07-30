@@ -1,5 +1,6 @@
 import type {
   Appearance,
+  SplitSubvariant,
   WidgetConfig,
   WidgetSubvariant,
   WidgetTheme,
@@ -41,6 +42,7 @@ export interface WidgetConfigActions {
   setContainer: (container?: CSSProperties) => void
   setFormValues: (formValues: FormValues) => void
   setChainSidebarEnabled: (enabled: boolean) => void
+  setSplitOption: (option?: SplitSubvariant) => void
 }
 
 export type WidgetConfigState = WidgetConfigValues & WidgetConfigActions

@@ -6,7 +6,6 @@ import {
   buttonClasses,
   styled,
 } from '@mui/material'
-import type { WidgetSubvariant } from '../../types/widget.js'
 import { getAvatarMask } from '../Avatar/utils.js'
 
 export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
@@ -46,8 +45,8 @@ export const Container = styled(Box, {
 })
 
 export const WalletButton = styled(Button, {
-  shouldForwardProp: (prop) => prop !== 'subvariant',
-})<{ subvariant?: WidgetSubvariant }>(({ subvariant, theme }) => ({
+  shouldForwardProp: (prop) => prop !== 'withOffset',
+})<{ withOffset?: boolean }>(({ withOffset, theme }) => ({
   color: theme.vars.palette.text.primary,
   padding: theme.spacing(1, 1.5),
   maxHeight: 40,
@@ -71,8 +70,8 @@ export const WalletButton = styled(Button, {
     fontSize: '24px',
   },
   ...(theme.navigation.edge && {
-    marginRight: subvariant === 'split' ? 0 : theme.spacing(-1.25),
-    marginLeft: subvariant === 'split' ? theme.spacing(-1) : 0,
+    marginRight: withOffset ? 0 : theme.spacing(-1.25),
+    marginLeft: withOffset ? theme.spacing(-1) : 0,
   }),
 }))
 

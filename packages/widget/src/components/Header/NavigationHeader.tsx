@@ -19,7 +19,8 @@ import { TransactionHistoryButton } from './TransactionHistoryButton.js'
 import { SplitWalletMenuButton } from './WalletHeader.js'
 
 export const NavigationHeader: React.FC = () => {
-  const { subvariant, hiddenUI, variant, defaultUI } = useWidgetConfig()
+  const { subvariant, hiddenUI, variant, defaultUI, subvariantOptions } =
+    useWidgetConfig()
   const { navigateBack } = useNavigateBack()
   const { account } = useAccount()
   const { element, title } = useHeaderStore((state) => state)
@@ -31,7 +32,8 @@ export const NavigationHeader: React.FC = () => {
   const path = cleanedPathname.substring(cleanedPathname.lastIndexOf('/') + 1)
   const hasPath = navigationRoutesValues.includes(path)
 
-  const splitSubvariant = subvariant === 'split' && !hasPath
+  const showSplitOptions =
+    subvariant === 'split' && !hasPath && !subvariantOptions?.split
 
   return (
     <>
@@ -39,7 +41,7 @@ export const NavigationHeader: React.FC = () => {
         {backButtonRoutes.includes(path) ? (
           <BackButton onClick={navigateBack} />
         ) : null}
-        {splitSubvariant ? (
+        {showSplitOptions ? (
           <Box
             sx={{
               flex: 1,
@@ -92,7 +94,7 @@ export const NavigationHeader: React.FC = () => {
           />
         </Routes>
       </HeaderAppBar>
-      {splitSubvariant ? <NavigationTabs /> : null}
+      {showSplitOptions ? <NavigationTabs /> : null}
     </>
   )
 }

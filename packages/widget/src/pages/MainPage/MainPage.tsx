@@ -25,12 +25,20 @@ export const MainPage: React.FC = () => {
   const custom = subvariant === 'custom'
   const showPoweredBy = !hiddenUI?.includes(HiddenUI.PoweredBy)
 
+  const splitTitle =
+    subvariantOptions?.split === 'bridge'
+      ? t('header.bridge')
+      : subvariantOptions?.split === 'swap'
+        ? t('header.swap')
+        : undefined
   const title =
     subvariant === 'custom'
       ? t(`header.${subvariantOptions?.custom ?? 'checkout'}`)
       : subvariant === 'refuel'
         ? t('header.gas')
-        : t('header.exchange')
+        : subvariant === 'split' && splitTitle
+          ? splitTitle
+          : t('header.exchange')
 
   useHeader(title)
 

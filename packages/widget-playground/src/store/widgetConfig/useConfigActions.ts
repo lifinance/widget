@@ -23,6 +23,7 @@ export const useConfigActions = () => {
       setContainer: state.setContainer,
       setFormValues: state.setFormValues,
       setChainSidebarEnabled: state.setChainSidebarEnabled,
+      setSplitOption: state.setSplitOption,
     }),
     shallow
   )
