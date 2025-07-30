@@ -113,7 +113,12 @@ export const VirtualizedChainList = ({
 
   useLayoutEffect(() => {
     // Only scroll if sortedChains is not empty, not "All Networks" and we haven't scrolled yet
-    if (!hasScrolledRef.current && sortedChains.length > 0 && range) {
+    if (
+      !hasScrolledRef.current &&
+      sortedChains.length > 0 &&
+      range &&
+      !isAllNetworks
+    ) {
       const selectedChainIndex = sortedChains.findIndex(
         (chain) => chain.id === selectedChainIdRef.current
       )
@@ -134,7 +139,7 @@ export const VirtualizedChainList = ({
         }
       }
     }
-  }, [sortedChains, scrollToIndex, range])
+  }, [sortedChains, scrollToIndex, range, isAllNetworks])
 
   return (
     <List
