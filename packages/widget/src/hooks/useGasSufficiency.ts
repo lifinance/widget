@@ -57,7 +57,7 @@ export const useGasSufficiency = (route?: RouteExtended) => {
       EVMAccount.chainType
     )
 
-  const { data: insufficientGas, isLoading } = useQuery({
+  const { data: insufficientGas, isLoading } = useQuery<GasSufficiency[]>({
     queryKey: [
       getQueryKey('gas-sufficiency-check', keyPrefix),
       relevantAccountsQueryKey,
@@ -66,7 +66,7 @@ export const useGasSufficiency = (route?: RouteExtended) => {
     ] as const,
     queryFn: async () => {
       if (!route) {
-        return
+        return []
       }
 
       // Filter out steps that are relayer steps or have primaryType 'Permit' or 'Order'
@@ -80,7 +80,7 @@ export const useGasSufficiency = (route?: RouteExtended) => {
 
       // If all steps are filtered out, we don't need to check for gas sufficiency
       if (!filteredSteps.length) {
-        return
+        return []
       }
 
       // We assume that LI.Fuel protocol always refuels the destination chain
@@ -163,7 +163,7 @@ export const useGasSufficiency = (route?: RouteExtended) => {
         .flatMap((result) => result.value)
 
       if (!tokenBalances?.length) {
-        return
+        return []
       }
 
       Object.keys(gasCosts).forEach((chainId) => {

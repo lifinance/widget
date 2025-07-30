@@ -24,9 +24,6 @@ export const TokenDetailsSheet = forwardRef<TokenDetailsSheetBase>((_, ref) => {
       },
       close: () => {
         bottomSheetRef.current?.close()
-        setTokenAddress(undefined)
-        setWithoutContractAddress(false)
-        setChainId(undefined)
       },
     }),
     []

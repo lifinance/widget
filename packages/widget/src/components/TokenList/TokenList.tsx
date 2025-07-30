@@ -43,6 +43,8 @@ export const TokenList: FC<TokenListProps> = ({
     'tokenSearchFilter'
   )
 
+  const { tokens: configTokens } = useWidgetConfig()
+
   const { chain: selectedChain, isLoading: isSelectedChainLoading } =
     useChain(selectedChainId)
   const { account } = useAccount({
@@ -54,8 +56,6 @@ export const TokenList: FC<TokenListProps> = ({
     isLoading: isTokensLoading,
     isBalanceLoading,
   } = useTokenBalances(selectedChainId, formType, isAllNetworks)
-
-  const { tokens: configTokens } = useWidgetConfig()
 
   const [sortedTokens, popularTokens, featuredTokens] = useMemo(() => {
     const tokens = (tokensPerChain ?? []) as TokenAmount[]
