@@ -14,7 +14,11 @@ export const getConnectorTagType = (
     return WalletTagType.QrCode
   }
 
-  if (connectorId === 'metaMaskSDK' || connectorId === 'coinbaseWalletSDK') {
+  if (
+    connectorId === 'metaMaskSDK' ||
+    connectorId === 'coinbaseWalletSDK' ||
+    connectorId === 'baseAccount'
+  ) {
     return WalletTagType.GetStarted
   }
 
