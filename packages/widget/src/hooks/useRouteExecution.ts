@@ -3,7 +3,6 @@ import { executeRoute, resumeRoute, updateRouteExecution } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useRef } from 'react'
-import { shallow } from 'zustand/shallow'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import {
   useRouteExecutionStore,
@@ -43,8 +42,7 @@ export const useRouteExecution = ({
     (state) => state.routes[routeId]
   )
   const [updateRoute, restartRoute, deleteRoute] = useRouteExecutionStore(
-    (state) => [state.updateRoute, state.restartRoute, state.deleteRoute],
-    shallow
+    (state) => [state.updateRoute, state.restartRoute, state.deleteRoute]
   )
 
   const updateRouteHook = (updatedRoute: Route) => {

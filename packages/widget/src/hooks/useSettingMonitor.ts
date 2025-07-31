@@ -1,4 +1,3 @@
-import { shallow } from 'zustand/shallow'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useSettingsActions } from '../stores/settings/useSettingsActions.js'
 import {
@@ -14,16 +13,13 @@ export const useSettingMonitor = () => {
     routePriority,
     slippage,
     gasPrice,
-  ] = useSettingsStore(
-    (state) => [
-      state.disabledBridges,
-      state.disabledExchanges,
-      state.routePriority,
-      state.slippage,
-      state.gasPrice,
-    ],
-    shallow
-  )
+  ] = useSettingsStore((state) => [
+    state.disabledBridges,
+    state.disabledExchanges,
+    state.routePriority,
+    state.slippage,
+    state.gasPrice,
+  ])
   const { tools } = useTools()
   const config = useWidgetConfig()
   const { setDefaultSettings, resetSettings } = useSettingsActions()

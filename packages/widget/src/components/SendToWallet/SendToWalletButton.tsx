@@ -36,7 +36,7 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
     subvariant,
     subvariantOptions,
   } = useWidgetConfig()
-  const { showSendToWallet } = useSendToWalletStore()
+  const { showSendToWallet } = useSendToWalletStore((state) => state)
   const [toAddressFieldValue, toChainId, toTokenAddress] = useFieldValues(
     'toAddress',
     'toChain',

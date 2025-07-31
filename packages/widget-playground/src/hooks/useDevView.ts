@@ -1,4 +1,3 @@
-import { shallow } from 'zustand/shallow'
 import { useEditToolsStore } from '../store/editTools/EditToolsProvider'
 import { useEditToolsActions } from '../store/editTools/useEditToolsActions'
 import { setQueryStringParam } from '../utils/setQueryStringParam'
@@ -6,7 +5,7 @@ import { setQueryStringParam } from '../utils/setQueryStringParam'
 const queryStringKey = 'devView'
 
 export const useDevView = () => {
-  const [isDevView] = useEditToolsStore((store) => [store.isDevView], shallow)
+  const [isDevView] = useEditToolsStore((store) => [store.isDevView])
   const { setIsDevView } = useEditToolsActions()
 
   const toggleDevView = () => {

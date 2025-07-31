@@ -1,14 +1,10 @@
 import { palette, paletteDark, paletteLight } from '@lifi/widget'
-import { shallow } from 'zustand/shallow'
 import { getValueFromPath } from '../../utils/getValueFromPath'
 import type { FormValues } from '../types'
 import { useWidgetConfigStore } from './WidgetConfigProvider'
 
 export const useConfigVariant = () => {
-  const [variant] = useWidgetConfigStore(
-    (store) => [store.config?.variant],
-    shallow
-  )
+  const [variant] = useWidgetConfigStore((store) => [store.config?.variant])
 
   return {
     variant: !variant ? 'default' : variant,
@@ -17,17 +13,14 @@ export const useConfigVariant = () => {
 
 export const useConfigFormValues = () => {
   const [fromChain, fromToken, fromAmount, toChain, toToken, toAddress] =
-    useWidgetConfigStore(
-      (store) => [
-        store.config?.fromChain,
-        store.config?.fromToken,
-        store.config?.fromAmount,
-        store.config?.toChain,
-        store.config?.toToken,
-        store.config?.toAddress,
-      ],
-      shallow
-    )
+    useWidgetConfigStore((store) => [
+      store.config?.fromChain,
+      store.config?.fromToken,
+      store.config?.fromAmount,
+      store.config?.toChain,
+      store.config?.toToken,
+      store.config?.toAddress,
+    ])
 
   return {
     fromChain,
@@ -40,10 +33,9 @@ export const useConfigFormValues = () => {
 }
 
 export const useConfigSubvariant = () => {
-  const [subvariant] = useWidgetConfigStore(
-    (store) => [store.config?.subvariant],
-    shallow
-  )
+  const [subvariant] = useWidgetConfigStore((store) => [
+    store.config?.subvariant,
+  ])
 
   return {
     subvariant: !subvariant ? 'default' : subvariant,
@@ -51,10 +43,9 @@ export const useConfigSubvariant = () => {
 }
 
 export const useConfigSubvariantOptions = () => {
-  const [subvariantOptions] = useWidgetConfigStore(
-    (store) => [store.config?.subvariantOptions],
-    shallow
-  )
+  const [subvariantOptions] = useWidgetConfigStore((store) => [
+    store.config?.subvariantOptions,
+  ])
 
   return {
     subvariantOptions,
@@ -62,10 +53,9 @@ export const useConfigSubvariantOptions = () => {
 }
 
 export const useConfigBorderRadius = () => {
-  const [borderRadius] = useWidgetConfigStore(
-    (store) => [store.config?.theme?.shape?.borderRadius],
-    shallow
-  )
+  const [borderRadius] = useWidgetConfigStore((store) => [
+    store.config?.theme?.shape?.borderRadius,
+  ])
 
   return {
     borderRadius,
@@ -73,10 +63,9 @@ export const useConfigBorderRadius = () => {
 }
 
 export const useConfigBorderRadiusSecondary = () => {
-  const [borderRadiusSecondary] = useWidgetConfigStore(
-    (store) => [store.config?.theme?.shape?.borderRadiusSecondary],
-    shallow
-  )
+  const [borderRadiusSecondary] = useWidgetConfigStore((store) => [
+    store.config?.theme?.shape?.borderRadiusSecondary,
+  ])
 
   return {
     borderRadiusSecondary,
@@ -97,10 +86,8 @@ const defaultThemePalette = {
 }
 
 export const useConfigColorsFromPath = (...paths: string[]) => {
-  const colors = useWidgetConfigStore(
-    (store) =>
-      paths.map((path) => getValueFromPath<string>(store.config, path)),
-    shallow
+  const colors = useWidgetConfigStore((store) =>
+    paths.map((path) => getValueFromPath<string>(store.config, path))
   ) as Array<string | undefined>
 
   return colors.map((color, i) => {
@@ -112,10 +99,9 @@ export const useConfigColorsFromPath = (...paths: string[]) => {
 }
 
 export const useConfigFontFamily = () => {
-  const [fontFamily] = useWidgetConfigStore(
-    (store) => [store.config?.theme?.typography?.fontFamily],
-    shallow
-  )
+  const [fontFamily] = useWidgetConfigStore((store) => [
+    store.config?.theme?.typography?.fontFamily,
+  ])
 
   return {
     fontFamily,
@@ -123,10 +109,10 @@ export const useConfigFontFamily = () => {
 }
 
 export const useConfigWalletManagement = () => {
-  const [walletConfig, defaultWalletConfig] = useWidgetConfigStore(
-    (store) => [store.config?.walletConfig, store.defaultConfig?.walletConfig],
-    shallow
-  )
+  const [walletConfig, defaultWalletConfig] = useWidgetConfigStore((store) => [
+    store.config?.walletConfig,
+    store.defaultConfig?.walletConfig,
+  ])
 
   const replacementWalletConfig = defaultWalletConfig
     ? defaultWalletConfig

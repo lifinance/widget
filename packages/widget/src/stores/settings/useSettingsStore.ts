@@ -1,6 +1,7 @@
 /** biome-ignore-all lint/correctness/noUnusedVariables: allowed in this store */
 import type { StateCreator } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { useShallow } from 'zustand/shallow'
 import { createWithEqualityFn } from 'zustand/traditional'
 import type { SettingsProps, SettingsState } from './types.js'
 import { SettingsToolTypes } from './types.js'
@@ -28,7 +29,7 @@ export const defaultSettings: SettingsProps = {
   _enabledExchanges: {},
 }
 
-export const useSettingsStore = createWithEqualityFn<SettingsState>(
+export const createSettingsStore = createWithEqualityFn<SettingsState>(
   persist(
     (set, get) => ({
       ...defaultSettings,
@@ -176,3 +177,9 @@ export const useSettingsStore = createWithEqualityFn<SettingsState>(
   ) as StateCreator<SettingsState, [], [], SettingsState>,
   Object.is
 )
+
+export const useSettingsStore = <T>(
+  selector: (state: SettingsState) => T
+): T => {
+  return createSettingsStore(useShallow(selector))
+}

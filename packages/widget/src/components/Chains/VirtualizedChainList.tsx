@@ -2,7 +2,6 @@ import type { ExtendedChain } from '@lifi/sdk'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type { RefObject } from 'react'
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
-import { shallow } from 'zustand/shallow'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore'
 import { List } from './ChainList.style'
 import { ChainListItem } from './ChainListItem'
@@ -26,10 +25,10 @@ export const VirtualizedChainList = ({
 }: VirtualizedChainListProps) => {
   const selectedChainIdRef = useRef(selectedChainId) // Store the initial selected chain ID to scroll to it once chains are loaded
   const hasScrolledRef = useRef(false)
-  const [pinnedChains, setPinnedChain] = useChainOrderStore(
-    (state) => [state.pinnedChains, state.setPinnedChain],
-    shallow
-  )
+  const [pinnedChains, setPinnedChain] = useChainOrderStore((state) => [
+    state.pinnedChains,
+    state.setPinnedChain,
+  ])
   const onPin = useCallback(
     (chainId: number) => {
       setPinnedChain(chainId)
