@@ -4,7 +4,7 @@ import type { FormValues } from '../types'
 import { useWidgetConfigStore } from './WidgetConfigProvider'
 
 export const useConfigVariant = () => {
-  const [variant] = useWidgetConfigStore((store) => [store.config?.variant])
+  const variant = useWidgetConfigStore((store) => store.config?.variant)
 
   return {
     variant: !variant ? 'default' : variant,
@@ -33,9 +33,7 @@ export const useConfigFormValues = () => {
 }
 
 export const useConfigSubvariant = () => {
-  const [subvariant] = useWidgetConfigStore((store) => [
-    store.config?.subvariant,
-  ])
+  const subvariant = useWidgetConfigStore((store) => store.config?.subvariant)
 
   return {
     subvariant: !subvariant ? 'default' : subvariant,
@@ -43,9 +41,9 @@ export const useConfigSubvariant = () => {
 }
 
 export const useConfigSubvariantOptions = () => {
-  const [subvariantOptions] = useWidgetConfigStore((store) => [
-    store.config?.subvariantOptions,
-  ])
+  const subvariantOptions = useWidgetConfigStore(
+    (store) => store.config?.subvariantOptions
+  )
 
   return {
     subvariantOptions,
@@ -53,9 +51,9 @@ export const useConfigSubvariantOptions = () => {
 }
 
 export const useConfigBorderRadius = () => {
-  const [borderRadius] = useWidgetConfigStore((store) => [
-    store.config?.theme?.shape?.borderRadius,
-  ])
+  const borderRadius = useWidgetConfigStore(
+    (store) => store.config?.theme?.shape?.borderRadius
+  )
 
   return {
     borderRadius,
@@ -63,9 +61,9 @@ export const useConfigBorderRadius = () => {
 }
 
 export const useConfigBorderRadiusSecondary = () => {
-  const [borderRadiusSecondary] = useWidgetConfigStore((store) => [
-    store.config?.theme?.shape?.borderRadiusSecondary,
-  ])
+  const borderRadiusSecondary = useWidgetConfigStore(
+    (store) => store.config?.theme?.shape?.borderRadiusSecondary
+  )
 
   return {
     borderRadiusSecondary,
@@ -99,9 +97,9 @@ export const useConfigColorsFromPath = (...paths: string[]) => {
 }
 
 export const useConfigFontFamily = () => {
-  const [fontFamily] = useWidgetConfigStore((store) => [
-    store.config?.theme?.typography?.fontFamily,
-  ])
+  const fontFamily = useWidgetConfigStore(
+    (store) => store.config?.theme?.typography?.fontFamily
+  )
 
   return {
     fontFamily,

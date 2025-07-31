@@ -7,10 +7,7 @@ import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.j
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import {
-  createSendToWalletStore,
-  useSendToWalletStore,
-} from '../../stores/settings/useSendToWalletStore.js'
+import { useSendToWalletStore } from '../../stores/settings/useSendToWalletStore.js'
 import { WidgetEvent } from '../../types/events.js'
 import { DisabledUI, HiddenUI } from '../../types/widget.js'
 
@@ -35,11 +32,9 @@ export const SendToWalletExpandButton: React.FC = () => {
       setFieldValue('toAddress', '', { isTouched: true })
       setSelectedBookmark()
     }
-    setSendToWallet(!showSendToWallet)
-    emitter.emit(
-      WidgetEvent.SendToWalletToggled,
-      createSendToWalletStore.getState().showSendToWallet
-    )
+    const newShowSendToWallet = !showSendToWallet
+    setSendToWallet(newShowSendToWallet)
+    emitter.emit(WidgetEvent.SendToWalletToggled, newShowSendToWallet)
   }
 
   const buttonVariant =
