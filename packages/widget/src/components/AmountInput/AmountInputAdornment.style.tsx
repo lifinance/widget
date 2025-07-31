@@ -8,12 +8,12 @@ export const ButtonContainer = styled(Box)(({ theme }) => ({
 }))
 
 export const MaxButton = styled(ButtonTertiary)(({ theme }) => ({
-  padding: theme.spacing(0.5, 1, 0.625, 1),
+  padding: theme.spacing(0.5, 1, 0.5, 1),
   margin: theme.spacing(0, 0, 0, 0.5),
-  lineHeight: 1.0715,
+  lineHeight: 1,
   fontSize: '0.75rem',
   minWidth: 'unset',
-  height: 'auto',
+  height: 24,
   opacity: 0,
   transform: 'scale(0.85) translateY(-10px)',
   transition:

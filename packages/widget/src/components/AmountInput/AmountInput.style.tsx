@@ -46,11 +46,11 @@ export const Input = styled(InputBase)(({ theme }) => ({
 }))
 
 export const AmountInputCardTitle = styled(CardTitle)(({ theme }) => ({
-  padding: theme.spacing(0, 2, 0, 2),
+  padding: theme.spacing(2, 0, 0, 0),
 }))
 
 export const AmountInputCardHeader = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(2, 2, 0, 0),
+  padding: theme.spacing(0, 2, 0, 2),
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'start',

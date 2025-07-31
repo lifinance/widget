@@ -69,7 +69,7 @@ export const AmountInputEndAdornment = ({ formType }: FormTypeProps) => {
   }
 
   return (
-    <InputAdornment position="end">
+    <InputAdornment position="end" sx={{ paddingTop: 2 }}>
       {formType === 'from' && token?.amount ? (
         <ButtonContainer>
           <MaxButton onClick={() => handlePercentage(25)} data-delay="0">
