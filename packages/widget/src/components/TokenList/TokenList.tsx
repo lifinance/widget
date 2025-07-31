@@ -1,23 +1,29 @@
-import type { BaseToken } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { Box } from '@mui/material'
-import { type FC, useEffect } from 'react'
+import { type FC, useEffect, useMemo } from 'react'
+import { formatUnits } from 'viem'
 import { useChain } from '../../hooks/useChain.js'
 import { useDebouncedWatch } from '../../hooks/useDebouncedWatch.js'
 import { useTokenBalances } from '../../hooks/useTokenBalances.js'
 import { useTokenSearch } from '../../hooks/useTokenSearch.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { WidgetEvent } from '../../types/events.js'
 import type { TokenAmount } from '../../types/token.js'
-import { getConfigItemSets, isFormItemAllowed } from '../../utils/item.js'
 import { TokenNotFound } from './TokenNotFound.js'
 import type { TokenListProps } from './types.js'
 import { useTokenSelect } from './useTokenSelect.js'
 import { filteredTokensComparator } from './utils.js'
 import { VirtualizedTokenList } from './VirtualizedTokenList.js'
+
+const sortFn = (a: TokenAmount, b: TokenAmount) =>
+  Number.parseFloat(formatUnits(b.amount ?? 0n, b.decimals)) *
+    Number.parseFloat(b.priceUSD ?? '0') -
+  Number.parseFloat(formatUnits(a.amount ?? 0n, a.decimals)) *
+    Number.parseFloat(a.priceUSD ?? '0')
 
 export const TokenList: FC<TokenListProps> = ({
   formType,
@@ -30,6 +36,8 @@ export const TokenList: FC<TokenListProps> = ({
     FormKeyHelper.getChainKey(formType),
     FormKeyHelper.getTokenKey(formType)
   )
+  const isAllNetworks = useChainOrderStore((state) => state.isAllNetworks)
+
   const [tokenSearchFilter]: string[] = useDebouncedWatch(
     320,
     'tokenSearchFilter'
@@ -44,38 +52,106 @@ export const TokenList: FC<TokenListProps> = ({
   })
 
   const {
-    tokens: chainTokens,
-    tokensWithBalance,
+    tokens: tokensPerChain,
     isLoading: isTokensLoading,
     isBalanceLoading,
-    featuredTokens,
-    popularTokens,
-  } = useTokenBalances(selectedChainId)
+  } = useTokenBalances(selectedChainId, formType, isAllNetworks)
 
-  let filteredTokens = (tokensWithBalance ?? chainTokens ?? []) as TokenAmount[]
+  const [sortedTokens, popularTokens, featuredTokens] = useMemo(() => {
+    const tokens = (tokensPerChain ?? []) as TokenAmount[]
+
+    if (isAllNetworks) {
+      const tokensWithAmount: TokenAmount[] = []
+      const otherTokens: TokenAmount[] = []
+
+      for (const token of tokens) {
+        if (token.amount) {
+          tokensWithAmount.push(token)
+        } else {
+          otherTokens.push(token)
+        }
+      }
+
+      tokensWithAmount.sort(sortFn)
+
+      return [[...tokensWithAmount, ...otherTokens], [], []]
+    } else {
+      const filteredTokensMap = new Map(
+        tokens.map((token) => [token.address, token])
+      )
+
+      const featuredTokensFromConfig: TokenAmount[] = []
+      const popularTokensFromConfig: TokenAmount[] = []
+
+      ;(['popular', 'featured'] as const).forEach((tokenType) => {
+        const typedTokens = configTokens?.[tokenType]?.filter(
+          (token) => token.chainId === selectedChainId
+        )
+
+        typedTokens?.forEach((token) => {
+          const tokenAmount = { ...token } as TokenAmount
+          tokenAmount[tokenType] = true
+
+          const match = filteredTokensMap.get(token.address)
+          if (match?.priceUSD) {
+            tokenAmount.priceUSD = match.priceUSD
+          }
+          if (!token.logoURI && match?.logoURI) {
+            tokenAmount.logoURI = match.logoURI
+          }
+
+          if (tokenType === 'popular') {
+            popularTokensFromConfig.push(tokenAmount)
+          } else {
+            featuredTokensFromConfig.push(tokenAmount)
+          }
+        })
+      })
+
+      // Filter out config-added tokens from main list
+      const configTokenAddresses = new Set(
+        [...popularTokensFromConfig, ...featuredTokensFromConfig].map(
+          (t) => t.address
+        )
+      )
+
+      const remainingTokens = tokens.filter(
+        (token) => !configTokenAddresses.has(token.address)
+      )
+
+      const tokensWithAmount: TokenAmount[] = []
+      const otherTokens: TokenAmount[] = []
+
+      for (const token of remainingTokens) {
+        if (token.featured) {
+          featuredTokensFromConfig.push(token)
+        } else if (token.amount) {
+          tokensWithAmount.push(token)
+        } else if (token.popular) {
+          popularTokensFromConfig.push(token)
+        } else {
+          otherTokens.push(token)
+        }
+      }
+
+      tokensWithAmount.sort(sortFn)
+
+      const sortedTokens = [
+        ...featuredTokensFromConfig,
+        ...tokensWithAmount,
+        ...popularTokensFromConfig,
+        ...otherTokens,
+      ]
+
+      return [sortedTokens, popularTokensFromConfig, featuredTokensFromConfig]
+    }
+  }, [tokensPerChain, selectedChainId, configTokens, isAllNetworks])
+
   const normalizedSearchFilter = tokenSearchFilter?.replaceAll('$', '')
   const searchFilter = normalizedSearchFilter?.toUpperCase() ?? ''
 
-  const filteredConfigTokens = getConfigItemSets(
-    configTokens,
-    (tokens: BaseToken[]) =>
-      new Set(
-        tokens
-          .filter((t) => t.chainId === selectedChainId)
-          .map((t) => t.address)
-      ),
-    formType
-  )
-
-  // Get the appropriate allow/deny lists based on formType
-  filteredTokens = filteredTokens.filter(
-    (token) =>
-      token.chainId === selectedChainId &&
-      isFormItemAllowed(token, filteredConfigTokens, formType, (t) => t.address)
-  )
-
-  filteredTokens = tokenSearchFilter
-    ? filteredTokens
+  const filteredTokens = tokenSearchFilter
+    ? sortedTokens
         .filter(
           (token) =>
             token.name?.toUpperCase().includes(searchFilter) ||
@@ -87,7 +163,7 @@ export const TokenList: FC<TokenListProps> = ({
             token.address.toUpperCase().includes(searchFilter)
         )
         .sort(filteredTokensComparator(searchFilter))
-    : filteredTokens
+    : sortedTokens
 
   const tokenSearchEnabled =
     !isTokensLoading &&
@@ -117,7 +193,8 @@ export const TokenList: FC<TokenListProps> = ({
   const handleTokenClick = useTokenSelect(formType, onClick)
   const showCategories =
     Boolean(featuredTokens?.length || popularTokens?.length) &&
-    !tokenSearchFilter
+    !tokenSearchFilter &&
+    !isAllNetworks
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: Should fire only when search filter changes
   useEffect(() => {
@@ -139,12 +216,12 @@ export const TokenList: FC<TokenListProps> = ({
         tokens={tokens}
         scrollElementRef={parentRef}
         chainId={selectedChainId}
-        chain={selectedChain}
         isLoading={isLoading}
         isBalanceLoading={isBalanceLoading}
         showCategories={showCategories}
         onClick={handleTokenClick}
         selectedTokenAddress={selectedTokenAddress}
+        isAllNetworks={isAllNetworks}
       />
     </Box>
   )

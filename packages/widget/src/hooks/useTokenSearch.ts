@@ -11,6 +11,7 @@ import type { FormType } from '../stores/form/types.js'
 import { getConfigItemSets, isFormItemAllowed } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 
+// TODO: this one will be returning multiple tokens
 export const useTokenSearch = (
   chainId?: number,
   tokenQuery?: string,

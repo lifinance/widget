@@ -104,6 +104,7 @@ export const SelectChainContent: React.FC<SelectChainContentProps> = memo(
             isLoading={isLoading}
             onSelect={onSelect ?? onSelectChainFallback}
             selectedChainId={selectedChainId}
+            hasSearchQuery={!!inputRef.current?.value}
             inExpansion={inExpansion}
           />
         </Box>

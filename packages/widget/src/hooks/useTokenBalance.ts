@@ -49,17 +49,15 @@ export const useTokenBalance = (accountAddress?: string, token?: Token) => {
 
       queryClient.setQueriesData<TokenAmount[]>(
         {
-          queryKey: [
-            getQueryKey('token-balances', keyPrefix),
-            accountAddress,
-            tokenChainId,
-          ],
+          queryKey: [getQueryKey('token-balances', keyPrefix), accountAddress],
         },
         (data) => {
           if (data) {
             const clonedData = [...data]
             const index = clonedData.findIndex(
-              (dataToken) => dataToken.address === tokenAddress
+              (dataToken) =>
+                dataToken.address === tokenAddress &&
+                dataToken.chainId === tokenChainId
             )
             clonedData[index] = {
               ...clonedData[index],
