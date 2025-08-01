@@ -71,6 +71,7 @@ export const RelativeContainer = styled(Box, {
           maxHeight: 'none',
           height: '100%',
           boxShadow: 'none',
+          borderRadius: 0,
         },
       },
     ],
