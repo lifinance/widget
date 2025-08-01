@@ -29,7 +29,7 @@ export const defaultSettings: SettingsProps = {
   _enabledExchanges: {},
 }
 
-export const createSettingsStore = createWithEqualityFn<SettingsState>(
+export const settingsStore = createWithEqualityFn<SettingsState>(
   persist(
     (set, get) => ({
       ...defaultSettings,
@@ -181,5 +181,5 @@ export const createSettingsStore = createWithEqualityFn<SettingsState>(
 export const useSettingsStore = <T>(
   selector: (state: SettingsState) => T
 ): T => {
-  return createSettingsStore(useShallow(selector))
+  return settingsStore(useShallow(selector))
 }

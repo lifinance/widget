@@ -2,7 +2,7 @@ import { useShallow } from 'zustand/shallow'
 import { createWithEqualityFn } from 'zustand/traditional'
 import type { SendToWalletStore } from './types.js'
 
-export const createSendToWalletStore = createWithEqualityFn<SendToWalletStore>(
+export const sendToWalletStore = createWithEqualityFn<SendToWalletStore>(
   (set) => ({
     showSendToWallet: false,
     setSendToWallet: (value) =>
@@ -16,7 +16,7 @@ export const createSendToWalletStore = createWithEqualityFn<SendToWalletStore>(
 export const useSendToWalletStore = <T>(
   selector: (state: SendToWalletStore) => T
 ): T => {
-  return createSendToWalletStore(useShallow(selector))
+  return sendToWalletStore(useShallow(selector))
 }
 
 export const useSendToWalletActions = () => {

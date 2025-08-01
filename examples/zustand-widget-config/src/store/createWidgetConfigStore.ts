@@ -14,7 +14,7 @@ const initialWidgetConfig = {
   },
 }
 
-const createWidgetConfigStore = createWithEqualityFn<WidgetConfigState>(
+const widgetConfigStore = createWithEqualityFn<WidgetConfigState>(
   (set, get) => ({
     config: initialWidgetConfig,
     setConfig: (config) => {
@@ -53,5 +53,5 @@ const createWidgetConfigStore = createWithEqualityFn<WidgetConfigState>(
 export const useWidgetConfigStore = <T>(
   selector: (state: WidgetConfigState) => T
 ): T => {
-  return createWidgetConfigStore(useShallow(selector))
+  return widgetConfigStore(useShallow(selector))
 }
