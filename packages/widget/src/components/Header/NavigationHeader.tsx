@@ -35,7 +35,7 @@ export const NavigationHeader: React.FC = () => {
     subvariant === 'split' && !hasPath && !subvariantOptions?.split
 
   return (
-    <HeaderAppBar elevation={0}>
+    <HeaderAppBar elevation={0} sx={{ paddingTop: 1, paddingBottom: 0.5 }}>
       {backButtonRoutes.includes(path) ? (
         <BackButton onClick={navigateBack} />
       ) : null}
@@ -61,9 +61,9 @@ export const NavigationHeader: React.FC = () => {
           path={navigationRoutes.home}
           element={
             <HeaderControlsContainer>
-              {account.isConnected && !hiddenUI?.includes(HiddenUI.History) ? (
-                <TransactionHistoryButton />
-              ) : null}
+              {!hiddenUI?.includes(HiddenUI.History) && (
+                <TransactionHistoryButton hidden={!account.isConnected} />
+              )}
               <SettingsButton />
               {variant === 'drawer' &&
               !hiddenUI?.includes(HiddenUI.DrawerCloseButton) ? (
