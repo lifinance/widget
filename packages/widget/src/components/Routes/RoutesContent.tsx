@@ -96,7 +96,7 @@ export const RoutesContent = ({
           sx={{ marginRight: -1 }}
         />
       </Header>
-      <PageContainer>
+      <PageContainer sx={{ overflow: 'auto' }}>
         <Stack
           direction="column"
           spacing={2}

@@ -12,7 +12,7 @@ export const Container = styled(ScopedCssBaseline, {
   shouldForwardProp: (prop) => !['minimumHeight'].includes(prop as string),
 })<ContainerProps>(({ theme, minimumHeight }) => ({
   backgroundColor: theme.vars.palette.background.default,
-  overflow: 'auto',
+  overflow: 'hidden',
   width: routesExpansionWidth,
   display: 'flex',
   flexDirection: 'column',
