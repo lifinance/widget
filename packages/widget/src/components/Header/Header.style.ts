@@ -70,8 +70,7 @@ export const WalletButton = styled(Button, {
     fontSize: '24px',
   },
   ...(theme.navigation.edge && {
-    marginRight: withOffset ? 0 : theme.spacing(-1.25),
-    marginLeft: withOffset ? theme.spacing(-1) : 0,
+    marginRight: withOffset ? theme.spacing(-1.25) : 0,
   }),
 }))
 

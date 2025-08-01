@@ -16,7 +16,6 @@ import { HeaderAppBar, HeaderControlsContainer } from './Header.style.js'
 import { NavigationTabs } from './NavigationTabs.js'
 import { SettingsButton } from './SettingsButton.js'
 import { TransactionHistoryButton } from './TransactionHistoryButton.js'
-import { SplitWalletMenuButton } from './WalletHeader.js'
 
 export const NavigationHeader: React.FC = () => {
   const { subvariant, hiddenUI, variant, defaultUI, subvariantOptions } =
@@ -36,65 +35,57 @@ export const NavigationHeader: React.FC = () => {
     subvariant === 'split' && !hasPath && !subvariantOptions?.split
 
   return (
-    <>
-      <HeaderAppBar elevation={0}>
-        {backButtonRoutes.includes(path) ? (
-          <BackButton onClick={navigateBack} />
-        ) : null}
-        {showSplitOptions ? (
-          <Box
-            sx={{
-              flex: 1,
-            }}
-          >
-            <SplitWalletMenuButton />
-          </Box>
-        ) : (
-          <Typography
-            align={hasPath ? 'center' : 'left'}
-            noWrap={defaultUI?.navigationHeaderTitleNoWrap ?? true}
-            sx={{
-              fontSize: hasPath ? 18 : 24,
-              fontWeight: '700',
-              flex: 1,
-            }}
-          >
-            {title}
-          </Typography>
-        )}
-        <Routes>
-          <Route
-            path={navigationRoutes.home}
-            element={
-              <HeaderControlsContainer>
-                {account.isConnected &&
-                !hiddenUI?.includes(HiddenUI.History) ? (
-                  <TransactionHistoryButton />
-                ) : null}
-                <SettingsButton />
-                {variant === 'drawer' &&
-                !hiddenUI?.includes(HiddenUI.DrawerCloseButton) ? (
-                  <CloseDrawerButton header="navigation" />
-                ) : null}
-              </HeaderControlsContainer>
-            }
-          />
-          <Route
-            path="*"
-            element={
-              element || (
-                <Box
-                  sx={{
-                    width: 28,
-                    height: 40,
-                  }}
-                />
-              )
-            }
-          />
-        </Routes>
-      </HeaderAppBar>
-      {showSplitOptions ? <NavigationTabs /> : null}
-    </>
+    <HeaderAppBar elevation={0}>
+      {backButtonRoutes.includes(path) ? (
+        <BackButton onClick={navigateBack} />
+      ) : null}
+      {showSplitOptions ? (
+        <Box sx={{ flex: 1, marginRight: 1 }}>
+          <NavigationTabs />
+        </Box>
+      ) : (
+        <Typography
+          align={hasPath ? 'center' : 'left'}
+          noWrap={defaultUI?.navigationHeaderTitleNoWrap ?? true}
+          sx={{
+            fontSize: hasPath ? 18 : 24,
+            fontWeight: '700',
+            flex: 1,
+          }}
+        >
+          {title}
+        </Typography>
+      )}
+      <Routes>
+        <Route
+          path={navigationRoutes.home}
+          element={
+            <HeaderControlsContainer>
+              {account.isConnected && !hiddenUI?.includes(HiddenUI.History) ? (
+                <TransactionHistoryButton />
+              ) : null}
+              <SettingsButton />
+              {variant === 'drawer' &&
+              !hiddenUI?.includes(HiddenUI.DrawerCloseButton) ? (
+                <CloseDrawerButton header="navigation" />
+              ) : null}
+            </HeaderControlsContainer>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            element || (
+              <Box
+                sx={{
+                  width: 28,
+                  height: 40,
+                }}
+              />
+            )
+          }
+        />
+      </Routes>
+    </HeaderAppBar>
   )
 }

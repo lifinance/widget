@@ -27,10 +27,9 @@ import { WalletMenu } from './WalletMenu.js'
 import { WalletMenuContainer } from './WalletMenu.style.js'
 
 const useInternalWalletManagement = () => {
-  const { subvariant, hiddenUI, subvariantOptions } = useWidgetConfig()
+  const { hiddenUI } = useWidgetConfig()
   const { useExternalWalletProvidersOnly } = useExternalWalletProvider()
 
-  const isSplitVariant = subvariant === 'split' && !subvariantOptions?.split
   const isWalletMenuHidden = hiddenUI?.includes(HiddenUI.WalletMenu)
 
   const shouldShowWalletMenu =
@@ -38,23 +37,17 @@ const useInternalWalletManagement = () => {
 
   return {
     shouldShowWalletMenu,
-    isSplitVariant,
   }
 }
 
 export const WalletHeader: React.FC = () => {
-  const { shouldShowWalletMenu, isSplitVariant } = useInternalWalletManagement()
+  const { shouldShowWalletMenu } = useInternalWalletManagement()
 
-  return shouldShowWalletMenu && !isSplitVariant ? (
+  return shouldShowWalletMenu ? (
     <HeaderAppBar elevation={0} sx={{ justifyContent: 'flex-end' }}>
       <WalletMenuButton />
     </HeaderAppBar>
   ) : null
-}
-
-export const SplitWalletMenuButton: React.FC = () => {
-  const { shouldShowWalletMenu, isSplitVariant } = useInternalWalletManagement()
-  return shouldShowWalletMenu && isSplitVariant ? <WalletMenuButton /> : null
 }
 
 export const WalletMenuButton: React.FC = () => {
@@ -92,8 +85,7 @@ export const WalletMenuButton: React.FC = () => {
 
 const ConnectButton = () => {
   const { t } = useTranslation()
-  const { walletConfig, subvariant, subvariantOptions, variant } =
-    useWidgetConfig()
+  const { walletConfig, variant } = useWidgetConfig()
   const { openWalletMenu } = useWalletMenu()
   const connect = async () => {
     if (!walletConfig?.usePartialWalletManagement && walletConfig?.onConnect) {
@@ -103,12 +95,7 @@ const ConnectButton = () => {
     openWalletMenu()
   }
 
-  const walletPosition =
-    variant !== 'drawer' &&
-    (subvariant !== 'split' ||
-      (subvariant === 'split' && subvariantOptions?.split))
-      ? 'end'
-      : 'start'
+  const walletPosition = variant === 'drawer' ? 'start' : 'end'
 
   return (
     <WalletButton
@@ -127,7 +114,6 @@ const ConnectButton = () => {
 }
 
 const ConnectedButton = ({ account }: { account: Account }) => {
-  const { subvariant, subvariantOptions } = useWidgetConfig()
   const { chain } = useChain(account.chainId)
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const walletAddress = shortenAddress(account.address)
@@ -143,7 +129,6 @@ const ConnectedButton = ({ account }: { account: Account }) => {
   return (
     <>
       <WalletButton
-        withOffset={subvariant === 'split' && !subvariantOptions?.split}
         endIcon={<ExpandMore />}
         startIcon={
           chain?.logoURI ? (
