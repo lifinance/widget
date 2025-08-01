@@ -1,5 +1,5 @@
 import type { WidgetConfig } from '@lifi/widget'
-import { shallow } from 'zustand/shallow'
+import { useShallow } from 'zustand/shallow'
 import { createWithEqualityFn } from 'zustand/traditional'
 import type { WidgetConfigState } from './types'
 
@@ -14,7 +14,7 @@ const initialWidgetConfig = {
   },
 }
 
-export const useWidgetConfigStore = createWithEqualityFn<WidgetConfigState>(
+const widgetConfigStore = createWithEqualityFn<WidgetConfigState>(
   (set, get) => ({
     config: initialWidgetConfig,
     setConfig: (config) => {
@@ -47,5 +47,11 @@ export const useWidgetConfigStore = createWithEqualityFn<WidgetConfigState>(
       })
     },
   }),
-  shallow
+  Object.is
 )
+
+export const useWidgetConfigStore = <T>(
+  selector: (state: WidgetConfigState) => T
+): T => {
+  return widgetConfigStore(useShallow(selector))
+}

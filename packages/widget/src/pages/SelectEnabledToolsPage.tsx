@@ -14,7 +14,6 @@ import {
 import type { MouseEventHandler } from 'react'
 import { type FormEventHandler, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { shallow } from 'zustand/shallow'
 import { FullPageContainer } from '../components/FullPageContainer.js'
 import { ListItemText } from '../components/ListItemText.js'
 import { StickySearchInput } from '../components/Search/SearchInput.js'
@@ -76,10 +75,10 @@ export const SelectEnabledToolsPage: React.FC<{
   const typeKey = type.toLowerCase() as 'bridges' | 'exchanges'
   const { tools } = useTools()
   const { setToolValue, toggleToolKeys } = useSettingsActions()
-  const [enabledTools, disabledTools] = useSettingsStore(
-    (state) => [state[`_enabled${type}`], state[`disabled${type}`]],
-    shallow
-  )
+  const [enabledTools, disabledTools] = useSettingsStore((state) => [
+    state[`_enabled${type}`],
+    state[`disabled${type}`],
+  ])
 
   const { t } = useTranslation()
   const elementId = useDefaultElementId()
