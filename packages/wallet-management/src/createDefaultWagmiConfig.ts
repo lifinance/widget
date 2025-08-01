@@ -3,11 +3,13 @@ import { mainnet } from 'viem/chains'
 import type { Config, CreateConnectorFn } from 'wagmi'
 import { createConfig } from 'wagmi'
 import type {
+  BaseAccountParameters,
   CoinbaseWalletParameters,
   MetaMaskParameters,
   WalletConnectParameters,
 } from 'wagmi/connectors'
 import { safe } from 'wagmi/connectors'
+import { createBaseAccountConnector } from './connectors/baseAccount.js'
 import { createCoinbaseConnector } from './connectors/coinbase.js'
 import { createMetaMaskConnector } from './connectors/metaMask.js'
 import { createWalletConnectConnector } from './connectors/walletConnect.js'
@@ -17,6 +19,7 @@ export interface DefaultWagmiConfigProps {
   walletConnect?: WalletConnectParameters
   coinbase?: CoinbaseWalletParameters
   metaMask?: MetaMaskParameters
+  baseAccount?: BaseAccountParameters
   wagmiConfig?: {
     ssr?: boolean
     multiInjectedProviderDiscovery?: boolean
@@ -109,6 +112,15 @@ export function createDefaultWagmiConfig(
     )
     if (recentConnectorId?.includes?.('metaMaskSDK') || !props.lazy) {
       connectors.unshift(createMetaMaskConnector(props.metaMask))
+    }
+  }
+
+  if (props?.baseAccount && !isWalletInstalled('baseAccount')) {
+    const recentConnectorId = localStorage?.getItem(
+      `${config.storage?.key}.recentConnectorId`
+    )
+    if (recentConnectorId?.includes?.('baseAccount') || !props.lazy) {
+      connectors.unshift(createBaseAccountConnector(props.baseAccount))
     }
   }
 
