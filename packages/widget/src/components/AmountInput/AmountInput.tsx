@@ -7,10 +7,7 @@ import { useToken } from '../../hooks/useToken.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { FormKeyHelper, type FormTypeProps } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
-import {
-  useFieldValue,
-  useFieldValues,
-} from '../../stores/form/useFieldValues.js'
+import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { useInputModeStore } from '../../stores/inputMode/useInputModeStore.js'
 import { DisabledUI } from '../../types/widget.js'
 import {
@@ -89,7 +86,7 @@ export const AmountInputBase: React.FC<
   const [formattedPriceInput, setFormattedPriceInput] = useState('')
 
   const amountKey = FormKeyHelper.getAmountKey(formType)
-  const value = useFieldValue(amountKey)
+  const [value] = useFieldValues(amountKey)
   const { setFieldValue } = useFieldActions()
   const { inputMode } = useInputModeStore()
 
