@@ -2,7 +2,6 @@ import AirlineStops from '@mui/icons-material/AirlineStops'
 import SwapHoriz from '@mui/icons-material/SwapHoriz'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { shallow } from 'zustand/shallow'
 import { CardButton } from '../../components/Card/CardButton.js'
 import { useSettingMonitor } from '../../hooks/useSettingMonitor.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
@@ -25,7 +24,7 @@ export const BridgeAndExchangeSettings: React.FC<{
   const [enabledTools, tools] = useSettingsStore((state) => {
     const enabledTools = Object.values(state[`_enabled${type}`])
     return [enabledTools.filter(Boolean).length, enabledTools.length]
-  }, shallow)
+  })
 
   const { hiddenUI } = useWidgetConfig()
 

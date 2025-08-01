@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useRef } from 'react'
 import type { StoreApi } from 'zustand'
+import { useShallow } from 'zustand/shallow'
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
 import { useChains } from '../../hooks/useChains.js'
 import { useExternalWalletProvider } from '../../providers/WalletProvider/useExternalWalletProvider.js'
@@ -115,9 +116,8 @@ export function useChainOrderStoreContext() {
 }
 
 export function useChainOrderStore<T>(
-  selector: (state: ChainOrderState) => T,
-  equalityFn?: (left: T, right: T) => boolean
+  selector: (state: ChainOrderState) => T
 ): T {
   const useStore = useChainOrderStoreContext()
-  return useStore(selector, equalityFn)
+  return useStore(useShallow(selector))
 }

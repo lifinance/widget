@@ -1,5 +1,4 @@
 import { useCallback } from 'react'
-import { shallow } from 'zustand/shallow'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import type { FormFieldChanged } from '../../types/events.js'
 import { WidgetEvent } from '../../types/events.js'
@@ -14,19 +13,16 @@ import { useFormStore } from './useFormStore.js'
 
 export const useFieldActions = () => {
   const emitter = useWidgetEvents()
-  const actions = useFormStore<FormActions>(
-    (store) => ({
-      getFieldValues: store.getFieldValues,
-      isTouched: store.isTouched,
-      isDirty: store.isDirty,
-      resetField: store.resetField,
-      setAsTouched: store.setAsTouched,
-      setDefaultValues: store.setDefaultValues,
-      setFieldValue: store.setFieldValue,
-      setUserAndDefaultValues: store.setUserAndDefaultValues,
-    }),
-    shallow
-  )
+  const actions = useFormStore<FormActions>((store) => ({
+    getFieldValues: store.getFieldValues,
+    isTouched: store.isTouched,
+    isDirty: store.isDirty,
+    resetField: store.resetField,
+    setAsTouched: store.setAsTouched,
+    setDefaultValues: store.setDefaultValues,
+    setFieldValue: store.setFieldValue,
+    setUserAndDefaultValues: store.setUserAndDefaultValues,
+  }))
 
   const setFieldValueWithEmittedEvents = useCallback(
     (

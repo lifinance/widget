@@ -4,7 +4,7 @@ import isEqual from 'lodash.isequal'
 import diff from 'microdiff'
 import type { FC, PropsWithChildren } from 'react'
 import { createContext, useContext, useEffect, useRef } from 'react'
-import { shallow } from 'zustand/shallow'
+import { useShallow } from 'zustand/shallow'
 import { cloneStructuredConfig } from '../../utils/cloneStructuredConfig'
 import { patch } from '../../utils/patch'
 import { createWidgetConfigStore } from './createWidgetConfigStore'
@@ -85,8 +85,7 @@ export const WidgetConfigProvider: FC<WidgetConfigProviderProps> = ({
 }
 
 export function useWidgetConfigStore<T>(
-  selector: (store: WidgetConfigState) => T,
-  equalityFunction = shallow
+  selector: (store: WidgetConfigState) => T
 ) {
   const useStore = useContext(WidgetConfigContext)
 
@@ -96,5 +95,5 @@ export function useWidgetConfigStore<T>(
     )
   }
 
-  return useStore(selector, equalityFunction)
+  return useStore(useShallow(selector))
 }
