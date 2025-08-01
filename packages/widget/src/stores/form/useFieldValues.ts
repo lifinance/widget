@@ -10,3 +10,15 @@ export const useFieldValues = <T extends FormFieldNames[]>(...names: T) => {
 
   return values
 }
+
+export const useFieldValue = <T extends FormFieldNames>(
+  name: T,
+  shouldShallow: boolean = false
+) => {
+  const value = useFormStore(
+    (store) => store.userValues[name]?.value,
+    shouldShallow ? shallow : undefined
+  )
+
+  return value
+}

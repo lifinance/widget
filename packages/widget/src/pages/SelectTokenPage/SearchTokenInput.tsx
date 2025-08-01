@@ -1,15 +1,27 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SearchInput } from '../../components/Search/SearchInput.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
-import { useFieldController } from '../../stores/form/useFieldController.js'
+import { useFieldValues } from '../../stores/form/useFieldValues.js'
 
 export const SearchTokenInput = () => {
   const { t } = useTranslation()
-  const { setFieldValue } = useFieldActions()
-  const { onChange, onBlur, name, value } = useFieldController({
-    name: 'tokenSearchFilter',
-  })
+  const [value] = useFieldValues('tokenSearchFilter')
+  const { setFieldValue, setAsTouched } = useFieldActions()
+
+  const onChange = useCallback(
+    (newValue: string | number | undefined) => {
+      setFieldValue('tokenSearchFilter', newValue, {
+        isDirty: true,
+        isTouched: true,
+      })
+    },
+    [setFieldValue]
+  )
+
+  const onBlur = useCallback(() => {
+    setAsTouched('tokenSearchFilter')
+  }, [setAsTouched])
 
   useEffect(
     () => () => {
@@ -20,7 +32,7 @@ export const SearchTokenInput = () => {
 
   return (
     <SearchInput
-      name={name}
+      name="tokenSearchFilter"
       placeholder={t('main.tokenSearch')}
       onChange={(e) => onChange((e.target as HTMLInputElement).value)}
       onBlur={onBlur}
