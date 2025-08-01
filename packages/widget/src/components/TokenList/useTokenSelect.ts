@@ -6,6 +6,7 @@ import { useChainOrderStoreContext } from '../../stores/chains/ChainOrderStore.j
 import type { FormType } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
+import { useSplitSubvariantStore } from '../../stores/settings/useSplitSubvariantStore.js'
 import { WidgetEvent } from '../../types/events.js'
 import type { DisabledUI } from '../../types/widget.js'
 
@@ -16,6 +17,7 @@ export type UseTokenSelectArgs = {
 
 export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
   const { subvariant, disabledUI } = useWidgetConfig()
+  const splitSubvariant = useSplitSubvariantStore((store) => store.state)
   const emitter = useWidgetEvents()
   const { setFieldValue, getFieldValues } = useFieldActions()
   const autoPopulateToAddress = useToAddressAutoPopulate()
@@ -47,10 +49,19 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
         FormKeyHelper.getChainKey(oppositeFormType),
         'toAddress'
       )
+
       // TODO: remove when we enable same chain/token transfers
-      if (
+      const isSameTokenTransfer =
         selectedOppositeTokenAddress === tokenAddress &&
-        selectedOppositeChainId === selectedChainId &&
+        selectedOppositeChainId === selectedChainId
+
+      const isBridgeToSameChain =
+        subvariant === 'split' &&
+        splitSubvariant === 'bridge' &&
+        selectedOppositeChainId === selectedChainId
+
+      if (
+        (isSameTokenTransfer || isBridgeToSameChain) &&
         subvariant !== 'custom'
       ) {
         setFieldValue(FormKeyHelper.getTokenKey(oppositeFormType), '', {
@@ -106,6 +117,7 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
       onClick,
       setFieldValue,
       subvariant,
+      splitSubvariant,
       tokenKey,
     ]
   )
