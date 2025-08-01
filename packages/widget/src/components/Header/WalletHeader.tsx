@@ -129,6 +129,7 @@ const ConnectedButton = ({ account }: { account: Account }) => {
   return (
     <>
       <WalletButton
+        withOffset
         endIcon={<ExpandMore />}
         startIcon={
           chain?.logoURI ? (
