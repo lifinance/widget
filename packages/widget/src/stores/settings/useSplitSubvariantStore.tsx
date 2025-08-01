@@ -1,4 +1,5 @@
 import { createContext, useContext, useRef } from 'react'
+import { useShallow } from 'zustand/shallow'
 import { createWithEqualityFn } from 'zustand/traditional'
 import type {
   SplitSubvariantProps,
@@ -47,7 +48,7 @@ export function useSplitSubvariantStore<T>(
   selector: (state: SplitSubvariantState) => T
 ): T {
   const useStore = useSplitSubvariantStoreContext()
-  return useStore(selector)
+  return useStore(useShallow(selector))
 }
 
 export const createSplitSubvariantStore = ({ state }: SplitSubvariantProps) =>

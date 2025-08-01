@@ -1,6 +1,6 @@
 import type { FC, PropsWithChildren } from 'react'
 import { createContext, useContext, useEffect, useRef } from 'react'
-import { shallow } from 'zustand/shallow'
+import { useShallow } from 'zustand/shallow'
 import { useConfigActions } from '../widgetConfig/useConfigActions'
 import { createEditToolsStore } from './createEditToolsStore'
 import type { ToolsState, ToolsStore } from './types'
@@ -36,10 +36,7 @@ export const EditToolsProvider: FC<PropsWithChildren> = ({ children }) => {
   )
 }
 
-export function useEditToolsStore<T>(
-  selector: (store: ToolsState) => T,
-  equalityFunction = shallow
-) {
+export function useEditToolsStore<T>(selector: (store: ToolsState) => T) {
   const useStore = useContext(EditToolsContext)
 
   if (!useStore) {
@@ -48,5 +45,5 @@ export function useEditToolsStore<T>(
     )
   }
 
-  return useStore(selector, equalityFunction)
+  return useStore(useShallow(selector))
 }

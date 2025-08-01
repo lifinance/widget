@@ -6,7 +6,6 @@ import { useChainOrderStoreContext } from '../../stores/chains/ChainOrderStore.j
 import type { FormType } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
-import { useFieldController } from '../../stores/form/useFieldController.js'
 import { useSplitSubvariantStore } from '../../stores/settings/useSplitSubvariantStore.js'
 import { WidgetEvent } from '../../types/events.js'
 import type { DisabledUI } from '../../types/widget.js'
@@ -25,11 +24,10 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
   const chainOrderStore = useChainOrderStoreContext()
 
   const tokenKey = FormKeyHelper.getTokenKey(formType)
-  const { onChange } = useFieldController({ name: tokenKey })
 
   return useCallback(
     (tokenAddress: string, chainId?: number) => {
-      onChange(tokenAddress)
+      setFieldValue(tokenKey, tokenAddress, { isDirty: true, isTouched: true })
       const selectedChainId =
         chainId ?? getFieldValues(FormKeyHelper.getChainKey(formType))[0]
       // Set chain again to trigger URL builder update
@@ -116,11 +114,11 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
       emitter,
       formType,
       getFieldValues,
-      onChange,
       onClick,
       setFieldValue,
       subvariant,
       splitSubvariant,
+      tokenKey,
     ]
   )
 }

@@ -61,8 +61,11 @@ export const useTokenSearch = (
                 (t) => t.address === token.address
               )
             ) {
-              const clonedData = { ...data }
-              clonedData.tokens[chainId as number]?.push(token as TokenExtended)
+              const clonedData = { ...data, tokens: { ...data.tokens } }
+              clonedData.tokens[chainId as number] = [
+                ...(clonedData.tokens[chainId as number] ?? []),
+                token,
+              ]
               return clonedData
             }
           }

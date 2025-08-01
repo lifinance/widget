@@ -49,16 +49,16 @@
     "lifi"
   ],
   "dependencies": {
-    "@bigmi/client": "^0.4.2",
-    "@bigmi/core": "^0.4.2",
+    "@bigmi/client": "^0.4.3",
+    "@bigmi/core": "^0.4.3",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^3.8.7",
+    "@lifi/sdk": "^3.8.8",
     "@lifi/wallet-management": "workspace:^",
     "@mui/icons-material": "^7.2.0",
     "@mui/material": "^7.2.0",
     "@mui/system": "^7.2.0",
-    "@mysten/sui": "^1.36.2",
+    "@mysten/sui": "^1.37.1",
     "@solana/wallet-adapter-base": "^0.9.27",
     "@solana/wallet-adapter-coinbase": "^0.1.23",
     "@solana/web3.js": "^1.98.2",
@@ -70,15 +70,15 @@
     "react-intersection-observer": "^9.16.0",
     "react-router-dom": "^6.30.0",
     "react-transition-group": "^4.4.5",
-    "viem": "^2.33.0",
-    "zustand": "^5.0.6"
+    "viem": "^2.33.2",
+    "zustand": "^5.0.7"
   },
   "devDependencies": {
     "@types/react-transition-group": "^4.4.12",
     "cpy-cli": "^5.0.0",
     "madge": "^8.0.0",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
   },

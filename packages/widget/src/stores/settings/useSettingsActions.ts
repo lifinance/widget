@@ -1,5 +1,4 @@
 import { useCallback } from 'react'
-import { shallow } from 'zustand/shallow'
 import type { widgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { WidgetEvent } from '../../types/events.js'
@@ -47,17 +46,14 @@ const emitEventOnChange = <T extends (...args: any[]) => any>(
 
 export const useSettingsActions = () => {
   const emitter = useWidgetEvents()
-  const actions = useSettingsStore(
-    (state) => ({
-      setValue: state.setValue,
-      getValue: state.getValue,
-      getSettings: state.getSettings,
-      reset: state.reset,
-      setToolValue: state.setToolValue,
-      toggleToolKeys: state.toggleToolKeys,
-    }),
-    shallow
-  )
+  const actions = useSettingsStore((state) => ({
+    setValue: state.setValue,
+    getValue: state.getValue,
+    getSettings: state.getSettings,
+    reset: state.reset,
+    setToolValue: state.setToolValue,
+    toggleToolKeys: state.toggleToolKeys,
+  }))
 
   const setValueWithEmittedEvent = useCallback<ValueSetter<SettingsProps>>(
     (value, newValue) => {
