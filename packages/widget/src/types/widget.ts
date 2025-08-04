@@ -112,6 +112,7 @@ export enum HiddenUI {
   ChainSelect = 'chainSelect',
   BridgesSettings = 'bridgesSettings',
   AddressBookConnectedWallets = 'addressBookConnectedWallets',
+  LowAddressActivityConfirmation = 'lowAddressActivityConfirmation',
 }
 export type HiddenUIType = `${HiddenUI}`
 
