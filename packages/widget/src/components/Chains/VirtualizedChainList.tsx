@@ -97,9 +97,9 @@ export const VirtualizedChainList = ({
               behavior: 'smooth',
             })
           })
-          hasScrolledRef.current = true // Mark as scrolled (when needed)
         }
       }
+      hasScrolledRef.current = true // Mark as scrolled (when needed)
     }
   }, [sortedChains, scrollToIndex, range])
 
