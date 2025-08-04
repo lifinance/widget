@@ -99,7 +99,7 @@ export const RoutesContent = ({
         />
       </Header>
       <PageContainer
-        sx={{ height: `calc(100vh - ${headerHeight})`, overflow: 'auto' }}
+        sx={{ height: `calc(100% - ${headerHeight})`, overflow: 'auto' }}
       >
         <Stack
           direction="column"
