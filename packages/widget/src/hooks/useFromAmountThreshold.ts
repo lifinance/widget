@@ -16,13 +16,17 @@ export const useFromAmountThreshold = () => {
   const { token } = useToken(chainId, tokenAddress)
 
   const belowMinFromAmountUSD = useMemo(() => {
-    const fromAmountUSD = formatTokenPrice(fromAmount, token?.priceUSD)
+    const fromAmountUSD = formatTokenPrice(
+      fromAmount,
+      token?.priceUSD,
+      token?.decimals
+    )
 
     if (!minFromAmountUSD || !fromAmountUSD) {
       return false
     }
     return fromAmountUSD < minFromAmountUSD
-  }, [minFromAmountUSD, fromAmount, token?.priceUSD])
+  }, [minFromAmountUSD, fromAmount, token?.priceUSD, token?.decimals])
 
   return {
     belowMinFromAmountUSD,

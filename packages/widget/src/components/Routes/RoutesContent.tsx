@@ -29,6 +29,8 @@ interface RoutesContentProps {
   refetch: () => void
 }
 
+const headerHeight = '64px'
+
 export const RoutesContent = ({
   routes,
   isFetching,
@@ -77,7 +79,7 @@ export const RoutesContent = ({
 
   return (
     <Container enableColorScheme minimumHeight={isLoading}>
-      <Header>
+      <Header sx={{ height: headerHeight }}>
         <Typography
           noWrap
           sx={{
@@ -96,7 +98,9 @@ export const RoutesContent = ({
           sx={{ marginRight: -1 }}
         />
       </Header>
-      <PageContainer>
+      <PageContainer
+        sx={{ height: `calc(100% - ${headerHeight})`, overflow: 'auto' }}
+      >
         <Stack
           direction="column"
           spacing={2}

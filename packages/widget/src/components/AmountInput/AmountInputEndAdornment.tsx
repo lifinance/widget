@@ -8,7 +8,7 @@ import type { FormTypeProps } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { MaxButton, MaxButtonSkeleton } from './AmountInputAdornment.style.js'
+import { ButtonContainer, MaxButton } from './AmountInputAdornment.style.js'
 
 export const AmountInputEndAdornment = ({ formType }: FormTypeProps) => {
   const { t } = useTranslation()
@@ -24,11 +24,11 @@ export const AmountInputEndAdornment = ({ formType }: FormTypeProps) => {
   // the user will have enough funds remaining to cover gas costs
   const { data } = useGasRecommendation(chainId)
 
-  const { token, isLoading } = useTokenAddressBalance(chainId, tokenAddress)
+  const { token } = useTokenAddressBalance(chainId, tokenAddress)
 
-  const handleMax = () => {
+  const getMaxAmount = () => {
     if (!token?.amount) {
-      return
+      return 0n
     }
     const chain = getChainById(chainId)
     let maxAmount = token.amount
@@ -38,7 +38,26 @@ export const AmountInputEndAdornment = ({ formType }: FormTypeProps) => {
         maxAmount = token.amount - recommendedAmount
       }
     }
-    if (maxAmount) {
+    return maxAmount
+  }
+
+  const handlePercentage = (percentage: number) => {
+    const maxAmount = getMaxAmount()
+    if (maxAmount && token?.decimals) {
+      const percentageAmount = (maxAmount * BigInt(percentage)) / 100n
+      setFieldValue(
+        FormKeyHelper.getAmountKey(formType),
+        formatUnits(percentageAmount, token.decimals),
+        {
+          isTouched: true,
+        }
+      )
+    }
+  }
+
+  const handleMax = () => {
+    const maxAmount = getMaxAmount()
+    if (maxAmount && token?.decimals) {
       setFieldValue(
         FormKeyHelper.getAmountKey(formType),
         formatUnits(maxAmount, token.decimals),
@@ -50,11 +69,22 @@ export const AmountInputEndAdornment = ({ formType }: FormTypeProps) => {
   }
 
   return (
-    <InputAdornment position="end">
-      {isLoading && tokenAddress ? (
-        <MaxButtonSkeleton variant="rectangular" />
-      ) : formType === 'from' && token?.amount ? (
-        <MaxButton onClick={handleMax}>{t('button.max')}</MaxButton>
+    <InputAdornment position="end" sx={{ paddingTop: 2 }}>
+      {formType === 'from' && token?.amount ? (
+        <ButtonContainer>
+          <MaxButton onClick={() => handlePercentage(25)} data-delay="0">
+            25%
+          </MaxButton>
+          <MaxButton onClick={() => handlePercentage(50)} data-delay="1">
+            50%
+          </MaxButton>
+          <MaxButton onClick={() => handlePercentage(75)} data-delay="2">
+            75%
+          </MaxButton>
+          <MaxButton onClick={handleMax} data-delay="3">
+            {t('button.max')}
+          </MaxButton>
+        </ButtonContainer>
       ) : null}
     </InputAdornment>
   )

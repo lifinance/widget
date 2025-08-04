@@ -1,4 +1,4 @@
-import type { Route, Token } from '@lifi/sdk'
+import type { Route, Token, TokensResponse } from '@lifi/sdk'
 import {
   ChainType,
   convertQuoteToRoute,
@@ -406,6 +406,24 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           // Update local tokens cache to keep priceUSD in sync
           const { fromToken, toToken } = routesResult.routes[0]
           ;[fromToken, toToken].forEach((token) => {
+            queryClient.setQueriesData<TokensResponse>(
+              { queryKey: [getQueryKey('tokens', keyPrefix)] },
+              (data) => {
+                if (data) {
+                  const clonedData = { ...data }
+                  const index = clonedData.tokens?.[token.chainId]?.findIndex(
+                    (dataToken) => dataToken.address === token.address
+                  )
+                  if (index >= 0) {
+                    clonedData.tokens[token.chainId][index] = {
+                      ...clonedData.tokens[token.chainId][index],
+                      ...token,
+                    }
+                  }
+                  return clonedData
+                }
+              }
+            )
             queryClient.setQueriesData<Token[]>(
               {
                 queryKey: [getQueryKey('token-balances', keyPrefix)],
@@ -418,9 +436,11 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
                       dataToken.address === token.address &&
                       dataToken.chainId === token.chainId
                   )
-                  clonedData[index] = {
-                    ...clonedData[index],
-                    ...token,
+                  if (index >= 0) {
+                    clonedData[index] = {
+                      ...clonedData[index],
+                      ...token,
+                    }
                   }
                   return clonedData
                 }

@@ -5,6 +5,7 @@ import {
   FormControl as MuiFormControl,
   styled,
 } from '@mui/material'
+import { CardTitle } from '../Card/CardTitle.js'
 
 export const maxInputFontSize = 24
 export const minInputFontSize = 14
@@ -42,4 +43,16 @@ export const Input = styled(InputBase)(({ theme }) => ({
   [`.${inputBaseClasses.input}.${inputBaseClasses.disabled}`]: {
     WebkitTextFillColor: 'unset',
   },
+}))
+
+export const AmountInputCardTitle = styled(CardTitle)(({ theme }) => ({
+  padding: theme.spacing(2, 0, 0, 0),
+}))
+
+export const AmountInputCardHeader = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(0, 2, 0, 2),
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'start',
+  height: 30,
 }))

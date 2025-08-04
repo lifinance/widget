@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { useTokenSearch } from '../../hooks/useTokenSearch.js'
-import { formatTokenPrice } from '../../utils/format.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
@@ -119,7 +118,7 @@ export const TokenDetailsSheetContent = forwardRef<
         >
           {token?.priceUSD
             ? t('format.currency', {
-                value: formatTokenPrice('1', token.priceUSD, token.decimals),
+                value: token.priceUSD,
               })
             : noDataLabel}
         </Typography>

@@ -1,5 +1,5 @@
 import { createContext, useContext, useRef } from 'react'
-import { shallow } from 'zustand/shallow'
+import { useShallow } from 'zustand/shallow'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { PersistStoreProviderProps } from '../types.js'
 import { createBookmarksStore } from './createBookmarkStore.js'
@@ -25,10 +25,7 @@ export const BookmarkStoreProvider: React.FC<PersistStoreProviderProps> = ({
   )
 }
 
-export function useBookmarkStore<T>(
-  selector: (store: BookmarkState) => T,
-  equalityFunction = shallow
-) {
+export function useBookmarkStore<T>(selector: (store: BookmarkState) => T) {
   const useStore = useContext(BookmarkStoreContext)
 
   if (!useStore) {
@@ -37,5 +34,5 @@ export function useBookmarkStore<T>(
     )
   }
 
-  return useStore(selector, equalityFunction)
+  return useStore(useShallow(selector))
 }

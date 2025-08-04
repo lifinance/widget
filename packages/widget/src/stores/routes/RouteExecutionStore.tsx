@@ -1,5 +1,6 @@
 import { createContext, useContext, useRef } from 'react'
 import type { StoreApi } from 'zustand'
+import { useShallow } from 'zustand/shallow'
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
 import type { PersistStoreProviderProps } from '../types.js'
 import { createRouteExecutionStore } from './createRouteExecutionStore.js'
@@ -38,9 +39,8 @@ export function useRouteExecutionStoreContext() {
 }
 
 export function useRouteExecutionStore<T>(
-  selector: (state: RouteExecutionState) => T,
-  equalityFn?: (left: T, right: T) => boolean
+  selector: (state: RouteExecutionState) => T
 ): T {
   const useStore = useRouteExecutionStoreContext()
-  return useStore(selector, equalityFn)
+  return useStore(useShallow(selector))
 }

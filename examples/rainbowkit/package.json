@@ -9,18 +9,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/wallet-management": "^3.12.0",
-    "@lifi/widget": "^3.24.2",
+    "@lifi/wallet-management": "^3.13.0",
+    "@lifi/widget": "^3.25.0",
     "@rainbow-me/rainbowkit": "^2.2.8",
-    "@tanstack/react-query": "^5.81.5",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "viem": "^2.33.0",
+    "@tanstack/react-query": "^5.83.1",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "viem": "^2.33.2",
     "wagmi": "^2.16.0"
   },
   "devDependencies": {
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.5",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react-swc": "^3.11.0",
     "typescript": "^5.8.3",
     "vite": "^7.0.6",

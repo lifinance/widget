@@ -1,4 +1,5 @@
 import type {
+  BaseAccountParameters,
   CoinbaseWalletParameters,
   MetaMaskParameters,
   WalletConnectParameters,
@@ -8,4 +9,5 @@ export interface WalletConfig {
   walletConnect?: WalletConnectParameters
   coinbase?: CoinbaseWalletParameters
   metaMask?: MetaMaskParameters
+  baseAccount?: BaseAccountParameters
 }

@@ -30,8 +30,8 @@ export const useTokens = (formType?: FormType) => {
       getTokens({
         chainTypes,
       }),
-    refetchInterval: 3_600_000,
-    staleTime: 3_600_000,
+    refetchInterval: 300_000,
+    staleTime: 300_000,
   })
 
   const allAllowedTokens = useMemo(() => {

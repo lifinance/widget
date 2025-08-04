@@ -16,16 +16,16 @@
     "@mui/material": "^7.2.0",
     "@mui/material-nextjs": "^7.2.0",
     "@mui/system": "^7.2.0",
-    "@tanstack/react-query": "^5.81.5",
+    "@tanstack/react-query": "^5.83.1",
     "core-js": "^3.43.0",
-    "next": "^15.4.3",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "next": "^15.4.5",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   },
   "devDependencies": {
     "@types/node": "^24.1.0",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.5",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
     "typescript": "^5.8.3"
   },
   "private": true

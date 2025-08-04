@@ -1,4 +1,5 @@
 import { createContext, useContext, useRef } from 'react'
+import { useShallow } from 'zustand/shallow'
 import { createWithEqualityFn } from 'zustand/traditional'
 import type { PersistStoreProviderProps } from '../types.js'
 import type { HeaderState, HeaderStore } from './types.js'
@@ -27,12 +28,9 @@ export function useHeaderStoreContext() {
   return useStore
 }
 
-export function useHeaderStore<T>(
-  selector: (state: HeaderState) => T,
-  equalityCheck?: (objA: T, objB: T) => boolean
-): T {
+export function useHeaderStore<T>(selector: (state: HeaderState) => T): T {
   const useStore = useHeaderStoreContext()
-  return useStore(selector, equalityCheck)
+  return useStore(useShallow(selector))
 }
 
 // We use fixed position on the header when Widget is in Full Height layout.

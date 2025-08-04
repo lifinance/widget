@@ -3,7 +3,6 @@ import { useVirtualizer } from '@tanstack/react-virtual'
 import type { RefObject } from 'react'
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { shallow } from 'zustand/shallow'
 import {
   useChainOrderStore,
   useChainOrderStoreContext,
@@ -42,10 +41,10 @@ export const VirtualizedChainList = ({
   const { isAllNetworks, setIsAllNetworks } = chainOrderStore.getState()
   const selectedChainIdRef = useRef(selectedChainId) // Store the initial selected chain ID to scroll to it once chains are loaded
   const hasScrolledRef = useRef(false)
-  const [pinnedChains, setPinnedChain] = useChainOrderStore(
-    (state) => [state.pinnedChains, state.setPinnedChain],
-    shallow
-  )
+  const [pinnedChains, setPinnedChain] = useChainOrderStore((state) => [
+    state.pinnedChains,
+    state.setPinnedChain,
+  ])
   const onPin = useCallback(
     (chainId: number) => {
       setPinnedChain(chainId)
@@ -136,9 +135,9 @@ export const VirtualizedChainList = ({
               behavior: 'smooth',
             })
           })
-          hasScrolledRef.current = true // Mark as scrolled (when needed)
         }
       }
+      hasScrolledRef.current = true // Mark as scrolled (when needed)
     }
   }, [sortedChains, scrollToIndex, range, isAllNetworks])
 
