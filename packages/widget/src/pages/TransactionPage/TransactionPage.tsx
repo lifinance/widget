@@ -19,6 +19,7 @@ import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.j
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { WidgetEvent } from '../../types/events.js'
+import { HiddenUI } from '../../types/widget.js'
 import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
 import { ConfirmToAddressSheet } from './ConfirmToAddressSheet.js'
 import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet.js'
@@ -37,8 +38,12 @@ export const TransactionPage: React.FC = () => {
   const { setFieldValue } = useFieldActions()
   const emitter = useWidgetEvents()
   const { navigateBack } = useNavigateBack()
-  const { subvariant, subvariantOptions, contractSecondaryComponent } =
-    useWidgetConfig()
+  const {
+    subvariant,
+    subvariantOptions,
+    contractSecondaryComponent,
+    hiddenUI,
+  } = useWidgetConfig()
   const { state }: any = useLocation()
   const stateRouteId = state?.routeId
   const [routeId, setRouteId] = useState<string>(stateRouteId)
@@ -141,7 +146,8 @@ export const TransactionPage: React.FC = () => {
         toAddress &&
         !hasActivity &&
         !isLoadingAddressActivity &&
-        isActivityAddressFetched
+        isActivityAddressFetched &&
+        !hiddenUI?.includes(HiddenUI.LowAddressActivityConfirmation)
       ) {
         confirmToAddressSheetRef.current?.open()
         return
@@ -248,12 +254,14 @@ export const TransactionPage: React.FC = () => {
         />
       ) : null}
       <ExchangeRateBottomSheet ref={exchangeRateBottomSheetRef} />
-      <ConfirmToAddressSheet
-        ref={confirmToAddressSheetRef}
-        onContinue={handleExecuteRoute}
-        toAddress={toAddress!}
-        toChainId={route.toChainId!}
-      />
+      {!hiddenUI?.includes(HiddenUI.LowAddressActivityConfirmation) ? (
+        <ConfirmToAddressSheet
+          ref={confirmToAddressSheetRef}
+          onContinue={handleExecuteRoute}
+          toAddress={toAddress!}
+          toChainId={route.toChainId!}
+        />
+      ) : null}
     </PageContainer>
   )
 }

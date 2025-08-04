@@ -37,7 +37,16 @@ export const NavigationHeader: React.FC = () => {
     <>
       <HeaderAppBar elevation={0}>
         {backButtonRoutes.includes(path) ? (
-          <BackButton onClick={navigateBack} />
+          <BackButton
+            onClick={() =>
+              navigateBack(
+                // From transaction details page, navigate to home page
+                path === navigationRoutes.transactionDetails
+                  ? navigationRoutes.home
+                  : undefined
+              )
+            }
+          />
         ) : null}
         {splitSubvariant ? (
           <Box
