@@ -13,36 +13,25 @@ export const VariantControl = () => {
 
   const handleVariantChange = (_: SyntheticEvent, value: WidgetVariant) => {
     setVariant(value)
+    setHeader()
 
-    switch (value) {
-      case 'drawer': {
-        setHeader()
+    const baseContainer = getCurrentConfigTheme()?.container || {}
 
-        const containerForDrawer = {
-          ...getCurrentConfigTheme()?.container,
-          maxHeight: undefined,
-          display: undefined,
-          height: '100%',
-        }
+    const containerConfig =
+      value === 'drawer'
+        ? {
+            ...baseContainer,
+            maxHeight: undefined,
+            display: undefined,
+            height: '100%',
+          }
+        : {
+            ...baseContainer,
+            display: undefined,
+            height: undefined,
+          }
 
-        setContainer(containerForDrawer)
-        break
-      }
-      case 'wide': {
-        setHeader()
-
-        const containerForWide = {
-          ...getCurrentConfigTheme()?.container,
-          // Reset values for Default layout (since they are different for Drawer variant)
-          display: undefined,
-          height: undefined,
-        }
-
-        setContainer(containerForWide)
-        break
-      }
-      default:
-    }
+    setContainer(containerConfig)
   }
 
   return (

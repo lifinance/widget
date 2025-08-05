@@ -4,13 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 
-interface TransactionHistoryButtonProps {
-  hidden?: boolean
-}
-
-export const TransactionHistoryButton = ({
-  hidden,
-}: TransactionHistoryButtonProps) => {
+export const TransactionHistoryButton = () => {
   const { t } = useTranslation()
   const { navigate } = useNavigateBack()
 
@@ -19,9 +13,6 @@ export const TransactionHistoryButton = ({
       <IconButton
         size="medium"
         onClick={() => navigate(navigationRoutes.transactionHistory)}
-        sx={{
-          visibility: hidden ? 'hidden' : 'visible',
-        }}
       >
         <ReceiptLong />
       </IconButton>

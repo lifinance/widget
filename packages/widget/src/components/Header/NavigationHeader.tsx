@@ -13,7 +13,7 @@ import {
 import { BackButton } from './BackButton.js'
 import { CloseDrawerButton } from './CloseDrawerButton.js'
 import { HeaderAppBar, HeaderControlsContainer } from './Header.style.js'
-import { NavigationTabs } from './NavigationTabs.js'
+import { NavigationButtons } from './NavigationButtons.js'
 import { SettingsButton } from './SettingsButton.js'
 import { TransactionHistoryButton } from './TransactionHistoryButton.js'
 
@@ -37,11 +37,20 @@ export const NavigationHeader: React.FC = () => {
   return (
     <HeaderAppBar elevation={0} sx={{ paddingTop: 1, paddingBottom: 0.5 }}>
       {backButtonRoutes.includes(path) ? (
-        <BackButton onClick={navigateBack} />
+        <BackButton
+          onClick={() =>
+            navigateBack(
+              // From transaction details page, navigate to home page
+              path === navigationRoutes.transactionDetails
+                ? navigationRoutes.home
+                : undefined
+            )
+          }
+        />
       ) : null}
       {showSplitOptions ? (
         <Box sx={{ flex: 1, marginRight: 1 }}>
-          <NavigationTabs />
+          <NavigationButtons />
         </Box>
       ) : (
         <Typography
@@ -61,8 +70,8 @@ export const NavigationHeader: React.FC = () => {
           path={navigationRoutes.home}
           element={
             <HeaderControlsContainer>
-              {!hiddenUI?.includes(HiddenUI.History) && (
-                <TransactionHistoryButton hidden={!account.isConnected} />
+              {account.isConnected && !hiddenUI?.includes(HiddenUI.History) && (
+                <TransactionHistoryButton />
               )}
               <SettingsButton />
               {variant === 'drawer' &&
