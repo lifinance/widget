@@ -17,8 +17,7 @@ export const Container = styled(ScopedCssBaseline, {
   display: 'flex',
   flexDirection: 'column',
   whiteSpace: 'normal',
-  borderRadius: theme.container?.borderRadius ?? 0,
-  boxShadow: theme.container?.boxShadow ?? 'none',
+  ...theme.container,
   ...(theme.container?.display !== 'flex'
     ? {
         maxHeight:

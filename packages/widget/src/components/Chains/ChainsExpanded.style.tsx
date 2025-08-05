@@ -15,9 +15,8 @@ export const SelectChainExpansionContainer = styled(Box, {
   background: theme.vars.palette.background.default,
   overflow: 'hidden',
   flex: 1,
-  borderRadius: theme.container?.borderRadius ?? 0,
-  boxShadow: theme.container?.boxShadow ?? 'none',
   zIndex: 0,
+  ...theme.container,
   height: expansionHeight,
   ...theme.chainSidebarContainer,
 }))
