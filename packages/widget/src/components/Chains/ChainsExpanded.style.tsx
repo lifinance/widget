@@ -9,6 +9,7 @@ interface SelectChainExpansionContainerProps {
 export const SelectChainExpansionContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'expansionHeight',
 })<SelectChainExpansionContainerProps>(({ theme, expansionHeight }) => ({
+  ...theme.container,
   position: 'relative',
   boxSizing: 'content-box',
   width: chainExpansionWidth,
@@ -16,7 +17,6 @@ export const SelectChainExpansionContainer = styled(Box, {
   overflow: 'hidden',
   flex: 1,
   zIndex: 0,
-  ...theme.container,
   height: expansionHeight,
   ...theme.chainSidebarContainer,
 }))
