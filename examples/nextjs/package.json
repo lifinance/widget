@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@lifi/sdk": "^3.8.11",
-    "@lifi/widget": "^3.25.0",
+    "@lifi/widget": "^3.26.0",
     "@mui/material-nextjs": "^7.3.0",
     "next": "^15.4.5",
     "react": "^19.1.1",
