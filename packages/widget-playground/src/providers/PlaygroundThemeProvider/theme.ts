@@ -3,7 +3,11 @@ import { createTheme as createMuiTheme, type Theme } from '@mui/material'
 
 export const createTheme = (playgroundColor?: string) =>
   createMuiTheme({
-    cssVariables: { cssVarPrefix: 'lifi-pg', colorSchemeSelector: 'class' },
+    cssVariables: {
+      cssVarPrefix: 'lifi-pg',
+      colorSchemeSelector: 'class',
+      nativeColor: true,
+    },
     colorSchemes: {
       light: {
         palette: {

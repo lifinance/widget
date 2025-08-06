@@ -1,23 +1,28 @@
 import type { Route } from '@lifi/sdk'
-import { useEffect, useRef } from 'react'
+import { memo, useCallback, useEffect, useLayoutEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useRoutes } from '../../hooks/useRoutes.js'
-import { ExpansionType } from '../../types/widget.js'
+import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
+import { WidgetEvent } from '../../types/events.js'
+import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { ExpansionTransition } from '../Expansion/ExpansionTransition.js'
 import { RoutesContent } from './RoutesContent.js'
 import { routesExpansionWidth } from './RoutesExpanded.style.js'
 
 interface RoutesExpandedProps {
-  expansionType: ExpansionType
+  canOpen: boolean
   setOpenExpansion: (open: boolean) => void
 }
 
-export const RoutesExpanded = ({
-  expansionType,
+export const RoutesExpanded = memo(function RoutesExpanded({
+  canOpen,
   setOpenExpansion,
-}: RoutesExpandedProps) => {
+}: RoutesExpandedProps) {
+  const emitter = useWidgetEvents()
+  const navigate = useNavigate()
   const routesRef = useRef<Route[]>(undefined)
-
   const routesActiveRef = useRef(false)
+
   const {
     routes,
     isLoading,
@@ -45,12 +50,28 @@ export const RoutesExpanded = ({
 
   const expanded =
     Boolean(routesActiveRef.current || isLoading || isFetching || isFetched) &&
-    expansionType === ExpansionType.Routes
+    canOpen
 
-  useEffect(() => {
-    // To update parent's width when expansion changes
+  // biome-ignore lint/correctness/useExhaustiveDependencies: stable navigation callback that won't cause rerenders in RoutesContent
+  const onRouteClick = useCallback(
+    (route: Route) => {
+      setReviewableRoute(route)
+      navigate(navigationRoutes.transactionExecution, {
+        state: { routeId: route.id },
+      })
+      emitter.emit(WidgetEvent.RouteSelected, { route, routes: routes! })
+    },
+    [emitter, routes, setReviewableRoute]
+  )
+
+  // Use layout effect to update parent's width when expansion changes
+  useLayoutEffect(() => {
     setOpenExpansion(expanded)
   }, [expanded, setOpenExpansion])
+
+  useEffect(() => {
+    emitter.emit(WidgetEvent.WidgetExpanded, expanded)
+  }, [emitter, expanded])
 
   return (
     <ExpansionTransition
@@ -62,13 +83,12 @@ export const RoutesExpanded = ({
         routes={routesRef.current || []}
         isFetching={isFetching}
         isLoading={isLoading}
-        expanded={expanded}
-        setReviewableRoute={setReviewableRoute}
         dataUpdatedAt={dataUpdatedAt}
         refetchTime={refetchTime}
         fromChain={fromChain}
         refetch={refetch}
+        onRouteClick={onRouteClick}
       />
     </ExpansionTransition>
   )
-}
+})

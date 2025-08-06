@@ -76,7 +76,11 @@ export const createTheme = (widgetTheme: WidgetTheme = {}) => {
       : darken(secondaryMainColorDark, 0.2)
 
   const theme = createMuiTheme({
-    cssVariables: { cssVarPrefix: 'lifi', colorSchemeSelector: 'class' },
+    cssVariables: {
+      cssVarPrefix: 'lifi',
+      colorSchemeSelector: 'class',
+      nativeColor: true,
+    },
     colorSchemes: {
       light: {
         palette: {
