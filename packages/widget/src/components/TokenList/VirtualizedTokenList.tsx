@@ -98,31 +98,35 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   )
 
   // Chunk the tokens for infinite loading simulation
-  const [visibleCount, setVisibleCount] = useState(loadMoreStep)
+  const [maxVisibleCount, setMaxVisibleCount] = useState(loadMoreStep)
   const virtualizerConfig = useMemo(
     () => ({
-      count: visibleCount,
+      count: Math.min(maxVisibleCount, tokens.length),
       overscan: 5,
       paddingEnd: 12,
       getScrollElement: () => scrollElementRef.current,
       estimateSize,
       getItemKey,
     }),
-    [visibleCount, estimateSize, getItemKey, scrollElementRef]
+    [maxVisibleCount, tokens.length, estimateSize, getItemKey, scrollElementRef]
   )
 
   const { getVirtualItems, getTotalSize, scrollToIndex, range } =
     useVirtualizer(virtualizerConfig)
 
   useEffect(() => {
+    if (!tokens.length || maxVisibleCount >= tokens.length) {
+      return
+    }
+
     const doLoadMore = range?.endIndex
-      ? range.endIndex >= visibleCount - loadMoreThreshold
+      ? range.endIndex >= maxVisibleCount - loadMoreThreshold
       : false
 
     if (doLoadMore) {
-      setVisibleCount((prev) => Math.min(prev + loadMoreStep, tokens.length))
+      setMaxVisibleCount((prev) => Math.min(prev + loadMoreStep, tokens.length))
     }
-  }, [range?.endIndex, visibleCount, tokens.length])
+  }, [range?.endIndex, maxVisibleCount, tokens.length])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when chainId changes
   useEffect(() => {
