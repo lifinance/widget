@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.26.1](https://github.com/lifinance/widget/compare/v3.26.0...v3.26.1) (2025-08-06)
+
+
+### Bug Fixes
+
+* revert container fallbacks ([#501](https://github.com/lifinance/widget/issues/501)) ([147647b](https://github.com/lifinance/widget/commit/147647be64910b920d45e0e000f30fa3eaf6c82e))
+
 ## [3.26.0](https://github.com/lifinance/widget/compare/v3.25.0...v3.26.0) (2025-08-05)
 
 
