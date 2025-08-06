@@ -73,7 +73,16 @@ export const useRouteExecution = ({
     }
     if (executionCompleted || executionFailed) {
       const invalidateKeys = [
-        [getQueryKey('token-balances', keyPrefix)],
+        [
+          getQueryKey('token-balances', keyPrefix),
+          clonedUpdatedRoute.fromAddress,
+          clonedUpdatedRoute.fromChainId,
+        ],
+        [
+          getQueryKey('token-balances', keyPrefix),
+          clonedUpdatedRoute.toAddress,
+          clonedUpdatedRoute.toChainId,
+        ],
         [getQueryKey('transaction-history', keyPrefix)],
       ]
       for (const key of invalidateKeys) {

@@ -99,28 +99,30 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
 
   // Chunk the tokens for infinite loading simulation
   const [visibleCount, setVisibleCount] = useState(loadMoreStep)
-  const visibleTokens = useMemo(
-    () => tokens.slice(0, visibleCount),
-    [tokens, visibleCount]
-  )
-  const { getVirtualItems, getTotalSize, scrollToIndex, range } =
-    useVirtualizer({
-      count: visibleTokens.length,
+  const virtualizerConfig = useMemo(
+    () => ({
+      count: visibleCount,
       overscan: 5,
       paddingEnd: 12,
       getScrollElement: () => scrollElementRef.current,
       estimateSize,
       getItemKey,
-    })
+    }),
+    [visibleCount, estimateSize, getItemKey, scrollElementRef]
+  )
+
+  const { getVirtualItems, getTotalSize, scrollToIndex, range } =
+    useVirtualizer(virtualizerConfig)
 
   useEffect(() => {
     const doLoadMore = range?.endIndex
-      ? range.endIndex >= visibleTokens.length - loadMoreThreshold
+      ? range.endIndex >= visibleCount - loadMoreThreshold
       : false
+
     if (doLoadMore) {
       setVisibleCount((prev) => Math.min(prev + loadMoreStep, tokens.length))
     }
-  }, [range, visibleTokens.length, tokens.length])
+  }, [range?.endIndex, visibleCount, tokens.length])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when chainId changes
   useEffect(() => {
@@ -150,9 +152,8 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
         disablePadding
       >
         {getVirtualItems().map((item) => {
-          const currentToken = visibleTokens[item.index]
-          const previousToken: TokenAmount | undefined =
-            visibleTokens[item.index - 1]
+          const currentToken = tokens[item.index]
+          const previousToken: TokenAmount | undefined = tokens[item.index - 1]
 
           const chain = chainsSet?.get(currentToken.chainId)
 

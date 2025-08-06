@@ -458,15 +458,17 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
             )
             queryClient.setQueriesData<Token[]>(
               {
-                queryKey: [getQueryKey('token-balances', keyPrefix)],
+                queryKey: [
+                  getQueryKey('token-balances', keyPrefix),
+                  fromAddress,
+                  token.chainId,
+                ],
               },
               (data) => {
                 if (data) {
                   const clonedData = [...data]
                   const index = clonedData.findIndex(
-                    (dataToken) =>
-                      dataToken.address === token.address &&
-                      dataToken.chainId === token.chainId
+                    (dataToken) => dataToken.address === token.address
                   )
                   if (index >= 0) {
                     clonedData[index] = {
