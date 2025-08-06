@@ -1,44 +1,24 @@
-import { ChainType, getTokenBalances } from '@lifi/sdk'
+import { getTokenBalances } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
-import { useQuery } from '@tanstack/react-query'
-import { useEffect, useMemo, useState } from 'react'
+import { useQueries } from '@tanstack/react-query'
+import { useMemo } from 'react'
+import { formatUnits } from 'viem'
+import { mapAndSortTokens } from '../components/TokenList/utils.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
 import type { TokenAmount } from '../types/token.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useChains } from './useChains.js'
+import { useFilteredTokensByBalance } from './useFilteredByTokenBalances.js'
 import { useTokens } from './useTokens.js'
 
 const defaultRefetchInterval = 32_000
 
-const fetchExistingBalances = async (address: string) => {
-  try {
-    const res = await fetch(
-      `https://develop.li.quest/v1/wallets/${address}/balances`
-    )
-    if (!res.ok) {
-      throw new Error(`HTTP error: ${res.status}`)
-    }
-
-    const data = await res.json()
-
-    const balanceMap: Record<number, TokenAmount[]> = {}
-
-    for (const balance of data?.balances || []) {
-      const tokensWithAmount = balance.tokens.filter((t: any) => t.amount > 0)
-      const chainId = Number(balance.chainId)
-      if (balanceMap[chainId]) {
-        balanceMap[chainId].push(...tokensWithAmount)
-      } else {
-        balanceMap[chainId] = tokensWithAmount
-      }
-    }
-
-    return balanceMap
-  } catch {
-    return {}
-  }
-}
+const sortFn = (a: TokenAmount, b: TokenAmount) =>
+  Number.parseFloat(formatUnits(b.amount ?? 0n, b.decimals)) *
+    Number.parseFloat(b.priceUSD ?? '0') -
+  Number.parseFloat(formatUnits(a.amount ?? 0n, a.decimals)) *
+    Number.parseFloat(a.priceUSD ?? '0')
 
 export const useTokenBalances = (
   selectedChainId?: number,
@@ -56,132 +36,117 @@ export const useTokenBalances = (
 
   const { account } = useAccount({ chainType: chain?.chainType })
 
-  const [existingBalances, setExistingBalances] = useState<
-    Record<number, TokenAmount[]>
-  >({})
+  const chainsPerType = useMemo(() => {
+    return chain?.chainType
+      ? chains?.filter((c) => c.chainType === chain?.chainType)
+      : undefined
+  }, [chains, chain?.chainType])
 
-  // Fetch cached balances from backend
-  useEffect(() => {
-    if (!account.address) {
-      return
+  const tokensPerType = useMemo(() => {
+    if (!chainsPerType || !allTokens) {
+      return undefined
     }
+    const chainIdSet = new Set(chainsPerType.map((c) => c.id))
+    const filteredEntries = Object.entries(allTokens).filter(([chainIdStr]) =>
+      chainIdSet.has(Number(chainIdStr))
+    )
+    return Object.fromEntries(filteredEntries)
+  }, [allTokens, chainsPerType])
 
-    if (chain?.chainType === ChainType.EVM) {
-      fetchExistingBalances(account.address).then(setExistingBalances)
-    } else {
-      setExistingBalances({})
-    }
-  }, [account.address, chain?.chainType])
-
-  // Filter allTokens by what's available in existingBalances
-  const filteredByBalance = useMemo(() => {
-    if (!allTokens || !existingBalances) {
-      return {}
-    }
-
-    const possibleChainIds = chains
-      ?.filter((c) => c.chainType === chain?.chainType)
-      .map((c) => c.id)
-
-    const result: Record<number, TokenAmount[]> = {}
-
-    for (const [chainId, tokens] of Object.entries(allTokens)) {
-      if (!possibleChainIds?.includes(Number(chainId))) {
-        continue
-      }
-
-      const balances = existingBalances[Number(chainId)]
-      if (!balances) {
-        result[Number(chainId)] = tokens
-        continue
-      }
-
-      const tokensWithMatch = balances
-        .map((balance: any) => {
-          return tokens.find((token: any) =>
-            balance.tokenAddress === 'native'
-              ? token.symbol === balance.symbol
-              : token.address.toLowerCase() ===
-                balance.tokenAddress.toLowerCase()
-          )
-        })
-        .filter(Boolean) as TokenAmount[]
-
-      result[Number(chainId)] = tokensWithMatch
-    }
-
-    return result
-  }, [allTokens, existingBalances, chains, chain?.chainType])
+  // Select tokens to fetch balances for
+  const filteredByBalance = useFilteredTokensByBalance(
+    account.address,
+    chain?.chainType,
+    tokensPerType
+  )
 
   const isBalanceLoadingEnabled =
     Boolean(account.address) &&
     Boolean(filteredByBalance) &&
     !isSupportedChainsLoading
 
-  const { keyPrefix } = useWidgetConfig()
+  const { keyPrefix, tokens: configTokens } = useWidgetConfig()
 
-  const {
-    data: allTokensWithBalances,
-    isLoading: isBalanceLoading,
-    refetch,
-  } = useQuery({
-    queryKey: [getQueryKey('token-balances', keyPrefix), account.address],
-    queryFn: async ({ queryKey: [, accountAddress] }) => {
-      const tokens = Object.values(filteredByBalance ?? {}).flat()
-
-      const tokensWithBalance: TokenAmount[] = await getTokenBalances(
-        accountAddress as string,
-        tokens!
-      )
-
-      if (!tokensWithBalance?.length) {
-        return tokens as TokenAmount[]
+  const queries = useQueries({
+    queries: Object.entries(filteredByBalance ?? {}).map(
+      ([chainIdStr, tokens]) => {
+        const chainId = Number(chainIdStr)
+        return {
+          queryKey: [
+            getQueryKey('token-balances', keyPrefix),
+            account.address,
+            chainId,
+          ],
+          queryFn: async () => {
+            if (!account.address || !tokens?.length) {
+              return []
+            }
+            return await getTokenBalances(account.address, tokens)
+          },
+          enabled: isBalanceLoadingEnabled,
+          refetchInterval: defaultRefetchInterval,
+          staleTime: defaultRefetchInterval,
+        }
       }
-
-      return tokensWithBalance
-    },
-    enabled: isBalanceLoadingEnabled,
-    refetchInterval: defaultRefetchInterval,
-    staleTime: defaultRefetchInterval,
+    ),
   })
 
-  const chainTokens = useMemo(() => {
+  const allTokensWithBalances = useMemo(() => {
+    return queries
+      .flatMap((query) => query.data)
+      .filter((token) => token !== undefined)
+  }, [queries])
+
+  const tokens = useMemo(() => {
+    return isAllNetworks
+      ? Object.values(allTokens ?? {}).flat()
+      : selectedChainId
+        ? allTokens?.[selectedChainId]
+        : undefined
+  }, [allTokens, selectedChainId, isAllNetworks])
+
+  const tokensWithBalances = useMemo(() => {
+    const tokensWithAmounts = isAllNetworks
+      ? allTokensWithBalances
+      : allTokensWithBalances?.filter(
+          (token) => token?.chainId === selectedChainId
+        )
+    tokensWithAmounts.sort(sortFn)
+    return tokensWithAmounts
+  }, [allTokensWithBalances, selectedChainId, isAllNetworks])
+
+  const { processedTokens, withCategories } = useMemo(() => {
+    const tokensWithBalancesSet = new Set(
+      tokensWithBalances?.map(
+        (token) => `${token.chainId}-${token.address.toLowerCase()}`
+      ) ?? []
+    )
+    const tokensWithoutBalances =
+      tokens?.filter((token) => {
+        const tokenKey = `${token.chainId}-${token.address.toLowerCase()}`
+        return !tokensWithBalancesSet.has(tokenKey) // Only include if NOT in balances
+      }) ?? []
     if (isAllNetworks) {
-      return allTokensWithBalances
-        ? [
-            ...(allTokensWithBalances ?? []),
-            ...(Object.values(allTokens ?? {})
-              .flat()
-              .filter(
-                (token: any) =>
-                  !allTokensWithBalances?.some(
-                    (t) =>
-                      t.address === token.address && t.chainId === token.chainId
-                  )
-              ) ?? []),
-          ]
-        : Object.values(allTokens ?? {}).flat()
+      return {
+        processedTokens: [...tokensWithBalances, ...tokensWithoutBalances],
+        withCategories: false,
+      }
+    } else {
+      return mapAndSortTokens(
+        tokensWithoutBalances,
+        tokensWithBalances,
+        selectedChainId,
+        configTokens
+      )
     }
+  }, [tokensWithBalances, tokens, isAllNetworks, configTokens, selectedChainId])
 
-    if (!selectedChainId) {
-      return undefined
-    }
-
-    const tokensWithBalances = [
-      ...(allTokensWithBalances?.filter(
-        (token) => token.chainId === selectedChainId
-      ) ?? []),
-      ...(allTokens?.[selectedChainId]?.filter(
-        (token: any) =>
-          !allTokensWithBalances?.some((t) => t.address === token.address)
-      ) ?? []),
-    ]
-
-    return tokensWithBalances ?? allTokens?.[selectedChainId]
-  }, [allTokensWithBalances, allTokens, selectedChainId, isAllNetworks])
+  const isBalanceLoading = queries.some((query) => query.isLoading)
+  const refetch = () => queries.forEach((query) => query.refetch())
 
   return {
-    tokens: chainTokens,
+    tokens: processedTokens,
+    withCategories,
     chain,
     isLoading,
     isBalanceLoading: isBalanceLoading && isBalanceLoadingEnabled,

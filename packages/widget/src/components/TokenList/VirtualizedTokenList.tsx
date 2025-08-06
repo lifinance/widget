@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type { FC } from 'react'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import type { TokenAmount } from '../../types/token.js'
@@ -14,6 +14,9 @@ import type {
 } from './types.js'
 
 const tokenItemHeight = 64 // 60 + 4px margin-bottom
+// Infinite scroll parameters
+const loadMoreThreshold = 20
+const loadMoreStep = 100
 
 export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   account,
@@ -30,6 +33,14 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   const { t } = useTranslation()
 
   const { chains } = useAvailableChains()
+
+  // Create Set for O(1) chain lookup instead of O(n) find
+  const chainsSet = useMemo(() => {
+    if (!chains) {
+      return undefined
+    }
+    return new Map(chains.map((chain) => [chain.id, chain]))
+  }, [chains])
 
   const tokenDetailsSheetRef = useRef<TokenDetailsSheetBase>(null)
 
@@ -86,14 +97,30 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     [tokens, showCategories]
   )
 
-  const { getVirtualItems, getTotalSize, scrollToIndex } = useVirtualizer({
-    count: tokens.length,
-    overscan: 5,
-    paddingEnd: 12,
-    getScrollElement: () => scrollElementRef.current,
-    estimateSize,
-    getItemKey,
-  })
+  // Chunk the tokens for infinite loading simulation
+  const [visibleCount, setVisibleCount] = useState(loadMoreStep)
+  const visibleTokens = useMemo(
+    () => tokens.slice(0, visibleCount),
+    [tokens, visibleCount]
+  )
+  const { getVirtualItems, getTotalSize, scrollToIndex, range } =
+    useVirtualizer({
+      count: visibleTokens.length,
+      overscan: 5,
+      paddingEnd: 12,
+      getScrollElement: () => scrollElementRef.current,
+      estimateSize,
+      getItemKey,
+    })
+
+  useEffect(() => {
+    const doLoadMore = range?.endIndex
+      ? range.endIndex >= visibleTokens.length - loadMoreThreshold
+      : false
+    if (doLoadMore) {
+      setVisibleCount((prev) => Math.min(prev + loadMoreStep, tokens.length))
+    }
+  }, [range, visibleTokens.length, tokens.length])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when chainId changes
   useEffect(() => {
@@ -123,12 +150,11 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
         disablePadding
       >
         {getVirtualItems().map((item) => {
-          const currentToken = tokens[item.index]
-          const previousToken: TokenAmount | undefined = tokens[item.index - 1]
+          const currentToken = visibleTokens[item.index]
+          const previousToken: TokenAmount | undefined =
+            visibleTokens[item.index - 1]
 
-          const chain = chains?.find(
-            (chain) => currentToken.chainId === chain.id
-          )
+          const chain = chainsSet?.get(currentToken.chainId)
 
           const isFirstFeaturedToken = currentToken.featured && item.index === 0
 
@@ -169,6 +195,12 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
                 })()
               : null
 
+          const isSelected =
+            selectedTokenAddress === currentToken.address &&
+            chainId === currentToken.chainId
+
+          const showBalance = isAllNetworks ? !!account : !!account.address
+
           return (
             <TokenListItem
               key={item.key}
@@ -177,13 +209,10 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
               start={item.start}
               token={currentToken}
               chain={isAllNetworks ? chain : undefined}
-              selected={
-                selectedTokenAddress === currentToken.address &&
-                chainId === currentToken.chainId
-              }
+              selected={isSelected}
               onShowTokenDetails={onShowTokenDetails}
               isBalanceLoading={isBalanceLoading}
-              showBalance={isAllNetworks ? !!account : !!account.address}
+              showBalance={showBalance}
               startAdornment={
                 startAdornmentLabel ? (
                   <Typography
