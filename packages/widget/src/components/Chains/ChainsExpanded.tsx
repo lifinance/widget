@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider'
 import type { FormType } from '../../stores/form/types'
 import { getWidgetMaxHeight } from '../../utils/widgetSize'
@@ -13,7 +14,10 @@ interface ChainsExpandedProps {
   open: boolean
 }
 
-export const ChainsExpanded = ({ formType, open }: ChainsExpandedProps) => {
+export const ChainsExpanded = memo(function ChainsExpanded({
+  formType,
+  open,
+}: ChainsExpandedProps) {
   const { theme } = useWidgetConfig()
 
   return (
@@ -25,4 +29,4 @@ export const ChainsExpanded = ({ formType, open }: ChainsExpandedProps) => {
       </SelectChainExpansionContainer>
     </ExpansionTransition>
   )
-}
+})

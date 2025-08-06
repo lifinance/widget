@@ -10,6 +10,7 @@ import {
 } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useCallback, useMemo } from 'react'
 import { parseUnits } from 'viem'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
@@ -137,32 +138,63 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     !isBatchingSupportedLoading
 
   // Some values should be strictly typed and isEnabled ensures that
-  const queryKey = [
-    getQueryKey('routes', keyPrefix),
-    account.address,
-    fromChain?.id as number,
-    fromToken?.address as string,
-    fromTokenAmount,
-    toWalletAddress,
-    toChain?.id as number,
-    toToken?.address as string,
-    toTokenAmount,
-    contractCalls,
-    slippage,
-    swapOnly,
-    disabledBridges,
-    disabledExchanges,
-    allowedBridges,
-    allowedExchanges,
-    routePriority,
-    subvariant,
-    allowSwitchChain,
-    enabledRefuel && enabledAutoRefuel,
-    gasRecommendationFromAmount,
-    feeConfig?.fee || fee,
-    !!isBatchingSupported,
-    observableRoute?.id,
-  ] as const
+  const queryKey = useMemo(
+    () =>
+      [
+        getQueryKey('routes', keyPrefix),
+        account.address,
+        fromChain?.id as number,
+        fromToken?.address as string,
+        fromTokenAmount,
+        toWalletAddress,
+        toChain?.id as number,
+        toToken?.address as string,
+        toTokenAmount,
+        contractCalls,
+        slippage,
+        swapOnly,
+        disabledBridges,
+        disabledExchanges,
+        allowedBridges,
+        allowedExchanges,
+        routePriority,
+        subvariant,
+        allowSwitchChain,
+        enabledRefuel && enabledAutoRefuel,
+        gasRecommendationFromAmount,
+        feeConfig?.fee || fee,
+        !!isBatchingSupported,
+        observableRoute?.id,
+      ] as const,
+    [
+      keyPrefix,
+      account.address,
+      fromChain?.id,
+      fromToken?.address,
+      fromTokenAmount,
+      toWalletAddress,
+      toChain?.id,
+      toToken?.address,
+      toTokenAmount,
+      contractCalls,
+      slippage,
+      swapOnly,
+      disabledBridges,
+      disabledExchanges,
+      allowedBridges,
+      allowedExchanges,
+      routePriority,
+      subvariant,
+      allowSwitchChain,
+      enabledRefuel,
+      enabledAutoRefuel,
+      gasRecommendationFromAmount,
+      feeConfig?.fee,
+      fee,
+      isBatchingSupported,
+      observableRoute?.id,
+    ]
+  )
 
   const { getIntermediateRoutes, setIntermediateRoutes } =
     useIntermediateRoutesStore()
@@ -494,13 +526,16 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
       },
     })
 
-  const setReviewableRoute = (route: Route) => {
-    const queryDataKey = queryKey.toSpliced(queryKey.length - 1, 1, route.id)
-    queryClient.setQueryData(queryDataKey, [route], {
-      updatedAt: dataUpdatedAt || Date.now(),
-    })
-    setExecutableRoute(route)
-  }
+  const setReviewableRoute = useCallback(
+    (route: Route) => {
+      const queryDataKey = queryKey.toSpliced(queryKey.length - 1, 1, route.id)
+      queryClient.setQueryData(queryDataKey, [route], {
+        updatedAt: dataUpdatedAt || Date.now(),
+      })
+      setExecutableRoute(route)
+    },
+    [queryClient, dataUpdatedAt, setExecutableRoute, queryKey]
+  )
 
   return {
     routes: data || getIntermediateRoutes(queryKey),
