@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.26.0](https://github.com/lifinance/widget/compare/v3.25.0...v3.26.0) (2025-08-05)
+
+
+### Features
+
+* add option to hide low address activity confirmation ([#497](https://github.com/lifinance/widget/issues/497)) ([6c44863](https://github.com/lifinance/widget/commit/6c448632b008c63e60204281066b81b33decfb0d))
+* enable mui native colors ([2026ae5](https://github.com/lifinance/widget/commit/2026ae55f0a895831cedce6cf5152cdaf863a197))
+* improve amount input ([#489](https://github.com/lifinance/widget/issues/489)) ([584f247](https://github.com/lifinance/widget/commit/584f247527090d07cc2b8aaaf3392395dbd58880))
+* **wallet-management:** add support for base account ([#482](https://github.com/lifinance/widget/issues/482)) ([eff8baa](https://github.com/lifinance/widget/commit/eff8baa1ba014cef8f59d3dc99ca817d01c9e0f5))
+
+
+### Bug Fixes
+
+* add misc styling adjustments ([#494](https://github.com/lifinance/widget/issues/494)) ([b743ef3](https://github.com/lifinance/widget/commit/b743ef3416bcf8985cc00cf0f940d82de65d7598))
+* avoid undefined query data in gas sufficiency ([#490](https://github.com/lifinance/widget/issues/490)) ([b66edf4](https://github.com/lifinance/widget/commit/b66edf435ea546c5e4657a50da99c1b46dfb861a))
+* navigation from transaction details ([#499](https://github.com/lifinance/widget/issues/499)) ([b6500df](https://github.com/lifinance/widget/commit/b6500dff4d7e683e24b274095676bf1035566a86))
+* price impact typo ([5b1f957](https://github.com/lifinance/widget/commit/5b1f957392bf56c57acba4be72debc70a03e24ee))
+* remove unnecessary field value hook ([c144319](https://github.com/lifinance/widget/commit/c1443193091b161c91d0ab18ef370e3e6725ae94))
+* update transaction link handling ([#500](https://github.com/lifinance/widget/issues/500)) ([bae8e9f](https://github.com/lifinance/widget/commit/bae8e9fe7ec3c9617b9f8dbcfb66abab972553a8))
+
 ## [3.25.0](https://github.com/lifinance/widget/compare/v3.25.0-beta.2...v3.25.0) (2025-07-28)
 
 

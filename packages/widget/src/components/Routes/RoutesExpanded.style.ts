@@ -11,14 +11,13 @@ interface ContainerProps extends ScopedCssBaselineProps {
 export const Container = styled(ScopedCssBaseline, {
   shouldForwardProp: (prop) => !['minimumHeight'].includes(prop as string),
 })<ContainerProps>(({ theme, minimumHeight }) => ({
+  ...theme.container,
   backgroundColor: theme.vars.palette.background.default,
   overflow: 'hidden',
   width: routesExpansionWidth,
   display: 'flex',
   flexDirection: 'column',
   whiteSpace: 'normal',
-  borderRadius: theme.container?.borderRadius ?? 0,
-  boxShadow: theme.container?.boxShadow ?? 'none',
   ...(theme.container?.display !== 'flex'
     ? {
         maxHeight:
