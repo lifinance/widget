@@ -1,6 +1,7 @@
 import { Drawer } from '@mui/material'
 import {
   forwardRef,
+  startTransition,
   useCallback,
   useImperativeHandle,
   useRef,
@@ -22,11 +23,11 @@ export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
       setIsInert(true)
       // Push the state update to the next event loop tick
       // to ensure the inert is applied to before the drawer is closed
-      setTimeout(() => {
+      startTransition(() => {
         setDrawerOpen(false)
         openRef.current = false
         onClose?.()
-      }, 0) // NB: no cleanup - executes immediately (no time to unmount to cause a memory leak)
+      })
     }, [onClose])
 
     useImperativeHandle(
