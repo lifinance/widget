@@ -6,12 +6,11 @@ export const useTokenAddressBalance = (
   chainId?: number,
   tokenAddress?: string
 ) => {
-  const { tokens, tokensWithBalance, chain, isBalanceLoading, refetch } =
-    useTokenBalances(chainId)
+  const { tokens, chain, isBalanceLoading, refetch } = useTokenBalances(chainId)
 
   const token = useMemo(() => {
     if (tokenAddress && chainId) {
-      let token = tokensWithBalance?.find(
+      let token = tokens?.find(
         (token) => token.address === tokenAddress && token.chainId === chainId
       )
       if (!token) {
@@ -21,7 +20,7 @@ export const useTokenAddressBalance = (
       }
       return token as TokenAmount
     }
-  }, [chainId, tokenAddress, tokens, tokensWithBalance])
+  }, [chainId, tokenAddress, tokens])
 
   return {
     token,
