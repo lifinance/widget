@@ -94,12 +94,13 @@ const ConnectButton = () => {
   const { t } = useTranslation()
   const { walletConfig, subvariant, variant } = useWidgetConfig()
   const { openWalletMenu } = useWalletMenu()
-  const connect = async () => {
+  const connect = async (event: React.MouseEvent<HTMLElement>) => {
     if (!walletConfig?.usePartialWalletManagement && walletConfig?.onConnect) {
       walletConfig.onConnect()
       return
     }
     openWalletMenu()
+    event.currentTarget.blur() // Remove focus to prevent accessibility issues when opening drawer
   }
 
   return (
@@ -128,6 +129,7 @@ const ConnectedButton = ({ account }: { account: Account }) => {
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
+    event.currentTarget.blur() // Remove focus to prevent accessibility issues when opening drawer
   }
 
   const handleClose = () => {
