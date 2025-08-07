@@ -13,8 +13,8 @@ import {
 import { BackButton } from './BackButton.js'
 import { CloseDrawerButton } from './CloseDrawerButton.js'
 import { HeaderAppBar, HeaderControlsContainer } from './Header.style.js'
-import { NavigationTabs } from './NavigationTabs.js'
 import { SettingsButton } from './SettingsButton.js'
+import { SplitNavigationTabs } from './SplitNavigationTabs.js'
 import { TransactionHistoryButton } from './TransactionHistoryButton.js'
 
 export const NavigationHeader: React.FC = () => {
@@ -50,7 +50,7 @@ export const NavigationHeader: React.FC = () => {
       ) : null}
       {showSplitOptions ? (
         <Box sx={{ flex: 1, marginRight: 1 }}>
-          <NavigationTabs />
+          <SplitNavigationTabs />
         </Box>
       ) : (
         <Typography

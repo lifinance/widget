@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useSplitSubvariantStore } from '../../stores/settings/useSplitSubvariantStore.js'
-import { Tab, Tabs } from './NavigationTabs.style.js'
+import { NavigationTab, NavigationTabs } from '../Tabs/NavigationTabs.js'
 
-export const NavigationTabs = () => {
+export const SplitNavigationTabs = () => {
   const { t } = useTranslation()
   const [state, setState] = useSplitSubvariantStore((state) => [
     state.state,
@@ -19,14 +19,13 @@ export const NavigationTabs = () => {
   }
 
   return (
-    <Tabs
+    <NavigationTabs
       value={state === 'swap' ? 0 : 1}
       onChange={handleChange}
       aria-label="tabs"
-      indicatorColor="primary"
     >
-      <Tab label={t('header.swap')} disableRipple />
-      <Tab label={t('header.bridge')} disableRipple />
-    </Tabs>
+      <NavigationTab label={t('header.swap')} disableRipple />
+      <NavigationTab label={t('header.bridge')} disableRipple />
+    </NavigationTabs>
   )
 }

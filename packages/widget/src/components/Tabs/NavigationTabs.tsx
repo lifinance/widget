@@ -1,7 +1,10 @@
-import { styled, tabsClasses } from '@mui/material'
-import { Tab as BaseTab, Tabs as BaseTabs } from '../Tabs/Tabs.style.js'
+import { styled, Tabs, tabsClasses } from '@mui/material'
+import { Tab } from './Tabs.style.js'
 
-export const Tabs = styled(BaseTabs)(({ theme }) => ({
+export const NavigationTabs = styled(Tabs, {
+  name: 'MuiNavigationTabs',
+  slot: 'root',
+})(({ theme }) => ({
   width: 'fit-content',
   minHeight: theme.spacing(5),
   maxHeight: theme.spacing(5),
@@ -26,7 +29,10 @@ export const Tabs = styled(BaseTabs)(({ theme }) => ({
   },
 }))
 
-export const Tab = styled(BaseTab)(({ theme }) => ({
+export const NavigationTab = styled(Tab, {
+  name: 'MuiNavigationTab',
+  slot: 'root',
+})(({ theme }) => ({
   minHeight: theme.spacing(5),
   maxHeight: theme.spacing(5),
 }))

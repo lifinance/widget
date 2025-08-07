@@ -1,3 +1,4 @@
+import { tabsClasses } from '@mui/material'
 import type { WidgetTheme } from '../types/widget.js'
 
 export const windows95Theme: WidgetTheme = {
@@ -81,6 +82,17 @@ export const windows95Theme: WidgetTheme = {
           backgroundColor: '#ffffff',
           boxShadow:
             'inset -1px -1px #ffffff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080',
+        },
+      },
+    },
+    MuiNavigationTabs: {
+      styleOverrides: {
+        root: {
+          [`.${tabsClasses.indicator}`]: {
+            backgroundColor: '#dfdfdf',
+            boxShadow:
+              'inset -1px -1px #0a0a0a, inset 1px 1px #ffffff, inset -2px -2px #808080, inset 2px 2px #dfdfdf',
+          },
         },
       },
     },

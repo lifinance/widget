@@ -1,3 +1,4 @@
+import { tabsClasses } from '@mui/material'
 import type { WidgetTheme } from '../types/widget.js'
 
 export const watermelonLightTheme: WidgetTheme = {
@@ -45,6 +46,16 @@ export const watermelonLightTheme: WidgetTheme = {
   components: {
     MuiCard: {
       defaultProps: { variant: 'elevation' },
+    },
+    MuiNavigationTabs: {
+      styleOverrides: {
+        root: {
+          [`.${tabsClasses.indicator}`]: {
+            backgroundColor: '#ffffff',
+            borderRadius: '16px',
+          },
+        },
+      },
     },
     // MuiIconButton: {
     //   styleOverrides: {
