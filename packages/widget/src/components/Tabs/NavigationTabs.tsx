@@ -5,6 +5,7 @@ export const NavigationTabs = styled(Tabs, {
   name: 'MuiNavigationTabs',
   slot: 'root',
 })(({ theme }) => ({
+  overflow: 'visible', // Prevent shadows from being cut off
   width: 'fit-content',
   minHeight: theme.spacing(5),
   maxHeight: theme.spacing(5),
@@ -14,6 +15,7 @@ export const NavigationTabs = styled(Tabs, {
   }),
   [`& .${tabsClasses.scroller}`]: {
     padding: 0,
+    overflow: 'visible !important', // Enforce since overflow is set dynamically
   },
   [`& .${tabsClasses.indicator}`]: {
     boxShadow: 'none',

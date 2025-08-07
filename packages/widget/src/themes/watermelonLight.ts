@@ -49,12 +49,13 @@ export const watermelonLightTheme: WidgetTheme = {
     },
     MuiNavigationTabs: {
       styleOverrides: {
-        root: {
+        root: ({ theme }) => ({
           [`.${tabsClasses.indicator}`]: {
             backgroundColor: '#ffffff',
+            filter: `drop-shadow(0 1px 4px rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08))`,
             borderRadius: '16px',
           },
-        },
+        }),
       },
     },
     // MuiIconButton: {
