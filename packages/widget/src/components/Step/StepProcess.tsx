@@ -13,12 +13,17 @@ export const StepProcess: React.FC<{
   const { title, message } = useProcessMessage(step, process)
   const { getTransactionLink } = useExplorer()
 
-  const transactionLink = process.txLink
+  const transactionLink = process.txHash
     ? getTransactionLink({
-        txLink: process.txLink,
+        txHash: process.txHash,
         chain: process.chainId,
       })
-    : undefined
+    : process.txLink
+      ? getTransactionLink({
+          txLink: process.txLink,
+          chain: process.chainId,
+        })
+      : undefined
 
   return (
     <Box
