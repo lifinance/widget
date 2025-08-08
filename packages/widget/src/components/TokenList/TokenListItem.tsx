@@ -106,6 +106,7 @@ const OpenTokenDetailsButton = ({
       size="small"
       onClick={(e) => {
         e.stopPropagation()
+        e.currentTarget.blur() // Remove focus to prevent accessibility issues when opening drawer
         onClick(tokenAddress, withoutContractAddress, chainId)
       }}
     >

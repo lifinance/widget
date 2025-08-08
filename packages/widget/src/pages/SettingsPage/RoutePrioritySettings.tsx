@@ -39,7 +39,6 @@ export const RoutePrioritySettings: React.FC = () => {
         aria-label="tabs"
         indicatorColor="primary"
         onChange={handleRoutePriorityChange}
-        orientation="vertical"
         sx={{ mt: 1.5 }}
       >
         {Priorities.map((priority) => {

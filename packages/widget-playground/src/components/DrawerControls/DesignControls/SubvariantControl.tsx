@@ -1,4 +1,4 @@
-import type { WidgetSubvariant } from '@lifi/widget'
+import type { SplitSubvariant, WidgetSubvariant } from '@lifi/widget'
 import type { SyntheticEvent } from 'react'
 import { useConfigActions } from '../../../store/widgetConfig/useConfigActions'
 import {
@@ -15,7 +15,8 @@ export const SubvariantControl = () => {
   const { variant } = useConfigVariant()
   const { subvariant } = useConfigSubvariant()
   const { subvariantOptions } = useConfigSubvariantOptions()
-  const { setSubvariant, setChainSidebarEnabled } = useConfigActions()
+  const { setSubvariant, setSplitOption, setChainSidebarEnabled } =
+    useConfigActions()
 
   const handleSubvariantChange = (
     _: SyntheticEvent,
@@ -29,6 +30,13 @@ export const SubvariantControl = () => {
     value: boolean
   ) => {
     setChainSidebarEnabled(value)
+  }
+
+  const handleSplitOptionChange = (
+    _: SyntheticEvent,
+    value: SplitSubvariant | 'default'
+  ) => {
+    setSplitOption(value === 'default' ? undefined : value)
   }
 
   return (
@@ -49,6 +57,19 @@ export const SubvariantControl = () => {
         <Tab label="Split" value={'split'} disableRipple />
         <Tab label="Refuel" value={'refuel'} disableRipple />
       </Tabs>
+      {subvariant === 'split' && (
+        <Tabs
+          value={subvariantOptions?.split || 'default'}
+          aria-label="tabs"
+          indicatorColor="primary"
+          onChange={handleSplitOptionChange}
+          sx={{ mt: 1 }}
+        >
+          <Tab label="Default" value={'default'} disableRipple />
+          <Tab label="Bridge" value={'bridge'} disableRipple />
+          <Tab label="Swap" value={'swap'} disableRipple />
+        </Tabs>
+      )}
       {variant === 'wide' && (
         <CardRowContainer sx={{ paddingLeft: 1, paddingRight: 1 }}>
           Enable chain sidebar

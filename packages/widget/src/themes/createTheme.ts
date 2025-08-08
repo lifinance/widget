@@ -469,6 +469,12 @@ export const createTheme = (widgetTheme: WidgetTheme = {}) => {
           },
         },
       },
+      MuiNavigationTabs: {
+        ...widgetTheme.components?.MuiNavigationTabs,
+      },
+      MuiNavigationTab: {
+        ...widgetTheme.components?.MuiNavigationTab,
+      },
     },
   })
 

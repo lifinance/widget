@@ -24,7 +24,7 @@ export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
     chain
   )
 
-  const handleClick = async () => {
+  const handleClick = async (e: React.MouseEvent<HTMLElement>) => {
     if (connected) {
       onClick?.()
       return
@@ -34,6 +34,7 @@ export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
       walletConfig.onConnect(connectionOptions)
     } else {
       openWalletMenu(connectionOptions)
+      e.currentTarget.blur() // Remove focus to prevent accessibility issues when opening drawer
     }
   }
 

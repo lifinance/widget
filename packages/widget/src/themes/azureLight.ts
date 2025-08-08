@@ -48,12 +48,11 @@ export const azureLightTheme: WidgetTheme = {
       defaultProps: { variant: 'filled' },
     },
     // Used only for 'split' subvariant and can be safely removed if not used
-    MuiTabs: {
+    MuiNavigationTabs: {
       styleOverrides: {
         root: {
-          backgroundColor: '#f8f8fa',
           [`.${tabsClasses.indicator}`]: {
-            backgroundColor: '#ffffff',
+            backgroundColor: '#f8f8fa',
           },
         },
       },
