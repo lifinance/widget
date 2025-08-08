@@ -78,6 +78,17 @@ export const createWidgetConfigStore = (
             },
           })
         },
+        setSplitOption: (option) => {
+          set({
+            config: {
+              ...get().config,
+              subvariantOptions: {
+                ...get().config?.subvariantOptions,
+                split: option,
+              },
+            },
+          })
+        },
         setBorderRadius: (radius) => {
           set({
             config: {
