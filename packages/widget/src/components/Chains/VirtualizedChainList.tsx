@@ -1,7 +1,7 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type { RefObject } from 'react'
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore'
 import { List } from './ChainList.style'
 import { ChainListItem } from './ChainListItem'
@@ -78,7 +78,7 @@ export const VirtualizedChainList = ({
     }
   }, [measure, scrollElementRef.current])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     // Only scroll if sortedChains is not empty and we haven't scrolled yet
     if (!hasScrolledRef.current && sortedChains.length > 0 && range) {
       const selectedChainIndex = sortedChains.findIndex(
