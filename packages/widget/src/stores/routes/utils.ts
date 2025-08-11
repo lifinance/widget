@@ -55,7 +55,8 @@ export const getUpdatedProcess = (
 }
 
 export const getSourceTxHash = (route?: RouteExtended) => {
-  return route?.steps[0].execution?.process
+  const sourceProcess = route?.steps[0].execution?.process
     .filter((process) => process.type !== 'TOKEN_ALLOWANCE')
-    .find((process) => process.txHash)?.txHash
+    .find((process) => process.txHash || process.taskId)
+  return sourceProcess?.txHash || sourceProcess?.taskId
 }
