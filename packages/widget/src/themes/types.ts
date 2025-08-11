@@ -3,6 +3,8 @@ import type {
   ComponentsOverrides,
   ComponentsVariants,
   SimplePaletteColorOptions,
+  TabProps,
+  TabsProps,
 } from '@mui/material'
 import type {} from '@mui/material/themeCssVarsAugmentation'
 import type { CSSProperties } from 'react'
@@ -42,9 +44,13 @@ declare module '@mui/material/styles' {
   }
   interface ComponentNameToClassKey {
     MuiInputCard: 'root'
+    MuiNavigationTabs: 'root'
+    MuiNavigationTab: 'root'
   }
   interface ComponentsPropsList {
     MuiInputCard: Partial<CardProps>
+    MuiNavigationTabs: Partial<TabsProps>
+    MuiNavigationTab: Partial<TabProps>
   }
   interface Components {
     MuiInputCard?: {
@@ -53,6 +59,20 @@ declare module '@mui/material/styles' {
         Omit<Theme, 'components'>
       >['MuiInputCard']
       variants?: ComponentsVariants['MuiInputCard']
+    }
+    MuiNavigationTabs?: {
+      defaultProps?: ComponentsPropsList['MuiNavigationTabs']
+      styleOverrides?: ComponentsOverrides<
+        Omit<Theme, 'components'>
+      >['MuiNavigationTabs']
+      variants?: ComponentsVariants['MuiNavigationTabs']
+    }
+    MuiNavigationTab?: {
+      defaultProps?: ComponentsPropsList['MuiNavigationTab']
+      styleOverrides?: ComponentsOverrides<
+        Omit<Theme, 'components'>
+      >['MuiNavigationTab']
+      variants?: ComponentsVariants['MuiNavigationTab']
     }
   }
   interface Palette {
