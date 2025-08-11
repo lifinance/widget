@@ -112,7 +112,7 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
                 type={isAllNetworks ? 'selected' : 'default'}
                 selectionColor="secondary"
               >
-                <AllChainsAvatar chains={chainsToShow} size="medium" />
+                <AllChainsAvatar chains={chains ?? []} size="medium" />
               </ChainCard>
             </Tooltip>
           )}
