@@ -1,6 +1,6 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { Box, debounce, useTheme } from '@mui/material'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { memo, useCallback, useMemo, useRef, useState } from 'react'
 import { useDefaultElementId } from '../../hooks/useDefaultElementId'
 import { useScrollableContainer } from '../../hooks/useScrollableContainer'
 import { FormKeyHelper, type FormType } from '../../stores/form/types'
@@ -19,11 +19,11 @@ interface SelectChainContentProps {
 
 const searchHeaderHeight = '80px'
 
-export const SelectChainContent = ({
+export const SelectChainContent = memo(function SelectChainContent({
   formType,
   onSelect,
   inExpansion,
-}: SelectChainContentProps) => {
+}: SelectChainContentProps) {
   const theme = useTheme()
   const { chains, isLoading, setCurrentChain } = useChainSelect(formType)
   const elementId = useDefaultElementId()
@@ -109,4 +109,4 @@ export const SelectChainContent = ({
       </Box>
     </FullPageContainer>
   )
-}
+})
