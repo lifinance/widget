@@ -19,7 +19,7 @@
     "@dynamic-labs/solana": "^4.25.10",
     "@dynamic-labs/solana-core": "^4.25.10",
     "@dynamic-labs/wagmi-connector": "^4.25.10",
-    "@lifi/sdk": "^3.9.1-beta.0",
+    "@lifi/sdk": "^3.9.1",
     "@lifi/wallet-management": "workspace:^",
     "@lifi/widget": "workspace:^",
     "@mui/material": "^7.3.1",
@@ -28,7 +28,7 @@
     "@solana/wallet-standard-features": "^1.3.0",
     "@solana/web3.js": "^1.98.4",
     "@tanstack/react-query": "^5.84.2",
-    "@wagmi/core": "^2.18.1",
+    "@wagmi/core": "^2.19.0",
     "@wallet-standard/base": "^1.1.0",
     "@wallet-standard/features": "^1.1.0",
     "bs58": ">=4.0.1",
@@ -37,7 +37,7 @@
     "react-dom": "^19.1.1",
     "viem": "^2.33.3",
     "vite-plugin-env-compatible": "^2.0.1",
-    "wagmi": "^2.16.1"
+    "wagmi": "^2.16.2"
   },
   "devDependencies": {
     "@types/react": "^19.1.9",
