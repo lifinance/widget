@@ -43,7 +43,7 @@ export const TokenList: FC<TokenListProps> = ({
   const {
     tokens: sortedTokens,
     withCategories,
-    isLoading: isTokensLoading,
+    isTokensLoading,
     isBalanceLoading,
   } = useTokenBalances(selectedChainId, formType, isAllNetworks)
 

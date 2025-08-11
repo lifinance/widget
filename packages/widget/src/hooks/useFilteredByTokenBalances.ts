@@ -11,81 +11,86 @@ const fetchExistingBalances = async (address: string) => {
     if (!res.ok) {
       throw new Error(`HTTP error: ${res.status}`)
     }
-
     const data = await res.json()
-
-    const balanceMap: Record<number, TokenAmount[]> = {}
-
-    for (const balance of data?.balances || []) {
-      const tokensWithAmount = balance.tokens.filter((t: any) => t.amount > 0)
-      const chainId = Number(balance.chainId)
-      if (balanceMap[chainId]) {
-        balanceMap[chainId].push(...tokensWithAmount)
-      } else {
-        balanceMap[chainId] = tokensWithAmount
-      }
-    }
-
-    return balanceMap
+    return data?.balances
   } catch {
-    return {}
+    return undefined
   }
 }
 
-const matchToken = (balance: any, token: TokenAmount) => {
-  return balance.tokenAddress === 'native'
-    ? token.symbol === balance.symbol
-    : token.address.toLowerCase() === balance.tokenAddress.toLowerCase()
-}
-
 export const useFilteredTokensByBalance = (
-  accountAddress?: string,
-  chainType?: ChainType,
-  allTokens?: Record<number, TokenAmount[]>
+  accountsWithTokens?: Record<
+    string,
+    { chainType: ChainType; tokens: Record<number, TokenAmount[]> }
+  >
 ) => {
-  const { data: existingBalances } = useQuery({
-    queryKey: ['existing-balances', accountAddress, chainType],
+  const evmAddress = useMemo(() => {
+    const evmAccount = Object.entries(accountsWithTokens ?? {}).find(
+      ([_, { chainType }]) => chainType === ChainType.EVM
+    )
+    return evmAccount?.[0]
+  }, [accountsWithTokens])
+
+  const { data: existingBalances, isLoading } = useQuery({
+    queryKey: ['existing-evm-balances', evmAddress],
     queryFn: () => {
-      if (chainType === ChainType.EVM && accountAddress) {
-        return fetchExistingBalances(accountAddress)
+      if (evmAddress) {
+        return fetchExistingBalances(evmAddress) ?? null
       }
-      return undefined
+      return null
     },
-    enabled: Boolean(accountAddress && chainType),
+    enabled: !!evmAddress,
     staleTime: 5 * 60 * 1000, // 5 minutes
   })
 
-  const filteredByBalance = useMemo(() => {
-    if (!allTokens) {
+  const accountsWithFilteredTokens = useMemo(() => {
+    if (!accountsWithTokens) {
       return undefined
     }
 
+    // Early return if no existing balances - return all tokens
+    const result: Record<string, Record<number, TokenAmount[]>> = {}
     if (!existingBalances) {
-      return allTokens
+      for (const [address, { tokens }] of Object.entries(accountsWithTokens)) {
+        result[address] = tokens
+      }
+      return result
     }
 
-    const result: Record<number, TokenAmount[]> = {}
+    for (const [address, { tokens }] of Object.entries(accountsWithTokens)) {
+      result[address] = {}
 
-    for (const [chainIdStr, tokens] of Object.entries(allTokens)) {
-      const chainId = Number(chainIdStr)
-      const balances = existingBalances[chainId]
-      // If no balances, RPC all tokens of the chain
-      if (!balances) {
-        if (tokens.length) {
-          result[chainId] = tokens
+      for (const [chainIdStr, chainTokens] of Object.entries(tokens)) {
+        const balances = existingBalances?.[chainIdStr]
+
+        const chainId = Number(chainIdStr)
+        // If no balances, RPC all tokens of the chain
+        if (!balances) {
+          if (chainTokens.length) {
+            result[address][chainId] = chainTokens
+          }
+          continue
         }
-        continue
-      }
-      // If there are balances, RPC only tokens that have balances
-      const filteredTokens = tokens.filter((token) =>
-        balances.some((balance) => matchToken(balance, token))
-      )
-      if (filteredTokens.length) {
-        result[chainId] = filteredTokens
+
+        // Optimize token matching with Set for O(1) lookup
+        const balanceSet = new Set(
+          balances.map((balance: TokenAmount) => balance.address.toLowerCase())
+        )
+
+        // If there are balances, RPC only tokens that have balances
+        const filteredTokens = chainTokens.filter((token) => {
+          const tokenKey = token.address.toLowerCase()
+          return balanceSet.has(tokenKey)
+        })
+
+        if (filteredTokens.length) {
+          result[address][chainId] = filteredTokens
+        }
       }
     }
-    return result
-  }, [allTokens, existingBalances])
 
-  return filteredByBalance
+    return result
+  }, [accountsWithTokens, existingBalances])
+
+  return { data: accountsWithFilteredTokens, isLoading }
 }

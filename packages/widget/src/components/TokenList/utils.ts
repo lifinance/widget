@@ -1,3 +1,4 @@
+import { formatUnits } from 'viem'
 import type { TokenAmount } from '../../types/token.js'
 import type { WidgetTokens } from '../../types/widget.js'
 
@@ -39,6 +40,71 @@ export const filteredTokensComparator = (searchFilter: string) => {
 
     // All other tokens are considered equal in sorting priority
     return 0
+  }
+}
+
+const sortFn = (a: TokenAmount, b: TokenAmount) =>
+  Number.parseFloat(formatUnits(b.amount ?? 0n, b.decimals)) *
+    Number.parseFloat(b.priceUSD ?? '0') -
+  Number.parseFloat(formatUnits(a.amount ?? 0n, a.decimals)) *
+    Number.parseFloat(a.priceUSD ?? '0')
+
+export const processTokenBalances = (
+  isBalanceLoading: boolean,
+  isAllNetworks: boolean,
+  configTokens: any,
+  selectedChainId?: number,
+  allTokens?: Record<number, TokenAmount[]>,
+  allTokensWithBalances?: TokenAmount[]
+) => {
+  const tokens = isAllNetworks
+    ? Object.values(allTokens ?? {}).flat()
+    : selectedChainId
+      ? allTokens?.[selectedChainId]
+      : undefined
+
+  if (isBalanceLoading) {
+    if (isAllNetworks) {
+      return {
+        processedTokens: tokens,
+        withCategories: false,
+      }
+    } else {
+      return mapAndSortTokens(tokens ?? [], [], selectedChainId, configTokens)
+    }
+  }
+
+  const tokensWithBalances =
+    (isAllNetworks
+      ? allTokensWithBalances
+      : allTokensWithBalances?.filter(
+          (token) => token.chainId === selectedChainId
+        )) ?? []
+  tokensWithBalances?.sort(sortFn)
+
+  const tokensWithBalancesSet = new Set(
+    tokensWithBalances?.map(
+      (token) => `${token.chainId}-${token.address.toLowerCase()}`
+    ) ?? []
+  )
+  const tokensWithoutBalances =
+    tokens?.filter((token) => {
+      const tokenKey = `${token.chainId}-${token.address.toLowerCase()}`
+      return !tokensWithBalancesSet.has(tokenKey)
+    }) ?? []
+
+  if (isAllNetworks) {
+    return {
+      processedTokens: [...tokensWithBalances, ...tokensWithoutBalances],
+      withCategories: false,
+    }
+  } else {
+    return mapAndSortTokens(
+      tokensWithoutBalances,
+      tokensWithBalances,
+      selectedChainId,
+      configTokens
+    )
   }
 }
 
