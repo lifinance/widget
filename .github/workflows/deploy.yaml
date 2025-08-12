@@ -35,20 +35,11 @@ jobs:
       
       - name: Deploy app build to S3 bucket
         run: |
-          # --- Deploy playground.li.fi ---
-          # Step 1: Sync hashed assets (.js, .css) with a one-year cache header.
-          # These files are immutable, so they can be cached aggressively by browsers.
-          aws s3 sync ./packages/widget-playground-vite/dist/assets s3://playground.li.fi/assets --cache-control 'public,max-age=31536000,immutable'
-
-          # Step 2: Sync root files (index.html) with a no-cache header.
-          # This forces browsers to always check for the latest version of the entrypoint.
-          # The --delete flag here cleans up old root files from previous deployments.
-          aws s3 sync ./packages/widget-playground-vite/dist/ s3://playground.li.fi --exclude 'assets/*' --cache-control 'no-cache,no-store,must-revalidate' --delete
-
-          # --- Deploy widget.li.fi ---
-          # Repeats the same safe, two-step process for the second application.
-          aws s3 sync ./packages/widget-embedded/dist/assets s3://widget.li.fi/assets --cache-control 'public,max-age=31536000,immutable'
-          aws s3 sync ./packages/widget-embedded/dist/ s3://widget.li.fi --exclude 'assets/*' --cache-control 'no-cache,no-store,must-revalidate' --delete
+          # This single command deploys all files with a "no-cache" rule.
+          aws s3 sync ./packages/widget-playground-vite/dist/ s3://playground.li.fi --cache-control 'no-cache,no-store,must-revalidate' --delete
+          
+          # Repeats the same process for the second application.
+          aws s3 sync ./packages/widget-embedded/dist/ s3://widget.li.fi --cache-control 'no-cache,no-store,must-revalidate' --delete
       
       - name: Purge Cloudflare Cache by Hostname
         run: |
