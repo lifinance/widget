@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.27.0](https://github.com/lifinance/widget/compare/v3.26.1...v3.27.0) (2025-08-11)
+
+
+### Features
+
+* add pure swap/bridge ([#491](https://github.com/lifinance/widget/issues/491)) ([d3a815b](https://github.com/lifinance/widget/commit/d3a815bc4245d4d61d9443f3c1025a042c55f24d))
+* add taproot wallets, and UNS support  ([#503](https://github.com/lifinance/widget/issues/503)) ([585777d](https://github.com/lifinance/widget/commit/585777df7c49dfc242b85d66c04906b69946a7a8))
+
+
+### Bug Fixes
+
+* adjust tx links ([#505](https://github.com/lifinance/widget/issues/505)) ([8cfbdfa](https://github.com/lifinance/widget/commit/8cfbdfa7615e818ea6fe875084ba2d439d92f248))
+* resolve drawer/modal focus traps ([#498](https://github.com/lifinance/widget/issues/498)) ([d2dda5b](https://github.com/lifinance/widget/commit/d2dda5b50702ffa2d5e3be04a5121927aade4dd1))
+
 ### [3.26.1](https://github.com/lifinance/widget/compare/v3.26.0...v3.26.1) (2025-08-06)
 
 

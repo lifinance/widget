@@ -13,22 +13,37 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::403372804574:role/github-actions
           role-session-name: github-actions-role-session
           aws-region: us-east-2
+      
       - name: Amazon ECR login
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
+      
       - name: Install dependencies
         uses: ./.github/actions/pnpm-install
+      
       - name: Build application
         env:
           NODE_OPTIONS: '--max_old_space_size=4096'
         run: pnpm build
+      
       - name: Deploy app build to S3 bucket
         run: |
-          aws s3 sync ./packages/widget-playground-vite/dist/ s3://playground.li.fi --delete
-          aws s3 sync ./packages/widget-embedded/dist/ s3://widget.li.fi --delete
+          # This single command deploys all files with a "no-cache" rule.
+          aws s3 sync ./packages/widget-playground-vite/dist/ s3://playground.li.fi --cache-control 'no-cache,no-store,must-revalidate' --delete
+          
+          # Repeats the same process for the second application.
+          aws s3 sync ./packages/widget-embedded/dist/ s3://widget.li.fi --cache-control 'no-cache,no-store,must-revalidate' --delete
+      
+      - name: Purge Cloudflare Cache by Hostname
+        run: |
+          curl -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/purge_cache" \
+          -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" \
+          -H "Content-Type: application/json" \
+          --data '{"hosts":["playground.li.fi", "widget.li.fi"]}'
