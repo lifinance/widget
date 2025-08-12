@@ -1,5 +1,4 @@
 import type { ExtendedChain } from '@lifi/sdk'
-import type { Account } from '@lifi/wallet-management'
 import type { RefObject } from 'react'
 import type { FormType } from '../../stores/form/types.js'
 import type { TokenAmount } from '../../types/token.js'
@@ -12,7 +11,6 @@ export interface TokenListProps {
 }
 
 export interface VirtualizedTokenListProps {
-  account: Account
   tokens: TokenAmount[]
   scrollElementRef: RefObject<HTMLElement | null>
   isLoading: boolean
@@ -31,7 +29,6 @@ export interface TokenListItemBaseProps {
 }
 
 export interface TokenListItemProps extends TokenListItemBaseProps {
-  showBalance: boolean
   token: TokenAmount
   onShowTokenDetails: (
     tokenAddress: string,
@@ -52,7 +49,6 @@ export interface TokenListItemButtonProps {
     chainId: number
   ) => void
   onClick?(tokenAddress: string, chainId?: number): void
-  showBalance: boolean
   token: TokenAmount
   chain?: ExtendedChain
   isBalanceLoading?: boolean

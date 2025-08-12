@@ -1,7 +1,5 @@
-import { useAccount } from '@lifi/wallet-management'
 import { Box } from '@mui/material'
-import { type FC, useEffect } from 'react'
-import { useChain } from '../../hooks/useChain.js'
+import { type FC, memo, useEffect, useMemo } from 'react'
 import { useDebouncedWatch } from '../../hooks/useDebouncedWatch.js'
 import { useTokenBalances } from '../../hooks/useTokenBalances.js'
 import { useTokenSearch } from '../../hooks/useTokenSearch.js'
@@ -16,42 +14,44 @@ import { useTokenSelect } from './useTokenSelect.js'
 import { filteredTokensComparator } from './utils.js'
 import { VirtualizedTokenList } from './VirtualizedTokenList.js'
 
-export const TokenList: FC<TokenListProps> = ({
-  formType,
-  parentRef,
-  height,
-  onClick,
-}) => {
-  const emitter = useWidgetEvents()
-  const [selectedChainId, selectedTokenAddress] = useFieldValues(
-    FormKeyHelper.getChainKey(formType),
-    FormKeyHelper.getTokenKey(formType)
-  )
-  const isAllNetworks = useChainOrderStore((state) => state.isAllNetworks)
+export const TokenList: FC<TokenListProps> = memo(
+  ({ formType, parentRef, height, onClick }) => {
+    const emitter = useWidgetEvents()
 
-  const [tokenSearchFilter]: string[] = useDebouncedWatch(
-    320,
-    'tokenSearchFilter'
-  )
+    const [selectedChainId, selectedTokenAddress] = useFieldValues(
+      FormKeyHelper.getChainKey(formType),
+      FormKeyHelper.getTokenKey(formType)
+    )
 
-  const { chain: selectedChain, isLoading: isSelectedChainLoading } =
-    useChain(selectedChainId)
-  const { account } = useAccount({
-    chainType: selectedChain?.chainType,
-  })
+    const isAllNetworks = useChainOrderStore((state) => state.isAllNetworks)
 
-  const {
-    tokens: sortedTokens,
-    withCategories,
-    isTokensLoading,
-    isBalanceLoading,
-  } = useTokenBalances(selectedChainId, formType, isAllNetworks)
+    const [tokenSearchFilter]: string[] = useDebouncedWatch(
+      320,
+      'tokenSearchFilter'
+    )
 
-  const normalizedSearchFilter = tokenSearchFilter?.replaceAll('$', '')
-  const searchFilter = normalizedSearchFilter?.toUpperCase() ?? ''
+    const {
+      tokens: sortedTokens,
+      withCategories,
+      isTokensLoading,
+      isBalanceLoading,
+    } = useTokenBalances(selectedChainId, formType, isAllNetworks)
 
-  const filteredTokens = tokenSearchFilter
-    ? sortedTokens
+    const normalizedSearchFilter = useMemo(
+      () => tokenSearchFilter?.replaceAll('$', ''),
+      [tokenSearchFilter]
+    )
+
+    const searchFilter = useMemo(
+      () => normalizedSearchFilter?.toUpperCase() ?? '',
+      [normalizedSearchFilter]
+    )
+
+    const filteredTokens = useMemo(() => {
+      if (!tokenSearchFilter) {
+        return sortedTokens
+      }
+      return sortedTokens
         .filter(
           (token) =>
             token.name?.toUpperCase().includes(searchFilter) ||
@@ -63,63 +63,80 @@ export const TokenList: FC<TokenListProps> = ({
             token.address.toUpperCase().includes(searchFilter)
         )
         .sort(filteredTokensComparator(searchFilter))
-    : sortedTokens
+    }, [sortedTokens, tokenSearchFilter, searchFilter])
 
-  const tokenSearchEnabled =
-    !isTokensLoading &&
-    !filteredTokens.length &&
-    !!tokenSearchFilter &&
-    !!selectedChainId
-
-  const { token: searchedToken, isLoading: isSearchedTokenLoading } =
-    useTokenSearch(
-      selectedChainId,
-      normalizedSearchFilter,
-      tokenSearchEnabled,
-      formType
+    const tokenSearchEnabled = useMemo(
+      () =>
+        !isTokensLoading &&
+        !filteredTokens.length &&
+        !!tokenSearchFilter &&
+        !!selectedChainId,
+      [
+        isTokensLoading,
+        filteredTokens.length,
+        tokenSearchFilter,
+        selectedChainId,
+      ]
     )
 
-  const isLoading =
-    isTokensLoading ||
-    isSelectedChainLoading ||
-    (tokenSearchEnabled && isSearchedTokenLoading)
+    const { token: searchedToken, isLoading: isSearchedTokenLoading } =
+      useTokenSearch(
+        selectedChainId,
+        normalizedSearchFilter,
+        tokenSearchEnabled,
+        formType
+      )
 
-  const tokens = filteredTokens.length
-    ? filteredTokens
-    : searchedToken
-      ? [searchedToken]
-      : filteredTokens
+    const isLoading = useMemo(
+      () => isTokensLoading || (tokenSearchEnabled && isSearchedTokenLoading),
+      [isTokensLoading, tokenSearchEnabled, isSearchedTokenLoading]
+    )
 
-  const handleTokenClick = useTokenSelect(formType, onClick)
-  const showCategories = withCategories && !tokenSearchFilter && !isAllNetworks
+    const tokens = useMemo(() => {
+      if (filteredTokens.length) {
+        return filteredTokens
+      }
+      if (searchedToken) {
+        return [searchedToken]
+      }
+      return filteredTokens
+    }, [filteredTokens, searchedToken])
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: Should fire only when search filter changes
-  useEffect(() => {
-    if (normalizedSearchFilter) {
-      emitter.emit(WidgetEvent.TokenSearch, {
-        value: normalizedSearchFilter,
-        tokens,
-      })
-    }
-  }, [normalizedSearchFilter, emitter])
+    const handleTokenClick = useTokenSelect(formType, onClick)
 
-  return (
-    <Box ref={parentRef} style={{ height, overflow: 'auto' }}>
-      {!tokens.length && !isLoading ? (
-        <TokenNotFound formType={formType} />
-      ) : null}
-      <VirtualizedTokenList
-        account={account}
-        tokens={tokens}
-        scrollElementRef={parentRef}
-        chainId={selectedChainId}
-        isLoading={isLoading}
-        isBalanceLoading={isBalanceLoading}
-        showCategories={showCategories}
-        onClick={handleTokenClick}
-        selectedTokenAddress={selectedTokenAddress}
-        isAllNetworks={isAllNetworks}
-      />
-    </Box>
-  )
-}
+    const showCategories = useMemo(
+      () => withCategories && !tokenSearchFilter && !isAllNetworks,
+      [withCategories, tokenSearchFilter, isAllNetworks]
+    )
+
+    useEffect(() => {
+      if (normalizedSearchFilter) {
+        emitter.emit(WidgetEvent.TokenSearch, {
+          value: normalizedSearchFilter,
+          tokens,
+        })
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [normalizedSearchFilter, tokens, emitter])
+
+    return (
+      <Box ref={parentRef} style={{ height, overflow: 'auto' }}>
+        {!tokens.length && !isLoading ? (
+          <TokenNotFound formType={formType} />
+        ) : null}
+
+        <VirtualizedTokenList
+          tokens={tokens}
+          scrollElementRef={parentRef}
+          chainId={selectedChainId}
+          isLoading={isLoading}
+          isBalanceLoading={isBalanceLoading}
+          showCategories={showCategories}
+          onClick={handleTokenClick}
+          selectedTokenAddress={selectedTokenAddress}
+          isAllNetworks={isAllNetworks}
+        />
+      </Box>
+    )
+  }
+)

@@ -11,7 +11,7 @@ import {
   Typography,
 } from '@mui/material'
 import type { MouseEventHandler } from 'react'
-import { memo, useRef, useState } from 'react'
+import { memo, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLongPress } from '../../hooks/useLongPress.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
@@ -32,7 +32,6 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
     start,
     token,
     chain,
-    showBalance,
     isBalanceLoading,
     startAdornment,
     endAdornment,
@@ -50,7 +49,6 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
         {startAdornment}
         <TokenListItemButton
           token={token}
-          showBalance={showBalance}
           isBalanceLoading={isBalanceLoading}
           onClick={onClick}
           chain={chain}
@@ -63,23 +61,27 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
   }
 )
 
-export const TokenListItemAvatar: React.FC<TokenListItemAvatarProps> = ({
-  token,
-}) => {
-  const [isImageLoading, setIsImageLoading] = useState(true)
-  return (
-    <Avatar
-      src={token.logoURI}
-      alt={token.symbol}
-      sx={(theme) =>
-        isImageLoading ? { bgcolor: theme.vars.palette.grey[300] } : null
-      }
-      onLoad={() => setIsImageLoading(false)}
-    >
-      {token.symbol?.[0]}
-    </Avatar>
-  )
-}
+export const TokenListItemAvatar = memo(
+  ({ token }: TokenListItemAvatarProps) => {
+    const [isImageLoading, setIsImageLoading] = useState(true)
+
+    return (
+      <Avatar
+        src={token.logoURI}
+        alt={token.symbol}
+        sx={(theme) =>
+          isImageLoading ? { bgcolor: theme.vars.palette.grey[300] } : null
+        }
+        onLoad={() => setIsImageLoading(false)}
+      >
+        {token.symbol?.[0]}
+      </Avatar>
+    )
+  },
+  (prevProps, nextProps) =>
+    prevProps.token.logoURI === nextProps.token.logoURI &&
+    prevProps.token.symbol === nextProps.token.symbol
+)
 
 interface OpenTokenDetailsButtonProps {
   tokenAddress: string | undefined
@@ -120,7 +122,6 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
     onClick,
     token,
     chain,
-    showBalance,
     isBalanceLoading,
     selected,
     onShowTokenDetails,
@@ -152,15 +153,23 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
       onClick?.(token.address, token.chainId)
     }
 
-    const tokenAmount = formatTokenAmount(token.amount, token.decimals)
-    const tokenPrice = formatTokenPrice(
-      token.amount,
-      token.priceUSD,
-      token.decimals
+    const tokenAmount = useMemo(
+      () => formatTokenAmount(token.amount, token.decimals),
+      [token.amount, token.decimals]
+    )
+
+    const tokenPrice = useMemo(
+      () => formatTokenPrice(token.amount, token.priceUSD, token.decimals),
+      [token.amount, token.priceUSD, token.decimals]
     )
 
     const longPressEvents = useLongPress(() =>
       onShowTokenDetails(token.address, withoutContractAddress, token.chainId)
+    )
+
+    const showBalanceLoading = useMemo(
+      () => isBalanceLoading && token.amount === undefined,
+      [isBalanceLoading, token.amount]
     )
 
     return (
@@ -302,41 +311,39 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
             )
           }
         />
-        {showBalance ? (
-          isBalanceLoading ? (
-            <TokenAmountSkeleton />
-          ) : (
-            <Box sx={{ textAlign: 'right' }}>
-              {token.amount ? (
-                <Typography
-                  noWrap
-                  sx={{
-                    fontWeight: 600,
-                  }}
-                  title={tokenAmount}
-                >
-                  {t('format.tokenAmount', {
-                    value: tokenAmount,
-                  })}
-                </Typography>
-              ) : null}
-              {tokenPrice ? (
-                <Typography
-                  data-price={token.priceUSD}
-                  sx={{
-                    fontWeight: 500,
-                    fontSize: 12,
-                    color: 'text.secondary',
-                  }}
-                >
-                  {t('format.currency', {
-                    value: tokenPrice,
-                  })}
-                </Typography>
-              ) : null}
-            </Box>
-          )
-        ) : null}
+        {showBalanceLoading ? (
+          <TokenAmountSkeleton />
+        ) : (
+          <Box sx={{ textAlign: 'right' }}>
+            {token.amount ? (
+              <Typography
+                noWrap
+                sx={{
+                  fontWeight: 600,
+                }}
+                title={tokenAmount}
+              >
+                {t('format.tokenAmount', {
+                  value: tokenAmount,
+                })}
+              </Typography>
+            ) : null}
+            {tokenPrice ? (
+              <Typography
+                data-price={token.priceUSD}
+                sx={{
+                  fontWeight: 500,
+                  fontSize: 12,
+                  color: 'text.secondary',
+                }}
+              >
+                {t('format.currency', {
+                  value: tokenPrice,
+                })}
+              </Typography>
+            ) : null}
+          </Box>
+        )}
       </ListItemButton>
     )
   }

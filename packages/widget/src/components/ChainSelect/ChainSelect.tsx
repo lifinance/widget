@@ -1,9 +1,9 @@
 import type { EVMChain } from '@lifi/sdk'
 import { Avatar, Box, Skeleton, Tooltip, Typography } from '@mui/material'
-import { useCallback, useEffect } from 'react'
+import { memo, useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { useChainOrderStoreContext } from '../../stores/chains/ChainOrderStore.js'
+import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import {
   maxChainsToOrder,
   maxChainsToShow,
@@ -17,9 +17,10 @@ import { AllChainsAvatar } from '../Chains/AllChainsAvatar.js'
 import { ChainCard, ChainContainer } from './ChainSelect.style.js'
 import { useChainSelect } from './useChainSelect.js'
 
-export const ChainSelect = ({ formType }: FormTypeProps) => {
+export const ChainSelect = memo(({ formType }: FormTypeProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
+
   const {
     chainOrder,
     chains,
@@ -29,8 +30,10 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
     setCurrentChain,
   } = useChainSelect(formType)
 
-  const chainOrderStore = useChainOrderStoreContext()
-  const { isAllNetworks, setIsAllNetworks } = chainOrderStore.getState()
+  const { isAllNetworks, setIsAllNetworks } = useChainOrderStore((state) => ({
+    isAllNetworks: state.isAllNetworks,
+    setIsAllNetworks: state.setIsAllNetworks,
+  }))
 
   const [chainId] = useFieldValues(FormKeyHelper.getChainKey(formType))
 
@@ -45,34 +48,41 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
   }, [chainId, chainOrder, formType, setChainOrder])
 
   const onChainSelect = useCallback(
-    (chainId: number) => {
+    (selectedChainId: number) => {
       setIsAllNetworks(false)
-      setCurrentChain(chainId)
+      setCurrentChain(selectedChainId)
     },
     [setIsAllNetworks, setCurrentChain]
   )
 
-  const showAllChains = () => {
+  const showAllChains = useCallback(() => {
     navigate(navigationRoutes[`${formType}Chain`])
-  }
+  }, [navigate, formType])
 
-  // We check if we can accommodate all the chains on the grid
-  // The 1st item is "All chains", the rest are individual chains.
-  // If there are more than 9 chains we show the number of hidden chains as the last one tile
-  const chainsToHide =
-    chains?.length === maxChainsToShow
-      ? 0
-      : (chains?.length ?? 0) - maxChainsToOrder
+  const selectAllNetworks = useCallback(() => {
+    setIsAllNetworks(true)
+  }, [setIsAllNetworks])
 
-  // When there is less than 9 chains we don't care about the order
-  const chainsToShow = (chainsToHide > 0 ? getChains() : chains) ?? []
+  const chainsToHide = useMemo(() => {
+    if (chains?.length === maxChainsToShow) {
+      return 0
+    }
+    return (chains?.length ?? 0) - maxChainsToOrder
+  }, [chains])
 
-  // Number of tiles to show in the grid
-  const showAllNetworks = chainsToShow.length > 1
-  const tilesCount =
-    chainsToShow.length +
-    (showAllNetworks ? 1 : 0) + // 1 for "All chains"
-    (chainsToHide > 0 ? 1 : 0) // 1 for "+ N" more chains
+  const chainsToShow = useMemo(() => {
+    return (chainsToHide > 0 ? getChains() : chains) ?? []
+  }, [chainsToHide, chains, getChains])
+
+  const showAllNetworks = useMemo(() => chainsToShow.length > 1, [chainsToShow])
+
+  const tilesCount = useMemo(() => {
+    return (
+      chainsToShow.length +
+      (showAllNetworks ? 1 : 0) + // 1 for "All networks"
+      (chainsToHide > 0 ? 1 : 0) // 1 for "+ N" more networks
+    )
+  }, [chainsToShow.length, showAllNetworks, chainsToHide])
 
   if (isLoading) {
     return (
@@ -92,55 +102,30 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
 
   return (
     <ChainContainer itemCount={tilesCount}>
-      {isLoading ? (
-        Array.from({ length: maxChainsToOrder }).map((_, index) => (
-          <Skeleton
-            key={index}
-            variant="rectangular"
-            width={56}
-            height={56}
-            sx={{ borderRadius: 1 }}
-          />
-        ))
-      ) : (
-        <>
-          {showAllNetworks && (
-            <Tooltip title={t('main.allNetworks')} enterNextDelay={100}>
-              <ChainCard
-                component="button"
-                onClick={() => setIsAllNetworks(true)}
-                type={isAllNetworks ? 'selected' : 'default'}
-                selectionColor="secondary"
-              >
-                <AllChainsAvatar chains={chains ?? []} size="medium" />
-              </ChainCard>
-            </Tooltip>
-          )}
-          {chainsToShow?.map((chain: EVMChain) => (
-            <Tooltip key={chain.id} title={chain.name} enterNextDelay={100}>
-              <ChainCard
-                component="button"
-                onClick={() => onChainSelect(chain.id)}
-                type={
-                  !isAllNetworks && chainId === chain.id
-                    ? 'selected'
-                    : 'default'
-                }
-                selectionColor="secondary"
-              >
-                <Avatar
-                  src={chain.logoURI}
-                  alt={chain.key}
-                  sx={{ width: 40, height: 40 }}
-                >
-                  {chain.name[0]}
-                </Avatar>
-              </ChainCard>
-            </Tooltip>
-          ))}
-        </>
+      {showAllNetworks && (
+        <Tooltip title={t('main.allNetworks')} enterNextDelay={100}>
+          <ChainCard
+            component="button"
+            onClick={selectAllNetworks}
+            type={isAllNetworks ? 'selected' : 'default'}
+            selectionColor="secondary"
+          >
+            <AllChainsAvatar chains={chains ?? []} size="medium" />
+          </ChainCard>
+        </Tooltip>
       )}
-      {chainsToHide > 0 ? (
+
+      {chainsToShow.map((chain: EVMChain) => (
+        <ChainItem
+          key={chain.id}
+          chain={chain}
+          isSelected={chainId === chain.id}
+          isAllNetworks={isAllNetworks}
+          onSelect={onChainSelect}
+        />
+      ))}
+
+      {chainsToHide > 0 && (
         <ChainCard component="button" onClick={showAllChains}>
           <Box
             sx={{
@@ -150,16 +135,49 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
               placeItems: 'center',
             }}
           >
-            <Typography
-              sx={{
-                fontWeight: 500,
-              }}
-            >
-              +{chainsToHide}
-            </Typography>
+            <Typography sx={{ fontWeight: 500 }}>+{chainsToHide}</Typography>
           </Box>
         </ChainCard>
-      ) : null}
+      )}
     </ChainContainer>
   )
-}
+})
+
+const ChainItem = memo(
+  ({
+    chain,
+    isSelected,
+    isAllNetworks,
+    onSelect,
+  }: {
+    chain: EVMChain
+    isSelected: boolean
+    isAllNetworks: boolean
+    onSelect: (id: number) => void
+  }) => {
+    // Memoize the click handler for this chain
+    const handleClick = useCallback(
+      () => onSelect(chain.id),
+      [onSelect, chain.id]
+    )
+
+    return (
+      <Tooltip title={chain.name} enterNextDelay={100}>
+        <ChainCard
+          component="button"
+          onClick={handleClick}
+          type={!isAllNetworks && isSelected ? 'selected' : 'default'}
+          selectionColor="secondary"
+        >
+          <Avatar
+            src={chain.logoURI}
+            alt={chain.key}
+            sx={{ width: 40, height: 40 }}
+          >
+            {chain.name[0]}
+          </Avatar>
+        </ChainCard>
+      </Tooltip>
+    )
+  }
+)

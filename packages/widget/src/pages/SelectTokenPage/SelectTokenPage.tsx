@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
 import type { FC, RefObject } from 'react'
-import { useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChainSelect } from '../../components/ChainSelect/ChainSelect.js'
 import { FullPageContainer } from '../../components/FullPageContainer.js'
@@ -27,35 +27,28 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   const wideVariant = useWideVariant()
 
   const { t } = useTranslation()
-  const title =
-    formType === 'from'
-      ? subvariant === 'custom'
-        ? t('header.payWith')
-        : t('header.from')
-      : t('header.to')
+  const title = useMemo(() => {
+    if (formType === 'from') {
+      return subvariant === 'custom' ? t('header.payWith') : t('header.from')
+    }
+    return t('header.to')
+  }, [formType, subvariant, t])
 
   useHeader(title)
 
-  const hideChainSelect =
-    (wideVariant && subvariantOptions?.wide?.enableChainSidebar) ||
-    (swapOnly && formType === 'to') ||
-    hiddenUI?.includes(HiddenUI.ChainSelect)
+  const hideChainSelect = useMemo(() => {
+    return (
+      (wideVariant && subvariantOptions?.wide?.enableChainSidebar) ||
+      (swapOnly && formType === 'to') ||
+      hiddenUI?.includes(HiddenUI.ChainSelect)
+    )
+  }, [wideVariant, subvariantOptions, swapOnly, formType, hiddenUI])
 
   return (
     <FullPageContainer disableGutters>
-      <Box
-        ref={headerRef}
-        sx={{
-          pb: 2,
-          px: 3,
-        }}
-      >
+      <Box ref={headerRef} sx={{ pb: 2, px: 3 }}>
         {!hideChainSelect ? <ChainSelect formType={formType} /> : null}
-        <Box
-          sx={{
-            mt: !hideChainSelect ? 2 : 0,
-          }}
-        >
+        <Box sx={{ mt: !hideChainSelect ? 2 : 0 }}>
           <SearchTokenInput />
         </Box>
       </Box>

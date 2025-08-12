@@ -1,7 +1,7 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type { RefObject } from 'react'
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   useChainOrderStore,
@@ -110,7 +110,7 @@ export const VirtualizedChainList = ({
     }
   }, [measure, scrollElementRef.current])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     // Mark as scrolled if "All Networks" is initially selected
     if (isAllNetworks) {
       hasScrolledRef.current = true

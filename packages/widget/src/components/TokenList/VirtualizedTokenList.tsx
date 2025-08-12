@@ -19,7 +19,6 @@ const loadMoreThreshold = 20
 const loadMoreStep = 100
 
 export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
-  account,
   tokens,
   scrollElementRef,
   chainId,
@@ -204,8 +203,6 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
             selectedTokenAddress === currentToken.address &&
             chainId === currentToken.chainId
 
-          const showBalance = isAllNetworks ? !!account : !!account.address
-
           return (
             <TokenListItem
               key={item.key}
@@ -217,7 +214,6 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
               selected={isSelected}
               onShowTokenDetails={onShowTokenDetails}
               isBalanceLoading={isBalanceLoading}
-              showBalance={showBalance}
               startAdornment={
                 startAdornmentLabel ? (
                   <Typography
