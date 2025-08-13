@@ -24,6 +24,7 @@ export const MainPage: React.FC = () => {
     useWidgetConfig()
   const custom = subvariant === 'custom'
   const showPoweredBy = !hiddenUI?.includes(HiddenUI.PoweredBy)
+  const showGasRefuelMessage = !hiddenUI?.includes(HiddenUI.GasRefuelMessage)
 
   const splitTitle =
     subvariantOptions?.split === 'bridge'
@@ -56,7 +57,7 @@ export const MainPage: React.FC = () => {
       ) : null}
       {!wideVariant ? <Routes sx={marginSx} /> : null}
       <SendToWalletButton sx={marginSx} />
-      <GasRefuelMessage mb={2} />
+      {showGasRefuelMessage ? <GasRefuelMessage mb={2} /> : null}
       <MainWarningMessages mb={2} />
       <Box
         sx={{

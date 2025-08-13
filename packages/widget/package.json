@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget",
-  "version": "3.26.1",
+  "version": "3.27.0",
   "description": "LI.FI Widget for cross-chain bridging and swapping. It will drive your multi-chain strategy and attract new users from everywhere.",
   "type": "module",
   "main": "./src/index.ts",
@@ -53,7 +53,7 @@
     "@bigmi/core": "^0.4.3",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^3.8.11",
+    "@lifi/sdk": "^3.9.1",
     "@lifi/wallet-management": "workspace:^",
     "@mui/icons-material": "^7.3.1",
     "@mui/material": "^7.3.1",
@@ -63,14 +63,14 @@
     "@solana/wallet-adapter-coinbase": "^0.1.23",
     "@solana/web3.js": "^1.98.4",
     "@tanstack/react-virtual": "^3.13.12",
-    "i18next": "^25.3.0",
+    "i18next": "^25.3.4",
     "microdiff": "^1.5.0",
     "mitt": "^3.0.1",
     "react-i18next": "^15.6.1",
     "react-intersection-observer": "^9.16.0",
     "react-router-dom": "^6.30.0",
     "react-transition-group": "^4.4.5",
-    "viem": "^2.33.2",
+    "viem": "^2.33.3",
     "zustand": "^5.0.7"
   },
   "devDependencies": {
