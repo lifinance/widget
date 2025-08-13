@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.27.1](https://github.com/lifinance/widget/compare/v3.27.0...v3.27.1) (2025-08-13)
+
+
+### Bug Fixes
+
+* improve cache handling for fetched routes ([#508](https://github.com/lifinance/widget/issues/508)) ([0814365](https://github.com/lifinance/widget/commit/0814365d8be5e1e0499fb166edf0049203407aa1))
+* scroll to index retry warnings ([#504](https://github.com/lifinance/widget/issues/504)) ([bc958eb](https://github.com/lifinance/widget/commit/bc958eb6f182a8b2986fe8a9dc54c14f52174d8a))
+
 ## [3.27.0](https://github.com/lifinance/widget/compare/v3.26.1...v3.27.0) (2025-08-11)
 
 
