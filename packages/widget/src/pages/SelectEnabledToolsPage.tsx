@@ -145,7 +145,7 @@ export const SelectEnabledToolsPage: React.FC<{
         placeholder={t(`main.search${type}`)}
       />
       {filteredTools.length ? (
-        <SearchList className="long-list">
+        <SearchList className="long-list" data-testid={`${typeKey}-list`}>
           {filteredTools.map((tool) => (
             <SettingsListItemButton
               key={tool.name}
