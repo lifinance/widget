@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type { FC } from 'react'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import type { TokenAmount } from '../../types/token.js'
@@ -14,9 +14,6 @@ import type {
 } from './types.js'
 
 const tokenItemHeight = 64 // 60 + 4px margin-bottom
-// Infinite scroll parameters
-const loadMoreThreshold = 20
-const loadMoreStep = 100
 
 export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   tokens,
@@ -97,35 +94,20 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   )
 
   // Chunk the tokens for infinite loading simulation
-  const [maxVisibleCount, setMaxVisibleCount] = useState(loadMoreStep)
   const virtualizerConfig = useMemo(
     () => ({
-      count: Math.min(maxVisibleCount, tokens.length),
+      count: tokens.length,
       overscan: 5,
       paddingEnd: 12,
       getScrollElement: () => scrollElementRef.current,
       estimateSize,
       getItemKey,
     }),
-    [maxVisibleCount, tokens.length, estimateSize, getItemKey, scrollElementRef]
+    [tokens.length, estimateSize, getItemKey, scrollElementRef]
   )
 
-  const { getVirtualItems, getTotalSize, scrollToIndex, range } =
+  const { getVirtualItems, getTotalSize, scrollToIndex } =
     useVirtualizer(virtualizerConfig)
-
-  useEffect(() => {
-    if (!tokens.length || maxVisibleCount >= tokens.length) {
-      return
-    }
-
-    const doLoadMore = range?.endIndex
-      ? range.endIndex >= maxVisibleCount - loadMoreThreshold
-      : false
-
-    if (doLoadMore) {
-      setMaxVisibleCount((prev) => Math.min(prev + loadMoreStep, tokens.length))
-    }
-  }, [range?.endIndex, maxVisibleCount, tokens.length])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when chainId changes
   useEffect(() => {

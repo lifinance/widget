@@ -80,12 +80,12 @@ export const processTokenBalances = (
       : allTokensWithBalances?.filter(
           (token) => token.chainId === selectedChainId
         )) ?? []
-  tokensWithBalances?.sort(sortFn)
+  const sortedTokensWithBalances = [...tokensWithBalances].sort(sortFn)
 
   const tokensWithBalancesSet = new Set(
-    tokensWithBalances?.map(
+    sortedTokensWithBalances.map(
       (token) => `${token.chainId}-${token.address.toLowerCase()}`
-    ) ?? []
+    )
   )
   const tokensWithoutBalances =
     tokens?.filter((token) => {
@@ -95,13 +95,13 @@ export const processTokenBalances = (
 
   if (isAllNetworks) {
     return {
-      processedTokens: [...tokensWithBalances, ...tokensWithoutBalances],
+      processedTokens: [...sortedTokensWithBalances, ...tokensWithoutBalances],
       withCategories: false,
     }
   } else {
     return mapAndSortTokens(
       tokensWithoutBalances,
-      tokensWithBalances,
+      sortedTokensWithBalances,
       selectedChainId,
       configTokens
     )
