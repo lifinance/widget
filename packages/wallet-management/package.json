@@ -8,8 +8,9 @@
   "sideEffects": false,
   "scripts": {
     "watch": "tsc -w -p ./tsconfig.json",
-    "build": "pnpm clean && pnpm build:esm && pnpm build:clean",
+    "build": "pnpm clean && pnpm build:esm && pnpm build:react-compiler && pnpm build:clean",
     "build:esm": "tsc --build",
+    "build:react-compiler": "babel dist/esm --out-dir dist/esm --plugins babel-plugin-react-compiler --extensions .js,.jsx,.ts,.tsx",
     "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../*.md' .",
     "build:postrelease": "node ../../scripts/postrelease.js && rm -rf *.md",
     "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo",
@@ -67,7 +68,13 @@
     "zustand": "^5.0.7"
   },
   "devDependencies": {
+    "@babel/cli": "^7.28.0",
+    "@babel/core": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "@babel/preset-react": "^7.27.1",
+    "@babel/preset-typescript": "^7.27.1",
     "@types/use-sync-external-store": "^1.5.0",
+    "babel-plugin-react-compiler": "19.1.0-rc.2",
     "cpy-cli": "^5.0.0",
     "madge": "^8.0.0",
     "react": "^19.1.1",

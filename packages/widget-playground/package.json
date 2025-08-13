@@ -5,8 +5,9 @@
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
   "scripts": {
-    "build": "pnpm clean && pnpm build:esm && pnpm build:fonts && pnpm build:clean",
+    "build": "pnpm clean && pnpm build:esm && pnpm build:react-compiler && pnpm build:fonts && pnpm build:clean",
     "build:esm": "tsc --build",
+    "build:react-compiler": "babel dist/esm --out-dir dist/esm --plugins babel-plugin-react-compiler --extensions .js,.jsx,.ts,.tsx",
     "build:fonts": "cpy 'src/fonts/*' dist/fonts",
     "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo",
     "clean": "pnpm build:clean && rm -rf dist",
@@ -60,11 +61,17 @@
     "zustand": "^5.0.7"
   },
   "devDependencies": {
+    "@babel/cli": "^7.28.0",
+    "@babel/core": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "@babel/preset-react": "^7.27.1",
+    "@babel/preset-typescript": "^7.27.1",
     "@types/lodash.isequal": "^4.5.8",
     "@types/node": "^24.2.1",
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react-swc": "^4.0.0",
+    "babel-plugin-react-compiler": "19.1.0-rc.2",
     "cpy-cli": "^5.0.0",
     "madge": "^8.0.0",
     "typescript": "^5.9.2",

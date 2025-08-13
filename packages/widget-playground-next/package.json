@@ -17,6 +17,7 @@
     "@mui/material-nextjs": "^7.3.0",
     "@mui/system": "^7.3.1",
     "@tanstack/react-query": "^5.84.2",
+    "babel-plugin-react-compiler": "19.1.0-rc.2",
     "core-js": "^3.45.0",
     "next": "^15.4.6",
     "react": "^19.1.1",

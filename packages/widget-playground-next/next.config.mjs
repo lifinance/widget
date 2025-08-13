@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    reactCompiler: true,
+  },
   typescript: {
     // NOTE: this is a workaround. In ../widget/src/hooks/useWidgetEvents.ts we have a workaround for mitt
     // https://github.com/developit/mitt/issues/191
