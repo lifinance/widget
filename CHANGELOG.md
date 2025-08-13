@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.27.2](https://github.com/lifinance/widget/compare/v3.27.1...v3.27.2) (2025-08-13)
+
+
+### Bug Fixes
+
+* improve token data cloning in useRoutes hook ([60bb6b7](https://github.com/lifinance/widget/commit/60bb6b74ff71bbaf4a7c1199c00d7165e4125a93))
+
 ### [3.27.1](https://github.com/lifinance/widget/compare/v3.27.0...v3.27.1) (2025-08-13)
 
 
