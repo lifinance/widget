@@ -27,7 +27,7 @@ export const useTokenBalancesQueries = (
               accountAddress,
               chainId,
             ],
-            queryFn: async () => {
+            queryFn: async (): Promise<TokenAmount[]> => {
               if (!accountAddress || !tokens) {
                 return []
               }
@@ -59,7 +59,7 @@ export const useTokenBalancesQueries = (
       }
 
       // Return all results once everything is done
-      const data = results.flatMap((result) => result.data || [])
+      const data: TokenAmount[] = results.flatMap((result) => result.data || [])
       return {
         data,
         isLoading: false,

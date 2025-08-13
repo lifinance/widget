@@ -40,7 +40,7 @@ export const useFilteredTokensByBalance = (
       return null
     },
     enabled: !!evmAddress,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    refetchInterval: 5 * 60 * 1000, // 5 minutes
   })
 
   const accountsWithFilteredTokens = useMemo(() => {
@@ -77,14 +77,26 @@ export const useFilteredTokensByBalance = (
           balances.map((balance: TokenAmount) => balance.address.toLowerCase())
         )
 
-        // If there are balances, RPC only tokens that have balances
+        // Get tokens that are in chainTokens and have balances
         const filteredTokens = chainTokens.filter((token) => {
           const tokenKey = token.address.toLowerCase()
           return balanceSet.has(tokenKey)
         })
 
-        if (filteredTokens.length) {
-          result[address][chainId] = filteredTokens
+        // Get tokens that are in balances but not in chainTokens
+        const chainTokenSet = new Set(
+          chainTokens.map((token) => token.address.toLowerCase())
+        )
+        const additionalTokens = balances.filter((balance: TokenAmount) => {
+          const balanceKey = balance.address.toLowerCase()
+          return !chainTokenSet.has(balanceKey)
+        })
+
+        // Combine both sets of tokens
+        const allTokens = [...filteredTokens, ...additionalTokens]
+
+        if (allTokens.length) {
+          result[address][chainId] = allTokens
         }
       }
     }
