@@ -1,7 +1,7 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type { RefObject } from 'react'
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore'
 import { List } from './ChainList.style'
 import { ChainListItem } from './ChainListItem'
@@ -56,7 +56,7 @@ export const VirtualizedChainList = ({
     [sortedChains]
   )
 
-  const { getVirtualItems, getTotalSize, measure, scrollToIndex, range } =
+  const { getVirtualItems, getTotalSize, measure, range, getOffsetForIndex } =
     useVirtualizer({
       count: sortedChains.length,
       overscan: 3,
@@ -78,7 +78,24 @@ export const VirtualizedChainList = ({
     }
   }, [measure, scrollElementRef.current])
 
-  useLayoutEffect(() => {
+  const scrollToIndex = useCallback(
+    (index: number) => {
+      requestAnimationFrame(() => {
+        const offsetInfo = getOffsetForIndex(index, 'center')
+        if (!scrollElementRef.current || !offsetInfo) {
+          return
+        }
+        scrollElementRef.current.scrollTo({
+          top: offsetInfo[0],
+          left: 0,
+          behavior: 'smooth',
+        })
+      })
+    },
+    [getOffsetForIndex, scrollElementRef.current]
+  )
+
+  useEffect(() => {
     // Only scroll if sortedChains is not empty and we haven't scrolled yet
     if (!hasScrolledRef.current && sortedChains.length > 0 && range) {
       const selectedChainIndex = sortedChains.findIndex(
@@ -91,12 +108,7 @@ export const VirtualizedChainList = ({
           range.startIndex + 1 > selectedChainIndex ||
           range.endIndex - 1 < selectedChainIndex
         ) {
-          requestAnimationFrame(() => {
-            scrollToIndex(selectedChainIndex, {
-              align: 'center',
-              behavior: 'smooth',
-            })
-          })
+          scrollToIndex(selectedChainIndex)
         }
       }
       hasScrolledRef.current = true // Mark as scrolled (when needed)
