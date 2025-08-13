@@ -35,14 +35,18 @@ export const RoutesExpanded = memo(function RoutesExpanded({
     setReviewableRoute,
   } = useRoutes()
 
-  const onExit = () => {
+  const onExit = useCallback(() => {
     // Clean routes cache on exit
     routesRef.current = undefined
-  }
+  }, [])
 
   // We cache routes results in ref for a better exit animation
   if (routesRef.current && !routes) {
     routesActiveRef.current = false
+    // If we are loading routes with a new queryKey, we need to clear the cache
+    if (isLoading) {
+      routesRef.current = undefined
+    }
   } else {
     routesRef.current = routes
     routesActiveRef.current = Boolean(routes)
@@ -80,7 +84,7 @@ export const RoutesExpanded = memo(function RoutesExpanded({
       onExited={onExit}
     >
       <RoutesContent
-        routes={routesRef.current || []}
+        routes={routesRef.current}
         isFetching={isFetching}
         isLoading={isLoading}
         dataUpdatedAt={dataUpdatedAt}

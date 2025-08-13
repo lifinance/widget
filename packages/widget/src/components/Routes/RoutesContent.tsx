@@ -14,7 +14,7 @@ import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js'
 import { Container, Header } from './RoutesExpanded.style.js'
 
 interface RoutesContentProps {
-  routes: Route[]
+  routes?: Route[]
   isFetching: boolean
   isLoading: boolean
   dataUpdatedAt: number
