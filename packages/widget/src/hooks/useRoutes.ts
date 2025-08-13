@@ -442,11 +442,14 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
               { queryKey: [getQueryKey('tokens', keyPrefix)] },
               (data) => {
                 if (data) {
-                  const clonedData = { ...data }
+                  const clonedData = { ...data, tokens: { ...data.tokens } }
                   const index = clonedData.tokens?.[token.chainId]?.findIndex(
                     (dataToken) => dataToken.address === token.address
                   )
                   if (index >= 0) {
+                    clonedData.tokens[token.chainId] = [
+                      ...clonedData.tokens[token.chainId],
+                    ]
                     clonedData.tokens[token.chainId][index] = {
                       ...clonedData.tokens[token.chainId][index],
                       ...token,
