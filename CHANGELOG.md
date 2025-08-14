@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.27.3](https://github.com/lifinance/widget/compare/v3.27.2...v3.27.3) (2025-08-14)
+
+
+### Bug Fixes
+
+* add data-testid attribute to SearchList for improved testing ([#509](https://github.com/lifinance/widget/issues/509)) ([e793d89](https://github.com/lifinance/widget/commit/e793d8926d32d5268bce9458c701053a9de5ada1))
+* should not show Safe wallet when integrated in iframe ([#511](https://github.com/lifinance/widget/issues/511)) ([b78dd04](https://github.com/lifinance/widget/commit/b78dd042343776705e55b37665939418d1fdcec7))
+
 ### [3.27.2](https://github.com/lifinance/widget/compare/v3.27.1...v3.27.2) (2025-08-13)
 
 
