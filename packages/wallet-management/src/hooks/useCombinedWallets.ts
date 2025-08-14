@@ -8,7 +8,7 @@ import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import { WalletReadyState } from '@solana/wallet-adapter-base'
 import type { Wallet } from '@solana/wallet-adapter-react'
 import { useWallet } from '@solana/wallet-adapter-react'
-import { useMemo } from 'react'
+import { useEffect, useState } from 'react'
 import type { Connector } from 'wagmi'
 import { useConnect } from 'wagmi'
 import { defaultBaseAccountConfig } from '../config/baseAccount.js'
@@ -36,6 +36,11 @@ export type CombinedWallet = {
   name: string
   icon?: string
   connectors: CombinedWalletConnector[]
+}
+
+export type CombinedWallets = {
+  installedWallets: CombinedWallet[]
+  notDetectedWallets: CombinedWallet[]
 }
 
 const normalizeName = (name: string) => name.split(' ')[0].toLowerCase().trim()
@@ -130,132 +135,171 @@ export const useCombinedWallets = () => {
   const { connectors: bigmiConnectors } = useBigmiConnect()
   const { wallets: solanaWallets } = useWallet()
   const suiWallets = useWallets()
+  const [combinedWallets, setCombinedWallets] = useState<CombinedWallets>(
+    () => {
+      return {
+        installedWallets: [],
+        notDetectedWallets: [],
+      }
+    }
+  )
 
   const isDesktopView = useMediaQuery((theme: Theme) =>
     theme.breakpoints.up('sm')
   )
 
-  const data = useMemo(() => {
-    const evmConnectors: (CreateConnectorFnExtended | Connector)[] = Array.from(
-      wagmiConnectors
-      // Remove duplicate connectors
-    ).filter(
-      (connector, index, self) =>
-        index === self.findIndex((c) => c.id === connector.id)
-    )
-
-    // Ensure standard connectors are included
-    if (
-      !evmConnectors.some((connector) =>
-        connector.id.toLowerCase().includes('walletconnect')
+  useEffect(() => {
+    ;(async () => {
+      let evmConnectors: (CreateConnectorFnExtended | Connector)[] = Array.from(
+        wagmiConnectors
+        // Remove duplicate connectors
+      ).filter(
+        (connector, index, self) =>
+          index === self.findIndex((c) => c.id === connector.id)
       )
-    ) {
-      evmConnectors.unshift(
-        createWalletConnectConnector(
-          walletConfig?.walletConnect ?? defaultWalletConnectConfig
+
+      // Check if Safe connector exists and can get a provider
+      const safeConnector = evmConnectors.find(
+        (connector) => connector.id === 'safe'
+      ) as Connector | undefined
+      let shouldFilterOutSafeConnector = false
+
+      if (safeConnector) {
+        try {
+          const provider = await safeConnector.getProvider()
+          // If no provider is available, we should filter out the Safe connector
+          if (!provider) {
+            shouldFilterOutSafeConnector = true
+          }
+        } catch {
+          // If getting provider fails, filter out the Safe connector
+          shouldFilterOutSafeConnector = true
+        }
+      }
+
+      if (shouldFilterOutSafeConnector) {
+        evmConnectors = evmConnectors.filter(
+          (connector) => connector.id !== 'safe'
         )
-      )
-    }
-    if (
-      !evmConnectors.some((connector) =>
-        connector.id.toLowerCase().includes('coinbase')
-      )
-    ) {
-      evmConnectors.unshift(
-        createCoinbaseConnector(walletConfig?.coinbase ?? defaultCoinbaseConfig)
-      )
-    }
-    if (
-      !evmConnectors.some((connector) =>
-        connector.id.toLowerCase().includes('metamask')
-      )
-    ) {
-      evmConnectors.unshift(
-        createMetaMaskConnector(walletConfig?.metaMask ?? defaultMetaMaskConfig)
-      )
-    }
-    if (
-      !evmConnectors.some((connector) =>
-        connector.id.toLowerCase().includes('baseaccount')
-      )
-    ) {
-      evmConnectors.unshift(
-        createBaseAccountConnector(
-          walletConfig?.baseAccount ?? defaultBaseAccountConfig
+      }
+
+      // Ensure standard connectors are included
+      if (
+        !evmConnectors.some((connector) =>
+          connector.id.toLowerCase().includes('walletconnect')
         )
+      ) {
+        evmConnectors.unshift(
+          createWalletConnectConnector(
+            walletConfig?.walletConnect ?? defaultWalletConnectConfig
+          )
+        )
+      }
+      if (
+        !evmConnectors.some((connector) =>
+          connector.id.toLowerCase().includes('coinbase')
+        )
+      ) {
+        evmConnectors.unshift(
+          createCoinbaseConnector(
+            walletConfig?.coinbase ?? defaultCoinbaseConfig
+          )
+        )
+      }
+      if (
+        !evmConnectors.some((connector) =>
+          connector.id.toLowerCase().includes('metamask')
+        )
+      ) {
+        evmConnectors.unshift(
+          createMetaMaskConnector(
+            walletConfig?.metaMask ?? defaultMetaMaskConfig
+          )
+        )
+      }
+      if (
+        !evmConnectors.some((connector) =>
+          connector.id.toLowerCase().includes('baseaccount')
+        )
+      ) {
+        evmConnectors.unshift(
+          createBaseAccountConnector(
+            walletConfig?.baseAccount ?? defaultBaseAccountConfig
+          )
+        )
+      }
+
+      const includeEcosystem = (chainType: ChainType) =>
+        !walletConfig.enabledChainTypes ||
+        walletConfig.enabledChainTypes.includes(chainType)
+
+      const installedUTXOConnectors = includeEcosystem(ChainType.UTXO)
+        ? bigmiConnectors.filter((connector) => {
+            const isInstalled = isWalletInstalled(connector.id)
+            return isInstalled
+          })
+        : []
+
+      const installedEVMConnectors = includeEcosystem(ChainType.EVM)
+        ? evmConnectors.filter((connector) => {
+            const isInstalled = isWalletInstalled(connector.id)
+            return isInstalled
+          })
+        : []
+
+      const installedSVMWallets = includeEcosystem(ChainType.SVM)
+        ? solanaWallets.filter((wallet) => {
+            const isInstalled =
+              wallet.adapter.readyState === WalletReadyState.Installed ||
+              wallet.adapter.readyState === WalletReadyState.Loadable
+            return isInstalled
+          })
+        : []
+
+      const installedSuiWallets = includeEcosystem(ChainType.MVM)
+        ? suiWallets
+        : []
+
+      const installedCombinedWallets = combineWalletLists(
+        installedUTXOConnectors,
+        installedEVMConnectors,
+        installedSVMWallets,
+        installedSuiWallets,
+        walletConfig.walletEcosystemsOrder
       )
-    }
 
-    const includeEcosystem = (chainType: ChainType) =>
-      !walletConfig.enabledChainTypes ||
-      walletConfig.enabledChainTypes.includes(chainType)
+      const notDetectedUTXOConnectors = bigmiConnectors.filter((connector) => {
+        const isInstalled = isWalletInstalled(connector.id)
+        return !isInstalled && isDesktopView
+      })
 
-    const installedUTXOConnectors = includeEcosystem(ChainType.UTXO)
-      ? bigmiConnectors.filter((connector) => {
-          const isInstalled = isWalletInstalled(connector.id)
-          return isInstalled
-        })
-      : []
+      const notDetectedEVMConnectors = evmConnectors.filter((connector) => {
+        const isInstalled = isWalletInstalled(connector.id)
+        return !isInstalled && isDesktopView
+      })
 
-    const installedEVMConnectors = includeEcosystem(ChainType.EVM)
-      ? evmConnectors.filter((connector) => {
-          const isInstalled = isWalletInstalled(connector.id)
-          return isInstalled
-        })
-      : []
+      const notDetectedSVMWallets = solanaWallets.filter((wallet) => {
+        const isInstalled =
+          wallet.adapter.readyState === WalletReadyState.Installed ||
+          wallet.adapter.readyState === WalletReadyState.Loadable
+        return !isInstalled && isDesktopView
+      })
 
-    const installedSVMWallets = includeEcosystem(ChainType.SVM)
-      ? solanaWallets.filter((wallet) => {
-          const isInstalled =
-            wallet.adapter.readyState === WalletReadyState.Installed ||
-            wallet.adapter.readyState === WalletReadyState.Loadable
-          return isInstalled
-        })
-      : []
+      const notDetectedCombinedWallets = combineWalletLists(
+        notDetectedUTXOConnectors,
+        notDetectedEVMConnectors,
+        notDetectedSVMWallets,
+        []
+      )
 
-    const installedSuiWallets = includeEcosystem(ChainType.MVM)
-      ? suiWallets
-      : []
+      installedCombinedWallets.sort(walletComparator)
+      notDetectedCombinedWallets.sort(walletComparator)
 
-    const installedCombinedWallets = combineWalletLists(
-      installedUTXOConnectors,
-      installedEVMConnectors,
-      installedSVMWallets,
-      installedSuiWallets,
-      walletConfig.walletEcosystemsOrder
-    )
-
-    const notDetectedUTXOConnectors = bigmiConnectors.filter((connector) => {
-      const isInstalled = isWalletInstalled(connector.id)
-      return !isInstalled && isDesktopView
-    })
-
-    const notDetectedEVMConnectors = evmConnectors.filter((connector) => {
-      const isInstalled = isWalletInstalled(connector.id)
-      return !isInstalled && isDesktopView
-    })
-
-    const notDetectedSVMWallets = solanaWallets.filter((wallet) => {
-      const isInstalled =
-        wallet.adapter.readyState === WalletReadyState.Installed ||
-        wallet.adapter.readyState === WalletReadyState.Loadable
-      return !isInstalled && isDesktopView
-    })
-
-    const notDetectedCombinedWallets = combineWalletLists(
-      notDetectedUTXOConnectors,
-      notDetectedEVMConnectors,
-      notDetectedSVMWallets,
-      []
-    )
-
-    installedCombinedWallets.sort(walletComparator)
-    notDetectedCombinedWallets.sort(walletComparator)
-
-    return {
-      installedWallets: installedCombinedWallets,
-      notDetectedWallets: notDetectedCombinedWallets,
-    }
+      setCombinedWallets({
+        installedWallets: installedCombinedWallets,
+        notDetectedWallets: notDetectedCombinedWallets,
+      })
+    })()
   }, [
     bigmiConnectors,
     isDesktopView,
@@ -265,7 +309,7 @@ export const useCombinedWallets = () => {
     walletConfig,
   ])
 
-  return data
+  return combinedWallets
 }
 
 // Ensure the walletComparator function is updated to handle CombinedWallet
