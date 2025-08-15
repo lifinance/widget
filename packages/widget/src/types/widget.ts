@@ -65,6 +65,7 @@ export type WidgetThemeComponents = Partial<
     | 'MuiNavigationTabs'
     | 'MuiNavigationTab'
     | 'MuiTabs'
+    | 'MuiCheckbox'
   >
 >
 
