@@ -475,6 +475,9 @@ export const createTheme = (widgetTheme: WidgetTheme = {}) => {
       MuiNavigationTab: {
         ...widgetTheme.components?.MuiNavigationTab,
       },
+      MuiCheckbox: {
+        ...widgetTheme.components?.MuiCheckbox,
+      },
     },
   })
 

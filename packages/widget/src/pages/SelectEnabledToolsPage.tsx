@@ -1,18 +1,19 @@
 import type { ToolsResponse } from '@lifi/sdk'
-import Check from '@mui/icons-material/Check'
-import CheckBoxOutlineBlankOutlined from '@mui/icons-material/CheckBoxOutlineBlankOutlined'
-import CheckBoxOutlined from '@mui/icons-material/CheckBoxOutlined'
-import IndeterminateCheckBoxOutlined from '@mui/icons-material/IndeterminateCheckBoxOutlined'
 import {
   Avatar,
+  Checkbox,
   debounce,
-  IconButton,
   ListItemAvatar,
   Tooltip,
-  useTheme,
 } from '@mui/material'
-import type { MouseEventHandler } from 'react'
-import { type FormEventHandler, useMemo, useState } from 'react'
+import type { ChangeEvent } from 'react'
+import {
+  type FormEventHandler,
+  memo,
+  useCallback,
+  useMemo,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { FullPageContainer } from '../components/FullPageContainer.js'
 import { ListItemText } from '../components/ListItemText.js'
@@ -29,43 +30,39 @@ import { useSettingsStore } from '../stores/settings/useSettingsStore.js'
 
 interface SelectAllCheckboxProps {
   allCheckboxesSelected: boolean
-  onClick: MouseEventHandler
+  onClick: (event: ChangeEvent<HTMLInputElement>, checked: boolean) => void
   anyCheckboxesSelected: boolean
   noCheckboxesAvailable: boolean
 }
 
-const SelectAllCheckbox: React.FC<SelectAllCheckboxProps> = ({
-  allCheckboxesSelected,
-  anyCheckboxesSelected,
-  noCheckboxesAvailable,
-  onClick,
-}) => {
-  const { t } = useTranslation()
-  const theme = useTheme()
-  const tooltipTitle = noCheckboxesAvailable
-    ? undefined
-    : allCheckboxesSelected
-      ? t('tooltip.deselectAll')
-      : t('tooltip.selectAll')
+const SelectAllCheckbox = memo<SelectAllCheckboxProps>(
+  ({
+    allCheckboxesSelected,
+    anyCheckboxesSelected,
+    noCheckboxesAvailable,
+    onClick,
+  }) => {
+    const { t } = useTranslation()
+    const tooltipTitle = noCheckboxesAvailable
+      ? undefined
+      : allCheckboxesSelected
+        ? t('tooltip.deselectAll')
+        : t('tooltip.selectAll')
 
-  return (
-    <Tooltip title={tooltipTitle}>
-      <IconButton
-        size="medium"
-        edge={theme?.navigation?.edge ? 'end' : false}
-        onClick={onClick}
-      >
-        {allCheckboxesSelected ? (
-          <CheckBoxOutlined />
-        ) : anyCheckboxesSelected ? (
-          <IndeterminateCheckBoxOutlined />
-        ) : (
-          <CheckBoxOutlineBlankOutlined />
-        )}
-      </IconButton>
-    </Tooltip>
-  )
-}
+    return (
+      <Tooltip title={tooltipTitle}>
+        <Checkbox
+          id="select-all"
+          checked={allCheckboxesSelected}
+          indeterminate={anyCheckboxesSelected && !allCheckboxesSelected}
+          onChange={onClick}
+          disabled={noCheckboxesAvailable}
+          sx={{ mr: -0.5 }}
+        />
+      </Tooltip>
+    )
+  }
+)
 
 type ToolCollectionTypes = ToolsResponse['exchanges'] | ToolsResponse['bridges']
 
@@ -87,6 +84,13 @@ export const SelectEnabledToolsPage: React.FC<{
     tools?.[typeKey] ?? []
   )
 
+  const handleSelectAll = useCallback(() => {
+    toggleToolKeys(
+      type,
+      filteredTools.map((tool) => tool.key)
+    )
+  }, [toggleToolKeys, type, filteredTools])
+
   const headerAction = useMemo(
     () => (
       <SelectAllCheckbox
@@ -99,42 +103,44 @@ export const SelectEnabledToolsPage: React.FC<{
           filteredTools.some((tool) => disabledTools.includes(tool.key))
         }
         noCheckboxesAvailable={!filteredTools.length}
-        onClick={() =>
-          toggleToolKeys(
-            type,
-            filteredTools.map((tool) => tool.key)
-          )
-        }
+        onClick={handleSelectAll}
       />
     ),
-    [disabledTools, toggleToolKeys, type, filteredTools]
+    [disabledTools, handleSelectAll, filteredTools]
   )
 
   useHeader(t(`settings.enabled${type}`), headerAction)
 
-  const handleClick = (key: string) => {
-    setToolValue(type, key, !enabledTools[key])
-  }
+  const handleClick = useCallback(
+    (key: string) => {
+      setToolValue(type, key, !enabledTools[key])
+    },
+    [setToolValue, type, enabledTools]
+  )
 
-  const handleSearchInputChange: FormEventHandler<HTMLInputElement> = (e) => {
-    const value = (e.target as HTMLInputElement).value
+  const handleSearchInputChange: FormEventHandler<HTMLInputElement> =
+    useCallback(
+      (e) => {
+        const value = (e.target as HTMLInputElement).value
 
-    if (!value) {
-      setFilteredTools(tools?.[typeKey] ?? [])
-    } else {
-      setFilteredTools(
-        (tools?.[typeKey]
-          ? tools[typeKey].filter((tool) =>
-              tool.name.toLowerCase().includes(value.toLowerCase())
-            )
-          : []) as ToolCollectionTypes
-      )
-    }
+        if (!value) {
+          setFilteredTools(tools?.[typeKey] ?? [])
+        } else {
+          setFilteredTools(
+            (tools?.[typeKey]
+              ? tools[typeKey].filter((tool) =>
+                  tool.name.toLowerCase().includes(value.toLowerCase())
+                )
+              : []) as ToolCollectionTypes
+          )
+        }
 
-    if (scrollableContainer) {
-      scrollableContainer.scrollTop = 0
-    }
-  }
+        if (scrollableContainer) {
+          scrollableContainer.scrollTop = 0
+        }
+      },
+      [tools, typeKey, scrollableContainer]
+    )
 
   const debouncedSearchInputChange = debounce(handleSearchInputChange, 250)
 
@@ -148,7 +154,7 @@ export const SelectEnabledToolsPage: React.FC<{
         <SearchList className="long-list" data-testid={`${typeKey}-list`}>
           {filteredTools.map((tool) => (
             <SettingsListItemButton
-              key={tool.name}
+              key={tool.key}
               onClick={() => handleClick(tool.key)}
             >
               <ListItemAvatar>
@@ -157,7 +163,12 @@ export const SelectEnabledToolsPage: React.FC<{
                 </Avatar>
               </ListItemAvatar>
               <ListItemText primary={tool.name} />
-              {enabledTools[tool.key] && <Check color="primary" />}
+              <Checkbox
+                id={`${typeKey}-${tool.key}-checkbox`}
+                checked={enabledTools[tool.key]}
+                onChange={() => handleClick(tool.key)}
+                onClick={(e) => e.stopPropagation()}
+              />
             </SettingsListItemButton>
           ))}
         </SearchList>
