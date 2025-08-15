@@ -9,4 +9,4 @@ _If applicable, attach screenshots, GIFs, or videos to showcase the functionalit
 ## Checklist before requesting a review  
 - [ ] I have performed a self-review of my code.  
 - [ ] This pull request is focused and addresses a single problem.  
-- [ ] If this PR modifies the Widget API, I have updated the documentation (or submitted a change request on GitBook).  
+- [ ] If this PR modifies the Widget API or adds new features that require documentation, I have updated the documentation in the public-docs repository.

@@ -146,6 +146,6 @@ jobs:
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                body: `Hey! This is your new endopint: [${obj.url}](${obj.url})`
+                body: `Hey! This is your new endpoint: [${obj.url}](${obj.url})`
               })
             })
