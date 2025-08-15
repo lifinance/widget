@@ -12,6 +12,7 @@ import {
   memo,
   useCallback,
   useMemo,
+  useRef,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -64,6 +65,46 @@ const SelectAllCheckbox = memo<SelectAllCheckboxProps>(
   }
 )
 
+interface ToolItemProps {
+  tool: any
+  typeKey: string
+  isEnabled: boolean
+  onToggle: (key: string) => void
+}
+
+const ToolItem = memo<ToolItemProps>(
+  ({ tool, typeKey, isEnabled, onToggle }) => {
+    const handleClick = useCallback(() => {
+      onToggle(tool.key)
+    }, [onToggle, tool.key])
+
+    const handleCheckboxClick = useCallback(
+      (e: React.MouseEvent) => {
+        e.stopPropagation()
+        onToggle(tool.key)
+      },
+      [onToggle, tool.key]
+    )
+
+    return (
+      <SettingsListItemButton onClick={handleClick}>
+        <ListItemAvatar>
+          <Avatar src={tool.logoURI} alt={tool.name}>
+            {tool.name[0]}
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText primary={tool.name} />
+        <Checkbox
+          id={`${typeKey}-${tool.key}-checkbox`}
+          checked={isEnabled}
+          onChange={handleClick}
+          onClick={handleCheckboxClick}
+        />
+      </SettingsListItemButton>
+    )
+  }
+)
+
 type ToolCollectionTypes = ToolsResponse['exchanges'] | ToolsResponse['bridges']
 
 export const SelectEnabledToolsPage: React.FC<{
@@ -72,17 +113,31 @@ export const SelectEnabledToolsPage: React.FC<{
   const typeKey = type.toLowerCase() as 'bridges' | 'exchanges'
   const { tools } = useTools()
   const { setToolValue, toggleToolKeys } = useSettingsActions()
-  const [enabledTools, disabledTools] = useSettingsStore((state) => [
-    state[`_enabled${type}`],
-    state[`disabled${type}`],
-  ])
+
+  // Optimize state access to prevent unnecessary re-renders
+  const enabledTools = useSettingsStore((state) => state[`_enabled${type}`])
+  const disabledTools = useSettingsStore((state) => state[`disabled${type}`])
+
+  // Use ref to access current enabledTools without causing re-renders
+  const enabledToolsRef = useRef(enabledTools)
+  enabledToolsRef.current = enabledTools
 
   const { t } = useTranslation()
   const elementId = useDefaultElementId()
   const scrollableContainer = useScrollableContainer(elementId)
-  const [filteredTools, setFilteredTools] = useState<ToolCollectionTypes>(
-    tools?.[typeKey] ?? []
-  )
+  const [searchValue, setSearchValue] = useState('')
+  const filteredTools = useMemo(() => {
+    const toolsList = tools?.[typeKey] ?? []
+
+    if (!searchValue) {
+      return toolsList
+    }
+
+    const lowerSearchValue = searchValue.toLowerCase()
+    return toolsList.filter((tool) =>
+      tool.name.toLowerCase().includes(lowerSearchValue)
+    ) as ToolCollectionTypes
+  }, [tools, typeKey, searchValue])
 
   const handleSelectAll = useCallback(() => {
     toggleToolKeys(
@@ -111,35 +166,29 @@ export const SelectEnabledToolsPage: React.FC<{
 
   useHeader(t(`settings.enabled${type}`), headerAction)
 
-  const handleClick = useCallback(
-    (key: string) => {
-      setToolValue(type, key, !enabledTools[key])
-    },
-    [setToolValue, type, enabledTools]
-  )
+  // Create stable callbacks that don't depend on enabledTools state
+  const toggleCallbacks = useMemo(() => {
+    const callbacks: Record<string, () => void> = {}
+    filteredTools.forEach((tool) => {
+      callbacks[tool.key] = () => {
+        // Access current state via ref to avoid dependency on enabledTools
+        setToolValue(type, tool.key, !enabledToolsRef.current[tool.key])
+      }
+    })
+    return callbacks
+  }, [filteredTools, setToolValue, type])
 
   const handleSearchInputChange: FormEventHandler<HTMLInputElement> =
     useCallback(
       (e) => {
         const value = (e.target as HTMLInputElement).value
-
-        if (!value) {
-          setFilteredTools(tools?.[typeKey] ?? [])
-        } else {
-          setFilteredTools(
-            (tools?.[typeKey]
-              ? tools[typeKey].filter((tool) =>
-                  tool.name.toLowerCase().includes(value.toLowerCase())
-                )
-              : []) as ToolCollectionTypes
-          )
-        }
+        setSearchValue(value)
 
         if (scrollableContainer) {
           scrollableContainer.scrollTop = 0
         }
       },
-      [tools, typeKey, scrollableContainer]
+      [scrollableContainer]
     )
 
   const debouncedSearchInputChange = debounce(handleSearchInputChange, 250)
@@ -153,23 +202,13 @@ export const SelectEnabledToolsPage: React.FC<{
       {filteredTools.length ? (
         <SearchList className="long-list" data-testid={`${typeKey}-list`}>
           {filteredTools.map((tool) => (
-            <SettingsListItemButton
+            <ToolItem
               key={tool.key}
-              onClick={() => handleClick(tool.key)}
-            >
-              <ListItemAvatar>
-                <Avatar src={tool.logoURI} alt={tool.name}>
-                  {tool.name[0]}
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={tool.name} />
-              <Checkbox
-                id={`${typeKey}-${tool.key}-checkbox`}
-                checked={enabledTools[tool.key]}
-                onChange={() => handleClick(tool.key)}
-                onClick={(e) => e.stopPropagation()}
-              />
-            </SettingsListItemButton>
+              tool={tool}
+              typeKey={typeKey}
+              isEnabled={enabledTools[tool.key]}
+              onToggle={toggleCallbacks[tool.key]}
+            />
           ))}
         </SearchList>
       ) : (
