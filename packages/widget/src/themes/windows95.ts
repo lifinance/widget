@@ -117,6 +117,9 @@ export const windows95Theme: WidgetTheme = {
       styleOverrides: {
         root: {
           color: '#0a0a0a',
+          '&:hover': {
+            backgroundColor: 'transparent',
+          },
           [`&.${checkboxClasses.checked}`]: {
             color: '#0a0a0a',
           },

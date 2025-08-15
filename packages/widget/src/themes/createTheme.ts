@@ -476,6 +476,13 @@ export const createTheme = (widgetTheme: WidgetTheme = {}) => {
         ...widgetTheme.components?.MuiNavigationTab,
       },
       MuiCheckbox: {
+        styleOverrides: {
+          root: {
+            '&:hover': {
+              backgroundColor: 'transparent',
+            },
+          },
+        },
         ...widgetTheme.components?.MuiCheckbox,
       },
     },
