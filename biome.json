@@ -36,7 +36,8 @@
           "options": {
             "forceJsExtensions": true
           }
-        }
+        },
+        "useUniqueElementIds": "off"
       },
       "style": {
         "noDefaultExport": "off",
