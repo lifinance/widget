@@ -1,7 +1,7 @@
 import { palette, paletteDark, paletteLight } from '@lifi/widget'
-import { getValueFromPath } from '../../utils/getValueFromPath'
-import type { FormValues } from '../types'
-import { useWidgetConfigStore } from './WidgetConfigProvider'
+import { getValueFromPath } from '../../utils/getValueFromPath.js'
+import type { FormValues } from '../types.js'
+import { useWidgetConfigStore } from './WidgetConfigProvider.js'
 
 export const useConfigVariant = () => {
   const variant = useWidgetConfigStore((store) => store.config?.variant)

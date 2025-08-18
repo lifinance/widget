@@ -1,8 +1,8 @@
 import type { WidgetTheme } from '@lifi/widget'
 import type { StoreApi } from 'zustand'
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
-import type { Font } from '../../providers/FontLoaderProvider/types'
-import type { FormValues } from '../types'
+import type { Font } from '../../providers/FontLoaderProvider/types.js'
+import type { FormValues } from '../types.js'
 
 type ControlType = 'design' | 'code'
 type CodeControlTab = 'config' | 'examples'

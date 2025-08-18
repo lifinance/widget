@@ -1,11 +1,11 @@
 import { ChainType } from '@lifi/sdk'
 import type { BookmarkProps } from '@lifi/widget'
 import { Box, Button } from '@mui/material'
-import { useDevView } from '../../../../hooks/useDevView'
+import { useDevView } from '../../../../hooks/useDevView.js'
 import {
   CapitalizeFirstLetter,
   ColorControlContainer,
-} from '../DesignControls.style'
+} from '../DesignControls.style.js'
 
 interface StoreProp {
   state: BookmarkProps

@@ -3,8 +3,8 @@ import { formatEther, getAddress } from 'ethers'
 import type React from 'react'
 import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
-import { useEthersProvider } from '../hooks/useEthersProvider'
-import { useEthersSigner } from '../hooks/useEthersSigner'
+import { useEthersProvider } from '../hooks/useEthersProvider.js'
+import { useEthersSigner } from '../hooks/useEthersSigner.js'
 
 const DEFAULT_MESSAGE_TO_SIGN = 'Privy Wallet + LI.FI widget using ethers'
 

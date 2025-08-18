@@ -1,14 +1,14 @@
 import type { SelectChangeEvent } from '@mui/material'
 import { MenuItem } from '@mui/material'
-import { useThemeMode } from '../../../hooks/useThemeMode'
-import type { ThemeItem } from '../../../store/editTools/types'
-import { useEditToolsActions } from '../../../store/editTools/useEditToolsActions'
-import { useConfigActions } from '../../../store/widgetConfig/useConfigActions'
-import { useThemeValues } from '../../../store/widgetConfig/useThemeValues'
-import { CardValue } from '../../Card/Card.style'
-import { ExpandableCard } from '../../Card/ExpandableCard'
-import { popperZIndex } from '../DrawerControls.style'
-import { Select } from './DesignControls.style'
+import { useThemeMode } from '../../../hooks/useThemeMode.js'
+import type { ThemeItem } from '../../../store/editTools/types.js'
+import { useEditToolsActions } from '../../../store/editTools/useEditToolsActions.js'
+import { useConfigActions } from '../../../store/widgetConfig/useConfigActions.js'
+import { useThemeValues } from '../../../store/widgetConfig/useThemeValues.js'
+import { CardValue } from '../../Card/Card.style.js'
+import { ExpandableCard } from '../../Card/ExpandableCard.js'
+import { popperZIndex } from '../DrawerControls.style.js'
+import { Select } from './DesignControls.style.js'
 
 export const ThemeControl = () => {
   const { setConfigTheme } = useConfigActions()

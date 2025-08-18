@@ -1,8 +1,8 @@
 import type { WidgetConfig, WidgetTheme } from '@lifi/widget'
 import diff from 'microdiff'
-import { cloneStructuredConfig } from '../../../utils/cloneStructuredConfig'
-import { patch } from '../../../utils/patch'
-import { getLocalStorageOutput } from './getLocalStorageOutput'
+import { cloneStructuredConfig } from '../../../utils/cloneStructuredConfig.js'
+import { patch } from '../../../utils/patch.js'
+import { getLocalStorageOutput } from './getLocalStorageOutput.js'
 
 export const replayLocalStorageChangesOnTheme = (
   theme: WidgetTheme,
