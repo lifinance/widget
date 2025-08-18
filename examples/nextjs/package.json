@@ -8,7 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@lifi/sdk": "^3.9.2",
+    "@lifi/sdk": "^3.9.3",
     "@lifi/widget": "^3.27.4",
     "@mui/material-nextjs": "^7.3.0",
     "next": "^15.4.6",

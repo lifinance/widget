@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/sdk": "^3.9.2",
+    "@lifi/sdk": "^3.9.3",
     "@lifi/wallet-management": "^3.14.5",
     "@lifi/widget": "^3.27.4",
     "@mui/material": "^7.3.1",
@@ -19,7 +19,7 @@
     "events": "^3.3.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "viem": "^2.33.3",
+    "viem": "^2.34.0",
     "wagmi": "^2.16.3"
   },
   "devDependencies": {

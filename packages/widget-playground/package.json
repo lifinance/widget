@@ -27,10 +27,10 @@
     "./widget-config": "./src/defaultWidgetConfig.ts"
   },
   "dependencies": {
-    "@bigmi/react": "^0.4.3",
+    "@bigmi/react": "^0.4.4",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^3.9.2",
+    "@lifi/sdk": "^3.9.3",
     "@lifi/wallet-management": "workspace:*",
     "@lifi/widget": "workspace:*",
     "@monaco-editor/react": "^4.7.0",
@@ -55,7 +55,7 @@
     "mitt": "^3.0.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "viem": "^2.33.3",
+    "viem": "^2.34.0",
     "wagmi": "^2.16.3",
     "zustand": "^5.0.7"
   },
