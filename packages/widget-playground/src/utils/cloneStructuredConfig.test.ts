@@ -1,6 +1,6 @@
 import type { WidgetConfig } from '@lifi/widget'
 import { describe, expect, test } from 'vitest'
-import { cloneStructuredConfig } from './cloneStructuredConfig'
+import { cloneStructuredConfig } from './cloneStructuredConfig.js'
 
 describe('cloneStructuredConfig', () => {
   test('performs a deep clone', () => {

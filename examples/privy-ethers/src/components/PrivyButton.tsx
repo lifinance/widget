@@ -1,6 +1,6 @@
 import { usePrivy } from '@privy-io/react-auth'
-import { AccountButton } from './AccountButton'
-import { ConnectButton } from './ConnectButton'
+import { AccountButton } from './AccountButton.js'
+import { ConnectButton } from './ConnectButton.js'
 
 export function PrivyButton() {
   const { ready, authenticated } = usePrivy()

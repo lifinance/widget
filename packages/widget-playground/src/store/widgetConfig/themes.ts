@@ -4,7 +4,7 @@ import {
   watermelonLightTheme,
   windows95Theme,
 } from '@lifi/widget'
-import type { ThemeItem } from '../editTools/types'
+import type { ThemeItem } from '../editTools/types.js'
 
 export const themeItems: ThemeItem[] = [
   {

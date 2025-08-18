@@ -1,6 +1,6 @@
 import type { Connector as BigmiConnector } from '@bigmi/client'
 import type { Connector } from 'wagmi'
-import type { WalletTagType } from '../types/walletTagType'
+import type { WalletTagType } from '../types/walletTagType.js'
 
 export interface WalletListItemButtonProps {
   ecosystemSelection?: boolean

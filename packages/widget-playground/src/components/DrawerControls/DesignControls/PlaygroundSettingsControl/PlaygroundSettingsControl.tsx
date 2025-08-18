@@ -1,10 +1,10 @@
 import SettingsIcon from '@mui/icons-material/Settings'
-import { ExpandableCard } from '../../../Card/ExpandableCard'
-import { PlaygroundControlsContainer } from '../DesignControls.style'
-import { BookmarkStoreControls } from './BookmarkStoreControls'
-import { DevViewToggleControls } from './DevViewToggleControl'
-import { HeaderAndFooterControls } from './HeaderAndFooterControls'
-import { ViewportColorSelector } from './ViewportColorSelector'
+import { ExpandableCard } from '../../../Card/ExpandableCard.js'
+import { PlaygroundControlsContainer } from '../DesignControls.style.js'
+import { BookmarkStoreControls } from './BookmarkStoreControls.js'
+import { DevViewToggleControls } from './DevViewToggleControl.js'
+import { HeaderAndFooterControls } from './HeaderAndFooterControls.js'
+import { ViewportColorSelector } from './ViewportColorSelector.js'
 
 export const PlaygroundSettingsControl = () => {
   return (

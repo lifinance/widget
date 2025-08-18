@@ -1,6 +1,6 @@
-import { useEditToolsStore } from '../store/editTools/EditToolsProvider'
-import { useEditToolsActions } from '../store/editTools/useEditToolsActions'
-import { setQueryStringParam } from '../utils/setQueryStringParam'
+import { useEditToolsStore } from '../store/editTools/EditToolsProvider.js'
+import { useEditToolsActions } from '../store/editTools/useEditToolsActions.js'
+import { setQueryStringParam } from '../utils/setQueryStringParam.js'
 
 const queryStringKey = 'devView'
 

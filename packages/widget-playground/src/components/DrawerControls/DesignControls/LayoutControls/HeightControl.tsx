@@ -1,13 +1,13 @@
 import { defaultMaxHeight } from '@lifi/widget'
 import { type FocusEventHandler, useCallback } from 'react'
-import type { Layout } from '../../../../store/editTools/types'
-import { useConfigActions } from '../../../../store/widgetConfig/useConfigActions'
+import type { Layout } from '../../../../store/editTools/types.js'
+import { useConfigActions } from '../../../../store/widgetConfig/useConfigActions.js'
 import {
   CapitalizeFirstLetter,
   ControlRowContainer,
   PlaygroundControlsContainer,
-} from '../DesignControls.style'
-import { InputControl } from './InputControl'
+} from '../DesignControls.style.js'
+import { InputControl } from './InputControl.js'
 
 const Caption = ({ caption }: { caption: string }) => {
   return (

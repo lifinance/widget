@@ -6,7 +6,7 @@ import {
 import type { SolanaWalletConnector } from '@dynamic-labs/solana'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { type FC, type PropsWithChildren, useEffect } from 'react'
-import { initialize } from '../adapters/dynamic'
+import { initialize } from '../adapters/dynamic/index.js'
 
 /**
  *

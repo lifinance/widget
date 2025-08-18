@@ -1,17 +1,17 @@
 import { ChainType } from '@lifi/sdk'
 import { Button } from '@mui/material'
 import { useState } from 'react'
-import { useDevView } from '../../../hooks/useDevView'
-import { useEditToolsActions } from '../../../store/editTools/useEditToolsActions'
-import type { FormValues } from '../../../store/types'
-import { useConfigActions } from '../../../store/widgetConfig/useConfigActions'
-import { CardRowContainer } from '../../Card/Card.style'
-import { ExpandableCard } from '../../Card/ExpandableCard'
-import { Switch } from '../../Switch'
+import { useDevView } from '../../../hooks/useDevView.js'
+import { useEditToolsActions } from '../../../store/editTools/useEditToolsActions.js'
+import type { FormValues } from '../../../store/types.js'
+import { useConfigActions } from '../../../store/widgetConfig/useConfigActions.js'
+import { CardRowContainer } from '../../Card/Card.style.js'
+import { ExpandableCard } from '../../Card/ExpandableCard.js'
+import { Switch } from '../../Switch.js'
 import {
   CapitalizeFirstLetter,
   ColorControlContainer,
-} from './DesignControls.style'
+} from './DesignControls.style.js'
 
 interface FormValuesLookUp {
   [key: string]: FormValues

@@ -1,7 +1,7 @@
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider'
-import { ExpansionType, HiddenUI } from '../types/widget'
-import { useExpansionRoutes } from './useExpansionRoutes'
-import { useSwapOnly } from './useSwapOnly'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { ExpansionType, HiddenUI } from '../types/widget.js'
+import { useExpansionRoutes } from './useExpansionRoutes.js'
+import { useSwapOnly } from './useSwapOnly.js'
 
 export const useHasChainExpansion = () => {
   const { hiddenUI, subvariantOptions } = useWidgetConfig()

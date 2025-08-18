@@ -3,9 +3,9 @@ import { scan } from 'react-scan'
 
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { App } from './App'
+import { App } from './App.js'
 import './index.css'
-import { reportWebVitals } from './reportWebVitals'
+import { reportWebVitals } from './reportWebVitals.js'
 
 scan({
   enabled: true,

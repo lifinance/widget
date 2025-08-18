@@ -1,4 +1,4 @@
-import type { Font } from '../../../../providers/FontLoaderProvider/types'
+import type { Font } from '../../../../providers/FontLoaderProvider/types.js'
 
 export const systemFonts: Font[] = [
   {

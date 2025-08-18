@@ -2,9 +2,9 @@ import type { ExtendedChain } from '@lifi/sdk'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type { RefObject } from 'react'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
-import { useChainOrderStore } from '../../stores/chains/ChainOrderStore'
-import { List } from './ChainList.style'
-import { ChainListItem } from './ChainListItem'
+import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
+import { List } from './ChainList.style.js'
+import { ChainListItem } from './ChainListItem.js'
 
 interface VirtualizedChainListProps {
   scrollElementRef: RefObject<HTMLDivElement | null>

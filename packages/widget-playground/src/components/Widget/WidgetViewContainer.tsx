@@ -1,22 +1,22 @@
 import MenuOpenIcon from '@mui/icons-material/MenuOpen'
 import { Box, Tooltip } from '@mui/material'
 import type { PropsWithChildren } from 'react'
-import { ExternalWalletProvider } from '../../providers/ExternalWalletProvider/ExternalWalletProvider'
-import type { Layout } from '../../store/editTools/types'
-import { useDrawerToolValues } from '../../store/editTools/useDrawerToolValues'
-import { useEditToolsActions } from '../../store/editTools/useEditToolsActions'
-import { useHeaderAndFooterToolValues } from '../../store/editTools/useHeaderAndFooterToolValues'
-import { useLayoutValues } from '../../store/editTools/useLayoutValues'
-import { useConfig } from '../../store/widgetConfig/useConfig'
-import { MockElement } from '../Mock/MockElement'
-import { ToggleDrawerButton } from './ToggleDrawerButton'
+import { ExternalWalletProvider } from '../../providers/ExternalWalletProvider/ExternalWalletProvider.js'
+import type { Layout } from '../../store/editTools/types.js'
+import { useDrawerToolValues } from '../../store/editTools/useDrawerToolValues.js'
+import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
+import { useHeaderAndFooterToolValues } from '../../store/editTools/useHeaderAndFooterToolValues.js'
+import { useLayoutValues } from '../../store/editTools/useLayoutValues.js'
+import { useConfig } from '../../store/widgetConfig/useConfig.js'
+import { MockElement } from '../Mock/MockElement.js'
+import { ToggleDrawerButton } from './ToggleDrawerButton.js'
 import {
   DrawerOpenButton,
   FloatingToolsContainer,
   Main,
   WidgetContainer,
   WidgetContainerRow,
-} from './WidgetView.style'
+} from './WidgetView.style.js'
 
 interface WidgetViewContainerProps extends PropsWithChildren {
   toggleDrawer?(): void

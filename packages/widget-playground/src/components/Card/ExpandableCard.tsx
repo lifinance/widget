@@ -6,8 +6,8 @@ import {
   CardRowButton,
   CardTitleContainer,
   CardValue,
-} from './Card.style'
-import { useExpandableCard } from './useExpandableCard'
+} from './Card.style.js'
+import { useExpandableCard } from './useExpandableCard.js'
 
 interface ExpandableCardProps {
   icon?: ReactNode

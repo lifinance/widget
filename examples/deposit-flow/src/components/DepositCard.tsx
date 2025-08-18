@@ -5,7 +5,7 @@ import {
 } from '@lifi/widget'
 import { Avatar, Box, Chip, Stack, Typography } from '@mui/material'
 import { useEffect } from 'react'
-import { contractTool } from '../config'
+import { contractTool } from '../config.js'
 
 export interface ItemPriceProps {
   token: TokenAmount
