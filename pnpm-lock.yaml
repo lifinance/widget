@@ -338,7 +338,7 @@ importers:
   examples/nextjs-page-router:
     dependencies:
       '@lifi/widget':
-        specifier: ^3.27.0
+        specifier: 3.27.0
         version: 3.27.0(072f641d6b06efd90e1af36796865775)
       next:
         specifier: ^15.4.6

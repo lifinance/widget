@@ -3,7 +3,7 @@
 import type { WidgetConfig } from '@lifi/widget'
 import { LiFiWidget } from '@lifi/widget'
 import type { ReactNode } from 'react'
-import { ClientOnly } from './ClientOnly.js'
+import { ClientOnly } from './ClientOnly'
 
 interface WidgetProps {
   fallback: ReactNode

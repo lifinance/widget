@@ -73,6 +73,11 @@
         "rules": {
           "suspicious": {
             "noConsole": "off"
+          },
+          "correctness": {
+            "useImportExtensions": {
+              "level": "off"
+            }
           }
         }
       }
