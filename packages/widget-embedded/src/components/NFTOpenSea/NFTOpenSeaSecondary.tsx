@@ -1,8 +1,8 @@
 import type { ChainId, TokenAmount } from '@lifi/sdk'
 import { NFTBase } from '@lifi/widget'
-import type { NFTNetwork, NFTOpenSeaProps } from './types'
-import { ChainId as OpenSeaChainId } from './types'
-import { useOpenSeaOrder } from './useOpenSeaOrder'
+import type { NFTNetwork, NFTOpenSeaProps } from './types.js'
+import { ChainId as OpenSeaChainId } from './types.js'
+import { useOpenSeaOrder } from './useOpenSeaOrder.js'
 
 export const NFTOpenSeaSecondary: React.FC<NFTOpenSeaProps> = ({
   network,

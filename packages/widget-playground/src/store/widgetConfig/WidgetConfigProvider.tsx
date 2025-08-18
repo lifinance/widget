@@ -5,12 +5,12 @@ import diff from 'microdiff'
 import type { FC, PropsWithChildren } from 'react'
 import { createContext, useContext, useEffect, useRef } from 'react'
 import { useShallow } from 'zustand/shallow'
-import { cloneStructuredConfig } from '../../utils/cloneStructuredConfig'
-import { patch } from '../../utils/patch'
-import { createWidgetConfigStore } from './createWidgetConfigStore'
-import { themeItems } from './themes'
-import type { WidgetConfigState, WidgetConfigStore } from './types'
-import { getConfigOutput } from './utils/getConfigOutput'
+import { cloneStructuredConfig } from '../../utils/cloneStructuredConfig.js'
+import { patch } from '../../utils/patch.js'
+import { createWidgetConfigStore } from './createWidgetConfigStore.js'
+import { themeItems } from './themes.js'
+import type { WidgetConfigState, WidgetConfigStore } from './types.js'
+import { getConfigOutput } from './utils/getConfigOutput.js'
 
 export const WidgetConfigContext = createContext<WidgetConfigStore | null>(null)
 

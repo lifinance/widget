@@ -1,7 +1,7 @@
 import type { WidgetConfig } from '@lifi/widget'
 import { useShallow } from 'zustand/shallow'
 import { createWithEqualityFn } from 'zustand/traditional'
-import type { WidgetConfigState } from './types'
+import type { WidgetConfigState } from './types.js'
 
 const initialWidgetConfig = {
   // When buildUrl is set to true the widget will build and maintain URL search params

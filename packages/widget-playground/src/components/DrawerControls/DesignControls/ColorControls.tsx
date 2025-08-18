@@ -1,16 +1,16 @@
 import type { BoxProps, PaletteMode } from '@mui/material'
-import { useThemeMode } from '../../../hooks/useThemeMode'
-import { useConfigActions } from '../../../store/widgetConfig/useConfigActions'
-import { useConfigColorsFromPath } from '../../../store/widgetConfig/useConfigValues'
-import { safe6DigitHexColor } from '../../../utils/color'
-import { ExpandableCard } from '../../Card/ExpandableCard'
+import { useThemeMode } from '../../../hooks/useThemeMode.js'
+import { useConfigActions } from '../../../store/widgetConfig/useConfigActions.js'
+import { useConfigColorsFromPath } from '../../../store/widgetConfig/useConfigValues.js'
+import { safe6DigitHexColor } from '../../../utils/color.js'
+import { ExpandableCard } from '../../Card/ExpandableCard.js'
 import {
   CapitalizeFirstLetter,
   ColorControlContainer,
   ColorInput,
   ColorSwatch,
   ColorSwatches,
-} from './DesignControls.style'
+} from './DesignControls.style.js'
 
 const getEditableColors = (themeMode: PaletteMode) => ({
   primary: `theme.colorSchemes.${themeMode}.palette.primary.main`,

@@ -1,5 +1,5 @@
 import { Chip as MuiChip, styled } from '@mui/material'
-import { WalletTagType } from '../types/walletTagType'
+import { WalletTagType } from '../types/walletTagType.js'
 
 interface WalletTagProps {
   type: WalletTagType

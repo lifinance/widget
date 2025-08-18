@@ -3,17 +3,17 @@ import Editor from '@monaco-editor/react'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import { Tooltip, useTheme } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
-import { useThemeMode } from '../../../hooks/useThemeMode'
-import { useConfig } from '../../../store/widgetConfig/useConfig'
-import { getConfigOutput } from '../../../store/widgetConfig/utils/getConfigOutput'
-import { tooltipPopperZIndex } from '../DrawerControls.style'
+import { useThemeMode } from '../../../hooks/useThemeMode.js'
+import { useConfig } from '../../../store/widgetConfig/useConfig.js'
+import { getConfigOutput } from '../../../store/widgetConfig/utils/getConfigOutput.js'
+import { tooltipPopperZIndex } from '../DrawerControls.style.js'
 import {
   CodeContainer,
   CodeCopyButton,
   EditorContainer,
   EditorSkeleton,
-} from './CodeControl.style'
-import { stringifyConfig } from './utils/stringifyConfig'
+} from './CodeControl.style.js'
+import { stringifyConfig } from './utils/stringifyConfig.js'
 
 interface MonacoEditor {
   layout: (dimensions: { width: number; height: number }) => void

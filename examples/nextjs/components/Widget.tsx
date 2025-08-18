@@ -2,7 +2,7 @@
 
 import type { WidgetConfig } from '@lifi/widget'
 import { LiFiWidget, WidgetSkeleton } from '@lifi/widget'
-import { ClientOnly } from './ClientOnly'
+import { ClientOnly } from './ClientOnly.js'
 
 export function Widget() {
   const config = {

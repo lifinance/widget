@@ -7,7 +7,7 @@ import {
 } from '@solana/wallet-adapter-react'
 import { clusterApiUrl } from '@solana/web3.js'
 import type { FC, PropsWithChildren } from 'react'
-import { DynamicSolanaProvider } from './DynamicSolanaProvider'
+import { DynamicSolanaProvider } from './DynamicSolanaProvider.js'
 
 const endpoint = clusterApiUrl(WalletAdapterNetwork.Mainnet)
 /**

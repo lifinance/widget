@@ -10,8 +10,8 @@ import type {
 import type { CSSProperties } from 'react'
 import type { StoreApi } from 'zustand'
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
-import type { ThemeItem } from '../editTools/types'
-import type { FormValues } from '../types'
+import type { ThemeItem } from '../editTools/types.js'
+import type { FormValues } from '../types.js'
 
 export interface WidgetConfigValues {
   defaultConfig?: Partial<WidgetConfig>

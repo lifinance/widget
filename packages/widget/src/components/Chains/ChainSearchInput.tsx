@@ -1,7 +1,7 @@
 import { Box } from '@mui/material'
 import { type RefObject, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SearchInput, StickySearchInput } from '../Search/SearchInput'
+import { SearchInput, StickySearchInput } from '../Search/SearchInput.js'
 
 interface ChainSearchInputProps {
   inputRef: RefObject<HTMLInputElement | null>

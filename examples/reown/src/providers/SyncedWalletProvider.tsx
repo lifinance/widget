@@ -8,9 +8,9 @@ import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import type { AppKitNetwork } from '@reown/appkit-common'
 import { useEffect, useRef } from 'react'
 import { WagmiProvider } from 'wagmi'
-import { metadata, projectId } from '../config/appkit'
-import { chainToAppKitNetworks, getChainImagesConfig } from '../utils/appkit'
-import { emitter, SolanaProvider } from './SolanaProvider'
+import { metadata, projectId } from '../config/appkit.js'
+import { chainToAppKitNetworks, getChainImagesConfig } from '../utils/appkit.js'
+import { emitter, SolanaProvider } from './SolanaProvider.js'
 
 export function WalletProvider({
   children,

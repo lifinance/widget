@@ -1,9 +1,9 @@
 import { useMemo } from 'react'
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider'
-import { FormKeyHelper } from '../stores/form/types'
-import { useFieldValues } from '../stores/form/useFieldValues'
-import { formatTokenPrice } from '../utils/format'
-import { useToken } from './useToken'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { FormKeyHelper } from '../stores/form/types.js'
+import { useFieldValues } from '../stores/form/useFieldValues.js'
+import { formatTokenPrice } from '../utils/format.js'
+import { useToken } from './useToken.js'
 
 export const useFromAmountThreshold = () => {
   const { minFromAmountUSD } = useWidgetConfig()

@@ -1,10 +1,13 @@
-import { useEditToolsActions } from '../../../../store/editTools/useEditToolsActions'
-import { useHeaderAndFooterToolValues } from '../../../../store/editTools/useHeaderAndFooterToolValues'
-import { useConfig } from '../../../../store/widgetConfig/useConfig'
-import { useConfigActions } from '../../../../store/widgetConfig/useConfigActions'
-import { CardRowColumn } from '../../../Card/Card.style'
-import { Switch } from '../../../Switch'
-import { ControlContainer, ControlRowContainer } from '../DesignControls.style'
+import { useEditToolsActions } from '../../../../store/editTools/useEditToolsActions.js'
+import { useHeaderAndFooterToolValues } from '../../../../store/editTools/useHeaderAndFooterToolValues.js'
+import { useConfig } from '../../../../store/widgetConfig/useConfig.js'
+import { useConfigActions } from '../../../../store/widgetConfig/useConfigActions.js'
+import { CardRowColumn } from '../../../Card/Card.style.js'
+import { Switch } from '../../../Switch.js'
+import {
+  ControlContainer,
+  ControlRowContainer,
+} from '../DesignControls.style.js'
 
 export const HeaderAndFooterControls = () => {
   const { showMockHeader, showMockFooter, isFooterFixed } =

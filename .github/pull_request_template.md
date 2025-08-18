@@ -7,6 +7,6 @@ _Explain the reasoning behind the implementation. Were there alternative approac
 _If applicable, attach screenshots, GIFs, or videos to showcase the functionality, UI changes, or bug fixes._  
 
 ## Checklist before requesting a review  
-- [ ] I have performed a self-review of my code.  
+- [ ] I have performed a self-review and testing of my code.  
 - [ ] This pull request is focused and addresses a single problem.  
-- [ ] If this PR modifies the Widget API, I have updated the documentation (or submitted a change request on GitBook).  
+- [ ] If this PR modifies the Widget API or adds new features that require documentation, I have updated the documentation in the public-docs repository.

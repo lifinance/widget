@@ -1,5 +1,5 @@
 import type { FC, PropsWithChildren } from 'react'
-import { WalletProvider } from './WalletProvider'
+import { WalletProvider } from './WalletProvider.js'
 
 interface ExternalWalletProviderProps extends PropsWithChildren {
   isExternalProvider?: boolean
