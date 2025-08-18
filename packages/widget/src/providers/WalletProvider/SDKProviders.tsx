@@ -1,10 +1,21 @@
 import { getConnectorClient as getBigmiConnectorClient } from '@bigmi/client'
 import { useConfig as useBigmiConfig } from '@bigmi/react'
 import type { SDKProvider } from '@lifi/sdk'
-import { ChainType, config, EVM, Solana, Sui, UTXO } from '@lifi/sdk'
-import { useCurrentWallet } from '@mysten/dapp-kit'
+import {
+  ChainType,
+  config,
+  EVM,
+  Solana,
+  Sui,
+  /* Tron, */ UTXO,
+} from '@lifi/sdk'
+import { useCurrentWallet as useSuiCurrentWallet } from '@mysten/dapp-kit'
 import type { SignerWalletAdapter } from '@solana/wallet-adapter-base'
-import { useWallet } from '@solana/wallet-adapter-react'
+import { useWallet as useSolanaWallet } from '@solana/wallet-adapter-react'
+// import {
+//   // type Adapter as TronWalletAdapter,
+//   useWallet as useTronWallet,
+// } from '@tronweb3/tronwallet-adapter-react-hooks'
 import { useEffect } from 'react'
 import { useConfig as useWagmiConfig } from 'wagmi'
 import {
@@ -15,10 +26,11 @@ import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 
 export const SDKProviders = () => {
   const { sdkConfig } = useWidgetConfig()
-  const { wallet } = useWallet()
+  const { wallet: solanaWallet } = useSolanaWallet()
   const wagmiConfig = useWagmiConfig()
   const bigmiConfig = useBigmiConfig()
-  const { currentWallet } = useCurrentWallet()
+  const { currentWallet: suiWallet } = useSuiCurrentWallet()
+  // const { wallet: tronWallet } = useTronWallet()
 
   useEffect(() => {
     // Configure SDK Providers
@@ -35,6 +47,9 @@ export const SDKProviders = () => {
     const hasConfiguredSuiProvider = sdkConfig?.providers?.some(
       (provider) => provider.type === ChainType.MVM
     )
+    // const hasConfiguredTVMProvider = sdkConfig?.providers?.some(
+    //   (provider) => provider.type === ('TVM' as ChainType)
+    // )
     if (!hasConfiguredEVMProvider) {
       providers.push(
         EVM({
@@ -50,7 +65,7 @@ export const SDKProviders = () => {
       providers.push(
         Solana({
           async getWalletAdapter() {
-            return wallet?.adapter as SignerWalletAdapter
+            return solanaWallet?.adapter as SignerWalletAdapter
           },
         })
       )
@@ -65,20 +80,28 @@ export const SDKProviders = () => {
     if (!hasConfiguredSuiProvider) {
       providers.push(
         Sui({
-          getWallet: async () => currentWallet!,
+          getWallet: async () => suiWallet!,
         })
       )
     }
+    // if (!hasConfiguredTVMProvider) {
+    //   providers.push(
+    //     Tron({
+    //       getWallet: async () => tronWallet?.adapter as TronWalletAdapter,
+    //     })
+    //   )
+    // }
     if (sdkConfig?.providers?.length) {
       providers.push(...sdkConfig.providers)
     }
     config.setProviders(providers)
   }, [
     bigmiConfig,
-    currentWallet,
+    suiWallet,
+    // tronWallet,
     sdkConfig?.providers,
     wagmiConfig,
-    wallet?.adapter,
+    solanaWallet?.adapter,
   ])
 
   return null

@@ -14,6 +14,7 @@ import {
 } from '@mui/material'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import type { WalletAdapter } from '@solana/wallet-adapter-base'
+import type { Adapter as TronWalletAdapter } from '@tronweb3/tronwallet-abstract-adapter'
 import { useMemo, useReducer, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Connector } from 'wagmi'
@@ -31,6 +32,7 @@ import { CardListItemButton } from './CardListItemButton.js'
 import { EVMListItemButton } from './EVMListItemButton.js'
 import { SuiListItemButton } from './SuiListItemButton.js'
 import { SVMListItemButton } from './SVMListItemButton.js'
+import { TronListItemButton } from './TronListItemButton.js'
 import { UTXOListItemButton } from './UTXOListItemButton.js'
 import { WalletInfoDisplay } from './WalletInfoDisplay.js'
 import { WalletMenuContentEmpty } from './WalletMenuContentEmpty.js'
@@ -81,7 +83,9 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
   const connectedConnectorIds: string[] = useMemo(() => {
     return accounts
       .filter((account) => account.isConnected)
-      .map((account) => getConnectorId(account.connector, account.chainType))
+      .map((account) =>
+        getConnectorId(account.connector, account.chainType as ChainType)
+      )
       .filter(Boolean)
   }, [accounts])
 
@@ -212,6 +216,18 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
             ecosystemSelection={ecosystemSelection}
             tagType={tagType}
             wallet={connector as WalletWithRequiredFeatures}
+            onConnected={onClose}
+            onConnecting={() => handleConnecting(id)}
+            onError={(error) => handleError(id, error)}
+          />
+        )
+      case 'TVM' as ChainType:
+        return (
+          <TronListItemButton
+            key={key}
+            ecosystemSelection={ecosystemSelection}
+            tagType={tagType}
+            connector={connector as TronWalletAdapter}
             onConnected={onClose}
             onConnecting={() => handleConnecting(id)}
             onError={(error) => handleError(id, error)}
