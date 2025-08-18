@@ -1,11 +1,11 @@
 import type { ToolsResponse } from '@lifi/sdk'
 import { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSettingsActions } from '../../stores/settings/useSettingsActions'
-import { useSettingsStore } from '../../stores/settings/useSettingsStore'
-import { SearchList } from '../Search/SearchInput.style'
-import { SearchNotFound } from '../Search/SearchNotFound'
-import { ToolItem } from './ToolItem'
+import { useSettingsActions } from '../../stores/settings/useSettingsActions.js'
+import { useSettingsStore } from '../../stores/settings/useSettingsStore.js'
+import { SearchList } from '../Search/SearchInput.style.js'
+import { SearchNotFound } from '../Search/SearchNotFound.js'
+import { ToolItem } from './ToolItem.js'
 
 export type ToolCollectionTypes =
   | ToolsResponse['exchanges']
