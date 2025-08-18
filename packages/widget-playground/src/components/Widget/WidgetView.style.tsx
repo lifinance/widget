@@ -4,7 +4,7 @@ import { Box, Button, IconButton, Skeleton as MuiSkeleton } from '@mui/material'
 import { buttonClasses } from '@mui/material/Button'
 import { styled } from '@mui/material/styles'
 import type { CSSProperties } from 'react'
-import { drawerZIndex } from '../DrawerControls/DrawerControls.style'
+import { drawerZIndex } from '../DrawerControls/DrawerControls.style.js'
 
 export const FloatingToolsContainer = styled(Box)(({ theme }) => ({
   display: 'flex',

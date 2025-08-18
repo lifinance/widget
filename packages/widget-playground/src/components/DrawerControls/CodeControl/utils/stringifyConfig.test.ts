@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { stringifyConfig } from './stringifyConfig'
+import { stringifyConfig } from './stringifyConfig.js'
 
 const expected = `const config = {
   walletConfig: {

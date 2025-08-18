@@ -5,8 +5,8 @@ import {
 } from '@dynamic-labs/sdk-react-core'
 import { ChainId, LiFiWidget } from '@lifi/widget'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { WalletHeader } from './components/WalletHeader'
-import { WalletProvider } from './providers/WalletProvider'
+import { WalletHeader } from './components/WalletHeader.js'
+import { WalletProvider } from './providers/WalletProvider.js'
 
 const queryClient = new QueryClient()
 

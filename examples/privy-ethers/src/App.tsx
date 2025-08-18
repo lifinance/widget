@@ -1,10 +1,10 @@
 import { ChainId, LiFiWidget } from '@lifi/widget'
 import { Grid2 } from '@mui/material'
 import { QueryClientProvider } from '@tanstack/react-query'
-import { EthersPlayground } from './components/EthersPlayground'
-import { WalletHeader } from './components/WalletHeader'
-import { queryClient } from './config/queryClient'
-import { WalletProvider } from './providers/SyncedWalletProvider'
+import { EthersPlayground } from './components/EthersPlayground.js'
+import { WalletHeader } from './components/WalletHeader.js'
+import { queryClient } from './config/queryClient.js'
+import { WalletProvider } from './providers/SyncedWalletProvider.js'
 
 function App() {
   return (

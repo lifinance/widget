@@ -1,4 +1,4 @@
-import type { FunctionReference } from '../../../../types'
+import type { FunctionReference } from '../../../../types.js'
 
 export const addFunctionsAsStrings = (
   configAsString: string,

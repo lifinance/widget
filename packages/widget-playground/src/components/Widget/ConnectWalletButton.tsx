@@ -2,8 +2,8 @@ import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew'
 import WalletIcon from '@mui/icons-material/Wallet'
 import { Box } from '@mui/material'
 import { useAccount, useConnect, useConnectors, useDisconnect } from 'wagmi'
-import { shortenAddress } from '../../utils/shortenAddress'
-import { ConnectionWalletButtonBase } from './WidgetView.style'
+import { shortenAddress } from '../../utils/shortenAddress.js'
+import { ConnectionWalletButtonBase } from './WidgetView.style.js'
 
 export const ConnectWalletButton = () => {
   const connectors = useConnectors()

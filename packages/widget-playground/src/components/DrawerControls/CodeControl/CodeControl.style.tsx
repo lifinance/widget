@@ -8,7 +8,7 @@ import {
   Skeleton as MuiSkeleton,
   styled,
 } from '@mui/material'
-import { popperZIndex, tooltipPopperZIndex } from '../DrawerControls.style'
+import { popperZIndex, tooltipPopperZIndex } from '../DrawerControls.style.js'
 
 export const CodeContainer = styled(Box)(({ theme }) => ({
   position: 'relative',

@@ -1,7 +1,7 @@
 import { NFT } from '@lifi/widget'
 import { Box, Typography } from '@mui/material'
-import type { NFTOpenSeaProps } from './types'
-import { useOpenSeaFulfillment } from './useOpenSeaFulfillment'
+import type { NFTOpenSeaProps } from './types.js'
+import { useOpenSeaFulfillment } from './useOpenSeaFulfillment.js'
 
 export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
   network,

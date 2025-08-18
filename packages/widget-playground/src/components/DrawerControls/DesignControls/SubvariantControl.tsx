@@ -1,15 +1,15 @@
 import type { SplitSubvariant, WidgetSubvariant } from '@lifi/widget'
 import type { SyntheticEvent } from 'react'
-import { useConfigActions } from '../../../store/widgetConfig/useConfigActions'
+import { useConfigActions } from '../../../store/widgetConfig/useConfigActions.js'
 import {
   useConfigSubvariant,
   useConfigSubvariantOptions,
   useConfigVariant,
-} from '../../../store/widgetConfig/useConfigValues'
-import { CardRowContainer, CardValue } from '../../Card/Card.style'
-import { ExpandableCard } from '../../Card/ExpandableCard'
-import { Switch } from '../../Switch'
-import { Tab, Tabs } from '../../Tabs/Tabs.style'
+} from '../../../store/widgetConfig/useConfigValues.js'
+import { CardRowContainer, CardValue } from '../../Card/Card.style.js'
+import { ExpandableCard } from '../../Card/ExpandableCard.js'
+import { Switch } from '../../Switch.js'
+import { Tab, Tabs } from '../../Tabs/Tabs.style.js'
 
 export const SubvariantControl = () => {
   const { variant } = useConfigVariant()

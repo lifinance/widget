@@ -20,9 +20,9 @@ import { alertClasses } from '@mui/material/Alert'
 import { autocompleteClasses } from '@mui/material/Autocomplete'
 import { inputBaseClasses } from '@mui/material/InputBase'
 import { styled } from '@mui/material/styles'
-import { getCardFieldsetBackgroundColor } from '../../../utils/color'
-import { CardRowContainer } from '../../Card/Card.style'
-import { autocompletePopperZIndex } from '../DrawerControls.style'
+import { getCardFieldsetBackgroundColor } from '../../../utils/color.js'
+import { CardRowContainer } from '../../Card/Card.style.js'
+import { autocompletePopperZIndex } from '../DrawerControls.style.js'
 
 export const TabButtonsContainer = styled(Box)(({ theme }) => ({
   ...getCardFieldsetBackgroundColor(theme),

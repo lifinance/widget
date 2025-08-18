@@ -5,10 +5,10 @@ import { useFieldValues } from '@lifi/widget'
 import { Seaport } from '@opensea/seaport-js'
 import { useQuery } from '@tanstack/react-query'
 import { type Connector, useConfig } from 'wagmi'
-import { getEthersSigner } from './getEthersSigner'
-import type { FulfillmentDataResponse, NFTNetwork } from './types'
-import { ChainId as OpenSeaChainId } from './types'
-import { useOpenSeaOrder } from './useOpenSeaOrder'
+import { getEthersSigner } from './getEthersSigner.js'
+import type { FulfillmentDataResponse, NFTNetwork } from './types.js'
+import { ChainId as OpenSeaChainId } from './types.js'
+import { useOpenSeaOrder } from './useOpenSeaOrder.js'
 
 export const useOpenSeaFulfillment = (
   network: NFTNetwork,

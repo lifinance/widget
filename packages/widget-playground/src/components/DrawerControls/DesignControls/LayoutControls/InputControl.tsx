@@ -5,8 +5,8 @@ import {
   type HTMLAttributes,
   useId,
 } from 'react'
-import { CardRowColumn, CardRowContainer } from '../../../Card/Card.style'
-import { CapitalizeFirstLetter, Input } from '../DesignControls.style'
+import { CardRowColumn, CardRowContainer } from '../../../Card/Card.style.js'
+import { CapitalizeFirstLetter, Input } from '../DesignControls.style.js'
 
 interface InputControlProps extends HTMLAttributes<HTMLDivElement> {
   label: string

@@ -7,8 +7,8 @@ import {
   LiFiWidget,
 } from '@lifi/widget'
 import { useMemo } from 'react'
-import { DepositCard } from './components/DepositCard'
-import { contractTool } from './config'
+import { DepositCard } from './components/DepositCard.js'
+import { contractTool } from './config.js'
 
 // EXAMPLE CONTRACT, DON'T DEPOSIT
 const depositAddress = '0x4bF3E32de155359D1D75e8B474b66848221142fc'

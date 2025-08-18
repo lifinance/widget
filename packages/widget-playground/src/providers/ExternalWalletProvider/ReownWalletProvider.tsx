@@ -7,10 +7,13 @@ import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import type { AppKitNetwork } from '@reown/appkit-common'
 import { useEffect, useRef } from 'react'
 import { WagmiProvider } from 'wagmi'
-import { useThemeMode } from '../../hooks/useThemeMode'
-import { chainToAppKitNetworks, getChainImagesConfig } from '../../utils/appkit'
-import { useEnvVariables } from '../EnvVariablesProvider'
-import { SolanaProvider } from './SolanaProvider'
+import { useThemeMode } from '../../hooks/useThemeMode.js'
+import {
+  chainToAppKitNetworks,
+  getChainImagesConfig,
+} from '../../utils/appkit.js'
+import { useEnvVariables } from '../EnvVariablesProvider.js'
+import { SolanaProvider } from './SolanaProvider.js'
 
 const metadata = {
   name: 'LI.FI Widget Playground',

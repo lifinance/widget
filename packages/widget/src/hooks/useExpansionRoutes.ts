@@ -1,8 +1,8 @@
 import type { PropsWithChildren } from 'react'
 import type { RouteObject } from 'react-router-dom'
 import { useRoutes as useDOMRoutes } from 'react-router-dom'
-import { ExpansionType } from '../types/widget'
-import { navigationRoutes } from '../utils/navigationRoutes'
+import { ExpansionType } from '../types/widget.js'
+import { navigationRoutes } from '../utils/navigationRoutes.js'
 
 const routes: RouteObject[] = [
   {

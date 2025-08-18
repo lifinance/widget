@@ -1,7 +1,7 @@
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { type PropsWithChildren, useMemo } from 'react'
-import { usePlaygroundSettingValues } from '../../store/editTools/usePlaygroundSettingValues'
-import { createTheme } from './theme'
+import { usePlaygroundSettingValues } from '../../store/editTools/usePlaygroundSettingValues.js'
+import { createTheme } from './theme.js'
 
 export const PlaygroundThemeProvider = ({ children }: PropsWithChildren) => {
   const { viewportColor } = usePlaygroundSettingValues()

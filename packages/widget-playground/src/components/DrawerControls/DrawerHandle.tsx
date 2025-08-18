@@ -1,14 +1,14 @@
 import type { MouseEventHandler } from 'react'
 import { useEffect, useState } from 'react'
-import { defaultDrawerWidth } from '../../store/editTools/constants'
-import { useCodeToolValues } from '../../store/editTools/useCodeToolValues'
-import { useDrawerToolValues } from '../../store/editTools/useDrawerToolValues'
-import { useEditToolsActions } from '../../store/editTools/useEditToolsActions'
+import { defaultDrawerWidth } from '../../store/editTools/constants.js'
+import { useCodeToolValues } from '../../store/editTools/useCodeToolValues.js'
+import { useDrawerToolValues } from '../../store/editTools/useDrawerToolValues.js'
+import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
 import {
   DrawerHandleButton,
   DrawerIconLeft,
   DrawerIconRight,
-} from './DrawerControls.style'
+} from './DrawerControls.style.js'
 
 export const DrawerHandle = () => {
   const [isDrawerResizing, setIsDrawerResizing] = useState(false)

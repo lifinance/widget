@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from 'react'
-import { useHydrated } from './useHydrated'
+import { useHydrated } from './useHydrated.js'
 
 interface ClientOnlyProps extends PropsWithChildren {
   fallback?: React.ReactNode

@@ -1,13 +1,13 @@
 import type { BoxProps } from '@mui/material'
 import { useTheme } from '@mui/material'
-import { useEditToolsActions } from '../../../../store/editTools/useEditToolsActions'
-import { usePlaygroundSettingValues } from '../../../../store/editTools/usePlaygroundSettingValues'
-import { safe6DigitHexColor } from '../../../../utils/color'
+import { useEditToolsActions } from '../../../../store/editTools/useEditToolsActions.js'
+import { usePlaygroundSettingValues } from '../../../../store/editTools/usePlaygroundSettingValues.js'
+import { safe6DigitHexColor } from '../../../../utils/color.js'
 import {
   CapitalizeFirstLetter,
   ColorControlContainer,
   ColorInput,
-} from '../DesignControls.style'
+} from '../DesignControls.style.js'
 
 export const ViewportColorSelector = ({ ...rest }: BoxProps) => {
   const theme = useTheme()
