@@ -16,13 +16,10 @@ export const ToolItem = memo<ToolItemProps>(
       onToggle(tool.key)
     }, [onToggle, tool.key])
 
-    const handleCheckboxClick = useCallback(
-      (e: React.MouseEvent) => {
-        e.stopPropagation()
-        onToggle(tool.key)
-      },
-      [onToggle, tool.key]
-    )
+    const handleCheckboxClick = (e: React.MouseEvent) => {
+      e.stopPropagation()
+      onToggle(tool.key)
+    }
 
     return (
       <SettingsListItemButton onClick={handleClick}>
