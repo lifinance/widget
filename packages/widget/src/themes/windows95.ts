@@ -1,4 +1,4 @@
-import { tabsClasses } from '@mui/material'
+import { checkboxClasses, tabsClasses } from '@mui/material'
 import type { WidgetTheme } from '../types/widget.js'
 
 export const windows95Theme: WidgetTheme = {
@@ -109,6 +109,22 @@ export const windows95Theme: WidgetTheme = {
           '&:hover': {
             color: 'inherit',
             backgroundColor: '#cccccc',
+          },
+        },
+      },
+    },
+    MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          color: '#0a0a0a',
+          '&:hover': {
+            backgroundColor: 'transparent',
+          },
+          [`&.${checkboxClasses.checked}`]: {
+            color: '#0a0a0a',
+          },
+          [`&.${checkboxClasses.indeterminate}`]: {
+            color: '#0a0a0a',
           },
         },
       },
