@@ -1,5 +1,5 @@
 import { Avatar, Checkbox, ListItemAvatar } from '@mui/material'
-import { memo, useCallback } from 'react'
+import { memo } from 'react'
 import { ListItemText } from '../ListItemText.js'
 import { SettingsListItemButton } from '../SettingsListItemButton.js'
 
@@ -12,9 +12,9 @@ interface ToolItemProps {
 
 export const ToolItem = memo<ToolItemProps>(
   ({ tool, typeKey, isEnabled, onToggle }) => {
-    const handleClick = useCallback(() => {
+    const handleClick = () => {
       onToggle(tool.key)
-    }, [onToggle, tool.key])
+    }
 
     const handleCheckboxClick = (e: React.MouseEvent) => {
       e.stopPropagation()
