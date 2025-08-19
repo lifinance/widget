@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material'
-import { PrivyButton } from './PrivyButton.js'
+import { PrivyButton } from './PrivyButton'
 
 export function WalletHeader() {
   return (

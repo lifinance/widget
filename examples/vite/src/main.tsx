@@ -1,9 +1,9 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { App } from './App.js'
-import { WalletHeader } from './components/WalletHeader.js'
-import { WalletProvider } from './providers/WalletProvider.js'
+import { App } from './App'
+import { WalletHeader } from './components/WalletHeader'
+import { WalletProvider } from './providers/WalletProvider'
 
 const queryClient = new QueryClient()
 
