@@ -43,7 +43,6 @@ export const MoreChainsBox = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down(theme.breakpoints.values.xs)]: {
     width: 28,
     height: 28,
-    fontSize: '.85rem',
   },
 }))
 
