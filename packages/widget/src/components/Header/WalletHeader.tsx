@@ -88,7 +88,11 @@ const ConnectButton = () => {
   const { walletConfig, variant } = useWidgetConfig()
   const { openWalletMenu } = useWalletMenu()
   const connect = async (event: React.MouseEvent<HTMLElement>) => {
-    if (!walletConfig?.usePartialWalletManagement && walletConfig?.onConnect) {
+    if (
+      !walletConfig?.usePartialWalletManagement &&
+      !walletConfig?.forceInternalWalletManagement &&
+      walletConfig?.onConnect
+    ) {
       walletConfig.onConnect()
       return
     }
