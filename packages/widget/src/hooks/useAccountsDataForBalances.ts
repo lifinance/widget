@@ -17,7 +17,6 @@ export const useAccountsDataForBalances = (
   // Filter tokens to fetch balances for
   const { data: filteredByBalance, isLoading: isCachedBalancesLoading } =
     useFilteredTokensByBalance(accountsWithTokens)
-
   return {
     data: filteredByBalance,
     isLoading: isAccountsLoading || isCachedBalancesLoading,
@@ -56,7 +55,7 @@ const useAccountsData = (
   }, [allAccounts, currentAccount, isAllNetworks])
 
   const accountsWithTokens = useMemo(() => {
-    if (!chains || !allTokens) {
+    if (!chains || !allTokens || !accounts?.length) {
       return undefined
     }
     return accounts

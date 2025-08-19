@@ -1,6 +1,6 @@
 import { getTokenBalances } from '@lifi/sdk'
 import { useQueries } from '@tanstack/react-query'
-import { useMemo } from 'react'
+import { useMemo, useRef } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { TokenAmount } from '../types/token.js'
 import { getQueryKey } from '../utils/queries.js'
@@ -12,6 +12,7 @@ export const useTokenBalancesQueries = (
   isBalanceLoadingEnabled?: boolean
 ) => {
   const { keyPrefix } = useWidgetConfig()
+  const firstLoadStartRef = useRef<number | null>(null)
 
   const queryConfig = useMemo(() => {
     if (!accountsWithTokens) {
@@ -45,31 +46,50 @@ export const useTokenBalancesQueries = (
   const result = useQueries({
     queries: queryConfig,
     combine: (results) => {
-      // Check if all queries are complete
+      const now = Date.now()
+
+      const hasLoadingQueries = results.some((result) => result.isLoading)
+      if (hasLoadingQueries && firstLoadStartRef.current === null) {
+        firstLoadStartRef.current = now
+      }
+
       const allComplete = results.every(
         (result) => result.isSuccess || result.isError
       )
 
-      if (!allComplete) {
-        return {
-          data: undefined,
-          isLoading: true,
-          isError: false,
+      // Reset the start time when all queries complete
+      if (allComplete) {
+        firstLoadStartRef.current = null
+      }
+
+      // Calculate time since first load started
+      const timeSinceStart = firstLoadStartRef.current
+        ? now - firstLoadStartRef.current
+        : 0
+
+      // Return results if all complete OR if 500ms have passed since first query started
+      const shouldReturnResults = allComplete || timeSinceStart >= 500
+
+      if (shouldReturnResults) {
+        const data: TokenAmount[] = results
+          .flatMap((result) => result.data || [])
+          .filter((token) => token.amount)
+        if (data.length) {
+          return {
+            data,
+            isLoading: !allComplete,
+            isError: results.some((result) => result.isError),
+          }
         }
       }
 
-      // Return all results once everything is done
-      const data: TokenAmount[] = results.flatMap((result) => result.data || [])
       return {
-        data,
-        isLoading: false,
-        isError: results.some((result) => result.isError),
+        data: undefined,
+        isLoading: true,
+        isError: false,
       }
     },
   })
 
-  return {
-    data: result.data,
-    isBalanceLoading: result.isLoading,
-  }
+  return result
 }

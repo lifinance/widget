@@ -21,22 +21,18 @@ export const useTokenBalances = (
       allTokens
     )
 
-  const isBalanceLoadingEnabled = useMemo(
-    () => Boolean(accountsWithTokens) && !isAccountsLoading,
-    [accountsWithTokens, isAccountsLoading]
-  )
+  const isBalanceLoadingEnabled =
+    Boolean(accountsWithTokens) && !isAccountsLoading
 
-  const {
-    data: allTokensWithBalances,
-    isBalanceLoading: isBalanceQueriesLoading,
-  } = useTokenBalancesQueries(accountsWithTokens, isBalanceLoadingEnabled)
+  const { data: allTokensWithBalances, isLoading: isBalanceQueriesLoading } =
+    useTokenBalancesQueries(accountsWithTokens, isBalanceLoadingEnabled)
 
   const { tokens: configTokens } = useWidgetConfig()
 
-  const isBalanceLoading = useMemo(
-    () => isBalanceQueriesLoading && isBalanceLoadingEnabled,
-    [isBalanceQueriesLoading, isBalanceLoadingEnabled]
-  )
+  const isBalanceLoading =
+    (isBalanceLoadingEnabled || isAccountsLoading) &&
+    isBalanceQueriesLoading &&
+    !allTokensWithBalances?.length
 
   const { processedTokens, withCategories } = useMemo(() => {
     return processTokenBalances(
