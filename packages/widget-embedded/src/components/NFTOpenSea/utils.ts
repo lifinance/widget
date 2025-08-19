@@ -302,7 +302,7 @@ export const orderFromJSON = (order: any): Order => {
     expirationTime: new BigNumber(order.expiration_time),
 
     salt: new BigNumber(order.salt),
-    v: Number.parseInt(order.v),
+    v: Number.parseInt(order.v, 10),
     r: order.r,
     s: order.s,
 

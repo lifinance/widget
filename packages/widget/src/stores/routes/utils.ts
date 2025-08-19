@@ -43,8 +43,7 @@ export const getUpdatedProcess = (
   }
   // Find process index in the diff array so we can slice the complete rpocess object
   // e.g. ['steps', 0, 'execution', 'process', 0, 'message']
-  const processDiffIndex =
-    processDiff.path.findIndex((path) => path === 'process') + 2
+  const processDiffIndex = processDiff.path.indexOf('process') + 2
   const processPathSlice = processDiff.path.slice(0, processDiffIndex)
   // Reduce updated route using the diff path to get updated process
   const process = processPathSlice.reduce(

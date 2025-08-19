@@ -1,8 +1,8 @@
 import { Avatar, Box, Button, Tooltip, Typography } from '@mui/material'
 import { usePrivy } from '@privy-io/react-auth'
 import React from 'react'
-import { shortenAddress } from '../utils/account.js'
-import { AccountMenu } from './AccountMenu.js'
+import { shortenAddress } from '../utils/account'
+import { AccountMenu } from './AccountMenu'
 
 export function AccountButton() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)

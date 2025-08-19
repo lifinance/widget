@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.27.6](https://github.com/lifinance/widget/compare/v3.27.5...v3.27.6) (2025-08-18)
+
+
+### Bug Fixes
+
+* adjust examples and fix biome issues ([c0ed4de](https://github.com/lifinance/widget/commit/c0ed4de5bc091aacbe7a3830053667074e005f3e))
+
+### [3.27.5](https://github.com/lifinance/widget/compare/v3.27.4...v3.27.5) (2025-08-18)
+
+### [3.27.4](https://github.com/lifinance/widget/compare/v3.27.3...v3.27.4) (2025-08-18)
+
+
+### Bug Fixes
+
+* enable forceJsExtensions rule ([#517](https://github.com/lifinance/widget/issues/517)) ([0fa463f](https://github.com/lifinance/widget/commit/0fa463fcc7d902c254a737a81713b2bb58add7bb))
+
 ### [3.27.3](https://github.com/lifinance/widget/compare/v3.27.2...v3.27.3) (2025-08-14)
 
 

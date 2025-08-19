@@ -23,8 +23,8 @@ import {
 import { useSetActiveWallet } from '@privy-io/wagmi'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { useAccount, useDisconnect } from 'wagmi'
-import { emitter } from '../providers/SolanaProvider.js'
-import { shortenAddress } from '../utils/account.js'
+import { emitter } from '../providers/SolanaProvider'
+import { shortenAddress } from '../utils/account'
 
 type AccountMenuProps = {
   handleClose: () => void
