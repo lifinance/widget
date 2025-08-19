@@ -1,5 +1,5 @@
 import type { EVMChain } from '@lifi/sdk'
-import { Skeleton, Tooltip, Typography } from '@mui/material'
+import { Skeleton, Tooltip } from '@mui/material'
 import { memo, useCallback, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -15,6 +15,7 @@ import {
   ChainCard,
   ChainContainer,
   MoreChainsBox,
+  MoreChainsText,
 } from './ChainSelect.style.js'
 import { useChainSelect } from './useChainSelect.js'
 
@@ -91,13 +92,7 @@ export const ChainSelect = memo(({ formType }: FormTypeProps) => {
       {chainsToHide > 0 ? (
         <ChainCard component="button" onClick={showAllChains}>
           <MoreChainsBox>
-            <Typography
-              sx={{
-                fontWeight: 500,
-              }}
-            >
-              +{chainsToHide}
-            </Typography>
+            <MoreChainsText>+{chainsToHide}</MoreChainsText>
           </MoreChainsBox>
         </ChainCard>
       ) : null}

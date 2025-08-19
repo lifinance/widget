@@ -1,4 +1,4 @@
-import { Avatar, Box } from '@mui/material'
+import { Avatar, Box, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { Card } from '../../components/Card/Card.js'
 import { maxChainsToShow } from '../../stores/chains/createChainOrderStore.js'
@@ -6,6 +6,7 @@ import { maxChainsToShow } from '../../stores/chains/createChainOrderStore.js'
 const chainCardWidthPx = 52
 const chainCardHeightPx = 56
 // For mobile screens (xs, under 360px)
+const chainCardWidthPxMobile = 36
 const chainCardHeightPxMobile = 36
 
 // Chain grid layout settings:
@@ -13,9 +14,6 @@ const chainCardHeightPxMobile = 36
 // proper row/column distribution in the grid layout logic.
 const maxRows = 2
 const maxChainsPerRow = Math.ceil(maxChainsToShow / maxRows)
-// For mobile screens (xs, under 360px)
-const maxRowsMobile = 3
-const maxChainsPerRowMobile = Math.ceil(maxChainsToShow / maxRowsMobile)
 
 export const ChainCard = styled(Card)(({ theme }) => ({
   display: 'grid',
@@ -24,6 +22,7 @@ export const ChainCard = styled(Card)(({ theme }) => ({
   height: chainCardHeightPx,
   [theme.breakpoints.down(theme.breakpoints.values.xs)]: {
     height: chainCardHeightPxMobile,
+    minWidth: chainCardWidthPxMobile,
   },
 }))
 
@@ -44,6 +43,14 @@ export const MoreChainsBox = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down(theme.breakpoints.values.xs)]: {
     width: 28,
     height: 28,
+    fontSize: '.85rem',
+  },
+}))
+
+export const MoreChainsText = styled(Typography)(({ theme }) => ({
+  fontWeight: 500,
+  [theme.breakpoints.down('xs')]: {
+    fontSize: '.85rem',
   },
 }))
 
@@ -52,11 +59,6 @@ export const ChainContainer = styled(Box, {
 })<{ itemCount: number }>(({ theme, itemCount }) => {
   const rowCount = Math.min(Math.ceil(itemCount / maxChainsPerRow), maxRows)
   const columnsPerRow = Math.ceil(itemCount / rowCount)
-  const rowCountMobile = Math.min(
-    Math.ceil(itemCount / maxChainsPerRowMobile),
-    maxRowsMobile
-  )
-  const columnsPerRowMobile = Math.ceil(itemCount / rowCountMobile)
   return {
     display: 'grid',
     gridTemplateColumns: `repeat(${rowCount > 1 ? columnsPerRow : 'auto-fit'}, minmax(${chainCardWidthPx}px, 1fr))`,
@@ -64,8 +66,8 @@ export const ChainContainer = styled(Box, {
     justifyContent: 'space-between',
     gap: theme.spacing(1.5),
     [theme.breakpoints.down(theme.breakpoints.values.xs)]: {
-      gridTemplateColumns: `repeat(${rowCountMobile > 1 ? columnsPerRowMobile : 'auto-fit'}, minmax(${chainCardWidthPx}px, 1fr))`,
-      gridTemplateRows: `repeat(${rowCountMobile}, ${chainCardHeightPxMobile}px)`,
+      gridTemplateColumns: `repeat(${rowCount > 1 ? columnsPerRow : 'auto-fit'}, minmax(${chainCardWidthPxMobile}px, 1fr))`,
+      gridTemplateRows: `repeat(${rowCount}, ${chainCardHeightPxMobile}px)`,
       gap: theme.spacing(1),
     },
   }
