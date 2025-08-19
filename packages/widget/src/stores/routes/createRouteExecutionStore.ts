@@ -36,7 +36,9 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
                       RouteExecutionStatus.Done
                     )
                 )
-                .forEach((routeId) => delete routes[routeId])
+                .forEach((routeId) => {
+                  delete routes[routeId]
+                })
               routes[route.id] = {
                 route,
                 status: RouteExecutionStatus.Idle,
@@ -123,7 +125,9 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
                       RouteExecutionStatus.Done
                     )
               )
-              .forEach((routeId) => delete routes[routeId])
+              .forEach((routeId) => {
+                delete routes[routeId]
+              })
             return {
               routes,
             }

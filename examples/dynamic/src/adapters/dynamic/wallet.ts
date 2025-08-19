@@ -143,8 +143,9 @@ export class TurnkeyHDWallet implements Wallet {
     event: E,
     ...args: Parameters<StandardEventsListeners[E]>
   ): void {
-    // eslint-disable-next-line prefer-spread
-    this.#listeners[event]?.forEach((listener) => listener.apply(null, args))
+    this.#listeners[event]?.forEach((listener) => {
+      listener.apply(null, args)
+    })
   }
 
   #off<E extends StandardEventsNames>(

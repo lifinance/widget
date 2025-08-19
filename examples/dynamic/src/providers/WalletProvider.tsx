@@ -14,8 +14,8 @@ import { type FC, type PropsWithChildren, useRef } from 'react'
 import { type Chain, mainnet } from 'viem/chains'
 import type { Config, CreateConnectorFn } from 'wagmi'
 import { createConfig, http, WagmiProvider } from 'wagmi'
-import { DynamicUTXOProvider } from './DynamicUTXOProvider.js'
-import { SolanaProvider } from './SolanaProvider.js'
+import { DynamicUTXOProvider } from './DynamicUTXOProvider'
+import { SolanaProvider } from './SolanaProvider'
 
 // All connectors are supplied by Dynamic so we can leave this empty
 const connectors: CreateConnectorFn[] = []
