@@ -138,6 +138,7 @@ export const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
     }
   }
 
+  // biome-ignore lint/correctness/noNestedComponentDefinitions: part of the flow
   const StepIconComponent = ({ icon }: StepIconProps) => {
     const includedStep = includedSteps?.[Number(icon) - 1]
     const feeCollectionStep =

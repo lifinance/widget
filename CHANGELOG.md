@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.27.6](https://github.com/lifinance/widget/compare/v3.27.5...v3.27.6) (2025-08-18)
+
+
+### Bug Fixes
+
+* adjust examples and fix biome issues ([c0ed4de](https://github.com/lifinance/widget/commit/c0ed4de5bc091aacbe7a3830053667074e005f3e))
+
+### [3.27.5](https://github.com/lifinance/widget/compare/v3.27.4...v3.27.5) (2025-08-18)
+
+### [3.27.4](https://github.com/lifinance/widget/compare/v3.27.3...v3.27.4) (2025-08-18)
+
+
+### Bug Fixes
+
+* enable forceJsExtensions rule ([#517](https://github.com/lifinance/widget/issues/517)) ([0fa463f](https://github.com/lifinance/widget/commit/0fa463fcc7d902c254a737a81713b2bb58add7bb))
+
+### [3.27.3](https://github.com/lifinance/widget/compare/v3.27.2...v3.27.3) (2025-08-14)
+
+
+### Bug Fixes
+
+* add data-testid attribute to SearchList for improved testing ([#509](https://github.com/lifinance/widget/issues/509)) ([e793d89](https://github.com/lifinance/widget/commit/e793d8926d32d5268bce9458c701053a9de5ada1))
+* should not show Safe wallet when integrated in iframe ([#511](https://github.com/lifinance/widget/issues/511)) ([b78dd04](https://github.com/lifinance/widget/commit/b78dd042343776705e55b37665939418d1fdcec7))
+
+### [3.27.2](https://github.com/lifinance/widget/compare/v3.27.1...v3.27.2) (2025-08-13)
+
+
+### Bug Fixes
+
+* improve token data cloning in useRoutes hook ([60bb6b7](https://github.com/lifinance/widget/commit/60bb6b74ff71bbaf4a7c1199c00d7165e4125a93))
+
+### [3.27.1](https://github.com/lifinance/widget/compare/v3.27.0...v3.27.1) (2025-08-13)
+
+
+### Bug Fixes
+
+* improve cache handling for fetched routes ([#508](https://github.com/lifinance/widget/issues/508)) ([0814365](https://github.com/lifinance/widget/commit/0814365d8be5e1e0499fb166edf0049203407aa1))
+* scroll to index retry warnings ([#504](https://github.com/lifinance/widget/issues/504)) ([bc958eb](https://github.com/lifinance/widget/commit/bc958eb6f182a8b2986fe8a9dc54c14f52174d8a))
+
 ## [3.27.0](https://github.com/lifinance/widget/compare/v3.26.1...v3.27.0) (2025-08-11)
 
 

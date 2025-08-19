@@ -1,9 +1,9 @@
 import type { FC, PropsWithChildren } from 'react'
 import { createContext, useContext, useEffect, useRef } from 'react'
 import { useShallow } from 'zustand/shallow'
-import { useConfigActions } from '../widgetConfig/useConfigActions'
-import { createEditToolsStore } from './createEditToolsStore'
-import type { ToolsState, ToolsStore } from './types'
+import { useConfigActions } from '../widgetConfig/useConfigActions.js'
+import { createEditToolsStore } from './createEditToolsStore.js'
+import type { ToolsState, ToolsStore } from './types.js'
 
 const getIsDevViewQueryStringParam = () => {
   if (typeof window !== 'undefined') {

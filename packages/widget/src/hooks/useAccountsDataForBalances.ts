@@ -1,9 +1,9 @@
 import type { ChainType, Token } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useMemo } from 'react'
-import type { FormType } from '../stores/form/types'
-import { useChains } from './useChains'
-import { useFilteredTokensByBalance } from './useFilteredByTokenBalances'
+import type { FormType } from '../stores/form/types.js'
+import { useChains } from './useChains.js'
+import { useFilteredTokensByBalance } from './useFilteredByTokenBalances.js'
 
 export const useAccountsDataForBalances = (
   selectedChainId?: number,

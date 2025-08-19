@@ -1,4 +1,4 @@
-import { WalletTagType } from '../types/walletTagType'
+import { WalletTagType } from '../types/walletTagType.js'
 
 const tagOrder = {
   [WalletTagType.Connected]: 0,

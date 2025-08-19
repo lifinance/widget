@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
-import { useEditToolsActions } from '../../../store/editTools/useEditToolsActions'
-import { useSkeletonToolValues } from '../../../store/editTools/useSkeletonToolValues'
-import { useConfigVariant } from '../../../store/widgetConfig/useConfigValues'
-import { CardRowContainer, CardValue } from '../../Card/Card.style'
-import { ExpandableCard } from '../../Card/ExpandableCard'
-import { Switch } from '../../Switch'
+import { useEditToolsActions } from '../../../store/editTools/useEditToolsActions.js'
+import { useSkeletonToolValues } from '../../../store/editTools/useSkeletonToolValues.js'
+import { useConfigVariant } from '../../../store/widgetConfig/useConfigValues.js'
+import { CardRowContainer, CardValue } from '../../Card/Card.style.js'
+import { ExpandableCard } from '../../Card/ExpandableCard.js'
+import { Switch } from '../../Switch.js'
 
 export const SkeletonControl = () => {
   const { isSkeletonShown, isSkeletonSideBySide } = useSkeletonToolValues()

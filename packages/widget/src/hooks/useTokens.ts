@@ -29,6 +29,8 @@ export const useTokens = (formType?: FormType) => {
     queryFn: () =>
       getTokens({
         chainTypes,
+        orderBy: 'volumeUSD24H',
+        limit: 1000,
       }),
     refetchInterval: 300_000,
     staleTime: 300_000,

@@ -1,11 +1,11 @@
 import { useMemo, useRef, useState } from 'react'
-import { useHasChainExpansion } from '../../hooks/useHasChainExpansion'
-import { ExpansionType } from '../../types/widget'
-import { ChainsExpanded } from '../Chains/ChainsExpanded'
-import { chainExpansionWidth } from '../Chains/ChainsExpanded.style'
-import { RoutesExpanded } from '../Routes/RoutesExpanded'
-import { routesExpansionWidth } from '../Routes/RoutesExpanded.style'
-import { ExpansionContainer } from './Expansion.style'
+import { useHasChainExpansion } from '../../hooks/useHasChainExpansion.js'
+import { ExpansionType } from '../../types/widget.js'
+import { ChainsExpanded } from '../Chains/ChainsExpanded.js'
+import { chainExpansionWidth } from '../Chains/ChainsExpanded.style.js'
+import { RoutesExpanded } from '../Routes/RoutesExpanded.js'
+import { routesExpansionWidth } from '../Routes/RoutesExpanded.style.js'
+import { ExpansionContainer } from './Expansion.style.js'
 
 export function Expansion() {
   const [withChainExpansion, expansionType] = useHasChainExpansion()

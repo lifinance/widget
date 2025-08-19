@@ -1,6 +1,6 @@
-import type { Font } from '../../../../providers/FontLoaderProvider/types'
-import { googleFonts } from './googleFonts'
-import { systemFonts } from './systemFonts'
+import type { Font } from '../../../../providers/FontLoaderProvider/types.js'
+import { googleFonts } from './googleFonts.js'
+import { systemFonts } from './systemFonts.js'
 
 // NOTE: although this is a google font, as the widget playground itself is using Inter we don't
 //  need to download the font files as they should already be downloaded - thus no fontFiles are defined

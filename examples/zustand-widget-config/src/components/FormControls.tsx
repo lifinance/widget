@@ -1,7 +1,7 @@
 import { ChainType } from '@lifi/widget'
 import { Button, Typography } from '@mui/material'
 import type { FormValues } from '../store/types'
-import { useWidgetConfigActions } from '../store/useWidgetConfigActions.ts'
+import { useWidgetConfigActions } from '../store/useWidgetConfigActions'
 import {
   FormControlsContainer,
   FormValueGroupContainer,

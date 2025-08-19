@@ -6,16 +6,16 @@ import { useTranslation } from 'react-i18next'
 import {
   useChainOrderStore,
   useChainOrderStoreContext,
-} from '../../stores/chains/ChainOrderStore'
-import { AllChainsAvatar } from './AllChainsAvatar'
+} from '../../stores/chains/ChainOrderStore.js'
+import { AllChainsAvatar } from './AllChainsAvatar.js'
 import {
   List,
   ListItem,
   ListItemAvatar,
   ListItemButton,
   ListItemText,
-} from './ChainList.style'
-import { ChainListItem } from './ChainListItem'
+} from './ChainList.style.js'
+import { ChainListItem } from './ChainListItem.js'
 
 interface VirtualizedChainListProps {
   scrollElementRef: RefObject<HTMLDivElement | null>

@@ -5,7 +5,7 @@ import {
   animationDuration,
   defaultStyle,
   transitionStyles,
-} from './Expansion.style'
+} from './Expansion.style.js'
 
 interface ExpansionTransitionProps {
   in: boolean

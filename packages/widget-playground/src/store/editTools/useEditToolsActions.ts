@@ -1,4 +1,4 @@
-import { useEditToolsStore } from './EditToolsProvider'
+import { useEditToolsStore } from './EditToolsProvider.js'
 
 export const useEditToolsActions = () => {
   const actions = useEditToolsStore((state) => ({

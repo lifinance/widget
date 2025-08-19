@@ -16,14 +16,14 @@ import { useTranslation } from 'react-i18next'
 import { useLongPress } from '../../hooks/useLongPress.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { shortenAddress } from '../../utils/wallet.js'
-import { TokenAvatar } from '../Avatar/TokenAvatar'
+import { TokenAvatar } from '../Avatar/TokenAvatar.js'
 import { ListItemButton } from '../ListItem/ListItemButton.js'
 import { IconButton, ListItem } from './TokenList.style.js'
 import type {
   TokenListItemAvatarProps,
   TokenListItemButtonProps,
-} from './types'
-import type { TokenListItemProps } from './types.js'
+  TokenListItemProps,
+} from './types.js'
 
 export const TokenListItem: React.FC<TokenListItemProps> = memo(
   ({

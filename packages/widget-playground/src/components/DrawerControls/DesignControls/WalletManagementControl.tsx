@@ -1,14 +1,14 @@
 import { Collapse } from '@mui/material'
 import type * as React from 'react'
-import { useConfigActions } from '../../../store/widgetConfig/useConfigActions'
-import { useConfigWalletManagement } from '../../../store/widgetConfig/useConfigValues'
+import { useConfigActions } from '../../../store/widgetConfig/useConfigActions.js'
+import { useConfigWalletManagement } from '../../../store/widgetConfig/useConfigValues.js'
 import {
   Card,
   CardRowContainer,
   CardTitleContainer,
   CardValue,
-} from '../../Card/Card.style'
-import { Switch } from '../../Switch'
+} from '../../Card/Card.style.js'
+import { Switch } from '../../Switch.js'
 
 export const WalletManagementControl = () => {
   const {

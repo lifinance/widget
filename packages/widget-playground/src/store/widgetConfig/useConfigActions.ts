@@ -1,4 +1,4 @@
-import { useWidgetConfigStore } from './WidgetConfigProvider'
+import { useWidgetConfigStore } from './WidgetConfigProvider.js'
 
 export const useConfigActions = () => {
   const actions = useWidgetConfigStore((state) => ({

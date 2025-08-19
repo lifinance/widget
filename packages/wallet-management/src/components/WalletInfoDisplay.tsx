@@ -1,5 +1,5 @@
 import { Avatar, Box, Typography } from '@mui/material'
-import type { CombinedWallet } from '../hooks/useCombinedWallets'
+import type { CombinedWallet } from '../hooks/useCombinedWallets.js'
 
 interface WalletInfoDisplayProps {
   selectedWallet: CombinedWallet | null

@@ -2,14 +2,14 @@ import type { ExtendedChain } from '@lifi/sdk'
 import { Skeleton } from '@mui/material'
 import type { RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SearchNotFound } from '../Search/SearchNotFound'
+import { SearchNotFound } from '../Search/SearchNotFound.js'
 import {
   List,
   ListItemAvatar,
   ListItemButton,
   ListItemText,
-} from './ChainList.style'
-import { VirtualizedChainList } from './VirtualizedChainList'
+} from './ChainList.style.js'
+import { VirtualizedChainList } from './VirtualizedChainList.js'
 
 interface ChainListProps {
   parentRef: RefObject<HTMLDivElement | null>

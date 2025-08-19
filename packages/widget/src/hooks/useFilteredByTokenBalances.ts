@@ -1,7 +1,7 @@
 import { ChainType } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
-import type { TokenAmount } from '../types/token'
+import type { TokenAmount } from '../types/token.js'
 
 const fetchExistingBalances = async (address: string) => {
   try {
