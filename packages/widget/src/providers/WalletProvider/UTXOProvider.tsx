@@ -1,7 +1,7 @@
 import { BigmiContext } from '@bigmi/react'
 import { ChainType } from '@lifi/sdk'
 import { type FC, type PropsWithChildren, useContext } from 'react'
-import { useBaseProvider } from '../../hooks/useBaseProvider.js'
+import { useInternalWalletProvider } from '../../hooks/useInternalWalletProvider.js'
 import { isItemAllowed } from '../../utils/item.js'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 import { UTXOBaseProvider } from './UTXOBaseProvider.js'
@@ -16,9 +16,9 @@ export function useInBigmiContext(): boolean {
 
 export const UTXOProvider: FC<PropsWithChildren> = ({ children }) => {
   const inBigmiContext = useInBigmiContext()
-  const useBase = useBaseProvider(inBigmiContext)
+  const useInternalWallet = useInternalWalletProvider(inBigmiContext)
 
-  return useBase ? (
+  return useInternalWallet ? (
     <UTXOBaseProvider>{children}</UTXOBaseProvider>
   ) : (
     <UTXOExternalContext.Provider value={inBigmiContext}>

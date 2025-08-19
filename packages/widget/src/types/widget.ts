@@ -146,7 +146,7 @@ export interface WidgetWalletConfig {
    */
   usePartialWalletManagement?: boolean
   /**
-   * This option forces the widget to always use internal walletmanagement ignoring external wallet management contexts
+   * This option forces the widget to always use internal wallet management ignoring external wallet management contexts
    * @default false
    */
   forceInternalWalletManagement?: boolean
