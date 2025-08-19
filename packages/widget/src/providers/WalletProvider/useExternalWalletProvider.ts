@@ -46,7 +46,9 @@ export function useExternalWalletProvider(): ExternalWalletProvider {
       hasExternalSuiContext
 
     const useExternalWalletProvidersOnly =
-      hasExternalProvider && !walletConfig?.usePartialWalletManagement
+      hasExternalProvider &&
+      !walletConfig?.usePartialWalletManagement &&
+      !walletConfig?.forceInternalWalletManagement
     return {
       useExternalWalletProvidersOnly,
       externalChainTypes: providers,
@@ -60,6 +62,7 @@ export function useExternalWalletProvider(): ExternalWalletProvider {
     hasExternalUTXOContext,
     hasExternalSuiContext,
     walletConfig?.usePartialWalletManagement,
+    walletConfig?.forceInternalWalletManagement,
   ])
 
   return data

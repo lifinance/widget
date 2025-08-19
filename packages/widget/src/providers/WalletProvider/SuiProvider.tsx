@@ -1,6 +1,7 @@
 import { ChainType } from '@lifi/sdk'
 import { SuiClientContext } from '@mysten/dapp-kit'
 import { type FC, type PropsWithChildren, useContext } from 'react'
+import { useBaseProvider } from '../../hooks/useBaseProvider.js'
 import { isItemAllowed } from '../../utils/item.js'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 import { SuiBaseProvider } from './SuiBaseProvider.js'
@@ -15,12 +16,13 @@ export function useInSuiContext(): boolean {
 
 export const SuiProvider: FC<PropsWithChildren> = ({ children }) => {
   const inSuiContext = useInSuiContext()
+  const useBase = useBaseProvider(inSuiContext)
 
-  return inSuiContext ? (
+  return useBase ? (
+    <SuiBaseProvider>{children}</SuiBaseProvider>
+  ) : (
     <SuiExternalContext.Provider value={inSuiContext}>
       {children}
     </SuiExternalContext.Provider>
-  ) : (
-    <SuiBaseProvider>{children}</SuiBaseProvider>
   )
 }

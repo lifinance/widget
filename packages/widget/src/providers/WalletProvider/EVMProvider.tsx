@@ -1,6 +1,7 @@
 import { ChainType } from '@lifi/sdk'
 import { type FC, type PropsWithChildren, useContext } from 'react'
 import { WagmiContext } from 'wagmi'
+import { useBaseProvider } from '../../hooks/useBaseProvider.js'
 import { isItemAllowed } from '../../utils/item.js'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 import { EVMBaseProvider } from './EVMBaseProvider.js'
@@ -15,12 +16,13 @@ export function useInWagmiContext(): boolean {
 
 export const EVMProvider: FC<PropsWithChildren> = ({ children }) => {
   const inWagmiContext = useInWagmiContext()
+  const useBase = useBaseProvider(inWagmiContext)
 
-  return inWagmiContext ? (
+  return useBase ? (
+    <EVMBaseProvider>{children}</EVMBaseProvider>
+  ) : (
     <EVMExternalContext.Provider value={inWagmiContext}>
       {children}
     </EVMExternalContext.Provider>
-  ) : (
-    <EVMBaseProvider>{children}</EVMBaseProvider>
   )
 }
