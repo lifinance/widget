@@ -73,17 +73,17 @@ export const WalletManagementControl = () => {
             aria-label="Use partial wallet management"
           />
         </CardRowContainer>
+        <CardRowContainer>
+          <CardTitleContainer>
+            <CardValue>Force Internal Wallet Management</CardValue>
+          </CardTitleContainer>
+          <Switch
+            checked={isForceInternalWalletMangement}
+            onChange={handleForceInternalWalletManagement}
+            aria-label="Force internal wallet management"
+          />
+        </CardRowContainer>
       </Collapse>
-      <CardRowContainer>
-        <CardTitleContainer>
-          <CardValue>Force Internal Wallet Management</CardValue>
-        </CardTitleContainer>
-        <Switch
-          checked={isForceInternalWalletMangement}
-          onChange={handleForceInternalWalletManagement}
-          aria-label="Force internal wallet management"
-        />
-      </CardRowContainer>
     </Card>
   )
 }
