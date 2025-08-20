@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@lifi/widget": "^3.27.6",
-    "next": "^15.4.7",
+    "next": "^15.5.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
