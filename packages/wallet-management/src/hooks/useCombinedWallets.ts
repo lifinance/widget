@@ -125,7 +125,7 @@ const combineWalletLists = (
     }
     existing.connectors.push({
       connector: tron.adapter,
-      chainType: 'TVM' as ChainType,
+      chainType: 'TRN' as ChainType,
     })
     walletMap.set(normalizedName, existing)
   })
@@ -282,7 +282,7 @@ export const useCombinedWallets = () => {
         ? suiWallets
         : []
 
-      // const installedTronWallets = includeEcosystem('TVM' as ChainType)
+      // const installedTronWallets = includeEcosystem('TRN' as ChainType)
       //   ? tronWallets.filter((wallet) => {
       //       return wallet.state !== AdapterState.NotFound
       //     })
@@ -318,7 +318,7 @@ export const useCombinedWallets = () => {
         return !isInstalled && isDesktopView
       })
 
-      const notDetectedTVMWallets = tronWallets.filter((wallet) => {
+      const notDetectedTRNWallets = tronWallets.filter((wallet) => {
         return wallet.state === AdapterState.NotFound && isDesktopView
       })
 
@@ -327,7 +327,7 @@ export const useCombinedWallets = () => {
         notDetectedEVMConnectors,
         notDetectedSVMWallets,
         [],
-        notDetectedTVMWallets
+        notDetectedTRNWallets
       )
 
       installedCombinedWallets.sort(walletComparator)

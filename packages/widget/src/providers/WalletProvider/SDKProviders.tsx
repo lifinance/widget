@@ -47,8 +47,8 @@ export const SDKProviders = () => {
     const hasConfiguredSuiProvider = sdkConfig?.providers?.some(
       (provider) => provider.type === ChainType.MVM
     )
-    // const hasConfiguredTVMProvider = sdkConfig?.providers?.some(
-    //   (provider) => provider.type === ('TVM' as ChainType)
+    // const hasConfiguredTRNProvider = sdkConfig?.providers?.some(
+    //   (provider) => provider.type === ('TRN' as ChainType)
     // )
     if (!hasConfiguredEVMProvider) {
       providers.push(
@@ -84,7 +84,7 @@ export const SDKProviders = () => {
         })
       )
     }
-    // if (!hasConfiguredTVMProvider) {
+    // if (!hasConfiguredTRNProvider) {
     //   providers.push(
     //     Tron({
     //       getWallet: async () => tronWallet?.adapter as TronWalletAdapter,

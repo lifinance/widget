@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom/client'
 import { createConfig, http, WagmiProvider } from 'wagmi'
 import { arbitrum, base, mainnet, optimism } from 'wagmi/chains'
 import { injected } from 'wagmi/connectors'
-import { App } from './App.js'
-import { WalletHeader } from './components/WalletHeader.js'
+import { App } from './App'
+import { WalletHeader } from './components/WalletHeader'
 
 const queryClient = new QueryClient()
 

@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.28.0](https://github.com/lifinance/widget/compare/v3.27.6...v3.28.0) (2025-08-20)
+
+
+### Features
+
+* add checkbox customization ([#515](https://github.com/lifinance/widget/issues/515)) ([ec4f7e3](https://github.com/lifinance/widget/commit/ec4f7e3acb831c23d77c92f70d90baed39468b36))
+
+
+### Bug Fixes
+
+* adjust skeleton heights ([1dc74f1](https://github.com/lifinance/widget/commit/1dc74f1f7a1ee6f0e827d3aa4b15e271fc3c7d94))
+* remix example ([862bcb5](https://github.com/lifinance/widget/commit/862bcb5b6b025baceff7c4747c90634470ffe299))
+* sort tokens by volume and add limit ([#518](https://github.com/lifinance/widget/issues/518)) ([9f5546a](https://github.com/lifinance/widget/commit/9f5546aae28cd7efe7d3c05d6acdd97037bf8199))
+
+### [3.27.6](https://github.com/lifinance/widget/compare/v3.27.5...v3.27.6) (2025-08-18)
+
+
+### Bug Fixes
+
+* adjust examples and fix biome issues ([c0ed4de](https://github.com/lifinance/widget/commit/c0ed4de5bc091aacbe7a3830053667074e005f3e))
+
+### [3.27.5](https://github.com/lifinance/widget/compare/v3.27.4...v3.27.5) (2025-08-18)
+
+### [3.27.4](https://github.com/lifinance/widget/compare/v3.27.3...v3.27.4) (2025-08-18)
+
+
+### Bug Fixes
+
+* enable forceJsExtensions rule ([#517](https://github.com/lifinance/widget/issues/517)) ([0fa463f](https://github.com/lifinance/widget/commit/0fa463fcc7d902c254a737a81713b2bb58add7bb))
+
 ### [3.27.3](https://github.com/lifinance/widget/compare/v3.27.2...v3.27.3) (2025-08-14)
 
 

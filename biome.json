@@ -36,7 +36,8 @@
           "options": {
             "forceJsExtensions": true
           }
-        }
+        },
+        "useUniqueElementIds": "off"
       },
       "style": {
         "noDefaultExport": "off",
@@ -73,6 +74,11 @@
         "rules": {
           "suspicious": {
             "noConsole": "off"
+          },
+          "correctness": {
+            "useImportExtensions": {
+              "level": "off"
+            }
           }
         }
       }

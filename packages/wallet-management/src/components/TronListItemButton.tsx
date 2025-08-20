@@ -1,7 +1,6 @@
 import type { ChainType } from '@lifi/sdk'
 import type { Adapter as TronWalletAdapter } from '@tronweb3/tronwallet-abstract-adapter'
 import { useWallet as useTronWallet } from '@tronweb3/tronwallet-adapter-react-hooks'
-import { startTransition } from 'react'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { getChainTypeIcon } from '../icons.js'
@@ -39,20 +38,20 @@ export const TronListItemButton = ({
         await disconnect()
       }
       select(connector.name)
-      startTransition(async () => {
+      setTimeout(async () => {
         await connect()
         connector.once('connect', (address: string) => {
           setLastConnectedAccount(connector)
           emitter.emit(WalletManagementEvent.WalletConnected, {
             address,
             chainId: 728126428,
-            chainType: 'TVM' as ChainType,
+            chainType: 'TRN' as ChainType,
             connectorId: connector.name,
             connectorName: connector.name,
           })
         })
         onConnected?.()
-      })
+      }, 0)
     } catch (error) {
       onError?.(error)
     }
@@ -63,7 +62,7 @@ export const TronListItemButton = ({
       key={connectorDisplayName}
       icon={
         ecosystemSelection
-          ? getChainTypeIcon('TVM' as ChainType)
+          ? getChainTypeIcon('TRN' as ChainType)
           : (connector.icon ?? '')
       }
       onClick={connectWallet}

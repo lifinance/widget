@@ -1,8 +1,8 @@
 import { ChainId, LiFiWidget } from '@lifi/widget'
 import { QueryClientProvider } from '@tanstack/react-query'
-import { WalletHeader } from './components/WalletHeader.js'
-import { queryClient } from './config/queryClient.js'
-import { WalletProvider } from './providers/SyncedWalletProvider.js'
+import { WalletHeader } from './components/WalletHeader'
+import { queryClient } from './config/queryClient'
+import { WalletProvider } from './providers/SyncedWalletProvider'
 
 function App() {
   return (

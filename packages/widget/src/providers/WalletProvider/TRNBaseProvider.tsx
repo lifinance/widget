@@ -3,7 +3,7 @@ import { TronLinkAdapter } from '@tronweb3/tronwallet-adapters'
 import { type FC, type PropsWithChildren, useMemo } from 'react'
 // import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 
-export const TVMBaseProvider: FC<PropsWithChildren> = ({ children }) => {
+export const TRNBaseProvider: FC<PropsWithChildren> = ({ children }) => {
   // const { chains } = useAvailableChains()
 
   // TODO: update adapters based on chains?

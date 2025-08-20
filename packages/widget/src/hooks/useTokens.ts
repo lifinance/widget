@@ -18,6 +18,8 @@ export const useTokens = (selectedChainId?: number) => {
           ChainType.UTXO,
           ChainType.MVM,
         ],
+        orderBy: 'volumeUSD24H',
+        limit: 1000,
       }),
     refetchInterval: 300_000,
     staleTime: 300_000,

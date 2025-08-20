@@ -14,7 +14,7 @@ import { create } from 'zustand'
 import type { CreateConnectorFnExtended } from '../connectors/types.js'
 
 export interface AccountBase<
-  CT extends ChainType | 'TVM',
+  CT extends ChainType | 'TRN',
   WalletConnector = undefined,
 > {
   address?: string
@@ -33,7 +33,7 @@ export type EVMAccount = AccountBase<ChainType.EVM, Connector>
 export type SVMAccount = AccountBase<ChainType.SVM, WalletAdapter>
 export type UTXOAccount = AccountBase<ChainType.UTXO, BigmiConnector>
 export type MVMAccount = AccountBase<ChainType.MVM, WalletWithRequiredFeatures>
-export type TVMAccount = AccountBase<'TVM', TronWalletAdapter>
+export type TRNAccount = AccountBase<'TRN', TronWalletAdapter>
 export type DefaultAccount = AccountBase<ChainType>
 
 export type Account =
@@ -41,7 +41,7 @@ export type Account =
   | SVMAccount
   | UTXOAccount
   | MVMAccount
-  | TVMAccount
+  | TRNAccount
   | DefaultAccount
 
 export interface AccountResult {
@@ -149,11 +149,11 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
       address: bigmiAccount.account?.address,
       addresses: bigmiAccount.accounts?.map((account) => account.address),
     }
-    const tron: TVMAccount = tronWallet?.adapter?.connected
+    const tron: TRNAccount = tronWallet?.adapter?.connected
       ? {
           address: tronWallet.adapter.address || undefined,
           chainId: 728126428,
-          chainType: 'TVM',
+          chainType: 'TRN',
           connector: tronWallet.adapter,
           isConnected: Boolean(tronWallet.adapter.address),
           isConnecting: false,
@@ -162,7 +162,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
           status: 'connected',
         }
       : {
-          chainType: 'TVM',
+          chainType: 'TRN',
           isConnected: false,
           isConnecting: false,
           isReconnecting: false,

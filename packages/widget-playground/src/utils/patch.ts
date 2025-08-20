@@ -60,7 +60,9 @@ export function patch(
     }
   }
 
-  arrayDelQueue.forEach((arrayDeletion) => arrayDeletion())
+  arrayDelQueue.forEach((arrayDeletion) => {
+    arrayDeletion()
+  })
 
   return resultObj
 }

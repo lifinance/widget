@@ -24,7 +24,7 @@ import {
 const SkeletonIcon = () => <Skeleton width={24} height={24} variant="rounded" />
 const SkeletonWalletMenuButton = () => (
   <SkeletonWalletMenuButtonContainer>
-    <Skeleton width={98} height={19} variant="text" />
+    <Skeleton width={98} height={24} variant="text" />
     <SkeletonIcon />
   </SkeletonWalletMenuButtonContainer>
 )
@@ -96,9 +96,9 @@ export const WidgetSkeleton = ({ config }: WidgetConfigPartialProps) => {
               </SkeletonHeaderAppBar>
             ) : null}
             <SkeletonHeaderAppBar
-              sx={{ justifyContent: 'space-between', height: 40 }}
+              sx={{ justifyContent: 'space-between', height: 52 }}
             >
-              <Skeleton width={126} height={34} variant="text" />
+              <Skeleton width={124} height={36} variant="text" />
               <SkeletonIcon />
             </SkeletonHeaderAppBar>
           </SkeletonHeaderContainer>
