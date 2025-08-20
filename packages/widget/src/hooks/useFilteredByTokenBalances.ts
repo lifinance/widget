@@ -1,16 +1,16 @@
 import {
   ChainType,
   getWalletBalances,
+  type Token,
   type WalletTokenExtended,
 } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
-import type { TokenAmount } from '../types/token.js'
 
 export const useFilteredTokensByBalance = (
   accountsWithTokens?: Record<
     string,
-    { chainType: ChainType; tokens: Record<number, TokenAmount[]> }
+    { chainType: ChainType; tokens: Record<number, Token[]> }
   >
 ) => {
   const evmAddress = useMemo(() => {
@@ -23,10 +23,7 @@ export const useFilteredTokensByBalance = (
   const { data: existingBalances, isLoading } = useQuery({
     queryKey: ['existing-evm-balances', evmAddress],
     queryFn: () => {
-      if (evmAddress) {
-        return getWalletBalances(evmAddress)
-      }
-      return null
+      return getWalletBalances(evmAddress ?? '')
     },
     enabled: !!evmAddress,
     refetchInterval: 30_000, // 30 seconds
@@ -39,7 +36,7 @@ export const useFilteredTokensByBalance = (
     }
 
     // Early return if no existing balances - return all tokens
-    const result: Record<string, Record<number, TokenAmount[]>> = {}
+    const result: Record<string, Record<number, Token[]>> = {}
     if (!existingBalances) {
       for (const [address, { tokens }] of Object.entries(accountsWithTokens)) {
         result[address] = tokens
@@ -84,16 +81,10 @@ export const useFilteredTokensByBalance = (
             const balanceKey = balance.address.toLowerCase()
             return !chainTokenSet.has(balanceKey)
           }
-        )
+        ) as Token[]
 
         // Combine both sets of tokens - convert WalletTokenExtended to TokenAmount
-        const allTokens = [
-          ...filteredTokens,
-          ...additionalTokens.map((balance) => ({
-            ...balance,
-            amount: BigInt(balance.amount),
-          })),
-        ]
+        const allTokens = [...filteredTokens, ...additionalTokens] as Token[]
 
         if (allTokens.length) {
           result[address][chainId] = allTokens

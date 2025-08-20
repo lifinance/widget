@@ -93,10 +93,12 @@ export const processTokenBalances = (
     )
   )
   const tokensWithoutBalances =
-    tokens?.filter((token) => {
-      const tokenKey = `${token.chainId}-${token.address.toLowerCase()}`
-      return !tokensWithBalancesSet.has(tokenKey)
-    }) ?? []
+    tokens
+      ?.filter((token) => {
+        const tokenKey = `${token.chainId}-${token.address.toLowerCase()}`
+        return !tokensWithBalancesSet.has(tokenKey)
+      })
+      .sort(sortByVolume) ?? []
 
   if (isAllNetworks) {
     return {

@@ -124,7 +124,6 @@ export const TokenList: FC<TokenListProps> = memo(
         {!tokens.length && !isLoading ? (
           <TokenNotFound formType={formType} />
         ) : null}
-
         <VirtualizedTokenList
           tokens={tokens}
           scrollElementRef={parentRef}

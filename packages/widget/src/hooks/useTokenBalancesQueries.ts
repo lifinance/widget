@@ -1,4 +1,4 @@
-import { getTokenBalances } from '@lifi/sdk'
+import { getTokenBalances, type Token } from '@lifi/sdk'
 import { useQueries } from '@tanstack/react-query'
 import { useMemo, useRef } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
@@ -8,7 +8,7 @@ import { getQueryKey } from '../utils/queries.js'
 const defaultRefetchInterval = 32_000
 
 export const useTokenBalancesQueries = (
-  accountsWithTokens?: Record<string, Record<number, TokenAmount[]>>,
+  accountsWithTokens?: Record<string, Record<number, Token[]>>,
   isBalanceLoadingEnabled?: boolean
 ) => {
   const { keyPrefix } = useWidgetConfig()

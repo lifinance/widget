@@ -106,8 +106,14 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     [tokens.length, estimateSize, getItemKey, scrollElementRef]
   )
 
-  const { getVirtualItems, getTotalSize, scrollToIndex } =
+  const { getVirtualItems, getTotalSize, scrollToIndex, measure } =
     useVirtualizer(virtualizerConfig)
+
+  useEffect(() => {
+    if (scrollElementRef.current) {
+      measure()
+    }
+  }, [measure, scrollElementRef.current])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when chainId changes
   useEffect(() => {
