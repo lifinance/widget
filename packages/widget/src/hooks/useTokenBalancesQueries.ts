@@ -84,8 +84,8 @@ export const useTokenBalancesQueries = (
       }
 
       return {
-        data: undefined,
-        isLoading: true,
+        data: results.flatMap((result) => result.data || []),
+        isLoading: false,
         isError: false,
       }
     },

@@ -1,3 +1,4 @@
+import type { TokenExtended } from '@lifi/sdk'
 import { formatUnits } from 'viem'
 import type { TokenAmount } from '../../types/token.js'
 import type { WidgetTokens } from '../../types/widget.js'
@@ -43,11 +44,14 @@ export const filteredTokensComparator = (searchFilter: string) => {
   }
 }
 
-const sortFn = (a: TokenAmount, b: TokenAmount) =>
+const sortByBalances = (a: TokenAmount, b: TokenAmount) =>
   Number.parseFloat(formatUnits(b.amount ?? 0n, b.decimals)) *
     Number.parseFloat(b.priceUSD ?? '0') -
   Number.parseFloat(formatUnits(a.amount ?? 0n, a.decimals)) *
     Number.parseFloat(a.priceUSD ?? '0')
+
+const sortByVolume = (a: TokenExtended, b: TokenExtended) =>
+  (b.volumeUSD24H ?? 0) - (a.volumeUSD24H ?? 0)
 
 export const processTokenBalances = (
   isBalanceLoading: boolean,
@@ -65,8 +69,9 @@ export const processTokenBalances = (
 
   if (isBalanceLoading) {
     if (isAllNetworks) {
+      const sortedTokens = [...(tokens ?? [])].sort(sortByVolume)
       return {
-        processedTokens: tokens,
+        processedTokens: sortedTokens,
         withCategories: false,
       }
     } else {
@@ -80,7 +85,7 @@ export const processTokenBalances = (
       : allTokensWithBalances?.filter(
           (token) => token.chainId === selectedChainId
         )) ?? []
-  const sortedTokensWithBalances = [...tokensWithBalances].sort(sortFn)
+  const sortedTokensWithBalances = [...tokensWithBalances].sort(sortByBalances)
 
   const tokensWithBalancesSet = new Set(
     sortedTokensWithBalances.map(
@@ -169,12 +174,16 @@ export const mapAndSortTokens = (
     }
   }
 
+  const sortedFeaturedTokens = [...featuredTokensFromConfig].sort(sortByVolume)
+  const sortedPopularTokens = [...popularTokensFromConfig].sort(sortByVolume)
+  const sortedOtherTokens = [...otherTokens].sort(sortByVolume)
+
   return {
     processedTokens: [
-      ...featuredTokensFromConfig,
+      ...sortedFeaturedTokens,
       ...tokensWithBalances,
-      ...popularTokensFromConfig,
-      ...otherTokens,
+      ...sortedPopularTokens,
+      ...sortedOtherTokens,
     ],
     withCategories: Boolean(
       featuredTokensFromConfig?.length || popularTokensFromConfig?.length

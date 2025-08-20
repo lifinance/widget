@@ -1,22 +1,11 @@
-import { ChainType } from '@lifi/sdk'
+import {
+  ChainType,
+  getWalletBalances,
+  type WalletTokenExtended,
+} from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import type { TokenAmount } from '../types/token.js'
-
-const fetchExistingBalances = async (address: string) => {
-  try {
-    const res = await fetch(
-      `https://develop.li.quest/v1/wallets/${address}/balances`
-    )
-    if (!res.ok) {
-      throw new Error(`HTTP error: ${res.status}`)
-    }
-    const data = await res.json()
-    return data?.balances
-  } catch {
-    return undefined
-  }
-}
 
 export const useFilteredTokensByBalance = (
   accountsWithTokens?: Record<
@@ -35,12 +24,13 @@ export const useFilteredTokensByBalance = (
     queryKey: ['existing-evm-balances', evmAddress],
     queryFn: () => {
       if (evmAddress) {
-        return fetchExistingBalances(evmAddress) ?? null
+        return getWalletBalances(evmAddress)
       }
       return null
     },
     enabled: !!evmAddress,
     refetchInterval: 30_000, // 30 seconds
+    staleTime: 30_000, // 30 seconds
   })
 
   const accountsWithFilteredTokens = useMemo(() => {
@@ -61,11 +51,11 @@ export const useFilteredTokensByBalance = (
       result[address] = {}
 
       for (const [chainIdStr, chainTokens] of Object.entries(tokens)) {
-        const balances = existingBalances?.[chainIdStr]
-
         const chainId = Number(chainIdStr)
+        // Get balances for this specific chain
+        const balances = existingBalances?.[chainId]
         // If no balances, RPC all tokens of the chain
-        if (!balances) {
+        if (!balances?.length) {
           if (chainTokens.length) {
             result[address][chainId] = chainTokens
           }
@@ -74,7 +64,9 @@ export const useFilteredTokensByBalance = (
 
         // Optimize token matching with Set for O(1) lookup
         const balanceSet = new Set(
-          balances.map((balance: TokenAmount) => balance.address.toLowerCase())
+          balances.map((balance: WalletTokenExtended) =>
+            balance.address.toLowerCase()
+          )
         )
 
         // Get tokens that are in chainTokens and have balances
@@ -87,13 +79,21 @@ export const useFilteredTokensByBalance = (
         const chainTokenSet = new Set(
           chainTokens.map((token) => token.address.toLowerCase())
         )
-        const additionalTokens = balances.filter((balance: TokenAmount) => {
-          const balanceKey = balance.address.toLowerCase()
-          return !chainTokenSet.has(balanceKey)
-        })
+        const additionalTokens = balances.filter(
+          (balance: WalletTokenExtended) => {
+            const balanceKey = balance.address.toLowerCase()
+            return !chainTokenSet.has(balanceKey)
+          }
+        )
 
-        // Combine both sets of tokens
-        const allTokens = [...filteredTokens, ...additionalTokens]
+        // Combine both sets of tokens - convert WalletTokenExtended to TokenAmount
+        const allTokens = [
+          ...filteredTokens,
+          ...additionalTokens.map((balance) => ({
+            ...balance,
+            amount: BigInt(balance.amount),
+          })),
+        ]
 
         if (allTokens.length) {
           result[address][chainId] = allTokens
