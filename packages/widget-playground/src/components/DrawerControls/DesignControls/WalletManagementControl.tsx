@@ -15,7 +15,7 @@ export const WalletManagementControl = () => {
     isExternalWalletManagement,
     isPartialWalletManagement,
     replacementWalletConfig,
-    isForceInternalWalletMangement,
+    isForceInternalWalletManagement,
   } = useConfigWalletManagement()
   const { setWalletConfig } = useConfigActions()
 
@@ -78,7 +78,7 @@ export const WalletManagementControl = () => {
             <CardValue>Force Internal Wallet Management</CardValue>
           </CardTitleContainer>
           <Switch
-            checked={isForceInternalWalletMangement}
+            checked={isForceInternalWalletManagement}
             onChange={handleForceInternalWalletManagement}
             aria-label="Force internal wallet management"
           />

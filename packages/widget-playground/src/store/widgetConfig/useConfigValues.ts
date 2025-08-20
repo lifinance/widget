@@ -120,7 +120,7 @@ export const useConfigWalletManagement = () => {
     replacementWalletConfig,
     isExternalWalletManagement: !!walletConfig,
     isPartialWalletManagement: !!walletConfig?.usePartialWalletManagement,
-    isForceInternalWalletMangement:
+    isForceInternalWalletManagement:
       !!walletConfig?.forceInternalWalletManagement,
   }
 }
