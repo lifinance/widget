@@ -221,7 +221,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
             onError={(error) => handleError(id, error)}
           />
         )
-      case 'TRN' as ChainType:
+      case 'TRN' as unknown as ChainType:
         return (
           <TronListItemButton
             key={key}

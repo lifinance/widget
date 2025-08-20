@@ -125,7 +125,7 @@ const combineWalletLists = (
     }
     existing.connectors.push({
       connector: tron.adapter,
-      chainType: 'TRN' as ChainType,
+      chainType: 'TRN' as unknown as ChainType,
     })
     walletMap.set(normalizedName, existing)
   })

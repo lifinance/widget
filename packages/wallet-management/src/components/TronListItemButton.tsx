@@ -45,7 +45,7 @@ export const TronListItemButton = ({
           emitter.emit(WalletManagementEvent.WalletConnected, {
             address,
             chainId: 728126428,
-            chainType: 'TRN' as ChainType,
+            chainType: 'TRN' as unknown as ChainType,
             connectorId: connector.name,
             connectorName: connector.name,
           })
@@ -62,7 +62,7 @@ export const TronListItemButton = ({
       key={connectorDisplayName}
       icon={
         ecosystemSelection
-          ? getChainTypeIcon('TRN' as ChainType)
+          ? getChainTypeIcon('TRN' as unknown as ChainType)
           : (connector.icon ?? '')
       }
       onClick={connectWallet}

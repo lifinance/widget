@@ -1,18 +1,18 @@
-// import type { ChainType } from '@lifi/sdk'
-// import { WalletContext } from '@tronweb3/tronwallet-adapter-react-hooks'
-import type { FC, PropsWithChildren } from 'react'
-// import { isItemAllowed } from '../../utils/item.js'
-//import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
+import type { ChainType } from '@lifi/sdk'
+import { WalletContext } from '@tronweb3/tronwallet-adapter-react-hooks'
+import { type FC, type PropsWithChildren, useContext } from 'react'
+import { isItemAllowed } from '../../utils/item.js'
+import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 import { TRNBaseProvider } from './TRNBaseProvider.js'
 import { TRNExternalContext } from './TRNExternalContext.js'
 
 export function useInTRNContext(): boolean {
-  //   const { chains } = useWidgetConfig()
-  //   const context = useContext(WalletContext)
-  return false
-  //   return (
-  //     Boolean(context?.wallet) && isItemAllowed('TRN' as ChainType, chains?.types)
-  //   )
+  const { chains } = useWidgetConfig()
+  const context = useContext(WalletContext)
+  return (
+    'disableAutoConnectOnLoad' in context &&
+    isItemAllowed('TRN' as unknown as ChainType, chains?.types)
+  )
 }
 
 export const TRNProvider: FC<PropsWithChildren> = ({ children }) => {

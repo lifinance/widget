@@ -30,7 +30,7 @@
     "unlink:bigmi": "pnpm -r --parallel unlink:bigmi",
     "link:sdk": "pnpm -r --parallel link:sdk",
     "unlink:sdk": "pnpm -r --parallel unlink:sdk",
-    "pre-commit": "pnpm check:circular-deps",
+    "pre-commit": "pnpm check && pnpm check:types && pnpm check:circular-deps",
     "prepare": "husky",
     "postinstall": "husky"
   },
