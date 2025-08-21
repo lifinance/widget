@@ -85,7 +85,12 @@ export const processTokenBalances = (
       : allTokensWithBalances?.filter(
           (token) => token.chainId === selectedChainId
         )) ?? []
-  const sortedTokensWithBalances = [...tokensWithBalances].sort(sortByBalances)
+  const tokensWithBalancesWithAmount = tokensWithBalances.filter(
+    (token) => token.amount
+  )
+  const sortedTokensWithBalances = [...tokensWithBalancesWithAmount].sort(
+    sortByBalances
+  )
 
   const tokensWithBalancesSet = new Set(
     sortedTokensWithBalances.map(

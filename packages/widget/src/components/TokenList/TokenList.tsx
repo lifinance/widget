@@ -37,15 +37,9 @@ export const TokenList: FC<TokenListProps> = memo(
       isBalanceLoading,
     } = useTokenBalances(selectedChainId, formType, isAllNetworks)
 
-    const normalizedSearchFilter = useMemo(
-      () => tokenSearchFilter?.replaceAll('$', ''),
-      [tokenSearchFilter]
-    )
+    const normalizedSearchFilter = tokenSearchFilter?.replaceAll('$', '')
 
-    const searchFilter = useMemo(
-      () => normalizedSearchFilter?.toUpperCase() ?? '',
-      [normalizedSearchFilter]
-    )
+    const searchFilter = normalizedSearchFilter?.toUpperCase() ?? ''
 
     const filteredTokens = useMemo(() => {
       if (!tokenSearchFilter) {
@@ -65,19 +59,11 @@ export const TokenList: FC<TokenListProps> = memo(
         .sort(filteredTokensComparator(searchFilter))
     }, [sortedTokens, tokenSearchFilter, searchFilter])
 
-    const tokenSearchEnabled = useMemo(
-      () =>
-        !isTokensLoading &&
-        !filteredTokens.length &&
-        !!tokenSearchFilter &&
-        !!selectedChainId,
-      [
-        isTokensLoading,
-        filteredTokens.length,
-        tokenSearchFilter,
-        selectedChainId,
-      ]
-    )
+    const tokenSearchEnabled =
+      !isTokensLoading &&
+      !filteredTokens.length &&
+      !!tokenSearchFilter &&
+      !!selectedChainId
 
     const { token: searchedToken, isLoading: isSearchedTokenLoading } =
       useTokenSearch(
@@ -87,10 +73,8 @@ export const TokenList: FC<TokenListProps> = memo(
         formType
       )
 
-    const isLoading = useMemo(
-      () => isTokensLoading || (tokenSearchEnabled && isSearchedTokenLoading),
-      [isTokensLoading, tokenSearchEnabled, isSearchedTokenLoading]
-    )
+    const isLoading =
+      isTokensLoading || (tokenSearchEnabled && isSearchedTokenLoading)
 
     const tokens = useMemo(() => {
       if (filteredTokens.length) {
@@ -104,10 +88,8 @@ export const TokenList: FC<TokenListProps> = memo(
 
     const handleTokenClick = useTokenSelect(formType, onClick)
 
-    const showCategories = useMemo(
-      () => withCategories && !tokenSearchFilter && !isAllNetworks,
-      [withCategories, tokenSearchFilter, isAllNetworks]
-    )
+    const showCategories =
+      withCategories && !tokenSearchFilter && !isAllNetworks
 
     useEffect(() => {
       if (normalizedSearchFilter) {

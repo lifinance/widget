@@ -109,6 +109,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   const { getVirtualItems, getTotalSize, scrollToIndex, measure } =
     useVirtualizer(virtualizerConfig)
 
+  // Address the issue of disappearing tokens on rerender
   useEffect(() => {
     if (scrollElementRef.current) {
       measure()
@@ -201,7 +202,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
               chain={isAllNetworks ? chain : undefined}
               selected={isSelected}
               onShowTokenDetails={onShowTokenDetails}
-              isBalanceLoading={currentToken.amount ? false : isBalanceLoading}
+              isBalanceLoading={isBalanceLoading}
               startAdornment={
                 startAdornmentLabel ? (
                   <Typography

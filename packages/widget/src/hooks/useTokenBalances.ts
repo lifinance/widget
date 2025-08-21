@@ -29,8 +29,7 @@ export const useTokenBalances = (
 
   const { tokens: configTokens } = useWidgetConfig()
 
-  const isBalanceLoading =
-    (isBalanceLoadingEnabled || isAccountsLoading) && isBalanceQueriesLoading
+  const isBalanceLoading = isAccountsLoading || isBalanceQueriesLoading
 
   const { processedTokens, withCategories } = useMemo(() => {
     return processTokenBalances(
