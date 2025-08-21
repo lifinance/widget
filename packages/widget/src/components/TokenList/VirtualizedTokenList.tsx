@@ -201,7 +201,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
               chain={isAllNetworks ? chain : undefined}
               selected={isSelected}
               onShowTokenDetails={onShowTokenDetails}
-              isBalanceLoading={isBalanceLoading}
+              isBalanceLoading={currentToken.amount ? false : isBalanceLoading}
               startAdornment={
                 startAdornmentLabel ? (
                   <Typography
