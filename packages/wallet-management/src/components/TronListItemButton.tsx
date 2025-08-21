@@ -38,14 +38,15 @@ export const TronListItemButton = ({
         await disconnect()
       }
       select(connector.name)
+      // NB: select() and connect() cannot run in the same batched update
       setTimeout(async () => {
         await connect()
         connector.once('connect', (address: string) => {
           setLastConnectedAccount(connector)
           emitter.emit(WalletManagementEvent.WalletConnected, {
             address,
-            chainId: 728126428,
-            chainType: 'TRN' as unknown as ChainType,
+            chainId: 728126428, // TODO: replace with chainId when ready
+            chainType: 'TVM' as unknown as ChainType, // TODO: replace with chainType when ready
             connectorId: connector.name,
             connectorName: connector.name,
           })
@@ -62,7 +63,7 @@ export const TronListItemButton = ({
       key={connectorDisplayName}
       icon={
         ecosystemSelection
-          ? getChainTypeIcon('TRN' as unknown as ChainType)
+          ? getChainTypeIcon('TVM' as unknown as ChainType)
           : (connector.icon ?? '')
       }
       onClick={connectWallet}

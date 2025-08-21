@@ -7,7 +7,7 @@ import { EVMProvider } from './EVMProvider.js'
 import { SDKProviders } from './SDKProviders.js'
 import { SuiProvider } from './SuiProvider.js'
 import { SVMProvider } from './SVMProvider.js'
-import { TRNProvider } from './TRNProvider.js'
+import { TVMProvider } from './TVMProvider.js'
 import { UTXOProvider } from './UTXOProvider.js'
 import { useExternalWalletProvider } from './useExternalWalletProvider.js'
 
@@ -17,10 +17,10 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       <SVMProvider>
         <UTXOProvider>
           <SuiProvider>
-            <TRNProvider>
+            <TVMProvider>
               <SDKProviders />
               <WalletMenuProvider>{children}</WalletMenuProvider>
-            </TRNProvider>
+            </TVMProvider>
           </SuiProvider>
         </UTXOProvider>
       </SVMProvider>

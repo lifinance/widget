@@ -48,7 +48,7 @@ export const SDKProviders = () => {
       (provider) => provider.type === ChainType.MVM
     )
     // const hasConfiguredTRNProvider = sdkConfig?.providers?.some(
-    //   (provider) => provider.type === ('TRN' as ChainType)
+    //   (provider) => provider.type === ('TVM' as ChainType) // TODO: update this type
     // )
     if (!hasConfiguredEVMProvider) {
       providers.push(

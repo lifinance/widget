@@ -48,7 +48,7 @@ export const useAccountDisconnect = () => {
       case ChainType.MVM:
         await disconnectWallet()
         break
-      case 'TRN' as unknown as ChainType:
+      case 'TVM' as unknown as ChainType: // TODO: update this type
         await tronDisconnect()
         break
     }

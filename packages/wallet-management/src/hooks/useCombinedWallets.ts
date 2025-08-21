@@ -125,7 +125,7 @@ const combineWalletLists = (
     }
     existing.connectors.push({
       connector: tron.adapter,
-      chainType: 'TRN' as unknown as ChainType,
+      chainType: 'TVM' as unknown as ChainType, // TODO: update this type
     })
     walletMap.set(normalizedName, existing)
   })
@@ -282,7 +282,7 @@ export const useCombinedWallets = () => {
         ? suiWallets
         : []
 
-      // const installedTronWallets = includeEcosystem('TRN' as ChainType)
+      // const installedTronWallets = includeEcosystem('TVM' as ChainType) // TODO: update this type
       //   ? tronWallets.filter((wallet) => {
       //       return wallet.state !== AdapterState.NotFound
       //     })
