@@ -85,7 +85,8 @@ export const StepTimer: React.FC<{
 
     const shouldPause =
       isExecutionStarted &&
-      executionProcess.status === 'ACTION_REQUIRED' &&
+      (executionProcess.status === 'ACTION_REQUIRED' ||
+        executionProcess.status === 'MESSAGE_REQUIRED') &&
       isRunning
 
     const shouldStop =

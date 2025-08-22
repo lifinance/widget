@@ -15,6 +15,7 @@ const getStatusColor = (
 ) => {
   switch (status) {
     case 'ACTION_REQUIRED':
+    case 'MESSAGE_REQUIRED':
       return `rgba(${theme.vars.palette.info.mainChannel} / 0.12)`
     case 'DONE':
       if (substatus === 'PARTIAL' || substatus === 'REFUNDED') {
@@ -33,9 +34,12 @@ export const CircularIcon = styled(Box, {
 })<{ status?: ProcessStatus; substatus?: Substatus }>(
   ({ theme, status, substatus }) => {
     const statusColor = getStatusColor(theme, status, substatus)
-    const isSpecialStatus = ['ACTION_REQUIRED', 'DONE', 'FAILED'].includes(
-      status!
-    )
+    const isSpecialStatus = [
+      'ACTION_REQUIRED',
+      'MESSAGE_REQUIRED',
+      'DONE',
+      'FAILED',
+    ].includes(status!)
 
     return {
       backgroundColor: isSpecialStatus

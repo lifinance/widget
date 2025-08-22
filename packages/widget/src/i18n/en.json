@@ -240,6 +240,7 @@
     "process": {
       "bridge": {
         "actionRequired": "Sign bridge transaction",
+        "messageRequired": "Sign bridge message",
         "done": "Bridge transaction confirmed",
         "pending": "Bridge transaction pending",
         "started": "Preparing bridge transaction"
@@ -258,13 +259,10 @@
       },
       "swap": {
         "actionRequired": "Sign swap transaction",
+        "messageRequired": "Sign swap message",
         "done": "Swap completed",
         "pending": "Swap transaction pending",
         "started": "Preparing swap transaction"
-      },
-      "switchChain": {
-        "actionRequired": "Confirm chain switch",
-        "done": "Chain switched"
       },
       "permit": {
         "actionRequired": "Sign permit message",
