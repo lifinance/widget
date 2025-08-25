@@ -117,8 +117,10 @@ export const useConfigWalletManagement = () => {
     : { onConnect: () => {} }
 
   return {
+    replacementWalletConfig,
     isExternalWalletManagement: !!walletConfig,
     isPartialWalletManagement: !!walletConfig?.usePartialWalletManagement,
-    replacementWalletConfig,
+    isForceInternalWalletManagement:
+      !!walletConfig?.forceInternalWalletManagement,
   }
 }
