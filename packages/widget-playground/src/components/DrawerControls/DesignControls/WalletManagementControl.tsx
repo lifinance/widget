@@ -75,7 +75,7 @@ export const WalletManagementControl = () => {
         </CardRowContainer>
         <CardRowContainer>
           <CardTitleContainer>
-            <CardValue>Force Internal Wallet Management</CardValue>
+            <CardValue>Force internal wallet management</CardValue>
           </CardTitleContainer>
           <Switch
             checked={isForceInternalWalletManagement}
