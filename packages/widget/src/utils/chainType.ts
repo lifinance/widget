@@ -1,6 +1,6 @@
 import { isUTXOAddress } from '@bigmi/core'
 import { ChainId, ChainType, isSVMAddress } from '@lifi/sdk'
-import { isValidSuiAddress } from '@mysten/sui/utils'
+import { isValidSuiAddress } from '@mysten/sui/utils' // TODO: move to @lifi/sdk
 import { isAddress as isEVMAddress } from 'viem'
 
 const chainTypeAddressValidation = {
