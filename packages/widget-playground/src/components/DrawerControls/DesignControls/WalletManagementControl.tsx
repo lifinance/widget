@@ -15,6 +15,7 @@ export const WalletManagementControl = () => {
     isExternalWalletManagement,
     isPartialWalletManagement,
     replacementWalletConfig,
+    isForceInternalWalletManagement,
   } = useConfigWalletManagement()
   const { setWalletConfig } = useConfigActions()
 
@@ -33,6 +34,17 @@ export const WalletManagementControl = () => {
   ) => {
     const walletConfig = checked
       ? { ...replacementWalletConfig, usePartialWalletManagement: true }
+      : replacementWalletConfig
+
+    setWalletConfig(walletConfig)
+  }
+
+  const handleForceInternalWalletManagement = (
+    _: React.ChangeEvent<HTMLInputElement>,
+    checked: boolean
+  ) => {
+    const walletConfig = checked
+      ? { ...replacementWalletConfig, forceInternalWalletManagement: true }
       : replacementWalletConfig
 
     setWalletConfig(walletConfig)
@@ -59,6 +71,16 @@ export const WalletManagementControl = () => {
             checked={isPartialWalletManagement}
             onChange={handlePartialWalletManagement}
             aria-label="Use partial wallet management"
+          />
+        </CardRowContainer>
+        <CardRowContainer>
+          <CardTitleContainer>
+            <CardValue>Force internal wallet management</CardValue>
+          </CardTitleContainer>
+          <Switch
+            checked={isForceInternalWalletManagement}
+            onChange={handleForceInternalWalletManagement}
+            aria-label="Force internal wallet management"
           />
         </CardRowContainer>
       </Collapse>
