@@ -117,6 +117,7 @@ export enum HiddenUI {
   AddressBookConnectedWallets = 'addressBookConnectedWallets',
   LowAddressActivityConfirmation = 'lowAddressActivityConfirmation',
   GasRefuelMessage = 'gasRefuelMessage',
+  SearchTokenInput = 'searchTokenInput',
 }
 export type HiddenUIType = `${HiddenUI}`
 
