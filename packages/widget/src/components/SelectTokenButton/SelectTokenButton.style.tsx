@@ -24,6 +24,10 @@ export const SelectTokenCardHeader = styled(CardHeader, {
       [theme.breakpoints.down(theme.breakpoints.values.sm)]: {
         width: 224,
       },
+      [theme.breakpoints.down(theme.breakpoints.values.xs)]: {
+        width: 180,
+        fontSize: 16,
+      },
     },
     [`.${cardHeaderClasses.subheader}`]: {
       textOverflow: 'ellipsis',
@@ -32,6 +36,9 @@ export const SelectTokenCardHeader = styled(CardHeader, {
       width: 256,
       [theme.breakpoints.down(theme.breakpoints.values.sm)]: {
         width: 224,
+      },
+      [theme.breakpoints.down(theme.breakpoints.values.xs)]: {
+        width: 180,
       },
     },
     variants: [

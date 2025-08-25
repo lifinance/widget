@@ -19,6 +19,9 @@ export const Input = styled(InputBase, {
   paddingLeft: theme.spacing(1.25),
   fontSize: size === 'small' ? '0.875rem' : '1rem',
   borderRadius: theme.vars.shape.borderRadius,
+  [theme.breakpoints.down(theme.breakpoints.values.xs)]: {
+    paddingRight: theme.spacing(1.25),
+  },
   [`& .${inputBaseClasses.input}`]: {
     padding: theme.spacing(1),
   },

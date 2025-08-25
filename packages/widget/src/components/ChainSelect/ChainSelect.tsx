@@ -1,6 +1,6 @@
 import type { EVMChain } from '@lifi/sdk'
-import { Avatar, Box, Skeleton, Tooltip, Typography } from '@mui/material'
-import { useEffect } from 'react'
+import { Skeleton, Tooltip } from '@mui/material'
+import { memo, useCallback, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   maxChainsToOrder,
@@ -10,10 +10,16 @@ import type { FormTypeProps } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { ChainCard, ChainContainer } from './ChainSelect.style.js'
+import {
+  ChainAvatar,
+  ChainCard,
+  ChainContainer,
+  MoreChainsBox,
+  MoreChainsText,
+} from './ChainSelect.style.js'
 import { useChainSelect } from './useChainSelect.js'
 
-export const ChainSelect = ({ formType }: FormTypeProps) => {
+export const ChainSelect = memo(({ formType }: FormTypeProps) => {
   const navigate = useNavigate()
   const {
     chainOrder,
@@ -36,22 +42,26 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
     }
   }, [chainId, chainOrder, formType, setChainOrder])
 
-  const showAllChains = () => {
+  const showAllChains = useCallback(() => {
     navigate(navigationRoutes[`${formType}Chain`])
-  }
+  }, [navigate, formType])
 
-  // We check if we can accommodate all the chains on the grid
-  // If there are more than 10 chains we show the number of hidden chains as the last one tile
-  const chainsToHide =
-    chains?.length === maxChainsToShow
-      ? 0
-      : (chains?.length ?? 0) - maxChainsToOrder
+  const { chainsToHide, chainsToShow, tilesCount } = useMemo(() => {
+    // We check if we can accommodate all the chains on the grid
+    // If there are more than 10 chains we show the number of hidden chains as the last one tile
+    const chainsToHide =
+      chains?.length === maxChainsToShow
+        ? 0
+        : (chains?.length ?? 0) - maxChainsToOrder
 
-  // When there is less than 10 chains we don't care about the order
-  const chainsToShow = chainsToHide > 0 ? getChains() : chains
+    // When there is less than 10 chains we don't care about the order
+    const chainsToShow = chainsToHide > 0 ? getChains() : chains
 
-  // Number of tiles to show in the grid
-  const tilesCount = (chainsToShow?.length ?? 0) + (chainsToHide > 0 ? 1 : 0)
+    // Number of tiles to show in the grid
+    const tilesCount = (chainsToShow?.length ?? 0) + (chainsToHide > 0 ? 1 : 0)
+
+    return { chainsToHide, chainsToShow, tilesCount }
+  }, [chains, getChains])
 
   return (
     <ChainContainer itemCount={tilesCount}>
@@ -73,36 +83,19 @@ export const ChainSelect = ({ formType }: FormTypeProps) => {
                 type={chainId === chain.id ? 'selected' : 'default'}
                 selectionColor="secondary"
               >
-                <Avatar
-                  src={chain.logoURI}
-                  alt={chain.key}
-                  sx={{ width: 40, height: 40 }}
-                >
+                <ChainAvatar src={chain.logoURI} alt={chain.key}>
                   {chain.name[0]}
-                </Avatar>
+                </ChainAvatar>
               </ChainCard>
             </Tooltip>
           ))}
       {chainsToHide > 0 ? (
         <ChainCard component="button" onClick={showAllChains}>
-          <Box
-            sx={{
-              width: 40,
-              height: 40,
-              display: 'grid',
-              placeItems: 'center',
-            }}
-          >
-            <Typography
-              sx={{
-                fontWeight: 500,
-              }}
-            >
-              +{chainsToHide}
-            </Typography>
-          </Box>
+          <MoreChainsBox>
+            <MoreChainsText>+{chainsToHide}</MoreChainsText>
+          </MoreChainsBox>
         </ChainCard>
       ) : null}
     </ChainContainer>
   )
-}
+})
