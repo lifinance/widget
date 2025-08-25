@@ -1,3 +1,4 @@
+import type { ChainType } from '@lifi/sdk'
 import type { Account } from '@lifi/wallet-management'
 import { useAccount } from '@lifi/wallet-management'
 import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
@@ -50,7 +51,7 @@ export const ConnectedWalletsPage = () => {
     setSelectedBookmark({
       name: account.connector?.name,
       address: account.address!,
-      chainType: account.chainType!,
+      chainType: account.chainType as ChainType,
       isConnectedAccount: true,
     })
     setSendToWallet(true)

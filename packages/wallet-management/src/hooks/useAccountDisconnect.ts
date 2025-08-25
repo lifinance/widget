@@ -7,6 +7,7 @@ import { useConfig as useBigmiConfig } from '@bigmi/react'
 import { ChainType } from '@lifi/sdk'
 import { useDisconnectWallet } from '@mysten/dapp-kit'
 import { useWallet } from '@solana/wallet-adapter-react'
+import { useWallet as useTronWallet } from '@tronweb3/tronwallet-adapter-react-hooks'
 import type { Config } from 'wagmi'
 import { useConfig as useWagmiConfig } from 'wagmi'
 import { disconnect, getAccount } from 'wagmi/actions'
@@ -17,6 +18,7 @@ export const useAccountDisconnect = () => {
   const wagmiConfig = useWagmiConfig()
   const { disconnect: solanaDisconnect } = useWallet()
   const { mutateAsync: disconnectWallet } = useDisconnectWallet()
+  const { disconnect: tronDisconnect } = useTronWallet()
 
   const handleDisconnectEVM = async (config: Config) => {
     const connectedAccount = getAccount(config)
@@ -45,6 +47,9 @@ export const useAccountDisconnect = () => {
         break
       case ChainType.MVM:
         await disconnectWallet()
+        break
+      case 'TVM' as unknown as ChainType: // TODO: update this type
+        await tronDisconnect()
         break
     }
   }

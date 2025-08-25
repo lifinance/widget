@@ -1,4 +1,4 @@
-import type { RouteExtended } from '@lifi/sdk'
+import type { ChainType, RouteExtended } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useChain } from '../hooks/useChain.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
@@ -36,7 +36,11 @@ export const useToAddressRequirements = (route?: RouteExtended) => {
     contractCode: fromContractCode,
     isLoading: isFromContractLoading,
     isFetched: isFromContractFetched,
-  } = useIsContractAddress(account.address, fromChainId, account.chainType)
+  } = useIsContractAddress(
+    account.address,
+    fromChainId,
+    account.chainType as ChainType
+  )
   const {
     isContractAddress: isToContractAddress,
     isLoading: isToContractLoading,

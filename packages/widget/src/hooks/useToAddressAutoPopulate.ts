@@ -1,3 +1,4 @@
+import type { ChainType } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useCallback } from 'react'
 import { useBookmarkActions } from '../stores/bookmarks/useBookmarkActions.js'
@@ -77,7 +78,7 @@ export const useToAddressAutoPopulate = () => {
         setSelectedBookmark({
           name: destinationAccount.connector?.name,
           address: destinationAccount.address,
-          chainType: destinationAccount.chainType,
+          chainType: destinationAccount.chainType as ChainType,
           isConnectedAccount: true,
         })
         setSendToWallet(true)

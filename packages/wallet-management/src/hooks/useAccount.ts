@@ -5,6 +5,8 @@ import { useCurrentWallet } from '@mysten/dapp-kit'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import type { WalletAdapter } from '@solana/wallet-adapter-base'
 import { useWallet } from '@solana/wallet-adapter-react'
+import type { Adapter as TronWalletAdapter } from '@tronweb3/tronwallet-abstract-adapter'
+import { useWallet as useTronWallet } from '@tronweb3/tronwallet-adapter-react-hooks'
 import { useMemo } from 'react'
 import type { Connector } from 'wagmi'
 import { useAccount as useAccountInternal } from 'wagmi'
@@ -12,7 +14,7 @@ import { create } from 'zustand'
 import type { CreateConnectorFnExtended } from '../connectors/types.js'
 
 export interface AccountBase<
-  CT extends ChainType,
+  CT extends ChainType | 'TVM', // TODO: update this type
   WalletConnector = undefined,
 > {
   address?: string
@@ -31,6 +33,7 @@ export type EVMAccount = AccountBase<ChainType.EVM, Connector>
 export type SVMAccount = AccountBase<ChainType.SVM, WalletAdapter>
 export type UTXOAccount = AccountBase<ChainType.UTXO, BigmiConnector>
 export type MVMAccount = AccountBase<ChainType.MVM, WalletWithRequiredFeatures>
+export type TVMAccount = AccountBase<'TVM', TronWalletAdapter>
 export type DefaultAccount = AccountBase<ChainType>
 
 export type Account =
@@ -38,6 +41,7 @@ export type Account =
   | SVMAccount
   | UTXOAccount
   | MVMAccount
+  | TVMAccount
   | DefaultAccount
 
 export interface AccountResult {
@@ -67,6 +71,7 @@ export type LastConnectedAccount =
   | BigmiConnector
   | CreateConnectorFnExtended
   | WalletWithRequiredFeatures
+  | TronWalletAdapter
   | null
 
 interface LastConnectedAccountStore {
@@ -91,6 +96,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
   const wagmiAccount = useAccountInternal()
   const { wallet } = useWallet()
   const { currentWallet, connectionStatus } = useCurrentWallet()
+  const { wallet: tronWallet } = useTronWallet()
   const { lastConnectedAccount } = useLastConnectedAccount()
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when wallet changes
@@ -143,7 +149,27 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
       address: bigmiAccount.account?.address,
       addresses: bigmiAccount.accounts?.map((account) => account.address),
     }
-    const accounts = [evm, svm, utxo, sui]
+    const tron: TVMAccount = tronWallet?.adapter?.connected
+      ? {
+          address: tronWallet.adapter.address || undefined,
+          chainId: 728126428,
+          chainType: 'TVM',
+          connector: tronWallet.adapter,
+          isConnected: Boolean(tronWallet.adapter.address),
+          isConnecting: false,
+          isReconnecting: false,
+          isDisconnected: !tronWallet?.adapter,
+          status: 'connected',
+        }
+      : {
+          chainType: 'TVM',
+          isConnected: false,
+          isConnecting: false,
+          isReconnecting: false,
+          isDisconnected: true,
+          status: 'disconnected',
+        }
+    const accounts = [evm, svm, utxo, sui, tron]
     const connectedAccounts = accounts.filter(
       (account) => account.isConnected && account.address
     )
@@ -190,6 +216,8 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
     bigmiAccount.status,
     bigmiAccount.account?.address,
     bigmiAccount.chainId,
+    tronWallet?.adapter?.connected,
+    tronWallet?.adapter?.address,
     args?.chainType,
     lastConnectedAccount,
     currentWallet?.accounts?.length,

@@ -40,7 +40,7 @@ export const useGasSufficiency = (route?: RouteExtended) => {
       (account) =>
         account.isConnected &&
         account.address &&
-        chainTypes?.has(account.chainType)
+        chainTypes?.has(account.chainType as ChainType)
     )
     return {
       relevantAccounts,
@@ -54,7 +54,7 @@ export const useGasSufficiency = (route?: RouteExtended) => {
     useIsContractAddress(
       EVMAccount.address,
       route?.fromChainId,
-      EVMAccount.chainType
+      EVMAccount.chainType as ChainType
     )
 
   const { data: insufficientGas, isLoading } = useQuery<GasSufficiency[]>({

@@ -3,11 +3,16 @@ import { useConnect as useBigmiConnect } from '@bigmi/react'
 import { ChainType } from '@lifi/sdk'
 import type { Theme } from '@mui/material'
 import { useMediaQuery } from '@mui/material'
-import { useWallets } from '@mysten/dapp-kit'
+import { useWallets as useSuiWallets } from '@mysten/dapp-kit'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import { WalletReadyState } from '@solana/wallet-adapter-base'
-import type { Wallet } from '@solana/wallet-adapter-react'
-import { useWallet } from '@solana/wallet-adapter-react'
+import type { Wallet as SolanaWallet } from '@solana/wallet-adapter-react'
+import { useWallet as useSolanaWallets } from '@solana/wallet-adapter-react'
+import { AdapterState } from '@tronweb3/tronwallet-abstract-adapter'
+import {
+  type Wallet as TronWallet,
+  useWallet as useTronWallets,
+} from '@tronweb3/tronwallet-adapter-react-hooks'
 import { useEffect, useState } from 'react'
 import type { Connector } from 'wagmi'
 import { useConnect } from 'wagmi'
@@ -48,8 +53,9 @@ const normalizeName = (name: string) => name.split(' ')[0].toLowerCase().trim()
 const combineWalletLists = (
   utxoConnectorList: BigmiConnector[],
   evmConnectorList: (CreateConnectorFnExtended | Connector)[],
-  svmWalletList: Wallet[],
+  svmWalletList: SolanaWallet[],
   suiWalletList: WalletWithRequiredFeatures[],
+  tronWalletList: TronWallet[],
   walletEcosystemsOrder?: Record<string, ChainType[]>
 ): CombinedWallet[] => {
   const walletMap = new Map<string, CombinedWallet>()
@@ -109,6 +115,21 @@ const combineWalletLists = (
     walletMap.set(normalizedName, existing)
   })
 
+  tronWalletList.forEach((tron) => {
+    const normalizedName = normalizeName(tron.adapter.name)
+    const existing = walletMap.get(normalizedName) || {
+      id: tron.adapter.name,
+      name: tron.adapter.name,
+      icon: tron.adapter.icon,
+      connectors: [] as CombinedWalletConnector[],
+    }
+    existing.connectors.push({
+      connector: tron.adapter,
+      chainType: 'TVM' as unknown as ChainType, // TODO: update this type
+    })
+    walletMap.set(normalizedName, existing)
+  })
+
   let combinedWallets = Array.from(walletMap.values())
   if (walletEcosystemsOrder) {
     combinedWallets = combinedWallets.map((wallet) => {
@@ -133,8 +154,9 @@ export const useCombinedWallets = () => {
   const walletConfig = useWalletManagementConfig()
   const { connectors: wagmiConnectors } = useConnect()
   const { connectors: bigmiConnectors } = useBigmiConnect()
-  const { wallets: solanaWallets } = useWallet()
-  const suiWallets = useWallets()
+  const { wallets: solanaWallets } = useSolanaWallets()
+  const suiWallets = useSuiWallets()
+  const { wallets: tronWallets } = useTronWallets()
   const [combinedWallets, setCombinedWallets] = useState<CombinedWallets>(
     () => {
       return {
@@ -231,7 +253,7 @@ export const useCombinedWallets = () => {
 
       const includeEcosystem = (chainType: ChainType) =>
         !walletConfig.enabledChainTypes ||
-        walletConfig.enabledChainTypes.includes(chainType)
+        walletConfig.enabledChainTypes.includes(chainType as ChainType)
 
       const installedUTXOConnectors = includeEcosystem(ChainType.UTXO)
         ? bigmiConnectors.filter((connector) => {
@@ -260,11 +282,22 @@ export const useCombinedWallets = () => {
         ? suiWallets
         : []
 
+      // const installedTronWallets = includeEcosystem('TVM' as ChainType) // TODO: update this type
+      //   ? tronWallets.filter((wallet) => {
+      //       return wallet.state !== AdapterState.NotFound
+      //     })
+      //   : []
+
+      const installedTronWallets = tronWallets.filter((wallet) => {
+        return wallet.state !== AdapterState.NotFound
+      })
+
       const installedCombinedWallets = combineWalletLists(
         installedUTXOConnectors,
         installedEVMConnectors,
         installedSVMWallets,
         installedSuiWallets,
+        installedTronWallets,
         walletConfig.walletEcosystemsOrder
       )
 
@@ -285,11 +318,16 @@ export const useCombinedWallets = () => {
         return !isInstalled && isDesktopView
       })
 
+      const notDetectedTRNWallets = tronWallets.filter((wallet) => {
+        return wallet.state === AdapterState.NotFound && isDesktopView
+      })
+
       const notDetectedCombinedWallets = combineWalletLists(
         notDetectedUTXOConnectors,
         notDetectedEVMConnectors,
         notDetectedSVMWallets,
-        []
+        [],
+        notDetectedTRNWallets
       )
 
       installedCombinedWallets.sort(walletComparator)
@@ -305,6 +343,7 @@ export const useCombinedWallets = () => {
     isDesktopView,
     solanaWallets,
     suiWallets,
+    tronWallets,
     wagmiConnectors,
     walletConfig,
   ])
