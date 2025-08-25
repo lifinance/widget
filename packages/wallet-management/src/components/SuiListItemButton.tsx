@@ -1,5 +1,5 @@
 import { ChainId, ChainType } from '@lifi/sdk'
-import { useConnectWallet } from '@mysten/dapp-kit'
+import { useWalletStore } from '@lifi/wallet-store'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
@@ -22,7 +22,7 @@ export const SuiListItemButton = ({
   onError,
 }: SuiListItemButtonProps) => {
   const emitter = useWalletManagementEvents()
-  const { mutateAsync: connect } = useConnectWallet()
+  const { connectWallet: connect } = useWalletStore(ChainType.MVM)
   const { setLastConnectedAccount } = useLastConnectedAccount()
 
   const connectorName = wallet.name
@@ -39,7 +39,7 @@ export const SuiListItemButton = ({
       await connect(
         { wallet },
         {
-          onSuccess: (standardConnectOutput) => {
+          onSuccess: (standardConnectOutput: any) => {
             setLastConnectedAccount(wallet)
             emitter.emit(WalletManagementEvent.WalletConnected, {
               address: standardConnectOutput.accounts[0].address,

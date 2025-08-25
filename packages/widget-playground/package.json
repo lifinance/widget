@@ -32,6 +32,7 @@
     "@emotion/styled": "^11.14.1",
     "@lifi/sdk": "^3.10.1",
     "@lifi/wallet-management": "workspace:*",
+    "@lifi/wallet-provider-sui": "workspace:*",
     "@lifi/widget": "workspace:*",
     "@monaco-editor/react": "^4.7.0",
     "@mui/icons-material": "^7.3.1",

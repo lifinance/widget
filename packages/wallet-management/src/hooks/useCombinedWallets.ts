@@ -1,9 +1,9 @@
 import type { Connector as BigmiConnector } from '@bigmi/client'
 import { useConnect as useBigmiConnect } from '@bigmi/react'
 import { ChainType } from '@lifi/sdk'
+import { useWalletStore } from '@lifi/wallet-store'
 import type { Theme } from '@mui/material'
 import { useMediaQuery } from '@mui/material'
-import { useWallets } from '@mysten/dapp-kit'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import { WalletReadyState } from '@solana/wallet-adapter-base'
 import type { Wallet } from '@solana/wallet-adapter-react'
@@ -134,7 +134,7 @@ export const useCombinedWallets = () => {
   const { connectors: wagmiConnectors } = useConnect()
   const { connectors: bigmiConnectors } = useBigmiConnect()
   const { wallets: solanaWallets } = useWallet()
-  const suiWallets = useWallets()
+  const { suiWallets } = useWalletStore(ChainType.MVM)
   const [combinedWallets, setCombinedWallets] = useState<CombinedWallets>(
     () => {
       return {

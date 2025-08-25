@@ -1,7 +1,7 @@
 import type { Connector as BigmiConnector } from '@bigmi/client'
 import { useAccount as useBigmiAccount } from '@bigmi/react'
 import { ChainId, ChainType } from '@lifi/sdk'
-import { useCurrentWallet } from '@mysten/dapp-kit'
+import { useWalletStore } from '@lifi/wallet-store'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import type { WalletAdapter } from '@solana/wallet-adapter-base'
 import { useWallet } from '@solana/wallet-adapter-react'
@@ -90,7 +90,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
   const bigmiAccount = useBigmiAccount()
   const wagmiAccount = useAccountInternal()
   const { wallet } = useWallet()
-  const { currentWallet, connectionStatus } = useCurrentWallet()
+  const { currentWallet, connectionStatus } = useWalletStore(ChainType.MVM)
   const { lastConnectedAccount } = useLastConnectedAccount()
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when wallet changes
