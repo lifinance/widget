@@ -1,96 +1,60 @@
-import { getTokenBalances } from '@lifi/sdk'
-import { useAccount } from '@lifi/wallet-management'
-import { useQuery } from '@tanstack/react-query'
-import { formatUnits } from 'viem'
+import { useMemo } from 'react'
+import { processTokenBalances } from '../components/TokenList/utils.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import type { TokenAmount } from '../types/token.js'
-import { getQueryKey } from '../utils/queries.js'
+import type { FormType } from '../stores/form/types.js'
+import { useAccountsDataForBalances } from './useAccountsDataForBalances.js'
+import { useTokenBalancesQueries } from './useTokenBalancesQueries.js'
 import { useTokens } from './useTokens.js'
 
-const defaultRefetchInterval = 32_000
+export const useTokenBalances = (
+  selectedChainId?: number,
+  formType?: FormType,
+  isAllNetworks?: boolean
+) => {
+  const { tokens: allTokens, isLoading: isTokensLoading } = useTokens(formType)
 
-export const useTokenBalances = (selectedChainId?: number) => {
-  const { tokens, featuredTokens, popularTokens, chain, isLoading } =
-    useTokens(selectedChainId)
-  const { account } = useAccount({ chainType: chain?.chainType })
-  const { keyPrefix } = useWidgetConfig()
+  const { data: accountsWithTokens, isLoading: isAccountsLoading } =
+    useAccountsDataForBalances(
+      selectedChainId,
+      formType,
+      isAllNetworks,
+      allTokens
+    )
 
   const isBalanceLoadingEnabled =
-    Boolean(account.address) &&
-    Boolean(tokens?.length) &&
-    Boolean(selectedChainId)
+    Boolean(accountsWithTokens) && !isAccountsLoading
 
-  const {
-    data: tokensWithBalance,
-    isLoading: isBalanceLoading,
-    refetch,
-  } = useQuery({
-    queryKey: [
-      getQueryKey('token-balances', keyPrefix),
-      account.address,
+  const { data: allTokensWithBalances, isLoading: isBalanceQueriesLoading } =
+    useTokenBalancesQueries(accountsWithTokens, isBalanceLoadingEnabled)
+
+  const { tokens: configTokens } = useWidgetConfig()
+
+  const isBalanceLoading =
+    (isBalanceQueriesLoading || isAccountsLoading) &&
+    !allTokensWithBalances?.length
+
+  const { processedTokens, withCategories } = useMemo(() => {
+    return processTokenBalances(
+      isBalanceLoading,
+      isAllNetworks ?? false,
+      configTokens,
       selectedChainId,
-      tokens?.length,
-    ],
-    queryFn: async ({ queryKey: [, accountAddress] }) => {
-      const tokensWithBalance: TokenAmount[] = await getTokenBalances(
-        accountAddress as string,
-        tokens!
-      )
-
-      if (!tokensWithBalance?.length) {
-        return tokens as TokenAmount[]
-      }
-
-      const sortFn = (a: TokenAmount, b: TokenAmount) =>
-        Number.parseFloat(formatUnits(b.amount ?? 0n, b.decimals)) *
-          Number.parseFloat(b.priceUSD ?? '0') -
-        Number.parseFloat(formatUnits(a.amount ?? 0n, a.decimals)) *
-          Number.parseFloat(a.priceUSD ?? '0')
-
-      const featuredTokens: TokenAmount[] = []
-      const tokensWithAmount: TokenAmount[] = []
-      const popularTokens: TokenAmount[] = []
-      const allTokens: TokenAmount[] = []
-
-      tokensWithBalance.forEach((token) => {
-        if (token.amount) {
-          token.featured = false
-          token.popular = false
-        }
-        if (token.featured) {
-          featuredTokens.push(token)
-        } else if (token.amount) {
-          tokensWithAmount.push(token)
-        } else if (token.popular) {
-          popularTokens.push(token)
-        } else {
-          allTokens.push(token)
-        }
-      })
-
-      tokensWithAmount.sort(sortFn)
-
-      const result = [
-        ...featuredTokens,
-        ...tokensWithAmount,
-        ...popularTokens,
-        ...allTokens,
-      ]
-      return result
-    },
-    enabled: isBalanceLoadingEnabled,
-    refetchInterval: defaultRefetchInterval,
-    staleTime: defaultRefetchInterval,
-  })
+      allTokens,
+      allTokensWithBalances
+    )
+  }, [
+    isBalanceLoading,
+    isAllNetworks,
+    configTokens,
+    selectedChainId,
+    allTokens,
+    allTokensWithBalances,
+  ])
 
   return {
-    tokens,
-    tokensWithBalance,
-    featuredTokens,
-    popularTokens,
-    chain,
-    isLoading,
-    isBalanceLoading: isBalanceLoading && isBalanceLoadingEnabled,
-    refetch,
+    tokens: processedTokens ?? [],
+    withCategories,
+    isTokensLoading,
+    isBalanceLoading,
   }
 }

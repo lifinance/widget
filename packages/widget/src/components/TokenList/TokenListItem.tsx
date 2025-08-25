@@ -1,3 +1,4 @@
+import type { StaticToken } from '@lifi/sdk'
 import { ChainType } from '@lifi/sdk'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import {
@@ -10,11 +11,12 @@ import {
   Typography,
 } from '@mui/material'
 import type { MouseEventHandler } from 'react'
-import { memo, useRef, useState } from 'react'
+import { memo, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLongPress } from '../../hooks/useLongPress.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { shortenAddress } from '../../utils/wallet.js'
+import { TokenAvatar } from '../Avatar/TokenAvatar.js'
 import { ListItemButton } from '../ListItem/ListItemButton.js'
 import { IconButton, ListItem } from './TokenList.style.js'
 import type {
@@ -30,17 +32,12 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
     start,
     token,
     chain,
-    accountAddress,
     isBalanceLoading,
     startAdornment,
     endAdornment,
     selected,
     onShowTokenDetails,
   }) => {
-    const handleClick: MouseEventHandler<HTMLDivElement> = (e) => {
-      e.stopPropagation()
-      onClick?.(token.address, chain?.id)
-    }
     return (
       <ListItem
         style={{
@@ -52,10 +49,9 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
         {startAdornment}
         <TokenListItemButton
           token={token}
-          chain={chain}
-          accountAddress={accountAddress}
           isBalanceLoading={isBalanceLoading}
-          onClick={handleClick}
+          onClick={onClick}
+          chain={chain}
           selected={selected}
           onShowTokenDetails={onShowTokenDetails}
         />
@@ -65,33 +61,43 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
   }
 )
 
-export const TokenListItemAvatar: React.FC<TokenListItemAvatarProps> = ({
-  token,
-}) => {
-  const [isImageLoading, setIsImageLoading] = useState(true)
-  return (
-    <Avatar
-      src={token.logoURI}
-      alt={token.symbol}
-      sx={(theme) =>
-        isImageLoading ? { bgcolor: theme.vars.palette.grey[300] } : null
-      }
-      onLoad={() => setIsImageLoading(false)}
-    >
-      {token.symbol?.[0]}
-    </Avatar>
-  )
-}
+export const TokenListItemAvatar = memo(
+  ({ token }: TokenListItemAvatarProps) => {
+    const [isImageLoading, setIsImageLoading] = useState(true)
+
+    return (
+      <Avatar
+        src={token.logoURI}
+        alt={token.symbol}
+        sx={(theme) =>
+          isImageLoading ? { bgcolor: theme.vars.palette.grey[300] } : null
+        }
+        onLoad={() => setIsImageLoading(false)}
+      >
+        {token.symbol?.[0]}
+      </Avatar>
+    )
+  },
+  (prevProps, nextProps) =>
+    prevProps.token.logoURI === nextProps.token.logoURI &&
+    prevProps.token.symbol === nextProps.token.symbol
+)
 
 interface OpenTokenDetailsButtonProps {
   tokenAddress: string | undefined
   withoutContractAddress: boolean
-  onClick: (tokenAddress: string, withoutContractAddress: boolean) => void
+  chainId: number
+  onClick: (
+    tokenAddress: string,
+    withoutContractAddress: boolean,
+    chainId: number
+  ) => void
 }
 
 const OpenTokenDetailsButton = ({
   tokenAddress,
   withoutContractAddress,
+  chainId,
   onClick,
 }: OpenTokenDetailsButtonProps) => {
   if (!tokenAddress) {
@@ -103,7 +109,7 @@ const OpenTokenDetailsButton = ({
       onClick={(e) => {
         e.stopPropagation()
         e.currentTarget.blur() // Remove focus to prevent accessibility issues when opening drawer
-        onClick(tokenAddress, withoutContractAddress)
+        onClick(tokenAddress, withoutContractAddress, chainId)
       }}
     >
       <InfoOutlinedIcon />
@@ -111,92 +117,164 @@ const OpenTokenDetailsButton = ({
   )
 }
 
-export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
-  onClick,
-  token,
-  chain,
-  accountAddress,
-  isBalanceLoading,
-  selected,
-  onShowTokenDetails,
-}) => {
-  const { t } = useTranslation()
-  const container = useRef(null)
-  const timeoutId = useRef<ReturnType<typeof setTimeout>>(undefined)
-  const [showAddress, setShowAddress] = useState(false)
+export const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
+  ({
+    onClick,
+    token,
+    chain,
+    isBalanceLoading,
+    selected,
+    onShowTokenDetails,
+  }) => {
+    const { t } = useTranslation()
+    const container = useRef(null)
+    const timeoutId = useRef<ReturnType<typeof setTimeout>>(undefined)
+    const [showAddress, setShowAddress] = useState(false)
 
-  const withoutContractAddress = chain?.chainType === ChainType.UTXO
+    const withoutContractAddress = chain?.chainType === ChainType.UTXO
 
-  const onMouseEnter = () => {
-    timeoutId.current = setTimeout(() => {
-      if (token.address) {
-        setShowAddress(true)
-      }
-    }, 350)
-  }
-
-  const onMouseLeave = () => {
-    clearTimeout(timeoutId.current)
-    if (showAddress) {
-      setShowAddress(false)
+    const onMouseEnter = () => {
+      timeoutId.current = setTimeout(() => {
+        if (token.address) {
+          setShowAddress(true)
+        }
+      }, 350)
     }
-  }
 
-  const tokenAmount = formatTokenAmount(token.amount, token.decimals)
-  const tokenPrice = formatTokenPrice(
-    token.amount,
-    token.priceUSD,
-    token.decimals
-  )
+    const onMouseLeave = () => {
+      clearTimeout(timeoutId.current)
+      if (showAddress) {
+        setShowAddress(false)
+      }
+    }
 
-  const longPressEvents = useLongPress(() =>
-    onShowTokenDetails(token.address, withoutContractAddress)
-  )
+    const handleClick: MouseEventHandler<HTMLDivElement> = (e) => {
+      e.stopPropagation()
+      onClick?.(token.address, token.chainId)
+    }
 
-  return (
-    <ListItemButton
-      onClick={onClick}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      {...longPressEvents}
-      dense
-      selected={selected}
-      sx={{
-        height: 60,
-        marginBottom: '4px',
-      }}
-    >
-      <ListItemAvatar>
-        <TokenListItemAvatar token={token} />
-      </ListItemAvatar>
-      <ListItemText
-        primary={token.symbol}
-        slotProps={{
-          secondary: {
-            component: 'div',
-          },
+    const tokenAmount = useMemo(
+      () => formatTokenAmount(token.amount, token.decimals),
+      [token.amount, token.decimals]
+    )
+
+    const tokenPrice = useMemo(
+      () => formatTokenPrice(token.amount, token.priceUSD, token.decimals),
+      [token.amount, token.priceUSD, token.decimals]
+    )
+
+    const longPressEvents = useLongPress(() =>
+      onShowTokenDetails(token.address, withoutContractAddress, token.chainId)
+    )
+
+    const showBalanceLoading = useMemo(
+      () => isBalanceLoading && token.amount === undefined,
+      [isBalanceLoading, token.amount]
+    )
+
+    return (
+      <ListItemButton
+        onClick={handleClick}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        {...longPressEvents}
+        dense
+        selected={selected}
+        sx={{
+          height: 60,
+          marginBottom: '4px',
         }}
-        secondary={
-          withoutContractAddress ? (
-            <Box
-              ref={container}
-              sx={{
-                height: 20,
-                display: 'flex',
-              }}
-            >
+      >
+        <ListItemAvatar>
+          {chain ? (
+            <TokenAvatar
+              token={token as StaticToken}
+              chain={chain}
+              tokenAvatarSize={40}
+              chainAvatarSize={16}
+            />
+          ) : (
+            <TokenListItemAvatar token={token} />
+          )}
+        </ListItemAvatar>
+        <ListItemText
+          primary={token.symbol}
+          slotProps={{
+            secondary: {
+              component: 'div',
+            },
+          }}
+          secondary={
+            withoutContractAddress ? (
               <Box
+                ref={container}
                 sx={{
-                  pt: 0.25,
+                  height: 20,
+                  display: 'flex',
                 }}
               >
-                {token.name}
+                <Box
+                  sx={{
+                    pt: 0.25,
+                  }}
+                >
+                  {token.name}
+                </Box>
+                <Box
+                  sx={{
+                    position: 'relative',
+                  }}
+                >
+                  <Slide
+                    direction="up"
+                    in={showAddress}
+                    container={container.current}
+                    style={{
+                      position: 'absolute',
+                    }}
+                    appear={false}
+                    mountOnEnter
+                  >
+                    <Box
+                      sx={{
+                        display: 'flex',
+                      }}
+                    >
+                      <OpenTokenDetailsButton
+                        tokenAddress={token.address}
+                        withoutContractAddress={withoutContractAddress}
+                        chainId={token.chainId}
+                        onClick={onShowTokenDetails}
+                      />
+                    </Box>
+                  </Slide>
+                </Box>
               </Box>
+            ) : (
               <Box
+                ref={container}
                 sx={{
                   position: 'relative',
+                  height: 20,
                 }}
               >
+                <Slide
+                  direction="down"
+                  in={!showAddress}
+                  container={container.current}
+                  style={{
+                    position: 'absolute',
+                  }}
+                  appear={false}
+                >
+                  <Box
+                    sx={{
+                      pt: 0.25,
+                    }}
+                  >
+                    {token.name}
+                  </Box>
+                </Slide>
                 <Slide
                   direction="up"
                   in={showAddress}
@@ -212,77 +290,28 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
                       display: 'flex',
                     }}
                   >
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        pt: 0.125,
+                      }}
+                    >
+                      {shortenAddress(token.address)}
+                    </Box>
                     <OpenTokenDetailsButton
                       tokenAddress={token.address}
                       withoutContractAddress={withoutContractAddress}
+                      chainId={token.chainId}
                       onClick={onShowTokenDetails}
                     />
                   </Box>
                 </Slide>
               </Box>
-            </Box>
-          ) : (
-            <Box
-              ref={container}
-              sx={{
-                position: 'relative',
-                height: 20,
-              }}
-            >
-              <Slide
-                direction="down"
-                in={!showAddress}
-                container={container.current}
-                style={{
-                  position: 'absolute',
-                }}
-                appear={false}
-              >
-                <Box
-                  sx={{
-                    pt: 0.25,
-                  }}
-                >
-                  {token.name}
-                </Box>
-              </Slide>
-              <Slide
-                direction="up"
-                in={showAddress}
-                container={container.current}
-                style={{
-                  position: 'absolute',
-                }}
-                appear={false}
-                mountOnEnter
-              >
-                <Box
-                  sx={{
-                    display: 'flex',
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      pt: 0.125,
-                    }}
-                  >
-                    {shortenAddress(token.address)}
-                  </Box>
-                  <OpenTokenDetailsButton
-                    tokenAddress={token.address}
-                    withoutContractAddress={withoutContractAddress}
-                    onClick={onShowTokenDetails}
-                  />
-                </Box>
-              </Slide>
-            </Box>
-          )
-        }
-      />
-      {accountAddress ? (
-        isBalanceLoading ? (
+            )
+          }
+        />
+        {showBalanceLoading ? (
           <TokenAmountSkeleton />
         ) : (
           <Box sx={{ textAlign: 'right' }}>
@@ -314,11 +343,11 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = ({
               </Typography>
             ) : null}
           </Box>
-        )
-      ) : null}
-    </ListItemButton>
-  )
-}
+        )}
+      </ListItemButton>
+    )
+  }
+)
 
 export const TokenListItemSkeleton = () => {
   return (
