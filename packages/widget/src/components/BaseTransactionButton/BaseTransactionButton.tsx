@@ -30,7 +30,10 @@ export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
       return
     }
     const connectionOptions = missingChain ? { chain: missingChain } : undefined
-    if (walletConfig?.onConnect) {
+    if (
+      walletConfig?.onConnect &&
+      !walletConfig?.forceInternalWalletManagement
+    ) {
       walletConfig.onConnect(connectionOptions)
     } else {
       openWalletMenu(connectionOptions)
