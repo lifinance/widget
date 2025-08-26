@@ -44,13 +44,29 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
     )
   }, [wideVariant, subvariantOptions, swapOnly, formType, hiddenUI])
 
+  const hideSearchTokenInput = hiddenUI?.includes(HiddenUI.SearchTokenInput)
+
+  const hasHeader = !hideChainSelect || !hideSearchTokenInput
+
   return (
     <FullPageContainer disableGutters>
-      <Box ref={headerRef} sx={{ pb: 2, px: 3 }}>
+      <Box
+        ref={headerRef}
+        sx={{
+          pb: hasHeader ? 2 : 0,
+          px: 3,
+        }}
+      >
         {!hideChainSelect ? <ChainSelect formType={formType} /> : null}
-        <Box sx={{ mt: !hideChainSelect ? 2 : 0 }}>
-          <SearchTokenInput />
-        </Box>
+        {!hideSearchTokenInput && (
+          <Box
+            sx={{
+              mt: !hideChainSelect ? 2 : 0,
+            }}
+          >
+            <SearchTokenInput />
+          </Box>
+        )}
       </Box>
       <WrappedTokenList
         // Rerender component if variant changes (since chains tiles change height)
