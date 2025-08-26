@@ -3,7 +3,6 @@ import { type BoxProps, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { formatUnits } from 'viem'
 import type { GasSufficiency } from '../../hooks/useGasSufficiency.js'
-import { useSettings } from '../../stores/settings/useSettings.js'
 import { AlertMessage } from './AlertMessage.js'
 
 interface GasSufficiencyMessageProps extends BoxProps {
@@ -15,11 +14,6 @@ export const GasSufficiencyMessage: React.FC<GasSufficiencyMessageProps> = ({
   ...props
 }) => {
   const { t } = useTranslation()
-  const { enabledAutoRefuel } = useSettings(['enabledAutoRefuel'])
-  // Do not show the message if gas auto refuel is enabled
-  if (enabledAutoRefuel) {
-    return null
-  }
   return (
     <AlertMessage
       severity="warning"
