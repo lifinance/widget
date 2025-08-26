@@ -1,4 +1,4 @@
-import { ChainType, getTokens, type TokensResponse } from '@lifi/sdk'
+import { ChainType, getTokens, type TokensExtendedResponse } from '@lifi/sdk'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
@@ -28,7 +28,7 @@ export const useTokens = (formType?: FormType, search?: string) => {
       : [getQueryKey('tokens', keyPrefix)],
     queryFn: async ({ queryKey }) => {
       const [, searchQuery] = queryKey
-      const tokensResponse = await getTokens({
+      const tokensResponse: TokensExtendedResponse = await getTokens({
         chainTypes,
         orderBy: 'volumeUSD24H',
         extended: true,
@@ -38,7 +38,7 @@ export const useTokens = (formType?: FormType, search?: string) => {
 
       // Merge search results into main tokens cache
       if (searchQuery) {
-        queryClient.setQueriesData<TokensResponse>(
+        queryClient.setQueriesData<TokensExtendedResponse>(
           { queryKey: [getQueryKey('tokens', keyPrefix)] },
           (data) => {
             if (!data) {
@@ -94,7 +94,7 @@ export const useTokens = (formType?: FormType, search?: string) => {
     )
   }, [data?.tokens, configTokens, chainsConfig, formType])
 
-  const cachedAllTokens = queryClient.getQueryData<TokensResponse>([
+  const cachedAllTokens = queryClient.getQueryData<TokensExtendedResponse>([
     getQueryKey('tokens', keyPrefix),
   ])?.tokens
 

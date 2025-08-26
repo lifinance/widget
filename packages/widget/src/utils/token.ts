@@ -1,4 +1,4 @@
-import type { BaseToken, Token } from '@lifi/sdk'
+import type { BaseToken, TokenExtended } from '@lifi/sdk'
 import type { FormType } from '../stores/form/types.js'
 import type { WidgetChains, WidgetTokens } from '../types/widget.js'
 import {
@@ -8,11 +8,11 @@ import {
 } from './item.js'
 
 export const filterAllowedTokens = (
-  dataTokens: { [chainId: number]: Token[] } | undefined,
+  dataTokens: { [chainId: number]: TokenExtended[] } | undefined,
   configTokens?: WidgetTokens,
   chainsConfig?: WidgetChains,
   formType?: FormType
-): { [chainId: number]: Token[] } | undefined => {
+): { [chainId: number]: TokenExtended[] } | undefined => {
   if (!dataTokens) {
     return
   }
@@ -36,7 +36,7 @@ export const filterAllowedTokens = (
       )
     : allChainIds
 
-  const allowedTokensByChain: { [chainId: number]: Token[] } = {}
+  const allowedTokensByChain: { [chainId: number]: TokenExtended[] } = {}
   for (const chainId of allowedChainIds) {
     const chainTokens = [
       ...dataTokens[chainId],

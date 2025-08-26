@@ -6,7 +6,7 @@ import { forwardRef, type PropsWithChildren, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
-import { useTokenSearch } from '../../hooks/useTokenSearch.js'
+import { useToken } from '../../hooks/useToken.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
@@ -34,11 +34,7 @@ export const TokenDetailsSheetContent = forwardRef<
   const { getAddressLink } = useExplorer()
   const { getChainById } = useAvailableChains()
 
-  const { token, isLoading } = useTokenSearch(
-    chainId,
-    tokenAddress,
-    !!tokenAddress
-  )
+  const { token, isLoading } = useToken(chainId, tokenAddress)
   const chain = useMemo(() => getChainById(chainId), [chainId, getChainById])
 
   const copyContractAddress = async (e: React.MouseEvent) => {

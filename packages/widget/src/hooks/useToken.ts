@@ -11,10 +11,13 @@ export const useToken = (chainId?: number, tokenAddress?: string) => {
   )
 
   const token = useMemo(() => {
+    if (!tokenAddress) {
+      return undefined
+    }
     return tokensForChain?.find((token) => token.address === tokenAddress)
   }, [tokenAddress, tokensForChain])
 
-  const tokenSearchEnabled = !isLoading && !token
+  const tokenSearchEnabled = !isLoading && !token && !!tokenAddress
   const { token: searchedToken, isLoading: isSearchedTokenLoading } =
     useTokenSearch(chainId, tokenAddress, tokenSearchEnabled)
 
