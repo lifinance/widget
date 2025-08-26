@@ -1,0 +1,65 @@
+import type { BaseToken, Token } from '@lifi/sdk'
+import type { FormType } from '../stores/form/types.js'
+import type { WidgetChains, WidgetTokens } from '../types/widget.js'
+import {
+  getConfigItemSets,
+  isFormItemAllowed,
+  isItemAllowedForSets,
+} from './item.js'
+
+export const filterAllowedTokens = (
+  dataTokens: { [chainId: number]: Token[] } | undefined,
+  configTokens?: WidgetTokens,
+  chainsConfig?: WidgetChains,
+  formType?: FormType
+): { [chainId: number]: Token[] } | undefined => {
+  if (!dataTokens) {
+    return
+  }
+
+  const includedTokens = configTokens?.include || []
+  const allChainIds = Array.from(
+    new Set([
+      ...includedTokens.map((t) => t.chainId),
+      ...Object.keys(dataTokens),
+    ])
+  ).map((chainId) => Number(chainId))
+
+  const configChainIdsSet = getConfigItemSets(
+    chainsConfig,
+    (chainIds: number[]) => new Set(chainIds),
+    formType
+  )
+  const allowedChainIds = configChainIdsSet
+    ? allChainIds.filter((chainId) =>
+        isItemAllowedForSets(chainId, configChainIdsSet)
+      )
+    : allChainIds
+
+  const allowedTokensByChain: { [chainId: number]: Token[] } = {}
+  for (const chainId of allowedChainIds) {
+    const chainTokens = [
+      ...dataTokens[chainId],
+      ...includedTokens.filter((t) => Number(t.chainId) === chainId),
+    ]
+
+    const allowedAddresses = getConfigItemSets(
+      configTokens,
+      (tokens: BaseToken[]) =>
+        new Set(
+          tokens
+            .filter((t) => Number(t.chainId) === chainId)
+            .map((t) => t.address)
+        ),
+      formType
+    )
+
+    const filtered = chainTokens.filter((token) =>
+      isFormItemAllowed(token, allowedAddresses, formType, (t) => t.address)
+    )
+
+    allowedTokensByChain[chainId] = filtered
+  }
+
+  return allowedTokensByChain
+}

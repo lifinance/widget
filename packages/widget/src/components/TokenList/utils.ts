@@ -3,47 +3,6 @@ import { formatUnits } from 'viem'
 import type { TokenAmount } from '../../types/token.js'
 import type { WidgetTokens } from '../../types/widget.js'
 
-export const filteredTokensComparator = (searchFilter: string) => {
-  const isExactMatch = (token: TokenAmount) => {
-    return (
-      token.name?.toUpperCase() === searchFilter ||
-      token.symbol.toUpperCase() === searchFilter ||
-      token.address.toUpperCase() === searchFilter
-    )
-  }
-  return (tokenA: TokenAmount, tokenB: TokenAmount) => {
-    const isExactMatchA = isExactMatch(tokenA)
-    const isExactMatchB = isExactMatch(tokenB)
-
-    // Exact match with logo
-    if (isExactMatchB && tokenB.logoURI) {
-      return 1
-    }
-    if (isExactMatchA && tokenA.logoURI) {
-      return -1
-    }
-
-    // Any token with a logo (exact match or not)
-    if (tokenB.logoURI && !tokenA.logoURI) {
-      return 1
-    }
-    if (tokenA.logoURI && !tokenB.logoURI) {
-      return -1
-    }
-
-    // Exact match without logo
-    if (isExactMatchB && !tokenB.logoURI) {
-      return 1
-    }
-    if (isExactMatchA && !tokenA.logoURI) {
-      return -1
-    }
-
-    // All other tokens are considered equal in sorting priority
-    return 0
-  }
-}
-
 const sortByBalances = (a: TokenAmount, b: TokenAmount) =>
   Number.parseFloat(formatUnits(b.amount ?? 0n, b.decimals)) *
     Number.parseFloat(b.priceUSD ?? '0') -
@@ -56,17 +15,11 @@ const sortByVolume = (a: TokenExtended, b: TokenExtended) =>
 export const processTokenBalances = (
   isBalanceLoading: boolean,
   isAllNetworks: boolean,
-  configTokens: any,
+  configTokens?: WidgetTokens,
   selectedChainId?: number,
-  allTokens?: Record<number, TokenAmount[]>,
-  allTokensWithBalances?: TokenAmount[]
+  tokens?: TokenExtended[],
+  tokensWithBalances?: TokenAmount[]
 ) => {
-  const tokens = isAllNetworks
-    ? Object.values(allTokens ?? {}).flat()
-    : selectedChainId
-      ? allTokens?.[selectedChainId]
-      : undefined
-
   if (isBalanceLoading) {
     if (isAllNetworks) {
       const sortedTokens = [...(tokens ?? [])].sort(sortByVolume)
@@ -75,20 +28,16 @@ export const processTokenBalances = (
         withCategories: false,
       }
     } else {
-      return mapAndSortTokens(tokens ?? [], [], selectedChainId, configTokens)
+      return processedTypedTokens(
+        tokens ?? [],
+        [],
+        selectedChainId,
+        configTokens
+      )
     }
   }
 
-  const tokensWithBalances =
-    (isAllNetworks
-      ? allTokensWithBalances
-      : allTokensWithBalances?.filter(
-          (token) => token.chainId === selectedChainId
-        )) ?? []
-  const tokensWithBalancesWithAmount = tokensWithBalances.filter(
-    (token) => token.amount
-  )
-  const sortedTokensWithBalances = [...tokensWithBalancesWithAmount].sort(
+  const sortedTokensWithBalances = [...(tokensWithBalances ?? [])].sort(
     sortByBalances
   )
 
@@ -111,7 +60,7 @@ export const processTokenBalances = (
       withCategories: false,
     }
   } else {
-    return mapAndSortTokens(
+    return processedTypedTokens(
       tokensWithoutBalances,
       sortedTokensWithBalances,
       selectedChainId,
@@ -120,7 +69,8 @@ export const processTokenBalances = (
   }
 }
 
-export const mapAndSortTokens = (
+// NB: only for non-all-networks
+export const processedTypedTokens = (
   tokens: TokenAmount[],
   tokensWithBalances: TokenAmount[],
   selectedChainId?: number,

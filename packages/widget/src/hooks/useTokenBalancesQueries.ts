@@ -27,6 +27,7 @@ export const useTokenBalancesQueries = (
               getQueryKey('token-balances', keyPrefix),
               accountAddress,
               chainId,
+              tokens.length,
             ],
             queryFn: async (): Promise<TokenAmount[]> => {
               if (!accountAddress || !tokens) {
@@ -67,8 +68,8 @@ export const useTokenBalancesQueries = (
         ? now - firstLoadStartRef.current
         : 0
 
-      // Return results if all complete OR if 500ms have passed since first query started
-      const shouldReturnResults = allComplete || timeSinceStart >= 500
+      // Return results if all complete OR if 1000ms have passed since first query started
+      const shouldReturnResults = allComplete || timeSinceStart >= 1000
 
       if (shouldReturnResults) {
         const data: TokenAmount[] = results

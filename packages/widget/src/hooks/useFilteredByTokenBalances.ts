@@ -22,9 +22,7 @@ export const useFilteredTokensByBalance = (
 
   const { data: existingBalances, isLoading } = useQuery({
     queryKey: ['existing-evm-balances', evmAddress],
-    queryFn: () => {
-      return getWalletBalances(evmAddress ?? '')
-    },
+    queryFn: () => getWalletBalances(evmAddress ?? ''),
     enabled: !!evmAddress,
     refetchInterval: 30_000, // 30 seconds
     staleTime: 30_000, // 30 seconds

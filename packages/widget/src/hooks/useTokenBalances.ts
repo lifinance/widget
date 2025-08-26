@@ -9,11 +9,16 @@ import { useTokens } from './useTokens.js'
 export const useTokenBalances = (
   selectedChainId?: number,
   formType?: FormType,
-  isAllNetworks?: boolean
+  isAllNetworks?: boolean,
+  search?: string
 ) => {
-  const { tokens: allTokens, isLoading: isTokensLoading } = useTokens(formType)
+  const {
+    allTokens,
+    displayedTokens,
+    isLoading: isTokensLoading,
+  } = useTokens(formType, search)
 
-  const { data: accountsWithTokens, isLoading: isAccountsLoading } =
+  const { data: accountsWithAllTokens, isLoading: isAccountsLoading } =
     useAccountsDataForBalances(
       selectedChainId,
       formType,
@@ -22,10 +27,10 @@ export const useTokenBalances = (
     )
 
   const isBalanceLoadingEnabled =
-    Boolean(accountsWithTokens) && !isAccountsLoading
+    Boolean(accountsWithAllTokens) && !isAccountsLoading
 
   const { data: allTokensWithBalances, isLoading: isBalanceQueriesLoading } =
-    useTokenBalancesQueries(accountsWithTokens, isBalanceLoadingEnabled)
+    useTokenBalancesQueries(accountsWithAllTokens, isBalanceLoadingEnabled)
 
   const { tokens: configTokens } = useWidgetConfig()
 
@@ -33,22 +38,39 @@ export const useTokenBalances = (
     (isBalanceQueriesLoading || isAccountsLoading) &&
     !allTokensWithBalances?.length
 
+  const displayedTokensList = isAllNetworks
+    ? Object.values(displayedTokens ?? {}).flat()
+    : selectedChainId
+      ? displayedTokens?.[selectedChainId]
+      : undefined
+
+  const displayedTokensWithBalances = useMemo(() => {
+    return allTokensWithBalances.filter((token) =>
+      displayedTokensList?.some(
+        (t) =>
+          t.chainId === token.chainId &&
+          t.address === token.address &&
+          token.amount
+      )
+    )
+  }, [allTokensWithBalances, displayedTokensList])
+
   const { processedTokens, withCategories } = useMemo(() => {
     return processTokenBalances(
       isBalanceLoading,
       isAllNetworks ?? false,
       configTokens,
       selectedChainId,
-      allTokens,
-      allTokensWithBalances
+      displayedTokensList,
+      displayedTokensWithBalances
     )
   }, [
     isBalanceLoading,
     isAllNetworks,
     configTokens,
     selectedChainId,
-    allTokens,
-    allTokensWithBalances,
+    displayedTokensList,
+    displayedTokensWithBalances,
   ])
 
   return {

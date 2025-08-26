@@ -3,7 +3,7 @@ import { useTokenSearch } from './useTokenSearch.js'
 import { useTokens } from './useTokens.js'
 
 export const useToken = (chainId?: number, tokenAddress?: string) => {
-  const { tokens: allTokens, isLoading } = useTokens()
+  const { allTokens, isLoading } = useTokens()
 
   const tokensForChain = useMemo(
     () => (chainId ? allTokens?.[chainId] : undefined),

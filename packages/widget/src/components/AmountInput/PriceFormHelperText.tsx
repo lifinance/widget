@@ -1,6 +1,7 @@
 import type { TokenAmount } from '@lifi/sdk'
 import SwapVertIcon from '@mui/icons-material/SwapVert'
 import { FormHelperText, Skeleton, Typography } from '@mui/material'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTokenAddressBalance } from '../../hooks/useTokenAddressBalance.js'
 import type { FormTypeProps } from '../../stores/form/types.js'
@@ -10,7 +11,7 @@ import { useInputModeStore } from '../../stores/inputMode/useInputModeStore.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { InputPriceButton } from './PriceFormHelperText.style.js'
 
-export const PriceFormHelperText: React.FC<FormTypeProps> = ({ formType }) => {
+export const PriceFormHelperText = memo<FormTypeProps>(({ formType }) => {
   const [chainId, tokenAddress] = useFieldValues(
     FormKeyHelper.getChainKey(formType),
     FormKeyHelper.getTokenKey(formType)
@@ -25,7 +26,7 @@ export const PriceFormHelperText: React.FC<FormTypeProps> = ({ formType }) => {
       token={token}
     />
   )
-}
+})
 
 export const PriceFormHelperTextBase: React.FC<
   FormTypeProps & {

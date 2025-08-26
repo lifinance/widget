@@ -1,8 +1,7 @@
 import { Box } from '@mui/material'
-import { type FC, memo, useEffect, useMemo } from 'react'
+import { type FC, memo, useEffect } from 'react'
 import { useDebouncedWatch } from '../../hooks/useDebouncedWatch.js'
 import { useTokenBalances } from '../../hooks/useTokenBalances.js'
-import { useTokenSearch } from '../../hooks/useTokenSearch.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
@@ -11,7 +10,6 @@ import { WidgetEvent } from '../../types/events.js'
 import { TokenNotFound } from './TokenNotFound.js'
 import type { TokenListProps } from './types.js'
 import { useTokenSelect } from './useTokenSelect.js'
-import { filteredTokensComparator } from './utils.js'
 import { VirtualizedTokenList } from './VirtualizedTokenList.js'
 
 export const TokenList: FC<TokenListProps> = memo(
@@ -30,61 +28,13 @@ export const TokenList: FC<TokenListProps> = memo(
       'tokenSearchFilter'
     )
 
-    const {
-      tokens: sortedTokens,
-      withCategories,
-      isTokensLoading,
-      isBalanceLoading,
-    } = useTokenBalances(selectedChainId, formType, isAllNetworks)
-
-    const normalizedSearchFilter = tokenSearchFilter?.replaceAll('$', '')
-
-    const searchFilter = normalizedSearchFilter?.toUpperCase() ?? ''
-
-    const filteredTokens = useMemo(() => {
-      if (!tokenSearchFilter) {
-        return sortedTokens
-      }
-      return sortedTokens
-        .filter(
-          (token) =>
-            token.name?.toUpperCase().includes(searchFilter) ||
-            token.symbol
-              .toUpperCase()
-              // Replace ₮ with T for USD₮0
-              .replaceAll('₮', 'T')
-              .includes(searchFilter) ||
-            token.address.toUpperCase().includes(searchFilter)
-        )
-        .sort(filteredTokensComparator(searchFilter))
-    }, [sortedTokens, tokenSearchFilter, searchFilter])
-
-    const tokenSearchEnabled =
-      !isTokensLoading &&
-      !filteredTokens.length &&
-      !!tokenSearchFilter &&
-      !!selectedChainId
-
-    const { token: searchedToken, isLoading: isSearchedTokenLoading } =
-      useTokenSearch(
+    const { tokens, withCategories, isTokensLoading, isBalanceLoading } =
+      useTokenBalances(
         selectedChainId,
-        normalizedSearchFilter,
-        tokenSearchEnabled,
-        formType
+        formType,
+        isAllNetworks,
+        tokenSearchFilter
       )
-
-    const isLoading =
-      isTokensLoading || (tokenSearchEnabled && isSearchedTokenLoading)
-
-    const tokens = useMemo(() => {
-      if (filteredTokens.length) {
-        return filteredTokens
-      }
-      if (searchedToken) {
-        return [searchedToken]
-      }
-      return filteredTokens
-    }, [filteredTokens, searchedToken])
 
     const handleTokenClick = useTokenSelect(formType, onClick)
 
@@ -92,6 +42,7 @@ export const TokenList: FC<TokenListProps> = memo(
       withCategories && !tokenSearchFilter && !isAllNetworks
 
     useEffect(() => {
+      const normalizedSearchFilter = tokenSearchFilter?.replaceAll('$', '')
       if (normalizedSearchFilter) {
         emitter.emit(WidgetEvent.TokenSearch, {
           value: normalizedSearchFilter,
@@ -99,18 +50,18 @@ export const TokenList: FC<TokenListProps> = memo(
         })
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [normalizedSearchFilter, tokens, emitter])
+    }, [tokenSearchFilter, tokens, emitter])
 
     return (
       <Box ref={parentRef} style={{ height, overflow: 'auto' }}>
-        {!tokens.length && !isLoading ? (
+        {!tokens.length && !isTokensLoading ? (
           <TokenNotFound formType={formType} />
         ) : null}
         <VirtualizedTokenList
           tokens={tokens}
           scrollElementRef={parentRef}
           chainId={selectedChainId}
-          isLoading={isLoading}
+          isLoading={isTokensLoading}
           isBalanceLoading={isBalanceLoading}
           showCategories={showCategories}
           onClick={handleTokenClick}
