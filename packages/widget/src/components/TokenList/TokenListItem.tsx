@@ -167,11 +167,6 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
       onShowTokenDetails(token.address, withoutContractAddress, token.chainId)
     )
 
-    const showBalanceLoading = useMemo(
-      () => isBalanceLoading && token.amount === undefined,
-      [isBalanceLoading, token.amount]
-    )
-
     return (
       <ListItemButton
         onClick={handleClick}
@@ -311,7 +306,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
             )
           }
         />
-        {showBalanceLoading ? (
+        {isBalanceLoading ? (
           <TokenAmountSkeleton />
         ) : (
           <Box sx={{ textAlign: 'right' }}>

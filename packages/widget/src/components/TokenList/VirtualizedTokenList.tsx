@@ -124,7 +124,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     }
     // Close the token details sheet when switching the chains
     tokenDetailsSheetRef.current?.close()
-  }, [scrollToIndex, chainId, getVirtualItems])
+  }, [scrollToIndex, isAllNetworks, chainId, getVirtualItems])
 
   if (isLoading) {
     return (
