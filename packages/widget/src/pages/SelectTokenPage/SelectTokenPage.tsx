@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Box, type Theme, useMediaQuery } from '@mui/material'
 import type { FC, RefObject } from 'react'
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -41,6 +41,9 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
     (swapOnly && formType === 'to') ||
     hiddenUI?.includes(HiddenUI.ChainSelect)
 
+  const isMobile = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down(theme.breakpoints.values.xs)
+  )
   const hideSearchTokenInput = hiddenUI?.includes(HiddenUI.SearchTokenInput)
 
   const hasHeader = !hideChainSelect || !hideSearchTokenInput
@@ -67,7 +70,13 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
       </Box>
       <WrappedTokenList
         // Rerender component if variant changes (since chains tiles change height)
-        key={hideChainSelect ? 'without-offset' : 'with-offset'}
+        key={
+          hideChainSelect
+            ? 'without-offset'
+            : isMobile
+              ? 'with-offset-mobile'
+              : 'with-offset'
+        }
         headerRef={headerRef}
         formType={formType}
       />
