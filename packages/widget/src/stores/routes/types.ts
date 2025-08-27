@@ -9,7 +9,6 @@ export interface RouteExecutionState {
   routes: Partial<Record<string, RouteExecution>>
   setExecutableRoute: (route: Route, observableRouteIds?: string[]) => void
   updateRoute: (route: Route) => void
-  restartRoute: (routeId: string) => void
   deleteRoute: (routeId: string) => void
   deleteRoutes: (type: 'completed' | 'active') => void
 }
