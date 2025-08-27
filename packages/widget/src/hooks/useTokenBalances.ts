@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
-import { processTokenBalances } from '../components/TokenList/utils.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
+import { isSearchMatch, processTokenBalances } from '../utils/tokenList.js'
 import { useAccountsDataForBalances } from './useAccountsDataForBalances.js'
 import { useTokenBalancesQueries } from './useTokenBalancesQueries.js'
 import { useTokens } from './useTokens.js'
@@ -45,15 +45,31 @@ export const useTokenBalances = (
       : undefined
 
   const displayedTokensWithBalances = useMemo(() => {
-    return allTokensWithBalances.filter((token) =>
-      displayedTokensList?.some(
-        (t) =>
-          t.chainId === token.chainId &&
-          t.address === token.address &&
-          token.amount
-      )
+    const balancesByChain = isAllNetworks
+      ? allTokensWithBalances
+      : selectedChainId
+        ? allTokensWithBalances.filter((t) => t.chainId === selectedChainId)
+        : []
+    const displayedTokensSet = new Set(
+      displayedTokensList?.map(
+        (t) => `${t.chainId}-${t.address.toLowerCase()}`
+      ) || []
     )
-  }, [allTokensWithBalances, displayedTokensList])
+    return balancesByChain.filter((token) => {
+      const tokenKey = `${token.chainId}-${token.address.toLowerCase()}`
+      // Check if token is in displayed list and has amount
+      const isInDisplayedList = displayedTokensSet.has(tokenKey) && token.amount
+      // Check if it matches search (for cached appended tokens)
+      const matchesSearch = isSearchMatch(token, search)
+      return isInDisplayedList || matchesSearch
+    })
+  }, [
+    allTokensWithBalances,
+    displayedTokensList,
+    search,
+    selectedChainId,
+    isAllNetworks,
+  ])
 
   const { processedTokens, withCategories } = useMemo(() => {
     return processTokenBalances(

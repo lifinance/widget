@@ -1,4 +1,4 @@
-import type { ChainType, Token } from '@lifi/sdk'
+import type { ChainType, TokenExtended } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useMemo } from 'react'
 import type { FormType } from '../stores/form/types.js'
@@ -9,17 +9,17 @@ export const useAccountsDataForBalances = (
   selectedChainId?: number,
   formType?: FormType,
   isAllNetworks?: boolean,
-  allTokens?: Record<number, Token[]>
+  allTokens?: Record<number, TokenExtended[]>
 ) => {
   const { data: accountsWithTokens, isLoading: isAccountsLoading } =
     useAccountsData(selectedChainId, formType, isAllNetworks, allTokens)
 
   // Filter tokens to fetch balances for
-  const { data: filteredByBalance, isLoading: isCachedBalancesLoading } =
+  const { data: filteredTokens, isLoading: isCachedBalancesLoading } =
     useFilteredTokensByBalance(accountsWithTokens)
 
   return {
-    data: filteredByBalance,
+    data: filteredTokens,
     isLoading: isAccountsLoading || isCachedBalancesLoading,
   }
 }
@@ -28,7 +28,7 @@ const useAccountsData = (
   selectedChainId?: number,
   formType?: FormType,
   isAllNetworks?: boolean,
-  allTokens?: Record<number, Token[]>
+  allTokens?: Record<number, TokenExtended[]>
 ) => {
   const {
     chains: allChains,
@@ -77,7 +77,7 @@ const useAccountsData = (
                   }
                   return tokenAcc
                 },
-                {} as { [chainId: number]: Token[] }
+                {} as { [chainId: number]: TokenExtended[] }
               )
               acc[account.address] = {
                 chainType: account.chainType,
@@ -89,7 +89,7 @@ const useAccountsData = (
         },
         {} as Record<
           string,
-          { chainType: ChainType; tokens: Record<number, Token[]> }
+          { chainType: ChainType; tokens: Record<number, TokenExtended[]> }
         >
       )
   }, [accounts, chains, allTokens])

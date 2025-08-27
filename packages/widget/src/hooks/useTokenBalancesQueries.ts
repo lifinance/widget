@@ -1,14 +1,14 @@
-import { getTokenBalances, type Token } from '@lifi/sdk'
+import { getTokenBalances, type TokenExtended } from '@lifi/sdk'
 import { useQueries } from '@tanstack/react-query'
 import { useMemo, useRef } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import type { TokenAmount } from '../types/token.js'
+import type { TokenAmount, TokenAmountExtended } from '../types/token.js'
 import { getQueryKey } from '../utils/queries.js'
 
 const defaultRefetchInterval = 32_000
 
 export const useTokenBalancesQueries = (
-  accountsWithTokens?: Record<string, Record<number, Token[]>>,
+  accountsWithTokens?: Record<string, Record<number, TokenExtended[]>>,
   isBalanceLoadingEnabled?: boolean
 ) => {
   const { keyPrefix } = useWidgetConfig()
@@ -29,7 +29,7 @@ export const useTokenBalancesQueries = (
               chainId,
               tokens.length,
             ],
-            queryFn: async (): Promise<TokenAmount[]> => {
+            queryFn: async (): Promise<TokenAmountExtended[]> => {
               if (!accountAddress || !tokens) {
                 return []
               }

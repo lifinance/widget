@@ -323,7 +323,7 @@ export const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
                 })}
               </Typography>
             ) : null}
-            {tokenPrice ? (
+            {token.amount && token.priceUSD ? (
               <Typography
                 data-price={token.priceUSD}
                 sx={{

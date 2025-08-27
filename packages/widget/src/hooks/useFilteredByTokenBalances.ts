@@ -1,16 +1,17 @@
 import {
   ChainType,
   getWalletBalances,
-  type Token,
+  type TokenExtended,
   type WalletTokenExtended,
 } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
+import { isSupportedToken } from '../utils/tokenList.js'
 
 export const useFilteredTokensByBalance = (
   accountsWithTokens?: Record<
     string,
-    { chainType: ChainType; tokens: Record<number, Token[]> }
+    { chainType: ChainType; tokens: Record<number, TokenExtended[]> }
   >
 ) => {
   const evmAddress = useMemo(() => {
@@ -34,7 +35,7 @@ export const useFilteredTokensByBalance = (
     }
 
     // Early return if no existing balances - return all tokens
-    const result: Record<string, Record<number, Token[]>> = {}
+    const result: Record<string, Record<number, TokenExtended[]>> = {}
     if (!existingBalances) {
       for (const [address, { tokens }] of Object.entries(accountsWithTokens)) {
         result[address] = tokens
@@ -77,12 +78,15 @@ export const useFilteredTokensByBalance = (
         const additionalTokens = balances.filter(
           (balance: WalletTokenExtended) => {
             const balanceKey = balance.address.toLowerCase()
-            return !chainTokenSet.has(balanceKey)
+            return !chainTokenSet.has(balanceKey) && isSupportedToken(balance)
           }
-        ) as Token[]
+        ) as TokenExtended[]
 
         // Combine both sets of tokens - convert WalletTokenExtended to TokenAmount
-        const allTokens = [...filteredTokens, ...additionalTokens] as Token[]
+        const allTokens = [
+          ...filteredTokens,
+          ...additionalTokens,
+        ] as TokenExtended[]
 
         if (allTokens.length) {
           result[address][chainId] = allTokens
