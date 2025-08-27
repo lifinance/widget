@@ -240,6 +240,7 @@
     "process": {
       "bridge": {
         "actionRequired": "",
+        "messageRequired": "",
         "done": "ブリッジのトランザクションが確認されました",
         "pending": "",
         "started": "ブリッジのトランザクションを準備中"
@@ -258,13 +259,10 @@
       },
       "swap": {
         "actionRequired": "",
+        "messageRequired": "",
         "done": "スワップ完了",
         "pending": "",
         "started": "スワップのトランザクションを準備中"
-      },
-      "switchChain": {
-        "actionRequired": "",
-        "done": ""
       },
       "permit": {
         "actionRequired": "",
