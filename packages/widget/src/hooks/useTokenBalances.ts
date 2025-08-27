@@ -12,11 +12,7 @@ export const useTokenBalances = (
   isAllNetworks?: boolean,
   search?: string
 ) => {
-  const {
-    allTokens,
-    displayedTokens,
-    isLoading: isTokensLoading,
-  } = useTokens(formType, search)
+  const { allTokens, isLoading: isTokensLoading } = useTokens(formType, search)
 
   const { data: accountsWithAllTokens, isLoading: isAccountsLoading } =
     useAccountsDataForBalances(
@@ -38,18 +34,21 @@ export const useTokenBalances = (
     (isBalanceQueriesLoading || isAccountsLoading) &&
     !allTokensWithBalances?.length
 
-  const displayedTokensList = isAllNetworks
-    ? Object.values(displayedTokens ?? {}).flat()
-    : selectedChainId
-      ? displayedTokens?.[selectedChainId]
-      : undefined
+  const displayedTokensList = useMemo(() => {
+    const tokensByChain = isAllNetworks
+      ? Object.values(allTokens ?? {}).flat()
+      : selectedChainId
+        ? allTokens?.[selectedChainId]
+        : undefined
+    return tokensByChain?.filter((t) => isSearchMatch(t, search)) ?? []
+  }, [allTokens, isAllNetworks, selectedChainId, search])
 
   const displayedTokensWithBalances = useMemo(() => {
     const balancesByChain = isAllNetworks
       ? allTokensWithBalances
       : selectedChainId
         ? allTokensWithBalances?.filter((t) => t.chainId === selectedChainId)
-        : []
+        : undefined
     const displayedTokensSet = new Set(
       displayedTokensList?.map(
         (t) => `${t.chainId}-${t.address.toLowerCase()}`

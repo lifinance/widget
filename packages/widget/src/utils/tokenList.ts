@@ -148,16 +148,22 @@ export const processedTypedTokens = (
   }
 }
 
-export const isSearchMatch = (token: TokenAmountExtended, search?: string) => {
+export const isSearchMatch = (
+  token: TokenExtended | TokenAmountExtended,
+  search?: string
+) => {
   if (!search) {
     return true
   }
 
   const searchLowerCase = search.toLowerCase()
   return (
-    token.name.toLowerCase().includes(searchLowerCase) ||
-    token.symbol.toLowerCase().includes(searchLowerCase) ||
-    token.address.toLowerCase().includes(searchLowerCase)
+    token.name?.toLowerCase().includes(searchLowerCase) ||
+    token.symbol
+      ?.replaceAll('₮', 'T')
+      .toLowerCase()
+      .includes(searchLowerCase) ||
+    token.address?.toLowerCase().includes(searchLowerCase)
   )
 }
 

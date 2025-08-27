@@ -14,6 +14,52 @@ export const useTokens = (formType?: FormType, search?: string) => {
     keyPrefix,
   } = useWidgetConfig()
 
+  const chainTypes = useMemo(() => {
+    return [ChainType.EVM, ChainType.SVM, ChainType.UTXO, ChainType.MVM].filter(
+      (chainType) => isItemAllowed(chainType, chainsConfig?.types)
+    )
+  }, [chainsConfig?.types])
+
+  useBackgroundTokenSearch(search)
+
+  const { data, isLoading } = useQuery({
+    queryKey: [getQueryKey('tokens', keyPrefix)],
+    queryFn: async ({ signal }) => {
+      const tokensResponse: TokensExtendedResponse = await getTokens(
+        {
+          chainTypes,
+          orderBy: 'volumeUSD24H',
+          extended: true,
+          limit: 1000,
+        },
+        { signal }
+      )
+      return tokensResponse
+    },
+    refetchInterval: 300_000,
+    staleTime: 300_000,
+  })
+
+  const allTokens = useMemo(() => {
+    return filterAllowedTokens(
+      data?.tokens,
+      configTokens,
+      chainsConfig,
+      formType
+    )
+  }, [data?.tokens, configTokens, chainsConfig, formType])
+
+  return {
+    allTokens,
+    isLoading,
+  }
+}
+
+// This hook is used to search for tokens in the background.
+// It updates the main tokens cache with the search results,
+// if any of the tokens are not already in the cache.
+const useBackgroundTokenSearch = (search?: string) => {
+  const { chains: chainsConfig, keyPrefix } = useWidgetConfig()
   const queryClient = useQueryClient()
 
   const chainTypes = useMemo(() => {
@@ -22,10 +68,8 @@ export const useTokens = (formType?: FormType, search?: string) => {
     )
   }, [chainsConfig?.types])
 
-  const { data, isLoading } = useQuery({
-    queryKey: search
-      ? [getQueryKey('tokens', keyPrefix), search]
-      : [getQueryKey('tokens', keyPrefix)],
+  useQuery({
+    queryKey: [getQueryKey('tokens-search', keyPrefix), search],
     queryFn: async ({ queryKey, signal }) => {
       const [, searchQuery] = queryKey
       const tokensResponse: TokensExtendedResponse = await getTokens(
@@ -84,35 +128,8 @@ export const useTokens = (formType?: FormType, search?: string) => {
 
       return tokensResponse
     },
+    enabled: !!search,
     refetchInterval: 300_000,
     staleTime: 300_000,
   })
-
-  const displayedTokens = useMemo(() => {
-    return filterAllowedTokens(
-      data?.tokens,
-      configTokens,
-      chainsConfig,
-      formType
-    )
-  }, [data?.tokens, configTokens, chainsConfig, formType])
-
-  const cachedAllTokens = queryClient.getQueryData<TokensExtendedResponse>([
-    getQueryKey('tokens', keyPrefix),
-  ])?.tokens
-
-  const allTokens = useMemo(() => {
-    return filterAllowedTokens(
-      cachedAllTokens,
-      configTokens,
-      chainsConfig,
-      formType
-    )
-  }, [cachedAllTokens, configTokens, chainsConfig, formType])
-
-  return {
-    allTokens,
-    displayedTokens,
-    isLoading,
-  }
 }
