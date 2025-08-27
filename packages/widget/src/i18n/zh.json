@@ -240,6 +240,7 @@
     "process": {
       "bridge": {
         "actionRequired": "",
+        "messageRequired": "",
         "done": "跨链交易已确认",
         "pending": "",
         "started": "准备执行跨链交易"
@@ -258,13 +259,10 @@
       },
       "swap": {
         "actionRequired": "",
+        "messageRequired": "",
         "done": "兑换完成",
         "pending": "",
         "started": "准备兑换"
-      },
-      "switchChain": {
-        "actionRequired": "",
-        "done": ""
       },
       "permit": {
         "actionRequired": "",
