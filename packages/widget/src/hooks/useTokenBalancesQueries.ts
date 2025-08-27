@@ -75,18 +75,16 @@ export const useTokenBalancesQueries = (
         const data: TokenAmount[] = results
           .flatMap((result) => result.data || [])
           .filter((token) => token.amount)
-        if (data.length) {
-          return {
-            data,
-            isLoading: !allComplete,
-            isError: results.some((result) => result.isError),
-          }
+        return {
+          data,
+          isLoading: !allComplete,
+          isError: results.some((result) => result.isError),
         }
       }
 
       return {
-        data: results.flatMap((result) => result.data || []),
-        isLoading: false,
+        data: [],
+        isLoading: true,
         isError: false,
       }
     },
