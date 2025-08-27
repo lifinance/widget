@@ -1,5 +1,5 @@
 import type { EVMChain } from '@lifi/sdk'
-import { Avatar, Box, Skeleton, Tooltip, Typography } from '@mui/material'
+import { Skeleton, type Theme, Tooltip, useMediaQuery } from '@mui/material'
 import { memo, useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -15,13 +15,22 @@ import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { AllChainsAvatar } from '../Chains/AllChainsAvatar.js'
-import { ChainCard, ChainContainer } from './ChainSelect.style.js'
+import {
+  ChainAvatar,
+  ChainCard,
+  ChainContainer,
+  MoreChainsBox,
+  MoreChainsText,
+} from './ChainSelect.style.js'
 import { useChainSelect } from './useChainSelect.js'
 
 export const ChainSelect = memo(({ formType }: FormTypeProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { setFieldValue } = useFieldActions()
+  const isMobile = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down(theme.breakpoints.values.xs)
+  )
 
   const {
     chainOrder,
@@ -95,7 +104,7 @@ export const ChainSelect = memo(({ formType }: FormTypeProps) => {
             key={index}
             variant="rectangular"
             width={56}
-            height={56}
+            height={isMobile ? 36 : 56}
             sx={{ borderRadius: 1 }}
           />
         ))}
@@ -113,11 +122,13 @@ export const ChainSelect = memo(({ formType }: FormTypeProps) => {
             type={isAllNetworks ? 'selected' : 'default'}
             selectionColor="secondary"
           >
-            <AllChainsAvatar chains={chains ?? []} size="medium" />
+            <AllChainsAvatar
+              chains={chains ?? []}
+              size={isMobile ? 'small' : 'medium'}
+            />
           </ChainCard>
         </Tooltip>
       )}
-
       {chainsToShow.map((chain: EVMChain) => (
         <ChainItem
           key={chain.id}
@@ -127,19 +138,11 @@ export const ChainSelect = memo(({ formType }: FormTypeProps) => {
           onSelect={onChainSelect}
         />
       ))}
-
       {chainsToHide > 0 && (
         <ChainCard component="button" onClick={showAllChains}>
-          <Box
-            sx={{
-              width: 40,
-              height: 40,
-              display: 'grid',
-              placeItems: 'center',
-            }}
-          >
-            <Typography sx={{ fontWeight: 500 }}>+{chainsToHide}</Typography>
-          </Box>
+          <MoreChainsBox>
+            <MoreChainsText>+{chainsToHide}</MoreChainsText>
+          </MoreChainsBox>
         </ChainCard>
       )}
     </ChainContainer>
@@ -172,13 +175,9 @@ const ChainItem = memo(
           type={!isAllNetworks && isSelected ? 'selected' : 'default'}
           selectionColor="secondary"
         >
-          <Avatar
-            src={chain.logoURI}
-            alt={chain.key}
-            sx={{ width: 40, height: 40 }}
-          >
+          <ChainAvatar src={chain.logoURI} alt={chain.key}>
             {chain.name[0]}
-          </Avatar>
+          </ChainAvatar>
         </ChainCard>
       </Tooltip>
     )
