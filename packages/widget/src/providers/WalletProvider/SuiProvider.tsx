@@ -1,6 +1,7 @@
 import { ChainType } from '@lifi/sdk'
 import { SuiClientContext } from '@mysten/dapp-kit'
 import { type FC, type PropsWithChildren, useContext } from 'react'
+import { useInternalWalletProvider } from '../../hooks/useInternalWalletProvider.js'
 import { isItemAllowed } from '../../utils/item.js'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 import { SuiBaseProvider } from './SuiBaseProvider.js'
@@ -15,12 +16,13 @@ export function useInSuiContext(): boolean {
 
 export const SuiProvider: FC<PropsWithChildren> = ({ children }) => {
   const inSuiContext = useInSuiContext()
+  const useInternalWallet = useInternalWalletProvider(inSuiContext)
 
-  return inSuiContext ? (
+  return useInternalWallet ? (
+    <SuiBaseProvider>{children}</SuiBaseProvider>
+  ) : (
     <SuiExternalContext.Provider value={inSuiContext}>
       {children}
     </SuiExternalContext.Provider>
-  ) : (
-    <SuiBaseProvider>{children}</SuiBaseProvider>
   )
 }
