@@ -240,6 +240,7 @@
     "process": {
       "bridge": {
         "actionRequired": "Mempersiapkan transaksi bridge",
+        "messageRequired": "",
         "done": "Tranksaksi bridge dikonfirmasi",
         "pending": "Transaksi bridge tertunda",
         "started": "Mempersiapkan transaksi bridge"
@@ -258,13 +259,10 @@
       },
       "swap": {
         "actionRequired": "Mempersiapkan transaksi bridge",
+        "messageRequired": "",
         "done": "Swap selesai",
         "pending": "Transaksi swap tertunda",
         "started": "Mempersiapkan transaksi swap"
-      },
-      "switchChain": {
-        "actionRequired": "Konfirmasikan pergantian rantai",
-        "done": "Rantai beralih"
       },
       "permit": {
         "actionRequired": "Tanda tangani pesan izin",
