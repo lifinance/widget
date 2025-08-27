@@ -86,19 +86,6 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
             })
           }
         },
-        restartRoute: (routeId: string) => {
-          if (get().routes[routeId]) {
-            set((state: RouteExecutionState) => ({
-              routes: {
-                ...state.routes,
-                [routeId]: {
-                  ...state.routes[routeId]!,
-                  status: RouteExecutionStatus.Pending,
-                },
-              },
-            }))
-          }
-        },
         deleteRoute: (routeId: string) => {
           if (get().routes[routeId]) {
             set((state: RouteExecutionState) => {
