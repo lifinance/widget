@@ -7,6 +7,7 @@ import {
   useChainOrderStore,
   useChainOrderStoreContext,
 } from '../../stores/chains/ChainOrderStore.js'
+import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { AllChainsAvatar } from './AllChainsAvatar.js'
 import {
   List,
@@ -39,6 +40,7 @@ export const VirtualizedChainList = ({
   const { t } = useTranslation()
   const chainOrderStore = useChainOrderStoreContext()
   const { isAllNetworks, setIsAllNetworks } = chainOrderStore.getState()
+  const { setFieldValue } = useFieldActions()
   const selectedChainIdRef = useRef(selectedChainId) // Store the initial selected chain ID to scroll to it once chains are loaded
   const hasScrolledRef = useRef(false)
   const [pinnedChains, setPinnedChain] = useChainOrderStore((state) => [
@@ -153,6 +155,11 @@ export const VirtualizedChainList = ({
     }
   }, [sortedChains, scrollToIndex, range, isAllNetworks])
 
+  const selectAllNetworks = useCallback(() => {
+    setIsAllNetworks(true)
+    setFieldValue('tokenSearchFilter', '')
+  }, [setIsAllNetworks, setFieldValue])
+
   return (
     <List
       className="long-list"
@@ -171,9 +178,7 @@ export const VirtualizedChainList = ({
               }}
             >
               <ListItemButton
-                onClick={() => {
-                  setIsAllNetworks(true)
-                }}
+                onClick={selectAllNetworks}
                 selected={isAllNetworks}
                 size={itemsSize}
               >

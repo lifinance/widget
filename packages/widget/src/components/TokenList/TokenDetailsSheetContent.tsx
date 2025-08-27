@@ -34,7 +34,7 @@ export const TokenDetailsSheetContent = forwardRef<
   const { getAddressLink } = useExplorer()
   const { getChainById } = useAvailableChains()
 
-  const { token, isLoading } = useToken(chainId, tokenAddress)
+  const { token, isLoading } = useToken(chainId, tokenAddress, true)
   const chain = useMemo(() => getChainById(chainId), [chainId, getChainById])
 
   const copyContractAddress = async (e: React.MouseEvent) => {

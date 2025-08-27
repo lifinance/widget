@@ -26,15 +26,18 @@ export const useTokens = (formType?: FormType, search?: string) => {
     queryKey: search
       ? [getQueryKey('tokens', keyPrefix), search]
       : [getQueryKey('tokens', keyPrefix)],
-    queryFn: async ({ queryKey }) => {
+    queryFn: async ({ queryKey, signal }) => {
       const [, searchQuery] = queryKey
-      const tokensResponse: TokensExtendedResponse = await getTokens({
-        chainTypes,
-        orderBy: 'volumeUSD24H',
-        extended: true,
-        ...(searchQuery && { search: searchQuery }),
-        limit: 1000,
-      })
+      const tokensResponse: TokensExtendedResponse = await getTokens(
+        {
+          chainTypes,
+          orderBy: 'volumeUSD24H',
+          extended: true,
+          ...(searchQuery && { search: searchQuery }),
+          limit: 1000,
+        },
+        { signal }
+      )
 
       // Merge search results into main tokens cache
       if (searchQuery) {
