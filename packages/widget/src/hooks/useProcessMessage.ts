@@ -61,10 +61,6 @@ const processStatusMessages: Record<
         tokenSymbol: step.action.fromToken.symbol,
       }),
   },
-  SWITCH_CHAIN: {
-    ACTION_REQUIRED: (t) => t('main.process.switchChain.actionRequired'),
-    DONE: (t) => t('main.process.switchChain.done'),
-  },
   PERMIT: {
     STARTED: (t) => t('main.process.permit.started'),
     ACTION_REQUIRED: (t) => t('main.process.permit.actionRequired'),
@@ -74,6 +70,7 @@ const processStatusMessages: Record<
   SWAP: {
     STARTED: (t) => t('main.process.swap.started'),
     ACTION_REQUIRED: (t) => t('main.process.swap.actionRequired'),
+    MESSAGE_REQUIRED: (t) => t('main.process.swap.messageRequired'),
     PENDING: (t) => t('main.process.swap.pending'),
     DONE: (t, _, subvariant, subvariantOptions) =>
       subvariant === 'custom'
@@ -83,6 +80,7 @@ const processStatusMessages: Record<
   CROSS_CHAIN: {
     STARTED: (t) => t('main.process.bridge.started'),
     ACTION_REQUIRED: (t) => t('main.process.bridge.actionRequired'),
+    MESSAGE_REQUIRED: (t) => t('main.process.bridge.messageRequired'),
     PENDING: (t) => t('main.process.bridge.pending'),
     DONE: (t) => t('main.process.bridge.done'),
   },
@@ -93,7 +91,6 @@ const processStatusMessages: Record<
         ? t(`main.process.${subvariantOptions?.custom ?? 'checkout'}.done`)
         : t('main.process.receivingChain.done'),
   },
-  TRANSACTION: {},
 }
 
 const processSubstatusMessages: Record<

@@ -10,14 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/wallet-management": "^3.14.6",
-    "@lifi/widget": "^3.27.6",
+    "@lifi/wallet-management": "^3.14.7",
+    "@lifi/widget": "^3.28.0",
     "@mui/material": "^7.3.1",
-    "@reown/appkit": "^1.7.20",
-    "@reown/appkit-adapter-bitcoin": "^1.7.20",
-    "@reown/appkit-adapter-solana": "^1.7.20",
-    "@reown/appkit-adapter-wagmi": "^1.7.20",
-    "@reown/appkit-common": "^1.7.20",
+    "@reown/appkit": "^1.8.1",
+    "@reown/appkit-adapter-bitcoin": "^1.8.1",
+    "@reown/appkit-adapter-solana": "^1.8.1",
+    "@reown/appkit-adapter-wagmi": "^1.8.1",
+    "@reown/appkit-common": "^1.8.1",
     "@solana/wallet-adapter-base": "^0.9.27",
     "@solana/wallet-adapter-react": "^0.15.39",
     "@solana/web3.js": "^1.98.4",
@@ -25,12 +25,12 @@
     "mitt": "^3.0.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "viem": "^2.34.0",
-    "wagmi": "^2.16.4"
+    "viem": "^2.36.0",
+    "wagmi": "^2.16.8"
   },
   "devDependencies": {
-    "@types/react": "^19.1.10",
-    "@types/react-dom": "^19.1.7",
+    "@types/react": "^19.1.11",
+    "@types/react-dom": "^19.1.8",
     "@vitejs/plugin-react": "^5.0.1",
     "globals": "^16.3.0",
     "typescript": "~5.9.2",
