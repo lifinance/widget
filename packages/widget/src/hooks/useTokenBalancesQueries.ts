@@ -68,8 +68,8 @@ export const useTokenBalancesQueries = (
         ? now - firstLoadStartRef.current
         : 0
 
-      // Return results if all complete OR if 1000ms have passed since first query started
-      const shouldReturnResults = allComplete || timeSinceStart >= 1000
+      // Return results if all complete OR if 500ms have passed since first query started
+      const shouldReturnResults = allComplete || timeSinceStart >= 500
 
       if (shouldReturnResults) {
         const data: TokenAmount[] = results
@@ -83,7 +83,7 @@ export const useTokenBalancesQueries = (
       }
 
       return {
-        data: [],
+        data: undefined,
         isLoading: true,
         isError: false,
       }

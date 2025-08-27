@@ -48,14 +48,14 @@ export const useTokenBalances = (
     const balancesByChain = isAllNetworks
       ? allTokensWithBalances
       : selectedChainId
-        ? allTokensWithBalances.filter((t) => t.chainId === selectedChainId)
+        ? allTokensWithBalances?.filter((t) => t.chainId === selectedChainId)
         : []
     const displayedTokensSet = new Set(
       displayedTokensList?.map(
         (t) => `${t.chainId}-${t.address.toLowerCase()}`
       ) || []
     )
-    return balancesByChain.filter((token) => {
+    return balancesByChain?.filter((token) => {
       const tokenKey = `${token.chainId}-${token.address.toLowerCase()}`
       // Check if token is in displayed list and has amount
       const isInDisplayedList = displayedTokensSet.has(tokenKey) && token.amount
