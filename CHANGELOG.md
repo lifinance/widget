@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.29.0](https://github.com/lifinance/widget/compare/v3.28.0...v3.29.0) (2025-08-28)
+
+
+### Features
+
+* add config option to force internal management ([#519](https://github.com/lifinance/widget/issues/519)) ([58939d1](https://github.com/lifinance/widget/commit/58939d1958e4c5ff72254d6844cb95bdd47beae9))
+* option to hide search bar in the token list ([#523](https://github.com/lifinance/widget/issues/523)) ([3ac36d0](https://github.com/lifinance/widget/commit/3ac36d0428bc1466f7b8c36375b05b89689fae51))
+* permit and message-based flow improvements ([#525](https://github.com/lifinance/widget/issues/525)) ([ce05c76](https://github.com/lifinance/widget/commit/ce05c7677ff1229fde29e713518f7ec528aca0e9))
+
+
+### Bug Fixes
+
+* responsiveness for under 360px-wide screens ([#516](https://github.com/lifinance/widget/issues/516)) ([c4494fa](https://github.com/lifinance/widget/commit/c4494fa53aba6de221c7a319a9124a8b7566d0d0))
+* **utxo:** remove chain id from connector config ([#527](https://github.com/lifinance/widget/issues/527)) ([5452d1e](https://github.com/lifinance/widget/commit/5452d1e8654f903247ea016adc503f4086cf2fdc))
+
 ## [3.28.0](https://github.com/lifinance/widget/compare/v3.27.6...v3.28.0) (2025-08-20)
 
 
