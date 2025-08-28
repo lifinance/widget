@@ -9,9 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@bigmi/client": "^0.4.5",
-    "@bigmi/core": "^0.4.5",
-    "@bigmi/react": "^0.4.5",
+    "@bigmi/client": "^0.5.0",
+    "@bigmi/core": "^0.5.0",
+    "@bigmi/react": "^0.5.0",
     "@dynamic-labs/bitcoin": "^4.29.4",
     "@dynamic-labs/ethereum": "^4.29.4",
     "@dynamic-labs/ethereum-aa": "^4.29.4",
@@ -19,7 +19,7 @@
     "@dynamic-labs/solana": "^4.29.4",
     "@dynamic-labs/solana-core": "^4.29.4",
     "@dynamic-labs/wagmi-connector": "^4.29.4",
-    "@lifi/sdk": "^3.11.0",
+    "@lifi/sdk": "^3.11.1",
     "@lifi/wallet-management": "workspace:^",
     "@lifi/widget": "workspace:^",
     "@mui/material": "^7.3.1",
