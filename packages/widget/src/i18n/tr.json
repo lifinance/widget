@@ -240,6 +240,7 @@
     "process": {
       "bridge": {
         "actionRequired": "",
+        "messageRequired": "",
         "done": "Köprü işlemi teyit edildi",
         "pending": "",
         "started": "Köprü işlemi hazırlanıyor"
@@ -258,13 +259,10 @@
       },
       "swap": {
         "actionRequired": "",
+        "messageRequired": "",
         "done": "Takas işlemi tamamlandı",
         "pending": "",
         "started": "Takas işlemi hazırlanıyor"
-      },
-      "switchChain": {
-        "actionRequired": "",
-        "done": ""
       },
       "permit": {
         "actionRequired": "",

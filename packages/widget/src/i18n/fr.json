@@ -240,6 +240,7 @@
     "process": {
       "bridge": {
         "actionRequired": "",
+        "messageRequired": "",
         "done": "Transaction Bridge confirmée",
         "pending": "",
         "started": "Préparation de la transaction bridge"
@@ -258,13 +259,10 @@
       },
       "swap": {
         "actionRequired": "",
+        "messageRequired": "",
         "done": "Échange terminé.",
         "pending": "",
         "started": "Préparation de la transaction d'échange"
-      },
-      "switchChain": {
-        "actionRequired": "",
-        "done": ""
       },
       "permit": {
         "actionRequired": "",

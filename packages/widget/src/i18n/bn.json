@@ -240,6 +240,7 @@
     "process": {
       "bridge": {
         "actionRequired": "",
+        "messageRequired": "",
         "done": "",
         "pending": "",
         "started": ""
@@ -258,13 +259,10 @@
       },
       "swap": {
         "actionRequired": "",
+        "messageRequired": "",
         "done": "সোওয়াপ সম্পন্ন হয়েছে",
         "pending": "",
         "started": "সোয়াপ লেনদেন প্রস্তুত করা হচ্ছে"
-      },
-      "switchChain": {
-        "actionRequired": "",
-        "done": ""
       },
       "permit": {
         "actionRequired": "",

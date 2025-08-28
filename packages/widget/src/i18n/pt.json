@@ -240,6 +240,7 @@
     "process": {
       "bridge": {
         "actionRequired": "Assinar a transação de transferência de fundos entre redes",
+        "messageRequired": "",
         "done": "Transação da ponte confirmada",
         "pending": "Transação de transferência de fundos entre redes, pendente",
         "started": "Preparando a transação da ponte"
@@ -258,13 +259,10 @@
       },
       "swap": {
         "actionRequired": "Assinar transação de troca",
+        "messageRequired": "",
         "done": "Conversão concluída",
         "pending": "Transação de troca pendente",
         "started": "Preparando a transação de conversão"
-      },
-      "switchChain": {
-        "actionRequired": "Confirmar troca de rede",
-        "done": "Rede alterada"
       },
       "permit": {
         "actionRequired": "Assinar mensagem de permissão",

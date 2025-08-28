@@ -240,6 +240,7 @@
     "process": {
       "bridge": {
         "actionRequired": "",
+        "messageRequired": "",
         "done": "ธุรกรรมข้ามเชนได้รับการยืนยันแล้ว",
         "pending": "",
         "started": "เตรียมการทำรายการบริดจ์"
@@ -258,13 +259,10 @@
       },
       "swap": {
         "actionRequired": "",
+        "messageRequired": "",
         "done": "การแลกเปลี่ยนเสร็จสมบูรณ์",
         "pending": "",
         "started": "กำลังเตรียมการแลกเปลี่ยนธุรกรรม"
-      },
-      "switchChain": {
-        "actionRequired": "",
-        "done": ""
       },
       "permit": {
         "actionRequired": "",
