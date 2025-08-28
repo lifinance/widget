@@ -14,7 +14,6 @@ import {
   xverse,
 } from '@bigmi/client'
 import { bitcoin, createClient, http } from '@bigmi/core'
-import { ChainId } from '@lifi/sdk'
 
 export interface DefaultBigmiConfigProps {
   bigmiConfig?: {
@@ -55,17 +54,17 @@ export function createDefaultBigmiConfig(
   }
 ): DefaultBigmiConfigResult {
   const connectors: CreateConnectorFn[] = [
-    phantom({ chainId: ChainId.BTC }),
-    xverse({ chainId: ChainId.BTC }),
-    unisat({ chainId: ChainId.BTC }),
-    ctrl({ chainId: ChainId.BTC }),
-    okx({ chainId: ChainId.BTC }),
-    leather({ chainId: ChainId.BTC }),
-    onekey({ chainId: ChainId.BTC }),
-    binance({ chainId: ChainId.BTC }),
-    bitget({ chainId: ChainId.BTC }),
-    oyl({ chainId: ChainId.BTC }),
-    magicEden({ chainId: ChainId.BTC }),
+    phantom(),
+    xverse(),
+    unisat(),
+    ctrl(),
+    okx(),
+    leather(),
+    onekey(),
+    binance(),
+    bitget(),
+    oyl(),
+    magicEden(),
     ...(props?.connectors ?? []),
   ]
 

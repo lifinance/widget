@@ -139,7 +139,9 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
     const evm: Account = { ...wagmiAccount, chainType: ChainType.EVM }
     const utxo: Account = {
       ...bigmiAccount,
+
       chainType: ChainType.UTXO,
+      chainId: ChainId.BTC,
       address: bigmiAccount.account?.address,
       addresses: bigmiAccount.accounts?.map((account) => account.address),
     }
