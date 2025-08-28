@@ -1,10 +1,19 @@
 import ClearIcon from '@mui/icons-material/Clear'
 import Search from '@mui/icons-material/Search'
-import { FormControl, IconButton, InputAdornment } from '@mui/material'
+import {
+  CircularProgress,
+  FormControl,
+  IconButton,
+  InputAdornment,
+} from '@mui/material'
 import type { FocusEventHandler, FormEventHandler, RefObject } from 'react'
 import { InputCard } from '../../components/Card/InputCard.js'
 import { useHeaderHeight } from '../../stores/header/useHeaderStore.js'
-import { Input, StickySearchInputContainer } from './SearchInput.style.js'
+import {
+  EndAdornmentWrapper,
+  Input,
+  StickySearchInputContainer,
+} from './SearchInput.style.js'
 
 interface SearchInputProps {
   inputRef?: RefObject<HTMLInputElement | null>
@@ -16,6 +25,7 @@ interface SearchInputProps {
   onClear?: () => void
   autoFocus?: boolean
   size?: 'small' | 'medium'
+  isLoading?: boolean
 }
 
 export const SearchInput = ({
@@ -28,7 +38,9 @@ export const SearchInput = ({
   value,
   autoFocus,
   size = 'medium',
+  isLoading = false,
 }: SearchInputProps) => {
+  const hasReset = !!((value || inputRef?.current?.value) && onClear)
   return (
     <InputCard>
       <FormControl fullWidth>
@@ -42,21 +54,25 @@ export const SearchInput = ({
             </InputAdornment>
           }
           endAdornment={
-            (value || inputRef?.current?.value) &&
-            onClear && (
-              <InputAdornment position="end">
-                <IconButton
-                  size={size}
-                  onClick={onClear}
-                  aria-label="Clear"
-                  tabIndex={-1}
-                  sx={{
-                    padding: 0.5,
-                  }}
-                >
-                  <ClearIcon fontSize={size} />
-                </IconButton>
-              </InputAdornment>
+            (isLoading || hasReset) && (
+              <EndAdornmentWrapper>
+                {isLoading && <CircularProgress color="primary" size={24} />}
+                {hasReset && (
+                  <InputAdornment position="end">
+                    <IconButton
+                      size={size}
+                      onClick={onClear}
+                      aria-label="Clear"
+                      tabIndex={-1}
+                      sx={{
+                        padding: 0.5,
+                      }}
+                    >
+                      <ClearIcon fontSize={size} />
+                    </IconButton>
+                  </InputAdornment>
+                )}
+              </EndAdornmentWrapper>
             )
           }
           inputProps={{

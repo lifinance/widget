@@ -126,16 +126,6 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     tokenDetailsSheetRef.current?.close()
   }, [scrollToIndex, isAllNetworks, chainId, getVirtualItems])
 
-  if (isLoading) {
-    return (
-      <List disablePadding>
-        {Array.from({ length: 3 }).map((_, index) => (
-          <TokenListItemSkeleton key={index} />
-        ))}
-      </List>
-    )
-  }
-
   return (
     <>
       <List
@@ -224,6 +214,13 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
         })}
       </List>
       <TokenDetailsSheet ref={tokenDetailsSheetRef} />
+      {isLoading && (
+        <List disablePadding>
+          {Array.from({ length: 3 }).map((_, index) => (
+            <TokenListItemSkeleton key={index} />
+          ))}
+        </List>
+      )}
     </>
   )
 }

@@ -20,7 +20,7 @@ export const useTokens = (formType?: FormType, search?: string) => {
     )
   }, [chainsConfig?.types])
 
-  useBackgroundTokenSearch(search)
+  const { isLoading: isSearchLoading } = useBackgroundTokenSearch(search)
 
   const { data, isLoading } = useQuery({
     queryKey: [getQueryKey('tokens', keyPrefix)],
@@ -52,6 +52,7 @@ export const useTokens = (formType?: FormType, search?: string) => {
   return {
     allTokens,
     isLoading,
+    isSearchLoading,
   }
 }
 
@@ -68,7 +69,7 @@ const useBackgroundTokenSearch = (search?: string) => {
     )
   }, [chainsConfig?.types])
 
-  useQuery({
+  const { isLoading: isSearchLoading } = useQuery({
     queryKey: [getQueryKey('tokens-search', keyPrefix), search],
     queryFn: async ({ queryKey, signal }) => {
       const [, searchQuery] = queryKey
@@ -132,4 +133,8 @@ const useBackgroundTokenSearch = (search?: string) => {
     refetchInterval: 300_000,
     staleTime: 300_000,
   })
+
+  return {
+    isLoading: isSearchLoading,
+  }
 }

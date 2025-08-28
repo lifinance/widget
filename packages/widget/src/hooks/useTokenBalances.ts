@@ -12,7 +12,11 @@ export const useTokenBalances = (
   isAllNetworks?: boolean,
   search?: string
 ) => {
-  const { allTokens, isLoading: isTokensLoading } = useTokens(formType, search)
+  const {
+    allTokens,
+    isLoading: isTokensLoading,
+    isSearchLoading,
+  } = useTokens(formType, search)
 
   const { data: accountsWithAllTokens, isLoading: isAccountsLoading } =
     useAccountsDataForBalances(
@@ -92,6 +96,7 @@ export const useTokenBalances = (
     tokens: processedTokens ?? [],
     withCategories,
     isTokensLoading,
+    isSearchLoading,
     isBalanceLoading,
   }
 }

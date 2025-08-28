@@ -6,6 +6,7 @@ import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
+import { useTokensLoadingStore } from '../../stores/tokens/useTokensLoadingStore.js'
 import { WidgetEvent } from '../../types/events.js'
 import { TokenNotFound } from './TokenNotFound.js'
 import type { TokenListProps } from './types.js'
@@ -14,6 +15,7 @@ import { VirtualizedTokenList } from './VirtualizedTokenList.js'
 
 export const TokenList: FC<TokenListProps> = memo(
   ({ formType, parentRef, height, onClick }) => {
+    const { setLoading } = useTokensLoadingStore()
     const emitter = useWidgetEvents()
 
     const [selectedChainId, selectedTokenAddress] = useFieldValues(
@@ -28,18 +30,27 @@ export const TokenList: FC<TokenListProps> = memo(
       'tokenSearchFilter'
     )
 
-    const { tokens, withCategories, isTokensLoading, isBalanceLoading } =
-      useTokenBalances(
-        selectedChainId,
-        formType,
-        isAllNetworks,
-        tokenSearchFilter
-      )
+    const {
+      tokens,
+      withCategories,
+      isTokensLoading,
+      isBalanceLoading,
+      isSearchLoading,
+    } = useTokenBalances(
+      selectedChainId,
+      formType,
+      isAllNetworks,
+      tokenSearchFilter
+    )
 
     const handleTokenClick = useTokenSelect(formType, onClick)
 
     const showCategories =
       withCategories && !tokenSearchFilter && !isAllNetworks
+
+    useEffect(() => {
+      setLoading(isTokensLoading || isBalanceLoading || isSearchLoading)
+    }, [isTokensLoading, isBalanceLoading, isSearchLoading, setLoading])
 
     useEffect(() => {
       const normalizedSearchFilter = tokenSearchFilter?.replaceAll('$', '')
@@ -54,14 +65,14 @@ export const TokenList: FC<TokenListProps> = memo(
 
     return (
       <Box ref={parentRef} style={{ height, overflow: 'auto' }}>
-        {!tokens.length && !isTokensLoading ? (
+        {!tokens.length && !isTokensLoading && !isSearchLoading ? (
           <TokenNotFound formType={formType} />
         ) : null}
         <VirtualizedTokenList
           tokens={tokens}
           scrollElementRef={parentRef}
           chainId={selectedChainId}
-          isLoading={isTokensLoading}
+          isLoading={isTokensLoading || isSearchLoading}
           isBalanceLoading={isBalanceLoading}
           showCategories={showCategories}
           onClick={handleTokenClick}

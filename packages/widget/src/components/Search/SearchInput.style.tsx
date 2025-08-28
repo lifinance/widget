@@ -80,3 +80,10 @@ export const SearchList = styled(List)(({ theme }) => ({
   paddingRight: theme.spacing(1.5),
   paddingBottom: theme.spacing(1.5),
 }))
+
+export const EndAdornmentWrapper = styled(Box)({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  gap: 2,
+})
