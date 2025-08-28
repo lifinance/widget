@@ -58,12 +58,16 @@ export const DrawerControls = () => {
         open={isDrawerOpen}
         drawerWidth={drawerWidth}
       >
-        <DrawerContentContainer drawerWidth={drawerWidth}>
+        <DrawerContentContainer
+          drawerWidth={drawerWidth}
+          data-testid="sidebar-container"
+        >
           <HeaderRow>
             <Header>LI.FI Widget</Header>
             <Box>
               <Tooltip
                 title="Reset config"
+                data-testid="reset-config-icon"
                 slotProps={{
                   popper: { style: { zIndex: tooltipPopperZIndex } },
                 }}
@@ -75,6 +79,7 @@ export const DrawerControls = () => {
               </Tooltip>
               <Tooltip
                 title="Close tools"
+                data-testid="close-tools-icon"
                 slotProps={{
                   popper: { style: { zIndex: tooltipPopperZIndex } },
                 }}
@@ -97,6 +102,7 @@ export const DrawerControls = () => {
                 icon={<DesignServicesIcon />}
                 iconPosition="start"
                 label={'Design'}
+                data-testid="design-tab"
                 value="design"
                 disableRipple
               />
@@ -104,6 +110,7 @@ export const DrawerControls = () => {
                 icon={<IntegrationInstructionsIcon />}
                 iconPosition="start"
                 label={'Code'}
+                data-testid="code-tab"
                 value="code"
                 disableRipple
               />

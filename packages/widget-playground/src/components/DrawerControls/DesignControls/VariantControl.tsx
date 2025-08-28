@@ -40,6 +40,7 @@ export const VariantControl = () => {
       value={
         <CardValue sx={{ textTransform: 'capitalize' }}>{variant}</CardValue>
       }
+      data-testid="variant-section"
     >
       <Tabs
         value={variant}

@@ -51,7 +51,7 @@ export const WalletManagementControl = () => {
   }
 
   return (
-    <Card>
+    <Card data-testid="wallet-management-section">
       <CardRowContainer>
         <CardTitleContainer>
           <CardValue>Manage wallet externally</CardValue>

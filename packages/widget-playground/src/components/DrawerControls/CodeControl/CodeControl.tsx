@@ -46,8 +46,18 @@ export const CodeControl = () => {
           indicatorColor="primary"
           onChange={(_, value) => setCodeControlTab(value)}
         >
-          <Tab label={'Config'} value="config" disableRipple />
-          <Tab label={'Examples'} value="examples" disableRipple />
+          <Tab
+            label={'Config'}
+            value="config"
+            disableRipple
+            data-testid="config-tab"
+          />
+          <Tab
+            label={'Examples'}
+            value="examples"
+            disableRipple
+            data-testid="examples-tab"
+          />
         </Tabs>
       </Box>
       <TabContext value={codeControlTab}>
