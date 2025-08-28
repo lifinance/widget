@@ -95,22 +95,16 @@ type WrappedTokenListProps = {
 const WrappedTokenList = ({ headerRef, formType }: WrappedTokenListProps) => {
   const { navigateBack } = useNavigateBack()
   const listParentRef = useRef<HTMLUListElement | null>(null)
-  const { listHeight, minListHeight } = useListHeight({
+  const { listHeight } = useListHeight({
     listParentRef,
     headerRef,
   })
   return (
-    <Box
-      sx={{
-        height: minListHeight,
-      }}
-    >
-      <TokenList
-        parentRef={listParentRef}
-        height={listHeight}
-        onClick={navigateBack}
-        formType={formType}
-      />
-    </Box>
+    <TokenList
+      parentRef={listParentRef}
+      height={listHeight}
+      onClick={navigateBack}
+      formType={formType}
+    />
   )
 }

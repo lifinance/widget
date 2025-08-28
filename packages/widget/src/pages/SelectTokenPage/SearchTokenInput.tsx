@@ -4,10 +4,8 @@ import { SearchInput } from '../../components/Search/SearchInput.js'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { useTokensLoading } from '../../stores/tokens/useTokensLoadingStore.js'
 
 export const SearchTokenInput = () => {
-  const isLoading = useTokensLoading()
   const { t } = useTranslation()
   const [value] = useFieldValues('tokenSearchFilter')
   const { setFieldValue, setAsTouched } = useFieldActions()
@@ -46,7 +44,6 @@ export const SearchTokenInput = () => {
       onClear={() => setFieldValue('tokenSearchFilter', '')}
       value={value as string | undefined}
       autoFocus
-      isLoading={isLoading}
     />
   )
 }

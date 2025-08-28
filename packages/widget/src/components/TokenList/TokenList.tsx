@@ -6,7 +6,6 @@ import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { useTokensLoadingStore } from '../../stores/tokens/useTokensLoadingStore.js'
 import { WidgetEvent } from '../../types/events.js'
 import { TokenNotFound } from './TokenNotFound.js'
 import type { TokenListProps } from './types.js'
@@ -15,7 +14,6 @@ import { VirtualizedTokenList } from './VirtualizedTokenList.js'
 
 export const TokenList: FC<TokenListProps> = memo(
   ({ formType, parentRef, height, onClick }) => {
-    const { setLoading } = useTokensLoadingStore()
     const emitter = useWidgetEvents()
 
     const [selectedChainId, selectedTokenAddress] = useFieldValues(
@@ -47,10 +45,6 @@ export const TokenList: FC<TokenListProps> = memo(
 
     const showCategories =
       withCategories && !tokenSearchFilter && !isAllNetworks
-
-    useEffect(() => {
-      setLoading(isTokensLoading || isBalanceLoading || isSearchLoading)
-    }, [isTokensLoading, isBalanceLoading, isSearchLoading, setLoading])
 
     useEffect(() => {
       const normalizedSearchFilter = tokenSearchFilter?.replaceAll('$', '')

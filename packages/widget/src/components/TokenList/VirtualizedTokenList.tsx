@@ -98,7 +98,6 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     () => ({
       count: tokens.length,
       overscan: 5,
-      paddingEnd: 12,
       getScrollElement: () => scrollElementRef.current,
       estimateSize,
       getItemKey,

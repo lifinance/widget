@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
 import { isSearchMatch, processTokenBalances } from '../utils/tokenList.js'
-import { useAccountsDataForBalances } from './useAccountsDataForBalances.js'
+import { useAccountsBalancesData } from './useAccountsBalancesData.js'
 import { useTokenBalancesQueries } from './useTokenBalancesQueries.js'
 import { useTokens } from './useTokens.js'
 
@@ -19,12 +19,7 @@ export const useTokenBalances = (
   } = useTokens(formType, search)
 
   const { data: accountsWithAllTokens, isLoading: isAccountsLoading } =
-    useAccountsDataForBalances(
-      selectedChainId,
-      formType,
-      isAllNetworks,
-      allTokens
-    )
+    useAccountsBalancesData(selectedChainId, formType, isAllNetworks, allTokens)
 
   const isBalanceLoadingEnabled =
     Boolean(accountsWithAllTokens) && !isAccountsLoading

@@ -6,6 +6,7 @@ import {
   Box,
   ListItemAvatar,
   ListItemText,
+  listItemSecondaryActionClasses,
   Skeleton,
   Slide,
   Typography,
@@ -349,12 +350,15 @@ export const TokenListItemSkeleton = () => {
     <ListItem
       secondaryAction={<TokenAmountSkeleton />}
       disablePadding
-      sx={{
+      sx={(theme) => ({
         position: 'relative',
         flexDirection: 'row',
         alignItems: 'center',
         padding: 0,
-      }}
+        [`& .${listItemSecondaryActionClasses.root}`]: {
+          right: theme.spacing(1.5),
+        },
+      })}
     >
       <ListItemAvatar>
         <Skeleton

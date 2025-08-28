@@ -5,7 +5,7 @@ import type { FormType } from '../stores/form/types.js'
 import { useChains } from './useChains.js'
 import { useFilteredTokensByBalance } from './useFilteredByTokenBalances.js'
 
-export const useAccountsDataForBalances = (
+export const useAccountsBalancesData = (
   selectedChainId?: number,
   formType?: FormType,
   isAllNetworks?: boolean,
