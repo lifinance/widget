@@ -75,7 +75,7 @@ export function createDefaultBigmiConfig(
       return createClient({ chain, transport: http() })
     },
     ...props?.bigmiConfig,
-  })
+  }) as Config
 
   return {
     config,
