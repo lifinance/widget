@@ -78,10 +78,7 @@ export const TokenListItemAvatar = memo(
         {token.symbol?.[0]}
       </Avatar>
     )
-  },
-  (prevProps, nextProps) =>
-    prevProps.token.logoURI === nextProps.token.logoURI &&
-    prevProps.token.symbol === nextProps.token.symbol
+  }
 )
 
 interface OpenTokenDetailsButtonProps {

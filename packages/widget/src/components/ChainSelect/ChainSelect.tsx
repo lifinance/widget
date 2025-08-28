@@ -1,6 +1,6 @@
 import type { EVMChain } from '@lifi/sdk'
 import { Skeleton, type Theme, Tooltip, useMediaQuery } from '@mui/material'
-import { memo, useCallback, useEffect, useMemo } from 'react'
+import { memo, useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
@@ -75,26 +75,17 @@ export const ChainSelect = memo(({ formType }: FormTypeProps) => {
     setFieldValue('tokenSearchFilter', '')
   }, [setIsAllNetworks, setFieldValue])
 
-  const chainsToHide = useMemo(() => {
-    if (chains?.length === maxChainsToShow) {
-      return 0
-    }
-    return (chains?.length ?? 0) - maxChainsToOrder
-  }, [chains])
+  const chainsToHide =
+    chains?.length === maxChainsToShow
+      ? 0
+      : (chains?.length ?? 0) - maxChainsToOrder
 
-  const chainsToShow = useMemo(() => {
-    return (chainsToHide > 0 ? getChains() : chains) ?? []
-  }, [chainsToHide, chains, getChains])
+  const chainsToShow = (chainsToHide > 0 ? getChains() : chains) ?? []
 
-  const showAllNetworks = useMemo(() => chainsToShow.length > 1, [chainsToShow])
+  const showAllNetworks = chainsToShow.length > 1
 
-  const tilesCount = useMemo(() => {
-    return (
-      chainsToShow.length +
-      (showAllNetworks ? 1 : 0) + // 1 for "All networks"
-      (chainsToHide > 0 ? 1 : 0) // 1 for "+ N" more networks
-    )
-  }, [chainsToShow.length, showAllNetworks, chainsToHide])
+  const tilesCount =
+    chainsToShow.length + (showAllNetworks ? 1 : 0) + (chainsToHide > 0 ? 1 : 0)
 
   if (isLoading) {
     return (
@@ -161,17 +152,11 @@ const ChainItem = memo(
     isAllNetworks: boolean
     onSelect: (id: number) => void
   }) => {
-    // Memoize the click handler for this chain
-    const handleClick = useCallback(
-      () => onSelect(chain.id),
-      [onSelect, chain.id]
-    )
-
     return (
       <Tooltip title={chain.name} enterNextDelay={100}>
         <ChainCard
           component="button"
-          onClick={handleClick}
+          onClick={() => onSelect(chain.id)}
           type={!isAllNetworks && isSelected ? 'selected' : 'default'}
           selectionColor="secondary"
         >

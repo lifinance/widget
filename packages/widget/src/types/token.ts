@@ -1,10 +1,15 @@
 import type {
   TokenAmount as SDKTokenAmount,
-  TokenExtended as SDKTokenExtended,
+  TokenAmountExtended as SDKTokenAmountExtended,
 } from '@lifi/sdk'
 
-export interface TokenAmount extends SDKTokenAmount {
+interface TokenFlags {
   featured?: boolean
   popular?: boolean
 }
-export interface TokenAmountExtended extends SDKTokenExtended, TokenAmount {}
+
+export interface TokenAmount extends SDKTokenAmount, TokenFlags {}
+
+export interface TokenAmountExtended
+  extends SDKTokenAmountExtended,
+    TokenFlags {}

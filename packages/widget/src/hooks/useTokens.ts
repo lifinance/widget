@@ -14,11 +14,12 @@ export const useTokens = (formType?: FormType, search?: string) => {
     keyPrefix,
   } = useWidgetConfig()
 
-  const chainTypes = useMemo(() => {
-    return [ChainType.EVM, ChainType.SVM, ChainType.UTXO, ChainType.MVM].filter(
-      (chainType) => isItemAllowed(chainType, chainsConfig?.types)
-    )
-  }, [chainsConfig?.types])
+  const chainTypes = [
+    ChainType.EVM,
+    ChainType.SVM,
+    ChainType.UTXO,
+    ChainType.MVM,
+  ].filter((chainType) => isItemAllowed(chainType, chainsConfig?.types))
 
   const { isLoading: isSearchLoading } = useBackgroundTokenSearch(search)
 
@@ -63,11 +64,12 @@ const useBackgroundTokenSearch = (search?: string) => {
   const { chains: chainsConfig, keyPrefix } = useWidgetConfig()
   const queryClient = useQueryClient()
 
-  const chainTypes = useMemo(() => {
-    return [ChainType.EVM, ChainType.SVM, ChainType.UTXO, ChainType.MVM].filter(
-      (chainType) => isItemAllowed(chainType, chainsConfig?.types)
-    )
-  }, [chainsConfig?.types])
+  const chainTypes = [
+    ChainType.EVM,
+    ChainType.SVM,
+    ChainType.UTXO,
+    ChainType.MVM,
+  ].filter((chainType) => isItemAllowed(chainType, chainsConfig?.types))
 
   const { isLoading: isSearchLoading } = useQuery({
     queryKey: [getQueryKey('tokens-search', keyPrefix), search],
@@ -78,7 +80,7 @@ const useBackgroundTokenSearch = (search?: string) => {
           chainTypes,
           orderBy: 'volumeUSD24H',
           extended: true,
-          ...(searchQuery && { search: searchQuery }),
+          search: searchQuery,
           limit: 1000,
         },
         { signal }

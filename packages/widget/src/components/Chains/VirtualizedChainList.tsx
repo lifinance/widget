@@ -3,10 +3,7 @@ import { useVirtualizer } from '@tanstack/react-virtual'
 import type { RefObject } from 'react'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  useChainOrderStore,
-  useChainOrderStoreContext,
-} from '../../stores/chains/ChainOrderStore.js'
+import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { AllChainsAvatar } from './AllChainsAvatar.js'
 import {
@@ -38,8 +35,10 @@ export const VirtualizedChainList = ({
   withPinnedChains,
 }: VirtualizedChainListProps) => {
   const { t } = useTranslation()
-  const chainOrderStore = useChainOrderStoreContext()
-  const { isAllNetworks, setIsAllNetworks } = chainOrderStore.getState()
+  const { isAllNetworks, setIsAllNetworks } = useChainOrderStore((state) => ({
+    isAllNetworks: state.isAllNetworks,
+    setIsAllNetworks: state.setIsAllNetworks,
+  }))
   const { setFieldValue } = useFieldActions()
   const selectedChainIdRef = useRef(selectedChainId) // Store the initial selected chain ID to scroll to it once chains are loaded
   const hasScrolledRef = useRef(false)
@@ -67,9 +66,7 @@ export const VirtualizedChainList = ({
     return [...pinned, ...rest]
   }, [chains, pinnedChains])
 
-  const showAllNetworks = useMemo(() => {
-    return sortedChains.length > 1 && !hasSearchQuery
-  }, [sortedChains.length, hasSearchQuery])
+  const showAllNetworks = sortedChains.length > 1 && !hasSearchQuery
 
   const getItemKey = useCallback(
     (index: number) => {

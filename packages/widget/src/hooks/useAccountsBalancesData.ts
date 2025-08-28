@@ -14,7 +14,7 @@ export const useAccountsBalancesData = (
   const { data: accountsWithTokens, isLoading: isAccountsLoading } =
     useAccountsData(selectedChainId, formType, isAllNetworks, allTokens)
 
-  // Filter tokens to fetch balances for
+  // Filter out EVM tokens that do not have balances
   const { data: filteredTokens, isLoading: isCachedBalancesLoading } =
     useFilteredTokensByBalance(accountsWithTokens)
 

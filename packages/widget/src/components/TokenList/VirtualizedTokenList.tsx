@@ -214,7 +214,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
       </List>
       <TokenDetailsSheet ref={tokenDetailsSheetRef} />
       {isLoading && (
-        <List disablePadding>
+        <List disablePadding sx={{ cursor: 'default' }}>
           {Array.from({ length: 3 }).map((_, index) => (
             <TokenListItemSkeleton key={index} />
           ))}
