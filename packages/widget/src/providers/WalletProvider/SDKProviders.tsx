@@ -2,7 +2,7 @@ import { getConnectorClient as getBigmiConnectorClient } from '@bigmi/client'
 import { useConfig as useBigmiConfig } from '@bigmi/react'
 import type { SDKProvider } from '@lifi/sdk'
 import { ChainType, config, EVM, Solana, Sui, UTXO } from '@lifi/sdk'
-import { useCurrentWallet } from '@mysten/dapp-kit'
+import { useSuiContext } from '@lifi/wallet-store'
 import type { SignerWalletAdapter } from '@solana/wallet-adapter-base'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { useEffect } from 'react'
@@ -18,7 +18,7 @@ export const SDKProviders = () => {
   const { wallet } = useWallet()
   const wagmiConfig = useWagmiConfig()
   const bigmiConfig = useBigmiConfig()
-  const { currentWallet } = useCurrentWallet()
+  const { currentWallet } = useSuiContext()
 
   useEffect(() => {
     // Configure SDK Providers
