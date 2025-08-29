@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.29.1](https://github.com/lifinance/widget/compare/v3.29.0...v3.29.1) (2025-08-29)
+
+
+### Bug Fixes
+
+* prevent bottom sheets from mounting when hidden not to affect widget height ([#529](https://github.com/lifinance/widget/issues/529)) ([c11b2ec](https://github.com/lifinance/widget/commit/c11b2ecf7024f5db02495fed877d04dc0e12870d))
+
 ## [3.29.0](https://github.com/lifinance/widget/compare/v3.28.0...v3.29.0) (2025-08-28)
 
 
