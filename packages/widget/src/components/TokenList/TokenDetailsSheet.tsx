@@ -35,7 +35,7 @@ export const TokenDetailsSheet = forwardRef<
   )
 
   return (
-    <BottomSheet ref={bottomSheetRef}>
+    <BottomSheet ref={bottomSheetRef} keepMounted>
       <TokenDetailsSheetContent
         ref={ref}
         tokenAddress={tokenAddress}
