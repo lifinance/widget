@@ -21,9 +21,7 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
   const emitter = useWidgetEvents()
   const { setFieldValue, getFieldValues } = useFieldActions()
   const autoPopulateToAddress = useToAddressAutoPopulate()
-  const { setChain } = useChainOrderStore((state) => ({
-    setChain: state.setChain,
-  }))
+  const setChain = useChainOrderStore((state) => state.setChain)
 
   const tokenKey = FormKeyHelper.getTokenKey(formType)
 

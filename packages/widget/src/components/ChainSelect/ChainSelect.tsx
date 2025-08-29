@@ -1,6 +1,6 @@
 import type { EVMChain } from '@lifi/sdk'
 import { Skeleton, type Theme, Tooltip, useMediaQuery } from '@mui/material'
-import { memo, useCallback, useEffect } from 'react'
+import { memo, useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
@@ -35,8 +35,8 @@ export const ChainSelect = memo(({ formType }: FormTypeProps) => {
   const {
     chainOrder,
     chains,
-    getChains,
     isLoading,
+    getSelectedChains,
     setChainOrder,
     setCurrentChain,
   } = useChainSelect(formType)
@@ -80,7 +80,10 @@ export const ChainSelect = memo(({ formType }: FormTypeProps) => {
       ? 0
       : (chains?.length ?? 0) - maxChainsToOrder
 
-  const chainsToShow = (chainsToHide > 0 ? getChains() : chains) ?? []
+  const chainsToShow = useMemo(
+    () => (chainsToHide > 0 ? getSelectedChains() : chains) ?? [],
+    [chainsToHide, getSelectedChains, chains]
+  )
 
   const showAllNetworks = chainsToShow.length > 1
 

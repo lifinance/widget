@@ -35,17 +35,16 @@ export const VirtualizedChainList = ({
   withPinnedChains,
 }: VirtualizedChainListProps) => {
   const { t } = useTranslation()
-  const { isAllNetworks, setIsAllNetworks } = useChainOrderStore((state) => ({
-    isAllNetworks: state.isAllNetworks,
-    setIsAllNetworks: state.setIsAllNetworks,
-  }))
   const { setFieldValue } = useFieldActions()
   const selectedChainIdRef = useRef(selectedChainId) // Store the initial selected chain ID to scroll to it once chains are loaded
   const hasScrolledRef = useRef(false)
-  const [pinnedChains, setPinnedChain] = useChainOrderStore((state) => [
-    state.pinnedChains,
-    state.setPinnedChain,
-  ])
+  const [pinnedChains, setPinnedChain, isAllNetworks, setIsAllNetworks] =
+    useChainOrderStore((state) => [
+      state.pinnedChains,
+      state.setPinnedChain,
+      state.isAllNetworks,
+      state.setIsAllNetworks,
+    ])
   const onPin = useCallback(
     (chainId: number) => {
       setPinnedChain(chainId)

@@ -14,18 +14,17 @@ export const useTokens = (formType?: FormType, search?: string) => {
     keyPrefix,
   } = useWidgetConfig()
 
-  const chainTypes = [
-    ChainType.EVM,
-    ChainType.SVM,
-    ChainType.UTXO,
-    ChainType.MVM,
-  ].filter((chainType) => isItemAllowed(chainType, chainsConfig?.types))
-
   const { isLoading: isSearchLoading } = useBackgroundTokenSearch(search)
 
   const { data, isLoading } = useQuery({
     queryKey: [getQueryKey('tokens', keyPrefix)],
     queryFn: async ({ signal }) => {
+      const chainTypes = [
+        ChainType.EVM,
+        ChainType.SVM,
+        ChainType.UTXO,
+        ChainType.MVM,
+      ].filter((chainType) => isItemAllowed(chainType, chainsConfig?.types))
       const tokensResponse: TokensExtendedResponse = await getTokens(
         {
           chainTypes,
@@ -64,17 +63,15 @@ const useBackgroundTokenSearch = (search?: string) => {
   const { chains: chainsConfig, keyPrefix } = useWidgetConfig()
   const queryClient = useQueryClient()
 
-  const chainTypes = [
-    ChainType.EVM,
-    ChainType.SVM,
-    ChainType.UTXO,
-    ChainType.MVM,
-  ].filter((chainType) => isItemAllowed(chainType, chainsConfig?.types))
-
   const { isLoading: isSearchLoading } = useQuery({
     queryKey: [getQueryKey('tokens-search', keyPrefix), search],
-    queryFn: async ({ queryKey, signal }) => {
-      const [, searchQuery] = queryKey
+    queryFn: async ({ queryKey: [, searchQuery], signal }) => {
+      const chainTypes = [
+        ChainType.EVM,
+        ChainType.SVM,
+        ChainType.UTXO,
+        ChainType.MVM,
+      ].filter((chainType) => isItemAllowed(chainType, chainsConfig?.types))
       const tokensResponse: TokensExtendedResponse = await getTokens(
         {
           chainTypes,
