@@ -2,8 +2,17 @@ import type { ExtendedChain } from '@lifi/sdk'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type { RefObject } from 'react'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
-import { List } from './ChainList.style.js'
+import { useFieldActions } from '../../stores/form/useFieldActions.js'
+import { AllChainsAvatar } from './AllChainsAvatar.js'
+import {
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+} from './ChainList.style.js'
 import { ChainListItem } from './ChainListItem.js'
 
 interface VirtualizedChainListProps {
@@ -12,23 +21,30 @@ interface VirtualizedChainListProps {
   onSelect: (chain: ExtendedChain) => void
   selectedChainId?: number
   itemsSize: 'small' | 'medium'
+  hasSearchQuery: boolean
   withPinnedChains: boolean
 }
 
 export const VirtualizedChainList = ({
   chains,
+  hasSearchQuery,
   onSelect,
   selectedChainId,
   itemsSize,
   scrollElementRef,
   withPinnedChains,
 }: VirtualizedChainListProps) => {
+  const { t } = useTranslation()
+  const { setFieldValue } = useFieldActions()
   const selectedChainIdRef = useRef(selectedChainId) // Store the initial selected chain ID to scroll to it once chains are loaded
   const hasScrolledRef = useRef(false)
-  const [pinnedChains, setPinnedChain] = useChainOrderStore((state) => [
-    state.pinnedChains,
-    state.setPinnedChain,
-  ])
+  const [pinnedChains, setPinnedChain, isAllNetworks, setIsAllNetworks] =
+    useChainOrderStore((state) => [
+      state.pinnedChains,
+      state.setPinnedChain,
+      state.isAllNetworks,
+      state.setIsAllNetworks,
+    ])
   const onPin = useCallback(
     (chainId: number) => {
       setPinnedChain(chainId)
@@ -49,16 +65,30 @@ export const VirtualizedChainList = ({
     return [...pinned, ...rest]
   }, [chains, pinnedChains])
 
+  const showAllNetworks = sortedChains.length > 1 && !hasSearchQuery
+
   const getItemKey = useCallback(
     (index: number) => {
-      return `${sortedChains[index].id}-${index}`
+      if (showAllNetworks && index === 0) {
+        return 'all-chains'
+      }
+      const chainIndex = index - (showAllNetworks ? 1 : 0)
+      return `${sortedChains[chainIndex].id}-${index}`
     },
-    [sortedChains]
+    [sortedChains, showAllNetworks]
+  )
+
+  const onChainSelect = useCallback(
+    (chain: ExtendedChain) => {
+      setIsAllNetworks(false)
+      onSelect(chain)
+    },
+    [onSelect, setIsAllNetworks]
   )
 
   const { getVirtualItems, getTotalSize, measure, range, getOffsetForIndex } =
     useVirtualizer({
-      count: sortedChains.length,
+      count: sortedChains.length + (showAllNetworks ? 1 : 0), // +1 for the all networks item
       overscan: 3,
       paddingEnd: 0,
       getScrollElement: () => scrollElementRef.current,
@@ -96,6 +126,12 @@ export const VirtualizedChainList = ({
   )
 
   useEffect(() => {
+    // Mark as scrolled if "All Networks" is initially selected
+    if (isAllNetworks) {
+      hasScrolledRef.current = true
+      return
+    }
+
     // Only scroll if sortedChains is not empty and we haven't scrolled yet
     if (!hasScrolledRef.current && sortedChains.length > 0 && range) {
       const selectedChainIndex = sortedChains.findIndex(
@@ -113,7 +149,12 @@ export const VirtualizedChainList = ({
       }
       hasScrolledRef.current = true // Mark as scrolled (when needed)
     }
-  }, [sortedChains, scrollToIndex, range])
+  }, [sortedChains, scrollToIndex, range, isAllNetworks])
+
+  const selectAllNetworks = useCallback(() => {
+    setIsAllNetworks(true)
+    setFieldValue('tokenSearchFilter', '')
+  }, [setIsAllNetworks, setFieldValue])
 
   return (
     <List
@@ -122,13 +163,40 @@ export const VirtualizedChainList = ({
       disablePadding
     >
       {getVirtualItems().map((item) => {
-        const chain = sortedChains[item.index]
+        if (showAllNetworks && item.index === 0) {
+          return (
+            <ListItem
+              key={item.key}
+              style={{
+                height: `${itemsSize}px`,
+                transform: `translateY(${item.start}px)`,
+                padding: 0,
+              }}
+            >
+              <ListItemButton
+                onClick={selectAllNetworks}
+                selected={isAllNetworks}
+                size={itemsSize}
+              >
+                <ListItemAvatar size={itemsSize}>
+                  <AllChainsAvatar chains={chains} size={itemsSize} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={t('main.allNetworks')}
+                  size={itemsSize}
+                />
+              </ListItemButton>
+            </ListItem>
+          )
+        }
+
+        const chain = sortedChains[item.index - (showAllNetworks ? 1 : 0)]
         return (
           <ChainListItem
             key={item.key}
             chain={chain}
-            onSelect={onSelect}
-            selected={chain.id === selectedChainId}
+            onSelect={onChainSelect}
+            selected={!isAllNetworks && chain.id === selectedChainId}
             itemsSize={itemsSize}
             size={item.size}
             start={item.start}

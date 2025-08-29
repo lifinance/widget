@@ -102,7 +102,6 @@ export const useListHeight = ({
   )
 
   return {
-    minListHeight,
     listHeight,
   }
 }

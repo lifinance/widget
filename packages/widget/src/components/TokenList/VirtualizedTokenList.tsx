@@ -1,8 +1,9 @@
 import { Typography } from '@mui/material'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type { FC } from 'react'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import type { TokenAmount } from '../../types/token.js'
 import { TokenDetailsSheet } from './TokenDetailsSheet.js'
 import { List } from './TokenList.style.js'
@@ -12,50 +13,64 @@ import type {
   VirtualizedTokenListProps,
 } from './types.js'
 
+const tokenItemHeight = 64 // 60 + 4px margin-bottom
+
 export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
-  account,
   tokens,
   scrollElementRef,
   chainId,
-  chain,
   selectedTokenAddress,
   isLoading,
   isBalanceLoading,
   showCategories,
   onClick,
+  isAllNetworks,
 }) => {
   const { t } = useTranslation()
+
+  const { chains } = useAvailableChains()
+
+  // Create Set for O(1) chain lookup instead of O(n) find
+  const chainsSet = useMemo(() => {
+    if (!chains) {
+      return undefined
+    }
+    return new Map(chains.map((chain) => [chain.id, chain]))
+  }, [chains])
 
   const tokenDetailsSheetRef = useRef<TokenDetailsSheetBase>(null)
 
   const onShowTokenDetails = useCallback(
-    (tokenAddress: string, noContractAddress: boolean) => {
-      tokenDetailsSheetRef.current?.open(tokenAddress, noContractAddress)
+    (tokenAddress: string, noContractAddress: boolean, chainId: number) => {
+      tokenDetailsSheetRef.current?.open(
+        tokenAddress,
+        noContractAddress,
+        chainId
+      )
     },
     []
   )
 
   const getItemKey = useCallback(
     (index: number) => {
-      return `${tokens[index].address}-${index}`
+      const token = tokens[index]
+      return `${token.chainId}-${token.address}-${index}`
     },
     [tokens]
   )
 
-  const { getVirtualItems, getTotalSize, scrollToIndex } = useVirtualizer({
-    count: tokens.length,
-    overscan: 5,
-    paddingEnd: 12,
-    getScrollElement: () => scrollElementRef.current,
-    estimateSize: (index) => {
+  const estimateSize = useCallback(
+    (index: number) => {
+      const currentToken = tokens[index]
+
       // Base size for TokenListItem
-      let size = 64
+      let size = tokenItemHeight
+
       // Early return if categories are not shown
       if (!showCategories) {
         return size
       }
 
-      const currentToken = tokens[index]
       const previousToken = tokens[index - 1]
 
       // Adjust size for the first featured token
@@ -75,8 +90,30 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
 
       return size
     },
-    getItemKey,
-  })
+    [tokens, showCategories]
+  )
+
+  // Chunk the tokens for infinite loading simulation
+  const virtualizerConfig = useMemo(
+    () => ({
+      count: tokens.length,
+      overscan: 5,
+      getScrollElement: () => scrollElementRef.current,
+      estimateSize,
+      getItemKey,
+    }),
+    [tokens.length, estimateSize, getItemKey, scrollElementRef]
+  )
+
+  const { getVirtualItems, getTotalSize, scrollToIndex, measure } =
+    useVirtualizer(virtualizerConfig)
+
+  // Address the issue of disappearing tokens on rerender
+  useEffect(() => {
+    if (scrollElementRef.current) {
+      measure()
+    }
+  }, [measure, scrollElementRef.current])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when chainId changes
   useEffect(() => {
@@ -86,17 +123,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     }
     // Close the token details sheet when switching the chains
     tokenDetailsSheetRef.current?.close()
-  }, [scrollToIndex, chainId, getVirtualItems])
-
-  if (isLoading) {
-    return (
-      <List disablePadding>
-        {Array.from({ length: 3 }).map((_, index) => (
-          <TokenListItemSkeleton key={index} />
-        ))}
-      </List>
-    )
-  }
+  }, [scrollToIndex, isAllNetworks, chainId, getVirtualItems])
 
   return (
     <>
@@ -108,6 +135,8 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
         {getVirtualItems().map((item) => {
           const currentToken = tokens[item.index]
           const previousToken: TokenAmount | undefined = tokens[item.index - 1]
+
+          const chain = chainsSet?.get(currentToken.chainId)
 
           const isFirstFeaturedToken = currentToken.featured && item.index === 0
 
@@ -129,23 +158,28 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
             isTransitionFromFeaturedTokens ||
             (previousToken?.popular && !currentToken.popular)
 
-          const startAdornmentLabel = showCategories
-            ? (() => {
-                if (isFirstFeaturedToken) {
-                  return t('main.featuredTokens')
-                }
-                if (isTransitionToMyTokens) {
-                  return t('main.myTokens')
-                }
-                if (isTransitionToPopularTokens) {
-                  return t('main.popularTokens')
-                }
-                if (shouldShowAllTokensCategory) {
-                  return t('main.allTokens')
-                }
-                return null
-              })()
-            : null
+          const startAdornmentLabel =
+            !isAllNetworks && showCategories
+              ? (() => {
+                  if (isFirstFeaturedToken) {
+                    return t('main.featuredTokens')
+                  }
+                  if (isTransitionToMyTokens) {
+                    return t('main.myTokens')
+                  }
+                  if (isTransitionToPopularTokens) {
+                    return t('main.popularTokens')
+                  }
+                  if (shouldShowAllTokensCategory) {
+                    return t('main.allTokens')
+                  }
+                  return null
+                })()
+              : null
+
+          const isSelected =
+            selectedTokenAddress === currentToken.address &&
+            chainId === currentToken.chainId
 
           return (
             <TokenListItem
@@ -154,11 +188,10 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
               size={item.size}
               start={item.start}
               token={currentToken}
-              chain={chain}
-              selected={currentToken.address === selectedTokenAddress}
+              chain={isAllNetworks ? chain : undefined}
+              selected={isSelected}
               onShowTokenDetails={onShowTokenDetails}
               isBalanceLoading={isBalanceLoading}
-              accountAddress={account.address}
               startAdornment={
                 startAdornmentLabel ? (
                   <Typography
@@ -179,7 +212,14 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
           )
         })}
       </List>
-      <TokenDetailsSheet ref={tokenDetailsSheetRef} chainId={chainId} />
+      <TokenDetailsSheet ref={tokenDetailsSheetRef} />
+      {isLoading && (
+        <List disablePadding sx={{ cursor: 'default' }}>
+          {Array.from({ length: 3 }).map((_, index) => (
+            <TokenListItemSkeleton key={index} />
+          ))}
+        </List>
+      )}
     </>
   )
 }

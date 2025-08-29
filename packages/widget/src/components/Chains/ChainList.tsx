@@ -17,12 +17,14 @@ interface ChainListProps {
   onSelect: (chain: ExtendedChain) => void
   selectedChainId?: number
   isLoading: boolean
+  hasSearchQuery: boolean
   inExpansion: boolean
 }
 
 export const ChainList = ({
   parentRef,
   chains,
+  hasSearchQuery,
   onSelect,
   selectedChainId,
   isLoading,
@@ -78,6 +80,7 @@ export const ChainList = ({
     <VirtualizedChainList
       scrollElementRef={parentRef}
       chains={chains}
+      hasSearchQuery={hasSearchQuery}
       onSelect={onSelect}
       selectedChainId={selectedChainId}
       itemsSize={itemsSize}
