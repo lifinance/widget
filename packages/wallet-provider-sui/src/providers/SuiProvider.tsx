@@ -1,4 +1,4 @@
-import { setSuiValues } from '@lifi/wallet-store'
+import { SuiContext } from '@lifi/wallet-store'
 import {
   SuiClientContext,
   useConnectWallet,
@@ -6,7 +6,7 @@ import {
   useDisconnectWallet,
   useWallets,
 } from '@mysten/dapp-kit'
-import { type FC, type PropsWithChildren, useContext, useEffect } from 'react'
+import { type FC, type PropsWithChildren, useContext } from 'react'
 import { SuiBaseProvider } from './SuiBaseProvider.js'
 import { SuiExternalContext } from './SuiExternalContext.js'
 
@@ -54,23 +54,18 @@ const CaptureSuiValues: FC<
   const { mutateAsync: disconnectWallet } = useDisconnectWallet()
   const { mutateAsync: connectWallet } = useConnectWallet()
 
-  useEffect(() => {
-    setSuiValues({
-      suiWallets,
-      currentWallet,
-      connectionStatus,
-      connectWallet,
-      disconnectWallet,
-      isExternalContext,
-    })
-  }, [
-    suiWallets,
-    currentWallet,
-    connectionStatus,
-    connectWallet,
-    disconnectWallet,
-    isExternalContext,
-  ])
-
-  return children
+  return (
+    <SuiContext.Provider
+      value={{
+        suiWallets,
+        currentWallet,
+        connectionStatus,
+        connectWallet,
+        disconnectWallet,
+        isExternalContext,
+      }}
+    >
+      {children}
+    </SuiContext.Provider>
+  )
 }

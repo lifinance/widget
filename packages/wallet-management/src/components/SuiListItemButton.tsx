@@ -1,5 +1,5 @@
 import { ChainId, ChainType } from '@lifi/sdk'
-import { useWalletStore } from '@lifi/wallet-store'
+import { useSuiContext } from '@lifi/wallet-store'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
@@ -22,7 +22,7 @@ export const SuiListItemButton = ({
   onError,
 }: SuiListItemButtonProps) => {
   const emitter = useWalletManagementEvents()
-  const { connectWallet: connect } = useWalletStore(ChainType.MVM)
+  const { connectWallet: connect } = useSuiContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()
 
   const connectorName = wallet.name
