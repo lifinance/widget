@@ -64,10 +64,14 @@ export const ButtonRadiusControl = () => {
     <ExpandableCard
       title={'Button Radius'}
       value={
-        <CardValue sx={{ textTransform: 'capitalize' }}>
+        <CardValue
+          sx={{ textTransform: 'capitalize' }}
+          data-testid="button-radius-value"
+        >
           {borderRadiusSecondary}
         </CardValue>
       }
+      data-testid="button-radius-section"
     >
       <TabButtonsContainer sx={{ mt: 0.5 }}>
         {clickableValues.map((value) => {
@@ -76,6 +80,7 @@ export const ButtonRadiusControl = () => {
               key={value.toString()}
               selected={borderRadiusSecondary === value && focused !== 'input'}
               onClick={() => handleButtonClick(value)}
+              data-testid="button-radius-value"
               onFocus={handleFocusButton}
               disableRipple
             >
@@ -93,6 +98,7 @@ export const ButtonRadiusControl = () => {
           onBlur={handleBlurInput}
           inputProps={{ pattern: '[0-9]' }}
           onFocus={handleFocusInput}
+          data-testid="button-radius-custom-input"
           placeholder={focused === 'input' ? '' : 'Custom'}
           value={customValue}
         />

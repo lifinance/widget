@@ -88,6 +88,7 @@ export const FontsControl = () => {
           )}
         </>
       }
+      data-testid="fonts-section"
       value={selectedFont?.family}
     >
       {selectedFont && (

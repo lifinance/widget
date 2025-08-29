@@ -40,6 +40,7 @@ export const SkeletonControl = () => {
           {isSkeletonShown ? 'shown' : 'hidden'}
         </CardValue>
       }
+      data-testid="skeleton-section"
     >
       <CardRowContainer sx={{ paddingBottom: 0 }}>
         Show skeleton
