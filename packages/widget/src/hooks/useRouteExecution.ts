@@ -41,9 +41,10 @@ export const useRouteExecution = ({
   const routeExecution = useRouteExecutionStore(
     (state) => state.routes[routeId]
   )
-  const [updateRoute, restartRoute, deleteRoute] = useRouteExecutionStore(
-    (state) => [state.updateRoute, state.restartRoute, state.deleteRoute]
-  )
+  const [updateRoute, deleteRoute] = useRouteExecutionStore((state) => [
+    state.updateRoute,
+    state.deleteRoute,
+  ])
 
   const updateRouteHook = (updatedRoute: Route) => {
     const routeExecution =
@@ -192,7 +193,6 @@ export const useRouteExecution = ({
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when routeId changes
   const restartRouteMutation = useCallback(() => {
-    restartRoute(routeId)
     _resumeRoute(routeExecution?.route)
   }, [_resumeRoute, routeExecution?.route, routeId])
 

@@ -240,6 +240,7 @@
     "process": {
       "bridge": {
         "actionRequired": "",
+        "messageRequired": "",
         "done": "Giao dịch cầu đã được xác nhận",
         "pending": "",
         "started": "Chuẩn bị giao dịch cầu"
@@ -258,13 +259,10 @@
       },
       "swap": {
         "actionRequired": "",
+        "messageRequired": "",
         "done": "Lệnh swap đã hoàn tất",
         "pending": "",
         "started": "Đang chuẩn bị giao dịch Swap"
-      },
-      "switchChain": {
-        "actionRequired": "",
-        "done": ""
       },
       "permit": {
         "actionRequired": "",

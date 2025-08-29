@@ -9,6 +9,7 @@ import { reportWebVitals } from './reportWebVitals.js'
 
 scan({
   enabled: true,
+  trackUnnecessaryRenders: true,
 })
 
 const rootElement = document.getElementById('root')

@@ -16,10 +16,12 @@ export function useInSuiContext(): boolean {
   return Boolean(context)
 }
 
-export const SuiProviderWrapper: FC<PropsWithChildren> = ({ children }) => {
+export const SuiProviderWrapper: FC<
+  PropsWithChildren<{ forceInternalWalletManagement?: boolean }>
+> = ({ children, forceInternalWalletManagement }) => {
   const inSuiContext = useInSuiContext()
 
-  return inSuiContext ? (
+  return inSuiContext && !forceInternalWalletManagement ? (
     <SuiExternalContext.Provider value={inSuiContext}>
       {children}
     </SuiExternalContext.Provider>
@@ -28,11 +30,15 @@ export const SuiProviderWrapper: FC<PropsWithChildren> = ({ children }) => {
   )
 }
 
-export const SuiProvider: FC<PropsWithChildren> = ({ children }) => {
+export const SuiProvider: FC<
+  PropsWithChildren<{ forceInternalWalletManagement?: boolean }>
+> = ({ forceInternalWalletManagement, children }) => {
   const inSuiContext = useInSuiContext()
 
   return (
-    <SuiProviderWrapper>
+    <SuiProviderWrapper
+      forceInternalWalletManagement={forceInternalWalletManagement}
+    >
       <CaptureSuiValues isExternalContext={inSuiContext}>
         {children}
       </CaptureSuiValues>

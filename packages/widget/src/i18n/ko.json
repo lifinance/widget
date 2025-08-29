@@ -240,6 +240,7 @@
     "process": {
       "bridge": {
         "actionRequired": "",
+        "messageRequired": "",
         "done": "",
         "pending": "",
         "started": ""
@@ -258,13 +259,10 @@
       },
       "swap": {
         "actionRequired": "",
+        "messageRequired": "",
         "done": "스왑 완료",
         "pending": "",
         "started": "스왑 트랜잭션 준비 중"
-      },
-      "switchChain": {
-        "actionRequired": "",
-        "done": ""
       },
       "permit": {
         "actionRequired": "",

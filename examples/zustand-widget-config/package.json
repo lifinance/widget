@@ -14,12 +14,12 @@
     "@tanstack/react-query": "^5.85.5",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "wagmi": "^2.16.4",
+    "wagmi": "^2.16.8",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
-    "@types/react": "^19.1.10",
-    "@types/react-dom": "^19.1.7",
+    "@types/react": "^19.1.11",
+    "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react": "^5.0.1",
     "globals": "^16.3.0",
     "typescript": "^5.9.2",

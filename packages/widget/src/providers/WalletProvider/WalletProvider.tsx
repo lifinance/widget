@@ -11,11 +11,16 @@ import { UTXOProvider } from './UTXOProvider.js'
 import { useExternalWalletProvider } from './useExternalWalletProvider.js'
 
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
+  const { walletConfig } = useWidgetConfig()
   return (
     <EVMProvider>
       <SVMProvider>
         <UTXOProvider>
-          <SuiProvider>
+          <SuiProvider
+            forceInternalWalletManagement={
+              walletConfig?.forceInternalWalletManagement
+            }
+          >
             <SDKProviders />
             <WalletMenuProvider>{children}</WalletMenuProvider>
           </SuiProvider>
