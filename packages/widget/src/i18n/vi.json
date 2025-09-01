@@ -212,6 +212,7 @@
     "slippage": ""
   },
   "main": {
+    "allNetworks": "",
     "allTokens": "Tất cả mã thông báo",
     "bridgeStepDetails": "Chuyển từ {{from}} đến {{to}} thông qua {{tool}}",
     "checkoutStepDetails": "Thanh toán thông qua {{tool}}",
@@ -310,10 +311,9 @@
     "tokenOnChainAmount": "",
     "tokenSearch": "",
     "valueLoss": "Bạn sẽ mất",
-    "searchChain": "",
-    "searchChains": "",
     "searchBridges": "",
-    "searchExchanges": ""
+    "searchExchanges": "",
+    "searchNetwork": ""
   },
   "settings": {
     "appearance": "",
