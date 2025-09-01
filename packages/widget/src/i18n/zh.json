@@ -212,6 +212,7 @@
     "slippage": "真实的成交价位与预设的成交价位间相差的最大百分比。该值可以在设置中更改。"
   },
   "main": {
+    "allNetworks": "",
     "allTokens": "所有代币",
     "bridgeStepDetails": "通过 {{tool}} 把资产从 {{from}} 链跨到 {{to}} 链上",
     "checkoutStepDetails": "通过 {{tool}} 购买",
@@ -310,10 +311,9 @@
     "tokenOnChainAmount": "",
     "tokenSearch": "",
     "valueLoss": "资金损失",
-    "searchChain": "",
-    "searchChains": "搜索链",
     "searchBridges": "搜索跨链桥",
-    "searchExchanges": "搜索交易所"
+    "searchExchanges": "搜索交易所",
+    "searchNetwork": ""
   },
   "settings": {
     "appearance": "",
