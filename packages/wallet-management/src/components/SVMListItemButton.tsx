@@ -1,6 +1,6 @@
 import { ChainId, ChainType } from '@lifi/sdk'
+import { useSVMContext } from '@lifi/wallet-store'
 import type { WalletAdapter } from '@solana/wallet-adapter-base'
-import { useWallet } from '@solana/wallet-adapter-react'
 import type { PublicKey } from '@solana/web3.js'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
@@ -23,7 +23,7 @@ export const SVMListItemButton = ({
   onError,
 }: SVMListItemButtonProps) => {
   const emitter = useWalletManagementEvents()
-  const { select, disconnect, connected } = useWallet()
+  const { connect, disconnect, isConnected } = useSVMContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()
 
   const connectorName = walletAdapter.name
@@ -39,12 +39,10 @@ export const SVMListItemButton = ({
 
     try {
       onConnecting?.()
-      if (connected) {
+      if (isConnected) {
         await disconnect()
       }
-      select(walletAdapter.name)
-      // We use autoConnect on wallet selection
-      // await connect()
+      connect(walletAdapter.name)
       walletAdapter.once('connect', (publicKey: PublicKey) => {
         setLastConnectedAccount(walletAdapter)
         emitter.emit(WalletManagementEvent.WalletConnected, {

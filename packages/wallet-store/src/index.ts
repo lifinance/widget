@@ -1,1 +1,2 @@
-export { SuiContext, useSuiContext } from './contexts/suiContext.js'
+export { SuiContext, useSuiContext } from './contexts/SuiContext.js'
+export { SVMContext, useSVMContext } from './contexts/SVMContext.js'

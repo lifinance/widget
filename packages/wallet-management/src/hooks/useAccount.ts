@@ -1,10 +1,9 @@
 import type { Connector as BigmiConnector } from '@bigmi/client'
 import { useAccount as useBigmiAccount } from '@bigmi/react'
 import { ChainId, ChainType } from '@lifi/sdk'
-import { useSuiContext } from '@lifi/wallet-store'
+import { useSuiContext, useSVMContext } from '@lifi/wallet-store'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import type { WalletAdapter } from '@solana/wallet-adapter-base'
-import { useWallet } from '@solana/wallet-adapter-react'
 import { useMemo } from 'react'
 import type { Connector } from 'wagmi'
 import { useAccount as useAccountInternal } from 'wagmi'
@@ -89,22 +88,22 @@ export const useLastConnectedAccount = create<LastConnectedAccountStore>(
 export const useAccount = (args?: UseAccountArgs): AccountResult => {
   const bigmiAccount = useBigmiAccount()
   const wagmiAccount = useAccountInternal()
-  const { wallet } = useWallet()
-  const { currentWallet, connectionStatus } = useSuiContext()
+  const { currentWallet: svmWallet } = useSVMContext()
+  const { currentWallet: suiWallet, connectionStatus } = useSuiContext()
   const { lastConnectedAccount } = useLastConnectedAccount()
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when wallet changes
   return useMemo(() => {
-    const svm: Account = wallet?.adapter.publicKey
+    const svm: Account = svmWallet?.adapter.publicKey
       ? {
-          address: wallet?.adapter.publicKey.toString(),
+          address: svmWallet?.adapter.publicKey.toString(),
           chainId: ChainId.SOL,
           chainType: ChainType.SVM,
-          connector: wallet?.adapter,
-          isConnected: Boolean(wallet?.adapter.publicKey),
+          connector: svmWallet?.adapter,
+          isConnected: Boolean(svmWallet?.adapter.publicKey),
           isConnecting: false,
           isReconnecting: false,
-          isDisconnected: !wallet,
+          isDisconnected: !svmWallet,
           status: 'connected',
         }
       : {
@@ -116,16 +115,16 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
           status: 'disconnected',
         }
     const sui: Account =
-      currentWallet?.accounts?.length && connectionStatus === 'connected'
+      suiWallet?.accounts?.length && connectionStatus === 'connected'
         ? {
-            address: currentWallet?.accounts[0].address,
+            address: suiWallet?.accounts[0].address,
             chainId: ChainId.SUI,
             chainType: ChainType.MVM,
-            connector: currentWallet,
+            connector: suiWallet,
             isConnected: connectionStatus === 'connected',
             isConnecting: false,
             isReconnecting: false,
-            isDisconnected: !currentWallet,
+            isDisconnected: !suiWallet,
             status: connectionStatus,
           }
         : {
@@ -181,7 +180,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
       accounts: connectedAccounts,
     }
   }, [
-    wallet?.adapter.publicKey,
+    svmWallet?.adapter.publicKey,
     wagmiAccount.connector?.uid,
     wagmiAccount.connector?.id,
     wagmiAccount.status,
@@ -194,7 +193,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
     bigmiAccount.chainId,
     args?.chainType,
     lastConnectedAccount,
-    currentWallet?.accounts?.length,
+    suiWallet?.accounts?.length,
     connectionStatus,
   ])
 }

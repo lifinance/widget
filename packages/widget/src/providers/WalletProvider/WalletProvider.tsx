@@ -1,20 +1,25 @@
 import type { WalletManagementConfig } from '@lifi/wallet-management'
 import { WalletManagementProvider } from '@lifi/wallet-management'
 import { SuiProvider } from '@lifi/wallet-provider-sui'
+import { SVMProvider } from '@lifi/wallet-provider-svm'
 import { type FC, type PropsWithChildren, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 import { EVMProvider } from './EVMProvider.js'
 import { SDKProviders } from './SDKProviders.js'
-import { SVMProvider } from './SVMProvider.js'
 import { UTXOProvider } from './UTXOProvider.js'
 import { useExternalWalletProvider } from './useExternalWalletProvider.js'
 
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   const { walletConfig } = useWidgetConfig()
+  // TODO: isItemAllowed(ChainType.SVM, chains?.types) - should we check it?
   return (
     <EVMProvider>
-      <SVMProvider>
+      <SVMProvider
+        forceInternalWalletManagement={
+          walletConfig?.forceInternalWalletManagement
+        }
+      >
         <UTXOProvider>
           <SuiProvider
             forceInternalWalletManagement={

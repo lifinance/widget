@@ -22,7 +22,7 @@ export const SuiListItemButton = ({
   onError,
 }: SuiListItemButtonProps) => {
   const emitter = useWalletManagementEvents()
-  const { connectWallet: connect } = useSuiContext()
+  const { connect } = useSuiContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()
 
   const connectorName = wallet.name

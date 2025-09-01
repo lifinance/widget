@@ -8,60 +8,55 @@ import {
 } from '@mysten/dapp-kit'
 import { type FC, type PropsWithChildren, useContext } from 'react'
 import { SuiBaseProvider } from './SuiBaseProvider.js'
-import { SuiExternalContext } from './SuiExternalContext.js'
+
+interface SuiProviderProps {
+  forceInternalWalletManagement?: boolean
+}
 
 export function useInSuiContext(): boolean {
   const context = useContext(SuiClientContext)
-
   return Boolean(context)
 }
 
-export const SuiProviderWrapper: FC<
-  PropsWithChildren<{ forceInternalWalletManagement?: boolean }>
-> = ({ children, forceInternalWalletManagement }) => {
+export const SuiProvider: FC<PropsWithChildren<SuiProviderProps>> = ({
+  forceInternalWalletManagement,
+  children,
+}) => {
   const inSuiContext = useInSuiContext()
 
-  return inSuiContext && !forceInternalWalletManagement ? (
-    <SuiExternalContext.Provider value={inSuiContext}>
-      {children}
-    </SuiExternalContext.Provider>
-  ) : (
-    <SuiBaseProvider>{children}</SuiBaseProvider>
-  )
-}
-
-export const SuiProvider: FC<
-  PropsWithChildren<{ forceInternalWalletManagement?: boolean }>
-> = ({ forceInternalWalletManagement, children }) => {
-  const inSuiContext = useInSuiContext()
-
-  return (
-    <SuiProviderWrapper
-      forceInternalWalletManagement={forceInternalWalletManagement}
-    >
+  if (inSuiContext && !forceInternalWalletManagement) {
+    return (
       <CaptureSuiValues isExternalContext={inSuiContext}>
         {children}
       </CaptureSuiValues>
-    </SuiProviderWrapper>
+    )
+  }
+
+  return (
+    <SuiBaseProvider>
+      <CaptureSuiValues isExternalContext={inSuiContext}>
+        {children}
+      </CaptureSuiValues>
+    </SuiBaseProvider>
   )
 }
 
 const CaptureSuiValues: FC<
   PropsWithChildren<{ isExternalContext: boolean }>
 > = ({ children, isExternalContext }) => {
-  const suiWallets = useWallets()
+  const wallets = useWallets()
   const { currentWallet, connectionStatus } = useCurrentWallet()
-  const { mutateAsync: disconnectWallet } = useDisconnectWallet()
-  const { mutateAsync: connectWallet } = useConnectWallet()
+  const { mutateAsync: disconnect } = useDisconnectWallet()
+  const { mutateAsync: connect } = useConnectWallet()
 
   return (
     <SuiContext.Provider
       value={{
-        suiWallets,
+        wallets,
         currentWallet,
         connectionStatus,
-        connectWallet,
-        disconnectWallet,
+        connect,
+        disconnect,
         isExternalContext,
       }}
     >

@@ -1,9 +1,8 @@
 import { ChainType } from '@lifi/sdk'
-import { useSuiContext } from '@lifi/wallet-store'
+import { useSuiContext, useSVMContext } from '@lifi/wallet-store'
 import { useContext, useMemo } from 'react'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 import { EVMExternalContext } from './EVMExternalContext.js'
-import { SVMExternalContext } from './SVMExternalContext.js'
 import { UTXOExternalContext } from './UTXOExternalContext.js'
 
 interface ExternalWalletProvider {
@@ -22,7 +21,7 @@ const internalChainTypes = [
 export function useExternalWalletProvider(): ExternalWalletProvider {
   const { walletConfig } = useWidgetConfig()
   const hasExternalEVMContext = useContext(EVMExternalContext)
-  const hasExternalSVMContext = useContext(SVMExternalContext)
+  const { isExternalContext: hasExternalSVMContext } = useSVMContext()
   const hasExternalUTXOContext = useContext(UTXOExternalContext)
   const { isExternalContext: hasExternalSuiContext } = useSuiContext()
   const data = useMemo(() => {

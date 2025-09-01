@@ -1,13 +1,11 @@
 import type { Connector as BigmiConnector } from '@bigmi/client'
 import { useConnect as useBigmiConnect } from '@bigmi/react'
 import { ChainType } from '@lifi/sdk'
-import { useSuiContext } from '@lifi/wallet-store'
+import { useSuiContext, useSVMContext } from '@lifi/wallet-store'
 import type { Theme } from '@mui/material'
 import { useMediaQuery } from '@mui/material'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import { WalletReadyState } from '@solana/wallet-adapter-base'
-import type { Wallet } from '@solana/wallet-adapter-react'
-import { useWallet } from '@solana/wallet-adapter-react'
 import { useEffect, useState } from 'react'
 import type { Connector } from 'wagmi'
 import { useConnect } from 'wagmi'
@@ -48,7 +46,7 @@ const normalizeName = (name: string) => name.split(' ')[0].toLowerCase().trim()
 const combineWalletLists = (
   utxoConnectorList: BigmiConnector[],
   evmConnectorList: (CreateConnectorFnExtended | Connector)[],
-  svmWalletList: Wallet[],
+  svmWalletList: any[], // TODO: this is Wallet type from @solana/wallet-adapter-react
   suiWalletList: WalletWithRequiredFeatures[],
   walletEcosystemsOrder?: Record<string, ChainType[]>
 ): CombinedWallet[] => {
@@ -133,8 +131,8 @@ export const useCombinedWallets = () => {
   const walletConfig = useWalletManagementConfig()
   const { connectors: wagmiConnectors } = useConnect()
   const { connectors: bigmiConnectors } = useBigmiConnect()
-  const { wallets: solanaWallets } = useWallet()
-  const { suiWallets } = useSuiContext()
+  const { wallets: solanaWallets } = useSVMContext()
+  const { wallets: suiWallets } = useSuiContext()
   const [combinedWallets, setCombinedWallets] = useState<CombinedWallets>(
     () => {
       return {
@@ -248,7 +246,7 @@ export const useCombinedWallets = () => {
         : []
 
       const installedSVMWallets = includeEcosystem(ChainType.SVM)
-        ? solanaWallets.filter((wallet) => {
+        ? solanaWallets.filter((wallet: any) => {
             const isInstalled =
               wallet.adapter.readyState === WalletReadyState.Installed ||
               wallet.adapter.readyState === WalletReadyState.Loadable
@@ -278,7 +276,7 @@ export const useCombinedWallets = () => {
         return !isInstalled && isDesktopView
       })
 
-      const notDetectedSVMWallets = solanaWallets.filter((wallet) => {
+      const notDetectedSVMWallets = solanaWallets.filter((wallet: any) => {
         const isInstalled =
           wallet.adapter.readyState === WalletReadyState.Installed ||
           wallet.adapter.readyState === WalletReadyState.Loadable
