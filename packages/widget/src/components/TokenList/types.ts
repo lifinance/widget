@@ -1,6 +1,5 @@
 import type { ExtendedChain } from '@lifi/sdk'
-import type { Account } from '@lifi/wallet-management'
-import type { MouseEventHandler, RefObject } from 'react'
+import type { RefObject } from 'react'
 import type { FormType } from '../../stores/form/types.js'
 import type { TokenAmount } from '../../types/token.js'
 
@@ -12,16 +11,15 @@ export interface TokenListProps {
 }
 
 export interface VirtualizedTokenListProps {
-  account: Account
   tokens: TokenAmount[]
   scrollElementRef: RefObject<HTMLElement | null>
   isLoading: boolean
   isBalanceLoading: boolean
   chainId?: number
-  chain?: ExtendedChain
   showCategories?: boolean
   onClick(tokenAddress: string, chainId?: number): void
   selectedTokenAddress?: string
+  isAllNetworks: boolean
 }
 
 export interface TokenListItemBaseProps {
@@ -31,9 +29,12 @@ export interface TokenListItemBaseProps {
 }
 
 export interface TokenListItemProps extends TokenListItemBaseProps {
-  accountAddress?: string
   token: TokenAmount
-  onShowTokenDetails: (tokenAddress: string, noContractAddress: boolean) => void
+  onShowTokenDetails: (
+    tokenAddress: string,
+    noContractAddress: boolean,
+    chainId: number
+  ) => void
   chain?: ExtendedChain
   isBalanceLoading?: boolean
   startAdornment?: React.ReactNode
@@ -42,9 +43,12 @@ export interface TokenListItemProps extends TokenListItemBaseProps {
 }
 
 export interface TokenListItemButtonProps {
-  onShowTokenDetails: (tokenAddress: string, noContractAddress: boolean) => void
-  onClick?: MouseEventHandler<HTMLDivElement>
-  accountAddress?: string
+  onShowTokenDetails: (
+    tokenAddress: string,
+    noContractAddress: boolean,
+    chainId: number
+  ) => void
+  onClick?(tokenAddress: string, chainId?: number): void
   token: TokenAmount
   chain?: ExtendedChain
   isBalanceLoading?: boolean
@@ -57,6 +61,6 @@ export interface TokenListItemAvatarProps {
 
 export interface TokenDetailsSheetBase {
   isOpen(): void
-  open(address: string, noContractAddress: boolean): void
+  open(address: string, noContractAddress: boolean, chainId: number): void
   close(): void
 }

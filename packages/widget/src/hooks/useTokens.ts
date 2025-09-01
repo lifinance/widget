@@ -1,111 +1,139 @@
-import { ChainType, getTokens } from '@lifi/sdk'
-import { useQuery } from '@tanstack/react-query'
+import { ChainType, getTokens, type TokensExtendedResponse } from '@lifi/sdk'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import type { TokenAmount } from '../types/token.js'
+import type { FormType } from '../stores/form/types.js'
+import { isItemAllowed } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
-import { useChains } from './useChains.js'
+import { filterAllowedTokens } from '../utils/token.js'
 
-export const useTokens = (selectedChainId?: number) => {
-  const { tokens: configTokens, keyPrefix } = useWidgetConfig()
+export const useTokens = (formType?: FormType, search?: string) => {
+  const {
+    tokens: configTokens,
+    chains: chainsConfig,
+    keyPrefix,
+  } = useWidgetConfig()
+
+  const { isLoading: isSearchLoading } = useBackgroundTokenSearch(search)
+
   const { data, isLoading } = useQuery({
     queryKey: [getQueryKey('tokens', keyPrefix)],
-    queryFn: () =>
-      getTokens({
-        chainTypes: [
-          ChainType.EVM,
-          ChainType.SVM,
-          ChainType.UTXO,
-          ChainType.MVM,
-        ],
-        orderBy: 'volumeUSD24H',
-        limit: 1000,
-      }),
+    queryFn: async ({ signal }) => {
+      const chainTypes = [
+        ChainType.EVM,
+        ChainType.SVM,
+        ChainType.UTXO,
+        ChainType.MVM,
+      ].filter((chainType) => isItemAllowed(chainType, chainsConfig?.types))
+      const tokensResponse: TokensExtendedResponse = await getTokens(
+        {
+          chainTypes,
+          orderBy: 'volumeUSD24H',
+          extended: true,
+          limit: 1000,
+        },
+        { signal }
+      )
+      return tokensResponse
+    },
     refetchInterval: 300_000,
     staleTime: 300_000,
   })
-  const {
-    chains,
-    isLoading: isSupportedChainsLoading,
-    getChainById,
-  } = useChains()
 
-  const filteredData = useMemo(() => {
-    if (isSupportedChainsLoading || !data) {
-      return
-    }
-    const chain = getChainById(selectedChainId, chains)
-    const chainAllowed = selectedChainId && chain
-    if (!chainAllowed) {
-      return
-    }
-    let filteredTokens = data.tokens?.[selectedChainId] || []
-    const includedTokens = configTokens?.include?.filter(
-      (token) => token.chainId === selectedChainId
+  const allTokens = useMemo(() => {
+    return filterAllowedTokens(
+      data?.tokens,
+      configTokens,
+      chainsConfig,
+      formType
     )
-    if (includedTokens?.length) {
-      filteredTokens = [...includedTokens, ...filteredTokens]
-    }
-
-    const filteredTokensMap = new Map(
-      filteredTokens.map((token) => [token.address, token])
-    )
-
-    const [popularTokens, featuredTokens] = (
-      ['popular', 'featured'] as ('popular' | 'featured')[]
-    ).map((tokenType) => {
-      const typedConfigTokens = configTokens?.[tokenType]?.filter(
-        (token) => token.chainId === selectedChainId
-      )
-
-      const populatedConfigTokens = typedConfigTokens?.map((token) => {
-        // Mark token as popular
-        ;(token as TokenAmount)[tokenType] = true
-        // Check if this token exists in the filteredTokensMap and add priceUSD if it does
-        const matchingFilteredToken = filteredTokensMap.get(token.address)
-        if (matchingFilteredToken?.priceUSD) {
-          ;(token as TokenAmount).priceUSD = matchingFilteredToken.priceUSD
-        }
-        if (!token.logoURI && matchingFilteredToken) {
-          ;(token as TokenAmount).logoURI = matchingFilteredToken.logoURI
-        }
-        return token
-      }) as TokenAmount[]
-
-      if (populatedConfigTokens?.length) {
-        const configTokenAddresses = new Set(
-          populatedConfigTokens?.map((token) => token.address)
-        )
-        filteredTokens = filteredTokens.filter(
-          (token) => !configTokenAddresses.has(token.address)
-        )
-        populatedConfigTokens.push(...filteredTokens)
-        filteredTokens = populatedConfigTokens
-      }
-
-      return populatedConfigTokens
-    })
-
-    return {
-      tokens: filteredTokens,
-      featuredTokens,
-      popularTokens,
-      chain,
-    }
-  }, [
-    chains,
-    configTokens,
-    data,
-    getChainById,
-    isSupportedChainsLoading,
-    selectedChainId,
-  ])
+  }, [data?.tokens, configTokens, chainsConfig, formType])
 
   return {
-    tokens: filteredData?.tokens,
-    featuredTokens: filteredData?.featuredTokens,
-    popularTokens: filteredData?.popularTokens,
-    chain: filteredData?.chain,
+    allTokens,
     isLoading,
+    isSearchLoading,
+  }
+}
+
+// This hook is used to search for tokens in the background.
+// It updates the main tokens cache with the search results,
+// if any of the tokens are not already in the cache.
+const useBackgroundTokenSearch = (search?: string) => {
+  const { chains: chainsConfig, keyPrefix } = useWidgetConfig()
+  const queryClient = useQueryClient()
+
+  const { isLoading: isSearchLoading } = useQuery({
+    queryKey: [getQueryKey('tokens-search', keyPrefix), search],
+    queryFn: async ({ queryKey: [, searchQuery], signal }) => {
+      const chainTypes = [
+        ChainType.EVM,
+        ChainType.SVM,
+        ChainType.UTXO,
+        ChainType.MVM,
+      ].filter((chainType) => isItemAllowed(chainType, chainsConfig?.types))
+      const tokensResponse: TokensExtendedResponse = await getTokens(
+        {
+          chainTypes,
+          orderBy: 'volumeUSD24H',
+          extended: true,
+          search: searchQuery,
+          limit: 1000,
+        },
+        { signal }
+      )
+
+      // Merge search results into main tokens cache
+      if (searchQuery) {
+        queryClient.setQueriesData<TokensExtendedResponse>(
+          { queryKey: [getQueryKey('tokens', keyPrefix)] },
+          (data) => {
+            if (!data) {
+              return data
+            }
+
+            const clonedData = { ...data, tokens: { ...data.tokens } }
+
+            Object.entries(tokensResponse.tokens).forEach(
+              ([chainId, searchTokens]) => {
+                const chainIdNum = Number(chainId)
+                const existingTokens = clonedData.tokens[chainIdNum] || []
+
+                const existingTokenAddresses = new Set(
+                  existingTokens.map((token) => token.address.toLowerCase())
+                )
+
+                // Find tokens in search results that don't exist in the main list
+                const newTokens = searchTokens.filter(
+                  (searchToken) =>
+                    !existingTokenAddresses.has(
+                      searchToken.address.toLowerCase()
+                    )
+                )
+
+                // Add new tokens to the main list
+                if (newTokens.length > 0) {
+                  clonedData.tokens[chainIdNum] = [
+                    ...existingTokens,
+                    ...newTokens,
+                  ]
+                }
+              }
+            )
+
+            return clonedData
+          }
+        )
+      }
+
+      return tokensResponse
+    },
+    enabled: !!search,
+    refetchInterval: 300_000,
+    staleTime: 300_000,
+  })
+
+  return {
+    isLoading: isSearchLoading,
   }
 }
