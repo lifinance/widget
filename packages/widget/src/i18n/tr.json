@@ -212,6 +212,7 @@
     "slippage": "Beklenen fiyat ile transferin gerçekleştirildiği gerçek fiyat arasındaki maksimum yüzde fark. Bu değer ayarlardan değiştirilebilir."
   },
   "main": {
+    "allNetworks": "",
     "allTokens": "Tüm varlıklar",
     "bridgeStepDetails": "{{tool}} aracılığıyla {{from}} ağından {{to}} ağına köprüle",
     "checkoutStepDetails": "{{tool}} aracılığıyla alım yap",
@@ -310,10 +311,9 @@
     "tokenOnChainAmount": "",
     "tokenSearch": "",
     "valueLoss": "Değer kaybı",
-    "searchChain": "",
-    "searchChains": "Zincir adına göre ara",
     "searchBridges": "Köprü adına göre ara",
-    "searchExchanges": "Borsa adına göre ara"
+    "searchExchanges": "Borsa adına göre ara",
+    "searchNetwork": ""
   },
   "settings": {
     "appearance": "",

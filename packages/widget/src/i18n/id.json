@@ -212,6 +212,7 @@
     "slippage": "Perbedaan persentase maksimum antara harga yang diharapkan dan harga sebenarnya saat transfer dilakukan. Nilai ini dapat diubah dalam pengaturan."
   },
   "main": {
+    "allNetworks": "",
     "allTokens": "Semua Token",
     "bridgeStepDetails": "Bridge dari {{from}} to {{to}} via {{tool}}",
     "checkoutStepDetails": "Dapatkan melalui {{tool}}",
@@ -310,10 +311,9 @@
     "tokenOnChainAmount": "{{amount, numberExt}} {{tokenSymbol}} di {{chainName}}",
     "tokenSearch": "",
     "valueLoss": "Kehilangan nilai",
-    "searchChain": "",
-    "searchChains": "Cari berdasarkan nama rantai",
     "searchBridges": "Cari berdasarkan nama bridge",
-    "searchExchanges": "Cari berdasarkan nama exchange"
+    "searchExchanges": "Cari berdasarkan nama exchange",
+    "searchNetwork": ""
   },
   "settings": {
     "appearance": "",

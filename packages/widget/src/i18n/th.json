@@ -212,6 +212,7 @@
     "slippage": ""
   },
   "main": {
+    "allNetworks": "",
     "allTokens": "โทเคนทั้งหมด",
     "bridgeStepDetails": "บริดจ์จาก{{from}} ไปยัง {{to}} โดย {{tool}}",
     "checkoutStepDetails": "ซื้อผ่าน {{tool}}",
@@ -310,10 +311,9 @@
     "tokenOnChainAmount": "",
     "tokenSearch": "",
     "valueLoss": "มูลค่าที่สูญเสีย",
-    "searchChain": "",
-    "searchChains": "",
     "searchBridges": "",
-    "searchExchanges": ""
+    "searchExchanges": "",
+    "searchNetwork": ""
   },
   "settings": {
     "appearance": "",

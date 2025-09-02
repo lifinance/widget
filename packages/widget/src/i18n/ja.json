@@ -212,6 +212,7 @@
     "slippage": ""
   },
   "main": {
+    "allNetworks": "",
     "allTokens": "すべてのトークン",
     "bridgeStepDetails": "{{from}} から {{to}} を {{tool}} でブリッジ",
     "checkoutStepDetails": "{{tool}} 経由で購入",
@@ -310,10 +311,9 @@
     "tokenOnChainAmount": "",
     "tokenSearch": "",
     "valueLoss": "損失額",
-    "searchChain": "",
-    "searchChains": "",
     "searchBridges": "",
-    "searchExchanges": ""
+    "searchExchanges": "",
+    "searchNetwork": ""
   },
   "settings": {
     "appearance": "",

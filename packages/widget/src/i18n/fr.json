@@ -212,6 +212,7 @@
     "slippage": ""
   },
   "main": {
+    "allNetworks": "",
     "allTokens": "Tous les tokens",
     "bridgeStepDetails": "Transférer de {{from}} à {{to}} via {{tool}}",
     "checkoutStepDetails": "Achat via {{tool}}",
@@ -310,10 +311,9 @@
     "tokenOnChainAmount": "",
     "tokenSearch": "",
     "valueLoss": "Perte de valeur",
-    "searchChain": "",
-    "searchChains": "",
     "searchBridges": "",
-    "searchExchanges": ""
+    "searchExchanges": "",
+    "searchNetwork": ""
   },
   "settings": {
     "appearance": "",
