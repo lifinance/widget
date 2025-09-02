@@ -32,7 +32,8 @@
     "unlink:sdk": "pnpm -r --parallel unlink:sdk",
     "pre-commit": "pnpm check && pnpm check:types && pnpm check:circular-deps",
     "prepare": "husky",
-    "postinstall": "husky"
+    "postinstall": "husky",
+    "knip": "knip"
   },
   "lint-staged": {
     "*": [
@@ -60,6 +61,7 @@
     "cpy-cli": "^6.0.0",
     "fs-extra": "^11.3.1",
     "husky": "^9.1.7",
+    "knip": "^5.63.0",
     "lerna": "8.2.3",
     "lint-staged": "^16.1.5",
     "react": "^19.1.1",

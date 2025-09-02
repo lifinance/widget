@@ -2,8 +2,8 @@
   "name": "@lifi/widget-playground",
   "version": "1.0.230",
   "type": "module",
-  "main": "./src/index.ts",
-  "types": "./src/index.d.ts",
+  "main": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
   "scripts": {
     "build": "pnpm clean && pnpm build:esm && pnpm build:fonts && pnpm build:clean",
     "build:esm": "tsc --build",
