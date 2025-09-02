@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.30.0](https://github.com/lifinance/widget/compare/v3.29.1...v3.30.0) (2025-09-02)
+
+
+### Features
+
+* add all networks tab ([#430](https://github.com/lifinance/widget/issues/430)) ([2b6bfb3](https://github.com/lifinance/widget/commit/2b6bfb3a7256ebfca3e134f12b72c23f16f21f57))
+
+
+### Bug Fixes
+
+* update network fee display logic to account for 0 values ([#533](https://github.com/lifinance/widget/issues/533)) ([e386168](https://github.com/lifinance/widget/commit/e3861680009ebdd5e693ade112812f6a09391f24))
+
 ### [3.29.1](https://github.com/lifinance/widget/compare/v3.29.0...v3.29.1) (2025-08-29)
 
 
