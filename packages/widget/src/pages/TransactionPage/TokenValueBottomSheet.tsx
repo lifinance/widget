@@ -113,7 +113,7 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
               fontWeight: 600,
             }}
           >
-            {hasRelayerSupport
+            {hasRelayerSupport || !gasCostUSD
               ? t('main.fees.free')
               : t('format.currency', { value: gasCostUSD })}
           </Typography>
