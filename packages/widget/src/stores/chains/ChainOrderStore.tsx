@@ -101,7 +101,7 @@ export function ChainOrderStoreProvider({
   )
 }
 
-export function useChainOrderStoreContext() {
+function useChainOrderStoreContext() {
   const useStore = useContext(ChainOrderStoreContext)
   if (!useStore) {
     throw new Error(

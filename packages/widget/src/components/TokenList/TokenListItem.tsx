@@ -62,24 +62,22 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
   }
 )
 
-const TokenListItemAvatar = memo(
-  ({ token }: TokenListItemAvatarProps) => {
-    const [isImageLoading, setIsImageLoading] = useState(true)
+const TokenListItemAvatar = memo(({ token }: TokenListItemAvatarProps) => {
+  const [isImageLoading, setIsImageLoading] = useState(true)
 
-    return (
-      <Avatar
-        src={token.logoURI}
-        alt={token.symbol}
-        sx={(theme) =>
-          isImageLoading ? { bgcolor: theme.vars.palette.grey[300] } : null
-        }
-        onLoad={() => setIsImageLoading(false)}
-      >
-        {token.symbol?.[0]}
-      </Avatar>
-    )
-  }
-)
+  return (
+    <Avatar
+      src={token.logoURI}
+      alt={token.symbol}
+      sx={(theme) =>
+        isImageLoading ? { bgcolor: theme.vars.palette.grey[300] } : null
+      }
+      onLoad={() => setIsImageLoading(false)}
+    >
+      {token.symbol?.[0]}
+    </Avatar>
+  )
+})
 
 interface OpenTokenDetailsButtonProps {
   tokenAddress: string | undefined

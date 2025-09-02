@@ -70,7 +70,7 @@ export const processTokenBalances = (
 }
 
 // NB: only for non-all-networks
-export const processedTypedTokens = (
+const processedTypedTokens = (
   tokens: TokenAmount[],
   tokensWithBalances: TokenAmount[],
   selectedChainId?: number,
