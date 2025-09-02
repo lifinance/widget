@@ -1,16 +1,23 @@
 'use client'
-import dynamic from 'next/dynamic.js'
-
-// Dynamically import the app content to avoid SSR issues
-const AppContent = dynamic(
-  () => import('./AppContent.js').then((mod) => ({ default: mod.AppContent })),
-  {
-    ssr: false,
-  }
-)
+import { DrawerControls } from '@lifi/widget-playground'
+import { Box } from '@mui/material'
+import { WidgetNextView } from '@/app/WidgetNextView'
+// The core-js/actual/structured-clone polyfill is only needed for the Next.js implementation
+// the lack of structureClone support for Next.js is currently a requested feature
+//   https://github.com/vercel/next.js/discussions/33189
+import 'core-js/actual/structured-clone'
+import '@lifi/widget-playground/fonts'
+import { AppProvider } from './AppProvider.js'
 
 export default function Home() {
-  return <AppContent />
+  return (
+    <AppProvider>
+      <Box sx={{ display: 'flex', flexGrow: '1' }}>
+        <DrawerControls />
+        <WidgetNextView />
+      </Box>
+    </AppProvider>
+  )
 }
 
 if (!process.env.NEXT_PUBLIC_EVM_WALLET_CONNECT) {
