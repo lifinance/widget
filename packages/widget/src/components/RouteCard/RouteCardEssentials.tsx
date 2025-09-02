@@ -64,7 +64,7 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
                 lineHeight: 1,
               }}
             >
-              {hasRelayerSupport
+              {hasRelayerSupport || !combinedFeesUSD
                 ? t('main.fees.free')
                 : t('format.currency', {
                     value: combinedFeesUSD,
