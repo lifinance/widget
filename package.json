@@ -33,7 +33,8 @@
     "pre-commit": "pnpm check && pnpm check:types && pnpm check:circular-deps",
     "prepare": "husky",
     "postinstall": "husky",
-    "knip": "knip"
+    "knip:all": "knip",
+    "knip:check": "knip --dependencies --exports --files --no-config-hints --exclude binaries"
   },
   "lint-staged": {
     "*": [

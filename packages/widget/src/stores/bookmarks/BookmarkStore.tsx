@@ -5,7 +5,7 @@ import type { PersistStoreProviderProps } from '../types.js'
 import { createBookmarksStore } from './createBookmarkStore.js'
 import type { BookmarkState, BookmarkStore } from './types.js'
 
-export const BookmarkStoreContext = createContext<BookmarkStore | null>(null)
+const BookmarkStoreContext = createContext<BookmarkStore | null>(null)
 
 export const BookmarkStoreProvider: React.FC<PersistStoreProviderProps> = ({
   children,

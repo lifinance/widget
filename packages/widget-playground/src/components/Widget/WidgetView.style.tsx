@@ -1,6 +1,6 @@
 import { defaultMaxHeight } from '@lifi/widget'
 import type { BoxProps, Theme } from '@mui/material'
-import { Box, IconButton, Skeleton as MuiSkeleton } from '@mui/material'
+import { Box, IconButton } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import type { CSSProperties } from 'react'
 import { drawerZIndex } from '../DrawerControls/DrawerControls.style.js'
@@ -127,23 +127,4 @@ export const Main = styled('main', {
       },
     },
   ],
-}))
-
-export const WidgetSkeletonContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  transform: 'translateY(-56px)',
-  gap: theme.spacing(2),
-  backgroundColor: theme.vars.palette.background.default,
-  padding: theme.spacing(8, 3, 6.25),
-  boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
-  borderRadius: theme.vars.shape.borderRadius,
-}))
-
-export const Skeleton = styled(MuiSkeleton)(({ theme }) => ({
-  backgroundColor: theme.vars.palette.grey[100],
-  ...theme.applyStyles('dark', {
-    backgroundColor: theme.vars.palette.grey[900],
-  }),
 }))

@@ -7,7 +7,7 @@ import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 import { EVMBaseProvider } from './EVMBaseProvider.js'
 import { EVMExternalContext } from './EVMExternalContext.js'
 
-export function useInWagmiContext(): boolean {
+function useInWagmiContext(): boolean {
   const { chains } = useWidgetConfig()
   const context = useContext(WagmiContext)
 

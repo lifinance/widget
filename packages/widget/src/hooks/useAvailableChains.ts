@@ -6,7 +6,7 @@ import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { getConfigItemSets, isItemAllowedForSets } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 
-export type GetChainById = (
+type GetChainById = (
   chainId?: number,
   chains?: ExtendedChain[]
 ) => ExtendedChain | undefined

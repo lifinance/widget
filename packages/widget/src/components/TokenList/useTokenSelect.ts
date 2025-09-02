@@ -10,11 +10,6 @@ import { useSplitSubvariantStore } from '../../stores/settings/useSplitSubvarian
 import { WidgetEvent } from '../../types/events.js'
 import type { DisabledUI } from '../../types/widget.js'
 
-export type UseTokenSelectArgs = {
-  formType: FormType
-  onClick?: () => void
-}
-
 export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
   const { subvariant, disabledUI } = useWidgetConfig()
   const splitSubvariant = useSplitSubvariantStore((store) => store.state)

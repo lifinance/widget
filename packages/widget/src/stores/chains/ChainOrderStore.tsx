@@ -12,13 +12,9 @@ import type { PersistStoreProviderProps } from '../types.js'
 import { createChainOrderStore } from './createChainOrderStore.js'
 import type { ChainOrderState } from './types.js'
 
-export type ChainOrderStore = UseBoundStoreWithEqualityFn<
-  StoreApi<ChainOrderState>
->
+type ChainOrderStore = UseBoundStoreWithEqualityFn<StoreApi<ChainOrderState>>
 
-export const ChainOrderStoreContext = createContext<ChainOrderStore | null>(
-  null
-)
+const ChainOrderStoreContext = createContext<ChainOrderStore | null>(null)
 
 export function ChainOrderStoreProvider({
   children,

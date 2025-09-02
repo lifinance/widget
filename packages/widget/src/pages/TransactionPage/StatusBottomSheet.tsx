@@ -59,9 +59,11 @@ export const StatusBottomSheet: React.FC<RouteExecution> = ({
   )
 }
 
-export const StatusBottomSheetContent: React.FC<
-  StatusBottomSheetContentProps
-> = ({ status, route, onClose }) => {
+const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
+  status,
+  route,
+  onClose,
+}) => {
   const { t } = useTranslation()
   const { navigateBack, navigate } = useNavigateBack()
   const { setFieldValue } = useFieldActions()

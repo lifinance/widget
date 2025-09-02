@@ -1,6 +1,6 @@
 import type { FormType } from '../form/types.js'
 
-export interface ChainOrderProps {
+interface ChainOrderProps {
   chainOrder: {
     from: number[]
     to: number[]

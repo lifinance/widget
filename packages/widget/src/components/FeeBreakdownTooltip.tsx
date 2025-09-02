@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import type { FeesBreakdown } from '../utils/fees.js'
 import { formatTokenAmount } from '../utils/format.js'
 
-export interface FeeBreakdownTooltipProps {
+interface FeeBreakdownTooltipProps {
   gasCosts?: FeesBreakdown[]
   feeCosts?: FeesBreakdown[]
   relayerSupport?: boolean
@@ -49,10 +49,7 @@ export const FeeBreakdownTooltip: React.FC<FeeBreakdownTooltipProps> = ({
   )
 }
 
-export const getFeeBreakdownTypography = (
-  fees: FeesBreakdown[],
-  t: TFunction
-) =>
+const getFeeBreakdownTypography = (fees: FeesBreakdown[], t: TFunction) =>
   fees.map((fee, index) => (
     <Typography
       color="inherit"
