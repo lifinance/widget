@@ -2,7 +2,10 @@ import { ChainType, type ExtendedChain } from '@lifi/widget'
 import { defineChain } from '@reown/appkit/networks'
 import type { AppKitNetwork, ChainNamespace } from '@reown/appkit-common'
 
-type AppKitSupportedChainTypes = Exclude<ChainType, ChainType.MVM>
+type AppKitSupportedChainTypes = Exclude<
+  ChainType,
+  ChainType.MVM | ChainType.TVM
+>
 
 const ChainTypeSpaceMap: Record<AppKitSupportedChainTypes, ChainNamespace> = {
   [ChainType.EVM]: 'eip155',

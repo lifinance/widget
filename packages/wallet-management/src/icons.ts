@@ -28,6 +28,8 @@ export const getChainTypeIcon = (chainType: ChainType) => {
       return 'https://lifinance.github.io/types/src/assets/icons/chains/bitcoin.svg'
     case ChainType.MVM:
       return 'https://lifinance.github.io/types/src/assets/icons/chains/sui.svg'
+    case ChainType.TVM:
+      return 'https://lifinance.github.io/types/src/assets/icons/chains/tron.svg'
   }
 }
 
