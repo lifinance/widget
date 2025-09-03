@@ -176,6 +176,7 @@ export const LayoutControl = () => {
             ?.name || ''}
         </CardValue>
       }
+      dataTestId="layout-section"
     >
       <ControlRowContainer
         sx={selectedLayoutId !== 'default' ? { paddingBottom: 0 } : undefined}

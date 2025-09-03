@@ -45,6 +45,7 @@ export const SubvariantControl = () => {
       value={
         <CardValue sx={{ textTransform: 'capitalize' }}>{subvariant}</CardValue>
       }
+      dataTestId="subvariant-section"
     >
       <Tabs
         value={subvariant}
