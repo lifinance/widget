@@ -10,7 +10,7 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@lifi/widget": "^3.29.1",
+    "@lifi/widget": "^3.30.0",
     "@remix-run/css-bundle": "^2.17.0",
     "@remix-run/node": "^2.17.0",
     "@remix-run/react": "^2.17.0",
