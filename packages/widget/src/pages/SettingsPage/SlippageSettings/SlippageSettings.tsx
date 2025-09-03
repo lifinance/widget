@@ -1,8 +1,8 @@
 import Percent from '@mui/icons-material/Percent'
 import WarningRounded from '@mui/icons-material/WarningRounded'
-import { Box, Typography } from '@mui/material'
+import { Box, debounce, Typography } from '@mui/material'
 import type { ChangeEventHandler, FocusEventHandler } from 'react'
-import { useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSettingMonitor } from '../../../hooks/useSettingMonitor.js'
 import { useSettings } from '../../../stores/settings/useSettings.js'
@@ -18,6 +18,7 @@ import {
   SlippageLimitsWarningContainer,
 } from './SlippageSettings.style.js'
 
+const defaultSlippageInputValue = '0.5'
 const maxFractionDigits = 5
 
 export const SlippageSettings: React.FC = () => {
@@ -33,19 +34,38 @@ export const SlippageSettings: React.FC = () => {
   const defaultValue = useRef(slippage)
   const [focused, setFocused] = useState<'input' | 'button'>()
 
+  const customInputValue =
+    !slippage || slippage === defaultSlippage
+      ? defaultSlippageInputValue
+      : slippage
+
+  const [inputValue, setInputValue] = useState(customInputValue)
+
   const handleDefaultClick = () => {
     setValue('slippage', defaultSlippage)
   }
 
+  const debouncedSetValue = useMemo(() => debounce(setValue, 500), [setValue])
+
   const formatAndSetSlippage = (value: string, returnInitial = false) => {
-    const formattedValue = formatInputAmount(
-      formatSlippage(value, defaultValue.current, returnInitial),
-      maxFractionDigits,
+    const formattedSlippage = formatSlippage(
+      value,
+      defaultValue.current,
       returnInitial
     )
-    setValue(
+    const formattedValue =
+      Number(formattedSlippage) === 0 && !returnInitial
+        ? '0'
+        : formatInputAmount(formattedSlippage, maxFractionDigits, returnInitial)
+    const maxLength =
+      Number(formattedValue) < 10
+        ? maxFractionDigits + 2
+        : maxFractionDigits + 3
+    const slicedValue = formattedValue.slice(0, maxLength)
+    setInputValue(slicedValue)
+    debouncedSetValue(
       'slippage',
-      formattedValue.length ? formattedValue : defaultSlippage
+      slicedValue.length ? slicedValue : defaultSlippage
     )
   }
 
@@ -112,7 +132,7 @@ export const SlippageSettings: React.FC = () => {
             }}
             onChange={handleInputUpdate}
             onFocus={handleInputFocus}
-            value={slippage}
+            value={inputValue}
             autoComplete="off"
             onBlur={handleInputBlur}
           />
