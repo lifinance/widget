@@ -12,6 +12,7 @@ import { safe } from 'wagmi/connectors'
 import { createBaseAccountConnector } from './connectors/baseAccount.js'
 import { createCoinbaseConnector } from './connectors/coinbase.js'
 import { createMetaMaskConnector } from './connectors/metaMask.js'
+import { createPortoConnector } from './connectors/porto.js'
 import { createWalletConnectConnector } from './connectors/walletConnect.js'
 import { isWalletInstalled } from './utils/isWalletInstalled.js'
 
@@ -20,6 +21,7 @@ export interface DefaultWagmiConfigProps {
   coinbase?: CoinbaseWalletParameters
   metaMask?: MetaMaskParameters
   baseAccount?: BaseAccountParameters
+  porto?: any
   wagmiConfig?: {
     ssr?: boolean
     multiInjectedProviderDiscovery?: boolean
@@ -123,6 +125,15 @@ export function createDefaultWagmiConfig(
       connectors.unshift(createBaseAccountConnector(props.baseAccount))
     }
   }
+
+  //if (!isWalletInstalled('porto')) {
+  const recentConnectorId = localStorage?.getItem(
+    `${config.storage?.key}.recentConnectorId`
+  )
+  if (recentConnectorId?.includes?.('porto') || !props?.lazy) {
+    connectors.unshift(createPortoConnector(props?.porto))
+  }
+  //}
 
   return {
     config,
