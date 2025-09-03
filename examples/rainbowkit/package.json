@@ -9,13 +9,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/wallet-management": "^3.15.1",
-    "@lifi/widget": "^3.29.1",
+    "@lifi/wallet-management": "^3.16.0",
+    "@lifi/widget": "^3.30.0",
     "@rainbow-me/rainbowkit": "^2.2.8",
-    "@tanstack/react-query": "^5.85.8",
+    "@tanstack/react-query": "^5.85.9",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "viem": "^2.37.1",
+    "viem": "^2.37.2",
     "wagmi": "^2.16.9"
   },
   "devDependencies": {
