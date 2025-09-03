@@ -50,7 +50,13 @@ export const SlippageSettings: React.FC = () => {
     (event) => {
       const { value } = event.target
 
-      const formattedValue = formatSlippage(value, defaultValue.current, true)
+      // Limit to 5 decimal places
+      const limitedValue = value.replace(/^(\d*\.\d{0,5}).*$/, '$1')
+      const formattedValue = formatSlippage(
+        limitedValue,
+        defaultValue.current,
+        true
+      )
 
       setInputValue(formattedValue)
       debouncedSetValue(
