@@ -1,8 +1,8 @@
 import Percent from '@mui/icons-material/Percent'
 import WarningRounded from '@mui/icons-material/WarningRounded'
-import { Box, debounce, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import type { ChangeEventHandler, FocusEventHandler } from 'react'
-import { useMemo, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSettingMonitor } from '../../../hooks/useSettingMonitor.js'
 import { useSettings } from '../../../stores/settings/useSettings.js'
@@ -45,8 +45,6 @@ export const SlippageSettings: React.FC = () => {
     setValue('slippage', defaultSlippage)
   }
 
-  const debouncedSetValue = useMemo(() => debounce(setValue, 500), [setValue])
-
   const formatAndSetSlippage = (value: string, returnInitial = false) => {
     const formattedSlippage = formatSlippage(
       value,
@@ -63,10 +61,7 @@ export const SlippageSettings: React.FC = () => {
         : maxFractionDigits + 3
     const slicedValue = formattedValue.slice(0, maxLength)
     setInputValue(slicedValue)
-    debouncedSetValue(
-      'slippage',
-      slicedValue.length ? slicedValue : defaultSlippage
-    )
+    setValue('slippage', slicedValue.length ? slicedValue : defaultSlippage)
   }
 
   const handleInputUpdate: ChangeEventHandler<HTMLInputElement> = (event) => {
