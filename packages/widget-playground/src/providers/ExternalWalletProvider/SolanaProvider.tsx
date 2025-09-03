@@ -8,20 +8,12 @@ import {
   WalletProvider,
 } from '@solana/wallet-adapter-react'
 import { clusterApiUrl } from '@solana/web3.js'
-import mitt, { type Emitter } from 'mitt'
 import { type FC, type PropsWithChildren, useEffect } from 'react'
 
 const endpoint = clusterApiUrl(WalletAdapterNetwork.Mainnet)
 const wallets: Adapter[] = []
 
-type WalletEvents = {
-  connect: string
-  disconnect: unknown
-}
-
-export const SolanaConnectedWalletKey = 'li.fi-widget-recent-wallet'
-
-export const emitter: Emitter<WalletEvents> = mitt<WalletEvents>()
+const SolanaConnectedWalletKey = 'li.fi-widget-recent-wallet'
 
 export const SolanaProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
@@ -38,7 +30,7 @@ export const SolanaProvider: FC<PropsWithChildren> = ({ children }) => {
   )
 }
 
-export const SolanaReownHandler: FC = () => {
+const SolanaReownHandler: FC = () => {
   const { walletProvider: solanaProvider } =
     useAppKitProvider<SolanaWalletProvider>('solana')
   const { disconnect, select } = useWallet()

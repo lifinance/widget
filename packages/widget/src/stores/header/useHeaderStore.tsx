@@ -4,7 +4,7 @@ import { createWithEqualityFn } from 'zustand/traditional'
 import type { PersistStoreProviderProps } from '../types.js'
 import type { HeaderState, HeaderStore } from './types.js'
 
-export const HeaderStoreContext = createContext<HeaderStore | null>(null)
+const HeaderStoreContext = createContext<HeaderStore | null>(null)
 
 export function HeaderStoreProvider({ children }: PersistStoreProviderProps) {
   const storeRef = useRef<HeaderStore>(null)
@@ -18,7 +18,7 @@ export function HeaderStoreProvider({ children }: PersistStoreProviderProps) {
   )
 }
 
-export function useHeaderStoreContext() {
+function useHeaderStoreContext() {
   const useStore = useContext(HeaderStoreContext)
   if (!useStore) {
     throw new Error(
@@ -54,7 +54,7 @@ export function useSetHeaderHeight() {
   }
 }
 
-export const createHeaderStore = () =>
+const createHeaderStore = () =>
   createWithEqualityFn<HeaderState>(
     (set, get) => ({
       headerHeight: 108, // a basic default height

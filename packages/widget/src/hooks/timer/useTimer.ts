@@ -9,14 +9,14 @@ import { validateExpiryTimestamp, validateOnExpire } from './validate.js'
 
 const SECOND_INTERVAL = 1000
 
-export type useTimerSettingsType = {
+type useTimerSettingsType = {
   expiryTimestamp: Date
   onExpire?: () => void
   autoStart?: boolean
   interval?: number
 }
 
-export type useTimerResultType = TimeFromMillisecondsType & {
+type useTimerResultType = TimeFromMillisecondsType & {
   start: () => void
   pause: () => void
   resume: () => void

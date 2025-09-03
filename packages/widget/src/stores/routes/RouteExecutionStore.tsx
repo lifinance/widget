@@ -6,12 +6,13 @@ import type { PersistStoreProviderProps } from '../types.js'
 import { createRouteExecutionStore } from './createRouteExecutionStore.js'
 import type { RouteExecutionState } from './types.js'
 
-export type RouteExecutionStore = UseBoundStoreWithEqualityFn<
+type RouteExecutionStore = UseBoundStoreWithEqualityFn<
   StoreApi<RouteExecutionState>
 >
 
-export const RouteExecutionStoreContext =
-  createContext<RouteExecutionStore | null>(null)
+const RouteExecutionStoreContext = createContext<RouteExecutionStore | null>(
+  null
+)
 
 export function RouteExecutionStoreProvider({
   children,

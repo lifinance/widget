@@ -7,7 +7,7 @@ import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 import { UTXOBaseProvider } from './UTXOBaseProvider.js'
 import { UTXOExternalContext } from './UTXOExternalContext.js'
 
-export function useInBigmiContext(): boolean {
+function useInBigmiContext(): boolean {
   const { chains } = useWidgetConfig()
   const context = useContext(BigmiContext)
 

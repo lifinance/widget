@@ -8,8 +8,9 @@ import type {
   SplitSubvariantStore,
 } from './types.js'
 
-export const SplitSubvariantStoreContext =
-  createContext<SplitSubvariantStore | null>(null)
+const SplitSubvariantStoreContext = createContext<SplitSubvariantStore | null>(
+  null
+)
 
 const shouldRecreateStore = (
   store: SplitSubvariantStore,
@@ -34,7 +35,7 @@ export function SplitSubvariantStoreProvider({
   )
 }
 
-export function useSplitSubvariantStoreContext() {
+function useSplitSubvariantStoreContext() {
   const useStore = useContext(SplitSubvariantStoreContext)
   if (!useStore) {
     throw new Error(
@@ -51,7 +52,7 @@ export function useSplitSubvariantStore<T>(
   return useStore(useShallow(selector))
 }
 
-export const createSplitSubvariantStore = ({ state }: SplitSubvariantProps) =>
+const createSplitSubvariantStore = ({ state }: SplitSubvariantProps) =>
   createWithEqualityFn<SplitSubvariantState>(
     (set) => ({
       state,

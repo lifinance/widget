@@ -6,11 +6,13 @@ import type {
   DrawerProps as MuiDrawerProps,
 } from '@mui/material'
 import { Box, ButtonBase, Drawer as MuiDrawer, styled } from '@mui/material'
+
 export const drawerZIndex = 1501
 export const autocompletePopperZIndex = drawerZIndex + 1
 export const tooltipPopperZIndex = drawerZIndex + 2
 export const popperZIndex = drawerZIndex + 3
-export const headerZIndex = tooltipPopperZIndex
+
+const headerZIndex = tooltipPopperZIndex
 
 interface DrawerProps extends MuiDrawerProps {
   drawerWidth: number

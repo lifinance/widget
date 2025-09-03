@@ -15,14 +15,6 @@ export const CardRowButton = styled(ButtonBase)(({ theme }) => ({
   borderRadius: theme.vars.shape.borderRadius,
 }))
 
-export const CardRowContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  width: '100%',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  padding: theme.spacing(2),
-}))
-
 export const CardValue = styled(Typography)({
   lineHeight: '1.25',
   fontWeight: 500,

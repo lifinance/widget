@@ -20,10 +20,6 @@ export enum WidgetEvent {
    * @deprecated Use `PageEntered` event instead.
    */
   ReviewTransactionPageEntered = 'reviewTransactionPageEntered',
-  /**
-   * @deprecated use useWalletManagementEvents hook.
-   */
-  WalletConnected = 'walletConnected',
   WidgetExpanded = 'widgetExpanded',
   PageEntered = 'pageEntered',
   FormFieldChanged = 'formFieldChanged',

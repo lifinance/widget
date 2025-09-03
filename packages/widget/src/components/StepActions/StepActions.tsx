@@ -120,7 +120,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
   )
 }
 
-export const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
+const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
   const { subvariant, subvariantOptions, feeConfig, hiddenUI } =
     useWidgetConfig()
 
@@ -211,7 +211,7 @@ export const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
   )
 }
 
-export const StepDetailsContent: React.FC<{
+const StepDetailsContent: React.FC<{
   step: StepExtended
 }> = ({ step }) => {
   const { t } = useTranslation()
@@ -293,7 +293,7 @@ export const StepDetailsContent: React.FC<{
   )
 }
 
-export const CustomStepDetailsLabel: React.FC<StepDetailsLabelProps> = ({
+const CustomStepDetailsLabel: React.FC<StepDetailsLabelProps> = ({
   step,
   subvariant,
   subvariantOptions,
@@ -325,7 +325,7 @@ export const CustomStepDetailsLabel: React.FC<StepDetailsLabelProps> = ({
   )
 }
 
-export const BridgeStepDetailsLabel: React.FC<
+const BridgeStepDetailsLabel: React.FC<
   Omit<StepDetailsLabelProps, 'variant'>
 > = ({ step }) => {
   const { t } = useTranslation()
@@ -341,7 +341,7 @@ export const BridgeStepDetailsLabel: React.FC<
   )
 }
 
-export const SwapStepDetailsLabel: React.FC<
+const SwapStepDetailsLabel: React.FC<
   Omit<StepDetailsLabelProps, 'variant'>
 > = ({ step }) => {
   const { t } = useTranslation()
@@ -356,7 +356,7 @@ export const SwapStepDetailsLabel: React.FC<
   )
 }
 
-export const ProtocolStepDetailsLabel: React.FC<
+const ProtocolStepDetailsLabel: React.FC<
   Omit<StepDetailsLabelProps, 'variant'>
 > = ({ step, feeConfig, relayerSupport }) => {
   const { t } = useTranslation()

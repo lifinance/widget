@@ -3,10 +3,10 @@ export enum ElementId {
   WalletConnectElement = 'w3m-modal',
 }
 
-export const getWalletModalContentElement = () =>
+const getWalletModalContentElement = () =>
   document.getElementById(ElementId.WalletModalContent)
 
-export const getWalletConnectElement = () =>
+const getWalletConnectElement = () =>
   document.querySelector(ElementId.WalletConnectElement)
 
 export const createWalletConnectElement = () => {

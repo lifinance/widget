@@ -9,11 +9,7 @@ export type ValueSetter<S> = <K extends keyof S>(
   value: S[Extract<K, string>]
 ) => void
 
-export type ValueGetter<S> = <K extends keyof S>(key: K) => S[K]
-
-export type ValuesSetter<S> = <K extends keyof S>(
-  values: Record<K, S[Extract<K, string>]>
-) => void
+type ValueGetter<S> = <K extends keyof S>(key: K) => S[K]
 
 export const SettingsToolTypes = ['Bridges', 'Exchanges'] as const
 export type SettingsToolType = (typeof SettingsToolTypes)[number]
@@ -48,7 +44,7 @@ export interface SettingsActions {
 
 export type SettingsState = SettingsProps & SettingsActions
 
-export interface SendToWalletState {
+interface SendToWalletState {
   showSendToWallet: boolean
 }
 

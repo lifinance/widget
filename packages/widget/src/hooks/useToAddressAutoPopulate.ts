@@ -7,7 +7,7 @@ import { useSendToWalletActions } from '../stores/settings/useSendToWalletStore.
 import { getChainTypeFromAddress } from '../utils/chainType.js'
 import { useAvailableChains } from './useAvailableChains.js'
 
-export type UpdateToAddressArgs = {
+type UpdateToAddressArgs = {
   formType: FormType
   selectedToAddress?: string
   selectedChainId?: number

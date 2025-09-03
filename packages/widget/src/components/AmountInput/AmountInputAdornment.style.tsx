@@ -1,4 +1,4 @@
-import { Box, Skeleton, styled } from '@mui/material'
+import { Box, styled } from '@mui/material'
 import { cardClasses } from '@mui/material/Card'
 import { ButtonTertiary } from '../ButtonTertiary.js'
 
@@ -66,10 +66,4 @@ export const MaxButton = styled(ButtonTertiary)(({ theme }) => ({
       transitionDelay: '75ms',
     },
   },
-}))
-
-export const MaxButtonSkeleton = styled(Skeleton)(({ theme }) => ({
-  width: 46,
-  height: 24,
-  borderRadius: theme.vars.shape.borderRadiusSecondary,
 }))

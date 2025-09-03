@@ -47,7 +47,7 @@ const memoryRouterProps: MemoryRouterProps = {
   },
 }
 
-export const AppRouter: React.FC<PropsWithChildren> = ({ children }) => {
+const AppRouter: React.FC<PropsWithChildren> = ({ children }) => {
   const { buildUrl } = useWidgetConfig()
   const inRouterContext = useInRouterContext()
   const Router = inRouterContext ? Fragment : MemoryRouter

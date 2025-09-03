@@ -60,7 +60,7 @@ export const AmountInput: React.FC<FormTypeProps & CardProps> = ({
   )
 }
 
-export const AmountInputBase: React.FC<
+const AmountInputBase: React.FC<
   FormTypeProps &
     CardProps & {
       token?: Token

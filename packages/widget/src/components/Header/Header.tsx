@@ -9,7 +9,7 @@ import { Container } from './Header.style.js'
 import { NavigationHeader } from './NavigationHeader.js'
 import { WalletHeader } from './WalletHeader.js'
 
-export const HeaderContainer: FC<PropsWithChildren> = ({ children }) => {
+const HeaderContainer: FC<PropsWithChildren> = ({ children }) => {
   const { pathname } = useLocation()
   const elementId = useDefaultElementId()
   const headerRef = useRef<HTMLDivElement>(null)

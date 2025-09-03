@@ -7,7 +7,7 @@ import {
   tabsClasses,
 } from '@mui/material'
 
-export const Tabs = styled(MuiTabs)(({ theme }) => ({
+const Tabs = styled(MuiTabs)(({ theme }) => ({
   flex: 1,
   [`.${tabsClasses.indicator}`]: {
     top: theme.spacing(0.5),

@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import type { FormTypeProps } from '../form/types.js'
 
-export type InputMode = 'amount' | 'price'
+type InputMode = 'amount' | 'price'
 
 interface InputModeState {
   inputMode: Record<'from' | 'to', InputMode>

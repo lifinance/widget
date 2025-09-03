@@ -28,7 +28,7 @@ export const PriceFormHelperText = memo<FormTypeProps>(({ formType }) => {
   )
 })
 
-export const PriceFormHelperTextBase: React.FC<
+const PriceFormHelperTextBase: React.FC<
   FormTypeProps & {
     isLoading?: boolean
     tokenAddress?: string

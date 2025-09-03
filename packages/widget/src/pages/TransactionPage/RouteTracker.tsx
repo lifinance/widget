@@ -5,7 +5,7 @@ import { useRoutes } from '../../hooks/useRoutes.js'
 import { useRouteExecutionStoreContext } from '../../stores/routes/RouteExecutionStore.js'
 import { useSetExecutableRoute } from '../../stores/routes/useSetExecutableRoute.js'
 
-export interface RouteTrackerProps {
+interface RouteTrackerProps {
   observableRouteId: string
   onChange: Dispatch<SetStateAction<string>>
   onFetching: Dispatch<SetStateAction<boolean>>

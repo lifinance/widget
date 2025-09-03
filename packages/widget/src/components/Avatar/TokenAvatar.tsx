@@ -45,7 +45,7 @@ export const TokenAvatar: React.FC<{
   )
 }
 
-export const TokenAvatarFallback: React.FC<{
+const TokenAvatarFallback: React.FC<{
   token?: StaticToken
   isLoading?: boolean
   sx?: SxProps<Theme>
@@ -69,7 +69,7 @@ export const TokenAvatarFallback: React.FC<{
   )
 }
 
-export const TokenAvatarBase: React.FC<{
+const TokenAvatarBase: React.FC<{
   token?: StaticToken
   chain?: Chain
   isLoading?: boolean

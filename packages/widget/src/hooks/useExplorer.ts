@@ -7,7 +7,7 @@ import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 
 const sanitiseBaseUrl = (baseUrl: string) => baseUrl.trim().replace(/\/+$/, '')
 
-export type TransactionLinkProps = { chain?: Chain | number } & (
+type TransactionLinkProps = { chain?: Chain | number } & (
   | {
       txHash: string
       txLink?: never

@@ -13,7 +13,7 @@ const getIsDevViewQueryStringParam = () => {
   return false
 }
 
-export const EditToolsContext = createContext<ToolsStore | null>(null)
+const EditToolsContext = createContext<ToolsStore | null>(null)
 
 export const EditToolsProvider: FC<PropsWithChildren> = ({ children }) => {
   const storeRef = useRef<ToolsStore>(null)
