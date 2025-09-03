@@ -66,7 +66,7 @@ export const CardRadiusControl = () => {
           {borderRadius}
         </CardValue>
       }
-      data-testid="card-radius-section"
+      dataTestId="card-radius-section"
     >
       <TabButtonsContainer sx={{ mt: 0.5 }}>
         {clickableValues.map((value) => {

@@ -38,7 +38,7 @@ export const ColorControl = () => {
     <ExpandableCard
       title={'Colors'}
       value={<Swatches />}
-      data-testid="color-section"
+      dataTestId="color-section"
     >
       {Object.entries(editableColors).map(([colorName, colorConfigPath]) => (
         <ColorSelector

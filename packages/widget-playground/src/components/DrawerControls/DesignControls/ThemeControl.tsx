@@ -38,7 +38,7 @@ export const ThemeControl = () => {
           {selectedThemeItem?.name ? selectedThemeItem?.name : 'default'}
         </CardValue>
       }
-      data-testid="theme-section"
+      dataTestId="theme-section"
     >
       <Select
         value={selectedThemeId}
