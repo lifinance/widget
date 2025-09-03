@@ -31,7 +31,7 @@ export const useChainSelect = (formType: FormType) => {
   const swapOnly = useSwapOnly()
   const { tryResetToAddress } = useToAddressReset()
 
-  const getChains = () => {
+  const getSelectedChains = useCallback(() => {
     if (!chains) {
       return []
     }
@@ -39,7 +39,7 @@ export const useChainSelect = (formType: FormType) => {
       .map((chainId) => chains.find((chain) => chain.id === chainId))
       .filter(Boolean) as EVMChain[]
     return selectedChains
-  }
+  }, [chains, chainOrder])
 
   const setCurrentChain = useCallback(
     (chainId: number) => {
@@ -82,7 +82,7 @@ export const useChainSelect = (formType: FormType) => {
   return {
     chainOrder,
     chains,
-    getChains,
+    getSelectedChains,
     isLoading,
     setChainOrder,
     setCurrentChain,

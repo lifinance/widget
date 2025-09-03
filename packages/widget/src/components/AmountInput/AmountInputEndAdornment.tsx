@@ -1,4 +1,5 @@
 import { InputAdornment } from '@mui/material'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { formatUnits } from 'viem'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
@@ -10,7 +11,7 @@ import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { ButtonContainer, MaxButton } from './AmountInputAdornment.style.js'
 
-export const AmountInputEndAdornment = ({ formType }: FormTypeProps) => {
+export const AmountInputEndAdornment = memo(({ formType }: FormTypeProps) => {
   const { t } = useTranslation()
   const { getChainById } = useAvailableChains()
   const { setFieldValue } = useFieldActions()
@@ -88,4 +89,4 @@ export const AmountInputEndAdornment = ({ formType }: FormTypeProps) => {
       ) : null}
     </InputAdornment>
   )
-}
+})

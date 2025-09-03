@@ -212,6 +212,7 @@
     "slippage": "Максимальна процентна різниця між очікуваною ціною і фактичною ціною з якою виконується трансфер. Ця величина може бути змінена в налаштуваннях."
   },
   "main": {
+    "allNetworks": "",
     "allTokens": "Всі токени",
     "bridgeStepDetails": "Бридж з {{from}} до {{to}} через {{tool}}",
     "checkoutStepDetails": "Купівля через {{tool}}",
@@ -310,10 +311,9 @@
     "tokenOnChainAmount": "{{amount, numberExt}} {{tokenSymbol}} на {{chainName}}",
     "tokenSearch": "Шукати за ім'ям або адресою",
     "valueLoss": "Втрата вартості",
-    "searchChain": "Шукати чейн",
-    "searchChains": "Пошук за назвою чейна",
     "searchBridges": "Пошук за назвою моста",
-    "searchExchanges": "Пошук за назвою обмінника"
+    "searchExchanges": "Пошук за назвою обмінника",
+    "searchNetwork": ""
   },
   "settings": {
     "appearance": "Вигляд",

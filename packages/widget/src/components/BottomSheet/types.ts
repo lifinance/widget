@@ -4,6 +4,7 @@ import type { RefObject } from 'react'
 export type BottomSheetProps = Omit<DrawerProps, 'onClose'> & {
   elementRef?: RefObject<HTMLDivElement>
   onClose?(): void
+  keepMounted?: boolean
 }
 
 export interface BottomSheetBase {

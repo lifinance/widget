@@ -4,27 +4,22 @@ import type { BottomSheetBase } from '../BottomSheet/types.js'
 import { TokenDetailsSheetContent } from './TokenDetailsSheetContent.js'
 import type { TokenDetailsSheetBase } from './types.js'
 
-interface TokenDetailsSheetProps {
-  chainId: number | undefined
-}
-
-export const TokenDetailsSheet = forwardRef<
-  TokenDetailsSheetBase,
-  TokenDetailsSheetProps
->(({ chainId }, ref) => {
+export const TokenDetailsSheet = forwardRef<TokenDetailsSheetBase>((_, ref) => {
   const bottomSheetRef = useRef<BottomSheetBase>(null)
   const [tokenAddress, setTokenAddress] = useState<string | undefined>(
     undefined
   )
+  const [chainId, setChainId] = useState<number | undefined>(undefined)
   const [withoutContractAddress, setWithoutContractAddress] = useState(false)
 
   useImperativeHandle(
     ref,
     () => ({
       isOpen: () => bottomSheetRef.current?.isOpen(),
-      open: (address: string, noContractAddress: boolean) => {
+      open: (address: string, noContractAddress: boolean, chainId: number) => {
         setTokenAddress(address)
         setWithoutContractAddress(noContractAddress)
+        setChainId(chainId)
         bottomSheetRef.current?.open()
       },
       close: () => {
@@ -35,7 +30,7 @@ export const TokenDetailsSheet = forwardRef<
   )
 
   return (
-    <BottomSheet ref={bottomSheetRef}>
+    <BottomSheet ref={bottomSheetRef} keepMounted>
       <TokenDetailsSheetContent
         ref={ref}
         tokenAddress={tokenAddress}

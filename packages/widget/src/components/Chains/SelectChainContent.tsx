@@ -104,6 +104,7 @@ export const SelectChainContent = memo(function SelectChainContent({
           isLoading={isLoading}
           onSelect={onSelect ?? onSelectChainFallback}
           selectedChainId={selectedChainId}
+          hasSearchQuery={!!inputRef.current?.value}
           inExpansion={inExpansion}
         />
       </Box>

@@ -125,7 +125,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                   lineHeight: 1.429,
                 }}
               >
-                {hasRelayerSupport
+                {hasRelayerSupport || !combinedFeesUSD
                   ? t('main.fees.free')
                   : t('format.currency', { value: combinedFeesUSD })}
               </Typography>
@@ -163,7 +163,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                 variant="body2"
                 sx={{ fontWeight: 600, cursor: 'help' }}
               >
-                {hasRelayerSupport
+                {hasRelayerSupport || !gasCostUSD
                   ? t('main.fees.free')
                   : t('format.currency', {
                       value: gasCostUSD,
