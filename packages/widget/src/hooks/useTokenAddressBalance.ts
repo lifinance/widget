@@ -1,3 +1,4 @@
+import type { TokenAmount } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useChain } from './useChain.js'
 import { useToken } from './useToken.js'
@@ -18,7 +19,7 @@ export const useTokenAddressBalance = (
   } = useTokenBalance(account?.address, token)
 
   return {
-    token: tokenBalance,
+    token: tokenBalance ?? (token as TokenAmount),
     chain,
     isLoading: isBalanceLoading || isChainLoading || isTokenLoading,
     refetch,
