@@ -1,14 +1,14 @@
 import Percent from '@mui/icons-material/Percent'
 import WarningRounded from '@mui/icons-material/WarningRounded'
-import { Box, debounce, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import type { ChangeEventHandler, FocusEventHandler } from 'react'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSettingMonitor } from '../../../hooks/useSettingMonitor.js'
 import { useSettings } from '../../../stores/settings/useSettings.js'
 import { useSettingsActions } from '../../../stores/settings/useSettingsActions.js'
 import { defaultSlippage } from '../../../stores/settings/useSettingsStore.js'
-import { formatSlippage } from '../../../utils/format.js'
+import { formatInputAmount, formatSlippage } from '../../../utils/format.js'
 import { BadgedValue } from '../SettingsCard/BadgedValue.js'
 import { SettingCardExpandable } from '../SettingsCard/SettingCardExpandable.js'
 import {
@@ -18,7 +18,8 @@ import {
   SlippageLimitsWarningContainer,
 } from './SlippageSettings.style.js'
 
-const DEFAULT_CUSTOM_INPUT_VALUE = '0.5'
+const defaultSlippageInputValue = '0.5'
+const maxFractionDigits = 5
 
 export const SlippageSettings: React.FC = () => {
   const { t } = useTranslation()
@@ -35,7 +36,7 @@ export const SlippageSettings: React.FC = () => {
 
   const customInputValue =
     !slippage || slippage === defaultSlippage
-      ? DEFAULT_CUSTOM_INPUT_VALUE
+      ? defaultSlippageInputValue
       : slippage
 
   const [inputValue, setInputValue] = useState(customInputValue)
@@ -44,35 +45,37 @@ export const SlippageSettings: React.FC = () => {
     setValue('slippage', defaultSlippage)
   }
 
-  const debouncedSetValue = useMemo(() => debounce(setValue, 500), [setValue])
+  const formatAndSetSlippage = (value: string, returnInitial = false) => {
+    const formattedSlippage = formatSlippage(
+      value,
+      defaultValue.current,
+      returnInitial
+    )
+    const formattedValue =
+      Number(formattedSlippage) === 0 && !returnInitial
+        ? '0'
+        : formatInputAmount(formattedSlippage, maxFractionDigits, returnInitial)
+    const maxLength =
+      Number(formattedValue) < 10
+        ? maxFractionDigits + 2
+        : maxFractionDigits + 3
+    const slicedValue = formattedValue.slice(0, maxLength)
+    setInputValue(slicedValue)
+    setValue('slippage', slicedValue.length ? slicedValue : defaultSlippage)
+  }
 
-  const handleInputUpdate: ChangeEventHandler<HTMLInputElement> = useCallback(
-    (event) => {
-      const { value } = event.target
-
-      const formattedValue = formatSlippage(value, defaultValue.current, true)
-
-      setInputValue(formattedValue)
-      debouncedSetValue(
-        'slippage',
-        formattedValue.length ? formattedValue : defaultSlippage
-      )
-    },
-    [debouncedSetValue]
-  )
+  const handleInputUpdate: ChangeEventHandler<HTMLInputElement> = (event) => {
+    formatAndSetSlippage(event.target.value, true)
+  }
 
   const handleInputFocus: FocusEventHandler<HTMLInputElement> = (event) => {
     setFocused('input')
+    formatAndSetSlippage(event.target.value)
+  }
 
-    const { value } = event.target
-
-    const formattedValue = formatSlippage(value, defaultValue.current)
-    setInputValue(formattedValue)
-
-    setValue(
-      'slippage',
-      formattedValue.length ? formattedValue : defaultSlippage
-    )
+  const handleInputBlur: FocusEventHandler<HTMLInputElement> = (event) => {
+    setFocused(undefined)
+    formatAndSetSlippage(event.target.value)
   }
 
   const badgeColor = isSlippageNotRecommended
@@ -126,7 +129,7 @@ export const SlippageSettings: React.FC = () => {
             onFocus={handleInputFocus}
             value={inputValue}
             autoComplete="off"
-            onBlur={() => setFocused(undefined)}
+            onBlur={handleInputBlur}
           />
         </SettingsFieldSet>
         {isSlippageNotRecommended && (

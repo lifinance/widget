@@ -33,7 +33,7 @@ export function formatSlippage(
   if (Number.isNaN(parsedSlippage)) {
     return defaultValue
   }
-  if (parsedSlippage > 100) {
+  if (parsedSlippage >= 100) {
     return '100'
   }
   if (parsedSlippage < 0) {
@@ -73,6 +73,7 @@ export function formatInputAmount(
   }
   integer = integer.replace(/^0+|-/, '')
   fraction = fraction.replace(/(0+)$/, '')
+
   return `${integer || (fraction ? '0' : '')}${fraction ? `.${fraction}` : ''}`
 }
 
