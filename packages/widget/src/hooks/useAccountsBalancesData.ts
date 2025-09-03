@@ -16,7 +16,7 @@ export const useAccountsBalancesData = (
 
   // Filter out EVM tokens that do not have balances
   const { data: filteredTokens, isLoading: isCachedBalancesLoading } =
-    useFilteredTokensByBalance(accountsWithTokens)
+    useFilteredTokensByBalance(accountsWithTokens, formType)
 
   return {
     data: filteredTokens,
