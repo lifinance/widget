@@ -81,6 +81,24 @@ export const SlippageSettings: React.FC = () => {
     )
   }
 
+  const handleInputBlur: FocusEventHandler<HTMLInputElement> = (event) => {
+    setFocused(undefined)
+
+    const { value } = event.target
+
+    const initialFormattedValue = formatSlippage(value, defaultValue.current)
+    const formatter = new Intl.NumberFormat('en', {
+      maximumFractionDigits: 5,
+    })
+    const formattedValue = formatter.format(Number(initialFormattedValue))
+
+    setInputValue(formattedValue)
+    setValue(
+      'slippage',
+      initialFormattedValue.length ? formattedValue : defaultSlippage
+    )
+  }
+
   const badgeColor = isSlippageNotRecommended
     ? 'warning'
     : isSlippageChanged
@@ -132,7 +150,7 @@ export const SlippageSettings: React.FC = () => {
             onFocus={handleInputFocus}
             value={inputValue}
             autoComplete="off"
-            onBlur={() => setFocused(undefined)}
+            onBlur={handleInputBlur}
           />
         </SettingsFieldSet>
         {isSlippageNotRecommended && (
