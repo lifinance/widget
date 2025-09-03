@@ -22,7 +22,8 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^6.30.0",
-    "react-scan": "^0.4.3"
+    "react-scan": "^0.4.3",
+    "vite-plugin-mkcert": "^1.17.8"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
