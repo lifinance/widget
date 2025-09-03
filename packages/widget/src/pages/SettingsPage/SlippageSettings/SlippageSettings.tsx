@@ -1,14 +1,14 @@
 import Percent from '@mui/icons-material/Percent'
 import WarningRounded from '@mui/icons-material/WarningRounded'
-import { Box, debounce, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import type { ChangeEventHandler, FocusEventHandler } from 'react'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSettingMonitor } from '../../../hooks/useSettingMonitor.js'
 import { useSettings } from '../../../stores/settings/useSettings.js'
 import { useSettingsActions } from '../../../stores/settings/useSettingsActions.js'
 import { defaultSlippage } from '../../../stores/settings/useSettingsStore.js'
-import { formatSlippage } from '../../../utils/format.js'
+import { formatInputAmount, formatSlippage } from '../../../utils/format.js'
 import { BadgedValue } from '../SettingsCard/BadgedValue.js'
 import { SettingCardExpandable } from '../SettingsCard/SettingCardExpandable.js'
 import {
@@ -18,7 +18,7 @@ import {
   SlippageLimitsWarningContainer,
 } from './SlippageSettings.style.js'
 
-const DEFAULT_CUSTOM_INPUT_VALUE = '0.5'
+const maxFractionDigits = 5
 
 export const SlippageSettings: React.FC = () => {
   const { t } = useTranslation()
@@ -33,70 +33,34 @@ export const SlippageSettings: React.FC = () => {
   const defaultValue = useRef(slippage)
   const [focused, setFocused] = useState<'input' | 'button'>()
 
-  const customInputValue =
-    !slippage || slippage === defaultSlippage
-      ? DEFAULT_CUSTOM_INPUT_VALUE
-      : slippage
-
-  const [inputValue, setInputValue] = useState(customInputValue)
-
   const handleDefaultClick = () => {
     setValue('slippage', defaultSlippage)
   }
 
-  const debouncedSetValue = useMemo(() => debounce(setValue, 500), [setValue])
-
-  const handleInputUpdate: ChangeEventHandler<HTMLInputElement> = useCallback(
-    (event) => {
-      const { value } = event.target
-
-      // Limit to 5 decimal places
-      const limitedValue = value.replace(/^(\d*\.\d{0,5}).*$/, '$1')
-      const formattedValue = formatSlippage(
-        limitedValue,
-        defaultValue.current,
-        true
-      )
-
-      setInputValue(formattedValue)
-      debouncedSetValue(
-        'slippage',
-        formattedValue.length ? formattedValue : defaultSlippage
-      )
-    },
-    [debouncedSetValue]
-  )
-
-  const handleInputFocus: FocusEventHandler<HTMLInputElement> = (event) => {
-    setFocused('input')
-
-    const { value } = event.target
-
-    const formattedValue = formatSlippage(value, defaultValue.current)
-    setInputValue(formattedValue)
-
+  const formatAndSetSlippage = (value: string, returnInitial = false) => {
+    const formattedValue = formatInputAmount(
+      formatSlippage(value, defaultValue.current, returnInitial),
+      maxFractionDigits,
+      returnInitial
+    )
     setValue(
       'slippage',
       formattedValue.length ? formattedValue : defaultSlippage
     )
   }
 
+  const handleInputUpdate: ChangeEventHandler<HTMLInputElement> = (event) => {
+    formatAndSetSlippage(event.target.value, true)
+  }
+
+  const handleInputFocus: FocusEventHandler<HTMLInputElement> = (event) => {
+    setFocused('input')
+    formatAndSetSlippage(event.target.value)
+  }
+
   const handleInputBlur: FocusEventHandler<HTMLInputElement> = (event) => {
     setFocused(undefined)
-
-    const { value } = event.target
-
-    const initialFormattedValue = formatSlippage(value, defaultValue.current)
-    const formatter = new Intl.NumberFormat('en', {
-      maximumFractionDigits: 5,
-    })
-    const formattedValue = formatter.format(Number(initialFormattedValue))
-
-    setInputValue(formattedValue)
-    setValue(
-      'slippage',
-      initialFormattedValue.length ? formattedValue : defaultSlippage
-    )
+    formatAndSetSlippage(event.target.value)
   }
 
   const badgeColor = isSlippageNotRecommended
@@ -148,7 +112,7 @@ export const SlippageSettings: React.FC = () => {
             }}
             onChange={handleInputUpdate}
             onFocus={handleInputFocus}
-            value={inputValue}
+            value={slippage}
             autoComplete="off"
             onBlur={handleInputBlur}
           />
