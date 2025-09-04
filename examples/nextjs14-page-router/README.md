@@ -1,5 +1,7 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
 > **_NOTE:_** We maintain this example on Next 13 intentionally to demo some of the nuances of
 > importing and using the Widget in the Pages and App router for Next.js 13. 
 > Usage gets easier when using Next 14 - so if you are in a position to it is advisable 

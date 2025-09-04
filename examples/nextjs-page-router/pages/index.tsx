@@ -1,11 +1,8 @@
 import type { WidgetConfig } from '@lifi/widget'
 import { WidgetSkeleton } from '@lifi/widget'
-import { Inter } from 'next/font/google'
 import { Widget } from '@/components/Widget'
 
-const _inter = Inter({ subsets: ['latin'] })
-
-export default function PagesExample() {
+export default function Home() {
   const config = {
     appearance: 'light',
     theme: {
