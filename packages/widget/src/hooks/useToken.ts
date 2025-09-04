@@ -10,7 +10,9 @@ export const useToken = (
 
   const token =
     chainId && tokenAddress
-      ? allTokens?.[chainId]?.find((t) => t.address === tokenAddress)
+      ? allTokens?.[chainId]?.find(
+          (t) => t.address.toLowerCase() === tokenAddress.toLowerCase()
+        )
       : undefined
 
   const tokenSearchEnabled =
