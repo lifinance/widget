@@ -1,14 +1,13 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-> **_NOTE:_** We maintain this example on Next 13 intentionally to demo some of the nuances of
-> importing and using the Widget in the Pages and App router for Next.js 13. 
-> Usage gets easier when using Next 14 - so if you are in a position to it is advisable 
-> to use Next 14 rather than Next 13. See `examples/nextjs` example for Next 14 usage
+This repository shows how to integrate Widget into the latest Next.js Pages Router projects.
 
-Examples can be seen on the following paths
+> **_NOTE:_** If you are using App Router, check out the examples in `examples/nextjs` (latest Next.js version) or `examples/nextjs14` (Next.js version 14).
 
-- http://localhost:3000/ - the shows the use of \<ClientOnly \/\> to import and used the Widget in the Pages Router
-- http://localhost:3000/dynamic-import - the shows the use of `next/dynamic` API to import and use the Widget
+Examples can be found at the following paths:
+
+- http://localhost:3000/ - Shows the use of \<ClientOnly \/\> to import and use the Widget
+- http://localhost:3000/dynamic-import - Shows the use of `next/dynamic` API to import and use the Widget
 
 ## Getting Started
 
@@ -25,14 +24,6 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
 ## Learn More
 

@@ -1,12 +1,13 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-> **_NOTE:_** If you are using Pages Router be sure to look at the examples in `examples/nextjs-page-router` 
-> which have been written with Pages Router specifically in mind.
+This repository shows how to integrate Widget into the latest Next.js App Router projects.
 
-Examples can be seen on the following paths
+> **_NOTE:_** If you are using Pages Router, check out the examples in `examples/nextjs-page-router` (latest Next.js version) or `examples/nextjs14-page-router` (Next.js version 14).
 
-- http://localhost:3000/ - the shows the use of \<ClientOnly \/\> to import and used the Widget in the App Router
-- http://localhost:3000/dynamic-import - the shows the use of `next/dynamic` API to import and use the Widget
+Examples can be found at the following paths:
+
+- http://localhost:3000/ - Shows the use of \<ClientOnly \/\> to import and use the Widget
+- http://localhost:3000/dynamic-import - Shows the use of `next/dynamic` API to import and use the Widget
 
 ## Getting Started
 
@@ -23,10 +24,6 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
 ## Learn More
 
