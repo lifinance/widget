@@ -1,9 +1,6 @@
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
-
-const _inter = Inter({ subsets: ['latin'] })
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -12,9 +9,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode
-}) {
+}>) {
   return (
     <html lang="en">
       <body>

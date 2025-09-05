@@ -1,17 +1,15 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-This repository shows how to integrate Widget into the latest Next.js App Router projects.
+This repository shows how to integrate Widget into Next.js version 14 Pages Router projects.
 
-> **_NOTE:_** If you are using Pages Router, check out the examples in `examples/nextjs-page-router` (latest Next.js version) or `examples/nextjs14-page-router` (Next.js version 14).
+> **_NOTE:_** If you are using App Router, check out the examples in `examples/nextjs` (latest Next.js version) or `examples/nextjs14` (Next.js version 14).
 
 Examples can be found at the following paths:
 
 - http://localhost:3000/ - Shows the use of \<ClientOnly \/\> to import and use the Widget
 - http://localhost:3000/dynamic-import - Shows the use of `next/dynamic` API to import and use the Widget
 
-**NB:** Passing _fallback_ and _config_ to Widget is optional. Use `WidgetEvents` component to react to Widget events as needed.
-
-**NB:** Use `AppRouterCacheProvider` for MUI compatibility with Next.js App Router. See example in `app/layout.tsx`.
+**NB:** Passing _fallback_ and _config_ to Widget is optional. If you need to react to Widget events, see how to add `WidgetEvents` component in Next.js App Router examples.
 
 ## Getting Started
 
