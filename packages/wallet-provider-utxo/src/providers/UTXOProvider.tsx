@@ -6,7 +6,7 @@ import {
   getConnectorClient as getBigmiConnectorClient,
 } from '@bigmi/client'
 import { BigmiContext, useAccount, useConfig, useConnect } from '@bigmi/react'
-import { UTXOContext } from '@lifi/wallet-store'
+import { UTXOContext } from '@lifi/wallet-provider'
 import { type FC, type PropsWithChildren, useCallback, useContext } from 'react'
 import { UTXOBaseProvider } from './UTXOBaseProvider.js'
 

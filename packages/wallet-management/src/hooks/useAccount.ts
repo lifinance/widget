@@ -4,7 +4,7 @@ import {
   useSuiContext,
   useSVMContext,
   useUTXOContext,
-} from '@lifi/wallet-store'
+} from '@lifi/wallet-provider'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import type { WalletAdapter } from '@solana/wallet-adapter-base'
 import { useMemo } from 'react'

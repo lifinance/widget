@@ -1,5 +1,5 @@
 import { ChainId, ChainType } from '@lifi/sdk'
-import { useSVMContext } from '@lifi/wallet-store'
+import { useSVMContext } from '@lifi/wallet-provider'
 import type { WalletAdapter } from '@solana/wallet-adapter-base'
 import type { PublicKey } from '@solana/web3.js'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'

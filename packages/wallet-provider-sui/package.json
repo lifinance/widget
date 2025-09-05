@@ -10,7 +10,7 @@
   },
   "peerDependencies": {
     "@mysten/dapp-kit": "^0.17.4",
-    "@lifi/wallet-store": "workspace:*"
+    "@lifi/wallet-provider": "workspace:*"
   },
   "devDependencies": {
     "react": "^19.1.1",

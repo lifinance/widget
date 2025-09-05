@@ -1,4 +1,4 @@
-import { SuiContext } from '@lifi/wallet-store'
+import { SuiContext } from '@lifi/wallet-provider'
 import {
   SuiClientContext,
   useConnectWallet,

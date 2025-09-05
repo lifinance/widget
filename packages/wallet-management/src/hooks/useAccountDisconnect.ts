@@ -3,7 +3,7 @@ import {
   useSuiContext,
   useSVMContext,
   useUTXOContext,
-} from '@lifi/wallet-store'
+} from '@lifi/wallet-provider'
 import type { Config } from 'wagmi'
 import { useConfig as useWagmiConfig } from 'wagmi'
 import { disconnect, getAccount } from 'wagmi/actions'

@@ -3,7 +3,7 @@ import {
   useSuiContext,
   useSVMContext,
   useUTXOContext,
-} from '@lifi/wallet-store'
+} from '@lifi/wallet-provider'
 import { useContext, useMemo } from 'react'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 import { EVMExternalContext } from './EVMExternalContext.js'

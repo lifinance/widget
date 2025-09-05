@@ -1,6 +1,6 @@
 import type { Connector } from '@bigmi/client'
 import { ChainId, ChainType } from '@lifi/sdk'
-import { useUTXOContext } from '@lifi/wallet-store'
+import { useUTXOContext } from '@lifi/wallet-provider'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { getChainTypeIcon } from '../icons.js'

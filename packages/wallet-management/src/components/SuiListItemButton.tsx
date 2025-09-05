@@ -1,5 +1,5 @@
 import { ChainId, ChainType } from '@lifi/sdk'
-import { useSuiContext } from '@lifi/wallet-store'
+import { useSuiContext } from '@lifi/wallet-provider'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'

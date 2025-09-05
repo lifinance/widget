@@ -1,4 +1,4 @@
-import { SVMContext } from '@lifi/wallet-store'
+import { SVMContext } from '@lifi/wallet-provider'
 import { ConnectionContext, useWallet } from '@solana/wallet-adapter-react'
 import { type FC, type PropsWithChildren, useContext } from 'react'
 import { SVMBaseProvider } from './SVMBaseProvider.js'

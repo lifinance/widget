@@ -80,7 +80,7 @@
     "react": ">=18",
     "react-dom": ">=18",
     "wagmi": ">=2.14.0",
-    "@lifi/wallet-store": "workspace:*"
+    "@lifi/wallet-provider": "workspace:*"
   },
   "files": [
     "dist/**",

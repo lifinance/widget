@@ -9,5 +9,5 @@
     "module": "ESNext",
     "moduleResolution": "Bundler"
   },
-  "include": ["./src/**/*", "./src/**/*.json", "src/stores/suiStore.ts"]
+  "include": ["./src/**/*", "./src/**/*.json"]
 }

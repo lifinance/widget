@@ -5,7 +5,7 @@ import {
   useSuiContext,
   useSVMContext,
   useUTXOContext,
-} from '@lifi/wallet-store'
+} from '@lifi/wallet-provider'
 import type { Theme } from '@mui/material'
 import { useMediaQuery } from '@mui/material'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'

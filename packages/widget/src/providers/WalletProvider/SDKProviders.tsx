@@ -4,7 +4,7 @@ import {
   useSuiContext,
   useSVMContext,
   useUTXOContext,
-} from '@lifi/wallet-store'
+} from '@lifi/wallet-provider'
 import type { SignerWalletAdapter } from '@solana/wallet-adapter-base'
 import { useEffect } from 'react'
 import { useConfig as useWagmiConfig } from 'wagmi'
@@ -24,7 +24,7 @@ export const SDKProviders = () => {
   useEffect(() => {
     // Configure SDK Providers
     const providers: SDKProvider[] = []
-    const hasConfiguredEVMProvider = sdkConfig?.providers?.find(
+    const hasConfiguredEVMProvider = sdkConfig?.providers?.some(
       (provider) => provider.type === ChainType.EVM
     )
     const hasConfiguredSVMProvider = sdkConfig?.providers?.some(
