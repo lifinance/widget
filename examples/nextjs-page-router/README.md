@@ -9,6 +9,8 @@ Examples can be found at the following paths:
 - http://localhost:3000/ - Shows the use of \<ClientOnly \/\> to import and use the Widget
 - http://localhost:3000/dynamic-import - Shows the use of `next/dynamic` API to import and use the Widget
 
+**NB:** Passing _fallback_ and _config_ to Widget is optional. If you need to react to Widget events, see how to add `WidgetEvents` component in Next.js App Router examples.
+
 ## Getting Started
 
 First, run the development server:

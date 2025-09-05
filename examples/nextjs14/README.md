@@ -9,6 +9,10 @@ Examples can be found at the following paths:
 - http://localhost:3000/ - Shows the use of \<ClientOnly \/\> to import and use the Widget
 - http://localhost:3000/dynamic-import - Shows the use of `next/dynamic` API to import and use the Widget
 
+**NB:** Passing _fallback_ and _config_ to Widget is optional. Use `WidgetEvents` component to react to Widget events as needed.
+
+**NB:** Use `AppRouterCacheProvider` for MUI compatibility with Next.js App Router. See example in `app/layout.tsx`.
+
 ## Getting Started
 
 First, run the development server:
