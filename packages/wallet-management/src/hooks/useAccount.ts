@@ -1,7 +1,7 @@
 import type { Connector as BigmiConnector } from '@bigmi/client'
 import { ChainId, ChainType } from '@lifi/sdk'
 import {
-  useSuiContext,
+  useMVMContext,
   useSVMContext,
   useUTXOContext,
 } from '@lifi/wallet-provider'
@@ -92,7 +92,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
   const wagmiAccount = useAccountInternal()
   const { currentWallet: utxoWallet } = useUTXOContext()
   const { currentWallet: svmWallet } = useSVMContext()
-  const { currentWallet: suiWallet, connectionStatus } = useSuiContext()
+  const { currentWallet: suiWallet, connectionStatus } = useMVMContext()
   const { lastConnectedAccount } = useLastConnectedAccount()
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when wallet changes

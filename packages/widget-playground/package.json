@@ -32,7 +32,7 @@
     "@emotion/styled": "^11.14.1",
     "@lifi/sdk": "^3.11.3",
     "@lifi/wallet-management": "workspace:*",
-    "@lifi/wallet-provider-sui": "workspace:*",
+    "@lifi/wallet-provider-mvm": "workspace:*",
     "@lifi/wallet-provider-utxo": "workspace:*",
     "@lifi/wallet-provider-svm": "workspace:*",
     "@lifi/widget": "workspace:*",

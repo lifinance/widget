@@ -1,6 +1,6 @@
 import type { WalletManagementConfig } from '@lifi/wallet-management'
 import { WalletManagementProvider } from '@lifi/wallet-management'
-import { SuiProvider } from '@lifi/wallet-provider-sui'
+import { MVMProvider } from '@lifi/wallet-provider-mvm'
 import { SVMProvider } from '@lifi/wallet-provider-svm'
 import { UTXOProvider } from '@lifi/wallet-provider-utxo'
 import { type FC, type PropsWithChildren, useMemo } from 'react'
@@ -25,14 +25,14 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
             walletConfig?.forceInternalWalletManagement
           }
         >
-          <SuiProvider
+          <MVMProvider
             forceInternalWalletManagement={
               walletConfig?.forceInternalWalletManagement
             }
           >
             <SDKProviders />
             <WalletMenuProvider>{children}</WalletMenuProvider>
-          </SuiProvider>
+          </MVMProvider>
         </UTXOProvider>
       </SVMProvider>
     </EVMProvider>

@@ -1,7 +1,7 @@
 import type { SDKProvider } from '@lifi/sdk'
 import { ChainType, config, EVM, Solana, Sui, UTXO } from '@lifi/sdk'
 import {
-  useSuiContext,
+  useMVMContext,
   useSVMContext,
   useUTXOContext,
 } from '@lifi/wallet-provider'
@@ -19,7 +19,7 @@ export const SDKProviders = () => {
   const wagmiConfig = useWagmiConfig()
   const { walletClient: utxoWalletClient } = useUTXOContext()
   const { currentWallet: svmWallet } = useSVMContext()
-  const { currentWallet: suiWallet } = useSuiContext()
+  const { currentWallet: suiWallet } = useMVMContext()
 
   useEffect(() => {
     // Configure SDK Providers

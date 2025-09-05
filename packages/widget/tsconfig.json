@@ -11,9 +11,5 @@
     "skipLibCheck": true
   },
   "include": ["./src/**/*", "./src/**/*.json"],
-  "references": [
-    { "path": "../wallet-management" },
-    { "path": "../wallet-provider-sui" },
-    { "path": "../wallet-provider-svm" }
-  ]
+  "references": [{ "path": "../wallet-management" }]
 }

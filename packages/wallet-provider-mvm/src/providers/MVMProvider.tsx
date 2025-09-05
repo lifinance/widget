@@ -1,4 +1,4 @@
-import { SuiContext } from '@lifi/wallet-provider'
+import { MVMContext } from '@lifi/wallet-provider'
 import {
   SuiClientContext,
   useConnectWallet,
@@ -7,41 +7,41 @@ import {
   useWallets,
 } from '@mysten/dapp-kit'
 import { type FC, type PropsWithChildren, useContext } from 'react'
-import { SuiBaseProvider } from './SuiBaseProvider.js'
+import { MVMBaseProvider } from './MVMBaseProvider.js'
 
-interface SuiProviderProps {
+interface MVMProviderProps {
   forceInternalWalletManagement?: boolean
 }
 
-export function useInSuiContext(): boolean {
+export function useInMVMContext(): boolean {
   const context = useContext(SuiClientContext)
   return Boolean(context)
 }
 
-export const SuiProvider: FC<PropsWithChildren<SuiProviderProps>> = ({
+export const MVMProvider: FC<PropsWithChildren<MVMProviderProps>> = ({
   forceInternalWalletManagement,
   children,
 }) => {
-  const inSuiContext = useInSuiContext()
+  const inSuiContext = useInMVMContext()
 
   if (inSuiContext && !forceInternalWalletManagement) {
     return (
-      <CaptureSuiValues isExternalContext={inSuiContext}>
+      <CaptureMVMValues isExternalContext={inSuiContext}>
         {children}
-      </CaptureSuiValues>
+      </CaptureMVMValues>
     )
   }
 
   return (
-    <SuiBaseProvider>
-      <CaptureSuiValues isExternalContext={inSuiContext}>
+    <MVMBaseProvider>
+      <CaptureMVMValues isExternalContext={inSuiContext}>
         {children}
-      </CaptureSuiValues>
-    </SuiBaseProvider>
+      </CaptureMVMValues>
+    </MVMBaseProvider>
   )
 }
 
-const CaptureSuiValues: FC<
+const CaptureMVMValues: FC<
   PropsWithChildren<{ isExternalContext: boolean }>
 > = ({ children, isExternalContext }) => {
   const wallets = useWallets()
@@ -50,7 +50,7 @@ const CaptureSuiValues: FC<
   const { mutateAsync: connect } = useConnectWallet()
 
   return (
-    <SuiContext.Provider
+    <MVMContext.Provider
       value={{
         wallets,
         currentWallet,
@@ -61,6 +61,6 @@ const CaptureSuiValues: FC<
       }}
     >
       {children}
-    </SuiContext.Provider>
+    </MVMContext.Provider>
   )
 }

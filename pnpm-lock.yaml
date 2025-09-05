@@ -995,10 +995,6 @@ importers:
         version: 5.9.2
 
   packages/wallet-provider:
-    dependencies:
-      zustand:
-        specifier: ^4.5.0
-        version: 4.5.7(@types/react@19.1.11)(react@19.1.1)
     devDependencies:
       react:
         specifier: ^19.1.1
@@ -1007,7 +1003,7 @@ importers:
         specifier: ^5.9.2
         version: 5.9.2
 
-  packages/wallet-provider-sui:
+  packages/wallet-provider-mvm:
     dependencies:
       '@lifi/wallet-provider':
         specifier: workspace:*
@@ -1017,10 +1013,10 @@ importers:
         version: 0.17.5(@tanstack/react-query@5.85.5(react@19.1.1))(@types/react-dom@19.1.9(@types/react@19.1.11))(@types/react@19.1.11)(babel-plugin-macros@3.1.0)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2)
       '@mysten/sui':
         specifier: ^1.37.3
-        version: 1.37.4(typescript@5.9.2)
+        version: 1.37.5(typescript@5.9.2)
       '@mysten/wallet-standard':
         specifier: ^0.16.11
-        version: 0.16.12(typescript@5.9.2)
+        version: 0.16.13(typescript@5.9.2)
     devDependencies:
       react:
         specifier: ^19.1.1
@@ -1102,9 +1098,9 @@ importers:
       '@lifi/wallet-provider':
         specifier: workspace:^
         version: link:../wallet-provider
-      '@lifi/wallet-provider-sui':
+      '@lifi/wallet-provider-mvm':
         specifier: workspace:^
-        version: link:../wallet-provider-sui
+        version: link:../wallet-provider-mvm
       '@lifi/wallet-provider-svm':
         specifier: workspace:^
         version: link:../wallet-provider-svm
@@ -1281,9 +1277,9 @@ importers:
       '@lifi/wallet-management':
         specifier: workspace:*
         version: link:../wallet-management
-      '@lifi/wallet-provider-sui':
+      '@lifi/wallet-provider-mvm':
         specifier: workspace:*
-        version: link:../wallet-provider-sui
+        version: link:../wallet-provider-mvm
       '@lifi/wallet-provider-svm':
         specifier: workspace:*
         version: link:../wallet-provider-svm
@@ -30932,8 +30928,8 @@ snapshots:
       '@adraffy/ens-normalize': 1.11.0
       '@noble/curves': 1.9.7
       '@noble/hashes': 1.8.0
-      '@scure/bip32': 1.6.2
-      '@scure/bip39': 1.5.4
+      '@scure/bip32': 1.7.0
+      '@scure/bip39': 1.6.0
       abitype: 1.0.8(typescript@5.9.2)(zod@3.25.76)
       eventemitter3: 5.0.1
     optionalDependencies:

@@ -2,7 +2,7 @@ import type { Connector as BigmiConnector } from '@bigmi/client'
 
 import { ChainType } from '@lifi/sdk'
 import {
-  useSuiContext,
+  useMVMContext,
   useSVMContext,
   useUTXOContext,
 } from '@lifi/wallet-provider'
@@ -136,7 +136,7 @@ export const useCombinedWallets = () => {
   const { connectors: wagmiConnectors } = useConnect()
   const { wallets: bigmiConnectors } = useUTXOContext()
   const { wallets: solanaWallets } = useSVMContext()
-  const { wallets: suiWallets } = useSuiContext()
+  const { wallets: suiWallets } = useMVMContext()
   const [combinedWallets, setCombinedWallets] = useState<CombinedWallets>(
     () => {
       return {

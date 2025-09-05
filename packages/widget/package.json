@@ -85,7 +85,7 @@
   "peerDependencies": {
     "@bigmi/react": ">=0.5.2",
     "@solana/wallet-adapter-react": ">=0.15.35",
-    "@lifi/wallet-provider-sui": "workspace:^",
+    "@lifi/wallet-provider-mvm": "workspace:^",
     "@lifi/wallet-provider-svm": "workspace:^",
     "@lifi/wallet-provider-utxo": "workspace:^",
     "@tanstack/react-query": ">=5.68.0",

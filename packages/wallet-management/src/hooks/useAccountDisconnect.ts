@@ -1,6 +1,6 @@
 import { ChainType } from '@lifi/sdk'
 import {
-  useSuiContext,
+  useMVMContext,
   useSVMContext,
   useUTXOContext,
 } from '@lifi/wallet-provider'
@@ -13,7 +13,7 @@ export const useAccountDisconnect = () => {
   const wagmiConfig = useWagmiConfig()
   const { disconnect: utxoDisconnect } = useUTXOContext()
   const { disconnect: svmDisconnect } = useSVMContext()
-  const { disconnect: suiDisconnect } = useSuiContext()
+  const { disconnect: suiDisconnect } = useMVMContext()
 
   const handleDisconnectEVM = async (config: Config) => {
     const connectedAccount = getAccount(config)
