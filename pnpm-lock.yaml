@@ -1041,6 +1041,28 @@ importers:
         specifier: ^5.9.2
         version: 5.9.2
 
+  packages/wallet-provider-utxo:
+    dependencies:
+      '@bigmi/client':
+        specifier: '>=0.5.2'
+        version: 0.5.2(@tanstack/query-core@5.85.5)(@types/react@19.1.11)(bs58@6.0.0)(react@19.1.1)(typescript@5.9.2)(use-sync-external-store@1.5.0(react@19.1.1))
+      '@bigmi/core':
+        specifier: '>=0.5.2'
+        version: 0.5.2(@types/react@19.1.11)(bs58@6.0.0)(react@19.1.1)(typescript@5.9.2)(use-sync-external-store@1.5.0(react@19.1.1))
+      '@bigmi/react':
+        specifier: '>=0.5.2'
+        version: 0.5.2(@tanstack/query-core@5.85.5)(@tanstack/react-query@5.85.5(react@19.1.1))(@types/react@19.1.11)(bs58@6.0.0)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2)(use-sync-external-store@1.5.0(react@19.1.1))
+      '@lifi/wallet-store':
+        specifier: workspace:*
+        version: link:../wallet-store
+    devDependencies:
+      react:
+        specifier: ^19.1.1
+        version: 19.1.1
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.2
+
   packages/wallet-store:
     dependencies:
       zustand:
@@ -1063,7 +1085,7 @@ importers:
         specifier: ^0.5.2
         version: 0.5.2(@types/react@19.1.11)(bs58@6.0.0)(react@19.1.1)(typescript@5.9.2)(use-sync-external-store@1.5.0(react@19.1.1))
       '@bigmi/react':
-        specifier: '>=0.5.0'
+        specifier: '>=0.5.2'
         version: 0.5.2(@tanstack/query-core@5.85.5)(@tanstack/react-query@5.85.5(react@19.1.1))(@types/react@19.1.11)(bs58@6.0.0)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2)(use-sync-external-store@1.5.0(react@19.1.1))
       '@emotion/react':
         specifier: ^11.14.0
@@ -1083,6 +1105,9 @@ importers:
       '@lifi/wallet-provider-svm':
         specifier: workspace:^
         version: link:../wallet-provider-svm
+      '@lifi/wallet-provider-utxo':
+        specifier: workspace:^
+        version: link:../wallet-provider-utxo
       '@lifi/wallet-store':
         specifier: workspace:^
         version: link:../wallet-store
@@ -1259,6 +1284,12 @@ importers:
       '@lifi/wallet-provider-sui':
         specifier: workspace:*
         version: link:../wallet-provider-sui
+      '@lifi/wallet-provider-svm':
+        specifier: workspace:*
+        version: link:../wallet-provider-svm
+      '@lifi/wallet-provider-utxo':
+        specifier: workspace:*
+        version: link:../wallet-provider-utxo
       '@lifi/widget':
         specifier: workspace:*
         version: link:../widget

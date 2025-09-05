@@ -1,0 +1,23 @@
+{
+  "name": "@lifi/wallet-provider-utxo",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.d.ts",
+  "dependencies": {},
+  "peerDependencies": {
+    "@lifi/wallet-store": "workspace:*",
+    "@bigmi/react": ">=0.5.2",
+    "@bigmi/client": ">=0.5.2",
+    "@bigmi/core": ">=0.5.2"
+  },
+  "devDependencies": {
+    "react": "^19.1.1",
+    "typescript": "^5.9.2"
+  },
+  "files": [
+    "dist/**",
+    "src/**",
+    "!tsconfig.json"
+  ]
+}

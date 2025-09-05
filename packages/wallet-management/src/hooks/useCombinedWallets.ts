@@ -1,7 +1,11 @@
 import type { Connector as BigmiConnector } from '@bigmi/client'
-import { useConnect as useBigmiConnect } from '@bigmi/react'
+
 import { ChainType } from '@lifi/sdk'
-import { useSuiContext, useSVMContext } from '@lifi/wallet-store'
+import {
+  useSuiContext,
+  useSVMContext,
+  useUTXOContext,
+} from '@lifi/wallet-store'
 import type { Theme } from '@mui/material'
 import { useMediaQuery } from '@mui/material'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
@@ -130,7 +134,7 @@ const combineWalletLists = (
 export const useCombinedWallets = () => {
   const walletConfig = useWalletManagementConfig()
   const { connectors: wagmiConnectors } = useConnect()
-  const { connectors: bigmiConnectors } = useBigmiConnect()
+  const { wallets: bigmiConnectors } = useUTXOContext()
   const { wallets: solanaWallets } = useSVMContext()
   const { wallets: suiWallets } = useSuiContext()
   const [combinedWallets, setCombinedWallets] = useState<CombinedWallets>(
@@ -232,7 +236,7 @@ export const useCombinedWallets = () => {
         walletConfig.enabledChainTypes.includes(chainType)
 
       const installedUTXOConnectors = includeEcosystem(ChainType.UTXO)
-        ? bigmiConnectors.filter((connector) => {
+        ? bigmiConnectors.filter((connector: any) => {
             const isInstalled = isWalletInstalled(connector.id)
             return isInstalled
           })
@@ -266,10 +270,12 @@ export const useCombinedWallets = () => {
         walletConfig.walletEcosystemsOrder
       )
 
-      const notDetectedUTXOConnectors = bigmiConnectors.filter((connector) => {
-        const isInstalled = isWalletInstalled(connector.id)
-        return !isInstalled && isDesktopView
-      })
+      const notDetectedUTXOConnectors = bigmiConnectors.filter(
+        (connector: any) => {
+          const isInstalled = isWalletInstalled(connector.id)
+          return !isInstalled && isDesktopView
+        }
+      )
 
       const notDetectedEVMConnectors = evmConnectors.filter((connector) => {
         const isInstalled = isWalletInstalled(connector.id)

@@ -1,6 +1,6 @@
-import { type Connector, connect, disconnect, getAccount } from '@bigmi/client'
-import { useConfig } from '@bigmi/react'
+import type { Connector } from '@bigmi/client'
 import { ChainId, ChainType } from '@lifi/sdk'
+import { useUTXOContext } from '@lifi/wallet-store'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { getChainTypeIcon } from '../icons.js'
@@ -25,7 +25,7 @@ export const UTXOListItemButton = ({
   onError,
 }: UTXOListItemButtonProps) => {
   const emitter = useWalletManagementEvents()
-  const config = useConfig()
+  const { connect, disconnect } = useUTXOContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()
 
   const connectorName = connector.name
@@ -45,12 +45,9 @@ export const UTXOListItemButton = ({
         onNotInstalled?.(connector as Connector)
         return
       }
-      const connectedAccount = getAccount(config)
       onConnecting?.()
-      const data = await connect(config, { connector })
-      if (connectedAccount.connector) {
-        await disconnect(config, { connector: connectedAccount.connector })
-      }
+      const data = await connect(connector)
+      await disconnect()
       setLastConnectedAccount(connector)
       emitter.emit(WalletManagementEvent.WalletConnected, {
         address: data.accounts[0].address,

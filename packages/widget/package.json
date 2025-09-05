@@ -55,8 +55,6 @@
     "@emotion/styled": "^11.14.1",
     "@lifi/sdk": "^3.11.3",
     "@lifi/wallet-management": "workspace:^",
-    "@lifi/wallet-provider-sui": "workspace:^",
-    "@lifi/wallet-provider-svm": "workspace:^",
     "@lifi/wallet-store": "workspace:^",
     "@mui/icons-material": "^7.3.1",
     "@mui/material": "^7.3.1",
@@ -85,8 +83,11 @@
     "vitest": "^3.2.4"
   },
   "peerDependencies": {
-    "@bigmi/react": ">=0.5.0",
+    "@bigmi/react": ">=0.5.2",
     "@solana/wallet-adapter-react": ">=0.15.35",
+    "@lifi/wallet-provider-sui": "workspace:^",
+    "@lifi/wallet-provider-svm": "workspace:^",
+    "@lifi/wallet-provider-utxo": "workspace:^",
     "@tanstack/react-query": ">=5.68.0",
     "react": ">=18",
     "react-dom": ">=18",

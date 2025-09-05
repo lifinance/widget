@@ -1,7 +1,10 @@
 import type { Connector as BigmiConnector } from '@bigmi/client'
-import { useAccount as useBigmiAccount } from '@bigmi/react'
 import { ChainId, ChainType } from '@lifi/sdk'
-import { useSuiContext, useSVMContext } from '@lifi/wallet-store'
+import {
+  useSuiContext,
+  useSVMContext,
+  useUTXOContext,
+} from '@lifi/wallet-store'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import type { WalletAdapter } from '@solana/wallet-adapter-base'
 import { useMemo } from 'react'
@@ -86,8 +89,8 @@ export const useLastConnectedAccount = create<LastConnectedAccountStore>(
  * @returns - Account result
  */
 export const useAccount = (args?: UseAccountArgs): AccountResult => {
-  const bigmiAccount = useBigmiAccount()
   const wagmiAccount = useAccountInternal()
+  const { currentWallet: utxoWallet } = useUTXOContext()
   const { currentWallet: svmWallet } = useSVMContext()
   const { currentWallet: suiWallet, connectionStatus } = useSuiContext()
   const { lastConnectedAccount } = useLastConnectedAccount()
@@ -137,12 +140,12 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
           }
     const evm: Account = { ...wagmiAccount, chainType: ChainType.EVM }
     const utxo: Account = {
-      ...bigmiAccount,
+      ...utxoWallet,
 
       chainType: ChainType.UTXO,
       chainId: ChainId.BTC,
-      address: bigmiAccount.account?.address,
-      addresses: bigmiAccount.accounts?.map((account) => account.address),
+      address: utxoWallet.account?.address,
+      addresses: utxoWallet.accounts?.map((account: any) => account.address),
     }
     const accounts = [evm, svm, utxo, sui]
     const connectedAccounts = accounts.filter(
@@ -186,11 +189,11 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
     wagmiAccount.status,
     wagmiAccount.address,
     wagmiAccount.chainId,
-    bigmiAccount.connector?.uid,
-    bigmiAccount.connector?.id,
-    bigmiAccount.status,
-    bigmiAccount.account?.address,
-    bigmiAccount.chainId,
+    utxoWallet.connector?.uid,
+    utxoWallet.connector?.id,
+    utxoWallet.status,
+    utxoWallet.account?.address,
+    utxoWallet.chainId,
     args?.chainType,
     lastConnectedAccount,
     suiWallet?.accounts?.length,
