@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget",
-  "version": "3.30.0",
+  "version": "3.30.1",
   "description": "LI.FI Widget for cross-chain bridging and swapping. It will drive your multi-chain strategy and attract new users from everywhere.",
   "type": "module",
   "main": "./src/index.ts",
