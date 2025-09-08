@@ -102,7 +102,6 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
             feeCosts={feeCosts}
             relayerSupport={hasRelayerSupport}
           >
-            {/** biome-ignore lint/a11y/useSemanticElements: allowed in react */}
             <Box
               onClick={toggleCard}
               role="button"

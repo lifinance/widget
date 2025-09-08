@@ -1,20 +1,36 @@
-import { ChainType, getTokens, type TokensExtendedResponse } from '@lifi/sdk'
+import {
+  ChainType,
+  getToken,
+  getTokens,
+  type TokensExtendedResponse,
+} from '@lifi/sdk'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
+import {
+  defaultChainIdsByType,
+  getChainTypeFromAddress,
+} from '../utils/chainType.js'
 import { isItemAllowed } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 import { filterAllowedTokens } from '../utils/token.js'
 
-export const useTokens = (formType?: FormType, search?: string) => {
+export const useTokens = (
+  formType?: FormType,
+  search?: string,
+  chainId?: number
+) => {
   const {
     tokens: configTokens,
     chains: chainsConfig,
     keyPrefix,
   } = useWidgetConfig()
 
-  const { isLoading: isSearchLoading } = useBackgroundTokenSearch(search)
+  const { isLoading: isSearchLoading } = useBackgroundTokenSearch(
+    search,
+    chainId
+  )
 
   const { data, isLoading } = useQuery({
     queryKey: [getQueryKey('tokens', keyPrefix)],
@@ -59,13 +75,14 @@ export const useTokens = (formType?: FormType, search?: string) => {
 // This hook is used to search for tokens in the background.
 // It updates the main tokens cache with the search results,
 // if any of the tokens are not already in the cache.
-const useBackgroundTokenSearch = (search?: string) => {
+const useBackgroundTokenSearch = (search?: string, chainId?: number) => {
   const { chains: chainsConfig, keyPrefix } = useWidgetConfig()
   const queryClient = useQueryClient()
 
   const { isLoading: isSearchLoading } = useQuery({
-    queryKey: [getQueryKey('tokens-search', keyPrefix), search],
-    queryFn: async ({ queryKey: [, searchQuery], signal }) => {
+    queryKey: [getQueryKey('tokens-search', keyPrefix), search, chainId],
+    queryFn: async ({ queryKey, signal }) => {
+      const [, searchQuery, chainId] = queryKey as [string, string, number]
       const chainTypes = [
         ChainType.EVM,
         ChainType.SVM,
@@ -82,6 +99,27 @@ const useBackgroundTokenSearch = (search?: string) => {
         },
         { signal }
       )
+
+      // If the chainId is not provided, try to get it from the search query
+      let _chainId = chainId
+      if (!_chainId) {
+        const chainType = getChainTypeFromAddress(searchQuery)
+        if (chainType) {
+          _chainId = defaultChainIdsByType[chainType]
+        }
+      }
+
+      // Fallback: If the main search returned no tokens for the specific chainId,
+      // fetch a single token using the /token endpoint
+      if (_chainId && searchQuery) {
+        const existingTokens = tokensResponse.tokens[_chainId] || []
+        if (!existingTokens.length) {
+          const token = await getToken(_chainId, searchQuery, { signal })
+          if (token) {
+            tokensResponse.tokens[_chainId] = [token]
+          }
+        }
+      }
 
       // Merge search results into main tokens cache
       if (searchQuery) {
