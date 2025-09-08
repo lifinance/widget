@@ -43,7 +43,6 @@ export const ExpandableCard: FC<PropsWithChildren<ExpandableCardProps>> = ({
         </CardTitleContainer>
         {!expanded || alwaysShowTitleValue ? value : null}
       </CardRowButton>
-      {/** biome-ignore lint/a11y/useSemanticElements: allowed in react */}
       <Collapse
         id={collapseId}
         role="region"

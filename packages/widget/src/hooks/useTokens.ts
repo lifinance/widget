@@ -8,6 +8,10 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
+import {
+  defaultChainIdsByType,
+  getChainTypeFromAddress,
+} from '../utils/chainType.js'
 import { isItemAllowed } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 import { filterAllowedTokens } from '../utils/token.js'
@@ -96,14 +100,23 @@ const useBackgroundTokenSearch = (search?: string, chainId?: number) => {
         { signal }
       )
 
+      // If the chainId is not provided, try to get it from the search query
+      let _chainId = chainId
+      if (!_chainId) {
+        const chainType = getChainTypeFromAddress(searchQuery)
+        if (chainType) {
+          _chainId = defaultChainIdsByType[chainType]
+        }
+      }
+
       // Fallback: If the main search returned no tokens for the specific chainId,
       // fetch a single token using the /token endpoint
-      if (chainId && searchQuery) {
-        const existingTokens = tokensResponse.tokens[chainId] || []
+      if (_chainId && searchQuery) {
+        const existingTokens = tokensResponse.tokens[_chainId] || []
         if (!existingTokens.length) {
-          const token = await getToken(chainId, searchQuery, { signal })
+          const token = await getToken(_chainId, searchQuery, { signal })
           if (token) {
-            tokensResponse.tokens[chainId] = [token]
+            tokensResponse.tokens[_chainId] = [token]
           }
         }
       }
