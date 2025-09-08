@@ -35,18 +35,15 @@ export const useTokenSearch = (
             new Set(
               tokens
                 .filter((t) => t.chainId === token.chainId)
-                .map((t) => t.address)
+                .map((t) => t.address.toLowerCase())
             ),
           formType
         )
 
         // Return undefined if the token is denied
         if (
-          !isFormItemAllowed(
-            token,
-            filteredConfigTokens,
-            formType,
-            (t) => t.address
+          !isFormItemAllowed(token, filteredConfigTokens, formType, (t) =>
+            t.address.toLowerCase()
           )
         ) {
           return undefined
@@ -58,7 +55,7 @@ export const useTokenSearch = (
             if (
               data &&
               !data.tokens[chainId as number]?.some(
-                (t) => t.address === token.address
+                (t) => t.address.toLowerCase() === token.address.toLowerCase()
               )
             ) {
               const clonedData = { ...data, tokens: { ...data.tokens } }

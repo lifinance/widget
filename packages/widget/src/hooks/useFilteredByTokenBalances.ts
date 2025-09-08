@@ -90,7 +90,7 @@ export const useFilteredTokensByBalance = (
             new Set(
               tokens
                 .filter((t) => Number(t.chainId) === chainId)
-                .map((t) => t.address)
+                .map((t) => t.address.toLowerCase())
             ),
           formType
         )
@@ -105,7 +105,7 @@ export const useFilteredTokensByBalance = (
                 balance,
                 allowedAddressesConfig,
                 formType,
-                (t) => t.address
+                (t) => t.address.toLowerCase()
               )
             )
           }
