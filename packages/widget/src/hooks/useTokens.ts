@@ -76,8 +76,9 @@ const useBackgroundTokenSearch = (search?: string, chainId?: number) => {
   const queryClient = useQueryClient()
 
   const { isLoading: isSearchLoading } = useQuery({
-    queryKey: [getQueryKey('tokens-search', keyPrefix), search],
-    queryFn: async ({ queryKey: [, searchQuery], signal }) => {
+    queryKey: [getQueryKey('tokens-search', keyPrefix), search, chainId],
+    queryFn: async ({ queryKey, signal }) => {
+      const [, searchQuery, chainId] = queryKey as [string, string, number]
       const chainTypes = [
         ChainType.EVM,
         ChainType.SVM,
