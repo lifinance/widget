@@ -212,7 +212,7 @@
     "slippage": "A diferença percentual máxima entre o preço esperado, e o preço atual pelo qual a transferência é executada. Esse valor pode ser alterado nas configurações."
   },
   "main": {
-    "allNetworks": "",
+    "allNetworks": "Todas as redes",
     "allTokens": "Todos os tokens",
     "bridgeStepDetails": "Ponte de {{from}} para {{to}} via {{tool}}",
     "checkoutStepDetails": "Comprar via {{tool}}",
@@ -241,7 +241,7 @@
     "process": {
       "bridge": {
         "actionRequired": "Assinar a transação de transferência de fundos entre redes",
-        "messageRequired": "",
+        "messageRequired": "Assinar mensagem da ponte",
         "done": "Transação da ponte confirmada",
         "pending": "Transação de transferência de fundos entre redes, pendente",
         "started": "Preparando a transação da ponte"
@@ -260,7 +260,7 @@
       },
       "swap": {
         "actionRequired": "Assinar transação de troca",
-        "messageRequired": "",
+        "messageRequired": "Assinar mensagem da conversão",
         "done": "Conversão concluída",
         "pending": "Transação de troca pendente",
         "started": "Preparando a transação de conversão"
@@ -313,7 +313,7 @@
     "valueLoss": "Perda de Valor",
     "searchBridges": "Pesquisar pelo nome da ponte",
     "searchExchanges": "Pesquisar pelo nome da corretora",
-    "searchNetwork": ""
+    "searchNetwork": "Procurar rede"
   },
   "settings": {
     "appearance": "Aparência",
