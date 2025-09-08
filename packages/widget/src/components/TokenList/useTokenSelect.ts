@@ -71,7 +71,6 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
       if (
         !selectedOppositeTokenAddress &&
         selectedChainId &&
-        isItemAllowed(selectedChainId, chainsConfig) &&
         isItemAllowed(selectedChainId, chainsConfig?.[oppositeFormType])
       ) {
         setFieldValue(
