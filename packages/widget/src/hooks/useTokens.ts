@@ -1,4 +1,9 @@
-import { ChainType, getTokens, type TokensExtendedResponse } from '@lifi/sdk'
+import {
+  ChainType,
+  getToken,
+  getTokens,
+  type TokensExtendedResponse,
+} from '@lifi/sdk'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
@@ -7,14 +12,21 @@ import { isItemAllowed } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 import { filterAllowedTokens } from '../utils/token.js'
 
-export const useTokens = (formType?: FormType, search?: string) => {
+export const useTokens = (
+  formType?: FormType,
+  search?: string,
+  chainId?: number
+) => {
   const {
     tokens: configTokens,
     chains: chainsConfig,
     keyPrefix,
   } = useWidgetConfig()
 
-  const { isLoading: isSearchLoading } = useBackgroundTokenSearch(search)
+  const { isLoading: isSearchLoading } = useBackgroundTokenSearch(
+    search,
+    chainId
+  )
 
   const { data, isLoading } = useQuery({
     queryKey: [getQueryKey('tokens', keyPrefix)],
@@ -59,7 +71,7 @@ export const useTokens = (formType?: FormType, search?: string) => {
 // This hook is used to search for tokens in the background.
 // It updates the main tokens cache with the search results,
 // if any of the tokens are not already in the cache.
-const useBackgroundTokenSearch = (search?: string) => {
+const useBackgroundTokenSearch = (search?: string, chainId?: number) => {
   const { chains: chainsConfig, keyPrefix } = useWidgetConfig()
   const queryClient = useQueryClient()
 
@@ -82,6 +94,26 @@ const useBackgroundTokenSearch = (search?: string) => {
         },
         { signal }
       )
+
+      // If chainId is provided, also fetch a searched token with /token endpoint
+      if (chainId && searchQuery) {
+        const token = await getToken(chainId, searchQuery, { signal })
+        if (token) {
+          const existingTokens = tokensResponse.tokens[chainId] || []
+          const tokenExists = existingTokens.some(
+            (existingToken) =>
+              existingToken.address.toLowerCase() ===
+              token.address.toLowerCase()
+          )
+
+          if (!tokenExists) {
+            tokensResponse.tokens[chainId] = [
+              ...(tokensResponse.tokens[chainId] || []),
+              token,
+            ]
+          }
+        }
+      }
 
       // Merge search results into main tokens cache
       if (searchQuery) {

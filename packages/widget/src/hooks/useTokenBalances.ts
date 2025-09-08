@@ -16,7 +16,7 @@ export const useTokenBalances = (
     allTokens,
     isLoading: isTokensLoading,
     isSearchLoading,
-  } = useTokens(formType, search)
+  } = useTokens(formType, search, isAllNetworks ? undefined : selectedChainId)
 
   const { data: accountsWithAllTokens, isLoading: isAccountsLoading } =
     useAccountsBalancesData(selectedChainId, formType, isAllNetworks, allTokens)
