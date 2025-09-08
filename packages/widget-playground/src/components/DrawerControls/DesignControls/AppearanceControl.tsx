@@ -148,6 +148,7 @@ export const AppearanceControl = () => {
           {colorSchemeMode}
         </BadgableCardValue>
       }
+      dataTestId="appearance-section"
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         {restricted ? (

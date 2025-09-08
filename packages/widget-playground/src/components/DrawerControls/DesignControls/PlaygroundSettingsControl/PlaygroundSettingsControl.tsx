@@ -12,6 +12,7 @@ export const PlaygroundSettingsControl = () => {
       title={'Playground settings'}
       value={<SettingsIcon />}
       alwaysShowTitleValue
+      dataTestId="playground-settings-section"
     >
       <PlaygroundControlsContainer>
         <ViewportColorSelector />

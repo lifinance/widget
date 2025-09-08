@@ -14,6 +14,7 @@ interface ExpandableCardProps {
   title: ReactNode
   value: ReactNode
   alwaysShowTitleValue?: boolean
+  dataTestId?: string
 }
 
 export const ExpandableCard: FC<PropsWithChildren<ExpandableCardProps>> = ({
@@ -22,6 +23,7 @@ export const ExpandableCard: FC<PropsWithChildren<ExpandableCardProps>> = ({
   value,
   children,
   alwaysShowTitleValue,
+  dataTestId,
 }) => {
   const { expanded, toggleExpanded } = useExpandableCard()
   const buttonId = useId()
@@ -36,6 +38,7 @@ export const ExpandableCard: FC<PropsWithChildren<ExpandableCardProps>> = ({
         onClick={toggleExpanded}
         disableRipple
         sx={{ p: 1 }}
+        data-testid={dataTestId}
       >
         <CardTitleContainer sx={{ minHeight: 24 }}>
           {icon}

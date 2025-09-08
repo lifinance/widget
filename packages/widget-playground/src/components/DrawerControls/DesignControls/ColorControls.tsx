@@ -35,7 +35,11 @@ export const ColorControl = () => {
   const { themeMode } = useThemeMode()
   const editableColors = getEditableColors(themeMode)
   return (
-    <ExpandableCard title={'Colors'} value={<Swatches />}>
+    <ExpandableCard
+      title={'Colors'}
+      value={<Swatches />}
+      dataTestId="color-section"
+    >
       {Object.entries(editableColors).map(([colorName, colorConfigPath]) => (
         <ColorSelector
           key={colorConfigPath}
