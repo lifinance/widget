@@ -10,16 +10,16 @@
   },
   "dependencies": {
     "@lifi/widget": "^3.30.0",
+    "next": "14.2.32",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.2.32"
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
+    "@types/node": "^24.3.1",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
-    "eslint-config-next": "14.2.32"
+    "eslint-config-next": "14.2.32",
+    "typescript": "^5"
   }
 }
