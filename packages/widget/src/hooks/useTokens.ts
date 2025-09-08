@@ -95,22 +95,14 @@ const useBackgroundTokenSearch = (search?: string, chainId?: number) => {
         { signal }
       )
 
-      // If chainId is provided, also fetch a searched token with /token endpoint
+      // Fallback: If the main search returned no tokens for the specific chainId,
+      // fetch a single token using the /token endpoint
       if (chainId && searchQuery) {
-        const token = await getToken(chainId, searchQuery, { signal })
-        if (token) {
-          const existingTokens = tokensResponse.tokens[chainId] || []
-          const tokenExists = existingTokens.some(
-            (existingToken) =>
-              existingToken.address.toLowerCase() ===
-              token.address.toLowerCase()
-          )
-
-          if (!tokenExists) {
-            tokensResponse.tokens[chainId] = [
-              ...(tokensResponse.tokens[chainId] || []),
-              token,
-            ]
+        const existingTokens = tokensResponse.tokens[chainId] || []
+        if (!existingTokens.length) {
+          const token = await getToken(chainId, searchQuery, { signal })
+          if (token) {
+            tokensResponse.tokens[chainId] = [token]
           }
         }
       }
