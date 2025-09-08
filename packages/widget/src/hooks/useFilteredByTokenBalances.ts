@@ -1,4 +1,5 @@
 import {
+  type BaseToken,
   ChainType,
   getWalletBalances,
   type TokenExtended,
@@ -6,14 +7,20 @@ import {
 } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import type { FormType } from '../stores/form/types.js'
+import { getConfigItemSets, isFormItemAllowed } from '../utils/item.js'
 import { isSupportedToken } from '../utils/tokenList.js'
 
 export const useFilteredTokensByBalance = (
   accountsWithTokens?: Record<
     string,
     { chainType: ChainType; tokens: Record<number, TokenExtended[]> }
-  >
+  >,
+  formType?: FormType
 ) => {
+  const { tokens: configTokens } = useWidgetConfig()
+
   const evmAddress = useMemo(() => {
     const evmAccount = Object.entries(accountsWithTokens ?? {}).find(
       ([_, { chainType }]) => chainType === ChainType.EVM
@@ -75,10 +82,32 @@ export const useFilteredTokensByBalance = (
         const chainTokenSet = new Set(
           chainTokens.map((token) => token.address.toLowerCase())
         )
+
+        // Get allowed addresses from config tokens
+        const allowedAddressesConfig = getConfigItemSets(
+          configTokens,
+          (tokens: BaseToken[]) =>
+            new Set(
+              tokens
+                .filter((t) => Number(t.chainId) === chainId)
+                .map((t) => t.address.toLowerCase())
+            ),
+          formType
+        )
+
         const additionalTokens = balances.filter(
           (balance: WalletTokenExtended) => {
             const balanceKey = balance.address.toLowerCase()
-            return !chainTokenSet.has(balanceKey) && isSupportedToken(balance)
+            return (
+              !chainTokenSet.has(balanceKey) &&
+              isSupportedToken(balance) &&
+              isFormItemAllowed(
+                balance,
+                allowedAddressesConfig,
+                formType,
+                (t) => t.address.toLowerCase()
+              )
+            )
           }
         ) as TokenExtended[]
 
@@ -95,7 +124,7 @@ export const useFilteredTokensByBalance = (
     }
 
     return result
-  }, [accountsWithTokens, existingBalances])
+  }, [accountsWithTokens, existingBalances, configTokens, formType])
 
   return { data: accountsWithFilteredTokens, isLoading }
 }

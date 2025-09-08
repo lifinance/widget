@@ -11,15 +11,15 @@
     "node": ">=21.0.0"
   },
   "dependencies": {
-    "@lifi/sdk": "^3.12.0",
-    "@lifi/widget": "^3.29.1",
+    "@lifi/sdk": "^3.12.1",
+    "@lifi/widget": "^3.30.0",
     "@mui/material-nextjs": "^7.3.2",
     "next": "^15.5.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
   "devDependencies": {
-    "@types/node": "^24.3.0",
+    "@types/node": "^24.3.1",
     "@types/react": "^19.1.11",
     "@types/react-dom": "^19.1.9",
     "typescript": "^5.9.2"

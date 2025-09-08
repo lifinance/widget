@@ -50,15 +50,15 @@
     }
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.2",
+    "@biomejs/biome": "^2.2.3",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
-    "@types/node": "^24.3.0",
+    "@types/node": "^24.3.1",
     "@types/react": "^19.1.11",
     "@types/react-dom": "^19.1.9",
     "fs-extra": "^11.3.1",
     "husky": "^9.1.7",
-    "knip": "^5.63.0",
+    "knip": "^5.63.1",
     "lerna": "8.2.3",
     "lint-staged": "^16.1.6",
     "standard-version": "^9.5.0",

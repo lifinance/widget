@@ -110,13 +110,13 @@ const processedTypedTokens = (
 
   // Filter out config-added tokens from main list
   const configTokenAddresses = new Set(
-    [...popularTokensFromConfig, ...featuredTokensFromConfig].map(
-      (t) => t.address
+    [...popularTokensFromConfig, ...featuredTokensFromConfig].map((t) =>
+      t.address.toLowerCase()
     )
   )
 
   const remainingTokens = tokens.filter(
-    (token) => !configTokenAddresses.has(token.address)
+    (token) => !configTokenAddresses.has(token.address.toLowerCase())
   )
 
   const otherTokens: TokenAmount[] = []
