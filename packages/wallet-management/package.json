@@ -59,11 +59,11 @@
     "@mysten/wallet-standard": "^0.16.14",
     "@solana/wallet-adapter-base": "^0.9.27",
     "@solana/web3.js": "^1.98.4",
-    "i18next": "^25.4.2",
+    "i18next": "^25.5.2",
     "mitt": "^3.0.1",
     "react-i18next": "^15.7.3",
     "use-sync-external-store": "^1.5.0",
-    "viem": "^2.37.2",
+    "viem": "^2.37.4",
     "zustand": "^5.0.8"
   },
   "devDependencies": {

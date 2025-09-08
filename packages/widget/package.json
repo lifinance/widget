@@ -63,14 +63,14 @@
     "@solana/wallet-adapter-coinbase": "^0.1.23",
     "@solana/web3.js": "^1.98.4",
     "@tanstack/react-virtual": "^3.13.12",
-    "i18next": "^25.4.2",
+    "i18next": "^25.5.2",
     "microdiff": "^1.5.0",
     "mitt": "^3.0.1",
     "react-i18next": "^15.7.3",
     "react-intersection-observer": "^9.16.0",
     "react-router-dom": "^6.30.0",
     "react-transition-group": "^4.4.5",
-    "viem": "^2.37.2",
+    "viem": "^2.37.4",
     "zustand": "^5.0.8"
   },
   "devDependencies": {

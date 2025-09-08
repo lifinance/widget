@@ -55,20 +55,20 @@
     "mitt": "^3.0.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "viem": "^2.37.2",
+    "viem": "^2.37.4",
     "wagmi": "^2.16.9",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@types/lodash.isequal": "^4.5.8",
-    "@types/node": "^24.3.0",
+    "@types/node": "^24.3.1",
     "@types/react": "^19.1.11",
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react-swc": "^4.0.1",
     "cpy-cli": "^6.0.0",
     "madge": "^8.0.0",
     "typescript": "^5.9.2",
-    "vite": "^7.1.4",
+    "vite": "^7.1.5",
     "vitest": "^3.2.4"
   },
   "peerDependencies": {

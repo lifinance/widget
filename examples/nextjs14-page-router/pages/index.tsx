@@ -1,7 +1,8 @@
 import type { WidgetConfig } from '@lifi/widget'
-import { LiFiWidget } from '@lifi/widget'
+import { WidgetSkeleton } from '@lifi/widget'
+import { Widget } from '@/components/Widget'
 
-export default function PagesWidget() {
+export default function Home() {
   const config = {
     appearance: 'light',
     theme: {
@@ -12,5 +13,9 @@ export default function PagesWidget() {
     },
   } as Partial<WidgetConfig>
 
-  return <LiFiWidget config={config} integrator="nextjs-example" />
+  return (
+    <main>
+      <Widget config={config} fallback={<WidgetSkeleton config={config} />} />
+    </main>
+  )
 }
