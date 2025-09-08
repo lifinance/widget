@@ -34,7 +34,7 @@
     "prepare": "husky",
     "postinstall": "husky",
     "knip:all": "knip",
-    "knip:check": "knip --dependencies --exports --files --no-config-hints --exclude binaries",
+    "knip:check": "knip --dependencies --files --no-config-hints --exclude binaries",
     "knip:write": "pnpm knip:check --fix"
   },
   "lint-staged": {
