@@ -19,7 +19,7 @@ export interface ThemeItem {
   theme: WidgetTheme
 }
 
-export interface EditToolsValues {
+interface EditToolsValues {
   drawer: {
     open: boolean
     visibleControls: ControlType
@@ -50,7 +50,7 @@ export interface EditToolsValues {
   formValues?: Partial<FormValues>
 }
 
-export interface EditToolsActions {
+interface EditToolsActions {
   setDrawerOpen: (open: boolean) => void
   setCodeDrawerWidth: (width: number) => void
   setVisibleControls: (controls: ControlType) => void

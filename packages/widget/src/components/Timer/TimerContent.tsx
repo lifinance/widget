@@ -1,6 +1,5 @@
 import AccessTimeFilled from '@mui/icons-material/AccessTimeFilled'
-import { Tooltip } from '@mui/material'
-import { Box } from '@mui/system'
+import { Box, Tooltip } from '@mui/material'
 import type { FC, PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IconTypography } from '../IconTypography.js'

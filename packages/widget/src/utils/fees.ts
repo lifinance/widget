@@ -31,7 +31,7 @@ export const getAccumulatedFeeCostsBreakdown = (
   }
 }
 
-export const getGasCostsBreakdown = (route: RouteExtended): FeesBreakdown[] => {
+const getGasCostsBreakdown = (route: RouteExtended): FeesBreakdown[] => {
   return Array.from(
     route.steps
       .reduce((groupedGasCosts, step) => {
@@ -62,7 +62,7 @@ export const getGasCostsBreakdown = (route: RouteExtended): FeesBreakdown[] => {
   )
 }
 
-export const getFeeCostsBreakdown = (
+const getFeeCostsBreakdown = (
   route: RouteExtended,
   included?: boolean
 ): FeesBreakdown[] => {
@@ -101,7 +101,7 @@ export const getFeeCostsBreakdown = (
   )
 }
 
-export const getStepFeeCostsBreakdown = (
+const getStepFeeCostsBreakdown = (
   feeCosts: FeeCost[] | GasCost[]
 ): FeesBreakdown => {
   const { token } = feeCosts[0]

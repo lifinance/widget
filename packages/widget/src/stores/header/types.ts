@@ -3,7 +3,7 @@ import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
 
 export type HeaderStore = UseBoundStoreWithEqualityFn<StoreApi<HeaderState>>
 
-export interface HeaderStateBase {
+interface HeaderStateBase {
   element?: React.ReactNode | null
   title?: string
   headerHeight: number

@@ -7,7 +7,7 @@ import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 import { SVMBaseProvider } from './SVMBaseProvider.js'
 import { SVMExternalContext } from './SVMExternalContext.js'
 
-export function useInSolanaContext(): boolean {
+function useInSolanaContext(): boolean {
   const { chains } = useWidgetConfig()
   const context = useContext(ConnectionContext)
   return (

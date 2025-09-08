@@ -22,7 +22,7 @@ export interface VirtualizedTokenListProps {
   isAllNetworks: boolean
 }
 
-export interface TokenListItemBaseProps {
+interface TokenListItemBaseProps {
   onClick?(tokenAddress: string, chainId?: number): void
   size: number
   start: number
