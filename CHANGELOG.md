@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.30.3](https://github.com/lifinance/widget/compare/v3.30.2...v3.30.3) (2025-09-09)
+
+
+### Bug Fixes
+
+* return from queryFn ([#544](https://github.com/lifinance/widget/issues/544)) ([aa497b5](https://github.com/lifinance/widget/commit/aa497b5891d4b56e06331ee1edfd3891d5dc6cff))
+
 ### [3.30.2](https://github.com/lifinance/widget/compare/v3.30.1...v3.30.2) (2025-09-09)
 
 
