@@ -46,7 +46,7 @@ export const useTokenSearch = (
             t.address.toLowerCase()
           )
         ) {
-          return undefined
+          return null
         }
 
         queryClient.setQueriesData<TokensResponse>(
@@ -75,7 +75,7 @@ export const useTokenSearch = (
     retry: false,
   })
   return {
-    token: data,
+    token: data || undefined,
     isLoading,
   }
 }
