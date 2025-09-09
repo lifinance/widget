@@ -1,23 +1,2 @@
-export default {
-  title: {
-    connectWallet: '',
-    connecting: '',
-    selectWallet: '',
-    selectWalletWithChain: '',
-    selectEcosystem: '',
-    waitingForWallet: '',
-    availableWalletsNotFound: '',
-  },
-  message: {
-    connecting: '',
-    multipleEcosystems: '',
-    availableWalletsNotFound: '',
-  },
-  tags: {
-    connected: '',
-    multichain: '',
-    installed: '',
-    qrCode: '',
-    getStarted: '',
-  },
-}
+import pl from '../pl.json' with { type: 'json' }
+export default pl

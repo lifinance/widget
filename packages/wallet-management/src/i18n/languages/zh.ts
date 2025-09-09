@@ -1,25 +1,2 @@
-export default {
-  title: {
-    connectWallet: '关联钱包',
-    connecting: '正在连接',
-    selectWallet: '',
-    selectWalletWithChain: '',
-    selectEcosystem: '',
-    waitingForWallet: '等待 {{walletName}} 连接',
-    availableWalletsNotFound: '找不到可用的钱包',
-  },
-  message: {
-    connecting:
-      '在弹出来的钱包列表中点击连接。没看到你的钱包？ 看看浏览器的其他窗口。',
-    multipleEcosystems: '',
-    availableWalletsNotFound:
-      '未检测到兼容的钱包，请安装一个可用的钱包并刷新本页面。如果已经安装过了，请确保钱包已经启用并兼容本页面，或者联系客户支持。',
-  },
-  tags: {
-    connected: '',
-    multichain: '',
-    installed: '',
-    qrCode: '',
-    getStarted: '',
-  },
-}
+import zh from '../zh.json' with { type: 'json' }
+export default zh

@@ -1,26 +1,2 @@
-export default {
-  title: {
-    connectWallet: 'Conectar carteira',
-    connecting: 'Conectando',
-    selectWallet: 'Selecione uma carteira',
-    selectWalletWithChain: 'Selecionar carteira {{chainLabel}}',
-    selectEcosystem: 'Selecione um ecossistema',
-    waitingForWallet: 'Aguardando por {{walletName}}',
-    availableWalletsNotFound: 'Não foram encontradas carteiras disponíveis',
-  },
-  message: {
-    connecting:
-      'Clique em conectar na janela da sua carteira. Não vê sua carteira? Verifique outras janelas do seu navegador.',
-    multipleEcosystems:
-      '{{walletName}} suporta múltiplos ecossistemas. Selecione qual ecossistema você gostaria de se conectar.',
-    availableWalletsNotFound:
-      'Nenhuma extensão de carteira compatível encontrada. Por favor, instale uma carteira suportada e atualize a página. Se já estiver instalado, certifique-se de que esteja ativada e compatível ou entre em contato com o suporte.',
-  },
-  tags: {
-    connected: 'Conectado',
-    multichain: 'Multicadeia',
-    installed: 'Instalado',
-    qrCode: 'Código QR',
-    getStarted: 'Comece Agora',
-  },
-}
+import pt from '../pt.json' with { type: 'json' }
+export default pt

@@ -1,23 +1,2 @@
-export default {
-  title: {
-    connectWallet: 'Kết nối ví',
-    connecting: '',
-    selectWallet: '',
-    selectWalletWithChain: '',
-    selectEcosystem: '',
-    waitingForWallet: '',
-    availableWalletsNotFound: '',
-  },
-  message: {
-    connecting: '',
-    multipleEcosystems: '',
-    availableWalletsNotFound: '',
-  },
-  tags: {
-    connected: '',
-    multichain: '',
-    installed: '',
-    qrCode: '',
-    getStarted: '',
-  },
-}
+import vi from '../vi.json' with { type: 'json' }
+export default vi

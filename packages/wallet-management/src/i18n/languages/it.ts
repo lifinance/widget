@@ -1,23 +1,2 @@
-export default {
-  title: {
-    connectWallet: 'Collega il portafoglio',
-    connecting: '',
-    selectWallet: '',
-    selectWalletWithChain: '',
-    selectEcosystem: '',
-    waitingForWallet: '',
-    availableWalletsNotFound: '',
-  },
-  message: {
-    connecting: '',
-    multipleEcosystems: '',
-    availableWalletsNotFound: '',
-  },
-  tags: {
-    connected: '',
-    multichain: '',
-    installed: '',
-    qrCode: '',
-    getStarted: '',
-  },
-}
+import it from '../it.json' with { type: 'json' }
+export default it
