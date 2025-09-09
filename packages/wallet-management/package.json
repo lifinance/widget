@@ -60,6 +60,7 @@
     "@solana/wallet-adapter-base": "^0.9.27",
     "@solana/web3.js": "^1.98.4",
     "i18next": "^25.5.2",
+    "i18next-resources-to-backend": "^1.2.1",
     "mitt": "^3.0.1",
     "react-i18next": "^15.7.3",
     "use-sync-external-store": "^1.5.0",

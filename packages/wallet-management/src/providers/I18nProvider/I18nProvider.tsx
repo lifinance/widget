@@ -1,10 +1,10 @@
 import type { i18n } from 'i18next'
 import { createInstance } from 'i18next'
+import resourcesToBackend from 'i18next-resources-to-backend'
 import type { FC, PropsWithChildren } from 'react'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { I18nextProvider } from 'react-i18next'
-import { loadLanguageDynamic } from '../../i18n/languages.js'
-import type { LanguageKey, LanguageTranslationResources } from './types.js'
+import type { LanguageKey } from './types.js'
 
 interface I18nProviderProps {
   locale?: LanguageKey
@@ -14,122 +14,40 @@ export const I18nProvider: FC<PropsWithChildren<I18nProviderProps>> = ({
   children,
   locale,
 }) => {
-  const [resources, setResources] = useState<LanguageTranslationResources>({})
-
-  const i18n = useMemo(() => {
-    const i18nInstance = createInstance({
-      lng: 'en', // Default language
-      fallbackLng: 'en',
-      lowerCaseLng: true,
-      interpolation: {
-        escapeValue: false,
-      },
-      resources: {},
-      detection: {
-        caches: [],
-      },
-      returnEmptyString: false,
-    })
-
-    return i18nInstance
-  }, [])
+  const [i18nInstance, setI18nInstance] = useState<i18n | null>(null)
 
   useEffect(() => {
-    const loadInitialLanguage = async () => {
-      try {
-        const targetLocale = locale || 'en'
+    const initI18n = async () => {
+      const i18n = createInstance({
+        lng: locale || 'en',
+        fallbackLng: 'en',
+        lowerCaseLng: true,
+        interpolation: {
+          escapeValue: false,
+        },
+        returnEmptyString: false,
+      })
 
-        // Always load English first as fallback
-        const englishTranslation = await loadLanguageDynamic('en')
-        const newResources: LanguageTranslationResources = {
-          en: {
-            translation: englishTranslation,
-          },
-        }
+      i18n.use(
+        resourcesToBackend(
+          (language: string) => import(`../../i18n/${language}.json`)
+        )
+      )
 
-        // Load target language if it's not English
-        if (targetLocale !== 'en') {
-          const targetTranslation = await loadLanguageDynamic(targetLocale)
-          newResources[targetLocale] = {
-            translation: targetTranslation,
-          }
-        }
-
-        setResources(newResources)
-
-        // Initialize i18n with both languages
-        await i18n.init({
-          lng: targetLocale,
-          resources: newResources,
-        })
-      } catch (error) {
-        console.error('Failed to load initial language:', error)
-        // Fallback to English
-        if (locale !== 'en') {
-          try {
-            const fallbackTranslation = await loadLanguageDynamic('en')
-            const fallbackResources: LanguageTranslationResources = {
-              en: {
-                translation: fallbackTranslation,
-              },
-            }
-            setResources(fallbackResources)
-            i18n.addResourceBundle(
-              'en',
-              'translation',
-              fallbackTranslation,
-              true,
-              true
-            )
-            i18n.changeLanguage('en')
-          } catch (fallbackError) {
-            console.error('Failed to load fallback language:', fallbackError)
-          }
-        }
-      }
+      await i18n.init()
+      setI18nInstance(i18n)
     }
 
-    loadInitialLanguage()
-  }, [locale, i18n])
+    initI18n()
+  }, [locale])
 
-  // Load additional languages when locale changes
   useEffect(() => {
-    const loadLanguage = async () => {
-      if (!locale || locale === i18n.language) {
-        return
-      }
-
-      try {
-        if (resources[locale]) {
-          i18n.changeLanguage(locale)
-          return
-        }
-
-        const translation = await loadLanguageDynamic(locale)
-
-        setResources((prev) => ({
-          ...prev,
-          [locale]: {
-            translation,
-          },
-        }))
-
-        await i18n.init({
-          lng: locale,
-          resources: {
-            ...resources,
-            [locale]: {
-              translation,
-            },
-          },
-        })
-      } catch (error) {
-        console.error(`Failed to load language ${locale}:`, error)
-      }
+    if (i18nInstance && locale && locale !== i18nInstance.language) {
+      i18nInstance.changeLanguage(locale)
     }
+  }, [locale, i18nInstance])
 
-    loadLanguage()
-  }, [locale, i18n, resources])
-
-  return <I18nextProvider i18n={i18n as i18n}>{children}</I18nextProvider>
+  return (
+    <I18nextProvider i18n={i18nInstance as i18n}>{children}</I18nextProvider>
+  )
 }
