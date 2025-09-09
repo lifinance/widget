@@ -1,4 +1,9 @@
 {
-  "ignore": ["examples/**", "packages/widget-embedded/**", "scripts/**"],
+  "ignore": [
+    "examples/**",
+    "packages/widget-embedded/**",
+    "scripts/**",
+    "packages/wallet-management/src/i18n/languages/**"
+  ],
   "ignoreDependencies": ["@mui/system", "csstype"]
 }

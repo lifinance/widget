@@ -1,0 +1,23 @@
+export default {
+  title: {
+    connectWallet: 'Wallet verbinden',
+    connecting: '',
+    selectWallet: '',
+    selectWalletWithChain: '',
+    selectEcosystem: '',
+    waitingForWallet: '',
+    availableWalletsNotFound: '',
+  },
+  message: {
+    connecting: '',
+    multipleEcosystems: '',
+    availableWalletsNotFound: '',
+  },
+  tags: {
+    connected: '',
+    multichain: '',
+    installed: '',
+    qrCode: '',
+    getStarted: '',
+  },
+}

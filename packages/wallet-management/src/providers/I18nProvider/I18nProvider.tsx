@@ -31,7 +31,6 @@ export const I18nProvider: FC<PropsWithChildren<I18nProviderProps>> = ({
       returnEmptyString: false,
     })
 
-    i18nInstance.init()
     return i18nInstance
   }, [])
 
@@ -39,23 +38,30 @@ export const I18nProvider: FC<PropsWithChildren<I18nProviderProps>> = ({
     const loadInitialLanguage = async () => {
       try {
         const targetLocale = locale || 'en'
-        const translation = await loadLanguageDynamic(targetLocale)
 
+        // Always load English first as fallback
+        const englishTranslation = await loadLanguageDynamic('en')
         const newResources: LanguageTranslationResources = {
-          [targetLocale]: {
-            translation,
+          en: {
+            translation: englishTranslation,
           },
         }
 
+        // Load target language if it's not English
+        if (targetLocale !== 'en') {
+          const targetTranslation = await loadLanguageDynamic(targetLocale)
+          newResources[targetLocale] = {
+            translation: targetTranslation,
+          }
+        }
+
         setResources(newResources)
-        i18n.addResourceBundle(
-          targetLocale,
-          'translation',
-          translation,
-          true,
-          true
-        )
-        i18n.changeLanguage(targetLocale)
+
+        // Initialize i18n with both languages
+        await i18n.init({
+          lng: targetLocale,
+          resources: newResources,
+        })
       } catch (error) {
         console.error('Failed to load initial language:', error)
         // Fallback to English
@@ -108,8 +114,15 @@ export const I18nProvider: FC<PropsWithChildren<I18nProviderProps>> = ({
           },
         }))
 
-        i18n.addResourceBundle(locale, 'translation', translation, true, true)
-        i18n.changeLanguage(locale)
+        await i18n.init({
+          lng: locale,
+          resources: {
+            ...resources,
+            [locale]: {
+              translation,
+            },
+          },
+        })
       } catch (error) {
         console.error(`Failed to load language ${locale}:`, error)
       }

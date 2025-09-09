@@ -1,0 +1,23 @@
+export default {
+  title: {
+    connectWallet: 'वॉलेट से जुड़ें?',
+    connecting: '',
+    selectWallet: '',
+    selectWalletWithChain: '',
+    selectEcosystem: '',
+    waitingForWallet: '',
+    availableWalletsNotFound: '',
+  },
+  message: {
+    connecting: '',
+    multipleEcosystems: '',
+    availableWalletsNotFound: '',
+  },
+  tags: {
+    connected: '',
+    multichain: '',
+    installed: '',
+    qrCode: '',
+    getStarted: '',
+  },
+}

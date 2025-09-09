@@ -2,7 +2,8 @@ import type { LanguageKey } from '../providers/I18nProvider/types.js'
 
 const loadLanguage = async (language: LanguageKey) => {
   try {
-    return (await import(`./${language}.json`)).default
+    const module = await import(`./languages/${language}.ts`)
+    return module.default
   } catch (error: unknown) {
     console.warn(`Failed to load language ${language}:`, error)
     throw new Error(`Unsupported language: ${language}`)
@@ -25,8 +26,6 @@ export const loadLanguageDynamic = async (
     languageCache.set(language, translations)
     return translations
   } catch (error) {
-    console.warn(`Failed to load language ${language}:`, error)
-    // Fallback to English if available
     if (language !== 'en') {
       return loadLanguageDynamic('en')
     }
