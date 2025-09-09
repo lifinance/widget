@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.30.2](https://github.com/lifinance/widget/compare/v3.30.1...v3.30.2) (2025-09-09)
+
+
+### Bug Fixes
+
+* check chain config before syncing opposite chain ([#543](https://github.com/lifinance/widget/issues/543)) ([f1cf4c5](https://github.com/lifinance/widget/commit/f1cf4c5ad03f5991d25ff567d9056eb3ed4206d7))
+
 ### [3.30.1](https://github.com/lifinance/widget/compare/v3.30.0...v3.30.1) (2025-09-08)
 
 
