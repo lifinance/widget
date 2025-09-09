@@ -30,7 +30,7 @@
     "@bigmi/react": "^0.5.2",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^3.12.2",
+    "@lifi/sdk": "^3.12.3",
     "@lifi/wallet-management": "workspace:*",
     "@lifi/widget": "workspace:*",
     "@monaco-editor/react": "^4.7.0",
@@ -51,7 +51,7 @@
     "microdiff": "^1.5.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "viem": "^2.37.4",
+    "viem": "^2.37.5",
     "wagmi": "^2.16.9",
     "zustand": "^5.0.8"
   },
