@@ -1,11 +1,3 @@
-import en from '../../i18n/en.json' with { type: 'json' }
-
-type PartialResource<T> = T extends object
-  ? {
-      [P in keyof T]?: PartialResource<T[P]>
-    }
-  : T
-
 export type LanguageKey =
   | 'en'
   | 'es'
@@ -24,13 +16,3 @@ export type LanguageKey =
   | 'uk'
   | 'id'
   | 'pl'
-
-type LanguageResource = typeof en
-
-type LanguageTranslationResource = {
-  [N in 'translation']: PartialResource<LanguageResource>
-}
-
-export type LanguageTranslationResources = {
-  [language: string]: LanguageTranslationResource
-}
