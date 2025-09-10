@@ -41,19 +41,19 @@ export const VirtualizedChainList = ({
   const { setFieldValue } = useFieldActions()
   const selectedChainIdRef = useRef(selectedChainId) // Store the initial selected chain ID to scroll to it once chains are loaded
   const hasScrolledRef = useRef(false)
-  const {
+  const [
     pinnedChains,
     setPinnedChain,
     isAllNetworks,
     setIsAllNetworks,
     showAllNetworks,
-  } = useChainOrderStore((state) => ({
-    pinnedChains: state.pinnedChains,
-    setPinnedChain: state.setPinnedChain,
-    isAllNetworks: state[`${formType}IsAllNetworks`],
-    setIsAllNetworks: state.setIsAllNetworks,
-    showAllNetworks: state[`${formType}ShowAllNetworks`],
-  }))
+  ] = useChainOrderStore((state) => [
+    state.pinnedChains,
+    state.setPinnedChain,
+    state[`${formType}IsAllNetworks`],
+    state.setIsAllNetworks,
+    state[`${formType}ShowAllNetworks`],
+  ])
 
   const onPin = useCallback(
     (chainId: number) => {

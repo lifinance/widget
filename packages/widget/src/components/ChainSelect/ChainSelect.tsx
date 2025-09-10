@@ -41,12 +41,13 @@ export const ChainSelect = memo(({ formType }: FormTypeProps) => {
     setCurrentChain,
   } = useChainSelect(formType)
 
-  const { showAllNetworks, isAllNetworks, setIsAllNetworks } =
-    useChainOrderStore((state) => ({
-      showAllNetworks: state[`${formType}ShowAllNetworks`],
-      isAllNetworks: state[`${formType}IsAllNetworks`],
-      setIsAllNetworks: state.setIsAllNetworks,
-    }))
+  const [showAllNetworks, isAllNetworks, setIsAllNetworks] = useChainOrderStore(
+    (state) => [
+      state[`${formType}ShowAllNetworks`],
+      state[`${formType}IsAllNetworks`],
+      state.setIsAllNetworks,
+    ]
+  )
 
   const [chainId] = useFieldValues(FormKeyHelper.getChainKey(formType))
 
