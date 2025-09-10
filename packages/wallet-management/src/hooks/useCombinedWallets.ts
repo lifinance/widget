@@ -317,9 +317,6 @@ export const useCombinedWallets = () => {
     walletConfig,
   ])
 
-  // biome-ignore lint/suspicious/noConsole: <explanation>
-  console.log('combinedWallets', combinedWallets)
-
   return combinedWallets
 }
 
