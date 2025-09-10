@@ -41,16 +41,19 @@ export const VirtualizedChainList = ({
   const { setFieldValue } = useFieldActions()
   const selectedChainIdRef = useRef(selectedChainId) // Store the initial selected chain ID to scroll to it once chains are loaded
   const hasScrolledRef = useRef(false)
-  const [pinnedChains, setPinnedChain, setIsAllNetworks] = useChainOrderStore(
-    (state) => [
-      state.pinnedChains,
-      state.setPinnedChain,
-      state.setIsAllNetworks,
-    ]
-  )
-  const isAllNetworks = useChainOrderStore(
-    (state) => state[`${formType}IsAllNetworks`]
-  )
+  const {
+    pinnedChains,
+    setPinnedChain,
+    isAllNetworks,
+    setIsAllNetworks,
+    showAllNetworks,
+  } = useChainOrderStore((state) => ({
+    pinnedChains: state.pinnedChains,
+    setPinnedChain: state.setPinnedChain,
+    isAllNetworks: state[`${formType}IsAllNetworks`],
+    setIsAllNetworks: state.setIsAllNetworks,
+    showAllNetworks: state[`${formType}ShowAllNetworks`],
+  }))
 
   const onPin = useCallback(
     (chainId: number) => {
@@ -72,17 +75,17 @@ export const VirtualizedChainList = ({
     return [...pinned, ...rest]
   }, [chains, pinnedChains])
 
-  const showAllNetworks = sortedChains.length > 1 && !hasSearchQuery
+  const showAllNetworksOption = showAllNetworks && !hasSearchQuery
 
   const getItemKey = useCallback(
     (index: number) => {
-      if (showAllNetworks && index === 0) {
+      if (showAllNetworksOption && index === 0) {
         return 'all-chains'
       }
-      const chainIndex = index - (showAllNetworks ? 1 : 0)
+      const chainIndex = index - (showAllNetworksOption ? 1 : 0)
       return `${sortedChains[chainIndex].id}-${index}`
     },
-    [sortedChains, showAllNetworks]
+    [sortedChains, showAllNetworksOption]
   )
 
   const onChainSelect = useCallback(
@@ -95,7 +98,7 @@ export const VirtualizedChainList = ({
 
   const { getVirtualItems, getTotalSize, measure, range, getOffsetForIndex } =
     useVirtualizer({
-      count: sortedChains.length + (showAllNetworks ? 1 : 0), // +1 for the all networks item
+      count: sortedChains.length + (showAllNetworksOption ? 1 : 0), // +1 for the all networks item
       overscan: 3,
       paddingEnd: 0,
       getScrollElement: () => scrollElementRef.current,
@@ -170,7 +173,7 @@ export const VirtualizedChainList = ({
       disablePadding
     >
       {getVirtualItems().map((item) => {
-        if (showAllNetworks && item.index === 0) {
+        if (showAllNetworksOption && item.index === 0) {
           return (
             <ListItem
               key={item.key}
@@ -197,7 +200,7 @@ export const VirtualizedChainList = ({
           )
         }
 
-        const chain = sortedChains[item.index - (showAllNetworks ? 1 : 0)]
+        const chain = sortedChains[item.index - (showAllNetworksOption ? 1 : 0)]
         return (
           <ChainListItem
             key={item.key}

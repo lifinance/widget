@@ -86,18 +86,10 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
           })
         },
         setIsAllNetworks: (isAllNetworks, formType) => {
-          if (formType === 'from') {
-            set({ fromIsAllNetworks: isAllNetworks })
-          } else {
-            set({ toIsAllNetworks: isAllNetworks })
-          }
+          set({ [`${formType}IsAllNetworks`]: isAllNetworks })
         },
         setShowAllNetworks: (showAllNetworks, formType) => {
-          if (formType === 'from') {
-            set({ fromShowAllNetworks: showAllNetworks })
-          } else {
-            set({ toShowAllNetworks: showAllNetworks })
-          }
+          set({ [`${formType}ShowAllNetworks`]: showAllNetworks })
         },
         setPinnedChain: (chainId) => {
           set((state: ChainOrderState) => {
