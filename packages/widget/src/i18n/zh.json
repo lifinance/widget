@@ -92,7 +92,7 @@
       "emptyBridgesList": "我们找不到任何匹配的桥",
       "emptyChainList": "我们找不到任何匹配的链",
       "emptyExchangesList": "我们找不到任何匹配的交易所",
-      "emptyTokenList": "我们无法在 {{chainName}} 链上找到这些代币，或者你的钱包内没有这些代币。请再次搜索或者选择其他链再试一次。",
+      "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "交易记录只存储在本地，如果您清除浏览器数据，交易记录将被删除。",
       "routeNotFound": "导致其的原因可能是：流动性低，所选定代币的数额太低，燃气费过高，或者当前没有合适的交易路径。",
       "toAddressIsRequired": "需要目标钱包地址来继续转帐。",
