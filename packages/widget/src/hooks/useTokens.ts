@@ -72,9 +72,9 @@ export const useTokens = (
   }
 }
 
-// This hook is used to search for tokens in the background.
-// It updates the main tokens cache with the search results,
-// if any of the tokens are not already in the cache.
+/** This hook is used to search for tokens in the background.
+ * It updates the main tokens cache with the search results,
+ * if any of the tokens are not already in the cache. */
 const useBackgroundTokenSearch = (search?: string, chainId?: number) => {
   const { chains: chainsConfig, keyPrefix } = useWidgetConfig()
   const queryClient = useQueryClient()

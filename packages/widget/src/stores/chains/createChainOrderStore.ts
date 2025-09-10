@@ -21,7 +21,10 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
     persist(
       (set, get) => ({
         chainOrder: defaultChainState,
-        isAllNetworks: true,
+        fromIsAllNetworks: true,
+        toIsAllNetworks: true,
+        fromShowAllNetworks: true,
+        toShowAllNetworks: true,
         availableChains: defaultChainState,
         pinnedChains: [],
         initializeChains: (chainIds, type) => {
@@ -82,8 +85,11 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
             }
           })
         },
-        setIsAllNetworks: (isAllNetworks) => {
-          set({ isAllNetworks })
+        setIsAllNetworks: (isAllNetworks, formType) => {
+          set({ [`${formType}IsAllNetworks`]: isAllNetworks })
+        },
+        setShowAllNetworks: (showAllNetworks, formType) => {
+          set({ [`${formType}ShowAllNetworks`]: showAllNetworks })
         },
         setPinnedChain: (chainId) => {
           set((state: ChainOrderState) => {
@@ -105,7 +111,10 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
         version: 2,
         partialize: (state) => ({
           chainOrder: state.chainOrder,
-          isAllNetworks: state.isAllNetworks,
+          fromIsAllNetworks: state.fromIsAllNetworks,
+          toIsAllNetworks: state.toIsAllNetworks,
+          fromShowAllNetworks: state.fromShowAllNetworks,
+          toShowAllNetworks: state.toShowAllNetworks,
           pinnedChains: state.pinnedChains,
         }),
       }
