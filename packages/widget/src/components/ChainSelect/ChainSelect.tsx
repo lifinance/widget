@@ -3,7 +3,6 @@ import { Skeleton, type Theme, Tooltip, useMediaQuery } from '@mui/material'
 import { memo, useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { useIsMultipleNetworks } from '../../hooks/useIsMultipleNetworks.js'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import {
   maxChainsToOrder,
@@ -42,11 +41,12 @@ export const ChainSelect = memo(({ formType }: FormTypeProps) => {
     setCurrentChain,
   } = useChainSelect(formType)
 
-  const { setIsAllNetworks } = useChainOrderStore((state) => ({
-    setIsAllNetworks: state.setIsAllNetworks,
-  }))
-
-  const isAllNetworks = useIsMultipleNetworks(formType)
+  const { showAllNetworks, isAllNetworks, setIsAllNetworks } =
+    useChainOrderStore((state) => ({
+      showAllNetworks: state[`${formType}ShowAllNetworks`],
+      isAllNetworks: state[`${formType}IsAllNetworks`],
+      setIsAllNetworks: state.setIsAllNetworks,
+    }))
 
   const [chainId] = useFieldValues(FormKeyHelper.getChainKey(formType))
 
@@ -86,8 +86,6 @@ export const ChainSelect = memo(({ formType }: FormTypeProps) => {
     () => (chainsToHide > 0 ? getSelectedChains() : chains) ?? [],
     [chainsToHide, getSelectedChains, chains]
   )
-
-  const showAllNetworks = chainsToShow.length > 1
 
   const tilesCount =
     chainsToShow.length + (showAllNetworks ? 1 : 0) + (chainsToHide > 0 ? 1 : 0)

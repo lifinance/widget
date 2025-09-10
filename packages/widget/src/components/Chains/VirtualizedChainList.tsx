@@ -3,7 +3,6 @@ import { useVirtualizer } from '@tanstack/react-virtual'
 import type { RefObject } from 'react'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useIsMultipleNetworks } from '../../hooks/useIsMultipleNetworks.js'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import type { FormType } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
@@ -49,7 +48,9 @@ export const VirtualizedChainList = ({
       state.setIsAllNetworks,
     ]
   )
-  const isAllNetworks = useIsMultipleNetworks(formType)
+  const isAllNetworks = useChainOrderStore(
+    (state) => state[`${formType}IsAllNetworks`]
+  )
 
   const onPin = useCallback(
     (chainId: number) => {

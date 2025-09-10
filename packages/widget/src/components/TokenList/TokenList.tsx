@@ -1,9 +1,9 @@
 import { Box } from '@mui/material'
 import { type FC, memo, useEffect } from 'react'
 import { useDebouncedWatch } from '../../hooks/useDebouncedWatch.js'
-import { useIsMultipleNetworks } from '../../hooks/useIsMultipleNetworks.js'
 import { useTokenBalances } from '../../hooks/useTokenBalances.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
+import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { WidgetEvent } from '../../types/events.js'
@@ -21,7 +21,9 @@ export const TokenList: FC<TokenListProps> = memo(
       FormKeyHelper.getTokenKey(formType)
     )
 
-    const isAllNetworks = useIsMultipleNetworks(formType)
+    const isAllNetworks = useChainOrderStore(
+      (state) => state[`${formType}IsAllNetworks`]
+    )
 
     const [tokenSearchFilter]: string[] = useDebouncedWatch(
       320,

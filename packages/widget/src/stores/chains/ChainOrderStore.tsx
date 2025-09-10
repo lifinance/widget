@@ -81,6 +81,11 @@ export function ChainOrderStoreProvider({
         } else if (chainOrder?.length) {
           setFieldValue(`${key}Chain`, chainOrder[0])
         }
+
+        // Show "All networks" button if there are multiple networks
+        const showAllNetworks = filteredChains.length > 1
+        storeRef.current?.getState().setIsAllNetworks(showAllNetworks, key)
+        storeRef.current?.getState().setShowAllNetworks(showAllNetworks, key)
       })
     }
   }, [

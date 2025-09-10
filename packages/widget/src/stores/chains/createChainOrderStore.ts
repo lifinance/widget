@@ -21,8 +21,10 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
     persist(
       (set, get) => ({
         chainOrder: defaultChainState,
-        isAllNetworksFromChain: true,
-        isAllNetworksToChain: true,
+        fromIsAllNetworks: true,
+        toIsAllNetworks: true,
+        fromShowAllNetworks: true,
+        toShowAllNetworks: true,
         availableChains: defaultChainState,
         pinnedChains: [],
         initializeChains: (chainIds, type) => {
@@ -83,16 +85,18 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
             }
           })
         },
-        getIsAllNetworks: (formType) => {
-          return formType === 'from'
-            ? get().isAllNetworksFromChain
-            : get().isAllNetworksToChain
-        },
         setIsAllNetworks: (isAllNetworks, formType) => {
           if (formType === 'from') {
-            set({ isAllNetworksFromChain: isAllNetworks })
+            set({ fromIsAllNetworks: isAllNetworks })
           } else {
-            set({ isAllNetworksToChain: isAllNetworks })
+            set({ toIsAllNetworks: isAllNetworks })
+          }
+        },
+        setShowAllNetworks: (showAllNetworks, formType) => {
+          if (formType === 'from') {
+            set({ fromShowAllNetworks: showAllNetworks })
+          } else {
+            set({ toShowAllNetworks: showAllNetworks })
           }
         },
         setPinnedChain: (chainId) => {
@@ -115,8 +119,10 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
         version: 2,
         partialize: (state) => ({
           chainOrder: state.chainOrder,
-          isAllNetworksFromChain: state.isAllNetworksFromChain,
-          isAllNetworksToChain: state.isAllNetworksToChain,
+          fromIsAllNetworks: state.fromIsAllNetworks,
+          toIsAllNetworks: state.toIsAllNetworks,
+          fromShowAllNetworks: state.fromShowAllNetworks,
+          toShowAllNetworks: state.toShowAllNetworks,
           pinnedChains: state.pinnedChains,
         }),
       }

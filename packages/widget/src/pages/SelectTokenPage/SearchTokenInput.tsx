@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SearchInput } from '../../components/Search/SearchInput.js'
-import { useIsMultipleNetworks } from '../../hooks/useIsMultipleNetworks.js'
+import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import type { FormType } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
@@ -15,7 +15,9 @@ export const SearchTokenInput = ({ formType }: SearchTokenInputProps) => {
   const [value] = useFieldValues('tokenSearchFilter')
   const { setFieldValue, setAsTouched } = useFieldActions()
   const [fromChain, toChain] = useFieldValues('fromChain', 'toChain')
-  const isAllNetworks = useIsMultipleNetworks(formType)
+  const isAllNetworks = useChainOrderStore(
+    (state) => state[`${formType}IsAllNetworks`]
+  )
 
   const onChange = useCallback(
     (newValue: string | number | undefined) => {
