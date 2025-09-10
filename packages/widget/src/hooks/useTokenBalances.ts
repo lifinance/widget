@@ -1,3 +1,4 @@
+import type { TokenExtended } from '@lifi/sdk'
 import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
@@ -33,14 +34,27 @@ export const useTokenBalances = (
     (isBalanceQueriesLoading || isAccountsLoading) &&
     !allTokensWithBalances?.length
 
+  // Merge tokens from all accounts into a single array
   const displayedTokensList = useMemo(() => {
-    const tokensByChain = isAllNetworks
-      ? Object.values(allTokens ?? {}).flat()
-      : selectedChainId
-        ? allTokens?.[selectedChainId]
-        : undefined
-    return tokensByChain?.filter((t) => isSearchMatch(t, search)) ?? []
-  }, [allTokens, isAllNetworks, selectedChainId, search])
+    const tokensByChain = Object.values(accountsWithAllTokens ?? {}).reduce(
+      (acc, accountTokens) => {
+        const chains = isAllNetworks
+          ? Object.keys(accountTokens)
+          : [selectedChainId?.toString()]
+        chains.forEach((chainId) => {
+          const tokens = accountTokens[Number(chainId)]
+          if (tokens) {
+            acc[Number(chainId)] = [...(acc[Number(chainId)] || []), ...tokens]
+          }
+        })
+        return acc
+      },
+      {} as Record<number, TokenExtended[]>
+    )
+    return Object.values(tokensByChain)
+      .flat()
+      .filter((t) => isSearchMatch(t, search))
+  }, [accountsWithAllTokens, isAllNetworks, selectedChainId, search])
 
   const displayedTokensWithBalances = useMemo(() => {
     const balancesByChain = isAllNetworks

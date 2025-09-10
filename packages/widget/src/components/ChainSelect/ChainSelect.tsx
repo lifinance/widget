@@ -3,6 +3,7 @@ import { Skeleton, type Theme, Tooltip, useMediaQuery } from '@mui/material'
 import { memo, useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import { useIsMultipleNetworks } from '../../hooks/useIsMultipleNetworks.js'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import {
   maxChainsToOrder,
@@ -41,10 +42,11 @@ export const ChainSelect = memo(({ formType }: FormTypeProps) => {
     setCurrentChain,
   } = useChainSelect(formType)
 
-  const { isAllNetworks, setIsAllNetworks } = useChainOrderStore((state) => ({
-    isAllNetworks: state.isAllNetworks,
+  const { setIsAllNetworks } = useChainOrderStore((state) => ({
     setIsAllNetworks: state.setIsAllNetworks,
   }))
+
+  const isAllNetworks = useIsMultipleNetworks(formType)
 
   const [chainId] = useFieldValues(FormKeyHelper.getChainKey(formType))
 
@@ -60,10 +62,10 @@ export const ChainSelect = memo(({ formType }: FormTypeProps) => {
 
   const onChainSelect = useCallback(
     (selectedChainId: number) => {
-      setIsAllNetworks(false)
+      setIsAllNetworks(false, formType)
       setCurrentChain(selectedChainId)
     },
-    [setIsAllNetworks, setCurrentChain]
+    [setIsAllNetworks, setCurrentChain, formType]
   )
 
   const showAllChains = useCallback(() => {
@@ -71,9 +73,9 @@ export const ChainSelect = memo(({ formType }: FormTypeProps) => {
   }, [navigate, formType])
 
   const selectAllNetworks = useCallback(() => {
-    setIsAllNetworks(true)
+    setIsAllNetworks(true, formType)
     setFieldValue('tokenSearchFilter', '')
-  }, [setIsAllNetworks, setFieldValue])
+  }, [setIsAllNetworks, setFieldValue, formType])
 
   const chainsToHide =
     chains?.length === maxChainsToShow

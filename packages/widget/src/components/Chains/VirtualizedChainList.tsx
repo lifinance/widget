@@ -3,7 +3,9 @@ import { useVirtualizer } from '@tanstack/react-virtual'
 import type { RefObject } from 'react'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useIsMultipleNetworks } from '../../hooks/useIsMultipleNetworks.js'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
+import type { FormType } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { AllChainsAvatar } from './AllChainsAvatar.js'
 import {
@@ -17,6 +19,7 @@ import { ChainListItem } from './ChainListItem.js'
 
 interface VirtualizedChainListProps {
   scrollElementRef: RefObject<HTMLDivElement | null>
+  formType: FormType
   chains: ExtendedChain[]
   onSelect: (chain: ExtendedChain) => void
   selectedChainId?: number
@@ -26,6 +29,7 @@ interface VirtualizedChainListProps {
 }
 
 export const VirtualizedChainList = ({
+  formType,
   chains,
   hasSearchQuery,
   onSelect,
@@ -38,13 +42,15 @@ export const VirtualizedChainList = ({
   const { setFieldValue } = useFieldActions()
   const selectedChainIdRef = useRef(selectedChainId) // Store the initial selected chain ID to scroll to it once chains are loaded
   const hasScrolledRef = useRef(false)
-  const [pinnedChains, setPinnedChain, isAllNetworks, setIsAllNetworks] =
-    useChainOrderStore((state) => [
+  const [pinnedChains, setPinnedChain, setIsAllNetworks] = useChainOrderStore(
+    (state) => [
       state.pinnedChains,
       state.setPinnedChain,
-      state.isAllNetworks,
       state.setIsAllNetworks,
-    ])
+    ]
+  )
+  const isAllNetworks = useIsMultipleNetworks(formType)
+
   const onPin = useCallback(
     (chainId: number) => {
       setPinnedChain(chainId)
@@ -80,10 +86,10 @@ export const VirtualizedChainList = ({
 
   const onChainSelect = useCallback(
     (chain: ExtendedChain) => {
-      setIsAllNetworks(false)
+      setIsAllNetworks(false, formType)
       onSelect(chain)
     },
-    [onSelect, setIsAllNetworks]
+    [onSelect, setIsAllNetworks, formType]
   )
 
   const { getVirtualItems, getTotalSize, measure, range, getOffsetForIndex } =
@@ -152,9 +158,9 @@ export const VirtualizedChainList = ({
   }, [sortedChains, scrollToIndex, range, isAllNetworks])
 
   const selectAllNetworks = useCallback(() => {
-    setIsAllNetworks(true)
+    setIsAllNetworks(true, formType)
     setFieldValue('tokenSearchFilter', '')
-  }, [setIsAllNetworks, setFieldValue])
+  }, [setIsAllNetworks, setFieldValue, formType])
 
   return (
     <List

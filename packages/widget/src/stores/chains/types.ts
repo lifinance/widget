@@ -9,13 +9,15 @@ interface ChainOrderProps {
     from: number[]
     to: number[]
   }
-  isAllNetworks: boolean
+  isAllNetworksFromChain: boolean
+  isAllNetworksToChain: boolean
   pinnedChains: number[]
 }
 
 export interface ChainOrderState extends ChainOrderProps {
   initializeChains(chainIds: number[], type: FormType): number[]
   setChain(chainId: number, type: FormType): void
-  setIsAllNetworks(isAllNetworks: boolean): void
+  getIsAllNetworks(formType: FormType): boolean
+  setIsAllNetworks(isAllNetworks: boolean, formType: FormType): void
   setPinnedChain(chainId: number): void
 }
