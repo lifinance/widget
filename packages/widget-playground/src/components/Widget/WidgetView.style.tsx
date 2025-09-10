@@ -1,7 +1,6 @@
 import { defaultMaxHeight } from '@lifi/widget'
 import type { BoxProps, Theme } from '@mui/material'
-import { Box, Button, IconButton, Skeleton as MuiSkeleton } from '@mui/material'
-import { buttonClasses } from '@mui/material/Button'
+import { Box, IconButton } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import type { CSSProperties } from 'react'
 import { drawerZIndex } from '../DrawerControls/DrawerControls.style.js'
@@ -96,21 +95,6 @@ export const DrawerOpenButton = styled(IconButton)(({ theme }) => ({
     '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)',
 }))
 
-export const ConnectionWalletButtonBase = styled(Button)(({ theme }) => ({
-  ...floatingToolButtonColors(theme),
-  minHeight: 40,
-  fontSize: '0.875rem',
-  fontWeight: 600,
-  textTransform: 'none',
-  borderRadius: `calc(${theme.vars.shape.borderRadius} * 2)`,
-  [`.${buttonClasses.endIcon} > *:nth-of-type(1)`]: {
-    fontSize: '24px',
-  },
-  [`.${buttonClasses.startIcon} > *:nth-of-type(1)`]: {
-    fontSize: '24px',
-  },
-}))
-
 export const Main = styled('main', {
   shouldForwardProp: (prop) =>
     !['drawerWidth', 'open'].includes(prop as string),
@@ -143,23 +127,4 @@ export const Main = styled('main', {
       },
     },
   ],
-}))
-
-export const WidgetSkeletonContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  transform: 'translateY(-56px)',
-  gap: theme.spacing(2),
-  backgroundColor: theme.vars.palette.background.default,
-  padding: theme.spacing(8, 3, 6.25),
-  boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
-  borderRadius: theme.vars.shape.borderRadius,
-}))
-
-export const Skeleton = styled(MuiSkeleton)(({ theme }) => ({
-  backgroundColor: theme.vars.palette.grey[100],
-  ...theme.applyStyles('dark', {
-    backgroundColor: theme.vars.palette.grey[900],
-  }),
 }))

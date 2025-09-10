@@ -18,7 +18,7 @@ export const defaultConfigurableSettings: Pick<
   gasPrice: 'normal',
 }
 
-export const defaultSettings: SettingsProps = {
+const defaultSettings: SettingsProps = {
   gasPrice: 'normal',
   enabledAutoRefuel: true,
   disabledBridges: [],

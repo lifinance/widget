@@ -12,9 +12,9 @@ import { themeItems } from './themes.js'
 import type { WidgetConfigState, WidgetConfigStore } from './types.js'
 import { getConfigOutput } from './utils/getConfigOutput.js'
 
-export const WidgetConfigContext = createContext<WidgetConfigStore | null>(null)
+const WidgetConfigContext = createContext<WidgetConfigStore | null>(null)
 
-export interface WidgetConfigProviderProps extends PropsWithChildren {
+interface WidgetConfigProviderProps extends PropsWithChildren {
   defaultWidgetConfig: Partial<WidgetConfig>
 }
 

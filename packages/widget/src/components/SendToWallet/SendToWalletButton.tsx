@@ -133,7 +133,6 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
       mountOnEnter
       unmountOnExit
     >
-      {/** biome-ignore lint/a11y/useSemanticElements: allowed in react */}
       <Card
         role="button"
         onClick={disabledForChanges ? undefined : handleOnClick}

@@ -2,7 +2,7 @@ import type { Theme } from '@mui/material'
 import { Dialog, Drawer, useMediaQuery } from '@mui/material'
 import type { PropsWithChildren } from 'react'
 
-export interface WalletMenuProps {
+interface WalletMenuProps {
   open: boolean
   onClose: () => void
 }

@@ -7,7 +7,7 @@ import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 import { SuiBaseProvider } from './SuiBaseProvider.js'
 import { SuiExternalContext } from './SuiExternalContext.js'
 
-export function useInSuiContext(): boolean {
+function useInSuiContext(): boolean {
   const { chains } = useWidgetConfig()
   const context = useContext(SuiClientContext)
 

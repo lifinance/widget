@@ -8,13 +8,13 @@
     "start": "next start"
   },
   "dependencies": {
-    "@lifi/widget": "^3.30.0",
+    "@lifi/widget": "^3.30.3",
     "next": "^15.5.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
   "devDependencies": {
-    "@types/node": "^24.3.0",
+    "@types/node": "^24.3.1",
     "@types/react": "^19.1.11",
     "@types/react-dom": "^19.1.9",
     "typescript": "^5.9.2"

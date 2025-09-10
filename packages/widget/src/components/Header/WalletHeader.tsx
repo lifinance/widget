@@ -50,7 +50,7 @@ export const WalletHeader: React.FC = () => {
   ) : null
 }
 
-export const WalletMenuButton: React.FC = () => {
+const WalletMenuButton: React.FC = () => {
   const { variant, hiddenUI } = useWidgetConfig()
   const { account, accounts } = useAccount()
 

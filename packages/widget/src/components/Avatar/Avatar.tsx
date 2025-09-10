@@ -39,7 +39,7 @@ export const AvatarBadgedSkeleton: React.FC<{
   )
 }
 
-export const AvatarSkeleton: React.FC<{
+const AvatarSkeleton: React.FC<{
   avatarSize: number
   badgeSize: number
 }> = ({ avatarSize, badgeSize }) => {

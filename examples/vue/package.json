@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/widget": "^3.30.0",
+    "@lifi/widget": "^3.30.3",
     "veaury": "^2.6.3",
     "vue": "^3.5.21"
   },
@@ -18,7 +18,7 @@
     "@vitejs/plugin-vue": "^6.0.1",
     "@vitejs/plugin-vue-jsx": "^5.1.0",
     "typescript": "^5.9.2",
-    "vite": "^7.1.4",
+    "vite": "^7.1.5",
     "vite-plugin-node-polyfills": "^0.24.0",
     "vue-tsc": "^3.0.6"
   }

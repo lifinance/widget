@@ -49,13 +49,15 @@ export const filterAllowedTokens = (
         new Set(
           tokens
             .filter((t) => Number(t.chainId) === chainId)
-            .map((t) => t.address)
+            .map((t) => t.address.toLowerCase())
         ),
       formType
     )
 
     const filtered = chainTokens.filter((token) =>
-      isFormItemAllowed(token, allowedAddresses, formType, (t) => t.address)
+      isFormItemAllowed(token, allowedAddresses, formType, (t) =>
+        t.address.toLowerCase()
+      )
     )
 
     allowedTokensByChain[chainId] = filtered

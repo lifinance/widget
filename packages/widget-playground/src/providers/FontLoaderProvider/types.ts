@@ -1,9 +1,9 @@
-export interface FontFile {
+interface FontFile {
   url: string
   options: FontFaceDescriptors
 }
 
-export type FontFiles = FontFile[]
+type FontFiles = FontFile[]
 
 export interface Font {
   family: string

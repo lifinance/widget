@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.30.4](https://github.com/lifinance/widget/compare/v3.30.3...v3.30.4) (2025-09-09)
+
+### [3.30.3](https://github.com/lifinance/widget/compare/v3.30.2...v3.30.3) (2025-09-09)
+
+
+### Bug Fixes
+
+* return from queryFn ([#544](https://github.com/lifinance/widget/issues/544)) ([aa497b5](https://github.com/lifinance/widget/commit/aa497b5891d4b56e06331ee1edfd3891d5dc6cff))
+
+### [3.30.2](https://github.com/lifinance/widget/compare/v3.30.1...v3.30.2) (2025-09-09)
+
+
+### Bug Fixes
+
+* check chain config before syncing opposite chain ([#543](https://github.com/lifinance/widget/issues/543)) ([f1cf4c5](https://github.com/lifinance/widget/commit/f1cf4c5ad03f5991d25ff567d9056eb3ed4206d7))
+
+### [3.30.1](https://github.com/lifinance/widget/compare/v3.30.0...v3.30.1) (2025-09-08)
+
+
+### Bug Fixes
+
+* add /token response to search results ([#542](https://github.com/lifinance/widget/issues/542)) ([55c7ca9](https://github.com/lifinance/widget/commit/55c7ca9f41ca6b70e6d89439a3490d738c831ffa))
+* improve gasless step validation ([#535](https://github.com/lifinance/widget/issues/535)) ([426e848](https://github.com/lifinance/widget/commit/426e8486947c7ce8bffc09dbadad89afa1e43e50))
+* limit slippage input value decimals ([#536](https://github.com/lifinance/widget/issues/536)) ([b8addc2](https://github.com/lifinance/widget/commit/b8addc2cf75d660756f187fed9fd8418af238196))
+* missing usd conversion ([#534](https://github.com/lifinance/widget/issues/534)) ([2ab359c](https://github.com/lifinance/widget/commit/2ab359c7f5eb5980b3b80ddaa8c16035a615922b))
+* respect token deny list for tokens with balances ([#537](https://github.com/lifinance/widget/issues/537)) ([326e455](https://github.com/lifinance/widget/commit/326e4557bfe683a08370985f0062d58e48edff4c))
+* use lower case when comparing addresses ([#540](https://github.com/lifinance/widget/issues/540)) ([70387f8](https://github.com/lifinance/widget/commit/70387f8299e096190f30bd380e8b63758d8ba6ea))
+
 ## [3.30.0](https://github.com/lifinance/widget/compare/v3.29.1...v3.30.0) (2025-09-02)
 
 

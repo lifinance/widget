@@ -30,7 +30,7 @@ export const Token: FC<TokenProps & BoxProps> = ({ token, ...other }) => {
   return <TokenBase token={token} {...other} />
 }
 
-export const TokenFallback: FC<TokenProps & BoxProps> = ({
+const TokenFallback: FC<TokenProps & BoxProps> = ({
   token,
   isLoading,
   ...other
@@ -49,7 +49,7 @@ export const TokenFallback: FC<TokenProps & BoxProps> = ({
   )
 }
 
-export const TokenBase: FC<TokenProps & BoxProps> = ({
+const TokenBase: FC<TokenProps & BoxProps> = ({
   token,
   impactToken,
   enableImpactTokenTooltip,
