@@ -92,7 +92,7 @@
       "emptyBridgesList": "Kami tidak dapat menemukan bridge yang sesuai dengan pencarian Anda",
       "emptyChainList": "Kami tidak dapat menemukan chain yang sesuai dengan pencarian Anda",
       "emptyExchangesList": "Kami tidak dapat menemukan exchanges yang sesuai dengan pencarian Anda",
-      "emptyTokenList": "Kami tidak dapat menemukan token di jaringan {{chainName}} atau Anda tidak memilikinya. Silakan cari berdasarkan alamat kontrak jika token Anda tidak muncul atau pilih jaringan lain.",
+      "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "Riwayat transaksi hanya disimpan secara lokal dan akan dihapus jika Anda menghapus data browser.",
       "routeNotFound": "Alasannya mungkin: likuiditas rendah, jumlah yang dipilih terlalu rendah, biaya gas terlalu tinggi, atau tidak ada rute untuk kombinasi yang dipilih.",
       "toAddressIsRequired": "Alamat dompet tujuan diperlukan untuk melanjutkan transfer.",
