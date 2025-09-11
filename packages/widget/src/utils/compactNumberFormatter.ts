@@ -31,7 +31,7 @@ export const compactNumberFormatter = (
     notation: 'standard',
     roundingPriority: 'morePrecision',
     maximumSignificantDigits: 21,
-    maximumFractionDigits: 21,
+    maximumFractionDigits: 20,
     ...options,
   })
   return (value: any) => {

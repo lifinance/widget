@@ -104,7 +104,7 @@ const formatter = new Intl.NumberFormat('en', {
   notation: 'standard',
   roundingPriority: 'morePrecision',
   maximumSignificantDigits: 21,
-  maximumFractionDigits: 21,
+  maximumFractionDigits: 20,
   useGrouping: false,
 })
 
