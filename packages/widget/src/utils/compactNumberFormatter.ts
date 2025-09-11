@@ -30,7 +30,7 @@ export const compactNumberFormatter = (
   const formatter = new Intl.NumberFormat(lng, {
     notation: 'standard',
     roundingPriority: 'morePrecision',
-    maximumSignificantDigits: 21,
+    maximumSignificantDigits: 20,
     maximumFractionDigits: 20,
     ...options,
   })
