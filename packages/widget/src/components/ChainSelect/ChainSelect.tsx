@@ -41,10 +41,13 @@ export const ChainSelect = memo(({ formType }: FormTypeProps) => {
     setCurrentChain,
   } = useChainSelect(formType)
 
-  const { isAllNetworks, setIsAllNetworks } = useChainOrderStore((state) => ({
-    isAllNetworks: state.isAllNetworks,
-    setIsAllNetworks: state.setIsAllNetworks,
-  }))
+  const [showAllNetworks, isAllNetworks, setIsAllNetworks] = useChainOrderStore(
+    (state) => [
+      state[`${formType}ShowAllNetworks`],
+      state[`${formType}IsAllNetworks`],
+      state.setIsAllNetworks,
+    ]
+  )
 
   const [chainId] = useFieldValues(FormKeyHelper.getChainKey(formType))
 
@@ -60,10 +63,10 @@ export const ChainSelect = memo(({ formType }: FormTypeProps) => {
 
   const onChainSelect = useCallback(
     (selectedChainId: number) => {
-      setIsAllNetworks(false)
+      setIsAllNetworks(false, formType)
       setCurrentChain(selectedChainId)
     },
-    [setIsAllNetworks, setCurrentChain]
+    [setIsAllNetworks, setCurrentChain, formType]
   )
 
   const showAllChains = useCallback(() => {
@@ -71,9 +74,9 @@ export const ChainSelect = memo(({ formType }: FormTypeProps) => {
   }, [navigate, formType])
 
   const selectAllNetworks = useCallback(() => {
-    setIsAllNetworks(true)
+    setIsAllNetworks(true, formType)
     setFieldValue('tokenSearchFilter', '')
-  }, [setIsAllNetworks, setFieldValue])
+  }, [setIsAllNetworks, setFieldValue, formType])
 
   const chainsToHide =
     chains?.length === maxChainsToShow
@@ -84,8 +87,6 @@ export const ChainSelect = memo(({ formType }: FormTypeProps) => {
     () => (chainsToHide > 0 ? getSelectedChains() : chains) ?? [],
     [chainsToHide, getSelectedChains, chains]
   )
-
-  const showAllNetworks = chainsToShow.length > 1
 
   const tilesCount =
     chainsToShow.length + (showAllNetworks ? 1 : 0) + (chainsToHide > 0 ? 1 : 0)
