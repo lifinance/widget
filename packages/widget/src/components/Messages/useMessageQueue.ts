@@ -76,7 +76,11 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
       })
     }
 
-    if (requiredToAddress && accountDeployedAtDestination && !allowInteraction) {
+    if (
+      requiredToAddress &&
+      accountDeployedAtDestination &&
+      !allowInteraction
+    ) {
       queue.push({
         id: 'ACCOUNT_DEPLOYED',
         priority: 7,
