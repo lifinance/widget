@@ -64,7 +64,7 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
               mt: !hideChainSelect ? 2 : 0,
             }}
           >
-            <SearchTokenInput />
+            <SearchTokenInput formType={formType} />
           </Box>
         )}
       </Box>

@@ -21,7 +21,9 @@ export const TokenList: FC<TokenListProps> = memo(
       FormKeyHelper.getTokenKey(formType)
     )
 
-    const isAllNetworks = useChainOrderStore((state) => state.isAllNetworks)
+    const isAllNetworks = useChainOrderStore(
+      (state) => state[`${formType}IsAllNetworks`]
+    )
 
     const [tokenSearchFilter]: string[] = useDebouncedWatch(
       320,

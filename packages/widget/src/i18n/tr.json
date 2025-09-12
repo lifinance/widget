@@ -92,7 +92,7 @@
       "emptyBridgesList": "Aradığın köprüyü bulamadık",
       "emptyChainList": "Aradığın zinciri bulamadık",
       "emptyExchangesList": "Aradığın borsayı bulamadık",
-      "emptyTokenList": "{{chainName}} ağında token bulamadık veya sizde hiç token yok. Lütfen tekrar aramayı deneyin veya başka bir ağ seçin.",
+      "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "İşlem geçmişi yalnızca yerel olarak saklanır ve tarayıcı verilerinizi temizlerseniz silinir.",
       "routeNotFound": "Muhtemel sebepler şunlar olabilir: Düşük likidite, seçilen miktarın çok düşük olması, gaz masrafının çok olması ya da seçilen kombinasyon için rota olmaması.",
       "toAddressIsRequired": "Transfer işlemine devam etmek için hedef cüzdan adresi gereklidir.",
