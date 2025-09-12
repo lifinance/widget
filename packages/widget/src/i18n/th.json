@@ -92,7 +92,7 @@
       "emptyBridgesList": "",
       "emptyChainList": "",
       "emptyExchangesList": "",
-      "emptyTokenList": "เราไม่พบโทเค็นใน {{chainName}} เชนหรือคุณไม่มีโทเค็น. โปรดลองอีกครั้งหรือเลือกเชนอื่น.",
+      "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "ประวัติการแลกเปลี่ยนจะถูกเก็บไว้ในเครื่องเท่านั้นและจะถูกลบหากคุณล้างข้อมูลเบราว์เซอร์ของคุณ.",
       "routeNotFound": "เหตุผลที่อาจเกิดขึ้น : สภาพคล่องต่ำ , จำนวนที่เลือกน้อยเกินไป , ต้นทุนแก็สสูงหรือไม่มีเส้นทางที่ใช้งานได้",
       "toAddressIsRequired": "",
