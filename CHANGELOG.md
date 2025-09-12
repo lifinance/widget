@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.30.6](https://github.com/lifinance/widget/compare/v3.30.5...v3.30.6) (2025-09-12)
+
+
+### Bug Fixes
+
+* reduce maximumFractionDigits to support older iOS ([#548](https://github.com/lifinance/widget/issues/548)) ([03f0ea3](https://github.com/lifinance/widget/commit/03f0ea37ee389ed7cb97bd9bbfb76a828000603a))
+
 ### [3.30.5](https://github.com/lifinance/widget/compare/v3.30.4...v3.30.5) (2025-09-10)
 
 
