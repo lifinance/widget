@@ -2,6 +2,8 @@ import en from '../../i18n/en.json' with { type: 'json' }
 
 export type LanguageResource = typeof en
 
+export { en as enResource }
+
 export type LanguageKey =
   | 'en'
   | 'es'

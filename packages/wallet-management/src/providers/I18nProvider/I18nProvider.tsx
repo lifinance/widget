@@ -3,7 +3,7 @@ import type { FC, PropsWithChildren } from 'react'
 import { useEffect, useMemo } from 'react'
 import { I18nextProvider } from 'react-i18next'
 import { loadLocale } from './i18n.js'
-import type { LanguageKey } from './types.js'
+import { enResource, type LanguageKey } from './types.js'
 
 interface I18nProviderProps {
   locale?: LanguageKey
@@ -19,15 +19,15 @@ export const I18nProvider: FC<PropsWithChildren<I18nProviderProps>> = ({
       fallbackLng: 'en',
       lowerCaseLng: true,
       interpolation: { escapeValue: false },
-      resources: {},
+      resources: {
+        en: {
+          translation: enResource,
+        },
+      },
       detection: {
         caches: [],
       },
       returnEmptyString: false,
-    })
-    // Preload English as fallback resource
-    loadLocale('en').then((englishResource) => {
-      i18n.addResourceBundle('en', 'translation', englishResource, true, true)
     })
     i18n.init()
     return i18n
@@ -37,7 +37,7 @@ export const I18nProvider: FC<PropsWithChildren<I18nProviderProps>> = ({
     const handleLanguageChange = async () => {
       if (locale) {
         if (!i18nInstance.hasResourceBundle(locale, 'translation')) {
-          loadLocale(locale).then((languageResource) => {
+          await loadLocale(locale).then((languageResource) => {
             i18nInstance.addResourceBundle(
               locale,
               'translation',

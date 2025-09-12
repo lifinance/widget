@@ -27,6 +27,8 @@ export type LanguageKey =
 
 export type LanguageResource = typeof en
 
+export { en as enResource }
+
 export type LanguageResources =
   | {
       [K in LanguageKey]?: PartialResource<LanguageResource>
