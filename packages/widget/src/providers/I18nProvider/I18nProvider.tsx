@@ -1,67 +1,36 @@
-import type { i18n } from 'i18next'
 import { createInstance } from 'i18next'
-import { useMemo } from 'react'
+import { startTransition, useEffect, useMemo, useState } from 'react'
 import { I18nextProvider } from 'react-i18next'
-import * as supportedLanguages from '../../i18n/index.js'
 import { useSettings } from '../../stores/settings/useSettings.js'
 import { compactNumberFormatter } from '../../utils/compactNumberFormatter.js'
 import { currencyExtendedFormatter } from '../../utils/currencyExtendedFormatter.js'
 import { deepMerge } from '../../utils/deepMerge.js'
-import { getConfigItemSets, isItemAllowedForSets } from '../../utils/item.js'
 import { percentFormatter } from '../../utils/percentFormatter.js'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
-import type { LanguageKey, LanguageTranslationResources } from './types.js'
+import { loadLocale } from './i18n.js'
+import { enResource, type LanguageKey } from './types.js'
 
 export const I18nProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
-  const { languageResources, languages } = useWidgetConfig()
+  const { languageResources } = useWidgetConfig()
   const { language } = useSettings(['language'])
+  const [isInitialized, setIsInitialized] = useState(false)
 
-  const i18n = useMemo(() => {
-    const languagesConfigSets = getConfigItemSets(
-      languages,
-      (languages) => new Set(languages)
-    )
-    let resources = (Object.keys(supportedLanguages) as LanguageKey[])
-      .filter((lng) => isItemAllowedForSets(lng, languagesConfigSets))
-      .reduce((resources, lng) => {
-        resources[lng] = {
-          translation: languageResources?.[lng]
-            ? (deepMerge(
-                // biome-ignore lint/performance/noDynamicNamespaceImportAccess: TODO: make it dynamic
-                supportedLanguages[lng],
-                languageResources[lng]
-              ) as LanguageTranslationResources)
-            : // biome-ignore lint/performance/noDynamicNamespaceImportAccess: TODO: make it dynamic
-              supportedLanguages[lng],
-        }
-        return resources
-      }, {} as LanguageTranslationResources)
-
-    if (languageResources) {
-      resources = Object.keys(languageResources).reduce((resources, lng) => {
-        if (!resources[lng]) {
-          resources[lng] = {
-            translation: languageResources[lng as LanguageKey]!,
-          }
-        }
-        return resources
-      }, resources)
-    }
-
+  const i18nInstance = useMemo(() => {
     const i18n = createInstance({
-      lng: languages?.default || language,
-      fallbackLng: resources.en
-        ? 'en'
-        : languages?.default ||
-          languages?.allow?.[0] ||
-          Object.keys(resources)?.[0],
+      lng: 'en',
+      fallbackLng: 'en',
       lowerCaseLng: true,
-      interpolation: {
-        escapeValue: false,
+      interpolation: { escapeValue: false },
+      // Preload English statically as a fallback resource
+      resources: {
+        en: {
+          translation: languageResources?.en
+            ? deepMerge(enResource, languageResources?.en)
+            : enResource,
+        },
       },
-      resources,
       detection: {
         caches: [],
       },
@@ -75,7 +44,43 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
     i18n.services.formatter?.addCached('percent', percentFormatter)
 
     return i18n
-  }, [language, languageResources, languages])
+  }, [languageResources?.en])
 
-  return <I18nextProvider i18n={i18n as i18n}>{children}</I18nextProvider>
+  useEffect(() => {
+    const handleLanguageChange = async () => {
+      const locale = language as LanguageKey
+      if (locale) {
+        if (!i18nInstance.hasResourceBundle(locale, 'translation')) {
+          await loadLocale(locale, languageResources?.[locale]).then(
+            (languageResource) => {
+              i18nInstance.addResourceBundle(
+                locale,
+                'translation',
+                languageResource,
+                true,
+                true
+              )
+            }
+          )
+        }
+        if (locale !== i18nInstance.language) {
+          await i18nInstance.changeLanguage(locale)
+        }
+      }
+    }
+    handleLanguageChange()
+    if (!isInitialized) {
+      // Execute in the next tick to let i18nInstance be updated
+      startTransition(() => {
+        setIsInitialized(true)
+      })
+    }
+  }, [language, languageResources, i18nInstance, isInitialized])
+
+  // Do not render until the selected language is initialized
+  if (!isInitialized) {
+    return null
+  }
+
+  return <I18nextProvider i18n={i18nInstance}>{children}</I18nextProvider>
 }
