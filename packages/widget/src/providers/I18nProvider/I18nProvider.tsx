@@ -1,5 +1,5 @@
 import { createInstance } from 'i18next'
-import { useEffect, useMemo } from 'react'
+import { startTransition, useEffect, useMemo, useState } from 'react'
 import { I18nextProvider } from 'react-i18next'
 import { useSettings } from '../../stores/settings/useSettings.js'
 import { compactNumberFormatter } from '../../utils/compactNumberFormatter.js'
@@ -15,6 +15,7 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
 }) => {
   const { languageResources } = useWidgetConfig()
   const { language } = useSettings(['language'])
+  const [isInitialized, setIsInitialized] = useState(false)
 
   const i18nInstance = useMemo(() => {
     const i18n = createInstance({
@@ -22,6 +23,7 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
       fallbackLng: 'en',
       lowerCaseLng: true,
       interpolation: { escapeValue: false },
+      // Preload English statically as a fallback resource
       resources: {
         en: {
           translation: languageResources?.en
@@ -67,7 +69,18 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
       }
     }
     handleLanguageChange()
-  }, [language, languageResources, i18nInstance])
+    if (!isInitialized) {
+      // Execute in the next tick to let i18nInstance be updated
+      startTransition(() => {
+        setIsInitialized(true)
+      })
+    }
+  }, [language, languageResources, i18nInstance, isInitialized])
+
+  // Do not render until the selected language is initialized
+  if (!isInitialized) {
+    return null
+  }
 
   return <I18nextProvider i18n={i18nInstance}>{children}</I18nextProvider>
 }
