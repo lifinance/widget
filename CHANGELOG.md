@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.30.7](https://github.com/lifinance/widget/compare/v3.30.6...v3.30.7) (2025-09-12)
+
+
+### Bug Fixes
+
+* improve SCA permit signature handling ([#549](https://github.com/lifinance/widget/issues/549)) ([55166a2](https://github.com/lifinance/widget/commit/55166a29cb88186ca1939ad8a1dd369c807b5356))
+
 ### [3.30.6](https://github.com/lifinance/widget/compare/v3.30.5...v3.30.6) (2025-09-12)
 
 
