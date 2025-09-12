@@ -25,6 +25,7 @@ export const I18nProvider: FC<PropsWithChildren<I18nProviderProps>> = ({
       },
       returnEmptyString: false,
     })
+    // Preload English as fallback resource
     loadLocale('en').then((englishResource) => {
       i18n.addResourceBundle('en', 'translation', englishResource, true, true)
     })
@@ -35,15 +36,20 @@ export const I18nProvider: FC<PropsWithChildren<I18nProviderProps>> = ({
   useEffect(() => {
     const handleLanguageChange = async () => {
       if (locale) {
-        const languageResource = await loadLocale(locale)
-        i18nInstance.addResourceBundle(
-          locale,
-          'translation',
-          languageResource,
-          true,
-          true
-        )
-        await i18nInstance.changeLanguage(locale)
+        if (!i18nInstance.hasResourceBundle(locale, 'translation')) {
+          loadLocale(locale).then((languageResource) => {
+            i18nInstance.addResourceBundle(
+              locale,
+              'translation',
+              languageResource,
+              true,
+              true
+            )
+          })
+        }
+        if (locale !== i18nInstance.language) {
+          await i18nInstance.changeLanguage(locale)
+        }
       }
     }
     handleLanguageChange()
