@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.30.8](https://github.com/lifinance/widget/compare/v3.30.7...v3.30.8) (2025-09-13)
+
+
+### Bug Fixes
+
+* expose disableMessageSigning option ([8d21779](https://github.com/lifinance/widget/commit/8d21779c57922f766a4eff47f5219331fc1554fb))
+
 ### [3.30.7](https://github.com/lifinance/widget/compare/v3.30.6...v3.30.7) (2025-09-12)
 
 
