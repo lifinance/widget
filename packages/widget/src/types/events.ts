@@ -26,6 +26,7 @@ export enum WidgetEvent {
   SettingUpdated = 'settingUpdated',
   TokenSearch = 'tokenSearch',
   LowAddressActivityConfirmed = 'lowAddressActivityConfirmed',
+  ChainPinned = 'chainPinned',
 }
 
 export type WidgetEvents = {
@@ -47,6 +48,7 @@ export type WidgetEvents = {
   pageEntered: NavigationRouteType
   settingUpdated: SettingUpdated
   tokenSearch: TokenSearch
+  chainPinned: ChainPinned
   [WidgetEvent.LowAddressActivityConfirmed]: {
     address: string
     chainId: number
@@ -107,4 +109,9 @@ export type SettingUpdated<
   oldValue: SettingsProps[K]
   newSettings: SettingsProps
   oldSettings: SettingsProps
+}
+
+export type ChainPinned = {
+  chainId: number
+  pinned: boolean
 }
