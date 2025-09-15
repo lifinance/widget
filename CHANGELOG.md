@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.30.10](https://github.com/lifinance/widget/compare/v3.30.9...v3.30.10) (2025-09-15)
+
+
+### Bug Fixes
+
+* improve insufficient gas error handling ([4fb6c80](https://github.com/lifinance/widget/commit/4fb6c802e7bed7cc89b5b4fe3058df737aea64cf))
+
 ### [3.30.9](https://github.com/lifinance/widget/compare/v3.30.8...v3.30.9) (2025-09-15)
 
 
