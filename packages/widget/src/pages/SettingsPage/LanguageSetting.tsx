@@ -7,12 +7,13 @@ import { useLanguages } from '../../hooks/useLanguages.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { HiddenUI } from '../../types/widget.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import { languageNames } from '../LanguagesPage/constants.js'
 
 export const LanguageSetting: React.FC = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { hiddenUI } = useWidgetConfig()
-  const { selectedLanguageDisplayName } = useLanguages()
+  const { selectedLanguageCode } = useLanguages()
 
   if (hiddenUI?.includes(HiddenUI.Language)) {
     return null
@@ -28,7 +29,9 @@ export const LanguageSetting: React.FC = () => {
       icon={<Language />}
       title={t('language.title')}
     >
-      <CardValue>{selectedLanguageDisplayName}</CardValue>
+      <CardValue>
+        {languageNames[selectedLanguageCode] || selectedLanguageCode}
+      </CardValue>
     </CardButton>
   )
 }
