@@ -118,6 +118,7 @@ export enum HiddenUI {
   LowAddressActivityConfirmation = 'lowAddressActivityConfirmation',
   GasRefuelMessage = 'gasRefuelMessage',
   SearchTokenInput = 'searchTokenInput',
+  InsufficientGasMessage = 'insufficientGasMessage',
 }
 export type HiddenUIType = `${HiddenUI}`
 
