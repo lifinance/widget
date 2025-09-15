@@ -118,6 +118,7 @@ export enum HiddenUI {
   LowAddressActivityConfirmation = 'lowAddressActivityConfirmation',
   GasRefuelMessage = 'gasRefuelMessage',
   SearchTokenInput = 'searchTokenInput',
+  InsufficientGasMessage = 'insufficientGasMessage',
 }
 export type HiddenUIType = `${HiddenUI}`
 
@@ -325,6 +326,15 @@ export interface WidgetConfig {
 
   walletConfig?: WidgetWalletConfig
   sdkConfig?: WidgetSDKConfig
+  /**
+   * A boolean flag indicating whether to disable message signing during execution.
+   * Certain operations require signing EIP-712 messages,
+   * including Permit approvals (ERC-2612) and gasless transactions.
+   * This functionality may not be compatible with all smart accounts or wallets,
+   * in which case this flag should be set to true to disable message signing.
+   * @default false
+   */
+  disableMessageSigning?: boolean
 
   buildUrl?: boolean
   keyPrefix?: string

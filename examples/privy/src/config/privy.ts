@@ -10,7 +10,7 @@ export const privyConfig: PrivyClientConfig = {
     requireUserPasswordOnCreate: true,
     showWalletUIs: true,
   },
-  loginMethods: ['wallet', 'email', 'sms'],
+  loginMethods: ['wallet', 'google', 'twitter', 'passkey', 'email'],
   appearance: {
     walletChainType: 'ethereum-and-solana',
     showWalletLoginFirst: true,

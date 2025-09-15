@@ -4,6 +4,7 @@ import type { RefObject } from 'react'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
+import type { FormType } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { AllChainsAvatar } from './AllChainsAvatar.js'
 import {
@@ -17,6 +18,7 @@ import { ChainListItem } from './ChainListItem.js'
 
 interface VirtualizedChainListProps {
   scrollElementRef: RefObject<HTMLDivElement | null>
+  formType: FormType
   chains: ExtendedChain[]
   onSelect: (chain: ExtendedChain) => void
   selectedChainId?: number
@@ -26,6 +28,7 @@ interface VirtualizedChainListProps {
 }
 
 export const VirtualizedChainList = ({
+  formType,
   chains,
   hasSearchQuery,
   onSelect,
@@ -38,13 +41,20 @@ export const VirtualizedChainList = ({
   const { setFieldValue } = useFieldActions()
   const selectedChainIdRef = useRef(selectedChainId) // Store the initial selected chain ID to scroll to it once chains are loaded
   const hasScrolledRef = useRef(false)
-  const [pinnedChains, setPinnedChain, isAllNetworks, setIsAllNetworks] =
-    useChainOrderStore((state) => [
-      state.pinnedChains,
-      state.setPinnedChain,
-      state.isAllNetworks,
-      state.setIsAllNetworks,
-    ])
+  const [
+    pinnedChains,
+    setPinnedChain,
+    isAllNetworks,
+    setIsAllNetworks,
+    showAllNetworks,
+  ] = useChainOrderStore((state) => [
+    state.pinnedChains,
+    state.setPinnedChain,
+    state[`${formType}IsAllNetworks`],
+    state.setIsAllNetworks,
+    state[`${formType}ShowAllNetworks`],
+  ])
+
   const onPin = useCallback(
     (chainId: number) => {
       setPinnedChain(chainId)
@@ -65,30 +75,30 @@ export const VirtualizedChainList = ({
     return [...pinned, ...rest]
   }, [chains, pinnedChains])
 
-  const showAllNetworks = sortedChains.length > 1 && !hasSearchQuery
+  const showAllNetworksOption = showAllNetworks && !hasSearchQuery
 
   const getItemKey = useCallback(
     (index: number) => {
-      if (showAllNetworks && index === 0) {
+      if (showAllNetworksOption && index === 0) {
         return 'all-chains'
       }
-      const chainIndex = index - (showAllNetworks ? 1 : 0)
+      const chainIndex = index - (showAllNetworksOption ? 1 : 0)
       return `${sortedChains[chainIndex].id}-${index}`
     },
-    [sortedChains, showAllNetworks]
+    [sortedChains, showAllNetworksOption]
   )
 
   const onChainSelect = useCallback(
     (chain: ExtendedChain) => {
-      setIsAllNetworks(false)
+      setIsAllNetworks(false, formType)
       onSelect(chain)
     },
-    [onSelect, setIsAllNetworks]
+    [onSelect, setIsAllNetworks, formType]
   )
 
   const { getVirtualItems, getTotalSize, measure, range, getOffsetForIndex } =
     useVirtualizer({
-      count: sortedChains.length + (showAllNetworks ? 1 : 0), // +1 for the all networks item
+      count: sortedChains.length + (showAllNetworksOption ? 1 : 0), // +1 for the all networks item
       overscan: 3,
       paddingEnd: 0,
       getScrollElement: () => scrollElementRef.current,
@@ -152,9 +162,9 @@ export const VirtualizedChainList = ({
   }, [sortedChains, scrollToIndex, range, isAllNetworks])
 
   const selectAllNetworks = useCallback(() => {
-    setIsAllNetworks(true)
+    setIsAllNetworks(true, formType)
     setFieldValue('tokenSearchFilter', '')
-  }, [setIsAllNetworks, setFieldValue])
+  }, [setIsAllNetworks, setFieldValue, formType])
 
   return (
     <List
@@ -163,7 +173,7 @@ export const VirtualizedChainList = ({
       disablePadding
     >
       {getVirtualItems().map((item) => {
-        if (showAllNetworks && item.index === 0) {
+        if (showAllNetworksOption && item.index === 0) {
           return (
             <ListItem
               key={item.key}
@@ -190,7 +200,7 @@ export const VirtualizedChainList = ({
           )
         }
 
-        const chain = sortedChains[item.index - (showAllNetworks ? 1 : 0)]
+        const chain = sortedChains[item.index - (showAllNetworksOption ? 1 : 0)]
         return (
           <ChainListItem
             key={item.key}

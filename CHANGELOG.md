@@ -2,6 +2,48 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.30.10](https://github.com/lifinance/widget/compare/v3.30.9...v3.30.10) (2025-09-15)
+
+
+### Bug Fixes
+
+* improve insufficient gas error handling ([4fb6c80](https://github.com/lifinance/widget/commit/4fb6c802e7bed7cc89b5b4fe3058df737aea64cf))
+
+### [3.30.9](https://github.com/lifinance/widget/compare/v3.30.8...v3.30.9) (2025-09-15)
+
+
+### Bug Fixes
+
+* add InsufficientGasMessage hiddenUI option ([1775aea](https://github.com/lifinance/widget/commit/1775aeae01e8b45a7b613fde66baaca792b66b31))
+
+### [3.30.8](https://github.com/lifinance/widget/compare/v3.30.7...v3.30.8) (2025-09-13)
+
+
+### Bug Fixes
+
+* expose disableMessageSigning option ([8d21779](https://github.com/lifinance/widget/commit/8d21779c57922f766a4eff47f5219331fc1554fb))
+
+### [3.30.7](https://github.com/lifinance/widget/compare/v3.30.6...v3.30.7) (2025-09-12)
+
+
+### Bug Fixes
+
+* improve SCA permit signature handling ([#549](https://github.com/lifinance/widget/issues/549)) ([55166a2](https://github.com/lifinance/widget/commit/55166a29cb88186ca1939ad8a1dd369c807b5356))
+
+### [3.30.6](https://github.com/lifinance/widget/compare/v3.30.5...v3.30.6) (2025-09-12)
+
+
+### Bug Fixes
+
+* reduce maximumFractionDigits to support older iOS ([#548](https://github.com/lifinance/widget/issues/548)) ([03f0ea3](https://github.com/lifinance/widget/commit/03f0ea37ee389ed7cb97bd9bbfb76a828000603a))
+
+### [3.30.5](https://github.com/lifinance/widget/compare/v3.30.4...v3.30.5) (2025-09-10)
+
+
+### Bug Fixes
+
+* add form type to isAllNetworks ([#546](https://github.com/lifinance/widget/issues/546)) ([d31b1bf](https://github.com/lifinance/widget/commit/d31b1bff26d9891d2adce624d513b86a2d63d851))
+
 ### [3.30.4](https://github.com/lifinance/widget/compare/v3.30.3...v3.30.4) (2025-09-09)
 
 ### [3.30.3](https://github.com/lifinance/widget/compare/v3.30.2...v3.30.3) (2025-09-09)

@@ -1,10 +1,10 @@
 import type { RouteExtended } from '@lifi/sdk'
+import { isDelegationDesignatorCode } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useChain } from '../hooks/useChain.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
 import { HiddenUI, RequiredUI } from '../types/widget.js'
-import { isDelegationDesignatorCode } from '../utils/eip7702.js'
 import { useIsContractAddress } from './useIsContractAddress.js'
 
 export const useToAddressRequirements = (route?: RouteExtended) => {
