@@ -1,6 +1,8 @@
 import type { StateCreator } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { createWithEqualityFn } from 'zustand/traditional'
+import { widgetEvents } from '../../hooks/useWidgetEvents.js'
+import { WidgetEvent } from '../../types/events.js'
 import type { PersistStoreProps } from '../types.js'
 import type { ChainOrderState } from './types.js'
 
@@ -92,9 +94,11 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
           set({ [`${formType}ShowAllNetworks`]: showAllNetworks })
         },
         setPinnedChain: (chainId) => {
+          const currentPinnedChains = get().pinnedChains
+          const wasAlreadyPinned = currentPinnedChains.includes(chainId)
           set((state: ChainOrderState) => {
             const pinnedChains = [...state.pinnedChains]
-            if (pinnedChains.includes(chainId)) {
+            if (wasAlreadyPinned) {
               return {
                 pinnedChains: pinnedChains.filter((id) => id !== chainId),
               }
@@ -103,6 +107,10 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
             return {
               pinnedChains,
             }
+          })
+          widgetEvents.emit(WidgetEvent.ChainPinned, {
+            chainId,
+            pinned: !wasAlreadyPinned,
           })
         },
       }),
