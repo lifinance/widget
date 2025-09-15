@@ -174,6 +174,7 @@
       "exchangeRateUpdateCanceled": "교환 비율 갱신이 취소되었습니다",
       "gasLimitIsTooLow": "가스 한도가 너무 낮습니다",
       "insufficientFunds": "잔고 부족",
+      "insufficientGas": "",
       "rateLimitExceeded": "",
       "signatureRejected": "서명이 필요합니다.",
       "slippageNotMet": "슬리피지 조건을 충족하지 못했습니다.",
