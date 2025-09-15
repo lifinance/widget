@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.30.9](https://github.com/lifinance/widget/compare/v3.30.8...v3.30.9) (2025-09-15)
+
+
+### Bug Fixes
+
+* add InsufficientGasMessage hiddenUI option ([1775aea](https://github.com/lifinance/widget/commit/1775aeae01e8b45a7b613fde66baaca792b66b31))
+
 ### [3.30.8](https://github.com/lifinance/widget/compare/v3.30.7...v3.30.8) (2025-09-13)
 
 
