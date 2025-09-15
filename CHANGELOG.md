@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.30.11](https://github.com/lifinance/widget/compare/v3.30.10...v3.30.11) (2025-09-15)
+
+
+### Bug Fixes
+
+* add chain pinned event ([#552](https://github.com/lifinance/widget/issues/552)) ([7817b03](https://github.com/lifinance/widget/commit/7817b03a0a65899c2a66b545956eaee2c6efdfd4))
+
 ### [3.30.10](https://github.com/lifinance/widget/compare/v3.30.9...v3.30.10) (2025-09-15)
 
 
