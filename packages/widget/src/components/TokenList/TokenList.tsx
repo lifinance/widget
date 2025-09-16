@@ -56,7 +56,6 @@ export const TokenList: FC<TokenListProps> = memo(
           tokens,
         })
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tokenSearchFilter, tokens, emitter])
 
     return (
