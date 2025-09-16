@@ -174,6 +174,7 @@
       "exchangeRateUpdateCanceled": "Mise à jour du taux de change annulée",
       "gasLimitIsTooLow": "La limite de gaz est trop basse.",
       "insufficientFunds": "Fonds insuffisants",
+      "insufficientGas": "",
       "rateLimitExceeded": "",
       "signatureRejected": "Signature requise",
       "slippageNotMet": "Les conditions de l'effet de glissement ne sont pas remplies.",

@@ -1,5 +1,5 @@
 import type { LiFiStep, StepExtended } from '@lifi/sdk'
-import { isRelayerStep } from '@lifi/sdk'
+import { isGaslessStep } from '@lifi/sdk'
 import ArrowForward from '@mui/icons-material/ArrowForward'
 import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
@@ -163,7 +163,7 @@ const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
     ) : null
   }
 
-  const hasRelayerSupport = isRelayerStep(step)
+  const hasGaslessSupport = isGaslessStep(step)
 
   return (
     <Box
@@ -195,7 +195,7 @@ const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
                 <ProtocolStepDetailsLabel
                   step={step}
                   feeConfig={feeConfig}
-                  relayerSupport={hasRelayerSupport}
+                  relayerSupport={hasGaslessSupport}
                 />
               ) : (
                 <SwapStepDetailsLabel step={step} />
