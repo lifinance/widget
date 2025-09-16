@@ -76,8 +76,11 @@ export function WalletProvider({
         }
 
         if (event === 'CONNECT_SUCCESS') {
-          const connectors = appKit.getConnectors('solana')
-          emitter.emit('connect', connectors[0].name)
+          const namespace = appKit.getActiveChainNamespace()
+          if (namespace === 'solana') {
+            const connectors = appKit.getConnectors('solana')
+            emitter.emit('connect', connectors[0].name)
+          }
         }
       })
 
