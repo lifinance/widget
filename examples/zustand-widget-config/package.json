@@ -11,14 +11,14 @@
   "dependencies": {
     "@lifi/widget": "workspace:^",
     "@mui/material": "^7.3.2",
-    "@tanstack/react-query": "^5.87.1",
+    "@tanstack/react-query": "^5.89.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "wagmi": "^2.16.9",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
-    "@types/react": "^19.1.11",
+    "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react": "^5.0.1",
     "globals": "^16.3.0",

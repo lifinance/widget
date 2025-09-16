@@ -1,5 +1,5 @@
 import type { EVMChain, RouteExtended, Token, TokenAmount } from '@lifi/sdk'
-import { ChainType, isRelayerStep } from '@lifi/sdk'
+import { ChainType } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
@@ -73,7 +73,6 @@ export const useGasSufficiency = (route?: RouteExtended) => {
       // Filter out steps that are relayer steps or have primaryType 'Permit' or 'Order'
       const filteredSteps = route.steps.filter(
         (step) =>
-          !isRelayerStep(step) &&
           !step.typedData?.some(
             (t) => t.primaryType === 'Permit' || t.primaryType === 'Order'
           )

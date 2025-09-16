@@ -1,5 +1,5 @@
 import type { RouteExtended } from '@lifi/sdk'
-import { isRelayerStep } from '@lifi/sdk'
+import { isGaslessStep } from '@lifi/sdk'
 import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
 import LocalGasStationRounded from '@mui/icons-material/LocalGasStationRounded'
@@ -71,10 +71,10 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
       ) ?? 0
   }
 
-  const hasRelayerSupport = route.steps.every(isRelayerStep)
+  const hasGaslessSupport = route.steps.every((step) => isGaslessStep(step))
 
   const showIntegratorFeeCollectionDetails =
-    (feeAmountUSD || Number.isFinite(feeConfig?.fee)) && !hasRelayerSupport
+    (feeAmountUSD || Number.isFinite(feeConfig?.fee)) && !hasGaslessSupport
 
   return (
     <Card selectionColor="secondary" {...props}>
@@ -100,7 +100,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
           <FeeBreakdownTooltip
             gasCosts={gasCosts}
             feeCosts={feeCosts}
-            relayerSupport={hasRelayerSupport}
+            relayerSupport={hasGaslessSupport}
           >
             <Box
               onClick={toggleCard}
@@ -116,7 +116,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                 <LocalGasStationRounded fontSize="inherit" />
               </IconTypography>
               <Typography
-                data-value={hasRelayerSupport ? 0 : combinedFeesUSD}
+                data-value={combinedFeesUSD}
                 sx={{
                   fontSize: 14,
                   color: 'text.primary',
@@ -124,7 +124,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                   lineHeight: 1.429,
                 }}
               >
-                {hasRelayerSupport || !combinedFeesUSD
+                {!combinedFeesUSD
                   ? t('main.fees.free')
                   : t('format.currency', { value: combinedFeesUSD })}
               </Typography>
@@ -156,13 +156,13 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
             <Typography variant="body2">{t('main.fees.network')}</Typography>
             <FeeBreakdownTooltip
               gasCosts={gasCosts}
-              relayerSupport={hasRelayerSupport}
+              relayerSupport={hasGaslessSupport}
             >
               <Typography
                 variant="body2"
                 sx={{ fontWeight: 600, cursor: 'help' }}
               >
-                {hasRelayerSupport || !gasCostUSD
+                {!gasCostUSD
                   ? t('main.fees.free')
                   : t('format.currency', {
                       value: gasCostUSD,

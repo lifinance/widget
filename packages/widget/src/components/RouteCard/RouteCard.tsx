@@ -1,5 +1,4 @@
 import type { TokenAmount } from '@lifi/sdk'
-import { isRelayerStep } from '@lifi/sdk'
 import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
 import { Box, Collapse } from '@mui/material'
@@ -8,6 +7,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { HiddenUI } from '../../types/widget.js'
+import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
 import type { CardProps } from '../Card/Card.js'
 import { Card } from '../Card/Card.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
@@ -53,8 +53,8 @@ export const RouteCard: React.FC<
     (tag) => tag === 'CHEAPEST' || tag === 'FASTEST'
   )
   const tags: string[] = mainTag ? [mainTag] : []
-  const hasRelayerSupport = route.steps.every(isRelayerStep)
-  if (hasRelayerSupport) {
+  const { combinedFeesUSD } = getAccumulatedFeeCostsBreakdown(route)
+  if (!combinedFeesUSD) {
     tags.push('GASLESS')
   }
 
