@@ -64,17 +64,20 @@ export function WalletProvider({
   useEffect(() => {
     const appKit = modal.current
     if (appKit) {
-      const unsubscribeEvents = appKit.subscribeEvents((event) => {
-        const namepsace = appKit.getActiveChainNamespace()
-        if (namepsace === 'solana') {
-          if (event.data.event === 'DISCONNECT_SUCCESS') {
+      const unsubscribeEvents = appKit.subscribeEvents((eventState) => {
+        const { data } = eventState
+        const { event } = data
+
+        if (event === 'DISCONNECT_SUCCESS') {
+          const { namespace } = data.properties
+          if (namespace === 'solana' || namespace === 'all') {
             emitter.emit('disconnect')
           }
+        }
 
-          if (event.data.event === 'CONNECT_SUCCESS') {
-            const connectors = appKit.getConnectors(namepsace)
-            emitter.emit('connect', connectors[0].name)
-          }
+        if (event === 'CONNECT_SUCCESS') {
+          const connectors = appKit.getConnectors('solana')
+          emitter.emit('connect', connectors[0].name)
         }
       })
 
