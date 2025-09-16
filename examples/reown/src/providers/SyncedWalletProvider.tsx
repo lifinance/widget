@@ -79,6 +79,7 @@ export function WalletProvider({
           const namespace = appKit.getActiveChainNamespace()
           if (namespace === 'solana') {
             const connectors = appKit.getConnectors('solana')
+            // We use the first connector in the list as there's no way to get the active connector from appKit yet.
             emitter.emit('connect', connectors[0].name)
           }
         }
