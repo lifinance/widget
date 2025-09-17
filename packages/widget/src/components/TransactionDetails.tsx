@@ -200,9 +200,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
               }}
             >
               <Typography variant="body2">
-                {feeConfig?.name
-                  ? t('main.fees.integrator', { tool: feeConfig.name })
-                  : t('main.fees.defaultIntegrator')}
+                {feeConfig?.name || t('main.fees.defaultIntegrator')}
                 {feeConfig?.showFeePercentage && (
                   <> ({t('format.percent', { value: feePercentage })})</>
                 )}
