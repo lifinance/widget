@@ -11,7 +11,7 @@ import { metadata, projectId } from '../config/appkit'
 import { chainToAppKitNetworks, getChainImagesConfig } from '../utils/appkit'
 import { emitter, SolanaProvider } from './SolanaProvider'
 
-export function WalletProvider({
+export function ReownEVMWalletProvider({
   children,
   chains,
 }: {
@@ -96,11 +96,7 @@ export function WalletProvider({
   )
 }
 
-export function SyncedWalletProvider({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export function WalletProvider({ children }: { children: React.ReactNode }) {
   // fetch available chains before rendering the WalletProvider
   const { chains, isLoading } = useAvailableChains()
 
@@ -113,8 +109,8 @@ export function SyncedWalletProvider({
   }
 
   return (
-    <WalletProvider chains={chains}>
+    <ReownEVMWalletProvider chains={chains}>
       <SolanaProvider>{children}</SolanaProvider>
-    </WalletProvider>
+    </ReownEVMWalletProvider>
   )
 }

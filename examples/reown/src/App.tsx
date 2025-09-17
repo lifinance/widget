@@ -1,7 +1,7 @@
 import { ChainId, LiFiWidget } from '@lifi/widget'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { WalletHeader } from './components/WalletHeader'
-import { SyncedWalletProvider } from './providers/SyncedWalletProvider'
+import { WalletProvider } from './providers/WalletProvider'
 
 const queryClient = new QueryClient()
 
@@ -9,7 +9,7 @@ function App() {
   return (
     <main>
       <QueryClientProvider client={queryClient}>
-        <SyncedWalletProvider>
+        <WalletProvider>
           {/* Rest of your app goes here */}
           <WalletHeader />
           <LiFiWidget
@@ -32,7 +32,7 @@ function App() {
               },
             }}
           />
-        </SyncedWalletProvider>
+        </WalletProvider>
       </QueryClientProvider>
     </main>
   )

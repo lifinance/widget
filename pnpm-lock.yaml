@@ -1277,16 +1277,16 @@ importers:
         specifier: ^0.18.0
         version: 0.18.0(@tanstack/react-query@5.89.0(react@19.1.1))(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(babel-plugin-macros@3.1.0)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2)
       '@reown/appkit':
-        specifier: ^1.8.6
+        specifier: ^1.8.5
         version: 1.8.6(@react-native-async-storage/async-storage@1.24.0(react-native@0.81.4(@babel/core@7.28.4)(@types/react@19.1.13)(bufferutil@4.0.9)(react@19.1.1)(utf-8-validate@5.0.10)))(@types/react@19.1.13)(bufferutil@4.0.9)(db0@0.3.2)(encoding@0.1.13)(ioredis@5.7.0)(react@19.1.1)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@3.25.76)
       '@reown/appkit-adapter-solana':
-        specifier: ^1.8.6
+        specifier: ^1.8.5
         version: 1.8.6(@react-native-async-storage/async-storage@1.24.0(react-native@0.81.4(@babel/core@7.28.4)(@types/react@19.1.13)(bufferutil@4.0.9)(react@19.1.1)(utf-8-validate@5.0.10)))(@types/react@19.1.13)(bufferutil@4.0.9)(db0@0.3.2)(encoding@0.1.13)(fastestsmallesttextencoderdecoder@1.0.22)(ioredis@5.7.0)(react@19.1.1)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@3.25.76)
       '@reown/appkit-adapter-wagmi':
-        specifier: ^1.8.6
+        specifier: ^1.8.5
         version: 1.8.6(f441a374125d0c24242ff7b5bb2a1333)
       '@reown/appkit-common':
-        specifier: ^1.8.6
+        specifier: ^1.8.5
         version: 1.8.6(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@3.25.76)
       '@solana/wallet-adapter-base':
         specifier: ^0.9.27
@@ -1411,7 +1411,7 @@ importers:
         specifier: ^11.14.1
         version: 11.14.1(@emotion/react@11.14.0(@types/react@19.1.13)(react@19.1.1))(@types/react@19.1.13)(react@19.1.1)
       '@lifi/widget-playground':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../widget-playground
       '@mui/material':
         specifier: ^7.3.2
