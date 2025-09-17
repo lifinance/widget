@@ -1,3 +1,4 @@
+import type { Config as PortoConfig } from 'porto/Porto'
 import { createClient, http } from 'viem'
 import { mainnet } from 'viem/chains'
 import type { Config, CreateConnectorFn } from 'wagmi'
@@ -21,7 +22,7 @@ export interface DefaultWagmiConfigProps {
   coinbase?: CoinbaseWalletParameters
   metaMask?: MetaMaskParameters
   baseAccount?: BaseAccountParameters
-  porto?: any
+  porto?: Partial<PortoConfig>
   wagmiConfig?: {
     ssr?: boolean
     multiInjectedProviderDiscovery?: boolean
@@ -86,12 +87,13 @@ export function createDefaultWagmiConfig(
     connectors.unshift(safe())
   }
 
+  // Retrieve the ID of the most recently connected wallet connector from storage
+  const recentConnectorId = localStorage?.getItem(
+    `${config.storage?.key}.recentConnectorId`
+  )
+
   // Check if WalletConnect properties exist in the props
   if (props?.walletConnect) {
-    // Retrieve the ID of the most recently connected wallet connector from storage
-    const recentConnectorId = localStorage?.getItem(
-      `${config.storage?.key}.recentConnectorId`
-    )
     // If WalletConnect is the most recently connected wallet or lazy loading is disabled,
     // add the WalletConnect connector to the beginning of the connectors list
     if (recentConnectorId?.includes?.('walletConnect') || !props.lazy) {
@@ -100,40 +102,26 @@ export function createDefaultWagmiConfig(
   }
 
   if (props?.coinbase && !isWalletInstalled('coinbase')) {
-    const recentConnectorId = localStorage?.getItem(
-      `${config.storage?.key}.recentConnectorId`
-    )
     if (recentConnectorId?.includes?.('coinbaseWalletSDK') || !props.lazy) {
       connectors.unshift(createCoinbaseConnector(props.coinbase))
     }
   }
 
   if (props?.metaMask && !isWalletInstalled('metaMask')) {
-    const recentConnectorId = localStorage?.getItem(
-      `${config.storage?.key}.recentConnectorId`
-    )
     if (recentConnectorId?.includes?.('metaMaskSDK') || !props.lazy) {
       connectors.unshift(createMetaMaskConnector(props.metaMask))
     }
   }
 
-  if (props?.baseAccount && !isWalletInstalled('baseAccount')) {
-    const recentConnectorId = localStorage?.getItem(
-      `${config.storage?.key}.recentConnectorId`
-    )
+  if (props?.baseAccount) {
     if (recentConnectorId?.includes?.('baseAccount') || !props.lazy) {
       connectors.unshift(createBaseAccountConnector(props.baseAccount))
     }
   }
 
-  //if (!isWalletInstalled('porto')) {
-  const recentConnectorId = localStorage?.getItem(
-    `${config.storage?.key}.recentConnectorId`
-  )
   if (recentConnectorId?.includes?.('porto') || !props?.lazy) {
     connectors.unshift(createPortoConnector(props?.porto))
   }
-  //}
 
   return {
     config,

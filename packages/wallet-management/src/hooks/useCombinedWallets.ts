@@ -234,7 +234,7 @@ export const useCombinedWallets = () => {
           connector.id.toLowerCase().includes('porto')
         )
       ) {
-        evmConnectors.unshift(createPortoConnector())
+        evmConnectors.unshift(createPortoConnector(walletConfig?.porto))
       }
 
       const includeEcosystem = (chainType: ChainType) =>
