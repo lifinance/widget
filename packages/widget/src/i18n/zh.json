@@ -198,7 +198,7 @@
   "tooltip": {
     "deselectAll": "取消全选",
     "estimatedTime": "",
-    "feeCollection": "该手续费适用于选定的代币对，保证使用 {{tool}} 交易顺畅。",
+    "feeCollection": "",
     "minReceived": "在签署兑换或者跨链交易之前， 预估的最低代币数量可能会变化，对于两步交易，这适用于第二步交易签署之前。",
     "notFound": {
       "text": "我们找不到这个页面。",
@@ -225,7 +225,6 @@
       "relayerService": "",
       "estimated": "预估总费用",
       "free": "",
-      "integrator": "{{tool}} 费用",
       "network": "网络费用",
       "paid": "已支付的费用",
       "provider": "供应商费用"
