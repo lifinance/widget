@@ -36,7 +36,7 @@ export const widgetBaseConfig: WidgetConfig = {
       enableChainSidebar: true,
     },
   },
-  integrator: 'fee-demo',
+  integrator: 'li.fi-playground',
   // fee: 0.01,
   // feeConfig: {
   //   name: 'DApp fee',
