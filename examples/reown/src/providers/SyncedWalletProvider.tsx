@@ -1,4 +1,3 @@
-import { useSyncWagmiConfig } from '@lifi/wallet-management'
 import { ChainType, type ExtendedChain, useAvailableChains } from '@lifi/widget'
 import { bitcoin, solana } from '@reown/appkit/networks'
 import { type AppKit, createAppKit } from '@reown/appkit/react'
@@ -59,8 +58,6 @@ export function WalletProvider({
 
   const { wagmiConfig } = wagmi.current
 
-  useSyncWagmiConfig(wagmiConfig, [], chains)
-
   useEffect(() => {
     const appKit = modal.current
     if (appKit) {
@@ -93,7 +90,7 @@ export function WalletProvider({
   }, [])
 
   return (
-    <WagmiProvider config={wagmiConfig} reconnectOnMount={false}>
+    <WagmiProvider config={wagmiConfig} reconnectOnMount={true}>
       {children}
     </WagmiProvider>
   )
