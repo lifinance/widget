@@ -1,6 +1,8 @@
 import { useAccount } from '@lifi/wallet-management'
 import { useMemo } from 'react'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
+import { HiddenUI } from '../types/widget.js'
 import { useAvailableChains } from './useAvailableChains.js'
 import { useGasRecommendation } from './useGasRecommendation.js'
 import { useIsContractAddress } from './useIsContractAddress.js'
@@ -8,7 +10,7 @@ import { useTokenBalance } from './useTokenBalance.js'
 
 export const useGasRefuel = () => {
   const { getChainById } = useAvailableChains()
-
+  const { hiddenUI } = useWidgetConfig()
   const [fromChainId, fromTokenAddress, toChainId, toAddress] = useFieldValues(
     'fromChain',
     'fromToken',
@@ -56,7 +58,8 @@ export const useGasRefuel = () => {
       !gasRecommendation?.recommended ||
       !destinationNativeToken ||
       !isChainTypeSatisfied ||
-      !isToAddressSatisfied
+      !isToAddressSatisfied ||
+      hiddenUI?.includes(HiddenUI.GasRefuelMessage)
     ) {
       return false
     }
@@ -74,6 +77,7 @@ export const useGasRefuel = () => {
     isToAddressSatisfied,
     destinationNativeToken,
     toChainId,
+    hiddenUI,
   ])
 
   return {
