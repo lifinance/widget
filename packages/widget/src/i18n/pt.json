@@ -198,7 +198,7 @@
   "tooltip": {
     "deselectAll": "Desmarcar tudo",
     "estimatedTime": "Tempo estimado para completar a transação de conversão ou ponte, excluindo a troca de rede e aprovação de token.",
-    "feeCollection": "A taxa é aplicada aos pares de tokens selecionados e garante a melhor experiência com {{tool}}.",
+    "feeCollection": "",
     "minReceived": "O valor mínimo estimado pode ser alterado até que a transação de conversão/ponte seja assinada. Para transferências em duas etapas, isto aplica-se até que a segunda etapa da transação seja assinada.",
     "notFound": {
       "text": "Não conseguimos encontrar esta página.",
@@ -225,7 +225,6 @@
       "relayerService": "Serviço sem necessidade de gás",
       "estimated": "custos estimados",
       "free": "Gratuito",
-      "integrator": "Taxa da(o) {{tool}}",
       "network": "Custo da rede",
       "paid": "custos pagos",
       "provider": "Taxa de provedor"
