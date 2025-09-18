@@ -2,6 +2,7 @@ import type {
   BaseToken,
   ChainType,
   ContractCall,
+  ExecutionOptions,
   ExtendedChain,
   Order,
   RouteExtended,
@@ -20,8 +21,10 @@ import type {
   Theme,
 } from '@mui/material'
 import type { TypographyVariantsOptions } from '@mui/material/styles'
+import type { Config as PortoConfig } from 'porto/Porto'
 import type { CSSProperties, FC, ReactNode, RefObject } from 'react'
 import type {
+  BaseAccountParameters,
   CoinbaseWalletParameters,
   MetaMaskParameters,
   WalletConnectParameters,
@@ -138,6 +141,8 @@ export interface WidgetWalletConfig {
   walletConnect?: WalletConnectParameters
   coinbase?: CoinbaseWalletParameters
   metaMask?: MetaMaskParameters
+  baseAccount?: BaseAccountParameters
+  porto?: Partial<PortoConfig>
   /**
    * Determines whether the widget should provide partial wallet management functionality.
    *
@@ -164,6 +169,10 @@ export interface WidgetSDKConfig
     | 'widgetVersion'
   > {
   routeOptions?: Omit<RouteOptions, 'bridges' | 'exchanges'>
+  executionOptions?: Pick<
+    ExecutionOptions,
+    'disableMessageSigning' | 'updateTransactionRequestHook'
+  >
 }
 
 export interface WidgetContractTool {
@@ -326,15 +335,6 @@ export interface WidgetConfig {
 
   walletConfig?: WidgetWalletConfig
   sdkConfig?: WidgetSDKConfig
-  /**
-   * A boolean flag indicating whether to disable message signing during execution.
-   * Certain operations require signing EIP-712 messages,
-   * including Permit approvals (ERC-2612) and gasless transactions.
-   * This functionality may not be compatible with all smart accounts or wallets,
-   * in which case this flag should be set to true to disable message signing.
-   * @default false
-   */
-  disableMessageSigning?: boolean
 
   buildUrl?: boolean
   keyPrefix?: string

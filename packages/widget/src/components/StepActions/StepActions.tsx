@@ -363,11 +363,10 @@ const ProtocolStepDetailsLabel: React.FC<
   return (
     <StepLabelTypography>
       {step.toolDetails.key === 'feeCollection'
-        ? feeConfig?.name
-          ? t('main.fees.integrator', { tool: feeConfig.name })
-          : relayerSupport
+        ? feeConfig?.name ||
+          (relayerSupport
             ? t('main.fees.relayerService')
-            : t('main.fees.defaultIntegrator')
+            : t('main.fees.defaultIntegrator'))
         : step.toolDetails.key === 'gasZip'
           ? t('main.refuelStepDetails', {
               tool: step.toolDetails.name,

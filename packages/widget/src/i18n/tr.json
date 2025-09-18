@@ -198,7 +198,7 @@
   "tooltip": {
     "deselectAll": "Tüm seçimi kaldır",
     "estimatedTime": "",
-    "feeCollection": "Ücret, seçilen token çiftlerine uygulanır ve {{tool}} ile en iyi deneyimi sağlar.",
+    "feeCollection": "",
     "minReceived": "Takas/köprüleme işlemi imzalanana kadar tahmini minimum tutar değişebilir. 2 adımlı transferlerde bu durum, ikinci adım işlemi imzalanana kadar geçerlidir.",
     "notFound": {
       "text": "Aradığınız sayfayı bulamadık.",
@@ -225,7 +225,6 @@
       "relayerService": "",
       "estimated": "tahmini işlem ücretleri",
       "free": "",
-      "integrator": "{{tool}} ücreti",
       "network": "Ağ maliyeti",
       "paid": "ödenmiş ücretler",
       "provider": "Sağlayıcı ücreti"

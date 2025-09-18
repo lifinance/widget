@@ -38,6 +38,12 @@ export const widgetBaseConfig: WidgetConfig = {
   },
   integrator: 'li.fi-playground',
   // fee: 0.01,
+  // feeConfig: {
+  //   name: 'DApp fee',
+  //   fee: 0.01,
+  //   showFeePercentage: true,
+  //   showFeeTooltip: true,
+  // },
   // useRecommendedRoute: true,
   useRelayerRoutes: true,
   buildUrl: true,
