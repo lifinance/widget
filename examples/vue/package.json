@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/widget": "^3.30.13",
+    "@lifi/widget": "^3.31.0",
     "veaury": "^2.6.3",
     "vue": "^3.5.21"
   },
