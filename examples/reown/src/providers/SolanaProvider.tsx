@@ -1,4 +1,6 @@
-import type { Adapter, WalletName } from '@solana/wallet-adapter-base'
+import { useAppKitAccount } from '@reown/appkit/react'
+import type { WalletName } from '@reown/appkit-adapter-solana/react'
+import type { Adapter } from '@solana/wallet-adapter-base'
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
 import {
   ConnectionProvider,
@@ -8,6 +10,7 @@ import {
 import { clusterApiUrl } from '@solana/web3.js'
 import mitt, { type Emitter } from 'mitt'
 import { type FC, type PropsWithChildren, useEffect } from 'react'
+import { appKit } from '../config/appkit'
 
 const endpoint = clusterApiUrl(WalletAdapterNetwork.Mainnet)
 /**
@@ -40,15 +43,18 @@ export const SolanaProvider: FC<PropsWithChildren> = ({ children }) => {
 }
 
 export const SolanaReownHandler: FC = () => {
+  const account = useAppKitAccount({ namespace: 'solana' })
+
   const { disconnect, select } = useWallet()
+
   useEffect(() => {
-    emitter.on('connect', async (connectorName) => {
-      select(connectorName as WalletName)
-    })
-    emitter.on('disconnect', async () => {
-      await disconnect()
-    })
-    return () => emitter.all.clear()
-  }, [disconnect, select])
+    if (account.isConnected) {
+      const connectors = appKit.getConnectors('solana')
+      select(connectors[0].name as WalletName)
+    } else {
+      disconnect()
+    }
+  }, [account, disconnect, select])
+
   return null
 }

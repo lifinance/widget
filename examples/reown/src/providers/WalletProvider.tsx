@@ -1,93 +1,29 @@
-import { ChainType, type ExtendedChain, useAvailableChains } from '@lifi/widget'
-import { bitcoin, solana } from '@reown/appkit/networks'
-import { type AppKit, createAppKit } from '@reown/appkit/react'
-import { BitcoinAdapter } from '@reown/appkit-adapter-bitcoin'
-import { SolanaAdapter } from '@reown/appkit-adapter-solana'
-import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
-import type { AppKitNetwork } from '@reown/appkit-common'
-import { useEffect, useRef } from 'react'
+import { useSyncWagmiConfig } from '@lifi/wallet-management'
+import { ChainType, useAvailableChains } from '@lifi/widget'
+import { useEffect } from 'react'
 import { WagmiProvider } from 'wagmi'
-import { metadata, projectId } from '../config/appkit'
-import { chainToAppKitNetworks, getChainImagesConfig } from '../utils/appkit'
-import { emitter, SolanaProvider } from './SolanaProvider'
+import { appKit, wagmiAdapter } from '../config/appkit'
+import { chainToAppKitNetworks } from '../utils/appkit'
+import { SolanaProvider } from './SolanaProvider'
+
+const { wagmiConfig } = wagmiAdapter
 
 export function ReownEVMWalletProvider({
   children,
-  chains,
 }: {
   children: React.ReactNode
-  chains: ExtendedChain[]
 }) {
-  const wagmi = useRef<WagmiAdapter | undefined>(undefined)
-  const modal = useRef<AppKit | undefined>(undefined)
-
-  if (!wagmi.current || !modal.current) {
-    const networks: [AppKitNetwork, ...AppKitNetwork[]] = [solana, bitcoin]
-    const evmChains = chains.filter(
-      (chain) => chain.chainType === ChainType.EVM
-    )
-    const evmNetworks = chainToAppKitNetworks(evmChains)
-    networks.push(...evmNetworks)
-
-    const chainImages = getChainImagesConfig(evmChains)
-
-    const wagmiAdapter = new WagmiAdapter({
-      networks: evmNetworks,
-      projectId,
-      ssr: true,
-    })
-
-    const solanaWeb3JsAdapter = new SolanaAdapter()
-
-    const bitcoinAdapter = new BitcoinAdapter({
-      projectId,
-    })
-
-    const appKit = createAppKit({
-      adapters: [wagmiAdapter, solanaWeb3JsAdapter, bitcoinAdapter],
-      networks,
-      projectId,
-      metadata,
-      chainImages,
-      themeMode: 'light',
-    })
-
-    wagmi.current = wagmiAdapter
-    modal.current = appKit
-  }
-
-  const { wagmiConfig } = wagmi.current
+  const { chains } = useAvailableChains()
 
   useEffect(() => {
-    const appKit = modal.current
-    if (appKit) {
-      const unsubscribeEvents = appKit.subscribeEvents((eventState) => {
-        const { data } = eventState
-        const { event } = data
+    const evmChains = chains?.filter(
+      (chain) => chain.chainType === ChainType.EVM
+    )
+    const evmNetworks = chainToAppKitNetworks(evmChains || [])
+    evmNetworks.map((network) => appKit.addNetwork('eip155', network))
+  }, [chains])
 
-        if (event === 'DISCONNECT_SUCCESS') {
-          const { namespace } = data.properties
-          if (namespace === 'solana' || namespace === 'all') {
-            emitter.emit('disconnect')
-          }
-        }
-
-        if (event === 'CONNECT_SUCCESS') {
-          const namespace = appKit.getActiveChainNamespace()
-          if (namespace === 'solana') {
-            const connectors = appKit.getConnectors('solana')
-            // We use the first connector in the list as there's no way to get the active connector from appKit yet.
-            emitter.emit('connect', connectors[0].name)
-          }
-        }
-      })
-
-      return () => {
-        emitter.emit('disconnect')
-        unsubscribeEvents()
-      }
-    }
-  }, [])
+  useSyncWagmiConfig(wagmiConfig, [], chains)
 
   return (
     <WagmiProvider config={wagmiConfig} reconnectOnMount={true}>
@@ -97,19 +33,8 @@ export function ReownEVMWalletProvider({
 }
 
 export function WalletProvider({ children }: { children: React.ReactNode }) {
-  // fetch available chains before rendering the WalletProvider
-  const { chains, isLoading } = useAvailableChains()
-
-  if (!chains || isLoading) {
-    return null
-  }
-
-  if (!chains.length) {
-    return null
-  }
-
   return (
-    <ReownEVMWalletProvider chains={chains}>
+    <ReownEVMWalletProvider>
       <SolanaProvider>{children}</SolanaProvider>
     </ReownEVMWalletProvider>
   )
