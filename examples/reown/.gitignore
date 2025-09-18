@@ -1,5 +1,6 @@
 # environment
 .env
+.env.prod
 
 # Logs
 logs

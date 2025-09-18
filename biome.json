@@ -47,7 +47,8 @@
       "suspicious": {
         "noConsole": {
           "level": "error",
-          "options": { "allow": ["warn", "error"] }
+          "options": { "allow": ["warn", "error"] },
+          "fix": "none"
         },
         "noExplicitAny": "off",
         "noArrayIndexKey": "off"

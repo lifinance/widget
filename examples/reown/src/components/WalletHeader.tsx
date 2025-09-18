@@ -14,7 +14,6 @@ export function WalletHeader() {
         LI.FI Widget + Reown AppKit Example
       </Typography>
       <Box display="flex" alignItems="center">
-        {/* @ts-expect-error msg */}
         <appkit-button />
       </Box>
     </Box>

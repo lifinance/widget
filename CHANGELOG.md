@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.31.0](https://github.com/lifinance/widget/compare/v3.30.13...v3.31.0) (2025-09-18)
+
+
+### Features
+
+* add porto ([#538](https://github.com/lifinance/widget/issues/538)) ([687c0b4](https://github.com/lifinance/widget/commit/687c0b4c14e890a3dbab932cdfecae853809b446))
+
+
+### Bug Fixes
+
+* simplify fee display logic and update tooltip text ([#558](https://github.com/lifinance/widget/issues/558)) ([4b74af0](https://github.com/lifinance/widget/commit/4b74af0ca0fdde74c2eddc3b6f212e78f89d721a))
+
+### [3.30.13](https://github.com/lifinance/widget/compare/v3.30.12...v3.30.13) (2025-09-16)
+
+### [3.30.12](https://github.com/lifinance/widget/compare/v3.30.11...v3.30.12) (2025-09-16)
+
+
+### Bug Fixes
+
+* adjust gasless handling ([1514285](https://github.com/lifinance/widget/commit/15142853928b9203f9acb5888df138cd372e753a))
+* don't request gas recommendation when refuel is disabled ([d7bb69e](https://github.com/lifinance/widget/commit/d7bb69eb3f223e234a8c762e3c7d1af6d8084753))
+
+### [3.30.11](https://github.com/lifinance/widget/compare/v3.30.10...v3.30.11) (2025-09-15)
+
+
+### Bug Fixes
+
+* add chain pinned event ([#552](https://github.com/lifinance/widget/issues/552)) ([7817b03](https://github.com/lifinance/widget/commit/7817b03a0a65899c2a66b545956eaee2c6efdfd4))
+
 ### [3.30.10](https://github.com/lifinance/widget/compare/v3.30.9...v3.30.10) (2025-09-15)
 
 

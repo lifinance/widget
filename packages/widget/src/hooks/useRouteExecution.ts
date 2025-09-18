@@ -35,7 +35,7 @@ export const useRouteExecution = ({
   const queryClient = useQueryClient()
   const { account } = useAccount()
   const resumedAfterMount = useRef(false)
-  const { keyPrefix, disableMessageSigning } = useWidgetConfig()
+  const { keyPrefix, sdkConfig } = useWidgetConfig()
   const emitter = useWidgetEvents()
   const routeExecutionStoreContext = useRouteExecutionStoreContext()
   const routeExecution = useRouteExecutionStore(
@@ -132,7 +132,7 @@ export const useRouteExecution = ({
         acceptExchangeRateUpdateHook,
         infiniteApproval: false,
         executeInBackground,
-        disableMessageSigning,
+        ...sdkConfig?.executionOptions,
       })
     },
     onMutate: () => {

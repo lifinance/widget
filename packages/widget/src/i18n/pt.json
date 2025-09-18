@@ -92,7 +92,7 @@
       "emptyBridgesList": "Não conseguimos encontrar nenhuma ponte que corresponda à sua pesquisa",
       "emptyChainList": "Não conseguimos encontrar nenhuma rede que corresponda à sua pesquisa",
       "emptyExchangesList": "Não conseguimos encontrar nenhuma corretora que corresponda à sua pesquisa",
-      "emptyTokenListAllNetworks": "",
+      "emptyTokenListAllNetworks": "Não conseguimos encontrar nenhum token. Por favor, busque por endereço de contrato se o token não aparecer, ou tente selecionar uma cadeia diferente.",
       "emptyTransactionHistory": "O histórico de transações é armazenado apenas localmente e será excluído se você limpar os dados do seu navegador.",
       "routeNotFound": "Razões para isso podem ser: baixa liquidez, valor selecionado é muito baixo, os custos com gás são muito elevados ou não há rotas para a combinação selecionada.",
       "toAddressIsRequired": "O endereço da carteira de destino é necessário para continuar com a transferência.",
@@ -174,6 +174,7 @@
       "exchangeRateUpdateCanceled": "Atualização da taxa de conversão cancelada",
       "gasLimitIsTooLow": "O limite de gás é muito baixo",
       "insufficientFunds": "Saldo insuficiente",
+      "insufficientGas": "Saldo insuficiente",
       "rateLimitExceeded": "Limite de tentativas excedido",
       "signatureRejected": "Necessário assinatura",
       "slippageNotMet": "Condições de tolerância a discrepâncias não foram atendidas",
@@ -197,7 +198,7 @@
   "tooltip": {
     "deselectAll": "Desmarcar tudo",
     "estimatedTime": "Tempo estimado para completar a transação de conversão ou ponte, excluindo a troca de rede e aprovação de token.",
-    "feeCollection": "A taxa é aplicada aos pares de tokens selecionados e garante a melhor experiência com {{tool}}.",
+    "feeCollection": "",
     "minReceived": "O valor mínimo estimado pode ser alterado até que a transação de conversão/ponte seja assinada. Para transferências em duas etapas, isto aplica-se até que a segunda etapa da transação seja assinada.",
     "notFound": {
       "text": "Não conseguimos encontrar esta página.",
@@ -224,7 +225,6 @@
       "relayerService": "Serviço sem necessidade de gás",
       "estimated": "custos estimados",
       "free": "Gratuito",
-      "integrator": "Taxa da(o) {{tool}}",
       "network": "Custo da rede",
       "paid": "custos pagos",
       "provider": "Taxa de provedor"

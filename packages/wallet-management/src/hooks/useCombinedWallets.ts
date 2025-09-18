@@ -18,6 +18,7 @@ import { defaultWalletConnectConfig } from '../config/walletConnect.js'
 import { createBaseAccountConnector } from '../connectors/baseAccount.js'
 import { createCoinbaseConnector } from '../connectors/coinbase.js'
 import { createMetaMaskConnector } from '../connectors/metaMask.js'
+import { createPortoConnector } from '../connectors/porto.js'
 import type { CreateConnectorFnExtended } from '../connectors/types.js'
 import { createWalletConnectConnector } from '../connectors/walletConnect.js'
 import { useWalletManagementConfig } from '../providers/WalletManagementProvider/WalletManagementContext.js'
@@ -227,6 +228,13 @@ export const useCombinedWallets = () => {
             walletConfig?.baseAccount ?? defaultBaseAccountConfig
           )
         )
+      }
+      if (
+        !evmConnectors.some((connector) =>
+          connector.id.toLowerCase().includes('porto')
+        )
+      ) {
+        evmConnectors.unshift(createPortoConnector(walletConfig?.porto))
       }
 
       const includeEcosystem = (chainType: ChainType) =>

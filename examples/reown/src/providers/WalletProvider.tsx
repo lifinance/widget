@@ -1,4 +1,3 @@
-import { useSyncWagmiConfig } from '@lifi/wallet-management'
 import { ChainType, type ExtendedChain, useAvailableChains } from '@lifi/widget'
 import { bitcoin, solana } from '@reown/appkit/networks'
 import { type AppKit, createAppKit } from '@reown/appkit/react'
@@ -12,7 +11,7 @@ import { metadata, projectId } from '../config/appkit'
 import { chainToAppKitNetworks, getChainImagesConfig } from '../utils/appkit'
 import { emitter, SolanaProvider } from './SolanaProvider'
 
-export function WalletProvider({
+export function ReownEVMWalletProvider({
   children,
   chains,
 }: {
@@ -59,16 +58,24 @@ export function WalletProvider({
 
   const { wagmiConfig } = wagmi.current
 
-  useSyncWagmiConfig(wagmiConfig, [], chains)
-
   useEffect(() => {
     const appKit = modal.current
     if (appKit) {
-      const unsubscribe = appKit.subscribeNetwork((network) => {
-        if (network.caipNetwork) {
-          const { chainNamespace } = network.caipNetwork
-          if (chainNamespace === 'solana') {
-            const connectors = appKit.getConnectors(chainNamespace)
+      const unsubscribeEvents = appKit.subscribeEvents((eventState) => {
+        const { data } = eventState
+        const { event } = data
+
+        if (event === 'DISCONNECT_SUCCESS') {
+          const { namespace } = data.properties
+          if (namespace === 'solana' || namespace === 'all') {
+            emitter.emit('disconnect')
+          }
+        }
+
+        if (event === 'CONNECT_SUCCESS') {
+          const namespace = appKit.getActiveChainNamespace()
+          if (namespace === 'solana') {
+            const connectors = appKit.getConnectors('solana')
             // We use the first connector in the list as there's no way to get the active connector from appKit yet.
             emitter.emit('connect', connectors[0].name)
           }
@@ -77,23 +84,19 @@ export function WalletProvider({
 
       return () => {
         emitter.emit('disconnect')
-        unsubscribe()
+        unsubscribeEvents()
       }
     }
   }, [])
 
   return (
-    <WagmiProvider config={wagmiConfig} reconnectOnMount={false}>
+    <WagmiProvider config={wagmiConfig} reconnectOnMount={true}>
       {children}
     </WagmiProvider>
   )
 }
 
-export function SyncedWalletProvider({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export function WalletProvider({ children }: { children: React.ReactNode }) {
   // fetch available chains before rendering the WalletProvider
   const { chains, isLoading } = useAvailableChains()
 
@@ -106,8 +109,8 @@ export function SyncedWalletProvider({
   }
 
   return (
-    <WalletProvider chains={chains}>
+    <ReownEVMWalletProvider chains={chains}>
       <SolanaProvider>{children}</SolanaProvider>
-    </WalletProvider>
+    </ReownEVMWalletProvider>
   )
 }
