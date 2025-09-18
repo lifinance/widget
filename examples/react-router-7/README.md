@@ -2,6 +2,8 @@
 This example is a remix app converted to a react router 7 app.
 
 - [Remix Docs](https://remix.run/docs)
+
+### Migrating from Remix?
 - [Migration Docs](https://reactrouter.com/upgrading/remix)
 - [React Router 7 Docs](https://reactrouter.com/home)
 
