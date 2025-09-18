@@ -20,11 +20,12 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^6.30.0",
-    "react-scan": "^0.4.3"
+    "react-scan": "^0.4.3",
+    "vite-plugin-mkcert": "^1.17.8"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
-    "@vitejs/plugin-react-swc": "^4.0.1",
+    "@vitejs/plugin-react-swc": "^4.1.0",
     "source-map-explorer": "^2.5.3",
     "typescript": "^5.9.2",
     "vite": "^7.1.5",

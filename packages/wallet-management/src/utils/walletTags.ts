@@ -17,7 +17,8 @@ export const getConnectorTagType = (
   if (
     connectorId === 'metaMaskSDK' ||
     connectorId === 'coinbaseWalletSDK' ||
-    connectorId === 'baseAccount'
+    connectorId === 'baseAccount' ||
+    connectorId === 'xyz.ithaca.porto'
   ) {
     return WalletTagType.GetStarted
   }

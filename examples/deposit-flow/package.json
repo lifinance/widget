@@ -22,10 +22,10 @@
   },
   "devDependencies": {
     "@types/events": "^3.0.3",
-    "@types/node": "^24.5.0",
+    "@types/node": "^24.5.1",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
-    "@vitejs/plugin-react": "^5.0.1",
+    "@vitejs/plugin-react": "^5.0.3",
     "typescript": "^5.9.2",
     "vite": "^7.1.5",
     "vite-plugin-node-polyfills": "^0.24.0"
