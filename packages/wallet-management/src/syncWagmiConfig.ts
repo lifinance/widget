@@ -3,6 +3,12 @@ import { mainnet } from 'viem/chains'
 import type { Config, CreateConnectorFn } from 'wagmi'
 import { reconnect } from 'wagmi/actions'
 
+/**
+ * Synchronizes a Wagmi configuration with new connectors and chains
+ * @param wagmiConfig - The Wagmi configuration to update
+ * @param connectors - Array of connector creation functions
+ * @param chains - Array of blockchain networks to support
+ */
 export const syncWagmiConfig = async (
   wagmiConfig: Config,
   connectors: CreateConnectorFn[],
@@ -20,6 +26,7 @@ export const syncWagmiConfig = async (
       mipdProviders.map((provider) => provider.info.rdns)
     )
 
+    // Keep existing connectors that don't conflict with newly discovered MIPD providers
     const preservedConnectors = currentConnectors.filter((connector) => {
       return !newMipdRdnsSet.has(connector.id)
     })
