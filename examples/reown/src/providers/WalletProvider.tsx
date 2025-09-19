@@ -17,7 +17,7 @@ export function ReownEVMWalletProvider({
 
   useEffect(() => {
     const evmChains = chains?.filter(
-      (chain) => chain.chainType === ChainType.EVM || chain.id === ChainId.ETH
+      (chain) => chain.chainType === ChainType.EVM && chain.id !== ChainId.ETH
     )
     const evmNetworks = chainToAppKitNetworks(evmChains || [])
     evmNetworks.map((network) => appKit.addNetwork('eip155', network))
