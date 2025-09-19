@@ -1,5 +1,5 @@
 import { useSyncWagmiConfig } from '@lifi/wallet-management'
-import { ChainType, useAvailableChains } from '@lifi/widget'
+import { ChainId, ChainType, useAvailableChains } from '@lifi/widget'
 import { useEffect } from 'react'
 import { WagmiProvider } from 'wagmi'
 import { appKit, wagmiAdapter } from '../config/appkit'
@@ -17,7 +17,7 @@ export function ReownEVMWalletProvider({
 
   useEffect(() => {
     const evmChains = chains?.filter(
-      (chain) => chain.chainType === ChainType.EVM
+      (chain) => chain.chainType === ChainType.EVM || chain.id === ChainId.ETH
     )
     const evmNetworks = chainToAppKitNetworks(evmChains || [])
     evmNetworks.map((network) => appKit.addNetwork('eip155', network))

@@ -26,9 +26,9 @@ export const syncWagmiConfig = async (
 
     const newConnectors = [
       ...connectors,
-      ...(wagmiConfig._internal.mipd
-        ?.getProviders()
-        .map(wagmiConfig._internal.connectors.providerDetailToConnector) ?? []),
+      ...(mipdProviders.map(
+        wagmiConfig._internal.connectors.providerDetailToConnector
+      ) ?? []),
     ].map(wagmiConfig._internal.connectors.setup)
 
     return [...preservedConnectors, ...newConnectors]

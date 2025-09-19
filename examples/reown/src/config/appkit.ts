@@ -28,8 +28,9 @@ export const bitcoinAdapter = new BitcoinAdapter({
 
 export const appKit = createAppKit({
   adapters: [wagmiAdapter, solanaWeb3JsAdapter, bitcoinAdapter],
-  networks: [bitcoin, solana, mainnet],
+  networks: [mainnet, solana, bitcoin],
   projectId,
   metadata,
   themeMode: 'light',
+  defaultNetwork: mainnet,
 })
