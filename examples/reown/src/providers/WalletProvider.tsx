@@ -63,29 +63,27 @@ export function ReownEVMWalletProvider({
 
   const { wagmiConfig } = wagmi.current
 
-  return (
-    <WagmiProvider config={wagmiConfig} reconnectOnMount={true}>
-      <SyncAppKitMainState appKit={modal.current} />
-      {children}
-    </WagmiProvider>
-  )
-}
-
-function SyncAppKitMainState({ appKit }: { appKit: AppKit }) {
   const { isConnected, status } = useAppKitAccount()
   const { isConnected: evmIsConnected } = useAppKitAccount({
     namespace: 'eip155',
   })
 
-  const { setCaipNetwork, getCaipNetwork } = appKit
+  const { setCaipNetwork, getCaipNetwork } = modal.current
 
+  // In multichain mode, Appkit fails to update the main connection state correctly after one chain is disconnected
+  // If there is mismatch between main connection state and eth connection state, we manually update the main state
+  // Details here: https://github.com/reown-com/appkit/issues/5066
   useEffect(() => {
     if (!isConnected && status === 'disconnected' && evmIsConnected) {
       setCaipNetwork(getCaipNetwork('eip155'))
     }
   }, [isConnected, status, evmIsConnected, setCaipNetwork, getCaipNetwork])
 
-  return null
+  return (
+    <WagmiProvider config={wagmiConfig} reconnectOnMount={true}>
+      {children}
+    </WagmiProvider>
+  )
 }
 
 export function WalletProvider({ children }: { children: React.ReactNode }) {
