@@ -1,15 +1,20 @@
 import { ChainType, type ExtendedChain, useAvailableChains } from '@lifi/widget'
-import { bitcoin, solana } from '@reown/appkit/networks'
-import { type AppKit, createAppKit } from '@reown/appkit/react'
+import { bitcoin, mainnet, solana } from '@reown/appkit/networks'
+import {
+  type AppKit,
+  createAppKit,
+  useAppKitAccount,
+} from '@reown/appkit/react'
 import { BitcoinAdapter } from '@reown/appkit-adapter-bitcoin'
 import { SolanaAdapter } from '@reown/appkit-adapter-solana'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import type { AppKitNetwork } from '@reown/appkit-common'
+
 import { useEffect, useRef } from 'react'
 import { WagmiProvider } from 'wagmi'
 import { metadata, projectId } from '../config/appkit'
 import { chainToAppKitNetworks, getChainImagesConfig } from '../utils/appkit'
-import { emitter, SolanaProvider } from './SolanaProvider'
+import { SolanaProvider } from './SolanaProvider'
 
 export function ReownEVMWalletProvider({
   children,
@@ -50,50 +55,37 @@ export function ReownEVMWalletProvider({
       metadata,
       chainImages,
       themeMode: 'light',
+      defaultNetwork: mainnet,
     })
-
     wagmi.current = wagmiAdapter
     modal.current = appKit
   }
 
   const { wagmiConfig } = wagmi.current
 
-  useEffect(() => {
-    const appKit = modal.current
-    if (appKit) {
-      const unsubscribeEvents = appKit.subscribeEvents((eventState) => {
-        const { data } = eventState
-        const { event } = data
-
-        if (event === 'DISCONNECT_SUCCESS') {
-          const { namespace } = data.properties
-          if (namespace === 'solana' || namespace === 'all') {
-            emitter.emit('disconnect')
-          }
-        }
-
-        if (event === 'CONNECT_SUCCESS') {
-          const namespace = appKit.getActiveChainNamespace()
-          if (namespace === 'solana') {
-            const connectors = appKit.getConnectors('solana')
-            // We use the first connector in the list as there's no way to get the active connector from appKit yet.
-            emitter.emit('connect', connectors[0].name)
-          }
-        }
-      })
-
-      return () => {
-        emitter.emit('disconnect')
-        unsubscribeEvents()
-      }
-    }
-  }, [])
-
   return (
     <WagmiProvider config={wagmiConfig} reconnectOnMount={true}>
+      <SyncAppKitMainState appKit={modal.current} />
       {children}
     </WagmiProvider>
   )
+}
+
+function SyncAppKitMainState({ appKit }: { appKit: AppKit }) {
+  const { isConnected, status } = useAppKitAccount()
+  const { isConnected: evmIsConnected } = useAppKitAccount({
+    namespace: 'eip155',
+  })
+
+  const { setCaipNetwork, getCaipNetwork } = appKit
+
+  useEffect(() => {
+    if (!isConnected && status === 'disconnected' && evmIsConnected) {
+      setCaipNetwork(getCaipNetwork('eip155'))
+    }
+  }, [isConnected, status, evmIsConnected, setCaipNetwork, getCaipNetwork])
+
+  return null
 }
 
 export function WalletProvider({ children }: { children: React.ReactNode }) {
