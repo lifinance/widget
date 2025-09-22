@@ -102,7 +102,7 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
         }}
       >
         <Typography>{t('main.fees.network')}</Typography>
-        <FeeBreakdownTooltip gasCosts={gasCosts} relayerSupport={!gasCostUSD}>
+        <FeeBreakdownTooltip gasCosts={gasCosts} gasless={!gasCostUSD}>
           <Typography
             sx={{
               fontWeight: 600,

@@ -100,7 +100,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
           <FeeBreakdownTooltip
             gasCosts={gasCosts}
             feeCosts={feeCosts}
-            relayerSupport={hasGaslessSupport}
+            gasless={hasGaslessSupport}
           >
             <Box
               onClick={toggleCard}
@@ -156,7 +156,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
             <Typography variant="body2">{t('main.fees.network')}</Typography>
             <FeeBreakdownTooltip
               gasCosts={gasCosts}
-              relayerSupport={hasGaslessSupport}
+              gasless={hasGaslessSupport}
             >
               <Typography
                 variant="body2"
