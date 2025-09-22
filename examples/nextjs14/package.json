@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@lifi/sdk": "^3.12.8",
+    "@lifi/sdk": "^3.12.9",
     "@lifi/widget": "^3.31.0",
     "@mui/material-nextjs": "^7.3.2",
     "next": "14.2.32",
