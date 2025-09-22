@@ -1,4 +1,4 @@
-import { arbitrum, base, bitcoin, blast, solana } from '@reown/appkit/networks'
+import { bitcoin, solana } from '@reown/appkit/networks'
 import { createAppKit } from '@reown/appkit/react'
 import { BitcoinAdapter } from '@reown/appkit-adapter-bitcoin'
 import { SolanaAdapter } from '@reown/appkit-adapter-solana'
@@ -28,8 +28,7 @@ export const bitcoinAdapter = new BitcoinAdapter({
 
 export const appKit = createAppKit({
   adapters: [wagmiAdapter, solanaWeb3JsAdapter, bitcoinAdapter],
-  // add as many networks as you plan to support
-  networks: [solana, bitcoin, mainnet, base, arbitrum, blast],
+  networks: [solana, bitcoin, mainnet],
   projectId,
   metadata,
   themeMode: 'light',
