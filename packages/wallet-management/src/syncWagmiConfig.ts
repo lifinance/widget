@@ -14,25 +14,14 @@ export const syncWagmiConfig = async (
   }
   wagmiConfig._internal.chains.setState(chains)
 
-  wagmiConfig._internal.connectors.setState((currentConnectors) => {
-    const mipdProviders = wagmiConfig._internal.mipd?.getProviders() || []
-    const newMipdRdnsSet = new Set(
-      mipdProviders.map((provider) => provider.info.rdns)
-    )
-
-    const preservedConnectors = currentConnectors.filter((connector) => {
-      return !newMipdRdnsSet.has(connector.id)
-    })
-
-    const newConnectors = [
+  wagmiConfig._internal.connectors.setState(() =>
+    [
       ...connectors,
       ...(wagmiConfig._internal.mipd
         ?.getProviders()
         .map(wagmiConfig._internal.connectors.providerDetailToConnector) ?? []),
     ].map(wagmiConfig._internal.connectors.setup)
-
-    return [...preservedConnectors, ...newConnectors]
-  })
+  )
 
   reconnect(wagmiConfig)
 }
