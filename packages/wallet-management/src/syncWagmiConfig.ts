@@ -13,7 +13,6 @@ export const syncWagmiConfig = async (
     _mainnet.contracts = { ...mainnet.contracts, ..._mainnet.contracts }
   }
   wagmiConfig._internal.chains.setState(chains)
-
   wagmiConfig._internal.connectors.setState(() =>
     [
       ...connectors,
@@ -22,6 +21,5 @@ export const syncWagmiConfig = async (
         .map(wagmiConfig._internal.connectors.providerDetailToConnector) ?? []),
     ].map(wagmiConfig._internal.connectors.setup)
   )
-
   reconnect(wagmiConfig)
 }
