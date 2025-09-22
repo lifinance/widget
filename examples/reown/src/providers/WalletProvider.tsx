@@ -30,10 +30,17 @@ export function ReownEVMWalletProvider({
   }, [chains])
 
   useEffect(() => {
-    // if eth is connected and main state is not connect, switch namespace to eth
-    // fixes the connection sync issue
-    if (!isConnected && ethIsConnected && status === 'disconnected') {
-      appKit.setCaipNetwork(appKit.getCaipNetwork('eip155'))
+    if (ethIsConnected) {
+      console.log('about to close modal')
+      // close wallet connect modal as eth is connected
+      appKit.close()
+
+      // In multichain mode, Appkit fails to update the connection state correctly after one chain is disconnected
+      // If there is mismatch between main connection state and eth connection state, we manually update the main state
+      // Details here: https://github.com/reown-com/appkit/issues/5066
+      if (!isConnected && status === 'disconnected') {
+        appKit.setCaipNetwork(appKit.getCaipNetwork('eip155'))
+      }
     }
   }, [isConnected, ethIsConnected, status])
 
