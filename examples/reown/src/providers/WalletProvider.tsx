@@ -31,7 +31,6 @@ export function ReownEVMWalletProvider({
 
   useEffect(() => {
     if (ethIsConnected) {
-      console.log('about to close modal')
       // close wallet connect modal as eth is connected
       appKit.close()
 

@@ -31,14 +31,25 @@ export const syncWagmiConfig = async (
       return !newMipdRdnsSet.has(connector.id)
     })
 
-    const newConnectors = [
-      ...connectors,
-      ...(mipdProviders.map(
-        wagmiConfig._internal.connectors.providerDetailToConnector
-      ) ?? []),
-    ].map(wagmiConfig._internal.connectors.setup)
+    // Create set of preserved connector IDs
+    const preservedConnectorIds = new Set(
+      preservedConnectors.map((connector) => connector.id)
+    )
 
-    return [...preservedConnectors, ...newConnectors]
+    // Setup and filter connectors that don't already exist in preserved connectors
+    const newConnectorsFromParams = connectors
+      .map(wagmiConfig._internal.connectors.setup)
+      .filter((connector) => !preservedConnectorIds.has(connector.id))
+
+    const newMipdConnectors = mipdProviders
+      .map(wagmiConfig._internal.connectors.providerDetailToConnector)
+      .map(wagmiConfig._internal.connectors.setup)
+
+    return [
+      ...preservedConnectors,
+      ...newMipdConnectors,
+      ...newConnectorsFromParams,
+    ]
   })
 
   reconnect(wagmiConfig)
