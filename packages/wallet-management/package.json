@@ -48,11 +48,11 @@
     "lifi"
   ],
   "dependencies": {
-    "@bigmi/client": "^0.5.2",
-    "@bigmi/core": "^0.5.2",
+    "@bigmi/client": "^0.5.3",
+    "@bigmi/core": "^0.5.3",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^3.12.8",
+    "@lifi/sdk": "^3.12.9",
     "@mui/icons-material": "^7.3.2",
     "@mui/material": "^7.3.2",
     "@mui/system": "^7.3.2",
@@ -61,10 +61,10 @@
     "@solana/web3.js": "^1.98.4",
     "i18next": "^25.5.2",
     "mitt": "^3.0.1",
-    "porto": "^0.2.10",
+    "porto": "^0.2.12",
     "react-i18next": "^15.7.3",
     "use-sync-external-store": "^1.5.0",
-    "viem": "^2.37.6",
+    "viem": "^2.37.7",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
