@@ -204,7 +204,8 @@
       "text": "このページは見つかりませんでした。",
       "title": "404"
     },
-    "relayerService": "",
+    "multistep": "",
+    "gasless": "",
     "numberOfSteps": "",
     "priceImpact": "",
     "progressToNextUpdate": "見積もりは {{value}} 秒後に更新されます。<0/>今すぐ更新するにはここをクリックしてください。",
@@ -304,7 +305,8 @@
     "tags": {
       "cheapest": "最良",
       "fastest": "最速",
-      "gasless": ""
+      "gasless": "",
+      "multistep": ""
     },
     "to": "To",
     "tokenOnChain": "{{chainName}} の {{tokenSymbol}}",

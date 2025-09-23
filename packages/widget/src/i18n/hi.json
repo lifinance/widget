@@ -204,7 +204,8 @@
       "text": "हमें यह पेज नहीं मिल सका",
       "title": "404"
     },
-    "relayerService": "",
+    "multistep": "",
+    "gasless": "",
     "numberOfSteps": "",
     "priceImpact": "",
     "progressToNextUpdate": "",
@@ -304,7 +305,8 @@
     "tags": {
       "cheapest": "",
       "fastest": "",
-      "gasless": ""
+      "gasless": "",
+      "multistep": ""
     },
     "to": "",
     "tokenOnChain": "",

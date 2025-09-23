@@ -204,7 +204,8 @@
       "text": "Não conseguimos encontrar esta página.",
       "title": "404"
     },
-    "relayerService": "Nós lidamos com o gás, por isso você pode transferir ativos sem possuir tokens nativos. Os custos de rede são incluídos na transferência.",
+    "multistep": "",
+    "gasless": "",
     "numberOfSteps": "Cada etapa da conversão pode conter 1-2 transações que requerem assinatura.",
     "priceImpact": "A diferença de valor estimado entre os tokens de origem e de destino.",
     "progressToNextUpdate": "Os dados exibidos serão atualizados automaticamente após {{value}} segundos. Clique aqui para atualizar manualmente.",
@@ -304,7 +305,8 @@
     "tags": {
       "cheapest": "Melhor retorno",
       "fastest": "Mais rápido",
-      "gasless": "Sem gás"
+      "gasless": "Sem gás",
+      "multistep": ""
     },
     "to": "Para",
     "tokenOnChain": "{{tokenSymbol}} na {{chainName}}",

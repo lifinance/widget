@@ -204,7 +204,8 @@
       "text": "เราไม่พบหน้านี้.",
       "title": "404"
     },
-    "relayerService": "",
+    "multistep": "",
+    "gasless": "",
     "numberOfSteps": "",
     "priceImpact": "",
     "progressToNextUpdate": "ข้อมูลที่แสดงจะรีเฟรชอัตโนมัติหลังจาก {{value}} วินาที คลิกที่นี่เพื่ออัปเดตด้วยตนเอง",
@@ -304,7 +305,8 @@
     "tags": {
       "cheapest": "ผลตอบแทนที่ดีที่สุด",
       "fastest": "รวดเร็วที่สุด",
-      "gasless": ""
+      "gasless": "",
+      "multistep": ""
     },
     "to": "ถึง",
     "tokenOnChain": "{{tokenSymbol}} บน {{chainName}}",

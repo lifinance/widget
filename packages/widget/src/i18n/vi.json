@@ -204,7 +204,8 @@
       "text": "Chúng tôi không thể tìm thấy trang này.",
       "title": "404"
     },
-    "relayerService": "",
+    "multistep": "",
+    "gasless": "",
     "numberOfSteps": "",
     "priceImpact": "",
     "progressToNextUpdate": "Thông tin hiển thị sẽ tự động làm mới sau {{value}} giây. Bấm vào đây để cập nhật thủ công.",
@@ -304,7 +305,8 @@
     "tags": {
       "cheapest": "Lợi nhuận tốt nhất",
       "fastest": "Nhanh nhất",
-      "gasless": ""
+      "gasless": "",
+      "multistep": ""
     },
     "to": "Đến",
     "tokenOnChain": "{{tokenSymbol}} tại {{chainName}}",
