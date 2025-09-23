@@ -54,7 +54,11 @@ export function formatInputAmount(
     return amount
   }
   let formattedAmount = amount.trim().replaceAll(',', '.')
-  if (formattedAmount.startsWith('.')) {
+  if (
+    returnInitial &&
+    formattedAmount.startsWith('.') &&
+    !Number.parseFloat(formattedAmount)
+  ) {
     formattedAmount = `0${formattedAmount}`
   }
   const parsedAmount = Number.parseFloat(formattedAmount)
@@ -66,6 +70,8 @@ export function formatInputAmount(
   }
   if (returnInitial) {
     return formattedAmount
+  } else if (formattedAmount.startsWith('.')) {
+    formattedAmount = `0${formattedAmount}`
   }
   let [integer, fraction = ''] = formattedAmount.split('.')
   if (decimals !== null && fraction.length > decimals) {
