@@ -204,7 +204,8 @@
       "text": "We couldn't find this page.",
       "title": "404"
     },
-    "relayerService": "We handle the gas, so you can transfer assets without holding native tokens. Network costs are included in the transfer.",
+    "multistep": "This route requires multiple transactions to complete the transfer. Each exchange step can contain 1-2 transactions that require a signature.",
+    "gasless": "We handle the gas, so you can transfer assets without holding native tokens. Network costs are included in the transfer.",
     "numberOfSteps": "Each exchange step can contain 1-2 transactions that require a signature.",
     "priceImpact": "The estimated value difference between the source and destination tokens.",
     "progressToNextUpdate": "Quotes will update in {{value}} seconds. <0/> Click here to update now.",
@@ -304,7 +305,8 @@
     "tags": {
       "cheapest": "Best Return",
       "fastest": "Fastest",
-      "gasless": "Gasless"
+      "gasless": "Gasless",
+      "multistep": "Multi-step"
     },
     "to": "To",
     "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",

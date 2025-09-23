@@ -42,7 +42,7 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
         <FeeBreakdownTooltip
           gasCosts={gasCosts}
           feeCosts={feeCosts}
-          relayerSupport={!combinedFeesUSD}
+          gasless={!combinedFeesUSD}
         >
           <Box
             sx={{
