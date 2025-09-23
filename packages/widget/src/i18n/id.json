@@ -204,7 +204,8 @@
       "text": "Kami tidak dapat menemukan halaman ini.",
       "title": "404"
     },
-    "relayerService": "Kami menangani gas, sehingga Anda dapat mentransfer aset tanpa memegang token asli. Biaya jaringan sudah termasuk dalam transfer.",
+    "multistep": "",
+    "gasless": "",
     "numberOfSteps": "Sejumlah langkah swap. Setiap langkah dapat berisi 1-2 transaksi yang memerlukan tanda tangan.",
     "priceImpact": "Perkiraan perbedaan nilai antara token sumber dan tujuan.",
     "progressToNextUpdate": "Data yang ditampilkan akan disegarkan secara otomatis setelah {{value}} detik. Klik di sini untuk memperbarui secara manual.",
@@ -304,7 +305,8 @@
     "tags": {
       "cheapest": "Pengembalian terbaik",
       "fastest": "Tercepat",
-      "gasless": "Tanpa Gas"
+      "gasless": "Tanpa Gas",
+      "multistep": ""
     },
     "to": "Kepada",
     "tokenOnChain": "{{tokenSymbol}} di {{chainName}}",
