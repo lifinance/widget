@@ -204,7 +204,8 @@
       "text": "我们找不到这个页面。",
       "title": "404"
     },
-    "relayerService": "",
+    "multistep": "",
+    "gasless": "",
     "numberOfSteps": "每次代币兑换包含了一到两次需要签名的交易。",
     "priceImpact": "源代币和目标代币之间的估计差值。",
     "progressToNextUpdate": "数据将在{{value}} 秒后自动刷新，点击这里可以手动更新。",
@@ -304,7 +305,8 @@
     "tags": {
       "cheapest": "最佳报价",
       "fastest": "速度最快",
-      "gasless": ""
+      "gasless": "",
+      "multistep": ""
     },
     "to": "到",
     "tokenOnChain": "{{chainName}}链上的{{tokenSymbol}}",
