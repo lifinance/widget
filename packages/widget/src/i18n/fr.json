@@ -204,7 +204,8 @@
       "text": "Nous n'avons pas trouvé cette page.",
       "title": "404"
     },
-    "relayerService": "",
+    "multistep": "",
+    "gasless": "",
     "numberOfSteps": "",
     "priceImpact": "",
     "progressToNextUpdate": "Les données affichées seront automatiquement actualisées après {{value}} secondes. Cliquez ici pour les mettre à jour manuellement.",
@@ -304,7 +305,8 @@
     "tags": {
       "cheapest": "Meilleur Retour",
       "fastest": "Le plus rapide",
-      "gasless": ""
+      "gasless": "",
+      "multistep": ""
     },
     "to": "À",
     "tokenOnChain": "{{tokenSymbol}} sur {{chainName}}",
