@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.32.0](https://github.com/lifinance/widget/compare/v3.31.0...v3.32.0) (2025-09-23)
+
+
+### Features
+
+* add multi-step badge ([#561](https://github.com/lifinance/widget/issues/561)) ([91de17d](https://github.com/lifinance/widget/commit/91de17dad6e1fd089299f1b11d0fac66fba42dc7))
+
 ## [3.31.0](https://github.com/lifinance/widget/compare/v3.30.13...v3.31.0) (2025-09-18)
 
 
