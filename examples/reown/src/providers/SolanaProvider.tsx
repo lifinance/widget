@@ -1,3 +1,4 @@
+import { useAppKitAccount, useWalletInfo } from '@reown/appkit/react'
 import type { Adapter, WalletName } from '@solana/wallet-adapter-base'
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
 import {
@@ -6,7 +7,7 @@ import {
   WalletProvider,
 } from '@solana/wallet-adapter-react'
 import { clusterApiUrl } from '@solana/web3.js'
-import mitt, { type Emitter } from 'mitt'
+
 import { type FC, type PropsWithChildren, useEffect } from 'react'
 
 const endpoint = clusterApiUrl(WalletAdapterNetwork.Mainnet)
@@ -16,13 +17,6 @@ const endpoint = clusterApiUrl(WalletAdapterNetwork.Mainnet)
 const wallets: Adapter[] = []
 
 export const SolanaConnectedWalletKey = 'li.fi-widget-recent-wallet'
-
-type WalletEvents = {
-  connect: string
-  disconnect: unknown
-}
-
-export const emitter: Emitter<WalletEvents> = mitt<WalletEvents>()
 
 export const SolanaProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
@@ -40,15 +34,18 @@ export const SolanaProvider: FC<PropsWithChildren> = ({ children }) => {
 }
 
 export const SolanaReownHandler: FC = () => {
+  const { isConnected } = useAppKitAccount({ namespace: 'solana' })
+  const { walletInfo } = useWalletInfo('solana')
+
   const { disconnect, select } = useWallet()
+
   useEffect(() => {
-    emitter.on('connect', async (connectorName) => {
-      select(connectorName as WalletName)
-    })
-    emitter.on('disconnect', async () => {
-      await disconnect()
-    })
-    return () => emitter.all.clear()
-  }, [disconnect, select])
+    if (isConnected && walletInfo?.name) {
+      select(walletInfo?.name as WalletName)
+    } else {
+      disconnect()
+    }
+  }, [disconnect, select, isConnected, walletInfo])
+
   return null
 }
