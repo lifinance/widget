@@ -204,7 +204,8 @@
       "text": "Aradığınız sayfayı bulamadık.",
       "title": "404"
     },
-    "relayerService": "",
+    "multistep": "",
+    "gasless": "",
     "numberOfSteps": "Her adım, imza gerektiren 1-2 işlem içerebilir.",
     "priceImpact": "Kaynak ve hedef tokenlar arasındaki tahmini değer farkı.",
     "progressToNextUpdate": "Görüntülenen veriler, {{value}} saniye sonra otomatik olarak yenilenecektir. Manuel olarak güncellemek için burayı tıklayın.",
@@ -304,7 +305,8 @@
     "tags": {
       "cheapest": "En iyi sonuç",
       "fastest": "En Hızlı",
-      "gasless": ""
+      "gasless": "",
+      "multistep": ""
     },
     "to": "Şuna",
     "tokenOnChain": "{{chainName}} üzerindeki {{tokenSymbol}}",

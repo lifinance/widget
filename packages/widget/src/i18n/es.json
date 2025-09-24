@@ -204,7 +204,8 @@
       "text": "No pudimos encontrar esta página.",
       "title": "404"
     },
-    "relayerService": "",
+    "multistep": "",
+    "gasless": "",
     "numberOfSteps": "Cada paso de intercambio puede contener 1-2 transacciones que requieren una firma.",
     "priceImpact": "La diferencia de valor estimada entre los tokens de origen y destino.",
     "progressToNextUpdate": "Los datos mostrados se actualizarán automáticamente después de {{value}} segundos. Haga clic aquí para actualizar manualmente.",
@@ -304,7 +305,8 @@
     "tags": {
       "cheapest": "Mejor retorno",
       "fastest": "Más rápido",
-      "gasless": ""
+      "gasless": "",
+      "multistep": ""
     },
     "to": "A",
     "tokenOnChain": "{{tokenSymbol}} en {{chainName}}",
