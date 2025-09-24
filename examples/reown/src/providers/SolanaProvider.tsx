@@ -41,7 +41,11 @@ export const SolanaReownHandler: FC = () => {
 
   useEffect(() => {
     if (isConnected && walletInfo?.name) {
-      select(walletInfo?.name as WalletName)
+      const walletName =
+        walletInfo.type === 'WALLET_CONNECT'
+          ? 'WalletConnect'
+          : walletInfo?.name
+      select(walletName as WalletName)
     } else {
       disconnect()
     }

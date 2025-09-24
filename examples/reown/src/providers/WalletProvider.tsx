@@ -42,7 +42,9 @@ export function ReownEVMWalletProvider({
       ssr: true,
     })
 
-    const solanaWeb3JsAdapter = new SolanaAdapter()
+    const solanaWeb3JsAdapter = new SolanaAdapter({
+      registerWalletStandard: true,
+    })
 
     const bitcoinAdapter = new BitcoinAdapter({
       projectId,
