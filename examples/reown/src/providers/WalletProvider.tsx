@@ -67,6 +67,9 @@ export function ReownEVMWalletProvider({
   const { isConnected: evmIsConnected } = useAppKitAccount({
     namespace: 'eip155',
   })
+  const { isConnected: solanaIsConnected } = useAppKitAccount({
+    namespace: 'solana',
+  })
 
   const { setCaipNetwork, getCaipNetwork } = modal.current
 
@@ -74,10 +77,22 @@ export function ReownEVMWalletProvider({
   // If there is mismatch between main connection state and eth connection state, we manually update the main state
   // Details here: https://github.com/reown-com/appkit/issues/5066
   useEffect(() => {
-    if (!isConnected && status === 'disconnected' && evmIsConnected) {
-      setCaipNetwork(getCaipNetwork('eip155'))
+    if (!isConnected && status === 'disconnected') {
+      if (evmIsConnected) {
+        return setCaipNetwork(getCaipNetwork('eip155'))
+      }
+      if (solanaIsConnected) {
+        return setCaipNetwork(getCaipNetwork('solana'))
+      }
     }
-  }, [isConnected, status, evmIsConnected, setCaipNetwork, getCaipNetwork])
+  }, [
+    isConnected,
+    status,
+    evmIsConnected,
+    setCaipNetwork,
+    getCaipNetwork,
+    solanaIsConnected,
+  ])
 
   return (
     <WagmiProvider config={wagmiConfig} reconnectOnMount={true}>
