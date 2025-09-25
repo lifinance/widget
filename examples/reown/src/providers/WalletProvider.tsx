@@ -4,6 +4,7 @@ import {
   type AppKit,
   createAppKit,
   useAppKitAccount,
+  useAppKitNetwork,
 } from '@reown/appkit/react'
 import { BitcoinAdapter } from '@reown/appkit-adapter-bitcoin'
 import { SolanaAdapter } from '@reown/appkit-adapter-solana'
@@ -42,7 +43,9 @@ export function ReownEVMWalletProvider({
       ssr: true,
     })
 
-    const solanaWeb3JsAdapter = new SolanaAdapter()
+    const solanaWeb3JsAdapter = new SolanaAdapter({
+      registerWalletStandard: true,
+    })
 
     const bitcoinAdapter = new BitcoinAdapter({
       projectId,
@@ -63,21 +66,43 @@ export function ReownEVMWalletProvider({
 
   const { wagmiConfig } = wagmi.current
 
-  const { isConnected, status } = useAppKitAccount()
-  const { isConnected: evmIsConnected } = useAppKitAccount({
+  const { isConnected } = useAppKitAccount()
+  const { isConnected: isEvmConnected } = useAppKitAccount({
     namespace: 'eip155',
   })
+  const { isConnected: isSolanaConnected } = useAppKitAccount({
+    namespace: 'solana',
+  })
+  const { caipNetwork } = useAppKitNetwork()
+  const { setCaipNetwork, getActiveChainNamespace, getCaipNetwork } =
+    modal.current
 
-  const { setCaipNetwork, getCaipNetwork } = modal.current
-
-  // In multichain mode, Appkit fails to update the main connection state correctly after one chain is disconnected
-  // If there is mismatch between main connection state and eth connection state, we manually update the main state
+  // In multichain mode, Appkit fails to update the main connection state correctly after one chain is disconnected, or a page reload
+  // If there is mismatch between main connection state and eth connection state, we manually update the main state accordingly
   // Details here: https://github.com/reown-com/appkit/issues/5066
   useEffect(() => {
-    if (!isConnected && status === 'disconnected' && evmIsConnected) {
-      setCaipNetwork(getCaipNetwork('eip155'))
+    if (isConnected) {
+      const activeChainNamespace = getActiveChainNamespace()
+      setCaipNetwork(
+        caipNetwork || getCaipNetwork(activeChainNamespace || 'eip155')
+      )
+    } else {
+      if (isEvmConnected) {
+        setCaipNetwork(getCaipNetwork('eip155'))
+      }
+      if (isSolanaConnected) {
+        setCaipNetwork(getCaipNetwork('solana'))
+      }
     }
-  }, [isConnected, status, evmIsConnected, setCaipNetwork, getCaipNetwork])
+  }, [
+    setCaipNetwork,
+    caipNetwork,
+    getActiveChainNamespace,
+    getCaipNetwork,
+    isConnected,
+    isEvmConnected,
+    isSolanaConnected,
+  ])
 
   return (
     <WagmiProvider config={wagmiConfig} reconnectOnMount={true}>

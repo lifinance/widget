@@ -37,15 +37,21 @@ export const SolanaReownHandler: FC = () => {
   const { isConnected } = useAppKitAccount({ namespace: 'solana' })
   const { walletInfo } = useWalletInfo('solana')
 
-  const { disconnect, select } = useWallet()
+  const { select, wallet, disconnect, disconnecting } = useWallet()
 
   useEffect(() => {
-    if (isConnected && walletInfo?.name) {
-      select(walletInfo?.name as WalletName)
-    } else {
+    if (isConnected && !wallet && walletInfo?.name) {
+      const walletName =
+        walletInfo?.type === 'WALLET_CONNECT'
+          ? 'WalletConnect'
+          : walletInfo?.name
+      select(walletName as WalletName)
+    }
+
+    if (!isConnected && wallet && !disconnecting) {
       disconnect()
     }
-  }, [disconnect, select, isConnected, walletInfo])
+  }, [select, isConnected, walletInfo, wallet, disconnect, disconnecting])
 
   return null
 }
