@@ -1,8 +1,8 @@
-import type { Config as PortoConfig } from 'porto/Porto'
 import type {
   BaseAccountParameters,
   CoinbaseWalletParameters,
   MetaMaskParameters,
+  PortoParameters,
   WalletConnectParameters,
 } from 'wagmi/connectors'
 
@@ -11,5 +11,5 @@ export interface WalletConfig {
   coinbase?: CoinbaseWalletParameters
   metaMask?: MetaMaskParameters
   baseAccount?: BaseAccountParameters
-  porto?: Partial<PortoConfig>
+  porto?: Partial<PortoParameters>
 }
