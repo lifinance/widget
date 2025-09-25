@@ -173,6 +173,14 @@ export const settingsStore = createWithEqualityFn<SettingsState>(
         }
         return persistedState as SettingsState
       },
+      onRehydrateStorage: () => {
+        return async (state) => {
+          try {
+            // Preload initial translations during hydration
+            await import(`../../i18n/${state?.language || 'en'}.json`)
+          } catch (error) {}
+        }
+      },
     }
   ) as StateCreator<SettingsState, [], [], SettingsState>,
   Object.is
