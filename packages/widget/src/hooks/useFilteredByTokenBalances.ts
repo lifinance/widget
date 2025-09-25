@@ -34,6 +34,7 @@ export const useFilteredTokensByBalance = (
     enabled: !!evmAddress,
     refetchInterval: 30_000, // 30 seconds
     staleTime: 30_000, // 30 seconds
+    retry: false,
   })
 
   const accountsWithFilteredTokens = useMemo(() => {
