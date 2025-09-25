@@ -7,8 +7,9 @@ import { currencyExtendedFormatter } from '../../utils/currencyExtendedFormatter
 import { deepMerge } from '../../utils/deepMerge.js'
 import { percentFormatter } from '../../utils/percentFormatter.js'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
+import { enResource } from './enResource.js'
 import { loadLocale } from './i18n.js'
-import { enResource, type LanguageKey } from './types.js'
+import type { LanguageKey } from './types.js'
 
 export const I18nProvider: React.FC<React.PropsWithChildren> = ({
   children,
@@ -68,13 +69,18 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
         }
       }
     }
-    handleLanguageChange()
-    if (!isInitialized) {
-      // Execute in the next tick to let i18nInstance be updated
-      startTransition(() => {
-        setIsInitialized(true)
-      })
+
+    try {
+      handleLanguageChange()
+    } finally {
+      if (!isInitialized) {
+        // Execute in the next tick to let i18nInstance be updated
+        startTransition(() => {
+          setIsInitialized(true)
+        })
+      }
     }
+    handleLanguageChange()
   }, [language, languageResources, i18nInstance, isInitialized])
 
   // Do not render until the selected language is initialized

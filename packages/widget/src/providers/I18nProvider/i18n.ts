@@ -1,7 +1,7 @@
 import { deepMerge } from '../../utils/deepMerge.js'
 import type { LanguageKey, LanguageResource, PartialResource } from './types.js'
 
-// Dynamically import JSON and register it
+// Dynamically import the JSON file for the specified language
 export async function loadLocale(
   lng: LanguageKey,
   customLanguageResource?: PartialResource<LanguageResource>

@@ -2,8 +2,9 @@ import { createInstance } from 'i18next'
 import type { FC, PropsWithChildren } from 'react'
 import { useEffect, useMemo } from 'react'
 import { I18nextProvider } from 'react-i18next'
+import { enResource } from './enResource.js'
 import { loadLocale } from './i18n.js'
-import { enResource, type LanguageKey } from './types.js'
+import type { LanguageKey } from './types.js'
 
 interface I18nProviderProps {
   locale?: LanguageKey

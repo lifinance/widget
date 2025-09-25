@@ -1,6 +1,9 @@
-import type { LanguageKey, LanguageResource } from './types.js'
+import type { enResource } from './enResource.js'
+import type { LanguageKey } from './types.js'
 
-// Dynamically import JSON and register it
+type LanguageResource = typeof enResource
+
+// Dynamically import the JSON file for the specified language
 export async function loadLocale(lng: LanguageKey) {
   const languageResourceModule = await import(`../../i18n/${lng}.json`)
   return languageResourceModule.default as LanguageResource

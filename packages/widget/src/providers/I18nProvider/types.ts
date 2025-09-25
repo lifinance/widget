@@ -1,4 +1,4 @@
-import en from '../../i18n/en.json' with { type: 'json' }
+import type { enResource } from './enResource.js'
 
 export type PartialResource<T> = T extends object
   ? {
@@ -25,9 +25,7 @@ export type LanguageKey =
   | 'id'
   | 'pl'
 
-export type LanguageResource = typeof en
-
-export { en as enResource }
+export type LanguageResource = typeof enResource
 
 export type LanguageResources =
   | {
