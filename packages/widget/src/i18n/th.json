@@ -174,6 +174,7 @@
       "exchangeRateUpdateCanceled": "การอัปเดตอัตราแลกเปลี่ยนถูกยกเลิก",
       "gasLimitIsTooLow": "แก๊สคงเหลือต่ำเกินไป",
       "insufficientFunds": "ยอดคงเหลือไม่เพียงพอ",
+      "insufficientGas": "",
       "rateLimitExceeded": "",
       "signatureRejected": "ต้องมีลายเซ็น",
       "slippageNotMet": "ความคลาดเคลื่อนของราคาไม่เป็นไปตามเงื่อนไข.",
@@ -203,7 +204,8 @@
       "text": "เราไม่พบหน้านี้.",
       "title": "404"
     },
-    "relayerService": "",
+    "multistep": "",
+    "gasless": "",
     "numberOfSteps": "",
     "priceImpact": "",
     "progressToNextUpdate": "ข้อมูลที่แสดงจะรีเฟรชอัตโนมัติหลังจาก {{value}} วินาที คลิกที่นี่เพื่ออัปเดตด้วยตนเอง",
@@ -224,7 +226,6 @@
       "relayerService": "",
       "estimated": "",
       "free": "",
-      "integrator": "",
       "network": "",
       "paid": "",
       "provider": ""
@@ -304,7 +305,8 @@
     "tags": {
       "cheapest": "ผลตอบแทนที่ดีที่สุด",
       "fastest": "รวดเร็วที่สุด",
-      "gasless": ""
+      "gasless": "",
+      "multistep": ""
     },
     "to": "ถึง",
     "tokenOnChain": "{{tokenSymbol}} บน {{chainName}}",

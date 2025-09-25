@@ -2,6 +2,70 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.32.0](https://github.com/lifinance/widget/compare/v3.31.0...v3.32.0) (2025-09-23)
+
+
+### Features
+
+* add multi-step badge ([#561](https://github.com/lifinance/widget/issues/561)) ([91de17d](https://github.com/lifinance/widget/commit/91de17dad6e1fd089299f1b11d0fac66fba42dc7))
+
+## [3.31.0](https://github.com/lifinance/widget/compare/v3.30.13...v3.31.0) (2025-09-18)
+
+
+### Features
+
+* add porto ([#538](https://github.com/lifinance/widget/issues/538)) ([687c0b4](https://github.com/lifinance/widget/commit/687c0b4c14e890a3dbab932cdfecae853809b446))
+
+
+### Bug Fixes
+
+* simplify fee display logic and update tooltip text ([#558](https://github.com/lifinance/widget/issues/558)) ([4b74af0](https://github.com/lifinance/widget/commit/4b74af0ca0fdde74c2eddc3b6f212e78f89d721a))
+
+### [3.30.13](https://github.com/lifinance/widget/compare/v3.30.12...v3.30.13) (2025-09-16)
+
+### [3.30.12](https://github.com/lifinance/widget/compare/v3.30.11...v3.30.12) (2025-09-16)
+
+
+### Bug Fixes
+
+* adjust gasless handling ([1514285](https://github.com/lifinance/widget/commit/15142853928b9203f9acb5888df138cd372e753a))
+* don't request gas recommendation when refuel is disabled ([d7bb69e](https://github.com/lifinance/widget/commit/d7bb69eb3f223e234a8c762e3c7d1af6d8084753))
+
+### [3.30.11](https://github.com/lifinance/widget/compare/v3.30.10...v3.30.11) (2025-09-15)
+
+
+### Bug Fixes
+
+* add chain pinned event ([#552](https://github.com/lifinance/widget/issues/552)) ([7817b03](https://github.com/lifinance/widget/commit/7817b03a0a65899c2a66b545956eaee2c6efdfd4))
+
+### [3.30.10](https://github.com/lifinance/widget/compare/v3.30.9...v3.30.10) (2025-09-15)
+
+
+### Bug Fixes
+
+* improve insufficient gas error handling ([4fb6c80](https://github.com/lifinance/widget/commit/4fb6c802e7bed7cc89b5b4fe3058df737aea64cf))
+
+### [3.30.9](https://github.com/lifinance/widget/compare/v3.30.8...v3.30.9) (2025-09-15)
+
+
+### Bug Fixes
+
+* add InsufficientGasMessage hiddenUI option ([1775aea](https://github.com/lifinance/widget/commit/1775aeae01e8b45a7b613fde66baaca792b66b31))
+
+### [3.30.8](https://github.com/lifinance/widget/compare/v3.30.7...v3.30.8) (2025-09-13)
+
+
+### Bug Fixes
+
+* expose disableMessageSigning option ([8d21779](https://github.com/lifinance/widget/commit/8d21779c57922f766a4eff47f5219331fc1554fb))
+
+### [3.30.7](https://github.com/lifinance/widget/compare/v3.30.6...v3.30.7) (2025-09-12)
+
+
+### Bug Fixes
+
+* improve SCA permit signature handling ([#549](https://github.com/lifinance/widget/issues/549)) ([55166a2](https://github.com/lifinance/widget/commit/55166a29cb88186ca1939ad8a1dd369c807b5356))
+
 ### [3.30.6](https://github.com/lifinance/widget/compare/v3.30.5...v3.30.6) (2025-09-12)
 
 

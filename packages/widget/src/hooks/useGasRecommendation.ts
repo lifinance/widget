@@ -1,6 +1,7 @@
 import { type ChainId, getGasRecommendation } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { HiddenUI } from '../types/widget.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useAvailableChains } from './useAvailableChains.js'
 
@@ -12,7 +13,7 @@ export const useGasRecommendation = (
   fromToken?: string
 ) => {
   const { chains } = useAvailableChains()
-  const { keyPrefix } = useWidgetConfig()
+  const { keyPrefix, hiddenUI } = useWidgetConfig()
 
   const checkRecommendationLiFuel =
     Boolean(toChainId) &&
@@ -47,7 +48,9 @@ export const useGasRecommendation = (
       )
       return gasRecommendation
     },
-    enabled: checkRecommendationLiFuel || checkRecommendationMaxButton,
+    enabled:
+      (checkRecommendationLiFuel || checkRecommendationMaxButton) &&
+      !hiddenUI?.includes(HiddenUI.GasRefuelMessage),
     refetchInterval,
     staleTime: refetchInterval,
   })

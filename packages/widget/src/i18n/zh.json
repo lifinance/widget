@@ -174,6 +174,7 @@
       "exchangeRateUpdateCanceled": "兑换率更新已取消",
       "gasLimitIsTooLow": "燃气费设置过低",
       "insufficientFunds": "资金不足",
+      "insufficientGas": "",
       "rateLimitExceeded": "",
       "signatureRejected": "交易需要签名。",
       "slippageNotMet": "滑点未满足",
@@ -197,13 +198,14 @@
   "tooltip": {
     "deselectAll": "取消全选",
     "estimatedTime": "",
-    "feeCollection": "该手续费适用于选定的代币对，保证使用 {{tool}} 交易顺畅。",
+    "feeCollection": "",
     "minReceived": "在签署兑换或者跨链交易之前， 预估的最低代币数量可能会变化，对于两步交易，这适用于第二步交易签署之前。",
     "notFound": {
       "text": "我们找不到这个页面。",
       "title": "404"
     },
-    "relayerService": "",
+    "multistep": "",
+    "gasless": "",
     "numberOfSteps": "每次代币兑换包含了一到两次需要签名的交易。",
     "priceImpact": "源代币和目标代币之间的估计差值。",
     "progressToNextUpdate": "数据将在{{value}} 秒后自动刷新，点击这里可以手动更新。",
@@ -224,7 +226,6 @@
       "relayerService": "",
       "estimated": "预估总费用",
       "free": "",
-      "integrator": "{{tool}} 费用",
       "network": "网络费用",
       "paid": "已支付的费用",
       "provider": "供应商费用"
@@ -304,7 +305,8 @@
     "tags": {
       "cheapest": "最佳报价",
       "fastest": "速度最快",
-      "gasless": ""
+      "gasless": "",
+      "multistep": ""
     },
     "to": "到",
     "tokenOnChain": "{{chainName}}链上的{{tokenSymbol}}",

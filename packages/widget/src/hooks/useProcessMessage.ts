@@ -174,6 +174,12 @@ export function getProcessMessage(
           'error.message.insufficientFunds'
         )} ${getDefaultErrorMessage()}`
         break
+      case LiFiErrorCode.InsufficientGas:
+        title = t('error.title.insufficientGas')
+        message = `${t(
+          'error.message.insufficientFunds'
+        )} ${getDefaultErrorMessage()}`
+        break
       case LiFiErrorCode.SlippageError:
         title = t('error.title.slippageNotMet')
         message = t('error.message.slippageThreshold')

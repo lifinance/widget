@@ -174,6 +174,7 @@
       "exchangeRateUpdateCanceled": "교환 비율 갱신이 취소되었습니다",
       "gasLimitIsTooLow": "가스 한도가 너무 낮습니다",
       "insufficientFunds": "잔고 부족",
+      "insufficientGas": "",
       "rateLimitExceeded": "",
       "signatureRejected": "서명이 필요합니다.",
       "slippageNotMet": "슬리피지 조건을 충족하지 못했습니다.",
@@ -203,7 +204,8 @@
       "text": "페이지를 찾을 수 없습니다.",
       "title": "404"
     },
-    "relayerService": "",
+    "multistep": "",
+    "gasless": "",
     "numberOfSteps": "",
     "priceImpact": "",
     "progressToNextUpdate": "표시된 데이터가 {{value}} 초 후에 자동 새로고침 됩니다. 수동으로 업데이트 하려면 여기를 클릭하십시오.",
@@ -224,7 +226,6 @@
       "relayerService": "",
       "estimated": "",
       "free": "",
-      "integrator": "",
       "network": "",
       "paid": "",
       "provider": ""
@@ -304,7 +305,8 @@
     "tags": {
       "cheapest": "",
       "fastest": "",
-      "gasless": ""
+      "gasless": "",
+      "multistep": ""
     },
     "to": "도착",
     "tokenOnChain": "{{chainName}}의 {{tokenSymbol}}",

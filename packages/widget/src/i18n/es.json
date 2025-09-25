@@ -174,6 +174,7 @@
       "exchangeRateUpdateCanceled": "Actualización del tipo de cambio cancelada",
       "gasLimitIsTooLow": "Límite de gas es demasiado bajo",
       "insufficientFunds": "Fondos insuficientes",
+      "insufficientGas": "",
       "rateLimitExceeded": "",
       "signatureRejected": "Firma requerida",
       "slippageNotMet": "Condiciones de slippage no cumplidas",
@@ -197,13 +198,14 @@
   "tooltip": {
     "deselectAll": "Deseleccionar todo",
     "estimatedTime": "",
-    "feeCollection": "La comisión se aplica a los pares de tokens seleccionados y garantiza la mejor experiencia con {{tool}}.",
+    "feeCollection": "",
     "minReceived": "La cantidad mínima estimada puede cambiar hasta que la transacción de intercambio/puente sea firmada. Para transferencias de dos pasos, esto se aplica hasta que la transacción de segundo paso sea firmada.",
     "notFound": {
       "text": "No pudimos encontrar esta página.",
       "title": "404"
     },
-    "relayerService": "",
+    "multistep": "",
+    "gasless": "",
     "numberOfSteps": "Cada paso de intercambio puede contener 1-2 transacciones que requieren una firma.",
     "priceImpact": "La diferencia de valor estimada entre los tokens de origen y destino.",
     "progressToNextUpdate": "Los datos mostrados se actualizarán automáticamente después de {{value}} segundos. Haga clic aquí para actualizar manualmente.",
@@ -224,7 +226,6 @@
       "relayerService": "",
       "estimated": "costes estimados",
       "free": "",
-      "integrator": "Comisión {{tool}}",
       "network": "Coste de red",
       "paid": "costes pagados",
       "provider": "Honorarios del proveedor"
@@ -304,7 +305,8 @@
     "tags": {
       "cheapest": "Mejor retorno",
       "fastest": "Más rápido",
-      "gasless": ""
+      "gasless": "",
+      "multistep": ""
     },
     "to": "A",
     "tokenOnChain": "{{tokenSymbol}} en {{chainName}}",

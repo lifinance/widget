@@ -5,6 +5,7 @@ import {
 } from '@lifi/wallet-management'
 import { type FC, type PropsWithChildren, useRef } from 'react'
 import { WagmiProvider } from 'wagmi'
+import { defaultBaseAccountConfig } from '../../config/baseAccount.js'
 import { defaultCoinbaseConfig } from '../../config/coinbase.js'
 import { defaultMetaMaskConfig } from '../../config/metaMask.js'
 import { defaultWalletConnectConfig } from '../../config/walletConnect.js'
@@ -21,6 +22,8 @@ export const EVMBaseProvider: FC<PropsWithChildren> = ({ children }) => {
       coinbase: walletConfig?.coinbase ?? defaultCoinbaseConfig,
       metaMask: walletConfig?.metaMask ?? defaultMetaMaskConfig,
       walletConnect: walletConfig?.walletConnect ?? defaultWalletConnectConfig,
+      baseAccount: walletConfig?.baseAccount ?? defaultBaseAccountConfig,
+      porto: walletConfig?.porto,
       wagmiConfig: {
         ssr: true,
       },
