@@ -1,9 +1,10 @@
 import type { EVMChain, RouteExtended, Token, TokenAmount } from '@lifi/sdk'
-import { ChainType, isRelayerStep } from '@lifi/sdk'
+import { ChainType } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { HiddenUI } from '../types/widget.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useAvailableChains } from './useAvailableChains.js'
 import { useIsContractAddress } from './useIsContractAddress.js'
@@ -25,7 +26,7 @@ export const useGasSufficiency = (route?: RouteExtended) => {
   const { account: EVMAccount, accounts } = useAccount({
     chainType: ChainType.EVM,
   })
-  const { keyPrefix } = useWidgetConfig()
+  const { keyPrefix, hiddenUI } = useWidgetConfig()
 
   const { relevantAccounts, relevantAccountsQueryKey } = useMemo(() => {
     const chainTypes = route?.steps.reduce((acc, step) => {
@@ -72,7 +73,6 @@ export const useGasSufficiency = (route?: RouteExtended) => {
       // Filter out steps that are relayer steps or have primaryType 'Permit' or 'Order'
       const filteredSteps = route.steps.filter(
         (step) =>
-          !isRelayerStep(step) &&
           !step.typedData?.some(
             (t) => t.primaryType === 'Permit' || t.primaryType === 'Order'
           )
@@ -205,7 +205,8 @@ export const useGasSufficiency = (route?: RouteExtended) => {
       !isContractAddress &&
         !isContractAddressLoading &&
         relevantAccounts.length > 0 &&
-        route
+        route &&
+        !hiddenUI?.includes(HiddenUI.InsufficientGasMessage)
     ),
     refetchInterval,
     staleTime: refetchInterval,

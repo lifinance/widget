@@ -2,6 +2,7 @@ import type {
   BaseToken,
   ChainType,
   ContractCall,
+  ExecutionOptions,
   ExtendedChain,
   Order,
   RouteExtended,
@@ -22,8 +23,10 @@ import type {
 import type { TypographyVariantsOptions } from '@mui/material/styles'
 import type { CSSProperties, FC, ReactNode, RefObject } from 'react'
 import type {
+  BaseAccountParameters,
   CoinbaseWalletParameters,
   MetaMaskParameters,
+  PortoParameters,
   WalletConnectParameters,
 } from 'wagmi/connectors'
 import type {
@@ -118,6 +121,7 @@ export enum HiddenUI {
   LowAddressActivityConfirmation = 'lowAddressActivityConfirmation',
   GasRefuelMessage = 'gasRefuelMessage',
   SearchTokenInput = 'searchTokenInput',
+  InsufficientGasMessage = 'insufficientGasMessage',
 }
 export type HiddenUIType = `${HiddenUI}`
 
@@ -137,6 +141,8 @@ export interface WidgetWalletConfig {
   walletConnect?: WalletConnectParameters
   coinbase?: CoinbaseWalletParameters
   metaMask?: MetaMaskParameters
+  baseAccount?: BaseAccountParameters
+  porto?: Partial<PortoParameters>
   /**
    * Determines whether the widget should provide partial wallet management functionality.
    *
@@ -163,6 +169,10 @@ export interface WidgetSDKConfig
     | 'widgetVersion'
   > {
   routeOptions?: Omit<RouteOptions, 'bridges' | 'exchanges'>
+  executionOptions?: Pick<
+    ExecutionOptions,
+    'disableMessageSigning' | 'updateTransactionRequestHook'
+  >
 }
 
 export interface WidgetContractTool {

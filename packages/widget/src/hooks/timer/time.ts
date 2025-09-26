@@ -8,16 +8,6 @@ export type TimeFromMillisecondsType = {
   days: number
 }
 
-export type AMPMType = '' | 'pm' | 'am'
-
-export type FormattedTimeFromMillisecondsType = {
-  milliseconds: number
-  seconds: number
-  minutes: number
-  hours: number
-  ampm?: AMPMType
-}
-
 export function getTimeFromMilliseconds(
   millisecs: number,
   isCountDown = true

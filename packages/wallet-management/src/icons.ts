@@ -13,6 +13,8 @@ export const getWalletIcon = (id: string): string | undefined => {
       return 'https://lifinance.github.io/types/src/assets/icons/wallets/metamask.svg'
     case 'baseAccount':
       return 'https://lifinance.github.io/types/src/assets/icons/wallets/baseAccount.svg'
+    case 'xyz.ithaca.porto':
+      return 'https://lifinance.github.io/types/src/assets/icons/wallets/porto.svg'
     default:
       break
   }
@@ -28,6 +30,8 @@ export const getChainTypeIcon = (chainType: ChainType) => {
       return 'https://lifinance.github.io/types/src/assets/icons/chains/bitcoin.svg'
     case ChainType.MVM:
       return 'https://lifinance.github.io/types/src/assets/icons/chains/sui.svg'
+    case ChainType.TVM:
+      return 'https://lifinance.github.io/types/src/assets/icons/chains/tron.svg'
   }
 }
 

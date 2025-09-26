@@ -1,32 +1,27 @@
-import { useMemo } from 'react'
-import type { TokenAmount } from '../types/token.js'
-import { useTokenBalances } from './useTokenBalances.js'
+import type { TokenAmount } from '@lifi/sdk'
+import { useAccount } from '@lifi/wallet-management'
+import { useChain } from './useChain.js'
+import { useToken } from './useToken.js'
+import { useTokenBalance } from './useTokenBalance.js'
 
 export const useTokenAddressBalance = (
   chainId?: number,
   tokenAddress?: string
 ) => {
-  const { tokens, tokensWithBalance, chain, isBalanceLoading, refetch } =
-    useTokenBalances(chainId)
+  const { chain, isLoading: isChainLoading } = useChain(chainId)
+  const { account } = useAccount({ chainType: chain?.chainType })
+  const { token, isLoading: isTokenLoading } = useToken(chainId, tokenAddress)
 
-  const token = useMemo(() => {
-    if (tokenAddress && chainId) {
-      let token = tokensWithBalance?.find(
-        (token) => token.address === tokenAddress && token.chainId === chainId
-      )
-      if (!token) {
-        token = tokens?.find(
-          (token) => token.address === tokenAddress && token.chainId === chainId
-        )
-      }
-      return token as TokenAmount
-    }
-  }, [chainId, tokenAddress, tokens, tokensWithBalance])
+  const {
+    token: tokenBalance,
+    isLoading: isBalanceLoading,
+    refetch,
+  } = useTokenBalance(account?.address, token)
 
   return {
-    token,
+    token: tokenBalance ?? (token as TokenAmount),
     chain,
-    isLoading: isBalanceLoading,
+    isLoading: isBalanceLoading || isChainLoading || isTokenLoading,
     refetch,
   }
 }

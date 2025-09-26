@@ -10,20 +10,20 @@
   },
   "dependencies": {
     "@lifi/widget": "workspace:^",
-    "@mui/material": "^7.3.1",
-    "@tanstack/react-query": "^5.85.5",
+    "@mui/material": "^7.3.2",
+    "@tanstack/react-query": "^5.90.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "wagmi": "^2.16.8",
+    "wagmi": "^2.17.4",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
-    "@types/react": "^19.1.11",
+    "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
-    "@vitejs/plugin-react": "^5.0.1",
+    "@vitejs/plugin-react": "^5.0.3",
     "globals": "^16.3.0",
     "typescript": "^5.9.2",
-    "vite": "^7.1.3",
+    "vite": "^7.1.7",
     "vite-plugin-node-polyfills": "^0.24.0"
   }
 }

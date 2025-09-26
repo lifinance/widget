@@ -51,8 +51,8 @@ interface UseContentHeightProps {
   headerRef?: RefObject<HTMLElement | null>
 }
 
-export const defaultMinListHeight = 360
-export const minMobileListHeight = 160
+const defaultMinListHeight = 360
+const minMobileListHeight = 160
 
 // NOTE: this hook is implicitly tied to the widget height functionality in the
 //   AppExpandedContainer, RelativeContainer and CssBaselineContainer components as defined in AppContainer.ts
@@ -102,7 +102,6 @@ export const useListHeight = ({
   )
 
   return {
-    minListHeight,
     listHeight,
   }
 }

@@ -12,13 +12,9 @@ import type { PersistStoreProviderProps } from '../types.js'
 import { createChainOrderStore } from './createChainOrderStore.js'
 import type { ChainOrderState } from './types.js'
 
-export type ChainOrderStore = UseBoundStoreWithEqualityFn<
-  StoreApi<ChainOrderState>
->
+type ChainOrderStore = UseBoundStoreWithEqualityFn<StoreApi<ChainOrderState>>
 
-export const ChainOrderStoreContext = createContext<ChainOrderStore | null>(
-  null
-)
+const ChainOrderStoreContext = createContext<ChainOrderStore | null>(null)
 
 export function ChainOrderStoreProvider({
   children,
@@ -66,6 +62,11 @@ export function ChainOrderStoreProvider({
           key
         )
 
+        // Show "All networks" button if there are multiple networks
+        const showAllNetworks = filteredChains.length > 1
+        storeRef.current?.getState().setIsAllNetworks(showAllNetworks, key)
+        storeRef.current?.getState().setShowAllNetworks(showAllNetworks, key)
+
         const [chainValue] = getFieldValues(`${key}Chain`)
         if (chainValue) {
           return
@@ -105,7 +106,7 @@ export function ChainOrderStoreProvider({
   )
 }
 
-export function useChainOrderStoreContext() {
+function useChainOrderStoreContext() {
   const useStore = useContext(ChainOrderStoreContext)
   if (!useStore) {
     throw new Error(

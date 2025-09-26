@@ -56,7 +56,6 @@ export const TokenRate: React.FC<TokenRateProps> = ({ route }) => {
     : `1 ${toToken.symbol} ≈ ${t('format.tokenAmount', { value: toFromRate })} ${fromToken.symbol}`
 
   return (
-    // biome-ignore lint/a11y/useSemanticElements: allowed in react
     <TokenRateTypography onClick={toggleRate} role="button">
       {rateText}
     </TokenRateTypography>

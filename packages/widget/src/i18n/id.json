@@ -92,7 +92,7 @@
       "emptyBridgesList": "Kami tidak dapat menemukan bridge yang sesuai dengan pencarian Anda",
       "emptyChainList": "Kami tidak dapat menemukan chain yang sesuai dengan pencarian Anda",
       "emptyExchangesList": "Kami tidak dapat menemukan exchanges yang sesuai dengan pencarian Anda",
-      "emptyTokenList": "Kami tidak dapat menemukan token di jaringan {{chainName}} atau Anda tidak memilikinya. Silakan cari berdasarkan alamat kontrak jika token Anda tidak muncul atau pilih jaringan lain.",
+      "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "Riwayat transaksi hanya disimpan secara lokal dan akan dihapus jika Anda menghapus data browser.",
       "routeNotFound": "Alasannya mungkin: likuiditas rendah, jumlah yang dipilih terlalu rendah, biaya gas terlalu tinggi, atau tidak ada rute untuk kombinasi yang dipilih.",
       "toAddressIsRequired": "Alamat dompet tujuan diperlukan untuk melanjutkan transfer.",
@@ -174,6 +174,7 @@
       "exchangeRateUpdateCanceled": "Pembaruan nilai tukar dibatalkan",
       "gasLimitIsTooLow": "Gas limit terlalu rendah",
       "insufficientFunds": "Dana tidak mencukupi",
+      "insufficientGas": "",
       "rateLimitExceeded": "",
       "signatureRejected": "Tanda tangan diperlukan",
       "slippageNotMet": "Kondisi slippage tidak terpenuhi",
@@ -197,13 +198,14 @@
   "tooltip": {
     "deselectAll": "Hapus semua",
     "estimatedTime": "Saatnya menyelesaikan transaksi swap atau bridge, tidak termasuk peralihan rantai dan persetujuan token.",
-    "feeCollection": "Biaya diterapkan pada pasangan token yang dipilih dan memastikan pengalaman terbaik dengan {{tool}}.",
+    "feeCollection": "",
     "minReceived": "Perkiraan jumlah minimum dapat berubah hingga transaksi swapping/bridging ditandatangani. Untuk transfer 2 langkah, ini berlaku hingga transaksi langkah kedua ditandatangani.",
     "notFound": {
       "text": "Kami tidak dapat menemukan halaman ini.",
       "title": "404"
     },
-    "relayerService": "Kami menangani gas, sehingga Anda dapat mentransfer aset tanpa memegang token asli. Biaya jaringan sudah termasuk dalam transfer.",
+    "multistep": "",
+    "gasless": "",
     "numberOfSteps": "Sejumlah langkah swap. Setiap langkah dapat berisi 1-2 transaksi yang memerlukan tanda tangan.",
     "priceImpact": "Perkiraan perbedaan nilai antara token sumber dan tujuan.",
     "progressToNextUpdate": "Data yang ditampilkan akan disegarkan secara otomatis setelah {{value}} detik. Klik di sini untuk memperbarui secara manual.",
@@ -212,6 +214,7 @@
     "slippage": "Perbedaan persentase maksimum antara harga yang diharapkan dan harga sebenarnya saat transfer dilakukan. Nilai ini dapat diubah dalam pengaturan."
   },
   "main": {
+    "allNetworks": "",
     "allTokens": "Semua Token",
     "bridgeStepDetails": "Bridge dari {{from}} to {{to}} via {{tool}}",
     "checkoutStepDetails": "Dapatkan melalui {{tool}}",
@@ -223,7 +226,6 @@
       "relayerService": "Transaksi tanpa Gas",
       "estimated": "estimasi biaya",
       "free": "Gratis",
-      "integrator": "Biaya {{tool}}",
       "network": "Biaya jaringan",
       "paid": "biaya yang dibayar",
       "provider": "Biaya penyedia"
@@ -303,17 +305,17 @@
     "tags": {
       "cheapest": "Pengembalian terbaik",
       "fastest": "Tercepat",
-      "gasless": "Tanpa Gas"
+      "gasless": "Tanpa Gas",
+      "multistep": ""
     },
     "to": "Kepada",
     "tokenOnChain": "{{tokenSymbol}} di {{chainName}}",
     "tokenOnChainAmount": "{{amount, numberExt}} {{tokenSymbol}} di {{chainName}}",
     "tokenSearch": "",
     "valueLoss": "Kehilangan nilai",
-    "searchChain": "",
-    "searchChains": "Cari berdasarkan nama rantai",
     "searchBridges": "Cari berdasarkan nama bridge",
-    "searchExchanges": "Cari berdasarkan nama exchange"
+    "searchExchanges": "Cari berdasarkan nama exchange",
+    "searchNetwork": ""
   },
   "settings": {
     "appearance": "",

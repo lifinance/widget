@@ -39,7 +39,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   )
 }
 
-export const WalletMenuProvider: FC<PropsWithChildren> = ({ children }) => {
+const WalletMenuProvider: FC<PropsWithChildren> = ({ children }) => {
   const { walletConfig } = useWidgetConfig()
   const { i18n } = useTranslation()
   const { internalChainTypes } = useExternalWalletProvider()

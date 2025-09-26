@@ -1,6 +1,6 @@
 import type * as languages from '../../i18n/index.js'
 
-export type PartialResource<T> = T extends object
+type PartialResource<T> = T extends object
   ? {
       [P in keyof T]?: PartialResource<T[P]>
     }
@@ -8,7 +8,7 @@ export type PartialResource<T> = T extends object
 
 export type LanguageKey = keyof typeof languages
 
-export type LanguageResource = typeof languages.en
+type LanguageResource = typeof languages.en
 
 export type LanguageResources =
   | {
@@ -18,7 +18,7 @@ export type LanguageResources =
       [language: string]: PartialResource<LanguageResource>
     }
 
-export type LanguageTranslationResource = {
+type LanguageTranslationResource = {
   [N in 'translation']: PartialResource<LanguageResource>
 }
 

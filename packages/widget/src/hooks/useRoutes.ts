@@ -5,7 +5,7 @@ import {
   getContractCallsQuote,
   getRelayerQuote,
   getRoutes,
-  isRelayerStep,
+  isGaslessStep,
   LiFiErrorCode,
 } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
@@ -331,8 +331,9 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           return
         }
 
-        const isObservableRelayerRoute =
-          observableRoute?.steps?.some(isRelayerStep)
+        const isObservableRelayerRoute = observableRoute?.steps?.some((step) =>
+          isGaslessStep(step, fromChain)
+        )
 
         const shouldUseMainRoutes =
           !observableRoute || !isObservableRelayerRoute

@@ -33,7 +33,7 @@ export const ChainSearchInput = ({
         <SearchInput
           inputRef={inputRef}
           onChange={onChange}
-          placeholder={t('main.searchChain')}
+          placeholder={t('main.searchNetwork')}
           size="small"
           onClear={handleClear}
         />
@@ -45,7 +45,7 @@ export const ChainSearchInput = ({
     <StickySearchInput
       inputRef={inputRef}
       onChange={onChange}
-      placeholder={t('main.searchChain')}
+      placeholder={t('main.searchNetwork')}
       onClear={handleClear}
     />
   )

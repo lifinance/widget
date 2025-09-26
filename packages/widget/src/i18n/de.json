@@ -92,7 +92,7 @@
       "emptyBridgesList": "",
       "emptyChainList": "",
       "emptyExchangesList": "",
-      "emptyTokenList": "Es wurden keine Tokens auf der Chain {{chainName}} gefunden oder Sie haben keine. Bitte versuchen Sie die Suche erneut mit der Contract-Adresse falls Ihr Token nicht erscheint oder wechseln Sie die Chain.",
+      "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "Die Transaktionshistorie wird nur lokal gespeichert und gelöscht, wenn Sie Ihre Browserdaten löschen.",
       "routeNotFound": "Gründe dafür könnten lauten: geringe Liquidität, gewählter Betrag ist zu niedrig, die Gaskosten sind zu hoch oder es gibt keine Routen für die ausgewählte Kombination.",
       "toAddressIsRequired": "",
@@ -174,6 +174,7 @@
       "exchangeRateUpdateCanceled": "",
       "gasLimitIsTooLow": "Das Gaslimit ist zu niedrig",
       "insufficientFunds": "Unzureichendes Guthaben",
+      "insufficientGas": "",
       "rateLimitExceeded": "",
       "signatureRejected": "",
       "slippageNotMet": "Slippagebedingungen nicht erfüllt",
@@ -203,7 +204,8 @@
       "text": "Wir konnten diese Seite nicht finden.",
       "title": "404"
     },
-    "relayerService": "",
+    "multistep": "",
+    "gasless": "",
     "numberOfSteps": "",
     "priceImpact": "",
     "progressToNextUpdate": "Angezeigte Daten werden nach {{value}} Sekunden automatisch aktualisiert. Klicken Sie hier, um manuell zu aktualisieren.",
@@ -212,6 +214,7 @@
     "slippage": ""
   },
   "main": {
+    "allNetworks": "",
     "allTokens": "",
     "bridgeStepDetails": "",
     "checkoutStepDetails": "",
@@ -223,7 +226,6 @@
       "relayerService": "",
       "estimated": "",
       "free": "",
-      "integrator": "",
       "network": "",
       "paid": "",
       "provider": ""
@@ -303,17 +305,17 @@
     "tags": {
       "cheapest": "",
       "fastest": "",
-      "gasless": ""
+      "gasless": "",
+      "multistep": ""
     },
     "to": "Zu",
     "tokenOnChain": "{{tokenSymbol}} auf {{chainName}}",
     "tokenOnChainAmount": "",
     "tokenSearch": "",
     "valueLoss": "Wertverlust",
-    "searchChain": "",
-    "searchChains": "",
     "searchBridges": "",
-    "searchExchanges": ""
+    "searchExchanges": "",
+    "searchNetwork": ""
   },
   "settings": {
     "appearance": "",

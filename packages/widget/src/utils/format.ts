@@ -33,7 +33,7 @@ export function formatSlippage(
   if (Number.isNaN(parsedSlippage)) {
     return defaultValue
   }
-  if (parsedSlippage > 100) {
+  if (parsedSlippage >= 100) {
     return '100'
   }
   if (parsedSlippage < 0) {
@@ -54,7 +54,11 @@ export function formatInputAmount(
     return amount
   }
   let formattedAmount = amount.trim().replaceAll(',', '.')
-  if (formattedAmount.startsWith('.')) {
+  if (
+    returnInitial &&
+    formattedAmount.startsWith('.') &&
+    !Number.parseFloat(formattedAmount)
+  ) {
     formattedAmount = `0${formattedAmount}`
   }
   const parsedAmount = Number.parseFloat(formattedAmount)
@@ -66,6 +70,8 @@ export function formatInputAmount(
   }
   if (returnInitial) {
     return formattedAmount
+  } else if (formattedAmount.startsWith('.')) {
+    formattedAmount = `0${formattedAmount}`
   }
   let [integer, fraction = ''] = formattedAmount.split('.')
   if (decimals !== null && fraction.length > decimals) {
@@ -73,6 +79,7 @@ export function formatInputAmount(
   }
   integer = integer.replace(/^0+|-/, '')
   fraction = fraction.replace(/(0+)$/, '')
+
   return `${integer || (fraction ? '0' : '')}${fraction ? `.${fraction}` : ''}`
 }
 
@@ -102,8 +109,8 @@ export function formatTokenPrice(
 const formatter = new Intl.NumberFormat('en', {
   notation: 'standard',
   roundingPriority: 'morePrecision',
-  maximumSignificantDigits: 21,
-  maximumFractionDigits: 21,
+  maximumSignificantDigits: 20,
+  maximumFractionDigits: 20,
   useGrouping: false,
 })
 

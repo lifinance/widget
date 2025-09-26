@@ -14,6 +14,7 @@ function App() {
           config={{
             theme: {
               container: {
+                height: 'fit-content',
                 border: '1px solid rgb(234, 234, 234)',
                 borderRadius: '16px',
               },

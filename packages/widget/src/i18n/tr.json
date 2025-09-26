@@ -92,7 +92,7 @@
       "emptyBridgesList": "Aradığın köprüyü bulamadık",
       "emptyChainList": "Aradığın zinciri bulamadık",
       "emptyExchangesList": "Aradığın borsayı bulamadık",
-      "emptyTokenList": "{{chainName}} ağında token bulamadık veya sizde hiç token yok. Lütfen tekrar aramayı deneyin veya başka bir ağ seçin.",
+      "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "İşlem geçmişi yalnızca yerel olarak saklanır ve tarayıcı verilerinizi temizlerseniz silinir.",
       "routeNotFound": "Muhtemel sebepler şunlar olabilir: Düşük likidite, seçilen miktarın çok düşük olması, gaz masrafının çok olması ya da seçilen kombinasyon için rota olmaması.",
       "toAddressIsRequired": "Transfer işlemine devam etmek için hedef cüzdan adresi gereklidir.",
@@ -174,6 +174,7 @@
       "exchangeRateUpdateCanceled": "Fiyat güncellemesi iptal edildi",
       "gasLimitIsTooLow": "Gaz limiti çok düşük",
       "insufficientFunds": "Yetersiz bakiye",
+      "insufficientGas": "",
       "rateLimitExceeded": "",
       "signatureRejected": "İmza gerekiyor",
       "slippageNotMet": "Slipaj koşulları karşılanmadı",
@@ -197,13 +198,14 @@
   "tooltip": {
     "deselectAll": "Tüm seçimi kaldır",
     "estimatedTime": "",
-    "feeCollection": "Ücret, seçilen token çiftlerine uygulanır ve {{tool}} ile en iyi deneyimi sağlar.",
+    "feeCollection": "",
     "minReceived": "Takas/köprüleme işlemi imzalanana kadar tahmini minimum tutar değişebilir. 2 adımlı transferlerde bu durum, ikinci adım işlemi imzalanana kadar geçerlidir.",
     "notFound": {
       "text": "Aradığınız sayfayı bulamadık.",
       "title": "404"
     },
-    "relayerService": "",
+    "multistep": "",
+    "gasless": "",
     "numberOfSteps": "Her adım, imza gerektiren 1-2 işlem içerebilir.",
     "priceImpact": "Kaynak ve hedef tokenlar arasındaki tahmini değer farkı.",
     "progressToNextUpdate": "Görüntülenen veriler, {{value}} saniye sonra otomatik olarak yenilenecektir. Manuel olarak güncellemek için burayı tıklayın.",
@@ -212,6 +214,7 @@
     "slippage": "Beklenen fiyat ile transferin gerçekleştirildiği gerçek fiyat arasındaki maksimum yüzde fark. Bu değer ayarlardan değiştirilebilir."
   },
   "main": {
+    "allNetworks": "",
     "allTokens": "Tüm varlıklar",
     "bridgeStepDetails": "{{tool}} aracılığıyla {{from}} ağından {{to}} ağına köprüle",
     "checkoutStepDetails": "{{tool}} aracılığıyla alım yap",
@@ -223,7 +226,6 @@
       "relayerService": "",
       "estimated": "tahmini işlem ücretleri",
       "free": "",
-      "integrator": "{{tool}} ücreti",
       "network": "Ağ maliyeti",
       "paid": "ödenmiş ücretler",
       "provider": "Sağlayıcı ücreti"
@@ -303,17 +305,17 @@
     "tags": {
       "cheapest": "En iyi sonuç",
       "fastest": "En Hızlı",
-      "gasless": ""
+      "gasless": "",
+      "multistep": ""
     },
     "to": "Şuna",
     "tokenOnChain": "{{chainName}} üzerindeki {{tokenSymbol}}",
     "tokenOnChainAmount": "",
     "tokenSearch": "",
     "valueLoss": "Değer kaybı",
-    "searchChain": "",
-    "searchChains": "Zincir adına göre ara",
     "searchBridges": "Köprü adına göre ara",
-    "searchExchanges": "Borsa adına göre ara"
+    "searchExchanges": "Borsa adına göre ara",
+    "searchNetwork": ""
   },
   "settings": {
     "appearance": "",

@@ -92,7 +92,7 @@
       "emptyBridgesList": "",
       "emptyChainList": "",
       "emptyExchangesList": "",
-      "emptyTokenList": "เราไม่พบโทเค็นใน {{chainName}} เชนหรือคุณไม่มีโทเค็น. โปรดลองอีกครั้งหรือเลือกเชนอื่น.",
+      "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "ประวัติการแลกเปลี่ยนจะถูกเก็บไว้ในเครื่องเท่านั้นและจะถูกลบหากคุณล้างข้อมูลเบราว์เซอร์ของคุณ.",
       "routeNotFound": "เหตุผลที่อาจเกิดขึ้น : สภาพคล่องต่ำ , จำนวนที่เลือกน้อยเกินไป , ต้นทุนแก็สสูงหรือไม่มีเส้นทางที่ใช้งานได้",
       "toAddressIsRequired": "",
@@ -174,6 +174,7 @@
       "exchangeRateUpdateCanceled": "การอัปเดตอัตราแลกเปลี่ยนถูกยกเลิก",
       "gasLimitIsTooLow": "แก๊สคงเหลือต่ำเกินไป",
       "insufficientFunds": "ยอดคงเหลือไม่เพียงพอ",
+      "insufficientGas": "",
       "rateLimitExceeded": "",
       "signatureRejected": "ต้องมีลายเซ็น",
       "slippageNotMet": "ความคลาดเคลื่อนของราคาไม่เป็นไปตามเงื่อนไข.",
@@ -203,7 +204,8 @@
       "text": "เราไม่พบหน้านี้.",
       "title": "404"
     },
-    "relayerService": "",
+    "multistep": "",
+    "gasless": "",
     "numberOfSteps": "",
     "priceImpact": "",
     "progressToNextUpdate": "ข้อมูลที่แสดงจะรีเฟรชอัตโนมัติหลังจาก {{value}} วินาที คลิกที่นี่เพื่ออัปเดตด้วยตนเอง",
@@ -212,6 +214,7 @@
     "slippage": ""
   },
   "main": {
+    "allNetworks": "",
     "allTokens": "โทเคนทั้งหมด",
     "bridgeStepDetails": "บริดจ์จาก{{from}} ไปยัง {{to}} โดย {{tool}}",
     "checkoutStepDetails": "ซื้อผ่าน {{tool}}",
@@ -223,7 +226,6 @@
       "relayerService": "",
       "estimated": "",
       "free": "",
-      "integrator": "",
       "network": "",
       "paid": "",
       "provider": ""
@@ -303,17 +305,17 @@
     "tags": {
       "cheapest": "ผลตอบแทนที่ดีที่สุด",
       "fastest": "รวดเร็วที่สุด",
-      "gasless": ""
+      "gasless": "",
+      "multistep": ""
     },
     "to": "ถึง",
     "tokenOnChain": "{{tokenSymbol}} บน {{chainName}}",
     "tokenOnChainAmount": "",
     "tokenSearch": "",
     "valueLoss": "มูลค่าที่สูญเสีย",
-    "searchChain": "",
-    "searchChains": "",
     "searchBridges": "",
-    "searchExchanges": ""
+    "searchExchanges": "",
+    "searchNetwork": ""
   },
   "settings": {
     "appearance": "",

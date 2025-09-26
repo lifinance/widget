@@ -100,10 +100,12 @@ export const SelectChainContent = memo(function SelectChainContent({
       >
         <ChainList
           parentRef={listRef}
+          formType={formType}
           chains={filteredChains}
           isLoading={isLoading}
           onSelect={onSelect ?? onSelectChainFallback}
           selectedChainId={selectedChainId}
+          hasSearchQuery={!!inputRef.current?.value}
           inExpansion={inExpansion}
         />
       </Box>

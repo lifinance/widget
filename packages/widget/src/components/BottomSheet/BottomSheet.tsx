@@ -12,7 +12,7 @@ import { modalProps, slotProps } from '../Dialog.js'
 import type { BottomSheetBase, BottomSheetProps } from './types.js'
 
 export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
-  ({ elementRef, children, open, onClose }, ref) => {
+  ({ elementRef, children, open, onClose, keepMounted = false }, ref) => {
     const getContainer = useGetScrollableContainer()
     const openRef = useRef(open)
     const [drawerOpen, setDrawerOpen] = useState(open)
@@ -54,7 +54,7 @@ export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
         ModalProps={modalProps}
         slotProps={slotProps}
         disableAutoFocus
-        keepMounted={true}
+        keepMounted={keepMounted}
         inert={isInert}
       >
         {children}

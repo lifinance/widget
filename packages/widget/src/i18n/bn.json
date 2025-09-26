@@ -92,7 +92,7 @@
       "emptyBridgesList": "",
       "emptyChainList": "",
       "emptyExchangesList": "",
-      "emptyTokenList": "",
+      "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "",
       "routeNotFound": "",
       "toAddressIsRequired": "",
@@ -174,6 +174,7 @@
       "exchangeRateUpdateCanceled": "",
       "gasLimitIsTooLow": "গ্যাসের সীমা খুব কম",
       "insufficientFunds": "",
+      "insufficientGas": "",
       "rateLimitExceeded": "",
       "signatureRejected": "",
       "slippageNotMet": "স্লিপেজ শর্ত পূরণ করা হয়নি",
@@ -203,7 +204,8 @@
       "text": "আমরা এই পৃষ্ঠাটি খুঁজে পাইনি।",
       "title": "৪০৪"
     },
-    "relayerService": "",
+    "multistep": "",
+    "gasless": "",
     "numberOfSteps": "",
     "priceImpact": "",
     "progressToNextUpdate": "প্রদর্শিত ডেটা {{value}} সেকেন্ড পরে স্বয়ংক্রিয়ভাবে রিফ্রেশ হবে। ম্যানুয়ালি আপডেট করতে এখানে ক্লিক করুন।",
@@ -212,6 +214,7 @@
     "slippage": ""
   },
   "main": {
+    "allNetworks": "",
     "allTokens": "",
     "bridgeStepDetails": "",
     "checkoutStepDetails": "",
@@ -223,7 +226,6 @@
       "relayerService": "",
       "estimated": "",
       "free": "",
-      "integrator": "",
       "network": "",
       "paid": "",
       "provider": ""
@@ -303,17 +305,17 @@
     "tags": {
       "cheapest": "",
       "fastest": "",
-      "gasless": ""
+      "gasless": "",
+      "multistep": ""
     },
     "to": "প্রতি",
     "tokenOnChain": "{{chainName}} -এ {{tokenSymbol}}",
     "tokenOnChainAmount": "",
     "tokenSearch": "",
     "valueLoss": "মান ক্ষতি",
-    "searchChain": "",
-    "searchChains": "",
     "searchBridges": "",
-    "searchExchanges": ""
+    "searchExchanges": "",
+    "searchNetwork": ""
   },
   "settings": {
     "appearance": "",

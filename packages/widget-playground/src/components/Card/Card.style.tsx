@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@mui/material'
 
-export interface CardProps extends MuiCardProps {
+interface CardProps extends MuiCardProps {
   type?: 'default' | 'selected' | 'error'
   selectionColor?: 'primary' | 'secondary'
   indented?: boolean

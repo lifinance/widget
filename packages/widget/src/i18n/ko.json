@@ -92,7 +92,7 @@
       "emptyBridgesList": "",
       "emptyChainList": "",
       "emptyExchangesList": "",
-      "emptyTokenList": "{{chainName}} 체인에서 토큰을 찾을 수 없거나 보유 중인 토큰이 아닙니다. 다시 검색하거나 다른 체인을 선택하십시오.",
+      "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "스왑 기록은 로컬에만 저장되며 브라우저 데이터를 지우면 삭제됩니다.",
       "routeNotFound": "이유: 낮은 유동성, 선택된 수량이 너무 적음, 가스비가 너무 비싸거나 경로가 존재하지 않음",
       "toAddressIsRequired": "",
@@ -174,6 +174,7 @@
       "exchangeRateUpdateCanceled": "교환 비율 갱신이 취소되었습니다",
       "gasLimitIsTooLow": "가스 한도가 너무 낮습니다",
       "insufficientFunds": "잔고 부족",
+      "insufficientGas": "",
       "rateLimitExceeded": "",
       "signatureRejected": "서명이 필요합니다.",
       "slippageNotMet": "슬리피지 조건을 충족하지 못했습니다.",
@@ -203,7 +204,8 @@
       "text": "페이지를 찾을 수 없습니다.",
       "title": "404"
     },
-    "relayerService": "",
+    "multistep": "",
+    "gasless": "",
     "numberOfSteps": "",
     "priceImpact": "",
     "progressToNextUpdate": "표시된 데이터가 {{value}} 초 후에 자동 새로고침 됩니다. 수동으로 업데이트 하려면 여기를 클릭하십시오.",
@@ -212,6 +214,7 @@
     "slippage": ""
   },
   "main": {
+    "allNetworks": "",
     "allTokens": "",
     "bridgeStepDetails": "",
     "checkoutStepDetails": "",
@@ -223,7 +226,6 @@
       "relayerService": "",
       "estimated": "",
       "free": "",
-      "integrator": "",
       "network": "",
       "paid": "",
       "provider": ""
@@ -303,17 +305,17 @@
     "tags": {
       "cheapest": "",
       "fastest": "",
-      "gasless": ""
+      "gasless": "",
+      "multistep": ""
     },
     "to": "도착",
     "tokenOnChain": "{{chainName}}의 {{tokenSymbol}}",
     "tokenOnChainAmount": "",
     "tokenSearch": "",
     "valueLoss": "가치 손실",
-    "searchChain": "",
-    "searchChains": "",
     "searchBridges": "",
-    "searchExchanges": ""
+    "searchExchanges": "",
+    "searchNetwork": ""
   },
   "settings": {
     "appearance": "",

@@ -13,14 +13,14 @@ import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
 import type { ThemeItem } from '../editTools/types.js'
 import type { FormValues } from '../types.js'
 
-export interface WidgetConfigValues {
+interface WidgetConfigValues {
   defaultConfig?: Partial<WidgetConfig>
   config?: Partial<WidgetConfig>
   themeId: string
   widgetThemeItems: ThemeItem[]
 }
 
-export interface WidgetConfigActions {
+interface WidgetConfigActions {
   setConfig: (config: Partial<WidgetConfig>) => void
   setDefaultConfig: (defaultConfig: Partial<WidgetConfig>) => void
   resetConfig: () => void

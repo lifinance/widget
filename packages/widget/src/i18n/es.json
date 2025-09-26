@@ -92,7 +92,7 @@
       "emptyBridgesList": "No pudimos encontrar ningún puente que coincida con tu búsqueda",
       "emptyChainList": "No pudimos encontrar ninguna cadena que coincida con tu búsqueda",
       "emptyExchangesList": "No pudimos encontrar ningún intercambio que coincida con su búsqueda",
-      "emptyTokenList": "No pudimos encontrar tokens en la cadena {{chainName}} o no tienes ninguno. Por favor, busque por dirección de contrato si su token no aparece o elija otra cadena.",
+      "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "El historial de intercambio solo se almacena localmente y se eliminará si borra los datos de su navegador.",
       "routeNotFound": "Razones para eso: baja liquidez, cantidad seleccionada es demasiado baja, Los costos de gas son demasiado altos o no hay rutas para la combinación seleccionada.",
       "toAddressIsRequired": "La dirección de la cartera de destino es necesaria para proceder con la transferencia.",
@@ -174,6 +174,7 @@
       "exchangeRateUpdateCanceled": "Actualización del tipo de cambio cancelada",
       "gasLimitIsTooLow": "Límite de gas es demasiado bajo",
       "insufficientFunds": "Fondos insuficientes",
+      "insufficientGas": "",
       "rateLimitExceeded": "",
       "signatureRejected": "Firma requerida",
       "slippageNotMet": "Condiciones de slippage no cumplidas",
@@ -197,13 +198,14 @@
   "tooltip": {
     "deselectAll": "Deseleccionar todo",
     "estimatedTime": "",
-    "feeCollection": "La comisión se aplica a los pares de tokens seleccionados y garantiza la mejor experiencia con {{tool}}.",
+    "feeCollection": "",
     "minReceived": "La cantidad mínima estimada puede cambiar hasta que la transacción de intercambio/puente sea firmada. Para transferencias de dos pasos, esto se aplica hasta que la transacción de segundo paso sea firmada.",
     "notFound": {
       "text": "No pudimos encontrar esta página.",
       "title": "404"
     },
-    "relayerService": "",
+    "multistep": "",
+    "gasless": "",
     "numberOfSteps": "Cada paso de intercambio puede contener 1-2 transacciones que requieren una firma.",
     "priceImpact": "La diferencia de valor estimada entre los tokens de origen y destino.",
     "progressToNextUpdate": "Los datos mostrados se actualizarán automáticamente después de {{value}} segundos. Haga clic aquí para actualizar manualmente.",
@@ -212,6 +214,7 @@
     "slippage": "El porcentaje máximo de diferencia entre el precio esperado, y el precio real al que se ejecuta una transferencia. Este valor puede cambiarse en ajustes."
   },
   "main": {
+    "allNetworks": "",
     "allTokens": "Todos los tokens",
     "bridgeStepDetails": "Puente de {{from}} a {{to}} vía {{tool}}",
     "checkoutStepDetails": "Comprar a través de {{tool}}",
@@ -223,7 +226,6 @@
       "relayerService": "",
       "estimated": "costes estimados",
       "free": "",
-      "integrator": "Comisión {{tool}}",
       "network": "Coste de red",
       "paid": "costes pagados",
       "provider": "Honorarios del proveedor"
@@ -303,17 +305,17 @@
     "tags": {
       "cheapest": "Mejor retorno",
       "fastest": "Más rápido",
-      "gasless": ""
+      "gasless": "",
+      "multistep": ""
     },
     "to": "A",
     "tokenOnChain": "{{tokenSymbol}} en {{chainName}}",
     "tokenOnChainAmount": "",
     "tokenSearch": "",
     "valueLoss": "Valor perdido",
-    "searchChain": "",
-    "searchChains": "Buscar por nombre de cadena",
     "searchBridges": "Buscar por nombre de puente",
-    "searchExchanges": "Buscar por nombre de intercambio"
+    "searchExchanges": "Buscar por nombre de intercambio",
+    "searchNetwork": ""
   },
   "settings": {
     "appearance": "",

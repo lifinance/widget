@@ -2,26 +2,22 @@ import { useCallback } from 'react'
 import { useToAddressAutoPopulate } from '../../hooks/useToAddressAutoPopulate.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { useChainOrderStoreContext } from '../../stores/chains/ChainOrderStore.js'
+import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import type { FormType } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useSplitSubvariantStore } from '../../stores/settings/useSplitSubvariantStore.js'
 import { WidgetEvent } from '../../types/events.js'
 import type { DisabledUI } from '../../types/widget.js'
-
-export type UseTokenSelectArgs = {
-  formType: FormType
-  onClick?: () => void
-}
+import { isItemAllowed } from '../../utils/item.js'
 
 export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
-  const { subvariant, disabledUI } = useWidgetConfig()
+  const { subvariant, disabledUI, chains: chainsConfig } = useWidgetConfig()
   const splitSubvariant = useSplitSubvariantStore((store) => store.state)
   const emitter = useWidgetEvents()
   const { setFieldValue, getFieldValues } = useFieldActions()
   const autoPopulateToAddress = useToAddressAutoPopulate()
-  const chainOrderStore = useChainOrderStoreContext()
+  const setChain = useChainOrderStore((state) => state.setChain)
 
   const tokenKey = FormKeyHelper.getTokenKey(formType)
 
@@ -70,9 +66,13 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
         })
       }
 
-      // If no opposite token is selected, synchronize the opposite chain to match the currently selected chain
-      const { setChain } = chainOrderStore.getState()
-      if (!selectedOppositeTokenAddress && selectedChainId) {
+      // If no opposite token is selected, synchronize the opposite chain
+      // to match the currently selected chain (if allowed)
+      if (
+        !selectedOppositeTokenAddress &&
+        selectedChainId &&
+        isItemAllowed(selectedChainId, chainsConfig?.[oppositeFormType])
+      ) {
         setFieldValue(
           FormKeyHelper.getChainKey(oppositeFormType),
           selectedChainId,
@@ -109,16 +109,17 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
     },
     [
       autoPopulateToAddress,
-      chainOrderStore,
       disabledUI,
       emitter,
       formType,
       getFieldValues,
       onClick,
+      setChain,
       setFieldValue,
       subvariant,
       splitSubvariant,
       tokenKey,
+      chainsConfig,
     ]
   )
 }

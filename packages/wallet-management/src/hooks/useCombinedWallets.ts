@@ -20,6 +20,7 @@ import { defaultWalletConnectConfig } from '../config/walletConnect.js'
 import { createBaseAccountConnector } from '../connectors/baseAccount.js'
 import { createCoinbaseConnector } from '../connectors/coinbase.js'
 import { createMetaMaskConnector } from '../connectors/metaMask.js'
+import { createPortoConnector } from '../connectors/porto.js'
 import type { CreateConnectorFnExtended } from '../connectors/types.js'
 import { createWalletConnectConnector } from '../connectors/walletConnect.js'
 import { useWalletManagementConfig } from '../providers/WalletManagementProvider/WalletManagementContext.js'
@@ -28,7 +29,7 @@ import { getConnectorIcon } from '../utils/getConnectorIcon.js'
 import { getWalletPriority } from '../utils/getWalletPriority.js'
 import { isWalletInstalled } from '../utils/isWalletInstalled.js'
 
-export type CombinedWalletConnector = {
+type CombinedWalletConnector = {
   connector: WalletConnector
   chainType: ChainType
 }
@@ -40,7 +41,7 @@ export type CombinedWallet = {
   connectors: CombinedWalletConnector[]
 }
 
-export type CombinedWallets = {
+type CombinedWallets = {
   installedWallets: CombinedWallet[]
   notDetectedWallets: CombinedWallet[]
 }
@@ -230,6 +231,13 @@ export const useCombinedWallets = () => {
           )
         )
       }
+      if (
+        !evmConnectors.some((connector) =>
+          connector.id.toLowerCase().includes('porto')
+        )
+      ) {
+        evmConnectors.unshift(createPortoConnector(walletConfig?.porto))
+      }
 
       const includeEcosystem = (chainType: ChainType) =>
         !walletConfig.enabledChainTypes ||
@@ -317,7 +325,7 @@ export const useCombinedWallets = () => {
 }
 
 // Ensure the walletComparator function is updated to handle CombinedWallet
-export const walletComparator = (a: CombinedWallet, b: CombinedWallet) => {
+const walletComparator = (a: CombinedWallet, b: CombinedWallet) => {
   const priorityA = getWalletPriority(a.id)
   const priorityB = getWalletPriority(b.id)
 
@@ -328,7 +336,7 @@ export const walletComparator = (a: CombinedWallet, b: CombinedWallet) => {
   return a.id?.localeCompare(b.id)
 }
 
-export const walletEcosystemsComparator = (
+const walletEcosystemsComparator = (
   a: CombinedWalletConnector,
   b: CombinedWalletConnector,
   order: ChainType[]

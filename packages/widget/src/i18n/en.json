@@ -92,7 +92,7 @@
       "emptyBridgesList": "We couldn't find any bridges that match your search",
       "emptyChainList": "We couldn't find any chains that match your search",
       "emptyExchangesList": "We couldn't find any exchanges that match your search",
-      "emptyTokenList": "We couldn't find tokens on {{chainName}} chain or you don't have any. Please search by contract address if your token doesn't appear or choose another chain.",
+      "emptyTokenListAllNetworks": "We couldn't find any tokens. Please search by contract address if your token doesn't appear, or try selecting a different chain.",
       "emptyTransactionHistory": "Transaction history is only stored locally and will be deleted if you clear your browser data.",
       "routeNotFound": "Reasons for that could be: low liquidity, amount selected is too low, gas costs are too high or there are no routes for the selected combination.",
       "toAddressIsRequired": "The destination wallet address is required to proceed with the transfer.",
@@ -174,6 +174,7 @@
       "exchangeRateUpdateCanceled": "Exchange rate update canceled",
       "gasLimitIsTooLow": "The gas limit is too low",
       "insufficientFunds": "Insufficient funds",
+      "insufficientGas": "Insufficient gas",
       "rateLimitExceeded": "Rate limit exceeded",
       "signatureRejected": "Signature required",
       "slippageNotMet": "Slippage conditions not met",
@@ -197,13 +198,14 @@
   "tooltip": {
     "deselectAll": "Deselect all",
     "estimatedTime": "Time to complete the swap or bridge transaction, excluding chain switching and token approval.",
-    "feeCollection": "The fee is applied to selected token pairs and ensures the best experience with {{tool}}.",
+    "feeCollection": "The fee is applied to selected token pairs and ensures we can provide the best experience.",
     "minReceived": "The estimated minimum amount may change until the swapping/bridging transaction is signed. For 2-step transfers, this applies until the second step transaction is signed.",
     "notFound": {
       "text": "We couldn't find this page.",
       "title": "404"
     },
-    "relayerService": "We handle the gas, so you can transfer assets without holding native tokens. Network costs are included in the transfer.",
+    "multistep": "This route requires multiple transactions to complete the transfer. Each exchange step can contain 1-2 transactions that require a signature.",
+    "gasless": "We handle the gas, so you can transfer assets without holding native tokens. Network costs are included in the transfer.",
     "numberOfSteps": "Each exchange step can contain 1-2 transactions that require a signature.",
     "priceImpact": "The estimated value difference between the source and destination tokens.",
     "progressToNextUpdate": "Quotes will update in {{value}} seconds. <0/> Click here to update now.",
@@ -212,6 +214,7 @@
     "slippage": "The maximum percentage difference between the expected price, and the actual price at which a transfer is executed. This value can be changed in settings."
   },
   "main": {
+    "allNetworks": "All networks",
     "allTokens": "All tokens",
     "bridgeStepDetails": "Bridge from {{from}} to {{to}} via {{tool}}",
     "checkoutStepDetails": "Purchase via {{tool}}",
@@ -223,7 +226,6 @@
       "relayerService": "Gasless service",
       "estimated": "estimated costs",
       "free": "Free",
-      "integrator": "{{tool}} fee",
       "network": "Network cost",
       "paid": "paid costs",
       "provider": "Provider fee"
@@ -303,17 +305,17 @@
     "tags": {
       "cheapest": "Best Return",
       "fastest": "Fastest",
-      "gasless": "Gasless"
+      "gasless": "Gasless",
+      "multistep": "Multi-step"
     },
     "to": "To",
     "tokenOnChain": "{{tokenSymbol}} on {{chainName}}",
     "tokenOnChainAmount": "{{amount, numberExt}} {{tokenSymbol}} on {{chainName}}",
     "tokenSearch": "Search by token or address",
     "valueLoss": "Value loss",
-    "searchChain": "Search chain",
-    "searchChains": "Search by chain name",
     "searchBridges": "Search by bridge name",
-    "searchExchanges": "Search by exchange name"
+    "searchExchanges": "Search by exchange name",
+    "searchNetwork": "Search network"
   },
   "settings": {
     "appearance": "Appearance",

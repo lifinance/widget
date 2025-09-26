@@ -2,6 +2,7 @@ import type { ExtendedChain } from '@lifi/sdk'
 import { Skeleton } from '@mui/material'
 import type { RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
+import type { FormType } from '../../stores/form/types.js'
 import { SearchNotFound } from '../Search/SearchNotFound.js'
 import {
   List,
@@ -13,16 +14,20 @@ import { VirtualizedChainList } from './VirtualizedChainList.js'
 
 interface ChainListProps {
   parentRef: RefObject<HTMLDivElement | null>
+  formType: FormType
   chains: ExtendedChain[]
   onSelect: (chain: ExtendedChain) => void
   selectedChainId?: number
   isLoading: boolean
+  hasSearchQuery: boolean
   inExpansion: boolean
 }
 
 export const ChainList = ({
   parentRef,
+  formType,
   chains,
+  hasSearchQuery,
   onSelect,
   selectedChainId,
   isLoading,
@@ -77,7 +82,9 @@ export const ChainList = ({
   return (
     <VirtualizedChainList
       scrollElementRef={parentRef}
+      formType={formType}
       chains={chains}
+      hasSearchQuery={hasSearchQuery}
       onSelect={onSelect}
       selectedChainId={selectedChainId}
       itemsSize={itemsSize}

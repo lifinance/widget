@@ -1,6 +1,5 @@
 import { palette, paletteDark, paletteLight } from '@lifi/widget'
 import { getValueFromPath } from '../../utils/getValueFromPath.js'
-import type { FormValues } from '../types.js'
 import { useWidgetConfigStore } from './WidgetConfigProvider.js'
 
 export const useConfigVariant = () => {
@@ -9,27 +8,6 @@ export const useConfigVariant = () => {
   return {
     variant: !variant ? 'default' : variant,
   }
-}
-
-export const useConfigFormValues = () => {
-  const [fromChain, fromToken, fromAmount, toChain, toToken, toAddress] =
-    useWidgetConfigStore((store) => [
-      store.config?.fromChain,
-      store.config?.fromToken,
-      store.config?.fromAmount,
-      store.config?.toChain,
-      store.config?.toToken,
-      store.config?.toAddress,
-    ])
-
-  return {
-    fromChain,
-    fromToken,
-    toChain,
-    toToken,
-    fromAmount,
-    toAddress,
-  } as FormValues
 }
 
 export const useConfigSubvariant = () => {

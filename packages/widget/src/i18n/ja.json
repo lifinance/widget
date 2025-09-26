@@ -92,7 +92,7 @@
       "emptyBridgesList": "",
       "emptyChainList": "",
       "emptyExchangesList": "",
-      "emptyTokenList": "{{chainName}} チェーンでトークンが見つかりませんでした。使いたいトークンが表示されない場合はコントラクトアドレスで検索するか、別のチェーンを選択してください。",
+      "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "トランザクション履歴はローカルにのみ保存され、ユーザーがブラウザデータを消去すると削除されます。",
       "routeNotFound": "考えられる理由：流動性が低い、選択された金額が低すぎる、ガスコストが高すぎる、選択した組み合わせがルート上にない、以上の理由の複合。",
       "toAddressIsRequired": "",
@@ -174,6 +174,7 @@
       "exchangeRateUpdateCanceled": "交換レートの更新がキャンセルされました",
       "gasLimitIsTooLow": "ガス制限が低すぎます",
       "insufficientFunds": "残高が足りません",
+      "insufficientGas": "",
       "rateLimitExceeded": "",
       "signatureRejected": "署名が必要です",
       "slippageNotMet": "スリッページの条件が満たされていません",
@@ -203,7 +204,8 @@
       "text": "このページは見つかりませんでした。",
       "title": "404"
     },
-    "relayerService": "",
+    "multistep": "",
+    "gasless": "",
     "numberOfSteps": "",
     "priceImpact": "",
     "progressToNextUpdate": "見積もりは {{value}} 秒後に更新されます。<0/>今すぐ更新するにはここをクリックしてください。",
@@ -212,6 +214,7 @@
     "slippage": ""
   },
   "main": {
+    "allNetworks": "",
     "allTokens": "すべてのトークン",
     "bridgeStepDetails": "{{from}} から {{to}} を {{tool}} でブリッジ",
     "checkoutStepDetails": "{{tool}} 経由で購入",
@@ -223,7 +226,6 @@
       "relayerService": "",
       "estimated": "",
       "free": "",
-      "integrator": "",
       "network": "",
       "paid": "",
       "provider": ""
@@ -303,17 +305,17 @@
     "tags": {
       "cheapest": "最良",
       "fastest": "最速",
-      "gasless": ""
+      "gasless": "",
+      "multistep": ""
     },
     "to": "To",
     "tokenOnChain": "{{chainName}} の {{tokenSymbol}}",
     "tokenOnChainAmount": "",
     "tokenSearch": "",
     "valueLoss": "損失額",
-    "searchChain": "",
-    "searchChains": "",
     "searchBridges": "",
-    "searchExchanges": ""
+    "searchExchanges": "",
+    "searchNetwork": ""
   },
   "settings": {
     "appearance": "",

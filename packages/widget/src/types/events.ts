@@ -5,56 +5,51 @@ import type { NavigationRouteType } from '../utils/navigationRoutes.js'
 import type { TokenAmount } from './token.js'
 
 export enum WidgetEvent {
-  RouteExecutionStarted = 'routeExecutionStarted',
-  RouteExecutionUpdated = 'routeExecutionUpdated',
-  RouteExecutionCompleted = 'routeExecutionCompleted',
-  RouteExecutionFailed = 'routeExecutionFailed',
-  RouteHighValueLoss = 'routeHighValueLoss',
-  RouteSelected = 'routeSelected',
   AvailableRoutes = 'availableRoutes',
+  ChainPinned = 'chainPinned',
   ContactSupport = 'contactSupport',
-  SourceChainTokenSelected = 'sourceChainTokenSelected',
   DestinationChainTokenSelected = 'destinationChainTokenSelected',
-  SendToWalletToggled = 'sendToWalletToggled',
+  FormFieldChanged = 'formFieldChanged',
+  LowAddressActivityConfirmed = 'lowAddressActivityConfirmed',
+  PageEntered = 'pageEntered',
   /**
    * @deprecated Use `PageEntered` event instead.
    */
   ReviewTransactionPageEntered = 'reviewTransactionPageEntered',
-  /**
-   * @deprecated use useWalletManagementEvents hook.
-   */
-  WalletConnected = 'walletConnected',
-  WidgetExpanded = 'widgetExpanded',
-  PageEntered = 'pageEntered',
-  FormFieldChanged = 'formFieldChanged',
+  RouteExecutionCompleted = 'routeExecutionCompleted',
+  RouteExecutionFailed = 'routeExecutionFailed',
+  RouteExecutionStarted = 'routeExecutionStarted',
+  RouteExecutionUpdated = 'routeExecutionUpdated',
+  RouteHighValueLoss = 'routeHighValueLoss',
+  RouteSelected = 'routeSelected',
+  SendToWalletToggled = 'sendToWalletToggled',
   SettingUpdated = 'settingUpdated',
+  SourceChainTokenSelected = 'sourceChainTokenSelected',
   TokenSearch = 'tokenSearch',
-  LowAddressActivityConfirmed = 'lowAddressActivityConfirmed',
+  WidgetExpanded = 'widgetExpanded',
 }
 
 export type WidgetEvents = {
-  routeExecutionStarted: Route
-  routeExecutionUpdated: RouteExecutionUpdate
+  availableRoutes: Route[]
+  chainPinned: ChainPinned
+  contactSupport: ContactSupport
+  destinationChainTokenSelected: ChainTokenSelected
+  formFieldChanged: FormFieldChanged
+  lowAddressActivityConfirmed: LowAddressActivityConfirmed
+  pageEntered: NavigationRouteType
+  reviewTransactionPageEntered?: Route
   routeExecutionCompleted: Route
   routeExecutionFailed: RouteExecutionUpdate
+  routeExecutionStarted: Route
+  routeExecutionUpdated: RouteExecutionUpdate
   routeHighValueLoss: RouteHighValueLossUpdate
   routeSelected: RouteSelected
-  availableRoutes: Route[]
-  contactSupport: ContactSupport
-  sourceChainTokenSelected: ChainTokenSelected
-  destinationChainTokenSelected: ChainTokenSelected
   sendToWalletToggled: boolean
-  formFieldChanged: FormFieldChanged
-  reviewTransactionPageEntered?: Route
+  settingUpdated: SettingUpdated
+  sourceChainTokenSelected: ChainTokenSelected
+  tokenSearch: TokenSearch
   walletConnected: WalletConnected
   widgetExpanded: boolean
-  pageEntered: NavigationRouteType
-  settingUpdated: SettingUpdated
-  tokenSearch: TokenSearch
-  [WidgetEvent.LowAddressActivityConfirmed]: {
-    address: string
-    chainId: number
-  }
 }
 
 export type ContactSupport = {
@@ -111,4 +106,14 @@ export type SettingUpdated<
   oldValue: SettingsProps[K]
   newSettings: SettingsProps
   oldSettings: SettingsProps
+}
+
+export type ChainPinned = {
+  chainId: number
+  pinned: boolean
+}
+
+export type LowAddressActivityConfirmed = {
+  address: string
+  chainId: number
 }

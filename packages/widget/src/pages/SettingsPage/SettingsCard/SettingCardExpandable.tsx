@@ -37,7 +37,6 @@ export const SettingCardExpandable: React.FC<
         </CardTitleContainer>
         {!expanded && value}
       </CardRowButton>
-      {/** biome-ignore lint/a11y/useSemanticElements: allowed in react */}
       <Collapse
         id={collapseId}
         role="region"

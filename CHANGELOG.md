@@ -2,6 +2,139 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.32.1](https://github.com/lifinance/widget/compare/v3.32.0...v3.32.1) (2025-09-25)
+
+
+### Bug Fixes
+
+* **format:** improve handling of initial decimal point in amount formatting ([#564](https://github.com/lifinance/widget/issues/564)) ([3886139](https://github.com/lifinance/widget/commit/3886139b3a1e5e0ffc114ce03b9d69628c48b475))
+* remove retry for existing evm balances ([#568](https://github.com/lifinance/widget/issues/568)) ([b0ce626](https://github.com/lifinance/widget/commit/b0ce626dc6888ef2a7b173e7e9be89f4191054e3))
+
+## [3.32.0](https://github.com/lifinance/widget/compare/v3.31.0...v3.32.0) (2025-09-23)
+
+
+### Features
+
+* add multi-step badge ([#561](https://github.com/lifinance/widget/issues/561)) ([91de17d](https://github.com/lifinance/widget/commit/91de17dad6e1fd089299f1b11d0fac66fba42dc7))
+
+## [3.31.0](https://github.com/lifinance/widget/compare/v3.30.13...v3.31.0) (2025-09-18)
+
+
+### Features
+
+* add porto ([#538](https://github.com/lifinance/widget/issues/538)) ([687c0b4](https://github.com/lifinance/widget/commit/687c0b4c14e890a3dbab932cdfecae853809b446))
+
+
+### Bug Fixes
+
+* simplify fee display logic and update tooltip text ([#558](https://github.com/lifinance/widget/issues/558)) ([4b74af0](https://github.com/lifinance/widget/commit/4b74af0ca0fdde74c2eddc3b6f212e78f89d721a))
+
+### [3.30.13](https://github.com/lifinance/widget/compare/v3.30.12...v3.30.13) (2025-09-16)
+
+### [3.30.12](https://github.com/lifinance/widget/compare/v3.30.11...v3.30.12) (2025-09-16)
+
+
+### Bug Fixes
+
+* adjust gasless handling ([1514285](https://github.com/lifinance/widget/commit/15142853928b9203f9acb5888df138cd372e753a))
+* don't request gas recommendation when refuel is disabled ([d7bb69e](https://github.com/lifinance/widget/commit/d7bb69eb3f223e234a8c762e3c7d1af6d8084753))
+
+### [3.30.11](https://github.com/lifinance/widget/compare/v3.30.10...v3.30.11) (2025-09-15)
+
+
+### Bug Fixes
+
+* add chain pinned event ([#552](https://github.com/lifinance/widget/issues/552)) ([7817b03](https://github.com/lifinance/widget/commit/7817b03a0a65899c2a66b545956eaee2c6efdfd4))
+
+### [3.30.10](https://github.com/lifinance/widget/compare/v3.30.9...v3.30.10) (2025-09-15)
+
+
+### Bug Fixes
+
+* improve insufficient gas error handling ([4fb6c80](https://github.com/lifinance/widget/commit/4fb6c802e7bed7cc89b5b4fe3058df737aea64cf))
+
+### [3.30.9](https://github.com/lifinance/widget/compare/v3.30.8...v3.30.9) (2025-09-15)
+
+
+### Bug Fixes
+
+* add InsufficientGasMessage hiddenUI option ([1775aea](https://github.com/lifinance/widget/commit/1775aeae01e8b45a7b613fde66baaca792b66b31))
+
+### [3.30.8](https://github.com/lifinance/widget/compare/v3.30.7...v3.30.8) (2025-09-13)
+
+
+### Bug Fixes
+
+* expose disableMessageSigning option ([8d21779](https://github.com/lifinance/widget/commit/8d21779c57922f766a4eff47f5219331fc1554fb))
+
+### [3.30.7](https://github.com/lifinance/widget/compare/v3.30.6...v3.30.7) (2025-09-12)
+
+
+### Bug Fixes
+
+* improve SCA permit signature handling ([#549](https://github.com/lifinance/widget/issues/549)) ([55166a2](https://github.com/lifinance/widget/commit/55166a29cb88186ca1939ad8a1dd369c807b5356))
+
+### [3.30.6](https://github.com/lifinance/widget/compare/v3.30.5...v3.30.6) (2025-09-12)
+
+
+### Bug Fixes
+
+* reduce maximumFractionDigits to support older iOS ([#548](https://github.com/lifinance/widget/issues/548)) ([03f0ea3](https://github.com/lifinance/widget/commit/03f0ea37ee389ed7cb97bd9bbfb76a828000603a))
+
+### [3.30.5](https://github.com/lifinance/widget/compare/v3.30.4...v3.30.5) (2025-09-10)
+
+
+### Bug Fixes
+
+* add form type to isAllNetworks ([#546](https://github.com/lifinance/widget/issues/546)) ([d31b1bf](https://github.com/lifinance/widget/commit/d31b1bff26d9891d2adce624d513b86a2d63d851))
+
+### [3.30.4](https://github.com/lifinance/widget/compare/v3.30.3...v3.30.4) (2025-09-09)
+
+### [3.30.3](https://github.com/lifinance/widget/compare/v3.30.2...v3.30.3) (2025-09-09)
+
+
+### Bug Fixes
+
+* return from queryFn ([#544](https://github.com/lifinance/widget/issues/544)) ([aa497b5](https://github.com/lifinance/widget/commit/aa497b5891d4b56e06331ee1edfd3891d5dc6cff))
+
+### [3.30.2](https://github.com/lifinance/widget/compare/v3.30.1...v3.30.2) (2025-09-09)
+
+
+### Bug Fixes
+
+* check chain config before syncing opposite chain ([#543](https://github.com/lifinance/widget/issues/543)) ([f1cf4c5](https://github.com/lifinance/widget/commit/f1cf4c5ad03f5991d25ff567d9056eb3ed4206d7))
+
+### [3.30.1](https://github.com/lifinance/widget/compare/v3.30.0...v3.30.1) (2025-09-08)
+
+
+### Bug Fixes
+
+* add /token response to search results ([#542](https://github.com/lifinance/widget/issues/542)) ([55c7ca9](https://github.com/lifinance/widget/commit/55c7ca9f41ca6b70e6d89439a3490d738c831ffa))
+* improve gasless step validation ([#535](https://github.com/lifinance/widget/issues/535)) ([426e848](https://github.com/lifinance/widget/commit/426e8486947c7ce8bffc09dbadad89afa1e43e50))
+* limit slippage input value decimals ([#536](https://github.com/lifinance/widget/issues/536)) ([b8addc2](https://github.com/lifinance/widget/commit/b8addc2cf75d660756f187fed9fd8418af238196))
+* missing usd conversion ([#534](https://github.com/lifinance/widget/issues/534)) ([2ab359c](https://github.com/lifinance/widget/commit/2ab359c7f5eb5980b3b80ddaa8c16035a615922b))
+* respect token deny list for tokens with balances ([#537](https://github.com/lifinance/widget/issues/537)) ([326e455](https://github.com/lifinance/widget/commit/326e4557bfe683a08370985f0062d58e48edff4c))
+* use lower case when comparing addresses ([#540](https://github.com/lifinance/widget/issues/540)) ([70387f8](https://github.com/lifinance/widget/commit/70387f8299e096190f30bd380e8b63758d8ba6ea))
+
+## [3.30.0](https://github.com/lifinance/widget/compare/v3.29.1...v3.30.0) (2025-09-02)
+
+
+### Features
+
+* add all networks tab ([#430](https://github.com/lifinance/widget/issues/430)) ([2b6bfb3](https://github.com/lifinance/widget/commit/2b6bfb3a7256ebfca3e134f12b72c23f16f21f57))
+
+
+### Bug Fixes
+
+* update network fee display logic to account for 0 values ([#533](https://github.com/lifinance/widget/issues/533)) ([e386168](https://github.com/lifinance/widget/commit/e3861680009ebdd5e693ade112812f6a09391f24))
+
+### [3.29.1](https://github.com/lifinance/widget/compare/v3.29.0...v3.29.1) (2025-08-29)
+
+
+### Bug Fixes
+
+* prevent bottom sheets from mounting when hidden not to affect widget height ([#529](https://github.com/lifinance/widget/issues/529)) ([c11b2ec](https://github.com/lifinance/widget/commit/c11b2ecf7024f5db02495fed877d04dc0e12870d))
+
 ## [3.29.0](https://github.com/lifinance/widget/compare/v3.28.0...v3.29.0) (2025-08-28)
 
 

@@ -1,151 +1,80 @@
-import type { BaseToken } from '@lifi/sdk'
-import { useAccount } from '@lifi/wallet-management'
 import { Box } from '@mui/material'
-import { type FC, useEffect } from 'react'
-import { useChain } from '../../hooks/useChain.js'
+import { type FC, memo, useEffect } from 'react'
 import { useDebouncedWatch } from '../../hooks/useDebouncedWatch.js'
 import { useTokenBalances } from '../../hooks/useTokenBalances.js'
-import { useTokenSearch } from '../../hooks/useTokenSearch.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { WidgetEvent } from '../../types/events.js'
-import type { TokenAmount } from '../../types/token.js'
-import { getConfigItemSets, isFormItemAllowed } from '../../utils/item.js'
 import { TokenNotFound } from './TokenNotFound.js'
 import type { TokenListProps } from './types.js'
 import { useTokenSelect } from './useTokenSelect.js'
-import { filteredTokensComparator } from './utils.js'
 import { VirtualizedTokenList } from './VirtualizedTokenList.js'
 
-export const TokenList: FC<TokenListProps> = ({
-  formType,
-  parentRef,
-  height,
-  onClick,
-}) => {
-  const emitter = useWidgetEvents()
-  const [selectedChainId, selectedTokenAddress] = useFieldValues(
-    FormKeyHelper.getChainKey(formType),
-    FormKeyHelper.getTokenKey(formType)
-  )
-  const [tokenSearchFilter]: string[] = useDebouncedWatch(
-    320,
-    'tokenSearchFilter'
-  )
+export const TokenList: FC<TokenListProps> = memo(
+  ({ formType, parentRef, height, onClick }) => {
+    const emitter = useWidgetEvents()
 
-  const { tokens: configTokens } = useWidgetConfig()
-
-  const { chain: selectedChain, isLoading: isSelectedChainLoading } =
-    useChain(selectedChainId)
-  const { account } = useAccount({
-    chainType: selectedChain?.chainType,
-  })
-
-  const {
-    tokens: chainTokens,
-    tokensWithBalance,
-    isLoading: isTokensLoading,
-    isBalanceLoading,
-    featuredTokens,
-    popularTokens,
-  } = useTokenBalances(selectedChainId)
-
-  let filteredTokens = (tokensWithBalance ?? chainTokens ?? []) as TokenAmount[]
-  const normalizedSearchFilter = tokenSearchFilter?.replaceAll('$', '')
-  const searchFilter = normalizedSearchFilter?.toUpperCase() ?? ''
-
-  const filteredConfigTokens = getConfigItemSets(
-    configTokens,
-    (tokens: BaseToken[]) =>
-      new Set(
-        tokens
-          .filter((t) => t.chainId === selectedChainId)
-          .map((t) => t.address)
-      ),
-    formType
-  )
-
-  // Get the appropriate allow/deny lists based on formType
-  filteredTokens = filteredTokens.filter(
-    (token) =>
-      token.chainId === selectedChainId &&
-      isFormItemAllowed(token, filteredConfigTokens, formType, (t) => t.address)
-  )
-
-  filteredTokens = tokenSearchFilter
-    ? filteredTokens
-        .filter(
-          (token) =>
-            token.name?.toUpperCase().includes(searchFilter) ||
-            token.symbol
-              .toUpperCase()
-              // Replace ₮ with T for USD₮0
-              .replaceAll('₮', 'T')
-              .includes(searchFilter) ||
-            token.address.toUpperCase().includes(searchFilter)
-        )
-        .sort(filteredTokensComparator(searchFilter))
-    : filteredTokens
-
-  const tokenSearchEnabled =
-    !isTokensLoading &&
-    !filteredTokens.length &&
-    !!tokenSearchFilter &&
-    !!selectedChainId
-
-  const { token: searchedToken, isLoading: isSearchedTokenLoading } =
-    useTokenSearch(
-      selectedChainId,
-      normalizedSearchFilter,
-      tokenSearchEnabled,
-      formType
+    const [selectedChainId, selectedTokenAddress] = useFieldValues(
+      FormKeyHelper.getChainKey(formType),
+      FormKeyHelper.getTokenKey(formType)
     )
 
-  const isLoading =
-    isTokensLoading ||
-    isSelectedChainLoading ||
-    (tokenSearchEnabled && isSearchedTokenLoading)
+    const isAllNetworks = useChainOrderStore(
+      (state) => state[`${formType}IsAllNetworks`]
+    )
 
-  const tokens = filteredTokens.length
-    ? filteredTokens
-    : searchedToken
-      ? [searchedToken]
-      : filteredTokens
+    const [tokenSearchFilter]: string[] = useDebouncedWatch(
+      320,
+      'tokenSearchFilter'
+    )
 
-  const handleTokenClick = useTokenSelect(formType, onClick)
-  const showCategories =
-    Boolean(featuredTokens?.length || popularTokens?.length) &&
-    !tokenSearchFilter
+    const {
+      tokens,
+      withCategories,
+      isTokensLoading,
+      isBalanceLoading,
+      isSearchLoading,
+    } = useTokenBalances(
+      selectedChainId,
+      formType,
+      isAllNetworks,
+      tokenSearchFilter
+    )
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: Should fire only when search filter changes
-  useEffect(() => {
-    if (normalizedSearchFilter) {
-      emitter.emit(WidgetEvent.TokenSearch, {
-        value: normalizedSearchFilter,
-        tokens,
-      })
-    }
-  }, [normalizedSearchFilter, emitter])
+    const handleTokenClick = useTokenSelect(formType, onClick)
 
-  return (
-    <Box ref={parentRef} style={{ height, overflow: 'auto' }}>
-      {!tokens.length && !isLoading ? (
-        <TokenNotFound formType={formType} />
-      ) : null}
-      <VirtualizedTokenList
-        account={account}
-        tokens={tokens}
-        scrollElementRef={parentRef}
-        chainId={selectedChainId}
-        chain={selectedChain}
-        isLoading={isLoading}
-        isBalanceLoading={isBalanceLoading}
-        showCategories={showCategories}
-        onClick={handleTokenClick}
-        selectedTokenAddress={selectedTokenAddress}
-      />
-    </Box>
-  )
-}
+    const showCategories =
+      withCategories && !tokenSearchFilter && !isAllNetworks
+
+    useEffect(() => {
+      const normalizedSearchFilter = tokenSearchFilter?.replaceAll('$', '')
+      if (normalizedSearchFilter) {
+        emitter.emit(WidgetEvent.TokenSearch, {
+          value: normalizedSearchFilter,
+          tokens,
+        })
+      }
+    }, [tokenSearchFilter, tokens, emitter])
+
+    return (
+      <Box ref={parentRef} style={{ height, overflow: 'auto' }}>
+        {!tokens.length && !isTokensLoading && !isSearchLoading ? (
+          <TokenNotFound formType={formType} />
+        ) : null}
+        <VirtualizedTokenList
+          tokens={tokens}
+          scrollElementRef={parentRef}
+          chainId={selectedChainId}
+          isLoading={isTokensLoading || isSearchLoading}
+          isBalanceLoading={isBalanceLoading}
+          showCategories={showCategories}
+          onClick={handleTokenClick}
+          selectedTokenAddress={selectedTokenAddress}
+          isAllNetworks={isAllNetworks}
+        />
+      </Box>
+    )
+  }
+)

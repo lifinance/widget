@@ -92,7 +92,7 @@
       "emptyBridgesList": "",
       "emptyChainList": "",
       "emptyExchangesList": "",
-      "emptyTokenList": "Nous n'avons pas pu trouver de jetons sur la chaîne {{chainName}} ou vous n'en avez pas. Veuillez rechercher par adresse de contrat si votre jeton n'apparaît pas ou choisissez une autre chaîne.",
+      "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "L'historique de transaction est uniquement stocké au niveau local et sera supprimé si vous effacez les données de votre navigateur.",
       "routeNotFound": "Raisons possibles : faible liquidité, le montant sélectionné est trop faible, les coûts de gaz sont trop élevés ou il n'y a pas de routes pour la combinaison sélectionnée.",
       "toAddressIsRequired": "",
@@ -174,6 +174,7 @@
       "exchangeRateUpdateCanceled": "Mise à jour du taux de change annulée",
       "gasLimitIsTooLow": "La limite de gaz est trop basse.",
       "insufficientFunds": "Fonds insuffisants",
+      "insufficientGas": "",
       "rateLimitExceeded": "",
       "signatureRejected": "Signature requise",
       "slippageNotMet": "Les conditions de l'effet de glissement ne sont pas remplies.",
@@ -203,7 +204,8 @@
       "text": "Nous n'avons pas trouvé cette page.",
       "title": "404"
     },
-    "relayerService": "",
+    "multistep": "",
+    "gasless": "",
     "numberOfSteps": "",
     "priceImpact": "",
     "progressToNextUpdate": "Les données affichées seront automatiquement actualisées après {{value}} secondes. Cliquez ici pour les mettre à jour manuellement.",
@@ -212,6 +214,7 @@
     "slippage": ""
   },
   "main": {
+    "allNetworks": "",
     "allTokens": "Tous les tokens",
     "bridgeStepDetails": "Transférer de {{from}} à {{to}} via {{tool}}",
     "checkoutStepDetails": "Achat via {{tool}}",
@@ -223,7 +226,6 @@
       "relayerService": "",
       "estimated": "",
       "free": "",
-      "integrator": "",
       "network": "",
       "paid": "",
       "provider": ""
@@ -303,17 +305,17 @@
     "tags": {
       "cheapest": "Meilleur Retour",
       "fastest": "Le plus rapide",
-      "gasless": ""
+      "gasless": "",
+      "multistep": ""
     },
     "to": "À",
     "tokenOnChain": "{{tokenSymbol}} sur {{chainName}}",
     "tokenOnChainAmount": "",
     "tokenSearch": "",
     "valueLoss": "Perte de valeur",
-    "searchChain": "",
-    "searchChains": "",
     "searchBridges": "",
-    "searchExchanges": ""
+    "searchExchanges": "",
+    "searchNetwork": ""
   },
   "settings": {
     "appearance": "",
