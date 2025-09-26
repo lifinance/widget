@@ -1,4 +1,3 @@
-import type { Config as PortoConfig } from 'porto/Porto'
 import { createClient, http } from 'viem'
 import { mainnet } from 'viem/chains'
 import type { Config, CreateConnectorFn } from 'wagmi'
@@ -7,6 +6,7 @@ import type {
   BaseAccountParameters,
   CoinbaseWalletParameters,
   MetaMaskParameters,
+  PortoParameters,
   WalletConnectParameters,
 } from 'wagmi/connectors'
 import { safe } from 'wagmi/connectors'
@@ -22,7 +22,7 @@ export interface DefaultWagmiConfigProps {
   coinbase?: CoinbaseWalletParameters
   metaMask?: MetaMaskParameters
   baseAccount?: BaseAccountParameters
-  porto?: Partial<PortoConfig>
+  porto?: Partial<PortoParameters>
   wagmiConfig?: {
     ssr?: boolean
     multiInjectedProviderDiscovery?: boolean

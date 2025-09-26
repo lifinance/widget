@@ -10,8 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/wallet-management": "^3.17.0",
-    "@lifi/widget": "^3.31.0",
+    "@lifi/wallet-management": "^3.17.1",
+    "@lifi/widget": "^3.32.0",
     "@mui/icons-material": "^7.3.2",
     "@mui/material": "^7.3.2",
     "@privy-io/react-auth": "^2.25.0",
@@ -26,7 +26,7 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "viem": "^2.37.7",
-    "wagmi": "^2.17.1"
+    "wagmi": "^2.17.4"
   },
   "devDependencies": {
     "@types/react": "^19.1.13",

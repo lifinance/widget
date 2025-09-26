@@ -21,12 +21,12 @@ import type {
   Theme,
 } from '@mui/material'
 import type { TypographyVariantsOptions } from '@mui/material/styles'
-import type { Config as PortoConfig } from 'porto/Porto'
 import type { CSSProperties, FC, ReactNode, RefObject } from 'react'
 import type {
   BaseAccountParameters,
   CoinbaseWalletParameters,
   MetaMaskParameters,
+  PortoParameters,
   WalletConnectParameters,
 } from 'wagmi/connectors'
 import type {
@@ -142,7 +142,7 @@ export interface WidgetWalletConfig {
   coinbase?: CoinbaseWalletParameters
   metaMask?: MetaMaskParameters
   baseAccount?: BaseAccountParameters
-  porto?: Partial<PortoConfig>
+  porto?: Partial<PortoParameters>
   /**
    * Determines whether the widget should provide partial wallet management functionality.
    *
