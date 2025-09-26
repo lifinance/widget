@@ -1,0 +1,41 @@
+import type { LanguageKey } from '../../providers/I18nProvider/types.js'
+
+export const allLanguages: LanguageKey[] = [
+  'en',
+  'es',
+  'fr',
+  'de',
+  'it',
+  'pt',
+  'ja',
+  'ko',
+  'zh',
+  'hi',
+  'bn',
+  'th',
+  'vi',
+  'tr',
+  'uk',
+  'id',
+  'pl',
+]
+
+export const languageNames: Record<LanguageKey, string> = {
+  en: 'English',
+  es: 'Español',
+  fr: 'Français',
+  de: 'Deutsch',
+  it: 'Italiano',
+  pt: 'Português',
+  ja: '日本語',
+  ko: '한국어',
+  zh: '中文',
+  hi: 'हिन्दी',
+  bn: 'বাংলা',
+  th: 'ไทย',
+  vi: 'Tiếng Việt',
+  tr: 'Türkçe',
+  uk: 'Українська',
+  id: 'Bahasa Indonesia',
+  pl: 'Polski',
+}
