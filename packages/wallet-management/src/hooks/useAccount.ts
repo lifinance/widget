@@ -1,13 +1,15 @@
 import type { Connector as BigmiConnector } from '@bigmi/client'
-import { useAccount as useBigmiAccount } from '@bigmi/react'
 import { ChainId, ChainType } from '@lifi/sdk'
-import { useCurrentWallet } from '@mysten/dapp-kit'
+import {
+  useEVMContext,
+  useMVMContext,
+  useSVMContext,
+  useUTXOContext,
+} from '@lifi/wallet-provider'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import type { WalletAdapter } from '@solana/wallet-adapter-base'
-import { useWallet } from '@solana/wallet-adapter-react'
 import { useMemo } from 'react'
 import type { Connector } from 'wagmi'
-import { useAccount as useAccountInternal } from 'wagmi'
 import { create } from 'zustand'
 import type { CreateConnectorFnExtended } from '../connectors/types.js'
 
@@ -87,24 +89,24 @@ export const useLastConnectedAccount = create<LastConnectedAccountStore>(
  * @returns - Account result
  */
 export const useAccount = (args?: UseAccountArgs): AccountResult => {
-  const bigmiAccount = useBigmiAccount()
-  const wagmiAccount = useAccountInternal()
-  const { wallet } = useWallet()
-  const { currentWallet, connectionStatus } = useCurrentWallet()
+  const { currentWallet: evmWallet } = useEVMContext()
+  const { currentWallet: utxoWallet } = useUTXOContext()
+  const { currentWallet: svmWallet } = useSVMContext()
+  const { currentWallet: suiWallet, connectionStatus } = useMVMContext()
   const { lastConnectedAccount } = useLastConnectedAccount()
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when wallet changes
   return useMemo(() => {
-    const svm: Account = wallet?.adapter.publicKey
+    const svm: Account = svmWallet?.adapter.publicKey
       ? {
-          address: wallet?.adapter.publicKey.toString(),
+          address: svmWallet?.adapter.publicKey.toString(),
           chainId: ChainId.SOL,
           chainType: ChainType.SVM,
-          connector: wallet?.adapter,
-          isConnected: Boolean(wallet?.adapter.publicKey),
+          connector: svmWallet?.adapter,
+          isConnected: Boolean(svmWallet?.adapter.publicKey),
           isConnecting: false,
           isReconnecting: false,
-          isDisconnected: !wallet,
+          isDisconnected: !svmWallet,
           status: 'connected',
         }
       : {
@@ -116,16 +118,16 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
           status: 'disconnected',
         }
     const sui: Account =
-      currentWallet?.accounts?.length && connectionStatus === 'connected'
+      suiWallet?.accounts?.length && connectionStatus === 'connected'
         ? {
-            address: currentWallet?.accounts[0].address,
+            address: suiWallet?.accounts[0].address,
             chainId: ChainId.SUI,
             chainType: ChainType.MVM,
-            connector: currentWallet,
+            connector: suiWallet,
             isConnected: connectionStatus === 'connected',
             isConnecting: false,
             isReconnecting: false,
-            isDisconnected: !currentWallet,
+            isDisconnected: !suiWallet,
             status: connectionStatus,
           }
         : {
@@ -136,14 +138,14 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
             isDisconnected: true,
             status: 'disconnected',
           }
-    const evm: Account = { ...wagmiAccount, chainType: ChainType.EVM }
+    const evm: Account = { ...evmWallet, chainType: ChainType.EVM }
     const utxo: Account = {
-      ...bigmiAccount,
+      ...utxoWallet,
 
       chainType: ChainType.UTXO,
       chainId: ChainId.BTC,
-      address: bigmiAccount.account?.address,
-      addresses: bigmiAccount.accounts?.map((account) => account.address),
+      address: utxoWallet.account?.address,
+      addresses: utxoWallet.accounts?.map((account: any) => account.address),
     }
     const accounts = [evm, svm, utxo, sui]
     const connectedAccounts = accounts.filter(
@@ -181,20 +183,20 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
       accounts: connectedAccounts,
     }
   }, [
-    wallet?.adapter.publicKey,
-    wagmiAccount.connector?.uid,
-    wagmiAccount.connector?.id,
-    wagmiAccount.status,
-    wagmiAccount.address,
-    wagmiAccount.chainId,
-    bigmiAccount.connector?.uid,
-    bigmiAccount.connector?.id,
-    bigmiAccount.status,
-    bigmiAccount.account?.address,
-    bigmiAccount.chainId,
+    svmWallet?.adapter.publicKey,
+    evmWallet.connector?.uid,
+    evmWallet.connector?.id,
+    evmWallet.status,
+    evmWallet.address,
+    evmWallet.chainId,
+    utxoWallet.connector?.uid,
+    utxoWallet.connector?.id,
+    utxoWallet.status,
+    utxoWallet.account?.address,
+    utxoWallet.chainId,
     args?.chainType,
     lastConnectedAccount,
-    currentWallet?.accounts?.length,
+    suiWallet?.accounts?.length,
     connectionStatus,
   ])
 }

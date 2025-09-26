@@ -10,12 +10,12 @@ import type {
   WalletConnectParameters,
 } from 'wagmi/connectors'
 import { safe } from 'wagmi/connectors'
-import { createBaseAccountConnector } from './connectors/baseAccount.js'
-import { createCoinbaseConnector } from './connectors/coinbase.js'
-import { createMetaMaskConnector } from './connectors/metaMask.js'
-import { createPortoConnector } from './connectors/porto.js'
-import { createWalletConnectConnector } from './connectors/walletConnect.js'
-import { isWalletInstalled } from './utils/isWalletInstalled.js'
+import { createBaseAccountConnector } from '../connectors/baseAccount.js'
+import { createCoinbaseConnector } from '../connectors/coinbase.js'
+import { createMetaMaskConnector } from '../connectors/metaMask.js'
+import { createPortoConnector } from '../connectors/porto.js'
+import { createWalletConnectConnector } from '../connectors/walletConnect.js'
+import { isWalletInstalled } from './isWalletInstalled.js'
 
 export interface DefaultWagmiConfigProps {
   walletConnect?: WalletConnectParameters

@@ -1,7 +1,6 @@
 import { ChainType } from '@lifi/sdk'
+import { useEVMContext } from '@lifi/wallet-provider'
 import type { Connector } from 'wagmi'
-import { useConfig } from 'wagmi'
-import { connect, disconnect, getAccount } from 'wagmi/actions'
 import type { CreateConnectorFnExtended } from '../connectors/types.js'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
@@ -28,7 +27,7 @@ export const EVMListItemButton = ({
   onError,
 }: EVMListItemButtonProps) => {
   const emitter = useWalletManagementEvents()
-  const config = useConfig()
+  const { connect, disconnect } = useEVMContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()
 
   const connectorName =
@@ -52,12 +51,10 @@ export const EVMListItemButton = ({
       if (connector.id === 'walletConnect') {
         createWalletConnectElement()
       }
-      const connectedAccount = getAccount(config)
       onConnecting?.()
-      const data = await connect(config, { connector })
-      if (connectedAccount.connector) {
-        await disconnect(config, { connector: connectedAccount.connector })
-      }
+      // Disconnect currently connected EVM wallet (if any)
+      await disconnect()
+      const data = await connect(connector)
       setLastConnectedAccount(connector)
       emitter.emit(WalletManagementEvent.WalletConnected, {
         address: data.accounts[0],

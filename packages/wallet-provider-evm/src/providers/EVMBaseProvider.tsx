@@ -1,20 +1,26 @@
-import type { DefaultWagmiConfigResult } from '@lifi/wallet-management'
-import {
-  createDefaultWagmiConfig,
-  useSyncWagmiConfig,
-} from '@lifi/wallet-management'
+import type { ExtendedChain } from '@lifi/sdk'
 import { type FC, type PropsWithChildren, useRef } from 'react'
 import { WagmiProvider } from 'wagmi'
-import { defaultBaseAccountConfig } from '../../config/baseAccount.js'
-import { defaultCoinbaseConfig } from '../../config/coinbase.js'
-import { defaultMetaMaskConfig } from '../../config/metaMask.js'
-import { defaultWalletConnectConfig } from '../../config/walletConnect.js'
-import { useAvailableChains } from '../../hooks/useAvailableChains.js'
-import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
+import { defaultBaseAccountConfig } from '../config/baseAccount.js'
+import { defaultCoinbaseConfig } from '../config/coinbase.js'
+import { defaultMetaMaskConfig } from '../config/metaMask.js'
+import { defaultWalletConnectConfig } from '../config/walletConnect.js'
+import { useSyncWagmiConfig } from '../hooks/useSyncWagmiConfig.js'
+import {
+  createDefaultWagmiConfig,
+  type DefaultWagmiConfigResult,
+} from '../utils/createDefaultWagmiConfig.js'
 
-export const EVMBaseProvider: FC<PropsWithChildren> = ({ children }) => {
-  const { walletConfig } = useWidgetConfig()
-  const { chains } = useAvailableChains()
+interface EVMBaseProviderProps {
+  walletConfig?: any // TODO: WidgetWalletConfig type
+  chains?: ExtendedChain[]
+}
+
+export const EVMBaseProvider: FC<PropsWithChildren<EVMBaseProviderProps>> = ({
+  chains,
+  walletConfig,
+  children,
+}) => {
   const wagmi = useRef<DefaultWagmiConfigResult>(null)
 
   if (!wagmi.current) {
