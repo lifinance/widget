@@ -7,6 +7,8 @@ import { ContractComponent } from '../../components/ContractComponent/ContractCo
 import { PageContainer } from '../../components/PageContainer.js'
 import { getStepList } from '../../components/Step/StepList.js'
 import { TransactionDetails } from '../../components/TransactionDetails.js'
+import { internalExplorerUrl } from '../../config/constants.js'
+import { useExplorer } from '../../hooks/useExplorer.js'
 import { useHeader } from '../../hooks/useHeader.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useTools } from '../../hooks/useTools.js'
@@ -23,14 +25,18 @@ import { TransferIdCard } from './TransferIdCard.js'
 export const TransactionDetailsPage: React.FC = () => {
   const { t, i18n } = useTranslation()
   const { navigate } = useNavigateBack()
-  const { subvariant, subvariantOptions, contractSecondaryComponent } =
-    useWidgetConfig()
+  const {
+    subvariant,
+    subvariantOptions,
+    contractSecondaryComponent,
+    explorerUrls,
+  } = useWidgetConfig()
   const { state }: any = useLocation()
   const { tools } = useTools()
+  const { getTransactionLink } = useExplorer()
   const storedRouteExecution = useRouteExecutionStore(
     (store) => store.routes[state?.routeId]
   )
-
   const { transaction, isLoading } = useTransactionDetails(
     !storedRouteExecution && state?.transactionHash
   )
@@ -63,9 +69,23 @@ export const TransactionDetailsPage: React.FC = () => {
     }
   }, [isLoading, navigate, routeExecution])
 
-  const sourceTxHash = getSourceTxHash(routeExecution?.route)
+  const explorerUrl = explorerUrls?.internal?.[0]
+  const url = typeof explorerUrl === 'string' ? explorerUrl : explorerUrl?.url
 
+  const sourceTxHash = getSourceTxHash(routeExecution?.route)
   let supportId = sourceTxHash ?? routeExecution?.route.id ?? ''
+
+  const internalTxLink =
+    routeExecution?.route?.steps?.at(-1)?.execution?.internalTxLink
+  const externalTxLink =
+    routeExecution?.route?.steps?.at(-1)?.execution?.externalTxLink
+
+  const txLink =
+    (url
+      ? internalTxLink?.replace(internalExplorerUrl, url)
+      : internalTxLink) ||
+    externalTxLink ||
+    getTransactionLink({ txHash: supportId })
 
   if (process.env.NODE_ENV === 'development') {
     supportId += `_${routeExecution?.route.id}`
@@ -118,7 +138,7 @@ export const TransactionDetailsPage: React.FC = () => {
           sx={{ marginTop: 2 }}
         />
       ) : null}
-      <TransferIdCard transferId={supportId} />
+      <TransferIdCard transferId={supportId} txLink={txLink} />
       <Box
         sx={{
           mt: 2,

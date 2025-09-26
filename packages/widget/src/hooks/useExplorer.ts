@@ -1,7 +1,7 @@
 import type { Chain } from '@lifi/sdk'
 import { ChainId, ChainType } from '@lifi/sdk'
 import { isHex } from 'viem'
-import { lifiExplorerUrl } from '../config/constants.js'
+import { internalExplorerUrl } from '../config/constants.js'
 import { useAvailableChains } from '../hooks/useAvailableChains.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 
@@ -31,7 +31,7 @@ export const useExplorer = () => {
       (resolvedChain
         ? (explorerUrls?.[resolvedChain.id]?.[0] ??
           resolvedChain.metamask.blockExplorerUrls[0])
-        : explorerUrls?.internal?.[0]) || lifiExplorerUrl
+        : explorerUrls?.internal?.[0]) || internalExplorerUrl
 
     const url = typeof explorerUrl === 'string' ? explorerUrl : explorerUrl.url
 
