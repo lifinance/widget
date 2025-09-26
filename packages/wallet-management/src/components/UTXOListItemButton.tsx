@@ -46,8 +46,9 @@ export const UTXOListItemButton = ({
         return
       }
       onConnecting?.()
-      const data = await connect(connector)
+      // Disconnect currently connected UTXO wallet (if any)
       await disconnect()
+      const data = await connect(connector)
       setLastConnectedAccount(connector)
       emitter.emit(WalletManagementEvent.WalletConnected, {
         address: data.accounts[0].address,
