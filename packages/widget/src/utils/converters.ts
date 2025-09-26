@@ -30,6 +30,7 @@ const buildProcessFromTxHistory = (tx: FullStatusData): Process[] => {
         startedAt: sending.timestamp ?? Date.now(),
         message: '',
         status: processStatus,
+        chainId: sending.chainId,
         txHash: sending.txHash,
         txLink: sending.txLink,
         doneAt: receiving.timestamp ?? Date.now(),
@@ -45,6 +46,7 @@ const buildProcessFromTxHistory = (tx: FullStatusData): Process[] => {
       startedAt: sending.timestamp ?? Date.now(),
       message: '',
       status: processStatus, // can be FAILED
+      chainId: sending.chainId,
       txHash: sending.txHash,
       txLink: sending.txLink,
       doneAt: sending.timestamp,
@@ -57,6 +59,7 @@ const buildProcessFromTxHistory = (tx: FullStatusData): Process[] => {
       substatus,
       substatusMessage: '',
       doneAt: receiving.timestamp ?? Date.now(),
+      chainId: receiving.chainId,
       txHash: receiving.txHash,
       txLink: receiving.txLink,
     },
@@ -211,6 +214,8 @@ export const buildRouteFromTxHistory = (
             fromAmount: sending.amount,
             toAmount: receiving.amount,
             toToken: receiving.token,
+            internalTxLink: tx.lifiExplorerLink,
+            externalTxLink: tx.bridgeExplorerLink,
             gasCosts: [
               {
                 amount: sending.gasAmount,

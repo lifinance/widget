@@ -1,5 +1,5 @@
 {
-  "version": "3.32.1",
+  "version": "3.32.2",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -60,7 +60,7 @@
     "husky": "^9.1.7",
     "knip": "^5.64.0",
     "lerna": "^9.0.0",
-    "lint-staged": "^16.2.0",
+    "lint-staged": "^16.2.1",
     "standard-version": "^9.5.0",
     "typescript": "^5.9.2"
   },
