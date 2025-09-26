@@ -11,7 +11,7 @@ import { type FC, type PropsWithChildren, useCallback, useContext } from 'react'
 import { UTXOBaseProvider } from './UTXOBaseProvider.js'
 
 interface UTXOProviderProps {
-  forceInternalWalletManagement?: boolean
+  walletConfig?: any // TODO: WidgetWalletConfig type
 }
 
 export function useInUTXOContext(): boolean {
@@ -21,9 +21,12 @@ export function useInUTXOContext(): boolean {
 }
 
 export const UTXOProvider: FC<PropsWithChildren<UTXOProviderProps>> = ({
-  forceInternalWalletManagement,
+  walletConfig,
   children,
 }) => {
+  const forceInternalWalletManagement =
+    walletConfig?.forceInternalWalletManagement
+
   const inUTXOContext = useInUTXOContext()
 
   if (inUTXOContext && !forceInternalWalletManagement) {

@@ -1,6 +1,7 @@
 import type { Connector as BigmiConnector } from '@bigmi/client'
 import { ChainType } from '@lifi/sdk'
 import {
+  useEVMContext,
   useMVMContext,
   useSVMContext,
   useUTXOContext,
@@ -11,7 +12,6 @@ import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import { WalletReadyState } from '@solana/wallet-adapter-base'
 import { useEffect, useState } from 'react'
 import type { Connector } from 'wagmi'
-import { useConnect } from 'wagmi'
 import { defaultBaseAccountConfig } from '../config/baseAccount.js'
 import { defaultCoinbaseConfig } from '../config/coinbase.js'
 import { defaultMetaMaskConfig } from '../config/metaMask.js'
@@ -133,7 +133,7 @@ const combineWalletLists = (
 
 export const useCombinedWallets = () => {
   const walletConfig = useWalletManagementConfig()
-  const { connectors: wagmiConnectors } = useConnect()
+  const { wallets: wagmiConnectors } = useEVMContext()
   const { wallets: bigmiConnectors } = useUTXOContext()
   const { wallets: solanaWallets } = useSVMContext()
   const { wallets: suiWallets } = useMVMContext()
@@ -152,12 +152,12 @@ export const useCombinedWallets = () => {
 
   useEffect(() => {
     ;(async () => {
-      let evmConnectors: (CreateConnectorFnExtended | Connector)[] = Array.from(
+      let evmConnectors: any[] = Array.from(
         wagmiConnectors
         // Remove duplicate connectors
       ).filter(
-        (connector, index, self) =>
-          index === self.findIndex((c) => c.id === connector.id)
+        (connector: any, index: number, self: any) =>
+          index === self.findIndex((c: any) => c.id === connector.id)
       )
 
       // Check if Safe connector exists and can get a provider

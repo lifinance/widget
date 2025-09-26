@@ -1,22 +1,19 @@
 import type { SDKProvider } from '@lifi/sdk'
 import { ChainType, config, EVM, Solana, Sui, UTXO } from '@lifi/sdk'
 import {
+  useEVMContext,
   useMVMContext,
   useSVMContext,
   useUTXOContext,
 } from '@lifi/wallet-provider'
 import type { SignerWalletAdapter } from '@solana/wallet-adapter-base'
 import { useEffect } from 'react'
-import { useConfig as useWagmiConfig } from 'wagmi'
-import {
-  getConnectorClient as getWagmiConnectorClient,
-  switchChain,
-} from 'wagmi/actions'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 
 export const SDKProviders = () => {
   const { sdkConfig } = useWidgetConfig()
-  const wagmiConfig = useWagmiConfig()
+  const { walletClient: evmWalletClient, switchChain: evmSwitchChain } =
+    useEVMContext()
   const { walletClient: utxoWalletClient } = useUTXOContext()
   const { currentWallet: svmWallet } = useSVMContext()
   const { currentWallet: suiWallet } = useMVMContext()
@@ -39,11 +36,8 @@ export const SDKProviders = () => {
     if (!hasConfiguredEVMProvider) {
       providers.push(
         EVM({
-          getWalletClient: () => getWagmiConnectorClient(wagmiConfig),
-          switchChain: async (chainId: number) => {
-            const chain = await switchChain(wagmiConfig, { chainId })
-            return getWagmiConnectorClient(wagmiConfig, { chainId: chain.id })
-          },
+          getWalletClient: () => evmWalletClient,
+          switchChain: evmSwitchChain,
         })
       )
     }
@@ -77,7 +71,8 @@ export const SDKProviders = () => {
   }, [
     suiWallet,
     sdkConfig?.providers,
-    wagmiConfig,
+    evmWalletClient,
+    evmSwitchChain,
     svmWallet?.adapter,
     utxoWalletClient,
   ])

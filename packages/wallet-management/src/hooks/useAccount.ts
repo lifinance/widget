@@ -1,6 +1,7 @@
 import type { Connector as BigmiConnector } from '@bigmi/client'
 import { ChainId, ChainType } from '@lifi/sdk'
 import {
+  useEVMContext,
   useMVMContext,
   useSVMContext,
   useUTXOContext,
@@ -9,7 +10,6 @@ import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import type { WalletAdapter } from '@solana/wallet-adapter-base'
 import { useMemo } from 'react'
 import type { Connector } from 'wagmi'
-import { useAccount as useAccountInternal } from 'wagmi'
 import { create } from 'zustand'
 import type { CreateConnectorFnExtended } from '../connectors/types.js'
 
@@ -89,7 +89,7 @@ export const useLastConnectedAccount = create<LastConnectedAccountStore>(
  * @returns - Account result
  */
 export const useAccount = (args?: UseAccountArgs): AccountResult => {
-  const wagmiAccount = useAccountInternal()
+  const { currentWallet: evmWallet } = useEVMContext()
   const { currentWallet: utxoWallet } = useUTXOContext()
   const { currentWallet: svmWallet } = useSVMContext()
   const { currentWallet: suiWallet, connectionStatus } = useMVMContext()
@@ -138,7 +138,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
             isDisconnected: true,
             status: 'disconnected',
           }
-    const evm: Account = { ...wagmiAccount, chainType: ChainType.EVM }
+    const evm: Account = { ...evmWallet, chainType: ChainType.EVM }
     const utxo: Account = {
       ...utxoWallet,
 
@@ -184,11 +184,11 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
     }
   }, [
     svmWallet?.adapter.publicKey,
-    wagmiAccount.connector?.uid,
-    wagmiAccount.connector?.id,
-    wagmiAccount.status,
-    wagmiAccount.address,
-    wagmiAccount.chainId,
+    evmWallet.connector?.uid,
+    evmWallet.connector?.id,
+    evmWallet.status,
+    evmWallet.address,
+    evmWallet.chainId,
     utxoWallet.connector?.uid,
     utxoWallet.connector?.id,
     utxoWallet.status,

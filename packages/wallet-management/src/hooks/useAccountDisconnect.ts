@@ -1,31 +1,22 @@
 import { ChainType } from '@lifi/sdk'
 import {
+  useEVMContext,
   useMVMContext,
   useSVMContext,
   useUTXOContext,
 } from '@lifi/wallet-provider'
-import type { Config } from 'wagmi'
-import { useConfig as useWagmiConfig } from 'wagmi'
-import { disconnect, getAccount } from 'wagmi/actions'
 import type { Account } from './useAccount.js'
 
 export const useAccountDisconnect = () => {
-  const wagmiConfig = useWagmiConfig()
+  const { disconnect: evmDisconnect } = useEVMContext()
   const { disconnect: utxoDisconnect } = useUTXOContext()
   const { disconnect: svmDisconnect } = useSVMContext()
   const { disconnect: suiDisconnect } = useMVMContext()
 
-  const handleDisconnectEVM = async (config: Config) => {
-    const connectedAccount = getAccount(config)
-    if (connectedAccount.connector) {
-      await disconnect(config, { connector: connectedAccount.connector })
-    }
-  }
-
   return async (account: Account) => {
     switch (account.chainType) {
       case ChainType.EVM:
-        await handleDisconnectEVM(wagmiConfig)
+        await evmDisconnect()
         break
       case ChainType.UTXO:
         await utxoDisconnect()

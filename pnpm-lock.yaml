@@ -1025,9 +1025,6 @@ importers:
       '@bigmi/client':
         specifier: ^0.5.3
         version: 0.5.3(@tanstack/query-core@5.90.2)(@types/react@19.1.13)(bs58@6.0.0)(react@19.1.1)(typescript@5.9.2)(use-sync-external-store@1.5.0(react@19.1.1))
-      '@bigmi/core':
-        specifier: ^0.5.3
-        version: 0.5.3(@types/react@19.1.13)(bs58@6.0.0)(react@19.1.1)(typescript@5.9.2)(use-sync-external-store@1.5.0(react@19.1.1))
       '@bigmi/react':
         specifier: '>=0.5.0'
         version: 0.5.3(@tanstack/query-core@5.90.2)(@tanstack/react-query@5.90.2(react@19.1.1))(@types/react@19.1.13)(bs58@6.0.0)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2)(use-sync-external-store@1.5.0(react@19.1.1))
@@ -1114,6 +1111,28 @@ importers:
         specifier: ^5.9.2
         version: 5.9.2
 
+  packages/wallet-provider-evm:
+    dependencies:
+      '@lifi/sdk':
+        specifier: ^3.12.10
+        version: 3.12.10(@solana/wallet-adapter-base@0.9.27(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.2)(utf-8-validate@5.0.10)))(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.2)(utf-8-validate@5.0.10))(@types/react@19.1.13)(bufferutil@4.0.9)(react@19.1.1)(typescript@5.9.2)(utf-8-validate@5.0.10)(viem@2.37.8(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11))(zod@4.1.11)
+      '@lifi/wallet-provider':
+        specifier: workspace:*
+        version: link:../wallet-provider
+      viem:
+        specifier: ^2.37.7
+        version: 2.37.8(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11)
+      wagmi:
+        specifier: '>=2.16.0'
+        version: 2.17.4(@tanstack/query-core@5.90.2)(@tanstack/react-query@5.90.2(react@19.1.1))(@types/react@19.1.13)(bufferutil@4.0.9)(encoding@0.1.13)(react@19.1.1)(typescript@5.9.2)(utf-8-validate@5.0.10)(viem@2.37.8(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11))(zod@4.1.11)
+    devDependencies:
+      react:
+        specifier: ^19.1.1
+        version: 19.1.1
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.2
+
   packages/wallet-provider-mvm:
     dependencies:
       '@lifi/wallet-provider':
@@ -1125,9 +1144,6 @@ importers:
       '@mysten/sui':
         specifier: ^1.37.3
         version: 1.38.0(typescript@5.9.2)
-      '@mysten/wallet-standard':
-        specifier: ^0.16.11
-        version: 0.16.14(typescript@5.9.2)
     devDependencies:
       react:
         specifier: ^19.1.1
@@ -1185,9 +1201,6 @@ importers:
 
   packages/widget:
     dependencies:
-      '@bigmi/client':
-        specifier: ^0.5.3
-        version: 0.5.3(@tanstack/query-core@5.90.2)(@types/react@19.1.13)(bs58@6.0.0)(react@19.1.1)(typescript@5.9.2)(use-sync-external-store@1.5.0(react@19.1.1))
       '@bigmi/core':
         specifier: ^0.5.3
         version: 0.5.3(@types/react@19.1.13)(bs58@6.0.0)(react@19.1.1)(typescript@5.9.2)(use-sync-external-store@1.5.0(react@19.1.1))
@@ -1209,6 +1222,9 @@ importers:
       '@lifi/wallet-provider':
         specifier: workspace:^
         version: link:../wallet-provider
+      '@lifi/wallet-provider-evm':
+        specifier: workspace:^
+        version: link:../wallet-provider-evm
       '@lifi/wallet-provider-mvm':
         specifier: workspace:^
         version: link:../wallet-provider-mvm
@@ -1388,6 +1404,9 @@ importers:
       '@lifi/wallet-management':
         specifier: workspace:*
         version: link:../wallet-management
+      '@lifi/wallet-provider-evm':
+        specifier: workspace:*
+        version: link:../wallet-provider-evm
       '@lifi/wallet-provider-mvm':
         specifier: workspace:*
         version: link:../wallet-provider-mvm
@@ -1415,9 +1434,6 @@ importers:
       '@mui/system':
         specifier: ^7.3.2
         version: 7.3.2(@emotion/react@11.14.0(@types/react@19.1.13)(react@19.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.1.13)(react@19.1.1))(@types/react@19.1.13)(react@19.1.1))(@types/react@19.1.13)(react@19.1.1)
-      '@mysten/dapp-kit':
-        specifier: ^0.18.0
-        version: 0.18.0(@tanstack/react-query@5.90.2(react@19.1.1))(@types/react-dom@19.1.9(@types/react@19.1.13))(@types/react@19.1.13)(babel-plugin-macros@3.1.0)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2)
       '@reown/appkit':
         specifier: ^1.8.7
         version: 1.8.7(@react-native-async-storage/async-storage@1.24.0(react-native@0.81.4(@babel/core@7.28.4)(@types/react@19.1.13)(bufferutil@4.0.9)(react@19.1.1)(utf-8-validate@5.0.10)))(@types/react@19.1.13)(bufferutil@4.0.9)(db0@0.3.2)(encoding@0.1.13)(ioredis@5.8.0)(react@19.1.1)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@3.25.76)
@@ -22897,7 +22913,7 @@ snapshots:
 
   '@scure/bip32@1.7.0':
     dependencies:
-      '@noble/curves': 1.9.1
+      '@noble/curves': 1.9.7
       '@noble/hashes': 1.8.0
       '@scure/base': 1.2.6
 
@@ -27725,6 +27741,11 @@ snapshots:
     optionalDependencies:
       typescript: 5.9.2
       zod: 4.1.11
+
+  abitype@1.1.1(typescript@5.9.2)(zod@3.22.4):
+    optionalDependencies:
+      typescript: 5.9.2
+      zod: 3.22.4
 
   abitype@1.1.1(typescript@5.9.2)(zod@3.25.76):
     optionalDependencies:
@@ -33704,7 +33725,7 @@ snapshots:
       '@noble/hashes': 1.8.0
       '@scure/bip32': 1.7.0
       '@scure/bip39': 1.6.0
-      abitype: 1.0.8(typescript@5.9.2)(zod@3.25.76)
+      abitype: 1.1.1(typescript@5.9.2)(zod@3.25.76)
       eventemitter3: 5.0.1
     optionalDependencies:
       typescript: 5.9.2
@@ -33719,7 +33740,7 @@ snapshots:
       '@noble/hashes': 1.8.0
       '@scure/bip32': 1.7.0
       '@scure/bip39': 1.6.0
-      abitype: 1.1.0(typescript@5.9.2)(zod@3.22.4)
+      abitype: 1.1.1(typescript@5.9.2)(zod@3.22.4)
       eventemitter3: 5.0.1
     optionalDependencies:
       typescript: 5.9.2
@@ -33734,7 +33755,7 @@ snapshots:
       '@noble/hashes': 1.8.0
       '@scure/bip32': 1.7.0
       '@scure/bip39': 1.6.0
-      abitype: 1.1.0(typescript@5.9.2)(zod@3.25.76)
+      abitype: 1.1.1(typescript@5.9.2)(zod@3.25.76)
       eventemitter3: 5.0.1
     optionalDependencies:
       typescript: 5.9.2
@@ -33749,7 +33770,7 @@ snapshots:
       '@noble/hashes': 1.8.0
       '@scure/bip32': 1.7.0
       '@scure/bip39': 1.6.0
-      abitype: 1.1.0(typescript@5.9.2)(zod@4.1.11)
+      abitype: 1.1.1(typescript@5.9.2)(zod@4.1.11)
       eventemitter3: 5.0.1
     optionalDependencies:
       typescript: 5.9.2

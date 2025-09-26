@@ -32,6 +32,7 @@
     "@emotion/styled": "^11.14.1",
     "@lifi/sdk": "^3.12.10",
     "@lifi/wallet-management": "workspace:*",
+    "@lifi/wallet-provider-evm": "workspace:*",
     "@lifi/wallet-provider-mvm": "workspace:*",
     "@lifi/wallet-provider-utxo": "workspace:*",
     "@lifi/wallet-provider-svm": "workspace:*",

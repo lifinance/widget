@@ -10,7 +10,7 @@ import { type FC, type PropsWithChildren, useContext } from 'react'
 import { MVMBaseProvider } from './MVMBaseProvider.js'
 
 interface MVMProviderProps {
-  forceInternalWalletManagement?: boolean
+  walletConfig?: any // TODO: WidgetWalletConfig type
 }
 
 export function useInMVMContext(): boolean {
@@ -19,9 +19,12 @@ export function useInMVMContext(): boolean {
 }
 
 export const MVMProvider: FC<PropsWithChildren<MVMProviderProps>> = ({
-  forceInternalWalletManagement,
+  walletConfig,
   children,
 }) => {
+  const forceInternalWalletManagement =
+    walletConfig?.forceInternalWalletManagement
+
   const inSuiContext = useInMVMContext()
 
   if (inSuiContext && !forceInternalWalletManagement) {

@@ -4,7 +4,7 @@ import { type FC, type PropsWithChildren, useContext } from 'react'
 import { SVMBaseProvider } from './SVMBaseProvider.js'
 
 interface SVMProviderProps {
-  forceInternalWalletManagement?: boolean
+  walletConfig?: any // TODO: WidgetWalletConfig type
 }
 
 export function useInSVMContext(): boolean {
@@ -13,9 +13,12 @@ export function useInSVMContext(): boolean {
 }
 
 export const SVMProvider: FC<PropsWithChildren<SVMProviderProps>> = ({
-  forceInternalWalletManagement,
+  walletConfig,
   children,
 }) => {
+  const forceInternalWalletManagement =
+    walletConfig?.forceInternalWalletManagement
+
   const inSVMContext = useInSVMContext()
 
   if (inSVMContext && !forceInternalWalletManagement) {
