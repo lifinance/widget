@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.32.2](https://github.com/lifinance/widget/compare/v3.32.1...v3.32.2) (2025-09-26)
+
+
+### Bug Fixes
+
+* improve explorer links handling ([#569](https://github.com/lifinance/widget/issues/569)) ([e96ce1a](https://github.com/lifinance/widget/commit/e96ce1a97e9c94937b34a7d32bb7efa6daca7343))
+
 ### [3.32.1](https://github.com/lifinance/widget/compare/v3.32.0...v3.32.1) (2025-09-25)
 
 

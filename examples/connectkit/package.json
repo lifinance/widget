@@ -10,8 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/wallet-management": "^3.17.1",
-    "@lifi/widget": "^3.32.0",
+    "@lifi/wallet-management": "^3.17.2",
+    "@lifi/widget": "^3.32.1",
     "@mui/icons-material": "^7.3.2",
     "@mui/material": "^7.3.2",
     "@solana/wallet-adapter-base": "^0.9.27",
@@ -23,7 +23,7 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "viem": "^2.37.7",
-    "wagmi": "^2.17.4"
+    "wagmi": "^2.17.5"
   },
   "devDependencies": {
     "@types/react": "^19.1.13",
