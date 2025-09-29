@@ -1,5 +1,4 @@
 import { createInstance } from 'i18next'
-import LanguageDetector from 'i18next-browser-languagedetector'
 import { startTransition, useEffect, useMemo, useState } from 'react'
 import { I18nextProvider } from 'react-i18next'
 import { useSettings } from '../../stores/settings/useSettings.js'
@@ -33,15 +32,8 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
             : enResource,
         },
       },
-      detection: {
-        order: ['localStorage', 'navigator', 'htmlTag'],
-        caches: ['localStorage'],
-        lookupLocalStorage: 'lifi-widget-language',
-      },
       returnEmptyString: false,
     })
-
-    i18n.use(LanguageDetector)
 
     i18n.init()
 
