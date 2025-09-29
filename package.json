@@ -1,5 +1,5 @@
 {
-  "version": "3.31.0",
+  "version": "3.32.2",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -51,16 +51,16 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.2.3",
-    "@commitlint/cli": "^19.8.1",
-    "@commitlint/config-conventional": "^19.8.1",
+    "@commitlint/cli": "^20.0.0",
+    "@commitlint/config-conventional": "^20.0.0",
     "@types/node": "^24.5.2",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "fs-extra": "^11.3.2",
     "husky": "^9.1.7",
     "knip": "^5.64.0",
-    "lerna": "^8.2.4",
-    "lint-staged": "^16.2.0",
+    "lerna": "^9.0.0",
+    "lint-staged": "^16.2.1",
     "standard-version": "^9.5.0",
     "typescript": "^5.9.2"
   },
@@ -79,5 +79,5 @@
       "@react-native-async-storage/async-storage": ">=2.2.0"
     }
   },
-  "packageManager": "pnpm@10.17.0+sha512.fce8a3dd29a4ed2ec566fb53efbb04d8c44a0f05bc6f24a73046910fb9c3ce7afa35a0980500668fa3573345bd644644fa98338fa168235c80f4aa17aa17fbef"
+  "packageManager": "pnpm@10.17.1+sha512.17c560fca4867ae9473a3899ad84a88334914f379be46d455cbf92e5cf4b39d34985d452d2583baf19967fa76cb5c17bc9e245529d0b98745721aa7200ecaf7a"
 }

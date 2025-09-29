@@ -11,10 +11,10 @@
     "node": ">=21.0.0"
   },
   "dependencies": {
-    "@lifi/sdk": "^3.12.9",
-    "@lifi/widget": "^3.31.0",
+    "@lifi/sdk": "^3.12.11",
+    "@lifi/widget": "^3.32.1",
     "@mui/material-nextjs": "^7.3.2",
-    "next": "^15.5.2",
+    "next": "^15.5.4",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },

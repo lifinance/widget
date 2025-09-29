@@ -1,15 +1,21 @@
 import { ChainType, type ExtendedChain, useAvailableChains } from '@lifi/widget'
-import { bitcoin, solana } from '@reown/appkit/networks'
-import { type AppKit, createAppKit } from '@reown/appkit/react'
+import { bitcoin, mainnet, solana } from '@reown/appkit/networks'
+import {
+  type AppKit,
+  createAppKit,
+  useAppKitAccount,
+  useAppKitNetwork,
+} from '@reown/appkit/react'
 import { BitcoinAdapter } from '@reown/appkit-adapter-bitcoin'
 import { SolanaAdapter } from '@reown/appkit-adapter-solana'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import type { AppKitNetwork } from '@reown/appkit-common'
+
 import { useEffect, useRef } from 'react'
 import { WagmiProvider } from 'wagmi'
 import { metadata, projectId } from '../config/appkit'
 import { chainToAppKitNetworks, getChainImagesConfig } from '../utils/appkit'
-import { emitter, SolanaProvider } from './SolanaProvider'
+import { SolanaProvider } from './SolanaProvider'
 
 export function ReownEVMWalletProvider({
   children,
@@ -37,7 +43,9 @@ export function ReownEVMWalletProvider({
       ssr: true,
     })
 
-    const solanaWeb3JsAdapter = new SolanaAdapter()
+    const solanaWeb3JsAdapter = new SolanaAdapter({
+      registerWalletStandard: true,
+    })
 
     const bitcoinAdapter = new BitcoinAdapter({
       projectId,
@@ -50,44 +58,51 @@ export function ReownEVMWalletProvider({
       metadata,
       chainImages,
       themeMode: 'light',
+      defaultNetwork: mainnet,
     })
-
     wagmi.current = wagmiAdapter
     modal.current = appKit
   }
 
   const { wagmiConfig } = wagmi.current
 
+  const { isConnected } = useAppKitAccount()
+  const { isConnected: isEvmConnected } = useAppKitAccount({
+    namespace: 'eip155',
+  })
+  const { isConnected: isSolanaConnected } = useAppKitAccount({
+    namespace: 'solana',
+  })
+  const { caipNetwork } = useAppKitNetwork()
+  const { setCaipNetwork, getActiveChainNamespace, getCaipNetwork } =
+    modal.current
+
+  // In multichain mode, Appkit fails to update the main connection state correctly after one chain is disconnected, or a page reload
+  // If there is mismatch between main connection state and eth connection state, we manually update the main state accordingly
+  // Details here: https://github.com/reown-com/appkit/issues/5066
   useEffect(() => {
-    const appKit = modal.current
-    if (appKit) {
-      const unsubscribeEvents = appKit.subscribeEvents((eventState) => {
-        const { data } = eventState
-        const { event } = data
-
-        if (event === 'DISCONNECT_SUCCESS') {
-          const { namespace } = data.properties
-          if (namespace === 'solana' || namespace === 'all') {
-            emitter.emit('disconnect')
-          }
-        }
-
-        if (event === 'CONNECT_SUCCESS') {
-          const namespace = appKit.getActiveChainNamespace()
-          if (namespace === 'solana') {
-            const connectors = appKit.getConnectors('solana')
-            // We use the first connector in the list as there's no way to get the active connector from appKit yet.
-            emitter.emit('connect', connectors[0].name)
-          }
-        }
-      })
-
-      return () => {
-        emitter.emit('disconnect')
-        unsubscribeEvents()
+    if (isConnected) {
+      const activeChainNamespace = getActiveChainNamespace()
+      setCaipNetwork(
+        caipNetwork || getCaipNetwork(activeChainNamespace || 'eip155')
+      )
+    } else {
+      if (isEvmConnected) {
+        setCaipNetwork(getCaipNetwork('eip155'))
+      }
+      if (isSolanaConnected) {
+        setCaipNetwork(getCaipNetwork('solana'))
       }
     }
-  }, [])
+  }, [
+    setCaipNetwork,
+    caipNetwork,
+    getActiveChainNamespace,
+    getCaipNetwork,
+    isConnected,
+    isEvmConnected,
+    isSolanaConnected,
+  ])
 
   return (
     <WagmiProvider config={wagmiConfig} reconnectOnMount={true}>

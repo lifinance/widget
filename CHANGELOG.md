@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.32.2](https://github.com/lifinance/widget/compare/v3.32.1...v3.32.2) (2025-09-26)
+
+
+### Bug Fixes
+
+* improve explorer links handling ([#569](https://github.com/lifinance/widget/issues/569)) ([e96ce1a](https://github.com/lifinance/widget/commit/e96ce1a97e9c94937b34a7d32bb7efa6daca7343))
+
+### [3.32.1](https://github.com/lifinance/widget/compare/v3.32.0...v3.32.1) (2025-09-25)
+
+
+### Bug Fixes
+
+* **format:** improve handling of initial decimal point in amount formatting ([#564](https://github.com/lifinance/widget/issues/564)) ([3886139](https://github.com/lifinance/widget/commit/3886139b3a1e5e0ffc114ce03b9d69628c48b475))
+* remove retry for existing evm balances ([#568](https://github.com/lifinance/widget/issues/568)) ([b0ce626](https://github.com/lifinance/widget/commit/b0ce626dc6888ef2a7b173e7e9be89f4191054e3))
+
+## [3.32.0](https://github.com/lifinance/widget/compare/v3.31.0...v3.32.0) (2025-09-23)
+
+
+### Features
+
+* add multi-step badge ([#561](https://github.com/lifinance/widget/issues/561)) ([91de17d](https://github.com/lifinance/widget/commit/91de17dad6e1fd089299f1b11d0fac66fba42dc7))
+
 ## [3.31.0](https://github.com/lifinance/widget/compare/v3.30.13...v3.31.0) (2025-09-18)
 
 

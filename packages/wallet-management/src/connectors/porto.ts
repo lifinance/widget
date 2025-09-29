@@ -1,6 +1,6 @@
-import type { Config } from 'porto/Porto'
-import { porto } from 'porto/wagmi'
+import { type PortoParameters, porto } from 'wagmi/connectors'
 import { extendConnector } from './utils.js'
 
-export const createPortoConnector = /*#__PURE__*/ (params?: Partial<Config>) =>
-  extendConnector(porto(params), 'xyz.ithaca.porto', 'Porto')
+export const createPortoConnector = /*#__PURE__*/ (
+  params?: Partial<PortoParameters>
+) => extendConnector(porto(params), 'xyz.ithaca.porto', 'Porto')

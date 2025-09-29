@@ -204,7 +204,8 @@
       "text": "Wir konnten diese Seite nicht finden.",
       "title": "404"
     },
-    "relayerService": "",
+    "multistep": "",
+    "gasless": "",
     "numberOfSteps": "",
     "priceImpact": "",
     "progressToNextUpdate": "Angezeigte Daten werden nach {{value}} Sekunden automatisch aktualisiert. Klicken Sie hier, um manuell zu aktualisieren.",
@@ -304,7 +305,8 @@
     "tags": {
       "cheapest": "",
       "fastest": "",
-      "gasless": ""
+      "gasless": "",
+      "multistep": ""
     },
     "to": "Zu",
     "tokenOnChain": "{{tokenSymbol}} auf {{chainName}}",
