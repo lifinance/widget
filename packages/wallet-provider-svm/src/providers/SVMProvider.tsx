@@ -1,4 +1,4 @@
-import { isSVMAddress } from '@lifi/sdk'
+import { ChainId, ChainType, isSVMAddress } from '@lifi/sdk'
 import { SVMContext } from '@lifi/wallet-provider'
 import { ConnectionContext, useWallet } from '@solana/wallet-adapter-react'
 import { type FC, type PropsWithChildren, useContext } from 'react'
@@ -50,12 +50,32 @@ const CaptureSVMValues: FC<
     connected,
   } = useWallet()
 
+  const account = currentWallet?.adapter.publicKey
+    ? {
+        address: currentWallet?.adapter.publicKey.toString(),
+        chainId: ChainId.SOL,
+        chainType: ChainType.SVM,
+        connector: currentWallet?.adapter,
+        isConnected: Boolean(currentWallet?.adapter.publicKey),
+        isConnecting: false,
+        isReconnecting: false,
+        isDisconnected: !currentWallet,
+        status: 'connected',
+      }
+    : {
+        chainType: ChainType.SVM,
+        isConnected: false,
+        isConnecting: false,
+        isReconnecting: false,
+        isDisconnected: true,
+        status: 'disconnected',
+      }
+
   return (
     <SVMContext.Provider
       value={{
         wallets,
-        currentWallet,
-        // connectionStatus,
+        account,
         isConnected: connected,
         connect,
         disconnect,

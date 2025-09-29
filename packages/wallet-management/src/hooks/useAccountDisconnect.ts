@@ -1,11 +1,11 @@
 import { ChainType } from '@lifi/sdk'
 import {
+  type Account,
   useEVMContext,
   useMVMContext,
   useSVMContext,
   useUTXOContext,
 } from '@lifi/wallet-provider'
-import type { Account } from './useAccount.js'
 
 export const useAccountDisconnect = () => {
   const { disconnect: evmDisconnect } = useEVMContext()

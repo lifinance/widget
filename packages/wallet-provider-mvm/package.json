@@ -5,7 +5,8 @@
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
   "dependencies": {
-    "@mysten/sui": "^1.38.0"
+    "@mysten/sui": "^1.38.0",
+    "@lifi/sdk": "^3.12.11"
   },
   "peerDependencies": {
     "@mysten/dapp-kit": "^0.17.4",

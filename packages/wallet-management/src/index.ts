@@ -1,5 +1,6 @@
 import type {} from '@mui/material/themeCssVarsAugmentation'
 
+export type { Account } from '@lifi/wallet-provider'
 export * from './hooks/useAccount.js'
 export * from './hooks/useAccountDisconnect.js'
 export * from './hooks/useWalletManagementEvents.js'

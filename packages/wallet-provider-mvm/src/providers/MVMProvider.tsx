@@ -1,3 +1,4 @@
+import { ChainId, ChainType } from '@lifi/sdk'
 import { MVMContext } from '@lifi/wallet-provider'
 import {
   SuiClientContext,
@@ -53,12 +54,33 @@ const CaptureMVMValues: FC<
   const { mutateAsync: disconnect } = useDisconnectWallet()
   const { mutateAsync: connect } = useConnectWallet()
 
+  const account =
+    currentWallet?.accounts?.length && connectionStatus === 'connected'
+      ? {
+          address: currentWallet?.accounts[0].address,
+          chainId: ChainId.SUI,
+          chainType: ChainType.MVM,
+          connector: currentWallet,
+          isConnected: connectionStatus === 'connected',
+          isConnecting: false,
+          isReconnecting: false,
+          isDisconnected: !currentWallet,
+          status: connectionStatus,
+        }
+      : {
+          chainType: ChainType.MVM,
+          isConnected: false,
+          isConnecting: false,
+          isReconnecting: false,
+          isDisconnected: true,
+          status: 'disconnected',
+        }
+
   return (
     <MVMContext.Provider
       value={{
         wallets,
-        currentWallet,
-        connectionStatus,
+        account,
         connect,
         disconnect,
         isValidAddress: isValidSuiAddress,

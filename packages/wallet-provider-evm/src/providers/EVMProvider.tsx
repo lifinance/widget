@@ -1,4 +1,5 @@
 import type { ExtendedChain } from '@lifi/sdk'
+import { ChainType } from '@lifi/sdk'
 import { EVMContext } from '@lifi/wallet-provider'
 import { type FC, type PropsWithChildren, useCallback, useContext } from 'react'
 import { isAddress as isEVMAddress } from 'viem'
@@ -59,7 +60,7 @@ const CaptureEVMValues: FC<
   PropsWithChildren<{ isExternalContext: boolean }>
 > = ({ children, isExternalContext }) => {
   const config = useConfig()
-  const account = useAccount()
+  const currentWallet = useAccount()
   const { connectors } = useConnect()
 
   const handleConnect = useCallback(
@@ -78,14 +79,14 @@ const CaptureEVMValues: FC<
     }
   }, [config])
 
+  const account = { ...currentWallet, chainType: ChainType.EVM }
+
   return (
     <EVMContext.Provider
       value={{
         walletClient: getConnectorClient(config),
         wallets: connectors,
-        currentWallet: account,
-        // connectionStatus,
-        // isConnected: connected,
+        account,
         connect: handleConnect,
         disconnect: handleDisconnect,
         isValidAddress: isEVMAddress,

@@ -7,6 +7,7 @@ import {
 } from '@bigmi/client'
 import { isUTXOAddress } from '@bigmi/core'
 import { BigmiContext, useAccount, useConfig, useConnect } from '@bigmi/react'
+import { ChainId, ChainType } from '@lifi/sdk'
 import { UTXOContext } from '@lifi/wallet-provider'
 import { type FC, type PropsWithChildren, useCallback, useContext } from 'react'
 import { UTXOBaseProvider } from './UTXOBaseProvider.js'
@@ -52,7 +53,15 @@ const CaptureUTXOValues: FC<
 > = ({ children, isExternalContext }) => {
   const bigmiConfig = useConfig()
   const { connectors: bigmiConnectors } = useConnect()
-  const bigmiAccount = useAccount()
+  const currentWallet = useAccount()
+
+  const account = {
+    ...currentWallet,
+    chainType: ChainType.UTXO,
+    chainId: ChainId.BTC,
+    address: currentWallet.account?.address,
+    addresses: currentWallet.accounts?.map((account: any) => account.address),
+  }
 
   const handleConnect = useCallback(
     async (connector: Connector) => {
@@ -75,9 +84,7 @@ const CaptureUTXOValues: FC<
       value={{
         walletClient: getBigmiConnectorClient(bigmiConfig),
         wallets: bigmiConnectors,
-        currentWallet: bigmiAccount,
-        // connectionStatus,
-        // isConnected: connected,
+        account,
         connect: handleConnect,
         disconnect: handleDisconnect,
         isValidAddress: isUTXOAddress,
