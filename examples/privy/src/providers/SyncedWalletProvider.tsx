@@ -2,7 +2,7 @@ import {
   convertExtendedChain,
   isExtendedChain,
   useSyncWagmiConfig,
-} from '@lifi/wallet-management'
+} from '@lifi/wallet-provider-evm'
 import { useAvailableChains } from '@lifi/widget'
 import { PrivyProvider } from '@privy-io/react-auth'
 import { SmartWalletsProvider } from '@privy-io/react-auth/smart-wallets'

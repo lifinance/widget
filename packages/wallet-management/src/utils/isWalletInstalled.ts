@@ -1,3 +1,4 @@
+// TODO: split/move to wallet provider?
 export const isWalletInstalled = (id: string): boolean => {
   const anyWindow = typeof window !== 'undefined' ? (window as any) : undefined
   switch (id) {

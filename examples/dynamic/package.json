@@ -20,7 +20,7 @@
     "@dynamic-labs/solana-core": "^4.32.1",
     "@dynamic-labs/wagmi-connector": "^4.32.1",
     "@lifi/sdk": "^3.12.11",
-    "@lifi/wallet-management": "workspace:^",
+    "@lifi/wallet-provider-evm": "workspace:^",
     "@lifi/widget": "workspace:^",
     "@mui/material": "^7.3.2",
     "@solana/wallet-adapter-base": "^0.9.27",

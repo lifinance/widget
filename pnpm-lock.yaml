@@ -54,9 +54,9 @@ importers:
 
   examples/connectkit:
     dependencies:
-      '@lifi/wallet-management':
-        specifier: ^3.17.2
-        version: 3.17.3(8031cacce17e9ce0c32f162e9c5745c8)
+      '@lifi/wallet-provider-evm':
+        specifier: workspace:^
+        version: link:../../packages/wallet-provider-evm
       '@lifi/widget':
         specifier: ^3.32.1
         version: 3.32.2(0524ffbbd6d74938d196cfef8d8244a7)
@@ -206,9 +206,9 @@ importers:
       '@lifi/sdk':
         specifier: ^3.12.11
         version: 3.12.11(@solana/wallet-adapter-base@0.9.27(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.2)(utf-8-validate@5.0.10)))(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.2)(utf-8-validate@5.0.10))(@types/react@19.1.13)(bufferutil@4.0.9)(react@19.1.1)(typescript@5.9.2)(use-sync-external-store@1.5.0(react@19.1.1))(utf-8-validate@5.0.10)(viem@2.37.8(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@3.25.76))(zod@3.25.76)
-      '@lifi/wallet-management':
+      '@lifi/wallet-provider-evm':
         specifier: workspace:^
-        version: link:../../packages/wallet-management
+        version: link:../../packages/wallet-provider-evm
       '@lifi/widget':
         specifier: workspace:^
         version: link:../../packages/widget
@@ -439,9 +439,9 @@ importers:
 
   examples/privy:
     dependencies:
-      '@lifi/wallet-management':
-        specifier: ^3.17.2
-        version: 3.17.3(f6b0439c9c3b16edb139c3e118f03df8)
+      '@lifi/wallet-provider-evm':
+        specifier: workspace:^
+        version: link:../../packages/wallet-provider-evm
       '@lifi/widget':
         specifier: ^3.32.1
         version: 3.32.2(e8bc8b72758e9e2fe75db6dbcd64f116)
@@ -518,9 +518,9 @@ importers:
 
   examples/privy-ethers:
     dependencies:
-      '@lifi/wallet-management':
-        specifier: ^3.17.2
-        version: 3.17.3(f6b0439c9c3b16edb139c3e118f03df8)
+      '@lifi/wallet-provider-evm':
+        specifier: workspace:^
+        version: link:../../packages/wallet-provider-evm
       '@lifi/widget':
         specifier: ^3.32.1
         version: 3.32.2(e8bc8b72758e9e2fe75db6dbcd64f116)
@@ -606,9 +606,9 @@ importers:
 
   examples/rainbowkit:
     dependencies:
-      '@lifi/wallet-management':
-        specifier: ^3.17.2
-        version: 3.17.3(8031cacce17e9ce0c32f162e9c5745c8)
+      '@lifi/wallet-provider-evm':
+        specifier: workspace:^
+        version: link:../../packages/wallet-provider-evm
       '@lifi/widget':
         specifier: ^3.32.1
         version: 3.32.2(0524ffbbd6d74938d196cfef8d8244a7)
@@ -884,9 +884,9 @@ importers:
       '@lifi/sdk':
         specifier: ^3.12.11
         version: 3.12.11(@solana/wallet-adapter-base@0.9.27(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.2)(utf-8-validate@5.0.10)))(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.2)(utf-8-validate@5.0.10))(@types/react@19.1.13)(bufferutil@4.0.9)(react@19.1.1)(typescript@5.9.2)(use-sync-external-store@1.5.0(react@19.1.1))(utf-8-validate@5.0.10)(viem@2.37.8(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@4.1.11))(zod@4.1.11)
-      '@lifi/wallet-management':
-        specifier: ^3.17.2
-        version: 3.17.3(a2ca9e182250a54f4d435254f51dfe69)
+      '@lifi/wallet-provider-evm':
+        specifier: workspace:^
+        version: link:../../packages/wallet-provider-evm
       '@lifi/widget':
         specifier: ^3.32.1
         version: 3.32.2(467571cf5824666290eeb3364b20f2f6)
@@ -1037,6 +1037,9 @@ importers:
       '@lifi/wallet-provider':
         specifier: workspace:*
         version: link:../wallet-provider
+      '@lifi/wallet-provider-evm':
+        specifier: workspace:^
+        version: link:../wallet-provider-evm
       '@mui/icons-material':
         specifier: ^7.3.2
         version: 7.3.2(@mui/material@7.3.2(@emotion/react@11.14.0(@types/react@19.1.13)(react@19.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.1.13)(react@19.1.1))(@types/react@19.1.13)(react@19.1.1))(@types/react@19.1.13)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@types/react@19.1.13)(react@19.1.1)

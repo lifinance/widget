@@ -63,7 +63,8 @@
     "react-i18next": "^16.0.0",
     "use-sync-external-store": "^1.5.0",
     "viem": "^2.37.7",
-    "zustand": "^5.0.8"
+    "zustand": "^5.0.8",
+    "@lifi/wallet-provider-evm": "workspace:^"
   },
   "devDependencies": {
     "@types/use-sync-external-store": "^1.5.0",

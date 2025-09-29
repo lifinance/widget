@@ -1,7 +1,7 @@
 import { ChainType } from '@lifi/sdk'
 import { useEVMContext } from '@lifi/wallet-provider'
+import type { CreateConnectorFnExtended } from '@lifi/wallet-provider-evm'
 import type { Connector } from 'wagmi'
-import type { CreateConnectorFnExtended } from '../connectors/types.js'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { getChainTypeIcon } from '../icons.js'

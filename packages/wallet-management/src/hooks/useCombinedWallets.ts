@@ -6,22 +6,24 @@ import {
   useSVMContext,
   useUTXOContext,
 } from '@lifi/wallet-provider'
+import {
+  type CreateConnectorFnExtended,
+  createBaseAccountConnector,
+  createCoinbaseConnector,
+  createMetaMaskConnector,
+  createPortoConnector,
+  createWalletConnectConnector,
+  defaultBaseAccountConfig,
+  defaultCoinbaseConfig,
+  defaultMetaMaskConfig,
+  defaultWalletConnectConfig,
+} from '@lifi/wallet-provider-evm'
 import type { Theme } from '@mui/material'
 import { useMediaQuery } from '@mui/material'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import { WalletReadyState } from '@solana/wallet-adapter-base'
 import { useEffect, useState } from 'react'
 import type { Connector } from 'wagmi'
-import { defaultBaseAccountConfig } from '../config/baseAccount.js'
-import { defaultCoinbaseConfig } from '../config/coinbase.js'
-import { defaultMetaMaskConfig } from '../config/metaMask.js'
-import { defaultWalletConnectConfig } from '../config/walletConnect.js'
-import { createBaseAccountConnector } from '../connectors/baseAccount.js'
-import { createCoinbaseConnector } from '../connectors/coinbase.js'
-import { createMetaMaskConnector } from '../connectors/metaMask.js'
-import { createPortoConnector } from '../connectors/porto.js'
-import type { CreateConnectorFnExtended } from '../connectors/types.js'
-import { createWalletConnectConnector } from '../connectors/walletConnect.js'
 import { useWalletManagementConfig } from '../providers/WalletManagementProvider/WalletManagementContext.js'
 import type { WalletConnector } from '../types/walletConnector.js'
 import { getConnectorIcon } from '../utils/getConnectorIcon.js'

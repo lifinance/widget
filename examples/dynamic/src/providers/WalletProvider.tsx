@@ -8,7 +8,7 @@ import {
   convertExtendedChain,
   isExtendedChain,
   useSyncWagmiConfig,
-} from '@lifi/wallet-management'
+} from '@lifi/wallet-provider-evm'
 import { ChainType, type ExtendedChain, useAvailableChains } from '@lifi/widget'
 import { type FC, type PropsWithChildren, useRef } from 'react'
 import { type Chain, mainnet } from 'viem/chains'

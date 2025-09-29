@@ -1,4 +1,4 @@
 {
   "ignore": ["examples/**", "packages/widget-embedded/**", "scripts/**"],
-  "ignoreDependencies": ["@mui/system", "csstype"]
+  "ignoreDependencies": ["@mui/system", "csstype", "@lifi/wallet-management"]
 }

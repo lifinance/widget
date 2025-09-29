@@ -6,12 +6,12 @@ import {
   useSVMContext,
   useUTXOContext,
 } from '@lifi/wallet-provider'
+import type { CreateConnectorFnExtended } from '@lifi/wallet-provider-evm'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import type { WalletAdapter } from '@solana/wallet-adapter-base'
 import { useMemo } from 'react'
 import type { Connector } from 'wagmi'
 import { create } from 'zustand'
-import type { CreateConnectorFnExtended } from '../connectors/types.js'
 
 export interface AccountBase<
   CT extends ChainType,
