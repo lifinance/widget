@@ -5,6 +5,7 @@ import {
   getAccount,
   getConnectorClient as getBigmiConnectorClient,
 } from '@bigmi/client'
+import { isUTXOAddress } from '@bigmi/core'
 import { BigmiContext, useAccount, useConfig, useConnect } from '@bigmi/react'
 import { UTXOContext } from '@lifi/wallet-provider'
 import { type FC, type PropsWithChildren, useCallback, useContext } from 'react'
@@ -79,6 +80,7 @@ const CaptureUTXOValues: FC<
         // isConnected: connected,
         connect: handleConnect,
         disconnect: handleDisconnect,
+        isValidAddress: isUTXOAddress,
         isExternalContext,
       }}
     >

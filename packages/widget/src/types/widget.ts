@@ -136,6 +136,7 @@ export type DefaultUI = {
   navigationHeaderTitleNoWrap?: boolean
 }
 
+// TODO: move EVM-related config somewhere else?
 export interface WidgetWalletConfig {
   onConnect?(args?: WalletMenuOpenArgs): void
   walletConnect?: WalletConnectParameters

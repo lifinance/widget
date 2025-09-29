@@ -1,27 +1,4 @@
-import { isUTXOAddress } from '@bigmi/core'
-import { ChainId, ChainType, isSVMAddress } from '@lifi/sdk'
-import { isValidSuiAddress } from '@mysten/sui/utils' // TODO: move to @lifi/sdk
-import { isAddress as isEVMAddress } from 'viem'
-
-const chainTypeAddressValidation = {
-  [ChainType.EVM]: isEVMAddress,
-  [ChainType.SVM]: isSVMAddress,
-  [ChainType.MVM]: isValidSuiAddress,
-  [ChainType.UTXO]: isUTXOAddress,
-  [ChainType.TVM]: () => false,
-}
-
-export const getChainTypeFromAddress = (
-  address: string
-): ChainType | undefined => {
-  for (const chainType in chainTypeAddressValidation) {
-    const isChainType =
-      chainTypeAddressValidation[chainType as ChainType](address)
-    if (isChainType) {
-      return chainType as ChainType
-    }
-  }
-}
+import { ChainId, ChainType } from '@lifi/sdk'
 
 export const defaultChainIdsByType = {
   [ChainType.EVM]: ChainId.ETH,

@@ -1,10 +1,10 @@
 import { useAccount } from '@lifi/wallet-management'
+import { useChainTypeFromAddress } from '@lifi/wallet-provider'
 import { useCallback } from 'react'
 import { useBookmarkActions } from '../stores/bookmarks/useBookmarkActions.js'
 import type { FormType } from '../stores/form/types.js'
 import { useFieldActions } from '../stores/form/useFieldActions.js'
 import { useSendToWalletActions } from '../stores/settings/useSendToWalletStore.js'
-import { getChainTypeFromAddress } from '../utils/chainType.js'
 import { useAvailableChains } from './useAvailableChains.js'
 
 type UpdateToAddressArgs = {
@@ -24,6 +24,7 @@ export const useToAddressAutoPopulate = () => {
   const { setSelectedBookmark } = useBookmarkActions()
   const { getChainById } = useAvailableChains()
   const { accounts } = useAccount()
+  const { getChainTypeFromAddress } = useChainTypeFromAddress()
 
   return useCallback(
     ({
@@ -90,6 +91,7 @@ export const useToAddressAutoPopulate = () => {
       setFieldValue,
       setSelectedBookmark,
       setSendToWallet,
+      getChainTypeFromAddress,
     ]
   )
 }

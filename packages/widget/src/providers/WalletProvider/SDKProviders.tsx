@@ -6,7 +6,6 @@ import {
   useSVMContext,
   useUTXOContext,
 } from '@lifi/wallet-provider'
-import type { SignerWalletAdapter } from '@solana/wallet-adapter-base'
 import { useEffect } from 'react'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 
@@ -45,7 +44,7 @@ export const SDKProviders = () => {
       providers.push(
         Solana({
           async getWalletAdapter() {
-            return svmWallet?.adapter as SignerWalletAdapter
+            return svmWallet?.adapter
           },
         })
       )

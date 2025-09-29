@@ -1,3 +1,4 @@
+import { isSVMAddress } from '@lifi/sdk'
 import { SVMContext } from '@lifi/wallet-provider'
 import { ConnectionContext, useWallet } from '@solana/wallet-adapter-react'
 import { type FC, type PropsWithChildren, useContext } from 'react'
@@ -58,6 +59,7 @@ const CaptureSVMValues: FC<
         isConnected: connected,
         connect,
         disconnect,
+        isValidAddress: isSVMAddress,
         isExternalContext,
       }}
     >

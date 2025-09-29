@@ -4,14 +4,12 @@ import {
   getTokens,
   type TokensExtendedResponse,
 } from '@lifi/sdk'
+import { useChainTypeFromAddress } from '@lifi/wallet-provider'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
-import {
-  defaultChainIdsByType,
-  getChainTypeFromAddress,
-} from '../utils/chainType.js'
+import { defaultChainIdsByType } from '../utils/chainType.js'
 import { isItemAllowed } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 import { filterAllowedTokens } from '../utils/token.js'
@@ -77,6 +75,7 @@ export const useTokens = (
  * if any of the tokens are not already in the cache. */
 const useBackgroundTokenSearch = (search?: string, chainId?: number) => {
   const { chains: chainsConfig, keyPrefix } = useWidgetConfig()
+  const { getChainTypeFromAddress } = useChainTypeFromAddress()
   const queryClient = useQueryClient()
 
   const { isLoading: isSearchLoading } = useQuery({
@@ -104,8 +103,11 @@ const useBackgroundTokenSearch = (search?: string, chainId?: number) => {
       let _chainId = chainId
       if (!_chainId) {
         const chainType = getChainTypeFromAddress(searchQuery)
-        if (chainType) {
-          _chainId = defaultChainIdsByType[chainType]
+        if (chainType && chainType in defaultChainIdsByType) {
+          _chainId =
+            defaultChainIdsByType[
+              chainType as keyof typeof defaultChainIdsByType
+            ]
         }
       }
 

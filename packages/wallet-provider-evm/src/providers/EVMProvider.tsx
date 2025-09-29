@@ -1,6 +1,7 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { EVMContext } from '@lifi/wallet-provider'
 import { type FC, type PropsWithChildren, useCallback, useContext } from 'react'
+import { isAddress as isEVMAddress } from 'viem'
 import {
   type Connector,
   useAccount,
@@ -87,6 +88,7 @@ const CaptureEVMValues: FC<
         // isConnected: connected,
         connect: handleConnect,
         disconnect: handleDisconnect,
+        isValidAddress: isEVMAddress,
         isExternalContext,
         switchChain: async (chainId: number) => {
           const chain = await switchChain(config, { chainId })

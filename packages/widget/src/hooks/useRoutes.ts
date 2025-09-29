@@ -9,6 +9,7 @@ import {
   LiFiErrorCode,
 } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
+import { useChainTypeFromAddress } from '@lifi/wallet-provider'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
 import { parseUnits } from 'viem'
@@ -19,7 +20,6 @@ import { useSetExecutableRoute } from '../stores/routes/useSetExecutableRoute.js
 import { useSettings } from '../stores/settings/useSettings.js'
 import { defaultSlippage } from '../stores/settings/useSettingsStore.js'
 import { WidgetEvent } from '../types/events.js'
-import { getChainTypeFromAddress } from '../utils/chainType.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useChain } from './useChain.js'
 import { useDebouncedWatch } from './useDebouncedWatch.js'
@@ -93,6 +93,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
   const { chain: toChain } = useChain(toChainId)
   const { enabled: enabledRefuel, fromAmount: gasRecommendationFromAmount } =
     useGasRefuel()
+  const { getChainTypeFromAddress } = useChainTypeFromAddress()
 
   const { account } = useAccount({ chainType: fromChain?.chainType })
   const { isBatchingSupported, isBatchingSupportedLoading } =

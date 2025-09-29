@@ -1,4 +1,5 @@
 import { useAccount } from '@lifi/wallet-management'
+import { useChainTypeFromAddress } from '@lifi/wallet-provider'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import { Box, Collapse } from '@mui/material'
 import { type MouseEventHandler, useEffect, useRef } from 'react'
@@ -12,10 +13,7 @@ import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { useSendToWalletStore } from '../../stores/settings/useSendToWalletStore.js'
 import { DisabledUI, HiddenUI } from '../../types/widget.js'
-import {
-  defaultChainIdsByType,
-  getChainTypeFromAddress,
-} from '../../utils/chainType.js'
+import { defaultChainIdsByType } from '../../utils/chainType.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { AccountAvatar } from '../Avatar/AccountAvatar.js'
@@ -47,6 +45,7 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
   const { setSelectedBookmark } = useBookmarkActions()
   const { accounts } = useAccount()
   const { requiredToAddress } = useToAddressRequirements()
+  const { getChainTypeFromAddress } = useChainTypeFromAddress()
   const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress)
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress)
 
@@ -73,7 +72,9 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
       : matchingConnectedAccount
         ? matchingConnectedAccount.chainId
         : chainType
-          ? defaultChainIdsByType[chainType]
+          ? defaultChainIdsByType[
+              chainType as keyof typeof defaultChainIdsByType
+            ]
           : undefined
 
   const isConnectedAccount =

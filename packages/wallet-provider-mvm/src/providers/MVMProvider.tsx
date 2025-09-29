@@ -6,6 +6,7 @@ import {
   useDisconnectWallet,
   useWallets,
 } from '@mysten/dapp-kit'
+import { isValidSuiAddress } from '@mysten/sui/utils'
 import { type FC, type PropsWithChildren, useContext } from 'react'
 import { MVMBaseProvider } from './MVMBaseProvider.js'
 
@@ -60,6 +61,7 @@ const CaptureMVMValues: FC<
         connectionStatus,
         connect,
         disconnect,
+        isValidAddress: isValidSuiAddress,
         isExternalContext,
       }}
     >
