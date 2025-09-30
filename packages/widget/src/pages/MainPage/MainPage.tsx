@@ -32,6 +32,7 @@ export const MainPage: React.FC = () => {
       : subvariantOptions?.split === 'swap'
         ? t('header.swap')
         : undefined
+
   const title =
     subvariant === 'custom'
       ? t(`header.${subvariantOptions?.custom ?? 'checkout'}`)

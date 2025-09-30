@@ -44,7 +44,7 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
 
   useEffect(() => {
     const handleLanguageChange = async () => {
-      const locale = language as LanguageKey | 'empty'
+      const locale = language ? (language as LanguageKey | 'empty') : 'en'
 
       // Always ensure English is loaded as fallback
       if (!i18nInstance.hasResourceBundle('en', 'translation')) {
@@ -61,7 +61,7 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
         )
       }
 
-      if (locale && locale !== 'empty') {
+      if (locale !== 'en' && locale !== 'empty') {
         if (!i18nInstance.hasResourceBundle(locale, 'translation')) {
           await loadLocale(locale, languageResources?.[locale]).then(
             (languageResource) => {
@@ -75,11 +75,9 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
             }
           )
         }
-
-        if (locale !== i18nInstance.language) {
-          await i18nInstance.changeLanguage(locale)
-        }
       }
+
+      await i18nInstance.changeLanguage(locale)
     }
 
     try {
