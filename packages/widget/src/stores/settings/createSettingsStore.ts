@@ -185,8 +185,15 @@ export const createSettingsStore = (config: WidgetConfig) =>
             if (!initialLanguage) {
               return
             }
+            // Before the translations are loaded, use old translations from the language cache
+            if (state.getValue('language') === initialLanguage) {
+              state.setValue(
+                'defaultLanguageCache',
+                state.getValue('languageCache')
+              )
+            }
             try {
-              // Preload initial translations during hydration
+              // Preload default translations
               const importResult = await import(
                 `../../i18n/${initialLanguage}.json`
               )

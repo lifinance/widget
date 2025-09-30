@@ -21,6 +21,7 @@ export type SettingsToolType = (typeof SettingsToolTypes)[number]
 export interface SettingsProps {
   gasPrice?: string
   language?: string
+  languageCache?: LanguageResource
   defaultLanguage?: LanguageKey
   defaultLanguageCache?: LanguageResource
   routePriority?: Order
