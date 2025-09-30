@@ -4,7 +4,6 @@ export const CardTitle = styled(Typography, {
   shouldForwardProp: (prop) => !['required'].includes(prop as string),
 })<{ required?: boolean }>(({ theme }) => ({
   fontSize: 14,
-  minHeight: 30,
   lineHeight: 1,
   fontWeight: 700,
   padding: theme.spacing(2, 2, 0, 2),

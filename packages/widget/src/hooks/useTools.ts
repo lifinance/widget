@@ -1,12 +1,14 @@
 import { getTools, type ToolsResponse } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import { settingsStore } from '../stores/settings/useSettingsStore.js'
+import { useSettingsStore } from '../stores/settings/SettingsStore.js'
 import { getConfigItemSets, isItemAllowedForSets } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 
 export const useTools = () => {
   const { bridges, exchanges, keyPrefix } = useWidgetConfig()
+  const initializeTools = useSettingsStore((state) => state.initializeTools)
+
   const { data } = useQuery({
     queryKey: [
       getQueryKey('tools', keyPrefix),
@@ -33,7 +35,6 @@ export const useTools = () => {
           isItemAllowedForSets(exchange.key, exchangesConfigSets)
         ),
       }
-      const { initializeTools } = settingsStore.getState()
       initializeTools(
         'Bridges',
         result.bridges.map((bridge) => bridge.key)

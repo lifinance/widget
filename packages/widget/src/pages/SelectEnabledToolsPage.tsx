@@ -15,8 +15,8 @@ import { useDefaultElementId } from '../hooks/useDefaultElementId.js'
 import { useHeader } from '../hooks/useHeader.js'
 import { useScrollableContainer } from '../hooks/useScrollableContainer.js'
 import { useTools } from '../hooks/useTools.js'
+import { useSettingsStore } from '../stores/settings/SettingsStore.js'
 import { useSettingsActions } from '../stores/settings/useSettingsActions.js'
-import { useSettingsStore } from '../stores/settings/useSettingsStore.js'
 
 interface SelectAllCheckboxProps {
   allCheckboxesSelected: boolean

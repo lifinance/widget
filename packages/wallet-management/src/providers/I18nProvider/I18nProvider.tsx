@@ -36,7 +36,7 @@ export const I18nProvider: FC<PropsWithChildren<I18nProviderProps>> = ({
 
   useEffect(() => {
     const handleLanguageChange = async () => {
-      if (locale && locale !== 'empty') {
+      if (locale) {
         if (!i18nInstance.hasResourceBundle(locale, 'translation')) {
           await loadLocale(locale).then((languageResource) => {
             i18nInstance.addResourceBundle(

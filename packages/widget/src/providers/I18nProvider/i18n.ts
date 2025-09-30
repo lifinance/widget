@@ -6,10 +6,21 @@ export async function loadLocale(
   lng: LanguageKey,
   customLanguageResource?: PartialResource<LanguageResource>
 ) {
-  const languageResourceModule = await import(`../../i18n/${lng}.json`)
-  const languageResource = languageResourceModule.default as LanguageResource
-  const translations = customLanguageResource
+  let languageResource: LanguageResource
+  try {
+    const languageResourceModule = await import(`../../i18n/${lng}.json`)
+    languageResource = languageResourceModule.default as LanguageResource
+  } catch {
+    languageResource = {} as LanguageResource
+  }
+  return mergeWithLanguageResources(languageResource, customLanguageResource)
+}
+
+export function mergeWithLanguageResources(
+  languageResource: LanguageResource,
+  customLanguageResource?: PartialResource<LanguageResource>
+) {
+  return customLanguageResource
     ? deepMerge(languageResource, customLanguageResource)
     : languageResource
-  return translations
 }

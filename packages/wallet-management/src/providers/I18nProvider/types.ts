@@ -16,4 +16,3 @@ export type LanguageKey =
   | 'uk'
   | 'id'
   | 'pl'
-  | 'empty'

@@ -2,7 +2,11 @@ import type { Order } from '@lifi/sdk'
 import type { PropsWithChildren } from 'react'
 import type { StoreApi } from 'zustand'
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
-import type { SplitSubvariant } from '../../types/widget.js'
+import type {
+  LanguageKey,
+  LanguageResource,
+} from '../../providers/I18nProvider/types.js'
+import type { SplitSubvariant, WidgetConfig } from '../../types/widget.js'
 
 export type ValueSetter<S> = <K extends keyof S>(
   key: K,
@@ -17,6 +21,8 @@ export type SettingsToolType = (typeof SettingsToolTypes)[number]
 export interface SettingsProps {
   gasPrice?: string
   language?: string
+  defaultLanguage?: LanguageKey
+  defaultLanguageCache?: LanguageResource
   routePriority?: Order
   enabledAutoRefuel: boolean
   slippage?: string
@@ -67,3 +73,7 @@ export interface SplitSubvariantProps {
 
 export type SplitSubvariantProviderProps =
   PropsWithChildren<SplitSubvariantProps>
+
+export interface SettingsStoreProviderProps {
+  config: WidgetConfig
+}

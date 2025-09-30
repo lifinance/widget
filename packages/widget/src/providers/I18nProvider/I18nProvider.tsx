@@ -1,36 +1,57 @@
 import { createInstance } from 'i18next'
-import { startTransition, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 import { I18nextProvider } from 'react-i18next'
 import { useSettings } from '../../stores/settings/useSettings.js'
 import { compactNumberFormatter } from '../../utils/compactNumberFormatter.js'
 import { currencyExtendedFormatter } from '../../utils/currencyExtendedFormatter.js'
+import { isItemAllowed } from '../../utils/item.js'
 import { percentFormatter } from '../../utils/percentFormatter.js'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 import { enResource } from './enResource.js'
-import { loadLocale } from './i18n.js'
+import { loadLocale, mergeWithLanguageResources } from './i18n.js'
 import type { LanguageKey } from './types.js'
-import { makeEmptyStrings } from './utils.js'
 
 export const I18nProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
-  const { languageResources } = useWidgetConfig()
-  const { language } = useSettings(['language'])
-  const [isInitialized, setIsInitialized] = useState(false)
+  const { languages, languageResources } = useWidgetConfig()
+  const { language, defaultLanguage, defaultLanguageCache } = useSettings([
+    'language',
+    'defaultLanguage',
+    'defaultLanguageCache',
+  ])
+  const hasDefaultTranslations = defaultLanguage && defaultLanguageCache
+  const shouldFallbackToEnglish =
+    isItemAllowed('en', languages) || !hasDefaultTranslations
 
   const i18nInstance = useMemo(() => {
     const i18n = createInstance({
-      lng: 'empty',
-      fallbackLng: 'en',
+      lng: defaultLanguage,
+      fallbackLng: shouldFallbackToEnglish ? 'en' : defaultLanguage,
       lowerCaseLng: true,
       interpolation: { escapeValue: false },
-      // Show empty strings before the language resource is loaded
       resources: {
-        empty: {
-          translation: makeEmptyStrings(enResource),
-        },
+        ...(shouldFallbackToEnglish && {
+          en: {
+            translation: mergeWithLanguageResources(
+              enResource,
+              languageResources?.en
+            ),
+          },
+        }),
+        ...(hasDefaultTranslations && {
+          [defaultLanguage as LanguageKey]: {
+            translation: mergeWithLanguageResources(
+              defaultLanguageCache,
+              languageResources?.[defaultLanguage as LanguageKey]
+            ),
+          },
+        }),
       },
-      returnEmptyString: true,
+      detection: {
+        caches: [],
+      },
+      returnEmptyString: false,
     })
 
     i18n.init()
@@ -40,18 +61,22 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
     i18n.services.formatter?.addCached('percent', percentFormatter)
 
     return i18n
-  }, [])
+  }, [
+    defaultLanguage,
+    defaultLanguageCache,
+    languageResources,
+    shouldFallbackToEnglish,
+    hasDefaultTranslations,
+  ])
 
   useEffect(() => {
     const handleLanguageChange = async () => {
-      const locale = language ? (language as LanguageKey | 'empty') : 'en'
-
-      // Always ensure English is loaded as fallback
-      if (!i18nInstance.hasResourceBundle('en', 'translation')) {
-        await loadLocale('en', languageResources?.en).then(
+      const locale = language as LanguageKey
+      if (!i18nInstance.hasResourceBundle(locale, 'translation')) {
+        await loadLocale(locale, languageResources?.[locale]).then(
           (languageResource) => {
             i18nInstance.addResourceBundle(
-              'en',
+              locale,
               'translation',
               languageResource,
               true,
@@ -60,42 +85,13 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
           }
         )
       }
-
-      if (locale !== 'en' && locale !== 'empty') {
-        if (!i18nInstance.hasResourceBundle(locale, 'translation')) {
-          await loadLocale(locale, languageResources?.[locale]).then(
-            (languageResource) => {
-              i18nInstance.addResourceBundle(
-                locale,
-                'translation',
-                languageResource,
-                true,
-                true
-              )
-            }
-          )
-        }
-      }
-
-      await i18nInstance.changeLanguage(locale)
-    }
-
-    try {
-      handleLanguageChange()
-    } finally {
-      if (!isInitialized) {
-        // Execute in the next tick to let i18nInstance be updated
-        startTransition(() => {
-          setIsInitialized(true)
-        })
+      if (locale !== i18nInstance.language) {
+        await i18nInstance.changeLanguage(locale)
       }
     }
-  }, [language, languageResources, i18nInstance, isInitialized])
 
-  if (isInitialized) {
-    // Show real strings after the language resource is loaded
-    i18nInstance.options.returnEmptyString = false
-  }
+    handleLanguageChange()
+  }, [language, languageResources, i18nInstance])
 
   return <I18nextProvider i18n={i18nInstance}>{children}</I18nextProvider>
 }

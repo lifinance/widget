@@ -4,16 +4,14 @@ import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { WidgetEvent } from '../../types/events.js'
 import type { WidgetConfig } from '../../types/widget.js'
 import { deepEqual } from '../../utils/deepEqual.js'
+import { defaultConfigurableSettings } from './createSettingsStore.js'
+import { useSettingsStore } from './SettingsStore.js'
 import type {
   SettingsActions,
   SettingsProps,
   SettingsToolType,
   ValueSetter,
 } from './types.js'
-import {
-  defaultConfigurableSettings,
-  useSettingsStore,
-} from './useSettingsStore.js'
 
 const emitEventOnChange = <T extends (...args: any[]) => any>(
   emitter: typeof widgetEvents,
