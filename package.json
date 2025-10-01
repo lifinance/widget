@@ -76,6 +76,8 @@
       "zod": ">=4.1.11",
       "knip>zod": "^3.25.0",
       "knip>zod-validation-error": "^3.0.3",
+      "miniflare>zod": "3.22.3",
+      "miniflare>zod-validation-error": "3.0.3",
       "@react-native-async-storage/async-storage": ">=2.2.0"
     }
   },
