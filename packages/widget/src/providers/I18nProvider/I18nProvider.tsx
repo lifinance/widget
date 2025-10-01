@@ -125,7 +125,9 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
       }
     }
 
-    handleLanguageChange()
+    if (language) {
+      handleLanguageChange()
+    }
   }, [language, languageResources, i18nInstance, setValue])
 
   return <I18nextProvider i18n={i18nInstance}>{children}</I18nextProvider>
