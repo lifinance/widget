@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { allLanguages } from '../pages/LanguagesPage/constants.js'
+import { allLanguages } from '../providers/I18nProvider/constants.js'
 import type { LanguageKey } from '../providers/I18nProvider/types.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useSettings } from '../stores/settings/useSettings.js'
@@ -14,30 +14,30 @@ export const useLanguages = () => {
   const { setValue } = useSettingsActions()
 
   const sortedLanguages = useMemo(() => {
-    let supportedLanguages: LanguageKey[] = []
+    // Currently loaded languages + custom resources (non-default languages)
+    const loadedLanguageKeys = Object.keys(i18n.store.data)
+    const allLanguagesWithCustom = [
+      ...new Set([...allLanguages, ...loadedLanguageKeys]),
+    ]
+    let supportedLanguages: (LanguageKey | string)[] = []
     if (!languagesConfig) {
-      supportedLanguages = allLanguages
+      supportedLanguages = allLanguagesWithCustom
     } else {
       const languagesConfigSets = getConfigItemSets(
         languagesConfig,
         (languages) => new Set(languages)
       )
-      supportedLanguages = allLanguages.filter((language) =>
+      supportedLanguages = allLanguagesWithCustom.filter((language) =>
         isItemAllowedForSets(language, languagesConfigSets)
       )
     }
     return supportedLanguages.sort()
-  }, [languagesConfig])
+  }, [languagesConfig, i18n.store.data])
 
-  const selectedLanguage = (language ||
-    i18n.resolvedLanguage ||
-    '') as LanguageKey
-
+  const selectedLanguage = language || i18n.resolvedLanguage || ''
   const selectedLanguageCode = sortedLanguages.includes(selectedLanguage)
     ? selectedLanguage
-    : ((languagesConfig?.default ||
-        languagesConfig?.allow?.[0] ||
-        'en') as LanguageKey)
+    : languagesConfig?.default || languagesConfig?.allow?.[0]
 
   return {
     availableLanguages: sortedLanguages,

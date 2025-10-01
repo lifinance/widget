@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom'
 import { CardButton } from '../../components/Card/CardButton.js'
 import { CardValue } from '../../components/Card/CardButton.style.js'
 import { useLanguages } from '../../hooks/useLanguages.js'
+import { languageNames } from '../../providers/I18nProvider/constants.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { HiddenUI } from '../../types/widget.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { languageNames } from '../LanguagesPage/constants.js'
 
 export const LanguageSetting: React.FC = () => {
   const { t } = useTranslation()
@@ -30,7 +30,11 @@ export const LanguageSetting: React.FC = () => {
       title={t('language.title')}
     >
       <CardValue>
-        {languageNames[selectedLanguageCode] || selectedLanguageCode}
+        {languageNames[selectedLanguageCode as keyof typeof languageNames] ||
+          t('language.name', {
+            lng: selectedLanguageCode,
+          }) ||
+          selectedLanguageCode}
       </CardValue>
     </CardButton>
   )

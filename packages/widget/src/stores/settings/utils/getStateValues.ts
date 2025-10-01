@@ -6,6 +6,8 @@ export const getStateValues = (state: SettingsState): SettingsProps => ({
   languageCache: state.languageCache,
   defaultLanguage: state.defaultLanguage,
   defaultLanguageCache: state.defaultLanguageCache,
+  fallbackLanguage: state.fallbackLanguage,
+  fallbackLanguageCache: state.fallbackLanguageCache,
   routePriority: state.routePriority,
   enabledAutoRefuel: state.enabledAutoRefuel,
   slippage: state.slippage,

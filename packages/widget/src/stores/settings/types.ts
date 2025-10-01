@@ -2,10 +2,7 @@ import type { Order } from '@lifi/sdk'
 import type { PropsWithChildren } from 'react'
 import type { StoreApi } from 'zustand'
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
-import type {
-  LanguageKey,
-  LanguageResource,
-} from '../../providers/I18nProvider/types.js'
+import type { LanguageResource } from '../../providers/I18nProvider/types.js'
 import type { SplitSubvariant, WidgetConfig } from '../../types/widget.js'
 
 export type ValueSetter<S> = <K extends keyof S>(
@@ -22,8 +19,10 @@ export interface SettingsProps {
   gasPrice?: string
   language?: string
   languageCache?: LanguageResource
-  defaultLanguage?: LanguageKey
+  defaultLanguage?: string
   defaultLanguageCache?: LanguageResource
+  fallbackLanguage?: string
+  fallbackLanguageCache?: LanguageResource
   routePriority?: Order
   enabledAutoRefuel: boolean
   slippage?: string
