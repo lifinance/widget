@@ -2,6 +2,7 @@ import { createInstance } from 'i18next'
 import type { FC, PropsWithChildren } from 'react'
 import { useEffect, useMemo } from 'react'
 import { I18nextProvider } from 'react-i18next'
+import { allLanguages } from './constants.js'
 import { enResource } from './enResource.js'
 import { loadLocale } from './i18n.js'
 import type { LanguageKey } from './types.js'
@@ -36,11 +37,14 @@ export const I18nProvider: FC<PropsWithChildren<I18nProviderProps>> = ({
 
   useEffect(() => {
     const handleLanguageChange = async () => {
-      if (locale) {
-        if (!i18nInstance.hasResourceBundle(locale, 'translation')) {
-          await loadLocale(locale).then((languageResource) => {
+      const language = allLanguages.includes(locale as LanguageKey)
+        ? locale
+        : 'en'
+      if (language) {
+        if (!i18nInstance.hasResourceBundle(language, 'translation')) {
+          await loadLocale(language).then((languageResource) => {
             i18nInstance.addResourceBundle(
-              locale,
+              language,
               'translation',
               languageResource,
               true,
@@ -48,8 +52,8 @@ export const I18nProvider: FC<PropsWithChildren<I18nProviderProps>> = ({
             )
           })
         }
-        if (locale !== i18nInstance.language) {
-          await i18nInstance.changeLanguage(locale)
+        if (language !== i18nInstance.language) {
+          await i18nInstance.changeLanguage(language)
         }
       }
     }

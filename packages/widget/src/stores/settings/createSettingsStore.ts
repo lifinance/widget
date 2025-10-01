@@ -189,7 +189,7 @@ export const createSettingsStore = (config: WidgetConfig) =>
 
             // Set default language resource
             const initialLanguage =
-              config?.languages?.default || state.getValue('language')
+              state.getValue('language') || config?.languages?.default
             state.setValue('defaultLanguage', initialLanguage)
 
             // Immediately set defaultLanguageCache from old languageCache to prevent blinking
@@ -234,7 +234,7 @@ export const createSettingsStore = (config: WidgetConfig) =>
 
             // Update defaultLanguageCache
             let defaultLanguageCache: LanguageResource | undefined
-            if (initialLanguage) {
+            if (initialLanguage && !customLanguages.includes(initialLanguage)) {
               // Before the translations are loaded, use old translations from the language cache
               if (initialLanguage !== fallBackLanguage) {
                 // Preload default translations
