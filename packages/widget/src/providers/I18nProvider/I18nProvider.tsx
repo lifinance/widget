@@ -85,10 +85,13 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
               true,
               true
             )
+            // Cache the language resource to prevent blinking
+            // after switching languages and reloading the page
             setValue('languageCache', languageResource)
           }
         )
       } else {
+        // If the language is already loaded, just cache the existing resource
         const currentResource = i18nInstance.getResourceBundle(
           locale,
           'translation'

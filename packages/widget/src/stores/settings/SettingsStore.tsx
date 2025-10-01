@@ -14,10 +14,10 @@ type SettingsStore = UseBoundStoreWithEqualityFn<StoreApi<SettingsState>>
 
 const SettingsStoreContext = createContext<SettingsStore | null>(null)
 
-export function SettingsStoreProvider({
+export const SettingsStoreProvider = ({
   children,
   config,
-}: PropsWithChildren<SettingsStoreProviderProps>) {
+}: PropsWithChildren<SettingsStoreProviderProps>) => {
   const storeRef = useRef<SettingsStore>(null)
   if (!storeRef.current) {
     storeRef.current = createSettingsStore(config)

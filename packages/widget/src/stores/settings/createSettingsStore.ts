@@ -2,6 +2,7 @@
 import type { StateCreator } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { createWithEqualityFn } from 'zustand/traditional'
+import { enResource } from '../../providers/I18nProvider/enResource.js'
 import type { LanguageKey } from '../../providers/I18nProvider/types.js'
 import type { WidgetConfig } from '../../types/widget.js'
 import type { SettingsProps, SettingsState } from './types.js'
@@ -181,10 +182,7 @@ export const createSettingsStore = (config: WidgetConfig) =>
               return
             }
             const initialLanguage =
-              config?.languages?.default || state.getValue('language')
-            if (!initialLanguage) {
-              return
-            }
+              config?.languages?.default || state.getValue('language') || 'en'
             // Before the translations are loaded, use old translations from the language cache
             if (state.getValue('language') === initialLanguage) {
               state.setValue(
@@ -199,7 +197,11 @@ export const createSettingsStore = (config: WidgetConfig) =>
               )
               state.setValue('defaultLanguage', initialLanguage as LanguageKey)
               state.setValue('defaultLanguageCache', importResult.default)
-            } catch {}
+            } catch {
+              // Fallback to English
+              state.setValue('defaultLanguage', 'en')
+              state.setValue('defaultLanguageCache', enResource)
+            }
           }
         },
       }
