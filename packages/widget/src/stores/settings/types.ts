@@ -19,10 +19,6 @@ export interface SettingsProps {
   gasPrice?: string
   language?: string
   languageCache?: LanguageResource
-  defaultLanguage?: string
-  defaultLanguageCache?: LanguageResource
-  fallbackLanguage?: string
-  fallbackLanguageCache?: LanguageResource
   routePriority?: Order
   enabledAutoRefuel: boolean
   slippage?: string

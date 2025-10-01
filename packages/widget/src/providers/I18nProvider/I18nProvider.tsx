@@ -1,5 +1,5 @@
-import { createInstance } from 'i18next'
-import { useEffect, useMemo } from 'react'
+import { createInstance, type i18n } from 'i18next'
+import { useEffect, useMemo, useRef } from 'react'
 import { I18nextProvider } from 'react-i18next'
 import { useSettings } from '../../stores/settings/useSettings.js'
 import { useSettingsActions } from '../../stores/settings/useSettingsActions.js'
@@ -15,23 +15,16 @@ import type { LanguageKey, LanguageResource, PartialResource } from './types.js'
 export const I18nProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
-  const { languageResources } = useWidgetConfig()
-  const {
-    language,
-    defaultLanguage,
-    defaultLanguageCache,
-    fallbackLanguage,
-    fallbackLanguageCache,
-  } = useSettings([
-    'language',
-    'defaultLanguage',
-    'defaultLanguageCache',
-    'fallbackLanguage',
-    'fallbackLanguageCache',
-  ])
+  const { languages, languageResources } = useWidgetConfig()
+  const { language, languageCache } = useSettings(['language', 'languageCache'])
   const { setValue } = useSettingsActions()
 
+  const i18nInstanceRef = useRef<i18n | null>(null)
   const i18nInstance = useMemo(() => {
+    if (i18nInstanceRef.current) {
+      return i18nInstanceRef.current
+    }
+
     // Custom language resources (of non-default languages) are added statically.
     // If custom language resources extend existing languages, they are merged with dynamically loaded resources.
     const customLanguageKeys = languageResources
@@ -40,31 +33,24 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
         )
       : []
     const i18n = createInstance({
-      lng: defaultLanguage,
-      fallbackLng: fallbackLanguage || 'en',
+      lng: language || languages?.default,
+      fallbackLng: 'en',
       lowerCaseLng: true,
       interpolation: { escapeValue: false },
       resources: {
-        ...(defaultLanguage &&
-          defaultLanguageCache && {
-            [defaultLanguage as LanguageKey]: {
-              translation: defaultLanguageCache,
+        ...(language &&
+          language !== 'en' &&
+          languageCache && {
+            [language as LanguageKey]: {
+              translation: languageCache,
             },
           }),
-        ...(fallbackLanguage &&
-          fallbackLanguageCache && {
-            [fallbackLanguage as LanguageKey]: {
-              translation: fallbackLanguageCache,
-            },
-          }),
-        ...((!fallbackLanguage || !fallbackLanguageCache) && {
-          en: {
-            translation: mergeWithLanguageResources(
-              enResource,
-              languageResources?.en
-            ),
-          },
-        }),
+        en: {
+          translation: mergeWithLanguageResources(
+            enResource,
+            languageResources?.en
+          ),
+        },
         // Add non-existing custom language resources
         ...customLanguageKeys.reduce(
           (acc, key) => {
@@ -93,15 +79,9 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
     i18n.services.formatter?.addCached('numberExt', compactNumberFormatter)
     i18n.services.formatter?.addCached('currencyExt', currencyExtendedFormatter)
     i18n.services.formatter?.addCached('percent', percentFormatter)
-
+    i18nInstanceRef.current = i18n
     return i18n
-  }, [
-    defaultLanguage,
-    defaultLanguageCache,
-    fallbackLanguage,
-    fallbackLanguageCache,
-    languageResources,
-  ])
+  }, [language, languageResources, languages?.default, languageCache])
 
   useEffect(() => {
     const handleLanguageChange = async () => {

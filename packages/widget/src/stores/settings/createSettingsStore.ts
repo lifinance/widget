@@ -4,12 +4,8 @@ import { persist } from 'zustand/middleware'
 import { createWithEqualityFn } from 'zustand/traditional'
 import { allLanguages } from '../../providers/I18nProvider/constants.js'
 import { loadLocale } from '../../providers/I18nProvider/i18n.js'
-import type {
-  LanguageKey,
-  LanguageResource,
-} from '../../providers/I18nProvider/types.js'
+import type { LanguageKey } from '../../providers/I18nProvider/types.js'
 import type { WidgetConfig } from '../../types/widget.js'
-import { isItemAllowed } from '../../utils/item.js'
 import type { SettingsProps, SettingsState } from './types.js'
 import { SettingsToolTypes } from './types.js'
 import { getStateValues } from './utils/getStateValues.js'
@@ -187,68 +183,27 @@ export const createSettingsStore = (config: WidgetConfig) =>
               return
             }
 
-            // Set default language resource
             const initialLanguage =
               state.getValue('language') || config?.languages?.default
-            state.setValue('defaultLanguage', initialLanguage)
+            state.setValue('language', initialLanguage)
 
-            // Immediately set defaultLanguageCache from old languageCache to prevent blinking
-            if (
-              initialLanguage &&
-              state.getValue('language') === initialLanguage
-            ) {
-              state.setValue(
-                'defaultLanguageCache',
-                state.getValue('languageCache')
-              )
-            }
-
-            // Set fallback language resource
+            // Preload translations (from existing translation files)
             const customLanguages = Object.keys(
               config?.languageResources || {}
             ).filter((key) => !allLanguages.includes(key as LanguageKey))
-            const allLanguagesWithCustom = [...allLanguages, ...customLanguages]
-              .filter((key) => isItemAllowed(key, config?.languages))
-              .sort()
-            const fallBackLanguage = isItemAllowed('en', config?.languages)
-              ? 'en'
-              : config?.languages?.default ||
-                config?.languages?.allow?.[0] ||
-                allLanguagesWithCustom[0] ||
-                'en'
-            state.setValue('fallbackLanguage', fallBackLanguage)
-
-            // Set fallback language resource (for existing languages, possibly not English)
-            let fallbackLanguageCache: LanguageResource | undefined
-            if (!customLanguages.includes(fallBackLanguage)) {
-              // Resources of custom non-default languages are added statically.
-              // Fallback resource of existing language should get loaded dynamically.
+            if (
+              initialLanguage &&
+              // Custom language resources and English are added statically.
+              !customLanguages.includes(initialLanguage) &&
+              initialLanguage !== 'en'
+            ) {
               await loadLocale(
-                fallBackLanguage as LanguageKey,
-                config?.languageResources?.[fallBackLanguage as LanguageKey]
+                initialLanguage as LanguageKey,
+                config?.languageResources?.[initialLanguage as LanguageKey]
               ).then((languageResource) => {
-                fallbackLanguageCache = languageResource
+                state.setValue('languageCache', languageResource)
               })
             }
-            state.setValue('fallbackLanguageCache', fallbackLanguageCache)
-
-            // Update defaultLanguageCache
-            let defaultLanguageCache: LanguageResource | undefined
-            if (initialLanguage && !customLanguages.includes(initialLanguage)) {
-              // Before the translations are loaded, use old translations from the language cache
-              if (initialLanguage !== fallBackLanguage) {
-                // Preload default translations
-                await loadLocale(
-                  initialLanguage as LanguageKey,
-                  config?.languageResources?.[initialLanguage as LanguageKey]
-                ).then((languageResource) => {
-                  defaultLanguageCache = languageResource
-                })
-              } else {
-                defaultLanguageCache = fallbackLanguageCache
-              }
-            }
-            state.setValue('defaultLanguageCache', defaultLanguageCache)
           }
         },
       }
