@@ -8,7 +8,8 @@ import { currencyExtendedFormatter } from '../../utils/currencyExtendedFormatter
 import { percentFormatter } from '../../utils/percentFormatter.js'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 import { allLanguages } from './constants.js'
-import { loadLocale } from './i18n.js'
+import { enResource } from './enResource.js'
+import { loadLocale, mergeWithLanguageResources } from './i18n.js'
 import type { LanguageKey, LanguageResource, PartialResource } from './types.js'
 
 export const I18nProvider: React.FC<React.PropsWithChildren> = ({
@@ -39,8 +40,8 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
         )
       : []
     const i18n = createInstance({
-      lng: defaultLanguage || fallbackLanguage,
-      fallbackLng: fallbackLanguage,
+      lng: defaultLanguage,
+      fallbackLng: fallbackLanguage || 'en',
       lowerCaseLng: true,
       interpolation: { escapeValue: false },
       resources: {
@@ -56,6 +57,14 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
               translation: fallbackLanguageCache,
             },
           }),
+        ...((!fallbackLanguage || !fallbackLanguageCache) && {
+          en: {
+            translation: mergeWithLanguageResources(
+              enResource,
+              languageResources?.en
+            ),
+          },
+        }),
         // Add non-existing custom language resources
         ...customLanguageKeys.reduce(
           (acc, key) => {
