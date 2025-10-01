@@ -39,7 +39,7 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
         )
       : []
     const i18n = createInstance({
-      lng: defaultLanguage,
+      lng: defaultLanguage || fallbackLanguage,
       fallbackLng: fallbackLanguage,
       lowerCaseLng: true,
       interpolation: { escapeValue: false },
