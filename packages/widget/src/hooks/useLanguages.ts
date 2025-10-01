@@ -14,8 +14,8 @@ export const useLanguages = () => {
   const { setValue } = useSettingsActions()
 
   const sortedLanguages = useMemo(() => {
-    // Currently loaded languages + custom resources (non-default languages)
     const loadedLanguageKeys = Object.keys(i18n.store.data)
+    // NB: custom language resources added statically to i18n might not exist in allLanguages (language files)
     const allLanguagesWithCustom = [
       ...new Set([...allLanguages, ...loadedLanguageKeys]),
     ]
@@ -37,7 +37,7 @@ export const useLanguages = () => {
   const selectedLanguage = language || i18n.resolvedLanguage || ''
   const selectedLanguageCode = sortedLanguages.includes(selectedLanguage)
     ? selectedLanguage
-    : languagesConfig?.default || languagesConfig?.allow?.[0]
+    : languagesConfig?.default || 'en'
 
   return {
     availableLanguages: sortedLanguages,

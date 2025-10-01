@@ -32,8 +32,8 @@ const defaultSettings: SettingsProps = {
   _enabledExchanges: {},
 }
 
-export const createSettingsStore = (config: WidgetConfig) =>
-  createWithEqualityFn<SettingsState>(
+export const createSettingsStore = (config: WidgetConfig) => {
+  const store = createWithEqualityFn<SettingsState>(
     persist(
       (set, get) => ({
         ...defaultSettings,
@@ -177,36 +177,38 @@ export const createSettingsStore = (config: WidgetConfig) =>
           }
           return persistedState as SettingsState
         },
-        onRehydrateStorage: () => {
-          return async (state) => {
-            if (!state) {
-              return
-            }
-
-            const initialLanguage =
-              state.getValue('language') || config?.languages?.default
-            state.setValue('language', initialLanguage)
-
-            // Preload translations (from existing translation files)
-            const customLanguages = Object.keys(
-              config?.languageResources || {}
-            ).filter((key) => !allLanguages.includes(key as LanguageKey))
-            if (
-              initialLanguage &&
-              // Custom language resources and English are added statically.
-              !customLanguages.includes(initialLanguage) &&
-              initialLanguage !== 'en'
-            ) {
-              await loadLocale(
-                initialLanguage as LanguageKey,
-                config?.languageResources?.[initialLanguage as LanguageKey]
-              ).then((languageResource) => {
-                state.setValue('languageCache', languageResource)
-              })
-            }
-          }
-        },
       }
     ) as StateCreator<SettingsState, [], [], SettingsState>,
     Object.is
   )
+
+  // Initialize language settings on store creation
+  const initializeLanguageSettings = async () => {
+    const state = store.getState()
+    const initialLanguage =
+      state.getValue('language') || config?.languages?.default
+
+    // Preload translations (from existing translation files)
+    const customLanguages = Object.keys(config?.languageResources || {}).filter(
+      (key) => !allLanguages.includes(key as LanguageKey)
+    )
+
+    if (
+      initialLanguage &&
+      // Custom language resources and English are added statically.
+      !customLanguages.includes(initialLanguage) &&
+      initialLanguage !== 'en'
+    ) {
+      await loadLocale(
+        initialLanguage as LanguageKey,
+        config?.languageResources?.[initialLanguage as LanguageKey]
+      ).then((languageResource) => {
+        state.setValue('languageCache', languageResource)
+      })
+    }
+  }
+
+  initializeLanguageSettings()
+
+  return store
+}

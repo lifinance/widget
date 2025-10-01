@@ -20,8 +20,11 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
   const { setValue } = useSettingsActions()
 
   const i18nInstanceRef = useRef<i18n | null>(null)
+  const isWaitingForLanguageCache = useRef(false)
   const i18nInstance = useMemo(() => {
-    if (i18nInstanceRef.current) {
+    // Allow reinitializing i18nInstance if languageCache was not set before
+    // (useful for very first load)
+    if (i18nInstanceRef.current && !isWaitingForLanguageCache.current) {
       return i18nInstanceRef.current
     }
 
@@ -32,25 +35,26 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
           (key: string) => !allLanguages.includes(key as LanguageKey)
         )
       : []
+    const initialLanguage = language || languages?.default
     const i18n = createInstance({
-      lng: language || languages?.default,
+      lng: initialLanguage,
       fallbackLng: 'en',
       lowerCaseLng: true,
       interpolation: { escapeValue: false },
       resources: {
-        ...(language &&
-          language !== 'en' &&
-          languageCache && {
-            [language as LanguageKey]: {
-              translation: languageCache,
-            },
-          }),
         en: {
           translation: mergeWithLanguageResources(
             enResource,
             languageResources?.en
           ),
         },
+        ...(initialLanguage &&
+          initialLanguage !== 'en' &&
+          languageCache && {
+            [initialLanguage]: {
+              translation: languageCache,
+            },
+          }),
         // Add non-existing custom language resources
         ...customLanguageKeys.reduce(
           (acc, key) => {
@@ -80,6 +84,7 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
     i18n.services.formatter?.addCached('currencyExt', currencyExtendedFormatter)
     i18n.services.formatter?.addCached('percent', percentFormatter)
     i18nInstanceRef.current = i18n
+    isWaitingForLanguageCache.current = !languageCache
     return i18n
   }, [language, languageResources, languages?.default, languageCache])
 
