@@ -327,7 +327,7 @@
       "slow": "Lento",
       "title": "Preço do gás"
     },
-    "routePriority": "Prioridade de rota",
+    "routePriority": "Prioridade de rota / caminho",
     "slippage": "Diferença máxima",
     "custom": "Personalizado",
     "resetSettings": "Você está usando configurações personalizadas que podem afetar o número ou a classificação das rotas disponíveis."

@@ -1,15 +1,14 @@
 import { createInstance, type i18n } from 'i18next'
-import { useEffect, useMemo, useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import { I18nextProvider } from 'react-i18next'
 import { useSettings } from '../../stores/settings/useSettings.js'
-import { useSettingsActions } from '../../stores/settings/useSettingsActions.js'
 import { compactNumberFormatter } from '../../utils/compactNumberFormatter.js'
 import { currencyExtendedFormatter } from '../../utils/currencyExtendedFormatter.js'
 import { percentFormatter } from '../../utils/percentFormatter.js'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 import { allLanguages } from './constants.js'
 import { enResource } from './enResource.js'
-import { loadLocale, mergeWithLanguageResources } from './i18n.js'
+import { mergeWithLanguageResources } from './i18n.js'
 import type { LanguageKey, LanguageResource, PartialResource } from './types.js'
 
 export const I18nProvider: React.FC<React.PropsWithChildren> = ({
@@ -17,14 +16,22 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
 }) => {
   const { languages, languageResources } = useWidgetConfig()
   const { language, languageCache } = useSettings(['language', 'languageCache'])
-  const { setValue } = useSettingsActions()
-
   const i18nInstanceRef = useRef<i18n | null>(null)
-  const isWaitingForLanguageCache = useRef(false)
+
   const i18nInstance = useMemo(() => {
     // Allow reinitializing i18nInstance if languageCache was not set before
     // (useful for very first load)
-    if (i18nInstanceRef.current && !isWaitingForLanguageCache.current) {
+
+    if (i18nInstanceRef.current) {
+      if (language && languageCache) {
+        i18nInstanceRef.current.addResourceBundle(
+          language,
+          'translation',
+          languageCache,
+          true,
+          true
+        )
+      }
       return i18nInstanceRef.current
     }
 
@@ -84,45 +91,8 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
     i18n.services.formatter?.addCached('currencyExt', currencyExtendedFormatter)
     i18n.services.formatter?.addCached('percent', percentFormatter)
     i18nInstanceRef.current = i18n
-    isWaitingForLanguageCache.current = !languageCache
     return i18n
   }, [language, languageResources, languages?.default, languageCache])
-
-  useEffect(() => {
-    const handleLanguageChange = async () => {
-      const locale = language as LanguageKey
-      if (!i18nInstance.hasResourceBundle(locale, 'translation')) {
-        await loadLocale(locale, languageResources?.[locale]).then(
-          (languageResource) => {
-            i18nInstance.addResourceBundle(
-              locale,
-              'translation',
-              languageResource,
-              true,
-              true
-            )
-            // Cache the language resource to prevent blinking
-            // after switching languages and reloading the page
-            setValue('languageCache', languageResource)
-          }
-        )
-      } else {
-        // If the language is already loaded, just cache the existing resource
-        const currentResource = i18nInstance.getResourceBundle(
-          locale,
-          'translation'
-        )
-        setValue('languageCache', currentResource)
-      }
-      if (locale !== i18nInstance.language) {
-        await i18nInstance.changeLanguage(locale)
-      }
-    }
-
-    if (language) {
-      handleLanguageChange()
-    }
-  }, [language, languageResources, i18nInstance, setValue])
 
   return <I18nextProvider i18n={i18nInstance}>{children}</I18nextProvider>
 }

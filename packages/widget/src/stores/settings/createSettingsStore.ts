@@ -1,7 +1,7 @@
 /** biome-ignore-all lint/correctness/noUnusedVariables: allowed in this store */
 import type { StateCreator } from 'zustand'
+import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { createWithEqualityFn } from 'zustand/traditional'
 import { allLanguages } from '../../providers/I18nProvider/constants.js'
 import { loadLocale } from '../../providers/I18nProvider/i18n.js'
 import type { LanguageKey } from '../../providers/I18nProvider/types.js'
@@ -32,14 +32,18 @@ const defaultSettings: SettingsProps = {
   _enabledExchanges: {},
 }
 
-export const createSettingsStore = (config: WidgetConfig) => {
-  const store = createWithEqualityFn<SettingsState>(
+export const createSettingsStore = (config: WidgetConfig) =>
+  create<SettingsState>()(
     persist(
       (set, get) => ({
         ...defaultSettings,
         setValue: (key, value) =>
           set(() => ({
             [key]: value,
+          })),
+        setValues: (values: Partial<SettingsProps>) =>
+          set(() => ({
+            ...values,
           })),
         getSettings: () => getStateValues(get()),
         getValue: (key) => get()[key],
@@ -156,15 +160,17 @@ export const createSettingsStore = (config: WidgetConfig) => {
         merge: (persistedState: any, currentState: SettingsState) => {
           const state = { ...currentState, ...persistedState }
           SettingsToolTypes.forEach((toolType) => {
-            const enabledToolKeys = Object.keys(
-              persistedState[`_enabled${toolType}`]
-            )
-            state[`enabled${toolType}`] = enabledToolKeys.filter(
-              (key) => persistedState[`_enabled${toolType}`][key]
-            )
-            state[`disabled${toolType}`] = enabledToolKeys.filter(
-              (key) => !persistedState[`_enabled${toolType}`][key]
-            )
+            if (persistedState?.[`_enabled${toolType}`]) {
+              const enabledToolKeys = Object.keys(
+                persistedState[`_enabled${toolType}`]
+              )
+              state[`enabled${toolType}`] = enabledToolKeys.filter(
+                (key) => persistedState[`_enabled${toolType}`][key]
+              )
+              state[`disabled${toolType}`] = enabledToolKeys.filter(
+                (key) => !persistedState[`_enabled${toolType}`][key]
+              )
+            }
           })
           return state
         },
@@ -177,38 +183,49 @@ export const createSettingsStore = (config: WidgetConfig) => {
           }
           return persistedState as SettingsState
         },
+        onRehydrateStorage: (hydrationState: SettingsState) => {
+          // Preload translations (from existing translation files)
+          const initializeLanguageSettings = async (
+            state: SettingsState,
+            initialLanguage?: string
+          ) => {
+            const customLanguages = Object.keys(
+              config?.languageResources || {}
+            ).filter((key) => !allLanguages.includes(key as LanguageKey))
+            if (
+              initialLanguage &&
+              // Custom language resources and English are added statically.
+              !customLanguages.includes(initialLanguage) &&
+              initialLanguage !== 'en'
+            ) {
+              await loadLocale(
+                initialLanguage as LanguageKey,
+                config?.languageResources?.[initialLanguage as LanguageKey]
+              ).then((languageResource) => {
+                state.setValues({
+                  language: initialLanguage,
+                  languageCache: languageResource,
+                })
+              })
+            }
+          }
+          return (readyState?: SettingsState) => {
+            if (readyState) {
+              initializeLanguageSettings(
+                readyState,
+                readyState.getValue('language') || config?.languages?.default
+              )
+            } else {
+              // On the very first load, readyState is undefined.
+              // Since language is undefined as well, we try to initialize language settings
+              // with the default language from the config (if specified).
+              initializeLanguageSettings(
+                hydrationState,
+                config?.languages?.default
+              )
+            }
+          }
+        },
       }
-    ) as StateCreator<SettingsState, [], [], SettingsState>,
-    Object.is
+    ) as StateCreator<SettingsState, [], [], SettingsState>
   )
-
-  // Initialize language settings on store creation
-  const initializeLanguageSettings = async () => {
-    const state = store.getState()
-    const initialLanguage =
-      state.getValue('language') || config?.languages?.default
-
-    // Preload translations (from existing translation files)
-    const customLanguages = Object.keys(config?.languageResources || {}).filter(
-      (key) => !allLanguages.includes(key as LanguageKey)
-    )
-
-    if (
-      initialLanguage &&
-      // Custom language resources and English are added statically.
-      !customLanguages.includes(initialLanguage) &&
-      initialLanguage !== 'en'
-    ) {
-      await loadLocale(
-        initialLanguage as LanguageKey,
-        config?.languageResources?.[initialLanguage as LanguageKey]
-      ).then((languageResource) => {
-        state.setValue('languageCache', languageResource)
-      })
-    }
-  }
-
-  initializeLanguageSettings()
-
-  return store
-}

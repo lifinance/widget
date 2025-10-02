@@ -32,6 +32,7 @@ export interface SettingsProps {
 
 export interface SettingsActions {
   setValue: ValueSetter<SettingsProps>
+  setValues: (values: Partial<SettingsProps>) => void
   getValue: ValueGetter<SettingsProps>
   getSettings: () => SettingsProps
   initializeTools(

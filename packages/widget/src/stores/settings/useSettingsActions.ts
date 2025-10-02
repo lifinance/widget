@@ -46,6 +46,7 @@ export const useSettingsActions = () => {
   const emitter = useWidgetEvents()
   const actions = useSettingsStore((state) => ({
     setValue: state.setValue,
+    setValues: state.setValues,
     getValue: state.getValue,
     getSettings: state.getSettings,
     reset: state.reset,
@@ -59,6 +60,15 @@ export const useSettingsActions = () => {
       emitEventOnChange(emitter, actions, actions.setValue, setting, newValue)
     },
     [emitter, actions]
+  )
+
+  const setValuesWithEmittedEvent = useCallback(
+    (values: Partial<SettingsProps>) => {
+      Object.entries(values).forEach(([key, value]) => {
+        setValueWithEmittedEvent(key as keyof SettingsProps, value)
+      })
+    },
+    [setValueWithEmittedEvent]
   )
 
   const setDefaultSettingsWithEmittedEvents = useCallback(
@@ -138,6 +148,7 @@ export const useSettingsActions = () => {
 
   return {
     setValue: setValueWithEmittedEvent,
+    setValues: setValuesWithEmittedEvent,
     setDefaultSettings: setDefaultSettingsWithEmittedEvents,
     resetSettings: resetWithEmittedEvents,
     setToolValue: setToolValueWithEmittedEvents,
