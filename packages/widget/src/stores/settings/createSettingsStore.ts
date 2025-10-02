@@ -183,8 +183,7 @@ export const createSettingsStore = (config: WidgetConfig) =>
           }
           return persistedState as SettingsState
         },
-        onRehydrateStorage: (hydrationState: SettingsState) => {
-          // Preload translations (from existing translation files)
+        onRehydrateStorage: () => {
           const initializeLanguageSettings = async (
             state: SettingsState,
             initialLanguage?: string
@@ -209,19 +208,13 @@ export const createSettingsStore = (config: WidgetConfig) =>
               })
             }
           }
-          return (readyState?: SettingsState) => {
-            if (readyState) {
+          return (state?: SettingsState) => {
+            // Preload translations (from existing translation files)
+            if (state) {
+              // NB: State always exists unless there is any error
               initializeLanguageSettings(
-                readyState,
-                readyState.getValue('language') || config?.languages?.default
-              )
-            } else {
-              // On the very first load, readyState is undefined.
-              // Since language is undefined as well, we try to initialize language settings
-              // with the default language from the config (if specified).
-              initializeLanguageSettings(
-                hydrationState,
-                config?.languages?.default
+                state,
+                state.getValue('language') || config?.languages?.default
               )
             }
           }

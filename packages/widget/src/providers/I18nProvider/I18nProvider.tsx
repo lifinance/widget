@@ -19,10 +19,8 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
   const i18nInstanceRef = useRef<i18n | null>(null)
 
   const i18nInstance = useMemo(() => {
-    // Allow reinitializing i18nInstance if languageCache was not set before
-    // (useful for very first load)
-
     if (i18nInstanceRef.current) {
+      // Update i18n instance with language and language cache updates
       if (language && languageCache) {
         i18nInstanceRef.current.addResourceBundle(
           language,
