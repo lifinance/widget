@@ -1,6 +1,6 @@
 import { createContext, useContext, useRef } from 'react'
+import { create } from 'zustand'
 import { useShallow } from 'zustand/shallow'
-import { createWithEqualityFn } from 'zustand/traditional'
 import type { PersistStoreProviderProps } from '../types.js'
 import type { HeaderState, HeaderStore } from './types.js'
 
@@ -55,36 +55,33 @@ export function useSetHeaderHeight() {
 }
 
 const createHeaderStore = () =>
-  createWithEqualityFn<HeaderState>(
-    (set, get) => ({
-      headerHeight: 108, // a basic default height
-      setAction: (element) => {
-        set(() => ({
-          element,
-        }))
-        return get().removeAction
-      },
-      setTitle: (title) => {
-        set(() => ({
-          title,
-        }))
-        return get().removeTitle
-      },
-      removeAction: () => {
-        set(() => ({
-          element: null,
-        }))
-      },
-      removeTitle: () => {
-        set(() => ({
-          title: undefined,
-        }))
-      },
-      setHeaderHeight: (headerHeight) => {
-        set(() => ({
-          headerHeight,
-        }))
-      },
-    }),
-    Object.is
-  )
+  create<HeaderState>((set, get) => ({
+    headerHeight: 108, // a basic default height
+    setAction: (element) => {
+      set(() => ({
+        element,
+      }))
+      return get().removeAction
+    },
+    setTitle: (title) => {
+      set(() => ({
+        title,
+      }))
+      return get().removeTitle
+    },
+    removeAction: () => {
+      set(() => ({
+        element: null,
+      }))
+    },
+    removeTitle: () => {
+      set(() => ({
+        title: undefined,
+      }))
+    },
+    setHeaderHeight: (headerHeight) => {
+      set(() => ({
+        headerHeight,
+      }))
+    },
+  }))

@@ -1,6 +1,6 @@
 import type { StateCreator } from 'zustand'
+import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { createWithEqualityFn } from 'zustand/traditional'
 import { widgetEvents } from '../../hooks/useWidgetEvents.js'
 import { WidgetEvent } from '../../types/events.js'
 import type { PersistStoreProps } from '../types.js'
@@ -19,7 +19,7 @@ const defaultChainState = {
 }
 
 export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
-  createWithEqualityFn<ChainOrderState>(
+  create<ChainOrderState>()(
     persist(
       (set, get) => ({
         chainOrder: defaultChainState,
@@ -126,6 +126,5 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
           pinnedChains: state.pinnedChains,
         }),
       }
-    ) as StateCreator<ChainOrderState, [], [], ChainOrderState>,
-    Object.is
+    ) as StateCreator<ChainOrderState, [], [], ChainOrderState>
   )

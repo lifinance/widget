@@ -1,13 +1,13 @@
 import type { WidgetTheme } from '@lifi/widget'
 import type { StateCreator } from 'zustand'
+import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { createWithEqualityFn } from 'zustand/traditional'
 import type { FormValues } from '../types.js'
 import { defaultDrawerWidth } from './constants.js'
 import type { ToolsState } from './types.js'
 
 export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
-  createWithEqualityFn<ToolsState>(
+  create<ToolsState>()(
     persist(
       (set, get) => ({
         formValues: undefined,
@@ -189,6 +189,5 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
           }
         },
       }
-    ) as StateCreator<ToolsState, [], [], ToolsState>,
-    Object.is
+    ) as StateCreator<ToolsState, [], [], ToolsState>
   )

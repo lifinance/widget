@@ -1,6 +1,6 @@
 import type { StateCreator } from 'zustand'
+import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { createWithEqualityFn } from 'zustand/traditional'
 import type { ToAddress } from '../../types/widget.js'
 import type { PersistStoreProps } from '../types.js'
 import type { BookmarkState } from './types.js'
@@ -14,7 +14,7 @@ export const createBookmarksStore = ({
   namePrefix,
   toAddress,
 }: PersistBookmarkProps) =>
-  createWithEqualityFn<BookmarkState>(
+  create<BookmarkState>()(
     persist(
       (set, get) => ({
         selectedBookmark: toAddress,
@@ -76,6 +76,5 @@ export const createBookmarksStore = ({
           }
         },
       }
-    ) as StateCreator<BookmarkState, [], [], BookmarkState>,
-    Object.is
+    ) as StateCreator<BookmarkState, [], [], BookmarkState>
   )

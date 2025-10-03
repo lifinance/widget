@@ -1,4 +1,4 @@
-import { createWithEqualityFn } from 'zustand/traditional'
+import { create } from 'zustand'
 
 import type {
   DefaultValues,
@@ -68,7 +68,7 @@ const mergeDefaultFormValues = (
   )
 
 export const createFormStore = (defaultValues?: DefaultValues) =>
-  createWithEqualityFn<FormValuesState>((set, get) => {
+  create<FormValuesState>((set, get) => {
     const _defaultValues = valuesToFormValues({
       ...formDefaultValues,
       ...defaultValues,
@@ -231,4 +231,4 @@ export const createFormStore = (defaultValues?: DefaultValues) =>
         }))
       },
     }
-  }, Object.is)
+  })

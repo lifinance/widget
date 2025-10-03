@@ -1,7 +1,7 @@
 import type { WidgetConfig, WidgetTheme } from '@lifi/widget'
 import type { StateCreator } from 'zustand'
+import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { createWithEqualityFn } from 'zustand/traditional'
 import { addValueFromPathString } from '../../utils/addValue.js'
 import { cloneStructuredConfig } from '../../utils/cloneStructuredConfig.js'
 import type { ThemeItem } from '../editTools/types.js'
@@ -15,7 +15,7 @@ export const createWidgetConfigStore = (
   themeItems: ThemeItem[],
   prefersDarkMode: boolean
 ) =>
-  createWithEqualityFn<WidgetConfigState>(
+  create<WidgetConfigState>()(
     persist(
       (set, get) => ({
         defaultConfig: initialConfig,
@@ -297,6 +297,5 @@ export const createWidgetConfigStore = (
           }
         },
       }
-    ) as StateCreator<WidgetConfigState, [], [], WidgetConfigState>,
-    Object.is
+    ) as StateCreator<WidgetConfigState, [], [], WidgetConfigState>
   )
