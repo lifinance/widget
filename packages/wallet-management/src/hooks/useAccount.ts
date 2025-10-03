@@ -38,6 +38,7 @@ const defaultAccount: Account = {
 //   | WalletWithRequiredFeatures
 //   | null
 
+// TODO: Add types
 interface LastConnectedAccountStore {
   lastConnectedAccount: any
   setLastConnectedAccount: (account: any) => void
@@ -64,9 +65,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when wallet changes
   return useMemo(() => {
-    const accounts = [evmAccount, svmAccount, utxoAccount, suiAccount].filter(
-      Boolean
-    )
+    const accounts = [evmAccount, svmAccount, utxoAccount, suiAccount]
     const connectedAccounts = accounts.filter(
       (account) => account.isConnected && account.address
     )

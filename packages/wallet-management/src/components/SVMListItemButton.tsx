@@ -8,26 +8,22 @@ import { WalletTagType } from '../types/walletTagType.js'
 import { CardListItemButton } from './CardListItemButton.js'
 import type { WalletListItemButtonProps } from './types.js'
 
-interface SVMListItemButtonProps extends WalletListItemButtonProps {
-  walletAdapter: any
-}
-
 export const SVMListItemButton = ({
   ecosystemSelection,
-  walletAdapter,
+  connector,
   tagType,
   onConnected,
   onConnecting,
   onError,
-}: SVMListItemButtonProps) => {
+}: WalletListItemButtonProps) => {
   const emitter = useWalletManagementEvents()
   const { connect, disconnect, isConnected } = useSVMContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()
 
-  const connectorName = walletAdapter.name
+  const connectorName = connector.name
   const connectorDisplayName: string = ecosystemSelection
     ? 'Solana'
-    : walletAdapter.name
+    : connector.name
 
   const connectWallet = async () => {
     if (tagType === WalletTagType.Connected) {
@@ -40,9 +36,10 @@ export const SVMListItemButton = ({
       if (isConnected) {
         await disconnect()
       }
-      connect(walletAdapter.name)
-      walletAdapter.once('connect', (publicKey: any) => {
-        setLastConnectedAccount(walletAdapter)
+      connect(connector.name)
+      connector.once('connect', (publicKey: any) => {
+        // TODO: Add type
+        setLastConnectedAccount(connector)
         emitter.emit(WalletManagementEvent.WalletConnected, {
           address: publicKey?.toString(),
           chainId: ChainId.SOL,
@@ -61,9 +58,7 @@ export const SVMListItemButton = ({
     <CardListItemButton
       key={connectorDisplayName}
       icon={
-        ecosystemSelection
-          ? getChainTypeIcon(ChainType.SVM)
-          : walletAdapter.icon
+        ecosystemSelection ? getChainTypeIcon(ChainType.SVM) : connector.icon
       }
       onClick={connectWallet}
       title={connectorDisplayName}

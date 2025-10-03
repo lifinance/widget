@@ -10,10 +10,6 @@ import { getConnectorIcon } from '../utils/getConnectorIcon.js'
 import { CardListItemButton } from './CardListItemButton.js'
 import type { WalletListItemButtonProps } from './types.js'
 
-interface EVMListItemButtonProps extends WalletListItemButtonProps {
-  connector: any
-}
-
 export const EVMListItemButton = ({
   ecosystemSelection,
   connector,
@@ -22,7 +18,7 @@ export const EVMListItemButton = ({
   onConnected,
   onConnecting,
   onError,
-}: EVMListItemButtonProps) => {
+}: WalletListItemButtonProps) => {
   const emitter = useWalletManagementEvents()
   const { connect, disconnect } = useEVMContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()

@@ -9,10 +9,6 @@ import { getConnectorIcon } from '../utils/getConnectorIcon.js'
 import { CardListItemButton } from './CardListItemButton.js'
 import type { WalletListItemButtonProps } from './types.js'
 
-interface UTXOListItemButtonProps extends WalletListItemButtonProps {
-  connector: any
-}
-
 export const UTXOListItemButton = ({
   ecosystemSelection,
   connector,
@@ -21,7 +17,7 @@ export const UTXOListItemButton = ({
   onConnected,
   onConnecting,
   onError,
-}: UTXOListItemButtonProps) => {
+}: WalletListItemButtonProps) => {
   const emitter = useWalletManagementEvents()
   const { connect, disconnect } = useUTXOContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()

@@ -1,6 +1,7 @@
 import { getWalletIcon } from '../icons.js'
+import type { WalletConnector } from '../types/walletConnector.js'
 
-export const getConnectorIcon = (connector?: any) => {
+export const getConnectorIcon = (connector?: WalletConnector) => {
   const connectorId = connector?.id
 
   return connectorId

@@ -27,6 +27,7 @@ export type CombinedWallet = {
 
 const normalizeName = (name: string) => name.split(' ')[0].toLowerCase().trim()
 
+// TODO: Add types
 const combineWalletLists = (
   evmConnectorList: any[],
   utxoConnectorList: any[],

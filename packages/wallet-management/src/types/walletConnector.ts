@@ -1,1 +1,1 @@
-export type WalletConnector = any // TODO:
+export type WalletConnector = any // TODO: Add type

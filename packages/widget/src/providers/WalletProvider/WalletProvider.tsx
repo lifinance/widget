@@ -39,9 +39,13 @@ const WalletMenuProvider: FC<PropsWithChildren> = ({ children }) => {
     return {
       locale: i18n.resolvedLanguage as never,
       enabledChainTypes: internalChainTypes,
-      ...walletConfig,
+      walletEcosystemsOrder: walletConfig?.walletEcosystemsOrder,
     }
-  }, [i18n.resolvedLanguage, internalChainTypes, walletConfig])
+  }, [
+    i18n.resolvedLanguage,
+    internalChainTypes,
+    walletConfig?.walletEcosystemsOrder,
+  ])
 
   return (
     <WalletManagementProvider config={config}>

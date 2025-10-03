@@ -25,8 +25,9 @@ import { getSortedByTags } from '../utils/getSortedByTags.js'
 import { getConnectorTagType, getWalletTagType } from '../utils/walletTags.js'
 import { CardListItemButton } from './CardListItemButton.js'
 import { EVMListItemButton } from './EVMListItemButton.js'
-import { SuiListItemButton } from './SuiListItemButton.js'
+import { MVMListItemButton } from './MVMListItemButton.js'
 import { SVMListItemButton } from './SVMListItemButton.js'
+import type { WalletListItemButtonProps } from './types.js'
 import { UTXOListItemButton } from './UTXOListItemButton.js'
 import { WalletInfoDisplay } from './WalletInfoDisplay.js'
 import { WalletMenuContentEmpty } from './WalletMenuContentEmpty.js'
@@ -164,58 +165,34 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
   ) => {
     const key = `${name}${ecosystemSelection ? `-${chainType}` : ''}`
 
+    let ListItemButtonComponent: React.FC<WalletListItemButtonProps> | null =
+      null
     switch (chainType) {
-      case ChainType.UTXO:
-        return (
-          <UTXOListItemButton
-            key={key}
-            ecosystemSelection={ecosystemSelection}
-            tagType={tagType}
-            connector={connector}
-            onConnected={onClose}
-            onConnecting={() => handleConnecting(id)}
-            onError={(error) => handleError(id, error)}
-          />
-        )
       case ChainType.EVM:
-        return (
-          <EVMListItemButton
-            key={key}
-            ecosystemSelection={ecosystemSelection}
-            tagType={tagType}
-            connector={connector}
-            onConnected={onClose}
-            onConnecting={() => handleConnecting(id)}
-            onError={(error) => handleError(id, error)}
-          />
-        )
+        ListItemButtonComponent = EVMListItemButton
+        break
+      case ChainType.UTXO:
+        ListItemButtonComponent = UTXOListItemButton
+        break
       case ChainType.SVM:
-        return (
-          <SVMListItemButton
-            key={key}
-            ecosystemSelection={ecosystemSelection}
-            tagType={tagType}
-            walletAdapter={connector}
-            onConnected={onClose}
-            onConnecting={() => handleConnecting(id)}
-            onError={(error) => handleError(id, error)}
-          />
-        )
+        ListItemButtonComponent = SVMListItemButton
+        break
       case ChainType.MVM:
-        return (
-          <SuiListItemButton
-            key={key}
-            ecosystemSelection={ecosystemSelection}
-            tagType={tagType}
-            wallet={connector}
-            onConnected={onClose}
-            onConnecting={() => handleConnecting(id)}
-            onError={(error) => handleError(id, error)}
-          />
-        )
-      default:
-        return null
+        ListItemButtonComponent = MVMListItemButton
+        break
     }
+
+    return ListItemButtonComponent ? (
+      <ListItemButtonComponent
+        key={key}
+        ecosystemSelection={ecosystemSelection}
+        tagType={tagType}
+        connector={connector}
+        onConnected={onClose}
+        onConnecting={() => handleConnecting(id)}
+        onError={(error) => handleError(id, error)}
+      />
+    ) : null
   }
 
   const selectedWalletConnectors = useMemo(() => {

@@ -136,8 +136,8 @@ export type DefaultUI = {
   navigationHeaderTitleNoWrap?: boolean
 }
 
-// TODO: move EVM-related config somewhere else?
 export interface WidgetWalletConfig {
+  walletEcosystemsOrder?: Record<string, ChainType[]>
   onConnect?(args?: WalletMenuOpenArgs): void
   walletConnect?: WalletConnectParameters
   coinbase?: CoinbaseWalletParameters

@@ -8,24 +8,22 @@ import { WalletTagType } from '../types/walletTagType.js'
 import { CardListItemButton } from './CardListItemButton.js'
 import type { WalletListItemButtonProps } from './types.js'
 
-interface SuiListItemButtonProps extends WalletListItemButtonProps {
-  wallet: any
-}
-
-export const SuiListItemButton = ({
+export const MVMListItemButton = ({
   ecosystemSelection,
-  wallet,
+  connector,
   tagType,
   onConnected,
   onConnecting,
   onError,
-}: SuiListItemButtonProps) => {
+}: WalletListItemButtonProps) => {
   const emitter = useWalletManagementEvents()
   const { connect } = useMVMContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()
 
-  const connectorName = wallet.name
-  const connectorDisplayName: string = ecosystemSelection ? 'Sui' : wallet.name
+  const connectorName = connector.name
+  const connectorDisplayName: string = ecosystemSelection
+    ? 'Sui'
+    : connector.name
 
   const connectWallet = async () => {
     if (tagType === WalletTagType.Connected) {
@@ -36,10 +34,11 @@ export const SuiListItemButton = ({
     try {
       onConnecting?.()
       await connect(
-        { wallet },
+        { wallet: connector },
         {
           onSuccess: (standardConnectOutput: any) => {
-            setLastConnectedAccount(wallet)
+            // TODO: Add type
+            setLastConnectedAccount(connector)
             emitter.emit(WalletManagementEvent.WalletConnected, {
               address: standardConnectOutput.accounts[0].address,
               chainId: ChainId.SOL,
@@ -59,7 +58,9 @@ export const SuiListItemButton = ({
   return (
     <CardListItemButton
       key={connectorDisplayName}
-      icon={ecosystemSelection ? getChainTypeIcon(ChainType.MVM) : wallet.icon}
+      icon={
+        ecosystemSelection ? getChainTypeIcon(ChainType.MVM) : connector.icon
+      }
       onClick={connectWallet}
       title={connectorDisplayName}
       tagType={
