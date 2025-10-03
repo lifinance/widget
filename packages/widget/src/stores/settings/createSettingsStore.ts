@@ -1,5 +1,4 @@
 /** biome-ignore-all lint/correctness/noUnusedVariables: allowed in this store */
-import type { StateCreator } from 'zustand'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { allLanguages } from '../../providers/I18nProvider/constants.js'
@@ -220,5 +219,5 @@ export const createSettingsStore = (config: WidgetConfig) =>
           }
         },
       }
-    ) as StateCreator<SettingsState, [], [], SettingsState>
+    )
   )
