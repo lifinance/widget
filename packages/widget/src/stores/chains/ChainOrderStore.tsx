@@ -64,7 +64,9 @@ export function ChainOrderStoreProvider({
 
         // Show "All networks" button if there are multiple networks
         const showAllNetworks = filteredChains.length > 1
-        storeRef.current?.getState().setIsAllNetworks(showAllNetworks, key)
+        if (!showAllNetworks) {
+          storeRef.current?.getState().setIsAllNetworks(false, key)
+        }
         storeRef.current?.getState().setShowAllNetworks(showAllNetworks, key)
 
         const [chainValue] = getFieldValues(`${key}Chain`)
