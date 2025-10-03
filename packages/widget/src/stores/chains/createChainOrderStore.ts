@@ -1,4 +1,3 @@
-import type { StateCreator } from 'zustand'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { widgetEvents } from '../../hooks/useWidgetEvents.js'
@@ -126,5 +125,5 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
           pinnedChains: state.pinnedChains,
         }),
       }
-    ) as StateCreator<ChainOrderState, [], [], ChainOrderState>
+    )
   )

@@ -1,5 +1,4 @@
 import type { Route, RouteExtended } from '@lifi/sdk'
-import type { StateCreator } from 'zustand'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { hasEnumFlag } from '../../utils/enum.js'
@@ -150,5 +149,5 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
           return state
         },
       }
-    ) as StateCreator<RouteExecutionState, [], [], RouteExecutionState>
+    )
   )

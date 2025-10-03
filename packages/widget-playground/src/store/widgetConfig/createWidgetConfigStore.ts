@@ -1,5 +1,4 @@
 import type { WidgetConfig, WidgetTheme } from '@lifi/widget'
-import type { StateCreator } from 'zustand'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { addValueFromPathString } from '../../utils/addValue.js'
@@ -297,5 +296,5 @@ export const createWidgetConfigStore = (
           }
         },
       }
-    ) as StateCreator<WidgetConfigState, [], [], WidgetConfigState>
+    )
   )

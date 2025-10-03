@@ -1,5 +1,4 @@
 import type { WidgetTheme } from '@lifi/widget'
-import type { StateCreator } from 'zustand'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { FormValues } from '../types.js'
@@ -189,5 +188,5 @@ export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
           }
         },
       }
-    ) as StateCreator<ToolsState, [], [], ToolsState>
+    )
   )

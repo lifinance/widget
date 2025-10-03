@@ -1,4 +1,3 @@
-import type { StateCreator } from 'zustand'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { ToAddress } from '../../types/widget.js'
@@ -76,5 +75,5 @@ export const createBookmarksStore = ({
           }
         },
       }
-    ) as StateCreator<BookmarkState, [], [], BookmarkState>
+    )
   )
