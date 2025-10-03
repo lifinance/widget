@@ -64,7 +64,9 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when wallet changes
   return useMemo(() => {
-    const accounts = [evmAccount, svmAccount, utxoAccount, suiAccount]
+    const accounts = [evmAccount, svmAccount, utxoAccount, suiAccount].filter(
+      Boolean
+    )
     const connectedAccounts = accounts.filter(
       (account) => account.isConnected && account.address
     )

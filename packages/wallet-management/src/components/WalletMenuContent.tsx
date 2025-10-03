@@ -1,4 +1,3 @@
-import type { Connector as BigmiConnector } from '@bigmi/client'
 import { ChainType } from '@lifi/sdk'
 import ArrowBack from '@mui/icons-material/ArrowBack'
 import Close from '@mui/icons-material/Close'
@@ -12,11 +11,8 @@ import {
   List,
   Typography,
 } from '@mui/material'
-import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
-import type { WalletAdapter } from '@solana/wallet-adapter-base'
 import { useMemo, useReducer, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { Connector } from 'wagmi'
 import { useAccount } from '../hooks/useAccount.js'
 import type { CombinedWallet } from '../hooks/useCombinedWallets.js'
 import { useCombinedWallets } from '../hooks/useCombinedWallets.js'
@@ -175,7 +171,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
             key={key}
             ecosystemSelection={ecosystemSelection}
             tagType={tagType}
-            connector={connector as BigmiConnector}
+            connector={connector}
             onConnected={onClose}
             onConnecting={() => handleConnecting(id)}
             onError={(error) => handleError(id, error)}
@@ -187,7 +183,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
             key={key}
             ecosystemSelection={ecosystemSelection}
             tagType={tagType}
-            connector={connector as Connector}
+            connector={connector}
             onConnected={onClose}
             onConnecting={() => handleConnecting(id)}
             onError={(error) => handleError(id, error)}
@@ -199,7 +195,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
             key={key}
             ecosystemSelection={ecosystemSelection}
             tagType={tagType}
-            walletAdapter={connector as WalletAdapter}
+            walletAdapter={connector}
             onConnected={onClose}
             onConnecting={() => handleConnecting(id)}
             onError={(error) => handleError(id, error)}
@@ -211,7 +207,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
             key={key}
             ecosystemSelection={ecosystemSelection}
             tagType={tagType}
-            wallet={connector as WalletWithRequiredFeatures}
+            wallet={connector}
             onConnected={onClose}
             onConnecting={() => handleConnecting(id)}
             onError={(error) => handleError(id, error)}

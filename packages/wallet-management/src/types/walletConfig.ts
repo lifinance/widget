@@ -6,6 +6,7 @@ import type {
   WalletConnectParameters,
 } from 'wagmi/connectors'
 
+// TODO: wagmi dependency left
 export interface WalletConfig {
   walletConnect?: WalletConnectParameters
   coinbase?: CoinbaseWalletParameters

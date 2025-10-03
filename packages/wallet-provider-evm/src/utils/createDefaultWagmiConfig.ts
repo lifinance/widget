@@ -1,3 +1,4 @@
+import { isWalletInstalled } from '@lifi/wallet-provider'
 import { createClient, http } from 'viem'
 import { mainnet } from 'viem/chains'
 import type { Config, CreateConnectorFn } from 'wagmi'
@@ -15,8 +16,6 @@ import { createCoinbaseConnector } from '../connectors/coinbase.js'
 import { createMetaMaskConnector } from '../connectors/metaMask.js'
 import { createPortoConnector } from '../connectors/porto.js'
 import { createWalletConnectConnector } from '../connectors/walletConnect.js'
-import { isWalletInstalled } from './isWalletInstalled.js'
-
 export interface DefaultWagmiConfigProps {
   walletConnect?: WalletConnectParameters
   coinbase?: CoinbaseWalletParameters

@@ -1,6 +1,5 @@
 import { ChainId, ChainType } from '@lifi/sdk'
 import { useMVMContext } from '@lifi/wallet-provider'
-import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { getChainTypeIcon } from '../icons.js'
@@ -10,7 +9,7 @@ import { CardListItemButton } from './CardListItemButton.js'
 import type { WalletListItemButtonProps } from './types.js'
 
 interface SuiListItemButtonProps extends WalletListItemButtonProps {
-  wallet: WalletWithRequiredFeatures
+  wallet: any
 }
 
 export const SuiListItemButton = ({

@@ -79,8 +79,9 @@ const CaptureMVMValues: FC<
   return (
     <MVMContext.Provider
       value={{
-        wallets,
         account,
+        installedWallets: wallets,
+        nonDetectedWallets: [],
         connect,
         disconnect,
         isValidAddress: isValidSuiAddress,

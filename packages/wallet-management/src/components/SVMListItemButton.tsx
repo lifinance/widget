@@ -1,7 +1,5 @@
 import { ChainId, ChainType } from '@lifi/sdk'
 import { useSVMContext } from '@lifi/wallet-provider'
-import type { WalletAdapter } from '@solana/wallet-adapter-base'
-import type { PublicKey } from '@solana/web3.js'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { getChainTypeIcon } from '../icons.js'
@@ -11,7 +9,7 @@ import { CardListItemButton } from './CardListItemButton.js'
 import type { WalletListItemButtonProps } from './types.js'
 
 interface SVMListItemButtonProps extends WalletListItemButtonProps {
-  walletAdapter: WalletAdapter
+  walletAdapter: any
 }
 
 export const SVMListItemButton = ({
@@ -43,7 +41,7 @@ export const SVMListItemButton = ({
         await disconnect()
       }
       connect(walletAdapter.name)
-      walletAdapter.once('connect', (publicKey: PublicKey) => {
+      walletAdapter.once('connect', (publicKey: any) => {
         setLastConnectedAccount(walletAdapter)
         emitter.emit(WalletManagementEvent.WalletConnected, {
           address: publicKey?.toString(),

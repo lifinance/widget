@@ -1,18 +1,16 @@
-import type { Connector } from '@bigmi/client'
 import { ChainId, ChainType } from '@lifi/sdk'
-import { useUTXOContext } from '@lifi/wallet-provider'
+import { isWalletInstalled, useUTXOContext } from '@lifi/wallet-provider'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { getChainTypeIcon } from '../icons.js'
 import { WalletManagementEvent } from '../types/events.js'
 import { WalletTagType } from '../types/walletTagType.js'
 import { getConnectorIcon } from '../utils/getConnectorIcon.js'
-import { isWalletInstalled } from '../utils/isWalletInstalled.js'
 import { CardListItemButton } from './CardListItemButton.js'
 import type { WalletListItemButtonProps } from './types.js'
 
 interface UTXOListItemButtonProps extends WalletListItemButtonProps {
-  connector: Connector
+  connector: any
 }
 
 export const UTXOListItemButton = ({
@@ -40,9 +38,9 @@ export const UTXOListItemButton = ({
     }
 
     try {
-      const identityCheckPassed = isWalletInstalled((connector as Connector).id)
+      const identityCheckPassed = isWalletInstalled(connector.id)
       if (!identityCheckPassed) {
-        onNotInstalled?.(connector as Connector)
+        onNotInstalled?.(connector)
         return
       }
       onConnecting?.()
@@ -69,7 +67,7 @@ export const UTXOListItemButton = ({
       icon={
         ecosystemSelection
           ? getChainTypeIcon(ChainType.UTXO)
-          : (getConnectorIcon(connector as Connector) ?? '')
+          : (getConnectorIcon(connector) ?? '')
       }
       onClick={handleUTXOConnect}
       title={connectorDisplayName}

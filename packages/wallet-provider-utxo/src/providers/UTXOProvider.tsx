@@ -8,8 +8,14 @@ import {
 import { isUTXOAddress } from '@bigmi/core'
 import { BigmiContext, useAccount, useConfig, useConnect } from '@bigmi/react'
 import { ChainId, ChainType } from '@lifi/sdk'
-import { UTXOContext } from '@lifi/wallet-provider'
-import { type FC, type PropsWithChildren, useCallback, useContext } from 'react'
+import { isWalletInstalled, UTXOContext } from '@lifi/wallet-provider'
+import {
+  type FC,
+  type PropsWithChildren,
+  useCallback,
+  useContext,
+  useMemo,
+} from 'react'
 import { UTXOBaseProvider } from './UTXOBaseProvider.js'
 
 interface UTXOProviderProps {
@@ -52,7 +58,7 @@ const CaptureUTXOValues: FC<
   PropsWithChildren<{ isExternalContext: boolean }>
 > = ({ children, isExternalContext }) => {
   const bigmiConfig = useConfig()
-  const { connectors: bigmiConnectors } = useConnect()
+  const { connectors } = useConnect()
   const currentWallet = useAccount()
 
   const account = {
@@ -79,12 +85,25 @@ const CaptureUTXOValues: FC<
     }
   }, [bigmiConfig])
 
+  const installedWallets = useMemo(
+    () =>
+      connectors.filter((connector: any) => isWalletInstalled(connector.id)),
+    [connectors]
+  )
+
+  const nonDetectedWallets = useMemo(
+    () =>
+      connectors.filter((connector: any) => !isWalletInstalled(connector.id)),
+    [connectors]
+  )
+
   return (
     <UTXOContext.Provider
       value={{
         walletClient: getBigmiConnectorClient(bigmiConfig),
-        wallets: bigmiConnectors,
         account,
+        installedWallets,
+        nonDetectedWallets,
         connect: handleConnect,
         disconnect: handleDisconnect,
         isValidAddress: isUTXOAddress,

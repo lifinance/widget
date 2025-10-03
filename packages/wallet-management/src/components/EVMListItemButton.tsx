@@ -1,7 +1,5 @@
 import { ChainType } from '@lifi/sdk'
-import { useEVMContext } from '@lifi/wallet-provider'
-import type { CreateConnectorFnExtended } from '@lifi/wallet-provider-evm'
-import type { Connector } from 'wagmi'
+import { isWalletInstalled, useEVMContext } from '@lifi/wallet-provider'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { getChainTypeIcon } from '../icons.js'
@@ -9,12 +7,11 @@ import { WalletManagementEvent } from '../types/events.js'
 import { WalletTagType } from '../types/walletTagType.js'
 import { createWalletConnectElement } from '../utils/elements.js'
 import { getConnectorIcon } from '../utils/getConnectorIcon.js'
-import { isWalletInstalled } from '../utils/isWalletInstalled.js'
 import { CardListItemButton } from './CardListItemButton.js'
 import type { WalletListItemButtonProps } from './types.js'
 
 interface EVMListItemButtonProps extends WalletListItemButtonProps {
-  connector: CreateConnectorFnExtended | Connector
+  connector: any
 }
 
 export const EVMListItemButton = ({
@@ -30,8 +27,7 @@ export const EVMListItemButton = ({
   const { connect, disconnect } = useEVMContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()
 
-  const connectorName =
-    (connector as CreateConnectorFnExtended).displayName || connector.name
+  const connectorName = connector.displayName || connector.name
   const connectorDisplayName: string = ecosystemSelection
     ? 'Ethereum'
     : connectorName
@@ -43,9 +39,9 @@ export const EVMListItemButton = ({
     }
 
     try {
-      const identityCheckPassed = isWalletInstalled((connector as Connector).id)
+      const identityCheckPassed = isWalletInstalled(connector.id)
       if (!identityCheckPassed) {
-        onNotInstalled?.(connector as Connector)
+        onNotInstalled?.(connector)
         return
       }
       if (connector.id === 'walletConnect') {
@@ -75,7 +71,7 @@ export const EVMListItemButton = ({
       icon={
         ecosystemSelection
           ? getChainTypeIcon(ChainType.EVM)
-          : (getConnectorIcon(connector as Connector) ?? '')
+          : (getConnectorIcon(connector) ?? '')
       }
       onClick={handleEVMConnect}
       title={connectorDisplayName}

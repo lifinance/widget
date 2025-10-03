@@ -1022,9 +1022,6 @@ importers:
 
   packages/wallet-management:
     dependencies:
-      '@bigmi/client':
-        specifier: ^0.5.4
-        version: 0.5.4(@tanstack/query-core@5.90.2)(@types/react@19.1.16)(bs58@6.0.0)(react@19.1.1)(typescript@5.9.3)(use-sync-external-store@1.5.0(react@19.1.1))
       '@emotion/react':
         specifier: ^11.14.0
         version: 11.14.0(@types/react@19.1.16)(react@19.1.1)
@@ -1037,9 +1034,6 @@ importers:
       '@lifi/wallet-provider':
         specifier: workspace:*
         version: link:../wallet-provider
-      '@lifi/wallet-provider-evm':
-        specifier: workspace:^
-        version: link:../wallet-provider-evm
       '@mui/icons-material':
         specifier: ^7.3.2
         version: 7.3.2(@mui/material@7.3.2(@emotion/react@11.14.0(@types/react@19.1.16)(react@19.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.1.16)(react@19.1.1))(@types/react@19.1.16)(react@19.1.1))(@types/react@19.1.16)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@types/react@19.1.16)(react@19.1.1)
@@ -1049,15 +1043,6 @@ importers:
       '@mui/system':
         specifier: ^7.3.2
         version: 7.3.2(@emotion/react@11.14.0(@types/react@19.1.16)(react@19.1.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.1.16)(react@19.1.1))(@types/react@19.1.16)(react@19.1.1))(@types/react@19.1.16)(react@19.1.1)
-      '@mysten/wallet-standard':
-        specifier: ^0.17.0
-        version: 0.17.0(typescript@5.9.3)
-      '@solana/wallet-adapter-base':
-        specifier: ^0.9.27
-        version: 0.9.27(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10))
-      '@solana/web3.js':
-        specifier: ^1.98.4
-        version: 1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10)
       '@tanstack/react-query':
         specifier: '>=5.87.0'
         version: 5.90.2(react@19.1.1)
@@ -1073,9 +1058,6 @@ importers:
       use-sync-external-store:
         specifier: ^1.5.0
         version: 1.5.0(react@19.1.1)
-      viem:
-        specifier: ^2.37.9
-        version: 2.37.9(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.1.11)
       wagmi:
         specifier: '>=2.16.0'
         version: 2.17.5(@tanstack/query-core@5.90.2)(@tanstack/react-query@5.90.2(react@19.1.1))(@types/react@19.1.16)(bufferutil@4.0.9)(encoding@0.1.13)(react@19.1.1)(typescript@5.9.3)(utf-8-validate@5.0.10)(viem@2.37.9(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.1.11))(zod@4.1.11)
