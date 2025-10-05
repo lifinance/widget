@@ -4,12 +4,12 @@ import {
   useMVMContext,
   useSVMContext,
   useUTXOContext,
+  type WalletConnector,
 } from '@lifi/wallet-provider'
 import type { Theme } from '@mui/material'
 import { useMediaQuery } from '@mui/material'
 import { useMemo } from 'react'
 import { useWalletManagementConfig } from '../providers/WalletManagementProvider/WalletManagementContext.js'
-import type { WalletConnector } from '../types/walletConnector.js'
 import { getConnectorIcon } from '../utils/getConnectorIcon.js'
 import { getWalletPriority } from '../utils/getWalletPriority.js'
 
@@ -19,7 +19,7 @@ type CombinedWalletConnector = {
 }
 
 export type CombinedWallet = {
-  id: string
+  id?: string
   name: string
   icon?: string
   connectors: CombinedWalletConnector[]
@@ -27,12 +27,11 @@ export type CombinedWallet = {
 
 const normalizeName = (name: string) => name.split(' ')[0].toLowerCase().trim()
 
-// TODO: Add types
 const combineWalletLists = (
-  evmConnectorList: any[],
-  utxoConnectorList: any[],
-  svmWalletList: any[],
-  mvmWalletList: any[],
+  evmConnectorList: WalletConnector[],
+  utxoConnectorList: WalletConnector[],
+  svmWalletList: WalletConnector[],
+  mvmWalletList: WalletConnector[],
   walletEcosystemsOrder?: Record<string, ChainType[]>
 ): CombinedWallet[] => {
   const walletMap = new Map<string, CombinedWallet>()
@@ -64,15 +63,15 @@ const combineWalletLists = (
   })
 
   svmWalletList.forEach((svm) => {
-    const normalizedName = normalizeName(svm.adapter.name)
+    const normalizedName = normalizeName(svm.name)
     const existing = walletMap.get(normalizedName) || {
-      id: svm.adapter.name,
-      name: svm.adapter.name,
-      icon: svm.adapter.icon,
+      id: svm.name,
+      name: svm.name,
+      icon: svm.icon,
       connectors: [] as CombinedWalletConnector[],
     }
     existing.connectors.push({
-      connector: svm.adapter,
+      connector: svm,
       chainType: ChainType.SVM,
     })
     walletMap.set(normalizedName, existing)
@@ -180,14 +179,17 @@ export const useCombinedWallets = () => {
 
 // Ensure the walletComparator function is updated to handle CombinedWallet
 const walletComparator = (a: CombinedWallet, b: CombinedWallet) => {
-  const priorityA = getWalletPriority(a.id)
-  const priorityB = getWalletPriority(b.id)
+  const idA = a.id ?? a.name
+  const idB = b.id ?? b.name
+
+  const priorityA = getWalletPriority(idA)
+  const priorityB = getWalletPriority(idB)
 
   if (priorityA !== priorityB) {
     return priorityA - priorityB
   }
 
-  return a.id?.localeCompare(b.id)
+  return idA.localeCompare(idB)
 }
 
 const walletEcosystemsComparator = (

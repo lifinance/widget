@@ -1,7 +1,11 @@
 import { createContext, useContext } from 'react'
+import type { WalletProviderContext } from '../types.js'
+import { defaultContextValue } from './defaultContextValue.js'
 
-export const SVMContext = createContext<any>(null)
+export const SVMContext =
+  createContext<WalletProviderContext>(defaultContextValue)
 
 export const useSVMContext = () => {
-  return useContext(SVMContext)
+  const context = useContext(SVMContext)
+  return context || defaultContextValue
 }

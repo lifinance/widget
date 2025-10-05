@@ -34,7 +34,7 @@ export const UTXOListItemButton = ({
     }
 
     try {
-      const identityCheckPassed = isWalletInstalled(connector.id)
+      const identityCheckPassed = isWalletInstalled(connector.id ?? '')
       if (!identityCheckPassed) {
         onNotInstalled?.(connector)
         return
@@ -42,14 +42,15 @@ export const UTXOListItemButton = ({
       onConnecting?.()
       // Disconnect currently connected UTXO wallet (if any)
       await disconnect()
-      const data = await connect(connector)
-      setLastConnectedAccount(connector)
-      emitter.emit(WalletManagementEvent.WalletConnected, {
-        address: data.accounts[0].address,
-        chainId: ChainId.BTC,
-        chainType: ChainType.UTXO,
-        connectorId: connector.id,
-        connectorName: connectorName,
+      await connect(connector, (address: string) => {
+        setLastConnectedAccount(connector)
+        emitter.emit(WalletManagementEvent.WalletConnected, {
+          address: address,
+          chainId: ChainId.BTC,
+          chainType: ChainType.UTXO,
+          connectorId: connector.id ?? '',
+          connectorName: connectorName,
+        })
       })
       onConnected?.()
     } catch (error) {

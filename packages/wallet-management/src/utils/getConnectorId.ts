@@ -1,5 +1,5 @@
 import type { ChainType } from '@lifi/sdk'
-import type { WalletConnector } from '../types/walletConnector.js'
+import type { WalletConnector } from '@lifi/wallet-provider'
 
 export const getConnectorId = (
   connector?: WalletConnector,

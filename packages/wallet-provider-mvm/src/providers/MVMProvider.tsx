@@ -1,5 +1,10 @@
-import { ChainId, ChainType } from '@lifi/sdk'
-import { MVMContext } from '@lifi/wallet-provider'
+import { ChainId, ChainType, Sui } from '@lifi/sdk'
+import {
+  type Account,
+  MVMContext,
+  type WalletConnector,
+  type WalletProviderProps,
+} from '@lifi/wallet-provider'
 import {
   SuiClientContext,
   useConnectWallet,
@@ -8,20 +13,18 @@ import {
   useWallets,
 } from '@mysten/dapp-kit'
 import { isValidSuiAddress } from '@mysten/sui/utils'
-import { type FC, type PropsWithChildren, useContext } from 'react'
+import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
+import { type FC, type PropsWithChildren, useCallback, useContext } from 'react'
 import { MVMBaseProvider } from './MVMBaseProvider.js'
-
-interface MVMProviderProps {
-  walletConfig?: any // TODO: WidgetWalletConfig type
-}
 
 export function useInMVMContext(): boolean {
   const context = useContext(SuiClientContext)
   return Boolean(context)
 }
 
-export const MVMProvider: FC<PropsWithChildren<MVMProviderProps>> = ({
+export const MVMProvider: FC<PropsWithChildren<WalletProviderProps>> = ({
   walletConfig,
+  chains,
   children,
 }) => {
   const forceInternalWalletManagement =
@@ -38,7 +41,7 @@ export const MVMProvider: FC<PropsWithChildren<MVMProviderProps>> = ({
   }
 
   return (
-    <MVMBaseProvider>
+    <MVMBaseProvider chains={chains}>
       <CaptureMVMValues isExternalContext={inSuiContext}>
         {children}
       </CaptureMVMValues>
@@ -76,13 +79,35 @@ const CaptureMVMValues: FC<
           status: 'disconnected',
         }
 
+  const handleConnect = useCallback(
+    async (
+      connector: WalletConnector,
+      onSuccess?: (address: string, chainId: number) => void
+    ) => {
+      await connect(
+        { wallet: connector as unknown as WalletWithRequiredFeatures },
+        {
+          onSuccess: (standardConnectOutput) => {
+            onSuccess?.(standardConnectOutput.accounts[0].address, ChainId.SUI)
+          },
+        }
+      )
+    },
+    [connect]
+  )
+
   return (
     <MVMContext.Provider
       value={{
-        account,
-        installedWallets: wallets,
-        nonDetectedWallets: [],
-        connect,
+        isEnabled: true,
+        account: account as Account,
+        sdkProvider: Sui({
+          getWallet: async () => currentWallet!,
+        }),
+        isConnected: account.isConnected,
+        installedWallets: wallets as WalletConnector[],
+        nonDetectedWallets: [] as WalletConnector[],
+        connect: handleConnect,
         disconnect,
         isValidAddress: isValidSuiAddress,
         isExternalContext,

@@ -1,20 +1,36 @@
-import { ChainId, ChainType, isSVMAddress } from '@lifi/sdk'
-import { SVMContext } from '@lifi/wallet-provider'
-import { WalletReadyState } from '@solana/wallet-adapter-base'
-import { ConnectionContext, useWallet } from '@solana/wallet-adapter-react'
-import { type FC, type PropsWithChildren, useContext, useMemo } from 'react'
+import { ChainId, ChainType, isSVMAddress, Solana } from '@lifi/sdk'
+import {
+  type Account,
+  SVMContext,
+  type WalletConnector,
+  type WalletProviderProps,
+} from '@lifi/wallet-provider'
+import {
+  type Adapter,
+  type SignerWalletAdapter,
+  WalletReadyState,
+} from '@solana/wallet-adapter-base'
+import {
+  ConnectionContext,
+  useWallet,
+  type Wallet,
+} from '@solana/wallet-adapter-react'
+import type { PublicKey } from '@solana/web3.js'
+import {
+  type FC,
+  type PropsWithChildren,
+  useCallback,
+  useContext,
+  useMemo,
+} from 'react'
 import { SVMBaseProvider } from './SVMBaseProvider.js'
-
-interface SVMProviderProps {
-  walletConfig?: any // TODO: WidgetWalletConfig type
-}
 
 export function useInSVMContext(): boolean {
   const context = useContext(ConnectionContext)
   return Boolean(context?.connection)
 }
 
-export const SVMProvider: FC<PropsWithChildren<SVMProviderProps>> = ({
+export const SVMProvider: FC<PropsWithChildren<WalletProviderProps>> = ({
   walletConfig,
   children,
 }) => {
@@ -74,32 +90,56 @@ const CaptureSVMValues: FC<
 
   const installedWallets = useMemo(
     () =>
-      wallets.filter(
-        (wallet: any) =>
-          wallet.adapter.readyState === WalletReadyState.Installed ||
-          wallet.adapter.readyState === WalletReadyState.Loadable
-      ),
+      wallets
+        .filter(
+          (wallet: Wallet) =>
+            wallet.adapter.readyState === WalletReadyState.Installed ||
+            wallet.adapter.readyState === WalletReadyState.Loadable
+        )
+        .map((wallet: Wallet) => wallet.adapter),
     [wallets]
   )
 
   const nonDetectedWallets = useMemo(
     () =>
-      wallets.filter(
-        (wallet: any) =>
-          wallet.adapter.readyState !== WalletReadyState.Installed &&
-          wallet.adapter.readyState !== WalletReadyState.Loadable
-      ),
+      wallets
+        .filter(
+          (wallet: Wallet) =>
+            wallet.adapter.readyState !== WalletReadyState.Installed &&
+            wallet.adapter.readyState !== WalletReadyState.Loadable
+        )
+        .map((wallet: Wallet) => wallet.adapter),
     [wallets]
+  )
+
+  const handleConnect = useCallback(
+    async (
+      connector: WalletConnector,
+      onSuccess?: (address: string, chainId: number) => void
+    ) => {
+      const adapter = connector as unknown as Adapter
+      connect(adapter.name)
+      adapter.once('connect', (publicKey: PublicKey) => {
+        onSuccess?.(publicKey?.toString(), ChainId.SOL)
+      })
+    },
+    [connect]
   )
 
   return (
     <SVMContext.Provider
       value={{
-        account,
-        installedWallets,
-        nonDetectedWallets,
+        isEnabled: true,
+        account: account as Account,
+        sdkProvider: Solana({
+          async getWalletAdapter() {
+            return currentWallet?.adapter as SignerWalletAdapter
+          },
+        }),
+        installedWallets: installedWallets as WalletConnector[],
+        nonDetectedWallets: nonDetectedWallets as WalletConnector[],
         isConnected: connected,
-        connect,
+        connect: handleConnect,
         disconnect,
         isValidAddress: isSVMAddress,
         isExternalContext,

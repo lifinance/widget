@@ -1,3 +1,4 @@
+import { ChainId, type ExtendedChain } from '@lifi/sdk'
 import {
   createNetworkConfig,
   SuiClientProvider,
@@ -6,14 +7,20 @@ import {
 import { getFullnodeUrl } from '@mysten/sui/client'
 import { type FC, type PropsWithChildren, useMemo } from 'react'
 
-export const MVMBaseProvider: FC<PropsWithChildren> = ({ children }) => {
+interface MVMBaseProviderProps {
+  chains?: ExtendedChain[]
+}
+
+export const MVMBaseProvider: FC<PropsWithChildren<MVMBaseProviderProps>> = ({
+  chains,
+  children,
+}) => {
   const config = useMemo(() => {
+    const sui = chains?.find((chain) => chain.id === ChainId.SUI)
     return createNetworkConfig({
-      // TODO: original: mainnet: { url: sui?.metamask?.rpcUrls[0] ?? getFullnodeUrl('mainnet') },
-      // sui chain: from useAvailableChains()
-      mainnet: { url: getFullnodeUrl('mainnet') },
+      mainnet: { url: sui?.metamask?.rpcUrls[0] ?? getFullnodeUrl('mainnet') },
     })
-  }, [])
+  }, [chains])
 
   return (
     <SuiClientProvider networks={config.networkConfig} defaultNetwork="mainnet">

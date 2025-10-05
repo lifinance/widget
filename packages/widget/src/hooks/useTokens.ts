@@ -104,10 +104,7 @@ const useBackgroundTokenSearch = (search?: string, chainId?: number) => {
       if (!_chainId) {
         const chainType = getChainTypeFromAddress(searchQuery)
         if (chainType && chainType in defaultChainIdsByType) {
-          _chainId =
-            defaultChainIdsByType[
-              chainType as keyof typeof defaultChainIdsByType
-            ]
+          _chainId = defaultChainIdsByType[chainType]
         }
       }
 

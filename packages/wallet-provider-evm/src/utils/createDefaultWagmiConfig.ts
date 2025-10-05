@@ -16,6 +16,7 @@ import { createCoinbaseConnector } from '../connectors/coinbase.js'
 import { createMetaMaskConnector } from '../connectors/metaMask.js'
 import { createPortoConnector } from '../connectors/porto.js'
 import { createWalletConnectConnector } from '../connectors/walletConnect.js'
+
 export interface DefaultWagmiConfigProps {
   walletConnect?: WalletConnectParameters
   coinbase?: CoinbaseWalletParameters

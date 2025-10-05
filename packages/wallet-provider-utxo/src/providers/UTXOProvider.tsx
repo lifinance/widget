@@ -7,8 +7,13 @@ import {
 } from '@bigmi/client'
 import { isUTXOAddress } from '@bigmi/core'
 import { BigmiContext, useAccount, useConfig, useConnect } from '@bigmi/react'
-import { ChainId, ChainType } from '@lifi/sdk'
-import { isWalletInstalled, UTXOContext } from '@lifi/wallet-provider'
+import { ChainId, ChainType, UTXO } from '@lifi/sdk'
+import {
+  isWalletInstalled,
+  UTXOContext,
+  type WalletConnector,
+  type WalletProviderProps,
+} from '@lifi/wallet-provider'
 import {
   type FC,
   type PropsWithChildren,
@@ -18,17 +23,13 @@ import {
 } from 'react'
 import { UTXOBaseProvider } from './UTXOBaseProvider.js'
 
-interface UTXOProviderProps {
-  walletConfig?: any // TODO: WidgetWalletConfig type
-}
-
 export function useInUTXOContext(): boolean {
   const context = useContext(BigmiContext)
 
   return Boolean(context)
 }
 
-export const UTXOProvider: FC<PropsWithChildren<UTXOProviderProps>> = ({
+export const UTXOProvider: FC<PropsWithChildren<WalletProviderProps>> = ({
   walletConfig,
   children,
 }) => {
@@ -69,13 +70,6 @@ const CaptureUTXOValues: FC<
     addresses: currentWallet.accounts?.map((account: any) => account.address),
   }
 
-  const handleConnect = useCallback(
-    async (connector: Connector) => {
-      return await connect(bigmiConfig, { connector })
-    },
-    [bigmiConfig]
-  )
-
   const handleDisconnect = useCallback(async () => {
     const connectedAccount = getAccount(bigmiConfig)
     if (connectedAccount.connector) {
@@ -87,21 +81,42 @@ const CaptureUTXOValues: FC<
 
   const installedWallets = useMemo(
     () =>
-      connectors.filter((connector: any) => isWalletInstalled(connector.id)),
+      connectors.filter((connector: Connector) =>
+        isWalletInstalled(connector.id)
+      ),
     [connectors]
   )
 
   const nonDetectedWallets = useMemo(
     () =>
-      connectors.filter((connector: any) => !isWalletInstalled(connector.id)),
+      connectors.filter(
+        (connector: Connector) => !isWalletInstalled(connector.id)
+      ),
     [connectors]
+  )
+
+  const handleConnect = useCallback(
+    async (
+      connector: WalletConnector,
+      onSuccess?: (address: string, chainId: number) => void
+    ) => {
+      const data = await connect(bigmiConfig, {
+        connector: connector as Connector,
+      })
+      onSuccess?.(data.accounts[0].address, ChainId.BTC)
+    },
+    [bigmiConfig]
   )
 
   return (
     <UTXOContext.Provider
       value={{
-        walletClient: getBigmiConnectorClient(bigmiConfig),
+        isEnabled: true,
+        sdkProvider: UTXO({
+          getWalletClient: () => getBigmiConnectorClient(bigmiConfig),
+        }),
         account,
+        isConnected: account.isConnected,
         installedWallets,
         nonDetectedWallets,
         connect: handleConnect,

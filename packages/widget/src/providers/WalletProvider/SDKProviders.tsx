@@ -1,5 +1,5 @@
 import type { SDKProvider } from '@lifi/sdk'
-import { ChainType, config, EVM, Solana, Sui, UTXO } from '@lifi/sdk'
+import { ChainType, config } from '@lifi/sdk'
 import {
   useEVMContext,
   useMVMContext,
@@ -11,11 +11,10 @@ import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 
 export const SDKProviders = () => {
   const { sdkConfig } = useWidgetConfig()
-  const { walletClient: evmWalletClient, switchChain: evmSwitchChain } =
-    useEVMContext()
-  const { walletClient: utxoWalletClient } = useUTXOContext()
-  const { currentWallet: svmWallet } = useSVMContext()
-  const { currentWallet: suiWallet } = useMVMContext()
+  const { sdkProvider: evmSDKProvider } = useEVMContext()
+  const { sdkProvider: utxoSDKProvider } = useUTXOContext()
+  const { sdkProvider: svmSDKProvider } = useSVMContext()
+  const { sdkProvider: suiSDKProvider } = useMVMContext()
 
   useEffect(() => {
     // Configure SDK Providers
@@ -32,48 +31,28 @@ export const SDKProviders = () => {
     const hasConfiguredSuiProvider = sdkConfig?.providers?.some(
       (provider) => provider.type === ChainType.MVM
     )
-    if (!hasConfiguredEVMProvider) {
-      providers.push(
-        EVM({
-          getWalletClient: () => evmWalletClient,
-          switchChain: evmSwitchChain,
-        })
-      )
+    if (!hasConfiguredEVMProvider && evmSDKProvider) {
+      providers.push(evmSDKProvider)
     }
-    if (!hasConfiguredSVMProvider) {
-      providers.push(
-        Solana({
-          async getWalletAdapter() {
-            return svmWallet?.adapter
-          },
-        })
-      )
+    if (!hasConfiguredSVMProvider && svmSDKProvider) {
+      providers.push(svmSDKProvider)
     }
-    if (!hasConfiguredUTXOProvider) {
-      providers.push(
-        UTXO({
-          getWalletClient: () => utxoWalletClient,
-        })
-      )
+    if (!hasConfiguredUTXOProvider && utxoSDKProvider) {
+      providers.push(utxoSDKProvider)
     }
-    if (!hasConfiguredSuiProvider) {
-      providers.push(
-        Sui({
-          getWallet: async () => suiWallet!,
-        })
-      )
+    if (!hasConfiguredSuiProvider && suiSDKProvider) {
+      providers.push(suiSDKProvider)
     }
     if (sdkConfig?.providers?.length) {
       providers.push(...sdkConfig.providers)
     }
     config.setProviders(providers)
   }, [
-    suiWallet,
     sdkConfig?.providers,
-    evmWalletClient,
-    evmSwitchChain,
-    svmWallet?.adapter,
-    utxoWalletClient,
+    evmSDKProvider,
+    svmSDKProvider,
+    utxoSDKProvider,
+    suiSDKProvider,
   ])
 
   return null

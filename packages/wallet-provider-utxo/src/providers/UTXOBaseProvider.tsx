@@ -4,7 +4,7 @@ import { type FC, type PropsWithChildren, useRef } from 'react'
 import {
   createDefaultBigmiConfig,
   type DefaultBigmiConfigResult,
-} from './createDefaultBigmiConfig.js'
+} from '../utils/createDefaultBigmiConfig.js'
 
 export const UTXOBaseProvider: FC<PropsWithChildren> = ({ children }) => {
   const bigmi = useRef<DefaultBigmiConfigResult>(null)

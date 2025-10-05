@@ -12,6 +12,7 @@ import type {
   Token,
 } from '@lifi/sdk'
 import type { WalletMenuOpenArgs } from '@lifi/wallet-management'
+import type { WalletProviderProps } from '@lifi/wallet-provider'
 import type {
   Components,
   PaletteMode,
@@ -21,7 +22,13 @@ import type {
   Theme,
 } from '@mui/material'
 import type { TypographyVariantsOptions } from '@mui/material/styles'
-import type { CSSProperties, FC, ReactNode, RefObject } from 'react'
+import type {
+  CSSProperties,
+  FC,
+  PropsWithChildren,
+  ReactNode,
+  RefObject,
+} from 'react'
 import type {
   BaseAccountParameters,
   CoinbaseWalletParameters,
@@ -136,14 +143,18 @@ export type DefaultUI = {
   navigationHeaderTitleNoWrap?: boolean
 }
 
-export interface WidgetWalletConfig {
-  walletEcosystemsOrder?: Record<string, ChainType[]>
-  onConnect?(args?: WalletMenuOpenArgs): void
+interface EVMWalletConfig {
   walletConnect?: WalletConnectParameters
   coinbase?: CoinbaseWalletParameters
   metaMask?: MetaMaskParameters
   baseAccount?: BaseAccountParameters
   porto?: Partial<PortoParameters>
+}
+
+export interface WidgetWalletConfig extends EVMWalletConfig {
+  walletProviders?: FC<PropsWithChildren<WalletProviderProps>>[]
+  walletEcosystemsOrder?: Record<string, ChainType[]>
+  onConnect?(args?: WalletMenuOpenArgs): void
   /**
    * Determines whether the widget should provide partial wallet management functionality.
    *

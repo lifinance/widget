@@ -1,4 +1,5 @@
 import { ChainType } from '@lifi/sdk'
+import type { WalletConnector } from '@lifi/wallet-provider'
 import ArrowBack from '@mui/icons-material/ArrowBack'
 import Close from '@mui/icons-material/Close'
 import {
@@ -17,7 +18,6 @@ import { useAccount } from '../hooks/useAccount.js'
 import type { CombinedWallet } from '../hooks/useCombinedWallets.js'
 import { useCombinedWallets } from '../hooks/useCombinedWallets.js'
 import type { WalletMenuOpenArgs } from '../providers/WalletMenuProvider/types.js'
-import type { WalletConnector } from '../types/walletConnector.js'
 import type { WalletTagType } from '../types/walletTagType.js'
 import { ElementId } from '../utils/elements.js'
 import { getConnectorId } from '../utils/getConnectorId.js'
@@ -293,7 +293,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
                     return (
                       <CardListItemButton
                         key={name}
-                        onClick={() => handleMultiEcosystem(id)}
+                        onClick={() => handleMultiEcosystem(id ?? name)}
                         title={name}
                         icon={icon ?? ''}
                         tagType={tagType}

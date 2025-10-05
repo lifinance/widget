@@ -1,4 +1,5 @@
-import { type Account, useAccount } from '@lifi/wallet-management'
+import { useAccount } from '@lifi/wallet-management'
+import type { Account } from '@lifi/wallet-provider'
 import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
 import MoreHoriz from '@mui/icons-material/MoreHoriz'
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'

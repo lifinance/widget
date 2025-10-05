@@ -1,6 +1,10 @@
-import type { ExtendedChain } from '@lifi/sdk'
-import { ChainType } from '@lifi/sdk'
-import { EVMContext, isWalletInstalled } from '@lifi/wallet-provider'
+import { ChainType, EVM } from '@lifi/sdk'
+import {
+  EVMContext,
+  isWalletInstalled,
+  type WalletConnector,
+  type WalletProviderProps,
+} from '@lifi/wallet-provider'
 import {
   type FC,
   type PropsWithChildren,
@@ -36,17 +40,12 @@ import { createPortoConnector } from '../connectors/porto.js'
 import { createWalletConnectConnector } from '../connectors/walletConnect.js'
 import { EVMBaseProvider } from './EVMBaseProvider.js'
 
-interface EVMProviderProps {
-  walletConfig?: any // TODO: WidgetWalletConfig type
-  chains?: ExtendedChain[]
-}
-
 export function useInEVMContext(): boolean {
   const context = useContext(WagmiContext)
   return Boolean(context)
 }
 
-export const EVMProvider: FC<PropsWithChildren<EVMProviderProps>> = ({
+export const EVMProvider: FC<PropsWithChildren<WalletProviderProps>> = ({
   walletConfig,
   chains,
   children,
@@ -177,8 +176,12 @@ const CaptureEVMValues: FC<
   }, [wagmiConnectors, walletConfig])
 
   const handleConnect = useCallback(
-    async (connector: Connector) => {
-      return await connect(config, { connector })
+    async (
+      connector: WalletConnector,
+      onSuccess?: (address: string, chainId: number) => void
+    ) => {
+      const data = await connect(config, { connector: connector as Connector })
+      onSuccess?.(data.accounts[0], data.chainId)
     },
     [config]
   )
@@ -209,7 +212,15 @@ const CaptureEVMValues: FC<
   return (
     <EVMContext.Provider
       value={{
-        walletClient: getConnectorClient(config),
+        isEnabled: true,
+        isConnected: account.isConnected,
+        sdkProvider: EVM({
+          getWalletClient: () => getConnectorClient(config),
+          switchChain: async (chainId: number) => {
+            const chain = await switchChain(config, { chainId })
+            return getConnectorClient(config, { chainId: chain.id })
+          },
+        }),
         account,
         installedWallets,
         nonDetectedWallets,
@@ -217,10 +228,6 @@ const CaptureEVMValues: FC<
         disconnect: handleDisconnect,
         isValidAddress: isEVMAddress,
         isExternalContext,
-        switchChain: async (chainId: number) => {
-          const chain = await switchChain(config, { chainId })
-          return getConnectorClient(config, { chainId: chain.id })
-        },
       }}
     >
       {children}

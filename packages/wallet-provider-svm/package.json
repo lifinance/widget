@@ -11,7 +11,7 @@
     "@lifi/sdk": "^3.12.11"
   },
   "peerDependencies": {
-    "@solana/wallet-adapter-react": "^0.15.39",
+    "@solana/wallet-adapter-react": ">=0.15.35",
     "@lifi/wallet-provider": "workspace:*"
   },
   "devDependencies": {

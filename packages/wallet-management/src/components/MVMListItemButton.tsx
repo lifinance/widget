@@ -33,22 +33,16 @@ export const MVMListItemButton = ({
 
     try {
       onConnecting?.()
-      await connect(
-        { wallet: connector },
-        {
-          onSuccess: (standardConnectOutput: any) => {
-            // TODO: Add type
-            setLastConnectedAccount(connector)
-            emitter.emit(WalletManagementEvent.WalletConnected, {
-              address: standardConnectOutput.accounts[0].address,
-              chainId: ChainId.SOL,
-              chainType: ChainType.SVM,
-              connectorId: connectorName,
-              connectorName: connectorName,
-            })
-          },
-        }
-      )
+      await connect(connector, (address: string) => {
+        setLastConnectedAccount(connector)
+        emitter.emit(WalletManagementEvent.WalletConnected, {
+          address: address,
+          chainId: ChainId.SOL,
+          chainType: ChainType.SVM,
+          connectorId: connectorName,
+          connectorName: connectorName,
+        })
+      })
       onConnected?.()
     } catch (error) {
       onError?.(error)
@@ -59,7 +53,9 @@ export const MVMListItemButton = ({
     <CardListItemButton
       key={connectorDisplayName}
       icon={
-        ecosystemSelection ? getChainTypeIcon(ChainType.MVM) : connector.icon
+        ecosystemSelection
+          ? getChainTypeIcon(ChainType.MVM)
+          : (connector.icon ?? '')
       }
       onClick={connectWallet}
       title={connectorDisplayName}

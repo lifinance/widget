@@ -36,12 +36,10 @@ export const SVMListItemButton = ({
       if (isConnected) {
         await disconnect()
       }
-      connect(connector.name)
-      connector.once('connect', (publicKey: any) => {
-        // TODO: Add type
+      await connect(connector, (address: string) => {
         setLastConnectedAccount(connector)
         emitter.emit(WalletManagementEvent.WalletConnected, {
-          address: publicKey?.toString(),
+          address: address,
           chainId: ChainId.SOL,
           chainType: ChainType.SVM,
           connectorId: connectorName,
@@ -58,7 +56,9 @@ export const SVMListItemButton = ({
     <CardListItemButton
       key={connectorDisplayName}
       icon={
-        ecosystemSelection ? getChainTypeIcon(ChainType.SVM) : connector.icon
+        ecosystemSelection
+          ? getChainTypeIcon(ChainType.SVM)
+          : (connector.icon ?? '')
       }
       onClick={connectWallet}
       title={connectorDisplayName}

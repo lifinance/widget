@@ -1,32 +1,49 @@
-import type { ChainType } from '@lifi/sdk'
+import type { ChainType, ExtendedChain, SDKProvider } from '@lifi/sdk'
 
-interface AccountBase<CT extends ChainType, WalletConnector = undefined> {
+export type WalletConnector = {
+  id?: string
+  uid?: string
+  name: string
+  displayName?: string
+  icon?: string
+}
+
+export interface Account {
+  id?: string
+  name?: string
   address?: string
   addresses?: readonly string[]
   chainId?: number
-  chainType: CT
+  chainType: ChainType
   connector?: WalletConnector
   isConnected: boolean
   isConnecting: boolean
   isDisconnected: boolean
   isReconnecting: boolean
   status: 'connected' | 'reconnecting' | 'connecting' | 'disconnected'
-  // TODO: might be missing for some chain types
-  name?: string
 }
 
-// TODO: Add types for each chain type
-// export type EVMAccount = AccountBase<ChainType.EVM, Connector>
-// export type SVMAccount = AccountBase<ChainType.SVM, WalletAdapter>
-// export type UTXOAccount = AccountBase<ChainType.UTXO, BigmiConnector>
-// export type MVMAccount = AccountBase<ChainType.MVM, WalletWithRequiredFeatures>
-// export type DefaultAccount = AccountBase<ChainType>
+export type WalletProviderContext = {
+  isEnabled: boolean
+  isExternalContext: boolean
+  isConnected: boolean
+  account: Account | null
+  sdkProvider: SDKProvider | null
+  installedWallets: WalletConnector[]
+  nonDetectedWallets: WalletConnector[]
+  isValidAddress: (address: string) => boolean
+  connect: (
+    connector: WalletConnector,
+    onSuccess?: (address: string, chainId: number) => void
+  ) => Promise<void>
+  disconnect: () => Promise<void>
+}
 
-export type Account = AccountBase<ChainType, any>
+interface WidgetWalletConfig {
+  forceInternalWalletManagement?: boolean
+}
 
-// export type Account =
-//   | EVMAccount
-//   | SVMAccount
-//   | UTXOAccount
-//   | MVMAccount
-//   | DefaultAccount
+export interface WalletProviderProps {
+  walletConfig?: WidgetWalletConfig
+  chains: ExtendedChain[]
+}

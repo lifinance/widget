@@ -1,6 +1,5 @@
 import type {} from '@mui/material/themeCssVarsAugmentation'
 
-export type { Account } from '@lifi/wallet-provider' // TODO:
 export * from './hooks/useAccount.js'
 export * from './hooks/useAccountDisconnect.js'
 export * from './hooks/useWalletManagementEvents.js'
@@ -10,6 +9,5 @@ export * from './providers/WalletManagementProvider/WalletManagementProvider.js'
 export type { WalletMenuOpenArgs } from './providers/WalletMenuProvider/types.js'
 export * from './providers/WalletMenuProvider/WalletMenuContext.js'
 export * from './types/events.js'
-export * from './types/walletConnector.js'
 export * from './utils/getConnectorIcon.js'
 export * from './utils/getWalletPriority.js'

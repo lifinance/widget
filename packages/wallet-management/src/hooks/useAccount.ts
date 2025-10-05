@@ -5,6 +5,7 @@ import {
   useMVMContext,
   useSVMContext,
   useUTXOContext,
+  type WalletConnector,
 } from '@lifi/wallet-provider'
 import { useMemo } from 'react'
 import { create } from 'zustand'
@@ -30,18 +31,9 @@ const defaultAccount: Account = {
   status: 'disconnected',
 }
 
-// export type LastConnectedAccount =
-//   | WalletAdapter
-//   | Connector
-//   | BigmiConnector
-//   | CreateConnectorFnExtended
-//   | WalletWithRequiredFeatures
-//   | null
-
-// TODO: Add types
 interface LastConnectedAccountStore {
-  lastConnectedAccount: any
-  setLastConnectedAccount: (account: any) => void
+  lastConnectedAccount: WalletConnector | null
+  setLastConnectedAccount: (account: WalletConnector | null) => void
 }
 
 export const useLastConnectedAccount = create<LastConnectedAccountStore>(
@@ -65,7 +57,9 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when wallet changes
   return useMemo(() => {
-    const accounts = [evmAccount, svmAccount, utxoAccount, suiAccount]
+    const accounts = [evmAccount, svmAccount, utxoAccount, suiAccount].filter(
+      (account) => account !== null
+    )
     const connectedAccounts = accounts.filter(
       (account) => account.isConnected && account.address
     )
@@ -99,19 +93,19 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
       accounts: connectedAccounts,
     }
   }, [
-    svmAccount.address,
-    evmAccount.connector?.uid,
-    evmAccount.connector?.id,
-    evmAccount.status,
-    evmAccount.address,
-    evmAccount.chainId,
-    utxoAccount.connector?.uid,
-    utxoAccount.connector?.id,
-    utxoAccount.status,
-    utxoAccount.address,
-    utxoAccount.chainId,
+    svmAccount?.address,
+    evmAccount?.connector?.uid,
+    evmAccount?.connector?.id,
+    evmAccount?.status,
+    evmAccount?.address,
+    evmAccount?.chainId,
+    utxoAccount?.connector?.uid,
+    utxoAccount?.connector?.id,
+    utxoAccount?.status,
+    utxoAccount?.address,
+    utxoAccount?.chainId,
     suiAccount?.address,
-    suiAccount.status,
+    suiAccount?.status,
     args?.chainType,
     lastConnectedAccount,
   ])

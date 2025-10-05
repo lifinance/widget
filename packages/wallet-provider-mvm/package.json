@@ -6,10 +6,11 @@
   "types": "./src/index.d.ts",
   "dependencies": {
     "@mysten/sui": "^1.38.0",
-    "@lifi/sdk": "^3.12.11"
+    "@lifi/sdk": "^3.12.11",
+    "@mysten/wallet-standard": "^0.17.0"
   },
   "peerDependencies": {
-    "@mysten/dapp-kit": "^0.17.4",
+    "@mysten/dapp-kit": ">=0.18.0",
     "@lifi/wallet-provider": "workspace:*"
   },
   "devDependencies": {

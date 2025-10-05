@@ -1,7 +1,11 @@
 import { createContext, useContext } from 'react'
+import type { WalletProviderContext } from '../types.js'
+import { defaultContextValue } from './defaultContextValue.js'
 
-export const UTXOContext = createContext<any>(null)
+export const UTXOContext =
+  createContext<WalletProviderContext>(defaultContextValue)
 
 export const useUTXOContext = () => {
-  return useContext(UTXOContext)
+  const context = useContext(UTXOContext)
+  return context || defaultContextValue
 }

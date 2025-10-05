@@ -1,10 +1,11 @@
+import type { WalletConnector } from '@lifi/wallet-provider'
 import type { WalletTagType } from '../types/walletTagType.js'
 
 export interface WalletListItemButtonProps {
   ecosystemSelection?: boolean
   tagType?: WalletTagType
-  connector: any // TODO: Add type
-  onNotInstalled?(connector: any): void // TODO: Add type
+  connector: WalletConnector
+  onNotInstalled?(connector: WalletConnector): void
   onConnected?(): void
   onConnecting?(): void
   onError?(error: unknown): void

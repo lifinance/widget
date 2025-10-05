@@ -35,7 +35,7 @@ export const EVMListItemButton = ({
     }
 
     try {
-      const identityCheckPassed = isWalletInstalled(connector.id)
+      const identityCheckPassed = isWalletInstalled(connector.id ?? '')
       if (!identityCheckPassed) {
         onNotInstalled?.(connector)
         return
@@ -46,14 +46,15 @@ export const EVMListItemButton = ({
       onConnecting?.()
       // Disconnect currently connected EVM wallet (if any)
       await disconnect()
-      const data = await connect(connector)
-      setLastConnectedAccount(connector)
-      emitter.emit(WalletManagementEvent.WalletConnected, {
-        address: data.accounts[0],
-        chainId: data.chainId,
-        chainType: ChainType.EVM,
-        connectorId: connector.id,
-        connectorName: connectorName,
+      await connect(connector, (address: string, chainId: number) => {
+        setLastConnectedAccount(connector)
+        emitter.emit(WalletManagementEvent.WalletConnected, {
+          address: address,
+          chainId: chainId,
+          chainType: ChainType.EVM,
+          connectorId: connector.id ?? '',
+          connectorName: connectorName,
+        })
       })
       onConnected?.()
     } catch (error) {
