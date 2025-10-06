@@ -11,17 +11,17 @@
     "node": ">=21.0.0"
   },
   "dependencies": {
-    "@lifi/sdk": "^3.12.12",
+    "@lifi/sdk": "^3.12.13",
     "@lifi/widget": "^3.32.2",
-    "@mui/material-nextjs": "^7.3.2",
+    "@mui/material-nextjs": "7.3.2",
     "next": "^15.5.4",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   },
   "devDependencies": {
-    "@types/node": "^24.6.1",
-    "@types/react": "^19.1.16",
-    "@types/react-dom": "^19.1.9",
+    "@types/node": "^24.7.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
     "typescript": "^5.9.3"
   }
 }

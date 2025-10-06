@@ -10,9 +10,6 @@ import type {} from '@mui/material/themeCssVarsAugmentation'
 import type { CSSProperties } from 'react'
 import type { NavigationProps } from '../types/widget.js'
 
-// @mui/icons-material ESM issue
-// https://github.com/mui/material-ui/issues/30671
-
 // https://mui.com/customization/palette/
 declare module '@mui/material/styles' {
   interface TypographyVariants {

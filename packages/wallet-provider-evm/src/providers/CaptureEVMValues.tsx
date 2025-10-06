@@ -176,7 +176,8 @@ export const CaptureEVMValues: FC<PropsWithChildren<CaptureEVMValuesProps>> = ({
         isEnabled: true,
         isConnected: account.isConnected,
         sdkProvider: EVM({
-          getWalletClient: () => getConnectorClient(wagmiConfig),
+          getWalletClient: () =>
+            getConnectorClient(wagmiConfig, { assertChainId: false }),
           switchChain: async (chainId: number) => {
             const chain = await switchChain(wagmiConfig, { chainId })
             return getConnectorClient(wagmiConfig, { chainId: chain.id })

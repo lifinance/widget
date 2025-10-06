@@ -5,17 +5,17 @@
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
   "dependencies": {
-    "@bigmi/client": "^0.5.4",
-    "@bigmi/core": "^0.5.4",
-    "@lifi/sdk": "^3.12.11"
+    "@bigmi/client": "^0.6.0",
+    "@bigmi/core": "^0.6.0",
+    "@lifi/sdk": "^3.12.13"
   },
   "peerDependencies": {
     "@bigmi/react": ">=0.5.0",
     "@lifi/wallet-provider": "workspace:*"
   },
   "devDependencies": {
-    "react": "^19.1.1",
-    "typescript": "^5.9.2"
+    "react": "^19.2.0",
+    "typescript": "^5.9.3"
   },
   "files": [
     "dist/**",

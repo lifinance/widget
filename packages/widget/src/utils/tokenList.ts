@@ -14,14 +14,14 @@ const sortByVolume = (a: TokenExtended, b: TokenExtended) =>
 
 export const processTokenBalances = (
   isBalanceLoading: boolean,
-  isAllNetworks: boolean,
+  noCategories: boolean,
   configTokens?: WidgetTokens,
   selectedChainId?: number,
   tokens?: TokenExtended[],
   tokensWithBalances?: TokenAmount[]
 ) => {
   if (isBalanceLoading) {
-    if (isAllNetworks) {
+    if (noCategories) {
       const sortedTokens = [...(tokens ?? [])].sort(sortByVolume)
       return {
         processedTokens: sortedTokens,
@@ -54,7 +54,7 @@ export const processTokenBalances = (
       })
       .sort(sortByVolume) ?? []
 
-  if (isAllNetworks) {
+  if (noCategories) {
     return {
       processedTokens: [...sortedTokensWithBalances, ...tokensWithoutBalances],
       withCategories: false,

@@ -8,15 +8,15 @@
     "@solana/wallet-adapter-base": "^0.9.27",
     "@solana/wallet-adapter-coinbase": "^0.1.23",
     "@solana/web3.js": "^1.98.4",
-    "@lifi/sdk": "^3.12.11"
+    "@lifi/sdk": "^3.12.13"
   },
   "peerDependencies": {
     "@solana/wallet-adapter-react": ">=0.15.35",
     "@lifi/wallet-provider": "workspace:*"
   },
   "devDependencies": {
-    "react": "^19.1.1",
-    "typescript": "^5.9.2"
+    "react": "^19.2.0",
+    "typescript": "^5.9.3"
   },
   "files": [
     "dist/**",

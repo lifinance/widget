@@ -5,11 +5,11 @@
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
   "dependencies": {
-    "@lifi/sdk": "^3.12.11"
+    "@lifi/sdk": "^3.12.13"
   },
   "devDependencies": {
-    "react": "^19.1.1",
-    "typescript": "^5.9.2"
+    "react": "^19.2.0",
+    "typescript": "^5.9.3"
   },
   "files": [
     "dist/**",
