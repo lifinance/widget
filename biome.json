@@ -32,10 +32,7 @@
         "useExhaustiveDependencies": "error",
         "useHookAtTopLevel": "error",
         "useImportExtensions": {
-          "level": "error",
-          "options": {
-            "forceJsExtensions": true
-          }
+          "level": "off"
         },
         "useUniqueElementIds": "off"
       },
