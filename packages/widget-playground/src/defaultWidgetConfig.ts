@@ -1,8 +1,4 @@
 import { ChainId } from '@lifi/sdk'
-import { EVMProvider } from '@lifi/wallet-provider-evm'
-import { MVMProvider } from '@lifi/wallet-provider-mvm'
-import { SVMProvider } from '@lifi/wallet-provider-svm'
-import { UTXOProvider } from '@lifi/wallet-provider-utxo'
 import type { WidgetConfig } from '@lifi/widget'
 
 export const widgetBaseConfig: WidgetConfig = {
@@ -58,10 +54,9 @@ export const widgetBaseConfig: WidgetConfig = {
   //   navigationHeaderTitleNoWrap: false,
   // },
   // slippage: 0.003,
-  walletConfig: {
-    // usePartialWalletManagement: true,
-    walletProviders: [EVMProvider, MVMProvider, SVMProvider, UTXOProvider],
-  },
+  // walletConfig: {
+  // usePartialWalletManagement: true,
+  // },
   sdkConfig: {
     apiUrl: 'https://li.quest/v1',
     rpcUrls: {

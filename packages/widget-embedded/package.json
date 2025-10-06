@@ -15,6 +15,10 @@
   "dependencies": {
     "@lifi/sdk": "^3.12.12",
     "@lifi/wallet-management": "workspace:*",
+    "@lifi/wallet-provider-evm": "workspace:*",
+    "@lifi/wallet-provider-mvm": "workspace:*",
+    "@lifi/wallet-provider-svm": "workspace:*",
+    "@lifi/wallet-provider-utxo": "workspace:*",
     "@lifi/widget": "workspace:*",
     "@mui/icons-material": "^7.3.2",
     "@mui/material": "^7.3.2",

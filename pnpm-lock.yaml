@@ -1287,6 +1287,18 @@ importers:
       '@lifi/wallet-management':
         specifier: workspace:*
         version: link:../wallet-management
+      '@lifi/wallet-provider-evm':
+        specifier: workspace:*
+        version: link:../wallet-provider-evm
+      '@lifi/wallet-provider-mvm':
+        specifier: workspace:*
+        version: link:../wallet-provider-mvm
+      '@lifi/wallet-provider-svm':
+        specifier: workspace:*
+        version: link:../wallet-provider-svm
+      '@lifi/wallet-provider-utxo':
+        specifier: workspace:*
+        version: link:../wallet-provider-utxo
       '@lifi/widget':
         specifier: workspace:*
         version: link:../widget

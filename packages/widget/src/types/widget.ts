@@ -152,7 +152,6 @@ interface EVMWalletConfig {
 }
 
 export interface WidgetWalletConfig extends EVMWalletConfig {
-  walletProviders?: FC<PropsWithChildren<WalletProviderProps>>[]
   walletEcosystemsOrder?: Record<string, ChainType[]>
   onConnect?(args?: WalletMenuOpenArgs): void
   /**
@@ -396,6 +395,10 @@ export interface FormRefProps {
   formRef?: FormRef
 }
 
+export interface WidgetWalletProvidersProps {
+  walletProviders: FC<PropsWithChildren<WalletProviderProps>>[]
+}
+
 export interface WidgetConfigProps extends FormRefProps {
   config: WidgetConfig
 }
@@ -407,7 +410,8 @@ export interface WidgetConfigPartialProps {
 export type WidgetProps = WidgetDrawerProps &
   WidgetConfig &
   WidgetConfigPartialProps &
-  FormRefProps
+  FormRefProps &
+  WidgetWalletProvidersProps
 
 export interface WidgetDrawerProps extends WidgetConfigPartialProps {
   elementRef?: RefObject<HTMLDivElement>

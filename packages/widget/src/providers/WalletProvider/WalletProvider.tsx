@@ -3,11 +3,15 @@ import { WalletManagementProvider } from '@lifi/wallet-management'
 import { type FC, type PropsWithChildren, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
+import type { WidgetWalletProvidersProps } from '../../types/widget.js'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 import { SDKProviders } from './SDKProviders.js'
 import { useExternalWalletProvider } from './useExternalWalletProvider.js'
 
-export const WalletProvider = ({ children }: PropsWithChildren) => {
+export const WalletProvider = ({
+  children,
+  walletProviders,
+}: PropsWithChildren<WidgetWalletProvidersProps>) => {
   const { walletConfig } = useWidgetConfig()
   const { chains } = useAvailableChains()
 
@@ -18,7 +22,7 @@ export const WalletProvider = ({ children }: PropsWithChildren) => {
     </>
   )
 
-  for (const ProviderComponent of walletConfig?.walletProviders || []) {
+  for (const ProviderComponent of walletProviders) {
     WidgetWithWalletProviders = (
       <ProviderComponent walletConfig={walletConfig} chains={chains ?? []}>
         {WidgetWithWalletProviders}
