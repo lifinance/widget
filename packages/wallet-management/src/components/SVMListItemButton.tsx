@@ -20,7 +20,6 @@ export const SVMListItemButton = ({
   const { connect, disconnect, isConnected } = useSVMContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()
 
-  const connectorName = connector.name
   const connectorDisplayName: string = ecosystemSelection
     ? 'Solana'
     : connector.name
@@ -36,14 +35,14 @@ export const SVMListItemButton = ({
       if (isConnected) {
         await disconnect()
       }
-      await connect(connector, (address: string) => {
+      await connect(connector.id ?? connector.name, (address: string) => {
         setLastConnectedAccount(connector)
         emitter.emit(WalletManagementEvent.WalletConnected, {
           address: address,
           chainId: ChainId.SOL,
           chainType: ChainType.SVM,
-          connectorId: connectorName,
-          connectorName: connectorName,
+          connectorId: connector.id ?? connector.name,
+          connectorName: connector.name,
         })
       })
       onConnected?.()

@@ -7,7 +7,6 @@ export const defaultContextValue: WalletProviderContext = {
   account: null,
   sdkProvider: null,
   installedWallets: [],
-  nonDetectedWallets: [],
   isValidAddress: () => false,
   connect: async () => {},
   disconnect: async () => {},

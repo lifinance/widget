@@ -71,7 +71,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
   walletChainArgs,
 }) => {
   const { t } = useTranslation()
-  const { installedWallets } = useCombinedWallets()
+  const installedWallets = useCombinedWallets()
   const selectedWalletRef = useRef<CombinedWallet>(null)
 
   const { accounts } = useAccount()

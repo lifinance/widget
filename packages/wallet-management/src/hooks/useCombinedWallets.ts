@@ -6,8 +6,6 @@ import {
   useUTXOContext,
   type WalletConnector,
 } from '@lifi/wallet-provider'
-import type { Theme } from '@mui/material'
-import { useMediaQuery } from '@mui/material'
 import { useMemo } from 'react'
 import { useWalletManagementConfig } from '../providers/WalletManagementProvider/WalletManagementContext.js'
 import { getConnectorIcon } from '../utils/getConnectorIcon.js'
@@ -111,26 +109,10 @@ const combineWalletLists = (
 
 export const useCombinedWallets = () => {
   const walletConfig = useWalletManagementConfig()
-  const {
-    installedWallets: installedEVMWallets,
-    nonDetectedWallets: nonDetectedEVMWallets,
-  } = useEVMContext()
-  const {
-    installedWallets: installedUTXOWallets,
-    nonDetectedWallets: nonDetectedUTXOWallets,
-  } = useUTXOContext()
-  const {
-    installedWallets: installedSVMWallets,
-    nonDetectedWallets: nonDetectedSVMWallets,
-  } = useSVMContext()
-  const {
-    installedWallets: installedMVMWallets,
-    nonDetectedWallets: nonDetectedMVMWallets,
-  } = useMVMContext()
-
-  const isDesktopView = useMediaQuery((theme: Theme) =>
-    theme.breakpoints.up('sm')
-  )
+  const { installedWallets: installedEVMWallets } = useEVMContext()
+  const { installedWallets: installedUTXOWallets } = useUTXOContext()
+  const { installedWallets: installedSVMWallets } = useSVMContext()
+  const { installedWallets: installedMVMWallets } = useMVMContext()
 
   const combinedWallets = useMemo(() => {
     const includeEcosystem = (chainType: ChainType) =>
@@ -145,32 +127,14 @@ export const useCombinedWallets = () => {
       walletConfig.walletEcosystemsOrder
     )
 
-    const notDetectedCombinedWallets = isDesktopView
-      ? combineWalletLists(
-          nonDetectedEVMWallets,
-          nonDetectedUTXOWallets,
-          nonDetectedSVMWallets,
-          nonDetectedMVMWallets
-        )
-      : []
-
     installedCombinedWallets.sort(walletComparator)
-    notDetectedCombinedWallets.sort(walletComparator)
 
-    return {
-      installedWallets: installedCombinedWallets,
-      notDetectedWallets: notDetectedCombinedWallets,
-    }
+    return installedCombinedWallets
   }, [
     installedEVMWallets,
     installedUTXOWallets,
     installedSVMWallets,
     installedMVMWallets,
-    nonDetectedUTXOWallets,
-    nonDetectedEVMWallets,
-    nonDetectedSVMWallets,
-    nonDetectedMVMWallets,
-    isDesktopView,
     walletConfig,
   ])
 

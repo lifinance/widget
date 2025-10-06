@@ -24,7 +24,12 @@ export const WalletProvider = ({
 
   for (const ProviderComponent of walletProviders) {
     WidgetWithWalletProviders = (
-      <ProviderComponent walletConfig={walletConfig} chains={chains ?? []}>
+      <ProviderComponent
+        forceInternalWalletManagement={
+          walletConfig?.forceInternalWalletManagement
+        }
+        chains={chains ?? []}
+      >
         {WidgetWithWalletProviders}
       </ProviderComponent>
     )

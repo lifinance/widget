@@ -6,30 +6,31 @@ import { defaultCoinbaseConfig } from '../config/coinbase.js'
 import { defaultMetaMaskConfig } from '../config/metaMask.js'
 import { defaultWalletConnectConfig } from '../config/walletConnect.js'
 import { useSyncWagmiConfig } from '../hooks/useSyncWagmiConfig.js'
+import type { EVMWalletConfig } from '../types.js'
 import {
   createDefaultWagmiConfig,
   type DefaultWagmiConfigResult,
 } from '../utils/createDefaultWagmiConfig.js'
 
 interface EVMBaseProviderProps {
-  walletConfig?: any // TODO: WidgetWalletConfig type
+  config?: EVMWalletConfig
   chains?: ExtendedChain[]
 }
 
 export const EVMBaseProvider: FC<PropsWithChildren<EVMBaseProviderProps>> = ({
   chains,
-  walletConfig,
+  config,
   children,
 }) => {
   const wagmi = useRef<DefaultWagmiConfigResult>(null)
 
   if (!wagmi.current) {
     wagmi.current = createDefaultWagmiConfig({
-      coinbase: walletConfig?.coinbase ?? defaultCoinbaseConfig,
-      metaMask: walletConfig?.metaMask ?? defaultMetaMaskConfig,
-      walletConnect: walletConfig?.walletConnect ?? defaultWalletConnectConfig,
-      baseAccount: walletConfig?.baseAccount ?? defaultBaseAccountConfig,
-      porto: walletConfig?.porto,
+      coinbase: config?.coinbase ?? defaultCoinbaseConfig,
+      metaMask: config?.metaMask ?? defaultMetaMaskConfig,
+      walletConnect: config?.walletConnect ?? defaultWalletConnectConfig,
+      baseAccount: config?.baseAccount ?? defaultBaseAccountConfig,
+      porto: config?.porto,
       wagmiConfig: {
         ssr: true,
       },

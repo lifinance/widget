@@ -1,58 +1,25 @@
-import { ChainType, EVM } from '@lifi/sdk'
-import {
-  EVMContext,
-  isWalletInstalled,
-  type WalletConnector,
-  type WalletProviderProps,
-} from '@lifi/wallet-provider'
-import {
-  type FC,
-  type PropsWithChildren,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
-import { isAddress as isEVMAddress } from 'viem'
-import {
-  type Connector,
-  useAccount,
-  useConfig,
-  useConnect,
-  WagmiContext,
-} from 'wagmi'
-import {
-  connect,
-  disconnect,
-  getAccount,
-  getConnectorClient,
-  switchChain,
-} from 'wagmi/actions'
-import { defaultBaseAccountConfig } from '../config/baseAccount.js'
-import { defaultCoinbaseConfig } from '../config/coinbase.js'
-import { defaultMetaMaskConfig } from '../config/metaMask.js'
-import { defaultWalletConnectConfig } from '../config/walletConnect.js'
-import { createBaseAccountConnector } from '../connectors/baseAccount.js'
-import { createCoinbaseConnector } from '../connectors/coinbase.js'
-import { createMetaMaskConnector } from '../connectors/metaMask.js'
-import { createPortoConnector } from '../connectors/porto.js'
-import { createWalletConnectConnector } from '../connectors/walletConnect.js'
+import type { WalletProviderProps } from '@lifi/wallet-provider'
+import { type FC, type PropsWithChildren, useContext } from 'react'
+import { WagmiContext } from 'wagmi'
+import type { EVMWalletConfig } from '../types.js'
+import { CaptureEVMValues } from './CaptureEVMValues.js'
 import { EVMBaseProvider } from './EVMBaseProvider.js'
+
+interface EVMProviderProps extends WalletProviderProps {
+  config?: EVMWalletConfig
+}
 
 export function useInEVMContext(): boolean {
   const context = useContext(WagmiContext)
   return Boolean(context)
 }
 
-export const EVMProvider: FC<PropsWithChildren<WalletProviderProps>> = ({
-  walletConfig,
+export const EVMProvider: FC<PropsWithChildren<EVMProviderProps>> = ({
+  forceInternalWalletManagement,
   chains,
+  config,
   children,
 }) => {
-  const forceInternalWalletManagement =
-    walletConfig?.forceInternalWalletManagement
-
   const inEVMContext = useInEVMContext()
 
   if (inEVMContext && !forceInternalWalletManagement) {
@@ -64,173 +31,10 @@ export const EVMProvider: FC<PropsWithChildren<WalletProviderProps>> = ({
   }
 
   return (
-    <EVMBaseProvider walletConfig={walletConfig} chains={chains}>
-      <CaptureEVMValues
-        isExternalContext={inEVMContext}
-        walletConfig={walletConfig}
-      >
+    <EVMBaseProvider config={config} chains={chains}>
+      <CaptureEVMValues isExternalContext={inEVMContext} config={config}>
         {children}
       </CaptureEVMValues>
     </EVMBaseProvider>
-  )
-}
-
-const CaptureEVMValues: FC<
-  PropsWithChildren<{ isExternalContext: boolean; walletConfig?: any }>
-> = ({ children, isExternalContext, walletConfig }) => {
-  const config = useConfig()
-  const currentWallet = useAccount()
-  const { connectors: wagmiConnectors } = useConnect()
-  const [connectors, setConnectors] = useState<Connector[]>([])
-
-  useEffect(() => {
-    ;(async () => {
-      let evmConnectors: any[] = Array.from(
-        wagmiConnectors
-        // Remove duplicate connectors
-      ).filter(
-        (connector: any, index: number, self: any) =>
-          index === self.findIndex((c: any) => c.id === connector.id)
-      )
-
-      // Check if Safe connector exists and can get a provider
-      const safeConnector = evmConnectors.find(
-        (connector) => connector.id === 'safe'
-      ) as Connector | undefined
-      let shouldFilterOutSafeConnector = false
-
-      if (safeConnector) {
-        try {
-          const provider = await safeConnector.getProvider()
-          // If no provider is available, we should filter out the Safe connector
-          if (!provider) {
-            shouldFilterOutSafeConnector = true
-          }
-        } catch {
-          // If getting provider fails, filter out the Safe connector
-          shouldFilterOutSafeConnector = true
-        }
-      }
-
-      if (shouldFilterOutSafeConnector) {
-        evmConnectors = evmConnectors.filter(
-          (connector) => connector.id !== 'safe'
-        )
-      }
-
-      // Ensure standard connectors are included
-      if (
-        !evmConnectors.some((connector) =>
-          connector.id.toLowerCase().includes('walletconnect')
-        )
-      ) {
-        evmConnectors.unshift(
-          createWalletConnectConnector(
-            walletConfig?.walletConnect ?? defaultWalletConnectConfig
-          )
-        )
-      }
-      if (
-        !evmConnectors.some((connector) =>
-          connector.id.toLowerCase().includes('coinbase')
-        )
-      ) {
-        evmConnectors.unshift(
-          createCoinbaseConnector(
-            walletConfig?.coinbase ?? defaultCoinbaseConfig
-          )
-        )
-      }
-      if (
-        !evmConnectors.some((connector) =>
-          connector.id.toLowerCase().includes('metamask')
-        )
-      ) {
-        evmConnectors.unshift(
-          createMetaMaskConnector(
-            walletConfig?.metaMask ?? defaultMetaMaskConfig
-          )
-        )
-      }
-      if (
-        !evmConnectors.some((connector) =>
-          connector.id.toLowerCase().includes('baseaccount')
-        )
-      ) {
-        evmConnectors.unshift(
-          createBaseAccountConnector(
-            walletConfig?.baseAccount ?? defaultBaseAccountConfig
-          )
-        )
-      }
-      if (
-        !evmConnectors.some((connector) =>
-          connector.id.toLowerCase().includes('porto')
-        )
-      ) {
-        evmConnectors.unshift(createPortoConnector(walletConfig?.porto))
-      }
-
-      setConnectors(evmConnectors)
-    })()
-  }, [wagmiConnectors, walletConfig])
-
-  const handleConnect = useCallback(
-    async (
-      connector: WalletConnector,
-      onSuccess?: (address: string, chainId: number) => void
-    ) => {
-      const data = await connect(config, { connector: connector as Connector })
-      onSuccess?.(data.accounts[0], data.chainId)
-    },
-    [config]
-  )
-
-  const handleDisconnect = useCallback(async () => {
-    const connectedAccount = getAccount(config)
-    if (connectedAccount.connector) {
-      await disconnect(config, {
-        connector: connectedAccount.connector,
-      })
-    }
-  }, [config])
-
-  const account = { ...currentWallet, chainType: ChainType.EVM }
-
-  const installedWallets = useMemo(
-    () =>
-      connectors.filter((connector: any) => isWalletInstalled(connector.id)),
-    [connectors]
-  )
-
-  const nonDetectedWallets = useMemo(
-    () =>
-      connectors.filter((connector: any) => !isWalletInstalled(connector.id)),
-    [connectors]
-  )
-
-  return (
-    <EVMContext.Provider
-      value={{
-        isEnabled: true,
-        isConnected: account.isConnected,
-        sdkProvider: EVM({
-          getWalletClient: () => getConnectorClient(config),
-          switchChain: async (chainId: number) => {
-            const chain = await switchChain(config, { chainId })
-            return getConnectorClient(config, { chainId: chain.id })
-          },
-        }),
-        account,
-        installedWallets,
-        nonDetectedWallets,
-        connect: handleConnect,
-        disconnect: handleDisconnect,
-        isValidAddress: isEVMAddress,
-        isExternalContext,
-      }}
-    >
-      {children}
-    </EVMContext.Provider>
   )
 }

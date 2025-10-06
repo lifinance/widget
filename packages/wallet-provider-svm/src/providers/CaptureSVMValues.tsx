@@ -1,0 +1,99 @@
+import { ChainId, ChainType, isSVMAddress, Solana } from '@lifi/sdk'
+import { type Account, SVMContext } from '@lifi/wallet-provider'
+import {
+  type SignerWalletAdapter,
+  WalletReadyState,
+} from '@solana/wallet-adapter-base'
+import { useWallet, type Wallet } from '@solana/wallet-adapter-react'
+import type { PublicKey } from '@solana/web3.js'
+import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
+
+interface CaptureSVMValuesProps {
+  isExternalContext: boolean
+}
+
+export const CaptureSVMValues: FC<PropsWithChildren<CaptureSVMValuesProps>> = ({
+  children,
+  isExternalContext,
+}) => {
+  const {
+    wallets,
+    wallet: currentWallet,
+    select: connect, // We use autoConnect on wallet selection
+    disconnect,
+    connected,
+  } = useWallet()
+
+  const account = currentWallet?.adapter.publicKey
+    ? {
+        address: currentWallet?.adapter.publicKey.toString(),
+        chainId: ChainId.SOL,
+        chainType: ChainType.SVM,
+        connector: currentWallet?.adapter,
+        isConnected: Boolean(currentWallet?.adapter.publicKey) && connected,
+        isConnecting: false,
+        isReconnecting: false,
+        isDisconnected: !currentWallet,
+        status: 'connected',
+      }
+    : {
+        chainType: ChainType.SVM,
+        isConnected: false,
+        isConnecting: false,
+        isReconnecting: false,
+        isDisconnected: true,
+        status: 'disconnected',
+      }
+
+  const installedWallets = useMemo(
+    () =>
+      wallets
+        .filter(
+          (wallet: Wallet) =>
+            wallet.adapter.readyState === WalletReadyState.Installed ||
+            wallet.adapter.readyState === WalletReadyState.Loadable
+        )
+        .map((wallet: Wallet) => wallet.adapter),
+    [wallets]
+  )
+
+  const handleConnect = useCallback(
+    async (
+      connectorIdOrName: string,
+      onSuccess?: (address: string, chainId: number) => void
+    ) => {
+      const adapter = wallets.find(
+        (wallet) => wallet.adapter.name === connectorIdOrName
+      )?.adapter
+      if (adapter) {
+        connect(adapter.name)
+        adapter.once('connect', (publicKey: PublicKey) => {
+          onSuccess?.(publicKey?.toString(), ChainId.SOL)
+        })
+      }
+    },
+    [connect, wallets]
+  )
+
+  return (
+    <SVMContext.Provider
+      value={{
+        isEnabled: true,
+        account: account as Account,
+        sdkProvider: Solana({
+          async getWalletAdapter() {
+            return currentWallet?.adapter as SignerWalletAdapter
+          },
+        }),
+        installedWallets,
+        isConnected: account.isConnected,
+        connect: handleConnect,
+        disconnect,
+        isValidAddress: isSVMAddress,
+        isExternalContext,
+      }}
+    >
+      {children}
+    </SVMContext.Provider>
+  )
+}

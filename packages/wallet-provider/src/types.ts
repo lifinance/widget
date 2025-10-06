@@ -1,9 +1,9 @@
 import type { ChainType, ExtendedChain, SDKProvider } from '@lifi/sdk'
 
 export type WalletConnector = {
+  name: string
   id?: string
   uid?: string
-  name: string
   displayName?: string
   icon?: string
 }
@@ -30,20 +30,14 @@ export type WalletProviderContext = {
   account: Account | null
   sdkProvider: SDKProvider | null
   installedWallets: WalletConnector[]
-  nonDetectedWallets: WalletConnector[]
   isValidAddress: (address: string) => boolean
   connect: (
-    connector: WalletConnector,
+    connectorIdOrName: string,
     onSuccess?: (address: string, chainId: number) => void
   ) => Promise<void>
   disconnect: () => Promise<void>
 }
-
-interface WidgetWalletConfig {
-  forceInternalWalletManagement?: boolean
-}
-
 export interface WalletProviderProps {
-  walletConfig?: WidgetWalletConfig
+  forceInternalWalletManagement?: boolean
   chains: ExtendedChain[]
 }
