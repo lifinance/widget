@@ -38,7 +38,8 @@ export const SDKProviders = () => {
     if (!hasConfiguredEVMProvider) {
       providers.push(
         EVM({
-          getWalletClient: () => getWagmiConnectorClient(wagmiConfig),
+          getWalletClient: () =>
+            getWagmiConnectorClient(wagmiConfig, { assertChainId: false }),
           switchChain: async (chainId: number) => {
             const chain = await switchChain(wagmiConfig, { chainId })
             return getWagmiConnectorClient(wagmiConfig, { chainId: chain.id })
