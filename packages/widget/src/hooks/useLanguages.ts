@@ -43,7 +43,10 @@ export const useLanguages = () => {
       // Cache the language resource to prevent blinking
       // after switching languages and reloading the page.
       let newLanguageCache: LanguageResource | undefined
-      if (!i18n.hasResourceBundle(languageKey, 'translation')) {
+      if (
+        !i18n.hasResourceBundle(languageKey, 'translation') &&
+        languageKey !== 'en'
+      ) {
         await loadLocale(
           languageKey as LanguageKey,
           languageResources?.[languageKey as LanguageKey]

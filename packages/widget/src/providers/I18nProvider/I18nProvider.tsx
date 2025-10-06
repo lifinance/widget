@@ -21,7 +21,7 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
   const i18nInstance = useMemo(() => {
     if (i18nInstanceRef.current) {
       // Update i18n instance with language and language cache updates
-      if (language && languageCache) {
+      if (language && languageCache && language !== 'en') {
         i18nInstanceRef.current.addResourceBundle(
           language,
           'translation',
@@ -41,22 +41,20 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
         )
       : []
     const initialLanguage = language || languages?.default
-    const shouldUseStaticEnResource = initialLanguage !== 'en'
     const i18n = createInstance({
       lng: initialLanguage,
       fallbackLng: 'en',
       lowerCaseLng: true,
       interpolation: { escapeValue: false },
       resources: {
-        ...(shouldUseStaticEnResource && {
-          en: {
-            translation: mergeWithLanguageResources(
-              enResource,
-              languageResources?.en
-            ),
-          },
-        }),
+        en: {
+          translation: mergeWithLanguageResources(
+            enResource,
+            languageResources?.en
+          ),
+        },
         ...(initialLanguage &&
+          initialLanguage !== 'en' &&
           languageCache && {
             [initialLanguage]: {
               translation: languageCache,

@@ -193,6 +193,7 @@ export const createSettingsStore = (config: WidgetConfig) =>
             if (
               initialLanguage &&
               // Custom language resources and English are added statically.
+              initialLanguage !== 'en' &&
               !customLanguages.includes(initialLanguage)
             ) {
               await loadLocale(
