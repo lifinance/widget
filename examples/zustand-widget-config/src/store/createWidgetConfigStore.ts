@@ -1,6 +1,6 @@
 import type { WidgetConfig } from '@lifi/widget'
+import { create } from 'zustand'
 import { useShallow } from 'zustand/shallow'
-import { createWithEqualityFn } from 'zustand/traditional'
 import type { WidgetConfigState } from './types'
 
 const initialWidgetConfig = {
@@ -14,41 +14,38 @@ const initialWidgetConfig = {
   },
 }
 
-const widgetConfigStore = createWithEqualityFn<WidgetConfigState>(
-  (set, get) => ({
-    config: initialWidgetConfig,
-    setConfig: (config) => {
-      set({
-        config,
-      })
-    },
-    setFormValues: (formValues) => {
-      const config = get().config ?? {}
+const widgetConfigStore = create<WidgetConfigState>((set, get) => ({
+  config: initialWidgetConfig,
+  setConfig: (config) => {
+    set({
+      config,
+    })
+  },
+  setFormValues: (formValues) => {
+    const config = get().config ?? {}
 
-      // we remove the updatable form values as we only want pass properties with
-      // updated values. Only updated values should be specified in the config (even if that a value of undefined)
-      // formUpdateKey here is passed in from the FormControl component to ensure updates
-      ;[
-        'fromAmount',
-        'fromChain',
-        'fromToken',
-        'toAddress',
-        'toChain',
-        'toToken',
-      ].forEach((key) => {
-        delete config[key as keyof WidgetConfig]
-      })
+    // we remove the updatable form values as we only want pass properties with
+    // updated values. Only updated values should be specified in the config (even if that a value of undefined)
+    // formUpdateKey here is passed in from the FormControl component to ensure updates
+    ;[
+      'fromAmount',
+      'fromChain',
+      'fromToken',
+      'toAddress',
+      'toChain',
+      'toToken',
+    ].forEach((key) => {
+      delete config[key as keyof WidgetConfig]
+    })
 
-      set({
-        config: {
-          ...get().config,
-          ...(formValues as Partial<WidgetConfig>),
-        },
-      })
-    },
-  }),
-  Object.is
-)
+    set({
+      config: {
+        ...get().config,
+        ...(formValues as Partial<WidgetConfig>),
+      },
+    })
+  },
+}))
 
 export const useWidgetConfigStore = <T>(
   selector: (state: WidgetConfigState) => T

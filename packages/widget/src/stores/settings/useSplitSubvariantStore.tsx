@@ -1,6 +1,6 @@
 import { createContext, useContext, useRef } from 'react'
+import { create } from 'zustand'
 import { useShallow } from 'zustand/shallow'
-import { createWithEqualityFn } from 'zustand/traditional'
 import type {
   SplitSubvariantProps,
   SplitSubvariantProviderProps,
@@ -53,14 +53,11 @@ export function useSplitSubvariantStore<T>(
 }
 
 const createSplitSubvariantStore = ({ state }: SplitSubvariantProps) =>
-  createWithEqualityFn<SplitSubvariantState>(
-    (set) => ({
-      state,
-      setState(state) {
-        set(() => ({
-          state,
-        }))
-      },
-    }),
-    Object.is
-  )
+  create<SplitSubvariantState>((set) => ({
+    state,
+    setState(state) {
+      set(() => ({
+        state,
+      }))
+    },
+  }))
