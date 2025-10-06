@@ -41,20 +41,22 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
         )
       : []
     const initialLanguage = language || languages?.default
+    const shouldUseStaticEnResource = initialLanguage !== 'en'
     const i18n = createInstance({
       lng: initialLanguage,
       fallbackLng: 'en',
       lowerCaseLng: true,
       interpolation: { escapeValue: false },
       resources: {
-        en: {
-          translation: mergeWithLanguageResources(
-            enResource,
-            languageResources?.en
-          ),
-        },
+        ...(shouldUseStaticEnResource && {
+          en: {
+            translation: mergeWithLanguageResources(
+              enResource,
+              languageResources?.en
+            ),
+          },
+        }),
         ...(initialLanguage &&
-          initialLanguage !== 'en' &&
           languageCache && {
             [initialLanguage]: {
               translation: languageCache,
