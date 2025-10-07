@@ -16,19 +16,20 @@ import {
 } from './providers/WidgetProvider/WidgetProvider.js'
 import { URLSearchParamsBuilder } from './stores/form/URLSearchParamsBuilder.js'
 import { StoreProvider } from './stores/StoreProvider.js'
-import type { WidgetConfigProps } from './types/widget.js'
+import type {
+  WidgetConfigProps,
+  WidgetWalletProvidersProps,
+} from './types/widget.js'
 
-export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
-  children,
-  config,
-  formRef,
-}) => {
+export const AppProvider: React.FC<
+  PropsWithChildren<WidgetConfigProps & WidgetWalletProvidersProps>
+> = ({ children, config, formRef, walletProviders }) => {
   return (
     <QueryClientProvider>
       <WidgetProvider config={config}>
         <I18nProvider>
           <ThemeProvider>
-            <WalletProvider>
+            <WalletProvider walletProviders={walletProviders}>
               <StoreProvider config={config} formRef={formRef}>
                 <AppRouter>{children}</AppRouter>
               </StoreProvider>

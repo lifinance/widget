@@ -1,5 +1,6 @@
 'use client'
 
+import { EVMProvider } from '@lifi/wallet-provider-evm'
 import type { WidgetConfig } from '@lifi/widget'
 import { LiFiWidget, WidgetSkeleton } from '@lifi/widget'
 import { ClientOnly } from './ClientOnly'
@@ -17,7 +18,11 @@ export function Widget() {
 
   return (
     <ClientOnly fallback={<WidgetSkeleton config={config} />}>
-      <LiFiWidget config={config} integrator="nextjs-example" />
+      <LiFiWidget
+        config={config}
+        integrator="nextjs-example"
+        walletProviders={[EVMProvider]}
+      />
     </ClientOnly>
   )
 }

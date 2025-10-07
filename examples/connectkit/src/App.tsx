@@ -1,3 +1,4 @@
+import { EVMProvider } from '@lifi/wallet-provider-evm'
 import { LiFiWidget } from '@lifi/widget'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { WalletHeader } from './components/WalletHeader'
@@ -20,6 +21,7 @@ function App() {
                 },
               },
             }}
+            walletProviders={[EVMProvider]}
           />
         </WalletProvider>
       </QueryClientProvider>

@@ -1,4 +1,4 @@
-import { useSyncWagmiConfig } from '@lifi/wallet-management'
+import { useSyncWagmiConfig } from '@lifi/wallet-provider-evm'
 import { useAvailableChains } from '@lifi/widget'
 import { injected, walletConnect } from '@wagmi/connectors'
 import { type FC, type PropsWithChildren, useRef } from 'react'
@@ -13,7 +13,7 @@ const connectors = [injected(), walletConnect({ projectId })]
 
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   const { chains } = useAvailableChains()
-  const wagmi = useRef<Config>()
+  const wagmi = useRef<Config>(null)
 
   if (!wagmi.current) {
     wagmi.current = createConfig({

@@ -4,6 +4,7 @@
 
 <script lang="ts">
 // This is a React component
+import { EVMProvider } from '@lifi/wallet-provider-evm'
 import { LiFiWidget } from '@lifi/widget'
 import { applyPureReactInVue } from 'veaury'
 
@@ -23,6 +24,7 @@ export default {
           },
         },
         integrator: 'vue-example',
+        walletProviders: [EVMProvider],
       },
     }
   },

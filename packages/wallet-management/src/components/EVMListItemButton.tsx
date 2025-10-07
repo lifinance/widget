@@ -1,8 +1,5 @@
 import { ChainType } from '@lifi/sdk'
-import type { Connector } from 'wagmi'
-import { useConfig } from 'wagmi'
-import { connect, disconnect, getAccount } from 'wagmi/actions'
-import type { CreateConnectorFnExtended } from '../connectors/types.js'
+import { isWalletInstalled, useEVMContext } from '@lifi/wallet-provider'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { getChainTypeIcon } from '../icons.js'
@@ -10,13 +7,8 @@ import { WalletManagementEvent } from '../types/events.js'
 import { WalletTagType } from '../types/walletTagType.js'
 import { createWalletConnectElement } from '../utils/elements.js'
 import { getConnectorIcon } from '../utils/getConnectorIcon.js'
-import { isWalletInstalled } from '../utils/isWalletInstalled.js'
 import { CardListItemButton } from './CardListItemButton.js'
 import type { WalletListItemButtonProps } from './types.js'
-
-interface EVMListItemButtonProps extends WalletListItemButtonProps {
-  connector: CreateConnectorFnExtended | Connector
-}
 
 export const EVMListItemButton = ({
   ecosystemSelection,
@@ -26,13 +18,12 @@ export const EVMListItemButton = ({
   onConnected,
   onConnecting,
   onError,
-}: EVMListItemButtonProps) => {
+}: WalletListItemButtonProps) => {
   const emitter = useWalletManagementEvents()
-  const config = useConfig()
+  const { connect, disconnect } = useEVMContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()
 
-  const connectorName =
-    (connector as CreateConnectorFnExtended).displayName || connector.name
+  const connectorName = connector.displayName || connector.name
   const connectorDisplayName: string = ecosystemSelection
     ? 'Ethereum'
     : connectorName
@@ -44,28 +35,32 @@ export const EVMListItemButton = ({
     }
 
     try {
-      const identityCheckPassed = isWalletInstalled((connector as Connector).id)
+      const identityCheckPassed = isWalletInstalled(
+        connector.id ?? connector.name
+      )
       if (!identityCheckPassed) {
-        onNotInstalled?.(connector as Connector)
+        onNotInstalled?.(connector)
         return
       }
       if (connector.id === 'walletConnect') {
         createWalletConnectElement()
       }
-      const connectedAccount = getAccount(config)
       onConnecting?.()
-      const data = await connect(config, { connector })
-      if (connectedAccount.connector) {
-        await disconnect(config, { connector: connectedAccount.connector })
-      }
-      setLastConnectedAccount(connector)
-      emitter.emit(WalletManagementEvent.WalletConnected, {
-        address: data.accounts[0],
-        chainId: data.chainId,
-        chainType: ChainType.EVM,
-        connectorId: connector.id,
-        connectorName: connectorName,
-      })
+      // Disconnect currently connected EVM wallet (if any)
+      await disconnect()
+      await connect(
+        connector.id ?? connector.name,
+        (address: string, chainId: number) => {
+          setLastConnectedAccount(connector)
+          emitter.emit(WalletManagementEvent.WalletConnected, {
+            address: address,
+            chainId: chainId,
+            chainType: ChainType.EVM,
+            connectorId: connector.id ?? connectorName,
+            connectorName: connectorName,
+          })
+        }
+      )
       onConnected?.()
     } catch (error) {
       onError?.(error)
@@ -78,7 +73,7 @@ export const EVMListItemButton = ({
       icon={
         ecosystemSelection
           ? getChainTypeIcon(ChainType.EVM)
-          : (getConnectorIcon(connector as Connector) ?? '')
+          : (getConnectorIcon(connector) ?? '')
       }
       onClick={handleEVMConnect}
       title={connectorDisplayName}

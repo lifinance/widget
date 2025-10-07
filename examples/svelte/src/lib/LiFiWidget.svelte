@@ -1,4 +1,5 @@
 <script>
+import { EVMProvider } from '@lifi/wallet-provider-evm'
 import { LiFiWidget } from '@lifi/widget'
 import ReactAdapter from './ReactAdapter.svelte'
 </script>
@@ -14,6 +15,7 @@ import ReactAdapter from './ReactAdapter.svelte'
     },
   }}
   integrator="svelte-example"
+  walletProviders={[EVMProvider]}
 />
 
 <style>

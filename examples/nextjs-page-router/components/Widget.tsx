@@ -1,5 +1,6 @@
 'use client'
 
+import { EVMProvider } from '@lifi/wallet-provider-evm'
 import type { WidgetConfig } from '@lifi/widget'
 import { LiFiWidget } from '@lifi/widget'
 import type { ReactNode } from 'react'
@@ -13,7 +14,11 @@ interface WidgetProps {
 export function Widget({ config, fallback }: WidgetProps) {
   return (
     <ClientOnly fallback={fallback}>
-      <LiFiWidget config={config} integrator="nextjs-example" />
+      <LiFiWidget
+        config={config}
+        integrator="nextjs-example"
+        walletProviders={[EVMProvider]}
+      />
     </ClientOnly>
   )
 }

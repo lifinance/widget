@@ -1,7 +1,5 @@
 import { ChainId, ChainType } from '@lifi/sdk'
-import type { WalletAdapter } from '@solana/wallet-adapter-base'
-import { useWallet } from '@solana/wallet-adapter-react'
-import type { PublicKey } from '@solana/web3.js'
+import { useSVMContext } from '@lifi/wallet-provider'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { getChainTypeIcon } from '../icons.js'
@@ -10,26 +8,21 @@ import { WalletTagType } from '../types/walletTagType.js'
 import { CardListItemButton } from './CardListItemButton.js'
 import type { WalletListItemButtonProps } from './types.js'
 
-interface SVMListItemButtonProps extends WalletListItemButtonProps {
-  walletAdapter: WalletAdapter
-}
-
 export const SVMListItemButton = ({
   ecosystemSelection,
-  walletAdapter,
+  connector,
   tagType,
   onConnected,
   onConnecting,
   onError,
-}: SVMListItemButtonProps) => {
+}: WalletListItemButtonProps) => {
   const emitter = useWalletManagementEvents()
-  const { select, disconnect, connected } = useWallet()
+  const { connect, disconnect, isConnected } = useSVMContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()
 
-  const connectorName = walletAdapter.name
   const connectorDisplayName: string = ecosystemSelection
     ? 'Solana'
-    : walletAdapter.name
+    : connector.name
 
   const connectWallet = async () => {
     if (tagType === WalletTagType.Connected) {
@@ -39,20 +32,17 @@ export const SVMListItemButton = ({
 
     try {
       onConnecting?.()
-      if (connected) {
+      if (isConnected) {
         await disconnect()
       }
-      select(walletAdapter.name)
-      // We use autoConnect on wallet selection
-      // await connect()
-      walletAdapter.once('connect', (publicKey: PublicKey) => {
-        setLastConnectedAccount(walletAdapter)
+      await connect(connector.id ?? connector.name, (address: string) => {
+        setLastConnectedAccount(connector)
         emitter.emit(WalletManagementEvent.WalletConnected, {
-          address: publicKey?.toString(),
+          address: address,
           chainId: ChainId.SOL,
           chainType: ChainType.SVM,
-          connectorId: connectorName,
-          connectorName: connectorName,
+          connectorId: connector.id ?? connector.name,
+          connectorName: connector.name,
         })
       })
       onConnected?.()
@@ -67,7 +57,7 @@ export const SVMListItemButton = ({
       icon={
         ecosystemSelection
           ? getChainTypeIcon(ChainType.SVM)
-          : walletAdapter.icon
+          : (connector.icon ?? '')
       }
       onClick={connectWallet}
       title={connectorDisplayName}

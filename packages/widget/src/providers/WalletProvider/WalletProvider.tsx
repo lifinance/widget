@@ -2,27 +2,40 @@ import type { WalletManagementConfig } from '@lifi/wallet-management'
 import { WalletManagementProvider } from '@lifi/wallet-management'
 import { type FC, type PropsWithChildren, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useAvailableChains } from '../../hooks/useAvailableChains.js'
+import type { WidgetWalletProvidersProps } from '../../types/widget.js'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
-import { EVMProvider } from './EVMProvider.js'
 import { SDKProviders } from './SDKProviders.js'
-import { SuiProvider } from './SuiProvider.js'
-import { SVMProvider } from './SVMProvider.js'
-import { UTXOProvider } from './UTXOProvider.js'
 import { useExternalWalletProvider } from './useExternalWalletProvider.js'
 
-export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
-  return (
-    <EVMProvider>
-      <SVMProvider>
-        <UTXOProvider>
-          <SuiProvider>
-            <SDKProviders />
-            <WalletMenuProvider>{children}</WalletMenuProvider>
-          </SuiProvider>
-        </UTXOProvider>
-      </SVMProvider>
-    </EVMProvider>
+export const WalletProvider = ({
+  children,
+  walletProviders,
+}: PropsWithChildren<WidgetWalletProvidersProps>) => {
+  const { walletConfig } = useWidgetConfig()
+  const { chains } = useAvailableChains()
+
+  let WidgetWithWalletProviders = (
+    <>
+      <SDKProviders />
+      <WalletMenuProvider>{children}</WalletMenuProvider>
+    </>
   )
+
+  for (const ProviderComponent of walletProviders) {
+    WidgetWithWalletProviders = (
+      <ProviderComponent
+        forceInternalWalletManagement={
+          walletConfig?.forceInternalWalletManagement
+        }
+        chains={chains ?? []}
+      >
+        {WidgetWithWalletProviders}
+      </ProviderComponent>
+    )
+  }
+
+  return WidgetWithWalletProviders
 }
 
 const WalletMenuProvider: FC<PropsWithChildren> = ({ children }) => {
@@ -34,9 +47,13 @@ const WalletMenuProvider: FC<PropsWithChildren> = ({ children }) => {
     return {
       locale: i18n.resolvedLanguage as never,
       enabledChainTypes: internalChainTypes,
-      ...walletConfig,
+      walletEcosystemsOrder: walletConfig?.walletEcosystemsOrder,
     }
-  }, [i18n.resolvedLanguage, internalChainTypes, walletConfig])
+  }, [
+    i18n.resolvedLanguage,
+    internalChainTypes,
+    walletConfig?.walletEcosystemsOrder,
+  ])
 
   return (
     <WalletManagementProvider config={config}>

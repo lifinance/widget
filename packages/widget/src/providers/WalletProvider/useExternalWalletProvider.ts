@@ -1,10 +1,12 @@
 import { ChainType } from '@lifi/sdk'
-import { useContext, useMemo } from 'react'
+import {
+  useEVMContext,
+  useMVMContext,
+  useSVMContext,
+  useUTXOContext,
+} from '@lifi/wallet-provider'
+import { useMemo } from 'react'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
-import { EVMExternalContext } from './EVMExternalContext.js'
-import { SuiExternalContext } from './SuiExternalContext.js'
-import { SVMExternalContext } from './SVMExternalContext.js'
-import { UTXOExternalContext } from './UTXOExternalContext.js'
 
 interface ExternalWalletProvider {
   useExternalWalletProvidersOnly: boolean
@@ -21,10 +23,10 @@ const internalChainTypes = [
 
 export function useExternalWalletProvider(): ExternalWalletProvider {
   const { walletConfig } = useWidgetConfig()
-  const hasExternalEVMContext = useContext(EVMExternalContext)
-  const hasExternalSVMContext = useContext(SVMExternalContext)
-  const hasExternalUTXOContext = useContext(UTXOExternalContext)
-  const hasExternalSuiContext = useContext(SuiExternalContext)
+  const { isExternalContext: hasExternalEVMContext } = useEVMContext()
+  const { isExternalContext: hasExternalSVMContext } = useSVMContext()
+  const { isExternalContext: hasExternalUTXOContext } = useUTXOContext()
+  const { isExternalContext: hasExternalSuiContext } = useMVMContext()
   const data = useMemo(() => {
     const providers: ChainType[] = []
     if (hasExternalEVMContext) {

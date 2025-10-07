@@ -1,29 +1,25 @@
-import { getConnectorClient as getBigmiConnectorClient } from '@bigmi/client'
-import { useConfig as useBigmiConfig } from '@bigmi/react'
 import type { SDKProvider } from '@lifi/sdk'
-import { ChainType, config, EVM, Solana, Sui, UTXO } from '@lifi/sdk'
-import { useCurrentWallet } from '@mysten/dapp-kit'
-import type { SignerWalletAdapter } from '@solana/wallet-adapter-base'
-import { useWallet } from '@solana/wallet-adapter-react'
-import { useEffect } from 'react'
-import { useConfig as useWagmiConfig } from 'wagmi'
+import { ChainType, config } from '@lifi/sdk'
 import {
-  getConnectorClient as getWagmiConnectorClient,
-  switchChain,
-} from 'wagmi/actions'
+  useEVMContext,
+  useMVMContext,
+  useSVMContext,
+  useUTXOContext,
+} from '@lifi/wallet-provider'
+import { useEffect } from 'react'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 
 export const SDKProviders = () => {
   const { sdkConfig } = useWidgetConfig()
-  const { wallet } = useWallet()
-  const wagmiConfig = useWagmiConfig()
-  const bigmiConfig = useBigmiConfig()
-  const { currentWallet } = useCurrentWallet()
+  const { sdkProvider: evmSDKProvider } = useEVMContext()
+  const { sdkProvider: utxoSDKProvider } = useUTXOContext()
+  const { sdkProvider: svmSDKProvider } = useSVMContext()
+  const { sdkProvider: suiSDKProvider } = useMVMContext()
 
   useEffect(() => {
     // Configure SDK Providers
     const providers: SDKProvider[] = []
-    const hasConfiguredEVMProvider = sdkConfig?.providers?.find(
+    const hasConfiguredEVMProvider = sdkConfig?.providers?.some(
       (provider) => provider.type === ChainType.EVM
     )
     const hasConfiguredSVMProvider = sdkConfig?.providers?.some(
@@ -35,51 +31,28 @@ export const SDKProviders = () => {
     const hasConfiguredSuiProvider = sdkConfig?.providers?.some(
       (provider) => provider.type === ChainType.MVM
     )
-    if (!hasConfiguredEVMProvider) {
-      providers.push(
-        EVM({
-          getWalletClient: () =>
-            getWagmiConnectorClient(wagmiConfig, { assertChainId: false }),
-          switchChain: async (chainId: number) => {
-            const chain = await switchChain(wagmiConfig, { chainId })
-            return getWagmiConnectorClient(wagmiConfig, { chainId: chain.id })
-          },
-        })
-      )
+    if (!hasConfiguredEVMProvider && evmSDKProvider) {
+      providers.push(evmSDKProvider)
     }
-    if (!hasConfiguredSVMProvider) {
-      providers.push(
-        Solana({
-          async getWalletAdapter() {
-            return wallet?.adapter as SignerWalletAdapter
-          },
-        })
-      )
+    if (!hasConfiguredSVMProvider && svmSDKProvider) {
+      providers.push(svmSDKProvider)
     }
-    if (!hasConfiguredUTXOProvider) {
-      providers.push(
-        UTXO({
-          getWalletClient: () => getBigmiConnectorClient(bigmiConfig),
-        })
-      )
+    if (!hasConfiguredUTXOProvider && utxoSDKProvider) {
+      providers.push(utxoSDKProvider)
     }
-    if (!hasConfiguredSuiProvider) {
-      providers.push(
-        Sui({
-          getWallet: async () => currentWallet!,
-        })
-      )
+    if (!hasConfiguredSuiProvider && suiSDKProvider) {
+      providers.push(suiSDKProvider)
     }
     if (sdkConfig?.providers?.length) {
       providers.push(...sdkConfig.providers)
     }
     config.setProviders(providers)
   }, [
-    bigmiConfig,
-    currentWallet,
     sdkConfig?.providers,
-    wagmiConfig,
-    wallet?.adapter,
+    evmSDKProvider,
+    svmSDKProvider,
+    utxoSDKProvider,
+    suiSDKProvider,
   ])
 
   return null

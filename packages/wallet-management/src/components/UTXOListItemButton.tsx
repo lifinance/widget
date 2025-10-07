@@ -1,19 +1,13 @@
-import { type Connector, connect, disconnect, getAccount } from '@bigmi/client'
-import { useConfig } from '@bigmi/react'
 import { ChainId, ChainType } from '@lifi/sdk'
+import { isWalletInstalled, useUTXOContext } from '@lifi/wallet-provider'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { getChainTypeIcon } from '../icons.js'
 import { WalletManagementEvent } from '../types/events.js'
 import { WalletTagType } from '../types/walletTagType.js'
 import { getConnectorIcon } from '../utils/getConnectorIcon.js'
-import { isWalletInstalled } from '../utils/isWalletInstalled.js'
 import { CardListItemButton } from './CardListItemButton.js'
 import type { WalletListItemButtonProps } from './types.js'
-
-interface UTXOListItemButtonProps extends WalletListItemButtonProps {
-  connector: Connector
-}
 
 export const UTXOListItemButton = ({
   ecosystemSelection,
@@ -23,15 +17,14 @@ export const UTXOListItemButton = ({
   onConnected,
   onConnecting,
   onError,
-}: UTXOListItemButtonProps) => {
+}: WalletListItemButtonProps) => {
   const emitter = useWalletManagementEvents()
-  const config = useConfig()
+  const { connect, disconnect } = useUTXOContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()
 
-  const connectorName = connector.name
   const connectorDisplayName: string = ecosystemSelection
     ? 'Bitcoin'
-    : connectorName
+    : connector.name
 
   const handleUTXOConnect = async () => {
     if (tagType === WalletTagType.Connected) {
@@ -40,24 +33,25 @@ export const UTXOListItemButton = ({
     }
 
     try {
-      const identityCheckPassed = isWalletInstalled((connector as Connector).id)
+      const identityCheckPassed = isWalletInstalled(
+        connector.id ?? connector.name
+      )
       if (!identityCheckPassed) {
-        onNotInstalled?.(connector as Connector)
+        onNotInstalled?.(connector)
         return
       }
-      const connectedAccount = getAccount(config)
       onConnecting?.()
-      const data = await connect(config, { connector })
-      if (connectedAccount.connector) {
-        await disconnect(config, { connector: connectedAccount.connector })
-      }
-      setLastConnectedAccount(connector)
-      emitter.emit(WalletManagementEvent.WalletConnected, {
-        address: data.accounts[0].address,
-        chainId: ChainId.BTC,
-        chainType: ChainType.UTXO,
-        connectorId: connector.id,
-        connectorName: connectorName,
+      // Disconnect currently connected UTXO wallet (if any)
+      await disconnect()
+      await connect(connector.id ?? connector.name, (address: string) => {
+        setLastConnectedAccount(connector)
+        emitter.emit(WalletManagementEvent.WalletConnected, {
+          address: address,
+          chainId: ChainId.BTC,
+          chainType: ChainType.UTXO,
+          connectorId: connector.id ?? connector.name,
+          connectorName: connector.name,
+        })
       })
       onConnected?.()
     } catch (error) {
@@ -71,7 +65,7 @@ export const UTXOListItemButton = ({
       icon={
         ecosystemSelection
           ? getChainTypeIcon(ChainType.UTXO)
-          : (getConnectorIcon(connector as Connector) ?? '')
+          : (getConnectorIcon(connector) ?? '')
       }
       onClick={handleUTXOConnect}
       title={connectorDisplayName}

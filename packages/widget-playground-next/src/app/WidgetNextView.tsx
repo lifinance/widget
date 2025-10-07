@@ -1,3 +1,7 @@
+import { EVMProvider } from '@lifi/wallet-provider-evm'
+import { MVMProvider } from '@lifi/wallet-provider-mvm'
+import { SVMProvider } from '@lifi/wallet-provider-svm'
+import { UTXOProvider } from '@lifi/wallet-provider-utxo'
 import type { WidgetDrawer } from '@lifi/widget'
 import { LiFiWidget, WidgetSkeleton } from '@lifi/widget'
 import {
@@ -25,6 +29,12 @@ export function WidgetNextView() {
             config={config}
             integrator="li.fi-playground"
             ref={drawerRef}
+            walletProviders={[
+              EVMProvider,
+              SVMProvider,
+              MVMProvider,
+              UTXOProvider,
+            ]}
             open
           />
         </ClientOnly>
