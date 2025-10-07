@@ -1,3 +1,4 @@
+import { EVMProvider } from '@lifi/wallet-provider-evm'
 import type { WidgetConfig } from '@lifi/widget'
 import { LiFiWidget } from '@lifi/widget'
 
@@ -12,5 +13,11 @@ export default function DynamicWidget() {
     },
   } as Partial<WidgetConfig>
 
-  return <LiFiWidget config={config} integrator="nextjs-example" />
+  return (
+    <LiFiWidget
+      config={config}
+      integrator="nextjs-example"
+      walletProviders={[EVMProvider]}
+    />
+  )
 }

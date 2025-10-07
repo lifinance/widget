@@ -10,7 +10,8 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
-    "@lifi/widget": "^3.32.2",
+    "@lifi/widget": "workspace:^",
+    "@lifi/wallet-provider-evm": "workspace:^",
     "@react-router/node": "^7.9.3",
     "@react-router/serve": "^7.9.3",
     "isbot": "^5.1.31",

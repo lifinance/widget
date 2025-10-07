@@ -10,8 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/wallet-management": "^3.17.3",
-    "@lifi/widget": "^3.32.2",
+    "@lifi/wallet-management": "workspace:^",
+    "@lifi/wallet-provider-evm": "workspace:^",
+    "@lifi/wallet-provider-svm": "workspace:^",
+    "@lifi/wallet-provider-utxo": "workspace:^",
+    "@lifi/widget": "workspace:^",
     "@mui/material": "7.3.2",
     "@reown/appkit": "^1.8.8",
     "@reown/appkit-adapter-bitcoin": "^1.8.8",

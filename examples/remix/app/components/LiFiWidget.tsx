@@ -1,3 +1,4 @@
+import { EVMProvider } from '@lifi/wallet-provider-evm'
 import { type WidgetConfig, WidgetSkeleton } from '@lifi/widget'
 import { lazy, Suspense } from 'react'
 
@@ -20,7 +21,11 @@ export function LiFiWidget() {
 
   return (
     <Suspense fallback={<WidgetSkeleton config={config} />}>
-      <LiFiWidgetLazy config={config} integrator="remix-example" />
+      <LiFiWidgetLazy
+        config={config}
+        integrator="remix-example"
+        walletProviders={[EVMProvider]}
+      />
     </Suspense>
   )
 }

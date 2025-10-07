@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@lifi/wallet-provider-evm": "workspace:^",
-    "@lifi/widget": "^3.32.2",
+    "@lifi/wallet-provider-svm": "workspace:^",
+    "@lifi/widget": "workspace:^",
     "@mui/icons-material": "7.3.2",
     "@mui/material": "7.3.2",
     "@privy-io/react-auth": "^2.25.0",

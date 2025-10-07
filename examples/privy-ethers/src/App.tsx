@@ -1,5 +1,7 @@
+import { EVMProvider } from '@lifi/wallet-provider-evm'
+import { SVMProvider } from '@lifi/wallet-provider-svm'
 import { ChainId, LiFiWidget } from '@lifi/widget'
-import { Grid2 } from '@mui/material'
+import { Grid } from '@mui/material'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { EthersPlayground } from './components/EthersPlayground'
 import { WalletHeader } from './components/WalletHeader'
@@ -11,8 +13,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <WalletProvider>
         <WalletHeader />
-        <Grid2 container spacing={2}>
-          <Grid2 size={{ sm: 12, md: 7 }}>
+        <Grid container spacing={2}>
+          <Grid size={{ sm: 12, md: 7 }}>
             <LiFiWidget
               integrator="vite-example"
               config={{
@@ -32,12 +34,13 @@ function App() {
                   },
                 },
               }}
+              walletProviders={[EVMProvider, SVMProvider]}
             />
-          </Grid2>
-          <Grid2 size={{ sm: 12, md: 5 }}>
+          </Grid>
+          <Grid size={{ sm: 12, md: 5 }}>
             <EthersPlayground />
-          </Grid2>
-        </Grid2>
+          </Grid>
+        </Grid>
       </WalletProvider>
     </QueryClientProvider>
   )

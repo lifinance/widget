@@ -22,6 +22,8 @@
     "@lifi/sdk": "^3.12.13",
     "@lifi/wallet-management": "workspace:^",
     "@lifi/wallet-provider-evm": "workspace:^",
+    "@lifi/wallet-provider-svm": "workspace:^",
+    "@lifi/wallet-provider-utxo": "workspace:^",
     "@lifi/widget": "workspace:^",
     "@mui/material": "7.3.2",
     "@solana/wallet-adapter-base": "^0.9.27",

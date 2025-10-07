@@ -12,6 +12,7 @@
   "dependencies": {
     "@lifi/sdk": "^3.12.13",
     "@lifi/widget": "workspace:^",
+    "@lifi/wallet-provider-evm": "workspace:^",
     "@mui/material": "7.3.2",
     "@tanstack/react-query": "^5.90.1",
     "events": "^3.3.0",

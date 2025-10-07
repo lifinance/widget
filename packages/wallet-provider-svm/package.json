@@ -12,7 +12,8 @@
   },
   "peerDependencies": {
     "@solana/wallet-adapter-react": ">=0.15.35",
-    "@lifi/wallet-provider": "workspace:*"
+    "@lifi/wallet-provider": "workspace:*",
+    "bs58": ">=4.0.1"
   },
   "devDependencies": {
     "react": "^19.2.0",
