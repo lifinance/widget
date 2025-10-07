@@ -1,5 +1,5 @@
+import { useSettingsStore } from './SettingsStore.js'
 import type { SettingsState } from './types.js'
-import { useSettingsStore } from './useSettingsStore.js'
 
 export const useSettings = <K extends keyof SettingsState>(
   keys: Array<K>
