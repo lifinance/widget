@@ -778,19 +778,19 @@ importers:
         specifier: 7.3.2
         version: 7.3.2(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react@19.2.0))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
       '@reown/appkit':
-        specifier: ^1.7.8
+        specifier: ^1.8.8
         version: 1.8.9(@react-native-async-storage/async-storage@2.2.0(react-native@0.82.0(@babel/core@7.28.4)(@types/react@19.2.2)(bufferutil@4.0.9)(react@19.2.0)(utf-8-validate@5.0.10)))(@types/react@19.2.2)(bufferutil@4.0.9)(db0@0.3.4)(encoding@0.1.13)(ioredis@5.8.1)(react@19.2.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.1.12)
       '@reown/appkit-adapter-bitcoin':
-        specifier: ^1.7.8
+        specifier: ^1.8.8
         version: 1.8.9(@react-native-async-storage/async-storage@2.2.0(react-native@0.82.0(@babel/core@7.28.4)(@types/react@19.2.2)(bufferutil@4.0.9)(react@19.2.0)(utf-8-validate@5.0.10)))(@types/react@19.2.2)(bufferutil@4.0.9)(db0@0.3.4)(encoding@0.1.13)(ioredis@5.8.1)(react@19.2.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(valtio@2.1.7(@types/react@19.2.2)(react@19.2.0))(zod@4.1.12)
       '@reown/appkit-adapter-solana':
-        specifier: ^1.7.8
+        specifier: ^1.8.8
         version: 1.8.9(@react-native-async-storage/async-storage@2.2.0(react-native@0.82.0(@babel/core@7.28.4)(@types/react@19.2.2)(bufferutil@4.0.9)(react@19.2.0)(utf-8-validate@5.0.10)))(@types/react@19.2.2)(bufferutil@4.0.9)(db0@0.3.4)(encoding@0.1.13)(fastestsmallesttextencoderdecoder@1.0.22)(ioredis@5.8.1)(react@19.2.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.1.12)
       '@reown/appkit-adapter-wagmi':
-        specifier: ^1.7.8
+        specifier: ^1.8.8
         version: 1.8.9(0ab2440eab36b544aeeaf66b0b147bd4)
       '@reown/appkit-common':
-        specifier: ^1.7.8
+        specifier: ^1.8.8
         version: 1.8.9(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.1.12)
       '@solana/wallet-adapter-base':
         specifier: ^0.9.27
@@ -1344,16 +1344,16 @@ importers:
         specifier: ^0.19.0
         version: 0.19.1(@tanstack/react-query@5.90.2(react@19.2.0))(@types/react-dom@19.2.1(@types/react@19.2.2))(@types/react@19.2.2)(babel-plugin-macros@3.1.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3)
       '@reown/appkit':
-        specifier: ^1.7.8
+        specifier: ^1.8.8
         version: 1.8.9(@react-native-async-storage/async-storage@2.2.0(react-native@0.82.0(@babel/core@7.28.4)(@types/react@19.2.2)(bufferutil@4.0.9)(react@19.2.0)(utf-8-validate@5.0.10)))(@types/react@19.2.2)(bufferutil@4.0.9)(db0@0.3.4)(encoding@0.1.13)(ioredis@5.8.1)(react@19.2.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.1.12)
       '@reown/appkit-adapter-solana':
-        specifier: ^1.7.8
+        specifier: ^1.8.8
         version: 1.8.9(@react-native-async-storage/async-storage@2.2.0(react-native@0.82.0(@babel/core@7.28.4)(@types/react@19.2.2)(bufferutil@4.0.9)(react@19.2.0)(utf-8-validate@5.0.10)))(@types/react@19.2.2)(bufferutil@4.0.9)(db0@0.3.4)(encoding@0.1.13)(fastestsmallesttextencoderdecoder@1.0.22)(ioredis@5.8.1)(react@19.2.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.1.12)
       '@reown/appkit-adapter-wagmi':
-        specifier: ^1.7.8
+        specifier: ^1.8.8
         version: 1.8.9(0ab2440eab36b544aeeaf66b0b147bd4)
       '@reown/appkit-common':
-        specifier: ^1.7.8
+        specifier: ^1.8.8
         version: 1.8.9(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.1.12)
       '@solana/wallet-adapter-base':
         specifier: ^0.9.27
