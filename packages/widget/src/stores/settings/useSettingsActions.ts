@@ -4,16 +4,14 @@ import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { WidgetEvent } from '../../types/events.js'
 import type { WidgetConfig } from '../../types/widget.js'
 import { deepEqual } from '../../utils/deepEqual.js'
+import { defaultConfigurableSettings } from './createSettingsStore.js'
+import { useSettingsStore } from './SettingsStore.js'
 import type {
   SettingsActions,
   SettingsProps,
   SettingsToolType,
   ValueSetter,
 } from './types.js'
-import {
-  defaultConfigurableSettings,
-  useSettingsStore,
-} from './useSettingsStore.js'
 
 const emitEventOnChange = <T extends (...args: any[]) => any>(
   emitter: typeof widgetEvents,
@@ -48,6 +46,7 @@ export const useSettingsActions = () => {
   const emitter = useWidgetEvents()
   const actions = useSettingsStore((state) => ({
     setValue: state.setValue,
+    setValues: state.setValues,
     getValue: state.getValue,
     getSettings: state.getSettings,
     reset: state.reset,
@@ -61,6 +60,15 @@ export const useSettingsActions = () => {
       emitEventOnChange(emitter, actions, actions.setValue, setting, newValue)
     },
     [emitter, actions]
+  )
+
+  const setValuesWithEmittedEvent = useCallback(
+    (values: Partial<SettingsProps>) => {
+      Object.entries(values).forEach(([key, value]) => {
+        setValueWithEmittedEvent(key as keyof SettingsProps, value)
+      })
+    },
+    [setValueWithEmittedEvent]
   )
 
   const setDefaultSettingsWithEmittedEvents = useCallback(
@@ -140,6 +148,7 @@ export const useSettingsActions = () => {
 
   return {
     setValue: setValueWithEmittedEvent,
+    setValues: setValuesWithEmittedEvent,
     setDefaultSettings: setDefaultSettingsWithEmittedEvents,
     resetSettings: resetWithEmittedEvents,
     setToolValue: setToolValueWithEmittedEvents,

@@ -22,7 +22,10 @@ export const NavigationHeader: React.FC = () => {
     useWidgetConfig()
   const { navigateBack } = useNavigateBack()
   const { account } = useAccount()
-  const { element, title } = useHeaderStore((state) => state)
+  const [element, title] = useHeaderStore((state) => [
+    state.element,
+    state.title,
+  ])
   const { pathname } = useLocation()
 
   const cleanedPathname = pathname.endsWith('/')
