@@ -1,4 +1,4 @@
-import type { WalletProviderProps } from '@lifi/wallet-provider'
+import type { WalletProviderProps } from '@lifi/widget-provider'
 import { SuiClientContext } from '@mysten/dapp-kit'
 import { type PropsWithChildren, useContext } from 'react'
 import { CaptureMVMValues } from './CaptureMVMValues.js'

@@ -4,7 +4,7 @@ import {
   getTokens,
   type TokensExtendedResponse,
 } from '@lifi/sdk'
-import { useChainTypeFromAddress } from '@lifi/wallet-provider'
+import { useChainTypeFromAddress } from '@lifi/widget-provider'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'

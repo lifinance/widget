@@ -3,7 +3,7 @@ import {
   useAccount,
   useWalletMenu,
 } from '@lifi/wallet-management'
-import type { Account } from '@lifi/wallet-provider'
+import type { Account } from '@lifi/widget-provider'
 import ExpandMore from '@mui/icons-material/ExpandMore'
 import Wallet from '@mui/icons-material/Wallet'
 import { Avatar, Badge } from '@mui/material'

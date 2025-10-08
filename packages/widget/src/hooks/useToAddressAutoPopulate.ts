@@ -1,5 +1,5 @@
 import { useAccount } from '@lifi/wallet-management'
-import { useChainTypeFromAddress } from '@lifi/wallet-provider'
+import { useChainTypeFromAddress } from '@lifi/widget-provider'
 import { useCallback } from 'react'
 import { useBookmarkActions } from '../stores/bookmarks/useBookmarkActions.js'
 import type { FormType } from '../stores/form/types.js'

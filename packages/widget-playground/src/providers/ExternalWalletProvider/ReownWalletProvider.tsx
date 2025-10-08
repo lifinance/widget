@@ -1,5 +1,5 @@
-import { useSyncWagmiConfig } from '@lifi/wallet-provider-evm'
 import { ChainType, type ExtendedChain } from '@lifi/widget'
+import { useSyncWagmiConfig } from '@lifi/widget-provider-ethereum'
 import { mainnet, solana } from '@reown/appkit/networks'
 import { type AppKit, createAppKit } from '@reown/appkit/react'
 import { SolanaAdapter } from '@reown/appkit-adapter-solana'

@@ -53,7 +53,7 @@
     "@emotion/styled": "^11.14.1",
     "@lifi/sdk": "^3.12.13",
     "@lifi/wallet-management": "workspace:^",
-    "@lifi/wallet-provider": "workspace:^",
+    "@lifi/widget-provider": "workspace:^",
     "@mui/icons-material": "7.3.2",
     "@mui/material": "7.3.2",
     "@mui/system": "7.3.2",

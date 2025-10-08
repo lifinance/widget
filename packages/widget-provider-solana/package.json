@@ -1,17 +1,19 @@
 {
-  "name": "@lifi/wallet-provider-mvm",
+  "name": "@lifi/widget-provider-solana",
   "version": "4.0.0",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
   "dependencies": {
-    "@mysten/sui": "^1.39.0",
+    "@solana/wallet-adapter-base": "^0.9.27",
+    "@solana/wallet-adapter-coinbase": "^0.1.23",
+    "@solana/web3.js": "^1.98.4",
     "@lifi/sdk": "^3.12.13",
-    "@mysten/wallet-standard": "^0.18.0",
-    "@lifi/wallet-provider": "workspace:*"
+    "@lifi/widget-provider": "workspace:*"
   },
   "peerDependencies": {
-    "@mysten/dapp-kit": ">=0.18.0"
+    "@solana/wallet-adapter-react": ">=0.15.35",
+    "bs58": ">=4.0.1"
   },
   "devDependencies": {
     "react": "^19.2.0",

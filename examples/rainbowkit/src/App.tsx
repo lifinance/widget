@@ -1,5 +1,5 @@
-import { EthereumProvider } from '@lifi/wallet-provider-evm'
 import { LiFiWidget } from '@lifi/widget'
+import { EthereumProvider } from '@lifi/widget-provider-ethereum'
 import { ConnectButton, useConnectModal } from '@rainbow-me/rainbowkit'
 
 export default function App() {

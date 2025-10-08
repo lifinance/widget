@@ -1,5 +1,5 @@
 import { ChainId, ChainType, Sui } from '@lifi/sdk'
-import { MVMContext } from '@lifi/wallet-provider'
+import { MVMContext } from '@lifi/widget-provider'
 import {
   useConnectWallet,
   useCurrentWallet,

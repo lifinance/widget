@@ -9,7 +9,7 @@ import {
   LiFiErrorCode,
 } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
-import { useChainTypeFromAddress } from '@lifi/wallet-provider'
+import { useChainTypeFromAddress } from '@lifi/widget-provider'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'

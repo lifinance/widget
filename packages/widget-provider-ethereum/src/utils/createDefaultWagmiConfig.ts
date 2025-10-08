@@ -1,4 +1,4 @@
-import { isWalletInstalled } from '@lifi/wallet-provider'
+import { isWalletInstalled } from '@lifi/widget-provider'
 import { createClient, http } from 'viem'
 import { mainnet } from 'viem/chains'
 import type { Config, CreateConnectorFn } from 'wagmi'

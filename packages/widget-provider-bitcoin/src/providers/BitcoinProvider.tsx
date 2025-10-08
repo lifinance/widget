@@ -1,5 +1,5 @@
 import { BigmiContext } from '@bigmi/react'
-import type { WalletProviderProps } from '@lifi/wallet-provider'
+import type { WalletProviderProps } from '@lifi/widget-provider'
 import { type PropsWithChildren, useContext } from 'react'
 import { CaptureUTXOValues } from './CaptureUTXOValues.js'
 import { UTXOBaseProvider } from './UTXOBaseProvider.js'

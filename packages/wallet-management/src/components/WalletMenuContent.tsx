@@ -1,5 +1,5 @@
 import { ChainType } from '@lifi/sdk'
-import type { WalletConnector } from '@lifi/wallet-provider'
+import type { WalletConnector } from '@lifi/widget-provider'
 import ArrowBack from '@mui/icons-material/ArrowBack'
 import Close from '@mui/icons-material/Close'
 import {

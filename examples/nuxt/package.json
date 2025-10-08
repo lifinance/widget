@@ -10,7 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@lifi/wallet-provider-evm": "workspace:^",
+    "@lifi/widget-provider-ethereum": "workspace:^",
     "@lifi/widget": "workspace:^",
     "nuxt": "3.17.7",
     "veaury": "^2.6.3",

@@ -1,19 +1,16 @@
 {
-  "name": "@lifi/wallet-provider-svm",
+  "name": "@lifi/widget-provider-ethereum",
   "version": "4.0.0",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
   "dependencies": {
-    "@solana/wallet-adapter-base": "^0.9.27",
-    "@solana/wallet-adapter-coinbase": "^0.1.23",
-    "@solana/web3.js": "^1.98.4",
+    "viem": "^2.37.13",
     "@lifi/sdk": "^3.12.13",
-    "@lifi/wallet-provider": "workspace:*"
+    "@lifi/widget-provider": "workspace:*"
   },
   "peerDependencies": {
-    "@solana/wallet-adapter-react": ">=0.15.35",
-    "bs58": ">=4.0.1"
+    "wagmi": ">=2.16.0"
   },
   "devDependencies": {
     "react": "^19.2.0",

@@ -1,4 +1,4 @@
-import type { WalletConnector } from '@lifi/wallet-provider'
+import type { WalletConnector } from '@lifi/widget-provider'
 import { getWalletIcon } from '../icons.js'
 
 export const getConnectorIcon = (connector?: WalletConnector) => {

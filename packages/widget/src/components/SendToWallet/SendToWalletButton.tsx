@@ -1,5 +1,5 @@
 import { useAccount } from '@lifi/wallet-management'
-import { useChainTypeFromAddress } from '@lifi/wallet-provider'
+import { useChainTypeFromAddress } from '@lifi/widget-provider'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import { Box, Collapse } from '@mui/material'
 import { type MouseEventHandler, useEffect, useRef } from 'react'

@@ -10,8 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/wallet-provider-evm": "workspace:^",
-    "@lifi/wallet-provider-svm": "workspace:^",
+    "@lifi/widget-provider-ethereum": "workspace:^",
+    "@lifi/widget-provider-solana": "workspace:^",
     "@lifi/widget": "workspace:^",
     "@mui/icons-material": "7.3.2",
     "@mui/material": "7.3.2",

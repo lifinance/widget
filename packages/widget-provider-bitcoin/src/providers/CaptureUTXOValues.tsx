@@ -8,7 +8,7 @@ import {
 import { isUTXOAddress } from '@bigmi/core'
 import { useAccount, useConfig, useConnect } from '@bigmi/react'
 import { ChainId, ChainType, UTXO } from '@lifi/sdk'
-import { isWalletInstalled, UTXOContext } from '@lifi/wallet-provider'
+import { isWalletInstalled, UTXOContext } from '@lifi/widget-provider'
 import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
 
 interface CaptureUTXOValuesProps {

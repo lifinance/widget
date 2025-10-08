@@ -1,16 +1,17 @@
 {
-  "name": "@lifi/wallet-provider-evm",
+  "name": "@lifi/widget-provider-sui",
   "version": "4.0.0",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
   "dependencies": {
-    "viem": "^2.37.13",
+    "@mysten/sui": "^1.39.0",
     "@lifi/sdk": "^3.12.13",
-    "@lifi/wallet-provider": "workspace:*"
+    "@mysten/wallet-standard": "^0.18.0",
+    "@lifi/widget-provider": "workspace:*"
   },
   "peerDependencies": {
-    "wagmi": ">=2.16.0"
+    "@mysten/dapp-kit": ">=0.18.0"
   },
   "devDependencies": {
     "react": "^19.2.0",

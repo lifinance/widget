@@ -1,6 +1,6 @@
 import type { Chain, ChainType } from '@lifi/sdk'
 import { getNameServiceAddress } from '@lifi/sdk'
-import { useChainTypeFromAddress } from '@lifi/wallet-provider'
+import { useChainTypeFromAddress } from '@lifi/widget-provider'
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 

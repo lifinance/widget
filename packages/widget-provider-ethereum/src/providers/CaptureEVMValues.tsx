@@ -1,5 +1,5 @@
 import { ChainType, EVM } from '@lifi/sdk'
-import { EVMContext, isWalletInstalled } from '@lifi/wallet-provider'
+import { EVMContext, isWalletInstalled } from '@lifi/widget-provider'
 import {
   type FC,
   type PropsWithChildren,

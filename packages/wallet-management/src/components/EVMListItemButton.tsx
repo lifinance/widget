@@ -1,5 +1,5 @@
 import { ChainType } from '@lifi/sdk'
-import { isWalletInstalled, useEVMContext } from '@lifi/wallet-provider'
+import { isWalletInstalled, useEVMContext } from '@lifi/widget-provider'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { getChainTypeIcon } from '../icons.js'

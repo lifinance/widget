@@ -1,8 +1,8 @@
 'use client'
 
-import { EthereumProvider } from '@lifi/wallet-provider-evm'
 import type { WidgetConfig } from '@lifi/widget'
 import { LiFiWidget } from '@lifi/widget'
+import { EthereumProvider } from '@lifi/widget-provider-ethereum'
 import type { ReactNode } from 'react'
 import { ClientOnly } from './ClientOnly'
 

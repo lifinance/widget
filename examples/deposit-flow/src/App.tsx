@@ -1,4 +1,3 @@
-import { EthereumProvider } from '@lifi/wallet-provider-evm'
 import type { ContractCall, WidgetConfig } from '@lifi/widget'
 import {
   ChainType,
@@ -7,6 +6,7 @@ import {
   HiddenUI,
   LiFiWidget,
 } from '@lifi/widget'
+import { EthereumProvider } from '@lifi/widget-provider-ethereum'
 import { useMemo } from 'react'
 import { DepositCard } from './components/DepositCard'
 import { contractTool } from './config'

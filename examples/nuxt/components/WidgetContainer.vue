@@ -5,7 +5,7 @@
 <script lang="ts">
 // This is a React component
 import { LiFiWidget } from '@lifi/widget'
-import { EthereumProvider } from '@lifi/wallet-provider-evm'
+import { EthereumProvider } from '@lifi/widget-provider-ethereum'
 import { applyPureReactInVue } from 'veaury'
 
 export default {

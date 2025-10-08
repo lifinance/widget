@@ -1,5 +1,5 @@
 <script>
-import { EthereumProvider } from '@lifi/wallet-provider-evm'
+import { EthereumProvider } from '@lifi/widget-provider-ethereum'
 import { LiFiWidget } from '@lifi/widget'
 import ReactAdapter from './ReactAdapter.svelte'
 </script>

@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@lifi/widget": "workspace:^",
-    "@lifi/wallet-provider-evm": "workspace:^",
+    "@lifi/widget-provider-ethereum": "workspace:^",
     "next": "15.5.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"

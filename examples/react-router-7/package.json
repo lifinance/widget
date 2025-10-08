@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@lifi/widget": "workspace:^",
-    "@lifi/wallet-provider-evm": "workspace:^",
+    "@lifi/widget-provider-ethereum": "workspace:^",
     "@react-router/node": "^7.9.3",
     "@react-router/serve": "^7.9.3",
     "isbot": "^5.1.31",

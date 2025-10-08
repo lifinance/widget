@@ -1,5 +1,5 @@
-import { EthereumProvider } from '@lifi/wallet-provider-evm'
 import { type WidgetConfig, WidgetSkeleton } from '@lifi/widget'
+import { EthereumProvider } from '@lifi/widget-provider-ethereum'
 import { lazy, Suspense } from 'react'
 
 const LiFiWidgetLazy = lazy(async () => {

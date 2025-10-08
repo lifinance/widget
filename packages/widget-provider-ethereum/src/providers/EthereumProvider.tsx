@@ -1,4 +1,4 @@
-import type { WalletProviderProps } from '@lifi/wallet-provider'
+import type { WalletProviderProps } from '@lifi/widget-provider'
 import { type PropsWithChildren, useContext } from 'react'
 import { WagmiContext } from 'wagmi'
 import type { EVMWalletConfig } from '../types.js'

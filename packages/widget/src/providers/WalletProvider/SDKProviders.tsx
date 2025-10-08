@@ -5,7 +5,7 @@ import {
   useMVMContext,
   useSVMContext,
   useUTXOContext,
-} from '@lifi/wallet-provider'
+} from '@lifi/widget-provider'
 import { useEffect } from 'react'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 

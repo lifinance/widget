@@ -54,9 +54,9 @@ importers:
 
   examples/connectkit:
     dependencies:
-      '@lifi/wallet-provider-evm':
+      '@lifi/widget-provider-ethereum':
         specifier: workspace:^
-        version: link:../../packages/wallet-provider-evm
+        version: link:../../packages/widget-provider-ethereum
       '@lifi/widget':
         specifier: workspace:^
         version: link:../../packages/widget
@@ -109,9 +109,9 @@ importers:
       '@lifi/sdk':
         specifier: ^3.12.13
         version: 3.12.13(@solana/wallet-adapter-base@0.9.27(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10)))(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10))(@types/react@19.2.0)(bufferutil@4.0.9)(react@19.2.0)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.0))(utf-8-validate@5.0.10)(viem@2.37.13(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.1.11))(zod@4.1.11)
-      '@lifi/wallet-provider-evm':
+      '@lifi/widget-provider-ethereum':
         specifier: workspace:^
-        version: link:../../packages/wallet-provider-evm
+        version: link:../../packages/widget-provider-ethereum
       '@lifi/widget':
         specifier: workspace:^
         version: link:../../packages/widget
@@ -200,15 +200,15 @@ importers:
       '@lifi/wallet-management':
         specifier: workspace:^
         version: link:../../packages/wallet-management
-      '@lifi/wallet-provider-evm':
+      '@lifi/widget-provider-ethereum':
         specifier: workspace:^
-        version: link:../../packages/wallet-provider-evm
-      '@lifi/wallet-provider-svm':
+        version: link:../../packages/widget-provider-ethereum
+      '@lifi/widget-provider-solana':
         specifier: workspace:^
-        version: link:../../packages/wallet-provider-svm
-      '@lifi/wallet-provider-utxo':
+        version: link:../../packages/widget-provider-solana
+      '@lifi/widget-provider-bitcoin':
         specifier: workspace:^
-        version: link:../../packages/wallet-provider-utxo
+        version: link:../../packages/widget-provider-bitcoin
       '@lifi/widget':
         specifier: workspace:^
         version: link:../../packages/widget
@@ -285,9 +285,9 @@ importers:
       '@lifi/sdk':
         specifier: ^3.12.13
         version: 3.12.13(@solana/wallet-adapter-base@0.9.27(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10)))(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10))(@types/react@19.2.0)(bufferutil@4.0.9)(react@19.2.0)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.0))(utf-8-validate@5.0.10)(viem@2.37.13(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.1.11))(zod@4.1.11)
-      '@lifi/wallet-provider-evm':
+      '@lifi/widget-provider-ethereum':
         specifier: workspace:^
-        version: link:../../packages/wallet-provider-evm
+        version: link:../../packages/widget-provider-ethereum
       '@lifi/widget':
         specifier: workspace:^
         version: link:../../packages/widget
@@ -319,9 +319,9 @@ importers:
 
   examples/nextjs-page-router:
     dependencies:
-      '@lifi/wallet-provider-evm':
+      '@lifi/widget-provider-ethereum':
         specifier: workspace:^
-        version: link:../../packages/wallet-provider-evm
+        version: link:../../packages/widget-provider-ethereum
       '@lifi/widget':
         specifier: workspace:^
         version: link:../../packages/widget
@@ -353,9 +353,9 @@ importers:
       '@lifi/sdk':
         specifier: ^3.12.13
         version: 3.12.13(@solana/wallet-adapter-base@0.9.27(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10)))(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10))(@types/react@19.2.0)(bufferutil@4.0.9)(react@19.2.0)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.0))(utf-8-validate@5.0.10)(viem@2.37.13(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.1.11))(zod@4.1.11)
-      '@lifi/wallet-provider-evm':
+      '@lifi/widget-provider-ethereum':
         specifier: workspace:^
-        version: link:../../packages/wallet-provider-evm
+        version: link:../../packages/widget-provider-ethereum
       '@lifi/widget':
         specifier: workspace:^
         version: link:../../packages/widget
@@ -393,9 +393,9 @@ importers:
 
   examples/nextjs14-page-router:
     dependencies:
-      '@lifi/wallet-provider-evm':
+      '@lifi/widget-provider-ethereum':
         specifier: workspace:^
-        version: link:../../packages/wallet-provider-evm
+        version: link:../../packages/widget-provider-ethereum
       '@lifi/widget':
         specifier: workspace:^
         version: link:../../packages/widget
@@ -430,9 +430,9 @@ importers:
 
   examples/nuxt:
     dependencies:
-      '@lifi/wallet-provider-evm':
+      '@lifi/widget-provider-ethereum':
         specifier: workspace:^
-        version: link:../../packages/wallet-provider-evm
+        version: link:../../packages/widget-provider-ethereum
       '@lifi/widget':
         specifier: workspace:^
         version: link:../../packages/widget
@@ -454,12 +454,12 @@ importers:
 
   examples/privy:
     dependencies:
-      '@lifi/wallet-provider-evm':
+      '@lifi/widget-provider-ethereum':
         specifier: workspace:^
-        version: link:../../packages/wallet-provider-evm
-      '@lifi/wallet-provider-svm':
+        version: link:../../packages/widget-provider-ethereum
+      '@lifi/widget-provider-solana':
         specifier: workspace:^
-        version: link:../../packages/wallet-provider-svm
+        version: link:../../packages/widget-provider-solana
       '@lifi/widget':
         specifier: workspace:^
         version: link:../../packages/widget
@@ -536,12 +536,12 @@ importers:
 
   examples/privy-ethers:
     dependencies:
-      '@lifi/wallet-provider-evm':
+      '@lifi/widget-provider-ethereum':
         specifier: workspace:^
-        version: link:../../packages/wallet-provider-evm
-      '@lifi/wallet-provider-svm':
+        version: link:../../packages/widget-provider-ethereum
+      '@lifi/widget-provider-solana':
         specifier: workspace:^
-        version: link:../../packages/wallet-provider-svm
+        version: link:../../packages/widget-provider-solana
       '@lifi/widget':
         specifier: workspace:^
         version: link:../../packages/widget
@@ -627,9 +627,9 @@ importers:
 
   examples/rainbowkit:
     dependencies:
-      '@lifi/wallet-provider-evm':
+      '@lifi/widget-provider-ethereum':
         specifier: workspace:^
-        version: link:../../packages/wallet-provider-evm
+        version: link:../../packages/widget-provider-ethereum
       '@lifi/widget':
         specifier: workspace:^
         version: link:../../packages/widget
@@ -673,9 +673,9 @@ importers:
 
   examples/react-router-7:
     dependencies:
-      '@lifi/wallet-provider-evm':
+      '@lifi/widget-provider-ethereum':
         specifier: workspace:^
-        version: link:../../packages/wallet-provider-evm
+        version: link:../../packages/widget-provider-ethereum
       '@lifi/widget':
         specifier: workspace:^
         version: link:../../packages/widget
@@ -728,9 +728,9 @@ importers:
 
   examples/remix:
     dependencies:
-      '@lifi/wallet-provider-evm':
+      '@lifi/widget-provider-ethereum':
         specifier: workspace:^
-        version: link:../../packages/wallet-provider-evm
+        version: link:../../packages/widget-provider-ethereum
       '@lifi/widget':
         specifier: workspace:^
         version: link:../../packages/widget
@@ -783,15 +783,15 @@ importers:
       '@lifi/wallet-management':
         specifier: workspace:^
         version: link:../../packages/wallet-management
-      '@lifi/wallet-provider-evm':
+      '@lifi/widget-provider-ethereum':
         specifier: workspace:^
-        version: link:../../packages/wallet-provider-evm
-      '@lifi/wallet-provider-svm':
+        version: link:../../packages/widget-provider-ethereum
+      '@lifi/widget-provider-solana':
         specifier: workspace:^
-        version: link:../../packages/wallet-provider-svm
-      '@lifi/wallet-provider-utxo':
+        version: link:../../packages/widget-provider-solana
+      '@lifi/widget-provider-bitcoin':
         specifier: workspace:^
-        version: link:../../packages/wallet-provider-utxo
+        version: link:../../packages/widget-provider-bitcoin
       '@lifi/widget':
         specifier: workspace:^
         version: link:../../packages/widget
@@ -868,9 +868,9 @@ importers:
 
   examples/svelte:
     dependencies:
-      '@lifi/wallet-provider-evm':
+      '@lifi/widget-provider-ethereum':
         specifier: workspace:^
-        version: link:../../packages/wallet-provider-evm
+        version: link:../../packages/widget-provider-ethereum
       '@lifi/widget':
         specifier: workspace:^
         version: link:../../packages/widget
@@ -929,9 +929,9 @@ importers:
       '@lifi/wallet-management':
         specifier: workspace:^
         version: link:../../packages/wallet-management
-      '@lifi/wallet-provider-evm':
+      '@lifi/widget-provider-ethereum':
         specifier: workspace:^
-        version: link:../../packages/wallet-provider-evm
+        version: link:../../packages/widget-provider-ethereum
       '@lifi/widget':
         specifier: workspace:^
         version: link:../../packages/widget
@@ -987,9 +987,9 @@ importers:
 
   examples/vue:
     dependencies:
-      '@lifi/wallet-provider-evm':
+      '@lifi/widget-provider-ethereum':
         specifier: workspace:^
-        version: link:../../packages/wallet-provider-evm
+        version: link:../../packages/widget-provider-ethereum
       '@lifi/widget':
         specifier: workspace:^
         version: link:../../packages/widget
@@ -1024,9 +1024,9 @@ importers:
 
   examples/zustand-widget-config:
     dependencies:
-      '@lifi/wallet-provider-evm':
+      '@lifi/widget-provider-ethereum':
         specifier: workspace:^
-        version: link:../../packages/wallet-provider-evm
+        version: link:../../packages/widget-provider-ethereum
       '@lifi/widget':
         specifier: workspace:^
         version: link:../../packages/widget
@@ -1082,9 +1082,9 @@ importers:
       '@lifi/sdk':
         specifier: ^3.12.13
         version: 3.12.13(@solana/wallet-adapter-base@0.9.27(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10)))(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10))(@types/react@19.2.0)(bufferutil@4.0.9)(react@19.2.0)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.0))(utf-8-validate@5.0.10)(viem@2.37.13(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.1.11))(zod@4.1.11)
-      '@lifi/wallet-provider':
+      '@lifi/widget-provider':
         specifier: workspace:*
-        version: link:../wallet-provider
+        version: link:../widget-provider
       '@mui/icons-material':
         specifier: 7.3.2
         version: 7.3.2(@mui/material@7.3.2(@emotion/react@11.14.0(@types/react@19.2.0)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.0)(react@19.2.0))(@types/react@19.2.0)(react@19.2.0))(@types/react@19.2.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@types/react@19.2.0)(react@19.2.0)
@@ -1132,7 +1132,7 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
-  packages/wallet-provider:
+  packages/widget-provider:
     dependencies:
       '@lifi/sdk':
         specifier: ^3.12.13
@@ -1145,14 +1145,14 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
-  packages/wallet-provider-evm:
+  packages/widget-provider-ethereum:
     dependencies:
       '@lifi/sdk':
         specifier: ^3.12.13
         version: 3.12.13(@solana/wallet-adapter-base@0.9.27(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10)))(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10))(@types/react@19.2.0)(bufferutil@4.0.9)(react@19.2.0)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.0))(utf-8-validate@5.0.10)(viem@2.37.13(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.1.11))(zod@4.1.11)
-      '@lifi/wallet-provider':
+      '@lifi/widget-provider':
         specifier: workspace:*
-        version: link:../wallet-provider
+        version: link:../widget-provider
       viem:
         specifier: ^2.37.13
         version: 2.37.13(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.1.11)
@@ -1167,14 +1167,14 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
-  packages/wallet-provider-mvm:
+  packages/widget-provider-sui:
     dependencies:
       '@lifi/sdk':
         specifier: ^3.12.13
         version: 3.12.13(@solana/wallet-adapter-base@0.9.27(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10)))(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10))(@types/react@19.2.0)(bufferutil@4.0.9)(react@19.2.0)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.0))(utf-8-validate@5.0.10)(viem@2.37.13(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.1.11))(zod@4.1.11)
-      '@lifi/wallet-provider':
+      '@lifi/widget-provider':
         specifier: workspace:*
-        version: link:../wallet-provider
+        version: link:../widget-provider
       '@mysten/dapp-kit':
         specifier: '>=0.18.0'
         version: 0.19.0(@tanstack/react-query@5.90.2(react@19.2.0))(@types/react-dom@19.2.0(@types/react@19.2.0))(@types/react@19.2.0)(babel-plugin-macros@3.1.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3)
@@ -1192,14 +1192,14 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
-  packages/wallet-provider-svm:
+  packages/widget-provider-solana:
     dependencies:
       '@lifi/sdk':
         specifier: ^3.12.13
         version: 3.12.13(@solana/wallet-adapter-base@0.9.27(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10)))(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10))(@types/react@19.2.0)(bufferutil@4.0.9)(react@19.2.0)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.0))(utf-8-validate@5.0.10)(viem@2.37.13(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.1.11))(zod@4.1.11)
-      '@lifi/wallet-provider':
+      '@lifi/widget-provider':
         specifier: workspace:*
-        version: link:../wallet-provider
+        version: link:../widget-provider
       '@solana/wallet-adapter-base':
         specifier: ^0.9.27
         version: 0.9.27(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10))
@@ -1223,7 +1223,7 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
-  packages/wallet-provider-utxo:
+  packages/widget-provider-bitcoin:
     dependencies:
       '@bigmi/client':
         specifier: ^0.6.0
@@ -1237,9 +1237,9 @@ importers:
       '@lifi/sdk':
         specifier: ^3.12.13
         version: 3.12.13(@solana/wallet-adapter-base@0.9.27(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10)))(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10))(@types/react@19.2.0)(bufferutil@4.0.9)(react@19.2.0)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.0))(utf-8-validate@5.0.10)(viem@2.37.13(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.1.11))(zod@4.1.11)
-      '@lifi/wallet-provider':
+      '@lifi/widget-provider':
         specifier: workspace:*
-        version: link:../wallet-provider
+        version: link:../widget-provider
     devDependencies:
       react:
         specifier: ^19.2.0
@@ -1262,9 +1262,9 @@ importers:
       '@lifi/wallet-management':
         specifier: workspace:^
         version: link:../wallet-management
-      '@lifi/wallet-provider':
+      '@lifi/widget-provider':
         specifier: workspace:^
-        version: link:../wallet-provider
+        version: link:../widget-provider
       '@mui/icons-material':
         specifier: 7.3.2
         version: 7.3.2(@mui/material@7.3.2(@emotion/react@11.14.0(@types/react@19.2.0)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.0)(react@19.2.0))(@types/react@19.2.0)(react@19.2.0))(@types/react@19.2.0)(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(@types/react@19.2.0)(react@19.2.0)
@@ -1335,18 +1335,18 @@ importers:
       '@lifi/wallet-management':
         specifier: workspace:*
         version: link:../wallet-management
-      '@lifi/wallet-provider-evm':
+      '@lifi/widget-provider-ethereum':
         specifier: workspace:*
-        version: link:../wallet-provider-evm
-      '@lifi/wallet-provider-mvm':
+        version: link:../widget-provider-ethereum
+      '@lifi/widget-provider-sui':
         specifier: workspace:*
-        version: link:../wallet-provider-mvm
-      '@lifi/wallet-provider-svm':
+        version: link:../widget-provider-sui
+      '@lifi/widget-provider-solana':
         specifier: workspace:*
-        version: link:../wallet-provider-svm
-      '@lifi/wallet-provider-utxo':
+        version: link:../widget-provider-solana
+      '@lifi/widget-provider-bitcoin':
         specifier: workspace:*
-        version: link:../wallet-provider-utxo
+        version: link:../widget-provider-bitcoin
       '@lifi/widget':
         specifier: workspace:*
         version: link:../widget
@@ -1426,18 +1426,18 @@ importers:
       '@lifi/sdk':
         specifier: ^3.12.13
         version: 3.12.13(@solana/wallet-adapter-base@0.9.27(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10)))(@solana/web3.js@1.98.4(bufferutil@4.0.9)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@5.0.10))(@types/react@19.2.0)(bufferutil@4.0.9)(react@19.2.0)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.0))(utf-8-validate@5.0.10)(viem@2.37.13(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76))(zod@3.25.76)
-      '@lifi/wallet-provider-evm':
+      '@lifi/widget-provider-ethereum':
         specifier: workspace:*
-        version: link:../wallet-provider-evm
-      '@lifi/wallet-provider-mvm':
+        version: link:../widget-provider-ethereum
+      '@lifi/widget-provider-sui':
         specifier: workspace:*
-        version: link:../wallet-provider-mvm
-      '@lifi/wallet-provider-svm':
+        version: link:../widget-provider-sui
+      '@lifi/widget-provider-solana':
         specifier: workspace:*
-        version: link:../wallet-provider-svm
-      '@lifi/wallet-provider-utxo':
+        version: link:../widget-provider-solana
+      '@lifi/widget-provider-bitcoin':
         specifier: workspace:*
-        version: link:../wallet-provider-utxo
+        version: link:../widget-provider-bitcoin
       '@lifi/widget':
         specifier: workspace:*
         version: link:../widget
@@ -1544,18 +1544,18 @@ importers:
       '@emotion/styled':
         specifier: ^11.14.1
         version: 11.14.1(@emotion/react@11.14.0(@types/react@19.2.0)(react@19.2.0))(@types/react@19.2.0)(react@19.2.0)
-      '@lifi/wallet-provider-evm':
+      '@lifi/widget-provider-ethereum':
         specifier: workspace:*
-        version: link:../wallet-provider-evm
-      '@lifi/wallet-provider-mvm':
+        version: link:../widget-provider-ethereum
+      '@lifi/widget-provider-sui':
         specifier: workspace:*
-        version: link:../wallet-provider-mvm
-      '@lifi/wallet-provider-svm':
+        version: link:../widget-provider-sui
+      '@lifi/widget-provider-solana':
         specifier: workspace:*
-        version: link:../wallet-provider-svm
-      '@lifi/wallet-provider-utxo':
+        version: link:../widget-provider-solana
+      '@lifi/widget-provider-bitcoin':
         specifier: workspace:*
-        version: link:../wallet-provider-utxo
+        version: link:../widget-provider-bitcoin
       '@lifi/widget':
         specifier: workspace:*
         version: link:../widget

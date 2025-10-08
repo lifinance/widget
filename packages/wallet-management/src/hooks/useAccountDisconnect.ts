@@ -5,7 +5,7 @@ import {
   useMVMContext,
   useSVMContext,
   useUTXOContext,
-} from '@lifi/wallet-provider'
+} from '@lifi/widget-provider'
 
 export const useAccountDisconnect = () => {
   const { disconnect: evmDisconnect } = useEVMContext()

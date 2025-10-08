@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@lifi/wallet-management": "workspace:^",
-    "@lifi/wallet-provider-evm": "workspace:^",
-    "@lifi/wallet-provider-svm": "workspace:^",
-    "@lifi/wallet-provider-utxo": "workspace:^",
+    "@lifi/widget-provider-ethereum": "workspace:^",
+    "@lifi/widget-provider-solana": "workspace:^",
+    "@lifi/widget-provider-bitcoin": "workspace:^",
     "@lifi/widget": "workspace:^",
     "@mui/material": "7.3.2",
     "@reown/appkit": "^1.8.8",

@@ -1,4 +1,4 @@
-import type { WalletConnector } from '@lifi/wallet-provider'
+import type { WalletConnector } from '@lifi/widget-provider'
 import type { WalletTagType } from '../types/walletTagType.js'
 
 export interface WalletListItemButtonProps {

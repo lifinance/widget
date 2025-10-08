@@ -5,7 +5,7 @@ import {
   useSVMContext,
   useUTXOContext,
   type WalletConnector,
-} from '@lifi/wallet-provider'
+} from '@lifi/widget-provider'
 import { useMemo } from 'react'
 import { useWalletManagementConfig } from '../providers/WalletManagementProvider/WalletManagementContext.js'
 import { getConnectorIcon } from '../utils/getConnectorIcon.js'

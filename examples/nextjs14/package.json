@@ -11,7 +11,7 @@
   "dependencies": {
     "@lifi/sdk": "^3.12.13",
     "@lifi/widget": "workspace:^",
-    "@lifi/wallet-provider-evm": "workspace:^",
+    "@lifi/widget-provider-ethereum": "workspace:^",
     "@mui/material-nextjs": "7.3.2",
     "next": "15.5.4",
     "react": "^19.2.0",

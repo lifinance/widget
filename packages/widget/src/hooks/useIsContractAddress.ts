@@ -1,5 +1,5 @@
 import { ChainType } from '@lifi/sdk'
-import { useEVMContext } from '@lifi/wallet-provider'
+import { useEVMContext } from '@lifi/widget-provider'
 import { useQuery } from '@tanstack/react-query'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider'
 import { getQueryKey } from '../utils/queries'

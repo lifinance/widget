@@ -1,5 +1,5 @@
 import { ChainId, ChainType, isSVMAddress, Solana } from '@lifi/sdk'
-import { SVMContext } from '@lifi/wallet-provider'
+import { SVMContext } from '@lifi/widget-provider'
 import {
   type SignerWalletAdapter,
   WalletReadyState,

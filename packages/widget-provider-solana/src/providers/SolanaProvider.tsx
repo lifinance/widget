@@ -1,4 +1,4 @@
-import type { WalletProviderProps } from '@lifi/wallet-provider'
+import type { WalletProviderProps } from '@lifi/widget-provider'
 import { ConnectionContext } from '@solana/wallet-adapter-react'
 import { type PropsWithChildren, useContext } from 'react'
 import { CaptureSVMValues } from './CaptureSVMValues.js'

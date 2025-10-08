@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/wallet-provider-evm": "workspace:^",
+    "@lifi/widget-provider-ethereum": "workspace:^",
     "@lifi/widget": "workspace:^",
     "veaury": "^2.6.3",
     "vue": "^3.5.22"
