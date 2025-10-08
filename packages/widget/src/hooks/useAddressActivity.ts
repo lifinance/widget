@@ -1,5 +1,5 @@
 import { ChainType } from '@lifi/sdk'
-import { useEVMContext } from '@lifi/widget-provider'
+import { useEthereumContext } from '@lifi/widget-provider'
 import { useQuery } from '@tanstack/react-query'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
@@ -16,7 +16,7 @@ export const useAddressActivity = (chainId?: number): AddressActivity => {
   const { keyPrefix } = useWidgetConfig()
   const { getChainById } = useAvailableChains()
   const [toAddress, toChainId] = useFieldValues('toAddress', 'toChain')
-  const { getTransactionCount } = useEVMContext()
+  const { getTransactionCount } = useEthereumContext()
 
   const destinationChainId = chainId ?? toChainId
   const toChain = getChainById(destinationChainId)

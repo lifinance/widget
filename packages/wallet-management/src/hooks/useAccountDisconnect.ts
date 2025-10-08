@@ -1,28 +1,28 @@
 import { ChainType } from '@lifi/sdk'
 import {
   type Account,
-  useEVMContext,
-  useMVMContext,
-  useSVMContext,
-  useUTXOContext,
+  useBitcoinContext,
+  useEthereumContext,
+  useSolanaContext,
+  useSuiContext,
 } from '@lifi/widget-provider'
 
 export const useAccountDisconnect = () => {
-  const { disconnect: evmDisconnect } = useEVMContext()
-  const { disconnect: utxoDisconnect } = useUTXOContext()
-  const { disconnect: svmDisconnect } = useSVMContext()
-  const { disconnect: suiDisconnect } = useMVMContext()
+  const { disconnect: ethereumDisconnect } = useEthereumContext()
+  const { disconnect: bitcoinDisconnect } = useBitcoinContext()
+  const { disconnect: solanaDisconnect } = useSolanaContext()
+  const { disconnect: suiDisconnect } = useSuiContext()
 
   return async (account: Account) => {
     switch (account.chainType) {
       case ChainType.EVM:
-        await evmDisconnect()
+        await ethereumDisconnect()
         break
       case ChainType.UTXO:
-        await utxoDisconnect()
+        await bitcoinDisconnect()
         break
       case ChainType.SVM:
-        await svmDisconnect()
+        await solanaDisconnect()
         break
       case ChainType.MVM:
         await suiDisconnect()

@@ -1,39 +1,39 @@
-import type { WalletProviderProps } from '@lifi/widget-provider'
+import type { WidgetProviderProps } from '@lifi/widget-provider'
 import { ConnectionContext } from '@solana/wallet-adapter-react'
 import { type PropsWithChildren, useContext } from 'react'
-import { CaptureSVMValues } from './CaptureSVMValues.js'
-import { SVMBaseProvider } from './SVMBaseProvider.js'
+import { SolanaBaseProvider } from './SolanaBaseProvider'
+import { SolanaProviderValues } from './SolanaProviderValues'
 
-function useInSVMContext(): boolean {
+function useInSolanaContext(): boolean {
   const context = useContext(ConnectionContext)
   return Boolean(context?.connection)
 }
 
-const SVMWalletProvider = ({
+const SolanaWidgetProvider = ({
   forceInternalWalletManagement,
   children,
-}: PropsWithChildren<WalletProviderProps>) => {
-  const inSVMContext = useInSVMContext()
+}: PropsWithChildren<WidgetProviderProps>) => {
+  const inSolanaContext = useInSolanaContext()
 
-  if (inSVMContext && !forceInternalWalletManagement) {
+  if (inSolanaContext && !forceInternalWalletManagement) {
     return (
-      <CaptureSVMValues isExternalContext={inSVMContext}>
+      <SolanaProviderValues isExternalContext={inSolanaContext}>
         {children}
-      </CaptureSVMValues>
+      </SolanaProviderValues>
     )
   }
 
   return (
-    <SVMBaseProvider>
-      <CaptureSVMValues isExternalContext={inSVMContext}>
+    <SolanaBaseProvider>
+      <SolanaProviderValues isExternalContext={inSolanaContext}>
         {children}
-      </CaptureSVMValues>
-    </SVMBaseProvider>
+      </SolanaProviderValues>
+    </SolanaBaseProvider>
   )
 }
 
 export const SolanaProvider = () => {
-  return ({ children, ...props }: PropsWithChildren<WalletProviderProps>) => (
-    <SVMWalletProvider {...props}>{children}</SVMWalletProvider>
+  return ({ children, ...props }: PropsWithChildren<WidgetProviderProps>) => (
+    <SolanaWidgetProvider {...props}>{children}</SolanaWidgetProvider>
   )
 }

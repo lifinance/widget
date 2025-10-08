@@ -7,11 +7,11 @@ import {
 import { getFullnodeUrl } from '@mysten/sui/client'
 import { type FC, type PropsWithChildren, useMemo } from 'react'
 
-interface MVMBaseProviderProps {
+interface SuiBaseProviderProps {
   chains?: ExtendedChain[]
 }
 
-export const MVMBaseProvider: FC<PropsWithChildren<MVMBaseProviderProps>> = ({
+export const SuiBaseProvider: FC<PropsWithChildren<SuiBaseProviderProps>> = ({
   chains,
   children,
 }) => {

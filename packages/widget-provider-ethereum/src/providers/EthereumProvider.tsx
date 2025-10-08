@@ -1,48 +1,51 @@
-import type { WalletProviderProps } from '@lifi/widget-provider'
+import type { WidgetProviderProps } from '@lifi/widget-provider'
 import { type PropsWithChildren, useContext } from 'react'
 import { WagmiContext } from 'wagmi'
-import type { EVMWalletConfig } from '../types.js'
-import { CaptureEVMValues } from './CaptureEVMValues.js'
-import { EVMBaseProvider } from './EVMBaseProvider.js'
+import type { EthereumProviderConfig } from '../types.js'
+import { EthereumBaseProvider } from './EthereumBaseProvider.js'
+import { EthereumProviderValues } from './EthereumProviderValues.js'
 
-interface EVMWalletProviderProps extends WalletProviderProps {
-  config?: EVMWalletConfig
+interface EthereumWidgetProviderProps extends WidgetProviderProps {
+  config?: EthereumProviderConfig
 }
 
-function useInEVMContext(): boolean {
+function useInEthereumContext(): boolean {
   const context = useContext(WagmiContext)
   return Boolean(context)
 }
 
-const EVMWalletProvider = ({
+const EthereumWidgetProvider = ({
   forceInternalWalletManagement,
   chains,
   config,
   children,
-}: PropsWithChildren<EVMWalletProviderProps>) => {
-  const inEVMContext = useInEVMContext()
+}: PropsWithChildren<EthereumWidgetProviderProps>) => {
+  const inEthereumContext = useInEthereumContext()
 
-  if (inEVMContext && !forceInternalWalletManagement) {
+  if (inEthereumContext && !forceInternalWalletManagement) {
     return (
-      <CaptureEVMValues isExternalContext={inEVMContext}>
+      <EthereumProviderValues isExternalContext={inEthereumContext}>
         {children}
-      </CaptureEVMValues>
+      </EthereumProviderValues>
     )
   }
 
   return (
-    <EVMBaseProvider config={config} chains={chains}>
-      <CaptureEVMValues isExternalContext={inEVMContext} config={config}>
+    <EthereumBaseProvider config={config} chains={chains}>
+      <EthereumProviderValues
+        isExternalContext={inEthereumContext}
+        config={config}
+      >
         {children}
-      </CaptureEVMValues>
-    </EVMBaseProvider>
+      </EthereumProviderValues>
+    </EthereumBaseProvider>
   )
 }
 
-export const EthereumProvider = (config?: EVMWalletConfig) => {
-  return ({ children, ...props }: PropsWithChildren<WalletProviderProps>) => (
-    <EVMWalletProvider {...props} config={config}>
+export const EthereumProvider = (config?: EthereumProviderConfig) => {
+  return ({ children, ...props }: PropsWithChildren<WidgetProviderProps>) => (
+    <EthereumWidgetProvider {...props} config={config}>
       {children}
-    </EVMWalletProvider>
+    </EthereumWidgetProvider>
   )
 }

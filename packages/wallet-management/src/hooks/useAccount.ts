@@ -1,10 +1,10 @@
 import { ChainType } from '@lifi/sdk'
 import {
   type Account,
-  useEVMContext,
-  useMVMContext,
-  useSVMContext,
-  useUTXOContext,
+  useBitcoinContext,
+  useEthereumContext,
+  useSolanaContext,
+  useSuiContext,
   type WalletConnector,
 } from '@lifi/widget-provider'
 import { useMemo } from 'react'
@@ -49,17 +49,20 @@ export const useLastConnectedAccount = create<LastConnectedAccountStore>(
  * @returns - Account result
  */
 export const useAccount = (args?: UseAccountArgs): AccountResult => {
-  const { account: evmAccount } = useEVMContext()
-  const { account: utxoAccount } = useUTXOContext()
-  const { account: svmAccount } = useSVMContext()
-  const { account: suiAccount } = useMVMContext()
+  const { account: ethereumAccount } = useEthereumContext()
+  const { account: bitcoinAccount } = useBitcoinContext()
+  const { account: solanaAccount } = useSolanaContext()
+  const { account: suiAccount } = useSuiContext()
   const { lastConnectedAccount } = useLastConnectedAccount()
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when wallet changes
   return useMemo(() => {
-    const accounts = [evmAccount, svmAccount, utxoAccount, suiAccount].filter(
-      (account) => account !== null
-    )
+    const accounts = [
+      ethereumAccount,
+      solanaAccount,
+      bitcoinAccount,
+      suiAccount,
+    ].filter((account) => account !== null)
     const connectedAccounts = accounts.filter(
       (account) => account.isConnected && account.address
     )
@@ -93,17 +96,18 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
       accounts: connectedAccounts,
     }
   }, [
-    svmAccount?.address,
-    evmAccount?.connector?.uid,
-    evmAccount?.connector?.id,
-    evmAccount?.status,
-    evmAccount?.address,
-    evmAccount?.chainId,
-    utxoAccount?.connector?.uid,
-    utxoAccount?.connector?.id,
-    utxoAccount?.status,
-    utxoAccount?.address,
-    utxoAccount?.chainId,
+    solanaAccount?.address,
+    solanaAccount?.status,
+    ethereumAccount?.connector?.uid,
+    ethereumAccount?.connector?.id,
+    ethereumAccount?.status,
+    ethereumAccount?.address,
+    ethereumAccount?.chainId,
+    bitcoinAccount?.connector?.uid,
+    bitcoinAccount?.connector?.id,
+    bitcoinAccount?.status,
+    bitcoinAccount?.address,
+    bitcoinAccount?.chainId,
     suiAccount?.address,
     suiAccount?.status,
     args?.chainType,

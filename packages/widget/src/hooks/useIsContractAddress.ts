@@ -1,5 +1,5 @@
 import { ChainType } from '@lifi/sdk'
-import { useEVMContext } from '@lifi/widget-provider'
+import { useEthereumContext } from '@lifi/widget-provider'
 import { useQuery } from '@tanstack/react-query'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider'
 import { getQueryKey } from '../utils/queries'
@@ -15,7 +15,7 @@ export const useIsContractAddress = (
   isFetched: boolean
 } => {
   const { keyPrefix } = useWidgetConfig()
-  const { getBytecode } = useEVMContext()
+  const { getBytecode } = useEthereumContext()
 
   const {
     data: contractCode,

@@ -1,5 +1,5 @@
 import { ChainType } from '@lifi/sdk'
-import { isWalletInstalled, useEVMContext } from '@lifi/widget-provider'
+import { isWalletInstalled, useEthereumContext } from '@lifi/widget-provider'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { getChainTypeIcon } from '../icons.js'
@@ -10,7 +10,7 @@ import { getConnectorIcon } from '../utils/getConnectorIcon.js'
 import { CardListItemButton } from './CardListItemButton.js'
 import type { WalletListItemButtonProps } from './types.js'
 
-export const EVMListItemButton = ({
+export const EthereumListItemButton = ({
   ecosystemSelection,
   connector,
   tagType,
@@ -20,7 +20,7 @@ export const EVMListItemButton = ({
   onError,
 }: WalletListItemButtonProps) => {
   const emitter = useWalletManagementEvents()
-  const { connect, disconnect, isConnected } = useEVMContext()
+  const { connect, disconnect, isConnected } = useEthereumContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()
 
   const connectorName = connector.displayName || connector.name
@@ -28,7 +28,7 @@ export const EVMListItemButton = ({
     ? 'Ethereum'
     : connectorName
 
-  const handleEVMConnect = async () => {
+  const handleEthereumConnect = async () => {
     if (tagType === WalletTagType.Connected) {
       onConnected?.()
       return
@@ -76,7 +76,7 @@ export const EVMListItemButton = ({
           ? getChainTypeIcon(ChainType.EVM)
           : (getConnectorIcon(connector) ?? '')
       }
-      onClick={handleEVMConnect}
+      onClick={handleEthereumConnect}
       title={connectorDisplayName}
       tagType={
         ecosystemSelection && tagType !== WalletTagType.Connected

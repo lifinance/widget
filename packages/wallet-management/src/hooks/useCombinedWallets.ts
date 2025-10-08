@@ -1,9 +1,9 @@
 import { ChainType } from '@lifi/sdk'
 import {
-  useEVMContext,
-  useMVMContext,
-  useSVMContext,
-  useUTXOContext,
+  useBitcoinContext,
+  useEthereumContext,
+  useSolanaContext,
+  useSuiContext,
   type WalletConnector,
 } from '@lifi/widget-provider'
 import { useMemo } from 'react'
@@ -26,56 +26,56 @@ export type CombinedWallet = {
 const normalizeName = (name: string) => name.split(' ')[0].toLowerCase().trim()
 
 const combineWalletLists = (
-  evmConnectorList: WalletConnector[],
-  utxoConnectorList: WalletConnector[],
-  svmWalletList: WalletConnector[],
-  mvmWalletList: WalletConnector[],
+  ethereumConnectorList: WalletConnector[],
+  bitcoinConnectorList: WalletConnector[],
+  solanaWalletList: WalletConnector[],
+  suiWalletList: WalletConnector[],
   walletEcosystemsOrder?: Record<string, ChainType[]>
 ): CombinedWallet[] => {
   const walletMap = new Map<string, CombinedWallet>()
 
-  evmConnectorList.forEach((evm) => {
-    const evmName = evm?.displayName || evm?.name
-    const normalizedName = normalizeName(evmName)
+  ethereumConnectorList.forEach((ethereum) => {
+    const ethereumName = ethereum?.displayName || ethereum?.name
+    const normalizedName = normalizeName(ethereumName)
     const existing = walletMap.get(normalizedName) || {
-      id: evm.id,
-      name: evmName,
-      icon: getConnectorIcon(evm),
+      id: ethereum.id,
+      name: ethereumName,
+      icon: getConnectorIcon(ethereum),
       connectors: [] as CombinedWalletConnector[],
     }
-    existing.connectors.push({ connector: evm, chainType: ChainType.EVM })
+    existing.connectors.push({ connector: ethereum, chainType: ChainType.EVM })
     walletMap.set(normalizedName, existing)
   })
 
-  utxoConnectorList.forEach((utxo) => {
-    const utxoName = utxo.name
-    const normalizedName = normalizeName(utxoName)
+  bitcoinConnectorList.forEach((bitcoin) => {
+    const bitcoinName = bitcoin.name
+    const normalizedName = normalizeName(bitcoinName)
     const existing = walletMap.get(normalizedName) || {
-      id: utxo.id,
-      name: utxoName,
-      icon: getConnectorIcon(utxo),
+      id: bitcoin.id,
+      name: bitcoinName,
+      icon: getConnectorIcon(bitcoin),
       connectors: [] as CombinedWalletConnector[],
     }
-    existing.connectors.push({ connector: utxo, chainType: ChainType.UTXO })
+    existing.connectors.push({ connector: bitcoin, chainType: ChainType.UTXO })
     walletMap.set(normalizedName, existing)
   })
 
-  svmWalletList.forEach((svm) => {
-    const normalizedName = normalizeName(svm.name)
+  solanaWalletList.forEach((solana) => {
+    const normalizedName = normalizeName(solana.name)
     const existing = walletMap.get(normalizedName) || {
-      id: svm.name,
-      name: svm.name,
-      icon: svm.icon,
+      id: solana.name,
+      name: solana.name,
+      icon: solana.icon,
       connectors: [] as CombinedWalletConnector[],
     }
     existing.connectors.push({
-      connector: svm,
+      connector: solana,
       chainType: ChainType.SVM,
     })
     walletMap.set(normalizedName, existing)
   })
 
-  mvmWalletList.forEach((sui) => {
+  suiWalletList.forEach((sui) => {
     const normalizedName = normalizeName(sui.name)
     const existing = walletMap.get(normalizedName) || {
       id: sui.name,
@@ -109,10 +109,10 @@ const combineWalletLists = (
 
 export const useCombinedWallets = () => {
   const walletConfig = useWalletManagementConfig()
-  const { installedWallets: installedEVMWallets } = useEVMContext()
-  const { installedWallets: installedUTXOWallets } = useUTXOContext()
-  const { installedWallets: installedSVMWallets } = useSVMContext()
-  const { installedWallets: installedMVMWallets } = useMVMContext()
+  const { installedWallets: installedEthereumWallets } = useEthereumContext()
+  const { installedWallets: installedBitcoinWallets } = useBitcoinContext()
+  const { installedWallets: installedSolanaWallets } = useSolanaContext()
+  const { installedWallets: installedSuiWallets } = useSuiContext()
 
   const combinedWallets = useMemo(() => {
     const includeEcosystem = (chainType: ChainType) =>
@@ -120,10 +120,10 @@ export const useCombinedWallets = () => {
       walletConfig.enabledChainTypes.includes(chainType)
 
     const installedCombinedWallets = combineWalletLists(
-      includeEcosystem(ChainType.EVM) ? installedEVMWallets : [],
-      includeEcosystem(ChainType.UTXO) ? installedUTXOWallets : [],
-      includeEcosystem(ChainType.SVM) ? installedSVMWallets : [],
-      includeEcosystem(ChainType.MVM) ? installedMVMWallets : [],
+      includeEcosystem(ChainType.EVM) ? installedEthereumWallets : [],
+      includeEcosystem(ChainType.UTXO) ? installedBitcoinWallets : [],
+      includeEcosystem(ChainType.SVM) ? installedSolanaWallets : [],
+      includeEcosystem(ChainType.MVM) ? installedSuiWallets : [],
       walletConfig.walletEcosystemsOrder
     )
 
@@ -131,10 +131,10 @@ export const useCombinedWallets = () => {
 
     return installedCombinedWallets
   }, [
-    installedEVMWallets,
-    installedUTXOWallets,
-    installedSVMWallets,
-    installedMVMWallets,
+    installedEthereumWallets,
+    installedBitcoinWallets,
+    installedSolanaWallets,
+    installedSuiWallets,
     walletConfig,
   ])
 

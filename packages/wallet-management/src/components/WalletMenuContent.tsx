@@ -23,12 +23,12 @@ import { ElementId } from '../utils/elements.js'
 import { getConnectorId } from '../utils/getConnectorId.js'
 import { getSortedByTags } from '../utils/getSortedByTags.js'
 import { getConnectorTagType, getWalletTagType } from '../utils/walletTags.js'
+import { BitcoinListItemButton } from './BitcoinListItemButton.js'
 import { CardListItemButton } from './CardListItemButton.js'
-import { EVMListItemButton } from './EVMListItemButton.js'
-import { MVMListItemButton } from './MVMListItemButton.js'
-import { SVMListItemButton } from './SVMListItemButton.js'
+import { EthereumListItemButton } from './EthereumListItemButton.js'
+import { SolanaListItemButton } from './SolanaListItemButton.js'
+import { SuiListItemButton } from './SuiListItemButton.js'
 import type { WalletListItemButtonProps } from './types.js'
-import { UTXOListItemButton } from './UTXOListItemButton.js'
 import { WalletInfoDisplay } from './WalletInfoDisplay.js'
 import { WalletMenuContentEmpty } from './WalletMenuContentEmpty.js'
 
@@ -169,16 +169,16 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
       null
     switch (chainType) {
       case ChainType.EVM:
-        ListItemButtonComponent = EVMListItemButton
+        ListItemButtonComponent = EthereumListItemButton
         break
       case ChainType.UTXO:
-        ListItemButtonComponent = UTXOListItemButton
+        ListItemButtonComponent = BitcoinListItemButton
         break
       case ChainType.SVM:
-        ListItemButtonComponent = SVMListItemButton
+        ListItemButtonComponent = SolanaListItemButton
         break
       case ChainType.MVM:
-        ListItemButtonComponent = MVMListItemButton
+        ListItemButtonComponent = SuiListItemButton
         break
     }
 

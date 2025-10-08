@@ -6,7 +6,7 @@ import {
   type DefaultBigmiConfigResult,
 } from '../utils/createDefaultBigmiConfig.js'
 
-export const UTXOBaseProvider: FC<PropsWithChildren> = ({ children }) => {
+export const BitcoinBaseProvider: FC<PropsWithChildren> = ({ children }) => {
   const bigmi = useRef<DefaultBigmiConfigResult>(null)
 
   if (!bigmi.current) {

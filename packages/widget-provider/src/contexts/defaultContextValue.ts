@@ -1,6 +1,6 @@
-import type { WalletProviderContext } from '../types.js'
+import type { WidgetProviderContext } from '../types.js'
 
-export const defaultContextValue: WalletProviderContext = {
+export const defaultContextValue: WidgetProviderContext = {
   isEnabled: false,
   isExternalContext: false,
   isConnected: false,

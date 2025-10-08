@@ -1,5 +1,5 @@
 import { ChainId, ChainType } from '@lifi/sdk'
-import { isWalletInstalled, useUTXOContext } from '@lifi/widget-provider'
+import { isWalletInstalled, useBitcoinContext } from '@lifi/widget-provider'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { getChainTypeIcon } from '../icons.js'
@@ -9,7 +9,7 @@ import { getConnectorIcon } from '../utils/getConnectorIcon.js'
 import { CardListItemButton } from './CardListItemButton.js'
 import type { WalletListItemButtonProps } from './types.js'
 
-export const UTXOListItemButton = ({
+export const BitcoinListItemButton = ({
   ecosystemSelection,
   connector,
   tagType,
@@ -19,14 +19,14 @@ export const UTXOListItemButton = ({
   onError,
 }: WalletListItemButtonProps) => {
   const emitter = useWalletManagementEvents()
-  const { connect, disconnect, isConnected } = useUTXOContext()
+  const { connect, disconnect, isConnected } = useBitcoinContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()
 
   const connectorDisplayName: string = ecosystemSelection
     ? 'Bitcoin'
     : connector.name
 
-  const handleUTXOConnect = async () => {
+  const handleBitcoinConnect = async () => {
     if (tagType === WalletTagType.Connected) {
       onConnected?.()
       return
@@ -68,7 +68,7 @@ export const UTXOListItemButton = ({
           ? getChainTypeIcon(ChainType.UTXO)
           : (getConnectorIcon(connector) ?? '')
       }
-      onClick={handleUTXOConnect}
+      onClick={handleBitcoinConnect}
       title={connectorDisplayName}
       tagType={
         ecosystemSelection && tagType !== WalletTagType.Connected

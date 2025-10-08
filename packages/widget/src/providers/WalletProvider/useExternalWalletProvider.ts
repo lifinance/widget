@@ -1,9 +1,9 @@
 import { ChainType } from '@lifi/sdk'
 import {
-  useEVMContext,
-  useMVMContext,
-  useSVMContext,
-  useUTXOContext,
+  useBitcoinContext,
+  useEthereumContext,
+  useSolanaContext,
+  useSuiContext,
 } from '@lifi/widget-provider'
 import { useMemo } from 'react'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
@@ -23,28 +23,28 @@ const internalChainTypes = [
 
 export function useExternalWalletProvider(): ExternalWalletProvider {
   const { walletConfig } = useWidgetConfig()
-  const { isExternalContext: hasExternalEVMContext } = useEVMContext()
-  const { isExternalContext: hasExternalSVMContext } = useSVMContext()
-  const { isExternalContext: hasExternalUTXOContext } = useUTXOContext()
-  const { isExternalContext: hasExternalSuiContext } = useMVMContext()
+  const { isExternalContext: hasExternalEthereumContext } = useEthereumContext()
+  const { isExternalContext: hasExternalSolanaContext } = useSolanaContext()
+  const { isExternalContext: hasExternalBitcoinContext } = useBitcoinContext()
+  const { isExternalContext: hasExternalSuiContext } = useSuiContext()
   const data = useMemo(() => {
     const providers: ChainType[] = []
-    if (hasExternalEVMContext) {
+    if (hasExternalEthereumContext) {
       providers.push(ChainType.EVM)
     }
-    if (hasExternalSVMContext) {
+    if (hasExternalSolanaContext) {
       providers.push(ChainType.SVM)
     }
-    if (hasExternalUTXOContext) {
+    if (hasExternalBitcoinContext) {
       providers.push(ChainType.UTXO)
     }
     if (hasExternalSuiContext) {
       providers.push(ChainType.MVM)
     }
     const hasExternalProvider =
-      hasExternalEVMContext ||
-      hasExternalSVMContext ||
-      hasExternalUTXOContext ||
+      hasExternalEthereumContext ||
+      hasExternalSolanaContext ||
+      hasExternalBitcoinContext ||
       hasExternalSuiContext
 
     const useExternalWalletProvidersOnly =
@@ -59,9 +59,9 @@ export function useExternalWalletProvider(): ExternalWalletProvider {
       ),
     }
   }, [
-    hasExternalEVMContext,
-    hasExternalSVMContext,
-    hasExternalUTXOContext,
+    hasExternalEthereumContext,
+    hasExternalSolanaContext,
+    hasExternalBitcoinContext,
     hasExternalSuiContext,
     walletConfig?.usePartialWalletManagement,
     walletConfig?.forceInternalWalletManagement,

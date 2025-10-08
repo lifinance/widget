@@ -23,7 +23,7 @@ export interface Account {
   status: 'connected' | 'reconnecting' | 'connecting' | 'disconnected'
 }
 
-export type WalletProviderContext = {
+export type WidgetProviderContext = {
   isEnabled: boolean
   isExternalContext: boolean
   isConnected: boolean
@@ -46,7 +46,7 @@ export type WalletProviderContext = {
     address: string
   ) => Promise<number | undefined>
 }
-export interface WalletProviderProps {
+export interface WidgetProviderProps {
   forceInternalWalletManagement?: boolean
   chains: ExtendedChain[]
 }

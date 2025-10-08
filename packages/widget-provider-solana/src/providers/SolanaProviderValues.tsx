@@ -1,5 +1,5 @@
 import { ChainId, ChainType, isSVMAddress, Solana } from '@lifi/sdk'
-import { SVMContext } from '@lifi/widget-provider'
+import { SolanaContext } from '@lifi/widget-provider'
 import {
   type SignerWalletAdapter,
   WalletReadyState,
@@ -8,14 +8,13 @@ import { useWallet, type Wallet } from '@solana/wallet-adapter-react'
 import type { PublicKey } from '@solana/web3.js'
 import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
 
-interface CaptureSVMValuesProps {
+interface SolanaProviderValuesProps {
   isExternalContext: boolean
 }
 
-export const CaptureSVMValues: FC<PropsWithChildren<CaptureSVMValuesProps>> = ({
-  children,
-  isExternalContext,
-}) => {
+export const SolanaProviderValues: FC<
+  PropsWithChildren<SolanaProviderValuesProps>
+> = ({ children, isExternalContext }) => {
   const {
     wallets,
     wallet: currentWallet,
@@ -76,7 +75,7 @@ export const CaptureSVMValues: FC<PropsWithChildren<CaptureSVMValuesProps>> = ({
   )
 
   return (
-    <SVMContext.Provider
+    <SolanaContext.Provider
       value={{
         isEnabled: true,
         account,
@@ -94,6 +93,6 @@ export const CaptureSVMValues: FC<PropsWithChildren<CaptureSVMValuesProps>> = ({
       }}
     >
       {children}
-    </SVMContext.Provider>
+    </SolanaContext.Provider>
   )
 }

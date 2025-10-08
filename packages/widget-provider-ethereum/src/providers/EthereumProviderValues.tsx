@@ -1,5 +1,5 @@
 import { ChainType, EVM } from '@lifi/sdk'
-import { EVMContext, isWalletInstalled } from '@lifi/widget-provider'
+import { EthereumContext, isWalletInstalled } from '@lifi/widget-provider'
 import {
   type FC,
   type PropsWithChildren,
@@ -28,18 +28,19 @@ import { createCoinbaseConnector } from '../connectors/coinbase.js'
 import { createMetaMaskConnector } from '../connectors/metaMask.js'
 import { createPortoConnector } from '../connectors/porto.js'
 import { createWalletConnectConnector } from '../connectors/walletConnect.js'
-import type { CreateConnectorFnExtended, EVMWalletConfig } from '../types.js'
+import type {
+  CreateConnectorFnExtended,
+  EthereumProviderConfig,
+} from '../types.js'
 
-interface CaptureEVMValuesProps {
+interface EthereumProviderValuesProps {
   isExternalContext: boolean
-  config?: EVMWalletConfig
+  config?: EthereumProviderConfig
 }
 
-export const CaptureEVMValues: FC<PropsWithChildren<CaptureEVMValuesProps>> = ({
-  children,
-  isExternalContext,
-  config,
-}) => {
+export const EthereumProviderValues: FC<
+  PropsWithChildren<EthereumProviderValuesProps>
+> = ({ children, isExternalContext, config }) => {
   const wagmiConfig = useConfig()
   const currentWallet = useAccount()
   const { connectors: wagmiConnectors } = useConnect()
@@ -173,7 +174,7 @@ export const CaptureEVMValues: FC<PropsWithChildren<CaptureEVMValuesProps>> = ({
   const account = { ...currentWallet, chainType: ChainType.EVM }
 
   return (
-    <EVMContext.Provider
+    <EthereumContext.Provider
       value={{
         isEnabled: true,
         isConnected: account.isConnected,
@@ -204,6 +205,6 @@ export const CaptureEVMValues: FC<PropsWithChildren<CaptureEVMValuesProps>> = ({
       }}
     >
       {children}
-    </EVMContext.Provider>
+    </EthereumContext.Provider>
   )
 }

@@ -1,5 +1,5 @@
 import { ChainId, ChainType } from '@lifi/sdk'
-import { useMVMContext } from '@lifi/widget-provider'
+import { useSuiContext } from '@lifi/widget-provider'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { getChainTypeIcon } from '../icons.js'
@@ -8,7 +8,7 @@ import { WalletTagType } from '../types/walletTagType.js'
 import { CardListItemButton } from './CardListItemButton.js'
 import type { WalletListItemButtonProps } from './types.js'
 
-export const MVMListItemButton = ({
+export const SuiListItemButton = ({
   ecosystemSelection,
   connector,
   tagType,
@@ -17,14 +17,14 @@ export const MVMListItemButton = ({
   onError,
 }: WalletListItemButtonProps) => {
   const emitter = useWalletManagementEvents()
-  const { connect, disconnect, isConnected } = useMVMContext()
+  const { connect, disconnect, isConnected } = useSuiContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()
 
   const connectorDisplayName: string = ecosystemSelection
     ? 'Sui'
     : connector.name
 
-  const handleMVMConnect = async () => {
+  const handleSuiConnect = async () => {
     if (tagType === WalletTagType.Connected) {
       onConnected?.()
       return
@@ -59,7 +59,7 @@ export const MVMListItemButton = ({
           ? getChainTypeIcon(ChainType.MVM)
           : (connector.icon ?? '')
       }
-      onClick={handleMVMConnect}
+      onClick={handleSuiConnect}
       title={connectorDisplayName}
       tagType={
         ecosystemSelection && tagType !== WalletTagType.Connected

@@ -8,15 +8,15 @@ import {
 import { isUTXOAddress } from '@bigmi/core'
 import { useAccount, useConfig, useConnect } from '@bigmi/react'
 import { ChainId, ChainType, UTXO } from '@lifi/sdk'
-import { isWalletInstalled, UTXOContext } from '@lifi/widget-provider'
+import { BitcoinContext, isWalletInstalled } from '@lifi/widget-provider'
 import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
 
-interface CaptureUTXOValuesProps {
+interface BitcoinProviderValuesProps {
   isExternalContext: boolean
 }
 
-export const CaptureUTXOValues: FC<
-  PropsWithChildren<CaptureUTXOValuesProps>
+export const BitcoinProviderValues: FC<
+  PropsWithChildren<BitcoinProviderValuesProps>
 > = ({ children, isExternalContext }) => {
   const bigmiConfig = useConfig()
   const { connectors } = useConnect()
@@ -66,7 +66,7 @@ export const CaptureUTXOValues: FC<
   )
 
   return (
-    <UTXOContext.Provider
+    <BitcoinContext.Provider
       value={{
         isEnabled: true,
         sdkProvider: UTXO({
@@ -82,6 +82,6 @@ export const CaptureUTXOValues: FC<
       }}
     >
       {children}
-    </UTXOContext.Provider>
+    </BitcoinContext.Provider>
   )
 }

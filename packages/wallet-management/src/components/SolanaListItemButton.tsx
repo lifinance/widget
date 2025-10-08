@@ -1,5 +1,5 @@
 import { ChainId, ChainType } from '@lifi/sdk'
-import { useSVMContext } from '@lifi/widget-provider'
+import { useSolanaContext } from '@lifi/widget-provider'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { getChainTypeIcon } from '../icons.js'
@@ -8,7 +8,7 @@ import { WalletTagType } from '../types/walletTagType.js'
 import { CardListItemButton } from './CardListItemButton.js'
 import type { WalletListItemButtonProps } from './types.js'
 
-export const SVMListItemButton = ({
+export const SolanaListItemButton = ({
   ecosystemSelection,
   connector,
   tagType,
@@ -17,14 +17,14 @@ export const SVMListItemButton = ({
   onError,
 }: WalletListItemButtonProps) => {
   const emitter = useWalletManagementEvents()
-  const { connect, disconnect, isConnected } = useSVMContext()
+  const { connect, disconnect, isConnected } = useSolanaContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()
 
   const connectorDisplayName: string = ecosystemSelection
     ? 'Solana'
     : connector.name
 
-  const handleSVMConnect = async () => {
+  const handleSolanaConnect = async () => {
     if (tagType === WalletTagType.Connected) {
       onConnected?.()
       return
@@ -59,7 +59,7 @@ export const SVMListItemButton = ({
           ? getChainTypeIcon(ChainType.SVM)
           : (connector.icon ?? '')
       }
-      onClick={handleSVMConnect}
+      onClick={handleSolanaConnect}
       title={connectorDisplayName}
       tagType={
         ecosystemSelection && tagType !== WalletTagType.Connected

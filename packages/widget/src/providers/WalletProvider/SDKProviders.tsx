@@ -1,20 +1,20 @@
 import type { SDKProvider } from '@lifi/sdk'
 import { ChainType, config } from '@lifi/sdk'
 import {
-  useEVMContext,
-  useMVMContext,
-  useSVMContext,
-  useUTXOContext,
+  useBitcoinContext,
+  useEthereumContext,
+  useSolanaContext,
+  useSuiContext,
 } from '@lifi/widget-provider'
 import { useEffect } from 'react'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 
 export const SDKProviders = () => {
   const { sdkConfig } = useWidgetConfig()
-  const { sdkProvider: evmSDKProvider } = useEVMContext()
-  const { sdkProvider: utxoSDKProvider } = useUTXOContext()
-  const { sdkProvider: svmSDKProvider } = useSVMContext()
-  const { sdkProvider: suiSDKProvider } = useMVMContext()
+  const { sdkProvider: evmSDKProvider } = useEthereumContext()
+  const { sdkProvider: utxoSDKProvider } = useBitcoinContext()
+  const { sdkProvider: svmSDKProvider } = useSolanaContext()
+  const { sdkProvider: suiSDKProvider } = useSuiContext()
 
   useEffect(() => {
     // Configure SDK Providers

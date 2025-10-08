@@ -12,7 +12,7 @@ import type {
   Token,
 } from '@lifi/sdk'
 import type { WalletMenuOpenArgs } from '@lifi/wallet-management'
-import type { WalletProviderProps } from '@lifi/widget-provider'
+import type { WidgetProviderProps } from '@lifi/widget-provider'
 import type {
   Components,
   PaletteMode,
@@ -381,7 +381,7 @@ export interface FormRefProps {
 }
 
 export interface WidgetWalletProvidersProps {
-  providers: ((props: PropsWithChildren<WalletProviderProps>) => ReactNode)[]
+  providers: ((props: PropsWithChildren<WidgetProviderProps>) => ReactNode)[]
 }
 
 export interface WidgetConfigProps extends FormRefProps {

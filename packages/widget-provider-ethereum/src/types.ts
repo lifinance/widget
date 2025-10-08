@@ -12,7 +12,7 @@ export interface CreateConnectorFnExtended extends CreateConnectorFn {
   displayName: string
 }
 
-export interface EVMWalletConfig {
+export interface EthereumProviderConfig {
   walletConnect?: WalletConnectParameters
   coinbase?: CoinbaseWalletParameters
   metaMask?: MetaMaskParameters

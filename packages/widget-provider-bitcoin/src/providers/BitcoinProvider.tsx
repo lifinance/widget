@@ -1,40 +1,40 @@
 import { BigmiContext } from '@bigmi/react'
-import type { WalletProviderProps } from '@lifi/widget-provider'
+import type { WidgetProviderProps } from '@lifi/widget-provider'
 import { type PropsWithChildren, useContext } from 'react'
-import { CaptureUTXOValues } from './CaptureUTXOValues.js'
-import { UTXOBaseProvider } from './UTXOBaseProvider.js'
+import { BitcoinBaseProvider } from './BitcoinBaseProvider.js'
+import { BitcoinProviderValues } from './BitcoinProviderValues.js'
 
-function useInUTXOContext(): boolean {
+function useInBitcoinContext(): boolean {
   const context = useContext(BigmiContext)
 
   return Boolean(context)
 }
 
-const UTXOWalletProvider = ({
+const BitcoinWidgetProvider = ({
   forceInternalWalletManagement,
   children,
-}: PropsWithChildren<WalletProviderProps>) => {
-  const inUTXOContext = useInUTXOContext()
+}: PropsWithChildren<WidgetProviderProps>) => {
+  const inBitcoinContext = useInBitcoinContext()
 
-  if (inUTXOContext && !forceInternalWalletManagement) {
+  if (inBitcoinContext && !forceInternalWalletManagement) {
     return (
-      <CaptureUTXOValues isExternalContext={inUTXOContext}>
+      <BitcoinProviderValues isExternalContext={inBitcoinContext}>
         {children}
-      </CaptureUTXOValues>
+      </BitcoinProviderValues>
     )
   }
 
   return (
-    <UTXOBaseProvider>
-      <CaptureUTXOValues isExternalContext={inUTXOContext}>
+    <BitcoinBaseProvider>
+      <BitcoinProviderValues isExternalContext={inBitcoinContext}>
         {children}
-      </CaptureUTXOValues>
-    </UTXOBaseProvider>
+      </BitcoinProviderValues>
+    </BitcoinBaseProvider>
   )
 }
 
 export const BitcoinProvider = () => {
-  return ({ children, ...props }: PropsWithChildren<WalletProviderProps>) => (
-    <UTXOWalletProvider {...props}>{children}</UTXOWalletProvider>
+  return ({ children, ...props }: PropsWithChildren<WidgetProviderProps>) => (
+    <BitcoinWidgetProvider {...props}>{children}</BitcoinWidgetProvider>
   )
 }

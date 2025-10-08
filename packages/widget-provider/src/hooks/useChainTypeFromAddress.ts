@@ -1,36 +1,36 @@
 import { ChainType } from '@lifi/sdk'
 import { useCallback } from 'react'
-import { useEVMContext } from '../contexts/EVMContext.js'
-import { useMVMContext } from '../contexts/MVMContext.js'
-import { useSVMContext } from '../contexts/SVMContext.js'
-import { useUTXOContext } from '../contexts/UTXOContext.js'
+import { useBitcoinContext } from '../contexts/BitcoinContext.js'
+import { useEthereumContext } from '../contexts/EthereumContext.js'
+import { useSolanaContext } from '../contexts/SolanaContext.js'
+import { useSuiContext } from '../contexts/SuiContext.js'
 
 export const useChainTypeFromAddress = () => {
-  const { isValidAddress: isValidEVMAddress } = useEVMContext()
-  const { isValidAddress: isValidSVMAddress } = useSVMContext()
-  const { isValidAddress: isValidUTXOAddress } = useUTXOContext()
-  const { isValidAddress: isValidMVMAddress } = useMVMContext()
+  const { isValidAddress: isValidEthereumAddress } = useEthereumContext()
+  const { isValidAddress: isValidSolanaAddress } = useSolanaContext()
+  const { isValidAddress: isValidBitcoinAddress } = useBitcoinContext()
+  const { isValidAddress: isValidSuiAddress } = useSuiContext()
 
   const getChainTypeFromAddress = useCallback(
     (address: string): ChainType | undefined => {
-      if (isValidEVMAddress(address)) {
+      if (isValidEthereumAddress(address)) {
         return ChainType.EVM
       }
-      if (isValidSVMAddress(address)) {
+      if (isValidSolanaAddress(address)) {
         return ChainType.SVM
       }
-      if (isValidUTXOAddress(address)) {
+      if (isValidBitcoinAddress(address)) {
         return ChainType.UTXO
       }
-      if (isValidMVMAddress(address)) {
+      if (isValidSuiAddress(address)) {
         return ChainType.MVM
       }
     },
     [
-      isValidEVMAddress,
-      isValidSVMAddress,
-      isValidUTXOAddress,
-      isValidMVMAddress,
+      isValidEthereumAddress,
+      isValidSolanaAddress,
+      isValidBitcoinAddress,
+      isValidSuiAddress,
     ]
   )
   return { getChainTypeFromAddress }

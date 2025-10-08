@@ -1,5 +1,5 @@
 import { ChainId, ChainType, Sui } from '@lifi/sdk'
-import { MVMContext } from '@lifi/widget-provider'
+import { SuiContext } from '@lifi/widget-provider'
 import {
   useConnectWallet,
   useCurrentWallet,
@@ -10,14 +10,13 @@ import { isValidSuiAddress } from '@mysten/sui/utils'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import { type FC, type PropsWithChildren, useCallback } from 'react'
 
-interface CaptureMVMValuesProps {
+interface SuiProviderValuesProps {
   isExternalContext: boolean
 }
 
-export const CaptureMVMValues: FC<PropsWithChildren<CaptureMVMValuesProps>> = ({
-  children,
-  isExternalContext,
-}) => {
+export const SuiProviderValues: FC<
+  PropsWithChildren<SuiProviderValuesProps>
+> = ({ children, isExternalContext }) => {
   const wallets = useWallets()
   const { currentWallet, connectionStatus } = useCurrentWallet()
   const { mutateAsync: disconnect } = useDisconnectWallet()
@@ -71,7 +70,7 @@ export const CaptureMVMValues: FC<PropsWithChildren<CaptureMVMValuesProps>> = ({
   )
 
   return (
-    <MVMContext.Provider
+    <SuiContext.Provider
       value={{
         isEnabled: true,
         account,
@@ -87,6 +86,6 @@ export const CaptureMVMValues: FC<PropsWithChildren<CaptureMVMValuesProps>> = ({
       }}
     >
       {children}
-    </MVMContext.Provider>
+    </SuiContext.Provider>
   )
 }

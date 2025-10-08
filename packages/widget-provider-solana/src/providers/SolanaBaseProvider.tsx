@@ -8,7 +8,7 @@ import {
 import { clusterApiUrl } from '@solana/web3.js'
 import { type FC, type PropsWithChildren, useMemo } from 'react'
 
-export const SVMBaseProvider: FC<PropsWithChildren> = ({ children }) => {
+export const SolanaBaseProvider: FC<PropsWithChildren> = ({ children }) => {
   const [endpoint, wallets] = useMemo(() => {
     const endpoint = clusterApiUrl(WalletAdapterNetwork.Mainnet)
     /**
