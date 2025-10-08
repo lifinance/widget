@@ -33,7 +33,7 @@ const UTXOWalletProvider = ({
   )
 }
 
-export const UTXOProvider = () => {
+export const BitcoinProvider = () => {
   return ({ children, ...props }: PropsWithChildren<WalletProviderProps>) => (
     <UTXOWalletProvider {...props}>{children}</UTXOWalletProvider>
   )

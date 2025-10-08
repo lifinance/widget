@@ -1,7 +1,7 @@
-import { EVMProvider } from '@lifi/wallet-provider-evm'
-import { MVMProvider } from '@lifi/wallet-provider-mvm'
-import { SVMProvider } from '@lifi/wallet-provider-svm'
-import { UTXOProvider } from '@lifi/wallet-provider-utxo'
+import { EthereumProvider } from '@lifi/wallet-provider-evm'
+import { SuiProvider } from '@lifi/wallet-provider-mvm'
+import { SolanaProvider } from '@lifi/wallet-provider-svm'
+import { BitcoinProvider } from '@lifi/wallet-provider-utxo'
 import { LiFiWidget } from '@lifi/widget'
 import { Box, CssBaseline } from '@mui/material'
 import type { NFTNetwork } from './components/NFTOpenSea/index.js'
@@ -32,10 +32,10 @@ export const App = () => {
       >
         <LiFiWidget
           providers={[
-            EVMProvider(),
-            MVMProvider(),
-            SVMProvider(),
-            UTXOProvider(),
+            EthereumProvider(),
+            SuiProvider(),
+            SolanaProvider(),
+            BitcoinProvider(),
           ]}
           contractComponent={
             <NFTOpenSea

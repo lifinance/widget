@@ -1,4 +1,4 @@
-import { EVMProvider } from '@lifi/wallet-provider-evm'
+import { EthereumProvider } from '@lifi/wallet-provider-evm'
 import { type WidgetConfig, WidgetSkeleton } from '@lifi/widget'
 import { lazy, Suspense } from 'react'
 
@@ -24,7 +24,7 @@ export function LiFiWidget() {
       <LiFiWidgetLazy
         config={config}
         integrator="remix-to-react-router-7-example"
-        providers={[EVMProvider()]}
+        providers={[EthereumProvider()]}
       />
     </Suspense>
   )

@@ -1,6 +1,6 @@
 'use client'
 
-import { EVMProvider } from '@lifi/wallet-provider-evm'
+import { EthereumProvider } from '@lifi/wallet-provider-evm'
 import type { WidgetConfig } from '@lifi/widget'
 import { LiFiWidget, WidgetSkeleton } from '@lifi/widget'
 import { ClientOnly } from './ClientOnly'
@@ -21,7 +21,7 @@ export function Widget() {
       <LiFiWidget
         config={config}
         integrator="nextjs-example"
-        providers={[EVMProvider()]}
+        providers={[EthereumProvider()]}
       />
     </ClientOnly>
   )

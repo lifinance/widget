@@ -1,1 +1,1 @@
-export { SVMProvider } from './providers/SVMProvider.js'
+export { SolanaProvider } from './providers/SolanaProvider.js'

@@ -1,4 +1,4 @@
-import { EVMProvider } from '@lifi/wallet-provider-evm'
+import { EthereumProvider } from '@lifi/wallet-provider-evm'
 import { LiFiWidget } from '@lifi/widget'
 import { useWidgetConfig } from '../store/useWidgetConfig.ts'
 
@@ -8,7 +8,7 @@ export function WidgetView() {
     <LiFiWidget
       integrator="vite-example"
       config={config}
-      providers={[EVMProvider()]}
+      providers={[EthereumProvider()]}
     />
   )
 }

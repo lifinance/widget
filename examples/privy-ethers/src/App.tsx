@@ -1,5 +1,5 @@
-import { EVMProvider } from '@lifi/wallet-provider-evm'
-import { SVMProvider } from '@lifi/wallet-provider-svm'
+import { EthereumProvider } from '@lifi/wallet-provider-evm'
+import { SolanaProvider } from '@lifi/wallet-provider-svm'
 import { ChainId, LiFiWidget } from '@lifi/widget'
 import { Grid } from '@mui/material'
 import { QueryClientProvider } from '@tanstack/react-query'
@@ -34,7 +34,7 @@ function App() {
                   },
                 },
               }}
-              providers={[EVMProvider(), SVMProvider()]}
+              providers={[EthereumProvider(), SolanaProvider()]}
             />
           </Grid>
           <Grid size={{ sm: 12, md: 5 }}>

@@ -39,7 +39,7 @@ const EVMWalletProvider = ({
   )
 }
 
-export const EVMProvider = (config?: EVMWalletConfig) => {
+export const EthereumProvider = (config?: EVMWalletConfig) => {
   return ({ children, ...props }: PropsWithChildren<WalletProviderProps>) => (
     <EVMWalletProvider {...props} config={config}>
       {children}

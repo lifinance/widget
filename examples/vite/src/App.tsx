@@ -1,4 +1,4 @@
-import { EVMProvider } from '@lifi/wallet-provider-evm'
+import { EthereumProvider } from '@lifi/wallet-provider-evm'
 import { LiFiWidget } from '@lifi/widget'
 
 export function App() {
@@ -13,7 +13,7 @@ export function App() {
           },
         },
       }}
-      providers={[EVMProvider()]}
+      providers={[EthereumProvider()]}
     />
   )
 }

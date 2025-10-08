@@ -33,7 +33,7 @@ const MVMWalletProvider = ({
   )
 }
 
-export const MVMProvider = () => {
+export const SuiProvider = () => {
   return ({ children, ...props }: PropsWithChildren<WalletProviderProps>) => (
     <MVMWalletProvider {...props}>{children}</MVMWalletProvider>
   )

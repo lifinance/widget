@@ -1,1 +1,1 @@
-export { UTXOProvider } from './providers/UTXOProvider.js'
+export { BitcoinProvider } from './providers/BitcoinProvider.js'

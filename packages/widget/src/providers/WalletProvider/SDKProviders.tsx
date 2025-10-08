@@ -19,25 +19,25 @@ export const SDKProviders = () => {
   useEffect(() => {
     // Configure SDK Providers
     const providers: SDKProvider[] = []
-    const hasConfiguredEVMProvider = sdkConfig?.providers?.some(
+    const hasConfiguredEthereumProvider = sdkConfig?.providers?.some(
       (provider) => provider.type === ChainType.EVM
     )
-    const hasConfiguredSVMProvider = sdkConfig?.providers?.some(
+    const hasConfiguredSolanaProvider = sdkConfig?.providers?.some(
       (provider) => provider.type === ChainType.SVM
     )
-    const hasConfiguredUTXOProvider = sdkConfig?.providers?.some(
+    const hasConfiguredBitcoinProvider = sdkConfig?.providers?.some(
       (provider) => provider.type === ChainType.UTXO
     )
     const hasConfiguredSuiProvider = sdkConfig?.providers?.some(
       (provider) => provider.type === ChainType.MVM
     )
-    if (!hasConfiguredEVMProvider && evmSDKProvider) {
+    if (!hasConfiguredEthereumProvider && evmSDKProvider) {
       providers.push(evmSDKProvider)
     }
-    if (!hasConfiguredSVMProvider && svmSDKProvider) {
+    if (!hasConfiguredSolanaProvider && svmSDKProvider) {
       providers.push(svmSDKProvider)
     }
-    if (!hasConfiguredUTXOProvider && utxoSDKProvider) {
+    if (!hasConfiguredBitcoinProvider && utxoSDKProvider) {
       providers.push(utxoSDKProvider)
     }
     if (!hasConfiguredSuiProvider && suiSDKProvider) {

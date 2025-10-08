@@ -1,4 +1,4 @@
-import { EVMProvider } from '@lifi/wallet-provider-evm'
+import { EthereumProvider } from '@lifi/wallet-provider-evm'
 import type { ContractCall, WidgetConfig } from '@lifi/widget'
 import {
   ChainType,
@@ -61,7 +61,7 @@ export function App() {
       contractTool={contractTool}
       config={widgetConfig}
       integrator={widgetConfig.integrator}
-      providers={[EVMProvider()]}
+      providers={[EthereumProvider()]}
     />
   )
 }

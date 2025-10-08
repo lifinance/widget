@@ -32,7 +32,7 @@ const SVMWalletProvider = ({
   )
 }
 
-export const SVMProvider = () => {
+export const SolanaProvider = () => {
   return ({ children, ...props }: PropsWithChildren<WalletProviderProps>) => (
     <SVMWalletProvider {...props}>{children}</SVMWalletProvider>
   )
