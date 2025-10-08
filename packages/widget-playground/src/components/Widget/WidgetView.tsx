@@ -42,7 +42,7 @@ export function WidgetView() {
           integrator="li.fi-playground"
           formRef={formRef}
           open
-          walletProviders={[
+          providers={[
             EVMProvider(),
             MVMProvider(),
             SVMProvider(),

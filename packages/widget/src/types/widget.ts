@@ -381,7 +381,7 @@ export interface FormRefProps {
 }
 
 export interface WidgetWalletProvidersProps {
-  walletProviders: ((
+  providers: ((
     props: PropsWithChildren<WalletProviderProps>
   ) => ReactNode)[]
 }

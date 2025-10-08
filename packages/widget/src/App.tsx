@@ -26,7 +26,7 @@ export const App = forwardRef<WidgetDrawer, WidgetProps>((props, ref) => {
       <AppProvider
         config={config}
         formRef={props.formRef}
-        walletProviders={props.walletProviders}
+        providers={props.providers}
       >
         <AppDrawer
           ref={ref}
@@ -45,7 +45,7 @@ export const App = forwardRef<WidgetDrawer, WidgetProps>((props, ref) => {
     <AppProvider
       config={config}
       formRef={props.formRef}
-      walletProviders={props.walletProviders}
+      providers={props.providers}
     >
       <AppDefault />
     </AppProvider>

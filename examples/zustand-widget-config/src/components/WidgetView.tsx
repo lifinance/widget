@@ -8,7 +8,7 @@ export function WidgetView() {
     <LiFiWidget
       integrator="vite-example"
       config={config}
-      walletProviders={[EVMProvider()]}
+      providers={[EVMProvider()]}
     />
   )
 }

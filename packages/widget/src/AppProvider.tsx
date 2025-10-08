@@ -23,13 +23,16 @@ import type {
 
 export const AppProvider: React.FC<
   PropsWithChildren<WidgetConfigProps & WidgetWalletProvidersProps>
-> = ({ children, config, formRef, walletProviders }) => {
+> = ({ children, config, formRef, providers }) => {
+  if (!providers?.length && process.env.NODE_ENV === 'development') {
+    console.warn('No widget providers specified')
+  }
   return (
     <QueryClientProvider>
       <WidgetProvider config={config}>
         <I18nProvider>
           <ThemeProvider>
-            <WalletProvider walletProviders={walletProviders}>
+            <WalletProvider providers={providers}>
               <StoreProvider config={config} formRef={formRef}>
                 <AppRouter>{children}</AppRouter>
               </StoreProvider>

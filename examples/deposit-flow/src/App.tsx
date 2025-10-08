@@ -61,7 +61,7 @@ export function App() {
       contractTool={contractTool}
       config={widgetConfig}
       integrator={widgetConfig.integrator}
-      walletProviders={[EVMProvider()]}
+      providers={[EVMProvider()]}
     />
   )
 }

@@ -17,7 +17,7 @@ export function Widget({ config, fallback }: WidgetProps) {
       <LiFiWidget
         config={config}
         integrator="nextjs-example"
-        walletProviders={[EVMProvider()]}
+        providers={[EVMProvider()]}
       />
     </ClientOnly>
   )

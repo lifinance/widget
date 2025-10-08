@@ -34,7 +34,7 @@ function App() {
                 },
               },
             }}
-            walletProviders={[EVMProvider(), SVMProvider(), UTXOProvider()]}
+            providers={[EVMProvider(), SVMProvider(), UTXOProvider()]}
           />
         </WalletProvider>
       </QueryClientProvider>

@@ -31,7 +31,7 @@ export const App = () => {
         }}
       >
         <LiFiWidget
-          walletProviders={[
+          providers={[
             EVMProvider(),
             MVMProvider(),
             SVMProvider(),

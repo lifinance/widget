@@ -10,32 +10,32 @@ import { useExternalWalletProvider } from './useExternalWalletProvider.js'
 
 export const WalletProvider = ({
   children,
-  walletProviders,
+  providers,
 }: PropsWithChildren<WidgetWalletProvidersProps>) => {
   const { walletConfig } = useWidgetConfig()
   const { chains } = useAvailableChains()
 
-  let WidgetWithWalletProviders = (
+  let WidgetWithProviders = (
     <>
       <SDKProviders />
       <WalletMenuProvider>{children}</WalletMenuProvider>
     </>
   )
 
-  for (const ProviderComponent of walletProviders) {
-    WidgetWithWalletProviders = (
+  for (const ProviderComponent of providers) {
+    WidgetWithProviders = (
       <ProviderComponent
         forceInternalWalletManagement={
           walletConfig?.forceInternalWalletManagement
         }
         chains={chains ?? []}
       >
-        {WidgetWithWalletProviders}
+        {WidgetWithProviders}
       </ProviderComponent>
     )
   }
 
-  return WidgetWithWalletProviders
+  return WidgetWithProviders
 }
 
 const WalletMenuProvider: FC<PropsWithChildren> = ({ children }) => {

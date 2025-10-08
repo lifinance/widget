@@ -24,7 +24,7 @@ export function LiFiWidget() {
       <LiFiWidgetLazy
         config={config}
         integrator="remix-example"
-        walletProviders={[EVMProvider()]}
+        providers={[EVMProvider()]}
       />
     </Suspense>
   )
