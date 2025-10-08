@@ -19,7 +19,7 @@ export const UTXOListItemButton = ({
   onError,
 }: WalletListItemButtonProps) => {
   const emitter = useWalletManagementEvents()
-  const { connect, disconnect } = useUTXOContext()
+  const { connect, disconnect, isConnected } = useUTXOContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()
 
   const connectorDisplayName: string = ecosystemSelection
@@ -41,8 +41,9 @@ export const UTXOListItemButton = ({
         return
       }
       onConnecting?.()
-      // Disconnect currently connected UTXO wallet (if any)
-      await disconnect()
+      if (isConnected) {
+        await disconnect()
+      }
       await connect(connector.id ?? connector.name, (address: string) => {
         setLastConnectedAccount(connector)
         emitter.emit(WalletManagementEvent.WalletConnected, {

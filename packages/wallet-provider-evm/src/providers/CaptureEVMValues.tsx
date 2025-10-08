@@ -8,13 +8,15 @@ import {
   useMemo,
   useState,
 } from 'react'
-import { isAddress as isEVMAddress } from 'viem'
+import { type Address, isAddress as isEVMAddress } from 'viem'
 import { type Connector, useAccount, useConfig, useConnect } from 'wagmi'
 import {
   connect,
   disconnect,
   getAccount,
+  getBytecode,
   getConnectorClient,
+  getTransactionCount,
   switchChain,
 } from 'wagmi/actions'
 import { defaultBaseAccountConfig } from '../config/baseAccount.js'
@@ -189,6 +191,16 @@ export const CaptureEVMValues: FC<PropsWithChildren<CaptureEVMValuesProps>> = ({
         disconnect: handleDisconnect,
         isValidAddress: isEVMAddress,
         isExternalContext,
+        getBytecode: (chainId: number, address: string | Address) =>
+          getBytecode(wagmiConfig, {
+            chainId,
+            address: address as Address,
+          }),
+        getTransactionCount: (chainId: number, address: string | Address) =>
+          getTransactionCount(wagmiConfig, {
+            chainId,
+            address: address as Address,
+          }),
       }}
     >
       {children}

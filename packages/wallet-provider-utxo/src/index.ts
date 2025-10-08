@@ -1,1 +1,1 @@
-export { UTXOProvider, useInUTXOContext } from './providers/UTXOProvider.js'
+export { UTXOProvider } from './providers/UTXOProvider.js'

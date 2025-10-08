@@ -21,7 +21,7 @@ export function Widget() {
       <LiFiWidget
         config={config}
         integrator="nextjs-example"
-        walletProviders={[EVMProvider]}
+        walletProviders={[EVMProvider()]}
       />
     </ClientOnly>
   )

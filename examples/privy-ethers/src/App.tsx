@@ -34,7 +34,7 @@ function App() {
                   },
                 },
               }}
-              walletProviders={[EVMProvider, SVMProvider]}
+              walletProviders={[EVMProvider(), SVMProvider()]}
             />
           </Grid>
           <Grid size={{ sm: 12, md: 5 }}>

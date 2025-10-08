@@ -1,8 +1,8 @@
 import type { ContractCall } from '@lifi/sdk'
 import { useEffect } from 'react'
-import { formatUnits } from 'viem'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import type { TokenAmount } from '../../types/token.js'
+import { formatUnits } from '../../utils/format.js'
 import { Token } from '../Token/Token.js'
 
 export interface ItemPriceProps {

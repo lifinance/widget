@@ -36,7 +36,7 @@ export default function App() {
             },
           }}
           integrator="rainbowkit-example"
-          walletProviders={[EVMProvider]}
+          walletProviders={[EVMProvider()]}
         />
       </div>
     </div>

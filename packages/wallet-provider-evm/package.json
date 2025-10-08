@@ -1,15 +1,15 @@
 {
   "name": "@lifi/wallet-provider-evm",
-  "version": "1.0.0",
+  "version": "4.0.0",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
   "dependencies": {
     "viem": "^2.37.13",
-    "@lifi/sdk": "^3.12.13"
+    "@lifi/sdk": "^3.12.13",
+    "@lifi/wallet-provider": "workspace:*"
   },
   "peerDependencies": {
-    "@lifi/wallet-provider": "workspace:*",
     "wagmi": ">=2.16.0"
   },
   "devDependencies": {

@@ -1,5 +1,5 @@
 import { ChainId, ChainType, isSVMAddress, Solana } from '@lifi/sdk'
-import { type Account, SVMContext } from '@lifi/wallet-provider'
+import { SVMContext } from '@lifi/wallet-provider'
 import {
   type SignerWalletAdapter,
   WalletReadyState,
@@ -34,7 +34,7 @@ export const CaptureSVMValues: FC<PropsWithChildren<CaptureSVMValuesProps>> = ({
         isConnecting: false,
         isReconnecting: false,
         isDisconnected: !currentWallet,
-        status: 'connected',
+        status: 'connected' as const,
       }
     : {
         chainType: ChainType.SVM,
@@ -42,7 +42,7 @@ export const CaptureSVMValues: FC<PropsWithChildren<CaptureSVMValuesProps>> = ({
         isConnecting: false,
         isReconnecting: false,
         isDisconnected: true,
-        status: 'disconnected',
+        status: 'disconnected' as const,
       }
 
   const installedWallets = useMemo(
@@ -79,7 +79,7 @@ export const CaptureSVMValues: FC<PropsWithChildren<CaptureSVMValuesProps>> = ({
     <SVMContext.Provider
       value={{
         isEnabled: true,
-        account: account as Account,
+        account,
         sdkProvider: Solana({
           async getWalletAdapter() {
             return currentWallet?.adapter as SignerWalletAdapter

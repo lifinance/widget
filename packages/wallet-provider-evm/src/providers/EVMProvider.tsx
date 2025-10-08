@@ -1,25 +1,25 @@
 import type { WalletProviderProps } from '@lifi/wallet-provider'
-import { type FC, type PropsWithChildren, useContext } from 'react'
+import { type PropsWithChildren, useContext } from 'react'
 import { WagmiContext } from 'wagmi'
 import type { EVMWalletConfig } from '../types.js'
 import { CaptureEVMValues } from './CaptureEVMValues.js'
 import { EVMBaseProvider } from './EVMBaseProvider.js'
 
-interface EVMProviderProps extends WalletProviderProps {
+interface EVMWalletProviderProps extends WalletProviderProps {
   config?: EVMWalletConfig
 }
 
-export function useInEVMContext(): boolean {
+function useInEVMContext(): boolean {
   const context = useContext(WagmiContext)
   return Boolean(context)
 }
 
-export const EVMProvider: FC<PropsWithChildren<EVMProviderProps>> = ({
+const EVMWalletProvider = ({
   forceInternalWalletManagement,
   chains,
   config,
   children,
-}) => {
+}: PropsWithChildren<EVMWalletProviderProps>) => {
   const inEVMContext = useInEVMContext()
 
   if (inEVMContext && !forceInternalWalletManagement) {
@@ -36,5 +36,13 @@ export const EVMProvider: FC<PropsWithChildren<EVMProviderProps>> = ({
         {children}
       </CaptureEVMValues>
     </EVMBaseProvider>
+  )
+}
+
+export const EVMProvider = (config?: EVMWalletConfig) => {
+  return ({ children, ...props }: PropsWithChildren<WalletProviderProps>) => (
+    <EVMWalletProvider {...props} config={config}>
+      {children}
+    </EVMWalletProvider>
   )
 }

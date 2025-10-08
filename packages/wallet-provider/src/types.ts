@@ -36,6 +36,15 @@ export type WalletProviderContext = {
     onSuccess?: (address: string, chainId: number) => void
   ) => Promise<void>
   disconnect: () => Promise<void>
+  // EVM handlers
+  getBytecode?: (
+    chainId: number,
+    address: string
+  ) => Promise<string | undefined>
+  getTransactionCount?: (
+    chainId: number,
+    address: string
+  ) => Promise<number | undefined>
 }
 export interface WalletProviderProps {
   forceInternalWalletManagement?: boolean

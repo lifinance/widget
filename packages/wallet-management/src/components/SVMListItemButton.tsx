@@ -24,7 +24,7 @@ export const SVMListItemButton = ({
     ? 'Solana'
     : connector.name
 
-  const connectWallet = async () => {
+  const handleSVMConnect = async () => {
     if (tagType === WalletTagType.Connected) {
       onConnected?.()
       return
@@ -59,7 +59,7 @@ export const SVMListItemButton = ({
           ? getChainTypeIcon(ChainType.SVM)
           : (connector.icon ?? '')
       }
-      onClick={connectWallet}
+      onClick={handleSVMConnect}
       title={connectorDisplayName}
       tagType={
         ecosystemSelection && tagType !== WalletTagType.Connected

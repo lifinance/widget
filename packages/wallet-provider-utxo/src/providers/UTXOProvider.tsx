@@ -1,19 +1,19 @@
 import { BigmiContext } from '@bigmi/react'
 import type { WalletProviderProps } from '@lifi/wallet-provider'
-import { type FC, type PropsWithChildren, useContext } from 'react'
+import { type PropsWithChildren, useContext } from 'react'
 import { CaptureUTXOValues } from './CaptureUTXOValues.js'
 import { UTXOBaseProvider } from './UTXOBaseProvider.js'
 
-export function useInUTXOContext(): boolean {
+function useInUTXOContext(): boolean {
   const context = useContext(BigmiContext)
 
   return Boolean(context)
 }
 
-export const UTXOProvider: FC<PropsWithChildren<WalletProviderProps>> = ({
+const UTXOWalletProvider = ({
   forceInternalWalletManagement,
   children,
-}) => {
+}: PropsWithChildren<WalletProviderProps>) => {
   const inUTXOContext = useInUTXOContext()
 
   if (inUTXOContext && !forceInternalWalletManagement) {
@@ -30,5 +30,11 @@ export const UTXOProvider: FC<PropsWithChildren<WalletProviderProps>> = ({
         {children}
       </CaptureUTXOValues>
     </UTXOBaseProvider>
+  )
+}
+
+export const UTXOProvider = () => {
+  return ({ children, ...props }: PropsWithChildren<WalletProviderProps>) => (
+    <UTXOWalletProvider {...props}>{children}</UTXOWalletProvider>
   )
 }

@@ -56,7 +56,7 @@ export function Main() {
             },
           },
         }}
-        walletProviders={[EVMProvider, SVMProvider, UTXOProvider]}
+        walletProviders={[EVMProvider(), SVMProvider(), UTXOProvider()]}
       />
     </>
   )

@@ -24,7 +24,7 @@ export default {
           },
         },
         integrator: 'vue-example',
-        walletProviders: [EVMProvider],
+        walletProviders: [EVMProvider()],
       },
     }
   },

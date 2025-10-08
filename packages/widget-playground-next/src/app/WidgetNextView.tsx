@@ -30,10 +30,10 @@ export function WidgetNextView() {
             integrator="li.fi-playground"
             ref={drawerRef}
             walletProviders={[
-              EVMProvider,
-              SVMProvider,
-              MVMProvider,
-              UTXOProvider,
+              EVMProvider(),
+              SVMProvider(),
+              MVMProvider(),
+              UTXOProvider(),
             ]}
             open
           />

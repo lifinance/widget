@@ -1,6 +1,6 @@
 {
   "name": "@lifi/wallet-provider-svm",
-  "version": "1.0.0",
+  "version": "4.0.0",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
@@ -8,11 +8,11 @@
     "@solana/wallet-adapter-base": "^0.9.27",
     "@solana/wallet-adapter-coinbase": "^0.1.23",
     "@solana/web3.js": "^1.98.4",
-    "@lifi/sdk": "^3.12.13"
+    "@lifi/sdk": "^3.12.13",
+    "@lifi/wallet-provider": "workspace:*"
   },
   "peerDependencies": {
     "@solana/wallet-adapter-react": ">=0.15.35",
-    "@lifi/wallet-provider": "workspace:*",
     "bs58": ">=4.0.1"
   },
   "devDependencies": {

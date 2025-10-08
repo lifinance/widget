@@ -30,13 +30,6 @@ import type {
   RefObject,
 } from 'react'
 import type {
-  BaseAccountParameters,
-  CoinbaseWalletParameters,
-  MetaMaskParameters,
-  PortoParameters,
-  WalletConnectParameters,
-} from 'wagmi/connectors'
-import type {
   LanguageKey,
   LanguageResources,
 } from '../providers/I18nProvider/types.js'
@@ -143,15 +136,7 @@ export type DefaultUI = {
   navigationHeaderTitleNoWrap?: boolean
 }
 
-interface EVMWalletConfig {
-  walletConnect?: WalletConnectParameters
-  coinbase?: CoinbaseWalletParameters
-  metaMask?: MetaMaskParameters
-  baseAccount?: BaseAccountParameters
-  porto?: Partial<PortoParameters>
-}
-
-export interface WidgetWalletConfig extends EVMWalletConfig {
+export interface WidgetWalletConfig {
   walletEcosystemsOrder?: Record<string, ChainType[]>
   onConnect?(args?: WalletMenuOpenArgs): void
   /**
@@ -396,7 +381,9 @@ export interface FormRefProps {
 }
 
 export interface WidgetWalletProvidersProps {
-  walletProviders: FC<PropsWithChildren<WalletProviderProps>>[]
+  walletProviders: ((
+    props: PropsWithChildren<WalletProviderProps>
+  ) => ReactNode)[]
 }
 
 export interface WidgetConfigProps extends FormRefProps {

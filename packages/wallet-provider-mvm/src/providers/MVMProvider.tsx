@@ -1,19 +1,19 @@
 import type { WalletProviderProps } from '@lifi/wallet-provider'
 import { SuiClientContext } from '@mysten/dapp-kit'
-import { type FC, type PropsWithChildren, useContext } from 'react'
+import { type PropsWithChildren, useContext } from 'react'
 import { CaptureMVMValues } from './CaptureMVMValues.js'
 import { MVMBaseProvider } from './MVMBaseProvider.js'
 
-export function useInMVMContext(): boolean {
+function useInMVMContext(): boolean {
   const context = useContext(SuiClientContext)
   return Boolean(context)
 }
 
-export const MVMProvider: FC<PropsWithChildren<WalletProviderProps>> = ({
+const MVMWalletProvider = ({
   forceInternalWalletManagement,
   chains,
   children,
-}) => {
+}: PropsWithChildren<WalletProviderProps>) => {
   const inSuiContext = useInMVMContext()
 
   if (inSuiContext && !forceInternalWalletManagement) {
@@ -30,5 +30,11 @@ export const MVMProvider: FC<PropsWithChildren<WalletProviderProps>> = ({
         {children}
       </CaptureMVMValues>
     </MVMBaseProvider>
+  )
+}
+
+export const MVMProvider = () => {
+  return ({ children, ...props }: PropsWithChildren<WalletProviderProps>) => (
+    <MVMWalletProvider {...props}>{children}</MVMWalletProvider>
   )
 }

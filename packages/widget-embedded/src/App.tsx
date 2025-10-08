@@ -32,10 +32,10 @@ export const App = () => {
       >
         <LiFiWidget
           walletProviders={[
-            EVMProvider,
-            MVMProvider,
-            SVMProvider,
-            UTXOProvider,
+            EVMProvider(),
+            MVMProvider(),
+            SVMProvider(),
+            UTXOProvider(),
           ]}
           contractComponent={
             <NFTOpenSea

@@ -1,5 +1,5 @@
 import { ChainId, ChainType, Sui } from '@lifi/sdk'
-import { type Account, MVMContext } from '@lifi/wallet-provider'
+import { MVMContext } from '@lifi/wallet-provider'
 import {
   useConnectWallet,
   useCurrentWallet,
@@ -42,7 +42,7 @@ export const CaptureMVMValues: FC<PropsWithChildren<CaptureMVMValuesProps>> = ({
           isConnecting: false,
           isReconnecting: false,
           isDisconnected: true,
-          status: 'disconnected',
+          status: 'disconnected' as const,
         }
 
   const handleConnect = useCallback(
@@ -74,7 +74,7 @@ export const CaptureMVMValues: FC<PropsWithChildren<CaptureMVMValuesProps>> = ({
     <MVMContext.Provider
       value={{
         isEnabled: true,
-        account: account as Account,
+        account,
         sdkProvider: Sui({
           getWallet: async () => currentWallet!,
         }),

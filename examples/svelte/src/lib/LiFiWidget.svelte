@@ -15,7 +15,7 @@ import ReactAdapter from './ReactAdapter.svelte'
     },
   }}
   integrator="svelte-example"
-  walletProviders={[EVMProvider]}
+  walletProviders={[EVMProvider()]}
 />
 
 <style>

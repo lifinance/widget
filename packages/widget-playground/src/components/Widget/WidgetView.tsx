@@ -43,10 +43,10 @@ export function WidgetView() {
           formRef={formRef}
           open
           walletProviders={[
-            EVMProvider,
-            MVMProvider,
-            SVMProvider,
-            UTXOProvider,
+            EVMProvider(),
+            MVMProvider(),
+            SVMProvider(),
+            UTXOProvider(),
           ]}
         />
       ) : null}

@@ -20,7 +20,7 @@ export const EVMListItemButton = ({
   onError,
 }: WalletListItemButtonProps) => {
   const emitter = useWalletManagementEvents()
-  const { connect, disconnect } = useEVMContext()
+  const { connect, disconnect, isConnected } = useEVMContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()
 
   const connectorName = connector.displayName || connector.name
@@ -46,8 +46,9 @@ export const EVMListItemButton = ({
         createWalletConnectElement()
       }
       onConnecting?.()
-      // Disconnect currently connected EVM wallet (if any)
-      await disconnect()
+      if (isConnected) {
+        await disconnect()
+      }
       await connect(
         connector.id ?? connector.name,
         (address: string, chainId: number) => {

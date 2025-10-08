@@ -17,14 +17,14 @@ export const MVMListItemButton = ({
   onError,
 }: WalletListItemButtonProps) => {
   const emitter = useWalletManagementEvents()
-  const { connect } = useMVMContext()
+  const { connect, disconnect, isConnected } = useMVMContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()
 
   const connectorDisplayName: string = ecosystemSelection
     ? 'Sui'
     : connector.name
 
-  const connectWallet = async () => {
+  const handleMVMConnect = async () => {
     if (tagType === WalletTagType.Connected) {
       onConnected?.()
       return
@@ -32,6 +32,9 @@ export const MVMListItemButton = ({
 
     try {
       onConnecting?.()
+      if (isConnected) {
+        await disconnect()
+      }
       await connect(connector.id ?? connector.name, (address: string) => {
         setLastConnectedAccount(connector)
         emitter.emit(WalletManagementEvent.WalletConnected, {
@@ -56,7 +59,7 @@ export const MVMListItemButton = ({
           ? getChainTypeIcon(ChainType.MVM)
           : (connector.icon ?? '')
       }
-      onClick={connectWallet}
+      onClick={handleMVMConnect}
       title={connectorDisplayName}
       tagType={
         ecosystemSelection && tagType !== WalletTagType.Connected

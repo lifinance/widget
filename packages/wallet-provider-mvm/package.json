@@ -1,17 +1,17 @@
 {
   "name": "@lifi/wallet-provider-mvm",
-  "version": "1.0.0",
+  "version": "4.0.0",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
   "dependencies": {
     "@mysten/sui": "^1.39.0",
     "@lifi/sdk": "^3.12.13",
-    "@mysten/wallet-standard": "^0.18.0"
+    "@mysten/wallet-standard": "^0.18.0",
+    "@lifi/wallet-provider": "workspace:*"
   },
   "peerDependencies": {
-    "@mysten/dapp-kit": ">=0.18.0",
-    "@lifi/wallet-provider": "workspace:*"
+    "@mysten/dapp-kit": ">=0.18.0"
   },
   "devDependencies": {
     "react": "^19.2.0",

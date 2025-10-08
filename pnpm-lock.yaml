@@ -825,6 +825,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.90.1
         version: 5.90.2(react@19.2.0)
+      bs58:
+        specifier: '>=4.0.1'
+        version: 6.0.0
       mitt:
         specifier: ^3.0.1
         version: 3.0.1
@@ -1298,12 +1301,6 @@ importers:
       react-transition-group:
         specifier: ^4.4.5
         version: 4.4.5(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      viem:
-        specifier: ^2.37.13
-        version: 2.37.13(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.1.11)
-      wagmi:
-        specifier: '>=2.16.0'
-        version: 2.17.5(@tanstack/query-core@5.90.2)(@tanstack/react-query@5.90.2(react@19.2.0))(@types/react@19.2.0)(bufferutil@4.0.9)(encoding@0.1.13)(react@19.2.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(viem@2.37.13(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.1.11))(zod@4.1.11)
       zustand:
         specifier: ^5.0.8
         version: 5.0.8(@types/react@19.2.0)(react@19.2.0)(use-sync-external-store@1.6.0(react@19.2.0))

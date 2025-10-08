@@ -17,7 +17,7 @@ export default function DynamicWidget() {
     <LiFiWidget
       config={config}
       integrator="nextjs-example"
-      walletProviders={[EVMProvider]}
+      walletProviders={[EVMProvider()]}
     />
   )
 }
