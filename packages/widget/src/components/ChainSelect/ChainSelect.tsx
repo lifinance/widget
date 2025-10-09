@@ -11,7 +11,6 @@ import {
 } from '../../stores/chains/createChainOrderStore.js'
 import type { FormTypeProps } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
-import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { AllChainsAvatar } from '../Chains/AllChainsAvatar.js'
@@ -27,7 +26,6 @@ import { useChainSelect } from './useChainSelect.js'
 export const ChainSelect = memo(({ formType }: FormTypeProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { setFieldValue } = useFieldActions()
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down(theme.breakpoints.values.xs)
   )
@@ -75,8 +73,7 @@ export const ChainSelect = memo(({ formType }: FormTypeProps) => {
 
   const selectAllNetworks = useCallback(() => {
     setIsAllNetworks(true, formType)
-    setFieldValue('tokenSearchFilter', '')
-  }, [setIsAllNetworks, setFieldValue, formType])
+  }, [setIsAllNetworks, formType])
 
   const chainsToHide =
     chains?.length === maxChainsToShow

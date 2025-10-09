@@ -5,7 +5,6 @@ import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import type { FormType } from '../../stores/form/types.js'
-import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { AllChainsAvatar } from './AllChainsAvatar.js'
 import {
   List,
@@ -38,7 +37,6 @@ export const VirtualizedChainList = ({
   withPinnedChains,
 }: VirtualizedChainListProps) => {
   const { t } = useTranslation()
-  const { setFieldValue } = useFieldActions()
   const selectedChainIdRef = useRef(selectedChainId) // Store the initial selected chain ID to scroll to it once chains are loaded
   const hasScrolledRef = useRef(false)
   const [
@@ -163,8 +161,7 @@ export const VirtualizedChainList = ({
 
   const selectAllNetworks = useCallback(() => {
     setIsAllNetworks(true, formType)
-    setFieldValue('tokenSearchFilter', '')
-  }, [setIsAllNetworks, setFieldValue, formType])
+  }, [setIsAllNetworks, formType])
 
   return (
     <List

@@ -57,7 +57,6 @@ export const useChainSelect = (formType: FormType) => {
       if (!disabledUI?.includes(amountKey as DisabledUI)) {
         setFieldValue(amountKey, '')
       }
-      setFieldValue('tokenSearchFilter', '')
 
       const [toChainId] = getFieldValues('toChain')
       const toChain = getChainById(toChainId)
