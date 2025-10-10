@@ -64,10 +64,20 @@
     "standard-version": "^9.5.0",
     "typescript": "^5.9.3"
   },
+  "optionalDependencies": {
+    "db0": "^0.3.2",
+    "ioredis": "^5.8.0",
+    "@react-native-async-storage/async-storage": "^2.2.0"
+  },
   "pnpm": {
     "overrides": {
       "bs58": ">=4.0.1",
-      "@safe-global/safe-apps-provider": ">=0.18.6"
+      "@safe-global/safe-apps-provider": ">=0.18.6",
+      "zod": ">=4.1.11",
+      "miniflare>zod": "3.22.3",
+      "miniflare>zod-validation-error": "3.0.3",
+      "@react-native-async-storage/async-storage": ">=2.2.0",
+      "@walletconnect/ethereum-provider": ">=2.22.1"
     }
   },
   "packageManager": "pnpm@10.18.1+sha512.77a884a165cbba2d8d1c19e3b4880eee6d2fcabd0d879121e282196b80042351d5eb3ca0935fa599da1dc51265cc68816ad2bddd2a2de5ea9fdf92adbec7cd34"
