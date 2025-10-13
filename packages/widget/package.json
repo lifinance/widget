@@ -49,8 +49,8 @@
     "lifi"
   ],
   "dependencies": {
-    "@bigmi/client": "^0.6.0",
-    "@bigmi/core": "^0.6.0",
+    "@bigmi/client": "0.6.1-alpha.0",
+    "@bigmi/core": "0.6.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@lifi/sdk": "^3.12.14",

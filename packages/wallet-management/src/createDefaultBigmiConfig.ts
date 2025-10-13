@@ -59,7 +59,7 @@ export function createDefaultBigmiConfig(
     unisat(),
     ctrl(),
     okx(),
-    leather({ shimDisconnect: false }),
+    leather(),
     onekey(),
     binance(),
     bitget(),
