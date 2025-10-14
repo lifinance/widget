@@ -13,7 +13,7 @@
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
-    "@lifi/sdk": "^3.12.13",
+    "@lifi/sdk": "^3.12.14",
     "@lifi/wallet-management": "workspace:*",
     "@lifi/widget-provider-ethereum": "workspace:*",
     "@lifi/widget-provider-sui": "workspace:*",
@@ -31,7 +31,7 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^6.30.1",
-    "viem": "^2.37.13",
+    "viem": "^2.38.0",
     "wagmi": "^2.17.5"
   },
   "devDependencies": {

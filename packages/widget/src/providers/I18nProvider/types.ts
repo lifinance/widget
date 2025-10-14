@@ -1,14 +1,31 @@
-import type * as languages from '../../i18n/index.js'
+import type { enResource } from './enResource.js'
 
-type PartialResource<T> = T extends object
+export type PartialResource<T> = T extends object
   ? {
       [P in keyof T]?: PartialResource<T[P]>
     }
   : T
 
-export type LanguageKey = keyof typeof languages
+export type LanguageKey =
+  | 'en'
+  | 'es'
+  | 'fr'
+  | 'de'
+  | 'it'
+  | 'pt'
+  | 'ja'
+  | 'ko'
+  | 'zh'
+  | 'hi'
+  | 'bn'
+  | 'th'
+  | 'vi'
+  | 'tr'
+  | 'uk'
+  | 'id'
+  | 'pl'
 
-type LanguageResource = typeof languages.en
+export type LanguageResource = typeof enResource
 
 export type LanguageResources =
   | {
@@ -17,11 +34,3 @@ export type LanguageResources =
   | {
       [language: string]: PartialResource<LanguageResource>
     }
-
-type LanguageTranslationResource = {
-  [N in 'translation']: PartialResource<LanguageResource>
-}
-
-export type LanguageTranslationResources = {
-  [language: string]: LanguageTranslationResource
-}

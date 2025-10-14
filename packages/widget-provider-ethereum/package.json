@@ -5,12 +5,12 @@
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
   "dependencies": {
-    "viem": "^2.37.13",
-    "@lifi/sdk": "^3.12.13",
+    "viem": "^2.38.0",
+    "@lifi/sdk": "^3.12.14",
     "@lifi/widget-provider": "workspace:*"
   },
   "peerDependencies": {
-    "wagmi": ">=2.16.0"
+    "wagmi": ">=2.17.5"
   },
   "devDependencies": {
     "react": "^19.2.0",

@@ -1,9 +1,7 @@
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { defaultConfigurableSettings } from '../stores/settings/createSettingsStore.js'
+import { useSettingsStore } from '../stores/settings/SettingsStore.js'
 import { useSettingsActions } from '../stores/settings/useSettingsActions.js'
-import {
-  defaultConfigurableSettings,
-  useSettingsStore,
-} from '../stores/settings/useSettingsStore.js'
 import { useTools } from './useTools.js'
 
 export const useSettingMonitor = () => {

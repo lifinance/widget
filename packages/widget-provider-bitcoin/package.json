@@ -7,7 +7,7 @@
   "dependencies": {
     "@bigmi/client": "^0.6.0",
     "@bigmi/core": "^0.6.0",
-    "@lifi/sdk": "^3.12.13",
+    "@lifi/sdk": "^3.12.14",
     "@lifi/widget-provider": "workspace:*"
   },
   "peerDependencies": {

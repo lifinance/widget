@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.33.1](https://github.com/lifinance/widget/compare/v3.33.0...v3.33.1) (2025-10-08)
+
+## [3.33.0](https://github.com/lifinance/widget/compare/v3.32.2...v3.33.0) (2025-10-08)
+
+
+### Features
+
+* dynamic loading for translations ([#545](https://github.com/lifinance/widget/issues/545)) ([33bf161](https://github.com/lifinance/widget/commit/33bf161c71f96d3a760b664dcc65cbb1379eebc7))
+
+
+### Bug Fixes
+
+* search results for chains with categories ([#574](https://github.com/lifinance/widget/issues/574)) ([ee115b6](https://github.com/lifinance/widget/commit/ee115b6b3e62ccf7708bf185f3d664553fda641c))
+
 ### [3.32.2](https://github.com/lifinance/widget/compare/v3.32.1...v3.32.2) (2025-09-26)
 
 

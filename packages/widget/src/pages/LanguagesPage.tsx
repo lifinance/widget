@@ -6,6 +6,7 @@ import { PageContainer } from '../components/PageContainer.js'
 import { SettingsListItemButton } from '../components/SettingsListItemButton.js'
 import { useHeader } from '../hooks/useHeader.js'
 import { useLanguages } from '../hooks/useLanguages.js'
+import { languageNames } from '../providers/I18nProvider/constants.js'
 
 export const LanguagesPage: React.FC = () => {
   const { t } = useTranslation()
@@ -33,7 +34,15 @@ export const LanguagesPage: React.FC = () => {
             key={language}
             onClick={() => setLanguageWithCode(language)}
           >
-            <ListItemText primary={t('language.name', { lng: language })} />
+            <ListItemText
+              primary={
+                languageNames[language as keyof typeof languageNames] ||
+                t('language.name', {
+                  lng: language,
+                }) ||
+                language
+              }
+            />
             {selectedLanguageCode === language && <Check color="primary" />}
           </SettingsListItemButton>
         ))}

@@ -16,6 +16,7 @@ import {
 } from './providers/WidgetProvider/WidgetProvider.js'
 import { URLSearchParamsBuilder } from './stores/form/URLSearchParamsBuilder.js'
 import { StoreProvider } from './stores/StoreProvider.js'
+import { SettingsStoreProvider } from './stores/settings/SettingsStore.js'
 import type {
   WidgetConfigProps,
   WidgetWalletProvidersProps,
@@ -29,17 +30,19 @@ export const AppProvider: React.FC<
   }
   return (
     <QueryClientProvider>
-      <WidgetProvider config={config}>
-        <I18nProvider>
-          <ThemeProvider>
-            <WalletProvider providers={providers}>
-              <StoreProvider config={config} formRef={formRef}>
-                <AppRouter>{children}</AppRouter>
-              </StoreProvider>
-            </WalletProvider>
-          </ThemeProvider>
-        </I18nProvider>
-      </WidgetProvider>
+      <SettingsStoreProvider config={config}>
+        <WidgetProvider config={config}>
+          <I18nProvider>
+            <ThemeProvider>
+              <WalletProvider providers={providers}>
+                <StoreProvider config={config} formRef={formRef}>
+                  <AppRouter>{children}</AppRouter>
+                </StoreProvider>
+              </WalletProvider>
+            </ThemeProvider>
+          </I18nProvider>
+        </WidgetProvider>
+      </SettingsStoreProvider>
     </QueryClientProvider>
   )
 }
