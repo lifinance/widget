@@ -7,6 +7,7 @@ import {
 import { useChainTypeFromAddress } from '@lifi/widget-provider'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
+import { useSDKConfig } from '../providers/SDKConfigProvider/SDKConfigProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
 import { defaultChainIdsByType } from '../utils/chainType.js'
@@ -24,6 +25,7 @@ export const useTokens = (
     chains: chainsConfig,
     keyPrefix,
   } = useWidgetConfig()
+  const sdkConfig = useSDKConfig()
 
   const { isLoading: isSearchLoading } = useBackgroundTokenSearch(
     search,
@@ -40,6 +42,7 @@ export const useTokens = (
         ChainType.MVM,
       ].filter((chainType) => isItemAllowed(chainType, chainsConfig?.types))
       const tokensResponse: TokensExtendedResponse = await getTokens(
+        sdkConfig,
         {
           chainTypes,
           orderBy: 'volumeUSD24H',
@@ -75,6 +78,7 @@ export const useTokens = (
  * if any of the tokens are not already in the cache. */
 const useBackgroundTokenSearch = (search?: string, chainId?: number) => {
   const { chains: chainsConfig, keyPrefix } = useWidgetConfig()
+  const sdkConfig = useSDKConfig()
   const { getChainTypeFromAddress } = useChainTypeFromAddress()
   const queryClient = useQueryClient()
 
@@ -89,6 +93,7 @@ const useBackgroundTokenSearch = (search?: string, chainId?: number) => {
         ChainType.MVM,
       ].filter((chainType) => isItemAllowed(chainType, chainsConfig?.types))
       const tokensResponse: TokensExtendedResponse = await getTokens(
+        sdkConfig,
         {
           chainTypes,
           orderBy: 'volumeUSD24H',
@@ -113,7 +118,9 @@ const useBackgroundTokenSearch = (search?: string, chainId?: number) => {
       if (_chainId && searchQuery) {
         const existingTokens = tokensResponse.tokens[_chainId] || []
         if (!existingTokens.length) {
-          const token = await getToken(_chainId, searchQuery, { signal })
+          const token = await getToken(sdkConfig, _chainId, searchQuery, {
+            signal,
+          })
           if (token) {
             tokensResponse.tokens[_chainId] = [token]
           }

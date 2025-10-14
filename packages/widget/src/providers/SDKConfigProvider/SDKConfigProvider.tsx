@@ -1,4 +1,9 @@
-import { createConfig, type SDKConfig } from '@lifi/sdk'
+import {
+  createConfig,
+  type ExtendedChain,
+  type SDKBaseConfig,
+  type SDKConfig,
+} from '@lifi/sdk'
 import {
   useBitcoinContext,
   useEthereumContext,
@@ -9,26 +14,29 @@ import {
   createContext,
   type PropsWithChildren,
   useContext,
+  useEffect,
   useMemo,
+  useState,
 } from 'react'
 import { version } from '../../config/version.js'
-import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 
-const SDKConfigContext = createContext({})
+const SDKConfigContext = createContext<SDKBaseConfig>({} as SDKBaseConfig)
 
-export const useSDKConfig = () => useContext(SDKConfigContext)
+export const useSDKConfig = () => useContext<SDKBaseConfig>(SDKConfigContext)
 
-export const SDKConfigProvider = ({ children }: PropsWithChildren) => {
+export const SDKConfigProvider = ({
+  children,
+  chains,
+}: PropsWithChildren<{ chains: ExtendedChain[] }>) => {
   const widgetConfig = useWidgetConfig()
-  const { chains } = useAvailableChains()
   const { sdkProvider: evmSDKProvider } = useEthereumContext()
   const { sdkProvider: utxoSDKProvider } = useBitcoinContext()
   const { sdkProvider: svmSDKProvider } = useSolanaContext()
   const { sdkProvider: suiSDKProvider } = useSuiContext()
 
-  const value = useMemo(() => {
-    const _config: SDKConfig = {
+  const _config: SDKConfig = useMemo(() => {
+    return {
       ...widgetConfig.sdkConfig,
       apiKey: widgetConfig.apiKey,
       integrator: widgetConfig.integrator ?? window?.location.hostname,
@@ -49,11 +57,9 @@ export const SDKConfigProvider = ({ children }: PropsWithChildren) => {
         suiSDKProvider,
         ...(widgetConfig.sdkConfig?.providers || []),
       ].filter((provider) => provider !== null),
-      chains: chains ?? [],
+      chains,
       // debug: true,
     }
-    //return await createConfig(_config)
-    return createConfig(_config) // TODO: becomes async in V4
   }, [
     widgetConfig,
     evmSDKProvider,
@@ -63,8 +69,19 @@ export const SDKConfigProvider = ({ children }: PropsWithChildren) => {
     chains,
   ])
 
+  // TODO: if there is no chainPreloading, config should be sync
+  // Remove useEffect once function signatures change
+  const [value, setValue] = useState<SDKConfig | SDKBaseConfig>(_config)
+  useEffect(() => {
+    async function init() {
+      const fullConfig = await createConfig(_config)
+      setValue(fullConfig)
+    }
+    init()
+  }, [_config])
+
   return (
-    <SDKConfigContext.Provider value={value}>
+    <SDKConfigContext.Provider value={value as SDKBaseConfig}>
       {children}
     </SDKConfigContext.Provider>
   )

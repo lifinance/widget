@@ -17,7 +17,7 @@ export const WalletProvider = ({
 
   let WidgetWithProviders = (
     <>
-      <SDKConfigProvider>
+      <SDKConfigProvider chains={chains ?? []}>
         <WalletMenuProvider>{children}</WalletMenuProvider>
       </SDKConfigProvider>
     </>

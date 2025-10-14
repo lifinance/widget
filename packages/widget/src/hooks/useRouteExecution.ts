@@ -3,6 +3,7 @@ import { executeRoute, resumeRoute, updateRouteExecution } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useRef } from 'react'
+import { useSDKConfig } from '../providers/SDKConfigProvider/SDKConfigProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import {
   useRouteExecutionStore,
@@ -35,7 +36,8 @@ export const useRouteExecution = ({
   const queryClient = useQueryClient()
   const { account } = useAccount()
   const resumedAfterMount = useRef(false)
-  const { keyPrefix, sdkConfig } = useWidgetConfig()
+  const { keyPrefix, sdkConfig: widgetSdkConfig } = useWidgetConfig() // TODO: difference?
+  const sdkConfig = useSDKConfig()
   const emitter = useWidgetEvents()
   const routeExecutionStoreContext = useRouteExecutionStoreContext()
   const routeExecution = useRouteExecutionStore(
@@ -127,12 +129,12 @@ export const useRouteExecution = ({
         queryKey: [getQueryKey('routes', keyPrefix)],
         exact: false,
       })
-      return executeRoute(routeExecution.route, {
+      return executeRoute(sdkConfig, routeExecution.route, {
         updateRouteHook,
         acceptExchangeRateUpdateHook,
         infiniteApproval: false,
         executeInBackground,
-        ...sdkConfig?.executionOptions,
+        ...widgetSdkConfig?.executionOptions,
       })
     },
     onMutate: () => {
@@ -152,7 +154,7 @@ export const useRouteExecution = ({
       if (!routeExecution?.route) {
         throw new Error('Execution route not found.')
       }
-      return resumeRoute(resumedRoute ?? routeExecution.route, {
+      return resumeRoute(sdkConfig, resumedRoute ?? routeExecution.route, {
         updateRouteHook,
         acceptExchangeRateUpdateHook,
         infiniteApproval: false,
