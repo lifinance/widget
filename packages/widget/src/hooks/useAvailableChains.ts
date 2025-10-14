@@ -2,6 +2,7 @@ import type { ExtendedChain } from '@lifi/sdk'
 import { ChainType, getChains } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback } from 'react'
+import { useSDKConfig } from '../providers/SDKConfigProvider/SDKConfigProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { getConfigItemSets, isItemAllowedForSets } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
@@ -20,6 +21,7 @@ const supportedChainTypes = [
 
 export const useAvailableChains = (chainTypes?: ChainType[]) => {
   const { chains, keyPrefix } = useWidgetConfig()
+  const sdkConfig = useSDKConfig()
   // const { providers } = useHasExternalWalletProvider();
 
   const { data, isLoading } = useQuery({
@@ -43,7 +45,7 @@ export const useAvailableChains = (chainTypes?: ChainType[]) => {
           isItemAllowedForSets(chainType, chainsConfigSets)
         )
 
-      const availableChains = await getChains({
+      const availableChains = await getChains(sdkConfig, {
         chainTypes: chainTypes || chainTypesRequest,
       })
       return availableChains

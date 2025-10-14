@@ -7,6 +7,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 import { useMemo } from 'react'
+import { useSDKConfig } from '../providers/SDKConfigProvider/SDKConfigProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { getQueryKey } from '../utils/queries.js'
 
@@ -14,6 +15,7 @@ export const useTransactionDetails = (transactionHash?: string) => {
   const { account, accounts } = useAccount()
   const queryClient = useQueryClient()
   const { keyPrefix } = useWidgetConfig()
+  const sdkConfig = useSDKConfig()
 
   const transactionHistoryQueryKey = useMemo(
     () => getQueryKey('transaction-history', keyPrefix),
@@ -40,6 +42,7 @@ export const useTransactionDetails = (transactionHash?: string) => {
         }
 
         const transaction = await getStatus(
+          sdkConfig,
           {
             txHash: transactionHash,
           },

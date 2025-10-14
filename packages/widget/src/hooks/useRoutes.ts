@@ -13,6 +13,7 @@ import { useAccount } from '@lifi/wallet-management'
 import { useChainTypeFromAddress } from '@lifi/widget-provider'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
+import { useSDKConfig } from '../providers/SDKConfigProvider/SDKConfigProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
 import { useIntermediateRoutesStore } from '../stores/routes/useIntermediateRoutesStore.js'
@@ -40,7 +41,6 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
   const {
     subvariant,
     subvariantOptions,
-    sdkConfig,
     contractTool,
     bridges,
     exchanges,
@@ -49,6 +49,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     useRelayerRoutes,
     keyPrefix,
   } = useWidgetConfig()
+  const sdkConfig = useSDKConfig()
   const setExecutableRoute = useSetExecutableRoute()
   const queryClient = useQueryClient()
   const emitter = useWidgetEvents()
@@ -282,6 +283,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
 
         if (subvariant === 'custom' && contractCalls && toAmount) {
           const contractCallQuote = await getContractCallsQuote(
+            sdkConfig,
             {
               // Contract calls are enabled only when fromAddress is set
               fromAddress: fromAddress as string,
@@ -358,6 +360,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
 
         const mainRoutesPromise = shouldUseMainRoutes
           ? getRoutes(
+              sdkConfig,
               {
                 fromAddress,
                 fromAmount: fromAmount.toString(),
@@ -403,6 +406,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
 
         const relayerQuotePromise = shouldUseRelayerQuote
           ? getRelayerQuote(
+              sdkConfig,
               {
                 fromAddress,
                 fromAmount: fromAmount.toString(),

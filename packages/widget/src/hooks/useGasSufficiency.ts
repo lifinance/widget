@@ -3,6 +3,7 @@ import { ChainType } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
+import { useSDKConfig } from '../providers/SDKConfigProvider/SDKConfigProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { HiddenUI } from '../types/widget.js'
 import { getQueryKey } from '../utils/queries.js'
@@ -27,6 +28,7 @@ export const useGasSufficiency = (route?: RouteExtended) => {
     chainType: ChainType.EVM,
   })
   const { keyPrefix, hiddenUI } = useWidgetConfig()
+  const sdkConfig = useSDKConfig()
 
   const { relevantAccounts, relevantAccountsQueryKey } = useMemo(() => {
     const chainTypes = route?.steps.reduce((acc, step) => {
@@ -151,7 +153,11 @@ export const useGasSufficiency = (route?: RouteExtended) => {
             .filter((gasCost) => gasCost.chain?.chainType === account.chainType)
             .map((item) => item.token)
 
-          return getTokenBalancesWithRetry(account.address!, relevantTokens)
+          return getTokenBalancesWithRetry(
+            sdkConfig,
+            account.address!,
+            relevantTokens
+          )
         })
       )
 

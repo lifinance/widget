@@ -3,12 +3,14 @@ import { type ExtendedTransactionInfo, getTransactionHistory } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import type { QueryFunction } from '@tanstack/react-query'
 import { useQueries } from '@tanstack/react-query'
+import { useSDKConfig } from '../providers/SDKConfigProvider/SDKConfigProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { getQueryKey } from '../utils/queries.js'
 
 export const useTransactionHistory = () => {
   const { accounts } = useAccount()
   const { keyPrefix } = useWidgetConfig()
+  const sdkConfig = useSDKConfig()
 
   const { data, isLoading } = useQueries({
     queries: accounts.map((account) => ({
@@ -24,6 +26,7 @@ export const useTransactionHistory = () => {
         date.setFullYear(date.getFullYear() - 10)
 
         const response = await getTransactionHistory(
+          sdkConfig,
           {
             wallet: accountAddress,
             fromTimestamp: Math.floor(date.getTime() / 1000),
