@@ -210,7 +210,8 @@ export const useRouteExecution = ({
     if (
       isRouteActive(route) &&
       account.isConnected &&
-      !resumedAfterMount.current
+      !resumedAfterMount.current &&
+      !executeInBackground
     ) {
       resumedAfterMount.current = true
       _resumeRoute()
