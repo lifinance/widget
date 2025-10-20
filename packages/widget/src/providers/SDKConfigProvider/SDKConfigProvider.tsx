@@ -1,9 +1,4 @@
-import {
-  createConfig,
-  type ExtendedChain,
-  type SDKBaseConfig,
-  type SDKConfig,
-} from '@lifi/sdk'
+import { createConfig, type ExtendedChain, type SDKBaseConfig } from '@lifi/sdk'
 import {
   useBitcoinContext,
   useEthereumContext,
@@ -14,9 +9,7 @@ import {
   createContext,
   type PropsWithChildren,
   useContext,
-  useEffect,
   useMemo,
-  useState,
 } from 'react'
 import { version } from '../../config/version.js'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
@@ -35,8 +28,8 @@ export const SDKConfigProvider = ({
   const { sdkProvider: svmSDKProvider } = useSolanaContext()
   const { sdkProvider: suiSDKProvider } = useSuiContext()
 
-  const _config: SDKConfig = useMemo(() => {
-    return {
+  const config: SDKBaseConfig = useMemo(() => {
+    return createConfig({
       ...widgetConfig.sdkConfig,
       apiKey: widgetConfig.apiKey,
       integrator: widgetConfig.integrator ?? window?.location.hostname,
@@ -49,7 +42,6 @@ export const SDKConfigProvider = ({
       },
       disableVersionCheck: true,
       widgetVersion: version,
-      preloadChains: false,
       providers: [
         evmSDKProvider,
         svmSDKProvider,
@@ -59,7 +51,7 @@ export const SDKConfigProvider = ({
       ].filter((provider) => provider !== null),
       chains,
       // debug: true,
-    }
+    })
   }, [
     widgetConfig,
     evmSDKProvider,
@@ -69,19 +61,8 @@ export const SDKConfigProvider = ({
     chains,
   ])
 
-  // TODO: if there is no chainPreloading, config should be sync
-  // Remove useEffect once function signatures change
-  const [value, setValue] = useState<SDKConfig | SDKBaseConfig>(_config)
-  useEffect(() => {
-    async function init() {
-      const fullConfig = await createConfig(_config)
-      setValue(fullConfig)
-    }
-    init()
-  }, [_config])
-
   return (
-    <SDKConfigContext.Provider value={value as SDKBaseConfig}>
+    <SDKConfigContext.Provider value={config}>
       {children}
     </SDKConfigContext.Provider>
   )
