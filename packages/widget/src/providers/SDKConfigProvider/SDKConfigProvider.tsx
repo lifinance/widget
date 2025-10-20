@@ -1,4 +1,4 @@
-import { createConfig, type ExtendedChain, type SDKBaseConfig } from '@lifi/sdk'
+import { createConfig, type SDKBaseConfig } from '@lifi/sdk'
 import {
   useBitcoinContext,
   useEthereumContext,
@@ -18,10 +18,7 @@ const SDKConfigContext = createContext<SDKBaseConfig>({} as SDKBaseConfig)
 
 export const useSDKConfig = () => useContext<SDKBaseConfig>(SDKConfigContext)
 
-export const SDKConfigProvider = ({
-  children,
-  chains,
-}: PropsWithChildren<{ chains: ExtendedChain[] }>) => {
+export const SDKConfigProvider = ({ children }: PropsWithChildren) => {
   const widgetConfig = useWidgetConfig()
   const { sdkProvider: evmSDKProvider } = useEthereumContext()
   const { sdkProvider: utxoSDKProvider } = useBitcoinContext()
@@ -47,9 +44,7 @@ export const SDKConfigProvider = ({
         svmSDKProvider,
         utxoSDKProvider,
         suiSDKProvider,
-        ...(widgetConfig.sdkConfig?.providers || []),
       ].filter((provider) => provider !== null),
-      chains,
       // debug: true,
     })
   }, [
@@ -58,7 +53,6 @@ export const SDKConfigProvider = ({
     svmSDKProvider,
     utxoSDKProvider,
     suiSDKProvider,
-    chains,
   ])
 
   return (
