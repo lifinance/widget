@@ -40,7 +40,6 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
   const {
     subvariant,
     subvariantOptions,
-    sdkConfig: widgetSdkConfig,
     contractTool,
     bridges,
     exchanges,
@@ -127,7 +126,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     exchanges?.allow?.length || exchanges?.deny?.length
       ? enabledExchanges
       : undefined
-  const allowSwitchChain = widgetSdkConfig?.routeOptions?.allowSwitchChain
+  const allowSwitchChain = sdkConfig?.routeOptions?.allowSwitchChain
 
   const isEnabled =
     Boolean(Number(fromChain?.id)) &&

@@ -36,7 +36,7 @@ export const useRouteExecution = ({
   const queryClient = useQueryClient()
   const { account } = useAccount()
   const resumedAfterMount = useRef(false)
-  const { keyPrefix, sdkConfig: widgetSdkConfig } = useWidgetConfig() // TODO: difference?
+  const { keyPrefix } = useWidgetConfig()
   const sdkConfig = useSDKConfig()
   const emitter = useWidgetEvents()
   const routeExecutionStoreContext = useRouteExecutionStoreContext()
@@ -134,7 +134,7 @@ export const useRouteExecution = ({
         acceptExchangeRateUpdateHook,
         infiniteApproval: false,
         executeInBackground,
-        ...widgetSdkConfig?.executionOptions,
+        ...sdkConfig?.executionOptions,
       })
     },
     onMutate: () => {
