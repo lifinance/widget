@@ -4,7 +4,6 @@ import { type FC, type PropsWithChildren, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import type { WidgetWalletProvidersProps } from '../../types/widget.js'
-import { SDKConfigProvider } from '../SDKConfigProvider/SDKConfigProvider.js'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 import { useExternalWalletProvider } from './useExternalWalletProvider.js'
 
@@ -15,13 +14,7 @@ export const WalletProvider = ({
   const { walletConfig } = useWidgetConfig()
   const { chains } = useAvailableChains()
 
-  let WidgetWithProviders = (
-    <>
-      <SDKConfigProvider>
-        <WalletMenuProvider>{children}</WalletMenuProvider>
-      </SDKConfigProvider>
-    </>
-  )
+  let WidgetWithProviders = <WalletMenuProvider>{children}</WalletMenuProvider>
 
   for (const ProviderComponent of providers) {
     WidgetWithProviders = (

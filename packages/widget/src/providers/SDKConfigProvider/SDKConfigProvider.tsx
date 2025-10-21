@@ -1,11 +1,5 @@
 import { createConfig, type SDKBaseConfig } from '@lifi/sdk'
 import {
-  useBitcoinContext,
-  useEthereumContext,
-  useSolanaContext,
-  useSuiContext,
-} from '@lifi/widget-provider'
-import {
   createContext,
   type PropsWithChildren,
   useContext,
@@ -20,10 +14,6 @@ export const useSDKConfig = () => useContext<SDKBaseConfig>(SDKConfigContext)
 
 export const SDKConfigProvider = ({ children }: PropsWithChildren) => {
   const widgetConfig = useWidgetConfig()
-  const { sdkProvider: evmSDKProvider } = useEthereumContext()
-  const { sdkProvider: utxoSDKProvider } = useBitcoinContext()
-  const { sdkProvider: svmSDKProvider } = useSolanaContext()
-  const { sdkProvider: suiSDKProvider } = useSuiContext()
 
   const config: SDKBaseConfig = useMemo(() => {
     return createConfig({
@@ -39,21 +29,9 @@ export const SDKConfigProvider = ({ children }: PropsWithChildren) => {
       },
       disableVersionCheck: true,
       widgetVersion: version,
-      providers: [
-        evmSDKProvider,
-        svmSDKProvider,
-        utxoSDKProvider,
-        suiSDKProvider,
-      ].filter((provider) => provider !== null),
       // debug: true,
     })
-  }, [
-    widgetConfig,
-    evmSDKProvider,
-    svmSDKProvider,
-    utxoSDKProvider,
-    suiSDKProvider,
-  ])
+  }, [widgetConfig])
 
   return (
     <SDKConfigContext.Provider value={config}>
