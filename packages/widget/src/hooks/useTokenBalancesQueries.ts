@@ -1,4 +1,5 @@
 import { getTokenBalances, type TokenExtended } from '@lifi/sdk'
+import { useSDKProviders } from '@lifi/widget-provider'
 import { useQueries } from '@tanstack/react-query'
 import { useMemo, useRef } from 'react'
 import { useSDKConfig } from '../providers/SDKConfigProvider/SDKConfigProvider.js'
@@ -14,6 +15,7 @@ export const useTokenBalancesQueries = (
 ) => {
   const { keyPrefix } = useWidgetConfig()
   const sdkConfig = useSDKConfig()
+  const sdkProviders = useSDKProviders()
   const firstLoadStartRef = useRef<number | null>(null)
 
   const queryConfig = useMemo(() => {
@@ -35,7 +37,12 @@ export const useTokenBalancesQueries = (
               if (!accountAddress || !tokens) {
                 return []
               }
-              return await getTokenBalances(sdkConfig, accountAddress, tokens)
+              return await getTokenBalances(
+                sdkConfig,
+                sdkProviders,
+                accountAddress,
+                tokens
+              )
             },
             enabled: isBalanceLoadingEnabled,
             refetchInterval: defaultRefetchInterval,
@@ -44,7 +51,13 @@ export const useTokenBalancesQueries = (
           }
         })
     )
-  }, [accountsWithTokens, isBalanceLoadingEnabled, keyPrefix, sdkConfig])
+  }, [
+    accountsWithTokens,
+    isBalanceLoadingEnabled,
+    keyPrefix,
+    sdkConfig,
+    sdkProviders,
+  ])
 
   const result = useQueries({
     queries: queryConfig,

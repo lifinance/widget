@@ -1,9 +1,8 @@
 import type { Chain, ChainType } from '@lifi/sdk'
 import { getNameServiceAddress } from '@lifi/sdk'
-import { useChainTypeFromAddress } from '@lifi/widget-provider'
+import { useChainTypeFromAddress, useSDKProviders } from '@lifi/widget-provider'
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { useSDKConfig } from '../providers/SDKConfigProvider/SDKConfigProvider'
 
 export enum AddressType {
   Address = 0,
@@ -31,7 +30,7 @@ type InvalidResponse = {
 export const useAddressValidation = () => {
   const { t } = useTranslation()
   const { getChainTypeFromAddress } = useChainTypeFromAddress()
-  const sdkConfig = useSDKConfig()
+  const sdkProviders = useSDKProviders()
 
   const { mutateAsync: validateAddress, isPending: isValidating } = useMutation(
     {
@@ -56,7 +55,7 @@ export const useAddressValidation = () => {
           }
 
           const address = await getNameServiceAddress(
-            sdkConfig,
+            sdkProviders,
             value,
             chainType
           )

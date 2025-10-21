@@ -1,7 +1,7 @@
-import type { ExtendedChain } from '@lifi/sdk'
+import type { EVMProvider, ExtendedChain } from '@lifi/sdk'
 import { ChainType, isBatchingSupported } from '@lifi/sdk'
+import { useEthereumContext } from '@lifi/widget-provider'
 import { useQuery } from '@tanstack/react-query'
-import { useSDKConfig } from '../providers/SDKConfigProvider/SDKConfigProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { getQueryKey } from '../utils/queries.js'
 
@@ -10,10 +10,10 @@ export function useIsBatchingSupported(
   address?: string
 ) {
   const { keyPrefix } = useWidgetConfig()
-  const sdkConfig = useSDKConfig()
+  const { sdkProvider: evmSDKProvider } = useEthereumContext()
 
   const enabled = Boolean(
-    chain && chain.chainType === ChainType.EVM && !!address
+    chain && chain.chainType === ChainType.EVM && !!address && evmSDKProvider
   )
   const { data, isLoading } = useQuery({
     queryKey: [
@@ -22,7 +22,8 @@ export function useIsBatchingSupported(
       address,
     ],
     queryFn: () => {
-      return isBatchingSupported(sdkConfig, {
+      return isBatchingSupported({
+        provider: evmSDKProvider! as EVMProvider,
         chainId: chain!.id,
         skipReady: true,
       })
