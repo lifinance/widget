@@ -1,22 +1,22 @@
-import { createConfig, type SDKBaseConfig } from '@lifi/sdk'
+import { createClient, type SDKClient } from '@lifi/sdk'
 import {
   createContext,
   type PropsWithChildren,
   useContext,
   useMemo,
 } from 'react'
-import { version } from '../../config/version.js'
-import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
+import { version } from '../config/version.js'
+import { useWidgetConfig } from './WidgetProvider/WidgetProvider.js'
 
-const SDKConfigContext = createContext<SDKBaseConfig>({} as SDKBaseConfig)
+const SDKClientContext = createContext<SDKClient>({} as SDKClient)
 
-export const useSDKConfig = () => useContext<SDKBaseConfig>(SDKConfigContext)
+export const useSDKClient = () => useContext(SDKClientContext)
 
-export const SDKConfigProvider = ({ children }: PropsWithChildren) => {
+export const SDKClientProvider = ({ children }: PropsWithChildren) => {
   const widgetConfig = useWidgetConfig()
 
-  const config: SDKBaseConfig = useMemo(() => {
-    return createConfig({
+  const client: SDKClient = useMemo(() => {
+    return createClient({
       ...widgetConfig.sdkConfig,
       apiKey: widgetConfig.apiKey,
       integrator: widgetConfig.integrator ?? window?.location.hostname,
@@ -34,8 +34,8 @@ export const SDKConfigProvider = ({ children }: PropsWithChildren) => {
   }, [widgetConfig])
 
   return (
-    <SDKConfigContext.Provider value={config}>
+    <SDKClientContext.Provider value={client}>
       {children}
-    </SDKConfigContext.Provider>
+    </SDKClientContext.Provider>
   )
 }

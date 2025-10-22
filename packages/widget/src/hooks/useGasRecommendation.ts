@@ -1,6 +1,6 @@
 import { type ChainId, getGasRecommendation } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
-import { useSDKConfig } from '../providers/SDKConfigProvider/SDKConfigProvider.js'
+import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { HiddenUI } from '../types/widget.js'
 import { getQueryKey } from '../utils/queries.js'
@@ -15,7 +15,7 @@ export const useGasRecommendation = (
 ) => {
   const { chains } = useAvailableChains()
   const { keyPrefix, hiddenUI } = useWidgetConfig()
-  const sdkConfig = useSDKConfig()
+  const sdkClient = useSDKClient()
 
   const checkRecommendationLiFuel =
     Boolean(toChainId) &&
@@ -41,7 +41,7 @@ export const useGasRecommendation = (
         return null
       }
       const gasRecommendation = await getGasRecommendation(
-        sdkConfig,
+        sdkClient.config,
         {
           chainId: toChainId as ChainId,
           fromChain: fromChain as ChainId,

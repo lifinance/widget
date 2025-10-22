@@ -6,7 +6,7 @@ import {
   type TokensResponse,
 } from '@lifi/sdk'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useSDKConfig } from '../providers/SDKConfigProvider/SDKConfigProvider.js'
+import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
 import { getConfigItemSets, isFormItemAllowed } from '../utils/item.js'
@@ -20,13 +20,13 @@ export const useTokenSearch = (
 ) => {
   const queryClient = useQueryClient()
   const { tokens: configTokens, keyPrefix } = useWidgetConfig()
-  const sdkConfig = useSDKConfig()
+  const sdkClient = useSDKClient()
 
   const { data, isLoading } = useQuery({
     queryKey: [getQueryKey('token-search', keyPrefix), chainId, tokenQuery],
     queryFn: async ({ queryKey: [, chainId, tokenQuery], signal }) => {
       const token = await getToken(
-        sdkConfig,
+        sdkClient.config,
         chainId as ChainId,
         tokenQuery as string,
         {

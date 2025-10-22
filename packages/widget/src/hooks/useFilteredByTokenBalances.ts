@@ -7,7 +7,7 @@ import {
 } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
-import { useSDKConfig } from '../providers/SDKConfigProvider/SDKConfigProvider.js'
+import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
 import { getConfigItemSets, isFormItemAllowed } from '../utils/item.js'
@@ -21,7 +21,7 @@ export const useFilteredTokensByBalance = (
   formType?: FormType
 ) => {
   const { tokens: configTokens } = useWidgetConfig()
-  const sdkConfig = useSDKConfig()
+  const sdkClient = useSDKClient()
 
   const evmAddress = useMemo(() => {
     const evmAccount = Object.entries(accountsWithTokens ?? {}).find(
@@ -32,7 +32,7 @@ export const useFilteredTokensByBalance = (
 
   const { data: existingBalances, isLoading } = useQuery({
     queryKey: ['existing-evm-balances', evmAddress],
-    queryFn: () => getWalletBalances(sdkConfig, evmAddress ?? ''),
+    queryFn: () => getWalletBalances(sdkClient, evmAddress ?? ''),
     enabled: !!evmAddress,
     refetchInterval: 30_000, // 30 seconds
     staleTime: 30_000, // 30 seconds
