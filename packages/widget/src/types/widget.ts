@@ -163,7 +163,6 @@ export interface WidgetSDKConfig
     | 'integrator'
     | 'routeOptions'
     | 'widgetVersion'
-    | 'providers'
   > {
   routeOptions?: Omit<RouteOptions, 'bridges' | 'exchanges'>
   executionOptions?: Pick<

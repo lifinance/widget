@@ -12,7 +12,7 @@ import { useAccount } from '@lifi/wallet-management'
 import { useChainTypeFromAddress } from '@lifi/widget-provider'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
-import { useSDKConfig } from '../providers/SDKConfigProvider/SDKConfigProvider.js'
+import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
 import { useIntermediateRoutesStore } from '../stores/routes/useIntermediateRoutesStore.js'
@@ -48,7 +48,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     useRelayerRoutes,
     keyPrefix,
   } = useWidgetConfig()
-  const sdkConfig = useSDKConfig()
+  const sdkClient = useSDKClient()
   const setExecutableRoute = useSetExecutableRoute()
   const queryClient = useQueryClient()
   const emitter = useWidgetEvents()
@@ -126,7 +126,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     exchanges?.allow?.length || exchanges?.deny?.length
       ? enabledExchanges
       : undefined
-  const allowSwitchChain = sdkConfig?.routeOptions?.allowSwitchChain
+  const allowSwitchChain = sdkClient.config?.routeOptions?.allowSwitchChain
 
   const isEnabled =
     Boolean(Number(fromChain?.id)) &&
@@ -277,7 +277,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
 
         if (subvariant === 'custom' && contractCalls && toAmount) {
           const contractCallQuote = await getContractCallsQuote(
-            sdkConfig,
+            sdkClient.config,
             {
               // Contract calls are enabled only when fromAddress is set
               fromAddress: fromAddress as string,
@@ -353,7 +353,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
 
         const mainRoutesPromise = shouldUseMainRoutes
           ? getRoutes(
-              sdkConfig,
+              sdkClient.config,
               {
                 fromAddress,
                 fromAmount: fromAmount.toString(),
@@ -398,7 +398,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
 
         const relayerQuotePromise = shouldUseRelayerQuote
           ? getRelayerQuote(
-              sdkConfig,
+              sdkClient.config,
               {
                 fromAddress,
                 fromAmount: fromAmount.toString(),

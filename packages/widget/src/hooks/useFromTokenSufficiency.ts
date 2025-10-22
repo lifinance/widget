@@ -1,8 +1,7 @@
 import type { RouteExtended } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
-import { useSDKProviders } from '@lifi/widget-provider'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { useSDKConfig } from '../providers/SDKConfigProvider/SDKConfigProvider.js'
+import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
 import { isRouteDone } from '../stores/routes/utils.js'
@@ -20,8 +19,7 @@ export const useFromTokenSufficiency = (route?: RouteExtended) => {
     'fromAmount'
   )
   const { keyPrefix } = useWidgetConfig()
-  const sdkConfig = useSDKConfig()
-  const sdkProviders = useSDKProviders()
+  const sdkClient = useSDKClient()
 
   let chainId = fromChainId
   let tokenAddress = fromTokenAddress
@@ -72,8 +70,7 @@ export const useFromTokenSufficiency = (route?: RouteExtended) => {
       }
 
       const tokenBalances = await getTokenBalancesWithRetry(
-        sdkConfig,
-        sdkProviders,
+        sdkClient,
         accountAddress,
         [currentAction.fromToken]
       )

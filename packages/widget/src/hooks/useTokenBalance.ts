@@ -1,14 +1,12 @@
 import {
   getTokenBalances,
-  type SDKBaseConfig,
-  type SDKProvider,
+  type SDKClient,
   type Token,
   type TokenAmount,
 } from '@lifi/sdk'
-import { useSDKProviders } from '@lifi/widget-provider'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
-import { useSDKConfig } from '../providers/SDKConfigProvider/SDKConfigProvider.js'
+import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { getQueryKey } from '../utils/queries.js'
 
@@ -17,8 +15,7 @@ const defaultRefetchInterval = 30_000
 export const useTokenBalance = (accountAddress?: string, token?: Token) => {
   const queryClient = useQueryClient()
   const { keyPrefix } = useWidgetConfig()
-  const sdkConfig = useSDKConfig()
-  const sdkProviders = useSDKProviders()
+  const sdkClient = useSDKClient()
 
   const tokenBalanceQueryKey = useMemo(
     () =>
@@ -37,8 +34,7 @@ export const useTokenBalance = (accountAddress?: string, token?: Token) => {
       queryKey: [, accountAddress, tokenChainId, tokenAddress],
     }) => {
       const tokenBalances = await getTokenBalancesWithRetry(
-        sdkConfig,
-        sdkProviders,
+        sdkClient,
         accountAddress as string,
         [token!]
       )
@@ -110,16 +106,14 @@ export const useTokenBalance = (accountAddress?: string, token?: Token) => {
 }
 
 export const getTokenBalancesWithRetry = async (
-  sdkConfig: SDKBaseConfig,
-  sdkProviders: SDKProvider[],
+  sdkClient: SDKClient,
   accountAddress: string,
   tokens: Token[],
   depth = 0
 ): Promise<TokenAmount[] | undefined> => {
   try {
     const tokenBalances = await getTokenBalances(
-      sdkConfig,
-      sdkProviders,
+      sdkClient,
       accountAddress as string,
       tokens
     )
@@ -132,8 +126,7 @@ export const getTokenBalancesWithRetry = async (
         setTimeout(resolve, 1.5 ** depth * 100)
       })
       return getTokenBalancesWithRetry(
-        sdkConfig,
-        sdkProviders,
+        sdkClient,
         accountAddress,
         tokens,
         depth + 1
