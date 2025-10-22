@@ -1,5 +1,5 @@
-import { useSyncWagmiConfig } from '@lifi/wallet-management'
 import { useAvailableChains } from '@lifi/widget'
+import { useSyncWagmiConfig } from '@lifi/widget-provider-ethereum'
 import { injected, walletConnect } from '@wagmi/connectors'
 import { type FC, type PropsWithChildren, useRef } from 'react'
 import { createClient, http } from 'viem'
@@ -13,7 +13,7 @@ const connectors = [injected(), walletConnect({ projectId })]
 
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   const { chains } = useAvailableChains()
-  const wagmi = useRef<Config>()
+  const wagmi = useRef<Config>(null)
 
   if (!wagmi.current) {
     wagmi.current = createConfig({

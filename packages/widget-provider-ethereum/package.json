@@ -1,0 +1,24 @@
+{
+  "name": "@lifi/widget-provider-ethereum",
+  "version": "4.0.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.d.ts",
+  "dependencies": {
+    "viem": "^2.38.0",
+    "@lifi/sdk": "^3.12.14",
+    "@lifi/widget-provider": "workspace:*"
+  },
+  "peerDependencies": {
+    "wagmi": ">=2.17.5"
+  },
+  "devDependencies": {
+    "react": "^19.2.0",
+    "typescript": "^5.9.3"
+  },
+  "files": [
+    "dist/**",
+    "src/**",
+    "!tsconfig.json"
+  ]
+}

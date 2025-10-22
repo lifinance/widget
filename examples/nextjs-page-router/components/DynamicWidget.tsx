@@ -1,5 +1,6 @@
 import type { WidgetConfig } from '@lifi/widget'
 import { LiFiWidget } from '@lifi/widget'
+import { EthereumProvider } from '@lifi/widget-provider-ethereum'
 
 export default function DynamicWidget() {
   const config = {
@@ -12,5 +13,11 @@ export default function DynamicWidget() {
     },
   } as Partial<WidgetConfig>
 
-  return <LiFiWidget config={config} integrator="nextjs-example" />
+  return (
+    <LiFiWidget
+      config={config}
+      integrator="nextjs-example"
+      providers={[EthereumProvider()]}
+    />
+  )
 }

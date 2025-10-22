@@ -1,4 +1,5 @@
 <script>
+import { EthereumProvider } from '@lifi/widget-provider-ethereum'
 import { LiFiWidget } from '@lifi/widget'
 import ReactAdapter from './ReactAdapter.svelte'
 </script>
@@ -14,6 +15,7 @@ import ReactAdapter from './ReactAdapter.svelte'
     },
   }}
   integrator="svelte-example"
+  providers={[EthereumProvider()]}
 />
 
 <style>

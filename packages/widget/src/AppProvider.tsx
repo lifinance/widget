@@ -17,20 +17,24 @@ import {
 import { URLSearchParamsBuilder } from './stores/form/URLSearchParamsBuilder.js'
 import { StoreProvider } from './stores/StoreProvider.js'
 import { SettingsStoreProvider } from './stores/settings/SettingsStore.js'
-import type { WidgetConfigProps } from './types/widget.js'
+import type {
+  WidgetConfigProps,
+  WidgetWalletProvidersProps,
+} from './types/widget.js'
 
-export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
-  children,
-  config,
-  formRef,
-}) => {
+export const AppProvider: React.FC<
+  PropsWithChildren<WidgetConfigProps & WidgetWalletProvidersProps>
+> = ({ children, config, formRef, providers }) => {
+  if (!providers?.length && process.env.NODE_ENV === 'development') {
+    console.warn('No widget providers specified')
+  }
   return (
     <QueryClientProvider>
       <SettingsStoreProvider config={config}>
         <WidgetProvider config={config}>
           <I18nProvider>
             <ThemeProvider>
-              <WalletProvider>
+              <WalletProvider providers={providers}>
                 <StoreProvider config={config} formRef={formRef}>
                   <AppRouter>{children}</AppRouter>
                 </StoreProvider>

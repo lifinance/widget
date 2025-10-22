@@ -1,6 +1,5 @@
 import { ChainId, ChainType } from '@lifi/sdk'
-import { useConnectWallet } from '@mysten/dapp-kit'
-import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
+import { useSuiContext } from '@lifi/widget-provider'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { getChainTypeIcon } from '../icons.js'
@@ -9,26 +8,23 @@ import { WalletTagType } from '../types/walletTagType.js'
 import { CardListItemButton } from './CardListItemButton.js'
 import type { WalletListItemButtonProps } from './types.js'
 
-interface SuiListItemButtonProps extends WalletListItemButtonProps {
-  wallet: WalletWithRequiredFeatures
-}
-
 export const SuiListItemButton = ({
   ecosystemSelection,
-  wallet,
+  connector,
   tagType,
   onConnected,
   onConnecting,
   onError,
-}: SuiListItemButtonProps) => {
+}: WalletListItemButtonProps) => {
   const emitter = useWalletManagementEvents()
-  const { mutateAsync: connect } = useConnectWallet()
+  const { connect, disconnect, isConnected } = useSuiContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()
 
-  const connectorName = wallet.name
-  const connectorDisplayName: string = ecosystemSelection ? 'Sui' : wallet.name
+  const connectorDisplayName: string = ecosystemSelection
+    ? 'Sui'
+    : connector.name
 
-  const connectWallet = async () => {
+  const handleSuiConnect = async () => {
     if (tagType === WalletTagType.Connected) {
       onConnected?.()
       return
@@ -36,21 +32,19 @@ export const SuiListItemButton = ({
 
     try {
       onConnecting?.()
-      await connect(
-        { wallet },
-        {
-          onSuccess: (standardConnectOutput) => {
-            setLastConnectedAccount(wallet)
-            emitter.emit(WalletManagementEvent.WalletConnected, {
-              address: standardConnectOutput.accounts[0].address,
-              chainId: ChainId.SOL,
-              chainType: ChainType.SVM,
-              connectorId: connectorName,
-              connectorName: connectorName,
-            })
-          },
-        }
-      )
+      if (isConnected) {
+        await disconnect()
+      }
+      await connect(connector.id ?? connector.name, (address: string) => {
+        setLastConnectedAccount(connector)
+        emitter.emit(WalletManagementEvent.WalletConnected, {
+          address: address,
+          chainId: ChainId.SOL,
+          chainType: ChainType.SVM,
+          connectorId: connector.id ?? connector.name,
+          connectorName: connector.name,
+        })
+      })
       onConnected?.()
     } catch (error) {
       onError?.(error)
@@ -60,8 +54,12 @@ export const SuiListItemButton = ({
   return (
     <CardListItemButton
       key={connectorDisplayName}
-      icon={ecosystemSelection ? getChainTypeIcon(ChainType.MVM) : wallet.icon}
-      onClick={connectWallet}
+      icon={
+        ecosystemSelection
+          ? getChainTypeIcon(ChainType.MVM)
+          : (connector.icon ?? '')
+      }
+      onClick={handleSuiConnect}
       title={connectorDisplayName}
       tagType={
         ecosystemSelection && tagType !== WalletTagType.Connected

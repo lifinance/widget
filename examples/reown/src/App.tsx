@@ -1,4 +1,7 @@
 import { ChainId, LiFiWidget } from '@lifi/widget'
+import { BitcoinProvider } from '@lifi/widget-provider-bitcoin'
+import { EthereumProvider } from '@lifi/widget-provider-ethereum'
+import { SolanaProvider } from '@lifi/widget-provider-solana'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { WalletHeader } from './components/WalletHeader'
 import { WalletProvider } from './providers/WalletProvider'
@@ -31,6 +34,11 @@ function App() {
                 },
               },
             }}
+            providers={[
+              EthereumProvider(),
+              SolanaProvider(),
+              BitcoinProvider(),
+            ]}
           />
         </WalletProvider>
       </QueryClientProvider>

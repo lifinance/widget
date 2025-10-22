@@ -1,5 +1,5 @@
-import type { Connector as BigmiConnector } from '@bigmi/client'
 import { ChainType } from '@lifi/sdk'
+import type { WalletConnector } from '@lifi/widget-provider'
 import ArrowBack from '@mui/icons-material/ArrowBack'
 import Close from '@mui/icons-material/Close'
 import {
@@ -12,26 +12,23 @@ import {
   List,
   Typography,
 } from '@mui/material'
-import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
-import type { WalletAdapter } from '@solana/wallet-adapter-base'
 import { useMemo, useReducer, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { Connector } from 'wagmi'
 import { useAccount } from '../hooks/useAccount.js'
 import type { CombinedWallet } from '../hooks/useCombinedWallets.js'
 import { useCombinedWallets } from '../hooks/useCombinedWallets.js'
 import type { WalletMenuOpenArgs } from '../providers/WalletMenuProvider/types.js'
-import type { WalletConnector } from '../types/walletConnector.js'
 import type { WalletTagType } from '../types/walletTagType.js'
 import { ElementId } from '../utils/elements.js'
 import { getConnectorId } from '../utils/getConnectorId.js'
 import { getSortedByTags } from '../utils/getSortedByTags.js'
 import { getConnectorTagType, getWalletTagType } from '../utils/walletTags.js'
+import { BitcoinListItemButton } from './BitcoinListItemButton.js'
 import { CardListItemButton } from './CardListItemButton.js'
-import { EVMListItemButton } from './EVMListItemButton.js'
+import { EthereumListItemButton } from './EthereumListItemButton.js'
+import { SolanaListItemButton } from './SolanaListItemButton.js'
 import { SuiListItemButton } from './SuiListItemButton.js'
-import { SVMListItemButton } from './SVMListItemButton.js'
-import { UTXOListItemButton } from './UTXOListItemButton.js'
+import type { WalletListItemButtonProps } from './types.js'
 import { WalletInfoDisplay } from './WalletInfoDisplay.js'
 import { WalletMenuContentEmpty } from './WalletMenuContentEmpty.js'
 
@@ -74,7 +71,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
   walletChainArgs,
 }) => {
   const { t } = useTranslation()
-  const { installedWallets } = useCombinedWallets()
+  const installedWallets = useCombinedWallets()
   const selectedWalletRef = useRef<CombinedWallet>(null)
 
   const { accounts } = useAccount()
@@ -168,58 +165,34 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
   ) => {
     const key = `${name}${ecosystemSelection ? `-${chainType}` : ''}`
 
+    let ListItemButtonComponent: React.FC<WalletListItemButtonProps> | null =
+      null
     switch (chainType) {
-      case ChainType.UTXO:
-        return (
-          <UTXOListItemButton
-            key={key}
-            ecosystemSelection={ecosystemSelection}
-            tagType={tagType}
-            connector={connector as BigmiConnector}
-            onConnected={onClose}
-            onConnecting={() => handleConnecting(id)}
-            onError={(error) => handleError(id, error)}
-          />
-        )
       case ChainType.EVM:
-        return (
-          <EVMListItemButton
-            key={key}
-            ecosystemSelection={ecosystemSelection}
-            tagType={tagType}
-            connector={connector as Connector}
-            onConnected={onClose}
-            onConnecting={() => handleConnecting(id)}
-            onError={(error) => handleError(id, error)}
-          />
-        )
+        ListItemButtonComponent = EthereumListItemButton
+        break
+      case ChainType.UTXO:
+        ListItemButtonComponent = BitcoinListItemButton
+        break
       case ChainType.SVM:
-        return (
-          <SVMListItemButton
-            key={key}
-            ecosystemSelection={ecosystemSelection}
-            tagType={tagType}
-            walletAdapter={connector as WalletAdapter}
-            onConnected={onClose}
-            onConnecting={() => handleConnecting(id)}
-            onError={(error) => handleError(id, error)}
-          />
-        )
+        ListItemButtonComponent = SolanaListItemButton
+        break
       case ChainType.MVM:
-        return (
-          <SuiListItemButton
-            key={key}
-            ecosystemSelection={ecosystemSelection}
-            tagType={tagType}
-            wallet={connector as WalletWithRequiredFeatures}
-            onConnected={onClose}
-            onConnecting={() => handleConnecting(id)}
-            onError={(error) => handleError(id, error)}
-          />
-        )
-      default:
-        return null
+        ListItemButtonComponent = SuiListItemButton
+        break
     }
+
+    return ListItemButtonComponent ? (
+      <ListItemButtonComponent
+        key={key}
+        ecosystemSelection={ecosystemSelection}
+        tagType={tagType}
+        connector={connector}
+        onConnected={onClose}
+        onConnecting={() => handleConnecting(id)}
+        onError={(error) => handleError(id, error)}
+      />
+    ) : null
   }
 
   const selectedWalletConnectors = useMemo(() => {
@@ -320,7 +293,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
                     return (
                       <CardListItemButton
                         key={name}
-                        onClick={() => handleMultiEcosystem(id)}
+                        onClick={() => handleMultiEcosystem(id ?? name)}
                         title={name}
                         icon={icon ?? ''}
                         tagType={tagType}

@@ -1,4 +1,5 @@
 import { LiFiWidget } from '@lifi/widget'
+import { EthereumProvider } from '@lifi/widget-provider-ethereum'
 
 export function App() {
   return (
@@ -12,6 +13,7 @@ export function App() {
           },
         },
       }}
+      providers={[EthereumProvider()]}
     />
   )
 }

@@ -1,4 +1,5 @@
 import { LiFiWidget } from '@lifi/widget'
+import { EthereumProvider } from '@lifi/widget-provider-ethereum'
 import { ConnectButton, useConnectModal } from '@rainbow-me/rainbowkit'
 
 export default function App() {
@@ -35,6 +36,7 @@ export default function App() {
             },
           }}
           integrator="rainbowkit-example"
+          providers={[EthereumProvider()]}
         />
       </div>
     </div>

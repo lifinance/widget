@@ -12,6 +12,7 @@ import type {
   Token,
 } from '@lifi/sdk'
 import type { WalletMenuOpenArgs } from '@lifi/wallet-management'
+import type { WidgetProviderProps } from '@lifi/widget-provider'
 import type {
   Components,
   PaletteMode,
@@ -21,14 +22,13 @@ import type {
   Theme,
 } from '@mui/material'
 import type { TypographyVariantsOptions } from '@mui/material/styles'
-import type { CSSProperties, FC, ReactNode, RefObject } from 'react'
 import type {
-  BaseAccountParameters,
-  CoinbaseWalletParameters,
-  MetaMaskParameters,
-  PortoParameters,
-  WalletConnectParameters,
-} from 'wagmi/connectors'
+  CSSProperties,
+  FC,
+  PropsWithChildren,
+  ReactNode,
+  RefObject,
+} from 'react'
 import type {
   LanguageKey,
   LanguageResources,
@@ -137,12 +137,8 @@ export type DefaultUI = {
 }
 
 export interface WidgetWalletConfig {
+  walletEcosystemsOrder?: Record<string, ChainType[]>
   onConnect?(args?: WalletMenuOpenArgs): void
-  walletConnect?: WalletConnectParameters
-  coinbase?: CoinbaseWalletParameters
-  metaMask?: MetaMaskParameters
-  baseAccount?: BaseAccountParameters
-  porto?: Partial<PortoParameters>
   /**
    * Determines whether the widget should provide partial wallet management functionality.
    *
@@ -384,6 +380,10 @@ export interface FormRefProps {
   formRef?: FormRef
 }
 
+export interface WidgetWalletProvidersProps {
+  providers: ((props: PropsWithChildren<WidgetProviderProps>) => ReactNode)[]
+}
+
 export interface WidgetConfigProps extends FormRefProps {
   config: WidgetConfig
 }
@@ -395,7 +395,8 @@ export interface WidgetConfigPartialProps {
 export type WidgetProps = WidgetDrawerProps &
   WidgetConfig &
   WidgetConfigPartialProps &
-  FormRefProps
+  FormRefProps &
+  WidgetWalletProvidersProps
 
 export interface WidgetDrawerProps extends WidgetConfigPartialProps {
   elementRef?: RefObject<HTMLDivElement>
