@@ -28,7 +28,7 @@
     "@vitejs/plugin-react-swc": "^4.1.0",
     "source-map-explorer": "^2.5.3",
     "typescript": "^5.9.3",
-    "vite": "^7.1.11",
+    "vite": "^7.1.12",
     "vite-plugin-node-polyfills": "0.24.0",
     "web-vitals": "^5.1.0"
   },

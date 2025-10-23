@@ -60,7 +60,7 @@
     "husky": "^9.1.7",
     "knip": "^5.66.2",
     "lerna": "^9.0.0",
-    "lint-staged": "^16.2.5",
+    "lint-staged": "^16.2.6",
     "standard-version": "^9.5.0",
     "typescript": "^5.9.3"
   },
