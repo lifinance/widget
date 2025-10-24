@@ -20,7 +20,7 @@ export const useTools = () => {
       exchanges?.deny,
     ],
     queryFn: async (): Promise<ToolsResponse> => {
-      const tools = await getTools(sdkClient.config)
+      const tools = await getTools(sdkClient)
       const bridgesConfigSets = getConfigItemSets(
         bridges,
         (bridges) => new Set(bridges)

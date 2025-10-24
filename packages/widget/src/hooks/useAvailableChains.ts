@@ -45,7 +45,7 @@ export const useAvailableChains = (chainTypes?: ChainType[]) => {
           isItemAllowedForSets(chainType, chainsConfigSets)
         )
 
-      const availableChains = await getChains(sdkClient.config, {
+      const availableChains = await getChains(sdkClient, {
         chainTypes: chainTypes || chainTypesRequest,
       })
       return availableChains
