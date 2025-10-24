@@ -26,7 +26,7 @@ export const useTransactionHistory = () => {
         date.setFullYear(date.getFullYear() - 10)
 
         const response = await getTransactionHistory(
-          sdkClient.config,
+          sdkClient,
           {
             wallet: accountAddress,
             fromTimestamp: Math.floor(date.getTime() / 1000),

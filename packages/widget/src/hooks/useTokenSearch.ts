@@ -26,7 +26,7 @@ export const useTokenSearch = (
     queryKey: [getQueryKey('token-search', keyPrefix), chainId, tokenQuery],
     queryFn: async ({ queryKey: [, chainId, tokenQuery], signal }) => {
       const token = await getToken(
-        sdkClient.config,
+        sdkClient,
         chainId as ChainId,
         tokenQuery as string,
         {

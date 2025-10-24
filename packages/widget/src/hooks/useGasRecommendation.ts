@@ -41,7 +41,7 @@ export const useGasRecommendation = (
         return null
       }
       const gasRecommendation = await getGasRecommendation(
-        sdkClient.config,
+        sdkClient,
         {
           chainId: toChainId as ChainId,
           fromChain: fromChain as ChainId,

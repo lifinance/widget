@@ -42,7 +42,7 @@ export const useTokens = (
         ChainType.MVM,
       ].filter((chainType) => isItemAllowed(chainType, chainsConfig?.types))
       const tokensResponse: TokensExtendedResponse = await getTokens(
-        sdkClient.config,
+        sdkClient,
         {
           chainTypes,
           orderBy: 'volumeUSD24H',
@@ -93,7 +93,7 @@ const useBackgroundTokenSearch = (search?: string, chainId?: number) => {
         ChainType.MVM,
       ].filter((chainType) => isItemAllowed(chainType, chainsConfig?.types))
       const tokensResponse: TokensExtendedResponse = await getTokens(
-        sdkClient.config,
+        sdkClient,
         {
           chainTypes,
           orderBy: 'volumeUSD24H',
@@ -118,14 +118,9 @@ const useBackgroundTokenSearch = (search?: string, chainId?: number) => {
       if (_chainId && searchQuery) {
         const existingTokens = tokensResponse.tokens[_chainId] || []
         if (!existingTokens.length) {
-          const token = await getToken(
-            sdkClient.config,
-            _chainId,
-            searchQuery,
-            {
-              signal,
-            }
-          )
+          const token = await getToken(sdkClient, _chainId, searchQuery, {
+            signal,
+          })
           if (token) {
             tokensResponse.tokens[_chainId] = [token]
           }

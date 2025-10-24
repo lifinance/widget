@@ -277,7 +277,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
 
         if (subvariant === 'custom' && contractCalls && toAmount) {
           const contractCallQuote = await getContractCallsQuote(
-            sdkClient.config,
+            sdkClient,
             {
               // Contract calls are enabled only when fromAddress is set
               fromAddress: fromAddress as string,
@@ -353,7 +353,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
 
         const mainRoutesPromise = shouldUseMainRoutes
           ? getRoutes(
-              sdkClient.config,
+              sdkClient,
               {
                 fromAddress,
                 fromAmount: fromAmount.toString(),
@@ -398,7 +398,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
 
         const relayerQuotePromise = shouldUseRelayerQuote
           ? getRelayerQuote(
-              sdkClient.config,
+              sdkClient,
               {
                 fromAddress,
                 fromAmount: fromAmount.toString(),

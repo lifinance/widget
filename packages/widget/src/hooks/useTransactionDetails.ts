@@ -42,7 +42,7 @@ export const useTransactionDetails = (transactionHash?: string) => {
         }
 
         const transaction = await getStatus(
-          sdkClient.config,
+          sdkClient,
           {
             txHash: transactionHash,
           },
