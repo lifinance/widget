@@ -3,9 +3,9 @@ import { WalletManagementProvider } from '@lifi/wallet-management'
 import { type FC, type PropsWithChildren, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
+import { useInitializeSDKProviders } from '../../hooks/useInitializeSDKProviders.js'
 import type { WidgetWalletProvidersProps } from '../../types/widget.js'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
-import { SDKProviders } from './SDKProviders.js'
 import { useExternalWalletProvider } from './useExternalWalletProvider.js'
 
 export const WalletProvider = ({
@@ -15,12 +15,7 @@ export const WalletProvider = ({
   const { walletConfig } = useWidgetConfig()
   const { chains } = useAvailableChains()
 
-  let WidgetWithProviders = (
-    <>
-      <SDKProviders />
-      <WalletMenuProvider>{children}</WalletMenuProvider>
-    </>
-  )
+  let WidgetWithProviders = <WalletMenuProvider>{children}</WalletMenuProvider>
 
   for (const ProviderComponent of providers) {
     WidgetWithProviders = (
@@ -42,6 +37,9 @@ const WalletMenuProvider: FC<PropsWithChildren> = ({ children }) => {
   const { walletConfig } = useWidgetConfig()
   const { i18n } = useTranslation()
   const { internalChainTypes } = useExternalWalletProvider()
+
+  // Initialize SDK client with providers wrapping the wallet menu provider
+  useInitializeSDKProviders()
 
   const config: WalletManagementConfig = useMemo(() => {
     return {
