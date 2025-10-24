@@ -52,6 +52,10 @@ const processStatusMessages: Record<
       t('main.process.tokenAllowance.actionRequired', {
         tokenSymbol: step.action.fromToken.symbol,
       }),
+    RESET_REQUIRED: (t, step) =>
+      t('main.process.tokenAllowance.resetRequired', {
+        tokenSymbol: step.action.fromToken.symbol,
+      }),
     PENDING: (t, step) =>
       t('main.process.tokenAllowance.pending', {
         tokenSymbol: step.action.fromToken.symbol,
