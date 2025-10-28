@@ -1,4 +1,5 @@
-import { ChainId, ChainType, Sui } from '@lifi/sdk'
+import { ChainId, ChainType } from '@lifi/sdk'
+import { SuiProvider as SuiSDKProvider } from '@lifi/sdk-provider-sui'
 import { SuiContext } from '@lifi/widget-provider'
 import {
   useConnectWallet,
@@ -74,7 +75,7 @@ export const SuiProviderValues: FC<
       value={{
         isEnabled: true,
         account,
-        sdkProvider: Sui({
+        sdkProvider: SuiSDKProvider({
           getWallet: async () => currentWallet!,
         }),
         isConnected: account.isConnected,

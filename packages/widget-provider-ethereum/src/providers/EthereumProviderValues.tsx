@@ -1,4 +1,10 @@
-import { ChainType, EVM } from '@lifi/sdk'
+import { ChainType } from '@lifi/sdk'
+import {
+  EthereumProvider as EthereumSDKProvider,
+  isBatchingSupported,
+  isDelegationDesignatorCode,
+  isGaslessStep,
+} from '@lifi/sdk-provider-ethereum'
 import { EthereumContext, isWalletInstalled } from '@lifi/widget-provider'
 import {
   type FC,
@@ -178,7 +184,7 @@ export const EthereumProviderValues: FC<
       value={{
         isEnabled: true,
         isConnected: account.isConnected,
-        sdkProvider: EVM({
+        sdkProvider: EthereumSDKProvider({
           getWalletClient: () =>
             getConnectorClient(wagmiConfig, { assertChainId: false }),
           switchChain: async (chainId: number) => {
@@ -202,6 +208,9 @@ export const EthereumProviderValues: FC<
             chainId,
             address: address as Address,
           }),
+        isGaslessStep,
+        isBatchingSupported,
+        isDelegationDesignatorCode,
       }}
     >
       {children}

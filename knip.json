@@ -1,4 +1,12 @@
 {
   "ignore": ["examples/**", "packages/widget-embedded/**", "scripts/**"],
-  "ignoreDependencies": ["@mui/system", "csstype"]
+  "ignoreDependencies": [
+    "@mui/system",
+    "csstype",
+    "@lifi/sdk",
+    "@lifi/sdk-provider-ethereum",
+    "@lifi/sdk-provider-sui",
+    "@lifi/sdk-provider-solana",
+    "@lifi/sdk-provider-bitcoin"
+  ]
 }

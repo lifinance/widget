@@ -16,8 +16,8 @@
     "test:watch": "vitest",
     "link:bigmi": "pnpm link @bigmi/client",
     "unlink:bigmi": "pnpm link @bigmi/client",
-    "link:sdk": "pnpm link @lifi/sdk",
-    "unlink:sdk": "pnpm unlink @lifi/sdk",
+    "link:sdk": "pnpm link @lifi/sdk @lifi/sdk-provider-ethereum @lifi/sdk-provider-sui @lifi/sdk-provider-solana @lifi/sdk-provider-bitcoin",
+    "unlink:sdk": "pnpm unlink @lifi/sdk @lifi/sdk-provider-ethereum @lifi/sdk-provider-sui @lifi/sdk-provider-solana @lifi/sdk-provider-bitcoin",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
     "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg"
   },
@@ -30,7 +30,7 @@
     "@bigmi/react": "^0.6.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "file:../../../sdk",
+    "@lifi/sdk": "^4.0.0",
     "@lifi/widget-provider-ethereum": "workspace:*",
     "@lifi/widget-provider-sui": "workspace:*",
     "@lifi/widget-provider-bitcoin": "workspace:*",
@@ -54,7 +54,7 @@
     "microdiff": "^1.5.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "viem": "^2.38.0",
+    "viem": "^2.38.2",
     "wagmi": "^2.17.5",
     "zustand": "^5.0.8"
   },

@@ -1,4 +1,8 @@
-import { ChainId, ChainType, isSVMAddress, Solana } from '@lifi/sdk'
+import { ChainId, ChainType } from '@lifi/sdk'
+import {
+  isSolanaAddress,
+  SolanaProvider as SolanaSDKProvider,
+} from '@lifi/sdk-provider-solana'
 import { SolanaContext } from '@lifi/widget-provider'
 import {
   type SignerWalletAdapter,
@@ -79,7 +83,7 @@ export const SolanaProviderValues: FC<
       value={{
         isEnabled: true,
         account,
-        sdkProvider: Solana({
+        sdkProvider: SolanaSDKProvider({
           async getWalletAdapter() {
             return currentWallet?.adapter as SignerWalletAdapter
           },
@@ -88,7 +92,7 @@ export const SolanaProviderValues: FC<
         isConnected: account.isConnected,
         connect: handleConnect,
         disconnect,
-        isValidAddress: isSVMAddress,
+        isValidAddress: isSolanaAddress,
         isExternalContext,
       }}
     >

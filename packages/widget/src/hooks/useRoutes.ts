@@ -5,11 +5,14 @@ import {
   getContractCallsQuote,
   getRelayerQuote,
   getRoutes,
-  isGaslessStep,
   LiFiErrorCode,
+  parseUnits,
 } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
-import { useChainTypeFromAddress } from '@lifi/widget-provider'
+import {
+  useChainTypeFromAddress,
+  useEthereumContext,
+} from '@lifi/widget-provider'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
@@ -20,7 +23,6 @@ import { useSetExecutableRoute } from '../stores/routes/useSetExecutableRoute.js
 import { defaultSlippage } from '../stores/settings/createSettingsStore.js'
 import { useSettings } from '../stores/settings/useSettings.js'
 import { WidgetEvent } from '../types/events.js'
-import { parseUnits } from '../utils/parse.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useChain } from './useChain.js'
 import { useDebouncedWatch } from './useDebouncedWatch.js'
@@ -99,6 +101,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
   const { account } = useAccount({ chainType: fromChain?.chainType })
   const { isBatchingSupported, isBatchingSupportedLoading } =
     useIsBatchingSupported(fromChain, account.address)
+  const { isGaslessStep } = useEthereumContext()
 
   const hasAmount = Number(fromTokenAmount) > 0 || Number(toTokenAmount) > 0
 
@@ -334,8 +337,8 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           return
         }
 
-        const isObservableRelayerRoute = observableRoute?.steps?.some((step) =>
-          isGaslessStep(step, fromChain)
+        const isObservableRelayerRoute = observableRoute?.steps?.some(
+          (step) => !!isGaslessStep?.(step, fromChain)
         )
 
         const shouldUseMainRoutes =
