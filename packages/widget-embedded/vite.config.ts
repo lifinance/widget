@@ -11,6 +11,9 @@ export default defineConfig({
   },
   build: {
     sourcemap: true,
+    rollupOptions: {
+      external: ['vite-plugin-node-polyfills/shims/process'],
+    },
   },
   optimizeDeps: {
     esbuildOptions: {
