@@ -5,8 +5,9 @@
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
   "dependencies": {
-    "viem": "^2.38.0",
-    "@lifi/sdk": "file:../../../sdk",
+    "viem": "^2.38.2",
+    "@lifi/sdk": "^4.0.0",
+    "@lifi/sdk-provider-ethereum": "^4.0.0",
     "@lifi/widget-provider": "workspace:*"
   },
   "peerDependencies": {

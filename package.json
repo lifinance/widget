@@ -28,6 +28,7 @@
     "check:circular-deps": "pnpm -r --parallel check:circular-deps",
     "link:bigmi": "pnpm -r --parallel link:bigmi",
     "unlink:bigmi": "pnpm -r --parallel unlink:bigmi",
+    "link:sdk1": "cd ../sdk && cd packages/sdk && pnpm link --global && cd ../sdk-provider-ethereum && pnpm link --global && cd ../sdk-provider-solana && pnpm link --global && cd ../sdk-provider-sui && pnpm link --global && cd ../sdk-provider-bitcoin && pnpm link --global",
     "link:sdk": "pnpm -r --parallel link:sdk",
     "unlink:sdk": "pnpm -r --parallel unlink:sdk",
     "pre-commit": "pnpm check && pnpm check:types && pnpm check:circular-deps",
@@ -65,9 +66,9 @@
     "typescript": "^5.9.3"
   },
   "optionalDependencies": {
+    "@react-native-async-storage/async-storage": "^2.2.0",
     "db0": "^0.3.2",
-    "ioredis": "^5.8.0",
-    "@react-native-async-storage/async-storage": "^2.2.0"
+    "ioredis": "^5.8.0"
   },
   "pnpm": {
     "overrides": {
@@ -77,7 +78,12 @@
       "miniflare>zod": "3.22.3",
       "miniflare>zod-validation-error": "3.0.3",
       "@react-native-async-storage/async-storage": ">=2.2.0",
-      "@walletconnect/ethereum-provider": ">=2.22.1"
+      "@walletconnect/ethereum-provider": ">=2.22.1",
+      "@lifi/sdk": "link:../../Library/pnpm/global/5/node_modules/@lifi/sdk",
+      "@lifi/sdk-provider-ethereum": "link:../../Library/pnpm/global/5/node_modules/@lifi/sdk-provider-ethereum",
+      "@lifi/sdk-provider-sui": "link:../../Library/pnpm/global/5/node_modules/@lifi/sdk-provider-sui",
+      "@lifi/sdk-provider-solana": "link:../../Library/pnpm/global/5/node_modules/@lifi/sdk-provider-solana",
+      "@lifi/sdk-provider-bitcoin": "link:../../Library/pnpm/global/5/node_modules/@lifi/sdk-provider-bitcoin"
     }
   },
   "packageManager": "pnpm@10.18.1+sha512.77a884a165cbba2d8d1c19e3b4880eee6d2fcabd0d879121e282196b80042351d5eb3ca0935fa599da1dc51265cc68816ad2bddd2a2de5ea9fdf92adbec7cd34"

@@ -1,4 +1,12 @@
-import type { ChainType, ExtendedChain, SDKProvider } from '@lifi/sdk'
+import type {
+  ChainType,
+  Client,
+  ExtendedChain,
+  LiFiStep,
+  LiFiStepExtended,
+  SDKClient,
+  SDKProvider,
+} from '@lifi/sdk'
 
 export type WalletConnector = {
   name: string
@@ -45,6 +53,23 @@ export type WidgetProviderContext = {
     chainId: number,
     address: string
   ) => Promise<number | undefined>
+  isGaslessStep?: (
+    step: LiFiStepExtended | LiFiStep,
+    chain?: ExtendedChain
+  ) => boolean
+  isBatchingSupported?: (
+    sdkClient: SDKClient,
+    {
+      client,
+      chainId,
+      skipReady,
+    }: {
+      client?: Client
+      chainId: number
+      skipReady?: boolean
+    }
+  ) => Promise<boolean>
+  isDelegationDesignatorCode?: (code?: string) => boolean | undefined
 }
 export interface WidgetProviderProps {
   forceInternalWalletManagement?: boolean
