@@ -1,6 +1,6 @@
 import { useAccount } from '@lifi/wallet-management'
 import { Box, Typography } from '@mui/material'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { useLocation } from '@tanstack/react-router'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useHeaderStore } from '../../stores/header/useHeaderStore.js'
@@ -68,36 +68,27 @@ export const NavigationHeader: React.FC = () => {
           {title}
         </Typography>
       )}
-      <Routes>
-        <Route
-          path={navigationRoutes.home}
-          element={
-            <HeaderControlsContainer>
-              {account.isConnected && !hiddenUI?.includes(HiddenUI.History) && (
-                <TransactionHistoryButton />
-              )}
-              <SettingsButton />
-              {variant === 'drawer' &&
-              !hiddenUI?.includes(HiddenUI.DrawerCloseButton) ? (
-                <CloseDrawerButton header="navigation" />
-              ) : null}
-            </HeaderControlsContainer>
-          }
-        />
-        <Route
-          path="*"
-          element={
-            element || (
-              <Box
-                sx={{
-                  width: 28,
-                  height: 40,
-                }}
-              />
-            )
-          }
-        />
-      </Routes>
+      {path === navigationRoutes.home ? (
+        <HeaderControlsContainer>
+          {account.isConnected && !hiddenUI?.includes(HiddenUI.History) && (
+            <TransactionHistoryButton />
+          )}
+          <SettingsButton />
+          {variant === 'drawer' &&
+          !hiddenUI?.includes(HiddenUI.DrawerCloseButton) ? (
+            <CloseDrawerButton header="navigation" />
+          ) : null}
+        </HeaderControlsContainer>
+      ) : (
+        element || (
+          <Box
+            sx={{
+              width: 28,
+              height: 40,
+            }}
+          />
+        )
+      )}
     </HeaderAppBar>
   )
 }

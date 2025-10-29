@@ -132,8 +132,9 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
 
     const transactionHash = getSourceTxHash(route)
 
-    navigate(navigationRoutes.transactionDetails, {
-      state: {
+    navigate({
+      to: navigationRoutes.transactionDetails,
+      search: {
         routeId: route.id,
         transactionHash,
       },

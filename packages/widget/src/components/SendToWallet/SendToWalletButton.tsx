@@ -1,9 +1,9 @@
 import { useAccount } from '@lifi/wallet-management'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import { Box, Collapse } from '@mui/material'
+import { useNavigate } from '@tanstack/react-router'
 import { type MouseEventHandler, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
@@ -92,11 +92,11 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
   const disabledForChanges = Boolean(toAddressFieldValue) && disabledToAddress
 
   const handleOnClick = () => {
-    navigate(
-      toAddresses?.length
+    navigate({
+      to: toAddresses?.length
         ? navigationRoutes.configuredWallets
-        : navigationRoutes.sendToWallet
-    )
+        : navigationRoutes.sendToWallet,
+    })
   }
 
   const clearSelectedBookmark: MouseEventHandler<HTMLButtonElement> = (e) => {

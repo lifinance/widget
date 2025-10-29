@@ -1,5 +1,5 @@
+import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { BaseTransactionButton } from '../../components/BaseTransactionButton/BaseTransactionButton.js'
 import { useRoutes } from '../../hooks/useRoutes.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
@@ -26,8 +26,9 @@ export const ReviewButton: React.FC = () => {
     }
 
     setReviewableRoute(currentRoute)
-    navigate(navigationRoutes.transactionExecution, {
-      state: { routeId: currentRoute.id },
+    navigate({
+      to: navigationRoutes.transactionExecution,
+      search: { routeId: currentRoute.id },
     })
     emitter.emit(WidgetEvent.RouteSelected, {
       route: currentRoute,

@@ -1,7 +1,7 @@
 import type { CardProps } from '@mui/material'
 import { Stack } from '@mui/material'
+import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { useExecutingRoutesIds } from '../../stores/routes/useExecutingRoutesIds.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { ButtonTertiary } from '../ButtonTertiary.js'
@@ -19,7 +19,7 @@ export const ActiveTransactions: React.FC<CardProps> = (props) => {
   }
 
   const handleShowAll = () => {
-    navigate(navigationRoutes.activeTransactions)
+    navigate({ to: navigationRoutes.activeTransactions })
   }
 
   const hasShowAll = executingRoutes?.length > 2

@@ -4,10 +4,10 @@ import History from '@mui/icons-material/History'
 import TurnedIn from '@mui/icons-material/TurnedIn'
 import Wallet from '@mui/icons-material/Wallet'
 import { Box, Tooltip, Typography } from '@mui/material'
+import { useNavigate } from '@tanstack/react-router'
 import type { ChangeEvent } from 'react'
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { ButtonTertiary } from '../../components/ButtonTertiary.js'
 import { CardButton } from '../../components/Card/CardButton.js'
@@ -164,19 +164,19 @@ export const SendToWalletPage = () => {
   }
 
   const handleRecentWalletsClick = () => {
-    navigate(navigationRoutes.recentWallets)
+    navigate({ to: navigationRoutes.recentWallets })
   }
 
   const handleConnectedWalletsClick = () => {
-    navigate(navigationRoutes.connectedWallets)
+    navigate({ to: navigationRoutes.connectedWallets })
   }
   const handleBookmarkedWalletsClick = () => {
-    navigate(navigationRoutes.bookmarks)
+    navigate({ to: navigationRoutes.bookmarks })
   }
 
   const handleAddBookmark = (bookmark: Bookmark) => {
     addBookmark(bookmark)
-    navigate(navigationRoutes.bookmarks)
+    navigate({ to: navigationRoutes.bookmarks })
   }
 
   const handleOnConfirm = (confirmedWallet: Bookmark) => {

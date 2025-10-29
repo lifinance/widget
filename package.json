@@ -65,9 +65,9 @@
     "typescript": "^5.9.3"
   },
   "optionalDependencies": {
+    "@react-native-async-storage/async-storage": "^2.2.0",
     "db0": "^0.3.2",
-    "ioredis": "^5.8.0",
-    "@react-native-async-storage/async-storage": "^2.2.0"
+    "ioredis": "^5.8.0"
   },
   "pnpm": {
     "overrides": {
@@ -80,5 +80,5 @@
       "@walletconnect/ethereum-provider": ">=2.22.1"
     }
   },
-  "packageManager": "pnpm@10.18.1+sha512.77a884a165cbba2d8d1c19e3b4880eee6d2fcabd0d879121e282196b80042351d5eb3ca0935fa599da1dc51265cc68816ad2bddd2a2de5ea9fdf92adbec7cd34"
+  "packageManager": "pnpm@10.20.0"
 }

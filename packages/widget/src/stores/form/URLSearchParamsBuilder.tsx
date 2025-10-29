@@ -1,5 +1,5 @@
+import { useLocation } from '@tanstack/react-router'
 import { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
 import { useAddressValidation } from '../../hooks/useAddressValidation.js'
 import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
 import { formatInputAmount } from '../../utils/format.js'

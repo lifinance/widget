@@ -5,8 +5,8 @@ import type {
   TokenAmount,
 } from '@lifi/sdk'
 import { Box, Typography } from '@mui/material'
+import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { Card } from '../../components/Card/Card.js'
 import { Token } from '../../components/Token/Token.js'
 import { TokenDivider } from '../../components/Token/Token.style.js'
@@ -24,8 +24,9 @@ export const TransactionHistoryItem: React.FC<{
     .receiving as ExtendedTransactionInfo
 
   const handleClick = () => {
-    navigate(navigationRoutes.transactionDetails, {
-      state: {
+    navigate({
+      to: navigationRoutes.transactionDetails,
+      search: {
         transactionHash: (transaction as FullStatusData).sending.txHash,
       },
     })

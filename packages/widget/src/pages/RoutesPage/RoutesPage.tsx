@@ -53,8 +53,9 @@ export const RoutesPage: React.FC<BoxProps> = () => {
 
   const handleRouteClick = (route: Route) => {
     setReviewableRoute(route)
-    navigate(navigationRoutes.transactionExecution, {
-      state: { routeId: route.id },
+    navigate({
+      to: navigationRoutes.transactionExecution,
+      search: { routeId: route.id },
     })
     emitter.emit(WidgetEvent.RouteSelected, {
       route,

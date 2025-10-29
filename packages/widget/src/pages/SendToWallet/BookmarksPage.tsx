@@ -4,9 +4,9 @@ import MoreHoriz from '@mui/icons-material/MoreHoriz'
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import TurnedIn from '@mui/icons-material/TurnedIn'
 import { Button, ListItemAvatar, ListItemText, MenuItem } from '@mui/material'
+import { useNavigate } from '@tanstack/react-router'
 import { useId, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { ListItem } from '../../components/ListItem/ListItem.js'
@@ -59,10 +59,7 @@ export const BookmarksPage = () => {
     })
     setSelectedBookmark(bookmark)
     setSendToWallet(true)
-    navigate('../../', {
-      relative: 'path',
-      replace: true,
-    })
+    navigate({ to: '/', replace: true })
   }
 
   const moreMenuId = useId()
