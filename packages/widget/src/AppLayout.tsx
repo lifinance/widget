@@ -26,9 +26,9 @@ export const AppLayout: React.FC = () => {
       <AppContainer>
         <Header />
         <Initializer />
-        <Outlet />
         {buildUrl ? <URLSearchParamsBuilder /> : null}
         <PageEntered />
+        <Outlet />
       </AppContainer>
       {wideVariant && <Expansion />}
     </AppExpandedContainer>

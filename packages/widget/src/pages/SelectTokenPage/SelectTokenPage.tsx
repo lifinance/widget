@@ -1,11 +1,9 @@
 import { Box, type Theme, useMediaQuery } from '@mui/material'
 import type { FC, RefObject } from 'react'
 import { useRef } from 'react'
-import { useTranslation } from 'react-i18next'
 import { ChainSelect } from '../../components/ChainSelect/ChainSelect.js'
 import { FullPageContainer } from '../../components/FullPageContainer.js'
 import { TokenList } from '../../components/TokenList/TokenList.js'
-import { useHeader } from '../../hooks/useHeader.js'
 import { useListHeight } from '../../hooks/useListHeight.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useScrollableOverflowHidden } from '../../hooks/useScrollableContainer.js'
@@ -23,18 +21,8 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
 
   const swapOnly = useSwapOnly()
 
-  const { subvariant, hiddenUI, subvariantOptions } = useWidgetConfig()
+  const { hiddenUI, subvariantOptions } = useWidgetConfig()
   const wideVariant = useWideVariant()
-
-  const { t } = useTranslation()
-  const title =
-    formType === 'from'
-      ? subvariant === 'custom'
-        ? t('header.payWith')
-        : t('header.from')
-      : t('header.to')
-
-  useHeader(title)
 
   const hideChainSelect =
     (wideVariant && subvariantOptions?.wide?.enableChainSidebar) ||

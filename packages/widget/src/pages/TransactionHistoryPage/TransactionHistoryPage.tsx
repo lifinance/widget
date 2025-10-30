@@ -3,9 +3,7 @@ import { Box, List } from '@mui/material'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import type React from 'react'
 import { useCallback, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
 import { PageContainer } from '../../components/PageContainer.js'
-import { useHeader } from '../../hooks/useHeader.js'
 import { useListHeight } from '../../hooks/useListHeight.js'
 import { useTransactionHistory } from '../../hooks/useTransactionHistory.js'
 import { minTransactionListHeight } from './constants.js'
@@ -17,9 +15,6 @@ export const TransactionHistoryPage: React.FC = () => {
   // Parent ref and useVirtualizer should be in one file to avoid blank page (0 virtual items) issue
   const parentRef = useRef<HTMLDivElement | null>(null)
   const { data: transactions, isLoading } = useTransactionHistory()
-
-  const { t } = useTranslation()
-  useHeader(t('header.transactionHistory'))
 
   const { listHeight } = useListHeight({
     listParentRef: parentRef,

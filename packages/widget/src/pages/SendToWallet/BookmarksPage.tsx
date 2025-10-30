@@ -13,7 +13,6 @@ import { ListItem } from '../../components/ListItem/ListItem.js'
 import { ListItemButton } from '../../components/ListItem//ListItemButton.js'
 import { Menu } from '../../components/Menu.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
-import { useHeader } from '../../hooks/useHeader.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { Bookmark } from '../../stores/bookmarks/types.js'
@@ -46,8 +45,6 @@ export const BookmarksPage = () => {
   const { setSendToWallet } = useSendToWalletActions()
   const { variant } = useWidgetConfig()
   const { getAddressLink } = useExplorer()
-
-  useHeader(t('header.bookmarkedWallets'))
 
   const handleAddBookmark = () => {
     bookmarkAddressSheetRef.current?.open()

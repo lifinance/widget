@@ -11,8 +11,8 @@ import { PageContainer } from '../../components/PageContainer.js'
 import { getStepList } from '../../components/Step/StepList.js'
 import { TransactionDetails } from '../../components/TransactionDetails.js'
 import { useAddressActivity } from '../../hooks/useAddressActivity.js'
-import { useHeader } from '../../hooks/useHeader.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
+import { useRemoveAction } from '../../hooks/useRemoveAction.js'
 import { useRouteExecution } from '../../hooks/useRouteExecution.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
@@ -73,21 +73,6 @@ export const TransactionPage: React.FC = () => {
     isFetched: isActivityAddressFetched,
   } = useAddressActivity(route?.toChainId)
 
-  const getHeaderTitle = () => {
-    if (subvariant === 'custom') {
-      return t(`header.${subvariantOptions?.custom ?? 'checkout'}`)
-    }
-    if (route) {
-      const transactionType =
-        route.fromChainId === route.toChainId ? 'swap' : 'bridge'
-      return status === RouteExecutionStatus.Idle
-        ? t(`button.${transactionType}Review`)
-        : t(`header.${transactionType}`)
-    }
-
-    return t('header.exchange')
-  }
-
   const headerAction = useMemo(
     () =>
       status === RouteExecutionStatus.Idle ? (
@@ -100,7 +85,7 @@ export const TransactionPage: React.FC = () => {
     [stateRouteId, status]
   )
 
-  useHeader(getHeaderTitle(), headerAction)
+  useRemoveAction(headerAction)
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: We want to emit event only when the page is mounted
   useEffect(() => {

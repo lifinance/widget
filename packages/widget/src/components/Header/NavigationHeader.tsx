@@ -1,6 +1,7 @@
 import { useAccount } from '@lifi/wallet-management'
 import { Box, Typography } from '@mui/material'
 import { useLocation } from '@tanstack/react-router'
+import { useHeaderTitle } from '../../hooks/useHeaderTitle.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useHeaderStore } from '../../stores/header/useHeaderStore.js'
@@ -22,10 +23,8 @@ export const NavigationHeader: React.FC = () => {
     useWidgetConfig()
   const { navigateBack } = useNavigateBack()
   const { account } = useAccount()
-  const [element, title] = useHeaderStore((state) => [
-    state.element,
-    state.title,
-  ])
+  const element = useHeaderStore((state) => state.element)
+  const title = useHeaderTitle()
   const { pathname } = useLocation()
   const isHome = pathname === navigationRoutes.home
   const hasPath = navigationRoutesValues.includes(pathname) && !isHome

@@ -17,7 +17,6 @@ import {
   useAddressValidation,
 } from '../../hooks/useAddressValidation.js'
 import { useChain } from '../../hooks/useChain.js'
-import { useHeader } from '../../hooks/useHeader.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { Bookmark } from '../../stores/bookmarks/types.js'
@@ -67,8 +66,6 @@ export const SendToWalletPage = () => {
 
   const { accounts } = useAccount()
   const connectedWallets = accounts.filter((account) => account.isConnected)
-
-  useHeader(t('header.sendToWallet'))
 
   const handleInputChange = (e: ChangeEvent) => {
     if (errorMessage) {

@@ -13,7 +13,6 @@ import { ListItem } from '../../components/ListItem/ListItem.js'
 import { ListItemButton } from '../../components/ListItem/ListItemButton.js'
 import { Menu } from '../../components/Menu.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
-import { useHeader } from '../../hooks/useHeader.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
@@ -40,8 +39,6 @@ export const ConnectedWalletsPage = () => {
   const moreMenuId = useId()
   const open = Boolean(moreMenuAnchorEl)
   const { getAddressLink } = useExplorer()
-
-  useHeader(t('sendToWallet.connectedWallets'))
 
   const handleWalletSelected = (account: Account) => {
     setFieldValue('toAddress', account.address!, {
