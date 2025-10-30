@@ -13,6 +13,7 @@ export const LanguagesPage: React.FC = () => {
   const { selectedLanguageCode, availableLanguages, setLanguageWithCode } =
     useLanguages()
 
+  // TODO: this can become a part of the layout now
   useHeader(t('language.title'))
 
   if (availableLanguages.length < 1) {

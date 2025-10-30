@@ -44,20 +44,26 @@ const settingsRoute = createRoute({
   component: SettingsPage,
 })
 
+// TODO: to be a child of settingsRoute, needs <Outlet /> inside SettingsPage
+// Think about the visual hierarchy
 const settingsBridgesRoute = createRoute({
-  getParentRoute: () => settingsRoute,
+  getParentRoute: () => rootRoute,
   path: navigationRoutes.bridges,
   component: () => <SelectEnabledToolsPage type="Bridges" />,
 })
 
+// TODO: to be a child of settingsRoute, needs <Outlet /> inside SettingsPage
+// Think about the visual hierarchy
 const settingsExchangesRoute = createRoute({
-  getParentRoute: () => settingsRoute,
+  getParentRoute: () => rootRoute,
   path: navigationRoutes.exchanges,
   component: () => <SelectEnabledToolsPage type="Exchanges" />,
 })
 
+// TODO: to be a child of settingsRoute, needs <Outlet /> inside SettingsPage
+// Think about the visual hierarchy
 const settingsLanguagesRoute = createRoute({
-  getParentRoute: () => settingsRoute,
+  getParentRoute: () => rootRoute,
   path: navigationRoutes.languages,
   component: LanguagesPage,
 })
@@ -110,20 +116,26 @@ const sendToWalletRoute = createRoute({
   component: SendToWalletPage,
 })
 
+// TODO: to be a child of sendToWalletRoute, needs <Outlet /> inside SendToWalletPage
+// Think about the visual hierarchy
 const sendToWalletBookmarksRoute = createRoute({
-  getParentRoute: () => sendToWalletRoute,
+  getParentRoute: () => rootRoute,
   path: navigationRoutes.bookmarks,
   component: BookmarksPage,
 })
 
+// TODO: to be a child of sendToWalletRoute, needs <Outlet /> inside SendToWalletPage
+// Think about the visual hierarchy
 const sendToWalletRecentWalletsRoute = createRoute({
-  getParentRoute: () => sendToWalletRoute,
+  getParentRoute: () => rootRoute,
   path: navigationRoutes.recentWallets,
   component: RecentWalletsPage,
 })
 
+// TODO: to be a child of sendToWalletRoute, needs <Outlet /> inside SendToWalletPage
+// Think about the visual hierarchy
 const sendToWalletConnectedWalletsRoute = createRoute({
-  getParentRoute: () => sendToWalletRoute,
+  getParentRoute: () => rootRoute,
   path: navigationRoutes.connectedWallets,
   component: ConnectedWalletsPage,
 })
@@ -154,11 +166,15 @@ const transactionExecutionRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([
   indexRoute,
-  settingsRoute.addChildren([
-    settingsBridgesRoute,
-    settingsExchangesRoute,
-    settingsLanguagesRoute,
-  ]),
+  settingsLanguagesRoute,
+  settingsBridgesRoute,
+  settingsExchangesRoute,
+  // settingsRoute.addChildren([
+  //   // settingsLanguagesRoute,
+  //   // settingsBridgesRoute,
+  //   // settingsExchangesRoute,
+  // ]),
+  settingsRoute,
   fromTokenRoute,
   fromTokenFromChainRoute,
   toTokenRoute,
@@ -167,11 +183,15 @@ const routeTree = rootRoute.addChildren([
   routesRoute,
   transactionExecutionRoute,
   activeTransactionsRoute,
-  sendToWalletRoute.addChildren([
-    sendToWalletBookmarksRoute,
-    sendToWalletRecentWalletsRoute,
-    sendToWalletConnectedWalletsRoute,
-  ]),
+  sendToWalletRoute,
+  sendToWalletBookmarksRoute,
+  sendToWalletRecentWalletsRoute,
+  sendToWalletConnectedWalletsRoute,
+  // sendToWalletRoute.addChildren([
+  //   sendToWalletBookmarksRoute,
+  //   sendToWalletRecentWalletsRoute,
+  //   sendToWalletConnectedWalletsRoute,
+  // ]),
   configuredWalletsRoute,
   transactionHistoryRoute,
   transactionHistoryDetailsRoute,
