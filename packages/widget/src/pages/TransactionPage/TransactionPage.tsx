@@ -44,8 +44,8 @@ export const TransactionPage: React.FC = () => {
     contractSecondaryComponent,
     hiddenUI,
   } = useWidgetConfig()
-  const { state }: any = useLocation()
-  const stateRouteId = state?.routeId
+  const { search }: any = useLocation()
+  const stateRouteId = search?.routeId
   const [routeId, setRouteId] = useState<string>(stateRouteId)
   const [routeRefreshing, setRouteRefreshing] = useState(false)
 

@@ -27,24 +27,20 @@ export const NavigationHeader: React.FC = () => {
     state.title,
   ])
   const { pathname } = useLocation()
-
-  const cleanedPathname = pathname.endsWith('/')
-    ? pathname.slice(0, -1)
-    : pathname
-  const path = cleanedPathname.substring(cleanedPathname.lastIndexOf('/') + 1)
-  const hasPath = navigationRoutesValues.includes(path)
+  const isHome = pathname === navigationRoutes.home
+  const hasPath = navigationRoutesValues.includes(pathname) && !isHome
 
   const showSplitOptions =
     subvariant === 'split' && !hasPath && !subvariantOptions?.split
 
   return (
     <HeaderAppBar elevation={0} sx={{ paddingTop: 1, paddingBottom: 0.5 }}>
-      {backButtonRoutes.includes(path) ? (
+      {backButtonRoutes.includes(pathname) ? (
         <BackButton
           onClick={() =>
             navigateBack(
               // From transaction details page, navigate to home page
-              path === navigationRoutes.transactionDetails
+              pathname === navigationRoutes.transactionDetails
                 ? navigationRoutes.home
                 : undefined
             )
@@ -68,7 +64,7 @@ export const NavigationHeader: React.FC = () => {
           {title}
         </Typography>
       )}
-      {path === navigationRoutes.home ? (
+      {pathname === navigationRoutes.home ? (
         <HeaderControlsContainer>
           {account.isConnected && !hiddenUI?.includes(HiddenUI.History) && (
             <TransactionHistoryButton />

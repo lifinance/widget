@@ -63,7 +63,7 @@ export const RecentWalletsPage = () => {
     setSelectedBookmark(recentWallet)
     setSendToWallet(true)
     navigate({
-      to: '/',
+      to: navigationRoutes.home,
       replace: true,
     })
   }

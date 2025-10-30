@@ -18,6 +18,7 @@ import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.j
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
+import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { EmptyListIndicator } from './EmptyListIndicator.js'
 import {
@@ -55,7 +56,7 @@ export const ConnectedWalletsPage = () => {
     })
     setSendToWallet(true)
     navigate({
-      to: '/',
+      to: navigationRoutes.home,
       replace: true,
     })
   }

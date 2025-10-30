@@ -31,14 +31,14 @@ export const TransactionDetailsPage: React.FC = () => {
     contractSecondaryComponent,
     explorerUrls,
   } = useWidgetConfig()
-  const { state }: any = useLocation()
+  const { search }: any = useLocation()
   const { tools } = useTools()
   const { getTransactionLink } = useExplorer()
   const storedRouteExecution = useRouteExecutionStore(
-    (store) => store.routes[state?.routeId]
+    (store) => store.routes[search?.routeId]
   )
   const { transaction, isLoading } = useTransactionDetails(
-    !storedRouteExecution && state?.transactionHash
+    !storedRouteExecution && search?.transactionHash
   )
 
   const title =
