@@ -25,7 +25,11 @@ import { SettingsPage } from './pages/SettingsPage/SettingsPage.js'
 import { TransactionDetailsPage } from './pages/TransactionDetailsPage/TransactionDetailsPage.js'
 import { TransactionHistoryPage } from './pages/TransactionHistoryPage/TransactionHistoryPage.js'
 import { TransactionPage } from './pages/TransactionPage/TransactionPage.js'
-import { navigationRoutes } from './utils/navigationRoutes.js'
+import {
+  navigationRoutes,
+  sendToWalletRoutes,
+  settingsRoutes,
+} from './utils/navigationRoutes.js'
 
 const rootRoute = createRootRoute({
   component: AppLayout,
@@ -44,27 +48,21 @@ const settingsRoute = createRoute({
   component: SettingsPage,
 })
 
-// TODO: to be a child of settingsRoute, needs <Outlet /> inside SettingsPage
-// Think about the visual hierarchy
 const settingsBridgesRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: navigationRoutes.bridges,
+  getParentRoute: () => settingsRoute,
+  path: settingsRoutes.bridges,
   component: () => <SelectEnabledToolsPage type="Bridges" />,
 })
 
-// TODO: to be a child of settingsRoute, needs <Outlet /> inside SettingsPage
-// Think about the visual hierarchy
 const settingsExchangesRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: navigationRoutes.exchanges,
+  getParentRoute: () => settingsRoute,
+  path: settingsRoutes.exchanges,
   component: () => <SelectEnabledToolsPage type="Exchanges" />,
 })
 
-// TODO: to be a child of settingsRoute, needs <Outlet /> inside SettingsPage
-// Think about the visual hierarchy
 const settingsLanguagesRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: navigationRoutes.languages,
+  getParentRoute: () => settingsRoute,
+  path: settingsRoutes.languages,
   component: LanguagesPage,
 })
 
@@ -116,27 +114,21 @@ const sendToWalletRoute = createRoute({
   component: SendToWalletPage,
 })
 
-// TODO: to be a child of sendToWalletRoute, needs <Outlet /> inside SendToWalletPage
-// Think about the visual hierarchy
 const sendToWalletBookmarksRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: navigationRoutes.bookmarks,
+  getParentRoute: () => sendToWalletRoute,
+  path: sendToWalletRoutes.bookmarks,
   component: BookmarksPage,
 })
 
-// TODO: to be a child of sendToWalletRoute, needs <Outlet /> inside SendToWalletPage
-// Think about the visual hierarchy
 const sendToWalletRecentWalletsRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: navigationRoutes.recentWallets,
+  getParentRoute: () => sendToWalletRoute,
+  path: sendToWalletRoutes.recentWallets,
   component: RecentWalletsPage,
 })
 
-// TODO: to be a child of sendToWalletRoute, needs <Outlet /> inside SendToWalletPage
-// Think about the visual hierarchy
 const sendToWalletConnectedWalletsRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: navigationRoutes.connectedWallets,
+  getParentRoute: () => sendToWalletRoute,
+  path: sendToWalletRoutes.connectedWallets,
   component: ConnectedWalletsPage,
 })
 
@@ -166,15 +158,11 @@ const transactionExecutionRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([
   indexRoute,
-  settingsLanguagesRoute,
-  settingsBridgesRoute,
-  settingsExchangesRoute,
-  // settingsRoute.addChildren([
-  //   // settingsLanguagesRoute,
-  //   // settingsBridgesRoute,
-  //   // settingsExchangesRoute,
-  // ]),
-  settingsRoute,
+  settingsRoute.addChildren([
+    settingsLanguagesRoute,
+    settingsBridgesRoute,
+    settingsExchangesRoute,
+  ]),
   fromTokenRoute,
   fromTokenFromChainRoute,
   toTokenRoute,
@@ -183,15 +171,11 @@ const routeTree = rootRoute.addChildren([
   routesRoute,
   transactionExecutionRoute,
   activeTransactionsRoute,
-  sendToWalletRoute,
-  sendToWalletBookmarksRoute,
-  sendToWalletRecentWalletsRoute,
-  sendToWalletConnectedWalletsRoute,
-  // sendToWalletRoute.addChildren([
-  //   sendToWalletBookmarksRoute,
-  //   sendToWalletRecentWalletsRoute,
-  //   sendToWalletConnectedWalletsRoute,
-  // ]),
+  sendToWalletRoute.addChildren([
+    sendToWalletBookmarksRoute,
+    sendToWalletRecentWalletsRoute,
+    sendToWalletConnectedWalletsRoute,
+  ]),
   configuredWalletsRoute,
   transactionHistoryRoute,
   transactionHistoryDetailsRoute,

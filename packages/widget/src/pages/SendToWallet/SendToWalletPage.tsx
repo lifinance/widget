@@ -4,7 +4,7 @@ import History from '@mui/icons-material/History'
 import TurnedIn from '@mui/icons-material/TurnedIn'
 import Wallet from '@mui/icons-material/Wallet'
 import { Box, Tooltip, Typography } from '@mui/material'
-import { useNavigate } from '@tanstack/react-router'
+import { Outlet, useLocation, useNavigate } from '@tanstack/react-router'
 import type { ChangeEvent } from 'react'
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -25,7 +25,10 @@ import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { HiddenUI, RequiredUI } from '../../types/widget.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import {
+  navigationRoutes,
+  sendToWalletRoutes,
+} from '../../utils/navigationRoutes.js'
 import { BookmarkAddressSheet } from './BookmarkAddressSheet.js'
 import { ConfirmAddressSheet } from './ConfirmAddressSheet.js'
 import {
@@ -37,7 +40,17 @@ import {
   ValidationAlert,
 } from './SendToWalletPage.style.js'
 
-export const SendToWalletPage = () => {
+export const SendToWalletPage: React.FC = () => {
+  const { pathname } = useLocation()
+
+  if (pathname === navigationRoutes.sendToWallet) {
+    return <SendToWalletComponent />
+  }
+
+  return <Outlet />
+}
+
+const SendToWalletComponent: React.FC = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null)
@@ -161,19 +174,19 @@ export const SendToWalletPage = () => {
   }
 
   const handleRecentWalletsClick = () => {
-    navigate({ to: navigationRoutes.recentWallets })
+    navigate({ to: sendToWalletRoutes.recentWallets })
   }
 
   const handleConnectedWalletsClick = () => {
-    navigate({ to: navigationRoutes.connectedWallets })
+    navigate({ to: sendToWalletRoutes.connectedWallets })
   }
   const handleBookmarkedWalletsClick = () => {
-    navigate({ to: navigationRoutes.bookmarks })
+    navigate({ to: sendToWalletRoutes.bookmarks })
   }
 
   const handleAddBookmark = (bookmark: Bookmark) => {
     addBookmark(bookmark)
-    navigate({ to: navigationRoutes.bookmarks })
+    navigate({ to: sendToWalletRoutes.bookmarks })
   }
 
   const handleOnConfirm = (confirmedWallet: Bookmark) => {

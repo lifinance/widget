@@ -21,7 +21,10 @@ import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
 import { defaultChainIdsByType } from '../../utils/chainType.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import {
+  navigationRoutes,
+  sendToWalletRoutes,
+} from '../../utils/navigationRoutes.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { BookmarkAddressSheet } from './BookmarkAddressSheet.js'
 import { EmptyListIndicator } from './EmptyListIndicator.js'
@@ -67,7 +70,7 @@ export const RecentWalletsPage = () => {
 
   const handleAddBookmark = (bookmark: Bookmark) => {
     addBookmark(bookmark)
-    navigate({ to: navigationRoutes.bookmarks, replace: true })
+    navigate({ to: sendToWalletRoutes.bookmarks, replace: true })
   }
 
   const closeMenu = () => {

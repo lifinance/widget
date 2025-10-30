@@ -1,11 +1,23 @@
+export const settingsRoutes = {
+  bridges: 'bridges',
+  exchanges: 'exchanges',
+  languages: 'languages',
+}
+
+export const sendToWalletRoutes = {
+  bookmarks: 'bookmarks',
+  recentWallets: 'recent-wallets',
+  connectedWallets: 'connected-wallets',
+}
+
 export const navigationRoutes = {
   home: '/',
   activeTransactions: '/active-transactions',
-  bridges: '/bridges',
-  exchanges: '/exchanges',
+  bridges: `/settings/${settingsRoutes.bridges}`,
+  exchanges: `/settings/${settingsRoutes.exchanges}`,
   fromChain: '/from-chain',
   fromToken: '/from-token',
-  languages: '/languages',
+  languages: `/settings/${settingsRoutes.languages}`,
   routes: '/routes',
   settings: '/settings',
   toChain: '/to-chain',
@@ -15,9 +27,9 @@ export const navigationRoutes = {
   transactionExecution: '/transaction-execution',
   transactionHistory: '/transaction-history',
   sendToWallet: '/send-to-wallet',
-  bookmarks: '/bookmarks',
-  recentWallets: '/recent-wallets',
-  connectedWallets: '/connected-wallets',
+  bookmarks: `/send-to-wallet/${sendToWalletRoutes.bookmarks}`,
+  recentWallets: `/send-to-wallet/${sendToWalletRoutes.recentWallets}`,
+  connectedWallets: `/send-to-wallet/${sendToWalletRoutes.connectedWallets}`,
   configuredWallets: '/configured-wallets',
 }
 

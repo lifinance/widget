@@ -12,7 +12,7 @@ import { FullPageContainer } from '../components/FullPageContainer.js'
 import { StickySearchInput } from '../components/Search/SearchInput.js'
 import { type ToolCollectionTypes, Tools } from '../components/Tools/Tools.js'
 import { useDefaultElementId } from '../hooks/useDefaultElementId.js'
-import { useRemoveAction } from '../hooks/useRemoveAction.js'
+import { useHeaderAction } from '../hooks/useHeaderAction.js'
 import { useScrollableContainer } from '../hooks/useScrollableContainer.js'
 import { useTools } from '../hooks/useTools.js'
 import { useSettingsStore } from '../stores/settings/SettingsStore.js'
@@ -106,7 +106,7 @@ export const SelectEnabledToolsPage: React.FC<{
     [disabledTools, handleSelectAll, filteredTools]
   )
 
-  useRemoveAction(headerAction)
+  useHeaderAction(headerAction)
 
   const handleSearchInputChange: FormEventHandler<HTMLInputElement> =
     useCallback(

@@ -7,7 +7,7 @@ import { useLanguages } from '../../hooks/useLanguages.js'
 import { languageNames } from '../../providers/I18nProvider/constants.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { HiddenUI } from '../../types/widget.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import { settingsRoutes } from '../../utils/navigationRoutes.js'
 
 export const LanguageSetting: React.FC = () => {
   const { t } = useTranslation()
@@ -20,7 +20,7 @@ export const LanguageSetting: React.FC = () => {
   }
 
   const handleClick = () => {
-    navigate({ to: navigationRoutes.languages })
+    navigate({ to: settingsRoutes.languages })
   }
 
   return (

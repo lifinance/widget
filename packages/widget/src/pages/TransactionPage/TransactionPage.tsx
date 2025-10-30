@@ -11,8 +11,8 @@ import { PageContainer } from '../../components/PageContainer.js'
 import { getStepList } from '../../components/Step/StepList.js'
 import { TransactionDetails } from '../../components/TransactionDetails.js'
 import { useAddressActivity } from '../../hooks/useAddressActivity.js'
+import { useHeaderAction } from '../../hooks/useHeaderAction.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
-import { useRemoveAction } from '../../hooks/useRemoveAction.js'
 import { useRouteExecution } from '../../hooks/useRouteExecution.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
@@ -85,7 +85,7 @@ export const TransactionPage: React.FC = () => {
     [stateRouteId, status]
   )
 
-  useRemoveAction(headerAction)
+  useHeaderAction(headerAction)
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: We want to emit event only when the page is mounted
   useEffect(() => {

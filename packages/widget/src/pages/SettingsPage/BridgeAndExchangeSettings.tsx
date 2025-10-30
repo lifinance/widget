@@ -7,7 +7,7 @@ import { useSettingMonitor } from '../../hooks/useSettingMonitor.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useSettingsStore } from '../../stores/settings/SettingsStore.js'
 import { HiddenUI } from '../../types/widget.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import { settingsRoutes } from '../../utils/navigationRoutes.js'
 import { BadgedValue } from './SettingsCard/BadgedValue.js'
 
 const supportedIcons = {
@@ -39,7 +39,7 @@ export const BridgeAndExchangeSettings: React.FC<{
 
   const handleClick = () => {
     navigate({
-      to: navigationRoutes[type.toLowerCase() as 'bridges' | 'exchanges'],
+      to: settingsRoutes[type.toLowerCase() as 'bridges' | 'exchanges'],
     })
   }
 
