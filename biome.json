@@ -34,7 +34,8 @@
         "useImportExtensions": {
           "level": "off"
         },
-        "useUniqueElementIds": "off"
+        "useUniqueElementIds": "off",
+        "noNestedComponentDefinitions": "info"
       },
       "style": {
         "noDefaultExport": "off",
@@ -48,7 +49,8 @@
           "fix": "none"
         },
         "noExplicitAny": "off",
-        "noArrayIndexKey": "off"
+        "noArrayIndexKey": "off",
+        "noNonNullAssertedOptionalChain": "info"
       }
     }
   },
