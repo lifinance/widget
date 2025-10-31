@@ -1,8 +1,5 @@
-import {
-  ThemeProvider as MuiThemeProvider,
-  useColorScheme,
-} from '@mui/material'
-import { useEffect, useMemo } from 'react'
+import { ThemeProvider as MuiThemeProvider } from '@mui/material'
+import { useMemo } from 'react'
 import { createTheme } from '../../themes/createTheme.js'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 
@@ -10,14 +7,6 @@ export const ThemeProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
   const { appearance: colorSchemeMode, theme: themeConfig } = useWidgetConfig()
-  const { setMode } = useColorScheme()
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: setMode is stable
-  useEffect(() => {
-    if (colorSchemeMode && !themeConfig?.disableGlobalThemeManagement) {
-      setMode(colorSchemeMode)
-    }
-  }, [colorSchemeMode, themeConfig?.disableGlobalThemeManagement])
 
   const theme = useMemo(() => createTheme(themeConfig), [themeConfig])
 
