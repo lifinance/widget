@@ -10,9 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/sdk": "^3.13.0",
-    "@lifi/wallet-management": "^3.17.3",
-    "@lifi/widget": "^3.32.2",
+    "@lifi/sdk": "^3.13.2",
+    "@lifi/wallet-management": "^3.19.0",
+    "@lifi/widget": "^3.34.0",
     "@mui/material": "7.3.2",
     "@tanstack/react-query": "^5.90.5",
     "@wagmi/connectors": "^6.1.2",

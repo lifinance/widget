@@ -10,8 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/wallet-management": "^3.17.3",
-    "@lifi/widget": "^3.32.2",
+    "@lifi/wallet-management": "^3.19.0",
+    "@lifi/widget": "^3.34.0",
     "@mui/icons-material": "7.3.2",
     "@mui/material": "7.3.2",
     "@solana/wallet-adapter-base": "^0.9.27",
