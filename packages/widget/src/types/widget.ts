@@ -93,6 +93,7 @@ export type WidgetTheme = {
   chainSidebarContainer?: CSSProperties
   header?: CSSProperties
   navigation?: NavigationProps
+  disableGlobalThemeManagement?: boolean
 }
 
 export enum DisabledUI {
