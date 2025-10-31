@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.34.1](https://github.com/lifinance/widget/compare/v3.34.0...v3.34.1) (2025-10-31)
+
+
+### Bug Fixes
+
+* disable gasless for tokens with non-ASCII names ([#590](https://github.com/lifinance/widget/issues/590)) ([8227a11](https://github.com/lifinance/widget/commit/8227a11d8f2637c82afca2fb7fd81df6e3544157))
+
 ## [3.34.0](https://github.com/lifinance/widget/compare/v3.33.1...v3.34.0) (2025-10-31)
 
 
