@@ -16,6 +16,7 @@ const getStatusColor = (
   switch (status) {
     case 'ACTION_REQUIRED':
     case 'MESSAGE_REQUIRED':
+    case 'RESET_REQUIRED':
       return `rgba(${theme.vars.palette.info.mainChannel} / 0.12)`
     case 'DONE':
       if (substatus === 'PARTIAL' || substatus === 'REFUNDED') {
@@ -37,6 +38,7 @@ export const CircularIcon = styled(Box, {
     const isSpecialStatus = [
       'ACTION_REQUIRED',
       'MESSAGE_REQUIRED',
+      'RESET_REQUIRED',
       'DONE',
       'FAILED',
     ].includes(status!)
