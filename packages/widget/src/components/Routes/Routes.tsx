@@ -1,6 +1,6 @@
 import { Box, Collapse } from '@mui/material'
+import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { useRoutes } from '../../hooks/useRoutes.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
@@ -35,7 +35,7 @@ export const Routes: React.FC<CardProps> = (props) => {
   }
 
   const handleCardClick = () => {
-    navigate(navigationRoutes.routes)
+    navigate({ to: navigationRoutes.routes })
   }
 
   const routeNotFound = !currentRoute && !isLoading && !isFetching

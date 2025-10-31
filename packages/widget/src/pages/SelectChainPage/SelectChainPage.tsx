@@ -1,10 +1,8 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { useCallback } from 'react'
-import { useTranslation } from 'react-i18next'
 import { useChainSelect } from '../../components/ChainSelect/useChainSelect.js'
 import { SelectChainContent } from '../../components/Chains/SelectChainContent.js'
 import { useTokenSelect } from '../../components/TokenList/useTokenSelect.js'
-import { useHeader } from '../../hooks/useHeader.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import type { SelectChainPageProps } from './types.js'
 
@@ -15,10 +13,6 @@ export const SelectChainPage: React.FC<SelectChainPageProps> = ({
   const { navigateBack } = useNavigateBack()
   const { setCurrentChain } = useChainSelect(formType)
   const selectToken = useTokenSelect(formType, navigateBack)
-
-  const { t } = useTranslation()
-
-  useHeader(t('header.selectChain'))
 
   const handleClick = useCallback(
     async (chain: ExtendedChain) => {

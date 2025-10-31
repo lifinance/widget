@@ -12,7 +12,7 @@ export const TransactionHistoryButton = () => {
     <Tooltip title={t('header.transactionHistory')}>
       <IconButton
         size="medium"
-        onClick={() => navigate(navigationRoutes.transactionHistory)}
+        onClick={() => navigate({ to: navigationRoutes.transactionHistory })}
       >
         <ReceiptLong />
       </IconButton>

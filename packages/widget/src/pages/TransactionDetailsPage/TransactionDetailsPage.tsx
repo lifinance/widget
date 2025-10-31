@@ -1,15 +1,14 @@
 import type { FullStatusData } from '@lifi/sdk'
 import { Box, Typography } from '@mui/material'
+import { useLocation } from '@tanstack/react-router'
 import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLocation } from 'react-router-dom'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
 import { PageContainer } from '../../components/PageContainer.js'
 import { getStepList } from '../../components/Step/StepList.js'
 import { TransactionDetails } from '../../components/TransactionDetails.js'
 import { internalExplorerUrl } from '../../config/constants.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
-import { useHeader } from '../../hooks/useHeader.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useTools } from '../../hooks/useTools.js'
 import { useTransactionDetails } from '../../hooks/useTransactionDetails.js'
@@ -23,29 +22,19 @@ import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton.js'
 import { TransferIdCard } from './TransferIdCard.js'
 
 export const TransactionDetailsPage: React.FC = () => {
-  const { t, i18n } = useTranslation()
+  const { i18n } = useTranslation()
   const { navigate } = useNavigateBack()
-  const {
-    subvariant,
-    subvariantOptions,
-    contractSecondaryComponent,
-    explorerUrls,
-  } = useWidgetConfig()
-  const { state }: any = useLocation()
+  const { subvariant, contractSecondaryComponent, explorerUrls } =
+    useWidgetConfig()
+  const { search }: any = useLocation()
   const { tools } = useTools()
   const { getTransactionLink } = useExplorer()
   const storedRouteExecution = useRouteExecutionStore(
-    (store) => store.routes[state?.routeId]
+    (store) => store.routes[search?.routeId]
   )
   const { transaction, isLoading } = useTransactionDetails(
-    !storedRouteExecution && state?.transactionHash
+    !storedRouteExecution && search?.transactionHash
   )
-
-  const title =
-    subvariant === 'custom'
-      ? t(`header.${subvariantOptions?.custom ?? 'checkout'}Details`)
-      : t('header.transactionDetails')
-  useHeader(title)
 
   const routeExecution = useMemo(() => {
     if (storedRouteExecution) {
@@ -65,7 +54,7 @@ export const TransactionDetailsPage: React.FC = () => {
 
   useEffect(() => {
     if (!isLoading && !routeExecution) {
-      navigate(navigationRoutes.home)
+      navigate({ to: navigationRoutes.home })
     }
   }, [isLoading, navigate, routeExecution])
 

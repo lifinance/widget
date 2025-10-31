@@ -5,16 +5,15 @@ import MoreHoriz from '@mui/icons-material/MoreHoriz'
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import TurnedInNot from '@mui/icons-material/TurnedInNot'
 import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material'
+import { useNavigate } from '@tanstack/react-router'
 import { useId, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { ListItem } from '../../components/ListItem/ListItem.js'
 import { ListItemButton } from '../../components/ListItem/ListItemButton.js'
 import { Menu } from '../../components/Menu.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
-import { useHeader } from '../../hooks/useHeader.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import type { Bookmark } from '../../stores/bookmarks/types.js'
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
@@ -22,7 +21,10 @@ import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
 import { defaultChainIdsByType } from '../../utils/chainType.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import {
+  navigationRoutes,
+  sendToWalletRoutes,
+} from '../../utils/navigationRoutes.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { BookmarkAddressSheet } from './BookmarkAddressSheet.js'
 import { EmptyListIndicator } from './EmptyListIndicator.js'
@@ -52,8 +54,6 @@ export const RecentWalletsPage = () => {
   const open = Boolean(moreMenuAnchorEl)
   const { getAddressLink } = useExplorer()
 
-  useHeader(t('header.recentWallets'))
-
   const handleRecentSelected = (recentWallet: Bookmark) => {
     addRecentWallet(recentWallet)
     setFieldValue('toAddress', recentWallet.address, {
@@ -62,18 +62,15 @@ export const RecentWalletsPage = () => {
     })
     setSelectedBookmark(recentWallet)
     setSendToWallet(true)
-    navigate('../../', {
-      relative: 'path',
+    navigate({
+      to: navigationRoutes.home,
       replace: true,
     })
   }
 
   const handleAddBookmark = (bookmark: Bookmark) => {
     addBookmark(bookmark)
-    navigate(`../${navigationRoutes.bookmarks}`, {
-      relative: 'path',
-      replace: true,
-    })
+    navigate({ to: sendToWalletRoutes.bookmarks, replace: true })
   }
 
   const closeMenu = () => {

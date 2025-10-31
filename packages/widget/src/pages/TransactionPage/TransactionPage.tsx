@@ -1,9 +1,9 @@
 import type { ExchangeRateUpdateParams } from '@lifi/sdk'
 import Delete from '@mui/icons-material/Delete'
 import { Box, Button, Tooltip } from '@mui/material'
+import { useLocation } from '@tanstack/react-router'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLocation } from 'react-router-dom'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
 import { WarningMessages } from '../../components/Messages/WarningMessages.js'
@@ -11,7 +11,7 @@ import { PageContainer } from '../../components/PageContainer.js'
 import { getStepList } from '../../components/Step/StepList.js'
 import { TransactionDetails } from '../../components/TransactionDetails.js'
 import { useAddressActivity } from '../../hooks/useAddressActivity.js'
-import { useHeader } from '../../hooks/useHeader.js'
+import { useHeaderAction } from '../../hooks/useHeaderAction.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useRouteExecution } from '../../hooks/useRouteExecution.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
@@ -44,8 +44,8 @@ export const TransactionPage: React.FC = () => {
     contractSecondaryComponent,
     hiddenUI,
   } = useWidgetConfig()
-  const { state }: any = useLocation()
-  const stateRouteId = state?.routeId
+  const { search }: any = useLocation()
+  const stateRouteId = search?.routeId
   const [routeId, setRouteId] = useState<string>(stateRouteId)
   const [routeRefreshing, setRouteRefreshing] = useState(false)
 
@@ -73,21 +73,6 @@ export const TransactionPage: React.FC = () => {
     isFetched: isActivityAddressFetched,
   } = useAddressActivity(route?.toChainId)
 
-  const getHeaderTitle = () => {
-    if (subvariant === 'custom') {
-      return t(`header.${subvariantOptions?.custom ?? 'checkout'}`)
-    }
-    if (route) {
-      const transactionType =
-        route.fromChainId === route.toChainId ? 'swap' : 'bridge'
-      return status === RouteExecutionStatus.Idle
-        ? t(`button.${transactionType}Review`)
-        : t(`header.${transactionType}`)
-    }
-
-    return t('header.exchange')
-  }
-
   const headerAction = useMemo(
     () =>
       status === RouteExecutionStatus.Idle ? (
@@ -100,7 +85,7 @@ export const TransactionPage: React.FC = () => {
     [stateRouteId, status]
   )
 
-  useHeader(getHeaderTitle(), headerAction)
+  useHeaderAction(headerAction)
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: We want to emit event only when the page is mounted
   useEffect(() => {

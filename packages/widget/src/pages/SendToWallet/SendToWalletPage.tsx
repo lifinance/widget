@@ -4,10 +4,10 @@ import History from '@mui/icons-material/History'
 import TurnedIn from '@mui/icons-material/TurnedIn'
 import Wallet from '@mui/icons-material/Wallet'
 import { Box, Tooltip, Typography } from '@mui/material'
+import { Outlet, useLocation, useNavigate } from '@tanstack/react-router'
 import type { ChangeEvent } from 'react'
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { ButtonTertiary } from '../../components/ButtonTertiary.js'
 import { CardButton } from '../../components/Card/CardButton.js'
@@ -17,7 +17,6 @@ import {
   useAddressValidation,
 } from '../../hooks/useAddressValidation.js'
 import { useChain } from '../../hooks/useChain.js'
-import { useHeader } from '../../hooks/useHeader.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { Bookmark } from '../../stores/bookmarks/types.js'
@@ -26,7 +25,10 @@ import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { HiddenUI, RequiredUI } from '../../types/widget.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import {
+  navigationRoutes,
+  sendToWalletRoutes,
+} from '../../utils/navigationRoutes.js'
 import { BookmarkAddressSheet } from './BookmarkAddressSheet.js'
 import { ConfirmAddressSheet } from './ConfirmAddressSheet.js'
 import {
@@ -38,7 +40,17 @@ import {
   ValidationAlert,
 } from './SendToWalletPage.style.js'
 
-export const SendToWalletPage = () => {
+export const SendToWalletPage: React.FC = () => {
+  const { pathname } = useLocation()
+
+  if (pathname === navigationRoutes.sendToWallet) {
+    return <SendToWalletComponent />
+  }
+
+  return <Outlet />
+}
+
+const SendToWalletComponent: React.FC = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null)
@@ -67,8 +79,6 @@ export const SendToWalletPage = () => {
 
   const { accounts } = useAccount()
   const connectedWallets = accounts.filter((account) => account.isConnected)
-
-  useHeader(t('header.sendToWallet'))
 
   const handleInputChange = (e: ChangeEvent) => {
     if (errorMessage) {
@@ -164,19 +174,19 @@ export const SendToWalletPage = () => {
   }
 
   const handleRecentWalletsClick = () => {
-    navigate(navigationRoutes.recentWallets)
+    navigate({ to: sendToWalletRoutes.recentWallets })
   }
 
   const handleConnectedWalletsClick = () => {
-    navigate(navigationRoutes.connectedWallets)
+    navigate({ to: sendToWalletRoutes.connectedWallets })
   }
   const handleBookmarkedWalletsClick = () => {
-    navigate(navigationRoutes.bookmarks)
+    navigate({ to: sendToWalletRoutes.bookmarks })
   }
 
   const handleAddBookmark = (bookmark: Bookmark) => {
     addBookmark(bookmark)
-    navigate(navigationRoutes.bookmarks)
+    navigate({ to: sendToWalletRoutes.bookmarks })
   }
 
   const handleOnConfirm = (confirmedWallet: Bookmark) => {

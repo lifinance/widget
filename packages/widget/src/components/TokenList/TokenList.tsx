@@ -1,6 +1,8 @@
 import { Box } from '@mui/material'
-import { type FC, memo, useEffect } from 'react'
+import { type FC, memo, useEffect, useRef } from 'react'
 import { useDebouncedWatch } from '../../hooks/useDebouncedWatch.js'
+import { useListHeight } from '../../hooks/useListHeight.js'
+import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useTokenBalances } from '../../hooks/useTokenBalances.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
@@ -12,69 +14,73 @@ import type { TokenListProps } from './types.js'
 import { useTokenSelect } from './useTokenSelect.js'
 import { VirtualizedTokenList } from './VirtualizedTokenList.js'
 
-export const TokenList: FC<TokenListProps> = memo(
-  ({ formType, parentRef, height, onClick }) => {
-    const emitter = useWidgetEvents()
+export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
+  const { navigateBack } = useNavigateBack()
+  const listParentRef = useRef<HTMLUListElement | null>(null)
+  const { listHeight } = useListHeight({
+    listParentRef,
+    headerRef,
+  })
 
-    const [selectedChainId, selectedTokenAddress] = useFieldValues(
-      FormKeyHelper.getChainKey(formType),
-      FormKeyHelper.getTokenKey(formType)
-    )
+  const emitter = useWidgetEvents()
 
-    const isAllNetworks = useChainOrderStore(
-      (state) => state[`${formType}IsAllNetworks`]
-    )
+  const [selectedChainId, selectedTokenAddress] = useFieldValues(
+    FormKeyHelper.getChainKey(formType),
+    FormKeyHelper.getTokenKey(formType)
+  )
 
-    const [tokenSearchFilter]: string[] = useDebouncedWatch(
-      320,
-      'tokenSearchFilter'
-    )
+  const isAllNetworks = useChainOrderStore(
+    (state) => state[`${formType}IsAllNetworks`]
+  )
 
-    const {
-      tokens,
-      withCategories,
-      isTokensLoading,
-      isBalanceLoading,
-      isSearchLoading,
-    } = useTokenBalances(
-      selectedChainId,
-      formType,
-      isAllNetworks,
-      tokenSearchFilter
-    )
+  const [tokenSearchFilter]: string[] = useDebouncedWatch(
+    320,
+    'tokenSearchFilter'
+  )
 
-    const handleTokenClick = useTokenSelect(formType, onClick)
+  const {
+    tokens,
+    withCategories,
+    isTokensLoading,
+    isBalanceLoading,
+    isSearchLoading,
+  } = useTokenBalances(
+    selectedChainId,
+    formType,
+    isAllNetworks,
+    tokenSearchFilter
+  )
 
-    const showCategories =
-      withCategories && !tokenSearchFilter && !isAllNetworks
+  const handleTokenClick = useTokenSelect(formType, navigateBack)
 
-    useEffect(() => {
-      const normalizedSearchFilter = tokenSearchFilter?.replaceAll('$', '')
-      if (normalizedSearchFilter) {
-        emitter.emit(WidgetEvent.TokenSearch, {
-          value: normalizedSearchFilter,
-          tokens,
-        })
-      }
-    }, [tokenSearchFilter, tokens, emitter])
+  const showCategories = withCategories && !tokenSearchFilter && !isAllNetworks
 
-    return (
-      <Box ref={parentRef} style={{ height, overflow: 'auto' }}>
-        {!tokens.length && !isTokensLoading && !isSearchLoading ? (
-          <TokenNotFound formType={formType} />
-        ) : null}
-        <VirtualizedTokenList
-          tokens={tokens}
-          scrollElementRef={parentRef}
-          chainId={selectedChainId}
-          isLoading={isTokensLoading || isSearchLoading}
-          isBalanceLoading={isBalanceLoading}
-          showCategories={showCategories}
-          onClick={handleTokenClick}
-          selectedTokenAddress={selectedTokenAddress}
-          isAllNetworks={isAllNetworks}
-        />
-      </Box>
-    )
-  }
-)
+  useEffect(() => {
+    const normalizedSearchFilter = tokenSearchFilter?.replaceAll('$', '')
+    if (normalizedSearchFilter) {
+      emitter.emit(WidgetEvent.TokenSearch, {
+        value: normalizedSearchFilter,
+        tokens,
+      })
+    }
+  }, [tokenSearchFilter, tokens, emitter])
+
+  return (
+    <Box ref={listParentRef} style={{ height: listHeight, overflow: 'auto' }}>
+      {!tokens.length && !isTokensLoading && !isSearchLoading ? (
+        <TokenNotFound formType={formType} />
+      ) : null}
+      <VirtualizedTokenList
+        tokens={tokens}
+        scrollElementRef={listParentRef}
+        chainId={selectedChainId}
+        isLoading={isTokensLoading || isSearchLoading}
+        isBalanceLoading={isBalanceLoading}
+        showCategories={showCategories}
+        onClick={handleTokenClick}
+        selectedTokenAddress={selectedTokenAddress}
+        isAllNetworks={isAllNetworks}
+      />
+    </Box>
+  )
+})

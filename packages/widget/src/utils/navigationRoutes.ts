@@ -1,24 +1,41 @@
-export const navigationRoutes = {
-  home: '/',
-  activeTransactions: 'active-transactions',
+export const settingsRoutes = {
   bridges: 'bridges',
   exchanges: 'exchanges',
-  fromChain: 'from-chain',
-  fromToken: 'from-token',
   languages: 'languages',
-  routes: 'routes',
-  settings: 'settings',
-  toChain: 'to-chain',
-  toToken: 'to-token',
-  toTokenNative: 'to-token-native',
-  transactionDetails: 'transaction-details',
-  transactionExecution: 'transaction-execution',
-  transactionHistory: 'transaction-history',
-  sendToWallet: 'send-to-wallet',
+}
+
+export const sendToWalletRoutes = {
   bookmarks: 'bookmarks',
   recentWallets: 'recent-wallets',
   connectedWallets: 'connected-wallets',
-  configuredWallets: 'configured-wallets',
+}
+
+export const selectChainRoutes = {
+  fromChain: 'from-chain',
+  toChain: 'to-chain',
+}
+
+export const navigationRoutes = {
+  home: '/',
+  activeTransactions: '/active-transactions',
+  bridges: `/settings/${settingsRoutes.bridges}`,
+  exchanges: `/settings/${settingsRoutes.exchanges}`,
+  fromToken: '/from-token',
+  fromTokenFromChain: `/from-token/${selectChainRoutes.fromChain}`,
+  languages: `/settings/${settingsRoutes.languages}`,
+  routes: '/routes',
+  settings: '/settings',
+  toToken: '/to-token',
+  toTokenToChain: `/to-token/${selectChainRoutes.toChain}`,
+  toTokenNative: '/to-token-native',
+  transactionDetails: '/transaction-details',
+  transactionExecution: '/transaction-execution',
+  transactionHistory: '/transaction-history',
+  sendToWallet: '/send-to-wallet',
+  bookmarks: `/send-to-wallet/${sendToWalletRoutes.bookmarks}`,
+  recentWallets: `/send-to-wallet/${sendToWalletRoutes.recentWallets}`,
+  connectedWallets: `/send-to-wallet/${sendToWalletRoutes.connectedWallets}`,
+  configuredWallets: '/configured-wallets',
 }
 
 export const navigationRoutesValues = Object.values(navigationRoutes)
@@ -27,11 +44,11 @@ export const stickyHeaderRoutes = [
   navigationRoutes.activeTransactions,
   navigationRoutes.bridges,
   navigationRoutes.exchanges,
-  navigationRoutes.fromChain,
+  navigationRoutes.fromTokenFromChain,
   navigationRoutes.home,
   navigationRoutes.routes,
   navigationRoutes.settings,
-  navigationRoutes.toChain,
+  navigationRoutes.toTokenToChain,
   navigationRoutes.toTokenNative,
   navigationRoutes.transactionDetails,
   navigationRoutes.transactionExecution,
@@ -48,11 +65,11 @@ export const backButtonRoutes = [
   navigationRoutes.bridges,
   navigationRoutes.exchanges,
   navigationRoutes.languages,
-  navigationRoutes.fromChain,
+  navigationRoutes.fromTokenFromChain,
   navigationRoutes.fromToken,
   navigationRoutes.routes,
   navigationRoutes.settings,
-  navigationRoutes.toChain,
+  navigationRoutes.toTokenToChain,
   navigationRoutes.toToken,
   navigationRoutes.toTokenNative,
   navigationRoutes.transactionDetails,

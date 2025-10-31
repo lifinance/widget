@@ -9,7 +9,6 @@ import { ListItem } from '../../components/ListItem/ListItem.js'
 import { ListItemButton } from '../../components/ListItem/ListItemButton.js'
 import { Menu } from '../../components/Menu.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
-import { useHeader } from '../../hooks/useHeader.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
@@ -36,8 +35,6 @@ export const SendToConfiguredWalletPage = () => {
   const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>()
   const open = Boolean(moreMenuAnchorEl)
   const { getAddressLink } = useExplorer()
-
-  useHeader(t('header.sendToWallet'))
 
   const handleCuratedSelected = (toAddress: ToAddress) => {
     setSelectedBookmark(toAddress)

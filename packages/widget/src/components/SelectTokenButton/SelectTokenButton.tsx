@@ -1,6 +1,6 @@
 import { Skeleton } from '@mui/material'
+import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { useChain } from '../../hooks/useChain.js'
 import { useSwapOnly } from '../../hooks/useSwapOnly.js'
 import { useToken } from '../../hooks/useToken.js'
@@ -38,13 +38,14 @@ export const SelectTokenButton: React.FC<
   const { token, isLoading: isTokenLoading } = useToken(chainId, tokenAddress)
 
   const handleClick = () => {
-    navigate(
-      formType === 'from'
-        ? navigationRoutes.fromToken
-        : subvariant === 'refuel'
-          ? navigationRoutes.toTokenNative
-          : navigationRoutes.toToken
-    )
+    navigate({
+      to:
+        formType === 'from'
+          ? navigationRoutes.fromToken
+          : subvariant === 'refuel'
+            ? navigationRoutes.toTokenNative
+            : navigationRoutes.toToken,
+    })
   }
 
   const isSelected = !!(chain && token)

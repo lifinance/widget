@@ -30,7 +30,7 @@ export const SettingsButton = () => {
     <Tooltip title={tooltipMessage}>
       <SettingsIconButton
         size="medium"
-        onClick={() => navigate(navigationRoutes.settings)}
+        onClick={() => navigate({ to: navigationRoutes.settings })}
         variant={variant}
       >
         {variant ? (

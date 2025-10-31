@@ -1,13 +1,13 @@
 import AirlineStops from '@mui/icons-material/AirlineStops'
 import SwapHoriz from '@mui/icons-material/SwapHoriz'
+import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { CardButton } from '../../components/Card/CardButton.js'
 import { useSettingMonitor } from '../../hooks/useSettingMonitor.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useSettingsStore } from '../../stores/settings/SettingsStore.js'
 import { HiddenUI } from '../../types/widget.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import { settingsRoutes } from '../../utils/navigationRoutes.js'
 import { BadgedValue } from './SettingsCard/BadgedValue.js'
 
 const supportedIcons = {
@@ -38,7 +38,9 @@ export const BridgeAndExchangeSettings: React.FC<{
   }
 
   const handleClick = () => {
-    navigate(navigationRoutes[type.toLowerCase() as 'bridges' | 'exchanges'])
+    navigate({
+      to: settingsRoutes[type.toLowerCase() as 'bridges' | 'exchanges'],
+    })
   }
 
   const Icon = supportedIcons[type]

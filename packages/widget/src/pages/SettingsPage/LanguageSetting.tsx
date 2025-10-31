@@ -1,13 +1,13 @@
 import Language from '@mui/icons-material/Language'
+import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { CardButton } from '../../components/Card/CardButton.js'
 import { CardValue } from '../../components/Card/CardButton.style.js'
 import { useLanguages } from '../../hooks/useLanguages.js'
 import { languageNames } from '../../providers/I18nProvider/constants.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { HiddenUI } from '../../types/widget.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import { settingsRoutes } from '../../utils/navigationRoutes.js'
 
 export const LanguageSetting: React.FC = () => {
   const { t } = useTranslation()
@@ -20,7 +20,7 @@ export const LanguageSetting: React.FC = () => {
   }
 
   const handleClick = () => {
-    navigate(navigationRoutes.languages)
+    navigate({ to: settingsRoutes.languages })
   }
 
   return (
