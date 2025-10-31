@@ -12,7 +12,7 @@ import {
 import type { FormTypeProps } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import { selectChainRoutes } from '../../utils/navigationRoutes.js'
 import { AllChainsAvatar } from '../Chains/AllChainsAvatar.js'
 import {
   ChainAvatar,
@@ -68,7 +68,7 @@ export const ChainSelect = memo(({ formType }: FormTypeProps) => {
   )
 
   const showAllChains = useCallback(() => {
-    navigate({ to: navigationRoutes[`${formType}Chain`] })
+    navigate({ to: selectChainRoutes[`${formType}Chain`] })
   }, [navigate, formType])
 
   const selectAllNetworks = useCallback(() => {

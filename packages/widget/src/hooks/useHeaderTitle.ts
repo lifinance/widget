@@ -37,10 +37,8 @@ export function useHeaderTitle(): string {
       return t(`settings.enabledExchanges`)
     case navigationRoutes.languages:
       return t('language.title')
-    case navigationRoutes.fromChain:
-    case navigationRoutes.toChain:
-    case `${navigationRoutes.fromToken}${navigationRoutes.fromChain}`:
-    case `${navigationRoutes.toToken}${navigationRoutes.toChain}`:
+    case navigationRoutes.fromTokenFromChain:
+    case navigationRoutes.toTokenToChain:
     case navigationRoutes.toTokenNative:
       return t('header.selectChain')
     case navigationRoutes.fromToken:

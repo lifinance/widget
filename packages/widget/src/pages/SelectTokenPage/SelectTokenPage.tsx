@@ -1,20 +1,34 @@
 import { Box, type Theme, useMediaQuery } from '@mui/material'
-import type { FC, RefObject } from 'react'
+import { Outlet, useLocation } from '@tanstack/react-router'
+import type { FC } from 'react'
 import { useRef } from 'react'
 import { ChainSelect } from '../../components/ChainSelect/ChainSelect.js'
 import { FullPageContainer } from '../../components/FullPageContainer.js'
 import { TokenList } from '../../components/TokenList/TokenList.js'
-import { useListHeight } from '../../hooks/useListHeight.js'
-import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useScrollableOverflowHidden } from '../../hooks/useScrollableContainer.js'
 import { useSwapOnly } from '../../hooks/useSwapOnly.js'
 import { useWideVariant } from '../../hooks/useWideVariant.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import type { FormType, FormTypeProps } from '../../stores/form/types.js'
+import type { FormTypeProps } from '../../stores/form/types.js'
 import { HiddenUI } from '../../types/widget.js'
+import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { SearchTokenInput } from './SearchTokenInput.js'
 
-export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
+export const SelectTokenPage = () => {
+  const { pathname } = useLocation()
+
+  if (pathname === navigationRoutes.fromToken) {
+    return <SelectTokenPageComponent formType="from" />
+  }
+
+  if (pathname === navigationRoutes.toToken) {
+    return <SelectTokenPageComponent formType="to" />
+  }
+
+  return <Outlet />
+}
+
+const SelectTokenPageComponent: FC<FormTypeProps> = ({ formType }) => {
   useScrollableOverflowHidden()
 
   const headerRef = useRef<HTMLElement>(null)
@@ -56,7 +70,7 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
           </Box>
         )}
       </Box>
-      <WrappedTokenList
+      <TokenList
         // Rerender component if variant changes (since chains tiles change height)
         key={
           hideChainSelect
@@ -69,27 +83,5 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
         formType={formType}
       />
     </FullPageContainer>
-  )
-}
-
-type WrappedTokenListProps = {
-  headerRef: RefObject<HTMLElement | null>
-  formType: FormType
-}
-
-const WrappedTokenList = ({ headerRef, formType }: WrappedTokenListProps) => {
-  const { navigateBack } = useNavigateBack()
-  const listParentRef = useRef<HTMLUListElement | null>(null)
-  const { listHeight } = useListHeight({
-    listParentRef,
-    headerRef,
-  })
-  return (
-    <TokenList
-      parentRef={listParentRef}
-      height={listHeight}
-      onClick={navigateBack}
-      formType={formType}
-    />
   )
 }

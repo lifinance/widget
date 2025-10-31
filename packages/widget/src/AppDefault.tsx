@@ -27,6 +27,7 @@ import { TransactionHistoryPage } from './pages/TransactionHistoryPage/Transacti
 import { TransactionPage } from './pages/TransactionPage/TransactionPage.js'
 import {
   navigationRoutes,
+  selectChainRoutes,
   sendToWalletRoutes,
   settingsRoutes,
 } from './utils/navigationRoutes.js'
@@ -69,31 +70,31 @@ const settingsLanguagesRoute = createRoute({
 const fromTokenRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: navigationRoutes.fromToken,
-  component: () => <SelectTokenPage formType="from" />,
+  component: SelectTokenPage,
 })
 
 const fromTokenFromChainRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: `${navigationRoutes.fromToken}${navigationRoutes.fromChain}`,
+  getParentRoute: () => fromTokenRoute,
+  path: selectChainRoutes.fromChain,
   component: () => <SelectChainPage formType="from" />,
 })
 
 const toTokenRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: navigationRoutes.toToken,
-  component: () => <SelectTokenPage formType="to" />,
+  component: SelectTokenPage,
 })
 
 const toTokenToChainRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: `${navigationRoutes.toToken}${navigationRoutes.toChain}`,
+  getParentRoute: () => toTokenRoute,
+  path: selectChainRoutes.toChain,
   component: () => <SelectChainPage formType="to" />,
 })
 
 const toTokenNativeRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: navigationRoutes.toTokenNative,
-  component: () => <SelectChainPage formType="to" selectNativeToken={true} />,
+  component: () => <SelectChainPage formType="to" selectNativeToken />,
 })
 
 const routesRoute = createRoute({
@@ -163,10 +164,8 @@ const routeTree = rootRoute.addChildren([
     settingsBridgesRoute,
     settingsExchangesRoute,
   ]),
-  fromTokenRoute,
-  fromTokenFromChainRoute,
-  toTokenRoute,
-  toTokenToChainRoute,
+  fromTokenRoute.addChildren([fromTokenFromChainRoute]),
+  toTokenRoute.addChildren([toTokenToChainRoute]),
   toTokenNativeRoute,
   routesRoute,
   transactionExecutionRoute,
