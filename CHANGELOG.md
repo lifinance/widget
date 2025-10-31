@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.34.0](https://github.com/lifinance/widget/compare/v3.33.1...v3.34.0) (2025-10-31)
+
+
+### Features
+
+* add approval reset for legacy tokens ([#582](https://github.com/lifinance/widget/issues/582)) ([35d32a2](https://github.com/lifinance/widget/commit/35d32a260b51c0fd3a90189217c6af5ca817690e))
+* messaging flow improvements ([#581](https://github.com/lifinance/widget/issues/581)) ([3323127](https://github.com/lifinance/widget/commit/3323127eebb9976639cf33c65df08f13c98bcb12))
+
+
+### Bug Fixes
+
+* **playground:** undetected evm wallets and empty wallet connect modal ([#570](https://github.com/lifinance/widget/issues/570)) ([10fdaa6](https://github.com/lifinance/widget/commit/10fdaa6dfaf422eade30d57208cec6a3ddd1aa31))
+* preserve search filter when switching chains ([#577](https://github.com/lifinance/widget/issues/577)) ([6e13ebf](https://github.com/lifinance/widget/commit/6e13ebf0779a5fcc202f25ea3e236150e790872b))
+
 ### [3.33.1](https://github.com/lifinance/widget/compare/v3.33.0...v3.33.1) (2025-10-08)
 
 ## [3.33.0](https://github.com/lifinance/widget/compare/v3.32.2...v3.33.0) (2025-10-08)
