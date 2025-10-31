@@ -14,10 +14,10 @@ export const ThemeProvider: React.FC<React.PropsWithChildren> = ({
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: setMode is stable
   useEffect(() => {
-    if (colorSchemeMode) {
+    if (colorSchemeMode && !themeConfig?.disableGlobalThemeManagement) {
       setMode(colorSchemeMode)
     }
-  }, [colorSchemeMode])
+  }, [colorSchemeMode, themeConfig?.disableGlobalThemeManagement])
 
   const theme = useMemo(() => createTheme(themeConfig), [themeConfig])
 
