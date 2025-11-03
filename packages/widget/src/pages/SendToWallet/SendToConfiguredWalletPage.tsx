@@ -25,7 +25,7 @@ import {
 
 export const SendToConfiguredWalletPage = () => {
   const { t } = useTranslation()
-  const { navigateBack } = useNavigateBack()
+  const navigateBack = useNavigateBack()
   const { toAddresses } = useWidgetConfig()
   const [selectedToAddress, setSelectedToAddress] = useState<ToAddress>()
   const { requiredToChainType } = useToAddressRequirements()

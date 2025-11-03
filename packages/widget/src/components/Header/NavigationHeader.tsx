@@ -1,6 +1,6 @@
 import { useAccount } from '@lifi/wallet-management'
 import { Box, Typography } from '@mui/material'
-import { useLocation } from '@tanstack/react-router'
+import { useLocation, useNavigate } from '@tanstack/react-router'
 import { useHeaderTitle } from '../../hooks/useHeaderTitle.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
@@ -10,6 +10,7 @@ import {
   backButtonRoutes,
   navigationRoutes,
   navigationRoutesValues,
+  transactionRoutes,
 } from '../../utils/navigationRoutes.js'
 import { BackButton } from './BackButton.js'
 import { CloseDrawerButton } from './CloseDrawerButton.js'
@@ -21,7 +22,8 @@ import { TransactionHistoryButton } from './TransactionHistoryButton.js'
 export const NavigationHeader: React.FC = () => {
   const { subvariant, hiddenUI, variant, defaultUI, subvariantOptions } =
     useWidgetConfig()
-  const { navigateBack } = useNavigateBack()
+  const navigateBack = useNavigateBack()
+  const navigate = useNavigate()
   const { account } = useAccount()
   const element = useHeaderStore((state) => state.element)
   const title = useHeaderTitle()
@@ -36,14 +38,13 @@ export const NavigationHeader: React.FC = () => {
     <HeaderAppBar elevation={0} sx={{ paddingTop: 1, paddingBottom: 0.5 }}>
       {backButtonRoutes.includes(pathname) ? (
         <BackButton
-          onClick={() =>
-            navigateBack(
-              // From transaction details page, navigate to home page
-              pathname === navigationRoutes.transactionDetails
-                ? navigationRoutes.home
-                : undefined
-            )
-          }
+          onClick={() => {
+            if (pathname.includes(transactionRoutes.transactionDetails)) {
+              navigate({ to: navigationRoutes.home, replace: true })
+            } else {
+              navigateBack()
+            }
+          }}
         />
       ) : null}
       {showSplitOptions ? (

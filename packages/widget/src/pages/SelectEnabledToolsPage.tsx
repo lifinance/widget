@@ -1,4 +1,5 @@
 import { Checkbox, debounce, Tooltip } from '@mui/material'
+import { useLocation } from '@tanstack/react-router'
 import type { ChangeEvent } from 'react'
 import {
   type FormEventHandler,
@@ -17,6 +18,7 @@ import { useScrollableContainer } from '../hooks/useScrollableContainer.js'
 import { useTools } from '../hooks/useTools.js'
 import { useSettingsStore } from '../stores/settings/SettingsStore.js'
 import { useSettingsActions } from '../stores/settings/useSettingsActions.js'
+import { navigationRoutes } from '../utils/navigationRoutes.js'
 
 interface SelectAllCheckboxProps {
   allCheckboxesSelected: boolean
@@ -54,9 +56,9 @@ const SelectAllCheckbox = memo<SelectAllCheckboxProps>(
   }
 )
 
-export const SelectEnabledToolsPage: React.FC<{
-  type: 'Bridges' | 'Exchanges'
-}> = ({ type }) => {
+export const SelectEnabledToolsPage = () => {
+  const { pathname } = useLocation()
+  const type = pathname === navigationRoutes.bridges ? 'Bridges' : 'Exchanges'
   const typeKey = type.toLowerCase() as 'bridges' | 'exchanges'
   const { tools } = useTools()
   const { toggleToolKeys } = useSettingsActions()

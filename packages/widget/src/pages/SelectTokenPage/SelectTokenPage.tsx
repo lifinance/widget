@@ -18,17 +18,17 @@ export const SelectTokenPage = () => {
   const { pathname } = useLocation()
 
   if (pathname === navigationRoutes.fromToken) {
-    return <SelectTokenPageComponent formType="from" />
+    return <SelectTokenComponent formType="from" />
   }
 
   if (pathname === navigationRoutes.toToken) {
-    return <SelectTokenPageComponent formType="to" />
+    return <SelectTokenComponent formType="to" />
   }
 
   return <Outlet />
 }
 
-const SelectTokenPageComponent: FC<FormTypeProps> = ({ formType }) => {
+const SelectTokenComponent: FC<FormTypeProps> = ({ formType }) => {
   useScrollableOverflowHidden()
 
   const headerRef = useRef<HTMLElement>(null)

@@ -1,16 +1,19 @@
 import type { ExtendedChain } from '@lifi/sdk'
+import { useLocation } from '@tanstack/react-router'
 import { useCallback } from 'react'
 import { useChainSelect } from '../../components/ChainSelect/useChainSelect.js'
 import { SelectChainContent } from '../../components/Chains/SelectChainContent.js'
 import { useTokenSelect } from '../../components/TokenList/useTokenSelect.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
-import type { SelectChainPageProps } from './types.js'
+import { navigationRoutes } from '../../utils/navigationRoutes.js'
 
-export const SelectChainPage: React.FC<SelectChainPageProps> = ({
-  formType,
-  selectNativeToken,
-}) => {
-  const { navigateBack } = useNavigateBack()
+export const SelectChainPage = () => {
+  const { pathname } = useLocation()
+  const formType =
+    pathname === navigationRoutes.fromTokenFromChain ? 'from' : 'to'
+  const selectNativeToken = pathname === navigationRoutes.toTokenNative
+
+  const navigateBack = useNavigateBack()
   const { setCurrentChain } = useChainSelect(formType)
   const selectToken = useTokenSelect(formType, navigateBack)
 

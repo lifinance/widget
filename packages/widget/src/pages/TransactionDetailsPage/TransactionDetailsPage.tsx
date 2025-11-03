@@ -1,6 +1,6 @@
 import type { FullStatusData } from '@lifi/sdk'
 import { Box, Typography } from '@mui/material'
-import { useLocation } from '@tanstack/react-router'
+import { useLocation, useNavigate } from '@tanstack/react-router'
 import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
@@ -9,7 +9,6 @@ import { getStepList } from '../../components/Step/StepList.js'
 import { TransactionDetails } from '../../components/TransactionDetails.js'
 import { internalExplorerUrl } from '../../config/constants.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
-import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useTools } from '../../hooks/useTools.js'
 import { useTransactionDetails } from '../../hooks/useTransactionDetails.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
@@ -23,7 +22,7 @@ import { TransferIdCard } from './TransferIdCard.js'
 
 export const TransactionDetailsPage: React.FC = () => {
   const { i18n } = useTranslation()
-  const { navigate } = useNavigateBack()
+  const navigate = useNavigate()
   const { subvariant, contractSecondaryComponent, explorerUrls } =
     useWidgetConfig()
   const { search }: any = useLocation()

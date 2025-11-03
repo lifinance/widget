@@ -3,6 +3,7 @@ import ErrorRounded from '@mui/icons-material/ErrorRounded'
 import InfoRounded from '@mui/icons-material/InfoRounded'
 import WarningRounded from '@mui/icons-material/WarningRounded'
 import { Box, Button, Typography } from '@mui/material'
+import { useNavigate } from '@tanstack/react-router'
 import { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
@@ -23,7 +24,7 @@ import {
 import { getSourceTxHash } from '../../stores/routes/utils.js'
 import { hasEnumFlag } from '../../utils/enum.js'
 import { formatTokenAmount } from '../../utils/format.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import { transactionRoutes } from '../../utils/navigationRoutes.js'
 import { CenterContainer, IconCircle } from './StatusBottomSheet.style.js'
 
 interface StatusBottomSheetContentProps extends RouteExecution {
@@ -65,7 +66,8 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
   onClose,
 }) => {
   const { t } = useTranslation()
-  const { navigateBack, navigate } = useNavigateBack()
+  const navigateBack = useNavigateBack()
+  const navigate = useNavigate()
   const { setFieldValue } = useFieldActions()
   const {
     subvariant,
@@ -133,7 +135,7 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
     const transactionHash = getSourceTxHash(route)
 
     navigate({
-      to: navigationRoutes.transactionDetails,
+      to: transactionRoutes.transactionDetails,
       search: {
         routeId: route.id,
         transactionHash,

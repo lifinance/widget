@@ -47,7 +47,10 @@ export function useHeaderTitle(): string {
       return t('header.to')
     case navigationRoutes.routes:
       return t('header.receive')
-    case navigationRoutes.transactionExecution: {
+    case navigationRoutes.transactionExecution:
+    case navigationRoutes.routesTransactionExecution:
+    case navigationRoutes.activeTransactionExecution:
+    case navigationRoutes.routesActiveTransactionExecution: {
       if (subvariant === 'custom') {
         return t(`header.${subvariantOptions?.custom ?? 'checkout'}`)
       }
@@ -61,6 +64,12 @@ export function useHeaderTitle(): string {
       return t('header.exchange')
     }
     case navigationRoutes.transactionDetails:
+    case navigationRoutes.routesTransactionDetails:
+    case navigationRoutes.routesTransactionExecutionDetails:
+    case navigationRoutes.transactionExecutionDetails:
+    case navigationRoutes.transactionHistoryDetails:
+    case navigationRoutes.transactionHistoryRoutesDetails:
+    case navigationRoutes.transactionHistoryRoutesExecutionDetails:
       return subvariant === 'custom'
         ? t(`header.${subvariantOptions?.custom ?? 'checkout'}Details`)
         : t('header.transactionDetails')

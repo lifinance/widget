@@ -15,7 +15,7 @@ import { useTokenSelect } from './useTokenSelect.js'
 import { VirtualizedTokenList } from './VirtualizedTokenList.js'
 
 export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
-  const { navigateBack } = useNavigateBack()
+  const navigateBack = useNavigateBack()
   const listParentRef = useRef<HTMLUListElement | null>(null)
   const { listHeight } = useListHeight({
     listParentRef,

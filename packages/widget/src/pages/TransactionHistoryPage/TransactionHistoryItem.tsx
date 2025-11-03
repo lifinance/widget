@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next'
 import { Card } from '../../components/Card/Card.js'
 import { Token } from '../../components/Token/Token.js'
 import { TokenDivider } from '../../components/Token/Token.style.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import { transactionRoutes } from '../../utils/navigationRoutes.js'
 
 export const TransactionHistoryItem: React.FC<{
   transaction: StatusResponse
@@ -25,7 +25,7 @@ export const TransactionHistoryItem: React.FC<{
 
   const handleClick = () => {
     navigate({
-      to: navigationRoutes.transactionDetails,
+      to: transactionRoutes.transactionDetails,
       search: {
         transactionHash: (transaction as FullStatusData).sending.txHash,
       },

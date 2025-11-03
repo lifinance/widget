@@ -37,7 +37,7 @@ export const TransactionPage: React.FC = () => {
   const { t } = useTranslation()
   const { setFieldValue } = useFieldActions()
   const emitter = useWidgetEvents()
-  const { navigateBack } = useNavigateBack()
+  const navigateBack = useNavigateBack()
   const {
     subvariant,
     subvariantOptions,

@@ -1,7 +1,7 @@
 import Settings from '@mui/icons-material/Settings'
 import { Tooltip } from '@mui/material'
+import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useSettingMonitor } from '../../hooks/useSettingMonitor.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import {
@@ -11,7 +11,7 @@ import {
 
 export const SettingsButton = () => {
   const { t } = useTranslation()
-  const { navigate } = useNavigateBack()
+  const navigate = useNavigate()
 
   const { isCustomRouteSettings, isRouteSettingsWithWarnings } =
     useSettingMonitor()
