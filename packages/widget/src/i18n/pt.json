@@ -198,14 +198,14 @@
   "tooltip": {
     "deselectAll": "Desmarcar tudo",
     "estimatedTime": "Tempo estimado para completar a transação de conversão ou ponte, excluindo a troca de rede e aprovação de token.",
-    "feeCollection": "",
+    "feeCollection": "A taxa é aplicada aos pares de tokens selecionados e garante que podemos fornecer a melhor experiência.",
     "minReceived": "O valor mínimo estimado pode ser alterado até que a transação de conversão/ponte seja assinada. Para transferências em duas etapas, isto aplica-se até que a segunda etapa da transação seja assinada.",
     "notFound": {
       "text": "Não conseguimos encontrar esta página.",
       "title": "404"
     },
-    "multistep": "",
-    "gasless": "",
+    "multistep": "Esta rota requer várias transações para completar a transferência. Cada etapa da conversão pode conter 1-2 transações que requerem uma assinatura.",
+    "gasless": "Nós isentamos o gás para que você possa transferir ativos sem possuir tokens nativos. Os custos de rede são incluídos na transferência.",
     "numberOfSteps": "Cada etapa da conversão pode conter 1-2 transações que requerem assinatura.",
     "priceImpact": "A diferença de valor estimado entre os tokens de origem e de destino.",
     "progressToNextUpdate": "Os dados exibidos serão atualizados automaticamente após {{value}} segundos. Clique aqui para atualizar manualmente.",
@@ -274,6 +274,7 @@
       },
       "tokenAllowance": {
         "actionRequired": "Aprovar gastos de {{tokenSymbol}}",
+        "resetRequired": "",
         "done": "Gastos de {{tokenSymbol}} aprovados",
         "pending": "Aprovação de {{tokenSymbol}} pendente",
         "started": "Preparando a transação de aprovação"
@@ -306,7 +307,7 @@
       "cheapest": "Melhor retorno",
       "fastest": "Mais rápido",
       "gasless": "Sem gás",
-      "multistep": ""
+      "multistep": "Vários passos"
     },
     "to": "Para",
     "tokenOnChain": "{{tokenSymbol}} na {{chainName}}",
