@@ -4,7 +4,7 @@ import { memo, useCallback, useEffect, useLayoutEffect, useRef } from 'react'
 import { useRoutes } from '../../hooks/useRoutes.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { WidgetEvent } from '../../types/events.js'
-import { transactionRoutes } from '../../utils/navigationRoutes.js'
+import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { ExpansionTransition } from '../Expansion/ExpansionTransition.js'
 import { RoutesContent } from './RoutesContent.js'
 import { routesExpansionWidth } from './RoutesExpanded.style.js'
@@ -61,7 +61,7 @@ export const RoutesExpanded = memo(function RoutesExpanded({
     (route: Route) => {
       setReviewableRoute(route)
       navigate({
-        to: transactionRoutes.transactionExecution,
+        to: navigationRoutes.transactionExecution,
         search: { routeId: route.id },
       })
       emitter.emit(WidgetEvent.RouteSelected, { route, routes: routes! })

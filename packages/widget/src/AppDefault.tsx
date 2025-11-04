@@ -25,13 +25,7 @@ import { SettingsPage } from './pages/SettingsPage/SettingsPage.js'
 import { TransactionDetailsPage } from './pages/TransactionDetailsPage/TransactionDetailsPage.js'
 import { TransactionHistoryPage } from './pages/TransactionHistoryPage/TransactionHistoryPage.js'
 import { TransactionPage } from './pages/TransactionPage/TransactionPage.js'
-import {
-  navigationRoutes,
-  selectChainRoutes,
-  sendToWalletRoutes,
-  settingsRoutes,
-  transactionRoutes,
-} from './utils/navigationRoutes.js'
+import { navigationRoutes } from './utils/navigationRoutes.js'
 
 const rootRoute = createRootRoute({
   component: AppLayout,
@@ -52,19 +46,19 @@ const settingsRoute = createRoute({
 
 const settingsBridgesRoute = createRoute({
   getParentRoute: () => settingsRoute,
-  path: settingsRoutes.bridges,
-  component: SelectEnabledToolsPage,
+  path: navigationRoutes.bridges,
+  component: () => <SelectEnabledToolsPage type="Bridges" />,
 })
 
 const settingsExchangesRoute = createRoute({
   getParentRoute: () => settingsRoute,
-  path: settingsRoutes.exchanges,
-  component: SelectEnabledToolsPage,
+  path: navigationRoutes.exchanges,
+  component: () => <SelectEnabledToolsPage type="Exchanges" />,
 })
 
 const settingsLanguagesRoute = createRoute({
   getParentRoute: () => settingsRoute,
-  path: settingsRoutes.languages,
+  path: navigationRoutes.languages,
   component: LanguagesPage,
 })
 
@@ -76,8 +70,8 @@ const fromTokenRoute = createRoute({
 
 const fromTokenFromChainRoute = createRoute({
   getParentRoute: () => fromTokenRoute,
-  path: selectChainRoutes.fromChain,
-  component: SelectChainPage,
+  path: navigationRoutes.fromChain,
+  component: () => <SelectChainPage formType="from" />,
 })
 
 const toTokenRoute = createRoute({
@@ -88,14 +82,14 @@ const toTokenRoute = createRoute({
 
 const toTokenToChainRoute = createRoute({
   getParentRoute: () => toTokenRoute,
-  path: selectChainRoutes.toChain,
-  component: SelectChainPage,
+  path: navigationRoutes.toChain,
+  component: () => <SelectChainPage formType="to" />,
 })
 
 const toTokenNativeRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: navigationRoutes.toTokenNative,
-  component: SelectChainPage,
+  component: () => <SelectChainPage formType="to" selectNativeToken />,
 })
 
 const routesRoute = createRoute({
@@ -104,21 +98,26 @@ const routesRoute = createRoute({
   component: RoutesPage,
 })
 
-const routesActiveTransactionExecutionRoute = createRoute({
+const routesActiveTransactionsRoute = createRoute({
   getParentRoute: () => routesRoute,
-  path: `active-transactions/${transactionRoutes.transactionExecution}`,
+  path: navigationRoutes.activeTransactions,
+})
+
+const routesActiveTransactionExecutionRoute = createRoute({
+  getParentRoute: () => routesActiveTransactionsRoute,
+  path: navigationRoutes.transactionExecution,
   component: TransactionPage,
 })
 
 const routesTransactionExecutionRoute = createRoute({
   getParentRoute: () => routesRoute,
-  path: transactionRoutes.transactionExecution,
+  path: navigationRoutes.transactionExecution,
   component: TransactionPage,
 })
 
 const routesTransactionExecutionDetailsRoute = createRoute({
   getParentRoute: () => routesTransactionExecutionRoute,
-  path: transactionRoutes.transactionDetails,
+  path: navigationRoutes.transactionDetails,
   component: TransactionDetailsPage,
 })
 
@@ -130,7 +129,7 @@ const activeTransactionsRoute = createRoute({
 
 const activeTransactionExecutionRoute = createRoute({
   getParentRoute: () => activeTransactionsRoute,
-  path: transactionRoutes.transactionExecution,
+  path: navigationRoutes.transactionExecution,
   component: TransactionPage,
 })
 
@@ -142,19 +141,19 @@ const sendToWalletRoute = createRoute({
 
 const sendToWalletBookmarksRoute = createRoute({
   getParentRoute: () => sendToWalletRoute,
-  path: sendToWalletRoutes.bookmarks,
+  path: navigationRoutes.bookmarks,
   component: BookmarksPage,
 })
 
 const sendToWalletRecentWalletsRoute = createRoute({
   getParentRoute: () => sendToWalletRoute,
-  path: sendToWalletRoutes.recentWallets,
+  path: navigationRoutes.recentWallets,
   component: RecentWalletsPage,
 })
 
 const sendToWalletConnectedWalletsRoute = createRoute({
   getParentRoute: () => sendToWalletRoute,
-  path: sendToWalletRoutes.connectedWallets,
+  path: navigationRoutes.connectedWallets,
   component: ConnectedWalletsPage,
 })
 
@@ -172,19 +171,29 @@ const transactionHistoryRoute = createRoute({
 
 const transactionHistoryDetailsRoute = createRoute({
   getParentRoute: () => transactionHistoryRoute,
-  path: transactionRoutes.transactionDetails,
+  path: navigationRoutes.transactionDetails,
   component: TransactionDetailsPage,
+})
+
+const transactionHistoryRoutesRoute = createRoute({
+  getParentRoute: () => transactionHistoryRoute,
+  path: navigationRoutes.routes,
 })
 
 const transactionHistoryRoutesDetailsRoute = createRoute({
-  getParentRoute: () => transactionHistoryRoute,
-  path: `routes/${transactionRoutes.transactionDetails}`,
+  getParentRoute: () => transactionHistoryRoutesRoute,
+  path: navigationRoutes.transactionDetails,
   component: TransactionDetailsPage,
 })
 
-const transactionHistoryRoutesExecutionDetails = createRoute({
-  getParentRoute: () => transactionHistoryRoute,
-  path: `routes/${transactionRoutes.transactionExecution}/${transactionRoutes.transactionDetails}`,
+const transactionHistoryRoutesExecutionRoute = createRoute({
+  getParentRoute: () => transactionHistoryRoutesRoute,
+  path: navigationRoutes.transactionExecution,
+})
+
+const transactionHistoryRoutesExecutionDetailsRoute = createRoute({
+  getParentRoute: () => transactionHistoryRoutesExecutionRoute,
+  path: navigationRoutes.transactionDetails,
   component: TransactionDetailsPage,
 })
 
@@ -196,7 +205,7 @@ const transactionExecutionRoute = createRoute({
 
 const transactionExecutionDetailsRoute = createRoute({
   getParentRoute: () => transactionExecutionRoute,
-  path: transactionRoutes.transactionDetails,
+  path: navigationRoutes.transactionDetails,
   component: TransactionDetailsPage,
 })
 
@@ -211,7 +220,9 @@ const routeTree = rootRoute.addChildren([
   toTokenRoute.addChildren([toTokenToChainRoute]),
   toTokenNativeRoute,
   routesRoute.addChildren([
-    routesActiveTransactionExecutionRoute,
+    routesActiveTransactionsRoute.addChildren([
+      routesActiveTransactionExecutionRoute,
+    ]),
     routesTransactionExecutionRoute.addChildren([
       routesTransactionExecutionDetailsRoute,
     ]),
@@ -226,8 +237,12 @@ const routeTree = rootRoute.addChildren([
   configuredWalletsRoute,
   transactionHistoryRoute.addChildren([
     transactionHistoryDetailsRoute,
-    transactionHistoryRoutesDetailsRoute,
-    transactionHistoryRoutesExecutionDetails,
+    transactionHistoryRoutesRoute.addChildren([
+      transactionHistoryRoutesDetailsRoute,
+      transactionHistoryRoutesExecutionRoute.addChildren([
+        transactionHistoryRoutesExecutionDetailsRoute,
+      ]),
+    ]),
   ]),
 ])
 

@@ -1,7 +1,7 @@
 import type { ExchangeRateUpdateParams } from '@lifi/sdk'
 import Delete from '@mui/icons-material/Delete'
 import { Box, Button, Tooltip } from '@mui/material'
-import { useLocation } from '@tanstack/react-router'
+import { Outlet, useLocation } from '@tanstack/react-router'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
@@ -11,7 +11,7 @@ import { PageContainer } from '../../components/PageContainer.js'
 import { getStepList } from '../../components/Step/StepList.js'
 import { TransactionDetails } from '../../components/TransactionDetails.js'
 import { useAddressActivity } from '../../hooks/useAddressActivity.js'
-import { useHeaderAction } from '../../hooks/useHeaderAction.js'
+import { useHeader } from '../../hooks/useHeader.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useRouteExecution } from '../../hooks/useRouteExecution.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
@@ -21,6 +21,7 @@ import { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { WidgetEvent } from '../../types/events.js'
 import { HiddenUI } from '../../types/widget.js'
 import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
+import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { ConfirmToAddressSheet } from './ConfirmToAddressSheet.js'
 import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet.js'
 import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet.js'
@@ -33,7 +34,17 @@ import {
   getTokenValueLossThreshold,
 } from './utils.js'
 
-export const TransactionPage: React.FC = () => {
+export const TransactionPage = () => {
+  const { pathname } = useLocation()
+
+  if (pathname.endsWith(navigationRoutes.transactionExecution)) {
+    return <TransactionPageComponent />
+  }
+
+  return <Outlet />
+}
+
+export const TransactionPageComponent: React.FC = () => {
   const { t } = useTranslation()
   const { setFieldValue } = useFieldActions()
   const emitter = useWidgetEvents()
@@ -73,6 +84,21 @@ export const TransactionPage: React.FC = () => {
     isFetched: isActivityAddressFetched,
   } = useAddressActivity(route?.toChainId)
 
+  const getHeaderTitle = () => {
+    if (subvariant === 'custom') {
+      return t(`header.${subvariantOptions?.custom ?? 'checkout'}`)
+    }
+    if (route) {
+      const transactionType =
+        route.fromChainId === route.toChainId ? 'swap' : 'bridge'
+      return status === RouteExecutionStatus.Idle
+        ? t(`button.${transactionType}Review`)
+        : t(`header.${transactionType}`)
+    }
+
+    return t('header.exchange')
+  }
+
   const headerAction = useMemo(
     () =>
       status === RouteExecutionStatus.Idle ? (
@@ -85,7 +111,7 @@ export const TransactionPage: React.FC = () => {
     [stateRouteId, status]
   )
 
-  useHeaderAction(headerAction)
+  useHeader(getHeaderTitle(), headerAction)
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: We want to emit event only when the page is mounted
   useEffect(() => {

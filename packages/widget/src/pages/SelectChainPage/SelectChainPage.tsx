@@ -1,21 +1,24 @@
 import type { ExtendedChain } from '@lifi/sdk'
-import { useLocation } from '@tanstack/react-router'
 import { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useChainSelect } from '../../components/ChainSelect/useChainSelect.js'
 import { SelectChainContent } from '../../components/Chains/SelectChainContent.js'
 import { useTokenSelect } from '../../components/TokenList/useTokenSelect.js'
+import { useHeader } from '../../hooks/useHeader.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import type { SelectChainPageProps } from './types.js'
 
-export const SelectChainPage = () => {
-  const { pathname } = useLocation()
-  const formType =
-    pathname === navigationRoutes.fromTokenFromChain ? 'from' : 'to'
-  const selectNativeToken = pathname === navigationRoutes.toTokenNative
-
+export const SelectChainPage: React.FC<SelectChainPageProps> = ({
+  formType,
+  selectNativeToken,
+}) => {
   const navigateBack = useNavigateBack()
   const { setCurrentChain } = useChainSelect(formType)
   const selectToken = useTokenSelect(formType, navigateBack)
+
+  const { t } = useTranslation()
+
+  useHeader(t('header.selectChain'))
 
   const handleClick = useCallback(
     async (chain: ExtendedChain) => {

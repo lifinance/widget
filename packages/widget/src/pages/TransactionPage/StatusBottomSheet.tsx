@@ -24,7 +24,7 @@ import {
 import { getSourceTxHash } from '../../stores/routes/utils.js'
 import { hasEnumFlag } from '../../utils/enum.js'
 import { formatTokenAmount } from '../../utils/format.js'
-import { transactionRoutes } from '../../utils/navigationRoutes.js'
+import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { CenterContainer, IconCircle } from './StatusBottomSheet.style.js'
 
 interface StatusBottomSheetContentProps extends RouteExecution {
@@ -135,7 +135,7 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
     const transactionHash = getSourceTxHash(route)
 
     navigate({
-      to: transactionRoutes.transactionDetails,
+      to: navigationRoutes.transactionDetails,
       search: {
         routeId: route.id,
         transactionHash,

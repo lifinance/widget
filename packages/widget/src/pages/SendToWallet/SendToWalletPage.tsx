@@ -17,6 +17,7 @@ import {
   useAddressValidation,
 } from '../../hooks/useAddressValidation.js'
 import { useChain } from '../../hooks/useChain.js'
+import { useHeader } from '../../hooks/useHeader.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { Bookmark } from '../../stores/bookmarks/types.js'
@@ -25,10 +26,7 @@ import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { HiddenUI, RequiredUI } from '../../types/widget.js'
-import {
-  navigationRoutes,
-  sendToWalletRoutes,
-} from '../../utils/navigationRoutes.js'
+import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { BookmarkAddressSheet } from './BookmarkAddressSheet.js'
 import { ConfirmAddressSheet } from './ConfirmAddressSheet.js'
 import {
@@ -43,7 +41,7 @@ import {
 export const SendToWalletPage: React.FC = () => {
   const { pathname } = useLocation()
 
-  if (pathname === navigationRoutes.sendToWallet) {
+  if (pathname.endsWith(navigationRoutes.sendToWallet)) {
     return <SendToWalletComponent />
   }
 
@@ -79,6 +77,8 @@ const SendToWalletComponent: React.FC = () => {
 
   const { accounts } = useAccount()
   const connectedWallets = accounts.filter((account) => account.isConnected)
+
+  useHeader(t('header.sendToWallet'))
 
   const handleInputChange = (e: ChangeEvent) => {
     if (errorMessage) {
@@ -174,19 +174,19 @@ const SendToWalletComponent: React.FC = () => {
   }
 
   const handleRecentWalletsClick = () => {
-    navigate({ to: sendToWalletRoutes.recentWallets })
+    navigate({ to: navigationRoutes.recentWallets })
   }
 
   const handleConnectedWalletsClick = () => {
-    navigate({ to: sendToWalletRoutes.connectedWallets })
+    navigate({ to: navigationRoutes.connectedWallets })
   }
   const handleBookmarkedWalletsClick = () => {
-    navigate({ to: sendToWalletRoutes.bookmarks })
+    navigate({ to: navigationRoutes.bookmarks })
   }
 
   const handleAddBookmark = (bookmark: Bookmark) => {
     addBookmark(bookmark)
-    navigate({ to: sendToWalletRoutes.bookmarks })
+    navigate({ to: navigationRoutes.bookmarks })
   }
 
   const handleOnConfirm = (confirmedWallet: Bookmark) => {

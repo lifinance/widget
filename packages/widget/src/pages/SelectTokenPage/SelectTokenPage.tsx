@@ -2,9 +2,11 @@ import { Box, type Theme, useMediaQuery } from '@mui/material'
 import { Outlet, useLocation } from '@tanstack/react-router'
 import type { FC } from 'react'
 import { useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ChainSelect } from '../../components/ChainSelect/ChainSelect.js'
 import { FullPageContainer } from '../../components/FullPageContainer.js'
 import { TokenList } from '../../components/TokenList/TokenList.js'
+import { useHeader } from '../../hooks/useHeader.js'
 import { useScrollableOverflowHidden } from '../../hooks/useScrollableContainer.js'
 import { useSwapOnly } from '../../hooks/useSwapOnly.js'
 import { useWideVariant } from '../../hooks/useWideVariant.js'
@@ -17,11 +19,11 @@ import { SearchTokenInput } from './SearchTokenInput.js'
 export const SelectTokenPage = () => {
   const { pathname } = useLocation()
 
-  if (pathname === navigationRoutes.fromToken) {
+  if (pathname.endsWith(navigationRoutes.fromToken)) {
     return <SelectTokenComponent formType="from" />
   }
 
-  if (pathname === navigationRoutes.toToken) {
+  if (pathname.endsWith(navigationRoutes.toToken)) {
     return <SelectTokenComponent formType="to" />
   }
 
@@ -35,8 +37,18 @@ const SelectTokenComponent: FC<FormTypeProps> = ({ formType }) => {
 
   const swapOnly = useSwapOnly()
 
-  const { hiddenUI, subvariantOptions } = useWidgetConfig()
+  const { subvariant, hiddenUI, subvariantOptions } = useWidgetConfig()
   const wideVariant = useWideVariant()
+
+  const { t } = useTranslation()
+  const title =
+    formType === 'from'
+      ? subvariant === 'custom'
+        ? t('header.payWith')
+        : t('header.from')
+      : t('header.to')
+
+  useHeader(title)
 
   const hideChainSelect =
     (wideVariant && subvariantOptions?.wide?.enableChainSidebar) ||

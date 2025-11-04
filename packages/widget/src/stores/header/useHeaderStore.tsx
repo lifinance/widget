@@ -63,9 +63,20 @@ const createHeaderStore = () =>
       }))
       return get().removeAction
     },
+    setTitle: (title) => {
+      set(() => ({
+        title,
+      }))
+      return get().removeTitle
+    },
     removeAction: () => {
       set(() => ({
         element: null,
+      }))
+    },
+    removeTitle: () => {
+      set(() => ({
+        title: undefined,
       }))
     },
     setHeaderHeight: (headerHeight) => {

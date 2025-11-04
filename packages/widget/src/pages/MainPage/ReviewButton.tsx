@@ -7,7 +7,7 @@ import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useSplitSubvariantStore } from '../../stores/settings/useSplitSubvariantStore.js'
 import { WidgetEvent } from '../../types/events.js'
-import { transactionRoutes } from '../../utils/navigationRoutes.js'
+import { navigationRoutes } from '../../utils/navigationRoutes.js'
 
 export const ReviewButton: React.FC = () => {
   const { t } = useTranslation()
@@ -27,7 +27,7 @@ export const ReviewButton: React.FC = () => {
 
     setReviewableRoute(currentRoute)
     navigate({
-      to: transactionRoutes.transactionExecution,
+      to: navigationRoutes.transactionExecution,
       search: { routeId: currentRoute.id },
     })
     emitter.emit(WidgetEvent.RouteSelected, {

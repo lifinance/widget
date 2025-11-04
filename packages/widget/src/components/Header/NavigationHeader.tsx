@@ -1,7 +1,6 @@
 import { useAccount } from '@lifi/wallet-management'
 import { Box, Typography } from '@mui/material'
 import { useLocation, useNavigate } from '@tanstack/react-router'
-import { useHeaderTitle } from '../../hooks/useHeaderTitle.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useHeaderStore } from '../../stores/header/useHeaderStore.js'
@@ -10,7 +9,6 @@ import {
   backButtonRoutes,
   navigationRoutes,
   navigationRoutesValues,
-  transactionRoutes,
 } from '../../utils/navigationRoutes.js'
 import { BackButton } from './BackButton.js'
 import { CloseDrawerButton } from './CloseDrawerButton.js'
@@ -25,21 +23,26 @@ export const NavigationHeader: React.FC = () => {
   const navigateBack = useNavigateBack()
   const navigate = useNavigate()
   const { account } = useAccount()
-  const element = useHeaderStore((state) => state.element)
-  const title = useHeaderTitle()
+  const [element, title] = useHeaderStore((state) => [
+    state.element,
+    state.title,
+  ])
   const { pathname } = useLocation()
-  const isHome = pathname === navigationRoutes.home
-  const hasPath = navigationRoutesValues.includes(pathname) && !isHome
+  const cleanedPathname = pathname.endsWith('/')
+    ? pathname.slice(0, -1)
+    : pathname
+  const path = cleanedPathname.substring(cleanedPathname.lastIndexOf('/') + 1)
+  const hasPath = navigationRoutesValues.includes(path)
 
   const showSplitOptions =
     subvariant === 'split' && !hasPath && !subvariantOptions?.split
 
   return (
     <HeaderAppBar elevation={0} sx={{ paddingTop: 1, paddingBottom: 0.5 }}>
-      {backButtonRoutes.includes(pathname) ? (
+      {backButtonRoutes.includes(path) ? (
         <BackButton
           onClick={() => {
-            if (pathname.includes(transactionRoutes.transactionDetails)) {
+            if (path === navigationRoutes.transactionDetails) {
               navigate({ to: navigationRoutes.home, replace: true })
             } else {
               navigateBack()

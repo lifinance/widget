@@ -6,7 +6,7 @@ import { useNavigate } from '@tanstack/react-router'
 import { useProcessMessage } from '../../hooks/useProcessMessage.js'
 import { useRouteExecution } from '../../hooks/useRouteExecution.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
-import { transactionRoutes } from '../../utils/navigationRoutes.js'
+import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { TokenAvatarGroup } from '../Avatar/Avatar.style.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
 import { StepTimer } from '../Timer/StepTimer.js'
@@ -33,7 +33,7 @@ export const ActiveTransactionItem: React.FC<{
 
   const handleClick = () => {
     navigate({
-      to: transactionRoutes.transactionExecution,
+      to: navigationRoutes.transactionExecution,
       search: { routeId },
     })
   }

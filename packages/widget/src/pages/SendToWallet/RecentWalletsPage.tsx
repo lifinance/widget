@@ -14,6 +14,7 @@ import { ListItem } from '../../components/ListItem/ListItem.js'
 import { ListItemButton } from '../../components/ListItem/ListItemButton.js'
 import { Menu } from '../../components/Menu.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
+import { useHeader } from '../../hooks/useHeader.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import type { Bookmark } from '../../stores/bookmarks/types.js'
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
@@ -21,10 +22,7 @@ import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
 import { defaultChainIdsByType } from '../../utils/chainType.js'
-import {
-  navigationRoutes,
-  sendToWalletRoutes,
-} from '../../utils/navigationRoutes.js'
+import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { BookmarkAddressSheet } from './BookmarkAddressSheet.js'
 import { EmptyListIndicator } from './EmptyListIndicator.js'
@@ -54,6 +52,8 @@ export const RecentWalletsPage = () => {
   const open = Boolean(moreMenuAnchorEl)
   const { getAddressLink } = useExplorer()
 
+  useHeader(t('header.recentWallets'))
+
   const handleRecentSelected = (recentWallet: Bookmark) => {
     addRecentWallet(recentWallet)
     setFieldValue('toAddress', recentWallet.address, {
@@ -70,7 +70,7 @@ export const RecentWalletsPage = () => {
 
   const handleAddBookmark = (bookmark: Bookmark) => {
     addBookmark(bookmark)
-    navigate({ to: sendToWalletRoutes.bookmarks, replace: true })
+    navigate({ to: navigationRoutes.bookmarks, replace: true })
   }
 
   const closeMenu = () => {

@@ -1,5 +1,4 @@
 import { Checkbox, debounce, Tooltip } from '@mui/material'
-import { useLocation } from '@tanstack/react-router'
 import type { ChangeEvent } from 'react'
 import {
   type FormEventHandler,
@@ -13,12 +12,11 @@ import { FullPageContainer } from '../components/FullPageContainer.js'
 import { StickySearchInput } from '../components/Search/SearchInput.js'
 import { type ToolCollectionTypes, Tools } from '../components/Tools/Tools.js'
 import { useDefaultElementId } from '../hooks/useDefaultElementId.js'
-import { useHeaderAction } from '../hooks/useHeaderAction.js'
+import { useHeader } from '../hooks/useHeader.js'
 import { useScrollableContainer } from '../hooks/useScrollableContainer.js'
 import { useTools } from '../hooks/useTools.js'
 import { useSettingsStore } from '../stores/settings/SettingsStore.js'
 import { useSettingsActions } from '../stores/settings/useSettingsActions.js'
-import { navigationRoutes } from '../utils/navigationRoutes.js'
 
 interface SelectAllCheckboxProps {
   allCheckboxesSelected: boolean
@@ -56,9 +54,9 @@ const SelectAllCheckbox = memo<SelectAllCheckboxProps>(
   }
 )
 
-export const SelectEnabledToolsPage = () => {
-  const { pathname } = useLocation()
-  const type = pathname === navigationRoutes.bridges ? 'Bridges' : 'Exchanges'
+export const SelectEnabledToolsPage: React.FC<{
+  type: 'Bridges' | 'Exchanges'
+}> = ({ type }) => {
   const typeKey = type.toLowerCase() as 'bridges' | 'exchanges'
   const { tools } = useTools()
   const { toggleToolKeys } = useSettingsActions()
@@ -108,7 +106,7 @@ export const SelectEnabledToolsPage = () => {
     [disabledTools, handleSelectAll, filteredTools]
   )
 
-  useHeaderAction(headerAction)
+  useHeader(t(`settings.enabled${type}`), headerAction)
 
   const handleSearchInputChange: FormEventHandler<HTMLInputElement> =
     useCallback(

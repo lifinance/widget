@@ -9,6 +9,7 @@ import { getStepList } from '../../components/Step/StepList.js'
 import { TransactionDetails } from '../../components/TransactionDetails.js'
 import { internalExplorerUrl } from '../../config/constants.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
+import { useHeader } from '../../hooks/useHeader.js'
 import { useTools } from '../../hooks/useTools.js'
 import { useTransactionDetails } from '../../hooks/useTransactionDetails.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
@@ -21,10 +22,14 @@ import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton.js'
 import { TransferIdCard } from './TransferIdCard.js'
 
 export const TransactionDetailsPage: React.FC = () => {
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
   const navigate = useNavigate()
-  const { subvariant, contractSecondaryComponent, explorerUrls } =
-    useWidgetConfig()
+  const {
+    subvariant,
+    subvariantOptions,
+    contractSecondaryComponent,
+    explorerUrls,
+  } = useWidgetConfig()
   const { search }: any = useLocation()
   const { tools } = useTools()
   const { getTransactionLink } = useExplorer()
@@ -34,6 +39,12 @@ export const TransactionDetailsPage: React.FC = () => {
   const { transaction, isLoading } = useTransactionDetails(
     !storedRouteExecution && search?.transactionHash
   )
+
+  const title =
+    subvariant === 'custom'
+      ? t(`header.${subvariantOptions?.custom ?? 'checkout'}Details`)
+      : t('header.transactionDetails')
+  useHeader(title)
 
   const routeExecution = useMemo(() => {
     if (storedRouteExecution) {
