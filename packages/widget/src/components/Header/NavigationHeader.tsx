@@ -42,7 +42,7 @@ export const NavigationHeader: React.FC = () => {
       {backButtonRoutes.includes(path) ? (
         <BackButton
           onClick={() => {
-            if (path === navigationRoutes.transactionDetails) {
+            if (path.endsWith(navigationRoutes.transactionDetails)) {
               navigate({ to: navigationRoutes.home, replace: true })
             } else {
               navigateBack()

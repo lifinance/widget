@@ -13,9 +13,9 @@ export const useHasChainExpansion = () => {
   const expansionType =
     pathname === navigationRoutes.home
       ? ExpansionType.Routes
-      : pathname === `/${navigationRoutes.fromToken}`
+      : pathname.endsWith(navigationRoutes.fromToken)
         ? ExpansionType.FromChain
-        : pathname === `/${navigationRoutes.toToken}`
+        : pathname.endsWith(navigationRoutes.toToken)
           ? ExpansionType.ToChain
           : null
 
