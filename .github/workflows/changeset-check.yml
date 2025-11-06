@@ -21,8 +21,8 @@ jobs:
             exit 0
           fi
           
-          # Check if PR has any changeset files
-          CHANGESET_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '^\.changeset/.*\.md$' || true)
+          # Check if PR has any changeset files (exclude README.md and config.json)
+          CHANGESET_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '^\.changeset/.*\.md$' | grep -v 'README\.md$' || true)
           
           if [ -z "$CHANGESET_FILES" ]; then
             echo "❌ No changeset found!"
