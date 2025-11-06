@@ -1,0 +1,40 @@
+name: Changeset Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Check for changesets
+        run: |
+          # Only check if PR is targeting main branch
+          if [ "${{ github.base_ref }}" != "main" ]; then
+            echo "⚠️  Skipping changeset check (not targeting main branch)"
+            exit 0
+          fi
+          
+          # Check if PR has any changeset files
+          CHANGESET_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '^\.changeset/.*\.md$' || true)
+          
+          if [ -z "$CHANGESET_FILES" ]; then
+            echo "❌ No changeset found!"
+            echo ""
+            echo "This PR requires a changeset to be added. Please run:"
+            echo "  pnpm changeset"
+            echo ""
+            echo "This will help you create a changeset file describing your changes."
+            echo "Changeset files should be added to the .changeset/ directory."
+            exit 1
+          else
+            echo "✓ Changeset found:"
+            echo "$CHANGESET_FILES" | sed 's/^/  - /'
+          fi
+

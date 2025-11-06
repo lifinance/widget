@@ -123,6 +123,34 @@ If you'd like to contribute translations, please visit our Crowdin project page 
 
 Thank you for your support!
 
+## Contributing
+
+### Adding Changesets
+
+When making changes that affect package versions, you need to create a changeset:
+
+1. Run `pnpm changeset` to create a new changeset file
+2. Select the packages affected by your changes
+3. Choose the version bump type (patch, minor, or major)
+4. Write a description of your changes
+5. Commit the changeset file along with your changes
+
+Changesets accumulate in the `.changeset/` directory and can be batched together before versioning.
+
+### Creating a Version PR
+
+When you're ready to release (after multiple changesets have been merged to `main`):
+
+1. Go to the [GitHub Actions](https://github.com/lifinance/widget/actions) page
+2. Select the "Changesets Version" workflow
+3. Click "Run workflow" button and confirm
+4. This will create a "Version Packages" PR with all accumulated changesets
+5. Review and merge the version PR to bump versions and update changelogs
+6. After merging, create and push a git tag matching the new version (e.g., `v3.34.2`)
+7. Pushing the tag will automatically trigger the publish workflow to build and publish packages to npm
+
+This allows multiple changes to be batched into a single release version.
+
 ## Changelog
 
 The [changelog](/CHANGELOG.md) is regularly updated to reflect what's changed in each new release.
