@@ -1,9 +1,10 @@
 'use client'
-import { forwardRef, useMemo } from 'react'
+import { forwardRef, type ReactNode, useMemo } from 'react'
 import { AppDefault } from './AppDefault.js'
 import type { WidgetDrawer } from './AppDrawer.js'
 import { AppDrawer } from './AppDrawer.js'
 import { AppProvider } from './AppProvider.js'
+import { ShadowRootProvider } from './providers/ShadowRootProvider.js'
 import type { WidgetConfig, WidgetProps } from './types/widget.js'
 
 export const App = forwardRef<WidgetDrawer, WidgetProps>((props, ref) => {
@@ -21,8 +22,9 @@ export const App = forwardRef<WidgetDrawer, WidgetProps>((props, ref) => {
     return config
   }, [props])
 
+  let widget: ReactNode
   if (config.variant === 'drawer') {
-    return (
+    widget = (
       <AppProvider config={config} formRef={props.formRef}>
         <AppDrawer
           ref={ref}
@@ -35,11 +37,17 @@ export const App = forwardRef<WidgetDrawer, WidgetProps>((props, ref) => {
         </AppDrawer>
       </AppProvider>
     )
+  } else {
+    widget = (
+      <AppProvider config={config} formRef={props.formRef}>
+        <AppDefault />
+      </AppProvider>
+    )
   }
 
-  return (
-    <AppProvider config={config} formRef={props.formRef}>
-      <AppDefault />
-    </AppProvider>
+  return config?.inShadowRoot ? (
+    <ShadowRootProvider>{widget}</ShadowRootProvider>
+  ) : (
+    widget
   )
 })

@@ -339,6 +339,8 @@ export interface WidgetConfig {
   buildUrl?: boolean
   keyPrefix?: string
 
+  inShadowRoot?: boolean
+
   bridges?: AllowDeny<string>
   exchanges?: AllowDeny<string>
   chains?: WidgetChains
