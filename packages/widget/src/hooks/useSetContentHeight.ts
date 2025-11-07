@@ -1,7 +1,8 @@
 import type { RefObject } from 'react'
 import { useLayoutEffect } from 'react'
-import { getRelativeContainer } from '../utils/elements.js'
+import { ElementId } from '../utils/elements.js'
 import { useDefaultElementId } from './useDefaultElementId.js'
+import { useElementContainer } from './useElementContainer.js'
 
 // NOTE: this hook is implicitly tied to the widget height functionality in the
 //   AppExpandedContainer, RelativeContainer and CssBaselineContainer components as defined in AppContainer.ts
@@ -12,9 +13,12 @@ export const useSetContentHeight = (
   dependency?: unknown
 ) => {
   const elementId = useDefaultElementId()
+  const relativeContainer = useElementContainer(
+    ElementId.RelativeContainer,
+    elementId
+  )
   // biome-ignore lint/correctness/useExhaustiveDependencies: we use dependency to refresh height
   useLayoutEffect(() => {
-    const relativeContainer = getRelativeContainer(elementId)
     if (
       !relativeContainer ||
       !ref.current ||
@@ -26,5 +30,5 @@ export const useSetContentHeight = (
     return () => {
       relativeContainer.style.removeProperty('min-height')
     }
-  }, [elementId, ref, dependency])
+  }, [elementId, ref, dependency, relativeContainer])
 }

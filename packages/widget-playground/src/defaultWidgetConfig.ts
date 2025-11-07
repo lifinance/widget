@@ -71,26 +71,26 @@ export const widgetBaseConfig: WidgetConfig = {
       // fee: 0.05
     },
   },
-  theme: {
-    //   palette: {
-    //     primary: { main: '#FFCF7D' },
-    //     secondary: { main: '#FFCF7D' },
-    //     background: {
-    //       paper: 'rgba(14, 35, 48, 0.4)', // background cards
-    //       default: 'rgba(0, 0, 0, 0)', // background container
-    //     },
-    //     grey: {
-    //       300: '#5C4219', // border light theme
-    //       800: '#5C4219', // border dark theme
-    //     },
-    //   },
-    // },
-    // chains: {
-    //   types: {
-    //     allow: [ChainType.EVM],
-    //   },
-    //   allow: [ChainId.ETH, ChainId.OPT],
-  },
+  // theme: {
+  //   palette: {
+  //     primary: { main: '#FFCF7D' },
+  //     secondary: { main: '#FFCF7D' },
+  //     background: {
+  //       paper: 'rgba(14, 35, 48, 0.4)', // background cards
+  //       default: 'rgba(0, 0, 0, 0)', // background container
+  //     },
+  //     grey: {
+  //       300: '#5C4219', // border light theme
+  //       800: '#5C4219', // border dark theme
+  //     },
+  //   },
+  // },
+  // chains: {
+  //   types: {
+  //     allow: [ChainType.EVM],
+  //   },
+  //   allow: [ChainId.ETH, ChainId.OPT],
+  // },
   tokens: {
     featured: [
       {

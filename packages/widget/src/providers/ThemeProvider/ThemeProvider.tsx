@@ -12,7 +12,7 @@ export const ThemeProvider: React.FC<React.PropsWithChildren> = ({
 }) => {
   const { appearance: colorSchemeMode, theme: themeConfig } = useWidgetConfig()
   const { setMode } = useColorScheme()
-  const shadowRootElement = useShadowRoot()
+  const shadowRoot = useShadowRoot()
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: setMode is stable
   useEffect(() => {
@@ -21,7 +21,10 @@ export const ThemeProvider: React.FC<React.PropsWithChildren> = ({
     }
   }, [colorSchemeMode])
 
-  const theme = useMemo(() => createTheme(themeConfig), [themeConfig])
+  const theme = useMemo(
+    () => createTheme(themeConfig, shadowRoot),
+    [themeConfig, shadowRoot]
+  )
 
   return (
     <MuiThemeProvider
@@ -30,7 +33,7 @@ export const ThemeProvider: React.FC<React.PropsWithChildren> = ({
       modeStorageKey="li.fi-widget-mode"
       colorSchemeStorageKey="li.fi-widget-color-scheme"
       disableTransitionOnChange
-      colorSchemeNode={shadowRootElement}
+      colorSchemeNode={shadowRoot?.firstElementChild as Element}
     >
       {children}
     </MuiThemeProvider>

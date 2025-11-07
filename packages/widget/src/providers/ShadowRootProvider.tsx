@@ -9,7 +9,7 @@ import {
   useRef,
 } from 'react'
 
-const ShadowRootContext = createContext<HTMLDivElement | undefined>(undefined)
+const ShadowRootContext = createContext<ShadowRoot | undefined>(undefined)
 
 export const useShadowRoot = () => useContext(ShadowRootContext)
 
@@ -39,7 +39,7 @@ export function ShadowRootProvider({ children }: PropsWithChildren) {
     import('react-dom/client').then(({ createRoot }) => {
       const root = createRoot(shadowContainer)
       root.render(
-        <ShadowRootContext.Provider value={shadowContainer}>
+        <ShadowRootContext.Provider value={shadowRoot}>
           <CacheProvider value={cache}>{children}</CacheProvider>
         </ShadowRootContext.Provider>
       )

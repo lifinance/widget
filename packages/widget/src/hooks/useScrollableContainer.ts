@@ -1,35 +1,48 @@
 import { useCallback, useLayoutEffect, useState } from 'react'
-import { getScrollableContainer } from '../utils/elements.js'
+import { ElementId } from '../utils/elements.js'
 import { useDefaultElementId } from './useDefaultElementId.js'
+import { useElementContainer } from './useElementContainer.js'
 
 export const useGetScrollableContainer = () => {
   const elementId = useDefaultElementId()
+  const scrollableContainer = useElementContainer(
+    ElementId.ScrollableContainer,
+    elementId
+  )
   const getContainer = useCallback(
-    () => getScrollableContainer(elementId),
-    [elementId]
+    () => scrollableContainer,
+    [scrollableContainer]
   )
 
   return getContainer
 }
 
 export const useScrollableContainer = (elementId: string) => {
-  const [containerElement, setContainerElement] = useState(() =>
-    getScrollableContainer(elementId)
+  const scrollableContainer = useElementContainer(
+    ElementId.ScrollableContainer,
+    elementId
+  )
+  const [containerElement, setContainerElement] = useState(
+    () => scrollableContainer
   )
 
   useLayoutEffect(() => {
     if (!containerElement) {
-      setContainerElement(getScrollableContainer(elementId))
+      setContainerElement(scrollableContainer)
     }
-  }, [containerElement, elementId])
+  }, [containerElement, scrollableContainer])
 
   return containerElement
 }
 
 export const useScrollableOverflowHidden = () => {
   const elementId = useDefaultElementId()
+  const scrollableContainer = useElementContainer(
+    ElementId.ScrollableContainer,
+    elementId
+  )
   useLayoutEffect(() => {
-    const element = getScrollableContainer(elementId)
+    const element = scrollableContainer
     if (element) {
       element.style.overflowY = 'hidden'
     }
@@ -38,5 +51,5 @@ export const useScrollableOverflowHidden = () => {
         element.style.overflowY = 'auto'
       }
     }
-  }, [elementId])
+  }, [scrollableContainer])
 }
