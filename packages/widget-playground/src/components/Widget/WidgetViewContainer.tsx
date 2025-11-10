@@ -92,7 +92,7 @@ export function WidgetViewContainer({
             }
             widgetContainer={config?.theme?.container}
           >
-            {children}
+            <ShadowRootWrapper>{children}</ShadowRootWrapper>
           </WidgetContainerRow>
           {showFooter ? (
             <MockElement
@@ -109,4 +109,24 @@ export function WidgetViewContainer({
       </ExternalWalletProvider>
     </Main>
   )
+}
+
+const ShadowRootWrapper = ({ children }: PropsWithChildren) => {
+  const { config } = useConfig()
+  if (config?.inShadowRoot) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'start',
+          boxSizing: 'border-box',
+          flex: 1,
+        }}
+      >
+        {children}
+      </Box>
+    )
+  }
+  return children
 }

@@ -32,15 +32,13 @@ export function WidgetView() {
   return (
     <WidgetViewContainer toggleDrawer={toggleDrawer}>
       {!isSkeletonShown || isSkeletonSideBySide ? (
-        <div style={{ margin: 'auto' }}>
-          <LiFiWidget
-            config={config}
-            ref={drawerRef}
-            integrator="li.fi-playground"
-            formRef={formRef}
-            open
-          />
-        </div>
+        <LiFiWidget
+          config={config}
+          ref={drawerRef}
+          integrator="li.fi-playground"
+          formRef={formRef}
+          open
+        />
       ) : null}
       {isSkeletonShown ? <WidgetSkeleton config={config} /> : null}
     </WidgetViewContainer>
