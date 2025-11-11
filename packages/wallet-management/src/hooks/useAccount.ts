@@ -3,8 +3,11 @@ import { useAccount as useBigmiAccount } from '@bigmi/react'
 import { ChainId, ChainType } from '@lifi/sdk'
 import { useCurrentWallet } from '@mysten/dapp-kit'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
-import type { WalletAdapter } from '@solana/wallet-adapter-base'
-import { useWallet } from '@solana/wallet-adapter-react'
+import type { WalletConnector as SolanaWalletConnector } from '@solana/client-core'
+import {
+  useWalletSession,
+  useWalletStandardConnectors,
+} from '@solana/react-hooks'
 import { useMemo } from 'react'
 import type { Connector } from 'wagmi'
 import { useAccount as useAccountInternal } from 'wagmi'
@@ -28,7 +31,7 @@ export interface AccountBase<
 }
 
 export type EVMAccount = AccountBase<ChainType.EVM, Connector>
-export type SVMAccount = AccountBase<ChainType.SVM, WalletAdapter>
+export type SVMAccount = AccountBase<ChainType.SVM, SolanaWalletConnector>
 export type UTXOAccount = AccountBase<ChainType.UTXO, BigmiConnector>
 export type MVMAccount = AccountBase<ChainType.MVM, WalletWithRequiredFeatures>
 export type DefaultAccount = AccountBase<ChainType>
@@ -62,7 +65,7 @@ const defaultAccount: AccountBase<ChainType> = {
 }
 
 export type LastConnectedAccount =
-  | WalletAdapter
+  | SolanaWalletConnector
   | Connector
   | BigmiConnector
   | CreateConnectorFnExtended
@@ -89,22 +92,26 @@ export const useLastConnectedAccount = create<LastConnectedAccountStore>(
 export const useAccount = (args?: UseAccountArgs): AccountResult => {
   const bigmiAccount = useBigmiAccount()
   const wagmiAccount = useAccountInternal()
-  const { wallet } = useWallet()
+  const session = useWalletSession()
   const { currentWallet, connectionStatus } = useCurrentWallet()
   const { lastConnectedAccount } = useLastConnectedAccount()
+  const svmWalletConnectors = useWalletStandardConnectors()
+  const activeSVMConnector = svmWalletConnectors.find(
+    (connector) => connector.id === session?.connector.id
+  )
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when wallet changes
   return useMemo(() => {
-    const svm: Account = wallet?.adapter.publicKey
+    const svm: Account = session?.account.publicKey
       ? {
-          address: wallet?.adapter.publicKey.toString(),
+          address: session?.account.publicKey.toString(),
           chainId: ChainId.SOL,
           chainType: ChainType.SVM,
-          connector: wallet?.adapter,
-          isConnected: Boolean(wallet?.adapter.publicKey),
+          connector: activeSVMConnector,
+          isConnected: Boolean(session?.account.publicKey),
           isConnecting: false,
           isReconnecting: false,
-          isDisconnected: !wallet,
+          isDisconnected: !session,
           status: 'connected',
         }
       : {
@@ -169,7 +176,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
             (account.connector as Connector)?.id
           const connectorNameMatch =
             !(lastConnectedAccount as Connector)?.id &&
-            (lastConnectedAccount as WalletAdapter)?.name ===
+            (lastConnectedAccount as SolanaWalletConnector)?.name ===
               account.connector?.name
           return connectorIdMatch || connectorNameMatch
         }) || connectedAccounts[0]
@@ -181,7 +188,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
       accounts: connectedAccounts,
     }
   }, [
-    wallet?.adapter.publicKey,
+    session?.account.publicKey,
     wagmiAccount.connector?.uid,
     wagmiAccount.connector?.id,
     wagmiAccount.status,

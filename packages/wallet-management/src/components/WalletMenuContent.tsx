@@ -13,7 +13,7 @@ import {
   Typography,
 } from '@mui/material'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
-import type { WalletAdapter } from '@solana/wallet-adapter-base'
+import type { WalletConnector as SolanaWalletConnector } from '@solana/client-core'
 import { useMemo, useReducer, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Connector } from 'wagmi'
@@ -199,7 +199,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
             key={key}
             ecosystemSelection={ecosystemSelection}
             tagType={tagType}
-            walletAdapter={connector as WalletAdapter}
+            connector={connector as SolanaWalletConnector}
             onConnected={onClose}
             onConnecting={() => handleConnecting(id)}
             onError={(error) => handleError(id, error)}
