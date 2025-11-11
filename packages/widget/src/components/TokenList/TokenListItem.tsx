@@ -1,6 +1,8 @@
 import type { StaticToken } from '@lifi/sdk'
 import { ChainType } from '@lifi/sdk'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
+import PushPinIcon from '@mui/icons-material/PushPin'
+import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined'
 import {
   Avatar,
   Box,
@@ -15,6 +17,7 @@ import type { MouseEventHandler } from 'react'
 import { memo, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLongPress } from '../../hooks/useLongPress.js'
+import { usePinnedTokensStore } from '../../stores/pinnedTokens/PinnedTokensStore.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
@@ -104,11 +107,48 @@ const OpenTokenDetailsButton = ({
       size="small"
       onClick={(e) => {
         e.stopPropagation()
-        e.currentTarget.blur() // Remove focus to prevent accessibility issues when opening drawer
+        ;(e.currentTarget as HTMLElement).blur() // Remove focus to prevent accessibility issues when opening drawer
         onClick(tokenAddress, withoutContractAddress, chainId)
       }}
     >
       <InfoOutlinedIcon />
+    </IconButton>
+  )
+}
+
+interface PinTokenButtonProps {
+  chainId: number
+  tokenAddress: string
+}
+
+const PinTokenButton = ({ chainId, tokenAddress }: PinTokenButtonProps) => {
+  const pinnedTokens = usePinnedTokensStore((state) => state.pinnedTokens)
+  const pinToken = usePinnedTokensStore((state) => state.pinToken)
+  const unpinToken = usePinnedTokensStore((state) => state.unpinToken)
+
+  const isPinned =
+    pinnedTokens[chainId]?.includes(tokenAddress.toLowerCase()) ?? false
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    ;(e.currentTarget as HTMLElement).blur()
+    if (isPinned) {
+      unpinToken(chainId, tokenAddress)
+    } else {
+      pinToken(chainId, tokenAddress)
+    }
+  }
+
+  const PinIcon = isPinned ? PushPinIcon : PushPinOutlinedIcon
+
+  return (
+    <IconButton size="small" onClick={handleClick}>
+      <PinIcon
+        sx={{
+          fontSize: 18,
+          color: isPinned ? 'text.primary' : 'text.secondary',
+        }}
+      />
     </IconButton>
   )
 }
@@ -229,8 +269,14 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
                     <Box
                       sx={{
                         display: 'flex',
+                        alignItems: 'center',
+                        gap: 0.5,
                       }}
                     >
+                      <PinTokenButton
+                        chainId={token.chainId}
+                        tokenAddress={token.address}
+                      />
                       <OpenTokenDetailsButton
                         tokenAddress={token.address}
                         withoutContractAddress={withoutContractAddress}
@@ -279,6 +325,8 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
                   <Box
                     sx={{
                       display: 'flex',
+                      alignItems: 'center',
+                      gap: 0.5,
                     }}
                   >
                     <Box
@@ -290,6 +338,10 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
                     >
                       {shortenAddress(token.address)}
                     </Box>
+                    <PinTokenButton
+                      chainId={token.chainId}
+                      tokenAddress={token.address}
+                    />
                     <OpenTokenDetailsButton
                       tokenAddress={token.address}
                       withoutContractAddress={withoutContractAddress}

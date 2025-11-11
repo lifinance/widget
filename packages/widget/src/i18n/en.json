@@ -237,6 +237,7 @@
     "myTokens": "My tokens",
     "onChain": "on {{chainName}}",
     "ownedBy": "Owned by",
+    "pinnedTokens": "Pinned tokens",
     "popularTokens": "Popular tokens",
     "priceImpact": "Price impact",
     "process": {

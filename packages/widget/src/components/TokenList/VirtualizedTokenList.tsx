@@ -66,23 +66,42 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
       // Base size for TokenListItem
       let size = tokenItemHeight
 
-      // Early return if categories are not shown
+      const previousToken = tokens[index - 1]
+
+      // Always account for pinned tokens category (even in all networks mode)
+      if (currentToken.pinned && index === 0) {
+        size += 24
+      }
+
+      // Adjust size when transitioning from pinned tokens (works in all networks mode too)
+      if (previousToken?.pinned && !currentToken.pinned) {
+        size += 32
+      }
+
+      // Early return if categories are not shown (for other categories)
       if (!showCategories) {
         return size
       }
 
-      const previousToken = tokens[index - 1]
-
-      // Adjust size for the first featured token
-      if (currentToken.featured && index === 0) {
+      // Adjust size for the first featured token (if not pinned)
+      if (currentToken.featured && !currentToken.pinned && index === 0) {
         size += 24
       }
 
       // Adjust size based on changes between the current and previous tokens
       const isCategoryChanged =
-        (previousToken?.amount && !currentToken.amount) ||
-        (previousToken?.featured && !currentToken.featured) ||
-        (previousToken?.popular && !currentToken.popular)
+        (previousToken?.amount &&
+          !currentToken.amount &&
+          !currentToken.pinned &&
+          !previousToken?.pinned) ||
+        (previousToken?.featured &&
+          !currentToken.featured &&
+          !currentToken.pinned &&
+          !previousToken?.pinned) ||
+        (previousToken?.popular &&
+          !currentToken.popular &&
+          !currentToken.pinned &&
+          !previousToken?.pinned)
 
       if (isCategoryChanged) {
         size += 32
@@ -138,44 +157,73 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
 
           const chain = chainsSet?.get(currentToken.chainId)
 
-          const isFirstFeaturedToken = currentToken.featured && item.index === 0
+          const isFirstPinnedToken = currentToken.pinned && item.index === 0
+
+          const isTransitionFromPinnedTokens =
+            previousToken?.pinned && !currentToken.pinned
+
+          const isFirstFeaturedToken =
+            currentToken.featured && !currentToken.pinned && item.index === 0
 
           const isTransitionFromFeaturedTokens =
-            previousToken?.featured && !currentToken.featured
+            previousToken?.featured &&
+            !currentToken.featured &&
+            !currentToken.pinned
 
           const isTransitionFromMyTokens =
-            previousToken?.amount && !currentToken.amount
+            previousToken?.amount &&
+            !currentToken.amount &&
+            !currentToken.pinned
 
           const isTransitionToMyTokens =
-            isTransitionFromFeaturedTokens && currentToken.amount
+            (isTransitionFromFeaturedTokens || isTransitionFromPinnedTokens) &&
+            currentToken.amount &&
+            !currentToken.pinned
 
           const isTransitionToPopularTokens =
-            (isTransitionFromFeaturedTokens || isTransitionFromMyTokens) &&
-            currentToken.popular
+            (isTransitionFromFeaturedTokens ||
+              isTransitionFromMyTokens ||
+              isTransitionFromPinnedTokens) &&
+            currentToken.popular &&
+            !currentToken.pinned
 
           const shouldShowAllTokensCategory =
             isTransitionFromMyTokens ||
             isTransitionFromFeaturedTokens ||
-            (previousToken?.popular && !currentToken.popular)
+            isTransitionFromPinnedTokens ||
+            (previousToken?.popular &&
+              !currentToken.popular &&
+              !currentToken.pinned)
 
-          const startAdornmentLabel =
-            !isAllNetworks && showCategories
-              ? (() => {
-                  if (isFirstFeaturedToken) {
-                    return t('main.featuredTokens')
-                  }
-                  if (isTransitionToMyTokens) {
-                    return t('main.myTokens')
-                  }
-                  if (isTransitionToPopularTokens) {
-                    return t('main.popularTokens')
-                  }
-                  if (shouldShowAllTokensCategory) {
-                    return t('main.allTokens')
-                  }
-                  return null
-                })()
-              : null
+          const startAdornmentLabel = (() => {
+            // Always show pinned tokens category if it's the first pinned token
+            if (isFirstPinnedToken) {
+              return t('main.pinnedTokens')
+            }
+            // Show "All tokens" category when transitioning from pinned in all networks mode
+            if (isAllNetworks && isTransitionFromPinnedTokens) {
+              return t('main.allTokens')
+            }
+            // Show other categories only when not in all networks mode
+            if (!isAllNetworks && showCategories) {
+              if (isTransitionFromPinnedTokens && currentToken.featured) {
+                return t('main.featuredTokens')
+              }
+              if (isFirstFeaturedToken) {
+                return t('main.featuredTokens')
+              }
+              if (isTransitionToMyTokens) {
+                return t('main.myTokens')
+              }
+              if (isTransitionToPopularTokens) {
+                return t('main.popularTokens')
+              }
+              if (shouldShowAllTokensCategory) {
+                return t('main.allTokens')
+              }
+            }
+            return null
+          })()
 
           const isSelected =
             selectedTokenAddress === currentToken.address &&
@@ -200,7 +248,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
                       fontWeight: 600,
                       lineHeight: '16px',
                       px: 1.5,
-                      pt: isFirstFeaturedToken ? 0 : 1,
+                      pt: isFirstPinnedToken || isFirstFeaturedToken ? 0 : 1,
                       pb: 1,
                     }}
                   >
