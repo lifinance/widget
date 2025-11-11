@@ -29,6 +29,8 @@ const defaultSettings: SettingsProps = {
   enabledExchanges: [],
   _enabledBridges: {},
   _enabledExchanges: {},
+  hideSmallBalances: false,
+  smallBalanceThreshold: '0.01',
 }
 
 export const createSettingsStore = (config: WidgetConfig) =>
@@ -145,7 +147,7 @@ export const createSettingsStore = (config: WidgetConfig) =>
       }),
       {
         name: 'li.fi-widget-settings',
-        version: 5,
+        version: 6,
         partialize: (state) => {
           const {
             disabledBridges,

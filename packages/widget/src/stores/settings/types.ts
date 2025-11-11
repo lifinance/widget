@@ -28,6 +28,8 @@ export interface SettingsProps {
   disabledExchanges: string[]
   enabledExchanges: string[]
   _enabledExchanges: Record<string, boolean>
+  hideSmallBalances?: boolean
+  smallBalanceThreshold?: string
 }
 
 export interface SettingsActions {

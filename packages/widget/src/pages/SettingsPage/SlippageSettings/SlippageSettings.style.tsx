@@ -19,7 +19,7 @@ export const SettingsFieldSet = styled(Box)(({ theme }) => ({
   }),
 }))
 
-const slippageControlSelected = (theme: Theme) => ({
+const settingsControlSelected = (theme: Theme) => ({
   backgroundColor: theme.vars.palette.background.paper,
   boxShadow: `0px 2px 4px rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
   ...theme.applyStyles('dark', {
@@ -29,17 +29,17 @@ const slippageControlSelected = (theme: Theme) => ({
   borderRadius: `calc(${theme.vars.shape.borderRadius} - 4px)`,
 })
 
-interface SlippageDefaultProps {
+interface SettingsControlProps {
   selected?: boolean
 }
 
-export const SlippageDefaultButton = styled(ButtonBase)<SlippageDefaultProps>(
+export const SettingsDefaultButton = styled(ButtonBase)<SettingsControlProps>(
   ({ theme, selected }) => {
-    const slippageControlSelectedStyles = slippageControlSelected(theme)
+    const settingsControlSelectedStyles = settingsControlSelected(theme)
     const selectedStyle = selected
       ? {
           '&:not(:focus)': {
-            ...slippageControlSelectedStyles,
+            ...settingsControlSelectedStyles,
           },
         }
       : {}
@@ -50,20 +50,20 @@ export const SlippageDefaultButton = styled(ButtonBase)<SlippageDefaultProps>(
       fontSize: '1rem',
       fontWeight: 700,
       '&:focus': {
-        ...slippageControlSelectedStyles,
+        ...settingsControlSelectedStyles,
       },
       ...selectedStyle,
     }
   }
 )
 
-export const SlippageCustomInput = styled(InputBase)<SlippageDefaultProps>(
+export const SettingsCustomInput = styled(InputBase)<SettingsControlProps>(
   ({ theme, selected }) => {
-    const slippageControlSelectedStyles = slippageControlSelected(theme)
+    const settingsControlSelectedStyles = settingsControlSelected(theme)
     const selectedStyle = selected
       ? {
           '&:not(:focus)': {
-            ...slippageControlSelectedStyles,
+            ...settingsControlSelectedStyles,
           },
         }
       : {}
@@ -82,7 +82,7 @@ export const SlippageCustomInput = styled(InputBase)<SlippageDefaultProps>(
           opacity: 1,
         },
         '&:focus': {
-          ...slippageControlSelectedStyles,
+          ...settingsControlSelectedStyles,
         },
         ...selectedStyle,
       },

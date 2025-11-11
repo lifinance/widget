@@ -331,7 +331,12 @@
     "routePriority": "Route priority",
     "slippage": "Max. slippage",
     "custom": "Custom",
-    "resetSettings": "You're using custom settings that can affect the number or sorting of available routes."
+    "resetSettings": "You're using custom settings that can affect the number or sorting of available routes.",
+    "hideSmallBalances": {
+      "title": "Hide balances",
+      "showAll": "Show all",
+      "threshold": "<{{threshold, currencyExt(currency: USD)}}"
+    }
   },
   "sendToWallet": {
     "addBookmark": "Add bookmark",

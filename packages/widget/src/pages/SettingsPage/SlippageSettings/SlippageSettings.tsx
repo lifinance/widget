@@ -12,9 +12,9 @@ import { formatInputAmount, formatSlippage } from '../../../utils/format.js'
 import { BadgedValue } from '../SettingsCard/BadgedValue.js'
 import { SettingCardExpandable } from '../SettingsCard/SettingCardExpandable.js'
 import {
+  SettingsCustomInput,
+  SettingsDefaultButton,
   SettingsFieldSet,
-  SlippageCustomInput,
-  SlippageDefaultButton,
   SlippageLimitsWarningContainer,
 } from './SlippageSettings.style.js'
 
@@ -106,7 +106,7 @@ export const SlippageSettings: React.FC = () => {
         }}
       >
         <SettingsFieldSet>
-          <SlippageDefaultButton
+          <SettingsDefaultButton
             selected={defaultSlippage === slippage && focused !== 'input'}
             onFocus={() => {
               setFocused('button')
@@ -118,8 +118,8 @@ export const SlippageSettings: React.FC = () => {
             disableRipple
           >
             {t('button.auto')}
-          </SlippageDefaultButton>
-          <SlippageCustomInput
+          </SettingsDefaultButton>
+          <SettingsCustomInput
             selected={defaultSlippage !== slippage && focused !== 'button'}
             placeholder={focused === 'input' ? '' : t('settings.custom')}
             inputProps={{
