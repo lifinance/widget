@@ -44,30 +44,44 @@ export const SmallBalanceFilterSettings: React.FC = () => {
   }
 
   const formatAndSetThreshold = (value: string, returnInitial = false) => {
+    const isEmpty = value === ''
     const parsedValue = Number.parseFloat(value)
-    if (Number.isNaN(parsedValue) && value !== '') {
-      if (returnInitial) {
-        setInputValue(value)
-        return
-      }
+    const isInvalid = Number.isNaN(parsedValue)
+
+    if (isEmpty && returnInitial) {
+      setInputValue('')
+      return
+    }
+
+    if (isInvalid && returnInitial) {
+      setInputValue(value)
+      return
+    }
+
+    // If empty or invalid and not focused, use default
+    if (isEmpty || isInvalid) {
       setInputValue(defaultValue.current)
       setValue('smallBalanceThreshold', defaultValue.current)
       setValue('hideSmallBalances', true)
       return
     }
 
-    const formattedValue =
+    let formattedValue =
       Number.isNaN(parsedValue) || parsedValue < 0
         ? '0'
         : formatInputAmount(value, maxFractionDigits, returnInitial)
-    const maxLength =
-      Number(formattedValue) < 10
-        ? maxFractionDigits + 2
-        : maxFractionDigits + 3
-    const slicedValue = formattedValue.slice(0, maxLength)
-    setInputValue(slicedValue)
-    if (slicedValue.length) {
-      setValue('smallBalanceThreshold', slicedValue)
+
+    // Restrict to 2 decimal places even when typing
+    if (returnInitial && formattedValue.includes('.')) {
+      const [integer, fraction = ''] = formattedValue.split('.')
+      if (fraction.length > maxFractionDigits) {
+        formattedValue = `${integer}.${fraction.slice(0, maxFractionDigits)}`
+      }
+    }
+
+    setInputValue(formattedValue)
+    if (formattedValue.length) {
+      setValue('smallBalanceThreshold', formattedValue)
       setValue('hideSmallBalances', true)
     }
   }
@@ -90,7 +104,8 @@ export const SmallBalanceFilterSettings: React.FC = () => {
     ? t('settings.hideSmallBalances.showAll')
     : t('settings.hideSmallBalances.threshold', {
         threshold: thresholdValue,
-        maximumFractionDigits: 5,
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 0,
       })
 
   return (
