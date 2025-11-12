@@ -6,7 +6,6 @@ import {
   HiddenUI,
   LiFiWidget,
 } from '@lifi/widget'
-import { EthereumProvider } from '@lifi/widget-provider-ethereum'
 import { useMemo } from 'react'
 import { DepositCard } from './components/DepositCard'
 import { contractTool } from './config'
@@ -61,7 +60,6 @@ export function App() {
       contractTool={contractTool}
       config={widgetConfig}
       integrator={widgetConfig.integrator}
-      providers={[EthereumProvider()]}
     />
   )
 }

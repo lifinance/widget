@@ -1,6 +1,4 @@
 import { ChainId, LiFiWidget } from '@lifi/widget'
-import { EthereumProvider } from '@lifi/widget-provider-ethereum'
-import { SolanaProvider } from '@lifi/widget-provider-solana'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { WalletHeader } from './components/WalletHeader'
 import { queryClient } from './config/queryClient'
@@ -31,7 +29,6 @@ function App() {
               },
             },
           }}
-          providers={[EthereumProvider(), SolanaProvider()]}
         />
       </WalletProvider>
     </QueryClientProvider>

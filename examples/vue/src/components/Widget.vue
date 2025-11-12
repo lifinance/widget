@@ -4,7 +4,6 @@
 
 <script lang="ts">
 // This is a React component
-import { EthereumProvider } from '@lifi/widget-provider-ethereum'
 import { LiFiWidget } from '@lifi/widget'
 import { applyPureReactInVue } from 'veaury'
 
@@ -24,7 +23,6 @@ export default {
           },
         },
         integrator: 'vue-example',
-        providers: [EthereumProvider()],
       },
     }
   },

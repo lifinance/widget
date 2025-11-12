@@ -6,12 +6,12 @@
   "types": "./src/index.d.ts",
   "dependencies": {
     "@mysten/sui": "1.39.1",
-    "@lifi/sdk": "^3.12.14",
-    "@mysten/wallet-standard": "0.18.1",
+    "@lifi/sdk": "^3.13.2",
+    "@mysten/wallet-standard": "^0.19.5",
     "@lifi/widget-provider": "workspace:*"
   },
   "peerDependencies": {
-    "@mysten/dapp-kit": "0.19.1"
+    "@mysten/dapp-kit": "^0.19.7"
   },
   "devDependencies": {
     "react": "^19.2.0",

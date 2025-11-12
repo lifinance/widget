@@ -1,5 +1,5 @@
+import { useSyncWagmiConfig } from '@lifi/wallet-management'
 import { useAvailableChains } from '@lifi/widget'
-import { useSyncWagmiConfig } from '@lifi/widget-provider-ethereum'
 import { RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import type { FC, PropsWithChildren } from 'react'
 import { WagmiProvider } from 'wagmi'

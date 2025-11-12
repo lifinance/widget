@@ -2,7 +2,6 @@
 
 import type { WidgetConfig } from '@lifi/widget'
 import { LiFiWidget, WidgetSkeleton } from '@lifi/widget'
-import { EthereumProvider } from '@lifi/widget-provider-ethereum'
 import { ClientOnly } from './ClientOnly'
 
 export function Widget() {
@@ -18,11 +17,7 @@ export function Widget() {
 
   return (
     <ClientOnly fallback={<WidgetSkeleton config={config} />}>
-      <LiFiWidget
-        config={config}
-        integrator="nextjs-example"
-        providers={[EthereumProvider()]}
-      />
+      <LiFiWidget config={config} integrator="nextjs-example" />
     </ClientOnly>
   )
 }

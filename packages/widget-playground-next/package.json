@@ -19,16 +19,16 @@
     "@lifi/widget-provider-bitcoin": "workspace:*",
     "@mui/material": "7.3.2",
     "@mui/material-nextjs": "7.3.2",
-    "@tanstack/react-query": "^5.90.1",
-    "core-js": "^3.45.1",
+    "@tanstack/react-query": "^5.90.5",
+    "core-js": "^3.46.0",
     "next": "^15.5.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
-    "@types/node": "^24.7.0",
+    "@types/node": "^24.9.2",
     "@types/react": "^19.2.2",
-    "@types/react-dom": "^19.2.1",
+    "@types/react-dom": "^19.2.2",
     "typescript": "^5.9.3"
   },
   "private": true

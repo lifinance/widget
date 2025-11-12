@@ -9,18 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@lifi/sdk": "^3.12.14",
-    "@lifi/widget": "workspace:^",
-    "@lifi/widget-provider-ethereum": "workspace:^",
+    "@lifi/sdk": "^3.13.2",
+    "@lifi/widget": "^3.34.0",
     "@mui/material-nextjs": "7.3.2",
-    "next": "15.5.4",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "next": "14.2.32",
+    "react": "^18",
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "@types/node": "^24.7.0",
+    "@types/node": "^24.9.2",
     "@types/react": "^19.2.2",
-    "@types/react-dom": "^19.2.1",
+    "@types/react-dom": "^19.2.2",
     "eslint": "^8",
     "eslint-config-next": "14.2.32",
     "typescript": "^5.9.3"

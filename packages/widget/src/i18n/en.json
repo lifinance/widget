@@ -274,6 +274,7 @@
       },
       "tokenAllowance": {
         "actionRequired": "Approve {{tokenSymbol}} spending",
+        "resetRequired": "Revoke {{tokenSymbol}} spending",
         "done": "{{tokenSymbol}} spending approved",
         "pending": "{{tokenSymbol}} approval pending",
         "started": "Preparing approval transaction"

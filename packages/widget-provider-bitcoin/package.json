@@ -5,9 +5,9 @@
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
   "dependencies": {
-    "@bigmi/client": "^0.6.0",
-    "@bigmi/core": "^0.6.0",
-    "@lifi/sdk": "^3.12.14",
+    "@bigmi/client": "^0.6.1",
+    "@bigmi/core": "^0.6.1",
+    "@lifi/sdk": "^3.13.2",
     "@lifi/widget-provider": "workspace:*"
   },
   "peerDependencies": {
