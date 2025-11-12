@@ -23,6 +23,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   isLoading,
   isBalanceLoading,
   showCategories,
+  showPinnedTokens,
   onClick,
   isAllNetworks,
 }) => {
@@ -62,48 +63,33 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   const estimateSize = useCallback(
     (index: number) => {
       const currentToken = tokens[index]
-
-      // Base size for TokenListItem
+      const previousToken = tokens[index - 1]
       let size = tokenItemHeight
 
-      const previousToken = tokens[index - 1]
-
-      // Always account for pinned tokens category (even in all networks mode)
+      // Pinned tokens (always shown, even in all networks mode)
       if (currentToken.pinned && index === 0) {
         size += 24
       }
-
-      // Adjust size when transitioning from pinned tokens (works in all networks mode too)
       if (previousToken?.pinned && !currentToken.pinned) {
         size += 32
       }
 
-      // Early return if categories are not shown (for other categories)
       if (!showCategories) {
         return size
       }
 
-      // Adjust size for the first featured token (if not pinned)
       if (currentToken.featured && !currentToken.pinned && index === 0) {
         size += 24
       }
 
-      // Adjust size based on changes between the current and previous tokens
-      const isCategoryChanged =
-        (previousToken?.amount &&
-          !currentToken.amount &&
-          !currentToken.pinned &&
-          !previousToken?.pinned) ||
-        (previousToken?.featured &&
-          !currentToken.featured &&
-          !currentToken.pinned &&
-          !previousToken?.pinned) ||
-        (previousToken?.popular &&
-          !currentToken.popular &&
-          !currentToken.pinned &&
-          !previousToken?.pinned)
-
-      if (isCategoryChanged) {
+      // Category transition (excluding pinned tokens)
+      const isNotPinned = !currentToken.pinned && !previousToken?.pinned
+      if (
+        isNotPinned &&
+        ((previousToken?.amount && !currentToken.amount) ||
+          (previousToken?.featured && !currentToken.featured) ||
+          (previousToken?.popular && !currentToken.popular))
+      ) {
         size += 32
       }
 
@@ -112,7 +98,6 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     [tokens, showCategories]
   )
 
-  // Chunk the tokens for infinite loading simulation
   const virtualizerConfig = useMemo(
     () => ({
       count: tokens.length,
@@ -154,73 +139,61 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
         {getVirtualItems().map((item) => {
           const currentToken = tokens[item.index]
           const previousToken: TokenAmount | undefined = tokens[item.index - 1]
-
           const chain = chainsSet?.get(currentToken.chainId)
 
+          const isNotPinned = !currentToken.pinned
           const isFirstPinnedToken = currentToken.pinned && item.index === 0
+          const isTransitionFromPinned = previousToken?.pinned && isNotPinned
 
-          const isTransitionFromPinnedTokens =
-            previousToken?.pinned && !currentToken.pinned
-
-          const isFirstFeaturedToken =
-            currentToken.featured && !currentToken.pinned && item.index === 0
-
-          const isTransitionFromFeaturedTokens =
-            previousToken?.featured &&
-            !currentToken.featured &&
-            !currentToken.pinned
-
+          // Category transitions (excluding pinned)
+          const isTransitionFromFeatured =
+            previousToken?.featured && !currentToken.featured && isNotPinned
           const isTransitionFromMyTokens =
-            previousToken?.amount &&
-            !currentToken.amount &&
-            !currentToken.pinned
+            previousToken?.amount && !currentToken.amount && isNotPinned
+          const isTransitionFromPopular =
+            previousToken?.popular && !currentToken.popular && isNotPinned
 
-          const isTransitionToMyTokens =
-            (isTransitionFromFeaturedTokens || isTransitionFromPinnedTokens) &&
-            currentToken.amount &&
-            !currentToken.pinned
-
-          const isTransitionToPopularTokens =
-            (isTransitionFromFeaturedTokens ||
-              isTransitionFromMyTokens ||
-              isTransitionFromPinnedTokens) &&
-            currentToken.popular &&
-            !currentToken.pinned
-
-          const shouldShowAllTokensCategory =
-            isTransitionFromMyTokens ||
-            isTransitionFromFeaturedTokens ||
-            isTransitionFromPinnedTokens ||
-            (previousToken?.popular &&
-              !currentToken.popular &&
-              !currentToken.pinned)
-
+          // Determine which category label to show
           const startAdornmentLabel = (() => {
-            // Always show pinned tokens category if it's the first pinned token
-            if (isFirstPinnedToken) {
+            if (showPinnedTokens && isFirstPinnedToken) {
               return t('main.pinnedTokens')
             }
-            // Show "All tokens" category when transitioning from pinned in all networks mode
-            if (isAllNetworks && isTransitionFromPinnedTokens) {
+            if (showPinnedTokens && !showCategories && isTransitionFromPinned) {
               return t('main.allTokens')
             }
-            // Show other categories only when not in all networks mode
-            if (!isAllNetworks && showCategories) {
-              if (isTransitionFromPinnedTokens && currentToken.featured) {
-                return t('main.featuredTokens')
-              }
-              if (isFirstFeaturedToken) {
-                return t('main.featuredTokens')
-              }
-              if (isTransitionToMyTokens) {
-                return t('main.myTokens')
-              }
-              if (isTransitionToPopularTokens) {
-                return t('main.popularTokens')
-              }
-              if (shouldShowAllTokensCategory) {
-                return t('main.allTokens')
-              }
+            if (!showCategories) {
+              return null
+            }
+
+            if (
+              (isTransitionFromPinned && currentToken.featured) ||
+              (currentToken.featured && isNotPinned && item.index === 0)
+            ) {
+              return t('main.featuredTokens')
+            }
+            if (
+              (isTransitionFromFeatured || isTransitionFromPinned) &&
+              currentToken.amount &&
+              isNotPinned
+            ) {
+              return t('main.myTokens')
+            }
+            if (
+              (isTransitionFromFeatured ||
+                isTransitionFromMyTokens ||
+                isTransitionFromPinned) &&
+              currentToken.popular &&
+              isNotPinned
+            ) {
+              return t('main.popularTokens')
+            }
+            if (
+              isTransitionFromMyTokens ||
+              isTransitionFromFeatured ||
+              isTransitionFromPinned ||
+              isTransitionFromPopular
+            ) {
+              return t('main.allTokens')
             }
             return null
           })()
@@ -248,7 +221,13 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
                       fontWeight: 600,
                       lineHeight: '16px',
                       px: 1.5,
-                      pt: isFirstPinnedToken || isFirstFeaturedToken ? 0 : 1,
+                      pt:
+                        isFirstPinnedToken ||
+                        (currentToken.featured &&
+                          isNotPinned &&
+                          item.index === 0)
+                          ? 0
+                          : 1,
                       pb: 1,
                     }}
                   >

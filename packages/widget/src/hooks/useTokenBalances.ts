@@ -106,7 +106,7 @@ export const useTokenBalances = (
     isAllNetworks,
   ])
 
-  const { processedTokens, withCategories } = useMemo(() => {
+  const { processedTokens, withCategories, withPinnedTokens } = useMemo(() => {
     return processTokenBalances(
       isBalanceLoading,
       isAllNetworks || !!search,
@@ -130,6 +130,7 @@ export const useTokenBalances = (
   return {
     tokens: processedTokens ?? [],
     withCategories,
+    withPinnedTokens,
     isTokensLoading,
     isSearchLoading,
     isBalanceLoading,

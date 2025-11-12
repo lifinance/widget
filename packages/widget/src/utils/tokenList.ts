@@ -24,7 +24,7 @@ export const processTokenBalances = (
   if (isBalanceLoading) {
     if (noCategories) {
       const sortedTokens = [...(tokens ?? [])].sort(sortByVolume)
-      // Separate pinned tokens if we have the function
+      // Separate pinned tokens
       if (isPinnedToken) {
         const pinned: TokenAmount[] = []
         const notPinned: TokenAmount[] = []
@@ -38,12 +38,14 @@ export const processTokenBalances = (
         }
         return {
           processedTokens: [...pinned, ...notPinned],
-          withCategories: pinned.length > 0,
+          withCategories: false,
+          withPinnedTokens: !!pinned.length,
         }
       }
       return {
         processedTokens: sortedTokens,
         withCategories: false,
+        withPinnedTokens: false,
       }
     } else {
       return processedTypedTokens(
@@ -74,7 +76,7 @@ export const processTokenBalances = (
       .sort(sortByVolume) ?? []
 
   if (noCategories) {
-    // Separate pinned tokens if we have the function
+    // Separate pinned tokens
     if (isPinnedToken) {
       const pinnedWithBalances: TokenAmount[] = []
       const notPinnedWithBalances: TokenAmount[] = []
@@ -106,13 +108,15 @@ export const processTokenBalances = (
           ...notPinnedWithBalances,
           ...notPinnedWithoutBalances,
         ],
-        withCategories:
-          pinnedWithBalances.length > 0 || pinnedWithoutBalances.length > 0,
+        withCategories: false,
+        withPinnedTokens:
+          !!pinnedWithBalances.length || !!pinnedWithoutBalances.length,
       }
     }
     return {
       processedTokens: [...sortedTokensWithBalances, ...tokensWithoutBalances],
       withCategories: false,
+      withPinnedTokens: false,
     }
   } else {
     return processedTypedTokens(
@@ -162,6 +166,16 @@ const processedTypedTokens = (
         popularTokensFromConfig.push(tokenAmount)
       } else {
         featuredTokensFromConfig.push(tokenAmount)
+      }
+
+      // Additionally add to pinned tokens if it is pinned
+      const isPinned =
+        isPinnedToken && selectedChainId
+          ? isPinnedToken(selectedChainId, token.address)
+          : false
+      if (isPinned) {
+        const pinnedToken = { ...tokenAmount, pinned: true } as TokenAmount
+        pinnedTokens.push(pinnedToken)
       }
     })
   })
@@ -231,11 +245,9 @@ const processedTypedTokens = (
       ...sortedPopularTokens,
       ...sortedOtherTokens,
     ],
-    withCategories: Boolean(
-      sortedPinnedTokens?.length ||
-        featuredTokensFromConfig?.length ||
-        popularTokensFromConfig?.length
-    ),
+    withCategories:
+      !!featuredTokensFromConfig.length || !!popularTokensFromConfig.length,
+    withPinnedTokens: !!sortedPinnedTokens.length,
   }
 }
 
