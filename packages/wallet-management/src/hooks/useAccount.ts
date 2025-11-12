@@ -102,13 +102,13 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when wallet changes
   return useMemo(() => {
-    const svm: Account = session?.account.publicKey
+    const svm: Account = session?.account.address
       ? {
-          address: session?.account.publicKey.toString(),
+          address: session?.account.address.toString(),
           chainId: ChainId.SOL,
           chainType: ChainType.SVM,
           connector: activeSVMConnector,
-          isConnected: Boolean(session?.account.publicKey),
+          isConnected: Boolean(session?.account.address),
           isConnecting: false,
           isReconnecting: false,
           isDisconnected: !session,
@@ -188,7 +188,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
       accounts: connectedAccounts,
     }
   }, [
-    session?.account.publicKey,
+    session?.account.address,
     wagmiAccount.connector?.uid,
     wagmiAccount.connector?.id,
     wagmiAccount.status,

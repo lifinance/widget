@@ -4,7 +4,6 @@ import {
   useConnectWallet,
   useDisconnectWallet,
   useWallet,
-  useWalletSession,
 } from '@solana/react-hooks'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
@@ -34,7 +33,6 @@ export const SVMListItemButton = ({
   const { status } = useWallet()
 
   const { setLastConnectedAccount } = useLastConnectedAccount()
-  const session = useWalletSession()
 
   const connectorDisplayName: string = ecosystemSelection
     ? 'Solana'
@@ -51,8 +49,7 @@ export const SVMListItemButton = ({
       if (status === 'connected') {
         await disconnectWallet()
       }
-      await connectWallet(connectorName)
-
+      const session = await connectWallet(connector.id, { autoConnect: true })
       if (session) {
         setLastConnectedAccount(connector)
         emitter.emit(WalletManagementEvent.WalletConnected, {
