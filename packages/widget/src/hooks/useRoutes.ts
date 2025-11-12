@@ -6,6 +6,7 @@ import {
   getRelayerQuote,
   getRoutes,
   isGaslessStep,
+  isTokenMessageSigningAllowed,
   LiFiErrorCode,
 } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
@@ -125,6 +126,8 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
       ? enabledExchanges
       : undefined
   const allowSwitchChain = sdkConfig?.routeOptions?.allowSwitchChain
+  const disableMessageSigning =
+    sdkConfig?.executionOptions?.disableMessageSigning
 
   const isEnabled =
     Boolean(Number(fromChain?.id)) &&
@@ -163,6 +166,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
         enabledRefuel && enabledAutoRefuel,
         gasRecommendationFromAmount,
         feeConfig?.fee || fee,
+        disableMessageSigning,
         !!isBatchingSupported,
         observableRoute?.id,
       ] as const,
@@ -191,6 +195,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
       gasRecommendationFromAmount,
       feeConfig?.fee,
       fee,
+      disableMessageSigning,
       isBatchingSupported,
       observableRoute?.id,
     ]
@@ -226,6 +231,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           enabledRefuel,
           gasRecommendationFromAmount,
           fee,
+          disableMessageSigning,
           isBatchingSupported,
           // _observableRouteId must be the last element in the query key
           _observableRouteId,
@@ -346,7 +352,8 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           fromChain.nativeToken.address !== fromTokenAddress &&
           useRelayerRoutes &&
           !isBatchingSupported &&
-          (!observableRoute || isObservableRelayerRoute)
+          (!observableRoute || isObservableRelayerRoute) &&
+          isTokenMessageSigningAllowed(fromToken!)
 
         const mainRoutesPromise = shouldUseMainRoutes
           ? getRoutes(
@@ -386,6 +393,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
                   order: routePriority,
                   slippage: formattedSlippage,
                   fee: calculatedFee || fee,
+                  executionType: disableMessageSigning ? 'transaction' : 'all',
                 },
               },
               { signal }

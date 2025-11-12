@@ -10,23 +10,23 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
-    "@lifi/widget": "^3.32.2",
-    "@react-router/node": "^7.9.3",
-    "@react-router/serve": "^7.9.3",
+    "@lifi/widget": "^3.34.0",
+    "@react-router/node": "^7.9.5",
+    "@react-router/serve": "^7.9.5",
     "isbot": "^5.1.31",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-router": "^7.9.3",
-    "react-router-dom": "^7.9.3"
+    "react-router": "^7.9.5",
+    "react-router-dom": "^7.9.5"
   },
   "devDependencies": {
-    "@react-router/dev": "^7.9.3",
-    "@react-router/fs-routes": "^7.9.3",
-    "@react-router/remix-routes-option-adapter": "^7.9.3",
+    "@react-router/dev": "^7.9.5",
+    "@react-router/fs-routes": "^7.9.5",
+    "@react-router/remix-routes-option-adapter": "^7.9.5",
     "@types/react": "^19.2.2",
-    "@types/react-dom": "^19.2.1",
+    "@types/react-dom": "^19.2.2",
     "typescript": "^5.9.3",
-    "vite": "^7.1.9",
+    "vite": "^7.1.12",
     "vite-tsconfig-paths": "^5.1.4"
   },
   "engines": {

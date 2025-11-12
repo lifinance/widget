@@ -274,6 +274,7 @@
       },
       "tokenAllowance": {
         "actionRequired": "Затвердіть витрати на {{tokenSymbol}}",
+        "resetRequired": "",
         "done": "Затверджено витрати на {{tokenSymbol}}",
         "pending": "Очікується затвердження {{tokenSymbol}}",
         "started": "Підготовка операції затвердження"
