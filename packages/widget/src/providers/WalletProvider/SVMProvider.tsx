@@ -1,5 +1,5 @@
 import { ChainType } from '@lifi/sdk'
-import { ConnectionContext } from '@solana/wallet-adapter-react'
+import { SolanaClientContext } from '@solana/react-hooks'
 import { type FC, type PropsWithChildren, useContext } from 'react'
 import { useInternalWalletProvider } from '../../hooks/useInternalWalletProvider.js'
 import { isItemAllowed } from '../../utils/item.js'
@@ -9,10 +9,8 @@ import { SVMExternalContext } from './SVMExternalContext.js'
 
 function useInSolanaContext(): boolean {
   const { chains } = useWidgetConfig()
-  const context = useContext(ConnectionContext)
-  return (
-    Boolean(context?.connection) && isItemAllowed(ChainType.SVM, chains?.types)
-  )
+  const context = useContext(SolanaClientContext)
+  return Boolean(context) && isItemAllowed(ChainType.SVM, chains?.types)
 }
 
 export const SVMProvider: FC<PropsWithChildren> = ({ children }) => {

@@ -3,8 +3,7 @@ import { useConfig as useBigmiConfig } from '@bigmi/react'
 import type { SDKProvider } from '@lifi/sdk'
 import { ChainType, config, EVM, Solana, Sui, UTXO } from '@lifi/sdk'
 import { useCurrentWallet } from '@mysten/dapp-kit'
-import type { SignerWalletAdapter } from '@solana/wallet-adapter-base'
-import { useWallet } from '@solana/wallet-adapter-react'
+import { useSolanaClient } from '@solana/react-hooks'
 import { useEffect } from 'react'
 import { useConfig as useWagmiConfig } from 'wagmi'
 import {
@@ -15,10 +14,11 @@ import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 
 export const SDKProviders = () => {
   const { sdkConfig } = useWidgetConfig()
-  const { wallet } = useWallet()
+
   const wagmiConfig = useWagmiConfig()
   const bigmiConfig = useBigmiConfig()
   const { currentWallet } = useCurrentWallet()
+  const solanaClient = useSolanaClient()
 
   useEffect(() => {
     // Configure SDK Providers
@@ -50,9 +50,7 @@ export const SDKProviders = () => {
     if (!hasConfiguredSVMProvider) {
       providers.push(
         Solana({
-          async getWalletAdapter() {
-            return wallet?.adapter as SignerWalletAdapter
-          },
+          getSolanaClient: async () => solanaClient,
         })
       )
     }
@@ -79,7 +77,7 @@ export const SDKProviders = () => {
     currentWallet,
     sdkConfig?.providers,
     wagmiConfig,
-    wallet?.adapter,
+    solanaClient,
   ])
 
   return null

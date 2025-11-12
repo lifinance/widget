@@ -57,8 +57,7 @@
     "@mui/material": "7.3.2",
     "@mui/system": "7.3.2",
     "@mysten/wallet-standard": "^0.19.5",
-    "@solana/wallet-adapter-base": "^0.9.27",
-    "@solana/web3.js": "^1.98.4",
+    "@solana/client-core": "^0.0.1",
     "i18next": "^25.6.0",
     "mitt": "^3.0.1",
     "react-i18next": "^16.2.2",
@@ -77,11 +76,11 @@
   "peerDependencies": {
     "@bigmi/react": ">=0.5.0",
     "@mysten/dapp-kit": ">=0.18.0",
-    "@solana/wallet-adapter-react": ">=0.15.35",
     "@tanstack/react-query": ">=5.87.0",
     "react": ">=18",
     "react-dom": ">=18",
-    "wagmi": ">=2.17.5"
+    "wagmi": ">=2.17.5",
+    "@solana/react-hooks": ">=0.0.1"
   },
   "files": [
     "dist/**",
