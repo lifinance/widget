@@ -29,7 +29,15 @@ export const ChainSearchInput = ({
 
   if (inExpansion) {
     return (
-      <Box sx={{ pt: 3, pb: 2, px: 2.5, height: searchHeaderHeight }}>
+      <Box
+        sx={{
+          pt: 3,
+          pb: 2,
+          px: 2.5,
+          height: searchHeaderHeight,
+          boxSizing: 'border-box',
+        }}
+      >
         <SearchInput
           inputRef={inputRef}
           onChange={onChange}

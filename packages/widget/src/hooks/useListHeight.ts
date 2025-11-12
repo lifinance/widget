@@ -1,22 +1,15 @@
 import { debounce, useTheme } from '@mui/material'
 import type { RefObject } from 'react'
 import { useLayoutEffect, useState } from 'react'
-import {
-  ElementId,
-  getAppContainer,
-  getHeaderElement,
-  getScrollableContainer,
-} from '../utils/elements.js'
+import { ElementId } from '../utils/elements.js'
 import { useDefaultElementId } from './useDefaultElementId.js'
+import { useElementContainer } from './useElementContainer.js'
 
 const getContentHeight = (
-  elementId: string,
+  headerElement: HTMLElement | null,
+  containerElement: HTMLElement | null,
   listParentRef: RefObject<HTMLUListElement | HTMLDivElement | null>
 ) => {
-  const containerElement = getScrollableContainer(elementId)
-
-  const headerElement = getHeaderElement(elementId)
-
   const listParentElement = listParentRef?.current
 
   let oldHeight: string | undefined
@@ -66,17 +59,29 @@ export const useListHeight = ({
   const [contentHeight, setContentHeight] = useState<number>(0)
   const theme = useTheme()
 
+  const appContainer = useElementContainer(
+    ElementId.AppExpandedContainer,
+    elementId
+  )
+
+  const containerElement = useElementContainer(
+    ElementId.ScrollableContainer,
+    elementId
+  )
+
+  const headerElement = useElementContainer(ElementId.Header, elementId)
+
   useLayoutEffect(() => {
     const handleResize = () => {
-      setContentHeight(getContentHeight(elementId, listParentRef))
+      setContentHeight(
+        getContentHeight(headerElement, containerElement, listParentRef)
+      )
     }
 
     const processResize = debounce(() => handleResize(), 40)
 
     // calling this on initial mount prevents the lists resizing appearing glitchy
     handleResize()
-
-    const appContainer = getAppContainer(elementId)
 
     let resizeObserver: ResizeObserver
     if (appContainer) {
@@ -89,7 +94,7 @@ export const useListHeight = ({
         resizeObserver.disconnect()
       }
     }
-  }, [elementId, listParentRef])
+  }, [listParentRef, appContainer, headerElement, containerElement])
 
   const minListHeight =
     theme.container?.height === '100%'

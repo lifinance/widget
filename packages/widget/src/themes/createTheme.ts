@@ -33,7 +33,10 @@ const enterKeyframe = keyframes`
   }
 `
 
-export const createTheme = (widgetTheme: WidgetTheme = {}) => {
+export const createTheme = (
+  widgetTheme: WidgetTheme = {},
+  shadowRoot?: ShadowRoot
+) => {
   const configuredPaletteLight =
     widgetTheme.colorSchemes?.light?.palette ?? widgetTheme.palette
   const configuredPaletteDark =
@@ -75,11 +78,14 @@ export const createTheme = (widgetTheme: WidgetTheme = {}) => {
       ? secondaryDarkenColorLight
       : darken(secondaryMainColorDark, 0.2)
 
+  const shadowRootContainer = shadowRoot?.firstElementChild as HTMLElement
+
   const theme = createMuiTheme({
     cssVariables: {
       cssVarPrefix: 'lifi',
       colorSchemeSelector: 'class',
       nativeColor: true,
+      rootSelector: shadowRoot ? ':host' : ':root',
     },
     colorSchemes: {
       light: {
@@ -485,6 +491,23 @@ export const createTheme = (widgetTheme: WidgetTheme = {}) => {
         },
         ...widgetTheme.components?.MuiCheckbox,
       },
+      ...(shadowRootContainer && {
+        MuiPopover: {
+          defaultProps: {
+            container: shadowRootContainer,
+          },
+        },
+        MuiPopper: {
+          defaultProps: {
+            container: shadowRootContainer,
+          },
+        },
+        MuiModal: {
+          defaultProps: {
+            container: shadowRootContainer,
+          },
+        },
+      }),
     },
   })
 

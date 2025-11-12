@@ -47,6 +47,7 @@ export const widgetBaseConfig: WidgetConfig = {
   // useRecommendedRoute: true,
   useRelayerRoutes: true,
   buildUrl: true,
+  inShadowRoot: true,
   // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton', 'toAddress'],
   // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
   // requiredUI: ['toAddress'],

@@ -1,5 +1,6 @@
 import { Skeleton, ThemeProvider, useMediaQuery } from '@mui/material'
 import { useMemo } from 'react'
+import { useShadowRoot } from '../../providers/ShadowRootProvider.js'
 import { createTheme } from '../../themes/createTheme.js'
 import type { WidgetConfigPartialProps } from '../../types/widget.js'
 import {
@@ -77,7 +78,11 @@ export const WidgetSkeleton = ({ config }: WidgetConfigPartialProps) => {
         : 'light'
       : appearance
 
-  const theme = useMemo(() => createTheme(configTheme), [configTheme])
+  const shadowRoot = useShadowRoot()
+  const theme = useMemo(
+    () => createTheme(configTheme, shadowRoot),
+    [configTheme, shadowRoot]
+  )
 
   return (
     <ThemeProvider
