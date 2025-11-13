@@ -1,5 +1,5 @@
 import { ChainId, ChainType } from '@lifi/sdk'
-import type { WalletConnector as SolanaWalletConnector } from '@solana/client-core'
+import type { WalletConnector as SolanaWalletConnector } from '@solana/client'
 import {
   useConnectWallet,
   useDisconnectWallet,

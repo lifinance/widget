@@ -9,7 +9,12 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills'
 export default defineConfig({
   plugins: [
     // mkcert(),
-    nodePolyfills(),
+    nodePolyfills({
+      globals: {
+        process: false, // Disable process polyfill entirely
+        global: false, // Disable global polyfill (you're using globalThis in esbuild)
+      },
+    }),
     react(),
   ],
   esbuild: {

@@ -13,7 +13,7 @@ import {
   Typography,
 } from '@mui/material'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
-import type { WalletConnector as SolanaWalletConnector } from '@solana/client-core'
+import type { WalletConnector as SolanaWalletConnector } from '@solana/client'
 import { useMemo, useReducer, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Connector } from 'wagmi'

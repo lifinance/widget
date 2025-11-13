@@ -3,7 +3,7 @@ import { useAccount as useBigmiAccount } from '@bigmi/react'
 import { ChainId, ChainType } from '@lifi/sdk'
 import { useCurrentWallet } from '@mysten/dapp-kit'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
-import type { WalletConnector as SolanaWalletConnector } from '@solana/client-core'
+import type { WalletConnector as SolanaWalletConnector } from '@solana/client'
 import {
   useWalletSession,
   useWalletStandardConnectors,

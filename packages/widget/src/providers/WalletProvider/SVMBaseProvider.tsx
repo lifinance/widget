@@ -1,7 +1,4 @@
-import {
-  createSolanaRpcClient,
-  type SolanaClientConfig,
-} from '@solana/client-core'
+import { createSolanaRpcClient, type SolanaClientConfig } from '@solana/client'
 import {
   SolanaClientProvider,
   useWalletStandardConnectors,

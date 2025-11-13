@@ -1,6 +1,6 @@
 import type { Connector as BigmiConnector } from '@bigmi/client'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
-import type { WalletConnector as SolanaWalletConnector } from '@solana/client-core'
+import type { WalletConnector as SolanaWalletConnector } from '@solana/client'
 import type { Connector } from 'wagmi'
 import { getWalletIcon } from '../icons.js'
 

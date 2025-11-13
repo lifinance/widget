@@ -77,8 +77,17 @@
       "miniflare>zod": "3.22.3",
       "miniflare>zod-validation-error": "3.0.3",
       "@react-native-async-storage/async-storage": ">=2.2.0",
-      "@walletconnect/ethereum-provider": ">=2.22.1"
+      "@walletconnect/ethereum-provider": ">=2.22.1",
+      "@solana/client@workspace:*": "link:../../../Library/pnpm/global/5/node_modules/@solana/client",
+      "@lifi/sdk": "link:../../../Library/pnpm/global/5/node_modules/@lifi/sdk",
+      "@solana/client": "link:../../../Library/pnpm/global/5/node_modules/@solana/client",
+      "@solana/react-hooks": "link:../../../Library/pnpm/global/5/node_modules/@solana/react-hooks"
     }
   },
-  "packageManager": "pnpm@10.20.0+sha512.cf9998222162dd85864d0a8102e7892e7ba4ceadebbf5a31f9c2fce48dfce317a9c53b9f6464d1ef9042cba2e02ae02a9f7c143a2b438cd93c91840f0192b9dd"
+  "packageManager": "pnpm@10.20.0+sha512.cf9998222162dd85864d0a8102e7892e7ba4ceadebbf5a31f9c2fce48dfce317a9c53b9f6464d1ef9042cba2e02ae02a9f7c143a2b438cd93c91840f0192b9dd",
+  "dependencies": {
+    "@lifi/sdk": "link:../../../Library/pnpm/global/5/node_modules/@lifi/sdk",
+    "@solana/client": "link:../../../Library/pnpm/global/5/node_modules/@solana/client",
+    "@solana/react-hooks": "link:../../../Library/pnpm/global/5/node_modules/@solana/react-hooks"
+  }
 }
