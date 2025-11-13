@@ -274,7 +274,7 @@
       },
       "tokenAllowance": {
         "actionRequired": "Aprovar gastos de {{tokenSymbol}}",
-        "resetRequired": "",
+        "resetRequired": "Revogar gasto de {{tokenSymbol}}",
         "done": "Gastos de {{tokenSymbol}} aprovados",
         "pending": "Aprovação de {{tokenSymbol}} pendente",
         "started": "Preparando a transação de aprovação"
