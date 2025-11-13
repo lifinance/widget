@@ -9,6 +9,7 @@ import { RoutePrioritySettings } from './RoutePrioritySettings.js'
 import { SettingsList } from './SettingsCard/SettingCard.style.js'
 import { SettingsCardAccordion } from './SettingsCard/SettingsAccordian.js'
 import { SlippageSettings } from './SlippageSettings/SlippageSettings.js'
+import { SmallBalanceFilterSettings } from './SmallBalanceFilterSettings.js'
 import { ThemeSettings } from './ThemeSettings.js'
 
 export const SettingsPage = () => {
@@ -24,6 +25,7 @@ export const SettingsPage = () => {
           <RoutePrioritySettings />
           <GasPriceSettings />
           <SlippageSettings />
+          <SmallBalanceFilterSettings />
           <BridgeAndExchangeSettings type="Bridges" />
           <BridgeAndExchangeSettings type="Exchanges" />
         </SettingsCardAccordion>
