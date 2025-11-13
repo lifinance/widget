@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 This repository shows how to integrate Widget into the latest Next.js Pages Router projects.
 
-> **_NOTE:_** If you are using App Router, check out the examples in `examples/nextjs` (latest Next.js version) or `examples/nextjs14` (Next.js version 14).
+> **_NOTE:_** If you are using App Router, check out the examples in `examples/nextjs` (latest Next.js version), `examples/nextjs15` (Next.js version 15), or `examples/nextjs14` (Next.js version 14).
 
 Examples can be found at the following paths:
 
