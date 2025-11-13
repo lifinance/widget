@@ -123,6 +123,24 @@ If you'd like to contribute translations, please visit our Crowdin project page 
 
 Thank you for your support!
 
+## Contributing
+
+### Adding Changesets
+
+When making changes that affect package versions, you need to create a changeset:
+
+1. Run `pnpm changeset` to create a new changeset file
+2. Select the packages affected by your changes
+3. Choose the version bump type (patch, minor, or major)
+4. Write a description of your changes
+5. Commit the changeset file along with your changes
+
+Changesets accumulate in the `.changeset/` directory and can be batched together before versioning.
+
+### Release Process
+
+The release process is automated using [Changesets](https://github.com/changesets/changesets). For detailed information about the release workflow, see [RELEASING.md](.github/RELEASING.md).
+
 ## Changelog
 
 The [changelog](/CHANGELOG.md) is regularly updated to reflect what's changed in each new release.

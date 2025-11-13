@@ -1,0 +1,43 @@
+name: Changesets
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  changesets:
+    name: Create Version PR
+    # prevents this action from running on forks
+    if: github.repository == 'lifinance/widget'
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+        with:
+          # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
+          fetch-depth: 0
+
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+
+      - name: Create Version PR
+        uses: changesets/action@v1
+        with:
+          title: 'chore: version packages'
+          commit: 'chore: version packages'
+          version: pnpm release:version && pnpm release:build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
