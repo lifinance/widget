@@ -33,6 +33,7 @@ export const TokenList: FC<TokenListProps> = memo(
     const {
       tokens,
       withCategories,
+      withPinnedTokens,
       isTokensLoading,
       isBalanceLoading,
       isSearchLoading,
@@ -70,6 +71,7 @@ export const TokenList: FC<TokenListProps> = memo(
           isLoading={isTokensLoading || isSearchLoading}
           isBalanceLoading={isBalanceLoading}
           showCategories={showCategories}
+          showPinnedTokens={withPinnedTokens}
           onClick={handleTokenClick}
           selectedTokenAddress={selectedTokenAddress}
           isAllNetworks={isAllNetworks}

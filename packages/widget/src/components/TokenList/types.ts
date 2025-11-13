@@ -17,6 +17,7 @@ export interface VirtualizedTokenListProps {
   isBalanceLoading: boolean
   chainId?: number
   showCategories?: boolean
+  showPinnedTokens?: boolean
   onClick(tokenAddress: string, chainId?: number): void
   selectedTokenAddress?: string
   isAllNetworks: boolean
