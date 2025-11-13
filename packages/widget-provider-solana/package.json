@@ -8,7 +8,7 @@
     "@solana/wallet-adapter-base": "^0.9.27",
     "@solana/wallet-adapter-coinbase": "^0.1.23",
     "@solana/web3.js": "^1.98.4",
-    "@lifi/sdk": "^3.13.2",
+    "@lifi/sdk": "^3.13.3",
     "@lifi/widget-provider": "workspace:*"
   },
   "peerDependencies": {

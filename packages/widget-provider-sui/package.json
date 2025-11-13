@@ -5,9 +5,9 @@
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
   "dependencies": {
-    "@mysten/sui": "1.39.1",
-    "@lifi/sdk": "^3.13.2",
-    "@mysten/wallet-standard": "^0.19.5",
+    "@mysten/sui": "^1.45.0",
+    "@lifi/sdk": "^3.13.3",
+    "@mysten/wallet-standard": "^0.19.7",
     "@lifi/widget-provider": "workspace:*"
   },
   "peerDependencies": {

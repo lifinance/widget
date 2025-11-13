@@ -6,8 +6,8 @@
   "types": "./src/index.d.ts",
   "dependencies": {
     "@bigmi/client": "^0.6.1",
-    "@bigmi/core": "^0.6.1",
-    "@lifi/sdk": "^3.13.2",
+    "@bigmi/core": "^0.6.2",
+    "@lifi/sdk": "^3.13.3",
     "@lifi/widget-provider": "workspace:*"
   },
   "peerDependencies": {
