@@ -1,9 +1,9 @@
-import { useAvailableChains } from '@lifi/widget'
 import {
   convertExtendedChain,
   isExtendedChain,
   useSyncWagmiConfig,
-} from '@lifi/widget-provider-ethereum'
+} from '@lifi/wallet-management'
+import { useAvailableChains } from '@lifi/widget'
 import { PrivyProvider } from '@privy-io/react-auth'
 import { WagmiProvider } from '@privy-io/wagmi'
 import { QueryClientProvider } from '@tanstack/react-query'

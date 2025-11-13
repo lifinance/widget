@@ -4,12 +4,12 @@ import { ZeroDevSmartWalletConnectors } from '@dynamic-labs/ethereum-aa'
 import { DynamicContextProvider } from '@dynamic-labs/sdk-react-core'
 import { SolanaWalletConnectors } from '@dynamic-labs/solana'
 import { DynamicWagmiConnector } from '@dynamic-labs/wagmi-connector'
-import { ChainType, type ExtendedChain, useAvailableChains } from '@lifi/widget'
 import {
   convertExtendedChain,
   isExtendedChain,
   useSyncWagmiConfig,
-} from '@lifi/widget-provider-ethereum'
+} from '@lifi/wallet-management'
+import { ChainType, type ExtendedChain, useAvailableChains } from '@lifi/widget'
 import { type FC, type PropsWithChildren, useRef } from 'react'
 import { type Chain, mainnet } from 'viem/chains'
 import type { Config, CreateConnectorFn } from 'wagmi'

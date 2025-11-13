@@ -36,8 +36,5 @@
     "typescript": "~5.9.3",
     "vite": "^7.1.12",
     "vite-plugin-env-compatible": "^2.0.1"
-  },
-  "peerDependencies": {
-    "bs58": ">=4.0.1"
   }
 }

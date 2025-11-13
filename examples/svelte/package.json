@@ -26,7 +26,6 @@
   },
   "dependencies": {
     "@lifi/widget": "^3.34.0",
-    "@lifi/wallet-management": "^3.19.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   }
