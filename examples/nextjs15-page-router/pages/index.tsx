@@ -1,0 +1,21 @@
+import type { WidgetConfig } from '@lifi/widget'
+import { WidgetSkeleton } from '@lifi/widget'
+import { Widget } from '@/components/Widget'
+
+export default function Home() {
+  const config = {
+    appearance: 'light',
+    theme: {
+      container: {
+        border: '1px solid rgb(234, 234, 234)',
+        borderRadius: '16px',
+      },
+    },
+  } as Partial<WidgetConfig>
+
+  return (
+    <main>
+      <Widget config={config} fallback={<WidgetSkeleton config={config} />} />
+    </main>
+  )
+}
