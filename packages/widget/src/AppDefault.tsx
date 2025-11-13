@@ -98,17 +98,6 @@ const routesRoute = createRoute({
   component: RoutesPage,
 })
 
-const routesActiveTransactionsRoute = createRoute({
-  getParentRoute: () => routesRoute,
-  path: navigationRoutes.activeTransactions,
-})
-
-const routesActiveTransactionExecutionRoute = createRoute({
-  getParentRoute: () => routesActiveTransactionsRoute,
-  path: navigationRoutes.transactionExecution,
-  component: TransactionPage,
-})
-
 const routesTransactionExecutionRoute = createRoute({
   getParentRoute: () => routesRoute,
   path: navigationRoutes.transactionExecution,
@@ -175,28 +164,6 @@ const transactionHistoryDetailsRoute = createRoute({
   component: TransactionDetailsPage,
 })
 
-const transactionHistoryRoutesRoute = createRoute({
-  getParentRoute: () => transactionHistoryRoute,
-  path: navigationRoutes.routes,
-})
-
-const transactionHistoryRoutesDetailsRoute = createRoute({
-  getParentRoute: () => transactionHistoryRoutesRoute,
-  path: navigationRoutes.transactionDetails,
-  component: TransactionDetailsPage,
-})
-
-const transactionHistoryRoutesExecutionRoute = createRoute({
-  getParentRoute: () => transactionHistoryRoutesRoute,
-  path: navigationRoutes.transactionExecution,
-})
-
-const transactionHistoryRoutesExecutionDetailsRoute = createRoute({
-  getParentRoute: () => transactionHistoryRoutesExecutionRoute,
-  path: navigationRoutes.transactionDetails,
-  component: TransactionDetailsPage,
-})
-
 const transactionExecutionRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: navigationRoutes.transactionExecution,
@@ -220,9 +187,6 @@ const routeTree = rootRoute.addChildren([
   toTokenRoute.addChildren([toTokenToChainRoute]),
   toTokenNativeRoute,
   routesRoute.addChildren([
-    routesActiveTransactionsRoute.addChildren([
-      routesActiveTransactionExecutionRoute,
-    ]),
     routesTransactionExecutionRoute.addChildren([
       routesTransactionExecutionDetailsRoute,
     ]),
@@ -235,15 +199,7 @@ const routeTree = rootRoute.addChildren([
     sendToWalletConnectedWalletsRoute,
   ]),
   configuredWalletsRoute,
-  transactionHistoryRoute.addChildren([
-    transactionHistoryDetailsRoute,
-    transactionHistoryRoutesRoute.addChildren([
-      transactionHistoryRoutesDetailsRoute,
-      transactionHistoryRoutesExecutionRoute.addChildren([
-        transactionHistoryRoutesExecutionDetailsRoute,
-      ]),
-    ]),
-  ]),
+  transactionHistoryRoute.addChildren([transactionHistoryDetailsRoute]),
 ])
 
 declare module '@tanstack/react-router' {

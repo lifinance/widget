@@ -12,7 +12,6 @@ import { Card } from '../../components/Card/Card.js'
 import { CardTitle } from '../../components/Card/CardTitle.js'
 import { Token } from '../../components/Token/Token.js'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
-import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { getProcessMessage } from '../../hooks/useProcessMessage.js'
 import { useSetContentHeight } from '../../hooks/useSetContentHeight.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
@@ -66,7 +65,6 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
   onClose,
 }) => {
   const { t } = useTranslation()
-  const navigateBack = useNavigateBack()
   const navigate = useNavigate()
   const { setFieldValue } = useFieldActions()
   const {
@@ -97,7 +95,7 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
 
   const handleDone = () => {
     cleanFields()
-    navigateBack()
+    navigate({ to: navigationRoutes.home, replace: true })
   }
 
   const handlePartialDone = () => {
@@ -121,7 +119,7 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
     } else {
       cleanFields()
     }
-    navigateBack()
+    navigate({ to: navigationRoutes.home, replace: true })
   }
 
   const handleClose = () => {
