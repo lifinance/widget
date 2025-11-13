@@ -274,6 +274,7 @@
       },
       "tokenAllowance": {
         "actionRequired": "Menyetujui pengeluaran {{tokenSymbol}}",
+        "resetRequired": "",
         "done": "Pengeluaran {{tokenSymbol}} disetujui",
         "pending": "{{tokenSymbol}} persetujuan tertunda",
         "started": "Mempersiapkan transaksi"
