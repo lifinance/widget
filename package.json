@@ -37,8 +37,6 @@
     "knip:check": "knip --dependencies --files --no-config-hints --exclude binaries",
     "knip:write": "pnpm knip:check --fix",
     "changeset": "changeset",
-    "changeset:version": "changeset version",
-    "changeset:publish": "changeset publish",
     "changeset:status": "changeset status"
   },
   "lint-staged": {

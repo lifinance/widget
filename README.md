@@ -137,19 +137,9 @@ When making changes that affect package versions, you need to create a changeset
 
 Changesets accumulate in the `.changeset/` directory and can be batched together before versioning.
 
-### Creating a Version PR
+### Release Process
 
-When you're ready to release (after multiple changesets have been merged to `main`):
-
-1. Go to the [GitHub Actions](https://github.com/lifinance/widget/actions) page
-2. Select the "Changesets Version" workflow
-3. Click "Run workflow" button and confirm
-4. This will create a "Version Packages" PR with all accumulated changesets
-5. Review and merge the version PR to bump versions and update changelogs
-6. After merging, create and push a git tag matching the new version (e.g., `v3.34.2`)
-7. Pushing the tag will automatically trigger the publish workflow to build and publish packages to npm
-
-This allows multiple changes to be batched into a single release version.
+The release process is automated using [Changesets](https://github.com/changesets/changesets). For detailed information about the release workflow, see [RELEASING.md](.github/RELEASING.md).
 
 ## Changelog
 
