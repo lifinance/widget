@@ -1,5 +1,5 @@
 {
-  "name": "nextjs-page-router",
+  "name": "nextjs15",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,9 +7,14 @@
     "build": "next build",
     "start": "next start"
   },
+  "engines": {
+    "node": ">=21.0.0"
+  },
   "dependencies": {
+    "@lifi/sdk": "^3.13.3",
     "@lifi/widget": "^3.34.1",
-    "next": "^15.5.4",
+    "@mui/material-nextjs": "^7.3.5",
+    "next": "^15",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
