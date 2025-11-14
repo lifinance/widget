@@ -13,7 +13,7 @@ const connectors = [injected(), walletConnect({ projectId })]
 
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   const { chains } = useAvailableChains()
-  const wagmi = useRef<Config>()
+  const wagmi = useRef<Config>(null)
 
   if (!wagmi.current) {
     wagmi.current = createConfig({

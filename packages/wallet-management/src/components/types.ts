@@ -1,11 +1,11 @@
-import type { Connector as BigmiConnector } from '@bigmi/client'
-import type { Connector } from 'wagmi'
+import type { WalletConnector } from '@lifi/widget-provider'
 import type { WalletTagType } from '../types/walletTagType.js'
 
 export interface WalletListItemButtonProps {
   ecosystemSelection?: boolean
   tagType?: WalletTagType
-  onNotInstalled?(connector: Connector | BigmiConnector): void
+  connector: WalletConnector
+  onNotInstalled?(connector: WalletConnector): void
   onConnected?(): void
   onConnecting?(): void
   onError?(error: unknown): void

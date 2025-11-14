@@ -2,8 +2,8 @@ import type { RouteExtended } from '@lifi/sdk'
 import type { TypographyProps } from '@mui/material'
 import type { MouseEventHandler } from 'react'
 import { useTranslation } from 'react-i18next'
-import { formatUnits } from 'viem'
 import { create } from 'zustand'
+import { formatUnits } from '../../utils/format.js'
 import { TokenRateTypography } from './TokenRate.style.js'
 
 interface TokenRateProps extends TypographyProps {

@@ -1,50 +1,31 @@
-import type { Config as BigmiConfig } from '@bigmi/client'
-import {
-  disconnect as bigmiDisconnect,
-  getAccount as bigmiGetAccount,
-} from '@bigmi/client'
-import { useConfig as useBigmiConfig } from '@bigmi/react'
 import { ChainType } from '@lifi/sdk'
-import { useDisconnectWallet } from '@mysten/dapp-kit'
-import { useWallet } from '@solana/wallet-adapter-react'
-import type { Config } from 'wagmi'
-import { useConfig as useWagmiConfig } from 'wagmi'
-import { disconnect, getAccount } from 'wagmi/actions'
-import type { Account } from './useAccount.js'
+import {
+  type Account,
+  useBitcoinContext,
+  useEthereumContext,
+  useSolanaContext,
+  useSuiContext,
+} from '@lifi/widget-provider'
 
 export const useAccountDisconnect = () => {
-  const bigmiConfig = useBigmiConfig()
-  const wagmiConfig = useWagmiConfig()
-  const { disconnect: solanaDisconnect } = useWallet()
-  const { mutateAsync: disconnectWallet } = useDisconnectWallet()
-
-  const handleDisconnectEVM = async (config: Config) => {
-    const connectedAccount = getAccount(config)
-    if (connectedAccount.connector) {
-      await disconnect(config, { connector: connectedAccount.connector })
-    }
-  }
-
-  const handleDisconnectUTXO = async (config: BigmiConfig) => {
-    const connectedAccount = bigmiGetAccount(config)
-    if (connectedAccount.connector) {
-      await bigmiDisconnect(config, { connector: connectedAccount.connector })
-    }
-  }
+  const { disconnect: ethereumDisconnect } = useEthereumContext()
+  const { disconnect: bitcoinDisconnect } = useBitcoinContext()
+  const { disconnect: solanaDisconnect } = useSolanaContext()
+  const { disconnect: suiDisconnect } = useSuiContext()
 
   return async (account: Account) => {
     switch (account.chainType) {
       case ChainType.EVM:
-        await handleDisconnectEVM(wagmiConfig)
+        await ethereumDisconnect()
         break
       case ChainType.UTXO:
-        await handleDisconnectUTXO(bigmiConfig)
+        await bitcoinDisconnect()
         break
       case ChainType.SVM:
         await solanaDisconnect()
         break
       case ChainType.MVM:
-        await disconnectWallet()
+        await suiDisconnect()
         break
     }
   }

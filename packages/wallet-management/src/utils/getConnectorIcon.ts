@@ -1,17 +1,8 @@
-import type { Connector as BigmiConnector } from '@bigmi/client'
-import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
-import type { WalletAdapter } from '@solana/wallet-adapter-base'
-import type { Connector } from 'wagmi'
+import type { WalletConnector } from '@lifi/widget-provider'
 import { getWalletIcon } from '../icons.js'
 
-export const getConnectorIcon = (
-  connector?:
-    | Connector
-    | WalletAdapter
-    | BigmiConnector
-    | WalletWithRequiredFeatures
-) => {
-  const connectorId = (connector as Connector)?.id
+export const getConnectorIcon = (connector?: WalletConnector) => {
+  const connectorId = connector?.id
 
   return connectorId
     ? getWalletIcon(connectorId) || connector?.icon

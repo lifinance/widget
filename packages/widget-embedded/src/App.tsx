@@ -1,4 +1,8 @@
 import { LiFiWidget } from '@lifi/widget'
+import { BitcoinProvider } from '@lifi/widget-provider-bitcoin'
+import { EthereumProvider } from '@lifi/widget-provider-ethereum'
+import { SolanaProvider } from '@lifi/widget-provider-solana'
+import { SuiProvider } from '@lifi/widget-provider-sui'
 import { Box, CssBaseline } from '@mui/material'
 import type { NFTNetwork } from './components/NFTOpenSea/index.js'
 import {
@@ -27,6 +31,12 @@ export const App = () => {
         }}
       >
         <LiFiWidget
+          providers={[
+            EthereumProvider(),
+            SuiProvider(),
+            SolanaProvider(),
+            BitcoinProvider(),
+          ]}
           contractComponent={
             <NFTOpenSea
               network={pathnameParams[0] as NFTNetwork}

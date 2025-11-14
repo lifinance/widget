@@ -55,7 +55,7 @@ export const widgetBaseConfig: WidgetConfig = {
   // },
   // slippage: 0.003,
   // walletConfig: {
-  //   usePartialWalletManagement: true,
+  // usePartialWalletManagement: true,
   // },
   sdkConfig: {
     apiUrl: 'https://li.quest/v1',
