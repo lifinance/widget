@@ -1,6 +1,6 @@
 import type { WalletManagementConfig } from '@lifi/wallet-management'
 import { WalletManagementProvider } from '@lifi/wallet-management'
-import { type FC, type PropsWithChildren, useMemo } from 'react'
+import { type FC, type PropsWithChildren, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import type { WidgetWalletProvidersProps } from '../../types/widget.js'
@@ -15,6 +15,22 @@ export const WalletProvider = ({
   const { walletConfig } = useWidgetConfig()
   const { chains } = useAvailableChains()
 
+  const prevProvidersRef = useRef(providers)
+
+  // Memoize providers to maintain referential stability and prevent remounts
+  const memoizedProviders = useMemo(() => {
+    if (
+      prevProvidersRef.current.length === providers.length &&
+      prevProvidersRef.current.every(
+        (provider, index) => provider === providers[index]
+      )
+    ) {
+      return prevProvidersRef.current
+    }
+    prevProvidersRef.current = providers
+    return providers
+  }, [providers])
+
   const baseContent = (
     <>
       <SDKProviders />
@@ -22,7 +38,7 @@ export const WalletProvider = ({
     </>
   )
 
-  return providers.reduceRight(
+  return memoizedProviders.reduceRight(
     (acc, ProviderComponent) => (
       <ProviderComponent
         key={ProviderComponent.name}
