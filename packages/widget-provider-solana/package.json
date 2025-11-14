@@ -1,9 +1,46 @@
 {
   "name": "@lifi/widget-provider-solana",
   "version": "4.0.0",
+  "description": "LI.FI Widget Provider for Solana blockchain integration.",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "watch": "tsc -w -p ./tsconfig.json",
+    "build": "pnpm clean && pnpm build:esm && pnpm build:clean",
+    "build:esm": "tsc --build",
+    "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../*.md' .",
+    "build:postrelease": "node ../../scripts/postrelease.js && rm -rf *.md",
+    "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo",
+    "release:build": "pnpm build",
+    "clean": "pnpm build:clean && rm -rf dist",
+    "check:types": "tsc --noEmit",
+    "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
+    "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg",
+    "link:sdk": "pnpm link @lifi/sdk",
+    "unlink:sdk": "pnpm unlink @lifi/sdk"
+  },
+  "author": "Eugene Chybisov <eugene@li.finance>",
+  "homepage": "https://github.com/lifinance/widget",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lifinance/widget.git",
+    "directory": "packages/widget-provider-solana"
+  },
+  "bugs": {
+    "url": "https://github.com/lifinance/widget/issues"
+  },
+  "license": "Apache-2.0",
+  "keywords": [
+    "widget",
+    "lifi-widget",
+    "solana",
+    "sol",
+    "wallet",
+    "web3",
+    "lifi"
+  ],
   "dependencies": {
     "@solana/wallet-adapter-base": "^0.9.27",
     "@solana/wallet-adapter-coinbase": "^0.1.23",
@@ -16,6 +53,8 @@
     "bs58": ">=4.0.1"
   },
   "devDependencies": {
+    "cpy-cli": "^6.0.0",
+    "madge": "^8.0.0",
     "react": "^19.2.0",
     "typescript": "^5.9.3"
   },
