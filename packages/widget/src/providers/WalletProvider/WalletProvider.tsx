@@ -15,27 +15,27 @@ export const WalletProvider = ({
   const { walletConfig } = useWidgetConfig()
   const { chains } = useAvailableChains()
 
-  let WidgetWithProviders = (
+  const baseContent = (
     <>
       <SDKProviders />
       <WalletMenuProvider>{children}</WalletMenuProvider>
     </>
   )
 
-  for (const ProviderComponent of providers) {
-    WidgetWithProviders = (
+  return providers.reduceRight(
+    (acc, ProviderComponent) => (
       <ProviderComponent
+        key={ProviderComponent.name}
         forceInternalWalletManagement={
           walletConfig?.forceInternalWalletManagement
         }
         chains={chains ?? []}
       >
-        {WidgetWithProviders}
+        {acc}
       </ProviderComponent>
-    )
-  }
-
-  return WidgetWithProviders
+    ),
+    baseContent
+  )
 }
 
 const WalletMenuProvider: FC<PropsWithChildren> = ({ children }) => {

@@ -6,5 +6,11 @@ export {
 export { SolanaContext, useSolanaContext } from './contexts/SolanaContext.js'
 export { SuiContext, useSuiContext } from './contexts/SuiContext.js'
 export { useChainTypeFromAddress } from './hooks/useChainTypeFromAddress.js'
-export type { Account, WalletConnector, WidgetProviderProps } from './types.js'
+export type {
+  Account,
+  EthereumProviderContext,
+  WalletConnector,
+  WidgetProviderContext,
+  WidgetProviderProps,
+} from './types.js'
 export { isWalletInstalled } from './utils/isWalletInstalled.js'

@@ -36,7 +36,10 @@ export type WidgetProviderContext = {
     onSuccess?: (address: string, chainId: number) => void
   ) => Promise<void>
   disconnect: () => Promise<void>
-  // EVM handlers
+}
+
+// EVM-specific context extensions
+export type EthereumProviderContext = WidgetProviderContext & {
   getBytecode?: (
     chainId: number,
     address: string
