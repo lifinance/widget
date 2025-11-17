@@ -43,9 +43,9 @@
     "lifi"
   ],
   "dependencies": {
-    "viem": "^2.39.0",
-    "@lifi/sdk": "^3.13.3",
-    "@lifi/widget-provider": "workspace:*"
+    "@lifi/sdk": "^3.13.5",
+    "@lifi/widget-provider": "workspace:*",
+    "viem": "^2.39.0"
   },
   "peerDependencies": {
     "wagmi": ">=2.17.5"

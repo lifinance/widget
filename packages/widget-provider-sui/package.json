@@ -42,10 +42,10 @@
     "lifi"
   ],
   "dependencies": {
+    "@lifi/sdk": "^3.13.5",
+    "@lifi/widget-provider": "workspace:*",
     "@mysten/sui": "^1.45.0",
-    "@lifi/sdk": "^3.13.3",
-    "@mysten/wallet-standard": "^0.19.7",
-    "@lifi/widget-provider": "workspace:*"
+    "@mysten/wallet-standard": "^0.19.7"
   },
   "peerDependencies": {
     "@mysten/dapp-kit": "^0.19.7"
