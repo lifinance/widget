@@ -10,7 +10,6 @@ import {
   List,
   useTheme,
 } from '@mui/material'
-import { Outlet, useLocation } from '@tanstack/react-router'
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActiveTransactionItem } from '../../components/ActiveTransactions/ActiveTransactionItem.js'
@@ -19,7 +18,6 @@ import { PageContainer } from '../../components/PageContainer.js'
 import { useHeader } from '../../hooks/useHeader.js'
 import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.js'
 import { useExecutingRoutesIds } from '../../stores/routes/useExecutingRoutesIds.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { ActiveTransactionsEmpty } from './ActiveTransactionsEmpty.js'
 
 const DeleteIconButton: React.FC<IconButtonProps> = ({ onClick }) => {
@@ -37,16 +35,6 @@ const DeleteIconButton: React.FC<IconButtonProps> = ({ onClick }) => {
 }
 
 export const ActiveTransactionsPage = () => {
-  const { pathname } = useLocation()
-
-  if (pathname.endsWith(navigationRoutes.activeTransactions)) {
-    return <ActiveTransactionsPageComponent />
-  }
-
-  return <Outlet />
-}
-
-const ActiveTransactionsPageComponent = () => {
   const { t } = useTranslation()
   const executingRoutes = useExecutingRoutesIds()
   const deleteRoutes = useRouteExecutionStore((store) => store.deleteRoutes)

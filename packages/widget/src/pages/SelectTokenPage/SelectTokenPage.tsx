@@ -1,5 +1,4 @@
 import { Box, type Theme, useMediaQuery } from '@mui/material'
-import { Outlet, useLocation } from '@tanstack/react-router'
 import type { FC } from 'react'
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -13,24 +12,9 @@ import { useWideVariant } from '../../hooks/useWideVariant.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { FormTypeProps } from '../../stores/form/types.js'
 import { HiddenUI } from '../../types/widget.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { SearchTokenInput } from './SearchTokenInput.js'
 
-export const SelectTokenPage = () => {
-  const { pathname } = useLocation()
-
-  if (pathname.endsWith(navigationRoutes.fromToken)) {
-    return <SelectTokenComponent formType="from" />
-  }
-
-  if (pathname.endsWith(navigationRoutes.toToken)) {
-    return <SelectTokenComponent formType="to" />
-  }
-
-  return <Outlet />
-}
-
-const SelectTokenComponent: FC<FormTypeProps> = ({ formType }) => {
+export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   useScrollableOverflowHidden()
 
   const headerRef = useRef<HTMLElement>(null)

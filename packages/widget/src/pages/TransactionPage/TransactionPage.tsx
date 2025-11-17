@@ -1,7 +1,7 @@
 import type { ExchangeRateUpdateParams } from '@lifi/sdk'
 import Delete from '@mui/icons-material/Delete'
 import { Box, Button, Tooltip } from '@mui/material'
-import { Outlet, useLocation } from '@tanstack/react-router'
+import { useLocation } from '@tanstack/react-router'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
@@ -21,7 +21,6 @@ import { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { WidgetEvent } from '../../types/events.js'
 import { HiddenUI } from '../../types/widget.js'
 import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { ConfirmToAddressSheet } from './ConfirmToAddressSheet.js'
 import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet.js'
 import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet.js'
@@ -35,16 +34,6 @@ import {
 } from './utils.js'
 
 export const TransactionPage = () => {
-  const { pathname } = useLocation()
-
-  if (pathname.endsWith(navigationRoutes.transactionExecution)) {
-    return <TransactionPageComponent />
-  }
-
-  return <Outlet />
-}
-
-export const TransactionPageComponent: React.FC = () => {
   const { t } = useTranslation()
   const { setFieldValue } = useFieldActions()
   const emitter = useWidgetEvents()

@@ -1,7 +1,6 @@
 import type { Route } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
-import type { BoxProps } from '@mui/material'
-import { Outlet, useLocation, useNavigate } from '@tanstack/react-router'
+import { useNavigate } from '@tanstack/react-router'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate.js'
@@ -18,16 +17,6 @@ import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { Stack } from './RoutesPage.style.js'
 
 export const RoutesPage = () => {
-  const { pathname } = useLocation()
-
-  if (pathname.endsWith(navigationRoutes.routes)) {
-    return <RoutesComponent />
-  }
-
-  return <Outlet />
-}
-
-const RoutesComponent: React.FC<BoxProps> = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const emitter = useWidgetEvents()

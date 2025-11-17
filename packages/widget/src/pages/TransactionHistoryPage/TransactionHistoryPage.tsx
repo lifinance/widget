@@ -1,6 +1,5 @@
 import type { FullStatusData } from '@lifi/sdk'
 import { Box, List } from '@mui/material'
-import { Outlet, useLocation } from '@tanstack/react-router'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -8,23 +7,12 @@ import { PageContainer } from '../../components/PageContainer.js'
 import { useHeader } from '../../hooks/useHeader.js'
 import { useListHeight } from '../../hooks/useListHeight.js'
 import { useTransactionHistory } from '../../hooks/useTransactionHistory.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { minTransactionListHeight } from './constants.js'
 import { TransactionHistoryEmpty } from './TransactionHistoryEmpty.js'
 import { TransactionHistoryItem } from './TransactionHistoryItem.js'
 import { TransactionHistoryItemSkeleton } from './TransactionHistorySkeleton.js'
 
 export const TransactionHistoryPage = () => {
-  const { pathname } = useLocation()
-
-  if (pathname.endsWith(navigationRoutes.transactionHistory)) {
-    return <TransactionHistoryPageComponent />
-  }
-
-  return <Outlet />
-}
-
-const TransactionHistoryPageComponent = () => {
   // Parent ref and useVirtualizer should be in one file to avoid blank page (0 virtual items) issue
   const parentRef = useRef<HTMLDivElement | null>(null)
   const { data: transactions, isLoading } = useTransactionHistory()
