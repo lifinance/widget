@@ -1398,18 +1398,6 @@ importers:
       '@lifi/widget-playground':
         specifier: workspace:*
         version: link:../widget-playground
-      '@lifi/widget-provider-bitcoin':
-        specifier: workspace:*
-        version: link:../widget-provider-bitcoin
-      '@lifi/widget-provider-ethereum':
-        specifier: workspace:*
-        version: link:../widget-provider-ethereum
-      '@lifi/widget-provider-solana':
-        specifier: workspace:*
-        version: link:../widget-provider-solana
-      '@lifi/widget-provider-sui':
-        specifier: workspace:*
-        version: link:../widget-provider-sui
       '@mui/material':
         specifier: ^7.3.5
         version: 7.3.5(@emotion/react@11.14.0(@types/react@19.2.4)(react@19.2.0))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.4)(react@19.2.0))(@types/react@19.2.4)(react@19.2.0))(@types/react@19.2.4)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)

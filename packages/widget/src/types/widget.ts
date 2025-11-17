@@ -301,6 +301,8 @@ export interface WidgetConfig {
   toAmount?: number | string
   formUpdateKey?: string
 
+  providers?: ((props: PropsWithChildren<WidgetProviderProps>) => ReactNode)[]
+
   contractCalls?: ContractCall[]
   contractComponent?: ReactNode
   contractSecondaryComponent?: ReactNode
@@ -380,10 +382,6 @@ export interface FormRefProps {
   formRef?: FormRef
 }
 
-export interface WidgetWalletProvidersProps {
-  providers: ((props: PropsWithChildren<WidgetProviderProps>) => ReactNode)[]
-}
-
 export interface WidgetConfigProps extends FormRefProps {
   config: WidgetConfig
 }
@@ -395,8 +393,7 @@ export interface WidgetConfigPartialProps {
 export type WidgetProps = WidgetDrawerProps &
   WidgetConfig &
   WidgetConfigPartialProps &
-  FormRefProps &
-  WidgetWalletProvidersProps
+  FormRefProps
 
 export interface WidgetDrawerProps extends WidgetConfigPartialProps {
   elementRef?: RefObject<HTMLDivElement>

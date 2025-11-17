@@ -1,9 +1,5 @@
 import type { FieldNames, FormState, WidgetDrawer } from '@lifi/widget'
 import { LiFiWidget, WidgetSkeleton } from '@lifi/widget'
-import { BitcoinProvider } from '@lifi/widget-provider-bitcoin'
-import { EthereumProvider } from '@lifi/widget-provider-ethereum'
-import { SolanaProvider } from '@lifi/widget-provider-solana'
-import { SuiProvider } from '@lifi/widget-provider-sui'
 import { useCallback, useEffect, useRef } from 'react'
 import { useFormValues } from '../../store/editTools/useFormValues.js'
 import { useSkeletonToolValues } from '../../store/editTools/useSkeletonToolValues.js'
@@ -42,12 +38,6 @@ export function WidgetView() {
           integrator="li.fi-playground"
           formRef={formRef}
           open
-          providers={[
-            EthereumProvider(),
-            SuiProvider(),
-            SolanaProvider(),
-            BitcoinProvider(),
-          ]}
         />
       ) : null}
       {isSkeletonShown ? <WidgetSkeleton config={config} /> : null}

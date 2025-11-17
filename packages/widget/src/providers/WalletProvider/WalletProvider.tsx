@@ -1,17 +1,27 @@
 import type { WalletManagementConfig } from '@lifi/wallet-management'
 import { WalletManagementProvider } from '@lifi/wallet-management'
-import { type FC, type PropsWithChildren, useMemo, useRef } from 'react'
+import type { WidgetProviderProps } from '@lifi/widget-provider'
+import {
+  type FC,
+  type PropsWithChildren,
+  type ReactNode,
+  useMemo,
+  useRef,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
-import type { WidgetWalletProvidersProps } from '../../types/widget.js'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 import { SDKProviders } from './SDKProviders.js'
 import { useExternalWalletProvider } from './useExternalWalletProvider.js'
 
+interface WalletProviderProps extends PropsWithChildren {
+  providers: ((props: PropsWithChildren<WidgetProviderProps>) => ReactNode)[]
+}
+
 export const WalletProvider = ({
   children,
   providers,
-}: PropsWithChildren<WidgetWalletProvidersProps>) => {
+}: PropsWithChildren<WalletProviderProps>) => {
   const { walletConfig } = useWidgetConfig()
   const { chains } = useAvailableChains()
 
