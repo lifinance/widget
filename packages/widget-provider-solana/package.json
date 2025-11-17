@@ -49,7 +49,7 @@
     "@solana/web3.js": "^1.98.4"
   },
   "peerDependencies": {
-    "@solana/wallet-adapter-react": ">=0.15.35",
+    "@solana/wallet-adapter-react": ">=0.15.39",
     "bs58": ">=4.0.1"
   },
   "devDependencies": {
