@@ -10,7 +10,6 @@ import {
   useLocation,
   useNavigate,
 } from '@tanstack/react-router'
-import { useMemo } from 'react'
 
 function Navigation() {
   const navigate = useNavigate()
@@ -95,7 +94,7 @@ const indexRoute = createRoute({
         application.
       </p>
       <p>
-        Navigate to the <strong>Widget</strong> page to see the LiFi Widget in
+        Navigate to the <strong>Widget</strong> page to see the LI.FI Widget in
         action.
       </p>
     </div>
@@ -117,7 +116,7 @@ const settingsRoute = createRoute({
       <p>Application settings page.</p>
       <p>
         This demonstrates how TanStack Router can be used to create a multi-page
-        application with the LiFi Widget integrated on specific routes.
+        application with the LI.FI Widget integrated on specific routes.
       </p>
     </div>
   ),
@@ -128,6 +127,13 @@ const routeTree = rootRoute.addChildren([
   widgetRoute,
   settingsRoute,
 ])
+
+const history = createBrowserHistory()
+
+const router = createRouter({
+  routeTree,
+  history,
+})
 
 function WidgetPage() {
   const config = {
@@ -142,7 +148,7 @@ function WidgetPage() {
 
   return (
     <div>
-      <h2>LiFi Widget</h2>
+      <h2>LI.FI Widget</h2>
       <p style={{ marginBottom: '20px' }}>
         The widget below uses TanStack Router internally for navigation between
         its own pages (settings, token selection, etc.).
@@ -153,15 +159,6 @@ function WidgetPage() {
 }
 
 function App() {
-  const router = useMemo(() => {
-    const history = createBrowserHistory()
-
-    return createRouter({
-      routeTree,
-      history,
-    })
-  }, [])
-
   return <RouterProvider router={router} />
 }
 

@@ -6,7 +6,6 @@ import {
   type Router,
   RouterProvider,
 } from '@tanstack/react-router'
-import { useMemo } from 'react'
 import { AppLayout } from './AppLayout.js'
 import { NotFound } from './components/NotFound.js'
 import { ActiveTransactionsPage } from './pages/ActiveTransactionsPage/ActiveTransactionsPage.js'
@@ -208,18 +207,16 @@ declare module '@tanstack/react-router' {
   }
 }
 
+const history = createMemoryHistory({
+  initialEntries: ['/'],
+})
+
+const router = createRouter({
+  routeTree,
+  history,
+  defaultPreload: 'intent',
+})
+
 export const AppDefault = () => {
-  const router = useMemo(() => {
-    const history = createMemoryHistory({
-      initialEntries: ['/'],
-    })
-
-    return createRouter({
-      routeTree,
-      history,
-      defaultPreload: 'intent',
-    })
-  }, [])
-
   return <RouterProvider router={router} />
 }
