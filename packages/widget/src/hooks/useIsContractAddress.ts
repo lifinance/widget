@@ -1,6 +1,6 @@
 import { ChainType } from '@lifi/sdk'
-import type { Address } from 'viem'
-import { useBytecode } from 'wagmi'
+import { useEthereumContext } from '@lifi/widget-provider'
+import { useQuery } from '@tanstack/react-query'
 
 export const useIsContractAddress = (
   address?: string,
@@ -12,23 +12,27 @@ export const useIsContractAddress = (
   isLoading: boolean
   isFetched: boolean
 } => {
+  const { getBytecode } = useEthereumContext()
+
   const {
     data: contractCode,
     isLoading,
     isFetched,
-  } = useBytecode({
-    address: address as Address,
-    chainId: chainId,
-    query: {
-      refetchInterval: 300_000,
-      staleTime: 300_000,
-      enabled: chainType === ChainType.EVM && !!chainId && !!address,
+  } = useQuery({
+    queryKey: ['getBytecode', address, chainId],
+    queryFn: async () => {
+      const code = await getBytecode?.(chainId!, address!)
+      return code ?? null
     },
+    refetchInterval: 300_000,
+    staleTime: 300_000,
+    enabled:
+      chainType === ChainType.EVM && !!chainId && !!address && !!getBytecode,
   })
 
   return {
     isContractAddress: !!contractCode,
-    contractCode,
+    contractCode: contractCode ?? undefined,
     isLoading,
     isFetched,
   }

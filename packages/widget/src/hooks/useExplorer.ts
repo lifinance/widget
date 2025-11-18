@@ -1,9 +1,9 @@
 import type { Chain } from '@lifi/sdk'
 import { ChainId, ChainType } from '@lifi/sdk'
-import { isHex } from 'viem'
 import { internalExplorerUrl } from '../config/constants.js'
 import { useAvailableChains } from '../hooks/useAvailableChains.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { isHex } from '../utils/isHex.js'
 
 const sanitiseBaseUrl = (baseUrl: string) => baseUrl.trim().replace(/\/+$/, '')
 

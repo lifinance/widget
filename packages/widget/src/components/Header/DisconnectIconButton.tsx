@@ -1,4 +1,5 @@
-import { type Account, useAccountDisconnect } from '@lifi/wallet-management'
+import { useAccountDisconnect } from '@lifi/wallet-management'
+import type { Account } from '@lifi/widget-provider'
 import PowerSettingsNewRounded from '@mui/icons-material/PowerSettingsNewRounded'
 import { IconButton } from '@mui/material'
 

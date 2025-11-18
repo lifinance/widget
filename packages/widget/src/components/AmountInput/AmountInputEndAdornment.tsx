@@ -1,7 +1,6 @@
 import { InputAdornment } from '@mui/material'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { formatUnits } from 'viem'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useGasRecommendation } from '../../hooks/useGasRecommendation.js'
 import { useTokenAddressBalance } from '../../hooks/useTokenAddressBalance.js'
@@ -9,6 +8,7 @@ import type { FormTypeProps } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
+import { formatUnits } from '../../utils/format.js'
 import { ButtonContainer, MaxButton } from './AmountInputAdornment.style.js'
 
 export const AmountInputEndAdornment = memo(({ formType }: FormTypeProps) => {
