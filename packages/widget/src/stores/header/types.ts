@@ -7,6 +7,7 @@ interface HeaderStateBase {
   element?: React.ReactNode | null
   title?: string
   headerHeight: number
+  backAction?: () => void
 }
 
 export interface HeaderState extends HeaderStateBase {
@@ -15,4 +16,6 @@ export interface HeaderState extends HeaderStateBase {
   removeAction(): void
   removeTitle(): void
   setHeaderHeight(headerHeight: number): void
+  setBackAction(action: () => void): void
+  executeBackAction(): void
 }

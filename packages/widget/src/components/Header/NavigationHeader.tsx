@@ -1,6 +1,6 @@
 import { useAccount } from '@lifi/wallet-management'
 import { Box, Typography } from '@mui/material'
-import { useLocation, useNavigate } from '@tanstack/react-router'
+import { useLocation } from '@tanstack/react-router'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useHeaderStore } from '../../stores/header/useHeaderStore.js'
@@ -21,12 +21,13 @@ export const NavigationHeader: React.FC = () => {
   const { subvariant, hiddenUI, variant, defaultUI, subvariantOptions } =
     useWidgetConfig()
   const navigateBack = useNavigateBack()
-  const navigate = useNavigate()
   const { account } = useAccount()
-  const [element, title] = useHeaderStore((state) => [
+  const [element, title, backAction] = useHeaderStore((state) => [
     state.element,
     state.title,
+    state.backAction,
   ])
+  const executeBackAction = useHeaderStore((state) => state.executeBackAction)
   const { pathname } = useLocation()
   const cleanedPathname = pathname.endsWith('/')
     ? pathname.slice(0, -1)
@@ -42,8 +43,8 @@ export const NavigationHeader: React.FC = () => {
       {backButtonRoutes.includes(path) ? (
         <BackButton
           onClick={() => {
-            if (path.endsWith(navigationRoutes.transactionExecution)) {
-              navigate({ to: navigationRoutes.home, replace: true })
+            if (backAction) {
+              executeBackAction()
             } else {
               navigateBack()
             }

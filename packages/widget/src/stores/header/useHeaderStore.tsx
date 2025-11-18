@@ -84,4 +84,18 @@ const createHeaderStore = () =>
         headerHeight,
       }))
     },
+    setBackAction: (action) => {
+      set(() => ({
+        backAction: action,
+      }))
+    },
+    executeBackAction: () => {
+      const { backAction } = get()
+      if (backAction) {
+        backAction()
+        set(() => ({
+          backAction: undefined,
+        }))
+      }
+    },
   }))
