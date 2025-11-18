@@ -3,7 +3,6 @@ import {
   createRootRoute,
   createRoute,
   createRouter,
-  Outlet,
   type Router,
   RouterProvider,
 } from '@tanstack/react-router'
@@ -38,68 +37,65 @@ const indexRoute = createRoute({
   component: MainPage,
 })
 
-const settingsRoute = createRoute({
+const settingsLayoutRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: navigationRoutes.settings,
-  component: () => <Outlet />,
 })
 
 const settingsIndexRoute = createRoute({
-  getParentRoute: () => settingsRoute,
+  getParentRoute: () => settingsLayoutRoute,
   path: '/',
   component: SettingsPage,
 })
 
 const settingsBridgesRoute = createRoute({
-  getParentRoute: () => settingsRoute,
+  getParentRoute: () => settingsLayoutRoute,
   path: navigationRoutes.bridges,
   component: () => <SelectEnabledToolsPage type="Bridges" />,
 })
 
 const settingsExchangesRoute = createRoute({
-  getParentRoute: () => settingsRoute,
+  getParentRoute: () => settingsLayoutRoute,
   path: navigationRoutes.exchanges,
   component: () => <SelectEnabledToolsPage type="Exchanges" />,
 })
 
 const settingsLanguagesRoute = createRoute({
-  getParentRoute: () => settingsRoute,
+  getParentRoute: () => settingsLayoutRoute,
   path: navigationRoutes.languages,
   component: LanguagesPage,
 })
 
-const fromTokenRoute = createRoute({
+const fromTokenLayoutRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: navigationRoutes.fromToken,
-  component: () => <Outlet />,
 })
 
 const fromTokenIndexRoute = createRoute({
-  getParentRoute: () => fromTokenRoute,
+  getParentRoute: () => fromTokenLayoutRoute,
   path: '/',
   component: () => <SelectTokenPage formType="from" />,
 })
 
 const fromTokenFromChainRoute = createRoute({
-  getParentRoute: () => fromTokenRoute,
+  getParentRoute: () => fromTokenLayoutRoute,
   path: navigationRoutes.fromChain,
   component: () => <SelectChainPage formType="from" />,
 })
 
-const toTokenRoute = createRoute({
+const toTokenLayoutRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: navigationRoutes.toToken,
-  component: () => <Outlet />,
 })
 
 const toTokenIndexRoute = createRoute({
-  getParentRoute: () => toTokenRoute,
+  getParentRoute: () => toTokenLayoutRoute,
   path: '/',
   component: () => <SelectTokenPage formType="to" />,
 })
 
 const toTokenToChainRoute = createRoute({
-  getParentRoute: () => toTokenRoute,
+  getParentRoute: () => toTokenLayoutRoute,
   path: navigationRoutes.toChain,
   component: () => <SelectChainPage formType="to" />,
 })
@@ -110,22 +106,20 @@ const toTokenNativeRoute = createRoute({
   component: () => <SelectChainPage formType="to" selectNativeToken />,
 })
 
-const routesRoute = createRoute({
+const routesLayoutRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: navigationRoutes.routes,
-  component: () => <Outlet />,
 })
 
 const routesIndexRoute = createRoute({
-  getParentRoute: () => routesRoute,
+  getParentRoute: () => routesLayoutRoute,
   path: '/',
   component: RoutesPage,
 })
 
 const routesTransactionExecutionRoute = createRoute({
-  getParentRoute: () => routesRoute,
+  getParentRoute: () => routesLayoutRoute,
   path: navigationRoutes.transactionExecution,
-  component: () => <Outlet />,
 })
 
 const routesTransactionExecutionIndexRoute = createRoute({
@@ -140,50 +134,48 @@ const routesTransactionExecutionDetailsRoute = createRoute({
   component: TransactionDetailsPage,
 })
 
-const activeTransactionsRoute = createRoute({
+const activeTransactionsLayoutRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: navigationRoutes.activeTransactions,
-  component: () => <Outlet />,
 })
 
 const activeTransactionsIndexRoute = createRoute({
-  getParentRoute: () => activeTransactionsRoute,
+  getParentRoute: () => activeTransactionsLayoutRoute,
   path: '/',
   component: ActiveTransactionsPage,
 })
 
 const activeTransactionExecutionRoute = createRoute({
-  getParentRoute: () => activeTransactionsRoute,
+  getParentRoute: () => activeTransactionsLayoutRoute,
   path: navigationRoutes.transactionExecution,
   component: TransactionPage,
 })
 
-const sendToWalletRoute = createRoute({
+const sendToWalletLayoutRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: navigationRoutes.sendToWallet,
-  component: () => <Outlet />,
 })
 
 const sendToWalletIndexRoute = createRoute({
-  getParentRoute: () => sendToWalletRoute,
+  getParentRoute: () => sendToWalletLayoutRoute,
   path: '/',
   component: SendToWalletPage,
 })
 
 const sendToWalletBookmarksRoute = createRoute({
-  getParentRoute: () => sendToWalletRoute,
+  getParentRoute: () => sendToWalletLayoutRoute,
   path: navigationRoutes.bookmarks,
   component: BookmarksPage,
 })
 
 const sendToWalletRecentWalletsRoute = createRoute({
-  getParentRoute: () => sendToWalletRoute,
+  getParentRoute: () => sendToWalletLayoutRoute,
   path: navigationRoutes.recentWallets,
   component: RecentWalletsPage,
 })
 
 const sendToWalletConnectedWalletsRoute = createRoute({
-  getParentRoute: () => sendToWalletRoute,
+  getParentRoute: () => sendToWalletLayoutRoute,
   path: navigationRoutes.connectedWallets,
   component: ConnectedWalletsPage,
 })
@@ -194,76 +186,77 @@ const configuredWalletsRoute = createRoute({
   component: SendToConfiguredWalletPage,
 })
 
-const transactionHistoryRoute = createRoute({
+const transactionHistoryLayoutRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: navigationRoutes.transactionHistory,
-  component: () => <Outlet />,
 })
 
 const transactionHistoryIndexRoute = createRoute({
-  getParentRoute: () => transactionHistoryRoute,
+  getParentRoute: () => transactionHistoryLayoutRoute,
   path: '/',
   component: TransactionHistoryPage,
 })
 
 const transactionHistoryDetailsRoute = createRoute({
-  getParentRoute: () => transactionHistoryRoute,
+  getParentRoute: () => transactionHistoryLayoutRoute,
   path: navigationRoutes.transactionDetails,
   component: TransactionDetailsPage,
 })
 
-const transactionExecutionRoute = createRoute({
+const transactionExecutionLayoutRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: navigationRoutes.transactionExecution,
-  component: () => <Outlet />,
 })
 
 const transactionExecutionIndexRoute = createRoute({
-  getParentRoute: () => transactionExecutionRoute,
+  getParentRoute: () => transactionExecutionLayoutRoute,
   path: '/',
   component: TransactionPage,
 })
 
 const transactionExecutionDetailsRoute = createRoute({
-  getParentRoute: () => transactionExecutionRoute,
+  getParentRoute: () => transactionExecutionLayoutRoute,
   path: navigationRoutes.transactionDetails,
   component: TransactionDetailsPage,
 })
 
 const routeTree = rootRoute.addChildren([
   indexRoute,
-  settingsRoute.addChildren([
+  settingsLayoutRoute.addChildren([
     settingsIndexRoute,
     settingsLanguagesRoute,
     settingsBridgesRoute,
     settingsExchangesRoute,
   ]),
-  fromTokenRoute.addChildren([fromTokenIndexRoute, fromTokenFromChainRoute]),
-  toTokenRoute.addChildren([toTokenIndexRoute, toTokenToChainRoute]),
+  fromTokenLayoutRoute.addChildren([
+    fromTokenIndexRoute,
+    fromTokenFromChainRoute,
+  ]),
+  toTokenLayoutRoute.addChildren([toTokenIndexRoute, toTokenToChainRoute]),
   toTokenNativeRoute,
-  routesRoute.addChildren([
+  routesLayoutRoute.addChildren([
     routesIndexRoute,
     routesTransactionExecutionRoute.addChildren([
       routesTransactionExecutionIndexRoute,
       routesTransactionExecutionDetailsRoute,
     ]),
   ]),
-  transactionExecutionRoute.addChildren([
+  transactionExecutionLayoutRoute.addChildren([
     transactionExecutionIndexRoute,
     transactionExecutionDetailsRoute,
   ]),
-  activeTransactionsRoute.addChildren([
+  activeTransactionsLayoutRoute.addChildren([
     activeTransactionsIndexRoute,
     activeTransactionExecutionRoute,
   ]),
-  sendToWalletRoute.addChildren([
+  sendToWalletLayoutRoute.addChildren([
     sendToWalletIndexRoute,
     sendToWalletBookmarksRoute,
     sendToWalletRecentWalletsRoute,
     sendToWalletConnectedWalletsRoute,
   ]),
   configuredWalletsRoute,
-  transactionHistoryRoute.addChildren([
+  transactionHistoryLayoutRoute.addChildren([
     transactionHistoryIndexRoute,
     transactionHistoryDetailsRoute,
   ]),

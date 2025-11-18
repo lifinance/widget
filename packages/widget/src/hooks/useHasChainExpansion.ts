@@ -7,8 +7,7 @@ import { useSwapOnly } from './useSwapOnly.js'
 export const useHasChainExpansion = () => {
   const { hiddenUI, subvariantOptions } = useWidgetConfig()
   const swapOnly = useSwapOnly()
-  const location = useLocation()
-  const pathname = location.pathname
+  const { pathname } = useLocation()
 
   const expansionType =
     pathname === navigationRoutes.home
