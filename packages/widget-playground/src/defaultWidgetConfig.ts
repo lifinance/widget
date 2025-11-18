@@ -1,5 +1,9 @@
 import { ChainId } from '@lifi/sdk'
 import type { WidgetConfig } from '@lifi/widget'
+import { BitcoinProvider } from '@lifi/widget-provider-bitcoin'
+import { EthereumProvider } from '@lifi/widget-provider-ethereum'
+import { SolanaProvider } from '@lifi/widget-provider-solana'
+import { SuiProvider } from '@lifi/widget-provider-sui'
 
 export const widgetBaseConfig: WidgetConfig = {
   // fromChain: 137,
@@ -29,6 +33,12 @@ export const widgetBaseConfig: WidgetConfig = {
   //     chainType: ChainType.SVM,
   //   },
   // ],
+  providers: [
+    EthereumProvider(),
+    SuiProvider(),
+    SolanaProvider(),
+    BitcoinProvider(),
+  ],
   variant: 'wide',
   // subvariant: 'split',
   subvariantOptions: {
@@ -55,7 +65,7 @@ export const widgetBaseConfig: WidgetConfig = {
   // },
   // slippage: 0.003,
   // walletConfig: {
-  //   usePartialWalletManagement: true,
+  // usePartialWalletManagement: true,
   // },
   sdkConfig: {
     apiUrl: 'https://li.quest/v1',

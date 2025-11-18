@@ -18,12 +18,20 @@ export const createWidgetConfigStore = (
     persist(
       (set, get) => ({
         defaultConfig: initialConfig,
-        config: cloneStructuredConfig<Partial<WidgetConfig>>(initialConfig),
+        config: {
+          ...cloneStructuredConfig<Partial<WidgetConfig>>(initialConfig),
+          providers: initialConfig.providers,
+        },
         themeId: 'default',
         widgetThemeItems: themeItems,
         setConfig: (config) => {
           set({
-            config,
+            config: {
+              ...get().config,
+              ...config,
+              // Preserve providers from current config if not provided in new config
+              providers: config.providers ?? get().config?.providers,
+            },
           })
         },
         setDefaultConfig: (defaultConfig) => {
@@ -281,7 +289,14 @@ export const createWidgetConfigStore = (
                     state.config,
                     state.defaultConfig
                   )
-                state.setConfig(rehydratedConfigWithDefaultValues)
+                // Restore providers from defaultConfig since they're not persisted
+                const configWithProviders = {
+                  ...rehydratedConfigWithDefaultValues,
+                  providers:
+                    state.defaultConfig.providers ??
+                    rehydratedConfigWithDefaultValues.providers,
+                }
+                state.setConfig(configWithProviders)
               }
 
               if (state.config?.walletConfig) {

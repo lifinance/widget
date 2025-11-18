@@ -33,7 +33,7 @@
   "bugs": {
     "url": "https://github.com/lifinance/widget/issues"
   },
-  "license": "Apache-2.0",
+  "license": "LGPL-3.0",
   "keywords": [
     "wallet",
     "wallet-management",
@@ -48,22 +48,17 @@
     "lifi"
   ],
   "dependencies": {
-    "@bigmi/client": "^0.6.1",
-    "@bigmi/core": "^0.6.2",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^3.13.3",
+    "@lifi/sdk": "^3.13.5",
+    "@lifi/widget-provider": "workspace:*",
     "@mui/icons-material": "^7.3.5",
     "@mui/material": "^7.3.5",
     "@mui/system": "^7.3.5",
-    "@mysten/wallet-standard": "^0.19.7",
-    "@solana/wallet-adapter-base": "^0.9.27",
-    "@solana/web3.js": "^1.98.4",
     "i18next": "^25.6.2",
     "mitt": "^3.0.1",
-    "react-i18next": "^16.3.1",
+    "react-i18next": "^16.3.3",
     "use-sync-external-store": "^1.6.0",
-    "viem": "^2.39.0",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
@@ -75,13 +70,9 @@
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
-    "@bigmi/react": ">=0.5.0",
-    "@mysten/dapp-kit": ">=0.18.0",
-    "@solana/wallet-adapter-react": ">=0.15.35",
     "@tanstack/react-query": ">=5.87.0",
     "react": ">=18",
-    "react-dom": ">=18",
-    "wagmi": ">=2.17.5"
+    "react-dom": ">=18"
   },
   "files": [
     "dist/**",
