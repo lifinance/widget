@@ -27,8 +27,8 @@ export type WidgetProviderContext = {
   isEnabled: boolean
   isExternalContext: boolean
   isConnected: boolean
-  account: Account | null
-  sdkProvider: SDKProvider | null
+  account?: Account
+  sdkProvider?: SDKProvider
   installedWallets: WalletConnector[]
   isValidAddress: (address: string) => boolean
   connect: (
