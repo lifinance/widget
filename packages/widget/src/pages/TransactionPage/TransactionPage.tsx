@@ -1,9 +1,9 @@
 import type { ExchangeRateUpdateParams } from '@lifi/sdk'
 import Delete from '@mui/icons-material/Delete'
 import { Box, Button, Tooltip } from '@mui/material'
+import { useLocation, useNavigate } from '@tanstack/react-router'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLocation } from 'react-router-dom'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
 import { WarningMessages } from '../../components/Messages/WarningMessages.js'
@@ -17,10 +17,12 @@ import { useRouteExecution } from '../../hooks/useRouteExecution.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
+import { useHeaderStore } from '../../stores/header/useHeaderStore.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { WidgetEvent } from '../../types/events.js'
 import { HiddenUI } from '../../types/widget.js'
 import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
+import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { ConfirmToAddressSheet } from './ConfirmToAddressSheet.js'
 import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet.js'
 import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet.js'
@@ -33,19 +35,21 @@ import {
   getTokenValueLossThreshold,
 } from './utils.js'
 
-export const TransactionPage: React.FC = () => {
+export const TransactionPage = () => {
   const { t } = useTranslation()
   const { setFieldValue } = useFieldActions()
   const emitter = useWidgetEvents()
-  const { navigateBack } = useNavigateBack()
+  const setBackAction = useHeaderStore((state) => state.setBackAction)
+  const navigate = useNavigate()
+  const navigateBack = useNavigateBack()
   const {
     subvariant,
     subvariantOptions,
     contractSecondaryComponent,
     hiddenUI,
   } = useWidgetConfig()
-  const { state }: any = useLocation()
-  const stateRouteId = state?.routeId
+  const { search }: any = useLocation()
+  const stateRouteId = search?.routeId
   const [routeId, setRouteId] = useState<string>(stateRouteId)
   const [routeRefreshing, setRouteRefreshing] = useState(false)
 
@@ -138,6 +142,10 @@ export const TransactionPage: React.FC = () => {
       setFieldValue('fromToken', '')
       setFieldValue('toToken', '')
     }
+    // Once transaction is started, set the back action to navigate to the home page
+    setBackAction(() => {
+      navigate({ to: navigationRoutes.home, replace: true })
+    })
   }
 
   const handleStartClick = async () => {

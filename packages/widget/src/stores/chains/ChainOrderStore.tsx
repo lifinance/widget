@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useRef } from 'react'
-import type { StoreApi } from 'zustand'
+import type { StoreApi, UseBoundStore } from 'zustand'
 import { useShallow } from 'zustand/shallow'
-import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
 import { useChains } from '../../hooks/useChains.js'
 import { useExternalWalletProvider } from '../../providers/WalletProvider/useExternalWalletProvider.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
@@ -12,7 +11,7 @@ import type { PersistStoreProviderProps } from '../types.js'
 import { createChainOrderStore } from './createChainOrderStore.js'
 import type { ChainOrderState } from './types.js'
 
-type ChainOrderStore = UseBoundStoreWithEqualityFn<StoreApi<ChainOrderState>>
+type ChainOrderStore = UseBoundStore<StoreApi<ChainOrderState>>
 
 const ChainOrderStoreContext = createContext<ChainOrderStore | null>(null)
 

@@ -1,12 +1,12 @@
-import type { StoreApi } from 'zustand'
-import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
+import type { StoreApi, UseBoundStore } from 'zustand'
 
-export type HeaderStore = UseBoundStoreWithEqualityFn<StoreApi<HeaderState>>
+export type HeaderStore = UseBoundStore<StoreApi<HeaderState>>
 
 interface HeaderStateBase {
   element?: React.ReactNode | null
   title?: string
   headerHeight: number
+  backAction?: () => void
 }
 
 export interface HeaderState extends HeaderStateBase {
@@ -15,4 +15,6 @@ export interface HeaderState extends HeaderStateBase {
   removeAction(): void
   removeTitle(): void
   setHeaderHeight(headerHeight: number): void
+  setBackAction(action: () => void): void
+  executeBackAction(): void
 }

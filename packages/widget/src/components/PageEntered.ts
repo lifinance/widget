@@ -1,5 +1,5 @@
+import { useLocation } from '@tanstack/react-router'
 import { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
 import { useWidgetEvents } from '../hooks/useWidgetEvents.js'
 import { WidgetEvent } from '../types/events.js'
 

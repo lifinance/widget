@@ -1,6 +1,6 @@
 import type { Route } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
-import type { BoxProps } from '@mui/material'
+import { useNavigate } from '@tanstack/react-router'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate.js'
@@ -8,7 +8,6 @@ import { RouteCard } from '../../components/RouteCard/RouteCard.js'
 import { RouteCardSkeleton } from '../../components/RouteCard/RouteCardSkeleton.js'
 import { RouteNotFoundCard } from '../../components/RouteCard/RouteNotFoundCard.js'
 import { useHeader } from '../../hooks/useHeader.js'
-import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useRoutes } from '../../hooks/useRoutes.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
@@ -17,9 +16,9 @@ import { WidgetEvent } from '../../types/events.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { Stack } from './RoutesPage.style.js'
 
-export const RoutesPage: React.FC<BoxProps> = () => {
+export const RoutesPage = () => {
   const { t } = useTranslation()
-  const { navigate } = useNavigateBack()
+  const navigate = useNavigate()
   const emitter = useWidgetEvents()
   const {
     routes,
@@ -53,8 +52,9 @@ export const RoutesPage: React.FC<BoxProps> = () => {
 
   const handleRouteClick = (route: Route) => {
     setReviewableRoute(route)
-    navigate(navigationRoutes.transactionExecution, {
-      state: { routeId: route.id },
+    navigate({
+      to: navigationRoutes.transactionExecution,
+      search: { routeId: route.id },
     })
     emitter.emit(WidgetEvent.RouteSelected, {
       route,

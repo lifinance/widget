@@ -1,5 +1,5 @@
-import { ChainType } from '@lifi/sdk'
 import type { BookmarkProps } from '@lifi/widget'
+import { ChainType } from '@lifi/widget'
 import { Box, Button } from '@mui/material'
 import { useDevView } from '../../../../hooks/useDevView.js'
 import {

@@ -1,5 +1,4 @@
-import type { StoreApi } from 'zustand'
-import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
+import type { StoreApi, UseBoundStore } from 'zustand'
 import type { ToAddress } from '../../types/widget.js'
 
 export interface Bookmark extends ToAddress {
@@ -24,4 +23,4 @@ export interface BookmarkActions {
 
 export type BookmarkState = BookmarkProps & BookmarkActions
 
-export type BookmarkStore = UseBoundStoreWithEqualityFn<StoreApi<BookmarkState>>
+export type BookmarkStore = UseBoundStore<StoreApi<BookmarkState>>

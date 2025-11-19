@@ -4,13 +4,12 @@ import {
   useContext,
   useRef,
 } from 'react'
-import type { StoreApi } from 'zustand'
+import type { StoreApi, UseBoundStore } from 'zustand'
 import { useShallow } from 'zustand/shallow'
-import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
 import { createSettingsStore } from './createSettingsStore.js'
 import type { SettingsState, SettingsStoreProviderProps } from './types.js'
 
-type SettingsStore = UseBoundStoreWithEqualityFn<StoreApi<SettingsState>>
+type SettingsStore = UseBoundStore<StoreApi<SettingsState>>
 
 const SettingsStoreContext = createContext<SettingsStore | null>(null)
 

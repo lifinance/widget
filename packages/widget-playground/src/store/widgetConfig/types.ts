@@ -8,8 +8,7 @@ import type {
   WidgetWalletConfig,
 } from '@lifi/widget'
 import type { CSSProperties } from 'react'
-import type { StoreApi } from 'zustand'
-import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
+import type { StoreApi, UseBoundStore } from 'zustand'
 import type { ThemeItem } from '../editTools/types.js'
 import type { FormValues } from '../types.js'
 
@@ -47,6 +46,4 @@ interface WidgetConfigActions {
 
 export type WidgetConfigState = WidgetConfigValues & WidgetConfigActions
 
-export type WidgetConfigStore = UseBoundStoreWithEqualityFn<
-  StoreApi<WidgetConfigState>
->
+export type WidgetConfigStore = UseBoundStore<StoreApi<WidgetConfigState>>
