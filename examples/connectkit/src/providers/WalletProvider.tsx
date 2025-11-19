@@ -1,5 +1,5 @@
 import { ChainType, useAvailableChains } from '@lifi/widget'
-import { useSyncWagmiConfig } from '@lifi/widget-provider-ethereum'
+import { useSyncWagmiConfig } from '@lifi/widget-management'
 import { ConnectKitProvider, getDefaultConfig } from 'connectkit'
 import type { FC, PropsWithChildren } from 'react'
 import { createConfig, WagmiProvider } from 'wagmi'

@@ -1,5 +1,5 @@
 import { useAvailableChains } from '@lifi/widget'
-import { useSyncWagmiConfig } from '@lifi/widget-provider-ethereum'
+import { useSyncWagmiConfig } from '@lifi/widget-management'
 import { injected, walletConnect } from '@wagmi/connectors'
 import { type FC, type PropsWithChildren, useRef } from 'react'
 import { createClient, http } from 'viem'
