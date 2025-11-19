@@ -1,11 +1,15 @@
 import { ChainId, ChainType, isSVMAddress, Solana } from '@lifi/sdk'
 import { SolanaContext } from '@lifi/widget-provider'
+import { address } from '@solana/addresses'
+import { fromVersionedTransaction } from '@solana/compat'
+import { getTransactionCodec, type Transaction } from '@solana/transactions'
 import {
   type SignerWalletAdapter,
   WalletReadyState,
 } from '@solana/wallet-adapter-base'
 import { useWallet, type Wallet } from '@solana/wallet-adapter-react'
 import type { PublicKey } from '@solana/web3.js'
+import { VersionedTransaction } from '@solana/web3.js'
 import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
 
 interface SolanaProviderValuesProps {
@@ -80,8 +84,31 @@ export const SolanaProviderValues: FC<
         isEnabled: true,
         account,
         sdkProvider: Solana({
-          async getWalletAdapter() {
-            return currentWallet?.adapter as SignerWalletAdapter
+          async getWallet() {
+            if (!currentWallet?.adapter.publicKey) {
+              throw new Error('Wallet not connected')
+            }
+
+            return {
+              account: {
+                address: address(currentWallet.adapter.publicKey.toString()),
+                publicKey: currentWallet.adapter.publicKey.toBytes(),
+              },
+              async signTransaction(transaction: Transaction) {
+                const transactionCodec = getTransactionCodec()
+                const transactionBytes = transactionCodec.encode(transaction)
+
+                const web3Transaction = VersionedTransaction.deserialize(
+                  new Uint8Array(transactionBytes)
+                )
+
+                const signedWeb3Transaction = await (
+                  currentWallet?.adapter as SignerWalletAdapter
+                ).signTransaction(web3Transaction)
+
+                return fromVersionedTransaction(signedWeb3Transaction)
+              },
+            }
           },
         }),
         installedWallets,
