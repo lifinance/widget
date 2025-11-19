@@ -1,6 +1,5 @@
 import type { WidgetTheme } from '@lifi/widget'
-import type { StoreApi } from 'zustand'
-import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
+import type { StoreApi, UseBoundStore } from 'zustand'
 import type { Font } from '../../providers/FontLoaderProvider/types.js'
 import type { FormValues } from '../types.js'
 
@@ -70,4 +69,4 @@ interface EditToolsActions {
 
 export type ToolsState = EditToolsValues & EditToolsActions
 
-export type ToolsStore = UseBoundStoreWithEqualityFn<StoreApi<ToolsState>>
+export type ToolsStore = UseBoundStore<StoreApi<ToolsState>>
