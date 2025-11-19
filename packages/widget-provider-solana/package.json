@@ -46,7 +46,10 @@
     "@lifi/widget-provider": "workspace:*",
     "@solana/wallet-adapter-base": "^0.9.27",
     "@solana/wallet-adapter-coinbase": "^0.1.23",
-    "@solana/web3.js": "^1.98.4"
+    "@solana/web3.js": "^1.98.4",
+    "@solana/addresses": "^5.0.0",
+    "@solana/compat": "^5.0.0",
+    "@solana/transactions": "^5.0.0"
   },
   "peerDependencies": {
     "@solana/wallet-adapter-react": ">=0.15.39",
