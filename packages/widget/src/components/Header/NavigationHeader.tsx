@@ -1,7 +1,6 @@
 import { useAccount } from '@lifi/wallet-management'
 import { Box, Typography } from '@mui/material'
 import { useLocation } from '@tanstack/react-router'
-import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useHeaderStore } from '../../stores/header/useHeaderStore.js'
 import { HiddenUI } from '../../types/widget.js'
@@ -20,14 +19,11 @@ import { TransactionHistoryButton } from './TransactionHistoryButton.js'
 export const NavigationHeader: React.FC = () => {
   const { subvariant, hiddenUI, variant, defaultUI, subvariantOptions } =
     useWidgetConfig()
-  const navigateBack = useNavigateBack()
   const { account } = useAccount()
-  const [element, title, backAction] = useHeaderStore((state) => [
+  const [element, title] = useHeaderStore((state) => [
     state.element,
     state.title,
-    state.backAction,
   ])
-  const executeBackAction = useHeaderStore((state) => state.executeBackAction)
   const { pathname } = useLocation()
   const cleanedPathname = pathname.endsWith('/')
     ? pathname.slice(0, -1)
@@ -40,17 +36,7 @@ export const NavigationHeader: React.FC = () => {
 
   return (
     <HeaderAppBar elevation={0} sx={{ paddingTop: 1, paddingBottom: 0.5 }}>
-      {backButtonRoutes.includes(path) ? (
-        <BackButton
-          onClick={() => {
-            if (backAction) {
-              executeBackAction()
-            } else {
-              navigateBack()
-            }
-          }}
-        />
-      ) : null}
+      {backButtonRoutes.includes(path) ? <BackButton /> : null}
       {showSplitOptions ? (
         <Box sx={{ flex: 1, marginRight: 1 }}>
           <SplitNavigationTabs />
