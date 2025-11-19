@@ -14,5 +14,5 @@ export const useSDKProviders = () => {
     utxoSDKProvider,
     svmSDKProvider,
     suiSDKProvider,
-  ].filter((provider) => provider !== null)
+  ].filter((provider) => provider !== undefined)
 }

@@ -5,6 +5,7 @@ import {
   getContractCallsQuote,
   getRelayerQuote,
   getRoutes,
+  isTokenMessageSigningAllowed,
   LiFiErrorCode,
   parseUnits,
 } from '@lifi/sdk'
@@ -97,11 +98,10 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
   const { enabled: enabledRefuel, fromAmount: gasRecommendationFromAmount } =
     useGasRefuel()
   const { getChainTypeFromAddress } = useChainTypeFromAddress()
-
+  const { isGaslessStep } = useEthereumContext()
   const { account } = useAccount({ chainType: fromChain?.chainType })
   const { isBatchingSupported, isBatchingSupportedLoading } =
     useIsBatchingSupported(fromChain, account.address)
-  const { isGaslessStep } = useEthereumContext()
 
   const hasAmount = Number(fromTokenAmount) > 0 || Number(toTokenAmount) > 0
 
@@ -130,6 +130,8 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
       ? enabledExchanges
       : undefined
   const allowSwitchChain = sdkClient.config?.routeOptions?.allowSwitchChain
+  const disableMessageSigning =
+    sdkClient.config?.executionOptions?.disableMessageSigning
 
   const isEnabled =
     Boolean(Number(fromChain?.id)) &&
@@ -168,6 +170,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
         enabledRefuel && enabledAutoRefuel,
         gasRecommendationFromAmount,
         feeConfig?.fee || fee,
+        disableMessageSigning,
         !!isBatchingSupported,
         observableRoute?.id,
       ] as const,
@@ -196,6 +199,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
       gasRecommendationFromAmount,
       feeConfig?.fee,
       fee,
+      disableMessageSigning,
       isBatchingSupported,
       observableRoute?.id,
     ]
@@ -231,6 +235,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           enabledRefuel,
           gasRecommendationFromAmount,
           fee,
+          disableMessageSigning,
           isBatchingSupported,
           // _observableRouteId must be the last element in the query key
           _observableRouteId,
@@ -352,7 +357,8 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           fromChain.nativeToken.address !== fromTokenAddress &&
           useRelayerRoutes &&
           !isBatchingSupported &&
-          (!observableRoute || isObservableRelayerRoute)
+          (!observableRoute || isObservableRelayerRoute) &&
+          isTokenMessageSigningAllowed(fromToken!)
 
         const mainRoutesPromise = shouldUseMainRoutes
           ? getRoutes(
@@ -393,6 +399,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
                   order: routePriority,
                   slippage: formattedSlippage,
                   fee: calculatedFee || fee,
+                  executionType: disableMessageSigning ? 'transaction' : 'all',
                 },
               },
               { signal }

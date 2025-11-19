@@ -23,11 +23,7 @@ export const App = forwardRef<WidgetDrawer, WidgetProps>((props, ref) => {
 
   if (config.variant === 'drawer') {
     return (
-      <AppProvider
-        config={config}
-        formRef={props.formRef}
-        providers={props.providers}
-      >
+      <AppProvider config={config} formRef={props.formRef}>
         <AppDrawer
           ref={ref}
           elementRef={props.elementRef}
@@ -42,11 +38,7 @@ export const App = forwardRef<WidgetDrawer, WidgetProps>((props, ref) => {
   }
 
   return (
-    <AppProvider
-      config={config}
-      formRef={props.formRef}
-      providers={props.providers}
-    >
+    <AppProvider config={config} formRef={props.formRef}>
       <AppDefault />
     </AppProvider>
   )

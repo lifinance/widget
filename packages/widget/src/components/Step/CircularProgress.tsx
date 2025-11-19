@@ -15,7 +15,8 @@ export function CircularProgress({ process }: { process: Process }) {
         <CircularProgressPending size={40} />
       ) : null}
       {process.status === 'ACTION_REQUIRED' ||
-      process.status === 'MESSAGE_REQUIRED' ? (
+      process.status === 'MESSAGE_REQUIRED' ||
+      process.status === 'RESET_REQUIRED' ? (
         <InfoRounded
           color="info"
           sx={{

@@ -35,8 +35,8 @@ export type WidgetProviderContext = {
   isEnabled: boolean
   isExternalContext: boolean
   isConnected: boolean
-  account: Account | null
-  sdkProvider: SDKProvider | null
+  account?: Account
+  sdkProvider?: SDKProvider
   installedWallets: WalletConnector[]
   isValidAddress: (address: string) => boolean
   connect: (
@@ -44,7 +44,10 @@ export type WidgetProviderContext = {
     onSuccess?: (address: string, chainId: number) => void
   ) => Promise<void>
   disconnect: () => Promise<void>
-  // EVM handlers
+}
+
+// EVM-specific context extensions
+export type EthereumProviderContext = WidgetProviderContext & {
   getBytecode?: (
     chainId: number,
     address: string
@@ -71,6 +74,7 @@ export type WidgetProviderContext = {
   ) => Promise<boolean>
   isDelegationDesignatorCode?: (code?: string) => boolean | undefined
 }
+
 export interface WidgetProviderProps {
   forceInternalWalletManagement?: boolean
   chains: ExtendedChain[]

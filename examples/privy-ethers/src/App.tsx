@@ -1,6 +1,4 @@
 import { ChainId, LiFiWidget } from '@lifi/widget'
-import { EthereumProvider } from '@lifi/widget-provider-ethereum'
-import { SolanaProvider } from '@lifi/widget-provider-solana'
 import { Grid } from '@mui/material'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { EthersPlayground } from './components/EthersPlayground'
@@ -34,7 +32,6 @@ function App() {
                   },
                 },
               }}
-              providers={[EthereumProvider(), SolanaProvider()]}
             />
           </Grid>
           <Grid size={{ sm: 12, md: 5 }}>

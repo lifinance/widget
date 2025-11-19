@@ -62,7 +62,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
       solanaAccount,
       bitcoinAccount,
       suiAccount,
-    ].filter((account) => account !== null)
+    ].filter(Boolean) as Account[]
     const connectedAccounts = accounts.filter(
       (account) => account.isConnected && account.address
     )

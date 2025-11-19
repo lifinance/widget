@@ -1,25 +1,27 @@
 {
-  "name": "nextjs14-page-router",
+  "name": "nextjs15",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start"
+  },
+  "engines": {
+    "node": ">=21.0.0"
   },
   "dependencies": {
+    "@lifi/sdk": "^3.13.5",
     "@lifi/widget": "^3.34.3",
-    "next": "^14",
-    "react": "^18",
-    "react-dom": "^18"
+    "@mui/material-nextjs": "^7.3.5",
+    "next": "^15",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.32",
     "typescript": "^5.9.3"
   }
 }

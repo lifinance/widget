@@ -274,6 +274,7 @@
       },
       "tokenAllowance": {
         "actionRequired": "",
+        "resetRequired": "",
         "done": "",
         "pending": "",
         "started": ""

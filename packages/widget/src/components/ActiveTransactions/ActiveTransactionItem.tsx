@@ -39,6 +39,7 @@ export const ActiveTransactionItem: React.FC<{
     switch (lastActiveProcess?.status) {
       case 'ACTION_REQUIRED':
       case 'MESSAGE_REQUIRED':
+      case 'RESET_REQUIRED':
         return <InfoRounded color="info" fontSize="small" />
       case 'FAILED':
         return <ErrorRounded color="error" fontSize="small" />

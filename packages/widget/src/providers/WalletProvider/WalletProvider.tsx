@@ -1,36 +1,62 @@
 import type { WalletManagementConfig } from '@lifi/wallet-management'
 import { WalletManagementProvider } from '@lifi/wallet-management'
-import { type FC, type PropsWithChildren, useMemo } from 'react'
+import type { WidgetProviderProps } from '@lifi/widget-provider'
+import {
+  type FC,
+  type PropsWithChildren,
+  type ReactNode,
+  useMemo,
+  useRef,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useInitializeSDKProviders } from '../../hooks/useInitializeSDKProviders.js'
-import type { WidgetWalletProvidersProps } from '../../types/widget.js'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
 import { useExternalWalletProvider } from './useExternalWalletProvider.js'
+
+interface WalletProviderProps extends PropsWithChildren {
+  providers: ((props: PropsWithChildren<WidgetProviderProps>) => ReactNode)[]
+}
 
 export const WalletProvider = ({
   children,
   providers,
-}: PropsWithChildren<WidgetWalletProvidersProps>) => {
+}: PropsWithChildren<WalletProviderProps>) => {
   const { walletConfig } = useWidgetConfig()
   const { chains } = useAvailableChains()
 
-  let WidgetWithProviders = <WalletMenuProvider>{children}</WalletMenuProvider>
+  const prevProvidersRef = useRef(providers)
 
-  for (const ProviderComponent of providers) {
-    WidgetWithProviders = (
+  // Memoize providers to maintain referential stability and prevent remounts
+  const memoizedProviders = useMemo(() => {
+    if (
+      prevProvidersRef.current.length === providers.length &&
+      prevProvidersRef.current.every(
+        (provider, index) => provider === providers[index]
+      )
+    ) {
+      return prevProvidersRef.current
+    }
+    prevProvidersRef.current = providers
+    return providers
+  }, [providers])
+
+  const baseContent = <WalletMenuProvider>{children}</WalletMenuProvider>
+
+  return memoizedProviders.reduceRight(
+    (acc, ProviderComponent) => (
       <ProviderComponent
+        key={ProviderComponent.name}
         forceInternalWalletManagement={
           walletConfig?.forceInternalWalletManagement
         }
         chains={chains ?? []}
       >
-        {WidgetWithProviders}
+        {acc}
       </ProviderComponent>
-    )
-  }
-
-  return WidgetWithProviders
+    ),
+    baseContent
+  )
 }
 
 const WalletMenuProvider: FC<PropsWithChildren> = ({ children }) => {

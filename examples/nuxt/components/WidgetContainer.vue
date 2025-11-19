@@ -24,7 +24,6 @@ export default {
           },
         },
         integrator: 'vue-example',
-        providers: [EthereumProvider()],
       },
     }
   },
