@@ -1,19 +1,18 @@
 import { ChainId, ChainType } from '@lifi/sdk'
 import {
+  fromVersionedTransaction,
   isSolanaAddress,
   SolanaProvider as SolanaSDKProvider,
+  toAddress,
+  toVersionedTransaction,
 } from '@lifi/sdk-provider-solana'
 import { SolanaContext } from '@lifi/widget-provider'
-import { address } from '@solana/addresses'
-import { fromVersionedTransaction } from '@solana/compat'
-import { getTransactionCodec, type Transaction } from '@solana/transactions'
 import {
   type SignerWalletAdapter,
   WalletReadyState,
 } from '@solana/wallet-adapter-base'
 import { useWallet, type Wallet } from '@solana/wallet-adapter-react'
 import type { PublicKey } from '@solana/web3.js'
-import { VersionedTransaction } from '@solana/web3.js'
 import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
 
 interface SolanaProviderValuesProps {
@@ -95,22 +94,17 @@ export const SolanaProviderValues: FC<
 
             return {
               account: {
-                address: address(currentWallet.adapter.publicKey.toString()),
+                address: toAddress(currentWallet.adapter.publicKey.toString()),
                 publicKey: currentWallet.adapter.publicKey.toBytes(),
               },
-              async signTransaction(transaction: Transaction) {
-                const transactionCodec = getTransactionCodec()
-                const transactionBytes = transactionCodec.encode(transaction)
+              async signTransaction(transaction) {
+                const versionedTransaction = toVersionedTransaction(transaction)
 
-                const web3Transaction = VersionedTransaction.deserialize(
-                  new Uint8Array(transactionBytes)
-                )
-
-                const signedWeb3Transaction = await (
+                const signedVersionedTransaction = await (
                   currentWallet?.adapter as SignerWalletAdapter
-                ).signTransaction(web3Transaction)
+                ).signTransaction(versionedTransaction)
 
-                return fromVersionedTransaction(signedWeb3Transaction)
+                return fromVersionedTransaction(signedVersionedTransaction)
               },
             }
           },
