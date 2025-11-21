@@ -65,10 +65,6 @@ export function formatInputAmount(
 
   // Replace commas with dots
   let formattedAmount = amount.trim().replaceAll(',', '.')
-  // If the input consists only of zeros (no dots or other characters), format to "0"
-  if (formattedAmount.replaceAll('0', '') === '') {
-    formattedAmount = '0'
-  }
   // Keep only the first dot, remove all subsequent dots
   const dotIndex = formattedAmount.indexOf('.')
   if (dotIndex !== -1) {
