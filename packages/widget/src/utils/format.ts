@@ -45,6 +45,13 @@ export function formatSlippage(
   return parsedSlippage.toString()
 }
 
+/**
+ * Format input amount to at least 6 decimals.
+ * @param amount amount to format.
+ * @param decimals decimals to limit the amount to.
+ * @param returnInitial whether to return the initial amount if it is valid.
+ * @returns formatted amount.
+ */
 export function formatInputAmount(
   amount: string,
   decimals: number | null = null,
@@ -53,32 +60,46 @@ export function formatInputAmount(
   if (!amount) {
     return amount
   }
+
+  // Replace commas with dots
   let formattedAmount = amount.trim().replaceAll(',', '.')
-  if (
-    returnInitial &&
-    formattedAmount.startsWith('.') &&
-    !Number.parseFloat(formattedAmount)
-  ) {
+  // Keep only the first dot, remove all subsequent dots
+  const dotIndex = formattedAmount.indexOf('.')
+  if (dotIndex !== -1) {
+    formattedAmount =
+      formattedAmount.slice(0, dotIndex + 1) +
+      formattedAmount.slice(dotIndex + 1).replaceAll('.', '')
+  }
+  // If the amount starts with a dot, prepend 0
+  if (formattedAmount.startsWith('.')) {
     formattedAmount = `0${formattedAmount}`
   }
+
+  // Parse the valid part of the amount
   const parsedAmount = Number.parseFloat(formattedAmount)
   if (Number.isNaN(Number(formattedAmount)) && !Number.isNaN(parsedAmount)) {
-    return parsedAmount.toString()
+    formattedAmount = parsedAmount.toString()
   }
   if (Number.isNaN(Math.abs(Number(formattedAmount)))) {
     return ''
   }
-  if (returnInitial) {
-    return formattedAmount
-  } else if (formattedAmount.startsWith('.')) {
-    formattedAmount = `0${formattedAmount}`
-  }
+
+  // Split and limit decimals
   let [integer, fraction = ''] = formattedAmount.split('.')
   if (decimals !== null && fraction.length > decimals) {
     fraction = fraction.slice(0, decimals)
   }
-  integer = integer.replace(/^0+|-/, '')
-  fraction = fraction.replace(/(0+)$/, '')
+
+  if (returnInitial && !fraction) {
+    return formattedAmount
+  }
+
+  if (!returnInitial) {
+    // Remove leading zeros and minus sign
+    integer = integer.replace(/^0+|-/, '')
+    // Remove trailing zeros
+    fraction = fraction.replace(/(0+)$/, '')
+  }
 
   return `${integer || (fraction ? '0' : '')}${fraction ? `.${fraction}` : ''}`
 }
