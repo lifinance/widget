@@ -77,20 +77,8 @@
       "miniflare>zod": "3.22.3",
       "miniflare>zod-validation-error": "3.0.3",
       "@react-native-async-storage/async-storage": ">=2.2.0",
-      "@walletconnect/ethereum-provider": ">=2.22.1",
-      "@lifi/sdk": "link:../../Library/pnpm/global/5/node_modules/@lifi/sdk",
-      "@lifi/sdk-provider-ethereum": "link:../../Library/pnpm/global/5/node_modules/@lifi/sdk-provider-ethereum",
-      "@lifi/sdk-provider-sui": "link:../../Library/pnpm/global/5/node_modules/@lifi/sdk-provider-sui",
-      "@lifi/sdk-provider-solana": "link:../../Library/pnpm/global/5/node_modules/@lifi/sdk-provider-solana",
-      "@lifi/sdk-provider-bitcoin": "link:../../Library/pnpm/global/5/node_modules/@lifi/sdk-provider-bitcoin"
+      "@walletconnect/ethereum-provider": ">=2.22.1"
     }
   },
-  "packageManager": "pnpm@10.22.0+sha512.bf049efe995b28f527fd2b41ae0474ce29186f7edcb3bf545087bd61fbbebb2bf75362d1307fda09c2d288e1e499787ac12d4fcb617a974718a6051f2eee741c",
-  "dependencies": {
-    "@lifi/sdk": "link:../../Library/pnpm/global/5/node_modules/@lifi/sdk",
-    "@lifi/sdk-provider-bitcoin": "link:../../Library/pnpm/global/5/node_modules/@lifi/sdk-provider-bitcoin",
-    "@lifi/sdk-provider-ethereum": "link:../../Library/pnpm/global/5/node_modules/@lifi/sdk-provider-ethereum",
-    "@lifi/sdk-provider-solana": "link:../../Library/pnpm/global/5/node_modules/@lifi/sdk-provider-solana",
-    "@lifi/sdk-provider-sui": "link:../../Library/pnpm/global/5/node_modules/@lifi/sdk-provider-sui"
-  }
+  "packageManager": "pnpm@10.22.0+sha512.bf049efe995b28f527fd2b41ae0474ce29186f7edcb3bf545087bd61fbbebb2bf75362d1307fda09c2d288e1e499787ac12d4fcb617a974718a6051f2eee741c"
 }

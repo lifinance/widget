@@ -43,7 +43,8 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "^3.13.5",
+    "@lifi/sdk": "4.0.0-alpha.2",
+    "@lifi/sdk-provider-ethereum": "4.0.0-alpha.2",
     "@lifi/widget-provider": "workspace:*",
     "viem": "^2.39.0"
   },
