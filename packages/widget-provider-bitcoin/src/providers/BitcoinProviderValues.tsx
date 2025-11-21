@@ -7,7 +7,8 @@ import {
 } from '@bigmi/client'
 import { isUTXOAddress } from '@bigmi/core'
 import { useAccount, useConfig, useConnect } from '@bigmi/react'
-import { ChainId, ChainType, UTXO } from '@lifi/sdk'
+import { ChainId, ChainType } from '@lifi/sdk'
+import { BitcoinProvider as BitcoinSDKProvider } from '@lifi/sdk-provider-bitcoin'
 import { BitcoinContext, isWalletInstalled } from '@lifi/widget-provider'
 import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
 
@@ -69,7 +70,7 @@ export const BitcoinProviderValues: FC<
     <BitcoinContext.Provider
       value={{
         isEnabled: true,
-        sdkProvider: UTXO({
+        sdkProvider: BitcoinSDKProvider({
           getWalletClient: () => getBigmiConnectorClient(bigmiConfig),
         }),
         account,

@@ -8,6 +8,7 @@ import {
 import { PageEntered } from './components/PageEntered.js'
 import { I18nProvider } from './providers/I18nProvider/I18nProvider.js'
 import { QueryClientProvider } from './providers/QueryClientProvider.js'
+import { SDKClientProvider } from './providers/SDKClientProvider.js'
 import { ThemeProvider } from './providers/ThemeProvider/ThemeProvider.js'
 import { WalletProvider } from './providers/WalletProvider/WalletProvider.js'
 import {
@@ -33,11 +34,13 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
         <WidgetProvider config={config}>
           <I18nProvider>
             <ThemeProvider>
-              <WalletProvider providers={config.providers ?? []}>
-                <StoreProvider config={config} formRef={formRef}>
-                  <AppRouter>{children}</AppRouter>
-                </StoreProvider>
-              </WalletProvider>
+              <SDKClientProvider>
+                <WalletProvider providers={config.providers ?? []}>
+                  <StoreProvider config={config} formRef={formRef}>
+                    <AppRouter>{children}</AppRouter>
+                  </StoreProvider>
+                </WalletProvider>
+              </SDKClientProvider>
             </ThemeProvider>
           </I18nProvider>
         </WidgetProvider>

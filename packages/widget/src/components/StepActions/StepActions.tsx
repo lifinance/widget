@@ -1,5 +1,5 @@
 import type { LiFiStep, StepExtended } from '@lifi/sdk'
-import { isGaslessStep } from '@lifi/sdk'
+import { useEthereumContext } from '@lifi/widget-provider'
 import ArrowForward from '@mui/icons-material/ArrowForward'
 import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
@@ -123,6 +123,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
 const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
   const { subvariant, subvariantOptions, feeConfig, hiddenUI } =
     useWidgetConfig()
+  const { isGaslessStep } = useEthereumContext()
 
   let includedSteps = step.includedSteps
   if (hiddenUI?.includes(HiddenUI.IntegratorStepDetails)) {
@@ -163,7 +164,7 @@ const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
     ) : null
   }
 
-  const hasGaslessSupport = isGaslessStep(step)
+  const hasGaslessSupport = !!isGaslessStep?.(step)
 
   return (
     <Box

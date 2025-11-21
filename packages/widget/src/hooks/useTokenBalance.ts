@@ -1,6 +1,12 @@
-import { getTokenBalances, type Token, type TokenAmount } from '@lifi/sdk'
+import {
+  getTokenBalances,
+  type SDKClient,
+  type Token,
+  type TokenAmount,
+} from '@lifi/sdk'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
+import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { getQueryKey } from '../utils/queries.js'
 
@@ -9,6 +15,7 @@ const defaultRefetchInterval = 30_000
 export const useTokenBalance = (accountAddress?: string, token?: Token) => {
   const queryClient = useQueryClient()
   const { keyPrefix } = useWidgetConfig()
+  const sdkClient = useSDKClient()
 
   const tokenBalanceQueryKey = useMemo(
     () =>
@@ -27,6 +34,7 @@ export const useTokenBalance = (accountAddress?: string, token?: Token) => {
       queryKey: [, accountAddress, tokenChainId, tokenAddress],
     }) => {
       const tokenBalances = await getTokenBalancesWithRetry(
+        sdkClient,
         accountAddress as string,
         [token!]
       )
@@ -98,12 +106,14 @@ export const useTokenBalance = (accountAddress?: string, token?: Token) => {
 }
 
 export const getTokenBalancesWithRetry = async (
+  sdkClient: SDKClient,
   accountAddress: string,
   tokens: Token[],
   depth = 0
 ): Promise<TokenAmount[] | undefined> => {
   try {
     const tokenBalances = await getTokenBalances(
+      sdkClient,
       accountAddress as string,
       tokens
     )
@@ -115,7 +125,12 @@ export const getTokenBalancesWithRetry = async (
       await new Promise((resolve) => {
         setTimeout(resolve, 1.5 ** depth * 100)
       })
-      return getTokenBalancesWithRetry(accountAddress, tokens, depth + 1)
+      return getTokenBalancesWithRetry(
+        sdkClient,
+        accountAddress,
+        tokens,
+        depth + 1
+      )
     }
     return tokenBalances
   } catch (_error) {

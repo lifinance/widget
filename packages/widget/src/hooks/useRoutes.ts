@@ -5,14 +5,18 @@ import {
   getContractCallsQuote,
   getRelayerQuote,
   getRoutes,
-  isGaslessStep,
   isTokenMessageSigningAllowed,
   LiFiErrorCode,
+  parseUnits,
 } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
-import { useChainTypeFromAddress } from '@lifi/widget-provider'
+import {
+  useChainTypeFromAddress,
+  useEthereumContext,
+} from '@lifi/widget-provider'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
+import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
 import { useIntermediateRoutesStore } from '../stores/routes/useIntermediateRoutesStore.js'
@@ -20,7 +24,6 @@ import { useSetExecutableRoute } from '../stores/routes/useSetExecutableRoute.js
 import { defaultSlippage } from '../stores/settings/createSettingsStore.js'
 import { useSettings } from '../stores/settings/useSettings.js'
 import { WidgetEvent } from '../types/events.js'
-import { parseUnits } from '../utils/parse.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useChain } from './useChain.js'
 import { useDebouncedWatch } from './useDebouncedWatch.js'
@@ -40,7 +43,6 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
   const {
     subvariant,
     subvariantOptions,
-    sdkConfig,
     contractTool,
     bridges,
     exchanges,
@@ -49,6 +51,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     useRelayerRoutes,
     keyPrefix,
   } = useWidgetConfig()
+  const sdkClient = useSDKClient()
   const setExecutableRoute = useSetExecutableRoute()
   const queryClient = useQueryClient()
   const emitter = useWidgetEvents()
@@ -95,7 +98,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
   const { enabled: enabledRefuel, fromAmount: gasRecommendationFromAmount } =
     useGasRefuel()
   const { getChainTypeFromAddress } = useChainTypeFromAddress()
-
+  const { isGaslessStep } = useEthereumContext()
   const { account } = useAccount({ chainType: fromChain?.chainType })
   const { isBatchingSupported, isBatchingSupportedLoading } =
     useIsBatchingSupported(fromChain, account.address)
@@ -126,9 +129,9 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     exchanges?.allow?.length || exchanges?.deny?.length
       ? enabledExchanges
       : undefined
-  const allowSwitchChain = sdkConfig?.routeOptions?.allowSwitchChain
+  const allowSwitchChain = sdkClient.config?.routeOptions?.allowSwitchChain
   const disableMessageSigning =
-    sdkConfig?.executionOptions?.disableMessageSigning
+    sdkClient.config?.executionOptions?.disableMessageSigning
 
   const isEnabled =
     Boolean(Number(fromChain?.id)) &&
@@ -282,6 +285,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
 
         if (subvariant === 'custom' && contractCalls && toAmount) {
           const contractCallQuote = await getContractCallsQuote(
+            sdkClient,
             {
               // Contract calls are enabled only when fromAddress is set
               fromAddress: fromAddress as string,
@@ -338,8 +342,8 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           return
         }
 
-        const isObservableRelayerRoute = observableRoute?.steps?.some((step) =>
-          isGaslessStep(step, fromChain)
+        const isObservableRelayerRoute = observableRoute?.steps?.some(
+          (step) => !!isGaslessStep?.(step, fromChain)
         )
 
         const shouldUseMainRoutes =
@@ -358,6 +362,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
 
         const mainRoutesPromise = shouldUseMainRoutes
           ? getRoutes(
+              sdkClient,
               {
                 fromAddress,
                 fromAmount: fromAmount.toString(),
@@ -403,6 +408,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
 
         const relayerQuotePromise = shouldUseRelayerQuote
           ? getRelayerQuote(
+              sdkClient,
               {
                 fromAddress,
                 fromAmount: fromAmount.toString(),

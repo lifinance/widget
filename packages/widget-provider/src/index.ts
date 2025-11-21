@@ -6,6 +6,7 @@ export {
 export { SolanaContext, useSolanaContext } from './contexts/SolanaContext.js'
 export { SuiContext, useSuiContext } from './contexts/SuiContext.js'
 export { useChainTypeFromAddress } from './hooks/useChainTypeFromAddress.js'
+export { useSDKProviders } from './hooks/useSDKProviders.js'
 export type {
   Account,
   EthereumProviderContext,
