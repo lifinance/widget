@@ -46,11 +46,13 @@ export function formatSlippage(
 }
 
 /**
- * Format input amount to at least 6 decimals.
- * @param amount amount to format.
- * @param decimals decimals to limit the amount to.
- * @param returnInitial whether to return the initial amount if it is valid.
- * @returns formatted amount.
+ * Formats a user input amount string, normalizing it and optionally limiting decimal places.
+ * @param amount - The amount string to format (e.g., '123.45', '1,23', '0..')
+ * @param decimals - Maximum number of decimal places to allow. If null, no limit is applied.
+ * @param returnInitial - If true, preserves the input format during typing (e.g., keeps trailing dots,
+ *                        preserves leading zeros, keeps negative signs). If false (default), cleans up the
+ *                        format on blur (removes leading/trailing zeros, removes negative signs).
+ * @returns The formatted amount string, or empty string for invalid input.
  */
 export function formatInputAmount(
   amount: string,
@@ -63,16 +65,26 @@ export function formatInputAmount(
 
   // Replace commas with dots
   let formattedAmount = amount.trim().replaceAll(',', '.')
+  // If the input consists only of zeros (no dots or other characters), format to "0"
+  if (formattedAmount.replaceAll('0', '') === '') {
+    formattedAmount = '0'
+  }
   // Keep only the first dot, remove all subsequent dots
   const dotIndex = formattedAmount.indexOf('.')
   if (dotIndex !== -1) {
-    formattedAmount =
-      formattedAmount.slice(0, dotIndex + 1) +
-      formattedAmount.slice(dotIndex + 1).replaceAll('.', '')
+    formattedAmount = `${formattedAmount.slice(0, dotIndex + 1)}${formattedAmount.slice(dotIndex + 1).replaceAll('.', '')}`
   }
   // If the amount starts with a dot, prepend 0
   if (formattedAmount.startsWith('.')) {
     formattedAmount = `0${formattedAmount}`
+  }
+  // Handle leading zeros
+  if (formattedAmount.startsWith('00')) {
+    let withoutLeadingZeros = formattedAmount
+    while (withoutLeadingZeros.length > 0 && withoutLeadingZeros[0] === '0') {
+      withoutLeadingZeros = withoutLeadingZeros.slice(1)
+    }
+    formattedAmount = withoutLeadingZeros
   }
 
   // Parse the valid part of the amount
