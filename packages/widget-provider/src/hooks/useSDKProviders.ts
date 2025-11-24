@@ -1,3 +1,4 @@
+import type { SDKProvider } from '@lifi/sdk'
 import { useBitcoinContext } from '../contexts/BitcoinContext'
 import { useEthereumContext } from '../contexts/EthereumContext'
 import { useSolanaContext } from '../contexts/SolanaContext'
@@ -14,5 +15,5 @@ export const useSDKProviders = () => {
     utxoSDKProvider,
     svmSDKProvider,
     suiSDKProvider,
-  ].filter((provider) => provider !== undefined)
+  ].filter(Boolean) as SDKProvider[]
 }
