@@ -19,7 +19,6 @@ export default defineConfig({
     sourcemap: true,
   },
   optimizeDeps: {
-    exclude: ['@safe-global/safe-apps-sdk'],
     esbuildOptions: {
       define: {
         global: 'globalThis',
