@@ -1,11 +1,11 @@
-import type { CreateConnectorFn } from 'wagmi'
 import type {
   BaseAccountParameters,
   CoinbaseWalletParameters,
   MetaMaskParameters,
   PortoParameters,
   WalletConnectParameters,
-} from 'wagmi/connectors'
+} from '@wagmi/connectors'
+import type { CreateConnectorFn } from 'wagmi'
 
 export interface CreateConnectorFnExtended extends CreateConnectorFn {
   id: string

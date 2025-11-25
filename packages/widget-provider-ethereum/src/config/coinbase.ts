@@ -1,4 +1,4 @@
-import type { CoinbaseWalletParameters } from 'wagmi/connectors'
+import type { CoinbaseWalletParameters } from '@wagmi/connectors'
 import { lifiLogoUrl } from '../utils/lifi.js'
 
 export const defaultCoinbaseConfig: CoinbaseWalletParameters = {

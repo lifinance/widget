@@ -1,5 +1,5 @@
-import type { BaseAccountParameters } from 'wagmi/connectors'
-import { baseAccount } from 'wagmi/connectors'
+import type { BaseAccountParameters } from '@wagmi/connectors'
+import { baseAccount } from '@wagmi/connectors'
 import { extendConnector } from '../utils/extendConnector.js'
 
 export const createBaseAccountConnector = /*#__PURE__*/ (

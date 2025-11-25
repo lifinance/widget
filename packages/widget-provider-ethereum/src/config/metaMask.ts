@@ -1,4 +1,4 @@
-import type { MetaMaskParameters } from 'wagmi/connectors'
+import type { MetaMaskParameters } from '@wagmi/connectors'
 import { lifiLogoUrl } from '../utils/lifi.js'
 
 export const defaultMetaMaskConfig: MetaMaskParameters = {
