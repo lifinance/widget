@@ -1,5 +1,5 @@
 import { ChainId } from '@lifi/sdk'
-import type { WidgetConfig } from '@lifi/widget'
+import { type WidgetConfig } from '@lifi/widget'
 
 export const widgetBaseConfig: WidgetConfig = {
   // fromChain: 137,
