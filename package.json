@@ -80,13 +80,7 @@
       "miniflare>zod": "3.22.3",
       "miniflare>zod-validation-error": "3.0.3",
       "@react-native-async-storage/async-storage": ">=2.2.0",
-      "@walletconnect/ethereum-provider": ">=2.22.1",
-      "react": "^19.2.0",
-      "react-dom": "^19.2.0",
-      "ws": "^8.18.3",
-      "encoding": "^0.1.13",
-      "fastestsmallesttextencoderdecoder": "^1.0.22",
-      "db0": "^0.3.4"
+      "@walletconnect/ethereum-provider": ">=2.22.1"
     }
   },
   "packageManager": "pnpm@10.23.0+sha512.21c4e5698002ade97e4efe8b8b4a89a8de3c85a37919f957e7a0f30f38fbc5bbdd05980ffe29179b2fb6e6e691242e098d945d1601772cad0fef5fb6411e2a4b"
