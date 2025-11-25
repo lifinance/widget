@@ -1,7 +1,7 @@
+import { reconnect } from '@wagmi/core'
 import type { Chain } from 'viem'
 import { mainnet } from 'viem/chains'
 import type { Config, CreateConnectorFn } from 'wagmi'
-import { reconnect } from 'wagmi/actions'
 
 export const syncWagmiConfig = async (
   wagmiConfig: Config,

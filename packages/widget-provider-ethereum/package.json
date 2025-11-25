@@ -47,7 +47,8 @@
     "@lifi/sdk-provider-ethereum": "^4.0.0-alpha.3",
     "@lifi/widget-provider": "workspace:*",
     "viem": "^2.40.2",
-    "@wagmi/connectors": "^6.2.0"
+    "@wagmi/connectors": "^6.2.0",
+    "@wagmi/core": "^2.22.1"
   },
   "peerDependencies": {
     "wagmi": ">=2.19.0"

@@ -1,9 +1,9 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { injected } from '@wagmi/connectors'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { arbitrum, base, mainnet, optimism } from 'viem/chains'
 import { createConfig, http, WagmiProvider } from 'wagmi'
-import { arbitrum, base, mainnet, optimism } from 'wagmi/chains'
-import { injected } from 'wagmi/connectors'
 import { App } from './App'
 import { WalletHeader } from './components/WalletHeader'
 

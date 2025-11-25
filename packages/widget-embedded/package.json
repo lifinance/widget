@@ -32,7 +32,8 @@
     "react-dom": "^19.2.0",
     "react-router-dom": "^6.30.1",
     "viem": "^2.40.2",
-    "wagmi": "^2.19.4"
+    "wagmi": "^2.19.4",
+    "@wagmi/core": "^2.22.1"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",

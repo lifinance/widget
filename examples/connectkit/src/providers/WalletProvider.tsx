@@ -2,8 +2,8 @@ import { useSyncWagmiConfig } from '@lifi/wallet-management'
 import { ChainType, useAvailableChains } from '@lifi/widget'
 import { ConnectKitProvider, getDefaultConfig } from 'connectkit'
 import type { FC, PropsWithChildren } from 'react'
+import { mainnet } from 'viem/chains'
 import { createConfig, WagmiProvider } from 'wagmi'
-import { mainnet } from 'wagmi/chains'
 import { walletConnectProjectId } from '../config/connectkit'
 
 const wagmiConfig = createConfig(

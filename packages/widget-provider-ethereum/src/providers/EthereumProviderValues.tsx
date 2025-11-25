@@ -7,6 +7,15 @@ import {
 } from '@lifi/sdk-provider-ethereum'
 import { EthereumContext, isWalletInstalled } from '@lifi/widget-provider'
 import {
+  connect,
+  disconnect,
+  getAccount,
+  getBytecode,
+  getConnectorClient,
+  getTransactionCount,
+  switchChain,
+} from '@wagmi/core'
+import {
   type FC,
   type PropsWithChildren,
   useCallback,
@@ -16,15 +25,6 @@ import {
 } from 'react'
 import { type Address, isAddress as isEVMAddress } from 'viem'
 import { type Connector, useAccount, useConfig, useConnect } from 'wagmi'
-import {
-  connect,
-  disconnect,
-  getAccount,
-  getBytecode,
-  getConnectorClient,
-  getTransactionCount,
-  switchChain,
-} from 'wagmi/actions'
 import { defaultBaseAccountConfig } from '../config/baseAccount.js'
 import { defaultCoinbaseConfig } from '../config/coinbase.js'
 import { defaultMetaMaskConfig } from '../config/metaMask.js'
