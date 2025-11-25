@@ -1,4 +1,4 @@
-// import { ChainId } from '@lifi/sdk'
+import { ChainId } from '@lifi/sdk'
 import type { WidgetConfig } from '@lifi/widget'
 import { BitcoinProvider } from '@lifi/widget-provider-bitcoin'
 import { EthereumProvider } from '@lifi/widget-provider-ethereum'
@@ -69,9 +69,9 @@ export const widgetBaseConfig: WidgetConfig = {
   // },
   sdkConfig: {
     apiUrl: 'https://li.quest/v1',
-    // rpcUrls: {
-    //   [ChainId.SOL]: ['https://dacey-pp61jd-fast-mainnet.helius-rpc.com/'],
-    // },
+    rpcUrls: {
+      [ChainId.SOL]: ['https://dacey-pp61jd-fast-mainnet.helius-rpc.com/'],
+    },
     routeOptions: {
       maxPriceImpact: 0.4,
       // slippage: 0.03,
