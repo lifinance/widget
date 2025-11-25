@@ -42,8 +42,8 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "4.0.0-alpha.2",
-    "@lifi/sdk-provider-sui": "4.0.0-alpha.2",
+    "@lifi/sdk": "^4.0.0-alpha.3",
+    "@lifi/sdk-provider-sui": "^4.0.0-alpha.3",
     "@lifi/widget-provider": "workspace:*",
     "@mysten/sui": "^1.45.0",
     "@mysten/wallet-standard": "^0.19.7"
