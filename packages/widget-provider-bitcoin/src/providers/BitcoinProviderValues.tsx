@@ -31,14 +31,15 @@ export const BitcoinProviderValues: FC<
     addresses: currentWallet.accounts?.map((account) => account.address),
   }
 
-  const handleDisconnect = useCallback(async () => {
-    const connectedAccount = getAccount(bigmiConfig)
-    if (connectedAccount.connector) {
-      await disconnect(bigmiConfig, {
-        connector: connectedAccount.connector,
-      })
-    }
-  }, [bigmiConfig])
+  const isConnected = account.isConnected
+
+  const sdkProvider = useMemo(
+    () =>
+      BitcoinSDKProvider({
+        getWalletClient: () => getBigmiConnectorClient(bigmiConfig),
+      }),
+    [bigmiConfig]
+  )
 
   const installedWallets = useMemo(
     () =>
@@ -66,20 +67,27 @@ export const BitcoinProviderValues: FC<
     [bigmiConfig, connectors]
   )
 
+  const handleDisconnect = useCallback(async () => {
+    const connectedAccount = getAccount(bigmiConfig)
+    if (connectedAccount.connector) {
+      await disconnect(bigmiConfig, {
+        connector: connectedAccount.connector,
+      })
+    }
+  }, [bigmiConfig])
+
   return (
     <BitcoinContext.Provider
       value={{
         isEnabled: true,
-        sdkProvider: BitcoinSDKProvider({
-          getWalletClient: () => getBigmiConnectorClient(bigmiConfig),
-        }),
         account,
-        isConnected: account.isConnected,
+        sdkProvider,
         installedWallets,
+        isConnected,
+        isExternalContext,
         connect: handleConnect,
         disconnect: handleDisconnect,
         isValidAddress: isUTXOAddress,
-        isExternalContext,
       }}
     >
       {children}

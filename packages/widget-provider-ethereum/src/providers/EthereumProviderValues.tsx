@@ -142,6 +142,23 @@ export const EthereumProviderValues: FC<
     })()
   }, [wagmiConnectors, config])
 
+  const account = { ...currentWallet, chainType: ChainType.EVM }
+
+  const isConnected = account.isConnected
+
+  const sdkProvider = useMemo(
+    () =>
+      EthereumSDKProvider({
+        getWalletClient: () =>
+          getConnectorClient(wagmiConfig, { assertChainId: false }),
+        switchChain: async (chainId: number) => {
+          const chain = await switchChain(wagmiConfig, { chainId })
+          return getConnectorClient(wagmiConfig, { chainId: chain.id })
+        },
+      }),
+    [wagmiConfig]
+  )
+
   const installedWallets = useMemo(
     () =>
       connectors.filter((connector: Connector | CreateConnectorFnExtended) =>
@@ -177,37 +194,38 @@ export const EthereumProviderValues: FC<
     }
   }, [wagmiConfig])
 
-  const account = { ...currentWallet, chainType: ChainType.EVM }
+  const handleGetBytecode = useCallback(
+    (chainId: number, address: string | Address) =>
+      getBytecode(wagmiConfig, {
+        chainId,
+        address: address as Address,
+      }),
+    [wagmiConfig]
+  )
+
+  const handleGetTransactionCount = useCallback(
+    (chainId: number, address: string | Address) =>
+      getTransactionCount(wagmiConfig, {
+        chainId,
+        address: address as Address,
+      }),
+    [wagmiConfig]
+  )
 
   return (
     <EthereumContext.Provider
       value={{
         isEnabled: true,
-        isConnected: account.isConnected,
-        sdkProvider: EthereumSDKProvider({
-          getWalletClient: () =>
-            getConnectorClient(wagmiConfig, { assertChainId: false }),
-          switchChain: async (chainId: number) => {
-            const chain = await switchChain(wagmiConfig, { chainId })
-            return getConnectorClient(wagmiConfig, { chainId: chain.id })
-          },
-        }),
         account,
+        sdkProvider,
         installedWallets,
+        isConnected,
+        isExternalContext,
         connect: handleConnect,
         disconnect: handleDisconnect,
+        getBytecode: handleGetBytecode,
+        getTransactionCount: handleGetTransactionCount,
         isValidAddress: isEVMAddress,
-        isExternalContext,
-        getBytecode: (chainId: number, address: string | Address) =>
-          getBytecode(wagmiConfig, {
-            chainId,
-            address: address as Address,
-          }),
-        getTransactionCount: (chainId: number, address: string | Address) =>
-          getTransactionCount(wagmiConfig, {
-            chainId,
-            address: address as Address,
-          }),
         isGaslessStep,
         isBatchingSupported,
         isDelegationDesignatorCode,

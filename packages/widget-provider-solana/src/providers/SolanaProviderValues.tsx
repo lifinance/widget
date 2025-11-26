@@ -48,6 +48,18 @@ export const SolanaProviderValues: FC<
         status: 'disconnected' as const,
       }
 
+  const isConnected = account.isConnected
+
+  const sdkProvider = useMemo(
+    () =>
+      SolanaSDKProvider({
+        async getWalletAdapter() {
+          return currentWallet?.adapter as SignerWalletAdapter
+        },
+      }),
+    [currentWallet]
+  )
+
   const installedWallets = useMemo(
     () =>
       wallets
@@ -83,17 +95,13 @@ export const SolanaProviderValues: FC<
       value={{
         isEnabled: true,
         account,
-        sdkProvider: SolanaSDKProvider({
-          async getWalletAdapter() {
-            return currentWallet?.adapter as SignerWalletAdapter
-          },
-        }),
+        sdkProvider,
         installedWallets,
-        isConnected: account.isConnected,
+        isConnected,
+        isExternalContext,
         connect: handleConnect,
         disconnect,
         isValidAddress: isSolanaAddress,
-        isExternalContext,
       }}
     >
       {children}

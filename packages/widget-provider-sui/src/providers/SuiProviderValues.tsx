@@ -9,7 +9,7 @@ import {
 } from '@mysten/dapp-kit'
 import { isValidSuiAddress } from '@mysten/sui/utils'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
-import { type FC, type PropsWithChildren, useCallback } from 'react'
+import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
 
 interface SuiProviderValuesProps {
   isExternalContext: boolean
@@ -45,6 +45,18 @@ export const SuiProviderValues: FC<
           status: 'disconnected' as const,
         }
 
+  const installedWallets = wallets
+
+  const isConnected = account.isConnected
+
+  const sdkProvider = useMemo(
+    () =>
+      SuiSDKProvider({
+        getWallet: async () => currentWallet!,
+      }),
+    [currentWallet]
+  )
+
   const handleConnect = useCallback(
     async (
       connectorIdOrName: string,
@@ -75,15 +87,13 @@ export const SuiProviderValues: FC<
       value={{
         isEnabled: true,
         account,
-        sdkProvider: SuiSDKProvider({
-          getWallet: async () => currentWallet!,
-        }),
-        isConnected: account.isConnected,
-        installedWallets: wallets,
+        sdkProvider,
+        installedWallets,
+        isConnected,
+        isExternalContext,
         connect: handleConnect,
         disconnect,
         isValidAddress: isValidSuiAddress,
-        isExternalContext,
       }}
     >
       {children}
