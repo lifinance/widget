@@ -110,6 +110,7 @@ export enum HiddenUI {
   Language = 'language',
   PoweredBy = 'poweredBy',
   ToAddress = 'toAddress',
+  FromToken = 'fromToken',
   ToToken = 'toToken',
   WalletMenu = 'walletMenu',
   IntegratorStepDetails = 'integratorStepDetails',
