@@ -14,8 +14,9 @@ import {
   useMemo,
   useState,
 } from 'react'
-import { type Address, isAddress as isEVMAddress } from 'viem'
-import { type Connector, useAccount, useConfig, useConnect } from 'wagmi'
+import type { Address } from 'viem'
+import type { Connector } from 'wagmi'
+import { useAccount, useConfig, useConnect } from 'wagmi'
 import {
   connect,
   disconnect,
@@ -225,7 +226,6 @@ export const EthereumProviderValues: FC<
         disconnect: handleDisconnect,
         getBytecode: handleGetBytecode,
         getTransactionCount: handleGetTransactionCount,
-        isValidAddress: isEVMAddress,
         isGaslessStep,
         isBatchingSupported,
         isDelegationDesignatorCode,

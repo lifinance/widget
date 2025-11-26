@@ -5,7 +5,6 @@ import {
   getAccount,
   getConnectorClient as getBigmiConnectorClient,
 } from '@bigmi/client'
-import { isUTXOAddress } from '@bigmi/core'
 import { useAccount, useConfig, useConnect } from '@bigmi/react'
 import { ChainId, ChainType } from '@lifi/sdk'
 import { BitcoinProvider as BitcoinSDKProvider } from '@lifi/sdk-provider-bitcoin'
@@ -87,7 +86,6 @@ export const BitcoinProviderValues: FC<
         isExternalContext,
         connect: handleConnect,
         disconnect: handleDisconnect,
-        isValidAddress: isUTXOAddress,
       }}
     >
       {children}

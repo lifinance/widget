@@ -7,7 +7,6 @@ import {
   useDisconnectWallet,
   useWallets,
 } from '@mysten/dapp-kit'
-import { isValidSuiAddress } from '@mysten/sui/utils'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
 
@@ -93,7 +92,6 @@ export const SuiProviderValues: FC<
         isExternalContext,
         connect: handleConnect,
         disconnect,
-        isValidAddress: isValidSuiAddress,
       }}
     >
       {children}

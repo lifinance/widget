@@ -1,8 +1,5 @@
 import { ChainId, ChainType } from '@lifi/sdk'
-import {
-  isSolanaAddress,
-  SolanaProvider as SolanaSDKProvider,
-} from '@lifi/sdk-provider-solana'
+import { SolanaProvider as SolanaSDKProvider } from '@lifi/sdk-provider-solana'
 import { SolanaContext } from '@lifi/widget-provider'
 import {
   type SignerWalletAdapter,
@@ -101,7 +98,6 @@ export const SolanaProviderValues: FC<
         isExternalContext,
         connect: handleConnect,
         disconnect,
-        isValidAddress: isSolanaAddress,
       }}
     >
       {children}
