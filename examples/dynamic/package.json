@@ -9,9 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@bigmi/client": "^0.6.1",
-    "@bigmi/core": "^0.6.2",
-    "@bigmi/react": "^0.6.1",
+    "@bigmi/client": "^0.6.3",
+    "@bigmi/core": "^0.6.3",
+    "@bigmi/react": "^0.6.3",
     "@dynamic-labs/bitcoin": "^4.47.1",
     "@dynamic-labs/ethereum": "^4.47.1",
     "@dynamic-labs/ethereum-aa": "^4.47.1",
