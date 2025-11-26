@@ -1,4 +1,10 @@
-import { ChainType, EVM } from '@lifi/sdk'
+import { ChainType } from '@lifi/sdk'
+import {
+  EthereumProvider as EthereumSDKProvider,
+  isBatchingSupported,
+  isDelegationDesignatorCode,
+  isGaslessStep,
+} from '@lifi/sdk-provider-ethereum'
 import { EthereumContext, isWalletInstalled } from '@lifi/widget-provider'
 import {
   type FC,
@@ -8,8 +14,9 @@ import {
   useMemo,
   useState,
 } from 'react'
-import { type Address, isAddress as isEVMAddress } from 'viem'
-import { type Connector, useAccount, useConfig, useConnect } from 'wagmi'
+import type { Address } from 'viem'
+import type { Connector } from 'wagmi'
+import { useAccount, useConfig, useConnect } from 'wagmi'
 import {
   connect,
   disconnect,
@@ -136,6 +143,23 @@ export const EthereumProviderValues: FC<
     })()
   }, [wagmiConnectors, config])
 
+  const account = { ...currentWallet, chainType: ChainType.EVM }
+
+  const isConnected = account.isConnected
+
+  const sdkProvider = useMemo(
+    () =>
+      EthereumSDKProvider({
+        getWalletClient: () =>
+          getConnectorClient(wagmiConfig, { assertChainId: false }),
+        switchChain: async (chainId: number) => {
+          const chain = await switchChain(wagmiConfig, { chainId })
+          return getConnectorClient(wagmiConfig, { chainId: chain.id })
+        },
+      }),
+    [wagmiConfig]
+  )
+
   const installedWallets = useMemo(
     () =>
       connectors.filter((connector: Connector | CreateConnectorFnExtended) =>
@@ -171,37 +195,40 @@ export const EthereumProviderValues: FC<
     }
   }, [wagmiConfig])
 
-  const account = { ...currentWallet, chainType: ChainType.EVM }
+  const handleGetBytecode = useCallback(
+    (chainId: number, address: string | Address) =>
+      getBytecode(wagmiConfig, {
+        chainId,
+        address: address as Address,
+      }),
+    [wagmiConfig]
+  )
+
+  const handleGetTransactionCount = useCallback(
+    (chainId: number, address: string | Address) =>
+      getTransactionCount(wagmiConfig, {
+        chainId,
+        address: address as Address,
+      }),
+    [wagmiConfig]
+  )
 
   return (
     <EthereumContext.Provider
       value={{
         isEnabled: true,
-        isConnected: account.isConnected,
-        sdkProvider: EVM({
-          getWalletClient: () =>
-            getConnectorClient(wagmiConfig, { assertChainId: false }),
-          switchChain: async (chainId: number) => {
-            const chain = await switchChain(wagmiConfig, { chainId })
-            return getConnectorClient(wagmiConfig, { chainId: chain.id })
-          },
-        }),
         account,
+        sdkProvider,
         installedWallets,
+        isConnected,
+        isExternalContext,
         connect: handleConnect,
         disconnect: handleDisconnect,
-        isValidAddress: isEVMAddress,
-        isExternalContext,
-        getBytecode: (chainId: number, address: string | Address) =>
-          getBytecode(wagmiConfig, {
-            chainId,
-            address: address as Address,
-          }),
-        getTransactionCount: (chainId: number, address: string | Address) =>
-          getTransactionCount(wagmiConfig, {
-            chainId,
-            address: address as Address,
-          }),
+        getBytecode: handleGetBytecode,
+        getTransactionCount: handleGetTransactionCount,
+        isGaslessStep,
+        isBatchingSupported,
+        isDelegationDesignatorCode,
       }}
     >
       {children}

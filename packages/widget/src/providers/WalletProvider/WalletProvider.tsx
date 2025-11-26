@@ -10,8 +10,8 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
+import { useInitializeSDKProviders } from '../../hooks/useInitializeSDKProviders.js'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
-import { SDKProviders } from './SDKProviders.js'
 import { useExternalWalletProvider } from './useExternalWalletProvider.js'
 
 interface WalletProviderProps extends PropsWithChildren {
@@ -41,12 +41,7 @@ export const WalletProvider = ({
     return providers
   }, [providers])
 
-  const baseContent = (
-    <>
-      <SDKProviders />
-      <WalletMenuProvider>{children}</WalletMenuProvider>
-    </>
-  )
+  const baseContent = <WalletMenuProvider>{children}</WalletMenuProvider>
 
   return memoizedProviders.reduceRight(
     (acc, ProviderComponent) => (
@@ -68,6 +63,9 @@ const WalletMenuProvider: FC<PropsWithChildren> = ({ children }) => {
   const { walletConfig } = useWidgetConfig()
   const { i18n } = useTranslation()
   const { internalChainTypes } = useExternalWalletProvider()
+
+  // Initialize SDK client with providers wrapping the wallet menu provider
+  useInitializeSDKProviders()
 
   const config: WalletManagementConfig = useMemo(() => {
     return {

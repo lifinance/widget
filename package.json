@@ -9,6 +9,7 @@
     "clean:cache": "pnpm store prune",
     "clean:modules": "find . -name \"node_modules\" -type d -prune -exec rm -rf {} +",
     "clean:modules:trash": "find . -name \"node_modules\" -type d -prune -exec trash {} +",
+    "regen": "rm -rf pnpm-lock.yaml && pnpm clean:modules && corepack use pnpm@latest",
     "dev": "pnpm --filter widget-playground-vite dev",
     "dev:next": "pnpm --filter widget-playground-next dev",
     "release": "pnpm release:version && pnpm release:build && pnpm standard-version -a -s",
@@ -58,7 +59,7 @@
     "@types/react-dom": "^19.2.3",
     "fs-extra": "^11.3.2",
     "husky": "^9.1.7",
-    "knip": "^5.69.1",
+    "knip": "^5.70.2",
     "lerna": "^9.0.1",
     "lint-staged": "^16.2.6",
     "standard-version": "^9.5.0",
@@ -67,9 +68,10 @@
   "optionalDependencies": {
     "@react-native-async-storage/async-storage": ">=2.2.0",
     "db0": "^0.3.2",
+    "encoding": "^0.1.13",
     "fastestsmallesttextencoderdecoder": "^1.0.22",
     "ioredis": "^5.8.0",
-    "ws": "^8.18.0"
+    "ws": "^8.18.3"
   },
   "pnpm": {
     "overrides": {
@@ -82,5 +84,5 @@
       "zod": ">=4.1.11"
     }
   },
-  "packageManager": "pnpm@10.22.0+sha512.bf049efe995b28f527fd2b41ae0474ce29186f7edcb3bf545087bd61fbbebb2bf75362d1307fda09c2d288e1e499787ac12d4fcb617a974718a6051f2eee741c"
+  "packageManager": "pnpm@10.23.0+sha512.21c4e5698002ade97e4efe8b8b4a89a8de3c85a37919f957e7a0f30f38fbc5bbdd05980ffe29179b2fb6e6e691242e098d945d1601772cad0fef5fb6411e2a4b"
 }

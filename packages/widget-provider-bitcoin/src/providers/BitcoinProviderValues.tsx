@@ -5,9 +5,9 @@ import {
   getAccount,
   getConnectorClient as getBigmiConnectorClient,
 } from '@bigmi/client'
-import { isUTXOAddress } from '@bigmi/core'
 import { useAccount, useConfig, useConnect } from '@bigmi/react'
-import { ChainId, ChainType, UTXO } from '@lifi/sdk'
+import { ChainId, ChainType } from '@lifi/sdk'
+import { BitcoinProvider as BitcoinSDKProvider } from '@lifi/sdk-provider-bitcoin'
 import { BitcoinContext, isWalletInstalled } from '@lifi/widget-provider'
 import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
 
@@ -30,14 +30,15 @@ export const BitcoinProviderValues: FC<
     addresses: currentWallet.accounts?.map((account) => account.address),
   }
 
-  const handleDisconnect = useCallback(async () => {
-    const connectedAccount = getAccount(bigmiConfig)
-    if (connectedAccount.connector) {
-      await disconnect(bigmiConfig, {
-        connector: connectedAccount.connector,
-      })
-    }
-  }, [bigmiConfig])
+  const isConnected = account.isConnected
+
+  const sdkProvider = useMemo(
+    () =>
+      BitcoinSDKProvider({
+        getWalletClient: () => getBigmiConnectorClient(bigmiConfig),
+      }),
+    [bigmiConfig]
+  )
 
   const installedWallets = useMemo(
     () =>
@@ -65,20 +66,26 @@ export const BitcoinProviderValues: FC<
     [bigmiConfig, connectors]
   )
 
+  const handleDisconnect = useCallback(async () => {
+    const connectedAccount = getAccount(bigmiConfig)
+    if (connectedAccount.connector) {
+      await disconnect(bigmiConfig, {
+        connector: connectedAccount.connector,
+      })
+    }
+  }, [bigmiConfig])
+
   return (
     <BitcoinContext.Provider
       value={{
         isEnabled: true,
-        sdkProvider: UTXO({
-          getWalletClient: () => getBigmiConnectorClient(bigmiConfig),
-        }),
         account,
-        isConnected: account.isConnected,
+        sdkProvider,
         installedWallets,
+        isConnected,
+        isExternalContext,
         connect: handleConnect,
         disconnect: handleDisconnect,
-        isValidAddress: isUTXOAddress,
-        isExternalContext,
       }}
     >
       {children}
