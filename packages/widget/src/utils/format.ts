@@ -65,22 +65,19 @@ export function formatInputAmount(
 
   // Replace commas with dots
   let formattedAmount = amount.trim().replaceAll(',', '.')
+
   // Keep only the first dot, remove all subsequent dots
   const dotIndex = formattedAmount.indexOf('.')
   if (dotIndex !== -1) {
     formattedAmount = `${formattedAmount.slice(0, dotIndex + 1)}${formattedAmount.slice(dotIndex + 1).replaceAll('.', '')}`
   }
+
   // If the amount starts with a dot, prepend 0
-  if (formattedAmount.startsWith('.')) {
+  if (
+    (!returnInitial && formattedAmount.startsWith('.')) ||
+    formattedAmount === '.'
+  ) {
     formattedAmount = `0${formattedAmount}`
-  }
-  // Handle leading zeros
-  if (formattedAmount.startsWith('00')) {
-    let withoutLeadingZeros = formattedAmount
-    while (withoutLeadingZeros.length > 0 && withoutLeadingZeros[0] === '0') {
-      withoutLeadingZeros = withoutLeadingZeros.slice(1)
-    }
-    formattedAmount = withoutLeadingZeros
   }
 
   // Parse the valid part of the amount
@@ -98,16 +95,17 @@ export function formatInputAmount(
     fraction = fraction.slice(0, decimals)
   }
 
-  if (returnInitial && !fraction) {
-    return formattedAmount
+  if (returnInitial) {
+    if (!fraction) {
+      return formattedAmount
+    }
+    return `${integer}${fraction ? `.${fraction}` : ''}`
   }
 
-  if (!returnInitial) {
-    // Remove leading zeros and minus sign
-    integer = integer.replace(/^0+|-/, '')
-    // Remove trailing zeros
-    fraction = fraction.replace(/(0+)$/, '')
-  }
+  // Remove leading zeros and minus sign
+  integer = integer.replace(/^0+|-/, '')
+  // Remove trailing zeros
+  fraction = fraction.replace(/(0+)$/, '')
 
   return `${integer || (fraction ? '0' : '')}${fraction ? `.${fraction}` : ''}`
 }
