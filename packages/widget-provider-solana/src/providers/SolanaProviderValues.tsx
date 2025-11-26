@@ -1,7 +1,10 @@
 import { ChainId, ChainType } from '@lifi/sdk'
 import {
+  fromVersionedTransaction,
   isSolanaAddress,
   SolanaProvider as SolanaSDKProvider,
+  toAddress,
+  toVersionedTransaction,
 } from '@lifi/sdk-provider-solana'
 import { SolanaContext } from '@lifi/widget-provider'
 import {
@@ -84,8 +87,26 @@ export const SolanaProviderValues: FC<
         isEnabled: true,
         account,
         sdkProvider: SolanaSDKProvider({
-          async getWalletAdapter() {
-            return currentWallet?.adapter as SignerWalletAdapter
+          async getWallet() {
+            if (!currentWallet?.adapter.publicKey) {
+              throw new Error('Wallet not connected')
+            }
+
+            return {
+              account: {
+                address: toAddress(currentWallet.adapter.publicKey.toString()),
+                publicKey: currentWallet.adapter.publicKey.toBytes(),
+              },
+              async signTransaction(transaction) {
+                const versionedTransaction = toVersionedTransaction(transaction)
+
+                const signedVersionedTransaction = await (
+                  currentWallet?.adapter as SignerWalletAdapter
+                ).signTransaction(versionedTransaction)
+
+                return fromVersionedTransaction(signedVersionedTransaction)
+              },
+            }
           },
         }),
         installedWallets,
