@@ -12,7 +12,7 @@ export const SelectChainPage: React.FC<SelectChainPageProps> = ({
   formType,
   selectNativeToken,
 }) => {
-  const { navigateBack } = useNavigateBack()
+  const navigateBack = useNavigateBack()
   const { setCurrentChain } = useChainSelect(formType)
   const selectToken = useTokenSelect(formType, navigateBack)
 

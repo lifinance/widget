@@ -5,9 +5,9 @@ import MoreHoriz from '@mui/icons-material/MoreHoriz'
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import Wallet from '@mui/icons-material/Wallet'
 import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material'
+import { useNavigate } from '@tanstack/react-router'
 import { useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js'
 import { ListItem } from '../../components/ListItem/ListItem.js'
 import { ListItemButton } from '../../components/ListItem/ListItemButton.js'
@@ -18,6 +18,7 @@ import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.j
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
+import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { EmptyListIndicator } from './EmptyListIndicator.js'
 import {
@@ -54,8 +55,8 @@ export const ConnectedWalletsPage = () => {
       isConnectedAccount: true,
     })
     setSendToWallet(true)
-    navigate('../../', {
-      relative: 'path',
+    navigate({
+      to: navigationRoutes.home,
       replace: true,
     })
   }

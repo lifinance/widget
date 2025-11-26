@@ -1,15 +1,27 @@
 import ArrowBack from '@mui/icons-material/ArrowBack'
-import type { IconButtonProps } from '@mui/material'
 import { IconButton, useTheme } from '@mui/material'
+import { useNavigateBack } from '../../hooks/useNavigateBack.js'
+import { useHeaderStore } from '../../stores/header/useHeaderStore.js'
 
-export const BackButton: React.FC<IconButtonProps> = ({ onClick }) => {
+export const BackButton: React.FC = () => {
   const theme = useTheme()
+  const navigateBack = useNavigateBack()
+  const [backAction, executeBackAction] = useHeaderStore((state) => [
+    state.backAction,
+    state.executeBackAction,
+  ])
 
   return (
     <IconButton
       size="medium"
       edge={theme?.navigation?.edge ? 'start' : false}
-      onClick={onClick}
+      onClick={() => {
+        if (backAction) {
+          executeBackAction()
+        } else {
+          navigateBack()
+        }
+      }}
     >
       <ArrowBack />
     </IconButton>
