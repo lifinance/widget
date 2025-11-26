@@ -1,4 +1,5 @@
-import { ChainId, ChainType, Sui } from '@lifi/sdk'
+import { ChainId, ChainType } from '@lifi/sdk'
+import { SuiProvider as SuiSDKProvider } from '@lifi/sdk-provider-sui'
 import { SuiContext } from '@lifi/widget-provider'
 import {
   useConnectWallet,
@@ -6,9 +7,8 @@ import {
   useDisconnectWallet,
   useWallets,
 } from '@mysten/dapp-kit'
-import { isValidSuiAddress } from '@mysten/sui/utils'
 import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
-import { type FC, type PropsWithChildren, useCallback } from 'react'
+import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
 
 interface SuiProviderValuesProps {
   isExternalContext: boolean
@@ -44,6 +44,18 @@ export const SuiProviderValues: FC<
           status: 'disconnected' as const,
         }
 
+  const installedWallets = wallets
+
+  const isConnected = account.isConnected
+
+  const sdkProvider = useMemo(
+    () =>
+      SuiSDKProvider({
+        getWallet: async () => currentWallet!,
+      }),
+    [currentWallet]
+  )
+
   const handleConnect = useCallback(
     async (
       connectorIdOrName: string,
@@ -74,15 +86,12 @@ export const SuiProviderValues: FC<
       value={{
         isEnabled: true,
         account,
-        sdkProvider: Sui({
-          getWallet: async () => currentWallet!,
-        }),
-        isConnected: account.isConnected,
-        installedWallets: wallets,
+        sdkProvider,
+        installedWallets,
+        isConnected,
+        isExternalContext,
         connect: handleConnect,
         disconnect,
-        isValidAddress: isValidSuiAddress,
-        isExternalContext,
       }}
     >
       {children}
