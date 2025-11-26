@@ -21,7 +21,6 @@
     "react-dom": "^19.2.0",
     "react-router-dom": "^6.30.1",
     "react-scan": "^0.4.3",
-    "viem": "^2.40.2",
     "vite-plugin-mkcert": "^1.17.9"
   },
   "devDependencies": {
