@@ -17,6 +17,8 @@ const nextConfig = {
     config.externals.push('pino-pretty', 'lokijs', 'encoding')
     return config
   },
+  turbopack: {},
+  serverExternalPackages: ['thread-stream'],
 }
 
 export default nextConfig
