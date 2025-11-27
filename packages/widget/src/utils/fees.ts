@@ -1,5 +1,5 @@
 import type { FeeCost, GasCost, RouteExtended, Token } from '@lifi/sdk'
-import { formatTokenPrice } from './format.js'
+import { formatTokenPrice } from './format'
 
 export interface FeesBreakdown {
   amount: bigint

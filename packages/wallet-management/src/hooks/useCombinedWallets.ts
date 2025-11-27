@@ -7,9 +7,9 @@ import {
   type WalletConnector,
 } from '@lifi/widget-provider'
 import { useMemo } from 'react'
-import { useWalletManagementConfig } from '../providers/WalletManagementProvider/WalletManagementContext.js'
-import { getConnectorIcon } from '../utils/getConnectorIcon.js'
-import { getWalletPriority } from '../utils/getWalletPriority.js'
+import { useWalletManagementConfig } from '../providers/WalletManagementProvider/WalletManagementContext'
+import { getConnectorIcon } from '../utils/getConnectorIcon'
+import { getWalletPriority } from '../utils/getWalletPriority'
 
 type CombinedWalletConnector = {
   connector: WalletConnector

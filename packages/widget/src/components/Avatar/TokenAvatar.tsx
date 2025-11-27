@@ -1,11 +1,11 @@
 import type { Chain, StaticToken } from '@lifi/sdk'
 import type { SxProps, Theme } from '@mui/material'
 import { Badge } from '@mui/material'
-import { useChain } from '../../hooks/useChain.js'
-import { useToken } from '../../hooks/useToken.js'
-import { AvatarBadgedSkeleton } from './Avatar.js'
-import { AvatarDefaultBadge, AvatarMasked } from './Avatar.style.js'
-import { SmallAvatar } from './SmallAvatar.js'
+import { useChain } from '../../hooks/useChain'
+import { useToken } from '../../hooks/useToken'
+import { AvatarBadgedSkeleton } from './Avatar'
+import { AvatarDefaultBadge, AvatarMasked } from './Avatar.style'
+import { SmallAvatar } from './SmallAvatar'
 
 export const TokenAvatar: React.FC<{
   token?: StaticToken

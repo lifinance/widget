@@ -1,13 +1,13 @@
 import type { Route } from '@lifi/sdk'
 import { useNavigate } from '@tanstack/react-router'
 import { memo, useCallback, useEffect, useLayoutEffect, useRef } from 'react'
-import { useRoutes } from '../../hooks/useRoutes.js'
-import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
-import { WidgetEvent } from '../../types/events.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { ExpansionTransition } from '../Expansion/ExpansionTransition.js'
-import { RoutesContent } from './RoutesContent.js'
-import { routesExpansionWidth } from './RoutesExpanded.style.js'
+import { useRoutes } from '../../hooks/useRoutes'
+import { useWidgetEvents } from '../../hooks/useWidgetEvents'
+import { WidgetEvent } from '../../types/events'
+import { navigationRoutes } from '../../utils/navigationRoutes'
+import { ExpansionTransition } from '../Expansion/ExpansionTransition'
+import { RoutesContent } from './RoutesContent'
+import { routesExpansionWidth } from './RoutesExpanded.style'
 
 interface RoutesExpandedProps {
   canOpen: boolean

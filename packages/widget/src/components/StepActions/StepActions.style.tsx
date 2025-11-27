@@ -7,7 +7,7 @@ import {
   styled,
   Typography,
 } from '@mui/material'
-import { AvatarMasked } from '../Avatar/Avatar.style.js'
+import { AvatarMasked } from '../Avatar/Avatar.style'
 
 export const StepConnector = styled(MuiStepConnector, {
   shouldForwardProp: (prop) =>

@@ -1,10 +1,10 @@
 import { getTokenBalances, type TokenExtended } from '@lifi/sdk'
 import { useQueries } from '@tanstack/react-query'
 import { useMemo, useRef } from 'react'
-import { useSDKClient } from '../providers/SDKClientProvider.js'
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import type { TokenAmount, TokenAmountExtended } from '../types/token.js'
-import { getQueryKey } from '../utils/queries.js'
+import { useSDKClient } from '../providers/SDKClientProvider'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider'
+import type { TokenAmount, TokenAmountExtended } from '../types/token'
+import { getQueryKey } from '../utils/queries'
 
 const defaultRefetchInterval = 32_000
 

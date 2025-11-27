@@ -1,13 +1,13 @@
 import type { WidgetConfig, WidgetTheme } from '@lifi/widget'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { addValueFromPathString } from '../../utils/addValue.js'
-import { cloneStructuredConfig } from '../../utils/cloneStructuredConfig.js'
-import type { ThemeItem } from '../editTools/types.js'
-import type { WidgetConfigState } from './types.js'
-import { getLocalStorageOutput } from './utils/getLocalStorageOutput.js'
-import { getRehydratedConfigWithDefaultValues } from './utils/getRehydratedConfigWithDefaultValues.js'
-import { setThemeAppearanceWithFallback } from './utils/setThemeWithFallback.js'
+import { addValueFromPathString } from '../../utils/addValue'
+import { cloneStructuredConfig } from '../../utils/cloneStructuredConfig'
+import type { ThemeItem } from '../editTools/types'
+import type { WidgetConfigState } from './types'
+import { getLocalStorageOutput } from './utils/getLocalStorageOutput'
+import { getRehydratedConfigWithDefaultValues } from './utils/getRehydratedConfigWithDefaultValues'
+import { setThemeAppearanceWithFallback } from './utils/setThemeWithFallback'
 
 export const createWidgetConfigStore = (
   initialConfig: Partial<WidgetConfig>,

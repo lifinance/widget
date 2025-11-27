@@ -9,10 +9,10 @@ import {
   useRef,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useAvailableChains } from '../../hooks/useAvailableChains.js'
-import { useInitializeSDKProviders } from '../../hooks/useInitializeSDKProviders.js'
-import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
-import { useExternalWalletProvider } from './useExternalWalletProvider.js'
+import { useAvailableChains } from '../../hooks/useAvailableChains'
+import { useInitializeSDKProviders } from '../../hooks/useInitializeSDKProviders'
+import { useWidgetConfig } from '../WidgetProvider/WidgetProvider'
+import { useExternalWalletProvider } from './useExternalWalletProvider'
 
 interface WalletProviderProps extends PropsWithChildren {
   providers: ((props: PropsWithChildren<WidgetProviderProps>) => ReactNode)[]

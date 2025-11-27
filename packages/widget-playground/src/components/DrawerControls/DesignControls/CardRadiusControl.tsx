@@ -1,14 +1,14 @@
 import type { ChangeEventHandler } from 'react'
 import { useState } from 'react'
-import { useConfigActions } from '../../../store/widgetConfig/useConfigActions.js'
-import { useConfigBorderRadius } from '../../../store/widgetConfig/useConfigValues.js'
-import { CardValue } from '../../Card/Card.style.js'
-import { ExpandableCard } from '../../Card/ExpandableCard.js'
+import { useConfigActions } from '../../../store/widgetConfig/useConfigActions'
+import { useConfigBorderRadius } from '../../../store/widgetConfig/useConfigValues'
+import { CardValue } from '../../Card/Card.style'
+import { ExpandableCard } from '../../Card/ExpandableCard'
 import {
   TabButton,
   TabButtonsContainer,
   TabCustomInput,
-} from './DesignControls.style.js'
+} from './DesignControls.style'
 
 const clickableValues = [8, 12, 16]
 

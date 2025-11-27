@@ -1,4 +1,4 @@
-import type { FormType } from '../form/types.js'
+import type { FormType } from '../form/types'
 
 interface ChainOrderProps {
   chainOrder: {

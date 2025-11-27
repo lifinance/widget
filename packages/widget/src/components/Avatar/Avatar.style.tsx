@@ -7,7 +7,7 @@ import {
   Avatar as MuiAvatar,
   styled,
 } from '@mui/material'
-import { getAvatarMask } from './utils.js'
+import { getAvatarMask } from './utils'
 
 export const AvatarMasked = styled(MuiAvatar, {
   shouldForwardProp: (prop) => prop !== 'avatarSize' && prop !== 'badgeSize',

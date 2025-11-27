@@ -1,8 +1,8 @@
 import { BigmiContext } from '@bigmi/react'
 import type { WidgetProviderProps } from '@lifi/widget-provider'
 import { type PropsWithChildren, useContext } from 'react'
-import { BitcoinBaseProvider } from './BitcoinBaseProvider.js'
-import { BitcoinProviderValues } from './BitcoinProviderValues.js'
+import { BitcoinBaseProvider } from './BitcoinBaseProvider'
+import { BitcoinProviderValues } from './BitcoinProviderValues'
 
 function useInBitcoinContext(): boolean {
   const context = useContext(BigmiContext)

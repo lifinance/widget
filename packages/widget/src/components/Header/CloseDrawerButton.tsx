@@ -1,8 +1,8 @@
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import { IconButton, Tooltip } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { useDrawer } from '../../AppDrawerContext.js'
-import { useExternalWalletProvider } from '../../providers/WalletProvider/useExternalWalletProvider.js'
+import { useDrawer } from '../../AppDrawerContext'
+import { useExternalWalletProvider } from '../../providers/WalletProvider/useExternalWalletProvider'
 
 interface CloseDrawerButtonProps {
   header?: 'navigation' | 'wallet'

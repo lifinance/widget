@@ -1,23 +1,23 @@
 import { Skeleton } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { useChain } from '../../hooks/useChain.js'
-import { useSwapOnly } from '../../hooks/useSwapOnly.js'
-import { useToken } from '../../hooks/useToken.js'
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import type { FormTypeProps } from '../../stores/form/types.js'
-import { FormKeyHelper } from '../../stores/form/types.js'
-import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { HiddenUI } from '../../types/widget.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { AvatarBadgedDefault, AvatarBadgedSkeleton } from '../Avatar/Avatar.js'
-import { TokenAvatar } from '../Avatar/TokenAvatar.js'
-import { CardTitle } from '../Card/CardTitle.js'
+import { useChain } from '../../hooks/useChain'
+import { useSwapOnly } from '../../hooks/useSwapOnly'
+import { useToken } from '../../hooks/useToken'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider'
+import type { FormTypeProps } from '../../stores/form/types'
+import { FormKeyHelper } from '../../stores/form/types'
+import { useFieldValues } from '../../stores/form/useFieldValues'
+import { HiddenUI } from '../../types/widget'
+import { navigationRoutes } from '../../utils/navigationRoutes'
+import { AvatarBadgedDefault, AvatarBadgedSkeleton } from '../Avatar/Avatar'
+import { TokenAvatar } from '../Avatar/TokenAvatar'
+import { CardTitle } from '../Card/CardTitle'
 import {
   CardContent,
   SelectTokenCard,
   SelectTokenCardHeader,
-} from './SelectTokenButton.style.js'
+} from './SelectTokenButton.style'
 
 export const SelectTokenButton: React.FC<
   FormTypeProps & {

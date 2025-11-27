@@ -1,9 +1,9 @@
-import { WalletMenuProvider } from '../WalletMenuProvider/WalletMenuProvider.js'
-import type { WalletManagementProviderProps } from './types.js'
+import { WalletMenuProvider } from '../WalletMenuProvider/WalletMenuProvider'
+import type { WalletManagementProviderProps } from './types'
 import {
   initialContext,
   WalletManagementContext,
-} from './WalletManagementContext.js'
+} from './WalletManagementContext'
 
 export const WalletManagementProvider: React.FC<
   React.PropsWithChildren<WalletManagementProviderProps>

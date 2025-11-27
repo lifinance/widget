@@ -3,7 +3,7 @@ import type { TypographyProps } from '@mui/material'
 import type { MouseEventHandler } from 'react'
 import { useTranslation } from 'react-i18next'
 import { create } from 'zustand'
-import { TokenRateTypography } from './TokenRate.style.js'
+import { TokenRateTypography } from './TokenRate.style'
 
 interface TokenRateProps extends TypographyProps {
   route: RouteExtended

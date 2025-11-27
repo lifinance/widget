@@ -1,10 +1,10 @@
 import { useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SearchInput } from '../../components/Search/SearchInput.js'
-import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
-import type { FormType } from '../../stores/form/types.js'
-import { useFieldActions } from '../../stores/form/useFieldActions.js'
-import { useFieldValues } from '../../stores/form/useFieldValues.js'
+import { SearchInput } from '../../components/Search/SearchInput'
+import { useChainOrderStore } from '../../stores/chains/ChainOrderStore'
+import type { FormType } from '../../stores/form/types'
+import { useFieldActions } from '../../stores/form/useFieldActions'
+import { useFieldValues } from '../../stores/form/useFieldValues'
 
 interface SearchTokenInputProps {
   formType: FormType

@@ -1,5 +1,5 @@
-import { useBookmarkStore } from './BookmarkStore.js'
-import type { BookmarkActions } from './types.js'
+import { useBookmarkStore } from './BookmarkStore'
+import type { BookmarkActions } from './types'
 
 export const useBookmarkActions = () => {
   const actions = useBookmarkStore<BookmarkActions>((store) => ({

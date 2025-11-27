@@ -1,13 +1,13 @@
 import { useLocation } from '@tanstack/react-router'
 import { useEffect } from 'react'
-import { useAddressValidation } from '../../hooks/useAddressValidation.js'
-import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
-import { formatInputAmount } from '../../utils/format.js'
-import { useBookmarkActions } from '../bookmarks/useBookmarkActions.js'
-import type { DefaultValues, FormFieldNames } from '../form/types.js'
-import { useFieldActions } from '../form/useFieldActions.js'
-import { useFieldValues } from '../form/useFieldValues.js'
-import { useTouchedFields } from '../form/useTouchedFields.js'
+import { useAddressValidation } from '../../hooks/useAddressValidation'
+import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore'
+import { formatInputAmount } from '../../utils/format'
+import { useBookmarkActions } from '../bookmarks/useBookmarkActions'
+import type { DefaultValues, FormFieldNames } from '../form/types'
+import { useFieldActions } from '../form/useFieldActions'
+import { useFieldValues } from '../form/useFieldValues'
+import { useTouchedFields } from '../form/useTouchedFields'
 
 const formValueKeys: FormFieldNames[] = [
   'fromAmount',

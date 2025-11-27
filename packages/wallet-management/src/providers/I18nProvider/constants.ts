@@ -1,4 +1,4 @@
-import type { LanguageKey } from './types.js'
+import type { LanguageKey } from './types'
 
 export const allLanguages: LanguageKey[] = [
   'en',

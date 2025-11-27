@@ -7,11 +7,11 @@ import {
 } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
-import { useSDKClient } from '../providers/SDKClientProvider.js'
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import type { FormType } from '../stores/form/types.js'
-import { getConfigItemSets, isFormItemAllowed } from '../utils/item.js'
-import { isSupportedToken } from '../utils/tokenList.js'
+import { useSDKClient } from '../providers/SDKClientProvider'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider'
+import type { FormType } from '../stores/form/types'
+import { getConfigItemSets, isFormItemAllowed } from '../utils/item'
+import { isSupportedToken } from '../utils/tokenList'
 
 export const useFilteredTokensByBalance = (
   accountsWithTokens?: Record<

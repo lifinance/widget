@@ -1,12 +1,12 @@
 import { useAccount } from '@lifi/wallet-management'
 import { useMemo } from 'react'
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import { useFieldValues } from '../stores/form/useFieldValues.js'
-import { HiddenUI } from '../types/widget.js'
-import { useAvailableChains } from './useAvailableChains.js'
-import { useGasRecommendation } from './useGasRecommendation.js'
-import { useIsContractAddress } from './useIsContractAddress.js'
-import { useTokenBalance } from './useTokenBalance.js'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider'
+import { useFieldValues } from '../stores/form/useFieldValues'
+import { HiddenUI } from '../types/widget'
+import { useAvailableChains } from './useAvailableChains'
+import { useGasRecommendation } from './useGasRecommendation'
+import { useIsContractAddress } from './useIsContractAddress'
+import { useTokenBalance } from './useTokenBalance'
 
 export const useGasRefuel = () => {
   const { getChainById } = useAvailableChains()

@@ -1,4 +1,4 @@
-import type { WidgetTheme } from '../types/widget.js'
+import type { WidgetTheme } from '../types/widget'
 
 export const jumperTheme: WidgetTheme = {
   typography: {},

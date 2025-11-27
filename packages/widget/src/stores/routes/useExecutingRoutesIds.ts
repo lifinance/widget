@@ -1,7 +1,7 @@
 import { useAccount } from '@lifi/wallet-management'
-import { useRouteExecutionStore } from './RouteExecutionStore.js'
-import type { RouteExecution } from './types.js'
-import { RouteExecutionStatus } from './types.js'
+import { useRouteExecutionStore } from './RouteExecutionStore'
+import type { RouteExecution } from './types'
+import { RouteExecutionStatus } from './types'
 
 export const useExecutingRoutesIds = () => {
   const { accounts } = useAccount()

@@ -3,25 +3,25 @@ import { Skeleton, type Theme, Tooltip, useMediaQuery } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import { memo, useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
+import { useChainOrderStore } from '../../stores/chains/ChainOrderStore'
 import {
   maxChainsToOrder,
   maxChainsToShow,
   maxGridItemsToShow,
-} from '../../stores/chains/createChainOrderStore.js'
-import type { FormTypeProps } from '../../stores/form/types.js'
-import { FormKeyHelper } from '../../stores/form/types.js'
-import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { AllChainsAvatar } from '../Chains/AllChainsAvatar.js'
+} from '../../stores/chains/createChainOrderStore'
+import type { FormTypeProps } from '../../stores/form/types'
+import { FormKeyHelper } from '../../stores/form/types'
+import { useFieldValues } from '../../stores/form/useFieldValues'
+import { navigationRoutes } from '../../utils/navigationRoutes'
+import { AllChainsAvatar } from '../Chains/AllChainsAvatar'
 import {
   ChainAvatar,
   ChainCard,
   ChainContainer,
   MoreChainsBox,
   MoreChainsText,
-} from './ChainSelect.style.js'
-import { useChainSelect } from './useChainSelect.js'
+} from './ChainSelect.style'
+import { useChainSelect } from './useChainSelect'
 
 export const ChainSelect = memo(({ formType }: FormTypeProps) => {
   const { t } = useTranslation()

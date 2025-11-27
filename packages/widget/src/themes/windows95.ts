@@ -1,5 +1,5 @@
 import { checkboxClasses, tabsClasses } from '@mui/material'
-import type { WidgetTheme } from '../types/widget.js'
+import type { WidgetTheme } from '../types/widget'
 
 export const windows95Theme: WidgetTheme = {
   colorSchemes: {

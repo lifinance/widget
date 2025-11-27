@@ -1,8 +1,8 @@
 import type { Chain } from '@lifi/sdk'
 import { ChainId, ChainType, isHex } from '@lifi/sdk'
-import { internalExplorerUrl } from '../config/constants.js'
-import { useAvailableChains } from '../hooks/useAvailableChains.js'
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { internalExplorerUrl } from '../config/constants'
+import { useAvailableChains } from '../hooks/useAvailableChains'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider'
 
 const sanitiseBaseUrl = (baseUrl: string) => baseUrl.trim().replace(/\/+$/, '')
 

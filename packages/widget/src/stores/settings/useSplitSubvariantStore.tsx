@@ -6,7 +6,7 @@ import type {
   SplitSubvariantProviderProps,
   SplitSubvariantState,
   SplitSubvariantStore,
-} from './types.js'
+} from './types'
 
 const SplitSubvariantStoreContext = createContext<SplitSubvariantStore | null>(
   null

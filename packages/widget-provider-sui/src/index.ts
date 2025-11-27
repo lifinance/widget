@@ -1,1 +1,1 @@
-export { SuiProvider } from './providers/SuiProvider.js'
+export { SuiProvider } from './providers/SuiProvider'

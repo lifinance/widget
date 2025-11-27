@@ -1,7 +1,7 @@
 import { Avatar, Checkbox, ListItemAvatar } from '@mui/material'
 import { memo } from 'react'
-import { ListItemText } from '../ListItemText.js'
-import { SettingsListItemButton } from '../SettingsListItemButton.js'
+import { ListItemText } from '../ListItemText'
+import { SettingsListItemButton } from '../SettingsListItemButton'
 
 interface ToolItemProps {
   tool: any

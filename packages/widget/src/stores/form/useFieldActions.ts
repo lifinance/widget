@@ -1,15 +1,15 @@
 import { useCallback } from 'react'
-import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
-import type { FormFieldChanged } from '../../types/events.js'
-import { WidgetEvent } from '../../types/events.js'
+import { useWidgetEvents } from '../../hooks/useWidgetEvents'
+import type { FormFieldChanged } from '../../types/events'
+import { WidgetEvent } from '../../types/events'
 import type {
   DefaultValues,
   FormActions,
   FormFieldNames,
   GenericFormValue,
   SetOptions,
-} from './types.js'
-import { useFormStore } from './useFormStore.js'
+} from './types'
+import { useFormStore } from './useFormStore'
 
 export const useFieldActions = () => {
   const emitter = useWidgetEvents()

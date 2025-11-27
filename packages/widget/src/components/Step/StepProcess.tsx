@@ -1,10 +1,10 @@
 import type { LiFiStep, Process } from '@lifi/sdk'
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import { Box, Link, Typography } from '@mui/material'
-import { useExplorer } from '../../hooks/useExplorer.js'
-import { useProcessMessage } from '../../hooks/useProcessMessage.js'
-import { CardIconButton } from '../Card/CardIconButton.js'
-import { CircularProgress } from './CircularProgress.js'
+import { useExplorer } from '../../hooks/useExplorer'
+import { useProcessMessage } from '../../hooks/useProcessMessage'
+import { CardIconButton } from '../Card/CardIconButton'
+import { CircularProgress } from './CircularProgress'
 
 export const StepProcess: React.FC<{
   step: LiFiStep

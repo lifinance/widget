@@ -1,15 +1,15 @@
 import { useWidgetEvents, WidgetEvent, type WidgetEvents } from '@lifi/widget'
 import { useEffect, useState } from 'react'
-import { useDevView } from '../../../hooks/useDevView.js'
-import { setQueryStringParam } from '../../../utils/setQueryStringParam.js'
-import { CardRowContainer } from '../../Card/Card.style.js'
-import { ExpandableCard } from '../../Card/ExpandableCard.js'
-import { Switch } from '../../Switch.js'
+import { useDevView } from '../../../hooks/useDevView'
+import { setQueryStringParam } from '../../../utils/setQueryStringParam'
+import { CardRowContainer } from '../../Card/Card.style'
+import { ExpandableCard } from '../../Card/ExpandableCard'
+import { Switch } from '../../Switch'
 import {
   CapitalizeFirstLetter,
   ControlContainer,
   ControlRowContainer,
-} from './DesignControls.style.js'
+} from './DesignControls.style'
 
 const initialiseStateFromWidgetEvents = (
   widgetEventsMap: Record<string, string>,

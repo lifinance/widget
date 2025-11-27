@@ -1,5 +1,5 @@
 import _mitt, { type Emitter, type EventHandlerMap, type EventType } from 'mitt'
-import type { WidgetEvents } from '../types/events.js'
+import type { WidgetEvents } from '../types/events'
 
 // https://github.com/developit/mitt/issues/191
 const mitt = _mitt as unknown as <Events extends Record<EventType, unknown>>(

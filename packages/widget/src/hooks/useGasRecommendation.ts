@@ -1,10 +1,10 @@
 import { type ChainId, getGasRecommendation } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
-import { useSDKClient } from '../providers/SDKClientProvider.js'
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import { HiddenUI } from '../types/widget.js'
-import { getQueryKey } from '../utils/queries.js'
-import { useAvailableChains } from './useAvailableChains.js'
+import { useSDKClient } from '../providers/SDKClientProvider'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider'
+import { HiddenUI } from '../types/widget'
+import { getQueryKey } from '../utils/queries'
+import { useAvailableChains } from './useAvailableChains'
 
 const refetchInterval = 60_000
 

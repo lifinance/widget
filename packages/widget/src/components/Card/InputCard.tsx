@@ -1,5 +1,5 @@
 import { styled } from '@mui/material'
-import { Card } from './Card.js'
+import { Card } from './Card'
 
 export const InputCard = styled(Card, {
   name: 'MuiInputCard',

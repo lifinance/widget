@@ -8,7 +8,7 @@ import {
   ListItemText as MuiListItemText,
   styled,
 } from '@mui/material'
-import { ListItemButton as ListItemButtonBase } from '../ListItemButton.js'
+import { ListItemButton as ListItemButtonBase } from '../ListItemButton'
 
 export const Avatar = styled(MuiAvatar)<{
   size?: 'small' | 'medium'

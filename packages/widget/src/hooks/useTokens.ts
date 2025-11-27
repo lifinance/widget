@@ -7,13 +7,13 @@ import {
 import { useChainTypeFromAddress } from '@lifi/widget-provider'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
-import { useSDKClient } from '../providers/SDKClientProvider.js'
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import type { FormType } from '../stores/form/types.js'
-import { defaultChainIdsByType } from '../utils/chainType.js'
-import { isItemAllowed } from '../utils/item.js'
-import { getQueryKey } from '../utils/queries.js'
-import { filterAllowedTokens } from '../utils/token.js'
+import { useSDKClient } from '../providers/SDKClientProvider'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider'
+import type { FormType } from '../stores/form/types'
+import { defaultChainIdsByType } from '../utils/chainType'
+import { isItemAllowed } from '../utils/item'
+import { getQueryKey } from '../utils/queries'
+import { filterAllowedTokens } from '../utils/token'
 
 export const useTokens = (
   formType?: FormType,

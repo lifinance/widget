@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { useEffect } from 'react'
-import { useHeaderStore } from '../stores/header/useHeaderStore.js'
+import { useHeaderStore } from '../stores/header/useHeaderStore'
 
 export function useHeader(title: string, action?: ReactNode) {
   const [setTitle, setAction] = useHeaderStore((state) => [

@@ -1,8 +1,8 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { ToAddress } from '../../types/widget.js'
-import type { PersistStoreProps } from '../types.js'
-import type { BookmarkState } from './types.js'
+import type { ToAddress } from '../../types/widget'
+import type { PersistStoreProps } from '../types'
+import type { BookmarkState } from './types'
 
 const recentWalletsLimit = 10
 

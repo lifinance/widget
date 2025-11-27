@@ -1,5 +1,5 @@
 import { Avatar, Skeleton, styled } from '@mui/material'
-import { AvatarSkeletonContainer } from './Avatar.style.js'
+import { AvatarSkeletonContainer } from './Avatar.style'
 
 interface SmallAvatarProps {
   size?: number

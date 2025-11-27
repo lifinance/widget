@@ -5,8 +5,8 @@ import {
   useContext,
   useMemo,
 } from 'react'
-import { version } from '../config/version.js'
-import { useWidgetConfig } from './WidgetProvider/WidgetProvider.js'
+import { version } from '../config/version'
+import { useWidgetConfig } from './WidgetProvider/WidgetProvider'
 
 const SDKClientContext = createContext<SDKClient>({} as SDKClient)
 

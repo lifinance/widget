@@ -1,11 +1,11 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { useCallback } from 'react'
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import { useBookmarkActions } from '../stores/bookmarks/useBookmarkActions.js'
-import { useBookmarks } from '../stores/bookmarks/useBookmarks.js'
-import { useFieldActions } from '../stores/form/useFieldActions.js'
-import { useSendToWalletActions } from '../stores/settings/useSendToWalletStore.js'
-import { RequiredUI } from '../types/widget.js'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider'
+import { useBookmarkActions } from '../stores/bookmarks/useBookmarkActions'
+import { useBookmarks } from '../stores/bookmarks/useBookmarks'
+import { useFieldActions } from '../stores/form/useFieldActions'
+import { useSendToWalletActions } from '../stores/settings/useSendToWalletStore'
+import { RequiredUI } from '../types/widget'
 
 export const useToAddressReset = () => {
   const { requiredUI } = useWidgetConfig()

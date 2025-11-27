@@ -1,5 +1,5 @@
 import { styled } from '@mui/material'
-import { ListItemButton as ListItemButtonBase } from '../ListItemButton.js'
+import { ListItemButton as ListItemButtonBase } from '../ListItemButton'
 
 export const ListItemButton = styled(ListItemButtonBase)(({ theme }) => ({
   paddingLeft: theme.spacing(1.5),

@@ -1,9 +1,9 @@
 import type { WidgetTheme } from '@lifi/widget'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { FormValues } from '../types.js'
-import { defaultDrawerWidth } from './constants.js'
-import type { ToolsState } from './types.js'
+import type { FormValues } from '../types'
+import { defaultDrawerWidth } from './constants'
+import type { ToolsState } from './types'
 
 export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
   create<ToolsState>()(

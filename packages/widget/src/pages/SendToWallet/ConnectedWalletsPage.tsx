@@ -8,24 +8,24 @@ import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import { useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js'
-import { ListItem } from '../../components/ListItem/ListItem.js'
-import { ListItemButton } from '../../components/ListItem/ListItemButton.js'
-import { Menu } from '../../components/Menu.js'
-import { useExplorer } from '../../hooks/useExplorer.js'
-import { useHeader } from '../../hooks/useHeader.js'
-import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
-import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
-import { useFieldActions } from '../../stores/form/useFieldActions.js'
-import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { shortenAddress } from '../../utils/wallet.js'
-import { EmptyListIndicator } from './EmptyListIndicator.js'
+import { AccountAvatar } from '../../components/Avatar/AccountAvatar'
+import { ListItem } from '../../components/ListItem/ListItem'
+import { ListItemButton } from '../../components/ListItem/ListItemButton'
+import { Menu } from '../../components/Menu'
+import { useExplorer } from '../../hooks/useExplorer'
+import { useHeader } from '../../hooks/useHeader'
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements'
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions'
+import { useFieldActions } from '../../stores/form/useFieldActions'
+import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore'
+import { navigationRoutes } from '../../utils/navigationRoutes'
+import { shortenAddress } from '../../utils/wallet'
+import { EmptyListIndicator } from './EmptyListIndicator'
 import {
   ListContainer,
   OptionsMenuButton,
   SendToWalletPageContainer,
-} from './SendToWalletPage.style.js'
+} from './SendToWalletPage.style'
 
 export const ConnectedWalletsPage = () => {
   const { t } = useTranslation()

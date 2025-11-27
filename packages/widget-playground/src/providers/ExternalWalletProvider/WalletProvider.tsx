@@ -1,9 +1,9 @@
 import { getChainsFromConfig, type SDKBaseConfig } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import type { FC, PropsWithChildren } from 'react'
-import { useConfig } from '../../store/widgetConfig/useConfig.js'
-import { ReownWalletProvider } from './ReownWalletProvider.js'
-import { WidgetWalletConfigUpdater } from './WidgetWalletConfigUpdater.js'
+import { useConfig } from '../../store/widgetConfig/useConfig'
+import { ReownWalletProvider } from './ReownWalletProvider'
+import { WidgetWalletConfigUpdater } from './WidgetWalletConfigUpdater'
 
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   const { config } = useConfig()

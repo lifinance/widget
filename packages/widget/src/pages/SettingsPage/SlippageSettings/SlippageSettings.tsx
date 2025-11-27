@@ -4,19 +4,19 @@ import { Box, Typography } from '@mui/material'
 import type { ChangeEventHandler, FocusEventHandler } from 'react'
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSettingMonitor } from '../../../hooks/useSettingMonitor.js'
-import { defaultSlippage } from '../../../stores/settings/createSettingsStore.js'
-import { useSettings } from '../../../stores/settings/useSettings.js'
-import { useSettingsActions } from '../../../stores/settings/useSettingsActions.js'
-import { formatInputAmount, formatSlippage } from '../../../utils/format.js'
-import { BadgedValue } from '../SettingsCard/BadgedValue.js'
-import { SettingCardExpandable } from '../SettingsCard/SettingCardExpandable.js'
+import { useSettingMonitor } from '../../../hooks/useSettingMonitor'
+import { defaultSlippage } from '../../../stores/settings/createSettingsStore'
+import { useSettings } from '../../../stores/settings/useSettings'
+import { useSettingsActions } from '../../../stores/settings/useSettingsActions'
+import { formatInputAmount, formatSlippage } from '../../../utils/format'
+import { BadgedValue } from '../SettingsCard/BadgedValue'
+import { SettingCardExpandable } from '../SettingsCard/SettingCardExpandable'
 import {
   SettingsFieldSet,
   SlippageCustomInput,
   SlippageDefaultButton,
   SlippageLimitsWarningContainer,
-} from './SlippageSettings.style.js'
+} from './SlippageSettings.style'
 
 const defaultSlippageInputValue = '0.5'
 const maxFractionDigits = 5

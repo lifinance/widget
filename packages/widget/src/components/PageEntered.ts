@@ -1,7 +1,7 @@
 import { useLocation } from '@tanstack/react-router'
 import { useEffect } from 'react'
-import { useWidgetEvents } from '../hooks/useWidgetEvents.js'
-import { WidgetEvent } from '../types/events.js'
+import { useWidgetEvents } from '../hooks/useWidgetEvents'
+import { WidgetEvent } from '../types/events'
 
 export function PageEntered() {
   const location = useLocation()

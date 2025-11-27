@@ -6,7 +6,7 @@ import {
   useSuiContext,
 } from '@lifi/widget-provider'
 import { useMemo } from 'react'
-import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
+import { useWidgetConfig } from '../WidgetProvider/WidgetProvider'
 
 interface ExternalWalletProvider {
   useExternalWalletProvidersOnly: boolean

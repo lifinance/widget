@@ -1,15 +1,15 @@
 import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { allLanguages } from '../providers/I18nProvider/constants.js'
-import { loadLocale } from '../providers/I18nProvider/i18n.js'
+import { allLanguages } from '../providers/I18nProvider/constants'
+import { loadLocale } from '../providers/I18nProvider/i18n'
 import type {
   LanguageKey,
   LanguageResource,
-} from '../providers/I18nProvider/types.js'
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import { useSettings } from '../stores/settings/useSettings.js'
-import { useSettingsActions } from '../stores/settings/useSettingsActions.js'
-import { getConfigItemSets, isItemAllowedForSets } from '../utils/item.js'
+} from '../providers/I18nProvider/types'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider'
+import { useSettings } from '../stores/settings/useSettings'
+import { useSettingsActions } from '../stores/settings/useSettingsActions'
+import { getConfigItemSets, isItemAllowedForSets } from '../utils/item'
 
 export const useLanguages = () => {
   const { i18n } = useTranslation()

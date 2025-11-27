@@ -1,5 +1,5 @@
 import { useContext, useEffect, useId, useState } from 'react'
-import { ExpandableCardAccordionContext } from './ExpandableCardAccordion.js'
+import { ExpandableCardAccordionContext } from './ExpandableCardAccordion'
 
 export const useExpandableCard = () => {
   const settingCardExpandableId = useId()

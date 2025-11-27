@@ -1,7 +1,7 @@
 import type { WidgetTheme } from '@lifi/widget'
 import type { StoreApi, UseBoundStore } from 'zustand'
-import type { Font } from '../../providers/FontLoaderProvider/types.js'
-import type { FormValues } from '../types.js'
+import type { Font } from '../../providers/FontLoaderProvider/types'
+import type { FormValues } from '../types'
 
 type ControlType = 'design' | 'code'
 type CodeControlTab = 'config' | 'examples'

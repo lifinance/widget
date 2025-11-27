@@ -1,13 +1,13 @@
 import { useAccount } from '@lifi/wallet-management'
 import { useEffect } from 'react'
-import { useChains } from '../../hooks/useChains.js'
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
-import { formDefaultValues } from '../../stores/form/createFormStore.js'
-import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
-import { isItemAllowed } from '../../utils/item.js'
-import type { DefaultValues } from './types.js'
-import { useFieldActions } from './useFieldActions.js'
+import { useChains } from '../../hooks/useChains'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider'
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions'
+import { formDefaultValues } from '../../stores/form/createFormStore'
+import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore'
+import { isItemAllowed } from '../../utils/item'
+import type { DefaultValues } from './types'
+import { useFieldActions } from './useFieldActions'
 
 export const FormUpdater: React.FC<{
   reactiveFormValues: Partial<DefaultValues>

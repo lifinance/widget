@@ -1,12 +1,12 @@
 import type { Order } from '@lifi/sdk'
 import Route from '@mui/icons-material/Route'
 import { useTranslation } from 'react-i18next'
-import { CardTabs, Tab } from '../../components/Tabs/Tabs.style.js'
-import { useSettingMonitor } from '../../hooks/useSettingMonitor.js'
-import { useSettings } from '../../stores/settings/useSettings.js'
-import { useSettingsActions } from '../../stores/settings/useSettingsActions.js'
-import { BadgedValue } from './SettingsCard/BadgedValue.js'
-import { SettingCardExpandable } from './SettingsCard/SettingCardExpandable.js'
+import { CardTabs, Tab } from '../../components/Tabs/Tabs.style'
+import { useSettingMonitor } from '../../hooks/useSettingMonitor'
+import { useSettings } from '../../stores/settings/useSettings'
+import { useSettingsActions } from '../../stores/settings/useSettingsActions'
+import { BadgedValue } from './SettingsCard/BadgedValue'
+import { SettingCardExpandable } from './SettingsCard/SettingCardExpandable'
 
 const Priorities: Order[] = ['CHEAPEST', 'FASTEST']
 

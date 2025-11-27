@@ -8,15 +8,15 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FullPageContainer } from '../components/FullPageContainer.js'
-import { StickySearchInput } from '../components/Search/SearchInput.js'
-import { type ToolCollectionTypes, Tools } from '../components/Tools/Tools.js'
-import { useDefaultElementId } from '../hooks/useDefaultElementId.js'
-import { useHeader } from '../hooks/useHeader.js'
-import { useScrollableContainer } from '../hooks/useScrollableContainer.js'
-import { useTools } from '../hooks/useTools.js'
-import { useSettingsStore } from '../stores/settings/SettingsStore.js'
-import { useSettingsActions } from '../stores/settings/useSettingsActions.js'
+import { FullPageContainer } from '../components/FullPageContainer'
+import { StickySearchInput } from '../components/Search/SearchInput'
+import { type ToolCollectionTypes, Tools } from '../components/Tools/Tools'
+import { useDefaultElementId } from '../hooks/useDefaultElementId'
+import { useHeader } from '../hooks/useHeader'
+import { useScrollableContainer } from '../hooks/useScrollableContainer'
+import { useTools } from '../hooks/useTools'
+import { useSettingsStore } from '../stores/settings/SettingsStore'
+import { useSettingsActions } from '../stores/settings/useSettingsActions'
 
 interface SelectAllCheckboxProps {
   allCheckboxesSelected: boolean

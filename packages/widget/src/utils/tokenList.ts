@@ -3,8 +3,8 @@ import {
   type TokenExtended,
   type WalletTokenExtended,
 } from '@lifi/sdk'
-import type { TokenAmount, TokenAmountExtended } from '../types/token.js'
-import type { WidgetTokens } from '../types/widget.js'
+import type { TokenAmount, TokenAmountExtended } from '../types/token'
+import type { WidgetTokens } from '../types/widget'
 
 const sortByBalances = (a: TokenAmount, b: TokenAmount) =>
   Number.parseFloat(formatUnits(b.amount ?? 0n, b.decimals)) *

@@ -8,8 +8,8 @@ import type {
   TokenAmount,
   ToolsResponse,
 } from '@lifi/sdk'
-import type { RouteExecution } from '../stores/routes/types.js'
-import { formatTokenPrice } from './format.js'
+import type { RouteExecution } from '../stores/routes/types'
+import { formatTokenPrice } from './format'
 
 const buildProcessFromTxHistory = (tx: FullStatusData): Process[] => {
   const sending = tx.sending as ExtendedTransactionInfo

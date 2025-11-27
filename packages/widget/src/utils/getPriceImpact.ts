@@ -1,5 +1,5 @@
 import type { Token } from '@lifi/sdk'
-import { formatTokenPrice } from './format.js'
+import { formatTokenPrice } from './format'
 
 interface GetPriceImpactProps {
   fromToken: Token

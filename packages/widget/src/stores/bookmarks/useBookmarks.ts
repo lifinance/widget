@@ -1,5 +1,5 @@
-import { useBookmarkStore } from './BookmarkStore.js'
-import type { BookmarkProps } from './types.js'
+import { useBookmarkStore } from './BookmarkStore'
+import type { BookmarkProps } from './types'
 
 export const useBookmarks = (): BookmarkProps => {
   const [bookmarks, selectedBookmark, recentWallets] = useBookmarkStore(

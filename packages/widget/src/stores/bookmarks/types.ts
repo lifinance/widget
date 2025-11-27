@@ -1,5 +1,5 @@
 import type { StoreApi, UseBoundStore } from 'zustand'
-import type { ToAddress } from '../../types/widget.js'
+import type { ToAddress } from '../../types/widget'
 
 export interface Bookmark extends ToAddress {
   isConnectedAccount?: boolean

@@ -2,8 +2,8 @@ import { formatUnits } from '@lifi/sdk'
 import EvStation from '@mui/icons-material/EvStation'
 import { type BoxProps, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import type { GasSufficiency } from '../../hooks/useGasSufficiency.js'
-import { AlertMessage } from './AlertMessage.js'
+import type { GasSufficiency } from '../../hooks/useGasSufficiency'
+import { AlertMessage } from './AlertMessage'
 
 interface GasSufficiencyMessageProps extends BoxProps {
   insufficientGas?: GasSufficiency[]

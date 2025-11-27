@@ -1,11 +1,11 @@
 import type { RouteExtended } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useEthereumContext } from '@lifi/widget-provider'
-import { useChain } from '../hooks/useChain.js'
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import { useFieldValues } from '../stores/form/useFieldValues.js'
-import { HiddenUI, RequiredUI } from '../types/widget.js'
-import { useIsContractAddress } from './useIsContractAddress.js'
+import { useChain } from '../hooks/useChain'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider'
+import { useFieldValues } from '../stores/form/useFieldValues'
+import { HiddenUI, RequiredUI } from '../types/widget'
+import { useIsContractAddress } from './useIsContractAddress'
 
 export const useToAddressRequirements = (route?: RouteExtended) => {
   const { requiredUI, hiddenUI } = useWidgetConfig()

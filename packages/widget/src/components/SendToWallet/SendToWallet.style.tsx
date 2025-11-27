@@ -1,5 +1,5 @@
 import { cardHeaderClasses, styled } from '@mui/material'
-import { CardHeader } from '../Card/CardHeader.js'
+import { CardHeader } from '../Card/CardHeader'
 
 export const SendToWalletCardHeader = styled(CardHeader, {
   shouldForwardProp: (prop) => !['selected'].includes(prop as string),

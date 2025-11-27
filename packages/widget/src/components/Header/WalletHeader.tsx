@@ -9,22 +9,22 @@ import Wallet from '@mui/icons-material/Wallet'
 import { Avatar, Badge } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useChain } from '../../hooks/useChain.js'
-import { useExternalWalletProvider } from '../../providers/WalletProvider/useExternalWalletProvider.js'
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { HiddenUI } from '../../types/widget.js'
-import { shortenAddress } from '../../utils/wallet.js'
-import { SmallAvatar } from '../Avatar/SmallAvatar.js'
-import { CloseDrawerButton } from './CloseDrawerButton.js'
+import { useChain } from '../../hooks/useChain'
+import { useExternalWalletProvider } from '../../providers/WalletProvider/useExternalWalletProvider'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider'
+import { useFieldValues } from '../../stores/form/useFieldValues'
+import { HiddenUI } from '../../types/widget'
+import { shortenAddress } from '../../utils/wallet'
+import { SmallAvatar } from '../Avatar/SmallAvatar'
+import { CloseDrawerButton } from './CloseDrawerButton'
 import {
   DrawerWalletContainer,
   HeaderAppBar,
   WalletAvatar,
   WalletButton,
-} from './Header.style.js'
-import { WalletMenu } from './WalletMenu.js'
-import { WalletMenuContainer } from './WalletMenu.style.js'
+} from './Header.style'
+import { WalletMenu } from './WalletMenu'
+import { WalletMenuContainer } from './WalletMenu.style'
 
 const useInternalWalletManagement = () => {
   const { hiddenUI } = useWidgetConfig()

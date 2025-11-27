@@ -1,10 +1,10 @@
 import type { Route } from '@lifi/sdk'
 import { useMemo } from 'react'
-import { useFromAmountThreshold } from '../../hooks/useFromAmountThreshold.js'
-import { useFromTokenSufficiency } from '../../hooks/useFromTokenSufficiency.js'
-import { useGasSufficiency } from '../../hooks/useGasSufficiency.js'
-import { useRouteRequiredAccountConnection } from '../../hooks/useRouteRequiredAccountConnection.js'
-import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
+import { useFromAmountThreshold } from '../../hooks/useFromAmountThreshold'
+import { useFromTokenSufficiency } from '../../hooks/useFromTokenSufficiency'
+import { useGasSufficiency } from '../../hooks/useGasSufficiency'
+import { useRouteRequiredAccountConnection } from '../../hooks/useRouteRequiredAccountConnection'
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements'
 
 interface QueuedMessage {
   id: string

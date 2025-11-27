@@ -1,7 +1,7 @@
 import { Box, Tooltip, Typography } from '@mui/material'
-import { version } from '../../config/version.js'
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { Link } from './PoweredBy.style.js'
+import { version } from '../../config/version'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider'
+import { Link } from './PoweredBy.style'
 
 const poweredByConfig = {
   default: {

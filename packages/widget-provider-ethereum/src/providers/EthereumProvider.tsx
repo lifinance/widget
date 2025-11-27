@@ -1,9 +1,9 @@
 import type { WidgetProviderProps } from '@lifi/widget-provider'
 import { type PropsWithChildren, useContext } from 'react'
 import { WagmiContext } from 'wagmi'
-import type { EthereumProviderConfig } from '../types.js'
-import { EthereumBaseProvider } from './EthereumBaseProvider.js'
-import { EthereumProviderValues } from './EthereumProviderValues.js'
+import type { EthereumProviderConfig } from '../types'
+import { EthereumBaseProvider } from './EthereumBaseProvider'
+import { EthereumProviderValues } from './EthereumProviderValues'
 
 interface EthereumWidgetProviderProps extends WidgetProviderProps {
   config?: EthereumProviderConfig

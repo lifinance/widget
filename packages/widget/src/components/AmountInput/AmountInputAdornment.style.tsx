@@ -1,6 +1,6 @@
 import { Box, styled } from '@mui/material'
 import { cardClasses } from '@mui/material/Card'
-import { ButtonTertiary } from '../ButtonTertiary.js'
+import { ButtonTertiary } from '../ButtonTertiary'
 
 export const ButtonContainer = styled(Box)(({ theme }) => ({
   display: 'flex',

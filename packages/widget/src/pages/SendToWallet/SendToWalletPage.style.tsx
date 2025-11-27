@@ -8,11 +8,11 @@ import {
   styled,
   Typography,
 } from '@mui/material'
-import { ButtonTertiary } from '../../components/ButtonTertiary.js'
-import { InputCard } from '../../components/Card/InputCard.js'
-import { Input } from '../../components/Input.js'
-import type { PageContainerProps } from '../../components/PageContainer.js'
-import { PageContainer } from '../../components/PageContainer.js'
+import { ButtonTertiary } from '../../components/ButtonTertiary'
+import { InputCard } from '../../components/Card/InputCard'
+import { Input } from '../../components/Input'
+import type { PageContainerProps } from '../../components/PageContainer'
+import { PageContainer } from '../../components/PageContainer'
 
 export const AddressInput = styled(Input)(({ theme }) => ({
   padding: 0,

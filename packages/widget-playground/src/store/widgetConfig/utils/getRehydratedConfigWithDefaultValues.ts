@@ -1,8 +1,8 @@
 import type { WidgetConfig } from '@lifi/widget'
 import diff from 'microdiff'
-import { cloneStructuredConfig } from '../../../utils/cloneStructuredConfig.js'
-import { patch } from '../../../utils/patch.js'
-import { getLocalStorageOutput } from './getLocalStorageOutput.js'
+import { cloneStructuredConfig } from '../../../utils/cloneStructuredConfig'
+import { patch } from '../../../utils/patch'
+import { getLocalStorageOutput } from './getLocalStorageOutput'
 
 export const getRehydratedConfigWithDefaultValues = (
   configFromLocalStorage: Partial<WidgetConfig>,

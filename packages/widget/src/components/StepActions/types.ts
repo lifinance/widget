@@ -4,7 +4,7 @@ import type {
   SubvariantOptions,
   WidgetFeeConfig,
   WidgetSubvariant,
-} from '../../types/widget.js'
+} from '../../types/widget'
 
 export interface StepActionsProps extends BoxProps {
   step: LiFiStep

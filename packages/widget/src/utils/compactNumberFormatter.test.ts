@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { compactNumberFormatter } from './compactNumberFormatter.js'
+import { compactNumberFormatter } from './compactNumberFormatter'
 
 describe('Compact Number Formatter', () => {
   describe('basic formatting', () => {

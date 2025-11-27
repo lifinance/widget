@@ -2,7 +2,7 @@ import type {
   Collection,
   FunctionReference,
   ObjectWithFunctions,
-} from '../types.js'
+} from '../types'
 
 export function substituteFunctions(
   obj: ObjectWithFunctions,

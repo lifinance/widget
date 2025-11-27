@@ -1,14 +1,14 @@
 import type { Route } from '@lifi/sdk'
 import type { BoxProps } from '@mui/material'
 import { Collapse } from '@mui/material'
-import { AccountDeployedMessage } from './AccountDeployedMessage.js'
-import { AccountNotDeployedMessage } from './AccountNotDeployedMessage.js'
-import { FundsSufficiencyMessage } from './FundsSufficiencyMessage.js'
-import { GasSufficiencyMessage } from './GasSufficiencyMessage.js'
-import { MinFromAmountUSDMessage } from './MinFromAmountUSDMessage.js'
-import { MissingRouteRequiredAccountMessage } from './MissingRouteRequiredAccountMessage.js'
-import { ToAddressRequiredMessage } from './ToAddressRequiredMessage.js'
-import { useMessageQueue } from './useMessageQueue.js'
+import { AccountDeployedMessage } from './AccountDeployedMessage'
+import { AccountNotDeployedMessage } from './AccountNotDeployedMessage'
+import { FundsSufficiencyMessage } from './FundsSufficiencyMessage'
+import { GasSufficiencyMessage } from './GasSufficiencyMessage'
+import { MinFromAmountUSDMessage } from './MinFromAmountUSDMessage'
+import { MissingRouteRequiredAccountMessage } from './MissingRouteRequiredAccountMessage'
+import { ToAddressRequiredMessage } from './ToAddressRequiredMessage'
+import { useMessageQueue } from './useMessageQueue'
 
 type WarningMessagesProps = BoxProps & {
   route?: Route

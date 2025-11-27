@@ -1,6 +1,6 @@
 import type { BoxProps } from '@mui/material'
 import { Box, styled, Typography } from '@mui/material'
-import { searchContainerHeight } from './SearchInput.style.js'
+import { searchContainerHeight } from './SearchInput.style'
 
 interface NotFoundContainerProps extends BoxProps {
   adjustForStickySearchInput?: boolean

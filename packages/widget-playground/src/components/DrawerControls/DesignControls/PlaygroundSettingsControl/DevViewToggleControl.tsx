@@ -1,11 +1,11 @@
-import { useDevView } from '../../../../hooks/useDevView.js'
-import { CardRowColumn } from '../../../Card/Card.style.js'
-import { Switch } from '../../../Switch.js'
+import { useDevView } from '../../../../hooks/useDevView'
+import { CardRowColumn } from '../../../Card/Card.style'
+import { Switch } from '../../../Switch'
 import {
   CapitalizeFirstLetter,
   ControlContainer,
   ControlRowContainer,
-} from '../DesignControls.style.js'
+} from '../DesignControls.style'
 
 export const DevViewToggleControls = () => {
   const { isDevView, toggleDevView } = useDevView()

@@ -1,16 +1,16 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { type FC, type PropsWithChildren, useRef } from 'react'
 import { WagmiProvider } from 'wagmi'
-import { defaultBaseAccountConfig } from '../config/baseAccount.js'
-import { defaultCoinbaseConfig } from '../config/coinbase.js'
-import { defaultMetaMaskConfig } from '../config/metaMask.js'
-import { defaultWalletConnectConfig } from '../config/walletConnect.js'
-import { useSyncWagmiConfig } from '../hooks/useSyncWagmiConfig.js'
-import type { EthereumProviderConfig } from '../types.js'
+import { defaultBaseAccountConfig } from '../config/baseAccount'
+import { defaultCoinbaseConfig } from '../config/coinbase'
+import { defaultMetaMaskConfig } from '../config/metaMask'
+import { defaultWalletConnectConfig } from '../config/walletConnect'
+import { useSyncWagmiConfig } from '../hooks/useSyncWagmiConfig'
+import type { EthereumProviderConfig } from '../types'
 import {
   createDefaultWagmiConfig,
   type DefaultWagmiConfigResult,
-} from '../utils/createDefaultWagmiConfig.js'
+} from '../utils/createDefaultWagmiConfig'
 
 interface EthereumBaseProviderProps {
   config?: EthereumProviderConfig

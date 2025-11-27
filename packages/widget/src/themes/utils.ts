@@ -1,4 +1,4 @@
-import type { WidgetTheme, WidgetThemeComponents } from '../types/widget.js'
+import type { WidgetTheme, WidgetThemeComponents } from '../types/widget'
 
 type ComponentName = keyof WidgetThemeComponents
 

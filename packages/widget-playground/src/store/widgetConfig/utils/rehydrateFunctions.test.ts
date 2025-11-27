@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { rehydrateFunctions } from './rehydrateFunctions.js'
+import { rehydrateFunctions } from './rehydrateFunctions'
 
 const elseFunc = () => {}
 const moreFunc = () => {}

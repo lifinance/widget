@@ -4,8 +4,8 @@ import {
   AvatarDefault,
   AvatarDefaultBadge,
   AvatarSkeletonMaskedContainer,
-} from './Avatar.style.js'
-import { SmallAvatarSkeleton } from './SmallAvatar.js'
+} from './Avatar.style'
+import { SmallAvatarSkeleton } from './SmallAvatar'
 
 export const AvatarBadgedDefault: React.FC<{
   sx?: SxProps<Theme>

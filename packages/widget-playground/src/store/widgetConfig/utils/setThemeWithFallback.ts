@@ -1,5 +1,5 @@
-import type { WidgetConfigState } from '../types.js'
-import { replayLocalStorageChangesOnTheme } from './replayLocalStorageChangesOnTheme.js'
+import type { WidgetConfigState } from '../types'
+import { replayLocalStorageChangesOnTheme } from './replayLocalStorageChangesOnTheme'
 
 export const setThemeAppearanceWithFallback = (
   state: WidgetConfigState,

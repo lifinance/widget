@@ -1,6 +1,6 @@
 import type { WalletConnectParameters } from 'wagmi/connectors'
 import { walletConnect } from 'wagmi/connectors'
-import { extendConnector } from '../utils/extendConnector.js'
+import { extendConnector } from '../utils/extendConnector'
 
 export const createWalletConnectConnector = /*#__PURE__*/ (
   params: WalletConnectParameters

@@ -3,9 +3,9 @@ import {
   getMillisecondsFromExpiry,
   getTimeFromMilliseconds,
   type TimeFromMillisecondsType,
-} from './time.js'
-import { useInterval } from './useInterval.js'
-import { validateExpiryTimestamp, validateOnExpire } from './validate.js'
+} from './time'
+import { useInterval } from './useInterval'
+import { validateExpiryTimestamp, validateOnExpire } from './validate'
 
 const SECOND_INTERVAL = 1000
 

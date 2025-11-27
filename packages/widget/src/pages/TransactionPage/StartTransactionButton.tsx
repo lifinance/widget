@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
-import { BaseTransactionButton } from '../../components/BaseTransactionButton/BaseTransactionButton.js'
-import { useMessageQueue } from '../../components/Messages/useMessageQueue.js'
-import type { StartTransactionButtonProps } from './types.js'
+import { BaseTransactionButton } from '../../components/BaseTransactionButton/BaseTransactionButton'
+import { useMessageQueue } from '../../components/Messages/useMessageQueue'
+import type { StartTransactionButtonProps } from './types'
 
 export const StartTransactionButton: React.FC<StartTransactionButtonProps> = ({
   onClick,

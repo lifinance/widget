@@ -1,11 +1,11 @@
 import { Box, Container, ScopedCssBaseline, styled } from '@mui/material'
 import type { PropsWithChildren } from 'react'
-import { defaultMaxHeight } from '../config/constants.js'
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import { useHeaderHeight } from '../stores/header/useHeaderStore.js'
-import type { WidgetVariant } from '../types/widget.js'
-import { createElementId, ElementId } from '../utils/elements.js'
-import { getWidgetMaxHeight } from '../utils/widgetSize.js'
+import { defaultMaxHeight } from '../config/constants'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider'
+import { useHeaderHeight } from '../stores/header/useHeaderStore'
+import type { WidgetVariant } from '../types/widget'
+import { createElementId, ElementId } from '../utils/elements'
+import { getWidgetMaxHeight } from '../utils/widgetSize'
 
 // NOTE: the setting of the height in AppExpandedContainer, RelativeContainer and CssBaselineContainer can
 //  be done dynamically by values in the config - namely the config.theme.container values display, maxHeight and height

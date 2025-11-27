@@ -1,9 +1,9 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { widgetEvents } from '../../hooks/useWidgetEvents.js'
-import { WidgetEvent } from '../../types/events.js'
-import type { PersistStoreProps } from '../types.js'
-import type { ChainOrderState } from './types.js'
+import { widgetEvents } from '../../hooks/useWidgetEvents'
+import { WidgetEvent } from '../../types/events'
+import type { PersistStoreProps } from '../types'
+import type { ChainOrderState } from './types'
 
 // (10 tiles: 9 + 1 for "All chains")
 export const maxGridItemsToShow = 10

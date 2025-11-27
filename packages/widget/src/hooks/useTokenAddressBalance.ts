@@ -1,8 +1,8 @@
 import type { TokenAmount } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
-import { useChain } from './useChain.js'
-import { useToken } from './useToken.js'
-import { useTokenBalance } from './useTokenBalance.js'
+import { useChain } from './useChain'
+import { useToken } from './useToken'
+import { useTokenBalance } from './useTokenBalance'
 
 export const useTokenAddressBalance = (
   chainId?: number,

@@ -4,19 +4,19 @@ import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import { Box, IconButton, Link, Skeleton, Typography } from '@mui/material'
 import { forwardRef, type PropsWithChildren, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useAvailableChains } from '../../hooks/useAvailableChains.js'
-import { useExplorer } from '../../hooks/useExplorer.js'
-import { useToken } from '../../hooks/useToken.js'
-import { shortenAddress } from '../../utils/wallet.js'
-import { TokenAvatar } from '../Avatar/TokenAvatar.js'
-import { CardIconButton } from '../Card/CardIconButton.js'
+import { useAvailableChains } from '../../hooks/useAvailableChains'
+import { useExplorer } from '../../hooks/useExplorer'
+import { useToken } from '../../hooks/useToken'
+import { shortenAddress } from '../../utils/wallet'
+import { TokenAvatar } from '../Avatar/TokenAvatar'
+import { CardIconButton } from '../Card/CardIconButton'
 import {
   Label,
   MetricContainer,
   TokenDetailsSheetContainer,
   TokenDetailsSheetHeader,
-} from './TokenDetailsSheetContent.style.js'
-import type { TokenDetailsSheetBase } from './types.js'
+} from './TokenDetailsSheetContent.style'
+import type { TokenDetailsSheetBase } from './types'
 
 interface TokenDetailsSheetContentProps {
   tokenAddress: string | undefined

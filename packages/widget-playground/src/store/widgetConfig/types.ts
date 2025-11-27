@@ -9,8 +9,8 @@ import type {
 } from '@lifi/widget'
 import type { CSSProperties } from 'react'
 import type { StoreApi, UseBoundStore } from 'zustand'
-import type { ThemeItem } from '../editTools/types.js'
-import type { FormValues } from '../types.js'
+import type { ThemeItem } from '../editTools/types'
+import type { FormValues } from '../types'
 
 interface WidgetConfigValues {
   defaultConfig?: Partial<WidgetConfig>

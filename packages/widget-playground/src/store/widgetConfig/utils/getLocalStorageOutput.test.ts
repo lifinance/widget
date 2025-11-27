@@ -1,6 +1,6 @@
 import type { WidgetConfig } from '@lifi/widget'
 import { describe, expect, test } from 'vitest'
-import { getLocalStorageOutput } from './getLocalStorageOutput.js'
+import { getLocalStorageOutput } from './getLocalStorageOutput'
 
 describe('getLocalStorageOutput', () => {
   test('presents copy of the config with a variant property if present', () => {

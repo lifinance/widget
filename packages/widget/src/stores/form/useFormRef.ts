@@ -1,9 +1,9 @@
 import { useImperativeHandle } from 'react'
-import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
-import { formDefaultValues } from '../../stores/form/createFormStore.js'
-import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
-import type { FormRef } from '../../types/widget.js'
-import type { FormStoreStore, GenericFormValue } from './types.js'
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions'
+import { formDefaultValues } from '../../stores/form/createFormStore'
+import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore'
+import type { FormRef } from '../../types/widget'
+import type { FormStoreStore, GenericFormValue } from './types'
 
 export const useFormRef = (formStore: FormStoreStore, formRef?: FormRef) => {
   const { setSendToWallet } = useSendToWalletActions()

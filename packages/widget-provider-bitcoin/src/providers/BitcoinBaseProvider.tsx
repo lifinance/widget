@@ -4,7 +4,7 @@ import { type FC, type PropsWithChildren, useRef } from 'react'
 import {
   createDefaultBigmiConfig,
   type DefaultBigmiConfigResult,
-} from '../utils/createDefaultBigmiConfig.js'
+} from '../utils/createDefaultBigmiConfig'
 
 export const BitcoinBaseProvider: FC<PropsWithChildren> = ({ children }) => {
   const bigmi = useRef<DefaultBigmiConfigResult>(null)

@@ -1,8 +1,8 @@
 import { type ContractCall, formatUnits } from '@lifi/sdk'
 import { useEffect } from 'react'
-import { useFieldActions } from '../../stores/form/useFieldActions.js'
-import type { TokenAmount } from '../../types/token.js'
-import { Token } from '../Token/Token.js'
+import { useFieldActions } from '../../stores/form/useFieldActions'
+import type { TokenAmount } from '../../types/token'
+import { Token } from '../Token/Token'
 
 export interface ItemPriceProps {
   token: TokenAmount

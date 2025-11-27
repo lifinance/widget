@@ -1,13 +1,13 @@
 import { useLocation } from '@tanstack/react-router'
 import type { FC, PropsWithChildren } from 'react'
 import { useLayoutEffect, useRef } from 'react'
-import { useDefaultElementId } from '../../hooks/useDefaultElementId.js'
-import { useSetHeaderHeight } from '../../stores/header/useHeaderStore.js'
-import { createElementId, ElementId } from '../../utils/elements.js'
-import { stickyHeaderRoutes } from '../../utils/navigationRoutes.js'
-import { Container } from './Header.style.js'
-import { NavigationHeader } from './NavigationHeader.js'
-import { WalletHeader } from './WalletHeader.js'
+import { useDefaultElementId } from '../../hooks/useDefaultElementId'
+import { useSetHeaderHeight } from '../../stores/header/useHeaderStore'
+import { createElementId, ElementId } from '../../utils/elements'
+import { stickyHeaderRoutes } from '../../utils/navigationRoutes'
+import { Container } from './Header.style'
+import { NavigationHeader } from './NavigationHeader'
+import { WalletHeader } from './WalletHeader'
 
 const HeaderContainer: FC<PropsWithChildren> = ({ children }) => {
   const { pathname } = useLocation()

@@ -1,8 +1,8 @@
 import { ChainType } from '@lifi/sdk'
 import { useEthereumContext } from '@lifi/widget-provider'
 import { useQuery } from '@tanstack/react-query'
-import { useFieldValues } from '../stores/form/useFieldValues.js'
-import { useAvailableChains } from './useAvailableChains.js'
+import { useFieldValues } from '../stores/form/useFieldValues'
+import { useAvailableChains } from './useAvailableChains'
 
 interface AddressActivity {
   hasActivity: boolean

@@ -1,5 +1,5 @@
 import { styled, switchClasses } from '@mui/material'
-import { Switch } from '../Switch.js'
+import { Switch } from '../Switch'
 
 export const InfoMessageSwitch = styled(Switch)(({ theme }) => ({
   [`.${switchClasses.switchBase}`]: {

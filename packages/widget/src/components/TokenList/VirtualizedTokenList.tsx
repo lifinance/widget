@@ -3,15 +3,12 @@ import { useVirtualizer } from '@tanstack/react-virtual'
 import type { FC } from 'react'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useAvailableChains } from '../../hooks/useAvailableChains.js'
-import type { TokenAmount } from '../../types/token.js'
-import { TokenDetailsSheet } from './TokenDetailsSheet.js'
-import { List } from './TokenList.style.js'
-import { TokenListItem, TokenListItemSkeleton } from './TokenListItem.js'
-import type {
-  TokenDetailsSheetBase,
-  VirtualizedTokenListProps,
-} from './types.js'
+import { useAvailableChains } from '../../hooks/useAvailableChains'
+import type { TokenAmount } from '../../types/token'
+import { TokenDetailsSheet } from './TokenDetailsSheet'
+import { List } from './TokenList.style'
+import { TokenListItem, TokenListItemSkeleton } from './TokenListItem'
+import type { TokenDetailsSheetBase, VirtualizedTokenListProps } from './types'
 
 const tokenItemHeight = 64 // 60 + 4px margin-bottom
 

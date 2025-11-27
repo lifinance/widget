@@ -1,13 +1,13 @@
 import type { PropsWithChildren } from 'react'
-import { I18nProvider } from './providers/I18nProvider/I18nProvider.js'
-import { QueryClientProvider } from './providers/QueryClientProvider.js'
-import { SDKClientProvider } from './providers/SDKClientProvider.js'
-import { ThemeProvider } from './providers/ThemeProvider/ThemeProvider.js'
-import { WalletProvider } from './providers/WalletProvider/WalletProvider.js'
-import { WidgetProvider } from './providers/WidgetProvider/WidgetProvider.js'
-import { StoreProvider } from './stores/StoreProvider.js'
-import { SettingsStoreProvider } from './stores/settings/SettingsStore.js'
-import type { WidgetConfigProps } from './types/widget.js'
+import { I18nProvider } from './providers/I18nProvider/I18nProvider'
+import { QueryClientProvider } from './providers/QueryClientProvider'
+import { SDKClientProvider } from './providers/SDKClientProvider'
+import { ThemeProvider } from './providers/ThemeProvider/ThemeProvider'
+import { WalletProvider } from './providers/WalletProvider/WalletProvider'
+import { WidgetProvider } from './providers/WidgetProvider/WidgetProvider'
+import { StoreProvider } from './stores/StoreProvider'
+import { SettingsStoreProvider } from './stores/settings/SettingsStore'
+import type { WidgetConfigProps } from './types/widget'
 
 export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
   children,

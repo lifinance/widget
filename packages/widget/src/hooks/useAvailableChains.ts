@@ -2,10 +2,10 @@ import type { ExtendedChain } from '@lifi/sdk'
 import { ChainType, getChains } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback } from 'react'
-import { useSDKClient } from '../providers/SDKClientProvider.js'
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import { getConfigItemSets, isItemAllowedForSets } from '../utils/item.js'
-import { getQueryKey } from '../utils/queries.js'
+import { useSDKClient } from '../providers/SDKClientProvider'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider'
+import { getConfigItemSets, isItemAllowedForSets } from '../utils/item'
+import { getQueryKey } from '../utils/queries'
 
 type GetChainById = (
   chainId?: number,

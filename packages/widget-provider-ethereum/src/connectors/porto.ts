@@ -1,5 +1,5 @@
 import { type PortoParameters, porto } from 'wagmi/connectors'
-import { extendConnector } from '../utils/extendConnector.js'
+import { extendConnector } from '../utils/extendConnector'
 
 export const createPortoConnector = /*#__PURE__*/ (
   params?: Partial<PortoParameters>

@@ -1,7 +1,7 @@
 import { Avatar, Box, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { Card } from '../../components/Card/Card.js'
-import { maxChainsToShow } from '../../stores/chains/createChainOrderStore.js'
+import { Card } from '../../components/Card/Card'
+import { maxChainsToShow } from '../../stores/chains/createChainOrderStore'
 
 const chainCardWidthPx = 52
 const chainCardHeightPx = 56

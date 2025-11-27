@@ -1,9 +1,9 @@
 import type { LiFiStepExtended } from '@lifi/sdk'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useTimer } from '../../hooks/timer/useTimer.js'
-import { formatTimer } from '../../utils/timer.js'
-import { TimerContent } from './TimerContent.js'
+import { useTimer } from '../../hooks/timer/useTimer'
+import { formatTimer } from '../../utils/timer'
+import { TimerContent } from './TimerContent'
 
 /**
  * Finds the most recent process that is either a SWAP, CROSS_CHAIN, or RECEIVING_CHAIN.

@@ -1,9 +1,9 @@
 import type { Dispatch, SetStateAction } from 'react'
 import { useEffect, useRef, useState } from 'react'
-import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate.js'
-import { useRoutes } from '../../hooks/useRoutes.js'
-import { useRouteExecutionStoreContext } from '../../stores/routes/RouteExecutionStore.js'
-import { useSetExecutableRoute } from '../../stores/routes/useSetExecutableRoute.js'
+import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate'
+import { useRoutes } from '../../hooks/useRoutes'
+import { useRouteExecutionStoreContext } from '../../stores/routes/RouteExecutionStore'
+import { useSetExecutableRoute } from '../../stores/routes/useSetExecutableRoute'
 
 interface RouteTrackerProps {
   observableRouteId: string

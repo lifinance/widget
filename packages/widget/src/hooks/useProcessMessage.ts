@@ -10,10 +10,10 @@ import type {
 import { LiFiErrorCode } from '@lifi/sdk'
 import type { TFunction } from 'i18next'
 import { useTranslation } from 'react-i18next'
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import type { SubvariantOptions, WidgetSubvariant } from '../types/widget.js'
-import { formatTokenAmount, wrapLongWords } from '../utils/format.js'
-import { useAvailableChains } from './useAvailableChains.js'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider'
+import type { SubvariantOptions, WidgetSubvariant } from '../types/widget'
+import { formatTokenAmount, wrapLongWords } from '../utils/format'
+import { useAvailableChains } from './useAvailableChains'
 
 export const useProcessMessage = (step?: LiFiStep, process?: Process) => {
   const { subvariant, subvariantOptions } = useWidgetConfig()

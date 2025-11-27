@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { useShallow } from 'zustand/shallow'
-import type { SendToWalletStore } from './types.js'
+import type { SendToWalletStore } from './types'
 
 export const sendToWalletStore = create<SendToWalletStore>((set) => ({
   showSendToWallet: false,

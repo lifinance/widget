@@ -1,12 +1,12 @@
 import type { PropsWithChildren } from 'react'
 import { useMemo, useRef } from 'react'
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import type { FormRef, ToAddress } from '../../types/widget.js'
-import { createFormStore, formDefaultValues } from './createFormStore.js'
-import { FormStoreContext } from './FormStoreContext.js'
-import { FormUpdater } from './FormUpdater.js'
-import type { DefaultValues, FormStoreStore } from './types.js'
-import { useFormRef } from './useFormRef.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider'
+import type { FormRef, ToAddress } from '../../types/widget'
+import { createFormStore, formDefaultValues } from './createFormStore'
+import { FormStoreContext } from './FormStoreContext'
+import { FormUpdater } from './FormUpdater'
+import type { DefaultValues, FormStoreStore } from './types'
+import { useFormRef } from './useFormRef'
 
 // decorates and initialise the form date for use in the form store
 const initialiseDefaultValues = (

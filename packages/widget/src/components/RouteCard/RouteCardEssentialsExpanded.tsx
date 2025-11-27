@@ -1,8 +1,8 @@
 import Layers from '@mui/icons-material/Layers'
 import { Box, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { IconTypography } from '../IconTypography.js'
-import type { RouteCardEssentialsProps } from './types.js'
+import { IconTypography } from '../IconTypography'
+import type { RouteCardEssentialsProps } from './types'
 
 export const RouteCardEssentialsExpanded: React.FC<
   RouteCardEssentialsProps

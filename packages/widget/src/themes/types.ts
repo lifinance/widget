@@ -8,7 +8,7 @@ import type {
 } from '@mui/material'
 import type {} from '@mui/material/themeCssVarsAugmentation'
 import type { CSSProperties } from 'react'
-import type { NavigationProps } from '../types/widget.js'
+import type { NavigationProps } from '../types/widget'
 
 // https://mui.com/customization/palette/
 declare module '@mui/material/styles' {

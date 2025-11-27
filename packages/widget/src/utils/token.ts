@@ -1,7 +1,7 @@
 import type { BaseToken, TokenExtended } from '@lifi/sdk'
-import type { FormType } from '../stores/form/types.js'
-import type { WidgetChains, WidgetTokens } from '../types/widget.js'
-import { getConfigItemSets, isFormItemAllowed } from './item.js'
+import type { FormType } from '../stores/form/types'
+import type { WidgetChains, WidgetTokens } from '../types/widget'
+import { getConfigItemSets, isFormItemAllowed } from './item'
 
 export const filterAllowedTokens = (
   dataTokens: { [chainId: number]: TokenExtended[] } | undefined,

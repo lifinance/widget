@@ -1,5 +1,5 @@
-import { deepMerge } from '../../utils/deepMerge.js'
-import type { LanguageKey, LanguageResource, PartialResource } from './types.js'
+import { deepMerge } from '../../utils/deepMerge'
+import type { LanguageKey, LanguageResource, PartialResource } from './types'
 
 // Dynamically import the JSON file for the specified language
 export async function loadLocale(

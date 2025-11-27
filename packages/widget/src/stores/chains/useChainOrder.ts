@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
-import type { FormType } from '../form/types.js'
-import { useChainOrderStore } from './ChainOrderStore.js'
-import { maxChainsToOrder } from './createChainOrderStore.js'
+import type { FormType } from '../form/types'
+import { useChainOrderStore } from './ChainOrderStore'
+import { maxChainsToOrder } from './createChainOrderStore'
 
 export const useChainOrder = (
   type: FormType

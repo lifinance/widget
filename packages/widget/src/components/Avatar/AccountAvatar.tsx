@@ -2,14 +2,10 @@ import { getConnectorIcon } from '@lifi/wallet-management'
 import type { Account } from '@lifi/widget-provider'
 import Wallet from '@mui/icons-material/Wallet'
 import { Badge } from '@mui/material'
-import { useChain } from '../../hooks/useChain.js'
-import type { ToAddress } from '../../types/widget.js'
-import {
-  AvatarDefault,
-  AvatarDefaultBadge,
-  AvatarMasked,
-} from './Avatar.style.js'
-import { SmallAvatar } from './SmallAvatar.js'
+import { useChain } from '../../hooks/useChain'
+import type { ToAddress } from '../../types/widget'
+import { AvatarDefault, AvatarDefaultBadge, AvatarMasked } from './Avatar.style'
+import { SmallAvatar } from './SmallAvatar'
 
 interface AccountAvatarProps {
   chainId?: number

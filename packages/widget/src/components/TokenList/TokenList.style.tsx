@@ -4,7 +4,7 @@ import {
   List as MuiList,
   styled,
 } from '@mui/material'
-import { ListItem as ListItemBase } from '../ListItem/ListItem.js'
+import { ListItem as ListItemBase } from '../ListItem/ListItem'
 
 export const ListItem = styled(ListItemBase)(() => ({
   position: 'absolute',

@@ -1,12 +1,12 @@
 import { Skeleton, ThemeProvider, useMediaQuery } from '@mui/material'
 import { useMemo } from 'react'
-import { createTheme } from '../../themes/createTheme.js'
-import type { WidgetConfigPartialProps } from '../../types/widget.js'
+import { createTheme } from '../../themes/createTheme'
+import type { WidgetConfigPartialProps } from '../../types/widget'
 import {
   AppExpandedContainer,
   FlexContainer,
   RelativeContainer,
-} from '../AppContainer.js'
+} from '../AppContainer'
 import {
   SkeletonAmountContainer,
   SkeletonCard,
@@ -19,7 +19,7 @@ import {
   SkeletonReviewButtonContainer,
   SkeletonSendToWalletButton,
   SkeletonWalletMenuButtonContainer,
-} from './WidgetSkeleton.style.js'
+} from './WidgetSkeleton.style'
 
 const SkeletonIcon = () => <Skeleton width={24} height={24} variant="rounded" />
 const SkeletonWalletMenuButton = () => (

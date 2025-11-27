@@ -1,5 +1,5 @@
 import { Box, styled } from '@mui/material'
-import { Card } from '../Card/Card.js'
+import { Card } from '../Card/Card'
 
 export const IconCard = styled(Card)(({ theme }) => ({
   height: 32,

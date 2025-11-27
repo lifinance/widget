@@ -3,11 +3,11 @@ import type { BoxProps } from '@mui/material'
 import { Box, Collapse, Typography } from '@mui/material'
 import type { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useGasRefuel } from '../../hooks/useGasRefuel.js'
-import { useSettings } from '../../stores/settings/useSettings.js'
-import { useSettingsActions } from '../../stores/settings/useSettingsActions.js'
-import { AlertMessage } from './AlertMessage.js'
-import { InfoMessageSwitch } from './GasRefuelMessage.style.js'
+import { useGasRefuel } from '../../hooks/useGasRefuel'
+import { useSettings } from '../../stores/settings/useSettings'
+import { useSettingsActions } from '../../stores/settings/useSettingsActions'
+import { AlertMessage } from './AlertMessage'
+import { InfoMessageSwitch } from './GasRefuelMessage.style'
 
 export const GasRefuelMessage: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation()

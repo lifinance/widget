@@ -1,7 +1,7 @@
 import type { BadgeProps } from '@mui/material'
 import type { PropsWithChildren } from 'react'
-import { CardValue } from '../../../components/Card/CardButton.style.js'
-import { Badge } from './SettingCard.style.js'
+import { CardValue } from '../../../components/Card/CardButton.style'
+import { Badge } from './SettingCard.style'
 
 interface BadgedValueProps {
   showBadge: boolean

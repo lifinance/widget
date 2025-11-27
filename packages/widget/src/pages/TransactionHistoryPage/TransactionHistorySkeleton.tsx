@@ -1,7 +1,7 @@
 import { Box, Skeleton } from '@mui/material'
-import { Card } from '../../components/Card/Card.js'
-import { TokenSkeleton } from '../../components/Token/Token.js'
-import { TokenDivider } from '../../components/Token/Token.style.js'
+import { Card } from '../../components/Card/Card'
+import { TokenSkeleton } from '../../components/Token/Token'
+import { TokenDivider } from '../../components/Token/Token.style'
 
 export const TransactionHistoryItemSkeleton = () => {
   return (

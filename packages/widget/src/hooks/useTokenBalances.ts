@@ -1,10 +1,10 @@
 import { useMemo } from 'react'
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import type { FormType } from '../stores/form/types.js'
-import { isSearchMatch, processTokenBalances } from '../utils/tokenList.js'
-import { useAccountsBalancesData } from './useAccountsBalancesData.js'
-import { useTokenBalancesQueries } from './useTokenBalancesQueries.js'
-import { useTokens } from './useTokens.js'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider'
+import type { FormType } from '../stores/form/types'
+import { isSearchMatch, processTokenBalances } from '../utils/tokenList'
+import { useAccountsBalancesData } from './useAccountsBalancesData'
+import { useTokenBalancesQueries } from './useTokenBalancesQueries'
+import { useTokens } from './useTokens'
 
 export const useTokenBalances = (
   selectedChainId?: number,

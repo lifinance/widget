@@ -3,8 +3,8 @@ import Wallet from '@mui/icons-material/Wallet'
 import type { BoxProps } from '@mui/material'
 import { Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { shortenAddress } from '../../utils/wallet.js'
-import { AlertMessage } from './AlertMessage.js'
+import { shortenAddress } from '../../utils/wallet'
+import { AlertMessage } from './AlertMessage'
 
 interface MissingRouteRequiredAccountMessageProps extends BoxProps {
   chain?: ExtendedChain

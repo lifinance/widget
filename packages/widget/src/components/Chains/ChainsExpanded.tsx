@@ -1,13 +1,13 @@
 import { memo } from 'react'
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import type { FormType } from '../../stores/form/types.js'
-import { getWidgetMaxHeight } from '../../utils/widgetSize.js'
-import { ExpansionTransition } from '../Expansion/ExpansionTransition.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider'
+import type { FormType } from '../../stores/form/types'
+import { getWidgetMaxHeight } from '../../utils/widgetSize'
+import { ExpansionTransition } from '../Expansion/ExpansionTransition'
 import {
   chainExpansionWidth,
   SelectChainExpansionContainer,
-} from './ChainsExpanded.style.js'
-import { SelectChainContent } from './SelectChainContent.js'
+} from './ChainsExpanded.style'
+import { SelectChainContent } from './SelectChainContent'
 
 interface ChainsExpandedProps {
   formType: FormType

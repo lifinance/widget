@@ -2,9 +2,9 @@ import ClearIcon from '@mui/icons-material/Clear'
 import Search from '@mui/icons-material/Search'
 import { FormControl, IconButton, InputAdornment } from '@mui/material'
 import type { FocusEventHandler, FormEventHandler, RefObject } from 'react'
-import { InputCard } from '../../components/Card/InputCard.js'
-import { useHeaderHeight } from '../../stores/header/useHeaderStore.js'
-import { Input, StickySearchInputContainer } from './SearchInput.style.js'
+import { InputCard } from '../../components/Card/InputCard'
+import { useHeaderHeight } from '../../stores/header/useHeaderStore'
+import { Input, StickySearchInputContainer } from './SearchInput.style'
 
 interface SearchInputProps {
   inputRef?: RefObject<HTMLInputElement | null>

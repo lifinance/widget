@@ -6,8 +6,8 @@ import {
   getAppContainer,
   getHeaderElement,
   getScrollableContainer,
-} from '../utils/elements.js'
-import { useDefaultElementId } from './useDefaultElementId.js'
+} from '../utils/elements'
+import { useDefaultElementId } from './useDefaultElementId'
 
 const getContentHeight = (
   elementId: string,

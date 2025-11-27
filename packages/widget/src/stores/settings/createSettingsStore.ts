@@ -1,13 +1,13 @@
 /** biome-ignore-all lint/correctness/noUnusedVariables: allowed in this store */
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { allLanguages } from '../../providers/I18nProvider/constants.js'
-import { loadLocale } from '../../providers/I18nProvider/i18n.js'
-import type { LanguageKey } from '../../providers/I18nProvider/types.js'
-import type { WidgetConfig } from '../../types/widget.js'
-import type { SettingsProps, SettingsState } from './types.js'
-import { SettingsToolTypes } from './types.js'
-import { getStateValues } from './utils/getStateValues.js'
+import { allLanguages } from '../../providers/I18nProvider/constants'
+import { loadLocale } from '../../providers/I18nProvider/i18n'
+import type { LanguageKey } from '../../providers/I18nProvider/types'
+import type { WidgetConfig } from '../../types/widget'
+import type { SettingsProps, SettingsState } from './types'
+import { SettingsToolTypes } from './types'
+import { getStateValues } from './utils/getStateValues'
 
 export const defaultSlippage = undefined
 

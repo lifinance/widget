@@ -1,14 +1,14 @@
 import type { PropsWithChildren } from 'react'
 import { useCallback, useMemo, useRef, useState } from 'react'
-import { WalletMenuContent } from '../../components/WalletMenuContent.js'
-import { WalletMenuModal } from '../../components/WalletMenuModal.js'
-import { I18nProvider } from '../I18nProvider/I18nProvider.js'
-import { useWalletManagementConfig } from '../WalletManagementProvider/WalletManagementContext.js'
+import { WalletMenuContent } from '../../components/WalletMenuContent'
+import { WalletMenuModal } from '../../components/WalletMenuModal'
+import { I18nProvider } from '../I18nProvider/I18nProvider'
+import { useWalletManagementConfig } from '../WalletManagementProvider/WalletManagementContext'
 import type {
   WalletMenuContext as _WalletMenuContext,
   WalletMenuOpenArgs,
-} from './types.js'
-import { WalletMenuContext } from './WalletMenuContext.js'
+} from './types'
+import { WalletMenuContext } from './WalletMenuContext'
 
 export const WalletMenuProvider: React.FC<PropsWithChildren> = ({
   children,

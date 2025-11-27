@@ -2,8 +2,8 @@ import { Box, Tooltip, Typography } from '@mui/material'
 import type { TFunction } from 'i18next'
 import type { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { FeesBreakdown } from '../utils/fees.js'
-import { formatTokenAmount } from '../utils/format.js'
+import type { FeesBreakdown } from '../utils/fees'
+import { formatTokenAmount } from '../utils/format'
 
 interface FeeBreakdownTooltipProps {
   gasCosts?: FeesBreakdown[]

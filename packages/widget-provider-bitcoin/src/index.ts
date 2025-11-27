@@ -1,1 +1,1 @@
-export { BitcoinProvider } from './providers/BitcoinProvider.js'
+export { BitcoinProvider } from './providers/BitcoinProvider'

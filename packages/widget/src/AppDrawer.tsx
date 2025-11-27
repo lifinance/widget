@@ -8,9 +8,9 @@ import {
   useRef,
   useState,
 } from 'react'
-import type { WidgetDrawerContext } from './AppDrawerContext.js'
-import { DrawerContext } from './AppDrawerContext.js'
-import type { WidgetDrawerProps } from './types/widget.js'
+import type { WidgetDrawerContext } from './AppDrawerContext'
+import { DrawerContext } from './AppDrawerContext'
+import type { WidgetDrawerProps } from './types/widget'
 
 export interface WidgetDrawer {
   isOpen(): void

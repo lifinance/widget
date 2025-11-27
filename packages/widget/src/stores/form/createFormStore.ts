@@ -7,7 +7,7 @@ import type {
   FormValueControl,
   FormValues,
   FormValuesState,
-} from './types.js'
+} from './types'
 
 export const formDefaultValues: DefaultValues = {
   fromAmount: '',

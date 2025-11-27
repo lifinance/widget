@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import type { NFTNetwork, OrdersQueryResponse } from './types.js'
-import { deserializeOrder } from './utils.js'
+import type { NFTNetwork, OrdersQueryResponse } from './types'
+import { deserializeOrder } from './utils'
 
 export const useOpenSeaOrder = (
   network: NFTNetwork,

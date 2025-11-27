@@ -1,9 +1,9 @@
 import { createContext, useContext, useRef } from 'react'
 import { useShallow } from 'zustand/shallow'
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import type { PersistStoreProviderProps } from '../types.js'
-import { createBookmarksStore } from './createBookmarkStore.js'
-import type { BookmarkState, BookmarkStore } from './types.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider'
+import type { PersistStoreProviderProps } from '../types'
+import { createBookmarksStore } from './createBookmarkStore'
+import type { BookmarkState, BookmarkStore } from './types'
 
 const BookmarkStoreContext = createContext<BookmarkStore | null>(null)
 

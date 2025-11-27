@@ -3,21 +3,21 @@ import { executeRoute, resumeRoute, updateRouteExecution } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useEffect, useRef } from 'react'
-import { useSDKClient } from '../providers/SDKClientProvider.js'
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { useSDKClient } from '../providers/SDKClientProvider'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider'
 import {
   useRouteExecutionStore,
   useRouteExecutionStoreContext,
-} from '../stores/routes/RouteExecutionStore.js'
+} from '../stores/routes/RouteExecutionStore'
 import {
   getUpdatedProcess,
   isRouteActive,
   isRouteDone,
   isRouteFailed,
-} from '../stores/routes/utils.js'
-import { WidgetEvent } from '../types/events.js'
-import { getQueryKey } from '../utils/queries.js'
-import { useWidgetEvents } from './useWidgetEvents.js'
+} from '../stores/routes/utils'
+import { WidgetEvent } from '../types/events'
+import { getQueryKey } from '../utils/queries'
+import { useWidgetEvents } from './useWidgetEvents'
 
 interface RouteExecutionProps {
   routeId: string

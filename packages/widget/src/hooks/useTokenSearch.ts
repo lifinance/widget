@@ -6,11 +6,11 @@ import {
   type TokensResponse,
 } from '@lifi/sdk'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useSDKClient } from '../providers/SDKClientProvider.js'
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import type { FormType } from '../stores/form/types.js'
-import { getConfigItemSets, isFormItemAllowed } from '../utils/item.js'
-import { getQueryKey } from '../utils/queries.js'
+import { useSDKClient } from '../providers/SDKClientProvider'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider'
+import type { FormType } from '../stores/form/types'
+import { getConfigItemSets, isFormItemAllowed } from '../utils/item'
+import { getQueryKey } from '../utils/queries'
 
 export const useTokenSearch = (
   chainId?: number,

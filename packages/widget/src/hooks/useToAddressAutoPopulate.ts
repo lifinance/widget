@@ -1,11 +1,11 @@
 import { useAccount } from '@lifi/wallet-management'
 import { useChainTypeFromAddress } from '@lifi/widget-provider'
 import { useCallback } from 'react'
-import { useBookmarkActions } from '../stores/bookmarks/useBookmarkActions.js'
-import type { FormType } from '../stores/form/types.js'
-import { useFieldActions } from '../stores/form/useFieldActions.js'
-import { useSendToWalletActions } from '../stores/settings/useSendToWalletStore.js'
-import { useAvailableChains } from './useAvailableChains.js'
+import { useBookmarkActions } from '../stores/bookmarks/useBookmarkActions'
+import type { FormType } from '../stores/form/types'
+import { useFieldActions } from '../stores/form/useFieldActions'
+import { useSendToWalletActions } from '../stores/settings/useSendToWalletStore'
+import { useAvailableChains } from './useAvailableChains'
 
 type UpdateToAddressArgs = {
   formType: FormType

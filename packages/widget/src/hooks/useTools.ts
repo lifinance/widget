@@ -1,10 +1,10 @@
 import { getTools, type ToolsResponse } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
-import { useSDKClient } from '../providers/SDKClientProvider.js'
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import { useSettingsStoreContext } from '../stores/settings/SettingsStore.js'
-import { getConfigItemSets, isItemAllowedForSets } from '../utils/item.js'
-import { getQueryKey } from '../utils/queries.js'
+import { useSDKClient } from '../providers/SDKClientProvider'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider'
+import { useSettingsStoreContext } from '../stores/settings/SettingsStore'
+import { getConfigItemSets, isItemAllowedForSets } from '../utils/item'
+import { getQueryKey } from '../utils/queries'
 
 export const useTools = () => {
   const { bridges, exchanges, keyPrefix } = useWidgetConfig()

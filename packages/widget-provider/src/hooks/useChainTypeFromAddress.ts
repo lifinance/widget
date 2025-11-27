@@ -1,9 +1,9 @@
 import { ChainType } from '@lifi/sdk'
 import { useCallback } from 'react'
-import { useBitcoinContext } from '../contexts/BitcoinContext.js'
-import { useEthereumContext } from '../contexts/EthereumContext.js'
-import { useSolanaContext } from '../contexts/SolanaContext.js'
-import { useSuiContext } from '../contexts/SuiContext.js'
+import { useBitcoinContext } from '../contexts/BitcoinContext'
+import { useEthereumContext } from '../contexts/EthereumContext'
+import { useSolanaContext } from '../contexts/SolanaContext'
+import { useSuiContext } from '../contexts/SuiContext'
 
 export const useChainTypeFromAddress = () => {
   const { sdkProvider: ethereumProvider } = useEthereumContext()

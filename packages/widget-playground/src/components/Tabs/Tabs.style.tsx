@@ -6,7 +6,7 @@ import {
   tabsClasses,
 } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { getCardFieldsetBackgroundColor } from '../../utils/color.js'
+import { getCardFieldsetBackgroundColor } from '../../utils/color'
 
 export const Tabs = styled(MuiTabs)(({ theme }) => ({
   ...getCardFieldsetBackgroundColor(theme),

@@ -15,25 +15,25 @@ import {
 import type { MouseEventHandler } from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useAvailableChains } from '../../hooks/useAvailableChains.js'
-import { lifiLogoUrl } from '../../icons/lifi.js'
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { HiddenUI } from '../../types/widget.js'
-import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
-import { SmallAvatar } from '../Avatar/SmallAvatar.js'
-import { CardIconButton } from '../Card/CardIconButton.js'
+import { useAvailableChains } from '../../hooks/useAvailableChains'
+import { lifiLogoUrl } from '../../icons/lifi'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider'
+import { HiddenUI } from '../../types/widget'
+import { formatTokenAmount, formatTokenPrice } from '../../utils/format'
+import { SmallAvatar } from '../Avatar/SmallAvatar'
+import { CardIconButton } from '../Card/CardIconButton'
 import {
   StepAvatar,
   StepConnector,
   StepContent,
   StepLabel,
   StepLabelTypography,
-} from './StepActions.style.js'
+} from './StepActions.style'
 import type {
   IncludedStepsProps,
   StepActionsProps,
   StepDetailsLabelProps,
-} from './types.js'
+} from './types'
 
 export const StepActions: React.FC<StepActionsProps> = ({
   step,

@@ -1,11 +1,11 @@
-import type { FormType } from '../stores/form/types.js'
+import type { FormType } from '../stores/form/types'
 import type {
   AllowDeny,
   AllowDenyItems,
   AllowDenySet,
   AllowDenySetItem,
   AllowDenySets,
-} from '../types/widget.js'
+} from '../types/widget'
 
 // Use for a single item check
 export const isItemAllowed = <T>(

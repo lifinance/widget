@@ -3,7 +3,7 @@ import type { BoxProps, Theme } from '@mui/material'
 import { Box, IconButton } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import type { CSSProperties } from 'react'
-import { drawerZIndex } from '../DrawerControls/DrawerControls.style.js'
+import { drawerZIndex } from '../DrawerControls/DrawerControls.style'
 
 export const FloatingToolsContainer = styled(Box)(({ theme }) => ({
   display: 'flex',

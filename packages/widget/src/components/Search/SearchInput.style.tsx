@@ -6,7 +6,7 @@ import {
   styled,
   svgIconClasses,
 } from '@mui/material'
-import { Input as InputBase } from '../../components/Input.js'
+import { Input as InputBase } from '../../components/Input'
 
 interface InputProps {
   size?: 'small' | 'medium'

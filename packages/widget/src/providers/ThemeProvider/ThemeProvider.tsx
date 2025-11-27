@@ -3,8 +3,8 @@ import {
   useColorScheme,
 } from '@mui/material'
 import { useEffect, useMemo } from 'react'
-import { createTheme } from '../../themes/createTheme.js'
-import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
+import { createTheme } from '../../themes/createTheme'
+import { useWidgetConfig } from '../WidgetProvider/WidgetProvider'
 
 export const ThemeProvider: React.FC<React.PropsWithChildren> = ({
   children,

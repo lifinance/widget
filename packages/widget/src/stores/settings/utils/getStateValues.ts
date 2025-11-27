@@ -1,4 +1,4 @@
-import type { SettingsProps, SettingsState } from '../types.js'
+import type { SettingsProps, SettingsState } from '../types'
 
 export const getStateValues = (state: SettingsState): SettingsProps => ({
   gasPrice: state.gasPrice,

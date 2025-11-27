@@ -1,8 +1,8 @@
 import { createContext, useContext, useRef } from 'react'
 import { create } from 'zustand'
 import { useShallow } from 'zustand/shallow'
-import type { PersistStoreProviderProps } from '../types.js'
-import type { HeaderState, HeaderStore } from './types.js'
+import type { PersistStoreProviderProps } from '../types'
+import type { HeaderState, HeaderStore } from './types'
 
 const HeaderStoreContext = createContext<HeaderStore | null>(null)
 

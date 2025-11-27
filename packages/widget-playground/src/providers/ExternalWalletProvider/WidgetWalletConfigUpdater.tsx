@@ -1,7 +1,7 @@
 import { useAppKit } from '@reown/appkit/react'
 import { useEffect } from 'react'
-import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
-import { useWidgetConfigStore } from '../../store/widgetConfig/WidgetConfigProvider.js'
+import { useConfigActions } from '../../store/widgetConfig/useConfigActions'
+import { useWidgetConfigStore } from '../../store/widgetConfig/WidgetConfigProvider'
 
 export const WidgetWalletConfigUpdater = () => {
   const { open } = useAppKit()

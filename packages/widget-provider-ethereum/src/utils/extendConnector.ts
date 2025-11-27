@@ -1,5 +1,5 @@
 import type { CreateConnectorFn } from 'wagmi'
-import type { CreateConnectorFnExtended } from '../types.js'
+import type { CreateConnectorFnExtended } from '../types'
 
 export const extendConnector = (
   connector: CreateConnectorFn,

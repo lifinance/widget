@@ -1,5 +1,5 @@
-import type { enResource } from './enResource.js'
-import type { LanguageKey } from './types.js'
+import type { enResource } from './enResource'
+import type { LanguageKey } from './types'
 
 type LanguageResource = typeof enResource
 

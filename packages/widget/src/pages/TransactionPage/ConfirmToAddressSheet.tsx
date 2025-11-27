@@ -4,19 +4,19 @@ import { Button, Typography } from '@mui/material'
 import type { RefObject } from 'react'
 import { forwardRef, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
-import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
-import { AlertMessage } from '../../components/Messages/AlertMessage.js'
-import { useChain } from '../../hooks/useChain.js'
-import { useSetContentHeight } from '../../hooks/useSetContentHeight.js'
-import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
-import { WidgetEvent } from '../../types/events.js'
+import { BottomSheet } from '../../components/BottomSheet/BottomSheet'
+import type { BottomSheetBase } from '../../components/BottomSheet/types'
+import { AlertMessage } from '../../components/Messages/AlertMessage'
+import { useChain } from '../../hooks/useChain'
+import { useSetContentHeight } from '../../hooks/useSetContentHeight'
+import { useWidgetEvents } from '../../hooks/useWidgetEvents'
+import { WidgetEvent } from '../../types/events'
 import {
   IconContainer,
   SendToWalletButtonRow,
   SendToWalletSheetContainer,
   SheetAddressContainer,
-} from '../SendToWallet/SendToWalletPage.style.js'
+} from '../SendToWallet/SendToWalletPage.style'
 
 interface ConfirmToAddressSheetProps {
   onContinue: () => void

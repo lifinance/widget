@@ -2,15 +2,15 @@ import type { ExtendedChain } from '@lifi/sdk'
 import { Skeleton } from '@mui/material'
 import type { RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { FormType } from '../../stores/form/types.js'
-import { SearchNotFound } from '../Search/SearchNotFound.js'
+import type { FormType } from '../../stores/form/types'
+import { SearchNotFound } from '../Search/SearchNotFound'
 import {
   List,
   ListItemAvatar,
   ListItemButton,
   ListItemText,
-} from './ChainList.style.js'
-import { VirtualizedChainList } from './VirtualizedChainList.js'
+} from './ChainList.style'
+import { VirtualizedChainList } from './VirtualizedChainList'
 
 interface ChainListProps {
   parentRef: RefObject<HTMLDivElement | null>

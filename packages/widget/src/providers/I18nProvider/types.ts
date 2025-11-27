@@ -1,4 +1,4 @@
-import type { enResource } from './enResource.js'
+import type { enResource } from './enResource'
 
 export type PartialResource<T> = T extends object
   ? {

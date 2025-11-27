@@ -1,11 +1,11 @@
 import { useWalletMenu } from '@lifi/wallet-management'
 import { Button } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { useChain } from '../../hooks/useChain.js'
-import { useRouteRequiredAccountConnection } from '../../hooks/useRouteRequiredAccountConnection.js'
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import type { BaseTransactionButtonProps } from './types.js'
+import { useChain } from '../../hooks/useChain'
+import { useRouteRequiredAccountConnection } from '../../hooks/useRouteRequiredAccountConnection'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider'
+import { useFieldValues } from '../../stores/form/useFieldValues'
+import type { BaseTransactionButtonProps } from './types'
 
 export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
   onClick,

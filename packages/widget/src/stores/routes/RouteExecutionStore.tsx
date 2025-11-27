@@ -1,9 +1,9 @@
 import { createContext, useContext, useRef } from 'react'
 import type { StoreApi, UseBoundStore } from 'zustand'
 import { useShallow } from 'zustand/shallow'
-import type { PersistStoreProviderProps } from '../types.js'
-import { createRouteExecutionStore } from './createRouteExecutionStore.js'
-import type { RouteExecutionState } from './types.js'
+import type { PersistStoreProviderProps } from '../types'
+import { createRouteExecutionStore } from './createRouteExecutionStore'
+import type { RouteExecutionState } from './types'
 
 type RouteExecutionStore = UseBoundStore<StoreApi<RouteExecutionState>>
 

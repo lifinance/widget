@@ -1,14 +1,14 @@
 import { Collapse } from '@mui/material'
 import type { PropsWithChildren, ReactNode } from 'react'
 import { useId } from 'react'
-import { Card } from '../../../components/Card/Card.js'
+import { Card } from '../../../components/Card/Card'
 import {
   CardRowButton,
   CardTitleContainer,
   CardValue,
-} from '../../../components/Card/CardButton.style.js'
-import { useSettingsCardExpandable } from './SettingsAccordian.js'
-import type { SettingCardTitle } from './types.js'
+} from '../../../components/Card/CardButton.style'
+import { useSettingsCardExpandable } from './SettingsAccordian'
+import type { SettingCardTitle } from './types'
 
 interface SettingCardExpandableProps extends SettingCardTitle {
   value: ReactNode

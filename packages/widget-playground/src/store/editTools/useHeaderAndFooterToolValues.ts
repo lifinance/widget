@@ -1,4 +1,4 @@
-import { useEditToolsStore } from './EditToolsProvider.js'
+import { useEditToolsStore } from './EditToolsProvider'
 
 export const useHeaderAndFooterToolValues = () => {
   const [showMockHeader, showMockFooter, isFooterFixed] = useEditToolsStore(

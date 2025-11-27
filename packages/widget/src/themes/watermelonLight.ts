@@ -1,5 +1,5 @@
 import { tabsClasses } from '@mui/material'
-import type { WidgetTheme } from '../types/widget.js'
+import type { WidgetTheme } from '../types/widget'
 
 export const watermelonLightTheme: WidgetTheme = {
   colorSchemes: {

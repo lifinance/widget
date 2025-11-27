@@ -1,8 +1,8 @@
 import type { ExtendedChain, Route } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useMemo } from 'react'
-import { useFieldValues } from '../stores/form/useFieldValues.js'
-import { useChain } from './useChain.js'
+import { useFieldValues } from '../stores/form/useFieldValues'
+import { useChain } from './useChain'
 
 export const useRouteRequiredAccountConnection = (
   route?: Route,

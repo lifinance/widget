@@ -1,5 +1,5 @@
 import { Box, Button, Card as MuiCard, styled } from '@mui/material'
-import { InputCard } from '../../components/Card/InputCard.js'
+import { InputCard } from '../../components/Card/InputCard'
 
 export const SkeletonHeaderAppBar = styled(Box)(({ theme }) => ({
   display: 'flex',

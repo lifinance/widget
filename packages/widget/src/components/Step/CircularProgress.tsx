@@ -3,10 +3,7 @@ import Done from '@mui/icons-material/Done'
 import ErrorRounded from '@mui/icons-material/ErrorRounded'
 import InfoRounded from '@mui/icons-material/InfoRounded'
 import WarningRounded from '@mui/icons-material/WarningRounded'
-import {
-  CircularIcon,
-  CircularProgressPending,
-} from './CircularProgress.style.js'
+import { CircularIcon, CircularProgressPending } from './CircularProgress.style'
 
 export function CircularProgress({ process }: { process: Process }) {
   return (

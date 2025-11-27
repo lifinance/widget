@@ -1,6 +1,6 @@
 import type { Theme } from '@mui/material'
 import { Box, styled } from '@mui/material'
-import { RouteExecutionStatus } from '../../stores/routes/types.js'
+import { RouteExecutionStatus } from '../../stores/routes/types'
 
 type StatusColor = RouteExecutionStatus | 'warning'
 

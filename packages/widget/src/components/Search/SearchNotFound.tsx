@@ -3,7 +3,7 @@ import {
   NotFoundContainer,
   NotFoundIconContainer,
   NotFoundMessage,
-} from './SearchNotFound.style.js'
+} from './SearchNotFound.style'
 
 interface SearchNotFoundProps {
   message: string

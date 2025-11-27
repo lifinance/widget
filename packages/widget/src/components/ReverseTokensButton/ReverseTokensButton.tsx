@@ -1,10 +1,10 @@
 import ArrowDownward from '@mui/icons-material/ArrowDownward'
 import ArrowForward from '@mui/icons-material/ArrowForward'
-import { useAvailableChains } from '../../hooks/useAvailableChains.js'
-import { useToAddressAutoPopulate } from '../../hooks/useToAddressAutoPopulate.js'
-import { useToAddressReset } from '../../hooks/useToAddressReset.js'
-import { useFieldActions } from '../../stores/form/useFieldActions.js'
-import { IconCard, ReverseContainer } from './ReverseTokensButton.style.js'
+import { useAvailableChains } from '../../hooks/useAvailableChains'
+import { useToAddressAutoPopulate } from '../../hooks/useToAddressAutoPopulate'
+import { useToAddressReset } from '../../hooks/useToAddressReset'
+import { useFieldActions } from '../../stores/form/useFieldActions'
+import { IconCard, ReverseContainer } from './ReverseTokensButton.style'
 
 export const ReverseTokensButton: React.FC<{ vertical?: boolean }> = ({
   vertical,

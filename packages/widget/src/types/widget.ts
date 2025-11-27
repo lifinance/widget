@@ -32,8 +32,8 @@ import type {
 import type {
   LanguageKey,
   LanguageResources,
-} from '../providers/I18nProvider/types.js'
-import type { DefaultFieldValues } from '../stores/form/types.js'
+} from '../providers/I18nProvider/types'
+import type { DefaultFieldValues } from '../stores/form/types'
 
 export type WidgetVariant = 'compact' | 'wide' | 'drawer'
 export type WidgetSubvariant = 'default' | 'split' | 'custom' | 'refuel'

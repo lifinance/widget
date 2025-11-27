@@ -3,20 +3,20 @@ import type { CardProps } from '@mui/material'
 import type { ChangeEvent, ReactNode } from 'react'
 import { useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useToken } from '../../hooks/useToken.js'
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { FormKeyHelper, type FormTypeProps } from '../../stores/form/types.js'
-import { useFieldActions } from '../../stores/form/useFieldActions.js'
-import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { useInputModeStore } from '../../stores/inputMode/useInputModeStore.js'
-import { DisabledUI } from '../../types/widget.js'
+import { useToken } from '../../hooks/useToken'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider'
+import { FormKeyHelper, type FormTypeProps } from '../../stores/form/types'
+import { useFieldActions } from '../../stores/form/useFieldActions'
+import { useFieldValues } from '../../stores/form/useFieldValues'
+import { useInputModeStore } from '../../stores/inputMode/useInputModeStore'
+import { DisabledUI } from '../../types/widget'
 import {
   formatInputAmount,
   formatTokenPrice,
   priceToTokenAmount,
-} from '../../utils/format.js'
-import { fitInputText } from '../../utils/input.js'
-import { InputCard } from '../Card/InputCard.js'
+} from '../../utils/format'
+import { fitInputText } from '../../utils/input'
+import { InputCard } from '../Card/InputCard'
 import {
   AmountInputCardHeader,
   AmountInputCardTitle,
@@ -25,10 +25,10 @@ import {
   Input,
   maxInputFontSize,
   minInputFontSize,
-} from './AmountInput.style.js'
-import { AmountInputEndAdornment } from './AmountInputEndAdornment.js'
-import { AmountInputStartAdornment } from './AmountInputStartAdornment.js'
-import { PriceFormHelperText } from './PriceFormHelperText.js'
+} from './AmountInput.style'
+import { AmountInputEndAdornment } from './AmountInputEndAdornment'
+import { AmountInputStartAdornment } from './AmountInputStartAdornment'
+import { PriceFormHelperText } from './PriceFormHelperText'
 
 const USD_DECIMALS = 2
 

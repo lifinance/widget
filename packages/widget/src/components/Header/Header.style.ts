@@ -6,7 +6,7 @@ import {
   buttonClasses,
   styled,
 } from '@mui/material'
-import { getAvatarMask } from '../Avatar/utils.js'
+import { getAvatarMask } from '../Avatar/utils'
 
 export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: 'transparent',

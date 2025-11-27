@@ -1,4 +1,4 @@
-import type { WidgetProviderContext } from '../types.js'
+import type { WidgetProviderContext } from '../types'
 
 export const defaultContextValue: WidgetProviderContext = {
   isEnabled: false,

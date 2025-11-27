@@ -5,13 +5,13 @@ import { Button, Typography } from '@mui/material'
 import type { ChangeEvent, RefObject } from 'react'
 import { forwardRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
-import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
-import { Input } from '../../components/Input.js'
-import { AlertMessage } from '../../components/Messages/AlertMessage.js'
-import { useAddressValidation } from '../../hooks/useAddressValidation.js'
-import type { Bookmark } from '../../stores/bookmarks/types.js'
-import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
+import { BottomSheet } from '../../components/BottomSheet/BottomSheet'
+import type { BottomSheetBase } from '../../components/BottomSheet/types'
+import { Input } from '../../components/Input'
+import { AlertMessage } from '../../components/Messages/AlertMessage'
+import { useAddressValidation } from '../../hooks/useAddressValidation'
+import type { Bookmark } from '../../stores/bookmarks/types'
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions'
 import {
   AddressInput,
   BookmarkInputFields,
@@ -22,8 +22,8 @@ import {
   SheetAddressContainer,
   SheetTitle,
   ValidationAlert,
-} from './SendToWalletPage.style.js'
-import type { BookmarkError } from './types.js'
+} from './SendToWalletPage.style'
+import type { BookmarkError } from './types'
 
 interface BookmarkAddressProps {
   onAddBookmark: (bookmark: Bookmark) => void

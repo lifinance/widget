@@ -5,8 +5,8 @@ import type { Config, CreateConnectorFn } from 'wagmi'
 import {
   convertExtendedChain,
   isExtendedChain,
-} from '../utils/convertExtendedChain.js'
-import { syncWagmiConfig } from '../utils/syncWagmiConfig.js'
+} from '../utils/convertExtendedChain'
+import { syncWagmiConfig } from '../utils/syncWagmiConfig'
 
 export const useSyncWagmiConfig = (
   wagmiConfig: Config,

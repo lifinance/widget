@@ -1,7 +1,7 @@
 import type { RefObject } from 'react'
 import { useLayoutEffect } from 'react'
-import { getRelativeContainer } from '../utils/elements.js'
-import { useDefaultElementId } from './useDefaultElementId.js'
+import { getRelativeContainer } from '../utils/elements'
+import { useDefaultElementId } from './useDefaultElementId'
 
 // NOTE: this hook is implicitly tied to the widget height functionality in the
 //   AppExpandedContainer, RelativeContainer and CssBaselineContainer components as defined in AppContainer.ts

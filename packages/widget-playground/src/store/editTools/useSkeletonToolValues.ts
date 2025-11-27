@@ -1,4 +1,4 @@
-import { useEditToolsStore } from './EditToolsProvider.js'
+import { useEditToolsStore } from './EditToolsProvider'
 
 export const useSkeletonToolValues = () => {
   const [isSkeletonShown, isSkeletonSideBySide] = useEditToolsStore((store) => [

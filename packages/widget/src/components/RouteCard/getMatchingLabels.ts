@@ -1,6 +1,6 @@
 import type { Route } from '@lifi/sdk'
-import type { RouteLabel, RouteLabelRule } from '../../types/widget.js'
-import { getConfigItemSets, isItemAllowedForSets } from '../../utils/item.js'
+import type { RouteLabel, RouteLabelRule } from '../../types/widget'
+import { getConfigItemSets, isItemAllowedForSets } from '../../utils/item'
 
 export const getMatchingLabels = (
   route: Route,

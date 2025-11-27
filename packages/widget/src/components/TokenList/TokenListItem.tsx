@@ -14,17 +14,17 @@ import {
 import type { MouseEventHandler } from 'react'
 import { memo, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLongPress } from '../../hooks/useLongPress.js'
-import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
-import { shortenAddress } from '../../utils/wallet.js'
-import { TokenAvatar } from '../Avatar/TokenAvatar.js'
-import { ListItemButton } from '../ListItem/ListItemButton.js'
-import { IconButton, ListItem } from './TokenList.style.js'
+import { useLongPress } from '../../hooks/useLongPress'
+import { formatTokenAmount, formatTokenPrice } from '../../utils/format'
+import { shortenAddress } from '../../utils/wallet'
+import { TokenAvatar } from '../Avatar/TokenAvatar'
+import { ListItemButton } from '../ListItem/ListItemButton'
+import { IconButton, ListItem } from './TokenList.style'
 import type {
   TokenListItemAvatarProps,
   TokenListItemButtonProps,
   TokenListItemProps,
-} from './types.js'
+} from './types'
 
 export const TokenListItem: React.FC<TokenListItemProps> = memo(
   ({

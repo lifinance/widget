@@ -3,17 +3,17 @@ import { useVirtualizer } from '@tanstack/react-virtual'
 import type { RefObject } from 'react'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
-import type { FormType } from '../../stores/form/types.js'
-import { AllChainsAvatar } from './AllChainsAvatar.js'
+import { useChainOrderStore } from '../../stores/chains/ChainOrderStore'
+import type { FormType } from '../../stores/form/types'
+import { AllChainsAvatar } from './AllChainsAvatar'
 import {
   List,
   ListItem,
   ListItemAvatar,
   ListItemButton,
   ListItemText,
-} from './ChainList.style.js'
-import { ChainListItem } from './ChainListItem.js'
+} from './ChainList.style'
+import { ChainListItem } from './ChainListItem'
 
 interface VirtualizedChainListProps {
   scrollElementRef: RefObject<HTMLDivElement | null>

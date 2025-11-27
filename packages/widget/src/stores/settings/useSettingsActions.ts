@@ -1,17 +1,17 @@
 import { useCallback } from 'react'
-import type { widgetEvents } from '../../hooks/useWidgetEvents.js'
-import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
-import { WidgetEvent } from '../../types/events.js'
-import type { WidgetConfig } from '../../types/widget.js'
-import { deepEqual } from '../../utils/deepEqual.js'
-import { defaultConfigurableSettings } from './createSettingsStore.js'
-import { useSettingsStore } from './SettingsStore.js'
+import type { widgetEvents } from '../../hooks/useWidgetEvents'
+import { useWidgetEvents } from '../../hooks/useWidgetEvents'
+import { WidgetEvent } from '../../types/events'
+import type { WidgetConfig } from '../../types/widget'
+import { deepEqual } from '../../utils/deepEqual'
+import { defaultConfigurableSettings } from './createSettingsStore'
+import { useSettingsStore } from './SettingsStore'
 import type {
   SettingsActions,
   SettingsProps,
   SettingsToolType,
   ValueSetter,
-} from './types.js'
+} from './types'
 
 const emitEventOnChange = <T extends (...args: any[]) => any>(
   emitter: typeof widgetEvents,

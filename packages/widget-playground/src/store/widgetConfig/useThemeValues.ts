@@ -1,4 +1,4 @@
-import { useWidgetConfigStore } from './WidgetConfigProvider.js'
+import { useWidgetConfigStore } from './WidgetConfigProvider'
 
 export const useThemeValues = () => {
   const [selectedThemeId, allThemesItems] = useWidgetConfigStore((store) => [

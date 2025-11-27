@@ -1,8 +1,8 @@
 import { forwardRef, useImperativeHandle, useRef, useState } from 'react'
-import { BottomSheet } from '../BottomSheet/BottomSheet.js'
-import type { BottomSheetBase } from '../BottomSheet/types.js'
-import { TokenDetailsSheetContent } from './TokenDetailsSheetContent.js'
-import type { TokenDetailsSheetBase } from './types.js'
+import { BottomSheet } from '../BottomSheet/BottomSheet'
+import type { BottomSheetBase } from '../BottomSheet/types'
+import { TokenDetailsSheetContent } from './TokenDetailsSheetContent'
+import type { TokenDetailsSheetBase } from './types'
 
 export const TokenDetailsSheet = forwardRef<TokenDetailsSheetBase>((_, ref) => {
   const bottomSheetRef = useRef<BottomSheetBase>(null)

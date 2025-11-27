@@ -1,7 +1,7 @@
 import ArrowBack from '@mui/icons-material/ArrowBack'
 import { IconButton, useTheme } from '@mui/material'
-import { useNavigateBack } from '../../hooks/useNavigateBack.js'
-import { useHeaderStore } from '../../stores/header/useHeaderStore.js'
+import { useNavigateBack } from '../../hooks/useNavigateBack'
+import { useHeaderStore } from '../../stores/header/useHeaderStore'
 
 export const BackButton: React.FC = () => {
   const theme = useTheme()

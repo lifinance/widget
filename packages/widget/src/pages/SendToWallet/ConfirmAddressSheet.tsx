@@ -4,21 +4,21 @@ import { Button, Typography } from '@mui/material'
 import type { RefObject } from 'react'
 import { forwardRef, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
-import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
-import { AlertMessage } from '../../components/Messages/AlertMessage.js'
-import { useNavigateBack } from '../../hooks/useNavigateBack.js'
-import { useSetContentHeight } from '../../hooks/useSetContentHeight.js'
-import type { Bookmark } from '../../stores/bookmarks/types.js'
-import { useFieldActions } from '../../stores/form/useFieldActions.js'
-import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
+import { BottomSheet } from '../../components/BottomSheet/BottomSheet'
+import type { BottomSheetBase } from '../../components/BottomSheet/types'
+import { AlertMessage } from '../../components/Messages/AlertMessage'
+import { useNavigateBack } from '../../hooks/useNavigateBack'
+import { useSetContentHeight } from '../../hooks/useSetContentHeight'
+import type { Bookmark } from '../../stores/bookmarks/types'
+import { useFieldActions } from '../../stores/form/useFieldActions'
+import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore'
 import {
   IconContainer,
   SendToWalletButtonRow,
   SendToWalletSheetContainer,
   SheetAddressContainer,
   SheetTitle,
-} from './SendToWalletPage.style.js'
+} from './SendToWalletPage.style'
 
 interface ConfirmAddressSheetProps {
   onConfirm: (wallet: Bookmark) => void

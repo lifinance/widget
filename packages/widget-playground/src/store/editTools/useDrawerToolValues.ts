@@ -1,5 +1,5 @@
-import { defaultDrawerWidth } from './constants.js'
-import { useEditToolsStore } from './EditToolsProvider.js'
+import { defaultDrawerWidth } from './constants'
+import { useEditToolsStore } from './EditToolsProvider'
 
 export const useDrawerToolValues = () => {
   const [isDrawerOpen, codeDrawerWidth, visibleControls, codeControlTab] =

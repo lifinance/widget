@@ -8,27 +8,27 @@ import { useNavigate } from '@tanstack/react-router'
 import type { ChangeEvent } from 'react'
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
-import { ButtonTertiary } from '../../components/ButtonTertiary.js'
-import { CardButton } from '../../components/Card/CardButton.js'
-import { AccountDeployedMessage } from '../../components/Messages/AccountDeployedMessage.js'
+import type { BottomSheetBase } from '../../components/BottomSheet/types'
+import { ButtonTertiary } from '../../components/ButtonTertiary'
+import { CardButton } from '../../components/Card/CardButton'
+import { AccountDeployedMessage } from '../../components/Messages/AccountDeployedMessage'
 import {
   AddressType,
   useAddressValidation,
-} from '../../hooks/useAddressValidation.js'
-import { useChain } from '../../hooks/useChain.js'
-import { useHeader } from '../../hooks/useHeader.js'
-import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import type { Bookmark } from '../../stores/bookmarks/types.js'
-import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
-import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js'
-import { useFieldActions } from '../../stores/form/useFieldActions.js'
-import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { HiddenUI, RequiredUI } from '../../types/widget.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { BookmarkAddressSheet } from './BookmarkAddressSheet.js'
-import { ConfirmAddressSheet } from './ConfirmAddressSheet.js'
+} from '../../hooks/useAddressValidation'
+import { useChain } from '../../hooks/useChain'
+import { useHeader } from '../../hooks/useHeader'
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider'
+import type { Bookmark } from '../../stores/bookmarks/types'
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions'
+import { useBookmarks } from '../../stores/bookmarks/useBookmarks'
+import { useFieldActions } from '../../stores/form/useFieldActions'
+import { useFieldValues } from '../../stores/form/useFieldValues'
+import { HiddenUI, RequiredUI } from '../../types/widget'
+import { navigationRoutes } from '../../utils/navigationRoutes'
+import { BookmarkAddressSheet } from './BookmarkAddressSheet'
+import { ConfirmAddressSheet } from './ConfirmAddressSheet'
 import {
   AddressInput,
   FullHeightAdjustablePageContainer,
@@ -36,7 +36,7 @@ import {
   SendToWalletCard,
   SendToWalletIconButton,
   ValidationAlert,
-} from './SendToWalletPage.style.js'
+} from './SendToWalletPage.style'
 
 export const SendToWalletPage: React.FC = () => {
   const { t } = useTranslation()

@@ -1,8 +1,8 @@
 import type { ChainId, ChainType, Process, Route } from '@lifi/sdk'
-import type { DefaultValues } from '../stores/form/types.js'
-import type { SettingsProps } from '../stores/settings/types.js'
-import type { NavigationRouteType } from '../utils/navigationRoutes.js'
-import type { TokenAmount } from './token.js'
+import type { DefaultValues } from '../stores/form/types'
+import type { SettingsProps } from '../stores/settings/types'
+import type { NavigationRouteType } from '../utils/navigationRoutes'
+import type { TokenAmount } from './token'
 
 export enum WidgetEvent {
   AvailableRoutes = 'availableRoutes',

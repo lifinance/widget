@@ -2,7 +2,7 @@ import AccessTimeFilled from '@mui/icons-material/AccessTimeFilled'
 import { Box, Tooltip } from '@mui/material'
 import type { FC, PropsWithChildren } from 'react'
 import { useTranslation } from 'react-i18next'
-import { IconTypography } from '../IconTypography.js'
+import { IconTypography } from '../IconTypography'
 
 export const TimerContent: FC<PropsWithChildren> = ({ children }) => {
   const { t } = useTranslation()

@@ -1,4 +1,4 @@
-import { useInitializer } from '../hooks/useInitializer.js'
+import { useInitializer } from '../hooks/useInitializer'
 
 export const Initializer: React.FC = () => {
   useInitializer()

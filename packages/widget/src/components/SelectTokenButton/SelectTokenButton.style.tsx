@@ -3,9 +3,9 @@ import {
   CardContent as MuiCardContent,
   styled,
 } from '@mui/material'
-import type { FormType } from '../../stores/form/types.js'
-import { Card } from '../Card/Card.js'
-import { CardHeader } from '../Card/CardHeader.js'
+import type { FormType } from '../../stores/form/types'
+import { Card } from '../Card/Card'
+import { CardHeader } from '../Card/CardHeader'
 
 export const SelectTokenCardHeader = styled(CardHeader, {
   shouldForwardProp: (prop) =>

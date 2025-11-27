@@ -2,12 +2,12 @@ import AccessTimeFilled from '@mui/icons-material/AccessTimeFilled'
 import LocalGasStationRounded from '@mui/icons-material/LocalGasStationRounded'
 import { Box, Tooltip, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
-import { formatDuration } from '../../utils/format.js'
-import { FeeBreakdownTooltip } from '../FeeBreakdownTooltip.js'
-import { IconTypography } from '../IconTypography.js'
-import { TokenRate } from '../TokenRate/TokenRate.js'
-import type { RouteCardEssentialsProps } from './types.js'
+import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees'
+import { formatDuration } from '../../utils/format'
+import { FeeBreakdownTooltip } from '../FeeBreakdownTooltip'
+import { IconTypography } from '../IconTypography'
+import { TokenRate } from '../TokenRate/TokenRate'
+import type { RouteCardEssentialsProps } from './types'
 
 export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
   route,

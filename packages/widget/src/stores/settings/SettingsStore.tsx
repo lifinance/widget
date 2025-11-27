@@ -6,8 +6,8 @@ import {
 } from 'react'
 import type { StoreApi, UseBoundStore } from 'zustand'
 import { useShallow } from 'zustand/shallow'
-import { createSettingsStore } from './createSettingsStore.js'
-import type { SettingsState, SettingsStoreProviderProps } from './types.js'
+import { createSettingsStore } from './createSettingsStore'
+import type { SettingsState, SettingsStoreProviderProps } from './types'
 
 type SettingsStore = UseBoundStore<StoreApi<SettingsState>>
 

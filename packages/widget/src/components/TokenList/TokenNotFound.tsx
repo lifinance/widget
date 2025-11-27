@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
-import type { FormTypeProps } from '../../stores/form/types.js'
-import { SearchNotFound } from '../Search/SearchNotFound.js'
+import type { FormTypeProps } from '../../stores/form/types'
+import { SearchNotFound } from '../Search/SearchNotFound'
 
 export const TokenNotFound: React.FC<FormTypeProps> = () => {
   const { t } = useTranslation()

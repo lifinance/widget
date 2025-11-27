@@ -1,8 +1,8 @@
 import { Avatar, Card, ListItemAvatar } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { WalletTagType } from '../types/walletTagType.js'
-import { ListItemText } from './ListItemText.js'
-import { WalletTag } from './WalletTag.js'
+import { WalletTagType } from '../types/walletTagType'
+import { ListItemText } from './ListItemText'
+import { WalletTag } from './WalletTag'
 
 interface CardListItemButtonProps {
   onClick: () => void

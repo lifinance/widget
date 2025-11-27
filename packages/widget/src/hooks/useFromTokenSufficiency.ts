@@ -1,13 +1,13 @@
 import { parseUnits, type RouteExtended } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { useSDKClient } from '../providers/SDKClientProvider.js'
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import { useFieldValues } from '../stores/form/useFieldValues.js'
-import { isRouteDone } from '../stores/routes/utils.js'
-import { getQueryKey } from '../utils/queries.js'
-import { useTokenAddressBalance } from './useTokenAddressBalance.js'
-import { getTokenBalancesWithRetry } from './useTokenBalance.js'
+import { useSDKClient } from '../providers/SDKClientProvider'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider'
+import { useFieldValues } from '../stores/form/useFieldValues'
+import { isRouteDone } from '../stores/routes/utils'
+import { getQueryKey } from '../utils/queries'
+import { useTokenAddressBalance } from './useTokenAddressBalance'
+import { getTokenBalancesWithRetry } from './useTokenBalance'
 
 const refetchInterval = 30_000
 

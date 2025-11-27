@@ -2,12 +2,9 @@ import Settings from '@mui/icons-material/Settings'
 import { Tooltip } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { useSettingMonitor } from '../../hooks/useSettingMonitor.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import {
-  SettingsIconBadge,
-  SettingsIconButton,
-} from './SettingsButton.style.js'
+import { useSettingMonitor } from '../../hooks/useSettingMonitor'
+import { navigationRoutes } from '../../utils/navigationRoutes'
+import { SettingsIconBadge, SettingsIconButton } from './SettingsButton.style'
 
 export const SettingsButton = () => {
   const { t } = useTranslation()

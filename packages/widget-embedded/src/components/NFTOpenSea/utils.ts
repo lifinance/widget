@@ -15,7 +15,7 @@ import type {
   OrderV2,
   SerializedOrderV2,
   Transaction,
-} from './types.js'
+} from './types'
 
 type OrdersQueryPathOptions = 'protocol' | 'side'
 

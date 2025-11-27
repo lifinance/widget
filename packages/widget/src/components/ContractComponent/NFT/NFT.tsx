@@ -1,8 +1,8 @@
 import { formatUnits } from '@lifi/sdk'
 import { useEffect } from 'react'
-import { useFieldActions } from '../../../stores/form/useFieldActions.js'
-import { NFTBase } from './NFTBase.js'
-import type { NFTProps } from './types.js'
+import { useFieldActions } from '../../../stores/form/useFieldActions'
+import { NFTBase } from './NFTBase'
+import type { NFTProps } from './types'
 
 export const NFT: React.FC<NFTProps> = ({
   imageUrl,

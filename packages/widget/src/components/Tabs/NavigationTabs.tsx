@@ -1,5 +1,5 @@
 import { styled, Tabs, tabsClasses } from '@mui/material'
-import { Tab } from './Tabs.style.js'
+import { Tab } from './Tabs.style'
 
 export const NavigationTabs = styled(Tabs, {
   name: 'MuiNavigationTabs',

@@ -1,12 +1,12 @@
 import { ChainId, ChainType } from '@lifi/sdk'
 import { useSolanaContext } from '@lifi/widget-provider'
-import { useLastConnectedAccount } from '../hooks/useAccount.js'
-import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
-import { getChainTypeIcon } from '../icons.js'
-import { WalletManagementEvent } from '../types/events.js'
-import { WalletTagType } from '../types/walletTagType.js'
-import { CardListItemButton } from './CardListItemButton.js'
-import type { WalletListItemButtonProps } from './types.js'
+import { useLastConnectedAccount } from '../hooks/useAccount'
+import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents'
+import { getChainTypeIcon } from '../icons'
+import { WalletManagementEvent } from '../types/events'
+import { WalletTagType } from '../types/walletTagType'
+import { CardListItemButton } from './CardListItemButton'
+import type { WalletListItemButtonProps } from './types'
 
 export const SolanaListItemButton = ({
   ecosystemSelection,

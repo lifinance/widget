@@ -1,5 +1,5 @@
 import { Box, styled } from '@mui/material'
-import type { Severity } from './types.js'
+import type { Severity } from './types'
 
 interface AlertSeverityProps {
   severity: Severity

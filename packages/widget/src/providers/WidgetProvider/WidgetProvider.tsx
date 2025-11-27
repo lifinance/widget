@@ -1,6 +1,6 @@
 import { createContext, useContext, useId, useMemo } from 'react'
-import { useSettingsActions } from '../../stores/settings/useSettingsActions.js'
-import type { WidgetContextProps, WidgetProviderProps } from './types.js'
+import { useSettingsActions } from '../../stores/settings/useSettingsActions'
+import type { WidgetContextProps, WidgetProviderProps } from './types'
 
 const initialContext: WidgetContextProps = {
   elementId: '',

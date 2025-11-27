@@ -26,19 +26,19 @@ import {
   getTransactionCount,
   switchChain,
 } from 'wagmi/actions'
-import { defaultBaseAccountConfig } from '../config/baseAccount.js'
-import { defaultCoinbaseConfig } from '../config/coinbase.js'
-import { defaultMetaMaskConfig } from '../config/metaMask.js'
-import { defaultWalletConnectConfig } from '../config/walletConnect.js'
-import { createBaseAccountConnector } from '../connectors/baseAccount.js'
-import { createCoinbaseConnector } from '../connectors/coinbase.js'
-import { createMetaMaskConnector } from '../connectors/metaMask.js'
-import { createPortoConnector } from '../connectors/porto.js'
-import { createWalletConnectConnector } from '../connectors/walletConnect.js'
+import { defaultBaseAccountConfig } from '../config/baseAccount'
+import { defaultCoinbaseConfig } from '../config/coinbase'
+import { defaultMetaMaskConfig } from '../config/metaMask'
+import { defaultWalletConnectConfig } from '../config/walletConnect'
+import { createBaseAccountConnector } from '../connectors/baseAccount'
+import { createCoinbaseConnector } from '../connectors/coinbase'
+import { createMetaMaskConnector } from '../connectors/metaMask'
+import { createPortoConnector } from '../connectors/porto'
+import { createWalletConnectConnector } from '../connectors/walletConnect'
 import type {
   CreateConnectorFnExtended,
   EthereumProviderConfig,
-} from '../types.js'
+} from '../types'
 
 interface EthereumProviderValuesProps {
   isExternalContext: boolean

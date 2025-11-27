@@ -1,12 +1,12 @@
 import { LiFiWidget } from '@lifi/widget'
 import { Box, CssBaseline } from '@mui/material'
-import type { NFTNetwork } from './components/NFTOpenSea/index.js'
+import type { NFTNetwork } from './components/NFTOpenSea/index'
 import {
   NFTOpenSea,
   NFTOpenSeaSecondary,
   openSeaContractTool,
-} from './components/NFTOpenSea/index.js'
-import { widgetConfig } from './config.js'
+} from './components/NFTOpenSea/index'
+import { widgetConfig } from './config'
 import './index.css'
 
 export const App = () => {

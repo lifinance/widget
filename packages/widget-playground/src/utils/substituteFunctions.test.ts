@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { substituteFunctions } from './substituteFunctions.js'
+import { substituteFunctions } from './substituteFunctions'
 
 describe('substituteFunctions', () => {
   const elseFunc = () => {}

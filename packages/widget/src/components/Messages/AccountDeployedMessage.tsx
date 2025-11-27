@@ -2,7 +2,7 @@ import WarningRounded from '@mui/icons-material/WarningRounded'
 import type { BoxProps } from '@mui/material'
 import { Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { AlertMessage } from './AlertMessage.js'
+import { AlertMessage } from './AlertMessage'
 
 export const AccountDeployedMessage: React.FC<BoxProps> = ({ ...props }) => {
   const { t } = useTranslation()

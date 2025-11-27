@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { FormTypeProps } from '../form/types.js'
+import type { FormTypeProps } from '../form/types'
 
 type InputMode = 'amount' | 'price'
 

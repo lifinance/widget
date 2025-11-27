@@ -1,18 +1,18 @@
 import Wallet from '@mui/icons-material/Wallet'
 import { Button, Tooltip } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
-import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
-import { useFieldActions } from '../../stores/form/useFieldActions.js'
-import { useFieldValues } from '../../stores/form/useFieldValues.js'
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements'
+import { useWidgetEvents } from '../../hooks/useWidgetEvents'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider'
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions'
+import { useFieldActions } from '../../stores/form/useFieldActions'
+import { useFieldValues } from '../../stores/form/useFieldValues'
 import {
   sendToWalletStore,
   useSendToWalletStore,
-} from '../../stores/settings/useSendToWalletStore.js'
-import { WidgetEvent } from '../../types/events.js'
-import { DisabledUI, HiddenUI } from '../../types/widget.js'
+} from '../../stores/settings/useSendToWalletStore'
+import { WidgetEvent } from '../../types/events'
+import { DisabledUI, HiddenUI } from '../../types/widget'
 
 export const SendToWalletExpandButton: React.FC = () => {
   const { t } = useTranslation()

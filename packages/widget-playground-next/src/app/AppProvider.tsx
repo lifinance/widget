@@ -14,7 +14,7 @@ import { type PropsWithChildren, useState } from 'react'
 //   https://github.com/vercel/next.js/discussions/33189
 import 'core-js/actual/structured-clone'
 import '@lifi/widget-playground/fonts'
-import { getQueryClient } from './getQueryClient.js'
+import { getQueryClient } from './getQueryClient'
 
 export const AppProvider = ({ children }: PropsWithChildren) => {
   const [queryClient] = useState(() => getQueryClient())

@@ -1,20 +1,20 @@
 import { useAccount } from '@lifi/wallet-management'
 import { Box, Typography } from '@mui/material'
 import { useLocation } from '@tanstack/react-router'
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { useHeaderStore } from '../../stores/header/useHeaderStore.js'
-import { HiddenUI } from '../../types/widget.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider'
+import { useHeaderStore } from '../../stores/header/useHeaderStore'
+import { HiddenUI } from '../../types/widget'
 import {
   backButtonRoutes,
   navigationRoutes,
   navigationRoutesValues,
-} from '../../utils/navigationRoutes.js'
-import { BackButton } from './BackButton.js'
-import { CloseDrawerButton } from './CloseDrawerButton.js'
-import { HeaderAppBar, HeaderControlsContainer } from './Header.style.js'
-import { SettingsButton } from './SettingsButton.js'
-import { SplitNavigationTabs } from './SplitNavigationTabs.js'
-import { TransactionHistoryButton } from './TransactionHistoryButton.js'
+} from '../../utils/navigationRoutes'
+import { BackButton } from './BackButton'
+import { CloseDrawerButton } from './CloseDrawerButton'
+import { HeaderAppBar, HeaderControlsContainer } from './Header.style'
+import { SettingsButton } from './SettingsButton'
+import { SplitNavigationTabs } from './SplitNavigationTabs'
+import { TransactionHistoryButton } from './TransactionHistoryButton'
 
 export const NavigationHeader: React.FC = () => {
   const { subvariant, hiddenUI, variant, defaultUI, subvariantOptions } =

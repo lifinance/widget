@@ -1,8 +1,8 @@
 import { useLocation } from '@tanstack/react-router'
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import { ExpansionType, HiddenUI } from '../types/widget.js'
-import { navigationRoutes } from '../utils/navigationRoutes.js'
-import { useSwapOnly } from './useSwapOnly.js'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider'
+import { ExpansionType, HiddenUI } from '../types/widget'
+import { navigationRoutes } from '../utils/navigationRoutes'
+import { useSwapOnly } from './useSwapOnly'
 
 export const useHasChainExpansion = () => {
   const { hiddenUI, subvariantOptions } = useWidgetConfig()

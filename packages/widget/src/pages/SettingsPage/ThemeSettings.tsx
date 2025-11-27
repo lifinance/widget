@@ -3,12 +3,12 @@ import LightMode from '@mui/icons-material/LightMode'
 import Nightlight from '@mui/icons-material/Nightlight'
 import { Tooltip, useColorScheme } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { CardValue } from '../../components/Card/CardButton.style.js'
-import { CardTabs, Tab } from '../../components/Tabs/Tabs.style.js'
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import type { Appearance } from '../../types/widget.js'
-import { HiddenUI } from '../../types/widget.js'
-import { SettingCardExpandable } from './SettingsCard/SettingCardExpandable.js'
+import { CardValue } from '../../components/Card/CardButton.style'
+import { CardTabs, Tab } from '../../components/Tabs/Tabs.style'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider'
+import type { Appearance } from '../../types/widget'
+import { HiddenUI } from '../../types/widget'
+import { SettingCardExpandable } from './SettingsCard/SettingCardExpandable'
 
 const themeIcons = {
   light: LightMode,

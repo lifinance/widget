@@ -1,13 +1,13 @@
 import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { BaseTransactionButton } from '../../components/BaseTransactionButton/BaseTransactionButton.js'
-import { useRoutes } from '../../hooks/useRoutes.js'
-import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
-import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { useSplitSubvariantStore } from '../../stores/settings/useSplitSubvariantStore.js'
-import { WidgetEvent } from '../../types/events.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import { BaseTransactionButton } from '../../components/BaseTransactionButton/BaseTransactionButton'
+import { useRoutes } from '../../hooks/useRoutes'
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements'
+import { useWidgetEvents } from '../../hooks/useWidgetEvents'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider'
+import { useSplitSubvariantStore } from '../../stores/settings/useSplitSubvariantStore'
+import { WidgetEvent } from '../../types/events'
+import { navigationRoutes } from '../../utils/navigationRoutes'
 
 export const ReviewButton: React.FC = () => {
   const { t } = useTranslation()

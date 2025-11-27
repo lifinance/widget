@@ -1,7 +1,7 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import type { RefObject } from 'react'
-import type { FormType } from '../../stores/form/types.js'
-import type { TokenAmount } from '../../types/token.js'
+import type { FormType } from '../../stores/form/types'
+import type { TokenAmount } from '../../types/token'
 
 export interface TokenListProps {
   formType: FormType

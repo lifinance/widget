@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react'
-import type { WalletManagementConfig } from './types.js'
+import type { WalletManagementConfig } from './types'
 
 export const initialContext: WalletManagementConfig = {}
 

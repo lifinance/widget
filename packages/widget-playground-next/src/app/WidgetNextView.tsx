@@ -6,7 +6,7 @@ import {
   WidgetViewContainer,
 } from '@lifi/widget-playground'
 import { useCallback, useRef } from 'react'
-import { ClientOnly } from './ClientOnly.js'
+import { ClientOnly } from './ClientOnly'
 
 export function WidgetNextView() {
   const { config } = useConfig()

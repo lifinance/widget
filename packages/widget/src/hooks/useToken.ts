@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
-import { useTokenSearch } from './useTokenSearch.js'
-import { useTokens } from './useTokens.js'
+import { useTokenSearch } from './useTokenSearch'
+import { useTokens } from './useTokens'
 
 export const useToken = (
   chainId?: number,

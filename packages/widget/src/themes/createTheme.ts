@@ -11,10 +11,10 @@ import {
   tabsClasses,
   touchRippleClasses,
 } from '@mui/material'
-import type { WidgetTheme } from '../types/widget.js'
-import { palette, paletteDark, paletteLight } from './palettes.js'
-import type {} from './types.js'
-import { getStyleOverrides } from './utils.js'
+import type { WidgetTheme } from '../types/widget'
+import { palette, paletteDark, paletteLight } from './palettes'
+import type {} from './types'
+import { getStyleOverrides } from './utils'
 
 const shape: Shape = {
   borderRadius: 12,

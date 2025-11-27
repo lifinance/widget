@@ -5,7 +5,7 @@ import {
   FormControl as MuiFormControl,
   styled,
 } from '@mui/material'
-import { CardTitle } from '../Card/CardTitle.js'
+import { CardTitle } from '../Card/CardTitle'
 
 export const maxInputFontSize = 24
 export const minInputFontSize = 14

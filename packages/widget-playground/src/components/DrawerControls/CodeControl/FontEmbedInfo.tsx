@@ -11,13 +11,13 @@ import {
 } from '@mui/material'
 import type { MouseEventHandler } from 'react'
 import { useState } from 'react'
-import { useFontToolValues } from '../../../store/editTools/useFontToolValues.js'
-import { popperZIndex, tooltipPopperZIndex } from '../DrawerControls.style.js'
+import { useFontToolValues } from '../../../store/editTools/useFontToolValues'
+import { popperZIndex, tooltipPopperZIndex } from '../DrawerControls.style'
 import {
   FontEmbedPopperContainer,
   FontMessageCloseButton,
   GoogleFontLink,
-} from './CodeControl.style.js'
+} from './CodeControl.style'
 
 interface FontMessageProps {
   fontFamily: string

@@ -1,5 +1,5 @@
 import type { ChainType } from '@lifi/sdk'
-import type { LanguageKey } from '../I18nProvider/types.js'
+import type { LanguageKey } from '../I18nProvider/types'
 
 export interface WalletManagementConfig {
   locale?: LanguageKey

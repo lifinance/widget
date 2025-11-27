@@ -1,6 +1,6 @@
 import type { Theme } from '@mui/material'
-import { defaultMaxHeight } from '../config/constants.js'
-import type { WidgetTheme } from '../types/widget.js'
+import { defaultMaxHeight } from '../config/constants'
+import type { WidgetTheme } from '../types/widget'
 
 export const getWidgetMaxHeight = (
   theme: Theme | WidgetTheme | undefined

@@ -1,9 +1,9 @@
 import type { ChainType } from '@lifi/sdk'
 import { useMemo } from 'react'
-import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import type { FormType } from '../stores/form/types.js'
-import { getConfigItemSets, isFormItemAllowed } from '../utils/item.js'
-import { useAvailableChains } from './useAvailableChains.js'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider'
+import type { FormType } from '../stores/form/types'
+import { getConfigItemSets, isFormItemAllowed } from '../utils/item'
+import { useAvailableChains } from './useAvailableChains'
 
 export const useChains = (type?: FormType, chainTypes?: ChainType[]) => {
   const { chains } = useWidgetConfig()

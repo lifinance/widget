@@ -7,7 +7,7 @@ import { WidgetNextView } from '@/app/WidgetNextView'
 //   https://github.com/vercel/next.js/discussions/33189
 import 'core-js/actual/structured-clone'
 import '@lifi/widget-playground/fonts'
-import { AppProvider } from './AppProvider.js'
+import { AppProvider } from './AppProvider'
 
 export default function Home() {
   return (

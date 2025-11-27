@@ -2,12 +2,12 @@ import type { CardProps } from '@mui/material'
 import { Stack } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { useExecutingRoutesIds } from '../../stores/routes/useExecutingRoutesIds.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { ButtonTertiary } from '../ButtonTertiary.js'
-import { Card } from '../Card/Card.js'
-import { CardTitle } from '../Card/CardTitle.js'
-import { ActiveTransactionItem } from './ActiveTransactionItem.js'
+import { useExecutingRoutesIds } from '../../stores/routes/useExecutingRoutesIds'
+import { navigationRoutes } from '../../utils/navigationRoutes'
+import { ButtonTertiary } from '../ButtonTertiary'
+import { Card } from '../Card/Card'
+import { CardTitle } from '../Card/CardTitle'
+import { ActiveTransactionItem } from './ActiveTransactionItem'
 
 export const ActiveTransactions: React.FC<CardProps> = (props) => {
   const { t } = useTranslation()

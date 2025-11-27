@@ -1,6 +1,6 @@
 import type { ScopedCssBaselineProps } from '@mui/material'
 import { Box, ScopedCssBaseline, styled } from '@mui/material'
-import { defaultMaxHeight } from '../../config/constants.js'
+import { defaultMaxHeight } from '../../config/constants'
 
 export const routesExpansionWidth = '436px'
 

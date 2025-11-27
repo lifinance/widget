@@ -1,7 +1,7 @@
 import type { Route } from '@lifi/sdk'
 import type { BoxProps } from '@mui/material'
-import { WarningMessages } from '../../components/Messages/WarningMessages.js'
-import { useRoutes } from '../../hooks/useRoutes.js'
+import { WarningMessages } from '../../components/Messages/WarningMessages'
+import { useRoutes } from '../../hooks/useRoutes'
 
 interface MainWarningMessagesProps extends BoxProps {
   route?: Route

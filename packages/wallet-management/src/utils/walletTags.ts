@@ -1,6 +1,6 @@
-import type { CombinedWallet } from '../hooks/useCombinedWallets.js'
-import { WalletTagType } from '../types/walletTagType.js'
-import { getConnectorId } from './getConnectorId.js'
+import type { CombinedWallet } from '../hooks/useCombinedWallets'
+import { WalletTagType } from '../types/walletTagType'
+import { getConnectorId } from './getConnectorId'
 
 export const getConnectorTagType = (
   connectorId: string,
