@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@lifi/widget": "^3.34.3",
-    "next": "^16.0.4",
+    "next": "^14",
     "react": "^18",
     "react-dom": "^18"
   },

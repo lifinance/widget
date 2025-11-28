@@ -11,7 +11,7 @@
   "dependencies": {
     "@lifi/widget": "workspace:*",
     "@tanstack/react-query": "^5.90.5",
-    "@tanstack/react-router": "^1.79.0",
+    "@tanstack/react-router": "^1.139.10",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
