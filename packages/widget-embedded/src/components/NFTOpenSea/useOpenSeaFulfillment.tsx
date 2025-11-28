@@ -79,7 +79,8 @@ export const useOpenSeaFulfillment = (
 
           return {
             fromAmount: orderV2?.currentPrice,
-            fromTokenAddress: orderV2?.takerAssetBundle.assets[0].tokenAddress!,
+            fromTokenAddress:
+              orderV2?.takerAssetBundle.assets[0].tokenAddress ?? '',
             toContractAddress: transaction.to,
             toContractCallData: transaction.data,
             toContractGasLimit: estimatedGas.toString(),
@@ -112,12 +113,13 @@ export const useOpenSeaFulfillment = (
       }
       const token: TokenAmount = {
         symbol:
-          orderV2?.takerAssetBundle.assets[0]?.assetContract?.tokenSymbol!,
+          orderV2?.takerAssetBundle.assets[0]?.assetContract?.tokenSymbol ?? '',
         amount: BigInt(orderV2?.currentPrice ?? 0),
-        decimals: orderV2?.takerAssetBundle.assets[0].decimals!,
-        address: orderV2?.takerAssetBundle.assets[0].tokenAddress!,
+        decimals: orderV2?.takerAssetBundle.assets[0].decimals ?? 0,
+        address: orderV2?.takerAssetBundle.assets[0].tokenAddress ?? '',
         chainId: OpenSeaChainId[network as NFTNetwork] as number as ChainId,
-        name: orderV2?.takerAssetBundle.assets[0]?.assetContract.tokenSymbol!,
+        name:
+          orderV2?.takerAssetBundle.assets[0]?.assetContract.tokenSymbol ?? '',
         priceUSD: '',
       }
 
