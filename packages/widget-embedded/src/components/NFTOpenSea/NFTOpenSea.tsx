@@ -1,3 +1,4 @@
+import type { TokenAmount } from '@lifi/sdk'
 import { NFT } from '@lifi/widget'
 import { Box, Typography } from '@mui/material'
 import type { NFTOpenSeaProps } from './types.js'
@@ -46,7 +47,7 @@ export const NFTOpenSea: React.FC<NFTOpenSeaProps> = ({
       collectionName={data?.collectionName}
       assetName={data?.assetName}
       owner={data?.owner}
-      token={data?.token! ?? {}}
+      token={(data?.token ?? {}) as TokenAmount}
       contractCall={data?.contractCall}
     />
   )
