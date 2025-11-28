@@ -3,8 +3,8 @@
   "version": "1.0.230",
   "scripts": {
     "analyze": "source-map-explorer '.next/static/chunks/**.js' --no-border-checks",
-    "dev": "next dev -p 3001",
-    "build": "next build",
+    "dev": "next dev -p 3001 --webpack",
+    "build": "next build --webpack",
     "start": "next start"
   },
   "dependencies": {
@@ -17,7 +17,7 @@
     "@mui/material-nextjs": "^7.3.5",
     "@tanstack/react-query": "^5.90.10",
     "core-js": "^3.46.0",
-    "next": "^15.5.4",
+    "next": "^16.0.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
