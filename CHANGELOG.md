@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.35.0](https://github.com/lifinance/widget/compare/v3.34.3...v3.35.0) (2025-11-28)
+
+
+### Features
+
+* add HiddenUI.FromToken ([#602](https://github.com/lifinance/widget/issues/602)) ([6fe0112](https://github.com/lifinance/widget/commit/6fe0112c11805a065f52a803d30ff443f2bb1677))
+
+
+### Bug Fixes
+
+* adjust tokens min price usd ([d82b72c](https://github.com/lifinance/widget/commit/d82b72c3807a0f36ddda079cd36f1042d8296c49))
+
 ### [3.34.3](https://github.com/lifinance/widget/compare/v3.34.2...v3.34.3) (2025-11-17)
 
 
