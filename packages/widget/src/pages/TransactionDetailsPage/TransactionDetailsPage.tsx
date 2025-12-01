@@ -16,6 +16,7 @@ import { useTransactionDetails } from '../../hooks/useTransactionDetails.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.js'
 import { getSourceTxHash } from '../../stores/routes/utils.js'
+import { HiddenUI } from '../../types/widget.js'
 import { buildRouteFromTxHistory } from '../../utils/converters.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { ContactSupportButton } from './ContactSupportButton.js'
@@ -30,6 +31,7 @@ export const TransactionDetailsPage: React.FC = () => {
     subvariantOptions,
     contractSecondaryComponent,
     explorerUrls,
+    hiddenUI,
   } = useWidgetConfig()
   const { state }: any = useLocation()
   const { tools } = useTools()
@@ -139,13 +141,15 @@ export const TransactionDetailsPage: React.FC = () => {
         />
       ) : null}
       <TransferIdCard transferId={supportId} txLink={txLink} />
-      <Box
-        sx={{
-          mt: 2,
-        }}
-      >
-        <ContactSupportButton supportId={supportId} />
-      </Box>
+      {!hiddenUI?.includes(HiddenUI.ContactSupport) ? (
+        <Box
+          sx={{
+            mt: 2,
+          }}
+        >
+          <ContactSupportButton supportId={supportId} />
+        </Box>
+      ) : null}
     </PageContainer>
   )
 }
