@@ -27,6 +27,7 @@
     "check:write:unsafe": "biome check --write --unsafe",
     "check:types": "pnpm -r --parallel check:types",
     "check:circular-deps": "pnpm -r --parallel check:circular-deps",
+    "test:examples": "pnpm -r --parallel --filter './examples/**' test:e2e",
     "link:bigmi": "pnpm -r --parallel link:bigmi",
     "unlink:bigmi": "pnpm -r --parallel unlink:bigmi",
     "link:sdk": "pnpm -r --parallel link:sdk",
