@@ -1,4 +1,4 @@
-import type { ExtendedChain } from '@lifi/sdk'
+import type { ExtendedChain, SDKClient } from '@lifi/sdk'
 import { ChainType, getChains } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback } from 'react'
@@ -19,9 +19,13 @@ const supportedChainTypes = [
   ChainType.MVM,
 ]
 
-export const useAvailableChains = (chainTypes?: ChainType[]) => {
+export const useAvailableChains = (
+  chainTypes?: ChainType[],
+  externalClient?: SDKClient
+) => {
   const { chains, keyPrefix } = useWidgetConfig()
-  const sdkClient = useSDKClient()
+  const internalClient = useSDKClient()
+  const sdkClient = externalClient ?? internalClient
 
   const { data, isLoading } = useQuery({
     queryKey: [
