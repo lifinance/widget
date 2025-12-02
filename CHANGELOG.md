@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.35.1](https://github.com/lifinance/widget/compare/v3.35.0...v3.35.1) (2025-12-01)
+
+
+### Bug Fixes
+
+* add hidden UI contact support option ([#612](https://github.com/lifinance/widget/issues/612)) ([1a774e4](https://github.com/lifinance/widget/commit/1a774e445b110bc2c897534066a9ffb0342c0d97))
+* update support link ([#611](https://github.com/lifinance/widget/issues/611)) ([0fd04a5](https://github.com/lifinance/widget/commit/0fd04a5a86eccaa79a4190410e4f70cd637ec719))
+
+## [3.35.0](https://github.com/lifinance/widget/compare/v3.34.3...v3.35.0) (2025-11-28)
+
+
+### Features
+
+* add HiddenUI.FromToken ([#602](https://github.com/lifinance/widget/issues/602)) ([6fe0112](https://github.com/lifinance/widget/commit/6fe0112c11805a065f52a803d30ff443f2bb1677))
+
+
+### Bug Fixes
+
+* adjust tokens min price usd ([d82b72c](https://github.com/lifinance/widget/commit/d82b72c3807a0f36ddda079cd36f1042d8296c49))
+
 ### [3.34.3](https://github.com/lifinance/widget/compare/v3.34.2...v3.34.3) (2025-11-17)
 
 

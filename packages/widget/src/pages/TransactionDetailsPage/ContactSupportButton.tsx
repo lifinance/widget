@@ -15,7 +15,7 @@ export const ContactSupportButton = ({
 
   const handleClick = () => {
     if (!widgetEvents.all.has(WidgetEvent.ContactSupport)) {
-      const url = 'https://discord.gg/lifi'
+      const url = 'https://help.li.fi'
       const target = '_blank'
       const rel = 'nofollow noreferrer'
       window.open(url, target, rel)
