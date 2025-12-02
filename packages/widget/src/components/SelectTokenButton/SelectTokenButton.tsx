@@ -10,6 +10,7 @@ import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { HiddenUI } from '../../types/widget.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import { getQueryKey } from '../../utils/queries.js'
 import { AvatarBadgedDefault, AvatarBadgedSkeleton } from '../Avatar/Avatar.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
 import { CardTitle } from '../Card/CardTitle.js'
@@ -62,7 +63,11 @@ export const SelectTokenButton: React.FC<
       ? t('header.payWith')
       : t(`main.${formType}`)
   return (
-    <SelectTokenCard component="button" onClick={onClick}>
+    <SelectTokenCard
+      component="button"
+      onClick={onClick}
+      data-testid={getQueryKey(`select-token-button-${formType}`)}
+    >
       <CardContent formType={formType} compact={compact} mask={!hiddenReverse}>
         <CardTitle>{cardTitle}</CardTitle>
         {chainId && tokenAddress && (isChainLoading || isTokenLoading) ? (

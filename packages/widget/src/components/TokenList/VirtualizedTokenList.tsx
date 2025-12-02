@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import type { TokenAmount } from '../../types/token.js'
+import { getQueryKey } from '../../utils/queries.js'
 import { TokenDetailsSheet } from './TokenDetailsSheet.js'
 import { List } from './TokenList.style.js'
 import { TokenListItem, TokenListItemSkeleton } from './TokenListItem.js'
@@ -131,6 +132,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
         className="long-list"
         style={{ height: getTotalSize() }}
         disablePadding
+        data-testid={getQueryKey('token-list')}
       >
         {getVirtualItems().map((item) => {
           const currentToken = tokens[item.index]

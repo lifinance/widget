@@ -13,6 +13,7 @@ import { useWideVariant } from './hooks/useWideVariant.js'
 import { useWidgetConfig } from './providers/WidgetProvider/WidgetProvider.js'
 import { URLSearchParamsBuilder } from './stores/form/URLSearchParamsBuilder.js'
 import { createElementId, ElementId } from './utils/elements.js'
+import { getQueryKey } from './utils/queries.js'
 
 export const AppLayout: React.FC = () => {
   const { elementId, buildUrl } = useWidgetConfig()
@@ -22,6 +23,7 @@ export const AppLayout: React.FC = () => {
     <AppExpandedContainer
       id={createElementId(ElementId.AppExpandedContainer, elementId)}
       data-version={version}
+      data-testid={getQueryKey('container')}
     >
       <AppContainer>
         <Header />
