@@ -7,7 +7,10 @@
     "analyze": "source-map-explorer 'dist/assets/*.js' --no-border-checks",
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed"
   },
   "dependencies": {
     "@lifi/sdk": "^3.13.5",
@@ -23,6 +26,7 @@
     "wagmi": "^2.19.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.48.0",
     "@types/events": "^3.0.3",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",

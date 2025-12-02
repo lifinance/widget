@@ -37,3 +37,6 @@ next-env.d.ts
 /.nuxt/
 /.output/
 
+# playwright
+**/playwright-report/** 
+**/test-results/**
