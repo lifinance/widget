@@ -1,9 +1,10 @@
-import type { ExtendedChain, SDKClient } from '@lifi/sdk'
-import { ChainType, getChains } from '@lifi/sdk'
+import type { ExtendedChain } from '@lifi/sdk'
+import { ChainType, createClient, getChains } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback } from 'react'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import type { WidgetConfig } from '../types/widget.js'
 import { getConfigItemSets, isItemAllowedForSets } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 
@@ -21,11 +22,25 @@ const supportedChainTypes = [
 
 export const useAvailableChains = (
   chainTypes?: ChainType[],
-  externalClient?: SDKClient
+  externalWidgetConfig?: WidgetConfig
 ) => {
-  const { chains, keyPrefix } = useWidgetConfig()
+  const { chains: internalChains, keyPrefix: internalKeyPrefix } =
+    useWidgetConfig()
   const internalClient = useSDKClient()
+
+  const externalClient = externalWidgetConfig
+    ? createClient({
+        ...externalWidgetConfig.sdkConfig,
+        apiKey: externalWidgetConfig.apiKey,
+        integrator:
+          externalWidgetConfig.integrator ?? window?.location.hostname,
+      })
+    : undefined
+
+  // Overwrite widget config and SDK client if passed as param
   const sdkClient = externalClient ?? internalClient
+  const keyPrefix = externalWidgetConfig?.keyPrefix ?? internalKeyPrefix
+  const chains = externalWidgetConfig?.chains ?? internalChains
 
   const { data, isLoading } = useQuery({
     queryKey: [
