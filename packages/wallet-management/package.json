@@ -52,7 +52,7 @@
     "@bigmi/core": "^0.6.2",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^3.13.3",
+    "@lifi/sdk": "3.14.0-alpha.0",
     "@mui/icons-material": "^7.3.5",
     "@mui/material": "^7.3.5",
     "@mui/system": "^7.3.5",
