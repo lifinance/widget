@@ -3,7 +3,7 @@ import { defineConfig, devices } from '@playwright/test'
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-const port = 4173
+const port = 4174
 const baseURL = `http://localhost:${port}`
 
 export default defineConfig({

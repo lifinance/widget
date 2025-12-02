@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-test.describe('LI.FI Widget - Vite Example', () => {
+test.describe('LI.FI Widget - ConnectKit Example', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to the page
     await page.goto('/')
