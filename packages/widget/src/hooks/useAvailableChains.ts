@@ -24,8 +24,10 @@ export const useAvailableChains = (
   chainTypes?: ChainType[],
   externalWidgetConfig?: WidgetConfig
 ) => {
-  const { chains: internalChains, keyPrefix: internalKeyPrefix } =
-    useWidgetConfig()
+  const {
+    chains: internalChains,
+    keyPrefix: internalKeyPrefix /*sdkConfig: internalSdkConfig*/, // TODO: Uncomment once added to SDK https://github.com/li-fi/widget/pull/1106
+  } = useWidgetConfig()
   const internalClient = useSDKClient()
 
   const externalClient = externalWidgetConfig
@@ -41,6 +43,9 @@ export const useAvailableChains = (
   const sdkClient = externalClient ?? internalClient
   const keyPrefix = externalWidgetConfig?.keyPrefix ?? internalKeyPrefix
   const chains = externalWidgetConfig?.chains ?? internalChains
+  // TODO: Replace once added to SDK https://github.com/li-fi/widget/pull/1106
+  // const refetchInterval = externalWidgetConfig?.sdkConfig?.chainsRefetchInterval ?? internalSdkConfig?.chainsRefetchInterval ?? 300_000
+  const refetchInterval = 300_000
 
   const { data, isLoading } = useQuery({
     queryKey: [
@@ -65,8 +70,8 @@ export const useAvailableChains = (
       })
       return availableChains
     },
-    refetchInterval: 300_000,
-    staleTime: 300_000,
+    refetchInterval,
+    staleTime: refetchInterval,
   })
 
   const getChainById: GetChainById = useCallback(
