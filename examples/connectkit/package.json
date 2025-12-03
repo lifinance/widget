@@ -12,7 +12,7 @@
   "dependencies": {
     "@lifi/wallet-management": "^3.20.1",
     "@lifi/widget": "^3.36.1",
-    "@mui/icons-material": "^7.3.5",
+    "@mui/icons-material": "^7.3.6",
     "@mui/material": "^7.3.6",
     "@solana/wallet-adapter-base": "^0.9.27",
     "@solana/wallet-adapter-react": "^0.15.39",
@@ -22,15 +22,15 @@
     "mitt": "^3.0.1",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
-    "viem": "^2.40.2",
+    "viem": "^2.41.2",
     "wagmi": "^2.19.4"
   },
   "devDependencies": {
-    "@types/react": "^19.2.5",
+    "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
     "globals": "^16.5.0",
     "typescript": "~5.9.3",
-    "vite": "^7.2.2"
+    "vite": "^7.2.6"
   }
 }

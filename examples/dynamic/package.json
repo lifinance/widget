@@ -35,16 +35,16 @@
     "mitt": "^3.0.1",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
-    "viem": "^2.40.2",
+    "viem": "^2.41.2",
     "vite-plugin-env-compatible": "^2.0.1",
     "wagmi": "^2.19.4"
   },
   "devDependencies": {
-    "@types/react": "^19.2.5",
+    "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react-swc": "^4.2.2",
     "globals": "^16.5.0",
     "typescript": "^5.9.3",
-    "vite": "^7.2.2"
+    "vite": "^7.2.6"
   }
 }
