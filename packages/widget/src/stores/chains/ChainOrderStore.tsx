@@ -5,6 +5,7 @@ import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
 import { useChains } from '../../hooks/useChains.js'
 import { useExternalWalletProvider } from '../../providers/WalletProvider/useExternalWalletProvider.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { HiddenUI } from '../../types/widget.js'
 import { getConfigItemSets, isItemAllowedForSets } from '../../utils/item.js'
 import type { FormType } from '../form/types.js'
 import { useFieldActions } from '../form/useFieldActions.js'
@@ -20,7 +21,7 @@ export function ChainOrderStoreProvider({
   children,
   ...props
 }: PersistStoreProviderProps) {
-  const { chains: chainsConfig } = useWidgetConfig()
+  const { chains: chainsConfig, hiddenUI } = useWidgetConfig()
   const storeRef = useRef<ChainOrderStore>(null)
   const { chains } = useChains()
   const { setFieldValue, getFieldValues } = useFieldActions()
@@ -63,7 +64,8 @@ export function ChainOrderStoreProvider({
         )
 
         // Show "All networks" button if there are multiple networks
-        const showAllNetworks = filteredChains.length > 1
+        const showAllNetworks =
+          filteredChains.length > 1 && !hiddenUI?.includes(HiddenUI.AllNetworks)
         if (!showAllNetworks) {
           storeRef.current?.getState().setIsAllNetworks(false, key)
         }
@@ -99,6 +101,7 @@ export function ChainOrderStoreProvider({
     useExternalWalletProvidersOnly,
     variant,
     subvariantOptions?.wide?.enableChainSidebar,
+    hiddenUI,
   ])
 
   return (
