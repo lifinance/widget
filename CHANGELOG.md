@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.36.0](https://github.com/lifinance/widget/compare/v3.35.1...v3.36.0) (2025-12-03)
+
+
+### Features
+
+* fix peer dependencies and update license ([#617](https://github.com/lifinance/widget/issues/617)) ([7ac2171](https://github.com/lifinance/widget/commit/7ac21711375642e18e2b487c1245f7bb920e97ba))
+
+
+### Bug Fixes
+
+* refactor hidden ui token logic ([#618](https://github.com/lifinance/widget/issues/618)) ([9d6a41e](https://github.com/lifinance/widget/commit/9d6a41ea35f99d20d5dbf2831766ffbdf1953ec4))
+
 ### [3.35.1](https://github.com/lifinance/widget/compare/v3.35.0...v3.35.1) (2025-12-01)
 
 
