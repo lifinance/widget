@@ -181,7 +181,6 @@ export class TurnkeyHDWallet implements Wallet {
     }
   }
 
-  // biome-ignore lint/correctness/noUnusedPrivateClassMembers: just example
   #reconnected = () => {
     if (this.#turnkeyHD.publicKey) {
       this.#connected()
