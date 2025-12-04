@@ -1,7 +1,7 @@
+import { formatUnits } from '@lifi/sdk'
 import { InputAdornment } from '@mui/material'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { formatUnits } from 'viem'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useGasRecommendation } from '../../hooks/useGasRecommendation.js'
 import { useTokenAddressBalance } from '../../hooks/useTokenAddressBalance.js'

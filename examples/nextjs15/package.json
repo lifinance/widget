@@ -1,0 +1,27 @@
+{
+  "name": "nextjs15",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "engines": {
+    "node": ">=21.0.0"
+  },
+  "dependencies": {
+    "@lifi/sdk": "^3.13.7",
+    "@lifi/widget": "^3.36.1",
+    "@mui/material-nextjs": "^7.3.5",
+    "next": "^15",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^5.9.3"
+  }
+}

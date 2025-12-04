@@ -4,14 +4,13 @@ import {
   getTokens,
   type TokensExtendedResponse,
 } from '@lifi/sdk'
+import { useChainTypeFromAddress } from '@lifi/widget-provider'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useMemo } from 'react'
+import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
-import {
-  defaultChainIdsByType,
-  getChainTypeFromAddress,
-} from '../utils/chainType.js'
+import { defaultChainIdsByType } from '../utils/chainType.js'
 import { isItemAllowed } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 import { filterAllowedTokens } from '../utils/token.js'
@@ -26,6 +25,7 @@ export const useTokens = (
     chains: chainsConfig,
     keyPrefix,
   } = useWidgetConfig()
+  const sdkClient = useSDKClient()
 
   const { isLoading: isSearchLoading } = useBackgroundTokenSearch(
     search,
@@ -42,11 +42,13 @@ export const useTokens = (
         ChainType.MVM,
       ].filter((chainType) => isItemAllowed(chainType, chainsConfig?.types))
       const tokensResponse: TokensExtendedResponse = await getTokens(
+        sdkClient,
         {
           chainTypes,
           orderBy: 'volumeUSD24H',
           extended: true,
           limit: 1000,
+          minPriceUSD: 0.000001,
         },
         { signal }
       )
@@ -77,6 +79,8 @@ export const useTokens = (
  * if any of the tokens are not already in the cache. */
 const useBackgroundTokenSearch = (search?: string, chainId?: number) => {
   const { chains: chainsConfig, keyPrefix } = useWidgetConfig()
+  const sdkClient = useSDKClient()
+  const { getChainTypeFromAddress } = useChainTypeFromAddress()
   const queryClient = useQueryClient()
 
   const { isLoading: isSearchLoading } = useQuery({
@@ -90,12 +94,14 @@ const useBackgroundTokenSearch = (search?: string, chainId?: number) => {
         ChainType.MVM,
       ].filter((chainType) => isItemAllowed(chainType, chainsConfig?.types))
       const tokensResponse: TokensExtendedResponse = await getTokens(
+        sdkClient,
         {
           chainTypes,
           orderBy: 'volumeUSD24H',
           extended: true,
           search: searchQuery,
           limit: 1000,
+          minPriceUSD: 0.000001,
         },
         { signal }
       )
@@ -104,7 +110,7 @@ const useBackgroundTokenSearch = (search?: string, chainId?: number) => {
       let _chainId = chainId
       if (!_chainId) {
         const chainType = getChainTypeFromAddress(searchQuery)
-        if (chainType) {
+        if (chainType && chainType in defaultChainIdsByType) {
           _chainId = defaultChainIdsByType[chainType]
         }
       }
@@ -114,7 +120,9 @@ const useBackgroundTokenSearch = (search?: string, chainId?: number) => {
       if (_chainId && searchQuery) {
         const existingTokens = tokensResponse.tokens[_chainId] || []
         if (!existingTokens.length) {
-          const token = await getToken(_chainId, searchQuery, { signal })
+          const token = await getToken(sdkClient, _chainId, searchQuery, {
+            signal,
+          })
           if (token) {
             tokensResponse.tokens[_chainId] = [token]
           }

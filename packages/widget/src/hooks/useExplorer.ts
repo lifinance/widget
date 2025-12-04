@@ -1,6 +1,5 @@
 import type { Chain } from '@lifi/sdk'
-import { ChainId, ChainType } from '@lifi/sdk'
-import { isHex } from 'viem'
+import { ChainId, ChainType, isHex } from '@lifi/sdk'
 import { internalExplorerUrl } from '../config/constants.js'
 import { useAvailableChains } from '../hooks/useAvailableChains.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'

@@ -1,5 +1,5 @@
 import type { RouteExtended } from '@lifi/sdk'
-import { isGaslessStep } from '@lifi/sdk'
+import { useEthereumContext } from '@lifi/widget-provider'
 import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
 import LocalGasStationRounded from '@mui/icons-material/LocalGasStationRounded'
@@ -31,6 +31,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
   const [cardExpanded, setCardExpanded] = useState(
     defaultUI?.transactionDetailsExpanded ?? false
   )
+  const { isGaslessStep } = useEthereumContext()
 
   const toggleCard = () => {
     setCardExpanded((cardExpanded) => !cardExpanded)
@@ -71,7 +72,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
       ) ?? 0
   }
 
-  const hasGaslessSupport = route.steps.every((step) => isGaslessStep(step))
+  const hasGaslessSupport = route.steps.every((step) => isGaslessStep?.(step))
 
   const showIntegratorFeeCollectionDetails =
     (feeAmountUSD || Number.isFinite(feeConfig?.fee)) && !hasGaslessSupport

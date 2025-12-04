@@ -1,7 +1,7 @@
+import { formatUnits } from '@lifi/sdk'
 import EvStation from '@mui/icons-material/EvStation'
 import { type BoxProps, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { formatUnits } from 'viem'
 import type { GasSufficiency } from '../../hooks/useGasSufficiency.js'
 import { AlertMessage } from './AlertMessage.js'
 

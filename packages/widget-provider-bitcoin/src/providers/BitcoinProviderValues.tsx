@@ -1,0 +1,94 @@
+import {
+  type Connector,
+  connect,
+  disconnect,
+  getAccount,
+  getConnectorClient as getBigmiConnectorClient,
+} from '@bigmi/client'
+import { useAccount, useConfig, useConnect } from '@bigmi/react'
+import { ChainId, ChainType } from '@lifi/sdk'
+import { BitcoinProvider as BitcoinSDKProvider } from '@lifi/sdk-provider-bitcoin'
+import { BitcoinContext, isWalletInstalled } from '@lifi/widget-provider'
+import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
+
+interface BitcoinProviderValuesProps {
+  isExternalContext: boolean
+}
+
+export const BitcoinProviderValues: FC<
+  PropsWithChildren<BitcoinProviderValuesProps>
+> = ({ children, isExternalContext }) => {
+  const bigmiConfig = useConfig()
+  const { connectors } = useConnect()
+  const currentWallet = useAccount()
+
+  const account = {
+    ...currentWallet,
+    chainType: ChainType.UTXO,
+    chainId: ChainId.BTC,
+    address: currentWallet.account?.address,
+    addresses: currentWallet.accounts?.map((account) => account.address),
+  }
+
+  const isConnected = account.isConnected
+
+  const sdkProvider = useMemo(
+    () =>
+      BitcoinSDKProvider({
+        getWalletClient: () => getBigmiConnectorClient(bigmiConfig),
+      }),
+    [bigmiConfig]
+  )
+
+  const installedWallets = useMemo(
+    () =>
+      connectors.filter((connector: Connector) =>
+        isWalletInstalled(connector.id)
+      ),
+    [connectors]
+  )
+
+  const handleConnect = useCallback(
+    async (
+      connectorIdOrName: string,
+      onSuccess?: (address: string, chainId: number) => void
+    ) => {
+      const connector = connectors.find(
+        (connector) => (connector.id ?? connector.name) === connectorIdOrName
+      )
+      if (connector) {
+        const data = await connect(bigmiConfig, {
+          connector: connector as Connector,
+        })
+        onSuccess?.(data.accounts[0].address, ChainId.BTC)
+      }
+    },
+    [bigmiConfig, connectors]
+  )
+
+  const handleDisconnect = useCallback(async () => {
+    const connectedAccount = getAccount(bigmiConfig)
+    if (connectedAccount.connector) {
+      await disconnect(bigmiConfig, {
+        connector: connectedAccount.connector,
+      })
+    }
+  }, [bigmiConfig])
+
+  return (
+    <BitcoinContext.Provider
+      value={{
+        isEnabled: true,
+        account,
+        sdkProvider,
+        installedWallets,
+        isConnected,
+        isExternalContext,
+        connect: handleConnect,
+        disconnect: handleDisconnect,
+      }}
+    >
+      {children}
+    </BitcoinContext.Provider>
+  )
+}

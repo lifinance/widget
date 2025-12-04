@@ -1,5 +1,5 @@
+import { formatUnits } from '@lifi/sdk'
 import { useEffect } from 'react'
-import { formatUnits } from 'viem'
 import { useFieldActions } from '../../../stores/form/useFieldActions.js'
 import { NFTBase } from './NFTBase.js'
 import type { NFTProps } from './types.js'

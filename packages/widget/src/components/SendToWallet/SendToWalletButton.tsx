@@ -1,9 +1,10 @@
 import { useAccount } from '@lifi/wallet-management'
+import { useChainTypeFromAddress } from '@lifi/widget-provider'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import { Box, Collapse } from '@mui/material'
+import { useNavigate } from '@tanstack/react-router'
 import { type MouseEventHandler, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
@@ -12,10 +13,7 @@ import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { useSendToWalletStore } from '../../stores/settings/useSendToWalletStore.js'
 import { DisabledUI, HiddenUI } from '../../types/widget.js'
-import {
-  defaultChainIdsByType,
-  getChainTypeFromAddress,
-} from '../../utils/chainType.js'
+import { defaultChainIdsByType } from '../../utils/chainType.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { AccountAvatar } from '../Avatar/AccountAvatar.js'
@@ -47,6 +45,7 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
   const { setSelectedBookmark } = useBookmarkActions()
   const { accounts } = useAccount()
   const { requiredToAddress } = useToAddressRequirements()
+  const { getChainTypeFromAddress } = useChainTypeFromAddress()
   const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress)
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress)
 
@@ -92,11 +91,11 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
   const disabledForChanges = Boolean(toAddressFieldValue) && disabledToAddress
 
   const handleOnClick = () => {
-    navigate(
-      toAddresses?.length
+    navigate({
+      to: toAddresses?.length
         ? navigationRoutes.configuredWallets
-        : navigationRoutes.sendToWallet
-    )
+        : navigationRoutes.sendToWallet,
+    })
   }
 
   const clearSelectedBookmark: MouseEventHandler<HTMLButtonElement> = (e) => {

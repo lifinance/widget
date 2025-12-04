@@ -1,7 +1,6 @@
 import type { Order } from '@lifi/sdk'
 import type { PropsWithChildren } from 'react'
-import type { StoreApi } from 'zustand'
-import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
+import type { StoreApi, UseBoundStore } from 'zustand'
 import type { LanguageResource } from '../../providers/I18nProvider/types.js'
 import type { SplitSubvariant, WidgetConfig } from '../../types/widget.js'
 
@@ -62,9 +61,7 @@ export interface SplitSubvariantState {
   setState(state: SplitSubvariant): void
 }
 
-export type SplitSubvariantStore = UseBoundStoreWithEqualityFn<
-  StoreApi<SplitSubvariantState>
->
+export type SplitSubvariantStore = UseBoundStore<StoreApi<SplitSubvariantState>>
 
 export interface SplitSubvariantProps {
   state?: SplitSubvariant

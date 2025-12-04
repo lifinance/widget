@@ -2,7 +2,7 @@ import ArrowForward from '@mui/icons-material/ArrowForward'
 import ErrorRounded from '@mui/icons-material/ErrorRounded'
 import InfoRounded from '@mui/icons-material/InfoRounded'
 import { ListItemAvatar, ListItemText, Typography } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from '@tanstack/react-router'
 import { useProcessMessage } from '../../hooks/useProcessMessage.js'
 import { useRouteExecution } from '../../hooks/useRouteExecution.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
@@ -32,7 +32,10 @@ export const ActiveTransactionItem: React.FC<{
   }
 
   const handleClick = () => {
-    navigate(navigationRoutes.transactionExecution, { state: { routeId } })
+    navigate({
+      to: navigationRoutes.transactionExecution,
+      search: { routeId },
+    })
   }
 
   const getStatusComponent = () => {
