@@ -39,8 +39,7 @@ export const useAvailableChains = (
       })
     : undefined
 
-  // Overwrite widget config and SDK client if passed as param
-  const sdkClient = externalClient ?? internalClient
+  // Overwrite widget config if passed as param
   const keyPrefix = externalWidgetConfig?.keyPrefix ?? internalKeyPrefix
   const chains = externalWidgetConfig?.chains ?? internalChains
   // TODO: Replace once added to SDK https://github.com/li-fi/widget/pull/1106
@@ -65,9 +64,17 @@ export const useAvailableChains = (
         isItemAllowedForSets(chainType, chainsConfigSets)
       )
 
-      const availableChains = await getChains(sdkClient, {
-        chainTypes: chainTypes || chainTypesRequest,
-      })
+      let availableChains: ExtendedChain[] = []
+      if (externalClient) {
+        availableChains = await getChains(externalClient, {
+          chainTypes: chainTypes || chainTypesRequest,
+        })
+      } else {
+        availableChains = (await internalClient.getChains()).filter((chain) =>
+          (chainTypes || chainTypesRequest)?.includes(chain.chainType)
+        )
+      }
+
       return availableChains
     },
     refetchInterval,
