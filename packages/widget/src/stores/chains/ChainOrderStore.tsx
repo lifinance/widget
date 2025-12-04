@@ -3,6 +3,7 @@ import type { StoreApi } from 'zustand'
 import { useShallow } from 'zustand/shallow'
 import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
 import { useChains } from '../../hooks/useChains.js'
+import { useSwapOnly } from '../../hooks/useSwapOnly.js'
 import { useExternalWalletProvider } from '../../providers/WalletProvider/useExternalWalletProvider.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { HiddenUI } from '../../types/widget.js'
@@ -25,6 +26,7 @@ export function ChainOrderStoreProvider({
   const storeRef = useRef<ChainOrderStore>(null)
   const { chains } = useChains()
   const { setFieldValue, getFieldValues } = useFieldActions()
+  const swapOnly = useSwapOnly()
   const { variant, subvariantOptions } = useWidgetConfig()
   const { externalChainTypes, useExternalWalletProvidersOnly } =
     useExternalWalletProvider()
@@ -63,13 +65,23 @@ export function ChainOrderStoreProvider({
           key
         )
 
+        const isSwapTo = swapOnly && key === 'to'
+
         // Show "All networks" button if there are multiple networks
         const showAllNetworks =
-          filteredChains.length > 1 && !hiddenUI?.includes(HiddenUI.AllNetworks)
+          filteredChains.length > 1 &&
+          !hiddenUI?.includes(HiddenUI.AllNetworks) &&
+          !isSwapTo
         if (!showAllNetworks) {
           storeRef.current?.getState().setIsAllNetworks(false, key)
         }
         storeRef.current?.getState().setShowAllNetworks(showAllNetworks, key)
+
+        // If swap only, set the to chain to the from chain
+        if (isSwapTo) {
+          const [fromChainValue] = getFieldValues('fromChain')
+          setFieldValue('toChain', fromChainValue)
+        }
 
         const [chainValue] = getFieldValues(`${key}Chain`)
         if (chainValue) {
@@ -102,6 +114,7 @@ export function ChainOrderStoreProvider({
     variant,
     subvariantOptions?.wide?.enableChainSidebar,
     hiddenUI,
+    swapOnly,
   ])
 
   return (
