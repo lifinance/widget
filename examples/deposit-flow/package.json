@@ -10,13 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/sdk": "^3.13.5",
-    "@lifi/widget": "^3.34.3",
-    "@mui/material": "7.3.5",
-    "@tanstack/react-query": "^5.90.10",
+    "@lifi/sdk": "^3.13.7",
+    "@lifi/widget": "^3.36.1",
+    "@mui/material": "7.3.6",
+    "@tanstack/react-query": "^5.90.12",
     "events": "^3.3.0",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
     "viem": "^2.40.2",
     "wagmi": "^2.19.4"
   },

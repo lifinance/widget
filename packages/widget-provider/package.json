@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-provider",
-  "version": "4.0.0",
+  "version": "4.0.0-alpha.0",
   "description": "LI.FI Widget Provider - base provider package for blockchain integrations.",
   "type": "module",
   "main": "./src/index.ts",
@@ -31,7 +31,7 @@
   "bugs": {
     "url": "https://github.com/lifinance/widget/issues"
   },
-  "license": "LGPL-3.0",
+  "license": "Apache-2.0",
   "keywords": [
     "widget",
     "lifi-widget",
@@ -42,12 +42,12 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "^4.0.0-alpha.4"
+    "@lifi/sdk": "4.0.0-alpha.4"
   },
   "devDependencies": {
     "cpy-cli": "^6.0.0",
     "madge": "^8.0.0",
-    "react": "^19.2.0",
+    "react": "^19.2.1",
     "typescript": "^5.9.3"
   },
   "files": [
