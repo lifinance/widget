@@ -1,35 +1,17 @@
+import { useRouter } from '@tanstack/react-router'
 import { useCallback } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { navigationRoutes } from '../utils/navigationRoutes'
 
 export const useNavigateBack = () => {
-  const navigate = useNavigate()
+  const router = useRouter()
 
-  const navigateBack = useCallback(
-    (toPathname?: string) => {
-      // TODO: find a better router with nested memory routers support
-      // https://github.com/remix-run/react-router/pull/9112
-      // https://github.com/remix-run/react-router/discussions/9601
-      //
-      // if (window.history.length > 2) {
-      // navigate(-1)
-      // } else {
-      //   navigate(
-      //     window.location.pathname.substring(
-      //       0,
-      //       window.location.pathname.lastIndexOf('/'),
-      //     ) || '/',
-      //     { replace: true },
-      //   );
-      // }
+  const navigateBack = useCallback(() => {
+    if (router.history.length > 1) {
+      router.history.go(-1)
+    } else {
+      router.navigate({ to: navigationRoutes.home, replace: true })
+    }
+  }, [router])
 
-      if (toPathname) {
-        navigate(toPathname)
-      } else {
-        navigate(-1)
-      }
-    },
-    [navigate]
-  )
-
-  return { navigateBack, navigate }
+  return navigateBack
 }

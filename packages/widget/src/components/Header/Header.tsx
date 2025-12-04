@@ -1,6 +1,6 @@
+import { useLocation } from '@tanstack/react-router'
 import type { FC, PropsWithChildren } from 'react'
 import { useLayoutEffect, useRef } from 'react'
-import { useLocation } from 'react-router-dom'
 import { useDefaultElementId } from '../../hooks/useDefaultElementId.js'
 import { useSetHeaderHeight } from '../../stores/header/useHeaderStore.js'
 import { createElementId, ElementId } from '../../utils/elements.js'

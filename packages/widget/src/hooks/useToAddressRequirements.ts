@@ -1,6 +1,6 @@
 import type { RouteExtended } from '@lifi/sdk'
-import { isDelegationDesignatorCode } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
+import { useEthereumContext } from '@lifi/widget-provider'
 import { useChain } from '../hooks/useChain.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
@@ -14,6 +14,7 @@ export const useToAddressRequirements = (route?: RouteExtended) => {
     'toChain',
     'toAddress'
   )
+  const { isDelegationDesignatorCode } = useEthereumContext()
 
   const fromChainId = route?.fromChainId ?? formFromChainId
   const toChainId = route?.toChainId ?? formToChainId
@@ -49,7 +50,7 @@ export const useToAddressRequirements = (route?: RouteExtended) => {
   // We don't want to block transfers for EIP-7702 accounts since they are designed
   // to maintain EOA-like properties while delegating execution.
   const fromContractCodeHasDelegationIndicator =
-    isDelegationDesignatorCode(fromContractCode)
+    isDelegationDesignatorCode?.(fromContractCode)
 
   const isCrossChainContractAddress =
     isFromContractAddress &&

@@ -1,6 +1,6 @@
 import type { Route } from '@lifi/sdk'
+import { useNavigate } from '@tanstack/react-router'
 import { memo, useCallback, useEffect, useLayoutEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useRoutes } from '../../hooks/useRoutes.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { WidgetEvent } from '../../types/events.js'
@@ -60,8 +60,9 @@ export const RoutesExpanded = memo(function RoutesExpanded({
   const onRouteClick = useCallback(
     (route: Route) => {
       setReviewableRoute(route)
-      navigate(navigationRoutes.transactionExecution, {
-        state: { routeId: route.id },
+      navigate({
+        to: navigationRoutes.transactionExecution,
+        search: { routeId: route.id },
       })
       emitter.emit(WidgetEvent.RouteSelected, { route, routes: routes! })
     },

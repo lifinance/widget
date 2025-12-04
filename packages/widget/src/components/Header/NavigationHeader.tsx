@@ -1,7 +1,6 @@
 import { useAccount } from '@lifi/wallet-management'
 import { Box, Typography } from '@mui/material'
-import { Route, Routes, useLocation } from 'react-router-dom'
-import { useNavigateBack } from '../../hooks/useNavigateBack.js'
+import { useLocation } from '@tanstack/react-router'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useHeaderStore } from '../../stores/header/useHeaderStore.js'
 import { HiddenUI } from '../../types/widget.js'
@@ -20,14 +19,12 @@ import { TransactionHistoryButton } from './TransactionHistoryButton.js'
 export const NavigationHeader: React.FC = () => {
   const { subvariant, hiddenUI, variant, defaultUI, subvariantOptions } =
     useWidgetConfig()
-  const { navigateBack } = useNavigateBack()
   const { account } = useAccount()
   const [element, title] = useHeaderStore((state) => [
     state.element,
     state.title,
   ])
   const { pathname } = useLocation()
-
   const cleanedPathname = pathname.endsWith('/')
     ? pathname.slice(0, -1)
     : pathname
@@ -39,18 +36,7 @@ export const NavigationHeader: React.FC = () => {
 
   return (
     <HeaderAppBar elevation={0} sx={{ paddingTop: 1, paddingBottom: 0.5 }}>
-      {backButtonRoutes.includes(path) ? (
-        <BackButton
-          onClick={() =>
-            navigateBack(
-              // From transaction details page, navigate to home page
-              path === navigationRoutes.transactionDetails
-                ? navigationRoutes.home
-                : undefined
-            )
-          }
-        />
-      ) : null}
+      {backButtonRoutes.includes(path) ? <BackButton /> : null}
       {showSplitOptions ? (
         <Box sx={{ flex: 1, marginRight: 1 }}>
           <SplitNavigationTabs />
@@ -68,36 +54,27 @@ export const NavigationHeader: React.FC = () => {
           {title}
         </Typography>
       )}
-      <Routes>
-        <Route
-          path={navigationRoutes.home}
-          element={
-            <HeaderControlsContainer>
-              {account.isConnected && !hiddenUI?.includes(HiddenUI.History) && (
-                <TransactionHistoryButton />
-              )}
-              <SettingsButton />
-              {variant === 'drawer' &&
-              !hiddenUI?.includes(HiddenUI.DrawerCloseButton) ? (
-                <CloseDrawerButton header="navigation" />
-              ) : null}
-            </HeaderControlsContainer>
-          }
-        />
-        <Route
-          path="*"
-          element={
-            element || (
-              <Box
-                sx={{
-                  width: 28,
-                  height: 40,
-                }}
-              />
-            )
-          }
-        />
-      </Routes>
+      {pathname === navigationRoutes.home ? (
+        <HeaderControlsContainer>
+          {account.isConnected && !hiddenUI?.includes(HiddenUI.History) && (
+            <TransactionHistoryButton />
+          )}
+          <SettingsButton />
+          {variant === 'drawer' &&
+          !hiddenUI?.includes(HiddenUI.DrawerCloseButton) ? (
+            <CloseDrawerButton header="navigation" />
+          ) : null}
+        </HeaderControlsContainer>
+      ) : (
+        element || (
+          <Box
+            sx={{
+              width: 28,
+              height: 40,
+            }}
+          />
+        )
+      )}
     </HeaderAppBar>
   )
 }

@@ -3,6 +3,7 @@ import ErrorRounded from '@mui/icons-material/ErrorRounded'
 import InfoRounded from '@mui/icons-material/InfoRounded'
 import WarningRounded from '@mui/icons-material/WarningRounded'
 import { Box, Button, Typography } from '@mui/material'
+import { useNavigate } from '@tanstack/react-router'
 import { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
@@ -11,7 +12,6 @@ import { Card } from '../../components/Card/Card.js'
 import { CardTitle } from '../../components/Card/CardTitle.js'
 import { Token } from '../../components/Token/Token.js'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
-import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { getProcessMessage } from '../../hooks/useProcessMessage.js'
 import { useSetContentHeight } from '../../hooks/useSetContentHeight.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
@@ -65,7 +65,7 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
   onClose,
 }) => {
   const { t } = useTranslation()
-  const { navigateBack, navigate } = useNavigateBack()
+  const navigate = useNavigate()
   const { setFieldValue } = useFieldActions()
   const {
     subvariant,
@@ -95,7 +95,7 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
 
   const handleDone = () => {
     cleanFields()
-    navigateBack()
+    navigate({ to: navigationRoutes.home, replace: true })
   }
 
   const handlePartialDone = () => {
@@ -119,7 +119,7 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
     } else {
       cleanFields()
     }
-    navigateBack()
+    navigate({ to: navigationRoutes.home, replace: true })
   }
 
   const handleClose = () => {
@@ -132,8 +132,9 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
 
     const transactionHash = getSourceTxHash(route)
 
-    navigate(navigationRoutes.transactionDetails, {
-      state: {
+    navigate({
+      to: navigationRoutes.transactionDetails,
+      search: {
         routeId: route.id,
         transactionHash,
       },

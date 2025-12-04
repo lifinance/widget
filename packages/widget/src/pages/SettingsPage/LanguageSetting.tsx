@@ -1,6 +1,6 @@
 import Language from '@mui/icons-material/Language'
+import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { CardButton } from '../../components/Card/CardButton.js'
 import { CardValue } from '../../components/Card/CardButton.style.js'
 import { useLanguages } from '../../hooks/useLanguages.js'
@@ -20,7 +20,7 @@ export const LanguageSetting: React.FC = () => {
   }
 
   const handleClick = () => {
-    navigate(navigationRoutes.languages)
+    navigate({ to: navigationRoutes.languages })
   }
 
   return (

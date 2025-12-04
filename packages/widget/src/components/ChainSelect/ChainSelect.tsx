@@ -1,8 +1,8 @@
 import type { EVMChain } from '@lifi/sdk'
 import { Skeleton, type Theme, Tooltip, useMediaQuery } from '@mui/material'
+import { useNavigate } from '@tanstack/react-router'
 import { memo, useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import {
   maxChainsToOrder,
@@ -68,7 +68,7 @@ export const ChainSelect = memo(({ formType }: FormTypeProps) => {
   )
 
   const showAllChains = useCallback(() => {
-    navigate(navigationRoutes[`${formType}Chain`])
+    navigate({ to: navigationRoutes[`${formType}Chain`] })
   }, [navigate, formType])
 
   const selectAllNetworks = useCallback(() => {

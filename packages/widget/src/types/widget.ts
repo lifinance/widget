@@ -12,6 +12,7 @@ import type {
   Token,
 } from '@lifi/sdk'
 import type { WalletMenuOpenArgs } from '@lifi/wallet-management'
+import type { WidgetProviderProps } from '@lifi/widget-provider'
 import type {
   Components,
   PaletteMode,
@@ -21,14 +22,13 @@ import type {
   Theme,
 } from '@mui/material'
 import type { TypographyVariantsOptions } from '@mui/material/styles'
-import type { CSSProperties, FC, ReactNode, RefObject } from 'react'
 import type {
-  BaseAccountParameters,
-  CoinbaseWalletParameters,
-  MetaMaskParameters,
-  PortoParameters,
-  WalletConnectParameters,
-} from 'wagmi/connectors'
+  CSSProperties,
+  FC,
+  PropsWithChildren,
+  ReactNode,
+  RefObject,
+} from 'react'
 import type {
   LanguageKey,
   LanguageResources,
@@ -110,6 +110,7 @@ export enum HiddenUI {
   Language = 'language',
   PoweredBy = 'poweredBy',
   ToAddress = 'toAddress',
+  FromToken = 'fromToken',
   ToToken = 'toToken',
   WalletMenu = 'walletMenu',
   IntegratorStepDetails = 'integratorStepDetails',
@@ -122,6 +123,7 @@ export enum HiddenUI {
   GasRefuelMessage = 'gasRefuelMessage',
   SearchTokenInput = 'searchTokenInput',
   InsufficientGasMessage = 'insufficientGasMessage',
+  ContactSupport = 'contactSupport',
 }
 export type HiddenUIType = `${HiddenUI}`
 
@@ -137,12 +139,8 @@ export type DefaultUI = {
 }
 
 export interface WidgetWalletConfig {
+  walletEcosystemsOrder?: Record<string, ChainType[]>
   onConnect?(args?: WalletMenuOpenArgs): void
-  walletConnect?: WalletConnectParameters
-  coinbase?: CoinbaseWalletParameters
-  metaMask?: MetaMaskParameters
-  baseAccount?: BaseAccountParameters
-  porto?: Partial<PortoParameters>
   /**
    * Determines whether the widget should provide partial wallet management functionality.
    *
@@ -304,6 +302,8 @@ export interface WidgetConfig {
   minFromAmountUSD?: number
   toAmount?: number | string
   formUpdateKey?: string
+
+  providers?: ((props: PropsWithChildren<WidgetProviderProps>) => ReactNode)[]
 
   contractCalls?: ContractCall[]
   contractComponent?: ReactNode

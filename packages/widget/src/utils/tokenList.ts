@@ -1,5 +1,8 @@
-import type { TokenExtended, WalletTokenExtended } from '@lifi/sdk'
-import { formatUnits } from 'viem'
+import {
+  formatUnits,
+  type TokenExtended,
+  type WalletTokenExtended,
+} from '@lifi/sdk'
 import type { TokenAmount, TokenAmountExtended } from '../types/token.js'
 import type { WidgetTokens } from '../types/widget.js'
 

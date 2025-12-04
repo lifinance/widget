@@ -50,7 +50,7 @@ const ConfirmAddressSheetContent: React.FC<ConfirmAddressSheetContentProps> = ({
   onClose,
 }) => {
   const { t } = useTranslation()
-  const { navigateBack } = useNavigateBack()
+  const navigateBack = useNavigateBack()
   const { setFieldValue } = useFieldActions()
   const { setSendToWallet } = useSendToWalletActions()
 

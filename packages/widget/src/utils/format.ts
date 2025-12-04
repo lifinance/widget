@@ -1,4 +1,4 @@
-import { formatUnits } from 'viem'
+import { formatUnits } from '@lifi/sdk'
 
 /**
  * Format token amount to at least 6 decimals.
@@ -45,6 +45,15 @@ export function formatSlippage(
   return parsedSlippage.toString()
 }
 
+/**
+ * Formats a user input amount string, normalizing it and optionally limiting decimal places.
+ * @param amount - The amount string to format (e.g., '123.45', '1,23', '0..')
+ * @param decimals - Maximum number of decimal places to allow. If null, no limit is applied.
+ * @param returnInitial - If true, preserves the input format during typing (e.g., keeps trailing dots,
+ *                        preserves leading zeros, keeps negative signs). If false (default), cleans up the
+ *                        format on blur (removes leading/trailing zeros, removes negative signs).
+ * @returns The formatted amount string, or empty string for invalid input.
+ */
 export function formatInputAmount(
   amount: string,
   decimals: number | null = null,
@@ -53,31 +62,49 @@ export function formatInputAmount(
   if (!amount) {
     return amount
   }
+
+  // Replace commas with dots
   let formattedAmount = amount.trim().replaceAll(',', '.')
+
+  // Keep only the first dot, remove all subsequent dots
+  const dotIndex = formattedAmount.indexOf('.')
+  if (dotIndex !== -1) {
+    formattedAmount = `${formattedAmount.slice(0, dotIndex + 1)}${formattedAmount.slice(dotIndex + 1).replaceAll('.', '')}`
+  }
+
+  // If the amount starts with a dot, prepend 0
   if (
-    returnInitial &&
-    formattedAmount.startsWith('.') &&
-    !Number.parseFloat(formattedAmount)
+    (!returnInitial && formattedAmount.startsWith('.')) ||
+    formattedAmount === '.'
   ) {
     formattedAmount = `0${formattedAmount}`
   }
+
+  // Parse the valid part of the amount
   const parsedAmount = Number.parseFloat(formattedAmount)
   if (Number.isNaN(Number(formattedAmount)) && !Number.isNaN(parsedAmount)) {
-    return parsedAmount.toString()
+    formattedAmount = parsedAmount.toString()
   }
   if (Number.isNaN(Math.abs(Number(formattedAmount)))) {
     return ''
   }
-  if (returnInitial) {
-    return formattedAmount
-  } else if (formattedAmount.startsWith('.')) {
-    formattedAmount = `0${formattedAmount}`
-  }
+
+  // Split and limit decimals
   let [integer, fraction = ''] = formattedAmount.split('.')
   if (decimals !== null && fraction.length > decimals) {
     fraction = fraction.slice(0, decimals)
   }
+
+  if (returnInitial) {
+    if (!fraction) {
+      return formattedAmount
+    }
+    return `${integer}${fraction ? `.${fraction}` : ''}`
+  }
+
+  // Remove leading zeros and minus sign
   integer = integer.replace(/^0+|-/, '')
+  // Remove trailing zeros
   fraction = fraction.replace(/(0+)$/, '')
 
   return `${integer || (fraction ? '0' : '')}${fraction ? `.${fraction}` : ''}`
