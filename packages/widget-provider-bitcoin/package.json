@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-provider-bitcoin",
-  "version": "4.0.0",
+  "version": "4.0.0-alpha.0",
   "description": "LI.FI Widget Provider for Bitcoin blockchain integration.",
   "type": "module",
   "main": "./src/index.ts",
@@ -33,7 +33,7 @@
   "bugs": {
     "url": "https://github.com/lifinance/widget/issues"
   },
-  "license": "LGPL-3.0",
+  "license": "Apache-2.0",
   "keywords": [
     "widget",
     "lifi-widget",
@@ -47,7 +47,7 @@
   "dependencies": {
     "@bigmi/client": "^0.6.3",
     "@bigmi/core": "^0.6.3",
-    "@lifi/sdk": "^4.0.0-alpha.4",
+    "@lifi/sdk": "4.0.0-alpha.4",
     "@lifi/sdk-provider-bitcoin": "^4.0.0-alpha.4",
     "@lifi/widget-provider": "workspace:*"
   },
@@ -57,7 +57,7 @@
   "devDependencies": {
     "cpy-cli": "^6.0.0",
     "madge": "^8.0.0",
-    "react": "^19.2.0",
+    "react": "^19.2.1",
     "typescript": "^5.9.3"
   },
   "files": [
