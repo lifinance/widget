@@ -40,7 +40,7 @@ export type WidgetSubvariant = 'default' | 'split' | 'custom' | 'refuel'
 export type SplitSubvariant = 'bridge' | 'swap'
 export type CustomSubvariant = 'checkout' | 'deposit'
 export type WideSubvariant = {
-  enableChainSidebar?: boolean
+  disableChainSidebar?: boolean
 }
 export interface SubvariantOptions {
   split?: SplitSubvariant

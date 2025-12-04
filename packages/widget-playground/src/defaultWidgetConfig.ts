@@ -41,11 +41,11 @@ export const widgetBaseConfig: WidgetConfig = {
   ],
   variant: 'wide',
   // subvariant: 'split',
-  subvariantOptions: {
-    wide: {
-      enableChainSidebar: true,
-    },
-  },
+  // subvariantOptions: {
+  //   wide: {
+  //     disableChainSidebar: true,
+  //   },
+  // },
   integrator: 'li.fi-playground',
   // fee: 0.01,
   // feeConfig: {

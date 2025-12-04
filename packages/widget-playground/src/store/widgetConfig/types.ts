@@ -40,7 +40,7 @@ interface WidgetConfigActions {
   setHeader: (header?: CSSProperties) => void
   setContainer: (container?: CSSProperties) => void
   setFormValues: (formValues: FormValues) => void
-  setChainSidebarEnabled: (enabled: boolean) => void
+  setChainSidebarDisabled: (disabled: boolean) => void
   setSplitOption: (option?: SplitSubvariant) => void
 }
 
