@@ -1,6 +1,6 @@
 import { ChainId } from '@lifi/sdk'
 import type { WidgetConfig } from '@lifi/widget'
-import { HiddenUI } from '@lifi/widget'
+// import { HiddenUI } from '@lifi/widget'
 
 export const widgetBaseConfig: WidgetConfig = {
   // fromChain: 137,
@@ -48,7 +48,7 @@ export const widgetBaseConfig: WidgetConfig = {
   // useRecommendedRoute: true,
   useRelayerRoutes: true,
   buildUrl: true,
-  hiddenUI: [HiddenUI.AllNetworks],
+  // hiddenUI: [HiddenUI.AllNetworks],
   // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton', 'toAddress'],
   // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
   // requiredUI: ['toAddress'],
