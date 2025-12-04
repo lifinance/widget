@@ -4,8 +4,8 @@ import { Badge } from '@mui/material'
 import { useChain } from '../../hooks/useChain.js'
 import { useToken } from '../../hooks/useToken.js'
 import { AvatarBadgedSkeleton } from './Avatar.js'
-import { AvatarDefaultBadge, AvatarMasked } from './Avatar.style.js'
-import { SmallAvatar } from './SmallAvatar.js'
+import { AvatarMasked } from './Avatar.style.js'
+import { ChainBadgeContent } from './ChainBadgeContent.js'
 
 export const TokenAvatar: React.FC<{
   token?: StaticToken
@@ -83,15 +83,7 @@ const TokenAvatarBase: React.FC<{
     <Badge
       overlap="circular"
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      badgeContent={
-        chain ? (
-          <SmallAvatar src={chain.logoURI} alt={chain.name} size={badgeSize}>
-            {chain.name[0]}
-          </SmallAvatar>
-        ) : (
-          <AvatarDefaultBadge size={badgeSize} />
-        )
-      }
+      badgeContent={<ChainBadgeContent chain={chain} size={badgeSize} />}
       sx={sx}
     >
       <AvatarMasked

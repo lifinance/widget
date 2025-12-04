@@ -114,6 +114,7 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
         defaultMaxHeight,
     },
     '&:has(.long-list)': {
+      minHeight: getWidgetMaxHeight(theme),
       maxHeight: getWidgetMaxHeight(theme),
     },
   }
