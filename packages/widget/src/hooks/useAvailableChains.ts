@@ -26,7 +26,8 @@ export const useAvailableChains = (
 ) => {
   const {
     chains: internalChains,
-    keyPrefix: internalKeyPrefix /*sdkConfig: internalSdkConfig*/, // TODO: Uncomment once added to SDK https://github.com/li-fi/widget/pull/1106
+    keyPrefix: internalKeyPrefix,
+    sdkConfig: internalSdkConfig,
   } = useWidgetConfig()
   const internalClient = useSDKClient()
 
@@ -42,9 +43,10 @@ export const useAvailableChains = (
   // Overwrite widget config if passed as param
   const keyPrefix = externalWidgetConfig?.keyPrefix ?? internalKeyPrefix
   const chains = externalWidgetConfig?.chains ?? internalChains
-  // TODO: Replace once added to SDK https://github.com/li-fi/widget/pull/1106
-  // const refetchInterval = externalWidgetConfig?.sdkConfig?.chainsRefetchInterval ?? internalSdkConfig?.chainsRefetchInterval ?? 300_000
-  const refetchInterval = 300_000
+  const refetchInterval =
+    externalWidgetConfig?.sdkConfig?.chainsRefetchInterval ??
+    internalSdkConfig?.chainsRefetchInterval ??
+    300_000
 
   const { data, isLoading } = useQuery({
     queryKey: [

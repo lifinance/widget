@@ -69,8 +69,7 @@ export const widgetBaseConfig: WidgetConfig = {
   // },
   sdkConfig: {
     apiUrl: 'https://li.quest/v1',
-    // TODO: Uncomment once added to SDK https://github.com/lifinance/sdk/pull/331
-    // chainsRefetchInterval: 1000 * 60 * 5, // 5 minutes
+    chainsRefetchInterval: 1000 * 60 * 5, // 5 minutes
     rpcUrls: {
       [ChainId.SOL]: ['https://dacey-pp61jd-fast-mainnet.helius-rpc.com/'],
     },
