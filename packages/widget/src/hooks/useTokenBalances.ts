@@ -58,43 +58,54 @@ export const useTokenBalances = (
         (t) => `${t.chainId}-${t.address.toLowerCase()}`
       ) || []
     )
-    let filteredBalances = balancesByChain?.filter((token) => {
+
+    const hideSmallBalances =
+      !!smallBalanceThreshold && !hiddenUI?.includes(HiddenUI.HideSmallBalances)
+    const threshold = hideSmallBalances
+      ? Number.parseFloat(smallBalanceThreshold)
+      : NaN
+
+    if (!balancesByChain) {
+      return undefined
+    }
+
+    return balancesByChain.reduce<typeof balancesByChain>((acc, token) => {
       const tokenKey = `${token.chainId}-${token.address.toLowerCase()}`
       // Check if token is in displayed list and has amount
       const isInDisplayedList = displayedTokensSet.has(tokenKey) && token.amount
       // Check if it matches search (for cached appended tokens)
       const matchesSearch = isSearchMatch(token, search)
-      return isInDisplayedList || matchesSearch
-    })
 
-    // Treat small balances as 0 if hideSmallBalances is enabled
-    const hideSmallBalances =
-      !!smallBalanceThreshold && !hiddenUI?.includes(HiddenUI.HideSmallBalances)
-    if (hideSmallBalances && filteredBalances) {
-      const threshold = Number.parseFloat(smallBalanceThreshold)
-      if (!Number.isNaN(threshold) && threshold >= 0) {
-        filteredBalances = filteredBalances.map((token) => {
-          // Only treat tokens with non-zero balances as 0 if below threshold
-          if (!token.amount || token.amount === 0n) {
-            return token
-          }
-          const balanceUSD = formatTokenPrice(
-            token.amount,
-            token.priceUSD,
-            token.decimals
-          )
-          if (balanceUSD < threshold) {
-            return {
-              ...token,
-              amount: 0n,
-            }
-          }
-          return token
-        })
+      // Filter: only include tokens that match our criteria
+      if (!isInDisplayedList && !matchesSearch) {
+        return acc
       }
-    }
 
-    return filteredBalances
+      // Apply small balance threshold transformation if enabled
+      let processedToken = token
+      if (
+        hideSmallBalances &&
+        !Number.isNaN(threshold) &&
+        threshold >= 0 &&
+        token.amount &&
+        token.amount !== 0n
+      ) {
+        const balanceUSD = formatTokenPrice(
+          token.amount,
+          token.priceUSD,
+          token.decimals
+        )
+        if (balanceUSD < threshold) {
+          processedToken = {
+            ...token,
+            amount: 0n,
+          }
+        }
+      }
+
+      acc.push(processedToken)
+      return acc
+    }, [])
   }, [
     allTokensWithBalances,
     displayedTokensList,
