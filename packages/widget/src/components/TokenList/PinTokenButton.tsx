@@ -12,13 +12,11 @@ export const PinTokenButton = ({
   chainId,
   tokenAddress,
 }: PinTokenButtonProps) => {
-  const { pinnedTokens, pinToken, unpinToken } = usePinnedTokensStore(
-    (state) => ({
-      pinnedTokens: state.pinnedTokens,
-      pinToken: state.pinToken,
-      unpinToken: state.unpinToken,
-    })
-  )
+  const [pinnedTokens, pinToken, unpinToken] = usePinnedTokensStore((state) => [
+    state.pinnedTokens,
+    state.pinToken,
+    state.unpinToken,
+  ])
 
   const isPinned =
     pinnedTokens[chainId]?.includes(tokenAddress.toLowerCase()) ?? false
