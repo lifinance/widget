@@ -1,6 +1,6 @@
 {
   "name": "@lifi/wallet-management",
-  "version": "3.19.2",
+  "version": "4.0.0-alpha.0",
   "description": "LI.FI Wallet Management solution.",
   "type": "module",
   "main": "./src/index.ts",
@@ -33,7 +33,7 @@
   "bugs": {
     "url": "https://github.com/lifinance/widget/issues"
   },
-  "license": "LGPL-3.0",
+  "license": "Apache-2.0",
   "keywords": [
     "wallet",
     "wallet-management",
@@ -53,7 +53,7 @@
     "@lifi/sdk": "^4.0.0-alpha.5",
     "@lifi/widget-provider": "workspace:*",
     "@mui/icons-material": "^7.3.5",
-    "@mui/material": "^7.3.5",
+    "@mui/material": "^7.3.6",
     "@mui/system": "^7.3.5",
     "i18next": "^25.6.2",
     "mitt": "^3.0.1",
@@ -63,8 +63,8 @@
   "devDependencies": {
     "cpy-cli": "^6.0.0",
     "madge": "^8.0.0",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
