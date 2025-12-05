@@ -69,6 +69,7 @@ export const widgetBaseConfig: WidgetConfig = {
   // },
   sdkConfig: {
     apiUrl: 'https://li.quest/v1',
+    chainsRefetchInterval: 1000 * 60 * 5, // 5 minutes
     rpcUrls: {
       [ChainId.SOL]: ['https://dacey-pp61jd-fast-mainnet.helius-rpc.com/'],
     },

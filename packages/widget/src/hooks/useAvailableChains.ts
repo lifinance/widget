@@ -1,9 +1,10 @@
 import type { ExtendedChain } from '@lifi/sdk'
-import { ChainType, getChains } from '@lifi/sdk'
+import { ChainType, createClient, getChains } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback } from 'react'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import type { WidgetConfig } from '../types/widget.js'
 import { getConfigItemSets, isItemAllowedForSets } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 
@@ -19,9 +20,33 @@ const supportedChainTypes = [
   ChainType.MVM,
 ]
 
-export const useAvailableChains = (chainTypes?: ChainType[]) => {
-  const { chains, keyPrefix } = useWidgetConfig()
-  const sdkClient = useSDKClient()
+export const useAvailableChains = (
+  chainTypes?: ChainType[],
+  externalWidgetConfig?: WidgetConfig
+) => {
+  const {
+    chains: internalChains,
+    keyPrefix: internalKeyPrefix,
+    sdkConfig: internalSdkConfig,
+  } = useWidgetConfig()
+  const internalClient = useSDKClient()
+
+  const externalClient = externalWidgetConfig
+    ? createClient({
+        ...externalWidgetConfig.sdkConfig,
+        apiKey: externalWidgetConfig.apiKey,
+        integrator:
+          externalWidgetConfig.integrator ?? window?.location.hostname,
+      })
+    : undefined
+
+  // Overwrite widget config if passed as param
+  const keyPrefix = externalWidgetConfig?.keyPrefix ?? internalKeyPrefix
+  const chains = externalWidgetConfig?.chains ?? internalChains
+  const refetchInterval =
+    externalWidgetConfig?.sdkConfig?.chainsRefetchInterval ??
+    internalSdkConfig?.chainsRefetchInterval ??
+    300_000
 
   const { data, isLoading } = useQuery({
     queryKey: [
@@ -41,13 +66,21 @@ export const useAvailableChains = (chainTypes?: ChainType[]) => {
         isItemAllowedForSets(chainType, chainsConfigSets)
       )
 
-      const availableChains = await getChains(sdkClient, {
-        chainTypes: chainTypes || chainTypesRequest,
-      })
+      let availableChains: ExtendedChain[] = []
+      if (externalClient) {
+        availableChains = await getChains(externalClient, {
+          chainTypes: chainTypes || chainTypesRequest,
+        })
+      } else {
+        availableChains = (await internalClient.getChains()).filter((chain) =>
+          (chainTypes || chainTypesRequest)?.includes(chain.chainType)
+        )
+      }
+
       return availableChains
     },
-    refetchInterval: 300_000,
-    staleTime: 300_000,
+    refetchInterval,
+    staleTime: refetchInterval,
   })
 
   const getChainById: GetChainById = useCallback(
