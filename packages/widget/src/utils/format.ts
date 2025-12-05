@@ -1,5 +1,7 @@
 import { formatUnits } from '@lifi/sdk'
 
+export const usdDecimals = 2
+
 /**
  * Format token amount to at least 6 decimals.
  * @param amount amount to format.
