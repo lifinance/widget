@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
 import { useSettings } from '../stores/settings/useSettings.js'
+import { HiddenUI } from '../types/widget.js'
 import { formatTokenPrice } from '../utils/format.js'
 import { isSearchMatch, processTokenBalances } from '../utils/tokenList.js'
 import { useAccountsBalancesData } from './useAccountsBalancesData.js'
@@ -14,6 +15,7 @@ export const useTokenBalances = (
   isAllNetworks?: boolean,
   search?: string
 ) => {
+  const { hiddenUI } = useWidgetConfig()
   const {
     allTokens,
     isLoading: isTokensLoading,
@@ -66,7 +68,9 @@ export const useTokenBalances = (
     })
 
     // Treat small balances as 0 if hideSmallBalances is enabled
-    if (smallBalanceThreshold && filteredBalances) {
+    const hideSmallBalances =
+      !!smallBalanceThreshold && !hiddenUI?.includes(HiddenUI.HideSmallBalances)
+    if (hideSmallBalances && filteredBalances) {
       const threshold = Number.parseFloat(smallBalanceThreshold)
       if (!Number.isNaN(threshold) && threshold >= 0) {
         filteredBalances = filteredBalances.map((token) => {
@@ -98,6 +102,7 @@ export const useTokenBalances = (
     selectedChainId,
     isAllNetworks,
     smallBalanceThreshold,
+    hiddenUI,
   ])
 
   const { processedTokens, withCategories } = useMemo(() => {
