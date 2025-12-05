@@ -332,11 +332,7 @@
     "slippage": "Max. slippage",
     "custom": "Custom",
     "resetSettings": "You're using custom settings that can affect the number or sorting of available routes.",
-    "hideSmallBalances": {
-      "title": "Hide balances below",
-      "showAll": "Show all",
-      "threshold": "{{threshold, currencyExt(currency: USD)}}"
-    }
+    "hideSmallBalances": "Hide small balances"
   },
   "sendToWallet": {
     "addBookmark": "Add bookmark",

@@ -30,10 +30,7 @@ export const useTokenBalances = (
     useTokenBalancesQueries(accountsWithAllTokens, isBalanceLoadingEnabled)
 
   const { tokens: configTokens } = useWidgetConfig()
-  const { hideSmallBalances, smallBalanceThreshold } = useSettings([
-    'hideSmallBalances',
-    'smallBalanceThreshold',
-  ])
+  const { smallBalanceThreshold } = useSettings(['smallBalanceThreshold'])
 
   const isBalanceLoading =
     (isBalanceQueriesLoading || isAccountsLoading) &&
@@ -69,7 +66,7 @@ export const useTokenBalances = (
     })
 
     // Treat small balances as 0 if hideSmallBalances is enabled
-    if (hideSmallBalances && smallBalanceThreshold && filteredBalances) {
+    if (smallBalanceThreshold && filteredBalances) {
       const threshold = Number.parseFloat(smallBalanceThreshold)
       if (!Number.isNaN(threshold) && threshold >= 0) {
         filteredBalances = filteredBalances.map((token) => {
@@ -100,7 +97,6 @@ export const useTokenBalances = (
     search,
     selectedChainId,
     isAllNetworks,
-    hideSmallBalances,
     smallBalanceThreshold,
   ])
 

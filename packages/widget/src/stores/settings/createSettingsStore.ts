@@ -29,8 +29,7 @@ const defaultSettings: SettingsProps = {
   enabledExchanges: [],
   _enabledBridges: {},
   _enabledExchanges: {},
-  hideSmallBalances: false,
-  smallBalanceThreshold: '0.01',
+  smallBalanceThreshold: undefined,
 }
 
 export const createSettingsStore = (config: WidgetConfig) =>
