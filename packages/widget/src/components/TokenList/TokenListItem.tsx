@@ -227,13 +227,7 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
                     appear={false}
                     mountOnEnter
                   >
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 0.5,
-                      }}
-                    >
+                    <Box>
                       <OpenTokenDetailsButton
                         tokenAddress={token.address}
                         withoutContractAddress={withoutContractAddress}
@@ -299,16 +293,18 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
                     >
                       {shortenAddress(token.address)}
                     </Box>
-                    <OpenTokenDetailsButton
-                      tokenAddress={token.address}
-                      withoutContractAddress={withoutContractAddress}
-                      chainId={token.chainId}
-                      onClick={onShowTokenDetails}
-                    />
-                    <PinTokenButton
-                      chainId={token.chainId}
-                      tokenAddress={token.address}
-                    />
+                    <Box>
+                      <OpenTokenDetailsButton
+                        tokenAddress={token.address}
+                        withoutContractAddress={withoutContractAddress}
+                        chainId={token.chainId}
+                        onClick={onShowTokenDetails}
+                      />
+                      <PinTokenButton
+                        chainId={token.chainId}
+                        tokenAddress={token.address}
+                      />
+                    </Box>
                   </Box>
                 </Slide>
               </Box>
