@@ -32,6 +32,7 @@ export const SmallBalanceFilterSettings: React.FC = () => {
     smallBalanceThreshold ?? defaultThreshold
   )
   const buttonRef = useRef<SettingCardExpandableRef>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const formatAndSetThreshold = (inputValue: string, returnInitial = false) => {
     const value = inputValue.replace('$', '')
@@ -65,6 +66,12 @@ export const SmallBalanceFilterSettings: React.FC = () => {
     }
   }
 
+  const handleExpanded = () => {
+    if (inputRef.current) {
+      inputRef.current.focus()
+    }
+  }
+
   useEffect(() => {
     setInputValue(smallBalanceThreshold ?? defaultThreshold)
   }, [smallBalanceThreshold])
@@ -83,6 +90,7 @@ export const SmallBalanceFilterSettings: React.FC = () => {
       title={t('settings.hideSmallBalances')}
       disabled={!smallBalanceThreshold}
       keepValueVisible
+      onEntered={handleExpanded}
     >
       <Box
         sx={{
@@ -91,6 +99,7 @@ export const SmallBalanceFilterSettings: React.FC = () => {
       >
         <SettingsFieldSet>
           <SettingsCustomInput
+            inputRef={inputRef}
             selected
             inputProps={{
               inputMode: 'decimal',
