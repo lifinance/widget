@@ -96,27 +96,26 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
 
   return (
     <I18nextProvider i18n={i18nInstance}>
-      <SyncedWithConfigI18n>{children}</SyncedWithConfigI18n>
+      {children}
+      <DefaultLanguageSyncer />
     </I18nextProvider>
   )
 }
 
 // Sync language settings internally when config.languages.default changes externally
-const SyncedWithConfigI18n = ({ children }: React.PropsWithChildren) => {
+const DefaultLanguageSyncer: React.FC = () => {
   const { languages } = useWidgetConfig()
-  const lastDefaultLanguage = useSettingsStore(
-    (state) => state.lastDefaultLanguage
-  )
-  const setValues = useSettingsStore((state) => state.setValues)
+  const [lastDefaultLanguage, setValue] = useSettingsStore((state) => [
+    state.lastDefaultLanguage,
+    state.setValue,
+  ])
   const { setLanguageWithCode: setLanguage } = useLanguages()
 
   useEffect(() => {
     const currentDefaultLanguage = languages?.default
 
     const defaultLanguageChanged =
-      lastDefaultLanguage &&
-      currentDefaultLanguage &&
-      currentDefaultLanguage !== lastDefaultLanguage
+      currentDefaultLanguage && currentDefaultLanguage !== lastDefaultLanguage
 
     if (!defaultLanguageChanged) {
       return
@@ -124,13 +123,11 @@ const SyncedWithConfigI18n = ({ children }: React.PropsWithChildren) => {
 
     const updateLanguage = async () => {
       await setLanguage(currentDefaultLanguage)
-      setValues({
-        lastDefaultLanguage: currentDefaultLanguage,
-      })
+      setValue('lastDefaultLanguage', currentDefaultLanguage)
     }
 
     updateLanguage()
-  }, [languages?.default, setValues, lastDefaultLanguage, setLanguage])
+  }, [languages?.default, setValue, lastDefaultLanguage, setLanguage])
 
-  return children
+  return null
 }
