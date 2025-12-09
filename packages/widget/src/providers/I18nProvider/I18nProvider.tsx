@@ -1,6 +1,8 @@
 import { createInstance, type i18n } from 'i18next'
-import { useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { I18nextProvider } from 'react-i18next'
+import { useLanguages } from '../../hooks/useLanguages.js'
+import { useSettingsStore } from '../../stores/settings/SettingsStore.js'
 import { useSettings } from '../../stores/settings/useSettings.js'
 import { compactNumberFormatter } from '../../utils/compactNumberFormatter.js'
 import { currencyExtendedFormatter } from '../../utils/currencyExtendedFormatter.js'
@@ -92,5 +94,43 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
     return i18n
   }, [language, languageResources, languages?.default, languageCache])
 
-  return <I18nextProvider i18n={i18nInstance}>{children}</I18nextProvider>
+  return (
+    <I18nextProvider i18n={i18nInstance}>
+      <SyncedWithConfigI18n>{children}</SyncedWithConfigI18n>
+    </I18nextProvider>
+  )
+}
+
+// Sync language settings internally when config.languages.default changes externally
+const SyncedWithConfigI18n = ({ children }: React.PropsWithChildren) => {
+  const { languages } = useWidgetConfig()
+  const lastDefaultLanguage = useSettingsStore((state) =>
+    state.getValue('lastDefaultLanguage')
+  )
+  const setValues = useSettingsStore((state) => state.setValues)
+  const { setLanguageWithCode: setLanguage } = useLanguages()
+
+  useEffect(() => {
+    const currentDefaultLanguage = languages?.default
+
+    const defaultLanguageChanged =
+      lastDefaultLanguage &&
+      currentDefaultLanguage &&
+      currentDefaultLanguage !== lastDefaultLanguage
+
+    if (!defaultLanguageChanged) {
+      return
+    }
+
+    const updateLanguage = async () => {
+      setLanguage(currentDefaultLanguage)
+      setValues({
+        lastDefaultLanguage: currentDefaultLanguage,
+      })
+    }
+
+    updateLanguage()
+  }, [languages?.default, setValues, lastDefaultLanguage, setLanguage])
+
+  return children
 }
