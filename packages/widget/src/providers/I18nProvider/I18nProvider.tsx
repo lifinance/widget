@@ -104,8 +104,8 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
 // Sync language settings internally when config.languages.default changes externally
 const SyncedWithConfigI18n = ({ children }: React.PropsWithChildren) => {
   const { languages } = useWidgetConfig()
-  const lastDefaultLanguage = useSettingsStore((state) =>
-    state.getValue('lastDefaultLanguage')
+  const lastDefaultLanguage = useSettingsStore(
+    (state) => state.lastDefaultLanguage
   )
   const setValues = useSettingsStore((state) => state.setValues)
   const { setLanguageWithCode: setLanguage } = useLanguages()
@@ -123,7 +123,7 @@ const SyncedWithConfigI18n = ({ children }: React.PropsWithChildren) => {
     }
 
     const updateLanguage = async () => {
-      setLanguage(currentDefaultLanguage)
+      await setLanguage(currentDefaultLanguage)
       setValues({
         lastDefaultLanguage: currentDefaultLanguage,
       })
