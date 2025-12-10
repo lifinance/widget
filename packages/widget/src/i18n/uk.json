@@ -237,6 +237,7 @@
     "myTokens": "Мої токени",
     "onChain": "на {{chainName}}",
     "ownedBy": "Власник",
+    "pinnedTokens": "",
     "popularTokens": "Популярні токени",
     "priceImpact": "Вплив на ціну",
     "process": {

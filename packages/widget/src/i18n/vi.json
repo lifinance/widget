@@ -237,6 +237,7 @@
     "myTokens": "Mã thông báo của tôi",
     "onChain": "tại {{chainName}}",
     "ownedBy": "Được sở hữu bởi",
+    "pinnedTokens": "",
     "popularTokens": "Mã thông báo phổ biến",
     "priceImpact": "",
     "process": {

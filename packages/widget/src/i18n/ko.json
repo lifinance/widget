@@ -237,6 +237,7 @@
     "myTokens": "",
     "onChain": "{{chainName}} 에서",
     "ownedBy": "소유자: ",
+    "pinnedTokens": "",
     "popularTokens": "",
     "priceImpact": "",
     "process": {

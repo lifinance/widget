@@ -237,6 +237,7 @@
     "myTokens": "",
     "onChain": "{{chainName}} -এ",
     "ownedBy": "মালিক",
+    "pinnedTokens": "",
     "popularTokens": "",
     "priceImpact": "",
     "process": {

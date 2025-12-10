@@ -237,6 +237,7 @@
     "myTokens": "โทเคนของฉัน",
     "onChain": "บน {{chainName}}",
     "ownedBy": "เป็นเจ้าของโดย",
+    "pinnedTokens": "",
     "popularTokens": "โทเค็นยอดนิยม",
     "priceImpact": "",
     "process": {

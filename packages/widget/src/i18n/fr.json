@@ -237,6 +237,7 @@
     "myTokens": "Mes jetons",
     "onChain": "sur {{chainName}}",
     "ownedBy": "Propriétaire",
+    "pinnedTokens": "",
     "popularTokens": "Jetons populaires",
     "priceImpact": "",
     "process": {
