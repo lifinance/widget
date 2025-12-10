@@ -44,7 +44,8 @@ export const RouteCard: React.FC<
       ? { ...route.fromToken, amount: BigInt(route.fromAmount) }
       : { ...route.toToken, amount: BigInt(route.toAmount) }
   const impactToken: TokenAmount | undefined =
-    subvariant !== 'custom'
+    subvariant !== 'custom' &&
+    !hiddenUI?.includes(HiddenUI.RouteCardPriceImpact)
       ? { ...route.fromToken, amount: BigInt(route.fromAmount) }
       : undefined
 
