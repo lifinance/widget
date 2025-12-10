@@ -116,6 +116,7 @@ export enum HiddenUI {
   IntegratorStepDetails = 'integratorStepDetails',
   ReverseTokensButton = 'reverseTokensButton',
   RouteTokenDescription = 'routeTokenDescription',
+  RouteCardPriceImpact = 'routeCardPriceImpact',
   ChainSelect = 'chainSelect',
   BridgesSettings = 'bridgesSettings',
   AddressBookConnectedWallets = 'addressBookConnectedWallets',
