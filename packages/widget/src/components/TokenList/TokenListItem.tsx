@@ -1,7 +1,7 @@
 import type { StaticToken } from '@lifi/sdk'
 import { ChainType } from '@lifi/sdk'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
-import WarningIcon from '@mui/icons-material/Warning'
+import WarningRounded from '@mui/icons-material/WarningRounded'
 import {
   Avatar,
   Box,
@@ -192,7 +192,7 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
         </ListItemAvatar>
         <ListItemText
           primary={
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
               {token.symbol}
               {!token.verified && (
                 <Tooltip
@@ -200,8 +200,9 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
                   placement="top"
                   arrow
                 >
-                  <WarningIcon
+                  <WarningRounded
                     sx={{
+                      display: 'flex',
                       fontSize: 16,
                       color: 'warning.main',
                       cursor: 'help',
