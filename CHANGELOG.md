@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.36.1](https://github.com/lifinance/widget/compare/v3.36.0...v3.36.1) (2025-12-04)
+
+
+### Bug Fixes
+
+* limit decimals in formatInputAmount ([#601](https://github.com/lifinance/widget/issues/601)) ([02dd64d](https://github.com/lifinance/widget/commit/02dd64d0379906d98b7df36ece9e2b2bfc3e0876))
+
 ## [3.36.0](https://github.com/lifinance/widget/compare/v3.35.1...v3.36.0) (2025-12-03)
 
 
