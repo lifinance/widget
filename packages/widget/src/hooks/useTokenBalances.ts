@@ -100,7 +100,7 @@ export const useTokenBalances = (
       !!smallBalanceThreshold && !hiddenUI?.includes(HiddenUI.HideSmallBalances)
     const threshold = hideSmallBalances
       ? Number.parseFloat(smallBalanceThreshold)
-      : NaN
+      : undefined
 
     if (!balancesByChain) {
       return undefined
@@ -122,10 +122,9 @@ export const useTokenBalances = (
       let processedToken = token
       if (
         hideSmallBalances &&
-        !Number.isNaN(threshold) &&
+        threshold !== undefined &&
         threshold >= 0 &&
-        token.amount &&
-        token.amount !== 0n
+        token.amount
       ) {
         const balanceUSD = formatTokenPrice(
           token.amount,

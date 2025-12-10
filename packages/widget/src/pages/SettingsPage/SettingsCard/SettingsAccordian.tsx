@@ -24,7 +24,7 @@ export const useSettingsCardExpandable = () => {
   const { openCard, setOpenCard } = useContext(SettingsAccordionContext)
 
   const toggleExpanded = (forceExpanded?: boolean) => {
-    const newExpanded = forceExpanded !== undefined ? forceExpanded : !expanded
+    const newExpanded = forceExpanded ?? !expanded
     setExpanded(newExpanded)
 
     if (newExpanded && openCard !== settingCardExpandableId) {
