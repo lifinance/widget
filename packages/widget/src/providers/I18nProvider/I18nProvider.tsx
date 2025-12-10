@@ -97,13 +97,13 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
   return (
     <I18nextProvider i18n={i18nInstance}>
       {children}
-      <DefaultLanguageSyncer />
+      <DefaultLanguageHandler />
     </I18nextProvider>
   )
 }
 
 // Sync language settings internally when config.languages.default changes externally
-const DefaultLanguageSyncer: React.FC = () => {
+const DefaultLanguageHandler: React.FC = () => {
   const { languages } = useWidgetConfig()
   const [lastDefaultLanguage, setValue] = useSettingsStore((state) => [
     state.lastDefaultLanguage,
