@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.37.0](https://github.com/lifinance/widget/compare/v3.36.1...v3.37.0) (2025-12-10)
+
+
+### Features
+
+* add option to hide route card price impact ([#623](https://github.com/lifinance/widget/issues/623)) ([4d9c77a](https://github.com/lifinance/widget/commit/4d9c77ad67c64d81af4373a9ef941e150bbcc373))
+
+
+### Bug Fixes
+
+* sync widget lg with config.languages.default ([#622](https://github.com/lifinance/widget/issues/622)) ([18cf1d6](https://github.com/lifinance/widget/commit/18cf1d67e4579f2914689dc3a3170f1a3cd00729))
+
 ### [3.36.1](https://github.com/lifinance/widget/compare/v3.36.0...v3.36.1) (2025-12-04)
 
 
