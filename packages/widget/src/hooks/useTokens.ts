@@ -2,6 +2,7 @@ import {
   ChainType,
   getToken,
   getTokens,
+  type TokenExtended,
   type TokensExtendedResponse,
 } from '@lifi/sdk'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -15,6 +16,11 @@ import {
 import { isItemAllowed } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 import { filterAllowedTokens } from '../utils/token.js'
+
+interface TokensExtendedResponseWithVerified
+  extends Omit<TokensExtendedResponse, 'tokens'> {
+  tokens: Record<number, (TokenExtended & { verified?: boolean })[]>
+}
 
 export const useTokens = (
   formType?: FormType,
@@ -50,7 +56,16 @@ export const useTokens = (
         },
         { signal }
       )
-      return tokensResponse
+      const tokensWithVerified: TokensExtendedResponseWithVerified = {
+        ...tokensResponse,
+        tokens: Object.fromEntries(
+          Object.entries(tokensResponse.tokens).map(([chainId, tokens]) => [
+            chainId,
+            tokens.map((token) => ({ ...token, verified: true })),
+          ])
+        ),
+      }
+      return tokensWithVerified
     },
     refetchInterval: 300_000,
     staleTime: 300_000,
@@ -123,7 +138,7 @@ const useBackgroundTokenSearch = (search?: string, chainId?: number) => {
 
       // Merge search results into main tokens cache
       if (searchQuery) {
-        queryClient.setQueriesData<TokensExtendedResponse>(
+        queryClient.setQueriesData<TokensExtendedResponseWithVerified>(
           { queryKey: [getQueryKey('tokens', keyPrefix)] },
           (data) => {
             if (!data) {
@@ -142,12 +157,14 @@ const useBackgroundTokenSearch = (search?: string, chainId?: number) => {
                 )
 
                 // Find tokens in search results that don't exist in the main list
-                const newTokens = searchTokens.filter(
-                  (searchToken) =>
-                    !existingTokenAddresses.has(
-                      searchToken.address.toLowerCase()
-                    )
-                )
+                const newTokens = searchTokens
+                  .filter(
+                    (searchToken) =>
+                      !existingTokenAddresses.has(
+                        searchToken.address.toLowerCase()
+                      )
+                  )
+                  .map((token) => ({ ...token, verified: false }))
 
                 // Add new tokens to the main list
                 if (newTokens.length > 0) {

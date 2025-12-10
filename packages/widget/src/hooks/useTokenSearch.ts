@@ -59,9 +59,11 @@ export const useTokenSearch = (
               )
             ) {
               const clonedData = { ...data, tokens: { ...data.tokens } }
+              // Mark token from search as unverified
+              const unverifiedToken = { ...token, verified: false }
               clonedData.tokens[chainId as number] = [
                 ...(clonedData.tokens[chainId as number] ?? []),
-                token,
+                unverifiedToken,
               ]
               return clonedData
             }

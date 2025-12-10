@@ -1,6 +1,7 @@
 import type { StaticToken } from '@lifi/sdk'
 import { ChainType } from '@lifi/sdk'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
+import WarningIcon from '@mui/icons-material/Warning'
 import {
   Avatar,
   Box,
@@ -9,6 +10,7 @@ import {
   listItemSecondaryActionClasses,
   Skeleton,
   Slide,
+  Tooltip,
   Typography,
 } from '@mui/material'
 import type { MouseEventHandler } from 'react'
@@ -189,7 +191,26 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
           )}
         </ListItemAvatar>
         <ListItemText
-          primary={token.symbol}
+          primary={
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              {token.symbol}
+              {!token.verified && (
+                <Tooltip
+                  title={t('warning.message.unverifiedToken')}
+                  placement="top"
+                  arrow
+                >
+                  <WarningIcon
+                    sx={{
+                      fontSize: 16,
+                      color: 'warning.main',
+                      cursor: 'help',
+                    }}
+                  />
+                </Tooltip>
+              )}
+            </Box>
+          }
           slotProps={{
             secondary: {
               component: 'div',
