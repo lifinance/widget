@@ -80,7 +80,7 @@ export function ChainOrderStoreProvider({
           )
         if (
           variant === 'wide' &&
-          subvariantOptions?.wide?.enableChainSidebar &&
+          !subvariantOptions?.wide?.disableChainSidebar &&
           firstAllowedPinnedChain
         ) {
           setFieldValue(`${key}Chain`, firstAllowedPinnedChain)
@@ -97,7 +97,7 @@ export function ChainOrderStoreProvider({
     setFieldValue,
     useExternalWalletProvidersOnly,
     variant,
-    subvariantOptions?.wide?.enableChainSidebar,
+    subvariantOptions?.wide?.disableChainSidebar,
   ])
 
   return (
