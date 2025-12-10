@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-playground-vite",
-  "version": "1.0.230",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "analyze": "source-map-explorer 'dist/assets/*.js' --no-border-checks",
@@ -13,9 +13,9 @@
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
     "@lifi/widget-playground": "workspace:*",
-    "@tanstack/react-query": "^5.90.10",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "@tanstack/react-query": "^5.90.12",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
     "react-scan": "^0.4.3",
     "vite-plugin-mkcert": "^1.17.9"
   },

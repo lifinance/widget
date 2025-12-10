@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget",
-  "version": "3.34.2",
+  "version": "4.0.0-alpha.0",
   "description": "LI.FI Widget for cross-chain bridging and swapping. It will drive your multi-chain strategy and attract new users from everywhere.",
   "type": "module",
   "main": "./src/index.ts",
@@ -35,7 +35,7 @@
   "bugs": {
     "url": "https://github.com/lifinance/widget/issues"
   },
-  "license": "LGPL-3.0",
+  "license": "Apache-2.0",
   "keywords": [
     "widget",
     "lifi-widget",
@@ -51,11 +51,11 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^4.0.0-alpha.4",
+    "@lifi/sdk": "4.0.0-alpha.4",
     "@lifi/wallet-management": "workspace:*",
     "@lifi/widget-provider": "workspace:*",
     "@mui/icons-material": "^7.3.5",
-    "@mui/material": "^7.3.5",
+    "@mui/material": "^7.3.6",
     "@mui/system": "^7.3.5",
     "@tanstack/react-router": "^1.139.10",
     "@tanstack/react-virtual": "^3.13.12",
@@ -71,8 +71,8 @@
     "@types/react-transition-group": "^4.4.12",
     "cpy-cli": "^6.0.0",
     "madge": "^8.0.0",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
     "typescript": "^5.9.3",
     "vitest": "^4.0.10"
   },

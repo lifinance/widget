@@ -16,7 +16,7 @@
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
-    "svelte": "^5.45.2",
+    "svelte": "^5.45.5",
     "svelte-check": "^4.3.4",
     "svelte-preprocess": "^6.0.3",
     "tslib": "^2.8.1",
@@ -25,8 +25,8 @@
     "vite-plugin-node-polyfills": "^0.24.0"
   },
   "dependencies": {
-    "@lifi/widget": "^3.34.3",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "@lifi/widget": "^3.36.1",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1"
   }
 }
