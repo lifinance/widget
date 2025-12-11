@@ -1,7 +1,7 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { ChainType, createClient, getChains } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { WidgetConfig } from '../types/widget.js'
@@ -31,14 +31,16 @@ export const useAvailableChains = (
   } = useWidgetConfig()
   const internalClient = useSDKClient()
 
-  const externalClient = externalWidgetConfig
-    ? createClient({
-        ...externalWidgetConfig.sdkConfig,
-        apiKey: externalWidgetConfig.apiKey,
-        integrator:
-          externalWidgetConfig.integrator ?? window?.location.hostname,
-      })
-    : undefined
+  const externalClient = useMemo(() => {
+    if (!externalWidgetConfig) {
+      return undefined
+    }
+    return createClient({
+      ...externalWidgetConfig.sdkConfig,
+      apiKey: externalWidgetConfig.apiKey,
+      integrator: externalWidgetConfig.integrator ?? window?.location.hostname,
+    })
+  }, [externalWidgetConfig])
 
   // Overwrite widget config if passed as param
   const keyPrefix = externalWidgetConfig?.keyPrefix ?? internalKeyPrefix
