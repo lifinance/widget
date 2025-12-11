@@ -1,20 +1,19 @@
+import type { ExtendedChain } from '@lifi/sdk'
 import type { SxProps, Theme } from '@mui/material'
 import { Badge, Skeleton } from '@mui/material'
-import {
-  AvatarDefault,
-  AvatarDefaultBadge,
-  AvatarSkeletonMaskedContainer,
-} from './Avatar.style.js'
+import { AvatarDefault, AvatarSkeletonMaskedContainer } from './Avatar.style.js'
+import { ChainBadgeContent } from './ChainBadgeContent.js'
 import { SmallAvatarSkeleton } from './SmallAvatar.js'
 
 export const AvatarBadgedDefault: React.FC<{
   sx?: SxProps<Theme>
-}> = ({ sx }) => {
+  chain?: ExtendedChain
+}> = ({ sx, chain }) => {
   return (
     <Badge
       overlap="circular"
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      badgeContent={<AvatarDefaultBadge />}
+      badgeContent={<ChainBadgeContent chain={chain} />}
       sx={sx}
     >
       <AvatarDefault />
