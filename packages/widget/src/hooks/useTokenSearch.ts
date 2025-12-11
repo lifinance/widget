@@ -3,11 +3,11 @@ import {
   type ChainId,
   getToken,
   type TokenExtended,
-  type TokensResponse,
 } from '@lifi/sdk'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
+import type { TokensByChain } from '../types/token.js'
 import { getConfigItemSets, isFormItemAllowed } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 
@@ -49,23 +49,28 @@ export const useTokenSearch = (
           return null
         }
 
-        queryClient.setQueriesData<TokensResponse>(
+        // Add token to main tokens cache
+        queryClient.setQueriesData<TokensByChain>(
           { queryKey: [getQueryKey('tokens', keyPrefix)] },
           (data) => {
+            if (!data) {
+              return data
+            }
+            const chainTokens = data[chainId as number]
             if (
-              data &&
-              !data.tokens[chainId as number]?.some(
+              chainTokens?.some(
                 (t) => t.address.toLowerCase() === token.address.toLowerCase()
               )
             ) {
-              const clonedData = { ...data, tokens: { ...data.tokens } }
-              // Mark token from search as unverified
-              const unverifiedToken = { ...token, verified: false }
-              clonedData.tokens[chainId as number] = [
-                ...(clonedData.tokens[chainId as number] ?? []),
-                unverifiedToken,
-              ]
-              return clonedData
+              return data
+            }
+            // Mark token from search as unverified
+            return {
+              ...data,
+              [chainId as number]: [
+                ...(chainTokens ?? []),
+                { ...token, verified: false },
+              ],
             }
           }
         )
