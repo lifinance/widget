@@ -4,10 +4,8 @@ import type { FormType } from '../../stores/form/types.js'
 import type { TokenAmount } from '../../types/token.js'
 
 export interface TokenListProps {
-  parentRef: RefObject<HTMLElement | null>
   formType: FormType
-  height: number
-  onClick?(): void
+  headerRef: RefObject<HTMLElement | null>
 }
 
 export interface VirtualizedTokenListProps {
@@ -17,6 +15,7 @@ export interface VirtualizedTokenListProps {
   isBalanceLoading: boolean
   chainId?: number
   showCategories?: boolean
+  showPinnedTokens?: boolean
   onClick(tokenAddress: string, chainId?: number): void
   selectedTokenAddress?: string
   isAllNetworks: boolean

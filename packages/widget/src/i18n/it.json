@@ -237,6 +237,7 @@
     "myTokens": "",
     "onChain": "su {{chainName}}",
     "ownedBy": "Di proprietà di",
+    "pinnedTokens": "",
     "popularTokens": "",
     "priceImpact": "",
     "process": {

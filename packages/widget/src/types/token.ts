@@ -6,6 +6,7 @@ import type {
 interface TokenFlags {
   featured?: boolean
   popular?: boolean
+  pinned?: boolean
 }
 
 export interface TokenAmount extends SDKTokenAmount, TokenFlags {}

@@ -1,4 +1,4 @@
-import { ChainType } from '@lifi/sdk'
+import { ChainType } from '@lifi/widget'
 import { Button } from '@mui/material'
 import { useState } from 'react'
 import { useDevView } from '../../../hooks/useDevView.js'

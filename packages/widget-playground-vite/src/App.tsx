@@ -8,24 +8,11 @@ import {
   WidgetView,
 } from '@lifi/widget-playground'
 import { defaultWidgetConfig } from '@lifi/widget-playground/widget-config'
-import { Box } from '@mui/material'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import type { PropsWithChildren } from 'react'
 import '@lifi/widget-playground/fonts'
 
 const queryClient = new QueryClient()
-
-// const router = createBrowserRouter([
-//   {
-//     path: '/test/*',
-//     element: (
-//       <Box sx={{ display: 'flex', flexGrow: '1' }}>
-//         <DrawerControls />
-//         <WidgetView />
-//       </Box>
-//     ),
-//   },
-// ]);
 
 const AppProvider = ({ children }: PropsWithChildren) => {
   return (
@@ -48,11 +35,10 @@ const AppProvider = ({ children }: PropsWithChildren) => {
 export const App = () => {
   return (
     <AppProvider>
-      {/* <RouterProvider router={router} /> */}
-      <Box sx={{ display: 'flex', flexGrow: '1' }}>
+      <div style={{ display: 'flex', flexGrow: '1' }}>
         <DrawerControls />
         <WidgetView />
-      </Box>
+      </div>
     </AppProvider>
   )
 }

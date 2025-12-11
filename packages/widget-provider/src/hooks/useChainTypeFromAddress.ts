@@ -6,32 +6,27 @@ import { useSolanaContext } from '../contexts/SolanaContext.js'
 import { useSuiContext } from '../contexts/SuiContext.js'
 
 export const useChainTypeFromAddress = () => {
-  const { isValidAddress: isValidEthereumAddress } = useEthereumContext()
-  const { isValidAddress: isValidSolanaAddress } = useSolanaContext()
-  const { isValidAddress: isValidBitcoinAddress } = useBitcoinContext()
-  const { isValidAddress: isValidSuiAddress } = useSuiContext()
+  const { sdkProvider: ethereumProvider } = useEthereumContext()
+  const { sdkProvider: solanaProvider } = useSolanaContext()
+  const { sdkProvider: bitcoinProvider } = useBitcoinContext()
+  const { sdkProvider: suiProvider } = useSuiContext()
 
   const getChainTypeFromAddress = useCallback(
     (address: string): ChainType | undefined => {
-      if (isValidEthereumAddress(address)) {
+      if (ethereumProvider?.isAddress(address)) {
         return ChainType.EVM
       }
-      if (isValidSolanaAddress(address)) {
+      if (solanaProvider?.isAddress(address)) {
         return ChainType.SVM
       }
-      if (isValidBitcoinAddress(address)) {
+      if (bitcoinProvider?.isAddress(address)) {
         return ChainType.UTXO
       }
-      if (isValidSuiAddress(address)) {
+      if (suiProvider?.isAddress(address)) {
         return ChainType.MVM
       }
     },
-    [
-      isValidEthereumAddress,
-      isValidSolanaAddress,
-      isValidBitcoinAddress,
-      isValidSuiAddress,
-    ]
+    [ethereumProvider, solanaProvider, bitcoinProvider, suiProvider]
   )
   return { getChainTypeFromAddress }
 }

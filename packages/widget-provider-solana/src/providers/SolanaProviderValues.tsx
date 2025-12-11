@@ -1,11 +1,11 @@
 import { ChainId, ChainType } from '@lifi/sdk'
 import {
   fromVersionedTransaction,
-  isSolanaAddress,
   SolanaProvider as SolanaSDKProvider,
   toAddress,
   toVersionedTransaction,
 } from '@lifi/sdk-provider-solana'
+
 import { SolanaContext } from '@lifi/widget-provider'
 import {
   type SignerWalletAdapter,
@@ -51,6 +51,36 @@ export const SolanaProviderValues: FC<
         status: 'disconnected' as const,
       }
 
+  const isConnected = account.isConnected
+
+  const sdkProvider = useMemo(
+    () =>
+      SolanaSDKProvider({
+        async getWallet() {
+          if (!currentWallet?.adapter.publicKey) {
+            throw new Error('Wallet not connected')
+          }
+
+          return {
+            account: {
+              address: toAddress(currentWallet.adapter.publicKey.toString()),
+              publicKey: currentWallet.adapter.publicKey.toBytes(),
+            },
+            async signTransaction(transaction) {
+              const versionedTransaction = toVersionedTransaction(transaction)
+
+              const signedVersionedTransaction = await (
+                currentWallet?.adapter as SignerWalletAdapter
+              ).signTransaction(versionedTransaction)
+
+              return fromVersionedTransaction(signedVersionedTransaction)
+            },
+          }
+        },
+      }),
+    [currentWallet]
+  )
+
   const installedWallets = useMemo(
     () =>
       wallets
@@ -86,35 +116,12 @@ export const SolanaProviderValues: FC<
       value={{
         isEnabled: true,
         account,
-        sdkProvider: SolanaSDKProvider({
-          async getWallet() {
-            if (!currentWallet?.adapter.publicKey) {
-              throw new Error('Wallet not connected')
-            }
-
-            return {
-              account: {
-                address: toAddress(currentWallet.adapter.publicKey.toString()),
-                publicKey: currentWallet.adapter.publicKey.toBytes(),
-              },
-              async signTransaction(transaction) {
-                const versionedTransaction = toVersionedTransaction(transaction)
-
-                const signedVersionedTransaction = await (
-                  currentWallet?.adapter as SignerWalletAdapter
-                ).signTransaction(versionedTransaction)
-
-                return fromVersionedTransaction(signedVersionedTransaction)
-              },
-            }
-          },
-        }),
+        sdkProvider,
         installedWallets,
-        isConnected: account.isConnected,
+        isConnected,
+        isExternalContext,
         connect: handleConnect,
         disconnect,
-        isValidAddress: isSolanaAddress,
-        isExternalContext,
       }}
     >
       {children}

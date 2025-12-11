@@ -7,7 +7,6 @@ export const defaultContextValue: WidgetProviderContext = {
   account: undefined,
   sdkProvider: undefined,
   installedWallets: [],
-  isValidAddress: () => false,
   connect: async () => {},
   disconnect: async () => {},
 }

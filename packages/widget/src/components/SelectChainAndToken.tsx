@@ -24,9 +24,11 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
     subvariant === 'refuel' ||
     disabledUI?.includes(DisabledUI.FromToken) ||
     disabledUI?.includes(DisabledUI.ToToken) ||
+    hiddenUI?.includes(HiddenUI.FromToken) ||
     hiddenUI?.includes(HiddenUI.ToToken) ||
     hiddenUI?.includes(HiddenUI.ReverseTokensButton)
 
+  const hiddenFromToken = hiddenUI?.includes(HiddenUI.FromToken)
   const hiddenToToken =
     subvariant === 'custom' || hiddenUI?.includes(HiddenUI.ToToken)
 
@@ -36,19 +38,22 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
     !!fromToken &&
     !!toToken &&
     !prefersNarrowView &&
-    !hiddenToToken
+    !hiddenToToken &&
+    !hiddenFromToken
 
   return (
     <Box
       sx={{ display: 'flex', flexDirection: isCompact ? 'row' : 'column' }}
       {...props}
     >
-      <SelectTokenButton
-        formType="from"
-        compact={isCompact}
-        hiddenReverse={hiddenReverse}
-      />
-      {!hiddenToToken ? (
+      {!hiddenFromToken ? (
+        <SelectTokenButton
+          formType="from"
+          compact={isCompact}
+          hiddenReverse={hiddenReverse}
+        />
+      ) : null}
+      {!hiddenToToken && !hiddenFromToken ? (
         !hiddenReverse ? (
           <ReverseTokensButton vertical={!isCompact} />
         ) : (

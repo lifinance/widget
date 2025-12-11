@@ -1,7 +1,7 @@
 import AirlineStops from '@mui/icons-material/AirlineStops'
 import SwapHoriz from '@mui/icons-material/SwapHoriz'
+import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { CardButton } from '../../components/Card/CardButton.js'
 import { useSettingMonitor } from '../../hooks/useSettingMonitor.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
@@ -38,7 +38,9 @@ export const BridgeAndExchangeSettings: React.FC<{
   }
 
   const handleClick = () => {
-    navigate(navigationRoutes[type.toLowerCase() as 'bridges' | 'exchanges'])
+    navigate({
+      to: navigationRoutes[type.toLowerCase() as 'bridges' | 'exchanges'],
+    })
   }
 
   const Icon = supportedIcons[type]

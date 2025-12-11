@@ -22,12 +22,10 @@ const supportedChainTypes = [
 export const useAvailableChains = (chainTypes?: ChainType[]) => {
   const { chains, keyPrefix } = useWidgetConfig()
   const sdkClient = useSDKClient()
-  // const { providers } = useHasExternalWalletProvider();
 
   const { data, isLoading } = useQuery({
     queryKey: [
       getQueryKey('chains', keyPrefix),
-      // providers,
       chains?.types,
       chains?.allow,
       chains?.deny,
@@ -39,11 +37,9 @@ export const useAvailableChains = (chainTypes?: ChainType[]) => {
         chainTypesConfig,
         (chains) => new Set(chains)
       )
-      const chainTypesRequest = supportedChainTypes
-        // providers.length > 0 ? providers : supportedChainTypes
-        .filter((chainType) =>
-          isItemAllowedForSets(chainType, chainsConfigSets)
-        )
+      const chainTypesRequest = supportedChainTypes.filter((chainType) =>
+        isItemAllowedForSets(chainType, chainsConfigSets)
+      )
 
       const availableChains = await getChains(sdkClient, {
         chainTypes: chainTypes || chainTypesRequest,

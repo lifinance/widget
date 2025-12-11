@@ -237,6 +237,7 @@
     "myTokens": "Token saya",
     "onChain": "di {{chainName}}",
     "ownedBy": "Dimiliki oleh",
+    "pinnedTokens": "",
     "popularTokens": "Token populer",
     "priceImpact": "Dampak terhadap harga",
     "process": {

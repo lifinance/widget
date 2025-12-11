@@ -19,6 +19,7 @@ import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
 import { ListItemButton } from '../ListItem/ListItemButton.js'
+import { PinTokenButton } from './PinTokenButton.js'
 import { IconButton, ListItem } from './TokenList.style.js'
 import type {
   TokenListItemAvatarProps,
@@ -226,16 +227,16 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
                     appear={false}
                     mountOnEnter
                   >
-                    <Box
-                      sx={{
-                        display: 'flex',
-                      }}
-                    >
+                    <Box>
                       <OpenTokenDetailsButton
                         tokenAddress={token.address}
                         withoutContractAddress={withoutContractAddress}
                         chainId={token.chainId}
                         onClick={onShowTokenDetails}
+                      />
+                      <PinTokenButton
+                        chainId={token.chainId}
+                        tokenAddress={token.address}
                       />
                     </Box>
                   </Slide>
@@ -279,6 +280,8 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
                   <Box
                     sx={{
                       display: 'flex',
+                      alignItems: 'center',
+                      gap: 0.5,
                     }}
                   >
                     <Box
@@ -290,12 +293,18 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
                     >
                       {shortenAddress(token.address)}
                     </Box>
-                    <OpenTokenDetailsButton
-                      tokenAddress={token.address}
-                      withoutContractAddress={withoutContractAddress}
-                      chainId={token.chainId}
-                      onClick={onShowTokenDetails}
-                    />
+                    <Box>
+                      <OpenTokenDetailsButton
+                        tokenAddress={token.address}
+                        withoutContractAddress={withoutContractAddress}
+                        chainId={token.chainId}
+                        onClick={onShowTokenDetails}
+                      />
+                      <PinTokenButton
+                        chainId={token.chainId}
+                        tokenAddress={token.address}
+                      />
+                    </Box>
                   </Box>
                 </Slide>
               </Box>

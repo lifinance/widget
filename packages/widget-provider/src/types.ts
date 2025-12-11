@@ -38,7 +38,6 @@ export type WidgetProviderContext = {
   account?: Account
   sdkProvider?: SDKProvider
   installedWallets: WalletConnector[]
-  isValidAddress: (address: string) => boolean
   connect: (
     connectorIdOrName: string,
     onSuccess?: (address: string, chainId: number) => void

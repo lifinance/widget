@@ -71,7 +71,7 @@ export const createWidgetConfigStore = (
             },
           })
         },
-        setChainSidebarEnabled: (enabled) => {
+        setChainSidebarDisabled: (disabled) => {
           set({
             config: {
               ...get().config,
@@ -79,7 +79,7 @@ export const createWidgetConfigStore = (
                 ...get().config?.subvariantOptions,
                 wide: {
                   ...get().config?.subvariantOptions?.wide,
-                  enableChainSidebar: enabled,
+                  disableChainSidebar: disabled,
                 },
               },
             },

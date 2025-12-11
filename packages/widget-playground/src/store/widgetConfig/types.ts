@@ -8,8 +8,7 @@ import type {
   WidgetWalletConfig,
 } from '@lifi/widget'
 import type { CSSProperties } from 'react'
-import type { StoreApi } from 'zustand'
-import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
+import type { StoreApi, UseBoundStore } from 'zustand'
 import type { ThemeItem } from '../editTools/types.js'
 import type { FormValues } from '../types.js'
 
@@ -41,12 +40,10 @@ interface WidgetConfigActions {
   setHeader: (header?: CSSProperties) => void
   setContainer: (container?: CSSProperties) => void
   setFormValues: (formValues: FormValues) => void
-  setChainSidebarEnabled: (enabled: boolean) => void
+  setChainSidebarDisabled: (disabled: boolean) => void
   setSplitOption: (option?: SplitSubvariant) => void
 }
 
 export type WidgetConfigState = WidgetConfigValues & WidgetConfigActions
 
-export type WidgetConfigStore = UseBoundStoreWithEqualityFn<
-  StoreApi<WidgetConfigState>
->
+export type WidgetConfigStore = UseBoundStore<StoreApi<WidgetConfigState>>

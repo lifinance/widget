@@ -40,7 +40,7 @@ export type WidgetSubvariant = 'default' | 'split' | 'custom' | 'refuel'
 export type SplitSubvariant = 'bridge' | 'swap'
 export type CustomSubvariant = 'checkout' | 'deposit'
 export type WideSubvariant = {
-  enableChainSidebar?: boolean
+  disableChainSidebar?: boolean
 }
 export interface SubvariantOptions {
   split?: SplitSubvariant
@@ -110,11 +110,13 @@ export enum HiddenUI {
   Language = 'language',
   PoweredBy = 'poweredBy',
   ToAddress = 'toAddress',
+  FromToken = 'fromToken',
   ToToken = 'toToken',
   WalletMenu = 'walletMenu',
   IntegratorStepDetails = 'integratorStepDetails',
   ReverseTokensButton = 'reverseTokensButton',
   RouteTokenDescription = 'routeTokenDescription',
+  RouteCardPriceImpact = 'routeCardPriceImpact',
   ChainSelect = 'chainSelect',
   BridgesSettings = 'bridgesSettings',
   AddressBookConnectedWallets = 'addressBookConnectedWallets',
@@ -122,6 +124,7 @@ export enum HiddenUI {
   GasRefuelMessage = 'gasRefuelMessage',
   SearchTokenInput = 'searchTokenInput',
   InsufficientGasMessage = 'insufficientGasMessage',
+  ContactSupport = 'contactSupport',
 }
 export type HiddenUIType = `${HiddenUI}`
 

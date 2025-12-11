@@ -237,6 +237,7 @@
     "myTokens": "我的代币",
     "onChain": "在{{chainName}} 上",
     "ownedBy": "属于",
+    "pinnedTokens": "",
     "popularTokens": "热门代币",
     "priceImpact": "价格冲击",
     "process": {

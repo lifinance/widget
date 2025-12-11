@@ -1,6 +1,5 @@
 import type { ContractCall } from '@lifi/sdk'
-import type { StoreApi } from 'zustand'
-import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
+import type { StoreApi, UseBoundStore } from 'zustand'
 
 export interface DefaultFieldValues {
   fromChain?: number
@@ -29,9 +28,8 @@ export type FormValues = {
 }
 
 export type FormFieldNames = keyof FormValues
-export type ExtractValueType<T> = T extends FormValueControl<infer U>
-  ? U
-  : never
+export type ExtractValueType<T> =
+  T extends FormValueControl<infer U> ? U : never
 export type FormFieldArray<T extends FormFieldNames[]> = {
   [K in keyof T]: ExtractValueType<FormValues[T[K]]>
 }
@@ -86,9 +84,7 @@ export type FormValuesState = FormProps &
   ValidationProps &
   ValidationActions
 
-export type FormStoreStore = UseBoundStoreWithEqualityFn<
-  StoreApi<FormValuesState>
->
+export type FormStoreStore = UseBoundStore<StoreApi<FormValuesState>>
 
 export interface SetOptions {
   isDirty?: boolean

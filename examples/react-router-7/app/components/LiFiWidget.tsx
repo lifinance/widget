@@ -1,11 +1,6 @@
-import { type WidgetConfig, WidgetSkeleton } from '@lifi/widget'
-import { lazy, Suspense } from 'react'
-
-const LiFiWidgetLazy = lazy(async () => {
-  const module = await import('@lifi/widget')
-
-  return { default: module.LiFiWidget }
-})
+import type { WidgetConfig } from '@lifi/widget'
+import { LiFiWidget as LiFiWidgetComponent, WidgetSkeleton } from '@lifi/widget'
+import { ClientOnly } from './ClientOnly'
 
 export function LiFiWidget() {
   const config = {
@@ -19,11 +14,11 @@ export function LiFiWidget() {
   } as Partial<WidgetConfig>
 
   return (
-    <Suspense fallback={<WidgetSkeleton config={config} />}>
-      <LiFiWidgetLazy
+    <ClientOnly fallback={<WidgetSkeleton config={config} />}>
+      <LiFiWidgetComponent
         config={config}
         integrator="remix-to-react-router-7-example"
       />
-    </Suspense>
+    </ClientOnly>
   )
 }

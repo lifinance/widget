@@ -237,6 +237,7 @@
     "myTokens": "Varlıklarım",
     "onChain": "{{chainName}} üzerinde",
     "ownedBy": "Tarafından sahip olunan",
+    "pinnedTokens": "",
     "popularTokens": "Popüler varlıklar",
     "priceImpact": "Fiyat etkisi",
     "process": {
