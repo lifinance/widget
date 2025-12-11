@@ -126,6 +126,7 @@ export enum HiddenUI {
   InsufficientGasMessage = 'insufficientGasMessage',
   ContactSupport = 'contactSupport',
   HideSmallBalances = 'hideSmallBalances',
+  AllNetworks = 'allNetworks',
 }
 export type HiddenUIType = `${HiddenUI}`
 
