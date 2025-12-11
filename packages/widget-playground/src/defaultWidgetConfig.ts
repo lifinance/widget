@@ -36,7 +36,7 @@ export const widgetBaseConfig: WidgetConfig = {
       enableChainSidebar: true,
     },
   },
-  integrator: 'li.fi-playground',
+  integrator: 'local-dev',
   // fee: 0.01,
   // feeConfig: {
   //   name: 'DApp fee',
@@ -58,7 +58,7 @@ export const widgetBaseConfig: WidgetConfig = {
   //   usePartialWalletManagement: true,
   // },
   sdkConfig: {
-    apiUrl: 'https://li.quest/v1',
+    apiUrl: 'https://develop.li.quest/v1',
     rpcUrls: {
       [ChainId.SOL]: [
         'https://wild-winter-frog.solana-mainnet.quiknode.pro/2370a45ff891f6dc9e5b1753460290fe0f1ef103/',
