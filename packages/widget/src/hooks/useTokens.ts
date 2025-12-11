@@ -32,6 +32,7 @@ export const useTokens = (
     chains: chainsConfig,
     keyPrefix,
   } = useWidgetConfig()
+  const queryClient = useQueryClient()
 
   const { isLoading: isSearchLoading } = useBackgroundTokenSearch(
     search,
@@ -41,6 +42,12 @@ export const useTokens = (
   const { data, isLoading } = useQuery({
     queryKey: [getQueryKey('tokens', keyPrefix)],
     queryFn: async ({ signal }) => {
+      // Get existing data to preserve unverified (search-added) tokens
+      const existingData =
+        queryClient.getQueryData<TokensExtendedResponseWithVerified>([
+          getQueryKey('tokens', keyPrefix),
+        ])
+
       const chainTypes = [
         ChainType.EVM,
         ChainType.SVM,
@@ -65,6 +72,32 @@ export const useTokens = (
           ])
         ),
       }
+
+      // Preserve unverified tokens from previous cache
+      if (existingData) {
+        Object.entries(existingData.tokens).forEach(([chainId, tokens]) => {
+          const unverifiedTokens = tokens.filter((t) => !t.verified)
+          if (unverifiedTokens.length) {
+            const chainIdNum = Number(chainId)
+            const freshTokenAddresses = new Set(
+              (tokensWithVerified.tokens[chainIdNum] || []).map((t) =>
+                t.address.toLowerCase()
+              )
+            )
+            // Add back unverified tokens that aren't in the fresh response
+            const tokensToPreserve = unverifiedTokens.filter(
+              (t) => !freshTokenAddresses.has(t.address.toLowerCase())
+            )
+            if (tokensToPreserve.length) {
+              tokensWithVerified.tokens[chainIdNum] = [
+                ...(tokensWithVerified.tokens[chainIdNum] || []),
+                ...tokensToPreserve,
+              ]
+            }
+          }
+        })
+      }
+
       return tokensWithVerified
     },
     refetchInterval: 300_000,
