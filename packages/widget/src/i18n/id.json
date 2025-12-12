@@ -332,7 +332,8 @@
     "routePriority": "Prioritas rute",
     "slippage": "Slip maksimum",
     "custom": "Kustom",
-    "resetSettings": "Anda menggunakan pengaturan khusus yang dapat memengaruhi jumlah atau pengurutan rute yang tersedia."
+    "resetSettings": "Anda menggunakan pengaturan khusus yang dapat memengaruhi jumlah atau pengurutan rute yang tersedia.",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "Tambahkan bookmark",

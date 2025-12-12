@@ -332,7 +332,8 @@
     "routePriority": "Tuyền đường ưu tiên",
     "slippage": "",
     "custom": "Tuỳ chỉnh",
-    "resetSettings": "Bạn đang sử dụng cài đặt tùy chỉnh có thể ảnh hưởng đến số lượng hoặc cách sắp xếp các tuyến đường có sẵn."
+    "resetSettings": "Bạn đang sử dụng cài đặt tùy chỉnh có thể ảnh hưởng đến số lượng hoặc cách sắp xếp các tuyến đường có sẵn.",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "Thêm dấu trang",

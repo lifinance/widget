@@ -332,7 +332,8 @@
     "routePriority": "우선 경로",
     "slippage": "",
     "custom": "사용자 정의",
-    "resetSettings": ""
+    "resetSettings": "",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "",

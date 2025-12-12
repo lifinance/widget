@@ -332,7 +332,8 @@
     "routePriority": "路由优先级",
     "slippage": "最大滑点",
     "custom": "自定义",
-    "resetSettings": "您正在使用自定义设置来过滤可用路由。"
+    "resetSettings": "您正在使用自定义设置来过滤可用路由。",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "添加到收藏",

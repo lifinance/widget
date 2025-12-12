@@ -332,7 +332,8 @@
     "routePriority": "Prioridade de rota / caminho",
     "slippage": "Diferença máxima",
     "custom": "Personalizado",
-    "resetSettings": "Você está usando configurações personalizadas que podem afetar o número ou a classificação das rotas disponíveis."
+    "resetSettings": "Você está usando configurações personalizadas que podem afetar o número ou a classificação das rotas disponíveis.",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "Adicionar marcador",

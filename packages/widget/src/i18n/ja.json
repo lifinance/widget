@@ -332,7 +332,8 @@
     "routePriority": "ルート優先度",
     "slippage": "",
     "custom": "カスタム設定",
-    "resetSettings": "利用可能なルートの数とソートに影響する可能性があるカスタム設定を使用しています。"
+    "resetSettings": "利用可能なルートの数とソートに影響する可能性があるカスタム設定を使用しています。",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "ブックマークに追加",
