@@ -332,7 +332,8 @@
     "routePriority": "मार्ग प्राथमिकता",
     "slippage": "",
     "custom": "",
-    "resetSettings": ""
+    "resetSettings": "",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "",
