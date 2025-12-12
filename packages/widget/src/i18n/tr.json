@@ -332,7 +332,8 @@
     "routePriority": "Rota önceliği",
     "slippage": "Maks. kayma",
     "custom": "Özel",
-    "resetSettings": "Kullanılabilir rotaların sayısını etkileyebilecek özel bir ayar kullanıyorsunuz."
+    "resetSettings": "Kullanılabilir rotaların sayısını etkileyebilecek özel bir ayar kullanıyorsunuz.",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "Yer işareti ekle",
