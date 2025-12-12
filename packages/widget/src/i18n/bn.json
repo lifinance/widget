@@ -332,7 +332,8 @@
     "routePriority": "রুট অগ্রাধিকার",
     "slippage": "",
     "custom": "",
-    "resetSettings": ""
+    "resetSettings": "",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "",
