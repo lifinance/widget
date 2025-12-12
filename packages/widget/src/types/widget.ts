@@ -125,6 +125,7 @@ export enum HiddenUI {
   SearchTokenInput = 'searchTokenInput',
   InsufficientGasMessage = 'insufficientGasMessage',
   ContactSupport = 'contactSupport',
+  HideSmallBalances = 'hideSmallBalances',
 }
 export type HiddenUIType = `${HiddenUI}`
 

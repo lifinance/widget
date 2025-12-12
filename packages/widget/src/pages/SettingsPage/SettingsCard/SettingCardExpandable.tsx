@@ -1,6 +1,6 @@
 import { Collapse } from '@mui/material'
 import type { PropsWithChildren, ReactNode } from 'react'
-import { useId } from 'react'
+import { forwardRef, useId, useImperativeHandle, useRef } from 'react'
 import { Card } from '../../../components/Card/Card.js'
 import {
   CardRowButton,
@@ -12,39 +12,69 @@ import type { SettingCardTitle } from './types.js'
 
 interface SettingCardExpandableProps extends SettingCardTitle {
   value: ReactNode
+  disabled?: boolean
+  keepValueVisible?: boolean
+  onEntered?: () => void
 }
 
-export const SettingCardExpandable: React.FC<
+export interface SettingCardExpandableRef {
+  element: HTMLButtonElement | null
+  isExpanded: boolean
+  toggleExpanded: (forceExpanded?: boolean) => void
+}
+
+export const SettingCardExpandable = forwardRef<
+  SettingCardExpandableRef,
   PropsWithChildren<SettingCardExpandableProps>
-> = ({ icon, title, value, children }) => {
-  const { expanded, toggleExpanded } = useSettingsCardExpandable()
-  const buttonId = useId()
-  const collapseId = useId()
+>(
+  (
+    { icon, title, value, children, disabled, keepValueVisible, onEntered },
+    ref
+  ) => {
+    const { expanded, toggleExpanded } = useSettingsCardExpandable()
+    const buttonId = useId()
+    const collapseId = useId()
+    const buttonRef = useRef<HTMLButtonElement>(null)
 
-  return (
-    <Card sx={{ p: 1 }}>
-      <CardRowButton
-        id={buttonId}
-        aria-expanded={expanded}
-        aria-controls={collapseId}
-        onClick={toggleExpanded}
-        disableRipple
-        sx={{ p: 1 }}
-      >
-        <CardTitleContainer>
-          {icon}
-          <CardValue>{title}</CardValue>
-        </CardTitleContainer>
-        {!expanded && value}
-      </CardRowButton>
-      <Collapse
-        id={collapseId}
-        role="region"
-        aria-labelledby={buttonId}
-        in={expanded}
-      >
-        {children}
-      </Collapse>
-    </Card>
-  )
-}
+    useImperativeHandle(
+      ref,
+      () => ({
+        element: buttonRef.current,
+        isExpanded: expanded,
+        toggleExpanded,
+      }),
+      [expanded, toggleExpanded]
+    )
+
+    return (
+      <Card sx={{ p: 1 }}>
+        <CardRowButton
+          ref={buttonRef}
+          id={buttonId}
+          aria-expanded={expanded}
+          aria-controls={collapseId}
+          onClick={disabled ? undefined : () => toggleExpanded()}
+          disableRipple
+          sx={{ p: 1, cursor: disabled ? 'default' : 'pointer' }}
+        >
+          <CardTitleContainer>
+            {icon}
+            <CardValue>{title}</CardValue>
+          </CardTitleContainer>
+          {(!expanded || keepValueVisible) && value}
+        </CardRowButton>
+        <Collapse
+          id={collapseId}
+          role="region"
+          aria-labelledby={buttonId}
+          in={expanded}
+          mountOnEnter
+          unmountOnExit
+          onEntered={onEntered}
+        >
+          {children}
+        </Collapse>
+      </Card>
+    )
+  }
+)

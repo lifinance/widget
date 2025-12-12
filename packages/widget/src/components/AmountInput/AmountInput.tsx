@@ -14,6 +14,7 @@ import {
   formatInputAmount,
   formatTokenPrice,
   priceToTokenAmount,
+  usdDecimals,
 } from '../../utils/format.js'
 import { fitInputText } from '../../utils/input.js'
 import { InputCard } from '../Card/InputCard.js'
@@ -29,8 +30,6 @@ import {
 import { AmountInputEndAdornment } from './AmountInputEndAdornment.js'
 import { AmountInputStartAdornment } from './AmountInputStartAdornment.js'
 import { PriceFormHelperText } from './PriceFormHelperText.js'
-
-const USD_DECIMALS = 2
 
 export const AmountInput: React.FC<FormTypeProps & CardProps> = ({
   formType,
@@ -102,8 +101,8 @@ const AmountInputBase: React.FC<
     if (currentInputMode === 'price') {
       const priceValue = formatTokenPrice(value as string, token?.priceUSD)
       displayValue = formatInputAmount(
-        priceValue.toFixed(USD_DECIMALS),
-        USD_DECIMALS
+        priceValue.toFixed(usdDecimals),
+        usdDecimals
       )
     } else {
       displayValue = value as string
@@ -119,7 +118,7 @@ const AmountInputBase: React.FC<
     let formattedValue: string
     if (currentInputMode === 'price') {
       const cleanInputValue = inputValue.replace('$', '')
-      formattedValue = formatInputAmount(cleanInputValue, USD_DECIMALS, true)
+      formattedValue = formatInputAmount(cleanInputValue, usdDecimals, true)
       const tokenValue = priceToTokenAmount(formattedValue, token?.priceUSD)
       setFormattedPriceInput(formattedValue)
       setFieldValue(amountKey, tokenValue, { isDirty: true, isTouched: true })
@@ -141,7 +140,7 @@ const AmountInputBase: React.FC<
     let formattedValue: string
     if (currentInputMode === 'price') {
       const cleanInputValue = inputValue.replace('$', '')
-      formattedValue = formatInputAmount(cleanInputValue, USD_DECIMALS)
+      formattedValue = formatInputAmount(cleanInputValue, usdDecimals)
       const tokenValue = priceToTokenAmount(formattedValue, token?.priceUSD)
       const formattedAmount = formatInputAmount(tokenValue, token?.decimals)
       setFieldValue(amountKey, formattedAmount, {
