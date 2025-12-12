@@ -332,7 +332,8 @@
     "routePriority": "Prioridad de ruta",
     "slippage": "Máx. deslizamiento",
     "custom": "Personalizado",
-    "resetSettings": "Estás usando ajustes personalizados que pueden afectar el número o la ordenación de rutas disponibles."
+    "resetSettings": "Estás usando ajustes personalizados que pueden afectar el número o la ordenación de rutas disponibles.",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "Añadir marcador",
