@@ -333,7 +333,7 @@
     "slippage": "Diferença máxima",
     "custom": "Personalizado",
     "resetSettings": "Você está usando configurações personalizadas que podem afetar o número ou a classificação das rotas disponíveis.",
-    "hideSmallBalances": ""
+    "hideSmallBalances": "Ocultar pequenos saldos"
   },
   "sendToWallet": {
     "addBookmark": "Adicionar marcador",
