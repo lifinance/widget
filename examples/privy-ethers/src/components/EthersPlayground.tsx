@@ -2,14 +2,14 @@ import { Alert, Box, Button, TextField, Typography } from '@mui/material'
 import { formatEther, getAddress } from 'ethers'
 import type React from 'react'
 import { useEffect, useState } from 'react'
-import { useAccount } from 'wagmi'
+import { useConnection } from 'wagmi'
 import { useEthersProvider } from '../hooks/useEthersProvider'
 import { useEthersSigner } from '../hooks/useEthersSigner'
 
 const DEFAULT_MESSAGE_TO_SIGN = 'Privy Wallet + LI.FI widget using ethers'
 
 export const EthersPlayground = () => {
-  const { chainId, address } = useAccount()
+  const { chainId, address } = useConnection()
   const signer = useEthersSigner({ chainId })
   const provider = useEthersProvider({ chainId })
 

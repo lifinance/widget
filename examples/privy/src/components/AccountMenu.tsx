@@ -22,7 +22,7 @@ import {
 } from '@privy-io/react-auth'
 import { useSetActiveWallet } from '@privy-io/wagmi'
 import { useWallet } from '@solana/wallet-adapter-react'
-import { useAccount, useDisconnect } from 'wagmi'
+import { useConnection, useDisconnect } from 'wagmi'
 import { emitter } from '../providers/SolanaProvider'
 import { shortenAddress } from '../utils/account'
 
@@ -54,7 +54,7 @@ export function AccountMenu({ handleClose, anchorEl, open }: AccountMenuProps) {
   const allWallets = [...wallets, ...solanaWallets]
 
   // get active addresses
-  const { address: activeEthAddress } = useAccount()
+  const { address: activeEthAddress } = useConnection()
   const { publicKey: activeSolanaAddress } = useWallet()
 
   const handleLogout = () => {

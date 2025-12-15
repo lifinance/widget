@@ -1,20 +1,14 @@
 import type { WalletConnectParameters } from 'wagmi/connectors'
-import { walletConnect } from 'wagmi/connectors'
+import type { CreateConnectorFnExtended } from '../types.js'
 import { extendConnector } from '../utils/extendConnector.js'
 
-export const createWalletConnectConnector = /*#__PURE__*/ (
+export const createWalletConnectConnector = async (
   params: WalletConnectParameters
-) =>
-  extendConnector(
-    walletConnect({
-      showQrModal: true,
-      qrModalOptions: {
-        themeVariables: {
-          '--wcm-z-index': '3000',
-        },
-      },
-      ...params,
-    }),
+): Promise<CreateConnectorFnExtended> => {
+  const { walletConnect } = await import('wagmi/connectors')
+  return extendConnector(
+    walletConnect(params),
     'walletConnect',
     'WalletConnect'
   )
+}

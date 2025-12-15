@@ -1,7 +1,10 @@
 import type { BaseAccountParameters } from 'wagmi/connectors'
-import { baseAccount } from 'wagmi/connectors'
+import type { CreateConnectorFnExtended } from '../types.js'
 import { extendConnector } from '../utils/extendConnector.js'
 
-export const createBaseAccountConnector = /*#__PURE__*/ (
+export const createBaseAccountConnector = async (
   params: BaseAccountParameters
-) => extendConnector(baseAccount(params), 'baseAccount', 'Base Account')
+): Promise<CreateConnectorFnExtended> => {
+  const { baseAccount } = await import('wagmi/connectors')
+  return extendConnector(baseAccount(params), 'baseAccount', 'Base Account')
+}

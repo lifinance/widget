@@ -1,10 +1,11 @@
 import { Box, Button, Typography } from '@mui/material'
-import { useAccount, useConnect, useDisconnect } from 'wagmi'
+import { useConnect, useConnection, useConnectors, useDisconnect } from 'wagmi'
 
 export function WalletHeader() {
-  const { address, isConnected } = useAccount()
-  const { disconnect } = useDisconnect()
-  const { connectors, connectAsync } = useConnect()
+  const { address, isConnected } = useConnection()
+  const disconnect = useDisconnect()
+  const connectors = useConnectors()
+  const connect = useConnect()
 
   return (
     <Box
@@ -24,7 +25,7 @@ export function WalletHeader() {
           <Button
             variant="contained"
             disableElevation
-            onClick={() => connectAsync({ connector: connectors[0] })}
+            onClick={() => connect.mutateAsync({ connector: connectors[0] })}
           >
             Connect
           </Button>
@@ -32,7 +33,7 @@ export function WalletHeader() {
           <Button
             variant="contained"
             disableElevation
-            onClick={() => disconnect()}
+            onClick={() => disconnect.mutate()}
           >
             Disconnect
           </Button>

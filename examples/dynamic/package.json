@@ -37,7 +37,7 @@
     "react-dom": "^19.2.1",
     "viem": "^2.40.2",
     "vite-plugin-env-compatible": "^2.0.1",
-    "wagmi": "^2.19.4"
+    "wagmi": "^3.0.0"
   },
   "devDependencies": {
     "@types/react": "^19.2.5",

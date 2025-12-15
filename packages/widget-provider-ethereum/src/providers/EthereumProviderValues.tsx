@@ -16,12 +16,12 @@ import {
 } from 'react'
 import type { Address } from 'viem'
 import type { Connector } from 'wagmi'
-import { useAccount, useConfig, useConnect } from 'wagmi'
+import { useConfig, useConnection, useConnectors } from 'wagmi'
 import {
   connect,
   disconnect,
-  getAccount,
   getBytecode,
+  getConnection,
   getConnectorClient,
   getTransactionCount,
   switchChain,
@@ -49,8 +49,8 @@ export const EthereumProviderValues: FC<
   PropsWithChildren<EthereumProviderValuesProps>
 > = ({ children, isExternalContext, config }) => {
   const wagmiConfig = useConfig()
-  const currentWallet = useAccount()
-  const { connectors: wagmiConnectors } = useConnect()
+  const currentWallet = useConnection()
+  const wagmiConnectors = useConnectors()
   const [connectors, setConnectors] = useState<
     (CreateConnectorFnExtended | Connector)[]
   >([])
@@ -90,54 +90,70 @@ export const EthereumProviderValues: FC<
         )
       }
 
-      // Ensure standard connectors are included
+      // Load additional connectors dynamically based on config
+      // Only connectors with provided config are loaded (reduces bundle size)
+      // Config value can be: true (use defaults), object (use that config), or false/undefined (skip)
+      const connectorPromises: Promise<CreateConnectorFnExtended>[] = []
+
       if (
+        config?.walletConnect &&
         !evmConnectors.some((connector) =>
           connector.id.toLowerCase().includes('walletconnect')
         )
       ) {
-        evmConnectors.unshift(
-          createWalletConnectConnector(
-            config?.walletConnect ?? defaultWalletConnectConfig
-          )
+        const walletConnectConfig =
+          config.walletConnect === true
+            ? defaultWalletConnectConfig
+            : config.walletConnect
+        connectorPromises.push(
+          createWalletConnectConnector(walletConnectConfig)
         )
       }
       if (
+        config?.coinbase &&
         !evmConnectors.some((connector) =>
           connector.id.toLowerCase().includes('coinbase')
         )
       ) {
-        evmConnectors.unshift(
-          createCoinbaseConnector(config?.coinbase ?? defaultCoinbaseConfig)
-        )
+        const coinbaseConfig =
+          config.coinbase === true ? defaultCoinbaseConfig : config.coinbase
+        connectorPromises.push(createCoinbaseConnector(coinbaseConfig))
       }
       if (
+        config?.metaMask &&
         !evmConnectors.some((connector) =>
           connector.id.toLowerCase().includes('metamask')
         )
       ) {
-        evmConnectors.unshift(
-          createMetaMaskConnector(config?.metaMask ?? defaultMetaMaskConfig)
-        )
+        const metaMaskConfig =
+          config.metaMask === true ? defaultMetaMaskConfig : config.metaMask
+        connectorPromises.push(createMetaMaskConnector(metaMaskConfig))
       }
       if (
+        config?.baseAccount &&
         !evmConnectors.some((connector) =>
           connector.id.toLowerCase().includes('baseaccount')
         )
       ) {
-        evmConnectors.unshift(
-          createBaseAccountConnector(
-            config?.baseAccount ?? defaultBaseAccountConfig
-          )
-        )
+        const baseAccountConfig =
+          config.baseAccount === true
+            ? defaultBaseAccountConfig
+            : config.baseAccount
+        connectorPromises.push(createBaseAccountConnector(baseAccountConfig))
       }
       if (
+        config?.porto &&
         !evmConnectors.some((connector) =>
           connector.id.toLowerCase().includes('porto')
         )
       ) {
-        evmConnectors.unshift(createPortoConnector(config?.porto))
+        const portoConfig = config.porto === true ? undefined : config.porto
+        connectorPromises.push(createPortoConnector(portoConfig))
       }
+
+      // Load all requested connectors in parallel
+      const loadedConnectors = await Promise.all(connectorPromises)
+      evmConnectors.unshift(...loadedConnectors)
 
       setConnectors(evmConnectors)
     })()
@@ -187,10 +203,10 @@ export const EthereumProviderValues: FC<
   )
 
   const handleDisconnect = useCallback(async () => {
-    const connectedAccount = getAccount(wagmiConfig)
-    if (connectedAccount.connector) {
+    const connectedConnection = getConnection(wagmiConfig)
+    if (connectedConnection.connector) {
       await disconnect(wagmiConfig, {
-        connector: connectedAccount.connector,
+        connector: connectedConnection.connector,
       })
     }
   }, [wagmiConfig])
