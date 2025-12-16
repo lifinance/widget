@@ -6,7 +6,6 @@ import {
   getRelayerQuote,
   getRoutes,
   isGaslessStep,
-  isTokenMessageSigningAllowed,
   LiFiErrorCode,
 } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
@@ -354,8 +353,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           fromChain.nativeToken.address !== fromTokenAddress &&
           useRelayerRoutes &&
           !isBatchingSupported &&
-          (!observableRoute || isObservableRelayerRoute) &&
-          isTokenMessageSigningAllowed(fromToken!)
+          (!observableRoute || isObservableRelayerRoute)
 
         const mainRoutesPromise = shouldUseMainRoutes
           ? getRoutes(
