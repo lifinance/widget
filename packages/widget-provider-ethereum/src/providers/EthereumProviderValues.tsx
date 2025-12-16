@@ -90,10 +90,10 @@ export const EthereumProviderValues: FC<
         )
       }
 
-      // Load additional connectors dynamically based on config
-      // Only connectors with provided config are loaded (reduces bundle size)
+      // Load additional connectors based on config
+      // Only connectors with provided config are loaded
       // Config value can be: true (use defaults), object (use that config), or false/undefined (skip)
-      const connectorPromises: Promise<CreateConnectorFnExtended>[] = []
+      const additionalConnectors: CreateConnectorFnExtended[] = []
 
       if (
         config?.walletConnect &&
@@ -105,7 +105,7 @@ export const EthereumProviderValues: FC<
           config.walletConnect === true
             ? defaultWalletConnectConfig
             : config.walletConnect
-        connectorPromises.push(
+        additionalConnectors.push(
           createWalletConnectConnector(walletConnectConfig)
         )
       }
@@ -117,7 +117,7 @@ export const EthereumProviderValues: FC<
       ) {
         const coinbaseConfig =
           config.coinbase === true ? defaultCoinbaseConfig : config.coinbase
-        connectorPromises.push(createCoinbaseConnector(coinbaseConfig))
+        additionalConnectors.push(createCoinbaseConnector(coinbaseConfig))
       }
       if (
         config?.metaMask &&
@@ -127,7 +127,7 @@ export const EthereumProviderValues: FC<
       ) {
         const metaMaskConfig =
           config.metaMask === true ? defaultMetaMaskConfig : config.metaMask
-        connectorPromises.push(createMetaMaskConnector(metaMaskConfig))
+        additionalConnectors.push(createMetaMaskConnector(metaMaskConfig))
       }
       if (
         config?.baseAccount &&
@@ -139,7 +139,7 @@ export const EthereumProviderValues: FC<
           config.baseAccount === true
             ? defaultBaseAccountConfig
             : config.baseAccount
-        connectorPromises.push(createBaseAccountConnector(baseAccountConfig))
+        additionalConnectors.push(createBaseAccountConnector(baseAccountConfig))
       }
       if (
         config?.porto &&
@@ -148,12 +148,10 @@ export const EthereumProviderValues: FC<
         )
       ) {
         const portoConfig = config.porto === true ? undefined : config.porto
-        connectorPromises.push(createPortoConnector(portoConfig))
+        additionalConnectors.push(createPortoConnector(portoConfig))
       }
 
-      // Load all requested connectors in parallel
-      const loadedConnectors = await Promise.all(connectorPromises)
-      evmConnectors.unshift(...loadedConnectors)
+      evmConnectors.unshift(...additionalConnectors)
 
       setConnectors(evmConnectors)
     })()

@@ -1,11 +1,10 @@
-import type { WalletConnectParameters } from 'wagmi/connectors'
+import { type WalletConnectParameters, walletConnect } from 'wagmi/connectors'
 import type { CreateConnectorFnExtended } from '../types.js'
 import { extendConnector } from '../utils/extendConnector.js'
 
-export const createWalletConnectConnector = async (
+export const createWalletConnectConnector = (
   params: WalletConnectParameters
-): Promise<CreateConnectorFnExtended> => {
-  const { walletConnect } = await import('wagmi/connectors')
+): CreateConnectorFnExtended => {
   return extendConnector(
     walletConnect(params),
     'walletConnect',

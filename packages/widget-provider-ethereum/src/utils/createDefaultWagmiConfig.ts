@@ -10,6 +10,7 @@ import type {
   PortoParameters,
   WalletConnectParameters,
 } from 'wagmi/connectors'
+import { safe } from 'wagmi/connectors'
 import { createBaseAccountConnector } from '../connectors/baseAccount.js'
 import { createCoinbaseConnector } from '../connectors/coinbase.js'
 import { createMetaMaskConnector } from '../connectors/metaMask.js'
@@ -40,11 +41,10 @@ export interface DefaultWagmiConfigResult {
 
 /**
  * Creates default Wagmi config that can be later synced (via useSyncWagmiConfig) with chains fetched from LI.FI API.
- * Connectors are loaded dynamically to reduce bundle size - only requested connectors are included.
  * @param props Properties to setup connectors. {@link DefaultWagmiConfigProps}
- * @returns Promise resolving to Wagmi config and connectors. {@link DefaultWagmiConfigResult}
+ * @returns Wagmi config and connectors. {@link DefaultWagmiConfigResult}
  * @example
- *  const { config, connectors } = await createDefaultWagmiConfig({
+ *  const { config, connectors } = createDefaultWagmiConfig({
  *    walletConnect: {
  *      projectId: import.meta.env.VITE_WALLET_CONNECT,
  *    },
@@ -60,9 +60,9 @@ export interface DefaultWagmiConfigResult {
  *    );
  *  };
  */
-export async function createDefaultWagmiConfig(
+export function createDefaultWagmiConfig(
   props?: DefaultWagmiConfigProps
-): Promise<DefaultWagmiConfigResult> {
+): DefaultWagmiConfigResult {
   const connectors: CreateConnectorFn[] = [...(props?.connectors ?? [])]
 
   const anyWindow = typeof window !== 'undefined' ? (window as any) : undefined
@@ -84,7 +84,6 @@ export async function createDefaultWagmiConfig(
   })
 
   if (isIframeEnvironment) {
-    const { safe } = await import('wagmi/connectors')
     connectors.unshift(safe())
   }
 
@@ -93,43 +92,36 @@ export async function createDefaultWagmiConfig(
     `${config.storage?.key}.recentConnectorId`
   )
 
-  // Build connector promises - only for connectors that are requested
-  const connectorPromises: Promise<CreateConnectorFn>[] = []
-
   // Check if WalletConnect properties exist in the props
   if (props?.walletConnect) {
     if (recentConnectorId?.includes?.('walletConnect') || !props.lazy) {
-      connectorPromises.push(createWalletConnectConnector(props.walletConnect))
+      connectors.push(createWalletConnectConnector(props.walletConnect))
     }
   }
 
   if (props?.coinbase && !isWalletInstalled('coinbase')) {
     if (recentConnectorId?.includes?.('coinbaseWalletSDK') || !props.lazy) {
-      connectorPromises.push(createCoinbaseConnector(props.coinbase))
+      connectors.push(createCoinbaseConnector(props.coinbase))
     }
   }
 
   if (props?.metaMask && !isWalletInstalled('metaMask')) {
     if (recentConnectorId?.includes?.('metaMaskSDK') || !props.lazy) {
-      connectorPromises.push(createMetaMaskConnector(props.metaMask))
+      connectors.push(createMetaMaskConnector(props.metaMask))
     }
   }
 
   if (props?.baseAccount) {
     if (recentConnectorId?.includes?.('baseAccount') || !props.lazy) {
-      connectorPromises.push(createBaseAccountConnector(props.baseAccount))
+      connectors.push(createBaseAccountConnector(props.baseAccount))
     }
   }
 
   if (props?.porto) {
     if (recentConnectorId?.includes?.('porto') || !props.lazy) {
-      connectorPromises.push(createPortoConnector(props.porto))
+      connectors.push(createPortoConnector(props.porto))
     }
   }
-
-  // Load all requested connectors in parallel
-  const loadedConnectors = await Promise.all(connectorPromises)
-  connectors.unshift(...loadedConnectors)
 
   return {
     config,

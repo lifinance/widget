@@ -1,10 +1,9 @@
-import type { PortoParameters } from 'wagmi/connectors'
+import { type PortoParameters, porto } from 'wagmi/connectors'
 import type { CreateConnectorFnExtended } from '../types.js'
 import { extendConnector } from '../utils/extendConnector.js'
 
-export const createPortoConnector = async (
+export const createPortoConnector = (
   params?: Partial<PortoParameters>
-): Promise<CreateConnectorFnExtended> => {
-  const { porto } = await import('wagmi/connectors')
+): CreateConnectorFnExtended => {
   return extendConnector(porto(params), 'porto', 'Porto')
 }
