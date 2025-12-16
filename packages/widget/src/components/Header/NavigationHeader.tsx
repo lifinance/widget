@@ -31,8 +31,12 @@ export const NavigationHeader: React.FC = () => {
   const path = cleanedPathname.substring(cleanedPathname.lastIndexOf('/') + 1)
   const hasPath = navigationRoutesValues.includes(path)
 
+  // Show tabs when split is undefined (default tabs) or an object with defaultTab
+  // Hide tabs when split is a string ('bridge' or 'swap' - single mode)
   const showSplitOptions =
-    subvariant === 'split' && !hasPath && !subvariantOptions?.split
+    subvariant === 'split' &&
+    !hasPath &&
+    typeof subvariantOptions?.split !== 'string'
 
   return (
     <HeaderAppBar elevation={0} sx={{ paddingTop: 1, paddingBottom: 0.5 }}>
