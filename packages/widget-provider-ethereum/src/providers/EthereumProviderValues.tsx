@@ -16,12 +16,12 @@ import {
 } from 'react'
 import type { Address } from 'viem'
 import type { Connector } from 'wagmi'
-import { useAccount, useConfig, useConnect } from 'wagmi'
+import { useConfig, useConnection, useConnectors } from 'wagmi'
 import {
   connect,
   disconnect,
-  getAccount,
   getBytecode,
+  getConnection,
   getConnectorClient,
   getTransactionCount,
   switchChain,
@@ -39,6 +39,7 @@ import type {
   CreateConnectorFnExtended,
   EthereumProviderConfig,
 } from '../types.js'
+import { resolveConfig } from '../utils/resolveConfig.js'
 
 interface EthereumProviderValuesProps {
   isExternalContext: boolean
@@ -49,8 +50,8 @@ export const EthereumProviderValues: FC<
   PropsWithChildren<EthereumProviderValuesProps>
 > = ({ children, isExternalContext, config }) => {
   const wagmiConfig = useConfig()
-  const currentWallet = useAccount()
-  const { connectors: wagmiConnectors } = useConnect()
+  const currentWallet = useConnection()
+  const wagmiConnectors = useConnectors()
   const [connectors, setConnectors] = useState<
     (CreateConnectorFnExtended | Connector)[]
   >([])
@@ -90,54 +91,71 @@ export const EthereumProviderValues: FC<
         )
       }
 
-      // Ensure standard connectors are included
+      // Load additional connectors based on config
+      // Only connectors with provided config are loaded
+      // Config value can be: true (use defaults), object (use that config), or false/undefined (skip)
+      const additionalConnectors: CreateConnectorFnExtended[] = []
+
       if (
+        config?.walletConnect &&
         !evmConnectors.some((connector) =>
           connector.id.toLowerCase().includes('walletconnect')
         )
       ) {
-        evmConnectors.unshift(
+        additionalConnectors.push(
           createWalletConnectConnector(
-            config?.walletConnect ?? defaultWalletConnectConfig
+            resolveConfig(config.walletConnect, defaultWalletConnectConfig)!
           )
         )
       }
       if (
+        config?.coinbase &&
         !evmConnectors.some((connector) =>
           connector.id.toLowerCase().includes('coinbase')
         )
       ) {
-        evmConnectors.unshift(
-          createCoinbaseConnector(config?.coinbase ?? defaultCoinbaseConfig)
-        )
-      }
-      if (
-        !evmConnectors.some((connector) =>
-          connector.id.toLowerCase().includes('metamask')
-        )
-      ) {
-        evmConnectors.unshift(
-          createMetaMaskConnector(config?.metaMask ?? defaultMetaMaskConfig)
-        )
-      }
-      if (
-        !evmConnectors.some((connector) =>
-          connector.id.toLowerCase().includes('baseaccount')
-        )
-      ) {
-        evmConnectors.unshift(
-          createBaseAccountConnector(
-            config?.baseAccount ?? defaultBaseAccountConfig
+        additionalConnectors.unshift(
+          createCoinbaseConnector(
+            resolveConfig(config.coinbase, defaultCoinbaseConfig)!
           )
         )
       }
       if (
+        config?.metaMask &&
+        !evmConnectors.some((connector) =>
+          connector.id.toLowerCase().includes('metamask')
+        )
+      ) {
+        additionalConnectors.unshift(
+          createMetaMaskConnector(
+            resolveConfig(config.metaMask, defaultMetaMaskConfig)!
+          )
+        )
+      }
+      if (
+        config?.baseAccount &&
+        !evmConnectors.some((connector) =>
+          connector.id.toLowerCase().includes('baseaccount')
+        )
+      ) {
+        additionalConnectors.unshift(
+          createBaseAccountConnector(
+            resolveConfig(config.baseAccount, defaultBaseAccountConfig)!
+          )
+        )
+      }
+      if (
+        config?.porto &&
         !evmConnectors.some((connector) =>
           connector.id.toLowerCase().includes('porto')
         )
       ) {
-        evmConnectors.unshift(createPortoConnector(config?.porto))
+        additionalConnectors.unshift(
+          createPortoConnector(resolveConfig(config.porto, undefined))
+        )
       }
+
+      evmConnectors.unshift(...additionalConnectors)
 
       setConnectors(evmConnectors)
     })()
@@ -187,10 +205,10 @@ export const EthereumProviderValues: FC<
   )
 
   const handleDisconnect = useCallback(async () => {
-    const connectedAccount = getAccount(wagmiConfig)
-    if (connectedAccount.connector) {
+    const connectedConnection = getConnection(wagmiConfig)
+    if (connectedConnection.connector) {
       await disconnect(wagmiConfig, {
-        connector: connectedAccount.connector,
+        connector: connectedConnection.connector,
       })
     }
   }, [wagmiConfig])

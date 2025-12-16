@@ -66,6 +66,7 @@
     "typescript": "^5.9.3"
   },
   "optionalDependencies": {
+    "@gemini-wallet/core": ">=0.3.0",
     "@react-native-async-storage/async-storage": ">=2.2.0",
     "db0": "^0.3.2",
     "encoding": "^0.1.13",
@@ -76,8 +77,8 @@
   "pnpm": {
     "overrides": {
       "@react-native-async-storage/async-storage": ">=2.2.0",
+      "@reown/appkit": "1.8.14",
       "@safe-global/safe-apps-provider": ">=0.18.6",
-      "@walletconnect/ethereum-provider": ">=2.22.1",
       "bs58": ">=4.0.1",
       "miniflare>zod": "3.22.3",
       "miniflare>zod-validation-error": "3.0.3",
