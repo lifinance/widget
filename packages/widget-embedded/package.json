@@ -28,8 +28,8 @@
     "bignumber.js": "^9.3.0",
     "ethers": "^6.16.0",
     "events": "^3.3.0",
-    "react": "^19.2.1",
-    "react-dom": "^19.2.1",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "react-router-dom": "^7.10.1",
     "viem": "^2.41.2",
     "wagmi": "^2.19.4"
@@ -39,7 +39,7 @@
     "@vitejs/plugin-react-swc": "^4.2.2",
     "source-map-explorer": "^2.5.3",
     "typescript": "^5.9.3",
-    "vite": "^7.2.6",
+    "vite": "^7.3.0",
     "vite-plugin-node-polyfills": "^0.24.0",
     "web-vitals": "^5.1.0"
   },

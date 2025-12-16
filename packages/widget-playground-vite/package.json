@@ -14,17 +14,17 @@
   "dependencies": {
     "@lifi/widget-playground": "workspace:*",
     "@tanstack/react-query": "^5.90.12",
-    "react": "^19.2.1",
-    "react-dom": "^19.2.1",
-    "react-scan": "^0.4.3",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "vite-plugin-mkcert": "^1.17.9"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@vitejs/plugin-react-swc": "^4.2.2",
+    "react-scan": "^0.4.3",
     "source-map-explorer": "^2.5.3",
     "typescript": "^5.9.3",
-    "vite": "^7.2.6",
+    "vite": "^7.3.0",
     "vite-plugin-node-polyfills": "0.24.0",
     "web-vitals": "^5.1.0"
   },

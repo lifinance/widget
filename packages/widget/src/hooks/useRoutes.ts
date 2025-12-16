@@ -5,7 +5,6 @@ import {
   getContractCallsQuote,
   getRelayerQuote,
   getRoutes,
-  isTokenMessageSigningAllowed,
   LiFiErrorCode,
   parseUnits,
 } from '@lifi/sdk'
@@ -359,8 +358,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           fromChain.nativeToken.address !== fromTokenAddress &&
           useRelayerRoutes &&
           !isBatchingSupported &&
-          (!observableRoute || isObservableRelayerRoute) &&
-          isTokenMessageSigningAllowed(fromToken!)
+          (!observableRoute || isObservableRelayerRoute)
 
         const mainRoutesPromise = shouldUseMainRoutes
           ? getRoutes(

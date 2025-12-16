@@ -55,16 +55,16 @@
     "@mui/icons-material": "^7.3.6",
     "@mui/material": "^7.3.6",
     "@mui/system": "^7.3.6",
-    "i18next": "^25.7.1",
+    "i18next": "^25.7.3",
     "mitt": "^3.0.1",
-    "react-i18next": "^16.3.5",
+    "react-i18next": "^16.5.0",
     "zustand": "^5.0.9"
   },
   "devDependencies": {
     "cpy-cli": "^6.0.0",
     "madge": "^8.0.0",
-    "react": "^19.2.1",
-    "react-dom": "^19.2.1",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
