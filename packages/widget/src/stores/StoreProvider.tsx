@@ -1,5 +1,6 @@
 import type { PropsWithChildren } from 'react'
 import type { WidgetConfigProps } from '../types/widget.js'
+import { getSplitSubvariant } from '../utils/variant.js'
 import { BookmarkStoreProvider } from './bookmarks/BookmarkStore.js'
 import { ChainOrderStoreProvider } from './chains/ChainOrderStore.js'
 import { FormStoreProvider } from './form/FormStore.js'
@@ -16,7 +17,7 @@ export const StoreProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
     <SplitSubvariantStoreProvider
       state={
         config.subvariant === 'split'
-          ? config.subvariantOptions?.split || 'swap'
+          ? getSplitSubvariant(config.subvariantOptions?.split)
           : undefined
       }
     >
