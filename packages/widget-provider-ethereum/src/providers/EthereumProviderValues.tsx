@@ -39,6 +39,7 @@ import type {
   CreateConnectorFnExtended,
   EthereumProviderConfig,
 } from '../types.js'
+import { resolveConfig } from '../utils/resolveConfig.js'
 
 interface EthereumProviderValuesProps {
   isExternalContext: boolean
@@ -101,12 +102,10 @@ export const EthereumProviderValues: FC<
           connector.id.toLowerCase().includes('walletconnect')
         )
       ) {
-        const walletConnectConfig =
-          config.walletConnect === true
-            ? defaultWalletConnectConfig
-            : config.walletConnect
         additionalConnectors.push(
-          createWalletConnectConnector(walletConnectConfig)
+          createWalletConnectConnector(
+            resolveConfig(config.walletConnect, defaultWalletConnectConfig)!
+          )
         )
       }
       if (
@@ -115,9 +114,11 @@ export const EthereumProviderValues: FC<
           connector.id.toLowerCase().includes('coinbase')
         )
       ) {
-        const coinbaseConfig =
-          config.coinbase === true ? defaultCoinbaseConfig : config.coinbase
-        additionalConnectors.unshift(createCoinbaseConnector(coinbaseConfig))
+        additionalConnectors.unshift(
+          createCoinbaseConnector(
+            resolveConfig(config.coinbase, defaultCoinbaseConfig)!
+          )
+        )
       }
       if (
         config?.metaMask &&
@@ -125,9 +126,11 @@ export const EthereumProviderValues: FC<
           connector.id.toLowerCase().includes('metamask')
         )
       ) {
-        const metaMaskConfig =
-          config.metaMask === true ? defaultMetaMaskConfig : config.metaMask
-        additionalConnectors.unshift(createMetaMaskConnector(metaMaskConfig))
+        additionalConnectors.unshift(
+          createMetaMaskConnector(
+            resolveConfig(config.metaMask, defaultMetaMaskConfig)!
+          )
+        )
       }
       if (
         config?.baseAccount &&
@@ -135,12 +138,10 @@ export const EthereumProviderValues: FC<
           connector.id.toLowerCase().includes('baseaccount')
         )
       ) {
-        const baseAccountConfig =
-          config.baseAccount === true
-            ? defaultBaseAccountConfig
-            : config.baseAccount
         additionalConnectors.unshift(
-          createBaseAccountConnector(baseAccountConfig)
+          createBaseAccountConnector(
+            resolveConfig(config.baseAccount, defaultBaseAccountConfig)!
+          )
         )
       }
       if (
@@ -149,8 +150,9 @@ export const EthereumProviderValues: FC<
           connector.id.toLowerCase().includes('porto')
         )
       ) {
-        const portoConfig = config.porto === true ? undefined : config.porto
-        additionalConnectors.unshift(createPortoConnector(portoConfig))
+        additionalConnectors.unshift(
+          createPortoConnector(resolveConfig(config.porto, undefined))
+        )
       }
 
       evmConnectors.unshift(...additionalConnectors)
