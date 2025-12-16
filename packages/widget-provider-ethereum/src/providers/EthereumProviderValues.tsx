@@ -95,8 +95,6 @@ export const EthereumProviderValues: FC<
       // Config value can be: true (use defaults), object (use that config), or false/undefined (skip)
       const additionalConnectors: CreateConnectorFnExtended[] = []
 
-      // If WalletConnect is the most recently connected wallet or lazy loading is disabled,
-      // add the WalletConnect connector to the beginning of the connectors list
       if (
         config?.walletConnect &&
         !evmConnectors.some((connector) =>
