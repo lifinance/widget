@@ -38,12 +38,20 @@ import type { DefaultFieldValues } from '../stores/form/types.js'
 export type WidgetVariant = 'compact' | 'wide' | 'drawer'
 export type WidgetSubvariant = 'default' | 'split' | 'custom' | 'refuel'
 export type SplitSubvariant = 'bridge' | 'swap'
+export type SplitSubvariantOptions = {
+  defaultTab: SplitSubvariant
+}
 export type CustomSubvariant = 'checkout' | 'deposit'
 export type WideSubvariant = {
   enableChainSidebar?: boolean
 }
 export interface SubvariantOptions {
-  split?: SplitSubvariant
+  /**
+   * Configure split subvariant behavior:
+   * - 'bridge' | 'swap': Single mode without tabs
+   * - { defaultTab: 'bridge' | 'swap' }: Tabs mode with configurable default tab
+   */
+  split?: SplitSubvariant | SplitSubvariantOptions
   custom?: CustomSubvariant
   wide?: WideSubvariant
 }
