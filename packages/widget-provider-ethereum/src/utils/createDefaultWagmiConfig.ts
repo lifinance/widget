@@ -92,35 +92,38 @@ export function createDefaultWagmiConfig(
     `${config.storage?.key}.recentConnectorId`
   )
 
-  // Check if WalletConnect properties exist in the props
-  if (props?.walletConnect) {
-    if (recentConnectorId?.includes?.('walletConnect') || !props.lazy) {
-      connectors.push(createWalletConnectConnector(props.walletConnect))
-    }
+  if (
+    props?.walletConnect &&
+    (recentConnectorId?.includes?.('walletConnect') || !props.lazy)
+  ) {
+    connectors.unshift(createWalletConnectConnector(props.walletConnect))
   }
 
-  if (props?.coinbase && !isWalletInstalled('coinbase')) {
-    if (recentConnectorId?.includes?.('coinbaseWalletSDK') || !props.lazy) {
-      connectors.push(createCoinbaseConnector(props.coinbase))
-    }
+  if (
+    props?.coinbase &&
+    !isWalletInstalled('coinbase') &&
+    (recentConnectorId?.includes?.('coinbaseWalletSDK') || !props.lazy)
+  ) {
+    connectors.unshift(createCoinbaseConnector(props.coinbase))
   }
 
-  if (props?.metaMask && !isWalletInstalled('metaMask')) {
-    if (recentConnectorId?.includes?.('metaMaskSDK') || !props.lazy) {
-      connectors.push(createMetaMaskConnector(props.metaMask))
-    }
+  if (
+    props?.metaMask &&
+    !isWalletInstalled('metaMask') &&
+    (recentConnectorId?.includes?.('metaMaskSDK') || !props.lazy)
+  ) {
+    connectors.unshift(createMetaMaskConnector(props.metaMask))
   }
 
-  if (props?.baseAccount) {
-    if (recentConnectorId?.includes?.('baseAccount') || !props.lazy) {
-      connectors.push(createBaseAccountConnector(props.baseAccount))
-    }
+  if (
+    props?.baseAccount &&
+    (recentConnectorId?.includes?.('baseAccount') || !props.lazy)
+  ) {
+    connectors.unshift(createBaseAccountConnector(props.baseAccount))
   }
 
-  if (props?.porto) {
-    if (recentConnectorId?.includes?.('porto') || !props.lazy) {
-      connectors.push(createPortoConnector(props.porto))
-    }
+  if (props?.porto && (recentConnectorId?.includes?.('porto') || !props.lazy)) {
+    connectors.unshift(createPortoConnector(props.porto))
   }
 
   return {

@@ -34,7 +34,13 @@ export const widgetBaseConfig: WidgetConfig = {
   //   },
   // ],
   providers: [
-    EthereumProvider(),
+    EthereumProvider({
+      baseAccount: true,
+      coinbase: true,
+      metaMask: true,
+      walletConnect: true,
+      porto: true,
+    }),
     SuiProvider(),
     SolanaProvider(),
     BitcoinProvider(),

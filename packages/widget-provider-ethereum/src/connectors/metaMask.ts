@@ -1,9 +1,7 @@
-import { type MetaMaskParameters, metaMask } from 'wagmi/connectors'
-import type { CreateConnectorFnExtended } from '../types.js'
+import type { MetaMaskParameters } from 'wagmi/connectors'
+import { metaMask } from 'wagmi/connectors'
 import { extendConnector } from '../utils/extendConnector.js'
 
-export const createMetaMaskConnector = (
+export const createMetaMaskConnector = /*#__PURE__*/ (
   params: MetaMaskParameters
-): CreateConnectorFnExtended => {
-  return extendConnector(metaMask(params), 'metaMaskSDK', 'MetaMask')
-}
+) => extendConnector(metaMask(params), 'metaMaskSDK', 'MetaMask')

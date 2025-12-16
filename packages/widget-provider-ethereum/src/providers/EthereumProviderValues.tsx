@@ -95,6 +95,8 @@ export const EthereumProviderValues: FC<
       // Config value can be: true (use defaults), object (use that config), or false/undefined (skip)
       const additionalConnectors: CreateConnectorFnExtended[] = []
 
+      // If WalletConnect is the most recently connected wallet or lazy loading is disabled,
+      // add the WalletConnect connector to the beginning of the connectors list
       if (
         config?.walletConnect &&
         !evmConnectors.some((connector) =>
@@ -117,7 +119,7 @@ export const EthereumProviderValues: FC<
       ) {
         const coinbaseConfig =
           config.coinbase === true ? defaultCoinbaseConfig : config.coinbase
-        additionalConnectors.push(createCoinbaseConnector(coinbaseConfig))
+        additionalConnectors.unshift(createCoinbaseConnector(coinbaseConfig))
       }
       if (
         config?.metaMask &&
@@ -127,7 +129,7 @@ export const EthereumProviderValues: FC<
       ) {
         const metaMaskConfig =
           config.metaMask === true ? defaultMetaMaskConfig : config.metaMask
-        additionalConnectors.push(createMetaMaskConnector(metaMaskConfig))
+        additionalConnectors.unshift(createMetaMaskConnector(metaMaskConfig))
       }
       if (
         config?.baseAccount &&
@@ -139,7 +141,9 @@ export const EthereumProviderValues: FC<
           config.baseAccount === true
             ? defaultBaseAccountConfig
             : config.baseAccount
-        additionalConnectors.push(createBaseAccountConnector(baseAccountConfig))
+        additionalConnectors.unshift(
+          createBaseAccountConnector(baseAccountConfig)
+        )
       }
       if (
         config?.porto &&
@@ -148,7 +152,7 @@ export const EthereumProviderValues: FC<
         )
       ) {
         const portoConfig = config.porto === true ? undefined : config.porto
-        additionalConnectors.push(createPortoConnector(portoConfig))
+        additionalConnectors.unshift(createPortoConnector(portoConfig))
       }
 
       evmConnectors.unshift(...additionalConnectors)

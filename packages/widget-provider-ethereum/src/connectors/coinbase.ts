@@ -1,13 +1,12 @@
-import { type CoinbaseWalletParameters, coinbaseWallet } from 'wagmi/connectors'
-import type { CreateConnectorFnExtended } from '../types.js'
+import type { CoinbaseWalletParameters } from 'wagmi/connectors'
+import { coinbaseWallet } from 'wagmi/connectors'
 import { extendConnector } from '../utils/extendConnector.js'
 
-export const createCoinbaseConnector = (
+export const createCoinbaseConnector = /*#__PURE__*/ (
   params: CoinbaseWalletParameters
-): CreateConnectorFnExtended => {
-  return extendConnector(
+) =>
+  extendConnector(
     coinbaseWallet(params),
     'coinbaseWalletSDK',
     'Coinbase Wallet'
   )
-}
