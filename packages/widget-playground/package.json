@@ -29,7 +29,7 @@
   "dependencies": {
     "@base-org/account": "~2.4.0",
     "@bigmi/react": "^0.6.3",
-    "@coinbase/wallet-sdk": "^4.3.7",
+    "@coinbase/wallet-sdk": "~4.3.6",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@lifi/sdk": "4.0.0-alpha.4",
@@ -52,7 +52,7 @@
     "@solana/wallet-adapter-base": "^0.9.27",
     "@solana/wallet-adapter-react": "^0.15.39",
     "@solana/web3.js": "^1.98.4",
-    "@walletconnect/ethereum-provider": "^2.23.1",
+    "@walletconnect/ethereum-provider": "~2.21.1",
     "csstype": "^3.2.3",
     "lodash.isequal": "^4.5.0",
     "microdiff": "^1.5.0",
@@ -60,7 +60,7 @@
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "viem": "^2.40.2",
-    "wagmi": "^3.0.0",
+    "wagmi": "^3.1.0",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
