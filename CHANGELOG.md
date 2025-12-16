@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.38.0](https://github.com/lifinance/widget/compare/v3.37.0...v3.38.0) (2025-12-16)
+
+
+### Features
+
+* add warning indicator in token search UI for unverified search results ([#625](https://github.com/lifinance/widget/issues/625)) ([82cab01](https://github.com/lifinance/widget/commit/82cab01c2817eeb9a4f2156c0336dfcfa072de24))
+* allow configuration of default bridge tab ([#632](https://github.com/lifinance/widget/issues/632)) ([0a8e022](https://github.com/lifinance/widget/commit/0a8e02267263f0ad9b65a2ab38f7bcd2077f2dec))
+
+
+### Bug Fixes
+
+* make input price background transparent in dark mode ([#629](https://github.com/lifinance/widget/issues/629)) ([c246c6a](https://github.com/lifinance/widget/commit/c246c6a4093116571bc8cdea3da139902875d018))
+* misc all networks fixes ([#619](https://github.com/lifinance/widget/issues/619)) ([ce24dbd](https://github.com/lifinance/widget/commit/ce24dbd95607a5cf5a03baebbbdd8cedd2d310f4))
+
 ## [3.37.0](https://github.com/lifinance/widget/compare/v3.36.1...v3.37.0) (2025-12-10)
 
 
