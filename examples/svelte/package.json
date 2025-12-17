@@ -25,7 +25,7 @@
     "vite-plugin-node-polyfills": "^0.24.0"
   },
   "dependencies": {
-    "@lifi/widget": "^3.36.1",
+    "@lifi/widget": "^3.37.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3"
   }

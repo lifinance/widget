@@ -21,7 +21,7 @@
     "@dynamic-labs/wagmi-connector": "^4.50.4",
     "@lifi/sdk": "^3.14.1",
     "@lifi/wallet-management": "^3.20.1",
-    "@lifi/widget": "^3.36.1",
+    "@lifi/widget": "^3.37.0",
     "@mui/material": "^7.3.6",
     "@solana/wallet-adapter-base": "^0.9.27",
     "@solana/wallet-adapter-react": "^0.15.39",
