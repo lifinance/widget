@@ -127,6 +127,7 @@
       "deleteTransactionHistory": "Transaction history is only stored locally and can't be recovered if you delete it.",
       "fundsLossPrevention": "Always ensure smart contract accounts are properly set up on the destination chain and avoid direct transfers to exchanges to prevent fund loss.",
       "highValueLoss": "The value of the received tokens is significantly lower than the exchanged tokens and transaction cost.",
+      "unverifiedToken": "Unverified token. Always do your own research before proceeding.",
       "insufficientFunds": "You don't have enough funds to complete the transaction.",
       "insufficientGas": "You don't have enough gas to complete the transaction. You need to add at least:",
       "minFromAmountUSD": "Minimum amount is {{amount, currencyExt(currency: USD)}}. Please enter a higher amount.",
