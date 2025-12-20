@@ -41,7 +41,7 @@ export type SplitSubvariant = 'bridge' | 'swap'
 export type SplitSubvariantOptions = {
   defaultTab: SplitSubvariant
 }
-export type CustomSubvariant = 'checkout' | 'deposit'
+export type CustomSubvariant = 'checkout' | 'deposit' | 'fund'
 export type WideSubvariant = {
   enableChainSidebar?: boolean
 }
@@ -192,13 +192,25 @@ export interface WidgetContractTool {
   logoURI: string
 }
 
+export interface ContractCallParams {
+  fromChain: ExtendedChain
+  toChain: ExtendedChain
+  fromToken: Token
+  toToken: Token
+  fromAddress: `0x${string}`
+  toAddress?: `0x${string}`
+  fromAmount?: bigint
+  toAmount?: bigint
+  slippage?: number
+}
+
 export interface CalculateFeeParams {
   fromChain: ExtendedChain
   toChain: ExtendedChain
   fromToken: Token
   toToken: Token
-  fromAddress?: string
-  toAddress?: string
+  fromAddress?: `0x${string}`
+  toAddress?: `0x${string}`
   fromAmount?: bigint
   toAmount?: bigint
   slippage?: number
@@ -318,6 +330,7 @@ export interface WidgetConfig {
   formUpdateKey?: string
 
   contractCalls?: ContractCall[]
+  getContractCalls?: (params: ContractCallParams) => Promise<ContractCall[]>
   contractComponent?: ReactNode
   contractSecondaryComponent?: ReactNode
   contractCompactComponent?: ReactNode

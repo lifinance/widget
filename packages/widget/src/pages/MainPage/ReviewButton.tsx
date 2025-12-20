@@ -53,7 +53,8 @@ export const ReviewButton: React.FC = () => {
     }
     switch (subvariant) {
       case 'custom':
-        return subvariantOptions?.custom === 'deposit'
+        return subvariantOptions?.custom === 'deposit' ||
+          subvariantOptions?.custom === 'fund'
           ? t('button.deposit')
           : t('button.buy')
       case 'refuel':

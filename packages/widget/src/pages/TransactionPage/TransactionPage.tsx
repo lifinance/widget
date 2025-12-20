@@ -183,7 +183,8 @@ export const TransactionPage: React.FC = () => {
       case RouteExecutionStatus.Idle:
         switch (subvariant) {
           case 'custom':
-            return subvariantOptions?.custom === 'deposit'
+            return subvariantOptions?.custom === 'deposit' ||
+              subvariantOptions?.custom === 'fund'
               ? t('button.deposit')
               : t('button.buy')
           case 'refuel':

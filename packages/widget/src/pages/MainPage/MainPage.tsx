@@ -52,7 +52,9 @@ export const MainPage: React.FC = () => {
         <ContractComponent sx={marginSx}>{contractComponent}</ContractComponent>
       ) : null}
       <SelectChainAndToken mb={2} />
-      {!custom || subvariantOptions?.custom === 'deposit' ? (
+      {!custom ||
+      subvariantOptions?.custom === 'deposit' ||
+      subvariantOptions?.custom === 'fund' ? (
         <AmountInput formType="from" sx={marginSx} />
       ) : null}
       {!wideVariant ? <Routes sx={marginSx} /> : null}

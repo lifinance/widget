@@ -122,7 +122,9 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
     !hiddenToAddress && (requiredToAddress || showSendToWallet)
 
   const title =
-    subvariant === 'custom' && subvariantOptions?.custom === 'deposit'
+    subvariant === 'custom' &&
+    (subvariantOptions?.custom === 'deposit' ||
+      subvariantOptions?.custom === 'fund')
       ? t('header.depositTo')
       : t('header.sendToWallet')
 

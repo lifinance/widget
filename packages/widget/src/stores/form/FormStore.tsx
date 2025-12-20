@@ -46,6 +46,7 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
     toAmount,
     toAddress,
     formUpdateKey,
+    contractCalls,
   } = widgetConfig
 
   const storeRef = useRef<FormStoreStore>(null)
@@ -57,7 +58,7 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
   const configHasToAddress = Object.hasOwn(widgetConfig, 'toAddress')
   const configHasToChain = Object.hasOwn(widgetConfig, 'toChain')
   const configHasToToken = Object.hasOwn(widgetConfig, 'toToken')
-
+  const configHasContractCalls = Object.hasOwn(widgetConfig, 'contractCalls')
   // We use the presence/absence of a property to decide if the form values in state need to be updated
   // We only build and set a property on the memoized form values here if they are included in the
   // config - undefined is considered a valid value that will reset that form field
@@ -89,6 +90,7 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
             toAddress: toAddress?.address || formDefaultValues.toAddress,
           }
         : undefined),
+      ...(configHasContractCalls ? { contractCalls } : undefined),
     }),
     [
       fromAmount,

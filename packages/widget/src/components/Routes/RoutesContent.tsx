@@ -51,7 +51,8 @@ export const RoutesContent = memo(function RoutesContent({
 
   const title =
     subvariant === 'custom'
-      ? subvariantOptions?.custom === 'deposit'
+      ? subvariantOptions?.custom === 'deposit' ||
+        subvariantOptions?.custom === 'fund'
         ? t('header.deposit')
         : t('header.youPay')
       : t('header.receive')

@@ -1,7 +1,68 @@
 import { ChainId } from '@lifi/sdk'
-import type { WidgetConfig } from '@lifi/widget'
+import type {
+  ContractCall,
+  ContractCallParams,
+  WidgetConfig,
+} from '@lifi/widget'
+import { encodeFunctionData, parseAbi } from 'viem'
+
+const getContractCalls = async (
+  params: ContractCallParams
+): Promise<ContractCall[]> => {
+  const contractCallData = encodeFunctionData({
+    abi: parseAbi([
+      'function supply(address asset, uint256 amount, address onBehalfOf, uint16 referralCode)',
+    ]),
+    functionName: 'supply',
+    args: [
+      params.toToken.address as `0x${string}`, // asset (e.g. USDC address)
+      params.fromAmount!, // amount (uint256 -> bigint)
+      params.fromAddress as `0x${string}`, // recipient of aTokens
+      0, // uint16 (usually 0)
+    ],
+  })
+  // const contractCallData = encodeFunctionData({
+  //   abi: parseAbi([
+  //     'function deposit(address _to, uint16 _assetIndex, uint8 _routeType, uint256 _amount) payable',
+  //   ]),
+  //   functionName: 'deposit',
+  //   args: [
+  //     params.fromAddress as `0x${string}`, // _to
+  //     3, // _assetIndex (1 for ETH and 3 for USDC)
+  //     0, // _routeType   (1 = SPOT for everything except USDC; 0 = PERPS for USDC only)
+  //     params.fromAmount!, // _amount (uint256 -> bigint)
+  //   ],
+  // })
+  return [
+    {
+      fromTokenAddress: params.toToken.address,
+      fromAmount: params.fromAmount?.toString() || '0',
+      toContractAddress: '0xA238Dd80C259a72e81d7e4664a9801593F98d1c5', // '0x3B4D794a66304F130a4Db8F2551B0070dfCf5ca7', // Lighter
+      toContractCallData: contractCallData,
+      toContractGasLimit: '300000',
+    },
+  ]
+}
+
+// const contractCalls: ContractCall[] = [
+//   {
+//     fromTokenAddress: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+//     fromAmount: '5000000',
+//     toContractAddress: '0x3B4D794a66304F130a4Db8F2551B0070dfCf5ca7',
+//     toContractCallData: contractCallData,
+//     toContractGasLimit: '300000',
+//   },
+// ]
+
+export const contractTool = {
+  logoURI: 'https://app.lighter.xyz/apple-touch-icon.png',
+  name: 'Lighter',
+}
 
 export const widgetBaseConfig: WidgetConfig = {
+  getContractCalls,
+  contractTool,
+  subvariant: 'custom',
   // fromChain: 137,
   // toChain: 10,
   // fromToken: '0x2791bca1f2de4661ed88a30c99a7a9449aa84174',
@@ -35,6 +96,7 @@ export const widgetBaseConfig: WidgetConfig = {
     wide: {
       enableChainSidebar: true,
     },
+    custom: 'fund',
   },
   integrator: 'li.fi-playground',
   // fee: 0.01,

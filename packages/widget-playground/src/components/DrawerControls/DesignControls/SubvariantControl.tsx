@@ -55,7 +55,7 @@ export const SubvariantControl = () => {
       >
         <Tab label="Default" value={'default'} disableRipple />
         <Tab label="Split" value={'split'} disableRipple />
-        <Tab label="Refuel" value={'refuel'} disableRipple />
+        <Tab label="Refuel" value={'custom'} disableRipple />
       </Tabs>
       {subvariant === 'split' && (
         <Tabs

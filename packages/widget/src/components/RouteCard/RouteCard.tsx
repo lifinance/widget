@@ -40,7 +40,9 @@ export const RouteCard: React.FC<
   }
 
   const token: TokenAmount =
-    subvariant === 'custom' && subvariantOptions?.custom !== 'deposit'
+    subvariant === 'custom' &&
+    subvariantOptions?.custom !== 'deposit' &&
+    subvariantOptions?.custom !== 'fund'
       ? { ...route.fromToken, amount: BigInt(route.fromAmount) }
       : { ...route.toToken, amount: BigInt(route.toAmount) }
   const impactToken: TokenAmount | undefined =

@@ -106,6 +106,12 @@ export const FormUpdater: React.FC<{
     setSelectedBookmark,
   ])
 
+  useEffect(() => {
+    setFieldValue('contractCalls', reactiveFormValues.contractCalls, {
+      isTouched: true,
+    })
+  }, [reactiveFormValues.contractCalls, setFieldValue])
+
   return null
 }
 

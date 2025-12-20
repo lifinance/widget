@@ -166,7 +166,8 @@ const AmountInputBase: React.FC<
 
   const title =
     subvariant === 'custom'
-      ? subvariantOptions?.custom === 'deposit'
+      ? subvariantOptions?.custom === 'deposit' ||
+        subvariantOptions?.custom === 'fund'
         ? t('header.amount')
         : t('header.youPay')
       : t('header.send')

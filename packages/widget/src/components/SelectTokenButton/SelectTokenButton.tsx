@@ -29,7 +29,8 @@ export const SelectTokenButton: React.FC<
 > = ({ formType, compact, hiddenReverse }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { disabledUI, subvariant, hiddenUI } = useWidgetConfig()
+  const { disabledUI, subvariant, hiddenUI, subvariantOptions } =
+    useWidgetConfig()
   const swapOnly = useSwapOnly()
   const tokenKey = FormKeyHelper.getTokenKey(formType)
   const [chainId, tokenAddress] = useFieldValues(
@@ -63,7 +64,9 @@ export const SelectTokenButton: React.FC<
         ? t('main.selectToken')
         : t('main.selectChainAndToken')
   const cardTitle: string =
-    formType === 'from' && subvariant === 'custom'
+    formType === 'from' &&
+    subvariant === 'custom' &&
+    subvariantOptions?.custom !== 'fund'
       ? t('header.payWith')
       : t(`main.${formType}`)
   return (

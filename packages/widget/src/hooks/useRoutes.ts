@@ -7,6 +7,8 @@ import {
   getRoutes,
   isGaslessStep,
   LiFiErrorCode,
+  PatcherMagicNumber,
+  patchContractCalls,
 } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -49,6 +51,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     feeConfig,
     useRelayerRoutes,
     keyPrefix,
+    getContractCalls,
   } = useWidgetConfig()
   const setExecutableRoute = useSetExecutableRoute()
   const queryClient = useQueryClient()
@@ -103,7 +106,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
   const hasAmount = Number(fromTokenAmount) > 0 || Number(toTokenAmount) > 0
 
   const contractCallQuoteEnabled: boolean =
-    subvariant === 'custom' ? Boolean(contractCalls && account.address) : true
+    subvariant === 'custom' ? Boolean(account.address) : true
 
   // When we bridge between ecosystems we need to be sure toAddress is set and has the same chainType as toChain
   // If toAddress is set, it must have the same chainType as toChain
@@ -268,29 +271,56 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
             )
           : allowedExchanges
 
-        const calculatedFee = await feeConfig?.calculateFee?.({
+        const params = {
           fromChain: fromChain!,
           toChain: toChain!,
           fromToken: fromToken!,
           toToken: toToken!,
-          fromAddress,
-          toAddress,
+          fromAddress: fromAddress as `0x${string}`,
+          toAddress: toAddress as `0x${string}`,
           fromAmount,
           toAmount,
           slippage: formattedSlippage,
-        })
+        }
 
-        if (subvariant === 'custom' && contractCalls && toAmount) {
+        const calculatedFee = await feeConfig?.calculateFee?.(params)
+
+        const contractCallsResult = contractCalls?.length
+          ? contractCalls
+          : await getContractCalls?.(params)
+
+        if (contractCallsResult?.length) {
+          const patchedContractCalls = await patchContractCalls(
+            contractCallsResult.map((call) => ({
+              chainId: fromChainId,
+              fromTokenAddress: call.fromTokenAddress,
+              targetContractAddress: call.toContractAddress,
+              callDataToPatch: call.toContractCallData,
+              patches: [
+                {
+                  amountToReplace: PatcherMagicNumber.toString(),
+                },
+              ],
+            })),
+            { signal }
+          )
+
+          contractCallsResult.forEach((call, index) => {
+            call.toContractCallData = patchedContractCalls[index].callData
+          })
+
           const contractCallQuote = await getContractCallsQuote(
             {
               // Contract calls are enabled only when fromAddress is set
               fromAddress: fromAddress as string,
               fromChain: fromChainId,
               fromToken: fromTokenAddress,
-              toAmount: toAmount.toString(),
+              ...(toAmount
+                ? { toAmount: toAmount.toString() }
+                : { fromAmount: fromAmount.toString() }),
               toChain: toChainId,
               toToken: toTokenAddress,
-              contractCalls,
+              contractCalls: contractCallsResult,
               denyBridges: disabledBridges.length ? disabledBridges : undefined,
               denyExchanges: disabledExchanges.length
                 ? disabledExchanges
@@ -323,17 +353,24 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
             contractCallQuote.toolDetails = toolDetails
           }
 
-          const route: Route = convertQuoteToRoute(contractCallQuote)
+          const route: Route = convertQuoteToRoute(contractCallQuote, {
+            adjustZeroOutputFromPreviousStep:
+              subvariant === 'custom' && subvariantOptions?.custom === 'fund',
+          })
 
           return [route]
         }
 
         // Prevent sending a request for the same chain token combinations.
-        // Exception: proceed anyway if subvariant is custom and subvariantOptions is deposit
+        // Exception: proceed anyway if subvariant is custom and subvariantOptions is deposit or fund
         if (
           fromChainId === toChainId &&
           fromTokenAddress === toTokenAddress &&
-          !(subvariant === 'custom' && subvariantOptions?.custom === 'deposit')
+          !(
+            subvariant === 'custom' &&
+            (subvariantOptions?.custom === 'deposit' ||
+              subvariantOptions?.custom === 'fund')
+          )
         ) {
           return
         }
