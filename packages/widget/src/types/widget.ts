@@ -183,25 +183,15 @@ export interface WidgetSDKConfig
   routeOptions?: Omit<RouteOptions, 'bridges' | 'exchanges'>
   executionOptions?: Pick<
     ExecutionOptions,
-    'disableMessageSigning' | 'updateTransactionRequestHook'
+    | 'disableMessageSigning'
+    | 'updateTransactionRequestHook'
+    | 'getContractCalls'
   >
 }
 
 export interface WidgetContractTool {
   name: string
   logoURI: string
-}
-
-export interface ContractCallParams {
-  fromChain: ExtendedChain
-  toChain: ExtendedChain
-  fromToken: Token
-  toToken: Token
-  fromAddress: `0x${string}`
-  toAddress?: `0x${string}`
-  fromAmount?: bigint
-  toAmount?: bigint
-  slippage?: number
 }
 
 export interface CalculateFeeParams {
@@ -329,11 +319,16 @@ export interface WidgetConfig {
   toAmount?: number | string
   formUpdateKey?: string
 
+  /**
+   * @deprecated Use `getContractCalls` inside the SDK config `executionOptions` instead.
+   */
   contractCalls?: ContractCall[]
-  getContractCalls?: (params: ContractCallParams) => Promise<ContractCall[]>
   contractComponent?: ReactNode
   contractSecondaryComponent?: ReactNode
   contractCompactComponent?: ReactNode
+  /**
+   * @deprecated Use `getContractCalls` inside the SDK config `executionOptions` instead.
+   */
   contractTool?: WidgetContractTool
   integrator: string
   apiKey?: string

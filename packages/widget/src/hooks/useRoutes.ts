@@ -51,7 +51,6 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
     feeConfig,
     useRelayerRoutes,
     keyPrefix,
-    getContractCalls,
   } = useWidgetConfig()
   const setExecutableRoute = useSetExecutableRoute()
   const queryClient = useQueryClient()
@@ -271,7 +270,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
             )
           : allowedExchanges
 
-        const params = {
+        const calculatedFee = await feeConfig?.calculateFee?.({
           fromChain: fromChain!,
           toChain: toChain!,
           fromToken: fromToken!,
@@ -281,21 +280,33 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           fromAmount,
           toAmount,
           slippage: formattedSlippage,
-        }
+        })
 
-        const calculatedFee = await feeConfig?.calculateFee?.(params)
+        const contractCallsResult =
+          await sdkConfig?.executionOptions?.getContractCalls?.({
+            fromChainId,
+            toChainId,
+            fromTokenAddress,
+            toTokenAddress,
+            fromAddress: fromAddress!,
+            toAddress,
+            fromAmount,
+            toAmount,
+            slippage: formattedSlippage,
+          })
 
-        const contractCallsResult = contractCalls?.length
+        const _contractCalls = contractCalls?.length
           ? contractCalls
-          : await getContractCalls?.(params)
+          : contractCallsResult?.contractCalls
 
-        if (contractCallsResult?.length) {
+        if (_contractCalls?.length) {
           const patchedContractCalls = await patchContractCalls(
-            contractCallsResult.map((call) => ({
-              chainId: fromChainId,
+            _contractCalls.map((call) => ({
+              chainId: toChainId,
               fromTokenAddress: call.fromTokenAddress,
               targetContractAddress: call.toContractAddress,
               callDataToPatch: call.toContractCallData,
+              delegateCall: false,
               patches: [
                 {
                   amountToReplace: PatcherMagicNumber.toString(),
@@ -305,7 +316,8 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
             { signal }
           )
 
-          contractCallsResult.forEach((call, index) => {
+          _contractCalls.forEach((call, index) => {
+            call.toContractAddress = patchedContractCalls[index].target
             call.toContractCallData = patchedContractCalls[index].callData
           })
 
@@ -320,7 +332,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
                 : { fromAmount: fromAmount.toString() }),
               toChain: toChainId,
               toToken: toTokenAddress,
-              contractCalls: contractCallsResult,
+              contractCalls: _contractCalls,
               denyBridges: disabledBridges.length ? disabledBridges : undefined,
               denyExchanges: disabledExchanges.length
                 ? disabledExchanges
@@ -343,11 +355,13 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
                 )
               : undefined
 
-          if (customStep && contractTool) {
+          const _contractTool =
+            contractCallsResult?.contractTool || contractTool
+          if (customStep && _contractTool) {
             const toolDetails = {
-              key: contractTool.name,
-              name: contractTool.name,
-              logoURI: contractTool.logoURI,
+              key: _contractTool.name,
+              name: _contractTool.name,
+              logoURI: _contractTool.logoURI,
             }
             customStep.toolDetails = toolDetails
             contractCallQuote.toolDetails = toolDetails

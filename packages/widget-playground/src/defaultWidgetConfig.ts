@@ -1,21 +1,26 @@
-import { ChainId } from '@lifi/sdk'
 import type {
-  ContractCall,
   ContractCallParams,
+  GetContractCallsResult,
   WidgetConfig,
 } from '@lifi/widget'
+import { ChainId } from '@lifi/widget'
 import { encodeFunctionData, parseAbi } from 'viem'
+
+export const contractTool = {
+  logoURI: 'https://app.lighter.xyz/apple-touch-icon.png',
+  name: 'Lighter',
+}
 
 const getContractCalls = async (
   params: ContractCallParams
-): Promise<ContractCall[]> => {
+): Promise<GetContractCallsResult> => {
   const contractCallData = encodeFunctionData({
     abi: parseAbi([
       'function supply(address asset, uint256 amount, address onBehalfOf, uint16 referralCode)',
     ]),
     functionName: 'supply',
     args: [
-      params.toToken.address as `0x${string}`, // asset (e.g. USDC address)
+      params.toTokenAddress as `0x${string}`, // asset (e.g. USDC address)
       params.fromAmount!, // amount (uint256 -> bigint)
       params.fromAddress as `0x${string}`, // recipient of aTokens
       0, // uint16 (usually 0)
@@ -33,15 +38,19 @@ const getContractCalls = async (
   //     params.fromAmount!, // _amount (uint256 -> bigint)
   //   ],
   // })
-  return [
-    {
-      fromTokenAddress: params.toToken.address,
-      fromAmount: params.fromAmount?.toString() || '0',
-      toContractAddress: '0xA238Dd80C259a72e81d7e4664a9801593F98d1c5', // '0x3B4D794a66304F130a4Db8F2551B0070dfCf5ca7', // Lighter
-      toContractCallData: contractCallData,
-      toContractGasLimit: '300000',
-    },
-  ]
+  return {
+    contractCalls: [
+      {
+        fromTokenAddress: params.toTokenAddress,
+        fromAmount: params.fromAmount?.toString() || '0',
+        toContractAddress: '0xA238Dd80C259a72e81d7e4664a9801593F98d1c5', // '0x3B4D794a66304F130a4Db8F2551B0070dfCf5ca7', // Lighter
+        toContractCallData: contractCallData,
+        toContractGasLimit: '300000',
+      },
+    ],
+    patcher: true,
+    contractTool,
+  }
 }
 
 // const contractCalls: ContractCall[] = [
@@ -54,14 +63,7 @@ const getContractCalls = async (
 //   },
 // ]
 
-export const contractTool = {
-  logoURI: 'https://app.lighter.xyz/apple-touch-icon.png',
-  name: 'Lighter',
-}
-
 export const widgetBaseConfig: WidgetConfig = {
-  getContractCalls,
-  contractTool,
   subvariant: 'custom',
   // fromChain: 137,
   // toChain: 10,
@@ -134,6 +136,9 @@ export const widgetBaseConfig: WidgetConfig = {
       // order: 'SAFEST',
       // allowSwitchChain: false,
       // fee: 0.05
+    },
+    executionOptions: {
+      getContractCalls,
     },
   },
   // theme: {
