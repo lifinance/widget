@@ -1,0 +1,98 @@
+0 silly argv {
+0 silly argv   _: [ 'version' ],
+0 silly argv   changelog: false,
+0 silly argv   push: false,
+0 silly argv   'git-tag-version': false,
+0 silly argv   gitTagVersion: false,
+0 silly argv   private: false,
+0 silly argv   preid: 'beta',
+0 silly argv   lernaVersion: '9.0.3',
+0 silly argv   '$0': 'node_modules/lerna/dist/cli.js'
+0 silly argv }
+1 notice cli v9.0.3
+2 verbose packageConfigs Explicit "packages" configuration found in lerna.json. Resolving packages using the configured glob(s): ["packages/*"]
+3 verbose rootPath /Users/eugene/Projects/widget-v3
+4 info versioning independent
+5 notice FYI git repository validation has been skipped, please ensure your version bumps are correct
+6 silly hasTags
+7 verbose hasTags true
+8 silly git-describe.sync "v3.38.0-5-ga0f67b1e" => {"lastTagName":"v3.38.0","lastVersion":"v3.38.0","refCount":"5","sha":"a0f67b1e","isDirty":false}
+9 info Looking for changed packages since v3.38.0
+10 info ignoring diff in paths matching [ '**/*.md' ]
+11 silly checking diff packages/wallet-management
+12 silly found diff in packages/wallet-management/package.json
+13 verbose filtered diff [ 'packages/wallet-management/package.json' ]
+14 silly checking diff packages/widget
+15 silly found diff in packages/widget/package.json
+15 silly found diff in packages/widget/src/components/AmountInput/AmountInput.tsx
+15 silly found diff in packages/widget/src/components/RouteCard/RouteCard.tsx
+15 silly found diff in packages/widget/src/components/Routes/Routes.tsx
+15 silly found diff in packages/widget/src/components/Routes/RoutesContent.tsx
+15 silly found diff in packages/widget/src/components/SelectChainAndToken.tsx
+15 silly found diff in packages/widget/src/components/SelectTokenButton/SelectTokenButton.tsx
+15 silly found diff in packages/widget/src/components/SendToWallet/SendToWalletButton.tsx
+15 silly found diff in packages/widget/src/components/Step/Step.tsx
+15 silly found diff in packages/widget/src/hooks/useRouteExecution.ts
+15 silly found diff in packages/widget/src/hooks/useRoutes.ts
+15 silly found diff in packages/widget/src/i18n/en.json
+15 silly found diff in packages/widget/src/index.ts
+15 silly found diff in packages/widget/src/pages/MainPage/MainPage.tsx
+15 silly found diff in packages/widget/src/pages/MainPage/ReviewButton.tsx
+15 silly found diff in packages/widget/src/pages/TransactionPage/TransactionPage.tsx
+15 silly found diff in packages/widget/src/stores/form/FormStore.tsx
+15 silly found diff in packages/widget/src/stores/form/FormUpdater.tsx
+15 silly found diff in packages/widget/src/types/widget.ts
+16 verbose filtered diff [
+16 verbose filtered diff   'packages/widget/package.json',
+16 verbose filtered diff   'packages/widget/src/components/AmountInput/AmountInput.tsx',
+16 verbose filtered diff   'packages/widget/src/components/RouteCard/RouteCard.tsx',
+16 verbose filtered diff   'packages/widget/src/components/Routes/Routes.tsx',
+16 verbose filtered diff   'packages/widget/src/components/Routes/RoutesContent.tsx',
+16 verbose filtered diff   'packages/widget/src/components/SelectChainAndToken.tsx',
+16 verbose filtered diff   'packages/widget/src/components/SelectTokenButton/SelectTokenButton.tsx',
+16 verbose filtered diff   'packages/widget/src/components/SendToWallet/SendToWalletButton.tsx',
+16 verbose filtered diff   'packages/widget/src/components/Step/Step.tsx',
+16 verbose filtered diff   'packages/widget/src/hooks/useRouteExecution.ts',
+16 verbose filtered diff   'packages/widget/src/hooks/useRoutes.ts',
+16 verbose filtered diff   'packages/widget/src/i18n/en.json',
+16 verbose filtered diff   'packages/widget/src/index.ts',
+16 verbose filtered diff   'packages/widget/src/pages/MainPage/MainPage.tsx',
+16 verbose filtered diff   'packages/widget/src/pages/MainPage/ReviewButton.tsx',
+16 verbose filtered diff   'packages/widget/src/pages/TransactionPage/TransactionPage.tsx',
+16 verbose filtered diff   'packages/widget/src/stores/form/FormStore.tsx',
+16 verbose filtered diff   'packages/widget/src/stores/form/FormUpdater.tsx',
+16 verbose filtered diff   'packages/widget/src/types/widget.ts'
+16 verbose filtered diff ]
+17 silly checking diff packages/widget-embedded
+18 silly found diff in packages/widget-embedded/package.json
+19 verbose filtered diff [ 'packages/widget-embedded/package.json' ]
+20 silly checking diff packages/widget-playground
+21 silly found diff in packages/widget-playground/package.json
+21 silly found diff in packages/widget-playground/src/components/DrawerControls/DesignControls/SubvariantControl.tsx
+21 silly found diff in packages/widget-playground/src/defaultWidgetConfig.ts
+22 verbose filtered diff [
+22 verbose filtered diff   'packages/widget-playground/package.json',
+22 verbose filtered diff   'packages/widget-playground/src/components/DrawerControls/DesignControls/SubvariantControl.tsx',
+22 verbose filtered diff   'packages/widget-playground/src/defaultWidgetConfig.ts'
+22 verbose filtered diff ]
+23 silly checking diff packages/widget-playground-next
+24 silly no diff found in @lifi/widget-playground-next
+25 silly checking diff packages/widget-playground-vite
+26 silly no diff found in @lifi/widget-playground-vite
+27 verbose updated @lifi/wallet-management
+28 verbose updated @lifi/widget
+29 verbose updated @lifi/widget-embedded
+30 verbose updated @lifi/widget-playground
+31 verbose updated @lifi/widget-playground-next
+32 verbose updated @lifi/widget-playground-vite
+33 warn version Skipping working tree validation, proceed at your own risk
+34 error ExitPromptError: User force closed the prompt with SIGINT
+34 error     at Interface.sigint (/Users/eugene/Projects/widget-v3/node_modules/.pnpm/@inquirer+core@10.3.2_@types+node@24.10.4/node_modules/@inquirer/core/dist/commonjs/lib/create-prompt.js:101:37)
+34 error     at Interface.emit (node:events:507:28)
+34 error     at [_ttyWrite] [as _ttyWrite] (node:internal/readline/interface:1315:18)
+34 error     at ReadStream.onkeypress (node:internal/readline/interface:284:20)
+34 error     at ReadStream.emit (node:events:519:35)
+34 error     at emitKeys (node:internal/readline/utils:371:14)
+34 error     at emitKeys.next (<anonymous>)
+34 error     at ReadStream.onData (node:internal/readline/emitKeypressEvents:64:36)
+34 error     at ReadStream.emit (node:events:507:28)
