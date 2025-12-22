@@ -3,6 +3,7 @@ export {
   ChainId,
   ChainType,
   CoinKey,
+  isZeroAddress,
   PatcherMagicNumber,
 } from '@lifi/sdk'
 export { App as LiFiWidget } from './App.js'
