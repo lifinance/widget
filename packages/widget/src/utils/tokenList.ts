@@ -156,6 +156,8 @@ const processedTypedTokens = (
     typedTokens?.forEach((token) => {
       const tokenAmount = { ...token } as TokenAmount
       tokenAmount[tokenType] = true
+      // Config tokens are explicitly set by integrator, mark as verified
+      tokenAmount.verified = true
 
       const match = filteredTokensMap.get(token.address)
       if (match?.priceUSD) {

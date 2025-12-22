@@ -1,4 +1,9 @@
-import { ChainType, type EVMChain, type ExtendedChain } from '@lifi/sdk'
+import {
+  ChainId,
+  ChainType,
+  type EVMChain,
+  type ExtendedChain,
+} from '@lifi/sdk'
 import { Avatar, Box } from '@mui/material'
 import { memo, useMemo } from 'react'
 
@@ -12,21 +17,25 @@ const chainTypeIcons = [
     name: 'Ethereum',
     chainType: ChainType.EVM,
     icon: 'https://lifinance.github.io/types/src/assets/icons/chains/ethereum.svg',
+    defaultChainId: ChainId.ETH,
   },
   {
     name: 'Solana',
     chainType: ChainType.SVM,
     icon: 'https://lifinance.github.io/types/src/assets/icons/chains/solana.svg',
+    defaultChainId: ChainId.SOL,
   },
   {
     name: 'Bitcoin',
     chainType: ChainType.UTXO,
     icon: 'https://lifinance.github.io/types/src/assets/icons/chains/bitcoin.svg',
+    defaultChainId: ChainId.BTC,
   },
   {
     name: 'Sui',
     chainType: ChainType.MVM,
     icon: 'https://lifinance.github.io/types/src/assets/icons/chains/sui.svg',
+    defaultChainId: ChainId.SUI,
   },
 ]
 
@@ -35,10 +44,48 @@ const maxChainAvatarsCount = chainTypeIcons.length
 export const AllChainsAvatar = memo(
   ({ chains, size }: AllChainsAvatarProps) => {
     const icons = useMemo(() => {
+      // Create maps for efficient lookups
+      const chainsPerChainType = new Map<ChainType, number>()
+      const chainsByChainType = new Map<
+        ChainType,
+        (ExtendedChain | EVMChain)[]
+      >()
+
+      chains.forEach((chain) => {
+        chainsPerChainType.set(
+          chain.chainType,
+          (chainsPerChainType.get(chain.chainType) || 0) + 1
+        )
+        const chainsOfType = chainsByChainType.get(chain.chainType) || []
+        chainsOfType.push(chain)
+        chainsByChainType.set(chain.chainType, chainsOfType)
+      })
+
       // Get existing ecosystem icons
-      const existingChainTypeIcons = chainTypeIcons.filter((predefinedChain) =>
-        chains.some((chain) => chain.chainType === predefinedChain.chainType)
+      const existingChainTypeIcons = chainTypeIcons.filter(
+        (predefinedChain) => {
+          const numberOfChains =
+            chainsPerChainType.get(predefinedChain.chainType) ?? 0
+
+          // If there's only one chain of this type, check if it's not the default
+          if (numberOfChains === 1) {
+            const chainsOfType = chainsByChainType.get(
+              predefinedChain.chainType
+            )
+            const singleChain = chainsOfType?.[0]
+            // Exclude the predefined icon if the single chain is not the default
+            if (
+              singleChain &&
+              singleChain.id !== predefinedChain.defaultChainId
+            ) {
+              return false
+            }
+          }
+
+          return numberOfChains > 0
+        }
       )
+
       if (existingChainTypeIcons.length === maxChainAvatarsCount) {
         return existingChainTypeIcons
       }
@@ -46,13 +93,14 @@ export const AllChainsAvatar = memo(
       const remainingSlots =
         maxChainAvatarsCount - existingChainTypeIcons.length
 
+      // Create a Set for O(1) lookup of predefined icon names
+      const predefinedIconNames = new Set(
+        existingChainTypeIcons.map((icon) => icon.name)
+      )
+
       const chainsWithLogos = chains.filter((chain) => {
         // Filter out chain icons matching ecosystem icons
-        const hasPredefinedIcon = existingChainTypeIcons.some(
-          (icon) => icon.name === chain.name
-        )
-        const hasLogoURI = Boolean(chain.logoURI)
-        return !hasPredefinedIcon && hasLogoURI
+        return !predefinedIconNames.has(chain.name) && Boolean(chain.logoURI)
       })
 
       const additionalIcons = chainsWithLogos

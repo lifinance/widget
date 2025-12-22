@@ -5,6 +5,8 @@ import { useChain } from '../../hooks/useChain.js'
 import { useSwapOnly } from '../../hooks/useSwapOnly.js'
 import { useToken } from '../../hooks/useToken.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
+import type { ChainOrderState } from '../../stores/chains/types.js'
 import type { FormTypeProps } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
@@ -36,6 +38,10 @@ export const SelectTokenButton: React.FC<
   )
   const { chain, isLoading: isChainLoading } = useChain(chainId)
   const { token, isLoading: isTokenLoading } = useToken(chainId, tokenAddress)
+
+  const isAllNetworks = useChainOrderStore(
+    (state: ChainOrderState) => state[`${formType}IsAllNetworks`]
+  )
 
   const handleClick = () => {
     navigate({
@@ -78,7 +84,9 @@ export const SelectTokenButton: React.FC<
               isSelected ? (
                 <TokenAvatar token={token} chain={chain} />
               ) : (
-                <AvatarBadgedDefault />
+                <AvatarBadgedDefault
+                  chain={isAllNetworks ? undefined : chain}
+                />
               )
             }
             title={isSelected ? token.symbol : defaultPlaceholder}
