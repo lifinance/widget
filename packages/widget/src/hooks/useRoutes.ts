@@ -300,26 +300,28 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           : contractCallsResult?.contractCalls
 
         if (_contractCalls?.length) {
-          const patchedContractCalls = await patchContractCalls(
-            _contractCalls.map((call) => ({
-              chainId: toChainId,
-              fromTokenAddress: call.fromTokenAddress,
-              targetContractAddress: call.toContractAddress,
-              callDataToPatch: call.toContractCallData,
-              delegateCall: false,
-              patches: [
-                {
-                  amountToReplace: PatcherMagicNumber.toString(),
-                },
-              ],
-            })),
-            { signal }
-          )
+          if (contractCallsResult?.patcher) {
+            const patchedContractCalls = await patchContractCalls(
+              _contractCalls.map((call) => ({
+                chainId: toChainId,
+                fromTokenAddress: call.fromTokenAddress,
+                targetContractAddress: call.toContractAddress,
+                callDataToPatch: call.toContractCallData,
+                delegateCall: false,
+                patches: [
+                  {
+                    amountToReplace: PatcherMagicNumber.toString(),
+                  },
+                ],
+              })),
+              { signal }
+            )
 
-          _contractCalls.forEach((call, index) => {
-            call.toContractAddress = patchedContractCalls[index].target
-            call.toContractCallData = patchedContractCalls[index].callData
-          })
+            _contractCalls.forEach((call, index) => {
+              call.toContractAddress = patchedContractCalls[index].target
+              call.toContractCallData = patchedContractCalls[index].callData
+            })
+          }
 
           const contractCallQuote = await getContractCallsQuote(
             {
