@@ -127,6 +127,7 @@
       "deleteTransactionHistory": "トランザクション履歴はローカルにのみ保存され、ユーザーが削除した場合には復元できません。",
       "fundsLossPrevention": "",
       "highValueLoss": "受け取るトークンの価値は、交換されたトークンとトランザクションコストよりも大幅に低くなります。",
+      "unverifiedToken": "",
       "insufficientFunds": "トランザクションを完了するのに十分な資金がありません。",
       "insufficientGas": "トランザクションを完了するのに十分なガスがありません。少なくとも以下を追加する必要があります：",
       "minFromAmountUSD": "",
