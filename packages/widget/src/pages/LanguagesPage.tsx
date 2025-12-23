@@ -1,4 +1,3 @@
-import Check from '@mui/icons-material/Check'
 import { List } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { ListItemText } from '../components/ListItemText.js'
@@ -33,6 +32,7 @@ export const LanguagesPage: React.FC = () => {
           <SettingsListItemButton
             key={language}
             onClick={() => setLanguageWithCode(language)}
+            selected={selectedLanguageCode === language}
           >
             <ListItemText
               primary={
@@ -43,7 +43,6 @@ export const LanguagesPage: React.FC = () => {
                 language
               }
             />
-            {selectedLanguageCode === language && <Check color="primary" />}
           </SettingsListItemButton>
         ))}
       </List>
