@@ -1,13 +1,11 @@
 import { ChainId, ChainType } from '@lifi/sdk'
 import { SolanaProvider as SolanaSDKProvider } from '@lifi/sdk-provider-solana'
 import { SolanaContext } from '@lifi/widget-provider'
-import {
-  type SignerWalletAdapter,
-  WalletReadyState,
-} from '@solana/wallet-adapter-base'
-import { useWallet, type Wallet } from '@solana/wallet-adapter-react'
-import type { PublicKey } from '@solana/web3.js'
+import type { Transaction } from '@solana/kit'
 import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
+import { useWalletAccount } from '../hooks/useWalletAccount'
+import { useWalletSigner } from '../hooks/useWalletSigner'
+import { useSolanaWalletStandard as useWallet } from './SolanaWalletStandardProvider'
 
 interface SolanaProviderValuesProps {
   isExternalContext: boolean
@@ -18,22 +16,31 @@ export const SolanaProviderValues: FC<
 > = ({ children, isExternalContext }) => {
   const {
     wallets,
-    wallet: currentWallet,
-    select: connect, // We use autoConnect on wallet selection
+    selectedWallet: currentWallet,
+    select,
     disconnect,
     connected,
   } = useWallet()
+  const { address: accountAddress } = useWalletAccount()
+  const { signer } = useWalletSigner()
 
-  const account = currentWallet?.adapter.publicKey
+  const connector = currentWallet
     ? {
-        address: currentWallet?.adapter.publicKey.toString(),
+        name: currentWallet.name,
+        icon: currentWallet.icon,
+      }
+    : undefined
+
+  const account = accountAddress
+    ? {
+        address: accountAddress,
         chainId: ChainId.SOL,
         chainType: ChainType.SVM,
-        connector: currentWallet?.adapter,
-        isConnected: Boolean(currentWallet?.adapter.publicKey) && connected,
+        connector,
+        isConnected: connected,
         isConnecting: false,
         isReconnecting: false,
-        isDisconnected: !currentWallet,
+        isDisconnected: false,
         status: 'connected' as const,
       }
     : {
@@ -50,41 +57,61 @@ export const SolanaProviderValues: FC<
   const sdkProvider = useMemo(
     () =>
       SolanaSDKProvider({
-        async getWalletAdapter() {
-          return currentWallet?.adapter as SignerWalletAdapter
+        async getWallet() {
+          if (!signer || !accountAddress) {
+            throw new Error('Wallet not connected')
+          }
+
+          return {
+            account: {
+              address: signer.address,
+              publicKey: new TextEncoder().encode(accountAddress),
+            },
+            async signTransaction(transaction: Transaction) {
+              if (!signer) {
+                throw new Error('Signer not available')
+              }
+
+              const [signedTx] = await signer.modifyAndSignTransactions([
+                transaction,
+              ])
+
+              return signedTx
+            },
+          }
         },
       }),
-    [currentWallet]
+    [signer, accountAddress]
   )
 
+  // Convert Wallet Standard wallets to a format the UI expects
   const installedWallets = useMemo(
     () =>
       wallets
-        .filter(
-          (wallet: Wallet) =>
-            wallet.adapter.readyState === WalletReadyState.Installed ||
-            wallet.adapter.readyState === WalletReadyState.Loadable
-        )
-        .map((wallet: Wallet) => wallet.adapter),
+        .filter((wallet) => wallet.installed && wallet.connectable)
+        .map((wallet) => ({
+          name: wallet.name,
+          icon: wallet.icon,
+          wallet: wallet.wallet,
+        })),
     [wallets]
   )
 
   const handleConnect = useCallback(
     async (
-      connectorIdOrName: string,
+      walletName: string,
       onSuccess?: (address: string, chainId: number) => void
     ) => {
-      const adapter = wallets.find(
-        (wallet) => wallet.adapter.name === connectorIdOrName
-      )?.adapter
-      if (adapter) {
-        connect(adapter.name)
-        adapter.once('connect', (publicKey: PublicKey) => {
-          onSuccess?.(publicKey?.toString(), ChainId.SOL)
-        })
+      try {
+        await select(walletName)
+        if (accountAddress) {
+          onSuccess?.(accountAddress, ChainId.SOL)
+        }
+      } catch (error) {
+        console.error('Failed to connect wallet:', error)
       }
     },
-    [connect, wallets]
+    [select, accountAddress]
   )
 
   return (
