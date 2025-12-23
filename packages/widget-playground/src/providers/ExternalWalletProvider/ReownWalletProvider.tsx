@@ -49,7 +49,7 @@ export function ReownWalletProvider({
       projectId: EVMWalletConnectId,
       ssr: false,
     })
-    const solanaAdapter = new SolanaAdapter()
+    const solanaAdapter = new SolanaAdapter({ registerWalletStandard: true })
 
     const appKit = createAppKit({
       adapters: [wagmiAdapter, solanaAdapter],
