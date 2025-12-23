@@ -69,7 +69,7 @@ export const widgetBaseConfig: WidgetConfig = {
   // },
   sdkConfig: {
     apiUrl: 'https://li.quest/v1',
-    chainsRefetchInterval: 1000 * 60 * 5, // 5 minutes
+    preloadChains: false,
     rpcUrls: {
       [ChainId.SOL]: [
         'https://wild-winter-frog.solana-mainnet.quiknode.pro/2370a45ff891f6dc9e5b1753460290fe0f1ef103/',

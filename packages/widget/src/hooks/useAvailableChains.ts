@@ -22,33 +22,26 @@ const supportedChainTypes = [
 
 export const useAvailableChains = (
   chainTypes?: ChainType[],
-  externalWidgetConfig?: WidgetConfig
+  widgetConfig?: WidgetConfig
 ) => {
-  const {
-    chains: internalChains,
-    keyPrefix: internalKeyPrefix,
-    sdkConfig: internalSdkConfig,
-  } = useWidgetConfig()
+  const { chains: internalChains, keyPrefix: internalKeyPrefix } =
+    useWidgetConfig()
   const internalClient = useSDKClient()
 
   const externalClient = useMemo(() => {
-    if (!externalWidgetConfig) {
+    if (!widgetConfig) {
       return undefined
     }
     return createClient({
-      ...externalWidgetConfig.sdkConfig,
-      apiKey: externalWidgetConfig.apiKey,
-      integrator: externalWidgetConfig.integrator ?? window?.location.hostname,
+      ...widgetConfig.sdkConfig,
+      apiKey: widgetConfig.apiKey,
+      integrator: widgetConfig.integrator ?? window?.location.hostname,
     })
-  }, [externalWidgetConfig])
+  }, [widgetConfig])
 
   // Overwrite widget config if passed as param
-  const keyPrefix = externalWidgetConfig?.keyPrefix ?? internalKeyPrefix
-  const chains = externalWidgetConfig?.chains ?? internalChains
-  const refetchInterval =
-    externalWidgetConfig?.sdkConfig?.chainsRefetchInterval ??
-    internalSdkConfig?.chainsRefetchInterval ??
-    300_000
+  const keyPrefix = widgetConfig?.keyPrefix ?? internalKeyPrefix
+  const chains = widgetConfig?.chains ?? internalChains
 
   const { data, isLoading } = useQuery({
     queryKey: [
@@ -67,22 +60,15 @@ export const useAvailableChains = (
       const chainTypesRequest = supportedChainTypes.filter((chainType) =>
         isItemAllowedForSets(chainType, chainsConfigSets)
       )
-
-      let availableChains: ExtendedChain[] = []
-      if (externalClient) {
-        availableChains = await getChains(externalClient, {
-          chainTypes: chainTypes || chainTypesRequest,
-        })
-      } else {
-        availableChains = (await internalClient.getChains()).filter((chain) =>
-          (chainTypes || chainTypesRequest)?.includes(chain.chainType)
-        )
-      }
-
+      const client = externalClient ?? internalClient
+      const availableChains = await getChains(client, {
+        chainTypes: chainTypes || chainTypesRequest,
+      })
+      client.setChains(availableChains)
       return availableChains
     },
-    refetchInterval,
-    staleTime: refetchInterval,
+    refetchInterval: 300_000,
+    staleTime: 300_000,
   })
 
   const getChainById: GetChainById = useCallback(
