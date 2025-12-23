@@ -1,11 +1,9 @@
 import { ChainId, ChainType } from '@lifi/sdk'
 import { SolanaProvider as SolanaSDKProvider } from '@lifi/sdk-provider-solana'
 import { SolanaContext } from '@lifi/widget-provider'
-import type { Transaction } from '@solana/kit'
 import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
 import { useWalletAccount } from '../hooks/useWalletAccount'
-import { useWalletSigner } from '../hooks/useWalletSigner'
-import { useSolanaWalletStandard as useWallet } from './SolanaWalletStandardProvider'
+import { useSolanaWalletStandard as useWallet } from '../wallet-standard/useSolanaWalletStandard'
 
 interface SolanaProviderValuesProps {
   isExternalContext: boolean
@@ -22,7 +20,6 @@ export const SolanaProviderValues: FC<
     connected,
   } = useWallet()
   const { address: accountAddress } = useWalletAccount()
-  const { signer } = useWalletSigner()
 
   const connector = currentWallet
     ? {
@@ -58,30 +55,14 @@ export const SolanaProviderValues: FC<
     () =>
       SolanaSDKProvider({
         async getWallet() {
-          if (!signer || !accountAddress) {
+          if (!currentWallet) {
             throw new Error('Wallet not connected')
           }
 
-          return {
-            account: {
-              address: signer.address,
-              publicKey: new TextEncoder().encode(accountAddress),
-            },
-            async signTransaction(transaction: Transaction) {
-              if (!signer) {
-                throw new Error('Signer not available')
-              }
-
-              const [signedTx] = await signer.modifyAndSignTransactions([
-                transaction,
-              ])
-
-              return signedTx
-            },
-          }
+          return currentWallet
         },
       }),
-    [signer, accountAddress]
+    [currentWallet]
   )
 
   // Convert Wallet Standard wallets to a format the UI expects

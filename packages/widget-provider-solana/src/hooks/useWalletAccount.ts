@@ -1,5 +1,5 @@
-import { useSolanaWalletStandard } from '../providers/SolanaWalletStandardProvider.js'
-import type { AccountInfo } from '../wallet-standard-client.js'
+import { useSolanaWalletStandard } from '../wallet-standard/useSolanaWalletStandard.js'
+import type { AccountInfo } from '../wallet-standard/wallet-standard-client.js'
 
 export interface UseWalletAccountReturn {
   /** Currently selected account address */
