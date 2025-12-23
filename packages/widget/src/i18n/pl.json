@@ -127,6 +127,7 @@
       "deleteTransactionHistory": "",
       "fundsLossPrevention": "",
       "highValueLoss": "",
+      "unverifiedToken": "",
       "insufficientFunds": "",
       "insufficientGas": "",
       "minFromAmountUSD": "",

@@ -127,6 +127,7 @@
       "deleteTransactionHistory": "El historial de transacciones solo se almacena localmente y no se puede recuperar si lo elimina.",
       "fundsLossPrevention": "Asegúrate de que las cuentas de Contratos Inteligentes estén bien configuradas en la cadena de destino y evita transferencias directas a plataformas de intercambio centralizadas para no perder fondos.",
       "highValueLoss": "El valor de los tokens recibidos es significativamente menor que los tokens intercambiados y el costo de la transacción.",
+      "unverifiedToken": "",
       "insufficientFunds": "No tiene fondos suficientes para ejecutar el intercambio.",
       "insufficientGas": "Debes agregar al menos:",
       "minFromAmountUSD": "",
