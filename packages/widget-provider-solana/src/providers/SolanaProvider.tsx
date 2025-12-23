@@ -1,34 +1,17 @@
 import type { WidgetProviderProps } from '@lifi/widget-provider'
 import type { PropsWithChildren } from 'react'
-import { SolanaBaseProvider } from './SolanaBaseProvider'
+import { useSolanaWalletStandard } from '../wallet-standard/useSolanaWalletStandard'
 import { SolanaProviderValues } from './SolanaProviderValues'
-import { useSolanaWalletStandardContext } from './SolanaWalletStandardProvider'
-
-function useInSolanaContext(): boolean {
-  const context = useSolanaWalletStandardContext()
-  return Boolean(context)
-}
 
 const SolanaWidgetProvider = ({
-  forceInternalWalletManagement,
   children,
 }: PropsWithChildren<WidgetProviderProps>) => {
-  const inSolanaContext = useInSolanaContext()
-
-  if (inSolanaContext && !forceInternalWalletManagement) {
-    return (
-      <SolanaProviderValues isExternalContext={inSolanaContext}>
-        {children}
-      </SolanaProviderValues>
-    )
-  }
+  useSolanaWalletStandard({ autoConnect: true })
 
   return (
-    <SolanaBaseProvider>
-      <SolanaProviderValues isExternalContext={inSolanaContext}>
-        {children}
-      </SolanaProviderValues>
-    </SolanaBaseProvider>
+    <SolanaProviderValues isExternalContext={false}>
+      {children}
+    </SolanaProviderValues>
   )
 }
 
