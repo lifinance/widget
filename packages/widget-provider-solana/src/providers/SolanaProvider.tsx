@@ -1,12 +1,12 @@
 import type { WidgetProviderProps } from '@lifi/widget-provider'
-import { ConnectionContext } from '@solana/wallet-adapter-react'
-import { type PropsWithChildren, useContext } from 'react'
+import type { PropsWithChildren } from 'react'
 import { SolanaBaseProvider } from './SolanaBaseProvider'
 import { SolanaProviderValues } from './SolanaProviderValues'
+import { useSolanaWalletStandardContext } from './SolanaWalletStandardProvider'
 
 function useInSolanaContext(): boolean {
-  const context = useContext(ConnectionContext)
-  return Boolean(context?.connection)
+  const context = useSolanaWalletStandardContext()
+  return Boolean(context)
 }
 
 const SolanaWidgetProvider = ({
