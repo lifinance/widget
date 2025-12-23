@@ -127,6 +127,7 @@
       "deleteTransactionHistory": "Riwayat transaksi hanya disimpan secara lokal dan tidak dapat dipulihkan jika Anda menghapusnya.",
       "fundsLossPrevention": "Selalu pastikan akun kontrak pintar disiapkan dengan benar di rantai tujuan dan hindari transfer langsung ke bursa untuk mencegah hilangnya dana.",
       "highValueLoss": "Nilai token yang diterima jauh lebih rendah daripada token yang ditukar dan biaya transaksi.",
+      "unverifiedToken": "",
       "insufficientFunds": "Anda tidak memiliki cukup dana untuk menyelesaikan penukaran.",
       "insufficientGas": "Anda tidak memiliki cukup gas untuk menyelesaikan penukaran. Anda perlu menambahkan setidaknya:",
       "minFromAmountUSD": "",
@@ -237,6 +238,7 @@
     "myTokens": "Token saya",
     "onChain": "di {{chainName}}",
     "ownedBy": "Dimiliki oleh",
+    "pinnedTokens": "",
     "popularTokens": "Token populer",
     "priceImpact": "Dampak terhadap harga",
     "process": {
@@ -331,7 +333,8 @@
     "routePriority": "Prioritas rute",
     "slippage": "Slip maksimum",
     "custom": "Kustom",
-    "resetSettings": "Anda menggunakan pengaturan khusus yang dapat memengaruhi jumlah atau pengurutan rute yang tersedia."
+    "resetSettings": "Anda menggunakan pengaturan khusus yang dapat memengaruhi jumlah atau pengurutan rute yang tersedia.",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "Tambahkan bookmark",

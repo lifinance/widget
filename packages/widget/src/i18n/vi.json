@@ -127,6 +127,7 @@
       "deleteTransactionHistory": "Lịch sử Swap chỉ lưu trữ cục bộ và không thể phục hồi khi bạn xoá chúng.",
       "fundsLossPrevention": "",
       "highValueLoss": "Giá trị của token nhận được đang thấp hơn rất nhiều so với token được swap và chi phí giao dịch.",
+      "unverifiedToken": "",
       "insufficientFunds": "Bạn không có đủ tiền để thực hiện tác vụ này.",
       "insufficientGas": "Bạn không đủ gas để thực hiện swap. Bạn cần thêm ít nhất:",
       "minFromAmountUSD": "",
@@ -237,6 +238,7 @@
     "myTokens": "Mã thông báo của tôi",
     "onChain": "tại {{chainName}}",
     "ownedBy": "Được sở hữu bởi",
+    "pinnedTokens": "",
     "popularTokens": "Mã thông báo phổ biến",
     "priceImpact": "",
     "process": {
@@ -331,7 +333,8 @@
     "routePriority": "Tuyền đường ưu tiên",
     "slippage": "",
     "custom": "Tuỳ chỉnh",
-    "resetSettings": "Bạn đang sử dụng cài đặt tùy chỉnh có thể ảnh hưởng đến số lượng hoặc cách sắp xếp các tuyến đường có sẵn."
+    "resetSettings": "Bạn đang sử dụng cài đặt tùy chỉnh có thể ảnh hưởng đến số lượng hoặc cách sắp xếp các tuyến đường có sẵn.",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "Thêm dấu trang",

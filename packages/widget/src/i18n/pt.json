@@ -127,6 +127,7 @@
       "deleteTransactionHistory": "O histórico de conversões é armazenado apenas localmente e não pode ser recuperado caso seja excluído.",
       "fundsLossPrevention": "Sempre certifique-se de que as contas de contrato inteligente estão devidamente configuradas na cadeia de destino e evite transferências diretas para corretoras de criptomoedas para evitar perda de fundos.",
       "highValueLoss": "A quantidade de tokens a serem recebidos é significativamente menor do que os tokens convertidos e os custos da transação.",
+      "unverifiedToken": "",
       "insufficientFunds": "Você não possui fundos suficientes para completar a conversão.",
       "insufficientGas": "Você não tem gás suficiente para completar a conversão. É necessário adicionar pelo menos:",
       "minFromAmountUSD": "Valor mínimo é {{amount, currencyExt(currency: USD)}}. Por favor, insira um valor maior.",
@@ -237,6 +238,7 @@
     "myTokens": "Meus tokens",
     "onChain": "em {{chainName}}",
     "ownedBy": "Possuído por",
+    "pinnedTokens": "Tokens fixados",
     "popularTokens": "Tokens populares",
     "priceImpact": "Impacto no preço",
     "process": {
@@ -331,7 +333,8 @@
     "routePriority": "Prioridade de rota / caminho",
     "slippage": "Diferença máxima",
     "custom": "Personalizado",
-    "resetSettings": "Você está usando configurações personalizadas que podem afetar o número ou a classificação das rotas disponíveis."
+    "resetSettings": "Você está usando configurações personalizadas que podem afetar o número ou a classificação das rotas disponíveis.",
+    "hideSmallBalances": "Ocultar pequenos saldos"
   },
   "sendToWallet": {
     "addBookmark": "Adicionar marcador",

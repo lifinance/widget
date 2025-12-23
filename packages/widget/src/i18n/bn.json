@@ -127,6 +127,7 @@
       "deleteTransactionHistory": "",
       "fundsLossPrevention": "",
       "highValueLoss": "প্রাপ্ত টোকেনগুলির মান সোওয়াপ করা টোকেন এবং লেনদেনের খরচের তুলনায় উল্লেখযোগ্যভাবে কম।",
+      "unverifiedToken": "",
       "insufficientFunds": "সোওয়াপ সম্পূর্ণ করার জন্য আপনার কাছে পর্যাপ্ত তহবিল নেই।",
       "insufficientGas": "সোওয়াপ সম্পূর্ণ করার জন্য আপনার কাছে পর্যাপ্ত গ্যাস নেই। আপনাকে অন্তত যোগ করতে হবে:",
       "minFromAmountUSD": "",
@@ -237,6 +238,7 @@
     "myTokens": "",
     "onChain": "{{chainName}} -এ",
     "ownedBy": "মালিক",
+    "pinnedTokens": "",
     "popularTokens": "",
     "priceImpact": "",
     "process": {
@@ -331,7 +333,8 @@
     "routePriority": "রুট অগ্রাধিকার",
     "slippage": "",
     "custom": "",
-    "resetSettings": ""
+    "resetSettings": "",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "",

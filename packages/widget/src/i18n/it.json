@@ -127,6 +127,7 @@
       "deleteTransactionHistory": "La cronologia delle transazioni è memorizzata solo localmente e non può essere recuperata se la elimini.",
       "fundsLossPrevention": "",
       "highValueLoss": "Il valore dei token ricevuti è significativamente inferiore ai token scambiati più il costo della transazione.",
+      "unverifiedToken": "",
       "insufficientFunds": "Non hai abbastanza fondi per completare lo scambio.",
       "insufficientGas": "Non hai abbastanza gas per completare lo scambio. Devi aggiungere almeno:",
       "minFromAmountUSD": "",
@@ -237,6 +238,7 @@
     "myTokens": "",
     "onChain": "su {{chainName}}",
     "ownedBy": "Di proprietà di",
+    "pinnedTokens": "",
     "popularTokens": "",
     "priceImpact": "",
     "process": {
@@ -331,7 +333,8 @@
     "routePriority": "Priorità di route",
     "slippage": "",
     "custom": "",
-    "resetSettings": ""
+    "resetSettings": "",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "",

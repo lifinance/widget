@@ -21,21 +21,42 @@ export const processTokenBalances = (
   configTokens?: WidgetTokens,
   selectedChainId?: number,
   tokens?: TokenExtended[],
-  tokensWithBalances?: TokenAmount[]
+  tokensWithBalances?: TokenAmount[],
+  isPinnedToken?: (chainId: number, tokenAddress: string) => boolean
 ) => {
   if (isBalanceLoading) {
     if (noCategories) {
       const sortedTokens = [...(tokens ?? [])].sort(sortByVolume)
+      // Separate pinned tokens
+      if (isPinnedToken) {
+        const pinned: TokenAmount[] = []
+        const notPinned: TokenAmount[] = []
+        for (const token of sortedTokens) {
+          if (isPinnedToken(token.chainId, token.address)) {
+            const pinnedToken = { ...token, pinned: true } as TokenAmount
+            pinned.push(pinnedToken)
+          } else {
+            notPinned.push(token)
+          }
+        }
+        return {
+          processedTokens: [...pinned, ...notPinned],
+          withCategories: false,
+          withPinnedTokens: !!pinned.length,
+        }
+      }
       return {
         processedTokens: sortedTokens,
         withCategories: false,
+        withPinnedTokens: false,
       }
     } else {
       return processedTypedTokens(
         tokens ?? [],
         [],
         selectedChainId,
-        configTokens
+        configTokens,
+        isPinnedToken
       )
     }
   }
@@ -58,16 +79,55 @@ export const processTokenBalances = (
       .sort(sortByVolume) ?? []
 
   if (noCategories) {
+    // Separate pinned tokens
+    if (isPinnedToken) {
+      const pinnedWithBalances: TokenAmount[] = []
+      const notPinnedWithBalances: TokenAmount[] = []
+      const pinnedWithoutBalances: TokenAmount[] = []
+      const notPinnedWithoutBalances: TokenAmount[] = []
+
+      for (const token of sortedTokensWithBalances) {
+        if (isPinnedToken(token.chainId, token.address)) {
+          const pinnedToken = { ...token, pinned: true } as TokenAmount
+          pinnedWithBalances.push(pinnedToken)
+        } else {
+          notPinnedWithBalances.push(token)
+        }
+      }
+
+      for (const token of tokensWithoutBalances) {
+        if (isPinnedToken(token.chainId, token.address)) {
+          const pinnedToken = { ...token, pinned: true } as TokenAmount
+          pinnedWithoutBalances.push(pinnedToken)
+        } else {
+          notPinnedWithoutBalances.push(token)
+        }
+      }
+
+      return {
+        processedTokens: [
+          ...pinnedWithBalances,
+          ...pinnedWithoutBalances,
+          ...notPinnedWithBalances,
+          ...notPinnedWithoutBalances,
+        ],
+        withCategories: false,
+        withPinnedTokens:
+          !!pinnedWithBalances.length || !!pinnedWithoutBalances.length,
+      }
+    }
     return {
       processedTokens: [...sortedTokensWithBalances, ...tokensWithoutBalances],
       withCategories: false,
+      withPinnedTokens: false,
     }
   } else {
     return processedTypedTokens(
       tokensWithoutBalances,
       sortedTokensWithBalances,
       selectedChainId,
-      configTokens
+      configTokens,
+      isPinnedToken
     )
   }
 }
@@ -77,12 +137,14 @@ const processedTypedTokens = (
   tokens: TokenAmount[],
   tokensWithBalances: TokenAmount[],
   selectedChainId?: number,
-  configTokens?: WidgetTokens
+  configTokens?: WidgetTokens,
+  isPinnedToken?: (chainId: number, tokenAddress: string) => boolean
 ) => {
   const filteredTokensMap = new Map(
     tokens.map((token) => [token.address, token])
   )
 
+  const pinnedTokens: TokenAmount[] = []
   const featuredTokensFromConfig: TokenAmount[] = []
   const popularTokensFromConfig: TokenAmount[] = []
 
@@ -94,6 +156,8 @@ const processedTypedTokens = (
     typedTokens?.forEach((token) => {
       const tokenAmount = { ...token } as TokenAmount
       tokenAmount[tokenType] = true
+      // Config tokens are explicitly set by integrator, mark as verified
+      tokenAmount.verified = true
 
       const match = filteredTokensMap.get(token.address)
       if (match?.priceUSD) {
@@ -107,6 +171,16 @@ const processedTypedTokens = (
         popularTokensFromConfig.push(tokenAmount)
       } else {
         featuredTokensFromConfig.push(tokenAmount)
+      }
+
+      // Additionally add to pinned tokens if it is pinned
+      const isPinned =
+        isPinnedToken && selectedChainId
+          ? isPinnedToken(selectedChainId, token.address)
+          : false
+      if (isPinned) {
+        const pinnedToken = { ...tokenAmount, pinned: true } as TokenAmount
+        pinnedTokens.push(pinnedToken)
       }
     })
   })
@@ -124,8 +198,17 @@ const processedTypedTokens = (
 
   const otherTokens: TokenAmount[] = []
 
+  // Separate pinned tokens and categorize remaining tokens
   for (const token of remainingTokens) {
-    if (token.featured) {
+    const isPinned =
+      isPinnedToken && selectedChainId
+        ? isPinnedToken(selectedChainId, token.address)
+        : false
+
+    if (isPinned) {
+      const pinnedToken = { ...token, pinned: true } as TokenAmount
+      pinnedTokens.push(pinnedToken)
+    } else if (token.featured) {
       featuredTokensFromConfig.push(token)
     } else if (token.popular) {
       popularTokensFromConfig.push(token)
@@ -134,20 +217,42 @@ const processedTypedTokens = (
     }
   }
 
+  // Also check tokens with balances for pinned status
+  const pinnedTokensWithBalances: TokenAmount[] = []
+  const nonPinnedTokensWithBalances: TokenAmount[] = []
+
+  if (isPinnedToken && selectedChainId) {
+    for (const token of tokensWithBalances) {
+      if (isPinnedToken(selectedChainId, token.address)) {
+        const pinnedToken = { ...token, pinned: true } as TokenAmount
+        pinnedTokensWithBalances.push(pinnedToken)
+      } else {
+        nonPinnedTokensWithBalances.push(token)
+      }
+    }
+  } else {
+    nonPinnedTokensWithBalances.push(...tokensWithBalances)
+  }
+
+  const sortedPinnedTokens = [
+    ...pinnedTokens,
+    ...pinnedTokensWithBalances,
+  ].sort(sortByVolume)
   const sortedFeaturedTokens = [...featuredTokensFromConfig].sort(sortByVolume)
   const sortedPopularTokens = [...popularTokensFromConfig].sort(sortByVolume)
   const sortedOtherTokens = [...otherTokens].sort(sortByVolume)
 
   return {
     processedTokens: [
+      ...sortedPinnedTokens,
       ...sortedFeaturedTokens,
-      ...tokensWithBalances,
+      ...nonPinnedTokensWithBalances,
       ...sortedPopularTokens,
       ...sortedOtherTokens,
     ],
-    withCategories: Boolean(
-      featuredTokensFromConfig?.length || popularTokensFromConfig?.length
-    ),
+    withCategories:
+      !!featuredTokensFromConfig.length || !!popularTokensFromConfig.length,
+    withPinnedTokens: !!sortedPinnedTokens.length,
   }
 }
 

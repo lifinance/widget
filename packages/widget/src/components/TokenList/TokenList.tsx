@@ -41,6 +41,7 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
   const {
     tokens,
     withCategories,
+    withPinnedTokens,
     isTokensLoading,
     isBalanceLoading,
     isSearchLoading,
@@ -77,6 +78,7 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
         isLoading={isTokensLoading || isSearchLoading}
         isBalanceLoading={isBalanceLoading}
         showCategories={showCategories}
+        showPinnedTokens={withPinnedTokens}
         onClick={handleTokenClick}
         selectedTokenAddress={selectedTokenAddress}
         isAllNetworks={isAllNetworks}

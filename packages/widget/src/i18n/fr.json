@@ -237,6 +237,7 @@
     "myTokens": "Mes jetons",
     "onChain": "sur {{chainName}}",
     "ownedBy": "Propriétaire",
+    "pinnedTokens": "",
     "popularTokens": "Jetons populaires",
     "priceImpact": "",
     "process": {
@@ -331,7 +332,8 @@
     "routePriority": "Priorité de l'itinéraire",
     "slippage": "",
     "custom": "Personnalisé",
-    "resetSettings": "Vous utilisez des paramètres personnalisés pouvant affecter le nombre ou le tri des routes disponibles."
+    "resetSettings": "Vous utilisez des paramètres personnalisés pouvant affecter le nombre ou le tri des routes disponibles.",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "Ajouter un favori",

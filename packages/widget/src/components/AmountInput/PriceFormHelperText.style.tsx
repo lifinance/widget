@@ -25,5 +25,8 @@ export const InputPriceButton = styled(Button)(({ theme, onClick }) => ({
         cursor: 'text',
         userSelect: 'text',
         pointerEvents: 'none',
+        ...theme.applyStyles('dark', {
+          backgroundColor: 'transparent',
+        }),
       }),
 }))

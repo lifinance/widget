@@ -5,15 +5,21 @@ import {
   type TokensExtendedResponse,
 } from '@lifi/sdk'
 import { useChainTypeFromAddress } from '@lifi/widget-provider'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
+import type { TokensByChain } from '../types/token.js'
 import { defaultChainIdsByType } from '../utils/chainType.js'
 import { isItemAllowed } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
-import { filterAllowedTokens } from '../utils/token.js'
+import {
+  filterAllowedTokens,
+  mergeVerifiedWithSearchTokens,
+} from '../utils/token.js'
+
+const refetchInterval = 300_000
 
 export const useTokens = (
   formType?: FormType,
@@ -26,13 +32,10 @@ export const useTokens = (
     keyPrefix,
   } = useWidgetConfig()
   const sdkClient = useSDKClient()
+  const { getChainTypeFromAddress } = useChainTypeFromAddress()
 
-  const { isLoading: isSearchLoading } = useBackgroundTokenSearch(
-    search,
-    chainId
-  )
-
-  const { data, isLoading } = useQuery({
+  // Main tokens cache - verified tokens from API
+  const { data: verifiedTokens, isLoading } = useQuery({
     queryKey: [getQueryKey('tokens', keyPrefix)],
     queryFn: async ({ signal }) => {
       const chainTypes = [
@@ -41,6 +44,7 @@ export const useTokens = (
         ChainType.UTXO,
         ChainType.MVM,
       ].filter((chainType) => isItemAllowed(chainType, chainsConfig?.types))
+
       const tokensResponse: TokensExtendedResponse = await getTokens(
         sdkClient,
         {
@@ -52,47 +56,37 @@ export const useTokens = (
         },
         { signal }
       )
-      return tokensResponse
+
+      // Mark all tokens as verified
+      const tokens: TokensByChain = Object.fromEntries(
+        Object.entries(tokensResponse.tokens).map(([chainId, tokens]) => [
+          chainId,
+          tokens.map((token) => ({ ...token, verified: true })),
+        ])
+      )
+
+      return tokens
     },
-    refetchInterval: 300_000,
-    staleTime: 300_000,
+    refetchInterval,
+    staleTime: refetchInterval,
   })
 
-  const allTokens = useMemo(() => {
-    return filterAllowedTokens(
-      data?.tokens,
-      configTokens,
-      chainsConfig,
-      formType
-    )
-  }, [data?.tokens, configTokens, chainsConfig, formType])
-
-  return {
-    allTokens,
-    isLoading,
-    isSearchLoading,
-  }
-}
-
-/** This hook is used to search for tokens in the background.
- * It updates the main tokens cache with the search results,
- * if any of the tokens are not already in the cache. */
-const useBackgroundTokenSearch = (search?: string, chainId?: number) => {
-  const { chains: chainsConfig, keyPrefix } = useWidgetConfig()
-  const sdkClient = useSDKClient()
-  const { getChainTypeFromAddress } = useChainTypeFromAddress()
-  const queryClient = useQueryClient()
-
-  const { isLoading: isSearchLoading } = useQuery({
+  // Search tokens cache - unverified tokens from search
+  const { data: searchTokens, isLoading: isSearchLoading } = useQuery({
     queryKey: [getQueryKey('tokens-search', keyPrefix), search, chainId],
     queryFn: async ({ queryKey, signal }) => {
-      const [, searchQuery, chainId] = queryKey as [string, string, number]
+      const [, searchQuery, searchChainId] = queryKey as [
+        string,
+        string,
+        number,
+      ]
       const chainTypes = [
         ChainType.EVM,
         ChainType.SVM,
         ChainType.UTXO,
         ChainType.MVM,
       ].filter((chainType) => isItemAllowed(chainType, chainsConfig?.types))
+
       const tokensResponse: TokensExtendedResponse = await getTokens(
         sdkClient,
         {
@@ -107,7 +101,7 @@ const useBackgroundTokenSearch = (search?: string, chainId?: number) => {
       )
 
       // If the chainId is not provided, try to get it from the search query
-      let _chainId = chainId
+      let _chainId = searchChainId
       if (!_chainId) {
         const chainType = getChainTypeFromAddress(searchQuery)
         if (chainType && chainType in defaultChainIdsByType) {
@@ -129,57 +123,30 @@ const useBackgroundTokenSearch = (search?: string, chainId?: number) => {
         }
       }
 
-      // Merge search results into main tokens cache
-      if (searchQuery) {
-        queryClient.setQueriesData<TokensExtendedResponse>(
-          { queryKey: [getQueryKey('tokens', keyPrefix)] },
-          (data) => {
-            if (!data) {
-              return data
-            }
+      // Mark all search tokens as unverified
+      const tokens: TokensByChain = Object.fromEntries(
+        Object.entries(tokensResponse.tokens).map(([chainId, tokens]) => [
+          chainId,
+          tokens.map((token) => ({ ...token, verified: false })),
+        ])
+      )
 
-            const clonedData = { ...data, tokens: { ...data.tokens } }
-
-            Object.entries(tokensResponse.tokens).forEach(
-              ([chainId, searchTokens]) => {
-                const chainIdNum = Number(chainId)
-                const existingTokens = clonedData.tokens[chainIdNum] || []
-
-                const existingTokenAddresses = new Set(
-                  existingTokens.map((token) => token.address.toLowerCase())
-                )
-
-                // Find tokens in search results that don't exist in the main list
-                const newTokens = searchTokens.filter(
-                  (searchToken) =>
-                    !existingTokenAddresses.has(
-                      searchToken.address.toLowerCase()
-                    )
-                )
-
-                // Add new tokens to the main list
-                if (newTokens.length > 0) {
-                  clonedData.tokens[chainIdNum] = [
-                    ...existingTokens,
-                    ...newTokens,
-                  ]
-                }
-              }
-            )
-
-            return clonedData
-          }
-        )
-      }
-
-      return tokensResponse
+      return tokens
     },
     enabled: !!search,
-    refetchInterval: 300_000,
-    staleTime: 300_000,
+    refetchInterval,
+    staleTime: refetchInterval,
   })
 
+  // Merge tokens at read time - single place where caches are combined
+  const allTokens = useMemo(() => {
+    const merged = mergeVerifiedWithSearchTokens(verifiedTokens, searchTokens)
+    return filterAllowedTokens(merged, configTokens, chainsConfig, formType)
+  }, [verifiedTokens, searchTokens, configTokens, chainsConfig, formType])
+
   return {
-    isLoading: isSearchLoading,
+    allTokens,
+    isLoading,
+    isSearchLoading,
   }
 }

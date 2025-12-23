@@ -46,7 +46,7 @@
     "@lifi/sdk": "^4.0.0-alpha.5",
     "@lifi/sdk-provider-ethereum": "^4.0.0-alpha.5",
     "@lifi/widget-provider": "workspace:*",
-    "viem": "^2.40.2"
+    "viem": "^2.41.2"
   },
   "peerDependencies": {
     "wagmi": "^2.19.0"
@@ -54,7 +54,7 @@
   "devDependencies": {
     "cpy-cli": "^6.0.0",
     "madge": "^8.0.0",
-    "react": "^19.2.1",
+    "react": "^19.2.3",
     "typescript": "^5.9.3"
   },
   "files": [

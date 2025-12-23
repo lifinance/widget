@@ -127,6 +127,7 @@
       "deleteTransactionHistory": "交易记录只存储在本地，如果你删除它，我们将无法恢复这些记录。",
       "fundsLossPrevention": "总是确保在目的地链上适当建立智能合同账户，并避免直接转给交易所，以防止资金损失。",
       "highValueLoss": "收到的代币的价值明显低于要被兑换的代币和交易成本。",
+      "unverifiedToken": "",
       "insufficientFunds": "你没有足够的资金来完成这笔交易。",
       "insufficientGas": "您没有足够的燃气费来完成此次交易。您至少需要添加：",
       "minFromAmountUSD": "",
@@ -237,6 +238,7 @@
     "myTokens": "我的代币",
     "onChain": "在{{chainName}} 上",
     "ownedBy": "属于",
+    "pinnedTokens": "",
     "popularTokens": "热门代币",
     "priceImpact": "价格冲击",
     "process": {
@@ -331,7 +333,8 @@
     "routePriority": "路由优先级",
     "slippage": "最大滑点",
     "custom": "自定义",
-    "resetSettings": "您正在使用自定义设置来过滤可用路由。"
+    "resetSettings": "您正在使用自定义设置来过滤可用路由。",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "添加到收藏",

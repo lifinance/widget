@@ -18,6 +18,7 @@ export interface SettingsProps {
   gasPrice?: string
   language?: string
   languageCache?: LanguageResource
+  lastDefaultLanguage?: string
   routePriority?: Order
   enabledAutoRefuel: boolean
   slippage?: string
@@ -27,6 +28,7 @@ export interface SettingsProps {
   disabledExchanges: string[]
   enabledExchanges: string[]
   _enabledExchanges: Record<string, boolean>
+  smallBalanceThreshold?: string
 }
 
 export interface SettingsActions {

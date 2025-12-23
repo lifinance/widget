@@ -127,6 +127,7 @@
       "deleteTransactionHistory": "Die Transaktionshistorie wird nur lokal gespeichert und kann nicht wiederhergestellt werden, wenn Sie sie löschen.",
       "fundsLossPrevention": "",
       "highValueLoss": "Der Wert der erhaltenen Token ist deutlich niedriger als die getauschten Token und die Transaktionskosten.",
+      "unverifiedToken": "",
       "insufficientFunds": "Sie haben nicht genug Token, um diesen Swap abzuschließen.",
       "insufficientGas": "Sie haben nicht genug Gas um diesen Swap abzuschließen. Sie müssen mindestens hinzufügen:",
       "minFromAmountUSD": "",
@@ -237,6 +238,7 @@
     "myTokens": "",
     "onChain": "auf {{chainName}}",
     "ownedBy": "In Besitz von",
+    "pinnedTokens": "",
     "popularTokens": "",
     "priceImpact": "",
     "process": {
@@ -331,7 +333,8 @@
     "routePriority": "Routenpriorität",
     "slippage": "",
     "custom": "",
-    "resetSettings": ""
+    "resetSettings": "",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "",

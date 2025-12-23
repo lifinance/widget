@@ -127,6 +127,7 @@
       "deleteTransactionHistory": "",
       "fundsLossPrevention": "",
       "highValueLoss": "",
+      "unverifiedToken": "",
       "insufficientFunds": "",
       "insufficientGas": "",
       "minFromAmountUSD": "",
@@ -237,6 +238,7 @@
     "myTokens": "",
     "onChain": "",
     "ownedBy": "",
+    "pinnedTokens": "",
     "popularTokens": "",
     "priceImpact": "",
     "process": {
@@ -331,7 +333,8 @@
     "routePriority": "मार्ग प्राथमिकता",
     "slippage": "",
     "custom": "",
-    "resetSettings": ""
+    "resetSettings": "",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "",

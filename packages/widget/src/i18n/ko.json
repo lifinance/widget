@@ -127,6 +127,7 @@
       "deleteTransactionHistory": "스왑 기록은 로컬에만 저장되며 삭제시 복구할 수 없습니다.",
       "fundsLossPrevention": "",
       "highValueLoss": "받은 토큰의 가치가 스왑된 토큰 및 트랜잭션 비용보다 상당히 낮습니다.",
+      "unverifiedToken": "",
       "insufficientFunds": "스왑을 진행할 자금이 부족합니다.",
       "insufficientGas": "스왑을 진행할 가스가 부족합니다. 최소 다음과 같은 가스가 필요합니다:",
       "minFromAmountUSD": "",
@@ -237,6 +238,7 @@
     "myTokens": "",
     "onChain": "{{chainName}} 에서",
     "ownedBy": "소유자: ",
+    "pinnedTokens": "",
     "popularTokens": "",
     "priceImpact": "",
     "process": {
@@ -331,7 +333,8 @@
     "routePriority": "우선 경로",
     "slippage": "",
     "custom": "사용자 정의",
-    "resetSettings": ""
+    "resetSettings": "",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "",
