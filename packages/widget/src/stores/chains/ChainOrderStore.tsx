@@ -88,6 +88,12 @@ export function ChainOrderStoreProvider({
           return
         }
 
+        // If no chain is selected (e.g., removed from URL params) and
+        // showAllNetworks is enabled, reset isAllNetworks to true
+        if (showAllNetworks) {
+          storeRef.current?.getState().setIsAllNetworks(true, key)
+        }
+
         const firstAllowedPinnedChain = storeRef.current
           ?.getState()
           .pinnedChains?.find((chainId) =>

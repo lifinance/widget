@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.39.0](https://github.com/lifinance/widget/compare/v3.38.0...v3.39.0) (2025-12-23)
+
+
+### Features
+
+* reset to all networks if no chain in URL ([#636](https://github.com/lifinance/widget/issues/636)) ([a84936f](https://github.com/lifinance/widget/commit/a84936f577f57ec4f0564da540835a2ee82583ae))
+
+
+### Bug Fixes
+
+* adjust language selection view to use consistent selected-item indicator ([#638](https://github.com/lifinance/widget/issues/638)) ([17dfb53](https://github.com/lifinance/widget/commit/17dfb532eb36da7c5ba517adff291891744757fa))
+
 ## [3.38.0](https://github.com/lifinance/widget/compare/v3.37.0...v3.38.0) (2025-12-16)
 
 
