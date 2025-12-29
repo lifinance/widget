@@ -2,6 +2,7 @@ import {
   ChainId,
   type ContractCallParams,
   type GetContractCallsResult,
+  HiddenUI,
   isZeroAddress,
   LiFiWidget,
   PatcherMagicNumber,
@@ -87,6 +88,7 @@ function App() {
             ],
           },
         },
+        hiddenUI: [HiddenUI.ReverseTokensButton, HiddenUI.GasRefuelMessage],
       }}
     />
   )
