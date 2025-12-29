@@ -1,71 +1,62 @@
 import type {
+  Execution,
+  ExecutionStatus,
   ExtendedTransactionInfo,
   FeeCost,
   FullStatusData,
-  Process,
-  ProcessStatus,
   Substatus,
   TokenAmount,
   ToolsResponse,
+  TransactionType,
 } from '@lifi/sdk'
 import type { RouteExecution } from '../stores/routes/types.js'
 import { formatTokenPrice } from './format.js'
 
-const buildProcessFromTxHistory = (tx: FullStatusData): Process[] => {
+type Transaction = Execution['transactions'][number]
+
+const buildTransactionsFromTxHistory = (
+  tx: FullStatusData
+): { transactions: Transaction[]; type: TransactionType } => {
   const sending = tx.sending as ExtendedTransactionInfo
   const receiving = tx.receiving as ExtendedTransactionInfo
 
   if (!sending.token?.chainId || !receiving.token?.chainId) {
-    return []
+    return { transactions: [], type: 'SWAP' }
   }
 
-  const processStatus: ProcessStatus = tx.status === 'DONE' ? 'DONE' : 'FAILED'
-  const substatus: Substatus =
-    processStatus === 'FAILED' ? 'UNKNOWN_ERROR' : 'COMPLETED'
+  const isSwap = sending.chainId === receiving.chainId
 
-  if (sending.chainId === receiving.chainId) {
-    return [
+  if (isSwap) {
+    return {
+      transactions: [
+        {
+          type: 'SWAP',
+          chainId: sending.chainId,
+          txHash: sending.txHash,
+          txLink: sending.txLink,
+        },
+      ],
+      type: 'SWAP',
+    }
+  }
+
+  return {
+    transactions: [
       {
-        type: 'SWAP', // operations on same chain will be swaps
-        startedAt: sending.timestamp ?? Date.now(),
-        message: '',
-        status: processStatus,
+        type: 'CROSS_CHAIN',
         chainId: sending.chainId,
         txHash: sending.txHash,
         txLink: sending.txLink,
-        doneAt: receiving.timestamp ?? Date.now(),
-        substatus,
-        substatusMessage: '',
       },
-    ]
+      {
+        type: 'RECEIVING_CHAIN',
+        chainId: receiving.chainId,
+        txHash: receiving.txHash,
+        txLink: receiving.txLink,
+      },
+    ],
+    type: 'CROSS_CHAIN',
   }
-
-  const process: Process[] = [
-    {
-      type: 'CROSS_CHAIN', // first step of bridging, ignoring the approvals
-      startedAt: sending.timestamp ?? Date.now(),
-      message: '',
-      status: processStatus, // can be FAILED
-      chainId: sending.chainId,
-      txHash: sending.txHash,
-      txLink: sending.txLink,
-      doneAt: sending.timestamp,
-    },
-    {
-      type: 'RECEIVING_CHAIN', // final step of bridging, post swaps
-      startedAt: receiving.timestamp ?? Date.now(),
-      message: '',
-      status: processStatus,
-      substatus,
-      substatusMessage: '',
-      doneAt: receiving.timestamp ?? Date.now(),
-      chainId: receiving.chainId,
-      txHash: receiving.txHash,
-      txLink: receiving.txLink,
-    },
-  ]
-
-  return process
 }
 
 export const buildRouteFromTxHistory = (
@@ -206,29 +197,38 @@ export const buildRouteFromTxHistory = (
             },
           ],
           integrator: tx.metadata?.integrator ?? '',
-          execution: {
-            status: 'DONE', // can be FAILED
-            startedAt: sending.timestamp ?? Date.now(),
-            doneAt: receiving.timestamp ?? Date.now(),
-            process: buildProcessFromTxHistory(tx),
-            fromAmount: sending.amount,
-            toAmount: receiving.amount,
-            toToken: receiving.token,
-            internalTxLink: tx.lifiExplorerLink,
-            externalTxLink: tx.bridgeExplorerLink,
-            gasCosts: [
-              {
-                amount: sending.gasAmount,
-                amountUSD: sending.gasAmountUSD,
-                token: sending.gasToken,
-                estimate: '0',
-                limit: '0',
-                price: '0',
-                type: 'SEND',
-              },
-            ],
-            feeCosts,
-          },
+          execution: (() => {
+            const { transactions, type } = buildTransactionsFromTxHistory(tx)
+            const executionStatus: ExecutionStatus =
+              tx.status === 'DONE' ? 'DONE' : 'FAILED'
+            const substatus: Substatus =
+              executionStatus === 'FAILED' ? 'UNKNOWN_ERROR' : 'COMPLETED'
+            return {
+              type,
+              status: executionStatus,
+              substatus,
+              startedAt: sending.timestamp ?? Date.now(),
+              doneAt: receiving.timestamp ?? Date.now(),
+              transactions,
+              fromAmount: sending.amount,
+              toAmount: receiving.amount,
+              toToken: receiving.token,
+              internalTxLink: tx.lifiExplorerLink,
+              externalTxLink: tx.bridgeExplorerLink,
+              gasCosts: [
+                {
+                  amount: sending.gasAmount,
+                  amountUSD: sending.gasAmountUSD,
+                  token: sending.gasToken,
+                  estimate: '0',
+                  limit: '0',
+                  price: '0',
+                  type: 'SEND',
+                },
+              ],
+              feeCosts,
+            }
+          })(),
         },
       ],
       insurance: {

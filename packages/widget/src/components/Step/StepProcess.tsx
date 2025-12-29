@@ -1,27 +1,29 @@
-import type { LiFiStep, Process } from '@lifi/sdk'
+import type { LiFiStepExtended } from '@lifi/sdk'
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import { Box, Link, Typography } from '@mui/material'
+import { useExecutionMessage } from '../../hooks/useExecutionMessage.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
-import { useProcessMessage } from '../../hooks/useProcessMessage.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
 import { CircularProgress } from './CircularProgress.js'
 
 export const StepProcess: React.FC<{
-  step: LiFiStep
-  process: Process
-}> = ({ step, process }) => {
-  const { title, message } = useProcessMessage(step, process)
+  step: LiFiStepExtended
+}> = ({ step }) => {
+  const { title, message } = useExecutionMessage(step)
   const { getTransactionLink } = useExplorer()
 
-  const transactionLink = process.txHash
+  const transaction = step?.execution?.transactions.find(
+    (transaction) => transaction.type === step.execution?.type
+  )
+  const transactionLink = transaction?.txHash
     ? getTransactionLink({
-        txHash: process.txHash,
-        chain: process.chainId,
+        txHash: transaction.txHash,
+        chain: transaction.chainId,
       })
-    : process.txLink
+    : transaction?.txLink
       ? getTransactionLink({
-          txLink: process.txLink,
-          chain: process.chainId,
+          txLink: transaction.txLink,
+          chain: transaction.chainId,
         })
       : undefined
 
@@ -38,14 +40,14 @@ export const StepProcess: React.FC<{
           alignItems: 'center',
         }}
       >
-        <CircularProgress process={process} />
+        {step?.execution && <CircularProgress execution={step.execution} />}
         <Typography
           sx={{
             marginLeft: 2,
             marginRight: 0.5,
             flex: 1,
             fontSize: 14,
-            fontWeight: process.error ? 600 : 400,
+            fontWeight: step?.execution?.error ? 600 : 400,
           }}
         >
           {title}

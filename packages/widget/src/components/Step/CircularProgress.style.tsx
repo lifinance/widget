@@ -1,4 +1,4 @@
-import type { ProcessStatus, Substatus } from '@lifi/sdk'
+import type { ExecutionStatus, Substatus } from '@lifi/sdk'
 import type { Theme } from '@mui/material'
 import {
   Box,
@@ -10,7 +10,7 @@ import {
 
 const getStatusColor = (
   theme: Theme,
-  status?: ProcessStatus,
+  status?: ExecutionStatus,
   substatus?: Substatus
 ) => {
   switch (status) {
@@ -32,7 +32,7 @@ const getStatusColor = (
 
 export const CircularIcon = styled(Box, {
   shouldForwardProp: (prop: string) => !['status', 'substatus'].includes(prop),
-})<{ status?: ProcessStatus; substatus?: Substatus }>(
+})<{ status?: ExecutionStatus; substatus?: Substatus }>(
   ({ theme, status, substatus }) => {
     const statusColor = getStatusColor(theme, status, substatus)
     const isSpecialStatus = [

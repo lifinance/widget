@@ -1,4 +1,4 @@
-import type { Process } from '@lifi/sdk'
+import type { Execution } from '@lifi/sdk'
 import Done from '@mui/icons-material/Done'
 import ErrorRounded from '@mui/icons-material/ErrorRounded'
 import InfoRounded from '@mui/icons-material/InfoRounded'
@@ -8,15 +8,15 @@ import {
   CircularProgressPending,
 } from './CircularProgress.style.js'
 
-export function CircularProgress({ process }: { process: Process }) {
+export function CircularProgress({ execution }: { execution: Execution }) {
   return (
-    <CircularIcon status={process.status} substatus={process.substatus}>
-      {process.status === 'STARTED' || process.status === 'PENDING' ? (
+    <CircularIcon status={execution.status} substatus={execution.substatus}>
+      {execution.status === 'STARTED' || execution.status === 'PENDING' ? (
         <CircularProgressPending size={40} />
       ) : null}
-      {process.status === 'ACTION_REQUIRED' ||
-      process.status === 'MESSAGE_REQUIRED' ||
-      process.status === 'RESET_REQUIRED' ? (
+      {execution.status === 'ACTION_REQUIRED' ||
+      execution.status === 'MESSAGE_REQUIRED' ||
+      execution.status === 'RESET_REQUIRED' ? (
         <InfoRounded
           color="info"
           sx={{
@@ -25,8 +25,9 @@ export function CircularProgress({ process }: { process: Process }) {
           }}
         />
       ) : null}
-      {process.status === 'DONE' &&
-      (process.substatus === 'PARTIAL' || process.substatus === 'REFUNDED') ? (
+      {execution.status === 'DONE' &&
+      (execution.substatus === 'PARTIAL' ||
+        execution.substatus === 'REFUNDED') ? (
         <WarningRounded
           sx={(theme) => ({
             position: 'absolute',
@@ -34,7 +35,7 @@ export function CircularProgress({ process }: { process: Process }) {
             color: `color-mix(in srgb, ${theme.vars.palette.warning.main} 68%, black)`,
           })}
         />
-      ) : process.status === 'DONE' ? (
+      ) : execution.status === 'DONE' ? (
         <Done
           color="success"
           sx={{
@@ -43,7 +44,7 @@ export function CircularProgress({ process }: { process: Process }) {
           }}
         />
       ) : null}
-      {process.status === 'FAILED' ? (
+      {execution.status === 'FAILED' ? (
         <ErrorRounded
           color="error"
           sx={{

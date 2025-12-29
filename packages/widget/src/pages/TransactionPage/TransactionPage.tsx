@@ -5,10 +5,11 @@ import { useLocation, useNavigate } from '@tanstack/react-router'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
+import { Checkout } from '../../components/Checkout/Checkout.js'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
 import { WarningMessages } from '../../components/Messages/WarningMessages.js'
 import { PageContainer } from '../../components/PageContainer.js'
-import { getStepList } from '../../components/Step/StepList.js'
+// import { getStepList } from '../../components/Step/StepList.js'
 import { TransactionDetails } from '../../components/TransactionDetails.js'
 import { useAddressActivity } from '../../hooks/useAddressActivity.js'
 import { useHeader } from '../../hooks/useHeader.js'
@@ -211,7 +212,8 @@ export const TransactionPage = () => {
 
   return (
     <PageContainer bottomGutters>
-      {getStepList(route, subvariant)}
+      {/* {getStepList(route, subvariant)} */}
+      <Checkout route={route} subvariant={subvariant} />
       {subvariant === 'custom' && contractSecondaryComponent ? (
         <ContractComponent sx={{ marginTop: 2 }}>
           {contractSecondaryComponent}

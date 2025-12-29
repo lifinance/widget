@@ -3,13 +3,12 @@ import ErrorRounded from '@mui/icons-material/ErrorRounded'
 import InfoRounded from '@mui/icons-material/InfoRounded'
 import { ListItemAvatar, ListItemText, Typography } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
-import { useProcessMessage } from '../../hooks/useProcessMessage.js'
+import { useExecutionMessage } from '../../hooks/useExecutionMessage.js'
 import { useRouteExecution } from '../../hooks/useRouteExecution.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { TokenAvatarGroup } from '../Avatar/Avatar.style.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
-import { StepTimer } from '../Timer/StepTimer.js'
 import { ListItem, ListItemButton } from './ActiveTransactions.style.js'
 
 export const ActiveTransactionItem: React.FC<{
@@ -23,9 +22,8 @@ export const ActiveTransactionItem: React.FC<{
   })
 
   const lastActiveStep = route?.steps.findLast((step) => step.execution)
-  const lastActiveProcess = lastActiveStep?.execution?.process.at(-1)
 
-  const { title } = useProcessMessage(lastActiveStep, lastActiveProcess)
+  const { title } = useExecutionMessage(lastActiveStep)
 
   if (!route || !lastActiveStep) {
     return null
@@ -39,7 +37,7 @@ export const ActiveTransactionItem: React.FC<{
   }
 
   const getStatusComponent = () => {
-    switch (lastActiveProcess?.status) {
+    switch (lastActiveStep?.execution?.status) {
       case 'ACTION_REQUIRED':
       case 'MESSAGE_REQUIRED':
       case 'RESET_REQUIRED':
@@ -54,7 +52,7 @@ export const ActiveTransactionItem: React.FC<{
               fontWeight: 600,
             }}
           >
-            <StepTimer step={lastActiveStep} hideInProgress />
+            {/* <StepTimer step={lastActiveStep} hideInProgress /> */}
           </Typography>
         )
     }

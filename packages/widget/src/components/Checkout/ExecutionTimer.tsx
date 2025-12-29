@@ -1,21 +1,74 @@
 import type { LiFiStepExtended } from '@lifi/sdk'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useTimer } from '../../hooks/timer/useTimer.js'
+import { useTimer } from '../../hooks/timer/useTimer'
 import { formatTimer } from '../../utils/timer.js'
-import { TimerContent } from './TimerContent.js'
+import { CircularProgress } from '../Step/CircularProgress'
+import { TimerContent } from '../Timer/TimerContent.js'
+import {
+  TimerCircleContainer,
+  TimerCircularProgress,
+  //TimerText,
+} from './StepExecution.style'
+
+// ref: StepTimer
+export const ExecutionTimer: React.FC<{
+  step: LiFiStepExtended
+  estimatedDuration: number
+}> = ({ step, estimatedDuration }) => {
+  const expiryTimestamp = new Date()
+  expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + estimatedDuration)
+
+  const { minutes, seconds } = useTimer({
+    expiryTimestamp,
+    autoStart: true,
+  })
+
+  // Calculate progress percentage (0-100)
+  const totalSeconds = minutes * 60 + seconds
+  const progress = (totalSeconds / estimatedDuration) * 100
+
+  const execution = step?.execution
+  if (!execution) {
+    return null
+  }
+
+  // Format time as MM:SS
+  // const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+
+  return (
+    <TimerCircleContainer>
+      <TimerCircularProgress
+        variant="indeterminate"
+        value={progress}
+        size={120}
+        thickness={3}
+        sx={{
+          transform: 'rotate(-90deg) !important',
+          '& .MuiCircularProgress-circle': {
+            strokeLinecap: 'round',
+          },
+        }}
+      />
+      {estimatedDuration > 0 &&
+      (execution.status === 'STARTED' || execution.status === 'PENDING') ? (
+        // <TimerText>{formattedTime}</TimerText>
+        <StepTimer step={step} />
+      ) : (
+        <CircularProgress execution={execution} />
+      )}
+    </TimerCircleContainer>
+  )
+}
 
 /**
- * Finds the most recent process that is either a SWAP, CROSS_CHAIN, or RECEIVING_CHAIN.
- * Includes RECEIVING_CHAIN to track the complete transaction lifecycle for UI updates.
+ * Checks if the execution has a main transaction type (SWAP, CROSS_CHAIN, or RECEIVING_CHAIN).
+ * Used to determine if the main execution has started (not just token allowance).
  */
-const getProgressProcess = (step: LiFiStepExtended) =>
-  step.execution?.transactions.findLast(
-    (process) =>
-      process.type === 'SWAP' ||
-      process.type === 'CROSS_CHAIN' ||
-      process.type === 'RECEIVING_CHAIN'
-  )
+const hasMainExecutionStarted = (step: LiFiStepExtended) => {
+  const type = step.execution?.type
+  return type === 'SWAP' || type === 'CROSS_CHAIN' || type === 'RECEIVING_CHAIN'
+}
 
 /**
  * Calculates expiry timestamp based on process start time, estimated duration, and pause time.
@@ -43,10 +96,10 @@ export const StepTimer: React.FC<{
   step: LiFiStepExtended
   hideInProgress?: boolean
 }> = ({ step, hideInProgress }) => {
-  const { t, i18n } = useTranslation()
+  const { i18n } = useTranslation()
   const [isExpired, setExpired] = useState(false)
-  const [isExecutionStarted, setExecutionStarted] = useState(
-    () => !!getProgressProcess(step)
+  const [isExecutionStarted, setExecutionStarted] = useState(() =>
+    hasMainExecutionStarted(step)
   )
   const [expiryTimestamp, setExpiryTimestamp] = useState(() =>
     getExpiryTimestamp(step)
@@ -128,12 +181,14 @@ export const StepTimer: React.FC<{
     )
   }
 
-  return isTimerExpired ? (
-    t('main.inProgress')
-  ) : (
+  if (isTimerExpired) {
+    return null
+  }
+
+  return (
     <TimerContent>
       {formatTimer({
-        locale: i18n.language,
+        locale: 'en',
         days,
         hours,
         minutes,
