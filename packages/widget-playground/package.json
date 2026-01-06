@@ -27,7 +27,7 @@
     "./widget-config": "./src/defaultWidgetConfig.ts"
   },
   "dependencies": {
-    "@bigmi/react": "^0.6.3",
+    "@bigmi/react": "^0.6.4",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@lifi/widget": "workspace:*",
@@ -41,7 +41,7 @@
     "@mui/material": "^7.3.6",
     "@mui/system": "^7.3.6",
     "@mysten/dapp-kit": "^0.19.11",
-    "@reown/appkit": "^1.8.15",
+    "@reown/appkit": ">=1.8.15",
     "@reown/appkit-adapter-solana": "^1.8.15",
     "@reown/appkit-adapter-wagmi": "^1.8.15",
     "@reown/appkit-common": "^1.8.15",
@@ -53,13 +53,13 @@
     "microdiff": "^1.5.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "viem": "^2.41.2",
+    "viem": "^2.43.5",
     "wagmi": "^2.19.4",
     "zustand": "^5.0.9"
   },
   "devDependencies": {
     "@types/lodash.isequal": "^4.5.8",
-    "@types/node": "^24.10.1",
+    "@types/node": "^25.0.3",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "cpy-cli": "^6.0.0",
