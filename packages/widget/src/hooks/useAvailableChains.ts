@@ -1,9 +1,10 @@
 import type { ExtendedChain } from '@lifi/sdk'
-import { ChainType, getChains } from '@lifi/sdk'
+import { ChainType, createClient, getChains } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import type { WidgetConfig } from '../types/widget.js'
 import { getConfigItemSets, isItemAllowedForSets } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 
@@ -19,9 +20,28 @@ const supportedChainTypes = [
   ChainType.MVM,
 ]
 
-export const useAvailableChains = (chainTypes?: ChainType[]) => {
-  const { chains, keyPrefix } = useWidgetConfig()
-  const sdkClient = useSDKClient()
+export const useAvailableChains = (
+  chainTypes?: ChainType[],
+  widgetConfig?: WidgetConfig
+) => {
+  const { chains: internalChains, keyPrefix: internalKeyPrefix } =
+    useWidgetConfig()
+  const internalClient = useSDKClient()
+
+  const externalClient = useMemo(() => {
+    if (!widgetConfig) {
+      return undefined
+    }
+    return createClient({
+      ...widgetConfig.sdkConfig,
+      apiKey: widgetConfig.apiKey,
+      integrator: widgetConfig.integrator ?? window?.location.hostname,
+    })
+  }, [widgetConfig])
+
+  // Overwrite widget config if passed as param
+  const keyPrefix = widgetConfig?.keyPrefix ?? internalKeyPrefix
+  const chains = widgetConfig?.chains ?? internalChains
 
   const { data, isLoading } = useQuery({
     queryKey: [
@@ -40,10 +60,11 @@ export const useAvailableChains = (chainTypes?: ChainType[]) => {
       const chainTypesRequest = supportedChainTypes.filter((chainType) =>
         isItemAllowedForSets(chainType, chainsConfigSets)
       )
-
-      const availableChains = await getChains(sdkClient, {
+      const client = externalClient ?? internalClient
+      const availableChains = await getChains(client, {
         chainTypes: chainTypes || chainTypesRequest,
       })
+      client.setChains(availableChains)
       return availableChains
     },
     refetchInterval: 300_000,
