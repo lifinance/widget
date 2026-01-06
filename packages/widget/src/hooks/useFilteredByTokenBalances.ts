@@ -98,8 +98,8 @@ export const useFilteredTokensByBalance = (
           formType
         )
 
-        const additionalTokens = balances.filter(
-          (balance: WalletTokenExtended) => {
+        const additionalTokens = balances
+          .filter((balance: WalletTokenExtended) => {
             const balanceKey = balance.address.toLowerCase()
             return (
               !chainTokenSet.has(balanceKey) &&
@@ -111,8 +111,12 @@ export const useFilteredTokensByBalance = (
                 (t) => t.address.toLowerCase()
               )
             )
-          }
-        ) as TokenExtended[]
+          })
+          // Mark tokens from wallet balances as unverified
+          .map((token: WalletTokenExtended) => ({
+            ...token,
+            verified: false,
+          })) as TokenExtended[]
 
         // Combine both sets of tokens - convert WalletTokenExtended to TokenAmount
         const allTokens = [

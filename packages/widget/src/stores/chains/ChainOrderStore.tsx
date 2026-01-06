@@ -2,8 +2,10 @@ import { createContext, useContext, useEffect, useRef } from 'react'
 import type { StoreApi, UseBoundStore } from 'zustand'
 import { useShallow } from 'zustand/shallow'
 import { useChains } from '../../hooks/useChains.js'
+import { useSwapOnly } from '../../hooks/useSwapOnly.js'
 import { useExternalWalletProvider } from '../../providers/WalletProvider/useExternalWalletProvider.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { HiddenUI } from '../../types/widget.js'
 import { getConfigItemSets, isItemAllowedForSets } from '../../utils/item.js'
 import type { FormType } from '../form/types.js'
 import { useFieldActions } from '../form/useFieldActions.js'
@@ -19,10 +21,11 @@ export function ChainOrderStoreProvider({
   children,
   ...props
 }: PersistStoreProviderProps) {
-  const { chains: chainsConfig } = useWidgetConfig()
+  const { chains: chainsConfig, hiddenUI } = useWidgetConfig()
   const storeRef = useRef<ChainOrderStore>(null)
   const { chains } = useChains()
   const { setFieldValue, getFieldValues } = useFieldActions()
+  const swapOnly = useSwapOnly()
   const { variant, subvariantOptions } = useWidgetConfig()
   const { externalChainTypes, useExternalWalletProvidersOnly } =
     useExternalWalletProvider()
@@ -61,12 +64,23 @@ export function ChainOrderStoreProvider({
           key
         )
 
+        const isSwapTo = swapOnly && key === 'to'
+
         // Show "All networks" button if there are multiple networks
-        const showAllNetworks = filteredChains.length > 1
+        const showAllNetworks =
+          filteredChains.length > 1 &&
+          !hiddenUI?.includes(HiddenUI.AllNetworks) &&
+          !isSwapTo
         if (!showAllNetworks) {
           storeRef.current?.getState().setIsAllNetworks(false, key)
         }
         storeRef.current?.getState().setShowAllNetworks(showAllNetworks, key)
+
+        // If swap only, set the to chain to the from chain
+        if (isSwapTo) {
+          const [fromChainValue] = getFieldValues('fromChain')
+          setFieldValue('toChain', fromChainValue)
+        }
 
         const [chainValue] = getFieldValues(`${key}Chain`)
         if (chainValue) {
@@ -98,6 +112,8 @@ export function ChainOrderStoreProvider({
     useExternalWalletProvidersOnly,
     variant,
     subvariantOptions?.wide?.disableChainSidebar,
+    hiddenUI,
+    swapOnly,
   ])
 
   return (

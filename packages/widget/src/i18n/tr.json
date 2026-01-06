@@ -127,6 +127,7 @@
       "deleteTransactionHistory": "İşlem geçmişi yalnızca yerel olarak depolanır ve silerseniz kurtarılamaz.",
       "fundsLossPrevention": "Her zaman akıllı sözleşme hesaplarının hedef zincirde düzgün bir şekilde ayarlandığından emin olun ve fon kaybını önlemek için borsalara doğrudan transferlerden kaçının.",
       "highValueLoss": "Elde edilecek varlıkların değeri, takas edilen varlıklardan ve işlem maliyetinden önemli ölçüde düşüktür.",
+      "unverifiedToken": "",
       "insufficientFunds": "Takas işlemini gerçekleştirmek için yeterli bakiyeniz bulunmamaktadır.",
       "insufficientGas": "En azından şunları eklemelisiniz:",
       "minFromAmountUSD": "",

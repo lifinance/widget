@@ -42,8 +42,8 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "4.0.0-alpha.4",
-    "@lifi/sdk-provider-sui": "4.0.0-alpha.4",
+    "@lifi/sdk": "^4.0.0-alpha.7",
+    "@lifi/sdk-provider-sui": "^4.0.0-alpha.7",
     "@lifi/widget-provider": "workspace:*",
     "@mysten/sui": "^1.45.0",
     "@mysten/wallet-standard": "^0.19.7"
@@ -54,7 +54,7 @@
   "devDependencies": {
     "cpy-cli": "^6.0.0",
     "madge": "^8.0.0",
-    "react": "^19.2.1",
+    "react": "^19.2.3",
     "typescript": "^5.9.3"
   },
   "files": [
