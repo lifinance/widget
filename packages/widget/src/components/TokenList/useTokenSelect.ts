@@ -63,7 +63,7 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
 
       if (
         (isSameTokenTransfer || isBridgeToSameChain) &&
-        (subvariant !== 'custom' || subvariantOptions?.custom !== 'fund')
+        (subvariant !== 'custom' || subvariantOptions?.custom === 'fund')
       ) {
         setFieldValue(FormKeyHelper.getTokenKey(oppositeFormType), '', {
           isDirty: true,
