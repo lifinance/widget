@@ -89,6 +89,7 @@ function App() {
           },
         },
         hiddenUI: [HiddenUI.ReverseTokensButton, HiddenUI.GasRefuelMessage],
+        minFromAmountUSD: 5,
       }}
     />
   )
