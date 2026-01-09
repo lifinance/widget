@@ -9,8 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/wallet-management": "^3.21.0",
-    "@lifi/widget": "^3.38.1",
+    "@lifi/wallet-management": "^3.22.0",
+    "@lifi/widget": "^3.40.0",
     "@rainbow-me/rainbowkit": "^2.2.10",
     "@tanstack/react-query": "^5.90.16",
     "react": "^19.2.3",

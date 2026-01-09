@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/widget": "3.39.2-beta.1",
+    "@lifi/widget": "3.40.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "viem": "^2.44.0"

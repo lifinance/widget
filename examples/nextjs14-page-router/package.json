@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@lifi/widget": "^3.38.1",
+    "@lifi/widget": "^3.40.0",
     "next": "^14",
     "react": "^19.2.3",
     "react-dom": "^19.2.3"

@@ -10,8 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/wallet-management": "^3.21.0",
-    "@lifi/widget": "^3.38.1",
+    "@lifi/wallet-management": "^3.22.0",
+    "@lifi/widget": "^3.40.0",
     "@mui/material": "^7.3.7",
     "@reown/appkit": "^1.8.16",
     "@reown/appkit-adapter-bitcoin": "^1.8.16",

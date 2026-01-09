@@ -10,7 +10,7 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
-    "@lifi/widget": "^3.38.1",
+    "@lifi/widget": "^3.40.0",
     "@react-router/node": "^7.12.0",
     "@react-router/serve": "^7.12.0",
     "isbot": "^5.1.32",
