@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.40.0](https://github.com/lifinance/widget/compare/v3.39.0...v3.40.0) (2026-01-09)
+
+
+### Features
+
+* add funding flow ([#644](https://github.com/lifinance/widget/issues/644)) ([c1cd2f7](https://github.com/lifinance/widget/commit/c1cd2f7b98c389bebe1db2619f344f5e790deba4))
+
 ## [3.39.0](https://github.com/lifinance/widget/compare/v3.38.0...v3.39.0) (2025-12-23)
 
 
