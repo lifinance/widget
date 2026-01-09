@@ -41,7 +41,7 @@ export type SplitSubvariant = 'bridge' | 'swap'
 export type SplitSubvariantOptions = {
   defaultTab: SplitSubvariant
 }
-export type CustomSubvariant = 'checkout' | 'deposit'
+export type CustomSubvariant = 'checkout' | 'deposit' | 'fund'
 export type WideSubvariant = {
   enableChainSidebar?: boolean
 }
@@ -183,7 +183,9 @@ export interface WidgetSDKConfig
   routeOptions?: Omit<RouteOptions, 'bridges' | 'exchanges'>
   executionOptions?: Pick<
     ExecutionOptions,
-    'disableMessageSigning' | 'updateTransactionRequestHook'
+    | 'disableMessageSigning'
+    | 'updateTransactionRequestHook'
+    | 'getContractCalls'
   >
 }
 
@@ -317,10 +319,16 @@ export interface WidgetConfig {
   toAmount?: number | string
   formUpdateKey?: string
 
+  /**
+   * @deprecated Use `getContractCalls` inside the SDK config `executionOptions` instead.
+   */
   contractCalls?: ContractCall[]
   contractComponent?: ReactNode
   contractSecondaryComponent?: ReactNode
   contractCompactComponent?: ReactNode
+  /**
+   * @deprecated Use `getContractCalls` inside the SDK config `executionOptions` instead.
+   */
   contractTool?: WidgetContractTool
   integrator: string
   apiKey?: string

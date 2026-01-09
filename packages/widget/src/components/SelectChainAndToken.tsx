@@ -11,7 +11,8 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
   const prefersNarrowView = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('sm')
   )
-  const { disabledUI, hiddenUI, subvariant } = useWidgetConfig()
+  const { disabledUI, hiddenUI, subvariant, subvariantOptions } =
+    useWidgetConfig()
 
   const [fromChain, toChain, fromToken, toToken] = useFieldValues(
     'fromChain',
@@ -30,7 +31,8 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
 
   const hiddenFromToken = hiddenUI?.includes(HiddenUI.FromToken)
   const hiddenToToken =
-    subvariant === 'custom' || hiddenUI?.includes(HiddenUI.ToToken)
+    (subvariant === 'custom' && subvariantOptions?.custom !== 'fund') ||
+    hiddenUI?.includes(HiddenUI.ToToken)
 
   const isCompact =
     !!fromChain &&

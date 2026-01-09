@@ -7,6 +7,8 @@ import {
   getRoutes,
   isGaslessStep,
   LiFiErrorCode,
+  PatcherMagicNumber,
+  patchContractCalls,
 } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -103,7 +105,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
   const hasAmount = Number(fromTokenAmount) > 0 || Number(toTokenAmount) > 0
 
   const contractCallQuoteEnabled: boolean =
-    subvariant === 'custom' ? Boolean(contractCalls && account.address) : true
+    subvariant === 'custom' ? Boolean(account.address) : true
 
   // When we bridge between ecosystems we need to be sure toAddress is set and has the same chainType as toChain
   // If toAddress is set, it must have the same chainType as toChain
@@ -280,17 +282,59 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           slippage: formattedSlippage,
         })
 
-        if (subvariant === 'custom' && contractCalls && toAmount) {
+        const contractCallsResult =
+          await sdkConfig?.executionOptions?.getContractCalls?.({
+            fromChainId,
+            toChainId,
+            fromTokenAddress,
+            toTokenAddress,
+            fromAddress: fromAddress!,
+            toAddress,
+            fromAmount,
+            toAmount,
+            slippage: formattedSlippage,
+          })
+
+        const _contractCalls = contractCalls?.length
+          ? contractCalls
+          : contractCallsResult?.contractCalls
+
+        if (_contractCalls?.length) {
+          if (contractCallsResult?.patcher) {
+            const patchedContractCalls = await patchContractCalls(
+              _contractCalls.map((call) => ({
+                chainId: toChainId,
+                fromTokenAddress: call.fromTokenAddress,
+                targetContractAddress: call.toContractAddress,
+                callDataToPatch: call.toContractCallData,
+                delegateCall: false,
+                patches: [
+                  {
+                    amountToReplace: PatcherMagicNumber.toString(),
+                  },
+                ],
+              })),
+              { signal }
+            )
+
+            _contractCalls.forEach((call, index) => {
+              call.toContractAddress = patchedContractCalls[index].target
+              call.toContractCallData = patchedContractCalls[index].callData
+            })
+          }
+
           const contractCallQuote = await getContractCallsQuote(
             {
               // Contract calls are enabled only when fromAddress is set
               fromAddress: fromAddress as string,
               fromChain: fromChainId,
               fromToken: fromTokenAddress,
-              toAmount: toAmount.toString(),
+              ...(toAmount
+                ? { toAmount: toAmount.toString() }
+                : { fromAmount: fromAmount.toString() }),
               toChain: toChainId,
               toToken: toTokenAddress,
-              contractCalls,
+              contractCalls: _contractCalls,
               denyBridges: disabledBridges.length ? disabledBridges : undefined,
               denyExchanges: disabledExchanges.length
                 ? disabledExchanges
@@ -313,27 +357,36 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
                 )
               : undefined
 
-          if (customStep && contractTool) {
+          const _contractTool =
+            contractCallsResult?.contractTool || contractTool
+          if (customStep && _contractTool) {
             const toolDetails = {
-              key: contractTool.name,
-              name: contractTool.name,
-              logoURI: contractTool.logoURI,
+              key: _contractTool.name,
+              name: _contractTool.name,
+              logoURI: _contractTool.logoURI,
             }
             customStep.toolDetails = toolDetails
             contractCallQuote.toolDetails = toolDetails
           }
 
-          const route: Route = convertQuoteToRoute(contractCallQuote)
+          const route: Route = convertQuoteToRoute(contractCallQuote, {
+            adjustZeroOutputFromPreviousStep:
+              subvariant === 'custom' && subvariantOptions?.custom === 'fund',
+          })
 
           return [route]
         }
 
         // Prevent sending a request for the same chain token combinations.
-        // Exception: proceed anyway if subvariant is custom and subvariantOptions is deposit
+        // Exception: proceed anyway if subvariant is custom and subvariantOptions is deposit or fund
         if (
           fromChainId === toChainId &&
           fromTokenAddress === toTokenAddress &&
-          !(subvariant === 'custom' && subvariantOptions?.custom === 'deposit')
+          !(
+            subvariant === 'custom' &&
+            (subvariantOptions?.custom === 'deposit' ||
+              subvariantOptions?.custom === 'fund')
+          )
         ) {
           return
         }

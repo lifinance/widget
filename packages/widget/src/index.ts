@@ -1,5 +1,11 @@
 export type * from '@lifi/sdk'
-export { ChainId, ChainType, CoinKey } from '@lifi/sdk'
+export {
+  ChainId,
+  ChainType,
+  CoinKey,
+  isZeroAddress,
+  PatcherMagicNumber,
+} from '@lifi/sdk'
 export { App as LiFiWidget } from './App.js'
 export type { WidgetDrawer } from './AppDrawer.js'
 export * from './components/ContractComponent/ItemPrice.js'

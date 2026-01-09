@@ -35,7 +35,8 @@ export const useRouteExecution = ({
   const queryClient = useQueryClient()
   const { account } = useAccount()
   const resumedAfterMount = useRef(false)
-  const { keyPrefix, sdkConfig } = useWidgetConfig()
+  const { keyPrefix, sdkConfig, subvariant, subvariantOptions } =
+    useWidgetConfig()
   const emitter = useWidgetEvents()
   const routeExecutionStoreContext = useRouteExecutionStoreContext()
   const routeExecution = useRouteExecutionStore(
@@ -132,6 +133,8 @@ export const useRouteExecution = ({
         acceptExchangeRateUpdateHook,
         infiniteApproval: false,
         executeInBackground,
+        adjustZeroOutputFromPreviousStep:
+          subvariant === 'custom' && subvariantOptions?.custom === 'fund',
         ...sdkConfig?.executionOptions,
       })
     },
@@ -157,6 +160,9 @@ export const useRouteExecution = ({
         acceptExchangeRateUpdateHook,
         infiniteApproval: false,
         executeInBackground,
+        adjustZeroOutputFromPreviousStep:
+          subvariant === 'custom' && subvariantOptions?.custom === 'fund',
+        ...sdkConfig?.executionOptions,
       })
     },
     onMutate: () => {

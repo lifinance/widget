@@ -12,7 +12,12 @@ import type { DisabledUI } from '../../types/widget.js'
 import { isItemAllowed } from '../../utils/item.js'
 
 export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
-  const { subvariant, disabledUI, chains: chainsConfig } = useWidgetConfig()
+  const {
+    subvariant,
+    disabledUI,
+    chains: chainsConfig,
+    subvariantOptions,
+  } = useWidgetConfig()
   const splitSubvariant = useSplitSubvariantStore((store) => store.state)
   const emitter = useWidgetEvents()
   const { setFieldValue, getFieldValues } = useFieldActions()
@@ -58,7 +63,7 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
 
       if (
         (isSameTokenTransfer || isBridgeToSameChain) &&
-        subvariant !== 'custom'
+        (subvariant !== 'custom' || subvariantOptions?.custom === 'fund')
       ) {
         setFieldValue(FormKeyHelper.getTokenKey(oppositeFormType), '', {
           isDirty: true,
@@ -120,6 +125,7 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
       splitSubvariant,
       tokenKey,
       chainsConfig,
+      subvariantOptions,
     ]
   )
 }

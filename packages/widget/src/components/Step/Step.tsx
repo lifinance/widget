@@ -39,27 +39,31 @@ export const Step: React.FC<{
 
     if (hasBridgeStep && hasSwapStep) {
       return isCustomVariant
-        ? subvariantOptions?.custom === 'deposit'
+        ? subvariantOptions?.custom === 'deposit' ||
+          subvariantOptions?.custom === 'fund'
           ? t('main.stepBridgeAndDeposit')
           : t('main.stepBridgeAndBuy')
         : t('main.stepSwapAndBridge')
     }
     if (hasBridgeStep) {
       return isCustomVariant
-        ? subvariantOptions?.custom === 'deposit'
+        ? subvariantOptions?.custom === 'deposit' ||
+          subvariantOptions?.custom === 'fund'
           ? t('main.stepBridgeAndDeposit')
           : t('main.stepBridgeAndBuy')
         : t('main.stepBridge')
     }
     if (hasSwapStep) {
       return isCustomVariant
-        ? subvariantOptions?.custom === 'deposit'
+        ? subvariantOptions?.custom === 'deposit' ||
+          subvariantOptions?.custom === 'fund'
           ? t('main.stepSwapAndDeposit')
           : t('main.stepSwapAndBuy')
         : t('main.stepSwap')
     }
     return isCustomVariant
-      ? subvariantOptions?.custom === 'deposit'
+      ? subvariantOptions?.custom === 'deposit' ||
+        subvariantOptions?.custom === 'fund'
         ? t('main.stepDeposit')
         : t('main.stepBuy')
       : t('main.stepSwap')
