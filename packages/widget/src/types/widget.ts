@@ -199,8 +199,8 @@ export interface CalculateFeeParams {
   toChain: ExtendedChain
   fromToken: Token
   toToken: Token
-  fromAddress?: `0x${string}`
-  toAddress?: `0x${string}`
+  fromAddress?: string
+  toAddress?: string
   fromAmount?: bigint
   toAmount?: bigint
   slippage?: number
