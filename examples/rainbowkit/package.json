@@ -15,11 +15,11 @@
     "@tanstack/react-query": "^5.90.16",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "viem": "^2.44.0",
+    "viem": "^2.44.1",
     "wagmi": "^2.19.3"
   },
   "devDependencies": {
-    "@types/react": "^19.2.7",
+    "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react-swc": "^4.2.2",
     "typescript": "^5.9.3",
