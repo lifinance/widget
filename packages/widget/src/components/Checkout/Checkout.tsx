@@ -1,4 +1,5 @@
 import type { RouteExtended, TokenAmount } from '@lifi/sdk'
+import ArrowDownward from '@mui/icons-material/ArrowDownward'
 import { Box } from '@mui/material'
 import type React from 'react'
 import { Card } from '../../components/Card/Card.js'
@@ -12,7 +13,7 @@ interface CheckoutProps {
 }
 
 export const Checkout: React.FC<CheckoutProps> = ({ route, subvariant }) => {
-  const step = route.steps[0]
+  const step = route.steps[0] // TODO: other steps as well
 
   const fromToken: TokenAmount = {
     ...step.action.fromToken,
@@ -41,23 +42,20 @@ export const Checkout: React.FC<CheckoutProps> = ({ route, subvariant }) => {
         gap: 2,
       }}
     >
-      {step?.execution && <StepExecution step={step} />}
+      <StepExecution step={step} />
       <Card type="default">
         <Box
           sx={{
-            py: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 1,
+            py: 2,
+            px: 2,
           }}
         >
-          {fromToken ? <Token token={fromToken} px={2} py={1} /> : null}
-          {toToken ? (
-            <Token
-              token={toToken}
-              impactToken={impactToken}
-              enableImpactTokenTooltip
-              px={2}
-              py={1}
-            />
-          ) : null}
+          {fromToken ? <Token token={fromToken} /> : null}
+          <ArrowDownward sx={{ color: 'text.primary', mx: 1 }} />
+          {toToken ? <Token token={toToken} impactToken={impactToken} /> : null}
         </Box>
       </Card>
     </Box>

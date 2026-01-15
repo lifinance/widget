@@ -1,58 +1,102 @@
-import type { Execution } from '@lifi/sdk'
+import type { LiFiStepExtended } from '@lifi/sdk'
 import Done from '@mui/icons-material/Done'
 import ErrorRounded from '@mui/icons-material/ErrorRounded'
-import InfoRounded from '@mui/icons-material/InfoRounded'
 import WarningRounded from '@mui/icons-material/WarningRounded'
-import {
-  CircularIcon,
-  CircularProgressPending,
-} from './CircularProgress.style.js'
+import { Box, useTheme } from '@mui/material'
+import type React from 'react'
+import { getStatusColor } from '../../utils/getStatusColor.js'
+import { ExecutionTimer } from '../Timer/ExecutionTimer.js'
 
-export function CircularProgress({ execution }: { execution: Execution }) {
-  return (
-    <CircularIcon status={execution.status} substatus={execution.substatus}>
-      {execution.status === 'STARTED' || execution.status === 'PENDING' ? (
-        <CircularProgressPending size={40} />
-      ) : null}
-      {execution.status === 'ACTION_REQUIRED' ||
-      execution.status === 'MESSAGE_REQUIRED' ||
-      execution.status === 'RESET_REQUIRED' ? (
-        <InfoRounded
-          color="info"
+interface CircularProgressProps {
+  step: LiFiStepExtended
+}
+
+const commonStyles = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: 96,
+  height: 96,
+  border: '3px solid',
+  borderRadius: '50%',
+}
+
+export const CircularProgress: React.FC<CircularProgressProps> = ({ step }) => {
+  const theme = useTheme()
+
+  if (!step.execution) {
+    return null
+  }
+
+  const status = step.execution?.status
+  const substatus = step.execution?.substatus
+
+  const withTimer = status === 'STARTED' || status === 'PENDING'
+  const actionRequired =
+    status === 'ACTION_REQUIRED' ||
+    status === 'MESSAGE_REQUIRED' ||
+    status === 'RESET_REQUIRED'
+
+  if (withTimer || actionRequired) {
+    return <ExecutionTimer step={step} />
+  }
+
+  const backgroundColor =
+    getStatusColor(theme, status, substatus) || 'transparent'
+
+  switch (status) {
+    case 'DONE':
+      if (substatus === 'PARTIAL' || substatus === 'REFUNDED') {
+        return (
+          <Box
+            sx={{
+              ...commonStyles,
+              borderColor: 'warning.main',
+              backgroundColor,
+            }}
+          >
+            <WarningRounded
+              color="warning"
+              sx={{
+                fontSize: 48,
+              }}
+            />
+          </Box>
+        )
+      }
+
+      return (
+        <Box
           sx={{
-            position: 'absolute',
-            fontSize: '1.5rem',
+            ...commonStyles,
+            borderColor: 'success.main',
+            backgroundColor,
           }}
-        />
-      ) : null}
-      {execution.status === 'DONE' &&
-      (execution.substatus === 'PARTIAL' ||
-        execution.substatus === 'REFUNDED') ? (
-        <WarningRounded
-          sx={(theme) => ({
-            position: 'absolute',
-            fontSize: '1.5rem',
-            color: `color-mix(in srgb, ${theme.vars.palette.warning.main} 68%, black)`,
-          })}
-        />
-      ) : execution.status === 'DONE' ? (
-        <Done
-          color="success"
+        >
+          <Done
+            color="success"
+            sx={{
+              fontSize: 48,
+            }}
+          />
+        </Box>
+      )
+    case 'FAILED':
+      return (
+        <Box
           sx={{
-            position: 'absolute',
-            fontSize: '1.5rem',
+            ...commonStyles,
+            borderColor: 'error.main',
+            backgroundColor,
           }}
-        />
-      ) : null}
-      {execution.status === 'FAILED' ? (
-        <ErrorRounded
-          color="error"
-          sx={{
-            position: 'absolute',
-            fontSize: '1.5rem',
-          }}
-        />
-      ) : null}
-    </CircularIcon>
-  )
+        >
+          <ErrorRounded
+            color="error"
+            sx={{
+              fontSize: 48,
+            }}
+          />
+        </Box>
+      )
+  }
 }

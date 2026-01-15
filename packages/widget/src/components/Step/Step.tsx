@@ -8,9 +8,9 @@ import { Token } from '../../components/Token/Token.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { shortenAddress } from '../../utils/wallet.js'
+import { StepExecution } from '../Checkout/StepExecution.js'
 import { StepTimer } from '../Timer/StepTimer.js'
 import { DestinationWalletAddress } from './DestinationWalletAddress.js'
-import { StepProcess } from './StepProcess.js'
 
 export const Step: React.FC<{
   step: LiFiStepExtended
@@ -88,7 +88,7 @@ export const Step: React.FC<{
       >
         {fromToken ? <Token token={fromToken} px={2} py={1} /> : null}
         <StepActions step={step} px={2} py={1} dense />
-        <StepProcess step={step} />
+        <StepExecution step={step} />
         {formattedToAddress && toAddressLink ? (
           <DestinationWalletAddress
             step={step}

@@ -35,7 +35,7 @@ export const BitcoinProviderValues: FC<
   const sdkProvider = useMemo(
     () =>
       BitcoinSDKProvider({
-        getWalletClient: () => getBigmiConnectorClient(bigmiConfig),
+        getWalletClient: () => getBigmiConnectorClient(bigmiConfig) as any,
       }),
     [bigmiConfig]
   )

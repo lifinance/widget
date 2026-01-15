@@ -63,7 +63,7 @@ export const useRouteExecution = ({
     if (transaction) {
       emitter.emit(WidgetEvent.RouteExecutionUpdated, {
         route: clonedUpdatedRoute,
-        process: transaction,
+        transaction,
       })
     }
     const executionCompleted = isRouteDone(clonedUpdatedRoute)
@@ -74,7 +74,7 @@ export const useRouteExecution = ({
     if (executionFailed && transaction) {
       emitter.emit(WidgetEvent.RouteExecutionFailed, {
         route: clonedUpdatedRoute,
-        process: transaction,
+        transaction,
       })
     }
     if (executionCompleted || executionFailed) {

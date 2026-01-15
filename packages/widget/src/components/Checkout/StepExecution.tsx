@@ -1,35 +1,21 @@
 import type { LiFiStepExtended } from '@lifi/sdk'
-import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
-import { Box, Link, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import type React from 'react'
 import { Card } from '../../components/Card/Card.js'
 import { useExecutionMessage } from '../../hooks/useExecutionMessage.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
-import { CardIconButton } from '../Card/CardIconButton.js'
-import { ExecutionTimer } from './ExecutionTimer.js'
-import { CenterContainer, StatusMessage } from './StepExecution.style.js'
+import { CircularProgress } from '../Step/CircularProgress.js'
+import { TransactionLink } from '../Step/TransactionLink.js'
 
 export const StepExecution: React.FC<{
   step: LiFiStepExtended
 }> = ({ step }) => {
-  return (
-    <Card type={step.execution?.status === 'FAILED' ? 'error' : 'default'}>
-      <Box
-        sx={{
-          py: 1,
-        }}
-      >
-        <StepProcess step={step} />
-      </Box>
-    </Card>
-  )
-}
-
-const StepProcess: React.FC<{
-  step: LiFiStepExtended
-}> = ({ step }) => {
-  const { title, message } = useExecutionMessage(step)
+  const { title } = useExecutionMessage(step)
   const { getTransactionLink } = useExplorer()
+
+  if (!step.execution) {
+    return null
+  }
 
   const transactionsWithLinks = step.execution?.transactions.flatMap(
     (transaction) => {
@@ -48,35 +34,52 @@ const StepProcess: React.FC<{
     }
   )
 
+  // TODO: title or message?
+
   return (
-    <Box
+    <Card
+      type="default"
       sx={{
-        px: 2,
-        py: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        py: 4,
+        px: 3,
       }}
     >
-      <CenterContainer>
-        <ExecutionTimer
-          step={step}
-          estimatedDuration={step.estimate.executionDuration}
-        />
-        <StatusMessage>{title}</StatusMessage>
-        <StatusMessage>{message}</StatusMessage>
-        {transactionsWithLinks?.map((transactionWithLink, idx) => (
-          <Box key={`${transactionWithLink.transactionLink}-${idx}`}>
-            <Typography>{transactionWithLink.transaction.type}</Typography>
-            <CardIconButton
-              size="small"
-              LinkComponent={Link}
+      <Box sx={{ mb: 2 }}>
+        <CircularProgress step={step} />
+      </Box>
+      <Typography
+        sx={{
+          fontSize: 14,
+          fontWeight: 500,
+          color: 'text.primary',
+          textAlign: 'center',
+        }}
+      >
+        {title}
+      </Typography>
+      {!!transactionsWithLinks?.length && (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 1,
+            width: '100%',
+            mt: 2,
+          }}
+        >
+          {transactionsWithLinks.map((transactionWithLink, idx) => (
+            <TransactionLink
+              key={`${transactionWithLink.transactionLink}-${idx}`}
+              label={transactionWithLink.transaction.type}
               href={transactionWithLink.transactionLink}
-              target="_blank"
-              rel="nofollow noreferrer"
-            >
-              <OpenInNewRounded fontSize="inherit" />
-            </CardIconButton>
-          </Box>
-        ))}
-      </CenterContainer>
-    </Box>
+            />
+          ))}
+        </Box>
+      )}
+    </Card>
   )
 }
