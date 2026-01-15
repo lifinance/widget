@@ -19,6 +19,7 @@ export const SolanaProviderValues: FC<
     disconnect,
     connected,
   } = useWallet()
+
   const { address: accountAddress } = useWalletAccount()
 
   const connector = currentWallet

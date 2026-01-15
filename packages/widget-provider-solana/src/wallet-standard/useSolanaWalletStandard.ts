@@ -1,29 +1,22 @@
 import {
-  WalletStandardClient,
-  type WalletStandardClientConfig,
-} from './wallet-standard-client.js'
-import {
+  createWalletStandardStore,
   type SolanaWalletStandardState,
-  walletStandardClient,
-  walletStandardStore,
+  type WalletStandardConfig,
 } from './wallet-standard-store.js'
 
 export type { SolanaWalletStandardState }
 
-// Hook that accepts optional config
-export function useSolanaWalletStandard(
-  config?: WalletStandardClientConfig
-): SolanaWalletStandardState {
-  // Initialize with config if provided and client doesn't exist yet
-  if (config && !walletStandardClient) {
-    const client = new WalletStandardClient(config)
+let store: ReturnType<typeof createWalletStandardStore> | null = null
 
-    client.subscribe((newState) => {
-      walletStandardStore.setState(newState)
-    })
-
-    walletStandardStore.setState(client.getState())
+function getStore(config?: WalletStandardConfig) {
+  if (!store) {
+    store = createWalletStandardStore(config)
   }
+  return store
+}
 
-  return walletStandardStore()
+export function useSolanaWalletStandard(
+  config?: WalletStandardConfig
+): SolanaWalletStandardState {
+  return getStore(config)()
 }
