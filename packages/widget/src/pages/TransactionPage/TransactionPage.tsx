@@ -9,7 +9,6 @@ import { Checkout } from '../../components/Checkout/Checkout.js'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
 import { WarningMessages } from '../../components/Messages/WarningMessages.js'
 import { PageContainer } from '../../components/PageContainer.js'
-import { TransactionDetails } from '../../components/TransactionDetails.js'
 import { useAddressActivity } from '../../hooks/useAddressActivity.js'
 import { useHeader } from '../../hooks/useHeader.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
@@ -217,7 +216,6 @@ export const TransactionPage = () => {
           {contractSecondaryComponent}
         </ContractComponent>
       ) : null}
-      <TransactionDetails route={route} sx={{ marginTop: 2 }} />
       {status === RouteExecutionStatus.Idle ||
       status === RouteExecutionStatus.Failed ? (
         <>

@@ -1,10 +1,16 @@
 import type { RouteExtended, TokenAmount } from '@lifi/sdk'
 import ArrowDownward from '@mui/icons-material/ArrowDownward'
+import ExpandLess from '@mui/icons-material/ExpandLess'
+import ExpandMore from '@mui/icons-material/ExpandMore'
 import { Box } from '@mui/material'
 import type React from 'react'
+import { useState } from 'react'
 import { Card } from '../../components/Card/Card.js'
 import { Token } from '../../components/Token/Token.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { WidgetSubvariant } from '../../types/widget'
+import { CardIconButton } from '../Card/CardIconButton.js'
+import { TransactionDetails2 } from '../TransactionDetails.js'
 import { StepExecution } from './StepExecution.js'
 
 interface CheckoutProps {
@@ -34,6 +40,15 @@ export const Checkout: React.FC<CheckoutProps> = ({ route, subvariant }) => {
     amount: BigInt(step.action.fromAmount),
   }
 
+  const { defaultUI } = useWidgetConfig()
+  const [cardExpanded, setCardExpanded] = useState(
+    defaultUI?.transactionDetailsExpanded ?? false
+  )
+
+  const toggleCard = () => {
+    setCardExpanded((cardExpanded) => !cardExpanded)
+  }
+
   return (
     <Box
       sx={{
@@ -55,7 +70,27 @@ export const Checkout: React.FC<CheckoutProps> = ({ route, subvariant }) => {
         >
           {fromToken ? <Token token={fromToken} /> : null}
           <ArrowDownward sx={{ color: 'text.primary', mx: 1 }} />
-          {toToken ? <Token token={toToken} impactToken={impactToken} /> : null}
+          {toToken ? (
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: 1,
+              }}
+            >
+              <Token token={toToken} impactToken={impactToken} />
+              <CardIconButton onClick={toggleCard} size="small">
+                {cardExpanded ? (
+                  <ExpandLess fontSize="inherit" />
+                ) : (
+                  <ExpandMore fontSize="inherit" />
+                )}
+              </CardIconButton>
+            </Box>
+          ) : null}
+          <TransactionDetails2 route={route} cardExpanded={cardExpanded} />
         </Box>
       </Card>
     </Box>
