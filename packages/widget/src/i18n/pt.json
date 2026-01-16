@@ -127,7 +127,7 @@
       "deleteTransactionHistory": "O histórico de conversões é armazenado apenas localmente e não pode ser recuperado caso seja excluído.",
       "fundsLossPrevention": "Sempre certifique-se de que as contas de contrato inteligente estão devidamente configuradas na cadeia de destino e evite transferências diretas para corretoras de criptomoedas para evitar perda de fundos.",
       "highValueLoss": "A quantidade de tokens a serem recebidos é significativamente menor do que os tokens convertidos e os custos da transação.",
-      "unverifiedToken": "",
+      "unverifiedToken": "Token não verificado. Faça sempre sua própria pesquisa antes de prosseguir.",
       "insufficientFunds": "Você não possui fundos suficientes para completar a conversão.",
       "insufficientGas": "Você não tem gás suficiente para completar a conversão. É necessário adicionar pelo menos:",
       "minFromAmountUSD": "Valor mínimo é {{amount, currencyExt(currency: USD)}}. Por favor, insira um valor maior.",

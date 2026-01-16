@@ -21,6 +21,7 @@ build/
 *.tmp
 
 npm-debug.log*
+.pnpm-store/
 
 .next
 .cache
