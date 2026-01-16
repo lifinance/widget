@@ -33,6 +33,7 @@ export interface WalletStandardConfig {
   autoConnect?: boolean
   debug?: boolean
   storage?: Storage
+  storageKey?: string
 }
 
 export interface SolanaWalletStandardState {
@@ -50,7 +51,7 @@ export interface SolanaWalletStandardState {
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
-const STORAGE_KEY = 'wallet-connector:lastWallet'
+const DEFAULT_STORAGE_KEY = 'li.fi-widget-solana-wallets'
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -115,6 +116,7 @@ export const createWalletStandardStore = (
   config: WalletStandardConfig = {}
 ) => {
   const storage = config.storage ?? getDefaultStorage()
+  const storageKey = config.storageKey ?? DEFAULT_STORAGE_KEY
   const debug = (msg: string, err?: unknown) => {
     if (config.debug) {
       console.warn(`[Connector] ${msg}`, err)
@@ -224,7 +226,7 @@ export const createWalletStandardStore = (
         })
 
         try {
-          storage?.setItem(STORAGE_KEY, walletName)
+          storage?.setItem(storageKey, walletName)
         } catch (e) {
           debug('Failed to store preference', e)
         }
@@ -267,7 +269,7 @@ export const createWalletStandardStore = (
       })
 
       try {
-        storage?.removeItem(STORAGE_KEY)
+        storage?.removeItem(storageKey)
       } catch (e) {
         debug('Failed to remove preference', e)
       }
@@ -327,13 +329,13 @@ export const createWalletStandardStore = (
 
     if (config.autoConnect) {
       setTimeout(async () => {
-        const last = storage?.getItem(STORAGE_KEY)
+        const last = storage?.getItem(storageKey)
         if (last && store.getState().wallets.some((w) => w.name === last)) {
           try {
             await store.getState().select(last)
           } catch {
             try {
-              storage?.removeItem(STORAGE_KEY)
+              storage?.removeItem(storageKey)
             } catch {}
           }
         }
