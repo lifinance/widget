@@ -55,6 +55,7 @@
     "bs58": ">=4.0.1"
   },
   "devDependencies": {
+    "@solana/wallet-adapter-react": "^0.15.39",
     "cpy-cli": "^6.0.0",
     "madge": "^8.0.0",
     "react": "^19.2.3",

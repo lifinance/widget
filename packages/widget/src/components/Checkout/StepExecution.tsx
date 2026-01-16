@@ -1,15 +1,25 @@
-import type { LiFiStepExtended } from '@lifi/sdk'
+import type { LiFiStepExtended, TransactionType } from '@lifi/sdk'
 import { Box, Typography } from '@mui/material'
 import type React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Card } from '../../components/Card/Card.js'
 import { useExecutionMessage } from '../../hooks/useExecutionMessage.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { CircularProgress } from '../Step/CircularProgress.js'
 import { TransactionLink } from '../Step/TransactionLink.js'
 
+const transactionTypeDoneKeys: Record<TransactionType, string> = {
+  TOKEN_ALLOWANCE: 'main.process.tokenAllowance.done',
+  PERMIT: 'main.process.permit.done',
+  SWAP: 'main.process.swap.done',
+  CROSS_CHAIN: 'main.process.bridge.done',
+  RECEIVING_CHAIN: 'main.process.receivingChain.done',
+}
+
 export const StepExecution: React.FC<{
   step: LiFiStepExtended
 }> = ({ step }) => {
+  const { t } = useTranslation()
   const { title } = useExecutionMessage(step)
   const { getTransactionLink } = useExplorer()
 
@@ -71,13 +81,19 @@ export const StepExecution: React.FC<{
             mt: 2,
           }}
         >
-          {transactionsWithLinks.map((transactionWithLink, idx) => (
-            <TransactionLink
-              key={`${transactionWithLink.transactionLink}-${idx}`}
-              label={transactionWithLink.transaction.type}
-              href={transactionWithLink.transactionLink}
-            />
-          ))}
+          {transactionsWithLinks.map((transactionWithLink, idx) => {
+            const txType = transactionWithLink.transaction.type
+            const label = t(transactionTypeDoneKeys[txType] as any, {
+              tokenSymbol: step.action.fromToken.symbol,
+            })
+            return (
+              <TransactionLink
+                key={`${transactionWithLink.transactionLink}-${idx}`}
+                label={label}
+                href={transactionWithLink.transactionLink}
+              />
+            )
+          })}
         </Box>
       )}
     </Card>
