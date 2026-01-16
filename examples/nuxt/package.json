@@ -10,10 +10,10 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@lifi/widget": "^3.40.0",
+    "@lifi/widget": "^3.40.1",
     "nuxt": "3.17.7",
     "veaury": "^2.6.3",
-    "vite-plugin-node-polyfills": "^0.24.0",
+    "vite-plugin-node-polyfills": "^0.25.0",
     "vue": "^3.5.26",
     "vue-router": "^4.6.4"
   }

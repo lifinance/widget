@@ -15,14 +15,14 @@
     "@lifi/widget-playground": "workspace:*",
     "@mui/material": "^7.3.7",
     "@mui/material-nextjs": "^7.3.7",
-    "@tanstack/react-query": "^5.90.16",
+    "@tanstack/react-query": "^5.90.18",
     "core-js": "^3.47.0",
     "next": "^15",
     "react": "^19.2.3",
     "react-dom": "^19.2.3"
   },
   "devDependencies": {
-    "@types/node": "^25.0.6",
+    "@types/node": "^25.0.9",
     "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",
     "typescript": "^5.9.3"
