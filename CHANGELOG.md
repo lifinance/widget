@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.40.3](https://github.com/lifinance/widget/compare/v3.40.2...v3.40.3) (2026-01-19)
+
+
+### Bug Fixes
+
+* add minPriceUSD filter to useTokens hook ([81ed536](https://github.com/lifinance/widget/commit/81ed536f3d3d4a60e0211de84e44a4d3d6cbcef6))
+
 ### [3.40.2](https://github.com/lifinance/widget/compare/v3.40.1...v3.40.2) (2026-01-16)
 
 ### [3.40.1](https://github.com/lifinance/widget/compare/v3.40.0...v3.40.1) (2026-01-12)
