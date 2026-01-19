@@ -50,6 +50,7 @@ export const useTokens = (
           orderBy: 'volumeUSD24H',
           extended: true,
           limit: 1000,
+          minPriceUSD: 0.000001,
         },
         { signal }
       )
@@ -91,6 +92,7 @@ export const useTokens = (
           extended: true,
           search: searchQuery,
           limit: 1000,
+          minPriceUSD: 0.000001,
         },
         { signal }
       )
