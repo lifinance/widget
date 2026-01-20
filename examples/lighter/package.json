@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/widget": "3.40.1",
+    "@lifi/widget": "3.40.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "viem": "^2.44.4"
@@ -26,7 +26,7 @@
     "eslint-plugin-react-refresh": "^0.4.26",
     "globals": "^17.0.0",
     "typescript": "~5.9.3",
-    "typescript-eslint": "^8.53.0",
+    "typescript-eslint": "^8.53.1",
     "vite": "^7.3.1"
   }
 }

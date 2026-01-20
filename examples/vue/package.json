@@ -9,9 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/widget": "^3.40.1",
+    "@lifi/widget": "^3.40.4",
     "veaury": "^2.6.3",
-    "vue": "^3.5.26"
+    "vue": "^3.5.27"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^5.1.2",
