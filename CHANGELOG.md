@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.40.4](https://github.com/lifinance/widget/compare/v3.40.3...v3.40.4) (2026-01-20)
+
+
+### Bug Fixes
+
+* add wallet disconnection event handling ([e81e568](https://github.com/lifinance/widget/commit/e81e568bf35656ebc8722c5842bb011f391d433b))
+
 ### [3.40.3](https://github.com/lifinance/widget/compare/v3.40.2...v3.40.3) (2026-01-19)
 
 
