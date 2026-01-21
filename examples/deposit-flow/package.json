@@ -11,18 +11,18 @@
   },
   "dependencies": {
     "@lifi/sdk": "^3.14.1",
-    "@lifi/widget": "^3.37.0",
+    "@lifi/widget": "^3.38.1",
     "@mui/material": "^7.3.6",
-    "@tanstack/react-query": "^5.90.12",
+    "@tanstack/react-query": "^5.90.16",
     "events": "^3.3.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "viem": "^2.42.1",
+    "viem": "^2.43.5",
     "wagmi": "^2.19.4"
   },
   "devDependencies": {
     "@types/events": "^3.0.3",
-    "@types/node": "^24.10.1",
+    "@types/node": "^25.0.3",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.2",

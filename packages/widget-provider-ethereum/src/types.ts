@@ -13,9 +13,9 @@ export interface CreateConnectorFnExtended extends CreateConnectorFn {
 }
 
 export interface EthereumProviderConfig {
-  walletConnect?: WalletConnectParameters
-  coinbase?: CoinbaseWalletParameters
-  metaMask?: MetaMaskParameters
-  baseAccount?: BaseAccountParameters
-  porto?: Partial<PortoParameters>
+  walletConnect?: WalletConnectParameters | boolean
+  coinbase?: CoinbaseWalletParameters | boolean
+  metaMask?: MetaMaskParameters | boolean
+  baseAccount?: BaseAccountParameters | boolean
+  porto?: Partial<PortoParameters> | boolean
 }

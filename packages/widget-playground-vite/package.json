@@ -13,7 +13,7 @@
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
     "@lifi/widget-playground": "workspace:*",
-    "@tanstack/react-query": "^5.90.12",
+    "@tanstack/react-query": "^5.90.16",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "vite-plugin-mkcert": "^1.17.9"

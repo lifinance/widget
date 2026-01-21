@@ -1,4 +1,15 @@
 {
   "ignore": ["examples/**", "packages/widget-embedded/**", "scripts/**"],
-  "ignoreDependencies": ["@mui/system", "csstype"]
+  "ignoreDependencies": ["@mui/system", "csstype"],
+  "workspaces": {
+    "packages/widget-playground": {
+      "ignoreDependencies": [
+        "@base-org/account",
+        "@coinbase/wallet-sdk",
+        "@metamask/sdk",
+        "@walletconnect/ethereum-provider",
+        "porto"
+      ]
+    }
+  }
 }

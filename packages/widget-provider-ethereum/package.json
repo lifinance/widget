@@ -43,13 +43,13 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "4.0.0-alpha.4",
-    "@lifi/sdk-provider-ethereum": "^4.0.0-alpha.4",
+    "@lifi/sdk": "^4.0.0-alpha.7",
+    "@lifi/sdk-provider-ethereum": "^4.0.0-alpha.7",
     "@lifi/widget-provider": "workspace:*",
-    "viem": "^2.41.2"
+    "viem": "^2.43.5"
   },
   "peerDependencies": {
-    "wagmi": "^2.19.0"
+    "wagmi": "^3.1.0"
   },
   "devDependencies": {
     "cpy-cli": "^6.0.0",

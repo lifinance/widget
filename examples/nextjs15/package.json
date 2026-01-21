@@ -12,14 +12,14 @@
   },
   "dependencies": {
     "@lifi/sdk": "^3.14.1",
+    "@lifi/widget": "^3.38.1",
     "@mui/material-nextjs": "^7.3.6",
-    "@lifi/widget": "^3.37.0",
     "next": "^15",
     "react": "^19.2.3",
     "react-dom": "^19.2.3"
   },
   "devDependencies": {
-    "@types/node": "^24.10.1",
+    "@types/node": "^25.0.3",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "typescript": "^5.9.3"
