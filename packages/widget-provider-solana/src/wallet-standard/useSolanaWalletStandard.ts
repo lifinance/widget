@@ -1,8 +1,8 @@
-import {
-  createWalletStandardStore,
-  type SolanaWalletStandardState,
-  type WalletStandardConfig,
-} from './wallet-standard-store.js'
+import { createWalletStandardStore } from './createWalletStandardStore.js'
+import type {
+  SolanaWalletStandardState,
+  WalletStandardConfig,
+} from './types.js'
 
 export type { SolanaWalletStandardState }
 
