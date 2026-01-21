@@ -1,4 +1,5 @@
 import type {
+  ChainId,
   Execution,
   ExecutionStatus,
   ExtendedTransactionInfo,
@@ -12,7 +13,7 @@ import type {
 import type { RouteExecution } from '../stores/routes/types.js'
 import { formatTokenPrice } from './format.js'
 
-type Transaction = Execution['transactions'][number]
+type Transaction = Execution['transactions'][number] & { chainId: ChainId }
 
 const buildTransactionsFromTxHistory = (
   tx: FullStatusData

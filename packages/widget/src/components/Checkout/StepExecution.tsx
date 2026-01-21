@@ -32,12 +32,12 @@ export const StepExecution: React.FC<{
       const transactionLink = transaction.txHash
         ? getTransactionLink({
             txHash: transaction.txHash,
-            chain: transaction.chainId,
+            chain: step.execution?.chainId,
           })
         : transaction.txLink
           ? getTransactionLink({
               txLink: transaction.txLink,
-              chain: transaction.chainId,
+              chain: step.execution?.chainId,
             })
           : undefined
       return transactionLink ? [{ transaction, transactionLink }] : []

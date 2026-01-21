@@ -1,10 +1,12 @@
 import { ChainId, ChainType } from '@lifi/sdk'
 import { SolanaProvider as SolanaSDKProvider } from '@lifi/sdk-provider-solana'
 import { SolanaContext } from '@lifi/widget-provider'
-import { WalletReadyState } from '@solana/wallet-adapter-base'
+import {
+  type StandardWalletAdapter,
+  WalletReadyState,
+} from '@solana/wallet-adapter-base'
 import { useWallet, type Wallet } from '@solana/wallet-adapter-react'
 import type { PublicKey } from '@solana/web3.js'
-import type { Wallet as WalletStandard } from '@wallet-standard/base'
 import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
 
 interface SolanaProviderValuesProps {
@@ -49,7 +51,10 @@ export const SolanaProviderValues: FC<
     () =>
       SolanaSDKProvider({
         async getWallet() {
-          return currentWallet?.adapter as unknown as WalletStandard
+          if (!currentWallet) {
+            throw new Error('No wallet found')
+          }
+          return (currentWallet.adapter as StandardWalletAdapter).wallet
         },
       }),
     [currentWallet]

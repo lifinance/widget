@@ -1,9 +1,6 @@
 import type { LiFiStepExtended } from '@lifi/sdk'
 import { useEffect, useState } from 'react'
-import {
-  getExpiryTimestamp,
-  hasMainExecutionStarted,
-} from '../utils/timerHelpers.js'
+import { getExpiryTimestamp } from '../utils/timer.js'
 import { useTimer } from './timer/useTimer'
 
 export interface UseExecutionTimerResult {
@@ -20,7 +17,7 @@ export const useExecutionTimer = (
 ): UseExecutionTimerResult | null => {
   const execution = step?.execution
   const [isExecutionStarted, setExecutionStarted] = useState(() =>
-    hasMainExecutionStarted(step)
+    ['SWAP', 'CROSS_CHAIN', 'RECEIVING_CHAIN'].includes(execution?.type ?? '')
   )
   const [expiryTimestamp, setExpiryTimestamp] = useState(() =>
     getExpiryTimestamp(step)
@@ -82,7 +79,7 @@ export const useExecutionTimer = (
   const totalSeconds = days * 86400 + hours * 3600 + minutes * 60 + seconds
   const estimatedDuration = step.estimate.executionDuration
   const progress =
-    estimatedDuration > 0 ? (totalSeconds / estimatedDuration) * 100 : 100
+    estimatedDuration > 0 ? 100 - (totalSeconds / estimatedDuration) * 100 : 0
 
   return {
     days,

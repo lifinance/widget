@@ -169,10 +169,10 @@ export const EthereumProviderValues: FC<
     () =>
       EthereumSDKProvider({
         getWalletClient: () =>
-          getConnectorClient(wagmiConfig, { assertChainId: false }) as any,
+          getConnectorClient(wagmiConfig, { assertChainId: false }),
         switchChain: async (chainId: number) => {
           const chain = await switchChain(wagmiConfig, { chainId })
-          return getConnectorClient(wagmiConfig, { chainId: chain.id }) as any
+          return getConnectorClient(wagmiConfig, { chainId: chain.id })
         },
       }),
     [wagmiConfig]
