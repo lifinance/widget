@@ -19,13 +19,14 @@ export const createWalletStandardStore = ({
 }: WalletStandardConfig = {}) => {
   const storageKey = `${namePrefix || 'li.fi'}-solana-wallets`
 
-  let unsubscribers: (() => void)[] = []
-  let walletEventUnsub: (() => void) | null = null
+  let onWalletRegisterUnsubscribe: (() => void) | null = null
+  let onWalletUnregisterUnsubscribe: (() => void) | null = null
+  let onWalletEventUnsubscribe: (() => void) | null = null
 
   const unsubscribeWalletEvents = () => {
-    if (walletEventUnsub) {
-      walletEventUnsub()
-      walletEventUnsub = null
+    if (onWalletEventUnsubscribe) {
+      onWalletEventUnsubscribe()
+      onWalletEventUnsubscribe = null
     }
   }
 
@@ -45,7 +46,7 @@ export const createWalletStandardStore = ({
       return
     }
 
-    walletEventUnsub = events.on('change', ({ accounts = [] }) => {
+    onWalletEventUnsubscribe = events.on('change', ({ accounts = [] }) => {
       const { selectedAccount } = store.getState()
       const nextAccounts = mergeAccounts(
         wallet.accounts ?? [],
@@ -61,6 +62,18 @@ export const createWalletStandardStore = ({
           : (nextAccounts[0]?.address ?? null),
       })
     })
+  }
+
+  const unsubscribeRegistryEvents = () => {
+    if (onWalletRegisterUnsubscribe) {
+      onWalletRegisterUnsubscribe()
+      onWalletRegisterUnsubscribe = null
+    }
+
+    if (onWalletUnregisterUnsubscribe) {
+      onWalletUnregisterUnsubscribe()
+      onWalletUnregisterUnsubscribe = null
+    }
   }
 
   const store = create<SolanaWalletStandardState>()(
@@ -83,18 +96,18 @@ export const createWalletStandardStore = ({
             throw new Error(`Wallet ${walletName} not found`)
           }
 
-          const connectFn = (
+          const walletConnect = (
             wallet.wallet.features['standard:connect'] as
               | StandardConnectFeature['standard:connect']
               | undefined
           )?.connect
-          if (!connectFn) {
+          if (!walletConnect) {
             throw new Error(`Wallet ${walletName} does not support connect`)
           }
 
           set({ connecting: true })
           try {
-            const result = await connectFn({ silent: false })
+            const result = await walletConnect({ silent: false })
             const accounts = mergeAccounts(
               wallet.wallet.accounts ?? [],
               result.accounts
@@ -130,14 +143,14 @@ export const createWalletStandardStore = ({
         disconnect: async () => {
           unsubscribeWalletEvents()
           const wallet = get().selectedWallet
-          const disconnectFn = (
+          const walletDisconnect = (
             wallet?.features['standard:disconnect'] as
               | StandardDisconnectFeature['standard:disconnect']
               | undefined
           )?.disconnect
 
-          if (disconnectFn) {
-            await disconnectFn()
+          if (walletDisconnect) {
+            await walletDisconnect()
           }
 
           set({
@@ -156,14 +169,14 @@ export const createWalletStandardStore = ({
 
           let target = accounts.find((a) => a.address === address)
           if (!target) {
-            const connectFn = (
+            const walletConnect = (
               selectedWallet.features['standard:connect'] as
                 | StandardConnectFeature['standard:connect']
                 | undefined
             )?.connect
 
-            if (connectFn) {
-              const res = await connectFn()
+            if (walletConnect) {
+              const res = await walletConnect()
               const refreshed = res.accounts.map(toAccountInfo)
               set({ accounts: refreshed })
               target = refreshed.find((a) => a.address === address)
@@ -179,12 +192,7 @@ export const createWalletStandardStore = ({
 
         destroy: () => {
           unsubscribeWalletEvents()
-          for (const fn of unsubscribers) {
-            try {
-              fn()
-            } catch {}
-          }
-          unsubscribers = []
+          unsubscribeRegistryEvents()
         },
       }),
       {
@@ -210,8 +218,11 @@ export const createWalletStandardStore = ({
               const update = () => {
                 store.setState({ wallets: discoverSolanaWallets() })
               }
-              unsubscribers.push(walletsApi.on('register', update))
-              unsubscribers.push(walletsApi.on('unregister', update))
+              onWalletRegisterUnsubscribe = walletsApi.on('register', update)
+              onWalletUnregisterUnsubscribe = walletsApi.on(
+                'unregister',
+                update
+              )
             }
           }
         },

@@ -1,22 +1,15 @@
+import { useShallow } from 'zustand/shallow'
 import { createWalletStandardStore } from './createWalletStandardStore.js'
-import type {
-  SolanaWalletStandardState,
-  WalletStandardConfig,
-} from './types.js'
+import type { SolanaWalletStandardState, WalletStandardStore } from './types.js'
 
 export type { SolanaWalletStandardState }
 
-let store: ReturnType<typeof createWalletStandardStore> | null = null
+let store: WalletStandardStore | null = null
 
-function getStore(config?: WalletStandardConfig) {
+export function useSolanaWalletStandard(): SolanaWalletStandardState {
   if (!store) {
-    store = createWalletStandardStore(config)
+    store = createWalletStandardStore()
   }
-  return store
-}
 
-export function useSolanaWalletStandard(
-  config?: WalletStandardConfig
-): SolanaWalletStandardState {
-  return getStore(config)()
+  return store(useShallow((state) => state))
 }
