@@ -50,8 +50,8 @@ export const SolanaProviderValues: FC<
   const sdkProvider = useMemo(
     () =>
       SolanaSDKProvider({
-        async getWalletAdapter() {
-          return currentWallet?.adapter as SignerWalletAdapter
+        async getWallet() {
+          return currentWallet?.adapter as SignerWalletAdapter as any
         },
       }),
     [currentWallet]

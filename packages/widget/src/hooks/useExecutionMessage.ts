@@ -285,11 +285,15 @@ export function getTransactionMessage(
   title?: string
   message?: string
 } {
-  const title = processStatusMessages[type]?.DONE?.(
-    t,
-    step,
-    subvariant,
-    subvariantOptions
-  )
+  const substatus =
+    step.execution?.type === type ? step.execution?.substatus : undefined
+  const title = substatus
+    ? processSubstatusMessages.DONE?.[substatus as Substatus]?.(t)
+    : processStatusMessages[type]?.DONE?.(
+        t,
+        step,
+        subvariant,
+        subvariantOptions
+      )
   return { title }
 }
