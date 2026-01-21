@@ -1,4 +1,4 @@
-import type { Process } from '@lifi/sdk'
+import type { ExecutionStatus, Substatus } from '@lifi/sdk'
 import Done from '@mui/icons-material/Done'
 import ErrorRounded from '@mui/icons-material/ErrorRounded'
 import InfoRounded from '@mui/icons-material/InfoRounded'
@@ -8,15 +8,21 @@ import {
   CircularProgressPending,
 } from './CircularProgress.style.js'
 
-export function CircularProgress({ process }: { process: Process }) {
+export function CircularProgress({
+  status,
+  substatus,
+}: {
+  status: ExecutionStatus
+  substatus?: Substatus
+}) {
   return (
-    <CircularIcon status={process.status} substatus={process.substatus}>
-      {process.status === 'STARTED' || process.status === 'PENDING' ? (
+    <CircularIcon status={status} substatus={substatus}>
+      {status === 'STARTED' || status === 'PENDING' ? (
         <CircularProgressPending size={40} />
       ) : null}
-      {process.status === 'ACTION_REQUIRED' ||
-      process.status === 'MESSAGE_REQUIRED' ||
-      process.status === 'RESET_REQUIRED' ? (
+      {status === 'ACTION_REQUIRED' ||
+      status === 'MESSAGE_REQUIRED' ||
+      status === 'RESET_REQUIRED' ? (
         <InfoRounded
           color="info"
           sx={{
@@ -25,8 +31,8 @@ export function CircularProgress({ process }: { process: Process }) {
           }}
         />
       ) : null}
-      {process.status === 'DONE' &&
-      (process.substatus === 'PARTIAL' || process.substatus === 'REFUNDED') ? (
+      {status === 'DONE' &&
+      (substatus === 'PARTIAL' || substatus === 'REFUNDED') ? (
         <WarningRounded
           sx={(theme) => ({
             position: 'absolute',
@@ -34,7 +40,7 @@ export function CircularProgress({ process }: { process: Process }) {
             color: `color-mix(in srgb, ${theme.vars.palette.warning.main} 68%, black)`,
           })}
         />
-      ) : process.status === 'DONE' ? (
+      ) : status === 'DONE' ? (
         <Done
           color="success"
           sx={{
@@ -43,7 +49,7 @@ export function CircularProgress({ process }: { process: Process }) {
           }}
         />
       ) : null}
-      {process.status === 'FAILED' ? (
+      {status === 'FAILED' ? (
         <ErrorRounded
           color="error"
           sx={{

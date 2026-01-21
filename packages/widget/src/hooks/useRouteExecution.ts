@@ -10,7 +10,7 @@ import {
   useRouteExecutionStoreContext,
 } from '../stores/routes/RouteExecutionStore.js'
 import {
-  getUpdatedProcess,
+  getUpdatedExecution,
   isRouteActive,
   isRouteDone,
   isRouteFailed,
@@ -56,11 +56,14 @@ export const useRouteExecution = ({
     }
     const clonedUpdatedRoute = structuredClone(updatedRoute)
     updateRoute(clonedUpdatedRoute)
-    const process = getUpdatedProcess(routeExecution.route, clonedUpdatedRoute)
-    if (process) {
+    const execution = getUpdatedExecution(
+      routeExecution.route,
+      clonedUpdatedRoute
+    )
+    if (execution) {
       emitter.emit(WidgetEvent.RouteExecutionUpdated, {
         route: clonedUpdatedRoute,
-        process,
+        execution,
       })
     }
     const executionCompleted = isRouteDone(clonedUpdatedRoute)
@@ -68,10 +71,10 @@ export const useRouteExecution = ({
     if (executionCompleted) {
       emitter.emit(WidgetEvent.RouteExecutionCompleted, clonedUpdatedRoute)
     }
-    if (executionFailed && process) {
+    if (executionFailed && execution) {
       emitter.emit(WidgetEvent.RouteExecutionFailed, {
         route: clonedUpdatedRoute,
-        process,
+        execution,
       })
     }
     if (executionCompleted || executionFailed) {

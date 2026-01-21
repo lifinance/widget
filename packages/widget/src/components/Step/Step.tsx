@@ -10,7 +10,8 @@ import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.j
 import { shortenAddress } from '../../utils/wallet.js'
 import { StepTimer } from '../Timer/StepTimer.js'
 import { DestinationWalletAddress } from './DestinationWalletAddress.js'
-import { StepProcess } from './StepProcess.js'
+import { StepExecution } from './StepExecution.js'
+import { StepTransaction } from './StepTransaction.js'
 
 export const Step: React.FC<{
   step: LiFiStepExtended
@@ -22,9 +23,7 @@ export const Step: React.FC<{
   const { t } = useTranslation()
   const { subvariant, subvariantOptions } = useWidgetConfig()
   const { getAddressLink } = useExplorer()
-  const stepHasError = step.execution?.process.some(
-    (process) => process.status === 'FAILED'
-  )
+  const stepHasError = step.execution?.status === 'FAILED'
 
   const getCardTitle = () => {
     const hasBridgeStep = step.includedSteps.some(
@@ -90,9 +89,16 @@ export const Step: React.FC<{
       >
         {fromToken ? <Token token={fromToken} px={2} py={1} /> : null}
         <StepActions step={step} px={2} py={1} dense />
-        {step.execution?.process.map((process, index) => (
-          <StepProcess key={index} step={step} process={process} />
-        ))}
+        {step.execution?.transactions
+          ?.filter((transaction) => transaction.isDone)
+          .map((transaction, index) => (
+            <StepTransaction
+              key={index}
+              step={step}
+              transaction={transaction}
+            />
+          ))}
+        <StepExecution step={step} />
         {formattedToAddress && toAddressLink ? (
           <DestinationWalletAddress
             step={step}

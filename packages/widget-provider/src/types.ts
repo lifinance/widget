@@ -1,6 +1,5 @@
 import type {
   ChainType,
-  Client,
   ExtendedChain,
   LiFiStep,
   LiFiStepExtended,
@@ -62,11 +61,9 @@ export type EthereumProviderContext = WidgetProviderContext & {
   isBatchingSupported?: (
     sdkClient: SDKClient,
     {
-      client,
       chainId,
       skipReady,
     }: {
-      client?: Client
       chainId: number
       skipReady?: boolean
     }

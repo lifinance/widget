@@ -10,20 +10,8 @@ import { TimerContent } from './TimerContent.js'
  * Includes RECEIVING_CHAIN to track the complete transaction lifecycle for UI updates.
  */
 const getProgressProcess = (step: LiFiStepExtended) =>
-  step.execution?.process.findLast(
-    (process) =>
-      process.type === 'SWAP' ||
-      process.type === 'CROSS_CHAIN' ||
-      process.type === 'RECEIVING_CHAIN'
-  )
-
-/**
- * Finds the most recent SWAP or CROSS_CHAIN process, excluding RECEIVING_CHAIN.
- * Expiry time is based on when the active transaction started, not the receiving phase.
- */
-const getExpiryProcess = (step: LiFiStepExtended) =>
-  step.execution?.process.findLast(
-    (process) => process.type === 'SWAP' || process.type === 'CROSS_CHAIN'
+  ['SWAP', 'CROSS_CHAIN', 'RECEIVING_CHAIN'].includes(
+    step.execution?.type ?? ''
   )
 
 /**
@@ -31,17 +19,17 @@ const getExpiryProcess = (step: LiFiStepExtended) =>
  * Pause time is added when action is required (usually for signature requests).
  */
 const getExpiryTimestamp = (step: LiFiStepExtended) => {
-  const lastProcess = getExpiryProcess(step)
+  const execution = step?.execution
+  if (!execution) {
+    return new Date()
+  }
   let timeInPause = 0
-  if (lastProcess?.actionRequiredAt) {
-    const actionDoneAt =
-      lastProcess.pendingAt ?? lastProcess.doneAt ?? Date.now()
-    timeInPause = new Date(
-      actionDoneAt - lastProcess.actionRequiredAt
-    ).getTime()
+  if (execution?.actionRequiredAt) {
+    const actionDoneAt = execution.pendingAt ?? execution.doneAt ?? Date.now()
+    timeInPause = new Date(actionDoneAt - execution.actionRequiredAt).getTime()
   }
   const expiry = new Date(
-    (lastProcess?.startedAt ?? Date.now()) +
+    (execution.startedAt ?? Date.now()) +
       step.estimate.executionDuration * 1000 +
       timeInPause
   )
@@ -68,8 +56,8 @@ export const StepTimer: React.FC<{
     })
 
   useEffect(() => {
-    const executionProcess = getProgressProcess(step)
-    if (!executionProcess) {
+    const execution = step?.execution
+    if (!execution) {
       return
     }
 
@@ -78,20 +66,18 @@ export const StepTimer: React.FC<{
     }
 
     const isProcessStarted =
-      executionProcess.status === 'STARTED' ||
-      executionProcess.status === 'PENDING'
+      execution.status === 'STARTED' || execution.status === 'PENDING'
 
     const shouldRestart = !isExecutionStarted && isProcessStarted && !isRunning
 
     const shouldPause =
       isExecutionStarted &&
-      (executionProcess.status === 'ACTION_REQUIRED' ||
-        executionProcess.status === 'MESSAGE_REQUIRED' ||
-        executionProcess.status === 'RESET_REQUIRED') &&
+      (execution.status === 'ACTION_REQUIRED' ||
+        execution.status === 'MESSAGE_REQUIRED' ||
+        execution.status === 'RESET_REQUIRED') &&
       isRunning
 
-    const shouldStop =
-      isExecutionStarted && executionProcess.status === 'FAILED'
+    const shouldStop = isExecutionStarted && execution.status === 'FAILED'
 
     const shouldResume = isExecutionStarted && isProcessStarted && !isRunning
 

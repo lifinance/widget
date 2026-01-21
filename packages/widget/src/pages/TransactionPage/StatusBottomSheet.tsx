@@ -12,7 +12,7 @@ import { Card } from '../../components/Card/Card.js'
 import { CardTitle } from '../../components/Card/CardTitle.js'
 import { Token } from '../../components/Token/Token.js'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
-import { getProcessMessage } from '../../hooks/useProcessMessage.js'
+import { getExecutionMessage } from '../../hooks/useExecutionMessage.js'
 import { useSetContentHeight } from '../../hooks/useSetContentHeight.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
@@ -181,15 +181,12 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
       const step = route.steps.find(
         (step) => step.execution?.status === 'FAILED'
       )
-      const process = step?.execution?.process.find(
-        (process) => process.status === 'FAILED'
-      )
-      if (!step || !process) {
+      if (!step || !step?.execution) {
         break
       }
-      const processMessage = getProcessMessage(t, getChainById, step, process)
-      title = processMessage.title
-      failedMessage = processMessage.message
+      const executionMessage = getExecutionMessage(t, getChainById, step)
+      title = executionMessage.title
+      failedMessage = executionMessage.message
       handlePrimaryButton = handleClose
       break
     }

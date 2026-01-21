@@ -1,11 +1,10 @@
 import type {
   EVMChain,
-  LiFiStep,
-  Process,
-  ProcessStatus,
-  ProcessType,
+  ExecutionStatus,
+  LiFiStepExtended,
   StatusMessage,
   Substatus,
+  TransactionType,
 } from '@lifi/sdk'
 import { LiFiErrorCode } from '@lifi/sdk'
 import type { TFunction } from 'i18next'
@@ -15,31 +14,30 @@ import type { SubvariantOptions, WidgetSubvariant } from '../types/widget.js'
 import { formatTokenAmount, wrapLongWords } from '../utils/format.js'
 import { useAvailableChains } from './useAvailableChains.js'
 
-export const useProcessMessage = (step?: LiFiStep, process?: Process) => {
+export const useExecutionMessage = (step?: LiFiStepExtended) => {
   const { subvariant, subvariantOptions } = useWidgetConfig()
   const { t } = useTranslation()
   const { getChainById } = useAvailableChains()
-  if (!step || !process) {
+  if (!step || !step?.execution) {
     return {}
   }
-  return getProcessMessage(
+  return getExecutionMessage(
     t,
     getChainById,
     step,
-    process,
     subvariant,
     subvariantOptions
   )
 }
 
 const processStatusMessages: Record<
-  ProcessType,
+  TransactionType,
   Partial<
     Record<
-      ProcessStatus,
+      ExecutionStatus,
       (
         t: TFunction,
-        step: LiFiStep,
+        step: LiFiStepExtended,
         subvariant?: WidgetSubvariant,
         subvariantOptions?: SubvariantOptions
       ) => string
@@ -127,18 +125,18 @@ const processSubstatusMessages: Record<
   NOT_FOUND: {},
 }
 
-export function getProcessMessage(
+export function getExecutionMessage(
   t: TFunction,
   getChainById: (chainId: number) => EVMChain | undefined,
-  step: LiFiStep,
-  process: Process,
+  step: LiFiStepExtended,
   subvariant?: WidgetSubvariant,
   subvariantOptions?: SubvariantOptions
 ): {
   title?: string
   message?: string
 } {
-  if (process.error && process.status === 'FAILED') {
+  const execution = step.execution
+  if (execution?.error && execution?.status === 'FAILED') {
     const getDefaultErrorMessage = (key?: string) =>
       `${t((key as any) ?? 'error.message.transactionNotSent')} ${t(
         'error.message.remainInYourWallet',
@@ -153,7 +151,7 @@ export function getProcessMessage(
       )}`
     let title = ''
     let message = ''
-    switch (process.error.code) {
+    switch (execution?.error?.code) {
       case LiFiErrorCode.AllowanceRequired:
         title = t('error.title.allowanceRequired')
         message = t('error.message.allowanceRequired', {
@@ -247,27 +245,51 @@ export function getProcessMessage(
           chainName: getChainById(step.action.fromChainId)?.name ?? '',
         })
         break
-      default:
+      default: {
         title = t('error.title.unknown')
-        if (process.txHash) {
+        const transaction = execution?.transactions.find(
+          (transaction) => transaction.type === execution.type
+        )
+        if (transaction?.txHash) {
           message = t('error.message.transactionFailed')
         } else {
-          message = process.error.message || t('error.message.unknown')
+          message = execution?.error?.message || t('error.message.unknown')
         }
         break
+      }
     }
     message = wrapLongWords(message)
     return { title, message }
   }
-  const title =
-    processSubstatusMessages[process.status as StatusMessage]?.[
-      process.substatus!
-    ]?.(t) ??
-    processStatusMessages[process.type]?.[process.status]?.(
-      t,
-      step,
-      subvariant,
-      subvariantOptions
-    )
+  const title = execution
+    ? (processSubstatusMessages[execution.status as StatusMessage]?.[
+        execution.substatus as Substatus
+      ]?.(t) ??
+      processStatusMessages[execution.type]?.[execution.status]?.(
+        t,
+        step,
+        subvariant,
+        subvariantOptions
+      ))
+    : undefined
+  return { title }
+}
+
+export function getTransactionMessage(
+  t: TFunction,
+  step: LiFiStepExtended,
+  type: TransactionType,
+  subvariant?: WidgetSubvariant,
+  subvariantOptions?: SubvariantOptions
+): {
+  title?: string
+  message?: string
+} {
+  const title = processStatusMessages[type]?.DONE?.(
+    t,
+    step,
+    subvariant,
+    subvariantOptions
+  )
   return { title }
 }
