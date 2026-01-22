@@ -1,3 +1,4 @@
+import { getWallets } from '@wallet-standard/app'
 import type {
   StandardConnectFeature,
   StandardDisconnectFeature,
@@ -18,12 +19,21 @@ export const createWalletStandardStore = ({
   const storageKey = `${namePrefix || 'li.fi'}-solana-wallets`
 
   let onWalletEventUnsubscribe: (() => void) | null = null
+  let onRegisterUnsubscribe: (() => void) | null = null
+  let onUnregisterUnsubscribe: (() => void) | null = null
 
   const unsubscribeWalletEvents = () => {
     if (onWalletEventUnsubscribe) {
       onWalletEventUnsubscribe()
       onWalletEventUnsubscribe = null
     }
+  }
+
+  const unsubscribeRegistryEvents = () => {
+    onRegisterUnsubscribe?.()
+    onUnregisterUnsubscribe?.()
+    onRegisterUnsubscribe = null
+    onUnregisterUnsubscribe = null
   }
 
   const subscribeToWalletEvents = (
@@ -54,6 +64,34 @@ export const createWalletStandardStore = ({
         accounts: newAccounts,
         selectedAccount: accounts[0]?.address ?? null,
       })
+    })
+  }
+
+  const subscribeToRegistryEvents = (
+    store: StoreApi<SolanaWalletStandardState>
+  ) => {
+    if (typeof window === 'undefined') {
+      return
+    }
+
+    const { on } = getWallets()
+
+    onRegisterUnsubscribe = on('register', () => {
+      store.setState({ wallets: getSolanaWallets() })
+    })
+
+    onUnregisterUnsubscribe = on('unregister', () => {
+      const wallets = getSolanaWallets()
+      const { selectedWalletName, disconnect } = store.getState()
+
+      if (
+        selectedWalletName &&
+        !wallets.some((w) => w.name === selectedWalletName)
+      ) {
+        disconnect()
+      }
+
+      store.setState({ wallets })
     })
   }
 
@@ -181,6 +219,7 @@ export const createWalletStandardStore = ({
 
         destroy: () => {
           unsubscribeWalletEvents()
+          unsubscribeRegistryEvents()
         },
       }),
       {
@@ -222,6 +261,8 @@ export const createWalletStandardStore = ({
       }
     )
   )
+
+  subscribeToRegistryEvents(store)
 
   return store
 }
