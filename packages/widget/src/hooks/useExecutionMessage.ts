@@ -261,10 +261,15 @@ export function getExecutionMessage(
     message = wrapLongWords(message)
     return { title, message }
   }
-  const title = execution
-    ? (processSubstatusMessages[execution.status as StatusMessage]?.[
+
+  const substatusTitle = execution?.substatus
+    ? processSubstatusMessages[execution.status as StatusMessage]?.[
         execution.substatus as Substatus
-      ]?.(t) ??
+      ]?.(t)
+    : undefined
+
+  const title = execution
+    ? (substatusTitle ??
       processStatusMessages[execution.type]?.[execution.status]?.(
         t,
         step,
@@ -272,28 +277,26 @@ export function getExecutionMessage(
         subvariantOptions
       ))
     : undefined
+
   return { title }
 }
 
-export function getTransactionMessage(
+export function getTransactionTitle(
   t: TFunction,
   step: LiFiStepExtended,
   type: TransactionType,
   subvariant?: WidgetSubvariant,
   subvariantOptions?: SubvariantOptions
-): {
-  title?: string
-  message?: string
-} {
+) {
   const substatus =
     step.execution?.type === type ? step.execution?.substatus : undefined
-  const title = substatus
+
+  const substatusTitle = substatus
     ? processSubstatusMessages.DONE?.[substatus as Substatus]?.(t)
-    : processStatusMessages[type]?.DONE?.(
-        t,
-        step,
-        subvariant,
-        subvariantOptions
-      )
-  return { title }
+    : undefined
+
+  return (
+    substatusTitle ??
+    processStatusMessages[type]?.DONE?.(t, step, subvariant, subvariantOptions)
+  )
 }

@@ -93,7 +93,7 @@ export const Step: React.FC<{
           ?.filter((transaction) => transaction.isDone)
           .map((transaction, index) => (
             <StepTransaction
-              key={index}
+              key={`${index}-${transaction.type}`}
               step={step}
               transaction={transaction}
             />

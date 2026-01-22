@@ -25,7 +25,7 @@ const getExpiryTimestamp = (step: LiFiStepExtended) => {
   }
   let timeInPause = 0
   if (execution?.actionRequiredAt) {
-    const actionDoneAt = execution.pendingAt ?? execution.doneAt ?? Date.now() // TODO: this logic changed
+    const actionDoneAt = execution.pendingAt ?? execution.doneAt ?? Date.now()
     timeInPause = new Date(actionDoneAt - execution.actionRequiredAt).getTime()
   }
   const expiry = new Date(

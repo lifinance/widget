@@ -2,7 +2,7 @@ import type { LiFiStepExtended, Transaction } from '@lifi/sdk'
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import { Box, Link, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { getTransactionMessage } from '../../hooks/useExecutionMessage.js'
+import { getTransactionTitle } from '../../hooks/useExecutionMessage.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
 import { CircularProgress } from './CircularProgress.js'
@@ -12,7 +12,7 @@ export const StepTransaction: React.FC<{
   transaction: Transaction
 }> = ({ step, transaction }) => {
   const { t } = useTranslation()
-  const { title, message } = getTransactionMessage(t, step, transaction.type)
+  const title = getTransactionTitle(t, step, transaction.type)
   const { getTransactionLink } = useExplorer()
 
   const transactionLink = transaction.txHash
@@ -25,6 +25,11 @@ export const StepTransaction: React.FC<{
           txLink: transaction.txLink,
           chain: transaction.chainId,
         })
+      : undefined
+
+  const substatus =
+    step.execution?.type === transaction.type
+      ? step.execution?.substatus
       : undefined
 
   return (
@@ -40,7 +45,7 @@ export const StepTransaction: React.FC<{
           alignItems: 'center',
         }}
       >
-        <CircularProgress status={'DONE'} />
+        <CircularProgress status={'DONE'} substatus={substatus} />
         <Typography
           sx={{
             marginLeft: 2,
@@ -64,18 +69,6 @@ export const StepTransaction: React.FC<{
           </CardIconButton>
         ) : null}
       </Box>
-      {message ? (
-        <Typography
-          sx={{
-            ml: 7,
-            fontSize: 14,
-            fontWeight: 500,
-            color: 'text.secondary',
-          }}
-        >
-          {message}
-        </Typography>
-      ) : null}
     </Box>
   )
 }
