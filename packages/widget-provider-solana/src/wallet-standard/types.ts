@@ -29,8 +29,12 @@ export interface SolanaWalletStandardProps {
   selectedAccount: string | null
 }
 
+export interface SelectOptions {
+  silent?: boolean
+}
+
 export interface SolanaWalletStandardActions {
-  select: (walletName: string) => Promise<void>
+  select: (walletName: string, options?: SelectOptions) => Promise<void>
   disconnect: () => Promise<void>
   selectAccount: (address: string) => Promise<void>
   destroy: () => void

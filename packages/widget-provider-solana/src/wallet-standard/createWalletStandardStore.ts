@@ -86,7 +86,7 @@ export const createWalletStandardStore = ({
         accounts: [],
         selectedAccount: null,
 
-        select: async (walletName) => {
+        select: async (walletName, { silent = false } = {}) => {
           if (typeof window === 'undefined') {
             return
           }
@@ -107,7 +107,7 @@ export const createWalletStandardStore = ({
 
           set({ connecting: true })
           try {
-            const result = await walletConnect({ silent: false })
+            const result = await walletConnect({ silent })
             const accounts = mergeAccounts(
               wallet.wallet.accounts ?? [],
               result.accounts
@@ -200,6 +200,7 @@ export const createWalletStandardStore = ({
         version: 0,
         partialize: (state) => ({
           selectedAccount: state.selectedAccount,
+          selectedWallet: state.selectedWallet,
         }),
         onRehydrateStorage: () => {
           return (state, error) => {
@@ -207,22 +208,29 @@ export const createWalletStandardStore = ({
               return
             }
 
-            if (autoConnect && state.selectedAccount) {
-              const wallets = discoverSolanaWallets()
-              state.wallets = wallets
-            }
+            const persistedWalletName = state.selectedWallet?.name
 
-            // Subscribe to wallet registration events
+            // Delay to allow wallet extensions time to inject and register
             if (typeof window !== 'undefined') {
-              const walletsApi = getWallets()
-              const update = () => {
-                store.setState({ wallets: discoverSolanaWallets() })
-              }
-              onWalletRegisterUnsubscribe = walletsApi.on('register', update)
-              onWalletUnregisterUnsubscribe = walletsApi.on(
-                'unregister',
-                update
-              )
+              setTimeout(() => {
+                const walletsApi = getWallets()
+                const update = () => {
+                  store.setState({ wallets: discoverSolanaWallets() })
+                }
+
+                update()
+                // subscribe to wallet events
+                onWalletRegisterUnsubscribe = walletsApi.on('register', update)
+                onWalletUnregisterUnsubscribe = walletsApi.on(
+                  'unregister',
+                  update
+                )
+
+                // reconnect
+                if (autoConnect && persistedWalletName) {
+                  store.getState().select(persistedWalletName, { silent: true })
+                }
+              }, 100)
             }
           }
         },

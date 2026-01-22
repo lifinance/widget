@@ -4,12 +4,10 @@ import type { SolanaWalletStandardState, WalletStandardStore } from './types.js'
 
 export type { SolanaWalletStandardState }
 
-let store: WalletStandardStore | null = null
+const store: WalletStandardStore = createWalletStandardStore({
+  autoConnect: true,
+})
 
 export function useSolanaWalletStandard(): SolanaWalletStandardState {
-  if (!store) {
-    store = createWalletStandardStore()
-  }
-
   return store(useShallow((state) => state))
 }
