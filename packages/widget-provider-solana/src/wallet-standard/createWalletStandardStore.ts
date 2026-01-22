@@ -53,17 +53,22 @@ export const createWalletStandardStore = ({
     }
 
     onWalletEventUnsubscribe = events.on('change', ({ accounts = [] }) => {
-      // Empty accounts means the wallet disconnected
       if (accounts.length === 0) {
-        store.getState().disconnect()
+        store.setState({
+          connected: false,
+          accounts: [],
+          selectedAccount: null,
+        })
         return
       }
 
-      const newAccounts = mergeAccounts(wallet.accounts ?? [], accounts)
-      store.setState({
-        accounts: newAccounts,
-        selectedAccount: accounts[0]?.address ?? null,
-      })
+      const { select, selectedWalletName } = store.getState()
+      if (selectedWalletName) {
+        select(selectedWalletName, {
+          preferredAccount: accounts[0]?.address,
+          silent: true,
+        })
+      }
     })
   }
 
