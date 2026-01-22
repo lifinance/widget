@@ -9,7 +9,7 @@ import type {
   SolanaWalletStandardState,
   WalletStandardConfig,
 } from './types.js'
-import { discoverSolanaWallets, mergeAccounts, toAccountInfo } from './utils.js'
+import { getSolanaWallets, mergeAccounts, toAccountInfo } from './utils.js'
 
 export const createWalletStandardStore = ({
   namePrefix,
@@ -60,7 +60,7 @@ export const createWalletStandardStore = ({
   const store = create<SolanaWalletStandardState>()(
     persist(
       (set, get, api) => ({
-        wallets: discoverSolanaWallets(),
+        wallets: getSolanaWallets(),
         selectedWallet: null,
         // Persisted separately as some wallet objects contain non-serializable properties
         selectedWalletName: null,
@@ -206,23 +206,17 @@ export const createWalletStandardStore = ({
               return
             }
 
-            const tryAutoConnect = () => {
-              const wallets = discoverSolanaWallets()
-              const targetWallet = wallets.find(
-                (w) => w.name === persistedWalletName
-              )
+            const wallets = getSolanaWallets()
+            const targetWallet = wallets.find(
+              (w) => w.name === persistedWalletName
+            )
 
-              if (targetWallet && !store.getState().connected) {
-                store.getState().select(persistedWalletName, {
-                  silent: true,
-                  preferredAccount: persistedAccount ?? undefined,
-                })
-              }
+            if (targetWallet && !state.connected) {
+              state.select(persistedWalletName, {
+                silent: true,
+                preferredAccount: persistedAccount ?? undefined,
+              })
             }
-
-            setTimeout(() => {
-              tryAutoConnect()
-            }, 100)
           }
         },
       }

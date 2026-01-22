@@ -35,7 +35,7 @@ export const toWalletInfo = (wallet: Wallet): WalletInfo => ({
     hasFeature(wallet, 'standard:disconnect'),
 })
 
-export const discoverSolanaWallets = (): WalletInfo[] => {
+export const getSolanaWallets = (): WalletInfo[] => {
   if (typeof window === 'undefined') {
     return []
   }
