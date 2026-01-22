@@ -23,6 +23,7 @@ export interface WalletStandardConfig {
 export interface SolanaWalletStandardProps {
   wallets: WalletInfo[]
   selectedWallet: Wallet | null
+  selectedWalletName: string | null
   connected: boolean
   connecting: boolean
   accounts: AccountInfo[]
@@ -31,6 +32,7 @@ export interface SolanaWalletStandardProps {
 
 export interface SelectOptions {
   silent?: boolean
+  preferredAccount?: string
 }
 
 export interface SolanaWalletStandardActions {

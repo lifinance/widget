@@ -1,5 +1,3 @@
-import { getWallets } from '@wallet-standard/app'
-import type { WalletAccount } from '@wallet-standard/base'
 import type {
   StandardConnectFeature,
   StandardDisconnectFeature,
@@ -19,8 +17,6 @@ export const createWalletStandardStore = ({
 }: WalletStandardConfig = {}) => {
   const storageKey = `${namePrefix || 'li.fi'}-solana-wallets`
 
-  let onWalletRegisterUnsubscribe: (() => void) | null = null
-  let onWalletUnregisterUnsubscribe: (() => void) | null = null
   let onWalletEventUnsubscribe: (() => void) | null = null
 
   const unsubscribeWalletEvents = () => {
@@ -47,33 +43,18 @@ export const createWalletStandardStore = ({
     }
 
     onWalletEventUnsubscribe = events.on('change', ({ accounts = [] }) => {
-      const { selectedAccount } = store.getState()
-      const nextAccounts = mergeAccounts(
-        wallet.accounts ?? [],
-        accounts as WalletAccount[]
-      )
-      const stillExists = nextAccounts.some(
-        (a) => a.address === selectedAccount
-      )
+      // Empty accounts means the wallet disconnected
+      if (accounts.length === 0) {
+        store.getState().disconnect()
+        return
+      }
+
+      const newAccounts = mergeAccounts(wallet.accounts ?? [], accounts)
       store.setState({
-        accounts: nextAccounts,
-        selectedAccount: stillExists
-          ? selectedAccount
-          : (nextAccounts[0]?.address ?? null),
+        accounts: newAccounts,
+        selectedAccount: accounts[0]?.address ?? null,
       })
     })
-  }
-
-  const unsubscribeRegistryEvents = () => {
-    if (onWalletRegisterUnsubscribe) {
-      onWalletRegisterUnsubscribe()
-      onWalletRegisterUnsubscribe = null
-    }
-
-    if (onWalletUnregisterUnsubscribe) {
-      onWalletUnregisterUnsubscribe()
-      onWalletUnregisterUnsubscribe = null
-    }
   }
 
   const store = create<SolanaWalletStandardState>()(
@@ -81,12 +62,17 @@ export const createWalletStandardStore = ({
       (set, get, api) => ({
         wallets: discoverSolanaWallets(),
         selectedWallet: null,
+        // Persisted separately as some wallet objects contain non-serializable properties
+        selectedWalletName: null,
         connected: false,
         connecting: false,
         accounts: [],
         selectedAccount: null,
 
-        select: async (walletName, { silent = false } = {}) => {
+        select: async (
+          walletName,
+          { silent = false, preferredAccount } = {}
+        ) => {
           if (typeof window === 'undefined') {
             return
           }
@@ -112,25 +98,27 @@ export const createWalletStandardStore = ({
               wallet.wallet.accounts ?? [],
               result.accounts
             )
-            const previousAddrs = new Set(get().accounts.map((a) => a.address))
-            const firstNew = accounts.find((a) => !previousAddrs.has(a.address))
+            const targetAccount = preferredAccount ?? get().selectedAccount
+            const targetExists = accounts.some(
+              (a) => a.address === targetAccount
+            )
 
             set({
               selectedWallet: wallet.wallet,
+              selectedWalletName: wallet.name,
               connected: true,
               connecting: false,
               accounts,
-              selectedAccount:
-                firstNew?.address ??
-                get().selectedAccount ??
-                accounts[0]?.address ??
-                null,
+              selectedAccount: targetExists
+                ? targetAccount
+                : (accounts[0]?.address ?? null),
             })
 
             subscribeToWalletEvents(api)
           } catch (e) {
             set({
               selectedWallet: null,
+              selectedWalletName: null,
               connected: false,
               connecting: false,
               accounts: [],
@@ -155,6 +143,7 @@ export const createWalletStandardStore = ({
 
           set({
             selectedWallet: null,
+            selectedWalletName: null,
             connected: false,
             accounts: [],
             selectedAccount: null,
@@ -192,7 +181,6 @@ export const createWalletStandardStore = ({
 
         destroy: () => {
           unsubscribeWalletEvents()
-          unsubscribeRegistryEvents()
         },
       }),
       {
@@ -200,38 +188,41 @@ export const createWalletStandardStore = ({
         version: 0,
         partialize: (state) => ({
           selectedAccount: state.selectedAccount,
-          selectedWallet: state.selectedWallet,
+          selectedWalletName: state.selectedWalletName,
         }),
+
         onRehydrateStorage: () => {
           return (state, error) => {
-            if (error || !state) {
+            if (error || !state || !autoConnect) {
               return
             }
 
-            const persistedWalletName = state.selectedWallet?.name
+            const {
+              selectedAccount: persistedAccount,
+              selectedWalletName: persistedWalletName,
+            } = state
 
-            // Delay to allow wallet extensions time to inject and register
-            if (typeof window !== 'undefined') {
-              setTimeout(() => {
-                const walletsApi = getWallets()
-                const update = () => {
-                  store.setState({ wallets: discoverSolanaWallets() })
-                }
-
-                update()
-                // subscribe to wallet events
-                onWalletRegisterUnsubscribe = walletsApi.on('register', update)
-                onWalletUnregisterUnsubscribe = walletsApi.on(
-                  'unregister',
-                  update
-                )
-
-                // reconnect
-                if (autoConnect && persistedWalletName) {
-                  store.getState().select(persistedWalletName, { silent: true })
-                }
-              }, 100)
+            if (!persistedWalletName) {
+              return
             }
+
+            const tryAutoConnect = () => {
+              const wallets = discoverSolanaWallets()
+              const targetWallet = wallets.find(
+                (w) => w.name === persistedWalletName
+              )
+
+              if (targetWallet && !store.getState().connected) {
+                store.getState().select(persistedWalletName, {
+                  silent: true,
+                  preferredAccount: persistedAccount ?? undefined,
+                })
+              }
+            }
+
+            setTimeout(() => {
+              tryAutoConnect()
+            }, 100)
           }
         },
       }
