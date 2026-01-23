@@ -6,6 +6,7 @@ import { useNavigate } from '@tanstack/react-router'
 import { useExecutionMessage } from '../../hooks/useExecutionMessage.js'
 import { useRouteExecution } from '../../hooks/useRouteExecution.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
+import { getExecutionStatus } from '../../utils/execution.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { TokenAvatarGroup } from '../Avatar/Avatar.style.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
@@ -37,8 +38,10 @@ export const ActiveTransactionItem: React.FC<{
     })
   }
 
+  const executionStatus = getExecutionStatus(lastActiveStep)
+
   const getStatusComponent = () => {
-    switch (lastActiveStep?.execution?.status) {
+    switch (executionStatus) {
       case 'ACTION_REQUIRED':
       case 'MESSAGE_REQUIRED':
       case 'RESET_REQUIRED':

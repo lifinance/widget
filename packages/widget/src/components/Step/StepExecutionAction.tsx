@@ -1,36 +1,46 @@
-import type { LiFiStepExtended, Transaction } from '@lifi/sdk'
+import type { ExecutionAction, LiFiStepExtended } from '@lifi/sdk'
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import { Box, Link, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { getTransactionTitle } from '../../hooks/useExecutionMessage.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
 import { CircularProgress } from './CircularProgress.js'
 
-export const StepTransaction: React.FC<{
+export const StepExecutionAction: React.FC<{
   step: LiFiStepExtended
-  transaction: Transaction
-}> = ({ step, transaction }) => {
+  action: ExecutionAction
+}> = ({ step, action }) => {
   const { t } = useTranslation()
-  const title = getTransactionTitle(t, step, transaction.type)
+  const { subvariant, subvariantOptions } = useWidgetConfig()
+  const title = getTransactionTitle(
+    t,
+    step,
+    action.type,
+    subvariant,
+    subvariantOptions
+  )
   const { getTransactionLink } = useExplorer()
 
-  const transactionLink = transaction.txHash
+  if (!action.isDone) {
+    return null
+  }
+
+  const transactionLink = action.txHash
     ? getTransactionLink({
-        txHash: transaction.txHash,
-        chain: transaction.chainId,
+        txHash: action.txHash,
+        chain: action.chainId,
       })
-    : transaction.txLink
+    : action.txLink
       ? getTransactionLink({
-          txLink: transaction.txLink,
-          chain: transaction.chainId,
+          txLink: action.txLink,
+          chain: action.chainId,
         })
       : undefined
 
   const substatus =
-    step.execution?.type === transaction.type
-      ? step.execution?.substatus
-      : undefined
+    step.execution?.type === action.type ? step.execution?.substatus : undefined
 
   return (
     <Box

@@ -38,7 +38,7 @@ export const getUpdatedExecution = (
     return undefined
   }
   // Find execution index in the diff array so we can slice the complete execution object
-  // e.g. ['steps', 0, 'execution', 'transactions', 0, 'status']
+  // e.g. ['steps', 0, 'execution', 'actions', 0, 'isDone']
   const executionDiffIndex = executionDiff.path.indexOf('execution') + 1
   const executionPathSlice = executionDiff.path.slice(0, executionDiffIndex)
   // Reduce updated route using the diff path to get updated execution
@@ -50,8 +50,8 @@ export const getUpdatedExecution = (
 }
 
 export const getSourceTxHash = (route?: RouteExtended) => {
-  const sourceTransaction = route?.steps[0].execution?.transactions
-    .filter((transaction) => transaction.type !== 'TOKEN_ALLOWANCE')
-    .find((transaction) => transaction.txHash || transaction.taskId)
-  return sourceTransaction?.txHash || sourceTransaction?.taskId
+  const sourceAction = route?.steps[0].execution?.actions
+    ?.filter((action) => action.type !== 'TOKEN_ALLOWANCE')
+    .find((action) => action.txHash || action.taskId)
+  return sourceAction?.txHash || sourceAction?.taskId
 }

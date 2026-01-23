@@ -11,7 +11,7 @@ import { shortenAddress } from '../../utils/wallet.js'
 import { StepTimer } from '../Timer/StepTimer.js'
 import { DestinationWalletAddress } from './DestinationWalletAddress.js'
 import { StepExecution } from './StepExecution.js'
-import { StepTransaction } from './StepTransaction.js'
+import { StepExecutionAction } from './StepExecutionAction.js'
 
 export const Step: React.FC<{
   step: LiFiStepExtended
@@ -89,15 +89,13 @@ export const Step: React.FC<{
       >
         {fromToken ? <Token token={fromToken} px={2} py={1} /> : null}
         <StepActions step={step} px={2} py={1} dense />
-        {step.execution?.transactions
-          ?.filter((transaction) => transaction.isDone)
-          .map((transaction, index) => (
-            <StepTransaction
-              key={`${index}-${transaction.type}`}
-              step={step}
-              transaction={transaction}
-            />
-          ))}
+        {step.execution?.actions.map((action, index) => (
+          <StepExecutionAction
+            key={`${index}-${action.type}`}
+            step={step}
+            action={action}
+          />
+        ))}
         <StepExecution step={step} />
         {formattedToAddress && toAddressLink ? (
           <DestinationWalletAddress

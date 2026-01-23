@@ -181,7 +181,7 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
       const step = route.steps.find(
         (step) => step.execution?.status === 'FAILED'
       )
-      if (!step || !step?.execution) {
+      if (!step) {
         break
       }
       const executionMessage = getExecutionMessage(t, getChainById, step)

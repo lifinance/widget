@@ -1,15 +1,15 @@
 import type {
+  ExecutionAction,
   ExtendedTransactionInfo,
   FeeCost,
   FullStatusData,
   TokenAmount,
   ToolsResponse,
-  Transaction,
 } from '@lifi/sdk'
 import type { RouteExecution } from '../stores/routes/types.js'
 import { formatTokenPrice } from './format.js'
 
-const buildProcessFromTxHistory = (tx: FullStatusData): Transaction[] => {
+const buildActionsFromTxHistory = (tx: FullStatusData): ExecutionAction[] => {
   const sending = tx.sending as ExtendedTransactionInfo
   const receiving = tx.receiving as ExtendedTransactionInfo
 
@@ -31,7 +31,7 @@ const buildProcessFromTxHistory = (tx: FullStatusData): Transaction[] => {
     ]
   }
 
-  const transactions: Transaction[] = [
+  const actions: ExecutionAction[] = [
     {
       type: 'CROSS_CHAIN', // first step of bridging
       chainId: sending.chainId,
@@ -40,7 +40,7 @@ const buildProcessFromTxHistory = (tx: FullStatusData): Transaction[] => {
       isDone,
     },
     {
-      type: 'RECEIVING_CHAIN', // final
+      type: 'RECEIVING_CHAIN', // final step of bridging, post swaps
       chainId: receiving.chainId,
       txHash: receiving.txHash,
       txLink: receiving.txLink,
@@ -48,7 +48,7 @@ const buildProcessFromTxHistory = (tx: FullStatusData): Transaction[] => {
     },
   ]
 
-  return transactions
+  return actions
 }
 
 export const buildRouteFromTxHistory = (
@@ -194,8 +194,7 @@ export const buildRouteFromTxHistory = (
               sending.chainId === receiving.chainId ? 'SWAP' : 'CROSS_CHAIN',
             status: 'DONE', // can be FAILED
             startedAt: sending.timestamp ?? Date.now(),
-            doneAt: receiving.timestamp ?? Date.now(),
-            transactions: buildProcessFromTxHistory(tx),
+            actions: buildActionsFromTxHistory(tx),
             fromAmount: sending.amount,
             toAmount: receiving.amount,
             toToken: receiving.token,

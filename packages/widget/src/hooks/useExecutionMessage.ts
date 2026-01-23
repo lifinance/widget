@@ -1,16 +1,17 @@
 import type {
   EVMChain,
+  ExecutionActionType,
   ExecutionStatus,
   LiFiStepExtended,
   StatusMessage,
   Substatus,
-  TransactionType,
 } from '@lifi/sdk'
 import { LiFiErrorCode } from '@lifi/sdk'
 import type { TFunction } from 'i18next'
 import { useTranslation } from 'react-i18next'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { SubvariantOptions, WidgetSubvariant } from '../types/widget.js'
+import { getExecutionStatus } from '../utils/execution.js'
 import { formatTokenAmount, wrapLongWords } from '../utils/format.js'
 import { useAvailableChains } from './useAvailableChains.js'
 
@@ -31,7 +32,7 @@ export const useExecutionMessage = (step?: LiFiStepExtended) => {
 }
 
 const processStatusMessages: Record<
-  TransactionType,
+  ExecutionActionType,
   Partial<
     Record<
       ExecutionStatus,
@@ -136,7 +137,8 @@ export function getExecutionMessage(
   message?: string
 } {
   const execution = step.execution
-  if (execution?.error && execution?.status === 'FAILED') {
+  const executionStatus = getExecutionStatus(step)
+  if (execution?.error && executionStatus === 'FAILED') {
     const getDefaultErrorMessage = (key?: string) =>
       `${t((key as any) ?? 'error.message.transactionNotSent')} ${t(
         'error.message.remainInYourWallet',
@@ -151,7 +153,7 @@ export function getExecutionMessage(
       )}`
     let title = ''
     let message = ''
-    switch (execution?.error?.code) {
+    switch (execution.error.code) {
       case LiFiErrorCode.AllowanceRequired:
         title = t('error.title.allowanceRequired')
         message = t('error.message.allowanceRequired', {
@@ -247,8 +249,8 @@ export function getExecutionMessage(
         break
       default: {
         title = t('error.title.unknown')
-        const transaction = execution?.transactions.find(
-          (transaction) => transaction.type === execution.type
+        const transaction = execution.actions.find(
+          (action) => action.type === execution.type
         )
         if (transaction?.txHash) {
           message = t('error.message.transactionFailed')
@@ -263,20 +265,24 @@ export function getExecutionMessage(
   }
 
   const substatusTitle = execution?.substatus
-    ? processSubstatusMessages[execution.status as StatusMessage]?.[
+    ? processSubstatusMessages[executionStatus as StatusMessage]?.[
         execution.substatus as Substatus
       ]?.(t)
     : undefined
 
-  const title = execution
-    ? (substatusTitle ??
-      processStatusMessages[execution.type]?.[execution.status]?.(
-        t,
-        step,
-        subvariant,
-        subvariantOptions
-      ))
-    : undefined
+  if (substatusTitle) {
+    return { title: substatusTitle }
+  }
+
+  const title =
+    execution && executionStatus
+      ? processStatusMessages[execution.type]?.[executionStatus]?.(
+          t,
+          step,
+          subvariant,
+          subvariantOptions
+        )
+      : undefined
 
   return { title }
 }
@@ -284,7 +290,7 @@ export function getExecutionMessage(
 export function getTransactionTitle(
   t: TFunction,
   step: LiFiStepExtended,
-  type: TransactionType,
+  type: ExecutionActionType,
   subvariant?: WidgetSubvariant,
   subvariantOptions?: SubvariantOptions
 ) {
