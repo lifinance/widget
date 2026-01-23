@@ -5,19 +5,13 @@ import { useTimer } from '../../hooks/timer/useTimer.js'
 import { formatTimer } from '../../utils/timer.js'
 import { TimerContent } from './TimerContent.js'
 
-const hasRunningTimer = (step: LiFiStepExtended) => {
-  return ['SWAP', 'CROSS_CHAIN', 'RECEIVING_CHAIN'].includes(
-    step.execution?.type ?? ''
-  )
-}
-
 const getExpiryTimestamp = (step: LiFiStepExtended) => {
   const execution = step?.execution
   if (!execution) {
     return new Date()
   }
   const expiry = new Date(
-    (execution.startedAt ?? Date.now()) + step.estimate.executionDuration * 1000
+    (execution.signedAt ?? Date.now()) + step.estimate.executionDuration * 1000
   )
   return expiry
 }
@@ -35,7 +29,7 @@ export const StepTimer: React.FC<{
     return null
   }
 
-  if (!hasRunningTimer(step)) {
+  if (!step.execution?.signedAt) {
     const showSeconds = step.estimate.executionDuration < 60
     const duration = showSeconds
       ? Math.floor(step.estimate.executionDuration)
@@ -71,7 +65,7 @@ const ExecutionTimer = ({
   const [isExpired, setExpired] = useState(false)
 
   const { days, hours, minutes, seconds } = useTimer({
-    autoStart: false,
+    autoStart: true,
     expiryTimestamp,
     onExpire: () => setExpired(true),
   })
