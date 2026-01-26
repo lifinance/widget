@@ -65,6 +65,7 @@
     "react-i18next": "^16.5.1",
     "react-intersection-observer": "^9.16.0",
     "react-transition-group": "^4.4.5",
+    "uuid": "^11.1.0",
     "zustand": "^5.0.9"
   },
   "devDependencies": {
