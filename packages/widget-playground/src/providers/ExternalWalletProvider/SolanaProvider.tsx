@@ -8,12 +8,12 @@ export const SolanaProvider: FC<PropsWithChildren> = ({ children }) => {
     useAppKitProvider<SolanaWalletProvider>('solana')
   const { initialized } = useAppKitState()
 
-  const { select, disconnect } = useSolanaWalletStandard()
+  const { connect, disconnect } = useSolanaWalletStandard()
 
   useEffect(() => {
     if (initialized) {
       if (solanaProvider?.name) {
-        select(solanaProvider.name, { silent: true })
+        connect(solanaProvider.name, { silent: true })
       } else {
         disconnect()
       }
@@ -24,7 +24,7 @@ export const SolanaProvider: FC<PropsWithChildren> = ({ children }) => {
         disconnect()
       }
     }
-  }, [solanaProvider?.name, select, disconnect, initialized])
+  }, [solanaProvider?.name, connect, disconnect, initialized])
 
   return children
 }

@@ -62,9 +62,9 @@ export const createWalletStandardStore = ({
         return
       }
 
-      const { select, selectedWalletName } = store.getState()
+      const { connect, selectedWalletName } = store.getState()
       if (selectedWalletName) {
-        select(selectedWalletName, {
+        connect(selectedWalletName, {
           preferredAccount: accounts[0]?.address,
           silent: true,
         })
@@ -112,12 +112,12 @@ export const createWalletStandardStore = ({
         accounts: [],
         selectedAccount: null,
 
-        select: async (
+        connect: async (
           walletName,
           { silent = false, preferredAccount } = {}
         ) => {
           if (typeof window === 'undefined') {
-            return
+            return null
           }
 
           const wallet = get().wallets.find((w) => w.name === walletName)
@@ -146,18 +146,22 @@ export const createWalletStandardStore = ({
               (a) => a.address === targetAccount
             )
 
+            const resolvedAccount = targetExists
+              ? targetAccount
+              : (accounts[0]?.address ?? null)
+
             set({
               selectedWallet: wallet.wallet,
               selectedWalletName: wallet.name,
               connected: true,
               connecting: false,
               accounts,
-              selectedAccount: targetExists
-                ? targetAccount
-                : (accounts[0]?.address ?? null),
+              selectedAccount: resolvedAccount,
             })
 
             subscribeToWalletEvents(api)
+
+            return resolvedAccount
           } catch (e) {
             set({
               selectedWallet: null,
@@ -167,7 +171,10 @@ export const createWalletStandardStore = ({
               accounts: [],
               selectedAccount: null,
             })
-            throw e
+            if (!silent) {
+              throw e
+            }
+            return null
           }
         },
 
@@ -236,7 +243,7 @@ export const createWalletStandardStore = ({
         }),
 
         onRehydrateStorage: () => {
-          return (state, error) => {
+          return async (state, error) => {
             if (error || !state || !autoConnect) {
               return
             }
@@ -256,7 +263,7 @@ export const createWalletStandardStore = ({
             )
 
             if (targetWallet && !state.connected) {
-              state.select(persistedWalletName, {
+              await state.connect(persistedWalletName, {
                 silent: true,
                 preferredAccount: persistedAccount ?? undefined,
               })

@@ -36,7 +36,10 @@ export interface SelectOptions {
 }
 
 export interface SolanaWalletStandardActions {
-  select: (walletName: string, options?: SelectOptions) => Promise<void>
+  connect: (
+    walletName: string,
+    options?: SelectOptions
+  ) => Promise<string | null>
   disconnect: () => Promise<void>
   selectAccount: (address: string) => Promise<void>
   destroy: () => void
