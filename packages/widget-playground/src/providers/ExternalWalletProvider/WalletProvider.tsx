@@ -6,11 +6,10 @@ import { WidgetWalletConfigUpdater } from './WidgetWalletConfigUpdater.js'
 
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   const { config } = useConfig()
-
   const { chains, isLoading } = useWidgetChains(config as WidgetConfig)
 
   if (!chains?.length || isLoading) {
-    return null
+    return children
   }
 
   return (
