@@ -11,8 +11,8 @@ import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { Card } from '../../components/Card/Card.js'
 import { CardTitle } from '../../components/Card/CardTitle.js'
 import { Token } from '../../components/Token/Token.js'
+import { getActionMessage } from '../../hooks/useActionMessage.js'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
-import { getProcessMessage } from '../../hooks/useProcessMessage.js'
 import { useSetContentHeight } from '../../hooks/useSetContentHeight.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
@@ -181,15 +181,15 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
       const step = route.steps.find(
         (step) => step.execution?.status === 'FAILED'
       )
-      const process = step?.execution?.process.find(
-        (process) => process.status === 'FAILED'
+      const action = step?.execution?.actions.find(
+        (action) => action.status === 'FAILED'
       )
-      if (!step || !process) {
+      if (!step || !action) {
         break
       }
-      const processMessage = getProcessMessage(t, getChainById, step, process)
-      title = processMessage.title
-      failedMessage = processMessage.message
+      const actionMessage = getActionMessage(t, getChainById, step, action)
+      title = actionMessage.title
+      failedMessage = actionMessage.message
       handlePrimaryButton = handleClose
       break
     }

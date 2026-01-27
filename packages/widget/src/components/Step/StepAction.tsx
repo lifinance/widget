@@ -1,27 +1,27 @@
-import type { LiFiStep, Process } from '@lifi/sdk'
+import type { ExecutionAction, LiFiStep } from '@lifi/sdk'
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import { Box, Link, Typography } from '@mui/material'
+import { useActionMessage } from '../../hooks/useActionMessage.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
-import { useProcessMessage } from '../../hooks/useProcessMessage.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
 import { CircularProgress } from './CircularProgress.js'
 
-export const StepProcess: React.FC<{
+export const StepAction: React.FC<{
   step: LiFiStep
-  process: Process
-}> = ({ step, process }) => {
-  const { title, message } = useProcessMessage(step, process)
+  action: ExecutionAction
+}> = ({ step, action }) => {
+  const { title, message } = useActionMessage(step, action)
   const { getTransactionLink } = useExplorer()
 
-  const transactionLink = process.txHash
+  const transactionLink = action.txHash
     ? getTransactionLink({
-        txHash: process.txHash,
-        chain: process.chainId,
+        txHash: action.txHash,
+        chain: action.chainId,
       })
-    : process.txLink
+    : action.txLink
       ? getTransactionLink({
-          txLink: process.txLink,
-          chain: process.chainId,
+          txLink: action.txLink,
+          chain: action.chainId,
         })
       : undefined
 
@@ -38,14 +38,14 @@ export const StepProcess: React.FC<{
           alignItems: 'center',
         }}
       >
-        <CircularProgress process={process} />
+        <CircularProgress action={action} />
         <Typography
           sx={{
             marginLeft: 2,
             marginRight: 0.5,
             flex: 1,
             fontSize: 14,
-            fontWeight: process.error ? 600 : 400,
+            fontWeight: action.error ? 600 : 400,
           }}
         >
           {title}

@@ -134,10 +134,9 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
             const oneDay = 1000 * 60 * 60 * 24
             Object.values(state.routes).forEach((routeExecution) => {
               const startedAt =
-                routeExecution?.route.steps
-                  ?.find((step) => step.execution?.status === 'FAILED')
-                  ?.execution?.process.find((process) => process.startedAt)
-                  ?.startedAt ?? 0
+                routeExecution?.route.steps?.find(
+                  (step) => step.execution?.status === 'FAILED'
+                )?.execution?.startedAt ?? 0
               const outdated = startedAt > 0 && currentTime - startedAt > oneDay
               if (routeExecution?.route && outdated) {
                 delete state.routes[routeExecution.route.id]

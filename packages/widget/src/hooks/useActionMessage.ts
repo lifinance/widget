@@ -1,9 +1,9 @@
 import type {
   EVMChain,
+  ExecutionAction,
+  ExecutionActionStatus,
+  ExecutionActionType,
   LiFiStep,
-  Process,
-  ProcessStatus,
-  ProcessType,
   StatusMessage,
   Substatus,
 } from '@lifi/sdk'
@@ -15,28 +15,28 @@ import type { SubvariantOptions, WidgetSubvariant } from '../types/widget.js'
 import { formatTokenAmount, wrapLongWords } from '../utils/format.js'
 import { useAvailableChains } from './useAvailableChains.js'
 
-export const useProcessMessage = (step?: LiFiStep, process?: Process) => {
+export const useActionMessage = (step?: LiFiStep, action?: ExecutionAction) => {
   const { subvariant, subvariantOptions } = useWidgetConfig()
   const { t } = useTranslation()
   const { getChainById } = useAvailableChains()
-  if (!step || !process) {
+  if (!step || !action) {
     return {}
   }
-  return getProcessMessage(
+  return getActionMessage(
     t,
     getChainById,
     step,
-    process,
+    action,
     subvariant,
     subvariantOptions
   )
 }
 
-const processStatusMessages: Record<
-  ProcessType,
+const actionStatusMessages: Record<
+  ExecutionActionType,
   Partial<
     Record<
-      ProcessStatus,
+      ExecutionActionStatus,
       (
         t: TFunction,
         step: LiFiStep,
@@ -97,7 +97,7 @@ const processStatusMessages: Record<
   },
 }
 
-const processSubstatusMessages: Record<
+const actionSubstatusMessages: Record<
   StatusMessage,
   Partial<Record<Substatus, (t: TFunction) => string>>
 > = {
@@ -127,18 +127,18 @@ const processSubstatusMessages: Record<
   NOT_FOUND: {},
 }
 
-export function getProcessMessage(
+export function getActionMessage(
   t: TFunction,
   getChainById: (chainId: number) => EVMChain | undefined,
   step: LiFiStep,
-  process: Process,
+  action: ExecutionAction,
   subvariant?: WidgetSubvariant,
   subvariantOptions?: SubvariantOptions
 ): {
   title?: string
   message?: string
 } {
-  if (process.error && process.status === 'FAILED') {
+  if (action.error && action.status === 'FAILED') {
     const getDefaultErrorMessage = (key?: string) =>
       `${t((key as any) ?? 'error.message.transactionNotSent')} ${t(
         'error.message.remainInYourWallet',
@@ -153,7 +153,7 @@ export function getProcessMessage(
       )}`
     let title = ''
     let message = ''
-    switch (process.error.code) {
+    switch (action.error.code) {
       case LiFiErrorCode.AllowanceRequired:
         title = t('error.title.allowanceRequired')
         message = t('error.message.allowanceRequired', {
@@ -249,10 +249,10 @@ export function getProcessMessage(
         break
       default:
         title = t('error.title.unknown')
-        if (process.txHash) {
+        if (action.txHash) {
           message = t('error.message.transactionFailed')
         } else {
-          message = process.error.message || t('error.message.unknown')
+          message = action.error.message || t('error.message.unknown')
         }
         break
     }
@@ -260,10 +260,10 @@ export function getProcessMessage(
     return { title, message }
   }
   const title =
-    processSubstatusMessages[process.status as StatusMessage]?.[
-      process.substatus!
+    actionSubstatusMessages[action.status as StatusMessage]?.[
+      action.substatus!
     ]?.(t) ??
-    processStatusMessages[process.type]?.[process.status]?.(
+    actionStatusMessages[action.type]?.[action.status]?.(
       t,
       step,
       subvariant,
