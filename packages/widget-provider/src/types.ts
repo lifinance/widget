@@ -1,6 +1,5 @@
 import type {
   ChainType,
-  Client,
   ExtendedChain,
   LiFiStep,
   LiFiStepExtended,
@@ -66,7 +65,7 @@ export type EthereumProviderContext = WidgetProviderContext & {
       chainId,
       skipReady,
     }: {
-      client?: Client
+      client?: any
       chainId: number
       skipReady?: boolean
     }
