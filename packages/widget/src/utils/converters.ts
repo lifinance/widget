@@ -155,7 +155,7 @@ export const buildRouteFromTxHistory = (
       gasCostUSD: sending.gasAmountUSD,
       steps: [
         {
-          id: crypto.randomUUID(),
+          id: (tx as FullStatusData).transactionId,
           type: 'lifi',
           tool: tx.tool,
           toolDetails: usedTool,
@@ -181,7 +181,7 @@ export const buildRouteFromTxHistory = (
           },
           includedSteps: [
             {
-              id: '',
+              id: (tx as FullStatusData).transactionId,
               type: sending.chainId === receiving.chainId ? 'swap' : 'cross',
               action: {
                 fromChainId: sending.chainId,
