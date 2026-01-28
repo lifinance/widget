@@ -1,7 +1,7 @@
 import ClearIcon from '@mui/icons-material/Clear'
 import Search from '@mui/icons-material/Search'
 import { FormControl, IconButton, InputAdornment } from '@mui/material'
-import type { FocusEventHandler, FormEventHandler, RefObject } from 'react'
+import type { ChangeEventHandler, FocusEventHandler, RefObject } from 'react'
 import { InputCard } from '../../components/Card/InputCard.js'
 import { useHeaderHeight } from '../../stores/header/useHeaderStore.js'
 import { Input, StickySearchInputContainer } from './SearchInput.style.js'
@@ -11,7 +11,7 @@ interface SearchInputProps {
   name?: string
   value?: string
   placeholder?: string
-  onChange?: FormEventHandler<HTMLInputElement>
+  onChange?: ChangeEventHandler<HTMLInputElement>
   onBlur?: FocusEventHandler<HTMLInputElement>
   onClear?: () => void
   autoFocus?: boolean

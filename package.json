@@ -51,15 +51,15 @@
     }
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.3.11",
+    "@biomejs/biome": "^2.3.13",
     "@commitlint/cli": "^20.3.0",
     "@commitlint/config-conventional": "^20.3.0",
-    "@types/node": "^25.0.3",
-    "@types/react": "^19.2.7",
+    "@types/node": "^25.0.10",
+    "@types/react": "^19.2.10",
     "@types/react-dom": "^19.2.3",
     "fs-extra": "^11.3.3",
     "husky": "^9.1.7",
-    "knip": "^5.80.0",
+    "knip": "^5.82.1",
     "lerna": "^9.0.3",
     "lint-staged": "^16.2.7",
     "standard-version": "^9.5.0",
@@ -71,7 +71,7 @@
     "db0": "^0.3.2",
     "encoding": "^0.1.13",
     "fastestsmallesttextencoderdecoder": "^1.0.22",
-    "ioredis": "^5.8.0",
+    "ioredis": "^5.9.2",
     "ws": "^8.18.3"
   },
   "pnpm": {
@@ -82,13 +82,8 @@
       "bs58": ">=4.0.1",
       "miniflare>zod": "3.22.3",
       "miniflare>zod-validation-error": "3.0.3",
-      "zod": ">=4.1.11",
-      "@lifi/sdk": "link:../../Library/pnpm/global/5/node_modules/@lifi/sdk",
-      "@lifi/sdk-provider-bitcoin": "link:../../Library/pnpm/global/5/node_modules/@lifi/sdk-provider-bitcoin",
-      "@lifi/sdk-provider-ethereum": "link:../../Library/pnpm/global/5/node_modules/@lifi/sdk-provider-ethereum",
-      "@lifi/sdk-provider-solana": "link:../../Library/pnpm/global/5/node_modules/@lifi/sdk-provider-solana",
-      "@lifi/sdk-provider-sui": "link:../../Library/pnpm/global/5/node_modules/@lifi/sdk-provider-sui"
+      "zod": ">=4.1.11"
     }
   },
-  "packageManager": "pnpm@10.27.0+sha512.72d699da16b1179c14ba9e64dc71c9a40988cbdc65c264cb0e489db7de917f20dcf4d64d8723625f2969ba52d4b7e2a1170682d9ac2a5dcaeaab732b7e16f04a"
+  "packageManager": "pnpm@10.28.2+sha512.41872f037ad22f7348e3b1debbaf7e867cfd448f2726d9cf74c08f19507c31d2c8e7a11525b983febc2df640b5438dee6023ebb1f84ed43cc2d654d2bc326264"
 }

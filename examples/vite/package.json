@@ -10,26 +10,26 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/sdk": "^3.14.1",
-    "@lifi/wallet-management": "^3.21.0",
-    "@lifi/widget": "^3.38.1",
+    "@lifi/sdk": "^4.0.0-alpha.9",
+    "@lifi/wallet-management": "^3.22.4",
+    "@lifi/widget": "^3.40.5",
     "@mui/material": "^7.3.6",
-    "@tanstack/react-query": "^5.90.16",
-    "@wagmi/connectors": "^7.0.6",
+    "@tanstack/react-query": "^5.90.20",
+    "@wagmi/connectors": "^7.1.5",
     "events": "^3.3.0",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
-    "viem": "^2.43.5",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "viem": "^2.45.0",
     "wagmi": "^2.19.4"
   },
   "devDependencies": {
     "@types/events": "^3.0.3",
-    "@types/node": "^25.0.3",
-    "@types/react": "^19.2.7",
+    "@types/node": "^25.0.10",
+    "@types/react": "^19.2.10",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.2",
     "typescript": "^5.9.3",
     "vite": "^7.3.0",
-    "vite-plugin-node-polyfills": "^0.24.0"
+    "vite-plugin-node-polyfills": "^0.25.0"
   }
 }
