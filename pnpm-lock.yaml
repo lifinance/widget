@@ -146,7 +146,7 @@ importers:
   examples/deposit-flow:
     dependencies:
       '@lifi/sdk':
-        specifier: ^v4.0.0-alpha.11
+        specifier: ^4.0.0-alpha.11
         version: 4.0.0-alpha.11(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.5)
       '@lifi/widget':
         specifier: ^3.40.5
@@ -231,7 +231,7 @@ importers:
         specifier: ^4.57.2
         version: 4.59.1(90358f2c46e6c637543dfdeb5134b15d)
       '@lifi/sdk':
-        specifier: ^v4.0.0-alpha.11
+        specifier: ^4.0.0-alpha.11
         version: 4.0.0-alpha.11(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.5)
       '@lifi/wallet-management':
         specifier: ^3.22.4
@@ -310,7 +310,7 @@ importers:
   examples/nextjs:
     dependencies:
       '@lifi/sdk':
-        specifier: ^v4.0.0-alpha.11
+        specifier: ^4.0.0-alpha.11
         version: 4.0.0-alpha.11(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.5)
       '@lifi/widget':
         specifier: ^3.40.5
@@ -344,7 +344,7 @@ importers:
   examples/nextjs14:
     dependencies:
       '@lifi/sdk':
-        specifier: ^v4.0.0-alpha.11
+        specifier: ^4.0.0-alpha.11
         version: 4.0.0-alpha.11(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.5)
       '@lifi/widget':
         specifier: ^3.40.5
@@ -418,7 +418,7 @@ importers:
   examples/nextjs15:
     dependencies:
       '@lifi/sdk':
-        specifier: ^v4.0.0-alpha.11
+        specifier: ^4.0.0-alpha.11
         version: 4.0.0-alpha.11(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.5)
       '@lifi/widget':
         specifier: ^3.40.5
@@ -952,7 +952,7 @@ importers:
   examples/vite:
     dependencies:
       '@lifi/sdk':
-        specifier: ^v4.0.0-alpha.11
+        specifier: ^4.0.0-alpha.11
         version: 4.0.0-alpha.11(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.5)
       '@lifi/wallet-management':
         specifier: ^3.22.4
@@ -1099,7 +1099,7 @@ importers:
         specifier: ^11.14.1
         version: 11.14.1(@emotion/react@11.14.0(@types/react@19.2.10)(react@19.2.4))(@types/react@19.2.10)(react@19.2.4)
       '@lifi/sdk':
-        specifier: ^v4.0.0-alpha.11
+        specifier: ^4.0.0-alpha.11
         version: 4.0.0-alpha.11(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.5)
       '@lifi/widget-provider':
         specifier: workspace:*
@@ -1154,7 +1154,7 @@ importers:
         specifier: ^11.14.1
         version: 11.14.1(@emotion/react@11.14.0(@types/react@19.2.10)(react@19.2.4))(@types/react@19.2.10)(react@19.2.4)
       '@lifi/sdk':
-        specifier: ^v4.0.0-alpha.11
+        specifier: ^4.0.0-alpha.11
         version: 4.0.0-alpha.11(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.5)
       '@lifi/wallet-management':
         specifier: workspace:*
@@ -1227,7 +1227,7 @@ importers:
   packages/widget-embedded:
     dependencies:
       '@lifi/sdk':
-        specifier: ^v4.0.0-alpha.11
+        specifier: ^4.0.0-alpha.11
         version: 4.0.0-alpha.11(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.5)
       '@lifi/wallet-management':
         specifier: workspace:*
@@ -1531,7 +1531,7 @@ importers:
   packages/widget-provider:
     dependencies:
       '@lifi/sdk':
-        specifier: ^v4.0.0-alpha.11
+        specifier: ^4.0.0-alpha.11
         version: 4.0.0-alpha.11(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.5)
     devDependencies:
       cpy-cli:
@@ -1559,10 +1559,10 @@ importers:
         specifier: '>=0.6.0'
         version: 0.6.5(@tanstack/query-core@5.90.20)(@tanstack/react-query@5.90.20(react@19.2.4))(@types/react@19.2.10)(bs58@6.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.4))
       '@lifi/sdk':
-        specifier: ^v4.0.0-alpha.11
+        specifier: ^4.0.0-alpha.11
         version: 4.0.0-alpha.11(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.5)
       '@lifi/sdk-provider-bitcoin':
-        specifier: ^v4.0.0-alpha.11
+        specifier: ^4.0.0-alpha.11
         version: 4.0.0-alpha.11(@types/react@19.2.10)(bs58@6.0.0)(bufferutil@4.1.0)(react@19.2.4)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.4))(utf-8-validate@5.0.10)(zod@4.3.5)
       '@lifi/widget-provider':
         specifier: workspace:*
@@ -1584,10 +1584,10 @@ importers:
   packages/widget-provider-ethereum:
     dependencies:
       '@lifi/sdk':
-        specifier: ^v4.0.0-alpha.11
+        specifier: ^4.0.0-alpha.11
         version: 4.0.0-alpha.11(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.5)
       '@lifi/sdk-provider-ethereum':
-        specifier: ^v4.0.0-alpha.11
+        specifier: ^4.0.0-alpha.11
         version: 4.0.0-alpha.11(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.5)
       '@lifi/widget-provider':
         specifier: workspace:*
@@ -1615,10 +1615,10 @@ importers:
   packages/widget-provider-solana:
     dependencies:
       '@lifi/sdk':
-        specifier: ^v4.0.0-alpha.11
+        specifier: ^4.0.0-alpha.11
         version: 4.0.0-alpha.11(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.5)
       '@lifi/sdk-provider-solana':
-        specifier: ^v4.0.0-alpha.11
+        specifier: ^4.0.0-alpha.11
         version: 4.0.0-alpha.11(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.5)
       '@lifi/widget-provider':
         specifier: workspace:*
@@ -1655,10 +1655,10 @@ importers:
   packages/widget-provider-sui:
     dependencies:
       '@lifi/sdk':
-        specifier: ^v4.0.0-alpha.11
+        specifier: ^4.0.0-alpha.11
         version: 4.0.0-alpha.11(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.5)
       '@lifi/sdk-provider-sui':
-        specifier: ^v4.0.0-alpha.11
+        specifier: ^4.0.0-alpha.11
         version: 4.0.0-alpha.11(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.5)
       '@lifi/widget-provider':
         specifier: workspace:*

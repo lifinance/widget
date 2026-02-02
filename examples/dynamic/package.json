@@ -19,7 +19,7 @@
     "@dynamic-labs/solana": "^4.57.2",
     "@dynamic-labs/solana-core": "^4.57.2",
     "@dynamic-labs/wagmi-connector": "^4.57.2",
-    "@lifi/sdk": "^v4.0.0-alpha.11",
+    "@lifi/sdk": "^4.0.0-alpha.11",
     "@lifi/wallet-management": "^3.22.4",
     "@lifi/widget": "^3.40.5",
     "@mui/material": "^7.3.6",

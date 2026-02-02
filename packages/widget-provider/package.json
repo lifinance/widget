@@ -42,7 +42,7 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "^v4.0.0-alpha.11"
+    "@lifi/sdk": "^4.0.0-alpha.11"
   },
   "devDependencies": {
     "cpy-cli": "^6.0.0",
