@@ -47,8 +47,8 @@
   "dependencies": {
     "@bigmi/client": "^0.6.4",
     "@bigmi/core": "^0.6.4",
-    "@lifi/sdk": "^4.0.0-alpha.8",
-    "@lifi/sdk-provider-bitcoin": "^4.0.0-alpha.8",
+    "@lifi/sdk": "^4.0.0-alpha.9",
+    "@lifi/sdk-provider-bitcoin": "^4.0.0-alpha.9",
     "@lifi/widget-provider": "workspace:*"
   },
   "peerDependencies": {
@@ -57,7 +57,7 @@
   "devDependencies": {
     "cpy-cli": "^6.0.0",
     "madge": "^8.0.0",
-    "react": "^19.2.3",
+    "react": "^19.2.4",
     "typescript": "^5.9.3"
   },
   "files": [

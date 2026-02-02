@@ -15,15 +15,15 @@
     "@lifi/widget-playground": "workspace:*",
     "@mui/material": "^7.3.6",
     "@mui/material-nextjs": "^7.3.6",
-    "@tanstack/react-query": "^5.90.16",
-    "core-js": "^3.47.0",
+    "@tanstack/react-query": "^5.90.20",
+    "core-js": "^3.48.0",
     "next": "^16.1.1",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3"
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
   },
   "devDependencies": {
-    "@types/node": "^25.0.3",
-    "@types/react": "^19.2.7",
+    "@types/node": "^25.0.10",
+    "@types/react": "^19.2.10",
     "@types/react-dom": "^19.2.3",
     "typescript": "^5.9.3"
   },

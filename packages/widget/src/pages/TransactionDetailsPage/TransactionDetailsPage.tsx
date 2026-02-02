@@ -93,7 +93,7 @@ export const TransactionDetailsPage: React.FC = () => {
   }
 
   const startedAt = new Date(
-    (routeExecution?.route.steps[0].execution?.process[0].startedAt ?? 0) *
+    (routeExecution?.route.steps[0].execution?.startedAt ?? 0) *
       (storedRouteExecution ? 1 : 1000) // local and BE routes have different ms handling
   )
 

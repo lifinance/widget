@@ -3,7 +3,7 @@ import ErrorRounded from '@mui/icons-material/ErrorRounded'
 import InfoRounded from '@mui/icons-material/InfoRounded'
 import { ListItemAvatar, ListItemText, Typography } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
-import { useProcessMessage } from '../../hooks/useProcessMessage.js'
+import { useActionMessage } from '../../hooks/useActionMessage.js'
 import { useRouteExecution } from '../../hooks/useRouteExecution.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
@@ -23,9 +23,9 @@ export const ActiveTransactionItem: React.FC<{
   })
 
   const lastActiveStep = route?.steps.findLast((step) => step.execution)
-  const lastActiveProcess = lastActiveStep?.execution?.process.at(-1)
+  const lastActiveAction = lastActiveStep?.execution?.actions.at(-1)
 
-  const { title } = useProcessMessage(lastActiveStep, lastActiveProcess)
+  const { title } = useActionMessage(lastActiveStep, lastActiveAction)
 
   if (!route || !lastActiveStep) {
     return null
@@ -39,7 +39,7 @@ export const ActiveTransactionItem: React.FC<{
   }
 
   const getStatusComponent = () => {
-    switch (lastActiveProcess?.status) {
+    switch (lastActiveAction?.status) {
       case 'ACTION_REQUIRED':
       case 'MESSAGE_REQUIRED':
       case 'RESET_REQUIRED':

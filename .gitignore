@@ -2,7 +2,7 @@
 
 # dependencies
 node_modules
-.pnpm-store
+.pnpm-store/
 .nuxt
 dist/
 build/
