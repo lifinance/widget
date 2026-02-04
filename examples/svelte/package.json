@@ -11,13 +11,13 @@
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^6.2.4",
-    "@tsconfig/svelte": "^5.0.6",
+    "@tsconfig/svelte": "^5.0.7",
     "@types/events": "^3.0.3",
-    "@types/node": "^25.0.9",
-    "@types/react": "^19.2.8",
+    "@types/node": "^25.2.0",
+    "@types/react": "^19.2.11",
     "@types/react-dom": "^19.2.3",
-    "svelte": "^5.47.1",
-    "svelte-check": "^4.3.5",
+    "svelte": "^5.49.1",
+    "svelte-check": "^4.3.6",
     "svelte-preprocess": "^6.0.3",
     "tslib": "^2.8.1",
     "typescript": "^5.9.3",
@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@lifi/widget": "workspace:^",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3"
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
   }
 }
