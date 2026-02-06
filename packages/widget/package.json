@@ -19,10 +19,6 @@
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
     "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg",
-    "link:bigmi": "pnpm link @bigmi/client",
-    "unlink:bigmi": "pnpm link @bigmi/client",
-    "link:sdk": "pnpm link @lifi/sdk",
-    "unlink:sdk": "pnpm unlink @lifi/sdk",
     "test": "vitest run"
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
@@ -51,7 +47,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^4.0.0-alpha.12",
+    "@lifi/sdk": "^4.0.0-alpha.13",
     "@lifi/wallet-management": "workspace:*",
     "@lifi/widget-provider": "workspace:*",
     "@mui/icons-material": "^7.3.6",

@@ -17,9 +17,7 @@
     "clean": "pnpm build:clean && rm -rf dist",
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
-    "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg",
-    "link:sdk": "pnpm link @lifi/sdk",
-    "unlink:sdk": "pnpm unlink @lifi/sdk"
+    "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg"
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
   "homepage": "https://github.com/lifinance/widget",
@@ -42,7 +40,7 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "^4.0.0-alpha.12"
+    "@lifi/sdk": "^4.0.0-alpha.13"
   },
   "devDependencies": {
     "cpy-cli": "^7.0.0",

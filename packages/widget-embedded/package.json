@@ -13,7 +13,7 @@
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
-    "@lifi/sdk": "^4.0.0-alpha.12",
+    "@lifi/sdk": "^4.0.0-alpha.13",
     "@lifi/wallet-management": "workspace:*",
     "@lifi/widget": "workspace:*",
     "@lifi/widget-provider-bitcoin": "workspace:*",

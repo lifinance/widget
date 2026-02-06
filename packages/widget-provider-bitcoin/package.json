@@ -17,11 +17,7 @@
     "clean": "pnpm build:clean && rm -rf dist",
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
-    "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg",
-    "link:sdk": "pnpm link @lifi/sdk",
-    "unlink:sdk": "pnpm unlink @lifi/sdk",
-    "link:bigmi": "pnpm link @bigmi/client",
-    "unlink:bigmi": "pnpm unlink @bigmi/client"
+    "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg"
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
   "homepage": "https://github.com/lifinance/widget",
@@ -47,8 +43,8 @@
   "dependencies": {
     "@bigmi/client": "^0.7.0",
     "@bigmi/core": "^0.7.0",
-    "@lifi/sdk": "^4.0.0-alpha.12",
-    "@lifi/sdk-provider-bitcoin": "^4.0.0-alpha.12",
+    "@lifi/sdk": "^4.0.0-alpha.13",
+    "@lifi/sdk-provider-bitcoin": "^4.0.0-alpha.13",
     "@lifi/widget-provider": "workspace:*"
   },
   "peerDependencies": {

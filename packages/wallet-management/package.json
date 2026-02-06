@@ -17,11 +17,7 @@
     "clean": "pnpm build:clean && rm -rf dist",
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
-    "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg",
-    "link:bigmi": "pnpm link @bigmi/client",
-    "unlink:bigmi": "pnpm link @bigmi/client",
-    "link:sdk": "pnpm link @lifi/sdk @lifi/sdk-provider-ethereum @lifi/sdk-provider-sui @lifi/sdk-provider-solana @lifi/sdk-provider-bitcoin",
-    "unlink:sdk": "pnpm unlink @lifi/sdk @lifi/sdk-provider-ethereum @lifi/sdk-provider-sui @lifi/sdk-provider-solana @lifi/sdk-provider-bitcoin"
+    "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg"
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
   "homepage": "https://github.com/lifinance/widget",
@@ -50,7 +46,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^4.0.0-alpha.12",
+    "@lifi/sdk": "^4.0.0-alpha.13",
     "@lifi/widget-provider": "workspace:*",
     "@mui/icons-material": "^7.3.6",
     "@mui/material": "^7.3.6",
