@@ -2,7 +2,7 @@
 This project shows an example of how to use the LI.FI Widget with the Rainbowkit.
 
 ## Requirements
-1. [A WALLET CONNECT ID]('https://cloud.reown.com/app')
+1. [A WALLET CONNECT ID](https://cloud.reown.com/app)
 
 ## Installation
 1. Clone this repo
