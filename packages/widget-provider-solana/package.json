@@ -42,19 +42,19 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "^4.0.0-alpha.9",
-    "@lifi/sdk-provider-solana": "^4.0.0-alpha.9",
+    "@lifi/sdk": "^4.0.0-alpha.12",
+    "@lifi/sdk-provider-solana": "^4.0.0-alpha.12",
     "@lifi/widget-provider": "workspace:*",
     "@wallet-standard/app": "^1.1.0",
     "@wallet-standard/base": "^1.1.0",
     "@wallet-standard/features": "^1.1.0",
-    "zustand": "^5.0.9"
+    "zustand": "^5.0.11"
   },
   "peerDependencies": {
     "bs58": ">=4.0.1"
   },
   "devDependencies": {
-    "cpy-cli": "^6.0.0",
+    "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "react": "^19.2.4",
     "typescript": "^5.9.3"

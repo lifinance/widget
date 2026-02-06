@@ -27,8 +27,8 @@
     "./widget-config": "./src/defaultWidgetConfig.ts"
   },
   "dependencies": {
-    "@base-org/account": "~2.5.1",
-    "@bigmi/react": "^0.6.4",
+    "@base-org/account": "~2.5.2",
+    "@bigmi/react": "^0.7.0",
     "@coinbase/wallet-sdk": "~4.3.6",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
@@ -55,16 +55,16 @@
     "porto": "^0.2.37",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "viem": "^2.45.0",
+    "viem": "^2.45.1",
     "wagmi": "^3.1.0",
-    "zustand": "^5.0.9"
+    "zustand": "^5.0.11"
   },
   "devDependencies": {
     "@types/lodash.isequal": "^4.5.8",
-    "@types/node": "^25.0.10",
-    "@types/react": "^19.2.10",
+    "@types/node": "^25.2.1",
+    "@types/react": "^19.2.13",
     "@types/react-dom": "^19.2.3",
-    "cpy-cli": "^6.0.0",
+    "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18"

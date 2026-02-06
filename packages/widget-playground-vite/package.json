@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
-    "@vitejs/plugin-react-swc": "^4.2.2",
+    "@vitejs/plugin-react-swc": "^4.2.3",
     "react-scan": "^0.4.3",
     "source-map-explorer": "^2.5.3",
     "typescript": "^5.9.3",
