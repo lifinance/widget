@@ -26,6 +26,7 @@ export enum WidgetEvent {
   SettingUpdated = 'settingUpdated',
   SourceChainTokenSelected = 'sourceChainTokenSelected',
   TokenSearch = 'tokenSearch',
+  TokensReversed = 'tokensReversed',
   WidgetExpanded = 'widgetExpanded',
 }
 
@@ -48,6 +49,7 @@ export type WidgetEvents = {
   settingUpdated: SettingUpdated
   sourceChainTokenSelected: ChainTokenSelected
   tokenSearch: TokenSearch
+  tokensReversed: TokensReversed
   walletConnected: WalletConnected
   widgetExpanded: boolean
 }
@@ -77,6 +79,13 @@ export type RouteSelected = {
 export type TokenSearch = {
   value: string
   tokens: TokenAmount[]
+}
+
+export type TokensReversed = {
+  fromChainId?: ChainId
+  fromTokenAddress?: string
+  toChainId?: ChainId
+  toTokenAddress?: string
 }
 
 export type ChainTokenSelected = {

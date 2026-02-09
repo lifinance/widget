@@ -3,7 +3,9 @@ import ArrowForward from '@mui/icons-material/ArrowForward'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useToAddressAutoPopulate } from '../../hooks/useToAddressAutoPopulate.js'
 import { useToAddressReset } from '../../hooks/useToAddressReset.js'
+import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
+import { WidgetEvent } from '../../types/events.js'
 import { IconCard, ReverseContainer } from './ReverseTokensButton.style.js'
 
 export const ReverseTokensButton: React.FC<{ vertical?: boolean }> = ({
@@ -13,6 +15,7 @@ export const ReverseTokensButton: React.FC<{ vertical?: boolean }> = ({
   const { getChainById } = useAvailableChains()
   const { tryResetToAddress } = useToAddressReset()
   const autoPopulateToAddress = useToAddressAutoPopulate()
+  const emitter = useWidgetEvents()
 
   const handleClick = () => {
     const [fromChainId, fromToken, toChainId, toToken, toAddress] =
@@ -28,6 +31,13 @@ export const ReverseTokensButton: React.FC<{ vertical?: boolean }> = ({
     setFieldValue('fromToken', toToken, { isTouched: true })
     setFieldValue('toChain', fromChainId, { isTouched: true })
     setFieldValue('toToken', fromToken, { isTouched: true })
+
+    emitter.emit(WidgetEvent.TokensReversed, {
+      fromChainId,
+      fromTokenAddress: fromToken,
+      toChainId,
+      toTokenAddress: toToken,
+    })
 
     const autoPopulatedToAddress = autoPopulateToAddress({
       formType: 'from',
