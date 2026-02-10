@@ -16,51 +16,134 @@
 
 [**LI.FI Widget**](https://docs.li.fi/widget/overview) features include:
 
+- **Provider-based architecture** - Modular blockchain support with separate packages for Ethereum, Bitcoin, Solana, and Sui
 - All ecosystems, chains, bridges, exchanges, and solvers that [LI.FI](https://docs.li.fi/introduction/chains) supports
 - Embeddable variants - compact, wide, and drawer
 - Options to allow or deny certain chains, tokens, bridges, and exchanges
 - Pre-configured themes and lots of customization options with dark mode support so you can match the look and feel of your web app 
-- Wallet management UI with the option to opt-out and use your own ([Wagmi](https://wagmi.sh/), [Bigmi](https://github.com/lifinance/bigmi) and [Wallet Standard](https://github.com/wallet-standard/wallet-standard) support)
+- Built-in wallet management UI with support for external wallet providers ([Wagmi](https://wagmi.sh/), [Bigmi](https://github.com/lifinance/bigmi), [@solana/wallet-adapter-react](https://github.com/anza-xyz/wallet-adapter), and [@mysten/dapp-kit](https://sdk.mystenlabs.com/dapp-kit))
 - Supports widely adopted industry standards, including [EIP-5792](https://eips.ethereum.org/EIPS/eip-5792), [ERC-2612](https://eips.ethereum.org/EIPS/eip-2612), [EIP-712](https://eips.ethereum.org/EIPS/eip-712), [EIP-6963](https://eips.ethereum.org/EIPS/eip-6963), and [Permit2](https://github.com/Uniswap/permit2)
 - View of transactions in progress and transaction history
 - Curated wallet lists and wallet bookmarks
 - Route settings for advanced users (stored locally)
-- Complete UI translations to match your customer’s preferred language
+- Complete UI translations to match your customer's preferred language
 - Compatibility tested with React, Next.js, Vue, Nuxt.js, Svelte, Remix, Gatsby, Vite, RainbowKit, Reown AppKit, Privy, Dynamic
 
 ## Installation
 
 ### LI.FI Widget
 
-LI.FI Widget is available as an [npm package](https://www.npmjs.com/package/@lifi/widget).
+LI.FI Widget is available as an [npm package](https://www.npmjs.com/package/@lifi/widget). The widget uses a provider-based architecture, allowing you to choose which blockchains to support.
+
+**Core package:**
 
 **pnpm:**
 
 ```sh
-pnpm add @lifi/widget wagmi @bigmi/react @solana/wallet-adapter-react @tanstack/react-query @mysten/dapp-kit
+pnpm add @lifi/widget @tanstack/react-query
 ```
 
 **npm:**
 
 ```sh
-npm install @lifi/widget wagmi @bigmi/react @solana/wallet-adapter-react @tanstack/react-query @mysten/dapp-kit
+npm install @lifi/widget @tanstack/react-query
 ```
 
 **yarn:**
 
 ```sh
-yarn add @lifi/widget wagmi @bigmi/react @solana/wallet-adapter-react @tanstack/react-query @mysten/dapp-kit
+yarn add @lifi/widget @tanstack/react-query
 ```
 
-- [Wagmi](https://wagmi.sh/) is type safe, extensible, and modular library for building Ethereum apps.
-- [Bigmi](https://github.com/lifinance/bigmi) is modular TypeScript library that provides reactive primitives for building Bitcoin applications.
-- [@solana/wallet-adapter-react](https://github.com/anza-xyz/wallet-adapter) is modular TypeScript wallet adapters and components for Solana applications.
-- [TanStack Query](https://tanstack.com/query/v5) is an async state manager that handles requests, caching, and more.
-- [@mysten/dapp-kit](https://sdk.mystenlabs.com/dapp-kit) provides React tools for wallet integration and data access in Sui blockchain dApps.
+### Blockchain Providers
+
+Install the provider packages for the blockchains you want to support:
+
+**Ethereum/EVM chains:**
+
+**pnpm:**
+
+```sh
+pnpm add @lifi/widget-provider-ethereum wagmi
+```
+
+**npm:**
+
+```sh
+npm install @lifi/widget-provider-ethereum wagmi
+```
+
+**yarn:**
+
+```sh
+yarn add @lifi/widget-provider-ethereum wagmi
+```
+
+**Bitcoin:**
+
+**pnpm:**
+
+```sh
+pnpm add @lifi/widget-provider-bitcoin @bigmi/react
+```
+
+**npm:**
+
+```sh
+npm install @lifi/widget-provider-bitcoin @bigmi/react
+```
+
+**yarn:**
+
+```sh
+yarn add @lifi/widget-provider-bitcoin @bigmi/react
+```
+
+**Solana:**
+
+**pnpm:**
+
+```sh
+pnpm add @lifi/widget-provider-solana @solana/wallet-adapter-react
+```
+
+**npm:**
+
+```sh
+npm install @lifi/widget-provider-solana @solana/wallet-adapter-react
+```
+
+**yarn:**
+
+```sh
+yarn add @lifi/widget-provider-solana @solana/wallet-adapter-react
+```
+
+**Sui:**
+
+**pnpm:**
+
+```sh
+pnpm add @lifi/widget-provider-sui @mysten/dapp-kit
+```
+
+**npm:**
+
+```sh
+npm install @lifi/widget-provider-sui @mysten/dapp-kit
+```
+
+**yarn:**
+
+```sh
+yarn add @lifi/widget-provider-sui @mysten/dapp-kit
+```
+
+**Note:** You only need to install the provider packages for the blockchains you want to support. Each provider package includes its required peer dependencies.
 
 ### LI.FI Wallet Management
 
-LI.FI Wallet Management is available as an [npm package](https://www.npmjs.com/package/@lifi/wallet-management).
+LI.FI Wallet Management is available as an [npm package](https://www.npmjs.com/package/@lifi/wallet-management) and provides wallet management UI components.
 
 **pnpm:**
 
@@ -80,14 +163,67 @@ npm install @lifi/wallet-management
 yarn add @lifi/wallet-management
 ```
 
+## Architecture
+
+The LI.FI Widget uses a **provider-based architecture** that allows you to selectively enable support for different blockchains:
+
+- **`@lifi/widget`** - Core widget package with UI components and functionality
+- **`@lifi/widget-provider`** - Base provider package with shared types and utilities
+- **`@lifi/widget-provider-ethereum`** - Ethereum/EVM chains support (requires [Wagmi](https://wagmi.sh/))
+- **`@lifi/widget-provider-bitcoin`** - Bitcoin support (requires [Bigmi](https://github.com/lifinance/bigmi))
+- **`@lifi/widget-provider-solana`** - Solana support (requires [@solana/wallet-adapter-react](https://github.com/anza-xyz/wallet-adapter))
+- **`@lifi/widget-provider-sui`** - Sui support (requires [@mysten/dapp-kit](https://sdk.mystenlabs.com/dapp-kit))
+- **`@lifi/wallet-management`** - Wallet management UI components
+
+This architecture provides:
+- **Modularity**: Only install and bundle what you need
+- **Flexibility**: Mix and match blockchain support
+- **Extensibility**: Easy to add support for new blockchains
+- **Tree-shaking**: Unused providers are automatically excluded from your bundle
+
 ## Getting started with LI.FI Widget
 
-Here is an example of a basic app using LI.FI Widget:
+Here is an example of a basic app using LI.FI Widget with Ethereum support:
 
 ```tsx
 import { LiFiWidget, WidgetConfig } from '@lifi/widget';
+import { EthereumProvider } from '@lifi/widget-provider-ethereum';
 
 const widgetConfig: WidgetConfig = {
+  providers: [
+    EthereumProvider(),
+  ],
+  theme: {
+    container: {
+      border: '1px solid rgb(234, 234, 234)',
+      borderRadius: '16px',
+    },
+  },
+};
+
+export const WidgetPage = () => {
+  return (
+    <LiFiWidget integrator="Your dApp/company name" config={widgetConfig} />
+  );
+};
+```
+
+**Multi-chain example** (Ethereum, Solana, Bitcoin, and Sui):
+
+```tsx
+import { LiFiWidget, WidgetConfig } from '@lifi/widget';
+import { BitcoinProvider } from '@lifi/widget-provider-bitcoin';
+import { EthereumProvider } from '@lifi/widget-provider-ethereum';
+import { SolanaProvider } from '@lifi/widget-provider-solana';
+import { SuiProvider } from '@lifi/widget-provider-sui';
+
+const widgetConfig: WidgetConfig = {
+  providers: [
+    EthereumProvider(),
+    SolanaProvider(),
+    BitcoinProvider(),
+    SuiProvider(),
+  ],
   theme: {
     container: {
       border: '1px solid rgb(234, 234, 234)',
