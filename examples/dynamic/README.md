@@ -2,7 +2,7 @@
 This project shows an example of how to use the LI.FI Widget with the Dynamic wallet
 
 ## Requirements
-1. [An Environment ID]('https://app.dynamic.xyz/dashboard/developer')
+1. [An Environment ID](https://app.dynamic.xyz/dashboard/developer)
 
 ## Installation
 1. Clone this repo
