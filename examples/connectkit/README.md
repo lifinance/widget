@@ -2,7 +2,7 @@
 This project shows an example of how to use the LI.FI Widget with the Connectkit wallet from Family.
 
 ## Requirements
-1. [A Walletconnect (Reown) app ID]('https://cloud.reown.com/app')
+1. [A Walletconnect (Reown) app ID](https://cloud.reown.com/app)
 
 ## Installation
 1. Clone this repo
