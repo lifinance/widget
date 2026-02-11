@@ -10,6 +10,7 @@ import {
   onekey,
   oyl,
   phantom,
+  unhosted,
   unisat,
   xverse,
 } from '@bigmi/client'
@@ -65,6 +66,7 @@ export function createDefaultBigmiConfig(
     bitget(),
     oyl(),
     magicEden(),
+    unhosted(),
     ...(props?.connectors ?? []),
   ]
 
