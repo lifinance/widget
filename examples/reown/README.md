@@ -2,7 +2,7 @@
 This project shows an example of how to use the LI.FI Widget with the AppKit from Reown
 
 ## Requirements
-1. [A Reown app ID]('https://cloud.reown.com/app')
+1. [A Reown app ID](https://cloud.reown.com/app)
 
 ## Installation
 1. Clone this repo
