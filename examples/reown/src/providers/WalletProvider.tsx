@@ -13,8 +13,9 @@ import type { AppKitNetwork } from '@reown/appkit-common'
 
 import { useEffect, useRef } from 'react'
 import { WagmiProvider } from 'wagmi'
-import { metadata, projectId } from '../config/appkit'
-import { chainToAppKitNetworks, getChainImagesConfig } from '../utils/appkit'
+import { metadata, projectId } from '../config/appkit.js'
+import { chainToAppKitNetworks, getChainImagesConfig } from '../utils/appkit.js'
+import { BitcoinProvider } from './BitcoinProvider.js'
 import { SolanaProvider } from './SolanaProvider'
 
 export function ReownEVMWalletProvider({
@@ -52,9 +53,9 @@ export function ReownEVMWalletProvider({
     })
 
     const appKit = createAppKit({
+      projectId,
       adapters: [wagmiAdapter, solanaWeb3JsAdapter, bitcoinAdapter],
       networks,
-      projectId,
       metadata,
       chainImages,
       themeMode: 'light',
@@ -125,7 +126,9 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <ReownEVMWalletProvider chains={chains}>
-      <SolanaProvider>{children}</SolanaProvider>
+      <SolanaProvider>
+        <BitcoinProvider>{children}</BitcoinProvider>
+      </SolanaProvider>
     </ReownEVMWalletProvider>
   )
 }

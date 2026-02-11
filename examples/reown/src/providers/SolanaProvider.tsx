@@ -1,5 +1,5 @@
 import { useAppKitAccount, useWalletInfo } from '@reown/appkit/react'
-import type { Adapter, WalletName } from '@solana/wallet-adapter-base'
+import type { WalletName } from '@solana/wallet-adapter-base'
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
 import {
   ConnectionProvider,
@@ -7,25 +7,14 @@ import {
   WalletProvider,
 } from '@solana/wallet-adapter-react'
 import { clusterApiUrl } from '@solana/web3.js'
-
 import { type FC, type PropsWithChildren, useEffect } from 'react'
 
 const endpoint = clusterApiUrl(WalletAdapterNetwork.Mainnet)
-/**
- * Can be empty because wallets from Reown will be used
- */
-const wallets: Adapter[] = []
-
-export const SolanaConnectedWalletKey = 'li.fi-widget-recent-wallet'
 
 export const SolanaProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
     <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider
-        wallets={wallets}
-        localStorageKey={SolanaConnectedWalletKey}
-        autoConnect
-      >
+      <WalletProvider wallets={[]} autoConnect={false}>
         <SolanaReownHandler />
         {children}
       </WalletProvider>
@@ -34,24 +23,55 @@ export const SolanaProvider: FC<PropsWithChildren> = ({ children }) => {
 }
 
 export const SolanaReownHandler: FC = () => {
-  const { isConnected } = useAppKitAccount({ namespace: 'solana' })
-  const { walletInfo } = useWalletInfo('solana')
+  const { isConnected: isAppKitConnected } = useAppKitAccount({
+    namespace: 'solana',
+  })
+  const { walletInfo: appKitWalletInfo } = useWalletInfo('solana')
 
-  const { select, wallet, disconnect, disconnecting } = useWallet()
+  const {
+    select,
+    wallet: adapterWallet,
+    disconnect,
+    disconnecting,
+    connected: isAdapterConnected,
+    connect,
+    connecting,
+  } = useWallet()
 
   useEffect(() => {
-    if (isConnected && !wallet && walletInfo?.name) {
-      const walletName =
-        walletInfo?.type === 'WALLET_CONNECT'
-          ? 'WalletConnect'
-          : walletInfo?.name
-      select(walletName as WalletName)
+    const walletName =
+      appKitWalletInfo?.type === 'WALLET_CONNECT'
+        ? 'WalletConnect'
+        : appKitWalletInfo?.name
+
+    const shouldConnect =
+      isAppKitConnected && !isAdapterConnected && !connecting && walletName
+    const shouldDisconnect =
+      !isAppKitConnected && isAdapterConnected && !disconnecting
+
+    if (shouldConnect) {
+      const isWalletSelected = adapterWallet?.adapter.name === walletName
+      if (isWalletSelected) {
+        connect().catch(console.error)
+      } else {
+        select(walletName as WalletName)
+      }
     }
 
-    if (!isConnected && wallet && !disconnecting) {
+    if (shouldDisconnect) {
       disconnect()
     }
-  }, [select, isConnected, walletInfo, wallet, disconnect, disconnecting])
+  }, [
+    isAppKitConnected,
+    isAdapterConnected,
+    connecting,
+    disconnecting,
+    appKitWalletInfo,
+    adapterWallet,
+    select,
+    connect,
+    disconnect,
+  ])
 
   return null
 }
