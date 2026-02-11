@@ -1,7 +1,8 @@
 import { ChainType, type ExtendedChain } from '@lifi/widget'
 import { useSyncWagmiConfig } from '@lifi/widget-provider-ethereum'
-import { mainnet, solana } from '@reown/appkit/networks'
+import { bitcoin, mainnet, solana } from '@reown/appkit/networks'
 import { type AppKit, createAppKit } from '@reown/appkit/react'
+import { BitcoinAdapter } from '@reown/appkit-adapter-bitcoin'
 import { SolanaAdapter } from '@reown/appkit-adapter-solana'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import type { AppKitNetwork } from '@reown/appkit-common'
@@ -13,6 +14,7 @@ import {
   getChainImagesConfig,
 } from '../../utils/appkit.js'
 import { useEnvVariables } from '../EnvVariablesProvider.js'
+import { BitcoinProvider } from './BitcoinProvider.js'
 import { SolanaProvider } from './SolanaProvider.js'
 
 const metadata = {
@@ -35,7 +37,7 @@ export function ReownWalletProvider({
   const { themeMode } = useThemeMode()
 
   if (!wagmi.current || !modal.current) {
-    const networks: [AppKitNetwork, ...AppKitNetwork[]] = [solana]
+    const networks: [AppKitNetwork, ...AppKitNetwork[]] = [solana, bitcoin]
     const evmChains = chains.filter(
       (chain) => chain.chainType === ChainType.EVM
     )
@@ -51,8 +53,12 @@ export function ReownWalletProvider({
     })
     const solanaAdapter = new SolanaAdapter({ registerWalletStandard: true })
 
+    const bitcoinAdapter = new BitcoinAdapter({
+      projectId: EVMWalletConnectId,
+    })
+
     const appKit = createAppKit({
-      adapters: [wagmiAdapter, solanaAdapter],
+      adapters: [wagmiAdapter, solanaAdapter, bitcoinAdapter],
       networks,
       projectId: EVMWalletConnectId,
       metadata,
@@ -81,7 +87,9 @@ export function ReownWalletProvider({
 
   return (
     <WagmiProvider config={wagmiConfig} reconnectOnMount={false}>
-      <SolanaProvider>{children}</SolanaProvider>
+      <SolanaProvider>
+        <BitcoinProvider>{children}</BitcoinProvider>
+      </SolanaProvider>
     </WagmiProvider>
   )
 }
