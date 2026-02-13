@@ -31,7 +31,17 @@ export function ChainOrderStoreProvider({
     useExternalWalletProvider()
 
   if (!storeRef.current) {
-    storeRef.current = createChainOrderStore(props)
+    const [initialFromChain, initialToChain] = getFieldValues(
+      'fromChain',
+      'toChain'
+    )
+    storeRef.current = createChainOrderStore({
+      ...props,
+      initialIsAllNetworks: {
+        from: !initialFromChain,
+        to: !initialToChain,
+      },
+    })
   }
 
   useEffect(() => {
@@ -85,6 +95,12 @@ export function ChainOrderStoreProvider({
         const [chainValue] = getFieldValues(`${key}Chain`)
         if (chainValue) {
           return
+        }
+
+        // If no chain is selected (e.g., removed from URL params) and
+        // showAllNetworks is enabled, reset isAllNetworks to true
+        if (showAllNetworks) {
+          storeRef.current?.getState().setIsAllNetworks(true, key)
         }
 
         const firstAllowedPinnedChain = storeRef.current
