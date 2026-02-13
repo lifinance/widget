@@ -2,12 +2,12 @@ import { useLocation } from '@tanstack/react-router'
 import { useEffect } from 'react'
 import { useAddressValidation } from '../../hooks/useAddressValidation.js'
 import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
-import { formatInputAmount } from '../../utils/format.js'
 import { useBookmarkActions } from '../bookmarks/useBookmarkActions.js'
-import type { DefaultValues, FormFieldNames } from '../form/types.js'
+import type { FormFieldNames } from '../form/types.js'
 import { useFieldActions } from '../form/useFieldActions.js'
 import { useFieldValues } from '../form/useFieldValues.js'
 import { useTouchedFields } from '../form/useTouchedFields.js'
+import { getDefaultValuesFromQueryString } from './getDefaultValuesFromQueryString.js'
 
 const formValueKeys: FormFieldNames[] = [
   'fromAmount',
@@ -17,34 +17,6 @@ const formValueKeys: FormFieldNames[] = [
   'toChain',
   'toToken',
 ]
-
-const getDefaultValuesFromQueryString = (): Partial<DefaultValues> => {
-  const searchParams = Object.fromEntries(
-    new URLSearchParams(window?.location.search)
-  )
-
-  // Prevent using fromToken/toToken params if chain is not selected
-  ;['from', 'to'].forEach((key) => {
-    if (searchParams[`${key}Token`] && !searchParams[`${key}Chain`]) {
-      delete searchParams[`${key}Token`]
-    }
-  })
-
-  return {
-    ...(Number.isFinite(Number.parseInt(searchParams.fromChain, 10))
-      ? { fromChain: Number.parseInt(searchParams.fromChain, 10) }
-      : {}),
-    ...(Number.isFinite(Number.parseInt(searchParams.toChain, 10))
-      ? { toChain: Number.parseInt(searchParams.toChain, 10) }
-      : {}),
-    ...(searchParams.fromToken ? { fromToken: searchParams.fromToken } : {}),
-    ...(searchParams.toToken ? { toToken: searchParams.toToken } : {}),
-    ...(Number.isFinite(Number.parseFloat(searchParams.fromAmount))
-      ? { fromAmount: formatInputAmount(searchParams.fromAmount) }
-      : {}),
-    ...(searchParams.toAddress ? { toAddress: searchParams.toAddress } : {}),
-  }
-}
 
 export const URLSearchParamsBuilder = () => {
   const { pathname } = useLocation()
@@ -63,6 +35,7 @@ export const URLSearchParamsBuilder = () => {
   useEffect(() => {
     // get the initial values from the querystring
     const formValues = getDefaultValuesFromQueryString()
+    const { toAddress, ...initialFormValues } = formValues
 
     /**
      * When URL builder is enabled and user opens a page with toAddress parameter,
@@ -71,19 +44,17 @@ export const URLSearchParamsBuilder = () => {
      * same way as a manually entered and validated address.
      */
     const initializeFromAddress = async () => {
-      if (formValues.toAddress) {
+      if (toAddress) {
         try {
           const validationResult = await validateAddress({
-            value: formValues.toAddress,
+            value: toAddress,
           })
-          // Check if the toAddress is still in the query string
-          // Could be modified by the user before the validation is done
-          const { toAddress } = getDefaultValuesFromQueryString()
           if (validationResult.isValid && toAddress) {
             const bookmark = {
               address: validationResult.address,
               chainType: validationResult.chainType,
             }
+            setUserAndDefaultValues({ toAddress })
             setSelectedBookmark(bookmark)
             addRecentWallet(bookmark)
             setSendToWallet(true)
@@ -94,8 +65,8 @@ export const URLSearchParamsBuilder = () => {
       }
     }
 
+    setUserAndDefaultValues(initialFormValues)
     initializeFromAddress()
-    setUserAndDefaultValues(formValues)
   }, [
     setUserAndDefaultValues,
     setSendToWallet,

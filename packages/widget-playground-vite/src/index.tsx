@@ -8,8 +8,9 @@ import './index.css'
 import { reportWebVitals } from './reportWebVitals.js'
 
 scan({
-  enabled: true,
+  enabled: false,
   trackUnnecessaryRenders: true,
+  showToolbar: true,
 })
 
 const rootElement = document.getElementById('root')

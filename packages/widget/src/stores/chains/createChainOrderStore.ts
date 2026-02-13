@@ -17,13 +17,23 @@ const defaultChainState = {
   to: [],
 }
 
-export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
+interface CreateChainOrderStoreProps extends PersistStoreProps {
+  initialIsAllNetworks?: {
+    from?: boolean
+    to?: boolean
+  }
+}
+
+export const createChainOrderStore = ({
+  namePrefix,
+  initialIsAllNetworks,
+}: CreateChainOrderStoreProps) =>
   create<ChainOrderState>()(
     persist(
       (set, get) => ({
         chainOrder: defaultChainState,
-        fromIsAllNetworks: true,
-        toIsAllNetworks: true,
+        fromIsAllNetworks: initialIsAllNetworks?.from ?? true,
+        toIsAllNetworks: initialIsAllNetworks?.to ?? true,
         fromShowAllNetworks: true,
         toShowAllNetworks: true,
         availableChains: defaultChainState,

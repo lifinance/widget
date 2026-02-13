@@ -1,30 +1,28 @@
 import type { PropsWithChildren } from 'react'
 import { useMemo, useRef } from 'react'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import type { FormRef, ToAddress } from '../../types/widget.js'
+import type { FormRef } from '../../types/widget.js'
 import { createFormStore, formDefaultValues } from './createFormStore.js'
 import { FormStoreContext } from './FormStoreContext.js'
 import { FormUpdater } from './FormUpdater.js'
+import { getDefaultValuesFromQueryString } from './getDefaultValuesFromQueryString.js'
 import type { DefaultValues, FormStoreStore } from './types.js'
 import { useFormRef } from './useFormRef.js'
 
 // decorates and initialise the form date for use in the form store
-const initialiseDefaultValues = (
-  defaultValues: Partial<DefaultValues>,
-  fromAmount?: number | string,
-  toAmount?: number | string,
-  toAddress?: ToAddress
-) => ({
+const initialiseDefaultValues = (defaultValues: Partial<DefaultValues>) => ({
   ...formDefaultValues,
   ...defaultValues,
   fromAmount:
-    (typeof fromAmount === 'number' ? fromAmount?.toPrecision() : fromAmount) ||
-    formDefaultValues.fromAmount,
+    (typeof defaultValues.fromAmount === 'number'
+      ? (defaultValues.fromAmount as number)?.toPrecision?.()
+      : defaultValues.fromAmount) || formDefaultValues.fromAmount,
   toAmount:
-    (typeof toAmount === 'number' ? toAmount?.toPrecision() : toAmount) ||
-    formDefaultValues.toAmount,
+    (typeof defaultValues.toAmount === 'number'
+      ? (defaultValues.toAmount as number)?.toPrecision?.()
+      : defaultValues.toAmount) || formDefaultValues.toAmount,
   // Prevent setting address when the field is hidden
-  toAddress: toAddress?.address || formDefaultValues.toAddress,
+  toAddress: defaultValues.toAddress || formDefaultValues.toAddress,
 })
 
 interface FormStoreProviderProps extends PropsWithChildren {
@@ -46,6 +44,7 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
     toAmount,
     toAddress,
     formUpdateKey,
+    buildUrl,
   } = widgetConfig
 
   const storeRef = useRef<FormStoreStore>(null)
@@ -111,13 +110,14 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
   )
 
   if (!storeRef.current) {
+    const queryDefaults = buildUrl
+      ? getDefaultValuesFromQueryString({ includeToAddress: false })
+      : {}
     storeRef.current = createFormStore(
-      initialiseDefaultValues(
-        reactiveFormValues,
-        fromAmount,
-        toAmount,
-        toAddress
-      )
+      initialiseDefaultValues({
+        ...reactiveFormValues,
+        ...queryDefaults,
+      })
     )
   }
 
