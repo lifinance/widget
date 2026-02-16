@@ -11,6 +11,7 @@ import {
 } from '../../stores/chains/createChainOrderStore.js'
 import type { FormTypeProps } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
+import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { AllChainsAvatar } from '../Chains/AllChainsAvatar.js'
@@ -29,7 +30,7 @@ export const ChainSelect = memo(({ formType }: FormTypeProps) => {
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down(theme.breakpoints.values.xs)
   )
-
+  const { setFieldValue } = useFieldActions()
   const {
     chainOrder,
     chains,
@@ -73,7 +74,10 @@ export const ChainSelect = memo(({ formType }: FormTypeProps) => {
 
   const selectAllNetworks = useCallback(() => {
     setIsAllNetworks(true, formType)
-  }, [setIsAllNetworks, formType])
+    // Reset the chain and token fields when selecting all networks
+    setFieldValue(FormKeyHelper.getChainKey(formType), '', { isTouched: true })
+    setFieldValue(FormKeyHelper.getTokenKey(formType), '', { isTouched: true })
+  }, [setIsAllNetworks, formType, setFieldValue])
 
   const chainsToHide =
     chains?.length === maxChainsToShow

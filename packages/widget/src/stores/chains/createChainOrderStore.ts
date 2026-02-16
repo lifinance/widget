@@ -17,23 +17,13 @@ const defaultChainState = {
   to: [],
 }
 
-interface CreateChainOrderStoreProps extends PersistStoreProps {
-  initialIsAllNetworks?: {
-    from?: boolean
-    to?: boolean
-  }
-}
-
-export const createChainOrderStore = ({
-  namePrefix,
-  initialIsAllNetworks,
-}: CreateChainOrderStoreProps) =>
+export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
   create<ChainOrderState>()(
     persist(
       (set, get) => ({
         chainOrder: defaultChainState,
-        fromIsAllNetworks: initialIsAllNetworks?.from ?? true,
-        toIsAllNetworks: initialIsAllNetworks?.to ?? true,
+        fromIsAllNetworks: true,
+        toIsAllNetworks: true,
         fromShowAllNetworks: true,
         toShowAllNetworks: true,
         availableChains: defaultChainState,
@@ -125,13 +115,9 @@ export const createChainOrderStore = ({
       }),
       {
         name: `${namePrefix || 'li.fi'}-widget-chains-order`,
-        version: 2,
+        version: 4,
         partialize: (state) => ({
           chainOrder: state.chainOrder,
-          fromIsAllNetworks: state.fromIsAllNetworks,
-          toIsAllNetworks: state.toIsAllNetworks,
-          fromShowAllNetworks: state.fromShowAllNetworks,
-          toShowAllNetworks: state.toShowAllNetworks,
           pinnedChains: state.pinnedChains,
         }),
       }

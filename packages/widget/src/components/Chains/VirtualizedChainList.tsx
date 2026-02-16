@@ -4,7 +4,8 @@ import type { RefObject } from 'react'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
-import type { FormType } from '../../stores/form/types.js'
+import { FormKeyHelper, type FormType } from '../../stores/form/types.js'
+import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { AllChainsAvatar } from './AllChainsAvatar.js'
 import {
   List,
@@ -52,7 +53,7 @@ export const VirtualizedChainList = ({
     state.setIsAllNetworks,
     state[`${formType}ShowAllNetworks`],
   ])
-
+  const { setFieldValue } = useFieldActions()
   const onPin = useCallback(
     (chainId: number) => {
       setPinnedChain(chainId)
@@ -161,7 +162,10 @@ export const VirtualizedChainList = ({
 
   const selectAllNetworks = useCallback(() => {
     setIsAllNetworks(true, formType)
-  }, [setIsAllNetworks, formType])
+    // Reset the chain and token fields when selecting all networks
+    setFieldValue(FormKeyHelper.getChainKey(formType), '', { isTouched: true })
+    setFieldValue(FormKeyHelper.getTokenKey(formType), '', { isTouched: true })
+  }, [setIsAllNetworks, formType, setFieldValue])
 
   return (
     <List

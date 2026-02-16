@@ -3,12 +3,18 @@ import type { DefaultValues } from './types.js'
 
 interface GetDefaultValuesFromQueryStringOptions {
   includeToAddress?: boolean
+  buildUrl?: boolean
 }
 
 export const getDefaultValuesFromQueryString = ({
+  buildUrl = false,
   includeToAddress = true,
-}: GetDefaultValuesFromQueryStringOptions = {}): Partial<DefaultValues> => {
+}: GetDefaultValuesFromQueryStringOptions): Partial<DefaultValues> => {
   if (typeof window === 'undefined') {
+    return {}
+  }
+
+  if (!buildUrl) {
     return {}
   }
 
