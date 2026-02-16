@@ -23,7 +23,7 @@ export const ActiveTransactionItem: React.FC<{
   })
 
   const lastActiveStep = route?.steps.findLast((step) => step.execution)
-  const lastActiveAction = lastActiveStep?.execution?.actions.at(-1)
+  const lastActiveAction = lastActiveStep?.execution?.actions?.at(-1)
 
   const { title } = useActionMessage(lastActiveStep, lastActiveAction)
 

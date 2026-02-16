@@ -1,91 +1,24 @@
 import { useAccount } from '@lifi/wallet-management'
 import { useEffect } from 'react'
-import { useChains } from '../../hooks/useChains.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
 import { formDefaultValues } from '../../stores/form/createFormStore.js'
 import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
-import { isItemAllowed } from '../../utils/item.js'
 import type { DefaultValues } from './types.js'
 import { useFieldActions } from './useFieldActions.js'
 
 export const FormUpdater: React.FC<{
   reactiveFormValues: Partial<DefaultValues>
 }> = ({ reactiveFormValues }) => {
-  const {
-    fromChain,
-    toChain,
-    toAddress,
-    chains: configChains,
-  } = useWidgetConfig()
+  const { toAddress } = useWidgetConfig()
   const { account } = useAccount()
-  const { chains } = useChains()
   const { setSendToWallet } = useSendToWalletActions()
   const { setSelectedBookmark } = useBookmarkActions()
-  const { isTouched, resetField, setFieldValue, setUserAndDefaultValues } =
-    useFieldActions()
+  const { setUserAndDefaultValues } = useFieldActions()
 
-  // Set wallet chain as default if no chains are provided by config and if they were not changed during widget usage
-  useEffect(() => {
-    const fromChainAllowed =
-      account.chainId &&
-      chains?.some(
-        (chain) =>
-          chain.id === account.chainId &&
-          isItemAllowed(chain.id, configChains?.from)
-      )
-    const toChainAllowed =
-      account.chainId &&
-      chains?.some(
-        (chain) =>
-          chain.id === account.chainId &&
-          isItemAllowed(chain.id, configChains?.to)
-      )
-
-    if (
-      !account.isConnected ||
-      !account.chainId ||
-      (!fromChainAllowed && !toChainAllowed)
-    ) {
-      return
-    }
-
-    if (
-      !fromChain &&
-      !isTouched('fromChain') &&
-      !isTouched('fromToken') &&
-      fromChainAllowed
-    ) {
-      resetField('fromChain', { defaultValue: account.chainId })
-      setFieldValue('fromToken', '')
-      if (isTouched('fromAmount')) {
-        setFieldValue('fromAmount', '')
-      }
-    }
-    if (
-      !toChain &&
-      !isTouched('toChain') &&
-      !isTouched('toToken') &&
-      toChainAllowed
-    ) {
-      resetField('toChain', { defaultValue: account.chainId })
-      setFieldValue('toToken', '')
-    }
-  }, [
-    account.chainId,
-    account.isConnected,
-    chains,
-    fromChain,
-    toChain,
-    isTouched,
-    resetField,
-    setFieldValue,
-    configChains?.from,
-    configChains?.to,
-  ])
-
-  // Makes widget config options reactive to changes
-  // should update userValues when defaultValues updates and includes additional logic for chains
+  // React to changes in widget config options (reactiveFormValues), updating userValues accordingly.
+  // Includes special logic for chain fields, where account.chainId is only a fallback and not a direct reactivity source.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: account.chainId is used as a fallback only and does not need to be a dependency for reactivity.
   useEffect(() => {
     if (reactiveFormValues.toAddress) {
       setSendToWallet(true)
@@ -98,7 +31,6 @@ export const FormUpdater: React.FC<{
       accountForChainId(reactiveFormValues, account.chainId)
     )
   }, [
-    account.chainId,
     toAddress,
     reactiveFormValues,
     setUserAndDefaultValues,
