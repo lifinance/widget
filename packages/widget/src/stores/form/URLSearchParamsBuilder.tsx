@@ -1,6 +1,7 @@
 import { useLocation } from '@tanstack/react-router'
 import { useEffect } from 'react'
 import { useAddressValidation } from '../../hooks/useAddressValidation.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
 import { useBookmarkActions } from '../bookmarks/useBookmarkActions.js'
 import type { FormFieldNames } from '../form/types.js'
@@ -25,7 +26,7 @@ export const URLSearchParamsBuilder = () => {
   const { setSendToWallet } = useSendToWalletActions()
   const { setSelectedBookmark, addRecentWallet } = useBookmarkActions()
   const { validateAddress } = useAddressValidation()
-
+  const { buildUrl } = useWidgetConfig()
   // Using these methods as trying to use the touchedFields and values above
   // often has a lag that can effect the widgets initialisation sequence
   // and accidentally cause values to be wiped from the query string
@@ -34,7 +35,7 @@ export const URLSearchParamsBuilder = () => {
 
   useEffect(() => {
     // get the initial values from the querystring
-    const formValues = getDefaultValuesFromQueryString()
+    const formValues = getDefaultValuesFromQueryString({ buildUrl })
     const { toAddress, ...initialFormValues } = formValues
 
     /**
@@ -73,6 +74,7 @@ export const URLSearchParamsBuilder = () => {
     validateAddress,
     setSelectedBookmark,
     addRecentWallet,
+    buildUrl,
   ])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when pathname changes

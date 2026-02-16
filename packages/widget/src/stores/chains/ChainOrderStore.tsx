@@ -27,6 +27,7 @@ export function ChainOrderStoreProvider({
     hiddenUI,
     fromChain: fromChainConfig,
     toChain: toChainConfig,
+    buildUrl,
   } = useWidgetConfig()
   const storeRef = useRef<ChainOrderStore>(null)
   const { chains } = useChains()
@@ -82,7 +83,7 @@ export function ChainOrderStoreProvider({
 
         // Initialize the isAllNetworks with true if the tab is shown,
         // there is no config chain value and no url chain value
-        const urlValues = getDefaultValuesFromQueryString()
+        const urlValues = getDefaultValuesFromQueryString({ buildUrl })
         const urlChainValue =
           key === 'from' ? urlValues.fromChain : urlValues.toChain
         const configChainValue =
@@ -132,6 +133,7 @@ export function ChainOrderStoreProvider({
     swapOnly,
     fromChainConfig,
     toChainConfig,
+    buildUrl,
   ])
 
   return (

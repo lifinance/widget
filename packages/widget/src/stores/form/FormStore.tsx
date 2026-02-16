@@ -110,9 +110,10 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
   )
 
   if (!storeRef.current) {
-    const queryDefaults = buildUrl
-      ? getDefaultValuesFromQueryString({ includeToAddress: false })
-      : {}
+    const queryDefaults = getDefaultValuesFromQueryString({
+      buildUrl,
+      includeToAddress: false,
+    })
     storeRef.current = createFormStore(
       initialiseDefaultValues({
         ...reactiveFormValues,
