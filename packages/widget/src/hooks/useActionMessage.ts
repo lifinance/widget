@@ -89,6 +89,7 @@ const actionStatusMessages: Record<
     DONE: (t) => t('main.process.bridge.done'),
   },
   RECEIVING_CHAIN: {
+    STARTED: (t) => t('main.process.receivingChain.pending'),
     PENDING: (t) => t('main.process.receivingChain.pending'),
     DONE: (t, _, subvariant, subvariantOptions) =>
       subvariant === 'custom'
