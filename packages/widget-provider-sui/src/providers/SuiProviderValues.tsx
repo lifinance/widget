@@ -1,14 +1,14 @@
 import { ChainId, ChainType } from '@lifi/sdk'
 import { SuiProvider as SuiSDKProvider } from '@lifi/sdk-provider-sui'
 import { SuiContext } from '@lifi/widget-provider'
-import {
-  useConnectWallet,
-  useCurrentWallet,
-  useDisconnectWallet,
-  useWallets,
-} from '@mysten/dapp-kit'
-import type { WalletWithRequiredFeatures } from '@mysten/wallet-standard'
 import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
+import {
+  useCurrentWallet,
+  useDAppKit,
+  useWalletConnection,
+  useWallets,
+} from '../hooks.js'
+import { CurrentAccountSigner } from '../signer.js'
 
 interface SuiProviderValuesProps {
   isExternalContext: boolean
@@ -18,9 +18,10 @@ export const SuiProviderValues: FC<
   PropsWithChildren<SuiProviderValuesProps>
 > = ({ children, isExternalContext }) => {
   const wallets = useWallets()
-  const { currentWallet, connectionStatus } = useCurrentWallet()
-  const { mutateAsync: disconnect } = useDisconnectWallet()
-  const { mutateAsync: connect } = useConnectWallet()
+  const dappKit = useDAppKit()
+  const { connectWallet: connect, disconnectWallet: disconnect } = dappKit
+  const currentWallet = useCurrentWallet()
+  const { status: connectionStatus, isConnected } = useWalletConnection()
 
   const account =
     currentWallet?.accounts?.length && connectionStatus === 'connected'
@@ -29,7 +30,7 @@ export const SuiProviderValues: FC<
           chainId: ChainId.SUI,
           chainType: ChainType.MVM,
           connector: currentWallet,
-          isConnected: connectionStatus === 'connected',
+          isConnected: isConnected,
           isConnecting: false,
           isReconnecting: false,
           isDisconnected: !currentWallet,
@@ -46,14 +47,13 @@ export const SuiProviderValues: FC<
 
   const installedWallets = wallets
 
-  const isConnected = account.isConnected
-
   const sdkProvider = useMemo(
     () =>
       SuiSDKProvider({
-        getWallet: async () => currentWallet!,
+        getClient: async () => dappKit.getClient(),
+        getSigner: async () => new CurrentAccountSigner(dappKit),
       }),
-    [currentWallet]
+    [dappKit]
   )
 
   const handleConnect = useCallback(
@@ -62,20 +62,13 @@ export const SuiProviderValues: FC<
       onSuccess?: (address: string, chainId: number) => void
     ) => {
       const connector = wallets.find(
-        (wallet) => (wallet.id ?? wallet.name) === connectorIdOrName
+        (wallet) => wallet.name === connectorIdOrName
       )
       if (connector) {
-        await connect(
-          { wallet: connector as WalletWithRequiredFeatures },
-          {
-            onSuccess: (standardConnectOutput) => {
-              onSuccess?.(
-                standardConnectOutput.accounts[0].address,
-                ChainId.SUI
-              )
-            },
-          }
-        )
+        const { accounts } = await connect({ wallet: connector })
+        if (accounts.length > 0) {
+          onSuccess?.(accounts[0].address, ChainId.SUI)
+        }
       }
     },
     [connect, wallets]

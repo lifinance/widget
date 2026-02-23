@@ -43,11 +43,9 @@
     "@lifi/sdk": "^4.0.0-alpha.13",
     "@lifi/sdk-provider-sui": "^4.0.0-alpha.13",
     "@lifi/widget-provider": "workspace:*",
-    "@mysten/sui": "^1.45.2",
-    "@mysten/wallet-standard": "^0.19.9"
-  },
-  "peerDependencies": {
-    "@mysten/dapp-kit": "^0.19.11"
+    "@mysten/dapp-kit-core": "^1.0.4",
+    "@nanostores/react": "^1.0.0",
+    "@mysten/sui": "^2.4.0"
   },
   "devDependencies": {
     "cpy-cli": "^7.0.0",
