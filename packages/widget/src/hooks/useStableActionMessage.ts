@@ -1,19 +1,15 @@
-import type { ExecutionAction, LiFiStep } from '@lifi/sdk'
+import type { ExecutionAction, LiFiStepExtended } from '@lifi/sdk'
 import { useEffect, useRef, useState } from 'react'
 import { useActionMessage } from './useActionMessage.js'
 
 const DEFAULT_MIN_DISPLAY_MS = 2000
 
-/** Stable key from step/action identity (type, status, substatus, error code) to compare messages. */
-function actionMessageKey(_step: LiFiStep, action: ExecutionAction): string {
-  const errorCode =
-    action.status === 'FAILED' && action.error?.code !== undefined
-      ? String(action.error.code)
-      : ''
-  return `${action.type}-${action.status}-${action.substatus ?? ''}-${errorCode}`
-}
-
 export type ActionMessageResult = { title?: string; message?: string }
+
+/** Stable key from message content (title + message) to compare messages. */
+function messageKey(msg: ActionMessageResult): string {
+  return `${msg.title ?? ''}\n${msg.message ?? ''}`
+}
 
 /** True if the message has at least a title or body to show. */
 function hasMessageContent(msg: ActionMessageResult) {
@@ -25,14 +21,15 @@ function hasMessageContent(msg: ActionMessageResult) {
  * `minDisplayMs` before switching to a new one, so users have time to read.
  */
 export const useStableActionMessage = (
-  step?: LiFiStep,
-  action?: ExecutionAction,
-  minDisplayMs: number = DEFAULT_MIN_DISPLAY_MS
+  step: LiFiStepExtended | undefined,
+  action: ExecutionAction | undefined,
+  minDisplayMs?: number
 ): ActionMessageResult => {
   const current = useActionMessage(step, action)
   const [displayed, setDisplayed] = useState<ActionMessageResult | undefined>(
     undefined
   )
+  const minimumDisplay = minDisplayMs ?? DEFAULT_MIN_DISPLAY_MS
   const displayedKeyRef = useRef<string | undefined>(undefined)
   const displayedAtRef = useRef<number>(0)
   const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined)
@@ -45,7 +42,6 @@ export const useStableActionMessage = (
       }
     }
 
-    // No step/action: reset and clear any pending timer
     if (!step || !action) {
       setDisplayed(undefined)
       displayedKeyRef.current = undefined
@@ -53,7 +49,7 @@ export const useStableActionMessage = (
       return
     }
 
-    const currentKey = actionMessageKey(step, action)
+    const currentKey = messageKey(current)
     if (currentKey === displayedKeyRef.current) {
       return
     }
@@ -63,7 +59,7 @@ export const useStableActionMessage = (
     const isTerminalStatus =
       action.status === 'DONE' || action.status === 'FAILED'
     const minTimeElapsed =
-      displayed === undefined || elapsed >= minDisplayMs || isTerminalStatus
+      displayed === undefined || elapsed >= minimumDisplay || isTerminalStatus
 
     // First message, minimum display time passed, or terminal status (done/failed): show current immediately
     if (minTimeElapsed) {
@@ -81,10 +77,10 @@ export const useStableActionMessage = (
       displayedAtRef.current = Date.now()
       displayedKeyRef.current = undefined
       setDisplayed(undefined)
-    }, minDisplayMs - elapsed)
+    }, minimumDisplay - elapsed)
 
     return clearTimer
-  }, [step, action, current, displayed, minDisplayMs])
+  }, [step, action, current, displayed, minimumDisplay])
 
   if (!step || !action) {
     return current

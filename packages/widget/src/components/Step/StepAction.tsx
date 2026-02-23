@@ -1,4 +1,4 @@
-import type { ExecutionAction, LiFiStep } from '@lifi/sdk'
+import type { ExecutionAction, LiFiStepExtended } from '@lifi/sdk'
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import { Box, Link, Typography } from '@mui/material'
 import { useExplorer } from '../../hooks/useExplorer.js'
@@ -7,11 +7,16 @@ import { CardIconButton } from '../Card/CardIconButton.js'
 import { CircularProgress } from './CircularProgress.js'
 
 export const StepAction: React.FC<{
-  step: LiFiStep
-  action: ExecutionAction
-}> = ({ step, action }) => {
+  step: LiFiStepExtended
+  actionsGroup: ExecutionAction[]
+}> = ({ step, actionsGroup }) => {
+  const action = actionsGroup.at(-1)
   const { title, message } = useStableActionMessage(step, action)
   const { getTransactionLink } = useExplorer()
+
+  if (!action) {
+    return null
+  }
 
   const transactionLink = action.txHash
     ? getTransactionLink({
@@ -45,7 +50,7 @@ export const StepAction: React.FC<{
             marginRight: 0.5,
             flex: 1,
             fontSize: 14,
-            fontWeight: action.error ? 600 : 400,
+            fontWeight: action.status === 'FAILED' ? 600 : 400,
           }}
         >
           {title}
