@@ -3,8 +3,8 @@ import ErrorRounded from '@mui/icons-material/ErrorRounded'
 import InfoRounded from '@mui/icons-material/InfoRounded'
 import { ListItemAvatar, ListItemText, Typography } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
+import { useActionMessage } from '../../hooks/useActionMessage.js'
 import { useRouteExecution } from '../../hooks/useRouteExecution.js'
-import { useStableActionMessage } from '../../hooks/useStableActionMessage.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { TokenAvatarGroup } from '../Avatar/Avatar.style.js'
@@ -25,7 +25,7 @@ export const ActiveTransactionItem: React.FC<{
   const lastActiveStep = route?.steps.findLast((step) => step.execution)
   const lastActiveAction = lastActiveStep?.execution?.actions?.at(-1)
 
-  const { title } = useStableActionMessage(lastActiveStep, lastActiveAction)
+  const { title } = useActionMessage(lastActiveStep, lastActiveAction)
 
   if (!route || !lastActiveStep) {
     return null

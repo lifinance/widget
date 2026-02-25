@@ -1,8 +1,8 @@
 import type { ExecutionAction, LiFiStepExtended } from '@lifi/sdk'
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import { Box, Link, Typography } from '@mui/material'
+import { useActionMessage } from '../../hooks/useActionMessage.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
-import { useStableActionMessage } from '../../hooks/useStableActionMessage.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
 import { CircularProgress } from './CircularProgress.js'
 
@@ -11,7 +11,7 @@ export const StepAction: React.FC<{
   actionsGroup: ExecutionAction[]
 }> = ({ step, actionsGroup }) => {
   const action = actionsGroup.at(-1)
-  const { title, message } = useStableActionMessage(step, action)
+  const { title, message } = useActionMessage(step, action)
   const { getTransactionLink } = useExplorer()
 
   if (!action) {
