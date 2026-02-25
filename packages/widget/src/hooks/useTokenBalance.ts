@@ -134,6 +134,6 @@ export const getTokenBalancesWithRetry = async (
     }
     return tokenBalances
   } catch (_error) {
-    //
+    console.warn(_error)
   }
 }
