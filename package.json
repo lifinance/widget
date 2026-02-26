@@ -82,6 +82,8 @@
       "bs58": ">=4.0.1",
       "miniflare>zod": "3.22.3",
       "miniflare>zod-validation-error": "3.0.3",
+      "use-sync-external-store": "1.4.0",
+      "@metamask/sdk": "~0.34.0",
       "zod": ">=4.1.11"
     }
   },
