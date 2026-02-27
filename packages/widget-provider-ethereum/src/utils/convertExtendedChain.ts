@@ -14,6 +14,10 @@ type ChainBlockExplorers = {
 export const convertExtendedChain = (chain: ExtendedChain): Chain => ({
   ...chain,
   ...chain.metamask,
+  nativeCurrency: {
+    ...chain.metamask.nativeCurrency,
+    decimals: 18,
+  },
   blockExplorers: chain.metamask.blockExplorerUrls.reduce(
     (blockExplorers, blockExplorer, index) => {
       blockExplorers[index === 0 ? 'default' : `${index}`] = {
