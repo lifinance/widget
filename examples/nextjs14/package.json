@@ -9,16 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@lifi/sdk": "^3.15.6",
-    "@lifi/widget": "^3.40.5",
-    "@mui/material-nextjs": "^7.3.7",
+    "@lifi/sdk": "^3.15.7",
+    "@lifi/widget": "^3.40.8",
+    "@mui/material-nextjs": "^7.3.8",
     "next": "^14",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
   "devDependencies": {
-    "@types/node": "^25.2.0",
-    "@types/react": "^19.2.11",
+    "@types/node": "^25.3.2",
+    "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "eslint": "^8",
     "eslint-config-next": "14.2.32",

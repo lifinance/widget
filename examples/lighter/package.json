@@ -10,15 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/widget": "3.40.5",
+    "@lifi/widget": "3.40.8",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "viem": "^2.45.1"
+    "viem": "^2.46.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
-    "@types/node": "^25.2.0",
-    "@types/react": "^19.2.11",
+    "@types/node": "^25.3.2",
+    "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react-swc": "^4.2.3",
     "eslint": "^9.39.1",
@@ -26,7 +26,7 @@
     "eslint-plugin-react-refresh": "^0.4.26",
     "globals": "^17.3.0",
     "typescript": "~5.9.3",
-    "typescript-eslint": "^8.54.0",
+    "typescript-eslint": "^8.56.1",
     "vite": "^7.3.1"
   }
 }

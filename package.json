@@ -1,5 +1,5 @@
 {
-  "version": "3.40.8",
+  "version": "3.40.9",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -51,16 +51,16 @@
     }
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.3.14",
-    "@commitlint/cli": "^20.4.1",
-    "@commitlint/config-conventional": "^20.4.1",
-    "@types/node": "^25.2.0",
-    "@types/react": "^19.2.11",
+    "@biomejs/biome": "^2.4.4",
+    "@commitlint/cli": "^20.4.2",
+    "@commitlint/config-conventional": "^20.4.2",
+    "@types/node": "^25.3.2",
+    "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "fs-extra": "^11.3.3",
     "husky": "^9.1.7",
-    "knip": "^5.83.0",
-    "lerna": "^9.0.3",
+    "knip": "^5.85.0",
+    "lerna": "^9.0.4",
     "lint-staged": "^16.2.7",
     "standard-version": "^9.5.0",
     "typescript": "^5.9.3"
@@ -68,7 +68,7 @@
   "optionalDependencies": {
     "@react-native-async-storage/async-storage": ">=2.2.0",
     "db0": "^0.3.2",
-    "ioredis": "^5.9.2"
+    "ioredis": "^5.9.3"
   },
   "pnpm": {
     "overrides": {
@@ -78,5 +78,5 @@
       "@walletconnect/ethereum-provider": ">=2.22.1"
     }
   },
-  "packageManager": "pnpm@10.29.2+sha512.bef43fa759d91fd2da4b319a5a0d13ef7a45bb985a3d7342058470f9d2051a3ba8674e629672654686ef9443ad13a82da2beb9eeb3e0221c87b8154fff9d74b8"
+  "packageManager": "pnpm@10.30.3+sha512.c961d1e0a2d8e354ecaa5166b822516668b7f44cb5bd95122d590dd81922f606f5473b6d23ec4a5be05e7fcd18e8488d47d978bbe981872f1145d06e9a740017"
 }
