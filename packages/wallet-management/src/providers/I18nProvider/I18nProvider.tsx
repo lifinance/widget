@@ -30,6 +30,7 @@ export const I18nProvider: FC<PropsWithChildren<I18nProviderProps>> = ({
         caches: [],
       },
       returnEmptyString: false,
+      showSupportNotice: false,
     })
     i18n.init()
     return i18n

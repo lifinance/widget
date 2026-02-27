@@ -115,13 +115,9 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
       }),
       {
         name: `${namePrefix || 'li.fi'}-widget-chains-order`,
-        version: 2,
+        version: 4,
         partialize: (state) => ({
           chainOrder: state.chainOrder,
-          fromIsAllNetworks: state.fromIsAllNetworks,
-          toIsAllNetworks: state.toIsAllNetworks,
-          fromShowAllNetworks: state.fromShowAllNetworks,
-          toShowAllNetworks: state.toShowAllNetworks,
           pinnedChains: state.pinnedChains,
         }),
       }

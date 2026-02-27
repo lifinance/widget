@@ -7,13 +7,13 @@ export const isRouteDone = (route: RouteExtended) => {
 
 export const isRoutePartiallyDone = (route: RouteExtended) => {
   return route.steps.some((step) =>
-    step.execution?.actions.some((action) => action.substatus === 'PARTIAL')
+    step.execution?.actions?.some((action) => action.substatus === 'PARTIAL')
   )
 }
 
 export const isRouteRefunded = (route: RouteExtended) => {
   return route.steps.some((step) =>
-    step.execution?.actions.some((action) => action.substatus === 'REFUNDED')
+    step.execution?.actions?.some((action) => action.substatus === 'REFUNDED')
   )
 }
 

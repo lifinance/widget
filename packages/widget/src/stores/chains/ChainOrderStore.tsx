@@ -7,6 +7,7 @@ import { useExternalWalletProvider } from '../../providers/WalletProvider/useExt
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { HiddenUI } from '../../types/widget.js'
 import { getConfigItemSets, isItemAllowedForSets } from '../../utils/item.js'
+import { getDefaultValuesFromQueryString } from '../form/getDefaultValuesFromQueryString.js'
 import type { FormType } from '../form/types.js'
 import { useFieldActions } from '../form/useFieldActions.js'
 import type { PersistStoreProviderProps } from '../types.js'
@@ -21,7 +22,13 @@ export function ChainOrderStoreProvider({
   children,
   ...props
 }: PersistStoreProviderProps) {
-  const { chains: chainsConfig, hiddenUI } = useWidgetConfig()
+  const {
+    chains: chainsConfig,
+    hiddenUI,
+    fromChain: fromChainConfig,
+    toChain: toChainConfig,
+    buildUrl,
+  } = useWidgetConfig()
   const storeRef = useRef<ChainOrderStore>(null)
   const { chains } = useChains()
   const { setFieldValue, getFieldValues } = useFieldActions()
@@ -31,7 +38,9 @@ export function ChainOrderStoreProvider({
     useExternalWalletProvider()
 
   if (!storeRef.current) {
-    storeRef.current = createChainOrderStore(props)
+    storeRef.current = createChainOrderStore({
+      ...props,
+    })
   }
 
   useEffect(() => {
@@ -71,9 +80,17 @@ export function ChainOrderStoreProvider({
           filteredChains.length > 1 &&
           !hiddenUI?.includes(HiddenUI.AllNetworks) &&
           !isSwapTo
-        if (!showAllNetworks) {
-          storeRef.current?.getState().setIsAllNetworks(false, key)
-        }
+
+        // Initialize the isAllNetworks with true if the tab is shown,
+        // there is no config chain value and no url chain value
+        const urlValues = getDefaultValuesFromQueryString({ buildUrl })
+        const urlChainValue =
+          key === 'from' ? urlValues.fromChain : urlValues.toChain
+        const configChainValue =
+          key === 'from' ? fromChainConfig : toChainConfig
+        const initialIsAllNetworks =
+          showAllNetworks && !configChainValue && !urlChainValue
+        storeRef.current?.getState().setIsAllNetworks(initialIsAllNetworks, key)
         storeRef.current?.getState().setShowAllNetworks(showAllNetworks, key)
 
         // If swap only, set the to chain to the from chain
@@ -114,6 +131,9 @@ export function ChainOrderStoreProvider({
     subvariantOptions?.wide?.disableChainSidebar,
     hiddenUI,
     swapOnly,
+    fromChainConfig,
+    toChainConfig,
+    buildUrl,
   ])
 
   return (

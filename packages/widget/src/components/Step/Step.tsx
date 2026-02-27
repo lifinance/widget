@@ -22,7 +22,7 @@ export const Step: React.FC<{
   const { t } = useTranslation()
   const { subvariant, subvariantOptions } = useWidgetConfig()
   const { getAddressLink } = useExplorer()
-  const stepHasError = step.execution?.actions.some(
+  const stepHasError = step.execution?.actions?.some(
     (action) => action.status === 'FAILED'
   )
 
@@ -90,7 +90,7 @@ export const Step: React.FC<{
       >
         {fromToken ? <Token token={fromToken} px={2} py={1} /> : null}
         <StepActions step={step} px={2} py={1} dense />
-        {step.execution?.actions.map((action, index) => (
+        {step.execution?.actions?.map((action, index) => (
           <StepAction key={index} step={step} action={action} />
         ))}
         {formattedToAddress && toAddressLink ? (
