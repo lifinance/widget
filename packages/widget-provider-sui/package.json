@@ -43,9 +43,8 @@
     "@lifi/sdk": "^4.0.0-alpha.13",
     "@lifi/sdk-provider-sui": "^4.0.0-alpha.13",
     "@lifi/widget-provider": "workspace:*",
-    "@mysten/dapp-kit-core": "^1.0.4",
-    "@nanostores/react": "^1.0.0",
-    "@mysten/sui": "^2.4.0"
+    "@mysten/dapp-kit-react": "^2.0.0",
+    "@mysten/sui": "^2.5.0"
   },
   "devDependencies": {
     "cpy-cli": "^7.0.0",
