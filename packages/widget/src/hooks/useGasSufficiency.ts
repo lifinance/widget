@@ -104,12 +104,14 @@ export const useGasSufficiency = (route?: RouteExtended) => {
                   amount + BigInt(Number(gasCost.amount).toFixed(0)),
                 0n
               )
-              groupedGasCosts[token.chainId] = {
-                gasAmount: groupedGasCosts[token.chainId]
-                  ? groupedGasCosts[token.chainId].gasAmount + gasCostAmount
-                  : gasCostAmount,
-                token,
-                chain: getChainById(token.chainId),
+              if (gasCostAmount > 0n) {
+                groupedGasCosts[token.chainId] = {
+                  gasAmount: groupedGasCosts[token.chainId]
+                    ? groupedGasCosts[token.chainId].gasAmount + gasCostAmount
+                    : gasCostAmount,
+                  token,
+                  chain: getChainById(token.chainId),
+                }
               }
             }
             // Add fees paid in native tokens to gas sufficiency check (included: false)
@@ -123,12 +125,14 @@ export const useGasSufficiency = (route?: RouteExtended) => {
                   amount + BigInt(Number(feeCost.amount).toFixed(0)),
                 0n
               )
-              groupedGasCosts[token.chainId] = {
-                gasAmount: groupedGasCosts[token.chainId]
-                  ? groupedGasCosts[token.chainId].gasAmount + feeCostAmount
-                  : feeCostAmount,
-                token,
-                chain: getChainById(token.chainId),
+              if (feeCostAmount > 0n) {
+                groupedGasCosts[token.chainId] = {
+                  gasAmount: groupedGasCosts[token.chainId]
+                    ? groupedGasCosts[token.chainId].gasAmount + feeCostAmount
+                    : feeCostAmount,
+                  token,
+                  chain: getChainById(token.chainId),
+                }
               }
             }
             return groupedGasCosts
