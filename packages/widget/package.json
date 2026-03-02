@@ -39,8 +39,10 @@
     "swap",
     "cross-chain",
     "multi-chain",
-    "metamask",
     "ethereum",
+    "solana",
+    "bitcoin",
+    "sui",
     "web3",
     "lifi"
   ],

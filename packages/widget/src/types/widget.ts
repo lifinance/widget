@@ -302,6 +302,10 @@ export type ExplorerUrl =
       addressPath?: string
     }
 
+export type WidgetProvider = (
+  props: PropsWithChildren<WidgetProviderProps>
+) => ReactNode
+
 export interface WidgetConfig {
   fromChain?: number
   toChain?: number
@@ -314,7 +318,7 @@ export interface WidgetConfig {
   toAmount?: number | string
   formUpdateKey?: string
 
-  providers?: ((props: PropsWithChildren<WidgetProviderProps>) => ReactNode)[]
+  providers?: WidgetProvider[]
 
   contractCalls?: ContractCall[]
   contractComponent?: ReactNode

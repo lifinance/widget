@@ -1,59 +1,42 @@
 import { LiFiWidget } from '@lifi/widget'
-import { Box, CssBaseline } from '@mui/material'
-import type { NFTNetwork } from './components/NFTOpenSea/index.js'
-import {
-  NFTOpenSea,
-  NFTOpenSeaSecondary,
-  openSeaContractTool,
-} from './components/NFTOpenSea/index.js'
-import { widgetConfig } from './config.js'
-import './index.css'
+import { EthereumProvider } from '@lifi/widget-provider-ethereum'
+import { useEmbeddedWidgetConfig } from './providers/WidgetConfigProvider.js'
 
-export const App = () => {
-  const pathnameParams = window.location.pathname.substring(1).split('/')
+/**
+ * Providers injected locally — these are React component factories that cannot
+ * be serialised over postMessage. Only EthereumProvider is included because the
+ * host bridge (`useWidgetLightHost`) is EVM-only (wagmi WalletClient / PublicClient).
+ *
+ * EthereumProvider detects the existing WagmiContext supplied by WalletProvider
+ * and uses it as an external context, so the widgetLightIframe connector is
+ * picked up automatically without creating a second wagmi instance.
+ */
+const IFRAME_PROVIDERS = [EthereumProvider()]
+
+/**
+ * Guest (iframe) app.
+ *
+ * Connection lifecycle:
+ *  1. WidgetConfigProvider listens for INIT and stores the widget config.
+ *  2. WalletProvider creates a wagmi config with widgetLightIframe() and
+ *     syncs chains from the LI.FI API via useSyncWagmiConfig.
+ *  3. The connector's setup() creates the IframeProvider which sends READY
+ *     to the host and awaits INIT with accounts + chainId.
+ *  4. When INIT arrives the connector emits wagmi 'connect' and the widget
+ *     config context updates, rendering this component.
+ */
+export function App() {
+  const widgetConfig = useEmbeddedWidgetConfig()
+
+  if (!widgetConfig) {
+    return null
+  }
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        height: '100vh',
-      }}
-    >
-      <CssBaseline />
-      <Box
-        sx={{
-          flex: 1,
-          margin: 'auto',
-        }}
-      >
-        <LiFiWidget
-          contractComponent={
-            <NFTOpenSea
-              network={pathnameParams[0] as NFTNetwork}
-              contractAddress={pathnameParams[1]}
-              tokenId={pathnameParams[2]}
-            />
-          }
-          contractSecondaryComponent={
-            <NFTOpenSeaSecondary
-              network={pathnameParams[0] as NFTNetwork}
-              contractAddress={pathnameParams[1]}
-              tokenId={pathnameParams[2]}
-            />
-          }
-          contractCompactComponent={
-            <NFTOpenSeaSecondary
-              network={pathnameParams[0] as NFTNetwork}
-              contractAddress={pathnameParams[1]}
-              tokenId={pathnameParams[2]}
-            />
-          }
-          contractTool={openSeaContractTool}
-          config={widgetConfig}
-          integrator={widgetConfig.integrator}
-          open
-        />
-      </Box>
-    </Box>
+    <LiFiWidget
+      integrator={(widgetConfig.integrator as string) ?? 'widget-embedded'}
+      providers={IFRAME_PROVIDERS}
+      config={widgetConfig}
+    />
   )
 }

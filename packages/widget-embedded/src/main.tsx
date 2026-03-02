@@ -1,7 +1,9 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import React from 'react'
+import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { App } from './App.js'
+import { WalletProvider } from './providers/WalletProvider.js'
+import { WidgetConfigProvider } from './providers/WidgetConfigProvider.js'
 import { reportWebVitals } from './reportWebVitals.js'
 
 const rootElement = document.getElementById('root')
@@ -32,13 +34,15 @@ export const queryClient = new QueryClient({
 const root = createRoot(rootElement)
 
 root.render(
-  <React.StrictMode>
+  <StrictMode>
     <QueryClientProvider client={queryClient}>
-      {/* <WalletProvider> */}
-      <App />
-      {/* </WalletProvider> */}
+      <WidgetConfigProvider>
+        <WalletProvider>
+          <App />
+        </WalletProvider>
+      </WidgetConfigProvider>
     </QueryClientProvider>
-  </React.StrictMode>
+  </StrictMode>
 )
 
 // If you want to start measuring performance in your app, pass a function
