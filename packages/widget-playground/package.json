@@ -24,6 +24,8 @@
   },
   "dependencies": {
     "@base-org/account": "~2.5.2",
+    "@bigmi/core": "^0.7.0",
+    "@bigmi/client": "^0.7.0",
     "@bigmi/react": "^0.7.0",
     "@coinbase/wallet-sdk": "~4.3.6",
     "@emotion/react": "^11.14.0",
@@ -40,8 +42,9 @@
     "@mui/material": "^7.3.6",
     "@mui/system": "^7.3.6",
     "@mysten/dapp-kit": "^0.20.0",
-    "@reown/appkit": ">=1.8.15",
+    "@reown/appkit": ">=1.8.16",
     "@reown/appkit-adapter-solana": "^1.8.17",
+    "@reown/appkit-adapter-bitcoin": "^1.8.17",
     "@reown/appkit-adapter-wagmi": "^1.8.17",
     "@reown/appkit-common": "^1.8.17",
     "@walletconnect/ethereum-provider": "~2.23.4",
@@ -52,7 +55,7 @@
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "viem": "^2.45.1",
-    "wagmi": "^3.1.0",
+    "wagmi": "^3.3.2",
     "zustand": "^5.0.11"
   },
   "devDependencies": {
