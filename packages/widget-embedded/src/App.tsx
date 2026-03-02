@@ -1,17 +1,16 @@
 import { LiFiWidget } from '@lifi/widget'
+import { BitcoinProvider } from '@lifi/widget-provider-bitcoin'
 import { EthereumProvider } from '@lifi/widget-provider-ethereum'
+import { SolanaProvider } from '@lifi/widget-provider-solana'
+import { SuiProvider } from '@lifi/widget-provider-sui'
 import { useEmbeddedWidgetConfig } from './providers/WidgetConfigProvider.js'
 
-/**
- * Providers injected locally — these are React component factories that cannot
- * be serialised over postMessage. Only EthereumProvider is included because the
- * host bridge (`useWidgetLightHost`) is EVM-only (wagmi WalletClient / PublicClient).
- *
- * EthereumProvider detects the existing WagmiContext supplied by WalletProvider
- * and uses it as an external context, so the widgetLightIframe connector is
- * picked up automatically without creating a second wagmi instance.
- */
-const IFRAME_PROVIDERS = [EthereumProvider()]
+const IFRAME_PROVIDERS = [
+  EthereumProvider(),
+  SolanaProvider(),
+  BitcoinProvider(),
+  SuiProvider(),
+]
 
 /**
  * Guest (iframe) app.
@@ -20,10 +19,12 @@ const IFRAME_PROVIDERS = [EthereumProvider()]
  *  1. WidgetConfigProvider listens for INIT and stores the widget config.
  *  2. WalletProvider creates a wagmi config with widgetLightIframe() and
  *     syncs chains from the LI.FI API via useSyncWagmiConfig.
- *  3. The connector's setup() creates the IframeProvider which sends READY
- *     to the host and awaits INIT with accounts + chainId.
+ *  3. The connector's setup() creates the EthereumIframeProvider which sends
+ *     READY to the host and awaits INIT with ecosystem states.
  *  4. When INIT arrives the connector emits wagmi 'connect' and the widget
  *     config context updates, rendering this component.
+ *  5. Non-EVM providers (Solana, Bitcoin, Sui) receive their init state from
+ *     the ecosystems[] array in the INIT message.
  */
 export function App() {
   const widgetConfig = useEmbeddedWidgetConfig()

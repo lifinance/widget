@@ -47,6 +47,7 @@
     "@mysten/wallet-standard": "^0.19.9"
   },
   "peerDependencies": {
+    "@lifi/widget-light": "workspace:*",
     "@mysten/dapp-kit": "^0.19.11"
   },
   "devDependencies": {

@@ -49,6 +49,7 @@
     "zustand": "^5.0.11"
   },
   "peerDependencies": {
+    "@lifi/widget-light": "workspace:*",
     "bs58": ">=4.0.1"
   },
   "devDependencies": {

@@ -16,6 +16,12 @@
 export const WIDGET_LIGHT_SOURCE = 'widget-light' as const
 
 // ---------------------------------------------------------------------------
+// Chain type discriminator
+// ---------------------------------------------------------------------------
+
+export type WidgetLightChainType = 'EVM' | 'SVM' | 'UTXO' | 'MVM'
+
+// ---------------------------------------------------------------------------
 // WidgetLightConfig
 // ---------------------------------------------------------------------------
 
@@ -38,6 +44,30 @@ export interface RpcError {
 }
 
 // ---------------------------------------------------------------------------
+// Ecosystem init state — per-chain-type payload inside INIT
+// ---------------------------------------------------------------------------
+
+export interface EcosystemInitState {
+  chainType: WidgetLightChainType
+  state: unknown
+}
+
+// ---------------------------------------------------------------------------
+// Handler interface — implemented by each widget-provider-* package
+// ---------------------------------------------------------------------------
+
+export interface IframeEcosystemHandler {
+  chainType: WidgetLightChainType
+  /** Initial state sent with INIT (e.g. { accounts, chainId } for EVM). */
+  getInitState(): EcosystemInitState | null
+  /** Handle an RPC request forwarded from the guest iframe. */
+  handleRequest(id: string, method: string, params?: unknown): Promise<unknown>
+  /** Subscribe to wallet state changes; callback sends EVENTs to guest.
+   *  Returns an unsubscribe function. */
+  subscribe(emit: (event: string, data: unknown) => void): () => void
+}
+
+// ---------------------------------------------------------------------------
 // Guest → Host messages
 // ---------------------------------------------------------------------------
 
@@ -48,15 +78,17 @@ export interface GuestReadyMessage {
 }
 
 /**
- * EIP-1193 `request()` forwarded from the iframe to the parent.
- * The `id` is used to match the response.
+ * RPC `request()` forwarded from the iframe to the parent.
+ * The `id` is used to match the response; `chainType` routes to the
+ * correct ecosystem handler on the host.
  */
 export interface GuestRpcRequest {
   source: typeof WIDGET_LIGHT_SOURCE
   type: 'RPC_REQUEST'
+  chainType: WidgetLightChainType
   id: string
   method: string
-  params?: unknown[]
+  params?: unknown
 }
 
 /**
@@ -81,38 +113,34 @@ export type GuestMessage =
 
 /**
  * Sent by the host in response to READY.
- * Contains the widget config and the current wallet state.
+ * Contains the widget config and per-ecosystem initial wallet state.
  */
 export interface HostInitMessage {
   source: typeof WIDGET_LIGHT_SOURCE
   type: 'INIT'
   config: WidgetLightConfig
-  chainId: number
-  accounts: string[]
+  ecosystems: EcosystemInitState[]
 }
 
 /** Response to a GuestRpcRequest. Carries either the result or an RPC error. */
 export interface HostRpcResponse {
   source: typeof WIDGET_LIGHT_SOURCE
   type: 'RPC_RESPONSE'
+  chainType: WidgetLightChainType
   id: string
   result?: unknown
   error?: RpcError
 }
 
 /**
- * EIP-1193 provider events pushed from the host when wallet state changes.
- *
- * Events and their data shapes:
- *   accountsChanged → string[]
- *   chainChanged    → `0x${string}` (hex chainId per EIP-1193)
- *   connect         → { chainId: `0x${string}` }
- *   disconnect      → RpcError  (CloseEvent status code in `code`)
+ * Wallet events pushed from the host when wallet state changes.
+ * Routed to the guest ecosystem provider matching `chainType`.
  */
 export interface HostEventMessage {
   source: typeof WIDGET_LIGHT_SOURCE
   type: 'EVENT'
-  event: 'accountsChanged' | 'chainChanged' | 'connect' | 'disconnect'
+  chainType: WidgetLightChainType
+  event: string
   data: unknown
 }
 

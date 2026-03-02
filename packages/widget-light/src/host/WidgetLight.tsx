@@ -1,5 +1,8 @@
 import type { CSSProperties } from 'react'
-import type { WidgetLightConfig } from '../shared/protocol.js'
+import type {
+  IframeEcosystemHandler,
+  WidgetLightConfig,
+} from '../shared/protocol.js'
 import { useWidgetLightHost } from './useWidgetLightHost.js'
 
 export interface WidgetLightProps {
@@ -10,6 +13,11 @@ export interface WidgetLightProps {
    * Must be JSON-serialisable (no React nodes or functions).
    */
   config: WidgetLightConfig
+  /**
+   * Ecosystem-specific handlers that process RPC requests and push events.
+   * Each handler is responsible for one chain type (EVM, SVM, UTXO, MVM).
+   */
+  handlers?: IframeEcosystemHandler[]
   /**
    * Expected origin of the iframe for origin-pinning security.
    * Defaults to '*' — always set this in production.
@@ -25,9 +33,10 @@ export interface WidgetLightProps {
  * wires up the widget-light postMessage bridge using `useWidgetLightHost`.
  *
  * @example
- * <WidgetLightIframe
+ * <WidgetLight
  *   src="/widget.html"
  *   config={{ integrator: 'my-app', fromChain: 1 }}
+ *   handlers={[ethHandler, solHandler]}
  *   iframeOrigin="http://localhost:4000"
  *   style={{ width: 392, height: 640, borderRadius: 16 }}
  * />
@@ -35,12 +44,17 @@ export interface WidgetLightProps {
 export function WidgetLight({
   src,
   config,
+  handlers,
   iframeOrigin,
   style,
   className,
   title = 'LI.FI Widget',
 }: WidgetLightProps) {
-  const { iframeRef } = useWidgetLightHost({ config, iframeOrigin })
+  const { iframeRef } = useWidgetLightHost({
+    config,
+    handlers,
+    iframeOrigin,
+  })
 
   return (
     <iframe

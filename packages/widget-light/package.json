@@ -54,12 +54,8 @@
     "vitest": "^4.0.18"
   },
   "peerDependencies": {
-    "react": ">=18",
-    "wagmi": "^3",
-    "@wagmi/core": "^3",
-    "viem": "^2"
+    "react": ">=18"
   },
-  "peerDependenciesMeta": {},
   "files": [
     "dist/**",
     "src/**",

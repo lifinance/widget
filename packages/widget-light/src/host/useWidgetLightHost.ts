@@ -1,13 +1,10 @@
 import { useCallback, useEffect, useRef } from 'react'
-import {
-  useConnection,
-  usePublicClient,
-  useSwitchChain,
-  useWalletClient,
-} from 'wagmi'
-import type { HostMessage, WidgetLightConfig } from '../shared/protocol.js'
+import type {
+  HostMessage,
+  IframeEcosystemHandler,
+  WidgetLightConfig,
+} from '../shared/protocol.js'
 import { WIDGET_LIGHT_SOURCE } from '../shared/protocol.js'
-import { handleRpcRequest } from './rpcHandler.js'
 
 export interface UseWidgetLightHostOptions {
   /**
@@ -15,6 +12,11 @@ export interface UseWidgetLightHostOptions {
    * Must be JSON-serialisable (no React nodes or functions).
    */
   config: WidgetLightConfig
+  /**
+   * Ecosystem-specific handlers that process RPC requests and push events.
+   * Each handler is responsible for one chain type (EVM, SVM, UTXO, MVM).
+   */
+  handlers?: IframeEcosystemHandler[]
   /**
    * Expected origin of the iframe (e.g. 'http://localhost:4000').
    * Messages from other origins are silently dropped.
@@ -35,16 +37,17 @@ export interface UseWidgetLightHostOptions {
  *
  * Responsibilities:
  *  - Receives READY from the iframe and responds with INIT.
- *  - Routes RPC_REQUEST messages to viem WalletClient / PublicClient.
- *  - Pushes EIP-1193 events (accountsChanged, chainChanged) to the iframe
- *    whenever the host's wallet state changes.
+ *  - Routes RPC_REQUEST messages to the matching ecosystem handler.
+ *  - Forwards EVENTs from ecosystem handlers to the iframe.
  *
  * Returns a `ref` to attach to the <iframe> element.
  *
  * @example
  * function HostPage() {
+ *   const ethHandler = useEthereumIframeHandler()
  *   const { iframeRef } = useWidgetLightHost({
  *     config: { integrator: 'my-app', fromChain: 1, toChain: 137 },
+ *     handlers: [ethHandler],
  *     iframeOrigin: 'http://localhost:4000',
  *   })
  *   return <iframe ref={iframeRef} src="http://localhost:4000/widget.html" />
@@ -52,28 +55,14 @@ export interface UseWidgetLightHostOptions {
  */
 export function useWidgetLightHost({
   config,
+  handlers = [],
   iframeOrigin,
   autoResize = true,
 }: UseWidgetLightHostOptions) {
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
-  // wagmi v3: useAccount renamed to useConnection
-  const { address, chainId } = useConnection()
-  const { data: walletClient } = useWalletClient()
-  const publicClient = usePublicClient()
-  // wagmi v3: switchChainAsync renamed to mutateAsync
-  const { mutateAsync: switchChainAsync } = useSwitchChain()
-
-  // Keep the latest values in a ref so the stable message handler closure
-  // always reads fresh state without being re-created on every render.
-  const stateRef = useRef({
-    address,
-    chainId,
-    walletClient,
-    publicClient,
-    config,
-  })
-  stateRef.current = { address, chainId, walletClient, publicClient, config }
+  const stateRef = useRef({ config, handlers })
+  stateRef.current = { config, handlers }
 
   // ---------------------------------------------------------------------------
   // Memoised helper — stable reference so it can be a proper effect dependency
@@ -107,13 +96,18 @@ export function useWidgetLightHost({
 
       // ── READY ──────────────────────────────────────────────────────────────
       if (msg.type === 'READY') {
-        const { address, chainId, config } = stateRef.current
+        const { config, handlers } = stateRef.current
+        const ecosystems = handlers
+          .map((h) => h.getInitState())
+          .filter(Boolean) as NonNullable<
+          ReturnType<IframeEcosystemHandler['getInitState']>
+        >[]
+
         sendToIframe({
           source: WIDGET_LIGHT_SOURCE,
           type: 'INIT',
           config,
-          chainId: chainId ?? 1,
-          accounts: address ? [address] : [],
+          ecosystems,
         })
         return
       }
@@ -128,21 +122,32 @@ export function useWidgetLightHost({
 
       // ── RPC_REQUEST ────────────────────────────────────────────────────────
       if (msg.type === 'RPC_REQUEST') {
-        const { address, chainId, walletClient, publicClient } =
-          stateRef.current
-        try {
-          const result = await handleRpcRequest(msg.method, msg.params, {
-            address,
-            chainId,
-            walletClient,
-            publicClient,
-            switchChain: async (targetChainId) => {
-              await switchChainAsync({ chainId: targetChainId })
-            },
-          })
+        const { handlers } = stateRef.current
+        const handler = handlers.find((h) => h.chainType === msg.chainType)
+        if (!handler) {
           sendToIframe({
             source: WIDGET_LIGHT_SOURCE,
             type: 'RPC_RESPONSE',
+            chainType: msg.chainType,
+            id: msg.id,
+            error: {
+              code: -32601,
+              message: `No handler registered for chain type: ${msg.chainType}`,
+            },
+          })
+          return
+        }
+
+        try {
+          const result = await handler.handleRequest(
+            msg.id,
+            msg.method,
+            msg.params
+          )
+          sendToIframe({
+            source: WIDGET_LIGHT_SOURCE,
+            type: 'RPC_RESPONSE',
+            chainType: msg.chainType,
             id: msg.id,
             result,
           })
@@ -151,6 +156,7 @@ export function useWidgetLightHost({
           sendToIframe({
             source: WIDGET_LIGHT_SOURCE,
             type: 'RPC_RESPONSE',
+            chainType: msg.chainType,
             id: msg.id,
             error: {
               code: e.code ?? -32000,
@@ -164,41 +170,29 @@ export function useWidgetLightHost({
 
     window.addEventListener('message', handleMessage)
     return () => window.removeEventListener('message', handleMessage)
-  }, [autoResize, iframeOrigin, sendToIframe, switchChainAsync])
+  }, [autoResize, iframeOrigin, sendToIframe])
 
   // ---------------------------------------------------------------------------
-  // Push accountsChanged whenever the host account changes
+  // Subscribe to each handler's events and forward them to the iframe
   // ---------------------------------------------------------------------------
   useEffect(() => {
-    sendToIframe({
-      source: WIDGET_LIGHT_SOURCE,
-      type: 'EVENT',
-      event: 'accountsChanged',
-      data: address ? [address] : [],
-    })
-  }, [address, sendToIframe])
-
-  // ---------------------------------------------------------------------------
-  // Push chainChanged + connect whenever the host chain changes
-  // ---------------------------------------------------------------------------
-  useEffect(() => {
-    if (!chainId) {
-      return
+    const unsubscribes = handlers.map((handler) =>
+      handler.subscribe((event, data) => {
+        sendToIframe({
+          source: WIDGET_LIGHT_SOURCE,
+          type: 'EVENT',
+          chainType: handler.chainType,
+          event,
+          data,
+        })
+      })
+    )
+    return () => {
+      for (const unsub of unsubscribes) {
+        unsub()
+      }
     }
-    const hexChainId = `0x${chainId.toString(16)}` as const
-    sendToIframe({
-      source: WIDGET_LIGHT_SOURCE,
-      type: 'EVENT',
-      event: 'chainChanged',
-      data: hexChainId,
-    })
-    sendToIframe({
-      source: WIDGET_LIGHT_SOURCE,
-      type: 'EVENT',
-      event: 'connect',
-      data: { chainId: hexChainId },
-    })
-  }, [chainId, sendToIframe])
+  }, [handlers, sendToIframe])
 
   return { iframeRef }
 }

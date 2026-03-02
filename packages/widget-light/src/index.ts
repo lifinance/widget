@@ -1,9 +1,9 @@
-export { widgetLightIframe } from './guest/iframeConnector.js'
 export type { UseWidgetLightHostOptions } from './host/useWidgetLightHost.js'
 export { useWidgetLightHost } from './host/useWidgetLightHost.js'
 export type { WidgetLightProps as WidgetLightIframeProps } from './host/WidgetLight.js'
 export { WidgetLight as LiFiWidgetLight } from './host/WidgetLight.js'
 export type {
+  EcosystemInitState,
   GuestMessage,
   GuestReadyMessage,
   GuestResizeMessage,
@@ -12,7 +12,9 @@ export type {
   HostInitMessage,
   HostMessage,
   HostRpcResponse,
+  IframeEcosystemHandler,
   RpcError,
+  WidgetLightChainType,
   WidgetLightConfig,
 } from './shared/protocol.js'
 export {

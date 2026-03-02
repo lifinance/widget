@@ -1,7 +1,9 @@
 import type { WidgetConfig } from '@lifi/widget'
 import { useWidgetChains } from '@lifi/widget'
-import { widgetLightIframe } from '@lifi/widget-light'
-import { useSyncWagmiConfig } from '@lifi/widget-provider-ethereum'
+import {
+  useSyncWagmiConfig,
+  widgetLightIframe,
+} from '@lifi/widget-provider-ethereum'
 import { type FC, type PropsWithChildren, useMemo, useRef } from 'react'
 import { createClient, http } from 'viem'
 import { mainnet } from 'viem/chains'

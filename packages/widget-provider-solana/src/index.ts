@@ -2,6 +2,8 @@ export {
   type UseWalletAccountReturn,
   useWalletAccount,
 } from './hooks/useWalletAccount'
+export { SolanaIframeProvider } from './iframe/SolanaIframeProvider.js'
+export { useSolanaIframeHandler } from './iframe/useSolanaIframeHandler.js'
 export { SolanaProvider } from './providers/SolanaProvider.js'
 export type {
   AccountInfo,
