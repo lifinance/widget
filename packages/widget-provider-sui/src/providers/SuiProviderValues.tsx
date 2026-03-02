@@ -1,14 +1,14 @@
 import { ChainId, ChainType } from '@lifi/sdk'
 import { SuiProvider as SuiSDKProvider } from '@lifi/sdk-provider-sui'
 import { SuiContext } from '@lifi/widget-provider'
-import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
 import {
   useCurrentWallet,
   useDAppKit,
   useWalletConnection,
   useWallets,
-} from '../hooks.js'
-import { CurrentAccountSigner } from '../signer.js'
+} from '@mysten/dapp-kit-react'
+import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
+import { WalletSigner } from '../signer.js'
 
 interface SuiProviderValuesProps {
   isExternalContext: boolean
@@ -51,7 +51,7 @@ export const SuiProviderValues: FC<
     () =>
       SuiSDKProvider({
         getClient: async () => dappKit.getClient(),
-        getSigner: async () => new CurrentAccountSigner(dappKit),
+        getSigner: async () => new WalletSigner(dappKit),
       }),
     [dappKit]
   )

@@ -41,7 +41,6 @@
     "@mui/lab": "^7.0.1-beta.20",
     "@mui/material": "^7.3.6",
     "@mui/system": "^7.3.6",
-    "@mysten/dapp-kit": "^0.20.0",
     "@reown/appkit": ">=1.8.16",
     "@reown/appkit-adapter-solana": "^1.8.17",
     "@reown/appkit-adapter-bitcoin": "^1.8.17",
