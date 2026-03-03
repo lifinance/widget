@@ -4,7 +4,8 @@ import {
   DAppKitProvider,
   type DefaultExpectedDppKit,
 } from '@mysten/dapp-kit-react'
-import { getJsonRpcFullnodeUrl, SuiJsonRpcClient } from '@mysten/sui/jsonRpc'
+import { SuiGrpcClient } from '@mysten/sui/grpc'
+import { getJsonRpcFullnodeUrl } from '@mysten/sui/jsonRpc'
 import {
   type FC,
   type PropsWithChildren,
@@ -37,9 +38,10 @@ export const SuiBaseProvider: FC<PropsWithChildren<SuiBaseProviderProps>> = ({
       dappKit.current = createDAppKit({
         networks: ['mainnet'],
         createClient: (network) =>
-          new SuiJsonRpcClient({
+          new SuiGrpcClient({
             network,
-            url: sui?.metamask?.rpcUrls[0] ?? getJsonRpcFullnodeUrl('mainnet'),
+            baseUrl:
+              sui?.metamask?.rpcUrls[0] ?? getJsonRpcFullnodeUrl('mainnet'),
           }),
         autoConnect: true,
         storage: localStorage,
