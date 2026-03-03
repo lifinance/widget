@@ -49,11 +49,9 @@ export const SuiBaseProvider: FC<PropsWithChildren<SuiBaseProviderProps>> = ({
     }
   }, [chains, storageKey])
 
-  if (!ready) {
+  if (!ready || !dappKit.current) {
     return null
   }
 
-  return (
-    <DAppKitProvider dAppKit={dappKit.current!}>{children}</DAppKitProvider>
-  )
+  return <DAppKitProvider dAppKit={dappKit.current}>{children}</DAppKitProvider>
 }

@@ -8,7 +8,7 @@ import {
   useWallets,
 } from '@mysten/dapp-kit-react'
 import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
-import { WalletSigner } from '../signer.js'
+import { WalletSigner } from '../WalletSigner.js'
 
 interface SuiProviderValuesProps {
   isExternalContext: boolean
