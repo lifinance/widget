@@ -5,6 +5,13 @@
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./ethereum": "./src/handlers/ethereum/index.ts",
+    "./solana": "./src/handlers/solana/index.ts",
+    "./bitcoin": "./src/handlers/bitcoin/index.ts",
+    "./sui": "./src/handlers/sui/index.ts"
+  },
   "sideEffects": false,
   "scripts": {
     "watch": "tsc -w -p ./tsconfig.json",
@@ -54,7 +61,37 @@
     "vitest": "^4.0.18"
   },
   "peerDependencies": {
-    "react": ">=18"
+    "react": ">=18",
+    "wagmi": "^3.x",
+    "@wagmi/core": "^3.x",
+    "viem": "^2.x",
+    "@bigmi/client": "^0.7.x",
+    "@bigmi/react": "^0.7.x",
+    "@mysten/dapp-kit": "^0.19.x",
+    "@wallet-standard/base": "^1.1.0"
+  },
+  "peerDependenciesMeta": {
+    "wagmi": {
+      "optional": true
+    },
+    "@wagmi/core": {
+      "optional": true
+    },
+    "viem": {
+      "optional": true
+    },
+    "@bigmi/client": {
+      "optional": true
+    },
+    "@bigmi/react": {
+      "optional": true
+    },
+    "@mysten/dapp-kit": {
+      "optional": true
+    },
+    "@wallet-standard/base": {
+      "optional": true
+    }
   },
   "files": [
     "dist/**",

@@ -1,6 +1,6 @@
-import type { IframeEcosystemHandler } from '@lifi/widget-light'
 import { useCurrentWallet, useWallets } from '@mysten/dapp-kit'
 import { useCallback, useEffect, useRef } from 'react'
+import type { IframeEcosystemHandler } from '../../shared/protocol.js'
 
 /**
  * Host-side hook that creates an `IframeEcosystemHandler` for Sui (MVM).

@@ -1,14 +1,12 @@
 import type { WidgetConfig } from '@lifi/widget'
 import { useWidgetChains } from '@lifi/widget'
-import {
-  useSyncWagmiConfig,
-  widgetLightIframe,
-} from '@lifi/widget-provider-ethereum'
+import { useSyncWagmiConfig } from '@lifi/widget-provider-ethereum'
 import { type FC, type PropsWithChildren, useMemo, useRef } from 'react'
 import { createClient, http } from 'viem'
 import { mainnet } from 'viem/chains'
 import type { Config, CreateConnectorFn } from 'wagmi'
 import { createConfig, WagmiProvider } from 'wagmi'
+import { widgetLightConnector as widgetLightIframe } from './iframe/widgetLightConnector.js'
 import { useEmbeddedWidgetConfig } from './WidgetConfigProvider.js'
 
 const FALLBACK_CONFIG: Partial<WidgetConfig> = {
@@ -34,7 +32,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       client({ chain }) {
         return createClient({ chain, transport: http() })
       },
-      connectors: [iframeConnectorFn.current],
+      connectors: [iframeConnectorFn.current!],
       multiInjectedProviderDiscovery: false,
       ssr: false,
     })

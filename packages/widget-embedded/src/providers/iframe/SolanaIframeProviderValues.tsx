@@ -9,7 +9,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import { SolanaIframeProvider } from '../iframe/SolanaIframeProvider.js'
+import { SolanaIframeProvider } from './SolanaIframeProvider.js'
 
 interface IframeWalletState {
   accounts: string[]

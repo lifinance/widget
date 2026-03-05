@@ -1,9 +1,13 @@
 import { useAccount } from '@lifi/wallet-management'
 import { LiFiWidgetLight } from '@lifi/widget-light'
-import { useBitcoinIframeHandler } from '@lifi/widget-provider-bitcoin'
-import { useEthereumIframeHandler } from '@lifi/widget-provider-ethereum'
-import { useSolanaIframeHandler } from '@lifi/widget-provider-solana'
-import { useSuiIframeHandler } from '@lifi/widget-provider-sui'
+import { useBitcoinIframeHandler } from '@lifi/widget-light/bitcoin'
+import { useEthereumIframeHandler } from '@lifi/widget-light/ethereum'
+import { useSolanaIframeHandler } from '@lifi/widget-light/solana'
+import { useSuiIframeHandler } from '@lifi/widget-light/sui'
+import {
+  useSolanaWalletStandard,
+  useWalletAccount,
+} from '@lifi/widget-provider-solana'
 import { Box, Typography } from '@mui/material'
 import { useMemo } from 'react'
 import { WalletHeader } from './components/WalletHeader'
@@ -16,7 +20,15 @@ export function HostApp() {
   const { account } = useAccount()
 
   const ethHandler = useEthereumIframeHandler()
-  const solHandler = useSolanaIframeHandler()
+
+  const { selectedWallet, connected } = useSolanaWalletStandard()
+  const { address: solAddress } = useWalletAccount()
+  const solHandler = useSolanaIframeHandler({
+    address: solAddress,
+    connected,
+    wallet: selectedWallet,
+  })
+
   const btcHandler = useBitcoinIframeHandler()
   const suiHandler = useSuiIframeHandler()
   const handlers = useMemo(
@@ -25,13 +37,15 @@ export function HostApp() {
   )
 
   return (
-    <Box minHeight="100vh" bgcolor="#F5F5F5">
+    <Box height="100vh" display="flex" flexDirection="column" bgcolor="#F5F5F5">
       <WalletHeader />
 
       <Box
         display="flex"
         flexDirection="column"
         alignItems="center"
+        flex={1}
+        minHeight={0}
         pt={6}
         gap={2}
       >
@@ -47,7 +61,8 @@ export function HostApp() {
           config={widgetConfig}
           handlers={handlers}
           iframeOrigin={WIDGET_ORIGIN}
-          style={{ width: 392, height: 640, borderRadius: 16 }}
+          autoResize={false}
+          style={{ border: 0, width: '100%', flex: 1, minHeight: 0 }}
           title="LI.FI Widget"
         />
       </Box>

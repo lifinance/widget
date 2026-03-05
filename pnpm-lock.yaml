@@ -1408,6 +1408,9 @@ importers:
       '@lifi/sdk':
         specifier: ^4.0.0-alpha.13
         version: 4.0.0-alpha.13(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.6)
+      '@lifi/sdk-provider-solana':
+        specifier: ^4.0.0-alpha.13
+        version: 4.0.0-alpha.13(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.6)
       '@lifi/wallet-management':
         specifier: workspace:*
         version: link:../wallet-management
@@ -1417,6 +1420,9 @@ importers:
       '@lifi/widget-light':
         specifier: workspace:*
         version: link:../widget-light
+      '@lifi/widget-provider':
+        specifier: workspace:*
+        version: link:../widget-provider
       '@lifi/widget-provider-bitcoin':
         specifier: workspace:*
         version: link:../widget-provider-bitcoin
@@ -1432,6 +1438,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.90.20
         version: 5.90.20(react@19.2.4)
+      '@wagmi/core':
+        specifier: ^3.3.2
+        version: 3.3.2(@tanstack/query-core@5.90.20)(@types/react@19.2.13)(ox@0.11.3(typescript@5.9.3)(zod@4.3.6))(react@19.2.4)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.4))(viem@2.45.1(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.6))
       react:
         specifier: ^19.2.4
         version: 19.2.4
@@ -1469,9 +1478,30 @@ importers:
 
   packages/widget-light:
     dependencies:
+      '@bigmi/client':
+        specifier: ^0.7.x
+        version: 0.7.0(@tanstack/query-core@5.90.20)(@types/react@19.2.13)(bs58@6.0.0)(react@19.2.4)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.4))
+      '@bigmi/react':
+        specifier: ^0.7.x
+        version: 0.7.0(@tanstack/query-core@5.90.20)(@tanstack/react-query@5.90.20(react@19.2.4))(@types/react@19.2.13)(bs58@6.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.4))
+      '@mysten/dapp-kit':
+        specifier: ^0.19.x
+        version: 0.19.11(@tanstack/react-query@5.90.20(react@19.2.4))(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(babel-plugin-macros@3.1.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3)
+      '@wagmi/core':
+        specifier: ^3.x
+        version: 3.3.2(@tanstack/query-core@5.90.20)(@types/react@19.2.13)(ox@0.11.3(typescript@5.9.3)(zod@4.3.6))(react@19.2.4)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.4))(viem@2.45.1(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.6))
+      '@wallet-standard/base':
+        specifier: ^1.1.0
+        version: 1.1.0
       react:
         specifier: '>=18'
         version: 19.2.4
+      viem:
+        specifier: ^2.x
+        version: 2.45.1(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.6)
+      wagmi:
+        specifier: ^3.x
+        version: 3.4.2(74bce44e724071a6244feabcd518e247)
     devDependencies:
       madge:
         specifier: ^8.0.0
@@ -1747,9 +1777,6 @@ importers:
       '@lifi/sdk-provider-bitcoin':
         specifier: ^4.0.0-alpha.13
         version: 4.0.0-alpha.13(@types/react@19.2.13)(bs58@6.0.0)(bufferutil@4.1.0)(react@19.2.4)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.4))(utf-8-validate@5.0.10)(zod@4.3.6)
-      '@lifi/widget-light':
-        specifier: workspace:*
-        version: link:../widget-light
       '@lifi/widget-provider':
         specifier: workspace:*
         version: link:../widget-provider
@@ -1775,9 +1802,6 @@ importers:
       '@lifi/sdk-provider-ethereum':
         specifier: ^4.0.0-alpha.13
         version: 4.0.0-alpha.13(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.6)
-      '@lifi/widget-light':
-        specifier: workspace:*
-        version: link:../widget-light
       '@lifi/widget-provider':
         specifier: workspace:*
         version: link:../widget-provider
@@ -1812,9 +1836,6 @@ importers:
       '@lifi/sdk-provider-solana':
         specifier: ^4.0.0-alpha.13
         version: 4.0.0-alpha.13(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.6)
-      '@lifi/widget-light':
-        specifier: workspace:*
-        version: link:../widget-light
       '@lifi/widget-provider':
         specifier: workspace:*
         version: link:../widget-provider
@@ -1855,9 +1876,6 @@ importers:
       '@lifi/sdk-provider-sui':
         specifier: ^4.0.0-alpha.13
         version: 4.0.0-alpha.13(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.6)
-      '@lifi/widget-light':
-        specifier: workspace:*
-        version: link:../widget-light
       '@lifi/widget-provider':
         specifier: workspace:*
         version: link:../widget-provider

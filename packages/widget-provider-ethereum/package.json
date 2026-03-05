@@ -47,7 +47,6 @@
     "viem": "^2.45.1"
   },
   "peerDependencies": {
-    "@lifi/widget-light": "workspace:*",
     "@wagmi/core": "^3.x",
     "wagmi": "^3.1.0"
   },

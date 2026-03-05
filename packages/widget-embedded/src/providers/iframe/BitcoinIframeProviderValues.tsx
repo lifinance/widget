@@ -1,5 +1,5 @@
 import { ChainId, ChainType } from '@lifi/sdk'
-import { SuiContext } from '@lifi/widget-provider'
+import { BitcoinContext } from '@lifi/widget-provider'
 import {
   type FC,
   type PropsWithChildren,
@@ -7,7 +7,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import { SuiIframeProvider } from '../iframe/SuiIframeProvider.js'
+import { BitcoinIframeProvider } from './BitcoinIframeProvider.js'
 
 interface IframeWalletState {
   accounts: string[]
@@ -15,18 +15,18 @@ interface IframeWalletState {
 }
 
 /**
- * Guest-side (iframe) Sui context provider.
+ * Guest-side (iframe) Bitcoin context provider.
  *
- * Reads wallet state from SuiIframeProvider (which receives it from the
- * host via GuestBridge) and exposes it through SuiContext so the widget
+ * Reads wallet state from BitcoinIframeProvider (which receives it from the
+ * host via GuestBridge) and exposes it through BitcoinContext so the widget
  * can display the connected account.
  */
-export const SuiIframeProviderValues: FC<PropsWithChildren> = ({
+export const BitcoinIframeProviderValues: FC<PropsWithChildren> = ({
   children,
 }) => {
-  const providerRef = useRef<SuiIframeProvider>(null)
+  const providerRef = useRef<BitcoinIframeProvider>(null)
   if (!providerRef.current) {
-    providerRef.current = new SuiIframeProvider()
+    providerRef.current = new BitcoinIframeProvider()
   }
   const provider = providerRef.current
 
@@ -66,29 +66,23 @@ export const SuiIframeProviderValues: FC<PropsWithChildren> = ({
   const address = walletState.accounts[0] ?? null
   const isConnected = walletState.connected && !!address
 
-  const account = isConnected
-    ? {
-        address,
-        chainId: ChainId.SUI,
-        chainType: ChainType.MVM,
-        connector: { name: 'iframe-bridge' },
-        isConnected: true as const,
-        isConnecting: false,
-        isReconnecting: false,
-        isDisconnected: false,
-        status: 'connected' as const,
-      }
-    : {
-        chainType: ChainType.MVM,
-        isConnected: false as const,
-        isConnecting: false,
-        isReconnecting: false,
-        isDisconnected: true,
-        status: 'disconnected' as const,
-      }
+  const account = {
+    address: address ?? undefined,
+    addresses: address ? [address] : [],
+    chainType: ChainType.UTXO,
+    chainId: ChainId.BTC,
+    connector: isConnected ? { name: 'iframe-bridge' } : undefined,
+    isConnected,
+    isConnecting: false,
+    isReconnecting: false,
+    isDisconnected: !isConnected,
+    status: (isConnected ? 'connected' : 'disconnected') as
+      | 'connected'
+      | 'disconnected',
+  }
 
   return (
-    <SuiContext.Provider
+    <BitcoinContext.Provider
       value={{
         isEnabled: true,
         account,
@@ -101,6 +95,6 @@ export const SuiIframeProviderValues: FC<PropsWithChildren> = ({
       }}
     >
       {children}
-    </SuiContext.Provider>
+    </BitcoinContext.Provider>
   )
 }

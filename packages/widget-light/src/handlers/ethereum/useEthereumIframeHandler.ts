@@ -1,4 +1,3 @@
-import type { IframeEcosystemHandler } from '@lifi/widget-light'
 import { useCallback, useEffect, useRef } from 'react'
 import {
   useConnection,
@@ -6,6 +5,7 @@ import {
   useSwitchChain,
   useWalletClient,
 } from 'wagmi'
+import type { IframeEcosystemHandler } from '../../shared/protocol.js'
 import { handleRpcRequest } from './rpcHandler.js'
 
 /**
@@ -25,12 +25,10 @@ export function useEthereumIframeHandler(): IframeEcosystemHandler {
 
   const emitRef = useRef<((event: string, data: unknown) => void) | null>(null)
 
-  // Push accountsChanged whenever the host account changes
   useEffect(() => {
     emitRef.current?.('accountsChanged', address ? [address] : [])
   }, [address])
 
-  // Push chainChanged + connect whenever the host chain changes
   useEffect(() => {
     if (!chainId) {
       return

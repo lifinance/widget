@@ -23,6 +23,12 @@ export interface WidgetLightProps {
    * Defaults to '*' — always set this in production.
    */
   iframeOrigin?: string
+  /**
+   * When true (default), the iframe height auto-adjusts to match the guest
+   * content via RESIZE messages. Set to false for fluid layouts where the
+   * iframe should fill its parent and scroll internally.
+   */
+  autoResize?: boolean
   style?: CSSProperties
   className?: string
   title?: string
@@ -46,6 +52,7 @@ export function WidgetLight({
   config,
   handlers,
   iframeOrigin,
+  autoResize,
   style,
   className,
   title = 'LI.FI Widget',
@@ -54,6 +61,7 @@ export function WidgetLight({
     config,
     handlers,
     iframeOrigin,
+    autoResize,
   })
 
   return (

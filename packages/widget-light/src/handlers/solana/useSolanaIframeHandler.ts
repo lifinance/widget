@@ -1,26 +1,32 @@
-import type { IframeEcosystemHandler } from '@lifi/widget-light'
+import type { Wallet } from '@wallet-standard/base'
 import { useCallback, useEffect, useRef } from 'react'
-import { useWalletAccount } from '../hooks/useWalletAccount.js'
-import { useSolanaWalletStandard } from '../wallet-standard/useSolanaWalletStandard.js'
+import type { IframeEcosystemHandler } from '../../shared/protocol.js'
+
+export interface SolanaIframeHandlerParams {
+  address: string | null
+  connected: boolean
+  wallet: Wallet | null
+}
 
 /**
  * Host-side hook that creates an `IframeEcosystemHandler` for Solana (SVM).
  *
- * Uses the Wallet Standard store internally to access the connected Solana
- * wallet and forwards RPC-style method calls from the guest iframe.
+ * Accepts wallet state as arguments so the host can provide values from
+ * any Solana wallet library (wallet-standard, wallet-adapter, etc.).
  *
  * Supported methods:
- *   - `getAccount`       → returns current account address
- *   - `signTransaction`  → sign a serialized transaction (base64)
- *   - `signMessage`      → sign an arbitrary message (base64)
- *   - `signAndSendTransaction` → sign and send a transaction (base64)
+ *   - `getAccount`                → returns current account address
+ *   - `signTransaction`           → sign a serialized transaction (base64)
+ *   - `signMessage`               → sign an arbitrary message (base64)
+ *   - `signAndSendTransaction`    → sign and send a transaction (base64)
  */
-export function useSolanaIframeHandler(): IframeEcosystemHandler {
-  const { selectedWallet, connected } = useSolanaWalletStandard()
-  const { address } = useWalletAccount()
+export function useSolanaIframeHandler(
+  params: SolanaIframeHandlerParams
+): IframeEcosystemHandler {
+  const { address, connected, wallet } = params
 
-  const stateRef = useRef({ address, selectedWallet, connected })
-  stateRef.current = { address, selectedWallet, connected }
+  const stateRef = useRef({ address, connected, wallet })
+  stateRef.current = { address, connected, wallet }
 
   const emitRef = useRef<((event: string, data: unknown) => void) | null>(null)
 
@@ -49,8 +55,8 @@ export function useSolanaIframeHandler(): IframeEcosystemHandler {
 
   const handleRequest = useCallback(
     async (_id: string, method: string, params?: unknown) => {
-      const { selectedWallet, address } = stateRef.current
-      if (!selectedWallet || !address) {
+      const { wallet, address } = stateRef.current
+      if (!wallet || !address) {
         throw new Error('Solana wallet not connected')
       }
 
@@ -60,12 +66,12 @@ export function useSolanaIframeHandler(): IframeEcosystemHandler {
 
         case 'signTransaction': {
           const { transaction } = params as { transaction: string }
-          const features = selectedWallet.features as Record<string, any>
+          const features = wallet.features as Record<string, any>
           const signFeature = features['solana:signTransaction']
           if (!signFeature) {
             throw new Error('Wallet does not support signTransaction')
           }
-          const account = selectedWallet.accounts[0]
+          const account = wallet.accounts[0]
           const txBytes = Uint8Array.from(atob(transaction), (c) =>
             c.charCodeAt(0)
           )
@@ -82,12 +88,12 @@ export function useSolanaIframeHandler(): IframeEcosystemHandler {
 
         case 'signMessage': {
           const { message } = params as { message: string }
-          const features = selectedWallet.features as Record<string, any>
+          const features = wallet.features as Record<string, any>
           const signFeature = features['solana:signMessage']
           if (!signFeature) {
             throw new Error('Wallet does not support signMessage')
           }
-          const account = selectedWallet.accounts[0]
+          const account = wallet.accounts[0]
           const msgBytes = Uint8Array.from(atob(message), (c) =>
             c.charCodeAt(0)
           )
@@ -107,12 +113,12 @@ export function useSolanaIframeHandler(): IframeEcosystemHandler {
             transaction: string
             options?: Record<string, unknown>
           }
-          const features = selectedWallet.features as Record<string, any>
+          const features = wallet.features as Record<string, any>
           const sendFeature = features['solana:signAndSendTransaction']
           if (!sendFeature) {
             throw new Error('Wallet does not support signAndSendTransaction')
           }
-          const account = selectedWallet.accounts[0]
+          const account = wallet.accounts[0]
           const txBytes = Uint8Array.from(atob(transaction), (c) =>
             c.charCodeAt(0)
           )

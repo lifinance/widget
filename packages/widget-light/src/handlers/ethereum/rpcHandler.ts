@@ -179,10 +179,6 @@ export async function handleRpcRequest(
   }
 }
 
-// ---------------------------------------------------------------------------
-// Internal helpers
-// ---------------------------------------------------------------------------
-
 interface SendTransactionParams {
   to?: `0x${string}`
   value?: string

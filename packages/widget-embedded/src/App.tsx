@@ -1,15 +1,22 @@
 import { LiFiWidget } from '@lifi/widget'
-import { BitcoinProvider } from '@lifi/widget-provider-bitcoin'
 import { EthereumProvider } from '@lifi/widget-provider-ethereum'
-import { SolanaProvider } from '@lifi/widget-provider-solana'
-import { SuiProvider } from '@lifi/widget-provider-sui'
+import type { PropsWithChildren } from 'react'
+import { BitcoinIframeProviderValues } from './providers/iframe/BitcoinIframeProviderValues.js'
+import { SolanaIframeProviderValues } from './providers/iframe/SolanaIframeProviderValues.js'
+import { SuiIframeProviderValues } from './providers/iframe/SuiIframeProviderValues.js'
 import { useEmbeddedWidgetConfig } from './providers/WidgetConfigProvider.js'
 
 const IFRAME_PROVIDERS = [
   EthereumProvider(),
-  SolanaProvider(),
-  BitcoinProvider(),
-  SuiProvider(),
+  ({ children }: PropsWithChildren) => (
+    <SolanaIframeProviderValues>{children}</SolanaIframeProviderValues>
+  ),
+  ({ children }: PropsWithChildren) => (
+    <BitcoinIframeProviderValues>{children}</BitcoinIframeProviderValues>
+  ),
+  ({ children }: PropsWithChildren) => (
+    <SuiIframeProviderValues>{children}</SuiIframeProviderValues>
+  ),
 ]
 
 /**
