@@ -1,5 +1,5 @@
 import type { WidgetConfig } from '@lifi/widget'
-import { WIDGET_LIGHT_SOURCE } from '@lifi/widget-light'
+import { GuestBridge } from '@lifi/widget-light'
 import {
   createContext,
   type FC,
@@ -18,22 +18,20 @@ const WidgetConfigContext = createContext<Partial<WidgetConfig> | null>(null)
 export const useEmbeddedWidgetConfig = () => useContext(WidgetConfigContext)
 
 export const WidgetConfigProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [config, setConfig] = useState<Partial<WidgetConfig> | null>(
-    import.meta.env.DEV ? DEV_CONFIG : null
-  )
+  const [config, setConfig] = useState<Partial<WidgetConfig> | null>(() => {
+    const bridge = GuestBridge.getInstance()
+    const existing = bridge.config
+    if (existing) {
+      return existing as unknown as Partial<WidgetConfig>
+    }
+    return import.meta.env.DEV ? DEV_CONFIG : null
+  })
 
   useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      const msg = event.data
-      if (!msg || msg.source !== WIDGET_LIGHT_SOURCE) {
-        return
-      }
-      if (msg.type === 'INIT' && msg.config) {
-        setConfig(msg.config as unknown as Partial<WidgetConfig>)
-      }
-    }
-    window.addEventListener('message', handleMessage)
-    return () => window.removeEventListener('message', handleMessage)
+    const bridge = GuestBridge.getInstance()
+    return bridge.onConfig((cfg) => {
+      setConfig(cfg as unknown as Partial<WidgetConfig>)
+    })
   }, [])
 
   return (

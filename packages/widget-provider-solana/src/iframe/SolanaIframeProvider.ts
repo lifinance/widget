@@ -1,39 +1,20 @@
-import type {
-  EcosystemInitState,
-  HostMessage,
-  WidgetLightConfig,
-} from '@lifi/widget-light'
-import { WIDGET_LIGHT_SOURCE } from '@lifi/widget-light'
+import type { WidgetLightConfig } from '@lifi/widget-light'
+import { GuestBridge } from '@lifi/widget-light'
 
 type Listener = (...args: unknown[]) => void
 
 /**
- * Guest-side (iframe) provider for Solana that communicates with the host
- * window via postMessage. Implements an interface similar to the Wallet
- * Standard so that the widget's Solana provider can use it seamlessly.
+ * Guest-side (iframe) provider for Solana. Delegates transport to GuestBridge.
  *
- * Lifecycle:
- *  1. Waits for INIT from the parent (handled externally by EthereumIframeProvider
- *     or the shared READY/INIT flow).
- *  2. Extracts the SVM ecosystem state from INIT.
- *  3. Forwards method calls (signTransaction, signMessage, etc.) as
- *     RPC_REQUEST with chainType: 'SVM'.
- *  4. Listens for EVENT messages with chainType: 'SVM' to update local state.
+ * Registers for SVM init state and events, forwards method calls via
+ * bridge.sendRpcRequest('SVM', ...).
  */
 export class SolanaIframeProvider {
   private readonly _listeners = new Map<string, Set<Listener>>()
-  private readonly pendingRequests = new Map<
-    string,
-    { resolve: (v: unknown) => void; reject: (e: Error) => void }
-  >()
+  private readonly bridge = GuestBridge.getInstance()
 
   private _accounts: string[] = []
   private _connected = false
-  private _config: WidgetLightConfig | null = null
-  private trustedOrigin = '*'
-
-  private readonly initPromise: Promise<void>
-  private initResolve!: () => void
 
   get accounts(): string[] {
     return this._accounts
@@ -48,39 +29,47 @@ export class SolanaIframeProvider {
   }
 
   get config(): WidgetLightConfig | null {
-    return this._config
+    return this.bridge.config
   }
 
   constructor() {
-    this.initPromise = new Promise<void>((resolve) => {
-      this.initResolve = resolve
-    })
-    window.addEventListener('message', this.handleMessage)
+    this.bridge.onInit('SVM', (state) => {
+      const s = state as { accounts: string[]; connected: boolean }
+      this._accounts = s.accounts
+      this._connected = s.connected
 
-    setTimeout(() => {
-      if (this._config === null) {
-        this.initResolve()
+      this.emit('accountsChanged', this._accounts)
+      if (this._connected && this.address) {
+        this.emit('connect', { address: this.address })
       }
-    }, 5_000)
+    })
+
+    this.bridge.onEvent('SVM', (event, data) => {
+      if (event === 'accountsChanged') {
+        this._accounts = data as string[]
+        this._connected = this._accounts.length > 0
+      }
+      if (event === 'disconnect') {
+        this._accounts = []
+        this._connected = false
+      }
+      this.emit(event, data)
+    })
   }
 
   waitForInit(): Promise<void> {
-    return this.initPromise
+    return this.bridge.waitForInit()
   }
 
   async request(method: string, params?: unknown): Promise<unknown> {
-    await this.initPromise
+    await this.bridge.waitForInit()
 
     if (method === 'getAccount') {
       return { address: this.address }
     }
 
-    return this.forwardToParent(method, params)
+    return this.bridge.sendRpcRequest('SVM', method, params as unknown[])
   }
-
-  // ---------------------------------------------------------------------------
-  // Event emitter
-  // ---------------------------------------------------------------------------
 
   on(event: string, listener: Listener): this {
     let set = this._listeners.get(event)
@@ -106,106 +95,5 @@ export class SolanaIframeProvider {
       listener(...args)
     }
     return true
-  }
-
-  // ---------------------------------------------------------------------------
-  // Private
-  // ---------------------------------------------------------------------------
-
-  private forwardToParent(method: string, params?: unknown): Promise<unknown> {
-    return new Promise((resolve, reject) => {
-      const id = crypto.randomUUID()
-      this.pendingRequests.set(id, { resolve, reject })
-      window.parent.postMessage(
-        {
-          source: WIDGET_LIGHT_SOURCE,
-          type: 'RPC_REQUEST',
-          chainType: 'SVM',
-          id,
-          method,
-          params,
-        },
-        this.trustedOrigin
-      )
-    })
-  }
-
-  private readonly handleMessage = (event: MessageEvent): void => {
-    if (this.trustedOrigin !== '*' && event.origin !== this.trustedOrigin) {
-      return
-    }
-    if (event.source !== window.parent) {
-      return
-    }
-
-    const msg = event.data as HostMessage
-    if (!msg || msg.source !== WIDGET_LIGHT_SOURCE) {
-      return
-    }
-
-    switch (msg.type) {
-      case 'INIT': {
-        this.trustedOrigin = event.origin
-        this._config = msg.config
-
-        const svmState = msg.ecosystems?.find(
-          (e: EcosystemInitState) => e.chainType === 'SVM'
-        )
-        if (svmState?.state) {
-          const state = svmState.state as {
-            accounts: string[]
-            connected: boolean
-          }
-          this._accounts = state.accounts
-          this._connected = state.connected
-        }
-
-        this.initResolve()
-        this.emit('accountsChanged', this._accounts)
-        if (this._connected && this.address) {
-          this.emit('connect', { address: this.address })
-        }
-        break
-      }
-
-      case 'RPC_RESPONSE': {
-        if (msg.chainType !== 'SVM') {
-          return
-        }
-        const pending = this.pendingRequests.get(msg.id)
-        if (!pending) {
-          return
-        }
-        this.pendingRequests.delete(msg.id)
-        if (msg.error) {
-          const err = new Error(msg.error.message) as Error & {
-            code: number
-            data?: unknown
-          }
-          err.code = msg.error.code
-          err.data = msg.error.data
-          pending.reject(err)
-        } else {
-          pending.resolve(msg.result)
-        }
-        break
-      }
-
-      case 'EVENT': {
-        if (msg.chainType !== 'SVM') {
-          return
-        }
-        if (msg.event === 'accountsChanged') {
-          this._accounts = msg.data as string[]
-          this._connected = this._accounts.length > 0
-        }
-        if (msg.event === 'disconnect') {
-          this._accounts = []
-          this._connected = false
-        }
-        this.emit(msg.event, msg.data)
-        break
-      }
-    }
   }
 }

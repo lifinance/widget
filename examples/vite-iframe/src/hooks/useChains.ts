@@ -1,80 +1,46 @@
+import {
+  ChainType,
+  createClient,
+  type ExtendedChain,
+  getChains,
+} from '@lifi/sdk'
+import { convertExtendedChain } from '@lifi/widget-provider-ethereum'
 import { useQuery } from '@tanstack/react-query'
-import type { Chain } from 'viem'
-import { mainnet } from 'viem/chains'
+import { useMemo } from 'react'
 
-const LIFI_API_URL = 'https://li.quest/v1'
+const client = createClient({ integrator: 'vite-iframe-example' })
 
-interface LiFiChain {
-  id: number
-  chainType: string
-  metamask: {
-    chainId: string
-    chainName: string
-    rpcUrls: string[]
-    blockExplorerUrls: string[]
-    nativeCurrency: {
-      name: string
-      symbol: string
-      decimals: number
-    }
-  }
-  multicallAddress?: string
-}
-
-interface LiFiChainsResponse {
-  chains: LiFiChain[]
-}
-
-function toViemChain(chain: LiFiChain): Chain {
-  const viemChain: Chain = {
-    id: chain.id,
-    name: chain.metamask.chainName,
-    nativeCurrency: chain.metamask.nativeCurrency,
-    rpcUrls: {
-      default: { http: chain.metamask.rpcUrls },
-    },
-    blockExplorers: chain.metamask.blockExplorerUrls.length
-      ? {
-          default: {
-            name: chain.metamask.blockExplorerUrls[0],
-            url: chain.metamask.blockExplorerUrls[0],
-          },
-        }
-      : undefined,
-    contracts: chain.multicallAddress
-      ? { multicall3: { address: chain.multicallAddress as `0x${string}` } }
-      : undefined,
-  }
-
-  // Preserve mainnet ENS contracts
-  if (chain.id === mainnet.id) {
-    viemChain.contracts = { ...mainnet.contracts, ...viemChain.contracts }
-  }
-
-  return viemChain
-}
+const chainTypes = [ChainType.EVM, ChainType.SVM, ChainType.UTXO, ChainType.MVM]
 
 /**
- * Fetches EVM chains from the LI.FI API and converts them to viem `Chain`
- * objects. No dependency on `@lifi/sdk` or `@lifi/widget`.
+ * Fetches all chains from the LI.FI API via the SDK.
+ *
+ * Returns both the raw `ExtendedChain[]` (for ecosystem providers) and
+ * viem `Chain[]` derived from the EVM subset (for wagmi).
  */
-export function useChains(): {
-  chains: Chain[] | undefined
-  isLoading: boolean
-} {
+export function useChains() {
   const { data, isLoading } = useQuery({
     queryKey: ['lifi-chains'],
-    queryFn: async (): Promise<Chain[]> => {
-      const res = await fetch(`${LIFI_API_URL}/chains?chainTypes=EVM`)
-      if (!res.ok) {
-        throw new Error(`Failed to fetch chains: ${res.status}`)
-      }
-      const json: LiFiChainsResponse = await res.json()
-      return json.chains.map(toViemChain)
+    queryFn: async () => {
+      const chains = await getChains(client, { chainTypes })
+      client.setChains(chains)
+      return chains
     },
     refetchInterval: 300_000,
     staleTime: 300_000,
   })
 
-  return { chains: data, isLoading }
+  const evmChains = useMemo(
+    () =>
+      data
+        ?.filter((c: ExtendedChain) => c.chainType === 'EVM')
+        .map(convertExtendedChain),
+    [data]
+  )
+
+  return {
+    chains: data,
+    evmChains,
+    isLoading,
+  }
 }

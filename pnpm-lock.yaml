@@ -1106,21 +1106,54 @@ importers:
 
   examples/vite-iframe:
     dependencies:
+      '@bigmi/react':
+        specifier: 0.7.0
+        version: 0.7.0(@tanstack/query-core@5.90.20)(@tanstack/react-query@5.90.20(react@19.2.4))(@types/react@19.2.13)(bs58@6.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3)(use-sync-external-store@1.6.0(react@19.2.4))
+      '@emotion/react':
+        specifier: ^11.14.0
+        version: 11.14.0(@types/react@19.2.13)(react@19.2.4)
+      '@emotion/styled':
+        specifier: ^11.14.1
+        version: 11.14.1(@emotion/react@11.14.0(@types/react@19.2.13)(react@19.2.4))(@types/react@19.2.13)(react@19.2.4)
+      '@lifi/sdk':
+        specifier: ^4.0.0-alpha.13
+        version: 4.0.0-alpha.13(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@4.3.6)
+      '@lifi/wallet-management':
+        specifier: workspace:*
+        version: link:../../packages/wallet-management
       '@lifi/widget-light':
         specifier: workspace:*
         version: link:../../packages/widget-light
+      '@lifi/widget-provider':
+        specifier: workspace:*
+        version: link:../../packages/widget-provider
+      '@lifi/widget-provider-bitcoin':
+        specifier: workspace:*
+        version: link:../../packages/widget-provider-bitcoin
       '@lifi/widget-provider-ethereum':
         specifier: workspace:*
         version: link:../../packages/widget-provider-ethereum
+      '@lifi/widget-provider-solana':
+        specifier: workspace:*
+        version: link:../../packages/widget-provider-solana
+      '@lifi/widget-provider-sui':
+        specifier: workspace:*
+        version: link:../../packages/widget-provider-sui
       '@mui/material':
         specifier: ^7.3.6
         version: 7.3.7(@emotion/react@11.14.0(@types/react@19.2.13)(react@19.2.4))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.13)(react@19.2.4))(@types/react@19.2.13)(react@19.2.4))(@types/react@19.2.13)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@mysten/dapp-kit':
+        specifier: ^0.19.11
+        version: 0.19.11(@tanstack/react-query@5.90.20(react@19.2.4))(@types/react-dom@19.2.3(@types/react@19.2.13))(@types/react@19.2.13)(babel-plugin-macros@3.1.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3)
       '@tanstack/react-query':
         specifier: ^5.90.20
         version: 5.90.20(react@19.2.4)
       '@wagmi/connectors':
         specifier: ^7.1.6
         version: 7.1.6(51abc7f1819270a6b3fb3dd93750a0d5)
+      bs58:
+        specifier: '>=4.0.1'
+        version: 6.0.0
       react:
         specifier: ^19.2.4
         version: 19.2.4

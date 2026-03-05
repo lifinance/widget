@@ -24,7 +24,7 @@ const connectors = [
  * wallet_switchEthereumChain requests forwarded by the guest can succeed.
  */
 export const HostWalletProvider: FC<PropsWithChildren> = ({ children }) => {
-  const { chains } = useChains()
+  const { evmChains } = useChains()
   const wagmi = useRef<Config>(null)
 
   if (!wagmi.current) {
@@ -39,12 +39,12 @@ export const HostWalletProvider: FC<PropsWithChildren> = ({ children }) => {
   }
 
   useEffect(() => {
-    if (!chains?.length || !wagmi.current) {
+    if (!evmChains?.length || !wagmi.current) {
       return
     }
-    const typed = chains as unknown as readonly [
-      (typeof chains)[0],
-      ...(typeof chains)[number][],
+    const typed = evmChains as unknown as readonly [
+      (typeof evmChains)[0],
+      ...(typeof evmChains)[number][],
     ]
     wagmi.current._internal.chains.setState(typed)
     wagmi.current._internal.connectors.setState(() =>
@@ -57,7 +57,7 @@ export const HostWalletProvider: FC<PropsWithChildren> = ({ children }) => {
       ].map(wagmi.current!._internal.connectors.setup)
     )
     reconnect(wagmi.current)
-  }, [chains])
+  }, [evmChains])
 
   return (
     <WagmiProvider config={wagmi.current} reconnectOnMount={false}>

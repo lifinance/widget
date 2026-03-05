@@ -2,7 +2,11 @@ import type { WidgetProviderProps } from '@lifi/widget-provider'
 import { SuiClientContext } from '@mysten/dapp-kit'
 import { type PropsWithChildren, useContext } from 'react'
 import { SuiBaseProvider } from './SuiBaseProvider.js'
+import { SuiIframeProviderValues } from './SuiIframeProviderValues.js'
 import { SuiProviderValues } from './SuiProviderValues.js'
+
+const isIframeEnvironment =
+  typeof window !== 'undefined' && window.parent !== window
 
 function useInSuiContext(): boolean {
   const context = useContext(SuiClientContext)
@@ -15,6 +19,10 @@ const SuiWidgetProvider = ({
   children,
 }: PropsWithChildren<WidgetProviderProps>) => {
   const inSuiContext = useInSuiContext()
+
+  if (isIframeEnvironment) {
+    return <SuiIframeProviderValues>{children}</SuiIframeProviderValues>
+  }
 
   if (inSuiContext && !forceInternalWalletManagement) {
     return (

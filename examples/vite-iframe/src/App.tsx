@@ -1,8 +1,11 @@
+import { useAccount } from '@lifi/wallet-management'
 import { LiFiWidgetLight } from '@lifi/widget-light'
+import { useBitcoinIframeHandler } from '@lifi/widget-provider-bitcoin'
 import { useEthereumIframeHandler } from '@lifi/widget-provider-ethereum'
+import { useSolanaIframeHandler } from '@lifi/widget-provider-solana'
+import { useSuiIframeHandler } from '@lifi/widget-provider-sui'
 import { Box, Typography } from '@mui/material'
 import { useMemo } from 'react'
-import { useConnection } from 'wagmi'
 import { WalletHeader } from './components/WalletHeader'
 import { widgetConfig } from './widgetConfig'
 
@@ -10,10 +13,16 @@ const WIDGET_ORIGIN = 'http://localhost:3000'
 const WIDGET_URL = WIDGET_ORIGIN
 
 export function HostApp() {
-  const { isConnected } = useConnection()
+  const { account } = useAccount()
 
   const ethHandler = useEthereumIframeHandler()
-  const handlers = useMemo(() => [ethHandler], [ethHandler])
+  const solHandler = useSolanaIframeHandler()
+  const btcHandler = useBitcoinIframeHandler()
+  const suiHandler = useSuiIframeHandler()
+  const handlers = useMemo(
+    () => [ethHandler, solHandler, btcHandler, suiHandler],
+    [ethHandler, solHandler, btcHandler, suiHandler]
+  )
 
   return (
     <Box minHeight="100vh" bgcolor="#F5F5F5">
@@ -26,7 +35,7 @@ export function HostApp() {
         pt={6}
         gap={2}
       >
-        {!isConnected && (
+        {!account.isConnected && (
           <Typography color="text.secondary" fontSize={14} mb={1}>
             Connect your wallet above — all widget transactions will be signed
             through your connected wallet.

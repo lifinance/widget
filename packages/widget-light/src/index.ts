@@ -1,3 +1,4 @@
+export { GuestBridge } from './guest/GuestBridge.js'
 export type { UseWidgetLightHostOptions } from './host/useWidgetLightHost.js'
 export { useWidgetLightHost } from './host/useWidgetLightHost.js'
 export type { WidgetLightProps as WidgetLightIframeProps } from './host/WidgetLight.js'

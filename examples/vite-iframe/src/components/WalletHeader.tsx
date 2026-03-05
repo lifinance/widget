@@ -1,18 +1,22 @@
-import { Box, Button, Chip, Typography } from '@mui/material'
-import { useConnect, useConnection, useConnectors, useDisconnect } from 'wagmi'
+import {
+  getConnectorIcon,
+  useAccount,
+  useAccountDisconnect,
+  useWalletMenu,
+} from '@lifi/wallet-management'
+import type { Account } from '@lifi/widget-provider'
+import { Avatar, Box, Button, Chip, Typography } from '@mui/material'
+
+function shortenAddress(address?: string) {
+  if (!address) {
+    return ''
+  }
+  return `${address.slice(0, 6)}…${address.slice(-4)}`
+}
 
 export function WalletHeader() {
-  // wagmi v3: useAccount → useConnection
-  const { address, isConnected, chainId } = useConnection()
-
-  // wagmi v3: mutateAsync replaces connectAsync; connectors removed from useConnect
-  const connect = useConnect()
-
-  // wagmi v3: connectors moved to dedicated useConnectors hook
-  const connectors = useConnectors()
-
-  // wagmi v3: mutate replaces disconnect
-  const { mutate: disconnect } = useDisconnect()
+  const { account, accounts } = useAccount()
+  const { openWalletMenu } = useWalletMenu()
 
   return (
     <Box
@@ -29,35 +33,47 @@ export function WalletHeader() {
       </Typography>
 
       <Box display="flex" alignItems="center" gap={2}>
-        {isConnected && chainId && (
-          <Chip label={`Chain ${chainId}`} size="small" variant="outlined" />
-        )}
-        {address && (
-          <Typography fontSize={14} color="text.secondary">
-            {`${address.slice(0, 6)}…${address.slice(-4)}`}
-          </Typography>
-        )}
-        {!isConnected ? (
-          <Box display="flex" gap={1}>
-            {connectors.map((connector) => (
-              <Button
-                key={connector.id}
-                variant="contained"
-                size="small"
-                disableElevation
-                disabled={connect.isPending}
-                onClick={() => connect.mutateAsync({ connector })}
-              >
-                {connector.name}
-              </Button>
-            ))}
-          </Box>
-        ) : (
-          <Button variant="outlined" size="small" onClick={() => disconnect()}>
-            Disconnect
-          </Button>
-        )}
+        {accounts.map((acc) => (
+          <ConnectedAccount key={acc.address} account={acc} />
+        ))}
+        <Button
+          variant={account.isConnected ? 'outlined' : 'contained'}
+          size="small"
+          disableElevation
+          onClick={() => openWalletMenu()}
+        >
+          {account.isConnected ? 'Connect Another' : 'Connect Wallet'}
+        </Button>
       </Box>
     </Box>
+  )
+}
+
+function ConnectedAccount({ account }: { account: Account }) {
+  const disconnect = useAccountDisconnect()
+
+  return (
+    <Chip
+      avatar={
+        <Avatar
+          src={getConnectorIcon(account.connector)}
+          alt={account.connector?.name}
+          sx={{ width: 20, height: 20 }}
+        />
+      }
+      label={
+        <Box display="flex" alignItems="center" gap={0.5}>
+          <Typography fontSize={13} fontWeight={500}>
+            {shortenAddress(account.address)}
+          </Typography>
+          <Typography fontSize={11} color="text.secondary">
+            ({account.chainType})
+          </Typography>
+        </Box>
+      }
+      onDelete={() => disconnect(account)}
+      variant="outlined"
+      size="medium"
+    />
   )
 }

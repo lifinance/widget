@@ -3,13 +3,10 @@ import {
   createConnector,
   ProviderNotFoundError,
 } from '@wagmi/core'
-import { fromHex, getAddress, type Hex } from 'viem'
-import { EthereumIframeProvider } from './IframeProvider.js'
+import { type Chain, fromHex, getAddress, type Hex, toHex } from 'viem'
+import { EthereumIframeProvider } from './EthereumIframeProvider.js'
 
 type ConnectorEmitter = Parameters<CreateConnectorFn>[0]['emitter']
-
-// biome-ignore lint/suspicious/noConsole: intentional debug logging
-const LOG = (...args: unknown[]) => console.log('[iframeConnector]', ...args)
 
 /**
  * Wagmi v3 connector that bridges the LI.FI Widget (running in an iframe) to
@@ -29,9 +26,9 @@ const LOG = (...args: unknown[]) => console.log('[iframeConnector]', ...args)
  * The provider's listeners read from this ref instead of capturing the
  * original `config.emitter`.
  */
-widgetLightIframe.type = 'widget-light-iframe' as const
+widgetLightConnector.type = 'widget-light-iframe' as const
 
-export function widgetLightIframe() {
+export function widgetLightConnector() {
   let provider_: EthereumIframeProvider | undefined
   let latestEmitter: ConnectorEmitter
 
@@ -41,7 +38,7 @@ export function widgetLightIframe() {
     return {
       id: 'widget-light-iframe',
       name: 'Widget Light',
-      type: widgetLightIframe.type,
+      type: widgetLightConnector.type,
 
       async setup() {
         await this.getProvider()
@@ -49,35 +46,28 @@ export function widgetLightIframe() {
 
       async getProvider() {
         if (typeof window === 'undefined' || window.parent === window) {
-          LOG('getProvider — not in iframe, returning undefined')
           return undefined
         }
         if (!provider_) {
-          LOG('getProvider — creating EthereumIframeProvider singleton')
           provider_ = new EthereumIframeProvider()
 
           provider_.on('accountsChanged', (accounts: unknown) => {
             const addrs = (accounts as string[]).map(getAddress)
-            LOG('accountsChanged received →', addrs)
 
             if (addrs.length > 0) {
               const chainId = fromHex(provider_!.chainIdHex, 'number')
-              LOG('→ emitting wagmi "connect"', { accounts: addrs, chainId })
               latestEmitter.emit('connect', { accounts: addrs, chainId })
             } else {
-              LOG('→ emitting wagmi "disconnect"')
               latestEmitter.emit('disconnect')
             }
           })
 
           provider_.on('chainChanged', (chainId: unknown) => {
             const id = fromHex(chainId as Hex, 'number')
-            LOG('chainChanged → emitting wagmi "change" chainId:', id)
             latestEmitter.emit('change', { chainId: id })
           })
 
           provider_.on('disconnect', () => {
-            LOG('disconnect → emitting wagmi "disconnect"')
             latestEmitter.emit('disconnect')
           })
         }
@@ -88,7 +78,6 @@ export function widgetLightIframe() {
         try {
           const accounts = await this.getAccounts()
           const result = accounts.length > 0
-          LOG('isAuthorized →', result)
           return result
         } catch {
           return false
@@ -96,7 +85,6 @@ export function widgetLightIframe() {
       },
 
       async connect({ withCapabilities } = {}) {
-        LOG('connect() called')
         const provider = await this.getProvider()
         if (!provider) {
           throw new ProviderNotFoundError()
@@ -121,6 +109,22 @@ export function widgetLightIframe() {
 
       async disconnect() {
         latestEmitter.emit('disconnect')
+      },
+
+      async switchChain({ chainId }: { chainId: number }): Promise<Chain> {
+        const provider = await this.getProvider()
+        if (!provider) {
+          throw new ProviderNotFoundError()
+        }
+        await provider.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: toHex(chainId) }],
+        })
+        const chain = config.chains.find((c) => c.id === chainId)
+        if (!chain) {
+          throw new Error(`Chain ${chainId} not configured`)
+        }
+        return chain
       },
 
       async getAccounts() {
