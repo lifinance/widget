@@ -13,6 +13,7 @@
     "dev": "pnpm --filter widget-playground-vite dev",
     "dev:dev": "pnpm --filter widget-playground-vite dev:dev",
     "dev:staging": "pnpm --filter widget-playground-vite dev:staging",
+    "dev:local": "pnpm --filter widget-playground-vite dev:local",
     "dev:next": "pnpm --filter widget-playground-next dev",
     "release": "pnpm release:version && pnpm release:build && pnpm standard-version -a -s",
     "release:alpha": "pnpm release:version --preid alpha && pnpm release:build && pnpm standard-version -a -s --prerelease alpha --skip.changelog",

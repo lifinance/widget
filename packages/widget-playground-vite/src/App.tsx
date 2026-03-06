@@ -50,8 +50,7 @@ if (!import.meta.env.VITE_EVM_WALLET_CONNECT) {
 }
 
 if (
-  import.meta.env.MODE !== 'development' &&
-  import.meta.env.MODE !== 'production' &&
+  (import.meta.env.MODE === 'dev' || import.meta.env.MODE === 'staging') &&
   !import.meta.env.VITE_API_KEY
 ) {
   throw new Error(
