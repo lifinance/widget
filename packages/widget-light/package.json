@@ -1,0 +1,96 @@
+{
+  "name": "@lifi/widget-light",
+  "version": "4.0.0-alpha.2",
+  "description": "LI.FI Widget Light - a lightweight version of the LI.FI Widget for cross-chain bridging and swapping.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./ethereum": "./src/handlers/ethereum/index.ts",
+    "./solana": "./src/handlers/solana/index.ts",
+    "./bitcoin": "./src/handlers/bitcoin/index.ts",
+    "./sui": "./src/handlers/sui/index.ts"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "watch": "tsc -w -p ./tsconfig.json",
+    "build": "pnpm clean && pnpm build:version && pnpm build:esm && pnpm build:clean",
+    "build:esm": "tsc --build",
+    "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../README.md' .",
+    "build:postrelease": "node ../../scripts/postrelease.js && rm -rf README.md",
+    "build:version": "node ../../scripts/version.js",
+    "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo",
+    "release:build": "pnpm build",
+    "clean": "pnpm build:clean && rm -rf dist",
+    "check:types": "tsc --noEmit",
+    "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
+    "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg",
+    "test": "vitest run"
+  },
+  "author": "Eugene Chybisov <eugene@li.finance>",
+  "homepage": "https://github.com/lifinance/widget",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lifinance/widget.git",
+    "directory": "packages/widget-light"
+  },
+  "bugs": {
+    "url": "https://github.com/lifinance/widget/issues"
+  },
+  "license": "Apache-2.0",
+  "keywords": [
+    "widget",
+    "lifi-widget",
+    "bridge",
+    "swap",
+    "cross-chain",
+    "multi-chain",
+    "ethereum",
+    "solana",
+    "bitcoin",
+    "sui",
+    "web3",
+    "iframe",
+    "lifi"
+  ],
+  "devDependencies": {
+    "cpy-cli": "^7.0.0",
+    "madge": "^8.0.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  },
+  "peerDependencies": {
+    "@bigmi/client": "^0.7.x",
+    "@bigmi/react": "^0.7.x",
+    "@mysten/dapp-kit": "^0.19.x",
+    "@wagmi/core": "^3.x",
+    "@wallet-standard/base": "^1.1.0",
+    "react": ">=18",
+    "viem": "^2.x",
+    "wagmi": "^3.x"
+  },
+  "peerDependenciesMeta": {
+    "wagmi": {
+      "optional": true
+    },
+    "@wagmi/core": {
+      "optional": true
+    },
+    "viem": {
+      "optional": true
+    },
+    "@bigmi/client": {
+      "optional": true
+    },
+    "@bigmi/react": {
+      "optional": true
+    },
+    "@mysten/dapp-kit": {
+      "optional": true
+    },
+    "@wallet-standard/base": {
+      "optional": true
+    }
+  }
+}

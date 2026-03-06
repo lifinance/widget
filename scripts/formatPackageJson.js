@@ -21,10 +21,47 @@ export async function formatPackageFile() {
     ...packageDataOther
   } = JSON.parse(packageData)
 
+  const subpathExports = {}
+  if (packageDataOther.exports) {
+    for (const [key, value] of Object.entries(packageDataOther.exports)) {
+      if (key === '.' || key === './package.json') {
+        continue
+      }
+      const srcPath = typeof value === 'string' ? value : value.default
+      if (typeof srcPath === 'string' && srcPath.startsWith('./src/')) {
+        const distPath = srcPath
+          .replace('./src/', './dist/esm/')
+          .replace(/\.tsx?$/, '.js')
+        const typesPath = srcPath
+          .replace('./src/', './dist/esm/')
+          .replace(/\.tsx?$/, '.d.ts')
+        subpathExports[key] = {
+          types: typesPath,
+          default: distPath,
+        }
+      }
+    }
+  }
+
   const newPackageData = {
     ...packageDataOther,
     main: './dist/esm/index.js',
     types: './dist/esm/index.d.ts',
+    files: [
+      'dist/**',
+      '!dist/**/*.tsbuildinfo',
+      'src/**/*.ts',
+      'src/**/*.tsx',
+      '!src/**/*.spec.ts',
+      '!src/**/*.test.ts',
+      '!src/**/*.mock.ts',
+      '!src/**/*.handlers.ts',
+      '!src/**/*.tsbuildinfo',
+      '!**/__mocks__/**',
+      '!*.tmp',
+      '!*.env',
+      '!tsconfig.json',
+    ],
     exports: {
       '.': {
         types: './dist/esm/index.d.ts',
@@ -38,6 +75,7 @@ export async function formatPackageFile() {
             },
           }
         : {}),
+      ...subpathExports,
       './package.json': './package.json',
     },
   }

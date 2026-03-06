@@ -1,0 +1,122 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    Helvetica, "Helvetica Neue", Arial, "Nimbus Sans", "Liberation Sans",
+    sans-serif;
+}
+
+/* App */
+
+.app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5;
+}
+
+.app-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-height: 0;
+  padding-top: 48px;
+  gap: 16px;
+}
+
+.widget-iframe {
+  border: 0;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+}
+
+/* WalletHeader */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  border-bottom: 1px solid #eee;
+  background-color: #fafafa;
+}
+
+.header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.header-title {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.header-hint {
+  color: #747474;
+  font-size: 13px;
+}
+
+.header-hint-hidden {
+  visibility: hidden;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.account-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+.account-address {
+  font-weight: 500;
+}
+
+.account-chain {
+  color: #747474;
+  font-size: 11px;
+}
+
+.btn-disconnect {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 13px;
+  color: #999;
+  line-height: 1;
+}
+
+.btn {
+  padding: 8px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  border: none;
+  background-color: #5c67ff;
+  color: #fff;
+}
+
+.btn-secondary {
+  border: 1px solid #5c67ff;
+  background-color: transparent;
+  color: #5c67ff;
+}
