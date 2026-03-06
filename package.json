@@ -77,13 +77,16 @@
   "pnpm": {
     "overrides": {
       "@react-native-async-storage/async-storage": ">=2.2.0",
-      "@reown/appkit": ">=1.8.15",
+      "@reown/appkit": ">=1.8.18",
       "@safe-global/safe-apps-provider": ">=0.18.6",
       "bs58": ">=4.0.1",
       "miniflare>zod": "3.22.3",
       "miniflare>zod-validation-error": "3.0.3",
+      "use-sync-external-store": "1.4.0",
+      "@metamask/sdk": "~0.34.0",
+      "utf-8-validate": "6.0.6",
       "zod": ">=4.1.11"
     }
   },
-  "packageManager": "pnpm@10.28.2+sha512.41872f037ad22f7348e3b1debbaf7e867cfd448f2726d9cf74c08f19507c31d2c8e7a11525b983febc2df640b5438dee6023ebb1f84ed43cc2d654d2bc326264"
+  "packageManager": "pnpm@10.30.3"
 }

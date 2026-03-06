@@ -24,7 +24,10 @@ const EthereumWidgetProvider = ({
 
   if (inEthereumContext && !forceInternalWalletManagement) {
     return (
-      <EthereumProviderValues isExternalContext={inEthereumContext}>
+      <EthereumProviderValues
+        isExternalContext={inEthereumContext}
+        config={config}
+      >
         {children}
       </EthereumProviderValues>
     )

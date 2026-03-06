@@ -174,8 +174,9 @@ export const EthereumProviderValues: FC<
           const chain = await switchChain(wagmiConfig, { chainId })
           return getConnectorClient(wagmiConfig, { chainId: chain.id })
         },
+        disableMessageSigning: config?.disableMessageSigning,
       }),
-    [wagmiConfig]
+    [wagmiConfig, config?.disableMessageSigning]
   )
 
   const installedWallets = useMemo(
@@ -247,6 +248,7 @@ export const EthereumProviderValues: FC<
         isGaslessStep,
         isBatchingSupported,
         isDelegationDesignatorCode,
+        disableMessageSigning: config?.disableMessageSigning,
       }}
     >
       {children}
