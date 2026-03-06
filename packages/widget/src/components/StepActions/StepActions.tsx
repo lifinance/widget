@@ -5,7 +5,6 @@ import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
 import type { StepIconProps } from '@mui/material'
 import {
-  Badge,
   Box,
   Collapse,
   Step as MuiStep,
@@ -16,14 +15,12 @@ import type { MouseEventHandler } from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
-import { lifiLogoUrl } from '../../icons/lifi.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { HiddenUI } from '../../types/widget.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { SmallAvatar } from '../Avatar/SmallAvatar.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
 import {
-  StepAvatar,
   StepConnector,
   StepContent,
   StepLabel,
@@ -41,7 +38,6 @@ export const StepActions: React.FC<StepActionsProps> = ({
   ...other
 }) => {
   const { t } = useTranslation()
-  const { subvariant } = useWidgetConfig()
   const [cardExpanded, setCardExpanded] = useState(false)
 
   const handleExpand: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -49,62 +45,42 @@ export const StepActions: React.FC<StepActionsProps> = ({
     setCardExpanded((expanded) => !expanded)
   }
 
-  // FIXME: step transaction request overrides step tool details, but not included step tool details
-  const toolDetails =
-    subvariant === 'custom'
-      ? step.includedSteps.find(
-          (step) => step.tool === 'custom' && step.toolDetails.key !== 'custom'
-        )?.toolDetails || step.toolDetails
-      : step.toolDetails
-
   return (
     <Box {...other}>
       <Box
         sx={{
           display: 'flex',
           alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
-        <Badge
-          overlap="circular"
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          badgeContent={<SmallAvatar src={lifiLogoUrl} />}
-        >
-          <StepAvatar
-            variant="circular"
-            src={toolDetails.logoURI ?? lifiLogoUrl}
-            alt={toolDetails.name}
-          >
-            {toolDetails.name[0]}
-          </StepAvatar>
-        </Badge>
-        <Box
+        <Typography
           sx={{
-            flex: 1,
+            fontSize: 12,
+            fontWeight: 700,
           }}
         >
-          <Typography
-            sx={{
-              fontSize: 18,
-              fontWeight: 600,
-              lineHeight: 1.3334,
-              ml: 2,
-            }}
-          >
-            {toolDetails.name?.includes('LI.FI')
-              ? toolDetails.name
-              : t('main.stepDetails', {
-                  tool: toolDetails.name,
-                })}
-          </Typography>
-          {/* <StepFees ml={2} step={step} /> */}
-        </Box>
+          {t('main.route')}
+        </Typography>
+
         {dense ? (
           <CardIconButton onClick={handleExpand} size="small">
             {cardExpanded ? (
               <ExpandLess fontSize="inherit" />
             ) : (
-              <ExpandMore fontSize="inherit" />
+              <Box sx={{ display: 'flex', alignItems: 'center', ml: 1 }}>
+                {step.includedSteps.map((includedStep, index) => (
+                  <SmallAvatar
+                    key={includedStep.id}
+                    src={includedStep.toolDetails.logoURI}
+                    alt={includedStep.toolDetails.name}
+                    sx={{ ml: index > 0 ? -0.5 : 0 }}
+                  >
+                    {includedStep.toolDetails.name[0]}
+                  </SmallAvatar>
+                ))}
+                <ExpandMore fontSize="inherit" />
+              </Box>
             )}
           </CardIconButton>
         ) : null}

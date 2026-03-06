@@ -1,3 +1,4 @@
+import type { RouteExtended } from '@lifi/sdk'
 import AccessTimeFilled from '@mui/icons-material/AccessTimeFilled'
 import LocalGasStationRounded from '@mui/icons-material/LocalGasStationRounded'
 import { Box, Tooltip, Typography } from '@mui/material'
@@ -7,10 +8,15 @@ import { formatDuration } from '../../utils/format.js'
 import { FeeBreakdownTooltip } from '../FeeBreakdownTooltip.js'
 import { IconTypography } from '../IconTypography.js'
 import { TokenRate } from '../TokenRate/TokenRate.js'
-import type { RouteCardEssentialsProps } from './types.js'
+
+export interface RouteCardEssentialsProps {
+  route: RouteExtended
+  showDuration?: boolean
+}
 
 export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
   route,
+  showDuration = true,
 }) => {
   const { t, i18n } = useTranslation()
   const executionTimeSeconds = Math.floor(
@@ -71,28 +77,30 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
             </Typography>
           </Box>
         </FeeBreakdownTooltip>
-        <Tooltip title={t('tooltip.estimatedTime')} sx={{ cursor: 'help' }}>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            <IconTypography mr={0.5} fontSize={16}>
-              <AccessTimeFilled fontSize="inherit" />
-            </IconTypography>
-            <Typography
+        {showDuration && (
+          <Tooltip title={t('tooltip.estimatedTime')} sx={{ cursor: 'help' }}>
+            <Box
               sx={{
-                fontSize: 14,
-                color: 'text.primary',
-                fontWeight: 600,
-                lineHeight: 1,
+                display: 'flex',
+                alignItems: 'center',
               }}
             >
-              {formatDuration(executionTimeSeconds, i18n.language)}
-            </Typography>
-          </Box>
-        </Tooltip>
+              <IconTypography mr={0.5} fontSize={16}>
+                <AccessTimeFilled fontSize="inherit" />
+              </IconTypography>
+              <Typography
+                sx={{
+                  fontSize: 14,
+                  color: 'text.primary',
+                  fontWeight: 600,
+                  lineHeight: 1,
+                }}
+              >
+                {formatDuration(executionTimeSeconds, i18n.language)}
+              </Typography>
+            </Box>
+          </Tooltip>
+        )}
       </Box>
     </Box>
   )

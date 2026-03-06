@@ -1,23 +1,16 @@
 import type { TokenAmount } from '@lifi/sdk'
-import ExpandLess from '@mui/icons-material/ExpandLess'
-import ExpandMore from '@mui/icons-material/ExpandMore'
-import { Box, Collapse, Tooltip } from '@mui/material'
-import type { MouseEventHandler } from 'react'
-import { useMemo, useState } from 'react'
+import { Box, Tooltip } from '@mui/material'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { HiddenUI, type RouteLabel } from '../../types/widget.js'
 import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
 import type { CardProps } from '../Card/Card.js'
 import { Card } from '../Card/Card.js'
-import { CardIconButton } from '../Card/CardIconButton.js'
 import { CardLabel, CardLabelTypography } from '../Card/CardLabel.js'
-import { StepActions } from '../StepActions/StepActions.js'
-import { Token } from '../Token/Token.js'
+import { TokenWithExpansion } from '../Step/TokenWithExpansion.js'
 import { getMatchingLabels } from './getMatchingLabels.js'
-import { TokenContainer } from './RouteCard.style.js'
 import { RouteCardEssentials } from './RouteCardEssentials.js'
-import { RouteCardEssentialsExpanded } from './RouteCardEssentialsExpanded.js'
 import type { RouteCardProps } from './types.js'
 
 export const RouteCard: React.FC<
@@ -32,12 +25,6 @@ export const RouteCard: React.FC<
   const { t } = useTranslation()
   const { subvariant, subvariantOptions, routeLabels, hiddenUI } =
     useWidgetConfig()
-  const [cardExpanded, setCardExpanded] = useState(defaultExpanded)
-
-  const handleExpand: MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.stopPropagation()
-    setCardExpanded((expanded) => !expanded)
-  }
 
   const token: TokenAmount =
     subvariant === 'custom' && subvariantOptions?.custom !== 'deposit'
@@ -119,32 +106,12 @@ export const RouteCard: React.FC<
           ))}
         </Box>
       ) : null}
-      <TokenContainer>
-        <Token
-          token={token}
-          impactToken={impactToken}
-          step={route.steps[0]}
-          stepVisible={!cardExpanded}
-          disableDescription={hiddenUI?.includes(
-            HiddenUI.RouteTokenDescription
-          )}
-        />
-        {!defaultExpanded ? (
-          <CardIconButton onClick={handleExpand} size="small">
-            {cardExpanded ? (
-              <ExpandLess fontSize="inherit" />
-            ) : (
-              <ExpandMore fontSize="inherit" />
-            )}
-          </CardIconButton>
-        ) : null}
-      </TokenContainer>
-      <Collapse timeout={225} in={cardExpanded} mountOnEnter unmountOnExit>
-        {route.steps.map((step) => (
-          <StepActions key={step.id} step={step} mt={2} />
-        ))}
-        <RouteCardEssentialsExpanded route={route} />
-      </Collapse>
+      <TokenWithExpansion
+        route={route}
+        token={token}
+        impactToken={impactToken}
+        defaultExpanded={defaultExpanded}
+      />
       <RouteCardEssentials route={route} />
     </Box>
   )

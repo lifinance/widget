@@ -5,11 +5,13 @@ import { useLocation, useNavigate } from '@tanstack/react-router'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
-import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
+import { Card } from '../../components/Card/Card.js'
 import { WarningMessages } from '../../components/Messages/WarningMessages.js'
 import { PageContainer } from '../../components/PageContainer.js'
-import { getStepList } from '../../components/Step/StepList.js'
-import { TransactionDetails } from '../../components/TransactionDetails.js'
+import { RouteCardEssentials } from '../../components/RouteCard/RouteCardEssentials.js'
+import { ExecutionProgress } from '../../components/Step/ExecutionProgress.js'
+import { RouteTokens } from '../../components/Step/RouteTokens.js'
+import { RouteTransactions } from '../../components/Step/RouteTransactions.js'
 import { useAddressActivity } from '../../hooks/useAddressActivity.js'
 import { useHeader } from '../../hooks/useHeader.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
@@ -42,12 +44,7 @@ export const TransactionPage = () => {
   const setBackAction = useHeaderStore((state) => state.setBackAction)
   const navigate = useNavigate()
   const navigateBack = useNavigateBack()
-  const {
-    subvariant,
-    subvariantOptions,
-    contractSecondaryComponent,
-    hiddenUI,
-  } = useWidgetConfig()
+  const { subvariant, subvariantOptions, hiddenUI } = useWidgetConfig()
   const { search }: any = useLocation()
   const stateRouteId = search?.routeId
   const [routeId, setRouteId] = useState<string>(stateRouteId)
@@ -211,13 +208,14 @@ export const TransactionPage = () => {
 
   return (
     <PageContainer bottomGutters>
-      {getStepList(route, subvariant)}
-      {subvariant === 'custom' && contractSecondaryComponent ? (
-        <ContractComponent sx={{ marginTop: 2 }}>
-          {contractSecondaryComponent}
-        </ContractComponent>
-      ) : null}
-      <TransactionDetails route={route} sx={{ marginTop: 2 }} />
+      <Card type="default" sx={{ paddingX: 1, paddingY: 2 }}>
+        <ExecutionProgress route={route} />
+        <RouteTransactions route={route} />
+      </Card>
+      <Card type="default" sx={{ paddingX: 1, paddingY: 2 }}>
+        <RouteTokens route={route} />
+        <RouteCardEssentials route={route} />
+      </Card>
       {status === RouteExecutionStatus.Idle ||
       status === RouteExecutionStatus.Failed ? (
         <>

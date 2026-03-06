@@ -7,10 +7,6 @@ export interface RouteCardProps {
   expanded?: boolean
 }
 
-export interface RouteCardEssentialsProps {
-  route: Route
-}
-
 export interface RouteCardSkeletonProps {
   variant?: 'default' | 'cardless'
 }

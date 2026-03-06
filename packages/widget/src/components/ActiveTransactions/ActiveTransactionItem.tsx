@@ -1,7 +1,12 @@
 import ArrowForward from '@mui/icons-material/ArrowForward'
 import ErrorRounded from '@mui/icons-material/ErrorRounded'
 import InfoRounded from '@mui/icons-material/InfoRounded'
-import { ListItemAvatar, ListItemText, Typography } from '@mui/material'
+import {
+  CircularProgress,
+  ListItemAvatar,
+  ListItemText,
+  Typography,
+} from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import { useActionMessage } from '../../hooks/useActionMessage.js'
 import { useRouteExecution } from '../../hooks/useRouteExecution.js'
@@ -9,9 +14,9 @@ import { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { TokenAvatarGroup } from '../Avatar/Avatar.style.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
-import { StepTimer } from '../Timer/StepTimer.js'
 import { ListItem, ListItemButton } from './ActiveTransactions.style.js'
 
+// TODO: This will get replaced with transaction history / activity center
 export const ActiveTransactionItem: React.FC<{
   routeId: string
   dense?: boolean
@@ -47,16 +52,7 @@ export const ActiveTransactionItem: React.FC<{
       case 'FAILED':
         return <ErrorRounded color="error" fontSize="small" />
       default:
-        return (
-          <Typography
-            sx={{
-              fontSize: 14,
-              fontWeight: 600,
-            }}
-          >
-            <StepTimer step={lastActiveStep} hideInProgress />
-          </Typography>
-        )
+        return <CircularProgress size={16} />
     }
   }
 

@@ -1,7 +1,7 @@
-import type { LiFiStep, TokenAmount } from '@lifi/sdk'
+import type { ExtendedChain, LiFiStep, TokenAmount } from '@lifi/sdk'
 import type { BoxProps } from '@mui/material'
 import { Box, Grow, Skeleton, Tooltip } from '@mui/material'
-import type { FC, PropsWithChildren, ReactElement } from 'react'
+import type { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useChain } from '../../hooks/useChain.js'
 import { useToken } from '../../hooks/useToken.js'
@@ -92,15 +92,6 @@ const TokenBase: FC<TokenProps & BoxProps> = ({
     priceImpactPercent = priceImpact * 100
   }
 
-  const tokenOnChain = !disableDescription ? (
-    <TextSecondary>
-      {t('main.tokenOnChain', {
-        tokenSymbol: token.symbol,
-        chainName: chain?.name,
-      })}
-    </TextSecondary>
-  ) : null
-
   return (
     <Box
       {...other}
@@ -180,29 +171,31 @@ const TokenBase: FC<TokenProps & BoxProps> = ({
               &#x2022;
             </TextSecondary>
           ) : null}
-          {!disableDescription && step ? (
-            <TokenStep
-              step={step}
-              stepVisible={stepVisible}
-              disableDescription={disableDescription}
-            >
-              {tokenOnChain}
-            </TokenStep>
-          ) : (
-            tokenOnChain
-          )}
+          {!disableDescription ? (
+            <TokenStep step={step} stepVisible={stepVisible} chain={chain} />
+          ) : null}
         </TextSecondaryContainer>
       </Box>
     </Box>
   )
 }
 
-const TokenStep: FC<PropsWithChildren<Partial<TokenProps>>> = ({
-  step,
-  stepVisible,
-  disableDescription,
-  children,
-}) => {
+const IconLabel: FC<{ src?: string; name?: string }> = ({ src, name }) => (
+  <>
+    <Box sx={{ mr: 0.75, height: 16 }}>
+      <SmallAvatar src={src} alt={name} size={16}>
+        {name?.[0]}
+      </SmallAvatar>
+    </Box>
+    <TextSecondary>{name}</TextSecondary>
+  </>
+)
+
+interface TokenStepProps extends Partial<TokenProps> {
+  chain?: ExtendedChain
+}
+
+const TokenStep: FC<TokenStepProps> = ({ step, stepVisible, chain }) => {
   return (
     <Box
       sx={{
@@ -213,52 +206,26 @@ const TokenStep: FC<PropsWithChildren<Partial<TokenProps>>> = ({
       }}
     >
       <Grow
-        in={!stepVisible && !disableDescription}
-        style={{
-          position: 'absolute',
-        }}
+        in={!stepVisible}
+        style={{ position: 'absolute' }}
         appear={false}
         timeout={225}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            height: 16,
-          }}
-        >
-          {children as ReactElement}
+        <Box sx={{ display: 'flex', alignItems: 'center', height: 16 }}>
+          <IconLabel src={chain?.logoURI} name={chain?.name} />
         </Box>
       </Grow>
       <Grow
         in={stepVisible}
-        style={{
-          position: 'absolute',
-        }}
+        style={{ position: 'absolute' }}
         appear={false}
         timeout={225}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            height: 16,
-          }}
-        >
-          <Box
-            sx={{
-              mr: 0.75,
-              height: 16,
-            }}
-          >
-            <SmallAvatar
-              src={step?.toolDetails.logoURI}
-              alt={step?.toolDetails.name}
-            >
-              {step?.toolDetails.name[0]}
-            </SmallAvatar>
-          </Box>
-          <TextSecondary>{step?.toolDetails.name}</TextSecondary>
+        <Box sx={{ display: 'flex', alignItems: 'center', height: 16 }}>
+          <IconLabel
+            src={step?.toolDetails.logoURI}
+            name={step?.toolDetails.name}
+          />
         </Box>
       </Grow>
     </Box>

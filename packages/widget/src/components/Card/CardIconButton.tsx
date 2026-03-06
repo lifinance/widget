@@ -11,5 +11,6 @@ export const CardIconButton = styled(MuiIconButton)<
       backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08)`,
     },
     fontSize: '1rem',
+    borderRadius: theme.vars.shape.borderRadiusTertiary,
   }
 })

@@ -1,5 +1,5 @@
-import { Button } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+import { CardIconButton } from '../../components/Card/CardIconButton.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { WidgetEvent } from '../../types/events.js'
 
@@ -25,8 +25,12 @@ export const ContactSupportButton = ({
   }
 
   return (
-    <Button onClick={handleClick} fullWidth>
+    <CardIconButton
+      size="small"
+      onClick={handleClick}
+      sx={{ fontSize: 12, fontWeight: 700, px: 1 }}
+    >
       {t('button.contactSupport')}
-    </Button>
+    </CardIconButton>
   )
 }

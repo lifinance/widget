@@ -20,8 +20,6 @@ export const StepTimer: React.FC<{
   step: LiFiStepExtended
   hideInProgress?: boolean
 }> = ({ step, hideInProgress }) => {
-  const { i18n } = useTranslation()
-
   if (
     step.execution?.status === 'DONE' ||
     step.execution?.status === 'FAILED'
@@ -30,19 +28,7 @@ export const StepTimer: React.FC<{
   }
 
   if (!step.execution?.signedAt) {
-    const showSeconds = step.estimate.executionDuration < 60
-    const duration = showSeconds
-      ? Math.floor(step.estimate.executionDuration)
-      : Math.floor(step.estimate.executionDuration / 60)
-    return (
-      <TimerContent>
-        {duration.toLocaleString(i18n.language, {
-          style: 'unit',
-          unit: showSeconds ? 'second' : 'minute',
-          unitDisplay: 'narrow',
-        })}
-      </TimerContent>
-    )
+    return null
   }
 
   return (
