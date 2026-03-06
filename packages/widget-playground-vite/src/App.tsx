@@ -48,3 +48,13 @@ if (!import.meta.env.VITE_EVM_WALLET_CONNECT) {
     'VITE_EVM_WALLET_CONNECT is require in your .env.local file for external wallet management'
   )
 }
+
+if (
+  (import.meta.env.MODE === 'dev' || import.meta.env.MODE === 'staging') &&
+  !import.meta.env.VITE_API_KEY
+) {
+  throw new Error(
+    `VITE_API_KEY is required when running in "${import.meta.env.MODE}" mode. ` +
+      `Please set it in your .env.${import.meta.env.MODE}.local file.`
+  )
+}

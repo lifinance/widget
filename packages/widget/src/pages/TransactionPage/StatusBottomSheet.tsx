@@ -11,7 +11,6 @@ import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { Card } from '../../components/Card/Card.js'
 import { CardTitle } from '../../components/Card/CardTitle.js'
 import { Token } from '../../components/Token/Token.js'
-import { getActionMessage } from '../../hooks/useActionMessage.js'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useSetContentHeight } from '../../hooks/useSetContentHeight.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
@@ -23,6 +22,7 @@ import {
 import { getSourceTxHash } from '../../stores/routes/utils.js'
 import { hasEnumFlag } from '../../utils/enum.js'
 import { formatTokenAmount } from '../../utils/format.js'
+import { getErrorMessage } from '../../utils/getErrorMessage.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { CenterContainer, IconCircle } from './StatusBottomSheet.style.js'
 
@@ -181,13 +181,13 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
       const step = route.steps.find(
         (step) => step.execution?.status === 'FAILED'
       )
-      const action = step?.execution?.actions.find(
-        (action) => action.status === 'FAILED'
-      )
-      if (!step || !action) {
+      if (!step) {
         break
       }
-      const actionMessage = getActionMessage(t, getChainById, step, action)
+      const action = step.execution?.actions.find(
+        (action) => action.status === 'FAILED'
+      )
+      const actionMessage = getErrorMessage(t, getChainById, step, action)
       title = actionMessage.title
       failedMessage = actionMessage.message
       handlePrimaryButton = handleClose
