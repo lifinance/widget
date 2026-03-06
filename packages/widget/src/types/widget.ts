@@ -178,10 +178,7 @@ export interface WidgetSDKConfig
     | 'widgetVersion'
   > {
   routeOptions?: Omit<RouteOptions, 'bridges' | 'exchanges'>
-  executionOptions?: Pick<
-    ExecutionOptions,
-    'disableMessageSigning' | 'updateTransactionRequestHook'
-  >
+  executionOptions?: Pick<ExecutionOptions, 'updateTransactionRequestHook'>
 }
 
 export interface WidgetContractTool {
