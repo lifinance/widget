@@ -53,7 +53,7 @@ export const widgetBaseConfig: WidgetConfig = {
   //   },
   // },
   integrator: 'li.fi-playground',
-  ...(import.meta.env.VITE_API_KEY && {
+  ...(import.meta.env?.VITE_API_KEY && {
     apiKey: import.meta.env.VITE_API_KEY,
   }),
   // fee: 0.01,
@@ -77,7 +77,7 @@ export const widgetBaseConfig: WidgetConfig = {
   // usePartialWalletManagement: true,
   // },
   sdkConfig: {
-    apiUrl: import.meta.env.VITE_API_URL || 'https://li.quest/v1',
+    apiUrl: import.meta.env?.VITE_API_URL || 'https://li.quest/v1',
     preloadChains: false,
     rpcUrls: {
       [ChainId.SOL]: [
