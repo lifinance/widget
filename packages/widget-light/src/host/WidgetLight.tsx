@@ -43,7 +43,7 @@ export interface WidgetLightProps {
  *   src="/widget.html"
  *   config={{ integrator: 'my-app', fromChain: 1 }}
  *   handlers={[ethHandler, solHandler]}
- *   iframeOrigin="http://localhost:4000"
+ *   iframeOrigin="https://widget.li.fi"
  *   style={{ width: 392, height: 640, borderRadius: 16 }}
  * />
  */

@@ -13,8 +13,8 @@ import { useMemo } from 'react'
 import { WalletHeader } from './components/WalletHeader'
 import { widgetConfig } from './widgetConfig'
 
-const WIDGET_ORIGIN = 'http://localhost:3000'
-const WIDGET_URL = WIDGET_ORIGIN
+const WIDGET_URL = import.meta.env.VITE_WIDGET_URL || 'https://widget.li.fi'
+const WIDGET_ORIGIN = new URL(WIDGET_URL).origin
 
 export function HostApp() {
   const { account } = useAccount()

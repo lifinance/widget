@@ -6,6 +6,7 @@
   "scripts": {
     "analyze": "source-map-explorer 'dist/assets/*.js' --no-border-checks",
     "dev": "vite",
+    "dev:local": "vite --mode localhost",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },

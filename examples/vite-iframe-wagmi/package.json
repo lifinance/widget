@@ -1,0 +1,26 @@
+{
+  "name": "vite-iframe",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@lifi/widget-light": "workspace:*",
+    "@tanstack/react-query": "^5.90.20",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "viem": "^2.45.1",
+    "wagmi": "^3.4.2"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.13",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.3",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0"
+  }
+}

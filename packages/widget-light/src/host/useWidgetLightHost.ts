@@ -18,7 +18,7 @@ export interface UseWidgetLightHostOptions {
    */
   handlers?: IframeEcosystemHandler[]
   /**
-   * Expected origin of the iframe (e.g. 'http://localhost:4000').
+   * Expected origin of the iframe (e.g. 'https://widget.li.fi').
    * Messages from other origins are silently dropped.
    * Defaults to '*' (accept any origin) — restrict in production.
    */
@@ -48,9 +48,9 @@ export interface UseWidgetLightHostOptions {
  *   const { iframeRef } = useWidgetLightHost({
  *     config: { integrator: 'my-app', fromChain: 1, toChain: 137 },
  *     handlers: [ethHandler],
- *     iframeOrigin: 'http://localhost:4000',
+ *     iframeOrigin: 'https://widget.li.fi',
  *   })
- *   return <iframe ref={iframeRef} src="http://localhost:4000/widget.html" />
+ *   return <iframe ref={iframeRef} src="https://widget.li.fi" />
  * }
  */
 export function useWidgetLightHost({
