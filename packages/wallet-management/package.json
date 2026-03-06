@@ -10,8 +10,8 @@
     "watch": "tsc -w -p ./tsconfig.json",
     "build": "pnpm clean && pnpm build:esm && pnpm build:clean",
     "build:esm": "tsc --build",
-    "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../*.md' .",
-    "build:postrelease": "node ../../scripts/postrelease.js && rm -rf *.md",
+    "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../README.md' .",
+    "build:postrelease": "node ../../scripts/postrelease.js && rm -rf README.md",
     "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo",
     "release:build": "pnpm build",
     "clean": "pnpm build:clean && rm -rf dist",
@@ -67,11 +67,5 @@
     "@tanstack/react-query": ">=5.90.0",
     "react": ">=18",
     "react-dom": ">=18"
-  },
-  "files": [
-    "dist/**",
-    "src/**",
-    "!tsconfig.json",
-    "!*.tmp"
-  ]
+  }
 }

@@ -47,6 +47,21 @@ export async function formatPackageFile() {
     ...packageDataOther,
     main: './dist/esm/index.js',
     types: './dist/esm/index.d.ts',
+    files: [
+      'dist/**',
+      '!dist/**/*.tsbuildinfo',
+      'src/**/*.ts',
+      'src/**/*.tsx',
+      '!src/**/*.spec.ts',
+      '!src/**/*.test.ts',
+      '!src/**/*.mock.ts',
+      '!src/**/*.handlers.ts',
+      '!src/**/*.tsbuildinfo',
+      '!**/__mocks__/**',
+      '!*.tmp',
+      '!*.env',
+      '!tsconfig.json',
+    ],
     exports: {
       '.': {
         types: './dist/esm/index.d.ts',
