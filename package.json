@@ -11,6 +11,8 @@
     "clean:modules:trash": "find . -name \"node_modules\" -type d -prune -exec trash {} +",
     "regen": "rm -rf pnpm-lock.yaml && pnpm clean:modules && corepack use pnpm@latest",
     "dev": "pnpm --filter widget-playground-vite dev",
+    "dev:dev": "pnpm --filter widget-playground-vite dev:dev",
+    "dev:staging": "pnpm --filter widget-playground-vite dev:staging",
     "dev:next": "pnpm --filter widget-playground-next dev",
     "release": "pnpm release:version && pnpm release:build && pnpm standard-version -a -s",
     "release:alpha": "pnpm release:version --preid alpha && pnpm release:build && pnpm standard-version -a -s --prerelease alpha --skip.changelog",

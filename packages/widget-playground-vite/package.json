@@ -5,6 +5,8 @@
   "scripts": {
     "analyze": "source-map-explorer 'dist/assets/*.js' --no-border-checks",
     "dev": "vite",
+    "dev:dev": "vite --mode dev",
+    "dev:staging": "vite --mode staging",
     "build": "tsc && vite build",
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
     "preview": "vite preview",
