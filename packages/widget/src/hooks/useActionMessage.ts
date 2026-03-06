@@ -6,8 +6,8 @@ import { getErrorMessage } from '../utils/getErrorMessage.js'
 import { useAvailableChains } from './useAvailableChains.js'
 
 export const useActionMessage = (
-  step: LiFiStepExtended | undefined,
-  action: ExecutionAction | undefined
+  step?: LiFiStepExtended,
+  action?: ExecutionAction
 ) => {
   const { subvariant, subvariantOptions } = useWidgetConfig()
   const { t } = useTranslation()
@@ -17,7 +17,7 @@ export const useActionMessage = (
     return {}
   }
 
-  if (action.error && action.status === 'FAILED') {
+  if (action.status === 'FAILED') {
     return getErrorMessage(t, getChainById, step, action)
   }
 
