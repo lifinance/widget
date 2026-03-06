@@ -577,7 +577,7 @@ importers:
         version: 2.25.0(f9baa64dc626fdaf447d2459a38205cf)
       '@privy-io/wagmi':
         specifier: ^1.0.6
-        version: 1.0.6(fe4118b6da6b2ba2595cd60042f6170f)
+        version: 1.0.6(@privy-io/react-auth@2.25.0(f9baa64dc626fdaf447d2459a38205cf))(react@19.2.4)(viem@2.47.0(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@4.3.6))(wagmi@2.19.5(@react-native-async-storage/async-storage@3.0.1(react-native@0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(bufferutil@4.1.0)(react@19.2.4)(utf-8-validate@6.0.6))(react@19.2.4))(@tanstack/query-core@5.90.20)(@tanstack/react-query@5.90.21(react@19.2.4))(@types/react@19.2.14)(bufferutil@4.1.0)(db0@0.3.4)(encoding@0.1.13)(fastestsmallesttextencoderdecoder@1.0.22)(ioredis@5.10.0)(react-native@0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(bufferutil@4.1.0)(react@19.2.4)(utf-8-validate@6.0.6))(react@19.2.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(viem@2.47.0(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@4.3.6))(zod@4.3.6))
       '@solana/kit':
         specifier: ^5.5.0
         version: 5.5.1(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(utf-8-validate@6.0.6)
@@ -656,7 +656,7 @@ importers:
         version: 2.25.0(f9baa64dc626fdaf447d2459a38205cf)
       '@privy-io/wagmi':
         specifier: ^1.0.6
-        version: 1.0.6(fe4118b6da6b2ba2595cd60042f6170f)
+        version: 1.0.6(@privy-io/react-auth@2.25.0(f9baa64dc626fdaf447d2459a38205cf))(react@19.2.4)(viem@2.47.0(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@4.3.6))(wagmi@2.19.5(@react-native-async-storage/async-storage@3.0.1(react-native@0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(bufferutil@4.1.0)(react@19.2.4)(utf-8-validate@6.0.6))(react@19.2.4))(@tanstack/query-core@5.90.20)(@tanstack/react-query@5.90.21(react@19.2.4))(@types/react@19.2.14)(bufferutil@4.1.0)(db0@0.3.4)(encoding@0.1.13)(fastestsmallesttextencoderdecoder@1.0.22)(ioredis@5.10.0)(react-native@0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(bufferutil@4.1.0)(react@19.2.4)(utf-8-validate@6.0.6))(react@19.2.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(viem@2.47.0(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@4.3.6))(zod@4.3.6))
       '@solana/wallet-adapter-base':
         specifier: ^0.9.27
         version: 0.9.27(@solana/web3.js@1.98.4(bufferutil@4.1.0)(encoding@0.1.13)(typescript@5.9.3)(utf-8-validate@6.0.6))
@@ -1191,6 +1191,43 @@ importers:
       vite-plugin-node-polyfills:
         specifier: ^0.25.0
         version: 0.25.0(rollup@4.59.0)(vite@7.3.1(@types/node@25.3.5)(jiti@2.6.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
+
+  examples/vite-iframe-wagmi:
+    dependencies:
+      '@lifi/widget-light':
+        specifier: workspace:*
+        version: link:../../packages/widget-light
+      '@tanstack/react-query':
+        specifier: ^5.90.20
+        version: 5.90.21(react@19.2.4)
+      react:
+        specifier: ^19.2.4
+        version: 19.2.4
+      react-dom:
+        specifier: ^19.2.4
+        version: 19.2.4(react@19.2.4)
+      viem:
+        specifier: ^2.45.1
+        version: 2.47.0(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@4.3.6)
+      wagmi:
+        specifier: ^3.4.2
+        version: 3.5.0(a168feae2a0de4c1971a620e477734e8)
+    devDependencies:
+      '@types/react':
+        specifier: ^19.2.13
+        version: 19.2.14
+      '@types/react-dom':
+        specifier: ^19.2.3
+        version: 19.2.3(@types/react@19.2.14)
+      '@vitejs/plugin-react':
+        specifier: ^5.1.3
+        version: 5.1.4(vite@7.3.1(@types/node@25.3.5)(jiti@2.6.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      vite:
+        specifier: ^7.3.0
+        version: 7.3.1(@types/node@25.3.5)(jiti@2.6.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
 
   examples/vue:
     dependencies:
@@ -17524,7 +17561,7 @@ snapshots:
       '@evervault/wasm-attestation-bindings': 0.3.1
       '@noble/hashes': 2.0.1
       '@noble/post-quantum': 0.5.4
-      eventemitter3: 5.0.1
+      eventemitter3: 5.0.4
       fp-ts: 2.16.11
       ws: 8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
     transitivePeerDependencies:
@@ -17539,7 +17576,7 @@ snapshots:
       '@evervault/wasm-attestation-bindings': 0.3.1
       '@noble/hashes': 2.0.1
       '@noble/post-quantum': 0.5.4
-      eventemitter3: 5.0.1
+      eventemitter3: 5.0.4
       fp-ts: 2.16.11
       ws: 8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
     transitivePeerDependencies:
@@ -17554,7 +17591,7 @@ snapshots:
       '@evervault/wasm-attestation-bindings': 0.3.1
       '@noble/hashes': 2.0.1
       '@noble/post-quantum': 0.5.4
-      eventemitter3: 5.0.1
+      eventemitter3: 5.0.4
       fp-ts: 2.16.11
       isows: 1.0.7(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
       ws: 8.19.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
@@ -21509,7 +21546,7 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@privy-io/wagmi@1.0.6(fe4118b6da6b2ba2595cd60042f6170f)':
+  '@privy-io/wagmi@1.0.6(@privy-io/react-auth@2.25.0(f9baa64dc626fdaf447d2459a38205cf))(react@19.2.4)(viem@2.47.0(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@4.3.6))(wagmi@2.19.5(@react-native-async-storage/async-storage@3.0.1(react-native@0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(bufferutil@4.1.0)(react@19.2.4)(utf-8-validate@6.0.6))(react@19.2.4))(@tanstack/query-core@5.90.20)(@tanstack/react-query@5.90.21(react@19.2.4))(@types/react@19.2.14)(bufferutil@4.1.0)(db0@0.3.4)(encoding@0.1.13)(fastestsmallesttextencoderdecoder@1.0.22)(ioredis@5.10.0)(react-native@0.84.1(@babel/core@7.29.0)(@types/react@19.2.14)(bufferutil@4.1.0)(react@19.2.4)(utf-8-validate@6.0.6))(react@19.2.4)(typescript@5.9.3)(utf-8-validate@6.0.6)(viem@2.47.0(bufferutil@4.1.0)(typescript@5.9.3)(utf-8-validate@6.0.6)(zod@4.3.6))(zod@4.3.6))':
     dependencies:
       '@privy-io/react-auth': 2.25.0(f9baa64dc626fdaf447d2459a38205cf)
       react: 19.2.4
@@ -22866,7 +22903,7 @@ snapshots:
 
   '@scure/bip32@1.7.0':
     dependencies:
-      '@noble/curves': 1.9.1
+      '@noble/curves': 1.9.7
       '@noble/hashes': 1.8.0
       '@scure/base': 1.2.6
 
@@ -32735,11 +32772,11 @@ snapshots:
   ox@0.6.7(typescript@5.9.3)(zod@4.3.6):
     dependencies:
       '@adraffy/ens-normalize': 1.11.1
-      '@noble/curves': 1.8.1
-      '@noble/hashes': 1.7.1
-      '@scure/bip32': 1.6.2
-      '@scure/bip39': 1.5.4
-      abitype: 1.0.8(typescript@5.9.3)(zod@4.3.6)
+      '@noble/curves': 1.9.7
+      '@noble/hashes': 1.8.0
+      '@scure/bip32': 1.7.0
+      '@scure/bip39': 1.6.0
+      abitype: 1.2.3(typescript@5.9.3)(zod@4.3.6)
       eventemitter3: 5.0.1
     optionalDependencies:
       typescript: 5.9.3
@@ -32764,11 +32801,11 @@ snapshots:
     dependencies:
       '@adraffy/ens-normalize': 1.11.1
       '@noble/ciphers': 1.3.0
-      '@noble/curves': 1.9.2
+      '@noble/curves': 1.9.7
       '@noble/hashes': 1.8.0
       '@scure/bip32': 1.7.0
       '@scure/bip39': 1.6.0
-      abitype: 1.0.8(typescript@5.9.3)(zod@4.3.6)
+      abitype: 1.2.3(typescript@5.9.3)(zod@4.3.6)
       eventemitter3: 5.0.1
     optionalDependencies:
       typescript: 5.9.3
@@ -32903,7 +32940,7 @@ snapshots:
 
   p-queue@9.1.0:
     dependencies:
-      eventemitter3: 5.0.1
+      eventemitter3: 5.0.4
       p-timeout: 7.0.1
 
   p-reduce@2.1.0: {}
