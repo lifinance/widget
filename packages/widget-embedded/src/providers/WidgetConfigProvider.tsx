@@ -9,8 +9,10 @@ import {
   useState,
 } from 'react'
 
-const DEV_CONFIG: Partial<WidgetConfig> = {
-  integrator: 'widget-embedded-dev',
+const isInsideIframe = window.self !== window.top
+
+const DEFAULT_CONFIG: Partial<WidgetConfig> = {
+  integrator: 'widget-embedded',
 }
 
 const WidgetConfigContext = createContext<Partial<WidgetConfig> | null>(null)
@@ -19,15 +21,21 @@ export const useEmbeddedWidgetConfig = () => useContext(WidgetConfigContext)
 
 export const WidgetConfigProvider: FC<PropsWithChildren> = ({ children }) => {
   const [config, setConfig] = useState<Partial<WidgetConfig> | null>(() => {
-    const bridge = GuestBridge.getInstance()
-    const existing = bridge.config
-    if (existing) {
-      return existing as unknown as Partial<WidgetConfig>
+    if (isInsideIframe) {
+      const bridge = GuestBridge.getInstance()
+      const existing = bridge.config
+      if (existing) {
+        return existing as unknown as Partial<WidgetConfig>
+      }
+      return null
     }
-    return import.meta.env.DEV ? DEV_CONFIG : null
+    return DEFAULT_CONFIG
   })
 
   useEffect(() => {
+    if (!isInsideIframe) {
+      return
+    }
     const bridge = GuestBridge.getInstance()
     return bridge.onConfig((cfg) => {
       setConfig(cfg as unknown as Partial<WidgetConfig>)
