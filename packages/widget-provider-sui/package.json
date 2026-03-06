@@ -41,7 +41,7 @@
   ],
   "dependencies": {
     "@lifi/sdk": "^4.0.0-alpha.20",
-    "@lifi/sdk-provider-sui": "4.0.0-alpha.20",
+    "@lifi/sdk-provider-sui": "^4.0.0-alpha.20",
     "@lifi/widget-provider": "workspace:*",
     "@mysten/dapp-kit-react": "^2.0.0",
     "@mysten/sui": "^2.5.0"

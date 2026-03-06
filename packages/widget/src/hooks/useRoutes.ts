@@ -99,7 +99,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
   const { enabled: enabledRefuel, fromAmount: gasRecommendationFromAmount } =
     useGasRefuel()
   const { getChainTypeFromAddress } = useChainTypeFromAddress()
-  const { isGaslessStep } = useEthereumContext()
+  const { isGaslessStep, disableMessageSigning } = useEthereumContext()
   const { account } = useAccount({ chainType: fromChain?.chainType })
   const { isBatchingSupported, isBatchingSupportedLoading } =
     useIsBatchingSupported(fromChain, account.address)
@@ -131,8 +131,6 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
       ? enabledExchanges
       : undefined
   const allowSwitchChain = sdkClient.config?.routeOptions?.allowSwitchChain
-  const disableMessageSigning =
-    sdkClient.config?.executionOptions?.disableMessageSigning
 
   const isEnabled =
     Boolean(Number(fromChain?.id)) &&

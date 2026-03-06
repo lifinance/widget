@@ -7,6 +7,7 @@ import { StepActions } from '../../components/StepActions/StepActions.js'
 import { Token } from '../../components/Token/Token.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { prepareActions } from '../../utils/prepareActions.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { StepTimer } from '../Timer/StepTimer.js'
 import { DestinationWalletAddress } from './DestinationWalletAddress.js'
@@ -90,9 +91,11 @@ export const Step: React.FC<{
       >
         {fromToken ? <Token token={fromToken} px={2} py={1} /> : null}
         <StepActions step={step} px={2} py={1} dense />
-        {step.execution?.actions?.map((action, index) => (
-          <StepAction key={index} step={step} action={action} />
-        ))}
+        {prepareActions(step.execution?.actions ?? []).map(
+          (actionsGroup, index) => (
+            <StepAction key={index} step={step} actionsGroup={actionsGroup} />
+          )
+        )}
         {formattedToAddress && toAddressLink ? (
           <DestinationWalletAddress
             step={step}

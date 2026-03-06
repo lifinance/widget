@@ -71,6 +71,7 @@ export type EthereumProviderContext = WidgetProviderContext & {
     }
   ) => Promise<boolean>
   isDelegationDesignatorCode?: (code?: string) => boolean | undefined
+  disableMessageSigning?: boolean
 }
 
 export interface WidgetProviderProps {
