@@ -1,5 +1,5 @@
 {
-  "name": "vite-iframe",
+  "name": "vite-iframe-wagmi",
   "private": true,
   "version": "0.0.0",
   "type": "module",
