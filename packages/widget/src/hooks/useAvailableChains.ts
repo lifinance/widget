@@ -1,7 +1,7 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { ChainType, createClient, getChains } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { WidgetConfig } from '../types/widget.js'
@@ -51,6 +51,7 @@ export const useAvailableChains = (
       chains?.deny,
       chains?.from,
       chains?.to,
+      !!externalClient,
     ] as const,
     queryFn: async ({ queryKey: [, chainTypesConfig] }) => {
       const chainsConfigSets = getConfigItemSets(
@@ -70,6 +71,15 @@ export const useAvailableChains = (
     refetchInterval: 300_000,
     staleTime: 300_000,
   })
+
+  // Ensure the current internal client always has chains, even when:
+  // - the query result came from cache (external call populated it first)
+  // - the client was recreated due to config changes (stale closure in queryFn)
+  useEffect(() => {
+    if (data && !externalClient) {
+      internalClient.setChains(data)
+    }
+  }, [data, externalClient, internalClient])
 
   const getChainById: GetChainById = useCallback(
     (chainId?: number, chains: ExtendedChain[] | undefined = data) => {

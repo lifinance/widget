@@ -18,4 +18,5 @@ export interface EthereumProviderConfig {
   metaMask?: MetaMaskParameters | boolean
   baseAccount?: BaseAccountParameters | boolean
   porto?: Partial<PortoParameters> | boolean
+  disableMessageSigning?: boolean
 }

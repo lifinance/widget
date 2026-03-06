@@ -40,14 +40,13 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "^4.0.0-alpha.13",
-    "@lifi/sdk-provider-sui": "^4.0.0-alpha.13",
+    "@lifi/sdk": "^4.0.0-alpha.20",
+    "@lifi/sdk-provider-sui": "^4.0.0-alpha.20",
     "@lifi/widget-provider": "workspace:*",
-    "@mysten/sui": "^1.45.2",
-    "@mysten/wallet-standard": "^0.19.9"
+    "@mysten/sui": "^2.6.0"
   },
   "peerDependencies": {
-    "@mysten/dapp-kit": "^0.19.11"
+    "@mysten/dapp-kit-react": "^2.0.0"
   },
   "devDependencies": {
     "cpy-cli": "^7.0.0",
