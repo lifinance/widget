@@ -1,4 +1,5 @@
 import type { Token } from '@lifi/sdk'
+import { useAccount } from '@lifi/wallet-management'
 import type { CardProps } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import type { ChangeEvent, ReactNode } from 'react'
@@ -93,9 +94,14 @@ const AmountInputBase: React.FC<
   const { inputMode } = useInputModeStore()
 
   const { chain } = useChain(chainId)
+  const { account } = useAccount()
 
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress)
   const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress)
+  const showWalletBadge =
+    !hiddenToAddress &&
+    !(disabledToAddress && !toAddress) &&
+    account.isConnected
 
   const currentInputMode = inputMode[formType]
   let displayValue: string
@@ -184,7 +190,7 @@ const AmountInputBase: React.FC<
     <AmountInputCard {...props}>
       <AmountInputCardHeader>
         <AmountInputCardTitle>{title}</AmountInputCardTitle>
-        {!hiddenToAddress && !(disabledToAddress && !toAddress) ? (
+        {showWalletBadge ? (
           <WalletAddressBadge
             address={toAddress}
             label={

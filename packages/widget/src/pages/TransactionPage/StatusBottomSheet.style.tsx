@@ -8,6 +8,8 @@ const getStatusColor = (status: StatusColor, theme: Theme) => {
   switch (status) {
     case RouteExecutionStatus.Done:
       return {
+        // TODO: how to resolve new colors?
+        backgroundColor: '#D6FFE7',
         color: theme.vars.palette.success.mainChannel,
         alpha: 0.12,
         lightDarken: 0,
@@ -51,23 +53,26 @@ export const IconCircle = styled(Box, {
   const statusConfig = getStatusColor(status, theme)
 
   return {
-    backgroundColor: `rgba(${statusConfig.color} / ${statusConfig.alpha})`,
+    backgroundColor:
+      'backgroundColor' in statusConfig
+        ? statusConfig.backgroundColor
+        : `rgba(${statusConfig.color} / ${statusConfig.alpha})`,
     borderRadius: '50%',
-    width: 72,
-    height: 72,
+    width: 90,
+    height: 90,
     display: 'grid',
     position: 'relative',
     placeItems: 'center',
     '& > svg': {
       color: `color-mix(in srgb, rgb(${statusConfig.color}) ${(1 - statusConfig.lightDarken) * 100}%, black)`,
-      width: 36,
-      height: 36,
+      width: 48,
+      height: 48,
     },
     ...theme.applyStyles('dark', {
       '& > svg': {
         color: `color-mix(in srgb, rgb(${statusConfig.color}) ${(1 - statusConfig.darkDarken) * 100}%, black)`,
-        width: 36,
-        height: 36,
+        width: 48,
+        height: 48,
       },
     }),
   }

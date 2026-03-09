@@ -28,7 +28,7 @@ export const WalletAddressBadge: React.FC<WalletAddressBadgeProps> = ({
           fontWeight: 700,
           lineHeight: '16px',
           color: 'text.primary',
-          px: 0.5,
+          p: 0.5,
         }}
       >
         {address ? shortenAddress(address) : label}

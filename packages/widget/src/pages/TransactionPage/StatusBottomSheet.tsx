@@ -268,7 +268,7 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
               display: 'flex',
               flexDirection: 'column',
               gap: 2,
-              padding: 2,
+              padding: 3,
             }}
           >
             <Box

@@ -1,5 +1,5 @@
 import type { FullStatusData } from '@lifi/sdk'
-import { Box, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -99,40 +99,42 @@ export const TransactionDetailsPage: React.FC = () => {
   }
 
   return (
-    <PageContainer bottomGutters>
+    <PageContainer
+      bottomGutters
+      sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+    >
       <Card type="default" sx={{ padding: 3 }}>
-        <Box
+        <Typography
           sx={{
             pb: 1.5,
             display: 'flex',
             justifyContent: 'space-between',
+            fontSize: 12,
           }}
+          component="div"
         >
-          <Typography
-            sx={{
-              fontSize: 12,
-            }}
-          >
+          <span>
             {startedAt.toLocaleString(i18n.language, {
               dateStyle: 'long',
             })}
-          </Typography>
-          <Typography
-            sx={{
-              fontSize: 12,
-            }}
-          >
+          </span>
+          <span>
             {startedAt.toLocaleString(i18n.language, {
               timeStyle: 'short',
             })}
-          </Typography>
-        </Box>
+          </span>
+        </Typography>
         <RouteTokens route={routeExecution.route} />
-        <RouteTransactions route={routeExecution.route} />
         <RouteCardEssentials
           route={routeExecution.route}
           showDuration={false}
         />
+      </Card>
+      <Card type="default" sx={{ padding: 3 }}>
+        <Typography sx={{ fontSize: 14, fontWeight: 700, pb: 1.5 }}>
+          {t('main.receipts')}
+        </Typography>
+        <RouteTransactions route={routeExecution.route} />
       </Card>
       <TransferIdCard transferId={supportId} txLink={txLink} />
     </PageContainer>
