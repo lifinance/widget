@@ -3,7 +3,7 @@ import { TronProvider as TronSDKProvider } from '@lifi/sdk-provider-tron'
 import { TronContext } from '@lifi/widget-provider'
 import {
   type AdapterName,
-  AdapterState,
+  WalletReadyState,
 } from '@tronweb3/tronwallet-abstract-adapter'
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks'
 import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
@@ -68,7 +68,9 @@ export const TronProviderValues: FC<
   const installedWallets = useMemo(
     () =>
       wallets
-        .filter((wallet) => wallet.adapter.state !== AdapterState.NotFound)
+        .filter(
+          (wallet) => wallet.adapter.readyState === WalletReadyState.Found
+        )
         .map((wallet) => ({
           name: wallet.adapter.name,
           icon: wallet.adapter.icon,

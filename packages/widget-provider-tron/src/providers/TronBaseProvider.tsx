@@ -1,14 +1,18 @@
 import { resolveConfig } from '@lifi/widget-provider'
 import { WalletProvider } from '@tronweb3/tronwallet-adapter-react-hooks'
 import {
+  BinanceWalletAdapter,
   BitKeepAdapter,
   BybitWalletAdapter,
   FoxWalletAdapter,
   GateWalletAdapter,
+  GuardaAdapter,
   ImTokenAdapter,
+  LedgerAdapter,
   MetaMaskAdapter,
   OkxWalletAdapter,
   TokenPocketAdapter,
+  TomoWalletAdapter,
   TronLinkAdapter,
   TrustAdapter,
   WalletConnectAdapter,
@@ -32,16 +36,20 @@ export const TronBaseProvider: FC<PropsWithChildren<TronBaseProviderProps>> = ({
 
   const adapters = useMemo(
     () => [
-      new MetaMaskAdapter(),
+      new BinanceWalletAdapter(),
       new BitKeepAdapter(),
       new BybitWalletAdapter(),
-      new TrustAdapter(),
-      new TronLinkAdapter(),
       new FoxWalletAdapter(),
       new GateWalletAdapter(),
+      new GuardaAdapter(),
       new ImTokenAdapter(),
+      new LedgerAdapter(),
+      new MetaMaskAdapter(),
       new OkxWalletAdapter(),
       new TokenPocketAdapter(),
+      new TomoWalletAdapter(),
+      new TronLinkAdapter(),
+      new TrustAdapter(),
       ...(walletConnectConfig
         ? [new WalletConnectAdapter(walletConnectConfig)]
         : []),
