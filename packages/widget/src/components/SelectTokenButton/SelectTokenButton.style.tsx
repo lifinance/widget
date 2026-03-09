@@ -75,13 +75,14 @@ export const TokenLabelColumn = styled(Box)(() => ({
   flexDirection: 'column',
   minWidth: 0,
   flex: 1,
+  textAlign: 'left',
 }))
 
 export const TokenNameText = styled(Typography, {
   shouldForwardProp: (prop) => prop !== 'selected',
 })<{ selected?: boolean }>(({ theme, selected }) => ({
   fontSize: 18,
-  fontWeight: 700,
+  fontWeight: selected ? 700 : 500,
   lineHeight: 1.3333,
   color: selected
     ? theme.vars.palette.text.primary

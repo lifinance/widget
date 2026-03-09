@@ -1,5 +1,6 @@
 import type { Token } from '@lifi/sdk'
 import type { CardProps } from '@mui/material'
+import { useNavigate } from '@tanstack/react-router'
 import type { ChangeEvent, ReactNode } from 'react'
 import { useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -10,7 +11,7 @@ import { FormKeyHelper, type FormTypeProps } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { useInputModeStore } from '../../stores/inputMode/useInputModeStore.js'
-import { DisabledUI } from '../../types/widget.js'
+import { DisabledUI, HiddenUI } from '../../types/widget.js'
 import {
   formatInputAmount,
   formatTokenPrice,
@@ -18,6 +19,7 @@ import {
   usdDecimals,
 } from '../../utils/format.js'
 import { fitInputText } from '../../utils/input.js'
+import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { AvatarBadgedDefault } from '../Avatar/Avatar.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
 import { WalletAddressBadge } from '../WalletAddressBadge/WalletAddressBadge.js'
@@ -72,7 +74,9 @@ const AmountInputBase: React.FC<
     }
 > = ({ formType, token, startAdornment, endAdornment, disabled, ...props }) => {
   const { t } = useTranslation()
-  const { subvariant, subvariantOptions } = useWidgetConfig()
+  const navigate = useNavigate()
+  const { subvariant, subvariantOptions, toAddresses, disabledUI, hiddenUI } =
+    useWidgetConfig()
   const ref = useRef<HTMLInputElement>(null)
 
   const isEditingRef = useRef(false)
@@ -89,6 +93,9 @@ const AmountInputBase: React.FC<
   const { inputMode } = useInputModeStore()
 
   const { chain } = useChain(chainId)
+
+  const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress)
+  const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress)
 
   const currentInputMode = inputMode[formType]
   let displayValue: string
@@ -177,7 +184,26 @@ const AmountInputBase: React.FC<
     <AmountInputCard {...props}>
       <AmountInputCardHeader>
         <AmountInputCardTitle>{title}</AmountInputCardTitle>
-        {toAddress ? <WalletAddressBadge address={toAddress} /> : null}
+        {!hiddenToAddress && !(disabledToAddress && !toAddress) ? (
+          <WalletAddressBadge
+            address={toAddress}
+            label={
+              subvariant === 'custom' && subvariantOptions?.custom === 'deposit'
+                ? t('header.depositTo')
+                : t('header.sendToWallet')
+            }
+            onClick={
+              disabledToAddress
+                ? undefined
+                : () =>
+                    navigate({
+                      to: toAddresses?.length
+                        ? navigationRoutes.configuredWallets
+                        : navigationRoutes.sendToWallet,
+                    })
+            }
+          />
+        ) : null}
       </AmountInputCardHeader>
       <LabelDescriptionColumn>
         <LabelRow>

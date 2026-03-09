@@ -17,7 +17,6 @@ import { useHeader } from '../../hooks/useHeader.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
-import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { EmptyListIndicator } from './EmptyListIndicator.js'
@@ -35,7 +34,6 @@ export const ConnectedWalletsPage = () => {
   const { requiredToChainType } = useToAddressRequirements()
   const navigate = useNavigate()
   const { setFieldValue } = useFieldActions()
-  const { setSendToWallet } = useSendToWalletActions()
   const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>()
   const moreMenuId = useId()
   const open = Boolean(moreMenuAnchorEl)
@@ -54,7 +52,6 @@ export const ConnectedWalletsPage = () => {
       chainType: account.chainType!,
       isConnectedAccount: true,
     })
-    setSendToWallet(true)
     navigate({
       to: navigationRoutes.home,
       replace: true,

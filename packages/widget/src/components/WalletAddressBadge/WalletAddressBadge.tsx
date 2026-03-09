@@ -4,14 +4,22 @@ import { shortenAddress } from '../../utils/wallet.js'
 import { BadgeRoot } from './WalletAddressBadge.style.js'
 
 interface WalletAddressBadgeProps {
-  address: string
+  address?: string
+  label?: string
+  onClick?: React.MouseEventHandler
 }
 
 export const WalletAddressBadge: React.FC<WalletAddressBadgeProps> = ({
   address,
+  label,
+  onClick,
 }) => {
   return (
-    <BadgeRoot>
+    <BadgeRoot
+      role={onClick ? 'button' : undefined}
+      onClick={onClick}
+      sx={onClick ? { cursor: 'pointer' } : undefined}
+    >
       <Wallet sx={{ width: 16, height: 16 }} />
       <Typography
         component="span"
@@ -23,7 +31,7 @@ export const WalletAddressBadge: React.FC<WalletAddressBadgeProps> = ({
           px: 0.5,
         }}
       >
-        {shortenAddress(address)}
+        {address ? shortenAddress(address) : label}
       </Typography>
     </BadgeRoot>
   )

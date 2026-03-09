@@ -2,8 +2,8 @@ import { Box, styled } from '@mui/material'
 import { Card } from '../Card/Card.js'
 
 export const IconCard = styled(Card)(({ theme }) => ({
-  height: 32,
-  width: 32,
+  height: 40,
+  width: 40,
   fontSize: 16,
   display: 'flex',
   alignItems: 'center',
@@ -17,15 +17,12 @@ export const ReverseContainer = styled(Box)(({ theme }) => {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: theme.spacing(-1),
+    margin: theme.spacing(-2.5),
   }
 })
 
-export const ReverseTokensButtonEmpty = styled(Box)(({ theme }) => {
-  return {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: theme.spacing(1),
-  }
+export const ReverseTokensButtonEmpty = styled(Box)({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
 })
