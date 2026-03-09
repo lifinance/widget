@@ -1,25 +1,18 @@
 import type { LiFiStepExtended } from '@lifi/sdk'
 import Done from '@mui/icons-material/Done'
 import ErrorRounded from '@mui/icons-material/ErrorRounded'
+import InfoRounded from '@mui/icons-material/InfoRounded'
 import WarningRounded from '@mui/icons-material/WarningRounded'
-import { Box, useTheme } from '@mui/material'
-import type React from 'react'
+import { useTheme } from '@mui/material'
 import { getStatusColor } from '../../utils/getStatusColor.js'
-import { StepTimer } from '../Timer/StepTimer.js'
+import { StatusCircle } from './CircularProgress.style.js'
+import { IndeterminateRing, TimerRing } from './CircularProgressTimer.js'
 
 interface CircularProgressProps {
   step: LiFiStepExtended
 }
 
-const commonStyles = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: 96,
-  height: 96,
-  border: '3px solid',
-  borderRadius: '50%',
-}
+const iconSx = { fontSize: 48 }
 
 export const CircularProgress: React.FC<CircularProgressProps> = ({ step }) => {
   const theme = useTheme()
@@ -39,65 +32,42 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({ step }) => {
     status === 'MESSAGE_REQUIRED' ||
     status === 'RESET_REQUIRED'
 
-  if (withTimer || actionRequired) {
-    return <StepTimer step={step} />
+  if (withTimer) {
+    if (!step.execution?.signedAt) {
+      return <IndeterminateRing />
+    }
+    return <TimerRing step={step} />
   }
 
   const backgroundColor = getStatusColor(theme, status, substatus)
+
+  if (actionRequired) {
+    return (
+      <StatusCircle sx={{ backgroundColor }}>
+        <InfoRounded color="info" sx={iconSx} />
+      </StatusCircle>
+    )
+  }
 
   switch (status) {
     case 'DONE':
       if (substatus === 'PARTIAL' || substatus === 'REFUNDED') {
         return (
-          <Box
-            sx={{
-              ...commonStyles,
-              borderColor: 'warning.main',
-              backgroundColor,
-            }}
-          >
-            <WarningRounded
-              color="warning"
-              sx={{
-                fontSize: 48,
-              }}
-            />
-          </Box>
+          <StatusCircle sx={{ backgroundColor }}>
+            <WarningRounded color="warning" sx={iconSx} />
+          </StatusCircle>
         )
       }
-
       return (
-        <Box
-          sx={{
-            ...commonStyles,
-            borderColor: 'success.main',
-            backgroundColor,
-          }}
-        >
-          <Done
-            color="success"
-            sx={{
-              fontSize: 48,
-            }}
-          />
-        </Box>
+        <StatusCircle sx={{ backgroundColor }}>
+          <Done color="success" sx={iconSx} />
+        </StatusCircle>
       )
     case 'FAILED':
       return (
-        <Box
-          sx={{
-            ...commonStyles,
-            borderColor: 'error.main',
-            backgroundColor,
-          }}
-        >
-          <ErrorRounded
-            color="error"
-            sx={{
-              fontSize: 48,
-            }}
-          />
-        </Box>
+        <StatusCircle sx={{ backgroundColor }}>
+          <ErrorRounded color="error" sx={iconSx} />
+        </StatusCircle>
       )
   }
 }

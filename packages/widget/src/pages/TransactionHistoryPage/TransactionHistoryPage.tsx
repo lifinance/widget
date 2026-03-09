@@ -7,6 +7,8 @@ import { PageContainer } from '../../components/PageContainer.js'
 import { useHeader } from '../../hooks/useHeader.js'
 import { useListHeight } from '../../hooks/useListHeight.js'
 import { useTransactionHistory } from '../../hooks/useTransactionHistory.js'
+import { useExecutingRoutesIds } from '../../stores/routes/useExecutingRoutesIds.js'
+import { ActiveTransactionCard } from './ActiveTransactionCard.js'
 import { minTransactionListHeight } from './constants.js'
 import { TransactionHistoryEmpty } from './TransactionHistoryEmpty.js'
 import { TransactionHistoryItem } from './TransactionHistoryItem.js'
@@ -16,6 +18,7 @@ export const TransactionHistoryPage = () => {
   // Parent ref and useVirtualizer should be in one file to avoid blank page (0 virtual items) issue
   const parentRef = useRef<HTMLDivElement | null>(null)
   const { data: transactions, isLoading } = useTransactionHistory()
+  const executingRoutes = useExecutingRoutesIds()
 
   const { t } = useTranslation()
   useHeader(t('header.transactionHistory'))
@@ -31,16 +34,16 @@ export const TransactionHistoryPage = () => {
     [transactions]
   )
 
-  const { getVirtualItems, getTotalSize } = useVirtualizer({
+  const { getVirtualItems, getTotalSize, measureElement } = useVirtualizer({
     count: transactions.length,
     overscan: 3,
     paddingEnd: 12,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 186,
+    estimateSize: () => 216,
     getItemKey,
   })
 
-  if (!transactions.length && !isLoading) {
+  if (!transactions.length && !executingRoutes.length && !isLoading) {
     return <TransactionHistoryEmpty />
   }
 
@@ -59,6 +62,9 @@ export const TransactionHistoryPage = () => {
           paddingX: 3,
         }}
       >
+        {executingRoutes.map((routeId) => (
+          <ActiveTransactionCard key={routeId} routeId={routeId} />
+        ))}
         {isLoading ? (
           <List disablePadding>
             {Array.from({ length: 3 }).map((_, index) => (
@@ -77,11 +83,21 @@ export const TransactionHistoryPage = () => {
             {getVirtualItems().map((item) => {
               const transaction = transactions[item.index]
               return (
-                <TransactionHistoryItem
+                <li
                   key={item.key}
-                  start={item.start}
-                  transaction={transaction}
-                />
+                  ref={measureElement}
+                  data-index={item.index}
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    paddingBottom: 12,
+                    transform: `translateY(${item.start}px)`,
+                  }}
+                >
+                  <TransactionHistoryItem transaction={transaction} />
+                </li>
               )
             })}
           </List>

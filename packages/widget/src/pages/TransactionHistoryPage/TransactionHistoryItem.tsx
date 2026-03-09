@@ -1,27 +1,29 @@
-import type {
-  ExtendedTransactionInfo,
-  FullStatusData,
-  StatusResponse,
-  TokenAmount,
-} from '@lifi/sdk'
+import type { FullStatusData, StatusResponse } from '@lifi/sdk'
 import { Box, Typography } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Card } from '../../components/Card/Card.js'
-import { Token } from '../../components/Token/Token.js'
-import { TokenDivider } from '../../components/Token/Token.style.js'
+import { RouteTokens } from '../../components/Step/RouteTokens.js'
+import { useTools } from '../../hooks/useTools.js'
+import { buildRouteFromTxHistory } from '../../utils/converters.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 
 export const TransactionHistoryItem: React.FC<{
   transaction: StatusResponse
-  start: number
-}> = ({ transaction, start }) => {
+}> = ({ transaction }) => {
   const { i18n } = useTranslation()
   const navigate = useNavigate()
+  const { tools } = useTools()
 
-  const sending = transaction.sending as ExtendedTransactionInfo
-  const receiving = (transaction as FullStatusData)
-    .receiving as ExtendedTransactionInfo
+  const routeExecution = useMemo(
+    () => buildRouteFromTxHistory(transaction as FullStatusData, tools),
+    [transaction, tools]
+  )
+
+  if (!routeExecution?.route) {
+    return null
+  }
 
   const handleClick = () => {
     navigate({
@@ -32,86 +34,32 @@ export const TransactionHistoryItem: React.FC<{
     })
   }
 
-  const startedAt = new Date((sending.timestamp ?? 0) * 1000)
-
-  if (!sending.token?.chainId || !receiving.token?.chainId) {
-    return null
-  }
-
-  const fromToken: TokenAmount = {
-    ...sending.token,
-    amount: BigInt(sending.amount ?? '0'),
-    priceUSD: sending.token.priceUSD ?? '0',
-    symbol: sending.token?.symbol ?? '',
-    decimals: sending.token?.decimals ?? 0,
-    name: sending.token?.name ?? '',
-    chainId: sending.token?.chainId,
-  }
-
-  const toToken: TokenAmount = {
-    ...receiving.token,
-    amount: BigInt(receiving.amount ?? '0'),
-    priceUSD: receiving.token.priceUSD ?? '0',
-    symbol: receiving.token?.symbol ?? '',
-    decimals: receiving.token?.decimals ?? 0,
-    name: receiving.token?.name ?? '',
-    chainId: receiving.token?.chainId,
-  }
+  const startedAt = new Date(
+    (routeExecution.route.steps[0].execution?.startedAt ?? 0) * 1000
+  )
 
   return (
-    <Card
-      onClick={handleClick}
-      style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        // height: `${size}px`,
-        transform: `translateY(${start}px)`,
-      }}
-    >
-      <Box
-        sx={{
-          pt: 1.75,
-          px: 2,
-          display: 'flex',
-          flex: 1,
-          justifyContent: 'space-between',
-        }}
-      >
-        <Typography
-          sx={{
-            fontSize: 12,
-          }}
-        >
-          {startedAt.toLocaleString(i18n.language, { dateStyle: 'long' })}
-        </Typography>
-        <Typography
-          sx={{
-            fontSize: 12,
-          }}
-        >
-          {startedAt.toLocaleString(i18n.language, {
-            timeStyle: 'short',
-          })}
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          px: 2,
-          py: 2,
-        }}
-      >
-        <Token token={fromToken} />
+    <Card onClick={handleClick}>
+      <Box sx={{ p: 3 }}>
         <Box
           sx={{
-            pl: 2.375,
-            py: 0.5,
+            display: 'flex',
+            justifyContent: 'space-between',
+            pb: 1.5,
           }}
         >
-          <TokenDivider />
+          <Typography
+            sx={{ fontSize: 12, color: 'text.secondary', fontWeight: 500 }}
+          >
+            {startedAt.toLocaleString(i18n.language, { dateStyle: 'long' })}
+          </Typography>
+          <Typography
+            sx={{ fontSize: 12, color: 'text.secondary', fontWeight: 500 }}
+          >
+            {startedAt.toLocaleString(i18n.language, { timeStyle: 'short' })}
+          </Typography>
         </Box>
-        <Token token={toToken} />
+        <RouteTokens route={routeExecution.route} />
       </Box>
     </Card>
   )

@@ -4,7 +4,7 @@ export const TransactionLinkContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(1),
-  borderRadius: theme.vars.shape.borderRadiusSecondary,
+  borderRadius: theme.spacing(4),
   color: theme.vars.palette.text.primary,
   backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
 }))
@@ -18,9 +18,10 @@ export const StatusIconCircle = styled(Box, {
   width: 24,
   height: 24,
   borderRadius: '50%',
+  // TODO: how to resolve new colors?
   backgroundColor: failed
     ? `rgba(${theme.vars.palette.error.mainChannel} / 0.12)`
-    : `rgba(${theme.vars.palette.success.mainChannel} / 0.12)`,
+    : '#D6FFE7',
   marginRight: theme.spacing(1),
 }))
 

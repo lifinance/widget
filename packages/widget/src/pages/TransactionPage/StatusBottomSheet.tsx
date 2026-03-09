@@ -11,6 +11,7 @@ import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { Card } from '../../components/Card/Card.js'
 import { CardTitle } from '../../components/Card/CardTitle.js'
 import { Token } from '../../components/Token/Token.js'
+import { WalletAddressBadge } from '../../components/WalletAddressBadge/WalletAddressBadge.js'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useSetContentHeight } from '../../hooks/useSetContentHeight.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
@@ -270,11 +271,22 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
               padding: 2,
             }}
           >
-            <CardTitle sx={{ padding: 0 }}>
-              {hasEnumFlag(status, RouteExecutionStatus.Refunded)
-                ? t('header.refunded')
-                : t('header.received')}
-            </CardTitle>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <CardTitle sx={{ padding: 0 }}>
+                {hasEnumFlag(status, RouteExecutionStatus.Refunded)
+                  ? t('header.refunded')
+                  : t('header.received')}
+              </CardTitle>
+              {route.toAddress ? (
+                <WalletAddressBadge address={route.toAddress} />
+              ) : null}
+            </Box>
             <Token token={toToken} disableDescription={false} />
             {primaryMessage && (
               <Typography

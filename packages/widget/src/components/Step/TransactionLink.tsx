@@ -2,7 +2,6 @@ import type { ExecutionAction, LiFiStepExtended } from '@lifi/sdk'
 import Done from '@mui/icons-material/Done'
 import ErrorRounded from '@mui/icons-material/ErrorRounded'
 import OpenInNew from '@mui/icons-material/OpenInNew'
-import { Box } from '@mui/material'
 import type React from 'react'
 import { useActionMessage } from '../../hooks/useActionMessage.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
@@ -51,7 +50,7 @@ export const StepTransactionLink: React.FC<{
   const { title } = useActionMessage(step, action)
   const { getTransactionLink } = useExplorer()
 
-  if (!action) {
+  if (!action || (action.status !== 'DONE' && action.status !== 'FAILED')) {
     return null
   }
 
@@ -68,17 +67,10 @@ export const StepTransactionLink: React.FC<{
       : undefined
 
   return (
-    <Box
-      sx={(theme) => ({
-        py: 0.5,
-        borderRadius: theme.vars.shape.borderRadiusTertiary,
-      })}
-    >
-      <TransactionLink
-        label={title ?? ''}
-        href={transactionLink}
-        failed={action.status === 'FAILED'}
-      />
-    </Box>
+    <TransactionLink
+      label={title ?? ''}
+      href={transactionLink}
+      failed={action.status === 'FAILED'}
+    />
   )
 }

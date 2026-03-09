@@ -22,10 +22,12 @@ export const getStatusColor = (
       if (substatus === 'PARTIAL' || substatus === 'REFUNDED') {
         return `rgba(${theme.vars.palette.warning.mainChannel} / 0.12)`
       }
-      return `rgba(${theme.vars.palette.success.mainChannel} / 0.12)`
+      // TODO: how to resolve new colors?
+      return '#D6FFE7'
+    // return `rgba(${theme.vars.palette.success.mainChannel} / 0.12)`
     case 'FAILED':
       return `rgba(${theme.vars.palette.error.mainChannel} / 0.12)`
     default:
-      return theme.vars.palette.info.mainChannel
+      return `rgba(${theme.vars.palette.info.mainChannel} / 0.12)`
   }
 }

@@ -207,12 +207,17 @@ export const TransactionPage = () => {
   }
 
   return (
-    <PageContainer bottomGutters>
-      <Card type="default" sx={{ paddingX: 1, paddingY: 2 }}>
-        <ExecutionProgress route={route} />
-        <RouteTransactions route={route} />
-      </Card>
-      <Card type="default" sx={{ paddingX: 1, paddingY: 2 }}>
+    <PageContainer
+      bottomGutters
+      sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+    >
+      {status !== RouteExecutionStatus.Idle ? (
+        <Card type="default" sx={{ p: 3 }}>
+          <ExecutionProgress route={route} />
+          <RouteTransactions route={route} />
+        </Card>
+      ) : null}
+      <Card type="default" sx={{ p: 3 }}>
         <RouteTokens route={route} />
         <RouteCardEssentials route={route} />
       </Card>

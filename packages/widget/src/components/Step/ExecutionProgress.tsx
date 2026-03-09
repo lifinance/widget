@@ -21,8 +21,8 @@ export const ExecutionProgress: React.FC<{
       </Box>
       <Typography
         sx={{
-          fontSize: 14,
-          fontWeight: 500,
+          fontSize: lastAction.status === 'FAILED' ? 18 : 14,
+          fontWeight: lastAction.status === 'FAILED' ? 700 : 500,
           color: 'text.primary',
           textAlign: 'center',
         }}
@@ -32,9 +32,11 @@ export const ExecutionProgress: React.FC<{
       {message ? (
         <Typography
           sx={{
-            fontSize: 12,
+            fontSize: 14,
+            fontWeight: 500,
             color: 'text.secondary',
             textAlign: 'center',
+            mt: 0.5,
           }}
         >
           {message}

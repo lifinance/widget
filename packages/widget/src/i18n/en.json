@@ -240,6 +240,7 @@
     "pinnedTokens": "Pinned tokens",
     "popularTokens": "Popular tokens",
     "priceImpact": "Price impact",
+    "sentToWallet": "Sent to wallet: {{address}}",
     "process": {
       "bridge": {
         "actionRequired": "Sign bridge transaction",
