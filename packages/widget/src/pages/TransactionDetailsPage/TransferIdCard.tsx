@@ -27,20 +27,19 @@ export const TransferIdCard = ({ transferId, txLink }: TransferIdCardProps) => {
   }
 
   return (
-    <Card sx={{ marginTop: 2 }}>
+    <Card sx={{ marginTop: 2, padding: 3 }}>
       <Box
         sx={{
           display: 'flex',
-          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
-        <CardTitle flex={1}>{t('main.transferId')}</CardTitle>
+        <CardTitle sx={{ p: 0 }}>{t('main.transferId')}</CardTitle>
         <Box
           sx={{
             gap: 1,
             display: 'flex',
-            marginRight: 2,
-            marginTop: 1,
           }}
         >
           <CardIconButton size="small" onClick={copyTransferId}>
@@ -59,9 +58,7 @@ export const TransferIdCard = ({ transferId, txLink }: TransferIdCardProps) => {
       <Typography
         variant="body2"
         sx={{
-          pt: 1,
-          pb: 2,
-          px: 2,
+          pt: 2,
           wordBreak: 'break-all',
         }}
       >

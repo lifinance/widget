@@ -45,7 +45,11 @@ export const TokenWithExpansion = ({
           )}
         />
         {!defaultExpanded ? (
-          <CardIconButton onClick={handleExpand} size="small">
+          <CardIconButton
+            sx={{ borderRadius: '50%' }}
+            onClick={handleExpand}
+            size="small"
+          >
             {cardExpanded ? (
               <ExpandLess fontSize="inherit" />
             ) : (

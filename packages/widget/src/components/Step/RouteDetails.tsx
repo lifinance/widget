@@ -1,7 +1,7 @@
 import type { RouteExtended } from '@lifi/sdk'
 import { useEthereumContext } from '@lifi/widget-provider'
 import InfoOutlined from '@mui/icons-material/InfoOutlined'
-import { Box, Tooltip, Typography } from '@mui/material'
+import { Box, Tooltip } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { isRouteDone } from '../../stores/routes/utils.js'
@@ -10,6 +10,13 @@ import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { getPriceImpact } from '../../utils/getPriceImpact.js'
 import { FeeBreakdownTooltip } from '../FeeBreakdownTooltip.js'
 import { StepActions } from '../StepActions/StepActions.js'
+import {
+  DetailInfoIcon,
+  DetailLabel,
+  DetailLabelContainer,
+  DetailRow,
+  DetailValue,
+} from './RouteDetails.style.js'
 
 interface RouteDetailsProps {
   route: RouteExtended
@@ -64,80 +71,47 @@ export const RouteDetails = ({ route }: RouteDetailsProps) => {
     (feeAmountUSD || Number.isFinite(feeConfig?.fee)) && !hasGaslessSupport
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, py: 1 }}>
-      {route.steps.map((step) => (
-        <StepActions key={step.id} step={step} px={2} py={1} dense />
-      ))}
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: 1,
-        }}
-      >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-          <Typography variant="body2">{t('main.fees.network')}</Typography>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, py: 3 }}>
+      <StepActions route={route} />
+      <DetailRow>
+        <DetailLabelContainer>
+          <DetailLabel>{t('main.fees.network')}</DetailLabel>
           <FeeBreakdownTooltip gasCosts={gasCosts} gasless={hasGaslessSupport}>
-            <InfoOutlined
-              sx={{ fontSize: 16, color: 'text.secondary', cursor: 'help' }}
-            />
+            <InfoOutlined sx={DetailInfoIcon} />
           </FeeBreakdownTooltip>
-        </Box>
-        <Typography
-          variant="body2"
-          sx={{ fontWeight: 600, textAlign: 'right' }}
-        >
+        </DetailLabelContainer>
+        <DetailValue>
           {!gasCostUSD
             ? t('main.fees.free')
             : t('format.currency', {
                 value: gasCostUSD,
               })}
-        </Typography>
-      </Box>
+        </DetailValue>
+      </DetailRow>
       {feeCosts.length ? (
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: 1,
-          }}
-        >
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            <Typography variant="body2">{t('main.fees.provider')}</Typography>
+        <DetailRow>
+          <DetailLabelContainer>
+            <DetailLabel>{t('main.fees.provider')}</DetailLabel>
             <FeeBreakdownTooltip feeCosts={feeCosts}>
-              <InfoOutlined
-                sx={{ fontSize: 16, color: 'text.secondary', cursor: 'help' }}
-              />
+              <InfoOutlined sx={DetailInfoIcon} />
             </FeeBreakdownTooltip>
-          </Box>
-          <Typography
-            variant="body2"
-            sx={{ fontWeight: 600, textAlign: 'right' }}
-          >
+          </DetailLabelContainer>
+          <DetailValue>
             {t('format.currency', {
               value: feeCostUSD,
             })}
-          </Typography>
-        </Box>
+          </DetailValue>
+        </DetailRow>
       ) : null}
       {showIntegratorFeeCollectionDetails ? (
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: 1,
-          }}
-        >
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            <Typography variant="body2">
+        <DetailRow>
+          <DetailLabelContainer>
+            <DetailLabel>
               {feeConfig?.name || t('main.fees.defaultIntegrator')}
               {feeConfig?.showFeePercentage && (
                 <> ({t('format.percent', { value: feePercentage })})</>
               )}
-            </Typography>
+            </DetailLabel>
             {feeConfig?.showFeeTooltip &&
             (feeConfig?.name || feeConfig?.feeTooltipComponent) ? (
               <Tooltip
@@ -146,97 +120,56 @@ export const RouteDetails = ({ route }: RouteDetailsProps) => {
                   t('tooltip.feeCollection', { tool: feeConfig.name })
                 }
               >
-                <InfoOutlined
-                  sx={{ fontSize: 16, color: 'text.secondary', cursor: 'help' }}
-                />
+                <InfoOutlined sx={DetailInfoIcon} />
               </Tooltip>
             ) : null}
-          </Box>
-          <Typography
-            variant="body2"
-            sx={{ fontWeight: 600, textAlign: 'right' }}
-          >
+          </DetailLabelContainer>
+          <DetailValue>
             {t('format.currency', {
               value: feeAmountUSD,
             })}
-          </Typography>
-        </Box>
+          </DetailValue>
+        </DetailRow>
       ) : null}
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: 1,
-        }}
-      >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-          <Typography variant="body2">{t('main.priceImpact')}</Typography>
+      <DetailRow>
+        <DetailLabelContainer>
+          <DetailLabel>{t('main.priceImpact')}</DetailLabel>
           <Tooltip title={t('tooltip.priceImpact')}>
-            <InfoOutlined
-              sx={{ fontSize: 16, color: 'text.secondary', cursor: 'help' }}
-            />
+            <InfoOutlined sx={DetailInfoIcon} />
           </Tooltip>
-        </Box>
-        <Typography
-          variant="body2"
-          sx={{ fontWeight: 600, textAlign: 'right' }}
-        >
+        </DetailLabelContainer>
+        <DetailValue>
           {t('format.percent', {
             value: priceImpact,
             usePlusSign: true,
           })}
-        </Typography>
-      </Box>
+        </DetailValue>
+      </DetailRow>
       {!isRouteDone(route) ? (
         <>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              gap: 1,
-            }}
-          >
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              <Typography variant="body2">{t('main.maxSlippage')}</Typography>
+          <DetailRow>
+            <DetailLabelContainer>
+              <DetailLabel>{t('main.maxSlippage')}</DetailLabel>
               <Tooltip title={t('tooltip.slippage')}>
-                <InfoOutlined
-                  sx={{ fontSize: 16, color: 'text.secondary', cursor: 'help' }}
-                />
+                <InfoOutlined sx={DetailInfoIcon} />
               </Tooltip>
-            </Box>
-            <Typography
-              variant="body2"
-              sx={{ fontWeight: 600, textAlign: 'right' }}
-            >
+            </DetailLabelContainer>
+            <DetailValue>
               {route.steps[0].action.slippage
                 ? t('format.percent', {
                     value: route.steps[0].action.slippage,
                   })
                 : t('button.auto')}
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              gap: 1,
-            }}
-          >
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              <Typography variant="body2">{t('main.minReceived')}</Typography>
+            </DetailValue>
+          </DetailRow>
+          <DetailRow>
+            <DetailLabelContainer>
+              <DetailLabel>{t('main.minReceived')}</DetailLabel>
               <Tooltip title={t('tooltip.minReceived')}>
-                <InfoOutlined
-                  sx={{ fontSize: 16, color: 'text.secondary', cursor: 'help' }}
-                />
+                <InfoOutlined sx={DetailInfoIcon} />
               </Tooltip>
-            </Box>
-            <Typography
-              variant="body2"
-              sx={{ fontWeight: 600, textAlign: 'right' }}
-            >
+            </DetailLabelContainer>
+            <DetailValue>
               {t('format.tokenAmount', {
                 value: formatTokenAmount(
                   BigInt(route.toAmountMin),
@@ -244,8 +177,8 @@ export const RouteDetails = ({ route }: RouteDetailsProps) => {
                 ),
               })}{' '}
               {route.toToken.symbol}
-            </Typography>
-          </Box>
+            </DetailValue>
+          </DetailRow>
         </>
       ) : null}
     </Box>

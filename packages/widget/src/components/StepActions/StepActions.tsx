@@ -1,4 +1,4 @@
-import type { LiFiStep, StepExtended } from '@lifi/sdk'
+import type { LiFiStep, RouteExtended, StepExtended } from '@lifi/sdk'
 import { useEthereumContext } from '@lifi/widget-provider'
 import ArrowForward from '@mui/icons-material/ArrowForward'
 import ExpandLess from '@mui/icons-material/ExpandLess'
@@ -26,17 +26,11 @@ import {
   StepLabel,
   StepLabelTypography,
 } from './StepActions.style.js'
-import type {
-  IncludedStepsProps,
-  StepActionsProps,
-  StepDetailsLabelProps,
-} from './types.js'
+import type { IncludedStepsProps, StepDetailsLabelProps } from './types.js'
 
-export const StepActions: React.FC<StepActionsProps> = ({
-  step,
-  dense,
-  ...other
-}) => {
+export const StepActions: React.FC<{
+  route: RouteExtended
+}> = ({ route }) => {
   const { t } = useTranslation()
   const [cardExpanded, setCardExpanded] = useState(false)
 
@@ -45,8 +39,10 @@ export const StepActions: React.FC<StepActionsProps> = ({
     setCardExpanded((expanded) => !expanded)
   }
 
+  const includedSteps = route.steps.flatMap((step) => step.includedSteps)
+
   return (
-    <Box {...other}>
+    <Box>
       <Box
         sx={{
           display: 'flex',
@@ -63,35 +59,36 @@ export const StepActions: React.FC<StepActionsProps> = ({
           {t('main.route')}
         </Typography>
 
-        {dense ? (
-          <CardIconButton onClick={handleExpand} size="small">
-            {cardExpanded ? (
-              <ExpandLess fontSize="inherit" />
-            ) : (
-              <Box sx={{ display: 'flex', alignItems: 'center', ml: 1 }}>
-                {step.includedSteps.map((includedStep, index) => (
-                  <SmallAvatar
-                    key={includedStep.id}
-                    src={includedStep.toolDetails.logoURI}
-                    alt={includedStep.toolDetails.name}
-                    sx={{ ml: index > 0 ? -0.5 : 0 }}
-                  >
-                    {includedStep.toolDetails.name[0]}
-                  </SmallAvatar>
-                ))}
-                <ExpandMore fontSize="inherit" />
-              </Box>
-            )}
-          </CardIconButton>
-        ) : null}
+        <CardIconButton onClick={handleExpand} size="small">
+          {cardExpanded ? (
+            <ExpandLess fontSize="inherit" />
+          ) : (
+            <Box sx={{ display: 'flex', alignItems: 'center', ml: 1 }}>
+              {includedSteps.map((includedStep, index) => (
+                <SmallAvatar
+                  key={includedStep.id}
+                  src={includedStep.toolDetails.logoURI}
+                  alt={includedStep.toolDetails.name}
+                  sx={{
+                    ml: index > 0 ? 0 : -0.75,
+                    width: 20,
+                    height: 20,
+                    mr: 0.5,
+                  }}
+                >
+                  {includedStep.toolDetails.name[0]}
+                </SmallAvatar>
+              ))}
+              <ExpandMore fontSize="inherit" />
+            </Box>
+          )}
+        </CardIconButton>
       </Box>
-      {dense ? (
-        <Collapse timeout={225} in={cardExpanded} mountOnEnter unmountOnExit>
-          <IncludedSteps step={step} />
-        </Collapse>
-      ) : (
-        <IncludedSteps step={step} />
-      )}
+      <Collapse timeout={225} in={cardExpanded} mountOnEnter unmountOnExit>
+        {route.steps.map((step) => (
+          <IncludedSteps key={step.id} step={step} />
+        ))}
+      </Collapse>
     </Box>
   )
 }

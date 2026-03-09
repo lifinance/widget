@@ -23,7 +23,7 @@ export const FormControl = styled(MuiFormControl)(() => ({
   flex: 1,
 }))
 
-export const Input = styled(InputBase)(({ theme }) => ({
+export const Input = styled(InputBase)(() => ({
   fontSize: 40,
   fontWeight: 700,
   boxShadow: 'none',

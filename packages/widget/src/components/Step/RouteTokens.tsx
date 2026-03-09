@@ -32,7 +32,7 @@ export const RouteTokens: React.FC<{
   }
 
   return (
-    <Box>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
       {fromToken ? <Token token={fromToken} /> : null}
       <Box
         sx={{

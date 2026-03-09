@@ -100,10 +100,10 @@ export const TransactionDetailsPage: React.FC = () => {
 
   return (
     <PageContainer bottomGutters>
-      <Card type="default" sx={{ paddingX: 1, paddingY: 2 }}>
+      <Card type="default" sx={{ padding: 3 }}>
         <Box
           sx={{
-            pb: 1,
+            pb: 1.5,
             display: 'flex',
             justifyContent: 'space-between',
           }}
