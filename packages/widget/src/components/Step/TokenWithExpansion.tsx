@@ -3,12 +3,12 @@ import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
 import { Box, Collapse } from '@mui/material'
 import { type MouseEventHandler, useState } from 'react'
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider'
-import { HiddenUI } from '../../types/widget'
-import { CardIconButton } from '../Card/CardIconButton'
-import { TokenContainer } from '../RouteCard/RouteCard.style'
-import { Token } from '../Token/Token'
-import { RouteDetails } from './RouteDetails'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { HiddenUI } from '../../types/widget.js'
+import { CardIconButton } from '../Card/CardIconButton.js'
+import { TokenContainer } from '../RouteCard/RouteCard.style.js'
+import { Token } from '../Token/Token.js'
+import { RouteDetails } from './RouteDetails.js'
 
 interface TokenWithExpansionProps {
   route: RouteExtended

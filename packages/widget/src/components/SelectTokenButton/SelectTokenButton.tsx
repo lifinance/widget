@@ -16,9 +16,12 @@ import { AvatarBadgedDefault, AvatarBadgedSkeleton } from '../Avatar/Avatar.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
 import { CardTitle } from '../Card/CardTitle.js'
 import {
+  AvatarItemRow,
   CardContent,
+  ChainNameText,
   SelectTokenCard,
-  SelectTokenCardHeader,
+  TokenLabelColumn,
+  TokenNameText,
 } from './SelectTokenButton.style.js'
 
 export const SelectTokenButton: React.FC<
@@ -67,41 +70,38 @@ export const SelectTokenButton: React.FC<
     formType === 'from' && subvariant === 'custom'
       ? t('header.payWith')
       : t(`main.${formType}`)
+
   return (
     <SelectTokenCard component="button" onClick={onClick}>
       <CardContent formType={formType} compact={compact} mask={!hiddenReverse}>
-        <CardTitle>{cardTitle}</CardTitle>
+        <CardTitle sx={{ padding: 0 }}>{cardTitle}</CardTitle>
         {chainId && tokenAddress && (isChainLoading || isTokenLoading) ? (
-          <SelectTokenCardHeader
-            avatar={<AvatarBadgedSkeleton />}
-            title={<Skeleton variant="text" width={64} height={24} />}
-            subheader={<Skeleton variant="text" width={72} height={16} />}
-            compact={compact}
-          />
+          <AvatarItemRow>
+            <AvatarBadgedSkeleton />
+            <TokenLabelColumn>
+              <Skeleton variant="text" width={64} height={24} />
+              <Skeleton variant="text" width={72} height={18} />
+            </TokenLabelColumn>
+          </AvatarItemRow>
         ) : (
-          <SelectTokenCardHeader
-            avatar={
-              isSelected ? (
-                <TokenAvatar token={token} chain={chain} />
-              ) : (
-                <AvatarBadgedDefault
-                  chain={isAllNetworks ? undefined : chain}
-                />
-              )
-            }
-            title={isSelected ? token.symbol : defaultPlaceholder}
-            slotProps={{
-              title: {
-                title: isSelected ? token.symbol : defaultPlaceholder,
-              },
-              subheader: {
-                title: isSelected ? chain.name : undefined,
-              },
-            }}
-            subheader={isSelected ? chain.name : null}
-            selected={isSelected}
-            compact={compact}
-          />
+          <AvatarItemRow>
+            {isSelected ? (
+              <TokenAvatar token={token} chain={chain} />
+            ) : (
+              <AvatarBadgedDefault chain={isAllNetworks ? undefined : chain} />
+            )}
+            <TokenLabelColumn>
+              <TokenNameText
+                title={isSelected ? token.symbol : defaultPlaceholder}
+                selected={isSelected}
+              >
+                {isSelected ? token.symbol : defaultPlaceholder}
+              </TokenNameText>
+              {isSelected ? (
+                <ChainNameText title={chain.name}>{chain.name}</ChainNameText>
+              ) : null}
+            </TokenLabelColumn>
+          </AvatarItemRow>
         )}
       </CardContent>
     </SelectTokenCard>

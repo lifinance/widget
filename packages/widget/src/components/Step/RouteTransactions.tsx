@@ -1,7 +1,7 @@
 import type { RouteExtended } from '@lifi/sdk'
 import { Box } from '@mui/material'
-import { prepareActions } from '../../utils/prepareActions'
-import { StepTransactionLink } from './TransactionLink'
+import { prepareActions } from '../../utils/prepareActions.js'
+import { StepTransactionLink } from './TransactionLink.js'
 
 export const RouteTransactions: React.FC<{
   route: RouteExtended

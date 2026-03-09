@@ -1,7 +1,7 @@
 import type { RouteExtended } from '@lifi/sdk'
 import { Box, Typography } from '@mui/material'
-import { useActionMessage } from '../../hooks/useActionMessage'
-import { CircularProgress } from './CircularProgress'
+import { useActionMessage } from '../../hooks/useActionMessage.js'
+import { CircularProgress } from './CircularProgress.js'
 
 export const ExecutionProgress: React.FC<{
   route: RouteExtended

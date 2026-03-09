@@ -1,5 +1,4 @@
 import { formatUnits } from '@lifi/sdk'
-import { InputAdornment } from '@mui/material'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
@@ -9,7 +8,10 @@ import type { FormTypeProps } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { ButtonContainer, MaxButton } from './AmountInputAdornment.style.js'
+import {
+  ButtonContainer,
+  PercentagePill,
+} from './AmountInputAdornment.style.js'
 
 export const AmountInputEndAdornment = memo(({ formType }: FormTypeProps) => {
   const { t } = useTranslation()
@@ -21,10 +23,7 @@ export const AmountInputEndAdornment = memo(({ formType }: FormTypeProps) => {
     FormKeyHelper.getTokenKey(formType)
   )
 
-  // We get gas recommendations for the source chain to make sure that after pressing the Max button
-  // the user will have enough funds remaining to cover gas costs
   const { data } = useGasRecommendation(chainId)
-
   const { token } = useTokenAddressBalance(chainId, tokenAddress)
 
   const getMaxAmount = () => {
@@ -49,9 +48,7 @@ export const AmountInputEndAdornment = memo(({ formType }: FormTypeProps) => {
       setFieldValue(
         FormKeyHelper.getAmountKey(formType),
         formatUnits(percentageAmount, token.decimals),
-        {
-          isTouched: true,
-        }
+        { isTouched: true }
       )
     }
   }
@@ -62,31 +59,21 @@ export const AmountInputEndAdornment = memo(({ formType }: FormTypeProps) => {
       setFieldValue(
         FormKeyHelper.getAmountKey(formType),
         formatUnits(maxAmount, token.decimals),
-        {
-          isTouched: true,
-        }
+        { isTouched: true }
       )
     }
   }
 
+  if (formType !== 'from' || !token?.amount) {
+    return null
+  }
+
   return (
-    <InputAdornment position="end" sx={{ paddingTop: 2 }}>
-      {formType === 'from' && token?.amount ? (
-        <ButtonContainer>
-          <MaxButton onClick={() => handlePercentage(25)} data-delay="0">
-            25%
-          </MaxButton>
-          <MaxButton onClick={() => handlePercentage(50)} data-delay="1">
-            50%
-          </MaxButton>
-          <MaxButton onClick={() => handlePercentage(75)} data-delay="2">
-            75%
-          </MaxButton>
-          <MaxButton onClick={handleMax} data-delay="3">
-            {t('button.max')}
-          </MaxButton>
-        </ButtonContainer>
-      ) : null}
-    </InputAdornment>
+    <ButtonContainer>
+      <PercentagePill onClick={() => handlePercentage(25)}>25%</PercentagePill>
+      <PercentagePill onClick={() => handlePercentage(50)}>50%</PercentagePill>
+      <PercentagePill onClick={() => handlePercentage(75)}>75%</PercentagePill>
+      <PercentagePill onClick={handleMax}>{t('button.max')}</PercentagePill>
+    </ButtonContainer>
   )
 })

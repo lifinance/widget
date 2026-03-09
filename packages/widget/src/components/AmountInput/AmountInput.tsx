@@ -3,6 +3,7 @@ import type { CardProps } from '@mui/material'
 import type { ChangeEvent, ReactNode } from 'react'
 import { useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useChain } from '../../hooks/useChain.js'
 import { useToken } from '../../hooks/useToken.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { FormKeyHelper, type FormTypeProps } from '../../stores/form/types.js'
@@ -17,18 +18,21 @@ import {
   usdDecimals,
 } from '../../utils/format.js'
 import { fitInputText } from '../../utils/input.js'
-import { InputCard } from '../Card/InputCard.js'
+import { AvatarBadgedDefault } from '../Avatar/Avatar.js'
+import { TokenAvatar } from '../Avatar/TokenAvatar.js'
+import { WalletAddressBadge } from '../WalletAddressBadge/WalletAddressBadge.js'
 import {
+  AmountInputCard,
   AmountInputCardHeader,
   AmountInputCardTitle,
-  FormContainer,
   FormControl,
   Input,
+  LabelDescriptionColumn,
+  LabelRow,
   maxInputFontSize,
   minInputFontSize,
 } from './AmountInput.style.js'
 import { AmountInputEndAdornment } from './AmountInputEndAdornment.js'
-import { AmountInputStartAdornment } from './AmountInputStartAdornment.js'
 import { PriceFormHelperText } from './PriceFormHelperText.js'
 
 export const AmountInput: React.FC<FormTypeProps & CardProps> = ({
@@ -52,7 +56,6 @@ export const AmountInput: React.FC<FormTypeProps & CardProps> = ({
       endAdornment={
         !disabled ? <AmountInputEndAdornment formType={formType} /> : undefined
       }
-      bottomAdornment={<PriceFormHelperText formType={formType} />}
       disabled={disabled}
       {...props}
     />
@@ -65,18 +68,9 @@ const AmountInputBase: React.FC<
       token?: Token
       startAdornment?: ReactNode
       endAdornment?: ReactNode
-      bottomAdornment?: ReactNode
       disabled?: boolean
     }
-> = ({
-  formType,
-  token,
-  startAdornment,
-  endAdornment,
-  bottomAdornment,
-  disabled,
-  ...props
-}) => {
+> = ({ formType, token, startAdornment, endAdornment, disabled, ...props }) => {
   const { t } = useTranslation()
   const { subvariant, subvariantOptions } = useWidgetConfig()
   const ref = useRef<HTMLInputElement>(null)
@@ -85,9 +79,16 @@ const AmountInputBase: React.FC<
   const [formattedPriceInput, setFormattedPriceInput] = useState('')
 
   const amountKey = FormKeyHelper.getAmountKey(formType)
+  const [chainId, , toAddress] = useFieldValues(
+    FormKeyHelper.getChainKey(formType),
+    FormKeyHelper.getTokenKey(formType),
+    'toAddress'
+  )
   const [value] = useFieldValues(amountKey)
   const { setFieldValue } = useFieldActions()
   const { inputMode } = useInputModeStore()
+
+  const { chain } = useChain(chainId)
 
   const currentInputMode = inputMode[formType]
   let displayValue: string
@@ -170,40 +171,47 @@ const AmountInputBase: React.FC<
         : t('header.youPay')
       : t('header.send')
 
+  const isSelected = !!(chain && token)
+
   return (
-    <InputCard {...props}>
+    <AmountInputCard {...props}>
       <AmountInputCardHeader>
         <AmountInputCardTitle>{title}</AmountInputCardTitle>
-        {endAdornment}
+        {toAddress ? <WalletAddressBadge address={toAddress} /> : null}
       </AmountInputCardHeader>
-      <FormContainer>
-        <AmountInputStartAdornment formType={formType} />
-        <FormControl fullWidth>
-          <Input
-            inputRef={ref}
-            size="small"
-            autoComplete="off"
-            placeholder={currentInputMode === 'price' ? '$0' : '0'}
-            startAdornment={startAdornment}
-            inputProps={{
-              inputMode: 'decimal',
-            }}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={
-              currentInputMode === 'price'
-                ? displayValue
-                  ? `$${displayValue}`
-                  : ''
-                : displayValue
-            }
-            name={amountKey}
-            disabled={disabled}
-            required
-          />
-          {bottomAdornment}
-        </FormControl>
-      </FormContainer>
-    </InputCard>
+      <LabelDescriptionColumn>
+        <LabelRow>
+          {startAdornment ??
+            (isSelected ? (
+              <TokenAvatar token={token} chain={chain} />
+            ) : (
+              <AvatarBadgedDefault />
+            ))}
+          <FormControl fullWidth>
+            <Input
+              inputRef={ref}
+              size="small"
+              autoComplete="off"
+              placeholder={currentInputMode === 'price' ? '$0' : '0'}
+              inputProps={{ inputMode: 'decimal' }}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={
+                currentInputMode === 'price'
+                  ? displayValue
+                    ? `$${displayValue}`
+                    : ''
+                  : displayValue
+              }
+              name={amountKey}
+              disabled={disabled}
+              required
+            />
+          </FormControl>
+        </LabelRow>
+        <PriceFormHelperText formType={formType} />
+      </LabelDescriptionColumn>
+      {endAdornment}
+    </AmountInputCard>
   )
 }

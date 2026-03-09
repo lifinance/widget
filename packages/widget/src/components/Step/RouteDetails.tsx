@@ -1,14 +1,15 @@
 import type { RouteExtended } from '@lifi/sdk'
 import { useEthereumContext } from '@lifi/widget-provider'
+import InfoOutlined from '@mui/icons-material/InfoOutlined'
 import { Box, Tooltip, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider'
-import { isRouteDone } from '../../stores/routes/utils'
-import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees'
-import { formatTokenAmount, formatTokenPrice } from '../../utils/format'
-import { getPriceImpact } from '../../utils/getPriceImpact'
-import { FeeBreakdownTooltip } from '../FeeBreakdownTooltip'
-import { StepActions } from '../StepActions/StepActions'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { isRouteDone } from '../../stores/routes/utils.js'
+import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
+import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
+import { getPriceImpact } from '../../utils/getPriceImpact.js'
+import { FeeBreakdownTooltip } from '../FeeBreakdownTooltip.js'
+import { StepActions } from '../StepActions/StepActions.js'
 
 interface RouteDetailsProps {
   route: RouteExtended
@@ -63,7 +64,7 @@ export const RouteDetails = ({ route }: RouteDetailsProps) => {
     (feeAmountUSD || Number.isFinite(feeConfig?.fee)) && !hasGaslessSupport
 
   return (
-    <Box>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, py: 1 }}>
       {route.steps.map((step) => (
         <StepActions key={step.id} step={step} px={2} py={1} dense />
       ))}
@@ -71,39 +72,54 @@ export const RouteDetails = ({ route }: RouteDetailsProps) => {
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
-          mb: 0.5,
+          alignItems: 'center',
+          gap: 1,
         }}
       >
-        <Typography variant="body2">{t('main.fees.network')}</Typography>
-        <FeeBreakdownTooltip gasCosts={gasCosts} gasless={hasGaslessSupport}>
-          <Typography variant="body2" sx={{ fontWeight: 600, cursor: 'help' }}>
-            {!gasCostUSD
-              ? t('main.fees.free')
-              : t('format.currency', {
-                  value: gasCostUSD,
-                })}
-          </Typography>
-        </FeeBreakdownTooltip>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          <Typography variant="body2">{t('main.fees.network')}</Typography>
+          <FeeBreakdownTooltip gasCosts={gasCosts} gasless={hasGaslessSupport}>
+            <InfoOutlined
+              sx={{ fontSize: 16, color: 'text.secondary', cursor: 'help' }}
+            />
+          </FeeBreakdownTooltip>
+        </Box>
+        <Typography
+          variant="body2"
+          sx={{ fontWeight: 600, textAlign: 'right' }}
+        >
+          {!gasCostUSD
+            ? t('main.fees.free')
+            : t('format.currency', {
+                value: gasCostUSD,
+              })}
+        </Typography>
       </Box>
       {feeCosts.length ? (
         <Box
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
-            mb: 0.5,
+            alignItems: 'center',
+            gap: 1,
           }}
         >
-          <Typography variant="body2">{t('main.fees.provider')}</Typography>
-          <FeeBreakdownTooltip feeCosts={feeCosts}>
-            <Typography
-              variant="body2"
-              sx={{ fontWeight: 600, cursor: 'help' }}
-            >
-              {t('format.currency', {
-                value: feeCostUSD,
-              })}
-            </Typography>
-          </FeeBreakdownTooltip>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+            <Typography variant="body2">{t('main.fees.provider')}</Typography>
+            <FeeBreakdownTooltip feeCosts={feeCosts}>
+              <InfoOutlined
+                sx={{ fontSize: 16, color: 'text.secondary', cursor: 'help' }}
+              />
+            </FeeBreakdownTooltip>
+          </Box>
+          <Typography
+            variant="body2"
+            sx={{ fontWeight: 600, textAlign: 'right' }}
+          >
+            {t('format.currency', {
+              value: feeCostUSD,
+            })}
+          </Typography>
         </Box>
       ) : null}
       {showIntegratorFeeCollectionDetails ? (
@@ -111,57 +127,66 @@ export const RouteDetails = ({ route }: RouteDetailsProps) => {
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
-            mb: 0.5,
+            alignItems: 'center',
+            gap: 1,
           }}
         >
-          <Typography variant="body2">
-            {feeConfig?.name || t('main.fees.defaultIntegrator')}
-            {feeConfig?.showFeePercentage && (
-              <> ({t('format.percent', { value: feePercentage })})</>
-            )}
-          </Typography>
-          {feeConfig?.showFeeTooltip &&
-          (feeConfig?.name || feeConfig?.feeTooltipComponent) ? (
-            <Tooltip
-              title={
-                feeConfig?.feeTooltipComponent ||
-                t('tooltip.feeCollection', { tool: feeConfig.name })
-              }
-            >
-              <Typography
-                variant="body2"
-                sx={{ fontWeight: 600, cursor: 'help' }}
-              >
-                {t('format.currency', {
-                  value: feeAmountUSD,
-                })}
-              </Typography>
-            </Tooltip>
-          ) : (
-            <Typography variant="body2" sx={{ fontWeight: 600 }}>
-              {t('format.currency', {
-                value: feeAmountUSD,
-              })}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+            <Typography variant="body2">
+              {feeConfig?.name || t('main.fees.defaultIntegrator')}
+              {feeConfig?.showFeePercentage && (
+                <> ({t('format.percent', { value: feePercentage })})</>
+              )}
             </Typography>
-          )}
+            {feeConfig?.showFeeTooltip &&
+            (feeConfig?.name || feeConfig?.feeTooltipComponent) ? (
+              <Tooltip
+                title={
+                  feeConfig?.feeTooltipComponent ||
+                  t('tooltip.feeCollection', { tool: feeConfig.name })
+                }
+              >
+                <InfoOutlined
+                  sx={{ fontSize: 16, color: 'text.secondary', cursor: 'help' }}
+                />
+              </Tooltip>
+            ) : null}
+          </Box>
+          <Typography
+            variant="body2"
+            sx={{ fontWeight: 600, textAlign: 'right' }}
+          >
+            {t('format.currency', {
+              value: feeAmountUSD,
+            })}
+          </Typography>
         </Box>
       ) : null}
       <Box
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
-          mb: 0.5,
+          alignItems: 'center',
+          gap: 1,
         }}
       >
-        <Typography variant="body2">{t('main.priceImpact')}</Typography>
-        <Tooltip title={t('tooltip.priceImpact')}>
-          <Typography variant="body2" sx={{ fontWeight: 600, cursor: 'help' }}>
-            {t('format.percent', {
-              value: priceImpact,
-              usePlusSign: true,
-            })}
-          </Typography>
-        </Tooltip>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          <Typography variant="body2">{t('main.priceImpact')}</Typography>
+          <Tooltip title={t('tooltip.priceImpact')}>
+            <InfoOutlined
+              sx={{ fontSize: 16, color: 'text.secondary', cursor: 'help' }}
+            />
+          </Tooltip>
+        </Box>
+        <Typography
+          variant="body2"
+          sx={{ fontWeight: 600, textAlign: 'right' }}
+        >
+          {t('format.percent', {
+            value: priceImpact,
+            usePlusSign: true,
+          })}
+        </Typography>
       </Box>
       {!isRouteDone(route) ? (
         <>
@@ -169,44 +194,57 @@ export const RouteDetails = ({ route }: RouteDetailsProps) => {
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
-              mb: 0.5,
+              alignItems: 'center',
+              gap: 1,
             }}
           >
-            <Typography variant="body2">{t('main.maxSlippage')}</Typography>
-            <Tooltip title={t('tooltip.slippage')}>
-              <Typography
-                variant="body2"
-                sx={{ fontWeight: 600, cursor: 'help' }}
-              >
-                {route.steps[0].action.slippage
-                  ? t('format.percent', {
-                      value: route.steps[0].action.slippage,
-                    })
-                  : t('button.auto')}
-              </Typography>
-            </Tooltip>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <Typography variant="body2">{t('main.maxSlippage')}</Typography>
+              <Tooltip title={t('tooltip.slippage')}>
+                <InfoOutlined
+                  sx={{ fontSize: 16, color: 'text.secondary', cursor: 'help' }}
+                />
+              </Tooltip>
+            </Box>
+            <Typography
+              variant="body2"
+              sx={{ fontWeight: 600, textAlign: 'right' }}
+            >
+              {route.steps[0].action.slippage
+                ? t('format.percent', {
+                    value: route.steps[0].action.slippage,
+                  })
+                : t('button.auto')}
+            </Typography>
           </Box>
           <Box
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: 1,
             }}
           >
-            <Typography variant="body2">{t('main.minReceived')}</Typography>
-            <Tooltip title={t('tooltip.minReceived')}>
-              <Typography
-                variant="body2"
-                sx={{ fontWeight: 600, cursor: 'help' }}
-              >
-                {t('format.tokenAmount', {
-                  value: formatTokenAmount(
-                    BigInt(route.toAmountMin),
-                    route.toToken.decimals
-                  ),
-                })}{' '}
-                {route.toToken.symbol}
-              </Typography>
-            </Tooltip>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <Typography variant="body2">{t('main.minReceived')}</Typography>
+              <Tooltip title={t('tooltip.minReceived')}>
+                <InfoOutlined
+                  sx={{ fontSize: 16, color: 'text.secondary', cursor: 'help' }}
+                />
+              </Tooltip>
+            </Box>
+            <Typography
+              variant="body2"
+              sx={{ fontWeight: 600, textAlign: 'right' }}
+            >
+              {t('format.tokenAmount', {
+                value: formatTokenAmount(
+                  BigInt(route.toAmountMin),
+                  route.toToken.decimals
+                ),
+              })}{' '}
+              {route.toToken.symbol}
+            </Typography>
           </Box>
         </>
       ) : null}
