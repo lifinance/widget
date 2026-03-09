@@ -4,6 +4,7 @@ import {
   useEthereumContext,
   useSolanaContext,
   useSuiContext,
+  useTronContext,
   type WalletConnector,
 } from '@lifi/widget-provider'
 import { useMemo } from 'react'
@@ -30,6 +31,7 @@ const combineWalletLists = (
   bitcoinConnectorList: WalletConnector[],
   solanaWalletList: WalletConnector[],
   suiWalletList: WalletConnector[],
+  tronWalletList: WalletConnector[],
   walletEcosystemsOrder?: Record<string, ChainType[]>
 ): CombinedWallet[] => {
   const walletMap = new Map<string, CombinedWallet>()
@@ -87,6 +89,18 @@ const combineWalletLists = (
     walletMap.set(normalizedName, existing)
   })
 
+  tronWalletList.forEach((tron) => {
+    const normalizedName = normalizeName(tron.name)
+    const existing = walletMap.get(normalizedName) || {
+      id: tron.name,
+      name: tron.name,
+      icon: tron.icon,
+      connectors: [] as CombinedWalletConnector[],
+    }
+    existing.connectors.push({ connector: tron, chainType: ChainType.TVM })
+    walletMap.set(normalizedName, existing)
+  })
+
   let combinedWallets = Array.from(walletMap.values())
   if (walletEcosystemsOrder) {
     combinedWallets = combinedWallets.map((wallet) => {
@@ -113,6 +127,7 @@ export const useCombinedWallets = () => {
   const { installedWallets: installedBitcoinWallets } = useBitcoinContext()
   const { installedWallets: installedSolanaWallets } = useSolanaContext()
   const { installedWallets: installedSuiWallets } = useSuiContext()
+  const { installedWallets: installedTronWallets } = useTronContext()
 
   const combinedWallets = useMemo(() => {
     const includeEcosystem = (chainType: ChainType) =>
@@ -124,6 +139,7 @@ export const useCombinedWallets = () => {
       includeEcosystem(ChainType.UTXO) ? installedBitcoinWallets : [],
       includeEcosystem(ChainType.SVM) ? installedSolanaWallets : [],
       includeEcosystem(ChainType.MVM) ? installedSuiWallets : [],
+      includeEcosystem(ChainType.TVM) ? installedTronWallets : [],
       walletConfig.walletEcosystemsOrder
     )
 
@@ -135,6 +151,7 @@ export const useCombinedWallets = () => {
     installedBitcoinWallets,
     installedSolanaWallets,
     installedSuiWallets,
+    installedTronWallets,
     walletConfig,
   ])
 

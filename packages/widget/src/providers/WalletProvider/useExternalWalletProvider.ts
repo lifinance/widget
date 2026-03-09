@@ -4,6 +4,7 @@ import {
   useEthereumContext,
   useSolanaContext,
   useSuiContext,
+  useTronContext,
 } from '@lifi/widget-provider'
 import { useMemo } from 'react'
 import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
@@ -19,6 +20,7 @@ const internalChainTypes = [
   ChainType.SVM,
   ChainType.UTXO,
   ChainType.MVM,
+  ChainType.TVM,
 ]
 
 export function useExternalWalletProvider(): ExternalWalletProvider {
@@ -27,6 +29,7 @@ export function useExternalWalletProvider(): ExternalWalletProvider {
   const { isExternalContext: hasExternalSolanaContext } = useSolanaContext()
   const { isExternalContext: hasExternalBitcoinContext } = useBitcoinContext()
   const { isExternalContext: hasExternalSuiContext } = useSuiContext()
+  const { isExternalContext: hasExternalTronContext } = useTronContext()
   const data = useMemo(() => {
     const providers: ChainType[] = []
     if (hasExternalEthereumContext) {
@@ -40,6 +43,9 @@ export function useExternalWalletProvider(): ExternalWalletProvider {
     }
     if (hasExternalSuiContext) {
       providers.push(ChainType.MVM)
+    }
+    if (hasExternalTronContext) {
+      providers.push(ChainType.TVM)
     }
     const hasExternalProvider =
       hasExternalEthereumContext ||
@@ -63,6 +69,7 @@ export function useExternalWalletProvider(): ExternalWalletProvider {
     hasExternalSolanaContext,
     hasExternalBitcoinContext,
     hasExternalSuiContext,
+    hasExternalTronContext,
     walletConfig?.usePartialWalletManagement,
     walletConfig?.forceInternalWalletManagement,
   ])

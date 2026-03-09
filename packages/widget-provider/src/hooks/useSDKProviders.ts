@@ -3,17 +3,20 @@ import { useBitcoinContext } from '../contexts/BitcoinContext'
 import { useEthereumContext } from '../contexts/EthereumContext'
 import { useSolanaContext } from '../contexts/SolanaContext'
 import { useSuiContext } from '../contexts/SuiContext'
+import { useTronContext } from '../contexts/TronContext'
 
 export const useSDKProviders = () => {
   const { sdkProvider: evmSDKProvider } = useEthereumContext()
   const { sdkProvider: utxoSDKProvider } = useBitcoinContext()
   const { sdkProvider: svmSDKProvider } = useSolanaContext()
   const { sdkProvider: suiSDKProvider } = useSuiContext()
+  const { sdkProvider: tronSDKProvider } = useTronContext()
 
   return [
     evmSDKProvider,
     utxoSDKProvider,
     svmSDKProvider,
     suiSDKProvider,
+    tronSDKProvider,
   ].filter(Boolean) as SDKProvider[]
 }

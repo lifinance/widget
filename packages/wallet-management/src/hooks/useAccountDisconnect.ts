@@ -5,6 +5,7 @@ import {
   useEthereumContext,
   useSolanaContext,
   useSuiContext,
+  useTronContext,
   type WalletConnector,
 } from '@lifi/widget-provider'
 import {
@@ -18,6 +19,7 @@ export const useAccountDisconnect = () => {
   const { disconnect: bitcoinDisconnect } = useBitcoinContext()
   const { disconnect: solanaDisconnect } = useSolanaContext()
   const { disconnect: suiDisconnect } = useSuiContext()
+  const { disconnect: tronDisconnect } = useTronContext()
   const emitter = useWalletManagementEvents()
 
   return async (account: Account) => {
@@ -41,6 +43,8 @@ export const useAccountDisconnect = () => {
       case ChainType.MVM:
         await suiDisconnect()
         break
+      case ChainType.TVM:
+        await tronDisconnect()
     }
     emitter.emit(WalletManagementEvent.WalletDisconnected, walletDisconnected)
   }

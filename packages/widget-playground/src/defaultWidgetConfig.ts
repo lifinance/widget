@@ -4,6 +4,7 @@ import { BitcoinProvider } from '@lifi/widget-provider-bitcoin'
 import { EthereumProvider } from '@lifi/widget-provider-ethereum'
 import { SolanaProvider } from '@lifi/widget-provider-solana'
 import { SuiProvider } from '@lifi/widget-provider-sui'
+import { TronProvider } from '@lifi/widget-provider-tron'
 
 export const widgetBaseConfig: WidgetConfig = {
   // fromChain: 137,
@@ -44,6 +45,9 @@ export const widgetBaseConfig: WidgetConfig = {
     SuiProvider(),
     SolanaProvider(),
     BitcoinProvider(),
+    TronProvider({
+      walletConnect: true,
+    }),
   ],
   variant: 'wide',
   // subvariant: 'split',
