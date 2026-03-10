@@ -21,6 +21,7 @@ export const AppProvider = ({ children }: PropsWithChildren) => {
   return (
     <EnvVariablesProvider
       EVMWalletConnectId={process.env.NEXT_PUBLIC_EVM_WALLET_CONNECT!}
+      TVMWalletConnectId={process.env.NEXT_PUBLIC_TVM_WALLET_CONNECT!}
     >
       <QueryClientProvider client={queryClient}>
         <WidgetConfigProvider defaultWidgetConfig={defaultWidgetConfig}>

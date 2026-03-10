@@ -51,7 +51,8 @@ export function useExternalWalletProvider(): ExternalWalletProvider {
       hasExternalEthereumContext ||
       hasExternalSolanaContext ||
       hasExternalBitcoinContext ||
-      hasExternalSuiContext
+      hasExternalSuiContext ||
+      hasExternalTronContext
 
     const useExternalWalletProvidersOnly =
       hasExternalProvider &&

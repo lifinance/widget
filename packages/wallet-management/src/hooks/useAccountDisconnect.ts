@@ -45,6 +45,7 @@ export const useAccountDisconnect = () => {
         break
       case ChainType.TVM:
         await tronDisconnect()
+        break
     }
     emitter.emit(WalletManagementEvent.WalletDisconnected, walletDisconnected)
   }
