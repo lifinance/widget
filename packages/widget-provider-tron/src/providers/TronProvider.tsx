@@ -9,6 +9,10 @@ interface TronWidgetProviderProps extends WidgetProviderProps {
   config?: TronProviderConfig
 }
 
+// Detects if a parent TronWalletProvider already wraps the component tree.
+// The default WalletContext uses lazy getters on its properties (e.g. `wallets`),
+// while a real provider sets plain data properties. Checking the property descriptor
+// distinguishes between the two — a non-getter means a real provider is present.
 function useInTronContext(): boolean {
   const context = useContext(WalletContext)
   const descriptor = Object.getOwnPropertyDescriptor(context, 'wallets')

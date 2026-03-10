@@ -22,6 +22,7 @@ export const TronProviderValues: FC<
     disconnect,
     wallets,
     select,
+    connecting,
   } = useWallet()
 
   const connector = currentWallet
@@ -38,7 +39,7 @@ export const TronProviderValues: FC<
         chainType: ChainType.TVM,
         connector,
         isConnected,
-        isConnecting: false,
+        isConnecting: connecting,
         isReconnecting: false,
         isDisconnected: false,
         status: 'connected' as const,
@@ -74,7 +75,6 @@ export const TronProviderValues: FC<
         .map((wallet) => ({
           name: wallet.adapter.name,
           icon: wallet.adapter.icon,
-          wallet: wallet.adapter,
         })),
     [wallets]
   )
@@ -84,19 +84,18 @@ export const TronProviderValues: FC<
       walletName: string,
       onSuccess?: (address: string, chainId: number) => void
     ) => {
-      try {
-        const wallet = wallets.find((w) => w.adapter.name === walletName)
-        if (!wallet) {
-          throw new Error(`Wallet ${walletName} not found`)
-        }
-        select(walletName as AdapterName)
-        await wallet.adapter.connect()
-        const connectedAddress = wallet.adapter.address
-        if (connectedAddress) {
-          onSuccess?.(connectedAddress, ChainId.TRN)
-        }
-      } catch (error) {
-        console.error('Failed to connect wallet:', error)
+      const wallet = wallets.find((w) => w.adapter.name === walletName)
+      if (!wallet) {
+        throw new Error(`Wallet ${walletName} not found`)
+      }
+      select(walletName as AdapterName)
+      // Connect directly on the adapter — the hook's connect() requires adapter
+      // state that hasn't updated yet. May overlap with autoConnect, but adapters
+      // handle duplicate connects as a no-op.
+      await wallet.adapter.connect()
+      const connectedAddress = wallet.adapter.address
+      if (connectedAddress) {
+        onSuccess?.(connectedAddress, ChainId.TRN)
       }
     },
     [wallets, select]
