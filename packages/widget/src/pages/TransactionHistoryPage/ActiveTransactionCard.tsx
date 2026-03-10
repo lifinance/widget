@@ -1,10 +1,10 @@
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
-import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded'
+import DeleteIcon from '@mui/icons-material/Delete'
 import { Button, CircularProgress, IconButton } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import type { MouseEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Card } from '../../components/Card/Card.js'
+import { IconCircle } from '../../components/IconCircle/IconCircle.js'
 import { RouteTokens } from '../../components/Step/RouteTokens.js'
 import { StepTimer } from '../../components/Timer/StepTimer.js'
 import { useActionMessage } from '../../hooks/useActionMessage.js'
@@ -13,7 +13,6 @@ import { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import {
   CardContent,
-  ErrorIconCircle,
   StatusBar,
   StatusMessage,
   StatusTitle,
@@ -62,12 +61,19 @@ export const ActiveTransactionCard: React.FC<{
       <CardContent>
         {isFailed ? (
           <StatusBar>
-            <ErrorIconCircle>
-              <ErrorRoundedIcon color="error" sx={{ fontSize: 20 }} />
-            </ErrorIconCircle>
+            <IconCircle status="error" size={24} />
             <StatusTitle>{t('error.title.transactionFailed')}</StatusTitle>
-            <IconButton size="small" onClick={handleDelete} sx={{ p: 0.5 }}>
-              <DeleteOutlineIcon sx={{ fontSize: 20 }} />
+            <IconButton
+              size="small"
+              onClick={handleDelete}
+              sx={{
+                p: 0.5,
+                backgroundColor: 'background.paper',
+                width: 24,
+                height: 24,
+              }}
+            >
+              <DeleteIcon sx={{ fontSize: 12 }} />
             </IconButton>
             <Button
               size="small"
@@ -75,14 +81,16 @@ export const ActiveTransactionCard: React.FC<{
               onClick={handleRetry}
               sx={{
                 fontWeight: 700,
-                fontSize: 14,
+                fontSize: 10,
+                height: 24,
                 minWidth: 'auto',
                 px: 1,
                 py: 0.5,
                 color: 'text.primary',
+                backgroundColor: 'background.paper',
               }}
             >
-              {t('button.tryAgain')}
+              {t('button.retry')}
             </Button>
           </StatusBar>
         ) : null}

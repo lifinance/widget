@@ -27,7 +27,7 @@ export const StatusIconCircle = styled(Box, {
 export const TransactionLinkLabel = styled(Typography)(() => ({
   flex: 1,
   fontSize: 12,
-  fontWeight: 400,
+  fontWeight: 500,
   color: 'inherit',
 }))
 

@@ -1,58 +1,30 @@
 import type { ExchangeRateUpdateParams } from '@lifi/sdk'
-import Delete from '@mui/icons-material/Delete'
-import { Box, Button, Tooltip } from '@mui/material'
-import { useLocation, useNavigate } from '@tanstack/react-router'
+import { useLocation } from '@tanstack/react-router'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
-import { Card } from '../../components/Card/Card.js'
-import { WarningMessages } from '../../components/Messages/WarningMessages.js'
 import { PageContainer } from '../../components/PageContainer.js'
-import { RouteCardEssentials } from '../../components/RouteCard/RouteCardEssentials.js'
-import { ExecutionProgress } from '../../components/Step/ExecutionProgress.js'
-import { RouteTokens } from '../../components/Step/RouteTokens.js'
-import { RouteTransactions } from '../../components/Step/RouteTransactions.js'
-import { useAddressActivity } from '../../hooks/useAddressActivity.js'
 import { useHeader } from '../../hooks/useHeader.js'
-import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useRouteExecution } from '../../hooks/useRouteExecution.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { useFieldActions } from '../../stores/form/useFieldActions.js'
-import { useHeaderStore } from '../../stores/header/useHeaderStore.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { WidgetEvent } from '../../types/events.js'
-import { HiddenUI } from '../../types/widget.js'
-import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { ConfirmToAddressSheet } from './ConfirmToAddressSheet.js'
 import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet.js'
 import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet.js'
 import { RouteTracker } from './RouteTracker.js'
-import { StartTransactionButton } from './StartTransactionButton.js'
 import { StatusBottomSheet } from './StatusBottomSheet.js'
-import { TokenValueBottomSheet } from './TokenValueBottomSheet.js'
-import {
-  calculateValueLossPercentage,
-  getTokenValueLossThreshold,
-} from './utils.js'
+import { TransactionContent } from './TransactionContent.js'
 
 export const TransactionPage = () => {
   const { t } = useTranslation()
-  const { setFieldValue } = useFieldActions()
   const emitter = useWidgetEvents()
-  const setBackAction = useHeaderStore((state) => state.setBackAction)
-  const navigate = useNavigate()
-  const navigateBack = useNavigateBack()
-  const { subvariant, subvariantOptions, hiddenUI } = useWidgetConfig()
+  const { subvariant, subvariantOptions } = useWidgetConfig()
   const { search }: any = useLocation()
   const stateRouteId = search?.routeId
   const [routeId, setRouteId] = useState<string>(stateRouteId)
   const [routeRefreshing, setRouteRefreshing] = useState(false)
 
-  const tokenValueBottomSheetRef = useRef<BottomSheetBase>(null)
   const exchangeRateBottomSheetRef = useRef<ExchangeRateBottomSheetBase>(null)
-  const confirmToAddressSheetRef = useRef<BottomSheetBase>(null)
 
   const onAcceptExchangeRateUpdate = (
     resolver: (value: boolean) => void,
@@ -66,13 +38,6 @@ export const TransactionPage = () => {
       routeId: routeId,
       onAcceptExchangeRateUpdate,
     })
-
-  const {
-    toAddress,
-    hasActivity,
-    isLoading: isLoadingAddressActivity,
-    isFetched: isActivityAddressFetched,
-  } = useAddressActivity(route?.toChainId)
 
   const getHeaderTitle = () => {
     if (subvariant === 'custom') {
@@ -110,100 +75,8 @@ export const TransactionPage = () => {
     }
   }, [])
 
-  if (!route) {
+  if (!route || !status) {
     return null
-  }
-
-  const handleExecuteRoute = () => {
-    if (tokenValueBottomSheetRef.current?.isOpen()) {
-      const { gasCostUSD, feeCostUSD } = getAccumulatedFeeCostsBreakdown(route)
-      const fromAmountUSD = Number.parseFloat(route.fromAmountUSD)
-      const toAmountUSD = Number.parseFloat(route.toAmountUSD)
-      emitter.emit(WidgetEvent.RouteHighValueLoss, {
-        fromAmountUSD,
-        toAmountUSD,
-        gasCostUSD,
-        feeCostUSD,
-        valueLoss: calculateValueLossPercentage(
-          fromAmountUSD,
-          toAmountUSD,
-          gasCostUSD,
-          feeCostUSD
-        ),
-      })
-    }
-    tokenValueBottomSheetRef.current?.close()
-    executeRoute()
-    setFieldValue('fromAmount', '')
-    if (subvariant === 'custom') {
-      setFieldValue('fromToken', '')
-      setFieldValue('toToken', '')
-    }
-    // Once transaction is started, set the back action to navigate to the home page
-    setBackAction(() => {
-      navigate({ to: navigationRoutes.home, replace: true })
-    })
-  }
-
-  const handleStartClick = async () => {
-    if (status === RouteExecutionStatus.Idle) {
-      if (
-        toAddress &&
-        !hasActivity &&
-        !isLoadingAddressActivity &&
-        isActivityAddressFetched &&
-        !hiddenUI?.includes(HiddenUI.LowAddressActivityConfirmation)
-      ) {
-        confirmToAddressSheetRef.current?.open()
-        return
-      }
-
-      const { gasCostUSD, feeCostUSD } = getAccumulatedFeeCostsBreakdown(route)
-      const fromAmountUSD = Number.parseFloat(route.fromAmountUSD)
-      const toAmountUSD = Number.parseFloat(route.toAmountUSD)
-      const tokenValueLossThresholdExceeded = getTokenValueLossThreshold(
-        fromAmountUSD,
-        toAmountUSD,
-        gasCostUSD,
-        feeCostUSD
-      )
-      if (tokenValueLossThresholdExceeded && subvariant !== 'custom') {
-        tokenValueBottomSheetRef.current?.open()
-      } else {
-        handleExecuteRoute()
-      }
-    }
-    if (status === RouteExecutionStatus.Failed) {
-      restartRoute()
-    }
-  }
-
-  const handleRemoveRoute = () => {
-    navigateBack()
-    deleteRoute()
-  }
-
-  const getButtonText = (): string => {
-    switch (status) {
-      case RouteExecutionStatus.Idle:
-        switch (subvariant) {
-          case 'custom':
-            return subvariantOptions?.custom === 'deposit'
-              ? t('button.deposit')
-              : t('button.buy')
-          case 'refuel':
-            return t('button.startBridging')
-          default: {
-            const transactionType =
-              route.fromChainId === route.toChainId ? 'Swapping' : 'Bridging'
-            return t(`button.start${transactionType}`)
-          }
-        }
-      case RouteExecutionStatus.Failed:
-        return t('button.tryAgain')
-      default:
-        return ''
-    }
   }
 
   return (
@@ -211,68 +84,16 @@ export const TransactionPage = () => {
       bottomGutters
       sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
     >
-      {status !== RouteExecutionStatus.Idle ? (
-        <Card type="default" sx={{ p: 3 }}>
-          <ExecutionProgress route={route} />
-          <RouteTransactions route={route} />
-        </Card>
-      ) : null}
-      <Card type="default" sx={{ p: 3 }}>
-        <RouteTokens route={route} />
-        <RouteCardEssentials route={route} />
-      </Card>
-      {status === RouteExecutionStatus.Idle ||
-      status === RouteExecutionStatus.Failed ? (
-        <>
-          <WarningMessages mt={2} route={route} allowInteraction />
-          <Box
-            sx={{
-              mt: 2,
-              display: 'flex',
-            }}
-          >
-            <StartTransactionButton
-              text={getButtonText()}
-              onClick={handleStartClick}
-              route={route}
-              loading={routeRefreshing || isLoadingAddressActivity}
-            />
-            {status === RouteExecutionStatus.Failed ? (
-              <Tooltip
-                title={t('button.removeTransaction')}
-                placement="bottom-end"
-              >
-                <Button
-                  onClick={handleRemoveRoute}
-                  sx={{
-                    minWidth: 48,
-                    marginLeft: 1,
-                  }}
-                >
-                  <Delete />
-                </Button>
-              </Tooltip>
-            ) : null}
-          </Box>
-        </>
-      ) : null}
-      {status ? <StatusBottomSheet status={status} route={route} /> : null}
-      {subvariant !== 'custom' ? (
-        <TokenValueBottomSheet
-          route={route}
-          ref={tokenValueBottomSheetRef}
-          onContinue={handleExecuteRoute}
-        />
-      ) : null}
+      <TransactionContent
+        route={route}
+        status={status}
+        executeRoute={executeRoute}
+        restartRoute={restartRoute}
+        deleteRoute={deleteRoute}
+        routeRefreshing={routeRefreshing}
+      />
+      <StatusBottomSheet status={status} route={route} />
       <ExchangeRateBottomSheet ref={exchangeRateBottomSheetRef} />
-      {!hiddenUI?.includes(HiddenUI.LowAddressActivityConfirmation) ? (
-        <ConfirmToAddressSheet
-          ref={confirmToAddressSheetRef}
-          onContinue={handleExecuteRoute}
-          toAddress={toAddress!}
-          toChainId={route.toChainId!}
-        />
-      ) : null}
     </PageContainer>
   )
 }

@@ -42,11 +42,11 @@ export const RouteTransactions: React.FC<{
     : undefined
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
       {route.steps.map((step) => (
         <Box
           key={step.id}
-          sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}
+          sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}
         >
           {prepareActions(step.execution?.actions ?? []).map(
             (actionsGroup, index) => (

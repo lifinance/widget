@@ -39,6 +39,7 @@
     "max": "MAX",
     "ok": "Ok",
     "options": "Options",
+    "remove": "Remove",
     "removeTransaction": "Remove transaction",
     "reset": "Reset",
     "resetSettings": "Reset settings",
@@ -49,6 +50,7 @@
     "swap": "Swap",
     "swapReview": "Review swap",
     "system": "System",
+    "retry": "Retry",
     "tryAgain": "Try again",
     "viewCoverage": "View coverage",
     "viewOnExplorer": "View on explorer"

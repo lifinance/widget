@@ -49,26 +49,33 @@ export const getStatusColor = (
   }
 }
 
+export const iconSizeRatio = 48 / 90
+
 export const IconCircleRoot = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'colorConfig',
-})<{ colorConfig: StatusColorConfig }>(({ theme, colorConfig }) => ({
-  backgroundColor: `rgba(${colorConfig.color} / ${colorConfig.alpha})`,
-  borderRadius: '50%',
-  width: iconCircleSize,
-  height: iconCircleSize,
-  display: 'grid',
-  position: 'relative',
-  placeItems: 'center',
-  '& > svg': {
-    color: `color-mix(in srgb, rgb(${colorConfig.color}) ${(1 - colorConfig.lightDarken) * 100}%, black)`,
-    width: 48,
-    height: 48,
-  },
-  ...theme.applyStyles('dark', {
-    '& > svg': {
-      color: `color-mix(in srgb, rgb(${colorConfig.color}) ${(1 - colorConfig.darkDarken) * 100}%, black)`,
-      width: 48,
-      height: 48,
-    },
-  }),
-}))
+  shouldForwardProp: (prop) => prop !== 'colorConfig' && prop !== 'circleSize',
+})<{ colorConfig: StatusColorConfig; circleSize: number }>(
+  ({ theme, colorConfig, circleSize }) => {
+    const svgSize = Math.round(circleSize * iconSizeRatio)
+    return {
+      backgroundColor: `rgba(${colorConfig.color} / ${colorConfig.alpha})`,
+      borderRadius: '50%',
+      width: circleSize,
+      height: circleSize,
+      display: 'grid',
+      position: 'relative',
+      placeItems: 'center',
+      '& > svg': {
+        color: `color-mix(in srgb, rgb(${colorConfig.color}) ${(1 - colorConfig.lightDarken) * 100}%, black)`,
+        width: svgSize,
+        height: svgSize,
+      },
+      ...theme.applyStyles('dark', {
+        '& > svg': {
+          color: `color-mix(in srgb, rgb(${colorConfig.color}) ${(1 - colorConfig.darkDarken) * 100}%, black)`,
+          width: svgSize,
+          height: svgSize,
+        },
+      }),
+    }
+  }
+)

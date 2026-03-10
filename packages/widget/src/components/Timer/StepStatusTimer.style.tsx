@@ -38,12 +38,12 @@ export const IndeterminateRing: React.FC = () => (
       variant="determinate"
       value={100}
       size={iconCircleSize}
-      thickness={3}
+      thickness={2}
     />
     <MuiCircularProgress
       variant="indeterminate"
       size={iconCircleSize}
-      thickness={3}
+      thickness={2}
       sx={{ position: 'absolute' }}
     />
   </RingContainer>

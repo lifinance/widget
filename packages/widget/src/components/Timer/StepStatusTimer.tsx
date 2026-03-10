@@ -55,13 +55,13 @@ export const TimerRing: React.FC<{ step: LiFiStepExtended }> = ({ step }) => {
         variant="determinate"
         value={100}
         size={iconCircleSize}
-        thickness={3}
+        thickness={2}
       />
       <MuiCircularProgress
         variant="determinate"
         value={progress}
         size={iconCircleSize}
-        thickness={3}
+        thickness={2}
         sx={{ position: 'absolute' }}
       />
       <StatusCircle sx={{ position: 'absolute' }}>
