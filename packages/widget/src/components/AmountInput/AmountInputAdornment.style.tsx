@@ -7,7 +7,7 @@ export const ButtonContainer = styled(Box)(({ theme }) => ({
 }))
 
 export const PercentagePill = styled(ButtonTertiary)(({ theme }) => ({
-  padding: theme.spacing(0.5, 0.75),
+  padding: theme.spacing(1, 0.75),
   lineHeight: 1.3333,
   fontSize: '0.75rem',
   fontWeight: 700,

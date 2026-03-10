@@ -1,7 +1,3 @@
-import Done from '@mui/icons-material/Done'
-import ErrorRounded from '@mui/icons-material/ErrorRounded'
-import InfoRounded from '@mui/icons-material/InfoRounded'
-import WarningRounded from '@mui/icons-material/WarningRounded'
 import { Box, Button, Typography } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import { useCallback, useEffect, useRef } from 'react'
@@ -10,6 +6,8 @@ import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { Card } from '../../components/Card/Card.js'
 import { CardTitle } from '../../components/Card/CardTitle.js'
+import type { StatusColor } from '../../components/IconCircle/IconCircle.js'
+import { IconCircle } from '../../components/IconCircle/IconCircle.js'
 import { Token } from '../../components/Token/Token.js'
 import { WalletAddressBadge } from '../../components/WalletAddressBadge/WalletAddressBadge.js'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
@@ -25,7 +23,23 @@ import { hasEnumFlag } from '../../utils/enum.js'
 import { formatTokenAmount } from '../../utils/format.js'
 import { getErrorMessage } from '../../utils/getErrorMessage.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { CenterContainer, IconCircle } from './StatusBottomSheet.style.js'
+import { CenterContainer } from './StatusBottomSheet.style.js'
+
+const mapRouteStatus = (status: RouteExecutionStatus): StatusColor => {
+  if (hasEnumFlag(status, RouteExecutionStatus.Partial)) {
+    return 'warning'
+  }
+  if (hasEnumFlag(status, RouteExecutionStatus.Refunded)) {
+    return 'warning'
+  }
+  if (hasEnumFlag(status, RouteExecutionStatus.Failed)) {
+    return 'error'
+  }
+  if (status === RouteExecutionStatus.Done) {
+    return 'success'
+  }
+  return 'info'
+}
 
 interface StatusBottomSheetContentProps extends RouteExecution {
   onClose(): void
@@ -215,21 +229,7 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
     >
       {!showContractComponent ? (
         <CenterContainer>
-          <IconCircle status={status} mb={1}>
-            {status === RouteExecutionStatus.Idle ? (
-              <InfoRounded color="primary" />
-            ) : null}
-            {status === RouteExecutionStatus.Done ? (
-              <Done color="success" />
-            ) : null}
-            {hasEnumFlag(status, RouteExecutionStatus.Partial) ||
-            hasEnumFlag(status, RouteExecutionStatus.Refunded) ? (
-              <WarningRounded color="warning" />
-            ) : null}
-            {hasEnumFlag(status, RouteExecutionStatus.Failed) ? (
-              <ErrorRounded color="error" />
-            ) : null}
-          </IconCircle>
+          <IconCircle status={mapRouteStatus(status)} mb={1} />
         </CenterContainer>
       ) : null}
       <CenterContainer>

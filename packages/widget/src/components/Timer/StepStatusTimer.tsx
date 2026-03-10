@@ -4,13 +4,16 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTimer } from '../../hooks/timer/useTimer.js'
 import { formatTimer } from '../../utils/timer.js'
+import { iconCircleSize } from '../IconCircle/IconCircle.style.js'
 import {
-  circleSize,
+  IndeterminateRing,
   ProgressTrack,
   RingContainer,
   StatusCircle,
   TimerLabel,
-} from './CircularProgress.style.js'
+} from './StepStatusTimer.style.js'
+
+export { IndeterminateRing }
 
 const getExpiryTimestamp = (step: LiFiStepExtended) => {
   const execution = step?.execution
@@ -21,23 +24,6 @@ const getExpiryTimestamp = (step: LiFiStepExtended) => {
     (execution.signedAt ?? Date.now()) + step.estimate.executionDuration * 1000
   )
 }
-
-export const IndeterminateRing: React.FC = () => (
-  <RingContainer>
-    <ProgressTrack
-      variant="determinate"
-      value={100}
-      size={circleSize}
-      thickness={3}
-    />
-    <MuiCircularProgress
-      variant="indeterminate"
-      size={circleSize}
-      thickness={3}
-      sx={{ position: 'absolute' }}
-    />
-  </RingContainer>
-)
 
 export const TimerRing: React.FC<{ step: LiFiStepExtended }> = ({ step }) => {
   const { i18n } = useTranslation()
@@ -68,13 +54,13 @@ export const TimerRing: React.FC<{ step: LiFiStepExtended }> = ({ step }) => {
       <ProgressTrack
         variant="determinate"
         value={100}
-        size={circleSize}
+        size={iconCircleSize}
         thickness={3}
       />
       <MuiCircularProgress
         variant="determinate"
         value={progress}
-        size={circleSize}
+        size={iconCircleSize}
         thickness={3}
         sx={{ position: 'absolute' }}
       />

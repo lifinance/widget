@@ -1,5 +1,4 @@
 import type { Route } from '@lifi/sdk'
-import WarningRounded from '@mui/icons-material/WarningRounded'
 import { Button } from '@mui/material'
 import type { RefObject } from 'react'
 import { forwardRef, useRef } from 'react'
@@ -7,9 +6,10 @@ import { useTranslation } from 'react-i18next'
 import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { FeeBreakdownTooltip } from '../../components/FeeBreakdownTooltip.js'
+import { IconCircle } from '../../components/IconCircle/IconCircle.js'
 import { useSetContentHeight } from '../../hooks/useSetContentHeight.js'
 import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
-import { CenterContainer, IconCircle } from './StatusBottomSheet.style.js'
+import { CenterContainer } from './StatusBottomSheet.style.js'
 import {
   ButtonRow,
   ContentContainer,
@@ -63,10 +63,7 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
   return (
     <ContentContainer ref={ref}>
       <CenterContainer>
-        {/* TODO: how to resolve colors? */}
-        <IconCircle status="warning" mb={1} sx={{ backgroundColor: '#FFF7D6' }}>
-          <WarningRounded sx={{ color: '#D6AB00' }} />
-        </IconCircle>
+        <IconCircle status="warning" mb={1} />
         <WarningTitle>{t('warning.title.highValueLoss')}</WarningTitle>
       </CenterContainer>
       <WarningMessage>{t('warning.message.highValueLoss')}</WarningMessage>

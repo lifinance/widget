@@ -7,12 +7,13 @@ import type { StepIconProps } from '@mui/material'
 import {
   Box,
   Collapse,
+  Divider,
   Step as MuiStep,
   Stepper,
   Typography,
 } from '@mui/material'
 import type { MouseEventHandler } from 'react'
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
@@ -42,7 +43,7 @@ export const StepActions: React.FC<{
   const includedSteps = route.steps.flatMap((step) => step.includedSteps)
 
   return (
-    <Box>
+    <Box sx={{ pb: 0.5 }}>
       <Box
         sx={{
           display: 'flex',
@@ -59,27 +60,30 @@ export const StepActions: React.FC<{
           {t('main.route')}
         </Typography>
 
-        <CardIconButton onClick={handleExpand} size="small">
+        <CardIconButton
+          onClick={handleExpand}
+          size="small"
+          sx={{ padding: 0.5 }}
+        >
           {cardExpanded ? (
             <ExpandLess fontSize="inherit" />
           ) : (
-            <Box sx={{ display: 'flex', alignItems: 'center', ml: 1 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
               {includedSteps.map((includedStep, index) => (
-                <SmallAvatar
-                  key={includedStep.id}
-                  src={includedStep.toolDetails.logoURI}
-                  alt={includedStep.toolDetails.name}
-                  sx={{
-                    ml: index > 0 ? 0 : -0.75,
-                    width: 20,
-                    height: 20,
-                    mr: 0.5,
-                  }}
-                >
-                  {includedStep.toolDetails.name[0]}
-                </SmallAvatar>
+                <Fragment key={index}>
+                  {index > 0 ? (
+                    <Divider sx={{ width: 8, mx: 0.5, borderWidth: 1 }} />
+                  ) : null}
+                  <SmallAvatar
+                    src={includedStep.toolDetails.logoURI}
+                    alt={includedStep.toolDetails.name}
+                    sx={{ width: 20, height: 20 }}
+                  >
+                    {includedStep.toolDetails.name[0]}
+                  </SmallAvatar>
+                </Fragment>
               ))}
-              <ExpandMore fontSize="inherit" />
+              <ExpandMore fontSize="inherit" sx={{ ml: 0.5 }} />
             </Box>
           )}
         </CardIconButton>

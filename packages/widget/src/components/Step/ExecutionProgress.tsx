@@ -1,7 +1,7 @@
 import type { RouteExtended } from '@lifi/sdk'
 import { Box, Typography } from '@mui/material'
 import { useActionMessage } from '../../hooks/useActionMessage.js'
-import { CircularProgress } from './CircularProgress.js'
+import { StepStatusIndicator } from './StepStatusIndicator.js'
 
 export const ExecutionProgress: React.FC<{
   route: RouteExtended
@@ -17,7 +17,7 @@ export const ExecutionProgress: React.FC<{
   return (
     <Box sx={{ mb: 2 }}>
       <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress step={lastStep} />
+        <StepStatusIndicator step={lastStep} />
       </Box>
       <Typography
         sx={{

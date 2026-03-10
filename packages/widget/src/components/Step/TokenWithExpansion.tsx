@@ -46,7 +46,7 @@ export const TokenWithExpansion = ({
         />
         {!defaultExpanded ? (
           <CardIconButton
-            sx={{ borderRadius: '50%' }}
+            sx={{ borderRadius: '50%', padding: 0.5 }}
             onClick={handleExpand}
             size="small"
           >

@@ -87,6 +87,7 @@ export const LabelDescriptionColumn = styled(Box)(({ theme }) => ({
 export const DescriptionRow = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'space-between',
   gap: theme.spacing(1),
   width: '100%',
 }))
