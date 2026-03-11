@@ -50,7 +50,7 @@ export const TransactionFailed: React.FC<TransactionFailedProps> = ({
           ))}
         </TransactionList>
       </Card>
-      <Card type="default" sx={{ p: 3 }}>
+      <Card type="default" indented>
         <RouteTokens route={route} />
       </Card>
       <WarningMessages mt={2} route={route} allowInteraction />

@@ -12,7 +12,6 @@ import { useRouteExecution } from '../../hooks/useRouteExecution.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import {
-  CardContent,
   DeleteButton,
   RetryButton,
   TimerText,
@@ -56,45 +55,39 @@ export const ActiveTransactionCard: React.FC<{
   }
 
   return (
-    <Card onClick={handleClick} sx={{ mb: 1.5 }}>
-      <CardContent>
-        <Box sx={{ mb: 2 }}>
-          {isFailed ? (
-            <ActionRow
-              variant="error"
-              message={t('error.title.transactionFailed')}
-              endAdornment={
-                <>
-                  <DeleteButton size="small" onClick={handleDelete}>
-                    <DeleteIcon sx={{ fontSize: 12 }} />
-                  </DeleteButton>
-                  <RetryButton
-                    size="small"
-                    variant="text"
-                    onClick={handleRetry}
-                  >
-                    {t('button.retry')}
-                  </RetryButton>
-                </>
-              }
-            />
-          ) : undefined}
-          {!isFailed && title ? (
-            <ActionRow
-              variant="pending"
-              message={title}
-              endAdornment={
-                lastStep ? (
-                  <TimerText>
-                    <StepTimer step={lastStep} />
-                  </TimerText>
-                ) : undefined
-              }
-            />
-          ) : undefined}
-        </Box>
-        <RouteTokens route={route} />
-      </CardContent>
+    <Card onClick={handleClick} sx={{ mb: 1.5 }} indented>
+      <Box sx={{ mb: 2 }}>
+        {isFailed ? (
+          <ActionRow
+            variant="error"
+            message={t('error.title.transactionFailed')}
+            endAdornment={
+              <>
+                <DeleteButton size="small" onClick={handleDelete}>
+                  <DeleteIcon sx={{ fontSize: 12 }} />
+                </DeleteButton>
+                <RetryButton size="small" variant="text" onClick={handleRetry}>
+                  {t('button.retry')}
+                </RetryButton>
+              </>
+            }
+          />
+        ) : undefined}
+        {!isFailed && title ? (
+          <ActionRow
+            variant="pending"
+            message={title}
+            endAdornment={
+              lastStep ? (
+                <TimerText>
+                  <StepTimer step={lastStep} />
+                </TimerText>
+              ) : undefined
+            }
+          />
+        ) : undefined}
+      </Box>
+      <RouteTokens route={route} />
     </Card>
   )
 }

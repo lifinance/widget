@@ -69,7 +69,7 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
           </Box>
         </FeeBreakdownTooltip>
         {showDuration && (
-          <Tooltip title={t('tooltip.estimatedTime')} sx={{ cursor: 'help' }}>
+          <Tooltip title={t('tooltip.estimatedTime')}>
             <Box
               sx={{
                 display: 'flex',

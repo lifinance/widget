@@ -5,8 +5,8 @@ import { TokenSkeleton } from '../../components/Token/Token.js'
 
 export const TransactionHistoryItemSkeleton = () => {
   return (
-    <Card style={{ marginBottom: '16px' }}>
-      <Box sx={{ p: 3 }}>
+    <Card indented sx={{ mb: 1.5 }}>
+      <Box>
         <Box
           sx={{
             display: 'flex',

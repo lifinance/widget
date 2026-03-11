@@ -129,7 +129,7 @@ export const TransactionReview: React.FC<TransactionReviewProps> = ({
 
   return (
     <>
-      <Card type="default" sx={{ p: 3 }}>
+      <Card type="default" indented>
         <RouteTokens route={route} />
         <RouteCardEssentials route={route} />
       </Card>

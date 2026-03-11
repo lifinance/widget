@@ -123,9 +123,6 @@ export const RouteCard: React.FC<
       type={active ? 'selected' : 'default'}
       selectionColor="secondary"
       indented
-      sx={{
-        padding: 3,
-      }}
       {...other}
     >
       {cardContent}

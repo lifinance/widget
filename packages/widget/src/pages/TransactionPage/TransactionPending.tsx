@@ -32,7 +32,7 @@ export const TransactionPending: React.FC<TransactionPendingProps> = ({
         ))}
       </TransactionList>
     </Card>
-    <Card type="default" sx={{ p: 3 }}>
+    <Card type="default" indented>
       <RouteTokens route={route} />
     </Card>
   </>

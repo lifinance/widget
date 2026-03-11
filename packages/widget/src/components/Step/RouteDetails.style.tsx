@@ -30,5 +30,4 @@ export const DetailValue = styled(Typography)(() => ({
 export const DetailInfoIcon = {
   fontSize: 16,
   color: 'text.secondary',
-  cursor: 'help',
 } as const

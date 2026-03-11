@@ -1,18 +1,51 @@
 import {
-  Box,
+  cardHeaderClasses,
   CardContent as MuiCardContent,
   styled,
-  Typography,
 } from '@mui/material'
 import type { FormType } from '../../stores/form/types.js'
 import { Card } from '../Card/Card.js'
+import { CardHeader } from '../Card/CardHeader.js'
+
+export const SelectTokenCardHeader = styled(CardHeader, {
+  shouldForwardProp: (prop) => !['selected'].includes(prop as string),
+})<{ selected?: boolean }>(({ theme, selected }) => ({
+  padding: theme.spacing(2),
+  [`.${cardHeaderClasses.title}`]: {
+    color: theme.vars.palette.text.secondary,
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    width: 96,
+    fontSize: !selected ? 16 : 18,
+    fontWeight: 500,
+    [theme.breakpoints.down(theme.breakpoints.values.xs)]: {
+      fontSize: 16,
+    },
+  },
+  [`.${cardHeaderClasses.subheader}`]: {
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    width: 96,
+  },
+  variants: [
+    {
+      props: ({ selected }) => selected,
+      style: {
+        [`.${cardHeaderClasses.title}`]: {
+          color: theme.vars.palette.text.primary,
+          fontWeight: 600,
+        },
+      },
+    },
+  ],
+}))
 
 export const SelectTokenCard = styled(Card)(({ theme }) => {
   const cardVariant = theme.components?.MuiCard?.defaultProps?.variant
   return {
     flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
     ...(cardVariant !== 'outlined' && {
       background: 'none',
       '&:hover': {
@@ -24,26 +57,21 @@ export const SelectTokenCard = styled(Card)(({ theme }) => {
 })
 
 export const CardContent = styled(MuiCardContent, {
-  shouldForwardProp: (prop) =>
-    !['formType', 'compact', 'mask'].includes(prop as string),
-})<{ formType: FormType; compact: boolean; mask?: boolean }>(
-  ({ theme, formType, compact, mask = true }) => {
+  shouldForwardProp: (prop) => !['formType', 'mask'].includes(prop as string),
+})<{ formType: FormType; mask?: boolean }>(
+  ({ theme, formType, mask = true }) => {
     const cardVariant = theme.components?.MuiCard?.defaultProps?.variant
     const direction = formType === 'to' ? '-8px' : 'calc(100% + 8px)'
-    const horizontal = compact ? direction : '50%'
-    const vertical = compact ? '50%' : direction
+    const horizontal = direction
+    const vertical = '50%'
     return {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: theme.spacing(1.5),
-      padding: theme.spacing(3),
-      flex: 1,
+      padding: 0,
       transition: theme.transitions.create(['background-color'], {
         duration: theme.transitions.duration.enteringScreen,
         easing: theme.transitions.easing.easeOut,
       }),
       '&:last-child': {
-        paddingBottom: theme.spacing(3),
+        paddingBottom: 0,
       },
       ...(cardVariant !== 'outlined' && {
         backgroundColor: theme.vars.palette.background.paper,
@@ -63,41 +91,3 @@ export const CardContent = styled(MuiCardContent, {
     }
   }
 )
-
-export const AvatarItemRow = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: theme.spacing(2),
-}))
-
-export const TokenLabelColumn = styled(Box)(() => ({
-  display: 'flex',
-  flexDirection: 'column',
-  minWidth: 0,
-  flex: 1,
-  textAlign: 'left',
-}))
-
-export const TokenNameText = styled(Typography, {
-  shouldForwardProp: (prop) => prop !== 'selected',
-})<{ selected?: boolean }>(({ theme, selected }) => ({
-  fontSize: 18,
-  fontWeight: selected ? 700 : 500,
-  lineHeight: 1.3333,
-  color: selected
-    ? theme.vars.palette.text.primary
-    : theme.vars.palette.text.secondary,
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
-  overflow: 'hidden',
-}))
-
-export const ChainNameText = styled(Typography)(({ theme }) => ({
-  fontSize: 14,
-  fontWeight: 500,
-  lineHeight: 1.2857,
-  color: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.48)`,
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
-  overflow: 'hidden',
-}))

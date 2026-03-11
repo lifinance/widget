@@ -1,8 +1,4 @@
-import { Box, Button, IconButton, styled, Typography } from '@mui/material'
-
-export const CardContent = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(3),
-}))
+import { Button, IconButton, styled, Typography } from '@mui/material'
 
 export const TimerText = styled(Typography)({
   fontSize: 14,

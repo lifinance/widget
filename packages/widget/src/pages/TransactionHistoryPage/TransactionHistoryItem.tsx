@@ -38,7 +38,7 @@ export const TransactionHistoryItem: React.FC<{
   )
 
   return (
-    <Card onClick={handleClick} sx={{ p: 3 }}>
+    <Card onClick={handleClick} indented>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
         <DateLabel date={startedAt} />
         <RouteTokens route={routeExecution.route} />
