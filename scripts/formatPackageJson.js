@@ -37,16 +37,38 @@ export async function formatPackageFile() {
           .replace(/\.tsx?$/, '.d.ts')
         subpathExports[key] = {
           types: typesPath,
-          default: distPath,
+          import: distPath,
         }
       }
     }
   }
 
+  const skeletonExport =
+    packageDataOther.name === '@lifi/widget'
+      ? {
+          './skeleton': {
+            types: './dist/esm/components/Skeleton/WidgetSkeleton.d.ts',
+            import: './dist/esm/components/Skeleton/WidgetSkeleton.js',
+          },
+        }
+      : {}
+
+  const allSubpathExports = { ...skeletonExport, ...subpathExports }
+
+  const typesVersions = {}
+  for (const [key, value] of Object.entries(allSubpathExports)) {
+    const subpath = key.replace('./', '')
+    typesVersions[subpath] = [value.types]
+  }
+
   const newPackageData = {
     ...packageDataOther,
     main: './dist/esm/index.js',
+    module: './dist/esm/index.js',
     types: './dist/esm/index.d.ts',
+    ...(Object.keys(typesVersions).length > 0
+      ? { typesVersions: { '*': typesVersions } }
+      : {}),
     files: [
       'dist/**',
       '!dist/**/*.tsbuildinfo',
@@ -65,17 +87,9 @@ export async function formatPackageFile() {
     exports: {
       '.': {
         types: './dist/esm/index.d.ts',
-        default: './dist/esm/index.js',
+        import: './dist/esm/index.js',
       },
-      ...(packageDataOther.name === '@lifi/widget'
-        ? {
-            './skeleton': {
-              types: './dist/esm/components/Skeleton/WidgetSkeleton.d.ts',
-              default: './dist/esm/components/Skeleton/WidgetSkeleton.js',
-            },
-          }
-        : {}),
-      ...subpathExports,
+      ...allSubpathExports,
       './package.json': './package.json',
     },
   }

@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-provider-solana",
-  "version": "4.0.0-alpha.2",
+  "version": "4.0.0-alpha.3",
   "description": "LI.FI Widget Provider for Solana blockchain integration.",
   "type": "module",
   "main": "./src/index.ts",
