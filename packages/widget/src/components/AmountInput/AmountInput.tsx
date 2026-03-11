@@ -1,7 +1,5 @@
 import type { Token } from '@lifi/sdk'
-import { useAccount } from '@lifi/wallet-management'
 import type { CardProps } from '@mui/material'
-import { useNavigate } from '@tanstack/react-router'
 import type { ChangeEvent, ReactNode } from 'react'
 import { useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -12,7 +10,7 @@ import { FormKeyHelper, type FormTypeProps } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { useInputModeStore } from '../../stores/inputMode/useInputModeStore.js'
-import { DisabledUI, HiddenUI } from '../../types/widget.js'
+import { DisabledUI } from '../../types/widget.js'
 import {
   formatInputAmount,
   formatTokenPrice,
@@ -20,10 +18,8 @@ import {
   usdDecimals,
 } from '../../utils/format.js'
 import { fitInputText } from '../../utils/input.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { AvatarBadgedDefault } from '../Avatar/Avatar.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
-import { WalletAddressBadge } from '../WalletAddressBadge/WalletAddressBadge.js'
 import {
   AmountInputCard,
   AmountInputCardHeader,
@@ -36,6 +32,7 @@ import {
   minInputFontSize,
 } from './AmountInput.style.js'
 import { AmountInputEndAdornment } from './AmountInputEndAdornment.js'
+import { AmountInputHeaderBadge } from './AmountInputHeaderBadge.js'
 import { PriceFormHelperText } from './PriceFormHelperText.js'
 
 export const AmountInput: React.FC<FormTypeProps & CardProps> = ({
@@ -75,33 +72,19 @@ const AmountInputBase: React.FC<
     }
 > = ({ formType, token, startAdornment, endAdornment, disabled, ...props }) => {
   const { t } = useTranslation()
-  const navigate = useNavigate()
-  const { subvariant, subvariantOptions, toAddresses, disabledUI, hiddenUI } =
-    useWidgetConfig()
+  const { subvariant, subvariantOptions } = useWidgetConfig()
   const ref = useRef<HTMLInputElement>(null)
 
   const isEditingRef = useRef(false)
   const [formattedPriceInput, setFormattedPriceInput] = useState('')
 
   const amountKey = FormKeyHelper.getAmountKey(formType)
-  const [chainId, , toAddress] = useFieldValues(
-    FormKeyHelper.getChainKey(formType),
-    FormKeyHelper.getTokenKey(formType),
-    'toAddress'
-  )
+  const [chainId] = useFieldValues(FormKeyHelper.getChainKey(formType))
   const [value] = useFieldValues(amountKey)
   const { setFieldValue } = useFieldActions()
   const { inputMode } = useInputModeStore()
 
   const { chain } = useChain(chainId)
-  const { account } = useAccount()
-
-  const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress)
-  const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress)
-  const showWalletBadge =
-    !hiddenToAddress &&
-    !(disabledToAddress && !toAddress) &&
-    account.isConnected
 
   const currentInputMode = inputMode[formType]
   let displayValue: string
@@ -190,26 +173,7 @@ const AmountInputBase: React.FC<
     <AmountInputCard {...props}>
       <AmountInputCardHeader>
         <AmountInputCardTitle>{title}</AmountInputCardTitle>
-        {showWalletBadge ? (
-          <WalletAddressBadge
-            address={toAddress}
-            label={
-              subvariant === 'custom' && subvariantOptions?.custom === 'deposit'
-                ? t('header.depositTo')
-                : t('header.sendToWallet')
-            }
-            onClick={
-              disabledToAddress
-                ? undefined
-                : () =>
-                    navigate({
-                      to: toAddresses?.length
-                        ? navigationRoutes.configuredWallets
-                        : navigationRoutes.sendToWallet,
-                    })
-            }
-          />
-        ) : null}
+        <AmountInputHeaderBadge />
       </AmountInputCardHeader>
       <LabelDescriptionColumn>
         <LabelRow>

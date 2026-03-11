@@ -23,7 +23,10 @@ export const RingContainer = styled(Box)({
 
 export const ProgressTrack = styled(MuiCircularProgress)(({ theme }) => ({
   position: 'absolute',
-  color: theme.vars.palette.divider,
+  color: theme.vars.palette.grey[300],
+  ...theme.applyStyles('dark', {
+    color: theme.vars.palette.grey[800],
+  }),
 }))
 
 export const TimerLabel = styled(Typography)({

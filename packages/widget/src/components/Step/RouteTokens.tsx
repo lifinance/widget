@@ -26,30 +26,25 @@ export const RouteTokens: React.FC<{
         : BigInt(route.steps[lastStepIndex].estimate.toAmount),
   }
 
-  const impactToken = {
-    ...route.steps[0].action.fromToken,
-    amount: BigInt(route.steps[0].action.fromAmount),
-  }
-
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
       {fromToken ? <Token token={fromToken} /> : null}
       <Box
         sx={{
-          width: '40px',
-          height: '20px',
+          width: 40,
+          height: 20,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
-        <ArrowDownwardIcon sx={{ fontSize: '16px' }} />
+        <ArrowDownwardIcon sx={{ fontSize: 16 }} />
       </Box>
       {toToken ? (
         <TokenWithExpansion
           route={route}
           token={toToken}
-          impactToken={impactToken}
+          impactToken={fromToken}
           defaultExpanded={defaultUI?.transactionDetailsExpanded}
         />
       ) : null}

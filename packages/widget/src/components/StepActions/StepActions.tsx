@@ -63,7 +63,7 @@ export const StepActions: React.FC<{
         <CardIconButton
           onClick={handleExpand}
           size="small"
-          sx={{ padding: 0.5 }}
+          sx={{ padding: 0.5, height: 24 }}
         >
           {cardExpanded ? (
             <ExpandLess fontSize="inherit" />

@@ -5,8 +5,10 @@ import { Card } from '../../components/Card/Card.js'
 import { WarningMessages } from '../../components/Messages/WarningMessages.js'
 import { ExecutionProgress } from '../../components/Step/ExecutionProgress.js'
 import { RouteTokens } from '../../components/Step/RouteTokens.js'
-import { RouteTransactions } from '../../components/Step/RouteTransactions.js'
+import { StepActionRow } from '../../components/Step/StepActionRow.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
+import { prepareActions } from '../../utils/prepareActions.js'
+import { TransactionList } from './Receipts.style.js'
 import { StartTransactionButton } from './StartTransactionButton.js'
 
 interface TransactionFailedProps {
@@ -32,7 +34,21 @@ export const TransactionFailed: React.FC<TransactionFailedProps> = ({
     <>
       <Card type="default" sx={{ px: 3, py: 5 }}>
         <ExecutionProgress route={route} />
-        <RouteTransactions route={route} />
+        <TransactionList>
+          {route.steps.map((step) => (
+            <TransactionList key={step.id}>
+              {prepareActions(step.execution?.actions ?? []).map(
+                (actionsGroup, index) => (
+                  <StepActionRow
+                    key={index}
+                    step={step}
+                    actionsGroup={actionsGroup}
+                  />
+                )
+              )}
+            </TransactionList>
+          ))}
+        </TransactionList>
       </Card>
       <Card type="default" sx={{ p: 3 }}>
         <RouteTokens route={route} />

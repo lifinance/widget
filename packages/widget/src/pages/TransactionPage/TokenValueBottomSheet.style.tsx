@@ -1,29 +1,29 @@
 import { Box, styled, Typography } from '@mui/material'
 
-export const ContentContainer = styled(Box)({
-  padding: 24,
-})
+export const ContentContainer = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(3),
+}))
 
-export const WarningTitle = styled(Typography)({
-  paddingTop: 8,
-  paddingBottom: 8,
+export const WarningTitle = styled(Typography)(({ theme }) => ({
+  paddingTop: theme.spacing(1),
+  paddingBottom: theme.spacing(1),
   fontSize: 18,
   fontWeight: 700,
-})
+}))
 
 export const WarningMessage = styled(Typography)(({ theme }) => ({
-  paddingBottom: 16,
+  paddingBottom: theme.spacing(2),
   color: theme.vars.palette.text.secondary,
   fontSize: 14,
 }))
 
-export const DetailRow = styled(Box)({
+export const DetailRow = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  paddingTop: 6,
-  paddingBottom: 6,
-})
+  paddingTop: theme.spacing(0.75),
+  paddingBottom: theme.spacing(0.75),
+}))
 
 export const DetailLabel = styled(Typography)(({ theme }) => ({
   fontSize: 14,
@@ -36,8 +36,8 @@ export const DetailValue = styled(Typography)({
   fontWeight: 700,
 })
 
-export const ButtonRow = styled(Box)({
+export const ButtonRow = styled(Box)(({ theme }) => ({
   display: 'flex',
-  marginTop: 24,
-  gap: 12,
-})
+  marginTop: theme.spacing(3),
+  gap: theme.spacing(1.5),
+}))

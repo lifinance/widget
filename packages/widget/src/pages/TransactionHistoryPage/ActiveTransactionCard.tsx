@@ -1,10 +1,10 @@
 import DeleteIcon from '@mui/icons-material/Delete'
-import { Button, CircularProgress, IconButton } from '@mui/material'
+import { Box } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import type { MouseEvent } from 'react'
 import { useTranslation } from 'react-i18next'
+import { ActionRow } from '../../components/ActionRow/ActionRow.js'
 import { Card } from '../../components/Card/Card.js'
-import { IconCircle } from '../../components/IconCircle/IconCircle.js'
 import { RouteTokens } from '../../components/Step/RouteTokens.js'
 import { StepTimer } from '../../components/Timer/StepTimer.js'
 import { useActionMessage } from '../../hooks/useActionMessage.js'
@@ -13,9 +13,8 @@ import { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import {
   CardContent,
-  StatusBar,
-  StatusMessage,
-  StatusTitle,
+  DeleteButton,
+  RetryButton,
   TimerText,
 } from './ActiveTransactionCard.style.js'
 
@@ -59,52 +58,41 @@ export const ActiveTransactionCard: React.FC<{
   return (
     <Card onClick={handleClick} sx={{ mb: 1.5 }}>
       <CardContent>
-        {isFailed ? (
-          <StatusBar>
-            <IconCircle status="error" size={24} />
-            <StatusTitle>{t('error.title.transactionFailed')}</StatusTitle>
-            <IconButton
-              size="small"
-              onClick={handleDelete}
-              sx={{
-                p: 0.5,
-                backgroundColor: 'background.paper',
-                width: 24,
-                height: 24,
-              }}
-            >
-              <DeleteIcon sx={{ fontSize: 12 }} />
-            </IconButton>
-            <Button
-              size="small"
-              variant="text"
-              onClick={handleRetry}
-              sx={{
-                fontWeight: 700,
-                fontSize: 10,
-                height: 24,
-                minWidth: 'auto',
-                px: 1,
-                py: 0.5,
-                color: 'text.primary',
-                backgroundColor: 'background.paper',
-              }}
-            >
-              {t('button.retry')}
-            </Button>
-          </StatusBar>
-        ) : null}
-        {!isFailed && title ? (
-          <StatusBar>
-            <CircularProgress size={20} />
-            <StatusMessage>{title}</StatusMessage>
-            {lastStep ? (
-              <TimerText>
-                <StepTimer step={lastStep} />
-              </TimerText>
-            ) : null}
-          </StatusBar>
-        ) : null}
+        <Box sx={{ mb: 2 }}>
+          {isFailed ? (
+            <ActionRow
+              variant="error"
+              message={t('error.title.transactionFailed')}
+              endAdornment={
+                <>
+                  <DeleteButton size="small" onClick={handleDelete}>
+                    <DeleteIcon sx={{ fontSize: 12 }} />
+                  </DeleteButton>
+                  <RetryButton
+                    size="small"
+                    variant="text"
+                    onClick={handleRetry}
+                  >
+                    {t('button.retry')}
+                  </RetryButton>
+                </>
+              }
+            />
+          ) : undefined}
+          {!isFailed && title ? (
+            <ActionRow
+              variant="pending"
+              message={title}
+              endAdornment={
+                lastStep ? (
+                  <TimerText>
+                    <StepTimer step={lastStep} />
+                  </TimerText>
+                ) : undefined
+              }
+            />
+          ) : undefined}
+        </Box>
         <RouteTokens route={route} />
       </CardContent>
     </Card>

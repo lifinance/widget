@@ -1,11 +1,11 @@
 import type { RouteExtended } from '@lifi/sdk'
-import { Typography } from '@mui/material'
-import { useTranslation } from 'react-i18next'
+import { Box } from '@mui/material'
 import { Card } from '../../components/Card/Card.js'
+import { DateLabel } from '../../components/DateLabel/DateLabel.js'
 import { RouteCardEssentials } from '../../components/RouteCard/RouteCardEssentials.js'
 import { RouteTokens } from '../../components/Step/RouteTokens.js'
-import { RouteTransactions } from '../../components/Step/RouteTransactions.js'
 import { TransferIdCard } from '../TransactionDetailsPage/TransferIdCard.js'
+import { Receipts } from './Receipts.js'
 
 interface TransactionCompletedProps {
   route: RouteExtended
@@ -20,40 +20,16 @@ export const TransactionCompleted: React.FC<TransactionCompletedProps> = ({
   transferId,
   txLink,
 }) => {
-  const { t, i18n } = useTranslation()
-
   return (
     <>
       <Card type="default" sx={{ padding: 3 }}>
-        <Typography
-          sx={{
-            pb: 1.5,
-            display: 'flex',
-            justifyContent: 'space-between',
-            fontSize: 12,
-          }}
-          component="div"
-        >
-          <span>
-            {startedAt.toLocaleString(i18n.language, {
-              dateStyle: 'long',
-            })}
-          </span>
-          <span>
-            {startedAt.toLocaleString(i18n.language, {
-              timeStyle: 'short',
-            })}
-          </span>
-        </Typography>
-        <RouteTokens route={route} />
-        <RouteCardEssentials route={route} showDuration={false} />
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+          <DateLabel date={startedAt} />
+          <RouteTokens route={route} />
+          <RouteCardEssentials route={route} showDuration={false} />
+        </Box>
       </Card>
-      <Card type="default" sx={{ padding: 3 }}>
-        <Typography sx={{ fontSize: 14, fontWeight: 700, mb: 3 }}>
-          {t('main.receipts')}
-        </Typography>
-        <RouteTransactions route={route} />
-      </Card>
+      <Receipts route={route} />
       {transferId ? (
         <TransferIdCard transferId={transferId} txLink={txLink} />
       ) : null}

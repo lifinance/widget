@@ -39,7 +39,6 @@ export const getStatusColor = (
         darkDarken: 0,
       }
     case 'info':
-    default:
       return {
         color: theme.vars.palette.info.mainChannel,
         alpha: 0.12,
