@@ -4,17 +4,17 @@ import { ButtonTertiary } from '../ButtonTertiary.js'
 export const ButtonContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   gap: theme.spacing(1),
+  padding: theme.spacing(0, 2, 2, 2),
 }))
 
-export const PercentagePill = styled(ButtonTertiary)(({ theme }) => ({
-  padding: theme.spacing(1, 0.75),
-  lineHeight: 1.3333,
-  fontSize: '0.75rem',
+export const AmountInputButton = styled(ButtonTertiary)(({ theme }) => ({
+  padding: theme.spacing(0.75, 1),
+  lineHeight: 1,
+  fontSize: 12,
   fontWeight: 700,
   minWidth: 'unset',
   height: 'auto',
   flex: 1,
-  borderRadius: 12,
   backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
   '&:hover, &:active': {
     backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08)`,

@@ -4,33 +4,30 @@ import {
   inputBaseClasses,
   FormControl as MuiFormControl,
   styled,
-  Typography,
 } from '@mui/material'
 import { CardTitle } from '../Card/CardTitle.js'
-import { InputCard } from '../Card/InputCard.js'
 
-export const AmountInputCard = styled(InputCard)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: theme.spacing(1.5),
-  padding: theme.spacing(3),
-}))
-
-export const maxInputFontSize = 40
+export const maxInputFontSize = 24
 export const minInputFontSize = 14
 
-export const FormControl = styled(MuiFormControl)(() => ({
-  flex: 1,
+export const FormContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  padding: theme.spacing(2),
 }))
 
-export const Input = styled(InputBase)(() => ({
-  fontSize: 40,
+export const FormControl = styled(MuiFormControl)(() => ({
+  height: 40,
+}))
+
+export const Input = styled(InputBase)(({ theme }) => ({
+  fontSize: 24,
   fontWeight: 700,
   boxShadow: 'none',
-  lineHeight: 1.4,
+  lineHeight: 1.5,
   [`.${inputBaseClasses.input}`]: {
-    padding: 0,
-    height: 'auto',
+    height: 24,
+    padding: theme.spacing(0, 0, 0, 2),
   },
   '& input[type="number"]::-webkit-outer-spin-button, & input[type="number"]::-webkit-inner-spin-button':
     {
@@ -48,68 +45,14 @@ export const Input = styled(InputBase)(() => ({
   },
 }))
 
-export const AmountInputCardTitle = styled(CardTitle)(() => ({
-  padding: 0,
-  fontSize: 14,
-  fontWeight: 700,
-  lineHeight: 1.4286,
+export const AmountInputCardTitle = styled(CardTitle)(({ theme }) => ({
+  padding: theme.spacing(0),
 }))
 
-export const AmountInputCardHeader = styled(Box)(() => ({
+export const AmountInputCardHeader = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(2, 2, 0, 2),
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  width: '100%',
-}))
-
-export const TokenAmountRow = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: theme.spacing(2),
-  width: '100%',
-}))
-
-export const LabelRow = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: theme.spacing(2),
-  width: '100%',
-}))
-
-export const LabelDescriptionColumn = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  flex: 1,
-  minWidth: 0,
-  gap: theme.spacing(0.5),
-}))
-
-export const DescriptionRow = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  gap: theme.spacing(1),
-  width: '100%',
-}))
-
-export const DescriptionText = styled(Typography)(({ theme }) => ({
-  fontSize: 12,
-  fontWeight: 500,
-  lineHeight: 1.3333,
-  color: theme.vars.palette.text.secondary,
-  whiteSpace: 'nowrap',
-}))
-
-export const BalanceText = styled(Typography)(({ theme }) => ({
-  fontSize: 12,
-  fontWeight: 500,
-  lineHeight: 1.3333,
-  color: theme.vars.palette.text.primary,
-  whiteSpace: 'nowrap',
-}))
-
-export const PercentageRow = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  gap: theme.spacing(1),
-  width: '100%',
+  height: 30,
 }))

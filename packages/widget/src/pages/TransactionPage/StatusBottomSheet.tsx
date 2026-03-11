@@ -9,7 +9,6 @@ import { CardTitle } from '../../components/Card/CardTitle.js'
 import type { StatusColor } from '../../components/IconCircle/IconCircle.js'
 import { IconCircle } from '../../components/IconCircle/IconCircle.js'
 import { Token } from '../../components/Token/Token.js'
-import { WalletAddressBadge } from '../../components/WalletAddressBadge/WalletAddressBadge.js'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useSetContentHeight } from '../../hooks/useSetContentHeight.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
@@ -283,9 +282,6 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
                   ? t('header.refunded')
                   : t('header.received')}
               </CardTitle>
-              {route.toAddress ? (
-                <WalletAddressBadge address={route.toAddress} />
-              ) : null}
             </Box>
             <Token token={toToken} disableDescription={false} />
             {primaryMessage && (

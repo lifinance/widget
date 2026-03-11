@@ -1,11 +1,14 @@
 import { useAccount } from '@lifi/wallet-management'
+import Wallet from '@mui/icons-material/Wallet'
+import { Typography } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { DisabledUI, HiddenUI } from '../../types/widget.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { WalletAddressBadge } from '../WalletAddressBadge/WalletAddressBadge.js'
+import { shortenAddress } from '../../utils/wallet.js'
+import { AmountInputButton } from './AmountInputAdornment.style.js'
 
 export const AmountInputHeaderBadge: React.FC = () => {
   const { t } = useTranslation()
@@ -26,6 +29,11 @@ export const AmountInputHeaderBadge: React.FC = () => {
     return null
   }
 
+  const label =
+    subvariant === 'custom' && subvariantOptions?.custom === 'deposit'
+      ? t('header.depositTo')
+      : t('header.sendToWallet')
+
   const handleClick = disabledToAddress
     ? undefined
     : () =>
@@ -36,14 +44,14 @@ export const AmountInputHeaderBadge: React.FC = () => {
         })
 
   return (
-    <WalletAddressBadge
-      address={toAddress}
-      label={
-        subvariant === 'custom' && subvariantOptions?.custom === 'deposit'
-          ? t('header.depositTo')
-          : t('header.sendToWallet')
-      }
+    <AmountInputButton
       onClick={handleClick}
-    />
+      sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flex: 'none' }}
+    >
+      <Wallet sx={{ width: 16, height: 16 }} />
+      <Typography sx={{ fontSize: 12, lineHeight: 1, fontWeight: 700 }}>
+        {toAddress ? shortenAddress(toAddress) : label}
+      </Typography>
+    </AmountInputButton>
   )
 }

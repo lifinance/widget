@@ -9,8 +9,8 @@ import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import {
+  AmountInputButton,
   ButtonContainer,
-  PercentagePill,
 } from './AmountInputAdornment.style.js'
 
 export const AmountInputEndAdornment = memo(({ formType }: FormTypeProps) => {
@@ -23,7 +23,10 @@ export const AmountInputEndAdornment = memo(({ formType }: FormTypeProps) => {
     FormKeyHelper.getTokenKey(formType)
   )
 
+  // We get gas recommendations for the source chain to make sure that after pressing the Max button
+  // the user will have enough funds remaining to cover gas costs
   const { data } = useGasRecommendation(chainId)
+
   const { token } = useTokenAddressBalance(chainId, tokenAddress)
 
   const getMaxAmount = () => {
@@ -48,7 +51,9 @@ export const AmountInputEndAdornment = memo(({ formType }: FormTypeProps) => {
       setFieldValue(
         FormKeyHelper.getAmountKey(formType),
         formatUnits(percentageAmount, token.decimals),
-        { isTouched: true }
+        {
+          isTouched: true,
+        }
       )
     }
   }
@@ -59,7 +64,9 @@ export const AmountInputEndAdornment = memo(({ formType }: FormTypeProps) => {
       setFieldValue(
         FormKeyHelper.getAmountKey(formType),
         formatUnits(maxAmount, token.decimals),
-        { isTouched: true }
+        {
+          isTouched: true,
+        }
       )
     }
   }
@@ -70,10 +77,18 @@ export const AmountInputEndAdornment = memo(({ formType }: FormTypeProps) => {
 
   return (
     <ButtonContainer>
-      <PercentagePill onClick={() => handlePercentage(25)}>25%</PercentagePill>
-      <PercentagePill onClick={() => handlePercentage(50)}>50%</PercentagePill>
-      <PercentagePill onClick={() => handlePercentage(75)}>75%</PercentagePill>
-      <PercentagePill onClick={handleMax}>{t('button.max')}</PercentagePill>
+      <AmountInputButton onClick={() => handlePercentage(25)}>
+        25%
+      </AmountInputButton>
+      <AmountInputButton onClick={() => handlePercentage(50)}>
+        50%
+      </AmountInputButton>
+      <AmountInputButton onClick={() => handlePercentage(75)}>
+        75%
+      </AmountInputButton>
+      <AmountInputButton onClick={handleMax}>
+        {t('button.max')}
+      </AmountInputButton>
     </ButtonContainer>
   )
 })
