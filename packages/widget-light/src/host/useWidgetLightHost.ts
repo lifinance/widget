@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useRef } from 'react'
 import type {
+  ConnectWalletArgs,
   HostMessage,
   IframeEcosystemHandler,
   WidgetLightConfig,
 } from '../shared/protocol.js'
 import { WIDGET_LIGHT_SOURCE } from '../shared/protocol.js'
+import { WidgetLightEventBus } from './WidgetLightEventBus.js'
 
 export interface UseWidgetLightHostOptions {
   /**
@@ -30,6 +32,13 @@ export interface UseWidgetLightHostOptions {
    * trigger a re-render of the host tree.
    */
   autoResize?: boolean
+  /**
+   * Called when the widget requests an external wallet connection.
+   * If provided, the widget inside the iframe will call this instead of
+   * opening its internal wallet menu. Use this to open your own wallet
+   * connect modal on the host page.
+   */
+  onConnect?(args?: ConnectWalletArgs): void
 }
 
 /**
@@ -58,11 +67,15 @@ export function useWidgetLightHost({
   handlers = [],
   iframeOrigin,
   autoResize = true,
+  onConnect,
 }: UseWidgetLightHostOptions) {
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
-  const stateRef = useRef({ config, handlers })
-  stateRef.current = { config, handlers }
+  const stateRef = useRef({ config, handlers, onConnect })
+  stateRef.current = { config, handlers, onConnect }
+
+  // Tracks whether the READY→INIT handshake has completed at least once.
+  const readyRef = useRef(false)
 
   // ---------------------------------------------------------------------------
   // Memoised helper — stable reference so it can be a proper effect dependency
@@ -96,17 +109,18 @@ export function useWidgetLightHost({
 
       // ── READY ──────────────────────────────────────────────────────────────
       if (msg.type === 'READY') {
-        const { config, handlers } = stateRef.current
+        const { config, handlers, onConnect } = stateRef.current
         const ecosystems = handlers
           .map((h) => h.getInitState())
           .filter(Boolean) as NonNullable<
           ReturnType<IframeEcosystemHandler['getInitState']>
         >[]
 
+        readyRef.current = true
         sendToIframe({
           source: WIDGET_LIGHT_SOURCE,
           type: 'INIT',
-          config,
+          config: enrichConfig(config, onConnect),
           ecosystems,
         })
         return
@@ -117,6 +131,18 @@ export function useWidgetLightHost({
         if (iframeRef.current) {
           iframeRef.current.style.height = `${msg.height}px`
         }
+        return
+      }
+
+      // ── WIDGET_EVENT ───────────────────────────────────────────────────────
+      if (msg.type === 'WIDGET_EVENT') {
+        WidgetLightEventBus._receiveEvent(msg.event, msg.data)
+        return
+      }
+
+      // ── CONNECT_WALLET_REQUEST ────────────────────────────────────────
+      if (msg.type === 'CONNECT_WALLET_REQUEST') {
+        stateRef.current.onConnect?.(msg.args)
         return
       }
 
@@ -173,6 +199,19 @@ export function useWidgetLightHost({
   }, [autoResize, iframeOrigin, sendToIframe])
 
   // ---------------------------------------------------------------------------
+  // Push config updates to the iframe when config changes (after INIT)
+  // ---------------------------------------------------------------------------
+  useEffect(() => {
+    if (readyRef.current) {
+      sendToIframe({
+        source: WIDGET_LIGHT_SOURCE,
+        type: 'CONFIG_UPDATE',
+        config: enrichConfig(config, onConnect),
+      })
+    }
+  }, [config, onConnect, sendToIframe])
+
+  // ---------------------------------------------------------------------------
   // Subscribe to each handler's events and forward them to the iframe
   // ---------------------------------------------------------------------------
   useEffect(() => {
@@ -194,5 +233,36 @@ export function useWidgetLightHost({
     }
   }, [handlers, sendToIframe])
 
+  // ---------------------------------------------------------------------------
+  // Register/unregister the event bus send function
+  // ---------------------------------------------------------------------------
+  useEffect(() => {
+    WidgetLightEventBus._register(sendToIframe)
+    return () => {
+      WidgetLightEventBus._unregister()
+    }
+  }, [sendToIframe])
+
   return { iframeRef }
+}
+
+/**
+ * Injects `useExternalWalletManagement` into the config when the host
+ * provides an `onConnect` callback, so the guest knows to send
+ * CONNECT_WALLET_REQUEST instead of opening its internal wallet menu.
+ */
+function enrichConfig(
+  config: WidgetLightConfig,
+  onConnect?: (args?: ConnectWalletArgs) => void
+): WidgetLightConfig {
+  if (!onConnect) {
+    return config
+  }
+  return {
+    ...config,
+    walletConfig: {
+      ...config.walletConfig,
+      useExternalWalletManagement: true,
+    },
+  }
 }

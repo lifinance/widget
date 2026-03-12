@@ -1,4 +1,5 @@
 import type {
+  ConnectWalletArgs,
   EcosystemInitState,
   HostMessage,
   WidgetLightChainType,
@@ -15,6 +16,7 @@ interface PendingRequest {
 type InitCallback = (state: unknown) => void
 type EventCallback = (event: string, data: unknown) => void
 type ConfigCallback = (config: WidgetLightConfig) => void
+type SubscriptionChangeCallback = (event: string, subscribed: boolean) => void
 
 const RPC_TIMEOUT_MS = 60_000
 
@@ -52,6 +54,8 @@ export class GuestBridge {
     Set<EventCallback>
   >()
   private readonly configCallbacks = new Set<ConfigCallback>()
+  private readonly subscribedEvents = new Set<string>()
+  private readonly subscriptionCallbacks = new Set<SubscriptionChangeCallback>()
 
   private readonly initPromise: Promise<void>
   private initResolve!: () => void
@@ -186,6 +190,50 @@ export class GuestBridge {
     }
   }
 
+  /**
+   * Register a callback invoked when the host subscribes or unsubscribes
+   * from a widget event. Returns an unsubscribe function.
+   */
+  onWidgetEventSubscriptionChange(
+    callback: SubscriptionChangeCallback
+  ): () => void {
+    this.subscriptionCallbacks.add(callback)
+    return () => {
+      this.subscriptionCallbacks.delete(callback)
+    }
+  }
+
+  /** Returns the set of event names the host is currently subscribed to. */
+  getSubscribedEvents(): ReadonlySet<string> {
+    return this.subscribedEvents
+  }
+
+  /** Forward a widget event to the host via postMessage. */
+  sendWidgetEvent(event: string, data: unknown): void {
+    if (typeof window === 'undefined' || window.parent === window) {
+      return
+    }
+    window.parent.postMessage(
+      { source: WIDGET_LIGHT_SOURCE, type: 'WIDGET_EVENT', event, data },
+      this.trustedOrigin
+    )
+  }
+
+  /** Request the host to open its external wallet connect modal. */
+  sendConnectWalletRequest(args?: ConnectWalletArgs): void {
+    if (typeof window === 'undefined' || window.parent === window) {
+      return
+    }
+    window.parent.postMessage(
+      {
+        source: WIDGET_LIGHT_SOURCE,
+        type: 'CONNECT_WALLET_REQUEST',
+        args,
+      },
+      this.trustedOrigin
+    )
+  }
+
   // ---------------------------------------------------------------------------
   // Private
   // ---------------------------------------------------------------------------
@@ -228,12 +276,36 @@ export class GuestBridge {
       case 'INIT':
         this.handleInit(msg, event.origin)
         break
+      case 'CONFIG_UPDATE':
+        this.handleConfigUpdate(msg)
+        break
       case 'RPC_RESPONSE':
         this.handleRpcResponse(msg)
         break
       case 'EVENT':
         this.handleEvent(msg)
         break
+      case 'WIDGET_EVENT_SUBSCRIBE':
+        this.subscribedEvents.add(msg.event)
+        for (const cb of this.subscriptionCallbacks) {
+          cb(msg.event, true)
+        }
+        break
+      case 'WIDGET_EVENT_UNSUBSCRIBE':
+        this.subscribedEvents.delete(msg.event)
+        for (const cb of this.subscriptionCallbacks) {
+          cb(msg.event, false)
+        }
+        break
+    }
+  }
+
+  private handleConfigUpdate(
+    msg: Extract<HostMessage, { type: 'CONFIG_UPDATE' }>
+  ): void {
+    this._config = msg.config
+    for (const configCb of this.configCallbacks) {
+      configCb(this._config)
     }
   }
 

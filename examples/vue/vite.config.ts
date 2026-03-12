@@ -22,7 +22,7 @@ export default defineConfig({
     }),
     nodePolyfills(),
   ],
-  esbuild: {
+  oxc: {
     target: 'esnext',
   },
   server: {

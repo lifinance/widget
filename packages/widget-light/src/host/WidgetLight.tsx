@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react'
 import type {
+  ConnectWalletArgs,
   IframeEcosystemHandler,
   WidgetLightConfig,
 } from '../shared/protocol.js'
@@ -29,6 +30,12 @@ export interface WidgetLightProps {
    * iframe should fill its parent and scroll internally.
    */
   autoResize?: boolean
+  /**
+   * Called when the widget requests an external wallet connection.
+   * When provided, the widget will send a CONNECT_WALLET_REQUEST to the
+   * host instead of opening its internal wallet menu.
+   */
+  onConnect?(args?: ConnectWalletArgs): void
   style?: CSSProperties
   className?: string
   title?: string
@@ -53,6 +60,7 @@ export function WidgetLight({
   handlers,
   iframeOrigin,
   autoResize,
+  onConnect,
   style,
   className,
   title = 'LI.FI Widget',
@@ -62,6 +70,7 @@ export function WidgetLight({
     handlers,
     iframeOrigin,
     autoResize,
+    onConnect,
   })
 
   return (

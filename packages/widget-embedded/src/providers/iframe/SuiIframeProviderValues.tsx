@@ -1,12 +1,16 @@
 import { ChainId, ChainType } from '@lifi/sdk'
+import { SuiProvider as SuiSDKProvider } from '@lifi/sdk-provider-sui'
 import { SuiContext } from '@lifi/widget-provider'
+import { SuiJsonRpcClient } from '@mysten/sui/jsonRpc'
 import {
   type FC,
   type PropsWithChildren,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react'
+import { IframeSuiSigner } from './IframeSuiSigner.js'
 import { SuiIframeProvider } from './SuiIframeProvider.js'
 
 interface IframeWalletState {
@@ -87,12 +91,25 @@ export const SuiIframeProviderValues: FC<PropsWithChildren> = ({
         status: 'disconnected' as const,
       }
 
+  const sdkProvider = useMemo(
+    () =>
+      SuiSDKProvider({
+        getClient: async () =>
+          new SuiJsonRpcClient({
+            url: 'https://fullnode.mainnet.sui.io:443',
+            network: 'mainnet',
+          }),
+        getSigner: async () => new IframeSuiSigner(address!, provider),
+      }),
+    [address, provider]
+  )
+
   return (
     <SuiContext.Provider
       value={{
         isEnabled: true,
         account,
-        sdkProvider: undefined,
+        sdkProvider,
         installedWallets: [],
         isConnected,
         isExternalContext: true,

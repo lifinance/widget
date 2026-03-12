@@ -5,6 +5,7 @@ import { BitcoinIframeProviderValues } from './providers/iframe/BitcoinIframePro
 import { SolanaIframeProviderValues } from './providers/iframe/SolanaIframeProviderValues.js'
 import { SuiIframeProviderValues } from './providers/iframe/SuiIframeProviderValues.js'
 import { useEmbeddedWidgetConfig } from './providers/WidgetConfigProvider.js'
+import { WidgetEventsBridge } from './providers/WidgetEventsBridge.js'
 
 const IFRAME_PROVIDERS = [
   EthereumProvider(),
@@ -41,10 +42,13 @@ export function App() {
   }
 
   return (
-    <LiFiWidget
-      integrator={(widgetConfig.integrator as string) ?? 'widget-embedded'}
-      providers={IFRAME_PROVIDERS}
-      config={widgetConfig}
-    />
+    <>
+      <WidgetEventsBridge />
+      <LiFiWidget
+        integrator={(widgetConfig.integrator as string) ?? 'widget-embedded'}
+        providers={IFRAME_PROVIDERS}
+        config={widgetConfig}
+      />
+    </>
   )
 }
