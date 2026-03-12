@@ -9,8 +9,7 @@ import { ActionRow } from '../ActionRow/ActionRow.js'
 export const StepActionRow: React.FC<{
   step: LiFiStepExtended
   actionsGroup: ExecutionAction[]
-  receiptsOnly?: boolean
-}> = ({ step, actionsGroup, receiptsOnly }) => {
+}> = ({ step, actionsGroup }) => {
   const action = actionsGroup.at(-1)
   const { title } = useActionMessage(step, action)
   const { getTransactionLink } = useExplorer()
@@ -18,17 +17,13 @@ export const StepActionRow: React.FC<{
   const isDone = action?.status === 'DONE'
   const isFailed = action?.status === 'FAILED'
 
-  if (!isDone && !isFailed) {
-    return null
-  }
-
-  const transactionLink = action.txHash
+  const transactionLink = action?.txHash
     ? getTransactionLink({ txHash: action.txHash, chain: action.chainId })
-    : action.txLink
+    : action?.txLink
       ? getTransactionLink({ txLink: action.txLink, chain: action.chainId })
       : undefined
 
-  if (receiptsOnly && (!isDone || !transactionLink)) {
+  if (!isDone && !isFailed && !transactionLink) {
     return null
   }
 
@@ -37,15 +32,13 @@ export const StepActionRow: React.FC<{
       variant={isFailed ? 'error' : 'success'}
       message={title ?? ''}
       endAdornment={
-        transactionLink ? (
-          <ExternalLink
-            href={transactionLink}
-            target="_blank"
-            rel="nofollow noreferrer"
-          >
-            <OpenInNew sx={{ fontSize: 16 }} />
-          </ExternalLink>
-        ) : undefined
+        <ExternalLink
+          href={transactionLink}
+          target="_blank"
+          rel="nofollow noreferrer"
+        >
+          <OpenInNew sx={{ fontSize: 16 }} />
+        </ExternalLink>
       }
     />
   )

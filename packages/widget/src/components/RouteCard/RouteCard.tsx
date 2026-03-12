@@ -8,9 +8,9 @@ import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
 import type { CardProps } from '../Card/Card.js'
 import { Card } from '../Card/Card.js'
 import { CardLabel, CardLabelTypography } from '../Card/CardLabel.js'
-import { TokenWithExpansion } from '../Step/TokenWithExpansion.js'
 import { getMatchingLabels } from './getMatchingLabels.js'
 import { RouteCardEssentials } from './RouteCardEssentials.js'
+import { RouteToken } from './RouteToken.js'
 import type { RouteCardProps } from './types.js'
 
 export const RouteCard: React.FC<
@@ -106,7 +106,7 @@ export const RouteCard: React.FC<
           ))}
         </Box>
       ) : null}
-      <TokenWithExpansion
+      <RouteToken
         route={route}
         token={token}
         impactToken={impactToken}

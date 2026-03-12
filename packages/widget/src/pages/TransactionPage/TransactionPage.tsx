@@ -2,6 +2,7 @@ import type { ExchangeRateUpdateParams } from '@lifi/sdk'
 import { useLocation } from '@tanstack/react-router'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
 import { PageContainer } from '../../components/PageContainer.js'
 import { useHeader } from '../../hooks/useHeader.js'
 import { useRouteExecution } from '../../hooks/useRouteExecution.js'
@@ -12,13 +13,13 @@ import { WidgetEvent } from '../../types/events.js'
 import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet.js'
 import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet.js'
 import { RouteTracker } from './RouteTracker.js'
-import { StatusBottomSheet } from './StatusBottomSheet.js'
 import { TransactionContent } from './TransactionContent.js'
 
 export const TransactionPage = () => {
   const { t } = useTranslation()
   const emitter = useWidgetEvents()
-  const { subvariant, subvariantOptions } = useWidgetConfig()
+  const { subvariant, subvariantOptions, contractSecondaryComponent } =
+    useWidgetConfig()
   const { search }: any = useLocation()
   const stateRouteId = search?.routeId
   const [routeId, setRouteId] = useState<string>(stateRouteId)
@@ -92,7 +93,11 @@ export const TransactionPage = () => {
         deleteRoute={deleteRoute}
         routeRefreshing={routeRefreshing}
       />
-      <StatusBottomSheet status={status} route={route} />
+      {subvariant === 'custom' && contractSecondaryComponent ? (
+        <ContractComponent sx={{ marginTop: 2 }}>
+          {contractSecondaryComponent}
+        </ContractComponent>
+      ) : null}
       <ExchangeRateBottomSheet ref={exchangeRateBottomSheetRef} />
     </PageContainer>
   )

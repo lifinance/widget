@@ -1,16 +1,16 @@
 import { Box, styled, Typography } from '@mui/material'
 
-export const DetailRow = styled(Box)(() => ({
+export const DetailRow = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  gap: 8,
+  gap: theme.spacing(1),
 }))
 
-export const DetailLabelContainer = styled(Box)(() => ({
+export const DetailLabelContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  gap: 4,
+  gap: theme.spacing(0.5),
 }))
 
 export const DetailLabel = styled(Typography)(({ theme }) => ({

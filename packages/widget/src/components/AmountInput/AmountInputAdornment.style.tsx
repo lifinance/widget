@@ -8,7 +8,7 @@ export const ButtonContainer = styled(Box)(({ theme }) => ({
 }))
 
 export const AmountInputButton = styled(ButtonTertiary)(({ theme }) => ({
-  padding: theme.spacing(0.75, 1),
+  padding: theme.spacing(0.75, 1.5),
   lineHeight: 1,
   fontSize: 12,
   fontWeight: 700,

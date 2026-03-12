@@ -1,8 +1,14 @@
 import type { FullStatusData } from '@lifi/sdk'
+import { Box } from '@mui/material'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Card } from '../../components/Card/Card.js'
+import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
+import { DateLabel } from '../../components/DateLabel/DateLabel.js'
 import { PageContainer } from '../../components/PageContainer.js'
+import { RouteCardEssentials } from '../../components/RouteCard/RouteCardEssentials.js'
+import { RouteTokens } from '../../components/Step/RouteTokens.js'
 import { internalExplorerUrl } from '../../config/constants.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { useHeader } from '../../hooks/useHeader.js'
@@ -13,13 +19,19 @@ import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.
 import { getSourceTxHash } from '../../stores/routes/utils.js'
 import { buildRouteFromTxHistory } from '../../utils/converters.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { TransactionCompleted } from '../TransactionPage/TransactionCompleted.js'
+import { Receipts } from '../TransactionPage/Receipts.js'
 import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton.js'
+import { TransferIdCard } from './TransferIdCard.js'
 
 export const TransactionDetailsPage: React.FC = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { subvariant, subvariantOptions, explorerUrls } = useWidgetConfig()
+  const {
+    subvariant,
+    subvariantOptions,
+    contractSecondaryComponent,
+    explorerUrls,
+  } = useWidgetConfig()
   const { search }: any = useLocation()
   const { tools } = useTools()
   const { getTransactionLink } = useExplorer()
@@ -98,12 +110,23 @@ export const TransactionDetailsPage: React.FC = () => {
       bottomGutters
       sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
     >
-      <TransactionCompleted
-        route={routeExecution.route}
-        startedAt={startedAt}
-        transferId={supportId}
-        txLink={txLink}
-      />
+      <Card type="default" indented>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+          <DateLabel date={startedAt} />
+          <RouteTokens route={routeExecution.route} />
+          <RouteCardEssentials
+            route={routeExecution.route}
+            showDuration={false}
+          />
+        </Box>
+      </Card>
+      <Receipts route={routeExecution.route} />
+      {subvariant === 'custom' && contractSecondaryComponent ? (
+        <ContractComponent>{contractSecondaryComponent}</ContractComponent>
+      ) : null}
+      {supportId ? (
+        <TransferIdCard transferId={supportId} txLink={txLink} />
+      ) : null}
     </PageContainer>
   )
 }

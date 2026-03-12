@@ -230,7 +230,6 @@
       "provider": "Provider fee"
     },
     "from": "From",
-    "inProgress": "in progress",
     "maxSlippage": "Max. slippage",
     "minReceived": "Min. received",
     "myTokens": "My tokens",

@@ -15,7 +15,7 @@ export const DeleteButton = styled(IconButton)(({ theme }) => ({
 
 export const RetryButton = styled(Button)(({ theme }) => ({
   fontWeight: 700,
-  fontSize: 10,
+  fontSize: 12,
   height: 24,
   minWidth: 'auto',
   padding: theme.spacing(0.5, 1),

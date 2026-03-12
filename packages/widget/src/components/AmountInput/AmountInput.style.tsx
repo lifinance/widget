@@ -50,9 +50,9 @@ export const AmountInputCardTitle = styled(CardTitle)(({ theme }) => ({
 }))
 
 export const AmountInputCardHeader = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(2, 2, 0, 2),
+  margin: theme.spacing(2, 2, 0, 2),
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  height: 30,
+  height: 28,
 }))

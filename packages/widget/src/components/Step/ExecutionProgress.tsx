@@ -1,11 +1,14 @@
 import type { RouteExtended } from '@lifi/sdk'
 import { Box, Typography } from '@mui/material'
 import { useActionMessage } from '../../hooks/useActionMessage.js'
+import { StatusBottomSheet } from '../../pages/TransactionPage/StatusBottomSheet.js'
+import type { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { StepStatusIndicator } from './StepStatusIndicator.js'
 
 export const ExecutionProgress: React.FC<{
   route: RouteExtended
-}> = ({ route }) => {
+  status: RouteExecutionStatus
+}> = ({ route, status }) => {
   const lastStep = route.steps.at(-1)
   const lastAction = lastStep?.execution?.actions?.at(-1)
   const { title, message } = useActionMessage(lastStep, lastAction)
@@ -42,6 +45,8 @@ export const ExecutionProgress: React.FC<{
           {message}
         </Typography>
       ) : null}
+      {/* TODO: Remove this once the logic is merged */}
+      <StatusBottomSheet route={route} status={status} />
     </Box>
   )
 }

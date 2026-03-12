@@ -2,8 +2,8 @@ import type { RouteExtended } from '@lifi/sdk'
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward'
 import { Box } from '@mui/material'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { RouteToken } from '../RouteCard/RouteToken.js'
 import { Token } from '../Token/Token.js'
-import { TokenWithExpansion } from './TokenWithExpansion.js'
 
 export const RouteTokens: React.FC<{
   route: RouteExtended
@@ -41,7 +41,7 @@ export const RouteTokens: React.FC<{
         <ArrowDownwardIcon sx={{ fontSize: 16 }} />
       </Box>
       {toToken ? (
-        <TokenWithExpansion
+        <RouteToken
           route={route}
           token={toToken}
           impactToken={fromToken}

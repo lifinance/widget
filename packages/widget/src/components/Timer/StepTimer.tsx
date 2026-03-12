@@ -18,8 +18,7 @@ const getExpiryTimestamp = (step: LiFiStepExtended) => {
 
 export const StepTimer: React.FC<{
   step: LiFiStepExtended
-  hideInProgress?: boolean
-}> = ({ step, hideInProgress }) => {
+}> = ({ step }) => {
   if (
     step.execution?.status === 'DONE' ||
     step.execution?.status === 'FAILED'
@@ -31,22 +30,11 @@ export const StepTimer: React.FC<{
     return null
   }
 
-  return (
-    <ExecutionTimer
-      expiryTimestamp={getExpiryTimestamp(step)}
-      hideInProgress={hideInProgress}
-    />
-  )
+  return <ExecutionTimer expiryTimestamp={getExpiryTimestamp(step)} />
 }
 
-const ExecutionTimer = ({
-  expiryTimestamp,
-  hideInProgress,
-}: {
-  expiryTimestamp: Date
-  hideInProgress?: boolean
-}) => {
-  const { t, i18n } = useTranslation()
+const ExecutionTimer = ({ expiryTimestamp }: { expiryTimestamp: Date }) => {
+  const { i18n } = useTranslation()
 
   const [isExpired, setExpired] = useState(false)
 
@@ -59,10 +47,7 @@ const ExecutionTimer = ({
   const isTimerExpired = isExpired || (!minutes && !seconds)
 
   if (isTimerExpired) {
-    if (hideInProgress) {
-      return null
-    }
-    return t('main.inProgress')
+    return null
   }
 
   return (

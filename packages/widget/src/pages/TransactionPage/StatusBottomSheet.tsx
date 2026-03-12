@@ -1,16 +1,12 @@
 import { Box, Button, Typography } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
-import { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
-import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { Card } from '../../components/Card/Card.js'
 import { CardTitle } from '../../components/Card/CardTitle.js'
 import type { StatusColor } from '../../components/IconCircle/IconCircle.js'
 import { IconCircle } from '../../components/IconCircle/IconCircle.js'
 import { Token } from '../../components/Token/Token.js'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
-import { useSetContentHeight } from '../../hooks/useSetContentHeight.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import {
@@ -40,43 +36,23 @@ const mapRouteStatus = (status: RouteExecutionStatus): StatusColor => {
   return 'info'
 }
 
-interface StatusBottomSheetContentProps extends RouteExecution {
-  onClose(): void
-}
-
 export const StatusBottomSheet: React.FC<RouteExecution> = ({
   status,
   route,
 }) => {
-  const ref = useRef<BottomSheetBase>(null)
+  const hasSuccessFlag = hasEnumFlag(status, RouteExecutionStatus.Done)
+  const hasFailedFlag = hasEnumFlag(status, RouteExecutionStatus.Failed)
 
-  const onClose = useCallback(() => {
-    ref.current?.close()
-  }, [])
+  if (!hasSuccessFlag && !hasFailedFlag) {
+    return null
+  }
 
-  useEffect(() => {
-    const hasSuccessFlag = hasEnumFlag(status, RouteExecutionStatus.Done)
-    const hasFailedFlag = hasEnumFlag(status, RouteExecutionStatus.Failed)
-    if ((hasSuccessFlag || hasFailedFlag) && !ref.current?.isOpen()) {
-      ref.current?.open()
-    }
-  }, [status])
-
-  return (
-    <BottomSheet ref={ref}>
-      <StatusBottomSheetContent
-        status={status}
-        route={route}
-        onClose={onClose}
-      />
-    </BottomSheet>
-  )
+  return <StatusBottomSheetContent status={status} route={route} />
 }
 
-const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
+const StatusBottomSheetContent: React.FC<RouteExecution> = ({
   status,
   route,
-  onClose,
 }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -89,9 +65,6 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
     feeConfig,
   } = useWidgetConfig()
   const { getChainById } = useAvailableChains()
-
-  const ref = useRef<HTMLElement>(null)
-  useSetContentHeight(ref)
 
   const toToken = {
     ...(route.steps.at(-1)?.execution?.toToken ?? route.toToken),
@@ -138,7 +111,6 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
 
   const handleClose = () => {
     cleanFields()
-    onClose()
   }
 
   const handleSeeDetails = () => {
@@ -221,7 +193,6 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
 
   return (
     <Box
-      ref={ref}
       sx={{
         p: 3,
       }}

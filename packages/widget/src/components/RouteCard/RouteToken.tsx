@@ -6,23 +6,23 @@ import { type MouseEventHandler, useState } from 'react'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { HiddenUI } from '../../types/widget.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
-import { TokenContainer } from '../RouteCard/RouteCard.style.js'
+import { RouteDetails } from '../Step/RouteDetails.js'
 import { Token } from '../Token/Token.js'
-import { RouteDetails } from './RouteDetails.js'
+import { TokenContainer } from './RouteToken.style.js'
 
-interface TokenWithExpansionProps {
+interface RouteTokenProps {
   route: RouteExtended
   token: TokenAmount
   impactToken?: TokenAmount
   defaultExpanded?: boolean
 }
 
-export const TokenWithExpansion = ({
+export const RouteToken = ({
   route,
   token,
   impactToken,
   defaultExpanded,
-}: TokenWithExpansionProps) => {
+}: RouteTokenProps) => {
   const { hiddenUI } = useWidgetConfig()
 
   const [cardExpanded, setCardExpanded] = useState(defaultExpanded)
@@ -46,7 +46,7 @@ export const TokenWithExpansion = ({
         />
         {!defaultExpanded ? (
           <CardIconButton
-            sx={{ borderRadius: '50%', padding: 0.5 }}
+            sx={{ borderRadius: '50%', padding: 0.75 }}
             onClick={handleExpand}
             size="small"
           >

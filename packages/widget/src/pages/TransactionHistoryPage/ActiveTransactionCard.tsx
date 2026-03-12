@@ -1,4 +1,4 @@
-import DeleteIcon from '@mui/icons-material/Delete'
+import DeleteOutline from '@mui/icons-material/DeleteOutline'
 import { Box } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import type { MouseEvent } from 'react'
@@ -49,8 +49,9 @@ export const ActiveTransactionCard: React.FC<{
     deleteRoute()
   }
 
-  const handleRetry = (e: MouseEvent) => {
-    e.stopPropagation()
+  const handleRetry = () => {
+    // NB: Do not stop propagation here:
+    // open the transaction execution page and retry the transaction simultaneously
     restartRoute()
   }
 
@@ -63,12 +64,12 @@ export const ActiveTransactionCard: React.FC<{
             message={t('error.title.transactionFailed')}
             endAdornment={
               <>
-                <DeleteButton size="small" onClick={handleDelete}>
-                  <DeleteIcon sx={{ fontSize: 12 }} />
-                </DeleteButton>
                 <RetryButton size="small" variant="text" onClick={handleRetry}>
                   {t('button.retry')}
                 </RetryButton>
+                <DeleteButton size="small" onClick={handleDelete}>
+                  <DeleteOutline sx={{ fontSize: 16 }} />
+                </DeleteButton>
               </>
             }
           />

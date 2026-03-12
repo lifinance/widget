@@ -46,7 +46,6 @@ export const Receipts: React.FC<ReceiptsProps> = ({ route }) => {
                   key={index}
                   step={step}
                   actionsGroup={actionsGroup}
-                  receiptsOnly
                 />
               )
             )}

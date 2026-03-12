@@ -45,10 +45,10 @@ export const CardLabel = styled(Box, {
 export const CardLabelTypography = styled(Typography, {
   shouldForwardProp: (prop) => prop !== 'type',
 })<{ type?: 'icon' }>(({ theme }) => ({
-  padding: theme.spacing(0.75, 1),
-  fontSize: 10,
+  padding: theme.spacing(0.75, 1.5),
+  fontSize: 12,
   lineHeight: 1,
-  fontWeight: '700',
+  fontWeight: 600,
   variants: [
     {
       props: {
