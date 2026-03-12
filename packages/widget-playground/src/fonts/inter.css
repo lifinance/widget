@@ -183,7 +183,6 @@ Usage:
   font-weight: 100 900;
   font-display: swap;
   font-style: normal;
-  /* biome-ignore lint/correctness/noUnknownProperty: CSS4 */
   font-named-instance: "Regular";
   src: url("Inter-roman.var.woff2?v=3.19") format("woff2");
 }
@@ -192,7 +191,6 @@ Usage:
   font-weight: 100 900;
   font-display: swap;
   font-style: italic;
-  /* biome-ignore lint/correctness/noUnknownProperty: CSS4 */
   font-named-instance: "Italic";
   src: url("Inter-italic.var.woff2?v=3.19") format("woff2");
 }
