@@ -43,6 +43,7 @@ export const useTokens = (
         ChainType.SVM,
         ChainType.UTXO,
         ChainType.MVM,
+        ChainType.TVM,
       ].filter((chainType) => isItemAllowed(chainType, chainsConfig?.types))
 
       const tokensResponse: TokensExtendedResponse = await getTokens(
@@ -85,6 +86,7 @@ export const useTokens = (
         ChainType.SVM,
         ChainType.UTXO,
         ChainType.MVM,
+        ChainType.TVM,
       ].filter((chainType) => isItemAllowed(chainType, chainsConfig?.types))
 
       const tokensResponse: TokensExtendedResponse = await getTokens(

@@ -1,7 +1,7 @@
 {
-  "name": "@lifi/wallet-management",
-  "version": "4.0.0-alpha.2",
-  "description": "LI.FI Wallet Management solution.",
+  "name": "@lifi/widget-provider-tron",
+  "version": "4.0.0-alpha.0",
+  "description": "LI.FI Widget Provider for Tron blockchain integration.",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
@@ -10,8 +10,8 @@
     "watch": "tsc -w -p ./tsconfig.json",
     "build": "pnpm clean && pnpm build:esm && pnpm build:clean",
     "build:esm": "tsc --build",
-    "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../README.md' .",
-    "build:postrelease": "node ../../scripts/postrelease.js && rm -rf README.md",
+    "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../*.md' .",
+    "build:postrelease": "node ../../scripts/postrelease.js && rm -rf *.md",
     "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo",
     "release:build": "pnpm build",
     "clean": "pnpm build:clean && rm -rf dist",
@@ -24,51 +24,35 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/lifinance/widget.git",
-    "directory": "packages/wallet-management"
+    "directory": "packages/widget-provider-tron"
   },
   "bugs": {
     "url": "https://github.com/lifinance/widget/issues"
   },
   "license": "Apache-2.0",
   "keywords": [
+    "widget",
+    "lifi-widget",
     "wallet",
-    "wallet-management",
-    "metamask",
-    "wallet-connect",
-    "coinbase",
-    "eip1193",
-    "ethereum",
-    "ENS",
     "web3",
-    "blockchain",
     "lifi",
     "tron",
-    "solana",
-    "bitcoin"
+    "trx"
   ],
   "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^4.0.0-alpha.20",
+    "@lifi/sdk": "^4.0.0-alpha.21",
+    "@lifi/sdk-provider-tron": "^4.0.0-alpha.21",
     "@lifi/widget-provider": "workspace:*",
-    "@mui/icons-material": "^7.3.6",
-    "@mui/material": "^7.3.6",
-    "@mui/system": "^7.3.6",
-    "i18next": "^25.8.4",
-    "mitt": "^3.0.1",
-    "react-i18next": "^16.5.4",
-    "zustand": "^5.0.11"
+    "@tronweb3/tronwallet-abstract-adapter": "^1.1.10",
+    "@tronweb3/tronwallet-adapters": "^1.2.21"
+  },
+  "peerDependencies": {
+    "@tronweb3/tronwallet-adapter-react-hooks": "^1.1.11"
   },
   "devDependencies": {
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4",
     "typescript": "^5.9.3"
-  },
-  "peerDependencies": {
-    "@tanstack/react-query": ">=5.90.0",
-    "react": ">=18",
-    "react-dom": ">=18"
   }
 }
