@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { CardIconButton } from '../../components/Card/CardIconButton.js'
+import { ButtonChip } from '../../components/ButtonChip/ButtonChip.js'
 import { useContactSupport } from '../../hooks/useContactSupport.js'
 
 interface ContactSupportButtonProps {
@@ -13,12 +13,8 @@ export const ContactSupportButton = ({
   const handleContactSupport = useContactSupport(supportId)
 
   return (
-    <CardIconButton
-      size="small"
-      onClick={handleContactSupport}
-      sx={{ fontSize: 12, fontWeight: 700, px: 1 }}
-    >
+    <ButtonChip onClick={handleContactSupport}>
       {t('button.contactSupport')}
-    </CardIconButton>
+    </ButtonChip>
   )
 }

@@ -63,7 +63,9 @@ export const StepActions: React.FC<{
         <CardIconButton
           onClick={handleExpand}
           size="small"
-          sx={{ padding: 0.5, height: 24 }}
+          sx={(theme) => ({
+            borderRadius: theme.vars.shape.borderRadiusSecondary,
+          })}
         >
           {cardExpanded ? (
             <ExpandLess fontSize="inherit" />
@@ -77,7 +79,7 @@ export const StepActions: React.FC<{
                   <SmallAvatar
                     src={includedStep.toolDetails.logoURI}
                     alt={includedStep.toolDetails.name}
-                    sx={{ width: 20, height: 20 }}
+                    sx={{ width: 16, height: 16 }}
                   >
                     {includedStep.toolDetails.name[0]}
                   </SmallAvatar>

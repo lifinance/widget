@@ -1,10 +1,12 @@
 import type { RouteExtended } from '@lifi/sdk'
 import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
 import OpenInNew from '@mui/icons-material/OpenInNew'
+import Wallet from '@mui/icons-material/Wallet'
 import { IconButton } from '@mui/material'
 import type { MouseEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActionRow } from '../../components/ActionRow/ActionRow.js'
+import { ActionIconCircle } from '../../components/ActionRow/ActionRow.style.js'
 import { Card } from '../../components/Card/Card.js'
 import { CardTitle } from '../../components/Card/CardTitle.js'
 import { StepActionRow } from '../../components/Step/StepActionRow.js'
@@ -52,7 +54,11 @@ export const ReceiptsCard = ({ route }: ReceiptsCardProps) => {
         ))}
         {toAddress ? (
           <ActionRow
-            variant="wallet"
+            startAdornment={
+              <ActionIconCircle>
+                <Wallet color="success" sx={{ fontSize: 16 }} />
+              </ActionIconCircle>
+            }
             message={t('main.sentToWallet', {
               address: shortenAddress(toAddress),
             })}

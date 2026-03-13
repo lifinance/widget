@@ -16,7 +16,7 @@ export const ActionIconCircle = styled(Box)(({ theme }) => ({
   width: 24,
   height: 24,
   borderRadius: '50%',
-  backgroundColor: `rgba(${theme.vars.palette.success.mainChannel} / 0.12)`,
+  backgroundColor: `color-mix(in srgb, rgb(${theme.vars.palette.success.mainChannel}) 12%, ${theme.vars.palette.background.paper})`,
 }))
 
 export const ActionRowLabel = styled(Typography)(({ theme }) => ({

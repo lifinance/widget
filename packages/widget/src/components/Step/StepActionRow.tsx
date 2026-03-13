@@ -5,6 +5,7 @@ import { useActionMessage } from '../../hooks/useActionMessage.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { ExternalLink } from '../../pages/TransactionPage/ReceiptsCard.style.js'
 import { ActionRow } from '../ActionRow/ActionRow.js'
+import { IconCircle } from '../IconCircle/IconCircle.js'
 
 export const StepActionRow: React.FC<{
   step: LiFiStepExtended
@@ -23,13 +24,15 @@ export const StepActionRow: React.FC<{
       ? getTransactionLink({ txLink: action.txLink, chain: action.chainId })
       : undefined
 
-  if (!isDone && !isFailed && !transactionLink) {
+  if ((!isDone && !isFailed) || !transactionLink) {
     return null
   }
 
   return (
     <ActionRow
-      variant={isFailed ? 'error' : 'success'}
+      startAdornment={
+        <IconCircle status={isFailed ? 'error' : 'success'} size={24} />
+      }
       message={title ?? ''}
       endAdornment={
         <ExternalLink

@@ -5,12 +5,11 @@ export const CardIconButton = styled(MuiIconButton)<
   IconButtonProps & Pick<LinkProps, 'href' | 'target' | 'rel'>
 >(({ theme }) => {
   return {
-    padding: theme.spacing(1),
+    padding: theme.spacing(0.5),
     backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
     '&:hover': {
       backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08)`,
     },
     fontSize: '1rem',
-    borderRadius: theme.vars.shape.borderRadiusSecondary,
   }
 })

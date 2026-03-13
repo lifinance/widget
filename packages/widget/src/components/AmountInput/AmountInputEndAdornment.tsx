@@ -11,7 +11,7 @@ import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import {
   AmountInputButton,
   ButtonContainer,
-} from './AmountInputAdornment.style.js'
+} from './AmountInputEndAdornment.style.js'
 
 export const AmountInputEndAdornment = memo(({ formType }: FormTypeProps) => {
   const { t } = useTranslation()

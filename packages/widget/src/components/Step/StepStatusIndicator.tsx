@@ -1,6 +1,6 @@
 import type { LiFiStepExtended } from '@lifi/sdk'
 import { IconCircle } from '../IconCircle/IconCircle.js'
-import { IndeterminateRing, TimerRing } from '../Timer/StepStatusTimer.js'
+import { TimerRing } from '../Timer/StepStatusTimer.js'
 
 interface StepStatusIndicatorProps {
   step: LiFiStepExtended
@@ -16,9 +16,6 @@ export const StepStatusIndicator: React.FC<StepStatusIndicatorProps> = ({
 
   switch (status) {
     case 'PENDING': {
-      if (!step.execution?.signedAt) {
-        return <IndeterminateRing />
-      }
       return <TimerRing step={step} />
     }
     case 'ACTION_REQUIRED':

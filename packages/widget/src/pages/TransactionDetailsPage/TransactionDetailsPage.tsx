@@ -7,7 +7,6 @@ import { Card } from '../../components/Card/Card.js'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
 import { DateLabel } from '../../components/DateLabel/DateLabel.js'
 import { PageContainer } from '../../components/PageContainer.js'
-import { RouteCardEssentials } from '../../components/RouteCard/RouteCardEssentials.js'
 import { RouteTokens } from '../../components/Step/RouteTokens.js'
 import { internalExplorerUrl } from '../../config/constants.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
@@ -102,10 +101,6 @@ export const TransactionDetailsPage: React.FC = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
           <DateLabel date={startedAt} />
           <RouteTokens route={routeExecution.route} />
-          <RouteCardEssentials
-            route={routeExecution.route}
-            showDuration={false}
-          />
         </Box>
       </Card>
       <ReceiptsCard route={routeExecution.route} />

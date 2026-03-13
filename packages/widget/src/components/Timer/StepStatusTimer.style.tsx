@@ -7,12 +7,11 @@ import {
 import { iconCircleSize } from '../IconCircle/IconCircle.style.js'
 
 export const StatusCircle = styled(Box)({
+  position: 'absolute',
+  inset: 0,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  width: iconCircleSize,
-  height: iconCircleSize,
-  borderRadius: '50%',
 })
 
 export const RingContainer = styled(Box)({
@@ -30,24 +29,6 @@ export const ProgressTrack = styled(MuiCircularProgress)(({ theme }) => ({
 }))
 
 export const TimerLabel = styled(Typography)({
-  fontSize: 22,
+  fontSize: 18,
   fontWeight: 700,
-  fontVariantNumeric: 'tabular-nums',
 })
-
-export const IndeterminateRing: React.FC = () => (
-  <RingContainer>
-    <ProgressTrack
-      variant="determinate"
-      value={100}
-      size={iconCircleSize}
-      thickness={2}
-    />
-    <MuiCircularProgress
-      variant="indeterminate"
-      size={iconCircleSize}
-      thickness={2}
-      sx={{ position: 'absolute' }}
-    />
-  </RingContainer>
-)

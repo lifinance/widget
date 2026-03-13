@@ -45,11 +45,7 @@ export const RouteToken = ({
           )}
         />
         {!defaultExpanded ? (
-          <CardIconButton
-            sx={{ borderRadius: '50%', padding: 0.75 }}
-            onClick={handleExpand}
-            size="small"
-          >
+          <CardIconButton onClick={handleExpand} size="small">
             {cardExpanded ? (
               <ExpandLess fontSize="inherit" />
             ) : (

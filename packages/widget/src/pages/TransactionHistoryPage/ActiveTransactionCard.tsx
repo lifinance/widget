@@ -6,17 +6,15 @@ import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActionRow } from '../../components/ActionRow/ActionRow.js'
 import { Card } from '../../components/Card/Card.js'
+import { IconCircle } from '../../components/IconCircle/IconCircle.js'
 import { RouteTokens } from '../../components/Step/RouteTokens.js'
+import { TimerRing } from '../../components/Timer/StepStatusTimer.js'
 import { StepTimer } from '../../components/Timer/StepTimer.js'
 import { useActionMessage } from '../../hooks/useActionMessage.js'
 import { useRouteExecution } from '../../hooks/useRouteExecution.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import {
-  DeleteButton,
-  RetryButton,
-  TimerText,
-} from './ActiveTransactionCard.style.js'
+import { DeleteButton, RetryButton } from './ActiveTransactionCard.style.js'
 
 export const ActiveTransactionCard: React.FC<{
   routeId: string
@@ -61,7 +59,7 @@ export const ActiveTransactionCard: React.FC<{
       <Box sx={{ mb: 2 }}>
         {isFailed ? (
           <ActionRow
-            variant="error"
+            startAdornment={<IconCircle status="error" size={24} />}
             message={t('error.title.transactionFailed')}
             endAdornment={
               <>
@@ -77,15 +75,13 @@ export const ActiveTransactionCard: React.FC<{
         ) : undefined}
         {!isFailed && title ? (
           <ActionRow
-            variant="pending"
-            message={title}
-            endAdornment={
+            startAdornment={
               lastStep ? (
-                <TimerText>
-                  <StepTimer step={lastStep} />
-                </TimerText>
+                <TimerRing step={lastStep} size={24} showLabel={false} />
               ) : undefined
             }
+            message={title}
+            endAdornment={lastStep ? <StepTimer step={lastStep} /> : undefined}
           />
         ) : undefined}
       </Box>

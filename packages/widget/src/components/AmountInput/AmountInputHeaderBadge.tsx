@@ -8,7 +8,7 @@ import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { DisabledUI, HiddenUI } from '../../types/widget.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { shortenAddress } from '../../utils/wallet.js'
-import { AmountInputButton } from './AmountInputAdornment.style.js'
+import { ButtonChip } from '../ButtonChip/ButtonChip.js'
 
 export const AmountInputHeaderBadge: React.FC = () => {
   const { t } = useTranslation()
@@ -44,14 +44,14 @@ export const AmountInputHeaderBadge: React.FC = () => {
         })
 
   return (
-    <AmountInputButton
+    <ButtonChip
       onClick={handleClick}
-      sx={{ display: 'flex', alignItems: 'center', gap: 0.5, flex: 'none' }}
+      sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
     >
       <Wallet sx={{ width: 16, height: 16 }} />
       <Typography sx={{ fontSize: 12, lineHeight: 1, fontWeight: 700 }}>
         {toAddress ? shortenAddress(toAddress) : label}
       </Typography>
-    </AmountInputButton>
+    </ButtonChip>
   )
 }

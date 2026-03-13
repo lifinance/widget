@@ -5,7 +5,7 @@ export const iconCircleSize = 90
 
 interface StatusColorConfig {
   color: string
-  alpha: number
+  mixAmount: number
   lightDarken: number
   darkDarken: number
 }
@@ -20,28 +20,28 @@ export const getStatusColor = (
     case 'success':
       return {
         color: theme.vars.palette.success.mainChannel,
-        alpha: 0.12,
+        mixAmount: 12,
         lightDarken: 0,
         darkDarken: 0,
       }
     case 'error':
       return {
         color: theme.vars.palette.error.mainChannel,
-        alpha: 0.12,
+        mixAmount: 12,
         lightDarken: 0,
         darkDarken: 0,
       }
     case 'warning':
       return {
         color: theme.vars.palette.warning.mainChannel,
-        alpha: 0.48,
+        mixAmount: 48,
         lightDarken: 0.32,
         darkDarken: 0,
       }
     case 'info':
       return {
         color: theme.vars.palette.info.mainChannel,
-        alpha: 0.12,
+        mixAmount: 12,
         lightDarken: 0,
         darkDarken: 0,
       }
@@ -56,7 +56,7 @@ export const IconCircleRoot = styled(Box, {
   ({ theme, colorConfig, circleSize }) => {
     const svgSize = Math.round(circleSize * iconSizeRatio)
     return {
-      backgroundColor: `rgba(${colorConfig.color} / ${colorConfig.alpha})`,
+      backgroundColor: `color-mix(in srgb, rgb(${colorConfig.color}) ${colorConfig.mixAmount}%, ${theme.vars.palette.background.paper})`,
       borderRadius: '50%',
       width: circleSize,
       height: circleSize,
