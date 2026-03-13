@@ -36,7 +36,7 @@ export const ExecutionDoneCard = ({
           alignItems: 'center',
         }}
       >
-        <CardTitle sx={{ padding: 0 }}>
+        <CardTitle sx={{ padding: 0, mb: 2 }}>
           {hasEnumFlag(status, RouteExecutionStatus.Refunded)
             ? t('header.refunded')
             : t('header.received')}

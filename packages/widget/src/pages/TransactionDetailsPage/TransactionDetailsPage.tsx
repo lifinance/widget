@@ -15,7 +15,6 @@ import { useHeader } from '../../hooks/useHeader.js'
 import { useTools } from '../../hooks/useTools.js'
 import { useTransactionDetails } from '../../hooks/useTransactionDetails.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.js'
 import { getSourceTxHash } from '../../stores/routes/utils.js'
 import { buildRouteFromTxHistory } from '../../utils/converters.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
@@ -35,11 +34,8 @@ export const TransactionDetailsPage: React.FC = () => {
   const { search }: any = useLocation()
   const { tools } = useTools()
   const { getTransactionLink } = useExplorer()
-  const storedRouteExecution = useRouteExecutionStore(
-    (store) => store.routes[search?.routeId]
-  )
   const { transaction, isLoading } = useTransactionDetails(
-    !storedRouteExecution && search?.transactionHash
+    search?.transactionHash
   )
 
   const title =
@@ -49,20 +45,13 @@ export const TransactionDetailsPage: React.FC = () => {
   useHeader(title)
 
   const routeExecution = useMemo(() => {
-    if (storedRouteExecution) {
-      return storedRouteExecution
-    }
     if (isLoading) {
       return
     }
     if (transaction) {
-      const routeExecution = buildRouteFromTxHistory(
-        transaction as FullStatusData,
-        tools
-      )
-      return routeExecution
+      return buildRouteFromTxHistory(transaction as FullStatusData, tools)
     }
-  }, [isLoading, storedRouteExecution, tools, transaction])
+  }, [isLoading, tools, transaction])
 
   useEffect(() => {
     if (!isLoading && !routeExecution) {
@@ -93,11 +82,10 @@ export const TransactionDetailsPage: React.FC = () => {
   }
 
   const startedAt = new Date(
-    (routeExecution?.route.steps[0].execution?.startedAt ?? 0) *
-      (storedRouteExecution ? 1 : 1000) // local and BE routes have different ms handling
+    (routeExecution?.route.steps[0].execution?.startedAt ?? 0) * 1000
   )
 
-  if (isLoading && !storedRouteExecution) {
+  if (isLoading) {
     return <TransactionDetailsSkeleton />
   }
 

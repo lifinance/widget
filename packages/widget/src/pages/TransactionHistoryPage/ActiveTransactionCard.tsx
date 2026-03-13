@@ -2,6 +2,7 @@ import DeleteOutline from '@mui/icons-material/DeleteOutline'
 import { Box } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import type { MouseEvent } from 'react'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActionRow } from '../../components/ActionRow/ActionRow.js'
 import { Card } from '../../components/Card/Card.js'
@@ -19,7 +20,7 @@ import {
 
 export const ActiveTransactionCard: React.FC<{
   routeId: string
-}> = ({ routeId }) => {
+}> = memo(({ routeId }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { route, status, restartRoute, deleteRoute } = useRouteExecution({
@@ -91,4 +92,4 @@ export const ActiveTransactionCard: React.FC<{
       <RouteTokens route={route} />
     </Card>
   )
-}
+})

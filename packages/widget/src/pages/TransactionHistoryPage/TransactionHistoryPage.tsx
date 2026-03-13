@@ -1,8 +1,3 @@
-import type {
-  ExtendedTransactionInfo,
-  FullStatusData,
-  StatusResponse,
-} from '@lifi/sdk'
 import { Box, List } from '@mui/material'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { useCallback, useMemo, useRef } from 'react'
@@ -12,36 +7,53 @@ import { useHeader } from '../../hooks/useHeader.js'
 import { useListHeight } from '../../hooks/useListHeight.js'
 import { useTransactionHistory } from '../../hooks/useTransactionHistory.js'
 import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.js'
-import type { RouteExecutionState } from '../../stores/routes/types.js'
+import type {
+  RouteExecution,
+  RouteExecutionState,
+} from '../../stores/routes/types.js'
+import { useCompletedRoutesIds } from '../../stores/routes/useCompletedRoutesIds.js'
 import { useExecutingRoutesIds } from '../../stores/routes/useExecutingRoutesIds.js'
+import { getSourceTxHash } from '../../stores/routes/utils.js'
 import { ActiveTransactionCard } from './ActiveTransactionCard.js'
 import { minTransactionListHeight } from './constants.js'
 import { TransactionHistoryEmpty } from './TransactionHistoryEmpty.js'
 import { TransactionHistoryItem } from './TransactionHistoryItem.js'
 import { TransactionHistoryItemSkeleton } from './TransactionHistorySkeleton.js'
+import { useDeduplicateRoutes } from './useDeduplicateRoutes.js'
 
 type ActiveItem = { type: 'active'; routeId: string; startedAt: number }
-type HistoryItem = {
-  type: 'history'
-  transaction: StatusResponse
+type LocalItem = {
+  type: 'local'
+  routeExecution: RouteExecution
+  txHash: string
+  // startedAt in ms
   startedAt: number
 }
-type TransactionListItem = ActiveItem | HistoryItem
+type HistoryItem = {
+  type: 'history'
+  routeExecution: RouteExecution
+  txHash: string
+  // startedAt in ms
+  startedAt: number
+}
+type TransactionListItem = ActiveItem | LocalItem | HistoryItem
 
-const routeStartedAtSelector =
+const routeDataSelector =
   (routeIds: string[]) => (state: RouteExecutionState) =>
-    Object.fromEntries(
-      routeIds.map((id) => [
-        id,
-        state.routes[id]?.route.steps[0]?.execution?.startedAt ?? 0,
-      ])
-    )
+    Object.fromEntries(routeIds.map((id) => [id, state.routes[id]]))
 
 export const TransactionHistoryPage = () => {
   // Parent ref and useVirtualizer should be in one file to avoid blank page (0 virtual items) issue
   const parentRef = useRef<HTMLDivElement | null>(null)
-  const { data: transactions, isLoading } = useTransactionHistory()
+  const {
+    data: apiRouteExecutions,
+    rawData: rawTransactions,
+    isLoading,
+  } = useTransactionHistory()
   const executingRouteIds = useExecutingRoutesIds()
+  const completedRouteIds = useCompletedRoutesIds()
+
+  useDeduplicateRoutes(rawTransactions ?? [])
 
   const { t } = useTranslation()
   useHeader(t('header.transactionHistory'))
@@ -50,34 +62,60 @@ export const TransactionHistoryPage = () => {
     listParentRef: parentRef,
   })
 
-  const startedAtByRouteId = useRouteExecutionStore(
-    routeStartedAtSelector(executingRouteIds)
+  const executingRouteData = useRouteExecutionStore(
+    routeDataSelector(executingRouteIds)
+  )
+  const completedRouteData = useRouteExecutionStore(
+    routeDataSelector(completedRouteIds)
   )
 
   const allItems = useMemo<TransactionListItem[]>(() => {
     const activeItems: ActiveItem[] = executingRouteIds.map((routeId) => ({
       type: 'active',
       routeId,
-      startedAt: startedAtByRouteId[routeId] ?? 0,
-    }))
-    const historyItems: HistoryItem[] = transactions.map((transaction) => ({
-      type: 'history',
-      transaction,
       startedAt:
-        ((transaction as FullStatusData).sending as ExtendedTransactionInfo)
-          ?.timestamp ?? 0,
+        executingRouteData[routeId]?.route.steps[0]?.execution?.startedAt ?? 0,
     }))
-    return [...activeItems, ...historyItems].sort(
+    const localItems: LocalItem[] = completedRouteIds
+      .filter((id) => completedRouteData[id])
+      .map((routeId) => {
+        const routeExecution = completedRouteData[routeId]!
+        return {
+          type: 'local',
+          routeExecution,
+          txHash: getSourceTxHash(routeExecution.route) ?? '',
+          // store startedAt is already in ms
+          startedAt: routeExecution.route.steps[0]?.execution?.startedAt ?? 0,
+        }
+      })
+    const historyItems: HistoryItem[] = apiRouteExecutions.map(
+      (routeExecution) => ({
+        type: 'history',
+        routeExecution,
+        txHash: getSourceTxHash(routeExecution.route) ?? '',
+        // API startedAt is in seconds; multiply by 1000 to normalize to ms
+        startedAt:
+          (routeExecution.route.steps[0]?.execution?.startedAt ?? 0) * 1000,
+      })
+    )
+    return [...activeItems, ...localItems, ...historyItems].sort(
       (a, b) => b.startedAt - a.startedAt
     )
-  }, [executingRouteIds, startedAtByRouteId, transactions])
+  }, [
+    apiRouteExecutions,
+    completedRouteData,
+    completedRouteIds,
+    executingRouteData,
+    executingRouteIds,
+  ])
 
   const getItemKey = useCallback(
     (index: number) => {
       const item = allItems[index]
-      return item.type === 'active'
-        ? `active-${item.routeId}`
-        : `history-${(item.transaction as FullStatusData).transactionId}-${index}`
+      if (item.type === 'active') {
+        return `active-${item.routeId}`
+      }
+      return item.txHash || item.routeExecution.route.id
     },
     [allItems]
   )
@@ -145,7 +183,9 @@ export const TransactionHistoryPage = () => {
                     <ActiveTransactionCard routeId={listItem.routeId} />
                   ) : (
                     <TransactionHistoryItem
-                      transaction={listItem.transaction}
+                      route={listItem.routeExecution.route}
+                      transactionHash={listItem.txHash}
+                      startedAt={listItem.startedAt}
                     />
                   )}
                 </li>
