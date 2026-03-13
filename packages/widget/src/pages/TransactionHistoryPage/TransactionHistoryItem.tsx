@@ -1,118 +1,37 @@
-import type {
-  ExtendedTransactionInfo,
-  FullStatusData,
-  StatusResponse,
-  TokenAmount,
-} from '@lifi/sdk'
-import { Box, Typography } from '@mui/material'
+import type { RouteExtended } from '@lifi/sdk'
+import { Box } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
-import { useTranslation } from 'react-i18next'
+import { memo } from 'react'
 import { Card } from '../../components/Card/Card.js'
-import { Token } from '../../components/Token/Token.js'
-import { TokenDivider } from '../../components/Token/Token.style.js'
+import { DateLabel } from '../../components/DateLabel/DateLabel.js'
+import { RouteTokens } from '../../components/Step/RouteTokens.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 
-export const TransactionHistoryItem: React.FC<{
-  transaction: StatusResponse
-  start: number
-}> = ({ transaction, start }) => {
-  const { i18n } = useTranslation()
-  const navigate = useNavigate()
-
-  const sending = transaction.sending as ExtendedTransactionInfo
-  const receiving = (transaction as FullStatusData)
-    .receiving as ExtendedTransactionInfo
-
-  const handleClick = () => {
-    navigate({
-      to: navigationRoutes.transactionDetails,
-      search: {
-        transactionHash: (transaction as FullStatusData).sending.txHash,
-      },
-    })
-  }
-
-  const startedAt = new Date((sending.timestamp ?? 0) * 1000)
-
-  if (!sending.token?.chainId || !receiving.token?.chainId) {
-    return null
-  }
-
-  const fromToken: TokenAmount = {
-    ...sending.token,
-    amount: BigInt(sending.amount ?? '0'),
-    priceUSD: sending.token.priceUSD ?? '0',
-    symbol: sending.token?.symbol ?? '',
-    decimals: sending.token?.decimals ?? 0,
-    name: sending.token?.name ?? '',
-    chainId: sending.token?.chainId,
-  }
-
-  const toToken: TokenAmount = {
-    ...receiving.token,
-    amount: BigInt(receiving.amount ?? '0'),
-    priceUSD: receiving.token.priceUSD ?? '0',
-    symbol: receiving.token?.symbol ?? '',
-    decimals: receiving.token?.decimals ?? 0,
-    name: receiving.token?.name ?? '',
-    chainId: receiving.token?.chainId,
-  }
-
-  return (
-    <Card
-      onClick={handleClick}
-      style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        // height: `${size}px`,
-        transform: `translateY(${start}px)`,
-      }}
-    >
-      <Box
-        sx={{
-          pt: 1.75,
-          px: 2,
-          display: 'flex',
-          flex: 1,
-          justifyContent: 'space-between',
-        }}
-      >
-        <Typography
-          sx={{
-            fontSize: 12,
-          }}
-        >
-          {startedAt.toLocaleString(i18n.language, { dateStyle: 'long' })}
-        </Typography>
-        <Typography
-          sx={{
-            fontSize: 12,
-          }}
-        >
-          {startedAt.toLocaleString(i18n.language, {
-            timeStyle: 'short',
-          })}
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          px: 2,
-          py: 2,
-        }}
-      >
-        <Token token={fromToken} />
-        <Box
-          sx={{
-            pl: 2.375,
-            py: 0.5,
-          }}
-        >
-          <TokenDivider />
-        </Box>
-        <Token token={toToken} />
-      </Box>
-    </Card>
-  )
+interface TransactionHistoryItemProps {
+  route: RouteExtended
+  transactionHash: string
+  // startedAt in ms
+  startedAt: number
 }
+
+export const TransactionHistoryItem = memo(
+  ({ route, transactionHash, startedAt }: TransactionHistoryItemProps) => {
+    const navigate = useNavigate()
+
+    const handleClick = () => {
+      navigate({
+        to: navigationRoutes.transactionDetails,
+        search: { transactionHash },
+      })
+    }
+
+    return (
+      <Card onClick={handleClick} indented>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+          <DateLabel date={new Date(startedAt)} />
+          <RouteTokens route={route} />
+        </Box>
+      </Card>
+    )
+  }
+)

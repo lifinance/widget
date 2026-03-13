@@ -7,7 +7,7 @@ import { IconTypography } from '../IconTypography.js'
 export const TimerContent: FC<PropsWithChildren> = ({ children }) => {
   const { t } = useTranslation()
   return (
-    <Tooltip title={t('tooltip.estimatedTime')} sx={{ cursor: 'help' }}>
+    <Tooltip title={t('tooltip.estimatedTime')}>
       <Box
         component="span"
         sx={{
@@ -23,7 +23,6 @@ export const TimerContent: FC<PropsWithChildren> = ({ children }) => {
           component="span"
           sx={{
             fontVariantNumeric: 'tabular-nums',
-            cursor: 'help',
           }}
         >
           {children}

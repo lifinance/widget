@@ -8,7 +8,6 @@ import {
 } from '@tanstack/react-router'
 import { AppLayout } from './AppLayout.js'
 import { NotFound } from './components/NotFound.js'
-import { ActiveTransactionsPage } from './pages/ActiveTransactionsPage/ActiveTransactionsPage.js'
 import { LanguagesPage } from './pages/LanguagesPage.js'
 import { MainPage } from './pages/MainPage/MainPage.js'
 import { RoutesPage } from './pages/RoutesPage/RoutesPage.js'
@@ -134,23 +133,6 @@ const routesTransactionExecutionDetailsRoute = createRoute({
   component: TransactionDetailsPage,
 })
 
-const activeTransactionsLayoutRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: navigationRoutes.activeTransactions,
-})
-
-const activeTransactionsIndexRoute = createRoute({
-  getParentRoute: () => activeTransactionsLayoutRoute,
-  path: '/',
-  component: ActiveTransactionsPage,
-})
-
-const activeTransactionExecutionRoute = createRoute({
-  getParentRoute: () => activeTransactionsLayoutRoute,
-  path: navigationRoutes.transactionExecution,
-  component: TransactionPage,
-})
-
 const sendToWalletLayoutRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: navigationRoutes.sendToWallet,
@@ -203,6 +185,12 @@ const transactionHistoryDetailsRoute = createRoute({
   component: TransactionDetailsPage,
 })
 
+const transactionHistoryExecutionRoute = createRoute({
+  getParentRoute: () => transactionHistoryLayoutRoute,
+  path: navigationRoutes.transactionExecution,
+  component: TransactionPage,
+})
+
 const transactionExecutionLayoutRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: navigationRoutes.transactionExecution,
@@ -245,10 +233,6 @@ const routeTree = rootRoute.addChildren([
     transactionExecutionIndexRoute,
     transactionExecutionDetailsRoute,
   ]),
-  activeTransactionsLayoutRoute.addChildren([
-    activeTransactionsIndexRoute,
-    activeTransactionExecutionRoute,
-  ]),
   sendToWalletLayoutRoute.addChildren([
     sendToWalletIndexRoute,
     sendToWalletBookmarksRoute,
@@ -259,6 +243,7 @@ const routeTree = rootRoute.addChildren([
   transactionHistoryLayoutRoute.addChildren([
     transactionHistoryIndexRoute,
     transactionHistoryDetailsRoute,
+    transactionHistoryExecutionRoute,
   ]),
 ])
 

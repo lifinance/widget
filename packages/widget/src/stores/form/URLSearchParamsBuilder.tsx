@@ -2,7 +2,6 @@ import { useLocation } from '@tanstack/react-router'
 import { useEffect } from 'react'
 import { useAddressValidation } from '../../hooks/useAddressValidation.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
 import { useBookmarkActions } from '../bookmarks/useBookmarkActions.js'
 import type { FormFieldNames } from '../form/types.js'
 import { useFieldActions } from '../form/useFieldActions.js'
@@ -23,7 +22,6 @@ export const URLSearchParamsBuilder = () => {
   const { pathname } = useLocation()
   const touchedFields = useTouchedFields()
   const values = useFieldValues(...formValueKeys)
-  const { setSendToWallet } = useSendToWalletActions()
   const { setSelectedBookmark, addRecentWallet } = useBookmarkActions()
   const { validateAddress } = useAddressValidation()
   const { buildUrl } = useWidgetConfig()
@@ -58,7 +56,6 @@ export const URLSearchParamsBuilder = () => {
             setUserAndDefaultValues({ toAddress })
             setSelectedBookmark(bookmark)
             addRecentWallet(bookmark)
-            setSendToWallet(true)
           }
         } catch (_) {
           // Address validation failed
@@ -70,7 +67,6 @@ export const URLSearchParamsBuilder = () => {
     initializeFromAddress()
   }, [
     setUserAndDefaultValues,
-    setSendToWallet,
     validateAddress,
     setSelectedBookmark,
     addRecentWallet,

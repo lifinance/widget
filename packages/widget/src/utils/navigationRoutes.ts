@@ -1,6 +1,5 @@
 export const navigationRoutes = {
   home: '/',
-  activeTransactions: 'active-transactions',
   bridges: 'bridges',
   exchanges: 'exchanges',
   fromChain: 'from-chain',
@@ -24,7 +23,6 @@ export const navigationRoutes = {
 export const navigationRoutesValues = Object.values(navigationRoutes)
 
 export const stickyHeaderRoutes = [
-  navigationRoutes.activeTransactions,
   navigationRoutes.bridges,
   navigationRoutes.exchanges,
   navigationRoutes.fromChain,
@@ -44,7 +42,6 @@ export const stickyHeaderRoutes = [
 ]
 
 export const backButtonRoutes = [
-  navigationRoutes.activeTransactions,
   navigationRoutes.bridges,
   navigationRoutes.exchanges,
   navigationRoutes.languages,

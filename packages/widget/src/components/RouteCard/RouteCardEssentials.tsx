@@ -11,6 +11,7 @@ import type { RouteCardEssentialsProps } from './types.js'
 
 export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
   route,
+  showDuration = true,
 }) => {
   const { t, i18n } = useTranslation()
   const executionTimeSeconds = Math.floor(
@@ -30,15 +31,11 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
         justifyContent: 'space-between',
         flex: 1,
         mt: 2,
+        gap: 1.5,
       }}
     >
       <TokenRate route={route} />
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
+      <Box display="flex" alignItems="center" gap={1}>
         <FeeBreakdownTooltip
           gasCosts={gasCosts}
           feeCosts={feeCosts}
@@ -47,11 +44,11 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
           <Box
             sx={{
               display: 'flex',
-              mr: 1.5,
               alignItems: 'center',
+              gap: 0.75,
             }}
           >
-            <IconTypography mr={0.5} fontSize={16}>
+            <IconTypography fontSize={16}>
               <LocalGasStationRounded fontSize="inherit" />
             </IconTypography>
             <Typography
@@ -71,28 +68,31 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
             </Typography>
           </Box>
         </FeeBreakdownTooltip>
-        <Tooltip title={t('tooltip.estimatedTime')} sx={{ cursor: 'help' }}>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            <IconTypography mr={0.5} fontSize={16}>
-              <AccessTimeFilled fontSize="inherit" />
-            </IconTypography>
-            <Typography
+        {showDuration && (
+          <Tooltip title={t('tooltip.estimatedTime')}>
+            <Box
               sx={{
-                fontSize: 14,
-                color: 'text.primary',
-                fontWeight: 600,
-                lineHeight: 1,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 0.75,
               }}
             >
-              {formatDuration(executionTimeSeconds, i18n.language)}
-            </Typography>
-          </Box>
-        </Tooltip>
+              <IconTypography fontSize={16}>
+                <AccessTimeFilled fontSize="inherit" />
+              </IconTypography>
+              <Typography
+                sx={{
+                  fontSize: 14,
+                  color: 'text.primary',
+                  fontWeight: 600,
+                  lineHeight: 1,
+                }}
+              >
+                {formatDuration(executionTimeSeconds, i18n.language)}
+              </Typography>
+            </Box>
+          </Tooltip>
+        )}
       </Box>
     </Box>
   )

@@ -8,69 +8,39 @@ import { Card } from '../Card/Card.js'
 import { CardHeader } from '../Card/CardHeader.js'
 
 export const SelectTokenCardHeader = styled(CardHeader, {
-  shouldForwardProp: (prop) =>
-    !['selected', 'compact'].includes(prop as string),
-})<{ selected?: boolean; compact?: boolean }>(
-  ({ theme, selected, compact }) => ({
-    padding: theme.spacing(2),
-    [`.${cardHeaderClasses.title}`]: {
-      color: theme.vars.palette.text.secondary,
-      textOverflow: 'ellipsis',
-      whiteSpace: 'nowrap',
-      overflow: 'hidden',
-      width: 256,
-      fontSize: compact && !selected ? 16 : 18,
-      fontWeight: 500,
-      [theme.breakpoints.down(theme.breakpoints.values.sm)]: {
-        width: 224,
-      },
-      [theme.breakpoints.down(theme.breakpoints.values.xs)]: {
-        width: 180,
-        fontSize: 16,
-      },
+  shouldForwardProp: (prop) => !['selected'].includes(prop as string),
+})<{ selected?: boolean }>(({ theme, selected }) => ({
+  padding: theme.spacing(2),
+  [`.${cardHeaderClasses.title}`]: {
+    color: theme.vars.palette.text.secondary,
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    width: 96,
+    fontSize: !selected ? 16 : 18,
+    fontWeight: 500,
+    [theme.breakpoints.down(theme.breakpoints.values.xs)]: {
+      fontSize: 16,
     },
-    [`.${cardHeaderClasses.subheader}`]: {
-      textOverflow: 'ellipsis',
-      whiteSpace: 'nowrap',
-      overflow: 'hidden',
-      width: 256,
-      [theme.breakpoints.down(theme.breakpoints.values.sm)]: {
-        width: 224,
-      },
-      [theme.breakpoints.down(theme.breakpoints.values.xs)]: {
-        width: 180,
-      },
-    },
-    variants: [
-      {
-        props: ({ selected }) => selected,
-        style: {
-          [`.${cardHeaderClasses.title}`]: {
-            color: theme.vars.palette.text.primary,
-            fontWeight: 600,
-          },
+  },
+  [`.${cardHeaderClasses.subheader}`]: {
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    width: 96,
+  },
+  variants: [
+    {
+      props: ({ selected }) => selected,
+      style: {
+        [`.${cardHeaderClasses.title}`]: {
+          color: theme.vars.palette.text.primary,
+          fontWeight: 600,
         },
       },
-      {
-        props: ({ compact }) => compact,
-        style: {
-          [`.${cardHeaderClasses.title}`]: {
-            width: 96,
-            [theme.breakpoints.down(theme.breakpoints.values.sm)]: {
-              width: 96,
-            },
-          },
-          [`.${cardHeaderClasses.subheader}`]: {
-            width: 96,
-            [theme.breakpoints.down(theme.breakpoints.values.sm)]: {
-              width: 96,
-            },
-          },
-        },
-      },
-    ],
-  })
-)
+    },
+  ],
+}))
 
 export const SelectTokenCard = styled(Card)(({ theme }) => {
   const cardVariant = theme.components?.MuiCard?.defaultProps?.variant
@@ -87,14 +57,13 @@ export const SelectTokenCard = styled(Card)(({ theme }) => {
 })
 
 export const CardContent = styled(MuiCardContent, {
-  shouldForwardProp: (prop) =>
-    !['formType', 'compact', 'mask'].includes(prop as string),
-})<{ formType: FormType; compact: boolean; mask?: boolean }>(
-  ({ theme, formType, compact, mask = true }) => {
+  shouldForwardProp: (prop) => !['formType', 'mask'].includes(prop as string),
+})<{ formType: FormType; mask?: boolean }>(
+  ({ theme, formType, mask = true }) => {
     const cardVariant = theme.components?.MuiCard?.defaultProps?.variant
     const direction = formType === 'to' ? '-8px' : 'calc(100% + 8px)'
-    const horizontal = compact ? direction : '50%'
-    const vertical = compact ? '50%' : direction
+    const horizontal = direction
+    const vertical = '50%'
     return {
       padding: 0,
       transition: theme.transitions.create(['background-color'], {

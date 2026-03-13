@@ -21,11 +21,9 @@ export const ReverseContainer = styled(Box)(({ theme }) => {
   }
 })
 
-export const ReverseTokensButtonEmpty = styled(Box)(({ theme }) => {
-  return {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: theme.spacing(1),
-  }
-})
+export const ReverseTokensButtonEmpty = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  margin: theme.spacing(1),
+}))
