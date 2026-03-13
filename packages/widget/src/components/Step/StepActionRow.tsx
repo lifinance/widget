@@ -3,7 +3,7 @@ import OpenInNew from '@mui/icons-material/OpenInNew'
 import type React from 'react'
 import { useActionMessage } from '../../hooks/useActionMessage.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
-import { ExternalLink } from '../../pages/TransactionPage/Receipts.style.js'
+import { ExternalLink } from '../../pages/TransactionPage/ReceiptsCard.style.js'
 import { ActionRow } from '../ActionRow/ActionRow.js'
 
 export const StepActionRow: React.FC<{

@@ -8,6 +8,7 @@ import { useHeader } from '../../hooks/useHeader.js'
 import { useRouteExecution } from '../../hooks/useRouteExecution.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { useFormStore } from '../../stores/form/useFormStore.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { WidgetEvent } from '../../types/events.js'
 import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet.js'
@@ -24,6 +25,7 @@ export const TransactionPage = () => {
   const stateRouteId = search?.routeId
   const [routeId, setRouteId] = useState<string>(stateRouteId)
   const [routeRefreshing, setRouteRefreshing] = useState(false)
+  const setFieldValue = useFormStore((store) => store.setFieldValue)
 
   const exchangeRateBottomSheetRef = useRef<ExchangeRateBottomSheetBase>(null)
 
@@ -67,12 +69,22 @@ export const TransactionPage = () => {
     [stateRouteId, status]
   )
 
+  const cleanFields = () => {
+    setFieldValue('fromAmount', '')
+    setFieldValue('toAmount', '')
+  }
+
   useHeader(getHeaderTitle(), headerAction)
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: We want to emit event only when the page is mounted
   useEffect(() => {
     if (status === RouteExecutionStatus.Idle) {
       emitter.emit(WidgetEvent.ReviewTransactionPageEntered, route)
+    }
+
+    // Clean form fields when leaving the page
+    return () => {
+      cleanFields()
     }
   }, [])
 

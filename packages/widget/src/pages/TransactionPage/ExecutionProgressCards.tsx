@@ -4,9 +4,12 @@ import { Card } from '../../components/Card/Card.js'
 import { ExecutionProgress } from '../../components/Step/ExecutionProgress.js'
 import { RouteTokens } from '../../components/Step/RouteTokens.js'
 import { StepActionRow } from '../../components/Step/StepActionRow.js'
-import type { RouteExecutionStatus } from '../../stores/routes/types.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { RouteExecutionStatus } from '../../stores/routes/types.js'
+import { hasEnumFlag } from '../../utils/enum.js'
 import { prepareActions } from '../../utils/prepareActions.js'
-import { TransactionList } from './Receipts.style.js'
+import { ExecutionDoneCard } from './ExecutionDoneCard.js'
+import { TransactionList } from './ReceiptsCard.style.js'
 
 interface ExecutionProgressCardsProps {
   route: RouteExtended
@@ -17,6 +20,9 @@ export const ExecutionProgressCards: React.FC<ExecutionProgressCardsProps> = ({
   route,
   status,
 }) => {
+  const { feeConfig } = useWidgetConfig()
+  const VcComponent =
+    status === RouteExecutionStatus.Done ? feeConfig?._vcComponent : undefined
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       <Card type="default" indented>
@@ -39,9 +45,14 @@ export const ExecutionProgressCards: React.FC<ExecutionProgressCardsProps> = ({
           </TransactionList>
         </Box>
       </Card>
-      <Card type="default" indented>
-        <RouteTokens route={route} />
-      </Card>
+      {hasEnumFlag(status, RouteExecutionStatus.Done) ? (
+        <ExecutionDoneCard route={route} status={status} />
+      ) : (
+        <Card type="default" indented>
+          <RouteTokens route={route} />
+        </Card>
+      )}
+      {VcComponent ? <VcComponent route={route} /> : null}
     </Box>
   )
 }

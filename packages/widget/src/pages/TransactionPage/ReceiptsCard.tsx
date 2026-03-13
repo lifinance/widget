@@ -1,22 +1,23 @@
 import type { RouteExtended } from '@lifi/sdk'
 import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
 import OpenInNew from '@mui/icons-material/OpenInNew'
-import { IconButton, Typography } from '@mui/material'
+import { IconButton } from '@mui/material'
 import type { MouseEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActionRow } from '../../components/ActionRow/ActionRow.js'
 import { Card } from '../../components/Card/Card.js'
+import { CardTitle } from '../../components/Card/CardTitle.js'
 import { StepActionRow } from '../../components/Step/StepActionRow.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { prepareActions } from '../../utils/prepareActions.js'
 import { shortenAddress } from '../../utils/wallet.js'
-import { ExternalLink, TransactionList } from './Receipts.style.js'
+import { ExternalLink, TransactionList } from './ReceiptsCard.style.js'
 
-interface ReceiptsProps {
+interface ReceiptsCardProps {
   route: RouteExtended
 }
 
-export const Receipts: React.FC<ReceiptsProps> = ({ route }) => {
+export const ReceiptsCard = ({ route }: ReceiptsCardProps) => {
   const { t } = useTranslation()
   const { getAddressLink } = useExplorer()
   const toAddress = route.toAddress
@@ -33,10 +34,8 @@ export const Receipts: React.FC<ReceiptsProps> = ({ route }) => {
     : undefined
 
   return (
-    <Card type="default" sx={{ padding: 3 }}>
-      <Typography sx={{ fontSize: 14, fontWeight: 700, mb: 3 }}>
-        {t('main.receipts')}
-      </Typography>
+    <Card type="default" indented>
+      <CardTitle sx={{ padding: 0, mb: 2 }}>{t('main.receipts')}</CardTitle>
       <TransactionList>
         {route.steps.map((step) => (
           <TransactionList key={step.id}>

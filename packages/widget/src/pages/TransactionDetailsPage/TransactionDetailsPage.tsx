@@ -19,7 +19,7 @@ import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.
 import { getSourceTxHash } from '../../stores/routes/utils.js'
 import { buildRouteFromTxHistory } from '../../utils/converters.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { Receipts } from '../TransactionPage/Receipts.js'
+import { ReceiptsCard } from '../TransactionPage/ReceiptsCard.js'
 import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton.js'
 import { TransferIdCard } from './TransferIdCard.js'
 
@@ -120,7 +120,7 @@ export const TransactionDetailsPage: React.FC = () => {
           />
         </Box>
       </Card>
-      <Receipts route={routeExecution.route} />
+      <ReceiptsCard route={routeExecution.route} />
       {subvariant === 'custom' && contractSecondaryComponent ? (
         <ContractComponent>{contractSecondaryComponent}</ContractComponent>
       ) : null}

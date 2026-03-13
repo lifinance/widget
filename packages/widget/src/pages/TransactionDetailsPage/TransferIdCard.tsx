@@ -27,7 +27,7 @@ export const TransferIdCard = ({ transferId, txLink }: TransferIdCardProps) => {
   }
 
   return (
-    <Card sx={{ marginTop: 2, padding: 3 }}>
+    <Card type="default" indented>
       <Box
         sx={{
           display: 'flex',

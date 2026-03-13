@@ -2,7 +2,9 @@ import type { RouteExtended } from '@lifi/sdk'
 import { Box } from '@mui/material'
 import { WarningMessages } from '../../components/Messages/WarningMessages.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
+import { hasEnumFlag } from '../../utils/enum.js'
 import { ExecutionProgressCards } from './ExecutionProgressCards.js'
+import { TransactionDoneButtons } from './TransactionDoneButtons.js'
 import { TransactionFailedButtons } from './TransactionFailedButtons.js'
 import { TransactionReview } from './TransactionReview.js'
 
@@ -43,6 +45,8 @@ export const TransactionContent: React.FC<TransactionContentProps> = ({
           restartRoute={restartRoute}
           deleteRoute={deleteRoute}
         />
+      ) : hasEnumFlag(status, RouteExecutionStatus.Done) ? (
+        <TransactionDoneButtons route={route} status={status} />
       ) : null}
     </Box>
   )
