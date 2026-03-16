@@ -64,6 +64,7 @@ export class GuestBridge {
   private _ecosystems: EcosystemInitState[] = []
   private trustedOrigin = '*'
   private _resizeObserver: ResizeObserver | null = null
+  private _rafId = 0
   private _retryInterval: ReturnType<typeof setInterval> | null = null
   private _retryTimeout: ReturnType<typeof setTimeout> | null = null
 
@@ -215,6 +216,12 @@ export class GuestBridge {
     this.clearRetryTimers()
     this._resizeObserver?.disconnect()
     this._resizeObserver = null
+    cancelAnimationFrame(this._rafId)
+    this._rafId = 0
+    for (const pending of this.pendingRequests.values()) {
+      clearTimeout(pending.timer)
+      pending.reject(new Error('Bridge destroyed'))
+    }
     this.pendingRequests.clear()
     this.initCallbacks.clear()
     this.eventCallbacks.clear()
@@ -407,7 +414,6 @@ export class GuestBridge {
     }
 
     let lastHeight = 0
-    let rafId = 0
 
     const report = () => {
       const height = document.body.offsetHeight
@@ -421,8 +427,8 @@ export class GuestBridge {
     }
 
     this._resizeObserver = new ResizeObserver(() => {
-      cancelAnimationFrame(rafId)
-      rafId = requestAnimationFrame(report)
+      cancelAnimationFrame(this._rafId)
+      this._rafId = requestAnimationFrame(report)
     })
 
     this._resizeObserver.observe(document.body)

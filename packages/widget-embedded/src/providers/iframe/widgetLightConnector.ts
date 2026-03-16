@@ -135,6 +135,8 @@ export function widgetLightConnector() {
       },
 
       async disconnect() {
+        provider_?.destroy()
+        provider_ = undefined
         latestEmitter.emit('disconnect')
       },
 

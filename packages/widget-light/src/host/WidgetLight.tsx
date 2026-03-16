@@ -49,6 +49,8 @@ export interface WidgetLightProps {
  * Drop-in host-side component that renders an `<iframe>` and automatically
  * wires up the widget-light postMessage bridge using `useWidgetLightHost`.
  *
+ * **Note:** Only one `<WidgetLight>` instance per page is supported.
+ *
  * @example
  * <WidgetLight
  *   src="/widget.html"

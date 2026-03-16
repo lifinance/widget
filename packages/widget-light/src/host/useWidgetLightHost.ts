@@ -219,24 +219,46 @@ export function useWidgetLightHost({
   }, [config, onConnect, sendToIframe])
 
   // ---------------------------------------------------------------------------
-  // Subscribe to each handler's events and forward them to the iframe
+  // Subscribe to each handler's events and forward them to the iframe.
+  // Uses a ref-based approach to avoid tearing down existing subscriptions
+  // when only the array wrapper identity changes (e.g. inline `[handler]`
+  // literal) but the handler objects themselves are the same.
   // ---------------------------------------------------------------------------
+  const subscriptionsRef = useRef(new Map<IframeEcosystemHandler, () => void>())
+
   useEffect(() => {
-    const unsubscribes = handlers.map((handler) =>
-      handler.subscribe((event, data) => {
-        sendToIframe({
-          source: WIDGET_LIGHT_SOURCE,
-          type: 'EVENT',
-          chainType: handler.chainType,
-          event,
-          data,
+    const current = subscriptionsRef.current
+    const nextSet = new Set(handlers)
+
+    // Unsubscribe handlers that were removed
+    for (const [handler, unsub] of current) {
+      if (!nextSet.has(handler)) {
+        unsub()
+        current.delete(handler)
+      }
+    }
+
+    // Subscribe new handlers
+    for (const handler of handlers) {
+      if (!current.has(handler)) {
+        const unsub = handler.subscribe((event, data) => {
+          sendToIframe({
+            source: WIDGET_LIGHT_SOURCE,
+            type: 'EVENT',
+            chainType: handler.chainType,
+            event,
+            data,
+          })
         })
-      })
-    )
+        current.set(handler, unsub)
+      }
+    }
+
     return () => {
-      for (const unsub of unsubscribes) {
+      for (const unsub of current.values()) {
         unsub()
       }
+      current.clear()
     }
   }, [handlers, sendToIframe])
 

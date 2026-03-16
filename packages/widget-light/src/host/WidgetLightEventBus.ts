@@ -5,6 +5,11 @@ import type { WidgetLightEvents } from '../shared/widgetLightEvents.js'
 type SendFn = (msg: HostMessage) => void
 type Handler = (data: unknown) => void
 
+/**
+ * Module-level singleton state.
+ * Only one `<WidgetLight>` instance per page is supported — mounting a second
+ * instance will overwrite `_sendFn`, breaking event delivery for the first.
+ */
 const listeners = new Map<string, Set<Handler>>()
 const refCounts = new Map<string, number>()
 let _sendFn: SendFn | null = null
@@ -68,7 +73,16 @@ function off<E extends keyof WidgetLightEvents>(
   handler: (data: WidgetLightEvents[E]) => void
 ): void {
   const key = event as string
-  listeners.get(key)?.delete(handler as Handler)
+  const set = listeners.get(key)
+
+  // After _unregister(), listeners is cleared and _sendFn is null.
+  // Bail out to prevent ref-count corruption from late cleanup calls
+  // (e.g. React strict-mode double unmount or effects firing after
+  // the host hook has already unregistered).
+  if (!set || !set.has(handler as Handler)) {
+    return
+  }
+  set.delete(handler as Handler)
 
   const prev = refCounts.get(key) ?? 0
   const next = Math.max(0, prev - 1)

@@ -86,14 +86,15 @@ export class EthereumIframeProvider extends BaseIframeProvider {
 
       case 'wallet_switchEthereumChain': {
         const result = await this.bridge.sendRpcRequest('EVM', method, params)
-        // Optimistically update internal chain state before the async EVENT
-        // arrives via postMessage. This prevents the race where wagmi calls
-        // getChainId() right after switchChain() resolves but before the
-        // bridge's chainChanged event updates _chainIdHex.
+        // Optimistically update internal chain state so that getChainId()
+        // returns the correct value immediately after switchChain() resolves,
+        // without waiting for the bridge's chainChanged EVENT to arrive.
+        // We intentionally do NOT emit 'chainChanged' here — the host-driven
+        // EVENT via the bridge is the single source of truth for emissions,
+        // avoiding a double notification to wagmi consumers.
         const requested = (params as [{ chainId: `0x${string}` }])?.[0]?.chainId
         if (requested) {
           this._chainIdHex = requested
-          this.emit('chainChanged', requested)
         }
         return result
       }
