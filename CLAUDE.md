@@ -86,6 +86,7 @@ QueryClient → Settings → WidgetConfig → I18n → Theme → SDK → Wallet 
 
 - **ESM only** — all packages output to `dist/esm/`. No CJS.
 - **Biome** for linting and formatting (not ESLint/Prettier). Single quotes, no semicolons, 2-space indent, trailing commas (ES5). **Always run `pnpm check:write` after making changes** so Biome can auto-fix formatting.
+- **Biome sorts imports** — running `pnpm check:write` may reorder import/export statements. This is expected.
 - **Conventional commits** enforced by commitlint (`feat:`, `fix:`, `chore:`, etc.).
 - **`console.log` is an error** — only `console.warn` and `console.error` are allowed (except in `examples/`).
 - **`useExhaustiveDependencies`** and **`useHookAtTopLevel`** are errors.
@@ -93,6 +94,8 @@ QueryClient → Settings → WidgetConfig → I18n → Theme → SDK → Wallet 
 - **widget-light must have zero `dependencies`** — all types are self-contained duplicates. Chain-specific integrations are optional peer deps exposed via subpath exports (`@lifi/widget-light/ethereum`, etc.).
 - Package entry points use TypeScript source (`src/index.ts`). The `scripts/formatPackageJson.js` rewrites paths to `dist/esm/` at publish time.
 - TypeScript target is ES2020, module resolution is Bundler.
+- **PR template** at `.github/pull_request_template.md` — always use it when creating PRs via `gh pr create`.
+- `packages/widget-embedded/README.md` — main integration guide for widget-light (not a typical package readme).
 
 ## Release
 
