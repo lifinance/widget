@@ -13,16 +13,16 @@ import {
   TimerLabel,
 } from './StepStatusTimer.style.js'
 
-function getExpiryTimestamp(step: LiFiStepExtended): Date {
-  const { signedAt } = step.execution ?? {}
-  if (!signedAt) {
+function getExpiryTimestamp(step?: LiFiStepExtended): Date {
+  const { signedAt } = step?.execution ?? {}
+  if (!step || !signedAt) {
     return new Date()
   }
   return new Date(signedAt + step.estimate.executionDuration * 1000)
 }
 
 interface TimerRingProps {
-  step: LiFiStepExtended
+  step?: LiFiStepExtended
   size?: number
   thickness?: number
   showLabel?: boolean
@@ -37,8 +37,8 @@ export const TimerRing: React.FC<TimerRingProps> = ({
   const { i18n } = useTranslation()
   const [isExpired, setExpired] = useState(false)
 
-  const signedAt = step.execution?.signedAt
-  const totalDuration = step.estimate.executionDuration * 1000
+  const signedAt = step?.execution?.signedAt
+  const totalDuration = (step?.estimate.executionDuration ?? 0) * 1000
   const expiryTimestamp = getExpiryTimestamp(step)
 
   const { days, hours, minutes, seconds } = useTimer({

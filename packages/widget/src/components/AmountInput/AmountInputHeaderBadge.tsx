@@ -3,6 +3,7 @@ import Wallet from '@mui/icons-material/Wallet'
 import { Typography } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
+import { useChain } from '../../hooks/useChain.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { DisabledUI, HiddenUI } from '../../types/widget.js'
@@ -15,8 +16,9 @@ export const AmountInputHeaderBadge: React.FC = () => {
   const navigate = useNavigate()
   const { subvariant, subvariantOptions, toAddresses, disabledUI, hiddenUI } =
     useWidgetConfig()
-  const { account } = useAccount()
-  const [toAddress] = useFieldValues('toAddress')
+  const [toChainId, toAddress] = useFieldValues('toChain', 'toAddress')
+  const { chain: toChain } = useChain(toChainId)
+  const { account } = useAccount({ chainType: toChain?.chainType })
 
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress)
   const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress)

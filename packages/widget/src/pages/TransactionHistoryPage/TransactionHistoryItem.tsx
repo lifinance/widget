@@ -4,7 +4,7 @@ import { useNavigate } from '@tanstack/react-router'
 import { memo } from 'react'
 import { Card } from '../../components/Card/Card.js'
 import { DateLabel } from '../../components/DateLabel/DateLabel.js'
-import { RouteTokens } from '../../components/Step/RouteTokens.js'
+import { RouteTokens } from '../../components/RouteCard/RouteTokens.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 
 export const TransactionHistoryItem: React.FC<{

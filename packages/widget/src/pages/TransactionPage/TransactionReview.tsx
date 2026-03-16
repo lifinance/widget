@@ -7,7 +7,7 @@ import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { Card } from '../../components/Card/Card.js'
 import { WarningMessages } from '../../components/Messages/WarningMessages.js'
 import { RouteCardEssentials } from '../../components/RouteCard/RouteCardEssentials.js'
-import { RouteTokens } from '../../components/Step/RouteTokens.js'
+import { RouteTokens } from '../../components/RouteCard/RouteTokens.js'
 import { useAddressActivity } from '../../hooks/useAddressActivity.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
@@ -134,15 +134,13 @@ export const TransactionReview: React.FC<TransactionReviewProps> = ({
         <RouteCardEssentials route={route} />
       </Card>
       <WarningMessages mt={2} route={route} allowInteraction />
-      <Box sx={{ display: 'flex', gap: 1.5 }}>
-        <Box sx={{ flex: 1 }}>
-          <StartTransactionButton
-            text={getButtonText()}
-            onClick={handleStartClick}
-            route={route}
-            loading={routeRefreshing || isLoadingAddressActivity}
-          />
-        </Box>
+      <Box sx={{ flex: 1 }}>
+        <StartTransactionButton
+          text={getButtonText()}
+          onClick={handleStartClick}
+          route={route}
+          loading={routeRefreshing || isLoadingAddressActivity}
+        />
       </Box>
       {subvariant !== 'custom' ? (
         <TokenValueBottomSheet

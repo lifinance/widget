@@ -5,7 +5,7 @@ export const ActionRowContainer = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   gap: theme.spacing(1),
   padding: theme.spacing(1),
-  borderRadius: theme.vars.shape.borderRadiusTertiary,
+  borderRadius: theme.vars.shape.borderRadiusSecondary,
   backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
 }))
 

@@ -6,8 +6,8 @@ import { type MouseEventHandler, useState } from 'react'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { HiddenUI } from '../../types/widget.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
-import { RouteDetails } from '../Step/RouteDetails.js'
 import { Token } from '../Token/Token.js'
+import { RouteDetails } from './RouteDetails.js'
 import { TokenContainer } from './RouteToken.style.js'
 
 interface RouteTokenProps {

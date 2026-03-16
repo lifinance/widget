@@ -67,6 +67,9 @@ export const StepContent = styled(Box, {
       style: {
         borderLeft: 'none',
         paddingLeft: theme.spacing(4.625),
+        ...theme.applyStyles('dark', {
+          borderLeft: 'none',
+        }),
       },
     },
   ],

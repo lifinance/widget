@@ -4,7 +4,7 @@ import { useRouteExecutionMessage } from '../../hooks/useRouteExecutionMessage.j
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { hasEnumFlag } from '../../utils/enum.js'
-import { StepStatusIndicator } from './StepStatusIndicator.js'
+import { ExecutionStatusIndicator } from './ExecutionStatusIndicator.js'
 
 export const ExecutionProgress: React.FC<{
   route: RouteExtended
@@ -16,12 +16,7 @@ export const ExecutionProgress: React.FC<{
     contractSecondaryComponent,
     contractCompactComponent,
   } = useWidgetConfig()
-  const lastStep = route.steps.at(-1)
   const { title, message } = useRouteExecutionMessage(route, status)
-
-  if (!lastStep) {
-    return null
-  }
 
   const showContractComponent =
     subvariant === 'custom' &&
@@ -32,10 +27,10 @@ export const ExecutionProgress: React.FC<{
     status === RouteExecutionStatus.Done ? feeConfig?._vcComponent : undefined
 
   return (
-    <Box>
+    <Box sx={{ p: 1 }}>
       {!showContractComponent ? (
         <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center' }}>
-          <StepStatusIndicator step={lastStep} />
+          <ExecutionStatusIndicator route={route} status={status} />
         </Box>
       ) : (
         contractCompactComponent || contractSecondaryComponent

@@ -1,19 +1,11 @@
 import type { RouteExtended } from '@lifi/sdk'
-import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
-import OpenInNew from '@mui/icons-material/OpenInNew'
-import Wallet from '@mui/icons-material/Wallet'
-import { IconButton } from '@mui/material'
-import type { MouseEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActionRow } from '../../components/ActionRow/ActionRow.js'
-import { ActionIconCircle } from '../../components/ActionRow/ActionRow.style.js'
 import { Card } from '../../components/Card/Card.js'
 import { CardTitle } from '../../components/Card/CardTitle.js'
-import { StepActionRow } from '../../components/Step/StepActionRow.js'
-import { useExplorer } from '../../hooks/useExplorer.js'
 import { prepareActions } from '../../utils/prepareActions.js'
-import { shortenAddress } from '../../utils/wallet.js'
-import { ExternalLink, TransactionList } from './ReceiptsCard.style.js'
+import { TransactionList } from './ReceiptsCard.style.js'
+import { SentToWalletRow } from './SentToWalletRow.js'
+import { StepActionRow } from './StepActionRow.js'
 
 interface ReceiptsCardProps {
   route: RouteExtended
@@ -21,19 +13,7 @@ interface ReceiptsCardProps {
 
 export const ReceiptsCard = ({ route }: ReceiptsCardProps) => {
   const { t } = useTranslation()
-  const { getAddressLink } = useExplorer()
   const toAddress = route.toAddress
-
-  const handleCopy = (e: MouseEvent) => {
-    e.stopPropagation()
-    if (toAddress) {
-      navigator.clipboard.writeText(toAddress)
-    }
-  }
-
-  const addressLink = toAddress
-    ? getAddressLink(toAddress, route.toChainId)
-    : undefined
 
   return (
     <Card type="default" indented>
@@ -53,32 +33,7 @@ export const ReceiptsCard = ({ route }: ReceiptsCardProps) => {
           </TransactionList>
         ))}
         {toAddress ? (
-          <ActionRow
-            startAdornment={
-              <ActionIconCircle>
-                <Wallet color="success" sx={{ fontSize: 16 }} />
-              </ActionIconCircle>
-            }
-            message={t('main.sentToWallet', {
-              address: shortenAddress(toAddress),
-            })}
-            endAdornment={
-              <>
-                <IconButton size="small" onClick={handleCopy} sx={{ p: 0.5 }}>
-                  <ContentCopyRounded sx={{ fontSize: 16 }} />
-                </IconButton>
-                {addressLink ? (
-                  <ExternalLink
-                    href={addressLink}
-                    target="_blank"
-                    rel="nofollow noreferrer"
-                  >
-                    <OpenInNew sx={{ fontSize: 16 }} />
-                  </ExternalLink>
-                ) : undefined}
-              </>
-            }
-          />
+          <SentToWalletRow toAddress={toAddress} toChainId={route.toChainId} />
         ) : undefined}
       </TransactionList>
     </Card>
