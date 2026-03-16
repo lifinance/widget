@@ -1,3 +1,4 @@
+import type { ExecutionActionType } from '@lifi/sdk'
 import Done from '@mui/icons-material/Done'
 import ErrorRounded from '@mui/icons-material/ErrorRounded'
 import InfoRounded from '@mui/icons-material/InfoRounded'
@@ -184,9 +185,13 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
       if (!step) {
         break
       }
-      const action = step.execution?.actions.find(
+      const action = step.execution?.actions?.find(
         (action) => action.status === 'FAILED'
-      )
+      ) || {
+        status: 'FAILED',
+        type: 'EXECUTION' as ExecutionActionType,
+        error: step.execution?.error,
+      } // synthetic action to represent a failed execution with no actions
       const actionMessage = getErrorMessage(t, getChainById, step, action)
       title = actionMessage.title
       failedMessage = actionMessage.message
