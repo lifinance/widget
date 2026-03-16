@@ -36,20 +36,10 @@ type ConnectorEmitter = Parameters<CreateConnectorFn>[0]['emitter']
 export function widgetLightConnector() {
   let provider_: EthereumIframeProvider | undefined
   let latestEmitter: ConnectorEmitter
-  // Reference to the connector object wagmi creates via spread.
-  // We mutate `name`/`icon` on it when the host sends connector info.
+  // Mutable ref to the spread connector object wagmi stores internally.
+  // Updated in setup() on each re-creation (syncWagmiConfig), read by
+  // the connectorUpdate listener to mutate name/icon.
   let connectorRef: Record<string, unknown> | undefined
-
-  function updateConnectorInfo() {
-    if (!connectorRef || !provider_) {
-      return
-    }
-    const info = provider_.connector
-    if (info?.name) {
-      connectorRef.name = info.name
-      connectorRef.icon = info.icon
-    }
-  }
 
   return createConnector<EthereumIframeProvider | undefined>((config) => {
     latestEmitter = config.emitter
@@ -67,7 +57,6 @@ export function widgetLightConnector() {
       },
 
       async getProvider() {
-        connectorRef ??= this as unknown as Record<string, unknown>
         if (typeof window === 'undefined' || window.parent === window) {
           return undefined
         }
@@ -98,12 +87,21 @@ export function widgetLightConnector() {
           // mutate the wagmi connector object so the widget displays
           // the real wallet name/icon (e.g. "MetaMask") instead of
           // the fallback "Widget Light".
-          provider_.on('connectorUpdate', updateConnectorInfo)
+          provider_.on('connectorUpdate', () => {
+            const info = provider_?.connector
+            if (connectorRef && info?.name) {
+              connectorRef.name = info.name
+              connectorRef.icon = info.icon
+            }
+          })
 
           // If init already fired during construction (bridge INIT arrived
           // before getProvider() was called), the connectorUpdate event was
           // emitted before this listener existed. Apply eagerly.
-          updateConnectorInfo()
+          if (connectorRef && provider_.connector?.name) {
+            connectorRef.name = provider_.connector.name
+            connectorRef.icon = provider_.connector.icon
+          }
         }
         return provider_
       },

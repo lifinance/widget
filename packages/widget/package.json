@@ -55,15 +55,15 @@
     "@mui/icons-material": "^7.3.6",
     "@mui/material": "^7.3.6",
     "@mui/system": "^7.3.6",
-    "@tanstack/react-router": "^1.166.7",
-    "@tanstack/react-virtual": "^3.13.22",
+    "@tanstack/react-router": "^1.167.3",
+    "@tanstack/react-virtual": "^3.13.23",
     "i18next": "^25.8.18",
     "microdiff": "^1.5.0",
     "mitt": "^3.0.1",
     "react-i18next": "^16.5.8",
     "react-intersection-observer": "^9.16.0",
     "react-transition-group": "^4.4.5",
-    "zustand": "^5.0.11"
+    "zustand": "^5.0.12"
   },
   "devDependencies": {
     "@types/react-transition-group": "^4.4.12",

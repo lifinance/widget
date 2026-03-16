@@ -54,7 +54,7 @@
     "i18next": "^25.8.18",
     "mitt": "^3.0.1",
     "react-i18next": "^16.5.8",
-    "zustand": "^5.0.11"
+    "zustand": "^5.0.12"
   },
   "devDependencies": {
     "cpy-cli": "^7.0.0",

@@ -24,7 +24,7 @@
     "mitt": "^3.0.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "viem": "^2.47.2",
+    "viem": "^2.47.4",
     "wagmi": "^2.19.4"
   },
   "devDependencies": {
