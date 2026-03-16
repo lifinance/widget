@@ -90,11 +90,12 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
         }) || connectedAccounts[0]
       : connectedAccounts[0]
 
-    return {
+    const result = {
       account: selectedChainTypeAccount || selectedAccount || defaultAccount,
       // We need to return only connected account list
       accounts: connectedAccounts,
     }
+    return result
   }, [
     solanaAccount?.address,
     solanaAccount?.status,

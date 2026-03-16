@@ -10,12 +10,14 @@ import {
   useRef,
   useState,
 } from 'react'
+import type { IframeConnectorInfo } from './BaseIframeProvider.js'
 import { IframeSuiSigner } from './IframeSuiSigner.js'
 import { SuiIframeProvider } from './SuiIframeProvider.js'
 
 interface IframeWalletState {
   accounts: string[]
   connected: boolean
+  connector: IframeConnectorInfo
 }
 
 /**
@@ -37,23 +39,29 @@ export const SuiIframeProviderValues: FC<PropsWithChildren> = ({
   const [walletState, setWalletState] = useState<IframeWalletState>({
     accounts: provider.accounts,
     connected: provider.connected,
+    connector: provider.connector,
   })
 
   useEffect(() => {
     const onAccountsChanged = (accounts: unknown) => {
       const accts = accounts as string[]
-      setWalletState({ accounts: accts, connected: accts.length > 0 })
+      setWalletState((s) => ({
+        ...s,
+        accounts: accts,
+        connected: accts.length > 0,
+      }))
     }
 
     const onConnect = () => {
       setWalletState({
         accounts: provider.accounts,
         connected: true,
+        connector: provider.connector,
       })
     }
 
     const onDisconnect = () => {
-      setWalletState({ accounts: [], connected: false })
+      setWalletState({ accounts: [], connected: false, connector: {} })
     }
 
     provider.on('accountsChanged', onAccountsChanged)
@@ -75,7 +83,10 @@ export const SuiIframeProviderValues: FC<PropsWithChildren> = ({
         address,
         chainId: ChainId.SUI,
         chainType: ChainType.MVM,
-        connector: { name: 'iframe-bridge' },
+        connector: {
+          name: walletState.connector.name ?? 'Sui Wallet',
+          icon: walletState.connector.icon,
+        },
         isConnected: true as const,
         isConnecting: false,
         isReconnecting: false,

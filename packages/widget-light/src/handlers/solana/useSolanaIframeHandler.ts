@@ -1,11 +1,28 @@
 import type { Wallet } from '@wallet-standard/base'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import type { IframeEcosystemHandler } from '../../shared/protocol.js'
 
 export interface SolanaIframeHandlerParams {
   address: string | null
   connected: boolean
   wallet: Wallet | null
+}
+
+function base64ToBytes(base64: string): Uint8Array {
+  return Uint8Array.from(atob(base64), (c) => c.charCodeAt(0))
+}
+
+function bytesToBase64(bytes: Uint8Array): string {
+  return btoa(String.fromCharCode(...bytes))
+}
+
+function getWalletFeature(wallet: Wallet, feature: string): any {
+  const features = wallet.features as Record<string, any>
+  const f = features[feature]
+  if (!f) {
+    throw new Error(`Wallet does not support ${feature}`)
+  }
+  return f
 }
 
 /**
@@ -30,25 +47,32 @@ export function useSolanaIframeHandler(
 
   const emitRef = useRef<((event: string, data: unknown) => void) | null>(null)
 
+  const connectorInfo = wallet
+    ? { name: wallet.name, icon: wallet.icon }
+    : undefined
+
   useEffect(() => {
     emitRef.current?.('accountsChanged', address ? [address] : [])
   }, [address])
 
   useEffect(() => {
     if (connected && address) {
-      emitRef.current?.('connect', { address })
+      emitRef.current?.('connect', { address, connector: connectorInfo })
     } else {
       emitRef.current?.('disconnect', {})
     }
-  }, [connected, address])
+  }, [connected, address, connectorInfo])
 
   const getInitState = useCallback(() => {
-    const { address, connected } = stateRef.current
+    const { address, connected, wallet } = stateRef.current
     return {
       chainType: 'SVM' as const,
       state: {
         accounts: address ? [address] : [],
         connected,
+        connector: wallet
+          ? { name: wallet.name, icon: wallet.icon }
+          : undefined,
       },
     }
   }, [])
@@ -60,76 +84,50 @@ export function useSolanaIframeHandler(
         throw new Error('Solana wallet not connected')
       }
 
+      const account = wallet.accounts[0]
+
       switch (method) {
         case 'getAccount':
           return { address }
 
         case 'signTransaction': {
           const { transaction } = params as { transaction: string }
-          const features = wallet.features as Record<string, any>
-          const signFeature = features['solana:signTransaction']
-          if (!signFeature) {
-            throw new Error('Wallet does not support signTransaction')
-          }
-          const account = wallet.accounts[0]
-          const txBytes = Uint8Array.from(atob(transaction), (c) =>
-            c.charCodeAt(0)
-          )
-          const [result] = await signFeature.signTransaction({
+          const feature = getWalletFeature(wallet, 'solana:signTransaction')
+          const [result] = await feature.signTransaction({
             account,
-            transaction: txBytes,
+            transaction: base64ToBytes(transaction),
           })
           return {
-            signedTransaction: btoa(
-              String.fromCharCode(...new Uint8Array(result.signedTransaction))
+            signedTransaction: bytesToBase64(
+              new Uint8Array(result.signedTransaction)
             ),
           }
         }
 
         case 'signMessage': {
           const { message } = params as { message: string }
-          const features = wallet.features as Record<string, any>
-          const signFeature = features['solana:signMessage']
-          if (!signFeature) {
-            throw new Error('Wallet does not support signMessage')
-          }
-          const account = wallet.accounts[0]
-          const msgBytes = Uint8Array.from(atob(message), (c) =>
-            c.charCodeAt(0)
-          )
-          const [result] = await signFeature.signMessage({
+          const feature = getWalletFeature(wallet, 'solana:signMessage')
+          const [result] = await feature.signMessage({
             account,
-            message: msgBytes,
+            message: base64ToBytes(message),
           })
           return {
-            signature: btoa(
-              String.fromCharCode(...new Uint8Array(result.signature))
-            ),
+            signature: bytesToBase64(new Uint8Array(result.signature)),
           }
         }
 
         case 'signAndSendTransaction': {
-          const { transaction } = params as {
-            transaction: string
-            options?: Record<string, unknown>
-          }
-          const features = wallet.features as Record<string, any>
-          const sendFeature = features['solana:signAndSendTransaction']
-          if (!sendFeature) {
-            throw new Error('Wallet does not support signAndSendTransaction')
-          }
-          const account = wallet.accounts[0]
-          const txBytes = Uint8Array.from(atob(transaction), (c) =>
-            c.charCodeAt(0)
+          const { transaction } = params as { transaction: string }
+          const feature = getWalletFeature(
+            wallet,
+            'solana:signAndSendTransaction'
           )
-          const [result] = await sendFeature.signAndSendTransaction({
+          const [result] = await feature.signAndSendTransaction({
             account,
-            transaction: txBytes,
+            transaction: base64ToBytes(transaction),
           })
           return {
-            signature: btoa(
-              String.fromCharCode(...new Uint8Array(result.signature))
-            ),
+            signature: bytesToBase64(new Uint8Array(result.signature)),
           }
         }
 
@@ -150,10 +148,13 @@ export function useSolanaIframeHandler(
     []
   )
 
-  return {
-    chainType: 'SVM',
-    getInitState,
-    handleRequest,
-    subscribe,
-  }
+  return useMemo(
+    () => ({
+      chainType: 'SVM' as const,
+      getInitState,
+      handleRequest,
+      subscribe,
+    }),
+    [getInitState, handleRequest, subscribe]
+  )
 }

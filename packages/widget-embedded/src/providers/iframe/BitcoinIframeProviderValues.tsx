@@ -1,17 +1,21 @@
 import { ChainId, ChainType } from '@lifi/sdk'
+import { BitcoinProvider as BitcoinSDKProvider } from '@lifi/sdk-provider-bitcoin'
 import { BitcoinContext } from '@lifi/widget-provider'
 import {
   type FC,
   type PropsWithChildren,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react'
+import type { IframeConnectorInfo } from './BaseIframeProvider.js'
 import { BitcoinIframeProvider } from './BitcoinIframeProvider.js'
 
 interface IframeWalletState {
   accounts: string[]
   connected: boolean
+  connector: IframeConnectorInfo
 }
 
 /**
@@ -19,7 +23,7 @@ interface IframeWalletState {
  *
  * Reads wallet state from BitcoinIframeProvider (which receives it from the
  * host via GuestBridge) and exposes it through BitcoinContext so the widget
- * can display the connected account.
+ * can display the connected account and execute transactions.
  */
 export const BitcoinIframeProviderValues: FC<PropsWithChildren> = ({
   children,
@@ -33,23 +37,29 @@ export const BitcoinIframeProviderValues: FC<PropsWithChildren> = ({
   const [walletState, setWalletState] = useState<IframeWalletState>({
     accounts: provider.accounts,
     connected: provider.connected,
+    connector: provider.connector,
   })
 
   useEffect(() => {
     const onAccountsChanged = (accounts: unknown) => {
       const accts = accounts as string[]
-      setWalletState({ accounts: accts, connected: accts.length > 0 })
+      setWalletState((s) => ({
+        ...s,
+        accounts: accts,
+        connected: accts.length > 0,
+      }))
     }
 
     const onConnect = () => {
       setWalletState({
         accounts: provider.accounts,
         connected: true,
+        connector: provider.connector,
       })
     }
 
     const onDisconnect = () => {
-      setWalletState({ accounts: [], connected: false })
+      setWalletState({ accounts: [], connected: false, connector: {} })
     }
 
     provider.on('accountsChanged', onAccountsChanged)
@@ -71,7 +81,12 @@ export const BitcoinIframeProviderValues: FC<PropsWithChildren> = ({
     addresses: address ? [address] : [],
     chainType: ChainType.UTXO,
     chainId: ChainId.BTC,
-    connector: isConnected ? { name: 'iframe-bridge' } : undefined,
+    connector: isConnected
+      ? {
+          name: walletState.connector.name ?? 'Bitcoin Wallet',
+          icon: walletState.connector.icon,
+        }
+      : undefined,
     isConnected,
     isConnecting: false,
     isReconnecting: false,
@@ -81,12 +96,27 @@ export const BitcoinIframeProviderValues: FC<PropsWithChildren> = ({
       | 'disconnected',
   }
 
+  const sdkProvider = useMemo(
+    () =>
+      BitcoinSDKProvider({
+        async getWalletClient() {
+          if (!provider.address) {
+            throw new Error('Bitcoin wallet not connected')
+          }
+          // Cast required: the SDK types expect a full bigmi Client, but the
+          // executor only uses client.account and client.request() at runtime.
+          return createIframeBitcoinClient(provider) as any
+        },
+      }),
+    [provider]
+  )
+
   return (
     <BitcoinContext.Provider
       value={{
         isEnabled: true,
         account,
-        sdkProvider: undefined,
+        sdkProvider,
         installedWallets: [],
         isConnected,
         isExternalContext: true,
@@ -97,4 +127,24 @@ export const BitcoinIframeProviderValues: FC<PropsWithChildren> = ({
       {children}
     </BitcoinContext.Provider>
   )
+}
+
+/**
+ * Creates a minimal bigmi-compatible wallet client that delegates all
+ * operations to the host via the iframe bridge.
+ *
+ * The `BitcoinStepExecutor` uses:
+ *   - `client.account.address` / `.publicKey` for PSBT input processing
+ *   - `client.request({ method, params })` via bigmi's `signPsbt()` action
+ */
+function createIframeBitcoinClient(provider: BitcoinIframeProvider) {
+  return {
+    account: {
+      address: provider.address!,
+      publicKey: provider.publicKey ?? '',
+    },
+    async request({ method, params }: { method: string; params?: unknown }) {
+      return provider.request(method, params)
+    },
+  }
 }

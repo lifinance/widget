@@ -3,6 +3,7 @@ import type {
   ConnectWalletArgs,
   HostMessage,
   IframeEcosystemHandler,
+  RpcError,
   WidgetLightConfig,
 } from '../shared/protocol.js'
 import { WIDGET_LIGHT_SOURCE } from '../shared/protocol.js'
@@ -82,6 +83,9 @@ export function useWidgetLightHost({
   // ---------------------------------------------------------------------------
   const sendToIframe = useCallback(
     (msg: HostMessage) => {
+      if (!readyRef.current) {
+        return
+      }
       iframeRef.current?.contentWindow?.postMessage(msg, iframeOrigin ?? '*')
     },
     [iframeOrigin]
@@ -123,14 +127,17 @@ export function useWidgetLightHost({
           config: enrichConfig(config, onConnect),
           ecosystems,
         })
+        // Replay event subscriptions — the initial _register() call may have
+        // sent WIDGET_EVENT_SUBSCRIBE messages before the iframe's JS loaded,
+        // so they were lost. Re-registering replays all active subscriptions
+        // now that the guest is ready to receive them.
+        WidgetLightEventBus._register(sendToIframe)
         return
       }
 
       // ── RESIZE ─────────────────────────────────────────────────────────────
       if (msg.type === 'RESIZE' && autoResize) {
-        if (iframeRef.current) {
-          iframeRef.current.style.height = `${msg.height}px`
-        }
+        iframeRef.current.style.height = `${msg.height}px`
         return
       }
 
@@ -150,12 +157,21 @@ export function useWidgetLightHost({
       if (msg.type === 'RPC_REQUEST') {
         const { handlers } = stateRef.current
         const handler = handlers.find((h) => h.chainType === msg.chainType)
-        if (!handler) {
+
+        const sendRpcResponse = (
+          payload: { result: unknown } | { error: RpcError }
+        ) => {
           sendToIframe({
             source: WIDGET_LIGHT_SOURCE,
             type: 'RPC_RESPONSE',
             chainType: msg.chainType,
             id: msg.id,
+            ...payload,
+          })
+        }
+
+        if (!handler) {
+          sendRpcResponse({
             error: {
               code: -32601,
               message: `No handler registered for chain type: ${msg.chainType}`,
@@ -170,20 +186,10 @@ export function useWidgetLightHost({
             msg.method,
             msg.params
           )
-          sendToIframe({
-            source: WIDGET_LIGHT_SOURCE,
-            type: 'RPC_RESPONSE',
-            chainType: msg.chainType,
-            id: msg.id,
-            result,
-          })
+          sendRpcResponse({ result })
         } catch (err: unknown) {
           const e = err as { code?: number; message?: string; data?: unknown }
-          sendToIframe({
-            source: WIDGET_LIGHT_SOURCE,
-            type: 'RPC_RESPONSE',
-            chainType: msg.chainType,
-            id: msg.id,
+          sendRpcResponse({
             error: {
               code: e.code ?? -32000,
               message: e.message ?? 'Unknown error',
@@ -202,13 +208,11 @@ export function useWidgetLightHost({
   // Push config updates to the iframe when config changes (after INIT)
   // ---------------------------------------------------------------------------
   useEffect(() => {
-    if (readyRef.current) {
-      sendToIframe({
-        source: WIDGET_LIGHT_SOURCE,
-        type: 'CONFIG_UPDATE',
-        config: enrichConfig(config, onConnect),
-      })
-    }
+    sendToIframe({
+      source: WIDGET_LIGHT_SOURCE,
+      type: 'CONFIG_UPDATE',
+      config: enrichConfig(config, onConnect),
+    })
   }, [config, onConnect, sendToIframe])
 
   // ---------------------------------------------------------------------------

@@ -12,6 +12,7 @@ export const syncWagmiConfig = async (
   if (_mainnet) {
     _mainnet.contracts = { ...mainnet.contracts, ..._mainnet.contracts }
   }
+
   wagmiConfig._internal.chains.setState(chains)
   wagmiConfig._internal.connectors.setState(() =>
     [

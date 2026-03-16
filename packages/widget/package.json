@@ -56,7 +56,7 @@
     "@mui/material": "^7.3.6",
     "@mui/system": "^7.3.6",
     "@tanstack/react-router": "^1.166.7",
-    "@tanstack/react-virtual": "^3.13.16",
+    "@tanstack/react-virtual": "^3.13.22",
     "i18next": "^25.8.18",
     "microdiff": "^1.5.0",
     "mitt": "^3.0.1",

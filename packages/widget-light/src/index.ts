@@ -27,7 +27,6 @@ export type {
   WidgetLightConfig,
 } from './shared/protocol.js'
 export {
-  isGuestMessage,
   isWidgetLightMessage,
   WIDGET_LIGHT_SOURCE,
 } from './shared/protocol.js'

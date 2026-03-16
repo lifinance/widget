@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import type { WidgetLightEvents } from '../shared/widgetLightEvents.js'
 import { WidgetLightEventBus } from './WidgetLightEventBus.js'
 
@@ -11,6 +10,13 @@ export interface WidgetLightEventEmitter {
     event: E,
     handler: (data: WidgetLightEvents[E]) => void
   ): void
+}
+
+// Stable module-level reference — no useMemo needed since these are
+// module-level functions, not closures over React state.
+const emitter: WidgetLightEventEmitter = {
+  on: WidgetLightEventBus.on,
+  off: WidgetLightEventBus.off,
 }
 
 /**
@@ -30,11 +36,5 @@ export interface WidgetLightEventEmitter {
  * }
  */
 export function useWidgetLightEvents(): WidgetLightEventEmitter {
-  return useMemo(
-    () => ({
-      on: WidgetLightEventBus.on,
-      off: WidgetLightEventBus.off,
-    }),
-    []
-  )
+  return emitter
 }

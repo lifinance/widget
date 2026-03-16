@@ -48,7 +48,7 @@
   },
   "peerDependencies": {
     "@wagmi/core": "^3.x",
-    "wagmi": "^3.1.0"
+    "wagmi": "^3.5.0"
   },
   "devDependencies": {
     "cpy-cli": "^7.0.0",

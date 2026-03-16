@@ -212,7 +212,3 @@ export function isWidgetLightMessage(
     (data as Record<string, unknown>).source === WIDGET_LIGHT_SOURCE
   )
 }
-
-export function isGuestMessage(data: unknown): data is GuestMessage {
-  return isWidgetLightMessage(data) && 'type' in (data as object)
-}

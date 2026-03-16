@@ -13,7 +13,7 @@ import {
 
 const isInsideIframe = window.self !== window.top
 
-const DEFAULT_CONFIG: Partial<WidgetConfig> = {
+export const EMBEDDED_DEFAULT_CONFIG: Partial<WidgetConfig> = {
   integrator: 'widget-embedded',
 }
 
@@ -70,7 +70,7 @@ export const WidgetConfigProvider: FC<PropsWithChildren> = ({ children }) => {
     [lightConfig]
   )
 
-  const value = isInsideIframe ? config : DEFAULT_CONFIG
+  const value = isInsideIframe ? config : EMBEDDED_DEFAULT_CONFIG
 
   return (
     <WidgetConfigContext.Provider value={value}>

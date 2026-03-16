@@ -54,7 +54,7 @@
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "viem": "^2.47.2",
-    "wagmi": "^3.3.2",
+    "wagmi": "^3.5.0",
     "zustand": "^5.0.11"
   },
   "devDependencies": {

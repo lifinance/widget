@@ -9,20 +9,11 @@ const listeners = new Map<string, Set<Handler>>()
 const refCounts = new Map<string, number>()
 let _sendFn: SendFn | null = null
 
-function sendSubscribe(event: string): void {
-  _sendFn?.({
-    source: WIDGET_LIGHT_SOURCE,
-    type: 'WIDGET_EVENT_SUBSCRIBE',
-    event,
-  })
-}
-
-function sendUnsubscribe(event: string): void {
-  _sendFn?.({
-    source: WIDGET_LIGHT_SOURCE,
-    type: 'WIDGET_EVENT_UNSUBSCRIBE',
-    event,
-  })
+function sendEventControl(
+  event: string,
+  type: 'WIDGET_EVENT_SUBSCRIBE' | 'WIDGET_EVENT_UNSUBSCRIBE'
+): void {
+  _sendFn?.({ source: WIDGET_LIGHT_SOURCE, type, event })
 }
 
 function _register(send: SendFn): void {
@@ -30,17 +21,17 @@ function _register(send: SendFn): void {
   // Replay existing subscriptions to the newly registered iframe
   for (const [event, count] of refCounts) {
     if (count > 0) {
-      send({
-        source: WIDGET_LIGHT_SOURCE,
-        type: 'WIDGET_EVENT_SUBSCRIBE',
-        event,
-      })
+      sendEventControl(event, 'WIDGET_EVENT_SUBSCRIBE')
     }
   }
 }
 
 function _unregister(): void {
   _sendFn = null
+  // Clear handler sets so that handlers belonging to a previous iframe session
+  // cannot be invoked by a future session. refCounts is intentionally preserved
+  // so _register can replay subscriptions to the next iframe.
+  listeners.clear()
 }
 
 function _receiveEvent(event: string, data: unknown): void {
@@ -68,7 +59,7 @@ function on<E extends keyof WidgetLightEvents>(
   const prev = refCounts.get(key) ?? 0
   refCounts.set(key, prev + 1)
   if (prev === 0) {
-    sendSubscribe(key)
+    sendEventControl(key, 'WIDGET_EVENT_SUBSCRIBE')
   }
 }
 
@@ -83,7 +74,7 @@ function off<E extends keyof WidgetLightEvents>(
   const next = Math.max(0, prev - 1)
   refCounts.set(key, next)
   if (prev > 0 && next === 0) {
-    sendUnsubscribe(key)
+    sendEventControl(key, 'WIDGET_EVENT_UNSUBSCRIBE')
   }
 }
 

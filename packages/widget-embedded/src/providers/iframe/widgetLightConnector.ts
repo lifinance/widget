@@ -25,12 +25,31 @@ type ConnectorEmitter = Parameters<CreateConnectorFn>[0]['emitter']
  * `widgetLightIframe()` closure. It is updated on every factory invocation.
  * The provider's listeners read from this ref instead of capturing the
  * original `config.emitter`.
+ *
+ * ## Connector name/icon
+ *
+ * wagmi's `setup()` spreads the factory return value (`{ ...connectorFn() }`),
+ * which flattens getters into static values. Since the host wallet's connector
+ * info arrives asynchronously via the bridge, we store a reference to the
+ * spread object and mutate `name`/`icon` on it when the info arrives.
  */
-widgetLightConnector.type = 'widget-light-iframe' as const
-
 export function widgetLightConnector() {
   let provider_: EthereumIframeProvider | undefined
   let latestEmitter: ConnectorEmitter
+  // Reference to the connector object wagmi creates via spread.
+  // We mutate `name`/`icon` on it when the host sends connector info.
+  let connectorRef: Record<string, unknown> | undefined
+
+  function updateConnectorInfo() {
+    if (!connectorRef || !provider_) {
+      return
+    }
+    const info = provider_.connector
+    if (info?.name) {
+      connectorRef.name = info.name
+      connectorRef.icon = info.icon
+    }
+  }
 
   return createConnector<EthereumIframeProvider | undefined>((config) => {
     latestEmitter = config.emitter
@@ -41,10 +60,14 @@ export function widgetLightConnector() {
       type: widgetLightConnector.type,
 
       async setup() {
-        await this.getProvider()
+        // wagmi calls setup() on the spread connector object, so `this`
+        // is the actual connector instance stored in wagmi's state.
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        connectorRef = this as unknown as Record<string, unknown>
       },
 
       async getProvider() {
+        connectorRef ??= this as unknown as Record<string, unknown>
         if (typeof window === 'undefined' || window.parent === window) {
           return undefined
         }
@@ -70,18 +93,24 @@ export function widgetLightConnector() {
           provider_.on('disconnect', () => {
             latestEmitter.emit('disconnect')
           })
+
+          // When bridge init delivers connector info from the host,
+          // mutate the wagmi connector object so the widget displays
+          // the real wallet name/icon (e.g. "MetaMask") instead of
+          // the fallback "Widget Light".
+          provider_.on('connectorUpdate', updateConnectorInfo)
+
+          // If init already fired during construction (bridge INIT arrived
+          // before getProvider() was called), the connectorUpdate event was
+          // emitted before this listener existed. Apply eagerly.
+          updateConnectorInfo()
         }
         return provider_
       },
 
       async isAuthorized() {
-        try {
-          const accounts = await this.getAccounts()
-          const result = accounts.length > 0
-          return result
-        } catch {
-          return false
-        }
+        const accounts = await this.getAccounts().catch(() => [])
+        return accounts.length > 0
       },
 
       async connect({ withCapabilities } = {}) {
@@ -149,13 +178,13 @@ export function widgetLightConnector() {
         return fromHex(chainId, 'number')
       },
 
-      onAccountsChanged(accounts) {
+      onAccountsChanged(accounts: string[]) {
         latestEmitter.emit('change', {
           accounts: accounts.map(getAddress),
         })
       },
 
-      onChainChanged(chainId) {
+      onChainChanged(chainId: string | number) {
         latestEmitter.emit('change', {
           chainId: typeof chainId === 'string' ? Number(chainId) : chainId,
         })
@@ -167,3 +196,5 @@ export function widgetLightConnector() {
     }
   })
 }
+
+widgetLightConnector.type = 'widget-light-iframe' as const

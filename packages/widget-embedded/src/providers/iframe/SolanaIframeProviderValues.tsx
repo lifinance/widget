@@ -9,11 +9,13 @@ import {
   useRef,
   useState,
 } from 'react'
+import type { IframeConnectorInfo } from './BaseIframeProvider.js'
 import { SolanaIframeProvider } from './SolanaIframeProvider.js'
 
 interface IframeWalletState {
   accounts: string[]
   connected: boolean
+  connector: IframeConnectorInfo
 }
 
 /**
@@ -35,23 +37,29 @@ export const SolanaIframeProviderValues: FC<PropsWithChildren> = ({
   const [walletState, setWalletState] = useState<IframeWalletState>({
     accounts: provider.accounts,
     connected: provider.connected,
+    connector: provider.connector,
   })
 
   useEffect(() => {
     const onAccountsChanged = (accounts: unknown) => {
       const accts = accounts as string[]
-      setWalletState({ accounts: accts, connected: accts.length > 0 })
+      setWalletState((s) => ({
+        ...s,
+        accounts: accts,
+        connected: accts.length > 0,
+      }))
     }
 
     const onConnect = () => {
       setWalletState({
         accounts: provider.accounts,
         connected: true,
+        connector: provider.connector,
       })
     }
 
     const onDisconnect = () => {
-      setWalletState({ accounts: [], connected: false })
+      setWalletState({ accounts: [], connected: false, connector: {} })
     }
 
     provider.on('accountsChanged', onAccountsChanged)
@@ -73,7 +81,10 @@ export const SolanaIframeProviderValues: FC<PropsWithChildren> = ({
         address,
         chainId: ChainId.SOL,
         chainType: ChainType.SVM,
-        connector: { name: 'iframe-bridge' },
+        connector: {
+          name: walletState.connector.name ?? 'Solana Wallet',
+          icon: walletState.connector.icon,
+        },
         isConnected: true as const,
         isConnecting: false,
         isReconnecting: false,
@@ -140,8 +151,9 @@ function createIframeWallet(provider: SolanaIframeProvider) {
   }
 
   return {
-    name: 'iframe-bridge',
-    icon: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciLz4=' as const,
+    name: provider.connector.name ?? 'Solana Wallet',
+    icon: (provider.connector.icon ??
+      'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciLz4=') as `data:image/svg+xml;base64,${string}`,
     version: '1.0.0' as const,
     chains: ['solana:mainnet'] as const,
     accounts: [account],

@@ -7,16 +7,15 @@ import { mainnet } from 'viem/chains'
 import type { Config, CreateConnectorFn } from 'wagmi'
 import { createConfig, WagmiProvider } from 'wagmi'
 import { widgetLightConnector as widgetLightIframe } from './iframe/widgetLightConnector.js'
-import { useEmbeddedWidgetConfig } from './WidgetConfigProvider.js'
-
-const FALLBACK_CONFIG: Partial<WidgetConfig> = {
-  integrator: 'widget-embedded',
-}
+import {
+  EMBEDDED_DEFAULT_CONFIG,
+  useEmbeddedWidgetConfig,
+} from './WidgetConfigProvider.js'
 
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   const widgetConfig = useEmbeddedWidgetConfig()
   const { chains } = useWidgetChains(
-    (widgetConfig ?? FALLBACK_CONFIG) as WidgetConfig
+    (widgetConfig ?? EMBEDDED_DEFAULT_CONFIG) as WidgetConfig
   )
 
   const iframeConnectorFn = useRef<CreateConnectorFn>(null)
@@ -35,6 +34,11 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       connectors: [iframeConnectorFn.current!],
       multiInjectedProviderDiscovery: false,
       ssr: false,
+      // Disable localStorage persistence. The embedded widget receives wallet
+      // state from the host via postMessage (INIT/EVENT). Wagmi's Hydrate
+      // component calls onMount() on every non-SSR render and when
+      // reconnectOnMount=false it clears connections if storage is present.
+      storage: null,
     })
   }
 

@@ -4,8 +4,12 @@ import {
   useDAppKit,
   useWalletConnection,
 } from '@mysten/dapp-kit-react'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import type { IframeEcosystemHandler } from '../../shared/protocol.js'
+
+function base64ToBytes(base64: string): Uint8Array {
+  return Uint8Array.from(atob(base64), (c) => c.charCodeAt(0))
+}
 
 /**
  * Host-side hook that creates an `IframeEcosystemHandler` for Sui (MVM).
@@ -26,9 +30,12 @@ export function useSuiIframeHandler(): IframeEcosystemHandler {
 
   const address = currentWallet?.accounts?.[0]?.address
   const isConnected = connectionStatus === 'connected'
+  const connectorInfo = currentWallet
+    ? { name: currentWallet.name, icon: currentWallet.icon }
+    : undefined
 
-  const stateRef = useRef({ address, isConnected, dAppKit })
-  stateRef.current = { address, isConnected, dAppKit }
+  const stateRef = useRef({ address, isConnected, dAppKit, connectorInfo })
+  stateRef.current = { address, isConnected, dAppKit, connectorInfo }
 
   const emitRef = useRef<((event: string, data: unknown) => void) | null>(null)
 
@@ -38,19 +45,20 @@ export function useSuiIframeHandler(): IframeEcosystemHandler {
 
   useEffect(() => {
     if (isConnected && address) {
-      emitRef.current?.('connect', { address })
+      emitRef.current?.('connect', { address, connector: connectorInfo })
     } else {
       emitRef.current?.('disconnect', {})
     }
-  }, [isConnected, address])
+  }, [isConnected, address, connectorInfo])
 
   const getInitState = useCallback(() => {
-    const { address, isConnected } = stateRef.current
+    const { address, isConnected, connectorInfo } = stateRef.current
     return {
       chainType: 'MVM' as const,
       state: {
         accounts: address ? [address] : [],
         connected: isConnected,
+        connector: connectorInfo,
       },
     }
   }, [])
@@ -70,10 +78,9 @@ export function useSuiIframeHandler(): IframeEcosystemHandler {
 
         case 'signTransaction': {
           const { transaction } = params as { transaction: string }
-          const txBytes = Uint8Array.from(atob(transaction), (c) =>
-            c.charCodeAt(0)
+          const result = await signer.signTransaction(
+            base64ToBytes(transaction)
           )
-          const result = await signer.signTransaction(txBytes)
           return {
             signature: result.signature,
             bytes: result.bytes,
@@ -82,10 +89,9 @@ export function useSuiIframeHandler(): IframeEcosystemHandler {
 
         case 'signPersonalMessage': {
           const { message } = params as { message: string }
-          const msgBytes = Uint8Array.from(atob(message), (c) =>
-            c.charCodeAt(0)
+          const result = await signer.signPersonalMessage(
+            base64ToBytes(message)
           )
-          const result = await signer.signPersonalMessage(msgBytes)
           return {
             signature: result.signature,
             bytes: result.bytes,
@@ -93,13 +99,8 @@ export function useSuiIframeHandler(): IframeEcosystemHandler {
         }
 
         case 'signAndExecuteTransaction': {
-          const { transaction } = params as {
-            transaction: string
-          }
-          const result = await dAppKit.signAndExecuteTransaction({
-            transaction,
-          })
-          return result
+          const { transaction } = params as { transaction: string }
+          return dAppKit.signAndExecuteTransaction({ transaction })
         }
 
         default:
@@ -119,10 +120,13 @@ export function useSuiIframeHandler(): IframeEcosystemHandler {
     []
   )
 
-  return {
-    chainType: 'MVM',
-    getInitState,
-    handleRequest,
-    subscribe,
-  }
+  return useMemo(
+    () => ({
+      chainType: 'MVM' as const,
+      getInitState,
+      handleRequest,
+      subscribe,
+    }),
+    [getInitState, handleRequest, subscribe]
+  )
 }

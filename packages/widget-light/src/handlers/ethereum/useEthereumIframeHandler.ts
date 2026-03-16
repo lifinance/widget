@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import {
   useConnection,
   usePublicClient,
@@ -15,13 +15,29 @@ import { handleRpcRequest } from './rpcHandler.js'
  * forwards EIP-1193 RPC requests from the guest iframe.
  */
 export function useEthereumIframeHandler(): IframeEcosystemHandler {
-  const { address, chainId } = useConnection()
+  const { address, chainId, connector } = useConnection()
   const { data: walletClient } = useWalletClient()
   const publicClient = usePublicClient()
   const { mutateAsync: switchChainAsync } = useSwitchChain()
 
-  const stateRef = useRef({ address, chainId, walletClient, publicClient })
-  stateRef.current = { address, chainId, walletClient, publicClient }
+  const connectorInfo = connector
+    ? { name: connector.name, icon: connector.icon }
+    : undefined
+
+  const stateRef = useRef({
+    address,
+    chainId,
+    walletClient,
+    publicClient,
+    connectorInfo,
+  })
+  stateRef.current = {
+    address,
+    chainId,
+    walletClient,
+    publicClient,
+    connectorInfo,
+  }
 
   const emitRef = useRef<((event: string, data: unknown) => void) | null>(null)
 
@@ -35,16 +51,20 @@ export function useEthereumIframeHandler(): IframeEcosystemHandler {
     }
     const hexChainId = `0x${chainId.toString(16)}` as const
     emitRef.current?.('chainChanged', hexChainId)
-    emitRef.current?.('connect', { chainId: hexChainId })
-  }, [chainId])
+    emitRef.current?.('connect', {
+      chainId: hexChainId,
+      connector: connectorInfo,
+    })
+  }, [chainId, connectorInfo])
 
   const getInitState = useCallback(() => {
-    const { address, chainId } = stateRef.current
+    const { address, chainId, connectorInfo } = stateRef.current
     return {
       chainType: 'EVM' as const,
       state: {
         accounts: address ? [address] : [],
         chainId: chainId ?? 1,
+        connector: connectorInfo,
       },
     }
   }, [])
@@ -75,10 +95,13 @@ export function useEthereumIframeHandler(): IframeEcosystemHandler {
     []
   )
 
-  return {
-    chainType: 'EVM',
-    getInitState,
-    handleRequest,
-    subscribe,
-  }
+  return useMemo(
+    () => ({
+      chainType: 'EVM' as const,
+      getInitState,
+      handleRequest,
+      subscribe,
+    }),
+    [getInitState, handleRequest, subscribe]
+  )
 }
