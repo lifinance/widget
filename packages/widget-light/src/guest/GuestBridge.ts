@@ -63,6 +63,9 @@ export class GuestBridge {
   private _config: WidgetLightConfig | null = null
   private _ecosystems: EcosystemInitState[] = []
   private trustedOrigin = '*'
+  private _resizeObserver: ResizeObserver | null = null
+  private _retryInterval: ReturnType<typeof setInterval> | null = null
+  private _retryTimeout: ReturnType<typeof setTimeout> | null = null
 
   get config(): WidgetLightConfig | null {
     return this._config
@@ -203,6 +206,23 @@ export class GuestBridge {
     }
   }
 
+  /**
+   * Tear down the bridge: remove the message listener, disconnect the
+   * ResizeObserver, clear retry timers, and reset the singleton.
+   */
+  destroy(): void {
+    window.removeEventListener('message', this.handleMessage)
+    this.clearRetryTimers()
+    this._resizeObserver?.disconnect()
+    this._resizeObserver = null
+    this.pendingRequests.clear()
+    this.initCallbacks.clear()
+    this.eventCallbacks.clear()
+    this.configCallbacks.clear()
+    this.subscriptionCallbacks.clear()
+    GuestBridge.instance = null
+  }
+
   /** Returns the set of event names the host is currently subscribed to. */
   getSubscribedEvents(): ReadonlySet<string> {
     return this.subscribedEvents
@@ -248,15 +268,26 @@ export class GuestBridge {
 
     sendReady()
 
-    const interval = setInterval(() => {
+    this._retryInterval = setInterval(() => {
       if (this._config !== null) {
-        clearInterval(interval)
+        this.clearRetryTimers()
         return
       }
       sendReady()
     }, 250)
 
-    setTimeout(() => clearInterval(interval), 30_000)
+    this._retryTimeout = setTimeout(() => this.clearRetryTimers(), 30_000)
+  }
+
+  private clearRetryTimers(): void {
+    if (this._retryInterval) {
+      clearInterval(this._retryInterval)
+      this._retryInterval = null
+    }
+    if (this._retryTimeout) {
+      clearTimeout(this._retryTimeout)
+      this._retryTimeout = null
+    }
   }
 
   private readonly handleMessage = (event: MessageEvent): void => {
@@ -317,8 +348,11 @@ export class GuestBridge {
     this._config = msg.config
     this._ecosystems = msg.ecosystems ?? []
 
+    this.clearRetryTimers()
     this.initResolve()
-    this.startResizeReporting()
+    if (msg.autoResize) {
+      this.startResizeReporting()
+    }
 
     for (const configCb of this.configCallbacks) {
       configCb(this._config)
@@ -368,7 +402,7 @@ export class GuestBridge {
   }
 
   private startResizeReporting(): void {
-    if (typeof ResizeObserver === 'undefined') {
+    if (typeof ResizeObserver === 'undefined' || this._resizeObserver) {
       return
     }
 
@@ -386,12 +420,12 @@ export class GuestBridge {
       }
     }
 
-    const ro = new ResizeObserver(() => {
+    this._resizeObserver = new ResizeObserver(() => {
       cancelAnimationFrame(rafId)
       rafId = requestAnimationFrame(report)
     })
 
-    ro.observe(document.body)
+    this._resizeObserver.observe(document.body)
     report()
   }
 }

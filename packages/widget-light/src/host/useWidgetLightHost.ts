@@ -27,10 +27,10 @@ export interface UseWidgetLightHostOptions {
    */
   iframeOrigin?: string
   /**
-   * When true (default), the hook listens for RESIZE messages from the guest
+   * When true, the hook listens for RESIZE messages from the guest
    * and updates the iframe element's height directly via the DOM ref.
-   * No React state is involved — the DOM mutation is synchronous and does not
-   * trigger a re-render of the host tree.
+   * Defaults to false — set to true when the iframe should grow to match
+   * its content height instead of scrolling internally.
    */
   autoResize?: boolean
   /**
@@ -63,17 +63,19 @@ export interface UseWidgetLightHostOptions {
  *   return <iframe ref={iframeRef} src="https://widget.li.fi" />
  * }
  */
+const EMPTY_HANDLERS: IframeEcosystemHandler[] = []
+
 export function useWidgetLightHost({
   config,
-  handlers = [],
+  handlers = EMPTY_HANDLERS,
   iframeOrigin,
-  autoResize = true,
+  autoResize = false,
   onConnect,
 }: UseWidgetLightHostOptions) {
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
-  const stateRef = useRef({ config, handlers, onConnect })
-  stateRef.current = { config, handlers, onConnect }
+  const stateRef = useRef({ config, handlers, onConnect, autoResize })
+  stateRef.current = { config, handlers, onConnect, autoResize }
 
   // Tracks whether the READY→INIT handshake has completed at least once.
   const readyRef = useRef(false)
@@ -113,7 +115,7 @@ export function useWidgetLightHost({
 
       // ── READY ──────────────────────────────────────────────────────────────
       if (msg.type === 'READY') {
-        const { config, handlers, onConnect } = stateRef.current
+        const { config, handlers, onConnect, autoResize } = stateRef.current
         const ecosystems = handlers
           .map((h) => h.getInitState())
           .filter(Boolean) as NonNullable<
@@ -126,6 +128,7 @@ export function useWidgetLightHost({
           type: 'INIT',
           config: enrichConfig(config, onConnect),
           ecosystems,
+          autoResize,
         })
         // Replay event subscriptions — the initial _register() call may have
         // sent WIDGET_EVENT_SUBSCRIBE messages before the iframe's JS loaded,

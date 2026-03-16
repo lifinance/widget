@@ -205,7 +205,7 @@ export function App() {
 | `config` | `WidgetLightConfig` | Yes | — | JSON-serializable widget configuration |
 | `handlers` | `IframeEcosystemHandler[]` | No | `[]` | Ecosystem handlers for wallet/RPC bridging |
 | `iframeOrigin` | `string` | No | Derived from `src` | Restrict `postMessage` to this origin |
-| `autoResize` | `boolean` | No | `true` | Automatically resize iframe height to fit content |
+| `autoResize` | `boolean` | No | `false` | When true, iframe height auto-adjusts to match content |
 | `onConnect` | `(args?: ConnectWalletArgs) => void` | No | — | Called when the widget requests a wallet connection (external wallet management) |
 | `style` | `CSSProperties` | No | — | Inline styles for the iframe element |
 | `className` | `string` | No | — | CSS class for the iframe element |

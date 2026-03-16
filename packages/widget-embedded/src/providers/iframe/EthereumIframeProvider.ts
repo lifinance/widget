@@ -25,7 +25,7 @@ export class EthereumIframeProvider extends BaseIframeProvider {
   }
 
   protected override _registerBridgeCallbacks(): void {
-    this.bridge.onInit('EVM', (state) => {
+    this._unsubInit = this.bridge.onInit('EVM', (state) => {
       const s = state as {
         accounts: string[]
         chainId: number
@@ -44,7 +44,7 @@ export class EthereumIframeProvider extends BaseIframeProvider {
       this.emit('accountsChanged', this._accounts)
     })
 
-    this.bridge.onEvent('EVM', (event, data) => {
+    this._unsubEvent = this.bridge.onEvent('EVM', (event, data) => {
       if (event === 'accountsChanged') {
         this._accounts = data as string[]
         this._connected = this._accounts.length > 0
@@ -56,6 +56,9 @@ export class EthereumIframeProvider extends BaseIframeProvider {
         }
       } else if (event === 'chainChanged') {
         this._chainIdHex = data as `0x${string}`
+      } else if (event === 'disconnect') {
+        this._accounts = []
+        this._connected = false
       }
       this.emit(event, data)
     })

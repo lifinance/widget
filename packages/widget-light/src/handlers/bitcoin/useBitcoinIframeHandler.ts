@@ -23,23 +23,24 @@ export function useBitcoinIframeHandler(): IframeEcosystemHandler {
   const address = currentWallet.account?.address
   const publicKey = currentWallet.account?.publicKey
   const isConnected = currentWallet.isConnected
-  const connectorInfo = currentWallet.connector
-    ? { name: currentWallet.connector.name, icon: currentWallet.connector.icon }
-    : undefined
+  const connectorName = currentWallet.connector?.name
+  const connectorIcon = currentWallet.connector?.icon
 
   const stateRef = useRef({
     address,
     publicKey,
     isConnected,
     bigmiConfig,
-    connectorInfo,
+    connectorName,
+    connectorIcon,
   })
   stateRef.current = {
     address,
     publicKey,
     isConnected,
     bigmiConfig,
-    connectorInfo,
+    connectorName,
+    connectorIcon,
   }
 
   const emitRef = useRef<((event: string, data: unknown) => void) | null>(null)
@@ -50,21 +51,29 @@ export function useBitcoinIframeHandler(): IframeEcosystemHandler {
 
   useEffect(() => {
     if (isConnected && address) {
-      emitRef.current?.('connect', { address, connector: connectorInfo })
+      emitRef.current?.('connect', {
+        address,
+        connector: connectorName
+          ? { name: connectorName, icon: connectorIcon }
+          : undefined,
+      })
     } else {
       emitRef.current?.('disconnect', {})
     }
-  }, [isConnected, address, connectorInfo])
+  }, [isConnected, address, connectorName, connectorIcon])
 
   const getInitState = useCallback(() => {
-    const { address, publicKey, isConnected, connectorInfo } = stateRef.current
+    const { address, publicKey, isConnected, connectorName, connectorIcon } =
+      stateRef.current
     return {
       chainType: 'UTXO' as const,
       state: {
         accounts: address ? [address] : [],
         connected: isConnected,
         publicKey: publicKey ?? null,
-        connector: connectorInfo,
+        connector: connectorName
+          ? { name: connectorName, icon: connectorIcon }
+          : undefined,
       },
     }
   }, [])

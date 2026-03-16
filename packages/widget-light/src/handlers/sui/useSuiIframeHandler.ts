@@ -30,12 +30,23 @@ export function useSuiIframeHandler(): IframeEcosystemHandler {
 
   const address = currentWallet?.accounts?.[0]?.address
   const isConnected = connectionStatus === 'connected'
-  const connectorInfo = currentWallet
-    ? { name: currentWallet.name, icon: currentWallet.icon }
-    : undefined
+  const connectorName = currentWallet?.name
+  const connectorIcon = currentWallet?.icon
 
-  const stateRef = useRef({ address, isConnected, dAppKit, connectorInfo })
-  stateRef.current = { address, isConnected, dAppKit, connectorInfo }
+  const stateRef = useRef({
+    address,
+    isConnected,
+    dAppKit,
+    connectorName,
+    connectorIcon,
+  })
+  stateRef.current = {
+    address,
+    isConnected,
+    dAppKit,
+    connectorName,
+    connectorIcon,
+  }
 
   const emitRef = useRef<((event: string, data: unknown) => void) | null>(null)
 
@@ -45,20 +56,28 @@ export function useSuiIframeHandler(): IframeEcosystemHandler {
 
   useEffect(() => {
     if (isConnected && address) {
-      emitRef.current?.('connect', { address, connector: connectorInfo })
+      emitRef.current?.('connect', {
+        address,
+        connector: connectorName
+          ? { name: connectorName, icon: connectorIcon }
+          : undefined,
+      })
     } else {
       emitRef.current?.('disconnect', {})
     }
-  }, [isConnected, address, connectorInfo])
+  }, [isConnected, address, connectorName, connectorIcon])
 
   const getInitState = useCallback(() => {
-    const { address, isConnected, connectorInfo } = stateRef.current
+    const { address, isConnected, connectorName, connectorIcon } =
+      stateRef.current
     return {
       chainType: 'MVM' as const,
       state: {
         accounts: address ? [address] : [],
         connected: isConnected,
-        connector: connectorInfo,
+        connector: connectorName
+          ? { name: connectorName, icon: connectorIcon }
+          : undefined,
       },
     }
   }, [])

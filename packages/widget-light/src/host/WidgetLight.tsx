@@ -29,9 +29,9 @@ export interface WidgetLightProps {
    */
   iframeOrigin?: string
   /**
-   * When true (default), the iframe height auto-adjusts to match the guest
-   * content via RESIZE messages. Set to false for fluid layouts where the
-   * iframe should fill its parent and scroll internally.
+   * When true, the iframe height auto-adjusts to match the guest content
+   * via RESIZE messages. Defaults to false (the iframe fills its parent
+   * and scrolls internally).
    */
   autoResize?: boolean
   /**
@@ -62,7 +62,10 @@ export function WidgetLight({
   src = DEFAULT_WIDGET_URL,
   config,
   handlers,
-  iframeOrigin = new URL(src).origin,
+  iframeOrigin = new URL(
+    src,
+    typeof window !== 'undefined' ? window.location.origin : undefined
+  ).origin,
   autoResize,
   onConnect,
   style,

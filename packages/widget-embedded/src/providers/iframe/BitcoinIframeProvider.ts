@@ -22,7 +22,7 @@ export class BitcoinIframeProvider extends BaseIframeProvider {
   }
 
   protected override _registerBridgeCallbacks(): void {
-    this.bridge.onInit(this.chainType, (state) => {
+    this._unsubInit = this.bridge.onInit(this.chainType, (state) => {
       const s = state as {
         accounts: string[]
         connected: boolean
@@ -42,7 +42,7 @@ export class BitcoinIframeProvider extends BaseIframeProvider {
       }
     })
 
-    this.bridge.onEvent(this.chainType, (event, data) => {
+    this._unsubEvent = this.bridge.onEvent(this.chainType, (event, data) => {
       if (event === 'accountsChanged') {
         this._accounts = data as string[]
         this._connected = this._accounts.length > 0

@@ -20,23 +20,24 @@ export function useEthereumIframeHandler(): IframeEcosystemHandler {
   const publicClient = usePublicClient()
   const { mutateAsync: switchChainAsync } = useSwitchChain()
 
-  const connectorInfo = connector
-    ? { name: connector.name, icon: connector.icon }
-    : undefined
+  const connectorName = connector?.name
+  const connectorIcon = connector?.icon
 
   const stateRef = useRef({
     address,
     chainId,
     walletClient,
     publicClient,
-    connectorInfo,
+    connectorName,
+    connectorIcon,
   })
   stateRef.current = {
     address,
     chainId,
     walletClient,
     publicClient,
-    connectorInfo,
+    connectorName,
+    connectorIcon,
   }
 
   const emitRef = useRef<((event: string, data: unknown) => void) | null>(null)
@@ -53,18 +54,22 @@ export function useEthereumIframeHandler(): IframeEcosystemHandler {
     emitRef.current?.('chainChanged', hexChainId)
     emitRef.current?.('connect', {
       chainId: hexChainId,
-      connector: connectorInfo,
+      connector: connectorName
+        ? { name: connectorName, icon: connectorIcon }
+        : undefined,
     })
-  }, [chainId, connectorInfo])
+  }, [chainId, connectorName, connectorIcon])
 
   const getInitState = useCallback(() => {
-    const { address, chainId, connectorInfo } = stateRef.current
+    const { address, chainId, connectorName, connectorIcon } = stateRef.current
     return {
       chainType: 'EVM' as const,
       state: {
         accounts: address ? [address] : [],
         chainId: chainId ?? 1,
-        connector: connectorInfo,
+        connector: connectorName
+          ? { name: connectorName, icon: connectorIcon }
+          : undefined,
       },
     }
   }, [])

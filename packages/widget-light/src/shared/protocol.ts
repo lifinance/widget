@@ -146,6 +146,8 @@ export interface HostInitMessage {
   type: 'INIT'
   config: WidgetLightConfig
   ecosystems: EcosystemInitState[]
+  /** When true, the guest should report content height changes via RESIZE. */
+  autoResize?: boolean
 }
 
 /** Response to a GuestRpcRequest. Carries either the result or an RPC error. */

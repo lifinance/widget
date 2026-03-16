@@ -23,6 +23,8 @@ export class BaseIframeProvider {
   protected _accounts: string[] = []
   protected _connected = false
   protected _connector: IframeConnectorInfo = {}
+  protected _unsubInit?: () => void
+  protected _unsubEvent?: () => void
 
   get accounts(): string[] {
     return this._accounts
@@ -46,7 +48,7 @@ export class BaseIframeProvider {
   }
 
   protected _registerBridgeCallbacks(): void {
-    this.bridge.onInit(this.chainType, (state) => {
+    this._unsubInit = this.bridge.onInit(this.chainType, (state) => {
       const s = state as {
         accounts: string[]
         connected: boolean
@@ -64,7 +66,7 @@ export class BaseIframeProvider {
       }
     })
 
-    this.bridge.onEvent(this.chainType, (event, data) => {
+    this._unsubEvent = this.bridge.onEvent(this.chainType, (event, data) => {
       if (event === 'accountsChanged') {
         this._accounts = data as string[]
         this._connected = this._accounts.length > 0
@@ -79,6 +81,12 @@ export class BaseIframeProvider {
       }
       this.emit(event, data)
     })
+  }
+
+  destroy(): void {
+    this._unsubInit?.()
+    this._unsubEvent?.()
+    this.removeAllListeners()
   }
 
   waitForInit(): Promise<void> {

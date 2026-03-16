@@ -70,31 +70,37 @@ export const BitcoinIframeProviderValues: FC<PropsWithChildren> = ({
       provider.removeListener('accountsChanged', onAccountsChanged)
       provider.removeListener('connect', onConnect)
       provider.removeListener('disconnect', onDisconnect)
+      provider.destroy()
     }
   }, [provider])
 
   const address = walletState.accounts[0] ?? null
   const isConnected = walletState.connected && !!address
+  const connectorName = walletState.connector.name
+  const connectorIcon = walletState.connector.icon
 
-  const account = {
-    address: address ?? undefined,
-    addresses: address ? [address] : [],
-    chainType: ChainType.UTXO,
-    chainId: ChainId.BTC,
-    connector: isConnected
-      ? {
-          name: walletState.connector.name ?? 'Bitcoin Wallet',
-          icon: walletState.connector.icon,
-        }
-      : undefined,
-    isConnected,
-    isConnecting: false,
-    isReconnecting: false,
-    isDisconnected: !isConnected,
-    status: (isConnected ? 'connected' : 'disconnected') as
-      | 'connected'
-      | 'disconnected',
-  }
+  const account = useMemo(
+    () => ({
+      address: address ?? undefined,
+      addresses: address ? [address] : [],
+      chainType: ChainType.UTXO,
+      chainId: ChainId.BTC,
+      connector: isConnected
+        ? {
+            name: connectorName ?? 'Bitcoin Wallet',
+            icon: connectorIcon,
+          }
+        : undefined,
+      isConnected,
+      isConnecting: false,
+      isReconnecting: false,
+      isDisconnected: !isConnected,
+      status: (isConnected ? 'connected' : 'disconnected') as
+        | 'connected'
+        | 'disconnected',
+    }),
+    [address, isConnected, connectorName, connectorIcon]
+  )
 
   const sdkProvider = useMemo(
     () =>
@@ -111,19 +117,22 @@ export const BitcoinIframeProviderValues: FC<PropsWithChildren> = ({
     [provider]
   )
 
+  const contextValue = useMemo(
+    () => ({
+      isEnabled: true,
+      account,
+      sdkProvider,
+      installedWallets: [] as [],
+      isConnected,
+      isExternalContext: true,
+      connect: async () => {},
+      disconnect: async () => {},
+    }),
+    [account, sdkProvider, isConnected]
+  )
+
   return (
-    <BitcoinContext.Provider
-      value={{
-        isEnabled: true,
-        account,
-        sdkProvider,
-        installedWallets: [],
-        isConnected,
-        isExternalContext: true,
-        connect: async () => {},
-        disconnect: async () => {},
-      }}
-    >
+    <BitcoinContext.Provider value={contextValue}>
       {children}
     </BitcoinContext.Provider>
   )

@@ -47,9 +47,8 @@ export function useSolanaIframeHandler(
 
   const emitRef = useRef<((event: string, data: unknown) => void) | null>(null)
 
-  const connectorInfo = wallet
-    ? { name: wallet.name, icon: wallet.icon }
-    : undefined
+  const connectorName = wallet?.name
+  const connectorIcon = wallet?.icon
 
   useEffect(() => {
     emitRef.current?.('accountsChanged', address ? [address] : [])
@@ -57,11 +56,16 @@ export function useSolanaIframeHandler(
 
   useEffect(() => {
     if (connected && address) {
-      emitRef.current?.('connect', { address, connector: connectorInfo })
+      emitRef.current?.('connect', {
+        address,
+        connector: connectorName
+          ? { name: connectorName, icon: connectorIcon }
+          : undefined,
+      })
     } else {
       emitRef.current?.('disconnect', {})
     }
-  }, [connected, address, connectorInfo])
+  }, [connected, address, connectorName, connectorIcon])
 
   const getInitState = useCallback(() => {
     const { address, connected, wallet } = stateRef.current

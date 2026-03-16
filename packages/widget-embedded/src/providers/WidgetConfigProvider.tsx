@@ -5,6 +5,7 @@ import {
   createContext,
   type FC,
   type PropsWithChildren,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -20,32 +21,6 @@ export const EMBEDDED_DEFAULT_CONFIG: Partial<WidgetConfig> = {
 const WidgetConfigContext = createContext<Partial<WidgetConfig> | null>(null)
 
 export const useEmbeddedWidgetConfig = () => useContext(WidgetConfigContext)
-
-/**
- * Converts the serializable WidgetLightConfig into a Partial<WidgetConfig>,
- * injecting `walletConfig.onConnect` when the host signals external wallet
- * management via `useExternalWalletManagement`.
- */
-function toWidgetConfig(cfg: WidgetLightConfig): Partial<WidgetConfig> {
-  const base = cfg as unknown as Partial<WidgetConfig>
-  if (!cfg.walletConfig?.useExternalWalletManagement) {
-    return base
-  }
-  const bridge = GuestBridge.getInstance()
-  return {
-    ...base,
-    walletConfig: {
-      ...base.walletConfig,
-      onConnect(args) {
-        bridge.sendConnectWalletRequest(
-          args
-            ? { chainId: args.chain?.id, chainType: args.chainType }
-            : undefined
-        )
-      },
-    },
-  }
-}
 
 export const WidgetConfigProvider: FC<PropsWithChildren> = ({ children }) => {
   const [lightConfig, setLightConfig] = useState<WidgetLightConfig | null>(
@@ -65,10 +40,34 @@ export const WidgetConfigProvider: FC<PropsWithChildren> = ({ children }) => {
     return bridge.onConfig(setLightConfig)
   }, [])
 
-  const config = useMemo(
-    () => (lightConfig ? toWidgetConfig(lightConfig) : null),
-    [lightConfig]
-  )
+  // Stable reference so downstream consumers don't re-render on every
+  // CONFIG_UPDATE just because the onConnect closure was recreated.
+  const onConnect: WidgetConfig['walletConfig'] extends
+    | { onConnect?: infer F }
+    | undefined
+    ? F
+    : never = useCallback((args: any) => {
+    GuestBridge.getInstance().sendConnectWalletRequest(
+      args ? { chainId: args.chain?.id, chainType: args.chainType } : undefined
+    )
+  }, [])
+
+  const config = useMemo(() => {
+    if (!lightConfig) {
+      return null
+    }
+    const base = lightConfig as unknown as Partial<WidgetConfig>
+    if (!lightConfig.walletConfig?.useExternalWalletManagement) {
+      return base
+    }
+    return {
+      ...base,
+      walletConfig: {
+        ...base.walletConfig,
+        onConnect,
+      },
+    }
+  }, [lightConfig, onConnect])
 
   const value = isInsideIframe ? config : EMBEDDED_DEFAULT_CONFIG
 

@@ -72,35 +72,42 @@ export const SuiIframeProviderValues: FC<PropsWithChildren> = ({
       provider.removeListener('accountsChanged', onAccountsChanged)
       provider.removeListener('connect', onConnect)
       provider.removeListener('disconnect', onDisconnect)
+      provider.destroy()
     }
   }, [provider])
 
   const address = walletState.accounts[0] ?? null
   const isConnected = walletState.connected && !!address
+  const connectorName = walletState.connector.name
+  const connectorIcon = walletState.connector.icon
 
-  const account = isConnected
-    ? {
-        address,
-        chainId: ChainId.SUI,
-        chainType: ChainType.MVM,
-        connector: {
-          name: walletState.connector.name ?? 'Sui Wallet',
-          icon: walletState.connector.icon,
-        },
-        isConnected: true as const,
-        isConnecting: false,
-        isReconnecting: false,
-        isDisconnected: false,
-        status: 'connected' as const,
-      }
-    : {
-        chainType: ChainType.MVM,
-        isConnected: false as const,
-        isConnecting: false,
-        isReconnecting: false,
-        isDisconnected: true,
-        status: 'disconnected' as const,
-      }
+  const account = useMemo(
+    () =>
+      isConnected
+        ? {
+            address,
+            chainId: ChainId.SUI,
+            chainType: ChainType.MVM,
+            connector: {
+              name: connectorName ?? 'Sui Wallet',
+              icon: connectorIcon,
+            },
+            isConnected: true as const,
+            isConnecting: false,
+            isReconnecting: false,
+            isDisconnected: false,
+            status: 'connected' as const,
+          }
+        : {
+            chainType: ChainType.MVM,
+            isConnected: false as const,
+            isConnecting: false,
+            isReconnecting: false,
+            isDisconnected: true,
+            status: 'disconnected' as const,
+          },
+    [address, isConnected, connectorName, connectorIcon]
+  )
 
   const sdkProvider = useMemo(
     () =>
@@ -115,20 +122,21 @@ export const SuiIframeProviderValues: FC<PropsWithChildren> = ({
     [address, provider]
   )
 
+  const contextValue = useMemo(
+    () => ({
+      isEnabled: true,
+      account,
+      sdkProvider,
+      installedWallets: [] as [],
+      isConnected,
+      isExternalContext: true,
+      connect: async () => {},
+      disconnect: async () => {},
+    }),
+    [account, sdkProvider, isConnected]
+  )
+
   return (
-    <SuiContext.Provider
-      value={{
-        isEnabled: true,
-        account,
-        sdkProvider,
-        installedWallets: [],
-        isConnected,
-        isExternalContext: true,
-        connect: async () => {},
-        disconnect: async () => {},
-      }}
-    >
-      {children}
-    </SuiContext.Provider>
+    <SuiContext.Provider value={contextValue}>{children}</SuiContext.Provider>
   )
 }
