@@ -6,7 +6,7 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills'
 // The guest (iframe) page is served from VITE_WIDGET_URL (default: https://widget.li.fi).
 export default defineConfig({
   plugins: [nodePolyfills(), react()],
-  esbuild: {
+  oxc: {
     target: 'esnext',
   },
   server: {

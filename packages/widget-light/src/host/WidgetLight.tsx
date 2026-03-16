@@ -1,13 +1,18 @@
 import type { CSSProperties } from 'react'
 import type {
+  ConnectWalletArgs,
   IframeEcosystemHandler,
   WidgetLightConfig,
 } from '../shared/protocol.js'
+import { DEFAULT_WIDGET_URL } from './constants.js'
 import { useWidgetLightHost } from './useWidgetLightHost.js'
 
 export interface WidgetLightProps {
-  /** URL of the widget iframe page. */
-  src: string
+  /**
+   * URL of the widget iframe page.
+   * Defaults to {@link DEFAULT_WIDGET_URL} (`'https://widget.li.fi'`).
+   */
+  src?: string
   /**
    * Widget configuration to pass to the iframe on init.
    * Must be JSON-serialisable (no React nodes or functions).
@@ -20,15 +25,21 @@ export interface WidgetLightProps {
   handlers?: IframeEcosystemHandler[]
   /**
    * Expected origin of the iframe for origin-pinning security.
-   * Defaults to '*' — always set this in production.
+   * Derived from `src` when not provided.
    */
   iframeOrigin?: string
   /**
-   * When true (default), the iframe height auto-adjusts to match the guest
-   * content via RESIZE messages. Set to false for fluid layouts where the
-   * iframe should fill its parent and scroll internally.
+   * When true, the iframe height auto-adjusts to match the guest content
+   * via RESIZE messages. Defaults to false (the iframe fills its parent
+   * and scrolls internally).
    */
   autoResize?: boolean
+  /**
+   * Called when the widget requests an external wallet connection.
+   * When provided, the widget will send a CONNECT_WALLET_REQUEST to the
+   * host instead of opening its internal wallet menu.
+   */
+  onConnect?(args?: ConnectWalletArgs): void
   style?: CSSProperties
   className?: string
   title?: string
@@ -37,6 +48,8 @@ export interface WidgetLightProps {
 /**
  * Drop-in host-side component that renders an `<iframe>` and automatically
  * wires up the widget-light postMessage bridge using `useWidgetLightHost`.
+ *
+ * **Note:** Only one `<WidgetLight>` instance per page is supported.
  *
  * @example
  * <WidgetLight
@@ -48,11 +61,15 @@ export interface WidgetLightProps {
  * />
  */
 export function WidgetLight({
-  src,
+  src = DEFAULT_WIDGET_URL,
   config,
   handlers,
-  iframeOrigin,
+  iframeOrigin = new URL(
+    src,
+    typeof window !== 'undefined' ? window.location.origin : undefined
+  ).origin,
   autoResize,
+  onConnect,
   style,
   className,
   title = 'LI.FI Widget',
@@ -62,6 +79,7 @@ export function WidgetLight({
     handlers,
     iframeOrigin,
     autoResize,
+    onConnect,
   })
 
   return (

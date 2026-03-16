@@ -3,7 +3,7 @@ import {
   getConnectorClient as getBigmiConnectorClient,
 } from '@bigmi/client'
 import { useAccount, useConfig } from '@bigmi/react'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import type { IframeEcosystemHandler } from '../../shared/protocol.js'
 
 /**
@@ -14,20 +14,34 @@ import type { IframeEcosystemHandler } from '../../shared/protocol.js'
  *
  * Supported methods:
  *   - `getAccount`   → returns current account info
- *   - `signPsbt`     → sign a PSBT (base64)
- *   - `sendBitcoin`  → send bitcoin to an address
- *   - `getAddresses` → get wallet addresses
- *   - Generic methods are forwarded to the wallet client
+ *   - All other methods are forwarded to the wallet client
  */
 export function useBitcoinIframeHandler(): IframeEcosystemHandler {
   const bigmiConfig = useConfig()
   const currentWallet = useAccount()
 
   const address = currentWallet.account?.address
+  const publicKey = currentWallet.account?.publicKey
   const isConnected = currentWallet.isConnected
+  const connectorName = currentWallet.connector?.name
+  const connectorIcon = currentWallet.connector?.icon
 
-  const stateRef = useRef({ address, isConnected, bigmiConfig })
-  stateRef.current = { address, isConnected, bigmiConfig }
+  const stateRef = useRef({
+    address,
+    publicKey,
+    isConnected,
+    bigmiConfig,
+    connectorName,
+    connectorIcon,
+  })
+  stateRef.current = {
+    address,
+    publicKey,
+    isConnected,
+    bigmiConfig,
+    connectorName,
+    connectorIcon,
+  }
 
   const emitRef = useRef<((event: string, data: unknown) => void) | null>(null)
 
@@ -37,19 +51,29 @@ export function useBitcoinIframeHandler(): IframeEcosystemHandler {
 
   useEffect(() => {
     if (isConnected && address) {
-      emitRef.current?.('connect', { address })
+      emitRef.current?.('connect', {
+        address,
+        connector: connectorName
+          ? { name: connectorName, icon: connectorIcon }
+          : undefined,
+      })
     } else {
       emitRef.current?.('disconnect', {})
     }
-  }, [isConnected, address])
+  }, [isConnected, address, connectorName, connectorIcon])
 
   const getInitState = useCallback(() => {
-    const { address, isConnected } = stateRef.current
+    const { address, publicKey, isConnected, connectorName, connectorIcon } =
+      stateRef.current
     return {
       chainType: 'UTXO' as const,
       state: {
         accounts: address ? [address] : [],
         connected: isConnected,
+        publicKey: publicKey ?? null,
+        connector: connectorName
+          ? { name: connectorName, icon: connectorIcon }
+          : undefined,
       },
     }
   }, [])
@@ -63,28 +87,15 @@ export function useBitcoinIframeHandler(): IframeEcosystemHandler {
         throw new Error('Bitcoin wallet not connected')
       }
 
-      switch (method) {
-        case 'getAccount':
-          return { address }
-
-        case 'signPsbt':
-        case 'sendBitcoin':
-        case 'getAddresses': {
-          const client = await getBigmiConnectorClient(bigmiConfig)
-          return (client as any).request({
-            method,
-            params: params as any,
-          })
-        }
-
-        default: {
-          const client = await getBigmiConnectorClient(bigmiConfig)
-          return (client as any).request({
-            method,
-            params: params as any,
-          })
-        }
+      if (method === 'getAccount') {
+        return { address, publicKey: stateRef.current.publicKey ?? null }
       }
+
+      const client = await getBigmiConnectorClient(bigmiConfig)
+      return (client as any).request({
+        method,
+        params: params as any,
+      })
     },
     []
   )
@@ -99,10 +110,13 @@ export function useBitcoinIframeHandler(): IframeEcosystemHandler {
     []
   )
 
-  return {
-    chainType: 'UTXO',
-    getInitState,
-    handleRequest,
-    subscribe,
-  }
+  return useMemo(
+    () => ({
+      chainType: 'UTXO' as const,
+      getInitState,
+      handleRequest,
+      subscribe,
+    }),
+    [getInitState, handleRequest, subscribe]
+  )
 }

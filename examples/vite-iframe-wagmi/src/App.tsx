@@ -4,9 +4,6 @@ import { useMemo } from 'react'
 import { WalletHeader } from './components/WalletHeader'
 import { widgetConfig } from './widgetConfig'
 
-const WIDGET_URL = import.meta.env.VITE_WIDGET_URL || 'https://widget.li.fi'
-const WIDGET_ORIGIN = new URL(WIDGET_URL).origin
-
 export function HostApp() {
   const ethHandler = useEthereumIframeHandler()
   const handlers = useMemo(() => [ethHandler], [ethHandler])
@@ -17,10 +14,8 @@ export function HostApp() {
 
       <div className="app-content">
         <LiFiWidgetLight
-          src={WIDGET_URL}
           config={widgetConfig}
           handlers={handlers}
-          iframeOrigin={WIDGET_ORIGIN}
           autoResize={false}
           className="widget-iframe"
           title="LI.FI Widget"

@@ -1,7 +1,5 @@
-import type { RpcError, WidgetLightConfig } from '@lifi/widget-light'
-import { GuestBridge } from '@lifi/widget-light'
-
-type Listener = (...args: unknown[]) => void
+import type { IframeConnectorInfo } from './BaseIframeProvider.js'
+import { BaseIframeProvider } from './BaseIframeProvider.js'
 
 /**
  * EIP-1193 compatible provider that bridges the iframe guest to the parent
@@ -15,45 +13,58 @@ type Listener = (...args: unknown[]) => void
  *  4. EIP-1193 events (accountsChanged, chainChanged, etc.) are emitted
  *     locally for the wagmi connector to consume.
  */
-export class EthereumIframeProvider {
-  private readonly _listeners = new Map<string, Set<Listener>>()
-  private readonly bridge = GuestBridge.getInstance()
-
-  private accounts: string[] = []
+export class EthereumIframeProvider extends BaseIframeProvider {
   private _chainIdHex: `0x${string}` = '0x1'
 
   get chainIdHex(): `0x${string}` {
     return this._chainIdHex
   }
 
-  get config(): WidgetLightConfig | null {
-    return this.bridge.config
+  constructor() {
+    super('EVM')
   }
 
-  constructor() {
-    this.bridge.onInit('EVM', (state) => {
-      const s = state as { accounts: string[]; chainId: number }
-      this.accounts = s.accounts
+  protected override _registerBridgeCallbacks(): void {
+    this._unsubInit?.()
+    this._unsubEvent?.()
+
+    this._unsubInit = this.bridge.onInit('EVM', (state) => {
+      const s = state as {
+        accounts: string[]
+        chainId: number
+        connector?: IframeConnectorInfo
+      }
+      this._accounts = s.accounts
+      this._connected = s.accounts.length > 0
       this._chainIdHex = `0x${s.chainId.toString(16)}`
+      if (s.connector) {
+        this._connector = s.connector
+        this.emit('connectorUpdate', s.connector)
+      }
 
       this.emit('chainChanged', this._chainIdHex)
       this.emit('connect', { chainId: this._chainIdHex })
-      this.emit('accountsChanged', this.accounts)
+      this.emit('accountsChanged', this._accounts)
     })
 
-    this.bridge.onEvent('EVM', (event, data) => {
+    this._unsubEvent = this.bridge.onEvent('EVM', (event, data) => {
       if (event === 'accountsChanged') {
-        this.accounts = data as string[]
-      }
-      if (event === 'chainChanged') {
+        this._accounts = data as string[]
+        this._connected = this._accounts.length > 0
+      } else if (event === 'connect') {
+        const d = data as { connector?: IframeConnectorInfo }
+        if (d.connector) {
+          this._connector = d.connector
+          this.emit('connectorUpdate', d.connector)
+        }
+      } else if (event === 'chainChanged') {
         this._chainIdHex = data as `0x${string}`
+      } else if (event === 'disconnect') {
+        this._accounts = []
+        this._connected = false
       }
       this.emit(event, data)
     })
-  }
-
-  waitForInit(): Promise<void> {
-    return this.bridge.waitForInit()
   }
 
   async request({
@@ -68,57 +79,28 @@ export class EthereumIframeProvider {
     switch (method) {
       case 'eth_accounts':
       case 'eth_requestAccounts':
-        return this.accounts
+        return this._accounts
 
       case 'eth_chainId':
         return this.chainIdHex
 
       case 'net_version':
-        return String(parseInt(this.chainIdHex, 16))
+        return String(Number.parseInt(this.chainIdHex, 16))
+
+      case 'wallet_switchEthereumChain': {
+        const result = await this.bridge.sendRpcRequest('EVM', method, params)
+        // Optimistically update so getChainId() is correct before the
+        // bridge's async chainChanged EVENT arrives. No emit here — the
+        // bridge event is the single source of truth for consumers.
+        const requested = (params as [{ chainId: `0x${string}` }])?.[0]?.chainId
+        if (requested) {
+          this._chainIdHex = requested
+        }
+        return result
+      }
 
       default:
         return this.bridge.sendRpcRequest('EVM', method, params)
     }
   }
-
-  // ---------------------------------------------------------------------------
-  // EIP-1193 event emitter interface
-  // ---------------------------------------------------------------------------
-
-  on(event: string, listener: Listener): this {
-    let set = this._listeners.get(event)
-    if (!set) {
-      set = new Set()
-      this._listeners.set(event, set)
-    }
-    set.add(listener)
-    return this
-  }
-
-  removeListener(event: string, listener: Listener): this {
-    this._listeners.get(event)?.delete(listener)
-    return this
-  }
-
-  emit(event: string, ...args: unknown[]): boolean {
-    const set = this._listeners.get(event)
-    if (!set || set.size === 0) {
-      return false
-    }
-    for (const listener of set) {
-      listener(...args)
-    }
-    return true
-  }
-
-  removeAllListeners(event?: string): this {
-    if (event) {
-      this._listeners.delete(event)
-    } else {
-      this._listeners.clear()
-    }
-    return this
-  }
 }
-
-export type { RpcError, WidgetLightConfig }

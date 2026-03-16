@@ -9,7 +9,7 @@
         "viem",
         "@bigmi/client",
         "@bigmi/react",
-        "@mysten/dapp-kit",
+        "@mysten/dapp-kit-react",
         "@wallet-standard/base"
       ]
     },

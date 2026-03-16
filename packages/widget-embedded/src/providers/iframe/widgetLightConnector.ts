@@ -22,15 +22,13 @@ type ConnectorEmitter = Parameters<CreateConnectorFn>[0]['emitter']
  *
  * To keep provider event listeners pointing at the **current** wagmi emitter
  * after re-creation, we store a mutable `latestEmitter` ref in the outer
- * `widgetLightIframe()` closure. It is updated on every factory invocation.
- * The provider's listeners read from this ref instead of capturing the
- * original `config.emitter`.
+ * closure. It is updated on every factory invocation.
  */
-widgetLightConnector.type = 'widget-light-iframe' as const
-
 export function widgetLightConnector() {
   let provider_: EthereumIframeProvider | undefined
   let latestEmitter: ConnectorEmitter
+  // Mutable ref to wagmi's spread connector object, updated in setup().
+  let connectorRef: Record<string, unknown> | undefined
 
   return createConnector<EthereumIframeProvider | undefined>((config) => {
     latestEmitter = config.emitter
@@ -41,7 +39,9 @@ export function widgetLightConnector() {
       type: widgetLightConnector.type,
 
       async setup() {
-        await this.getProvider()
+        // `this` is wagmi's spread connector object — capture it so we
+        // can mutate name/icon when connector info arrives from the host.
+        connectorRef = this as unknown as Record<string, unknown>
       },
 
       async getProvider() {
@@ -70,18 +70,28 @@ export function widgetLightConnector() {
           provider_.on('disconnect', () => {
             latestEmitter.emit('disconnect')
           })
+
+          // Update wagmi connector with the host wallet's name/icon.
+          provider_.on('connectorUpdate', () => {
+            const info = provider_?.connector
+            if (connectorRef && info?.name) {
+              connectorRef.name = info.name
+              connectorRef.icon = info.icon
+            }
+          })
+
+          // Apply eagerly if init already fired before this listener existed.
+          if (connectorRef && provider_.connector?.name) {
+            connectorRef.name = provider_.connector.name
+            connectorRef.icon = provider_.connector.icon
+          }
         }
         return provider_
       },
 
       async isAuthorized() {
-        try {
-          const accounts = await this.getAccounts()
-          const result = accounts.length > 0
-          return result
-        } catch {
-          return false
-        }
+        const accounts = await this.getAccounts().catch(() => [])
+        return accounts.length > 0
       },
 
       async connect({ withCapabilities } = {}) {
@@ -108,6 +118,8 @@ export function widgetLightConnector() {
       },
 
       async disconnect() {
+        provider_?.destroy()
+        provider_ = undefined
         latestEmitter.emit('disconnect')
       },
 
@@ -149,13 +161,13 @@ export function widgetLightConnector() {
         return fromHex(chainId, 'number')
       },
 
-      onAccountsChanged(accounts) {
+      onAccountsChanged(accounts: string[]) {
         latestEmitter.emit('change', {
           accounts: accounts.map(getAddress),
         })
       },
 
-      onChainChanged(chainId) {
+      onChainChanged(chainId: string | number) {
         latestEmitter.emit('change', {
           chainId: typeof chainId === 'string' ? Number(chainId) : chainId,
         })
@@ -167,3 +179,5 @@ export function widgetLightConnector() {
     }
   })
 }
+
+widgetLightConnector.type = 'widget-light-iframe' as const

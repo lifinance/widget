@@ -1,10 +1,13 @@
 import { useCallback, useEffect, useRef } from 'react'
 import type {
+  ConnectWalletArgs,
   HostMessage,
   IframeEcosystemHandler,
+  RpcError,
   WidgetLightConfig,
 } from '../shared/protocol.js'
 import { WIDGET_LIGHT_SOURCE } from '../shared/protocol.js'
+import { WidgetLightEventBus } from './WidgetLightEventBus.js'
 
 export interface UseWidgetLightHostOptions {
   /**
@@ -24,12 +27,19 @@ export interface UseWidgetLightHostOptions {
    */
   iframeOrigin?: string
   /**
-   * When true (default), the hook listens for RESIZE messages from the guest
+   * When true, the hook listens for RESIZE messages from the guest
    * and updates the iframe element's height directly via the DOM ref.
-   * No React state is involved — the DOM mutation is synchronous and does not
-   * trigger a re-render of the host tree.
+   * Defaults to false — set to true when the iframe should grow to match
+   * its content height instead of scrolling internally.
    */
   autoResize?: boolean
+  /**
+   * Called when the widget requests an external wallet connection.
+   * If provided, the widget inside the iframe will call this instead of
+   * opening its internal wallet menu. Use this to open your own wallet
+   * connect modal on the host page.
+   */
+  onConnect?(args?: ConnectWalletArgs): void
 }
 
 /**
@@ -53,22 +63,31 @@ export interface UseWidgetLightHostOptions {
  *   return <iframe ref={iframeRef} src="https://widget.li.fi" />
  * }
  */
+const EMPTY_HANDLERS: IframeEcosystemHandler[] = []
+
 export function useWidgetLightHost({
   config,
-  handlers = [],
+  handlers = EMPTY_HANDLERS,
   iframeOrigin,
-  autoResize = true,
+  autoResize = false,
+  onConnect,
 }: UseWidgetLightHostOptions) {
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
-  const stateRef = useRef({ config, handlers })
-  stateRef.current = { config, handlers }
+  const stateRef = useRef({ config, handlers, onConnect, autoResize })
+  stateRef.current = { config, handlers, onConnect, autoResize }
+
+  // Tracks whether the READY→INIT handshake has completed at least once.
+  const readyRef = useRef(false)
 
   // ---------------------------------------------------------------------------
   // Memoised helper — stable reference so it can be a proper effect dependency
   // ---------------------------------------------------------------------------
   const sendToIframe = useCallback(
     (msg: HostMessage) => {
+      if (!readyRef.current) {
+        return
+      }
       iframeRef.current?.contentWindow?.postMessage(msg, iframeOrigin ?? '*')
     },
     [iframeOrigin]
@@ -96,27 +115,42 @@ export function useWidgetLightHost({
 
       // ── READY ──────────────────────────────────────────────────────────────
       if (msg.type === 'READY') {
-        const { config, handlers } = stateRef.current
+        const { config, handlers, onConnect, autoResize } = stateRef.current
         const ecosystems = handlers
           .map((h) => h.getInitState())
           .filter(Boolean) as NonNullable<
           ReturnType<IframeEcosystemHandler['getInitState']>
         >[]
 
+        readyRef.current = true
         sendToIframe({
           source: WIDGET_LIGHT_SOURCE,
           type: 'INIT',
-          config,
+          config: enrichConfig(config, onConnect),
           ecosystems,
+          autoResize,
         })
+        // Re-register to replay subscriptions that were lost before the
+        // iframe's JS loaded.
+        WidgetLightEventBus._register(sendToIframe)
         return
       }
 
       // ── RESIZE ─────────────────────────────────────────────────────────────
       if (msg.type === 'RESIZE' && autoResize) {
-        if (iframeRef.current) {
-          iframeRef.current.style.height = `${msg.height}px`
-        }
+        iframeRef.current.style.height = `${msg.height}px`
+        return
+      }
+
+      // ── WIDGET_EVENT ───────────────────────────────────────────────────────
+      if (msg.type === 'WIDGET_EVENT') {
+        WidgetLightEventBus._receiveEvent(msg.event, msg.data)
+        return
+      }
+
+      // ── CONNECT_WALLET_REQUEST ────────────────────────────────────────
+      if (msg.type === 'CONNECT_WALLET_REQUEST') {
+        stateRef.current.onConnect?.(msg.args)
         return
       }
 
@@ -124,12 +158,21 @@ export function useWidgetLightHost({
       if (msg.type === 'RPC_REQUEST') {
         const { handlers } = stateRef.current
         const handler = handlers.find((h) => h.chainType === msg.chainType)
-        if (!handler) {
+
+        const sendRpcResponse = (
+          payload: { result: unknown } | { error: RpcError }
+        ) => {
           sendToIframe({
             source: WIDGET_LIGHT_SOURCE,
             type: 'RPC_RESPONSE',
             chainType: msg.chainType,
             id: msg.id,
+            ...payload,
+          })
+        }
+
+        if (!handler) {
+          sendRpcResponse({
             error: {
               code: -32601,
               message: `No handler registered for chain type: ${msg.chainType}`,
@@ -144,20 +187,10 @@ export function useWidgetLightHost({
             msg.method,
             msg.params
           )
-          sendToIframe({
-            source: WIDGET_LIGHT_SOURCE,
-            type: 'RPC_RESPONSE',
-            chainType: msg.chainType,
-            id: msg.id,
-            result,
-          })
+          sendRpcResponse({ result })
         } catch (err: unknown) {
           const e = err as { code?: number; message?: string; data?: unknown }
-          sendToIframe({
-            source: WIDGET_LIGHT_SOURCE,
-            type: 'RPC_RESPONSE',
-            chainType: msg.chainType,
-            id: msg.id,
+          sendRpcResponse({
             error: {
               code: e.code ?? -32000,
               message: e.message ?? 'Unknown error',
@@ -173,26 +206,86 @@ export function useWidgetLightHost({
   }, [autoResize, iframeOrigin, sendToIframe])
 
   // ---------------------------------------------------------------------------
-  // Subscribe to each handler's events and forward them to the iframe
+  // Push config updates to the iframe when config changes (after INIT)
   // ---------------------------------------------------------------------------
   useEffect(() => {
-    const unsubscribes = handlers.map((handler) =>
-      handler.subscribe((event, data) => {
-        sendToIframe({
-          source: WIDGET_LIGHT_SOURCE,
-          type: 'EVENT',
-          chainType: handler.chainType,
-          event,
-          data,
+    sendToIframe({
+      source: WIDGET_LIGHT_SOURCE,
+      type: 'CONFIG_UPDATE',
+      config: enrichConfig(config, onConnect),
+    })
+  }, [config, onConnect, sendToIframe])
+
+  // ---------------------------------------------------------------------------
+  // Subscribe to each handler's events and forward them to the iframe.
+  // Ref-based to avoid teardown when only the array identity changes.
+  // ---------------------------------------------------------------------------
+  const subscriptionsRef = useRef(new Map<IframeEcosystemHandler, () => void>())
+
+  useEffect(() => {
+    const current = subscriptionsRef.current
+    const nextSet = new Set(handlers)
+
+    for (const [handler, unsub] of current) {
+      if (!nextSet.has(handler)) {
+        unsub()
+        current.delete(handler)
+      }
+    }
+
+    for (const handler of handlers) {
+      if (!current.has(handler)) {
+        const unsub = handler.subscribe((event, data) => {
+          sendToIframe({
+            source: WIDGET_LIGHT_SOURCE,
+            type: 'EVENT',
+            chainType: handler.chainType,
+            event,
+            data,
+          })
         })
-      })
-    )
+        current.set(handler, unsub)
+      }
+    }
+
     return () => {
-      for (const unsub of unsubscribes) {
+      for (const unsub of current.values()) {
         unsub()
       }
+      current.clear()
     }
   }, [handlers, sendToIframe])
 
+  // ---------------------------------------------------------------------------
+  // Register/unregister the event bus send function
+  // ---------------------------------------------------------------------------
+  useEffect(() => {
+    WidgetLightEventBus._register(sendToIframe)
+    return () => {
+      WidgetLightEventBus._unregister()
+    }
+  }, [sendToIframe])
+
   return { iframeRef }
+}
+
+/**
+ * Injects `useExternalWalletManagement` into the config when the host
+ * provides an `onConnect` callback, so the guest knows to send
+ * CONNECT_WALLET_REQUEST instead of opening its internal wallet menu.
+ */
+function enrichConfig(
+  config: WidgetLightConfig,
+  onConnect?: (args?: ConnectWalletArgs) => void
+): WidgetLightConfig {
+  if (!onConnect) {
+    return config
+  }
+  return {
+    ...config,
+    walletConfig: {
+      ...config.walletConfig,
+      useExternalWalletManagement: true,
+    },
+  }
 }

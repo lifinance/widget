@@ -1,5 +1,4 @@
-import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
-import react from '@vitejs/plugin-react-swc'
+import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 // biome-ignore lint/correctness/noUnusedImports: used when testing wallet providers that require https
 import mkcert from 'vite-plugin-mkcert'
@@ -12,24 +11,11 @@ export default defineConfig({
     nodePolyfills(),
     react(),
   ],
-  esbuild: {
+  oxc: {
     target: 'esnext',
   },
   build: {
     sourcemap: true,
-  },
-  optimizeDeps: {
-    esbuildOptions: {
-      define: {
-        global: 'globalThis',
-      },
-      plugins: [
-        NodeGlobalsPolyfillPlugin({
-          process: true,
-          buffer: true,
-        }),
-      ],
-    },
   },
   server: {
     port: 3000,

@@ -1,4 +1,5 @@
 import type {
+  ConnectWalletArgs,
   EcosystemInitState,
   HostMessage,
   WidgetLightChainType,
@@ -15,6 +16,7 @@ interface PendingRequest {
 type InitCallback = (state: unknown) => void
 type EventCallback = (event: string, data: unknown) => void
 type ConfigCallback = (config: WidgetLightConfig) => void
+type SubscriptionChangeCallback = (event: string, subscribed: boolean) => void
 
 const RPC_TIMEOUT_MS = 60_000
 
@@ -52,6 +54,8 @@ export class GuestBridge {
     Set<EventCallback>
   >()
   private readonly configCallbacks = new Set<ConfigCallback>()
+  private readonly subscribedEvents = new Set<string>()
+  private readonly subscriptionCallbacks = new Set<SubscriptionChangeCallback>()
 
   private readonly initPromise: Promise<void>
   private initResolve!: () => void
@@ -59,6 +63,10 @@ export class GuestBridge {
   private _config: WidgetLightConfig | null = null
   private _ecosystems: EcosystemInitState[] = []
   private trustedOrigin = '*'
+  private _resizeObserver: ResizeObserver | null = null
+  private _rafId = 0
+  private _retryInterval: ReturnType<typeof setInterval> | null = null
+  private _retryTimeout: ReturnType<typeof setTimeout> | null = null
 
   get config(): WidgetLightConfig | null {
     return this._config
@@ -186,6 +194,73 @@ export class GuestBridge {
     }
   }
 
+  /**
+   * Register a callback invoked when the host subscribes or unsubscribes
+   * from a widget event. Returns an unsubscribe function.
+   */
+  onWidgetEventSubscriptionChange(
+    callback: SubscriptionChangeCallback
+  ): () => void {
+    this.subscriptionCallbacks.add(callback)
+    return () => {
+      this.subscriptionCallbacks.delete(callback)
+    }
+  }
+
+  /**
+   * Tear down the bridge: remove the message listener, disconnect the
+   * ResizeObserver, clear retry timers, and reset the singleton.
+   */
+  destroy(): void {
+    window.removeEventListener('message', this.handleMessage)
+    this.clearRetryTimers()
+    this._resizeObserver?.disconnect()
+    this._resizeObserver = null
+    cancelAnimationFrame(this._rafId)
+    this._rafId = 0
+    for (const pending of this.pendingRequests.values()) {
+      clearTimeout(pending.timer)
+      pending.reject(new Error('Bridge destroyed'))
+    }
+    this.pendingRequests.clear()
+    this.initCallbacks.clear()
+    this.eventCallbacks.clear()
+    this.configCallbacks.clear()
+    this.subscriptionCallbacks.clear()
+    GuestBridge.instance = null
+  }
+
+  /** Returns the set of event names the host is currently subscribed to. */
+  getSubscribedEvents(): ReadonlySet<string> {
+    return this.subscribedEvents
+  }
+
+  /** Forward a widget event to the host via postMessage. */
+  sendWidgetEvent(event: string, data: unknown): void {
+    if (typeof window === 'undefined' || window.parent === window) {
+      return
+    }
+    window.parent.postMessage(
+      { source: WIDGET_LIGHT_SOURCE, type: 'WIDGET_EVENT', event, data },
+      this.trustedOrigin
+    )
+  }
+
+  /** Request the host to open its external wallet connect modal. */
+  sendConnectWalletRequest(args?: ConnectWalletArgs): void {
+    if (typeof window === 'undefined' || window.parent === window) {
+      return
+    }
+    window.parent.postMessage(
+      {
+        source: WIDGET_LIGHT_SOURCE,
+        type: 'CONNECT_WALLET_REQUEST',
+        args,
+      },
+      this.trustedOrigin
+    )
+  }
+
   // ---------------------------------------------------------------------------
   // Private
   // ---------------------------------------------------------------------------
@@ -200,15 +275,26 @@ export class GuestBridge {
 
     sendReady()
 
-    const interval = setInterval(() => {
+    this._retryInterval = setInterval(() => {
       if (this._config !== null) {
-        clearInterval(interval)
+        this.clearRetryTimers()
         return
       }
       sendReady()
     }, 250)
 
-    setTimeout(() => clearInterval(interval), 30_000)
+    this._retryTimeout = setTimeout(() => this.clearRetryTimers(), 30_000)
+  }
+
+  private clearRetryTimers(): void {
+    if (this._retryInterval) {
+      clearInterval(this._retryInterval)
+      this._retryInterval = null
+    }
+    if (this._retryTimeout) {
+      clearTimeout(this._retryTimeout)
+      this._retryTimeout = null
+    }
   }
 
   private readonly handleMessage = (event: MessageEvent): void => {
@@ -228,12 +314,36 @@ export class GuestBridge {
       case 'INIT':
         this.handleInit(msg, event.origin)
         break
+      case 'CONFIG_UPDATE':
+        this.handleConfigUpdate(msg)
+        break
       case 'RPC_RESPONSE':
         this.handleRpcResponse(msg)
         break
       case 'EVENT':
         this.handleEvent(msg)
         break
+      case 'WIDGET_EVENT_SUBSCRIBE':
+        this.subscribedEvents.add(msg.event)
+        for (const cb of this.subscriptionCallbacks) {
+          cb(msg.event, true)
+        }
+        break
+      case 'WIDGET_EVENT_UNSUBSCRIBE':
+        this.subscribedEvents.delete(msg.event)
+        for (const cb of this.subscriptionCallbacks) {
+          cb(msg.event, false)
+        }
+        break
+    }
+  }
+
+  private handleConfigUpdate(
+    msg: Extract<HostMessage, { type: 'CONFIG_UPDATE' }>
+  ): void {
+    this._config = msg.config
+    for (const configCb of this.configCallbacks) {
+      configCb(this._config)
     }
   }
 
@@ -245,8 +355,11 @@ export class GuestBridge {
     this._config = msg.config
     this._ecosystems = msg.ecosystems ?? []
 
+    this.clearRetryTimers()
     this.initResolve()
-    this.startResizeReporting()
+    if (msg.autoResize) {
+      this.startResizeReporting()
+    }
 
     for (const configCb of this.configCallbacks) {
       configCb(this._config)
@@ -296,12 +409,11 @@ export class GuestBridge {
   }
 
   private startResizeReporting(): void {
-    if (typeof ResizeObserver === 'undefined') {
+    if (typeof ResizeObserver === 'undefined' || this._resizeObserver) {
       return
     }
 
     let lastHeight = 0
-    let rafId = 0
 
     const report = () => {
       const height = document.body.offsetHeight
@@ -314,12 +426,12 @@ export class GuestBridge {
       }
     }
 
-    const ro = new ResizeObserver(() => {
-      cancelAnimationFrame(rafId)
-      rafId = requestAnimationFrame(report)
+    this._resizeObserver = new ResizeObserver(() => {
+      cancelAnimationFrame(this._rafId)
+      this._rafId = requestAnimationFrame(report)
     })
 
-    ro.observe(document.body)
+    this._resizeObserver.observe(document.body)
     report()
   }
 }

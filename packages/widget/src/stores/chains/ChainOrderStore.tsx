@@ -99,6 +99,14 @@ export function ChainOrderStoreProvider({
           setFieldValue('toChain', fromChainValue)
         }
 
+        // When "All Networks" is active, don't auto-select a chain from the
+        // persisted chain order. This prevents stale cross-ecosystem selections
+        // (e.g. EVM from + Solana to) from triggering the "destination wallet
+        // address required" message after a page refresh.
+        if (initialIsAllNetworks) {
+          return
+        }
+
         const [chainValue] = getFieldValues(`${key}Chain`)
         if (chainValue) {
           return

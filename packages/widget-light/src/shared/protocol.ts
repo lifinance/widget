@@ -7,11 +7,20 @@
  * Message flow:
  *   Guest (iframe) ──READY──────────────────────────────► Host (parent)
  *   Guest (iframe) ◄─────────────────────────────INIT── Host (parent)
+ *   Guest (iframe) ◄──────────────────CONFIG_UPDATE── Host (parent)
  *   Guest (iframe) ──RPC_REQUEST──────────────────────► Host (parent)
  *   Guest (iframe) ◄──────────────────────RPC_RESPONSE── Host (parent)
  *   Guest (iframe) ◄──────────────────────────── EVENT── Host (parent)
  *   Guest (iframe) ──RESIZE─────────────────────────────► Host (parent)
+ *   Guest (iframe) ──WIDGET_EVENT─────────────────────► Host (parent)
+ *   Guest (iframe) ◄────────── WIDGET_EVENT_SUBSCRIBE── Host (parent)
+ *   Guest (iframe) ◄──────── WIDGET_EVENT_UNSUBSCRIBE── Host (parent)
+ *   Guest (iframe) ──CONNECT_WALLET_REQUEST────────────► Host (parent)
  */
+
+import type { WidgetChainType, WidgetLightConfig } from './widgetConfig.js'
+
+export type { WidgetLightConfig } from './widgetConfig.js'
 
 export const WIDGET_LIGHT_SOURCE = 'widget-light' as const
 
@@ -20,18 +29,6 @@ export const WIDGET_LIGHT_SOURCE = 'widget-light' as const
 // ---------------------------------------------------------------------------
 
 export type WidgetLightChainType = 'EVM' | 'SVM' | 'UTXO' | 'MVM'
-
-// ---------------------------------------------------------------------------
-// WidgetLightConfig
-// ---------------------------------------------------------------------------
-
-/**
- * A serializable subset of WidgetConfig (no React nodes or functions).
- * Cast your WidgetConfig to this type before passing to useWidgetLightHost.
- */
-export type WidgetLightConfig = Record<string, unknown> & {
-  integrator: string
-}
 
 // ---------------------------------------------------------------------------
 // RPC Error (mirrors EIP-1193 ProviderRpcError)
@@ -102,10 +99,39 @@ export interface GuestResizeMessage {
   height: number
 }
 
+/**
+ * Widget event forwarded from the guest to the host.
+ * Only sent for events that the host has subscribed to.
+ */
+export interface GuestWidgetEvent {
+  source: typeof WIDGET_LIGHT_SOURCE
+  type: 'WIDGET_EVENT'
+  event: string
+  data: unknown
+}
+
+/** Serializable args for the external wallet connect request. */
+export interface ConnectWalletArgs {
+  chainId?: number
+  chainType?: WidgetChainType
+}
+
+/**
+ * Sent by the guest when `walletConfig.onConnect` is triggered inside the
+ * widget. The host should open its own wallet connection modal.
+ */
+export interface GuestConnectWalletRequest {
+  source: typeof WIDGET_LIGHT_SOURCE
+  type: 'CONNECT_WALLET_REQUEST'
+  args?: ConnectWalletArgs
+}
+
 export type GuestMessage =
   | GuestReadyMessage
   | GuestRpcRequest
   | GuestResizeMessage
+  | GuestWidgetEvent
+  | GuestConnectWalletRequest
 
 // ---------------------------------------------------------------------------
 // Host → Guest messages
@@ -120,6 +146,8 @@ export interface HostInitMessage {
   type: 'INIT'
   config: WidgetLightConfig
   ecosystems: EcosystemInitState[]
+  /** When true, the guest should report content height changes via RESIZE. */
+  autoResize?: boolean
 }
 
 /** Response to a GuestRpcRequest. Carries either the result or an RPC error. */
@@ -144,7 +172,34 @@ export interface HostEventMessage {
   data: unknown
 }
 
-export type HostMessage = HostInitMessage | HostRpcResponse | HostEventMessage
+/** Sent by the host when the widget config changes after INIT. */
+export interface HostConfigUpdateMessage {
+  source: typeof WIDGET_LIGHT_SOURCE
+  type: 'CONFIG_UPDATE'
+  config: WidgetLightConfig
+}
+
+/** Subscribe to a specific widget event forwarded from the guest. */
+export interface HostWidgetEventSubscribe {
+  source: typeof WIDGET_LIGHT_SOURCE
+  type: 'WIDGET_EVENT_SUBSCRIBE'
+  event: string
+}
+
+/** Unsubscribe from a specific widget event. */
+export interface HostWidgetEventUnsubscribe {
+  source: typeof WIDGET_LIGHT_SOURCE
+  type: 'WIDGET_EVENT_UNSUBSCRIBE'
+  event: string
+}
+
+export type HostMessage =
+  | HostInitMessage
+  | HostConfigUpdateMessage
+  | HostRpcResponse
+  | HostEventMessage
+  | HostWidgetEventSubscribe
+  | HostWidgetEventUnsubscribe
 
 // ---------------------------------------------------------------------------
 // Type guards
@@ -158,8 +213,4 @@ export function isWidgetLightMessage(
     data !== null &&
     (data as Record<string, unknown>).source === WIDGET_LIGHT_SOURCE
   )
-}
-
-export function isGuestMessage(data: unknown): data is GuestMessage {
-  return isWidgetLightMessage(data) && 'type' in (data as object)
 }
