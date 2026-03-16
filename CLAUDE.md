@@ -85,7 +85,7 @@ QueryClient → Settings → WidgetConfig → I18n → Theme → SDK → Wallet 
 ## Conventions
 
 - **ESM only** — all packages output to `dist/esm/`. No CJS.
-- **Biome** for linting and formatting (not ESLint/Prettier). Single quotes, no semicolons, 2-space indent, trailing commas (ES5).
+- **Biome** for linting and formatting (not ESLint/Prettier). Single quotes, no semicolons, 2-space indent, trailing commas (ES5). **Always run `pnpm check:write` after making changes** so Biome can auto-fix formatting.
 - **Conventional commits** enforced by commitlint (`feat:`, `fix:`, `chore:`, etc.).
 - **`console.log` is an error** — only `console.warn` and `console.error` are allowed (except in `examples/`).
 - **`useExhaustiveDependencies`** and **`useHookAtTopLevel`** are errors.
