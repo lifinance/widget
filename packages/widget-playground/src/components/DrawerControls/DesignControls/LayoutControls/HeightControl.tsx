@@ -27,8 +27,8 @@ export const HeightControl = ({
 }: {
   selectedLayoutId: Layout
   setInitialLayout: (layoutId: Layout) => void
-  heightValue: number | undefined
-  setHeightValue: (height: number | undefined) => void
+  heightValue: number | 'fit-content' | undefined
+  setHeightValue: (height: number | 'fit-content' | undefined) => void
 }) => {
   const { setHeader, setContainer, getCurrentConfigTheme } = useConfigActions()
 
@@ -87,7 +87,7 @@ export const HeightControl = ({
     )
   }
 
-  if (selectedLayoutId === 'fit-content') {
+  if (selectedLayoutId === 'default') {
     return (
       <PlaygroundControlsContainer sx={{ gap: 0 }}>
         <InputControl

@@ -323,6 +323,7 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
     container: {
       boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
       borderRadius: '16px',
+      height: 'fit-content',
     },
     // routesContainer: {
     //   boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
