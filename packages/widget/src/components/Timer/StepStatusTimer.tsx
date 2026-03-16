@@ -1,5 +1,4 @@
 import type { LiFiStepExtended } from '@lifi/sdk'
-import { CircularProgress as MuiCircularProgress } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLoopProgress } from '../../hooks/timer/useLoopProgress.js'
@@ -7,6 +6,7 @@ import { useTimer } from '../../hooks/timer/useTimer.js'
 import { formatTimer } from '../../utils/timer.js'
 import { iconCircleSize } from '../IconCircle/IconCircle.style.js'
 import {
+  ProgressFill,
   ProgressTrack,
   RingContainer,
   StatusCircle,
@@ -24,12 +24,14 @@ function getExpiryTimestamp(step: LiFiStepExtended): Date {
 interface TimerRingProps {
   step: LiFiStepExtended
   size?: number
+  thickness?: number
   showLabel?: boolean
 }
 
 export const TimerRing: React.FC<TimerRingProps> = ({
   step,
   size = iconCircleSize,
+  thickness = 2,
   showLabel = true,
 }) => {
   const { i18n } = useTranslation()
@@ -67,13 +69,13 @@ export const TimerRing: React.FC<TimerRingProps> = ({
         variant="determinate"
         value={100}
         size={size}
-        thickness={2}
+        thickness={thickness}
       />
-      <MuiCircularProgress
+      <ProgressFill
         variant="determinate"
         value={progress}
         size={size}
-        thickness={2}
+        thickness={thickness}
       />
       {showLabel && hasActiveCountdown ? (
         <StatusCircle>

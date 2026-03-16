@@ -7,31 +7,27 @@ import { DateLabel } from '../../components/DateLabel/DateLabel.js'
 import { RouteTokens } from '../../components/Step/RouteTokens.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 
-interface TransactionHistoryItemProps {
+export const TransactionHistoryItem: React.FC<{
   route: RouteExtended
   transactionHash: string
   // startedAt in ms
   startedAt: number
-}
+}> = memo(({ route, transactionHash, startedAt }) => {
+  const navigate = useNavigate()
 
-export const TransactionHistoryItem = memo(
-  ({ route, transactionHash, startedAt }: TransactionHistoryItemProps) => {
-    const navigate = useNavigate()
-
-    const handleClick = () => {
-      navigate({
-        to: navigationRoutes.transactionDetails,
-        search: { transactionHash },
-      })
-    }
-
-    return (
-      <Card onClick={handleClick} indented>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-          <DateLabel date={new Date(startedAt)} />
-          <RouteTokens route={route} />
-        </Box>
-      </Card>
-    )
+  const handleClick = () => {
+    navigate({
+      to: navigationRoutes.transactionDetails,
+      search: { transactionHash },
+    })
   }
-)
+
+  return (
+    <Card onClick={handleClick} indented>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+        <DateLabel date={new Date(startedAt)} />
+        <RouteTokens route={route} />
+      </Box>
+    </Card>
+  )
+})

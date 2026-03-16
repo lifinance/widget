@@ -9,9 +9,9 @@ import { FeeBreakdownTooltip } from '../../components/FeeBreakdownTooltip.js'
 import { IconCircle } from '../../components/IconCircle/IconCircle.js'
 import { useSetContentHeight } from '../../hooks/useSetContentHeight.js'
 import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
-import { CenterContainer } from './StatusBottomSheet.style.js'
 import {
   ButtonRow,
+  CenterContainer,
   ContentContainer,
   DetailLabel,
   DetailRow,

@@ -14,7 +14,7 @@ import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { IconCircle } from '../../components/IconCircle/IconCircle.js'
 import { useSetContentHeight } from '../../hooks/useSetContentHeight.js'
 import { formatTokenAmount } from '../../utils/format.js'
-import { CenterContainer } from './StatusBottomSheet.style.js'
+import { CenterContainer } from './ExchangeRateBottomSheet.style.js'
 
 export interface ExchangeRateBottomSheetBase {
   isOpen(): void

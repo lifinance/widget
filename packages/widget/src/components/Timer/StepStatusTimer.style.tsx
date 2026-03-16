@@ -28,6 +28,14 @@ export const ProgressTrack = styled(MuiCircularProgress)(({ theme }) => ({
   }),
 }))
 
+export const ProgressFill = styled(MuiCircularProgress)(({ theme }) => ({
+  position: 'absolute',
+  color: theme.vars.palette.primary.main,
+  ...theme.applyStyles('dark', {
+    color: theme.vars.palette.primary.light,
+  }),
+}))
+
 export const TimerLabel = styled(Typography)({
   fontSize: 18,
   fontWeight: 700,

@@ -1,4 +1,18 @@
-import { Badge, Box, CircularProgress, styled } from '@mui/material'
+import { Badge, Box, IconButton, styled } from '@mui/material'
+import type { RouteExecutionIndicator } from '../../stores/routes/useRouteExecutionIndicators.js'
+
+export const HistoryIconButton = styled(IconButton, {
+  shouldForwardProp: (prop) => prop !== 'indicator',
+})<{ indicator: RouteExecutionIndicator }>(({ theme, indicator }) =>
+  indicator !== 'idle'
+    ? {
+        backgroundColor: `color-mix(in srgb, rgb(${theme.vars.palette.info.mainChannel}) 8%, ${theme.vars.palette.background.paper})`,
+        '&:hover': {
+          backgroundColor: `color-mix(in srgb, rgb(${theme.vars.palette.info.mainChannel}) 12%, ${theme.vars.palette.background.paper})`,
+        },
+      }
+    : {}
+)
 
 export const ErrorBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
@@ -8,8 +22,9 @@ export const ErrorBadge = styled(Badge)(({ theme }) => ({
     height: 16,
     borderRadius: '50%',
     backgroundColor: theme.vars.palette.background.paper,
-    top: 0,
-    left: 8,
+    boxShadow: `0 0 0 2px ${theme.vars.palette.background.paper}`,
+    top: -2,
+    left: 10,
   },
 }))
 
@@ -19,19 +34,3 @@ export const ProgressContainer = styled(Box)({
   alignItems: 'center',
   justifyContent: 'center',
 })
-
-export const ProgressTrack = styled(CircularProgress)(({ theme }) => ({
-  position: 'absolute',
-  color: theme.vars.palette.grey[300],
-  ...theme.applyStyles('dark', {
-    color: theme.vars.palette.grey[800],
-  }),
-}))
-
-export const ProgressFill = styled(CircularProgress)(({ theme }) => ({
-  position: 'absolute',
-  color: theme.vars.palette.primary.main,
-  ...theme.applyStyles('dark', {
-    color: theme.vars.palette.primary.light,
-  }),
-}))

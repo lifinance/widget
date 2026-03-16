@@ -1,5 +1,11 @@
 import { Box, styled, Typography } from '@mui/material'
 
+export const CenterContainer = styled(Box)(() => ({
+  display: 'grid',
+  placeItems: 'center',
+  position: 'relative',
+}))
+
 export const ContentContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(3),
 }))

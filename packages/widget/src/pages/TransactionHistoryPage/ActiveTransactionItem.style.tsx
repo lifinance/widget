@@ -1,4 +1,4 @@
-import { Button, buttonClasses, IconButton, styled } from '@mui/material'
+import { IconButton, styled } from '@mui/material'
 
 export const DeleteButton = styled(IconButton)(({ theme }) => ({
   padding: theme.spacing(0.5),
@@ -10,25 +10,16 @@ export const DeleteButton = styled(IconButton)(({ theme }) => ({
   }),
 }))
 
-export const RetryButton = styled(Button)(({ theme }) => ({
+export const RetryButton = styled(IconButton)(({ theme }) => ({
   fontWeight: 700,
   fontSize: 12,
   height: 24,
   minWidth: 'auto',
+  borderRadius: theme.vars.shape.borderRadius,
   padding: theme.spacing(0.5, 1.5),
   color: theme.vars.palette.text.primary,
   backgroundColor: theme.vars.palette.background.paper,
-  '&:hover': {
-    backgroundColor: theme.vars.palette.background.paper,
-  },
   ...theme.applyStyles('dark', {
-    color: theme.vars.palette.text.primary,
     backgroundColor: theme.vars.palette.background.paper,
-    '&:hover': {
-      backgroundColor: theme.vars.palette.background.paper,
-    },
-    [`&.${buttonClasses.focusVisible}`]: {
-      backgroundColor: theme.vars.palette.background.paper,
-    },
   }),
 }))

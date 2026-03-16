@@ -32,7 +32,7 @@ export const ExecutionProgress: React.FC<{
     status === RouteExecutionStatus.Done ? feeConfig?._vcComponent : undefined
 
   return (
-    <Box sx={{ mb: 2 }}>
+    <Box>
       {!showContractComponent ? (
         <Box sx={{ mb: 2, display: 'flex', justifyContent: 'center' }}>
           <StepStatusIndicator step={lastStep} />

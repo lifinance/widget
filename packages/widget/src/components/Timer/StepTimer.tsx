@@ -1,9 +1,9 @@
 import type { LiFiStepExtended } from '@lifi/sdk'
+import { Typography } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTimer } from '../../hooks/timer/useTimer.js'
 import { formatTimer } from '../../utils/timer.js'
-import { TimerContent } from './TimerContent.js'
 
 const getExpiryTimestamp = (step: LiFiStepExtended) => {
   const execution = step?.execution
@@ -21,12 +21,9 @@ export const StepTimer: React.FC<{
 }> = ({ step }) => {
   if (
     step.execution?.status === 'DONE' ||
-    step.execution?.status === 'FAILED'
+    step.execution?.status === 'FAILED' ||
+    !step.execution?.signedAt
   ) {
-    return null
-  }
-
-  if (!step.execution?.signedAt) {
     return null
   }
 
@@ -51,7 +48,7 @@ const ExecutionTimer = ({ expiryTimestamp }: { expiryTimestamp: Date }) => {
   }
 
   return (
-    <TimerContent>
+    <Typography sx={{ fontSize: 12, fontWeight: 700 }}>
       {formatTimer({
         locale: i18n.language,
         days,
@@ -59,6 +56,6 @@ const ExecutionTimer = ({ expiryTimestamp }: { expiryTimestamp: Date }) => {
         minutes,
         seconds,
       })}
-    </TimerContent>
+    </Typography>
   )
 }

@@ -4,8 +4,8 @@ import type {
   StatusResponse,
 } from '@lifi/sdk'
 import { useEffect } from 'react'
-import { useRouteExecutionStoreContext } from '../../stores/routes/RouteExecutionStore.js'
-import { getSourceTxHash } from '../../stores/routes/utils.js'
+import { useRouteExecutionStoreContext } from '../stores/routes/RouteExecutionStore.js'
+import { getSourceTxHash } from '../stores/routes/utils.js'
 
 export const useDeduplicateRoutes = (transactions: StatusResponse[]) => {
   const store = useRouteExecutionStoreContext()
