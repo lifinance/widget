@@ -4,11 +4,15 @@ import type {
   IframeEcosystemHandler,
   WidgetLightConfig,
 } from '../shared/protocol.js'
+import { DEFAULT_WIDGET_URL } from './constants.js'
 import { useWidgetLightHost } from './useWidgetLightHost.js'
 
 export interface WidgetLightProps {
-  /** URL of the widget iframe page. */
-  src: string
+  /**
+   * URL of the widget iframe page.
+   * Defaults to {@link DEFAULT_WIDGET_URL} (`'https://widget.li.fi'`).
+   */
+  src?: string
   /**
    * Widget configuration to pass to the iframe on init.
    * Must be JSON-serialisable (no React nodes or functions).
@@ -21,7 +25,7 @@ export interface WidgetLightProps {
   handlers?: IframeEcosystemHandler[]
   /**
    * Expected origin of the iframe for origin-pinning security.
-   * Defaults to '*' — always set this in production.
+   * Derived from `src` when not provided.
    */
   iframeOrigin?: string
   /**
@@ -55,10 +59,10 @@ export interface WidgetLightProps {
  * />
  */
 export function WidgetLight({
-  src,
+  src = DEFAULT_WIDGET_URL,
   config,
   handlers,
-  iframeOrigin,
+  iframeOrigin = new URL(src).origin,
   autoResize,
   onConnect,
   style,

@@ -15,8 +15,8 @@ import { WalletHeader } from './components/WalletHeader'
 import { WidgetEventsLogger } from './components/WidgetEventsLogger'
 import { widgetConfig as baseWidgetConfig } from './widgetConfig'
 
-const WIDGET_URL = import.meta.env.VITE_WIDGET_URL || 'https://widget.li.fi'
-const WIDGET_ORIGIN = new URL(WIDGET_URL).origin
+// When VITE_WIDGET_URL is set (e.g. via --mode localhost), override the default.
+const WIDGET_URL = import.meta.env.VITE_WIDGET_URL || undefined
 
 export function HostApp() {
   const { account } = useAccount()
@@ -94,7 +94,6 @@ export function HostApp() {
           src={WIDGET_URL}
           config={widgetConfig}
           handlers={handlers}
-          iframeOrigin={WIDGET_ORIGIN}
           autoResize={false}
           onConnect={handleConnect}
           style={{ border: 0, width: '100%', flex: 1, minHeight: 0 }}

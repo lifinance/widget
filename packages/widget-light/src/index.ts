@@ -1,4 +1,5 @@
 export { GuestBridge } from './guest/GuestBridge.js'
+export { DEFAULT_WIDGET_URL } from './host/constants.js'
 export type { WidgetLightEventEmitter } from './host/useWidgetLightEvents.js'
 export { useWidgetLightEvents } from './host/useWidgetLightEvents.js'
 export type { UseWidgetLightHostOptions } from './host/useWidgetLightHost.js'
