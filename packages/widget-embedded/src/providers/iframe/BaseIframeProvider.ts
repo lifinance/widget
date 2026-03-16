@@ -48,6 +48,11 @@ export class BaseIframeProvider {
   }
 
   protected _registerBridgeCallbacks(): void {
+    // Unsubscribe existing callbacks first so this method is idempotent.
+    // This is needed when connect() is called to re-register after destroy().
+    this._unsubInit?.()
+    this._unsubEvent?.()
+
     this._unsubInit = this.bridge.onInit(this.chainType, (state) => {
       const s = state as {
         accounts: string[]
@@ -81,6 +86,15 @@ export class BaseIframeProvider {
       }
       this.emit(event, data)
     })
+  }
+
+  /**
+   * Re-register bridge callbacks. Call this at the start of a React effect
+   * so that bridge subscriptions are restored after a StrictMode double-mount
+   * (where the previous effect's cleanup called destroy()).
+   */
+  connect(): void {
+    this._registerBridgeCallbacks()
   }
 
   destroy(): void {

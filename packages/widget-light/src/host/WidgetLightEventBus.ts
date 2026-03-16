@@ -5,11 +5,7 @@ import type { WidgetLightEvents } from '../shared/widgetLightEvents.js'
 type SendFn = (msg: HostMessage) => void
 type Handler = (data: unknown) => void
 
-/**
- * Module-level singleton state.
- * Only one `<WidgetLight>` instance per page is supported — mounting a second
- * instance will overwrite `_sendFn`, breaking event delivery for the first.
- */
+/** Module-level singleton — only one `<WidgetLight>` per page is supported. */
 const listeners = new Map<string, Set<Handler>>()
 const refCounts = new Map<string, number>()
 let _sendFn: SendFn | null = null
@@ -23,7 +19,6 @@ function sendEventControl(
 
 function _register(send: SendFn): void {
   _sendFn = send
-  // Replay existing subscriptions to the newly registered iframe
   for (const [event, count] of refCounts) {
     if (count > 0) {
       sendEventControl(event, 'WIDGET_EVENT_SUBSCRIBE')
@@ -33,8 +28,7 @@ function _register(send: SendFn): void {
 
 function _unregister(): void {
   _sendFn = null
-  // Clear handler sets so that handlers belonging to a previous iframe session
-  // cannot be invoked by a future session. refCounts is intentionally preserved
+  // Clear handlers from the previous session. refCounts is preserved
   // so _register can replay subscriptions to the next iframe.
   listeners.clear()
 }
@@ -75,10 +69,7 @@ function off<E extends keyof WidgetLightEvents>(
   const key = event as string
   const set = listeners.get(key)
 
-  // After _unregister(), listeners is cleared and _sendFn is null.
-  // Bail out to prevent ref-count corruption from late cleanup calls
-  // (e.g. React strict-mode double unmount or effects firing after
-  // the host hook has already unregistered).
+  // Guard against late cleanup calls after _unregister() clears listeners.
   if (!set || !set.has(handler as Handler)) {
     return
   }

@@ -22,23 +22,12 @@ type ConnectorEmitter = Parameters<CreateConnectorFn>[0]['emitter']
  *
  * To keep provider event listeners pointing at the **current** wagmi emitter
  * after re-creation, we store a mutable `latestEmitter` ref in the outer
- * `widgetLightIframe()` closure. It is updated on every factory invocation.
- * The provider's listeners read from this ref instead of capturing the
- * original `config.emitter`.
- *
- * ## Connector name/icon
- *
- * wagmi's `setup()` spreads the factory return value (`{ ...connectorFn() }`),
- * which flattens getters into static values. Since the host wallet's connector
- * info arrives asynchronously via the bridge, we store a reference to the
- * spread object and mutate `name`/`icon` on it when the info arrives.
+ * closure. It is updated on every factory invocation.
  */
 export function widgetLightConnector() {
   let provider_: EthereumIframeProvider | undefined
   let latestEmitter: ConnectorEmitter
-  // Mutable ref to the spread connector object wagmi stores internally.
-  // Updated in setup() on each re-creation (syncWagmiConfig), read by
-  // the connectorUpdate listener to mutate name/icon.
+  // Mutable ref to wagmi's spread connector object, updated in setup().
   let connectorRef: Record<string, unknown> | undefined
 
   return createConnector<EthereumIframeProvider | undefined>((config) => {
@@ -50,9 +39,8 @@ export function widgetLightConnector() {
       type: widgetLightConnector.type,
 
       async setup() {
-        // wagmi calls setup() on the spread connector object, so `this`
-        // is the actual connector instance stored in wagmi's state.
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        // `this` is wagmi's spread connector object — capture it so we
+        // can mutate name/icon when connector info arrives from the host.
         connectorRef = this as unknown as Record<string, unknown>
       },
 
@@ -83,10 +71,7 @@ export function widgetLightConnector() {
             latestEmitter.emit('disconnect')
           })
 
-          // When bridge init delivers connector info from the host,
-          // mutate the wagmi connector object so the widget displays
-          // the real wallet name/icon (e.g. "MetaMask") instead of
-          // the fallback "Widget Light".
+          // Update wagmi connector with the host wallet's name/icon.
           provider_.on('connectorUpdate', () => {
             const info = provider_?.connector
             if (connectorRef && info?.name) {
@@ -95,9 +80,7 @@ export function widgetLightConnector() {
             }
           })
 
-          // If init already fired during construction (bridge INIT arrived
-          // before getProvider() was called), the connectorUpdate event was
-          // emitted before this listener existed. Apply eagerly.
+          // Apply eagerly if init already fired before this listener existed.
           if (connectorRef && provider_.connector?.name) {
             connectorRef.name = provider_.connector.name
             connectorRef.icon = provider_.connector.icon

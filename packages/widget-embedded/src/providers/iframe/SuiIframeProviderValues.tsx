@@ -64,9 +64,12 @@ export const SuiIframeProviderValues: FC<PropsWithChildren> = ({
       setWalletState({ accounts: [], connected: false, connector: {} })
     }
 
+    // Register React listeners BEFORE connect() — onInit may fire
+    // synchronously if INIT already arrived, and we need to catch it.
     provider.on('accountsChanged', onAccountsChanged)
     provider.on('connect', onConnect)
     provider.on('disconnect', onDisconnect)
+    provider.connect()
 
     return () => {
       provider.removeListener('accountsChanged', onAccountsChanged)

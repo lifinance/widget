@@ -130,10 +130,8 @@ export function useWidgetLightHost({
           ecosystems,
           autoResize,
         })
-        // Replay event subscriptions — the initial _register() call may have
-        // sent WIDGET_EVENT_SUBSCRIBE messages before the iframe's JS loaded,
-        // so they were lost. Re-registering replays all active subscriptions
-        // now that the guest is ready to receive them.
+        // Re-register to replay subscriptions that were lost before the
+        // iframe's JS loaded.
         WidgetLightEventBus._register(sendToIframe)
         return
       }
@@ -220,9 +218,7 @@ export function useWidgetLightHost({
 
   // ---------------------------------------------------------------------------
   // Subscribe to each handler's events and forward them to the iframe.
-  // Uses a ref-based approach to avoid tearing down existing subscriptions
-  // when only the array wrapper identity changes (e.g. inline `[handler]`
-  // literal) but the handler objects themselves are the same.
+  // Ref-based to avoid teardown when only the array identity changes.
   // ---------------------------------------------------------------------------
   const subscriptionsRef = useRef(new Map<IframeEcosystemHandler, () => void>())
 
@@ -230,7 +226,6 @@ export function useWidgetLightHost({
     const current = subscriptionsRef.current
     const nextSet = new Set(handlers)
 
-    // Unsubscribe handlers that were removed
     for (const [handler, unsub] of current) {
       if (!nextSet.has(handler)) {
         unsub()
@@ -238,7 +233,6 @@ export function useWidgetLightHost({
       }
     }
 
-    // Subscribe new handlers
     for (const handler of handlers) {
       if (!current.has(handler)) {
         const unsub = handler.subscribe((event, data) => {

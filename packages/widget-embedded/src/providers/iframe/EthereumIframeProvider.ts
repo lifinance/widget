@@ -25,6 +25,9 @@ export class EthereumIframeProvider extends BaseIframeProvider {
   }
 
   protected override _registerBridgeCallbacks(): void {
+    this._unsubInit?.()
+    this._unsubEvent?.()
+
     this._unsubInit = this.bridge.onInit('EVM', (state) => {
       const s = state as {
         accounts: string[]
@@ -86,12 +89,9 @@ export class EthereumIframeProvider extends BaseIframeProvider {
 
       case 'wallet_switchEthereumChain': {
         const result = await this.bridge.sendRpcRequest('EVM', method, params)
-        // Optimistically update internal chain state so that getChainId()
-        // returns the correct value immediately after switchChain() resolves,
-        // without waiting for the bridge's chainChanged EVENT to arrive.
-        // We intentionally do NOT emit 'chainChanged' here — the host-driven
-        // EVENT via the bridge is the single source of truth for emissions,
-        // avoiding a double notification to wagmi consumers.
+        // Optimistically update so getChainId() is correct before the
+        // bridge's async chainChanged EVENT arrives. No emit here — the
+        // bridge event is the single source of truth for consumers.
         const requested = (params as [{ chainId: `0x${string}` }])?.[0]?.chainId
         if (requested) {
           this._chainIdHex = requested
