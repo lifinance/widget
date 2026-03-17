@@ -50,7 +50,7 @@ export const StepAction: React.FC<{
             marginRight: 0.5,
             flex: 1,
             fontSize: 14,
-            fontWeight: action.error ? 600 : 400,
+            fontWeight: action.status === 'FAILED' ? 600 : 400,
           }}
         >
           {title}

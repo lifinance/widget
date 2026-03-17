@@ -1,4 +1,8 @@
-import type { LiFiStepExtended, TokenAmount } from '@lifi/sdk'
+import type {
+  ExecutionActionType,
+  LiFiStepExtended,
+  TokenAmount,
+} from '@lifi/sdk'
 import { Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { Card } from '../../components/Card/Card.js'
@@ -23,9 +27,13 @@ export const Step: React.FC<{
   const { t } = useTranslation()
   const { subvariant, subvariantOptions } = useWidgetConfig()
   const { getAddressLink } = useExplorer()
-  const stepHasError = step.execution?.actions?.some(
-    (action) => action.status === 'FAILED'
-  )
+
+  // If execution status is failed outside of actions scope,
+  // show a synthetic action to represent the failed execution
+  const actions = step.execution?.actions ?? []
+  const failedWithoutActions =
+    step.execution?.status === 'FAILED' &&
+    !actions.some((a) => a.status === 'FAILED')
 
   const getCardTitle = () => {
     const hasBridgeStep = step.includedSteps.some(
@@ -72,7 +80,7 @@ export const Step: React.FC<{
     : undefined
 
   return (
-    <Card type={stepHasError ? 'error' : 'default'}>
+    <Card type={step.execution?.status === 'FAILED' ? 'error' : 'default'}>
       <Box
         sx={{
           display: 'flex',
@@ -96,6 +104,18 @@ export const Step: React.FC<{
             <StepAction key={index} step={step} actionsGroup={actionsGroup} />
           )
         )}
+        {failedWithoutActions ? (
+          <StepAction
+            step={step}
+            actionsGroup={[
+              {
+                status: 'FAILED',
+                type: 'EXECUTION' as ExecutionActionType, // synthetic action to represent a failed execution with no actions
+                error: step.execution?.error,
+              },
+            ]}
+          />
+        ) : null}
         {formattedToAddress && toAddressLink ? (
           <DestinationWalletAddress
             step={step}
