@@ -23,7 +23,7 @@ export const InputControl = ({
 }: InputControlProps) => {
   const inputId = useId()
   const showCaption =
-    !value || value === 'fit-content' || (value && value < defaultMaxHeight)
+    !value || value === 'fit-content' || value < defaultMaxHeight
   return (
     <CardRowContainer sx={{ padding: 1 }}>
       <CardRowColumn>
