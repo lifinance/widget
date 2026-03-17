@@ -10,7 +10,6 @@ export type Layout =
   | 'restricted-height'
   | 'restricted-max-height'
   | 'full-height'
-  | 'fit-content'
 
 export interface ThemeItem {
   id: string

@@ -37,10 +37,6 @@ const layoutOptions: LayoutOption[] = [
     id: 'full-height',
     name: 'Full Height',
   },
-  {
-    id: 'fit-content',
-    name: 'Fit Content',
-  },
 ]
 
 const getLayoutMode = (container?: CSSProperties) => {
@@ -52,7 +48,7 @@ const getLayoutMode = (container?: CSSProperties) => {
   if (container.display === 'flex' && container.height === '100%') {
     layoutMode = 'full-height'
   } else if (container.height === 'fit-content') {
-    layoutMode = 'fit-content'
+    layoutMode = 'default'
   } else if (Number.isFinite(container.height)) {
     layoutMode = 'restricted-height'
   } else if (Number.isFinite(container.maxHeight)) {
@@ -72,7 +68,9 @@ export const LayoutControl = () => {
 
   const { selectedLayoutId } = useLayoutValues()
   const { setSelectedLayoutId } = useEditToolsActions()
-  const [heightValue, setHeightValue] = useState<number | undefined>() // height or maxHeight, depending on selectedLayoutId
+  const [heightValue, setHeightValue] = useState<
+    number | 'fit-content' | undefined
+  >() // height or maxHeight, depending on selectedLayoutId
 
   useEffect(() => {
     setSelectedLayoutId(getLayoutMode(config?.theme?.container))
@@ -127,28 +125,15 @@ export const LayoutControl = () => {
           setContainer(fullHeightContainer)
           break
         }
-        case 'fit-content': {
-          setHeader()
-
-          const fullHeightContainer = {
-            ...(getCurrentConfigTheme()?.container ?? {}),
-            display: undefined,
-            height: 'fit-content',
-            maxHeight: defaultMaxHeight,
-          }
-
-          setContainer(fullHeightContainer)
-          break
-        }
         default: {
-          setHeightValue(undefined)
+          setHeightValue('fit-content')
           setHeader()
 
           const defaultContainer = {
             ...(getCurrentConfigTheme()?.container ?? {}),
             display: undefined,
-            height: undefined,
-            maxHeight: undefined,
+            height: 'fit-content',
+            maxHeight: defaultMaxHeight,
           }
 
           setContainer(defaultContainer)
