@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:local": "vite --mode localhost",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/widget-light": "^4.0.0-alpha.2",
+    "@lifi/widget-light": "workspace:*",
     "@tanstack/react-query": "^5.90.20",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",

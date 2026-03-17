@@ -7,7 +7,6 @@ export const widgetConfig: WidgetLightConfig = {
     container: {
       border: '1px solid rgb(234, 234, 234)',
       borderRadius: '16px',
-      height: 'fit-content',
     },
   },
   sdkConfig: {
