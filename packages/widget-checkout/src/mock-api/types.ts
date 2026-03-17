@@ -16,8 +16,8 @@ export interface ErrorResponse {
 
 export interface TransakCryptoCurrency {
   coinId: string
-  cryptoCurrencyCode: string
-  cryptoCurrencyName: string
+  symbol: string
+  name: string
   address: string | null
   network: {
     name: string
