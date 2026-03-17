@@ -1,0 +1,40 @@
+{
+  "name": "@lifi/widget-checkout",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev:mock-api": "tsx --env-file=.env src/mock-api/index.ts"
+  },
+  "author": "Eugene Chybisov <eugene@li.finance>",
+  "homepage": "https://github.com/lifinance/widget",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lifinance/widget.git",
+    "directory": "packages/widget-checkout"
+  },
+  "bugs": {
+    "url": "https://github.com/lifinance/widget/issues"
+  },
+  "license": "Apache-2.0",
+  "keywords": [
+    "widget",
+    "lifi-widget",
+    "wallet",
+    "web3",
+    "lifi",
+    "transak",
+    "checkout",
+    "buy",
+    "deposit",
+    "ethereum"
+  ],
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "tsx": "^4.19.4",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
