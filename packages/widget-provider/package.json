@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-provider",
-  "version": "4.0.0-alpha.4",
+  "version": "4.0.0-beta.0",
   "description": "LI.FI Widget Provider - base provider package for blockchain integrations.",
   "type": "module",
   "main": "./src/index.ts",
