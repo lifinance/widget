@@ -84,7 +84,9 @@ export const TransactionPage = () => {
 
     // Clean form fields when leaving the page
     return () => {
-      cleanFields()
+      if (status !== RouteExecutionStatus.Idle) {
+        cleanFields()
+      }
     }
   }, [])
 

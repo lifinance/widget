@@ -21,10 +21,7 @@ export const ExecutionProgressCards: React.FC<ExecutionProgressCardsProps> = ({
   const { feeConfig } = useWidgetConfig()
   const isDone = hasEnumFlag(status, RouteExecutionStatus.Done)
   const toAddress = isDone ? route.toAddress : undefined
-  const hasActions = route.steps.some(
-    (step) => (step.execution?.actions?.length ?? 0) > 0
-  )
-  const hasListItems = hasActions || !!toAddress
+
   const VcComponent =
     status === RouteExecutionStatus.Done ? feeConfig?._vcComponent : undefined
 
@@ -33,9 +30,7 @@ export const ExecutionProgressCards: React.FC<ExecutionProgressCardsProps> = ({
       <Card type="default" indented>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <ExecutionProgress route={route} status={status} />
-          {hasListItems ? (
-            <StepActionsList route={route} toAddress={toAddress} />
-          ) : null}
+          <StepActionsList route={route} toAddress={toAddress} />
         </Box>
       </Card>
       {isDone ? (
