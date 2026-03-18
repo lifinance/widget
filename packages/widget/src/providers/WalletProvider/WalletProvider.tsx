@@ -1,13 +1,6 @@
-import type { WalletManagementConfig } from '@lifi/wallet-management'
-import { WalletManagementProvider } from '@lifi/wallet-management'
+import { WalletManagementProviders } from '@lifi/wallet-management'
 import type { WidgetProviderProps } from '@lifi/widget-provider'
-import {
-  type FC,
-  type PropsWithChildren,
-  type ReactNode,
-  useMemo,
-  useRef,
-} from 'react'
+import type { FC, PropsWithChildren, ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useInitializeSDKProviders } from '../../hooks/useInitializeSDKProviders.js'
@@ -24,64 +17,33 @@ export const WalletProvider = ({
 }: PropsWithChildren<WalletProviderProps>) => {
   const { walletConfig } = useWidgetConfig()
   const { chains } = useAvailableChains()
+  const { i18n } = useTranslation()
+  const { useExternalWalletProvidersOnly, internalChainTypes } =
+    useExternalWalletProvider()
 
-  const prevProvidersRef = useRef(providers)
+  // If all chain types are already managed externally (host app set up providers),
+  // skip re-composing — the contexts are already populated above us.
+  const effectiveProviders = useExternalWalletProvidersOnly ? [] : providers
 
-  // Memoize providers to maintain referential stability and prevent remounts
-  const memoizedProviders = useMemo(() => {
-    if (
-      prevProvidersRef.current.length === providers.length &&
-      prevProvidersRef.current.every(
-        (provider, index) => provider === providers[index]
-      )
-    ) {
-      return prevProvidersRef.current
-    }
-    prevProvidersRef.current = providers
-    return providers
-  }, [providers])
-
-  const baseContent = <WalletMenuProvider>{children}</WalletMenuProvider>
-
-  return memoizedProviders.reduceRight(
-    (acc, ProviderComponent) => (
-      <ProviderComponent
-        key={ProviderComponent.name}
-        forceInternalWalletManagement={
-          walletConfig?.forceInternalWalletManagement
-        }
-        chains={chains ?? []}
-      >
-        {acc}
-      </ProviderComponent>
-    ),
-    baseContent
+  return (
+    <WalletManagementProviders
+      config={{
+        locale: i18n.resolvedLanguage as never,
+        enabledChainTypes: internalChainTypes,
+        walletEcosystemsOrder: walletConfig?.walletEcosystemsOrder,
+      }}
+      providers={effectiveProviders}
+      chains={chains}
+      forceInternalWalletManagement={
+        walletConfig?.forceInternalWalletManagement
+      }
+    >
+      <SDKProviderInitializer>{children}</SDKProviderInitializer>
+    </WalletManagementProviders>
   )
 }
 
-const WalletMenuProvider: FC<PropsWithChildren> = ({ children }) => {
-  const { walletConfig } = useWidgetConfig()
-  const { i18n } = useTranslation()
-  const { internalChainTypes } = useExternalWalletProvider()
-
-  // Initialize SDK client with providers wrapping the wallet menu provider
+const SDKProviderInitializer: FC<PropsWithChildren> = ({ children }) => {
   useInitializeSDKProviders()
-
-  const config: WalletManagementConfig = useMemo(() => {
-    return {
-      locale: i18n.resolvedLanguage as never,
-      enabledChainTypes: internalChainTypes,
-      walletEcosystemsOrder: walletConfig?.walletEcosystemsOrder,
-    }
-  }, [
-    i18n.resolvedLanguage,
-    internalChainTypes,
-    walletConfig?.walletEcosystemsOrder,
-  ])
-
-  return (
-    <WalletManagementProvider config={config}>
-      {children}
-    </WalletManagementProvider>
-  )
+  return <>{children}</>
 }
