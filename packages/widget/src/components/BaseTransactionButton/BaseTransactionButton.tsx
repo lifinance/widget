@@ -23,7 +23,6 @@ export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
     route,
     chain
   )
-
   const handleClick = async (e: React.MouseEvent<HTMLElement>) => {
     if (connected) {
       onClick?.()

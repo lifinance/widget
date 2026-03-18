@@ -1,6 +1,6 @@
 {
   "name": "@lifi/wallet-management",
-  "version": "4.0.0-alpha.0",
+  "version": "4.0.0-beta.0",
   "description": "LI.FI Wallet Management solution.",
   "type": "module",
   "main": "./src/index.ts",
@@ -10,8 +10,8 @@
     "watch": "tsc -w -p ./tsconfig.json",
     "build": "pnpm clean && pnpm build:esm && pnpm build:clean",
     "build:esm": "tsc --build",
-    "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../*.md' .",
-    "build:postrelease": "node ../../scripts/postrelease.js && rm -rf *.md",
+    "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../README.md' .",
+    "build:postrelease": "node ../../scripts/postrelease.js && rm -rf README.md",
     "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo",
     "release:build": "pnpm build",
     "clean": "pnpm build:clean && rm -rf dist",
@@ -46,15 +46,15 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^4.0.0-alpha.20",
+    "@lifi/sdk": "4.0.0-beta.1",
     "@lifi/widget-provider": "workspace:*",
     "@mui/icons-material": "^7.3.6",
     "@mui/material": "^7.3.6",
     "@mui/system": "^7.3.6",
-    "i18next": "^25.8.4",
+    "i18next": "^25.8.18",
     "mitt": "^3.0.1",
-    "react-i18next": "^16.5.4",
-    "zustand": "^5.0.11"
+    "react-i18next": "^16.5.8",
+    "zustand": "^5.0.12"
   },
   "devDependencies": {
     "cpy-cli": "^7.0.0",
@@ -67,11 +67,5 @@
     "@tanstack/react-query": ">=5.90.0",
     "react": ">=18",
     "react-dom": ">=18"
-  },
-  "files": [
-    "dist/**",
-    "src/**",
-    "!tsconfig.json",
-    "!*.tmp"
-  ]
+  }
 }

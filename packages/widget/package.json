@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget",
-  "version": "4.0.0-alpha.0",
+  "version": "4.0.0-beta.0",
   "description": "LI.FI Widget for cross-chain bridging and swapping. It will drive your multi-chain strategy and attract new users from everywhere.",
   "type": "module",
   "main": "./src/index.ts",
@@ -10,8 +10,8 @@
     "watch": "tsc -w -p ./tsconfig.json",
     "build": "pnpm clean && pnpm build:version && pnpm build:esm && pnpm build:clean",
     "build:esm": "tsc --build",
-    "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../*.md' .",
-    "build:postrelease": "node ../../scripts/postrelease.js && rm -rf *.md",
+    "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../README.md' .",
+    "build:postrelease": "node ../../scripts/postrelease.js && rm -rf README.md",
     "build:version": "node ../../scripts/version.js",
     "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo",
     "release:build": "pnpm build",
@@ -39,29 +39,31 @@
     "swap",
     "cross-chain",
     "multi-chain",
-    "metamask",
     "ethereum",
+    "solana",
+    "bitcoin",
+    "sui",
     "web3",
     "lifi"
   ],
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^4.0.0-alpha.20",
+    "@lifi/sdk": "4.0.0-beta.1",
     "@lifi/wallet-management": "workspace:*",
     "@lifi/widget-provider": "workspace:*",
     "@mui/icons-material": "^7.3.6",
     "@mui/material": "^7.3.6",
     "@mui/system": "^7.3.6",
-    "@tanstack/react-router": "^1.158.1",
-    "@tanstack/react-virtual": "^3.13.16",
-    "i18next": "^25.8.4",
+    "@tanstack/react-router": "^1.167.4",
+    "@tanstack/react-virtual": "^3.13.23",
+    "i18next": "^25.8.18",
     "microdiff": "^1.5.0",
     "mitt": "^3.0.1",
-    "react-i18next": "^16.5.4",
+    "react-i18next": "^16.5.8",
     "react-intersection-observer": "^9.16.0",
     "react-transition-group": "^4.4.5",
-    "zustand": "^5.0.11"
+    "zustand": "^5.0.12"
   },
   "devDependencies": {
     "@types/react-transition-group": "^4.4.12",
@@ -70,17 +72,11 @@
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.18"
+    "vitest": "^4.1.0"
   },
   "peerDependencies": {
     "@tanstack/react-query": ">=5.90.0",
     "react": ">=18",
     "react-dom": ">=18"
-  },
-  "files": [
-    "dist/**",
-    "src/**",
-    "!tsconfig.json",
-    "!*.tmp"
-  ]
+  }
 }

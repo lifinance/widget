@@ -1,59 +1,54 @@
 import { LiFiWidget } from '@lifi/widget'
-import { Box, CssBaseline } from '@mui/material'
-import type { NFTNetwork } from './components/NFTOpenSea/index.js'
-import {
-  NFTOpenSea,
-  NFTOpenSeaSecondary,
-  openSeaContractTool,
-} from './components/NFTOpenSea/index.js'
-import { widgetConfig } from './config.js'
-import './index.css'
+import { EthereumProvider } from '@lifi/widget-provider-ethereum'
+import type { PropsWithChildren } from 'react'
+import { BitcoinIframeProviderValues } from './providers/iframe/BitcoinIframeProviderValues.js'
+import { SolanaIframeProviderValues } from './providers/iframe/SolanaIframeProviderValues.js'
+import { SuiIframeProviderValues } from './providers/iframe/SuiIframeProviderValues.js'
+import { useEmbeddedWidgetConfig } from './providers/WidgetConfigProvider.js'
+import { WidgetEventsBridge } from './providers/WidgetEventsBridge.js'
 
-export const App = () => {
-  const pathnameParams = window.location.pathname.substring(1).split('/')
+const IFRAME_PROVIDERS = [
+  EthereumProvider(),
+  ({ children }: PropsWithChildren) => (
+    <SolanaIframeProviderValues>{children}</SolanaIframeProviderValues>
+  ),
+  ({ children }: PropsWithChildren) => (
+    <BitcoinIframeProviderValues>{children}</BitcoinIframeProviderValues>
+  ),
+  ({ children }: PropsWithChildren) => (
+    <SuiIframeProviderValues>{children}</SuiIframeProviderValues>
+  ),
+]
+
+/**
+ * Guest (iframe) app.
+ *
+ * Connection lifecycle:
+ *  1. WidgetConfigProvider listens for INIT and stores the widget config.
+ *  2. WalletProvider creates a wagmi config with widgetLightIframe() and
+ *     syncs chains from the LI.FI API via useSyncWagmiConfig.
+ *  3. The connector's setup() creates the EthereumIframeProvider which sends
+ *     READY to the host and awaits INIT with ecosystem states.
+ *  4. When INIT arrives the connector emits wagmi 'connect' and the widget
+ *     config context updates, rendering this component.
+ *  5. Non-EVM providers (Solana, Bitcoin, Sui) receive their init state from
+ *     the ecosystems[] array in the INIT message.
+ */
+export function App() {
+  const widgetConfig = useEmbeddedWidgetConfig()
+
+  if (!widgetConfig) {
+    return null
+  }
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        height: '100vh',
-      }}
-    >
-      <CssBaseline />
-      <Box
-        sx={{
-          flex: 1,
-          margin: 'auto',
-        }}
-      >
-        <LiFiWidget
-          contractComponent={
-            <NFTOpenSea
-              network={pathnameParams[0] as NFTNetwork}
-              contractAddress={pathnameParams[1]}
-              tokenId={pathnameParams[2]}
-            />
-          }
-          contractSecondaryComponent={
-            <NFTOpenSeaSecondary
-              network={pathnameParams[0] as NFTNetwork}
-              contractAddress={pathnameParams[1]}
-              tokenId={pathnameParams[2]}
-            />
-          }
-          contractCompactComponent={
-            <NFTOpenSeaSecondary
-              network={pathnameParams[0] as NFTNetwork}
-              contractAddress={pathnameParams[1]}
-              tokenId={pathnameParams[2]}
-            />
-          }
-          contractTool={openSeaContractTool}
-          config={widgetConfig}
-          integrator={widgetConfig.integrator}
-          open
-        />
-      </Box>
-    </Box>
+    <>
+      <WidgetEventsBridge />
+      <LiFiWidget
+        integrator={(widgetConfig.integrator as string) ?? 'widget-embedded'}
+        providers={IFRAME_PROVIDERS}
+        config={widgetConfig}
+      />
+    </>
   )
 }

@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-provider-ethereum",
-  "version": "4.0.0-alpha.0",
+  "version": "4.0.0-beta.0",
   "description": "LI.FI Widget Provider for Ethereum blockchain integration.",
   "type": "module",
   "main": "./src/index.ts",
@@ -10,8 +10,8 @@
     "watch": "tsc -w -p ./tsconfig.json",
     "build": "pnpm clean && pnpm build:esm && pnpm build:clean",
     "build:esm": "tsc --build",
-    "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../*.md' .",
-    "build:postrelease": "node ../../scripts/postrelease.js && rm -rf *.md",
+    "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../README.md' .",
+    "build:postrelease": "node ../../scripts/postrelease.js && rm -rf README.md",
     "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo",
     "release:build": "pnpm build",
     "clean": "pnpm build:clean && rm -rf dist",
@@ -41,23 +41,19 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "^4.0.0-alpha.20",
-    "@lifi/sdk-provider-ethereum": "^4.0.0-alpha.20",
+    "@lifi/sdk": "4.0.0-beta.1",
+    "@lifi/sdk-provider-ethereum": "^4.0.0-beta.1",
     "@lifi/widget-provider": "workspace:*",
-    "viem": "^2.45.1"
+    "viem": "^2.47.4"
   },
   "peerDependencies": {
-    "wagmi": "^3.1.0"
+    "@wagmi/core": "^3.x",
+    "wagmi": "^3.5.0"
   },
   "devDependencies": {
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "react": "^19.2.4",
     "typescript": "^5.9.3"
-  },
-  "files": [
-    "dist/**",
-    "src/**",
-    "!tsconfig.json"
-  ]
+  }
 }

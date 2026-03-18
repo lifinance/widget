@@ -1,5 +1,5 @@
 {
-  "version": "3.38.0",
+  "version": "4.0.0-beta.0",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -54,17 +54,17 @@
     }
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.3.14",
-    "@commitlint/cli": "^20.4.1",
-    "@commitlint/config-conventional": "^20.4.1",
-    "@types/node": "^25.2.1",
+    "@biomejs/biome": "^2.4.7",
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
+    "@types/node": "^25.5.0",
     "@types/react": "^19.2.13",
     "@types/react-dom": "^19.2.3",
     "fs-extra": "^11.3.3",
     "husky": "^9.1.7",
-    "knip": "^5.83.0",
-    "lerna": "^9.0.3",
-    "lint-staged": "^16.2.7",
+    "knip": "^5.87.0",
+    "lerna": "^9.0.7",
+    "lint-staged": "^16.4.0",
     "standard-version": "^9.5.0",
     "typescript": "^5.9.3"
   },
@@ -91,5 +91,5 @@
       "zod": ">=4.1.11"
     }
   },
-  "packageManager": "pnpm@10.30.3"
+  "packageManager": "pnpm@10.32.1+sha512.a706938f0e89ac1456b6563eab4edf1d1faf3368d1191fc5c59790e96dc918e4456ab2e67d613de1043d2e8c81f87303e6b40d4ffeca9df15ef1ad567348f2be"
 }

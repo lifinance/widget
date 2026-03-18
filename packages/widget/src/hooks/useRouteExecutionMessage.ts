@@ -1,4 +1,4 @@
-import type { RouteExtended } from '@lifi/sdk'
+import type { ExecutionActionType, RouteExtended } from '@lifi/sdk'
 import { useTranslation } from 'react-i18next'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { RouteExecutionStatus } from '../stores/routes/types.js'
@@ -72,9 +72,13 @@ export const useRouteExecutionMessage = (
       if (!step) {
         break
       }
-      const action = step.execution?.actions.find(
+      const action = step.execution?.actions?.find(
         (action) => action.status === 'FAILED'
-      )
+      ) || {
+        status: 'FAILED',
+        type: 'EXECUTION' as ExecutionActionType,
+        error: step.execution?.error,
+      } // synthetic action to represent a failed execution with no actions
       const actionMessage = getErrorMessage(t, getChainById, step, action)
       title = actionMessage.title
       message = actionMessage.message

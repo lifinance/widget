@@ -1,0 +1,27 @@
+{
+  "name": "vite-iframe-wagmi",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:local": "vite --mode localhost",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@lifi/widget-light": "workspace:*",
+    "@tanstack/react-query": "^5.90.20",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "viem": "^2.47.4",
+    "wagmi": "^3.5.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.13",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "typescript": "^5.9.3",
+    "vite": "^8.0.0"
+  }
+}
