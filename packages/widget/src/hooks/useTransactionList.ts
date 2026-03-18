@@ -1,21 +1,21 @@
 import { useAccount } from '@lifi/wallet-management'
 import { useMemo } from 'react'
-import { useDeduplicateRoutes } from '../../hooks/useDeduplicateRoutes.js'
-import { useTransactionHistory } from '../../hooks/useTransactionHistory.js'
-import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.js'
-import type {
-  RouteExecution,
-  RouteExecutionState,
-} from '../../stores/routes/types.js'
-import { RouteExecutionStatus } from '../../stores/routes/types.js'
-import { getSourceTxHash } from '../../stores/routes/utils.js'
-import { hasEnumFlag } from '../../utils/enum.js'
 import type {
   ActiveItem,
   HistoryItem,
   LocalItem,
   TransactionListItem,
-} from './types.js'
+} from '../pages/ActivitiesPage/types.js'
+import { useRouteExecutionStore } from '../stores/routes/RouteExecutionStore.js'
+import type {
+  RouteExecution,
+  RouteExecutionState,
+} from '../stores/routes/types.js'
+import { RouteExecutionStatus } from '../stores/routes/types.js'
+import { getSourceTxHash } from '../stores/routes/utils.js'
+import { hasEnumFlag } from '../utils/enum.js'
+import { useDeduplicateRoutes } from './useDeduplicateRoutes.js'
+import { useTransactionHistory } from './useTransactionHistory.js'
 
 const routesSelector = (state: RouteExecutionState) => state.routes
 

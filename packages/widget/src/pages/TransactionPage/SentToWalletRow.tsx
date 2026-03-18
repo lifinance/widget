@@ -39,7 +39,7 @@ export const SentToWalletRow: React.FC<SentToWalletRowProps> = ({
         address: shortenAddress(toAddress),
       })}
       endAdornment={
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
           <IconButton size="small" onClick={handleCopy} sx={{ p: 0.5 }}>
             <ContentCopyRounded sx={{ fontSize: 16 }} />
           </IconButton>

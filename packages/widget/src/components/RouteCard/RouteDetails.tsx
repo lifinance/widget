@@ -83,9 +83,7 @@ export const RouteDetails = ({ route }: RouteDetailsProps) => {
     (feeAmountUSD || Number.isFinite(feeConfig?.fee)) && !hasGaslessSupport
 
   return (
-    <Box
-      sx={{ display: 'flex', flexDirection: 'column', gap: 1, pt: 3, pb: 0.5 }}
-    >
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, pt: 1.5 }}>
       <StepActions route={route} />
       <DetailRow>
         <DetailLabelContainer>

@@ -10,19 +10,19 @@ import {
   ErrorBadge,
   HistoryIconButton,
   ProgressContainer,
-} from './TransactionHistoryButton.style.js'
+} from './ActivitiesButton.style.js'
 
-export const TransactionHistoryButton = () => {
+export const ActivitiesButton = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const indicator = useRouteExecutionIndicator()
 
   return (
-    <Tooltip title={t('header.transactionHistory')}>
+    <Tooltip title={t('header.activities')}>
       <HistoryIconButton
         indicator={indicator}
         size="medium"
-        onClick={() => navigate({ to: navigationRoutes.transactionHistory })}
+        onClick={() => navigate({ to: navigationRoutes.activities })}
       >
         <ErrorBadge
           invisible={indicator !== 'failed'}

@@ -8,6 +8,7 @@ import {
 } from '@tanstack/react-router'
 import { AppLayout } from './AppLayout.js'
 import { NotFound } from './components/NotFound.js'
+import { ActivitiesPage } from './pages/ActivitiesPage/ActivitiesPage.js'
 import { LanguagesPage } from './pages/LanguagesPage.js'
 import { MainPage } from './pages/MainPage/MainPage.js'
 import { RoutesPage } from './pages/RoutesPage/RoutesPage.js'
@@ -21,7 +22,6 @@ import { SendToConfiguredWalletPage } from './pages/SendToWallet/SendToConfigure
 import { SendToWalletPage } from './pages/SendToWallet/SendToWalletPage.js'
 import { SettingsPage } from './pages/SettingsPage/SettingsPage.js'
 import { TransactionDetailsPage } from './pages/TransactionDetailsPage/TransactionDetailsPage.js'
-import { TransactionHistoryPage } from './pages/TransactionHistoryPage/TransactionHistoryPage.js'
 import { TransactionPage } from './pages/TransactionPage/TransactionPage.js'
 import { navigationRoutes } from './utils/navigationRoutes.js'
 
@@ -168,25 +168,25 @@ const configuredWalletsRoute = createRoute({
   component: SendToConfiguredWalletPage,
 })
 
-const transactionHistoryLayoutRoute = createRoute({
+const activitiesLayoutRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: navigationRoutes.transactionHistory,
+  path: navigationRoutes.activities,
 })
 
-const transactionHistoryIndexRoute = createRoute({
-  getParentRoute: () => transactionHistoryLayoutRoute,
+const activitiesIndexRoute = createRoute({
+  getParentRoute: () => activitiesLayoutRoute,
   path: '/',
-  component: TransactionHistoryPage,
+  component: ActivitiesPage,
 })
 
-const transactionHistoryDetailsRoute = createRoute({
-  getParentRoute: () => transactionHistoryLayoutRoute,
+const activitiesDetailsRoute = createRoute({
+  getParentRoute: () => activitiesLayoutRoute,
   path: navigationRoutes.transactionDetails,
   component: TransactionDetailsPage,
 })
 
-const transactionHistoryExecutionRoute = createRoute({
-  getParentRoute: () => transactionHistoryLayoutRoute,
+const activitiesExecutionRoute = createRoute({
+  getParentRoute: () => activitiesLayoutRoute,
   path: navigationRoutes.transactionExecution,
   component: TransactionPage,
 })
@@ -240,10 +240,10 @@ const routeTree = rootRoute.addChildren([
     sendToWalletConnectedWalletsRoute,
   ]),
   configuredWalletsRoute,
-  transactionHistoryLayoutRoute.addChildren([
-    transactionHistoryIndexRoute,
-    transactionHistoryDetailsRoute,
-    transactionHistoryExecutionRoute,
+  activitiesLayoutRoute.addChildren([
+    activitiesIndexRoute,
+    activitiesDetailsRoute,
+    activitiesExecutionRoute,
   ]),
 ])
 

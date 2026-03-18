@@ -5,20 +5,20 @@ import { useTranslation } from 'react-i18next'
 import { PageContainer } from '../../components/PageContainer.js'
 import { useHeader } from '../../hooks/useHeader.js'
 import { useListHeight } from '../../hooks/useListHeight.js'
+import { useTransactionList } from '../../hooks/useTransactionList.js'
 import { ActiveTransactionItem } from './ActiveTransactionItem.js'
 import { minTransactionListHeight } from './constants.js'
 import { TransactionHistoryEmpty } from './TransactionHistoryEmpty.js'
 import { TransactionHistoryItem } from './TransactionHistoryItem.js'
 import { TransactionHistoryItemSkeleton } from './TransactionHistorySkeleton.js'
-import { useTransactionList } from './useTransactionList.js'
 
-export const TransactionHistoryPage = () => {
+export const ActivitiesPage = () => {
   // Parent ref and useVirtualizer should be in one file to avoid blank page (0 virtual items) issue
   const parentRef = useRef<HTMLDivElement | null>(null)
   const { items, isLoading } = useTransactionList()
 
   const { t } = useTranslation()
-  useHeader(t('header.transactionHistory'))
+  useHeader(t('header.activities'))
 
   const { listHeight } = useListHeight({
     listParentRef: parentRef,
