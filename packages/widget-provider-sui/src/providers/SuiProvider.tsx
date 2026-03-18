@@ -24,13 +24,7 @@ const SuiWidgetProvider = ({
     )
   }
 
-  return (
-    <SuiBaseProvider chains={chains}>
-      <SuiProviderValues isExternalContext={inSuiContext}>
-        {children}
-      </SuiProviderValues>
-    </SuiBaseProvider>
-  )
+  return <SuiBaseProvider chains={chains}>{children}</SuiBaseProvider>
 }
 
 export const SuiProvider = () => {

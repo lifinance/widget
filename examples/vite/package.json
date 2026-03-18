@@ -14,12 +14,12 @@
     "@lifi/wallet-management": "^3.22.8",
     "@lifi/widget": "^3.40.12",
     "@mui/material": "^7.3.6",
-    "@tanstack/react-query": "^5.90.20",
+    "@tanstack/react-query": "^5.91.0",
     "@wagmi/connectors": "^7.1.6",
     "events": "^3.3.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "viem": "^2.47.4",
+    "viem": "^2.47.5",
     "wagmi": "^2.19.4"
   },
   "devDependencies": {
