@@ -7,7 +7,8 @@ import { RouteToken } from './RouteToken.js'
 
 export const RouteTokens: React.FC<{
   route: RouteExtended
-}> = ({ route }) => {
+  showEssentials?: boolean
+}> = ({ route, showEssentials }) => {
   const { subvariant, defaultUI } = useWidgetConfig()
 
   const fromToken = {
@@ -46,6 +47,7 @@ export const RouteTokens: React.FC<{
           token={toToken}
           impactToken={fromToken}
           defaultExpanded={defaultUI?.transactionDetailsExpanded}
+          showEssentials={showEssentials}
         />
       ) : null}
     </Box>

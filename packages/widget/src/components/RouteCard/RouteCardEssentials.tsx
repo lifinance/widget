@@ -1,12 +1,18 @@
 import AccessTimeFilled from '@mui/icons-material/AccessTimeFilled'
 import LocalGasStationRounded from '@mui/icons-material/LocalGasStationRounded'
-import { Box, Tooltip, Typography } from '@mui/material'
+import { Box, Tooltip } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+import { useTokenRateText } from '../../hooks/useTokenRateText.js'
 import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
 import { formatDuration } from '../../utils/format.js'
 import { FeeBreakdownTooltip } from '../FeeBreakdownTooltip.js'
 import { IconTypography } from '../IconTypography.js'
-import { TokenRate } from '../TokenRate/TokenRate.js'
+import {
+  EssentialsContainer,
+  EssentialsIconValueContainer,
+  EssentialsRateTypography,
+  EssentialsValueTypography,
+} from './RouteCardEssentials.style.js'
 import type { RouteCardEssentialsProps } from './types.js'
 
 export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
@@ -14,6 +20,7 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
   showDuration = true,
 }) => {
   const { t, i18n } = useTranslation()
+  const { rateText, toggleRate } = useTokenRateText(route)
   const executionTimeSeconds = Math.floor(
     route.steps.reduce(
       (duration, step) => duration + step.estimate.executionDuration,
@@ -24,76 +31,44 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
   const { gasCosts, feeCosts, combinedFeesUSD } =
     getAccumulatedFeeCostsBreakdown(route)
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flex: 1,
-        mt: 2,
-        gap: 1.5,
-      }}
-    >
-      <TokenRate route={route} />
+    <EssentialsContainer>
+      <Tooltip title={t('tooltip.exchangeRate')}>
+        <EssentialsRateTypography onClick={toggleRate} role="button">
+          {rateText}
+        </EssentialsRateTypography>
+      </Tooltip>
       <Box display="flex" alignItems="center" gap={1}>
         <FeeBreakdownTooltip
           gasCosts={gasCosts}
           feeCosts={feeCosts}
           gasless={!combinedFeesUSD}
         >
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 0.75,
-            }}
-          >
+          <EssentialsIconValueContainer>
             <IconTypography fontSize={16}>
               <LocalGasStationRounded fontSize="inherit" />
             </IconTypography>
-            <Typography
-              data-value={combinedFeesUSD}
-              sx={{
-                fontSize: 14,
-                color: 'text.primary',
-                fontWeight: 600,
-                lineHeight: 1,
-              }}
-            >
+            <EssentialsValueTypography data-value={combinedFeesUSD}>
               {!combinedFeesUSD
                 ? t('main.fees.free')
                 : t('format.currency', {
                     value: combinedFeesUSD,
                   })}
-            </Typography>
-          </Box>
+            </EssentialsValueTypography>
+          </EssentialsIconValueContainer>
         </FeeBreakdownTooltip>
         {showDuration && (
           <Tooltip title={t('tooltip.estimatedTime')}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 0.75,
-              }}
-            >
+            <EssentialsIconValueContainer>
               <IconTypography fontSize={16}>
                 <AccessTimeFilled fontSize="inherit" />
               </IconTypography>
-              <Typography
-                sx={{
-                  fontSize: 14,
-                  color: 'text.primary',
-                  fontWeight: 600,
-                  lineHeight: 1,
-                }}
-              >
+              <EssentialsValueTypography>
                 {formatDuration(executionTimeSeconds, i18n.language)}
-              </Typography>
-            </Box>
+              </EssentialsValueTypography>
+            </EssentialsIconValueContainer>
           </Tooltip>
         )}
       </Box>
-    </Box>
+    </EssentialsContainer>
   )
 }

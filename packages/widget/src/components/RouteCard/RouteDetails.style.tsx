@@ -1,3 +1,4 @@
+import InfoOutlined from '@mui/icons-material/InfoOutlined'
 import { Box, styled, Typography } from '@mui/material'
 
 export const DetailRow = styled(Box)(({ theme }) => ({
@@ -14,20 +15,20 @@ export const DetailLabelContainer = styled(Box)(({ theme }) => ({
 }))
 
 export const DetailLabel = styled(Typography)(({ theme }) => ({
-  fontSize: 12,
+  fontSize: 14,
   fontWeight: 500,
-  lineHeight: '16px',
+  lineHeight: 1.3334,
   color: theme.vars.palette.text.secondary,
 }))
 
 export const DetailValue = styled(Typography)(() => ({
-  fontSize: 12,
+  fontSize: 14,
   fontWeight: 700,
-  lineHeight: '16px',
+  lineHeight: 1.3334,
   textAlign: 'right',
 }))
 
-export const DetailInfoIcon = {
+export const DetailInfoIcon = styled(InfoOutlined)(({ theme }) => ({
   fontSize: 16,
-  color: 'text.secondary',
-} as const
+  color: theme.vars.palette.text.secondary,
+}))

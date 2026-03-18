@@ -1,32 +1,21 @@
 import { formatUnits, type RouteExtended } from '@lifi/sdk'
-import type { TypographyProps } from '@mui/material'
 import type { MouseEventHandler } from 'react'
 import { useTranslation } from 'react-i18next'
 import { create } from 'zustand'
-import { TokenRateTypography } from './TokenRate.style.js'
-
-interface TokenRateProps extends TypographyProps {
-  route: RouteExtended
-}
 
 interface TokenRateState {
   isForward: boolean
   toggleIsForward(): void
 }
 
-const useTokenRate = create<TokenRateState>((set) => ({
+const useTokenRateStore = create<TokenRateState>((set) => ({
   isForward: true,
   toggleIsForward: () => set((state) => ({ isForward: !state.isForward })),
 }))
 
-export const TokenRate: React.FC<TokenRateProps> = ({ route }) => {
+export function useTokenRateText(route: RouteExtended) {
   const { t } = useTranslation()
-  const { isForward, toggleIsForward } = useTokenRate()
-
-  const toggleRate: MouseEventHandler<HTMLSpanElement> = (e) => {
-    e.stopPropagation()
-    toggleIsForward()
-  }
+  const { isForward, toggleIsForward } = useTokenRateStore()
 
   const lastStep = route.steps.at(-1)
 
@@ -54,9 +43,10 @@ export const TokenRate: React.FC<TokenRateProps> = ({ route }) => {
     ? `1 ${fromToken.symbol} ≈ ${t('format.tokenAmount', { value: fromToRate })} ${toToken.symbol}`
     : `1 ${toToken.symbol} ≈ ${t('format.tokenAmount', { value: toFromRate })} ${fromToken.symbol}`
 
-  return (
-    <TokenRateTypography onClick={toggleRate} role="button">
-      {rateText}
-    </TokenRateTypography>
-  )
+  const toggleRate: MouseEventHandler = (e) => {
+    e.stopPropagation()
+    toggleIsForward()
+  }
+
+  return { rateText, toggleRate }
 }

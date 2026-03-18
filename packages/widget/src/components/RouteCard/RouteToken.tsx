@@ -7,6 +7,7 @@ import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.j
 import { HiddenUI } from '../../types/widget.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
 import { Token } from '../Token/Token.js'
+import { RouteCardEssentials } from './RouteCardEssentials.js'
 import { RouteDetails } from './RouteDetails.js'
 import { TokenContainer } from './RouteToken.style.js'
 
@@ -15,6 +16,7 @@ interface RouteTokenProps {
   token: TokenAmount
   impactToken?: TokenAmount
   defaultExpanded?: boolean
+  showEssentials?: boolean
 }
 
 export const RouteToken = ({
@@ -22,6 +24,7 @@ export const RouteToken = ({
   token,
   impactToken,
   defaultExpanded,
+  showEssentials,
 }: RouteTokenProps) => {
   const { hiddenUI } = useWidgetConfig()
 
@@ -57,6 +60,11 @@ export const RouteToken = ({
       <Collapse timeout={225} in={cardExpanded} mountOnEnter unmountOnExit>
         <RouteDetails route={route} />
       </Collapse>
+      {showEssentials ? (
+        <Collapse timeout={225} in={!cardExpanded}>
+          <RouteCardEssentials route={route} />
+        </Collapse>
+      ) : null}
     </Box>
   )
 }

@@ -22,6 +22,8 @@ import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { SmallAvatar } from '../Avatar/SmallAvatar.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
 import {
+  StepActionsHeader,
+  StepActionsTitle,
   StepConnector,
   StepContent,
   StepLabel,
@@ -43,22 +45,9 @@ export const StepActions: React.FC<{
   const includedSteps = route.steps.flatMap((step) => step.includedSteps)
 
   return (
-    <Box sx={{ pb: 0.5 }}>
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Typography
-          sx={{
-            fontSize: 12,
-            fontWeight: 700,
-          }}
-        >
-          {t('main.route')}
-        </Typography>
+    <Box>
+      <StepActionsHeader>
+        <StepActionsTitle>{t('main.route')}</StepActionsTitle>
 
         <CardIconButton
           onClick={handleExpand}
@@ -89,7 +78,7 @@ export const StepActions: React.FC<{
             </Box>
           )}
         </CardIconButton>
-      </Box>
+      </StepActionsHeader>
       <Collapse timeout={225} in={cardExpanded} mountOnEnter unmountOnExit>
         {route.steps.map((step) => (
           <IncludedSteps key={step.id} step={step} />
@@ -136,7 +125,7 @@ const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
       <SmallAvatar
         src={toolLogoURI}
         alt={toolName}
-        sx={{ width: 20, height: 20 }}
+        sx={{ width: 32, height: 32 }}
       >
         {toolName?.[0]}
       </SmallAvatar>
@@ -148,7 +137,7 @@ const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
   return (
     <Box
       sx={{
-        mt: 1,
+        my: 1,
       }}
     >
       <Stepper

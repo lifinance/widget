@@ -1,12 +1,16 @@
 import type { RouteExtended } from '@lifi/sdk'
 import { useEthereumContext } from '@lifi/widget-provider'
-import InfoOutlined from '@mui/icons-material/InfoOutlined'
 import { Box, Tooltip } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+import { useTokenRateText } from '../../hooks/useTokenRateText.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { isRouteDone } from '../../stores/routes/utils.js'
 import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
-import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
+import {
+  formatDuration,
+  formatTokenAmount,
+  formatTokenPrice,
+} from '../../utils/format.js'
 import { getPriceImpact } from '../../utils/getPriceImpact.js'
 import { FeeBreakdownTooltip } from '../FeeBreakdownTooltip.js'
 import { StepActions } from '../StepActions/StepActions.js'
@@ -23,7 +27,8 @@ interface RouteDetailsProps {
 }
 
 export const RouteDetails = ({ route }: RouteDetailsProps) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const { rateText, toggleRate } = useTokenRateText(route)
 
   const { feeConfig } = useWidgetConfig()
 
@@ -65,6 +70,13 @@ export const RouteDetails = ({ route }: RouteDetailsProps) => {
       ) ?? 0
   }
 
+  const executionTimeSeconds = Math.floor(
+    route.steps.reduce(
+      (duration, step) => duration + step.estimate.executionDuration,
+      0
+    )
+  )
+
   const hasGaslessSupport = route.steps.every((step) => isGaslessStep?.(step))
 
   const showIntegratorFeeCollectionDetails =
@@ -79,7 +91,7 @@ export const RouteDetails = ({ route }: RouteDetailsProps) => {
         <DetailLabelContainer>
           <DetailLabel>{t('main.fees.network')}</DetailLabel>
           <FeeBreakdownTooltip gasCosts={gasCosts} gasless={hasGaslessSupport}>
-            <InfoOutlined sx={DetailInfoIcon} />
+            <DetailInfoIcon />
           </FeeBreakdownTooltip>
         </DetailLabelContainer>
         <DetailValue>
@@ -95,7 +107,7 @@ export const RouteDetails = ({ route }: RouteDetailsProps) => {
           <DetailLabelContainer>
             <DetailLabel>{t('main.fees.provider')}</DetailLabel>
             <FeeBreakdownTooltip feeCosts={feeCosts}>
-              <InfoOutlined sx={DetailInfoIcon} />
+              <DetailInfoIcon />
             </FeeBreakdownTooltip>
           </DetailLabelContainer>
           <DetailValue>
@@ -122,7 +134,7 @@ export const RouteDetails = ({ route }: RouteDetailsProps) => {
                   t('tooltip.feeCollection', { tool: feeConfig.name })
                 }
               >
-                <InfoOutlined sx={DetailInfoIcon} />
+                <DetailInfoIcon />
               </Tooltip>
             ) : null}
           </DetailLabelContainer>
@@ -137,7 +149,7 @@ export const RouteDetails = ({ route }: RouteDetailsProps) => {
         <DetailLabelContainer>
           <DetailLabel>{t('main.priceImpact')}</DetailLabel>
           <Tooltip title={t('tooltip.priceImpact')}>
-            <InfoOutlined sx={DetailInfoIcon} />
+            <DetailInfoIcon />
           </Tooltip>
         </DetailLabelContainer>
         <DetailValue>
@@ -153,7 +165,7 @@ export const RouteDetails = ({ route }: RouteDetailsProps) => {
             <DetailLabelContainer>
               <DetailLabel>{t('main.maxSlippage')}</DetailLabel>
               <Tooltip title={t('tooltip.slippage')}>
-                <InfoOutlined sx={DetailInfoIcon} />
+                <DetailInfoIcon />
               </Tooltip>
             </DetailLabelContainer>
             <DetailValue>
@@ -168,7 +180,7 @@ export const RouteDetails = ({ route }: RouteDetailsProps) => {
             <DetailLabelContainer>
               <DetailLabel>{t('main.minReceived')}</DetailLabel>
               <Tooltip title={t('tooltip.minReceived')}>
-                <InfoOutlined sx={DetailInfoIcon} />
+                <DetailInfoIcon />
               </Tooltip>
             </DetailLabelContainer>
             <DetailValue>
@@ -183,6 +195,32 @@ export const RouteDetails = ({ route }: RouteDetailsProps) => {
           </DetailRow>
         </>
       ) : null}
+      <DetailRow>
+        <DetailLabelContainer>
+          <DetailLabel>{t('main.exchangeRate')}</DetailLabel>
+          <Tooltip title={t('tooltip.exchangeRate')}>
+            <DetailInfoIcon />
+          </Tooltip>
+        </DetailLabelContainer>
+        <DetailValue
+          onClick={toggleRate}
+          role="button"
+          sx={{ cursor: 'pointer' }}
+        >
+          {rateText}
+        </DetailValue>
+      </DetailRow>
+      <DetailRow>
+        <DetailLabelContainer>
+          <DetailLabel>{t('main.estimatedTime')}</DetailLabel>
+          <Tooltip title={t('tooltip.estimatedTime')}>
+            <DetailInfoIcon />
+          </Tooltip>
+        </DetailLabelContainer>
+        <DetailValue>
+          {formatDuration(executionTimeSeconds, i18n.language)}
+        </DetailValue>
+      </DetailRow>
     </Box>
   )
 }

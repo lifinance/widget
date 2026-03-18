@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { Card } from '../../components/Card/Card.js'
 import { WarningMessages } from '../../components/Messages/WarningMessages.js'
-import { RouteCardEssentials } from '../../components/RouteCard/RouteCardEssentials.js'
 import { RouteTokens } from '../../components/RouteCard/RouteTokens.js'
 import { useAddressActivity } from '../../hooks/useAddressActivity.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
@@ -130,8 +129,7 @@ export const TransactionReview: React.FC<TransactionReviewProps> = ({
   return (
     <>
       <Card type="default" indented>
-        <RouteTokens route={route} />
-        <RouteCardEssentials route={route} />
+        <RouteTokens route={route} showEssentials />
       </Card>
       <WarningMessages mt={2} route={route} allowInteraction />
       <Box sx={{ flex: 1 }}>

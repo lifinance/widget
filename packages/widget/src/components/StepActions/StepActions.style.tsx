@@ -31,8 +31,8 @@ export const StepLabel = styled(MuiStepLabel, {
   padding: 0,
   alignItems: 'center',
   [`.${stepLabelClasses.iconContainer}`]: {
-    paddingLeft: theme.spacing(1.25),
-    paddingRight: theme.spacing(3.25),
+    paddingLeft: theme.spacing(0.5),
+    paddingRight: theme.spacing(2.5),
   },
   [`.${stepLabelClasses.labelContainer}`]: {
     minHeight: 24,
@@ -78,4 +78,15 @@ export const StepContent = styled(Box, {
 export const StepAvatar = styled(AvatarMasked)(({ theme }) => ({
   color: theme.vars.palette.text.primary,
   backgroundColor: 'transparent',
+}))
+
+export const StepActionsHeader = styled(Box)(() => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+}))
+
+export const StepActionsTitle = styled(Typography)(() => ({
+  fontSize: 14,
+  fontWeight: 700,
 }))
