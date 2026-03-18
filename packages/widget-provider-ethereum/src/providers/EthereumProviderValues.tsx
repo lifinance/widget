@@ -5,7 +5,11 @@ import {
   isDelegationDesignatorCode,
   isGaslessStep,
 } from '@lifi/sdk-provider-ethereum'
-import { EthereumContext, isWalletInstalled } from '@lifi/widget-provider'
+import {
+  EthereumContext,
+  isWalletInstalled,
+  resolveConfig,
+} from '@lifi/widget-provider'
 import {
   type FC,
   type PropsWithChildren,
@@ -39,7 +43,6 @@ import type {
   CreateConnectorFnExtended,
   EthereumProviderConfig,
 } from '../types.js'
-import { resolveConfig } from '../utils/resolveConfig.js'
 
 interface EthereumProviderValuesProps {
   isExternalContext: boolean

@@ -30,6 +30,8 @@
     "@lifi/widget-provider-ethereum": "workspace:*",
     "@lifi/widget-provider-solana": "workspace:*",
     "@lifi/widget-provider-sui": "workspace:*",
+    "@lifi/widget-provider-tron": "workspace:*",
+    "@tronweb3/tronwallet-adapter-react-hooks": "^1.1.11",
     "@metamask/connect-evm": "^0.9.1",
     "@monaco-editor/react": "^4.7.0",
     "@mui/icons-material": "^7.3.10",

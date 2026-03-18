@@ -39,7 +39,8 @@
     "ENS",
     "web3",
     "blockchain",
-    "lifi"
+    "lifi",
+    "tron"
   ],
   "dependencies": {
     "@emotion/react": "^11.14.0",
