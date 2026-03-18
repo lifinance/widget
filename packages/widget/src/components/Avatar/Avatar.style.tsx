@@ -10,12 +10,13 @@ import {
 import { getAvatarMask } from './utils.js'
 
 export const AvatarMasked = styled(MuiAvatar, {
-  shouldForwardProp: (prop) => prop !== 'avatarSize' && prop !== 'badgeSize',
-})<{ avatarSize?: number; badgeSize?: number }>(
-  ({ avatarSize = 40, badgeSize = 16 }) => ({
+  shouldForwardProp: (prop: string) =>
+    !['avatarSize', 'badgeSize', 'badgeBorderWidthPx'].includes(prop),
+})<{ avatarSize?: number; badgeSize?: number; badgeBorderWidthPx?: number }>(
+  ({ avatarSize = 40, badgeSize = 16, badgeBorderWidthPx = 2.5 }) => ({
     width: avatarSize,
     height: avatarSize,
-    mask: getAvatarMask(badgeSize),
+    mask: getAvatarMask(badgeSize, badgeBorderWidthPx),
   })
 )
 
@@ -37,24 +38,27 @@ export const TokenAvatarGroup = styled(AvatarGroup)(({ theme }) => ({
 }))
 
 export const AvatarDefault = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'badgeSize',
-})<{ badgeSize?: number }>(({ theme, badgeSize = 16 }) => {
-  const root = theme.components?.MuiAvatar?.styleOverrides?.root as CSSObject
-  return {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: '50%',
-    height: root?.height,
-    width: root?.width,
-    color: theme.vars.palette.text.secondary,
-    mask: getAvatarMask(badgeSize),
-    background: theme.vars.palette.grey[300],
-    ...theme.applyStyles('dark', {
-      background: theme.vars.palette.grey[800],
-    }),
+  shouldForwardProp: (prop) =>
+    prop !== 'badgeSize' && prop !== 'badgeBorderWidthPx',
+})<{ badgeSize?: number; badgeBorderWidthPx?: number }>(
+  ({ theme, badgeSize = 16, badgeBorderWidthPx = 2.5 }) => {
+    const root = theme.components?.MuiAvatar?.styleOverrides?.root as CSSObject
+    return {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: '50%',
+      height: root?.height,
+      width: root?.width,
+      color: theme.vars.palette.text.secondary,
+      mask: getAvatarMask(badgeSize, badgeBorderWidthPx),
+      background: theme.vars.palette.grey[300],
+      ...theme.applyStyles('dark', {
+        background: theme.vars.palette.grey[800],
+      }),
+    }
   }
-})
+)
 
 export const AvatarDefaultBadge = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'size',

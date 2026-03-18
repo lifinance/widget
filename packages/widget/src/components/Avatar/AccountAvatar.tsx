@@ -12,6 +12,9 @@ interface AccountAvatarProps {
   account?: Account
   toAddress?: ToAddress
   empty?: boolean
+  size?: number
+  badgeSize?: number
+  badgeBorderWidthPx?: number
 }
 
 export const AccountAvatar = ({
@@ -19,21 +22,37 @@ export const AccountAvatar = ({
   account,
   empty,
   toAddress,
+  size,
+  badgeSize,
+  badgeBorderWidthPx,
 }: AccountAvatarProps) => {
   const { chain } = useChain(chainId)
 
+  const walletIconSize = size ? Math.floor(size * 0.5) : 20
+
   const avatar = empty ? (
-    <AvatarDefault />
+    <AvatarDefault
+      badgeSize={badgeSize}
+      badgeBorderWidthPx={badgeBorderWidthPx}
+      sx={size ? { width: size, height: size } : undefined}
+    />
   ) : account?.connector || toAddress?.logoURI ? (
     <AvatarMasked
       src={toAddress?.logoURI || getConnectorIcon(account?.connector)}
       alt={toAddress?.name || account?.connector?.name}
+      avatarSize={size}
+      badgeSize={badgeSize}
+      badgeBorderWidthPx={badgeBorderWidthPx}
     >
       {(toAddress?.name || account?.connector?.name)?.[0]}
     </AvatarMasked>
   ) : (
-    <AvatarDefault>
-      <Wallet sx={{ fontSize: 20 }} />
+    <AvatarDefault
+      badgeSize={badgeSize}
+      badgeBorderWidthPx={badgeBorderWidthPx}
+      sx={size ? { width: size, height: size } : undefined}
+    >
+      <Wallet sx={{ fontSize: walletIconSize }} />
     </AvatarDefault>
   )
 
@@ -41,7 +60,7 @@ export const AccountAvatar = ({
     <Badge
       overlap="circular"
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      badgeContent={<ChainBadgeContent chain={chain} />}
+      badgeContent={<ChainBadgeContent chain={chain} size={badgeSize} />}
     >
       {avatar}
     </Badge>
