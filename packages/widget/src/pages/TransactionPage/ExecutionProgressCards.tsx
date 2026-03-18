@@ -6,11 +6,8 @@ import { RouteTokens } from '../../components/RouteCard/RouteTokens.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { hasEnumFlag } from '../../utils/enum.js'
-import { prepareActions } from '../../utils/prepareActions.js'
 import { ExecutionDoneCard } from './ExecutionDoneCard.js'
-import { TransactionList } from './ReceiptsCard.style.js'
-import { SentToWalletRow } from './SentToWalletRow.js'
-import { StepActionRow } from './StepActionRow.js'
+import { StepActionsList } from './StepActionsList.js'
 
 interface ExecutionProgressCardsProps {
   route: RouteExtended
@@ -24,6 +21,10 @@ export const ExecutionProgressCards: React.FC<ExecutionProgressCardsProps> = ({
   const { feeConfig } = useWidgetConfig()
   const isDone = hasEnumFlag(status, RouteExecutionStatus.Done)
   const toAddress = isDone ? route.toAddress : undefined
+  const hasActions = route.steps.some(
+    (step) => (step.execution?.actions?.length ?? 0) > 0
+  )
+  const hasListItems = hasActions || !!toAddress
   const VcComponent =
     status === RouteExecutionStatus.Done ? feeConfig?._vcComponent : undefined
 
@@ -32,27 +33,9 @@ export const ExecutionProgressCards: React.FC<ExecutionProgressCardsProps> = ({
       <Card type="default" indented>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <ExecutionProgress route={route} status={status} />
-          <TransactionList>
-            {route.steps.map((step) => (
-              <TransactionList key={step.id}>
-                {prepareActions(step.execution?.actions ?? []).map(
-                  (actionsGroup, index) => (
-                    <StepActionRow
-                      key={index}
-                      step={step}
-                      actionsGroup={actionsGroup}
-                    />
-                  )
-                )}
-              </TransactionList>
-            ))}
-            {toAddress ? (
-              <SentToWalletRow
-                toAddress={toAddress}
-                toChainId={route.toChainId}
-              />
-            ) : undefined}
-          </TransactionList>
+          {hasListItems ? (
+            <StepActionsList route={route} toAddress={toAddress} />
+          ) : null}
         </Box>
       </Card>
       {isDone ? (

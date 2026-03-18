@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLoopProgress } from '../../hooks/timer/useLoopProgress.js'
 import { useTimer } from '../../hooks/timer/useTimer.js'
-import { formatTimer } from '../../utils/timer.js'
+import { formatTimer, getExpiryTimestamp } from '../../utils/timer.js'
 import { iconCircleSize } from '../IconCircle/IconCircle.style.js'
 import {
   ProgressFill,
@@ -12,14 +12,6 @@ import {
   StatusCircle,
   TimerLabel,
 } from './StepStatusTimer.style.js'
-
-function getExpiryTimestamp(step?: LiFiStepExtended): Date {
-  const { signedAt } = step?.execution ?? {}
-  if (!step || !signedAt) {
-    return new Date()
-  }
-  return new Date(signedAt + step.estimate.executionDuration * 1000)
-}
 
 interface TimerRingProps {
   step?: LiFiStepExtended

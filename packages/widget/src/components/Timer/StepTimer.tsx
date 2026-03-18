@@ -3,18 +3,7 @@ import { Typography } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTimer } from '../../hooks/timer/useTimer.js'
-import { formatTimer } from '../../utils/timer.js'
-
-const getExpiryTimestamp = (step: LiFiStepExtended) => {
-  const execution = step?.execution
-  if (!execution) {
-    return new Date()
-  }
-  const expiry = new Date(
-    (execution.signedAt ?? Date.now()) + step.estimate.executionDuration * 1000
-  )
-  return expiry
-}
+import { formatTimer, getExpiryTimestamp } from '../../utils/timer.js'
 
 export const StepTimer: React.FC<{
   step: LiFiStepExtended
