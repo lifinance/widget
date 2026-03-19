@@ -22,7 +22,7 @@ interface WidgetViewContainerProps extends PropsWithChildren {
   toggleDrawer?(): void
 }
 
-const topAlignedLayouts: Layout[] = ['default', 'restricted-max-height']
+const topAlignedLayouts: Layout[] = ['restricted-max-height']
 
 export function WidgetViewContainer({
   children,
@@ -43,6 +43,10 @@ export function WidgetViewContainer({
 
   const showHeader = isFullHeightLayout && showMockHeader
   const showFooter = isFullHeightLayout && showMockFooter
+
+  const isDefault =
+    !config?.theme?.container?.height ||
+    config?.theme?.container?.height === 'fit-content'
 
   return (
     <Main open={isDrawerOpen} drawerWidth={drawerWidth}>
@@ -78,7 +82,7 @@ export function WidgetViewContainer({
           ) : null}
           <WidgetContainerRow
             sx={
-              isFullHeightLayout && isFooterFixed
+              (isFullHeightLayout && isFooterFixed) || isDefault
                 ? { marginBottom: 6 }
                 : undefined
             }
@@ -86,7 +90,6 @@ export function WidgetViewContainer({
               config?.theme?.container?.display === 'flex' ||
               topAlignedLayouts.includes(selectedLayoutId)
             }
-            widgetContainer={config?.theme?.container}
           >
             {children}
           </WidgetContainerRow>
