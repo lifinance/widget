@@ -3,18 +3,13 @@ import type {
   TransakCryptoCurrency,
   TransakRefreshTokenResponse,
   TransakSessionResponse,
-} from './types.js'
+} from './types'
 
 const PARTNER_API_BASE =
   process.env.TRANSAK_PARTNER_API_BASE?.trim() || 'https://api-stg.transak.com'
 const API_GATEWAY_BASE =
   process.env.TRANSAK_API_GATEWAY_BASE?.trim() ||
   'https://api-gateway-stg.transak.com'
-
-console.log('[Transak] Config:', {
-  PARTNER_API_BASE,
-  API_GATEWAY_BASE,
-})
 
 export class TransakHttpError extends Error {
   status: number
@@ -52,7 +47,7 @@ export async function refreshPartnerToken(
       url,
       status: res.status,
       response: text,
-      apiKeyPrefix: apiKey?.slice(0, 8) + '...',
+      apiKeyPrefix: `${apiKey?.slice(0, 8)}...`,
     })
     throw new TransakHttpError(
       `Failed to refresh Transak token: ${res.status} - ${text}`,
@@ -115,7 +110,7 @@ export async function createSession(
       url,
       status: res.status,
       response: text,
-      accessTokenPrefix: accessToken?.slice(0, 20) + '...',
+      accessTokenPrefix: `${accessToken?.slice(0, 20)}...`,
       widgetParams,
     })
     throw new TransakHttpError(
