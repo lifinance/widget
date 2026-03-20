@@ -8,6 +8,16 @@ import { palette, paletteDark, paletteLight } from '@lifi/widget'
 import { getValueFromPath } from '../../utils/getValueFromPath.js'
 import { useWidgetConfigStore } from './WidgetConfigProvider.js'
 
+export const usePlaygroundWidgetMode = () => {
+  const playgroundWidgetMode = useWidgetConfigStore(
+    (store) => store.playgroundWidgetMode
+  )
+
+  return {
+    playgroundWidgetMode,
+  }
+}
+
 export const useConfigVariant = (): { variant: WidgetVariant | 'default' } => {
   const variant = useWidgetConfigStore((store) => store.config?.variant)
 

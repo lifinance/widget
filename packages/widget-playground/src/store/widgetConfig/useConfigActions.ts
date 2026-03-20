@@ -45,6 +45,7 @@ export const useConfigActions = (): Pick<
     setFormValues: state.setFormValues,
     setChainSidebarDisabled: state.setChainSidebarDisabled,
     setSplitOption: state.setSplitOption,
+    setPlaygroundWidgetMode: state.setPlaygroundWidgetMode,
   }))
 
   return actions

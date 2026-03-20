@@ -26,6 +26,7 @@ import { ThemeControl } from './DesignControls/ThemeControl.js'
 import { VariantControl } from './DesignControls/VariantControl.js'
 import { WalletManagementControl } from './DesignControls/WalletManagementControl.js'
 import { WidgetEventControls } from './DesignControls/WidgetEventsControls.js'
+import { WidgetModeControl } from './DesignControls/WidgetModeControl.js'
 import {
   Drawer,
   DrawerContentContainer,
@@ -117,6 +118,7 @@ export const DrawerControls = (): JSX.Element => {
             >
               <ExpandableCardAccordion>
                 <WidgetConfigControls>
+                  <WidgetModeControl />
                   <VariantControl />
                   <SubvariantControl />
                   <AppearanceControl />

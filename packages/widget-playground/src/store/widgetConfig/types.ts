@@ -12,11 +12,14 @@ import type { StoreApi, UseBoundStore } from 'zustand'
 import type { ThemeItem } from '../editTools/types.js'
 import type { FormValues } from '../types.js'
 
+export type PlaygroundWidgetMode = 'swap' | 'checkout'
+
 interface WidgetConfigValues {
   defaultConfig?: Partial<WidgetConfig>
   config?: Partial<WidgetConfig>
   themeId: string
   widgetThemeItems: ThemeItem[]
+  playgroundWidgetMode: PlaygroundWidgetMode
 }
 
 interface WidgetConfigActions {
@@ -42,6 +45,7 @@ interface WidgetConfigActions {
   setFormValues: (formValues: FormValues) => void
   setChainSidebarDisabled: (disabled: boolean) => void
   setSplitOption: (option?: SplitSubvariant) => void
+  setPlaygroundWidgetMode: (mode: PlaygroundWidgetMode) => void
 }
 
 export type WidgetConfigState = WidgetConfigValues & WidgetConfigActions
