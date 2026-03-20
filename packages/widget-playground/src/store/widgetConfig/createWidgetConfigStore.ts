@@ -24,6 +24,10 @@ export const createWidgetConfigStore = (
         },
         themeId: 'default',
         widgetThemeItems: themeItems,
+        playgroundWidgetMode: 'swap',
+        setPlaygroundWidgetMode: (playgroundWidgetMode) => {
+          set({ playgroundWidgetMode })
+        },
         setConfig: (config) => {
           set({
             config: {
@@ -42,6 +46,7 @@ export const createWidgetConfigStore = (
         resetConfig: () => {
           set({
             themeId: 'default',
+            playgroundWidgetMode: 'swap',
             config: cloneStructuredConfig<Partial<WidgetConfig>>(
               get().defaultConfig!
             ),
@@ -269,12 +274,23 @@ export const createWidgetConfigStore = (
       }),
       {
         name: 'li.fi-playground-config',
-        version: 2,
+        version: 3,
+        migrate: (persisted, fromVersion) => {
+          const base = persisted as Record<string, unknown>
+          if (fromVersion < 3) {
+            return {
+              ...base,
+              playgroundWidgetMode: 'swap',
+            }
+          }
+          return persisted
+        },
         partialize: (state) => ({
           config: state?.config
             ? getLocalStorageOutput(state.config)
             : undefined,
           themeId: state.themeId,
+          playgroundWidgetMode: state.playgroundWidgetMode,
         }),
         onRehydrateStorage: () => {
           return (state) => {
