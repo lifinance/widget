@@ -12,11 +12,6 @@ export default defineConfig({
     react(),
   ],
   oxc: {
-    inject: {
-      Buffer: ['vite-plugin-node-polyfills/shims/buffer', 'default'],
-      global: ['vite-plugin-node-polyfills/shims/global', 'default'],
-      process: ['vite-plugin-node-polyfills/shims/process', 'default'],
-    },
     target: 'esnext',
   },
   build: {
