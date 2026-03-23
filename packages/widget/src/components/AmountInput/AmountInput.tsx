@@ -18,6 +18,7 @@ import {
 } from '../../utils/format.js'
 import { fitInputText } from '../../utils/input.js'
 import { InputCard } from '../Card/InputCard.js'
+import { SendToWallet } from '../SendToWallet/SendToWallet.js'
 import {
   AmountInputCardHeader,
   AmountInputCardTitle,
@@ -31,10 +32,7 @@ import { AmountInputEndAdornment } from './AmountInputEndAdornment.js'
 import { AmountInputStartAdornment } from './AmountInputStartAdornment.js'
 import { PriceFormHelperText } from './PriceFormHelperText.js'
 
-export const AmountInput: React.FC<FormTypeProps & CardProps> = ({
-  formType,
-  ...props
-}) => {
+export const AmountInput: React.FC<FormTypeProps> = ({ formType }) => {
   const { disabledUI } = useWidgetConfig()
 
   const [chainId, tokenAddress] = useFieldValues(
@@ -49,12 +47,9 @@ export const AmountInput: React.FC<FormTypeProps & CardProps> = ({
     <AmountInputBase
       formType={formType}
       token={token}
-      endAdornment={
-        !disabled ? <AmountInputEndAdornment formType={formType} /> : undefined
-      }
+      endAdornment={<SendToWallet />}
       bottomAdornment={<PriceFormHelperText formType={formType} />}
       disabled={disabled}
-      {...props}
     />
   )
 }
@@ -75,7 +70,6 @@ const AmountInputBase: React.FC<
   endAdornment,
   bottomAdornment,
   disabled,
-  ...props
 }) => {
   const { t } = useTranslation()
   const { subvariant, subvariantOptions } = useWidgetConfig()
@@ -171,7 +165,7 @@ const AmountInputBase: React.FC<
       : t('header.send')
 
   return (
-    <InputCard {...props}>
+    <InputCard>
       <AmountInputCardHeader>
         <AmountInputCardTitle>{title}</AmountInputCardTitle>
         {endAdornment}
@@ -204,6 +198,7 @@ const AmountInputBase: React.FC<
           {bottomAdornment}
         </FormControl>
       </FormContainer>
+      {!disabled && <AmountInputEndAdornment formType={formType} />}
     </InputCard>
   )
 }

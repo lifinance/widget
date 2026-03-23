@@ -3,7 +3,6 @@ import { useEffect } from 'react'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
 import { formDefaultValues } from '../../stores/form/createFormStore.js'
-import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
 import type { DefaultValues } from './types.js'
 import { useFieldActions } from './useFieldActions.js'
 
@@ -12,7 +11,6 @@ export const FormUpdater: React.FC<{
 }> = ({ reactiveFormValues }) => {
   const { toAddress } = useWidgetConfig()
   const { account } = useAccount()
-  const { setSendToWallet } = useSendToWalletActions()
   const { setSelectedBookmark } = useBookmarkActions()
   const { setUserAndDefaultValues } = useFieldActions()
 
@@ -20,9 +18,6 @@ export const FormUpdater: React.FC<{
   // Includes special logic for chain fields, where account.chainId is only a fallback and not a direct reactivity source.
   // biome-ignore lint/correctness/useExhaustiveDependencies: account.chainId is used as a fallback only and does not need to be a dependency for reactivity.
   useEffect(() => {
-    if (reactiveFormValues.toAddress) {
-      setSendToWallet(true)
-    }
     if (toAddress) {
       setSelectedBookmark(toAddress)
     }
@@ -34,7 +29,6 @@ export const FormUpdater: React.FC<{
     toAddress,
     reactiveFormValues,
     setUserAndDefaultValues,
-    setSendToWallet,
     setSelectedBookmark,
   ])
 
