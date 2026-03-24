@@ -161,7 +161,10 @@ export const EthereumProviderValues: FC<
     })()
   }, [wagmiConnectors, config])
 
-  const account = { ...currentWallet, chainType: ChainType.EVM }
+  const account = useMemo(
+    () => ({ ...currentWallet, chainType: ChainType.EVM }),
+    [currentWallet]
+  )
 
   const isConnected = account.isConnected
 
@@ -199,7 +202,9 @@ export const EthereumProviderValues: FC<
         const data = await connect(wagmiConfig, {
           connector: connector as Connector,
         })
-        onSuccess?.(data.accounts[0], data.chainId)
+        if (data.accounts.length > 0) {
+          onSuccess?.(data.accounts[0], data.chainId)
+        }
       }
     },
     [wagmiConfig, connectors]
@@ -232,25 +237,39 @@ export const EthereumProviderValues: FC<
     [wagmiConfig]
   )
 
+  const contextValue = useMemo(
+    () => ({
+      isEnabled: true,
+      account,
+      sdkProvider,
+      installedWallets,
+      isConnected,
+      isExternalContext,
+      connect: handleConnect,
+      disconnect: handleDisconnect,
+      getBytecode: handleGetBytecode,
+      getTransactionCount: handleGetTransactionCount,
+      isGaslessStep,
+      isBatchingSupported,
+      isDelegationDesignatorCode,
+      disableMessageSigning: config?.disableMessageSigning,
+    }),
+    [
+      account,
+      sdkProvider,
+      installedWallets,
+      isConnected,
+      isExternalContext,
+      handleConnect,
+      handleDisconnect,
+      handleGetBytecode,
+      handleGetTransactionCount,
+      config?.disableMessageSigning,
+    ]
+  )
+
   return (
-    <EthereumContext.Provider
-      value={{
-        isEnabled: true,
-        account,
-        sdkProvider,
-        installedWallets,
-        isConnected,
-        isExternalContext,
-        connect: handleConnect,
-        disconnect: handleDisconnect,
-        getBytecode: handleGetBytecode,
-        getTransactionCount: handleGetTransactionCount,
-        isGaslessStep,
-        isBatchingSupported,
-        isDelegationDesignatorCode,
-        disableMessageSigning: config?.disableMessageSigning,
-      }}
-    >
+    <EthereumContext.Provider value={contextValue}>
       {children}
     </EthereumContext.Provider>
   )

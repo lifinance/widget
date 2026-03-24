@@ -22,33 +22,38 @@ export const SolanaProviderValues: FC<
 
   const { address: accountAddress } = useWalletAccount()
 
-  const connector = currentWallet
-    ? {
-        name: currentWallet.name,
-        icon: currentWallet.icon,
-      }
-    : undefined
+  const connector = useMemo(
+    () =>
+      currentWallet
+        ? { name: currentWallet.name, icon: currentWallet.icon }
+        : undefined,
+    [currentWallet]
+  )
 
-  const account = accountAddress
-    ? {
-        address: accountAddress,
-        chainId: ChainId.SOL,
-        chainType: ChainType.SVM,
-        connector,
-        isConnected: connected,
-        isConnecting: false,
-        isReconnecting: false,
-        isDisconnected: false,
-        status: 'connected' as const,
-      }
-    : {
-        chainType: ChainType.SVM,
-        isConnected: false,
-        isConnecting: false,
-        isReconnecting: false,
-        isDisconnected: true,
-        status: 'disconnected' as const,
-      }
+  const account = useMemo(
+    () =>
+      accountAddress
+        ? {
+            address: accountAddress,
+            chainId: ChainId.SOL,
+            chainType: ChainType.SVM,
+            connector,
+            isConnected: connected,
+            isConnecting: false,
+            isReconnecting: false,
+            isDisconnected: false,
+            status: 'connected' as const,
+          }
+        : {
+            chainType: ChainType.SVM,
+            isConnected: false,
+            isConnecting: false,
+            isReconnecting: false,
+            isDisconnected: true,
+            status: 'disconnected' as const,
+          },
+    [accountAddress, connected, connector]
+  )
 
   const isConnected = account.isConnected
 
@@ -96,19 +101,34 @@ export const SolanaProviderValues: FC<
     [connect]
   )
 
+  const handleDisconnect = useCallback(async () => {
+    await disconnect()
+  }, [disconnect])
+
+  const contextValue = useMemo(
+    () => ({
+      isEnabled: true,
+      account,
+      sdkProvider,
+      installedWallets,
+      isConnected,
+      isExternalContext,
+      connect: handleConnect,
+      disconnect: handleDisconnect,
+    }),
+    [
+      account,
+      sdkProvider,
+      installedWallets,
+      isConnected,
+      isExternalContext,
+      handleConnect,
+      handleDisconnect,
+    ]
+  )
+
   return (
-    <SolanaContext.Provider
-      value={{
-        isEnabled: true,
-        account,
-        sdkProvider,
-        installedWallets,
-        isConnected,
-        isExternalContext,
-        connect: handleConnect,
-        disconnect,
-      }}
-    >
+    <SolanaContext.Provider value={contextValue}>
       {children}
     </SolanaContext.Provider>
   )
