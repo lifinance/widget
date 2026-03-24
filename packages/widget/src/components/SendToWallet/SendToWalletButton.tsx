@@ -1,109 +1,172 @@
-import Close from '@mui/icons-material/Close'
-// import Wallet from '@mui/icons-material/Wallet'
-// import EmergencyIcon from '@mui/icons-material/Emergency';
-import { Box, IconButton, Typography } from '@mui/material'
+import { useAccount } from '@lifi/wallet-management'
+import { useChainTypeFromAddress } from '@lifi/widget-provider'
+import CloseRounded from '@mui/icons-material/CloseRounded'
+import { Box, Collapse } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
-import type { MouseEvent } from 'react'
+import { type MouseEventHandler, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useChain } from '../../hooks/useChain.js'
-// import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
+import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
+import { DisabledUI, HiddenUI } from '../../types/widget.js'
+import { defaultChainIdsByType } from '../../utils/chainType.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { shortenAddress } from '../../utils/wallet.js'
-import { ChainBadgeContent } from '../Avatar/ChainBadgeContent.js'
-import { ButtonChip } from '../ButtonChip/ButtonChip.js'
+import { AccountAvatar } from '../Avatar/AccountAvatar.js'
+import type { CardProps } from '../Card/Card.js'
+import { Card } from '../Card/Card.js'
+import { CardIconButton } from '../Card/CardIconButton.js'
+import { CardTitle } from '../Card/CardTitle.js'
+import { SendToWalletCardHeader } from './SendToWalletButton.style.js'
 
-interface SendToWalletButtonProps {
-  chainId: number
-  readOnly?: boolean
-}
-
-// TODO: agree on "required" styling and bookmarks
-export const SendToWalletButton: React.FC<SendToWalletButtonProps> = ({
-  chainId,
-  readOnly,
-}) => {
+export const SendToWalletButton: React.FC<CardProps> = (props) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { subvariant, subvariantOptions, toAddresses } = useWidgetConfig()
+  const {
+    disabledUI,
+    hiddenUI,
+    toAddress,
+    toAddresses,
+    subvariant,
+    subvariantOptions,
+  } = useWidgetConfig()
+  const [toAddressFieldValue, toChainId, toTokenAddress] = useFieldValues(
+    'toAddress',
+    'toChain',
+    'toToken'
+  )
   const { setFieldValue } = useFieldActions()
-  const [toAddressValue] = useFieldValues('toAddress')
-  const { chain } = useChain(chainId)
-
+  const { selectedBookmark } = useBookmarks()
   const { setSelectedBookmark } = useBookmarkActions()
-  // const { requiredToAddress } = useToAddressRequirements()
+  const { accounts } = useAccount()
+  const { getChainTypeFromAddress } = useChainTypeFromAddress()
+  const { requiredToAddress } = useToAddressRequirements()
+  const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress)
+  const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress)
 
-  const label =
-    subvariant === 'custom' && subvariantOptions?.custom === 'deposit'
-      ? t('header.depositTo')
-      : t('header.sendToWallet')
+  const address = toAddressFieldValue
+    ? shortenAddress(toAddressFieldValue)
+    : t('sendToWallet.enterAddress', {
+        context: 'short',
+      })
 
-  const handleClick = readOnly
-    ? undefined
-    : () =>
-        navigate({
-          to: toAddresses?.length
-            ? navigationRoutes.configuredWallets
-            : navigationRoutes.sendToWallet,
-        })
+  const matchingConnectedAccount = accounts.find(
+    (account) => account.address === toAddressFieldValue
+  )
 
-  const handleRemove = (e: MouseEvent) => {
+  const chainType = !matchingConnectedAccount
+    ? selectedBookmark?.chainType ||
+      (toAddressFieldValue
+        ? getChainTypeFromAddress(toAddressFieldValue)
+        : undefined)
+    : undefined
+
+  const chainId =
+    toChainId && toTokenAddress
+      ? toChainId
+      : matchingConnectedAccount
+        ? matchingConnectedAccount.chainId
+        : chainType && chainType in defaultChainIdsByType
+          ? defaultChainIdsByType[
+              chainType as keyof typeof defaultChainIdsByType
+            ]
+          : undefined
+
+  const isConnectedAccount =
+    selectedBookmark?.isConnectedAccount &&
+    matchingConnectedAccount?.isConnected
+  const connectedAccountName = matchingConnectedAccount?.connector?.name
+  const bookmarkName = selectedBookmark?.name
+
+  const headerTitle = isConnectedAccount
+    ? connectedAccountName || address
+    : bookmarkName || connectedAccountName || address
+
+  const headerSubheader =
+    isConnectedAccount || bookmarkName || connectedAccountName ? address : null
+
+  const disabledForChanges = Boolean(toAddressFieldValue) && disabledToAddress
+
+  const handleOnClick = () => {
+    navigate({
+      to: toAddresses?.length
+        ? navigationRoutes.configuredWallets
+        : navigationRoutes.sendToWallet,
+    })
+  }
+
+  const clearSelectedBookmark: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation()
     setFieldValue('toAddress', '', { isTouched: true })
     setSelectedBookmark()
   }
 
+  // The collapse opens instantly on first page load/component mount when there is an address to display
+  // After which it needs an animated transition for open and closing.
+  // collapseTransitionTime is used specify the transition time for opening and closing
+  const collapseTransitionTime = useRef(0)
+
+  // Timeout is needed here to push the collapseTransitionTime update to the back of the event loop so that it doesn't fired too quickly
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      collapseTransitionTime.current = 225
+    }, 0)
+    return () => clearTimeout(timeout)
+  }, [])
+
+  const isOpenCollapse =
+    !hiddenToAddress && (requiredToAddress || !!toAddressFieldValue)
+
+  const title =
+    subvariant === 'custom' && subvariantOptions?.custom === 'deposit'
+      ? t('header.depositTo')
+      : t('header.sendToWallet')
+
   return (
-    <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-      <ButtonChip
-        onClick={handleClick}
-        sx={(theme) => ({
-          display: 'flex',
-          alignItems: 'center',
-          borderRadius: theme.shape.borderRadius,
-          mt: 1.5,
-          height: 24,
-          pl: 0.5,
-          pr: 1,
-        })}
+    <Collapse
+      timeout={collapseTransitionTime.current as number}
+      in={isOpenCollapse}
+      mountOnEnter
+      unmountOnExit
+    >
+      <Card
+        role="button"
+        onClick={disabledForChanges ? undefined : handleOnClick}
+        sx={{ width: '100%', ...props.sx }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-          <ChainBadgeContent chain={chain} size={16} />
-          <Typography sx={{ fontSize: 12, fontWeight: 700, lineHeight: 1.334 }}>
-            {toAddressValue ? shortenAddress(toAddressValue) : label}
-          </Typography>
+        <CardTitle required={requiredToAddress}>{title}</CardTitle>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <SendToWalletCardHeader
+            avatar={
+              <AccountAvatar
+                chainId={chainId}
+                account={matchingConnectedAccount}
+                toAddress={toAddress}
+                empty={!toAddressFieldValue}
+              />
+            }
+            title={headerTitle}
+            subheader={headerSubheader}
+            selected={!!toAddressFieldValue || disabledToAddress}
+            action={
+              !!toAddressFieldValue && !disabledForChanges ? (
+                <CardIconButton onClick={clearSelectedBookmark} size="small">
+                  <CloseRounded fontSize="inherit" />
+                </CardIconButton>
+              ) : null
+            }
+          />
         </Box>
-        {toAddressValue && !readOnly ? (
-          <IconButton
-            onClick={handleRemove}
-            size="small"
-            sx={{ mr: -0.25, p: 0.5 }}
-          >
-            <Close sx={{ fontSize: 12 }} />
-          </IconButton>
-        ) : null}
-        {/* ) : <EmergencyIcon sx={{ fontSize: 10, color: '#E5452F', mt: -1, mx: 0.25 }} />}  */}
-      </ButtonChip>
-      {/* {requiredToAddress && !toAddressValue && (
-      <Box
-        sx={(theme) => ({
-          position: 'absolute',
-          top: 12,
-          right: 0,
-          width: 8,
-          height: 8,
-          borderRadius: '50%',
-          backgroundColor: theme.vars.palette.error.main,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          pointerEvents: 'none',
-        })}
-      />
-    )} */}
-    </Box>
+      </Card>
+    </Collapse>
   )
 }

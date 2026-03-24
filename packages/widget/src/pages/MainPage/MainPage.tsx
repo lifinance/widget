@@ -8,6 +8,7 @@ import { PageContainer } from '../../components/PageContainer.js'
 import { PoweredBy } from '../../components/PoweredBy/PoweredBy.js'
 import { Routes } from '../../components/Routes/Routes.js'
 import { SelectChainAndToken } from '../../components/SelectChainAndToken.js'
+import { SendToWalletButton } from '../../components/SendToWallet/SendToWalletButton.js'
 import { useHeader } from '../../hooks/useHeader.js'
 import { useWideVariant } from '../../hooks/useWideVariant.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
@@ -60,6 +61,7 @@ export const MainPage: React.FC = () => {
           <AmountInput formType="from" />
         ) : null}
         {!wideVariant ? <Routes /> : null}
+        <SendToWalletButton />
         {showGasRefuelMessage ? <GasRefuelMessage /> : null}
         <MainWarningMessages />
         <ReviewButton />

@@ -18,7 +18,7 @@ import {
 } from '../../utils/format.js'
 import { fitInputText } from '../../utils/input.js'
 import { InputCard } from '../Card/InputCard.js'
-import { SendToWallet } from '../SendToWallet/SendToWallet.js'
+import { SendToWalletExpandButton } from '../SendToWallet/SendToWalletExpandButton.js'
 import {
   AmountInputCardHeader,
   AmountInputCardTitle,
@@ -47,7 +47,7 @@ export const AmountInput: React.FC<FormTypeProps> = ({ formType }) => {
     <AmountInputBase
       formType={formType}
       token={token}
-      endAdornment={<SendToWallet />}
+      endAdornment={<SendToWalletExpandButton />}
       bottomAdornment={<PriceFormHelperText formType={formType} />}
       disabled={disabled}
     />
