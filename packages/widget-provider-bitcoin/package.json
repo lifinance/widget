@@ -43,8 +43,8 @@
   "dependencies": {
     "@bigmi/client": "^0.7.1",
     "@bigmi/core": "^0.7.1",
-    "@lifi/sdk": "4.0.0-beta.1",
-    "@lifi/sdk-provider-bitcoin": "^4.0.0-beta.1",
+    "@lifi/sdk": "^4.0.0-beta.3",
+    "@lifi/sdk-provider-bitcoin": "^4.0.0-beta.3",
     "@lifi/widget-provider": "workspace:*"
   },
   "peerDependencies": {

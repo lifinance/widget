@@ -49,18 +49,18 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "4.0.0-beta.1",
+    "@lifi/sdk": "^4.0.0-beta.3",
     "@lifi/wallet-management": "workspace:*",
     "@lifi/widget-provider": "workspace:*",
     "@mui/icons-material": "^7.3.6",
     "@mui/material": "^7.3.6",
     "@mui/system": "^7.3.6",
-    "@tanstack/react-router": "^1.167.4",
+    "@tanstack/react-router": "^1.168.3",
     "@tanstack/react-virtual": "^3.13.23",
-    "i18next": "^25.8.18",
+    "i18next": "^25.10.9",
     "microdiff": "^1.5.0",
     "mitt": "^3.0.1",
-    "react-i18next": "^16.5.8",
+    "react-i18next": "^16.6.5",
     "react-intersection-observer": "^9.16.0",
     "react-transition-group": "^4.4.5",
     "zustand": "^5.0.12"
@@ -72,7 +72,7 @@
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "typescript": "^5.9.3",
-    "vitest": "^4.1.0"
+    "vitest": "^4.1.1"
   },
   "peerDependencies": {
     "@tanstack/react-query": ">=5.90.0",

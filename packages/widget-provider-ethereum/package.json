@@ -41,14 +41,14 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "4.0.0-beta.1",
-    "@lifi/sdk-provider-ethereum": "^4.0.0-beta.1",
+    "@lifi/sdk": "^4.0.0-beta.3",
+    "@lifi/sdk-provider-ethereum": "^4.0.0-beta.3",
     "@lifi/widget-provider": "workspace:*",
-    "viem": "^2.47.5"
+    "viem": "^2.47.6"
   },
   "peerDependencies": {
     "@wagmi/core": "^3.x",
-    "wagmi": "^3.5.0"
+    "wagmi": "^3.x"
   },
   "devDependencies": {
     "cpy-cli": "^7.0.0",
