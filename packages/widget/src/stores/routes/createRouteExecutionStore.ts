@@ -96,28 +96,6 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
             })
           }
         },
-        deleteRoutes: (type) =>
-          set((state: RouteExecutionState) => {
-            const routes = { ...state.routes }
-            Object.keys(routes)
-              .filter((routeId) =>
-                type === 'completed'
-                  ? hasEnumFlag(
-                      routes[routeId]?.status ?? 0,
-                      RouteExecutionStatus.Done
-                    )
-                  : !hasEnumFlag(
-                      routes[routeId]?.status ?? 0,
-                      RouteExecutionStatus.Done
-                    )
-              )
-              .forEach((routeId) => {
-                delete routes[routeId]
-              })
-            return {
-              routes,
-            }
-          }),
       }),
       {
         name: `${namePrefix || 'li.fi'}-widget-routes`,

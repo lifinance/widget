@@ -5,7 +5,7 @@ import { useTimer } from '../../hooks/timer/useTimer.js'
 import { formatTimer } from '../../utils/timer.js'
 import { TimerContent } from './TimerContent.js'
 
-const getExpiryTimestamp = (step: LiFiStepExtended) => {
+export const getExpiryTimestamp = (step: LiFiStepExtended) => {
   const execution = step?.execution
   if (!execution) {
     return new Date()
@@ -53,7 +53,7 @@ export const StepTimer: React.FC<{
   )
 }
 
-const ExecutionTimer = ({
+export const ExecutionTimer = ({
   expiryTimestamp,
   hideInProgress,
 }: {

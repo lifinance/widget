@@ -54,7 +54,6 @@
     "viewOnExplorer": "View on explorer"
   },
   "header": {
-    "activeTransactions": "Active transactions",
     "amount": "Amount",
     "bookmarkedWallets": "Bookmarked wallets",
     "bridge": "Bridge",
@@ -79,7 +78,7 @@
     "swap": "Swap",
     "to": "Exchange to",
     "transactionDetails": "Transaction details",
-    "transactionHistory": "Transaction history",
+    "activities": "Activities",
     "walletConnected": "Wallet connected",
     "youGet": "You get",
     "youPay": "You pay"
@@ -88,7 +87,6 @@
     "message": {
       "accountDeployedMessage": "Your smart account may not have the same address on other chains. Please double-check before proceeding.",
       "autoRefuel": "You're low on {{chainName}} gas. By continuing, you'll get enough gas to complete the transaction.",
-      "emptyActiveTransactions": "Transactions in progress will appear here. Once completed, find them in transaction history.",
       "emptyBridgesList": "We couldn't find any bridges that match your search",
       "emptyChainList": "We couldn't find any chains that match your search",
       "emptyExchangesList": "We couldn't find any exchanges that match your search",
@@ -100,7 +98,6 @@
     },
     "title": {
       "autoRefuel": "Get {{chainName}} gas",
-      "emptyActiveTransactions": "No active transactions",
       "emptyTransactionHistory": "No recent transactions",
       "routeNotFound": "No routes available"
     }
@@ -123,7 +120,6 @@
     "message": {
       "accountNotDeployedMessage": "Smart contract account doesn't exist on the destination chain. Sending funds to a non-existent smart contract account can result in permanent loss.",
       "lowAddressActivity": "This address has low activity on {{chainName}} network. Please verify you're sending to the correct address and network to prevent potential loss of funds.",
-      "deleteActiveTransactions": "Active transactions are only stored locally and can't be recovered if you delete them.",
       "deleteTransactionHistory": "Transaction history is only stored locally and can't be recovered if you delete it.",
       "fundsLossPrevention": "Always ensure smart contract accounts are properly set up on the destination chain and avoid direct transfers to exchanges to prevent fund loss.",
       "highValueLoss": "The value of the received tokens is significantly lower than the exchanged tokens and transaction cost.",
@@ -137,7 +133,6 @@
       "slippageUnderRecommendedLimits": "Low slippage tolerance may cause transaction delays or failures."
     },
     "title": {
-      "deleteActiveTransactions": "Delete all active transactions?",
       "deleteTransaction": "Delete this transaction?",
       "deleteTransactionHistory": "Delete transaction history?",
       "highValueLoss": "High value loss",
