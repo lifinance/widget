@@ -4,10 +4,18 @@ import {
 } from '@lifi/widget-checkout'
 import { Box, Button, Typography } from '@mui/material'
 import { useCallback, useRef } from 'react'
+import { useEnvVariables } from '../../providers/EnvVariablesProvider.js'
 import { useConfig } from '../../store/widgetConfig/useConfig.js'
+
+/** Default on-ramp target for Path checkout (Lido stETH on Ethereum). Playground `config` overrides when set. */
+const DEFAULT_CHECKOUT_ONRAMP_TARGET = {
+  toChain: 1,
+  toToken: '0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84',
+} as const
 
 export function CheckoutWidgetView() {
   const { config } = useConfig()
+  const { onrampSessionApiUrl } = useEnvVariables()
   const checkoutRef = useRef<CheckoutDrawerRef>(null)
 
   const handleOpen = useCallback(() => {
@@ -39,6 +47,9 @@ export function CheckoutWidgetView() {
       <LifiWidgetCheckout
         ref={checkoutRef}
         integrator={integrator}
+        {...(onrampSessionApiUrl?.trim()
+          ? { onrampSessionApiUrl: onrampSessionApiUrl.trim() }
+          : {})}
         widget={
           config
             ? {
@@ -50,8 +61,15 @@ export function CheckoutWidgetView() {
                 tokens: config.tokens,
                 walletConfig: config.walletConfig,
                 apiKey: config.apiKey,
+                toChain:
+                  config.toChain ?? DEFAULT_CHECKOUT_ONRAMP_TARGET.toChain,
+                toToken:
+                  config.toToken ?? DEFAULT_CHECKOUT_ONRAMP_TARGET.toToken,
               }
-            : undefined
+            : {
+                toChain: DEFAULT_CHECKOUT_ONRAMP_TARGET.toChain,
+                toToken: DEFAULT_CHECKOUT_ONRAMP_TARGET.toToken,
+              }
         }
         onClose={() => {}}
       />

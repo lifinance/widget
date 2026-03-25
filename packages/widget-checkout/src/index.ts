@@ -3,5 +3,6 @@ export {
   type CheckoutDrawerRef,
   LifiWidgetCheckout,
 } from './LifiWidgetCheckout.js'
+export { useTransak } from './providers/TransakProvider.js'
 export * from './types/checkout.js'
 export { checkoutNavigationRoutes } from './utils/navigationRoutes.js'
