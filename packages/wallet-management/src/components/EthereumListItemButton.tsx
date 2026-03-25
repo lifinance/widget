@@ -73,7 +73,7 @@ export const EthereumListItemButton = ({
       key={connector.id}
       icon={
         ecosystemSelection
-          ? getChainTypeIcon(ChainType.EVM)
+          ? (getChainTypeIcon(ChainType.EVM) ?? '')
           : (getConnectorIcon(connector) ?? '')
       }
       onClick={handleEthereumConnect}

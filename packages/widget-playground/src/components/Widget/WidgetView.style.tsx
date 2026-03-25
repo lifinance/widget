@@ -1,8 +1,6 @@
-import { defaultMaxHeight } from '@lifi/widget'
 import type { BoxProps, Theme } from '@mui/material'
 import { Box, IconButton } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import type { CSSProperties } from 'react'
 import { drawerZIndex } from '../DrawerControls/DrawerControls.style.js'
 
 export const FloatingToolsContainer = styled(Box)(({ theme }) => ({
@@ -46,32 +44,12 @@ export const WidgetContainer = styled(Box, {
   }
 })
 
-interface WidgetContainerRowProps extends BoxProps {
-  alignTop?: boolean
-  widgetContainer?: CSSProperties
-}
-
-export const WidgetContainerRow = styled(Box, {
-  shouldForwardProp: (prop) =>
-    !['alignTop', 'widgetContainer'].includes(prop as string),
-})<WidgetContainerRowProps>(({ widgetContainer }) => {
+export const WidgetContainerRow = styled(Box)(() => {
   return {
     display: 'flex',
     alignItems: 'center',
     flexGrow: 1,
     width: '100%',
-    maxHeight:
-      widgetContainer?.maxHeight || !widgetContainer?.height
-        ? (widgetContainer?.maxHeight ?? defaultMaxHeight)
-        : 'none',
-    variants: [
-      {
-        props: ({ alignTop }) => alignTop,
-        style: {
-          alignItems: 'flex-start',
-        },
-      },
-    ],
   }
 })
 

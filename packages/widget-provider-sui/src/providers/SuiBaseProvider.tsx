@@ -11,15 +11,15 @@ import { SuiProviderValues } from './SuiProviderValues.js'
 
 interface SuiBaseProviderProps {
   chains?: ExtendedChain[]
-  namePrefix?: string
+  isExternalContext?: boolean
 }
 
 export const SuiBaseProvider: FC<PropsWithChildren<SuiBaseProviderProps>> = ({
   chains,
   children,
-  namePrefix,
+  isExternalContext = false,
 }) => {
-  const storageKey = `${namePrefix || 'li.fi'}-sui-dapp-kit`
+  const storageKey = 'li.fi-sui-dapp-kit'
   const dappKit = useRef<DefaultExpectedDppKit>(null)
 
   if (!dappKit.current) {
@@ -33,14 +33,14 @@ export const SuiBaseProvider: FC<PropsWithChildren<SuiBaseProviderProps>> = ({
             sui?.metamask?.rpcUrls[0] ?? getJsonRpcFullnodeUrl('mainnet'),
         }),
       autoConnect: true,
-      storage: localStorage,
+      storage: typeof window !== 'undefined' ? localStorage : undefined,
       storageKey,
     })
   }
 
   return (
     <DAppKitProvider dAppKit={dappKit.current}>
-      <SuiProviderValues isExternalContext={false}>
+      <SuiProviderValues isExternalContext={isExternalContext}>
         {children}
       </SuiProviderValues>
     </DAppKitProvider>

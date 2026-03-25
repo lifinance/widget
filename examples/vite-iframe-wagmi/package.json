@@ -11,17 +11,17 @@
   },
   "dependencies": {
     "@lifi/widget-light": "workspace:*",
-    "@tanstack/react-query": "^5.91.0",
+    "@tanstack/react-query": "^5.95.2",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "viem": "^2.47.5",
-    "wagmi": "^3.5.0"
+    "viem": "^2.47.6",
+    "wagmi": "^3.6.0"
   },
   "devDependencies": {
     "@types/react": "^19.2.13",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
     "typescript": "^5.9.3",
-    "vite": "^8.0.0"
+    "vite": "^8.0.2"
   }
 }

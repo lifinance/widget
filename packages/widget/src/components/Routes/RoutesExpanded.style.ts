@@ -10,25 +10,28 @@ interface ContainerProps extends ScopedCssBaselineProps {
 
 export const Container = styled(ScopedCssBaseline, {
   shouldForwardProp: (prop) => !['minimumHeight'].includes(prop as string),
-})<ContainerProps>(({ theme, minimumHeight }) => ({
-  ...theme.container,
-  backgroundColor: theme.vars.palette.background.default,
-  overflow: 'hidden',
-  width: routesExpansionWidth,
-  display: 'flex',
-  flexDirection: 'column',
-  whiteSpace: 'normal',
-  ...(theme.container?.display !== 'flex'
-    ? {
-        maxHeight:
-          theme.container?.maxHeight ??
-          theme.container?.height ??
-          defaultMaxHeight,
-        ...(minimumHeight ? { '&': { height: 'auto' } } : {}),
-      }
-    : { height: minimumHeight ? 'auto' : '100%' }),
-  ...theme.routesContainer,
-}))
+})<ContainerProps>(({ theme, minimumHeight }) => {
+  const fallbackMaxHeight =
+    !theme.container?.height || theme.container?.height === 'fit-content'
+      ? defaultMaxHeight
+      : theme.container?.height
+  return {
+    ...theme.container,
+    backgroundColor: theme.vars.palette.background.default,
+    overflow: 'hidden',
+    width: routesExpansionWidth,
+    display: 'flex',
+    flexDirection: 'column',
+    whiteSpace: 'normal',
+    ...(theme.container?.display !== 'flex'
+      ? {
+          maxHeight: theme.container?.maxHeight ?? fallbackMaxHeight,
+          ...(minimumHeight ? { '&': { height: 'auto' } } : {}),
+        }
+      : { height: minimumHeight ? 'auto' : '100%' }),
+    ...theme.routesContainer,
+  }
+})
 
 export const Header = styled(Box)(({ theme }) => ({
   backgroundColor: theme.vars.palette.background.default,

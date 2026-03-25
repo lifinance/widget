@@ -1,4 +1,5 @@
 import type { SDKProvider } from '@lifi/sdk'
+import { useMemo } from 'react'
 import { useBitcoinContext } from '../contexts/BitcoinContext'
 import { useEthereumContext } from '../contexts/EthereumContext'
 import { useSolanaContext } from '../contexts/SolanaContext'
@@ -10,10 +11,11 @@ export const useSDKProviders = () => {
   const { sdkProvider: svmSDKProvider } = useSolanaContext()
   const { sdkProvider: suiSDKProvider } = useSuiContext()
 
-  return [
-    evmSDKProvider,
-    utxoSDKProvider,
-    svmSDKProvider,
-    suiSDKProvider,
-  ].filter(Boolean) as SDKProvider[]
+  return useMemo(
+    () =>
+      [evmSDKProvider, utxoSDKProvider, svmSDKProvider, suiSDKProvider].filter(
+        Boolean
+      ) as SDKProvider[],
+    [evmSDKProvider, utxoSDKProvider, svmSDKProvider, suiSDKProvider]
+  )
 }
