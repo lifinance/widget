@@ -3,6 +3,7 @@ import type { ChainType, ExtendedChain } from '@lifi/sdk'
 export interface WalletMenuOpenArgs {
   chain?: ExtendedChain
   chainType?: ChainType
+  walletId?: string
 }
 
 export interface WalletMenuContext {
