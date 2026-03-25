@@ -1,19 +1,16 @@
 import { Outlet } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import {
-  CheckoutContainer,
-  CheckoutExpandedContainer,
-} from './components/CheckoutContainer.js'
-import { CheckoutHeader } from './components/CheckoutHeader.js'
+import { Container, ExpandedContainer } from './components/Container.js'
+import { Header } from './components/Header.js'
 
 export const CheckoutLayout: React.FC = () => {
   const { t } = useTranslation()
   return (
-    <CheckoutExpandedContainer>
-      <CheckoutContainer>
-        <CheckoutHeader title={t('checkout.deposit')} />
+    <ExpandedContainer>
+      <Container>
+        <Header title={t('checkout.deposit')} />
         <Outlet />
-      </CheckoutContainer>
-    </CheckoutExpandedContainer>
+      </Container>
+    </ExpandedContainer>
   )
 }

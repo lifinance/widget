@@ -1,5 +1,5 @@
 import {
-  type CheckoutDrawerRef,
+  type CheckoutModalRef,
   LifiWidgetCheckout,
 } from '@lifi/widget-checkout'
 import { Box, Button, Typography } from '@mui/material'
@@ -16,7 +16,7 @@ const DEFAULT_CHECKOUT_ONRAMP_TARGET = {
 export function CheckoutWidgetView() {
   const { config } = useConfig()
   const { onrampSessionApiUrl } = useEnvVariables()
-  const checkoutRef = useRef<CheckoutDrawerRef>(null)
+  const checkoutRef = useRef<CheckoutModalRef>(null)
 
   const handleOpen = useCallback(() => {
     checkoutRef.current?.open()

@@ -1,16 +1,16 @@
 'use client'
 import { forwardRef, useMemo } from 'react'
-import { CheckoutDrawer, type CheckoutDrawerRef } from './CheckoutDrawer.js'
+import { CheckoutModal, type CheckoutModalRef } from './CheckoutModal.js'
 import { CheckoutRouter } from './CheckoutRouter.js'
-import { CheckoutErrorBoundary } from './components/CheckoutErrorBoundary.js'
+import { ErrorBoundary } from './components/ErrorBoundary.js'
 import { AppProvider } from './providers/AppProvider.js'
 import { CheckoutProvider } from './providers/CheckoutProvider.js'
 import type { CheckoutConfig, CheckoutProps } from './types/checkout.js'
 import { checkoutConfigToWidgetConfig } from './utils/checkoutToWidgetConfig.js'
 
-export type { CheckoutDrawerRef }
+export type { CheckoutModalRef }
 
-export const LifiWidgetCheckout = forwardRef<CheckoutDrawerRef, CheckoutProps>(
+export const LifiWidgetCheckout = forwardRef<CheckoutModalRef, CheckoutProps>(
   (props, ref) => {
     const config: CheckoutConfig = useMemo(() => {
       const mergedConfig = { ...props, ...props.config }
@@ -39,16 +39,16 @@ export const LifiWidgetCheckout = forwardRef<CheckoutDrawerRef, CheckoutProps>(
     return (
       <CheckoutProvider config={config}>
         <AppProvider widgetConfig={widgetConfig} formRef={props.formRef}>
-          <CheckoutDrawer
+          <CheckoutModal
             ref={ref}
             elementRef={props.elementRef}
             open={props.open}
             onClose={props.onClose}
           >
-            <CheckoutErrorBoundary>
+            <ErrorBoundary>
               <CheckoutRouter />
-            </CheckoutErrorBoundary>
-          </CheckoutDrawer>
+            </ErrorBoundary>
+          </CheckoutModal>
         </AppProvider>
       </CheckoutProvider>
     )

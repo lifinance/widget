@@ -3,7 +3,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import { IconButton } from '@mui/material'
 import { useLocation } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { useCheckoutDrawer } from '../CheckoutDrawerContext.js'
+import { useCheckoutModal } from '../CheckoutModalContext.js'
 import { useCheckoutNavigate } from '../hooks/useCheckoutNavigate.js'
 import {
   backButtonRoutes,
@@ -13,20 +13,18 @@ import {
   HeaderAppBar,
   HeaderControlsContainer,
   HeaderTitleTypography,
-} from './CheckoutHeader.style.js'
+} from './Header.style.js'
 
-interface CheckoutHeaderProps {
+interface HeaderProps {
   title?: string
 }
 
-export const CheckoutHeader: React.FC<CheckoutHeaderProps> = ({
-  title: titleProp,
-}) => {
+export const Header: React.FC<HeaderProps> = ({ title: titleProp }) => {
   const { t } = useTranslation()
   const title = titleProp ?? t('checkout.deposit')
   const { pathname } = useLocation()
   const navigate = useCheckoutNavigate()
-  const drawerContext = useCheckoutDrawer()
+  const modalContext = useCheckoutModal()
 
   const cleanedPathname = pathname.endsWith('/')
     ? pathname.slice(0, -1)
@@ -40,7 +38,7 @@ export const CheckoutHeader: React.FC<CheckoutHeaderProps> = ({
   }
 
   const handleClose = () => {
-    drawerContext?.closeDrawer()
+    modalContext?.closeModal()
   }
 
   return (

@@ -5,7 +5,7 @@ interface State {
   error: Error | null
 }
 
-export class CheckoutErrorBoundary extends Component<PropsWithChildren, State> {
+export class ErrorBoundary extends Component<PropsWithChildren, State> {
   state: State = { error: null }
 
   static getDerivedStateFromError(error: Error): State {

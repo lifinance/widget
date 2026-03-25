@@ -1,6 +1,6 @@
 import { Box, Container, ScopedCssBaseline, styled } from '@mui/material'
 
-export const CheckoutExpandedContainer = styled(Box)({
+export const ExpandedContainer = styled(Box)({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'stretch',
@@ -9,7 +9,7 @@ export const CheckoutExpandedContainer = styled(Box)({
   height: '100%',
 })
 
-export const CheckoutRelativeContainer = styled(Box)(({ theme }) => ({
+export const RelativeContainer = styled(Box)(({ theme }) => ({
   position: 'relative',
   boxSizing: 'border-box',
   width: '100%',
