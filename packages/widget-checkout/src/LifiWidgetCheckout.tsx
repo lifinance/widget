@@ -3,8 +3,9 @@ import { forwardRef, useMemo } from 'react'
 import { CheckoutDrawer, type CheckoutDrawerRef } from './CheckoutDrawer.js'
 import { CheckoutRouter } from './CheckoutRouter.js'
 import { CheckoutProvider } from './providers/CheckoutProvider.js'
-import { ThemeProvider } from './providers/ThemeProvider.js'
+import { CheckoutWidgetRuntime } from './providers/CheckoutWidgetRuntime.js'
 import type { CheckoutConfig, CheckoutProps } from './types/checkout.js'
+import { checkoutConfigToWidgetConfig } from './utils/checkoutToWidgetConfig.js'
 
 export type { CheckoutDrawerRef }
 
@@ -21,12 +22,24 @@ export const LifiWidgetCheckout = forwardRef<CheckoutDrawerRef, CheckoutProps>(
         onError: mergedConfig.onError,
         onClose: mergedConfig.onClose,
         fundingMethods: mergedConfig.fundingMethods,
+        providers: mergedConfig.providers,
+        walletConfig: mergedConfig.walletConfig,
+        sdkConfig: mergedConfig.sdkConfig,
+        widget: mergedConfig.widget,
       }
     }, [props])
 
+    const widgetConfig = useMemo(
+      () => checkoutConfigToWidgetConfig(config),
+      [config]
+    )
+
     return (
       <CheckoutProvider config={config}>
-        <ThemeProvider>
+        <CheckoutWidgetRuntime
+          widgetConfig={widgetConfig}
+          formRef={props.formRef}
+        >
           <CheckoutDrawer
             ref={ref}
             elementRef={props.elementRef}
@@ -35,7 +48,7 @@ export const LifiWidgetCheckout = forwardRef<CheckoutDrawerRef, CheckoutProps>(
           >
             <CheckoutRouter />
           </CheckoutDrawer>
-        </ThemeProvider>
+        </CheckoutWidgetRuntime>
       </CheckoutProvider>
     )
   }

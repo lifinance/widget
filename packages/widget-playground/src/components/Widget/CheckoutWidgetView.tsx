@@ -34,11 +34,25 @@ export function CheckoutWidgetView() {
         <code>open()</code> / <code>close()</code>).
       </Typography>
       <Button variant="contained" onClick={handleOpen}>
-        Open checkout
+        Deposit
       </Button>
       <LifiWidgetCheckout
         ref={checkoutRef}
         integrator={integrator}
+        widget={
+          config
+            ? {
+                providers: config.providers,
+                sdkConfig: config.sdkConfig,
+                useRelayerRoutes: config.useRelayerRoutes,
+                buildUrl: config.buildUrl,
+                chains: config.chains,
+                tokens: config.tokens,
+                walletConfig: config.walletConfig,
+                apiKey: config.apiKey,
+              }
+            : undefined
+        }
         onClose={() => {}}
       />
     </Box>

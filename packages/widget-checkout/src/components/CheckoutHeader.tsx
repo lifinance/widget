@@ -1,29 +1,18 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import CloseIcon from '@mui/icons-material/Close'
-import { AppBar, Box, IconButton, styled, Typography } from '@mui/material'
-import { useLocation, useNavigate } from '@tanstack/react-router'
+import { IconButton } from '@mui/material'
+import { useLocation } from '@tanstack/react-router'
+import { useCheckoutNavigate } from '../hooks/useCheckoutNavigate.js'
 import { useCheckoutDrawer } from '../providers/CheckoutDrawerContext.js'
 import {
   backButtonRoutes,
   checkoutNavigationRoutes,
 } from '../utils/navigationRoutes.js'
-
-const HeaderAppBar = styled(AppBar)(({ theme }) => ({
-  backgroundColor: 'transparent',
-  color: theme.vars?.palette?.text?.primary ?? theme.palette.text.primary,
-  flexDirection: 'row',
-  alignItems: 'center',
-  position: 'relative',
-  minHeight: 48,
-  padding: theme.spacing(1, 2),
-  paddingTop: theme.spacing(1.5),
-}))
-
-const HeaderControlsContainer = styled(Box)({
-  display: 'flex',
-  alignItems: 'center',
-  gap: 4,
-})
+import {
+  HeaderAppBar,
+  HeaderControlsContainer,
+  HeaderTitleTypography,
+} from './CheckoutHeader.style.js'
 
 interface CheckoutHeaderProps {
   title?: string
@@ -33,7 +22,7 @@ export const CheckoutHeader: React.FC<CheckoutHeaderProps> = ({
   title = 'Deposit',
 }) => {
   const { pathname } = useLocation()
-  const navigate = useNavigate()
+  const navigate = useCheckoutNavigate()
   const drawerContext = useCheckoutDrawer()
 
   const cleanedPathname = pathname.endsWith('/')
@@ -63,17 +52,13 @@ export const CheckoutHeader: React.FC<CheckoutHeaderProps> = ({
           <ArrowBackIcon />
         </IconButton>
       )}
-      <Typography
+      <HeaderTitleTypography
         variant="h6"
-        sx={{
-          flex: 1,
-          fontWeight: 700,
-          fontSize: isHomePage ? 24 : 18,
-          textAlign: showBackButton ? 'center' : 'left',
-        }}
+        $isHomePage={isHomePage}
+        $alignCenter={showBackButton}
       >
         {title}
-      </Typography>
+      </HeaderTitleTypography>
       <HeaderControlsContainer>
         <IconButton onClick={handleClose} size="medium" aria-label="close">
           <CloseIcon />
