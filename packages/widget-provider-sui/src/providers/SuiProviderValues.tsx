@@ -23,29 +23,32 @@ export const SuiProviderValues: FC<
   const currentWallet = useCurrentWallet()
   const { status: connectionStatus, isConnected } = useWalletConnection()
 
-  const account =
-    currentWallet?.accounts?.length && connectionStatus === 'connected'
-      ? {
-          address: currentWallet?.accounts[0].address,
-          chainId: ChainId.SUI,
-          chainType: ChainType.MVM,
-          connector: currentWallet,
-          isConnected: isConnected,
-          isConnecting: false,
-          isReconnecting: false,
-          isDisconnected: !currentWallet,
-          status: connectionStatus,
-        }
-      : {
-          chainType: ChainType.MVM,
-          isConnected: false,
-          isConnecting: false,
-          isReconnecting: false,
-          isDisconnected: true,
-          status: 'disconnected' as const,
-        }
+  const account = useMemo(
+    () =>
+      currentWallet?.accounts?.length && connectionStatus === 'connected'
+        ? {
+            address: currentWallet?.accounts[0].address,
+            chainId: ChainId.SUI,
+            chainType: ChainType.MVM,
+            connector: currentWallet,
+            isConnected: isConnected,
+            isConnecting: false,
+            isReconnecting: false,
+            isDisconnected: !currentWallet,
+            status: connectionStatus,
+          }
+        : {
+            chainType: ChainType.MVM,
+            isConnected: false,
+            isConnecting: false,
+            isReconnecting: false,
+            isDisconnected: true,
+            status: 'disconnected' as const,
+          },
+    [currentWallet, connectionStatus, isConnected]
+  )
 
-  const installedWallets = wallets
+  const installedWallets = useMemo(() => wallets, [wallets])
 
   const sdkProvider = useMemo(
     () =>
@@ -74,20 +77,33 @@ export const SuiProviderValues: FC<
     [connect, wallets]
   )
 
+  const handleDisconnect = useCallback(async () => {
+    await disconnect()
+  }, [disconnect])
+
+  const contextValue = useMemo(
+    () => ({
+      isEnabled: true,
+      account,
+      sdkProvider,
+      installedWallets,
+      isConnected,
+      isExternalContext,
+      connect: handleConnect,
+      disconnect: handleDisconnect,
+    }),
+    [
+      account,
+      sdkProvider,
+      installedWallets,
+      isConnected,
+      isExternalContext,
+      handleConnect,
+      handleDisconnect,
+    ]
+  )
+
   return (
-    <SuiContext.Provider
-      value={{
-        isEnabled: true,
-        account,
-        sdkProvider,
-        installedWallets,
-        isConnected,
-        isExternalContext,
-        connect: handleConnect,
-        disconnect,
-      }}
-    >
-      {children}
-    </SuiContext.Provider>
+    <SuiContext.Provider value={contextValue}>{children}</SuiContext.Provider>
   )
 }

@@ -12,13 +12,15 @@ function useInBitcoinContext(): boolean {
 
 const BitcoinWidgetProvider = ({
   forceInternalWalletManagement,
+  isExternalContext = false,
   children,
 }: PropsWithChildren<WidgetProviderProps>) => {
   const inBitcoinContext = useInBitcoinContext()
+  const effectiveIsExternal = isExternalContext || inBitcoinContext
 
   if (inBitcoinContext && !forceInternalWalletManagement) {
     return (
-      <BitcoinProviderValues isExternalContext={inBitcoinContext}>
+      <BitcoinProviderValues isExternalContext={effectiveIsExternal}>
         {children}
       </BitcoinProviderValues>
     )
@@ -26,7 +28,7 @@ const BitcoinWidgetProvider = ({
 
   return (
     <BitcoinBaseProvider>
-      <BitcoinProviderValues isExternalContext={inBitcoinContext}>
+      <BitcoinProviderValues isExternalContext={effectiveIsExternal}>
         {children}
       </BitcoinProviderValues>
     </BitcoinBaseProvider>

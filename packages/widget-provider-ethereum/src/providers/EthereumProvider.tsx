@@ -16,16 +16,18 @@ function useInEthereumContext(): boolean {
 
 const EthereumWidgetProvider = ({
   forceInternalWalletManagement,
+  isExternalContext = false,
   chains,
   config,
   children,
 }: PropsWithChildren<EthereumWidgetProviderProps>) => {
   const inEthereumContext = useInEthereumContext()
+  const effectiveIsExternal = isExternalContext || inEthereumContext
 
   if (inEthereumContext && !forceInternalWalletManagement) {
     return (
       <EthereumProviderValues
-        isExternalContext={inEthereumContext}
+        isExternalContext={effectiveIsExternal}
         config={config}
       >
         {children}
@@ -36,7 +38,7 @@ const EthereumWidgetProvider = ({
   return (
     <EthereumBaseProvider config={config} chains={chains}>
       <EthereumProviderValues
-        isExternalContext={inEthereumContext}
+        isExternalContext={effectiveIsExternal}
         config={config}
       >
         {children}

@@ -1,6 +1,9 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import type { WidgetProviderProps } from '@lifi/widget-provider'
 import { type PropsWithChildren, type ReactNode, useMemo, useRef } from 'react'
+
+const EMPTY_CHAINS: ExtendedChain[] = []
+
 import type { WalletManagementProviderProps } from './WalletManagementProvider/types.js'
 import { WalletManagementProvider } from './WalletManagementProvider/WalletManagementProvider.js'
 
@@ -13,6 +16,7 @@ export interface WalletManagementProvidersProps
   providers?: WidgetProvider[]
   chains?: ExtendedChain[]
   forceInternalWalletManagement?: boolean
+  isExternalContext?: boolean
 }
 
 export const WalletManagementProviders = ({
@@ -20,6 +24,7 @@ export const WalletManagementProviders = ({
   providers,
   chains,
   forceInternalWalletManagement,
+  isExternalContext,
   children,
 }: PropsWithChildren<WalletManagementProvidersProps>) => {
   const prevProvidersRef = useRef(providers)
@@ -49,11 +54,12 @@ export const WalletManagementProviders = ({
   }
 
   return memoizedProviders.reduceRight(
-    (acc, ProviderComponent) => (
+    (acc, ProviderComponent, index) => (
       <ProviderComponent
-        key={ProviderComponent.name}
+        key={ProviderComponent.name || index}
         forceInternalWalletManagement={forceInternalWalletManagement}
-        chains={chains ?? []}
+        isExternalContext={isExternalContext}
+        chains={chains ?? EMPTY_CHAINS}
       >
         {acc}
       </ProviderComponent>

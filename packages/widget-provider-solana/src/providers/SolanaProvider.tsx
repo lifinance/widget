@@ -4,9 +4,10 @@ import { SolanaProviderValues } from './SolanaProviderValues.js'
 
 const SolanaWidgetProvider = ({
   children,
+  isExternalContext = false,
 }: PropsWithChildren<WidgetProviderProps>) => {
   return (
-    <SolanaProviderValues isExternalContext={false}>
+    <SolanaProviderValues isExternalContext={isExternalContext}>
       {children}
     </SolanaProviderValues>
   )

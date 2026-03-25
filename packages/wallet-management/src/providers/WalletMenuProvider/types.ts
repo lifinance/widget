@@ -6,7 +6,7 @@ export interface WalletMenuOpenArgs {
 }
 
 export interface WalletMenuContext {
-  isWalletMenuOpen(): void
+  isWalletMenuOpen(): boolean
   toggleWalletMenu(): void
   openWalletMenu(args?: WalletMenuOpenArgs): void
   closeWalletMenu(): void
