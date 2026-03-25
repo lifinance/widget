@@ -1,6 +1,7 @@
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz'
 import SyncAltIcon from '@mui/icons-material/SyncAlt'
+import { Chip, Stack } from '@mui/material'
 import {
   ChainAvatarGroup,
   ExchangeAvatarBinance,
@@ -8,6 +9,7 @@ import {
   ExchangeAvatarsWrap,
   GenericIconWrap,
   OptionCard,
+  OptionCardComingSoon,
   OptionRow,
   OptionsRoot,
   OptionTextCell,
@@ -23,14 +25,15 @@ import {
 
 export type SelectSourceFundingOptionsProps = {
   onTransferCrypto: () => void
-  onConnectExchange: () => void
   onDepositCash: () => void
+  /** When false, the cash on-ramp row is hidden (optional peer not installed). */
+  showDepositCash?: boolean
 }
 
 export function SelectSourceFundingOptions({
   onTransferCrypto,
-  onConnectExchange,
   onDepositCash,
+  showDepositCash = true,
 }: SelectSourceFundingOptionsProps) {
   return (
     <OptionsRoot>
@@ -51,35 +54,44 @@ export function SelectSourceFundingOptions({
         </OptionRow>
       </OptionCard>
 
-      <OptionCard onClick={onConnectExchange}>
+      {showDepositCash ? (
+        <OptionCard onClick={onDepositCash}>
+          <OptionRow>
+            <GenericIconWrap>
+              <AttachMoneyIcon />
+            </GenericIconWrap>
+            <OptionTextCell>
+              <OptionTitle>Deposit with Cash</OptionTitle>
+            </OptionTextCell>
+            <PaymentMarksWrap>
+              <PaymentMarkMastercard />
+              <PaymentMarkVisa />
+            </PaymentMarksWrap>
+          </OptionRow>
+        </OptionCard>
+      ) : null}
+
+      <OptionCardComingSoon
+        elevation={0}
+        aria-disabled="true"
+        aria-label="Connect exchange with Mesh (coming soon)"
+      >
         <OptionRow>
           <GenericIconWrap>
             <SyncAltIcon />
           </GenericIconWrap>
           <OptionTextCell>
-            <OptionTitle>Connect Exchange</OptionTitle>
+            <Stack spacing={0.5} alignItems="flex-start">
+              <OptionTitle>Connect Exchange</OptionTitle>
+              <Chip label="Coming soon" size="small" variant="outlined" />
+            </Stack>
           </OptionTextCell>
           <ExchangeAvatarsWrap>
             <ExchangeAvatarCoinbase>C</ExchangeAvatarCoinbase>
             <ExchangeAvatarBinance>B</ExchangeAvatarBinance>
           </ExchangeAvatarsWrap>
         </OptionRow>
-      </OptionCard>
-
-      <OptionCard onClick={onDepositCash}>
-        <OptionRow>
-          <GenericIconWrap>
-            <AttachMoneyIcon />
-          </GenericIconWrap>
-          <OptionTextCell>
-            <OptionTitle>Deposit with Cash</OptionTitle>
-          </OptionTextCell>
-          <PaymentMarksWrap>
-            <PaymentMarkMastercard />
-            <PaymentMarkVisa />
-          </PaymentMarksWrap>
-        </OptionRow>
-      </OptionCard>
+      </OptionCardComingSoon>
     </OptionsRoot>
   )
 }

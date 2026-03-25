@@ -9,22 +9,18 @@ import {
 } from '../../components/SelectSource/SelectSourceLayout.js'
 import { TopWalletRows } from '../../components/SelectSource/TopWalletRows.js'
 import { useCheckoutNavigate } from '../../hooks/useCheckoutNavigate.js'
+import { useOnRamp } from '../../hooks/useOnRamp.js'
 import { useSelectSourceTopWallets } from '../../hooks/useSelectSourceTopWallets.js'
-import { useTransak } from '../../providers/TransakProvider.js'
 import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
 
 export const SelectSourcePage: React.FC = () => {
   const navigate = useCheckoutNavigate()
   const { openWalletMenu } = useWalletMenu()
-  const { openDepositFlow } = useTransak()
+  const { transak, resolutionLoading } = useOnRamp()
   const { topWallets } = useSelectSourceTopWallets()
 
   const goToToken = useCallback(() => {
     navigate({ to: checkoutNavigationRoutes.fromToken })
-  }, [navigate])
-
-  const handleFundingMethodSelect = useCallback(() => {
-    navigate({ to: checkoutNavigationRoutes.fundingMethods })
   }, [navigate])
 
   return (
@@ -40,8 +36,8 @@ export const SelectSourcePage: React.FC = () => {
         />
         <SelectSourceFundingOptions
           onTransferCrypto={goToToken}
-          onConnectExchange={handleFundingMethodSelect}
-          onDepositCash={openDepositFlow}
+          onDepositCash={() => transak?.openDepositFlow()}
+          showDepositCash={!resolutionLoading && Boolean(transak)}
         />
       </SelectSourceMainColumn>
     </CheckoutStack>

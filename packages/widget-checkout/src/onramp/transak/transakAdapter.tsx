@@ -12,41 +12,35 @@ import {
   DialogTitle,
   Typography,
 } from '@mui/material'
+import { Transak } from '@transak/ui-js-sdk'
 import {
-  createContext,
   type FC,
   type PropsWithChildren,
+  type ReactNode,
   useCallback,
-  useContext,
+  useEffect,
+  useId,
   useMemo,
   useState,
 } from 'react'
-import type { OnrampSessionRequest } from '../types/onrampSession.js'
-import { useCheckoutConfig } from './CheckoutProvider.js'
+import { useCheckoutConfig } from '../../providers/CheckoutProvider.js'
+import type { OnrampSessionRequest } from '../../types/onrampSession.js'
+import type { LoadedOnRampAdapter, OnRampProviderMeta } from '../types.js'
+import { TransakContext } from './transakContext.js'
 
-export interface TransakContextValue {
-  openDepositFlow: () => void
-  close: () => void
-  isOpen: boolean
-  isLoading: boolean
-  error: string | null
+const transakMeta: OnRampProviderMeta = {
+  id: 'transak',
+  name: 'Transak',
+  description: 'Buy crypto with card or bank transfer',
+  features: ['Visa/Mastercard', 'Bank Transfer', '170+ Countries'],
+  recommended: true,
 }
 
-const TransakContext = createContext<TransakContextValue | null>(null)
-
-export function useTransak(): TransakContextValue {
-  const ctx = useContext(TransakContext)
-  if (!ctx) {
-    throw new Error('useTransak must be used within TransakProvider')
-  }
-  return ctx
-}
-
-export type TransakProviderProps = PropsWithChildren<{
+export type TransakCashProviderProps = PropsWithChildren<{
   widgetConfig: WidgetConfig
 }>
 
-export const TransakProvider: FC<TransakProviderProps> = ({
+const TransakCashProvider: FC<TransakCashProviderProps> = ({
   children,
   widgetConfig,
 }) => {
@@ -58,6 +52,7 @@ export const TransakProvider: FC<TransakProviderProps> = ({
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [widgetUrl, setWidgetUrl] = useState<string | null>(null)
+  const transakContainerId = useId()
 
   const close = useCallback(() => {
     setOpen(false)
@@ -183,6 +178,36 @@ export const TransakProvider: FC<TransakProviderProps> = ({
     widgetConfig.toToken,
   ])
 
+  useEffect(() => {
+    if (!open || !widgetUrl || isLoading) {
+      return
+    }
+
+    const transak = new Transak({
+      widgetUrl,
+      containerId: transakContainerId,
+      widgetWidth: '100%',
+      widgetHeight: '100%',
+    })
+
+    const onWidgetClose = () => {
+      close()
+    }
+
+    const onOrderSuccessful = () => {
+      close()
+    }
+
+    Transak.on(Transak.EVENTS.TRANSAK_WIDGET_CLOSE, onWidgetClose)
+    Transak.on(Transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, onOrderSuccessful)
+
+    transak.init()
+
+    return () => {
+      transak.cleanup()
+    }
+  }, [close, isLoading, open, transakContainerId, widgetUrl])
+
   const value = useMemo(
     () => ({
       openDepositFlow,
@@ -245,21 +270,16 @@ export const TransakProvider: FC<TransakProviderProps> = ({
             </Box>
           ) : null}
           {!isLoading && widgetUrl ? (
-            <Box sx={{ flex: 1, minHeight: 0, display: 'flex' }}>
-              {/* Future: listen for Transak iframe postMessage (order success / close) to navigate to progress without the SDK. */}
-              <iframe
-                src={widgetUrl}
-                title="Transak"
-                style={{
-                  flex: 1,
-                  width: '100%',
-                  minHeight: 480,
-                  border: 0,
-                  borderRadius: 8,
-                }}
-                allow="camera; microphone; payment"
-              />
-            </Box>
+            <Box
+              id={transakContainerId}
+              sx={{
+                flex: 1,
+                display: 'flex',
+                minHeight: 480,
+                minWidth: 0,
+                width: '100%',
+              }}
+            />
           ) : null}
         </DialogContent>
         <DialogActions>
@@ -273,4 +293,20 @@ export const TransakProvider: FC<TransakProviderProps> = ({
       </Dialog>
     </TransakContext.Provider>
   )
+}
+
+const TransakCashRoot: FC<{
+  widgetConfig: WidgetConfig
+  children: ReactNode
+}> = ({ widgetConfig, children }) => (
+  <TransakCashProvider widgetConfig={widgetConfig}>
+    {children}
+  </TransakCashProvider>
+)
+
+export function createTransakLoadedAdapter(): LoadedOnRampAdapter {
+  return {
+    meta: transakMeta,
+    Wrap: TransakCashRoot,
+  }
 }
