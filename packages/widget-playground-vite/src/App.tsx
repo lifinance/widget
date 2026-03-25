@@ -18,6 +18,9 @@ const AppProvider = ({ children }: PropsWithChildren) => {
   return (
     <EnvVariablesProvider
       EVMWalletConnectId={import.meta.env.VITE_EVM_WALLET_CONNECT}
+      onrampSessionApiUrl={
+        import.meta.env.VITE_ONRAMP_SESSION_API_URL || undefined
+      }
     >
       <QueryClientProvider client={queryClient}>
         <WidgetConfigProvider defaultWidgetConfig={defaultWidgetConfig}>

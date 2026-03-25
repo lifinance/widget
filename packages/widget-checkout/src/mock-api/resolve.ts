@@ -46,6 +46,15 @@ const FALLBACK_CRYPTO_CURRENCIES: TransakCryptoCurrency[] = [
     uniqueId: 'eth-ethereum',
   },
   {
+    coinId: 'steth-ethereum',
+    symbol: 'stETH',
+    name: 'Lido Staked Ether',
+    isAllowed: true,
+    address: '0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84',
+    network: { name: 'ethereum', chainId: '1' },
+    uniqueId: 'steth-ethereum',
+  },
+  {
     coinId: 'usdc-polygon',
     symbol: 'USDC',
     name: 'USD Coin',
@@ -103,10 +112,11 @@ const FALLBACK_CRYPTO_CURRENCIES: TransakCryptoCurrency[] = [
 
 export async function loadCryptoCurrencies(): Promise<void> {
   try {
-    cryptoCurrencies = await fetchCryptoCurrencies()
+    const fromApi = await fetchCryptoCurrencies()
+    cryptoCurrencies = mergeFallbackIntoCatalog(fromApi)
     lastFetchedAt = Date.now()
     console.warn(
-      `Loaded ${cryptoCurrencies.length} crypto currencies from Transak API`
+      `Loaded ${fromApi.length} crypto currencies from Transak API (${cryptoCurrencies.length} after merging checkout fallbacks)`
     )
   } catch (err) {
     console.warn(
@@ -151,6 +161,30 @@ function matchesTokenAddress(
   }
 
   return currencyAddressLower === tokenLower
+}
+
+/**
+ * Transak's public catalog can omit assets we support in checkout (e.g. mainnet stETH)
+ * or only list testnet chain IDs. Append fallback rows when the API did not already
+ * define the same token on the same chain (address + chainId).
+ */
+function mergeFallbackIntoCatalog(
+  fromApi: TransakCryptoCurrency[]
+): TransakCryptoCurrency[] {
+  const merged = [...fromApi]
+  for (const fb of FALLBACK_CRYPTO_CURRENCIES) {
+    const chainIdStr = String(fb.network?.chainId ?? '')
+    const already = merged.some(
+      (c) =>
+        c.isAllowed &&
+        matchesTokenAddress(c, fb.address ?? NATIVE_TOKEN_ADDRESS) &&
+        String(c.network?.chainId) === chainIdStr
+    )
+    if (!already) {
+      merged.push(fb)
+    }
+  }
+  return merged
 }
 
 export async function resolveTokenToTransak(

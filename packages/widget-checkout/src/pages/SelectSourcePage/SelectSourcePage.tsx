@@ -1,5 +1,5 @@
 import { useWalletMenu } from '@lifi/wallet-management'
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 import { CheckoutStack } from '../../components/CheckoutStack.js'
 import { SelectSourceFundingOptions } from '../../components/SelectSource/SelectSourceFundingOptions.js'
 import {
@@ -8,15 +8,15 @@ import {
   SelectSourceMainColumn,
 } from '../../components/SelectSource/SelectSourceLayout.js'
 import { TopWalletRows } from '../../components/SelectSource/TopWalletRows.js'
-import { TransakPlaceholderDialog } from '../../components/SelectSource/TransakPlaceholderDialog.js'
 import { useCheckoutNavigate } from '../../hooks/useCheckoutNavigate.js'
 import { useSelectSourceTopWallets } from '../../hooks/useSelectSourceTopWallets.js'
+import { useTransak } from '../../providers/TransakProvider.js'
 import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
 
 export const SelectSourcePage: React.FC = () => {
   const navigate = useCheckoutNavigate()
   const { openWalletMenu } = useWalletMenu()
-  const [transakOpen, setTransakOpen] = useState(false)
+  const { openDepositFlow } = useTransak()
   const { topWallets } = useSelectSourceTopWallets()
 
   const goToToken = useCallback(() => {
@@ -25,11 +25,6 @@ export const SelectSourcePage: React.FC = () => {
 
   const handleFundingMethodSelect = useCallback(() => {
     navigate({ to: checkoutNavigationRoutes.fundingMethods })
-  }, [navigate])
-
-  const handleTransakComplete = useCallback(() => {
-    setTransakOpen(false)
-    navigate({ to: checkoutNavigationRoutes.progress })
   }, [navigate])
 
   return (
@@ -46,15 +41,9 @@ export const SelectSourcePage: React.FC = () => {
         <SelectSourceFundingOptions
           onTransferCrypto={goToToken}
           onConnectExchange={handleFundingMethodSelect}
-          onDepositCash={() => setTransakOpen(true)}
+          onDepositCash={openDepositFlow}
         />
       </SelectSourceMainColumn>
-
-      <TransakPlaceholderDialog
-        open={transakOpen}
-        onClose={() => setTransakOpen(false)}
-        onComplete={handleTransakComplete}
-      />
     </CheckoutStack>
   )
 }

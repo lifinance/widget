@@ -7,8 +7,8 @@ export const ProgressPage: React.FC = () => {
         Purchase in progress
       </Typography>
       <Typography variant="body2" color="text.secondary">
-        This screen follows a successful cash on-ramp (Transak placeholder).
-        Harden callbacks and status polling in a follow-up.
+        This screen can follow a successful cash on-ramp once Transak iframe
+        postMessage handling is wired for order completion.
       </Typography>
     </Box>
   )

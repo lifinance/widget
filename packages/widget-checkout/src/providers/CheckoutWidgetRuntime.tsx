@@ -10,6 +10,7 @@ import {
 } from '@lifi/widget'
 import type { PropsWithChildren } from 'react'
 import { ThemeProvider } from './ThemeProvider.js'
+import { TransakProvider } from './TransakProvider.js'
 
 export interface CheckoutWidgetRuntimeProps extends PropsWithChildren {
   widgetConfig: WidgetConfig
@@ -29,9 +30,11 @@ export const CheckoutWidgetRuntime: React.FC<CheckoutWidgetRuntimeProps> = ({
             <ThemeProvider>
               <SDKClientProvider>
                 <WalletProvider providers={widgetConfig.providers ?? []}>
-                  <StoreProvider config={widgetConfig} formRef={formRef}>
-                    {children}
-                  </StoreProvider>
+                  <TransakProvider widgetConfig={widgetConfig}>
+                    <StoreProvider config={widgetConfig} formRef={formRef}>
+                      {children}
+                    </StoreProvider>
+                  </TransakProvider>
                 </WalletProvider>
               </SDKClientProvider>
             </ThemeProvider>
