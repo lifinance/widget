@@ -1,6 +1,7 @@
 import { useAccount } from '@lifi/wallet-management'
 import { useChainTypeFromAddress } from '@lifi/widget-provider'
 import CloseRounded from '@mui/icons-material/CloseRounded'
+import WarningRounded from '@mui/icons-material/WarningRounded'
 import { Box, Collapse } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import { type MouseEventHandler, useEffect, useRef } from 'react'
@@ -20,7 +21,12 @@ import type { CardProps } from '../Card/Card.js'
 import { Card } from '../Card/Card.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
 import { CardTitle } from '../Card/CardTitle.js'
-import { SendToWalletCardHeader } from './SendToWalletButton.style.js'
+import {
+  SendToWalletCardHeader,
+  SendToWalletCardTitleRow,
+  SendToWalletRequiredLabel,
+  SendToWalletRequiredLabelText,
+} from './SendToWalletButton.style.js'
 
 export const SendToWalletButton: React.FC<CardProps> = (props) => {
   const { t } = useTranslation()
@@ -137,7 +143,17 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
         onClick={disabledForChanges ? undefined : handleOnClick}
         sx={{ width: '100%', ...props.sx }}
       >
-        <CardTitle required={requiredToAddress}>{title}</CardTitle>
+        <SendToWalletCardTitleRow>
+          <CardTitle sx={{ p: 0 }}>{title}</CardTitle>
+          {requiredToAddress && !toAddressFieldValue ? (
+            <SendToWalletRequiredLabel variant="warning">
+              <WarningRounded sx={{ fontSize: 14 }} />
+              <SendToWalletRequiredLabelText type="icon">
+                {t('sendToWallet.required')}
+              </SendToWalletRequiredLabelText>
+            </SendToWalletRequiredLabel>
+          ) : null}
+        </SendToWalletCardTitleRow>
         <Box
           sx={{
             display: 'flex',

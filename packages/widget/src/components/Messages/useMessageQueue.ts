@@ -15,7 +15,6 @@ interface QueuedMessage {
 export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
   const {
     requiredToAddress,
-    toAddress,
     accountNotDeployedAtDestination,
     accountDeployedAtDestination,
     isLoading: isToAddressRequirementsLoading,
@@ -69,13 +68,6 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
       })
     }
 
-    if (requiredToAddress && !toAddress) {
-      queue.push({
-        id: 'TO_ADDRESS_REQUIRED',
-        priority: 6,
-      })
-    }
-
     if (
       requiredToAddress &&
       accountDeployedAtDestination &&
@@ -83,7 +75,7 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
     ) {
       queue.push({
         id: 'ACCOUNT_DEPLOYED',
-        priority: 7,
+        priority: 6,
       })
     }
 
@@ -95,7 +87,6 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
     accountDeployedAtDestination,
     accountNotDeployedAtDestination,
     requiredToAddress,
-    toAddress,
     missingChain,
     missingAccountAddress,
     belowMinFromAmountUSD,

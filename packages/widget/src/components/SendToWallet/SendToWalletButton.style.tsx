@@ -1,5 +1,26 @@
-import { cardHeaderClasses, styled } from '@mui/material'
+import { Box, cardHeaderClasses, styled } from '@mui/material'
 import { CardHeader } from '../Card/CardHeader.js'
+import { CardLabel, CardLabelTypography } from '../Card/CardLabel.js'
+
+export const SendToWalletCardTitleRow = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: theme.spacing(2, 2, 0, 2),
+  height: 30,
+}))
+
+export const SendToWalletRequiredLabel = styled(CardLabel)(({ theme }) => ({
+  paddingLeft: theme.spacing(1),
+  paddingRight: theme.spacing(1),
+}))
+
+export const SendToWalletRequiredLabelText = styled(CardLabelTypography)(
+  ({ theme }) => ({
+    paddingLeft: theme.spacing(0.5),
+    paddingRight: theme.spacing(0.5),
+  })
+)
 
 export const SendToWalletCardHeader = styled(CardHeader, {
   shouldForwardProp: (prop) => !['selected'].includes(prop as string),
