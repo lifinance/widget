@@ -37,6 +37,7 @@ export const SelectSourcePage: React.FC = () => {
         <TopWalletRows
           topWallets={topWallets}
           onOpenWalletMenu={openWalletMenu}
+          onConnected={goToToken}
         />
         <SelectSourceFundingOptions
           onTransferCrypto={goToToken}

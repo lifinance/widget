@@ -18,11 +18,13 @@ export type TopWalletEntry = CombinedWallet & { tagType?: WalletTagType }
 export type TopWalletRowsProps = {
   topWallets: TopWalletEntry[]
   onOpenWalletMenu: (args?: WalletMenuOpenArgs) => void
+  onConnected?: () => void
 }
 
 export function TopWalletRows({
   topWallets,
   onOpenWalletMenu,
+  onConnected,
 }: TopWalletRowsProps) {
   const { t } = useTranslation()
   return (
@@ -37,6 +39,7 @@ export function TopWalletRows({
                 chainType={chainType}
                 connector={connector}
                 tagType={tagType}
+                onConnected={onConnected}
               />
             )
           }

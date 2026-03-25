@@ -137,7 +137,7 @@ export const PaymentMarkVisa = styled(Box)({
     width: 10,
     height: 14,
     borderRadius: '2px',
-    bgcolor: '#F7B600',
+    backgroundColor: '#F7B600',
   },
 })
 

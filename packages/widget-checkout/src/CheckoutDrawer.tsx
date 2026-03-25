@@ -3,6 +3,7 @@ import type { PropsWithChildren } from 'react'
 import {
   forwardRef,
   useCallback,
+  useEffect,
   useImperativeHandle,
   useMemo,
   useRef,
@@ -26,6 +27,13 @@ export const CheckoutDrawer = forwardRef<
 >(({ elementRef, open, onClose, children }, ref) => {
   const openRef = useRef(Boolean(open))
   const [visible, setVisible] = useState(Boolean(open))
+
+  useEffect(() => {
+    if (open !== undefined) {
+      setVisible(open)
+      openRef.current = open
+    }
+  }, [open])
 
   const openPanel = useCallback(() => {
     setVisible(true)
