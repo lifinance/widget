@@ -12,7 +12,7 @@ import {
   List,
   Typography,
 } from '@mui/material'
-import { useMemo, useReducer, useRef } from 'react'
+import { useEffect, useMemo, useReducer, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAccount } from '../hooks/useAccount.js'
 import type { CombinedWallet } from '../hooks/useCombinedWallets.js'
@@ -83,7 +83,19 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
       .filter(Boolean)
   }, [accounts])
 
-  const [state, dispatch] = useReducer(reducer, { view: 'wallet-list' })
+  const openedWithWalletId = Boolean(walletChainArgs?.walletId)
+
+  const [state, dispatch] = useReducer(reducer, undefined, (): State => {
+    const walletId = walletChainArgs?.walletId
+    if (!walletId) {
+      return { view: 'wallet-list' }
+    }
+    const wallet = installedWallets.find((w) => w.id === walletId)
+    if (!wallet) {
+      return { view: 'wallet-list' }
+    }
+    return { view: 'multi-ecosystem', selectedWalletId: walletId }
+  })
 
   const handleMultiEcosystem = (id: string) => {
     dispatch({ type: 'SHOW_MULTI_ECOSYSTEM', id })
@@ -94,7 +106,18 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
   }
 
   const handleBack = () => {
-    dispatch({ type: 'SHOW_WALLET_LIST' })
+    if (openedWithWalletId) {
+      if (state.view === 'connecting') {
+        dispatch({
+          type: 'SHOW_MULTI_ECOSYSTEM',
+          id: state.selectedWalletId!,
+        })
+      } else {
+        onClose()
+      }
+    } else {
+      dispatch({ type: 'SHOW_WALLET_LIST' })
+    }
   }
 
   const handleError = (id: string, error: any) => {
@@ -119,6 +142,10 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
     const targetChainType =
       walletChainArgs.chain?.chainType ?? walletChainArgs.chainType
 
+    if (!targetChainType) {
+      return installedWallets
+    }
+
     return installedWallets
       .map((wallet) => {
         const filteredConnectors = wallet.connectors.filter(
@@ -130,6 +157,20 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
       })
       .filter(Boolean) as typeof installedWallets
   }, [installedWallets, walletChainArgs])
+
+  useEffect(() => {
+    const walletId = walletChainArgs?.walletId
+    if (!walletId) {
+      dispatch({ type: 'SHOW_WALLET_LIST' })
+      return
+    }
+    const wallet = filteredWallets.find((w) => w.id === walletId)
+    if (!wallet) {
+      dispatch({ type: 'SHOW_WALLET_LIST' })
+      return
+    }
+    dispatch({ type: 'SHOW_MULTI_ECOSYSTEM', id: walletId })
+  }, [walletChainArgs?.walletId, filteredWallets])
 
   const isMultiEcosystem = state.view === 'multi-ecosystem'
   const isConnecting = state.view === 'connecting'

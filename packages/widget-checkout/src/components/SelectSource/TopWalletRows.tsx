@@ -1,4 +1,8 @@
-import type { CombinedWallet, WalletTagType } from '@lifi/wallet-management'
+import type {
+  CombinedWallet,
+  WalletMenuOpenArgs,
+  WalletTagType,
+} from '@lifi/wallet-management'
 import { CardListItemButton, getConnectorId } from '@lifi/wallet-management'
 import { useTranslation } from 'react-i18next'
 import {
@@ -13,7 +17,7 @@ export type TopWalletEntry = CombinedWallet & { tagType?: WalletTagType }
 
 export type TopWalletRowsProps = {
   topWallets: TopWalletEntry[]
-  onOpenWalletMenu: () => void
+  onOpenWalletMenu: (args?: WalletMenuOpenArgs) => void
 }
 
 export function TopWalletRows({
@@ -24,7 +28,7 @@ export function TopWalletRows({
   return (
     <WalletRowsShell>
       <WalletListStack>
-        {topWallets.map(({ name, icon, connectors, tagType }) => {
+        {topWallets.map(({ id, name, icon, connectors, tagType }) => {
           if (connectors.length === 1) {
             const { chainType, connector } = connectors[0]
             return (
@@ -40,7 +44,7 @@ export function TopWalletRows({
             <CardListItemButton
               key={name}
               onClick={() => {
-                onOpenWalletMenu()
+                onOpenWalletMenu({ walletId: id ?? name })
               }}
               title={name}
               icon={icon ?? ''}
