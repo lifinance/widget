@@ -12,7 +12,7 @@ import {
 import {
   CheckoutDrawerContext,
   type CheckoutDrawerContextValue,
-} from './providers/CheckoutDrawerContext.js'
+} from './CheckoutDrawerContext.js'
 import type {
   CheckoutDrawerProps,
   CheckoutDrawerRef,

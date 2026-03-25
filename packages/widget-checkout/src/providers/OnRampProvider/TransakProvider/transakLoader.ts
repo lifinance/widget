@@ -17,6 +17,6 @@ export async function loadTransakAdapter(): Promise<LoadedOnRampAdapter | null> 
   } catch {
     return null
   }
-  const { createTransakLoadedAdapter } = await import('./transakAdapter')
+  const { createTransakLoadedAdapter } = await import('./TransakProvider')
   return createTransakLoadedAdapter()
 }

@@ -24,8 +24,8 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useCheckoutConfig } from '../../providers/CheckoutProvider.js'
-import type { OnrampSessionRequest } from '../../types/onrampSession.js'
+import type { OnrampSessionRequest } from '../../../types/onrampSession.js'
+import { useCheckoutConfig } from '../../CheckoutProvider.js'
 import type { LoadedOnRampAdapter, OnRampProviderMeta } from '../types.js'
 import { TransakContext } from './transakContext.js'
 

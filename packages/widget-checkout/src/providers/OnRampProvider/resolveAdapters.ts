@@ -1,5 +1,5 @@
-import { loadMeshAdapter } from './mesh/meshLoader.js'
-import { loadTransakAdapter } from './transak/transakLoader.js'
+import { loadMeshAdapter } from './MeshProvider/meshLoader.js'
+import { loadTransakAdapter } from './TransakProvider/transakLoader.js'
 import type { LoadedOnRampAdapter } from './types.js'
 
 const adapterNames = ['transak', 'mesh'] as const

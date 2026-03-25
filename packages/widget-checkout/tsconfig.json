@@ -11,5 +11,5 @@
     "skipLibCheck": true
   },
   "include": ["./src/**/*", "./src/**/*.json"],
-  "exclude": ["./src/mock-api/**/*"]
+  "exclude": ["./mock-api/**/*"]
 }

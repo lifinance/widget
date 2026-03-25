@@ -2,17 +2,17 @@ import { useWalletMenu } from '@lifi/wallet-management'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CheckoutStack } from '../../components/CheckoutStack.js'
-import { SelectSourceFundingOptions } from '../../components/SelectSource/SelectSourceFundingOptions.js'
-import {
-  SelectSourceHeaderRow,
-  SelectSourceHeaderTitle,
-  SelectSourceMainColumn,
-} from '../../components/SelectSource/SelectSourceLayout.js'
-import { TopWalletRows } from '../../components/SelectSource/TopWalletRows.js'
 import { useCheckoutNavigate } from '../../hooks/useCheckoutNavigate.js'
 import { useOnRamp } from '../../hooks/useOnRamp.js'
 import { useSelectSourceTopWallets } from '../../hooks/useSelectSourceTopWallets.js'
 import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
+import { SelectSourceFundingOptions } from './SelectSourceFundingOptions.js'
+import {
+  SelectSourceHeaderRow,
+  SelectSourceHeaderTitle,
+  SelectSourceMainColumn,
+} from './SelectSourceLayout.js'
+import { TopWalletRows } from './TopWalletRows.js'
 
 export const SelectSourcePage: React.FC = () => {
   const { t } = useTranslation()

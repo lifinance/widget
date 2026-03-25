@@ -11,11 +11,8 @@ import {
   useMemo,
   useState,
 } from 'react'
-import { resolveOnRampAdapters } from '../onramp/resolveOnRampAdapters.js'
-import type {
-  LoadedOnRampAdapter,
-  OnRampProviderMeta,
-} from '../onramp/types.js'
+import { resolveOnRampAdapters } from './resolveAdapters.js'
+import type { LoadedOnRampAdapter, OnRampProviderMeta } from './types.js'
 
 export interface OnRampContextValue {
   loading: boolean

@@ -3,8 +3,8 @@ import CloseIcon from '@mui/icons-material/Close'
 import { IconButton } from '@mui/material'
 import { useLocation } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
+import { useCheckoutDrawer } from '../CheckoutDrawerContext.js'
 import { useCheckoutNavigate } from '../hooks/useCheckoutNavigate.js'
-import { useCheckoutDrawer } from '../providers/CheckoutDrawerContext.js'
 import {
   backButtonRoutes,
   checkoutNavigationRoutes,
