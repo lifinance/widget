@@ -70,7 +70,7 @@ function off<E extends keyof WidgetLightEvents>(
   const set = listeners.get(key)
 
   // Guard against late cleanup calls after _unregister() clears listeners.
-  if (!set || !set.has(handler as Handler)) {
+  if (!set?.has(handler as Handler)) {
     return
   }
   set.delete(handler as Handler)
