@@ -2,6 +2,7 @@
 import { forwardRef, useMemo } from 'react'
 import { CheckoutDrawer, type CheckoutDrawerRef } from './CheckoutDrawer.js'
 import { CheckoutRouter } from './CheckoutRouter.js'
+import { CheckoutErrorBoundary } from './components/CheckoutErrorBoundary.js'
 import { CheckoutProvider } from './providers/CheckoutProvider.js'
 import { CheckoutWidgetContainer } from './providers/CheckoutWidgetContainer.js'
 import type { CheckoutConfig, CheckoutProps } from './types/checkout.js'
@@ -47,7 +48,9 @@ export const LifiWidgetCheckout = forwardRef<CheckoutDrawerRef, CheckoutProps>(
             open={props.open}
             onClose={props.onClose}
           >
-            <CheckoutRouter />
+            <CheckoutErrorBoundary>
+              <CheckoutRouter />
+            </CheckoutErrorBoundary>
           </CheckoutDrawer>
         </CheckoutWidgetContainer>
       </CheckoutProvider>

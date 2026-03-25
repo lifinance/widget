@@ -52,7 +52,7 @@ export const MoreWalletsButton = styled(Button)(({ theme }) => ({
     theme.palette.mode === 'dark'
       ? 'rgba(255, 255, 255, 0.08)'
       : 'rgba(0, 0, 0, 0.04)',
-  color: 'text.primary',
+  color: theme.vars?.palette?.text?.primary ?? theme.palette.text.primary,
   '&:hover': {
     backgroundColor:
       theme.palette.mode === 'dark'
