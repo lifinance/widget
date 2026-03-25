@@ -5,7 +5,7 @@ import type {
 } from './types.js'
 
 export const WalletMenuContext = createContext<_WalletMenuContext>({
-  isWalletMenuOpen: () => {},
+  isWalletMenuOpen: () => false,
   toggleWalletMenu: () => {},
   openWalletMenu: (_?: WalletMenuOpenArgs) => {},
   closeWalletMenu: () => {},

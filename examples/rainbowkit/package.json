@@ -12,10 +12,10 @@
     "@lifi/wallet-management": "^3.22.8",
     "@lifi/widget": "^3.40.12",
     "@rainbow-me/rainbowkit": "^2.2.10",
-    "@tanstack/react-query": "^5.91.0",
+    "@tanstack/react-query": "^5.95.2",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "viem": "^2.47.5",
+    "viem": "^2.47.6",
     "wagmi": "^2.19.4"
   },
   "devDependencies": {
@@ -23,7 +23,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
     "typescript": "^5.9.3",
-    "vite": "^8.0.0",
+    "vite": "^8.0.2",
     "vite-plugin-node-polyfills": "^0.25.0"
   }
 }

@@ -11,20 +11,26 @@ function useInSuiContext(): boolean {
 
 const SuiWidgetProvider = ({
   forceInternalWalletManagement,
+  isExternalContext = false,
   chains,
   children,
 }: PropsWithChildren<WidgetProviderProps>) => {
   const inSuiContext = useInSuiContext()
+  const effectiveIsExternal = isExternalContext || inSuiContext
 
   if (inSuiContext && !forceInternalWalletManagement) {
     return (
-      <SuiProviderValues isExternalContext={inSuiContext}>
+      <SuiProviderValues isExternalContext={effectiveIsExternal}>
         {children}
       </SuiProviderValues>
     )
   }
 
-  return <SuiBaseProvider chains={chains}>{children}</SuiBaseProvider>
+  return (
+    <SuiBaseProvider chains={chains} isExternalContext={effectiveIsExternal}>
+      {children}
+    </SuiBaseProvider>
+  )
 }
 
 export const SuiProvider = () => {

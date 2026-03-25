@@ -1,6 +1,6 @@
 import { WalletManagementProviders } from '@lifi/wallet-management'
 import type { WidgetProviderProps } from '@lifi/widget-provider'
-import type { FC, PropsWithChildren, ReactNode } from 'react'
+import { type FC, type PropsWithChildren, type ReactNode, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useInitializeSDKProviders } from '../../hooks/useInitializeSDKProviders.js'
@@ -21,17 +21,32 @@ export const WalletProvider = ({
   const { useExternalWalletProvidersOnly, internalChainTypes } =
     useExternalWalletProvider()
 
-  // If all chain types are already managed externally (host app set up providers),
-  // skip re-composing — the contexts are already populated above us.
+  if (
+    !providers.length &&
+    !useExternalWalletProvidersOnly &&
+    process.env.NODE_ENV === 'development'
+  ) {
+    console.warn('No widget providers specified')
+  }
+
   const effectiveProviders = useExternalWalletProvidersOnly ? [] : providers
+
+  const walletManagementConfig = useMemo(
+    () => ({
+      locale: i18n.resolvedLanguage as never,
+      enabledChainTypes: internalChainTypes,
+      walletEcosystemsOrder: walletConfig?.walletEcosystemsOrder,
+    }),
+    [
+      i18n.resolvedLanguage,
+      internalChainTypes,
+      walletConfig?.walletEcosystemsOrder,
+    ]
+  )
 
   return (
     <WalletManagementProviders
-      config={{
-        locale: i18n.resolvedLanguage as never,
-        enabledChainTypes: internalChainTypes,
-        walletEcosystemsOrder: walletConfig?.walletEcosystemsOrder,
-      }}
+      config={walletManagementConfig}
       providers={effectiveProviders}
       chains={chains}
       forceInternalWalletManagement={
@@ -45,5 +60,5 @@ export const WalletProvider = ({
 
 const SDKProviderInitializer: FC<PropsWithChildren> = ({ children }) => {
   useInitializeSDKProviders()
-  return <>{children}</>
+  return children
 }

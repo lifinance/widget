@@ -23,10 +23,10 @@
     "./widget-config": "./src/defaultWidgetConfig.ts"
   },
   "dependencies": {
-    "@base-org/account": "~2.5.2",
-    "@bigmi/client": "^0.7.1",
-    "@bigmi/core": "^0.7.1",
-    "@bigmi/react": "^0.7.1",
+    "@base-org/account": "~2.5.3",
+    "@bigmi/client": "^0.8.0",
+    "@bigmi/core": "^0.8.0",
+    "@bigmi/react": "^0.8.0",
     "@coinbase/wallet-sdk": "~4.3.6",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
@@ -53,8 +53,8 @@
     "porto": "^0.2.37",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "viem": "^2.47.5",
-    "wagmi": "^3.5.0",
+    "viem": "^2.47.6",
+    "wagmi": "^3.6.0",
     "zustand": "^5.0.12"
   },
   "devDependencies": {
@@ -65,7 +65,7 @@
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "typescript": "^5.9.3",
-    "vitest": "^4.1.0"
+    "vitest": "^4.1.1"
   },
   "peerDependencies": {
     "@tanstack/react-query": ">=5.90.0"

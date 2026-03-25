@@ -11,14 +11,14 @@
   "dependencies": {
     "@lifi/widget": "^3.40.12",
     "veaury": "^2.6.3",
-    "vue": "^3.5.30"
+    "vue": "^3.5.31"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.0.1",
     "@vitejs/plugin-vue": "^6.0.5",
     "@vitejs/plugin-vue-jsx": "^5.1.5",
     "typescript": "^5.9.3",
-    "vite": "^8.0.0",
+    "vite": "^8.0.2",
     "vite-plugin-node-polyfills": "^0.25.0",
     "vue-tsc": "^3.2.6"
   }

@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-light",
-  "version": "4.0.0-beta.1",
+  "version": "4.0.0-beta.5",
   "description": "LI.FI Widget Light - a lightweight version of the LI.FI Widget for cross-chain bridging and swapping.",
   "type": "module",
   "main": "./src/index.ts",
@@ -58,11 +58,11 @@
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "typescript": "^5.9.3",
-    "vitest": "^4.1.0"
+    "vitest": "^4.1.1"
   },
   "peerDependencies": {
-    "@bigmi/client": "^0.7.x",
-    "@bigmi/react": "^0.7.x",
+    "@bigmi/client": "^0.8.x",
+    "@bigmi/react": "^0.8.x",
     "@mysten/dapp-kit-react": "^2.0.0",
     "@wagmi/core": "^3.x",
     "@wallet-standard/base": "^1.1.0",
