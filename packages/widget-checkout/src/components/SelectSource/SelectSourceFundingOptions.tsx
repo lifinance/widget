@@ -2,6 +2,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz'
 import SyncAltIcon from '@mui/icons-material/SyncAlt'
 import { Chip, Stack } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 import {
   ChainAvatarGroup,
   ExchangeAvatarBinance,
@@ -35,6 +36,7 @@ export function SelectSourceFundingOptions({
   onDepositCash,
   showDepositCash = true,
 }: SelectSourceFundingOptionsProps) {
+  const { t } = useTranslation()
   return (
     <OptionsRoot>
       <OptionCard onClick={onTransferCrypto}>
@@ -43,7 +45,7 @@ export function SelectSourceFundingOptions({
             <SwapHorizIcon />
           </GenericIconWrap>
           <OptionTextCell>
-            <OptionTitle>Transfer Crypto</OptionTitle>
+            <OptionTitle>{t('checkout.transferCrypto')}</OptionTitle>
           </OptionTextCell>
           <ChainAvatarGroup max={4}>
             <TransferAvatarEth>Ξ</TransferAvatarEth>
@@ -61,7 +63,7 @@ export function SelectSourceFundingOptions({
               <AttachMoneyIcon />
             </GenericIconWrap>
             <OptionTextCell>
-              <OptionTitle>Deposit with Cash</OptionTitle>
+              <OptionTitle>{t('checkout.depositWithCash')}</OptionTitle>
             </OptionTextCell>
             <PaymentMarksWrap>
               <PaymentMarkMastercard />
@@ -74,7 +76,7 @@ export function SelectSourceFundingOptions({
       <OptionCardComingSoon
         elevation={0}
         aria-disabled="true"
-        aria-label="Connect exchange with Mesh (coming soon)"
+        aria-label={t('checkout.meshAriaLabel')}
       >
         <OptionRow>
           <GenericIconWrap>
@@ -82,8 +84,12 @@ export function SelectSourceFundingOptions({
           </GenericIconWrap>
           <OptionTextCell>
             <Stack spacing={0.5} alignItems="flex-start">
-              <OptionTitle>Connect Exchange</OptionTitle>
-              <Chip label="Coming soon" size="small" variant="outlined" />
+              <OptionTitle>{t('checkout.connectExchange')}</OptionTitle>
+              <Chip
+                label={t('checkout.comingSoon')}
+                size="small"
+                variant="outlined"
+              />
             </Stack>
           </OptionTextCell>
           <ExchangeAvatarsWrap>

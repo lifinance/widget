@@ -102,6 +102,8 @@ export interface CheckoutConfig {
   /**
    * Optional overrides merged into the derived `WidgetConfig` (integrator/apiKey/theme still come from checkout fields first).
    * For cash on-ramp, set `toChain` and `toToken` (contract address) here — they define the asset purchased via Transak and are locked in the UI.
+   *
+   * `languageResources` is deep-merged with checkout defaults (`tags.*` for wallet chips, `checkout.*` for checkout copy). Add keys under other locales the same way as the main widget.
    */
   widget?: Partial<WidgetConfig>
 }
