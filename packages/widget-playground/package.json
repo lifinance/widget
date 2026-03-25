@@ -32,6 +32,7 @@
     "@emotion/styled": "^11.14.1",
     "@lifi/widget": "workspace:*",
     "@lifi/widget-checkout": "workspace:*",
+    "@transak/ui-js-sdk": "^1.0.0",
     "@lifi/widget-provider-bitcoin": "workspace:*",
     "@lifi/widget-provider-ethereum": "workspace:*",
     "@lifi/widget-provider-solana": "workspace:*",

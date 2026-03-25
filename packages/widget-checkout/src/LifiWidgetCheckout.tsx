@@ -3,7 +3,7 @@ import { forwardRef, useMemo } from 'react'
 import { CheckoutDrawer, type CheckoutDrawerRef } from './CheckoutDrawer.js'
 import { CheckoutRouter } from './CheckoutRouter.js'
 import { CheckoutProvider } from './providers/CheckoutProvider.js'
-import { CheckoutWidgetRuntime } from './providers/CheckoutWidgetRuntime.js'
+import { CheckoutWidgetContainer } from './providers/CheckoutWidgetContainer.js'
 import type { CheckoutConfig, CheckoutProps } from './types/checkout.js'
 import { checkoutConfigToWidgetConfig } from './utils/checkoutToWidgetConfig.js'
 
@@ -37,7 +37,7 @@ export const LifiWidgetCheckout = forwardRef<CheckoutDrawerRef, CheckoutProps>(
 
     return (
       <CheckoutProvider config={config}>
-        <CheckoutWidgetRuntime
+        <CheckoutWidgetContainer
           widgetConfig={widgetConfig}
           formRef={props.formRef}
         >
@@ -49,7 +49,7 @@ export const LifiWidgetCheckout = forwardRef<CheckoutDrawerRef, CheckoutProps>(
           >
             <CheckoutRouter />
           </CheckoutDrawer>
-        </CheckoutWidgetRuntime>
+        </CheckoutWidgetContainer>
       </CheckoutProvider>
     )
   }

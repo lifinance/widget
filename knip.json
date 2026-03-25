@@ -21,6 +21,9 @@
         "@walletconnect/ethereum-provider",
         "porto"
       ]
+    },
+    "packages/widget-checkout": {
+      "ignoreDependencies": ["@transak/ui-js-sdk"]
     }
   }
 }

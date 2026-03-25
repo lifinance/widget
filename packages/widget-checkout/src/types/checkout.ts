@@ -62,6 +62,14 @@ export interface FundingMethod {
   provider: 'transak' | 'mesh' | 'custom'
 }
 
+/**
+ * Configuration for checkout UI and providers.
+ *
+ * **Optional on-ramp peers** (`@transak/ui-js-sdk`, `@meshconnect/web-link-sdk`): the checkout
+ * probes each at runtime before loading its adapter, so missing peers disable that provider without
+ * executing its code. Bundlers may still need those packages resolvable when building async chunks;
+ * install the peers (or mark them external per your toolchain) if the build fails to resolve them.
+ */
 export interface CheckoutConfig {
   integrator: string
   apiKey?: string
