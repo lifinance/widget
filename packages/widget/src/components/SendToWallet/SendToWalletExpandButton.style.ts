@@ -1,4 +1,4 @@
-import { Box, styled, Typography } from '@mui/material'
+import { Box, styled, Typography, typographyClasses } from '@mui/material'
 import { ButtonTertiary } from '../ButtonTertiary.js'
 
 const animationDuration = 225
@@ -8,11 +8,24 @@ export const SendToWalletExpandButtonIcon = styled(Box)({
   alignItems: 'center',
 })
 
-export const SendToWalletExpandButtonLabel = styled(Typography)({
+export const SendToWalletExpandButtonLabelWrapper = styled(Box)({
+  display: 'grid',
+  gridTemplateColumns: '0fr',
+  transition: `grid-template-columns ${animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`,
+})
+
+export const SendToWalletExpandButtonLabel = styled(Typography)(() => ({
   fontSize: 12,
   fontWeight: 700,
-  lineHeight: 1.334,
-})
+  lineHeight: 1.3334,
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  opacity: 0,
+  transform: 'translateX(-4px)',
+  transition: `opacity ${animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1), transform ${animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`,
+}))
+
+export const labelWrapperClassName = 'send-to-wallet-label-wrapper'
 
 export const SendToWalletExpandButtonChip = styled(ButtonTertiary)(
   ({ theme }) => ({
@@ -25,22 +38,13 @@ export const SendToWalletExpandButtonChip = styled(ButtonTertiary)(
     borderRadius: theme.shape.borderRadiusSecondary,
     height: 24,
     minWidth: 'auto',
-    '& .MuiTypography-root': {
-      maxWidth: 0,
-      paddingLeft: 0,
-      paddingRight: 0,
-      opacity: 0,
-      overflow: 'hidden',
-      whiteSpace: 'nowrap',
-      transform: 'translateX(-4px)',
-      transition: `max-width ${animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1), padding ${animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1), opacity ${animationDuration / 2}ms cubic-bezier(0.4, 0, 0.2, 1), transform ${animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`,
+    [`&:hover .${labelWrapperClassName}`]: {
+      gridTemplateColumns: '1fr',
     },
-    '&:hover .MuiTypography-root': {
-      maxWidth: 120,
-      paddingLeft: theme.spacing(0.5),
-      paddingRight: theme.spacing(0.5),
+    [`&:hover .${labelWrapperClassName} .${typographyClasses.root}`]: {
       opacity: 1,
       transform: 'translateX(0)',
+      marginLeft: theme.spacing(0.75),
     },
   })
 )

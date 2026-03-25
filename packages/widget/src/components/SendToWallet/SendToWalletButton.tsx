@@ -75,7 +75,7 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
       ? toChainId
       : matchingConnectedAccount
         ? matchingConnectedAccount.chainId
-        : chainType && chainType in defaultChainIdsByType
+        : chainType && Object.hasOwn(defaultChainIdsByType, chainType)
           ? defaultChainIdsByType[
               chainType as keyof typeof defaultChainIdsByType
             ]
