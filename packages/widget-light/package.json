@@ -61,8 +61,8 @@
     "vitest": "^4.1.1"
   },
   "peerDependencies": {
-    "@bigmi/client": "^0.7.x",
-    "@bigmi/react": "^0.7.x",
+    "@bigmi/client": "^0.8.x",
+    "@bigmi/react": "^0.8.x",
     "@mysten/dapp-kit-react": "^2.0.0",
     "@wagmi/core": "^3.x",
     "@wallet-standard/base": "^1.1.0",

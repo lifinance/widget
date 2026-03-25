@@ -56,7 +56,7 @@ export const SolanaListItemButton = ({
       key={connectorDisplayName}
       icon={
         ecosystemSelection
-          ? getChainTypeIcon(ChainType.SVM)
+          ? (getChainTypeIcon(ChainType.SVM) ?? '')
           : (connector.icon ?? '')
       }
       onClick={handleSolanaConnect}

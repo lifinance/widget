@@ -56,7 +56,7 @@ export const SuiListItemButton = ({
       key={connectorDisplayName}
       icon={
         ecosystemSelection
-          ? getChainTypeIcon(ChainType.MVM)
+          ? (getChainTypeIcon(ChainType.MVM) ?? '')
           : (connector.icon ?? '')
       }
       onClick={handleSuiConnect}

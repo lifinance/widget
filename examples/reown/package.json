@@ -10,9 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@bigmi/client": "^0.7.1",
-    "@bigmi/core": "^0.7.1",
-    "@bigmi/react": "^0.7.1",
+    "@bigmi/client": "^0.8.0",
+    "@bigmi/core": "^0.8.0",
+    "@bigmi/react": "^0.8.0",
     "@lifi/wallet-management": "^3.22.8",
     "@lifi/widget": "^3.40.12",
     "@mui/material": "^7.3.6",

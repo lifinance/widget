@@ -65,7 +65,7 @@ export const BitcoinListItemButton = ({
       key={connector.id}
       icon={
         ecosystemSelection
-          ? getChainTypeIcon(ChainType.UTXO)
+          ? (getChainTypeIcon(ChainType.UTXO) ?? '')
           : (getConnectorIcon(connector) ?? '')
       }
       onClick={handleBitcoinConnect}
