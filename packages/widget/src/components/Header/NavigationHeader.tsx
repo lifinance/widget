@@ -11,7 +11,6 @@ import {
 } from '../../utils/navigationRoutes.js'
 import { ActivitiesButton } from './ActivitiesButton.js'
 import { BackButton } from './BackButton.js'
-// import { ButtonComparison } from './ButtonComparison.js'
 import { CloseDrawerButton } from './CloseDrawerButton.js'
 import { HeaderAppBar, HeaderControlsContainer } from './Header.style.js'
 import { SettingsButton } from './SettingsButton.js'
@@ -64,7 +63,6 @@ export const NavigationHeader: React.FC = () => {
           {account.isConnected && !hiddenUI?.includes(HiddenUI.History) && (
             <ActivitiesButton />
           )}
-          {/* <ButtonComparison /> */}
           <SettingsButton />
           {variant === 'drawer' &&
           !hiddenUI?.includes(HiddenUI.DrawerCloseButton) ? (

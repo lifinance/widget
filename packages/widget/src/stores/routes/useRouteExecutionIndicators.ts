@@ -4,7 +4,10 @@ import { useRouteExecutionStore } from './RouteExecutionStore.js'
 import type { RouteExecution, RouteExecutionState } from './types.js'
 import { RouteExecutionStatus } from './types.js'
 
-export type RouteExecutionIndicator = 'idle' | 'active' | 'failed'
+export type RouteExecutionIndicator = {
+  failed: boolean
+  active: boolean
+}
 
 const isRecentTransaction = (route: RouteExecution): boolean => {
   const startedAt = route.route.steps[0]?.execution?.startedAt ?? 0
@@ -25,17 +28,14 @@ export const useRouteExecutionIndicator = (): RouteExecutionIndicator => {
           accountAddresses.includes(route.route.fromAddress) &&
           isRecentTransaction(route)
       )
-      if (
-        recentOwnedRoutes.some((r) => r.status === RouteExecutionStatus.Failed)
-      ) {
-        return 'failed'
+      return {
+        failed: recentOwnedRoutes.some(
+          (r) => r.status === RouteExecutionStatus.Failed
+        ),
+        active: recentOwnedRoutes.some(
+          (r) => r.status === RouteExecutionStatus.Pending
+        ),
       }
-      if (
-        recentOwnedRoutes.some((r) => r.status === RouteExecutionStatus.Pending)
-      ) {
-        return 'active'
-      }
-      return 'idle'
     },
     [accountAddresses]
   )

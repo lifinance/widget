@@ -1,16 +1,21 @@
-// import ErrorRounded from '@mui/icons-material/ErrorRounded'
+import ErrorRounded from '@mui/icons-material/ErrorRounded'
 import ReceiptLong from '@mui/icons-material/ReceiptLong'
 import { IconButton, Tooltip } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-// import { useRouteExecutionIndicator } from '../../stores/routes/useRouteExecutionIndicators.js'
+import { useRouteExecutionIndicator } from '../../stores/routes/useRouteExecutionIndicators.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
-// import { ErrorBadge } from './ActivitiesButton.style.js'
+import { CircularProgressPending } from '../Step/CircularProgress.style.js'
+import {
+  ErrorBadge,
+  IconContainer,
+  ProgressTrack,
+} from './ActivitiesButton.style.js'
 
 export const ActivitiesButton = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  // const indicator = useRouteExecutionIndicator()
+  const indicator = useRouteExecutionIndicator()
 
   return (
     <Tooltip title={t('header.activities')}>
@@ -18,16 +23,32 @@ export const ActivitiesButton = () => {
         size="medium"
         onClick={() => navigate({ to: navigationRoutes.activities })}
       >
-        {/* <ErrorBadge
-          invisible={indicator !== 'failed'}
+        <ErrorBadge
+          invisible={!indicator.failed}
           badgeContent={
             <ErrorRounded color="error" sx={{ width: 20, height: 20 }} />
           }
           overlap="circular"
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        > */}
-        <ReceiptLong />
-        {/* </ErrorBadge> */}
+        >
+          <IconContainer>
+            {(indicator.active || indicator.failed) && (
+              <ProgressTrack
+                variant="determinate"
+                value={100}
+                size={40}
+                thickness={3}
+              />
+            )}
+            {indicator.active && (
+              <CircularProgressPending
+                size={40}
+                sx={{ position: 'absolute', top: -8, left: -8 }}
+              />
+            )}
+            <ReceiptLong />
+          </IconContainer>
+        </ErrorBadge>
       </IconButton>
     </Tooltip>
   )

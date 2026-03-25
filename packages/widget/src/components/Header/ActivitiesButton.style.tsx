@@ -1,4 +1,9 @@
-import { Badge, styled } from '@mui/material'
+import {
+  Badge,
+  Box,
+  CircularProgress as MuiCircularProgress,
+  styled,
+} from '@mui/material'
 
 export const ErrorBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
@@ -12,4 +17,19 @@ export const ErrorBadge = styled(Badge)(({ theme }) => ({
     top: -2,
     left: 10,
   },
+}))
+
+export const IconContainer = styled(Box)(() => ({
+  position: 'relative',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}))
+
+export const ProgressTrack = styled(MuiCircularProgress)(({ theme }) => ({
+  position: 'absolute',
+  color: theme.vars.palette.grey[300],
+  ...theme.applyStyles('dark', {
+    color: theme.vars.palette.grey[800],
+  }),
 }))
