@@ -126,8 +126,9 @@ export async function createSession(
 export async function fetchCryptoCurrencies(): Promise<
   TransakCryptoCurrency[]
 > {
+  // Crypto coverage is on the partner API host, not api-gateway (session lives on gateway).
   const res = await fetch(
-    `${API_GATEWAY_BASE}/cryptocoverage/api/v1/public/crypto-currencies`
+    `${PARTNER_API_BASE}/cryptocoverage/api/v1/public/crypto-currencies`
   )
 
   if (!res.ok) {
