@@ -4,24 +4,21 @@ import {
   QueryClientProvider,
   SDKClientProvider,
   SettingsStoreProvider,
-  StoreProvider,
   WalletProvider,
   WidgetProvider,
 } from '@lifi/widget'
 import type { PropsWithChildren } from 'react'
+import { OnRampProvider } from './OnRampProvider.js'
 import { ThemeProvider } from './ThemeProvider.js'
-import { TransakProvider } from './TransakProvider.js'
 
-export interface CheckoutWidgetRuntimeProps extends PropsWithChildren {
+export interface CheckoutWidgetContainerProps extends PropsWithChildren {
   widgetConfig: WidgetConfig
   formRef?: FormRef
 }
 
-export const CheckoutWidgetRuntime: React.FC<CheckoutWidgetRuntimeProps> = ({
-  children,
-  widgetConfig,
-  formRef,
-}) => {
+export const CheckoutWidgetContainer: React.FC<
+  CheckoutWidgetContainerProps
+> = ({ children, widgetConfig, formRef }) => {
   return (
     <QueryClientProvider>
       <SettingsStoreProvider config={widgetConfig}>
@@ -30,11 +27,9 @@ export const CheckoutWidgetRuntime: React.FC<CheckoutWidgetRuntimeProps> = ({
             <ThemeProvider>
               <SDKClientProvider>
                 <WalletProvider providers={widgetConfig.providers ?? []}>
-                  <TransakProvider widgetConfig={widgetConfig}>
-                    <StoreProvider config={widgetConfig} formRef={formRef}>
-                      {children}
-                    </StoreProvider>
-                  </TransakProvider>
+                  <OnRampProvider widgetConfig={widgetConfig} formRef={formRef}>
+                    {children}
+                  </OnRampProvider>
                 </WalletProvider>
               </SDKClientProvider>
             </ThemeProvider>

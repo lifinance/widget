@@ -14,8 +14,6 @@ import {
 } from '@tanstack/react-router'
 import { CheckoutLayout } from './CheckoutLayout.js'
 import { EnterAmountPage } from './pages/EnterAmountPage/EnterAmountPage.js'
-import { FundingMethodsPage } from './pages/FundingMethodsPage/FundingMethodsPage.js'
-import { FundingProviderPage } from './pages/FundingProviderPage/FundingProviderPage.js'
 import { ProgressPage } from './pages/ProgressPage/ProgressPage.js'
 import { SelectDepositTokenPage } from './pages/SelectDepositTokenPage/SelectDepositTokenPage.js'
 import { SelectSourcePage } from './pages/SelectSourcePage/SelectSourcePage.js'
@@ -41,18 +39,6 @@ const progressRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: checkoutNavigationRoutes.progress,
   component: ProgressPage,
-})
-
-const fundingMethodsRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: checkoutNavigationRoutes.fundingMethods,
-  component: FundingMethodsPage,
-})
-
-const fundingProviderRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: checkoutNavigationRoutes.fundingProvider,
-  component: FundingProviderPage,
 })
 
 const fromTokenLayoutRoute = createRoute({
@@ -121,8 +107,6 @@ const routeTree = rootRoute.addChildren([
   indexRoute,
   enterAmountRoute,
   progressRoute,
-  fundingMethodsRoute,
-  fundingProviderRoute,
   fromTokenLayoutRoute.addChildren([
     fromTokenIndexRoute,
     fromTokenFromChainRoute,

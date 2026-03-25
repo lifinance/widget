@@ -27,6 +27,18 @@ export const OptionCard = styled(Card)(({ theme }) => ({
   },
 }))
 
+/** Mesh / exchange linking — disabled until the flow is wired up */
+export const OptionCardComingSoon = styled(Card)(({ theme }) => ({
+  cursor: 'not-allowed',
+  borderRadius: 16,
+  boxShadow: '0px 2px 8px 0px rgba(0, 0, 0, 0.04)',
+  backgroundColor:
+    theme.vars?.palette?.background?.paper ?? theme.palette.background.paper,
+  opacity: 0.55,
+  pointerEvents: 'none',
+  userSelect: 'none',
+}))
+
 export const OptionRow = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
