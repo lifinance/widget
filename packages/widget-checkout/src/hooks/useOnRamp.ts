@@ -1,10 +1,10 @@
 'use client'
+import { useOnRampContext } from '../providers/OnRampProvider/OnRampProvider.js'
 import {
   type TransakContextValue,
   useMaybeTransak,
-} from '../onramp/transak/transakContext.js'
-import type { OnRampProviderMeta } from '../onramp/types.js'
-import { useOnRampContext } from '../providers/OnRampProvider.js'
+} from '../providers/OnRampProvider/TransakProvider/transakContext.js'
+import type { OnRampProviderMeta } from '../providers/OnRampProvider/types.js'
 
 export interface UseOnRampValues {
   /** True while optional on-ramp peers are being resolved */

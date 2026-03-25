@@ -1,7 +1,7 @@
 export type {
   OnrampSessionRequest,
   OnrampSessionResponse,
-} from '../types/onrampSession.js'
+} from '../src/types/onrampSession.js'
 
 export interface ErrorResponse {
   error: string

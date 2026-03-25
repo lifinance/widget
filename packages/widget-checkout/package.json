@@ -21,7 +21,7 @@
     "clean": "pnpm build:clean && rm -rf dist",
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
-    "dev:mock-api": "tsx --env-file=.env src/mock-api/index.ts"
+    "dev:mock-api": "tsx --env-file=.env mock-api/index.ts"
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
   "homepage": "https://github.com/lifinance/widget",

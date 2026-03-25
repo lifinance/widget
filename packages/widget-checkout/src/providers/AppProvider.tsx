@@ -8,17 +8,19 @@ import {
   WidgetProvider,
 } from '@lifi/widget'
 import type { PropsWithChildren } from 'react'
-import { OnRampProvider } from './OnRampProvider.js'
+import { OnRampProvider } from './OnRampProvider/OnRampProvider.js'
 import { ThemeProvider } from './ThemeProvider.js'
 
-export interface CheckoutWidgetContainerProps extends PropsWithChildren {
+export interface AppProviderProps extends PropsWithChildren {
   widgetConfig: WidgetConfig
   formRef?: FormRef
 }
 
-export const CheckoutWidgetContainer: React.FC<
-  CheckoutWidgetContainerProps
-> = ({ children, widgetConfig, formRef }) => {
+export const AppProvider: React.FC<AppProviderProps> = ({
+  children,
+  widgetConfig,
+  formRef,
+}) => {
   return (
     <QueryClientProvider>
       <SettingsStoreProvider config={widgetConfig}>
