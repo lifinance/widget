@@ -122,13 +122,13 @@ export interface CheckoutError {
   provider?: string
 }
 
-export interface CheckoutDrawerRef {
+export interface CheckoutModalRef {
   isOpen(): boolean
   open(): void
   close(): void
 }
 
-export interface CheckoutDrawerProps extends CheckoutConfigPartialProps {
+export interface CheckoutModalProps extends CheckoutConfigPartialProps {
   elementRef?: RefObject<HTMLDivElement | null>
   open?: boolean
   onClose?(): void
@@ -148,14 +148,13 @@ export interface CheckoutConfigPartialProps {
  * Configuration fields (integrator, apiKey, theme, etc.) can be set at the top level
  * **or** inside the `config` object. When both are provided, `config` takes precedence.
  *
- * Drawer-only props (`open`, `elementRef`) are always top-level.
+ * Modal-only props (`open`, `elementRef`) are always top-level.
  */
-export type CheckoutProps = CheckoutDrawerProps &
+export type CheckoutProps = CheckoutModalProps &
   CheckoutConfig &
   CheckoutConfigPartialProps & {
     formRef?: FormRef
   }
-
 export interface CheckoutProviderProps extends PropsWithChildren {
   config: CheckoutConfig
 }

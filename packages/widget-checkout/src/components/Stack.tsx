@@ -1,7 +1,7 @@
 import { Box, styled } from '@mui/material'
 
 /** Shared column layout for checkout routes: gap, padding, flex growth. */
-export const CheckoutStack = styled(Box, {
+export const Stack = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'compact',
 })<{ compact?: boolean }>(({ theme, compact }) => ({
   display: 'flex',
