@@ -1,5 +1,6 @@
 import { useWalletMenu } from '@lifi/wallet-management'
 import { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { CheckoutStack } from '../../components/CheckoutStack.js'
 import { SelectSourceFundingOptions } from '../../components/SelectSource/SelectSourceFundingOptions.js'
 import {
@@ -14,6 +15,7 @@ import { useSelectSourceTopWallets } from '../../hooks/useSelectSourceTopWallets
 import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
 
 export const SelectSourcePage: React.FC = () => {
+  const { t } = useTranslation()
   const navigate = useCheckoutNavigate()
   const { openWalletMenu } = useWalletMenu()
   const { transak, resolutionLoading } = useOnRamp()
@@ -26,7 +28,9 @@ export const SelectSourcePage: React.FC = () => {
   return (
     <CheckoutStack>
       <SelectSourceHeaderRow>
-        <SelectSourceHeaderTitle>Connect wallet</SelectSourceHeaderTitle>
+        <SelectSourceHeaderTitle>
+          {t('checkout.connectWallet')}
+        </SelectSourceHeaderTitle>
       </SelectSourceHeaderRow>
 
       <SelectSourceMainColumn>

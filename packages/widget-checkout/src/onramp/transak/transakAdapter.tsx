@@ -23,10 +23,31 @@ import {
   useMemo,
   useState,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useCheckoutConfig } from '../../providers/CheckoutProvider.js'
 import type { OnrampSessionRequest } from '../../types/onrampSession.js'
 import type { LoadedOnRampAdapter, OnRampProviderMeta } from '../types.js'
 import { TransakContext } from './transakContext.js'
+
+/** English messages for `onError` callbacks (stable for logs / support). */
+const transakCallbackMessages = {
+  MISSING_ONRAMP_API:
+    'Cash deposit is not configured: set onrampSessionApiUrl on the checkout.',
+  ONRAMP_TARGET_NOT_CONFIGURED:
+    'Cash deposit target is not configured: set widget.toChain and widget.toToken.',
+  WALLET_NOT_CONNECTED:
+    'An EVM wallet must be connected before starting a Transak deposit.',
+  ONRAMP_INVALID_RESPONSE:
+    'Invalid response from onramp server (missing widgetUrl).',
+  ONRAMP_NETWORK_ERROR: 'Network error starting Transak session.',
+} as const
+
+type TransakFixedErrorCode = keyof typeof transakCallbackMessages
+
+type TransakUiError =
+  | { kind: 'fixed'; code: TransakFixedErrorCode }
+  | { kind: 'http'; status: number }
+  | { kind: 'text'; text: string; reportCode: string }
 
 const transakMeta: OnRampProviderMeta = {
   id: 'transak',
@@ -44,37 +65,36 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
   children,
   widgetConfig,
 }) => {
+  const { t } = useTranslation()
   const { integrator, onError, onrampSessionApiUrl } = useCheckoutConfig()
   const { account } = useAccount({ chainType: ChainType.EVM })
   const { openWalletMenu } = useWalletMenu()
 
   const [open, setOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [uiError, setUiError] = useState<TransakUiError | null>(null)
   const [widgetUrl, setWidgetUrl] = useState<string | null>(null)
   const transakContainerId = useId()
 
   const close = useCallback(() => {
     setOpen(false)
     setIsLoading(false)
-    setError(null)
+    setUiError(null)
     setWidgetUrl(null)
   }, [])
 
   const openDepositFlow = useCallback(async () => {
     setOpen(true)
-    setError(null)
+    setUiError(null)
     setWidgetUrl(null)
     setIsLoading(true)
 
     const base = onrampSessionApiUrl?.replace(/\/$/, '')
     if (!base) {
-      const message =
-        'Cash deposit is not configured: set onrampSessionApiUrl on the checkout.'
-      setError(message)
+      setUiError({ kind: 'fixed', code: 'MISSING_ONRAMP_API' })
       onError?.({
         code: 'MISSING_ONRAMP_API',
-        message,
+        message: transakCallbackMessages.MISSING_ONRAMP_API,
         provider: 'transak',
       })
       setIsLoading(false)
@@ -84,12 +104,10 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
     const chainId = widgetConfig.toChain
     const tokenAddress = widgetConfig.toToken
     if (chainId === undefined || !tokenAddress) {
-      const message =
-        'Cash deposit target is not configured: set widget.toChain and widget.toToken.'
-      setError(message)
+      setUiError({ kind: 'fixed', code: 'ONRAMP_TARGET_NOT_CONFIGURED' })
       onError?.({
         code: 'ONRAMP_TARGET_NOT_CONFIGURED',
-        message,
+        message: transakCallbackMessages.ONRAMP_TARGET_NOT_CONFIGURED,
         provider: 'transak',
       })
       setIsLoading(false)
@@ -98,11 +116,10 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
 
     const walletAddress = account.address
     if (!walletAddress) {
-      setError('Connect an Ethereum wallet to deposit with cash.')
+      setUiError({ kind: 'fixed', code: 'WALLET_NOT_CONNECTED' })
       onError?.({
         code: 'WALLET_NOT_CONNECTED',
-        message:
-          'An EVM wallet must be connected before starting a Transak deposit.',
+        message: transakCallbackMessages.WALLET_NOT_CONNECTED,
         provider: 'transak',
       })
       setIsLoading(false)
@@ -127,27 +144,35 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
 
       if (!res.ok) {
         const errObj = data as { error?: string; code?: string } | null
-        const message =
-          errObj?.error ??
-          `Could not start Transak session (${res.status}). Try again later.`
-        setError(message)
-        onError?.({
-          code: errObj?.code ?? 'ONRAMP_SESSION_FAILED',
-          message,
-          provider: 'transak',
-        })
+        if (errObj?.error) {
+          setUiError({
+            kind: 'text',
+            text: errObj.error,
+            reportCode: errObj.code ?? 'ONRAMP_SESSION_FAILED',
+          })
+          onError?.({
+            code: errObj.code ?? 'ONRAMP_SESSION_FAILED',
+            message: errObj.error,
+            provider: 'transak',
+          })
+        } else {
+          setUiError({ kind: 'http', status: res.status })
+          onError?.({
+            code: 'ONRAMP_SESSION_FAILED',
+            message: `Could not start Transak session (${res.status}). Try again later.`,
+            provider: 'transak',
+          })
+        }
         setIsLoading(false)
         return
       }
 
       const ok = data as { widgetUrl?: string }
       if (!ok?.widgetUrl) {
-        const message =
-          'Invalid response from onramp server (missing widgetUrl).'
-        setError(message)
+        setUiError({ kind: 'fixed', code: 'ONRAMP_INVALID_RESPONSE' })
         onError?.({
           code: 'ONRAMP_INVALID_RESPONSE',
-          message,
+          message: transakCallbackMessages.ONRAMP_INVALID_RESPONSE,
           provider: 'transak',
         })
         setIsLoading(false)
@@ -159,8 +184,16 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
       const message =
         e instanceof Error
           ? e.message
-          : 'Network error starting Transak session.'
-      setError(message)
+          : transakCallbackMessages.ONRAMP_NETWORK_ERROR
+      setUiError(
+        e instanceof Error
+          ? {
+              kind: 'text',
+              text: e.message,
+              reportCode: 'ONRAMP_NETWORK_ERROR',
+            }
+          : { kind: 'fixed', code: 'ONRAMP_NETWORK_ERROR' }
+      )
       onError?.({
         code: 'ONRAMP_NETWORK_ERROR',
         message,
@@ -214,13 +247,24 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
       close,
       isOpen: open,
       isLoading,
-      error,
+      error:
+        uiError === null
+          ? null
+          : uiError.kind === 'fixed'
+            ? t(`checkout.transak.errors.${uiError.code}`)
+            : uiError.kind === 'http'
+              ? t('checkout.transak.errors.ONRAMP_SESSION_HTTP', {
+                  status: uiError.status,
+                })
+              : uiError.text,
     }),
-    [close, error, isLoading, open, openDepositFlow]
+    [close, isLoading, open, openDepositFlow, t, uiError]
   )
 
   const showWalletCta =
-    error === 'Connect an Ethereum wallet to deposit with cash.'
+    uiError?.kind === 'fixed' && uiError.code === 'WALLET_NOT_CONNECTED'
+
+  const errorMessage = value.error
 
   return (
     <TransakContext.Provider value={value}>
@@ -240,7 +284,7 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
           },
         }}
       >
-        <DialogTitle>Deposit with cash</DialogTitle>
+        <DialogTitle>{t('checkout.transak.dialogTitle')}</DialogTitle>
         <DialogContent
           sx={{
             flex: 1,
@@ -262,10 +306,10 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
               <CircularProgress />
             </Box>
           ) : null}
-          {!isLoading && error ? (
+          {!isLoading && errorMessage ? (
             <Box sx={{ py: 2 }}>
               <Typography variant="body2" color="text.secondary">
-                {error}
+                {errorMessage}
               </Typography>
             </Box>
           ) : null}
@@ -285,10 +329,10 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
         <DialogActions>
           {showWalletCta ? (
             <Button variant="contained" onClick={() => openWalletMenu()}>
-              Connect wallet
+              {t('checkout.connectWallet')}
             </Button>
           ) : null}
-          <Button onClick={close}>Close</Button>
+          <Button onClick={close}>{t('checkout.transak.close')}</Button>
         </DialogActions>
       </Dialog>
     </TransakContext.Provider>
