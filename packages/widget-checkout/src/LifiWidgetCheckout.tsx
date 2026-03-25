@@ -16,6 +16,7 @@ export const LifiWidgetCheckout = forwardRef<CheckoutDrawerRef, CheckoutProps>(
       return {
         integrator: mergedConfig.integrator ?? 'lifi-widget-checkout',
         apiKey: mergedConfig.apiKey,
+        onrampSessionApiUrl: mergedConfig.onrampSessionApiUrl,
         appearance: mergedConfig.appearance,
         theme: mergedConfig.theme,
         onSuccess: mergedConfig.onSuccess,

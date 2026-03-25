@@ -1,7 +1,23 @@
-import type { WidgetConfig } from '@lifi/widget'
+import { DisabledUI, HiddenUI, type WidgetConfig } from '@lifi/widget'
 import type { CheckoutConfig } from '../types/checkout.js'
 import { checkoutThemeToWidgetTheme } from './checkoutThemeToWidgetTheme.js'
 import { getDefaultCheckoutWalletProviders } from './defaultCheckoutWalletProviders.js'
+
+function mergeUniqueUiFlags<T extends string>(
+  existing: T[] | undefined,
+  required: T[]
+): T[] {
+  const set = new Set<T>()
+  if (existing) {
+    for (const x of existing) {
+      set.add(x)
+    }
+  }
+  for (const x of required) {
+    set.add(x)
+  }
+  return [...set]
+}
 
 /**
  * Checkout always uses a non-drawer widget layout: compact + deposit custom subvariant.
@@ -41,5 +57,10 @@ export function checkoutConfigToWidgetConfig(
   return {
     ...merged,
     providers: resolvedProviders,
+    hiddenUI: mergeUniqueUiFlags(merged.hiddenUI, [
+      HiddenUI.ToToken,
+      HiddenUI.ReverseTokensButton,
+    ]),
+    disabledUI: mergeUniqueUiFlags(merged.disabledUI, [DisabledUI.ToToken]),
   }
 }

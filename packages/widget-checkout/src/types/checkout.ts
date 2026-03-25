@@ -66,6 +66,13 @@ export interface CheckoutConfig {
   integrator: string
   apiKey?: string
 
+  /**
+   * Base URL of the onramp session API (e.g. local mock: `http://localhost:8080`).
+   * The client calls `POST {onrampSessionApiUrl}/v1/path/onramp-session` when the user starts a cash (Transak) deposit.
+   * Required for **Deposit with Cash**; omit only if that entrypoint is unused.
+   */
+  onrampSessionApiUrl?: string
+
   appearance?: Appearance
   theme?: CheckoutTheme
 
@@ -86,6 +93,7 @@ export interface CheckoutConfig {
   sdkConfig?: WidgetSDKConfig
   /**
    * Optional overrides merged into the derived `WidgetConfig` (integrator/apiKey/theme still come from checkout fields first).
+   * For cash on-ramp, set `toChain` and `toToken` (contract address) here — they define the asset purchased via Transak and are locked in the UI.
    */
   widget?: Partial<WidgetConfig>
 }
