@@ -142,6 +142,14 @@ export interface CheckoutConfigPartialProps {
   config?: Partial<CheckoutConfig>
 }
 
+/**
+ * Props for `<LifiWidgetCheckout />`.
+ *
+ * Configuration fields (integrator, apiKey, theme, etc.) can be set at the top level
+ * **or** inside the `config` object. When both are provided, `config` takes precedence.
+ *
+ * Drawer-only props (`open`, `elementRef`) are always top-level.
+ */
 export type CheckoutProps = CheckoutDrawerProps &
   CheckoutConfig &
   CheckoutConfigPartialProps & {

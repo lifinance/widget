@@ -15,6 +15,10 @@
     "connectExchange": "Connect Exchange",
     "comingSoon": "Coming soon",
     "meshAriaLabel": "Connect exchange with Mesh (coming soon)",
+    "progress": {
+      "title": "Purchase in progress",
+      "description": "This screen can follow a successful cash on-ramp once Transak iframe postMessage handling is wired for order completion."
+    },
     "transak": {
       "dialogTitle": "Deposit with cash",
       "close": "Close",

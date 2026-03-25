@@ -20,6 +20,9 @@ export type WalletConnectRowProps = {
   connector: WalletConnector
   ecosystemSelection?: boolean
   tagType?: WalletTagType
+  onConnected?: () => void
+  onConnecting?: () => void
+  onError?: (error: unknown) => void
 }
 
 export function WalletConnectRow({
@@ -27,6 +30,9 @@ export function WalletConnectRow({
   connector,
   ecosystemSelection,
   tagType,
+  onConnected,
+  onConnecting,
+  onError,
 }: WalletConnectRowProps) {
   let ListItemButtonComponent: WalletConnectRowComponent | null = null
   switch (chainType) {
@@ -53,9 +59,9 @@ export function WalletConnectRow({
       ecosystemSelection={ecosystemSelection}
       tagType={tagType}
       connector={connector}
-      onConnected={undefined}
-      onConnecting={undefined}
-      onError={undefined}
+      onConnected={onConnected}
+      onConnecting={onConnecting}
+      onError={onError}
     />
   )
 }
