@@ -1,7 +1,7 @@
 import { useWalletMenu } from '@lifi/wallet-management'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CheckoutStack } from '../../components/CheckoutStack.js'
+import { Stack } from '../../components/Stack.js'
 import { useCheckoutNavigate } from '../../hooks/useCheckoutNavigate.js'
 import { useOnRamp } from '../../hooks/useOnRamp.js'
 import { useSelectSourceTopWallets } from '../../hooks/useSelectSourceTopWallets.js'
@@ -26,7 +26,7 @@ export const SelectSourcePage: React.FC = () => {
   }, [navigate])
 
   return (
-    <CheckoutStack>
+    <Stack>
       <SelectSourceHeaderRow>
         <SelectSourceHeaderTitle>
           {t('checkout.connectWallet')}
@@ -45,6 +45,6 @@ export const SelectSourcePage: React.FC = () => {
           showDepositCash={!resolutionLoading && Boolean(transak)}
         />
       </SelectSourceMainColumn>
-    </CheckoutStack>
+    </Stack>
   )
 }

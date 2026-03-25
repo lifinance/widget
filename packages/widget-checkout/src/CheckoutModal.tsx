@@ -10,20 +10,16 @@ import {
   useState,
 } from 'react'
 import {
-  CheckoutDrawerContext,
-  type CheckoutDrawerContextValue,
-} from './CheckoutDrawerContext.js'
-import type {
-  CheckoutDrawerProps,
-  CheckoutDrawerRef,
-} from './types/checkout.js'
+  CheckoutModalContext,
+  type CheckoutModalContextValue,
+} from './CheckoutModalContext.js'
+import type { CheckoutModalProps, CheckoutModalRef } from './types/checkout.js'
 
-export type { CheckoutDrawerRef }
+export type { CheckoutModalRef }
 
-/** Centered checkout panel (modal) — ref API: open / close / isOpen */
-export const CheckoutDrawer = forwardRef<
-  CheckoutDrawerRef,
-  PropsWithChildren<CheckoutDrawerProps>
+export const CheckoutModal = forwardRef<
+  CheckoutModalRef,
+  PropsWithChildren<CheckoutModalProps>
 >(({ elementRef, open, onClose, children }, ref) => {
   const openRef = useRef(Boolean(open))
   const [visible, setVisible] = useState(Boolean(open))
@@ -56,15 +52,15 @@ export const CheckoutDrawer = forwardRef<
     [closePanel, openPanel]
   )
 
-  const drawerContext: CheckoutDrawerContextValue = useMemo(
+  const modalContext: CheckoutModalContextValue = useMemo(
     () => ({
-      closeDrawer: closePanel,
+      closeModal: closePanel,
     }),
     [closePanel]
   )
 
   return (
-    <CheckoutDrawerContext.Provider value={drawerContext}>
+    <CheckoutModalContext.Provider value={modalContext}>
       <Modal
         open={visible}
         onClose={closePanel}
@@ -73,11 +69,9 @@ export const CheckoutDrawer = forwardRef<
           {
             backdrop: {
               sx: {
-                // Avoid backdrop-filter: it repaints every frame during fade and feels sluggish.
                 backgroundColor: 'rgba(0, 0, 0, 0.48)',
               },
             },
-            // MUI v7 passes this to the Fade transition; typings may omit `transition` on Modal.
             transition: {
               timeout: { appear: 0, enter: 160, exit: 80 },
             },
@@ -109,8 +103,8 @@ export const CheckoutDrawer = forwardRef<
           {children}
         </Box>
       </Modal>
-    </CheckoutDrawerContext.Provider>
+    </CheckoutModalContext.Provider>
   )
 })
 
-CheckoutDrawer.displayName = 'CheckoutDrawer'
+CheckoutModal.displayName = 'CheckoutModal'

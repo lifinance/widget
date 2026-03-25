@@ -4,7 +4,7 @@ export {
   useOnRamp,
 } from './hooks/useOnRamp.js'
 export {
-  type CheckoutDrawerRef,
+  type CheckoutModalRef,
   LifiWidgetCheckout,
 } from './LifiWidgetCheckout.js'
 export type { TransakContextValue } from './providers/OnRampProvider/TransakProvider/transakContext.js'
