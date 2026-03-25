@@ -1,5 +1,6 @@
 import type { CombinedWallet, WalletTagType } from '@lifi/wallet-management'
 import { CardListItemButton, getConnectorId } from '@lifi/wallet-management'
+import { useTranslation } from 'react-i18next'
 import {
   MoreWalletsButton,
   MoreWalletsIcon,
@@ -19,6 +20,7 @@ export function TopWalletRows({
   topWallets,
   onOpenWalletMenu,
 }: TopWalletRowsProps) {
+  const { t } = useTranslation()
   return (
     <WalletRowsShell>
       <WalletListStack>
@@ -55,7 +57,7 @@ export function TopWalletRows({
         }}
         endIcon={<MoreWalletsIcon />}
       >
-        More
+        {t('checkout.moreWallets')}
       </MoreWalletsButton>
     </WalletRowsShell>
   )

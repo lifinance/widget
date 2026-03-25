@@ -2,6 +2,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import CloseIcon from '@mui/icons-material/Close'
 import { IconButton } from '@mui/material'
 import { useLocation } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { useCheckoutNavigate } from '../hooks/useCheckoutNavigate.js'
 import { useCheckoutDrawer } from '../providers/CheckoutDrawerContext.js'
 import {
@@ -19,8 +20,10 @@ interface CheckoutHeaderProps {
 }
 
 export const CheckoutHeader: React.FC<CheckoutHeaderProps> = ({
-  title = 'Deposit',
+  title: titleProp,
 }) => {
+  const { t } = useTranslation()
+  const title = titleProp ?? t('checkout.deposit')
   const { pathname } = useLocation()
   const navigate = useCheckoutNavigate()
   const drawerContext = useCheckoutDrawer()
