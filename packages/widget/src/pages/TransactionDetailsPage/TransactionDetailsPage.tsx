@@ -35,8 +35,8 @@ export const TransactionDetailsPage: React.FC = () => {
   const { search }: any = useLocation()
   const { tools } = useTools()
   const { getTransactionLink } = useExplorer()
-  const storedRouteExecution = useRouteExecutionStore(
-    (store) => store.routes[search?.routeId]
+  const storedRouteExecution = useRouteExecutionStore((store) =>
+    search?.routeId ? store.routes[search.routeId] : undefined
   )
   const { transaction, isLoading } = useTransactionDetails(
     !storedRouteExecution && search?.transactionHash

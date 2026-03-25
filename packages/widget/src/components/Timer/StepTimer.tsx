@@ -1,8 +1,6 @@
 import type { LiFiStepExtended } from '@lifi/sdk'
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useTimer } from '../../hooks/timer/useTimer.js'
-import { formatTimer } from '../../utils/timer.js'
+import { useExecutionTimer } from '../../hooks/timer/useExecutionTimer.js'
 import { TimerContent } from './TimerContent.js'
 
 export const getExpiryTimestamp = (step: LiFiStepExtended) => {
@@ -53,6 +51,15 @@ export const StepTimer: React.FC<{
   )
 }
 
+export const ExecutionTimerText = ({
+  expiryTimestamp,
+}: {
+  expiryTimestamp: Date
+}) => {
+  const { formatted } = useExecutionTimer(expiryTimestamp)
+  return formatted
+}
+
 export const ExecutionTimer = ({
   expiryTimestamp,
   hideInProgress,
@@ -60,17 +67,8 @@ export const ExecutionTimer = ({
   expiryTimestamp: Date
   hideInProgress?: boolean
 }) => {
-  const { t, i18n } = useTranslation()
-
-  const [isExpired, setExpired] = useState(false)
-
-  const { days, hours, minutes, seconds } = useTimer({
-    autoStart: true,
-    expiryTimestamp,
-    onExpire: () => setExpired(true),
-  })
-
-  const isTimerExpired = isExpired || (!minutes && !seconds)
+  const { t } = useTranslation()
+  const { formatted, isTimerExpired } = useExecutionTimer(expiryTimestamp)
 
   if (isTimerExpired) {
     if (hideInProgress) {
@@ -79,15 +77,5 @@ export const ExecutionTimer = ({
     return t('main.inProgress')
   }
 
-  return (
-    <TimerContent>
-      {formatTimer({
-        locale: i18n.language,
-        days,
-        hours,
-        minutes,
-        seconds,
-      })}
-    </TimerContent>
-  )
+  return <TimerContent>{formatted}</TimerContent>
 }

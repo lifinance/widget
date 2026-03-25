@@ -29,7 +29,7 @@ export const ActivitiesPage = () => {
       if (item.type === 'active') {
         return `active-${item.routeId}`
       }
-      return item.txHash || item.routeExecution.route.id
+      return `${item.type}-${item.txHash || item.routeExecution.route.id}`
     },
     [items]
   )
@@ -86,6 +86,7 @@ export const ActivitiesPage = () => {
                   ) : (
                     <TransactionHistoryItem
                       route={listItem.routeExecution.route}
+                      type={listItem.type}
                       transactionHash={listItem.txHash}
                       startedAt={listItem.startedAt}
                     />

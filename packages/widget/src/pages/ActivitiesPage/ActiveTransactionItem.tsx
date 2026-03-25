@@ -8,7 +8,7 @@ import type { MouseEvent } from 'react'
 import { Card } from '../../components/Card/Card.js'
 import { CircularProgressPending } from '../../components/Step/CircularProgress.style.js'
 import {
-  ExecutionTimer,
+  ExecutionTimerText,
   getExpiryTimestamp,
 } from '../../components/Timer/StepTimer.js'
 import { Token } from '../../components/Token/Token.js'
@@ -119,9 +119,8 @@ export const ActiveTransactionItem: React.FC<{ routeId: string }> = ({
           </DeleteButton>
         ) : lastActiveStep?.execution?.signedAt ? (
           <Typography sx={{ fontSize: 12, fontWeight: 600 }}>
-            <ExecutionTimer
+            <ExecutionTimerText
               expiryTimestamp={getExpiryTimestamp(lastActiveStep)}
-              hideInProgress
             />
           </Typography>
         ) : null}
