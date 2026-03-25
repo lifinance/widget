@@ -1,32 +1,22 @@
-import { Box, CircularProgress, styled, Typography } from '@mui/material'
+import { CircularProgress, Typography } from '@mui/material'
+import { MessageBlock, Root } from './FundingProviderLoading.style.js'
 
-const PageContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: theme.spacing(3),
-  padding: theme.spacing(4),
-  flex: 1,
-  minHeight: 300,
-}))
-
-export const FundingProviderPage: React.FC = () => {
+export function FundingProviderLoading() {
   return (
-    <PageContainer>
+    <Root>
       <CircularProgress size={48} />
-      <Box sx={{ textAlign: 'center' }}>
+      <MessageBlock>
         <Typography variant="h6" gutterBottom>
           Loading Provider
         </Typography>
         <Typography variant="body2" color="text.secondary">
           Preparing your funding session...
         </Typography>
-      </Box>
+      </MessageBlock>
       <Typography variant="caption" color="text.secondary">
         Provider integrations (Transak, Mesh) are configured as optional peer
         dependencies. See the related issue for the dependency model.
       </Typography>
-    </PageContainer>
+    </Root>
   )
 }

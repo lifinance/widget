@@ -1,4 +1,10 @@
 import type {
+  FormRef,
+  WidgetConfig,
+  WidgetSDKConfig,
+  WidgetWalletConfig,
+} from '@lifi/widget'
+import type {
   Components,
   PaletteMode,
   PaletteOptions,
@@ -68,6 +74,20 @@ export interface CheckoutConfig {
   onClose?: () => void
 
   fundingMethods?: FundingMethod[]
+
+  /**
+   * Passed through to widget `WalletProvider` / SDK (same as LiFi widget).
+   * When omitted entirely, checkout fills in the standard multi-chain provider stack
+   * so wallet detection works (same idea as the playground defaults). Pass `[]` only
+   * if you intentionally want no connector providers.
+   */
+  providers?: WidgetConfig['providers']
+  walletConfig?: WidgetWalletConfig
+  sdkConfig?: WidgetSDKConfig
+  /**
+   * Optional overrides merged into the derived `WidgetConfig` (integrator/apiKey/theme still come from checkout fields first).
+   */
+  widget?: Partial<WidgetConfig>
 }
 
 export interface CheckoutResult {
@@ -106,7 +126,9 @@ export interface CheckoutConfigPartialProps {
 
 export type CheckoutProps = CheckoutDrawerProps &
   CheckoutConfig &
-  CheckoutConfigPartialProps
+  CheckoutConfigPartialProps & {
+    formRef?: FormRef
+  }
 
 export interface CheckoutProviderProps extends PropsWithChildren {
   config: CheckoutConfig
