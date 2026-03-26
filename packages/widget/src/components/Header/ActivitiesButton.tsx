@@ -1,5 +1,5 @@
 import ErrorRounded from '@mui/icons-material/ErrorRounded'
-import ReceiptLong from '@mui/icons-material/ReceiptLong'
+import HistoryIcon from '@mui/icons-material/History'
 import { IconButton, Tooltip } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
@@ -46,7 +46,7 @@ export const ActivitiesButton = () => {
                 sx={{ position: 'absolute', top: -8, left: -8 }}
               />
             )}
-            <ReceiptLong />
+            <HistoryIcon />
           </IconContainer>
         </ErrorBadge>
       </IconButton>
