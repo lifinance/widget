@@ -1,57 +1,51 @@
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward'
 import { Box, Skeleton } from '@mui/material'
 import { Card } from '../../components/Card/Card.js'
 import { TokenSkeleton } from '../../components/Token/Token.js'
-import { TokenDivider } from '../../components/Token/Token.style.js'
 
 export const TransactionHistoryItemSkeleton = () => {
   return (
-    <Card
-      style={{
-        marginBottom: '16px',
-      }}
-    >
-      <Box
-        sx={{
-          pt: 2,
-          px: 2,
-          display: 'flex',
-          flex: 1,
-          justifyContent: 'space-between',
-        }}
-      >
-        <Skeleton
-          variant="rectangular"
-          width={96}
-          height={16}
-          sx={(theme) => ({
-            borderRadius: theme.vars.shape.borderRadius,
-          })}
-        />
-        <Skeleton
-          variant="rectangular"
-          width={64}
-          height={16}
-          sx={(theme) => ({
-            borderRadius: theme.vars.shape.borderRadius,
-          })}
-        />
-      </Box>
-      <Box
-        sx={{
-          px: 2,
-          py: 2,
-        }}
-      >
-        <TokenSkeleton />
+    <Card indented sx={{ mb: 2 }}>
+      <Box>
         <Box
           sx={{
-            pl: 2.375,
-            py: 0.5,
+            display: 'flex',
+            justifyContent: 'space-between',
+            pb: 1.5,
           }}
         >
-          <TokenDivider />
+          <Skeleton
+            variant="rectangular"
+            width={96}
+            height={16}
+            sx={(theme) => ({
+              borderRadius: theme.vars.shape.borderRadius,
+            })}
+          />
+          <Skeleton
+            variant="rectangular"
+            width={64}
+            height={16}
+            sx={(theme) => ({
+              borderRadius: theme.vars.shape.borderRadius,
+            })}
+          />
         </Box>
-        <TokenSkeleton />
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+          <TokenSkeleton />
+          <Box
+            sx={{
+              width: 40,
+              height: 20,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <ArrowDownwardIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
+          </Box>
+          <TokenSkeleton />
+        </Box>
       </Box>
     </Card>
   )
