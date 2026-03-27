@@ -282,7 +282,11 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           slippage: formattedSlippage,
         })
 
-        if (subvariant === 'custom' && contractCalls && toAmount) {
+        if (
+          subvariant === 'custom' &&
+          contractCalls &&
+          (toAmount || fromAmount)
+        ) {
           const contractCallQuote = await getContractCallsQuote(
             sdkClient,
             {
@@ -290,7 +294,9 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
               fromAddress: fromAddress as string,
               fromChain: fromChainId,
               fromToken: fromTokenAddress,
-              toAmount: toAmount.toString(),
+              ...(toAmount
+                ? { toAmount: toAmount.toString() }
+                : { fromAmount: fromAmount.toString() }),
               toChain: toChainId,
               toToken: toTokenAddress,
               contractCalls,
