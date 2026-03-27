@@ -31,4 +31,5 @@ export const DetailValue = styled(Typography)(() => ({
 export const DetailInfoIcon = styled(InfoOutlined)(({ theme }) => ({
   fontSize: 16,
   color: theme.vars.palette.text.secondary,
+  cursor: 'help',
 }))

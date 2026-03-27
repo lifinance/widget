@@ -308,6 +308,8 @@
     "stepSwapAndBuy": "Swap and buy",
     "stepSwapAndDeposit": "Swap and deposit",
     "swapStepDetails": "Swap on {{chain}} via {{tool}}",
+    "receipts": "Receipts",
+    "sentToWallet": "Sent to wallet",
     "transferId": "Transfer ID",
     "tags": {
       "cheapest": "Best Return",
