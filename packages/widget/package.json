@@ -55,7 +55,7 @@
     "@mui/icons-material": "^7.3.6",
     "@mui/material": "^7.3.6",
     "@mui/system": "^7.3.6",
-    "@tanstack/react-router": "^1.168.3",
+    "@tanstack/react-router": "^1.168.8",
     "@tanstack/react-virtual": "^3.13.23",
     "i18next": "^25.10.9",
     "microdiff": "^1.5.0",
@@ -72,7 +72,7 @@
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "typescript": "^5.9.3",
-    "vitest": "^4.1.1"
+    "vitest": "^4.1.2"
   },
   "peerDependencies": {
     "@tanstack/react-query": ">=5.90.0",

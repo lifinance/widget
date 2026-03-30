@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-light",
-  "version": "4.0.0-beta.5",
+  "version": "4.0.0-beta.6",
   "description": "LI.FI Widget Light - a lightweight version of the LI.FI Widget for cross-chain bridging and swapping.",
   "type": "module",
   "main": "./src/index.ts",
@@ -58,7 +58,7 @@
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "typescript": "^5.9.3",
-    "vitest": "^4.1.1"
+    "vitest": "^4.1.2"
   },
   "peerDependencies": {
     "@bigmi/client": "^0.8.x",

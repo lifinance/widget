@@ -21,6 +21,7 @@ build/
 .env.production.local
 *.tsbuildinfo
 *.tmp
+*.log
 
 npm-debug.log*
 
@@ -38,4 +39,3 @@ next-env.d.ts
 # nuxt
 /.nuxt/
 /.output/
-
