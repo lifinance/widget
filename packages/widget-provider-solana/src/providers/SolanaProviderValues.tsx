@@ -2,8 +2,8 @@ import { ChainId, ChainType } from '@lifi/sdk'
 import { SolanaProvider as SolanaSDKProvider } from '@lifi/sdk-provider-solana'
 import { SolanaContext } from '@lifi/widget-provider'
 import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
-import { useWalletAccount } from '../hooks/useWalletAccount'
-import { useSolanaWalletStandard as useWallet } from '../wallet-standard/useSolanaWalletStandard'
+import { useWalletAccount } from '../hooks/useWalletAccount.js'
+import { useSolanaWalletStandard as useWallet } from '../wallet-standard/useSolanaWalletStandard.js'
 
 interface SolanaProviderValuesProps {
   isExternalContext: boolean
