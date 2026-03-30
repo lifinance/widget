@@ -39,9 +39,7 @@ export function WidgetViewContainer({
   const showHeader = isFullHeightLayout && showMockHeader
   const showFooter = isFullHeightLayout && showMockFooter
 
-  const isDefault =
-    !config?.theme?.container?.height ||
-    config?.theme?.container?.height === 'fit-content'
+  const isDefault = !config?.theme?.container?.height
 
   return (
     <Main open={isDrawerOpen} drawerWidth={drawerWidth}>

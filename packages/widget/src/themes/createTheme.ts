@@ -117,11 +117,7 @@ export const createTheme = (widgetTheme: WidgetTheme = {}) => {
         },
       },
     },
-    container: {
-      // Set height to 'fit-content' if not explicitly set
-      height: 'fit-content',
-      ...widgetTheme.container,
-    },
+    container: widgetTheme.container,
     routesContainer: widgetTheme.routesContainer,
     chainSidebarContainer: widgetTheme.chainSidebarContainer,
     header: widgetTheme.header,

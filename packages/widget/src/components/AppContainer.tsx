@@ -16,35 +16,30 @@ import { getWidgetMaxHeight } from '../utils/widgetSize.js'
 //  Also check any code that is using the methods from elements.ts utils file
 
 export const AppExpandedContainer = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'variant',
-})<{ variant?: WidgetVariant }>(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'start',
-  flex: 1,
-  height:
-    theme.container?.display === 'flex'
-      ? '100%'
-      : theme.container?.maxHeight
-        ? 'auto'
-        : theme.container?.height || 'auto',
-  variants: [
-    {
-      props: {
-        variant: 'drawer',
-      },
-      style: {
-        height: 'none',
-      },
-    },
-  ],
-}))
+  shouldForwardProp: (prop) => prop !== 'wide',
+})<{ wide?: boolean }>(({ theme, wide }) => {
+  return {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'start',
+    flex: 1,
+    height:
+      theme.container?.display === 'flex'
+        ? '100%'
+        : theme.container?.maxHeight
+          ? 'auto'
+          : theme.container?.height || 'auto',
+    // In the wide variant, route/chain expansions are absolutely positioned outside the widget bounds.
+    // minHeight ensures widget + expansion are positioned and aligned together.
+    minHeight: wide ? getWidgetMaxHeight(theme) : 'auto',
+  }
+})
 
 export const RelativeContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',
 })<{ variant?: WidgetVariant }>(({ theme }) => {
   const maxHeight =
-    theme.container?.height === 'fit-content'
+    !theme.container?.height || theme.container?.height === 'fit-content'
       ? 'none'
       : getWidgetMaxHeight(theme)
   return {
@@ -89,7 +84,7 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
     !['variant', 'paddingTopAdjustment', 'elementId'].includes(prop as string),
 })<CssBaselineContainerProps>(({ theme, variant, paddingTopAdjustment }) => {
   const maxHeight =
-    theme.container?.height === 'fit-content'
+    !theme.container?.height || theme.container?.height === 'fit-content'
       ? 'none'
       : getWidgetMaxHeight(theme)
   return {

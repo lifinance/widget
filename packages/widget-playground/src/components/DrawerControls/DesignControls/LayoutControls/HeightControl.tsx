@@ -5,7 +5,6 @@ import { useConfigActions } from '../../../../store/widgetConfig/useConfigAction
 import {
   CapitalizeFirstLetter,
   ControlRowContainer,
-  PlaygroundControlsContainer,
 } from '../DesignControls.style.js'
 import { InputControl } from './InputControl.js'
 
@@ -27,8 +26,8 @@ export const HeightControl = ({
 }: {
   selectedLayoutId: Layout
   setInitialLayout: (layoutId: Layout) => void
-  heightValue: number | 'fit-content' | undefined
-  setHeightValue: (height: number | 'fit-content' | undefined) => void
+  heightValue: number | undefined
+  setHeightValue: (height: number | undefined) => void
 }) => {
   const { setHeader, setContainer, getCurrentConfigTheme } = useConfigActions()
 
@@ -84,20 +83,6 @@ export const HeightControl = ({
         onChange={handleHeightChange('maxHeight')}
         onBlur={handleBlur}
       />
-    )
-  }
-
-  if (selectedLayoutId === 'default') {
-    return (
-      <PlaygroundControlsContainer sx={{ gap: 0 }}>
-        <InputControl
-          label="Set max height"
-          value={heightValue}
-          onChange={handleHeightChange('maxHeight')}
-          onBlur={handleBlur}
-        />
-        <Caption caption="max height is applied only to long pages" />
-      </PlaygroundControlsContainer>
     )
   }
 

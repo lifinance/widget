@@ -10,7 +10,7 @@ import { CapitalizeFirstLetter, Input } from '../DesignControls.style.js'
 
 interface InputControlProps extends HTMLAttributes<HTMLDivElement> {
   label: string
-  value: number | 'fit-content' | undefined
+  value: number | undefined
   onChange: ChangeEventHandler<HTMLInputElement>
   onBlur: FocusEventHandler<HTMLInputElement>
 }
@@ -22,8 +22,7 @@ export const InputControl = ({
   onBlur,
 }: InputControlProps) => {
   const inputId = useId()
-  const showCaption =
-    !value || value === 'fit-content' || value < defaultMaxHeight
+  const showCaption = !value || value < defaultMaxHeight
   return (
     <CardRowContainer sx={{ padding: 1 }}>
       <CardRowColumn>

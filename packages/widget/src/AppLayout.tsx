@@ -22,6 +22,7 @@ export const AppLayout: React.FC = () => {
     <AppExpandedContainer
       id={createElementId(ElementId.AppExpandedContainer, elementId)}
       data-version={version}
+      wide={wideVariant}
     >
       <AppContainer>
         <Header />
