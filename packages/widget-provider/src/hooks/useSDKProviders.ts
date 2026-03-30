@@ -1,9 +1,9 @@
 import type { SDKProvider } from '@lifi/sdk'
 import { useMemo } from 'react'
-import { useBitcoinContext } from '../contexts/BitcoinContext'
-import { useEthereumContext } from '../contexts/EthereumContext'
-import { useSolanaContext } from '../contexts/SolanaContext'
-import { useSuiContext } from '../contexts/SuiContext'
+import { useBitcoinContext } from '../contexts/BitcoinContext.js'
+import { useEthereumContext } from '../contexts/EthereumContext.js'
+import { useSolanaContext } from '../contexts/SolanaContext.js'
+import { useSuiContext } from '../contexts/SuiContext.js'
 
 export const useSDKProviders = () => {
   const { sdkProvider: evmSDKProvider } = useEthereumContext()
