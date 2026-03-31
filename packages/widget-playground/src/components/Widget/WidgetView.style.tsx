@@ -44,12 +44,26 @@ export const WidgetContainer = styled(Box, {
   }
 })
 
-export const WidgetContainerRow = styled(Box)(() => {
+interface WidgetContainerRowProps extends BoxProps {
+  alignTop?: boolean
+}
+
+export const WidgetContainerRow = styled(Box, {
+  shouldForwardProp: (prop) => !['alignTop'].includes(prop as string),
+})<WidgetContainerRowProps>(() => {
   return {
     display: 'flex',
     alignItems: 'center',
     flexGrow: 1,
     width: '100%',
+    variants: [
+      {
+        props: ({ alignTop }) => alignTop,
+        style: {
+          alignItems: 'flex-start',
+        },
+      },
+    ],
   }
 })
 

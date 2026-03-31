@@ -2,9 +2,11 @@ import MenuOpenIcon from '@mui/icons-material/MenuOpen'
 import { Box, Tooltip } from '@mui/material'
 import type { PropsWithChildren } from 'react'
 import { ExternalWalletProvider } from '../../providers/ExternalWalletProvider/ExternalWalletProvider.js'
+import type { Layout } from '../../store/editTools/types.js'
 import { useDrawerToolValues } from '../../store/editTools/useDrawerToolValues.js'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
 import { useHeaderAndFooterToolValues } from '../../store/editTools/useHeaderAndFooterToolValues.js'
+import { useLayoutValues } from '../../store/editTools/useLayoutValues.js'
 import { useConfig } from '../../store/widgetConfig/useConfig.js'
 import { MockElement } from '../Mock/MockElement.js'
 import { ToggleDrawerButton } from './ToggleDrawerButton.js'
@@ -20,12 +22,15 @@ interface WidgetViewContainerProps extends PropsWithChildren {
   toggleDrawer?(): void
 }
 
+const topAlignedLayouts: Layout[] = ['default', 'restricted-max-height']
+
 export function WidgetViewContainer({
   children,
   toggleDrawer,
 }: WidgetViewContainerProps) {
   const { config } = useConfig()
   const { isDrawerOpen, drawerWidth } = useDrawerToolValues()
+  const { selectedLayoutId } = useLayoutValues()
   const { setDrawerOpen } = useEditToolsActions()
   const { showMockHeader, showMockFooter, isFooterFixed } =
     useHeaderAndFooterToolValues()
@@ -78,6 +83,10 @@ export function WidgetViewContainer({
               (isFullHeightLayout && isFooterFixed) || isDefault
                 ? { marginBottom: 6 }
                 : undefined
+            }
+            alignTop={
+              config?.theme?.container?.display === 'flex' ||
+              topAlignedLayouts.includes(selectedLayoutId)
             }
           >
             {children}
