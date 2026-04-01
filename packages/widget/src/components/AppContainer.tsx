@@ -15,9 +15,7 @@ import { getWidgetMaxHeight } from '../utils/widgetSize.js'
 //    - useSetContentHeight
 //  Also check any code that is using the methods from elements.ts utils file
 
-export const AppExpandedContainer = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'wide',
-})<{ wide?: boolean }>(({ theme, wide }) => {
+export const AppExpandedContainer = styled(Box)(({ theme }) => {
   return {
     display: 'flex',
     justifyContent: 'center',
@@ -29,9 +27,6 @@ export const AppExpandedContainer = styled(Box, {
         : theme.container?.maxHeight
           ? 'auto'
           : theme.container?.height || 'auto',
-    // In the wide variant, route/chain expansions are absolutely positioned outside the widget bounds.
-    // minHeight ensures widget + expansion are positioned and aligned together.
-    minHeight: wide ? getWidgetMaxHeight(theme) : 'auto',
   }
 })
 
@@ -39,7 +34,8 @@ export const RelativeContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',
 })<{ variant?: WidgetVariant }>(({ theme }) => {
   const maxHeight =
-    !theme.container?.height || theme.container?.height === 'fit-content'
+    theme.container?.height === 'fit-content' ||
+    (!theme.container?.height && !theme.container?.maxHeight)
       ? 'none'
       : getWidgetMaxHeight(theme)
   return {
@@ -84,7 +80,8 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
     !['variant', 'paddingTopAdjustment', 'elementId'].includes(prop as string),
 })<CssBaselineContainerProps>(({ theme, variant, paddingTopAdjustment }) => {
   const maxHeight =
-    !theme.container?.height || theme.container?.height === 'fit-content'
+    theme.container?.height === 'fit-content' ||
+    (!theme.container?.height && !theme.container?.maxHeight)
       ? 'none'
       : getWidgetMaxHeight(theme)
   return {

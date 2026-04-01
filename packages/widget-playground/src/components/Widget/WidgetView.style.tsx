@@ -26,7 +26,7 @@ export const WidgetContainer = styled(Box, {
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    paddingTop: theme.spacing(6),
+    paddingTop: theme.spacing(14),
     variants: [
       {
         props: ({ alignTop }) => alignTop,
@@ -44,26 +44,12 @@ export const WidgetContainer = styled(Box, {
   }
 })
 
-interface WidgetContainerRowProps extends BoxProps {
-  alignTop?: boolean
-}
-
-export const WidgetContainerRow = styled(Box, {
-  shouldForwardProp: (prop) => !['alignTop'].includes(prop as string),
-})<WidgetContainerRowProps>(() => {
+export const WidgetContainerRow = styled(Box)(() => {
   return {
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     flexGrow: 1,
     width: '100%',
-    variants: [
-      {
-        props: ({ alignTop }) => alignTop,
-        style: {
-          alignItems: 'flex-start',
-        },
-      },
-    ],
   }
 })
 

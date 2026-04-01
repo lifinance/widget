@@ -2,11 +2,9 @@ import MenuOpenIcon from '@mui/icons-material/MenuOpen'
 import { Box, Tooltip } from '@mui/material'
 import type { PropsWithChildren } from 'react'
 import { ExternalWalletProvider } from '../../providers/ExternalWalletProvider/ExternalWalletProvider.js'
-import type { Layout } from '../../store/editTools/types.js'
 import { useDrawerToolValues } from '../../store/editTools/useDrawerToolValues.js'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
 import { useHeaderAndFooterToolValues } from '../../store/editTools/useHeaderAndFooterToolValues.js'
-import { useLayoutValues } from '../../store/editTools/useLayoutValues.js'
 import { useConfig } from '../../store/widgetConfig/useConfig.js'
 import { MockElement } from '../Mock/MockElement.js'
 import { ToggleDrawerButton } from './ToggleDrawerButton.js'
@@ -22,15 +20,12 @@ interface WidgetViewContainerProps extends PropsWithChildren {
   toggleDrawer?(): void
 }
 
-const topAlignedLayouts: Layout[] = ['default', 'restricted-max-height']
-
 export function WidgetViewContainer({
   children,
   toggleDrawer,
 }: WidgetViewContainerProps) {
   const { config } = useConfig()
   const { isDrawerOpen, drawerWidth } = useDrawerToolValues()
-  const { selectedLayoutId } = useLayoutValues()
   const { setDrawerOpen } = useEditToolsActions()
   const { showMockHeader, showMockFooter, isFooterFixed } =
     useHeaderAndFooterToolValues()
@@ -43,8 +38,6 @@ export function WidgetViewContainer({
 
   const showHeader = isFullHeightLayout && showMockHeader
   const showFooter = isFullHeightLayout && showMockFooter
-
-  const isDefault = !config?.theme?.container?.height
 
   return (
     <Main open={isDrawerOpen} drawerWidth={drawerWidth}>
@@ -67,11 +60,8 @@ export function WidgetViewContainer({
           ) : null}
         </FloatingToolsContainer>
         <WidgetContainer
-          removePaddingTop={
-            (config?.theme?.container?.height === '100%' && !showHeader) ||
-            (config?.theme?.container?.display === 'flex' && !showHeader)
-          }
-          alignTop={config?.theme?.container?.display === 'flex'}
+          removePaddingTop={isFullHeightLayout && !showHeader}
+          alignTop={isFullHeightLayout}
         >
           {showHeader ? (
             <MockElement sx={{ position: 'fixed', zIndex: 1, top: 0 }}>
@@ -79,15 +69,7 @@ export function WidgetViewContainer({
             </MockElement>
           ) : null}
           <WidgetContainerRow
-            sx={
-              (isFullHeightLayout && isFooterFixed) || isDefault
-                ? { marginBottom: 6 }
-                : undefined
-            }
-            alignTop={
-              config?.theme?.container?.display === 'flex' ||
-              topAlignedLayouts.includes(selectedLayoutId)
-            }
+            sx={{ marginBottom: !isFullHeightLayout || isFooterFixed ? 6 : 0 }}
           >
             {children}
           </WidgetContainerRow>

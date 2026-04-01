@@ -1,7 +1,10 @@
 import { defaultMaxHeight } from '@lifi/widget'
-import { type FocusEventHandler, useCallback } from 'react'
+import { type FocusEventHandler, type SyntheticEvent, useCallback } from 'react'
 import type { Layout } from '../../../../store/editTools/types.js'
+import { useConfig } from '../../../../store/widgetConfig/useConfig.js'
 import { useConfigActions } from '../../../../store/widgetConfig/useConfigActions.js'
+import { CardRowContainer } from '../../../Card/Card.style.js'
+import { Switch } from '../../../Switch.js'
 import {
   CapitalizeFirstLetter,
   ControlRowContainer,
@@ -29,7 +32,21 @@ export const HeightControl = ({
   heightValue: number | undefined
   setHeightValue: (height: number | undefined) => void
 }) => {
+  const { config } = useConfig()
   const { setHeader, setContainer, getCurrentConfigTheme } = useConfigActions()
+
+  const applyOnlyToLongLists =
+    config?.theme?.container?.height === 'fit-content'
+
+  const handleApplyOnlyToLongListsChange = useCallback(
+    (_: SyntheticEvent, value: boolean) => {
+      setContainer({
+        ...(getCurrentConfigTheme()?.container ?? {}),
+        height: value ? 'fit-content' : undefined,
+      })
+    },
+    [getCurrentConfigTheme, setContainer]
+  )
 
   const handleHeightChange = useCallback(
     (key: 'height' | 'maxHeight') =>
@@ -77,12 +94,22 @@ export const HeightControl = ({
 
   if (selectedLayoutId === 'restricted-max-height') {
     return (
-      <InputControl
-        label="Set max height"
-        value={heightValue}
-        onChange={handleHeightChange('maxHeight')}
-        onBlur={handleBlur}
-      />
+      <>
+        <InputControl
+          label="Set max height"
+          value={heightValue}
+          onChange={handleHeightChange('maxHeight')}
+          onBlur={handleBlur}
+        />
+        <CardRowContainer sx={{ padding: 1 }}>
+          Apply only to pages with long lists
+          <Switch
+            checked={applyOnlyToLongLists}
+            onChange={handleApplyOnlyToLongListsChange}
+            aria-label="Apply only to pages with long lists"
+          />
+        </CardRowContainer>
+      </>
     )
   }
 
