@@ -33,7 +33,13 @@ export const SendToWalletExpandButton = () => {
     })
 
   return (
-    <Collapse orientation="horizontal" in={visible}>
+    <Collapse
+      orientation="horizontal"
+      in={visible}
+      timeout={225}
+      mountOnEnter
+      unmountOnExit
+    >
       <Tooltip title={t('main.sendToWallet')} placement="bottom-end">
         <Button
           variant="text"

@@ -31,7 +31,10 @@ import { AmountInputEndAdornment } from './AmountInputEndAdornment.js'
 import { AmountInputStartAdornment } from './AmountInputStartAdornment.js'
 import { PriceFormHelperText } from './PriceFormHelperText.js'
 
-export const AmountInput: React.FC<FormTypeProps> = ({ formType }) => {
+export const AmountInput: React.FC<FormTypeProps & CardProps> = ({
+  formType,
+  ...props
+}) => {
   const { disabledUI } = useWidgetConfig()
 
   const [chainId, tokenAddress] = useFieldValues(
@@ -48,6 +51,7 @@ export const AmountInput: React.FC<FormTypeProps> = ({ formType }) => {
       token={token}
       bottomAdornment={<PriceFormHelperText formType={formType} />}
       disabled={disabled}
+      {...props}
     />
   )
 }
@@ -60,7 +64,14 @@ const AmountInputBase: React.FC<
       bottomAdornment?: ReactNode
       disabled?: boolean
     }
-> = ({ formType, token, startAdornment, bottomAdornment, disabled }) => {
+> = ({
+  formType,
+  token,
+  startAdornment,
+  bottomAdornment,
+  disabled,
+  ...props
+}) => {
   const { t } = useTranslation()
   const { subvariant, subvariantOptions } = useWidgetConfig()
   const ref = useRef<HTMLInputElement>(null)
@@ -155,7 +166,7 @@ const AmountInputBase: React.FC<
       : t('header.send')
 
   return (
-    <InputCard>
+    <InputCard {...props}>
       <AmountInputCardHeader>
         <AmountInputCardTitle>{title}</AmountInputCardTitle>
       </AmountInputCardHeader>

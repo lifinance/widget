@@ -1,3 +1,4 @@
+import type { BoxProps } from '@mui/material'
 import { Box } from '@mui/material'
 import { ReverseTokensButton } from '../components/ReverseTokensButton/ReverseTokensButton.js'
 import { SelectTokenButton } from '../components/SelectTokenButton/SelectTokenButton.js'
@@ -5,7 +6,7 @@ import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { DisabledUI, HiddenUI } from '../types/widget.js'
 import { ReverseTokensButtonEmpty } from './ReverseTokensButton/ReverseTokensButton.style.js'
 
-export const SelectChainAndToken = () => {
+export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
   const { disabledUI, hiddenUI, subvariant } = useWidgetConfig()
 
   const hiddenReverse =
@@ -23,7 +24,7 @@ export const SelectChainAndToken = () => {
   const showReverseButton = !hiddenToToken && !hiddenFromToken
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex' }} {...props}>
       {!hiddenFromToken ? (
         <SelectTokenButton formType="from" hiddenReverse={hiddenReverse} />
       ) : null}

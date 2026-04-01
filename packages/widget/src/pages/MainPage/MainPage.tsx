@@ -43,36 +43,30 @@ export const MainPage: React.FC = () => {
 
   useHeader(title)
 
+  const marginSx = { marginBottom: 2 }
+
   return (
     <PageContainer>
+      <ActiveTransactions sx={marginSx} />
+      {custom ? (
+        <ContractComponent sx={marginSx}>{contractComponent}</ContractComponent>
+      ) : null}
+      <SelectChainAndToken mb={2} />
+      {!custom || subvariantOptions?.custom === 'deposit' ? (
+        <AmountInput formType="from" sx={marginSx} />
+      ) : null}
+      {!wideVariant ? <Routes sx={marginSx} /> : null}
+      <SendToWalletButton sx={marginSx} />
+      {showGasRefuelMessage ? <GasRefuelMessage mb={2} /> : null}
+      <MainWarningMessages mb={2} />
       <Box
         sx={{
           display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
           mb: showPoweredBy ? 1 : 3,
         }}
       >
-        <ActiveTransactions />
-        {custom ? (
-          <ContractComponent>{contractComponent}</ContractComponent>
-        ) : null}
-        <SelectChainAndToken />
-        {!custom || subvariantOptions?.custom === 'deposit' ? (
-          <AmountInput formType="from" />
-        ) : null}
-        {!wideVariant ? <Routes /> : null}
-        <SendToWalletButton />
-        {showGasRefuelMessage ? <GasRefuelMessage /> : null}
-        <MainWarningMessages />
-        <Box
-          sx={{
-            display: 'flex',
-          }}
-        >
-          <ReviewButton />
-          <SendToWalletExpandButton />
-        </Box>
+        <ReviewButton />
+        <SendToWalletExpandButton />
       </Box>
       {showPoweredBy ? <PoweredBy /> : null}
     </PageContainer>
