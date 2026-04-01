@@ -24,6 +24,7 @@ build/
 *.log
 
 npm-debug.log*
+lerna-debug.log*
 
 .next
 .cache
