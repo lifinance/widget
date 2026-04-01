@@ -11,6 +11,8 @@ import { TransactionHistoryEmpty } from './TransactionHistoryEmpty.js'
 import { TransactionHistoryItem } from './TransactionHistoryItem.js'
 import { TransactionHistoryItemSkeleton } from './TransactionHistorySkeleton.js'
 
+const SKELETON_COUNT = 3
+
 export const ActivitiesPage = () => {
   // Parent ref and useVirtualizer should be in one file to avoid blank page (0 virtual items) issue
   const parentRef = useRef<HTMLDivElement | null>(null)
@@ -23,8 +25,15 @@ export const ActivitiesPage = () => {
     listParentRef: parentRef,
   })
 
+  const hasStoreItems = items.length > 0
+  const skeletonCount = isLoading && hasStoreItems ? SKELETON_COUNT : 0
+  const totalCount = items.length + skeletonCount
+
   const getItemKey = useCallback(
     (index: number) => {
+      if (index >= items.length) {
+        return `skeleton-${index}`
+      }
       const item = items[index]
       if (item.type === 'active') {
         return `active-${item.routeId}`
@@ -35,7 +44,7 @@ export const ActivitiesPage = () => {
   )
 
   const { getVirtualItems, getTotalSize } = useVirtualizer({
-    count: items.length,
+    count: hasStoreItems ? totalCount : 0,
     overscan: 3,
     paddingEnd: 12,
     getScrollElement: () => parentRef.current,
@@ -54,9 +63,9 @@ export const ActivitiesPage = () => {
         style={{ height: listHeight }}
         sx={{ overflow: 'auto', paddingX: 3 }}
       >
-        {isLoading ? (
+        {isLoading && !hasStoreItems ? (
           <List disablePadding>
-            {Array.from({ length: 3 }).map((_, index) => (
+            {Array.from({ length: SKELETON_COUNT }).map((_, index) => (
               <TransactionHistoryItemSkeleton key={index} />
             ))}
           </List>
@@ -67,7 +76,8 @@ export const ActivitiesPage = () => {
             disablePadding
           >
             {getVirtualItems().map((item) => {
-              const listItem = items[item.index]
+              const listItem =
+                item.index < items.length ? items[item.index] : null
               return (
                 <li
                   key={item.key}
@@ -81,7 +91,9 @@ export const ActivitiesPage = () => {
                     listStyle: 'none',
                   }}
                 >
-                  {listItem.type === 'active' ? (
+                  {!listItem ? (
+                    <TransactionHistoryItemSkeleton />
+                  ) : listItem.type === 'active' ? (
                     <ActiveTransactionItem routeId={listItem.routeId} />
                   ) : (
                     <TransactionHistoryItem
