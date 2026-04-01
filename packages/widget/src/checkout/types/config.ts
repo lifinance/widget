@@ -1,10 +1,11 @@
 import type { PropsWithChildren, RefObject } from 'react'
 import type { FormRef, WidgetConfig } from '../../types/widget.js'
-import type { CheckoutError } from './results.js'
+import type { CheckoutError, CheckoutResult } from './results.js'
 
 export interface CheckoutConfig {
   integrator: string
   onrampSessionApiUrl?: string
+  onSuccess?: (result: CheckoutResult) => void
   onError?: (error: CheckoutError) => void
   /** `WidgetConfig` overrides — pass `apiKey`, `providers`, `theme`, `toChain`, `toToken`, etc. here. */
   config?: Partial<WidgetConfig>
