@@ -1,20 +1,16 @@
 import { CssBaseline, ThemeProvider as MuiThemeProvider } from '@mui/material'
 import type { PropsWithChildren } from 'react'
 import { useMemo } from 'react'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { createTheme } from '../../themes/createTheme.js'
-import { checkoutThemeToWidgetTheme } from '../utils/checkoutThemeToWidgetTheme.js'
-import { useCheckoutConfig } from './CheckoutProvider.js'
 
 export const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const config = useCheckoutConfig()
+  const { theme, appearance } = useWidgetConfig()
 
-  const theme = useMemo(
-    () => createTheme(checkoutThemeToWidgetTheme(config.theme)),
-    [config.theme]
-  )
+  const memoedTheme = useMemo(() => createTheme(theme ?? {}), [theme])
 
   return (
-    <MuiThemeProvider theme={theme} defaultMode={config.appearance ?? 'system'}>
+    <MuiThemeProvider theme={memoedTheme} defaultMode={appearance ?? 'system'}>
       <CssBaseline enableColorScheme />
       {children}
     </MuiThemeProvider>
