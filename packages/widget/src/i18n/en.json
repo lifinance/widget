@@ -387,6 +387,18 @@
         "ONRAMP_SESSION_HTTP": "Could not start Transak session ({{status}}). Try again later.",
         "generic": "Something went wrong. Try again later."
       }
+    },
+    "mesh": {
+      "errors": {
+        "MISSING_API_URL": "Exchange deposit is not configured: widget sdkConfig.apiUrl is not set.",
+        "ONRAMP_TARGET_NOT_CONFIGURED": "Exchange deposit target is not configured: set widget.toChain and widget.toToken.",
+        "WALLET_NOT_CONNECTED": "Connect an Ethereum wallet to deposit from an exchange.",
+        "ONRAMP_INVALID_RESPONSE": "Invalid response from onramp server (missing linkToken).",
+        "ONRAMP_NETWORK_ERROR": "Network error starting Mesh session.",
+        "CEX_SESSION_FAILED": "Could not start Mesh session. Try again later.",
+        "CEX_SESSION_HTTP": "Could not start Mesh session ({{status}}). Try again later.",
+        "generic": "Something went wrong. Try again later."
+      }
     }
   }
 }
