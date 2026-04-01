@@ -46,7 +46,7 @@
     "@reown/appkit-adapter-solana": "^1.8.17",
     "@reown/appkit-adapter-wagmi": "^1.8.17",
     "@reown/appkit-common": "^1.8.17",
-    "@walletconnect/ethereum-provider": "~2.23.8",
+    "@walletconnect/ethereum-provider": "~2.23.9",
     "csstype": "^3.2.3",
     "lodash.isequal": "^4.5.0",
     "microdiff": "^1.5.0",
@@ -65,7 +65,7 @@
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "typescript": "^5.9.3",
-    "vitest": "^4.1.1"
+    "vitest": "^4.1.2"
   },
   "peerDependencies": {
     "@tanstack/react-query": ">=5.90.0"

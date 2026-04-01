@@ -1,7 +1,7 @@
 export {
   type UseWalletAccountReturn,
   useWalletAccount,
-} from './hooks/useWalletAccount'
+} from './hooks/useWalletAccount.js'
 export { SolanaProvider } from './providers/SolanaProvider.js'
 export type {
   AccountInfo,

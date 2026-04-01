@@ -1,6 +1,6 @@
 import { useSDKProviders } from '@lifi/widget-provider'
 import { useEffect } from 'react'
-import { useSDKClient } from '../providers/SDKClientProvider'
+import { useSDKClient } from '../providers/SDKClientProvider.js'
 
 export const useInitializeSDKProviders = () => {
   const sdkProviders = useSDKProviders()

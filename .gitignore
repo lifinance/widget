@@ -21,8 +21,10 @@ build/
 .env.production.local
 *.tsbuildinfo
 *.tmp
+*.log
 
 npm-debug.log*
+lerna-debug.log*
 
 .next
 .cache
@@ -38,4 +40,3 @@ next-env.d.ts
 # nuxt
 /.nuxt/
 /.output/
-

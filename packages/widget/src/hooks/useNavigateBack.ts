@@ -1,6 +1,6 @@
 import { useRouter } from '@tanstack/react-router'
 import { useCallback } from 'react'
-import { navigationRoutes } from '../utils/navigationRoutes'
+import { navigationRoutes } from '../utils/navigationRoutes.js'
 
 export const useNavigateBack = () => {
   const router = useRouter()
