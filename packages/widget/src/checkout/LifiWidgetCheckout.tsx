@@ -13,12 +13,20 @@ export type { CheckoutModalRef }
 export const LifiWidgetCheckout = forwardRef<CheckoutModalRef, CheckoutProps>(
   (props, ref) => {
     const config: CheckoutConfig = useMemo(
-      () =>
-        ({
-          ...props,
-          integrator: props.integrator ?? 'lifi-widget-checkout',
-        }) as CheckoutConfig,
-      [props]
+      () => ({
+        integrator: props.integrator ?? 'lifi-widget-checkout',
+        onrampSessionApiUrl: props.onrampSessionApiUrl,
+        onSuccess: props.onSuccess,
+        onError: props.onError,
+        config: props.config,
+      }),
+      [
+        props.integrator,
+        props.onrampSessionApiUrl,
+        props.onSuccess,
+        props.onError,
+        props.config,
+      ]
     )
 
     const widgetConfig = useMemo(

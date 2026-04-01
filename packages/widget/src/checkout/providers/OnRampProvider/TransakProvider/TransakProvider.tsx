@@ -66,7 +66,8 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
   widgetConfig,
 }) => {
   const { t } = useTranslation()
-  const { integrator, onError, onrampSessionApiUrl } = useCheckoutConfig()
+  const { integrator, onError, onSuccess, onrampSessionApiUrl } =
+    useCheckoutConfig()
   const { account } = useAccount({ chainType: ChainType.EVM })
   const { openWalletMenu } = useWalletMenu()
 
@@ -227,7 +228,29 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
       close()
     }
 
-    const onOrderSuccessful = () => {
+    const onOrderSuccessful = (data: unknown) => {
+      if (onSuccess) {
+        const order =
+          data != null &&
+          typeof data === 'object' &&
+          'status' in data &&
+          data.status != null &&
+          typeof data.status === 'object'
+            ? (data.status as Record<string, unknown>)
+            : {}
+        onSuccess({
+          provider: 'transak',
+          transactionHash:
+            typeof order.transactionHash === 'string'
+              ? order.transactionHash
+              : undefined,
+          amount: String(order.cryptoAmount ?? order.fiatAmount ?? ''),
+          token: String(order.cryptoCurrency ?? widgetConfig.toToken ?? ''),
+          chainId: Number(
+            order.chainId ?? order.networkId ?? widgetConfig.toChain ?? 0
+          ),
+        })
+      }
       close()
     }
 
@@ -239,7 +262,16 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
     return () => {
       transak.cleanup()
     }
-  }, [close, isLoading, open, transakContainerId, widgetUrl])
+  }, [
+    close,
+    isLoading,
+    onSuccess,
+    open,
+    transakContainerId,
+    widgetConfig.toChain,
+    widgetConfig.toToken,
+    widgetUrl,
+  ])
 
   const value = useMemo(
     () => ({

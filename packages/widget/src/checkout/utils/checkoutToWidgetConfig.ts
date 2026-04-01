@@ -15,9 +15,9 @@ export function checkoutConfigToWidgetConfig(
 ): WidgetConfig {
   const merged: WidgetConfig = {
     integrator: checkout.integrator,
+    ...checkout.config,
     subvariant: 'custom',
     subvariantOptions: { custom: 'deposit' },
-    ...checkout.config,
     variant: 'compact',
   }
 
