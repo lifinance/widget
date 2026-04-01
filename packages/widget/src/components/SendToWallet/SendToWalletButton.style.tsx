@@ -11,14 +11,12 @@ export const SendToWalletCardTitleRow = styled(Box)(({ theme }) => ({
 }))
 
 export const SendToWalletRequiredLabel = styled(CardLabel)(({ theme }) => ({
-  paddingLeft: theme.spacing(1),
-  paddingRight: theme.spacing(1),
+  padding: theme.spacing(0, 1),
 }))
 
 export const SendToWalletRequiredLabelText = styled(CardLabelTypography)(
   ({ theme }) => ({
-    paddingLeft: theme.spacing(0.5),
-    paddingRight: theme.spacing(0.5),
+    padding: theme.spacing(0, 0.5),
   })
 )
 
