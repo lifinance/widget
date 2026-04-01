@@ -1,6 +1,7 @@
 import { type CheckoutModalRef, LifiWidgetCheckout } from '@lifi/widget'
 import { Box, Button, Typography } from '@mui/material'
 import { useCallback, useRef } from 'react'
+import { widgetBaseConfig } from '../../defaultWidgetConfig.js'
 import { useEnvVariables } from '../../providers/EnvVariablesProvider.js'
 import { useConfig } from '../../store/widgetConfig/useConfig.js'
 
@@ -19,7 +20,12 @@ export function CheckoutWidgetView() {
     checkoutRef.current?.open()
   }, [])
 
-  const integrator = config?.integrator ?? 'li.fi-playground'
+  const checkoutConfig = {
+    ...config,
+    providers: config?.providers ?? widgetBaseConfig.providers,
+    toChain: config?.toChain ?? DEFAULT_CHECKOUT_ONRAMP_TARGET.toChain,
+    toToken: config?.toToken ?? DEFAULT_CHECKOUT_ONRAMP_TARGET.toToken,
+  }
 
   return (
     <Box
@@ -43,31 +49,9 @@ export function CheckoutWidgetView() {
       </Button>
       <LifiWidgetCheckout
         ref={checkoutRef}
-        integrator={integrator}
-        {...(onrampSessionApiUrl?.trim()
-          ? { onrampSessionApiUrl: onrampSessionApiUrl.trim() }
-          : {})}
-        widget={
-          config
-            ? {
-                providers: config.providers,
-                sdkConfig: config.sdkConfig,
-                useRelayerRoutes: config.useRelayerRoutes,
-                buildUrl: config.buildUrl,
-                chains: config.chains,
-                tokens: config.tokens,
-                walletConfig: config.walletConfig,
-                apiKey: config.apiKey,
-                toChain:
-                  config.toChain ?? DEFAULT_CHECKOUT_ONRAMP_TARGET.toChain,
-                toToken:
-                  config.toToken ?? DEFAULT_CHECKOUT_ONRAMP_TARGET.toToken,
-              }
-            : {
-                toChain: DEFAULT_CHECKOUT_ONRAMP_TARGET.toChain,
-                toToken: DEFAULT_CHECKOUT_ONRAMP_TARGET.toToken,
-              }
-        }
+        integrator={config?.integrator ?? 'li.fi-playground'}
+        onrampSessionApiUrl={onrampSessionApiUrl?.trim() || undefined}
+        config={checkoutConfig}
         onClose={() => {}}
       />
     </Box>
