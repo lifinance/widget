@@ -1,5 +1,5 @@
 {
-  "version": "4.0.0-beta.6",
+  "version": "4.0.0-beta.9",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -62,7 +62,7 @@
     "@types/react-dom": "^19.2.3",
     "fs-extra": "^11.3.3",
     "husky": "^9.1.7",
-    "knip": "^6.0.5",
+    "knip": "^6.1.0",
     "lerna": "^9.0.7",
     "lint-staged": "^16.4.0",
     "standard-version": "^9.5.0",

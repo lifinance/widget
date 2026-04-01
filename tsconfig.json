@@ -17,6 +17,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
+    "rewriteRelativeImportExtensions": true,
     "target": "ES2020"
   },
   "exclude": ["**/.*/", "**/build", "**/dist", "node_modules"]
