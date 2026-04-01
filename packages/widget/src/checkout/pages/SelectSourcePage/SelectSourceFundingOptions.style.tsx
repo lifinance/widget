@@ -18,12 +18,10 @@ export const OptionCard = styled(Card)(({ theme }) => ({
   cursor: 'pointer',
   borderRadius: 16,
   boxShadow: '0px 2px 8px 0px rgba(0, 0, 0, 0.04)',
-  backgroundColor:
-    theme.vars?.palette?.background?.paper ?? theme.palette.background.paper,
+  backgroundColor: theme.vars.palette.background.paper,
   transition: 'background-color 0.15s ease',
   '&:hover': {
-    backgroundColor:
-      theme.vars?.palette?.action?.hover ?? theme.palette.action.hover,
+    backgroundColor: theme.vars.palette.action.hover,
   },
 }))
 
@@ -32,8 +30,7 @@ export const OptionCardComingSoon = styled(Card)(({ theme }) => ({
   cursor: 'not-allowed',
   borderRadius: 16,
   boxShadow: '0px 2px 8px 0px rgba(0, 0, 0, 0.04)',
-  backgroundColor:
-    theme.vars?.palette?.background?.paper ?? theme.palette.background.paper,
+  backgroundColor: theme.vars.palette.background.paper,
   opacity: 0.55,
   pointerEvents: 'none',
   userSelect: 'none',
@@ -55,14 +52,14 @@ export const GenericIconWrap = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   flexShrink: 0,
-  backgroundColor:
-    theme.palette.mode === 'dark'
-      ? 'rgba(255, 255, 255, 0.08)'
-      : 'rgba(0, 0, 0, 0.04)',
-  color: theme.vars?.palette?.text?.primary ?? theme.palette.text.primary,
+  backgroundColor: 'rgba(0, 0, 0, 0.04)',
+  color: theme.vars.palette.text.primary,
   '& .MuiSvgIcon-root': {
     fontSize: 22,
   },
+  ...theme.applyStyles('dark', {
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+  }),
 }))
 
 export const StackAvatar = styled(Avatar)(({ theme }) => ({
@@ -70,7 +67,7 @@ export const StackAvatar = styled(Avatar)(({ theme }) => ({
   height: 24,
   fontSize: 10,
   fontWeight: 700,
-  border: `2px solid ${theme.vars?.palette?.background?.paper ?? theme.palette.background.paper}`,
+  border: `2px solid ${theme.vars.palette.background.paper}`,
 }))
 
 export const OptionTitle = styled(Typography)({

@@ -8,8 +8,7 @@ export const WalletRowsShell = styled(Box)(({ theme }) => ({
   '& .MuiCard-root': {
     borderRadius: 16,
     boxShadow: '0px 2px 8px 0px rgba(0, 0, 0, 0.04)',
-    backgroundColor:
-      theme.vars?.palette?.background?.paper ?? theme.palette.background.paper,
+    backgroundColor: theme.vars.palette.background.paper,
     cursor: 'pointer',
   },
   '& .MuiAvatar-root': {
@@ -22,11 +21,11 @@ export const WalletRowsShell = styled(Box)(({ theme }) => ({
     fontSize: 12,
     fontWeight: 700,
     lineHeight: '16px',
-    backgroundColor:
-      theme.palette.mode === 'dark'
-        ? 'rgba(255, 255, 255, 0.08)'
-        : 'rgba(0, 0, 0, 0.04)',
-    color: theme.vars?.palette?.text?.primary ?? theme.palette.text.primary,
+    backgroundColor: 'rgba(0, 0, 0, 0.04)',
+    color: theme.vars.palette.text.primary,
+    ...theme.applyStyles('dark', {
+      backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    }),
   },
 }))
 
@@ -48,17 +47,17 @@ export const MoreWalletsButton = styled(Button)(({ theme }) => ({
   fontSize: 14,
   lineHeight: '18px',
   textTransform: 'none',
-  backgroundColor:
-    theme.palette.mode === 'dark'
-      ? 'rgba(255, 255, 255, 0.08)'
-      : 'rgba(0, 0, 0, 0.04)',
-  color: theme.vars?.palette?.text?.primary ?? theme.palette.text.primary,
+  backgroundColor: 'rgba(0, 0, 0, 0.04)',
+  color: theme.vars.palette.text.primary,
   '&:hover': {
-    backgroundColor:
-      theme.palette.mode === 'dark'
-        ? 'rgba(255, 255, 255, 0.12)'
-        : 'rgba(0, 0, 0, 0.06)',
+    backgroundColor: 'rgba(0, 0, 0, 0.06)',
   },
+  ...theme.applyStyles('dark', {
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    '&:hover': {
+      backgroundColor: 'rgba(255, 255, 255, 0.12)',
+    },
+  }),
 }))
 
 export const MoreWalletsIcon = styled(ExpandMoreIcon)({

@@ -2,7 +2,7 @@ import { AppBar, Box, styled, Typography } from '@mui/material'
 
 export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: 'transparent',
-  color: theme.vars?.palette?.text?.primary ?? theme.palette.text.primary,
+  color: theme.vars.palette.text.primary,
   flexDirection: 'row',
   alignItems: 'center',
   position: 'relative',
