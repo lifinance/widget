@@ -1,21 +1,23 @@
 import { AppBar, Box, styled, Typography } from '@mui/material'
 
 export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
-  backgroundColor: 'transparent',
+  backgroundColor: theme.vars.palette.background.default,
   color: theme.vars.palette.text.primary,
   flexDirection: 'row',
   alignItems: 'center',
-  position: 'relative',
+  position: 'sticky',
+  top: 0,
+  zIndex: 1,
   minHeight: 48,
   padding: theme.spacing(1, 2),
   paddingTop: theme.spacing(1.5),
 }))
 
-export const HeaderControlsContainer = styled(Box)({
+export const HeaderControlsContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  gap: 4,
-})
+  gap: theme.spacing(0.5),
+}))
 
 export const HeaderTitleTypography = styled(Typography, {
   shouldForwardProp: (prop) =>

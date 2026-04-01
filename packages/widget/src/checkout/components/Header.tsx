@@ -2,7 +2,9 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import CloseIcon from '@mui/icons-material/Close'
 import { IconButton } from '@mui/material'
 import { useLocation } from '@tanstack/react-router'
+import { useLayoutEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useSetHeaderHeight } from '../../stores/header/useHeaderStore.js'
 import { useCheckoutModal } from '../CheckoutModal.js'
 import { useCheckoutNavigate } from '../hooks/useCheckoutNavigate.js'
 import {
@@ -25,6 +27,27 @@ export const Header: React.FC<HeaderProps> = ({ title: titleProp }) => {
   const { pathname } = useLocation()
   const navigate = useCheckoutNavigate()
   const modalContext = useCheckoutModal()
+  const headerRef = useRef<HTMLDivElement>(null)
+  const { setHeaderHeight } = useSetHeaderHeight()
+
+  useLayoutEffect(() => {
+    const handleResize = () => {
+      const height = headerRef.current?.getBoundingClientRect().height
+      if (height) {
+        setHeaderHeight(height)
+      }
+    }
+
+    let resizeObserver: ResizeObserver
+    if (headerRef.current) {
+      resizeObserver = new ResizeObserver(handleResize)
+      resizeObserver.observe(headerRef.current)
+    }
+
+    return () => {
+      resizeObserver?.disconnect()
+    }
+  }, [setHeaderHeight])
 
   const cleanedPathname = pathname.endsWith('/')
     ? pathname.slice(0, -1)
@@ -42,7 +65,7 @@ export const Header: React.FC<HeaderProps> = ({ title: titleProp }) => {
   }
 
   return (
-    <HeaderAppBar elevation={0}>
+    <HeaderAppBar ref={headerRef} elevation={0}>
       {showBackButton && (
         <IconButton
           onClick={handleBack}
