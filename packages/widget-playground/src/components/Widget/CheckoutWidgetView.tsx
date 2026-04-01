@@ -1,7 +1,4 @@
-import {
-  type CheckoutModalRef,
-  LifiWidgetCheckout,
-} from '@lifi/widget-checkout'
+import { type CheckoutModalRef, LifiWidgetCheckout } from '@lifi/widget'
 import { Box, Button, Typography } from '@mui/material'
 import { useCallback, useRef } from 'react'
 import { useEnvVariables } from '../../providers/EnvVariablesProvider.js'

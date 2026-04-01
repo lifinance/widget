@@ -22,7 +22,8 @@
         "porto"
       ]
     },
-    "packages/widget-checkout": {
+    "packages/widget": {
+      "ignore": ["src/config/version.ts"],
       "ignoreDependencies": ["@transak/ui-js-sdk"]
     }
   }

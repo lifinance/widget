@@ -2,6 +2,7 @@ export type * from '@lifi/sdk'
 export { ChainId, ChainType, CoinKey } from '@lifi/sdk'
 export { App as LiFiWidget } from './App.js'
 export type { WidgetDrawer } from './AppDrawer.js'
+export * from './checkout/index.js'
 export { AmountInput } from './components/AmountInput/AmountInput.js'
 // Checkout / compositor: UI building blocks
 export { AccountAvatar } from './components/Avatar/AccountAvatar.js'
