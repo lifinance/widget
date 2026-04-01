@@ -14,27 +14,15 @@ export const OptionsRoot = styled(Box)(({ theme }) => ({
   paddingTop: theme.spacing(1.5),
 }))
 
-export const OptionCard = styled(Card)(({ theme }) => ({
-  cursor: 'pointer',
-  borderRadius: 16,
-  boxShadow: '0px 2px 8px 0px rgba(0, 0, 0, 0.04)',
-  backgroundColor: theme.vars.palette.background.paper,
-  transition: 'background-color 0.15s ease',
-  '&:hover': {
-    backgroundColor: theme.vars.palette.action.hover,
-  },
-}))
+export const OptionCard = styled(Card)()
 
 /** Mesh / exchange linking — disabled until the flow is wired up */
-export const OptionCardComingSoon = styled(Card)(({ theme }) => ({
+export const OptionCardComingSoon = styled(Card)({
   cursor: 'not-allowed',
-  borderRadius: 16,
-  boxShadow: '0px 2px 8px 0px rgba(0, 0, 0, 0.04)',
-  backgroundColor: theme.vars.palette.background.paper,
   opacity: 0.55,
   pointerEvents: 'none',
   userSelect: 'none',
-}))
+})
 
 export const OptionRow = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -52,14 +40,11 @@ export const GenericIconWrap = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   flexShrink: 0,
-  backgroundColor: 'rgba(0, 0, 0, 0.04)',
+  backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
   color: theme.vars.palette.text.primary,
   '& .MuiSvgIcon-root': {
     fontSize: 22,
   },
-  ...theme.applyStyles('dark', {
-    backgroundColor: 'rgba(255, 255, 255, 0.08)',
-  }),
 }))
 
 export const StackAvatar = styled(Avatar)(({ theme }) => ({
