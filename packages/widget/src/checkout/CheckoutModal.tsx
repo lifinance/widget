@@ -79,9 +79,9 @@ export const CheckoutModal = forwardRef<
         slotProps={
           {
             backdrop: {
-              sx: {
-                backgroundColor: 'rgba(0, 0, 0, 0.48)',
-              },
+              sx: (theme: import('@mui/material').Theme) => ({
+                backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.48)`,
+              }),
             },
             transition: {
               timeout: { appear: 0, enter: 160, exit: 80 },
@@ -105,7 +105,7 @@ export const CheckoutModal = forwardRef<
             display: 'flex',
             flexDirection: 'column',
             outline: 'none',
-            borderRadius: theme.spacing(2),
+            borderRadius: theme.vars.shape.borderRadiusTertiary,
             boxShadow: theme.shadows[24],
             bgcolor: 'background.paper',
             overflow: 'hidden',
