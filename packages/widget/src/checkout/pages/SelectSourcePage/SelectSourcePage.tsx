@@ -18,7 +18,8 @@ export const SelectSourcePage: React.FC = () => {
   const { t } = useTranslation()
   const navigate = useCheckoutNavigate()
   const { openWalletMenu } = useWalletMenu()
-  const { transak, resolutionLoading } = useOnRamp()
+  const { transak, getProvider, resolutionLoading, isAvailable } = useOnRamp()
+  const mesh = getProvider('mesh')
   const { topWallets } = useSelectSourceTopWallets()
 
   const goToToken = useCallback(() => {
@@ -43,6 +44,10 @@ export const SelectSourcePage: React.FC = () => {
           onTransferCrypto={goToToken}
           onDepositCash={() => transak?.openDepositFlow()}
           showDepositCash={!resolutionLoading && Boolean(transak)}
+          onConnectExchange={() => mesh?.openDepositFlow()}
+          showConnectExchange={!resolutionLoading && isAvailable('mesh')}
+          meshLoading={mesh?.isLoading ?? false}
+          meshError={mesh?.error ?? null}
         />
       </SelectSourceMainColumn>
     </Stack>

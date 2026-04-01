@@ -24,7 +24,7 @@
     },
     "packages/widget": {
       "ignore": ["src/config/version.ts"],
-      "ignoreDependencies": ["@transak/ui-js-sdk"]
+      "ignoreDependencies": ["@transak/ui-js-sdk", "@meshconnect/web-link-sdk"]
     }
   }
 }
