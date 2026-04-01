@@ -82,12 +82,16 @@
     "vitest": "^4.1.4"
   },
   "peerDependencies": {
+    "@meshconnect/web-link-sdk": "^3.9.1",
     "@tanstack/react-query": ">=5.90.0",
     "@transak/ui-js-sdk": "^1.0.0",
     "react": ">=18",
     "react-dom": ">=18"
   },
   "peerDependenciesMeta": {
+    "@meshconnect/web-link-sdk": {
+      "optional": true
+    },
     "@transak/ui-js-sdk": {
       "optional": true
     }

@@ -1,7 +1,7 @@
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney'
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz'
 import SyncAltIcon from '@mui/icons-material/SyncAlt'
-import { Chip, Stack } from '@mui/material'
+import { Alert, Chip, CircularProgress, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import {
   ChainAvatarGroup,
@@ -29,12 +29,23 @@ export type SelectSourceFundingOptionsProps = {
   onDepositCash: () => void
   /** When false, the cash on-ramp row is hidden (optional peer not installed). */
   showDepositCash?: boolean
+  onConnectExchange: () => void
+  /** When true, removes "Coming Soon" chip and enables the card click. */
+  showConnectExchange?: boolean
+  /** When true, shows a loading spinner in place of exchange avatars. */
+  meshLoading?: boolean
+  /** When set, shows an inline error below the exchange card. */
+  meshError?: string | null
 }
 
 export function SelectSourceFundingOptions({
   onTransferCrypto,
   onDepositCash,
   showDepositCash = true,
+  onConnectExchange,
+  showConnectExchange = false,
+  meshLoading = false,
+  meshError = null,
 }: SelectSourceFundingOptionsProps) {
   const { t } = useTranslation()
   return (
@@ -73,31 +84,65 @@ export function SelectSourceFundingOptions({
         </OptionCard>
       ) : null}
 
-      <OptionCardComingSoon
-        elevation={0}
-        aria-disabled="true"
-        aria-label={t('checkout.meshAriaLabel')}
-      >
-        <OptionRow>
-          <GenericIconWrap>
-            <SyncAltIcon />
-          </GenericIconWrap>
-          <OptionTextCell>
-            <Stack spacing={0.5} alignItems="flex-start">
-              <OptionTitle>{t('checkout.connectExchange')}</OptionTitle>
-              <Chip
-                label={t('checkout.comingSoon')}
-                size="small"
-                variant="outlined"
-              />
-            </Stack>
-          </OptionTextCell>
-          <ExchangeAvatarsWrap>
-            <ExchangeAvatarCoinbase>C</ExchangeAvatarCoinbase>
-            <ExchangeAvatarBinance>B</ExchangeAvatarBinance>
-          </ExchangeAvatarsWrap>
-        </OptionRow>
-      </OptionCardComingSoon>
+      {showConnectExchange ? (
+        <>
+          <OptionCard
+            onClick={meshLoading ? undefined : onConnectExchange}
+            aria-disabled={meshLoading}
+            sx={
+              meshLoading ? { pointerEvents: 'none', opacity: 0.7 } : undefined
+            }
+          >
+            <OptionRow>
+              <GenericIconWrap>
+                <SyncAltIcon />
+              </GenericIconWrap>
+              <OptionTextCell>
+                <OptionTitle>{t('checkout.connectExchange')}</OptionTitle>
+              </OptionTextCell>
+              {meshLoading ? (
+                <CircularProgress size={24} sx={{ flexShrink: 0, mr: 1 }} />
+              ) : (
+                <ExchangeAvatarsWrap>
+                  <ExchangeAvatarCoinbase>C</ExchangeAvatarCoinbase>
+                  <ExchangeAvatarBinance>B</ExchangeAvatarBinance>
+                </ExchangeAvatarsWrap>
+              )}
+            </OptionRow>
+          </OptionCard>
+          {meshError ? (
+            <Alert severity="error" sx={{ mt: -0.5 }}>
+              {meshError}
+            </Alert>
+          ) : null}
+        </>
+      ) : (
+        <OptionCardComingSoon
+          elevation={0}
+          aria-disabled="true"
+          aria-label={t('checkout.meshAriaLabel')}
+        >
+          <OptionRow>
+            <GenericIconWrap>
+              <SyncAltIcon />
+            </GenericIconWrap>
+            <OptionTextCell>
+              <Stack spacing={0.5} alignItems="flex-start">
+                <OptionTitle>{t('checkout.connectExchange')}</OptionTitle>
+                <Chip
+                  label={t('checkout.comingSoon')}
+                  size="small"
+                  variant="outlined"
+                />
+              </Stack>
+            </OptionTextCell>
+            <ExchangeAvatarsWrap>
+              <ExchangeAvatarCoinbase>C</ExchangeAvatarCoinbase>
+              <ExchangeAvatarBinance>B</ExchangeAvatarBinance>
+            </ExchangeAvatarsWrap>
+          </OptionRow>
+        </OptionCardComingSoon>
+      )}
     </OptionsRoot>
   )
 }

@@ -1,13 +1,8 @@
 'use client'
 import { createContext, useContext } from 'react'
+import type { OnRampFlowValue } from '../types.js'
 
-export interface TransakContextValue {
-  openDepositFlow: () => void
-  close: () => void
-  isOpen: boolean
-  isLoading: boolean
-  error: string | null
-}
+export type TransakContextValue = OnRampFlowValue
 
 export const TransakContext = createContext<TransakContextValue | null>(null)
 

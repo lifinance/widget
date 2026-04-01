@@ -26,6 +26,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@lifi/widget": "workspace:*",
+    "@meshconnect/web-link-sdk": "^3.9.1",
     "@transak/ui-js-sdk": "^1.0.0",
     "@lifi/widget-provider-bitcoin": "workspace:*",
     "@lifi/widget-provider-ethereum": "workspace:*",

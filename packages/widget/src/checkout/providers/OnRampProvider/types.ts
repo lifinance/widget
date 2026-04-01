@@ -16,3 +16,11 @@ export interface LoadedOnRampAdapter {
     children: ReactNode
   }>
 }
+
+export interface OnRampFlowValue {
+  openDepositFlow: () => void
+  close: () => void
+  isOpen: boolean
+  isLoading: boolean
+  error: string | null
+}
