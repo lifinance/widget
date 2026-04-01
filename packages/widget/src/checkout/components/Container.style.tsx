@@ -14,9 +14,7 @@ export const RelativeContainer = styled(Box)(({ theme }) => ({
   boxSizing: 'border-box',
   width: '100%',
   maxWidth: '100%',
-  background:
-    theme.vars?.palette?.background?.default ??
-    theme.palette.background.default,
+  background: theme.vars.palette.background.default,
   overflow: 'hidden',
   display: 'flex',
   flexDirection: 'column',
