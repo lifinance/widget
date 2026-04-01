@@ -1,12 +1,13 @@
 import ErrorRounded from '@mui/icons-material/ErrorRounded'
 import HistoryIcon from '@mui/icons-material/History'
-import { IconButton, Tooltip } from '@mui/material'
+import { Tooltip } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { useRouteExecutionIndicator } from '../../stores/routes/useRouteExecutionIndicators.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { CircularProgressPending } from '../Step/CircularProgress.style.js'
 import {
+  ActivitiesIconButton,
   ErrorBadge,
   IconContainer,
   ProgressTrack,
@@ -19,7 +20,8 @@ export const ActivitiesButton = () => {
 
   return (
     <Tooltip title={t('header.activities')}>
-      <IconButton
+      <ActivitiesIconButton
+        active={indicator.active || indicator.failed}
         size="medium"
         onClick={() => navigate({ to: navigationRoutes.activities })}
       >
@@ -49,7 +51,7 @@ export const ActivitiesButton = () => {
             <HistoryIcon />
           </IconContainer>
         </ErrorBadge>
-      </IconButton>
+      </ActivitiesIconButton>
     </Tooltip>
   )
 }

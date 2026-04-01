@@ -2,6 +2,7 @@ import {
   Badge,
   Box,
   CircularProgress as MuiCircularProgress,
+  IconButton as MuiIconButton,
   styled,
 } from '@mui/material'
 
@@ -25,6 +26,28 @@ export const IconContainer = styled(Box)(() => ({
   alignItems: 'center',
   justifyContent: 'center',
 }))
+
+export const ActivitiesIconButton = styled(MuiIconButton, {
+  shouldForwardProp: (prop) => prop !== 'active',
+})<{ active?: boolean }>({
+  variants: [
+    {
+      props: { active: true },
+      style: ({ theme }) => ({
+        backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.08)`,
+        '&:hover': {
+          backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.12)`,
+        },
+        ...theme.applyStyles('dark', {
+          backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.12)`,
+          '&:hover': {
+            backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.16)`,
+          },
+        }),
+      }),
+    },
+  ],
+})
 
 export const ProgressTrack = styled(MuiCircularProgress)(({ theme }) => ({
   position: 'absolute',
