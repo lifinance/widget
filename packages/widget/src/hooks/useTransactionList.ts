@@ -12,7 +12,6 @@ import type {
   RouteExecutionState,
 } from '../stores/routes/types.js'
 import { RouteExecutionStatus } from '../stores/routes/types.js'
-import { useDeduplicateRoutes } from '../stores/routes/useDeduplicateRoutes.js'
 import { getSourceTxHash } from '../stores/routes/utils.js'
 import { hasEnumFlag } from '../utils/enum.js'
 import { useTransactionHistory } from './useTransactionHistory.js'
@@ -27,15 +26,9 @@ export const useTransactionList = () => {
   )
 
   const { data: apiRouteExecutions, isLoading } = useTransactionHistory()
-
-  useDeduplicateRoutes(apiRouteExecutions)
-
   const routes = useRouteExecutionStore(routesSelector)
 
   const items = useMemo<TransactionListItem[]>(() => {
-    // Build the API txHash set synchronously so local items that already
-    // appear in API history are excluded on the same render that history
-    // arrives — before useDeduplicateRoutes (a useEffect) can clean the store.
     const apiTxHashes = new Set(
       apiRouteExecutions.map((r) => getSourceTxHash(r.route))
     )
@@ -47,6 +40,8 @@ export const useTransactionList = () => {
       if (!accountAddresses.includes(r.route.fromAddress)) {
         continue
       }
+      // Guard against duplicates on the render before the store deletion
+      // from useTransactionHistory's combine propagates.
       if (apiTxHashes.has(getSourceTxHash(r.route))) {
         continue
       }

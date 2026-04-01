@@ -3,21 +3,22 @@ import { getTransactionHistory } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import type { QueryFunction } from '@tanstack/react-query'
 import { useQueries } from '@tanstack/react-query'
-import { useMemo } from 'react'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import type { RouteExecution } from '../stores/routes/types.js'
+import { useRouteExecutionStoreContext } from '../stores/routes/RouteExecutionStore.js'
+import { getSourceTxHash } from '../stores/routes/utils.js'
 import { buildRouteFromTxHistory } from '../utils/converters.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useTools } from './useTools.js'
 
 export const useTransactionHistory = () => {
+  const store = useRouteExecutionStoreContext()
   const { accounts } = useAccount()
   const { keyPrefix } = useWidgetConfig()
   const sdkClient = useSDKClient()
   const { tools } = useTools()
 
-  const { data: transactions, isLoading } = useQueries({
+  const { data: routeExecutions, isLoading } = useQueries({
     queries: accounts.map((account) => ({
       queryKey: [
         getQueryKey('transaction-history', keyPrefix),
@@ -63,24 +64,34 @@ export const useTransactionHistory = () => {
           })
         }
       })
+      // Convert raw API transactions into RouteExecution objects.
+      const data = Array.from(uniqueTransactions.values()).flatMap(
+        (transaction) => {
+          const routeExecution = buildRouteFromTxHistory(
+            transaction as FullStatusData,
+            tools
+          )
+          return routeExecution ? [routeExecution] : []
+        }
+      )
+      // Remove local store routes that the API has already indexed,
+      // so they don't appear twice in the transaction list.
+      if (data.length) {
+        const apiTxHashes = new Set(data.map((r) => getSourceTxHash(r.route)))
+        const { routes, deleteRoute } = store.getState()
+        for (const [id, routeExecution] of Object.entries(routes)) {
+          const txHash = getSourceTxHash(routeExecution?.route)
+          if (txHash && apiTxHashes.has(txHash)) {
+            deleteRoute(id)
+          }
+        }
+      }
       return {
-        data: Array.from(uniqueTransactions.values()) as StatusResponse[],
+        data,
         isLoading: results.some((result) => result.isLoading),
       }
     },
   })
-
-  const routeExecutions = useMemo<RouteExecution[]>(
-    () =>
-      (transactions ?? []).flatMap((transaction) => {
-        const routeExecution = buildRouteFromTxHistory(
-          transaction as FullStatusData,
-          tools
-        )
-        return routeExecution ? [routeExecution] : []
-      }),
-    [tools, transactions]
-  )
 
   return {
     data: routeExecutions,
