@@ -32,6 +32,10 @@ const getContentHeight = (
     console.warn(
       `Can't find ${ElementId.ScrollableContainer} or ${ElementId.Header} id.`
     )
+    // Restore the height we zeroed above before returning early
+    if (listParentElement && oldHeight !== undefined) {
+      listParentElement.style.height = oldHeight
+    }
     return 0
   }
   const { height: containerHeight } = containerElement.getBoundingClientRect()
