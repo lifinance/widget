@@ -18,7 +18,6 @@ import {
 } from '../../utils/format.js'
 import { fitInputText } from '../../utils/input.js'
 import { InputCard } from '../Card/InputCard.js'
-import { SendToWalletExpandButton } from '../SendToWallet/SendToWalletExpandButton.js'
 import {
   AmountInputCardHeader,
   AmountInputCardTitle,
@@ -47,7 +46,6 @@ export const AmountInput: React.FC<FormTypeProps> = ({ formType }) => {
     <AmountInputBase
       formType={formType}
       token={token}
-      endAdornment={<SendToWalletExpandButton />}
       bottomAdornment={<PriceFormHelperText formType={formType} />}
       disabled={disabled}
     />
@@ -59,18 +57,10 @@ const AmountInputBase: React.FC<
     CardProps & {
       token?: Token
       startAdornment?: ReactNode
-      endAdornment?: ReactNode
       bottomAdornment?: ReactNode
       disabled?: boolean
     }
-> = ({
-  formType,
-  token,
-  startAdornment,
-  endAdornment,
-  bottomAdornment,
-  disabled,
-}) => {
+> = ({ formType, token, startAdornment, bottomAdornment, disabled }) => {
   const { t } = useTranslation()
   const { subvariant, subvariantOptions } = useWidgetConfig()
   const ref = useRef<HTMLInputElement>(null)
@@ -168,7 +158,6 @@ const AmountInputBase: React.FC<
     <InputCard>
       <AmountInputCardHeader>
         <AmountInputCardTitle>{title}</AmountInputCardTitle>
-        {endAdornment}
       </AmountInputCardHeader>
       <FormContainer>
         <AmountInputStartAdornment formType={formType} />
