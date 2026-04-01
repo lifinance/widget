@@ -81,6 +81,33 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
             })
           }
         },
+        deleteRoutes: (type) =>
+          set((state: RouteExecutionState) => {
+            const routes = { ...state.routes }
+            Object.keys(routes)
+              .filter((routeId) =>
+                type === 'completed'
+                  ? hasEnumFlag(
+                      routes[routeId]?.status ?? 0,
+                      RouteExecutionStatus.Done
+                    )
+                  : type === 'failed'
+                    ? hasEnumFlag(
+                        routes[routeId]?.status ?? 0,
+                        RouteExecutionStatus.Failed
+                      )
+                    : !hasEnumFlag(
+                        routes[routeId]?.status ?? 0,
+                        RouteExecutionStatus.Done
+                      )
+              )
+              .forEach((routeId) => {
+                delete routes[routeId]
+              })
+            return {
+              routes,
+            }
+          }),
         deleteRoute: (routeId: string) => {
           if (get().routes[routeId]) {
             set((state: RouteExecutionState) => {

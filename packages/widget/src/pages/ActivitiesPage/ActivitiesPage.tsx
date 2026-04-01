@@ -7,6 +7,7 @@ import { useHeader } from '../../hooks/useHeader.js'
 import { useListHeight } from '../../hooks/useListHeight.js'
 import { useTransactionList } from '../../hooks/useTransactionList.js'
 import { ActiveTransactionItem } from './ActiveTransactionItem.js'
+import { ActivitiesPageMenuButton } from './ActivitiesPageMenuButton.js'
 import { TransactionHistoryEmpty } from './TransactionHistoryEmpty.js'
 import { TransactionHistoryItem } from './TransactionHistoryItem.js'
 import { TransactionHistoryItemSkeleton } from './TransactionHistorySkeleton.js'
@@ -19,7 +20,8 @@ export const ActivitiesPage = () => {
   const { items, isLoading } = useTransactionList()
 
   const { t } = useTranslation()
-  useHeader(t('header.activities'))
+
+  useHeader(t('header.activities'), <ActivitiesPageMenuButton />)
 
   const { listHeight } = useListHeight({
     listParentRef: parentRef,

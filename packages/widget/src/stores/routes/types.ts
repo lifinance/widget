@@ -10,6 +10,7 @@ export interface RouteExecutionState {
   setExecutableRoute: (route: Route, observableRouteIds?: string[]) => void
   updateRoute: (route: Route) => void
   deleteRoute: (routeId: string) => void
+  deleteRoutes: (type: 'completed' | 'active' | 'failed') => void
 }
 
 export enum RouteExecutionStatus {
