@@ -13,10 +13,10 @@ permissions:
 env:
   EXAMPLES_CONFIG: >
     {
-      "vite-project":                    { "command": "preview", "port": 4173 },
+      "vite-project":            { "command": "preview", "port": 4173 },
       "connectkit":              { "command": "preview", "port": 4173 },
       "privy":                   { "command": "preview", "port": 4173 },
-      "privy-ethers":            { "command": "preview", "port": 4173 },
+      "privy-ethers-example":    { "command": "preview", "port": 4173 },
       "rainbowkit":              { "command": "preview", "port": 4173 },
       "reown":                   { "command": "preview", "port": 4173 },
       "svelte":                  { "command": "preview", "port": 4173 },
