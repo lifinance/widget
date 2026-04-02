@@ -26,7 +26,7 @@ export const WidgetContainer = styled(Box, {
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    paddingTop: theme.spacing(6),
+    paddingTop: theme.spacing(14),
     variants: [
       {
         props: ({ alignTop }) => alignTop,
@@ -47,7 +47,7 @@ export const WidgetContainer = styled(Box, {
 export const WidgetContainerRow = styled(Box)(() => {
   return {
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     flexGrow: 1,
     width: '100%',
   }

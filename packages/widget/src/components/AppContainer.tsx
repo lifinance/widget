@@ -15,36 +15,27 @@ import { getWidgetMaxHeight } from '../utils/widgetSize.js'
 //    - useSetContentHeight
 //  Also check any code that is using the methods from elements.ts utils file
 
-export const AppExpandedContainer = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'variant',
-})<{ variant?: WidgetVariant }>(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'start',
-  flex: 1,
-  height:
-    theme.container?.display === 'flex'
-      ? '100%'
-      : theme.container?.maxHeight
-        ? 'auto'
-        : theme.container?.height || 'auto',
-  variants: [
-    {
-      props: {
-        variant: 'drawer',
-      },
-      style: {
-        height: 'none',
-      },
-    },
-  ],
-}))
+export const AppExpandedContainer = styled(Box)(({ theme }) => {
+  return {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'start',
+    flex: 1,
+    height:
+      theme.container?.display === 'flex'
+        ? '100%'
+        : theme.container?.maxHeight
+          ? 'auto'
+          : theme.container?.height || 'auto',
+  }
+})
 
 export const RelativeContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',
 })<{ variant?: WidgetVariant }>(({ theme }) => {
   const maxHeight =
-    theme.container?.height === 'fit-content'
+    theme.container?.height === 'fit-content' ||
+    (!theme.container?.height && !theme.container?.maxHeight)
       ? 'none'
       : getWidgetMaxHeight(theme)
   return {
@@ -89,7 +80,8 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
     !['variant', 'paddingTopAdjustment', 'elementId'].includes(prop as string),
 })<CssBaselineContainerProps>(({ theme, variant, paddingTopAdjustment }) => {
   const maxHeight =
-    theme.container?.height === 'fit-content'
+    theme.container?.height === 'fit-content' ||
+    (!theme.container?.height && !theme.container?.maxHeight)
       ? 'none'
       : getWidgetMaxHeight(theme)
   return {
