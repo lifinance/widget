@@ -13,16 +13,16 @@ permissions:
 env:
   EXAMPLES_CONFIG: >
     {
-      "vite-project":            { "command": "preview", "port": 4173 },
-      "connectkit":              { "command": "preview", "port": 4173 },
-      "privy":                   { "command": "preview", "port": 4173 },
-      "privy-ethers-example":    { "command": "preview", "port": 4173 },
-      "rainbowkit":              { "command": "preview", "port": 4173 },
-      "reown":                   { "command": "preview", "port": 4173 },
-      "svelte":                  { "command": "preview", "port": 4173 },
-      "zustand-widget-config":   { "command": "preview", "port": 4173 },
-      "nextjs":                  { "command": "start",   "port": 3000 },
-      "nextjs15":                { "command": "start",   "port": 3000 }
+      "vite-project":            { "dir": "vite",                  "command": "preview", "port": 4173 },
+      "connectkit":              { "dir": "connectkit",            "command": "preview", "port": 4173 },
+      "privy":                   { "dir": "privy",                 "command": "preview", "port": 4173 },
+      "privy-ethers-example":    { "dir": "privy-ethers",          "command": "preview", "port": 4173 },
+      "rainbowkit":              { "dir": "rainbowkit",            "command": "preview", "port": 4173 },
+      "reown":                   { "dir": "reown",                 "command": "preview", "port": 4173 },
+      "svelte":                  { "dir": "svelte",                "command": "preview", "port": 4173 },
+      "zustand-widget-config":   { "dir": "zustand-widget-config", "command": "preview", "port": 4173 },
+      "nextjs":                  { "dir": "nextjs",                "command": "start",   "port": 3000 },
+      "nextjs15":                { "dir": "nextjs15",              "command": "start",   "port": 3000 }
     }
 
 jobs:
@@ -68,7 +68,8 @@ jobs:
           else
             AFFECTED=()
             for name in $COMPATIBLE; do
-              if echo "$CHANGED_FILES" | grep -q "^examples/${name}/"; then
+              DIR=$(echo '${{ env.EXAMPLES_CONFIG }}' | jq -r --arg name "$name" '.[$name].dir')
+              if echo "$CHANGED_FILES" | grep -q "^examples/${DIR}/"; then
                 AFFECTED+=("$name")
               fi
             done
