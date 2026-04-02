@@ -1,0 +1,21 @@
+{
+  "name": "@lifi/widget-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright E2E smoke tests for the LI.FI Widget playground",
+  "scripts": {
+    "test": "playwright test",
+    "smoketest": "playwright test tests/smoke",
+    "smoke:example": "playwright test tests/smoke --grep @example",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui",
+    "typecheck": "tsc --noEmit",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^25.5.0",
+    "typescript": "^6.0.2"
+  }
+}

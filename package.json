@@ -40,7 +40,9 @@
     "postinstall": "husky",
     "knip:all": "knip",
     "knip:check": "knip --dependencies --files --no-config-hints --exclude binaries",
-    "knip:write": "pnpm knip:check --fix"
+    "knip:write": "pnpm knip:check --fix",
+    "smoketest": "cd e2e && pnpm smoketest",
+    "smoke:example": "cd e2e && pnpm smoke:example"
   },
   "lint-staged": {
     "*": [
