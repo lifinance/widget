@@ -17,6 +17,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import { useToken } from '../../../../hooks/useToken.js'
 import type { WidgetConfig } from '../../../../types/widget.js'
+import { useCheckoutUserId } from '../../../hooks/useCheckoutUserId.js'
 import type { CexSessionRequest } from '../../../types/onrampSession.js'
 import { useCheckoutConfig } from '../../CheckoutProvider.js'
 import type { LoadedOnRampAdapter, OnRampProviderMeta } from '../types.js'
@@ -54,6 +55,7 @@ export type MeshProviderProps = PropsWithChildren<{
 
 const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
   const { t } = useTranslation()
+  const checkoutUserId = useCheckoutUserId()
   const { integrator, onError, onSuccess } = useCheckoutConfig()
   const { account } = useAccount({ chainType: ChainType.EVM })
   const { token: toToken } = useToken(
@@ -114,7 +116,7 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
     }
 
     const body: CexSessionRequest = {
-      userId: integrator,
+      userId: checkoutUserId,
       transactionId: crypto.randomUUID(),
       integrator,
       toAddress: {
@@ -222,6 +224,7 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
     }
   }, [
     account.address,
+    checkoutUserId,
     close,
     integrator,
     onError,

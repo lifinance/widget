@@ -39,3 +39,6 @@ next-env.d.ts
 /.nuxt/
 /.output/
 
+# claude
+/.claude
+/.omc
