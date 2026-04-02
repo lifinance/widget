@@ -71,7 +71,7 @@ export const AmountInputEndAdornment = memo(({ formType }: FormTypeProps) => {
     }
   }
 
-  if (formType !== 'from' || !token?.amount) {
+  if (formType !== 'from' || !token) {
     return null
   }
 
