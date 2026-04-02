@@ -47,8 +47,6 @@ const getLayoutMode = (container?: CSSProperties) => {
 
   if (container.display === 'flex' && container.height === '100%') {
     layoutMode = 'full-height'
-  } else if (container.height === 'fit-content') {
-    layoutMode = 'default'
   } else if (Number.isFinite(container.height)) {
     layoutMode = 'restricted-height'
   } else if (Number.isFinite(container.maxHeight)) {
@@ -68,9 +66,7 @@ export const LayoutControl = () => {
 
   const { selectedLayoutId } = useLayoutValues()
   const { setSelectedLayoutId } = useEditToolsActions()
-  const [heightValue, setHeightValue] = useState<
-    number | 'fit-content' | undefined
-  >() // height or maxHeight, depending on selectedLayoutId
+  const [heightValue, setHeightValue] = useState<number | undefined>() // height or maxHeight, depending on selectedLayoutId
 
   useEffect(() => {
     setSelectedLayoutId(getLayoutMode(config?.theme?.container))
@@ -126,14 +122,14 @@ export const LayoutControl = () => {
           break
         }
         default: {
-          setHeightValue('fit-content')
+          setHeightValue(undefined)
           setHeader()
 
           const defaultContainer = {
             ...(getCurrentConfigTheme()?.container ?? {}),
             display: undefined,
-            height: 'fit-content',
-            maxHeight: defaultMaxHeight,
+            height: undefined,
+            maxHeight: undefined,
           }
 
           setContainer(defaultContainer)

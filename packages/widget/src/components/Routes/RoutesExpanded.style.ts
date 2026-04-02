@@ -1,6 +1,6 @@
 import type { ScopedCssBaselineProps } from '@mui/material'
 import { Box, ScopedCssBaseline, styled } from '@mui/material'
-import { defaultMaxHeight } from '../../config/constants.js'
+import { getWidgetMaxHeight } from '../../utils/widgetSize.js'
 
 export const routesExpansionWidth = '436px'
 
@@ -11,10 +11,6 @@ interface ContainerProps extends ScopedCssBaselineProps {
 export const Container = styled(ScopedCssBaseline, {
   shouldForwardProp: (prop) => !['minimumHeight'].includes(prop as string),
 })<ContainerProps>(({ theme, minimumHeight }) => {
-  const fallbackMaxHeight =
-    !theme.container?.height || theme.container?.height === 'fit-content'
-      ? defaultMaxHeight
-      : theme.container?.height
   return {
     ...theme.container,
     backgroundColor: theme.vars.palette.background.default,
@@ -25,7 +21,7 @@ export const Container = styled(ScopedCssBaseline, {
     whiteSpace: 'normal',
     ...(theme.container?.display !== 'flex'
       ? {
-          maxHeight: theme.container?.maxHeight ?? fallbackMaxHeight,
+          maxHeight: getWidgetMaxHeight(theme),
           ...(minimumHeight ? { '&': { height: 'auto' } } : {}),
         }
       : { height: minimumHeight ? 'auto' : '100%' }),
