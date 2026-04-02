@@ -11,6 +11,7 @@ import {
   DialogTitle,
   Typography,
 } from '@mui/material'
+import { useRouter } from '@tanstack/react-router'
 import { Transak } from '@transak/ui-js-sdk'
 import {
   type FC,
@@ -76,6 +77,7 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
   const [uiError, setUiError] = useState<TransakUiError | null>(null)
   const [widgetUrl, setWidgetUrl] = useState<string | null>(null)
   const transakContainerId = useId()
+  const router = useRouter()
 
   const close = useCallback(() => {
     setOpen(false)
@@ -272,6 +274,8 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
     widgetConfig.toToken,
     widgetUrl,
   ])
+
+  useEffect(() => router.subscribe('onResolved', close), [close, router])
 
   const value = useMemo(
     () => ({
