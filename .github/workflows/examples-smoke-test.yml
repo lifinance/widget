@@ -13,7 +13,7 @@ permissions:
 env:
   EXAMPLES_CONFIG: >
     {
-      "vite":                    { "command": "preview", "port": 4173 },
+      "vite-project":                    { "command": "preview", "port": 4173 },
       "connectkit":              { "command": "preview", "port": 4173 },
       "privy":                   { "command": "preview", "port": 4173 },
       "privy-ethers":            { "command": "preview", "port": 4173 },
@@ -106,7 +106,14 @@ jobs:
         run: pnpm -r --parallel --filter './packages/**' --filter !'*-playground-*' --filter !'*-embedded' build
 
       - name: Build example
-        run: pnpm --filter ${{ matrix.example }} build
+        run: |
+          set -euo pipefail
+          MATCH=$(pnpm --filter ${{ matrix.example }} exec pwd 2>/dev/null || true)
+          if [ -z "$MATCH" ]; then
+            echo "::error::No workspace package found matching filter '${{ matrix.example }}'"
+            exit 1
+          fi
+          pnpm --filter ${{ matrix.example }} build
 
       - name: Resolve serve command and port
         id: serve
@@ -131,17 +138,13 @@ jobs:
           echo "::error::Server failed to start within 60s at $URL"
           exit 1
 
-      - name: Install Playwright (e2e)
-        working-directory: e2e
-        run: |
-          pnpm install --frozen-lockfile
-          pnpm exec playwright install chromium --with-deps
+      - name: Install Playwright browsers
+        run: pnpm --filter @lifi/widget-e2e exec playwright install chromium --with-deps
 
       - name: Run @example smoke tests
-        working-directory: e2e
         env:
           BASE_URL: http://localhost:${{ steps.serve.outputs.port }}
-        run: pnpm exec playwright test --grep @example --reporter=list
+        run: pnpm --filter @lifi/widget-e2e exec playwright test --grep @example --reporter=list
 
       - name: Upload Playwright report
         if: failure()
