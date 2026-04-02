@@ -1,6 +1,6 @@
 import AddLinkIcon from '@mui/icons-material/AddLink'
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail'
-import FingerPrintIcon from '@mui/icons-material/FingerPrint'
+import FingerprintIcon from '@mui/icons-material/Fingerprint'
 import Logout from '@mui/icons-material/Logout'
 import WalletIcon from '@mui/icons-material/Wallet'
 import {
@@ -154,7 +154,7 @@ export function AccountMenu({ handleClose, anchorEl, open }: AccountMenuProps) {
         )}
         <MenuItem onClick={linkPasskey}>
           <ListItemIcon>
-            <FingerPrintIcon fontSize="small" />
+            <FingerprintIcon fontSize="small" />
           </ListItemIcon>
           Link {userHasPassKey ? 'another' : 'a'} passkey
         </MenuItem>
