@@ -11,27 +11,52 @@ Playwright TypeScript E2E tests for the LI.FI Widget playground
 
 ## Setup
 
-```bash
-# From this directory (e2e/)
-pnpm install
-pnpm exec playwright install chromium
-```
+The `e2e/` directory is a workspace member (`pnpm-workspace.yaml` includes `e2e`).
+Dependencies are installed automatically when you run `pnpm install` at the repo root.
 
-> The `e2e/` directory is intentionally outside the monorepo workspace.
-> A local `.npmrc` sets `ignore-workspace=true` so `pnpm install` always
-> installs deps into `e2e/node_modules` without needing any extra flags.
+```bash
+# From the repo root — installs everything including e2e deps
+pnpm install
+
+# Install Playwright browsers (once)
+pnpm --filter @lifi/widget-e2e exec playwright install chromium
+```
 
 ## Running Tests
 
+Tests can be run from the **repo root** or from the **e2e directory**.
+
+**From the repo root:**
+
 | Command | Description |
 |---|---|
-| `pnpm smoketest` | Smoke suite only - fastest CI gate |
+| `pnpm smoketest` | All smoke tests (playground + example) |
+| `pnpm smoke:example` | Only `@example`-tagged tests (works against any example app) |
+
+**From the e2e directory:**
+
+| Command | Description |
+|---|---|
+| `pnpm smoketest` | All smoke tests |
+| `pnpm smoke:example` | Only `@example`-tagged tests |
 | `pnpm test` | Full test suite |
 | `pnpm test:headed` | Run with visible browser |
 | `pnpm test:debug` | Playwright debug inspector |
 | `pnpm test:ui` | Playwright interactive UI |
 | `pnpm typecheck` | TypeScript type-check (no emit) |
 | `pnpm report` | Open last HTML report |
+
+**Running against an example app:**
+
+```bash
+# Terminal 1 — build and serve an example
+pnpm --filter vite-project build
+pnpm --filter vite-project preview
+
+# Terminal 2 — run @example tests against it
+cd e2e
+BASE_URL=http://localhost:4173 pnpm smoke:example
+```
 
 ## Environment Variables
 
@@ -136,12 +161,6 @@ Failures include screenshot, video, and trace attachments in `test-results/`.
 # View trace for a failing test
 pnpm exec playwright show-trace test-results/<test-dir>/trace.zip
 ```
-
-## Example Compatibility
-
-The `@example` tests (tagged `@example` in `smoke.spec.ts`) are designed to run against
-any widget example app. They do **not** require any source code changes to the example apps —
-no `buildUrl: true` or other config additions needed.
 
 ### Compatible (pass all @example tests)
 
