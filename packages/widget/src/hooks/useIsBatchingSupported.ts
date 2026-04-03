@@ -9,7 +9,10 @@ import { getQueryKey } from '../utils/queries.js'
 export function useIsBatchingSupported(
   chain?: ExtendedChain,
   address?: string
-) {
+): {
+  isBatchingSupported: boolean | undefined
+  isBatchingSupportedLoading: boolean
+} {
   const { keyPrefix } = useWidgetConfig()
   const sdkClient = useSDKClient()
   const { isBatchingSupported } = useEthereumContext()

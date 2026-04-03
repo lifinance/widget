@@ -7,7 +7,10 @@ import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { getQueryKey } from '../utils/queries.js'
 
-export const useTransactionHistory = () => {
+export const useTransactionHistory = (): {
+  data: StatusResponse[]
+  isLoading: boolean
+} => {
   const { accounts } = useAccount()
   const { keyPrefix } = useWidgetConfig()
   const sdkClient = useSDKClient()

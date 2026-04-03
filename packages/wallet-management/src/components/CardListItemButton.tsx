@@ -7,7 +7,7 @@ import { WalletTag } from './WalletTag.js'
 interface CardListItemButtonProps {
   onClick: () => void
   title: string
-  icon: string
+  icon?: string
   tagType?: WalletTagType
 }
 

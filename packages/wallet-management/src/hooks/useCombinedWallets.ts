@@ -107,7 +107,7 @@ const combineWalletLists = (
   return combinedWallets
 }
 
-export const useCombinedWallets = () => {
+export const useCombinedWallets = (): CombinedWallet[] => {
   const walletConfig = useWalletManagementConfig()
   const { installedWallets: installedEthereumWallets } = useEthereumContext()
   const { installedWallets: installedBitcoinWallets } = useBitcoinContext()

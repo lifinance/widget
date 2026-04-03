@@ -1,6 +1,6 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { useVirtualizer } from '@tanstack/react-virtual'
-import type { RefObject } from 'react'
+import type { JSX, RefObject } from 'react'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
@@ -36,7 +36,7 @@ export const VirtualizedChainList = ({
   itemsSize,
   scrollElementRef,
   withPinnedChains,
-}: VirtualizedChainListProps) => {
+}: VirtualizedChainListProps): JSX.Element => {
   const { t } = useTranslation()
   const selectedChainIdRef = useRef(selectedChainId) // Store the initial selected chain ID to scroll to it once chains are loaded
   const hasScrolledRef = useRef(false)

@@ -5,7 +5,10 @@ import { useSendToWalletActions } from '../../stores/settings/useSendToWalletSto
 import type { FormRef } from '../../types/widget.js'
 import type { FormStoreStore, GenericFormValue } from './types.js'
 
-export const useFormRef = (formStore: FormStoreStore, formRef?: FormRef) => {
+export const useFormRef = (
+  formStore: FormStoreStore,
+  formRef?: FormRef
+): void => {
   const { setSendToWallet } = useSendToWalletActions()
   const { setSelectedBookmark } = useBookmarkActions()
 

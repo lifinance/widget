@@ -1,13 +1,18 @@
 import { Box, styled, Typography } from '@mui/material'
+import type React from 'react'
 
-export const TextSecondaryContainer = styled(Box)(() => ({
+export const TextSecondaryContainer: React.FC<
+  React.ComponentProps<typeof Box> & { dot?: boolean }
+> = styled(Box)(() => ({
   display: 'flex',
   alignItems: 'center',
   flexWrap: 'wrap',
   flex: 1,
 }))
 
-export const TextSecondary = styled(Typography, {
+export const TextSecondary: React.FC<
+  React.ComponentProps<typeof Typography> & { dot?: boolean }
+> = styled(Typography, {
   shouldForwardProp: (prop: string) => !['dot'].includes(prop),
 })<{ dot?: boolean }>(({ theme }) => ({
   fontSize: 12,
@@ -25,7 +30,9 @@ export const TextSecondary = styled(Typography, {
   ],
 }))
 
-export const TokenDivider = styled(Box)(({ theme }) => ({
+export const TokenDivider: React.FC<React.ComponentProps<typeof Box>> = styled(
+  Box
+)(({ theme }) => ({
   height: 16,
   borderLeftWidth: 2,
   borderLeftStyle: 'solid',

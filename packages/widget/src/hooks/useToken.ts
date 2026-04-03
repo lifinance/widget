@@ -1,3 +1,4 @@
+import type { TokenExtended } from '@lifi/sdk'
 import { useMemo } from 'react'
 import { useTokenSearch } from './useTokenSearch.js'
 import { useTokens } from './useTokens.js'
@@ -6,7 +7,10 @@ export const useToken = (
   chainId?: number,
   tokenAddress?: string,
   latest?: boolean
-) => {
+): {
+  token: TokenExtended | undefined
+  isLoading: boolean
+} => {
   const { allTokens, isLoading: isTokensLoading } = useTokens()
 
   const token = useMemo(

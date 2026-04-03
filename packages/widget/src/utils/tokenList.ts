@@ -23,7 +23,11 @@ export const processTokenBalances = (
   tokens?: TokenExtended[],
   tokensWithBalances?: TokenAmount[],
   isPinnedToken?: (chainId: number, tokenAddress: string) => boolean
-) => {
+): {
+  processedTokens: TokenAmount[]
+  withCategories: boolean
+  withPinnedTokens: boolean
+} => {
   if (isBalanceLoading) {
     if (noCategories) {
       const sortedTokens = [...(tokens ?? [])].sort(sortByVolume)
@@ -259,7 +263,7 @@ const processedTypedTokens = (
 export const isSearchMatch = (
   token: TokenExtended | TokenAmountExtended,
   search?: string
-) => {
+): boolean => {
   if (!search) {
     return true
   }
@@ -275,6 +279,6 @@ export const isSearchMatch = (
   )
 }
 
-export const isSupportedToken = (token: WalletTokenExtended) => {
-  return token.name && token.symbol && token.priceUSD && token.chainId
+export const isSupportedToken = (token: WalletTokenExtended): boolean => {
+  return Boolean(token.name && token.symbol && token.priceUSD && token.chainId)
 }

@@ -11,7 +11,7 @@ if (!rootElement) {
   throw new Error('Failed to find the root element.')
 }
 
-export const queryClient = new QueryClient({
+export const queryClient: QueryClient = new QueryClient({
   defaultOptions: {
     queries: {
       enabled: true,

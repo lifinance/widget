@@ -1,5 +1,5 @@
 import { Avatar, Checkbox, ListItemAvatar } from '@mui/material'
-import { memo } from 'react'
+import { memo, type NamedExoticComponent } from 'react'
 import { ListItemText } from '../ListItemText.js'
 import { SettingsListItemButton } from '../SettingsListItemButton.js'
 
@@ -10,8 +10,8 @@ interface ToolItemProps {
   onToggle: (key: string) => void
 }
 
-export const ToolItem = memo<ToolItemProps>(
-  ({ tool, typeKey, isEnabled, onToggle }) => {
+export const ToolItem: NamedExoticComponent<ToolItemProps> =
+  memo<ToolItemProps>(({ tool, typeKey, isEnabled, onToggle }) => {
     const handleClick = () => {
       onToggle(tool.key)
     }
@@ -38,5 +38,4 @@ export const ToolItem = memo<ToolItemProps>(
         />
       </SettingsListItemButton>
     )
-  }
-)
+  })

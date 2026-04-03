@@ -6,13 +6,16 @@ import {
   styled,
   svgIconClasses,
 } from '@mui/material'
+import type React from 'react'
 import { Input as InputBase } from '../../components/Input.js'
 
 interface InputProps {
   size?: 'small' | 'medium'
 }
 
-export const Input = styled(InputBase, {
+export const Input: React.FC<
+  React.ComponentProps<typeof InputBase> & InputProps
+> = styled(InputBase, {
   shouldForwardProp: (prop) => prop !== 'size',
 })<InputProps>(({ theme, size = 'medium' }) => ({
   paddingRight: size === 'small' ? theme.spacing(1.25) : theme.spacing(1.75),
@@ -50,7 +53,9 @@ export const searchContainerHeight = 64
 // When the widget is in Full Height layout mode in order to appear "sticky the StickySearchInputContainer needs to use
 // position fixed in the same way as the header (see Header.tsx). The headerHeight value here is used as the top value
 // to ensure that this container positioned correctly beneath the header
-export const StickySearchInputContainer = styled(Box, {
+export const StickySearchInputContainer: React.FC<
+  React.ComponentProps<typeof Box> & SearchStickyContainerProps
+> = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'headerHeight',
 })<SearchStickyContainerProps>(({ theme, headerHeight }) => ({
   position: 'sticky',
@@ -73,7 +78,9 @@ export const StickySearchInputContainer = styled(Box, {
 
 // When in Full Height layout mode, as the StickySearchInputContainer (see above) uses fixed position, the list element needs to provide
 // additional paddingTop in order to be positioned correctly.
-export const SearchList = styled(List)(({ theme }) => ({
+export const SearchList: React.FC<React.ComponentProps<typeof List>> = styled(
+  List
+)(({ theme }) => ({
   paddingTop:
     theme.header?.position === 'fixed' ? `${searchContainerHeight}px` : 0,
   paddingLeft: theme.spacing(1.5),

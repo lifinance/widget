@@ -8,7 +8,7 @@ import {
   CircularProgressPending,
 } from './CircularProgress.style.js'
 
-export function CircularProgress({ action }: { action: ExecutionAction }) {
+export function CircularProgress({ action }: { action: ExecutionAction }): any {
   return (
     <CircularIcon status={action.status} substatus={action.substatus}>
       {action.status === 'STARTED' || action.status === 'PENDING' ? (

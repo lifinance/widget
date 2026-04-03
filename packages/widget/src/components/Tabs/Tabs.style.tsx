@@ -6,6 +6,7 @@ import {
   tabClasses,
   tabsClasses,
 } from '@mui/material'
+import type React from 'react'
 
 const Tabs = styled(MuiTabs)(({ theme }) => ({
   flex: 1,
@@ -20,7 +21,9 @@ const Tabs = styled(MuiTabs)(({ theme }) => ({
   },
 }))
 
-export const CardTabs = styled(Tabs)(({ theme }) => ({
+export const CardTabs: React.FC<React.ComponentProps<typeof MuiTabs>> = styled(
+  Tabs
+)(({ theme }) => ({
   backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
   [`.${tabsClasses.indicator}`]: {
     backgroundColor: theme.vars.palette.background.paper,
@@ -33,7 +36,9 @@ export const CardTabs = styled(Tabs)(({ theme }) => ({
   }),
 }))
 
-export const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
+export const Tab: React.FC<React.ComponentProps<typeof MuiTab>> = styled(
+  MuiTab
+)<TabProps>(({ theme }) => ({
   zIndex: 1,
   flex: 1,
   textTransform: 'none',

@@ -1,4 +1,4 @@
-import type { ChangeEventHandler } from 'react'
+import type { ChangeEventHandler, JSX } from 'react'
 import { useState } from 'react'
 import { useConfigActions } from '../../../store/widgetConfig/useConfigActions.js'
 import { useConfigBorderRadiusSecondary } from '../../../store/widgetConfig/useConfigValues.js'
@@ -12,7 +12,7 @@ import {
 
 const clickableValues = [8, 12, 16]
 
-export const ButtonRadiusControl = () => {
+export const ButtonRadiusControl = (): JSX.Element => {
   const { borderRadiusSecondary } = useConfigBorderRadiusSecondary()
   const { setBorderRadiusSecondary, resetBorderRadiusSecondary } =
     useConfigActions()

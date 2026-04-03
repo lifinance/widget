@@ -1,3 +1,4 @@
+import type { JSX } from 'react'
 import { useDevView } from '../../../../hooks/useDevView.js'
 import { CardRowColumn } from '../../../Card/Card.style.js'
 import { Switch } from '../../../Switch.js'
@@ -7,7 +8,7 @@ import {
   ControlRowContainer,
 } from '../DesignControls.style.js'
 
-export const DevViewToggleControls = () => {
+export const DevViewToggleControls = (): JSX.Element => {
   const { isDevView, toggleDevView } = useDevView()
 
   const handleToggleDevView: (

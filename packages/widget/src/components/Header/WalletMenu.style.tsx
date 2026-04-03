@@ -5,8 +5,11 @@ import {
   styled,
   svgIconClasses,
 } from '@mui/material'
+import type React from 'react'
 
-export const WalletMenuContainer = styled(MuiMenu)(({ theme }) => ({
+export const WalletMenuContainer: React.FC<
+  React.ComponentProps<typeof MuiMenu>
+> = styled(MuiMenu)(({ theme }) => ({
   [`& .${menuClasses.paper}`]: {
     borderRadius: theme.vars.shape.borderRadius,
     color: theme.vars.palette.text.primary,

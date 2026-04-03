@@ -5,7 +5,8 @@ import {
   type ExtendedChain,
 } from '@lifi/sdk'
 import { Avatar, Box } from '@mui/material'
-import { memo, useMemo } from 'react'
+import type React from 'react'
+import { type JSX, memo, useMemo } from 'react'
 
 interface AllChainsAvatarProps {
   chains: ExtendedChain[] | EVMChain[]
@@ -41,8 +42,8 @@ const chainTypeIcons = [
 
 const maxChainAvatarsCount = chainTypeIcons.length
 
-export const AllChainsAvatar = memo(
-  ({ chains, size }: AllChainsAvatarProps) => {
+export const AllChainsAvatar: React.NamedExoticComponent<AllChainsAvatarProps> =
+  memo(({ chains, size }: AllChainsAvatarProps): JSX.Element => {
     const icons = useMemo(() => {
       // Create maps for efficient lookups
       const chainsPerChainType = new Map<ChainType, number>()
@@ -157,5 +158,4 @@ export const AllChainsAvatar = memo(
         })}
       </Box>
     )
-  }
-)
+  })

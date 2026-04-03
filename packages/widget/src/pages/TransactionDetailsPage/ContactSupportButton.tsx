@@ -1,4 +1,5 @@
 import { Button } from '@mui/material'
+import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { WidgetEvent } from '../../types/events.js'
@@ -9,7 +10,7 @@ interface ContactSupportButtonProps {
 
 export const ContactSupportButton = ({
   supportId,
-}: ContactSupportButtonProps) => {
+}: ContactSupportButtonProps): JSX.Element => {
   const { t } = useTranslation()
   const widgetEvents = useWidgetEvents()
 

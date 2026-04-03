@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-export function useInterval(callback: () => void, delay: number | null) {
+export function useInterval(callback: () => void, delay: number | null): void {
   const callbackRef = useRef(callback)
 
   // update callback function with current render callback that has access to latest props and state

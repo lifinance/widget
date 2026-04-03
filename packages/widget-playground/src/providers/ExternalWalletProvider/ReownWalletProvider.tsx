@@ -6,6 +6,7 @@ import { BitcoinAdapter } from '@reown/appkit-adapter-bitcoin'
 import { SolanaAdapter } from '@reown/appkit-adapter-solana'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import type { AppKitNetwork } from '@reown/appkit-common'
+import type { JSX } from 'react'
 import { useEffect, useRef } from 'react'
 import { WagmiProvider } from 'wagmi'
 import { useThemeMode } from '../../hooks/useThemeMode.js'
@@ -30,7 +31,7 @@ export function ReownWalletProvider({
 }: {
   children: React.ReactNode
   chains: ExtendedChain[]
-}) {
+}): JSX.Element {
   const { EVMWalletConnectId } = useEnvVariables()
   const wagmi = useRef<WagmiAdapter | undefined>(undefined)
   const modal = useRef<AppKit | undefined>(undefined)

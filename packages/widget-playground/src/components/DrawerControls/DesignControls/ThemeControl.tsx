@@ -1,5 +1,6 @@
 import type { SelectChangeEvent } from '@mui/material'
 import { MenuItem } from '@mui/material'
+import type { JSX } from 'react'
 import { useThemeMode } from '../../../hooks/useThemeMode.js'
 import type { ThemeItem } from '../../../store/editTools/types.js'
 import { useEditToolsActions } from '../../../store/editTools/useEditToolsActions.js'
@@ -10,7 +11,7 @@ import { ExpandableCard } from '../../Card/ExpandableCard.js'
 import { popperZIndex } from '../DrawerControls.style.js'
 import { Select } from './DesignControls.style.js'
 
-export const ThemeControl = () => {
+export const ThemeControl = (): JSX.Element => {
   const { setConfigTheme } = useConfigActions()
   const { themeMode } = useThemeMode()
   const { selectedThemeId, selectedThemeItem, allThemesItems } =

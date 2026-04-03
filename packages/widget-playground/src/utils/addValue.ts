@@ -19,7 +19,7 @@ export const addValueFromPathString = <ReturnType>(
   object: ReturnType | undefined,
   path: string,
   value: string
-) => {
+): ReturnType | undefined => {
   if (!object) {
     return undefined
   }

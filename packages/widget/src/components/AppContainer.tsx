@@ -1,4 +1,6 @@
+import type { BoxProps, ContainerProps } from '@mui/material'
 import { Box, Container, ScopedCssBaseline, styled } from '@mui/material'
+import type React from 'react'
 import type { PropsWithChildren } from 'react'
 import { defaultMaxHeight } from '../config/constants.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
@@ -15,22 +17,26 @@ import { getWidgetMaxHeight } from '../utils/widgetSize.js'
 //    - useSetContentHeight
 //  Also check any code that is using the methods from elements.ts utils file
 
-export const AppExpandedContainer = styled(Box)(({ theme }) => {
-  return {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'start',
-    flex: 1,
-    height:
-      theme.container?.display === 'flex'
-        ? '100%'
-        : theme.container?.maxHeight
-          ? 'auto'
-          : theme.container?.height || 'auto',
+export const AppExpandedContainer: React.FC<BoxProps> = styled(Box)(
+  ({ theme }) => {
+    return {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'start',
+      flex: 1,
+      height:
+        theme.container?.display === 'flex'
+          ? '100%'
+          : theme.container?.maxHeight
+            ? 'auto'
+            : theme.container?.height || 'auto',
+    }
   }
-})
+)
 
-export const RelativeContainer = styled(Box, {
+export const RelativeContainer: React.FC<
+  BoxProps & { variant?: WidgetVariant }
+> = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',
 })<{ variant?: WidgetVariant }>(({ theme }) => {
   const maxHeight =
@@ -112,7 +118,7 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
   }
 })
 
-export const FlexContainer = styled(Container)({
+export const FlexContainer: React.FC<ContainerProps> = styled(Container)({
   display: 'flex',
   flexDirection: 'column',
   flex: 1,

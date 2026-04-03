@@ -1,5 +1,10 @@
 import { defaultMaxHeight } from '@lifi/widget'
-import { type FocusEventHandler, type SyntheticEvent, useCallback } from 'react'
+import {
+  type FocusEventHandler,
+  type JSX,
+  type SyntheticEvent,
+  useCallback,
+} from 'react'
 import type { Layout } from '../../../../store/editTools/types.js'
 import { useConfig } from '../../../../store/widgetConfig/useConfig.js'
 import { useConfigActions } from '../../../../store/widgetConfig/useConfigActions.js'
@@ -31,7 +36,7 @@ export const HeightControl = ({
   setInitialLayout: (layoutId: Layout) => void
   heightValue: number | undefined
   setHeightValue: (height: number | undefined) => void
-}) => {
+}): JSX.Element | null => {
   const { config } = useConfig()
   const { setHeader, setContainer, getCurrentConfigTheme } = useConfigActions()
 

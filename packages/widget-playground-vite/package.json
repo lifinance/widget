@@ -8,7 +8,7 @@
     "dev:dev": "vite --mode dev",
     "dev:staging": "vite --mode staging",
     "dev:local": "vite --mode localhost",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
     "preview": "vite preview",
     "check:types": "tsc --noEmit"

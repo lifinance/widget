@@ -5,7 +5,13 @@ import NightlightIcon from '@mui/icons-material/Nightlight'
 import type { TabProps } from '@mui/material'
 import { Box, Tooltip } from '@mui/material'
 import diff from 'microdiff'
-import type { FC, PropsWithChildren, ReactElement, SyntheticEvent } from 'react'
+import type {
+  FC,
+  JSX,
+  PropsWithChildren,
+  ReactElement,
+  SyntheticEvent,
+} from 'react'
 import { useEffect } from 'react'
 import { useThemeMode } from '../../../hooks/useThemeMode.js'
 import type { ThemeItem } from '../../../store/editTools/types.js'
@@ -80,7 +86,7 @@ const getUserChangesToTheme = (
   }
 }
 
-export const AppearanceControl = () => {
+export const AppearanceControl = (): JSX.Element => {
   const { colorSchemeMode, prefersDarkMode, setMode } = useThemeMode()
   const { setAppearance, setConfigTheme, getCurrentConfigTheme } =
     useConfigActions()

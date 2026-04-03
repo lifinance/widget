@@ -9,7 +9,7 @@ import {
 } from '@lifi/widget-playground'
 import { defaultWidgetConfig } from '@lifi/widget-playground/widget-config'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import type { PropsWithChildren } from 'react'
+import type { JSX, PropsWithChildren } from 'react'
 import '@lifi/widget-playground/fonts'
 
 const queryClient = new QueryClient()
@@ -32,7 +32,7 @@ const AppProvider = ({ children }: PropsWithChildren) => {
   )
 }
 
-export const App = () => {
+export const App = (): JSX.Element => {
   return (
     <AppProvider>
       <div style={{ display: 'flex', flexGrow: '1' }}>

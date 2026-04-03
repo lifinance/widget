@@ -1,6 +1,13 @@
 import { Collapse } from '@mui/material'
 import type { PropsWithChildren, ReactNode } from 'react'
-import { forwardRef, useId, useImperativeHandle, useRef } from 'react'
+import {
+  type ForwardRefExoticComponent,
+  forwardRef,
+  type RefAttributes,
+  useId,
+  useImperativeHandle,
+  useRef,
+} from 'react'
 import { Card } from '../../../components/Card/Card.js'
 import {
   CardRowButton,
@@ -23,7 +30,10 @@ export interface SettingCardExpandableRef {
   toggleExpanded: (forceExpanded?: boolean) => void
 }
 
-export const SettingCardExpandable = forwardRef<
+export const SettingCardExpandable: ForwardRefExoticComponent<
+  PropsWithChildren<SettingCardExpandableProps> &
+    RefAttributes<SettingCardExpandableRef>
+> = forwardRef<
   SettingCardExpandableRef,
   PropsWithChildren<SettingCardExpandableProps>
 >(

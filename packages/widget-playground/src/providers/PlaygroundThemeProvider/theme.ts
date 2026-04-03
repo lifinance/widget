@@ -1,7 +1,7 @@
 import type { WidgetTheme } from '@lifi/widget'
 import { createTheme as createMuiTheme, type Theme } from '@mui/material'
 
-export const createTheme = (playgroundColor?: string) =>
+export const createTheme = (playgroundColor?: string): Theme =>
   createMuiTheme({
     cssVariables: {
       cssVarPrefix: 'lifi-pg',

@@ -1,3 +1,4 @@
+import type { JSX } from 'react'
 import { useEffect } from 'react'
 import { useEditToolsActions } from '../../../store/editTools/useEditToolsActions.js'
 import { useSkeletonToolValues } from '../../../store/editTools/useSkeletonToolValues.js'
@@ -6,7 +7,7 @@ import { CardRowContainer, CardValue } from '../../Card/Card.style.js'
 import { ExpandableCard } from '../../Card/ExpandableCard.js'
 import { Switch } from '../../Switch.js'
 
-export const SkeletonControl = () => {
+export const SkeletonControl = (): JSX.Element => {
   const { isSkeletonShown, isSkeletonSideBySide } = useSkeletonToolValues()
   const { setSkeletonShow, setSkeletonSideBySide } = useEditToolsActions()
   const { variant } = useConfigVariant()

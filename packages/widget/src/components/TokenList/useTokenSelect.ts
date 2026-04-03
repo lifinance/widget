@@ -11,7 +11,10 @@ import { WidgetEvent } from '../../types/events.js'
 import type { DisabledUI } from '../../types/widget.js'
 import { isItemAllowed } from '../../utils/item.js'
 
-export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
+export const useTokenSelect = (
+  formType: FormType,
+  onClick?: () => void
+): ((tokenAddress: string, chainId?: number) => void) => {
   const { subvariant, disabledUI, chains: chainsConfig } = useWidgetConfig()
   const splitSubvariant = useSplitSubvariantStore((store) => store.state)
   const emitter = useWidgetEvents()

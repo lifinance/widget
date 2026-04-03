@@ -1,5 +1,6 @@
 import { ChainId, ChainType } from '@lifi/sdk'
 import { isWalletInstalled, useBitcoinContext } from '@lifi/widget-provider'
+import type { JSX } from 'react'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { getChainTypeIcon } from '../icons.js'
@@ -17,7 +18,7 @@ export const BitcoinListItemButton = ({
   onConnected,
   onConnecting,
   onError,
-}: WalletListItemButtonProps) => {
+}: WalletListItemButtonProps): JSX.Element => {
   const emitter = useWalletManagementEvents()
   const { connect, disconnect, isConnected } = useBitcoinContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()

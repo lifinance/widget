@@ -1,4 +1,4 @@
-import type { PropsWithChildren, ReactNode } from 'react'
+import type { JSX, PropsWithChildren, ReactNode } from 'react'
 import { ProjectAvatar, ProjectButtonBase } from './CodeControl.style.js'
 
 interface ProjectButtonProps extends PropsWithChildren {
@@ -6,7 +6,11 @@ interface ProjectButtonProps extends PropsWithChildren {
   icon: ReactNode
 }
 
-export const ProjectButton = ({ href, icon, children }: ProjectButtonProps) => {
+export const ProjectButton = ({
+  href,
+  icon,
+  children,
+}: ProjectButtonProps): JSX.Element => {
   const Avatar = <ProjectAvatar aria-hidden>{icon}</ProjectAvatar>
 
   return (

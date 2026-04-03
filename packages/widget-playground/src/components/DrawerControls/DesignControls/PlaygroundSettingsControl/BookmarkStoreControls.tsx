@@ -1,6 +1,7 @@
 import type { BookmarkProps } from '@lifi/widget'
 import { ChainType } from '@lifi/widget'
 import { Box, Button } from '@mui/material'
+import type { JSX } from 'react'
 import { useDevView } from '../../../../hooks/useDevView.js'
 import {
   CapitalizeFirstLetter,
@@ -49,7 +50,7 @@ const fillRecents = (store: StoreProp, num: number) => {
   return store
 }
 
-export const BookmarkStoreControls = () => {
+export const BookmarkStoreControls = (): JSX.Element | null => {
   const { isDevView } = useDevView()
 
   const handleFill = () => {

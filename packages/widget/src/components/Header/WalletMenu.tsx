@@ -7,6 +7,7 @@ import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import PowerSettingsNewRounded from '@mui/icons-material/PowerSettingsNewRounded'
 import { Avatar, Badge, Box, Button, IconButton, MenuItem } from '@mui/material'
+import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
@@ -15,7 +16,11 @@ import { AvatarMasked } from '../Avatar/Avatar.style.js'
 import { SmallAvatar } from '../Avatar/SmallAvatar.js'
 import { DisconnectIconButton } from './DisconnectIconButton.js'
 
-export const WalletMenu = ({ onClose }: { onClose: () => void }) => {
+export const WalletMenu = ({
+  onClose,
+}: {
+  onClose: () => void
+}): JSX.Element => {
   const { t } = useTranslation()
   const { accounts } = useAccount()
   const { getChainById } = useAvailableChains()

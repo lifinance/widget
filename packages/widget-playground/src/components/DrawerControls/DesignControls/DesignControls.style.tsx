@@ -20,21 +20,24 @@ import { alertClasses } from '@mui/material/Alert'
 import { autocompleteClasses } from '@mui/material/Autocomplete'
 import { inputBaseClasses } from '@mui/material/InputBase'
 import { styled } from '@mui/material/styles'
+import type React from 'react'
+import type { JSX } from 'react'
 import { getCardFieldsetBackgroundColor } from '../../../utils/color.js'
 import { CardRowContainer } from '../../Card/Card.style.js'
 import { autocompletePopperZIndex } from '../DrawerControls.style.js'
 
-export const TabButtonsContainer = styled(Box)(({ theme }) => ({
-  ...getCardFieldsetBackgroundColor(theme),
-  display: 'flex',
-  borderRadius: Math.max(
-    theme.shape.borderRadius,
-    theme.shape.borderRadiusSecondary
-  ),
-  padding: theme.spacing(0.5),
-  gap: theme.spacing(0.5),
-  height: '3.5rem',
-}))
+export const TabButtonsContainer: React.FC<React.ComponentProps<typeof Box>> =
+  styled(Box)(({ theme }) => ({
+    ...getCardFieldsetBackgroundColor(theme),
+    display: 'flex',
+    borderRadius: Math.max(
+      theme.shape.borderRadius,
+      theme.shape.borderRadiusSecondary
+    ),
+    padding: theme.spacing(0.5),
+    gap: theme.spacing(0.5),
+    height: '3.5rem',
+  }))
 
 const controlSelected = (theme: Theme) => ({
   borderRadius: theme.vars.shape.borderRadiusSecondary,
@@ -49,57 +52,59 @@ const controlSelected = (theme: Theme) => ({
 interface TabButtonProps {
   selected?: boolean
 }
-export const TabButton = styled(ButtonBase)<TabButtonProps>(
-  ({ theme, selected }) => {
-    const selectedStyle = selected
-      ? {
-          ...controlSelected(theme),
-        }
-      : {}
+export const TabButton: React.FC<
+  React.ComponentProps<typeof ButtonBase> & TabButtonProps
+> = styled(ButtonBase)<TabButtonProps>(({ theme, selected }) => {
+  const selectedStyle = selected
+    ? {
+        ...controlSelected(theme),
+      }
+    : {}
 
-    return {
-      height: '100%',
-      width: '100%',
-      fontSize: '1rem',
-      fontWeight: 700,
-      ...selectedStyle,
-    }
+  return {
+    height: '100%',
+    width: '100%',
+    fontSize: '1rem',
+    fontWeight: 700,
+    ...selectedStyle,
   }
-)
+})
 
-export const TabCustomInput = styled(InputBase)<TabButtonProps>(
-  ({ theme, selected }) => {
-    const selectedStyle = selected
-      ? {
-          '&:not(:focus)': {
-            ...controlSelected(theme),
-          },
-        }
-      : {}
-
-    return {
-      height: '100%',
-      width: '100%',
-      [`.${inputBaseClasses.input}`]: {
-        height: '100%',
-        width: '100%',
-        padding: 0,
-        textAlign: 'center',
-        '&::placeholder': {
-          fontSize: '1rem',
-          fontWeight: 700,
-          opacity: 1,
-        },
-        '&:focus': {
+export const TabCustomInput: React.FC<
+  React.ComponentProps<typeof InputBase> & TabButtonProps
+> = styled(InputBase)<TabButtonProps>(({ theme, selected }) => {
+  const selectedStyle = selected
+    ? {
+        '&:not(:focus)': {
           ...controlSelected(theme),
         },
-        ...selectedStyle,
+      }
+    : {}
+
+  return {
+    height: '100%',
+    width: '100%',
+    [`.${inputBaseClasses.input}`]: {
+      height: '100%',
+      width: '100%',
+      padding: 0,
+      textAlign: 'center',
+      '&::placeholder': {
+        fontSize: '1rem',
+        fontWeight: 700,
+        opacity: 1,
       },
-    }
+      '&:focus': {
+        ...controlSelected(theme),
+      },
+      ...selectedStyle,
+    },
   }
-)
+})
 
-export const Input = styled(InputBase)(({ theme }) => {
+export const Input: React.FC<React.ComponentProps<typeof InputBase>> = styled(
+  InputBase
+)(({ theme }) => {
   return {
     minHeight: 56,
     width: '100%',
@@ -126,7 +131,9 @@ export const Input = styled(InputBase)(({ theme }) => {
   }
 })
 
-export const ColorSwatches = styled(Box)(() => ({
+export const ColorSwatches: React.FC<React.ComponentProps<typeof Box>> = styled(
+  Box
+)(() => ({
   display: 'flex',
   justifyContent: 'flex-end',
   width: 240,
@@ -135,7 +142,7 @@ export const ColorSwatches = styled(Box)(() => ({
 interface ColorSwatchProps {
   color: string
 }
-export const ColorSwatch = styled(
+export const ColorSwatch: React.FC<BoxProps & ColorSwatchProps> = styled(
   (props: BoxProps) => <Box {...props}>&nbsp;</Box>,
   {
     shouldForwardProp: (prop) => prop !== 'color',
@@ -147,39 +154,46 @@ export const ColorSwatch = styled(
   content: '" "',
 }))
 
-export const ControlContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  ...getCardFieldsetBackgroundColor(theme),
-  borderRadius: Math.max(
-    theme.shape.borderRadius,
-    theme.shape.borderRadiusSecondary
-  ),
-  padding: theme.spacing(0.5, 2.5),
-  gap: theme.spacing(0.5),
-  minHeight: theme.spacing(7),
-}))
+export const ControlContainer: React.FC<React.ComponentProps<typeof Box>> =
+  styled(Box)(({ theme }) => ({
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    ...getCardFieldsetBackgroundColor(theme),
+    borderRadius: Math.max(
+      theme.shape.borderRadius,
+      theme.shape.borderRadiusSecondary
+    ),
+    padding: theme.spacing(0.5, 2.5),
+    gap: theme.spacing(0.5),
+    minHeight: theme.spacing(7),
+  }))
 
-export const ColorControlContainer = styled(ControlContainer)(({ theme }) => ({
+export const ColorControlContainer: React.FC<
+  React.ComponentProps<typeof ControlContainer>
+> = styled(ControlContainer)(({ theme }) => ({
   height: theme.spacing(7),
   paddingRight: theme.spacing(0.5),
 }))
 
-export const PlaygroundControlsContainer = styled(Box)(({ theme }) => ({
+export const PlaygroundControlsContainer: React.FC<
+  React.ComponentProps<typeof Box>
+> = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spacing(1),
   marginTop: theme.spacing(1),
 }))
 
-export const ControlRowContainer = styled(CardRowContainer)(() => ({
+export const ControlRowContainer: React.FC<
+  React.ComponentProps<typeof CardRowContainer>
+> = styled(CardRowContainer)(() => ({
   paddingLeft: 0,
   paddingRight: 0,
 }))
 
-export const ColorInput = styled(InputBase)<InputBaseProps>(
-  ({ theme, value }) => ({
+export const ColorInput: React.FC<React.ComponentProps<typeof InputBase>> =
+  styled(InputBase)<InputBaseProps>(({ theme, value }) => ({
     position: 'relative',
     border: 'none',
     height: '100%',
@@ -209,8 +223,7 @@ export const ColorInput = styled(InputBase)<InputBaseProps>(
       color: theme.palette.getContrastText(value as string),
       textTransform: 'none',
     },
-  })
-)
+  }))
 
 // NOTE: this is a workaround for type issues when styling the autocomplete
 //  see - https://github.com/mui/material-ui/issues/21727
@@ -242,17 +255,20 @@ export const Autocomplete = <
   FreeSolo extends boolean | undefined = undefined,
 >(
   props: AutocompleteProps<T, Multiple, DisableClearable, FreeSolo>
-) => {
+): JSX.Element => {
   return <AutocompleteBase {...props} />
 }
 
-export const StyledPopper = styled(Popper)({
-  [`&.${autocompleteClasses.popper}`]: {
-    zIndex: autocompletePopperZIndex,
-  },
-})
+export const StyledPopper: React.FC<React.ComponentProps<typeof Popper>> =
+  styled(Popper)({
+    [`&.${autocompleteClasses.popper}`]: {
+      zIndex: autocompletePopperZIndex,
+    },
+  })
 
-export const Alert = styled(MuiAlert)(({ theme }) => ({
+export const Alert: React.FC<React.ComponentProps<typeof MuiAlert>> = styled(
+  MuiAlert
+)(({ theme }) => ({
   backgroundColor: 'transparent',
   fontSize: '0.9rem',
   padding: 0,
@@ -269,7 +285,9 @@ export const Alert = styled(MuiAlert)(({ theme }) => ({
   },
 }))
 
-export const Select = styled(MuiSelect)(({ theme }) => ({
+export const Select: React.FC<React.ComponentProps<typeof MuiSelect>> = styled(
+  MuiSelect
+)(({ theme }) => ({
   border: 'none',
   outline: 'none',
   ...getCardFieldsetBackgroundColor(theme),
@@ -280,13 +298,17 @@ export const Select = styled(MuiSelect)(({ theme }) => ({
   },
 }))
 
-export const CapitalizeFirstLetter = styled(Typography)(() => ({
+export const CapitalizeFirstLetter: React.FC<
+  React.ComponentProps<typeof Typography>
+> = styled(Typography)(() => ({
   '&::first-letter': {
     textTransform: 'capitalize',
   },
 }))
 
-export const Badge = styled(MuiBadge)(({ theme }) => ({
+export const Badge: React.FC<React.ComponentProps<typeof MuiBadge>> = styled(
+  MuiBadge
+)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   gap: theme.spacing(1.25),

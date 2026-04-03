@@ -5,7 +5,7 @@ import { useEthereumContext } from '../contexts/EthereumContext.js'
 import { useSolanaContext } from '../contexts/SolanaContext.js'
 import { useSuiContext } from '../contexts/SuiContext.js'
 
-export const useSDKProviders = () => {
+export const useSDKProviders = (): SDKProvider[] => {
   const { sdkProvider: evmSDKProvider } = useEthereumContext()
   const { sdkProvider: utxoSDKProvider } = useBitcoinContext()
   const { sdkProvider: svmSDKProvider } = useSolanaContext()

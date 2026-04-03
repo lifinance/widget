@@ -66,7 +66,7 @@ const buildActionsFromTxHistory = (tx: FullStatusData): ExecutionAction[] => {
 export const buildRouteFromTxHistory = (
   tx: FullStatusData,
   tools?: ToolsResponse
-) => {
+): RouteExecution | undefined => {
   const sending = tx.sending as ExtendedTransactionInfo
   const receiving = tx.receiving as ExtendedTransactionInfo
 
