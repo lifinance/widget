@@ -1,10 +1,10 @@
-import { useSyncWagmiConfig } from '@lifi/wallet-management'
-import { ChainType, useAvailableChains } from '@lifi/widget'
+import { useSyncWagmiConfig } from '@lifi/widget-provider-ethereum'
 import { ConnectKitProvider, getDefaultConfig } from 'connectkit'
 import type { FC, PropsWithChildren } from 'react'
 import { createConfig, WagmiProvider } from 'wagmi'
 import { mainnet } from 'wagmi/chains'
 import { walletConnectProjectId } from '../config/connectkit'
+import { useChains } from '../hooks/useChains'
 
 const wagmiConfig = createConfig(
   getDefaultConfig({
@@ -25,9 +25,7 @@ const wagmiConfig = createConfig(
 )
 
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
-  const { chains } = useAvailableChains()
-
-  const evmChains = chains?.filter((chain) => chain.chainType === ChainType.EVM)
+  const { evmChains } = useChains()
 
   useSyncWagmiConfig(wagmiConfig, [], evmChains)
   return (

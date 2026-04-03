@@ -6,8 +6,12 @@ const solanaConnectors = toSolanaWalletConnectors()
 
 export const privyConfig: PrivyClientConfig = {
   embeddedWallets: {
-    createOnLogin: 'users-without-wallets',
-    requireUserPasswordOnCreate: true,
+    ethereum: {
+      createOnLogin: 'users-without-wallets',
+    },
+    solana: {
+      createOnLogin: 'users-without-wallets',
+    },
     showWalletUIs: true,
   },
   loginMethods: ['wallet', 'google', 'twitter', 'passkey', 'email'],
@@ -21,13 +25,6 @@ export const privyConfig: PrivyClientConfig = {
       connectors: solanaConnectors,
     },
   },
-  solanaClusters: [
-    {
-      name: 'mainnet-beta',
-      // replace this with your rpc url
-      rpcUrl: 'https://chaotic-restless-putty.solana-mainnet.quiknode.pro/',
-    },
-  ],
 }
 
 export const PRIVY_APP_ID: string = import.meta.env.VITE_PRIVY_APP_ID
