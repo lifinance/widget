@@ -8,7 +8,7 @@ import {
   useState,
 } from 'react'
 import { useGetScrollableContainer } from '../../hooks/useScrollableContainer.js'
-import { modalProps, slotProps } from '../Dialog.js'
+import { modalProps, slotProps } from '../Dialog/Dialog.js'
 import type { BottomSheetBase, BottomSheetProps } from './types.js'
 
 export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(

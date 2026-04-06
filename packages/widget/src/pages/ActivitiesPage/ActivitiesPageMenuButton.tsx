@@ -1,19 +1,17 @@
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import type { IconButtonProps } from '@mui/material'
+import { Button, IconButton, MenuItem, useTheme } from '@mui/material'
+import { useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Dialog } from '../../components/Dialog/Dialog.js'
 import {
-  Button,
   DialogActions,
+  DialogContainer,
   DialogContent,
   DialogContentText,
   DialogTitle,
-  IconButton,
-  MenuItem,
-  useTheme,
-} from '@mui/material'
-import { useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Dialog } from '../../components/Dialog.js'
+} from '../../components/Dialog/Dialog.style.js'
 import { Menu } from '../../components/Menu.js'
 import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
@@ -70,18 +68,26 @@ export const ActivitiesPageMenuButton: React.FC<IconButtonProps> = () => {
         </MenuItem>
       </Menu>
       <Dialog open={dialogOpen} onClose={handleDialogClose}>
-        <DialogTitle>{t('warning.title.deleteFailedTransactions')}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            {t('warning.message.deleteFailedTransactions')}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDialogClose}>{t('button.cancel')}</Button>
-          <Button variant="contained" onClick={handleRemoveAllFailed} autoFocus>
-            {t('button.delete')}
-          </Button>
-        </DialogActions>
+        <DialogContainer>
+          <DialogTitle>
+            {t('warning.title.deleteFailedTransactions')}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              {t('warning.message.deleteFailedTransactions')}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleDialogClose}>{t('button.cancel')}</Button>
+            <Button
+              variant="contained"
+              onClick={handleRemoveAllFailed}
+              autoFocus
+            >
+              {t('button.delete')}
+            </Button>
+          </DialogActions>
+        </DialogContainer>
       </Dialog>
     </>
   )

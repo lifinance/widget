@@ -5,7 +5,6 @@ import {
   createTheme as createMuiTheme,
   css,
   darken,
-  dialogActionsClasses,
   keyframes,
   lighten,
   tabsClasses,
@@ -341,9 +340,6 @@ export const createTheme = (widgetTheme: WidgetTheme = {}) => {
           }),
           sizeMedium: ({ ownerState }) => ({
             padding: '10px 14px',
-            [`.${dialogActionsClasses.root} &`]: {
-              padding: '6px 12px',
-            },
             ...getStyleOverrides(
               'MuiButton',
               'sizeMedium',

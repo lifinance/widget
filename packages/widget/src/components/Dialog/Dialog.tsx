@@ -1,7 +1,7 @@
 import type { DialogProps, Theme } from '@mui/material'
 import { Dialog as MuiDialog } from '@mui/material'
 import type { PropsWithChildren } from 'react'
-import { useGetScrollableContainer } from '../hooks/useScrollableContainer.js'
+import { useGetScrollableContainer } from '../../hooks/useScrollableContainer.js'
 
 export const modalProps = {
   sx: {
@@ -33,6 +33,7 @@ export const Dialog: React.FC<PropsWithChildren<DialogProps>> = ({
   children,
   open,
   onClose,
+  slotProps,
 }) => {
   const getContainer = useGetScrollableContainer()
   return (
