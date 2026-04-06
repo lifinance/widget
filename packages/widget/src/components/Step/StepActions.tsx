@@ -1,36 +1,20 @@
 import type { LiFiStep, RouteExtended, StepExtended } from '@lifi/sdk'
 import { useEthereumContext } from '@lifi/widget-provider'
 import ArrowForward from '@mui/icons-material/ArrowForward'
-import ExpandLess from '@mui/icons-material/ExpandLess'
-import ExpandMore from '@mui/icons-material/ExpandMore'
-import type { StepIconProps } from '@mui/material'
-import {
-  Box,
-  Collapse,
-  Divider,
-  Step as MuiStep,
-  Stepper,
-  Typography,
-} from '@mui/material'
-import type { MouseEventHandler } from 'react'
-import { Fragment, useState } from 'react'
+import { Box, Divider, Tooltip } from '@mui/material'
+import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { HiddenUI } from '../../types/widget.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { SmallAvatar } from '../Avatar/SmallAvatar.js'
+import { Card } from '../Card/Card.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
-import type {
-  IncludedStepsProps,
-  StepDetailsLabelProps,
-} from '../StepActions/types.js'
+import type { StepDetailsLabelProps } from '../StepActions/types.js'
 import {
   StepActionsHeader,
   StepActionsTitle,
-  StepConnector,
-  StepContent,
-  StepLabel,
   StepLabelTypography,
 } from './StepActions.style.js'
 
@@ -38,147 +22,141 @@ export const StepActions: React.FC<{
   route: RouteExtended
 }> = ({ route }) => {
   const { t } = useTranslation()
-  const [cardExpanded, setCardExpanded] = useState(false)
+  const { subvariant, subvariantOptions, feeConfig, hiddenUI } =
+    useWidgetConfig()
+  const { isGaslessStep } = useEthereumContext()
 
-  const handleExpand: MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.stopPropagation()
-    setCardExpanded((expanded) => !expanded)
-  }
+  const headerIncludedSteps = route.steps.flatMap((step) => step.includedSteps)
 
-  const includedSteps = route.steps.flatMap((step) => step.includedSteps)
+  const flatSteps = route.steps.flatMap((routeStep) => {
+    let steps = routeStep.includedSteps
+    if (hiddenUI?.includes(HiddenUI.IntegratorStepDetails)) {
+      const feeCollectionStep = steps.find((s) => s.tool === 'feeCollection')
+      if (feeCollectionStep) {
+        steps = structuredClone(steps.filter((s) => s.tool !== 'feeCollection'))
+        steps[0].estimate.fromAmount = feeCollectionStep.estimate.fromAmount
+      }
+    }
+    const hasGaslessSupport = !!isGaslessStep?.(routeStep)
+    return steps.map((includedStep) => ({ includedStep, hasGaslessSupport }))
+  })
+
+  const tooltipContent = (
+    <Card indented>
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: '32px 1fr',
+          columnGap: 1.5,
+        }}
+      >
+        {flatSteps.map(({ includedStep: step, hasGaslessSupport }, i, arr) => {
+          const showDivider = i !== arr.length - 1
+          const isFeeCollection =
+            step.type === 'protocol' && step.tool === 'feeCollection'
+          const toolName =
+            isFeeCollection && feeConfig?.name
+              ? feeConfig.name
+              : step.toolDetails.name
+          const toolLogoURI =
+            isFeeCollection && feeConfig?.logoURI
+              ? feeConfig.logoURI
+              : step.toolDetails.logoURI
+
+          return (
+            <Fragment key={step.id}>
+              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                {toolLogoURI ? (
+                  <SmallAvatar
+                    src={toolLogoURI}
+                    alt={toolName}
+                    sx={{ width: 32, height: 32 }}
+                  >
+                    {toolName?.[0]}
+                  </SmallAvatar>
+                ) : null}
+              </Box>
+              <Box
+                sx={{ display: 'flex', flexDirection: 'column', minHeight: 32 }}
+              >
+                {step.type === 'custom' && subvariant === 'custom' ? (
+                  <CustomStepDetailsLabel
+                    step={step}
+                    subvariant={subvariant}
+                    subvariantOptions={subvariantOptions}
+                  />
+                ) : step.type === 'cross' ? (
+                  <BridgeStepDetailsLabel step={step} />
+                ) : step.type === 'protocol' ? (
+                  <ProtocolStepDetailsLabel
+                    step={step}
+                    feeConfig={feeConfig}
+                    relayerSupport={hasGaslessSupport}
+                  />
+                ) : (
+                  <SwapStepDetailsLabel step={step} />
+                )}
+                <StepDetailsContent step={step} />
+              </Box>
+              {showDivider && (
+                <Box sx={{ display: 'flex', alignItems: 'center', px: '15px' }}>
+                  <Divider
+                    orientation="vertical"
+                    sx={{ my: 0.5, height: 8, borderRightWidth: 2 }}
+                  />
+                </Box>
+              )}
+              {showDivider && <Box />}
+            </Fragment>
+          )
+        })}
+      </Box>
+    </Card>
+  )
 
   return (
-    <Box>
+    <Tooltip
+      title={tooltipContent}
+      placement="bottom-end"
+      arrow={false}
+      slotProps={{
+        tooltip: {
+          sx: {
+            bgcolor: 'transparent',
+            p: 0,
+            boxShadow: 'none',
+            maxWidth: 'none',
+          },
+        },
+      }}
+    >
       <StepActionsHeader>
         <StepActionsTitle>{t('main.route')}</StepActionsTitle>
         <CardIconButton
-          onClick={handleExpand}
           size="small"
           sx={(theme) => ({
             borderRadius: theme.vars.shape.borderRadiusSecondary,
           })}
         >
-          {cardExpanded ? (
-            <ExpandLess fontSize="inherit" />
-          ) : (
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              {includedSteps.map((includedStep, index) => (
-                <Fragment key={index}>
-                  {index > 0 ? (
-                    <Divider sx={{ width: 8, mx: 0.5, borderWidth: 1 }} />
-                  ) : null}
-                  <SmallAvatar
-                    src={includedStep.toolDetails.logoURI}
-                    alt={includedStep.toolDetails.name}
-                    sx={{ width: 16, height: 16 }}
-                  >
-                    {includedStep.toolDetails.name[0]}
-                  </SmallAvatar>
-                </Fragment>
-              ))}
-              <ExpandMore fontSize="inherit" sx={{ ml: 0.5 }} />
-            </Box>
-          )}
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {headerIncludedSteps.map((includedStep, index) => (
+              <Fragment key={index}>
+                {index > 0 ? (
+                  <Divider sx={{ width: 8, mx: 0.5, borderWidth: 1 }} />
+                ) : null}
+                <SmallAvatar
+                  src={includedStep.toolDetails.logoURI}
+                  alt={includedStep.toolDetails.name}
+                  sx={{ width: 16, height: 16 }}
+                >
+                  {includedStep.toolDetails.name[0]}
+                </SmallAvatar>
+              </Fragment>
+            ))}
+          </Box>
         </CardIconButton>
       </StepActionsHeader>
-      <Collapse timeout={225} in={cardExpanded} mountOnEnter unmountOnExit>
-        {route.steps.map((step) => (
-          <IncludedSteps key={step.id} step={step} />
-        ))}
-      </Collapse>
-    </Box>
-  )
-}
-
-const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
-  const { subvariant, subvariantOptions, feeConfig, hiddenUI } =
-    useWidgetConfig()
-  const { isGaslessStep } = useEthereumContext()
-
-  let includedSteps = step.includedSteps
-  if (hiddenUI?.includes(HiddenUI.IntegratorStepDetails)) {
-    const feeCollectionStep = includedSteps.find(
-      (step) => step.tool === 'feeCollection'
-    )
-    if (feeCollectionStep) {
-      includedSteps = structuredClone(
-        includedSteps.filter((step) => step.tool !== 'feeCollection')
-      )
-      includedSteps[0].estimate.fromAmount =
-        feeCollectionStep.estimate.fromAmount
-    }
-  }
-
-  // biome-ignore lint/correctness/noNestedComponentDefinitions: part of the flow
-  const StepIconComponent = ({ icon }: StepIconProps) => {
-    const includedStep = includedSteps?.[Number(icon) - 1]
-    const feeCollectionStep =
-      includedStep?.type === 'protocol' &&
-      includedStep?.tool === 'feeCollection'
-    const toolName =
-      feeCollectionStep && feeConfig?.name
-        ? feeConfig?.name
-        : includedStep?.toolDetails.name
-    const toolLogoURI =
-      feeCollectionStep && feeConfig?.logoURI
-        ? feeConfig?.logoURI
-        : includedStep?.toolDetails.logoURI
-    return toolLogoURI ? (
-      <SmallAvatar
-        src={toolLogoURI}
-        alt={toolName}
-        sx={{ width: 32, height: 32 }}
-      >
-        {toolName?.[0]}
-      </SmallAvatar>
-    ) : null
-  }
-
-  const hasGaslessSupport = !!isGaslessStep?.(step)
-
-  return (
-    <Box
-      sx={{
-        my: 1,
-      }}
-    >
-      <Stepper
-        orientation="vertical"
-        connector={<StepConnector />}
-        activeStep={-1}
-      >
-        {includedSteps.map((step, i, includedSteps) => (
-          <MuiStep key={step.id} expanded>
-            <StepLabel
-              slots={{
-                stepIcon: StepIconComponent,
-              }}
-            >
-              {step.type === 'custom' && subvariant === 'custom' ? (
-                <CustomStepDetailsLabel
-                  step={step}
-                  subvariant={subvariant}
-                  subvariantOptions={subvariantOptions}
-                />
-              ) : step.type === 'cross' ? (
-                <BridgeStepDetailsLabel step={step} />
-              ) : step.type === 'protocol' ? (
-                <ProtocolStepDetailsLabel
-                  step={step}
-                  feeConfig={feeConfig}
-                  relayerSupport={hasGaslessSupport}
-                />
-              ) : (
-                <SwapStepDetailsLabel step={step} />
-              )}
-            </StepLabel>
-            <StepContent last={i === includedSteps.length - 1}>
-              <StepDetailsContent step={step} />
-            </StepContent>
-          </MuiStep>
-        ))}
-      </Stepper>
-    </Box>
+    </Tooltip>
   )
 }
 
@@ -214,16 +192,7 @@ const StepDetailsContent: React.FC<{
     step.type !== 'custom' && step.tool !== 'custom' && !sameTokenProtocolStep
 
   return (
-    <Typography
-      sx={{
-        fontSize: 12,
-        lineHeight: 1,
-        fontWeight: '500',
-        color: 'text.secondary',
-        alignItems: 'center',
-        display: 'flex',
-      }}
-    >
+    <StepLabelTypography>
       {!showToAmount ? (
         <>
           {t('format.tokenAmount', {
@@ -260,7 +229,7 @@ const StepDetailsContent: React.FC<{
           ),
         })})`
       )}
-    </Typography>
+    </StepLabelTypography>
   )
 }
 
