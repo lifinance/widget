@@ -4,7 +4,7 @@ import { Tooltip } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useRouteExecutionIndicator } from '../../stores/routes/useRouteExecutionIndicators.js'
+import { useRouteExecutionIndicator } from '../../stores/routes/useRouteExecutionIndicator.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { CircularProgressPending } from '../Step/CircularProgress.style.js'
 import {

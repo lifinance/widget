@@ -3,6 +3,7 @@ import { getTransactionHistory } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import type { QueryFunction } from '@tanstack/react-query'
 import { useQueries } from '@tanstack/react-query'
+import { useEffect, useMemo } from 'react'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useRouteExecutionStoreContext } from '../stores/routes/RouteExecutionStore.js'
@@ -81,26 +82,36 @@ export const useTransactionHistory = (): {
           return routeExecution ? [routeExecution] : []
         }
       )
-      // Remove local store routes that the API has already indexed,
-      // so they don't appear twice in the transaction list.
-      if (data.length) {
-        const apiTxHashes = new Set(data.map((r) => getSourceTxHash(r.route)))
-        const { routes, deleteRoute } = store.getState() as RouteExecutionState
-        for (const [id, routeExecution] of Object.entries(routes)) {
-          const txHash = getSourceTxHash(
-            (routeExecution as RouteExecution | undefined)?.route
-          )
-          if (txHash && apiTxHashes.has(txHash)) {
-            deleteRoute(id)
-          }
-        }
-      }
       return {
         data,
         isLoading: results.some((result) => result.isLoading),
       }
     },
   })
+
+  // Stable Set — only recreated when data actually changes (TanStack Query structural sharing).
+  const apiTxHashes = useMemo(
+    () => new Set(routeExecutions.map((r) => getSourceTxHash(r.route))),
+    [routeExecutions]
+  )
+
+  // Remove local store routes already indexed by the API to avoid duplicates.
+  // Must be in an effect — combine runs during render, so store mutations there
+  // would trigger "Cannot update a component while rendering" in concurrent mode.
+  useEffect(() => {
+    if (!apiTxHashes.size) {
+      return
+    }
+    const { routes, deleteRoute } = store.getState() as RouteExecutionState
+    for (const [id, routeExecution] of Object.entries(routes)) {
+      const txHash = getSourceTxHash(
+        (routeExecution as RouteExecution | undefined)?.route
+      )
+      if (txHash && apiTxHashes.has(txHash)) {
+        deleteRoute(id)
+      }
+    }
+  }, [apiTxHashes, store])
 
   return {
     data: routeExecutions,

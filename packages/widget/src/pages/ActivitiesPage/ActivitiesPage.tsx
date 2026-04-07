@@ -1,6 +1,7 @@
+import { useAccount } from '@lifi/wallet-management'
 import { Box, List } from '@mui/material'
 import { useVirtualizer } from '@tanstack/react-virtual'
-import { type JSX, useCallback, useRef } from 'react'
+import { type JSX, useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { PageContainer } from '../../components/PageContainer.js'
 import { useHeader } from '../../hooks/useHeader.js'
@@ -21,9 +22,20 @@ export const ActivitiesPage = (): JSX.Element => {
   const parentRef = useRef<HTMLDivElement | null>(null)
   const { items, isLoading } = useTransactionList()
   const { t } = useTranslation()
-  const hasFailedItems = useRouteExecutionStore((state) =>
-    Object.values(state.routes).some(
-      (r) => r?.status === RouteExecutionStatus.Failed
+  const { accounts } = useAccount()
+  const accountAddresses = useMemo(
+    () => accounts.map((account) => account.address),
+    [accounts]
+  )
+  const hasFailedItems = useRouteExecutionStore(
+    useCallback(
+      (state) =>
+        Object.values(state.routes).some(
+          (r) =>
+            r?.status === RouteExecutionStatus.Failed &&
+            accountAddresses.includes(r.route.fromAddress)
+        ),
+      [accountAddresses]
     )
   )
 
