@@ -42,7 +42,18 @@ const emitEventOnChange = <T extends (...args: any[]) => any>(
   }
 }
 
-export const useSettingsActions = () => {
+export const useSettingsActions = (): {
+  setValue: ValueSetter<SettingsProps>
+  setValues: (values: Partial<SettingsProps>) => void
+  setDefaultSettings: (config?: WidgetConfig) => void
+  resetSettings: (bridges: string[], exchanges: string[]) => void
+  setToolValue: (
+    toolType: SettingsToolType,
+    tool: string,
+    value: boolean
+  ) => void
+  toggleToolKeys: (toolType: SettingsToolType, toolKeys: string[]) => void
+} => {
   const emitter = useWidgetEvents()
   const actions = useSettingsStore((state) => ({
     setValue: state.setValue,

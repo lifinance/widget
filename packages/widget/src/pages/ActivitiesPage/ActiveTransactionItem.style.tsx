@@ -1,5 +1,6 @@
 import type { Theme } from '@mui/material'
 import { Box, IconButton, styled } from '@mui/material'
+import type React from 'react'
 
 type StatusIconColor = 'error' | 'info'
 
@@ -8,7 +9,9 @@ const getStatusIconChannel = (color: StatusIconColor, theme: Theme) =>
     ? theme.vars.palette.error.mainChannel
     : theme.vars.palette.info.mainChannel
 
-export const StatusIconCircle = styled(Box, {
+export const StatusIconCircle: React.FC<
+  React.ComponentProps<typeof Box> & { color: StatusIconColor }
+> = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'color',
 })<{ color: StatusIconColor }>(({ theme, color }) => {
   const channel = getStatusIconChannel(color, theme)
@@ -33,7 +36,9 @@ export const StatusIconCircle = styled(Box, {
   }
 })
 
-export const PendingCircle = styled(Box)(({ theme }) => ({
+export const PendingCircle: React.FC<React.ComponentProps<typeof Box>> = styled(
+  Box
+)(({ theme }) => ({
   position: 'relative',
   width: 24,
   height: 24,
@@ -45,7 +50,9 @@ export const PendingCircle = styled(Box)(({ theme }) => ({
   }),
 }))
 
-export const StatusRow = styled(Box)(({ theme }) => ({
+export const StatusRow: React.FC<React.ComponentProps<typeof Box>> = styled(
+  Box
+)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
@@ -55,9 +62,10 @@ export const StatusRow = styled(Box)(({ theme }) => ({
   backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
 }))
 
-export const DeleteButton = styled(IconButton)(({ theme }) => ({
-  padding: theme.spacing(0.5),
-  backgroundColor: theme.vars.palette.background.paper,
-  width: 24,
-  height: 24,
-}))
+export const DeleteButton: React.FC<React.ComponentProps<typeof IconButton>> =
+  styled(IconButton)(({ theme }) => ({
+    padding: theme.spacing(0.5),
+    backgroundColor: theme.vars.palette.background.paper,
+    width: 24,
+    height: 24,
+  }))

@@ -1,6 +1,7 @@
 import { createClient, type SDKClient } from '@lifi/sdk'
 import {
   createContext,
+  type JSX,
   type PropsWithChildren,
   useContext,
   useMemo,
@@ -10,9 +11,11 @@ import { useWidgetConfig } from './WidgetProvider/WidgetProvider.js'
 
 const SDKClientContext = createContext<SDKClient>({} as SDKClient)
 
-export const useSDKClient = () => useContext(SDKClientContext)
+export const useSDKClient = (): SDKClient => useContext(SDKClientContext)
 
-export const SDKClientProvider = ({ children }: PropsWithChildren) => {
+export const SDKClientProvider = ({
+  children,
+}: PropsWithChildren): JSX.Element => {
   const {
     sdkConfig,
     apiKey,

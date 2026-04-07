@@ -18,7 +18,10 @@ import { useTransactionHistory } from './useTransactionHistory.js'
 
 const routesSelector = (state: RouteExecutionState) => state.routes
 
-export const useTransactionList = () => {
+export const useTransactionList = (): {
+  items: TransactionListItem[]
+  isLoading: boolean
+} => {
   const { accounts } = useAccount()
   const accountAddresses = useMemo(
     () => accounts.map((account) => account.address),

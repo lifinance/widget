@@ -1,4 +1,5 @@
 import type { Route, RouteExtended } from '@lifi/sdk'
+import type { StoreApi, UseBoundStore } from 'zustand'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { hasEnumFlag } from '../../utils/enum.js'
@@ -12,7 +13,9 @@ import {
   isRouteRefunded,
 } from './utils.js'
 
-export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
+export const createRouteExecutionStore = ({
+  namePrefix,
+}: PersistStoreProps): UseBoundStore<StoreApi<RouteExecutionState>> =>
   create<RouteExecutionState>()(
     persist(
       (set, get) => ({

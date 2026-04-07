@@ -3,14 +3,14 @@ import { Dialog as MuiDialog } from '@mui/material'
 import type { PropsWithChildren } from 'react'
 import { useGetScrollableContainer } from '../../hooks/useScrollableContainer.js'
 
-export const modalProps = {
+export const modalProps: { sx: { position: string; overflow: string } } = {
   sx: {
     position: 'absolute',
     overflow: 'hidden',
   },
 }
 
-export const slotProps = {
+export const slotProps: DialogProps['slotProps'] = {
   paper: {
     sx: (theme: Theme) => ({
       position: 'absolute',

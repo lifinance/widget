@@ -5,8 +5,11 @@ import {
   IconButton as MuiIconButton,
   styled,
 } from '@mui/material'
+import type React from 'react'
 
-export const ErrorBadge = styled(Badge)(({ theme }) => ({
+export const ErrorBadge: React.FC<React.ComponentProps<typeof Badge>> = styled(
+  Badge
+)(({ theme }) => ({
   '& .MuiBadge-badge': {
     padding: 0,
     minWidth: 'unset',
@@ -20,14 +23,18 @@ export const ErrorBadge = styled(Badge)(({ theme }) => ({
   },
 }))
 
-export const IconContainer = styled(Box)(() => ({
+export const IconContainer: React.FC<React.ComponentProps<typeof Box>> = styled(
+  Box
+)(() => ({
   position: 'relative',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
 }))
 
-export const ActivitiesIconButton = styled(MuiIconButton, {
+export const ActivitiesIconButton: React.FC<
+  React.ComponentProps<typeof MuiIconButton> & { active?: boolean }
+> = styled(MuiIconButton, {
   shouldForwardProp: (prop) => prop !== 'active',
 })<{ active?: boolean }>({
   variants: [
@@ -49,7 +56,9 @@ export const ActivitiesIconButton = styled(MuiIconButton, {
   ],
 })
 
-export const ProgressTrack = styled(MuiCircularProgress)(({ theme }) => ({
+export const ProgressTrack: React.FC<
+  React.ComponentProps<typeof MuiCircularProgress>
+> = styled(MuiCircularProgress)(({ theme }) => ({
   position: 'absolute',
   color: theme.vars.palette.grey[300],
   ...theme.applyStyles('dark', {

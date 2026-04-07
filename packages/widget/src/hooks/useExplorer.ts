@@ -17,7 +17,10 @@ type TransactionLinkProps = { chain?: Chain | number } & (
     }
 )
 
-export const useExplorer = () => {
+export const useExplorer = (): {
+  getTransactionLink: (props: TransactionLinkProps) => string | undefined
+  getAddressLink: (address: string, chain?: Chain | number) => string
+} => {
   const { explorerUrls } = useWidgetConfig()
   const { getChainById } = useAvailableChains()
 

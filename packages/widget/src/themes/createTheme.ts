@@ -1,4 +1,9 @@
-import type { CSSObject, Shape, SimplePaletteColorOptions } from '@mui/material'
+import type {
+  CSSObject,
+  Shape,
+  SimplePaletteColorOptions,
+  Theme,
+} from '@mui/material'
 import {
   alpha,
   buttonClasses,
@@ -32,7 +37,7 @@ const enterKeyframe = keyframes`
   }
 `
 
-export const createTheme = (widgetTheme: WidgetTheme = {}) => {
+export const createTheme = (widgetTheme: WidgetTheme = {}): Theme => {
   const configuredPaletteLight =
     widgetTheme.colorSchemes?.light?.palette ?? widgetTheme.palette
   const configuredPaletteDark =
@@ -116,11 +121,7 @@ export const createTheme = (widgetTheme: WidgetTheme = {}) => {
         },
       },
     },
-    container: {
-      // Set height to 'fit-content' if not explicitly set
-      height: 'fit-content',
-      ...widgetTheme.container,
-    },
+    container: widgetTheme.container,
     routesContainer: widgetTheme.routesContainer,
     chainSidebarContainer: widgetTheme.chainSidebarContainer,
     header: widgetTheme.header,

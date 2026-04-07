@@ -11,7 +11,11 @@ import { useSettings } from '../stores/settings/useSettings.js'
 import { useSettingsActions } from '../stores/settings/useSettingsActions.js'
 import { getConfigItemSets, isItemAllowedForSets } from '../utils/item.js'
 
-export const useLanguages = () => {
+export const useLanguages = (): {
+  availableLanguages: LanguageKey[]
+  selectedLanguageCode: LanguageKey | string
+  setLanguageWithCode: (languageCode: LanguageKey) => void
+} => {
   const { i18n } = useTranslation()
   const { languages: languagesConfig, languageResources } = useWidgetConfig()
   const { language } = useSettings(['language'])
@@ -82,7 +86,7 @@ export const useLanguages = () => {
     : languagesConfig?.default || 'en'
 
   return {
-    availableLanguages: sortedLanguages,
+    availableLanguages: sortedLanguages as LanguageKey[],
     selectedLanguageCode: selectedLanguageCode,
     setLanguageWithCode: handleLanguageChange,
   }

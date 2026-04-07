@@ -1,3 +1,4 @@
+import type { ExtendedChain } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
@@ -8,7 +9,13 @@ import { useGasRecommendation } from './useGasRecommendation.js'
 import { useIsContractAddress } from './useIsContractAddress.js'
 import { useTokenBalance } from './useTokenBalance.js'
 
-export const useGasRefuel = () => {
+export const useGasRefuel = (): {
+  enabled: boolean
+  availble: boolean | undefined
+  isLoading: boolean
+  chain: ExtendedChain | undefined
+  fromAmount: string | undefined
+} => {
   const { getChainById } = useAvailableChains()
   const { hiddenUI } = useWidgetConfig()
   const [fromChainId, fromTokenAddress, toChainId, toAddress] = useFieldValues(

@@ -1,7 +1,7 @@
 import type { ExchangeRateUpdateParams } from '@lifi/sdk'
 import WarningRounded from '@mui/icons-material/WarningRounded'
 import { Box, Button, Typography } from '@mui/material'
-import type { RefObject } from 'react'
+import type { ForwardRefExoticComponent, RefAttributes, RefObject } from 'react'
 import {
   forwardRef,
   useCallback,
@@ -28,61 +28,62 @@ interface ExchangeRateBottomSheetProps {
   onCancel?(): void
 }
 
-export const ExchangeRateBottomSheet = forwardRef<
-  ExchangeRateBottomSheetBase,
-  ExchangeRateBottomSheetProps
->(({ onContinue, onCancel }, ref) => {
-  const [data, setData] = useState<ExchangeRateUpdateParams>()
-  const bottomSheetRef = useRef<BottomSheetBase>(null)
-  const resolverRef = useRef<(value: boolean) => void>(null)
+export const ExchangeRateBottomSheet: ForwardRefExoticComponent<
+  ExchangeRateBottomSheetProps & RefAttributes<ExchangeRateBottomSheetBase>
+> = forwardRef<ExchangeRateBottomSheetBase, ExchangeRateBottomSheetProps>(
+  ({ onContinue, onCancel }, ref) => {
+    const [data, setData] = useState<ExchangeRateUpdateParams>()
+    const bottomSheetRef = useRef<BottomSheetBase>(null)
+    const resolverRef = useRef<(value: boolean) => void>(null)
 
-  const handleContinue = () => {
-    ;(ref as RefObject<ExchangeRateBottomSheetBase>).current?.close(true)
-    onContinue?.()
-  }
+    const handleContinue = () => {
+      ;(ref as RefObject<ExchangeRateBottomSheetBase>).current?.close(true)
+      onContinue?.()
+    }
 
-  const handleCancel = useCallback(() => {
-    ;(ref as RefObject<ExchangeRateBottomSheetBase>).current?.close(false)
-    onCancel?.()
-  }, [onCancel, ref])
+    const handleCancel = useCallback(() => {
+      ;(ref as RefObject<ExchangeRateBottomSheetBase>).current?.close(false)
+      onCancel?.()
+    }, [onCancel, ref])
 
-  const handleClose = useCallback(() => {
-    ;(ref as RefObject<ExchangeRateBottomSheetBase>).current?.close(
-      false,
-      false
+    const handleClose = useCallback(() => {
+      ;(ref as RefObject<ExchangeRateBottomSheetBase>).current?.close(
+        false,
+        false
+      )
+      onCancel?.()
+    }, [onCancel, ref])
+
+    useImperativeHandle(
+      ref,
+      () => ({
+        isOpen: () => bottomSheetRef.current?.isOpen(),
+        open: (resolver, data) => {
+          setData(data)
+          resolverRef.current = resolver
+          bottomSheetRef.current?.open()
+        },
+        close: (value = false, bottomSheetClose = true) => {
+          resolverRef.current?.(value)
+          if (bottomSheetClose) {
+            bottomSheetRef.current?.close()
+          }
+        },
+      }),
+      []
     )
-    onCancel?.()
-  }, [onCancel, ref])
 
-  useImperativeHandle(
-    ref,
-    () => ({
-      isOpen: () => bottomSheetRef.current?.isOpen(),
-      open: (resolver, data) => {
-        setData(data)
-        resolverRef.current = resolver
-        bottomSheetRef.current?.open()
-      },
-      close: (value = false, bottomSheetClose = true) => {
-        resolverRef.current?.(value)
-        if (bottomSheetClose) {
-          bottomSheetRef.current?.close()
-        }
-      },
-    }),
-    []
-  )
-
-  return (
-    <BottomSheet ref={bottomSheetRef} onClose={handleClose}>
-      <ExchangeRateBottomSheetContent
-        data={data}
-        onContinue={handleContinue}
-        onCancel={handleCancel}
-      />
-    </BottomSheet>
-  )
-})
+    return (
+      <BottomSheet ref={bottomSheetRef} onClose={handleClose}>
+        <ExchangeRateBottomSheetContent
+          data={data}
+          onContinue={handleContinue}
+          onCancel={handleCancel}
+        />
+      </BottomSheet>
+    )
+  }
+)
 
 const ExchangeRateBottomSheetContent: React.FC<
   ExchangeRateBottomSheetProps

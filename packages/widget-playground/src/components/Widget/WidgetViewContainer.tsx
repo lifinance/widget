@@ -1,6 +1,6 @@
 import MenuOpenIcon from '@mui/icons-material/MenuOpen'
 import { Box, Tooltip } from '@mui/material'
-import type { PropsWithChildren } from 'react'
+import type { JSX, PropsWithChildren } from 'react'
 import { ExternalWalletProvider } from '../../providers/ExternalWalletProvider/ExternalWalletProvider.js'
 import { useDrawerToolValues } from '../../store/editTools/useDrawerToolValues.js'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
@@ -23,7 +23,7 @@ interface WidgetViewContainerProps extends PropsWithChildren {
 export function WidgetViewContainer({
   children,
   toggleDrawer,
-}: WidgetViewContainerProps) {
+}: WidgetViewContainerProps): JSX.Element {
   const { config } = useConfig()
   const { isDrawerOpen, drawerWidth } = useDrawerToolValues()
   const { setDrawerOpen } = useEditToolsActions()
@@ -38,10 +38,6 @@ export function WidgetViewContainer({
 
   const showHeader = isFullHeightLayout && showMockHeader
   const showFooter = isFullHeightLayout && showMockFooter
-
-  const isDefault =
-    !config?.theme?.container?.height ||
-    config?.theme?.container?.height === 'fit-content'
 
   return (
     <Main open={isDrawerOpen} drawerWidth={drawerWidth}>
@@ -64,11 +60,8 @@ export function WidgetViewContainer({
           ) : null}
         </FloatingToolsContainer>
         <WidgetContainer
-          removePaddingTop={
-            (config?.theme?.container?.height === '100%' && !showHeader) ||
-            (config?.theme?.container?.display === 'flex' && !showHeader)
-          }
-          alignTop={config?.theme?.container?.display === 'flex'}
+          removePaddingTop={isFullHeightLayout && !showHeader}
+          alignTop={isFullHeightLayout}
         >
           {showHeader ? (
             <MockElement sx={{ position: 'fixed', zIndex: 1, top: 0 }}>
@@ -76,11 +69,7 @@ export function WidgetViewContainer({
             </MockElement>
           ) : null}
           <WidgetContainerRow
-            sx={
-              (isFullHeightLayout && isFooterFixed) || isDefault
-                ? { marginBottom: 6 }
-                : undefined
-            }
+            sx={{ marginBottom: !isFullHeightLayout || isFooterFixed ? 6 : 0 }}
           >
             {children}
           </WidgetContainerRow>

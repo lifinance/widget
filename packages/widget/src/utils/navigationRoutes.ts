@@ -20,9 +20,9 @@ export const navigationRoutes = {
   configuredWallets: 'configured-wallets',
 }
 
-export const navigationRoutesValues = Object.values(navigationRoutes)
+export const navigationRoutesValues: string[] = Object.values(navigationRoutes)
 
-export const stickyHeaderRoutes = [
+export const stickyHeaderRoutes: string[] = [
   navigationRoutes.activities,
   navigationRoutes.bridges,
   navigationRoutes.exchanges,
@@ -41,7 +41,7 @@ export const stickyHeaderRoutes = [
   navigationRoutes.configuredWallets,
 ]
 
-export const backButtonRoutes = [
+export const backButtonRoutes: string[] = [
   navigationRoutes.activities,
   navigationRoutes.bridges,
   navigationRoutes.exchanges,

@@ -1,6 +1,7 @@
 import PushPinIcon from '@mui/icons-material/PushPin'
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined'
 import { IconButton } from '@mui/material'
+import type { JSX } from 'react'
 
 interface PinChainButtonProps {
   isPinned: boolean
@@ -10,7 +11,10 @@ interface PinChainButtonProps {
 export const pinButtonClassName = 'pin-button'
 const animationDuration = 225
 
-export const PinChainButton = ({ isPinned, onPin }: PinChainButtonProps) => {
+export const PinChainButton = ({
+  isPinned,
+  onPin,
+}: PinChainButtonProps): JSX.Element => {
   const PinIcon = isPinned ? PushPinIcon : PushPinOutlinedIcon
   return (
     <IconButton

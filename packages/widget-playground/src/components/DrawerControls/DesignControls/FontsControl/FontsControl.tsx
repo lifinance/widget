@@ -1,6 +1,6 @@
 import InfoIcon from '@mui/icons-material/Info'
 import { CircularProgress, TextField } from '@mui/material'
-import type { FocusEventHandler, SyntheticEvent } from 'react'
+import type { FocusEventHandler, JSX, SyntheticEvent } from 'react'
 import { useCallback } from 'react'
 import { useFontLoader } from '../../../../providers/FontLoaderProvider/FontLoaderProvider.js'
 import type { Font } from '../../../../providers/FontLoaderProvider/types.js'
@@ -17,7 +17,7 @@ const getCompleteFontFamily = (font: Font) =>
   font.fallbackFonts
     ? [font.family, font.fallbackFonts].join(', ')
     : font.family
-export const FontsControl = () => {
+export const FontsControl = (): JSX.Element => {
   const { setFontFamily } = useConfigActions()
   const { selectedFont } = useFontToolValues()
   const { setSelectedFont } = useEditToolsActions()

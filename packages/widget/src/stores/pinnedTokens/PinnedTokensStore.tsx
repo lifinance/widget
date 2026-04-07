@@ -25,7 +25,7 @@ export const PinnedTokensStoreProvider: React.FC<PersistStoreProviderProps> = ({
 
 export function usePinnedTokensStore<T>(
   selector: (store: PinnedTokensState) => T
-) {
+): T {
   const useStore = useContext(PinnedTokensStoreContext)
 
   if (!useStore) {

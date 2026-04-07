@@ -22,7 +22,12 @@ export interface GasSufficiency {
 
 const refetchInterval = 30_000
 
-export const useGasSufficiency = (route?: RouteExtended) => {
+export const useGasSufficiency = (
+  route?: RouteExtended
+): {
+  insufficientGas: GasSufficiency[] | undefined
+  isLoading: boolean
+} => {
   const { getChainById } = useAvailableChains()
   const { account: EVMAccount, accounts } = useAccount({
     chainType: ChainType.EVM,

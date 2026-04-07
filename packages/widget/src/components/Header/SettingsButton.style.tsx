@@ -4,8 +4,11 @@ import {
   Badge as MuiBadge,
   styled,
 } from '@mui/material'
+import type React from 'react'
 
-export const SettingsIconBadge = styled(MuiBadge)(({ theme }) => ({
+export const SettingsIconBadge: React.FC<
+  React.ComponentProps<typeof MuiBadge>
+> = styled(MuiBadge)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   gap: theme.spacing(1.25),
@@ -21,7 +24,9 @@ interface SettingsIconButtonProps {
   variant?: 'info' | 'warning'
 }
 
-export const SettingsIconButton = styled(IconButton, {
+export const SettingsIconButton: React.FC<
+  React.ComponentProps<typeof IconButton> & SettingsIconButtonProps
+> = styled(IconButton, {
   shouldForwardProp: (props) => props !== 'variant',
 })<SettingsIconButtonProps>(({ theme, variant }) => {
   switch (variant) {

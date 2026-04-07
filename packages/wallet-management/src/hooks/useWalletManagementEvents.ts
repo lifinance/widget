@@ -6,8 +6,10 @@ const mitt = _mitt as unknown as <Events extends Record<EventType, unknown>>(
   all?: EventHandlerMap<Events>
 ) => Emitter<Events>
 
-export const widgetEvents = mitt<WalletManagementEvents>()
+export const widgetEvents: Emitter<WalletManagementEvents> =
+  mitt<WalletManagementEvents>()
 
-export const useWalletManagementEvents = () => {
-  return widgetEvents
-}
+export const useWalletManagementEvents =
+  (): Emitter<WalletManagementEvents> => {
+    return widgetEvents
+  }

@@ -4,7 +4,10 @@ import { setQueryStringParam } from '../utils/setQueryStringParam.js'
 
 const queryStringKey = 'devView'
 
-export const useDevView = () => {
+export const useDevView = (): {
+  isDevView: boolean
+  toggleDevView: () => void
+} => {
   const isDevView = useEditToolsStore((store) => store.isDevView)
   const { setIsDevView } = useEditToolsActions()
 

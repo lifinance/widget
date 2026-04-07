@@ -1,5 +1,6 @@
 import type { ContainerProps } from '@mui/material'
 import { Container, styled } from '@mui/material'
+import type React from 'react'
 
 export interface PageContainerProps extends ContainerProps {
   halfGutters?: boolean
@@ -7,7 +8,9 @@ export interface PageContainerProps extends ContainerProps {
   bottomGutters?: boolean
 }
 
-export const PageContainer = styled(Container, {
+export const PageContainer: React.FC<
+  React.ComponentProps<typeof Container> & PageContainerProps
+> = styled(Container, {
   shouldForwardProp: (prop) =>
     !['halfGutters', 'topGutters', 'bottomGutters'].includes(prop as string),
 })<PageContainerProps>(({ theme, halfGutters, topGutters, bottomGutters }) => ({

@@ -3,8 +3,11 @@ import {
   ListItemButton as MuiListItemButton,
   styled,
 } from '@mui/material'
+import type React from 'react'
 
-export const ListItemButton = styled(MuiListItemButton)(({ theme }) => {
+export const ListItemButton: React.FC<
+  React.ComponentProps<typeof MuiListItemButton>
+> = styled(MuiListItemButton)(({ theme }) => {
   return {
     borderRadius: theme.vars.shape.borderRadius,
     paddingLeft: theme.spacing(1.5),

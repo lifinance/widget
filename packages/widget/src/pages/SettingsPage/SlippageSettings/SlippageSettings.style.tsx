@@ -6,8 +6,11 @@ import {
   inputBaseClasses,
   styled,
 } from '@mui/material'
+import type React from 'react'
 
-export const SettingsFieldSet = styled(Box)(({ theme }) => ({
+export const SettingsFieldSet: React.FC<
+  React.ComponentProps<typeof Box> & SettingsControlProps
+> = styled(Box)(({ theme }) => ({
   display: 'flex',
   borderRadius: theme.vars.shape.borderRadius,
   padding: theme.spacing(0.5),
@@ -33,64 +36,66 @@ interface SettingsControlProps {
   selected?: boolean
 }
 
-export const SettingsDefaultButton = styled(ButtonBase)<SettingsControlProps>(
-  ({ theme, selected }) => {
-    const settingsControlSelectedStyles = settingsControlSelected(theme)
-    const selectedStyle = selected
-      ? {
-          '&:not(:focus)': {
-            ...settingsControlSelectedStyles,
-          },
-        }
-      : {}
+export const SettingsDefaultButton: React.FC<
+  React.ComponentProps<typeof ButtonBase> & SettingsControlProps
+> = styled(ButtonBase)<SettingsControlProps>(({ theme, selected }) => {
+  const settingsControlSelectedStyles = settingsControlSelected(theme)
+  const selectedStyle = selected
+    ? {
+        '&:not(:focus)': {
+          ...settingsControlSelectedStyles,
+        },
+      }
+    : {}
 
-    return {
+  return {
+    height: '100%',
+    width: '100%',
+    fontSize: '1rem',
+    fontWeight: 700,
+    '&:focus': {
+      ...settingsControlSelectedStyles,
+    },
+    ...selectedStyle,
+  }
+})
+
+export const SettingsCustomInput: React.FC<
+  React.ComponentProps<typeof InputBase> & SettingsControlProps
+> = styled(InputBase)<SettingsControlProps>(({ theme, selected }) => {
+  const settingsControlSelectedStyles = settingsControlSelected(theme)
+  const selectedStyle = selected
+    ? {
+        '&:not(:focus)': {
+          ...settingsControlSelectedStyles,
+        },
+      }
+    : {}
+
+  return {
+    height: '100%',
+    width: '100%',
+    [`.${inputBaseClasses.input}`]: {
       height: '100%',
       width: '100%',
-      fontSize: '1rem',
-      fontWeight: 700,
+      padding: 0,
+      textAlign: 'center',
+      '&::placeholder': {
+        fontSize: '1rem',
+        fontWeight: 700,
+        opacity: 1,
+      },
       '&:focus': {
         ...settingsControlSelectedStyles,
       },
       ...selectedStyle,
-    }
+    },
   }
-)
+})
 
-export const SettingsCustomInput = styled(InputBase)<SettingsControlProps>(
-  ({ theme, selected }) => {
-    const settingsControlSelectedStyles = settingsControlSelected(theme)
-    const selectedStyle = selected
-      ? {
-          '&:not(:focus)': {
-            ...settingsControlSelectedStyles,
-          },
-        }
-      : {}
-
-    return {
-      height: '100%',
-      width: '100%',
-      [`.${inputBaseClasses.input}`]: {
-        height: '100%',
-        width: '100%',
-        padding: 0,
-        textAlign: 'center',
-        '&::placeholder': {
-          fontSize: '1rem',
-          fontWeight: 700,
-          opacity: 1,
-        },
-        '&:focus': {
-          ...settingsControlSelectedStyles,
-        },
-        ...selectedStyle,
-      },
-    }
-  }
-)
-
-export const SlippageLimitsWarningContainer = styled(Box)(({ theme }) => ({
+export const SlippageLimitsWarningContainer: React.FC<
+  React.ComponentProps<typeof Box>
+> = styled(Box)(({ theme }) => ({
   display: 'flex',
   gap: theme.spacing(1.25),
   marginTop: theme.spacing(1.5),

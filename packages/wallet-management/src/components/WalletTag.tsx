@@ -1,3 +1,5 @@
+import type { StyledComponent } from '@emotion/styled'
+import type { ChipProps } from '@mui/material'
 import { Chip as MuiChip, styled } from '@mui/material'
 import { WalletTagType } from '../types/walletTagType.js'
 
@@ -5,7 +7,9 @@ interface WalletTagProps {
   type: WalletTagType
 }
 
-export const WalletTag = styled(MuiChip)<WalletTagProps>(({ theme }) => {
+export const WalletTag: StyledComponent<ChipProps & WalletTagProps> = styled(
+  MuiChip
+)<WalletTagProps>(({ theme }) => {
   return {
     height: 24,
     px: theme.spacing(1),

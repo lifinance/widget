@@ -1,6 +1,6 @@
 /** Forked from https://github.com/epoberezkin/fast-deep-equal */
 
-export function deepEqual(a: any, b: any) {
+export function deepEqual(a: any, b: any): boolean {
   if (a === b) {
     return true
   }

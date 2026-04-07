@@ -3,7 +3,7 @@ import type { FunctionReference } from '../../../../types.js'
 export const addFunctionsAsStrings = (
   configAsString: string,
   functionsReferences: FunctionReference[]
-) => {
+): string => {
   let stringifiedConfig = configAsString
 
   functionsReferences.forEach((item) => {

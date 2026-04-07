@@ -2,6 +2,7 @@ import ErrorRounded from '@mui/icons-material/ErrorRounded'
 import HistoryIcon from '@mui/icons-material/History'
 import { Tooltip } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
+import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useRouteExecutionIndicator } from '../../stores/routes/useRouteExecutionIndicators.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
@@ -13,7 +14,7 @@ import {
   ProgressTrack,
 } from './ActivitiesButton.style.js'
 
-export const ActivitiesButton = () => {
+export const ActivitiesButton = (): JSX.Element => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const indicator = useRouteExecutionIndicator()

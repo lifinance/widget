@@ -1,11 +1,21 @@
-import type { ChainType } from '@lifi/sdk'
+import type { ChainType, ExtendedChain } from '@lifi/sdk'
 import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
 import { getConfigItemSets, isFormItemAllowed } from '../utils/item.js'
 import { useAvailableChains } from './useAvailableChains.js'
 
-export const useChains = (type?: FormType, chainTypes?: ChainType[]) => {
+export const useChains = (
+  type?: FormType,
+  chainTypes?: ChainType[]
+): {
+  chains: ExtendedChain[] | undefined
+  getChainById: (
+    chainId?: number,
+    chains?: ExtendedChain[]
+  ) => ExtendedChain | undefined
+  isLoading: boolean
+} => {
   const { chains } = useWidgetConfig()
   const {
     chains: availableChains,

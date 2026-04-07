@@ -7,6 +7,7 @@ import {
   CircularProgress as MuiCircularProgress,
   styled,
 } from '@mui/material'
+import type React from 'react'
 
 const getStatusColor = (
   theme: Theme,
@@ -30,7 +31,12 @@ const getStatusColor = (
   }
 }
 
-export const CircularIcon = styled(Box, {
+export const CircularIcon: React.FC<
+  React.ComponentProps<typeof Box> & {
+    status?: ExecutionActionStatus
+    substatus?: Substatus
+  }
+> = styled(Box, {
   shouldForwardProp: (prop: string) => !['status', 'substatus'].includes(prop),
 })<{ status?: ExecutionActionStatus; substatus?: Substatus }>(
   ({ theme, status, substatus }) => {
@@ -80,7 +86,9 @@ const circleAnimation = keyframes`
 
 // This `styled()` function invokes keyframes. `styled-components` only supports keyframes
 // in string templates. Do not convert these styles in JS object as it will break.
-export const CircularProgressPending = styled(MuiCircularProgress)`
+export const CircularProgressPending: React.FC<
+  React.ComponentProps<typeof MuiCircularProgress>
+> = styled(MuiCircularProgress)`
   color: ${({ theme }) => theme.vars.palette.primary.main};
   ${({ theme }) =>
     theme.applyStyles('dark', {

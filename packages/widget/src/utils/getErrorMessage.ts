@@ -12,7 +12,7 @@ export function getErrorMessage(
   getChainById: (chainId: number) => EVMChain | undefined,
   step: LiFiStepExtended,
   failedAction?: ExecutionAction
-) {
+): { title: string; message: string } {
   const error = failedAction?.error
   if (!error) {
     return {

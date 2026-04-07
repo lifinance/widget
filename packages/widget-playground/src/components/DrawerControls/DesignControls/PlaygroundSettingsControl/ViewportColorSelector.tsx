@@ -1,5 +1,6 @@
 import type { BoxProps } from '@mui/material'
 import { useTheme } from '@mui/material'
+import type { JSX } from 'react'
 import { useEditToolsActions } from '../../../../store/editTools/useEditToolsActions.js'
 import { usePlaygroundSettingValues } from '../../../../store/editTools/usePlaygroundSettingValues.js'
 import { safe6DigitHexColor } from '../../../../utils/color.js'
@@ -9,7 +10,7 @@ import {
   ColorInput,
 } from '../DesignControls.style.js'
 
-export const ViewportColorSelector = ({ ...rest }: BoxProps) => {
+export const ViewportColorSelector = ({ ...rest }: BoxProps): JSX.Element => {
   const theme = useTheme()
   const { viewportColor } = usePlaygroundSettingValues()
   const { setViewportBackgroundColor } = useEditToolsActions()

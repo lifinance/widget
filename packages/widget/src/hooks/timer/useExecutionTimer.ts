@@ -3,7 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { formatTimer } from '../../utils/timer.js'
 import { useTimer } from './useTimer.js'
 
-export const useExecutionTimer = (expiryTimestamp: Date) => {
+export const useExecutionTimer = (
+  expiryTimestamp: Date
+): { formatted: string | null; isTimerExpired: boolean } => {
   const { i18n } = useTranslation()
   const [isExpired, setExpired] = useState(false)
   const { days, hours, minutes, seconds } = useTimer({

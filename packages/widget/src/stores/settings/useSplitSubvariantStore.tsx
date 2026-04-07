@@ -1,4 +1,4 @@
-import { createContext, useContext, useRef } from 'react'
+import { createContext, type JSX, useContext, useRef } from 'react'
 import { create } from 'zustand'
 import { useShallow } from 'zustand/shallow'
 import type {
@@ -23,7 +23,7 @@ const shouldRecreateStore = (
 export function SplitSubvariantStoreProvider({
   children,
   ...props
-}: SplitSubvariantProviderProps) {
+}: SplitSubvariantProviderProps): JSX.Element {
   const storeRef = useRef<SplitSubvariantStore>(null)
   if (!storeRef.current || shouldRecreateStore(storeRef.current, props)) {
     storeRef.current = createSplitSubvariantStore(props)

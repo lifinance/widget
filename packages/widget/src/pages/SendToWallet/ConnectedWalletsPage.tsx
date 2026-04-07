@@ -6,7 +6,7 @@ import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import Wallet from '@mui/icons-material/Wallet'
 import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
-import { useId, useState } from 'react'
+import { type JSX, useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js'
 import { ListItem } from '../../components/ListItem/ListItem.js'
@@ -27,7 +27,7 @@ import {
   SendToWalletPageContainer,
 } from './SendToWalletPage.style.js'
 
-export const ConnectedWalletsPage = () => {
+export const ConnectedWalletsPage = (): JSX.Element => {
   const { t } = useTranslation()
   const [selectedAccount, setSelectedAccount] = useState<Account>()
   const { accounts } = useAccount()

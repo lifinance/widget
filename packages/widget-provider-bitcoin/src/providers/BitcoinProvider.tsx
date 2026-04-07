@@ -1,6 +1,6 @@
 import { BigmiContext } from '@bigmi/react'
 import type { WidgetProviderProps } from '@lifi/widget-provider'
-import { type PropsWithChildren, useContext } from 'react'
+import { type JSX, type PropsWithChildren, useContext } from 'react'
 import { BitcoinBaseProvider } from './BitcoinBaseProvider.js'
 import { BitcoinProviderValues } from './BitcoinProviderValues.js'
 
@@ -35,7 +35,9 @@ const BitcoinWidgetProvider = ({
   )
 }
 
-export const BitcoinProvider = () => {
+export const BitcoinProvider = (): ((
+  props: PropsWithChildren<WidgetProviderProps>
+) => JSX.Element) => {
   return ({ children, ...props }: PropsWithChildren<WidgetProviderProps>) => (
     <BitcoinWidgetProvider {...props}>{children}</BitcoinWidgetProvider>
   )

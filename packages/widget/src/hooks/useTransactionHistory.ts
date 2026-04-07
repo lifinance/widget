@@ -6,12 +6,19 @@ import { useQueries } from '@tanstack/react-query'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useRouteExecutionStoreContext } from '../stores/routes/RouteExecutionStore.js'
+import type {
+  RouteExecution,
+  RouteExecutionState,
+} from '../stores/routes/types.js'
 import { getSourceTxHash } from '../stores/routes/utils.js'
 import { buildRouteFromTxHistory } from '../utils/converters.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useTools } from './useTools.js'
 
-export const useTransactionHistory = () => {
+export const useTransactionHistory = (): {
+  data: RouteExecution[]
+  isLoading: boolean
+} => {
   const store = useRouteExecutionStoreContext()
   const { accounts } = useAccount()
   const { keyPrefix } = useWidgetConfig()
@@ -78,9 +85,11 @@ export const useTransactionHistory = () => {
       // so they don't appear twice in the transaction list.
       if (data.length) {
         const apiTxHashes = new Set(data.map((r) => getSourceTxHash(r.route)))
-        const { routes, deleteRoute } = store.getState()
+        const { routes, deleteRoute } = store.getState() as RouteExecutionState
         for (const [id, routeExecution] of Object.entries(routes)) {
-          const txHash = getSourceTxHash(routeExecution?.route)
+          const txHash = getSourceTxHash(
+            (routeExecution as RouteExecution | undefined)?.route
+          )
           if (txHash && apiTxHashes.has(txHash)) {
             deleteRoute(id)
           }

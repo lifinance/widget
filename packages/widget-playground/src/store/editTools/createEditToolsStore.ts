@@ -1,11 +1,14 @@
 import type { WidgetTheme } from '@lifi/widget'
+import type { StoreApi, UseBoundStore } from 'zustand'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { FormValues } from '../types.js'
 import { defaultDrawerWidth } from './constants.js'
 import type { ToolsState } from './types.js'
 
-export const createEditToolsStore = (initialTheme?: WidgetTheme) =>
+export const createEditToolsStore = (
+  initialTheme?: WidgetTheme
+): UseBoundStore<StoreApi<ToolsState>> =>
   create<ToolsState>()(
     persist(
       (set, get) => ({
