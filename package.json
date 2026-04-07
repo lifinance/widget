@@ -55,29 +55,29 @@
     }
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.9",
+    "@biomejs/biome": "^2.4.10",
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
     "@types/node": "^25.5.2",
-    "@types/react": "^19.2.13",
+    "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "fs-extra": "^11.3.3",
+    "fs-extra": "^11.3.4",
     "husky": "^9.1.7",
-    "knip": "^6.1.0",
+    "knip": "^6.3.0",
     "lerna": "^9.0.7",
     "lint-staged": "^16.4.0",
     "standard-version": "^9.5.0",
     "tsdown": "^0.21.7",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.2"
   },
   "optionalDependencies": {
-    "@gemini-wallet/core": ">=0.3.0",
-    "@react-native-async-storage/async-storage": ">=2.2.0",
-    "db0": "^0.3.2",
+    "@gemini-wallet/core": "^0.3.2",
+    "@react-native-async-storage/async-storage": "^3.0.2",
+    "db0": "^0.3.4",
     "encoding": "^0.1.13",
     "fastestsmallesttextencoderdecoder": "^1.0.22",
-    "ioredis": "^5.9.2",
-    "ws": "^8.18.3"
+    "ioredis": "^5.10.1",
+    "ws": "^8.20.0"
   },
   "pnpm": {
     "overrides": {
