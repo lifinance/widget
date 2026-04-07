@@ -26,7 +26,7 @@ export const WalletManagementProviders = ({
   forceInternalWalletManagement,
   isExternalContext,
   children,
-}: PropsWithChildren<WalletManagementProvidersProps>) => {
+}: PropsWithChildren<WalletManagementProvidersProps>): ReactNode => {
   const prevProvidersRef = useRef(providers)
 
   const memoizedProviders = useMemo(() => {

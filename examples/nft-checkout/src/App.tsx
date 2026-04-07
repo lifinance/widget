@@ -1,5 +1,6 @@
 import { LiFiWidget } from '@lifi/widget'
 import { Box, CssBaseline } from '@mui/material'
+import type { JSX } from 'react'
 import type { NFTNetwork } from './components/NFTOpenSea/index.js'
 import {
   NFTOpenSea,
@@ -9,7 +10,7 @@ import {
 import { widgetConfig } from './config.js'
 import './index.css'
 
-export const App = () => {
+export const App = (): JSX.Element => {
   const pathnameParams = window.location.pathname.substring(1).split('/')
 
   return (

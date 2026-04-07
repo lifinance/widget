@@ -1,6 +1,10 @@
 import { useEditToolsStore } from './EditToolsProvider.js'
 
-export const useHeaderAndFooterToolValues = () => {
+export const useHeaderAndFooterToolValues = (): {
+  showMockHeader: boolean
+  showMockFooter: boolean
+  isFooterFixed: boolean
+} => {
   const [showMockHeader, showMockFooter, isFooterFixed] = useEditToolsStore(
     (store) => [
       store.headerAndFooterControl.showMockHeader,
@@ -10,8 +14,8 @@ export const useHeaderAndFooterToolValues = () => {
   )
 
   return {
-    showMockHeader,
-    showMockFooter,
-    isFooterFixed,
+    showMockHeader: showMockHeader,
+    showMockFooter: showMockFooter,
+    isFooterFixed: isFooterFixed,
   }
 }

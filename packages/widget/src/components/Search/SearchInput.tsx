@@ -1,7 +1,12 @@
 import ClearIcon from '@mui/icons-material/Clear'
 import Search from '@mui/icons-material/Search'
 import { FormControl, IconButton, InputAdornment } from '@mui/material'
-import type { ChangeEventHandler, FocusEventHandler, RefObject } from 'react'
+import type {
+  ChangeEventHandler,
+  FocusEventHandler,
+  JSX,
+  RefObject,
+} from 'react'
 import { InputCard } from '../../components/Card/InputCard.js'
 import { useHeaderHeight } from '../../stores/header/useHeaderStore.js'
 import { Input, StickySearchInputContainer } from './SearchInput.style.js'
@@ -28,7 +33,7 @@ export const SearchInput = ({
   value,
   autoFocus,
   size = 'medium',
-}: SearchInputProps) => {
+}: SearchInputProps): JSX.Element => {
   return (
     <InputCard>
       <FormControl fullWidth>
@@ -75,7 +80,7 @@ export const SearchInput = ({
   )
 }
 
-export const StickySearchInput = (props: SearchInputProps) => {
+export const StickySearchInput = (props: SearchInputProps): JSX.Element => {
   const { headerHeight } = useHeaderHeight()
 
   return (

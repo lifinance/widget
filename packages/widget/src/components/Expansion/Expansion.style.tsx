@@ -1,4 +1,5 @@
 import { Box, styled } from '@mui/material'
+import type React from 'react'
 
 export const animationDuration = 225
 
@@ -32,7 +33,9 @@ export const transitionStyles = {
   },
 }
 
-export const ExpansionContainer = styled(Box, {
+export const ExpansionContainer: React.FC<
+  React.ComponentProps<typeof Box> & { width: string | number }
+> = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'width',
 })<{ width: string | number }>(({ width }) => ({
   position: 'relative',

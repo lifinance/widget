@@ -17,7 +17,10 @@ export const useTokenSearch = (
   tokenQuery?: string,
   enabled?: boolean,
   formType?: FormType
-) => {
+): {
+  token: TokenExtended | undefined
+  isLoading: boolean
+} => {
   const queryClient = useQueryClient()
   const { tokens: configTokens, keyPrefix } = useWidgetConfig()
   const sdkClient = useSDKClient()

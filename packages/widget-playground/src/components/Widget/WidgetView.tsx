@@ -1,12 +1,13 @@
 import type { FieldNames, FormState, WidgetDrawer } from '@lifi/widget'
 import { LiFiWidget, WidgetSkeleton } from '@lifi/widget'
+import type { JSX } from 'react'
 import { useCallback, useEffect, useRef } from 'react'
 import { useFormValues } from '../../store/editTools/useFormValues.js'
 import { useSkeletonToolValues } from '../../store/editTools/useSkeletonToolValues.js'
 import { useConfig } from '../../store/widgetConfig/useConfig.js'
 import { WidgetViewContainer } from './WidgetViewContainer.js'
 
-export function WidgetView() {
+export function WidgetView(): JSX.Element {
   const { config } = useConfig()
   const drawerRef = useRef<WidgetDrawer>(null)
   const formRef = useRef<FormState>(null)

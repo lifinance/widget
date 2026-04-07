@@ -6,8 +6,8 @@ const mitt = _mitt as unknown as <Events extends Record<EventType, unknown>>(
   all?: EventHandlerMap<Events>
 ) => Emitter<Events>
 
-export const widgetEvents = mitt<WidgetEvents>()
+export const widgetEvents: Emitter<WidgetEvents> = mitt<WidgetEvents>()
 
-export const useWidgetEvents = () => {
+export const useWidgetEvents = (): Emitter<WidgetEvents> => {
   return widgetEvents
 }

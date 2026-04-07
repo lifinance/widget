@@ -13,7 +13,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material'
-import type { MouseEventHandler } from 'react'
+import type { JSX, MouseEventHandler } from 'react'
 import { memo, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLongPress } from '../../hooks/useLongPress.js'
@@ -371,7 +371,7 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
   }
 )
 
-export const TokenListItemSkeleton = () => {
+export const TokenListItemSkeleton = (): JSX.Element => {
   return (
     <ListItem
       secondaryAction={<TokenAmountSkeleton />}

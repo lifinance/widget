@@ -1,6 +1,25 @@
 import { useEditToolsStore } from './EditToolsProvider.js'
 
-export const useEditToolsActions = () => {
+import type { ToolsState } from './types.js'
+
+export const useEditToolsActions = (): Pick<
+  ToolsState,
+  | 'setDrawerOpen'
+  | 'setCodeDrawerWidth'
+  | 'setVisibleControls'
+  | 'setCodeControlTab'
+  | 'resetEditTools'
+  | 'setSelectedFont'
+  | 'setViewportBackgroundColor'
+  | 'setSkeletonShow'
+  | 'setSkeletonSideBySide'
+  | 'setHeaderVisibility'
+  | 'setFooterVisibility'
+  | 'setFixedFooter'
+  | 'setSelectedLayoutId'
+  | 'setIsDevView'
+  | 'setFormValues'
+> => {
   const actions = useEditToolsStore((state) => ({
     setDrawerOpen: state.setDrawerOpen,
     setCodeDrawerWidth: state.setCodeDrawerWidth,

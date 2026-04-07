@@ -1,4 +1,5 @@
 import { defaultMaxHeight } from '@lifi/widget'
+import type { JSX } from 'react'
 import {
   type ChangeEventHandler,
   type FocusEventHandler,
@@ -20,7 +21,7 @@ export const InputControl = ({
   value,
   onChange,
   onBlur,
-}: InputControlProps) => {
+}: InputControlProps): JSX.Element => {
   const inputId = useId()
   const showCaption = !value || value < defaultMaxHeight
   return (

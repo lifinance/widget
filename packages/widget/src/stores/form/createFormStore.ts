@@ -1,3 +1,4 @@
+import type { StoreApi, UseBoundStore } from 'zustand'
 import { create } from 'zustand'
 
 import type {
@@ -67,7 +68,9 @@ const mergeDefaultFormValues = (
     { ...valuesToFormValues(formDefaultValues) }
   )
 
-export const createFormStore = (defaultValues?: DefaultValues) =>
+export const createFormStore = (
+  defaultValues?: DefaultValues
+): UseBoundStore<StoreApi<FormValuesState>> =>
   create<FormValuesState>((set, get) => {
     const _defaultValues = valuesToFormValues({
       ...formDefaultValues,

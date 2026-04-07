@@ -4,23 +4,26 @@ import {
   ListItem as MuiListItem,
   styled,
 } from '@mui/material'
+import type React from 'react'
 
-export const ListItem = styled(MuiListItem)(({ theme }) => ({
-  height: 64,
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  padding: theme.spacing(0, 1.5),
-  [`.${listItemSecondaryActionClasses.root}`]: {
-    right: theme.spacing(3),
-  },
-  [`& .${listItemTextClasses.secondary}`]: {
-    fontSize: 12,
-    fontWeight: 500,
-  },
-  [`& .${listItemTextClasses.primary}, & .${listItemTextClasses.secondary}`]: {
-    lineHeight: 1.3334,
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
-  },
-}))
+export const ListItem: React.FC<React.ComponentProps<typeof MuiListItem>> =
+  styled(MuiListItem)(({ theme }) => ({
+    height: 64,
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    padding: theme.spacing(0, 1.5),
+    [`.${listItemSecondaryActionClasses.root}`]: {
+      right: theme.spacing(3),
+    },
+    [`& .${listItemTextClasses.secondary}`]: {
+      fontSize: 12,
+      fontWeight: 500,
+    },
+    [`& .${listItemTextClasses.primary}, & .${listItemTextClasses.secondary}`]:
+      {
+        lineHeight: 1.3334,
+        textOverflow: 'ellipsis',
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
+      },
+  }))

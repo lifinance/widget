@@ -1,5 +1,6 @@
 import { Collapse } from '@mui/material'
 import type * as React from 'react'
+import type { JSX } from 'react'
 import { useConfigActions } from '../../../store/widgetConfig/useConfigActions.js'
 import { useConfigWalletManagement } from '../../../store/widgetConfig/useConfigValues.js'
 import {
@@ -10,7 +11,7 @@ import {
 } from '../../Card/Card.style.js'
 import { Switch } from '../../Switch.js'
 
-export const WalletManagementControl = () => {
+export const WalletManagementControl = (): JSX.Element => {
   const {
     isExternalWalletManagement,
     isPartialWalletManagement,

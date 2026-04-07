@@ -10,7 +10,7 @@ export const usdDecimals = 2
 export function formatTokenAmount(
   amount: bigint | undefined,
   decimals: number
-) {
+): string {
   const formattedAmount = amount ? formatUnits(amount, decimals) : '0'
   const parsedAmount = Number.parseFloat(formattedAmount)
   if (!parsedAmount || Number.isNaN(Number(formattedAmount))) {
@@ -59,8 +59,8 @@ export function formatSlippage(
 export function formatInputAmount(
   amount: string,
   decimals: number | null = null,
-  returnInitial = false
-) {
+  returnInitial: boolean = false
+): string {
   if (!amount) {
     return amount
   }
@@ -116,7 +116,7 @@ export function formatTokenPrice(
   amount?: string | bigint,
   price?: string,
   decimals?: number
-) {
+): number {
   if (!amount || !price) {
     return 0
   }
@@ -146,7 +146,10 @@ const formatter = new Intl.NumberFormat('en', {
 /**
  * Convert price value to token amount
  */
-export function priceToTokenAmount(priceValue: string, priceUSD?: string) {
+export function priceToTokenAmount(
+  priceValue: string,
+  priceUSD?: string
+): string {
   if (!priceValue || !priceUSD) {
     return '0'
   }

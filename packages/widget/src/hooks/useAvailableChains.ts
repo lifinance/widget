@@ -23,7 +23,11 @@ const supportedChainTypes = [
 export const useAvailableChains = (
   chainTypes?: ChainType[],
   widgetConfig?: WidgetConfig
-) => {
+): {
+  chains: ExtendedChain[] | undefined
+  getChainById: GetChainById
+  isLoading: boolean
+} => {
   const { chains: internalChains, keyPrefix: internalKeyPrefix } =
     useWidgetConfig()
   const internalClient = useSDKClient()

@@ -1,4 +1,4 @@
-import type { Dispatch, SetStateAction } from 'react'
+import type { Dispatch, JSX, SetStateAction } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate.js'
 import { useRoutes } from '../../hooks/useRoutes.js'
@@ -15,7 +15,7 @@ export const RouteTracker = ({
   observableRouteId,
   onChange,
   onFetching,
-}: RouteTrackerProps) => {
+}: RouteTrackerProps): JSX.Element => {
   const routeExecutionStore = useRouteExecutionStoreContext()
   const setExecutableRoute = useSetExecutableRoute()
   const [observableRoute] = useState(

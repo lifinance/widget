@@ -2,6 +2,7 @@ import {
   ChainType,
   getToken,
   getTokens,
+  type TokenExtended,
   type TokensExtendedResponse,
 } from '@lifi/sdk'
 import { useChainTypeFromAddress } from '@lifi/widget-provider'
@@ -25,7 +26,11 @@ export const useTokens = (
   formType?: FormType,
   search?: string,
   chainId?: number
-) => {
+): {
+  allTokens: Record<number, TokenExtended[]> | undefined
+  isLoading: boolean
+  isSearchLoading: boolean
+} => {
   const {
     tokens: configTokens,
     chains: chainsConfig,

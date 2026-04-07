@@ -1,5 +1,5 @@
 import type { WidgetProviderProps } from '@lifi/widget-provider'
-import type { PropsWithChildren } from 'react'
+import type { JSX, PropsWithChildren } from 'react'
 import { SolanaProviderValues } from './SolanaProviderValues.js'
 
 const SolanaWidgetProvider = ({
@@ -13,7 +13,9 @@ const SolanaWidgetProvider = ({
   )
 }
 
-export const SolanaProvider = () => {
+export const SolanaProvider = (): ((
+  props: PropsWithChildren<WidgetProviderProps>
+) => JSX.Element) => {
   return ({ children, ...props }: PropsWithChildren<WidgetProviderProps>) => (
     <SolanaWidgetProvider {...props}>{children}</SolanaWidgetProvider>
   )

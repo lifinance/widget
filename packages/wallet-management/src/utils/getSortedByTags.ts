@@ -1,6 +1,6 @@
 import { WalletTagType } from '../types/walletTagType.js'
 
-const tagOrder = {
+const tagOrder: Record<WalletTagType, number> = {
   [WalletTagType.Connected]: 0,
   [WalletTagType.Multichain]: 1,
   [WalletTagType.Installed]: 2,
@@ -10,7 +10,7 @@ const tagOrder = {
 
 export const getSortedByTags = <T extends { tagType?: WalletTagType }>(
   wallets: T[]
-) => {
+): T[] => {
   return wallets.sort((a, b) => {
     // If any undefined tags - put them last
     if (a.tagType === undefined) {

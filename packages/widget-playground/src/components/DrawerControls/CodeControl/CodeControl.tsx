@@ -1,5 +1,6 @@
 import TabContext from '@mui/lab/TabContext'
 import { Box, Typography } from '@mui/material'
+import type { JSX } from 'react'
 import { GatsbyLogo } from '../../../logo/Gatsby.js'
 import { NextLogo } from '../../../logo/Next.js'
 import { NuxtLogo } from '../../../logo/Nuxt.js'
@@ -17,7 +18,7 @@ import { CodeEditor } from './CodeEditor.js'
 import { FontEmbedInfo } from './FontEmbedInfo.js'
 import { ProjectButton } from './ProjectButton.js'
 
-export const CodeControl = () => {
+export const CodeControl = (): JSX.Element => {
   const { codeControlTab } = useCodeToolValues()
   const { setCodeControlTab } = useEditToolsActions()
 

@@ -1,4 +1,4 @@
-import type { EVMChain } from '@lifi/sdk'
+import type { EVMChain, ExtendedChain } from '@lifi/sdk'
 import { useCallback } from 'react'
 import { useChains } from '../../hooks/useChains.js'
 import { useSwapOnly } from '../../hooks/useSwapOnly.js'
@@ -11,7 +11,16 @@ import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import type { DisabledUI } from '../../types/widget.js'
 
-export const useChainSelect = (formType: FormType) => {
+export const useChainSelect = (
+  formType: FormType
+): {
+  chainOrder: number[]
+  chains: ExtendedChain[] | undefined
+  getSelectedChains: () => EVMChain[]
+  isLoading: boolean
+  setChainOrder: (chainId: number, type: FormType) => void
+  setCurrentChain: (chainId: number) => void
+} => {
   const { disabledUI } = useWidgetConfig()
   const chainKey = FormKeyHelper.getChainKey(formType)
   const { setFieldValue, getFieldValues } = useFieldActions()
@@ -31,7 +40,7 @@ export const useChainSelect = (formType: FormType) => {
   const swapOnly = useSwapOnly()
   const { tryResetToAddress } = useToAddressReset()
 
-  const getSelectedChains = useCallback(() => {
+  const getSelectedChains = useCallback((): EVMChain[] => {
     if (!chains) {
       return []
     }
@@ -42,7 +51,7 @@ export const useChainSelect = (formType: FormType) => {
   }, [chains, chainOrder])
 
   const setCurrentChain = useCallback(
-    (chainId: number) => {
+    (chainId: number): void => {
       setFieldValue(chainKey, chainId, { isDirty: true, isTouched: true })
       if (swapOnly) {
         setFieldValue(FormKeyHelper.getChainKey('to'), chainId, {
@@ -79,11 +88,11 @@ export const useChainSelect = (formType: FormType) => {
   )
 
   return {
-    chainOrder,
-    chains,
-    getSelectedChains,
-    isLoading,
-    setChainOrder,
-    setCurrentChain,
+    chainOrder: chainOrder,
+    chains: chains,
+    getSelectedChains: getSelectedChains,
+    isLoading: isLoading,
+    setChainOrder: setChainOrder,
+    setCurrentChain: setCurrentChain,
   }
 }

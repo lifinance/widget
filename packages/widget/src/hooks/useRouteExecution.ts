@@ -1,4 +1,4 @@
-import type { ExchangeRateUpdateParams, Route } from '@lifi/sdk'
+import type { ExchangeRateUpdateParams, Route, RouteExtended } from '@lifi/sdk'
 import { executeRoute, resumeRoute, updateRouteExecution } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -9,6 +9,7 @@ import {
   useRouteExecutionStore,
   useRouteExecutionStoreContext,
 } from '../stores/routes/RouteExecutionStore.js'
+import type { RouteExecutionStatus } from '../stores/routes/types.js'
 import {
   getUpdatedAction,
   isRouteActive,
@@ -32,7 +33,13 @@ export const useRouteExecution = ({
   routeId,
   executeInBackground,
   onAcceptExchangeRateUpdate,
-}: RouteExecutionProps) => {
+}: RouteExecutionProps): {
+  executeRoute: () => void
+  restartRoute: () => void
+  deleteRoute: () => void
+  route: RouteExtended | undefined
+  status: RouteExecutionStatus | undefined
+} => {
   const queryClient = useQueryClient()
   const { account } = useAccount()
   const resumedAfterMount = useRef(false)

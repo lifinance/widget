@@ -4,7 +4,19 @@ import { useSettingsStore } from '../stores/settings/SettingsStore.js'
 import { useSettingsActions } from '../stores/settings/useSettingsActions.js'
 import { useTools } from './useTools.js'
 
-export const useSettingMonitor = () => {
+export const useSettingMonitor = (): {
+  isBridgesChanged: boolean
+  isExchangesChanged: boolean
+  isSlippageChanged: boolean
+  isSlippageNotRecommended: boolean
+  isSlippageOutsideRecommendedLimits: boolean
+  isSlippageUnderRecommendedLimits: boolean
+  isRoutePriorityChanged: boolean
+  isGasPriceChanged: boolean
+  isCustomRouteSettings: boolean
+  isRouteSettingsWithWarnings: boolean
+  reset: () => void
+} => {
   const [
     disabledBridges,
     disabledExchanges,
@@ -27,10 +39,10 @@ export const useSettingMonitor = () => {
     : slippage !== defaultConfigurableSettings.slippage
 
   const isSlippageOutsideRecommendedLimits =
-    isSlippageChanged && slippage && Number(slippage) > 1
+    isSlippageChanged && !!slippage && Number(slippage) > 1
 
   const isSlippageUnderRecommendedLimits =
-    isSlippageChanged && slippage && Number(slippage) < 0.1
+    isSlippageChanged && !!slippage && Number(slippage) < 0.1
 
   const isSlippageNotRecommended = Boolean(
     isSlippageOutsideRecommendedLimits || isSlippageUnderRecommendedLimits

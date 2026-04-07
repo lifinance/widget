@@ -6,13 +6,20 @@ import { useGasSufficiency } from '../../hooks/useGasSufficiency.js'
 import { useRouteRequiredAccountConnection } from '../../hooks/useRouteRequiredAccountConnection.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 
-interface QueuedMessage {
+export interface QueuedMessage {
   id: string
   priority: number
   props?: Record<string, any>
 }
 
-export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
+export const useMessageQueue = (
+  route?: Route,
+  allowInteraction?: boolean
+): {
+  messages: QueuedMessage[]
+  hasMessages: boolean
+  isLoading: boolean
+} => {
   const {
     requiredToAddress,
     toAddress,

@@ -3,7 +3,7 @@ import { useRouteExecutionStore } from './RouteExecutionStore.js'
 import type { RouteExecution } from './types.js'
 import { RouteExecutionStatus } from './types.js'
 
-export const useExecutingRoutesIds = () => {
+export const useExecutingRoutesIds = (): string[] => {
   const { accounts } = useAccount()
   const accountAddresses = accounts.map((account) => account.address)
   return useRouteExecutionStore((state) =>

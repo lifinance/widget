@@ -1,7 +1,12 @@
 import type { IconButtonProps, LinkProps } from '@mui/material'
 import { IconButton as MuiIconButton, styled } from '@mui/material'
+import type React from 'react'
 
-export const CardIconButton = styled(MuiIconButton)<
+export const CardIconButton: React.FC<
+  React.ComponentProps<typeof MuiIconButton> &
+    IconButtonProps &
+    Pick<LinkProps, 'href' | 'target' | 'rel'>
+> = styled(MuiIconButton)<
   IconButtonProps & Pick<LinkProps, 'href' | 'target' | 'rel'>
 >(({ theme }) => {
   return {

@@ -12,7 +12,16 @@ import { getQueryKey } from '../utils/queries.js'
 
 const defaultRefetchInterval = 30_000
 
-export const useTokenBalance = (accountAddress?: string, token?: Token) => {
+export const useTokenBalance = (
+  accountAddress?: string,
+  token?: Token
+): {
+  token: TokenAmount | undefined
+  isLoading: boolean
+  refetch: () => void
+  refetchNewBalance: () => void
+  getTokenBalancesWithRetry: typeof getTokenBalancesWithRetry
+} => {
   const queryClient = useQueryClient()
   const { keyPrefix } = useWidgetConfig()
   const sdkClient = useSDKClient()

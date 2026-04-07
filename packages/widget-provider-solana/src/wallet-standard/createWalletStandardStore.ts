@@ -9,13 +9,14 @@ import { persist } from 'zustand/middleware'
 import type {
   SolanaWalletStandardState,
   WalletStandardConfig,
+  WalletStandardStore,
 } from './types.js'
 import { getSolanaWallets, mergeAccounts, toAccountInfo } from './utils.js'
 
 export const createWalletStandardStore = ({
   namePrefix,
   autoConnect,
-}: WalletStandardConfig = {}) => {
+}: WalletStandardConfig = {}): WalletStandardStore => {
   const storageKey = `${namePrefix || 'li.fi'}-solana-wallets`
 
   let onWalletEventUnsubscribe: (() => void) | null = null

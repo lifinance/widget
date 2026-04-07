@@ -55,7 +55,7 @@ export const isFormItemAllowed = <T>(
   configTokens: AllowDenySets | undefined,
   formType?: FormType,
   getKey?: (item: T) => AllowDenySetItem
-) => {
+): boolean => {
   return (
     isItemAllowedForSets(item, configTokens, getKey) &&
     (formType

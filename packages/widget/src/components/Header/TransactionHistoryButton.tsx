@@ -1,10 +1,11 @@
 import ReceiptLong from '@mui/icons-material/ReceiptLong'
 import { IconButton, Tooltip } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
+import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 
-export const TransactionHistoryButton = () => {
+export const TransactionHistoryButton = (): JSX.Element => {
   const { t } = useTranslation()
   const navigate = useNavigate()
 

@@ -3,6 +3,7 @@ import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
 import { usePinnedTokensStore } from '../stores/pinnedTokens/PinnedTokensStore.js'
 import { useSettings } from '../stores/settings/useSettings.js'
+import type { TokenAmount } from '../types/token.js'
 import { HiddenUI } from '../types/widget.js'
 import { formatTokenPrice } from '../utils/format.js'
 import { isSearchMatch, processTokenBalances } from '../utils/tokenList.js'
@@ -15,7 +16,14 @@ export const useTokenBalances = (
   formType?: FormType,
   isAllNetworks?: boolean,
   search?: string
-) => {
+): {
+  tokens: TokenAmount[]
+  withCategories: boolean
+  withPinnedTokens: boolean
+  isTokensLoading: boolean
+  isSearchLoading: boolean
+  isBalanceLoading: boolean
+} => {
   const { hiddenUI } = useWidgetConfig()
   const {
     allTokens,

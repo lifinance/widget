@@ -86,7 +86,7 @@ export const WidgetConfigProvider: FC<WidgetConfigProviderProps> = ({
 
 export function useWidgetConfigStore<T>(
   selector: (store: WidgetConfigState) => T
-) {
+): T {
   const useStore = useContext(WidgetConfigContext)
 
   if (!useStore) {

@@ -1,4 +1,5 @@
 import { type ChainId, getGasRecommendation } from '@lifi/sdk'
+import type { UseQueryResult } from '@tanstack/react-query'
 import { useQuery } from '@tanstack/react-query'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
@@ -12,7 +13,7 @@ export const useGasRecommendation = (
   toChainId?: ChainId,
   fromChain?: ChainId,
   fromToken?: string
-) => {
+): UseQueryResult<Awaited<ReturnType<typeof getGasRecommendation>> | null> => {
   const { chains } = useAvailableChains()
   const { keyPrefix, hiddenUI } = useWidgetConfig()
   const sdkClient = useSDKClient()

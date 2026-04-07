@@ -7,7 +7,7 @@ export const getStyleOverrides = (
   styleOverrideProp: string,
   theme: WidgetTheme,
   ownerState?: any
-) => {
+): any => {
   const component = theme.components?.[componentName]
   const property = (component?.styleOverrides as any)?.[styleOverrideProp]
 
