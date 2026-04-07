@@ -6,6 +6,8 @@ import { PageContainer } from '../../components/PageContainer.js'
 import { useHeader } from '../../hooks/useHeader.js'
 import { useListHeight } from '../../hooks/useListHeight.js'
 import { useTransactionList } from '../../hooks/useTransactionList.js'
+import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.js'
+import { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { ActiveTransactionItem } from './ActiveTransactionItem.js'
 import { ActivitiesPageMenuButton } from './ActivitiesPageMenuButton.js'
 import { TransactionHistoryEmpty } from './TransactionHistoryEmpty.js'
@@ -18,10 +20,17 @@ export const ActivitiesPage = (): JSX.Element => {
   // Parent ref and useVirtualizer should be in one file to avoid blank page (0 virtual items) issue
   const parentRef = useRef<HTMLDivElement | null>(null)
   const { items, isLoading } = useTransactionList()
-
   const { t } = useTranslation()
+  const hasFailedItems = useRouteExecutionStore((state) =>
+    Object.values(state.routes).some(
+      (r) => r?.status === RouteExecutionStatus.Failed
+    )
+  )
 
-  useHeader(t('header.activities'), <ActivitiesPageMenuButton />)
+  useHeader(
+    t('header.activities'),
+    hasFailedItems ? <ActivitiesPageMenuButton /> : null
+  )
 
   const { listHeight } = useListHeight({
     listParentRef: parentRef,

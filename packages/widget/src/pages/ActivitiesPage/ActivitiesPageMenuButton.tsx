@@ -1,9 +1,8 @@
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
-import type { IconButtonProps } from '@mui/material'
-import { Button, IconButton, MenuItem, useTheme } from '@mui/material'
-import { useRef, useState } from 'react'
+import { Button } from '@mui/material'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { ContextMenu } from '../../components/ContextMenu.js'
 import { Dialog } from '../../components/Dialog/Dialog.js'
 import {
   DialogActions,
@@ -12,34 +11,14 @@ import {
   DialogContentText,
   DialogTitle,
 } from '../../components/Dialog/Dialog.style.js'
-import { Menu } from '../../components/Menu.js'
 import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.js'
-import { RouteExecutionStatus } from '../../stores/routes/types.js'
 
-export const ActivitiesPageMenuButton: React.FC<IconButtonProps> = () => {
-  const hasFailedItems = useRouteExecutionStore((state) =>
-    Object.values(state.routes).some(
-      (r) => r?.status === RouteExecutionStatus.Failed
-    )
-  )
-  const theme = useTheme()
+export const ActivitiesPageMenuButton: React.FC = () => {
   const { t } = useTranslation()
-  const anchorEl = useRef<HTMLButtonElement | null>(null)
-  const [menuOpen, setMenuOpen] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
   const deleteRoutes = useRouteExecutionStore((store) => store.deleteRoutes)
 
-  if (!hasFailedItems) {
-    return null
-  }
-
-  const handleMenuOpen = () => setMenuOpen(true)
-  const handleMenuClose = () => setMenuOpen(false)
-
-  const handleDialogOpen = () => {
-    handleMenuClose()
-    setDialogOpen(true)
-  }
+  const handleDialogOpen = () => setDialogOpen(true)
   const handleDialogClose = () => setDialogOpen(false)
 
   const handleRemoveAllFailed = () => {
@@ -49,24 +28,16 @@ export const ActivitiesPageMenuButton: React.FC<IconButtonProps> = () => {
 
   return (
     <>
-      <IconButton
-        ref={anchorEl}
-        size="medium"
-        edge={theme?.navigation?.edge ? 'end' : false}
-        onClick={handleMenuOpen}
-      >
-        <MoreVertIcon />
-      </IconButton>
-      <Menu
-        anchorEl={anchorEl.current}
-        open={menuOpen}
-        onClose={handleMenuClose}
-      >
-        <MenuItem onClick={handleDialogOpen}>
-          <DeleteOutlineIcon />
-          {t('button.removeAllFailed')}
-        </MenuItem>
-      </Menu>
+      <ContextMenu
+        buttonSx={{ position: 'static', marginRight: -1.5 }}
+        items={[
+          {
+            icon: <DeleteOutlineIcon />,
+            label: t('button.removeAllFailed'),
+            onClick: handleDialogOpen,
+          },
+        ]}
+      />
       <Dialog open={dialogOpen} onClose={handleDialogClose}>
         <DialogContainer>
           <DialogTitle>

@@ -121,7 +121,6 @@
     "message": {
       "accountNotDeployedMessage": "Smart contract account doesn't exist on the destination chain. Sending funds to a non-existent smart contract account can result in permanent loss.",
       "lowAddressActivity": "This address has low activity on {{chainName}} network. Please verify you're sending to the correct address and network to prevent potential loss of funds.",
-      "deleteActiveTransactions": "Active transactions are only stored locally and can't be recovered if you delete them.",
       "deleteFailedTransactions": "Failed transactions are only stored locally and can't be recovered if you delete them.",
       "deleteTransactionHistory": "Transaction history is only stored locally and can't be recovered if you delete it.",
       "fundsLossPrevention": "Always ensure smart contract accounts are properly set up on the destination chain and avoid direct transfers to exchanges to prevent fund loss.",
@@ -136,7 +135,6 @@
       "slippageUnderRecommendedLimits": "Low slippage tolerance may cause transaction delays or failures."
     },
     "title": {
-      "deleteActiveTransactions": "Delete all active transactions?",
       "deleteFailedTransactions": "Delete all failed transactions?",
       "deleteTransaction": "Delete this transaction?",
       "deleteTransactionHistory": "Delete transaction history?",
