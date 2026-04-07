@@ -18,12 +18,13 @@ function adaptToTurnkeyHD(wallet: ISolana): TurnkeyHD {
     },
     on: (event, listener) => wallet?.on?.(event, listener),
     off: (event, listener) => wallet?.off?.(event, listener),
-    signTransaction: (txn) => wallet.signTransaction(txn),
+    signTransaction: (txn) => wallet.signTransaction(txn as any) as any,
     signMessage: (message) => wallet.signMessage(message),
     disconnect: () => wallet.disconnect(),
-    signAllTransactions: (txns) => wallet.signAllTransactions(txns),
+    signAllTransactions: (txns) =>
+      wallet.signAllTransactions(txns as any) as any,
     signAndSendTransaction: (txn, options) =>
-      wallet.signAndSendTransaction(txn, options),
+      wallet.signAndSendTransaction(txn as any, options),
   }
 }
 

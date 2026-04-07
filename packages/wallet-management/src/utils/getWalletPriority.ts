@@ -9,6 +9,6 @@ const walletPriority: Record<string, number> = {
   safe: 4,
 }
 
-export const getWalletPriority = (id: string) => {
+export const getWalletPriority = (id: string): number => {
   return walletPriority[id] || 1000
 }

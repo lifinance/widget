@@ -2,7 +2,7 @@ import type { ExchangeRateUpdateParams } from '@lifi/sdk'
 import Delete from '@mui/icons-material/Delete'
 import { Box, Button, Tooltip } from '@mui/material'
 import { useLocation, useNavigate } from '@tanstack/react-router'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { type JSX, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
@@ -35,7 +35,7 @@ import {
   getTokenValueLossThreshold,
 } from './utils.js'
 
-export const TransactionPage = () => {
+export const TransactionPage = (): JSX.Element | null => {
   const { t } = useTranslation()
   const { setFieldValue } = useFieldActions()
   const emitter = useWidgetEvents()

@@ -6,7 +6,7 @@ import { useSettingsStoreContext } from '../stores/settings/SettingsStore.js'
 import { getConfigItemSets, isItemAllowedForSets } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 
-export const useTools = () => {
+export const useTools = (): { tools: ToolsResponse | undefined } => {
   const { bridges, exchanges, keyPrefix } = useWidgetConfig()
   const settingsStore = useSettingsStoreContext()
   const sdkClient = useSDKClient()

@@ -4,6 +4,7 @@ import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstruct
 import RestartAltIcon from '@mui/icons-material/RestartAlt'
 import TabContext from '@mui/lab/TabContext'
 import { Box, IconButton, Tooltip } from '@mui/material'
+import type { JSX } from 'react'
 import { useFontInitialisation } from '../../providers/FontLoaderProvider/FontLoaderProvider.js'
 import { useDrawerToolValues } from '../../store/editTools/useDrawerToolValues.js'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
@@ -36,7 +37,7 @@ import {
 } from './DrawerControls.style.js'
 import { DrawerHandle } from './DrawerHandle.js'
 
-export const DrawerControls = () => {
+export const DrawerControls = (): JSX.Element => {
   const { isDrawerOpen, drawerWidth, visibleControls } = useDrawerToolValues()
   const { setDrawerOpen, setVisibleControls } = useEditToolsActions()
   const { resetConfig } = useConfigActions()

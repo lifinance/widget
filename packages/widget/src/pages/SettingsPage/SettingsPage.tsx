@@ -1,3 +1,4 @@
+import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import { PageContainer } from '../../components/PageContainer.js'
 import { useHeader } from '../../hooks/useHeader.js'
@@ -14,7 +15,7 @@ import { SlippageSettings } from './SlippageSettings/SlippageSettings.js'
 import { SmallBalanceFilterSettings } from './SmallBalanceFilterSettings.js'
 import { ThemeSettings } from './ThemeSettings.js'
 
-export const SettingsPage = () => {
+export const SettingsPage = (): JSX.Element => {
   const { t } = useTranslation()
   const { hiddenUI } = useWidgetConfig()
   useHeader(t('header.settings'))

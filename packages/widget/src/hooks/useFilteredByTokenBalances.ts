@@ -19,7 +19,10 @@ export const useFilteredTokensByBalance = (
     { chainType: ChainType; tokens: Record<number, TokenExtended[]> }
   >,
   formType?: FormType
-) => {
+): {
+  data: Record<string, Record<number, TokenExtended[]>> | undefined
+  isLoading: boolean
+} => {
   const { tokens: configTokens } = useWidgetConfig()
   const sdkClient = useSDKClient()
 

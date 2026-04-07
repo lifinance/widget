@@ -1,12 +1,17 @@
 import { Box, badgeClasses, Badge as MuiBadge, styled } from '@mui/material'
+import type React from 'react'
 
-export const SettingsList = styled(Box)(({ theme }) => ({
+export const SettingsList: React.FC<React.ComponentProps<typeof Box>> = styled(
+  Box
+)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spacing(1),
 }))
 
-export const Badge = styled(MuiBadge)(({ theme }) => ({
+export const Badge: React.FC<React.ComponentProps<typeof MuiBadge>> = styled(
+  MuiBadge
+)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   gap: theme.spacing(1.25),

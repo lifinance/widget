@@ -25,7 +25,7 @@ export const BookmarkStoreProvider: React.FC<PersistStoreProviderProps> = ({
   )
 }
 
-export function useBookmarkStore<T>(selector: (store: BookmarkState) => T) {
+export function useBookmarkStore<T>(selector: (store: BookmarkState) => T): T {
   const useStore = useContext(BookmarkStoreContext)
 
   if (!useStore) {

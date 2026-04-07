@@ -1,9 +1,12 @@
+import type { StoreApi, UseBoundStore } from 'zustand'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { PersistStoreProps } from '../types.js'
 import type { PinnedTokensState } from './types.js'
 
-export const createPinnedTokensStore = ({ namePrefix }: PersistStoreProps) =>
+export const createPinnedTokensStore = ({
+  namePrefix,
+}: PersistStoreProps): UseBoundStore<StoreApi<PinnedTokensState>> =>
   create<PinnedTokensState>()(
     persist(
       (set, get) => ({

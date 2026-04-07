@@ -6,9 +6,12 @@ import {
   buttonClasses,
   styled,
 } from '@mui/material'
+import type React from 'react'
 import { getAvatarMask } from '../Avatar/utils.js'
 
-export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
+export const HeaderAppBar: React.FC<
+  React.ComponentProps<typeof AppBar> & { sticky?: boolean }
+> = styled(AppBar)(({ theme }) => ({
   backgroundColor: 'transparent',
   ...theme.applyStyles('dark', {
     backgroundColor: 'transparent',
@@ -19,7 +22,9 @@ export const HeaderAppBar = styled(AppBar)(({ theme }) => ({
   position: 'relative',
 }))
 
-export const Container = styled(Box, {
+export const Container: React.FC<
+  React.ComponentProps<typeof Box> & { sticky?: boolean }
+> = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'sticky',
 })<{ sticky?: boolean }>(({ theme, sticky }) => {
   return {
@@ -44,7 +49,9 @@ export const Container = styled(Box, {
   }
 })
 
-export const WalletButton = styled(Button, {
+export const WalletButton: React.FC<
+  React.ComponentProps<typeof Button> & { withOffset?: boolean }
+> = styled(Button, {
   shouldForwardProp: (prop) => prop !== 'withOffset',
 })<{ withOffset?: boolean }>(({ withOffset, theme }) => ({
   color: theme.vars.palette.text.primary,
@@ -74,7 +81,9 @@ export const WalletButton = styled(Button, {
   }),
 }))
 
-export const DrawerWalletContainer = styled(Box)(({ theme }) => ({
+export const DrawerWalletContainer: React.FC<
+  React.ComponentProps<typeof Box> & { avatarSize?: number; badgeSize?: number }
+> = styled(Box)(({ theme }) => ({
   width: '100%',
   display: 'flex',
   justifyContent: 'space-between',
@@ -89,7 +98,9 @@ export const DrawerWalletContainer = styled(Box)(({ theme }) => ({
   }),
 }))
 
-export const HeaderControlsContainer = styled(Box)(({ theme }) => ({
+export const HeaderControlsContainer: React.FC<
+  React.ComponentProps<typeof Box> & { avatarSize?: number; badgeSize?: number }
+> = styled(Box)(({ theme }) => ({
   display: 'flex',
   gap: theme.spacing(0.5),
   ...(theme.navigation.edge && {
@@ -99,7 +110,12 @@ export const HeaderControlsContainer = styled(Box)(({ theme }) => ({
   }),
 }))
 
-export const WalletAvatar = styled(Avatar, {
+export const WalletAvatar: React.FC<
+  React.ComponentProps<typeof Avatar> & {
+    avatarSize?: number
+    badgeSize?: number
+  }
+> = styled(Avatar, {
   shouldForwardProp: (prop) => prop !== 'avatarSize' && prop !== 'badgeSize',
 })<{ avatarSize?: number; badgeSize?: number }>(
   ({ avatarSize = 24, badgeSize = 12 }) => ({

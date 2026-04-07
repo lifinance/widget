@@ -1,5 +1,5 @@
 import type { WidgetProviderProps } from '@lifi/widget-provider'
-import { type PropsWithChildren, useContext } from 'react'
+import { type JSX, type PropsWithChildren, useContext } from 'react'
 import { WagmiContext } from 'wagmi'
 import type { EthereumProviderConfig } from '../types.js'
 import { EthereumBaseProvider } from './EthereumBaseProvider.js'
@@ -47,7 +47,9 @@ const EthereumWidgetProvider = ({
   )
 }
 
-export const EthereumProvider = (config?: EthereumProviderConfig) => {
+export const EthereumProvider = (
+  config?: EthereumProviderConfig
+): ((props: PropsWithChildren<WidgetProviderProps>) => JSX.Element) => {
   return ({ children, ...props }: PropsWithChildren<WidgetProviderProps>) => (
     <EthereumWidgetProvider {...props} config={config}>
       {children}

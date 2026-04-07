@@ -1,9 +1,10 @@
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward'
 import { Box, Skeleton } from '@mui/material'
+import type { JSX } from 'react'
 import { Card } from '../../components/Card/Card.js'
 import { TokenSkeleton } from '../../components/Token/Token.js'
 
-export const TransactionHistoryItemSkeleton = () => {
+export const TransactionHistoryItemSkeleton = (): JSX.Element => {
   return (
     <Card indented sx={{ mb: 2 }}>
       <Box>

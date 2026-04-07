@@ -7,7 +7,11 @@ import { useChain } from './useChain.js'
 export const useRouteRequiredAccountConnection = (
   route?: Route,
   chain?: ExtendedChain
-) => {
+): {
+  connected: boolean
+  missingChain?: ExtendedChain
+  missingAccountAddress?: string
+} => {
   const { account, accounts } = useAccount({ chainType: chain?.chainType })
   const [toAddress] = useFieldValues('toAddress')
   const { getChainById } = useChain()

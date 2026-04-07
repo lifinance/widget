@@ -1,4 +1,4 @@
-import type { RouteExtended } from '@lifi/sdk'
+import type { ChainType, RouteExtended } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useEthereumContext } from '@lifi/widget-provider'
 import { useChain } from '../hooks/useChain.js'
@@ -7,7 +7,19 @@ import { useFieldValues } from '../stores/form/useFieldValues.js'
 import { HiddenUI, RequiredUI } from '../types/widget.js'
 import { useIsContractAddress } from './useIsContractAddress.js'
 
-export const useToAddressRequirements = (route?: RouteExtended) => {
+export const useToAddressRequirements = (
+  route?: RouteExtended
+): {
+  requiredToAddress: boolean
+  requiredToChainType: ChainType | undefined
+  accountNotDeployedAtDestination: boolean
+  accountDeployedAtDestination: boolean
+  toAddress: string | undefined
+  isFromContractAddress: boolean | undefined
+  isToContractAddress: boolean | undefined
+  isLoading: boolean
+  isFetched: boolean
+} => {
   const { requiredUI, hiddenUI } = useWidgetConfig()
   const [formFromChainId, formToChainId, formToAddress] = useFieldValues(
     'fromChain',
@@ -57,23 +69,26 @@ export const useToAddressRequirements = (route?: RouteExtended) => {
     fromChainId !== toChainId &&
     !fromContractCodeHasDelegationIndicator
 
-  const requiredToAddress =
+  const requiredToAddress = Boolean(
     (isDifferentChainType ||
       isCrossChainContractAddress ||
       requiredUI?.includes(RequiredUI.ToAddress)) &&
-    !hiddenUI?.includes(HiddenUI.ToAddress)
+      !hiddenUI?.includes(HiddenUI.ToAddress)
+  )
 
-  const accountNotDeployedAtDestination =
+  const accountNotDeployedAtDestination = Boolean(
     isFromContractAddress &&
-    !fromContractCodeHasDelegationIndicator &&
-    !isToContractAddress &&
-    fromAddress?.toLowerCase() === toAddress?.toLowerCase()
+      !fromContractCodeHasDelegationIndicator &&
+      !isToContractAddress &&
+      fromAddress?.toLowerCase() === toAddress?.toLowerCase()
+  )
 
-  const accountDeployedAtDestination =
+  const accountDeployedAtDestination = Boolean(
     isFromContractAddress &&
-    isToContractAddress &&
-    !fromContractCodeHasDelegationIndicator &&
-    fromAddress?.toLowerCase() === toAddress?.toLowerCase()
+      isToContractAddress &&
+      !fromContractCodeHasDelegationIndicator &&
+      fromAddress?.toLowerCase() === toAddress?.toLowerCase()
+  )
 
   return {
     requiredToAddress,

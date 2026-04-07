@@ -13,13 +13,12 @@ import {
   MenuList,
 } from '@mui/material'
 import {
-  type ConnectedSolanaWallet,
   type ConnectedWallet,
   useConnectWallet,
   usePrivy,
-  useSolanaWallets,
   useWallets,
 } from '@privy-io/react-auth'
+import { useWallets as useSolanaWallets } from '@privy-io/react-auth/solana'
 import { useSetActiveWallet } from '@privy-io/wagmi'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { useAccount, useDisconnect } from 'wagmi'
@@ -31,8 +30,6 @@ type AccountMenuProps = {
   anchorEl: HTMLElement | null
   open: boolean
 }
-
-type ConnectedWalletType = ConnectedSolanaWallet | ConnectedWallet
 
 export function AccountMenu({ handleClose, anchorEl, open }: AccountMenuProps) {
   const { user, logout, ready, linkEmail, linkPasskey } = usePrivy()
@@ -51,7 +48,6 @@ export function AccountMenu({ handleClose, anchorEl, open }: AccountMenuProps) {
   // get user wallets
   const { wallets, ready: walletsReady } = useWallets()
   const { wallets: solanaWallets } = useSolanaWallets()
-  const allWallets = [...wallets, ...solanaWallets]
 
   // get active addresses
   const { address: activeEthAddress } = useAccount()
@@ -63,25 +59,23 @@ export function AccountMenu({ handleClose, anchorEl, open }: AccountMenuProps) {
     emitter.emit('disconnect')
   }
 
-  const handleSetActiveWallet = async (wallet: ConnectedWalletType) => {
-    if (isActiveWallet(wallet)) {
+  const handleSetActiveEthWallet = async (wallet: ConnectedWallet) => {
+    if (wallet.address === activeEthAddress) {
       return
     }
-    if (wallet.type === 'ethereum') {
-      return setActiveWallet(wallet)
-    }
-    if (wallet.type === 'solana') {
-      return emitter.emit('connect', wallet.meta.name)
-    }
+    return setActiveWallet(wallet)
   }
 
-  const isActiveWallet = (wallet: ConnectedWalletType) => {
-    if (wallet.type === 'ethereum') {
-      return wallet.address === activeEthAddress
-    }
-    if (wallet.type === 'solana') {
-      return wallet.address === activeSolanaAddress?.toBase58()
-    }
+  const handleSetActiveSolanaWallet = (walletName: string) => {
+    emitter.emit('connect', walletName)
+  }
+
+  const isActiveEthWallet = (wallet: ConnectedWallet) => {
+    return wallet.address === activeEthAddress
+  }
+
+  const isActiveSolanaWallet = (address: string) => {
+    return address === activeSolanaAddress?.toBase58()
   }
 
   const userHasPassKey = user?.linkedAccounts?.find(
@@ -104,23 +98,44 @@ export function AccountMenu({ handleClose, anchorEl, open }: AccountMenuProps) {
       <MenuList>
         <ListSubheader>Wallets</ListSubheader>
         {walletsReady &&
-          allWallets.map((wallet) => {
+          wallets.map((wallet) => {
             return (
               <MenuItem
                 key={wallet.address}
-                disabled={isActiveWallet(wallet)}
-                onClick={() => handleSetActiveWallet(wallet)}
+                disabled={isActiveEthWallet(wallet)}
+                onClick={() => handleSetActiveEthWallet(wallet)}
               >
                 <ListItemIcon sx={{ minWidth: 36 }}>
                   <WalletIcon />
                 </ListItemIcon>
                 <ListItemText
                   primary={shortenAddress(wallet.address)}
-                  secondary={isActiveWallet(wallet) ? 'Active' : null}
+                  secondary={isActiveEthWallet(wallet) ? 'Active' : null}
                 />
               </MenuItem>
             )
           })}
+        {solanaWallets.map((wallet) => {
+          return (
+            <MenuItem
+              key={wallet.address}
+              disabled={isActiveSolanaWallet(wallet.address)}
+              onClick={() =>
+                handleSetActiveSolanaWallet(wallet.standardWallet.name)
+              }
+            >
+              <ListItemIcon sx={{ minWidth: 36 }}>
+                <WalletIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={shortenAddress(wallet.address)}
+                secondary={
+                  isActiveSolanaWallet(wallet.address) ? 'Active' : null
+                }
+              />
+            </MenuItem>
+          )
+        })}
 
         <Divider />
         <MenuItem onClick={connectWallet}>

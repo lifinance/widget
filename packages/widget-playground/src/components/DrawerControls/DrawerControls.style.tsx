@@ -6,18 +6,21 @@ import type {
   DrawerProps as MuiDrawerProps,
 } from '@mui/material'
 import { Box, ButtonBase, Drawer as MuiDrawer, styled } from '@mui/material'
+import type React from 'react'
 
 export const drawerZIndex = 1501
-export const autocompletePopperZIndex = drawerZIndex + 1
-export const tooltipPopperZIndex = drawerZIndex + 2
-export const popperZIndex = drawerZIndex + 3
+export const autocompletePopperZIndex: number = drawerZIndex + 1
+export const tooltipPopperZIndex: number = drawerZIndex + 2
+export const popperZIndex: number = drawerZIndex + 3
 
 const headerZIndex = tooltipPopperZIndex
 
 interface DrawerProps extends MuiDrawerProps {
   drawerWidth: number
 }
-export const Drawer = styled(MuiDrawer, {
+export const Drawer: React.FC<
+  React.ComponentProps<typeof MuiDrawer> & DrawerProps
+> = styled(MuiDrawer, {
   shouldForwardProp: (prop) => !['drawerWidth'].includes(prop as string),
 })<DrawerProps>(({ drawerWidth }) => ({
   width: drawerWidth,
@@ -31,13 +34,20 @@ export const Drawer = styled(MuiDrawer, {
   ],
 }))
 
-export const Header = styled('h1')({
+export const Header: React.FC<
+  React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLHeadingElement>,
+    HTMLHeadingElement
+  >
+> = styled('h1')({
   fontSize: '1.5em',
   margin: 0,
   lineHeight: 0.8,
 })
 
-export const HeaderRow = styled(Box)(({ theme }) => ({
+export const HeaderRow: React.FC<React.ComponentProps<typeof Box>> = styled(
+  Box
+)(({ theme }) => ({
   position: 'sticky',
   top: 0,
   zIndex: headerZIndex,
@@ -49,13 +59,16 @@ export const HeaderRow = styled(Box)(({ theme }) => ({
   margin: theme.spacing(-1),
 }))
 
-export const WidgetConfigControls = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: theme.spacing(2),
-}))
+export const WidgetConfigControls: React.FC<React.ComponentProps<typeof Box>> =
+  styled(Box)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(2),
+  }))
 
-export const DrawerContentContainer = styled(Box, {
+export const DrawerContentContainer: React.FC<
+  React.ComponentProps<typeof Box> & { drawerWidth: number }
+> = styled(Box, {
   shouldForwardProp: (prop) => !['drawerWidth'].includes(prop as string),
 })<{
   drawerWidth: number
@@ -69,7 +82,9 @@ export const DrawerContentContainer = styled(Box, {
   zIndex: 1200,
 }))
 
-export const TabContentContainer = styled(TabPanel)(({ theme }) => ({
+export const TabContentContainer: React.FC<
+  React.ComponentProps<typeof TabPanel>
+> = styled(TabPanel)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'stretch',
@@ -81,11 +96,13 @@ export const TabContentContainer = styled(TabPanel)(({ theme }) => ({
   },
 }))
 
-export const DrawerHandleButton = styled((props: ButtonBaseProps) => (
-  <ButtonBase {...props} disableRipple>
-    &nbsp;
-  </ButtonBase>
-))({
+export const DrawerHandleButton: React.FC<ButtonBaseProps> = styled(
+  (props: ButtonBaseProps) => (
+    <ButtonBase {...props} disableRipple>
+      &nbsp;
+    </ButtonBase>
+  )
+)({
   background: 'none',
   color: 'inherit',
   border: 'none',
@@ -98,7 +115,9 @@ export const DrawerHandleButton = styled((props: ButtonBaseProps) => (
   zIndex: drawerZIndex + 1,
 })
 
-export const DrawerIconRight = styled(KeyboardArrowRightIcon)(({ theme }) => ({
+export const DrawerIconRight: React.FC<
+  React.ComponentProps<typeof KeyboardArrowRightIcon>
+> = styled(KeyboardArrowRightIcon)(({ theme }) => ({
   position: 'fixed',
   top: '50%',
   transform: 'translateY(-50%)',
@@ -110,7 +129,9 @@ export const DrawerIconRight = styled(KeyboardArrowRightIcon)(({ theme }) => ({
   }),
 }))
 
-export const DrawerIconLeft = styled(KeyboardArrowLeftIcon)(({ theme }) => ({
+export const DrawerIconLeft: React.FC<
+  React.ComponentProps<typeof KeyboardArrowLeftIcon>
+> = styled(KeyboardArrowLeftIcon)(({ theme }) => ({
   position: 'fixed',
   top: '50%',
   transform: 'translate(-75%, -50%)',

@@ -6,7 +6,7 @@ import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import TurnedInNot from '@mui/icons-material/TurnedInNot'
 import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
-import { useId, useRef, useState } from 'react'
+import { type JSX, useId, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
@@ -32,7 +32,7 @@ import {
   SendToWalletPageContainer,
 } from './SendToWalletPage.style.js'
 
-export const RecentWalletsPage = () => {
+export const RecentWalletsPage = (): JSX.Element => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [selectedRecent, setSelectedRecent] = useState<Bookmark>()

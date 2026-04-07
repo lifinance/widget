@@ -1,3 +1,4 @@
+import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useContactSupport } from '../../hooks/useContactSupport.js'
 import { ButtonChip } from './ContactSupportButton.style.js'
@@ -8,7 +9,7 @@ interface ContactSupportButtonProps {
 
 export const ContactSupportButton = ({
   supportId,
-}: ContactSupportButtonProps) => {
+}: ContactSupportButtonProps): JSX.Element => {
   const { t } = useTranslation()
   const handleContactSupport = useContactSupport(supportId)
 

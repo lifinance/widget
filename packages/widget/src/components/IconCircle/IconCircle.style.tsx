@@ -1,5 +1,6 @@
 import type { Theme } from '@mui/material'
 import { Box, styled } from '@mui/material'
+import type React from 'react'
 import type { StatusIcon } from './statusIcons'
 
 export const iconCircleSize = 90
@@ -47,9 +48,14 @@ export const getStatusColor = (
   }
 }
 
-export const iconSizeRatio = 48 / 90
+export const iconSizeRatio: number = 48 / 90
 
-export const IconCircleRoot = styled(Box, {
+export const IconCircleRoot: React.FC<
+  React.ComponentProps<typeof Box> & {
+    colorConfig: StatusColorConfig
+    circleSize: number
+  }
+> = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'colorConfig' && prop !== 'circleSize',
 })<{ colorConfig: StatusColorConfig; circleSize: number }>(
   ({ theme, colorConfig, circleSize }) => {

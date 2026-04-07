@@ -13,7 +13,9 @@ import {
 } from '../types/events.js'
 import { useWalletManagementEvents } from './useWalletManagementEvents.js'
 
-export const useAccountDisconnect = () => {
+export const useAccountDisconnect = (): ((
+  account: Account
+) => Promise<void>) => {
   const { disconnect: ethereumDisconnect } = useEthereumContext()
   const { disconnect: bitcoinDisconnect } = useBitcoinContext()
   const { disconnect: solanaDisconnect } = useSolanaContext()

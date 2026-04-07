@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
-import type { FormFieldNames } from '../stores/form/types.js'
+import type { FormFieldArray, FormFieldNames } from '../stores/form/types.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
 
 export const useDebouncedWatch = <T extends FormFieldNames[]>(
   delay: number,
   ...name: T
-) => {
+): FormFieldArray<T> => {
   const watchedValue = useFieldValues(...name)
   const [debouncedValue, setDebouncedValue] = useState(watchedValue)
   const debouncedValueRef = useRef<typeof watchedValue>(null)

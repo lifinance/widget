@@ -1,27 +1,27 @@
 import type { ExecutionAction, RouteExtended } from '@lifi/sdk'
 import microdiff from 'microdiff'
 
-export const isRouteDone = (route: RouteExtended) => {
+export const isRouteDone = (route: RouteExtended): boolean => {
   return route.steps.every((step) => step.execution?.status === 'DONE')
 }
 
-export const isRoutePartiallyDone = (route: RouteExtended) => {
+export const isRoutePartiallyDone = (route: RouteExtended): boolean => {
   return route.steps.some((step) =>
     step.execution?.actions?.some((action) => action.substatus === 'PARTIAL')
   )
 }
 
-export const isRouteRefunded = (route: RouteExtended) => {
+export const isRouteRefunded = (route: RouteExtended): boolean => {
   return route.steps.some((step) =>
     step.execution?.actions?.some((action) => action.substatus === 'REFUNDED')
   )
 }
 
-export const isRouteFailed = (route: RouteExtended) => {
+export const isRouteFailed = (route: RouteExtended): boolean => {
   return route.steps.some((step) => step.execution?.status === 'FAILED')
 }
 
-export const isRouteActive = (route?: RouteExtended) => {
+export const isRouteActive = (route?: RouteExtended): boolean => {
   if (!route) {
     return false
   }
@@ -53,7 +53,7 @@ export const getUpdatedAction = (
   return action
 }
 
-export const getSourceTxHash = (route?: RouteExtended) => {
+export const getSourceTxHash = (route?: RouteExtended): string | undefined => {
   const sourceAction = route?.steps[0].execution?.actions
     .filter(
       (action) => !['RESET_ALLOWANCE', 'SET_ALLOWANCE'].includes(action.type)

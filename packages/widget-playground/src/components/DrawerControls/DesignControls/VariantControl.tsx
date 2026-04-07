@@ -1,12 +1,12 @@
 import type { WidgetVariant } from '@lifi/widget'
-import type { SyntheticEvent } from 'react'
+import type { JSX, SyntheticEvent } from 'react'
 import { useConfigActions } from '../../../store/widgetConfig/useConfigActions.js'
 import { useConfigVariant } from '../../../store/widgetConfig/useConfigValues.js'
 import { CardValue } from '../../Card/Card.style.js'
 import { ExpandableCard } from '../../Card/ExpandableCard.js'
 import { Tab, Tabs } from '../../Tabs/Tabs.style.js'
 
-export const VariantControl = () => {
+export const VariantControl = (): JSX.Element => {
   const { variant } = useConfigVariant()
   const { setVariant, setHeader, setContainer, getCurrentConfigTheme } =
     useConfigActions()

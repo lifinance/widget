@@ -1,7 +1,7 @@
 'use client'
 import type { UseMutateAsyncFunction } from '@tanstack/react-query'
 import { useMutation } from '@tanstack/react-query'
-import type { PropsWithChildren } from 'react'
+import type { JSX, PropsWithChildren } from 'react'
 import { createContext, useContext, useEffect, useState } from 'react'
 import { allFonts } from '../../components/DrawerControls/DesignControls/FontsControl/defaultFonts.js'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
@@ -20,7 +20,9 @@ const FontLoadingContext = createContext<FontLoadingContextProps>({
   isLoadingFont: false,
 })
 
-export const FontLoaderProvider = ({ children }: PropsWithChildren) => {
+export const FontLoaderProvider = ({
+  children,
+}: PropsWithChildren): JSX.Element => {
   const [loadedFonts, setLoadedFonts] = useState<string[]>([])
 
   const { mutateAsync: loadFont, isPending: isLoadingFont } = useMutation({
@@ -58,16 +60,16 @@ const loadFontFace = async (fontFace: FontFace) => {
   const loadedFont = await fontFace.load()
   document.fonts.add(loadedFont)
 }
-export const useFontLoader = () => {
+export const useFontLoader = (): FontLoadingContextProps => {
   const { loadFont, isLoadingFont } = useContext(FontLoadingContext)
 
   return {
-    isLoadingFont,
-    loadFont,
+    isLoadingFont: isLoadingFont,
+    loadFont: loadFont,
   }
 }
 
-export const useFontInitialisation = () => {
+export const useFontInitialisation = (): void => {
   const { fontFamily } = useConfigFontFamily()
   const { setSelectedFont } = useEditToolsActions()
   const { loadFont } = useFontLoader()

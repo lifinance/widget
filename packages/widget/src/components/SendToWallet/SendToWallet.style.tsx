@@ -1,7 +1,10 @@
 import { cardHeaderClasses, styled } from '@mui/material'
+import type React from 'react'
 import { CardHeader } from '../Card/CardHeader.js'
 
-export const SendToWalletCardHeader = styled(CardHeader, {
+export const SendToWalletCardHeader: React.FC<
+  React.ComponentProps<typeof CardHeader> & { selected?: boolean }
+> = styled(CardHeader, {
   shouldForwardProp: (prop) => !['selected'].includes(prop as string),
 })<{ selected?: boolean }>(({ theme }) => ({
   width: '100%',

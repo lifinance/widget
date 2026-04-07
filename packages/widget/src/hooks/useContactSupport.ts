@@ -1,7 +1,7 @@
 import { WidgetEvent } from '../types/events.js'
 import { useWidgetEvents } from './useWidgetEvents.js'
 
-export const useContactSupport = (supportId?: string) => {
+export const useContactSupport = (supportId?: string): (() => void) => {
   const widgetEvents = useWidgetEvents()
 
   const handleContactSupport = () => {

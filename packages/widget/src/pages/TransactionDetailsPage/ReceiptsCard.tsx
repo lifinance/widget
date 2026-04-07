@@ -1,4 +1,5 @@
 import type { RouteExtended } from '@lifi/sdk'
+import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Card } from '../../components/Card/Card.js'
 import { CardTitle } from '../../components/Card/CardTitle.js'
@@ -8,7 +9,7 @@ interface ReceiptsCardProps {
   route: RouteExtended
 }
 
-export const ReceiptsCard = ({ route }: ReceiptsCardProps) => {
+export const ReceiptsCard = ({ route }: ReceiptsCardProps): JSX.Element => {
   const { t } = useTranslation()
   const toAddress = route.toAddress
 

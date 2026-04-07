@@ -1,3 +1,4 @@
+import type { StoreApi, UseBoundStore } from 'zustand'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { ToAddress } from '../../types/widget.js'
@@ -12,7 +13,7 @@ interface PersistBookmarkProps extends PersistStoreProps {
 export const createBookmarksStore = ({
   namePrefix,
   toAddress,
-}: PersistBookmarkProps) =>
+}: PersistBookmarkProps): UseBoundStore<StoreApi<BookmarkState>> =>
   create<BookmarkState>()(
     persist(
       (set, get) => ({

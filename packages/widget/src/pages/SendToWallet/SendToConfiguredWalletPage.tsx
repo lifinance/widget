@@ -2,7 +2,7 @@ import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
 import MoreHoriz from '@mui/icons-material/MoreHoriz'
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material'
-import { useId, useState } from 'react'
+import { type JSX, useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js'
 import { ListItem } from '../../components/ListItem/ListItem.js'
@@ -24,7 +24,7 @@ import {
   SendToWalletPageContainer,
 } from './SendToWalletPage.style.js'
 
-export const SendToConfiguredWalletPage = () => {
+export const SendToConfiguredWalletPage = (): JSX.Element => {
   const { t } = useTranslation()
   const navigateBack = useNavigateBack()
   const { toAddresses } = useWidgetConfig()

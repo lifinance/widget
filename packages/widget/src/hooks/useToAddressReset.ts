@@ -7,7 +7,9 @@ import { useFieldActions } from '../stores/form/useFieldActions.js'
 import { useSendToWalletActions } from '../stores/settings/useSendToWalletStore.js'
 import { RequiredUI } from '../types/widget.js'
 
-export const useToAddressReset = () => {
+export const useToAddressReset = (): {
+  tryResetToAddress: (toChain: ExtendedChain) => void
+} => {
   const { requiredUI } = useWidgetConfig()
   const { setFieldValue, isDirty } = useFieldActions()
   const { selectedBookmark } = useBookmarks()

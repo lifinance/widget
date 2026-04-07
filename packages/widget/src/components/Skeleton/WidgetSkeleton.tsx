@@ -1,5 +1,5 @@
 import { Skeleton, ThemeProvider, useMediaQuery } from '@mui/material'
-import { useMemo } from 'react'
+import { type JSX, useMemo } from 'react'
 import { createTheme } from '../../themes/createTheme.js'
 import type { WidgetConfigPartialProps } from '../../types/widget.js'
 import {
@@ -64,7 +64,9 @@ const SkeletonYouPayCard = () => (
   </SkeletonInputCard>
 )
 
-export const WidgetSkeleton = ({ config }: WidgetConfigPartialProps) => {
+export const WidgetSkeleton = ({
+  config,
+}: WidgetConfigPartialProps): JSX.Element => {
   const appearance = config?.appearance
   const hiddenUI = config?.hiddenUI || []
   const requiredUI = config?.requiredUI || []

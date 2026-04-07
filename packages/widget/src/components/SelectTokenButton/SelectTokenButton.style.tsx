@@ -3,11 +3,17 @@ import {
   CardContent as MuiCardContent,
   styled,
 } from '@mui/material'
+import type React from 'react'
 import type { FormType } from '../../stores/form/types.js'
 import { Card } from '../Card/Card.js'
 import { CardHeader } from '../Card/CardHeader.js'
 
-export const SelectTokenCardHeader = styled(CardHeader, {
+export const SelectTokenCardHeader: React.FC<
+  React.ComponentProps<typeof CardHeader> & {
+    selected?: boolean
+    compact?: boolean
+  }
+> = styled(CardHeader, {
   shouldForwardProp: (prop) =>
     !['selected', 'compact'].includes(prop as string),
 })<{ selected?: boolean; compact?: boolean }>(
@@ -72,7 +78,13 @@ export const SelectTokenCardHeader = styled(CardHeader, {
   })
 )
 
-export const SelectTokenCard = styled(Card)(({ theme }) => {
+export const SelectTokenCard: React.FC<
+  React.ComponentProps<typeof Card> & {
+    formType?: FormType
+    compact?: boolean
+    mask?: boolean
+  }
+> = styled(Card)(({ theme }) => {
   const cardVariant = theme.components?.MuiCard?.defaultProps?.variant
   return {
     flex: 1,
@@ -86,10 +98,16 @@ export const SelectTokenCard = styled(Card)(({ theme }) => {
   }
 })
 
-export const CardContent = styled(MuiCardContent, {
+export const CardContent: React.FC<
+  React.ComponentProps<typeof MuiCardContent> & {
+    formType?: FormType
+    compact?: boolean
+    mask?: boolean
+  }
+> = styled(MuiCardContent, {
   shouldForwardProp: (prop) =>
     !['formType', 'compact', 'mask'].includes(prop as string),
-})<{ formType: FormType; compact: boolean; mask?: boolean }>(
+})<{ formType?: FormType; compact?: boolean; mask?: boolean }>(
   ({ theme, formType, compact, mask = true }) => {
     const cardVariant = theme.components?.MuiCard?.defaultProps?.variant
     const direction = formType === 'to' ? '-8px' : 'calc(100% + 8px)'

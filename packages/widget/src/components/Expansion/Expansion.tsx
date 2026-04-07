@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { type JSX, useMemo, useRef, useState } from 'react'
 import { useHasChainExpansion } from '../../hooks/useHasChainExpansion.js'
 import { ExpansionType } from '../../types/widget.js'
 import { ChainsExpanded } from '../Chains/ChainsExpanded.js'
@@ -7,7 +7,7 @@ import { RoutesExpanded } from '../Routes/RoutesExpanded.js'
 import { routesExpansionWidth } from '../Routes/RoutesExpanded.style.js'
 import { ExpansionContainer } from './Expansion.style.js'
 
-export function Expansion() {
+export function Expansion(): JSX.Element {
   const [withChainExpansion, expansionType] = useHasChainExpansion()
   const chainExpansionTypeRef = useRef<ExpansionType>(expansionType)
   const [routesOpen, setRoutesOpen] = useState(false)

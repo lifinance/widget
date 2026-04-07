@@ -1,5 +1,6 @@
 import type { Theme } from '@mui/material'
 import { Box, styled } from '@mui/material'
+import type React from 'react'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
 
 type StatusColor = RouteExecutionStatus | 'warning'
@@ -39,36 +40,42 @@ const getStatusColor = (status: StatusColor, theme: Theme) => {
   }
 }
 
-export const CenterContainer = styled(Box)(() => ({
+export const CenterContainer: React.FC<
+  React.ComponentProps<typeof Box> & { status?: StatusColor }
+> = styled(Box)(() => ({
   display: 'grid',
   placeItems: 'center',
   position: 'relative',
 }))
 
-export const IconCircle = styled(Box, {
+export const IconCircle: React.FC<
+  React.ComponentProps<typeof Box> & { status?: StatusColor }
+> = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'status',
-})<{ status: StatusColor }>(({ theme, status }) => {
-  const statusConfig = getStatusColor(status, theme)
+})<{ status?: StatusColor }>(
+  ({ theme, status = RouteExecutionStatus.Idle }) => {
+    const statusConfig = getStatusColor(status, theme)
 
-  return {
-    backgroundColor: `rgba(${statusConfig.color} / ${statusConfig.alpha})`,
-    borderRadius: '50%',
-    width: 72,
-    height: 72,
-    display: 'grid',
-    position: 'relative',
-    placeItems: 'center',
-    '& > svg': {
-      color: `color-mix(in srgb, rgb(${statusConfig.color}) ${(1 - statusConfig.lightDarken) * 100}%, black)`,
-      width: 36,
-      height: 36,
-    },
-    ...theme.applyStyles('dark', {
+    return {
+      backgroundColor: `rgba(${statusConfig.color} / ${statusConfig.alpha})`,
+      borderRadius: '50%',
+      width: 72,
+      height: 72,
+      display: 'grid',
+      position: 'relative',
+      placeItems: 'center',
       '& > svg': {
-        color: `color-mix(in srgb, rgb(${statusConfig.color}) ${(1 - statusConfig.darkDarken) * 100}%, black)`,
+        color: `color-mix(in srgb, rgb(${statusConfig.color}) ${(1 - statusConfig.lightDarken) * 100}%, black)`,
         width: 36,
         height: 36,
       },
-    }),
+      ...theme.applyStyles('dark', {
+        '& > svg': {
+          color: `color-mix(in srgb, rgb(${statusConfig.color}) ${(1 - statusConfig.darkDarken) * 100}%, black)`,
+          width: 36,
+          height: 36,
+        },
+      }),
+    }
   }
-})
+)

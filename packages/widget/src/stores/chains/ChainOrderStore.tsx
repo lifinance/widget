@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useRef } from 'react'
+import { createContext, type JSX, useContext, useEffect, useRef } from 'react'
 import type { StoreApi, UseBoundStore } from 'zustand'
 import { useShallow } from 'zustand/shallow'
 import { useChains } from '../../hooks/useChains.js'
@@ -21,7 +21,7 @@ const ChainOrderStoreContext = createContext<ChainOrderStore | null>(null)
 export function ChainOrderStoreProvider({
   children,
   ...props
-}: PersistStoreProviderProps) {
+}: PersistStoreProviderProps): JSX.Element {
   const {
     chains: chainsConfig,
     hiddenUI,

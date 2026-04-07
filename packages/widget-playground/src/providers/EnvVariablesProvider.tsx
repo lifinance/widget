@@ -1,4 +1,4 @@
-import type { PropsWithChildren } from 'react'
+import type { JSX, PropsWithChildren } from 'react'
 import { createContext, useContext } from 'react'
 
 const EnvVariablesContext = createContext({
@@ -12,7 +12,7 @@ interface EvnVariablesProviderProps extends PropsWithChildren {
 export const EnvVariablesProvider = ({
   children,
   EVMWalletConnectId,
-}: EvnVariablesProviderProps) => {
+}: EvnVariablesProviderProps): JSX.Element => {
   return (
     <EnvVariablesContext.Provider value={{ EVMWalletConnectId }}>
       {children}
@@ -20,6 +20,6 @@ export const EnvVariablesProvider = ({
   )
 }
 
-export const useEnvVariables = () => {
+export const useEnvVariables = (): { EVMWalletConnectId: string } => {
   return useContext(EnvVariablesContext)
 }

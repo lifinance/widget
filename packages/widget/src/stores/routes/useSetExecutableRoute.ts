@@ -1,5 +1,7 @@
 import { useRouteExecutionStore } from './RouteExecutionStore.js'
+import type { RouteExecutionState } from './types.js'
 
-export const useSetExecutableRoute = () => {
-  return useRouteExecutionStore((state) => state.setExecutableRoute)
-}
+export const useSetExecutableRoute =
+  (): RouteExecutionState['setExecutableRoute'] => {
+    return useRouteExecutionStore((state) => state.setExecutableRoute)
+  }

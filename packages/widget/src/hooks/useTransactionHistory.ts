@@ -11,7 +11,10 @@ import { buildRouteFromTxHistory } from '../utils/converters.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useTools } from './useTools.js'
 
-export const useTransactionHistory = () => {
+export const useTransactionHistory = (): {
+  data: RouteExecution[]
+  isLoading: boolean
+} => {
   const { accounts } = useAccount()
   const { keyPrefix } = useWidgetConfig()
   const sdkClient = useSDKClient()

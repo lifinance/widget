@@ -1,6 +1,7 @@
 import type { RouteExtended } from '@lifi/sdk'
 import { useEthereumContext } from '@lifi/widget-provider'
 import { Box, Tooltip } from '@mui/material'
+import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTokenRateText } from '../../hooks/useTokenRateText.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
@@ -26,7 +27,7 @@ interface RouteDetailsProps {
   route: RouteExtended
 }
 
-export const RouteDetails = ({ route }: RouteDetailsProps) => {
+export const RouteDetails = ({ route }: RouteDetailsProps): JSX.Element => {
   const { t, i18n } = useTranslation()
   const { rateText, toggleRate } = useTokenRateText(route)
   const { feeConfig } = useWidgetConfig()

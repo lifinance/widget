@@ -5,7 +5,10 @@ import { useFieldValues } from '../stores/form/useFieldValues.js'
 import { formatTokenPrice } from '../utils/format.js'
 import { useToken } from './useToken.js'
 
-export const useFromAmountThreshold = () => {
+export const useFromAmountThreshold = (): {
+  belowMinFromAmountUSD: boolean
+  minFromAmountUSD: number | undefined
+} => {
   const { minFromAmountUSD } = useWidgetConfig()
 
   const [chainId, tokenAddress, fromAmount] = useFieldValues(

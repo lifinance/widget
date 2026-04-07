@@ -1,9 +1,12 @@
 import { CssBaseline, ThemeProvider } from '@mui/material'
+import type { JSX } from 'react'
 import { type PropsWithChildren, useMemo } from 'react'
 import { usePlaygroundSettingValues } from '../../store/editTools/usePlaygroundSettingValues.js'
 import { createTheme } from './theme.js'
 
-export const PlaygroundThemeProvider = ({ children }: PropsWithChildren) => {
+export const PlaygroundThemeProvider = ({
+  children,
+}: PropsWithChildren): JSX.Element => {
   const { viewportColor } = usePlaygroundSettingValues()
   const appTheme = useMemo(() => createTheme(viewportColor), [viewportColor])
 

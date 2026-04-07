@@ -1,30 +1,37 @@
 import { Box, Button, Card as MuiCard, styled } from '@mui/material'
+import type React from 'react'
 import { InputCard } from '../../components/Card/InputCard.js'
 
-export const SkeletonHeaderAppBar = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'flex-end',
-  alignItems: 'center',
-  color: theme.vars?.palette?.text.primary,
-  paddingRight: theme.navigation?.edge ? 0 : theme.spacing?.(1),
-}))
+export const SkeletonHeaderAppBar: React.FC<React.ComponentProps<typeof Box>> =
+  styled(Box)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    color: theme.vars?.palette?.text.primary,
+    paddingRight: theme.navigation?.edge ? 0 : theme.spacing?.(1),
+  }))
 
-export const SkeletonWalletMenuButtonContainer = styled(Box)(({ theme }) => ({
+export const SkeletonWalletMenuButtonContainer: React.FC<
+  React.ComponentProps<typeof Box>
+> = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(1, 0, 1, 1.5),
   gap: theme.spacing(1),
 }))
 
-export const SkeletonCardRow = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  gap: theme.spacing(2),
-  alignItems: 'center',
-  marginTop: theme.spacing(1.5),
-}))
+export const SkeletonCardRow: React.FC<React.ComponentProps<typeof Box>> =
+  styled(Box)(({ theme }) => ({
+    display: 'flex',
+    gap: theme.spacing(2),
+    alignItems: 'center',
+    marginTop: theme.spacing(1.5),
+  }))
 
-export const SkeletonAmountContainer = styled(Box)({
+export const SkeletonAmountContainer: React.FC<
+  React.ComponentProps<typeof Box>
+> = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -32,32 +39,43 @@ export const SkeletonAmountContainer = styled(Box)({
   overflowY: 'hidden',
 })
 
-export const SkeletonCard = styled(MuiCard)(({ theme }) => ({
+export const SkeletonCard: React.FC<React.ComponentProps<typeof MuiCard>> =
+  styled(MuiCard)(({ theme }) => ({
+    padding: theme.spacing(1.5, 2, 2),
+  }))
+
+export const SkeletonInputCard: React.FC<
+  React.ComponentProps<typeof InputCard>
+> = styled(InputCard)(({ theme }) => ({
   padding: theme.spacing(1.5, 2, 2),
 }))
 
-export const SkeletonInputCard = styled(InputCard)(({ theme }) => ({
-  padding: theme.spacing(1.5, 2, 2),
-}))
-
-export const SkeletonReviewButtonContainer = styled(Box)(({ theme }) => ({
+export const SkeletonReviewButtonContainer: React.FC<
+  React.ComponentProps<typeof Box>
+> = styled(Box)(({ theme }) => ({
   display: 'flex',
   gap: theme.spacing(1.5),
   alignItems: 'center',
 }))
 
-export const SkeletonReviewButton = styled(Button)({
+export const SkeletonReviewButton: React.FC<
+  React.ComponentProps<typeof Button>
+> = styled(Button)({
   height: 48,
   pointerEvents: 'none',
 })
-export const SkeletonSendToWalletButton = styled(Button)({
+export const SkeletonSendToWalletButton: React.FC<
+  React.ComponentProps<typeof Button>
+> = styled(Button)({
   height: 48,
   minWidth: 48,
   width: 48,
   pointerEvents: 'none',
 })
 
-export const SkeletonPoweredByContainer = styled(Box)(({ theme }) => ({
+export const SkeletonPoweredByContainer: React.FC<
+  React.ComponentProps<typeof Box>
+> = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexGrow: 1,
   justifyContent: 'flex-end',
@@ -67,7 +85,9 @@ export const SkeletonPoweredByContainer = styled(Box)(({ theme }) => ({
   paddingRight: theme.spacing(3),
 }))
 
-export const SkeletonHeaderContainer = styled(Box)(({ theme }) => {
+export const SkeletonHeaderContainer: React.FC<
+  React.ComponentProps<typeof Box>
+> = styled(Box)(({ theme }) => {
   return {
     display: 'flex',
     flexDirection: 'column',
