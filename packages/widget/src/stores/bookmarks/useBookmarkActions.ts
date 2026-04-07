@@ -1,7 +1,7 @@
 import { useBookmarkStore } from './BookmarkStore.js'
 import type { BookmarkActions } from './types.js'
 
-export const useBookmarkActions = () => {
+export const useBookmarkActions = (): BookmarkActions => {
   const actions = useBookmarkStore<BookmarkActions>((store) => ({
     getBookmark: store.getBookmark,
     addBookmark: store.addBookmark,

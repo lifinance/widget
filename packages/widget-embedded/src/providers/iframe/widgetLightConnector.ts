@@ -8,6 +8,8 @@ import { EthereumIframeProvider } from './EthereumIframeProvider.js'
 
 type ConnectorEmitter = Parameters<CreateConnectorFn>[0]['emitter']
 
+const WIDGET_LIGHT_CONNECTOR_TYPE = 'widget-light-iframe' as const
+
 /**
  * Wagmi v3 connector that bridges the LI.FI Widget (running in an iframe) to
  * the parent window's wallet via postMessage.
@@ -24,7 +26,9 @@ type ConnectorEmitter = Parameters<CreateConnectorFn>[0]['emitter']
  * after re-creation, we store a mutable `latestEmitter` ref in the outer
  * closure. It is updated on every factory invocation.
  */
-export function widgetLightConnector() {
+function _widgetLightConnector(): CreateConnectorFn<
+  EthereumIframeProvider | undefined
+> {
   let provider_: EthereumIframeProvider | undefined
   let latestEmitter: ConnectorEmitter
   // Mutable ref to wagmi's spread connector object, updated in setup().
@@ -36,7 +40,7 @@ export function widgetLightConnector() {
     return {
       id: 'widget-light-iframe',
       name: 'Widget Light',
-      type: widgetLightConnector.type,
+      type: WIDGET_LIGHT_CONNECTOR_TYPE,
 
       async setup() {
         // `this` is wagmi's spread connector object — capture it so we
@@ -180,4 +184,8 @@ export function widgetLightConnector() {
   })
 }
 
-widgetLightConnector.type = 'widget-light-iframe' as const
+export const widgetLightConnector: (() => CreateConnectorFn<
+  EthereumIframeProvider | undefined
+>) & {
+  type: typeof WIDGET_LIGHT_CONNECTOR_TYPE
+} = Object.assign(_widgetLightConnector, { type: WIDGET_LIGHT_CONNECTOR_TYPE })

@@ -10,7 +10,7 @@ import {
   List,
   useTheme,
 } from '@mui/material'
-import { useCallback, useMemo, useState } from 'react'
+import { type JSX, useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActiveTransactionItem } from '../../components/ActiveTransactions/ActiveTransactionItem.js'
 import { Dialog } from '../../components/Dialog.js'
@@ -34,7 +34,7 @@ const DeleteIconButton: React.FC<IconButtonProps> = ({ onClick }) => {
   )
 }
 
-export const ActiveTransactionsPage = () => {
+export const ActiveTransactionsPage = (): JSX.Element => {
   const { t } = useTranslation()
   const executingRoutes = useExecutingRoutesIds()
   const deleteRoutes = useRouteExecutionStore((store) => store.deleteRoutes)

@@ -1,5 +1,6 @@
 import {
   createContext,
+  type JSX,
   type PropsWithChildren,
   useContext,
   useRef,
@@ -16,7 +17,7 @@ const SettingsStoreContext = createContext<SettingsStore | null>(null)
 export const SettingsStoreProvider = ({
   children,
   config,
-}: PropsWithChildren<SettingsStoreProviderProps>) => {
+}: PropsWithChildren<SettingsStoreProviderProps>): JSX.Element => {
   const storeRef = useRef<SettingsStore>(null)
   if (!storeRef.current) {
     storeRef.current = createSettingsStore(config)
@@ -28,7 +29,7 @@ export const SettingsStoreProvider = ({
   )
 }
 
-export function useSettingsStoreContext() {
+export function useSettingsStoreContext(): any {
   const useStore = useContext(SettingsStoreContext)
   if (!useStore) {
     throw new Error(

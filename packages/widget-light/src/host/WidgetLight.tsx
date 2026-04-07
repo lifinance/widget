@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react'
+import type { CSSProperties, JSX } from 'react'
 import type {
   ConnectWalletArgs,
   IframeEcosystemHandler,
@@ -73,7 +73,7 @@ export function WidgetLight({
   style,
   className,
   title = 'LI.FI Widget',
-}: WidgetLightProps) {
+}: WidgetLightProps): JSX.Element {
   const { iframeRef } = useWidgetLightHost({
     config,
     handlers,

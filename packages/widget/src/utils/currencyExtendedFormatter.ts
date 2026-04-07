@@ -1,7 +1,7 @@
 export const currencyExtendedFormatter = (
   lng: string | undefined,
   options: any
-) => {
+): ((value: any) => string) => {
   const formatter = new Intl.NumberFormat(lng, {
     ...options,
     style: 'currency',

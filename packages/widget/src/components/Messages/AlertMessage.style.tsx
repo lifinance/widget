@@ -1,11 +1,14 @@
 import { Box, styled } from '@mui/material'
+import type React from 'react'
 import type { Severity } from './types.js'
 
 interface AlertSeverityProps {
   severity: Severity
 }
 
-export const AlertMessageCard = styled(Box, {
+export const AlertMessageCard: React.FC<
+  React.ComponentProps<typeof Box> & AlertSeverityProps
+> = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'severity',
 })<AlertSeverityProps>(({ theme }) => ({
   borderRadius: theme.vars.shape.borderRadius,
@@ -32,7 +35,9 @@ export const AlertMessageCard = styled(Box, {
   ],
 }))
 
-export const AlertMessageCardTitle = styled(Box, {
+export const AlertMessageCardTitle: React.FC<
+  React.ComponentProps<typeof Box> & AlertSeverityProps
+> = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'severity',
 })<AlertSeverityProps>(({ theme }) => ({
   display: 'flex',

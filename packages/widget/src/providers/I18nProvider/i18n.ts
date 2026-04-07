@@ -5,7 +5,7 @@ import type { LanguageKey, LanguageResource, PartialResource } from './types.js'
 export async function loadLocale(
   lng: LanguageKey,
   customLanguageResource?: PartialResource<LanguageResource>
-) {
+): Promise<LanguageResource> {
   let languageResource: LanguageResource
   try {
     const languageResourceModule = await import(`../../i18n/${lng}.json`)
@@ -19,7 +19,7 @@ export async function loadLocale(
 export function mergeWithLanguageResources(
   languageResource: LanguageResource,
   customLanguageResource?: PartialResource<LanguageResource>
-) {
+): LanguageResource {
   return customLanguageResource
     ? deepMerge(languageResource, customLanguageResource)
     : languageResource

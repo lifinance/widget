@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { type JSX, useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SearchInput } from '../../components/Search/SearchInput.js'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
@@ -10,7 +10,9 @@ interface SearchTokenInputProps {
   formType: FormType
 }
 
-export const SearchTokenInput = ({ formType }: SearchTokenInputProps) => {
+export const SearchTokenInput = ({
+  formType,
+}: SearchTokenInputProps): JSX.Element => {
   const { t } = useTranslation()
   const [value] = useFieldValues('tokenSearchFilter')
   const { setFieldValue, setAsTouched } = useFieldActions()

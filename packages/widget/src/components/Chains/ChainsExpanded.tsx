@@ -1,3 +1,4 @@
+import type React from 'react'
 import { memo } from 'react'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../../stores/form/types.js'
@@ -14,19 +15,17 @@ interface ChainsExpandedProps {
   open: boolean
 }
 
-export const ChainsExpanded = memo(function ChainsExpanded({
-  formType,
-  open,
-}: ChainsExpandedProps) {
-  const { theme } = useWidgetConfig()
+export const ChainsExpanded: React.NamedExoticComponent<ChainsExpandedProps> =
+  memo(function ChainsExpanded({ formType, open }: ChainsExpandedProps) {
+    const { theme } = useWidgetConfig()
 
-  return (
-    <ExpansionTransition in={open} width={chainExpansionWidth}>
-      <SelectChainExpansionContainer
-        expansionHeight={getWidgetMaxHeight(theme)}
-      >
-        <SelectChainContent inExpansion formType={formType} />
-      </SelectChainExpansionContainer>
-    </ExpansionTransition>
-  )
-})
+    return (
+      <ExpansionTransition in={open} width={chainExpansionWidth}>
+        <SelectChainExpansionContainer
+          expansionHeight={getWidgetMaxHeight(theme)}
+        >
+          <SelectChainContent inExpansion formType={formType} />
+        </SelectChainExpansionContainer>
+      </ExpansionTransition>
+    )
+  })

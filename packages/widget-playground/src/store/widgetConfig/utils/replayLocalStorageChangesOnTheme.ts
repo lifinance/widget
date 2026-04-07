@@ -7,7 +7,7 @@ import { getLocalStorageOutput } from './getLocalStorageOutput.js'
 export const replayLocalStorageChangesOnTheme = (
   theme: WidgetTheme,
   localStoredConfig: Partial<WidgetConfig>
-) => {
+): WidgetTheme => {
   const tempConfig: Partial<WidgetConfig> = { theme }
 
   const differences = diff(

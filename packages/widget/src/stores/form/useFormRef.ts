@@ -4,7 +4,10 @@ import { formDefaultValues } from '../../stores/form/createFormStore.js'
 import type { FormRef } from '../../types/widget.js'
 import type { FormStoreStore, GenericFormValue } from './types.js'
 
-export const useFormRef = (formStore: FormStoreStore, formRef?: FormRef) => {
+export const useFormRef = (
+  formStore: FormStoreStore,
+  formRef?: FormRef
+): void => {
   const { setSelectedBookmark } = useBookmarkActions()
 
   useImperativeHandle(formRef, () => {

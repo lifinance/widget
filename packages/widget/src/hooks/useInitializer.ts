@@ -5,7 +5,7 @@ import { useTools } from './useTools.js'
 
 let checkedPackageUpdates = false
 
-export const useInitializer = () => {
+export const useInitializer = (): void => {
   useTools()
   useEffect(() => {
     if (!checkedPackageUpdates && process.env.NODE_ENV === 'development') {

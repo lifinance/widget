@@ -1,6 +1,6 @@
 import type { WidgetProviderProps } from '@lifi/widget-provider'
 import { DAppKitContext } from '@mysten/dapp-kit-react'
-import { type PropsWithChildren, useContext } from 'react'
+import { type JSX, type PropsWithChildren, useContext } from 'react'
 import { SuiBaseProvider } from './SuiBaseProvider.js'
 import { SuiProviderValues } from './SuiProviderValues.js'
 
@@ -33,7 +33,9 @@ const SuiWidgetProvider = ({
   )
 }
 
-export const SuiProvider = () => {
+export const SuiProvider = (): ((
+  props: PropsWithChildren<WidgetProviderProps>
+) => JSX.Element) => {
   return ({ children, ...props }: PropsWithChildren<WidgetProviderProps>) => (
     <SuiWidgetProvider {...props}>{children}</SuiWidgetProvider>
   )

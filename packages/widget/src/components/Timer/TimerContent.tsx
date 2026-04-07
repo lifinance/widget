@@ -16,7 +16,9 @@ export const TimerContent: FC<PropsWithChildren> = ({ children }) => {
           height: 14,
         }}
       >
-        <IconTypography as="span" sx={{ marginRight: 0.5, fontSize: 16 }}>
+        <IconTypography
+          sx={{ marginRight: 0.5, fontSize: 16, display: 'inline-flex' }}
+        >
           <AccessTimeFilled fontSize="inherit" />
         </IconTypography>
         <Box

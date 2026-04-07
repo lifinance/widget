@@ -65,7 +65,7 @@ export const SelectEnabledToolsPage: React.FC<{
 
   const { t } = useTranslation()
   const elementId = useDefaultElementId()
-  const scrollableContainer = useScrollableContainer(elementId)
+  const scrollableContainer = useScrollableContainer(elementId ?? '')
   const [searchValue, setSearchValue] = useState('')
 
   const filteredTools = useMemo(() => {

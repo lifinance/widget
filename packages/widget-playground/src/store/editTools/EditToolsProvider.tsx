@@ -36,7 +36,7 @@ export const EditToolsProvider: FC<PropsWithChildren> = ({ children }) => {
   )
 }
 
-export function useEditToolsStore<T>(selector: (store: ToolsState) => T) {
+export function useEditToolsStore<T>(selector: (store: ToolsState) => T): T {
   const useStore = useContext(EditToolsContext)
 
   if (!useStore) {

@@ -5,22 +5,29 @@ import {
   FormControl as MuiFormControl,
   styled,
 } from '@mui/material'
+import type React from 'react'
 import { CardTitle } from '../Card/CardTitle.js'
 
 export const maxInputFontSize = 24
 export const minInputFontSize = 14
 
-export const FormContainer = styled(Box)(({ theme }) => ({
+export const FormContainer: React.FC<React.ComponentProps<typeof Box>> = styled(
+  Box
+)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(2),
 }))
 
-export const FormControl = styled(MuiFormControl)(() => ({
+export const FormControl: React.FC<
+  React.ComponentProps<typeof MuiFormControl>
+> = styled(MuiFormControl)(() => ({
   height: 40,
 }))
 
-export const Input = styled(InputBase)(({ theme }) => ({
+export const Input: React.FC<React.ComponentProps<typeof InputBase>> = styled(
+  InputBase
+)(({ theme }) => ({
   fontSize: 24,
   fontWeight: 700,
   boxShadow: 'none',
@@ -45,14 +52,17 @@ export const Input = styled(InputBase)(({ theme }) => ({
   },
 }))
 
-export const AmountInputCardTitle = styled(CardTitle)(({ theme }) => ({
+export const AmountInputCardTitle: React.FC<
+  React.ComponentProps<typeof CardTitle>
+> = styled(CardTitle)(({ theme }) => ({
   padding: theme.spacing(0),
 }))
 
-export const AmountInputCardHeader = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(2, 2, 0, 2),
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  height: 30,
-}))
+export const AmountInputCardHeader: React.FC<React.ComponentProps<typeof Box>> =
+  styled(Box)(({ theme }) => ({
+    padding: theme.spacing(2, 2, 0, 2),
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: 30,
+  }))

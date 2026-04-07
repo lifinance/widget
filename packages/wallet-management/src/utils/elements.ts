@@ -9,7 +9,7 @@ const getWalletModalContentElement = () =>
 const getWalletConnectElement = () =>
   document.querySelector(ElementId.WalletConnectElement)
 
-export const createWalletConnectElement = () => {
+export const createWalletConnectElement = (): void => {
   const elementExists = getWalletConnectElement()
   if (!elementExists) {
     const modal = document.createElement(ElementId.WalletConnectElement)

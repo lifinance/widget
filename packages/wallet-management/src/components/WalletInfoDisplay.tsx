@@ -1,4 +1,5 @@
 import { Avatar, Box, Typography } from '@mui/material'
+import type { JSX } from 'react'
 import type { CombinedWallet } from '../hooks/useCombinedWallets.js'
 
 interface WalletInfoDisplayProps {
@@ -11,7 +12,7 @@ export const WalletInfoDisplay = ({
   selectedWallet,
   title,
   message,
-}: WalletInfoDisplayProps) => {
+}: WalletInfoDisplayProps): JSX.Element => {
   return (
     <Box
       sx={{

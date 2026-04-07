@@ -8,8 +8,8 @@ const configTemplate = (config?: string) =>
 
 export function stringifyConfig(
   config: Partial<WidgetConfig>,
-  template = configTemplate
-) {
+  template: (config?: string) => string | undefined = configTemplate
+): string | undefined {
   const clonedConfig = cloneStructuredConfig(config)
 
   const functionsReferences = substituteFunctions(clonedConfig, 'id')

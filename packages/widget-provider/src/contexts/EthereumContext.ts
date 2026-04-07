@@ -8,11 +8,10 @@ const ethereumDefaultContextValue: EthereumProviderContext = {
   getTransactionCount: async () => undefined,
 }
 
-export const EthereumContext = createContext<EthereumProviderContext>(
-  ethereumDefaultContextValue
-)
+export const EthereumContext: React.Context<EthereumProviderContext> =
+  createContext<EthereumProviderContext>(ethereumDefaultContextValue)
 
-export const useEthereumContext = () => {
+export const useEthereumContext = (): EthereumProviderContext => {
   const context = useContext(EthereumContext)
   return context || ethereumDefaultContextValue
 }

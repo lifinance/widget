@@ -1,3 +1,4 @@
+import type { JSX } from 'react'
 import { useEditToolsActions } from '../../../../store/editTools/useEditToolsActions.js'
 import { useHeaderAndFooterToolValues } from '../../../../store/editTools/useHeaderAndFooterToolValues.js'
 import { useConfig } from '../../../../store/widgetConfig/useConfig.js'
@@ -9,7 +10,7 @@ import {
   ControlRowContainer,
 } from '../DesignControls.style.js'
 
-export const HeaderAndFooterControls = () => {
+export const HeaderAndFooterControls = (): JSX.Element | null => {
   const { showMockHeader, showMockFooter, isFooterFixed } =
     useHeaderAndFooterToolValues()
   const { setHeaderVisibility, setFooterVisibility, setFixedFooter } =

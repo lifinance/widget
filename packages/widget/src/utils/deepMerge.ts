@@ -1,6 +1,6 @@
-const isObject = (obj: any) => obj && typeof obj === 'object'
+const isObject = (obj: any): boolean => obj && typeof obj === 'object'
 
-export const deepMerge = (...objects: any[]) => {
+export const deepMerge = (...objects: any[]): any => {
   return objects.reduce((prev, obj) => {
     for (const key in obj) {
       if (isObject(prev[key]) && isObject(obj[key])) {

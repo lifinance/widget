@@ -3,9 +3,9 @@ import {
   createRootRoute,
   createRoute,
   createRouter,
-  type Router,
   RouterProvider,
 } from '@tanstack/react-router'
+import type { JSX } from 'react'
 import { AppLayout } from './AppLayout.js'
 import { NotFound } from './components/NotFound.js'
 import { ActiveTransactionsPage } from './pages/ActiveTransactionsPage/ActiveTransactionsPage.js'
@@ -262,22 +262,22 @@ const routeTree = rootRoute.addChildren([
   ]),
 ])
 
-declare module '@tanstack/react-router' {
-  interface Register {
-    router: Router<typeof routeTree>
-  }
-}
-
 const history = createMemoryHistory({
   initialEntries: ['/'],
 })
 
-const router = createRouter({
+const router: ReturnType<typeof createRouter> = createRouter({
   routeTree,
   history,
   defaultPreload: 'intent',
 })
 
-export const AppDefault = () => {
+declare module '@tanstack/react-router' {
+  interface Register {
+    router: typeof router
+  }
+}
+
+export const AppDefault = (): JSX.Element => {
   return <RouterProvider router={router} />
 }

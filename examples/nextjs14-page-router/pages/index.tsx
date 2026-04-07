@@ -1,21 +1,17 @@
-import type { WidgetConfig } from '@lifi/widget'
-import { WidgetSkeleton } from '@lifi/widget'
-import { Widget } from '@/components/Widget'
+import dynamic from 'next/dynamic'
+
+const Widget = dynamic(
+  () => import('@/components/Widget').then((mod) => mod.Widget),
+  {
+    ssr: false,
+    loading: () => <div style={{ minHeight: 682 }} />,
+  }
+)
 
 export default function Home() {
-  const config = {
-    appearance: 'light',
-    theme: {
-      container: {
-        border: '1px solid rgb(234, 234, 234)',
-        borderRadius: '16px',
-      },
-    },
-  } as Partial<WidgetConfig>
-
   return (
     <main>
-      <Widget config={config} fallback={<WidgetSkeleton config={config} />} />
+      <Widget />
     </main>
   )
 }

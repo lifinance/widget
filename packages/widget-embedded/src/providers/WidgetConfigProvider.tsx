@@ -20,7 +20,8 @@ export const EMBEDDED_DEFAULT_CONFIG: Partial<WidgetConfig> = {
 
 const WidgetConfigContext = createContext<Partial<WidgetConfig> | null>(null)
 
-export const useEmbeddedWidgetConfig = () => useContext(WidgetConfigContext)
+export const useEmbeddedWidgetConfig = (): Partial<WidgetConfig> | null =>
+  useContext(WidgetConfigContext)
 
 export const WidgetConfigProvider: FC<PropsWithChildren> = ({ children }) => {
   const [lightConfig, setLightConfig] = useState<WidgetLightConfig | null>(

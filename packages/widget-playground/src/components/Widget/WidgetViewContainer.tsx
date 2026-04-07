@@ -1,6 +1,6 @@
 import MenuOpenIcon from '@mui/icons-material/MenuOpen'
 import { Box, Tooltip } from '@mui/material'
-import type { PropsWithChildren } from 'react'
+import type { JSX, PropsWithChildren } from 'react'
 import { ExternalWalletProvider } from '../../providers/ExternalWalletProvider/ExternalWalletProvider.js'
 import { useDrawerToolValues } from '../../store/editTools/useDrawerToolValues.js'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
@@ -23,7 +23,7 @@ interface WidgetViewContainerProps extends PropsWithChildren {
 export function WidgetViewContainer({
   children,
   toggleDrawer,
-}: WidgetViewContainerProps) {
+}: WidgetViewContainerProps): JSX.Element {
   const { config } = useConfig()
   const { isDrawerOpen, drawerWidth } = useDrawerToolValues()
   const { setDrawerOpen } = useEditToolsActions()

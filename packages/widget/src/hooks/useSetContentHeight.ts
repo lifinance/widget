@@ -10,8 +10,8 @@ import { useDefaultElementId } from './useDefaultElementId.js'
 export const useSetContentHeight = (
   ref: RefObject<HTMLElement | null>,
   dependency?: unknown
-) => {
-  const elementId = useDefaultElementId()
+): void => {
+  const elementId = useDefaultElementId() ?? ''
   // biome-ignore lint/correctness/useExhaustiveDependencies: we use dependency to refresh height
   useLayoutEffect(() => {
     const relativeContainer = getRelativeContainer(elementId)

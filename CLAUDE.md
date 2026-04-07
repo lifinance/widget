@@ -14,7 +14,7 @@ pnpm dev                     # Start widget-playground-vite on port 3000
 pnpm dev:next                # Start Next.js playground
 
 # Building
-pnpm build                   # Build all packages (libs first, then playgrounds/embedded)
+pnpm build                   # Build all packages in parallel
 
 # Code Quality
 pnpm check                   # Biome lint + format check
@@ -32,6 +32,18 @@ pnpm --filter @lifi/widget-light test  # Run widget-light tests
 # Unused code detection
 pnpm knip:check
 ```
+
+## Build Tooling
+
+- **tsdown** (powered by rolldown) builds all library packages. Config in each package's `tsdown.config.ts`.
+- **Vite** builds app packages (`widget-embedded`, `widget-playground-vite`). These are NOT built with tsdown.
+- **`isolatedDeclarations: true`** is enabled in root `tsconfig.json`. All exported declarations in library packages must have explicit type annotations:
+  - Exported functions must have explicit return types (`: JSX.Element`, `: void`, etc.)
+  - Exported `createContext<T>()` results need `Context<T>` annotation
+  - Exported `styled(Component)(...)` results need `React.FC<Props>` annotation
+  - Use proper `import type { Foo } from '...'` — never inline `import('...').Foo` in type positions
+- App packages (`widget-embedded`, `widget-playground-vite`, `examples/`) override with `isolatedDeclarations: false` in their tsconfig.
+- If `check:types` shows phantom errors after tsconfig changes, delete `.tsbuildinfo` files and retry.
 
 ## Architecture
 
@@ -94,6 +106,7 @@ QueryClient → Settings → WidgetConfig → I18n → Theme → SDK → Wallet 
 - **widget-light must have zero `dependencies`** — all types are self-contained duplicates. Chain-specific integrations are optional peer deps exposed via subpath exports (`@lifi/widget-light/ethereum`, etc.).
 - Package entry points use TypeScript source (`src/index.ts`). The `scripts/formatPackageJson.js` rewrites paths to `dist/esm/` at publish time.
 - TypeScript target is ES2020, module resolution is Bundler.
+- Library packages use `tsdown` with `unbundle: true` mode. The widget package needs `neverBundle: [/\.json$/]` for i18n JSON files.
 - **PR template** at `.github/pull_request_template.md` — always use it when creating PRs via `gh pr create`.
 - `packages/widget-embedded/README.md` — main integration guide for widget-light (not a typical package readme).
 

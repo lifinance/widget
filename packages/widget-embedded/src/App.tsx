@@ -1,6 +1,6 @@
 import { LiFiWidget } from '@lifi/widget'
 import { EthereumProvider } from '@lifi/widget-provider-ethereum'
-import type { PropsWithChildren } from 'react'
+import type { JSX, PropsWithChildren } from 'react'
 import { BitcoinIframeProviderValues } from './providers/iframe/BitcoinIframeProviderValues.js'
 import { SolanaIframeProviderValues } from './providers/iframe/SolanaIframeProviderValues.js'
 import { SuiIframeProviderValues } from './providers/iframe/SuiIframeProviderValues.js'
@@ -34,7 +34,7 @@ const IFRAME_PROVIDERS = [
  *  5. Non-EVM providers (Solana, Bitcoin, Sui) receive their init state from
  *     the ecosystems[] array in the INIT message.
  */
-export function App() {
+export function App(): JSX.Element | null {
   const widgetConfig = useEmbeddedWidgetConfig()
 
   if (!widgetConfig) {

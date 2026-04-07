@@ -1,6 +1,7 @@
 import PushPinIcon from '@mui/icons-material/PushPin'
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined'
 import { IconButton } from '@mui/material'
+import type { JSX } from 'react'
 import { usePinnedTokensStore } from '../../stores/pinnedTokens/PinnedTokensStore.js'
 
 interface PinTokenButtonProps {
@@ -11,7 +12,7 @@ interface PinTokenButtonProps {
 export const PinTokenButton = ({
   chainId,
   tokenAddress,
-}: PinTokenButtonProps) => {
+}: PinTokenButtonProps): JSX.Element => {
   const [pinnedTokens, pinToken, unpinToken] = usePinnedTokensStore((state) => [
     state.pinnedTokens,
     state.pinToken,

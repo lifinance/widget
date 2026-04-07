@@ -8,7 +8,7 @@ import { useAvailableChains } from './useAvailableChains.js'
 export const useActionMessage = (
   step?: LiFiStepExtended,
   action?: ExecutionAction
-) => {
+): { title?: string; message?: string } => {
   const { subvariant, subvariantOptions } = useWidgetConfig()
   const { t } = useTranslation()
   const { getChainById } = useAvailableChains()

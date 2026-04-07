@@ -1,8 +1,11 @@
 import { Box, cardHeaderClasses, styled } from '@mui/material'
+import type React from 'react'
 import { CardHeader } from '../Card/CardHeader.js'
 import { CardLabel, CardLabelTypography } from '../Card/CardLabel.js'
 
-export const SendToWalletCardTitleRow = styled(Box)(({ theme }) => ({
+export const SendToWalletCardTitleRow: React.FC<
+  React.ComponentProps<typeof Box>
+> = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
@@ -10,17 +13,21 @@ export const SendToWalletCardTitleRow = styled(Box)(({ theme }) => ({
   height: 30,
 }))
 
-export const SendToWalletRequiredLabel = styled(CardLabel)(({ theme }) => ({
+export const SendToWalletRequiredLabel: React.FC<
+  React.ComponentProps<typeof CardLabel>
+> = styled(CardLabel)(({ theme }) => ({
   padding: theme.spacing(0, 1),
 }))
 
-export const SendToWalletRequiredLabelText = styled(CardLabelTypography)(
-  ({ theme }) => ({
-    padding: theme.spacing(0, 0.5),
-  })
-)
+export const SendToWalletRequiredLabelText: React.FC<
+  React.ComponentProps<typeof CardLabelTypography>
+> = styled(CardLabelTypography)(({ theme }) => ({
+  padding: theme.spacing(0, 0.5),
+}))
 
-export const SendToWalletCardHeader = styled(CardHeader, {
+export const SendToWalletCardHeader: React.FC<
+  React.ComponentProps<typeof CardHeader> & { selected?: boolean }
+> = styled(CardHeader, {
   shouldForwardProp: (prop) => !['selected'].includes(prop as string),
 })<{ selected?: boolean }>(({ theme }) => ({
   width: '100%',

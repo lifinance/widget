@@ -1,4 +1,5 @@
 /** biome-ignore-all lint/correctness/noUnusedVariables: allowed in this store */
+import type { StoreApi, UseBoundStore } from 'zustand'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { allLanguages } from '../../providers/I18nProvider/constants.js'
@@ -32,7 +33,9 @@ const defaultSettings: SettingsProps = {
   smallBalanceThreshold: undefined,
 }
 
-export const createSettingsStore = (config: WidgetConfig) =>
+export const createSettingsStore = (
+  config: WidgetConfig
+): UseBoundStore<StoreApi<SettingsState>> =>
   create<SettingsState>()(
     persist(
       (set, get) => ({

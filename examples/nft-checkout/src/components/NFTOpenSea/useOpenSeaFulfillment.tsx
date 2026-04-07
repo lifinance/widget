@@ -6,7 +6,7 @@ import { Seaport } from '@opensea/seaport-js'
 import { useQuery } from '@tanstack/react-query'
 import { type Connector, useConfig } from 'wagmi'
 import { getEthersSigner } from './getEthersSigner.js'
-import type { FulfillmentDataResponse, NFTNetwork } from './types.js'
+import type { FulfillmentDataResponse, NFTNetwork, OrderV2 } from './types.js'
 import { ChainId as OpenSeaChainId } from './types.js'
 import { useOpenSeaOrder } from './useOpenSeaOrder.js'
 
@@ -14,7 +14,11 @@ export const useOpenSeaFulfillment = (
   network: NFTNetwork,
   contractAddress: string,
   tokenId: string | number
-) => {
+): {
+  data: NFTProps | undefined
+  isLoading: boolean
+  order: OrderV2 | undefined
+} => {
   const { account } = useAccount()
   const config = useConfig()
   const [recipientAddress] = useFieldValues('toAddress')
@@ -139,8 +143,8 @@ export const useOpenSeaFulfillment = (
   })
 
   return {
-    data,
+    data: data,
     isLoading: isLoading || isOrderLoading,
-    order,
+    order: order,
   }
 }

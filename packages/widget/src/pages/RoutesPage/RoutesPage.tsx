@@ -1,7 +1,7 @@
 import type { Route } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useNavigate } from '@tanstack/react-router'
-import { useMemo } from 'react'
+import { type JSX, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate.js'
 import { RouteCard } from '../../components/RouteCard/RouteCard.js'
@@ -16,7 +16,7 @@ import { WidgetEvent } from '../../types/events.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { Stack } from './RoutesPage.style.js'
 
-export const RoutesPage = () => {
+export const RoutesPage = (): JSX.Element => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const emitter = useWidgetEvents()

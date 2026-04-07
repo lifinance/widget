@@ -1,4 +1,5 @@
 import { Drawer } from '@mui/material'
+import type { ForwardRefExoticComponent, RefAttributes } from 'react'
 import {
   forwardRef,
   startTransition,
@@ -11,7 +12,9 @@ import { useGetScrollableContainer } from '../../hooks/useScrollableContainer.js
 import { modalProps, slotProps } from '../Dialog.js'
 import type { BottomSheetBase, BottomSheetProps } from './types.js'
 
-export const BottomSheet = forwardRef<BottomSheetBase, BottomSheetProps>(
+export const BottomSheet: ForwardRefExoticComponent<
+  Omit<BottomSheetProps, 'ref'> & RefAttributes<BottomSheetBase>
+> = forwardRef<BottomSheetBase, BottomSheetProps>(
   ({ elementRef, children, open, onClose, keepMounted = false }, ref) => {
     const getContainer = useGetScrollableContainer()
     const openRef = useRef(open)

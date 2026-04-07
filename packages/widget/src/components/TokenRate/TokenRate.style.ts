@@ -1,6 +1,9 @@
 import { styled, Typography } from '@mui/material'
+import type React from 'react'
 
-export const TokenRateTypography = styled(Typography)(({ theme }) => ({
+export const TokenRateTypography: React.FC<
+  React.ComponentProps<typeof Typography>
+> = styled(Typography)(({ theme }) => ({
   fontSize: 14,
   lineHeight: 1.429,
   fontWeight: 500,

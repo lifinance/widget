@@ -3,6 +3,7 @@ import Button from '@mui/material/Button'
 import Collapse from '@mui/material/Collapse'
 import Tooltip from '@mui/material/Tooltip'
 import { useNavigate } from '@tanstack/react-router'
+import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
@@ -10,7 +11,7 @@ import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { DisabledUI, HiddenUI } from '../../types/widget.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 
-export const SendToWalletExpandButton = () => {
+export const SendToWalletExpandButton = (): JSX.Element => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { toAddresses, disabledUI, hiddenUI } = useWidgetConfig()

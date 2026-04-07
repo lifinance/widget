@@ -1,7 +1,8 @@
 import type { ButtonProps } from '@mui/material'
 import { Button } from '@mui/material'
+import type { JSX } from 'react'
 
-export function ToggleDrawerButton(props: ButtonProps) {
+export function ToggleDrawerButton(props: ButtonProps): JSX.Element {
   return (
     <Button
       variant="contained"

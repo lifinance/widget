@@ -83,7 +83,13 @@ function off<E extends keyof WidgetLightEvents>(
   }
 }
 
-export const WidgetLightEventBus = {
+export const WidgetLightEventBus: {
+  on: typeof on
+  off: typeof off
+  _register: typeof _register
+  _unregister: typeof _unregister
+  _receiveEvent: typeof _receiveEvent
+} = {
   on,
   off,
   _register,

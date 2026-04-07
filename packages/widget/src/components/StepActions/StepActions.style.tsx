@@ -7,9 +7,12 @@ import {
   styled,
   Typography,
 } from '@mui/material'
+import type React from 'react'
 import { AvatarMasked } from '../Avatar/Avatar.style.js'
 
-export const StepConnector = styled(MuiStepConnector, {
+export const StepConnector: React.FC<
+  React.ComponentProps<typeof MuiStepConnector> & { last?: boolean }
+> = styled(MuiStepConnector, {
   shouldForwardProp: (prop) =>
     !['active', 'completed', 'error'].includes(prop as string),
 })(({ theme }) => ({
@@ -24,7 +27,9 @@ export const StepConnector = styled(MuiStepConnector, {
   },
 }))
 
-export const StepLabel = styled(MuiStepLabel, {
+export const StepLabel: React.FC<
+  React.ComponentProps<typeof MuiStepLabel> & { last?: boolean }
+> = styled(MuiStepLabel, {
   shouldForwardProp: (prop) =>
     !['active', 'completed', 'error', 'disabled'].includes(prop as string),
 })(({ theme }) => ({
@@ -44,7 +49,9 @@ export const StepLabel = styled(MuiStepLabel, {
   },
 }))
 
-export const StepLabelTypography = styled(Typography)(({ theme }) => ({
+export const StepLabelTypography: React.FC<
+  React.ComponentProps<typeof Typography> & { last?: boolean }
+> = styled(Typography)(({ theme }) => ({
   fontSize: 12,
   fontWeight: 500,
   lineHeight: 1.325,
@@ -52,9 +59,11 @@ export const StepLabelTypography = styled(Typography)(({ theme }) => ({
   padding: theme.spacing(0.5, 0),
 }))
 
-export const StepContent = styled(Box, {
+export const StepContent: React.FC<
+  React.ComponentProps<typeof Box> & { last?: boolean }
+> = styled(Box, {
   shouldForwardProp: (prop) => !['last'].includes(prop as string),
-})<{ last: boolean }>(({ theme }) => ({
+})<{ last?: boolean }>(({ theme }) => ({
   margin: theme.spacing(0, 0, 0, 2.375),
   paddingLeft: theme.spacing(4.375),
   borderLeft: `2px solid rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.12)`,
@@ -72,7 +81,8 @@ export const StepContent = styled(Box, {
   ],
 }))
 
-export const StepAvatar = styled(AvatarMasked)(({ theme }) => ({
-  color: theme.vars.palette.text.primary,
-  backgroundColor: 'transparent',
-}))
+export const StepAvatar: React.FC<React.ComponentProps<typeof AvatarMasked>> =
+  styled(AvatarMasked)(({ theme }) => ({
+    color: theme.vars.palette.text.primary,
+    backgroundColor: 'transparent',
+  }))

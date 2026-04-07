@@ -11,7 +11,7 @@ import type {
 } from './types.js'
 import { useFormStore } from './useFormStore.js'
 
-export const useFieldActions = () => {
+export const useFieldActions = (): FormActions => {
   const emitter = useWidgetEvents()
   const actions = useFormStore<FormActions>((store) => ({
     getFieldValues: store.getFieldValues,
@@ -81,7 +81,12 @@ export const useFieldActions = () => {
   )
 
   return {
-    ...actions,
+    getFieldValues: actions.getFieldValues,
+    isTouched: actions.isTouched,
+    isDirty: actions.isDirty,
+    resetField: actions.resetField,
+    setAsTouched: actions.setAsTouched,
+    setDefaultValues: actions.setDefaultValues,
     setFieldValue: setFieldValueWithEmittedEvents,
     setUserAndDefaultValues: setUserAndDefaultValuesWithEmittedEvents,
   }

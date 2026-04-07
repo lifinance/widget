@@ -11,7 +11,12 @@ import { getTokenBalancesWithRetry } from './useTokenBalance.js'
 
 const refetchInterval = 30_000
 
-export const useFromTokenSufficiency = (route?: RouteExtended) => {
+export const useFromTokenSufficiency = (
+  route?: RouteExtended
+): {
+  insufficientFromToken: boolean | undefined
+  isLoading: boolean
+} => {
   const [fromChainId, fromTokenAddress, fromAmount] = useFieldValues(
     'fromChain',
     'fromToken',

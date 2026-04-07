@@ -1,4 +1,4 @@
-import type { TokenAmount } from '@lifi/sdk'
+import type { ExtendedChain, TokenAmount } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useChain } from './useChain.js'
 import { useToken } from './useToken.js'
@@ -7,7 +7,12 @@ import { useTokenBalance } from './useTokenBalance.js'
 export const useTokenAddressBalance = (
   chainId?: number,
   tokenAddress?: string
-) => {
+): {
+  token: TokenAmount
+  chain: ExtendedChain | undefined
+  isLoading: boolean
+  refetch: () => void
+} => {
   const { chain, isLoading: isChainLoading } = useChain(chainId)
   const { account } = useAccount({ chainType: chain?.chainType })
   const { token, isLoading: isTokenLoading } = useToken(chainId, tokenAddress)

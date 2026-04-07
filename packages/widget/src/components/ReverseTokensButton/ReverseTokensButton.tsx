@@ -1,11 +1,12 @@
 import ArrowForward from '@mui/icons-material/ArrowForward'
+import type { JSX } from 'react'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useToAddressAutoPopulate } from '../../hooks/useToAddressAutoPopulate.js'
 import { useToAddressReset } from '../../hooks/useToAddressReset.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { IconCard, ReverseContainer } from './ReverseTokensButton.style.js'
 
-export const ReverseTokensButton = () => {
+export const ReverseTokensButton = (): JSX.Element => {
   const { setFieldValue, getFieldValues } = useFieldActions()
   const { getChainById } = useAvailableChains()
   const { tryResetToAddress } = useToAddressReset()

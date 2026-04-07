@@ -8,22 +8,38 @@ import {
   ListItemText as MuiListItemText,
   styled,
 } from '@mui/material'
+import type React from 'react'
 import { ListItemButton as ListItemButtonBase } from '../ListItemButton.js'
 
-export const Avatar = styled(MuiAvatar)<{
+export const Avatar: React.FC<
+  React.ComponentProps<typeof MuiAvatar> &
+    Partial<{
+      size?: 'small' | 'medium'
+    }>
+> = styled(MuiAvatar)<{
   size?: 'small' | 'medium'
 }>(({ size = 'medium' }) => ({
   width: size === 'small' ? 32 : 40,
   height: size === 'small' ? 32 : 40,
 }))
 
-export const ListItemAvatar = styled(MuiListItemAvatar)<{
+export const ListItemAvatar: React.FC<
+  React.ComponentProps<typeof MuiListItemAvatar> &
+    Partial<{
+      size?: 'small' | 'medium'
+    }>
+> = styled(MuiListItemAvatar)<{
   size?: 'small' | 'medium'
 }>(({ size = 'medium' }) => ({
   minWidth: size === 'small' ? 44 : 56,
 }))
 
-export const ListItemText = styled(MuiListItemText)<{
+export const ListItemText: React.FC<
+  React.ComponentProps<typeof MuiListItemText> &
+    Partial<{
+      size?: 'small' | 'medium'
+    }>
+> = styled(MuiListItemText)<{
   size?: 'small' | 'medium'
 }>(({ size = 'medium' }) => ({
   [`.${listItemTextClasses.primary}`]: {
@@ -35,7 +51,12 @@ export const ListItemText = styled(MuiListItemText)<{
   },
 }))
 
-export const ListItemButton = styled(ListItemButtonBase)<{
+export const ListItemButton: React.FC<
+  React.ComponentProps<typeof ListItemButtonBase> &
+    Partial<{
+      size?: 'small' | 'medium'
+    }>
+> = styled(ListItemButtonBase)<{
   size?: 'small' | 'medium'
 }>(({ size = 'medium', theme }) => {
   return {
@@ -46,7 +67,9 @@ export const ListItemButton = styled(ListItemButtonBase)<{
   }
 })
 
-export const List = styled(MuiList)(({ theme }) => ({
+export const List: React.FC<React.ComponentProps<typeof MuiList>> = styled(
+  MuiList
+)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spacing(0.5),
@@ -57,11 +80,12 @@ export const List = styled(MuiList)(({ theme }) => ({
   cursor: 'pointer',
 }))
 
-export const ListItem = styled(ListItemBase)(({ theme }) => ({
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  [`& .${listItemButtonClasses.root}`]: {
-    paddingRight: theme.spacing(1),
-  },
-}))
+export const ListItem: React.FC<React.ComponentProps<typeof ListItemBase>> =
+  styled(ListItemBase)(({ theme }) => ({
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    [`& .${listItemButtonClasses.root}`]: {
+      paddingRight: theme.spacing(1),
+    },
+  }))

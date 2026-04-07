@@ -10,7 +10,10 @@ export const useAccountsBalancesData = (
   formType?: FormType,
   isAllNetworks?: boolean,
   allTokens?: Record<number, TokenExtended[]>
-) => {
+): {
+  data: Record<string, Record<number, TokenExtended[]>> | undefined
+  isLoading: boolean
+} => {
   const { data: accountsWithTokens, isLoading: isAccountsLoading } =
     useAccountsData(selectedChainId, formType, isAllNetworks, allTokens)
 

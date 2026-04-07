@@ -17,7 +17,9 @@ type UpdateToAddressArgs = {
 /**
  * Automatically populates toAddress field if bridging across ecosystems and compatible wallet is connected
  */
-export const useToAddressAutoPopulate = () => {
+export const useToAddressAutoPopulate = (): ((
+  args: UpdateToAddressArgs
+) => string | undefined) => {
   const { setFieldValue } = useFieldActions()
   const { setSelectedBookmark } = useBookmarkActions()
   const { getChainById } = useAvailableChains()

@@ -7,14 +7,12 @@
   "types": "./src/index.d.ts",
   "sideEffects": false,
   "scripts": {
-    "watch": "tsc -w -p ./tsconfig.json",
-    "build": "pnpm clean && pnpm build:esm && pnpm build:clean",
-    "build:esm": "tsc --build",
+    "watch": "tsdown --watch",
+    "build": "pnpm clean && tsdown",
     "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../README.md' .",
     "build:postrelease": "node ../../scripts/postrelease.js && rm -rf README.md",
-    "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo",
     "release:build": "pnpm build",
-    "clean": "pnpm build:clean && rm -rf dist",
+    "clean": "rm -rf dist",
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
     "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg"
@@ -40,8 +38,8 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "^4.0.0-beta.4",
-    "@lifi/sdk-provider-solana": "^4.0.0-beta.4",
+    "@lifi/sdk": "4.0.0-beta.4",
+    "@lifi/sdk-provider-solana": "4.0.0-beta.4",
     "@lifi/widget-provider": "workspace:*",
     "@wallet-standard/app": "^1.1.0",
     "@wallet-standard/base": "^1.1.0",
@@ -55,6 +53,6 @@
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "react": "^19.2.4",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.2"
   }
 }

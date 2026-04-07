@@ -1,5 +1,6 @@
 import { formatUnits } from '@lifi/sdk'
-import { memo } from 'react'
+import type React from 'react'
+import { type JSX, memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useGasRecommendation } from '../../hooks/useGasRecommendation.js'
@@ -13,82 +14,83 @@ import {
   ButtonContainer,
 } from './AmountInputEndAdornment.style.js'
 
-export const AmountInputEndAdornment = memo(({ formType }: FormTypeProps) => {
-  const { t } = useTranslation()
-  const { getChainById } = useAvailableChains()
-  const { setFieldValue } = useFieldActions()
+export const AmountInputEndAdornment: React.NamedExoticComponent<FormTypeProps> =
+  memo(({ formType }: FormTypeProps): JSX.Element | null => {
+    const { t } = useTranslation()
+    const { getChainById } = useAvailableChains()
+    const { setFieldValue } = useFieldActions()
 
-  const [chainId, tokenAddress] = useFieldValues(
-    FormKeyHelper.getChainKey(formType),
-    FormKeyHelper.getTokenKey(formType)
-  )
+    const [chainId, tokenAddress] = useFieldValues(
+      FormKeyHelper.getChainKey(formType),
+      FormKeyHelper.getTokenKey(formType)
+    )
 
-  // We get gas recommendations for the source chain to make sure that after pressing the Max button
-  // the user will have enough funds remaining to cover gas costs
-  const { data } = useGasRecommendation(chainId)
+    // We get gas recommendations for the source chain to make sure that after pressing the Max button
+    // the user will have enough funds remaining to cover gas costs
+    const { data } = useGasRecommendation(chainId)
 
-  const { token } = useTokenAddressBalance(chainId, tokenAddress)
+    const { token } = useTokenAddressBalance(chainId, tokenAddress)
 
-  const getMaxAmount = () => {
-    if (!token?.amount) {
-      return 0n
+    const getMaxAmount = () => {
+      if (!token?.amount) {
+        return 0n
+      }
+      const chain = getChainById(chainId)
+      let maxAmount = token.amount
+      if (chain?.nativeToken.address === tokenAddress && data?.recommended) {
+        const recommendedAmount = BigInt(data.recommended.amount)
+        if (token.amount > recommendedAmount) {
+          maxAmount = token.amount - recommendedAmount
+        }
+      }
+      return maxAmount
     }
-    const chain = getChainById(chainId)
-    let maxAmount = token.amount
-    if (chain?.nativeToken.address === tokenAddress && data?.recommended) {
-      const recommendedAmount = BigInt(data.recommended.amount)
-      if (token.amount > recommendedAmount) {
-        maxAmount = token.amount - recommendedAmount
+
+    const handlePercentage = (percentage: number) => {
+      const maxAmount = getMaxAmount()
+      if (maxAmount && token?.decimals) {
+        const percentageAmount = (maxAmount * BigInt(percentage)) / 100n
+        setFieldValue(
+          FormKeyHelper.getAmountKey(formType),
+          formatUnits(percentageAmount, token.decimals),
+          {
+            isTouched: true,
+          }
+        )
       }
     }
-    return maxAmount
-  }
 
-  const handlePercentage = (percentage: number) => {
-    const maxAmount = getMaxAmount()
-    if (maxAmount && token?.decimals) {
-      const percentageAmount = (maxAmount * BigInt(percentage)) / 100n
-      setFieldValue(
-        FormKeyHelper.getAmountKey(formType),
-        formatUnits(percentageAmount, token.decimals),
-        {
-          isTouched: true,
-        }
-      )
+    const handleMax = () => {
+      const maxAmount = getMaxAmount()
+      if (maxAmount && token?.decimals) {
+        setFieldValue(
+          FormKeyHelper.getAmountKey(formType),
+          formatUnits(maxAmount, token.decimals),
+          {
+            isTouched: true,
+          }
+        )
+      }
     }
-  }
 
-  const handleMax = () => {
-    const maxAmount = getMaxAmount()
-    if (maxAmount && token?.decimals) {
-      setFieldValue(
-        FormKeyHelper.getAmountKey(formType),
-        formatUnits(maxAmount, token.decimals),
-        {
-          isTouched: true,
-        }
-      )
+    if (formType !== 'from' || !token) {
+      return null
     }
-  }
 
-  if (formType !== 'from' || !token) {
-    return null
-  }
-
-  return (
-    <ButtonContainer>
-      <AmountInputButton onClick={() => handlePercentage(25)}>
-        25%
-      </AmountInputButton>
-      <AmountInputButton onClick={() => handlePercentage(50)}>
-        50%
-      </AmountInputButton>
-      <AmountInputButton onClick={() => handlePercentage(75)}>
-        75%
-      </AmountInputButton>
-      <AmountInputButton onClick={handleMax}>
-        {t('button.max')}
-      </AmountInputButton>
-    </ButtonContainer>
-  )
-})
+    return (
+      <ButtonContainer>
+        <AmountInputButton onClick={() => handlePercentage(25)}>
+          25%
+        </AmountInputButton>
+        <AmountInputButton onClick={() => handlePercentage(50)}>
+          50%
+        </AmountInputButton>
+        <AmountInputButton onClick={() => handlePercentage(75)}>
+          75%
+        </AmountInputButton>
+        <AmountInputButton onClick={handleMax}>
+          {t('button.max')}
+        </AmountInputButton>
+      </ButtonContainer>
+    )
+  })

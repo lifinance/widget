@@ -5,7 +5,7 @@ import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import TurnedIn from '@mui/icons-material/TurnedIn'
 import { Button, ListItemAvatar, ListItemText, MenuItem } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
-import { useId, useRef, useState } from 'react'
+import { type JSX, useId, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
@@ -32,7 +32,7 @@ import {
   OptionsMenuButton,
 } from './SendToWalletPage.style.js'
 
-export const BookmarksPage = () => {
+export const BookmarksPage = (): JSX.Element => {
   const { t } = useTranslation()
   const [bookmark, setBookmark] = useState<Bookmark>()
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null)
