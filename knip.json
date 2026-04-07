@@ -17,7 +17,7 @@
       "ignoreDependencies": [
         "@base-org/account",
         "@coinbase/wallet-sdk",
-        "@metamask/sdk",
+        "@metamask/connect-evm",
         "@walletconnect/ethereum-provider",
         "porto"
       ]
