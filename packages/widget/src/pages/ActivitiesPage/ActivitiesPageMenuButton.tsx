@@ -1,6 +1,7 @@
+import { useAccount } from '@lifi/wallet-management'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { Button } from '@mui/material'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ContextMenu } from '../../components/ContextMenu.js'
 import { Dialog } from '../../components/Dialog/Dialog.js'
@@ -17,12 +18,17 @@ export const ActivitiesPageMenuButton: React.FC = () => {
   const { t } = useTranslation()
   const [dialogOpen, setDialogOpen] = useState(false)
   const deleteRoutes = useRouteExecutionStore((store) => store.deleteRoutes)
+  const { accounts } = useAccount()
+  const accountAddresses = useMemo(
+    () => accounts.flatMap((account) => account.address ?? []),
+    [accounts]
+  )
 
   const handleDialogOpen = () => setDialogOpen(true)
   const handleDialogClose = () => setDialogOpen(false)
 
   const handleRemoveAllFailed = () => {
-    deleteRoutes('failed')
+    deleteRoutes('failed', accountAddresses)
     handleDialogClose()
   }
 

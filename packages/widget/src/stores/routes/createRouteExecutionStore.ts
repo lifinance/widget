@@ -84,26 +84,30 @@ export const createRouteExecutionStore = ({
             })
           }
         },
-        deleteRoutes: (type) =>
+        deleteRoutes: (type, accountAddresses) =>
           set((state: RouteExecutionState) => {
             const routes = { ...state.routes }
             Object.keys(routes)
-              .filter((routeId) =>
-                type === 'completed'
-                  ? hasEnumFlag(
-                      routes[routeId]?.status ?? 0,
-                      RouteExecutionStatus.Done
-                    )
+              .filter((routeId) => {
+                const route = routes[routeId]
+                if (
+                  accountAddresses &&
+                  !accountAddresses.includes(route?.route.fromAddress ?? '')
+                ) {
+                  return false
+                }
+                return type === 'completed'
+                  ? hasEnumFlag(route?.status ?? 0, RouteExecutionStatus.Done)
                   : type === 'failed'
                     ? hasEnumFlag(
-                        routes[routeId]?.status ?? 0,
+                        route?.status ?? 0,
                         RouteExecutionStatus.Failed
                       )
                     : !hasEnumFlag(
-                        routes[routeId]?.status ?? 0,
+                        route?.status ?? 0,
                         RouteExecutionStatus.Done
                       )
-              )
+              })
               .forEach((routeId) => {
                 delete routes[routeId]
               })
