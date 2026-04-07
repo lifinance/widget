@@ -27,6 +27,9 @@ export const useFormRef = (
           (isToAddressObj ? value?.address : value) ||
           formDefaultValues.toAddress
 
+        // we can assume that the toAddress has been passed as ToAddress object
+        // and display it accordingly - this ensures that if a name is included
+        // that it is displayed in the Send To Wallet form field correctly
         if (isToAddressObj) {
           setSelectedBookmark(value)
         }
