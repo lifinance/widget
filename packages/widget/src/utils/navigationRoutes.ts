@@ -1,6 +1,6 @@
 export const navigationRoutes = {
   home: '/',
-  activeTransactions: 'active-transactions',
+  activities: 'activities',
   bridges: 'bridges',
   exchanges: 'exchanges',
   fromChain: 'from-chain',
@@ -13,7 +13,6 @@ export const navigationRoutes = {
   toTokenNative: 'to-token-native',
   transactionDetails: 'transaction-details',
   transactionExecution: 'transaction-execution',
-  transactionHistory: 'transaction-history',
   sendToWallet: 'send-to-wallet',
   bookmarks: 'bookmarks',
   recentWallets: 'recent-wallets',
@@ -24,7 +23,7 @@ export const navigationRoutes = {
 export const navigationRoutesValues: string[] = Object.values(navigationRoutes)
 
 export const stickyHeaderRoutes: string[] = [
-  navigationRoutes.activeTransactions,
+  navigationRoutes.activities,
   navigationRoutes.bridges,
   navigationRoutes.exchanges,
   navigationRoutes.fromChain,
@@ -35,7 +34,6 @@ export const stickyHeaderRoutes: string[] = [
   navigationRoutes.toTokenNative,
   navigationRoutes.transactionDetails,
   navigationRoutes.transactionExecution,
-  navigationRoutes.transactionHistory,
   navigationRoutes.sendToWallet,
   navigationRoutes.bookmarks,
   navigationRoutes.recentWallets,
@@ -44,7 +42,7 @@ export const stickyHeaderRoutes: string[] = [
 ]
 
 export const backButtonRoutes: string[] = [
-  navigationRoutes.activeTransactions,
+  navigationRoutes.activities,
   navigationRoutes.bridges,
   navigationRoutes.exchanges,
   navigationRoutes.languages,
@@ -57,7 +55,6 @@ export const backButtonRoutes: string[] = [
   navigationRoutes.toTokenNative,
   navigationRoutes.transactionDetails,
   navigationRoutes.transactionExecution,
-  navigationRoutes.transactionHistory,
   navigationRoutes.sendToWallet,
   navigationRoutes.bookmarks,
   navigationRoutes.recentWallets,

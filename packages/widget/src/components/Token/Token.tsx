@@ -293,7 +293,7 @@ export const TokenSkeleton: FC<Partial<TokenProps> & BoxProps> = ({
             flex: 1,
           }}
         >
-          <Skeleton width={112} height={24} variant="text" />
+          <Skeleton width={112} height={28} variant="text" />
           <TextSecondaryContainer>
             <Skeleton
               width={48}

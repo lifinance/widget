@@ -1,15 +1,15 @@
 import InfoRounded from '@mui/icons-material/InfoRounded'
+import { Box, Button } from '@mui/material'
+import { useCallback, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Dialog } from '../../components/Dialog/Dialog.js'
 import {
-  Box,
-  Button,
   DialogActions,
+  DialogContainer,
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from '@mui/material'
-import { useCallback, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Dialog } from '../../components/Dialog.js'
+} from '../../components/Dialog/Dialog.style.js'
 import { useSettingMonitor } from '../../hooks/useSettingMonitor.js'
 import { ResetButtonContainer } from './ResetSettingsButton.style.js'
 
@@ -62,18 +62,20 @@ export const ResetSettingsButton: React.FC = () => {
         </Button>
 
         <Dialog open={open} onClose={toggleDialog}>
-          <DialogTitle>{t('warning.title.resetSettings')}</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              {t('warning.message.resetSettings')}
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={toggleDialog}>{t('button.cancel')}</Button>
-            <Button variant="contained" onClick={handleReset} autoFocus>
-              {t('button.reset')}
-            </Button>
-          </DialogActions>
+          <DialogContainer>
+            <DialogTitle>{t('warning.title.resetSettings')}</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                {t('warning.message.resetSettings')}
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={toggleDialog}>{t('button.cancel')}</Button>
+              <Button variant="contained" onClick={handleReset} autoFocus>
+                {t('button.reset')}
+              </Button>
+            </DialogActions>
+          </DialogContainer>
         </Dialog>
       </ResetButtonContainer>
     </Box>

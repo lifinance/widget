@@ -198,6 +198,7 @@
   "tooltip": {
     "deselectAll": "",
     "estimatedTime": "",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "",
     "notFound": {
@@ -220,6 +221,8 @@
     "checkoutStepDetails": "",
     "currentAmount": "বর্তমান পরিমাণ",
     "depositStepDetails": "",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "বৈশিষ্ট্যযুক্ত টোকেন",
     "fees": {
       "defaultIntegrator": "",
@@ -285,6 +288,7 @@
     "rateChange": "রেট পরিবর্তন",
     "receiving": "রিসিভিং",
     "refuelStepDetails": "{{tool}} এর মাধ্যমে গ্যাস পান",
+    "route": "",
     "select": "",
     "sendToAddress": "{{address}} এ পাঠান",
     "sendToWallet": "অন্য ওয়ালেটে পাঠান",
@@ -301,6 +305,8 @@
     "stepSwapAndBuy": "",
     "stepSwapAndDeposit": "",
     "swapStepDetails": "{{tool}} এর মাধ্যমে {{chain}} এ সোওয়াপ করুন",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "",
     "tags": {
       "cheapest": "",

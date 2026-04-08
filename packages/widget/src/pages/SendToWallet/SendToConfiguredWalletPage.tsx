@@ -1,13 +1,12 @@
 import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
-import MoreHoriz from '@mui/icons-material/MoreHoriz'
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
-import { ListItemAvatar, ListItemText, MenuItem } from '@mui/material'
-import { type JSX, useId, useState } from 'react'
+import { ListItemAvatar, ListItemText } from '@mui/material'
+import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js'
+import { ContextMenu } from '../../components/ContextMenu.js'
 import { ListItem } from '../../components/ListItem/ListItem.js'
 import { ListItemButton } from '../../components/ListItem/ListItemButton.js'
-import { Menu } from '../../components/Menu.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { useHeader } from '../../hooks/useHeader.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
@@ -20,7 +19,6 @@ import { defaultChainIdsByType } from '../../utils/chainType.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import {
   ListContainer,
-  OptionsMenuButton,
   SendToWalletPageContainer,
 } from './SendToWalletPage.style.js'
 
@@ -28,13 +26,9 @@ export const SendToConfiguredWalletPage = (): JSX.Element => {
   const { t } = useTranslation()
   const navigateBack = useNavigateBack()
   const { toAddresses } = useWidgetConfig()
-  const [selectedToAddress, setSelectedToAddress] = useState<ToAddress>()
   const { requiredToChainType } = useToAddressRequirements()
   const { setSelectedBookmark } = useBookmarkActions()
   const { setFieldValue } = useFieldActions()
-  const moreMenuId = useId()
-  const [moreMenuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>()
-  const open = Boolean(moreMenuAnchorEl)
   const { getAddressLink } = useExplorer()
 
   useHeader(t('header.sendToWallet'))
@@ -46,35 +40,6 @@ export const SendToConfiguredWalletPage = (): JSX.Element => {
       isDirty: true,
     })
     navigateBack()
-  }
-
-  const closeMenu = () => {
-    setMenuAnchorEl(null)
-  }
-
-  const handleMenuOpen = (el: HTMLElement, toAddress: ToAddress) => {
-    setMenuAnchorEl(el)
-    setSelectedToAddress(toAddress)
-  }
-
-  const handleCopyAddress = () => {
-    if (selectedToAddress) {
-      navigator.clipboard.writeText(selectedToAddress.address)
-    }
-    closeMenu()
-  }
-
-  const handleViewOnExplorer = () => {
-    if (selectedToAddress) {
-      window.open(
-        getAddressLink(
-          selectedToAddress.address,
-          defaultChainIdsByType[selectedToAddress.chainType]
-        ),
-        '_blank'
-      )
-    }
-    closeMenu()
   }
 
   return (
@@ -102,54 +67,36 @@ export const SendToConfiguredWalletPage = (): JSX.Element => {
                 }
               />
             </ListItemButton>
-            <OptionsMenuButton
-              aria-label={t('button.options')}
-              aria-controls={
-                open && toAddress.address === selectedToAddress?.address
-                  ? moreMenuId
-                  : undefined
-              }
-              aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}
-              onClick={(e) =>
-                handleMenuOpen(e.target as HTMLElement, toAddress)
-              }
-              sx={{
-                opacity:
+            <ContextMenu
+              disabled={
+                !!(
                   requiredToChainType &&
                   requiredToChainType !== toAddress.chainType
-                    ? 0.5
-                    : 1,
-              }}
-            >
-              <MoreHoriz fontSize="small" />
-            </OptionsMenuButton>
+                )
+              }
+              items={[
+                {
+                  icon: <ContentCopyRounded />,
+                  label: t('button.copyAddress'),
+                  onClick: () =>
+                    navigator.clipboard.writeText(toAddress.address),
+                },
+                {
+                  icon: <OpenInNewRounded />,
+                  label: t('button.viewOnExplorer'),
+                  onClick: () =>
+                    window.open(
+                      getAddressLink(
+                        toAddress.address,
+                        defaultChainIdsByType[toAddress.chainType]
+                      ),
+                      '_blank'
+                    ),
+                },
+              ]}
+            />
           </ListItem>
         ))}
-        <Menu
-          id={moreMenuId}
-          elevation={0}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          anchorEl={moreMenuAnchorEl}
-          open={open}
-          onClose={closeMenu}
-        >
-          <MenuItem onClick={handleCopyAddress}>
-            <ContentCopyRounded />
-            {t('button.copyAddress')}
-          </MenuItem>
-          <MenuItem onClick={handleViewOnExplorer}>
-            <OpenInNewRounded />
-            {t('button.viewOnExplorer')}
-          </MenuItem>
-        </Menu>
       </ListContainer>
     </SendToWalletPageContainer>
   )

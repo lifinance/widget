@@ -236,7 +236,7 @@ export const TransactionPage = (): JSX.Element | null => {
             />
             {status === RouteExecutionStatus.Failed ? (
               <Tooltip
-                title={t('button.removeTransaction')}
+                title={t('button.clearTransaction')}
                 placement="bottom-end"
               >
                 <Button

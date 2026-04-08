@@ -1,12 +1,17 @@
 import type { FullStatusData, StatusResponse } from '@lifi/sdk'
-import { type ExtendedTransactionInfo, getTransactionHistory } from '@lifi/sdk'
+import { getTransactionHistory } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import type { QueryFunction } from '@tanstack/react-query'
 import { useQueries } from '@tanstack/react-query'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import type { RouteExecution } from '../stores/routes/types.js'
+import { useRouteExecutionStoreContext } from '../stores/routes/RouteExecutionStore.js'
+import type {
+  RouteExecution,
+  RouteExecutionState,
+} from '../stores/routes/types.js'
+import { getSourceTxHash } from '../stores/routes/utils.js'
 import { buildRouteFromTxHistory } from '../utils/converters.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useTools } from './useTools.js'
@@ -15,12 +20,13 @@ export const useTransactionHistory = (): {
   data: RouteExecution[]
   isLoading: boolean
 } => {
+  const store = useRouteExecutionStoreContext()
   const { accounts } = useAccount()
   const { keyPrefix } = useWidgetConfig()
   const sdkClient = useSDKClient()
   const { tools } = useTools()
 
-  const { data: transactions, isLoading } = useQueries({
+  const { data: routeExecutions, isLoading } = useQueries({
     queries: accounts.map((account) => ({
       queryKey: [
         getQueryKey('transaction-history', keyPrefix),
@@ -49,7 +55,7 @@ export const useTransactionHistory = (): {
       enabled: Boolean(account.address),
     })),
     combine: (results) => {
-      const uniqueTransactions = new Map()
+      const uniqueTransactions = new Map<string, StatusResponse>()
       results.forEach((result) => {
         if (result.data) {
           result.data.forEach((transaction) => {
@@ -66,30 +72,46 @@ export const useTransactionHistory = (): {
           })
         }
       })
-      const data = Array.from(uniqueTransactions.values()).sort((a, b) => {
-        return (
-          ((b?.sending as ExtendedTransactionInfo)?.timestamp ?? 0) -
-          ((a?.sending as ExtendedTransactionInfo)?.timestamp ?? 0)
-        )
-      }) as StatusResponse[]
+      // Convert raw API transactions into RouteExecution objects.
+      const data = Array.from(uniqueTransactions.values()).flatMap(
+        (transaction) => {
+          const routeExecution = buildRouteFromTxHistory(
+            transaction as FullStatusData,
+            tools
+          )
+          return routeExecution ? [routeExecution] : []
+        }
+      )
       return {
-        data: data,
+        data,
         isLoading: results.some((result) => result.isLoading),
       }
     },
   })
 
-  const routeExecutions = useMemo<RouteExecution[]>(
-    () =>
-      (transactions ?? []).flatMap((transaction) => {
-        const routeExecution = buildRouteFromTxHistory(
-          transaction as FullStatusData,
-          tools
-        )
-        return routeExecution ? [routeExecution] : []
-      }),
-    [tools, transactions]
+  // Stable Set — only recreated when data actually changes (TanStack Query structural sharing).
+  const apiTxHashes = useMemo(
+    () => new Set(routeExecutions.map((r) => getSourceTxHash(r.route))),
+    [routeExecutions]
   )
+
+  // Remove local store routes already indexed by the API to avoid duplicates.
+  // Must be in an effect — combine runs during render, so store mutations there
+  // would trigger "Cannot update a component while rendering" in concurrent mode.
+  useEffect(() => {
+    if (!apiTxHashes.size) {
+      return
+    }
+    const { routes, deleteRoute } = store.getState() as RouteExecutionState
+    for (const [id, routeExecution] of Object.entries(routes)) {
+      const txHash = getSourceTxHash(
+        (routeExecution as RouteExecution | undefined)?.route
+      )
+      if (txHash && apiTxHashes.has(txHash)) {
+        deleteRoute(id)
+      }
+    }
+  }, [apiTxHashes, store])
 
   return {
     data: routeExecutions,

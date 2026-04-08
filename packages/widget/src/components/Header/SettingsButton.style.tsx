@@ -32,14 +32,14 @@ export const SettingsIconButton: React.FC<
   switch (variant) {
     case 'info':
       return {
-        backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.12)`,
+        backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.08)`,
         '&:hover': {
-          backgroundColor: `color-mix(in srgb, rgba(${theme.vars.palette.info.mainChannel} / 0.12) 80%, black)`,
+          backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.12)`,
         },
         ...theme.applyStyles('dark', {
-          backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.16)`,
+          backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.12)`,
           '&:hover': {
-            backgroundColor: `color-mix(in srgb, rgba(${theme.vars.palette.info.mainChannel} / 0.16) 80%, black)`,
+            backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.16)`,
           },
         }),
       }
