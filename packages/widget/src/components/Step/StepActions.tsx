@@ -115,23 +115,26 @@ export const StepActions: React.FC<{
   )
 
   return (
-    <Tooltip
-      title={tooltipContent}
-      placement="bottom-end"
-      arrow={false}
-      slotProps={{
-        tooltip: {
-          sx: {
-            bgcolor: 'transparent',
-            p: 0,
-            boxShadow: 'none',
-            maxWidth: 'none',
+    <StepActionsHeader>
+      <StepActionsTitle>{t('main.route')}</StepActionsTitle>
+      <Tooltip
+        title={tooltipContent}
+        placement="bottom-end"
+        arrow={false}
+        slotProps={{
+          tooltip: {
+            sx: {
+              bgcolor: 'transparent',
+              p: 0,
+              boxShadow: 'none',
+              maxWidth: 'none',
+            },
           },
-        },
-      }}
-    >
-      <StepActionsHeader>
-        <StepActionsTitle>{t('main.route')}</StepActionsTitle>
+          transition: {
+            style: { transformOrigin: 'right top' },
+          },
+        }}
+      >
         <CardIconButton
           size="small"
           sx={(theme) => ({
@@ -155,8 +158,8 @@ export const StepActions: React.FC<{
             ))}
           </Box>
         </CardIconButton>
-      </StepActionsHeader>
-    </Tooltip>
+      </Tooltip>
+    </StepActionsHeader>
   )
 }
 
