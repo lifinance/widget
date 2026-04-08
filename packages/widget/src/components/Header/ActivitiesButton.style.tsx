@@ -12,7 +12,7 @@ export const ErrorBadge: React.FC<React.ComponentProps<typeof Badge>> = styled(
 )(({ theme }) => ({
   '& .MuiBadge-badge': {
     padding: 0,
-    minWidth: 'unset',
+    minWidth: 16,
     width: 16,
     height: 16,
     borderRadius: '50%',
