@@ -1,6 +1,7 @@
 import { useAccount } from '@lifi/wallet-management'
 import { useChainTypeFromAddress } from '@lifi/widget-provider'
 import CloseRounded from '@mui/icons-material/CloseRounded'
+import WarningRounded from '@mui/icons-material/WarningRounded'
 import { Box, Collapse } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import { type MouseEventHandler, useEffect, useRef } from 'react'
@@ -11,7 +12,6 @@ import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js
 import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { useSendToWalletStore } from '../../stores/settings/useSendToWalletStore.js'
 import { DisabledUI, HiddenUI } from '../../types/widget.js'
 import { defaultChainIdsByType } from '../../utils/chainType.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
@@ -21,7 +21,12 @@ import type { CardProps } from '../Card/Card.js'
 import { Card } from '../Card/Card.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
 import { CardTitle } from '../Card/CardTitle.js'
-import { SendToWalletCardHeader } from './SendToWallet.style.js'
+import {
+  SendToWalletCardHeader,
+  SendToWalletCardTitleRow,
+  SendToWalletRequiredLabel,
+  SendToWalletRequiredLabelText,
+} from './SendToWalletButton.style.js'
 
 export const SendToWalletButton: React.FC<CardProps> = (props) => {
   const { t } = useTranslation()
@@ -34,7 +39,6 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
     subvariant,
     subvariantOptions,
   } = useWidgetConfig()
-  const { showSendToWallet } = useSendToWalletStore((state) => state)
   const [toAddressFieldValue, toChainId, toTokenAddress] = useFieldValues(
     'toAddress',
     'toChain',
@@ -44,8 +48,8 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
   const { selectedBookmark } = useBookmarks()
   const { setSelectedBookmark } = useBookmarkActions()
   const { accounts } = useAccount()
-  const { requiredToAddress } = useToAddressRequirements()
   const { getChainTypeFromAddress } = useChainTypeFromAddress()
+  const { requiredToAddress } = useToAddressRequirements()
   const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress)
   const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress)
 
@@ -118,7 +122,7 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
   }, [])
 
   const isOpenCollapse =
-    !hiddenToAddress && (requiredToAddress || showSendToWallet)
+    !hiddenToAddress && (requiredToAddress || !!toAddressFieldValue)
 
   const title =
     subvariant === 'custom' && subvariantOptions?.custom === 'deposit'
@@ -137,7 +141,17 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
         onClick={disabledForChanges ? undefined : handleOnClick}
         sx={{ width: '100%', ...props.sx }}
       >
-        <CardTitle required={requiredToAddress}>{title}</CardTitle>
+        <SendToWalletCardTitleRow>
+          <CardTitle sx={{ p: 0 }}>{title}</CardTitle>
+          {requiredToAddress && !toAddressFieldValue ? (
+            <SendToWalletRequiredLabel variant="warning">
+              <WarningRounded sx={{ fontSize: 14 }} />
+              <SendToWalletRequiredLabelText type="icon">
+                {t('sendToWallet.required')}
+              </SendToWalletRequiredLabelText>
+            </SendToWalletRequiredLabel>
+          ) : null}
+        </SendToWalletCardTitleRow>
         <Box
           sx={{
             display: 'flex',

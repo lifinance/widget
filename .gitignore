@@ -40,3 +40,5 @@ next-env.d.ts
 # nuxt
 /.nuxt/
 /.output/
+
+.claude/worktrees/

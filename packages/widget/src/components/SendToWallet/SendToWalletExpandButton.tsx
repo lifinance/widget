@@ -1,63 +1,60 @@
 import Wallet from '@mui/icons-material/Wallet'
-import { Button, Tooltip } from '@mui/material'
+import Button from '@mui/material/Button'
+import Collapse from '@mui/material/Collapse'
+import Tooltip from '@mui/material/Tooltip'
+import { useNavigate } from '@tanstack/react-router'
+import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
-import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
-import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import {
-  sendToWalletStore,
-  useSendToWalletStore,
-} from '../../stores/settings/useSendToWalletStore.js'
-import { WidgetEvent } from '../../types/events.js'
 import { DisabledUI, HiddenUI } from '../../types/widget.js'
+import { navigationRoutes } from '../../utils/navigationRoutes.js'
 
-export const SendToWalletExpandButton: React.FC = () => {
+export const SendToWalletExpandButton = (): JSX.Element => {
   const { t } = useTranslation()
-  const { disabledUI, hiddenUI } = useWidgetConfig()
-  const { setFieldValue } = useFieldActions()
-  const { setSelectedBookmark } = useBookmarkActions()
-  const emitter = useWidgetEvents()
-  const { showSendToWallet, setSendToWallet } = useSendToWalletStore(
-    (state) => state
-  )
-  const [toAddressFieldValue] = useFieldValues('toAddress')
+  const navigate = useNavigate()
+  const { toAddresses, disabledUI, hiddenUI } = useWidgetConfig()
+  const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress)
+  const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress)
   const { requiredToAddress } = useToAddressRequirements()
+  const [toAddressValue] = useFieldValues('toAddress')
 
-  if (requiredToAddress || hiddenUI?.includes(HiddenUI.ToAddress)) {
-    return null
-  }
+  const visible =
+    !hiddenToAddress &&
+    !disabledToAddress &&
+    !toAddressValue &&
+    !requiredToAddress
 
-  const handleClick = () => {
-    if (showSendToWallet && !disabledUI?.includes(DisabledUI.ToAddress)) {
-      setFieldValue('toAddress', '', { isTouched: true })
-      setSelectedBookmark()
-    }
-    setSendToWallet(!showSendToWallet)
-    emitter.emit(
-      WidgetEvent.SendToWalletToggled,
-      sendToWalletStore.getState().showSendToWallet
-    )
-  }
-
-  const buttonVariant =
-    showSendToWallet || Boolean(toAddressFieldValue) ? 'contained' : 'text'
+  const handleClick = () =>
+    navigate({
+      to: toAddresses?.length
+        ? navigationRoutes.configuredWallets
+        : navigationRoutes.sendToWallet,
+    })
 
   return (
-    <Tooltip title={t('main.sendToWallet')} placement="bottom-end">
-      <Button
-        variant={buttonVariant}
-        onClick={handleClick}
-        sx={{
-          minWidth: 48,
-          width: 48,
-          height: 48,
-        }}
-      >
-        <Wallet />
-      </Button>
-    </Tooltip>
+    <Collapse
+      orientation="horizontal"
+      in={visible}
+      timeout={225}
+      mountOnEnter
+      unmountOnExit
+    >
+      <Tooltip title={t('main.sendToWallet')} placement="bottom-end">
+        <Button
+          variant="text"
+          onClick={handleClick}
+          sx={{
+            ml: 1.5,
+            minWidth: 48,
+            width: 48,
+            height: 48,
+          }}
+        >
+          <Wallet />
+        </Button>
+      </Tooltip>
+    </Collapse>
   )
 }

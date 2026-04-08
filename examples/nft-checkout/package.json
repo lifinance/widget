@@ -31,14 +31,14 @@
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-router-dom": "^7.14.0",
-    "viem": "^2.47.6",
-    "wagmi": "^3.6.0"
+    "viem": "^2.47.10",
+    "wagmi": "^3.6.1"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.0.1",
     "source-map-explorer": "^2.5.3",
     "typescript": "^6.0.2",
-    "vite": "^8.0.3",
+    "vite": "^8.0.6",
     "vite-plugin-node-polyfills": "0.26.0",
     "web-vitals": "^5.2.0"
   },
