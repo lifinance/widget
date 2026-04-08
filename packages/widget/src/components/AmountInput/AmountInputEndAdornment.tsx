@@ -1,5 +1,4 @@
 import { formatUnits } from '@lifi/sdk'
-import { InputAdornment } from '@mui/material'
 import type React from 'react'
 import { type JSX, memo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -10,7 +9,10 @@ import type { FormTypeProps } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { ButtonContainer, MaxButton } from './AmountInputAdornment.style.js'
+import {
+  AmountInputButton,
+  ButtonContainer,
+} from './AmountInputEndAdornment.style.js'
 
 export const AmountInputEndAdornment: React.NamedExoticComponent<FormTypeProps> =
   memo(({ formType }: FormTypeProps): JSX.Element | null => {
@@ -71,24 +73,24 @@ export const AmountInputEndAdornment: React.NamedExoticComponent<FormTypeProps> 
       }
     }
 
+    if (formType !== 'from' || !token) {
+      return null
+    }
+
     return (
-      <InputAdornment position="end" sx={{ paddingTop: 2 }}>
-        {formType === 'from' && token?.amount ? (
-          <ButtonContainer>
-            <MaxButton onClick={() => handlePercentage(25)} data-delay="0">
-              25%
-            </MaxButton>
-            <MaxButton onClick={() => handlePercentage(50)} data-delay="1">
-              50%
-            </MaxButton>
-            <MaxButton onClick={() => handlePercentage(75)} data-delay="2">
-              75%
-            </MaxButton>
-            <MaxButton onClick={handleMax} data-delay="3">
-              {t('button.max')}
-            </MaxButton>
-          </ButtonContainer>
-        ) : null}
-      </InputAdornment>
+      <ButtonContainer>
+        <AmountInputButton onClick={() => handlePercentage(25)}>
+          25%
+        </AmountInputButton>
+        <AmountInputButton onClick={() => handlePercentage(50)}>
+          50%
+        </AmountInputButton>
+        <AmountInputButton onClick={() => handlePercentage(75)}>
+          75%
+        </AmountInputButton>
+        <AmountInputButton onClick={handleMax}>
+          {t('button.max')}
+        </AmountInputButton>
+      </ButtonContainer>
     )
   })

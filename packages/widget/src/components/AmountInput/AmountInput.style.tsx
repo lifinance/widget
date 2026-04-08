@@ -55,14 +55,14 @@ export const Input: React.FC<React.ComponentProps<typeof InputBase>> = styled(
 export const AmountInputCardTitle: React.FC<
   React.ComponentProps<typeof CardTitle>
 > = styled(CardTitle)(({ theme }) => ({
-  padding: theme.spacing(2, 0, 0, 0),
+  padding: theme.spacing(0),
 }))
 
 export const AmountInputCardHeader: React.FC<React.ComponentProps<typeof Box>> =
   styled(Box)(({ theme }) => ({
-    padding: theme.spacing(0, 2, 0, 2),
+    padding: theme.spacing(2, 2, 0, 2),
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'start',
+    alignItems: 'center',
     height: 30,
   }))

@@ -4,7 +4,6 @@ import { useCallback } from 'react'
 import { useBookmarkActions } from '../stores/bookmarks/useBookmarkActions.js'
 import type { FormType } from '../stores/form/types.js'
 import { useFieldActions } from '../stores/form/useFieldActions.js'
-import { useSendToWalletActions } from '../stores/settings/useSendToWalletStore.js'
 import { useAvailableChains } from './useAvailableChains.js'
 
 type UpdateToAddressArgs = {
@@ -22,7 +21,6 @@ export const useToAddressAutoPopulate = (): ((
   args: UpdateToAddressArgs
 ) => string | undefined) => {
   const { setFieldValue } = useFieldActions()
-  const { setSendToWallet } = useSendToWalletActions()
   const { setSelectedBookmark } = useBookmarkActions()
   const { getChainById } = useAvailableChains()
   const { accounts } = useAccount()
@@ -83,7 +81,6 @@ export const useToAddressAutoPopulate = (): ((
           chainType: destinationAccount.chainType,
           isConnectedAccount: true,
         })
-        setSendToWallet(true)
         return destinationAccount.address
       }
     },
@@ -92,7 +89,6 @@ export const useToAddressAutoPopulate = (): ((
       getChainById,
       setFieldValue,
       setSelectedBookmark,
-      setSendToWallet,
       getChainTypeFromAddress,
     ]
   )

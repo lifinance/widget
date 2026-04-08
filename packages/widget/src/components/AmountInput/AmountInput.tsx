@@ -49,9 +49,6 @@ export const AmountInput: React.FC<FormTypeProps & CardProps> = ({
     <AmountInputBase
       formType={formType}
       token={token}
-      endAdornment={
-        !disabled ? <AmountInputEndAdornment formType={formType} /> : undefined
-      }
       bottomAdornment={<PriceFormHelperText formType={formType} />}
       disabled={disabled}
       {...props}
@@ -64,7 +61,6 @@ const AmountInputBase: React.FC<
     CardProps & {
       token?: Token
       startAdornment?: ReactNode
-      endAdornment?: ReactNode
       bottomAdornment?: ReactNode
       disabled?: boolean
     }
@@ -72,7 +68,6 @@ const AmountInputBase: React.FC<
   formType,
   token,
   startAdornment,
-  endAdornment,
   bottomAdornment,
   disabled,
   ...props
@@ -174,7 +169,6 @@ const AmountInputBase: React.FC<
     <InputCard {...props}>
       <AmountInputCardHeader>
         <AmountInputCardTitle>{title}</AmountInputCardTitle>
-        {endAdornment}
       </AmountInputCardHeader>
       <FormContainer>
         <AmountInputStartAdornment formType={formType} />
@@ -204,6 +198,7 @@ const AmountInputBase: React.FC<
           {bottomAdornment}
         </FormControl>
       </FormContainer>
+      {!disabled && <AmountInputEndAdornment formType={formType} />}
     </InputCard>
   )
 }
