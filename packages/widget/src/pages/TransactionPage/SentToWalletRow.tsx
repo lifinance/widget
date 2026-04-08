@@ -35,9 +35,7 @@ export const SentToWalletRow: React.FC<SentToWalletRowProps> = ({
           <Wallet color="success" sx={{ fontSize: 16 }} />
         </ActionIconCircle>
       }
-      message={t('main.sentToWallet', {
-        address: shortenAddress(toAddress),
-      })}
+      message={`${t('main.sentToWallet')}: ${shortenAddress(toAddress)}`}
       endAdornment={
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
           <IconButton size="small" onClick={handleCopy} sx={{ p: 0.5 }}>

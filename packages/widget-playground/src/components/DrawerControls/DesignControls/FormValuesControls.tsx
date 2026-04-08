@@ -1,5 +1,6 @@
 import { ChainType } from '@lifi/widget'
 import { Button } from '@mui/material'
+import type { JSX } from 'react'
 import { useState } from 'react'
 import { useDevView } from '../../../hooks/useDevView.js'
 import { useEditToolsActions } from '../../../store/editTools/useEditToolsActions.js'
@@ -116,7 +117,7 @@ const forceConfigUpdate = (nextValue: FormValues): FormValues => ({
   formUpdateKey: Date.now().toString(),
 })
 
-export const FormValuesControl = () => {
+export const FormValuesControl = (): JSX.Element | null => {
   const { setFormValues: setFormValuesViaConfig } = useConfigActions()
   const { setFormValues: setFormValuesViaFormApiRef } = useEditToolsActions()
   const { isDevView } = useDevView()

@@ -1,4 +1,5 @@
 import EvStation from '@mui/icons-material/EvStation'
+import type { BoxProps } from '@mui/material'
 import { Box, Collapse, Typography } from '@mui/material'
 import type { ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -8,7 +9,7 @@ import { useSettingsActions } from '../../stores/settings/useSettingsActions.js'
 import { AlertMessage } from './AlertMessage.js'
 import { InfoMessageSwitch } from './GasRefuelMessage.style.js'
 
-export const GasRefuelMessage = () => {
+export const GasRefuelMessage: React.FC<BoxProps> = (props) => {
   const { t } = useTranslation()
 
   const { setValue } = useSettingsActions()
@@ -31,6 +32,7 @@ export const GasRefuelMessage = () => {
     >
       <AlertMessage
         icon={<EvStation />}
+        {...props}
         title={
           <Box
             sx={{

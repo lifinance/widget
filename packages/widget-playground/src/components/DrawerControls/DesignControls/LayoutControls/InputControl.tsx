@@ -1,4 +1,5 @@
 import { defaultMaxHeight } from '@lifi/widget'
+import type { JSX } from 'react'
 import {
   type ChangeEventHandler,
   type FocusEventHandler,
@@ -10,7 +11,7 @@ import { CapitalizeFirstLetter, Input } from '../DesignControls.style.js'
 
 interface InputControlProps extends HTMLAttributes<HTMLDivElement> {
   label: string
-  value: number | 'fit-content' | undefined
+  value: number | undefined
   onChange: ChangeEventHandler<HTMLInputElement>
   onBlur: FocusEventHandler<HTMLInputElement>
 }
@@ -20,10 +21,9 @@ export const InputControl = ({
   value,
   onChange,
   onBlur,
-}: InputControlProps) => {
+}: InputControlProps): JSX.Element => {
   const inputId = useId()
-  const showCaption =
-    !value || value === 'fit-content' || value < defaultMaxHeight
+  const showCaption = !value || value < defaultMaxHeight
   return (
     <CardRowContainer sx={{ padding: 1 }}>
       <CardRowColumn>

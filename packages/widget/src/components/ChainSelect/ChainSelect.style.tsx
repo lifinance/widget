@@ -1,5 +1,6 @@
 import { Avatar, Box, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
+import type React from 'react'
 import { Card } from '../../components/Card/Card.js'
 import { maxChainsToShow } from '../../stores/chains/createChainOrderStore.js'
 
@@ -15,7 +16,9 @@ const chainCardHeightPxMobile = 36
 const maxRows = 2
 const maxChainsPerRow = Math.ceil(maxChainsToShow / maxRows)
 
-export const ChainCard = styled(Card)(({ theme }) => ({
+export const ChainCard: React.FC<
+  React.ComponentProps<typeof Card> & { itemCount?: number }
+> = styled(Card)(({ theme }) => ({
   display: 'grid',
   placeItems: 'center',
   minWidth: chainCardWidthPx,
@@ -26,7 +29,9 @@ export const ChainCard = styled(Card)(({ theme }) => ({
   },
 }))
 
-export const ChainAvatar = styled(Avatar)(({ theme }) => ({
+export const ChainAvatar: React.FC<
+  React.ComponentProps<typeof Avatar> & { itemCount?: number }
+> = styled(Avatar)(({ theme }) => ({
   width: 40,
   height: 40,
   [theme.breakpoints.down(theme.breakpoints.values.xs)]: {
@@ -35,7 +40,9 @@ export const ChainAvatar = styled(Avatar)(({ theme }) => ({
   },
 }))
 
-export const MoreChainsBox = styled(Box)(({ theme }) => ({
+export const MoreChainsBox: React.FC<
+  React.ComponentProps<typeof Box> & { itemCount?: number }
+> = styled(Box)(({ theme }) => ({
   width: 40,
   height: 40,
   display: 'grid',
@@ -46,16 +53,20 @@ export const MoreChainsBox = styled(Box)(({ theme }) => ({
   },
 }))
 
-export const MoreChainsText = styled(Typography)(({ theme }) => ({
+export const MoreChainsText: React.FC<
+  React.ComponentProps<typeof Typography> & { itemCount?: number }
+> = styled(Typography)(({ theme }) => ({
   fontWeight: 500,
   [theme.breakpoints.down('xs')]: {
     fontSize: '.85rem',
   },
 }))
 
-export const ChainContainer = styled(Box, {
+export const ChainContainer: React.FC<
+  React.ComponentProps<typeof Box> & { itemCount?: number }
+> = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'itemCount',
-})<{ itemCount: number }>(({ theme, itemCount }) => {
+})<{ itemCount?: number }>(({ theme, itemCount = 0 }) => {
   const rowCount = Math.min(Math.ceil(itemCount / maxChainsPerRow), maxRows)
   const columnsPerRow = Math.ceil(itemCount / rowCount)
   return {

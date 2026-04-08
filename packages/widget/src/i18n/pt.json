@@ -95,7 +95,6 @@
       "emptyTokenListAllNetworks": "Não conseguimos encontrar nenhum token. Por favor, busque por endereço de contrato se o token não aparecer, ou tente selecionar uma cadeia diferente.",
       "emptyTransactionHistory": "O histórico de transações é armazenado apenas localmente e será excluído se você limpar os dados do seu navegador.",
       "routeNotFound": "Razões para isso podem ser: baixa liquidez, valor selecionado é muito baixo, os custos com gás são muito elevados ou não há rotas para a combinação selecionada.",
-      "toAddressIsRequired": "O endereço da carteira de destino é necessário para continuar com a transferência.",
       "missingRouteRequiredAccount": "Conecte sua carteira {{chainName}} para continuar. {{address}}"
     },
     "title": {
@@ -199,6 +198,7 @@
   "tooltip": {
     "deselectAll": "Desmarcar tudo",
     "estimatedTime": "Tempo estimado para completar a transação de conversão ou ponte, excluindo a troca de rede e aprovação de token.",
+    "exchangeRate": "",
     "feeCollection": "A taxa é aplicada aos pares de tokens selecionados e garante que podemos fornecer a melhor experiência.",
     "minReceived": "O valor mínimo estimado pode ser alterado até que a transação de conversão/ponte seja assinada. Para transferências em duas etapas, isto aplica-se até que a segunda etapa da transação seja assinada.",
     "notFound": {
@@ -221,6 +221,8 @@
     "checkoutStepDetails": "Comprar via {{tool}}",
     "currentAmount": "Quantidade atual",
     "depositStepDetails": "Depositar via {{tool}}",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "Tokens em destaque",
     "fees": {
       "defaultIntegrator": "Taxa de integrador",
@@ -286,9 +288,8 @@
     "rateChange": "Alterar taxa",
     "receiving": "Recebendo",
     "refuelStepDetails": "Obter gás via {{tool}}",
-    "selectChain": "Selecione a rede",
-    "selectChainAndToken": "Selecione a rede e o token",
-    "selectToken": "Selecione o Token",
+    "route": "",
+    "select": "",
     "sendToAddress": "Enviar para",
     "sendToWallet": "Enviar para uma carteira diferente",
     "sending": "Enviando",
@@ -304,6 +305,8 @@
     "stepSwapAndBuy": "Converta e compre",
     "stepSwapAndDeposit": "Converter e depositar",
     "swapStepDetails": "Converter na {{chain}} via {{tool}}",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "ID de transferência",
     "tags": {
       "cheapest": "Melhor retorno",
@@ -346,7 +349,8 @@
     "enterName": "Insira o nome",
     "noBookmarkedWallets": "Sem carteiras favoritas",
     "noConnectedWallets": "Sem carteiras conectadas",
-    "noRecentWallets": "Sem carteiras recentes"
+    "noRecentWallets": "Sem carteiras recentes",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "Preço atual",

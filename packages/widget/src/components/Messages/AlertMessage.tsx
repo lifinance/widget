@@ -1,5 +1,5 @@
 import type { BoxProps } from '@mui/material'
-import type { PropsWithChildren, ReactNode } from 'react'
+import type { JSX, PropsWithChildren, ReactNode } from 'react'
 import {
   AlertMessageCard,
   AlertMessageCardTitle,
@@ -20,7 +20,7 @@ export const AlertMessage = ({
   multiline,
   severity = 'info',
   ...rest
-}: AlertMessageProps) => (
+}: AlertMessageProps): JSX.Element => (
   <AlertMessageCard severity={severity} {...rest}>
     <AlertMessageCardTitle
       severity={severity}

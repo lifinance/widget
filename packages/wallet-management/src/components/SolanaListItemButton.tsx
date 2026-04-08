@@ -1,5 +1,6 @@
 import { ChainId, ChainType } from '@lifi/sdk'
 import { useSolanaContext } from '@lifi/widget-provider'
+import type { JSX } from 'react'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { getChainTypeIcon } from '../icons.js'
@@ -15,7 +16,7 @@ export const SolanaListItemButton = ({
   onConnected,
   onConnecting,
   onError,
-}: WalletListItemButtonProps) => {
+}: WalletListItemButtonProps): JSX.Element => {
   const emitter = useWalletManagementEvents()
   const { connect, disconnect, isConnected } = useSolanaContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()
@@ -56,7 +57,7 @@ export const SolanaListItemButton = ({
       key={connectorDisplayName}
       icon={
         ecosystemSelection
-          ? getChainTypeIcon(ChainType.SVM)
+          ? (getChainTypeIcon(ChainType.SVM) ?? '')
           : (connector.icon ?? '')
       }
       onClick={handleSolanaConnect}

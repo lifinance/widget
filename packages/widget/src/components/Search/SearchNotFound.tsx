@@ -1,4 +1,5 @@
 import SearchOff from '@mui/icons-material/SearchOff'
+import type { JSX } from 'react'
 import {
   NotFoundContainer,
   NotFoundIconContainer,
@@ -13,7 +14,7 @@ interface SearchNotFoundProps {
 export const SearchNotFound = ({
   message,
   adjustForStickySearchInput,
-}: SearchNotFoundProps) => (
+}: SearchNotFoundProps): JSX.Element => (
   <NotFoundContainer adjustForStickySearchInput={adjustForStickySearchInput}>
     <NotFoundIconContainer>
       <SearchOff fontSize="inherit" />

@@ -5,7 +5,7 @@ import { getConnectorId } from './getConnectorId.js'
 export const getConnectorTagType = (
   connectorId: string,
   isConnected: boolean
-) => {
+): WalletTagType => {
   if (isConnected) {
     return WalletTagType.Connected
   }
@@ -29,7 +29,7 @@ export const getConnectorTagType = (
 export const getWalletTagType = (
   wallet: CombinedWallet,
   connectedConnectorIds: string[]
-) => {
+): WalletTagType | undefined => {
   let walletTagType: WalletTagType | undefined
   if (wallet.connectors.length > 1) {
     walletTagType = wallet.connectors.some((connector) => {

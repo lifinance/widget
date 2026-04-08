@@ -1,6 +1,6 @@
 import type { Route } from '@lifi/sdk'
 import { Button } from '@mui/material'
-import type { RefObject } from 'react'
+import type { ForwardRefExoticComponent, RefAttributes, RefObject } from 'react'
 import { forwardRef, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
@@ -27,25 +27,26 @@ interface TokenValueBottomSheetProps {
   onCancel?(): void
 }
 
-export const TokenValueBottomSheet = forwardRef<
-  BottomSheetBase,
-  TokenValueBottomSheetProps
->(({ route, onContinue, onCancel }, ref) => {
-  const handleCancel = () => {
-    ;(ref as RefObject<BottomSheetBase>).current?.close()
-    onCancel?.()
-  }
+export const TokenValueBottomSheet: ForwardRefExoticComponent<
+  TokenValueBottomSheetProps & RefAttributes<BottomSheetBase>
+> = forwardRef<BottomSheetBase, TokenValueBottomSheetProps>(
+  ({ route, onContinue, onCancel }, ref) => {
+    const handleCancel = () => {
+      ;(ref as RefObject<BottomSheetBase>).current?.close()
+      onCancel?.()
+    }
 
-  return (
-    <BottomSheet ref={ref} onClose={onCancel}>
-      <TokenValueBottomSheetContent
-        route={route}
-        onContinue={onContinue}
-        onCancel={handleCancel}
-      />
-    </BottomSheet>
-  )
-})
+    return (
+      <BottomSheet ref={ref} onClose={onCancel}>
+        <TokenValueBottomSheetContent
+          route={route}
+          onContinue={onContinue}
+          onCancel={handleCancel}
+        />
+      </BottomSheet>
+    )
+  }
+)
 
 const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
   route,

@@ -13,7 +13,10 @@ const useTokenRateStore = create<TokenRateState>((set) => ({
   toggleIsForward: () => set((state) => ({ isForward: !state.isForward })),
 }))
 
-export function useTokenRateText(route: RouteExtended) {
+export function useTokenRateText(route: RouteExtended): {
+  rateText: string
+  toggleRate: MouseEventHandler
+} {
   const { t } = useTranslation()
   const { isForward, toggleIsForward } = useTokenRateStore()
 
@@ -48,5 +51,5 @@ export function useTokenRateText(route: RouteExtended) {
     toggleIsForward()
   }
 
-  return { rateText, toggleRate }
+  return { rateText: rateText, toggleRate: toggleRate }
 }

@@ -1,6 +1,7 @@
 import type { RouteExtended } from '@lifi/sdk'
 import { useEthereumContext } from '@lifi/widget-provider'
 import { Box, Tooltip } from '@mui/material'
+import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTokenRateText } from '../../hooks/useTokenRateText.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
@@ -13,7 +14,7 @@ import {
 } from '../../utils/format.js'
 import { getPriceImpact } from '../../utils/getPriceImpact.js'
 import { FeeBreakdownTooltip } from '../FeeBreakdownTooltip.js'
-import { StepActions } from '../StepActions/StepActions.js'
+import { StepActions } from '../Step/StepActions.js'
 import {
   DetailInfoIcon,
   DetailLabel,
@@ -26,12 +27,10 @@ interface RouteDetailsProps {
   route: RouteExtended
 }
 
-export const RouteDetails = ({ route }: RouteDetailsProps) => {
+export const RouteDetails = ({ route }: RouteDetailsProps): JSX.Element => {
   const { t, i18n } = useTranslation()
   const { rateText, toggleRate } = useTokenRateText(route)
-
   const { feeConfig } = useWidgetConfig()
-
   const { isGaslessStep } = useEthereumContext()
 
   const { gasCosts, feeCosts, gasCostUSD, feeCostUSD } =
@@ -95,9 +94,7 @@ export const RouteDetails = ({ route }: RouteDetailsProps) => {
         <DetailValue>
           {!gasCostUSD
             ? t('main.fees.free')
-            : t('format.currency', {
-                value: gasCostUSD,
-              })}
+            : t('format.currency', { value: gasCostUSD })}
         </DetailValue>
       </DetailRow>
       {feeCosts.length ? (
@@ -109,9 +106,7 @@ export const RouteDetails = ({ route }: RouteDetailsProps) => {
             </FeeBreakdownTooltip>
           </DetailLabelContainer>
           <DetailValue>
-            {t('format.currency', {
-              value: feeCostUSD,
-            })}
+            {t('format.currency', { value: feeCostUSD })}
           </DetailValue>
         </DetailRow>
       ) : null}
@@ -137,9 +132,7 @@ export const RouteDetails = ({ route }: RouteDetailsProps) => {
             ) : null}
           </DetailLabelContainer>
           <DetailValue>
-            {t('format.currency', {
-              value: feeAmountUSD,
-            })}
+            {t('format.currency', { value: feeAmountUSD })}
           </DetailValue>
         </DetailRow>
       ) : null}
@@ -151,10 +144,7 @@ export const RouteDetails = ({ route }: RouteDetailsProps) => {
           </Tooltip>
         </DetailLabelContainer>
         <DetailValue>
-          {t('format.percent', {
-            value: priceImpact,
-            usePlusSign: true,
-          })}
+          {t('format.percent', { value: priceImpact, usePlusSign: true })}
         </DetailValue>
       </DetailRow>
       {!isRouteDone(route) ? (

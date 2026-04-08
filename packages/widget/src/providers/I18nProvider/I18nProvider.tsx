@@ -83,7 +83,6 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
         caches: [],
       },
       returnEmptyString: false,
-      showSupportNotice: false,
     })
 
     i18n.init()

@@ -3,9 +3,9 @@ import {
   createRootRoute,
   createRoute,
   createRouter,
-  type Router,
   RouterProvider,
 } from '@tanstack/react-router'
+import type { JSX } from 'react'
 import { AppLayout } from './AppLayout.js'
 import { NotFound } from './components/NotFound.js'
 import { ActivitiesPage } from './pages/ActivitiesPage/ActivitiesPage.js'
@@ -133,6 +133,29 @@ const routesTransactionExecutionDetailsRoute = createRoute({
   component: TransactionDetailsPage,
 })
 
+const activitiesLayoutRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: navigationRoutes.activities,
+})
+
+const activitiesIndexRoute = createRoute({
+  getParentRoute: () => activitiesLayoutRoute,
+  path: '/',
+  component: ActivitiesPage,
+})
+
+const activitiesDetailsRoute = createRoute({
+  getParentRoute: () => activitiesLayoutRoute,
+  path: navigationRoutes.transactionDetails,
+  component: TransactionDetailsPage,
+})
+
+const activitiesTransactionExecutionRoute = createRoute({
+  getParentRoute: () => activitiesLayoutRoute,
+  path: navigationRoutes.transactionExecution,
+  component: TransactionPage,
+})
+
 const sendToWalletLayoutRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: navigationRoutes.sendToWallet,
@@ -166,29 +189,6 @@ const configuredWalletsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: navigationRoutes.configuredWallets,
   component: SendToConfiguredWalletPage,
-})
-
-const activitiesLayoutRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: navigationRoutes.activities,
-})
-
-const activitiesIndexRoute = createRoute({
-  getParentRoute: () => activitiesLayoutRoute,
-  path: '/',
-  component: ActivitiesPage,
-})
-
-const activitiesDetailsRoute = createRoute({
-  getParentRoute: () => activitiesLayoutRoute,
-  path: navigationRoutes.transactionDetails,
-  component: TransactionDetailsPage,
-})
-
-const activitiesExecutionRoute = createRoute({
-  getParentRoute: () => activitiesLayoutRoute,
-  path: navigationRoutes.transactionExecution,
-  component: TransactionPage,
 })
 
 const transactionExecutionLayoutRoute = createRoute({
@@ -233,6 +233,11 @@ const routeTree = rootRoute.addChildren([
     transactionExecutionIndexRoute,
     transactionExecutionDetailsRoute,
   ]),
+  activitiesLayoutRoute.addChildren([
+    activitiesIndexRoute,
+    activitiesDetailsRoute,
+    activitiesTransactionExecutionRoute,
+  ]),
   sendToWalletLayoutRoute.addChildren([
     sendToWalletIndexRoute,
     sendToWalletBookmarksRoute,
@@ -240,29 +245,24 @@ const routeTree = rootRoute.addChildren([
     sendToWalletConnectedWalletsRoute,
   ]),
   configuredWalletsRoute,
-  activitiesLayoutRoute.addChildren([
-    activitiesIndexRoute,
-    activitiesDetailsRoute,
-    activitiesExecutionRoute,
-  ]),
 ])
-
-declare module '@tanstack/react-router' {
-  interface Register {
-    router: Router<typeof routeTree>
-  }
-}
 
 const history = createMemoryHistory({
   initialEntries: ['/'],
 })
 
-const router = createRouter({
+const router: ReturnType<typeof createRouter> = createRouter({
   routeTree,
   history,
   defaultPreload: 'intent',
 })
 
-export const AppDefault = () => {
+declare module '@tanstack/react-router' {
+  interface Register {
+    router: typeof router
+  }
+}
+
+export const AppDefault = (): JSX.Element => {
   return <RouterProvider router={router} />
 }

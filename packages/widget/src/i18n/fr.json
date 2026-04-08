@@ -95,7 +95,6 @@
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "L'historique de transaction est uniquement stocké au niveau local et sera supprimé si vous effacez les données de votre navigateur.",
       "routeNotFound": "Raisons possibles : faible liquidité, le montant sélectionné est trop faible, les coûts de gaz sont trop élevés ou il n'y a pas de routes pour la combinaison sélectionnée.",
-      "toAddressIsRequired": "",
       "missingRouteRequiredAccount": ""
     },
     "title": {
@@ -199,6 +198,7 @@
   "tooltip": {
     "deselectAll": "Tout désélectionner",
     "estimatedTime": "",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "",
     "notFound": {
@@ -221,6 +221,8 @@
     "checkoutStepDetails": "Achat via {{tool}}",
     "currentAmount": "Montant actuel",
     "depositStepDetails": "Dépôt via {{tool}}",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "Jetons en vedette",
     "fees": {
       "defaultIntegrator": "",
@@ -286,9 +288,8 @@
     "rateChange": "Taux de change",
     "receiving": "En cours de réception",
     "refuelStepDetails": "Obtenir du gaz via {{tool}}",
-    "selectChain": "Sélectionner la chaîne",
-    "selectChainAndToken": "Sélectionnez la chaîne et le jeton",
-    "selectToken": "Choisissez un jeton",
+    "route": "",
+    "select": "",
     "sendToAddress": "Envoyer à {{address}}",
     "sendToWallet": "Envoyer vers un autre portefeuille",
     "sending": "Envoi",
@@ -304,6 +305,8 @@
     "stepSwapAndBuy": "Échanger et acheter",
     "stepSwapAndDeposit": "",
     "swapStepDetails": "Échanger sur {{chain}} via {{tool}}",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "",
     "tags": {
       "cheapest": "Meilleur Retour",
@@ -346,7 +349,8 @@
     "enterName": "Saisir un nom",
     "noBookmarkedWallets": "Aucun portefeuille favori",
     "noConnectedWallets": "Aucun portefeuille connecté",
-    "noRecentWallets": "Aucun portefeuille récent"
+    "noRecentWallets": "Aucun portefeuille récent",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",

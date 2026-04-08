@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-light",
-  "version": "4.0.0-beta.0",
+  "version": "4.0.0-beta.7",
   "description": "LI.FI Widget Light - a lightweight version of the LI.FI Widget for cross-chain bridging and swapping.",
   "type": "module",
   "main": "./src/index.ts",
@@ -14,15 +14,13 @@
   },
   "sideEffects": false,
   "scripts": {
-    "watch": "tsc -w -p ./tsconfig.json",
-    "build": "pnpm clean && pnpm build:version && pnpm build:esm && pnpm build:clean",
-    "build:esm": "tsc --build",
+    "watch": "tsdown --watch",
+    "build": "pnpm clean && pnpm build:version && tsdown",
     "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../README.md' .",
     "build:postrelease": "node ../../scripts/postrelease.js && rm -rf README.md",
     "build:version": "node ../../scripts/version.js",
-    "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo",
     "release:build": "pnpm build",
-    "clean": "pnpm build:clean && rm -rf dist",
+    "clean": "rm -rf dist",
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
     "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg",
@@ -57,12 +55,12 @@
   "devDependencies": {
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
-    "typescript": "^5.9.3",
-    "vitest": "^4.1.0"
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.3"
   },
   "peerDependencies": {
-    "@bigmi/client": "^0.7.x",
-    "@bigmi/react": "^0.7.x",
+    "@bigmi/client": "^0.8.x",
+    "@bigmi/react": "^0.8.x",
     "@mysten/dapp-kit-react": "^2.0.0",
     "@wagmi/core": "^3.x",
     "@wallet-standard/base": "^1.1.0",

@@ -3,7 +3,7 @@ export const calculateValueLossPercentage = (
   toAmountUSD: number,
   gasCostUSD: number,
   feeCostUSD: number
-) => {
+): number => {
   return Number.parseFloat(
     (
       (toAmountUSD / (fromAmountUSD + gasCostUSD + feeCostUSD) - 1) *
@@ -17,7 +17,7 @@ export const getTokenValueLossThreshold = (
   toAmountUSD: number,
   gasCostUSD: number,
   feeCostUSD: number
-) => {
+): boolean => {
   if (!fromAmountUSD || !toAmountUSD) {
     return false
   }

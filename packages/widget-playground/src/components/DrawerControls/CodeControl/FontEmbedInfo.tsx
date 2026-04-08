@@ -9,7 +9,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material'
-import type { MouseEventHandler } from 'react'
+import type { JSX, MouseEventHandler } from 'react'
 import { useState } from 'react'
 import { useFontToolValues } from '../../../store/editTools/useFontToolValues.js'
 import { popperZIndex, tooltipPopperZIndex } from '../DrawerControls.style.js'
@@ -66,7 +66,7 @@ const CustomFontMessage = ({ fontFamily }: FontMessageProps) => (
   </>
 )
 
-export const FontEmbedInfo = () => {
+export const FontEmbedInfo = (): JSX.Element | null => {
   const { selectedFont } = useFontToolValues()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = !!anchorEl

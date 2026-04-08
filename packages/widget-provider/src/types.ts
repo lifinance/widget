@@ -76,5 +76,6 @@ export type EthereumProviderContext = WidgetProviderContext & {
 
 export interface WidgetProviderProps {
   forceInternalWalletManagement?: boolean
+  isExternalContext?: boolean
   chains: ExtendedChain[]
 }

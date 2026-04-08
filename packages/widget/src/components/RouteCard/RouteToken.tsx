@@ -2,6 +2,7 @@ import type { RouteExtended, TokenAmount } from '@lifi/sdk'
 import ExpandLess from '@mui/icons-material/ExpandLess'
 import ExpandMore from '@mui/icons-material/ExpandMore'
 import { Box, Collapse } from '@mui/material'
+import type { JSX } from 'react'
 import { type MouseEventHandler, useState } from 'react'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { HiddenUI } from '../../types/widget.js'
@@ -25,7 +26,7 @@ export const RouteToken = ({
   impactToken,
   defaultExpanded,
   showEssentials,
-}: RouteTokenProps) => {
+}: RouteTokenProps): JSX.Element => {
   const { hiddenUI } = useWidgetConfig()
 
   const [cardExpanded, setCardExpanded] = useState(defaultExpanded)

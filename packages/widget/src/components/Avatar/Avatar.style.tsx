@@ -7,20 +7,27 @@ import {
   Avatar as MuiAvatar,
   styled,
 } from '@mui/material'
+import type React from 'react'
 import { getAvatarMask } from './utils.js'
 
-export const AvatarMasked = styled(MuiAvatar, {
-  shouldForwardProp: (prop: string) =>
-    !['avatarSize', 'badgeSize', 'badgeBorderWidthPx'].includes(prop),
-})<{ avatarSize?: number; badgeSize?: number; badgeBorderWidthPx?: number }>(
-  ({ avatarSize = 40, badgeSize = 16, badgeBorderWidthPx = 2.5 }) => ({
+export const AvatarMasked: React.FC<
+  React.ComponentProps<typeof MuiAvatar> & {
+    avatarSize?: number
+    badgeSize?: number
+  }
+> = styled(MuiAvatar, {
+  shouldForwardProp: (prop) => prop !== 'avatarSize' && prop !== 'badgeSize',
+})<{ avatarSize?: number; badgeSize?: number }>(
+  ({ avatarSize = 40, badgeSize = 16 }) => ({
     width: avatarSize,
     height: avatarSize,
-    mask: getAvatarMask(badgeSize, badgeBorderWidthPx),
+    mask: getAvatarMask(badgeSize),
   })
 )
 
-export const TokenAvatarGroup = styled(AvatarGroup)(({ theme }) => ({
+export const TokenAvatarGroup: React.FC<
+  React.ComponentProps<typeof AvatarGroup> & { badgeSize?: number }
+> = styled(AvatarGroup)(({ theme }) => ({
   [`& .${badgeClasses.badge}:last-of-type .${avatarClasses.root}`]: {
     boxSizing: 'border-box',
   },
@@ -37,30 +44,31 @@ export const TokenAvatarGroup = styled(AvatarGroup)(({ theme }) => ({
   },
 }))
 
-export const AvatarDefault = styled(Box, {
-  shouldForwardProp: (prop) =>
-    prop !== 'badgeSize' && prop !== 'badgeBorderWidthPx',
-})<{ badgeSize?: number; badgeBorderWidthPx?: number }>(
-  ({ theme, badgeSize = 16, badgeBorderWidthPx = 2.5 }) => {
-    const root = theme.components?.MuiAvatar?.styleOverrides?.root as CSSObject
-    return {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: '50%',
-      height: root?.height,
-      width: root?.width,
-      color: theme.vars.palette.text.secondary,
-      mask: getAvatarMask(badgeSize, badgeBorderWidthPx),
-      background: theme.vars.palette.grey[300],
-      ...theme.applyStyles('dark', {
-        background: theme.vars.palette.grey[800],
-      }),
-    }
+export const AvatarDefault: React.FC<
+  React.ComponentProps<typeof Box> & { badgeSize?: number }
+> = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'badgeSize',
+})<{ badgeSize?: number }>(({ theme, badgeSize = 16 }) => {
+  const root = theme.components?.MuiAvatar?.styleOverrides?.root as CSSObject
+  return {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '50%',
+    height: root?.height,
+    width: root?.width,
+    color: theme.vars.palette.text.secondary,
+    mask: getAvatarMask(badgeSize),
+    background: theme.vars.palette.grey[300],
+    ...theme.applyStyles('dark', {
+      background: theme.vars.palette.grey[800],
+    }),
   }
-)
+})
 
-export const AvatarDefaultBadge = styled(Box, {
+export const AvatarDefaultBadge: React.FC<
+  React.ComponentProps<typeof Box> & { size?: number }
+> = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'size',
 })<{ size?: number }>(({ theme, size = 16 }) => {
   return {
@@ -74,12 +82,16 @@ export const AvatarDefaultBadge = styled(Box, {
   }
 })
 
-export const AvatarSkeletonContainer = styled(Box)(({ theme }) => ({
+export const AvatarSkeletonContainer: React.FC<
+  React.ComponentProps<typeof Box> & { badgeSize?: number }
+> = styled(Box)(({ theme }) => ({
   background: theme.vars.palette.background.paper,
   borderRadius: '50%',
 }))
 
-export const AvatarSkeletonMaskedContainer = styled(Box, {
+export const AvatarSkeletonMaskedContainer: React.FC<
+  React.ComponentProps<typeof Box> & { badgeSize?: number }
+> = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'badgeSize',
 })<{ badgeSize?: number }>(({ theme, badgeSize = 16 }) => ({
   background: theme.vars.palette.background.paper,

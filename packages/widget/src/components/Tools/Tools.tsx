@@ -1,5 +1,5 @@
 import type { ToolsResponse } from '@lifi/sdk'
-import { useMemo, useRef } from 'react'
+import { type JSX, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSettingsStore } from '../../stores/settings/SettingsStore.js'
 import { useSettingsActions } from '../../stores/settings/useSettingsActions.js'
@@ -16,7 +16,7 @@ interface ToolsProps {
   type: 'Bridges' | 'Exchanges'
 }
 
-export const Tools = ({ filteredTools, type }: ToolsProps) => {
+export const Tools = ({ filteredTools, type }: ToolsProps): JSX.Element => {
   const { t } = useTranslation()
   const typeKey = type.toLowerCase() as 'bridges' | 'exchanges'
   const enabledTools = useSettingsStore((state) => state[`_enabled${type}`])

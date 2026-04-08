@@ -1,7 +1,10 @@
 import { useContext, useEffect, useId, useState } from 'react'
 import { ExpandableCardAccordionContext } from './ExpandableCardAccordion.js'
 
-export const useExpandableCard = () => {
+export const useExpandableCard = (): {
+  expanded: boolean
+  toggleExpanded: () => void
+} => {
   const settingCardExpandableId = useId()
   const [expanded, setExpanded] = useState(false)
   const { openCard, setOpenCard } = useContext(ExpandableCardAccordionContext)
@@ -21,7 +24,7 @@ export const useExpandableCard = () => {
   }, [settingCardExpandableId, openCard])
 
   return {
-    expanded,
-    toggleExpanded,
+    expanded: expanded,
+    toggleExpanded: toggleExpanded,
   }
 }

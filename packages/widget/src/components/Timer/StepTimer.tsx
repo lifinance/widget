@@ -1,9 +1,18 @@
 import type { LiFiStepExtended } from '@lifi/sdk'
-import { Typography } from '@mui/material'
-import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useTimer } from '../../hooks/timer/useTimer.js'
-import { formatTimer, getExpiryTimestamp } from '../../utils/timer.js'
+import type { JSX } from 'react'
+import { useExecutionTimer } from '../../hooks/timer/useExecutionTimer.js'
+import { TimerContent } from './TimerContent.js'
+
+export const getExpiryTimestamp = (step: LiFiStepExtended): Date => {
+  const execution = step?.execution
+  if (!execution) {
+    return new Date()
+  }
+  const expiry = new Date(
+    (execution.signedAt ?? Date.now()) + step.estimate.executionDuration * 1000
+  )
+  return expiry
+}
 
 export const StepTimer: React.FC<{
   step: LiFiStepExtended
@@ -19,32 +28,25 @@ export const StepTimer: React.FC<{
   return <ExecutionTimer expiryTimestamp={getExpiryTimestamp(step)} />
 }
 
-const ExecutionTimer = ({ expiryTimestamp }: { expiryTimestamp: Date }) => {
-  const { i18n } = useTranslation()
+export const ExecutionTimerText = ({
+  expiryTimestamp,
+}: {
+  expiryTimestamp: Date
+}): string | null => {
+  const { formatted } = useExecutionTimer(expiryTimestamp)
+  return formatted
+}
 
-  const [isExpired, setExpired] = useState(false)
-
-  const { days, hours, minutes, seconds } = useTimer({
-    autoStart: true,
-    expiryTimestamp,
-    onExpire: () => setExpired(true),
-  })
-
-  const isTimerExpired = isExpired || (!minutes && !seconds)
+export const ExecutionTimer = ({
+  expiryTimestamp,
+}: {
+  expiryTimestamp: Date
+}): JSX.Element | string | null => {
+  const { formatted, isTimerExpired } = useExecutionTimer(expiryTimestamp)
 
   if (isTimerExpired) {
     return null
   }
 
-  return (
-    <Typography sx={{ fontSize: 12, fontWeight: 700 }}>
-      {formatTimer({
-        locale: i18n.language,
-        days,
-        hours,
-        minutes,
-        seconds,
-      })}
-    </Typography>
-  )
+  return <TimerContent>{formatted}</TimerContent>
 }

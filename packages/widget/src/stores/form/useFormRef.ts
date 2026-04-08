@@ -4,7 +4,10 @@ import { formDefaultValues } from '../../stores/form/createFormStore.js'
 import type { FormRef } from '../../types/widget.js'
 import type { FormStoreStore, GenericFormValue } from './types.js'
 
-export const useFormRef = (formStore: FormStoreStore, formRef?: FormRef) => {
+export const useFormRef = (
+  formStore: FormStoreStore,
+  formRef?: FormRef
+): void => {
   const { setSelectedBookmark } = useBookmarkActions()
 
   useImperativeHandle(formRef, () => {
@@ -24,6 +27,9 @@ export const useFormRef = (formStore: FormStoreStore, formRef?: FormRef) => {
           (isToAddressObj ? value?.address : value) ||
           formDefaultValues.toAddress
 
+        // we can assume that the toAddress has been passed as ToAddress object
+        // and display it accordingly - this ensures that if a name is included
+        // that it is displayed in the Send To Wallet form field correctly
         if (isToAddressObj) {
           setSelectedBookmark(value)
         }

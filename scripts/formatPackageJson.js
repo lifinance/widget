@@ -38,6 +38,7 @@ export async function formatPackageFile() {
         subpathExports[key] = {
           types: typesPath,
           import: distPath,
+          default: distPath,
         }
       }
     }
@@ -49,6 +50,7 @@ export async function formatPackageFile() {
           './skeleton': {
             types: './dist/esm/components/Skeleton/WidgetSkeleton.d.ts',
             import: './dist/esm/components/Skeleton/WidgetSkeleton.js',
+            default: './dist/esm/components/Skeleton/WidgetSkeleton.js',
           },
         }
       : {}
@@ -88,6 +90,7 @@ export async function formatPackageFile() {
       '.': {
         types: './dist/esm/index.d.ts',
         import: './dist/esm/index.js',
+        default: './dist/esm/index.js',
       },
       ...allSubpathExports,
       './package.json': './package.json',

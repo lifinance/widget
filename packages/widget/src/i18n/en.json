@@ -18,6 +18,8 @@
     "buy": "Buy",
     "cancel": "Cancel",
     "checkoutReview": "Review purchase",
+    "clearAllFailed": "Clear all failed",
+    "clearTransaction": "Clear transaction",
     "close": "Close",
     "confirm": "Confirm",
     "connectAnotherWallet": "Connect another wallet",
@@ -40,7 +42,6 @@
     "ok": "Ok",
     "options": "Options",
     "remove": "Remove",
-    "removeTransaction": "Remove transaction",
     "reset": "Reset",
     "resetSettings": "Reset settings",
     "seeDetails": "See details",
@@ -89,19 +90,16 @@
     "message": {
       "accountDeployedMessage": "Your smart account may not have the same address on other chains. Please double-check before proceeding.",
       "autoRefuel": "You're low on {{chainName}} gas. By continuing, you'll get enough gas to complete the transaction.",
-      "emptyActiveTransactions": "Transactions in progress will appear here. Once completed, find them in transaction history.",
       "emptyBridgesList": "We couldn't find any bridges that match your search",
       "emptyChainList": "We couldn't find any chains that match your search",
       "emptyExchangesList": "We couldn't find any exchanges that match your search",
       "emptyTokenListAllNetworks": "We couldn't find any tokens. Please search by contract address if your token doesn't appear, or try selecting a different chain.",
       "emptyTransactionHistory": "Transaction history is only stored locally and will be deleted if you clear your browser data.",
       "routeNotFound": "Reasons for that could be: low liquidity, amount selected is too low, gas costs are too high or there are no routes for the selected combination.",
-      "toAddressIsRequired": "The destination wallet address is required to proceed with the transfer.",
       "missingRouteRequiredAccount": "Connect your {{chainName}} wallet to proceed. {{address}}"
     },
     "title": {
       "autoRefuel": "Get {{chainName}} gas",
-      "emptyActiveTransactions": "No active transactions",
       "emptyTransactionHistory": "No recent transactions",
       "routeNotFound": "No routes available"
     }
@@ -124,7 +122,7 @@
     "message": {
       "accountNotDeployedMessage": "Smart contract account doesn't exist on the destination chain. Sending funds to a non-existent smart contract account can result in permanent loss.",
       "lowAddressActivity": "This address has low activity on {{chainName}} network. Please verify you're sending to the correct address and network to prevent potential loss of funds.",
-      "deleteTransactionHistory": "Transaction history is only stored locally and can't be recovered if you delete it.",
+      "clearFailedTransactions": "Failed transactions are only stored locally and can't be recovered once cleared.",
       "fundsLossPrevention": "Always ensure smart contract accounts are properly set up on the destination chain and avoid direct transfers to exchanges to prevent fund loss.",
       "highValueLoss": "The value of the received tokens is significantly lower than the exchanged tokens and transaction cost.",
       "unverifiedToken": "Unverified token. Always do your own research before proceeding.",
@@ -137,8 +135,7 @@
       "slippageUnderRecommendedLimits": "Low slippage tolerance may cause transaction delays or failures."
     },
     "title": {
-      "deleteTransaction": "Delete this transaction?",
-      "deleteTransactionHistory": "Delete transaction history?",
+      "clearFailedTransactions": "Clear all failed transactions?",
       "highValueLoss": "High value loss",
       "insufficientGas": "Insufficient gas",
       "rateChanged": "Rate changed",
@@ -241,8 +238,6 @@
     "pinnedTokens": "Pinned tokens",
     "popularTokens": "Popular tokens",
     "priceImpact": "Price impact",
-    "receipts": "Receipts",
-    "sentToWallet": "Sent to wallet: {{address}}",
     "process": {
       "bridge": {
         "actionRequired": "Sign bridge transaction",
@@ -305,6 +300,8 @@
     "stepSwapAndBuy": "Swap and buy",
     "stepSwapAndDeposit": "Swap and deposit",
     "swapStepDetails": "Swap on {{chain}} via {{tool}}",
+    "receipts": "Receipts",
+    "sentToWallet": "Sent to wallet",
     "transferId": "Transfer ID",
     "tags": {
       "cheapest": "Best Return",
@@ -347,7 +344,8 @@
     "enterName": "Enter name",
     "noBookmarkedWallets": "No bookmarked wallets",
     "noConnectedWallets": "No connected wallets",
-    "noRecentWallets": "No recent wallets"
+    "noRecentWallets": "No recent wallets",
+    "required": "Required"
   },
   "tokenMetric": {
     "currentPrice": "Current price",

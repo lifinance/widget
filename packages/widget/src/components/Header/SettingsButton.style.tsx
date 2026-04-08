@@ -4,8 +4,11 @@ import {
   Badge as MuiBadge,
   styled,
 } from '@mui/material'
+import type React from 'react'
 
-export const SettingsIconBadge = styled(MuiBadge)(({ theme }) => ({
+export const SettingsIconBadge: React.FC<
+  React.ComponentProps<typeof MuiBadge>
+> = styled(MuiBadge)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   gap: theme.spacing(1.25),
@@ -21,20 +24,22 @@ interface SettingsIconButtonProps {
   variant?: 'info' | 'warning'
 }
 
-export const SettingsIconButton = styled(IconButton, {
+export const SettingsIconButton: React.FC<
+  React.ComponentProps<typeof IconButton> & SettingsIconButtonProps
+> = styled(IconButton, {
   shouldForwardProp: (props) => props !== 'variant',
 })<SettingsIconButtonProps>(({ theme, variant }) => {
   switch (variant) {
     case 'info':
       return {
-        backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.12)`,
+        backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.08)`,
         '&:hover': {
-          backgroundColor: `color-mix(in srgb, rgba(${theme.vars.palette.info.mainChannel} / 0.12) 80%, black)`,
+          backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.12)`,
         },
         ...theme.applyStyles('dark', {
-          backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.16)`,
+          backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.12)`,
           '&:hover': {
-            backgroundColor: `color-mix(in srgb, rgba(${theme.vars.palette.info.mainChannel} / 0.16) 80%, black)`,
+            backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.16)`,
           },
         }),
       }

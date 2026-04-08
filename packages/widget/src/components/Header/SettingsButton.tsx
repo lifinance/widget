@@ -1,6 +1,7 @@
 import Settings from '@mui/icons-material/Settings'
 import { Tooltip } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
+import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSettingMonitor } from '../../hooks/useSettingMonitor.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
@@ -9,7 +10,7 @@ import {
   SettingsIconButton,
 } from './SettingsButton.style.js'
 
-export const SettingsButton = () => {
+export const SettingsButton = (): JSX.Element => {
   const { t } = useTranslation()
   const navigate = useNavigate()
 

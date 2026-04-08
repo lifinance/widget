@@ -1,6 +1,9 @@
 import { Switch as MuiSwitch, styled, switchClasses } from '@mui/material'
+import type React from 'react'
 
-export const Switch = styled(MuiSwitch)(({ theme }) => ({
+export const Switch: React.FC<React.ComponentProps<typeof MuiSwitch>> = styled(
+  MuiSwitch
+)(({ theme }) => ({
   width: 42,
   height: 24,
   padding: 0,

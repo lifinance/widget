@@ -2,8 +2,8 @@ import { useCallback, useLayoutEffect, useState } from 'react'
 import { getScrollableContainer } from '../utils/elements.js'
 import { useDefaultElementId } from './useDefaultElementId.js'
 
-export const useGetScrollableContainer = () => {
-  const elementId = useDefaultElementId()
+export const useGetScrollableContainer = (): (() => HTMLElement | null) => {
+  const elementId = useDefaultElementId() ?? ''
   const getContainer = useCallback(
     () => getScrollableContainer(elementId),
     [elementId]
@@ -12,7 +12,9 @@ export const useGetScrollableContainer = () => {
   return getContainer
 }
 
-export const useScrollableContainer = (elementId: string) => {
+export const useScrollableContainer = (
+  elementId: string
+): HTMLElement | null => {
   const [containerElement, setContainerElement] = useState(() =>
     getScrollableContainer(elementId)
   )
@@ -26,8 +28,8 @@ export const useScrollableContainer = (elementId: string) => {
   return containerElement
 }
 
-export const useScrollableOverflowHidden = () => {
-  const elementId = useDefaultElementId()
+export const useScrollableOverflowHidden = (): void => {
+  const elementId = useDefaultElementId() ?? ''
   useLayoutEffect(() => {
     const element = getScrollableContainer(elementId)
     if (element) {

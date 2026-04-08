@@ -28,11 +28,13 @@ import {
   minInputFontSize,
 } from './AmountInput.style.js'
 import { AmountInputEndAdornment } from './AmountInputEndAdornment.js'
-import { AmountInputHeaderBadge } from './AmountInputHeaderBadge.js'
 import { AmountInputStartAdornment } from './AmountInputStartAdornment.js'
 import { PriceFormHelperText } from './PriceFormHelperText.js'
 
-export const AmountInput: React.FC<FormTypeProps> = ({ formType }) => {
+export const AmountInput: React.FC<FormTypeProps & CardProps> = ({
+  formType,
+  ...props
+}) => {
   const { disabledUI } = useWidgetConfig()
 
   const [chainId, tokenAddress] = useFieldValues(
@@ -47,9 +49,9 @@ export const AmountInput: React.FC<FormTypeProps> = ({ formType }) => {
     <AmountInputBase
       formType={formType}
       token={token}
-      endAdornment={<AmountInputHeaderBadge />}
       bottomAdornment={<PriceFormHelperText formType={formType} />}
       disabled={disabled}
+      {...props}
     />
   )
 }
@@ -59,7 +61,6 @@ const AmountInputBase: React.FC<
     CardProps & {
       token?: Token
       startAdornment?: ReactNode
-      endAdornment?: ReactNode
       bottomAdornment?: ReactNode
       disabled?: boolean
     }
@@ -67,9 +68,9 @@ const AmountInputBase: React.FC<
   formType,
   token,
   startAdornment,
-  endAdornment,
   bottomAdornment,
   disabled,
+  ...props
 }) => {
   const { t } = useTranslation()
   const { subvariant, subvariantOptions } = useWidgetConfig()
@@ -165,10 +166,9 @@ const AmountInputBase: React.FC<
       : t('header.send')
 
   return (
-    <InputCard>
+    <InputCard {...props}>
       <AmountInputCardHeader>
         <AmountInputCardTitle>{title}</AmountInputCardTitle>
-        {endAdornment}
       </AmountInputCardHeader>
       <FormContainer>
         <AmountInputStartAdornment formType={formType} />
@@ -198,7 +198,7 @@ const AmountInputBase: React.FC<
           {bottomAdornment}
         </FormControl>
       </FormContainer>
-      {!disabled ? <AmountInputEndAdornment formType={formType} /> : undefined}
+      {!disabled && <AmountInputEndAdornment formType={formType} />}
     </InputCard>
   )
 }

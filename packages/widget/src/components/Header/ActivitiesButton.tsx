@@ -1,58 +1,58 @@
 import ErrorRounded from '@mui/icons-material/ErrorRounded'
-import ReceiptLong from '@mui/icons-material/ReceiptLong'
+import HistoryIcon from '@mui/icons-material/History'
 import { Tooltip } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
+import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useRouteExecutionIndicator } from '../../stores/routes/useRouteExecutionIndicators.js'
+import { useRouteExecutionIndicator } from '../../stores/routes/useRouteExecutionIndicator.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { ProgressFill, ProgressTrack } from '../Timer/StepStatusTimer.style.js'
+import { CircularProgressPending } from '../Step/CircularProgress.style.js'
 import {
+  ActivitiesIconButton,
   ErrorBadge,
-  HistoryIconButton,
-  ProgressContainer,
+  IconContainer,
+  ProgressTrack,
 } from './ActivitiesButton.style.js'
 
-export const ActivitiesButton = () => {
+export const ActivitiesButton = (): JSX.Element => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const indicator = useRouteExecutionIndicator()
 
   return (
     <Tooltip title={t('header.activities')}>
-      <HistoryIconButton
-        indicator={indicator}
+      <ActivitiesIconButton
+        active={indicator.active || indicator.failed}
         size="medium"
         onClick={() => navigate({ to: navigationRoutes.activities })}
       >
         <ErrorBadge
-          invisible={indicator !== 'failed'}
+          invisible={!indicator.failed}
           badgeContent={
             <ErrorRounded color="error" sx={{ width: 20, height: 20 }} />
           }
           overlap="circular"
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         >
-          <ProgressContainer>
-            {indicator !== 'idle' ? (
-              <>
-                <ProgressTrack
-                  variant="determinate"
-                  value={100}
-                  size={40}
-                  thickness={2}
-                />
-                <ProgressFill
-                  variant="determinate"
-                  value={25}
-                  size={40}
-                  thickness={2}
-                />
-              </>
-            ) : null}
-            <ReceiptLong />
-          </ProgressContainer>
+          <IconContainer>
+            {(indicator.active || indicator.failed) && (
+              <ProgressTrack
+                variant="determinate"
+                value={100}
+                size={40}
+                thickness={3}
+              />
+            )}
+            {indicator.active && (
+              <CircularProgressPending
+                size={40}
+                sx={{ position: 'absolute', top: -8, left: -8 }}
+              />
+            )}
+            <HistoryIcon />
+          </IconContainer>
         </ErrorBadge>
-      </HistoryIconButton>
+      </ActivitiesIconButton>
     </Tooltip>
   )
 }

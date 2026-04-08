@@ -1,5 +1,6 @@
 import type { RouteExtended } from '@lifi/sdk'
 import { Box } from '@mui/material'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Card } from '../../components/Card/Card'
 import { CardTitle } from '../../components/Card/CardTitle'
@@ -12,10 +13,10 @@ interface ExecutionDoneCardProps {
   status: RouteExecutionStatus
 }
 
-export const ExecutionDoneCard = ({
+export const ExecutionDoneCard: React.FC<ExecutionDoneCardProps> = ({
   route,
   status,
-}: ExecutionDoneCardProps) => {
+}) => {
   const { t } = useTranslation()
 
   const toToken = {

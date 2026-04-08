@@ -1,15 +1,14 @@
 import type { BoxProps } from '@mui/material'
 import { useTheme } from '@mui/material'
-import type { StatusColor } from './IconCircle.style.js'
 import {
   getStatusColor,
   IconCircleRoot,
   iconCircleSize,
 } from './IconCircle.style.js'
-import { statusIcons } from './statusIcons.js'
+import { type StatusIcon, statusIcons } from './statusIcons.js'
 
 interface IconCircleProps extends Omit<BoxProps, 'color'> {
-  status: StatusColor
+  status: StatusIcon
   size?: number
 }
 
@@ -28,6 +27,3 @@ export const IconCircle: React.FC<IconCircleProps> = ({
     </IconCircleRoot>
   )
 }
-
-export type { StatusColor } from './IconCircle.style.js'
-export { iconCircleSize } from './IconCircle.style.js'

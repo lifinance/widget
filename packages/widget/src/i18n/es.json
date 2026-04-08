@@ -95,7 +95,6 @@
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "El historial de intercambio solo se almacena localmente y se eliminará si borra los datos de su navegador.",
       "routeNotFound": "Razones para eso: baja liquidez, cantidad seleccionada es demasiado baja, Los costos de gas son demasiado altos o no hay rutas para la combinación seleccionada.",
-      "toAddressIsRequired": "La dirección de la cartera de destino es necesaria para proceder con la transferencia.",
       "missingRouteRequiredAccount": ""
     },
     "title": {
@@ -199,6 +198,7 @@
   "tooltip": {
     "deselectAll": "Deseleccionar todo",
     "estimatedTime": "",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "La cantidad mínima estimada puede cambiar hasta que la transacción de intercambio/puente sea firmada. Para transferencias de dos pasos, esto se aplica hasta que la transacción de segundo paso sea firmada.",
     "notFound": {
@@ -221,6 +221,8 @@
     "checkoutStepDetails": "Comprar a través de {{tool}}",
     "currentAmount": "Cantidad actual",
     "depositStepDetails": "Depositar vía {{tool}}",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "Tokens destacados",
     "fees": {
       "defaultIntegrator": "Comisión del integrador",
@@ -286,9 +288,8 @@
     "rateChange": "Cambios de precio detectado",
     "receiving": "Recibiendo",
     "refuelStepDetails": "Obtener gas a través de {{tool}}",
-    "selectChain": "Cadena",
-    "selectChainAndToken": "Seleccione cadena y token",
-    "selectToken": "Token",
+    "route": "",
+    "select": "",
     "sendToAddress": "Enviar a {{address}}",
     "sendToWallet": "Enviar a una billetera diferente",
     "sending": "Enviando",
@@ -304,6 +305,8 @@
     "stepSwapAndBuy": "Intercambiar y comprar",
     "stepSwapAndDeposit": "Intercambiar y depositar",
     "swapStepDetails": "Intercambiar en {{chain}} a través de {{tool}}",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "ID de transacción",
     "tags": {
       "cheapest": "Mejor retorno",
@@ -346,7 +349,8 @@
     "enterName": "Introducir nombre",
     "noBookmarkedWallets": "No hay billeteras preferidas",
     "noConnectedWallets": "No hay billeteras conectadas",
-    "noRecentWallets": "No hay billeteras recientes"
+    "noRecentWallets": "No hay billeteras recientes",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",

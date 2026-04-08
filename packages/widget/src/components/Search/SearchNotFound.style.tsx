@@ -1,12 +1,15 @@
 import type { BoxProps } from '@mui/material'
 import { Box, styled, Typography } from '@mui/material'
+import type React from 'react'
 import { searchContainerHeight } from './SearchInput.style.js'
 
 interface NotFoundContainerProps extends BoxProps {
   adjustForStickySearchInput?: boolean
 }
 
-export const NotFoundContainer = styled(Box, {
+export const NotFoundContainer: React.FC<
+  React.ComponentProps<typeof Box> & NotFoundContainerProps
+> = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'adjustForStickySearchInput',
 })<NotFoundContainerProps>(({ theme, adjustForStickySearchInput }) => ({
   display: 'flex',
@@ -20,7 +23,9 @@ export const NotFoundContainer = styled(Box, {
     : {}),
 }))
 
-export const NotFoundMessage = styled(Typography)(({ theme }) => ({
+export const NotFoundMessage: React.FC<
+  React.ComponentProps<typeof Typography>
+> = styled(Typography)(({ theme }) => ({
   fontSize: 14,
   whiteSpace: 'normal',
   color: theme.vars.palette.text.secondary,
@@ -31,7 +36,9 @@ export const NotFoundMessage = styled(Typography)(({ theme }) => ({
   paddingRight: theme.spacing(2),
 }))
 
-export const NotFoundIconContainer = styled(Typography)(() => ({
+export const NotFoundIconContainer: React.FC<
+  React.ComponentProps<typeof Typography>
+> = styled(Typography)(() => ({
   fontSize: 48,
   lineHeight: 1,
 }))

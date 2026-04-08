@@ -1,7 +1,17 @@
-import type { Dispatch, PropsWithChildren, SetStateAction } from 'react'
-import { createContext, useState } from 'react'
+import type { JSX } from 'react'
+import {
+  type Context,
+  createContext,
+  type Dispatch,
+  type PropsWithChildren,
+  type SetStateAction,
+  useState,
+} from 'react'
 
-export const ExpandableCardAccordionContext = createContext<{
+export const ExpandableCardAccordionContext: Context<{
+  setOpenCard: Dispatch<SetStateAction<string>>
+  openCard: string
+}> = createContext<{
   setOpenCard: Dispatch<SetStateAction<string>>
   openCard: string
 }>({
@@ -9,7 +19,9 @@ export const ExpandableCardAccordionContext = createContext<{
   openCard: '',
 })
 
-export const ExpandableCardAccordion = ({ children }: PropsWithChildren) => {
+export const ExpandableCardAccordion = ({
+  children,
+}: PropsWithChildren): JSX.Element => {
   const [openCard, setOpenCard] = useState('')
 
   return (

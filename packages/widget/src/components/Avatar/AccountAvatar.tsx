@@ -2,6 +2,7 @@ import { getConnectorIcon } from '@lifi/wallet-management'
 import type { Account } from '@lifi/widget-provider'
 import Wallet from '@mui/icons-material/Wallet'
 import { Badge } from '@mui/material'
+import type { JSX } from 'react'
 import { useChain } from '../../hooks/useChain.js'
 import type { ToAddress } from '../../types/widget.js'
 import { AvatarDefault, AvatarMasked } from './Avatar.style.js'
@@ -14,7 +15,6 @@ interface AccountAvatarProps {
   empty?: boolean
   size?: number
   badgeSize?: number
-  badgeBorderWidthPx?: number
 }
 
 export const AccountAvatar = ({
@@ -24,8 +24,7 @@ export const AccountAvatar = ({
   toAddress,
   size,
   badgeSize,
-  badgeBorderWidthPx,
-}: AccountAvatarProps) => {
+}: AccountAvatarProps): JSX.Element => {
   const { chain } = useChain(chainId)
 
   const walletIconSize = size ? Math.floor(size * 0.5) : 20
@@ -33,7 +32,6 @@ export const AccountAvatar = ({
   const avatar = empty ? (
     <AvatarDefault
       badgeSize={badgeSize}
-      badgeBorderWidthPx={badgeBorderWidthPx}
       sx={size ? { width: size, height: size } : undefined}
     />
   ) : account?.connector || toAddress?.logoURI ? (
@@ -42,14 +40,12 @@ export const AccountAvatar = ({
       alt={toAddress?.name || account?.connector?.name}
       avatarSize={size}
       badgeSize={badgeSize}
-      badgeBorderWidthPx={badgeBorderWidthPx}
     >
       {(toAddress?.name || account?.connector?.name)?.[0]}
     </AvatarMasked>
   ) : (
     <AvatarDefault
       badgeSize={badgeSize}
-      badgeBorderWidthPx={badgeBorderWidthPx}
       sx={size ? { width: size, height: size } : undefined}
     >
       <Wallet sx={{ fontSize: walletIconSize }} />

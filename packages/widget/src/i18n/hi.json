@@ -95,7 +95,6 @@
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "",
       "routeNotFound": "",
-      "toAddressIsRequired": "",
       "missingRouteRequiredAccount": ""
     },
     "title": {
@@ -199,6 +198,7 @@
   "tooltip": {
     "deselectAll": "",
     "estimatedTime": "",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "",
     "notFound": {
@@ -221,6 +221,8 @@
     "checkoutStepDetails": "",
     "currentAmount": "",
     "depositStepDetails": "",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "",
     "fees": {
       "defaultIntegrator": "",
@@ -286,9 +288,8 @@
     "rateChange": "",
     "receiving": "",
     "refuelStepDetails": "",
-    "selectChain": "चैन चुने",
-    "selectChainAndToken": "",
-    "selectToken": "",
+    "route": "",
+    "select": "",
     "sendToAddress": "",
     "sendToWallet": "",
     "sending": "",
@@ -304,6 +305,8 @@
     "stepSwapAndBuy": "",
     "stepSwapAndDeposit": "",
     "swapStepDetails": "",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "",
     "tags": {
       "cheapest": "",
@@ -346,7 +349,8 @@
     "enterName": "",
     "noBookmarkedWallets": "",
     "noConnectedWallets": "",
-    "noRecentWallets": ""
+    "noRecentWallets": "",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",

@@ -11,7 +11,11 @@ const defaultRefetchInterval = 32_000
 export const useTokenBalancesQueries = (
   accountsWithTokens?: Record<string, Record<number, TokenExtended[]>>,
   isBalanceLoadingEnabled?: boolean
-) => {
+): {
+  data: TokenAmount[] | undefined
+  isLoading: boolean
+  isError: boolean
+} => {
   const { keyPrefix } = useWidgetConfig()
   const sdkClient = useSDKClient()
   const firstLoadStartRef = useRef<number | null>(null)

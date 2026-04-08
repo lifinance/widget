@@ -1,11 +1,15 @@
-import type { CSSObject, Shape, SimplePaletteColorOptions } from '@mui/material'
+import type {
+  CSSObject,
+  Shape,
+  SimplePaletteColorOptions,
+  Theme,
+} from '@mui/material'
 import {
   alpha,
   buttonClasses,
   createTheme as createMuiTheme,
   css,
   darken,
-  dialogActionsClasses,
   keyframes,
   lighten,
   tabsClasses,
@@ -33,7 +37,7 @@ const enterKeyframe = keyframes`
   }
 `
 
-export const createTheme = (widgetTheme: WidgetTheme = {}) => {
+export const createTheme = (widgetTheme: WidgetTheme = {}): Theme => {
   const configuredPaletteLight =
     widgetTheme.colorSchemes?.light?.palette ?? widgetTheme.palette
   const configuredPaletteDark =
@@ -117,11 +121,7 @@ export const createTheme = (widgetTheme: WidgetTheme = {}) => {
         },
       },
     },
-    container: {
-      // Set height to 'fit-content' if not explicitly set
-      height: 'fit-content',
-      ...widgetTheme.container,
-    },
+    container: widgetTheme.container,
     routesContainer: widgetTheme.routesContainer,
     chainSidebarContainer: widgetTheme.chainSidebarContainer,
     header: widgetTheme.header,
@@ -341,9 +341,6 @@ export const createTheme = (widgetTheme: WidgetTheme = {}) => {
           }),
           sizeMedium: ({ ownerState }) => ({
             padding: '10px 14px',
-            [`.${dialogActionsClasses.root} &`]: {
-              padding: '6px 12px',
-            },
             ...getStyleOverrides(
               'MuiButton',
               'sizeMedium',

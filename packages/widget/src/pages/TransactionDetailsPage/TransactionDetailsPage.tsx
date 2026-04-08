@@ -1,23 +1,21 @@
 import type { FullStatusData } from '@lifi/sdk'
-import { Box } from '@mui/material'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Card } from '../../components/Card/Card.js'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
-import { DateLabel } from '../../components/DateLabel/DateLabel.js'
 import { PageContainer } from '../../components/PageContainer.js'
-import { RouteTokens } from '../../components/RouteCard/RouteTokens.js'
+import { TransactionCard } from '../../components/TransactionCard/TransactionCard.js'
 import { internalExplorerUrl } from '../../config/constants.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { useHeader } from '../../hooks/useHeader.js'
 import { useTools } from '../../hooks/useTools.js'
 import { useTransactionDetails } from '../../hooks/useTransactionDetails.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.js'
 import { getSourceTxHash } from '../../stores/routes/utils.js'
 import { buildRouteFromTxHistory } from '../../utils/converters.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { ReceiptsCard } from '../TransactionPage/ReceiptsCard.js'
+import { ReceiptsCard } from './ReceiptsCard.js'
 import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton.js'
 import { TransferIdCard } from './TransferIdCard.js'
 
@@ -33,8 +31,11 @@ export const TransactionDetailsPage: React.FC = () => {
   const { search }: any = useLocation()
   const { tools } = useTools()
   const { getTransactionLink } = useExplorer()
+  const storedRouteExecution = useRouteExecutionStore((store) =>
+    search?.routeId ? store.routes[search.routeId] : undefined
+  )
   const { transaction, isLoading } = useTransactionDetails(
-    search?.transactionHash
+    !storedRouteExecution && search?.transactionHash
   )
 
   const title =
@@ -44,13 +45,16 @@ export const TransactionDetailsPage: React.FC = () => {
   useHeader(title)
 
   const routeExecution = useMemo(() => {
+    if (storedRouteExecution) {
+      return storedRouteExecution
+    }
     if (isLoading) {
       return
     }
     if (transaction) {
       return buildRouteFromTxHistory(transaction as FullStatusData, tools)
     }
-  }, [isLoading, tools, transaction])
+  }, [isLoading, storedRouteExecution, tools, transaction])
 
   useEffect(() => {
     if (!isLoading && !routeExecution) {
@@ -81,10 +85,10 @@ export const TransactionDetailsPage: React.FC = () => {
   }
 
   const startedAt = new Date(
-    (routeExecution?.route.steps[0].execution?.startedAt ?? 0) * 1000
+    routeExecution?.route.steps[0].execution?.startedAt ?? 0
   )
 
-  if (isLoading) {
+  if (isLoading && !storedRouteExecution) {
     return <TransactionDetailsSkeleton />
   }
 
@@ -97,16 +101,11 @@ export const TransactionDetailsPage: React.FC = () => {
       bottomGutters
       sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
     >
-      <Card type="default" indented>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-          <DateLabel date={startedAt} />
-          <RouteTokens route={routeExecution.route} />
-        </Box>
-      </Card>
-      <ReceiptsCard route={routeExecution.route} />
+      <TransactionCard route={routeExecution.route} date={startedAt} />
       {subvariant === 'custom' && contractSecondaryComponent ? (
         <ContractComponent>{contractSecondaryComponent}</ContractComponent>
       ) : null}
+      <ReceiptsCard route={routeExecution.route} />
       {supportId ? (
         <TransferIdCard transferId={supportId} txLink={txLink} />
       ) : null}

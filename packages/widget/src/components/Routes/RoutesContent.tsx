@@ -1,6 +1,7 @@
 import type { ExtendedChain, Route } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { Stack, Typography } from '@mui/material'
+import type React from 'react'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
@@ -26,89 +27,90 @@ interface RoutesContentProps {
 
 const headerHeight = '64px'
 
-export const RoutesContent = memo(function RoutesContent({
-  routes,
-  isFetching,
-  isLoading,
-  dataUpdatedAt,
-  refetchTime,
-  fromChain,
-  refetch,
-  onRouteClick,
-}: RoutesContentProps) {
-  const { t } = useTranslation()
-  const { subvariant, subvariantOptions } = useWidgetConfig()
+export const RoutesContent: React.NamedExoticComponent<RoutesContentProps> =
+  memo(function RoutesContent({
+    routes,
+    isFetching,
+    isLoading,
+    dataUpdatedAt,
+    refetchTime,
+    fromChain,
+    refetch,
+    onRouteClick,
+  }: RoutesContentProps) {
+    const { t } = useTranslation()
+    const { subvariant, subvariantOptions } = useWidgetConfig()
 
-  const { account } = useAccount({ chainType: fromChain?.chainType })
-  const [toAddress] = useFieldValues('toAddress')
-  const { requiredToAddress } = useToAddressRequirements()
+    const { account } = useAccount({ chainType: fromChain?.chainType })
+    const [toAddress] = useFieldValues('toAddress')
+    const { requiredToAddress } = useToAddressRequirements()
 
-  const currentRoute = routes?.[0]
+    const currentRoute = routes?.[0]
 
-  const routeNotFound = !currentRoute && !isLoading && !isFetching
-  const toAddressUnsatisfied = currentRoute && requiredToAddress && !toAddress
-  const allowInteraction = account.isConnected && !toAddressUnsatisfied
+    const routeNotFound = !currentRoute && !isLoading && !isFetching
+    const toAddressUnsatisfied = currentRoute && requiredToAddress && !toAddress
+    const allowInteraction = account.isConnected && !toAddressUnsatisfied
 
-  const title =
-    subvariant === 'custom'
-      ? subvariantOptions?.custom === 'deposit'
-        ? t('header.deposit')
-        : t('header.youPay')
-      : t('header.receive')
+    const title =
+      subvariant === 'custom'
+        ? subvariantOptions?.custom === 'deposit'
+          ? t('header.deposit')
+          : t('header.youPay')
+        : t('header.receive')
 
-  return (
-    <Container enableColorScheme minimumHeight={isLoading}>
-      <Header sx={{ height: headerHeight }}>
-        <Typography
-          noWrap
-          sx={{
-            fontSize: 18,
-            fontWeight: '700',
-            flex: 1,
-          }}
+    return (
+      <Container enableColorScheme minimumHeight={isLoading}>
+        <Header sx={{ height: headerHeight }}>
+          <Typography
+            noWrap
+            sx={{
+              fontSize: 18,
+              fontWeight: '700',
+              flex: 1,
+            }}
+          >
+            {title}
+          </Typography>
+          <ProgressToNextUpdate
+            updatedAt={dataUpdatedAt || Date.now()}
+            timeToUpdate={refetchTime}
+            isLoading={isFetching}
+            onClick={() => refetch()}
+            sx={{ marginRight: -1 }}
+          />
+        </Header>
+        <PageContainer
+          sx={{ height: `calc(100% - ${headerHeight})`, overflow: 'auto' }}
         >
-          {title}
-        </Typography>
-        <ProgressToNextUpdate
-          updatedAt={dataUpdatedAt || Date.now()}
-          timeToUpdate={refetchTime}
-          isLoading={isFetching}
-          onClick={() => refetch()}
-          sx={{ marginRight: -1 }}
-        />
-      </Header>
-      <PageContainer
-        sx={{ height: `calc(100% - ${headerHeight})`, overflow: 'auto' }}
-      >
-        <Stack
-          direction="column"
-          spacing={2}
-          sx={{
-            flex: 1,
-            paddingBottom: 3,
-          }}
-        >
-          {routeNotFound ? (
-            <RouteNotFoundCard />
-          ) : (isLoading || isFetching) && !routes?.length ? (
-            Array.from({ length: 3 }).map((_, index) => (
-              <RouteCardSkeleton key={index} />
-            ))
-          ) : (
-            routes?.map((route: Route, index: number) => (
-              <RouteCard
-                key={index}
-                route={route}
-                onClick={
-                  allowInteraction ? () => onRouteClick(route) : undefined
-                }
-                active={index === 0}
-                expanded={routes?.length === 1}
-              />
-            ))
-          )}
-        </Stack>
-      </PageContainer>
-    </Container>
-  )
-})
+          <Stack
+            direction="column"
+            spacing={2}
+            sx={{
+              flex: 1,
+              paddingBottom: 3,
+            }}
+          >
+            {routeNotFound ? (
+              <RouteNotFoundCard />
+            ) : (isLoading || isFetching) && !routes?.length ? (
+              Array.from({ length: 3 }).map((_, index) => (
+                <RouteCardSkeleton key={index} />
+              ))
+            ) : (
+              routes?.map((route: Route, index: number) => (
+                <RouteCard
+                  key={index}
+                  route={route}
+                  onClick={
+                    allowInteraction ? () => onRouteClick(route) : undefined
+                  }
+                  active={index === 0}
+                  expanded={routes?.length === 1}
+                />
+              ))
+            )}
+          </Stack>
+        </PageContainer>
+      </Container>
+    )
+  })

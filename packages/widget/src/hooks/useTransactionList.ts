@@ -14,68 +14,63 @@ import type {
 import { RouteExecutionStatus } from '../stores/routes/types.js'
 import { getSourceTxHash } from '../stores/routes/utils.js'
 import { hasEnumFlag } from '../utils/enum.js'
-import { useDeduplicateRoutes } from './useDeduplicateRoutes.js'
 import { useTransactionHistory } from './useTransactionHistory.js'
 
 const routesSelector = (state: RouteExecutionState) => state.routes
 
-export const useTransactionList = () => {
+export const useTransactionList = (): {
+  items: TransactionListItem[]
+  isLoading: boolean
+} => {
   const { accounts } = useAccount()
   const accountAddresses = useMemo(
     () => accounts.map((account) => account.address),
     [accounts]
   )
 
-  const {
-    data: apiRouteExecutions,
-    rawData: rawTransactions,
-    isLoading,
-  } = useTransactionHistory()
-
-  useDeduplicateRoutes(rawTransactions ?? [])
-
+  const { data: apiRouteExecutions, isLoading } = useTransactionHistory()
   const routes = useRouteExecutionStore(routesSelector)
 
   const items = useMemo<TransactionListItem[]>(() => {
-    const owned = (Object.values(routes) as RouteExecution[]).filter((r) =>
-      accountAddresses.includes(r.route.fromAddress)
+    const apiTxHashes = new Set(
+      apiRouteExecutions.map((r) => getSourceTxHash(r.route))
     )
-    const byStartedAt = (a: RouteExecution, b: RouteExecution) =>
-      (b.route.steps[0]?.execution?.startedAt ?? 0) -
-      (a.route.steps[0]?.execution?.startedAt ?? 0)
 
-    const activeItems: ActiveItem[] = owned
-      .filter(
-        (r) =>
-          r.status === RouteExecutionStatus.Pending ||
-          r.status === RouteExecutionStatus.Failed
-      )
-      .sort(byStartedAt)
-      .map((r) => ({
-        type: 'active',
-        routeId: r.route.id,
-        startedAt: r.route.steps[0]?.execution?.startedAt ?? 0,
-      }))
+    const activeItems: ActiveItem[] = []
+    const localItems: LocalItem[] = []
 
-    const localItems: LocalItem[] = owned
-      .filter((r) => hasEnumFlag(r.status, RouteExecutionStatus.Done))
-      .sort(byStartedAt)
-      .map((r) => ({
-        type: 'local',
-        routeExecution: r,
-        txHash: getSourceTxHash(r.route) ?? '',
-        // store startedAt is already in ms
-        startedAt: r.route.steps[0]?.execution?.startedAt ?? 0,
-      }))
+    for (const r of Object.values(routes) as RouteExecution[]) {
+      if (!accountAddresses.includes(r.route.fromAddress)) {
+        continue
+      }
+      // Guard against duplicates on the render before the store deletion
+      // from useTransactionHistory's combine propagates.
+      if (apiTxHashes.has(getSourceTxHash(r.route))) {
+        continue
+      }
+      const startedAt = r.route.steps[0]?.execution?.startedAt ?? 0
+      if (
+        r.status === RouteExecutionStatus.Pending ||
+        r.status === RouteExecutionStatus.Failed
+      ) {
+        activeItems.push({ type: 'active', routeId: r.route.id, startedAt })
+      } else if (hasEnumFlag(r.status, RouteExecutionStatus.Done)) {
+        localItems.push({
+          type: 'local',
+          routeExecution: r,
+          txHash: getSourceTxHash(r.route) ?? '',
+          // store startedAt is already in ms
+          startedAt,
+        })
+      }
+    }
 
     const historyItems: HistoryItem[] = apiRouteExecutions.map(
       (routeExecution) => ({
         type: 'history',
         routeExecution,
         txHash: getSourceTxHash(routeExecution.route) ?? '',
-        // API startedAt is in seconds; multiply by 1000 to normalize to ms
-        startedAt:
-          (routeExecution.route.steps[0]?.execution?.startedAt ?? 0) * 1000,
+        startedAt: routeExecution.route.steps[0]?.execution?.startedAt ?? 0,
       })
     )
 

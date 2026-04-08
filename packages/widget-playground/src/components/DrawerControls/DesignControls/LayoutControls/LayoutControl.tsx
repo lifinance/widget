@@ -1,6 +1,6 @@
 import { defaultMaxHeight } from '@lifi/widget'
 import { MenuItem, type SelectChangeEvent } from '@mui/material'
-import type { CSSProperties } from 'react'
+import type { CSSProperties, JSX } from 'react'
 import { useCallback, useEffect, useState } from 'react'
 import type { Layout } from '../../../../store/editTools/types.js'
 import { useEditToolsActions } from '../../../../store/editTools/useEditToolsActions.js'
@@ -47,8 +47,6 @@ const getLayoutMode = (container?: CSSProperties) => {
 
   if (container.display === 'flex' && container.height === '100%') {
     layoutMode = 'full-height'
-  } else if (container.height === 'fit-content') {
-    layoutMode = 'default'
   } else if (Number.isFinite(container.height)) {
     layoutMode = 'restricted-height'
   } else if (Number.isFinite(container.maxHeight)) {
@@ -58,7 +56,7 @@ const getLayoutMode = (container?: CSSProperties) => {
   return layoutMode
 }
 
-export const LayoutControl = () => {
+export const LayoutControl = (): JSX.Element => {
   const { config } = useConfig()
 
   const { variant } = useConfigVariant()
@@ -68,9 +66,7 @@ export const LayoutControl = () => {
 
   const { selectedLayoutId } = useLayoutValues()
   const { setSelectedLayoutId } = useEditToolsActions()
-  const [heightValue, setHeightValue] = useState<
-    number | 'fit-content' | undefined
-  >() // height or maxHeight, depending on selectedLayoutId
+  const [heightValue, setHeightValue] = useState<number | undefined>() // height or maxHeight, depending on selectedLayoutId
 
   useEffect(() => {
     setSelectedLayoutId(getLayoutMode(config?.theme?.container))
@@ -126,14 +122,14 @@ export const LayoutControl = () => {
           break
         }
         default: {
-          setHeightValue('fit-content')
+          setHeightValue(undefined)
           setHeader()
 
           const defaultContainer = {
             ...(getCurrentConfigTheme()?.container ?? {}),
             display: undefined,
-            height: 'fit-content',
-            maxHeight: defaultMaxHeight,
+            height: undefined,
+            maxHeight: undefined,
           }
 
           setContainer(defaultContainer)

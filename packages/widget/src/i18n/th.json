@@ -95,7 +95,6 @@
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "ประวัติการแลกเปลี่ยนจะถูกเก็บไว้ในเครื่องเท่านั้นและจะถูกลบหากคุณล้างข้อมูลเบราว์เซอร์ของคุณ.",
       "routeNotFound": "เหตุผลที่อาจเกิดขึ้น : สภาพคล่องต่ำ , จำนวนที่เลือกน้อยเกินไป , ต้นทุนแก็สสูงหรือไม่มีเส้นทางที่ใช้งานได้",
-      "toAddressIsRequired": "",
       "missingRouteRequiredAccount": ""
     },
     "title": {
@@ -199,6 +198,7 @@
   "tooltip": {
     "deselectAll": "ยกเลิกการเลือกทั้งหมด",
     "estimatedTime": "",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "",
     "notFound": {
@@ -221,6 +221,8 @@
     "checkoutStepDetails": "ซื้อผ่าน {{tool}}",
     "currentAmount": "จำนวนเงินปัจจุบัน",
     "depositStepDetails": "ฝากผ่าน {{tool}}",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "จุดเด่นของเหรียญ",
     "fees": {
       "defaultIntegrator": "",
@@ -286,9 +288,8 @@
     "rateChange": "อัตราแลกเปลี่ยน",
     "receiving": "ได้รับ",
     "refuelStepDetails": "รับแก๊สผ่าน {{tool}}",
-    "selectChain": "เลือกเชน",
-    "selectChainAndToken": "เลือกเชนและโทเค็น",
-    "selectToken": "เลือกโทเคน",
+    "route": "",
+    "select": "",
     "sendToAddress": "ส่งไปยัง {{address}}",
     "sendToWallet": "ส่งไปยังกระเป๋าเงินอื่น",
     "sending": "กำลังส่ง",
@@ -304,6 +305,8 @@
     "stepSwapAndBuy": "แลกเปลี่ยน และ ซื้อ",
     "stepSwapAndDeposit": "",
     "swapStepDetails": "แลกเปลี่ยนบน {{chain}} ผ่าน {{tool}}",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "",
     "tags": {
       "cheapest": "ผลตอบแทนที่ดีที่สุด",
@@ -346,7 +349,8 @@
     "enterName": "ใส่ชื่อ",
     "noBookmarkedWallets": "ไม่มีกระเป๋าเงินที่ bookmark ไว้",
     "noConnectedWallets": "ไม่มีกระเป๋าเงินที่เชื่อมต่อไว้",
-    "noRecentWallets": "ไม่พบกระเป๋าเงินล่าสุด"
+    "noRecentWallets": "ไม่พบกระเป๋าเงินล่าสุด",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",

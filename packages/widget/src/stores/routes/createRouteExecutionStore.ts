@@ -1,4 +1,5 @@
 import type { Route, RouteExtended } from '@lifi/sdk'
+import type { StoreApi, UseBoundStore } from 'zustand'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { hasEnumFlag } from '../../utils/enum.js'
@@ -12,7 +13,9 @@ import {
   isRouteRefunded,
 } from './utils.js'
 
-export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
+export const createRouteExecutionStore = ({
+  namePrefix,
+}: PersistStoreProps): UseBoundStore<StoreApi<RouteExecutionState>> =>
   create<RouteExecutionState>()(
     persist(
       (set, get) => ({
@@ -81,6 +84,37 @@ export const createRouteExecutionStore = ({ namePrefix }: PersistStoreProps) =>
             })
           }
         },
+        deleteRoutes: (type, accountAddresses) =>
+          set((state: RouteExecutionState) => {
+            const routes = { ...state.routes }
+            Object.keys(routes)
+              .filter((routeId) => {
+                const route = routes[routeId]
+                if (
+                  accountAddresses &&
+                  !accountAddresses.includes(route?.route.fromAddress ?? '')
+                ) {
+                  return false
+                }
+                return type === 'completed'
+                  ? hasEnumFlag(route?.status ?? 0, RouteExecutionStatus.Done)
+                  : type === 'failed'
+                    ? hasEnumFlag(
+                        route?.status ?? 0,
+                        RouteExecutionStatus.Failed
+                      )
+                    : !hasEnumFlag(
+                        route?.status ?? 0,
+                        RouteExecutionStatus.Done
+                      )
+              })
+              .forEach((routeId) => {
+                delete routes[routeId]
+              })
+            return {
+              routes,
+            }
+          }),
         deleteRoute: (routeId: string) => {
           if (get().routes[routeId]) {
             set((state: RouteExecutionState) => {

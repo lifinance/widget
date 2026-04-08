@@ -3,46 +3,65 @@ import {
   CardContent as MuiCardContent,
   styled,
 } from '@mui/material'
+import type React from 'react'
 import type { FormType } from '../../stores/form/types.js'
 import { Card } from '../Card/Card.js'
 import { CardHeader } from '../Card/CardHeader.js'
 
-export const SelectTokenCardHeader = styled(CardHeader, {
-  shouldForwardProp: (prop) => !['selected'].includes(prop as string),
-})<{ selected?: boolean }>(({ theme, selected }) => ({
-  padding: theme.spacing(2),
-  [`.${cardHeaderClasses.title}`]: {
-    color: theme.vars.palette.text.secondary,
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    width: 96,
-    fontSize: !selected ? 16 : 18,
-    fontWeight: 500,
-    [theme.breakpoints.down(theme.breakpoints.values.xs)]: {
-      fontSize: 16,
-    },
-  },
-  [`.${cardHeaderClasses.subheader}`]: {
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    width: 96,
-  },
-  variants: [
-    {
-      props: ({ selected }) => selected,
-      style: {
-        [`.${cardHeaderClasses.title}`]: {
-          color: theme.vars.palette.text.primary,
-          fontWeight: 600,
-        },
+export const SelectTokenCardHeader: React.FC<
+  React.ComponentProps<typeof CardHeader> & {
+    selected?: boolean
+    compact?: boolean
+  }
+> = styled(CardHeader, {
+  shouldForwardProp: (prop) =>
+    !['selected', 'compact'].includes(prop as string),
+})<{ selected?: boolean; compact?: boolean }>(
+  ({ theme, selected, compact }) => ({
+    padding: theme.spacing(2),
+    [`.${cardHeaderClasses.title}`]: {
+      color: theme.vars.palette.text.secondary,
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      width: 256,
+      fontSize: compact && !selected ? 16 : 18,
+      fontWeight: 500,
+      [theme.breakpoints.down(theme.breakpoints.values.sm)]: {
+        width: 224,
+      },
+      [theme.breakpoints.down(theme.breakpoints.values.xs)]: {
+        width: 180,
+        fontSize: 16,
       },
     },
-  ],
-}))
+    [`.${cardHeaderClasses.subheader}`]: {
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      width: 96,
+    },
+    variants: [
+      {
+        props: ({ selected }) => selected,
+        style: {
+          [`.${cardHeaderClasses.title}`]: {
+            color: theme.vars.palette.text.primary,
+            fontWeight: 600,
+          },
+        },
+      },
+    ],
+  })
+)
 
-export const SelectTokenCard = styled(Card)(({ theme }) => {
+export const SelectTokenCard: React.FC<
+  React.ComponentProps<typeof Card> & {
+    formType?: FormType
+    compact?: boolean
+    mask?: boolean
+  }
+> = styled(Card)(({ theme }) => {
   const cardVariant = theme.components?.MuiCard?.defaultProps?.variant
   return {
     flex: 1,
@@ -56,9 +75,16 @@ export const SelectTokenCard = styled(Card)(({ theme }) => {
   }
 })
 
-export const CardContent = styled(MuiCardContent, {
-  shouldForwardProp: (prop) => !['formType', 'mask'].includes(prop as string),
-})<{ formType: FormType; mask?: boolean }>(
+export const CardContent: React.FC<
+  React.ComponentProps<typeof MuiCardContent> & {
+    formType?: FormType
+    compact?: boolean
+    mask?: boolean
+  }
+> = styled(MuiCardContent, {
+  shouldForwardProp: (prop) =>
+    !['formType', 'compact', 'mask'].includes(prop as string),
+})<{ formType?: FormType; compact?: boolean; mask?: boolean }>(
   ({ theme, formType, mask = true }) => {
     const cardVariant = theme.components?.MuiCard?.defaultProps?.variant
     const direction = formType === 'to' ? '-8px' : 'calc(100% + 8px)'

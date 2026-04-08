@@ -1,8 +1,13 @@
 import { Box, styled, Typography } from '@mui/material'
+import type React from 'react'
 
-export const CardLabel = styled(Box, {
+export const CardLabel: React.FC<
+  React.ComponentProps<typeof Box> & {
+    variant?: 'secondary' | 'success' | 'warning'
+  }
+> = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',
-})<{ variant?: 'secondary' | 'success' }>(({ theme }) => ({
+})<{ variant?: 'secondary' | 'success' | 'warning' }>(({ theme }) => ({
   borderRadius: theme.vars.shape.borderRadius,
   padding: 0,
   display: 'flex',
@@ -39,10 +44,23 @@ export const CardLabel = styled(Box, {
         }),
       },
     },
+    {
+      props: { variant: 'warning' },
+      style: {
+        backgroundColor: `rgba(${theme.vars.palette.warning.mainChannel} / 0.32)`,
+        color: `color-mix(in srgb, ${theme.vars.palette.warning.main} 64%, black)`,
+        ...theme.applyStyles('dark', {
+          backgroundColor: `rgba(${theme.vars.palette.warning.mainChannel} / 0.16)`,
+          color: theme.vars.palette.warning.main,
+        }),
+      },
+    },
   ],
 }))
 
-export const CardLabelTypography = styled(Typography, {
+export const CardLabelTypography: React.FC<
+  React.ComponentProps<typeof Typography> & { type?: 'icon' }
+> = styled(Typography, {
   shouldForwardProp: (prop) => prop !== 'type',
 })<{ type?: 'icon' }>(({ theme }) => ({
   padding: theme.spacing(0.75, 1.5),

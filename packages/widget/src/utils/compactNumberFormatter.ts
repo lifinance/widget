@@ -26,7 +26,7 @@ function toSubscript(n: number): string {
 export const compactNumberFormatter = (
   lng: string | undefined,
   options: any
-) => {
+): ((value: any) => string) => {
   const formatter = new Intl.NumberFormat(lng, {
     notation: 'standard',
     roundingPriority: 'morePrecision',

@@ -9,7 +9,7 @@ import { useAvailableChains } from './useAvailableChains.js'
 export const useRouteExecutionMessage = (
   route: RouteExtended,
   status: RouteExecutionStatus
-) => {
+): { title: string | undefined; message: string | undefined } => {
   const { subvariant, subvariantOptions } = useWidgetConfig()
   const { t } = useTranslation()
   const { getChainById } = useAvailableChains()

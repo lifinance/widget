@@ -1,4 +1,5 @@
 import { useWidgetEvents, WidgetEvent, type WidgetEvents } from '@lifi/widget'
+import type { JSX } from 'react'
 import { useEffect, useState } from 'react'
 import { useDevView } from '../../../hooks/useDevView.js'
 import { setQueryStringParam } from '../../../utils/setQueryStringParam.js'
@@ -23,7 +24,7 @@ const initialiseStateFromWidgetEvents = (
     {} as Record<string, boolean>
   )
 
-export const WidgetEventControls = () => {
+export const WidgetEventControls = (): JSX.Element | null => {
   const { isDevView } = useDevView()
   const widgetEvents = useWidgetEvents()
 

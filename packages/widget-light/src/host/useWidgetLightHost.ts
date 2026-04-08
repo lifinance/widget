@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { type RefObject, useCallback, useEffect, useRef } from 'react'
 import type {
   ConnectWalletArgs,
   HostMessage,
@@ -71,7 +71,9 @@ export function useWidgetLightHost({
   iframeOrigin,
   autoResize = false,
   onConnect,
-}: UseWidgetLightHostOptions) {
+}: UseWidgetLightHostOptions): {
+  iframeRef: RefObject<HTMLIFrameElement | null>
+} {
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
   const stateRef = useRef({ config, handlers, onConnect, autoResize })

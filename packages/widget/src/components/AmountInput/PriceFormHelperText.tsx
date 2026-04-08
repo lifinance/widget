@@ -1,6 +1,7 @@
 import type { TokenAmount } from '@lifi/sdk'
 import SwapVertIcon from '@mui/icons-material/SwapVert'
 import { FormHelperText, Skeleton, Typography } from '@mui/material'
+import type React from 'react'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useTokenAddressBalance } from '../../hooks/useTokenAddressBalance.js'
@@ -11,22 +12,23 @@ import { useInputModeStore } from '../../stores/inputMode/useInputModeStore.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { InputPriceButton } from './PriceFormHelperText.style.js'
 
-export const PriceFormHelperText = memo<FormTypeProps>(({ formType }) => {
-  const [chainId, tokenAddress] = useFieldValues(
-    FormKeyHelper.getChainKey(formType),
-    FormKeyHelper.getTokenKey(formType)
-  )
-  const { token, isLoading } = useTokenAddressBalance(chainId, tokenAddress)
+export const PriceFormHelperText: React.NamedExoticComponent<FormTypeProps> =
+  memo<FormTypeProps>(({ formType }) => {
+    const [chainId, tokenAddress] = useFieldValues(
+      FormKeyHelper.getChainKey(formType),
+      FormKeyHelper.getTokenKey(formType)
+    )
+    const { token, isLoading } = useTokenAddressBalance(chainId, tokenAddress)
 
-  return (
-    <PriceFormHelperTextBase
-      formType={formType}
-      isLoading={isLoading}
-      tokenAddress={tokenAddress}
-      token={token}
-    />
-  )
-})
+    return (
+      <PriceFormHelperTextBase
+        formType={formType}
+        isLoading={isLoading}
+        tokenAddress={tokenAddress}
+        token={token}
+      />
+    )
+  })
 
 const PriceFormHelperTextBase: React.FC<
   FormTypeProps & {

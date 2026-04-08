@@ -1,11 +1,12 @@
-import { defaultMaxHeight } from '@lifi/widget'
 import type { BoxProps, Theme } from '@mui/material'
 import { Box, IconButton } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import type { CSSProperties } from 'react'
+import type React from 'react'
 import { drawerZIndex } from '../DrawerControls/DrawerControls.style.js'
 
-export const FloatingToolsContainer = styled(Box)(({ theme }) => ({
+export const FloatingToolsContainer: React.FC<
+  React.ComponentProps<typeof Box>
+> = styled(Box)(({ theme }) => ({
   display: 'flex',
   gap: theme.spacing(2),
   position: 'absolute',
@@ -18,7 +19,9 @@ interface WidgetContainerProps extends BoxProps {
   alignTop?: boolean
 }
 
-export const WidgetContainer = styled(Box, {
+export const WidgetContainer: React.FC<
+  React.ComponentProps<typeof Box> & WidgetContainerProps
+> = styled(Box, {
   shouldForwardProp: (prop) =>
     !['removePaddingTop', 'alignTop'].includes(prop as string),
 })<WidgetContainerProps>(({ theme }) => {
@@ -28,7 +31,7 @@ export const WidgetContainer = styled(Box, {
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    paddingTop: theme.spacing(6),
+    paddingTop: theme.spacing(14),
     variants: [
       {
         props: ({ alignTop }) => alignTop,
@@ -46,34 +49,15 @@ export const WidgetContainer = styled(Box, {
   }
 })
 
-interface WidgetContainerRowProps extends BoxProps {
-  alignTop?: boolean
-  widgetContainer?: CSSProperties
-}
-
-export const WidgetContainerRow = styled(Box, {
-  shouldForwardProp: (prop) =>
-    !['alignTop', 'widgetContainer'].includes(prop as string),
-})<WidgetContainerRowProps>(({ widgetContainer }) => {
-  return {
-    display: 'flex',
-    alignItems: 'center',
-    flexGrow: 1,
-    width: '100%',
-    maxHeight:
-      widgetContainer?.maxHeight || !widgetContainer?.height
-        ? (widgetContainer?.maxHeight ?? defaultMaxHeight)
-        : 'none',
-    variants: [
-      {
-        props: ({ alignTop }) => alignTop,
-        style: {
-          alignItems: 'flex-start',
-        },
-      },
-    ],
-  }
-})
+export const WidgetContainerRow: React.FC<React.ComponentProps<typeof Box>> =
+  styled(Box)(() => {
+    return {
+      display: 'flex',
+      alignItems: 'flex-start',
+      flexGrow: 1,
+      width: '100%',
+    }
+  })
 
 const floatingToolButtonColors = (theme: Theme) => ({
   color: theme.vars.palette.text.primary,
@@ -89,13 +73,20 @@ const floatingToolButtonColors = (theme: Theme) => ({
   }),
 })
 
-export const DrawerOpenButton = styled(IconButton)(({ theme }) => ({
+export const DrawerOpenButton: React.FC<
+  React.ComponentProps<typeof IconButton>
+> = styled(IconButton)(({ theme }) => ({
   ...floatingToolButtonColors(theme),
   boxShadow:
     '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)',
 }))
 
-export const Main = styled('main', {
+export const Main: React.FC<
+  React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+    drawerWidth: number
+    open?: boolean
+  }
+> = styled('main', {
   shouldForwardProp: (prop) =>
     !['drawerWidth', 'open'].includes(prop as string),
 })<{

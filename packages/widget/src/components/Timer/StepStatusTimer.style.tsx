@@ -4,9 +4,12 @@ import {
   styled,
   Typography,
 } from '@mui/material'
+import type React from 'react'
 import { iconCircleSize } from '../IconCircle/IconCircle.style.js'
 
-export const StatusCircle = styled(Box)({
+export const StatusCircle: React.FC<React.ComponentProps<typeof Box>> = styled(
+  Box
+)({
   position: 'absolute',
   inset: 0,
   display: 'flex',
@@ -14,13 +17,17 @@ export const StatusCircle = styled(Box)({
   justifyContent: 'center',
 })
 
-export const RingContainer = styled(Box)({
+export const RingContainer: React.FC<React.ComponentProps<typeof Box>> = styled(
+  Box
+)({
   position: 'relative',
   width: iconCircleSize,
   height: iconCircleSize,
 })
 
-export const ProgressTrack = styled(MuiCircularProgress)(({ theme }) => ({
+export const ProgressTrack: React.FC<
+  React.ComponentProps<typeof MuiCircularProgress>
+> = styled(MuiCircularProgress)(({ theme }) => ({
   position: 'absolute',
   color: theme.vars.palette.grey[300],
   ...theme.applyStyles('dark', {
@@ -28,7 +35,9 @@ export const ProgressTrack = styled(MuiCircularProgress)(({ theme }) => ({
   }),
 }))
 
-export const ProgressFill = styled(MuiCircularProgress)(({ theme }) => ({
+export const ProgressFill: React.FC<
+  React.ComponentProps<typeof MuiCircularProgress>
+> = styled(MuiCircularProgress)(({ theme }) => ({
   position: 'absolute',
   color: theme.vars.palette.primary.main,
   ...theme.applyStyles('dark', {
@@ -36,7 +45,8 @@ export const ProgressFill = styled(MuiCircularProgress)(({ theme }) => ({
   }),
 }))
 
-export const TimerLabel = styled(Typography)({
-  fontSize: 18,
-  fontWeight: 700,
-})
+export const TimerLabel: React.FC<React.ComponentProps<typeof Typography>> =
+  styled(Typography)({
+    fontSize: 18,
+    fontWeight: 700,
+  })

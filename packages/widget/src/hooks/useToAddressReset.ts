@@ -6,11 +6,14 @@ import { useBookmarks } from '../stores/bookmarks/useBookmarks.js'
 import { useFieldActions } from '../stores/form/useFieldActions.js'
 import { RequiredUI } from '../types/widget.js'
 
-export const useToAddressReset = () => {
+export const useToAddressReset = (): {
+  tryResetToAddress: (toChain: ExtendedChain) => void
+} => {
   const { requiredUI } = useWidgetConfig()
   const { setFieldValue } = useFieldActions()
   const { selectedBookmark } = useBookmarks()
   const { setSelectedBookmark } = useBookmarkActions()
+
   const tryResetToAddress = useCallback(
     (toChain: ExtendedChain) => {
       const requiredToAddress = requiredUI?.includes(RequiredUI.ToAddress)

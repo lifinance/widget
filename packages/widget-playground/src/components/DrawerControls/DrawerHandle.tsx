@@ -1,4 +1,4 @@
-import type { MouseEventHandler } from 'react'
+import type { JSX, MouseEventHandler } from 'react'
 import { useEffect, useState } from 'react'
 import { defaultDrawerWidth } from '../../store/editTools/constants.js'
 import { useCodeToolValues } from '../../store/editTools/useCodeToolValues.js'
@@ -10,7 +10,7 @@ import {
   DrawerIconRight,
 } from './DrawerControls.style.js'
 
-export const DrawerHandle = () => {
+export const DrawerHandle = (): JSX.Element | null => {
   const [isDrawerResizing, setIsDrawerResizing] = useState(false)
   const [drawResizeStartX, setDrawResizeStartX] = useState(0)
   const { codeControlTab } = useCodeToolValues()

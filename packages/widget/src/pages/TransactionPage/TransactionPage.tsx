@@ -1,6 +1,6 @@
 import type { ExchangeRateUpdateParams } from '@lifi/sdk'
 import { useLocation } from '@tanstack/react-router'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { type JSX, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
 import { PageContainer } from '../../components/PageContainer.js'
@@ -16,7 +16,7 @@ import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet.js'
 import { RouteTracker } from './RouteTracker.js'
 import { TransactionContent } from './TransactionContent.js'
 
-export const TransactionPage = () => {
+export const TransactionPage = (): JSX.Element | null => {
   const { t } = useTranslation()
   const emitter = useWidgetEvents()
   const { subvariant, subvariantOptions, contractSecondaryComponent } =
@@ -108,9 +108,7 @@ export const TransactionPage = () => {
         routeRefreshing={routeRefreshing}
       />
       {subvariant === 'custom' && contractSecondaryComponent ? (
-        <ContractComponent sx={{ marginTop: 2 }}>
-          {contractSecondaryComponent}
-        </ContractComponent>
+        <ContractComponent>{contractSecondaryComponent}</ContractComponent>
       ) : null}
       <ExchangeRateBottomSheet ref={exchangeRateBottomSheetRef} />
     </PageContainer>

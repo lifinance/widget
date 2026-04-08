@@ -16,8 +16,11 @@ export interface IframeConnectorInfo {
  * Override `_registerBridgeCallbacks` for custom init/event handling.
  */
 export class BaseIframeProvider {
-  protected readonly _listeners = new Map<string, Set<Listener>>()
-  protected readonly bridge = GuestBridge.getInstance()
+  protected readonly _listeners: Map<string, Set<Listener>> = new Map<
+    string,
+    Set<Listener>
+  >()
+  protected readonly bridge: GuestBridge = GuestBridge.getInstance()
   protected readonly chainType: WidgetLightChainType
 
   protected _accounts: string[] = []

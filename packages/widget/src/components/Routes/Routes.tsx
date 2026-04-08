@@ -5,6 +5,7 @@ import { useRoutes } from '../../hooks/useRoutes.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { ButtonTertiary } from '../ButtonTertiary.js'
+import type { CardProps } from '../Card/Card.js'
 import { Card } from '../Card/Card.js'
 import { CardTitle } from '../Card/CardTitle.js'
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js'
@@ -12,7 +13,7 @@ import { RouteCard } from '../RouteCard/RouteCard.js'
 import { RouteCardSkeleton } from '../RouteCard/RouteCardSkeleton.js'
 import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js'
 
-export const Routes = () => {
+export const Routes: React.FC<CardProps> = (props) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { subvariant, subvariantOptions, useRecommendedRoute } =
@@ -50,7 +51,7 @@ export const Routes = () => {
       : t('header.receive')
 
   return (
-    <Card>
+    <Card {...props}>
       <CardTitle>{title}</CardTitle>
       <ProgressToNextUpdate
         updatedAt={dataUpdatedAt || Date.now()}

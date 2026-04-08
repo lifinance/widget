@@ -4,7 +4,10 @@
  * +0.007% -> <0.01%
  * -0.003% -> <0.01%
  */
-export const percentFormatter = (lng: string | undefined, options: any) => {
+export const percentFormatter = (
+  lng: string | undefined,
+  options: any
+): ((value: any) => string) => {
   const formatter = new Intl.NumberFormat(lng, {
     ...options,
     style: 'percent',

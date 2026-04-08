@@ -1,6 +1,7 @@
 import type { RouteExtended } from '@lifi/sdk'
 import { Button } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
+import type React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useFieldActions } from '../../stores/form/useFieldActions'
 import { RouteExecutionStatus } from '../../stores/routes/types'
@@ -13,10 +14,10 @@ interface TransactionDoneButtonsProps {
   status: RouteExecutionStatus
 }
 
-export const TransactionDoneButtons = ({
+export const TransactionDoneButtons: React.FC<TransactionDoneButtonsProps> = ({
   route,
   status,
-}: TransactionDoneButtonsProps) => {
+}) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { setFieldValue } = useFieldActions()

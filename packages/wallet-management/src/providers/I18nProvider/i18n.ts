@@ -4,7 +4,7 @@ import type { LanguageKey } from './types.js'
 type LanguageResource = typeof enResource
 
 // Dynamically import the JSON file for the specified language
-export async function loadLocale(lng: LanguageKey) {
+export async function loadLocale(lng: LanguageKey): Promise<LanguageResource> {
   const languageResourceModule = await import(`../../i18n/${lng}.json`)
   return languageResourceModule.default as LanguageResource
 }

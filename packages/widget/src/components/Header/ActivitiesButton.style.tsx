@@ -1,23 +1,18 @@
-import { Badge, Box, IconButton, styled } from '@mui/material'
-import type { RouteExecutionIndicator } from '../../stores/routes/useRouteExecutionIndicators.js'
+import {
+  Badge,
+  Box,
+  CircularProgress as MuiCircularProgress,
+  IconButton as MuiIconButton,
+  styled,
+} from '@mui/material'
+import type React from 'react'
 
-export const HistoryIconButton = styled(IconButton, {
-  shouldForwardProp: (prop) => prop !== 'indicator',
-})<{ indicator: RouteExecutionIndicator }>(({ theme, indicator }) =>
-  indicator !== 'idle'
-    ? {
-        backgroundColor: `color-mix(in srgb, rgb(${theme.vars.palette.info.mainChannel}) 8%, ${theme.vars.palette.background.paper})`,
-        '&:hover': {
-          backgroundColor: `color-mix(in srgb, rgb(${theme.vars.palette.info.mainChannel}) 12%, ${theme.vars.palette.background.paper})`,
-        },
-      }
-    : {}
-)
-
-export const ErrorBadge = styled(Badge)(({ theme }) => ({
+export const ErrorBadge: React.FC<React.ComponentProps<typeof Badge>> = styled(
+  Badge
+)(({ theme }) => ({
   '& .MuiBadge-badge': {
     padding: 0,
-    minWidth: 'unset',
+    minWidth: 16,
     width: 16,
     height: 16,
     borderRadius: '50%',
@@ -28,9 +23,45 @@ export const ErrorBadge = styled(Badge)(({ theme }) => ({
   },
 }))
 
-export const ProgressContainer = styled(Box)({
+export const IconContainer: React.FC<React.ComponentProps<typeof Box>> = styled(
+  Box
+)(() => ({
   position: 'relative',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+}))
+
+export const ActivitiesIconButton: React.FC<
+  React.ComponentProps<typeof MuiIconButton> & { active?: boolean }
+> = styled(MuiIconButton, {
+  shouldForwardProp: (prop) => prop !== 'active',
+})<{ active?: boolean }>({
+  variants: [
+    {
+      props: { active: true },
+      style: ({ theme }) => ({
+        backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.08)`,
+        '&:hover': {
+          backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.12)`,
+        },
+        ...theme.applyStyles('dark', {
+          backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.12)`,
+          '&:hover': {
+            backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.16)`,
+          },
+        }),
+      }),
+    },
+  ],
 })
+
+export const ProgressTrack: React.FC<
+  React.ComponentProps<typeof MuiCircularProgress>
+> = styled(MuiCircularProgress)(({ theme }) => ({
+  position: 'absolute',
+  color: theme.vars.palette.grey[300],
+  ...theme.applyStyles('dark', {
+    color: theme.vars.palette.grey[800],
+  }),
+}))

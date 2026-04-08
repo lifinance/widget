@@ -1,6 +1,7 @@
 import { createClient, type SDKClient } from '@lifi/sdk'
 import {
   createContext,
+  type JSX,
   type PropsWithChildren,
   useContext,
   useMemo,
@@ -10,28 +11,47 @@ import { useWidgetConfig } from './WidgetProvider/WidgetProvider.js'
 
 const SDKClientContext = createContext<SDKClient>({} as SDKClient)
 
-export const useSDKClient = () => useContext(SDKClientContext)
+export const useSDKClient = (): SDKClient => useContext(SDKClientContext)
 
-export const SDKClientProvider = ({ children }: PropsWithChildren) => {
-  const widgetConfig = useWidgetConfig()
+export const SDKClientProvider = ({
+  children,
+}: PropsWithChildren): JSX.Element => {
+  const {
+    sdkConfig,
+    apiKey,
+    integrator,
+    feeConfig,
+    fee,
+    referrer,
+    routePriority,
+    slippage,
+  } = useWidgetConfig()
 
   const client: SDKClient = useMemo(() => {
     return createClient({
-      ...widgetConfig.sdkConfig,
-      apiKey: widgetConfig.apiKey,
-      integrator: widgetConfig.integrator ?? window?.location.hostname,
+      ...sdkConfig,
+      apiKey,
+      integrator: integrator ?? window?.location.hostname,
       routeOptions: {
-        fee: widgetConfig.feeConfig?.fee || widgetConfig.fee,
-        referrer: widgetConfig.referrer,
-        order: widgetConfig.routePriority,
-        slippage: widgetConfig.slippage,
-        ...widgetConfig.sdkConfig?.routeOptions,
+        fee: feeConfig?.fee || fee,
+        referrer,
+        order: routePriority,
+        slippage,
+        ...sdkConfig?.routeOptions,
       },
       disableVersionCheck: true,
       widgetVersion: version,
-      // debug: true,
     })
-  }, [widgetConfig])
+  }, [
+    sdkConfig,
+    apiKey,
+    integrator,
+    feeConfig,
+    fee,
+    referrer,
+    routePriority,
+    slippage,
+  ])
 
   return (
     <SDKClientContext.Provider value={client}>

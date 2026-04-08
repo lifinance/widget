@@ -9,6 +9,18 @@ export default defineConfig({
   },
   build: {
     sourcemap: true,
+    chunkSizeWarningLimit: 5000,
+    rolldownOptions: {
+      onwarn(warning, defaultHandler) {
+        if (
+          warning.code === 'EVAL' ||
+          warning.code === 'INEFFECTIVE_DYNAMIC_IMPORT'
+        ) {
+          return
+        }
+        defaultHandler(warning)
+      },
+    },
   },
   server: {
     port: 3000,

@@ -95,7 +95,6 @@
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "İşlem geçmişi yalnızca yerel olarak saklanır ve tarayıcı verilerinizi temizlerseniz silinir.",
       "routeNotFound": "Muhtemel sebepler şunlar olabilir: Düşük likidite, seçilen miktarın çok düşük olması, gaz masrafının çok olması ya da seçilen kombinasyon için rota olmaması.",
-      "toAddressIsRequired": "Transfer işlemine devam etmek için hedef cüzdan adresi gereklidir.",
       "missingRouteRequiredAccount": ""
     },
     "title": {
@@ -199,6 +198,7 @@
   "tooltip": {
     "deselectAll": "Tüm seçimi kaldır",
     "estimatedTime": "",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "Takas/köprüleme işlemi imzalanana kadar tahmini minimum tutar değişebilir. 2 adımlı transferlerde bu durum, ikinci adım işlemi imzalanana kadar geçerlidir.",
     "notFound": {
@@ -221,6 +221,8 @@
     "checkoutStepDetails": "{{tool}} aracılığıyla alım yap",
     "currentAmount": "Geçerli miktar",
     "depositStepDetails": "{{tool}} aracılığıyla yatır",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "Öne çıkan jetonlar",
     "fees": {
       "defaultIntegrator": "Integrator ücreti",
@@ -286,9 +288,8 @@
     "rateChange": "Değişiklik oranı",
     "receiving": "Alınıyor",
     "refuelStepDetails": "{{tool}} aracılığıyla gaz al",
-    "selectChain": "Zincir",
-    "selectChainAndToken": "Ağı ve jetonu seçin",
-    "selectToken": "Jeton",
+    "route": "",
+    "select": "",
     "sendToAddress": "Bu adrese gönder: {{address}}",
     "sendToWallet": "Farklı bir cüzdana gönder",
     "sending": "Gönderiliyor",
@@ -304,6 +305,8 @@
     "stepSwapAndBuy": "Takasla ve satın al",
     "stepSwapAndDeposit": "Takas et ve yatır",
     "swapStepDetails": "{{chain}} üzerinde {{tool}} aracılığıyla takas et",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "Transfer ID",
     "tags": {
       "cheapest": "En iyi sonuç",
@@ -346,7 +349,8 @@
     "enterName": "İsim girin",
     "noBookmarkedWallets": "Kayıtlı cüzdan bulunamadı",
     "noConnectedWallets": "Bağlı cüzdan bulunamadı",
-    "noRecentWallets": "Son kullanılan cüzdan bulunamadı"
+    "noRecentWallets": "Son kullanılan cüzdan bulunamadı",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",

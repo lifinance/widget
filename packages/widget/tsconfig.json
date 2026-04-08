@@ -8,7 +8,8 @@
     "rootDir": "./src",
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": ["node"]
   },
   "include": ["./src/**/*", "./src/**/*.json"],
   "references": [{ "path": "../wallet-management" }]

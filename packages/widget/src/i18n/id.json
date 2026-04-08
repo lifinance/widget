@@ -95,7 +95,6 @@
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "Riwayat transaksi hanya disimpan secara lokal dan akan dihapus jika Anda menghapus data browser.",
       "routeNotFound": "Alasannya mungkin: likuiditas rendah, jumlah yang dipilih terlalu rendah, biaya gas terlalu tinggi, atau tidak ada rute untuk kombinasi yang dipilih.",
-      "toAddressIsRequired": "Alamat dompet tujuan diperlukan untuk melanjutkan transfer.",
       "missingRouteRequiredAccount": ""
     },
     "title": {
@@ -199,6 +198,7 @@
   "tooltip": {
     "deselectAll": "Hapus semua",
     "estimatedTime": "Saatnya menyelesaikan transaksi swap atau bridge, tidak termasuk peralihan rantai dan persetujuan token.",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "Perkiraan jumlah minimum dapat berubah hingga transaksi swapping/bridging ditandatangani. Untuk transfer 2 langkah, ini berlaku hingga transaksi langkah kedua ditandatangani.",
     "notFound": {
@@ -221,6 +221,8 @@
     "checkoutStepDetails": "Dapatkan melalui {{tool}}",
     "currentAmount": "Jumlah saat ini",
     "depositStepDetails": "Dapatkan melalui {{tool}}",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "Token unggulan",
     "fees": {
       "defaultIntegrator": "Biaya integrator",
@@ -286,9 +288,8 @@
     "rateChange": "Perubahan rate",
     "receiving": "Menerima",
     "refuelStepDetails": "Dapatkan gas melalui {{tool}}",
-    "selectChain": "Pilih jaringan",
-    "selectChainAndToken": "Pilih jaringan dan token",
-    "selectToken": "Pilih token",
+    "route": "",
+    "select": "",
     "sendToAddress": "Kirim ke {{address}}",
     "sendToWallet": "Kirim ke dompet berbeda",
     "sending": "Mengirim",
@@ -304,6 +305,8 @@
     "stepSwapAndBuy": "Swap dan beli",
     "stepSwapAndDeposit": "Swap dan deposit",
     "swapStepDetails": "Swap di {{chain}} melalui {{tool}}",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "Transfer ID",
     "tags": {
       "cheapest": "Pengembalian terbaik",
@@ -346,7 +349,8 @@
     "enterName": "Masukkan nama",
     "noBookmarkedWallets": "Tidak ada dompet yang ditandai",
     "noConnectedWallets": "Tida ada dompet yang di hubungkan",
-    "noRecentWallets": "Tidak ada dompet terakhir yang digunakan"
+    "noRecentWallets": "Tidak ada dompet terakhir yang digunakan",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",

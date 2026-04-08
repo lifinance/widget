@@ -1,4 +1,4 @@
-import type { Route, Token } from '@lifi/sdk'
+import type { ExtendedChain, Route, Token } from '@lifi/sdk'
 import {
   ChainType,
   convertQuoteToRoute,
@@ -40,7 +40,21 @@ interface RoutesProps {
   observableRoute?: Route
 }
 
-export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
+export const useRoutes = ({
+  observableRoute,
+}: RoutesProps = {}): {
+  routes: Route[] | undefined
+  isLoading: boolean
+  isFetching: boolean
+  isFetched: boolean
+  dataUpdatedAt: number
+  refetchTime: number
+  refetch: () => void
+  fromChain: ExtendedChain | undefined
+  toChain: ExtendedChain | undefined
+  queryKey: readonly unknown[]
+  setReviewableRoute: (route: Route) => void
+} => {
   const {
     subvariant,
     subvariantOptions,

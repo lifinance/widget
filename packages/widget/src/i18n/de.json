@@ -95,7 +95,6 @@
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "Die Transaktionshistorie wird nur lokal gespeichert und gelöscht, wenn Sie Ihre Browserdaten löschen.",
       "routeNotFound": "Gründe dafür könnten lauten: geringe Liquidität, gewählter Betrag ist zu niedrig, die Gaskosten sind zu hoch oder es gibt keine Routen für die ausgewählte Kombination.",
-      "toAddressIsRequired": "",
       "missingRouteRequiredAccount": ""
     },
     "title": {
@@ -199,6 +198,7 @@
   "tooltip": {
     "deselectAll": "",
     "estimatedTime": "",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "",
     "notFound": {
@@ -221,6 +221,8 @@
     "checkoutStepDetails": "",
     "currentAmount": "Aktueller Betrag",
     "depositStepDetails": "",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "Ausgewählte Token",
     "fees": {
       "defaultIntegrator": "",
@@ -286,9 +288,8 @@
     "rateChange": "Wechselkurs geändert",
     "receiving": "Eingehend",
     "refuelStepDetails": "Gas über {{tool}} erhalten",
-    "selectChain": "Chain",
-    "selectChainAndToken": "Chain und Token auswählen",
-    "selectToken": "Token",
+    "route": "",
+    "select": "",
     "sendToAddress": "An {{address}} senden",
     "sendToWallet": "An eine andere Wallet senden",
     "sending": "Wird gesendet",
@@ -304,6 +305,8 @@
     "stepSwapAndBuy": "Tauschen und kaufen",
     "stepSwapAndDeposit": "",
     "swapStepDetails": "Tausche auf {{chain}} über {{tool}}",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "",
     "tags": {
       "cheapest": "",
@@ -346,7 +349,8 @@
     "enterName": "",
     "noBookmarkedWallets": "",
     "noConnectedWallets": "",
-    "noRecentWallets": ""
+    "noRecentWallets": "",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",

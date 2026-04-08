@@ -95,7 +95,6 @@
       "emptyTokenListAllNetworks": "Не вдалося знайти жодного токена. Будь ласка, пошукайте за адресою токена або спробуйте вибрати інший чейн.",
       "emptyTransactionHistory": "Історія транзакцій зберігається лише локально та буде видалена, якщо ви очистите дані браузера.",
       "routeNotFound": "Причинами цього можуть бути: низька ліквідність, вибрана надто низька сума, занадто високі витрати на газ або відсутність маршрутів для вибраної комбінації.",
-      "toAddressIsRequired": "Для продовження переказу необхідно вказати адресу гаманця одержувача.",
       "missingRouteRequiredAccount": "Підключіть ваш гаманець {{chainName}}, щоб продовжити. {{address}}"
     },
     "title": {
@@ -199,6 +198,7 @@
   "tooltip": {
     "deselectAll": "Скасувати вибір",
     "estimatedTime": "Розрахунковий час для завершення своп або бридж транзакції, за винятком перемикання чейнів та затвердження токену.",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "Орієнтовна мінімальна сума може змінитися до тих пір, поки своп/бридж транзакція не буде підписана. Для 2-крокових переказів це стосується підписання транзакції другого кроку.",
     "notFound": {
@@ -221,6 +221,8 @@
     "checkoutStepDetails": "Купівля через {{tool}}",
     "currentAmount": "Поточна сума",
     "depositStepDetails": "Поповнення через {{tool}}",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "Рекомендовані токени",
     "fees": {
       "defaultIntegrator": "Комісія інтегратора",
@@ -286,9 +288,8 @@
     "rateChange": "Зміна курсу",
     "receiving": "Отримання",
     "refuelStepDetails": "Отримати газ через {{tool}}",
-    "selectChain": "Виберіть чейн",
-    "selectChainAndToken": "Виберіть чейн і токен",
-    "selectToken": "Виберіть токен",
+    "route": "",
+    "select": "",
     "sendToAddress": "Відправити на {{address}}",
     "sendToWallet": "Надіслати на інший гаманець",
     "sending": "Відправлення",
@@ -304,6 +305,8 @@
     "stepSwapAndBuy": "Своп та покупка",
     "stepSwapAndDeposit": "Своп та депозит",
     "swapStepDetails": "Своп на {{chain}} через {{tool}}",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "Ідентифікатор переказу",
     "tags": {
       "cheapest": "Найкращий курс",
@@ -346,7 +349,8 @@
     "enterName": "Введіть ім'я",
     "noBookmarkedWallets": "Немає гаманців в закладках",
     "noConnectedWallets": "Немає підключених гаманців",
-    "noRecentWallets": "Немає недавніх гаманців"
+    "noRecentWallets": "Немає недавніх гаманців",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "Поточна ціна",
