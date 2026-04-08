@@ -203,7 +203,9 @@ export const buildRouteFromTxHistory = (
           integrator: tx.metadata?.integrator ?? '',
           execution: {
             status: 'DONE', // can be FAILED
-            startedAt: sending.timestamp ?? Date.now(),
+            startedAt: sending.timestamp
+              ? sending.timestamp * 1000
+              : Date.now(),
             actions: buildActionsFromTxHistory(tx),
             fromAmount: sending.amount,
             toAmount: receiving.amount,
