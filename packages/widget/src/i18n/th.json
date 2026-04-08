@@ -95,7 +95,6 @@
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "ประวัติการแลกเปลี่ยนจะถูกเก็บไว้ในเครื่องเท่านั้นและจะถูกลบหากคุณล้างข้อมูลเบราว์เซอร์ของคุณ.",
       "routeNotFound": "เหตุผลที่อาจเกิดขึ้น : สภาพคล่องต่ำ , จำนวนที่เลือกน้อยเกินไป , ต้นทุนแก็สสูงหรือไม่มีเส้นทางที่ใช้งานได้",
-      "toAddressIsRequired": "",
       "missingRouteRequiredAccount": ""
     },
     "title": {
@@ -286,9 +285,7 @@
     "rateChange": "อัตราแลกเปลี่ยน",
     "receiving": "ได้รับ",
     "refuelStepDetails": "รับแก๊สผ่าน {{tool}}",
-    "selectChain": "เลือกเชน",
-    "selectChainAndToken": "เลือกเชนและโทเค็น",
-    "selectToken": "เลือกโทเคน",
+    "select": "",
     "sendToAddress": "ส่งไปยัง {{address}}",
     "sendToWallet": "ส่งไปยังกระเป๋าเงินอื่น",
     "sending": "กำลังส่ง",
@@ -346,7 +343,8 @@
     "enterName": "ใส่ชื่อ",
     "noBookmarkedWallets": "ไม่มีกระเป๋าเงินที่ bookmark ไว้",
     "noConnectedWallets": "ไม่มีกระเป๋าเงินที่เชื่อมต่อไว้",
-    "noRecentWallets": "ไม่พบกระเป๋าเงินล่าสุด"
+    "noRecentWallets": "ไม่พบกระเป๋าเงินล่าสุด",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",
