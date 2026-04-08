@@ -1,7 +1,7 @@
 import type { RouteExtended } from '@lifi/sdk'
 import { useNavigate } from '@tanstack/react-router'
 import { memo } from 'react'
-import { TransactionDetailsCard } from '../../components/TransactionDetailsCard/TransactionDetailsCard.js'
+import { TransactionCard } from '../../components/TransactionCard/TransactionCard.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 
 export const TransactionHistoryItem: React.FC<{
@@ -21,7 +21,7 @@ export const TransactionHistoryItem: React.FC<{
   }
 
   return (
-    <TransactionDetailsCard
+    <TransactionCard
       route={route}
       date={new Date(startedAt)}
       onClick={handleClick}

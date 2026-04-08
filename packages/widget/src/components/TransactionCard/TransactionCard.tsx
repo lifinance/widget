@@ -4,22 +4,19 @@ import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Card } from '../Card/Card.js'
 import { RouteTokens } from '../RouteCard/RouteTokens.js'
-import {
-  DateLabelContainer,
-  DateLabelText,
-} from './TransactionDetailsCard.style.js'
+import { DateLabelContainer, DateLabelText } from './TransactionCard.style.js'
 
-interface TransactionDetailsCardProps {
+interface TransactionCardProps {
   route: RouteExtended
   date: Date
   onClick?: () => void
 }
 
-export const TransactionDetailsCard = ({
+export const TransactionCard = ({
   route,
   date,
   onClick,
-}: TransactionDetailsCardProps): JSX.Element => {
+}: TransactionCardProps): JSX.Element => {
   const { i18n } = useTranslation()
 
   return (

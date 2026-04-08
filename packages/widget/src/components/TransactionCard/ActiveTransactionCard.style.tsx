@@ -1,40 +1,5 @@
-import type { Theme } from '@mui/material'
 import { Box, IconButton, styled } from '@mui/material'
 import type React from 'react'
-
-type StatusIconColor = 'error' | 'info'
-
-const getStatusIconChannel = (color: StatusIconColor, theme: Theme) =>
-  color === 'error'
-    ? theme.vars.palette.error.mainChannel
-    : theme.vars.palette.info.mainChannel
-
-export const StatusIconCircle: React.FC<
-  React.ComponentProps<typeof Box> & { color: StatusIconColor }
-> = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'color',
-})<{ color: StatusIconColor }>(({ theme, color }) => {
-  const channel = getStatusIconChannel(color, theme)
-  return {
-    backgroundColor: `color-mix(in srgb, rgb(${channel}) 12%, ${theme.vars.palette.background.paper})`,
-    borderRadius: '50%',
-    width: 24,
-    height: 24,
-    display: 'grid',
-    placeItems: 'center',
-    flexShrink: 0,
-    '& > svg': {
-      color: `color-mix(in srgb, rgb(${channel}) 100%, black)`,
-      width: 14,
-      height: 14,
-    },
-    ...theme.applyStyles('dark', {
-      '& > svg': {
-        color: `color-mix(in srgb, rgb(${channel}) 100%, black)`,
-      },
-    }),
-  }
-})
 
 export const PendingCircle: React.FC<React.ComponentProps<typeof Box>> = styled(
   Box

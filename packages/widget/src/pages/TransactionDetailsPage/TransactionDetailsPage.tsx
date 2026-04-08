@@ -4,7 +4,7 @@ import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
 import { PageContainer } from '../../components/PageContainer.js'
-import { TransactionDetailsCard } from '../../components/TransactionDetailsCard/TransactionDetailsCard.js'
+import { TransactionCard } from '../../components/TransactionCard/TransactionCard.js'
 import { internalExplorerUrl } from '../../config/constants.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { useHeader } from '../../hooks/useHeader.js'
@@ -106,7 +106,7 @@ export const TransactionDetailsPage: React.FC = () => {
       bottomGutters
       sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
     >
-      <TransactionDetailsCard route={routeExecution.route} date={startedAt} />
+      <TransactionCard route={routeExecution.route} date={startedAt} />
       {subvariant === 'custom' && contractSecondaryComponent ? (
         <ContractComponent>{contractSecondaryComponent}</ContractComponent>
       ) : null}

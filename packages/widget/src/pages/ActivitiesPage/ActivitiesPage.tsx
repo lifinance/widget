@@ -4,6 +4,7 @@ import { useVirtualizer } from '@tanstack/react-virtual'
 import { type JSX, useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { PageContainer } from '../../components/PageContainer.js'
+import { TransactionCardSkeleton } from '../../components/TransactionCard/TransactionCardSkeleton.js'
 import { useHeader } from '../../hooks/useHeader.js'
 import { useListHeight } from '../../hooks/useListHeight.js'
 import { useTransactionList } from '../../hooks/useTransactionList.js'
@@ -13,7 +14,6 @@ import { ActiveTransactionItem } from './ActiveTransactionItem.js'
 import { ActivitiesPageMenuButton } from './ActivitiesPageMenuButton.js'
 import { TransactionHistoryEmpty } from './TransactionHistoryEmpty.js'
 import { TransactionHistoryItem } from './TransactionHistoryItem.js'
-import { TransactionHistoryItemSkeleton } from './TransactionHistorySkeleton.js'
 
 const SKELETON_COUNT = 3
 
@@ -71,7 +71,7 @@ export const ActivitiesPage = (): JSX.Element => {
     overscan: 3,
     paddingEnd: 12,
     getScrollElement: () => parentRef.current,
-    estimateSize: (index) => (items[index]?.type === 'active' ? 214 : 192),
+    estimateSize: (index) => (items[index]?.type === 'active' ? 218 : 196),
     getItemKey,
   })
 
@@ -87,9 +87,17 @@ export const ActivitiesPage = (): JSX.Element => {
         sx={{ overflow: 'auto', paddingX: 3 }}
       >
         {isLoading && !hasStoreItems ? (
-          <List disablePadding>
+          <List
+            disablePadding
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 2,
+              marginBottom: 2,
+            }}
+          >
             {Array.from({ length: SKELETON_COUNT }).map((_, index) => (
-              <TransactionHistoryItemSkeleton key={index} />
+              <TransactionCardSkeleton key={index} />
             ))}
           </List>
         ) : (
@@ -117,7 +125,7 @@ export const ActivitiesPage = (): JSX.Element => {
                   }}
                 >
                   {!listItem ? (
-                    <TransactionHistoryItemSkeleton />
+                    <TransactionCardSkeleton />
                   ) : listItem.type === 'active' ? (
                     <ActiveTransactionItem routeId={listItem.routeId} />
                   ) : (
