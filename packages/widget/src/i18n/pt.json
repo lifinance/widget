@@ -198,6 +198,7 @@
   "tooltip": {
     "deselectAll": "Desmarcar tudo",
     "estimatedTime": "Tempo estimado para completar a transação de conversão ou ponte, excluindo a troca de rede e aprovação de token.",
+    "exchangeRate": "",
     "feeCollection": "A taxa é aplicada aos pares de tokens selecionados e garante que podemos fornecer a melhor experiência.",
     "minReceived": "O valor mínimo estimado pode ser alterado até que a transação de conversão/ponte seja assinada. Para transferências em duas etapas, isto aplica-se até que a segunda etapa da transação seja assinada.",
     "notFound": {
@@ -220,6 +221,8 @@
     "checkoutStepDetails": "Comprar via {{tool}}",
     "currentAmount": "Quantidade atual",
     "depositStepDetails": "Depositar via {{tool}}",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "Tokens em destaque",
     "fees": {
       "defaultIntegrator": "Taxa de integrador",
@@ -285,6 +288,7 @@
     "rateChange": "Alterar taxa",
     "receiving": "Recebendo",
     "refuelStepDetails": "Obter gás via {{tool}}",
+    "route": "",
     "select": "",
     "sendToAddress": "Enviar para",
     "sendToWallet": "Enviar para uma carteira diferente",
@@ -301,6 +305,8 @@
     "stepSwapAndBuy": "Converta e compre",
     "stepSwapAndDeposit": "Converter e depositar",
     "swapStepDetails": "Converter na {{chain}} via {{tool}}",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "ID de transferência",
     "tags": {
       "cheapest": "Melhor retorno",

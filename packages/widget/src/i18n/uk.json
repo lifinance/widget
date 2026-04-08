@@ -198,6 +198,7 @@
   "tooltip": {
     "deselectAll": "Скасувати вибір",
     "estimatedTime": "Розрахунковий час для завершення своп або бридж транзакції, за винятком перемикання чейнів та затвердження токену.",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "Орієнтовна мінімальна сума може змінитися до тих пір, поки своп/бридж транзакція не буде підписана. Для 2-крокових переказів це стосується підписання транзакції другого кроку.",
     "notFound": {
@@ -220,6 +221,8 @@
     "checkoutStepDetails": "Купівля через {{tool}}",
     "currentAmount": "Поточна сума",
     "depositStepDetails": "Поповнення через {{tool}}",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "Рекомендовані токени",
     "fees": {
       "defaultIntegrator": "Комісія інтегратора",
@@ -285,6 +288,7 @@
     "rateChange": "Зміна курсу",
     "receiving": "Отримання",
     "refuelStepDetails": "Отримати газ через {{tool}}",
+    "route": "",
     "select": "",
     "sendToAddress": "Відправити на {{address}}",
     "sendToWallet": "Надіслати на інший гаманець",
@@ -301,6 +305,8 @@
     "stepSwapAndBuy": "Своп та покупка",
     "stepSwapAndDeposit": "Своп та депозит",
     "swapStepDetails": "Своп на {{chain}} через {{tool}}",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "Ідентифікатор переказу",
     "tags": {
       "cheapest": "Найкращий курс",

@@ -198,6 +198,7 @@
   "tooltip": {
     "deselectAll": "Tout désélectionner",
     "estimatedTime": "",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "",
     "notFound": {
@@ -220,6 +221,8 @@
     "checkoutStepDetails": "Achat via {{tool}}",
     "currentAmount": "Montant actuel",
     "depositStepDetails": "Dépôt via {{tool}}",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "Jetons en vedette",
     "fees": {
       "defaultIntegrator": "",
@@ -285,6 +288,7 @@
     "rateChange": "Taux de change",
     "receiving": "En cours de réception",
     "refuelStepDetails": "Obtenir du gaz via {{tool}}",
+    "route": "",
     "select": "",
     "sendToAddress": "Envoyer à {{address}}",
     "sendToWallet": "Envoyer vers un autre portefeuille",
@@ -301,6 +305,8 @@
     "stepSwapAndBuy": "Échanger et acheter",
     "stepSwapAndDeposit": "",
     "swapStepDetails": "Échanger sur {{chain}} via {{tool}}",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "",
     "tags": {
       "cheapest": "Meilleur Retour",
