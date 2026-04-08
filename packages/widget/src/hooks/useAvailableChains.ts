@@ -1,5 +1,5 @@
 import type { ExtendedChain } from '@lifi/sdk'
-import { ChainType, createClient, getChains } from '@lifi/sdk'
+import { ChainId, ChainType, createClient, getChains } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback, useEffect, useMemo } from 'react'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
@@ -20,6 +20,10 @@ const supportedChainTypes = [
   ChainType.MVM,
   ChainType.TVM,
 ]
+
+const manualMulticallAddresses: Partial<Record<ChainId, string>> = {
+  [ChainId.TRN]: 'TEazPvZwDjDtFeJupyo7QunvnrnUjPH8ED',
+}
 
 export const useAvailableChains = (
   chainTypes?: ChainType[],
@@ -70,6 +74,14 @@ export const useAvailableChains = (
       const availableChains = await getChains(client, {
         chainTypes: chainTypes || chainTypesRequest,
       })
+      for (const chain of availableChains) {
+        const multicallAddress = manualMulticallAddresses[chain.id as ChainId]
+        if (multicallAddress && !('multicallAddress' in chain)) {
+          ;(
+            chain as ExtendedChain & { multicallAddress: string }
+          ).multicallAddress = multicallAddress
+        }
+      }
       client.setChains(availableChains)
       return availableChains
     },
