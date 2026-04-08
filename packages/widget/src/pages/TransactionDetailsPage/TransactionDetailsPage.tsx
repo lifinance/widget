@@ -1,12 +1,12 @@
 import type { FullStatusData } from '@lifi/sdk'
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Card } from '../../components/Card/Card.js'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
 import { PageContainer } from '../../components/PageContainer.js'
-import { getStepList } from '../../components/Step/StepList.js'
-import { TransactionDetails } from '../../components/TransactionDetails.js'
+import { RouteTokens } from '../../components/RouteCard/RouteTokens.js'
 import { internalExplorerUrl } from '../../config/constants.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { useHeader } from '../../hooks/useHeader.js'
@@ -15,22 +15,21 @@ import { useTransactionDetails } from '../../hooks/useTransactionDetails.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.js'
 import { getSourceTxHash } from '../../stores/routes/utils.js'
-import { HiddenUI } from '../../types/widget.js'
 import { buildRouteFromTxHistory } from '../../utils/converters.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { ContactSupportButton } from './ContactSupportButton.js'
+import { DateLabel } from './DateLabel.js'
+import { ReceiptsCard } from './ReceiptsCard.js'
 import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton.js'
 import { TransferIdCard } from './TransferIdCard.js'
 
 export const TransactionDetailsPage: React.FC = () => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const {
     subvariant,
     subvariantOptions,
     contractSecondaryComponent,
     explorerUrls,
-    hiddenUI,
   } = useWidgetConfig()
   const { search }: any = useLocation()
   const { tools } = useTools()
@@ -96,57 +95,33 @@ export const TransactionDetailsPage: React.FC = () => {
     routeExecution?.route.steps[0].execution?.startedAt ?? 0
   )
 
-  return isLoading && !storedRouteExecution ? (
-    <TransactionDetailsSkeleton />
-  ) : (
-    <PageContainer bottomGutters>
-      <Box
-        sx={{
-          pb: 1,
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Typography
-          sx={{
-            fontSize: 12,
-          }}
-        >
-          {startedAt.toLocaleString(i18n.language, {
-            dateStyle: 'long',
-          })}
-        </Typography>
-        <Typography
-          sx={{
-            fontSize: 12,
-          }}
-        >
-          {startedAt.toLocaleString(i18n.language, {
-            timeStyle: 'short',
-          })}
-        </Typography>
-      </Box>
-      {getStepList(routeExecution?.route, subvariant)}
+  if (isLoading && !storedRouteExecution) {
+    return <TransactionDetailsSkeleton />
+  }
+
+  if (!routeExecution?.route) {
+    return null
+  }
+
+  return (
+    <PageContainer
+      bottomGutters
+      sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+    >
+      <Card type="default" indented>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+          <DateLabel date={startedAt} />
+          <RouteTokens route={routeExecution.route} />
+        </Box>
+      </Card>
       {subvariant === 'custom' && contractSecondaryComponent ? (
         <ContractComponent sx={{ marginTop: 2 }}>
           {contractSecondaryComponent}
         </ContractComponent>
       ) : null}
-      {routeExecution?.route ? (
-        <TransactionDetails
-          route={routeExecution?.route}
-          sx={{ marginTop: 2 }}
-        />
-      ) : null}
-      <TransferIdCard transferId={supportId} txLink={txLink} />
-      {!hiddenUI?.includes(HiddenUI.ContactSupport) ? (
-        <Box
-          sx={{
-            mt: 2,
-          }}
-        >
-          <ContactSupportButton supportId={supportId} />
-        </Box>
+      <ReceiptsCard route={routeExecution.route} />
+      {supportId ? (
+        <TransferIdCard transferId={supportId} txLink={txLink} />
       ) : null}
     </PageContainer>
   )

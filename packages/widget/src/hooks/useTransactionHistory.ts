@@ -3,19 +3,24 @@ import { type ExtendedTransactionInfo, getTransactionHistory } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import type { QueryFunction } from '@tanstack/react-query'
 import { useQueries } from '@tanstack/react-query'
+import { useMemo } from 'react'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import type { RouteExecution } from '../stores/routes/types.js'
+import { buildRouteFromTxHistory } from '../utils/converters.js'
 import { getQueryKey } from '../utils/queries.js'
+import { useTools } from './useTools.js'
 
 export const useTransactionHistory = (): {
-  data: StatusResponse[]
+  data: RouteExecution[]
   isLoading: boolean
 } => {
   const { accounts } = useAccount()
   const { keyPrefix } = useWidgetConfig()
   const sdkClient = useSDKClient()
+  const { tools } = useTools()
 
-  const { data, isLoading } = useQueries({
+  const { data: transactions, isLoading } = useQueries({
     queries: accounts.map((account) => ({
       queryKey: [
         getQueryKey('transaction-history', keyPrefix),
@@ -74,8 +79,20 @@ export const useTransactionHistory = (): {
     },
   })
 
+  const routeExecutions = useMemo<RouteExecution[]>(
+    () =>
+      (transactions ?? []).flatMap((transaction) => {
+        const routeExecution = buildRouteFromTxHistory(
+          transaction as FullStatusData,
+          tools
+        )
+        return routeExecution ? [routeExecution] : []
+      }),
+    [tools, transactions]
+  )
+
   return {
-    data,
+    data: routeExecutions,
     isLoading,
   }
 }

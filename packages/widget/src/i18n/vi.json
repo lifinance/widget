@@ -95,7 +95,6 @@
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "Lịch sử Swap chỉ được lưu trữ cục bộ và sẽ bị xóa nếu bạn xóa dữ liệu trình duyệt của mình.",
       "routeNotFound": "Lý do cho điều đó có thể là: tính thanh khoản thấp, số tiền được chọn quá thấp, chi phí gas quá cao hoặc không có lộ trình cho cặp giao dịch đã chọn.",
-      "toAddressIsRequired": "",
       "missingRouteRequiredAccount": ""
     },
     "title": {
@@ -286,9 +285,7 @@
     "rateChange": "Thay đổi tỉ giá",
     "receiving": "Đang nhận",
     "refuelStepDetails": "Lấy gas thông qua {{tool}}",
-    "selectChain": "Chọn chain",
-    "selectChainAndToken": "Chọn chain và token",
-    "selectToken": "Chọn Token",
+    "select": "",
     "sendToAddress": "Gửi đến {{address}}",
     "sendToWallet": "Gửi đến địa chỉ khác",
     "sending": "Đang gửi",
@@ -346,7 +343,8 @@
     "enterName": "Nhập tên",
     "noBookmarkedWallets": "Không có ví được đánh dấu",
     "noConnectedWallets": "Không có ví được kết nối",
-    "noRecentWallets": "Không có ví gần đây"
+    "noRecentWallets": "Không có ví gần đây",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",
