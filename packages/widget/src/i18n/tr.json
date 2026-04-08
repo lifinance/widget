@@ -198,6 +198,7 @@
   "tooltip": {
     "deselectAll": "Tüm seçimi kaldır",
     "estimatedTime": "",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "Takas/köprüleme işlemi imzalanana kadar tahmini minimum tutar değişebilir. 2 adımlı transferlerde bu durum, ikinci adım işlemi imzalanana kadar geçerlidir.",
     "notFound": {
@@ -220,6 +221,8 @@
     "checkoutStepDetails": "{{tool}} aracılığıyla alım yap",
     "currentAmount": "Geçerli miktar",
     "depositStepDetails": "{{tool}} aracılığıyla yatır",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "Öne çıkan jetonlar",
     "fees": {
       "defaultIntegrator": "Integrator ücreti",
@@ -285,6 +288,7 @@
     "rateChange": "Değişiklik oranı",
     "receiving": "Alınıyor",
     "refuelStepDetails": "{{tool}} aracılığıyla gaz al",
+    "route": "",
     "select": "",
     "sendToAddress": "Bu adrese gönder: {{address}}",
     "sendToWallet": "Farklı bir cüzdana gönder",
@@ -301,6 +305,8 @@
     "stepSwapAndBuy": "Takasla ve satın al",
     "stepSwapAndDeposit": "Takas et ve yatır",
     "swapStepDetails": "{{chain}} üzerinde {{tool}} aracılığıyla takas et",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "Transfer ID",
     "tags": {
       "cheapest": "En iyi sonuç",
