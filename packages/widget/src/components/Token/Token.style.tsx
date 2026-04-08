@@ -8,6 +8,7 @@ export const TextSecondaryContainer: React.FC<
   alignItems: 'center',
   flexWrap: 'wrap',
   flex: 1,
+  height: 16,
 }))
 
 export const TextSecondary: React.FC<

@@ -1,12 +1,10 @@
 import type { FullStatusData } from '@lifi/sdk'
-import { Box } from '@mui/material'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Card } from '../../components/Card/Card.js'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
 import { PageContainer } from '../../components/PageContainer.js'
-import { RouteTokens } from '../../components/RouteCard/RouteTokens.js'
+import { TransactionCard } from '../../components/TransactionCard/TransactionCard.js'
 import { internalExplorerUrl } from '../../config/constants.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { useHeader } from '../../hooks/useHeader.js'
@@ -17,7 +15,6 @@ import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.
 import { getSourceTxHash } from '../../stores/routes/utils.js'
 import { buildRouteFromTxHistory } from '../../utils/converters.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { DateLabel } from './DateLabel.js'
 import { ReceiptsCard } from './ReceiptsCard.js'
 import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton.js'
 import { TransferIdCard } from './TransferIdCard.js'
@@ -34,8 +31,8 @@ export const TransactionDetailsPage: React.FC = () => {
   const { search }: any = useLocation()
   const { tools } = useTools()
   const { getTransactionLink } = useExplorer()
-  const storedRouteExecution = useRouteExecutionStore(
-    (store) => store.routes[search?.routeId]
+  const storedRouteExecution = useRouteExecutionStore((store) =>
+    search?.routeId ? store.routes[search.routeId] : undefined
   )
   const { transaction, isLoading } = useTransactionDetails(
     !storedRouteExecution && search?.transactionHash
@@ -109,16 +106,9 @@ export const TransactionDetailsPage: React.FC = () => {
       bottomGutters
       sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
     >
-      <Card type="default" indented>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-          <DateLabel date={startedAt} />
-          <RouteTokens route={routeExecution.route} />
-        </Box>
-      </Card>
+      <TransactionCard route={routeExecution.route} date={startedAt} />
       {subvariant === 'custom' && contractSecondaryComponent ? (
-        <ContractComponent sx={{ marginTop: 2 }}>
-          {contractSecondaryComponent}
-        </ContractComponent>
+        <ContractComponent>{contractSecondaryComponent}</ContractComponent>
       ) : null}
       <ReceiptsCard route={routeExecution.route} />
       {supportId ? (

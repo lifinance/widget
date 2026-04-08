@@ -2,7 +2,6 @@ import {
   Alert,
   alertClasses,
   Box,
-  IconButton,
   inputBaseClasses,
   List,
   styled,
@@ -170,14 +169,3 @@ export const ValidationAlert: React.FC<React.ComponentProps<typeof Alert>> =
     },
     [`.${alertClasses.message}`]: { padding: theme.spacing(0.25, 0, 0, 0) },
   }))
-
-export const OptionsMenuButton: React.FC<
-  React.ComponentProps<typeof IconButton>
-> = styled(IconButton)(({ theme }) => ({
-  position: 'absolute',
-  top: theme.spacing(1.75),
-  right: theme.spacing(2),
-  '&:hover': {
-    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
-  },
-}))

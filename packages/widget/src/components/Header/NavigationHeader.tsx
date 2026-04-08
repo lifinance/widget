@@ -9,12 +9,12 @@ import {
   navigationRoutes,
   navigationRoutesValues,
 } from '../../utils/navigationRoutes.js'
+import { ActivitiesButton } from './ActivitiesButton.js'
 import { BackButton } from './BackButton.js'
 import { CloseDrawerButton } from './CloseDrawerButton.js'
 import { HeaderAppBar, HeaderControlsContainer } from './Header.style.js'
 import { SettingsButton } from './SettingsButton.js'
 import { SplitNavigationTabs } from './SplitNavigationTabs.js'
-import { TransactionHistoryButton } from './TransactionHistoryButton.js'
 
 export const NavigationHeader: React.FC = () => {
   const { subvariant, hiddenUI, variant, defaultUI, subvariantOptions } =
@@ -61,7 +61,7 @@ export const NavigationHeader: React.FC = () => {
       {pathname === navigationRoutes.home ? (
         <HeaderControlsContainer>
           {account.isConnected && !hiddenUI?.includes(HiddenUI.History) && (
-            <TransactionHistoryButton />
+            <ActivitiesButton />
           )}
           <SettingsButton />
           {variant === 'drawer' &&
