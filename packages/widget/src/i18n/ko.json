@@ -18,6 +18,8 @@
     "buy": "매수",
     "cancel": "취소",
     "checkoutReview": "",
+    "clearAllFailed": "",
+    "clearTransaction": "",
     "close": "",
     "confirm": "",
     "connectAnotherWallet": "",
@@ -39,7 +41,6 @@
     "max": "",
     "ok": "확인",
     "options": "",
-    "removeTransaction": "거래 지우기",
     "reset": "초기화",
     "resetSettings": "설정 초기화",
     "seeDetails": "자세히 보기",
@@ -54,7 +55,6 @@
     "viewOnExplorer": "탐색기에서 보기"
   },
   "header": {
-    "activeTransactions": "활성화된 거래",
     "amount": "",
     "bookmarkedWallets": "",
     "bridge": "브릿지",
@@ -79,7 +79,7 @@
     "swap": "스왑",
     "to": "다음으로 스왑",
     "transactionDetails": "거래 세부사항",
-    "transactionHistory": "거래 내역",
+    "activities": "",
     "walletConnected": "지갑 연결됨",
     "youGet": "받는 수량",
     "youPay": ""
@@ -88,7 +88,6 @@
     "message": {
       "accountDeployedMessage": "",
       "autoRefuel": "현재 {{chainName}} 가스가 부족합니다. 이 기능을 통하여 스왑을 완료할 가스를 보충할 수 있습니다.",
-      "emptyActiveTransactions": "진행 중인 스왑이 여기에 나타납니다. 완료 후에는 스왑 기록을 참조하십시오",
       "emptyBridgesList": "",
       "emptyChainList": "",
       "emptyExchangesList": "",
@@ -99,7 +98,6 @@
     },
     "title": {
       "autoRefuel": "",
-      "emptyActiveTransactions": "활성화된 거래가 없음",
       "emptyTransactionHistory": "최근 거래 없음",
       "routeNotFound": "가능한 경로가 없음"
     }
@@ -122,8 +120,7 @@
     "message": {
       "accountNotDeployedMessage": "",
       "lowAddressActivity": "",
-      "deleteActiveTransactions": "활성화된 스왑은 로컬에만 저장되며 삭제시 복구할 수 없습니다.",
-      "deleteTransactionHistory": "스왑 기록은 로컬에만 저장되며 삭제시 복구할 수 없습니다.",
+      "clearFailedTransactions": "",
       "fundsLossPrevention": "",
       "highValueLoss": "받은 토큰의 가치가 스왑된 토큰 및 트랜잭션 비용보다 상당히 낮습니다.",
       "unverifiedToken": "",
@@ -136,9 +133,7 @@
       "slippageUnderRecommendedLimits": ""
     },
     "title": {
-      "deleteActiveTransactions": "모든 활성화된 거래를 삭제합니까?",
-      "deleteTransaction": "이 거래를 삭제합니까?",
-      "deleteTransactionHistory": "거래 내역을 삭제합니까?",
+      "clearFailedTransactions": "",
       "highValueLoss": "높은 가치 손실",
       "insufficientGas": "가스 부족",
       "rateChanged": "비율 변경됨",
