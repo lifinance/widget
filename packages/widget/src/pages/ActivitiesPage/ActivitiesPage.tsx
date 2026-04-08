@@ -66,12 +66,12 @@ export const ActivitiesPage = (): JSX.Element => {
     [items]
   )
 
-  const { getVirtualItems, getTotalSize } = useVirtualizer({
+  const { getVirtualItems, getTotalSize, measureElement } = useVirtualizer({
     count: hasStoreItems ? totalCount : 0,
     overscan: 3,
     paddingEnd: 12,
     getScrollElement: () => parentRef.current,
-    estimateSize: (index) => (items[index]?.type === 'active' ? 210 : 188),
+    estimateSize: (index) => (items[index]?.type === 'active' ? 214 : 192),
     getItemKey,
   })
 
@@ -104,6 +104,8 @@ export const ActivitiesPage = (): JSX.Element => {
               return (
                 <li
                   key={item.key}
+                  ref={measureElement}
+                  data-index={item.index}
                   style={{
                     position: 'absolute',
                     top: 0,

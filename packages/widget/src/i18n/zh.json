@@ -95,7 +95,6 @@
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "交易记录只存储在本地，如果您清除浏览器数据，交易记录将被删除。",
       "routeNotFound": "导致其的原因可能是：流动性低，所选定代币的数额太低，燃气费过高，或者当前没有合适的交易路径。",
-      "toAddressIsRequired": "需要目标钱包地址来继续转帐。",
       "missingRouteRequiredAccount": ""
     },
     "title": {
@@ -286,9 +285,7 @@
     "rateChange": "波动率",
     "receiving": "接收",
     "refuelStepDetails": "通过 {{tool}} 获取燃气费",
-    "selectChain": "选择网络",
-    "selectChainAndToken": "选择链和代币",
-    "selectToken": "选择代币",
+    "select": "",
     "sendToAddress": "发送到{{address}}",
     "sendToWallet": "发送到另外的钱包",
     "sending": "发送中",
@@ -346,7 +343,8 @@
     "enterName": "输入名称",
     "noBookmarkedWallets": "没有收藏的钱包",
     "noConnectedWallets": "没有已连接的钱包",
-    "noRecentWallets": "没有最近使用的钱包"
+    "noRecentWallets": "没有最近使用的钱包",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",

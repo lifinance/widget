@@ -95,7 +95,6 @@
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "El historial de intercambio solo se almacena localmente y se eliminará si borra los datos de su navegador.",
       "routeNotFound": "Razones para eso: baja liquidez, cantidad seleccionada es demasiado baja, Los costos de gas son demasiado altos o no hay rutas para la combinación seleccionada.",
-      "toAddressIsRequired": "La dirección de la cartera de destino es necesaria para proceder con la transferencia.",
       "missingRouteRequiredAccount": ""
     },
     "title": {
@@ -286,9 +285,7 @@
     "rateChange": "Cambios de precio detectado",
     "receiving": "Recibiendo",
     "refuelStepDetails": "Obtener gas a través de {{tool}}",
-    "selectChain": "Cadena",
-    "selectChainAndToken": "Seleccione cadena y token",
-    "selectToken": "Token",
+    "select": "",
     "sendToAddress": "Enviar a {{address}}",
     "sendToWallet": "Enviar a una billetera diferente",
     "sending": "Enviando",
@@ -346,7 +343,8 @@
     "enterName": "Introducir nombre",
     "noBookmarkedWallets": "No hay billeteras preferidas",
     "noConnectedWallets": "No hay billeteras conectadas",
-    "noRecentWallets": "No hay billeteras recientes"
+    "noRecentWallets": "No hay billeteras recientes",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",

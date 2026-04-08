@@ -95,7 +95,6 @@
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "Riwayat transaksi hanya disimpan secara lokal dan akan dihapus jika Anda menghapus data browser.",
       "routeNotFound": "Alasannya mungkin: likuiditas rendah, jumlah yang dipilih terlalu rendah, biaya gas terlalu tinggi, atau tidak ada rute untuk kombinasi yang dipilih.",
-      "toAddressIsRequired": "Alamat dompet tujuan diperlukan untuk melanjutkan transfer.",
       "missingRouteRequiredAccount": ""
     },
     "title": {
@@ -286,9 +285,7 @@
     "rateChange": "Perubahan rate",
     "receiving": "Menerima",
     "refuelStepDetails": "Dapatkan gas melalui {{tool}}",
-    "selectChain": "Pilih jaringan",
-    "selectChainAndToken": "Pilih jaringan dan token",
-    "selectToken": "Pilih token",
+    "select": "",
     "sendToAddress": "Kirim ke {{address}}",
     "sendToWallet": "Kirim ke dompet berbeda",
     "sending": "Mengirim",
@@ -346,7 +343,8 @@
     "enterName": "Masukkan nama",
     "noBookmarkedWallets": "Tidak ada dompet yang ditandai",
     "noConnectedWallets": "Tida ada dompet yang di hubungkan",
-    "noRecentWallets": "Tidak ada dompet terakhir yang digunakan"
+    "noRecentWallets": "Tidak ada dompet terakhir yang digunakan",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",

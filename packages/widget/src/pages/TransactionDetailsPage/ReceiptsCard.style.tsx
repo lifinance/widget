@@ -1,0 +1,25 @@
+import { Box, Link, styled } from '@mui/material'
+import type React from 'react'
+
+export const TransactionList: React.FC<React.ComponentProps<typeof Box>> =
+  styled(Box)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(1.5),
+  }))
+
+export const ExternalLink: React.FC<React.ComponentProps<typeof Link>> = styled(
+  Link
+)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: 24,
+  height: 24,
+  borderRadius: '50%',
+  textDecoration: 'none',
+  color: theme.vars.palette.text.primary,
+  '&:hover': {
+    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+  },
+}))

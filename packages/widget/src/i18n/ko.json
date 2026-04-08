@@ -95,7 +95,6 @@
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "스왑 기록은 로컬에만 저장되며 브라우저 데이터를 지우면 삭제됩니다.",
       "routeNotFound": "이유: 낮은 유동성, 선택된 수량이 너무 적음, 가스비가 너무 비싸거나 경로가 존재하지 않음",
-      "toAddressIsRequired": "",
       "missingRouteRequiredAccount": ""
     },
     "title": {
@@ -286,9 +285,7 @@
     "rateChange": "비율 변경",
     "receiving": "받는 중",
     "refuelStepDetails": "{{tool}} 를 통해 가스 얻기",
-    "selectChain": "체인 선택",
-    "selectChainAndToken": "체인과 토큰 선택",
-    "selectToken": "토큰 선택",
+    "select": "",
     "sendToAddress": "{{address}}로 전송",
     "sendToWallet": "다른 지갑으로 전송",
     "sending": "전송중",
@@ -346,7 +343,8 @@
     "enterName": "",
     "noBookmarkedWallets": "",
     "noConnectedWallets": "",
-    "noRecentWallets": ""
+    "noRecentWallets": "",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",

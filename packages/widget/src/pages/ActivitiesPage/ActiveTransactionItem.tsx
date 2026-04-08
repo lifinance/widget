@@ -1,4 +1,3 @@
-import type { TokenAmount } from '@lifi/sdk'
 import DeleteOutline from '@mui/icons-material/DeleteOutline'
 import ErrorRounded from '@mui/icons-material/ErrorRounded'
 import InfoRounded from '@mui/icons-material/InfoRounded'
@@ -7,13 +6,12 @@ import { useNavigate } from '@tanstack/react-router'
 import type { MouseEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Card } from '../../components/Card/Card.js'
+import { RouteTokens } from '../../components/RouteCard/RouteTokens.js'
 import { CircularProgressPending } from '../../components/Step/CircularProgress.style.js'
 import {
   ExecutionTimerText,
   getExpiryTimestamp,
 } from '../../components/Timer/StepTimer.js'
-import { Token } from '../../components/Token/Token.js'
-import { TokenDivider } from '../../components/Token/Token.style.js'
 import { useActionMessage } from '../../hooks/useActionMessage.js'
 import { useRouteExecution } from '../../hooks/useRouteExecution.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
@@ -41,6 +39,7 @@ export const ActiveTransactionItem: React.FC<{ routeId: string }> = ({
   const { title } = useActionMessage(lastActiveStep, lastActiveAction)
 
   if (!route || !lastActiveStep) {
+    // TODO: there should not be return null
     return null
   }
 
@@ -86,29 +85,9 @@ export const ActiveTransactionItem: React.FC<{ routeId: string }> = ({
     )
   })()
 
-  const fromToken: TokenAmount = {
-    ...route.fromToken,
-    amount: BigInt(route.fromAmount ?? '0'),
-    priceUSD: route.fromToken.priceUSD ?? '0',
-    symbol: route.fromToken.symbol ?? '',
-    decimals: route.fromToken.decimals ?? 0,
-    name: route.fromToken.name ?? '',
-    chainId: route.fromToken.chainId,
-  }
-
-  const toToken: TokenAmount = {
-    ...route.toToken,
-    amount: BigInt(route.toAmount ?? '0'),
-    priceUSD: route.toToken.priceUSD ?? '0',
-    symbol: route.toToken.symbol ?? '',
-    decimals: route.toToken.decimals ?? 0,
-    name: route.toToken.name ?? '',
-    chainId: route.toToken.chainId,
-  }
-
   return (
     <Card onClick={handleClick} indented>
-      <StatusRow sx={{ mb: 2 }}>
+      <StatusRow sx={{ mb: 1.5 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
           {statusIcon}
           <Typography sx={{ fontSize: 12, fontWeight: 500 }}>
@@ -129,13 +108,7 @@ export const ActiveTransactionItem: React.FC<{ routeId: string }> = ({
           </Typography>
         ) : null}
       </StatusRow>
-      <Box>
-        <Token token={fromToken} />
-        <Box sx={{ pl: 2.375, py: 0.5 }}>
-          <TokenDivider />
-        </Box>
-        <Token token={toToken} />
-      </Box>
+      <RouteTokens route={route} />
     </Card>
   )
 }
