@@ -18,6 +18,8 @@
     "buy": "ซื้อ",
     "cancel": "ยกเลิก",
     "checkoutReview": "",
+    "clearAllFailed": "",
+    "clearTransaction": "",
     "close": "ปิด",
     "confirm": "ยืนยัน",
     "connectAnotherWallet": "",
@@ -39,7 +41,6 @@
     "max": "",
     "ok": "ตกลง",
     "options": "การตั้งค่า",
-    "removeTransaction": "นำรายการออก",
     "reset": "ล้างข้อมูล",
     "resetSettings": "รีเซ็ตการตั้งค่า",
     "seeDetails": "ดูรายละเอียด",
@@ -54,7 +55,6 @@
     "viewOnExplorer": "ดูในการสำรวจ"
   },
   "header": {
-    "activeTransactions": "ธุรกรรมมีผล",
     "amount": "",
     "bookmarkedWallets": "กระเป๋าเงินที่ Bokkmark ไว้แล้ว",
     "bridge": "บริดจ์",
@@ -79,7 +79,7 @@
     "swap": "แลกเปลี่ยน",
     "to": "แลกเปลี่ยนเป็น",
     "transactionDetails": "รายละเอียดของธุรกรรม",
-    "transactionHistory": "ประวัติการซื้อขาย",
+    "activities": "",
     "walletConnected": "กระเป๋าถูกเชื่อมต่อแล้ว",
     "youGet": "คุณได้รับ",
     "youPay": ""
@@ -88,7 +88,6 @@
     "message": {
       "accountDeployedMessage": "",
       "autoRefuel": "คุณใช้แก็ส {{chainName}} เหลือน้อย เมื่อดำเนินการต่อ คุณจะได้รับแก็สเพียงพอสำหรับการแลกเปลี่ยนให้เสร็จสมบูรณ์",
-      "emptyActiveTransactions": "การแลกเปลี่ยนที่กำลังดำเนินการจะปรากฏที่นี่. เมื่อเสร็จสิ้น, จะพบประวัติการแลกเปลี่ยน.",
       "emptyBridgesList": "",
       "emptyChainList": "",
       "emptyExchangesList": "",
@@ -99,7 +98,6 @@
     },
     "title": {
       "autoRefuel": "",
-      "emptyActiveTransactions": "ไม่มีธุรกรรมที่มีผล",
       "emptyTransactionHistory": "ไม่มีธุรกรรมล่าสุด",
       "routeNotFound": "ไม่พบเส้นทาง"
     }
@@ -122,8 +120,7 @@
     "message": {
       "accountNotDeployedMessage": "",
       "lowAddressActivity": "",
-      "deleteActiveTransactions": "การแลกเปลี่ยนที่ใช้งานอยู่จะถูกจัดเก็บไว้ในเครื่องเท่านั้นและไม่สามารถกู้คืนได้หากคุณลบออก.",
-      "deleteTransactionHistory": "ประวัติการแลกเปลี่ยนจะถูกจัดเก็บไว้ในเครื่องเท่านั้นและไม่สามารถกู้คืนได้หากคุณลบออก",
+      "clearFailedTransactions": "",
       "fundsLossPrevention": "",
       "highValueLoss": "มูลค่าของโทเค็นที่ได้รับนั้นต่ำกว่าโทเค็นที่แลกเปลี่ยนและต้นทุนการทำธุรกรรมอย่างมาก.",
       "unverifiedToken": "",
@@ -136,9 +133,7 @@
       "slippageUnderRecommendedLimits": ""
     },
     "title": {
-      "deleteActiveTransactions": "ลบ​รายการธุรกรรม​ทั้งหมด?",
-      "deleteTransaction": "ต้องการลบธุรกรรมนี้?",
-      "deleteTransactionHistory": "ต้องการลบประวัติการทำธุรกรรม?",
+      "clearFailedTransactions": "",
       "highValueLoss": "สูญเสียมูลค่าสูง",
       "insufficientGas": "ค่าแก็สไม่พอ",
       "rateChanged": "อัตราการแลกเปลี่ยนถูกเปลี่ยน",
