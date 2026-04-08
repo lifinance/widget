@@ -1,4 +1,3 @@
-import type { FullStatusData } from '@lifi/sdk'
 import { Box, List } from '@mui/material'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { type JSX, useCallback, useRef } from 'react'
@@ -7,6 +6,7 @@ import { PageContainer } from '../../components/PageContainer.js'
 import { useHeader } from '../../hooks/useHeader.js'
 import { useListHeight } from '../../hooks/useListHeight.js'
 import { useTransactionHistory } from '../../hooks/useTransactionHistory.js'
+import { getSourceTxHash } from '../../stores/routes/utils.js'
 import { minTransactionListHeight } from './constants.js'
 import { TransactionHistoryEmpty } from './TransactionHistoryEmpty.js'
 import { TransactionHistoryItem } from './TransactionHistoryItem.js'
@@ -26,17 +26,18 @@ export const TransactionHistoryPage = (): JSX.Element => {
 
   const getItemKey = useCallback(
     (index: number) => {
-      return `${(transactions[index] as FullStatusData).transactionId}-${index}`
+      const txHash = getSourceTxHash(transactions[index].route) ?? ''
+      return `${txHash}-${index}`
     },
     [transactions]
   )
 
-  const { getVirtualItems, getTotalSize } = useVirtualizer({
+  const { getVirtualItems, getTotalSize, measureElement } = useVirtualizer({
     count: transactions.length,
     overscan: 3,
     paddingEnd: 12,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 186,
+    estimateSize: () => 208,
     getItemKey,
   })
 
@@ -75,13 +76,31 @@ export const TransactionHistoryPage = (): JSX.Element => {
             disablePadding
           >
             {getVirtualItems().map((item) => {
-              const transaction = transactions[item.index]
+              const listItem = transactions[item.index]
+              const txHash = getSourceTxHash(listItem.route) ?? ''
               return (
-                <TransactionHistoryItem
+                <li
                   key={item.key}
-                  start={item.start}
-                  transaction={transaction}
-                />
+                  ref={measureElement}
+                  data-index={item.index}
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    paddingBottom: 16,
+                    transform: `translateY(${item.start}px)`,
+                  }}
+                >
+                  <TransactionHistoryItem
+                    route={listItem.route}
+                    transactionHash={txHash}
+                    startedAt={
+                      (listItem.route.steps[0]?.execution?.startedAt ?? 0) *
+                      1000
+                    }
+                  />
+                </li>
               )
             })}
           </List>
