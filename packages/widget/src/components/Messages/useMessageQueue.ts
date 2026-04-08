@@ -22,7 +22,6 @@ export const useMessageQueue = (
 } => {
   const {
     requiredToAddress,
-    toAddress,
     accountNotDeployedAtDestination,
     accountDeployedAtDestination,
     isLoading: isToAddressRequirementsLoading,
@@ -76,13 +75,6 @@ export const useMessageQueue = (
       })
     }
 
-    if (requiredToAddress && !toAddress) {
-      queue.push({
-        id: 'TO_ADDRESS_REQUIRED',
-        priority: 6,
-      })
-    }
-
     if (
       requiredToAddress &&
       accountDeployedAtDestination &&
@@ -90,7 +82,7 @@ export const useMessageQueue = (
     ) {
       queue.push({
         id: 'ACCOUNT_DEPLOYED',
-        priority: 7,
+        priority: 6,
       })
     }
 
@@ -102,7 +94,6 @@ export const useMessageQueue = (
     accountDeployedAtDestination,
     accountNotDeployedAtDestination,
     requiredToAddress,
-    toAddress,
     missingChain,
     missingAccountAddress,
     belowMinFromAmountUSD,

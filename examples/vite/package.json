@@ -16,12 +16,12 @@
     "@lifi/widget-provider-ethereum": "^4.0.0-beta.9",
     "@mui/material": "^7.3.9",
     "@tanstack/react-query": "^5.96.2",
-    "@wagmi/connectors": "^8.0.0",
+    "@wagmi/connectors": "^8.0.1",
     "events": "^3.3.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "viem": "^2.47.6",
-    "wagmi": "^3.6.0"
+    "viem": "^2.47.10",
+    "wagmi": "^3.6.1"
   },
   "devDependencies": {
     "@types/events": "^3.0.3",
@@ -30,7 +30,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
     "typescript": "^6.0.2",
-    "vite": "^8.0.3",
+    "vite": "^8.0.6",
     "vite-plugin-node-polyfills": "^0.26.0"
   }
 }

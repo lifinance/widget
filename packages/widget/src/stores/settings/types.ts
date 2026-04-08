@@ -48,14 +48,6 @@ export interface SettingsActions {
 
 export type SettingsState = SettingsProps & SettingsActions
 
-interface SendToWalletState {
-  showSendToWallet: boolean
-}
-
-export interface SendToWalletStore extends SendToWalletState {
-  setSendToWallet(value: boolean): void
-}
-
 export interface SplitSubvariantState {
   state?: SplitSubvariant
   setState(state: SplitSubvariant): void

@@ -2,10 +2,12 @@ import { Box, styled, Typography } from '@mui/material'
 import type React from 'react'
 
 export const CardLabel: React.FC<
-  React.ComponentProps<typeof Box> & { variant?: 'secondary' | 'success' }
+  React.ComponentProps<typeof Box> & {
+    variant?: 'secondary' | 'success' | 'warning'
+  }
 > = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',
-})<{ variant?: 'secondary' | 'success' }>(({ theme }) => ({
+})<{ variant?: 'secondary' | 'success' | 'warning' }>(({ theme }) => ({
   borderRadius: theme.vars.shape.borderRadius,
   padding: 0,
   display: 'flex',
@@ -39,6 +41,17 @@ export const CardLabel: React.FC<
         ...theme.applyStyles('dark', {
           backgroundColor: `color-mix(in srgb, ${theme.vars.palette.background.paper} 76%, ${theme.vars.palette.success.main})`,
           color: `color-mix(in srgb, ${theme.vars.palette.success.main} 76%, white)`,
+        }),
+      },
+    },
+    {
+      props: { variant: 'warning' },
+      style: {
+        backgroundColor: `rgba(${theme.vars.palette.warning.mainChannel} / 0.32)`,
+        color: `color-mix(in srgb, ${theme.vars.palette.warning.main} 64%, black)`,
+        ...theme.applyStyles('dark', {
+          backgroundColor: `rgba(${theme.vars.palette.warning.mainChannel} / 0.16)`,
+          color: theme.vars.palette.warning.main,
         }),
       },
     },

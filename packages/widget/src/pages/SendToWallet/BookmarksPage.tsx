@@ -20,7 +20,6 @@ import type { Bookmark } from '../../stores/bookmarks/types.js'
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
 import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
-import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
 import { defaultChainIdsByType } from '../../utils/chainType.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { shortenAddress } from '../../utils/wallet.js'
@@ -43,7 +42,6 @@ export const BookmarksPage = (): JSX.Element => {
     useBookmarkActions()
   const navigate = useNavigate()
   const { setFieldValue } = useFieldActions()
-  const { setSendToWallet } = useSendToWalletActions()
   const { variant } = useWidgetConfig()
   const { getAddressLink } = useExplorer()
 
@@ -59,7 +57,6 @@ export const BookmarksPage = (): JSX.Element => {
       isDirty: true,
     })
     setSelectedBookmark(bookmark)
-    setSendToWallet(true)
     navigate({ to: navigationRoutes.home, replace: true })
   }
 

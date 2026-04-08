@@ -12,13 +12,13 @@
     "@bigmi/client": "^0.8.0",
     "@bigmi/core": "^0.8.0",
     "@bigmi/react": "^0.8.0",
-    "@dynamic-labs/bitcoin": "^4.74.0",
-    "@dynamic-labs/ethereum": "^4.74.0",
-    "@dynamic-labs/ethereum-aa": "^4.74.0",
-    "@dynamic-labs/sdk-react-core": "^4.74.0",
-    "@dynamic-labs/solana": "^4.74.0",
-    "@dynamic-labs/solana-core": "^4.74.0",
-    "@dynamic-labs/wagmi-connector": "^4.74.0",
+    "@dynamic-labs/bitcoin": "^4.76.0",
+    "@dynamic-labs/ethereum": "^4.76.0",
+    "@dynamic-labs/ethereum-aa": "^4.76.0",
+    "@dynamic-labs/sdk-react-core": "^4.76.0",
+    "@dynamic-labs/solana": "^4.76.0",
+    "@dynamic-labs/solana-core": "^4.76.0",
+    "@dynamic-labs/wagmi-connector": "^4.76.0",
     "@lifi/sdk": "^4.0.0-beta.4",
     "@lifi/wallet-management": "^4.0.0-beta.9",
     "@lifi/widget": "^4.0.0-beta.9",
@@ -29,16 +29,16 @@
     "@solana/wallet-standard-features": "^1.3.0",
     "@solana/web3.js": "^1.98.4",
     "@tanstack/react-query": "^5.96.2",
-    "@wagmi/core": "^3.4.1",
+    "@wagmi/core": "^3.4.2",
     "@wallet-standard/base": "^1.1.0",
     "@wallet-standard/features": "^1.1.0",
-    "bs58": "^6.0.0",
+    "bs58": ">=4.0.1",
     "mitt": "^3.0.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "viem": "^2.47.6",
+    "viem": "^2.47.10",
     "vite-plugin-env-compatible": "^2.0.1",
-    "wagmi": "^3.6.0"
+    "wagmi": "^3.6.1"
   },
   "devDependencies": {
     "@types/react": "^19.2.14",
@@ -46,6 +46,6 @@
     "@vitejs/plugin-react": "^6.0.1",
     "globals": "^17.4.0",
     "typescript": "^6.0.2",
-    "vite": "^8.0.3"
+    "vite": "^8.0.6"
   }
 }

@@ -63,7 +63,6 @@ export const MainPage: React.FC = () => {
         sx={{
           display: 'flex',
           mb: showPoweredBy ? 1 : 3,
-          gap: 1.5,
         }}
       >
         <ReviewButton />

@@ -95,7 +95,6 @@
       "emptyTokenListAllNetworks": "We couldn't find any tokens. Please search by contract address if your token doesn't appear, or try selecting a different chain.",
       "emptyTransactionHistory": "Transaction history is only stored locally and will be deleted if you clear your browser data.",
       "routeNotFound": "Reasons for that could be: low liquidity, amount selected is too low, gas costs are too high or there are no routes for the selected combination.",
-      "toAddressIsRequired": "The destination wallet address is required to proceed with the transfer.",
       "missingRouteRequiredAccount": "Connect your {{chainName}} wallet to proceed. {{address}}"
     },
     "title": {
@@ -222,6 +221,8 @@
     "checkoutStepDetails": "Purchase via {{tool}}",
     "currentAmount": "Current amount",
     "depositStepDetails": "Deposit via {{tool}}",
+    "estimatedTime": "Estimated time",
+    "exchangeRate": "Exchange rate",
     "featuredTokens": "Featured tokens",
     "fees": {
       "defaultIntegrator": "Integrator fee",
@@ -288,11 +289,7 @@
     "receiving": "Receiving",
     "refuelStepDetails": "Get gas via {{tool}}",
     "route": "Route",
-    "exchangeRate": "Exchange rate",
-    "estimatedTime": "Estimated time",
-    "selectChain": "Select chain",
-    "selectChainAndToken": "Select chain and token",
-    "selectToken": "Select token",
+    "select": "Select",
     "sendToAddress": "Send to {{address}}",
     "sendToWallet": "Send to a different wallet",
     "sending": "Sending",
@@ -352,7 +349,8 @@
     "enterName": "Enter name",
     "noBookmarkedWallets": "No bookmarked wallets",
     "noConnectedWallets": "No connected wallets",
-    "noRecentWallets": "No recent wallets"
+    "noRecentWallets": "No recent wallets",
+    "required": "Required"
   },
   "tokenMetric": {
     "currentPrice": "Current price",
