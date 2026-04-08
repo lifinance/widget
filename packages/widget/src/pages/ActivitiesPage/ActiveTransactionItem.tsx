@@ -2,9 +2,10 @@ import type { TokenAmount } from '@lifi/sdk'
 import DeleteOutline from '@mui/icons-material/DeleteOutline'
 import ErrorRounded from '@mui/icons-material/ErrorRounded'
 import InfoRounded from '@mui/icons-material/InfoRounded'
-import { Box, Typography } from '@mui/material'
+import { Box, Tooltip, Typography } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import type { MouseEvent } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Card } from '../../components/Card/Card.js'
 import { CircularProgressPending } from '../../components/Step/CircularProgress.style.js'
 import {
@@ -27,6 +28,7 @@ import {
 export const ActiveTransactionItem: React.FC<{ routeId: string }> = ({
   routeId,
 }) => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { route, status, deleteRoute } = useRouteExecution({
     routeId,
@@ -114,9 +116,11 @@ export const ActiveTransactionItem: React.FC<{ routeId: string }> = ({
           </Typography>
         </Box>
         {isFailed ? (
-          <DeleteButton size="small" onClick={handleDelete}>
-            <DeleteOutline sx={{ fontSize: 16 }} />
-          </DeleteButton>
+          <Tooltip title={t('button.clearTransaction')}>
+            <DeleteButton size="small" onClick={handleDelete}>
+              <DeleteOutline sx={{ fontSize: 16 }} />
+            </DeleteButton>
+          </Tooltip>
         ) : lastActiveStep?.execution?.signedAt ? (
           <Typography sx={{ fontSize: 12, fontWeight: 600 }}>
             <ExecutionTimerText

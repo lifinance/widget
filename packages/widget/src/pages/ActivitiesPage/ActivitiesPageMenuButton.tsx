@@ -39,7 +39,7 @@ export const ActivitiesPageMenuButton: React.FC = () => {
         items={[
           {
             icon: <DeleteOutlineIcon />,
-            label: t('button.removeAllFailed'),
+            label: t('button.clearAllFailed'),
             onClick: handleDialogOpen,
           },
         ]}
@@ -47,11 +47,11 @@ export const ActivitiesPageMenuButton: React.FC = () => {
       <Dialog open={dialogOpen} onClose={handleDialogClose}>
         <DialogContainer>
           <DialogTitle>
-            {t('warning.title.deleteFailedTransactions')}
+            {t('warning.title.clearFailedTransactions')}
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              {t('warning.message.deleteFailedTransactions')}
+              {t('warning.message.clearFailedTransactions')}
             </DialogContentText>
           </DialogContent>
           <DialogActions>

@@ -33,7 +33,6 @@ export const Dialog: React.FC<PropsWithChildren<DialogProps>> = ({
   children,
   open,
   onClose,
-  slotProps,
 }) => {
   const getContainer = useGetScrollableContainer()
   return (
