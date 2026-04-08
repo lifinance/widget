@@ -95,7 +95,6 @@
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "",
       "routeNotFound": "",
-      "toAddressIsRequired": "",
       "missingRouteRequiredAccount": ""
     },
     "title": {
@@ -286,9 +285,7 @@
     "rateChange": "রেট পরিবর্তন",
     "receiving": "রিসিভিং",
     "refuelStepDetails": "{{tool}} এর মাধ্যমে গ্যাস পান",
-    "selectChain": "চেইন",
-    "selectChainAndToken": "চেইন এবং টোকেন নির্বাচন করুন",
-    "selectToken": "টোকেন",
+    "select": "",
     "sendToAddress": "{{address}} এ পাঠান",
     "sendToWallet": "অন্য ওয়ালেটে পাঠান",
     "sending": "",
@@ -346,7 +343,8 @@
     "enterName": "",
     "noBookmarkedWallets": "",
     "noConnectedWallets": "",
-    "noRecentWallets": ""
+    "noRecentWallets": "",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",
