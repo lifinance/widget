@@ -198,6 +198,7 @@
   "tooltip": {
     "deselectAll": "",
     "estimatedTime": "",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "",
     "notFound": {
@@ -220,6 +221,8 @@
     "checkoutStepDetails": "",
     "currentAmount": "Quantità corrente",
     "depositStepDetails": "",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "Token in evidenza",
     "fees": {
       "defaultIntegrator": "",
@@ -285,6 +288,7 @@
     "rateChange": "Tasso di scambio",
     "receiving": "In ricezione",
     "refuelStepDetails": "Ottieni gas tramite {{tool}}",
+    "route": "",
     "select": "",
     "sendToAddress": "Invia a {{address}}",
     "sendToWallet": "Invia ad un altro portafoglio",
@@ -301,6 +305,8 @@
     "stepSwapAndBuy": "Scambia e acquista",
     "stepSwapAndDeposit": "",
     "swapStepDetails": "Scambio su {{chain}} tramite {{tool}}.",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "",
     "tags": {
       "cheapest": "",

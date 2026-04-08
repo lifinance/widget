@@ -198,6 +198,7 @@
   "tooltip": {
     "deselectAll": "전체 선택 해제",
     "estimatedTime": "",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "",
     "notFound": {
@@ -220,6 +221,8 @@
     "checkoutStepDetails": "",
     "currentAmount": "현재 수량",
     "depositStepDetails": "",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "주요 토큰",
     "fees": {
       "defaultIntegrator": "",
@@ -285,6 +288,7 @@
     "rateChange": "비율 변경",
     "receiving": "받는 중",
     "refuelStepDetails": "{{tool}} 를 통해 가스 얻기",
+    "route": "",
     "select": "",
     "sendToAddress": "{{address}}로 전송",
     "sendToWallet": "다른 지갑으로 전송",
@@ -301,6 +305,8 @@
     "stepSwapAndBuy": "스왑 그리고 매수",
     "stepSwapAndDeposit": "",
     "swapStepDetails": "{{tool}}로 {{chain}}에서 스왑",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "",
     "tags": {
       "cheapest": "",

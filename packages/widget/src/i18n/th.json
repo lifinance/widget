@@ -198,6 +198,7 @@
   "tooltip": {
     "deselectAll": "ยกเลิกการเลือกทั้งหมด",
     "estimatedTime": "",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "",
     "notFound": {
@@ -220,6 +221,8 @@
     "checkoutStepDetails": "ซื้อผ่าน {{tool}}",
     "currentAmount": "จำนวนเงินปัจจุบัน",
     "depositStepDetails": "ฝากผ่าน {{tool}}",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "จุดเด่นของเหรียญ",
     "fees": {
       "defaultIntegrator": "",
@@ -285,6 +288,7 @@
     "rateChange": "อัตราแลกเปลี่ยน",
     "receiving": "ได้รับ",
     "refuelStepDetails": "รับแก๊สผ่าน {{tool}}",
+    "route": "",
     "select": "",
     "sendToAddress": "ส่งไปยัง {{address}}",
     "sendToWallet": "ส่งไปยังกระเป๋าเงินอื่น",
@@ -301,6 +305,8 @@
     "stepSwapAndBuy": "แลกเปลี่ยน และ ซื้อ",
     "stepSwapAndDeposit": "",
     "swapStepDetails": "แลกเปลี่ยนบน {{chain}} ผ่าน {{tool}}",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "",
     "tags": {
       "cheapest": "ผลตอบแทนที่ดีที่สุด",

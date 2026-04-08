@@ -198,6 +198,7 @@
   "tooltip": {
     "deselectAll": "",
     "estimatedTime": "",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "",
     "notFound": {
@@ -220,6 +221,8 @@
     "checkoutStepDetails": "",
     "currentAmount": "",
     "depositStepDetails": "",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "",
     "fees": {
       "defaultIntegrator": "",
@@ -285,6 +288,7 @@
     "rateChange": "",
     "receiving": "",
     "refuelStepDetails": "",
+    "route": "",
     "select": "",
     "sendToAddress": "",
     "sendToWallet": "",
@@ -301,6 +305,8 @@
     "stepSwapAndBuy": "",
     "stepSwapAndDeposit": "",
     "swapStepDetails": "",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "",
     "tags": {
       "cheapest": "",

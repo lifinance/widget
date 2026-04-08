@@ -198,6 +198,7 @@
   "tooltip": {
     "deselectAll": "取消全选",
     "estimatedTime": "",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "在签署兑换或者跨链交易之前， 预估的最低代币数量可能会变化，对于两步交易，这适用于第二步交易签署之前。",
     "notFound": {
@@ -220,6 +221,8 @@
     "checkoutStepDetails": "通过 {{tool}} 购买",
     "currentAmount": "当前余额",
     "depositStepDetails": "通过 {{tool}} 存入资金",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "精选代币",
     "fees": {
       "defaultIntegrator": "集成商费用",
@@ -285,6 +288,7 @@
     "rateChange": "波动率",
     "receiving": "接收",
     "refuelStepDetails": "通过 {{tool}} 获取燃气费",
+    "route": "",
     "select": "",
     "sendToAddress": "发送到{{address}}",
     "sendToWallet": "发送到另外的钱包",
@@ -301,6 +305,8 @@
     "stepSwapAndBuy": "兑换并购买",
     "stepSwapAndDeposit": "兑换并存款",
     "swapStepDetails": "通过{{tool}}在{{chain}}链上兑换代币",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "交易 ID",
     "tags": {
       "cheapest": "最佳报价",

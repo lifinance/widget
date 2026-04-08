@@ -198,6 +198,7 @@
   "tooltip": {
     "deselectAll": "Bỏ chọn tất cả",
     "estimatedTime": "",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "",
     "notFound": {
@@ -220,6 +221,8 @@
     "checkoutStepDetails": "Thanh toán thông qua {{tool}}",
     "currentAmount": "Số lượng hiện tại",
     "depositStepDetails": "Nạp thông qua {{tool}}",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "Featured tokens",
     "fees": {
       "defaultIntegrator": "",
@@ -285,6 +288,7 @@
     "rateChange": "Thay đổi tỉ giá",
     "receiving": "Đang nhận",
     "refuelStepDetails": "Lấy gas thông qua {{tool}}",
+    "route": "",
     "select": "",
     "sendToAddress": "Gửi đến {{address}}",
     "sendToWallet": "Gửi đến địa chỉ khác",
@@ -301,6 +305,8 @@
     "stepSwapAndBuy": "Hoán đổi và mua",
     "stepSwapAndDeposit": "",
     "swapStepDetails": "Swap tại {{chain}} thông qua {{tool}}",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "",
     "tags": {
       "cheapest": "Lợi nhuận tốt nhất",

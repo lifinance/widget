@@ -198,6 +198,7 @@
   "tooltip": {
     "deselectAll": "Hapus semua",
     "estimatedTime": "Saatnya menyelesaikan transaksi swap atau bridge, tidak termasuk peralihan rantai dan persetujuan token.",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "Perkiraan jumlah minimum dapat berubah hingga transaksi swapping/bridging ditandatangani. Untuk transfer 2 langkah, ini berlaku hingga transaksi langkah kedua ditandatangani.",
     "notFound": {
@@ -220,6 +221,8 @@
     "checkoutStepDetails": "Dapatkan melalui {{tool}}",
     "currentAmount": "Jumlah saat ini",
     "depositStepDetails": "Dapatkan melalui {{tool}}",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "Token unggulan",
     "fees": {
       "defaultIntegrator": "Biaya integrator",
@@ -285,6 +288,7 @@
     "rateChange": "Perubahan rate",
     "receiving": "Menerima",
     "refuelStepDetails": "Dapatkan gas melalui {{tool}}",
+    "route": "",
     "select": "",
     "sendToAddress": "Kirim ke {{address}}",
     "sendToWallet": "Kirim ke dompet berbeda",
@@ -301,6 +305,8 @@
     "stepSwapAndBuy": "Swap dan beli",
     "stepSwapAndDeposit": "Swap dan deposit",
     "swapStepDetails": "Swap di {{chain}} melalui {{tool}}",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "Transfer ID",
     "tags": {
       "cheapest": "Pengembalian terbaik",
