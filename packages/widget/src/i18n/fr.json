@@ -95,7 +95,6 @@
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "L'historique de transaction est uniquement stocké au niveau local et sera supprimé si vous effacez les données de votre navigateur.",
       "routeNotFound": "Raisons possibles : faible liquidité, le montant sélectionné est trop faible, les coûts de gaz sont trop élevés ou il n'y a pas de routes pour la combinaison sélectionnée.",
-      "toAddressIsRequired": "",
       "missingRouteRequiredAccount": ""
     },
     "title": {
@@ -286,9 +285,7 @@
     "rateChange": "Taux de change",
     "receiving": "En cours de réception",
     "refuelStepDetails": "Obtenir du gaz via {{tool}}",
-    "selectChain": "Sélectionner la chaîne",
-    "selectChainAndToken": "Sélectionnez la chaîne et le jeton",
-    "selectToken": "Choisissez un jeton",
+    "select": "",
     "sendToAddress": "Envoyer à {{address}}",
     "sendToWallet": "Envoyer vers un autre portefeuille",
     "sending": "Envoi",
@@ -346,7 +343,8 @@
     "enterName": "Saisir un nom",
     "noBookmarkedWallets": "Aucun portefeuille favori",
     "noConnectedWallets": "Aucun portefeuille connecté",
-    "noRecentWallets": "Aucun portefeuille récent"
+    "noRecentWallets": "Aucun portefeuille récent",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",

@@ -95,7 +95,6 @@
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "",
       "routeNotFound": "",
-      "toAddressIsRequired": "",
       "missingRouteRequiredAccount": ""
     },
     "title": {
@@ -286,9 +285,7 @@
     "rateChange": "",
     "receiving": "",
     "refuelStepDetails": "",
-    "selectChain": "",
-    "selectChainAndToken": "",
-    "selectToken": "",
+    "select": "",
     "sendToAddress": "",
     "sendToWallet": "",
     "sending": "",
@@ -346,7 +343,8 @@
     "enterName": "",
     "noBookmarkedWallets": "",
     "noConnectedWallets": "",
-    "noRecentWallets": ""
+    "noRecentWallets": "",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",

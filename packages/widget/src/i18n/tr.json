@@ -95,7 +95,6 @@
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "İşlem geçmişi yalnızca yerel olarak saklanır ve tarayıcı verilerinizi temizlerseniz silinir.",
       "routeNotFound": "Muhtemel sebepler şunlar olabilir: Düşük likidite, seçilen miktarın çok düşük olması, gaz masrafının çok olması ya da seçilen kombinasyon için rota olmaması.",
-      "toAddressIsRequired": "Transfer işlemine devam etmek için hedef cüzdan adresi gereklidir.",
       "missingRouteRequiredAccount": ""
     },
     "title": {
@@ -286,9 +285,7 @@
     "rateChange": "Değişiklik oranı",
     "receiving": "Alınıyor",
     "refuelStepDetails": "{{tool}} aracılığıyla gaz al",
-    "selectChain": "Zincir",
-    "selectChainAndToken": "Ağı ve jetonu seçin",
-    "selectToken": "Jeton",
+    "select": "",
     "sendToAddress": "Bu adrese gönder: {{address}}",
     "sendToWallet": "Farklı bir cüzdana gönder",
     "sending": "Gönderiliyor",
@@ -346,7 +343,8 @@
     "enterName": "İsim girin",
     "noBookmarkedWallets": "Kayıtlı cüzdan bulunamadı",
     "noConnectedWallets": "Bağlı cüzdan bulunamadı",
-    "noRecentWallets": "Son kullanılan cüzdan bulunamadı"
+    "noRecentWallets": "Son kullanılan cüzdan bulunamadı",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",
