@@ -42,3 +42,4 @@ next-env.d.ts
 /.output/
 
 .claude/worktrees/
+.omc
