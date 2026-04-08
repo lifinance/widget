@@ -70,9 +70,7 @@ export const useTransactionList = (): {
         type: 'history',
         routeExecution,
         txHash: getSourceTxHash(routeExecution.route) ?? '',
-        // API startedAt is in seconds; multiply by 1000 to normalize to ms
-        startedAt:
-          (routeExecution.route.steps[0]?.execution?.startedAt ?? 0) * 1000,
+        startedAt: routeExecution.route.steps[0]?.execution?.startedAt ?? 0,
       })
     )
 
