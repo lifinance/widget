@@ -61,14 +61,14 @@ export const ActiveTransactionCard = ({
   return (
     <Card onClick={onClick} indented>
       <StatusRow sx={{ mb: 1.5 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           {statusIcon}
           <Typography sx={{ fontSize: 12, fontWeight: 500 }}>
             {title}
           </Typography>
         </Box>
         {isFailed ? (
-          <Box sx={{ display: 'flex', gap: 0.5 }}>
+          <Box sx={{ display: 'flex', gap: 1 }}>
             {onRetry ? (
               <RetryButton size="small" onClick={onRetry}>
                 {t('button.retry')}

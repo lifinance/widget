@@ -9,7 +9,6 @@ export interface RouteCardProps {
 
 export interface RouteCardEssentialsProps {
   route: RouteExtended
-  showDuration?: boolean
 }
 
 export interface RouteCardSkeletonProps {

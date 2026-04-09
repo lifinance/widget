@@ -1,0 +1,20 @@
+import { styled, Typography } from '@mui/material'
+import type React from 'react'
+
+export const TokenRateTypography: React.FC<
+  React.ComponentProps<typeof Typography>
+> = styled(Typography)(({ theme }) => ({
+  fontSize: 14,
+  lineHeight: 1.429,
+  fontWeight: 500,
+  color: theme.vars.palette.text.primary,
+  cursor: 'pointer',
+  '&:hover': {
+    opacity: 1,
+  },
+  opacity: 0.56,
+  transition: theme.transitions.create(['opacity'], {
+    duration: theme.transitions.duration.enteringScreen,
+    easing: theme.transitions.easing.easeOut,
+  }),
+}))
