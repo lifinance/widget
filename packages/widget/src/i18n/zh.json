@@ -18,6 +18,8 @@
     "buy": "购买",
     "cancel": "取消",
     "checkoutReview": "查看购买详情",
+    "clearAllFailed": "",
+    "clearTransaction": "",
     "close": "关闭",
     "confirm": "确认",
     "connectAnotherWallet": "连接另一个钱包",
@@ -39,7 +41,6 @@
     "max": "",
     "ok": "确认",
     "options": "选项",
-    "removeTransaction": "删除交易",
     "reset": "重置",
     "resetSettings": "恢复默认设置",
     "seeDetails": "查看详情",
@@ -54,7 +55,6 @@
     "viewOnExplorer": "在区块链浏览器上查看"
   },
   "header": {
-    "activeTransactions": "进行中的交易",
     "amount": "金额",
     "bookmarkedWallets": "已收藏的钱包",
     "bridge": "跨链",
@@ -79,7 +79,7 @@
     "swap": "兑换",
     "to": "兑换为",
     "transactionDetails": "交易详情",
-    "transactionHistory": "交易记录",
+    "activities": "",
     "walletConnected": "连接钱包",
     "youGet": "您获得",
     "youPay": "需要支付"
@@ -88,7 +88,6 @@
     "message": {
       "accountDeployedMessage": "",
       "autoRefuel": "您在 {{chainName}} 链上的燃气费很低。如果启用该选项，您将获得足够的燃气费完成此次兑换。",
-      "emptyActiveTransactions": "正在进行的兑换将在这里显示。一旦完成，你可在兑换记录中找到它们。",
       "emptyBridgesList": "我们找不到任何匹配的桥",
       "emptyChainList": "我们找不到任何匹配的链",
       "emptyExchangesList": "我们找不到任何匹配的交易所",
@@ -99,7 +98,6 @@
     },
     "title": {
       "autoRefuel": "获得 {{chainName}} 链的燃气费",
-      "emptyActiveTransactions": "没有正在进行的交易",
       "emptyTransactionHistory": "近期无交易",
       "routeNotFound": "没有可用的路由"
     }
@@ -122,8 +120,7 @@
     "message": {
       "accountNotDeployedMessage": "",
       "lowAddressActivity": "此地址在 {{chainName}} 网络上的活跃度较低。请确认您发送到了正确的地址和网络，以防止潜在的资金损失。",
-      "deleteActiveTransactions": "正在进行的交易记录只存储在本地，如果删除它们，我们将无法恢复这些记录。",
-      "deleteTransactionHistory": "交易记录只存储在本地，如果你删除它，我们将无法恢复这些记录。",
+      "clearFailedTransactions": "",
       "fundsLossPrevention": "总是确保在目的地链上适当建立智能合同账户，并避免直接转给交易所，以防止资金损失。",
       "highValueLoss": "收到的代币的价值明显低于要被兑换的代币和交易成本。",
       "unverifiedToken": "",
@@ -136,9 +133,7 @@
       "slippageUnderRecommendedLimits": "低幻灯片宽度可能会导致交易延迟或失败。"
     },
     "title": {
-      "deleteActiveTransactions": "确定要删除所有正在进行的交易吗？",
-      "deleteTransaction": "确定要删除该交易吗？",
-      "deleteTransactionHistory": "确定要清空交易记录吗?",
+      "clearFailedTransactions": "",
       "highValueLoss": "大额资金损失",
       "insufficientGas": "燃气费不足",
       "rateChanged": "兑换比例变动",

@@ -18,6 +18,8 @@
     "buy": "Satın al",
     "cancel": "İptal",
     "checkoutReview": "Satın alımı incele",
+    "clearAllFailed": "",
+    "clearTransaction": "",
     "close": "Kapat",
     "confirm": "Onayla",
     "connectAnotherWallet": "Diğer bir cüzdanı bağla",
@@ -39,7 +41,6 @@
     "max": "",
     "ok": "Tamam",
     "options": "Ayarlar",
-    "removeTransaction": "İşlemi kaldır",
     "reset": "Sıfırla",
     "resetSettings": "Ayarları Sıfırla",
     "seeDetails": "Detayları Gör",
@@ -54,7 +55,6 @@
     "viewOnExplorer": "Tarayıcıda Görüntüle"
   },
   "header": {
-    "activeTransactions": "Aktif işlemler",
     "amount": "Miktar",
     "bookmarkedWallets": "Kayıtlı cüzdanlar",
     "bridge": "Gönder",
@@ -79,7 +79,7 @@
     "swap": "Takas",
     "to": "Şuna takas et",
     "transactionDetails": "İşlem ayrıntıları",
-    "transactionHistory": "İşlem geçmişi",
+    "activities": "",
     "walletConnected": "Cüzdan Bağlandı",
     "youGet": "Alacağınız",
     "youPay": "Ödediğiniz"
@@ -88,7 +88,6 @@
     "message": {
       "accountDeployedMessage": "",
       "autoRefuel": "{{chainName}} ağında gaz yetersiz. Devam ederek, işlem için gereken miktarda gaz alacaksınız.",
-      "emptyActiveTransactions": "Devam eden işlemler burada görünecek. Tamamlandığında, işlem geçmişinden bulabilirsiniz.",
       "emptyBridgesList": "Aradığın köprüyü bulamadık",
       "emptyChainList": "Aradığın zinciri bulamadık",
       "emptyExchangesList": "Aradığın borsayı bulamadık",
@@ -99,7 +98,6 @@
     },
     "title": {
       "autoRefuel": "{{chainName}} ağında gaz al",
-      "emptyActiveTransactions": "Aktif işlem bulunmamaktadır",
       "emptyTransactionHistory": "Yakın zamanda bir işlem yok",
       "routeNotFound": "Kullanılabilir bir yol bulunamadı"
     }
@@ -122,8 +120,7 @@
     "message": {
       "accountNotDeployedMessage": "",
       "lowAddressActivity": "Bu adres {{chainName}} ağında düşük etkinliğe sahip. Olası fon kaybını önlemek için lütfen doğru adrese ve ağa gönderim yaptığınızı doğrulayın.",
-      "deleteActiveTransactions": "Aktif işlemler yalnızca yerel olarak depolanır ve silerseniz kurtarılamaz.",
-      "deleteTransactionHistory": "İşlem geçmişi yalnızca yerel olarak depolanır ve silerseniz kurtarılamaz.",
+      "clearFailedTransactions": "",
       "fundsLossPrevention": "Her zaman akıllı sözleşme hesaplarının hedef zincirde düzgün bir şekilde ayarlandığından emin olun ve fon kaybını önlemek için borsalara doğrudan transferlerden kaçının.",
       "highValueLoss": "Elde edilecek varlıkların değeri, takas edilen varlıklardan ve işlem maliyetinden önemli ölçüde düşüktür.",
       "unverifiedToken": "",
@@ -136,9 +133,7 @@
       "slippageUnderRecommendedLimits": "Düşük kayma toleransı işlem gecikmelerine veya hatalarına neden olabilir."
     },
     "title": {
-      "deleteActiveTransactions": "Tüm aktif işlemleri sil?",
-      "deleteTransaction": "Bu işlem silinsin mi?",
-      "deleteTransactionHistory": "İşlem geçmişi silinsin mi?",
+      "clearFailedTransactions": "",
       "highValueLoss": "Yüksek değer kaybı",
       "insufficientGas": "Yetersiz gaz",
       "rateChanged": "Oran değişti",

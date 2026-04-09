@@ -18,6 +18,8 @@
     "buy": "Comprar",
     "cancel": "Cancelar",
     "checkoutReview": "Revisar compra",
+    "clearAllFailed": "",
+    "clearTransaction": "",
     "close": "Cerrar",
     "confirm": "Confirmar",
     "connectAnotherWallet": "Conectar otra cartera",
@@ -39,7 +41,6 @@
     "max": "",
     "ok": "Ok",
     "options": "Opciones",
-    "removeTransaction": "Eliminar transacción",
     "reset": "Reiniciar",
     "resetSettings": "Reiniciar ajustes",
     "seeDetails": "Ver detalles",
@@ -54,7 +55,6 @@
     "viewOnExplorer": "Ver en explorador"
   },
   "header": {
-    "activeTransactions": "Transacciones activas",
     "amount": "Cantidad",
     "bookmarkedWallets": "Billeteras preferidas",
     "bridge": "Puente",
@@ -79,7 +79,7 @@
     "swap": "Swap",
     "to": "Swap a",
     "transactionDetails": "Detalles de transacción",
-    "transactionHistory": "Historial de transacciones",
+    "activities": "",
     "walletConnected": "Billetera conectada",
     "youGet": "Usted obtiene",
     "youPay": "Tú pagas"
@@ -88,7 +88,6 @@
     "message": {
       "accountDeployedMessage": "",
       "autoRefuel": "Tienes poco gas en {{chainName}}. Al continuar, obtendrás suficiente gas para completar la transacción.",
-      "emptyActiveTransactions": "Las transacciones en progreso aparecerán aquí. Una vez completadas, encuéntralas en el historial de transacciones.",
       "emptyBridgesList": "No pudimos encontrar ningún puente que coincida con tu búsqueda",
       "emptyChainList": "No pudimos encontrar ninguna cadena que coincida con tu búsqueda",
       "emptyExchangesList": "No pudimos encontrar ningún intercambio que coincida con su búsqueda",
@@ -99,7 +98,6 @@
     },
     "title": {
       "autoRefuel": "Obtener gas {{chainName}}",
-      "emptyActiveTransactions": "No hay transacciones activas",
       "emptyTransactionHistory": "No hay transacciones recientes",
       "routeNotFound": "No hay rutas disponibles"
     }
@@ -122,8 +120,7 @@
     "message": {
       "accountNotDeployedMessage": "",
       "lowAddressActivity": "Esta dirección tiene poca actividad en la red {{chainName}}. Por favor, comprueba que estás enviando a la dirección y a la red correctas para evitar la pérdida potencial de fondos.",
-      "deleteActiveTransactions": "Las transacciones activas solo se almacenan localmente y no se pueden recuperar si las elimina.",
-      "deleteTransactionHistory": "El historial de transacciones solo se almacena localmente y no se puede recuperar si lo elimina.",
+      "clearFailedTransactions": "",
       "fundsLossPrevention": "Asegúrate de que las cuentas de Contratos Inteligentes estén bien configuradas en la cadena de destino y evita transferencias directas a plataformas de intercambio centralizadas para no perder fondos.",
       "highValueLoss": "El valor de los tokens recibidos es significativamente menor que los tokens intercambiados y el costo de la transacción.",
       "unverifiedToken": "",
@@ -136,9 +133,7 @@
       "slippageUnderRecommendedLimits": "Elegir una baja tolerancia en el deslizamiento del intercambio puede causar retrasos o fallos en las transacciones."
     },
     "title": {
-      "deleteActiveTransactions": "¿Eliminar todas las transacciones activas?",
-      "deleteTransaction": "¿Eliminar esta transacción?",
-      "deleteTransactionHistory": "¿Eliminar historial de transacciones?",
+      "clearFailedTransactions": "",
       "highValueLoss": "Pérdida de alto valor",
       "insufficientGas": "Gas insuficiente",
       "rateChanged": "Cambios de precio detectado",
