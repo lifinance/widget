@@ -7,6 +7,7 @@ import { CardTitle } from '../../components/Card/CardTitle'
 import { Token } from '../../components/Token/Token'
 import { RouteExecutionStatus } from '../../stores/routes/types'
 import { hasEnumFlag } from '../../utils/enum'
+import { getExecutionToToken } from '../../utils/token'
 
 interface ExecutionDoneCardProps {
   route: RouteExtended
@@ -19,14 +20,7 @@ export const ExecutionDoneCard: React.FC<ExecutionDoneCardProps> = ({
 }) => {
   const { t } = useTranslation()
 
-  const toToken = {
-    ...(route.steps.at(-1)?.execution?.toToken ?? route.toToken),
-    amount: BigInt(
-      route.steps.at(-1)?.execution?.toAmount ??
-        route.steps.at(-1)?.estimate.toAmount ??
-        route.toAmount
-    ),
-  }
+  const toToken = getExecutionToToken(route)
 
   return (
     <Card type="default" indented>

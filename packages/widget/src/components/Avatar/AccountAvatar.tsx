@@ -13,8 +13,6 @@ interface AccountAvatarProps {
   account?: Account
   toAddress?: ToAddress
   empty?: boolean
-  size?: number
-  badgeSize?: number
 }
 
 export const AccountAvatar = ({
@@ -22,33 +20,21 @@ export const AccountAvatar = ({
   account,
   empty,
   toAddress,
-  size,
-  badgeSize,
 }: AccountAvatarProps): JSX.Element => {
   const { chain } = useChain(chainId)
 
-  const walletIconSize = size ? Math.floor(size * 0.5) : 20
-
   const avatar = empty ? (
-    <AvatarDefault
-      badgeSize={badgeSize}
-      sx={size ? { width: size, height: size } : undefined}
-    />
+    <AvatarDefault />
   ) : account?.connector || toAddress?.logoURI ? (
     <AvatarMasked
       src={toAddress?.logoURI || getConnectorIcon(account?.connector)}
       alt={toAddress?.name || account?.connector?.name}
-      avatarSize={size}
-      badgeSize={badgeSize}
     >
       {(toAddress?.name || account?.connector?.name)?.[0]}
     </AvatarMasked>
   ) : (
-    <AvatarDefault
-      badgeSize={badgeSize}
-      sx={size ? { width: size, height: size } : undefined}
-    >
-      <Wallet sx={{ fontSize: walletIconSize }} />
+    <AvatarDefault>
+      <Wallet sx={{ fontSize: 20 }} />
     </AvatarDefault>
   )
 
@@ -56,7 +42,7 @@ export const AccountAvatar = ({
     <Badge
       overlap="circular"
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      badgeContent={<ChainBadgeContent chain={chain} size={badgeSize} />}
+      badgeContent={<ChainBadgeContent chain={chain} />}
     >
       {avatar}
     </Badge>

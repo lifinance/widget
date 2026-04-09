@@ -1,10 +1,10 @@
 import type { LiFiStepExtended } from '@lifi/sdk'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLoopProgress } from '../../hooks/timer/useLoopProgress.js'
 import { useTimer } from '../../hooks/timer/useTimer.js'
 import { formatTimer, getExpiryTimestamp } from '../../utils/timer.js'
 import { iconCircleSize } from '../IconCircle/IconCircle.style.js'
+import { CircularProgressPending } from '../Step/CircularProgress.style.js'
 import {
   ProgressFill,
   ProgressTrack,
@@ -48,13 +48,6 @@ export const TimerRing: React.FC<TimerRingProps> = ({
       ? Math.min(((totalDuration - remaining) / totalDuration) * 100, 100)
       : 0
 
-  const loopProgress = useLoopProgress({
-    active: !hasActiveCountdown,
-    durationMs: 60_000,
-    tickMs: 100,
-  })
-  const progress = hasActiveCountdown ? countdownProgress : loopProgress
-
   return (
     <RingContainer sx={{ width: size, height: size }}>
       <ProgressTrack
@@ -63,12 +56,16 @@ export const TimerRing: React.FC<TimerRingProps> = ({
         size={size}
         thickness={thickness}
       />
-      <ProgressFill
-        variant="determinate"
-        value={progress}
-        size={size}
-        thickness={thickness}
-      />
+      {hasActiveCountdown ? (
+        <ProgressFill
+          variant="determinate"
+          value={countdownProgress}
+          size={size}
+          thickness={thickness}
+        />
+      ) : (
+        <CircularProgressPending size={size} />
+      )}
       {showLabel && hasActiveCountdown ? (
         <StatusCircle>
           <TimerLabel>

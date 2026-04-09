@@ -3,11 +3,13 @@ import { Button } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import type React from 'react'
 import { useTranslation } from 'react-i18next'
+import { useClearAmountFields } from '../../stores/form/useClearAmountFields'
 import { useFieldActions } from '../../stores/form/useFieldActions'
 import { RouteExecutionStatus } from '../../stores/routes/types'
 import { hasEnumFlag } from '../../utils/enum'
 import { formatTokenAmount } from '../../utils/format'
 import { navigationRoutes } from '../../utils/navigationRoutes'
+import { getExecutionToToken } from '../../utils/token'
 
 interface TransactionDoneButtonsProps {
   route: RouteExtended
@@ -21,25 +23,14 @@ export const TransactionDoneButtons: React.FC<TransactionDoneButtonsProps> = ({
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { setFieldValue } = useFieldActions()
+  const clearAmountFields = useClearAmountFields()
 
   if (!hasEnumFlag(status, RouteExecutionStatus.Done)) {
     return null
   }
 
-  const cleanFields = () => {
-    setFieldValue('fromAmount', '')
-    setFieldValue('toAmount', '')
-  }
-
   const handlePartialDone = () => {
-    const toToken = {
-      ...(route.steps.at(-1)?.execution?.toToken ?? route.toToken),
-      amount: BigInt(
-        route.steps.at(-1)?.execution?.toAmount ??
-          route.steps.at(-1)?.estimate.toAmount ??
-          route.toAmount
-      ),
-    }
+    const toToken = getExecutionToToken(route)
     if (
       toToken.chainId !== route.toToken.chainId &&
       toToken.address !== route.toToken.address
@@ -58,7 +49,7 @@ export const TransactionDoneButtons: React.FC<TransactionDoneButtonsProps> = ({
         isTouched: true,
       })
     } else {
-      cleanFields()
+      clearAmountFields()
     }
   }
 
@@ -66,7 +57,7 @@ export const TransactionDoneButtons: React.FC<TransactionDoneButtonsProps> = ({
     if (hasEnumFlag(status, RouteExecutionStatus.Partial)) {
       handlePartialDone()
     } else {
-      cleanFields()
+      clearAmountFields()
     }
     navigate({ to: navigationRoutes.home, replace: true })
   }

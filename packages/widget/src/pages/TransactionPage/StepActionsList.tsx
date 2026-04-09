@@ -1,4 +1,5 @@
 import type { RouteExtended } from '@lifi/sdk'
+import { Fragment } from 'react'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { prepareActions } from '../../utils/prepareActions.js'
 import { TransactionList } from './ReceiptsCard.style.js'
@@ -49,7 +50,7 @@ export const StepActionsList: React.FC<StepActionsListProps> = ({
   return (
     <TransactionList>
       {stepRows.map(({ step, rows }) => (
-        <TransactionList key={step.id}>
+        <Fragment key={step.id}>
           {rows.map(({ action, href }, index) => (
             <StepActionRow
               key={index}
@@ -58,7 +59,7 @@ export const StepActionsList: React.FC<StepActionsListProps> = ({
               href={href!}
             />
           ))}
-        </TransactionList>
+        </Fragment>
       ))}
       {toAddress ? (
         <SentToWalletRow toAddress={toAddress} toChainId={route.toChainId} />
