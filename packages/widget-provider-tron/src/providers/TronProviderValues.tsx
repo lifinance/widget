@@ -56,6 +56,7 @@ export const TronProviderValues: FC<
   const sdkProvider = useMemo(
     () =>
       TronSDKProvider({
+        multicallBatchSize: 50,
         getWallet: async () => {
           if (!currentWallet?.adapter) {
             throw new Error('No Tron wallet connected')
