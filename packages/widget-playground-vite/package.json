@@ -16,17 +16,17 @@
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
     "@lifi/widget-playground": "workspace:*",
-    "@tanstack/react-query": "^5.96.2",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "vite-plugin-mkcert": "^1.17.10"
+    "@tanstack/react-query": "^5.97.0",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "vite-plugin-mkcert": "^2.0.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.0.1",
     "react-scan": "^0.5.3",
     "source-map-explorer": "^2.5.3",
     "typescript": "^6.0.2",
-    "vite": "^8.0.6",
+    "vite": "^8.0.8",
     "vite-plugin-node-polyfills": "0.26.0",
     "web-vitals": "^5.2.0"
   },

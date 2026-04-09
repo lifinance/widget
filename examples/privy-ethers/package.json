@@ -10,24 +10,24 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/sdk": "^4.0.0-beta.4",
+    "@lifi/sdk": "^4.0.0-beta.5",
     "@lifi/wallet-management": "^4.0.0-beta.9",
     "@lifi/widget": "^4.0.0-beta.9",
     "@lifi/widget-provider-ethereum": "^4.0.0-beta.9",
     "@mui/icons-material": "^7.3.9",
     "@mui/material": "^7.3.9",
-    "@privy-io/react-auth": "^3.19.1",
-    "@privy-io/wagmi": "^4.0.3",
+    "@privy-io/react-auth": "^3.20.0",
+    "@privy-io/wagmi": "^4.0.4",
     "@solana-program/memo": "^0.11.0",
     "@solana/wallet-adapter-base": "^0.9.27",
     "@solana/wallet-adapter-react": "^0.15.39",
     "@solana/web3.js": "^1.98.4",
-    "@tanstack/react-query": "^5.96.2",
+    "@tanstack/react-query": "^5.97.0",
     "ethers": "^6.16.0",
     "mitt": "^3.0.1",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "viem": "^2.47.10",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "viem": "^2.47.11",
     "wagmi": "^3.6.1"
   },
   "devDependencies": {
@@ -40,8 +40,8 @@
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.4.0",
     "typescript": "~6.0.2",
-    "typescript-eslint": "^8.58.0",
-    "vite": "^8.0.6",
+    "typescript-eslint": "^8.58.1",
+    "vite": "^8.0.8",
     "vite-plugin-node-polyfills": "^0.26.0"
   }
 }

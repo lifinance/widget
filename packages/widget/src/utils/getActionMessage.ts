@@ -58,7 +58,7 @@ const actionStatusMessages: Record<
         tokenSymbol: step.action.fromToken.symbol,
       }),
     DONE: (t, step) =>
-      t('main.process.tokenAllowance.pending', {
+      t('main.process.tokenAllowance.done', {
         tokenSymbol: step.action.fromToken.symbol,
       }),
   },

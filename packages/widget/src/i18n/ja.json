@@ -18,6 +18,8 @@
     "buy": "購入",
     "cancel": "キャンセル",
     "checkoutReview": "",
+    "clearAllFailed": "",
+    "clearTransaction": "",
     "close": "閉じる",
     "confirm": "確認する",
     "connectAnotherWallet": "",
@@ -39,7 +41,6 @@
     "max": "",
     "ok": "OK",
     "options": "オプション",
-    "removeTransaction": "トランザクションを削除",
     "reset": "リセット",
     "resetSettings": "設定をリセット",
     "seeDetails": "詳細を表示",
@@ -54,7 +55,6 @@
     "viewOnExplorer": "エクスプローラーで表示"
   },
   "header": {
-    "activeTransactions": "アクティブなトランザクション",
     "amount": "",
     "bookmarkedWallets": "ブックマークされたウォレット",
     "bridge": "ブリッジ",
@@ -79,7 +79,7 @@
     "swap": "スワップ",
     "to": "スワップ先",
     "transactionDetails": "トランザクション詳細",
-    "transactionHistory": "トランザクション履歴",
+    "activities": "",
     "walletConnected": "ウォレットに接続",
     "youGet": "スワップルート確認",
     "youPay": ""
@@ -88,7 +88,6 @@
     "message": {
       "accountDeployedMessage": "",
       "autoRefuel": "{{chainName}} のガスが不足していますが、続行することでトランザクションを完了するのに十分なガスが補填されます。",
-      "emptyActiveTransactions": "進行中のトランザクションがここに表示されます。完了すると、トランザクション履歴に表示されます。",
       "emptyBridgesList": "",
       "emptyChainList": "",
       "emptyExchangesList": "",
@@ -99,7 +98,6 @@
     },
     "title": {
       "autoRefuel": "",
-      "emptyActiveTransactions": "アクティブなトランザクションはありません",
       "emptyTransactionHistory": "最近のトランザクションはありません",
       "routeNotFound": "利用可能なルートがありません"
     }
@@ -122,8 +120,7 @@
     "message": {
       "accountNotDeployedMessage": "",
       "lowAddressActivity": "",
-      "deleteActiveTransactions": "アクティブなトランザクションはローカルにのみ保存され、ユーザーが削除した場合には復元できません。",
-      "deleteTransactionHistory": "トランザクション履歴はローカルにのみ保存され、ユーザーが削除した場合には復元できません。",
+      "clearFailedTransactions": "",
       "fundsLossPrevention": "",
       "highValueLoss": "受け取るトークンの価値は、交換されたトークンとトランザクションコストよりも大幅に低くなります。",
       "unverifiedToken": "",
@@ -136,9 +133,7 @@
       "slippageUnderRecommendedLimits": ""
     },
     "title": {
-      "deleteActiveTransactions": "すべてのアクティブなトランザクションを削除しますか？",
-      "deleteTransaction": "このトランザクションを削除しますか？",
-      "deleteTransactionHistory": "トランザクション履歴を削除しますか？",
+      "clearFailedTransactions": "",
       "highValueLoss": "高価値損失",
       "insufficientGas": "ガス不足",
       "rateChanged": "レートが変更されました",
