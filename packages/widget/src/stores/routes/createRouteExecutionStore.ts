@@ -130,6 +130,7 @@ export const createRouteExecutionStore = ({
       {
         name: `${namePrefix || 'li.fi'}-widget-routes`,
         version: 3,
+        migrate: (persistedState: any) => persistedState,
         partialize: (state) => ({ routes: state.routes }),
         merge: (persistedState: any, currentState: RouteExecutionState) => {
           const state = {
