@@ -32,7 +32,6 @@ export const GasRefuelMessage: React.FC<BoxProps> = (props) => {
     >
       <AlertMessage
         icon={<EvStation />}
-        {...props}
         title={
           <Box
             sx={{
@@ -56,6 +55,7 @@ export const GasRefuelMessage: React.FC<BoxProps> = (props) => {
             />
           </Box>
         }
+        {...props}
       >
         <Collapse
           timeout={225}

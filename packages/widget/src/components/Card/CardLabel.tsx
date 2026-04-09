@@ -66,7 +66,7 @@ export const CardLabelTypography: React.FC<
   padding: theme.spacing(0.75, 1.5),
   fontSize: 12,
   lineHeight: 1,
-  fontWeight: 600,
+  fontWeight: '600',
   variants: [
     {
       props: {

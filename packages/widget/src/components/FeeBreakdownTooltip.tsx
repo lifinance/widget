@@ -42,6 +42,7 @@ export const FeeBreakdownTooltip: React.FC<FeeBreakdownTooltipProps> = ({
           ) : null}
         </Box>
       }
+      sx={{ cursor: 'help' }}
     >
       {children}
     </Tooltip>

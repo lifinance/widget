@@ -206,6 +206,7 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
                       display: 'flex',
                       fontSize: 16,
                       color: 'warning.main',
+                      cursor: 'help',
                     }}
                   />
                 </Tooltip>
