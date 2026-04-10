@@ -9,14 +9,14 @@ export const InfoMessageSwitch: React.FC<React.ComponentProps<typeof Switch>> =
         [`& + .${switchClasses.track}`]: {
           backgroundColor: theme.vars.palette.info.main,
           ...theme.applyStyles('dark', {
-            backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.84)`,
+            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.info.main} 84%, transparent)`,
           }),
         },
       },
       [`&.Mui-focusVisible .${switchClasses.thumb}`]: {
         color: theme.vars.palette.info.main,
         ...theme.applyStyles('dark', {
-          color: `rgba(${theme.vars.palette.info.mainChannel} / 0.84)`,
+          color: `color-mix(in srgb, ${theme.vars.palette.info.main} 84%, transparent)`,
         }),
       },
     },

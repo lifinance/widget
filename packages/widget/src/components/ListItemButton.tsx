@@ -13,7 +13,7 @@ export const ListItemButton: React.FC<
     paddingLeft: theme.spacing(1.5),
     height: 56,
     '&:hover': {
-      backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+      backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
     },
     [`&.${listItemButtonClasses.selected}`]: {
       backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 24%, white)`,

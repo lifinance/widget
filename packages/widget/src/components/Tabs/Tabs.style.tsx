@@ -24,14 +24,14 @@ const Tabs = styled(MuiTabs)(({ theme }) => ({
 export const CardTabs: React.FC<React.ComponentProps<typeof MuiTabs>> = styled(
   Tabs
 )(({ theme }) => ({
-  backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+  backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
   [`.${tabsClasses.indicator}`]: {
     backgroundColor: theme.vars.palette.background.paper,
   },
   ...theme.applyStyles('dark', {
-    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08)`,
+    backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 8%, transparent)`,
     [`.${tabsClasses.indicator}`]: {
-      backgroundColor: `rgba(${theme.vars.palette.common.backgroundChannel} / 0.56)`,
+      backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.background} 56%, transparent)`,
     },
   }),
 }))

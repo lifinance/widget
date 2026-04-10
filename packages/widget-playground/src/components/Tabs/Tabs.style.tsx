@@ -25,10 +25,10 @@ export const Tabs: React.FC<React.ComponentProps<typeof MuiTabs>> = styled(
     backgroundColor: theme.vars.palette.common.white,
     borderRadius:
       Math.max(theme.shape.borderRadius, theme.shape.borderRadiusSecondary) - 4,
-    boxShadow: `0px 2px 4px rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+    boxShadow: `0px 2px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
     ...theme.applyStyles('dark', {
       backgroundColor: theme.vars.palette.background.default,
-      boxShadow: `0px 2px 4px rgba(${theme.vars.palette.common.backgroundChannel} / 0.04)`,
+      boxShadow: `0px 2px 4px color-mix(in srgb, ${theme.vars.palette.common.background} 4%, transparent)`,
     }),
   },
 }))

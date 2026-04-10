@@ -8,7 +8,7 @@ export const ActionRowContainer: React.FC<React.ComponentProps<typeof Box>> =
     gap: theme.spacing(1),
     padding: theme.spacing(1),
     borderRadius: theme.vars.shape.borderRadiusTertiary,
-    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+    backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
   }))
 
 export const ActionIconCircle: React.FC<React.ComponentProps<typeof Box>> =
@@ -19,7 +19,7 @@ export const ActionIconCircle: React.FC<React.ComponentProps<typeof Box>> =
     width: 24,
     height: 24,
     borderRadius: '50%',
-    backgroundColor: `color-mix(in srgb, rgb(${theme.vars.palette.success.mainChannel}) 12%, ${theme.vars.palette.background.paper})`,
+    backgroundColor: `color-mix(in srgb, ${theme.vars.palette.success.main} 12%, ${theme.vars.palette.background.paper})`,
   }))
 
 export const ActionRowLabel: React.FC<React.ComponentProps<typeof Typography>> =

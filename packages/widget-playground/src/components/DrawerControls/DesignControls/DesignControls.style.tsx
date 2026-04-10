@@ -42,10 +42,10 @@ export const TabButtonsContainer: React.FC<React.ComponentProps<typeof Box>> =
 const controlSelected = (theme: Theme) => ({
   borderRadius: theme.vars.shape.borderRadiusSecondary,
   backgroundColor: theme.vars.palette.common.white,
-  boxShadow: `0px 2px 4px rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+  boxShadow: `0px 2px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
   ...theme.applyStyles('dark', {
     backgroundColor: theme.vars.palette.background.default,
-    boxShadow: `0px 2px 4px rgba(${theme.vars.palette.common.backgroundChannel} / 0.04)`,
+    boxShadow: `0px 2px 4px color-mix(in srgb, ${theme.vars.palette.common.background} 4%, transparent)`,
   }),
 })
 
@@ -124,9 +124,9 @@ export const Input: React.FC<React.ComponentProps<typeof InputBase>> = styled(
     },
     ...getCardFieldsetBackgroundColor(theme),
     borderRadius: theme.vars.shape.borderRadiusSecondary,
-    boxShadow: `0px 2px 4px rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+    boxShadow: `0px 2px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
     ...theme.applyStyles('dark', {
-      boxShadow: `0px 2px 4px rgba(${theme.vars.palette.common.backgroundChannel} / 0.04)`,
+      boxShadow: `0px 2px 4px color-mix(in srgb, ${theme.vars.palette.common.background} 4%, transparent)`,
     }),
   }
 })

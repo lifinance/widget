@@ -16,18 +16,18 @@ export const SettingsFieldSet: React.FC<
   padding: theme.spacing(0.5),
   gap: theme.spacing(0.5),
   height: '3.5rem',
-  backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+  backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
   ...theme.applyStyles('dark', {
-    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08)`,
+    backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 8%, transparent)`,
   }),
 }))
 
 const settingsControlSelected = (theme: Theme) => ({
   backgroundColor: theme.vars.palette.background.paper,
-  boxShadow: `0px 2px 4px rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+  boxShadow: `0px 2px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
   ...theme.applyStyles('dark', {
-    backgroundColor: `rgba(${theme.vars.palette.common.backgroundChannel} / 0.56)`,
-    boxShadow: `0px 2px 4px rgba(${theme.vars.palette.common.backgroundChannel} / 0.04)`,
+    backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.background} 56%, transparent)`,
+    boxShadow: `0px 2px 4px color-mix(in srgb, ${theme.vars.palette.common.background} 4%, transparent)`,
   }),
   borderRadius: `calc(${theme.vars.shape.borderRadius} - 4px)`,
 })

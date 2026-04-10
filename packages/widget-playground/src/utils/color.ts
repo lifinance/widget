@@ -16,7 +16,7 @@ export const safe6DigitHexColor = (color: string): string => {
 export const getCardFieldsetBackgroundColor = (
   theme: Theme
 ): Record<string, any> => ({
-  backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+  backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
   ...theme.applyStyles('dark', {
     backgroundColor: theme.vars.palette.grey[800],
   }),

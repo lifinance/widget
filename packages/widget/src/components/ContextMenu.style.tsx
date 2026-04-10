@@ -8,6 +8,6 @@ export const ContextMenuButton: React.FC<
   top: theme.spacing(1.75),
   right: theme.spacing(2),
   '&:hover': {
-    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+    backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
   },
 }))

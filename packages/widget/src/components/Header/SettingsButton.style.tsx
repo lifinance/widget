@@ -32,27 +32,27 @@ export const SettingsIconButton: React.FC<
   switch (variant) {
     case 'info':
       return {
-        backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.08)`,
+        backgroundColor: `color-mix(in srgb, ${theme.vars.palette.info.main} 8%, transparent)`,
         '&:hover': {
-          backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.12)`,
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.info.main} 12%, transparent)`,
         },
         ...theme.applyStyles('dark', {
-          backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.12)`,
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.info.main} 12%, transparent)`,
           '&:hover': {
-            backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.16)`,
+            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.info.main} 16%, transparent)`,
           },
         }),
       }
     case 'warning':
       return {
-        backgroundColor: `rgba(${theme.vars.palette.warning.mainChannel} / 0.32)`,
+        backgroundColor: `color-mix(in srgb, ${theme.vars.palette.warning.main} 32%, transparent)`,
         '&:hover': {
-          backgroundColor: `color-mix(in srgb, rgba(${theme.vars.palette.warning.mainChannel} / 0.32) 80%, black)`,
+          backgroundColor: `color-mix(in srgb, color-mix(in srgb, ${theme.vars.palette.warning.main} 32%, transparent) 80%, black)`,
         },
         ...theme.applyStyles('dark', {
-          backgroundColor: `rgba(${theme.vars.palette.warning.mainChannel} / 0.16)`,
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.warning.main} 16%, transparent)`,
           '&:hover': {
-            backgroundColor: `color-mix(in srgb, rgba(${theme.vars.palette.warning.mainChannel} / 0.16) 80%, black)`,
+            backgroundColor: `color-mix(in srgb, color-mix(in srgb, ${theme.vars.palette.warning.main} 16%, transparent) 80%, black)`,
           },
         }),
       }
