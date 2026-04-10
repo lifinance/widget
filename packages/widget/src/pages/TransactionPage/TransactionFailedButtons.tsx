@@ -33,7 +33,7 @@ export const TransactionFailedButtons: React.FC<
       <Box sx={{ display: 'flex', gap: 1.5 }}>
         <Box sx={{ flex: 1 }}>
           <Button onClick={handleRemoveRoute} fullWidth>
-            {t('button.remove')}
+            {t('button.delete')}
           </Button>
         </Box>
         <Box sx={{ flex: 1 }}>
