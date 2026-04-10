@@ -55,7 +55,7 @@ export const getUpdatedAction = (
 
 export const getSourceTxHash = (route?: RouteExtended): string | undefined => {
   const sourceAction = route?.steps[0].execution?.actions
-    .filter(
+    ?.filter(
       (action) => !['RESET_ALLOWANCE', 'SET_ALLOWANCE'].includes(action.type)
     )
     .find((action) => action.txHash || action.taskId)

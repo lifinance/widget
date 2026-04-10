@@ -1,8 +1,15 @@
 import { useImperativeHandle } from 'react'
+import { widgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
 import { formDefaultValues } from '../../stores/form/createFormStore.js'
+import type { FormFieldChanged } from '../../types/events.js'
+import { WidgetEvent } from '../../types/events.js'
 import type { FormRef } from '../../types/widget.js'
-import type { FormStoreStore, GenericFormValue } from './types.js'
+import type {
+  FormFieldNames,
+  FormStoreStore,
+  GenericFormValue,
+} from './types.js'
 
 export const useFormRef = (
   formStore: FormStoreStore,
@@ -48,9 +55,21 @@ export const useFormRef = (
           ? { isTouched: options?.setUrlSearchParam }
           : undefined
 
+        const oldValue = formStore
+          .getState()
+          .getFieldValues(fieldName as FormFieldNames)[0]
+
         formStore
           .getState()
           .setFieldValue(fieldName, sanitizedValue, fieldValueOptions)
+
+        if (sanitizedValue !== oldValue) {
+          widgetEvents.emit(WidgetEvent.FormFieldChanged, {
+            fieldName,
+            newValue: sanitizedValue,
+            oldValue,
+          } as FormFieldChanged)
+        }
       },
     }
   }, [formStore, setSelectedBookmark])

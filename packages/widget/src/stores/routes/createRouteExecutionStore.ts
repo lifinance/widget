@@ -129,8 +129,10 @@ export const createRouteExecutionStore = ({
       }),
       {
         name: `${namePrefix || 'li.fi'}-widget-routes`,
-        version: 3,
-        migrate: (persistedState: any) => persistedState,
+        // Bump version on breaking changes to the stored structure.
+        version: 4,
+        // Clear stored routes on any version mismatch to avoid errors from incompatible data shapes.
+        migrate: () => ({ routes: {} }),
         partialize: (state) => ({ routes: state.routes }),
         merge: (persistedState: any, currentState: RouteExecutionState) => {
           const state = {

@@ -9,7 +9,7 @@ export const RouteTokens: React.FC<{
   route: RouteExtended
   showEssentials?: boolean
 }> = ({ route, showEssentials }) => {
-  const { subvariant, defaultUI } = useWidgetConfig()
+  const { subvariant } = useWidgetConfig()
 
   const fromToken = {
     ...route.steps[0].action.fromToken,
@@ -46,7 +46,6 @@ export const RouteTokens: React.FC<{
           route={route}
           token={toToken}
           impactToken={fromToken}
-          defaultExpanded={defaultUI?.transactionDetailsExpanded}
           showEssentials={showEssentials}
         />
       ) : null}
