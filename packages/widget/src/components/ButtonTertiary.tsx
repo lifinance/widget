@@ -6,21 +6,21 @@ export const ButtonTertiary: React.FC<React.ComponentProps<typeof Button>> =
     color: theme.vars.palette.text.primary,
     height: 40,
     fontSize: 14,
-    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+    backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
     '&:hover, &:active': {
-      backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08)`,
+      backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 8%, transparent)`,
     },
     [`&.${buttonClasses.loading}:disabled`]: {
-      backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+      backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
     },
     ...theme.applyStyles('dark', {
       color: theme.vars.palette.text.primary,
-      backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+      backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
       '&:hover, &:active': {
-        backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08)`,
+        backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 8%, transparent)`,
       },
       [`&.${buttonClasses.loading}:disabled`]: {
-        backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+        backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
       },
     }),
     [`.${buttonClasses.loadingIndicator}`]: {

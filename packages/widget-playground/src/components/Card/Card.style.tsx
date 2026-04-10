@@ -57,13 +57,13 @@ export const Card: React.FC<React.ComponentProps<typeof MuiCard> & CardProps> =
           style: {
             borderWidth: 1,
             borderStyle: 'solid',
-            borderColor: `rgba(${theme.vars.palette.secondary.mainChannel} / 0.32)`,
+            borderColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 32%, transparent)`,
             backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 24%, white)`,
             '&:hover': {
               backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 28%, white)`,
             },
             ...theme.applyStyles('dark', {
-              borderColor: `rgba(${theme.vars.palette.secondary.mainChannel} / 0.32)`,
+              borderColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 32%, transparent)`,
               backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 24%, black)`,
               '&:hover': {
                 backgroundColor: `color-mix(in srgb, ${theme.vars.palette.secondary.main} 28%, black)`,

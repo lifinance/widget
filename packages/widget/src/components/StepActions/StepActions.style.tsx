@@ -20,9 +20,9 @@ export const StepConnector: React.FC<
   [`.${stepConnectorClasses.line}`]: {
     minHeight: 8,
     borderLeftWidth: 2,
-    borderColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.12)`,
+    borderColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 12%, transparent)`,
     ...theme.applyStyles('dark', {
-      borderColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.16)`,
+      borderColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 16%, transparent)`,
     }),
   },
 }))
@@ -66,9 +66,9 @@ export const StepContent: React.FC<
 })<{ last?: boolean }>(({ theme }) => ({
   margin: theme.spacing(0, 0, 0, 2.375),
   paddingLeft: theme.spacing(4.375),
-  borderLeft: `2px solid rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.12)`,
+  borderLeft: `2px solid color-mix(in srgb, ${theme.vars.palette.common.onBackground} 12%, transparent)`,
   ...theme.applyStyles('dark', {
-    borderLeft: `2px solid rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.16)`,
+    borderLeft: `2px solid color-mix(in srgb, ${theme.vars.palette.common.onBackground} 16%, transparent)`,
   }),
   variants: [
     {

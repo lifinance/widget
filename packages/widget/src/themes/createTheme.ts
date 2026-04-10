@@ -212,9 +212,9 @@ export const createTheme = (widgetTheme: WidgetTheme = {}): Theme => {
                 ownerState.variant === 'elevation' && {
                   '&:hover': {
                     cursor: 'pointer',
-                    filter: `drop-shadow(0 1px 4px rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08))`,
+                    filter: `drop-shadow(0 1px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 8%, transparent))`,
                     ...theme.applyStyles('dark', {
-                      filter: `drop-shadow(0 1px 4px rgba(${theme.vars.palette.common.backgroundChannel} / 0.08))`,
+                      filter: `drop-shadow(0 1px 4px color-mix(in srgb, ${theme.vars.palette.common.background} 8%, transparent))`,
                     }),
                   },
                 }),
@@ -251,9 +251,9 @@ export const createTheme = (widgetTheme: WidgetTheme = {}): Theme => {
             style: ({ theme }) => ({
               border: 'none',
               boxShadow: 'none',
-              filter: `drop-shadow(0 1px 4px rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04))`,
+              filter: `drop-shadow(0 1px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent))`,
               ...theme.applyStyles('dark', {
-                filter: `drop-shadow(0 1px 4px rgba(${theme.vars.palette.common.backgroundChannel} / 0.04))`,
+                filter: `drop-shadow(0 1px 4px color-mix(in srgb, ${theme.vars.palette.common.background} 4%, transparent))`,
               }),
             }),
           },
@@ -293,7 +293,7 @@ export const createTheme = (widgetTheme: WidgetTheme = {}): Theme => {
             fontSize: 16,
             fontWeight: 600,
             '&.Mui-disabled, &.Mui-disabled:hover': {
-              color: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.56)`,
+              color: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 56%, transparent)`,
               cursor: 'not-allowed',
               pointerEvents: 'auto',
             },
@@ -312,18 +312,18 @@ export const createTheme = (widgetTheme: WidgetTheme = {}): Theme => {
             ...getStyleOverrides('MuiButton', 'root', widgetTheme, ownerState),
           }),
           text: ({ theme, ownerState }) => ({
-            backgroundColor: `rgba(${theme.vars.palette.primary.mainChannel} / 0.08)`,
+            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} 8%, transparent)`,
             color: theme.vars.palette.primary.main,
             '&:hover': {
-              backgroundColor: `rgba(${theme.vars.palette.primary.mainChannel} / 0.12)`,
+              backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} 12%, transparent)`,
             },
             ...theme.applyStyles('dark', {
-              backgroundColor: `rgba(${theme.vars.palette.primary.mainChannel} / 0.42)`,
+              backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} 42%, transparent)`,
               color: theme.palette.getContrastText(
                 alpha(theme.palette.primary.main, 0.08)
               ),
               '&:hover': {
-                backgroundColor: `rgba(${theme.vars.palette.primary.mainChannel} / 0.56)`,
+                backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} 56%, transparent)`,
               },
             }),
             ...getStyleOverrides('MuiButton', 'text', widgetTheme, ownerState),
@@ -448,22 +448,22 @@ export const createTheme = (widgetTheme: WidgetTheme = {}): Theme => {
               ownerState
             )
             return {
-              backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+              backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
               ...theme.applyStyles('dark', {
-                backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08)`,
+                backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 8%, transparent)`,
               }),
               borderRadius: theme.vars.shape.borderRadius,
               ...rootStyleOverrides,
               [`.${tabsClasses.indicator}`]: {
                 backgroundColor: theme.vars.palette.background.paper,
                 ...theme.applyStyles('dark', {
-                  backgroundColor: `rgba(${theme.vars.palette.common.backgroundChannel} / 0.56)`,
+                  backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.background} 56%, transparent)`,
                 }),
                 borderRadius:
                   theme.shape.borderRadius > 0
                     ? `calc(${theme.vars.shape.borderRadius} - 4px)`
                     : theme.vars.shape.borderRadius,
-                boxShadow: `0px 2px 4px rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+                boxShadow: `0px 2px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
                 ...rootStyleOverrides?.[`.${tabsClasses.indicator}`],
               },
             }

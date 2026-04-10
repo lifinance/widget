@@ -47,10 +47,10 @@ export const CardLabel: React.FC<
     {
       props: { variant: 'warning' },
       style: {
-        backgroundColor: `rgba(${theme.vars.palette.warning.mainChannel} / 0.32)`,
+        backgroundColor: `color-mix(in srgb, ${theme.vars.palette.warning.main} 32%, transparent)`,
         color: `color-mix(in srgb, ${theme.vars.palette.warning.main} 64%, black)`,
         ...theme.applyStyles('dark', {
-          backgroundColor: `rgba(${theme.vars.palette.warning.mainChannel} / 0.16)`,
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.warning.main} 16%, transparent)`,
           color: theme.vars.palette.warning.main,
         }),
       },

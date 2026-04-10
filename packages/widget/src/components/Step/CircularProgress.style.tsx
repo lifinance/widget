@@ -18,14 +18,14 @@ const getStatusColor = (
     case 'ACTION_REQUIRED':
     case 'MESSAGE_REQUIRED':
     case 'RESET_REQUIRED':
-      return `rgba(${theme.vars.palette.info.mainChannel} / 0.12)`
+      return `color-mix(in srgb, ${theme.vars.palette.info.main} 12%, transparent)`
     case 'DONE':
       if (substatus === 'PARTIAL' || substatus === 'REFUNDED') {
-        return `rgba(${theme.vars.palette.warning.mainChannel} / 0.48)`
+        return `color-mix(in srgb, ${theme.vars.palette.warning.main} 48%, transparent)`
       }
-      return `rgba(${theme.vars.palette.success.mainChannel} / 0.12)`
+      return `color-mix(in srgb, ${theme.vars.palette.success.main} 12%, transparent)`
     case 'FAILED':
-      return `rgba(${theme.vars.palette.error.mainChannel} / 0.12)`
+      return `color-mix(in srgb, ${theme.vars.palette.error.main} 12%, transparent)`
     default:
       return null
   }

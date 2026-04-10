@@ -62,12 +62,12 @@ export const WalletButton: React.FC<
   borderRadius: `calc(${theme.vars.shape.borderRadius} * 2)`,
   backgroundColor: 'transparent',
   '&:hover': {
-    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+    backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
   },
   ...theme.applyStyles('dark', {
     backgroundColor: 'transparent',
     '&:hover': {
-      backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+      backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
     },
   }),
   [`.${buttonClasses.endIcon} > *:nth-of-type(1)`]: {

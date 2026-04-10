@@ -27,10 +27,10 @@ export const WalletTag: StyledComponent<ChipProps & WalletTagProps> = styled(
         },
         style: {
           color: theme.vars.palette.primary.main,
-          backgroundColor: `rgba(${theme.vars.palette.primary.mainChannel} / 0.08)`,
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} 8%, transparent)`,
           ...theme.applyStyles('dark', {
             color: theme.vars.palette.text.primary,
-            backgroundColor: `rgba(${theme.vars.palette.primary.mainChannel} / 0.42)`,
+            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} 42%, transparent)`,
           }),
         },
       },

@@ -25,7 +25,7 @@ export const TextSecondary: React.FC<
     {
       props: ({ dot }) => dot,
       style: {
-        color: `rgba(${theme.vars.palette.text.secondaryChannel} / 0.56)`,
+        color: `color-mix(in srgb, ${theme.vars.palette.text.secondary} 56%, transparent)`,
       },
     },
   ],

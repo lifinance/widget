@@ -52,7 +52,7 @@ export const watermelonLightTheme: WidgetTheme = {
         root: ({ theme }) => ({
           [`.${tabsClasses.indicator}`]: {
             backgroundColor: '#ffffff',
-            filter: `drop-shadow(0 1px 4px rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08))`,
+            filter: `drop-shadow(0 1px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 8%, transparent))`,
             borderRadius: '16px',
           },
         }),

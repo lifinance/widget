@@ -16,9 +16,9 @@ export const AlertMessageCard: React.FC<
   whiteSpace: 'pre-line',
   width: '100%',
   paddingBottom: theme.spacing(2),
-  backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.12)`,
+  backgroundColor: `color-mix(in srgb, ${theme.vars.palette.info.main} 12%, transparent)`,
   ...theme.applyStyles('dark', {
-    backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.16)`,
+    backgroundColor: `color-mix(in srgb, ${theme.vars.palette.info.main} 16%, transparent)`,
   }),
   variants: [
     {
@@ -26,9 +26,9 @@ export const AlertMessageCard: React.FC<
         severity: 'warning',
       },
       style: {
-        backgroundColor: `rgba(${theme.vars.palette.warning.mainChannel} / 0.32)`,
+        backgroundColor: `color-mix(in srgb, ${theme.vars.palette.warning.main} 32%, transparent)`,
         ...theme.applyStyles('dark', {
-          backgroundColor: `rgba(${theme.vars.palette.warning.mainChannel} / 0.16)`,
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.warning.main} 16%, transparent)`,
         }),
       },
     },

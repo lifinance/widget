@@ -29,7 +29,7 @@ export const Switch: React.FC<React.ComponentProps<typeof MuiSwitch>> = styled(
       borderColor: theme.vars.palette.common.white,
     },
     [`&.${switchClasses.disabled} .${switchClasses.thumb}`]: {
-      color: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.12)`,
+      color: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 12%, transparent)`,
     },
     [`&.${switchClasses.disabled} + .${switchClasses.track}`]: {
       opacity: 0.7,
@@ -49,6 +49,6 @@ export const Switch: React.FC<React.ComponentProps<typeof MuiSwitch>> = styled(
     transition: theme.transitions.create(['background-color'], {
       duration: theme.transitions.duration.standard,
     }),
-    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.16)`,
+    backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 16%, transparent)`,
   },
 }))

@@ -24,7 +24,7 @@ export const StatusRow: React.FC<React.ComponentProps<typeof Box>> = styled(
   gap: theme.spacing(1),
   padding: theme.spacing(1),
   borderRadius: theme.vars.shape.borderRadiusTertiary,
-  backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+  backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
 }))
 
 export const DeleteButton: React.FC<React.ComponentProps<typeof IconButton>> =
