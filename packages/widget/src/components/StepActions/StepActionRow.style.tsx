@@ -1,12 +1,5 @@
-import { Box, Link, styled } from '@mui/material'
+import { Link, styled } from '@mui/material'
 import type React from 'react'
-
-export const TransactionList: React.FC<React.ComponentProps<typeof Box>> =
-  styled(Box)(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    gap: theme.spacing(1.5),
-  }))
 
 export const ExternalLink: React.FC<React.ComponentProps<typeof Link>> = styled(
   Link

@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { useTimer } from '../../hooks/timer/useTimer.js'
 import { formatTimer, getExpiryTimestamp } from '../../utils/timer.js'
 import { iconCircleSize } from '../IconCircle/IconCircle.style.js'
-import { CircularProgressPending } from '../Step/CircularProgress.style.js'
 import {
+  CircularProgressPending,
   ProgressFill,
   ProgressTrack,
   RingContainer,

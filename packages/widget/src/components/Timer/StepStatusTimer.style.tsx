@@ -1,5 +1,7 @@
 import {
   Box,
+  circularProgressClasses,
+  keyframes,
   CircularProgress as MuiCircularProgress,
   styled,
   Typography,
@@ -50,3 +52,41 @@ export const TimerLabel: React.FC<React.ComponentProps<typeof Typography>> =
     fontSize: 18,
     fontWeight: 700,
   })
+
+const circleAnimation = keyframes`
+  0% {
+    stroke-dashoffset: 129;
+    transform: rotate(0);
+  }
+  50% {
+    stroke-dashoffset: 56;
+    transform: rotate(45deg);
+  };
+  100% {
+    stroke-dashoffset: 129;
+    transform: rotate(360deg);
+  }
+`
+
+// This `styled()` function invokes keyframes. `styled-components` only supports keyframes
+// in string templates. Do not convert these styles in JS object as it will break.
+export const CircularProgressPending: React.FC<
+  React.ComponentProps<typeof MuiCircularProgress>
+> = styled(MuiCircularProgress)`
+  color: ${({ theme }) => theme.vars.palette.primary.main};
+  ${({ theme }) =>
+    theme.applyStyles('dark', {
+      color: theme.vars.palette.primary.light,
+    })}
+  animation-duration: 3s;
+  position: absolute;
+  .${circularProgressClasses.circle} {
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-name: ${circleAnimation};
+    stroke-dasharray: 129;
+    stroke-dashoffset: 129;
+    stroke-linecap: round;
+    transform-origin: 100% 100%;
+  }
+`

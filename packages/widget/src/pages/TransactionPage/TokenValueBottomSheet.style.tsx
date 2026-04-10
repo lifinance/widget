@@ -23,9 +23,9 @@ export const WarningTitle: React.FC<React.ComponentProps<typeof Typography>> =
 
 export const WarningMessage: React.FC<React.ComponentProps<typeof Typography>> =
   styled(Typography)(({ theme }) => ({
-    paddingBottom: theme.spacing(2),
-    color: theme.vars.palette.text.secondary,
+    marginBottom: theme.spacing(2.5),
     fontSize: 14,
+    fontWeight: 500,
   }))
 
 export const DetailRow: React.FC<React.ComponentProps<typeof Box>> = styled(

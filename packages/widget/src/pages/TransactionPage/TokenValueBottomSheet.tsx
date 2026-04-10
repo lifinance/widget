@@ -64,7 +64,7 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
   return (
     <ContentContainer ref={ref}>
       <CenterContainer>
-        <IconCircle status="warning" mb={1} />
+        <IconCircle status="warning" mb={2.5} />
         <WarningTitle>{t('warning.title.highValueLoss')}</WarningTitle>
       </CenterContainer>
       <WarningMessage>{t('warning.message.highValueLoss')}</WarningMessage>

@@ -38,7 +38,7 @@ export const TransactionFailedButtons: React.FC<
         </Box>
         <Box sx={{ flex: 1 }}>
           <StartTransactionButton
-            text={t('button.retry')}
+            text={t('button.tryAgain')}
             onClick={restartRoute}
             route={route}
           />

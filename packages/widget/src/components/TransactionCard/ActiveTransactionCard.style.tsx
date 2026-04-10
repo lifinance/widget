@@ -15,18 +15,6 @@ export const PendingCircle: React.FC<React.ComponentProps<typeof Box>> = styled(
   }),
 }))
 
-export const StatusRow: React.FC<React.ComponentProps<typeof Box>> = styled(
-  Box
-)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  gap: theme.spacing(1),
-  padding: theme.spacing(1),
-  borderRadius: theme.vars.shape.borderRadiusTertiary,
-  backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
-}))
-
 export const DeleteButton: React.FC<React.ComponentProps<typeof IconButton>> =
   styled(IconButton)(({ theme }) => ({
     padding: theme.spacing(0.5),

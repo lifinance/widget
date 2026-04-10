@@ -6,9 +6,8 @@ import type { MouseEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { shortenAddress } from '../../utils/wallet.js'
-import { ActionRow } from './ActionRow.js'
-import { ActionIconCircle } from './ActionRow.style.js'
-import { ExternalLink } from './ReceiptsCard.style.js'
+import { ActionRow } from '../ActionRow/ActionRow.js'
+import { ActionIconCircle, ExternalLink } from './SentToWalletRow.style.js'
 
 interface SentToWalletRowProps {
   toAddress: string
