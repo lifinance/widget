@@ -16,5 +16,6 @@ export const ActionRowLabel: React.FC<React.ComponentProps<typeof Typography>> =
     flex: 1,
     fontSize: 12,
     fontWeight: 500,
+    lineHeight: 1.3334,
     color: theme.vars.palette.text.primary,
   }))

@@ -151,60 +151,60 @@ export const useRouteExecution = ({
         emitter.emit(WidgetEvent.RouteExecutionStarted, routeExecution.route)
       }
     },
+    onError: (error) => {
+      console.warn('Execution failed!', routeId, error)
+    },
+    onSuccess: (route: Route) => {
+      // biome-ignore lint/suspicious/noConsole: logs route information
+      console.log('Executed successfully!', route)
+    },
   })
 
   const resumeRouteMutation = useMutation({
-    mutationFn: (resumedRoute?: Route) => {
+    mutationFn: (args?: { route?: Route; executeInBackground?: boolean }) => {
       if (!account.isConnected) {
         throw new Error('Account is not connected.')
       }
       if (!routeExecution?.route) {
         throw new Error('Execution route not found.')
       }
-      return resumeRoute(sdkClient, resumedRoute ?? routeExecution.route, {
+      return resumeRoute(sdkClient, args?.route ?? routeExecution.route, {
         updateRouteHook,
         acceptExchangeRateUpdateHook,
         infiniteApproval: false,
-        executeInBackground,
+        executeInBackground: args?.executeInBackground ?? executeInBackground,
       })
     },
     onMutate: () => {
       // biome-ignore lint/suspicious/noConsole: logs route information
       console.log('Resumed to execution.', routeId)
     },
+    onError: (error) => {
+      console.warn('Resumed execution failed.', routeId, error)
+    },
+    onSuccess: (route) => {
+      // biome-ignore lint/suspicious/noConsole: logs route information
+      console.log('Resumed execution successful.', route)
+    },
   })
 
   const _executeRoute = useCallback(() => {
-    executeRouteMutation.mutateAsync(undefined, {
-      onError: (error) => {
-        console.warn('Execution failed!', routeId, error)
-      },
-      onSuccess: (route: Route) => {
-        // biome-ignore lint/suspicious/noConsole: logs route information
-        console.log('Executed successfully!', route)
-      },
-    })
-  }, [executeRouteMutation, routeId])
+    executeRouteMutation.mutateAsync(undefined)
+  }, [executeRouteMutation])
 
   const _resumeRoute = useCallback(
     (route?: Route) => {
-      resumeRouteMutation.mutateAsync(route, {
-        onError: (error) => {
-          console.warn('Resumed execution failed.', routeId, error)
-        },
-        onSuccess: (route) => {
-          // biome-ignore lint/suspicious/noConsole: logs route information
-          console.log('Resumed execution successful.', route)
-        },
-      })
+      resumeRouteMutation.mutateAsync({ route })
     },
-    [resumeRouteMutation, routeId]
+    [resumeRouteMutation]
   )
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: run only when routeId changes
   const restartRouteMutation = useCallback(() => {
-    _resumeRoute(routeExecution?.route)
-  }, [_resumeRoute, routeExecution?.route, routeId])
+    resumeRouteMutation.mutateAsync({
+      route: routeExecution?.route,
+      executeInBackground: false,
+    })
+  }, [resumeRouteMutation, routeExecution?.route])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when routeId changes
   const deleteRouteMutation = useCallback(() => {

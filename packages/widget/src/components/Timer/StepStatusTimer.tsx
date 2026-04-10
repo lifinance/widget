@@ -64,7 +64,7 @@ export const TimerRing: React.FC<TimerRingProps> = ({
           thickness={thickness}
         />
       ) : (
-        <CircularProgressPending size={size} />
+        <CircularProgressPending size={size} thickness={thickness} />
       )}
       {showLabel && hasActiveCountdown ? (
         <StatusCircle>
