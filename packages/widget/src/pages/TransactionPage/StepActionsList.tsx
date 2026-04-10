@@ -16,6 +16,7 @@ export const StepActionsList: React.FC<StepActionsListProps> = ({
   toAddress,
 }) => {
   const { getTransactionLink } = useExplorer()
+
   const stepRows = route.steps
     .map((step) => {
       const rows = prepareActions(step.execution?.actions ?? [])

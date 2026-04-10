@@ -40,7 +40,8 @@ export const TransactionReview: React.FC<TransactionReviewProps> = ({
   const { setFieldValue } = useFieldActions()
   const emitter = useWidgetEvents()
   const setBackAction = useHeaderStore((state) => state.setBackAction)
-  const { subvariant, subvariantOptions, hiddenUI } = useWidgetConfig()
+  const { subvariant, subvariantOptions, hiddenUI, defaultUI } =
+    useWidgetConfig()
 
   const tokenValueBottomSheetRef = useRef<BottomSheetBase>(null)
   const confirmToAddressSheetRef = useRef<BottomSheetBase>(null)
@@ -129,7 +130,11 @@ export const TransactionReview: React.FC<TransactionReviewProps> = ({
   return (
     <>
       <Card type="default" indented>
-        <RouteTokens route={route} showEssentials />
+        <RouteTokens
+          route={route}
+          showEssentials
+          defaultExpanded={defaultUI?.transactionDetailsExpanded}
+        />
       </Card>
       <WarningMessages mt={2} route={route} allowInteraction />
       <Box sx={{ flex: 1 }}>
