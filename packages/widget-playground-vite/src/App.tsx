@@ -10,7 +10,6 @@ import {
 import { defaultWidgetConfig } from '@lifi/widget-playground/widget-config'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import type { JSX, PropsWithChildren } from 'react'
-import '@lifi/widget-playground/fonts'
 
 const queryClient = new QueryClient()
 

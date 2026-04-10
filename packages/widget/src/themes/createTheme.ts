@@ -130,7 +130,7 @@ export const createTheme = (widgetTheme: WidgetTheme = {}): Theme => {
       ...widgetTheme.navigation,
     },
     typography: {
-      fontFamily: 'Inter var, Inter, sans-serif',
+      fontFamily: 'Inter, sans-serif',
       ...widgetTheme.typography,
     },
     shape: {
@@ -152,10 +152,6 @@ export const createTheme = (widgetTheme: WidgetTheme = {}): Theme => {
           root: {
             fontFamily: 'Inter, sans-serif',
             ...widgetTheme.typography,
-            '@supports (font-variation-settings: normal)': {
-              fontFamily: 'Inter var, sans-serif',
-              ...widgetTheme.typography,
-            },
           },
         },
       },

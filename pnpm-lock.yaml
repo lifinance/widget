@@ -1735,9 +1735,6 @@ importers:
       '@types/react-dom':
         specifier: ^19.2.3
         version: 19.2.3(@types/react@19.2.14)
-      cpy-cli:
-        specifier: ^7.0.0
-        version: 7.0.0
       madge:
         specifier: ^8.0.0
         version: 8.0.0(typescript@6.0.2)
@@ -17967,7 +17964,7 @@ snapshots:
       '@evervault/wasm-attestation-bindings': 0.3.1
       '@noble/hashes': 2.0.1
       '@noble/post-quantum': 0.5.4
-      eventemitter3: 5.0.1
+      eventemitter3: 5.0.4
       fp-ts: 2.16.11
       isows: 1.0.7(ws@8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6))
       ws: 8.20.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
