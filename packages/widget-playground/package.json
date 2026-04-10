@@ -5,8 +5,7 @@
   "main": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
   "scripts": {
-    "build": "pnpm clean && tsdown && pnpm build:fonts",
-    "build:fonts": "cpy 'src/fonts/*' dist/fonts",
+    "build": "pnpm clean && tsdown",
     "clean": "rm -rf dist",
     "check:types": "tsc --noEmit",
     "test": "vitest run",
@@ -16,7 +15,6 @@
   },
   "exports": {
     ".": "./src/index.ts",
-    "./fonts": "./src/fonts/inter.css",
     "./widget-config": "./src/defaultWidgetConfig.ts"
   },
   "dependencies": {
@@ -59,7 +57,6 @@
     "@types/node": "^25.5.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "typescript": "^6.0.2",
     "vitest": "^4.1.4"
