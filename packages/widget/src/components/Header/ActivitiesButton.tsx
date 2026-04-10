@@ -25,6 +25,7 @@ export const ActivitiesButton = (): JSX.Element => {
         active={indicator.active || indicator.failed}
         size="medium"
         onClick={() => navigate({ to: navigationRoutes.activities })}
+        disableRipple
       >
         <ErrorBadge
           invisible={!indicator.failed}
