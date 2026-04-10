@@ -26,9 +26,9 @@ export const NavigationTabs: React.FC<React.ComponentProps<typeof Tabs>> =
       height: '100%',
       width: '100%',
       borderRadius: theme.vars.shape.borderRadius,
-      backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+      backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
       ...theme.applyStyles('dark', {
-        backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08)`,
+        backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 8%, transparent)`,
       }),
     },
   }))

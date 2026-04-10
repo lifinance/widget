@@ -63,12 +63,12 @@ const floatingToolButtonColors = (theme: Theme) => ({
   color: theme.vars.palette.text.primary,
   backgroundColor: theme.vars.palette.common.white,
   '&:hover': {
-    backgroundColor: `rgba(${theme.vars.palette.common.backgroundChannel}, 0.08)`,
+    backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.background} 8%, transparent)`,
   },
   ...theme.applyStyles('dark', {
     backgroundColor: theme.vars.palette.grey[900],
     '&:hover': {
-      backgroundColor: `rgba(${theme.vars.palette.common.backgroundChannel}, 0.04)`,
+      backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.background} 4%, transparent)`,
     },
   }),
 })

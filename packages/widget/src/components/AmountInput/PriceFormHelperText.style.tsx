@@ -14,12 +14,12 @@ export const InputPriceButton: React.FC<React.ComponentProps<typeof Button>> =
     ...(onClick
       ? {
           '&:hover': {
-            backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
           },
           ...theme.applyStyles('dark', {
             backgroundColor: 'transparent',
             '&:hover': {
-              backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+              backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
             },
           }),
         }

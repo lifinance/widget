@@ -11,9 +11,9 @@ export const CardIconButton: React.FC<
 >(({ theme }) => {
   return {
     padding: theme.spacing(0.5),
-    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+    backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
     '&:hover': {
-      backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08)`,
+      backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 8%, transparent)`,
     },
     fontSize: '1rem',
   }

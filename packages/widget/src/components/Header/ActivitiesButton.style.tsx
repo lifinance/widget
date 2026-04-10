@@ -41,14 +41,14 @@ export const ActivitiesIconButton: React.FC<
     {
       props: { active: true },
       style: ({ theme }) => ({
-        backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.08)`,
+        backgroundColor: `color-mix(in srgb, ${theme.vars.palette.info.main} 8%, transparent)`,
         '&:hover': {
-          backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.12)`,
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.info.main} 12%, transparent)`,
         },
         ...theme.applyStyles('dark', {
-          backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.12)`,
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.info.main} 12%, transparent)`,
           '&:hover': {
-            backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.16)`,
+            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.info.main} 16%, transparent)`,
           },
         }),
       }),

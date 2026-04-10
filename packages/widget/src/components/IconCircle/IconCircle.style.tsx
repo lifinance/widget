@@ -19,28 +19,28 @@ export const getStatusColor = (
   switch (status) {
     case 'success':
       return {
-        color: theme.vars.palette.success.mainChannel,
+        color: theme.vars.palette.success.main,
         mixAmount: 12,
         lightDarken: 0,
         darkDarken: 0,
       }
     case 'error':
       return {
-        color: theme.vars.palette.error.mainChannel,
+        color: theme.vars.palette.error.main,
         mixAmount: 12,
         lightDarken: 0,
         darkDarken: 0,
       }
     case 'warning':
       return {
-        color: theme.vars.palette.warning.mainChannel,
+        color: theme.vars.palette.warning.main,
         mixAmount: 48,
         lightDarken: 0.32,
         darkDarken: 0,
       }
     case 'info':
       return {
-        color: theme.vars.palette.info.mainChannel,
+        color: theme.vars.palette.info.main,
         mixAmount: 12,
         lightDarken: 0,
         darkDarken: 0,
@@ -61,7 +61,7 @@ export const IconCircleRoot: React.FC<
   ({ theme, colorConfig, circleSize }) => {
     const svgSize = Math.round(circleSize * iconSizeRatio)
     return {
-      backgroundColor: `color-mix(in srgb, rgb(${colorConfig.color}) ${colorConfig.mixAmount}%, ${theme.vars.palette.background.paper})`,
+      backgroundColor: `color-mix(in srgb, ${colorConfig.color} ${colorConfig.mixAmount}%, ${theme.vars.palette.background.paper})`,
       borderRadius: '50%',
       width: circleSize,
       height: circleSize,
@@ -69,13 +69,13 @@ export const IconCircleRoot: React.FC<
       position: 'relative',
       placeItems: 'center',
       '& > svg': {
-        color: `color-mix(in srgb, rgb(${colorConfig.color}) ${(1 - colorConfig.lightDarken) * 100}%, black)`,
+        color: `color-mix(in srgb, ${colorConfig.color} ${(1 - colorConfig.lightDarken) * 100}%, black)`,
         width: svgSize,
         height: svgSize,
       },
       ...theme.applyStyles('dark', {
         '& > svg': {
-          color: `color-mix(in srgb, rgb(${colorConfig.color}) ${(1 - colorConfig.darkDarken) * 100}%, black)`,
+          color: `color-mix(in srgb, ${colorConfig.color} ${(1 - colorConfig.darkDarken) * 100}%, black)`,
           width: svgSize,
           height: svgSize,
         },

@@ -36,7 +36,7 @@ export const IconButton: React.FC<
   minWidth: 'unset',
   borderRadius: theme.vars.shape.borderRadiusTertiary,
   '&:hover': {
-    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+    backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
   },
   svg: {
     fontSize: 14,
