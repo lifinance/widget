@@ -22,14 +22,21 @@ export const useRouteExecutionMessage = (
 
   switch (status) {
     case RouteExecutionStatus.Pending: {
-      const lastStep = route.steps.at(-1)
-      const lastAction = lastStep?.execution?.actions?.at(-1)
-      if (!lastStep || !lastAction) {
+      // Find the first step that is currently executing rather than assuming
+      // the last step is active — on resume the failing step may not be last.
+      const activeStep =
+        route.steps.find(
+          (s) =>
+            s.execution?.status === 'PENDING' ||
+            s.execution?.status === 'ACTION_REQUIRED'
+        ) ?? route.steps.at(-1)
+      const lastAction = activeStep?.execution?.actions?.at(-1)
+      if (!activeStep || !lastAction) {
         break
       }
       const actionMessage = getActionMessage(
         t,
-        lastStep,
+        activeStep,
         lastAction.type,
         lastAction.status,
         lastAction.substatus,

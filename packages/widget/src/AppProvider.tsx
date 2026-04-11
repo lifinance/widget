@@ -1,3 +1,4 @@
+import { MotionConfig } from 'motion/react'
 import type { PropsWithChildren } from 'react'
 import { I18nProvider } from './providers/I18nProvider/I18nProvider.js'
 import { QueryClientProvider } from './providers/QueryClientProvider.js'
@@ -23,7 +24,7 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
               <SDKClientProvider>
                 <WalletProvider providers={config.providers ?? []}>
                   <StoreProvider config={config} formRef={formRef}>
-                    {children}
+                    <MotionConfig reducedMotion="user">{children}</MotionConfig>
                   </StoreProvider>
                 </WalletProvider>
               </SDKClientProvider>

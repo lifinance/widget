@@ -1,5 +1,10 @@
 {
-  "ignore": ["examples/**", "packages/widget-embedded/**", "scripts/**"],
+  "ignore": [
+    "examples/**",
+    "packages/widget-embedded/**",
+    "packages/widget-storybook/**",
+    "scripts/**"
+  ],
   "ignoreDependencies": ["@mui/system", "csstype"],
   "workspaces": {
     "packages/widget-light": {

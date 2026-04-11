@@ -31,6 +31,8 @@ export const ProgressTrack: React.FC<
   React.ComponentProps<typeof MuiCircularProgress>
 > = styled(MuiCircularProgress)(({ theme }) => ({
   position: 'absolute',
+  top: 0,
+  left: 0,
   color: theme.vars.palette.grey[300],
   ...theme.applyStyles('dark', {
     color: theme.vars.palette.grey[800],
@@ -41,6 +43,8 @@ export const ProgressFill: React.FC<
   React.ComponentProps<typeof MuiCircularProgress>
 > = styled(MuiCircularProgress)(({ theme }) => ({
   position: 'absolute',
+  top: 0,
+  left: 0,
   color: theme.vars.palette.primary.main,
   ...theme.applyStyles('dark', {
     color: theme.vars.palette.primary.light,
@@ -80,6 +84,8 @@ export const CircularProgressPending: React.FC<
     })}
   animation-duration: 3s;
   position: absolute;
+  top: 0;
+  left: 0;
   .${circularProgressClasses.circle} {
     animation-duration: 2s;
     animation-timing-function: linear;

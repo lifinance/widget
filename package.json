@@ -4,7 +4,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "pnpm -r --parallel --filter './packages/**' --filter !'*-next' build",
+    "build": "pnpm -r --parallel --filter './packages/**' --filter !'*-next' --filter '!widget-storybook' build",
     "build:next": "pnpm --filter widget-playground-next build",
     "clean": "pnpm -r --parallel --filter './packages/**' clean",
     "clean:cache": "pnpm store prune",
@@ -25,7 +25,8 @@
     "release:publish": "pnpm release:publish:build && pnpm -r publish --access public --no-git-checks --tag latest && pnpm release:clean",
     "release:publish:alpha": "pnpm release:publish:build && pnpm -r publish --access public --no-git-checks --tag alpha && pnpm release:clean",
     "release:publish:beta": "pnpm release:publish:build && pnpm -r publish --access public --no-git-checks --tag beta && pnpm release:clean",
-    "release:clean": "pnpm -r --parallel --filter './packages/**' --filter '!*-playground-*' --filter '!*-embedded' exec sh -c \"node ../../scripts/postrelease.js && rm -rf *.md\"",
+    "release:clean": "pnpm -r --parallel --filter './packages/**' --filter '!*-playground-*' --filter '!*-embedded' --filter '!widget-storybook' exec sh -c \"node ../../scripts/postrelease.js && rm -rf *.md\"",
+    "storybook": "pnpm --filter widget-storybook storybook",
     "check": "biome check",
     "check:write": "biome check --write",
     "check:write:unsafe": "biome check --write --unsafe",

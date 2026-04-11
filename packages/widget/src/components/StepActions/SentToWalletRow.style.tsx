@@ -9,7 +9,7 @@ export const ActionIconCircle: React.FC<React.ComponentProps<typeof Box>> =
     width: 24,
     height: 24,
     borderRadius: '50%',
-    backgroundColor: `color-mix(in srgb, rgb(${theme.vars.palette.success.mainChannel}) 12%, ${theme.vars.palette.background.paper})`,
+    backgroundColor: `color-mix(in srgb, ${theme.vars.palette.success.main} 12%, ${theme.vars.palette.background.paper})`,
   }))
 
 export const ExternalLink: React.FC<React.ComponentProps<typeof Link>> = styled(
