@@ -85,7 +85,7 @@ export const NFTBase: React.FC<NFTProps> = ({
           ) : null}
         </Box>
       </Box>
-      <Token token={token} isLoading={isLoading} mt={2} />
+      <Token token={token} isLoading={isLoading} sx={{ mt: 2 }} />
     </Box>
   )
 }

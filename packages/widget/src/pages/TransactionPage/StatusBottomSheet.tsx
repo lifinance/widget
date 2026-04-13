@@ -219,7 +219,7 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
     >
       {!showContractComponent ? (
         <CenterContainer>
-          <IconCircle status={status} mb={1}>
+          <IconCircle status={status} sx={{ mb: 1 }}>
             {status === RouteExecutionStatus.Idle ? (
               <InfoRounded color="primary" />
             ) : null}

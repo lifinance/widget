@@ -13,7 +13,7 @@
   "dependencies": {
     "@lifi/sdk": "^4.0.0-beta.5",
     "@lifi/widget": "^4.0.0-beta.9",
-    "@mui/material-nextjs": "^7.3.9",
+    "@mui/material-nextjs": "^9.0.0",
     "next": "^16",
     "react": "^19.2.5",
     "react-dom": "^19.2.5"
