@@ -7,14 +7,12 @@
   "types": "./src/index.d.ts",
   "sideEffects": false,
   "scripts": {
-    "watch": "tsc -w -p ./tsconfig.json",
-    "build": "pnpm clean && pnpm build:esm && pnpm build:clean",
-    "build:esm": "tsc --build",
+    "watch": "tsdown --watch",
+    "build": "pnpm clean && tsdown",
     "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../*.md' .",
     "build:postrelease": "node ../../scripts/postrelease.js && rm -rf *.md",
-    "build:clean": "rm -rf tsconfig.tsbuildinfo ./dist/tsconfig.tsbuildinfo",
     "release:build": "pnpm build",
-    "clean": "pnpm build:clean && rm -rf dist",
+    "clean": "rm -rf dist",
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
     "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg"
@@ -43,7 +41,7 @@
     "@lifi/sdk": "4.0.0-alpha.24",
     "@lifi/sdk-provider-tron": "4.0.0-alpha.24",
     "@lifi/widget-provider": "workspace:*",
-    "@tronweb3/tronwallet-abstract-adapter": "1.1.11",
+    "@tronweb3/tronwallet-abstract-adapter": "1.1.12",
     "@tronweb3/tronwallet-adapters": "^1.2.21"
   },
   "peerDependencies": {
