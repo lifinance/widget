@@ -21,14 +21,16 @@ function useInTronContext(): boolean {
 
 const TronWidgetProvider = ({
   forceInternalWalletManagement,
+  isExternalContext = false,
   config,
   children,
 }: PropsWithChildren<TronWidgetProviderProps>) => {
   const inTronContext = useInTronContext()
+  const effectiveIsExternal = isExternalContext || inTronContext
 
   if (inTronContext && !forceInternalWalletManagement) {
     return (
-      <TronProviderValues isExternalContext={inTronContext}>
+      <TronProviderValues isExternalContext={effectiveIsExternal}>
         {children}
       </TronProviderValues>
     )
@@ -36,7 +38,7 @@ const TronWidgetProvider = ({
 
   return (
     <TronBaseProvider config={config}>
-      <TronProviderValues isExternalContext={inTronContext}>
+      <TronProviderValues isExternalContext={effectiveIsExternal}>
         {children}
       </TronProviderValues>
     </TronBaseProvider>

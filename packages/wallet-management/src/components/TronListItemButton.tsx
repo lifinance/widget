@@ -42,8 +42,8 @@ export const TronListItemButton = ({
           connectorId: connector.id ?? connector.name,
           connectorName: connector.name,
         })
-        onConnected?.()
       })
+      onConnected?.()
     } catch (error) {
       onError?.(error)
     }
