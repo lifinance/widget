@@ -47,10 +47,12 @@ export const TronProviderValues: FC<
     : {
         chainType: ChainType.TVM,
         isConnected: false,
-        isConnecting: false,
+        isConnecting: connecting,
         isReconnecting: false,
         isDisconnected: true,
-        status: 'disconnected' as const,
+        status: connecting
+          ? ('connecting' as const)
+          : ('disconnected' as const),
       }
 
   const sdkProvider = useMemo(

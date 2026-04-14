@@ -25,6 +25,9 @@ export const EnvVariablesProvider = ({
   )
 }
 
-export const useEnvVariables = (): { EVMWalletConnectId: string } => {
+export const useEnvVariables = (): {
+  EVMWalletConnectId: string
+  TVMWalletConnectId: string
+} => {
   return useContext(EnvVariablesContext)
 }

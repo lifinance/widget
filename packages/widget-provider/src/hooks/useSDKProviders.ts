@@ -1,9 +1,10 @@
 import type { SDKProvider } from '@lifi/sdk'
-import { useBitcoinContext } from '../contexts/BitcoinContext'
-import { useEthereumContext } from '../contexts/EthereumContext'
-import { useSolanaContext } from '../contexts/SolanaContext'
-import { useSuiContext } from '../contexts/SuiContext'
-import { useTronContext } from '../contexts/TronContext'
+import { useMemo } from 'react'
+import { useBitcoinContext } from '../contexts/BitcoinContext.js'
+import { useEthereumContext } from '../contexts/EthereumContext.js'
+import { useSolanaContext } from '../contexts/SolanaContext.js'
+import { useSuiContext } from '../contexts/SuiContext.js'
+import { useTronContext } from '../contexts/TronContext.js'
 
 export const useSDKProviders = (): SDKProvider[] => {
   const { sdkProvider: evmSDKProvider } = useEthereumContext()
@@ -12,11 +13,21 @@ export const useSDKProviders = (): SDKProvider[] => {
   const { sdkProvider: suiSDKProvider } = useSuiContext()
   const { sdkProvider: tronSDKProvider } = useTronContext()
 
-  return [
-    evmSDKProvider,
-    utxoSDKProvider,
-    svmSDKProvider,
-    suiSDKProvider,
-    tronSDKProvider,
-  ].filter(Boolean) as SDKProvider[]
+  return useMemo(
+    () =>
+      [
+        evmSDKProvider,
+        utxoSDKProvider,
+        svmSDKProvider,
+        suiSDKProvider,
+        tronSDKProvider,
+      ].filter(Boolean) as SDKProvider[],
+    [
+      evmSDKProvider,
+      utxoSDKProvider,
+      svmSDKProvider,
+      suiSDKProvider,
+      tronSDKProvider,
+    ]
+  )
 }
