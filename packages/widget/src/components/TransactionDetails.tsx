@@ -113,7 +113,7 @@ export const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                 cursor: 'pointer',
               }}
             >
-              <IconTypography sx={{ mr: 0.5, fontSize: 16 }}>
+              <IconTypography component="span" sx={{ mr: 0.5, fontSize: 16 }}>
                 <LocalGasStationRounded fontSize="inherit" />
               </IconTypography>
               <Typography
