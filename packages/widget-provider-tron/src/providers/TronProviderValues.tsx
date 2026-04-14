@@ -25,35 +25,43 @@ export const TronProviderValues: FC<
     connecting,
   } = useWallet()
 
-  const connector = currentWallet
-    ? {
-        name: currentWallet.adapter.name,
-        icon: currentWallet.adapter.icon,
-      }
-    : undefined
+  const connector = useMemo(
+    () =>
+      currentWallet
+        ? {
+            name: currentWallet.adapter.name,
+            icon: currentWallet.adapter.icon,
+          }
+        : undefined,
+    [currentWallet]
+  )
 
-  const account = address
-    ? {
-        address: address,
-        chainId: ChainId.TRN,
-        chainType: ChainType.TVM,
-        connector,
-        isConnected,
-        isConnecting: connecting,
-        isReconnecting: false,
-        isDisconnected: false,
-        status: 'connected' as const,
-      }
-    : {
-        chainType: ChainType.TVM,
-        isConnected: false,
-        isConnecting: connecting,
-        isReconnecting: false,
-        isDisconnected: true,
-        status: connecting
-          ? ('connecting' as const)
-          : ('disconnected' as const),
-      }
+  const account = useMemo(
+    () =>
+      address
+        ? {
+            address: address,
+            chainId: ChainId.TRN,
+            chainType: ChainType.TVM,
+            connector,
+            isConnected,
+            isConnecting: connecting,
+            isReconnecting: false,
+            isDisconnected: false,
+            status: 'connected' as const,
+          }
+        : {
+            chainType: ChainType.TVM,
+            isConnected: false,
+            isConnecting: connecting,
+            isReconnecting: false,
+            isDisconnected: true,
+            status: connecting
+              ? ('connecting' as const)
+              : ('disconnected' as const),
+          },
+    [address, connector, isConnected, connecting]
+  )
 
   const sdkProvider = useMemo(
     () =>
@@ -104,20 +112,29 @@ export const TronProviderValues: FC<
     [wallets, select]
   )
 
+  const contextValue = useMemo(
+    () => ({
+      isEnabled: true,
+      account,
+      sdkProvider,
+      installedWallets,
+      isConnected,
+      isExternalContext,
+      connect: handleConnect,
+      disconnect,
+    }),
+    [
+      account,
+      sdkProvider,
+      installedWallets,
+      isConnected,
+      isExternalContext,
+      handleConnect,
+      disconnect,
+    ]
+  )
+
   return (
-    <TronContext.Provider
-      value={{
-        isEnabled: true,
-        account,
-        sdkProvider,
-        installedWallets,
-        isConnected,
-        isExternalContext,
-        connect: handleConnect,
-        disconnect,
-      }}
-    >
-      {children}
-    </TronContext.Provider>
+    <TronContext.Provider value={contextValue}>{children}</TronContext.Provider>
   )
 }
