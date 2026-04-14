@@ -51,7 +51,6 @@
     "porto": "^0.2.37",
     "@tronweb3/tronwallet-abstract-adapter": "1.1.12",
     "@tronweb3/tronwallet-adapter-react-hooks": "^1.1.11",
-    "@tronweb3/tronwallet-adapters": "^1.2.21",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "viem": "^2.47.11",

@@ -46,7 +46,14 @@ export const widgetBaseConfig: WidgetConfig = {
     SolanaProvider(),
     BitcoinProvider(),
     TronProvider({
-      walletConnect: true,
+      walletConnect: import.meta.env?.VITE_TVM_WALLET_CONNECT
+        ? {
+            network: 'mainnet',
+            options: {
+              projectId: import.meta.env.VITE_TVM_WALLET_CONNECT,
+            },
+          }
+        : true,
     }),
   ],
   variant: 'wide',
