@@ -8,15 +8,17 @@ import {
   useWallets,
 } from '@mysten/dapp-kit-react'
 import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
+import type { SuiProviderConfig } from '../types.js'
 import { WalletSigner } from '../WalletSigner.js'
 
 interface SuiProviderValuesProps {
   isExternalContext: boolean
+  config?: SuiProviderConfig
 }
 
 export const SuiProviderValues: FC<
   PropsWithChildren<SuiProviderValuesProps>
-> = ({ children, isExternalContext }) => {
+> = ({ children, isExternalContext, config }) => {
   const wallets = useWallets()
   const dappKit = useDAppKit()
   const { connectWallet: connect, disconnectWallet: disconnect } = dappKit
@@ -52,11 +54,12 @@ export const SuiProviderValues: FC<
 
   const sdkProvider = useMemo(
     () =>
+      config?.sdkProvider ??
       SuiSDKProvider({
         getClient: async () => dappKit.getClient(),
         getSigner: async () => new WalletSigner(dappKit),
       }),
-    [dappKit]
+    [dappKit, config?.sdkProvider]
   )
 
   const handleConnect = useCallback(

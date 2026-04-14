@@ -79,3 +79,7 @@ export interface WidgetProviderProps {
   isExternalContext?: boolean
   chains: ExtendedChain[]
 }
+
+export interface WidgetProviderConfig {
+  sdkProvider?: SDKProvider
+}

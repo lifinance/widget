@@ -11,6 +11,7 @@ export type {
   Account,
   EthereumProviderContext,
   WalletConnector,
+  WidgetProviderConfig,
   WidgetProviderContext,
   WidgetProviderProps,
 } from './types.js'

@@ -1,3 +1,4 @@
+import type { WidgetProviderConfig } from '@lifi/widget-provider'
 import type { CreateConnectorFn } from 'wagmi'
 import type {
   BaseAccountParameters,
@@ -12,7 +13,7 @@ export interface CreateConnectorFnExtended extends CreateConnectorFn {
   displayName: string
 }
 
-export interface EthereumProviderConfig {
+export interface EthereumProviderConfig extends WidgetProviderConfig {
   walletConnect?: WalletConnectParameters | boolean
   coinbase?: CoinbaseWalletParameters | boolean
   metaMask?: MetaMaskParameters | boolean

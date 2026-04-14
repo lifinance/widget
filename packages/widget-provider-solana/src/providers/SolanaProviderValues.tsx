@@ -3,15 +3,17 @@ import { SolanaProvider as SolanaSDKProvider } from '@lifi/sdk-provider-solana'
 import { SolanaContext } from '@lifi/widget-provider'
 import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
 import { useWalletAccount } from '../hooks/useWalletAccount.js'
+import type { SolanaProviderConfig } from '../types.js'
 import { useSolanaWalletStandard as useWallet } from '../wallet-standard/useSolanaWalletStandard.js'
 
 interface SolanaProviderValuesProps {
   isExternalContext: boolean
+  config?: SolanaProviderConfig
 }
 
 export const SolanaProviderValues: FC<
   PropsWithChildren<SolanaProviderValuesProps>
-> = ({ children, isExternalContext }) => {
+> = ({ children, isExternalContext, config }) => {
   const {
     wallets,
     selectedWallet: currentWallet,
@@ -59,6 +61,7 @@ export const SolanaProviderValues: FC<
 
   const sdkProvider = useMemo(
     () =>
+      config?.sdkProvider ??
       SolanaSDKProvider({
         async getWallet() {
           if (!currentWallet) {
@@ -68,7 +71,7 @@ export const SolanaProviderValues: FC<
           return currentWallet
         },
       }),
-    [currentWallet]
+    [currentWallet, config?.sdkProvider]
   )
 
   // Convert Wallet Standard wallets to a format the UI expects

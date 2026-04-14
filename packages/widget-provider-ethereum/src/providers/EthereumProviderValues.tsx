@@ -170,6 +170,7 @@ export const EthereumProviderValues: FC<
 
   const sdkProvider = useMemo(
     () =>
+      config?.sdkProvider ??
       EthereumSDKProvider({
         getWalletClient: () =>
           getConnectorClient(wagmiConfig, { assertChainId: false }),
@@ -179,7 +180,7 @@ export const EthereumProviderValues: FC<
         },
         disableMessageSigning: config?.disableMessageSigning,
       }),
-    [wagmiConfig, config?.disableMessageSigning]
+    [wagmiConfig, config?.disableMessageSigning, config?.sdkProvider]
   )
 
   const installedWallets = useMemo(
