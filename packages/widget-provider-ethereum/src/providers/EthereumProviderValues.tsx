@@ -168,20 +168,29 @@ export const EthereumProviderValues: FC<
 
   const isConnected = account.isConnected
 
-  const sdkProvider = useMemo(
-    () =>
+  const sdkProvider = useMemo(() => {
+    const getWalletClient = () =>
+      getConnectorClient(wagmiConfig, { assertChainId: false })
+    const switchChainDep = async (chainId: number) => {
+      const chain = await switchChain(wagmiConfig, { chainId })
+      return getConnectorClient(wagmiConfig, { chainId: chain.id })
+    }
+    if (typeof config?.sdkProvider === 'function') {
+      return config.sdkProvider({
+        getWalletClient,
+        switchChain: switchChainDep,
+        disableMessageSigning: config?.disableMessageSigning,
+      })
+    }
+    return (
       config?.sdkProvider ??
       EthereumSDKProvider({
-        getWalletClient: () =>
-          getConnectorClient(wagmiConfig, { assertChainId: false }),
-        switchChain: async (chainId: number) => {
-          const chain = await switchChain(wagmiConfig, { chainId })
-          return getConnectorClient(wagmiConfig, { chainId: chain.id })
-        },
+        getWalletClient,
+        switchChain: switchChainDep,
         disableMessageSigning: config?.disableMessageSigning,
-      }),
-    [wagmiConfig, config?.disableMessageSigning, config?.sdkProvider]
-  )
+      })
+    )
+  }, [wagmiConfig, config?.disableMessageSigning, config?.sdkProvider])
 
   const installedWallets = useMemo(
     () =>

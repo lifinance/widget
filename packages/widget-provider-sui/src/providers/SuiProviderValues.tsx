@@ -52,15 +52,14 @@ export const SuiProviderValues: FC<
 
   const installedWallets = useMemo(() => wallets, [wallets])
 
-  const sdkProvider = useMemo(
-    () =>
-      config?.sdkProvider ??
-      SuiSDKProvider({
-        getClient: async () => dappKit.getClient(),
-        getSigner: async () => new WalletSigner(dappKit),
-      }),
-    [dappKit, config?.sdkProvider]
-  )
+  const sdkProvider = useMemo(() => {
+    const getClient = async () => dappKit.getClient()
+    const getSigner = async () => new WalletSigner(dappKit)
+    if (typeof config?.sdkProvider === 'function') {
+      return config.sdkProvider({ getClient, getSigner })
+    }
+    return config?.sdkProvider ?? SuiSDKProvider({ getClient, getSigner })
+  }, [dappKit, config?.sdkProvider])
 
   const handleConnect = useCallback(
     async (

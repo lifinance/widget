@@ -37,14 +37,13 @@ export const BitcoinProviderValues: FC<
 
   const isConnected = account.isConnected
 
-  const sdkProvider = useMemo(
-    () =>
-      config?.sdkProvider ??
-      BitcoinSDKProvider({
-        getWalletClient: () => getBigmiConnectorClient(bigmiConfig),
-      }),
-    [bigmiConfig, config?.sdkProvider]
-  )
+  const sdkProvider = useMemo(() => {
+    const getWalletClient = () => getBigmiConnectorClient(bigmiConfig)
+    if (typeof config?.sdkProvider === 'function') {
+      return config.sdkProvider({ getWalletClient })
+    }
+    return config?.sdkProvider ?? BitcoinSDKProvider({ getWalletClient })
+  }, [bigmiConfig, config?.sdkProvider])
 
   const installedWallets = useMemo(
     () =>

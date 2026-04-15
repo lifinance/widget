@@ -1,8 +1,5 @@
 import { ChainId, ChainType } from '@lifi/sdk'
-import {
-  isSolanaProvider,
-  SolanaProvider as SolanaSDKProvider,
-} from '@lifi/sdk-provider-solana'
+import { SolanaProvider as SolanaSDKProvider } from '@lifi/sdk-provider-solana'
 import { SolanaContext } from '@lifi/widget-provider'
 import {
   type FC,
@@ -78,11 +75,10 @@ export const SolanaProviderValues: FC<
       }
       return walletRef.current
     }
-    const provider = config?.sdkProvider ?? SolanaSDKProvider({ getWallet })
-    if (isSolanaProvider(provider)) {
-      provider.setOptions({ getWallet })
+    if (typeof config?.sdkProvider === 'function') {
+      return config.sdkProvider({ getWallet })
     }
-    return provider
+    return config?.sdkProvider ?? SolanaSDKProvider({ getWallet })
   }, [config?.sdkProvider])
 
   // Convert Wallet Standard wallets to a format the UI expects
