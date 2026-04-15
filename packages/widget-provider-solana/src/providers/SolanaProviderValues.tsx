@@ -1,5 +1,8 @@
 import { ChainId, ChainType } from '@lifi/sdk'
-import { SolanaProvider as SolanaSDKProvider } from '@lifi/sdk-provider-solana'
+import {
+  isSolanaProvider,
+  SolanaProvider as SolanaSDKProvider,
+} from '@lifi/sdk-provider-solana'
 import { SolanaContext } from '@lifi/widget-provider'
 import {
   type FC,
@@ -68,20 +71,19 @@ export const SolanaProviderValues: FC<
   const walletRef = useRef(currentWallet)
   walletRef.current = currentWallet
 
-  const sdkProvider = useMemo(
-    () =>
-      config?.sdkProvider ??
-      SolanaSDKProvider({
-        async getWallet() {
-          if (!walletRef.current) {
-            throw new Error('Wallet not connected')
-          }
-
-          return walletRef.current
-        },
-      }),
-    [config?.sdkProvider]
-  )
+  const sdkProvider = useMemo(() => {
+    const getWallet = async () => {
+      if (!walletRef.current) {
+        throw new Error('Wallet not connected')
+      }
+      return walletRef.current
+    }
+    const provider = config?.sdkProvider ?? SolanaSDKProvider({ getWallet })
+    if (isSolanaProvider(provider)) {
+      provider.setOptions({ getWallet })
+    }
+    return provider
+  }, [config?.sdkProvider])
 
   // Convert Wallet Standard wallets to a format the UI expects
   const installedWallets = useMemo(
