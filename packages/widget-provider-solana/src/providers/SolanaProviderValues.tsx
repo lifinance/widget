@@ -1,7 +1,13 @@
 import { ChainId, ChainType } from '@lifi/sdk'
 import { SolanaProvider as SolanaSDKProvider } from '@lifi/sdk-provider-solana'
 import { SolanaContext } from '@lifi/widget-provider'
-import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
+import {
+  type FC,
+  type PropsWithChildren,
+  useCallback,
+  useMemo,
+  useRef,
+} from 'react'
 import { useWalletAccount } from '../hooks/useWalletAccount.js'
 import type { SolanaProviderConfig } from '../types.js'
 import { useSolanaWalletStandard as useWallet } from '../wallet-standard/useSolanaWalletStandard.js'
@@ -59,19 +65,22 @@ export const SolanaProviderValues: FC<
 
   const isConnected = account.isConnected
 
+  const walletRef = useRef(currentWallet)
+  walletRef.current = currentWallet
+
   const sdkProvider = useMemo(
     () =>
       config?.sdkProvider ??
       SolanaSDKProvider({
         async getWallet() {
-          if (!currentWallet) {
+          if (!walletRef.current) {
             throw new Error('Wallet not connected')
           }
 
-          return currentWallet
+          return walletRef.current
         },
       }),
-    [currentWallet, config?.sdkProvider]
+    [config?.sdkProvider]
   )
 
   // Convert Wallet Standard wallets to a format the UI expects
