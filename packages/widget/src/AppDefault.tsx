@@ -6,6 +6,7 @@ import {
   RouterProvider,
 } from '@tanstack/react-router'
 import type { JSX } from 'react'
+import { useState } from 'react'
 import { AppLayout } from './AppLayout.js'
 import { NotFound } from './components/NotFound.js'
 import { ActivitiesPage } from './pages/ActivitiesPage/ActivitiesPage.js'
@@ -247,22 +248,19 @@ const routeTree = rootRoute.addChildren([
   configuredWalletsRoute,
 ])
 
-const history = createMemoryHistory({
-  initialEntries: ['/'],
-})
-
-const router: ReturnType<typeof createRouter> = createRouter({
-  routeTree,
-  history,
-  defaultPreload: 'intent',
-})
-
 declare module '@tanstack/react-router' {
   interface Register {
-    router: typeof router
+    router: ReturnType<typeof createRouter>
   }
 }
 
 export const AppDefault = (): JSX.Element => {
+  const [router] = useState(() =>
+    createRouter({
+      routeTree,
+      history: createMemoryHistory({ initialEntries: ['/'] }),
+      defaultPreload: 'intent',
+    })
+  )
   return <RouterProvider router={router} />
 }
