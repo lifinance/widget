@@ -1,5 +1,6 @@
 export { useSyncWagmiConfig } from './hooks/useSyncWagmiConfig.js'
 export { EthereumProvider } from './providers/EthereumProvider.js'
+export type { EthereumProviderConfig } from './types.js'
 export {
   convertExtendedChain,
   isExtendedChain,
