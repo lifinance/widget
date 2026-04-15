@@ -12,10 +12,6 @@ export enum WidgetEvent {
   FormFieldChanged = 'formFieldChanged',
   LowAddressActivityConfirmed = 'lowAddressActivityConfirmed',
   PageEntered = 'pageEntered',
-  /**
-   * @deprecated Use `PageEntered` event instead.
-   */
-  ReviewTransactionPageEntered = 'reviewTransactionPageEntered',
   RouteExecutionCompleted = 'routeExecutionCompleted',
   RouteExecutionFailed = 'routeExecutionFailed',
   RouteExecutionStarted = 'routeExecutionStarted',
@@ -37,7 +33,6 @@ export type WidgetEvents = {
   formFieldChanged: FormFieldChanged
   lowAddressActivityConfirmed: LowAddressActivityConfirmed
   pageEntered: NavigationRouteType
-  reviewTransactionPageEntered?: Route
   routeExecutionCompleted: Route
   routeExecutionFailed: RouteExecutionUpdate
   routeExecutionStarted: Route
