@@ -13,7 +13,7 @@
     "@bigmi/client": "^0.8.0",
     "@bigmi/core": "^0.8.0",
     "@bigmi/react": "^0.8.0",
-    "@lifi/sdk": "^4.0.0-beta.5",
+    "@lifi/sdk": "^4.0.0-beta.6",
     "@lifi/wallet-management": "^4.0.0-beta.9",
     "@lifi/widget": "^4.0.0-beta.9",
     "@lifi/widget-provider-ethereum": "^4.0.0-beta.9",
