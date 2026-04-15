@@ -1,13 +1,24 @@
-import { TransactionStatusCard } from '@lifi/widget/src/components/TransactionStatusCard/TransactionStatusCard'
-import { ExecutionProgressCards } from '@lifi/widget/src/pages/TransactionPage/ExecutionProgressCards'
+import type { RouteExtended } from '@lifi/sdk'
+import { PageContainer } from '@lifi/widget/src/components/PageContainer'
+import { TransactionExecutionContent } from '@lifi/widget/src/pages/TransactionPage/TransactionExecutionContent'
 import type { RouteExecutionStatus } from '@lifi/widget/src/stores/routes/types'
 import { Box, Button, Chip, Slider, Typography } from '@mui/material'
 import type { Meta, StoryObj } from '@storybook/react'
-import { useCallback, useMemo, useState } from 'react'
 import {
-  allStepEntries,
+  createMemoryHistory,
+  createRootRoute,
+  createRouter,
+  RouterProvider,
+} from '@tanstack/react-router'
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from 'react'
+import {
   type ExecutionStep,
-  type MockRouteKey,
   mockRoutes,
   pendingSteps,
   type TerminalKey,
@@ -17,12 +28,54 @@ import {
 } from './transactionStatusCardFixtures'
 import { useSequencePlayer } from './useSequencePlayer'
 
+// ── Router setup ────────────────────────────────────────────────────────────
+// TransactionDoneButtons / TransactionFailedButtons use `useNavigate` and
+// `useRouter` — mount a minimal memory router so those hooks resolve. The
+// live (route, status) from the animation controls is threaded into the
+// router-rendered content via React context.
+
+interface ExecutionState {
+  route: RouteExtended
+  status: RouteExecutionStatus
+}
+
+const ExecutionStateContext = createContext<ExecutionState | null>(null)
+
+const noop = (): void => {}
+
+function RoutedExecutionContent(): React.ReactElement | null {
+  const state = useContext(ExecutionStateContext)
+  if (!state) {
+    return null
+  }
+  // Storybook-only wrapper that mirrors the PageContainer layout the
+  // widget uses in production around the execution content.
+  return (
+    <PageContainer
+      bottomGutters
+      sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+    >
+      <TransactionExecutionContent
+        route={state.route}
+        status={state.status}
+        restartRoute={noop}
+        deleteRoute={noop}
+      />
+    </PageContainer>
+  )
+}
+
+const rootRoute = createRootRoute({ component: RoutedExecutionContent })
+const router = createRouter({
+  routeTree: rootRoute,
+  history: createMemoryHistory({ initialEntries: ['/'] }),
+})
+
 // ── AutoPlay ────────────────────────────────────────────────────────────────
 
 function AutoPlayDemo(): React.ReactElement {
   const [terminal, setTerminal] = useState<TerminalKey>('done')
   const [intervalMs, setIntervalMs] = useState(2500)
-  const [timeScale, setTimeScale] = useState(1)
 
   const sequence: ExecutionStep[] = useMemo(
     () => [...pendingSteps, terminalSteps[terminal]],
@@ -32,6 +85,11 @@ function AutoPlayDemo(): React.ReactElement {
   const player = useSequencePlayer({ sequence, intervalMs })
   const { routeKey, status } = player.current
   const route = mockRoutes[routeKey]
+
+  const executionState = useMemo<ExecutionState>(
+    () => ({ route, status }),
+    [route, status]
+  )
 
   const handleTerminalChange = useCallback(
     (key: TerminalKey) => {
@@ -155,26 +213,6 @@ function AutoPlayDemo(): React.ReactElement {
             step={100}
           />
         </Box>
-
-        <Box>
-          <Typography variant="caption" color="text.secondary">
-            Animation speed:{' '}
-            {timeScale === 1 ? '1× (normal)' : `${timeScale}× (slow-mo)`}
-          </Typography>
-          <Slider
-            size="small"
-            value={timeScale}
-            onChange={(_, v) => setTimeScale(v as number)}
-            min={0.5}
-            max={5}
-            step={0.25}
-            marks={[
-              { value: 1, label: '1×' },
-              { value: 3, label: '3×' },
-              { value: 5, label: '5×' },
-            ]}
-          />
-        </Box>
       </Box>
 
       <Box
@@ -188,66 +226,21 @@ function AutoPlayDemo(): React.ReactElement {
           p: 4,
         }}
       >
-        <Box sx={{ width: '368px' }}>
-          <Typography
-            variant="caption"
-            color="text.secondary"
-            sx={{ mb: 1, display: 'block' }}
-          >
-            TransactionStatusCard (new)
-          </Typography>
-          <TransactionStatusCard
-            route={route}
-            status={status}
-            timeScale={timeScale}
-          />
-        </Box>
-        <Box>
-          <Typography
-            variant="caption"
-            color="text.secondary"
-            sx={{ mb: 1, display: 'block' }}
-          >
-            ExecutionProgressCards (original)
-          </Typography>
-          <Box sx={{ width: 400 }}>
-            <ExecutionProgressCards route={route} status={status} />
-          </Box>
+        <Box sx={{ width: '416px' }}>
+          {/* Feature the execution content block — the card is one part of
+              this composition alongside warning messages and the terminal
+              button group. The RouterProvider's root component pulls the
+              live (route, status) from context. */}
+          <ExecutionStateContext.Provider value={executionState}>
+            <RouterProvider router={router} />
+          </ExecutionStateContext.Provider>
         </Box>
       </Box>
     </Box>
   )
 }
 
-// ── Interactive ─────────────────────────────────────────────────────────────
-
-function InteractiveDemo({
-  routeKey,
-  timeScale,
-}: {
-  routeKey: MockRouteKey
-  timeScale: number
-}): React.ReactElement {
-  const entry =
-    allStepEntries.find((e) => e.key === routeKey) ?? allStepEntries[0]
-  const route = mockRoutes[entry.key]
-  const status = entry.status as RouteExecutionStatus
-
-  return (
-    <TransactionStatusCard
-      route={route}
-      status={status}
-      timeScale={timeScale}
-    />
-  )
-}
-
 // ── Meta + Stories ──────────────────────────────────────────────────────────
-
-interface InteractiveArgs {
-  routeKey: MockRouteKey
-  timeScale: number
-}
 
 const meta = {
   title: 'Components/TransactionStatusCard',
@@ -259,22 +252,4 @@ export default meta
 export const AutoPlay: StoryObj<typeof meta> = {
   parameters: { layout: 'fullscreen' },
   render: () => <AutoPlayDemo />,
-}
-
-export const Interactive: StoryObj<Meta<InteractiveArgs>> = {
-  argTypes: {
-    routeKey: {
-      control: 'select',
-      options: allStepEntries.map((e) => e.key),
-      description: 'Execution state',
-    },
-    timeScale: {
-      control: { type: 'range', min: 0.5, max: 5, step: 0.25 },
-      description: 'Animation speed multiplier',
-    },
-  },
-  args: { routeKey: 'pendingAllowance', timeScale: 1 },
-  render: (args) => (
-    <InteractiveDemo routeKey={args.routeKey} timeScale={args.timeScale} />
-  ),
 }

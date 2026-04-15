@@ -1,12 +1,9 @@
 import { SDKClientProvider } from '@lifi/widget/src/providers/SDKClientProvider'
 import { WidgetProvider } from '@lifi/widget/src/providers/WidgetProvider/WidgetProvider'
+import { StoreProvider } from '@lifi/widget/src/stores/StoreProvider'
 import { SettingsStoreProvider } from '@lifi/widget/src/stores/settings/SettingsStore'
-import {
-  palette,
-  paletteDark,
-  paletteLight,
-} from '@lifi/widget/src/themes/palettes'
-import { CssBaseline, createTheme, ThemeProvider } from '@mui/material'
+import { createTheme } from '@lifi/widget/src/themes/createTheme'
+import { CssBaseline, ThemeProvider } from '@mui/material'
 import { useColorScheme } from '@mui/material/styles'
 import type { Decorator, Preview } from '@storybook/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -17,22 +14,11 @@ import './i18n'
 
 const widgetConfig = { integrator: 'lifi-storybook' }
 
-const theme = createTheme({
-  cssVariables: {
-    cssVarPrefix: 'lifi',
-    colorSchemeSelector: 'class',
-  },
-  colorSchemes: {
-    light: { palette: { ...palette, ...paletteLight } },
-    dark: { palette: { ...palette, ...paletteDark } },
-  },
-  shape: {
-    borderRadius: 12,
-    borderRadiusSecondary: 12,
-    borderRadiusTertiary: 24,
-  },
-  typography: { fontFamily: 'Inter var, Inter, sans-serif' },
-})
+// Use the widget's real theme factory so every MUI component override
+// (button `textTransform: 'none'`, card/tabs/avatar styling, drop-shadows,
+// etc.) matches production. A plain MUI `createTheme` with just the
+// palette would leave buttons uppercase, cards flat, etc.
+const theme = createTheme()
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -78,15 +64,17 @@ const preview: Preview = {
           <SettingsStoreProvider config={widgetConfig}>
             <WidgetProvider config={widgetConfig}>
               <SDKClientProvider>
-                <ThemeProvider
-                  theme={theme}
-                  storageManager={null}
-                  disableTransitionOnChange
-                >
-                  <CssBaseline enableColorScheme />
-                  <ColorSchemeSync mode={colorScheme} />
-                  <Story />
-                </ThemeProvider>
+                <StoreProvider config={widgetConfig}>
+                  <ThemeProvider
+                    theme={theme}
+                    storageManager={null}
+                    disableTransitionOnChange
+                  >
+                    <CssBaseline enableColorScheme />
+                    <ColorSchemeSync mode={colorScheme} />
+                    <Story />
+                  </ThemeProvider>
+                </StoreProvider>
               </SDKClientProvider>
             </WidgetProvider>
           </SettingsStoreProvider>

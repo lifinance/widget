@@ -8,65 +8,52 @@ import {
   resolveExecutionIconKey,
 } from '../ExecutionProgress/ExecutionStatusIndicator.js'
 import { iconCircleSize } from '../IconCircle/IconCircle.style.js'
-import {
-  iconInitial,
-  iconVariants,
-  layoutTransition,
-  type MotionCustom,
-} from './variants'
+import { iconMorphVariants } from './motion'
 
 interface StatusIconProps {
   route: RouteExtended
   status: RouteExecutionStatus
-  custom: MotionCustom
 }
 
 /**
  * Animation wrapper around {@link ExecutionStatusIndicator}.
  *
- * Renders the same indicator as the static flow. The wrapper contributes:
- * - `AnimatePresence mode="wait"` keyed by {@link resolveExecutionIconKey}
- *   so a state change animates the old indicator out and the new one in.
- *   The key is derived from the same logic the indicator uses internally,
- *   keeping render output and animation key in sync.
- * - Motion variants (scale + opacity + subtle y-translate) sharing the
- *   card's rhythm.
- * - `layout` prop so the icon counter-scales if an ancestor animates
- *   layout, keeping the icon crisp.
+ * The icon lives in a fixed-size slot; when the execution status changes
+ * we use `AnimatePresence mode="popLayout"` so the outgoing and incoming
+ * indicators share the slot for the brief transition. A near-invisible
+ * crossfade with a hair of blur ({@link iconMorphVariants}) makes the
+ * swap read as the icon softening and re-settling — no visible in/out.
+ * Both children are absolutely centered on top of each other so no layout
+ * shift is visible during the overlap.
  */
-export function StatusIcon({
-  route,
-  status,
-  custom,
-}: StatusIconProps): JSX.Element {
+export function StatusIcon({ route, status }: StatusIconProps): JSX.Element {
   const iconKey = resolveExecutionIconKey(route, status)
 
   return (
     <Box
       sx={{
+        position: 'relative',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        width: iconCircleSize,
         height: iconCircleSize,
         mb: 2,
       }}
     >
-      <AnimatePresence mode="wait" custom={custom}>
+      <AnimatePresence mode="popLayout" initial={false}>
         <motion.div
           key={iconKey}
-          layout
-          transition={layoutTransition}
-          custom={custom}
-          variants={iconVariants}
-          initial={iconInitial}
-          animate="enter"
-          exit="exit"
+          variants={iconMorphVariants}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
           style={{
+            position: 'absolute',
+            inset: 0,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            width: iconCircleSize,
-            height: iconCircleSize,
           }}
         >
           <ExecutionStatusIndicator route={route} status={status} />

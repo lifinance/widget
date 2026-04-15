@@ -6,6 +6,11 @@ export interface TransactionStatusCardProps {
   route: RouteExtended
   /** Bitwise RouteExecutionStatus from the project's store. */
   status: RouteExecutionStatus
-  /** Multiplier for all animation durations. 1 = normal, 3-5 = slow-motion. */
-  timeScale?: number
+  /**
+   * Optional override for the subtitle (description) text. Storybook and
+   * demo-only escape hatch — when set, replaces the message derived from
+   * {@link useRouteExecutionMessage}. Production code should leave this
+   * undefined.
+   */
+  subtitleOverride?: string
 }
