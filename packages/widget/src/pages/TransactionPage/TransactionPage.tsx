@@ -221,7 +221,7 @@ export const TransactionPage = (): JSX.Element | null => {
       {status === RouteExecutionStatus.Idle ||
       status === RouteExecutionStatus.Failed ? (
         <>
-          <WarningMessages mt={2} route={route} allowInteraction />
+          <WarningMessages sx={{ mt: 2 }} route={route} allowInteraction />
           <Box
             sx={{
               mt: 2,

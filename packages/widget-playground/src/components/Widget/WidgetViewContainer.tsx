@@ -51,7 +51,7 @@ export function WidgetViewContainer({
             </Tooltip>
           ) : null}
           {isWalletManagementExternal ? (
-            <Box display="flex" alignItems="center">
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <appkit-button />
             </Box>
           ) : null}

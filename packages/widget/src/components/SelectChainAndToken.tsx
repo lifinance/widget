@@ -24,7 +24,7 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
   const showReverseButton = !hiddenToToken && !hiddenFromToken
 
   return (
-    <Box sx={{ display: 'flex' }} {...props}>
+    <Box {...props} sx={{ display: 'flex', ...props.sx }}>
       {!hiddenFromToken ? (
         <SelectTokenButton formType="from" hiddenReverse={hiddenReverse} />
       ) : null}

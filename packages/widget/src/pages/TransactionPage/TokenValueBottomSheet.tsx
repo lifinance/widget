@@ -59,7 +59,7 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
       }}
     >
       <CenterContainer>
-        <IconCircle status="warning" mb={1}>
+        <IconCircle status="warning" sx={{ mb: 1 }}>
           <WarningRounded color="warning" />
         </IconCircle>
         <Typography

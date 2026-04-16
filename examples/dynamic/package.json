@@ -23,7 +23,7 @@
     "@lifi/wallet-management": "^4.0.0-beta.9",
     "@lifi/widget": "^4.0.0-beta.9",
     "@lifi/widget-provider-ethereum": "^4.0.0-beta.9",
-    "@mui/material": "^7.3.9",
+    "@mui/material": "^9.0.0",
     "@solana/wallet-adapter-base": "^0.9.27",
     "@solana/wallet-adapter-react": "^0.15.39",
     "@solana/wallet-standard-features": "^1.3.0",

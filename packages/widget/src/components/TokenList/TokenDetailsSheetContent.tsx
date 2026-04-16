@@ -75,10 +75,12 @@ export const TokenDetailsSheetContent: React.ForwardRefExoticComponent<
               ) : (
                 <>
                   <Typography
-                    fontWeight={700}
-                    fontSize="24px"
-                    lineHeight="24px"
-                    color="text.primary"
+                    sx={{
+                      fontWeight: 700,
+                      fontSize: '24px',
+                      lineHeight: '24px',
+                      color: 'text.primary',
+                    }}
                   >
                     {token?.symbol || noDataLabel}
                   </Typography>
