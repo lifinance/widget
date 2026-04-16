@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-provider-bitcoin",
-  "version": "4.0.0-beta.16",
+  "version": "4.0.0-beta.17",
   "description": "LI.FI Widget Provider for Bitcoin blockchain integration.",
   "type": "module",
   "main": "./src/index.ts",
