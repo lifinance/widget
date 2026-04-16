@@ -3,6 +3,7 @@ export {
   useWalletAccount,
 } from './hooks/useWalletAccount.js'
 export { SolanaProvider } from './providers/SolanaProvider.js'
+export type { SolanaProviderConfig, SolanaProviderDeps } from './types.js'
 export type {
   AccountInfo,
   SolanaWalletStandardState,

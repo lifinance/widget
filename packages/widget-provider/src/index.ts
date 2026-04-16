@@ -11,6 +11,7 @@ export { useSDKProviders } from './hooks/useSDKProviders.js'
 export type {
   Account,
   EthereumProviderContext,
+  SDKProviderFactory,
   WalletConnector,
   WidgetProviderContext,
   WidgetProviderProps,

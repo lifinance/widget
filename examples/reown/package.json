@@ -17,7 +17,7 @@
     "@lifi/wallet-management": "^4.0.0-beta.9",
     "@lifi/widget": "^4.0.0-beta.9",
     "@lifi/widget-provider-ethereum": "^4.0.0-beta.9",
-    "@mui/material": "^7.3.9",
+    "@mui/material": "^9.0.0",
     "@reown/appkit": ">=1.8.18",
     "@reown/appkit-adapter-bitcoin": "^1.8.19",
     "@reown/appkit-adapter-solana": "^1.8.19",

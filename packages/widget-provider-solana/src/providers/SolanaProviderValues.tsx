@@ -1,17 +1,25 @@
 import { ChainId, ChainType } from '@lifi/sdk'
 import { SolanaProvider as SolanaSDKProvider } from '@lifi/sdk-provider-solana'
 import { SolanaContext } from '@lifi/widget-provider'
-import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
+import {
+  type FC,
+  type PropsWithChildren,
+  useCallback,
+  useMemo,
+  useRef,
+} from 'react'
 import { useWalletAccount } from '../hooks/useWalletAccount.js'
+import type { SolanaProviderConfig } from '../types.js'
 import { useSolanaWalletStandard as useWallet } from '../wallet-standard/useSolanaWalletStandard.js'
 
 interface SolanaProviderValuesProps {
   isExternalContext: boolean
+  config?: SolanaProviderConfig
 }
 
 export const SolanaProviderValues: FC<
   PropsWithChildren<SolanaProviderValuesProps>
-> = ({ children, isExternalContext }) => {
+> = ({ children, isExternalContext, config }) => {
   const {
     wallets,
     selectedWallet: currentWallet,
@@ -57,19 +65,21 @@ export const SolanaProviderValues: FC<
 
   const isConnected = account.isConnected
 
-  const sdkProvider = useMemo(
-    () =>
-      SolanaSDKProvider({
-        async getWallet() {
-          if (!currentWallet) {
-            throw new Error('Wallet not connected')
-          }
+  const walletRef = useRef(currentWallet)
+  walletRef.current = currentWallet
 
-          return currentWallet
-        },
-      }),
-    [currentWallet]
-  )
+  const sdkProvider = useMemo(() => {
+    const getWallet = async () => {
+      if (!walletRef.current) {
+        throw new Error('Wallet not connected')
+      }
+      return walletRef.current
+    }
+    if (typeof config?.sdkProvider === 'function') {
+      return config.sdkProvider({ getWallet })
+    }
+    return config?.sdkProvider ?? SolanaSDKProvider({ getWallet })
+  }, [config?.sdkProvider])
 
   // Convert Wallet Standard wallets to a format the UI expects
   const installedWallets = useMemo(

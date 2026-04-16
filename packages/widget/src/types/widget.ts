@@ -174,6 +174,7 @@ export interface WidgetSDKConfig
     | 'apiKey'
     | 'disableVersionCheck'
     | 'integrator'
+    | 'providers'
     | 'routeOptions'
     | 'widgetVersion'
   > {
