@@ -6,17 +6,29 @@ import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { HiddenUI } from '../../types/widget.js'
+import {
+  HiddenUI,
+  type SubvariantOptions,
+  type WidgetFeeConfig,
+  type WidgetSubvariant,
+} from '../../types/widget.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { SmallAvatar } from '../Avatar/SmallAvatar.js'
 import { Card } from '../Card/Card.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
-import type { StepDetailsLabelProps } from '../StepActions/types.js'
 import {
   StepActionsHeader,
   StepActionsTitle,
   StepLabelTypography,
 } from './StepActions.style.js'
+
+interface StepDetailsLabelProps {
+  step: StepExtended
+  subvariant?: Extract<WidgetSubvariant, 'custom'>
+  subvariantOptions?: SubvariantOptions
+  feeConfig?: WidgetFeeConfig
+  relayerSupport?: boolean
+}
 
 export const StepActions: React.FC<{
   route: RouteExtended

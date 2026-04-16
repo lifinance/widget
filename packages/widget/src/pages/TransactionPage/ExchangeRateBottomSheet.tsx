@@ -1,5 +1,4 @@
 import type { ExchangeRateUpdateParams } from '@lifi/sdk'
-import WarningRounded from '@mui/icons-material/WarningRounded'
 import { Box, Button, Typography } from '@mui/material'
 import type { ForwardRefExoticComponent, RefAttributes, RefObject } from 'react'
 import {
@@ -12,9 +11,10 @@ import {
 import { useTranslation } from 'react-i18next'
 import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
+import { IconCircle } from '../../components/IconCircle/IconCircle.js'
 import { useSetContentHeight } from '../../hooks/useSetContentHeight.js'
 import { formatTokenAmount } from '../../utils/format.js'
-import { CenterContainer, IconCircle } from './StatusBottomSheet.style.js'
+import { CenterContainer } from './ExchangeRateBottomSheet.style.js'
 
 export interface ExchangeRateBottomSheetBase {
   isOpen(): void
@@ -112,9 +112,7 @@ const ExchangeRateBottomSheetContent: React.FC<
       }}
     >
       <CenterContainer>
-        <IconCircle status="warning" mb={1}>
-          <WarningRounded color="warning" />
-        </IconCircle>
+        <IconCircle status="warning" mb={1} />
         <Typography
           sx={{
             py: 1,

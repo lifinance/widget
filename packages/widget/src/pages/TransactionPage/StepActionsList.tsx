@@ -1,5 +1,6 @@
 import type { RouteExtended } from '@lifi/sdk'
 import { Box } from '@mui/material'
+import { Fragment } from 'react'
 import { SentToWalletRow } from '../../components/StepActions/SentToWalletRow.js'
 import { StepActionRow } from '../../components/StepActions/StepActionRow.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
@@ -15,6 +16,7 @@ export const StepActionsList: React.FC<StepActionsListProps> = ({
   toAddress,
 }) => {
   const { getTransactionLink } = useExplorer()
+
   const stepRows = route.steps
     .map((step) => {
       const rows = prepareActions(step.execution?.actions ?? [])
@@ -49,10 +51,7 @@ export const StepActionsList: React.FC<StepActionsListProps> = ({
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
       {stepRows.map(({ step, rows }) => (
-        <Box
-          key={step.id}
-          sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}
-        >
+        <Fragment key={step.id}>
           {rows.map(({ action, href }, index) => (
             <StepActionRow
               key={index}
@@ -61,7 +60,7 @@ export const StepActionsList: React.FC<StepActionsListProps> = ({
               href={href!}
             />
           ))}
-        </Box>
+        </Fragment>
       ))}
       {toAddress ? (
         <SentToWalletRow toAddress={toAddress} toChainId={route.toChainId} />

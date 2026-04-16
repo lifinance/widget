@@ -32,7 +32,9 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
         mt: 2,
       }}
     >
-      <TokenRate route={route} />
+      <Tooltip title={t('tooltip.exchangeRate')}>
+        <TokenRate route={route} />
+      </Tooltip>
       <Box
         sx={{
           display: 'flex',
