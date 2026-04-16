@@ -132,6 +132,9 @@
       "slippageOutsideRecommendedLimits": "Yüksek slipaj, ani fiyat hareketleri nedeniyle zarara yol açabilir.",
       "slippageUnderRecommendedLimits": "Düşük kayma toleransı işlem gecikmelerine veya hatalarına neden olabilir."
     },
+    "checkbox": {
+      "highValueLoss": ""
+    },
     "title": {
       "clearFailedTransactions": "",
       "highValueLoss": "Yüksek değer kaybı",

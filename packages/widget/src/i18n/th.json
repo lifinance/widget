@@ -132,6 +132,9 @@
       "slippageOutsideRecommendedLimits": "การยอมรับความผิดปกติในการสลิปเพจสูงอาจส่งผลให้เกิดการซื้อขายที่ไม่คุ้มค่า ซึ่งเกิดจากการดำเนินการขายก่อน",
       "slippageUnderRecommendedLimits": ""
     },
+    "checkbox": {
+      "highValueLoss": ""
+    },
     "title": {
       "clearFailedTransactions": "",
       "highValueLoss": "สูญเสียมูลค่าสูง",

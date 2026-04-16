@@ -132,6 +132,9 @@
       "slippageOutsideRecommendedLimits": "",
       "slippageUnderRecommendedLimits": ""
     },
+    "checkbox": {
+      "highValueLoss": ""
+    },
     "title": {
       "clearFailedTransactions": "",
       "highValueLoss": "높은 가치 손실",

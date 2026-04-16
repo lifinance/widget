@@ -132,6 +132,9 @@
       "slippageOutsideRecommendedLimits": "Високий допуск до прослизання може призвести до несприятливої торгівлі через фронт-біг.",
       "slippageUnderRecommendedLimits": "Низький допуск до прослизання може призвести до затримок або невдачі транзакції."
     },
+    "checkbox": {
+      "highValueLoss": ""
+    },
     "title": {
       "clearFailedTransactions": "",
       "highValueLoss": "Висока втрата вартості",
