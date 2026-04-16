@@ -38,8 +38,8 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "4.0.0-beta.5",
-    "@lifi/sdk-provider-sui": "4.0.0-beta.5",
+    "@lifi/sdk": "4.0.0-beta.6",
+    "@lifi/sdk-provider-sui": "4.0.0-beta.6",
     "@lifi/widget-provider": "workspace:*",
     "@mysten/sui": "^2.15.0"
   },

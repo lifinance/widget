@@ -5,6 +5,7 @@ export {
 } from './contexts/EthereumContext.js'
 export { SolanaContext, useSolanaContext } from './contexts/SolanaContext.js'
 export { SuiContext, useSuiContext } from './contexts/SuiContext.js'
+export { TronContext, useTronContext } from './contexts/TronContext.js'
 export { useChainTypeFromAddress } from './hooks/useChainTypeFromAddress.js'
 export { useSDKProviders } from './hooks/useSDKProviders.js'
 export type {
@@ -16,3 +17,4 @@ export type {
   WidgetProviderProps,
 } from './types.js'
 export { isWalletInstalled } from './utils/isWalletInstalled.js'
+export { resolveConfig } from './utils/resolveConfig.js'

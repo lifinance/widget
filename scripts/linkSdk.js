@@ -16,6 +16,8 @@ const sdkOverrides = {
     'link:../../Library/pnpm/global/5/node_modules/@lifi/sdk-provider-solana',
   '@lifi/sdk-provider-sui':
     'link:../../Library/pnpm/global/5/node_modules/@lifi/sdk-provider-sui',
+  '@lifi/sdk-provider-tron':
+    'link:../../Library/pnpm/global/5/node_modules/@lifi/sdk-provider-tron',
 }
 
 const action = process.argv[2]

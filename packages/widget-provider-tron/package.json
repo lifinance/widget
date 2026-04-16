@@ -1,0 +1,56 @@
+{
+  "name": "@lifi/widget-provider-tron",
+  "version": "4.0.0-alpha.0",
+  "description": "LI.FI Widget Provider for Tron blockchain integration.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "watch": "tsdown --watch",
+    "build": "pnpm clean && tsdown",
+    "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../*.md' .",
+    "build:postrelease": "node ../../scripts/postrelease.js && rm -rf *.md",
+    "release:build": "pnpm build",
+    "clean": "rm -rf dist",
+    "check:types": "tsc --noEmit",
+    "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
+    "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg"
+  },
+  "author": "Eugene Chybisov <eugene@li.finance>",
+  "homepage": "https://github.com/lifinance/widget",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lifinance/widget.git",
+    "directory": "packages/widget-provider-tron"
+  },
+  "bugs": {
+    "url": "https://github.com/lifinance/widget/issues"
+  },
+  "license": "Apache-2.0",
+  "keywords": [
+    "widget",
+    "lifi-widget",
+    "wallet",
+    "web3",
+    "lifi",
+    "tron",
+    "trx"
+  ],
+  "dependencies": {
+    "@lifi/sdk": "4.0.0-beta.6",
+    "@lifi/sdk-provider-tron": "4.0.0-beta.6",
+    "@lifi/widget-provider": "workspace:*",
+    "@tronweb3/tronwallet-abstract-adapter": "1.1.12",
+    "@tronweb3/tronwallet-adapters": "^1.2.21"
+  },
+  "peerDependencies": {
+    "@tronweb3/tronwallet-adapter-react-hooks": "^1.1.11"
+  },
+  "devDependencies": {
+    "cpy-cli": "^7.0.0",
+    "madge": "^8.0.0",
+    "react": "^19.2.4",
+    "typescript": "^6.0.2"
+  }
+}

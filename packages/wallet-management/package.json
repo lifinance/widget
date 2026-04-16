@@ -39,12 +39,13 @@
     "ENS",
     "web3",
     "blockchain",
-    "lifi"
+    "lifi",
+    "tron"
   ],
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "4.0.0-beta.5",
+    "@lifi/sdk": "4.0.0-beta.6",
     "@lifi/widget-provider": "workspace:*",
     "@mui/icons-material": "^9.0.0",
     "@mui/material": "^9.0.0",
