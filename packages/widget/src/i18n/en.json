@@ -132,6 +132,9 @@
       "slippageOutsideRecommendedLimits": "High slippage tolerance may result in unfavorable trade caused by front-running.",
       "slippageUnderRecommendedLimits": "Low slippage tolerance may cause transaction delays or failures."
     },
+    "checkbox": {
+      "highValueLoss": "I accept the high value loss"
+    },
     "title": {
       "clearFailedTransactions": "Clear all failed transactions?",
       "highValueLoss": "High value loss",
