@@ -132,6 +132,9 @@
       "slippageOutsideRecommendedLimits": "Khả năng trượt giá cao có thể dẫn đến giao dịch không thành công do front-running.",
       "slippageUnderRecommendedLimits": ""
     },
+    "checkbox": {
+      "highValueLoss": ""
+    },
     "title": {
       "clearFailedTransactions": "",
       "highValueLoss": "Tổn thất lớn",
