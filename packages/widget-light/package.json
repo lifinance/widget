@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-light",
-  "version": "4.0.0-beta.15",
+  "version": "4.0.0-beta.16",
   "description": "LI.FI Widget Light - a lightweight version of the LI.FI Widget for cross-chain bridging and swapping.",
   "type": "module",
   "main": "./src/index.ts",
