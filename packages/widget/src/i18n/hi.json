@@ -132,6 +132,9 @@
       "slippageOutsideRecommendedLimits": "",
       "slippageUnderRecommendedLimits": ""
     },
+    "checkbox": {
+      "highValueLoss": ""
+    },
     "title": {
       "clearFailedTransactions": "",
       "highValueLoss": "",

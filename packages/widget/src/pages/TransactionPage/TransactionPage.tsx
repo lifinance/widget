@@ -2,7 +2,7 @@ import type { ExchangeRateUpdateParams } from '@lifi/sdk'
 import Delete from '@mui/icons-material/Delete'
 import { Box, Button, Tooltip } from '@mui/material'
 import { useLocation, useNavigate } from '@tanstack/react-router'
-import { type JSX, useEffect, useMemo, useRef, useState } from 'react'
+import { type JSX, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
@@ -105,13 +105,6 @@ export const TransactionPage = (): JSX.Element | null => {
   )
 
   useHeader(getHeaderTitle(), headerAction)
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: We want to emit event only when the page is mounted
-  useEffect(() => {
-    if (status === RouteExecutionStatus.Idle) {
-      emitter.emit(WidgetEvent.ReviewTransactionPageEntered, route)
-    }
-  }, [])
 
   if (!route) {
     return null
@@ -221,7 +214,7 @@ export const TransactionPage = (): JSX.Element | null => {
       {status === RouteExecutionStatus.Idle ||
       status === RouteExecutionStatus.Failed ? (
         <>
-          <WarningMessages mt={2} route={route} allowInteraction />
+          <WarningMessages sx={{ mt: 2 }} route={route} allowInteraction />
           <Box
             sx={{
               mt: 2,

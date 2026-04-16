@@ -34,10 +34,10 @@ export const getLocalStorageOutput = (
                   },
                 }
               : {}),
-            ...(config.theme.palette
+            ...(config.theme.colorSchemes
               ? {
-                  palette: {
-                    ...config.theme.palette,
+                  colorSchemes: {
+                    ...config.theme.colorSchemes,
                   },
                 }
               : {}),

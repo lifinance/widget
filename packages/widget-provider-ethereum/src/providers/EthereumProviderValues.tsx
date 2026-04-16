@@ -5,7 +5,11 @@ import {
   isDelegationDesignatorCode,
   isGaslessStep,
 } from '@lifi/sdk-provider-ethereum'
-import { EthereumContext, isWalletInstalled } from '@lifi/widget-provider'
+import {
+  EthereumContext,
+  isWalletInstalled,
+  resolveConfig,
+} from '@lifi/widget-provider'
 import {
   type FC,
   type PropsWithChildren,
@@ -39,7 +43,6 @@ import type {
   CreateConnectorFnExtended,
   EthereumProviderConfig,
 } from '../types.js'
-import { resolveConfig } from '../utils/resolveConfig.js'
 
 interface EthereumProviderValuesProps {
   isExternalContext: boolean
@@ -168,19 +171,29 @@ export const EthereumProviderValues: FC<
 
   const isConnected = account.isConnected
 
-  const sdkProvider = useMemo(
-    () =>
-      EthereumSDKProvider({
-        getWalletClient: () =>
-          getConnectorClient(wagmiConfig, { assertChainId: false }),
-        switchChain: async (chainId: number) => {
-          const chain = await switchChain(wagmiConfig, { chainId })
-          return getConnectorClient(wagmiConfig, { chainId: chain.id })
-        },
+  const sdkProvider = useMemo(() => {
+    const getWalletClient = () =>
+      getConnectorClient(wagmiConfig, { assertChainId: false })
+    const switchChainDep = async (chainId: number) => {
+      const chain = await switchChain(wagmiConfig, { chainId })
+      return getConnectorClient(wagmiConfig, { chainId: chain.id })
+    }
+    if (typeof config?.sdkProvider === 'function') {
+      return config.sdkProvider({
+        getWalletClient,
+        switchChain: switchChainDep,
         disableMessageSigning: config?.disableMessageSigning,
-      }),
-    [wagmiConfig, config?.disableMessageSigning]
-  )
+      })
+    }
+    return (
+      config?.sdkProvider ??
+      EthereumSDKProvider({
+        getWalletClient,
+        switchChain: switchChainDep,
+        disableMessageSigning: config?.disableMessageSigning,
+      })
+    )
+  }, [wagmiConfig, config?.disableMessageSigning, config?.sdkProvider])
 
   const installedWallets = useMemo(
     () =>

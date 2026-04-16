@@ -1,4 +1,5 @@
 import type { ExtendedChain } from '@lifi/sdk'
+import { resolveConfig } from '@lifi/widget-provider'
 import { type FC, type PropsWithChildren, useRef } from 'react'
 import { WagmiProvider } from 'wagmi'
 import { defaultBaseAccountConfig } from '../config/baseAccount.js'
@@ -11,7 +12,6 @@ import {
   createDefaultWagmiConfig,
   type DefaultWagmiConfigResult,
 } from '../utils/createDefaultWagmiConfig.js'
-import { resolveConfig } from '../utils/resolveConfig.js'
 
 interface EthereumBaseProviderProps {
   config?: EthereumProviderConfig

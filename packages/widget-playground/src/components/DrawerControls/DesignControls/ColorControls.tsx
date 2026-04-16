@@ -42,7 +42,7 @@ export const ColorControl = (): JSX.Element => {
           key={colorConfigPath}
           colorName={colorName}
           colorPath={colorConfigPath}
-          mt={1}
+          sx={{ mt: 1 }}
         />
       ))}
     </ExpandableCard>

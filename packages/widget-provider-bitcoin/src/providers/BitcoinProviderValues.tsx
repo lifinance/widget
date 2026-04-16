@@ -10,14 +10,16 @@ import { ChainId, ChainType } from '@lifi/sdk'
 import { BitcoinProvider as BitcoinSDKProvider } from '@lifi/sdk-provider-bitcoin'
 import { BitcoinContext, isWalletInstalled } from '@lifi/widget-provider'
 import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
+import type { BitcoinProviderConfig } from '../types'
 
 interface BitcoinProviderValuesProps {
   isExternalContext: boolean
+  config?: BitcoinProviderConfig
 }
 
 export const BitcoinProviderValues: FC<
   PropsWithChildren<BitcoinProviderValuesProps>
-> = ({ children, isExternalContext }) => {
+> = ({ children, isExternalContext, config }) => {
   const bigmiConfig = useConfig()
   const { connectors } = useConnect()
   const currentWallet = useAccount()
@@ -35,13 +37,13 @@ export const BitcoinProviderValues: FC<
 
   const isConnected = account.isConnected
 
-  const sdkProvider = useMemo(
-    () =>
-      BitcoinSDKProvider({
-        getWalletClient: () => getBigmiConnectorClient(bigmiConfig),
-      }),
-    [bigmiConfig]
-  )
+  const sdkProvider = useMemo(() => {
+    const getWalletClient = () => getBigmiConnectorClient(bigmiConfig)
+    if (typeof config?.sdkProvider === 'function') {
+      return config.sdkProvider({ getWalletClient })
+    }
+    return config?.sdkProvider ?? BitcoinSDKProvider({ getWalletClient })
+  }, [bigmiConfig, config?.sdkProvider])
 
   const installedWallets = useMemo(
     () =>

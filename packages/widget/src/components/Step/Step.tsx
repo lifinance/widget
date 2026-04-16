@@ -87,18 +87,18 @@ export const Step: React.FC<{
           flex: 1,
         }}
       >
-        <CardTitle flex={1}>{getCardTitle()}</CardTitle>
-        <CardTitle sx={{ fontWeight: 600 }}>
+        <CardTitle sx={{ flex: 1 }}>{getCardTitle()}</CardTitle>
+        <Box sx={{ p: 2, pb: 0, fontSize: 14, fontWeight: 600 }}>
           <StepTimer step={step} />
-        </CardTitle>
+        </Box>
       </Box>
       <Box
         sx={{
           py: 1,
         }}
       >
-        {fromToken ? <Token token={fromToken} px={2} py={1} /> : null}
-        <StepActions step={step} px={2} py={1} dense />
+        {fromToken ? <Token token={fromToken} sx={{ px: 2, py: 1 }} /> : null}
+        <StepActions step={step} sx={{ px: 2, py: 1 }} dense />
         {prepareActions(step.execution?.actions ?? []).map(
           (actionsGroup, index) => (
             <StepAction key={index} step={step} actionsGroup={actionsGroup} />
@@ -128,8 +128,7 @@ export const Step: React.FC<{
             token={toToken}
             impactToken={impactToken}
             enableImpactTokenTooltip
-            px={2}
-            py={1}
+            sx={{ px: 2, py: 1 }}
           />
         ) : null}
       </Box>

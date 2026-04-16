@@ -17,6 +17,7 @@ export const TimerContent: FC<PropsWithChildren> = ({ children }) => {
         }}
       >
         <IconTypography
+          component="span"
           sx={{ marginRight: 0.5, fontSize: 16, display: 'inline-flex' }}
         >
           <AccessTimeFilled fontSize="inherit" />

@@ -132,6 +132,9 @@
       "slippageOutsideRecommendedLimits": "スリッページ許容度が高すぎると、フロントランニングによる不利なトレードをひき起こす可能性があります。",
       "slippageUnderRecommendedLimits": ""
     },
+    "checkbox": {
+      "highValueLoss": ""
+    },
     "title": {
       "clearFailedTransactions": "",
       "highValueLoss": "高価値損失",

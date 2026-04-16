@@ -351,7 +351,6 @@ function TransactionTracker() {
 | `FormFieldChanged` | `WidgetLightFormFieldChanged` | Any form field changed |
 | `WalletConnected` | `WidgetLightWalletConnected` | Wallet connected |
 | `WalletDisconnected` | `WidgetLightWalletDisconnected` | Wallet disconnected |
-| `ReviewTransactionPageEntered` | — | User entered review page |
 | `ContactSupport` | `WidgetLightContactSupport` | User clicked contact support |
 | `AvailableRoutes` | — | Routes fetched and available |
 | `PageEntered` | — | Page navigation |

@@ -81,10 +81,6 @@ export type WidgetThemeComponents = Partial<
 >
 
 export type WidgetTheme = {
-  /**
-   * @deprecated Use `colorScheme` instead.
-   */
-  palette?: PaletteOptions
   colorSchemes?: {
     light?: {
       palette: PaletteOptions
@@ -174,6 +170,7 @@ export interface WidgetSDKConfig
     | 'apiKey'
     | 'disableVersionCheck'
     | 'integrator'
+    | 'providers'
     | 'routeOptions'
     | 'widgetVersion'
   > {

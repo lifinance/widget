@@ -1,5 +1,5 @@
 import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
-import DeleteOutline from '@mui/icons-material/DeleteOutline'
+import DeleteOutline from '@mui/icons-material/DeleteOutlined'
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import TurnedIn from '@mui/icons-material/TurnedIn'
 import { Button, ListItemAvatar, ListItemText } from '@mui/material'
