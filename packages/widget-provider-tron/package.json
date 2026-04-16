@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-provider-tron",
-  "version": "4.0.0-alpha.0",
+  "version": "4.0.0-beta.14",
   "description": "LI.FI Widget Provider for Tron blockchain integration.",
   "type": "module",
   "main": "./src/index.ts",
@@ -38,8 +38,8 @@
     "trx"
   ],
   "dependencies": {
-    "@lifi/sdk": "4.0.0-beta.6",
-    "@lifi/sdk-provider-tron": "4.0.0-beta.6",
+    "@lifi/sdk": "4.0.0-beta.7",
+    "@lifi/sdk-provider-tron": "4.0.0-beta.7",
     "@lifi/widget-provider": "workspace:*",
     "@tronweb3/tronwallet-abstract-adapter": "1.1.12",
     "@tronweb3/tronwallet-adapters": "^1.2.21"

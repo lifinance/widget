@@ -14,7 +14,7 @@
     "@bigmi/react": "^0.8.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "4.0.0-beta.6",
+    "@lifi/sdk": "4.0.0-beta.7",
     "@lifi/wallet-management": "workspace:*",
     "@lifi/widget-light": "workspace:*",
     "@lifi/widget-provider": "workspace:*",

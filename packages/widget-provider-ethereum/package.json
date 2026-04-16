@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-provider-ethereum",
-  "version": "4.0.0-alpha.6",
+  "version": "4.0.0-beta.14",
   "description": "LI.FI Widget Provider for Ethereum blockchain integration.",
   "type": "module",
   "main": "./src/index.ts",
@@ -39,8 +39,8 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "4.0.0-beta.6",
-    "@lifi/sdk-provider-ethereum": "4.0.0-beta.6",
+    "@lifi/sdk": "4.0.0-beta.7",
+    "@lifi/sdk-provider-ethereum": "4.0.0-beta.7",
     "@lifi/widget-provider": "workspace:*",
     "viem": "^2.47.11"
   },
