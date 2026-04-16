@@ -8,7 +8,10 @@ import type { Easing, Transition, Variants } from 'motion/react'
 //   - Notifications    — per-row popLayout with scaleX + short y
 
 export const STAGGER_INTERVAL = 0.05
-export const HERO_OFFSET_Y = 40
+
+/** Delay between major card regions (body column vs checklist). */
+export const CARD_SECTION_STAGGER = 0.12
+export const HERO_OFFSET_Y = 24
 export const ACCORDION_DURATION = 0.2
 export const TOAST_EXIT_DURATION = 0.12
 export const TOAST_EASE_OUT: Easing = [0.215, 0.61, 0.355, 1]
@@ -20,8 +23,9 @@ export const MASK_CLOSED =
 
 export const HERO_ITEM_TRANSITION: Transition = {
   type: 'spring',
-  stiffness: 260,
-  damping: 26,
+  stiffness: 320,
+  damping: 32,
+  bounce: 0,
 }
 
 export const TOAST_ITEM_TRANSITION: Transition = {
@@ -42,7 +46,7 @@ export const TOAST_EXIT_TRANSITION: Transition = {
 
 export const containerVariants: Variants = {
   hidden: {},
-  visible: { transition: { staggerChildren: STAGGER_INTERVAL } },
+  visible: { transition: { staggerChildren: CARD_SECTION_STAGGER } },
 }
 
 // ── Outer layer (accordion) ─────────────────────────────────────────────────
@@ -81,11 +85,11 @@ export const rowOuterVariants: Variants = {
 }
 
 // ── Inner: Hero flavor ──────────────────────────────────────────────────────
-// Card-level slots (icon, title, description, checklist section wrapper).
-// Large 40px rise + blur + opacity via spring(120, 20).
+// Card-level slots (icon, checklist section wrapper, VC). Moderate rise + blur
+// — scaled for compact transaction copy, snappier than marketing hero blocks.
 
 export const heroInnerVariants: Variants = {
-  hidden: { opacity: 0, y: HERO_OFFSET_Y, filter: 'blur(4px)' },
+  hidden: { opacity: 0, y: HERO_OFFSET_Y, filter: 'blur(2px)' },
   visible: {
     opacity: 1,
     y: 0,
@@ -93,6 +97,64 @@ export const heroInnerVariants: Variants = {
     transition: HERO_ITEM_TRANSITION,
   },
 }
+
+/** Slot wrapper for split-text blocks — participates in parent stagger only. */
+export const textSlotVariants: Variants = {
+  hidden: {},
+  visible: {},
+}
+
+// ── Split text (title / description word stagger) ───────────────────────────
+// Shared spatial + blur; title is slower / more legible, description snappier.
+
+/** Vertical travel (px) for split-word enter / exit — keep small vs body text. */
+export const WORD_ENTER_OFFSET_Y = 0
+
+export const WORD_EXIT_OFFSET_Y = 0
+
+/**
+ * Blur masks handoffs when `popLayout` overlaps outgoing + incoming word spans.
+ * Enter stays minimal; exit is stronger so the outgoing line reads as receding.
+ */
+export const WORD_ENTER_FILTER = 'blur(0.35px)'
+
+export const WORD_EXIT_FILTER = 'blur(0.35px)'
+
+/** Exit easing for split-word out animations (matches toast-style snap). */
+export const WORD_EXIT_EASE: Easing = TOAST_EASE_OUT
+
+export const TITLE_WORD_STAGGER = 0.05
+
+export const TITLE_WORD_SPRING_TRANSITION: Transition = {
+  type: 'spring',
+  bounce: 0,
+}
+
+export const DESCRIPTION_WORD_SPRING_TRANSITION: Transition = {
+  type: 'spring',
+  bounce: 0,
+}
+
+export const TITLE_WORD_EXIT_DURATION = 0.15
+
+/** Target total stagger spread (seconds) for description words. */
+export const DESCRIPTION_WORD_STAGGER_SPREAD = 0.15
+
+export const TITLE_WORD_EXIT_SPRING_TRANSITION: Transition = {
+  type: 'spring',
+  stiffness: 300,
+  damping: 30,
+  bounce: 0,
+}
+
+export const DESCRIPTION_WORD_EXIT_SPRING_TRANSITION: Transition = {
+  type: 'spring',
+  stiffness: 300,
+  damping: 36,
+  bounce: 0,
+}
+
+export const DESCRIPTION_WORD_EXIT_DURATION = 0.085
 
 // ── Atomic swap (icon content change) ───────────────────────────────────────
 // Content morphing in place inside an always-present slot. Blur + opacity
@@ -130,38 +192,6 @@ export const iconMorphVariants: Variants = {
     opacity: 1,
     filter: 'blur(0px)',
     transition: { duration: ICON_MORPH_DURATION, ease: TOAST_EASE_OUT },
-  },
-}
-
-// ── Text reveal (title / description content change) ────────────────────────
-// Subtle vertical nudge paired with blur + opacity. Designed to be used
-// with `AnimatePresence mode="popLayout"` so the outgoing text is popped
-// out of the layout flow while the new text takes its place — the two
-// coexist visually for a short beat, which removes the empty-slot gap
-// that `mode="wait"` produces. The small offset + low blur keep the
-// crossover from reading as distortion.
-
-export const TEXT_REVEAL_OFFSET_Y = 4
-export const TEXT_REVEAL_BLUR = 2.5
-
-export const textRevealVariants: Variants = {
-  hidden: {
-    opacity: 0,
-    y: TEXT_REVEAL_OFFSET_Y,
-    filter: `blur(${TEXT_REVEAL_BLUR}px)`,
-    transition: TOAST_EXIT_TRANSITION,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: 'blur(0px)',
-    transition: TOAST_ITEM_TRANSITION,
-  },
-  exiting: {
-    opacity: 0,
-    y: -TEXT_REVEAL_OFFSET_Y,
-    filter: `blur(${TEXT_REVEAL_BLUR}px)`,
-    transition: TOAST_EXIT_TRANSITION,
   },
 }
 

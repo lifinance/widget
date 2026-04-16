@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import { AnimatePresence, MotionConfig, motion } from 'motion/react'
 import type { JSX } from 'react'
 import { useRouteExecutionMessage } from '../../hooks/useRouteExecutionMessage.js'
@@ -14,8 +14,10 @@ import {
   containerVariants,
   heroInnerVariants,
   outerVariants,
-  textRevealVariants,
+  STAGGER_INTERVAL,
+  textSlotVariants,
 } from './motion'
+import { StaggeredRevealTypography } from './StaggeredRevealTypography'
 import { StatusIcon } from './StatusIcon'
 import type { TransactionStatusCardProps } from './TransactionStatusCard.types'
 
@@ -54,11 +56,11 @@ export function TransactionStatusCard({
     <MotionConfig reducedMotion="user">
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <Card type="default" indented>
-          {/* Card body orchestrates the hero-style mount stagger. Every
-              slot reads `hidden`/`visible` via variant propagation and
-              cascades with STAGGER_INTERVAL. Post-mount slot additions
-              (description appearing, rows arriving) animate independently
-              because staggerChildren only applies to the initial transition. */}
+          {/* Card body: outer motion uses CARD_SECTION_STAGGER between the main
+              column and the checklist; the column is a motion Box with
+              STAGGER_INTERVAL across icon → title → description → optional VC.
+              Title/description copy uses splitText word stagger + usePresence
+              exits (see StaggeredRevealTypography). */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -66,6 +68,13 @@ export function TransactionStatusCard({
             style={{ width: '100%' }}
           >
             <Box
+              component={motion.div}
+              variants={{
+                hidden: {},
+                visible: {
+                  transition: { staggerChildren: STAGGER_INTERVAL },
+                },
+              }}
               sx={{
                 width: '100%',
                 p: 1,
@@ -95,35 +104,28 @@ export function TransactionStatusCard({
               {/* ── Title ─────────────────────────────────────────── */}
               {title && (
                 <motion.div
-                  variants={heroInnerVariants}
-                  style={{
-                    width: '100%',
-                    fontSize: 16,
-                    fontWeight: 600,
-                    lineHeight: 1.4,
-                    textAlign: 'center',
-                  }}
+                  variants={textSlotVariants}
+                  style={{ width: '100%' }}
                 >
                   <AnimatePresence mode="popLayout" initial={false}>
-                    <motion.div
-                      key={title}
-                      variants={textRevealVariants}
-                      initial="hidden"
-                      animate="visible"
-                      exit="exiting"
-                      style={{ width: '100%' }}
-                    >
-                      {title}
+                    <motion.div key={title} style={{ width: '100%' }}>
+                      <StaggeredRevealTypography
+                        text={title}
+                        wordMotion="title"
+                        sx={{
+                          fontSize: 18,
+                          fontWeight: 600,
+                          lineHeight: 1.4,
+                          textAlign: 'center',
+                        }}
+                      />
                     </motion.div>
                   </AnimatePresence>
                 </motion.div>
               )}
 
               {/* ── Description ───────────────────────────────────── */}
-              {/* Outer accordion wrapper (height + mask) toggles with
-                  message presence. Inner hero wrapper handles the
-                  staggered reveal on mount; atomic swap handles text
-                  changes within the same slot. */}
+              {/* Accordion outer (height + mask); copy uses splitText + popLayout. */}
               <AnimatePresence initial={false}>
                 {message && (
                   <motion.div
@@ -134,27 +136,20 @@ export function TransactionStatusCard({
                     exit="hidden"
                     style={{ overflow: 'hidden', width: '100%' }}
                   >
-                    <motion.div variants={heroInnerVariants}>
+                    <motion.div variants={textSlotVariants}>
                       <AnimatePresence mode="popLayout" initial={false}>
-                        <motion.div
-                          key={message}
-                          variants={textRevealVariants}
-                          initial="hidden"
-                          animate="visible"
-                          exit="exiting"
-                          style={{ width: '100%' }}
-                        >
-                          <Typography
+                        <motion.div key={message} style={{ width: '100%' }}>
+                          <StaggeredRevealTypography
+                            text={message}
+                            wordMotion="description"
                             sx={{
                               fontSize: 14,
                               fontWeight: 500,
                               color: 'text.secondary',
                               textAlign: 'center',
-                              mt: 0.5,
+                              mt: 1,
                             }}
-                          >
-                            {message}
-                          </Typography>
+                          />
                         </motion.div>
                       </AnimatePresence>
                     </motion.div>
@@ -162,7 +157,14 @@ export function TransactionStatusCard({
                 )}
               </AnimatePresence>
 
-              {VcComponent ? <VcComponent route={route} /> : null}
+              {VcComponent ? (
+                <motion.div
+                  variants={heroInnerVariants}
+                  style={{ width: '100%' }}
+                >
+                  <VcComponent route={route} />
+                </motion.div>
+              ) : null}
             </Box>
 
             {/* ── Checklist ───────────────────────────────────────── */}
