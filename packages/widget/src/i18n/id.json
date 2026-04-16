@@ -132,6 +132,9 @@
       "slippageOutsideRecommendedLimits": "Toleransi selip yang tinggi dapat mengakibatkan perdagangan yang tidak menguntungkan yang disebabkan oleh front-running.",
       "slippageUnderRecommendedLimits": "Toleransi terhadap slipage yang rendah dapat mengakibatkan keterlambatan atau kegagalan transaksi."
     },
+    "checkbox": {
+      "highValueLoss": ""
+    },
     "title": {
       "clearFailedTransactions": "",
       "highValueLoss": "Kehilangan nilai tinggi",
