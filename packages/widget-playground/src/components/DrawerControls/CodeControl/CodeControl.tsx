@@ -1,12 +1,17 @@
 import TabContext from '@mui/lab/TabContext'
 import { Box, Typography } from '@mui/material'
 import type { JSX } from 'react'
-import { GatsbyLogo } from '../../../logo/Gatsby.js'
+import { ConnectKitLogo } from '../../../logo/ConnectKit.js'
+import { DynamicLogo } from '../../../logo/Dynamic.js'
 import { NextLogo } from '../../../logo/Next.js'
 import { NuxtLogo } from '../../../logo/Nuxt.js'
+import { PrivyLogo } from '../../../logo/Privy.js'
 import { RainbowKitLogo } from '../../../logo/RainbowKit.js'
+import { ReactRouterLogo } from '../../../logo/ReactRouter.js'
 import { RemixLogo } from '../../../logo/Remix.js'
+import { ReownLogo } from '../../../logo/Reown.js'
 import { SvelteLogo } from '../../../logo/Svelte.js'
+import { TanStackLogo } from '../../../logo/TanStack.js'
 import { ViteLogo } from '../../../logo/Vite.js'
 import { VueLogo } from '../../../logo/Vue.js'
 import { useCodeToolValues } from '../../../store/editTools/useCodeToolValues.js'
@@ -64,12 +69,6 @@ export const CodeControl = (): JSX.Element => {
             Examples of the widget used in different projects
           </Typography>
           <ProjectButton
-            href="https://github.com/lifinance/widget/tree/main/examples/gatsby"
-            icon={<GatsbyLogo />}
-          >
-            Gatsby
-          </ProjectButton>
-          <ProjectButton
             href="https://github.com/lifinance/widget/tree/main/examples/nextjs"
             icon={<NextLogo />}
           >
@@ -80,6 +79,12 @@ export const CodeControl = (): JSX.Element => {
             icon={<NuxtLogo />}
           >
             Nuxt
+          </ProjectButton>
+          <ProjectButton
+            href="https://github.com/lifinance/widget/tree/main/examples/react-router-7"
+            icon={<ReactRouterLogo />}
+          >
+            React Router 7
           </ProjectButton>
           <ProjectButton
             href="https://github.com/lifinance/widget/tree/main/examples/remix"
@@ -94,6 +99,12 @@ export const CodeControl = (): JSX.Element => {
             Svelte
           </ProjectButton>
           <ProjectButton
+            href="https://github.com/lifinance/widget/tree/main/examples/tanstack-router"
+            icon={<TanStackLogo />}
+          >
+            TanStack Router
+          </ProjectButton>
+          <ProjectButton
             href="https://github.com/lifinance/widget/tree/main/examples/vite"
             icon={<ViteLogo />}
           >
@@ -106,13 +117,37 @@ export const CodeControl = (): JSX.Element => {
             Vue
           </ProjectButton>
           <Typography variant="caption">
-            Example of the widget with external wallet management
+            Examples of the widget with external wallet management
           </Typography>
+          <ProjectButton
+            href="https://github.com/lifinance/widget/tree/main/examples/connectkit"
+            icon={<ConnectKitLogo />}
+          >
+            ConnectKit
+          </ProjectButton>
+          <ProjectButton
+            href="https://github.com/lifinance/widget/tree/main/examples/dynamic"
+            icon={<DynamicLogo />}
+          >
+            Dynamic
+          </ProjectButton>
+          <ProjectButton
+            href="https://github.com/lifinance/widget/tree/main/examples/privy"
+            icon={<PrivyLogo />}
+          >
+            Privy
+          </ProjectButton>
           <ProjectButton
             href="https://github.com/lifinance/widget/tree/main/examples/rainbowkit"
             icon={<RainbowKitLogo />}
           >
             Rainbowkit
+          </ProjectButton>
+          <ProjectButton
+            href="https://github.com/lifinance/widget/tree/main/examples/reown"
+            icon={<ReownLogo />}
+          >
+            Reown
           </ProjectButton>
         </TabContentContainer>
       </TabContext>

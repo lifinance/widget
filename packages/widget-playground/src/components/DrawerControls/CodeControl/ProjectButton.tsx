@@ -3,15 +3,21 @@ import { ProjectAvatar, ProjectButtonBase } from './CodeControl.style.js'
 
 interface ProjectButtonProps extends PropsWithChildren {
   href: string
-  icon: ReactNode
+  icon?: ReactNode
+  iconSrc?: string
 }
 
 export const ProjectButton = ({
   href,
   icon,
+  iconSrc,
   children,
 }: ProjectButtonProps): JSX.Element => {
-  const Avatar = <ProjectAvatar aria-hidden>{icon}</ProjectAvatar>
+  const Avatar = (
+    <ProjectAvatar aria-hidden src={iconSrc}>
+      {icon}
+    </ProjectAvatar>
+  )
 
   return (
     <ProjectButtonBase
