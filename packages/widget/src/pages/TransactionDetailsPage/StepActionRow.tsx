@@ -10,8 +10,9 @@ export const StepActionRow: React.FC<{
   step: LiFiStepExtended
   action: ExecutionAction
   href: string
-}> = ({ step, action, href }) => {
-  const { title } = useActionMessage(step, action)
+  defaultLabelsOnly?: boolean
+}> = ({ step, action, href, defaultLabelsOnly }) => {
+  const { title } = useActionMessage(step, action, defaultLabelsOnly)
   const isFailed = action?.status === 'FAILED'
   return (
     <ActionRow
