@@ -6,9 +6,13 @@ describe('cloneStructuredConfig', () => {
   test('performs a deep clone', () => {
     const config = {
       theme: {
-        palette: {
-          primary: {
-            main: '#5C67FF',
+        colorSchemes: {
+          light: {
+            palette: {
+              primary: {
+                main: '#5C67FF',
+              },
+            },
           },
         },
       },
@@ -18,18 +22,22 @@ describe('cloneStructuredConfig', () => {
 
     expect(copy).toEqual({
       theme: {
-        palette: {
-          primary: {
-            main: '#5C67FF',
+        colorSchemes: {
+          light: {
+            palette: {
+              primary: {
+                main: '#5C67FF',
+              },
+            },
           },
         },
       },
     })
 
     expect(copy.theme).not.toBe(config.theme)
-    expect(copy.theme?.palette).not.toBe(config.theme?.palette)
-    expect(copy.theme?.palette?.primary).not.toBe(
-      config.theme?.palette?.primary
+    expect(copy.theme?.colorSchemes).not.toBe(config.theme?.colorSchemes)
+    expect(copy.theme?.colorSchemes?.light?.palette?.primary).not.toBe(
+      config.theme?.colorSchemes?.light?.palette?.primary
     )
   })
 
