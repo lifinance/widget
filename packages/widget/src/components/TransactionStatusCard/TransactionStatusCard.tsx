@@ -107,25 +107,21 @@ export function TransactionStatusCard({
                   variants={textSlotVariants}
                   style={{ width: '100%' }}
                 >
-                  <AnimatePresence mode="popLayout" initial={false}>
-                    <motion.div key={title} style={{ width: '100%' }}>
-                      <StaggeredRevealTypography
-                        text={title}
-                        wordMotion="title"
-                        sx={{
-                          fontSize: 18,
-                          fontWeight: 600,
-                          lineHeight: 1.4,
-                          textAlign: 'center',
-                        }}
-                      />
-                    </motion.div>
-                  </AnimatePresence>
+                  <StaggeredRevealTypography
+                    key={title}
+                    text={title}
+                    sx={{
+                      fontSize: 18,
+                      fontWeight: 600,
+                      lineHeight: 1.4,
+                      textAlign: 'center',
+                    }}
+                  />
                 </motion.div>
               )}
 
               {/* ── Description ───────────────────────────────────── */}
-              {/* Accordion outer (height + mask); copy uses splitText + popLayout. */}
+              {/* Accordion outer (height + mask); copy remounts on change. */}
               <AnimatePresence initial={false}>
                 {message && (
                   <motion.div
@@ -137,21 +133,17 @@ export function TransactionStatusCard({
                     style={{ overflow: 'hidden', width: '100%' }}
                   >
                     <motion.div variants={textSlotVariants}>
-                      <AnimatePresence mode="popLayout" initial={false}>
-                        <motion.div key={message} style={{ width: '100%' }}>
-                          <StaggeredRevealTypography
-                            text={message}
-                            wordMotion="description"
-                            sx={{
-                              fontSize: 14,
-                              fontWeight: 500,
-                              color: 'text.secondary',
-                              textAlign: 'center',
-                              mt: 1,
-                            }}
-                          />
-                        </motion.div>
-                      </AnimatePresence>
+                      <StaggeredRevealTypography
+                        key={message}
+                        text={message}
+                        sx={{
+                          fontSize: 14,
+                          fontWeight: 500,
+                          color: 'text.secondary',
+                          textAlign: 'center',
+                          mt: 1,
+                        }}
+                      />
                     </motion.div>
                   </motion.div>
                 )}

@@ -18,6 +18,7 @@ import {
 } from '../stores/routes/utils.js'
 import { WidgetEvent } from '../types/events.js'
 import { getQueryKey } from '../utils/queries.js'
+import { enqueueStaggered, markStaggeredFlush } from '../utils/staggerQueue.js'
 import { useWidgetEvents } from './useWidgetEvents.js'
 
 interface RouteExecutionProps {
@@ -56,58 +57,60 @@ export const useRouteExecution = ({
   ])
 
   const updateRouteHook = (updatedRoute: Route) => {
-    const routeExecution =
-      routeExecutionStoreContext.getState().routes[updatedRoute.id]
-    if (!routeExecution) {
-      return
-    }
     const clonedUpdatedRoute = structuredClone(updatedRoute)
-    updateRoute(clonedUpdatedRoute)
-    const action = getUpdatedAction(routeExecution.route, clonedUpdatedRoute)
-    if (action) {
-      emitter.emit(WidgetEvent.RouteExecutionUpdated, {
-        route: clonedUpdatedRoute,
-        action,
-      })
-    }
-    const executionCompleted = isRouteDone(clonedUpdatedRoute)
-    const executionFailed = isRouteFailed(clonedUpdatedRoute)
-    if (executionCompleted) {
-      emitter.emit(WidgetEvent.RouteExecutionCompleted, clonedUpdatedRoute)
-    }
-    if (executionFailed && action) {
-      emitter.emit(WidgetEvent.RouteExecutionFailed, {
-        route: clonedUpdatedRoute,
-        action,
-      })
-    }
-    if (executionCompleted || executionFailed) {
-      const invalidateKeys = [
-        [
-          getQueryKey('token-balances', keyPrefix),
-          clonedUpdatedRoute.fromAddress,
-          clonedUpdatedRoute.fromChainId,
-        ],
-        [
-          getQueryKey('token-balances', keyPrefix),
-          clonedUpdatedRoute.toAddress,
-          clonedUpdatedRoute.toChainId,
-        ],
-        [getQueryKey('transaction-history', keyPrefix)],
-      ]
-      for (const key of invalidateKeys) {
-        queryClient.invalidateQueries(
-          {
-            queryKey: key,
-            exact: false,
-            refetchType: 'all',
-          },
-          { cancelRefetch: false }
-        )
+    enqueueStaggered(() => {
+      const routeExecution =
+        routeExecutionStoreContext.getState().routes[clonedUpdatedRoute.id]
+      if (!routeExecution) {
+        return
       }
-    }
-    // biome-ignore lint/suspicious/noConsole: logs route information
-    console.log('Route updated.', clonedUpdatedRoute)
+      updateRoute(clonedUpdatedRoute)
+      const action = getUpdatedAction(routeExecution.route, clonedUpdatedRoute)
+      if (action) {
+        emitter.emit(WidgetEvent.RouteExecutionUpdated, {
+          route: clonedUpdatedRoute,
+          action,
+        })
+      }
+      const executionCompleted = isRouteDone(clonedUpdatedRoute)
+      const executionFailed = isRouteFailed(clonedUpdatedRoute)
+      if (executionCompleted) {
+        emitter.emit(WidgetEvent.RouteExecutionCompleted, clonedUpdatedRoute)
+      }
+      if (executionFailed && action) {
+        emitter.emit(WidgetEvent.RouteExecutionFailed, {
+          route: clonedUpdatedRoute,
+          action,
+        })
+      }
+      if (executionCompleted || executionFailed) {
+        const invalidateKeys = [
+          [
+            getQueryKey('token-balances', keyPrefix),
+            clonedUpdatedRoute.fromAddress,
+            clonedUpdatedRoute.fromChainId,
+          ],
+          [
+            getQueryKey('token-balances', keyPrefix),
+            clonedUpdatedRoute.toAddress,
+            clonedUpdatedRoute.toChainId,
+          ],
+          [getQueryKey('transaction-history', keyPrefix)],
+        ]
+        for (const key of invalidateKeys) {
+          queryClient.invalidateQueries(
+            {
+              queryKey: key,
+              exact: false,
+              refetchType: 'all',
+            },
+            { cancelRefetch: false }
+          )
+        }
+      }
+      // biome-ignore lint/suspicious/noConsole: logs route information
+      console.log('Route updated.', clonedUpdatedRoute)
+    })
   }
 
   const acceptExchangeRateUpdateHook = async (
@@ -200,11 +203,40 @@ export const useRouteExecution = ({
   )
 
   const restartRouteMutation = useCallback(() => {
+    const route = routeExecution?.route
+    if (route) {
+      // Flip any failed step AND its failed actions back to pending so the
+      // UI lands on the resumed state immediately. Resetting the step alone
+      // would leave action.status === 'FAILED', which makes the Pending
+      // branch of useRouteExecutionMessage return undefined title/message
+      // and briefly unmount the text blocks before the SDK's first post-resume
+      // update arrives. Clearing error/substatus keeps the action-row view
+      // consistent with its new status.
+      const reset = structuredClone(route)
+      for (const step of reset.steps) {
+        if (step.execution?.status === 'FAILED') {
+          step.execution.status = 'PENDING'
+          for (const action of step.execution.actions ?? []) {
+            if (action.status === 'FAILED') {
+              action.status = 'PENDING'
+              action.error = undefined
+              action.substatus = undefined
+              action.substatusMessage = undefined
+            }
+          }
+        }
+      }
+      updateRoute(reset)
+      // The sync reset bypasses enqueueStaggered. Mark a flush now so the
+      // SDK's first post-resume update goes through the gate instead of
+      // firing back-to-back against the reset animation.
+      markStaggeredFlush()
+    }
     resumeRouteMutation.mutateAsync({
       route: routeExecution?.route,
       executeInBackground: false,
     })
-  }, [resumeRouteMutation, routeExecution?.route])
+  }, [resumeRouteMutation, routeExecution?.route, updateRoute])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when routeId changes
   const deleteRouteMutation = useCallback(() => {

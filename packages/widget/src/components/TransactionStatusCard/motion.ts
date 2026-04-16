@@ -105,56 +105,18 @@ export const textSlotVariants: Variants = {
 }
 
 // ── Split text (title / description word stagger) ───────────────────────────
-// Shared spatial + blur; title is slower / more legible, description snappier.
+// Constant per-word delay — small enough that short lines don't fragment
+// and long lines don't drag. Total timing is dominated by the spring
+// duration (not the stagger), so title and description read as one
+// unified reveal regardless of word count.
 
-/** Vertical travel (px) for split-word enter / exit — keep small vs body text. */
-export const WORD_ENTER_OFFSET_Y = 0
+export const WORD_STAGGER = 0.012
 
-export const WORD_EXIT_OFFSET_Y = 0
-
-/**
- * Blur masks handoffs when `popLayout` overlaps outgoing + incoming word spans.
- * Enter stays minimal; exit is stronger so the outgoing line reads as receding.
- */
-export const WORD_ENTER_FILTER = 'blur(0.35px)'
-
-export const WORD_EXIT_FILTER = 'blur(0.35px)'
-
-/** Exit easing for split-word out animations (matches toast-style snap). */
-export const WORD_EXIT_EASE: Easing = TOAST_EASE_OUT
-
-export const TITLE_WORD_STAGGER = 0.05
-
-export const TITLE_WORD_SPRING_TRANSITION: Transition = {
+export const WORD_SPRING_TRANSITION: Transition = {
   type: 'spring',
   bounce: 0,
+  duration: 0.8,
 }
-
-export const DESCRIPTION_WORD_SPRING_TRANSITION: Transition = {
-  type: 'spring',
-  bounce: 0,
-}
-
-export const TITLE_WORD_EXIT_DURATION = 0.15
-
-/** Target total stagger spread (seconds) for description words. */
-export const DESCRIPTION_WORD_STAGGER_SPREAD = 0.15
-
-export const TITLE_WORD_EXIT_SPRING_TRANSITION: Transition = {
-  type: 'spring',
-  stiffness: 300,
-  damping: 30,
-  bounce: 0,
-}
-
-export const DESCRIPTION_WORD_EXIT_SPRING_TRANSITION: Transition = {
-  type: 'spring',
-  stiffness: 300,
-  damping: 36,
-  bounce: 0,
-}
-
-export const DESCRIPTION_WORD_EXIT_DURATION = 0.085
 
 // ── Atomic swap (icon content change) ───────────────────────────────────────
 // Content morphing in place inside an always-present slot. Blur + opacity
