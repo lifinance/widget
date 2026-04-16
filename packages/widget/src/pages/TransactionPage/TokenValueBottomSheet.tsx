@@ -188,12 +188,12 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
           />
         }
         label={t('warning.checkbox.highValueLoss')}
-        sx={{ mt: 2 }}
+        sx={{ mt: 1 }}
       />
       <Box
         sx={{
           display: 'flex',
-          mt: 2,
+          mt: 1,
         }}
       >
         <Button variant="text" onClick={onCancel} fullWidth>
