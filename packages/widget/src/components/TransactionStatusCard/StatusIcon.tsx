@@ -23,8 +23,10 @@ interface StatusIconProps {
  * indicators share the slot for the brief transition. A near-invisible
  * crossfade with a hair of blur ({@link iconMorphVariants}) makes the
  * swap read as the icon softening and re-settling — no visible in/out.
- * Both children are absolutely centered on top of each other so no layout
- * shift is visible during the overlap.
+ *
+ * `iconMorphVariants` is opacity + filter; these aren't in Motion's
+ * `positionalKeys`, so the crossfade still runs under reduced motion —
+ * accepted trade-off for visual polish.
  */
 export function StatusIcon({ route, status }: StatusIconProps): JSX.Element {
   const iconKey = resolveExecutionIconKey(route, status)
@@ -38,7 +40,6 @@ export function StatusIcon({ route, status }: StatusIconProps): JSX.Element {
         alignItems: 'center',
         width: iconCircleSize,
         height: iconCircleSize,
-        mb: 2,
       }}
     >
       <AnimatePresence mode="popLayout" initial={false}>

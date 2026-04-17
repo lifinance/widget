@@ -16,11 +16,6 @@ export const ACCORDION_DURATION = 0.2
 export const TOAST_EXIT_DURATION = 0.12
 export const TOAST_EASE_OUT: Easing = [0.215, 0.61, 0.355, 1]
 
-export const MASK_OPEN =
-  'linear-gradient(to bottom, black 100%, transparent 100%)'
-export const MASK_CLOSED =
-  'linear-gradient(to bottom, black 50%, transparent 100%)'
-
 export const HERO_ITEM_TRANSITION: Transition = {
   type: 'spring',
   stiffness: 320,
@@ -50,36 +45,18 @@ export const containerVariants: Variants = {
 }
 
 // ── Outer layer (accordion) ─────────────────────────────────────────────────
-// Height + maskImage reveal with overflow hidden on the element. Used for
-// any slot whose presence toggles at runtime (description, checklist
-// section, each checklist row).
+// Pure height reveal with overflow: hidden on the element. Used for any slot
+// whose presence toggles at runtime (description, checklist section). Height
+// is in Motion's `positionalKeys`, so this animation is auto-disabled under
+// `reducedMotion="user"` — no extra gating needed.
 
 export const outerVariants: Variants = {
   hidden: {
     height: 0,
-    maskImage: MASK_CLOSED,
     transition: { duration: ACCORDION_DURATION },
   },
   visible: {
     height: 'auto',
-    maskImage: MASK_OPEN,
-    transition: { duration: ACCORDION_DURATION },
-  },
-}
-
-// Row outer carries the same accordion, but uses toast timing on exit so
-// the height collapse matches the row's snappy notification-style exit.
-// This is what grows the card's height as new rows arrive — without it
-// the parent jumps to its new size instantly.
-export const rowOuterVariants: Variants = {
-  hidden: {
-    height: 0,
-    maskImage: MASK_CLOSED,
-    transition: TOAST_EXIT_TRANSITION,
-  },
-  visible: {
-    height: 'auto',
-    maskImage: MASK_OPEN,
     transition: { duration: ACCORDION_DURATION },
   },
 }
@@ -110,12 +87,20 @@ export const textSlotVariants: Variants = {
 // duration (not the stagger), so title and description read as one
 // unified reveal regardless of word count.
 
-export const WORD_STAGGER = 0.012
+export const WORD_STAGGER = 0.009
 
+/** Travel (px) for split-word enter. Small — just enough to read as rising. */
+export const WORD_ENTER_OFFSET_Y = 4
+
+/** Soft-edge fade so words feather in instead of snapping at 0 opacity. */
+export const WORD_ENTER_FILTER = 'blur(2px)'
+
+// `visualDuration` lets the spring keep settling past the visible finish,
+// which softens the landing without stretching the perceived speed.
 export const WORD_SPRING_TRANSITION: Transition = {
   type: 'spring',
   bounce: 0,
-  duration: 0.8,
+  visualDuration: 0.4,
 }
 
 // ── Atomic swap (icon content change) ───────────────────────────────────────

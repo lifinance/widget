@@ -4,7 +4,12 @@ import { useReducedMotion } from 'motion/react'
 import type { JSX } from 'react'
 import { useEffect, useRef } from 'react'
 import { splitText } from '../../animations/splitText'
-import { WORD_SPRING_TRANSITION, WORD_STAGGER } from './motion'
+import {
+  WORD_ENTER_FILTER,
+  WORD_ENTER_OFFSET_Y,
+  WORD_SPRING_TRANSITION,
+  WORD_STAGGER,
+} from './motion'
 
 const SPLIT_WORD_CLASS = 'tx-status-split-word'
 
@@ -35,7 +40,11 @@ export function StaggeredRevealTypography(
       const { words } = splitText(target, { wordClass: SPLIT_WORD_CLASS })
       controls = animate(
         words,
-        { opacity: [0, 1], y: [10, 0] },
+        {
+          opacity: [0, 1],
+          y: [WORD_ENTER_OFFSET_Y, 0],
+          filter: [WORD_ENTER_FILTER, 'blur(0px)'],
+        },
         { ...WORD_SPRING_TRANSITION, delay: stagger(WORD_STAGGER) }
       )
     })
@@ -52,7 +61,7 @@ export function StaggeredRevealTypography(
         {
           visibility: reduceMotion ? 'visible' : 'hidden',
           [`& .${SPLIT_WORD_CLASS}`]: {
-            willChange: 'transform, opacity',
+            willChange: 'transform, opacity, filter',
           },
         },
         ...(Array.isArray(sx) ? sx : sx ? [sx] : []),

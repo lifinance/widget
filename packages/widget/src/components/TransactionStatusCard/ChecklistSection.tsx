@@ -1,11 +1,11 @@
 import { Box } from '@mui/material'
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
+import { AnimatePresence, motion } from 'motion/react'
 import type { JSX } from 'react'
 import {
   type ExecutionRow,
   renderExecutionRow,
 } from '../StepActions/StepActionRow.js'
-import { rowOuterVariants, TOAST_EASE_OUT } from './motion'
+import { ACCORDION_DURATION, TOAST_EASE_OUT } from './motion'
 
 // Exit timing per the notifications reference this list mirrors.
 const TOAST_EXIT_DURATION = 0.2
@@ -20,73 +20,57 @@ interface ChecklistSectionProps {
 }
 
 /**
- * Notification-stack checklist rendered as a two-layer motion wrapper:
+ * Notification-stack checklist.
  *
- * - OUTER (`rowOuterVariants`) animates `height: 0 ↔ auto` + `maskImage`
- *   gradient. This is what grows the parent card smoothly as each row
- *   arrives — without it the card height jumps.
- * - INNER follows the reference notifications-list recipe verbatim:
- *   `opacity / y / scaleX` spring on entry (200/18), per-property 0.2s
- *   tween on exit, `layout` for smooth sibling reflow, and
+ * Two-layer motion wrapper per row:
+ *
+ * - OUTER: `height: 0 ↔ auto` + `overflow: hidden` — grows the card
+ *   smoothly as rows arrive. `height` is in Motion's `positionalKeys`,
+ *   so this is auto-disabled under reduced motion; no conditional code.
+ * - INNER: `opacity / y / scaleX` spring on entry (200/18), per-property
+ *   0.2s tween on exit. `layout` for smooth sibling reflow.
  *   `transformOrigin: 'center bottom'` so rows rise into place from the
  *   bottom edge.
  */
 export function ChecklistSection({
   rows,
 }: ChecklistSectionProps): JSX.Element | null {
-  const shouldReduceMotion = useReducedMotion()
-
   if (rows.length === 0) {
     return null
   }
 
   return (
-    <Box sx={{ paddingTop: 0.5 }}>
+    <Box>
       <AnimatePresence initial={false} mode="popLayout">
         {rows.map((row, index) => (
           <motion.div
             key={`row-${index}`}
-            variants={rowOuterVariants}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
+            initial={{ height: 0 }}
+            animate={{ height: 'auto' }}
+            exit={{ height: 0 }}
+            transition={{ duration: ACCORDION_DURATION }}
             style={{ overflow: 'hidden' }}
           >
             <motion.div
               layout
-              initial={
-                shouldReduceMotion
-                  ? { opacity: 1 }
-                  : { opacity: 0, y: 14, scaleX: 0.8 }
-              }
-              animate={
-                shouldReduceMotion
-                  ? { opacity: 1 }
-                  : { opacity: 1, y: 0, scaleX: 1 }
-              }
-              exit={
-                shouldReduceMotion
-                  ? { opacity: 0 }
-                  : {
-                      opacity: 0,
-                      y: 10,
-                      scaleX: 0.9,
-                      transition: {
-                        opacity: {
-                          duration: TOAST_EXIT_DURATION,
-                          ease: TOAST_EASE_OUT,
-                        },
-                        y: {
-                          duration: TOAST_EXIT_DURATION,
-                          ease: TOAST_EASE_OUT,
-                        },
-                        scaleX: {
-                          duration: TOAST_EXIT_DURATION,
-                          ease: TOAST_EASE_OUT,
-                        },
-                      },
-                    }
-              }
+              initial={{ opacity: 0, y: 14, scaleX: 0.8 }}
+              animate={{ opacity: 1, y: 0, scaleX: 1 }}
+              exit={{
+                opacity: 0,
+                y: 10,
+                scaleX: 0.9,
+                transition: {
+                  opacity: {
+                    duration: TOAST_EXIT_DURATION,
+                    ease: TOAST_EASE_OUT,
+                  },
+                  y: { duration: TOAST_EXIT_DURATION, ease: TOAST_EASE_OUT },
+                  scaleX: {
+                    duration: TOAST_EXIT_DURATION,
+                    ease: TOAST_EASE_OUT,
+                  },
+                },
+              }}
               transition={{
                 type: 'spring',
                 stiffness: 200,

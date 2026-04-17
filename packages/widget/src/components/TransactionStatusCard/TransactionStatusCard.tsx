@@ -77,7 +77,6 @@ export function TransactionStatusCard({
               }}
               sx={{
                 width: '100%',
-                p: 1,
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
@@ -105,13 +104,13 @@ export function TransactionStatusCard({
               {title && (
                 <motion.div
                   variants={textSlotVariants}
-                  style={{ width: '100%' }}
+                  style={{ width: '100%', paddingTop: 12 }}
                 >
                   <StaggeredRevealTypography
                     key={title}
                     text={title}
                     sx={{
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: 600,
                       lineHeight: 1.4,
                       textAlign: 'center',
@@ -132,7 +131,10 @@ export function TransactionStatusCard({
                     exit="hidden"
                     style={{ overflow: 'hidden', width: '100%' }}
                   >
-                    <motion.div variants={textSlotVariants}>
+                    <motion.div
+                      variants={textSlotVariants}
+                      style={{ paddingTop: 4 }}
+                    >
                       <StaggeredRevealTypography
                         key={message}
                         text={message}
@@ -141,7 +143,6 @@ export function TransactionStatusCard({
                           fontWeight: 500,
                           color: 'text.secondary',
                           textAlign: 'center',
-                          mt: 1,
                         }}
                       />
                     </motion.div>
