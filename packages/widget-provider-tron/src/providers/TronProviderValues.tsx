@@ -6,15 +6,23 @@ import {
   WalletReadyState,
 } from '@tronweb3/tronwallet-abstract-adapter'
 import { useWallet } from '@tronweb3/tronwallet-adapter-react-hooks'
-import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
+import {
+  type FC,
+  type PropsWithChildren,
+  useCallback,
+  useMemo,
+  useRef,
+} from 'react'
+import type { TronProviderConfig } from '../types.js'
 
 interface TronProviderValuesProps {
   isExternalContext: boolean
+  config?: TronProviderConfig
 }
 
 export const TronProviderValues: FC<
   PropsWithChildren<TronProviderValuesProps>
-> = ({ children, isExternalContext }) => {
+> = ({ children, isExternalContext, config }) => {
   const {
     address,
     connected: isConnected,
@@ -63,19 +71,27 @@ export const TronProviderValues: FC<
     [address, connector, isConnected, connecting]
   )
 
-  const sdkProvider = useMemo(
-    () =>
-      TronSDKProvider({
+  const walletRef = useRef(currentWallet)
+  walletRef.current = currentWallet
+
+  const sdkProvider = useMemo(() => {
+    const getWallet = async () => {
+      if (!walletRef.current?.adapter) {
+        throw new Error('No Tron wallet connected')
+      }
+      return walletRef.current.adapter
+    }
+    if (typeof config?.sdkProvider === 'function') {
+      return config.sdkProvider({ getWallet })
+    }
+    return (
+      config?.sdkProvider ??
+      (TronSDKProvider({
+        getWallet,
         multicallBatchSize: 40,
-        getWallet: async () => {
-          if (!currentWallet?.adapter) {
-            throw new Error('No Tron wallet connected')
-          }
-          return currentWallet.adapter
-        },
-      }) as SDKProvider,
-    [currentWallet]
-  )
+      }) as SDKProvider)
+    )
+  }, [config?.sdkProvider])
 
   const installedWallets = useMemo(
     () =>

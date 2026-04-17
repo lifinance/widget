@@ -30,7 +30,10 @@ const TronWidgetProvider = ({
 
   if (inTronContext && !forceInternalWalletManagement) {
     return (
-      <TronProviderValues isExternalContext={effectiveIsExternal}>
+      <TronProviderValues
+        isExternalContext={effectiveIsExternal}
+        config={config}
+      >
         {children}
       </TronProviderValues>
     )
@@ -38,7 +41,10 @@ const TronWidgetProvider = ({
 
   return (
     <TronBaseProvider config={config}>
-      <TronProviderValues isExternalContext={effectiveIsExternal}>
+      <TronProviderValues
+        isExternalContext={effectiveIsExternal}
+        config={config}
+      >
         {children}
       </TronProviderValues>
     </TronBaseProvider>
