@@ -18,6 +18,8 @@
     "buy": "Mua",
     "cancel": "Huỷ bỏ",
     "checkoutReview": "",
+    "clearAllFailed": "",
+    "clearTransaction": "",
     "close": "Đóng",
     "confirm": "Xác nhận",
     "connectAnotherWallet": "",
@@ -39,7 +41,6 @@
     "max": "",
     "ok": "Ok",
     "options": "Tùy chỉnh",
-    "removeTransaction": "Xoá giao dịch",
     "reset": "Đặt lại",
     "resetSettings": "Đặt lại cài đặt",
     "seeDetails": "Xem chi tiết",
@@ -54,7 +55,6 @@
     "viewOnExplorer": "Xem tại Explorer"
   },
   "header": {
-    "activeTransactions": "Các giao dịch hiện tại",
     "amount": "",
     "bookmarkedWallets": "Ví được đánh dấu",
     "bridge": "Cầu",
@@ -79,7 +79,7 @@
     "swap": "Swap",
     "to": "Swap từ",
     "transactionDetails": "Chi tiết giao dịch",
-    "transactionHistory": "Lịch sử giao dịch",
+    "activities": "",
     "walletConnected": "Wallet connected",
     "youGet": "Bạn nhận",
     "youPay": ""
@@ -88,19 +88,16 @@
     "message": {
       "accountDeployedMessage": "",
       "autoRefuel": "Gas trên {{chainName}} chain của bạn đang thấp. Để tiếp tục, bạn nên có thêm gas để hoàn thành việc swap.",
-      "emptyActiveTransactions": "Các lệnh swap đang xử lý sẽ được hiện ở đây. Khi nào lệnh hoàn tất, bạn có thể kiểm tra lại tại mục lịch sử swap.",
       "emptyBridgesList": "",
       "emptyChainList": "",
       "emptyExchangesList": "",
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "Lịch sử Swap chỉ được lưu trữ cục bộ và sẽ bị xóa nếu bạn xóa dữ liệu trình duyệt của mình.",
       "routeNotFound": "Lý do cho điều đó có thể là: tính thanh khoản thấp, số tiền được chọn quá thấp, chi phí gas quá cao hoặc không có lộ trình cho cặp giao dịch đã chọn.",
-      "toAddressIsRequired": "",
       "missingRouteRequiredAccount": ""
     },
     "title": {
       "autoRefuel": "",
-      "emptyActiveTransactions": "Không có thông tin giao dịch hiện tại",
       "emptyTransactionHistory": "Chưa có giao dịch",
       "routeNotFound": "Không có đường đi"
     }
@@ -123,10 +120,10 @@
     "message": {
       "accountNotDeployedMessage": "",
       "lowAddressActivity": "",
-      "deleteActiveTransactions": "Các giao dịch đang hoạt động chỉ được lưu trữ cục bộ và không thể phục hồi nếu bạn xóa chúng.",
-      "deleteTransactionHistory": "Lịch sử Swap chỉ lưu trữ cục bộ và không thể phục hồi khi bạn xoá chúng.",
+      "clearFailedTransactions": "",
       "fundsLossPrevention": "",
       "highValueLoss": "Giá trị của token nhận được đang thấp hơn rất nhiều so với token được swap và chi phí giao dịch.",
+      "unverifiedToken": "",
       "insufficientFunds": "Bạn không có đủ tiền để thực hiện tác vụ này.",
       "insufficientGas": "Bạn không đủ gas để thực hiện swap. Bạn cần thêm ít nhất:",
       "minFromAmountUSD": "",
@@ -136,9 +133,7 @@
       "slippageUnderRecommendedLimits": ""
     },
     "title": {
-      "deleteActiveTransactions": "Xóa tất cả giao dịch đang thực hiện?",
-      "deleteTransaction": "Xóa giao dịch này?",
-      "deleteTransactionHistory": "Xoá lịch sử giao dịch?",
+      "clearFailedTransactions": "",
       "highValueLoss": "Tổn thất lớn",
       "insufficientGas": "Không đủ gas",
       "rateChanged": "Tỉ giá đã thay đổi",
@@ -198,6 +193,7 @@
   "tooltip": {
     "deselectAll": "Bỏ chọn tất cả",
     "estimatedTime": "",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "",
     "notFound": {
@@ -220,6 +216,8 @@
     "checkoutStepDetails": "Thanh toán thông qua {{tool}}",
     "currentAmount": "Số lượng hiện tại",
     "depositStepDetails": "Nạp thông qua {{tool}}",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "Featured tokens",
     "fees": {
       "defaultIntegrator": "",
@@ -237,6 +235,7 @@
     "myTokens": "Mã thông báo của tôi",
     "onChain": "tại {{chainName}}",
     "ownedBy": "Được sở hữu bởi",
+    "pinnedTokens": "",
     "popularTokens": "Mã thông báo phổ biến",
     "priceImpact": "",
     "process": {
@@ -284,9 +283,8 @@
     "rateChange": "Thay đổi tỉ giá",
     "receiving": "Đang nhận",
     "refuelStepDetails": "Lấy gas thông qua {{tool}}",
-    "selectChain": "Chọn chain",
-    "selectChainAndToken": "Chọn chain và token",
-    "selectToken": "Chọn Token",
+    "route": "",
+    "select": "",
     "sendToAddress": "Gửi đến {{address}}",
     "sendToWallet": "Gửi đến địa chỉ khác",
     "sending": "Đang gửi",
@@ -302,6 +300,8 @@
     "stepSwapAndBuy": "Hoán đổi và mua",
     "stepSwapAndDeposit": "",
     "swapStepDetails": "Swap tại {{chain}} thông qua {{tool}}",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "",
     "tags": {
       "cheapest": "Lợi nhuận tốt nhất",
@@ -331,7 +331,8 @@
     "routePriority": "Tuyền đường ưu tiên",
     "slippage": "",
     "custom": "Tuỳ chỉnh",
-    "resetSettings": "Bạn đang sử dụng cài đặt tùy chỉnh có thể ảnh hưởng đến số lượng hoặc cách sắp xếp các tuyến đường có sẵn."
+    "resetSettings": "Bạn đang sử dụng cài đặt tùy chỉnh có thể ảnh hưởng đến số lượng hoặc cách sắp xếp các tuyến đường có sẵn.",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "Thêm dấu trang",
@@ -343,7 +344,8 @@
     "enterName": "Nhập tên",
     "noBookmarkedWallets": "Không có ví được đánh dấu",
     "noConnectedWallets": "Không có ví được kết nối",
-    "noRecentWallets": "Không có ví gần đây"
+    "noRecentWallets": "Không có ví gần đây",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",

@@ -21,23 +21,78 @@ export async function formatPackageFile() {
     ...packageDataOther
   } = JSON.parse(packageData)
 
+  const subpathExports = {}
+  if (packageDataOther.exports) {
+    for (const [key, value] of Object.entries(packageDataOther.exports)) {
+      if (key === '.' || key === './package.json') {
+        continue
+      }
+      const srcPath = typeof value === 'string' ? value : value.default
+      if (typeof srcPath === 'string' && srcPath.startsWith('./src/')) {
+        const distPath = srcPath
+          .replace('./src/', './dist/esm/')
+          .replace(/\.tsx?$/, '.js')
+        const typesPath = srcPath
+          .replace('./src/', './dist/esm/')
+          .replace(/\.tsx?$/, '.d.ts')
+        subpathExports[key] = {
+          types: typesPath,
+          import: distPath,
+          default: distPath,
+        }
+      }
+    }
+  }
+
+  const skeletonExport =
+    packageDataOther.name === '@lifi/widget'
+      ? {
+          './skeleton': {
+            types: './dist/esm/components/Skeleton/WidgetSkeleton.d.ts',
+            import: './dist/esm/components/Skeleton/WidgetSkeleton.js',
+            default: './dist/esm/components/Skeleton/WidgetSkeleton.js',
+          },
+        }
+      : {}
+
+  const allSubpathExports = { ...skeletonExport, ...subpathExports }
+
+  const typesVersions = {}
+  for (const [key, value] of Object.entries(allSubpathExports)) {
+    const subpath = key.replace('./', '')
+    typesVersions[subpath] = [value.types]
+  }
+
   const newPackageData = {
     ...packageDataOther,
     main: './dist/esm/index.js',
+    module: './dist/esm/index.js',
     types: './dist/esm/index.d.ts',
+    ...(Object.keys(typesVersions).length > 0
+      ? { typesVersions: { '*': typesVersions } }
+      : {}),
+    files: [
+      'dist/**',
+      '!dist/**/*.tsbuildinfo',
+      'src/**/*.ts',
+      'src/**/*.tsx',
+      '!src/**/*.spec.ts',
+      '!src/**/*.test.ts',
+      '!src/**/*.mock.ts',
+      '!src/**/*.handlers.ts',
+      '!src/**/*.tsbuildinfo',
+      '!**/__mocks__/**',
+      '!*.tmp',
+      '!*.env',
+      '!tsconfig.json',
+    ],
     exports: {
       '.': {
         types: './dist/esm/index.d.ts',
+        import: './dist/esm/index.js',
         default: './dist/esm/index.js',
       },
-      ...(packageDataOther.name === '@lifi/widget'
-        ? {
-            './skeleton': {
-              types: './dist/esm/components/Skeleton/WidgetSkeleton.d.ts',
-              default: './dist/esm/components/Skeleton/WidgetSkeleton.js',
-            },
-          }
-        : {}),
+      ...allSubpathExports,
       './package.json': './package.json',
     },
   }

@@ -1,4 +1,5 @@
 'use client'
+import type { ForwardRefExoticComponent, RefAttributes } from 'react'
 import { forwardRef, useMemo } from 'react'
 import { AppDefault } from './AppDefault.js'
 import type { WidgetDrawer } from './AppDrawer.js'
@@ -6,7 +7,9 @@ import { AppDrawer } from './AppDrawer.js'
 import { AppProvider } from './AppProvider.js'
 import type { WidgetConfig, WidgetProps } from './types/widget.js'
 
-export const App = forwardRef<WidgetDrawer, WidgetProps>((props, ref) => {
+export const App: ForwardRefExoticComponent<
+  WidgetProps & RefAttributes<WidgetDrawer>
+> = forwardRef<WidgetDrawer, WidgetProps>((props, ref) => {
   const config: WidgetConfig = useMemo(() => {
     const config = { ...props, ...props.config }
     if (config.variant === 'drawer') {

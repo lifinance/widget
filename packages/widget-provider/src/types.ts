@@ -1,6 +1,5 @@
 import type {
   ChainType,
-  Client,
   ExtendedChain,
   LiFiStep,
   LiFiStepExtended,
@@ -66,15 +65,17 @@ export type EthereumProviderContext = WidgetProviderContext & {
       chainId,
       skipReady,
     }: {
-      client?: Client
+      client?: any
       chainId: number
       skipReady?: boolean
     }
   ) => Promise<boolean>
   isDelegationDesignatorCode?: (code?: string) => boolean | undefined
+  disableMessageSigning?: boolean
 }
 
 export interface WidgetProviderProps {
   forceInternalWalletManagement?: boolean
+  isExternalContext?: boolean
   chains: ExtendedChain[]
 }

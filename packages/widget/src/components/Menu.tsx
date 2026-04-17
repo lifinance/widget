@@ -5,8 +5,11 @@ import {
   styled,
   svgIconClasses,
 } from '@mui/material'
+import type React from 'react'
 
-export const Menu = styled(MuiMenu)(({ theme }) => ({
+export const Menu: React.FC<React.ComponentProps<typeof MuiMenu>> = styled(
+  MuiMenu
+)(({ theme }) => ({
   [`& .${menuClasses.paper}`]: {
     borderRadius: theme.vars.shape.borderRadius,
     boxShadow: '0px 2px 4px rgb(0 0 0 / 8%), 0px 8px 16px rgb(0 0 0 / 8%)',

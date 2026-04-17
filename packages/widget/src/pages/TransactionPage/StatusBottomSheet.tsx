@@ -1,3 +1,4 @@
+import type { ExecutionActionType } from '@lifi/sdk'
 import Done from '@mui/icons-material/Done'
 import ErrorRounded from '@mui/icons-material/ErrorRounded'
 import InfoRounded from '@mui/icons-material/InfoRounded'
@@ -12,7 +13,6 @@ import { Card } from '../../components/Card/Card.js'
 import { CardTitle } from '../../components/Card/CardTitle.js'
 import { Token } from '../../components/Token/Token.js'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
-import { getProcessMessage } from '../../hooks/useProcessMessage.js'
 import { useSetContentHeight } from '../../hooks/useSetContentHeight.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
@@ -23,6 +23,7 @@ import {
 import { getSourceTxHash } from '../../stores/routes/utils.js'
 import { hasEnumFlag } from '../../utils/enum.js'
 import { formatTokenAmount } from '../../utils/format.js'
+import { getErrorMessage } from '../../utils/getErrorMessage.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { CenterContainer, IconCircle } from './StatusBottomSheet.style.js'
 
@@ -181,15 +182,19 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
       const step = route.steps.find(
         (step) => step.execution?.status === 'FAILED'
       )
-      const process = step?.execution?.process.find(
-        (process) => process.status === 'FAILED'
-      )
-      if (!step || !process) {
+      if (!step) {
         break
       }
-      const processMessage = getProcessMessage(t, getChainById, step, process)
-      title = processMessage.title
-      failedMessage = processMessage.message
+      const action = step.execution?.actions?.find(
+        (action) => action.status === 'FAILED'
+      ) || {
+        status: 'FAILED',
+        type: 'EXECUTION' as ExecutionActionType,
+        error: step.execution?.error,
+      } // synthetic action to represent a failed execution with no actions
+      const actionMessage = getErrorMessage(t, getChainById, step, action)
+      title = actionMessage.title
+      failedMessage = actionMessage.message
       handlePrimaryButton = handleClose
       break
     }

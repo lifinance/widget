@@ -1,4 +1,5 @@
 import type { BoxProps, PaletteMode } from '@mui/material'
+import type { JSX } from 'react'
 import { useThemeMode } from '../../../hooks/useThemeMode.js'
 import { useConfigActions } from '../../../store/widgetConfig/useConfigActions.js'
 import { useConfigColorsFromPath } from '../../../store/widgetConfig/useConfigValues.js'
@@ -31,7 +32,7 @@ const getEditableColors = (themeMode: PaletteMode) => ({
   'grey 800': `theme.colorSchemes.${themeMode}.palette.grey.800`,
 })
 
-export const ColorControl = () => {
+export const ColorControl = (): JSX.Element => {
   const { themeMode } = useThemeMode()
   const editableColors = getEditableColors(themeMode)
   return (

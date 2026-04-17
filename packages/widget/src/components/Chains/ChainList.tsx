@@ -1,6 +1,6 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { Skeleton } from '@mui/material'
-import type { RefObject } from 'react'
+import type { JSX, RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { FormType } from '../../stores/form/types.js'
 import { SearchNotFound } from '../Search/SearchNotFound.js'
@@ -32,7 +32,7 @@ export const ChainList = ({
   selectedChainId,
   isLoading,
   inExpansion,
-}: ChainListProps) => {
+}: ChainListProps): JSX.Element => {
   const { t } = useTranslation()
 
   const itemsSize = inExpansion ? 'small' : 'medium'

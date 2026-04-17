@@ -1,3 +1,5 @@
+import type { StyledComponent } from '@emotion/styled'
+import type { ChipProps } from '@mui/material'
 import { Chip as MuiChip, styled } from '@mui/material'
 import { WalletTagType } from '../types/walletTagType.js'
 
@@ -5,7 +7,9 @@ interface WalletTagProps {
   type: WalletTagType
 }
 
-export const WalletTag = styled(MuiChip)<WalletTagProps>(({ theme }) => {
+export const WalletTag: StyledComponent<ChipProps & WalletTagProps> = styled(
+  MuiChip
+)<WalletTagProps>(({ theme }) => {
   return {
     height: 24,
     px: theme.spacing(1),
@@ -23,10 +27,10 @@ export const WalletTag = styled(MuiChip)<WalletTagProps>(({ theme }) => {
         },
         style: {
           color: theme.vars.palette.primary.main,
-          backgroundColor: `rgba(${theme.vars.palette.primary.mainChannel} / 0.08)`,
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} 8%, transparent)`,
           ...theme.applyStyles('dark', {
             color: theme.vars.palette.text.primary,
-            backgroundColor: `rgba(${theme.vars.palette.primary.mainChannel} / 0.42)`,
+            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} 42%, transparent)`,
           }),
         },
       },

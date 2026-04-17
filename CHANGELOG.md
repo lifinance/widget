@@ -2,6 +2,78 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.38.0](https://github.com/lifinance/widget/compare/v3.37.0...v3.38.0) (2025-12-16)
+
+
+### Features
+
+* add warning indicator in token search UI for unverified search results ([#625](https://github.com/lifinance/widget/issues/625)) ([82cab01](https://github.com/lifinance/widget/commit/82cab01c2817eeb9a4f2156c0336dfcfa072de24))
+* allow configuration of default bridge tab ([#632](https://github.com/lifinance/widget/issues/632)) ([0a8e022](https://github.com/lifinance/widget/commit/0a8e02267263f0ad9b65a2ab38f7bcd2077f2dec))
+
+
+### Bug Fixes
+
+* make input price background transparent in dark mode ([#629](https://github.com/lifinance/widget/issues/629)) ([c246c6a](https://github.com/lifinance/widget/commit/c246c6a4093116571bc8cdea3da139902875d018))
+* misc all networks fixes ([#619](https://github.com/lifinance/widget/issues/619)) ([ce24dbd](https://github.com/lifinance/widget/commit/ce24dbd95607a5cf5a03baebbbdd8cedd2d310f4))
+
+## [3.37.0](https://github.com/lifinance/widget/compare/v3.36.1...v3.37.0) (2025-12-10)
+
+
+### Features
+
+* add option to hide route card price impact ([#623](https://github.com/lifinance/widget/issues/623)) ([4d9c77a](https://github.com/lifinance/widget/commit/4d9c77ad67c64d81af4373a9ef941e150bbcc373))
+
+
+### Bug Fixes
+
+* sync widget lg with config.languages.default ([#622](https://github.com/lifinance/widget/issues/622)) ([18cf1d6](https://github.com/lifinance/widget/commit/18cf1d67e4579f2914689dc3a3170f1a3cd00729))
+
+### [3.36.1](https://github.com/lifinance/widget/compare/v3.36.0...v3.36.1) (2025-12-04)
+
+
+### Bug Fixes
+
+* limit decimals in formatInputAmount ([#601](https://github.com/lifinance/widget/issues/601)) ([02dd64d](https://github.com/lifinance/widget/commit/02dd64d0379906d98b7df36ece9e2b2bfc3e0876))
+
+## [3.36.0](https://github.com/lifinance/widget/compare/v3.35.1...v3.36.0) (2025-12-03)
+
+
+### Features
+
+* fix peer dependencies and update license ([#617](https://github.com/lifinance/widget/issues/617)) ([7ac2171](https://github.com/lifinance/widget/commit/7ac21711375642e18e2b487c1245f7bb920e97ba))
+
+
+### Bug Fixes
+
+* refactor hidden ui token logic ([#618](https://github.com/lifinance/widget/issues/618)) ([9d6a41e](https://github.com/lifinance/widget/commit/9d6a41ea35f99d20d5dbf2831766ffbdf1953ec4))
+
+### [3.35.1](https://github.com/lifinance/widget/compare/v3.35.0...v3.35.1) (2025-12-01)
+
+
+### Bug Fixes
+
+* add hidden UI contact support option ([#612](https://github.com/lifinance/widget/issues/612)) ([1a774e4](https://github.com/lifinance/widget/commit/1a774e445b110bc2c897534066a9ffb0342c0d97))
+* update support link ([#611](https://github.com/lifinance/widget/issues/611)) ([0fd04a5](https://github.com/lifinance/widget/commit/0fd04a5a86eccaa79a4190410e4f70cd637ec719))
+
+## [3.35.0](https://github.com/lifinance/widget/compare/v3.34.3...v3.35.0) (2025-11-28)
+
+
+### Features
+
+* add HiddenUI.FromToken ([#602](https://github.com/lifinance/widget/issues/602)) ([6fe0112](https://github.com/lifinance/widget/commit/6fe0112c11805a065f52a803d30ff443f2bb1677))
+
+
+### Bug Fixes
+
+* adjust tokens min price usd ([d82b72c](https://github.com/lifinance/widget/commit/d82b72c3807a0f36ddda079cd36f1042d8296c49))
+
+### [3.34.3](https://github.com/lifinance/widget/compare/v3.34.2...v3.34.3) (2025-11-17)
+
+
+### Bug Fixes
+
+* align licenses ([c740ee5](https://github.com/lifinance/widget/commit/c740ee5ba95ed0249bee763c1f01d7034786208d))
+
 ### [3.34.2](https://github.com/lifinance/widget/compare/v3.34.1...v3.34.2) (2025-11-13)
 
 ### [3.34.1](https://github.com/lifinance/widget/compare/v3.34.0...v3.34.1) (2025-10-31)

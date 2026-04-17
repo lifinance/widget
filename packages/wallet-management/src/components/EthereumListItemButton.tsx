@@ -1,5 +1,6 @@
 import { ChainType } from '@lifi/sdk'
 import { isWalletInstalled, useEthereumContext } from '@lifi/widget-provider'
+import type { JSX } from 'react'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { getChainTypeIcon } from '../icons.js'
@@ -18,7 +19,7 @@ export const EthereumListItemButton = ({
   onConnected,
   onConnecting,
   onError,
-}: WalletListItemButtonProps) => {
+}: WalletListItemButtonProps): JSX.Element => {
   const emitter = useWalletManagementEvents()
   const { connect, disconnect, isConnected } = useEthereumContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()
@@ -73,7 +74,7 @@ export const EthereumListItemButton = ({
       key={connector.id}
       icon={
         ecosystemSelection
-          ? getChainTypeIcon(ChainType.EVM)
+          ? (getChainTypeIcon(ChainType.EVM) ?? '')
           : (getConnectorIcon(connector) ?? '')
       }
       onClick={handleEthereumConnect}

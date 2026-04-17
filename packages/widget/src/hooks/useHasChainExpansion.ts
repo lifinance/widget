@@ -4,7 +4,10 @@ import { ExpansionType, HiddenUI } from '../types/widget.js'
 import { navigationRoutes } from '../utils/navigationRoutes.js'
 import { useSwapOnly } from './useSwapOnly.js'
 
-export const useHasChainExpansion = () => {
+export const useHasChainExpansion = (): readonly [
+  boolean,
+  ExpansionType | null,
+] => {
   const { hiddenUI, subvariantOptions } = useWidgetConfig()
   const swapOnly = useSwapOnly()
   const { pathname } = useLocation()
@@ -23,7 +26,7 @@ export const useHasChainExpansion = () => {
       expansionType === ExpansionType.ToChain) &&
     !(swapOnly && expansionType === ExpansionType.ToChain) &&
     !hiddenUI?.includes(HiddenUI.ChainSelect) &&
-    !!subvariantOptions?.wide?.enableChainSidebar
+    !subvariantOptions?.wide?.disableChainSidebar
 
   return [withChainExpansion, expansionType] as const
 }

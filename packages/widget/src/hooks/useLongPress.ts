@@ -1,6 +1,15 @@
 import { useCallback, useRef } from 'react'
 
-export const useLongPress = (callback = () => {}, ms = 500) => {
+export const useLongPress = (
+  callback: () => void = () => {},
+  ms: number = 500
+): {
+  onPointerDown: (e: React.PointerEvent) => void
+  onPointerUp: () => void
+  onPointerLeave: () => void
+  onPointerCancel: () => void
+  onPointerMove: (e: React.PointerEvent) => void
+} => {
   const timerRef = useRef<NodeJS.Timeout | null>(null)
   const isPressedRef = useRef(false)
   const startPosRef = useRef<{ x: number; y: number } | null>(null)

@@ -1,4 +1,8 @@
-import type { LiFiStepExtended, TokenAmount } from '@lifi/sdk'
+import type {
+  ExecutionActionType,
+  LiFiStepExtended,
+  TokenAmount,
+} from '@lifi/sdk'
 import { Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { Card } from '../../components/Card/Card.js'
@@ -7,10 +11,11 @@ import { StepActions } from '../../components/StepActions/StepActions.js'
 import { Token } from '../../components/Token/Token.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { prepareActions } from '../../utils/prepareActions.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { StepTimer } from '../Timer/StepTimer.js'
 import { DestinationWalletAddress } from './DestinationWalletAddress.js'
-import { StepProcess } from './StepProcess.js'
+import { StepAction } from './StepAction.js'
 
 export const Step: React.FC<{
   step: LiFiStepExtended
@@ -22,9 +27,13 @@ export const Step: React.FC<{
   const { t } = useTranslation()
   const { subvariant, subvariantOptions } = useWidgetConfig()
   const { getAddressLink } = useExplorer()
-  const stepHasError = step.execution?.process.some(
-    (process) => process.status === 'FAILED'
-  )
+
+  // If execution status is failed outside of actions scope,
+  // show a synthetic action to represent the failed execution
+  const actions = step.execution?.actions ?? []
+  const failedWithoutActions =
+    step.execution?.status === 'FAILED' &&
+    !actions.some((a) => a.status === 'FAILED')
 
   const getCardTitle = () => {
     const hasBridgeStep = step.includedSteps.some(
@@ -71,7 +80,7 @@ export const Step: React.FC<{
     : undefined
 
   return (
-    <Card type={stepHasError ? 'error' : 'default'}>
+    <Card type={step.execution?.status === 'FAILED' ? 'error' : 'default'}>
       <Box
         sx={{
           display: 'flex',
@@ -90,9 +99,23 @@ export const Step: React.FC<{
       >
         {fromToken ? <Token token={fromToken} px={2} py={1} /> : null}
         <StepActions step={step} px={2} py={1} dense />
-        {step.execution?.process.map((process, index) => (
-          <StepProcess key={index} step={step} process={process} />
-        ))}
+        {prepareActions(step.execution?.actions ?? []).map(
+          (actionsGroup, index) => (
+            <StepAction key={index} step={step} actionsGroup={actionsGroup} />
+          )
+        )}
+        {failedWithoutActions ? (
+          <StepAction
+            step={step}
+            actionsGroup={[
+              {
+                status: 'FAILED',
+                type: 'EXECUTION' as ExecutionActionType, // synthetic action to represent a failed execution with no actions
+                error: step.execution?.error,
+              },
+            ]}
+          />
+        ) : null}
         {formattedToAddress && toAddressLink ? (
           <DestinationWalletAddress
             step={step}

@@ -13,6 +13,7 @@ export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
   disabled,
   loading,
   route,
+  sx,
 }) => {
   const { t } = useTranslation()
   const { walletConfig } = useWidgetConfig()
@@ -23,7 +24,6 @@ export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
     route,
     chain
   )
-
   const handleClick = async (e: React.MouseEvent<HTMLElement>) => {
     if (connected) {
       onClick?.()
@@ -63,6 +63,7 @@ export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
       loading={loading}
       loadingPosition="center"
       fullWidth
+      sx={sx}
     >
       {getButtonText()}
     </Button>

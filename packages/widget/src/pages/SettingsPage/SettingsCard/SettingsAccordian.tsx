@@ -18,12 +18,16 @@ export const SettingsCardAccordion: React.FC<PropsWithChildren> = ({
   )
 }
 
-export const useSettingsCardExpandable = () => {
+export const useSettingsCardExpandable = (): {
+  expanded: boolean
+  toggleExpanded: (forceExpanded?: boolean) => void
+} => {
   const settingCardExpandableId = useId()
   const [expanded, setExpanded] = useState(false)
   const { openCard, setOpenCard } = useContext(SettingsAccordionContext)
-  const toggleExpanded = () => {
-    const newExpanded = !expanded
+
+  const toggleExpanded = (forceExpanded?: boolean) => {
+    const newExpanded = forceExpanded ?? !expanded
     setExpanded(newExpanded)
 
     if (newExpanded && openCard !== settingCardExpandableId) {
@@ -38,7 +42,7 @@ export const useSettingsCardExpandable = () => {
   }, [settingCardExpandableId, openCard])
 
   return {
-    expanded,
-    toggleExpanded,
+    expanded: expanded,
+    toggleExpanded: toggleExpanded,
   }
 }

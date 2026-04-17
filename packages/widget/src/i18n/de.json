@@ -18,6 +18,8 @@
     "buy": "Buy",
     "cancel": "Abbrechen",
     "checkoutReview": "",
+    "clearAllFailed": "",
+    "clearTransaction": "",
     "close": "",
     "confirm": "",
     "connectAnotherWallet": "",
@@ -39,7 +41,6 @@
     "max": "",
     "ok": "OK",
     "options": "",
-    "removeTransaction": "Transaktion entfernen",
     "reset": "Zurücksetzen",
     "resetSettings": "Einstellungen zurücksetzen",
     "seeDetails": "Siehe Einzelheiten",
@@ -54,7 +55,6 @@
     "viewOnExplorer": "Im Explorer anzeigen"
   },
   "header": {
-    "activeTransactions": "Aktive Transaktion",
     "amount": "",
     "bookmarkedWallets": "",
     "bridge": "",
@@ -79,7 +79,7 @@
     "swap": "Swap",
     "to": "Swap zu",
     "transactionDetails": "Transaktionsdetails",
-    "transactionHistory": "Transaktionshistorie\u2028",
+    "activities": "",
     "walletConnected": "Wallet verbunden",
     "youGet": "Sie erhalten",
     "youPay": ""
@@ -88,19 +88,16 @@
     "message": {
       "accountDeployedMessage": "",
       "autoRefuel": "Sie haben nicht genug Gas auf {{chainName}}. Wenn Sie fortfahren, erhalten Sie zusätzlich genug Gas um den Swap abzuschließen.",
-      "emptyActiveTransactions": "Laufende Swaps werden hier angezeigt. Sobald Sie fertig sind, finden Sie sie in der Transaktionshistorie.",
       "emptyBridgesList": "",
       "emptyChainList": "",
       "emptyExchangesList": "",
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "Die Transaktionshistorie wird nur lokal gespeichert und gelöscht, wenn Sie Ihre Browserdaten löschen.",
       "routeNotFound": "Gründe dafür könnten lauten: geringe Liquidität, gewählter Betrag ist zu niedrig, die Gaskosten sind zu hoch oder es gibt keine Routen für die ausgewählte Kombination.",
-      "toAddressIsRequired": "",
       "missingRouteRequiredAccount": ""
     },
     "title": {
       "autoRefuel": "",
-      "emptyActiveTransactions": "Keine aktiven Transaktionen",
       "emptyTransactionHistory": "Keine neuen Transaktionen",
       "routeNotFound": "Keine Routen verfügbar"
     }
@@ -123,10 +120,10 @@
     "message": {
       "accountNotDeployedMessage": "",
       "lowAddressActivity": "",
-      "deleteActiveTransactions": "Aktive Swaps werden nur lokal gespeichert und können nicht wiederhergestellt werden, wenn Sie sie löschen.",
-      "deleteTransactionHistory": "Die Transaktionshistorie wird nur lokal gespeichert und kann nicht wiederhergestellt werden, wenn Sie sie löschen.",
+      "clearFailedTransactions": "",
       "fundsLossPrevention": "",
       "highValueLoss": "Der Wert der erhaltenen Token ist deutlich niedriger als die getauschten Token und die Transaktionskosten.",
+      "unverifiedToken": "",
       "insufficientFunds": "Sie haben nicht genug Token, um diesen Swap abzuschließen.",
       "insufficientGas": "Sie haben nicht genug Gas um diesen Swap abzuschließen. Sie müssen mindestens hinzufügen:",
       "minFromAmountUSD": "",
@@ -136,9 +133,7 @@
       "slippageUnderRecommendedLimits": ""
     },
     "title": {
-      "deleteActiveTransactions": "Alle aktiven Transaktionen entfernen?",
-      "deleteTransaction": "Transaktion löschen?",
-      "deleteTransactionHistory": "Transaktionshistorie entfernen?",
+      "clearFailedTransactions": "",
       "highValueLoss": "Hoher Wertverlust",
       "insufficientGas": "Unzureichendes Gas",
       "rateChanged": "Wechselkurs geändert",
@@ -198,6 +193,7 @@
   "tooltip": {
     "deselectAll": "",
     "estimatedTime": "",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "",
     "notFound": {
@@ -220,6 +216,8 @@
     "checkoutStepDetails": "",
     "currentAmount": "Aktueller Betrag",
     "depositStepDetails": "",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "Ausgewählte Token",
     "fees": {
       "defaultIntegrator": "",
@@ -237,6 +235,7 @@
     "myTokens": "",
     "onChain": "auf {{chainName}}",
     "ownedBy": "In Besitz von",
+    "pinnedTokens": "",
     "popularTokens": "",
     "priceImpact": "",
     "process": {
@@ -284,9 +283,8 @@
     "rateChange": "Wechselkurs geändert",
     "receiving": "Eingehend",
     "refuelStepDetails": "Gas über {{tool}} erhalten",
-    "selectChain": "Chain",
-    "selectChainAndToken": "Chain und Token auswählen",
-    "selectToken": "Token",
+    "route": "",
+    "select": "",
     "sendToAddress": "An {{address}} senden",
     "sendToWallet": "An eine andere Wallet senden",
     "sending": "Wird gesendet",
@@ -302,6 +300,8 @@
     "stepSwapAndBuy": "Tauschen und kaufen",
     "stepSwapAndDeposit": "",
     "swapStepDetails": "Tausche auf {{chain}} über {{tool}}",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "",
     "tags": {
       "cheapest": "",
@@ -331,7 +331,8 @@
     "routePriority": "Routenpriorität",
     "slippage": "",
     "custom": "",
-    "resetSettings": ""
+    "resetSettings": "",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "",
@@ -343,7 +344,8 @@
     "enterName": "",
     "noBookmarkedWallets": "",
     "noConnectedWallets": "",
-    "noRecentWallets": ""
+    "noRecentWallets": "",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",

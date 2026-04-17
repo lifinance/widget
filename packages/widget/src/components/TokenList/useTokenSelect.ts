@@ -11,13 +11,19 @@ import { WidgetEvent } from '../../types/events.js'
 import type { DisabledUI } from '../../types/widget.js'
 import { isItemAllowed } from '../../utils/item.js'
 
-export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
+export const useTokenSelect = (
+  formType: FormType,
+  onClick?: () => void
+): ((tokenAddress: string, chainId?: number) => void) => {
   const { subvariant, disabledUI, chains: chainsConfig } = useWidgetConfig()
   const splitSubvariant = useSplitSubvariantStore((store) => store.state)
   const emitter = useWidgetEvents()
   const { setFieldValue, getFieldValues } = useFieldActions()
   const autoPopulateToAddress = useToAddressAutoPopulate()
-  const setChain = useChainOrderStore((state) => state.setChain)
+  const [setChain, setIsAllNetworks] = useChainOrderStore((state) => [
+    state.setChain,
+    state.setIsAllNetworks,
+  ])
 
   const tokenKey = FormKeyHelper.getTokenKey(formType)
 
@@ -67,12 +73,18 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
       }
 
       // If no opposite token is selected, synchronize the opposite chain
-      // to match the currently selected chain (if allowed)
+      // to match the currently selected chain (if allowed).
+      // In default exchange mode, also collapse "All Networks" on the opposite
+      // side - same-chain swap is the most common action.
       if (
         !selectedOppositeTokenAddress &&
         selectedChainId &&
         isItemAllowed(selectedChainId, chainsConfig?.[oppositeFormType])
       ) {
+        const isDefaultExchange = !subvariant || subvariant === 'default'
+        if (isDefaultExchange) {
+          setIsAllNetworks(false, oppositeFormType)
+        }
         setFieldValue(
           FormKeyHelper.getChainKey(oppositeFormType),
           selectedChainId,
@@ -115,6 +127,7 @@ export const useTokenSelect = (formType: FormType, onClick?: () => void) => {
       getFieldValues,
       onClick,
       setChain,
+      setIsAllNetworks,
       setFieldValue,
       subvariant,
       splitSubvariant,

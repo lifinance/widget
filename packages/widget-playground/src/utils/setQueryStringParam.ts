@@ -1,4 +1,7 @@
-export const setQueryStringParam = (queryStringKey: string, value: boolean) => {
+export const setQueryStringParam = (
+  queryStringKey: string,
+  value: boolean
+): void => {
   const url = new URL(window.location.href)
   if (value) {
     url.searchParams.set(queryStringKey, value.toString())

@@ -1,6 +1,5 @@
 import { Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { ActiveTransactions } from '../../components/ActiveTransactions/ActiveTransactions.js'
 import { AmountInput } from '../../components/AmountInput/AmountInput.js'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
 import { GasRefuelMessage } from '../../components/Messages/GasRefuelMessage.js'
@@ -47,7 +46,6 @@ export const MainPage: React.FC = () => {
 
   return (
     <PageContainer>
-      <ActiveTransactions sx={marginSx} />
       {custom ? (
         <ContractComponent sx={marginSx}>{contractComponent}</ContractComponent>
       ) : null}
@@ -63,7 +61,6 @@ export const MainPage: React.FC = () => {
         sx={{
           display: 'flex',
           mb: showPoweredBy ? 1 : 3,
-          gap: 1.5,
         }}
       >
         <ReviewButton />

@@ -11,6 +11,7 @@ import {
   createDefaultWagmiConfig,
   type DefaultWagmiConfigResult,
 } from '../utils/createDefaultWagmiConfig.js'
+import { resolveConfig } from '../utils/resolveConfig.js'
 
 interface EthereumBaseProviderProps {
   config?: EthereumProviderConfig
@@ -24,11 +25,14 @@ export const EthereumBaseProvider: FC<
 
   if (!wagmi.current) {
     wagmi.current = createDefaultWagmiConfig({
-      coinbase: config?.coinbase ?? defaultCoinbaseConfig,
-      metaMask: config?.metaMask ?? defaultMetaMaskConfig,
-      walletConnect: config?.walletConnect ?? defaultWalletConnectConfig,
-      baseAccount: config?.baseAccount ?? defaultBaseAccountConfig,
-      porto: config?.porto,
+      coinbase: resolveConfig(config?.coinbase, defaultCoinbaseConfig),
+      metaMask: resolveConfig(config?.metaMask, defaultMetaMaskConfig),
+      walletConnect: resolveConfig(
+        config?.walletConnect,
+        defaultWalletConnectConfig
+      ),
+      baseAccount: resolveConfig(config?.baseAccount, defaultBaseAccountConfig),
+      porto: resolveConfig(config?.porto, undefined),
       wagmiConfig: {
         ssr: true,
       },

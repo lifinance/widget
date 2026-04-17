@@ -8,6 +8,7 @@ import {
   type WalletConnector,
 } from '@lifi/widget-provider'
 import { useMemo } from 'react'
+import type { StoreApi, UseBoundStore } from 'zustand'
 import { create } from 'zustand'
 
 export interface AccountResult {
@@ -36,13 +37,12 @@ interface LastConnectedAccountStore {
   setLastConnectedAccount: (account: WalletConnector | null) => void
 }
 
-export const useLastConnectedAccount = create<LastConnectedAccountStore>(
-  (set) => ({
-    lastConnectedAccount: null,
-    setLastConnectedAccount: (account) =>
-      set({ lastConnectedAccount: account }),
-  })
-)
+export const useLastConnectedAccount: UseBoundStore<
+  StoreApi<LastConnectedAccountStore>
+> = create<LastConnectedAccountStore>((set) => ({
+  lastConnectedAccount: null,
+  setLastConnectedAccount: (account) => set({ lastConnectedAccount: account }),
+}))
 
 /**
  * @param args When we provide args we want to return either account with corresponding chainType or default disconnected one
@@ -90,11 +90,12 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
         }) || connectedAccounts[0]
       : connectedAccounts[0]
 
-    return {
+    const result = {
       account: selectedChainTypeAccount || selectedAccount || defaultAccount,
       // We need to return only connected account list
       accounts: connectedAccounts,
     }
+    return result
   }, [
     solanaAccount?.address,
     solanaAccount?.status,

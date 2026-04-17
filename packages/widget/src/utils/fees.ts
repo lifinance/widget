@@ -9,8 +9,14 @@ export interface FeesBreakdown {
 
 export const getAccumulatedFeeCostsBreakdown = (
   route: RouteExtended,
-  included = false
-) => {
+  included: boolean = false
+): {
+  gasCosts: FeesBreakdown[]
+  feeCosts: FeesBreakdown[]
+  gasCostUSD: number
+  feeCostUSD: number
+  combinedFeesUSD: number
+} => {
   const gasCosts = getGasCostsBreakdown(route)
   const feeCosts = getFeeCostsBreakdown(route, included)
   const gasCostUSD = gasCosts.reduce(

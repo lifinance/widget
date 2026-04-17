@@ -1,4 +1,5 @@
 /** biome-ignore-all lint/correctness/noUnusedVariables: allowed in this store */
+import type { StoreApi, UseBoundStore } from 'zustand'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { allLanguages } from '../../providers/I18nProvider/constants.js'
@@ -29,9 +30,12 @@ const defaultSettings: SettingsProps = {
   enabledExchanges: [],
   _enabledBridges: {},
   _enabledExchanges: {},
+  smallBalanceThreshold: undefined,
 }
 
-export const createSettingsStore = (config: WidgetConfig) =>
+export const createSettingsStore = (
+  config: WidgetConfig
+): UseBoundStore<StoreApi<SettingsState>> =>
   create<SettingsState>()(
     persist(
       (set, get) => ({
@@ -145,7 +149,7 @@ export const createSettingsStore = (config: WidgetConfig) =>
       }),
       {
         name: 'li.fi-widget-settings',
-        version: 5,
+        version: 6,
         partialize: (state) => {
           const {
             disabledBridges,

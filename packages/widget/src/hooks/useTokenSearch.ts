@@ -3,12 +3,12 @@ import {
   type ChainId,
   getToken,
   type TokenExtended,
-  type TokensResponse,
 } from '@lifi/sdk'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
+import type { TokensByChain } from '../types/token.js'
 import { getConfigItemSets, isFormItemAllowed } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 
@@ -17,7 +17,10 @@ export const useTokenSearch = (
   tokenQuery?: string,
   enabled?: boolean,
   formType?: FormType
-) => {
+): {
+  token: TokenExtended | undefined
+  isLoading: boolean
+} => {
   const queryClient = useQueryClient()
   const { tokens: configTokens, keyPrefix } = useWidgetConfig()
   const sdkClient = useSDKClient()
@@ -56,21 +59,28 @@ export const useTokenSearch = (
           return null
         }
 
-        queryClient.setQueriesData<TokensResponse>(
+        // Add token to main tokens cache
+        queryClient.setQueriesData<TokensByChain>(
           { queryKey: [getQueryKey('tokens', keyPrefix)] },
           (data) => {
+            if (!data) {
+              return data
+            }
+            const chainTokens = data[chainId as number]
             if (
-              data &&
-              !data.tokens[chainId as number]?.some(
+              chainTokens?.some(
                 (t) => t.address.toLowerCase() === token.address.toLowerCase()
               )
             ) {
-              const clonedData = { ...data, tokens: { ...data.tokens } }
-              clonedData.tokens[chainId as number] = [
-                ...(clonedData.tokens[chainId as number] ?? []),
-                token,
-              ]
-              return clonedData
+              return data
+            }
+            // Mark token from search as unverified
+            return {
+              ...data,
+              [chainId as number]: [
+                ...(chainTokens ?? []),
+                { ...token, verified: false },
+              ],
             }
           }
         )

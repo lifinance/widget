@@ -1,6 +1,6 @@
 import { defaultMaxHeight } from '@lifi/widget'
 import { MenuItem, type SelectChangeEvent } from '@mui/material'
-import type { CSSProperties } from 'react'
+import type { CSSProperties, JSX } from 'react'
 import { useCallback, useEffect, useState } from 'react'
 import type { Layout } from '../../../../store/editTools/types.js'
 import { useEditToolsActions } from '../../../../store/editTools/useEditToolsActions.js'
@@ -37,10 +37,6 @@ const layoutOptions: LayoutOption[] = [
     id: 'full-height',
     name: 'Full Height',
   },
-  {
-    id: 'fit-content',
-    name: 'Fit Content',
-  },
 ]
 
 const getLayoutMode = (container?: CSSProperties) => {
@@ -51,8 +47,6 @@ const getLayoutMode = (container?: CSSProperties) => {
 
   if (container.display === 'flex' && container.height === '100%') {
     layoutMode = 'full-height'
-  } else if (container.height === 'fit-content') {
-    layoutMode = 'fit-content'
   } else if (Number.isFinite(container.height)) {
     layoutMode = 'restricted-height'
   } else if (Number.isFinite(container.maxHeight)) {
@@ -62,7 +56,7 @@ const getLayoutMode = (container?: CSSProperties) => {
   return layoutMode
 }
 
-export const LayoutControl = () => {
+export const LayoutControl = (): JSX.Element => {
   const { config } = useConfig()
 
   const { variant } = useConfigVariant()
@@ -122,19 +116,6 @@ export const LayoutControl = () => {
             display: 'flex',
             height: '100%',
             maxHeight: undefined,
-          }
-
-          setContainer(fullHeightContainer)
-          break
-        }
-        case 'fit-content': {
-          setHeader()
-
-          const fullHeightContainer = {
-            ...(getCurrentConfigTheme()?.container ?? {}),
-            display: undefined,
-            height: 'fit-content',
-            maxHeight: defaultMaxHeight,
           }
 
           setContainer(fullHeightContainer)

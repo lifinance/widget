@@ -1,12 +1,20 @@
 import { useImperativeHandle } from 'react'
+import { widgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
 import { formDefaultValues } from '../../stores/form/createFormStore.js'
-import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
+import type { FormFieldChanged } from '../../types/events.js'
+import { WidgetEvent } from '../../types/events.js'
 import type { FormRef } from '../../types/widget.js'
-import type { FormStoreStore, GenericFormValue } from './types.js'
+import type {
+  FormFieldNames,
+  FormStoreStore,
+  GenericFormValue,
+} from './types.js'
 
-export const useFormRef = (formStore: FormStoreStore, formRef?: FormRef) => {
-  const { setSendToWallet } = useSendToWalletActions()
+export const useFormRef = (
+  formStore: FormStoreStore,
+  formRef?: FormRef
+): void => {
   const { setSelectedBookmark } = useBookmarkActions()
 
   useImperativeHandle(formRef, () => {
@@ -25,12 +33,6 @@ export const useFormRef = (formStore: FormStoreStore, formRef?: FormRef) => {
         const address =
           (isToAddressObj ? value?.address : value) ||
           formDefaultValues.toAddress
-
-        // sets the send to wallet button state to be open
-        // if there is an address to display
-        if (address) {
-          setSendToWallet(address)
-        }
 
         // we can assume that the toAddress has been passed as ToAddress object
         // and display it accordingly - this ensures that if a name is included
@@ -53,10 +55,22 @@ export const useFormRef = (formStore: FormStoreStore, formRef?: FormRef) => {
           ? { isTouched: options?.setUrlSearchParam }
           : undefined
 
+        const oldValue = formStore
+          .getState()
+          .getFieldValues(fieldName as FormFieldNames)[0]
+
         formStore
           .getState()
           .setFieldValue(fieldName, sanitizedValue, fieldValueOptions)
+
+        if (sanitizedValue !== oldValue) {
+          widgetEvents.emit(WidgetEvent.FormFieldChanged, {
+            fieldName,
+            newValue: sanitizedValue,
+            oldValue,
+          } as FormFieldChanged)
+        }
       },
     }
-  }, [formStore, setSendToWallet, setSelectedBookmark])
+  }, [formStore, setSelectedBookmark])
 }

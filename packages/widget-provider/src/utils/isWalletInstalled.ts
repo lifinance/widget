@@ -20,31 +20,33 @@ export const isWalletInstalled = (id: string): boolean => {
         )
       )
     case 'app.phantom.bitcoin':
-      return anyWindow.phantom?.bitcoin?.isPhantom
+      return anyWindow?.phantom?.bitcoin?.isPhantom
     case 'com.okex.wallet.bitcoin':
-      return anyWindow.okxwallet?.bitcoin?.isOkxWallet
+      return anyWindow?.okxwallet?.bitcoin?.isOkxWallet
     case 'XverseProviders.BitcoinProvider':
-      return anyWindow.XverseProviders?.BitcoinProvider
+      return anyWindow?.XverseProviders?.BitcoinProvider
     case 'unisat':
       return (
-        anyWindow.unisat &&
-        !anyWindow.unisat?.isBinance &&
-        !anyWindow.unisat?.isBitKeep
+        anyWindow?.unisat &&
+        !anyWindow?.unisat?.isBinance &&
+        !anyWindow?.unisat?.isBitKeep
       )
     case 'io.xdefi':
-      return anyWindow.xfi
+      return anyWindow?.xfi
     case 'so.onekey.app.wallet.bitcoin':
-      return anyWindow.$onekey?.btc
+      return anyWindow?.$onekey?.btc
     case 'LeatherProvider':
-      return anyWindow.LeatherProvider
+      return anyWindow?.LeatherProvider
     case 'bitget':
-      return anyWindow.bitkeep?.unisat || anyWindow.unisat?.isBitKeep
+      return anyWindow?.bitkeep?.unisat || anyWindow?.unisat?.isBitKeep
     case 'OylProvider':
-      return anyWindow.oyl
+      return anyWindow?.oyl
     case 'binance':
-      return anyWindow.binancew3w?.bitcoin || anyWindow.unisat?.isBinance
+      return anyWindow?.binancew3w?.bitcoin || anyWindow?.unisat?.isBinance
     case 'app.magiceden.bitcoin':
       return anyWindow?.magicEden?.bitcoin?.isMagicEden
+    case 'unhosted.bitcoin':
+      return anyWindow?.unhosted?.bitcoin?.isUnhosted
     default:
       /**
        * Return true if the wallet is not in the list of explicitly supported or self-injected wallet

@@ -6,16 +6,22 @@ import { useGasSufficiency } from '../../hooks/useGasSufficiency.js'
 import { useRouteRequiredAccountConnection } from '../../hooks/useRouteRequiredAccountConnection.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 
-interface QueuedMessage {
+export interface QueuedMessage {
   id: string
   priority: number
   props?: Record<string, any>
 }
 
-export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
+export const useMessageQueue = (
+  route?: Route,
+  allowInteraction?: boolean
+): {
+  messages: QueuedMessage[]
+  hasMessages: boolean
+  isLoading: boolean
+} => {
   const {
     requiredToAddress,
-    toAddress,
     accountNotDeployedAtDestination,
     accountDeployedAtDestination,
     isLoading: isToAddressRequirementsLoading,
@@ -69,13 +75,6 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
       })
     }
 
-    if (requiredToAddress && !toAddress) {
-      queue.push({
-        id: 'TO_ADDRESS_REQUIRED',
-        priority: 6,
-      })
-    }
-
     if (
       requiredToAddress &&
       accountDeployedAtDestination &&
@@ -83,7 +82,7 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
     ) {
       queue.push({
         id: 'ACCOUNT_DEPLOYED',
-        priority: 7,
+        priority: 6,
       })
     }
 
@@ -95,7 +94,6 @@ export const useMessageQueue = (route?: Route, allowInteraction?: boolean) => {
     accountDeployedAtDestination,
     accountNotDeployedAtDestination,
     requiredToAddress,
-    toAddress,
     missingChain,
     missingAccountAddress,
     belowMinFromAmountUSD,

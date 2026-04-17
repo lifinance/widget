@@ -9,12 +9,12 @@ import {
   navigationRoutes,
   navigationRoutesValues,
 } from '../../utils/navigationRoutes.js'
+import { ActivitiesButton } from './ActivitiesButton.js'
 import { BackButton } from './BackButton.js'
 import { CloseDrawerButton } from './CloseDrawerButton.js'
 import { HeaderAppBar, HeaderControlsContainer } from './Header.style.js'
 import { SettingsButton } from './SettingsButton.js'
 import { SplitNavigationTabs } from './SplitNavigationTabs.js'
-import { TransactionHistoryButton } from './TransactionHistoryButton.js'
 
 export const NavigationHeader: React.FC = () => {
   const { subvariant, hiddenUI, variant, defaultUI, subvariantOptions } =
@@ -31,8 +31,12 @@ export const NavigationHeader: React.FC = () => {
   const path = cleanedPathname.substring(cleanedPathname.lastIndexOf('/') + 1)
   const hasPath = navigationRoutesValues.includes(path)
 
+  // Show tabs when split is undefined (default tabs) or an object with defaultTab
+  // Hide tabs when split is a string ('bridge' or 'swap' - single mode)
   const showSplitOptions =
-    subvariant === 'split' && !hasPath && !subvariantOptions?.split
+    subvariant === 'split' &&
+    !hasPath &&
+    typeof subvariantOptions?.split !== 'string'
 
   return (
     <HeaderAppBar elevation={0} sx={{ paddingTop: 1, paddingBottom: 0.5 }}>
@@ -57,7 +61,7 @@ export const NavigationHeader: React.FC = () => {
       {pathname === navigationRoutes.home ? (
         <HeaderControlsContainer>
           {account.isConnected && !hiddenUI?.includes(HiddenUI.History) && (
-            <TransactionHistoryButton />
+            <ActivitiesButton />
           )}
           <SettingsButton />
           {variant === 'drawer' &&

@@ -18,6 +18,8 @@
     "buy": "Beli",
     "cancel": "Batal",
     "checkoutReview": "Tinjau pembelian",
+    "clearAllFailed": "",
+    "clearTransaction": "",
     "close": "Tutup",
     "confirm": "Konfirmasi",
     "connectAnotherWallet": "Hubungkan dompet yang lain",
@@ -39,7 +41,6 @@
     "max": "",
     "ok": "Ya",
     "options": "Opsi",
-    "removeTransaction": "Hapus transaksi",
     "reset": "Atur ulang",
     "resetSettings": "Setel ulang pengaturan",
     "seeDetails": "Lihat rinciannya",
@@ -54,7 +55,6 @@
     "viewOnExplorer": "Lihat di explorer"
   },
   "header": {
-    "activeTransactions": "Transaksi aktif",
     "amount": "Jumlah",
     "bookmarkedWallets": "Dompet yang ditandai",
     "bridge": "Bridge",
@@ -79,7 +79,7 @@
     "swap": "Swap",
     "to": "Swap ke",
     "transactionDetails": "Rincian transaksi",
-    "transactionHistory": "Riwayat transaksi",
+    "activities": "",
     "walletConnected": "Dompet terhubung",
     "youGet": "Anda mendapatkan",
     "youPay": "Anda membayar"
@@ -88,19 +88,16 @@
     "message": {
       "accountDeployedMessage": "",
       "autoRefuel": "Gas anda hampir habis {{chainName}}. Dengan melanjutkan, anda akan mendapatkan cukup gas untuk menyelesaikan penukaran.",
-      "emptyActiveTransactions": "Transaksi yang sedang berlangsung akan muncul di sini. Setelah selesai, temukan di riwayat transaksi.",
       "emptyBridgesList": "Kami tidak dapat menemukan bridge yang sesuai dengan pencarian Anda",
       "emptyChainList": "Kami tidak dapat menemukan chain yang sesuai dengan pencarian Anda",
       "emptyExchangesList": "Kami tidak dapat menemukan exchanges yang sesuai dengan pencarian Anda",
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "Riwayat transaksi hanya disimpan secara lokal dan akan dihapus jika Anda menghapus data browser.",
       "routeNotFound": "Alasannya mungkin: likuiditas rendah, jumlah yang dipilih terlalu rendah, biaya gas terlalu tinggi, atau tidak ada rute untuk kombinasi yang dipilih.",
-      "toAddressIsRequired": "Alamat dompet tujuan diperlukan untuk melanjutkan transfer.",
       "missingRouteRequiredAccount": ""
     },
     "title": {
       "autoRefuel": "Dapatkan gas di {{chainName}}",
-      "emptyActiveTransactions": "Tidak ada transaksi yang aktif",
       "emptyTransactionHistory": "Tidak ada transaksi terbaru",
       "routeNotFound": "Rute tidak tersedia"
     }
@@ -123,10 +120,10 @@
     "message": {
       "accountNotDeployedMessage": "Akun kontrak pintar tidak ada di rantai tujuan. Mengirim dana ke akun kontrak pintar yang tidak ada dapat mengakibatkan kerugian permanen.",
       "lowAddressActivity": "Alamat ini memiliki aktivitas rendah di jaringan {{chainName}}. Harap verifikasi bahwa Anda mengirim ke alamat dan jaringan yang benar untuk mencegah potensi kehilangan dana.",
-      "deleteActiveTransactions": "Transaksi aktif hanya disimpan secara lokal dan tidak dapat dipulihkan jika Anda menghapusnya.",
-      "deleteTransactionHistory": "Riwayat transaksi hanya disimpan secara lokal dan tidak dapat dipulihkan jika Anda menghapusnya.",
+      "clearFailedTransactions": "",
       "fundsLossPrevention": "Selalu pastikan akun kontrak pintar disiapkan dengan benar di rantai tujuan dan hindari transfer langsung ke bursa untuk mencegah hilangnya dana.",
       "highValueLoss": "Nilai token yang diterima jauh lebih rendah daripada token yang ditukar dan biaya transaksi.",
+      "unverifiedToken": "",
       "insufficientFunds": "Anda tidak memiliki cukup dana untuk menyelesaikan penukaran.",
       "insufficientGas": "Anda tidak memiliki cukup gas untuk menyelesaikan penukaran. Anda perlu menambahkan setidaknya:",
       "minFromAmountUSD": "",
@@ -136,9 +133,7 @@
       "slippageUnderRecommendedLimits": "Toleransi terhadap slipage yang rendah dapat mengakibatkan keterlambatan atau kegagalan transaksi."
     },
     "title": {
-      "deleteActiveTransactions": "Hapus seluruh transaksi aktif?",
-      "deleteTransaction": "Hapus transaksi ini?",
-      "deleteTransactionHistory": "Hapus riwayat transaksi?",
+      "clearFailedTransactions": "",
       "highValueLoss": "Kehilangan nilai tinggi",
       "insufficientGas": "Gas tidak mencukupi",
       "rateChanged": "Rate berubah",
@@ -198,6 +193,7 @@
   "tooltip": {
     "deselectAll": "Hapus semua",
     "estimatedTime": "Saatnya menyelesaikan transaksi swap atau bridge, tidak termasuk peralihan rantai dan persetujuan token.",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "Perkiraan jumlah minimum dapat berubah hingga transaksi swapping/bridging ditandatangani. Untuk transfer 2 langkah, ini berlaku hingga transaksi langkah kedua ditandatangani.",
     "notFound": {
@@ -220,6 +216,8 @@
     "checkoutStepDetails": "Dapatkan melalui {{tool}}",
     "currentAmount": "Jumlah saat ini",
     "depositStepDetails": "Dapatkan melalui {{tool}}",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "Token unggulan",
     "fees": {
       "defaultIntegrator": "Biaya integrator",
@@ -237,6 +235,7 @@
     "myTokens": "Token saya",
     "onChain": "di {{chainName}}",
     "ownedBy": "Dimiliki oleh",
+    "pinnedTokens": "",
     "popularTokens": "Token populer",
     "priceImpact": "Dampak terhadap harga",
     "process": {
@@ -284,9 +283,8 @@
     "rateChange": "Perubahan rate",
     "receiving": "Menerima",
     "refuelStepDetails": "Dapatkan gas melalui {{tool}}",
-    "selectChain": "Pilih jaringan",
-    "selectChainAndToken": "Pilih jaringan dan token",
-    "selectToken": "Pilih token",
+    "route": "",
+    "select": "",
     "sendToAddress": "Kirim ke {{address}}",
     "sendToWallet": "Kirim ke dompet berbeda",
     "sending": "Mengirim",
@@ -302,6 +300,8 @@
     "stepSwapAndBuy": "Swap dan beli",
     "stepSwapAndDeposit": "Swap dan deposit",
     "swapStepDetails": "Swap di {{chain}} melalui {{tool}}",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "Transfer ID",
     "tags": {
       "cheapest": "Pengembalian terbaik",
@@ -331,7 +331,8 @@
     "routePriority": "Prioritas rute",
     "slippage": "Slip maksimum",
     "custom": "Kustom",
-    "resetSettings": "Anda menggunakan pengaturan khusus yang dapat memengaruhi jumlah atau pengurutan rute yang tersedia."
+    "resetSettings": "Anda menggunakan pengaturan khusus yang dapat memengaruhi jumlah atau pengurutan rute yang tersedia.",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "Tambahkan bookmark",
@@ -343,7 +344,8 @@
     "enterName": "Masukkan nama",
     "noBookmarkedWallets": "Tidak ada dompet yang ditandai",
     "noConnectedWallets": "Tida ada dompet yang di hubungkan",
-    "noRecentWallets": "Tidak ada dompet terakhir yang digunakan"
+    "noRecentWallets": "Tidak ada dompet terakhir yang digunakan",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",

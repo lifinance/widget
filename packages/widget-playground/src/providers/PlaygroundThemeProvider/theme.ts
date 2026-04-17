@@ -1,7 +1,7 @@
 import type { WidgetTheme } from '@lifi/widget'
 import { createTheme as createMuiTheme, type Theme } from '@mui/material'
 
-export const createTheme = (playgroundColor?: string) =>
+export const createTheme = (playgroundColor?: string): Theme =>
   createMuiTheme({
     cssVariables: {
       cssVarPrefix: 'lifi-pg',
@@ -132,7 +132,7 @@ export const createTheme = (playgroundColor?: string) =>
                 ownerState.variant === 'elevation' && {
                   '&:hover': {
                     cursor: 'pointer',
-                    filter: `drop-shadow(0 1px 4px rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08))`,
+                    filter: `drop-shadow(0 1px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 8%, transparent))`,
                   },
                 }),
               ...(!ownerState.onClick && {
@@ -158,7 +158,7 @@ export const createTheme = (playgroundColor?: string) =>
             style: ({ theme }) => ({
               border: 'none',
               boxShadow: 'none',
-              filter: `drop-shadow(0 1px 4px rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04))`,
+              filter: `drop-shadow(0 1px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent))`,
             }),
           },
           {

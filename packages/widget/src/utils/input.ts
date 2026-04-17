@@ -2,7 +2,7 @@ export const fitInputText = (
   maxFontSize: number,
   minFontSize: number,
   element: HTMLElement
-) => {
+): void => {
   if (!element) {
     return
   }

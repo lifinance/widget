@@ -1,4 +1,4 @@
-import type { ProcessStatus, Substatus } from '@lifi/sdk'
+import type { ExecutionActionStatus, Substatus } from '@lifi/sdk'
 import type { Theme } from '@mui/material'
 import {
   Box,
@@ -7,32 +7,38 @@ import {
   CircularProgress as MuiCircularProgress,
   styled,
 } from '@mui/material'
+import type React from 'react'
 
 const getStatusColor = (
   theme: Theme,
-  status?: ProcessStatus,
+  status?: ExecutionActionStatus,
   substatus?: Substatus
 ) => {
   switch (status) {
     case 'ACTION_REQUIRED':
     case 'MESSAGE_REQUIRED':
     case 'RESET_REQUIRED':
-      return `rgba(${theme.vars.palette.info.mainChannel} / 0.12)`
+      return `color-mix(in srgb, ${theme.vars.palette.info.main} 12%, transparent)`
     case 'DONE':
       if (substatus === 'PARTIAL' || substatus === 'REFUNDED') {
-        return `rgba(${theme.vars.palette.warning.mainChannel} / 0.48)`
+        return `color-mix(in srgb, ${theme.vars.palette.warning.main} 48%, transparent)`
       }
-      return `rgba(${theme.vars.palette.success.mainChannel} / 0.12)`
+      return `color-mix(in srgb, ${theme.vars.palette.success.main} 12%, transparent)`
     case 'FAILED':
-      return `rgba(${theme.vars.palette.error.mainChannel} / 0.12)`
+      return `color-mix(in srgb, ${theme.vars.palette.error.main} 12%, transparent)`
     default:
       return null
   }
 }
 
-export const CircularIcon = styled(Box, {
+export const CircularIcon: React.FC<
+  React.ComponentProps<typeof Box> & {
+    status?: ExecutionActionStatus
+    substatus?: Substatus
+  }
+> = styled(Box, {
   shouldForwardProp: (prop: string) => !['status', 'substatus'].includes(prop),
-})<{ status?: ProcessStatus; substatus?: Substatus }>(
+})<{ status?: ExecutionActionStatus; substatus?: Substatus }>(
   ({ theme, status, substatus }) => {
     const statusColor = getStatusColor(theme, status, substatus)
     const isSpecialStatus = [
@@ -80,7 +86,9 @@ const circleAnimation = keyframes`
 
 // This `styled()` function invokes keyframes. `styled-components` only supports keyframes
 // in string templates. Do not convert these styles in JS object as it will break.
-export const CircularProgressPending = styled(MuiCircularProgress)`
+export const CircularProgressPending: React.FC<
+  React.ComponentProps<typeof MuiCircularProgress>
+> = styled(MuiCircularProgress)`
   color: ${({ theme }) => theme.vars.palette.primary.main};
   ${({ theme }) =>
     theme.applyStyles('dark', {

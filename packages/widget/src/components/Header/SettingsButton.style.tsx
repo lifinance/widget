@@ -4,8 +4,11 @@ import {
   Badge as MuiBadge,
   styled,
 } from '@mui/material'
+import type React from 'react'
 
-export const SettingsIconBadge = styled(MuiBadge)(({ theme }) => ({
+export const SettingsIconBadge: React.FC<
+  React.ComponentProps<typeof MuiBadge>
+> = styled(MuiBadge)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   gap: theme.spacing(1.25),
@@ -21,33 +24,35 @@ interface SettingsIconButtonProps {
   variant?: 'info' | 'warning'
 }
 
-export const SettingsIconButton = styled(IconButton, {
+export const SettingsIconButton: React.FC<
+  React.ComponentProps<typeof IconButton> & SettingsIconButtonProps
+> = styled(IconButton, {
   shouldForwardProp: (props) => props !== 'variant',
 })<SettingsIconButtonProps>(({ theme, variant }) => {
   switch (variant) {
     case 'info':
       return {
-        backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.12)`,
+        backgroundColor: `color-mix(in srgb, ${theme.vars.palette.info.main} 8%, transparent)`,
         '&:hover': {
-          backgroundColor: `color-mix(in srgb, rgba(${theme.vars.palette.info.mainChannel} / 0.12) 80%, black)`,
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.info.main} 12%, transparent)`,
         },
         ...theme.applyStyles('dark', {
-          backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.16)`,
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.info.main} 12%, transparent)`,
           '&:hover': {
-            backgroundColor: `color-mix(in srgb, rgba(${theme.vars.palette.info.mainChannel} / 0.16) 80%, black)`,
+            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.info.main} 16%, transparent)`,
           },
         }),
       }
     case 'warning':
       return {
-        backgroundColor: `rgba(${theme.vars.palette.warning.mainChannel} / 0.32)`,
+        backgroundColor: `color-mix(in srgb, ${theme.vars.palette.warning.main} 32%, transparent)`,
         '&:hover': {
-          backgroundColor: `color-mix(in srgb, rgba(${theme.vars.palette.warning.mainChannel} / 0.32) 80%, black)`,
+          backgroundColor: `color-mix(in srgb, color-mix(in srgb, ${theme.vars.palette.warning.main} 32%, transparent) 80%, black)`,
         },
         ...theme.applyStyles('dark', {
-          backgroundColor: `rgba(${theme.vars.palette.warning.mainChannel} / 0.16)`,
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.warning.main} 16%, transparent)`,
           '&:hover': {
-            backgroundColor: `color-mix(in srgb, rgba(${theme.vars.palette.warning.mainChannel} / 0.16) 80%, black)`,
+            backgroundColor: `color-mix(in srgb, color-mix(in srgb, ${theme.vars.palette.warning.main} 16%, transparent) 80%, black)`,
           },
         }),
       }

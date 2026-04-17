@@ -1,4 +1,5 @@
 import { defaultMaxHeight } from '@lifi/widget'
+import type { JSX } from 'react'
 import {
   type ChangeEventHandler,
   type FocusEventHandler,
@@ -20,13 +21,14 @@ export const InputControl = ({
   value,
   onChange,
   onBlur,
-}: InputControlProps) => {
+}: InputControlProps): JSX.Element => {
   const inputId = useId()
+  const showCaption = !value || value < defaultMaxHeight
   return (
     <CardRowContainer sx={{ padding: 1 }}>
       <CardRowColumn>
         <label htmlFor={inputId}>{label}</label>
-        {(value && value < defaultMaxHeight) || !value ? (
+        {showCaption ? (
           <CapitalizeFirstLetter variant="caption">
             {`${defaultMaxHeight}px minimum`}
           </CapitalizeFirstLetter>

@@ -1,0 +1,44 @@
+{
+  "name": "vite-iframe",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "analyze": "source-map-explorer 'dist/assets/*.js' --no-border-checks",
+    "dev": "vite",
+    "dev:local": "vite --mode localhost",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@bigmi/react": "^0.8.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@lifi/sdk": "4.0.0-beta.5",
+    "@lifi/wallet-management": "workspace:*",
+    "@lifi/widget-light": "workspace:*",
+    "@lifi/widget-provider": "workspace:*",
+    "@lifi/widget-provider-bitcoin": "workspace:*",
+    "@lifi/widget-provider-ethereum": "workspace:*",
+    "@lifi/widget-provider-solana": "workspace:*",
+    "@lifi/widget-provider-sui": "workspace:*",
+    "@mui/material": "^7.3.9",
+    "@mysten/dapp-kit-react": "^2.0.1",
+    "@tanstack/react-query": "^5.97.0",
+    "@wagmi/connectors": "^8.0.1",
+    "bs58": ">=4.0.1",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "viem": "^2.47.11",
+    "wagmi": "^3.6.1"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "typescript": "^6.0.2",
+    "vite": "^8.0.8",
+    "vite-plugin-node-polyfills": "^0.26.0"
+  }
+}

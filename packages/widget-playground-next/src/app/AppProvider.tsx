@@ -13,7 +13,6 @@ import { type PropsWithChildren, useState } from 'react'
 // the lack of structureClone support for Next.js is currently a requested feature
 //   https://github.com/vercel/next.js/discussions/33189
 import 'core-js/actual/structured-clone'
-import '@lifi/widget-playground/fonts'
 import { getQueryClient } from './getQueryClient.js'
 
 export const AppProvider = ({ children }: PropsWithChildren) => {

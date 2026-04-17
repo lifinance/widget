@@ -2,19 +2,21 @@ import {
   Alert,
   alertClasses,
   Box,
-  IconButton,
   inputBaseClasses,
   List,
   styled,
   Typography,
 } from '@mui/material'
+import type React from 'react'
 import { ButtonTertiary } from '../../components/ButtonTertiary.js'
 import { InputCard } from '../../components/Card/InputCard.js'
 import { Input } from '../../components/Input.js'
 import type { PageContainerProps } from '../../components/PageContainer.js'
 import { PageContainer } from '../../components/PageContainer.js'
 
-export const AddressInput = styled(Input)(({ theme }) => ({
+export const AddressInput: React.FC<
+  React.ComponentProps<typeof Input> & PageContainerProps
+> = styled(Input)(({ theme }) => ({
   padding: 0,
   [`.${inputBaseClasses.input}`]: {
     padding: theme.spacing(2),
@@ -22,16 +24,18 @@ export const AddressInput = styled(Input)(({ theme }) => ({
   },
 }))
 
-export const BookmarkInputFields = styled(Box)(({ theme }) => ({
+export const BookmarkInputFields: React.FC<
+  React.ComponentProps<typeof Box> & PageContainerProps
+> = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spacing(2),
   width: '100%',
 }))
 
-export const SendToWalletPageContainer = styled(
-  PageContainer
-)<PageContainerProps>(({ theme }) => ({
+export const SendToWalletPageContainer: React.FC<
+  React.ComponentProps<typeof PageContainer> & PageContainerProps
+> = styled(PageContainer)<PageContainerProps>(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spacing(1),
@@ -41,12 +45,12 @@ interface FullHeightAdjustablePageContainerProps extends PageContainerProps {
   enableFullHeight?: boolean
 }
 
-export const FullHeightAdjustablePageContainer = styled(
-  SendToWalletPageContainer,
-  {
-    shouldForwardProp: (prop) => prop !== 'enableFullHeight',
-  }
-)<FullHeightAdjustablePageContainerProps>(({ theme, enableFullHeight }) => ({
+export const FullHeightAdjustablePageContainer: React.FC<
+  React.ComponentProps<typeof PageContainer> &
+    FullHeightAdjustablePageContainerProps
+> = styled(SendToWalletPageContainer, {
+  shouldForwardProp: (prop) => prop !== 'enableFullHeight',
+})<FullHeightAdjustablePageContainerProps>(({ theme, enableFullHeight }) => ({
   justifyContent: 'space-between',
   ...(enableFullHeight && theme.container?.height === '100%'
     ? {
@@ -56,12 +60,16 @@ export const FullHeightAdjustablePageContainer = styled(
     : {}),
 }))
 
-export const SendToWalletCard = styled(InputCard)({
+export const SendToWalletCard: React.FC<
+  React.ComponentProps<typeof InputCard>
+> = styled(InputCard)({
   display: 'flex',
   flexDirection: 'column',
 })
 
-export const SendToWalletSheetContainer = styled(Box)(({ theme }) => ({
+export const SendToWalletSheetContainer: React.FC<
+  React.ComponentProps<typeof Box>
+> = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -69,18 +77,23 @@ export const SendToWalletSheetContainer = styled(Box)(({ theme }) => ({
   gap: theme.spacing(2),
 }))
 
-export const SendToWalletButtonRow = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  width: '100%',
-  gap: theme.spacing(1),
-}))
+export const SendToWalletButtonRow: React.FC<React.ComponentProps<typeof Box>> =
+  styled(Box)(({ theme }) => ({
+    display: 'flex',
+    width: '100%',
+    gap: theme.spacing(1),
+  }))
 
-export const SendToWalletIconButton = styled(ButtonTertiary)(({ theme }) => ({
+export const SendToWalletIconButton: React.FC<
+  React.ComponentProps<typeof ButtonTertiary>
+> = styled(ButtonTertiary)(({ theme }) => ({
   padding: theme.spacing(1.25),
   minWidth: 40,
 }))
 
-export const IconContainer = styled(Box)(({ theme }) => ({
+export const IconContainer: React.FC<React.ComponentProps<typeof Box>> = styled(
+  Box
+)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -95,29 +108,36 @@ export const IconContainer = styled(Box)(({ theme }) => ({
   }),
 }))
 
-export const SheetTitle = styled(Typography)(() => ({
-  fontSize: 18,
-  fontWeight: 700,
-}))
+export const SheetTitle: React.FC<React.ComponentProps<typeof Typography>> =
+  styled(Typography)(() => ({
+    fontSize: 18,
+    fontWeight: 700,
+  }))
 
-export const SheetAddressContainer = styled(Box)(() => ({
-  width: '100%',
-  wordWrap: 'break-word',
-}))
+export const SheetAddressContainer: React.FC<React.ComponentProps<typeof Box>> =
+  styled(Box)(() => ({
+    width: '100%',
+    wordWrap: 'break-word',
+  }))
 
-export const ListContainer = styled(List)(() => ({
-  display: 'flex',
-  flexDirection: 'column',
-  padding: 0,
-  minHeight: 400,
-}))
+export const ListContainer: React.FC<React.ComponentProps<typeof List>> =
+  styled(List)(() => ({
+    display: 'flex',
+    flexDirection: 'column',
+    padding: 0,
+    minHeight: 400,
+  }))
 
-export const BookmarksListContainer = styled(ListContainer)(({ theme }) => ({
+export const BookmarksListContainer: React.FC<
+  React.ComponentProps<typeof ListContainer>
+> = styled(ListContainer)(({ theme }) => ({
   ...(theme.container?.height === '100%'
     ? { minHeight: 360, height: 360, flexGrow: 1, overflow: 'auto' }
     : { minHeight: 440 }),
 }))
-export const BookmarkButtonContainer = styled(Box)(({ theme }) => ({
+export const BookmarkButtonContainer: React.FC<
+  React.ComponentProps<typeof Box>
+> = styled(Box)(({ theme }) => ({
   background: theme.vars.palette.background.default,
   display: 'flex',
   flexDirection: 'column',
@@ -128,31 +148,24 @@ export const BookmarkButtonContainer = styled(Box)(({ theme }) => ({
   width: '100%',
 }))
 
-export const EmptyContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  flexGrow: 1,
-  gap: theme.spacing(2),
-}))
+export const EmptyContainer: React.FC<React.ComponentProps<typeof Box>> =
+  styled(Box)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexGrow: 1,
+    gap: theme.spacing(2),
+  }))
 
-export const ValidationAlert = styled(Alert)(({ theme }) => ({
-  backgroundColor: 'transparent',
-  padding: 0,
-  color: theme.vars.palette.text.primary,
-  [`.${alertClasses.icon}`]: {
+export const ValidationAlert: React.FC<React.ComponentProps<typeof Alert>> =
+  styled(Alert)(({ theme }) => ({
+    backgroundColor: 'transparent',
     padding: 0,
-    color: theme.vars.palette.error.main,
-  },
-  [`.${alertClasses.message}`]: { padding: theme.spacing(0.25, 0, 0, 0) },
-}))
-
-export const OptionsMenuButton = styled(IconButton)(({ theme }) => ({
-  position: 'absolute',
-  top: theme.spacing(1.75),
-  right: theme.spacing(2),
-  '&:hover': {
-    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
-  },
-}))
+    color: theme.vars.palette.text.primary,
+    [`.${alertClasses.icon}`]: {
+      padding: 0,
+      color: theme.vars.palette.error.main,
+    },
+    [`.${alertClasses.message}`]: { padding: theme.spacing(0.25, 0, 0, 0) },
+  }))

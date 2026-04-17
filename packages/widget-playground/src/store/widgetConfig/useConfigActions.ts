@@ -1,6 +1,29 @@
+import type { WidgetConfigState } from './types.js'
 import { useWidgetConfigStore } from './WidgetConfigProvider.js'
 
-export const useConfigActions = () => {
+export const useConfigActions = (): Pick<
+  WidgetConfigState,
+  | 'setConfig'
+  | 'resetConfig'
+  | 'setAppearance'
+  | 'setVariant'
+  | 'setSubvariant'
+  | 'setBorderRadius'
+  | 'resetBorderRadius'
+  | 'setBorderRadiusSecondary'
+  | 'resetBorderRadiusSecondary'
+  | 'setColor'
+  | 'setFontFamily'
+  | 'setWalletConfig'
+  | 'setConfigTheme'
+  | 'getCurrentThemePreset'
+  | 'getCurrentConfigTheme'
+  | 'setHeader'
+  | 'setContainer'
+  | 'setFormValues'
+  | 'setChainSidebarDisabled'
+  | 'setSplitOption'
+> => {
   const actions = useWidgetConfigStore((state) => ({
     setConfig: state.setConfig,
     resetConfig: state.resetConfig,
@@ -20,7 +43,7 @@ export const useConfigActions = () => {
     setHeader: state.setHeader,
     setContainer: state.setContainer,
     setFormValues: state.setFormValues,
-    setChainSidebarEnabled: state.setChainSidebarEnabled,
+    setChainSidebarDisabled: state.setChainSidebarDisabled,
     setSplitOption: state.setSplitOption,
   }))
 

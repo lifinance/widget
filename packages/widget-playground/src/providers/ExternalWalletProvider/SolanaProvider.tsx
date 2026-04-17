@@ -1,46 +1,30 @@
-import { useAppKitProvider } from '@reown/appkit/react'
+import { useSolanaWalletStandard } from '@lifi/widget-provider-solana'
+import { useAppKitProvider, useAppKitState } from '@reown/appkit/react'
 import type { Provider as SolanaWalletProvider } from '@reown/appkit-adapter-solana'
-import type { Adapter, WalletName } from '@solana/wallet-adapter-base'
-import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
-import {
-  ConnectionProvider,
-  useWallet,
-  WalletProvider,
-} from '@solana/wallet-adapter-react'
-import { clusterApiUrl } from '@solana/web3.js'
 import { type FC, type PropsWithChildren, useEffect } from 'react'
 
-const endpoint = clusterApiUrl(WalletAdapterNetwork.Mainnet)
-const wallets: Adapter[] = []
-
-const SolanaConnectedWalletKey = 'li.fi-widget-recent-wallet'
-
 export const SolanaProvider: FC<PropsWithChildren> = ({ children }) => {
-  return (
-    <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider
-        wallets={wallets}
-        localStorageKey={SolanaConnectedWalletKey}
-        autoConnect
-      >
-        <SolanaReownHandler />
-        {children}
-      </WalletProvider>
-    </ConnectionProvider>
-  )
-}
-
-const SolanaReownHandler: FC = () => {
   const { walletProvider: solanaProvider } =
     useAppKitProvider<SolanaWalletProvider>('solana')
-  const { disconnect, select } = useWallet()
+  const { initialized } = useAppKitState()
+
+  const { connect, disconnect } = useSolanaWalletStandard()
+
   useEffect(() => {
-    if (solanaProvider?.name) {
-      select(solanaProvider.name as WalletName)
+    if (initialized) {
+      if (solanaProvider?.name) {
+        connect(solanaProvider.name, { silent: true })
+      } else {
+        disconnect()
+      }
     }
+
     return () => {
-      disconnect()
+      if (initialized) {
+        disconnect()
+      }
     }
-  }, [disconnect, select, solanaProvider?.name])
-  return null
+  }, [solanaProvider?.name, connect, disconnect, initialized])
+
+  return children
 }

@@ -10,24 +10,24 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
-    "@lifi/widget": "workspace:*",
-    "@react-router/node": "^7.9.5",
-    "@react-router/serve": "^7.9.5",
-    "isbot": "^5.1.32",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "react-router": "^7.9.5",
-    "react-router-dom": "^7.9.5"
+    "@lifi/widget": "^4.0.0-beta.9",
+    "@react-router/node": "^7.14.0",
+    "@react-router/serve": "^7.14.0",
+    "isbot": "^5.1.37",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "react-router": "^7.14.0",
+    "react-router-dom": "^7.14.0"
   },
   "devDependencies": {
-    "@react-router/dev": "^7.9.5",
-    "@react-router/fs-routes": "^7.9.5",
-    "@react-router/remix-routes-option-adapter": "^7.9.5",
-    "@types/react": "^19.2.5",
+    "@react-router/dev": "^7.14.0",
+    "@react-router/fs-routes": "^7.14.0",
+    "@react-router/remix-routes-option-adapter": "^7.14.0",
+    "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "typescript": "^5.9.3",
-    "vite": "^7.2.2",
-    "vite-tsconfig-paths": "^5.1.4"
+    "typescript": "^6.0.2",
+    "vite": "^8.0.8",
+    "vite-tsconfig-paths": "^6.1.1"
   },
   "engines": {
     "node": ">=18.0.0"

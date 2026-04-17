@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import { type RefObject, useCallback } from 'react'
+import { type JSX, type RefObject, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SearchInput, StickySearchInput } from '../Search/SearchInput.js'
 
@@ -17,7 +17,7 @@ export const ChainSearchInput = ({
   onChange,
   onClear,
   searchHeaderHeight,
-}: ChainSearchInputProps) => {
+}: ChainSearchInputProps): JSX.Element => {
   const { t } = useTranslation()
 
   const handleClear = useCallback(() => {
@@ -29,7 +29,15 @@ export const ChainSearchInput = ({
 
   if (inExpansion) {
     return (
-      <Box sx={{ pt: 3, pb: 2, px: 2.5, height: searchHeaderHeight }}>
+      <Box
+        sx={{
+          pt: 3,
+          pb: 2,
+          px: 2.5,
+          height: searchHeaderHeight,
+          boxSizing: 'border-box',
+        }}
+      >
         <SearchInput
           inputRef={inputRef}
           onChange={onChange}

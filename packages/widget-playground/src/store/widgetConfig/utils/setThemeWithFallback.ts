@@ -4,7 +4,7 @@ import { replayLocalStorageChangesOnTheme } from './replayLocalStorageChangesOnT
 export const setThemeAppearanceWithFallback = (
   state: WidgetConfigState,
   prefersDarkMode: boolean
-) => {
+): void => {
   const themeId =
     state.themeId &&
     !!state.widgetThemeItems.find((themeItem) => themeItem.id === state.themeId)

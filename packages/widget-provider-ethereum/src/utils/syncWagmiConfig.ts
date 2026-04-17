@@ -7,11 +7,12 @@ export const syncWagmiConfig = async (
   wagmiConfig: Config,
   connectors: CreateConnectorFn[],
   chains: readonly [Chain, ...Chain[]]
-) => {
+): Promise<void> => {
   const _mainnet = chains.find((chain) => chain.id === mainnet.id)
   if (_mainnet) {
     _mainnet.contracts = { ...mainnet.contracts, ..._mainnet.contracts }
   }
+
   wagmiConfig._internal.chains.setState(chains)
   wagmiConfig._internal.connectors.setState(() =>
     [

@@ -18,6 +18,8 @@
     "buy": "Satın al",
     "cancel": "İptal",
     "checkoutReview": "Satın alımı incele",
+    "clearAllFailed": "",
+    "clearTransaction": "",
     "close": "Kapat",
     "confirm": "Onayla",
     "connectAnotherWallet": "Diğer bir cüzdanı bağla",
@@ -39,7 +41,6 @@
     "max": "",
     "ok": "Tamam",
     "options": "Ayarlar",
-    "removeTransaction": "İşlemi kaldır",
     "reset": "Sıfırla",
     "resetSettings": "Ayarları Sıfırla",
     "seeDetails": "Detayları Gör",
@@ -54,7 +55,6 @@
     "viewOnExplorer": "Tarayıcıda Görüntüle"
   },
   "header": {
-    "activeTransactions": "Aktif işlemler",
     "amount": "Miktar",
     "bookmarkedWallets": "Kayıtlı cüzdanlar",
     "bridge": "Gönder",
@@ -79,7 +79,7 @@
     "swap": "Takas",
     "to": "Şuna takas et",
     "transactionDetails": "İşlem ayrıntıları",
-    "transactionHistory": "İşlem geçmişi",
+    "activities": "",
     "walletConnected": "Cüzdan Bağlandı",
     "youGet": "Alacağınız",
     "youPay": "Ödediğiniz"
@@ -88,19 +88,16 @@
     "message": {
       "accountDeployedMessage": "",
       "autoRefuel": "{{chainName}} ağında gaz yetersiz. Devam ederek, işlem için gereken miktarda gaz alacaksınız.",
-      "emptyActiveTransactions": "Devam eden işlemler burada görünecek. Tamamlandığında, işlem geçmişinden bulabilirsiniz.",
       "emptyBridgesList": "Aradığın köprüyü bulamadık",
       "emptyChainList": "Aradığın zinciri bulamadık",
       "emptyExchangesList": "Aradığın borsayı bulamadık",
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "İşlem geçmişi yalnızca yerel olarak saklanır ve tarayıcı verilerinizi temizlerseniz silinir.",
       "routeNotFound": "Muhtemel sebepler şunlar olabilir: Düşük likidite, seçilen miktarın çok düşük olması, gaz masrafının çok olması ya da seçilen kombinasyon için rota olmaması.",
-      "toAddressIsRequired": "Transfer işlemine devam etmek için hedef cüzdan adresi gereklidir.",
       "missingRouteRequiredAccount": ""
     },
     "title": {
       "autoRefuel": "{{chainName}} ağında gaz al",
-      "emptyActiveTransactions": "Aktif işlem bulunmamaktadır",
       "emptyTransactionHistory": "Yakın zamanda bir işlem yok",
       "routeNotFound": "Kullanılabilir bir yol bulunamadı"
     }
@@ -123,10 +120,10 @@
     "message": {
       "accountNotDeployedMessage": "",
       "lowAddressActivity": "Bu adres {{chainName}} ağında düşük etkinliğe sahip. Olası fon kaybını önlemek için lütfen doğru adrese ve ağa gönderim yaptığınızı doğrulayın.",
-      "deleteActiveTransactions": "Aktif işlemler yalnızca yerel olarak depolanır ve silerseniz kurtarılamaz.",
-      "deleteTransactionHistory": "İşlem geçmişi yalnızca yerel olarak depolanır ve silerseniz kurtarılamaz.",
+      "clearFailedTransactions": "",
       "fundsLossPrevention": "Her zaman akıllı sözleşme hesaplarının hedef zincirde düzgün bir şekilde ayarlandığından emin olun ve fon kaybını önlemek için borsalara doğrudan transferlerden kaçının.",
       "highValueLoss": "Elde edilecek varlıkların değeri, takas edilen varlıklardan ve işlem maliyetinden önemli ölçüde düşüktür.",
+      "unverifiedToken": "",
       "insufficientFunds": "Takas işlemini gerçekleştirmek için yeterli bakiyeniz bulunmamaktadır.",
       "insufficientGas": "En azından şunları eklemelisiniz:",
       "minFromAmountUSD": "",
@@ -136,9 +133,7 @@
       "slippageUnderRecommendedLimits": "Düşük kayma toleransı işlem gecikmelerine veya hatalarına neden olabilir."
     },
     "title": {
-      "deleteActiveTransactions": "Tüm aktif işlemleri sil?",
-      "deleteTransaction": "Bu işlem silinsin mi?",
-      "deleteTransactionHistory": "İşlem geçmişi silinsin mi?",
+      "clearFailedTransactions": "",
       "highValueLoss": "Yüksek değer kaybı",
       "insufficientGas": "Yetersiz gaz",
       "rateChanged": "Oran değişti",
@@ -198,6 +193,7 @@
   "tooltip": {
     "deselectAll": "Tüm seçimi kaldır",
     "estimatedTime": "",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "Takas/köprüleme işlemi imzalanana kadar tahmini minimum tutar değişebilir. 2 adımlı transferlerde bu durum, ikinci adım işlemi imzalanana kadar geçerlidir.",
     "notFound": {
@@ -220,6 +216,8 @@
     "checkoutStepDetails": "{{tool}} aracılığıyla alım yap",
     "currentAmount": "Geçerli miktar",
     "depositStepDetails": "{{tool}} aracılığıyla yatır",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "Öne çıkan jetonlar",
     "fees": {
       "defaultIntegrator": "Integrator ücreti",
@@ -237,6 +235,7 @@
     "myTokens": "Varlıklarım",
     "onChain": "{{chainName}} üzerinde",
     "ownedBy": "Tarafından sahip olunan",
+    "pinnedTokens": "",
     "popularTokens": "Popüler varlıklar",
     "priceImpact": "Fiyat etkisi",
     "process": {
@@ -284,9 +283,8 @@
     "rateChange": "Değişiklik oranı",
     "receiving": "Alınıyor",
     "refuelStepDetails": "{{tool}} aracılığıyla gaz al",
-    "selectChain": "Zincir",
-    "selectChainAndToken": "Ağı ve jetonu seçin",
-    "selectToken": "Jeton",
+    "route": "",
+    "select": "",
     "sendToAddress": "Bu adrese gönder: {{address}}",
     "sendToWallet": "Farklı bir cüzdana gönder",
     "sending": "Gönderiliyor",
@@ -302,6 +300,8 @@
     "stepSwapAndBuy": "Takasla ve satın al",
     "stepSwapAndDeposit": "Takas et ve yatır",
     "swapStepDetails": "{{chain}} üzerinde {{tool}} aracılığıyla takas et",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "Transfer ID",
     "tags": {
       "cheapest": "En iyi sonuç",
@@ -331,7 +331,8 @@
     "routePriority": "Rota önceliği",
     "slippage": "Maks. kayma",
     "custom": "Özel",
-    "resetSettings": "Kullanılabilir rotaların sayısını etkileyebilecek özel bir ayar kullanıyorsunuz."
+    "resetSettings": "Kullanılabilir rotaların sayısını etkileyebilecek özel bir ayar kullanıyorsunuz.",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "Yer işareti ekle",
@@ -343,7 +344,8 @@
     "enterName": "İsim girin",
     "noBookmarkedWallets": "Kayıtlı cüzdan bulunamadı",
     "noConnectedWallets": "Bağlı cüzdan bulunamadı",
-    "noRecentWallets": "Son kullanılan cüzdan bulunamadı"
+    "noRecentWallets": "Son kullanılan cüzdan bulunamadı",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",

@@ -18,6 +18,8 @@
     "buy": "",
     "cancel": "रद्द करें",
     "checkoutReview": "",
+    "clearAllFailed": "",
+    "clearTransaction": "",
     "close": "",
     "confirm": "",
     "connectAnotherWallet": "",
@@ -39,7 +41,6 @@
     "max": "",
     "ok": "ठीक है",
     "options": "",
-    "removeTransaction": "",
     "reset": "कुंजी: बटन. रीसेट करें\nबटन -> रीसेट करें",
     "resetSettings": "कुंजी: बटन. सेटिंग्स रीसेट करें\nबटन -> सेटिंग्स रीसेट करें",
     "seeDetails": "कुंजी: बटन. जानकारी देखें\nबटन -> जानकारी देखें",
@@ -54,7 +55,6 @@
     "viewOnExplorer": "कुंजी: बटन. एक्स्प्लोरर पर देखें\nबटन -> एक्स्प्लोरर पर देखें"
   },
   "header": {
-    "activeTransactions": "",
     "amount": "",
     "bookmarkedWallets": "",
     "bridge": "",
@@ -79,7 +79,7 @@
     "swap": "विनिमय",
     "to": "",
     "transactionDetails": "",
-    "transactionHistory": "",
+    "activities": "",
     "walletConnected": "वॉलेट जुड़ा हुआ हे",
     "youGet": "",
     "youPay": ""
@@ -88,19 +88,16 @@
     "message": {
       "accountDeployedMessage": "",
       "autoRefuel": "",
-      "emptyActiveTransactions": "",
       "emptyBridgesList": "",
       "emptyChainList": "",
       "emptyExchangesList": "",
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "",
       "routeNotFound": "",
-      "toAddressIsRequired": "",
       "missingRouteRequiredAccount": ""
     },
     "title": {
       "autoRefuel": "",
-      "emptyActiveTransactions": "",
       "emptyTransactionHistory": "",
       "routeNotFound": ""
     }
@@ -123,10 +120,10 @@
     "message": {
       "accountNotDeployedMessage": "",
       "lowAddressActivity": "",
-      "deleteActiveTransactions": "",
-      "deleteTransactionHistory": "",
+      "clearFailedTransactions": "",
       "fundsLossPrevention": "",
       "highValueLoss": "",
+      "unverifiedToken": "",
       "insufficientFunds": "",
       "insufficientGas": "",
       "minFromAmountUSD": "",
@@ -136,9 +133,7 @@
       "slippageUnderRecommendedLimits": ""
     },
     "title": {
-      "deleteActiveTransactions": "",
-      "deleteTransaction": "",
-      "deleteTransactionHistory": "",
+      "clearFailedTransactions": "",
       "highValueLoss": "",
       "insufficientGas": "",
       "rateChanged": "",
@@ -198,6 +193,7 @@
   "tooltip": {
     "deselectAll": "",
     "estimatedTime": "",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "",
     "notFound": {
@@ -220,6 +216,8 @@
     "checkoutStepDetails": "",
     "currentAmount": "",
     "depositStepDetails": "",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "",
     "fees": {
       "defaultIntegrator": "",
@@ -237,6 +235,7 @@
     "myTokens": "",
     "onChain": "",
     "ownedBy": "",
+    "pinnedTokens": "",
     "popularTokens": "",
     "priceImpact": "",
     "process": {
@@ -284,9 +283,8 @@
     "rateChange": "",
     "receiving": "",
     "refuelStepDetails": "",
-    "selectChain": "चैन चुने",
-    "selectChainAndToken": "",
-    "selectToken": "",
+    "route": "",
+    "select": "",
     "sendToAddress": "",
     "sendToWallet": "",
     "sending": "",
@@ -302,6 +300,8 @@
     "stepSwapAndBuy": "",
     "stepSwapAndDeposit": "",
     "swapStepDetails": "",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "",
     "tags": {
       "cheapest": "",
@@ -331,7 +331,8 @@
     "routePriority": "मार्ग प्राथमिकता",
     "slippage": "",
     "custom": "",
-    "resetSettings": ""
+    "resetSettings": "",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "",
@@ -343,7 +344,8 @@
     "enterName": "",
     "noBookmarkedWallets": "",
     "noConnectedWallets": "",
-    "noRecentWallets": ""
+    "noRecentWallets": "",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",

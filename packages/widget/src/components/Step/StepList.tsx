@@ -1,5 +1,5 @@
 import type { RouteExtended, TokenAmount } from '@lifi/sdk'
-import { Fragment } from 'react'
+import { Fragment, type JSX } from 'react'
 import { StepDivider } from '../../components/StepDivider/StepDivider.js'
 import type { WidgetSubvariant } from '../../types/widget.js'
 import { Step } from './Step.js'
@@ -7,7 +7,7 @@ import { Step } from './Step.js'
 export const getStepList = (
   route?: RouteExtended,
   subvariant?: WidgetSubvariant
-) =>
+): JSX.Element[] | undefined =>
   route?.steps.map((step, index, steps) => {
     const lastIndex = steps.length - 1
     const fromToken: TokenAmount | undefined =

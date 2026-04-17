@@ -18,6 +18,8 @@
     "buy": "ซื้อ",
     "cancel": "ยกเลิก",
     "checkoutReview": "",
+    "clearAllFailed": "",
+    "clearTransaction": "",
     "close": "ปิด",
     "confirm": "ยืนยัน",
     "connectAnotherWallet": "",
@@ -39,7 +41,6 @@
     "max": "",
     "ok": "ตกลง",
     "options": "การตั้งค่า",
-    "removeTransaction": "นำรายการออก",
     "reset": "ล้างข้อมูล",
     "resetSettings": "รีเซ็ตการตั้งค่า",
     "seeDetails": "ดูรายละเอียด",
@@ -54,7 +55,6 @@
     "viewOnExplorer": "ดูในการสำรวจ"
   },
   "header": {
-    "activeTransactions": "ธุรกรรมมีผล",
     "amount": "",
     "bookmarkedWallets": "กระเป๋าเงินที่ Bokkmark ไว้แล้ว",
     "bridge": "บริดจ์",
@@ -79,7 +79,7 @@
     "swap": "แลกเปลี่ยน",
     "to": "แลกเปลี่ยนเป็น",
     "transactionDetails": "รายละเอียดของธุรกรรม",
-    "transactionHistory": "ประวัติการซื้อขาย",
+    "activities": "",
     "walletConnected": "กระเป๋าถูกเชื่อมต่อแล้ว",
     "youGet": "คุณได้รับ",
     "youPay": ""
@@ -88,19 +88,16 @@
     "message": {
       "accountDeployedMessage": "",
       "autoRefuel": "คุณใช้แก็ส {{chainName}} เหลือน้อย เมื่อดำเนินการต่อ คุณจะได้รับแก็สเพียงพอสำหรับการแลกเปลี่ยนให้เสร็จสมบูรณ์",
-      "emptyActiveTransactions": "การแลกเปลี่ยนที่กำลังดำเนินการจะปรากฏที่นี่. เมื่อเสร็จสิ้น, จะพบประวัติการแลกเปลี่ยน.",
       "emptyBridgesList": "",
       "emptyChainList": "",
       "emptyExchangesList": "",
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "ประวัติการแลกเปลี่ยนจะถูกเก็บไว้ในเครื่องเท่านั้นและจะถูกลบหากคุณล้างข้อมูลเบราว์เซอร์ของคุณ.",
       "routeNotFound": "เหตุผลที่อาจเกิดขึ้น : สภาพคล่องต่ำ , จำนวนที่เลือกน้อยเกินไป , ต้นทุนแก็สสูงหรือไม่มีเส้นทางที่ใช้งานได้",
-      "toAddressIsRequired": "",
       "missingRouteRequiredAccount": ""
     },
     "title": {
       "autoRefuel": "",
-      "emptyActiveTransactions": "ไม่มีธุรกรรมที่มีผล",
       "emptyTransactionHistory": "ไม่มีธุรกรรมล่าสุด",
       "routeNotFound": "ไม่พบเส้นทาง"
     }
@@ -123,10 +120,10 @@
     "message": {
       "accountNotDeployedMessage": "",
       "lowAddressActivity": "",
-      "deleteActiveTransactions": "การแลกเปลี่ยนที่ใช้งานอยู่จะถูกจัดเก็บไว้ในเครื่องเท่านั้นและไม่สามารถกู้คืนได้หากคุณลบออก.",
-      "deleteTransactionHistory": "ประวัติการแลกเปลี่ยนจะถูกจัดเก็บไว้ในเครื่องเท่านั้นและไม่สามารถกู้คืนได้หากคุณลบออก",
+      "clearFailedTransactions": "",
       "fundsLossPrevention": "",
       "highValueLoss": "มูลค่าของโทเค็นที่ได้รับนั้นต่ำกว่าโทเค็นที่แลกเปลี่ยนและต้นทุนการทำธุรกรรมอย่างมาก.",
+      "unverifiedToken": "",
       "insufficientFunds": "คุณมีเงินไม่เพียงพอที่จะดำเนินการแลกเปลี่ยน.",
       "insufficientGas": "คุณมีแก๊สไม่เพียงพอที่จะแลกเปลี่ยนให้เสร็จสมบูรณ์ คุณต้องเพิ่มอย่างน้อย:",
       "minFromAmountUSD": "",
@@ -136,9 +133,7 @@
       "slippageUnderRecommendedLimits": ""
     },
     "title": {
-      "deleteActiveTransactions": "ลบ​รายการธุรกรรม​ทั้งหมด?",
-      "deleteTransaction": "ต้องการลบธุรกรรมนี้?",
-      "deleteTransactionHistory": "ต้องการลบประวัติการทำธุรกรรม?",
+      "clearFailedTransactions": "",
       "highValueLoss": "สูญเสียมูลค่าสูง",
       "insufficientGas": "ค่าแก็สไม่พอ",
       "rateChanged": "อัตราการแลกเปลี่ยนถูกเปลี่ยน",
@@ -198,6 +193,7 @@
   "tooltip": {
     "deselectAll": "ยกเลิกการเลือกทั้งหมด",
     "estimatedTime": "",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "",
     "notFound": {
@@ -220,6 +216,8 @@
     "checkoutStepDetails": "ซื้อผ่าน {{tool}}",
     "currentAmount": "จำนวนเงินปัจจุบัน",
     "depositStepDetails": "ฝากผ่าน {{tool}}",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "จุดเด่นของเหรียญ",
     "fees": {
       "defaultIntegrator": "",
@@ -237,6 +235,7 @@
     "myTokens": "โทเคนของฉัน",
     "onChain": "บน {{chainName}}",
     "ownedBy": "เป็นเจ้าของโดย",
+    "pinnedTokens": "",
     "popularTokens": "โทเค็นยอดนิยม",
     "priceImpact": "",
     "process": {
@@ -284,9 +283,8 @@
     "rateChange": "อัตราแลกเปลี่ยน",
     "receiving": "ได้รับ",
     "refuelStepDetails": "รับแก๊สผ่าน {{tool}}",
-    "selectChain": "เลือกเชน",
-    "selectChainAndToken": "เลือกเชนและโทเค็น",
-    "selectToken": "เลือกโทเคน",
+    "route": "",
+    "select": "",
     "sendToAddress": "ส่งไปยัง {{address}}",
     "sendToWallet": "ส่งไปยังกระเป๋าเงินอื่น",
     "sending": "กำลังส่ง",
@@ -302,6 +300,8 @@
     "stepSwapAndBuy": "แลกเปลี่ยน และ ซื้อ",
     "stepSwapAndDeposit": "",
     "swapStepDetails": "แลกเปลี่ยนบน {{chain}} ผ่าน {{tool}}",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "",
     "tags": {
       "cheapest": "ผลตอบแทนที่ดีที่สุด",
@@ -331,7 +331,8 @@
     "routePriority": "ลำดับสำคัญของเส้นทาง",
     "slippage": "",
     "custom": "กำหนดเอง",
-    "resetSettings": "คุณกำลังใช้การตั้งค่าที่กำหนดเองซึ่งอาจมีผลต่อจำนวนหรือการเรียงลำดับของเส้นทางที่ใช้ได้"
+    "resetSettings": "คุณกำลังใช้การตั้งค่าที่กำหนดเองซึ่งอาจมีผลต่อจำนวนหรือการเรียงลำดับของเส้นทางที่ใช้ได้",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "เพิ่มบุ๊กมาร์ก",
@@ -343,7 +344,8 @@
     "enterName": "ใส่ชื่อ",
     "noBookmarkedWallets": "ไม่มีกระเป๋าเงินที่ bookmark ไว้",
     "noConnectedWallets": "ไม่มีกระเป๋าเงินที่เชื่อมต่อไว้",
-    "noRecentWallets": "ไม่พบกระเป๋าเงินล่าสุด"
+    "noRecentWallets": "ไม่พบกระเป๋าเงินล่าสุด",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",

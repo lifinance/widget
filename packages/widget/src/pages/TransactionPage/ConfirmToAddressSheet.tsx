@@ -1,7 +1,7 @@
 import Wallet from '@mui/icons-material/Wallet'
 import WarningRounded from '@mui/icons-material/WarningRounded'
 import { Button, Typography } from '@mui/material'
-import type { RefObject } from 'react'
+import type { ForwardRefExoticComponent, RefAttributes, RefObject } from 'react'
 import { forwardRef, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
@@ -28,10 +28,9 @@ interface ConfirmToAddressSheetContentProps extends ConfirmToAddressSheetProps {
   onClose: () => void
 }
 
-export const ConfirmToAddressSheet = forwardRef<
-  BottomSheetBase,
-  ConfirmToAddressSheetProps
->((props, ref) => {
+export const ConfirmToAddressSheet: ForwardRefExoticComponent<
+  ConfirmToAddressSheetProps & RefAttributes<BottomSheetBase>
+> = forwardRef<BottomSheetBase, ConfirmToAddressSheetProps>((props, ref) => {
   const handleClose = () => {
     ;(ref as RefObject<BottomSheetBase>).current?.close()
   }

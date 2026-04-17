@@ -18,6 +18,8 @@
     "buy": "",
     "cancel": "বাতিল করুন",
     "checkoutReview": "",
+    "clearAllFailed": "",
+    "clearTransaction": "",
     "close": "",
     "confirm": "",
     "connectAnotherWallet": "",
@@ -39,7 +41,6 @@
     "max": "",
     "ok": "ঠিক আছে",
     "options": "",
-    "removeTransaction": "",
     "reset": "পুনরায় সেট করুন",
     "resetSettings": "সেটিংস রিসেট করুন",
     "seeDetails": "বিস্তারিত দেখুন",
@@ -54,7 +55,6 @@
     "viewOnExplorer": "এক্সপ্লোরারে দেখুন"
   },
   "header": {
-    "activeTransactions": "",
     "amount": "",
     "bookmarkedWallets": "",
     "bridge": "",
@@ -79,7 +79,7 @@
     "swap": "সোওয়াপ",
     "to": "সোওয়াপ করুন",
     "transactionDetails": "",
-    "transactionHistory": "",
+    "activities": "",
     "walletConnected": "ওয়ালেট সংযুক্ত",
     "youGet": "",
     "youPay": ""
@@ -88,19 +88,16 @@
     "message": {
       "accountDeployedMessage": "",
       "autoRefuel": "আপনার {{chainName}} গ্যাস কম। চালিয়ে যাওয়ার মাধ্যমে, আপনি সোওয়াপ সম্পূর্ণ করার জন্য পর্যাপ্ত গ্যাস পাবেন।",
-      "emptyActiveTransactions": "",
       "emptyBridgesList": "",
       "emptyChainList": "",
       "emptyExchangesList": "",
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "",
       "routeNotFound": "",
-      "toAddressIsRequired": "",
       "missingRouteRequiredAccount": ""
     },
     "title": {
       "autoRefuel": "",
-      "emptyActiveTransactions": "",
       "emptyTransactionHistory": "",
       "routeNotFound": "কোন রুট উপলব্ধ"
     }
@@ -123,10 +120,10 @@
     "message": {
       "accountNotDeployedMessage": "",
       "lowAddressActivity": "",
-      "deleteActiveTransactions": "",
-      "deleteTransactionHistory": "",
+      "clearFailedTransactions": "",
       "fundsLossPrevention": "",
       "highValueLoss": "প্রাপ্ত টোকেনগুলির মান সোওয়াপ করা টোকেন এবং লেনদেনের খরচের তুলনায় উল্লেখযোগ্যভাবে কম।",
+      "unverifiedToken": "",
       "insufficientFunds": "সোওয়াপ সম্পূর্ণ করার জন্য আপনার কাছে পর্যাপ্ত তহবিল নেই।",
       "insufficientGas": "সোওয়াপ সম্পূর্ণ করার জন্য আপনার কাছে পর্যাপ্ত গ্যাস নেই। আপনাকে অন্তত যোগ করতে হবে:",
       "minFromAmountUSD": "",
@@ -136,9 +133,7 @@
       "slippageUnderRecommendedLimits": ""
     },
     "title": {
-      "deleteActiveTransactions": "",
-      "deleteTransaction": "",
-      "deleteTransactionHistory": "",
+      "clearFailedTransactions": "",
       "highValueLoss": "উচ্চ মূল্য ক্ষতি",
       "insufficientGas": "অপর্যাপ্ত গ্যাস",
       "rateChanged": "হার পরিবর্তিত হয়েছে",
@@ -198,6 +193,7 @@
   "tooltip": {
     "deselectAll": "",
     "estimatedTime": "",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "",
     "notFound": {
@@ -220,6 +216,8 @@
     "checkoutStepDetails": "",
     "currentAmount": "বর্তমান পরিমাণ",
     "depositStepDetails": "",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "বৈশিষ্ট্যযুক্ত টোকেন",
     "fees": {
       "defaultIntegrator": "",
@@ -237,6 +235,7 @@
     "myTokens": "",
     "onChain": "{{chainName}} -এ",
     "ownedBy": "মালিক",
+    "pinnedTokens": "",
     "popularTokens": "",
     "priceImpact": "",
     "process": {
@@ -284,9 +283,8 @@
     "rateChange": "রেট পরিবর্তন",
     "receiving": "রিসিভিং",
     "refuelStepDetails": "{{tool}} এর মাধ্যমে গ্যাস পান",
-    "selectChain": "চেইন",
-    "selectChainAndToken": "চেইন এবং টোকেন নির্বাচন করুন",
-    "selectToken": "টোকেন",
+    "route": "",
+    "select": "",
     "sendToAddress": "{{address}} এ পাঠান",
     "sendToWallet": "অন্য ওয়ালেটে পাঠান",
     "sending": "",
@@ -302,6 +300,8 @@
     "stepSwapAndBuy": "",
     "stepSwapAndDeposit": "",
     "swapStepDetails": "{{tool}} এর মাধ্যমে {{chain}} এ সোওয়াপ করুন",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "",
     "tags": {
       "cheapest": "",
@@ -331,7 +331,8 @@
     "routePriority": "রুট অগ্রাধিকার",
     "slippage": "",
     "custom": "",
-    "resetSettings": ""
+    "resetSettings": "",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "",
@@ -343,7 +344,8 @@
     "enterName": "",
     "noBookmarkedWallets": "",
     "noConnectedWallets": "",
-    "noRecentWallets": ""
+    "noRecentWallets": "",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",

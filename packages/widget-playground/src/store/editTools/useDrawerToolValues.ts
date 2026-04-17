@@ -1,7 +1,11 @@
 import { defaultDrawerWidth } from './constants.js'
 import { useEditToolsStore } from './EditToolsProvider.js'
 
-export const useDrawerToolValues = () => {
+export const useDrawerToolValues = (): {
+  isDrawerOpen: boolean
+  visibleControls: string
+  drawerWidth: number
+} => {
   const [isDrawerOpen, codeDrawerWidth, visibleControls, codeControlTab] =
     useEditToolsStore((store) => [
       store.drawer.open,
@@ -17,8 +21,8 @@ export const useDrawerToolValues = () => {
       : defaultDrawerWidth
 
   return {
-    isDrawerOpen,
-    visibleControls,
-    drawerWidth,
+    isDrawerOpen: isDrawerOpen,
+    visibleControls: visibleControls,
+    drawerWidth: drawerWidth,
   }
 }

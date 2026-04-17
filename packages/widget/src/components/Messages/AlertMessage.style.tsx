@@ -1,11 +1,14 @@
 import { Box, styled } from '@mui/material'
+import type React from 'react'
 import type { Severity } from './types.js'
 
 interface AlertSeverityProps {
   severity: Severity
 }
 
-export const AlertMessageCard = styled(Box, {
+export const AlertMessageCard: React.FC<
+  React.ComponentProps<typeof Box> & AlertSeverityProps
+> = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'severity',
 })<AlertSeverityProps>(({ theme }) => ({
   borderRadius: theme.vars.shape.borderRadius,
@@ -13,9 +16,9 @@ export const AlertMessageCard = styled(Box, {
   whiteSpace: 'pre-line',
   width: '100%',
   paddingBottom: theme.spacing(2),
-  backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.12)`,
+  backgroundColor: `color-mix(in srgb, ${theme.vars.palette.info.main} 12%, transparent)`,
   ...theme.applyStyles('dark', {
-    backgroundColor: `rgba(${theme.vars.palette.info.mainChannel} / 0.16)`,
+    backgroundColor: `color-mix(in srgb, ${theme.vars.palette.info.main} 16%, transparent)`,
   }),
   variants: [
     {
@@ -23,16 +26,18 @@ export const AlertMessageCard = styled(Box, {
         severity: 'warning',
       },
       style: {
-        backgroundColor: `rgba(${theme.vars.palette.warning.mainChannel} / 0.32)`,
+        backgroundColor: `color-mix(in srgb, ${theme.vars.palette.warning.main} 32%, transparent)`,
         ...theme.applyStyles('dark', {
-          backgroundColor: `rgba(${theme.vars.palette.warning.mainChannel} / 0.16)`,
+          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.warning.main} 16%, transparent)`,
         }),
       },
     },
   ],
 }))
 
-export const AlertMessageCardTitle = styled(Box, {
+export const AlertMessageCardTitle: React.FC<
+  React.ComponentProps<typeof Box> & AlertSeverityProps
+> = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'severity',
 })<AlertSeverityProps>(({ theme }) => ({
   display: 'flex',

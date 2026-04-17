@@ -4,7 +4,7 @@ import type { AppKitNetwork, ChainNamespace } from '@reown/appkit-common'
 
 type AppKitSupportedChainTypes = Exclude<
   ChainType,
-  ChainType.MVM | ChainType.TVM
+  ChainType.MVM | ChainType.TVM | ChainType.STL
 >
 
 const ChainTypeSpaceMap: Record<AppKitSupportedChainTypes, ChainNamespace> = {

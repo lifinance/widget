@@ -3,7 +3,7 @@ import { getNameServiceAddress } from '@lifi/sdk'
 import { useChainTypeFromAddress } from '@lifi/widget-provider'
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { useSDKClient } from '../providers/SDKClientProvider'
+import { useSDKClient } from '../providers/SDKClientProvider.js'
 
 export enum AddressType {
   Address = 0,
@@ -28,7 +28,12 @@ type InvalidResponse = {
   isValid: false
 }
 
-export const useAddressValidation = () => {
+export const useAddressValidation = (): {
+  validateAddress: (
+    args: ValidationArgs
+  ) => Promise<ValidResponse | InvalidResponse>
+  isValidating: boolean
+} => {
   const { t } = useTranslation()
   const { getChainTypeFromAddress } = useChainTypeFromAddress()
   const sdkClient = useSDKClient()

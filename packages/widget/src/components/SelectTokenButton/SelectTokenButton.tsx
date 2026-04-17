@@ -2,13 +2,13 @@ import { Skeleton } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { useChain } from '../../hooks/useChain.js'
-import { useSwapOnly } from '../../hooks/useSwapOnly.js'
 import { useToken } from '../../hooks/useToken.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
+import type { ChainOrderState } from '../../stores/chains/types.js'
 import type { FormTypeProps } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { HiddenUI } from '../../types/widget.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { AvatarBadgedDefault, AvatarBadgedSkeleton } from '../Avatar/Avatar.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
@@ -21,14 +21,12 @@ import {
 
 export const SelectTokenButton: React.FC<
   FormTypeProps & {
-    compact: boolean
     hiddenReverse?: boolean
   }
-> = ({ formType, compact, hiddenReverse }) => {
+> = ({ formType, hiddenReverse }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { disabledUI, subvariant, hiddenUI } = useWidgetConfig()
-  const swapOnly = useSwapOnly()
+  const { disabledUI, subvariant } = useWidgetConfig()
   const tokenKey = FormKeyHelper.getTokenKey(formType)
   const [chainId, tokenAddress] = useFieldValues(
     FormKeyHelper.getChainKey(formType),
@@ -36,6 +34,10 @@ export const SelectTokenButton: React.FC<
   )
   const { chain, isLoading: isChainLoading } = useChain(chainId)
   const { token, isLoading: isTokenLoading } = useToken(chainId, tokenAddress)
+
+  const isAllNetworks = useChainOrderStore(
+    (state: ChainOrderState) => state[`${formType}IsAllNetworks`]
+  )
 
   const handleClick = () => {
     navigate({
@@ -50,27 +52,20 @@ export const SelectTokenButton: React.FC<
 
   const isSelected = !!(chain && token)
   const onClick = !disabledUI?.includes(tokenKey) ? handleClick : undefined
-  const defaultPlaceholder =
-    formType === 'to' && subvariant === 'refuel'
-      ? t('main.selectChain')
-      : (formType === 'to' && swapOnly) ||
-          hiddenUI?.includes(HiddenUI.ChainSelect)
-        ? t('main.selectToken')
-        : t('main.selectChainAndToken')
+  const defaultPlaceholder = `${t('main.select')}...`
   const cardTitle: string =
     formType === 'from' && subvariant === 'custom'
       ? t('header.payWith')
       : t(`main.${formType}`)
   return (
     <SelectTokenCard component="button" onClick={onClick}>
-      <CardContent formType={formType} compact={compact} mask={!hiddenReverse}>
+      <CardContent formType={formType} mask={!hiddenReverse}>
         <CardTitle>{cardTitle}</CardTitle>
         {chainId && tokenAddress && (isChainLoading || isTokenLoading) ? (
           <SelectTokenCardHeader
             avatar={<AvatarBadgedSkeleton />}
             title={<Skeleton variant="text" width={64} height={24} />}
             subheader={<Skeleton variant="text" width={72} height={16} />}
-            compact={compact}
           />
         ) : (
           <SelectTokenCardHeader
@@ -78,7 +73,9 @@ export const SelectTokenButton: React.FC<
               isSelected ? (
                 <TokenAvatar token={token} chain={chain} />
               ) : (
-                <AvatarBadgedDefault />
+                <AvatarBadgedDefault
+                  chain={isAllNetworks ? undefined : chain}
+                />
               )
             }
             title={isSelected ? token.symbol : defaultPlaceholder}
@@ -92,7 +89,6 @@ export const SelectTokenButton: React.FC<
             }}
             subheader={isSelected ? chain.name : null}
             selected={isSelected}
-            compact={compact}
           />
         )}
       </CardContent>

@@ -1,27 +1,27 @@
-import type { Process, RouteExtended } from '@lifi/sdk'
+import type { ExecutionAction, RouteExtended } from '@lifi/sdk'
 import microdiff from 'microdiff'
 
-export const isRouteDone = (route: RouteExtended) => {
+export const isRouteDone = (route: RouteExtended): boolean => {
   return route.steps.every((step) => step.execution?.status === 'DONE')
 }
 
-export const isRoutePartiallyDone = (route: RouteExtended) => {
+export const isRoutePartiallyDone = (route: RouteExtended): boolean => {
   return route.steps.some((step) =>
-    step.execution?.process.some((process) => process.substatus === 'PARTIAL')
+    step.execution?.actions?.some((action) => action.substatus === 'PARTIAL')
   )
 }
 
-export const isRouteRefunded = (route: RouteExtended) => {
+export const isRouteRefunded = (route: RouteExtended): boolean => {
   return route.steps.some((step) =>
-    step.execution?.process.some((process) => process.substatus === 'REFUNDED')
+    step.execution?.actions?.some((action) => action.substatus === 'REFUNDED')
   )
 }
 
-export const isRouteFailed = (route: RouteExtended) => {
+export const isRouteFailed = (route: RouteExtended): boolean => {
   return route.steps.some((step) => step.execution?.status === 'FAILED')
 }
 
-export const isRouteActive = (route?: RouteExtended) => {
+export const isRouteActive = (route?: RouteExtended): boolean => {
   if (!route) {
     return false
   }
@@ -31,31 +31,33 @@ export const isRouteActive = (route?: RouteExtended) => {
   return !isDone && !isFailed && alreadyStarted
 }
 
-export const getUpdatedProcess = (
+export const getUpdatedAction = (
   currentRoute: RouteExtended,
   updatedRoute: RouteExtended
-): Process | undefined => {
-  const processDiff = microdiff(currentRoute, updatedRoute).find((diff) =>
-    diff.path.includes('process')
+): ExecutionAction | undefined => {
+  const actionDiff = microdiff(currentRoute, updatedRoute).find((diff) =>
+    diff.path.includes('actions')
   )
-  if (!processDiff) {
+  if (!actionDiff) {
     return undefined
   }
-  // Find process index in the diff array so we can slice the complete rpocess object
-  // e.g. ['steps', 0, 'execution', 'process', 0, 'message']
-  const processDiffIndex = processDiff.path.indexOf('process') + 2
-  const processPathSlice = processDiff.path.slice(0, processDiffIndex)
+  // Find action index in the diff array so we can slice the complete action object
+  // e.g. ['steps', 0, 'execution', 'actions', 0, 'message']
+  const actionDiffIndex = actionDiff.path.indexOf('actions') + 2
+  const actionPathSlice = actionDiff.path.slice(0, actionDiffIndex)
   // Reduce updated route using the diff path to get updated process
-  const process = processPathSlice.reduce(
+  const action = actionPathSlice.reduce(
     (obj, path) => obj[path],
     updatedRoute as any
-  ) as Process
-  return process
+  ) as ExecutionAction
+  return action
 }
 
-export const getSourceTxHash = (route?: RouteExtended) => {
-  const sourceProcess = route?.steps[0].execution?.process
-    .filter((process) => process.type !== 'TOKEN_ALLOWANCE')
-    .find((process) => process.txHash || process.taskId)
-  return sourceProcess?.txHash || sourceProcess?.taskId
+export const getSourceTxHash = (route?: RouteExtended): string | undefined => {
+  const sourceAction = route?.steps[0].execution?.actions
+    ?.filter(
+      (action) => !['RESET_ALLOWANCE', 'SET_ALLOWANCE'].includes(action.type)
+    )
+    .find((action) => action.txHash || action.taskId)
+  return sourceAction?.txHash || sourceAction?.taskId
 }

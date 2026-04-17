@@ -12,7 +12,7 @@ export const useSyncWagmiConfig = (
   wagmiConfig: Config,
   connectors: CreateConnectorFn[],
   chains?: (ExtendedChain | Chain)[]
-) => {
+): void => {
   const _chains = useMemo(() => {
     const mappedChains = chains
       ?.map((chain) =>

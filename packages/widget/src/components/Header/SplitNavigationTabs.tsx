@@ -1,9 +1,10 @@
+import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useSplitSubvariantStore } from '../../stores/settings/useSplitSubvariantStore.js'
 import { NavigationTab, NavigationTabs } from '../Tabs/NavigationTabs.js'
 
-export const SplitNavigationTabs = () => {
+export const SplitNavigationTabs = (): JSX.Element => {
   const { t } = useTranslation()
   const [state, setState] = useSplitSubvariantStore((state) => [
     state.state,

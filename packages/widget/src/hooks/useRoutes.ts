@@ -1,11 +1,10 @@
-import type { Route, Token, TokensResponse } from '@lifi/sdk'
+import type { ExtendedChain, Route, Token } from '@lifi/sdk'
 import {
   ChainType,
   convertQuoteToRoute,
   getContractCallsQuote,
   getRelayerQuote,
   getRoutes,
-  isTokenMessageSigningAllowed,
   LiFiErrorCode,
   parseUnits,
 } from '@lifi/sdk'
@@ -24,7 +23,9 @@ import { useSetExecutableRoute } from '../stores/routes/useSetExecutableRoute.js
 import { defaultSlippage } from '../stores/settings/createSettingsStore.js'
 import { useSettings } from '../stores/settings/useSettings.js'
 import { WidgetEvent } from '../types/events.js'
+import type { TokensByChain } from '../types/token.js'
 import { getQueryKey } from '../utils/queries.js'
+import { updateTokenInCache } from '../utils/token.js'
 import { useChain } from './useChain.js'
 import { useDebouncedWatch } from './useDebouncedWatch.js'
 import { useGasRefuel } from './useGasRefuel.js'
@@ -39,7 +40,21 @@ interface RoutesProps {
   observableRoute?: Route
 }
 
-export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
+export const useRoutes = ({
+  observableRoute,
+}: RoutesProps = {}): {
+  routes: Route[] | undefined
+  isLoading: boolean
+  isFetching: boolean
+  isFetched: boolean
+  dataUpdatedAt: number
+  refetchTime: number
+  refetch: () => void
+  fromChain: ExtendedChain | undefined
+  toChain: ExtendedChain | undefined
+  queryKey: readonly unknown[]
+  setReviewableRoute: (route: Route) => void
+} => {
   const {
     subvariant,
     subvariantOptions,
@@ -98,7 +113,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
   const { enabled: enabledRefuel, fromAmount: gasRecommendationFromAmount } =
     useGasRefuel()
   const { getChainTypeFromAddress } = useChainTypeFromAddress()
-  const { isGaslessStep } = useEthereumContext()
+  const { isGaslessStep, disableMessageSigning } = useEthereumContext()
   const { account } = useAccount({ chainType: fromChain?.chainType })
   const { isBatchingSupported, isBatchingSupportedLoading } =
     useIsBatchingSupported(fromChain, account.address)
@@ -130,8 +145,6 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
       ? enabledExchanges
       : undefined
   const allowSwitchChain = sdkClient.config?.routeOptions?.allowSwitchChain
-  const disableMessageSigning =
-    sdkClient.config?.executionOptions?.disableMessageSigning
 
   const isEnabled =
     Boolean(Number(fromChain?.id)) &&
@@ -357,8 +370,7 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           fromChain.nativeToken.address !== fromTokenAddress &&
           useRelayerRoutes &&
           !isBatchingSupported &&
-          (!observableRoute || isObservableRelayerRoute) &&
-          isTokenMessageSigningAllowed(fromToken!)
+          (!observableRoute || isObservableRelayerRoute)
 
         const mainRoutesPromise = shouldUseMainRoutes
           ? getRoutes(
@@ -454,27 +466,21 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
           // Update local tokens cache to keep priceUSD in sync
           const { fromToken, toToken } = routesResult.routes[0]
           ;[fromToken, toToken].forEach((token) => {
-            queryClient.setQueriesData<TokensResponse>(
+            // Update main tokens cache (verified)
+            queryClient.setQueriesData<TokensByChain>(
               { queryKey: [getQueryKey('tokens', keyPrefix)] },
-              (data) => {
-                if (data) {
-                  const clonedData = { ...data, tokens: { ...data.tokens } }
-                  const index = clonedData.tokens?.[token.chainId]?.findIndex(
-                    (dataToken) => dataToken.address === token.address
-                  )
-                  if (index >= 0) {
-                    clonedData.tokens[token.chainId] = [
-                      ...clonedData.tokens[token.chainId],
-                    ]
-                    clonedData.tokens[token.chainId][index] = {
-                      ...clonedData.tokens[token.chainId][index],
-                      ...token,
-                    }
-                  }
-                  return clonedData
-                }
-              }
+              (data) => updateTokenInCache(data, token)
             )
+
+            // Update search tokens cache (unverified) - matches any search query
+            queryClient.setQueriesData<TokensByChain>(
+              {
+                queryKey: [getQueryKey('tokens-search', keyPrefix)],
+                exact: false,
+              },
+              (data) => updateTokenInCache(data, token)
+            )
+
             queryClient.setQueriesData<Token[]>(
               {
                 queryKey: [

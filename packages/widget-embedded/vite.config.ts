@@ -1,32 +1,28 @@
-import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
-import react from '@vitejs/plugin-react-swc'
+import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [nodePolyfills(), react()],
-  esbuild: {
+  oxc: {
     target: 'esnext',
   },
   build: {
     sourcemap: true,
-  },
-  optimizeDeps: {
-    esbuildOptions: {
-      define: {
-        global: 'globalThis',
+    chunkSizeWarningLimit: 5000,
+    rolldownOptions: {
+      onwarn(warning, defaultHandler) {
+        if (
+          warning.code === 'EVAL' ||
+          warning.code === 'INEFFECTIVE_DYNAMIC_IMPORT'
+        ) {
+          return
+        }
+        defaultHandler(warning)
       },
-      plugins: [
-        NodeGlobalsPolyfillPlugin({
-          process: true,
-          buffer: true,
-        }),
-      ],
     },
   },
   server: {
     port: 3000,
-    open: true,
   },
 })

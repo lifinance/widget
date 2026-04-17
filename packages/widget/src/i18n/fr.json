@@ -18,6 +18,8 @@
     "buy": "Acheter",
     "cancel": "Annuler",
     "checkoutReview": "",
+    "clearAllFailed": "",
+    "clearTransaction": "",
     "close": "Fermer",
     "confirm": "Confirmer",
     "connectAnotherWallet": "",
@@ -39,7 +41,6 @@
     "max": "",
     "ok": "Ok",
     "options": "Options",
-    "removeTransaction": "Supprimer la transaction",
     "reset": "Réinitialiser",
     "resetSettings": "Réinitialiser les paramètres",
     "seeDetails": "Voir les détails",
@@ -54,7 +55,6 @@
     "viewOnExplorer": "Voir sur l'explorateur"
   },
   "header": {
-    "activeTransactions": "Transactions actives",
     "amount": "",
     "bookmarkedWallets": "Portefeuilles favoris",
     "bridge": "",
@@ -79,7 +79,7 @@
     "swap": "Échanger",
     "to": "Échanger pour",
     "transactionDetails": "Détails de la transaction",
-    "transactionHistory": "Historique de transaction",
+    "activities": "",
     "walletConnected": "Portefeuille connecté",
     "youGet": "Vous obtenez",
     "youPay": ""
@@ -88,19 +88,16 @@
     "message": {
       "accountDeployedMessage": "",
       "autoRefuel": "Vous avez peu de gaz sur {{chainName}}. En continuant, vous aurez assez de gaz pour compléter l'échange.",
-      "emptyActiveTransactions": "Les transactions en cours apparaîtront ici. Une fois terminées, retrouvez-les dans l'historique des transactions.",
       "emptyBridgesList": "",
       "emptyChainList": "",
       "emptyExchangesList": "",
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "L'historique de transaction est uniquement stocké au niveau local et sera supprimé si vous effacez les données de votre navigateur.",
       "routeNotFound": "Raisons possibles : faible liquidité, le montant sélectionné est trop faible, les coûts de gaz sont trop élevés ou il n'y a pas de routes pour la combinaison sélectionnée.",
-      "toAddressIsRequired": "",
       "missingRouteRequiredAccount": ""
     },
     "title": {
       "autoRefuel": "",
-      "emptyActiveTransactions": "Pas de transactions actives",
       "emptyTransactionHistory": "Pas de transactions récentes",
       "routeNotFound": "Aucun itinéraire disponible"
     }
@@ -123,10 +120,10 @@
     "message": {
       "accountNotDeployedMessage": "",
       "lowAddressActivity": "",
-      "deleteActiveTransactions": "Les transactions actives ne sont stockées que localement et ne peuvent être récupérées si vous les supprimez.",
-      "deleteTransactionHistory": "L'historique d transaction est uniquement stocké localement et ne peut être récupéré si vous le supprimez.",
+      "clearFailedTransactions": "",
       "fundsLossPrevention": "",
       "highValueLoss": "La valeur des jetons reçus est nettement inférieure à celle des jetons échangés et au coût de la transaction.",
+      "unverifiedToken": "",
       "insufficientFunds": "Vous n'avez pas assez de fonds pour finaliser l'échange.",
       "insufficientGas": "Vous n'avez pas assez de gaz pour finaliser l'échange. Vous devez avoir au moins:",
       "minFromAmountUSD": "",
@@ -136,9 +133,7 @@
       "slippageUnderRecommendedLimits": ""
     },
     "title": {
-      "deleteActiveTransactions": "Supprimer toutes les transactions actives ?",
-      "deleteTransaction": "Supprimer cette transaction ?",
-      "deleteTransactionHistory": "Supprimer l'historique de transaction ?",
+      "clearFailedTransactions": "",
       "highValueLoss": "Perte de valeur élevée",
       "insufficientGas": "Gaz insuffisant",
       "rateChanged": "Taux modifié",
@@ -198,6 +193,7 @@
   "tooltip": {
     "deselectAll": "Tout désélectionner",
     "estimatedTime": "",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "",
     "notFound": {
@@ -220,6 +216,8 @@
     "checkoutStepDetails": "Achat via {{tool}}",
     "currentAmount": "Montant actuel",
     "depositStepDetails": "Dépôt via {{tool}}",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "Jetons en vedette",
     "fees": {
       "defaultIntegrator": "",
@@ -237,6 +235,7 @@
     "myTokens": "Mes jetons",
     "onChain": "sur {{chainName}}",
     "ownedBy": "Propriétaire",
+    "pinnedTokens": "",
     "popularTokens": "Jetons populaires",
     "priceImpact": "",
     "process": {
@@ -284,9 +283,8 @@
     "rateChange": "Taux de change",
     "receiving": "En cours de réception",
     "refuelStepDetails": "Obtenir du gaz via {{tool}}",
-    "selectChain": "Sélectionner la chaîne",
-    "selectChainAndToken": "Sélectionnez la chaîne et le jeton",
-    "selectToken": "Choisissez un jeton",
+    "route": "",
+    "select": "",
     "sendToAddress": "Envoyer à {{address}}",
     "sendToWallet": "Envoyer vers un autre portefeuille",
     "sending": "Envoi",
@@ -302,6 +300,8 @@
     "stepSwapAndBuy": "Échanger et acheter",
     "stepSwapAndDeposit": "",
     "swapStepDetails": "Échanger sur {{chain}} via {{tool}}",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "",
     "tags": {
       "cheapest": "Meilleur Retour",
@@ -331,7 +331,8 @@
     "routePriority": "Priorité de l'itinéraire",
     "slippage": "",
     "custom": "Personnalisé",
-    "resetSettings": "Vous utilisez des paramètres personnalisés pouvant affecter le nombre ou le tri des routes disponibles."
+    "resetSettings": "Vous utilisez des paramètres personnalisés pouvant affecter le nombre ou le tri des routes disponibles.",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "Ajouter un favori",
@@ -343,7 +344,8 @@
     "enterName": "Saisir un nom",
     "noBookmarkedWallets": "Aucun portefeuille favori",
     "noConnectedWallets": "Aucun portefeuille connecté",
-    "noRecentWallets": "Aucun portefeuille récent"
+    "noRecentWallets": "Aucun portefeuille récent",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",

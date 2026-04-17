@@ -1,4 +1,26 @@
 {
   "ignore": ["examples/**", "packages/widget-embedded/**", "scripts/**"],
-  "ignoreDependencies": ["@mui/system", "csstype"]
+  "ignoreDependencies": ["@mui/system", "csstype"],
+  "workspaces": {
+    "packages/widget-light": {
+      "ignore": ["src/config/version.ts"],
+      "ignoreDependencies": [
+        "wagmi",
+        "viem",
+        "@bigmi/client",
+        "@bigmi/react",
+        "@mysten/dapp-kit-react",
+        "@wallet-standard/base"
+      ]
+    },
+    "packages/widget-playground": {
+      "ignoreDependencies": [
+        "@base-org/account",
+        "@coinbase/wallet-sdk",
+        "@metamask/connect-evm",
+        "@walletconnect/ethereum-provider",
+        "porto"
+      ]
+    }
+  }
 }

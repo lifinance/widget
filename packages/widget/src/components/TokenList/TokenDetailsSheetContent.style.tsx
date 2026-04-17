@@ -1,10 +1,11 @@
 import { Box, styled, Typography } from '@mui/material'
+import type React from 'react'
 import type { PageContainerProps } from '../PageContainer.js'
 import { PageContainer } from '../PageContainer.js'
 
-export const TokenDetailsSheetContainer = styled(
-  PageContainer
-)<PageContainerProps>(({ theme }) => ({
+export const TokenDetailsSheetContainer: React.FC<
+  React.ComponentProps<typeof PageContainer> & PageContainerProps
+> = styled(PageContainer)<PageContainerProps>(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spacing(2),
@@ -12,7 +13,9 @@ export const TokenDetailsSheetContainer = styled(
   paddingBottom: theme.spacing(3),
 }))
 
-export const TokenDetailsSheetHeader = styled(Box)(({ theme }) => ({
+export const TokenDetailsSheetHeader: React.FC<
+  React.ComponentProps<typeof Box>
+> = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'flex-start',
@@ -20,15 +23,18 @@ export const TokenDetailsSheetHeader = styled(Box)(({ theme }) => ({
   gap: theme.spacing(2),
 }))
 
-export const Label = styled(Typography)(({ theme }) => ({
+export const Label: React.FC<React.ComponentProps<typeof Typography>> = styled(
+  Typography
+)(({ theme }) => ({
   fontWeight: 500,
   fontSize: '12px',
   lineHeight: '16px',
   color: theme.vars.palette.text.secondary,
 }))
 
-export const MetricContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: theme.spacing(1),
-}))
+export const MetricContainer: React.FC<React.ComponentProps<typeof Box>> =
+  styled(Box)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(1),
+  }))

@@ -1,8 +1,14 @@
+import type {
+  SubvariantOptions,
+  WidgetSubvariant,
+  WidgetVariant,
+  WidgetWalletConfig,
+} from '@lifi/widget'
 import { palette, paletteDark, paletteLight } from '@lifi/widget'
 import { getValueFromPath } from '../../utils/getValueFromPath.js'
 import { useWidgetConfigStore } from './WidgetConfigProvider.js'
 
-export const useConfigVariant = () => {
+export const useConfigVariant = (): { variant: WidgetVariant | 'default' } => {
   const variant = useWidgetConfigStore((store) => store.config?.variant)
 
   return {
@@ -10,7 +16,9 @@ export const useConfigVariant = () => {
   }
 }
 
-export const useConfigSubvariant = () => {
+export const useConfigSubvariant = (): {
+  subvariant: WidgetSubvariant | 'default'
+} => {
   const subvariant = useWidgetConfigStore((store) => store.config?.subvariant)
 
   return {
@@ -18,33 +26,39 @@ export const useConfigSubvariant = () => {
   }
 }
 
-export const useConfigSubvariantOptions = () => {
+export const useConfigSubvariantOptions = (): {
+  subvariantOptions: SubvariantOptions | undefined
+} => {
   const subvariantOptions = useWidgetConfigStore(
     (store) => store.config?.subvariantOptions
   )
 
   return {
-    subvariantOptions,
+    subvariantOptions: subvariantOptions,
   }
 }
 
-export const useConfigBorderRadius = () => {
+export const useConfigBorderRadius = (): {
+  borderRadius: number | undefined
+} => {
   const borderRadius = useWidgetConfigStore(
     (store) => store.config?.theme?.shape?.borderRadius
   )
 
   return {
-    borderRadius,
+    borderRadius: borderRadius,
   }
 }
 
-export const useConfigBorderRadiusSecondary = () => {
+export const useConfigBorderRadiusSecondary = (): {
+  borderRadiusSecondary: number | undefined
+} => {
   const borderRadiusSecondary = useWidgetConfigStore(
     (store) => store.config?.theme?.shape?.borderRadiusSecondary
   )
 
   return {
-    borderRadiusSecondary,
+    borderRadiusSecondary: borderRadiusSecondary,
   }
 }
 
@@ -61,7 +75,9 @@ const defaultThemePalette = {
   },
 }
 
-export const useConfigColorsFromPath = (...paths: string[]) => {
+export const useConfigColorsFromPath = (
+  ...paths: string[]
+): (string | undefined)[] => {
   const colors = useWidgetConfigStore((store) =>
     paths.map((path) => getValueFromPath<string>(store.config, path))
   ) as Array<string | undefined>
@@ -74,17 +90,24 @@ export const useConfigColorsFromPath = (...paths: string[]) => {
   })
 }
 
-export const useConfigFontFamily = () => {
+export const useConfigFontFamily = (): {
+  fontFamily: string | undefined
+} => {
   const fontFamily = useWidgetConfigStore(
     (store) => store.config?.theme?.typography?.fontFamily
   )
 
   return {
-    fontFamily,
+    fontFamily: fontFamily,
   }
 }
 
-export const useConfigWalletManagement = () => {
+export const useConfigWalletManagement = (): {
+  replacementWalletConfig: WidgetWalletConfig | { onConnect: () => void }
+  isExternalWalletManagement: boolean
+  isPartialWalletManagement: boolean
+  isForceInternalWalletManagement: boolean
+} => {
   const [walletConfig, defaultWalletConfig] = useWidgetConfigStore((store) => [
     store.config?.walletConfig,
     store.defaultConfig?.walletConfig,
@@ -95,7 +118,7 @@ export const useConfigWalletManagement = () => {
     : { onConnect: () => {} }
 
   return {
-    replacementWalletConfig,
+    replacementWalletConfig: replacementWalletConfig,
     isExternalWalletManagement: !!walletConfig,
     isPartialWalletManagement: !!walletConfig?.usePartialWalletManagement,
     isForceInternalWalletManagement:

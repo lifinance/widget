@@ -144,7 +144,7 @@ const TokenBase: FC<TokenProps & BoxProps> = ({
             })}
           </TextFitter>
         </Box>
-        <TextSecondaryContainer as="span">
+        <TextSecondaryContainer>
           <TextSecondary>
             {t('format.currency', {
               value: tokenPrice,
@@ -293,8 +293,8 @@ export const TokenSkeleton: FC<Partial<TokenProps> & BoxProps> = ({
             flex: 1,
           }}
         >
-          <Skeleton width={112} height={24} variant="text" />
-          <TextSecondaryContainer as="span">
+          <Skeleton width={112} height={28} variant="text" />
+          <TextSecondaryContainer>
             <Skeleton
               width={48}
               height={12}

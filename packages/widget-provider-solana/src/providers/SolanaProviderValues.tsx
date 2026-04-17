@@ -1,13 +1,9 @@
 import { ChainId, ChainType } from '@lifi/sdk'
 import { SolanaProvider as SolanaSDKProvider } from '@lifi/sdk-provider-solana'
 import { SolanaContext } from '@lifi/widget-provider'
-import {
-  type SignerWalletAdapter,
-  WalletReadyState,
-} from '@solana/wallet-adapter-base'
-import { useWallet, type Wallet } from '@solana/wallet-adapter-react'
-import type { PublicKey } from '@solana/web3.js'
 import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
+import { useWalletAccount } from '../hooks/useWalletAccount.js'
+import { useSolanaWalletStandard as useWallet } from '../wallet-standard/useSolanaWalletStandard.js'
 
 interface SolanaProviderValuesProps {
   isExternalContext: boolean
@@ -18,88 +14,121 @@ export const SolanaProviderValues: FC<
 > = ({ children, isExternalContext }) => {
   const {
     wallets,
-    wallet: currentWallet,
-    select: connect, // We use autoConnect on wallet selection
+    selectedWallet: currentWallet,
+    connect,
     disconnect,
     connected,
   } = useWallet()
 
-  const account = currentWallet?.adapter.publicKey
-    ? {
-        address: currentWallet?.adapter.publicKey.toString(),
-        chainId: ChainId.SOL,
-        chainType: ChainType.SVM,
-        connector: currentWallet?.adapter,
-        isConnected: Boolean(currentWallet?.adapter.publicKey) && connected,
-        isConnecting: false,
-        isReconnecting: false,
-        isDisconnected: !currentWallet,
-        status: 'connected' as const,
-      }
-    : {
-        chainType: ChainType.SVM,
-        isConnected: false,
-        isConnecting: false,
-        isReconnecting: false,
-        isDisconnected: true,
-        status: 'disconnected' as const,
-      }
+  const { address: accountAddress } = useWalletAccount()
+
+  const connector = useMemo(
+    () =>
+      currentWallet
+        ? { name: currentWallet.name, icon: currentWallet.icon }
+        : undefined,
+    [currentWallet]
+  )
+
+  const account = useMemo(
+    () =>
+      accountAddress
+        ? {
+            address: accountAddress,
+            chainId: ChainId.SOL,
+            chainType: ChainType.SVM,
+            connector,
+            isConnected: connected,
+            isConnecting: false,
+            isReconnecting: false,
+            isDisconnected: false,
+            status: 'connected' as const,
+          }
+        : {
+            chainType: ChainType.SVM,
+            isConnected: false,
+            isConnecting: false,
+            isReconnecting: false,
+            isDisconnected: true,
+            status: 'disconnected' as const,
+          },
+    [accountAddress, connected, connector]
+  )
 
   const isConnected = account.isConnected
 
   const sdkProvider = useMemo(
     () =>
       SolanaSDKProvider({
-        async getWalletAdapter() {
-          return currentWallet?.adapter as SignerWalletAdapter
+        async getWallet() {
+          if (!currentWallet) {
+            throw new Error('Wallet not connected')
+          }
+
+          return currentWallet
         },
       }),
     [currentWallet]
   )
 
+  // Convert Wallet Standard wallets to a format the UI expects
   const installedWallets = useMemo(
     () =>
       wallets
-        .filter(
-          (wallet: Wallet) =>
-            wallet.adapter.readyState === WalletReadyState.Installed ||
-            wallet.adapter.readyState === WalletReadyState.Loadable
-        )
-        .map((wallet: Wallet) => wallet.adapter),
+        .filter((wallet) => wallet.installed && wallet.connectable)
+        .map((wallet) => ({
+          name: wallet.name,
+          icon: wallet.icon,
+          wallet: wallet.wallet,
+        })),
     [wallets]
   )
 
   const handleConnect = useCallback(
     async (
-      connectorIdOrName: string,
+      walletName: string,
       onSuccess?: (address: string, chainId: number) => void
     ) => {
-      const adapter = wallets.find(
-        (wallet) => wallet.adapter.name === connectorIdOrName
-      )?.adapter
-      if (adapter) {
-        connect(adapter.name)
-        adapter.once('connect', (publicKey: PublicKey) => {
-          onSuccess?.(publicKey?.toString(), ChainId.SOL)
-        })
+      try {
+        const address = await connect(walletName)
+        if (address) {
+          onSuccess?.(address, ChainId.SOL)
+        }
+      } catch (error) {
+        console.error('Failed to connect wallet:', error)
       }
     },
-    [connect, wallets]
+    [connect]
+  )
+
+  const handleDisconnect = useCallback(async () => {
+    await disconnect()
+  }, [disconnect])
+
+  const contextValue = useMemo(
+    () => ({
+      isEnabled: true,
+      account,
+      sdkProvider,
+      installedWallets,
+      isConnected,
+      isExternalContext,
+      connect: handleConnect,
+      disconnect: handleDisconnect,
+    }),
+    [
+      account,
+      sdkProvider,
+      installedWallets,
+      isConnected,
+      isExternalContext,
+      handleConnect,
+      handleDisconnect,
+    ]
   )
 
   return (
-    <SolanaContext.Provider
-      value={{
-        isEnabled: true,
-        account,
-        sdkProvider,
-        installedWallets,
-        isConnected,
-        isExternalContext,
-        connect: handleConnect,
-        disconnect,
-      }}
-    >
+    <SolanaContext.Provider value={contextValue}>
       {children}
     </SolanaContext.Provider>
   )

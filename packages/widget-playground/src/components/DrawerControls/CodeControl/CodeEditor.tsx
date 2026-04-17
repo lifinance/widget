@@ -2,6 +2,7 @@ import type { BeforeMount, OnMount } from '@monaco-editor/react'
 import Editor from '@monaco-editor/react'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import { Tooltip, useTheme } from '@mui/material'
+import type { JSX } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { useThemeMode } from '../../../hooks/useThemeMode.js'
 import { useConfig } from '../../../store/widgetConfig/useConfig.js'
@@ -23,7 +24,7 @@ interface CodeEditorProps {
   onChange?: (code: string | undefined) => void
 }
 
-export const CodeEditor = (_props: CodeEditorProps) => {
+export const CodeEditor = (_props: CodeEditorProps): JSX.Element => {
   const { config } = useConfig()
 
   const [editor, setEditor] = useState<any>()

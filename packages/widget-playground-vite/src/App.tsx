@@ -9,8 +9,7 @@ import {
 } from '@lifi/widget-playground'
 import { defaultWidgetConfig } from '@lifi/widget-playground/widget-config'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import type { PropsWithChildren } from 'react'
-import '@lifi/widget-playground/fonts'
+import type { JSX, PropsWithChildren } from 'react'
 
 const queryClient = new QueryClient()
 
@@ -32,7 +31,7 @@ const AppProvider = ({ children }: PropsWithChildren) => {
   )
 }
 
-export const App = () => {
+export const App = (): JSX.Element => {
   return (
     <AppProvider>
       <div style={{ display: 'flex', flexGrow: '1' }}>
@@ -46,5 +45,15 @@ export const App = () => {
 if (!import.meta.env.VITE_EVM_WALLET_CONNECT) {
   console.error(
     'VITE_EVM_WALLET_CONNECT is require in your .env.local file for external wallet management'
+  )
+}
+
+if (
+  (import.meta.env.MODE === 'dev' || import.meta.env.MODE === 'staging') &&
+  !import.meta.env.VITE_API_KEY
+) {
+  throw new Error(
+    `VITE_API_KEY is required when running in "${import.meta.env.MODE}" mode. ` +
+      `Please set it in your .env.${import.meta.env.MODE}.local file.`
   )
 }

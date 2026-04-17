@@ -1,11 +1,14 @@
 import { Avatar, Skeleton, styled } from '@mui/material'
+import type React from 'react'
 import { AvatarSkeletonContainer } from './Avatar.style.js'
 
 interface SmallAvatarProps {
   size?: number
 }
 
-export const SmallAvatar = styled(Avatar, {
+export const SmallAvatar: React.FC<
+  React.ComponentProps<typeof Avatar> & SmallAvatarProps
+> = styled(Avatar, {
   shouldForwardProp: (prop) => prop !== 'size',
 })<SmallAvatarProps>(({ theme, size = 16 }) => ({
   background: theme.vars.palette.background.paper,

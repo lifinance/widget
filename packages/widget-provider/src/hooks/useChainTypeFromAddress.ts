@@ -5,7 +5,9 @@ import { useEthereumContext } from '../contexts/EthereumContext.js'
 import { useSolanaContext } from '../contexts/SolanaContext.js'
 import { useSuiContext } from '../contexts/SuiContext.js'
 
-export const useChainTypeFromAddress = () => {
+export const useChainTypeFromAddress = (): {
+  getChainTypeFromAddress: (address: string) => ChainType | undefined
+} => {
   const { sdkProvider: ethereumProvider } = useEthereumContext()
   const { sdkProvider: solanaProvider } = useSolanaContext()
   const { sdkProvider: bitcoinProvider } = useBitcoinContext()
@@ -28,5 +30,5 @@ export const useChainTypeFromAddress = () => {
     },
     [ethereumProvider, solanaProvider, bitcoinProvider, suiProvider]
   )
-  return { getChainTypeFromAddress }
+  return { getChainTypeFromAddress: getChainTypeFromAddress }
 }

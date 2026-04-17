@@ -4,16 +4,13 @@ import { ZeroDevSmartWalletConnectors } from '@dynamic-labs/ethereum-aa'
 import { DynamicContextProvider } from '@dynamic-labs/sdk-react-core'
 import { SolanaWalletConnectors } from '@dynamic-labs/solana'
 import { DynamicWagmiConnector } from '@dynamic-labs/wagmi-connector'
-import {
-  convertExtendedChain,
-  isExtendedChain,
-  useSyncWagmiConfig,
-} from '@lifi/wallet-management'
-import { ChainType, type ExtendedChain, useAvailableChains } from '@lifi/widget'
+import type { ExtendedChain } from '@lifi/sdk'
+import { useSyncWagmiConfig } from '@lifi/widget-provider-ethereum'
 import { type FC, type PropsWithChildren, useRef } from 'react'
-import { type Chain, mainnet } from 'viem/chains'
+import { mainnet } from 'viem/chains'
 import type { Config, CreateConnectorFn } from 'wagmi'
 import { createConfig, http, WagmiProvider } from 'wagmi'
+import { useChains } from '../hooks/useChains'
 import { DynamicUTXOProvider } from './DynamicUTXOProvider'
 import { SolanaProvider } from './SolanaProvider'
 
@@ -21,23 +18,13 @@ import { SolanaProvider } from './SolanaProvider'
 const connectors: CreateConnectorFn[] = []
 
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
-  const { chains } = useAvailableChains()
+  const { evmChains, evmExtendedChains } = useChains()
 
   const wagmi = useRef<Config>(null)
 
-  const evmChains = chains?.filter((chain) => chain.chainType === ChainType.EVM)
-
-  const wagmiChains =
-    (evmChains?.map((chain) =>
-      isExtendedChain(chain) ? convertExtendedChain(chain) : chain
-    ) as [Chain, ...Chain[]]) || []
-
   if (!wagmi.current) {
     wagmi.current = createConfig({
-      chains: [
-        mainnet,
-        ...wagmiChains.filter((chain) => chain.id !== mainnet.id),
-      ],
+      chains: [mainnet],
       multiInjectedProviderDiscovery: false,
       transports: {
         [mainnet.id]: http(),
@@ -61,8 +48,8 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
         ],
         overrides: {
           // Please ignore these network settings if you specify chains yourself
-          evmNetworks: evmChains
-            ? convertToDynamicNetworks(evmChains)
+          evmNetworks: evmExtendedChains
+            ? convertToDynamicNetworks(evmExtendedChains)
             : undefined,
         },
       }}

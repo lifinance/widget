@@ -1,0 +1,94 @@
+{
+  "name": "@lifi/widget-light",
+  "version": "4.0.0-beta.8",
+  "description": "LI.FI Widget Light - a lightweight version of the LI.FI Widget for cross-chain bridging and swapping.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./ethereum": "./src/handlers/ethereum/index.ts",
+    "./solana": "./src/handlers/solana/index.ts",
+    "./bitcoin": "./src/handlers/bitcoin/index.ts",
+    "./sui": "./src/handlers/sui/index.ts"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "watch": "tsdown --watch",
+    "build": "pnpm clean && pnpm build:version && tsdown",
+    "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../README.md' .",
+    "build:postrelease": "node ../../scripts/postrelease.js && rm -rf README.md",
+    "build:version": "node ../../scripts/version.js",
+    "release:build": "pnpm build",
+    "clean": "rm -rf dist",
+    "check:types": "tsc --noEmit",
+    "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
+    "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg",
+    "test": "vitest run"
+  },
+  "author": "Eugene Chybisov <eugene@li.finance>",
+  "homepage": "https://github.com/lifinance/widget",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lifinance/widget.git",
+    "directory": "packages/widget-light"
+  },
+  "bugs": {
+    "url": "https://github.com/lifinance/widget/issues"
+  },
+  "license": "Apache-2.0",
+  "keywords": [
+    "widget",
+    "lifi-widget",
+    "bridge",
+    "swap",
+    "cross-chain",
+    "multi-chain",
+    "ethereum",
+    "solana",
+    "bitcoin",
+    "sui",
+    "web3",
+    "iframe",
+    "lifi"
+  ],
+  "devDependencies": {
+    "cpy-cli": "^7.0.0",
+    "madge": "^8.0.0",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.4"
+  },
+  "peerDependencies": {
+    "@bigmi/client": "^0.8.x",
+    "@bigmi/react": "^0.8.x",
+    "@mysten/dapp-kit-react": "^2.0.0",
+    "@wagmi/core": "^3.x",
+    "@wallet-standard/base": "^1.1.0",
+    "react": ">=18",
+    "viem": "^2.x",
+    "wagmi": "^3.x"
+  },
+  "peerDependenciesMeta": {
+    "wagmi": {
+      "optional": true
+    },
+    "@wagmi/core": {
+      "optional": true
+    },
+    "viem": {
+      "optional": true
+    },
+    "@bigmi/client": {
+      "optional": true
+    },
+    "@bigmi/react": {
+      "optional": true
+    },
+    "@mysten/dapp-kit-react": {
+      "optional": true
+    },
+    "@wallet-standard/base": {
+      "optional": true
+    }
+  }
+}

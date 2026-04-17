@@ -1,35 +1,48 @@
 import { ChainId, type ExtendedChain } from '@lifi/sdk'
 import {
-  createNetworkConfig,
-  SuiClientProvider,
-  WalletProvider,
-} from '@mysten/dapp-kit'
-import { getFullnodeUrl } from '@mysten/sui/client'
-import { type FC, type PropsWithChildren, useMemo } from 'react'
+  createDAppKit,
+  DAppKitProvider,
+  type DefaultExpectedDppKit,
+} from '@mysten/dapp-kit-react'
+import { SuiGrpcClient } from '@mysten/sui/grpc'
+import { getJsonRpcFullnodeUrl } from '@mysten/sui/jsonRpc'
+import { type FC, type PropsWithChildren, useRef } from 'react'
+import { SuiProviderValues } from './SuiProviderValues.js'
 
 interface SuiBaseProviderProps {
   chains?: ExtendedChain[]
+  isExternalContext?: boolean
 }
 
 export const SuiBaseProvider: FC<PropsWithChildren<SuiBaseProviderProps>> = ({
   chains,
   children,
+  isExternalContext = false,
 }) => {
-  const config = useMemo(() => {
+  const storageKey = 'li.fi-sui-dapp-kit'
+  const dappKit = useRef<DefaultExpectedDppKit>(null)
+
+  if (!dappKit.current) {
     const sui = chains?.find((chain) => chain.id === ChainId.SUI)
-    return createNetworkConfig({
-      mainnet: { url: sui?.metamask?.rpcUrls[0] ?? getFullnodeUrl('mainnet') },
+    dappKit.current = createDAppKit({
+      networks: ['mainnet'],
+      createClient: (network) =>
+        new SuiGrpcClient({
+          network,
+          baseUrl:
+            sui?.metamask?.rpcUrls[0] ?? getJsonRpcFullnodeUrl('mainnet'),
+        }),
+      autoConnect: true,
+      storage: typeof window !== 'undefined' ? localStorage : undefined,
+      storageKey,
     })
-  }, [chains])
+  }
 
   return (
-    <SuiClientProvider networks={config.networkConfig} defaultNetwork="mainnet">
-      <WalletProvider
-        storageKey="li.fi-widget-sui-wallet-connection"
-        autoConnect
-      >
+    <DAppKitProvider dAppKit={dappKit.current}>
+      <SuiProviderValues isExternalContext={isExternalContext}>
         {children}
-      </WalletProvider>
-    </SuiClientProvider>
+      </SuiProviderValues>
+    </DAppKitProvider>
   )
 }

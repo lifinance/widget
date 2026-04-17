@@ -1,9 +1,10 @@
 import { Box, Skeleton } from '@mui/material'
+import type { JSX } from 'react'
 import { Card } from '../../components/Card/Card.js'
 import { PageContainer } from '../../components/PageContainer.js'
 import { TokenSkeleton } from '../../components/Token/Token.js'
 
-export const TransactionDetailsSkeleton = () => {
+export const TransactionDetailsSkeleton = (): JSX.Element => {
   return (
     <PageContainer>
       <Box

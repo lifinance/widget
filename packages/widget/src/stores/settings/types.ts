@@ -18,6 +18,7 @@ export interface SettingsProps {
   gasPrice?: string
   language?: string
   languageCache?: LanguageResource
+  lastDefaultLanguage?: string
   routePriority?: Order
   enabledAutoRefuel: boolean
   slippage?: string
@@ -27,6 +28,7 @@ export interface SettingsProps {
   disabledExchanges: string[]
   enabledExchanges: string[]
   _enabledExchanges: Record<string, boolean>
+  smallBalanceThreshold?: string
 }
 
 export interface SettingsActions {
@@ -45,14 +47,6 @@ export interface SettingsActions {
 }
 
 export type SettingsState = SettingsProps & SettingsActions
-
-interface SendToWalletState {
-  showSendToWallet: boolean
-}
-
-export interface SendToWalletStore extends SendToWalletState {
-  setSendToWallet(value: boolean): void
-}
 
 export interface SplitSubvariantState {
   state?: SplitSubvariant

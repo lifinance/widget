@@ -61,8 +61,8 @@ const minMobileListHeight = 160
 export const useListHeight = ({
   listParentRef,
   headerRef,
-}: UseContentHeightProps) => {
-  const elementId = useDefaultElementId()
+}: UseContentHeightProps): { listHeight: number } => {
+  const elementId = useDefaultElementId() ?? ''
   const [contentHeight, setContentHeight] = useState<number>(0)
   const theme = useTheme()
 

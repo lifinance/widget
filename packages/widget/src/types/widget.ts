@@ -38,12 +38,20 @@ import type { DefaultFieldValues } from '../stores/form/types.js'
 export type WidgetVariant = 'compact' | 'wide' | 'drawer'
 export type WidgetSubvariant = 'default' | 'split' | 'custom' | 'refuel'
 export type SplitSubvariant = 'bridge' | 'swap'
+export type SplitSubvariantOptions = {
+  defaultTab: SplitSubvariant
+}
 export type CustomSubvariant = 'checkout' | 'deposit'
 export type WideSubvariant = {
-  enableChainSidebar?: boolean
+  disableChainSidebar?: boolean
 }
 export interface SubvariantOptions {
-  split?: SplitSubvariant
+  /**
+   * Configure split subvariant behavior:
+   * - 'bridge' | 'swap': Single mode without tabs
+   * - { defaultTab: 'bridge' | 'swap' }: Tabs mode with configurable default tab
+   */
+  split?: SplitSubvariant | SplitSubvariantOptions
   custom?: CustomSubvariant
   wide?: WideSubvariant
 }
@@ -116,6 +124,7 @@ export enum HiddenUI {
   IntegratorStepDetails = 'integratorStepDetails',
   ReverseTokensButton = 'reverseTokensButton',
   RouteTokenDescription = 'routeTokenDescription',
+  RouteCardPriceImpact = 'routeCardPriceImpact',
   ChainSelect = 'chainSelect',
   BridgesSettings = 'bridgesSettings',
   AddressBookConnectedWallets = 'addressBookConnectedWallets',
@@ -124,6 +133,8 @@ export enum HiddenUI {
   SearchTokenInput = 'searchTokenInput',
   InsufficientGasMessage = 'insufficientGasMessage',
   ContactSupport = 'contactSupport',
+  HideSmallBalances = 'hideSmallBalances',
+  AllNetworks = 'allNetworks',
 }
 export type HiddenUIType = `${HiddenUI}`
 
@@ -167,10 +178,7 @@ export interface WidgetSDKConfig
     | 'widgetVersion'
   > {
   routeOptions?: Omit<RouteOptions, 'bridges' | 'exchanges'>
-  executionOptions?: Pick<
-    ExecutionOptions,
-    'disableMessageSigning' | 'updateTransactionRequestHook'
-  >
+  executionOptions?: Pick<ExecutionOptions, 'updateTransactionRequestHook'>
 }
 
 export interface WidgetContractTool {
@@ -291,6 +299,10 @@ export type ExplorerUrl =
       addressPath?: string
     }
 
+export type WidgetProvider = (
+  props: PropsWithChildren<WidgetProviderProps>
+) => ReactNode
+
 export interface WidgetConfig {
   fromChain?: number
   toChain?: number
@@ -303,7 +315,7 @@ export interface WidgetConfig {
   toAmount?: number | string
   formUpdateKey?: string
 
-  providers?: ((props: PropsWithChildren<WidgetProviderProps>) => ReactNode)[]
+  providers?: WidgetProvider[]
 
   contractCalls?: ContractCall[]
   contractComponent?: ReactNode

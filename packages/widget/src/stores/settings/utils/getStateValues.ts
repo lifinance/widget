@@ -4,6 +4,7 @@ export const getStateValues = (state: SettingsState): SettingsProps => ({
   gasPrice: state.gasPrice,
   language: state.language,
   languageCache: state.languageCache,
+  lastDefaultLanguage: state.lastDefaultLanguage,
   routePriority: state.routePriority,
   enabledAutoRefuel: state.enabledAutoRefuel,
   slippage: state.slippage,

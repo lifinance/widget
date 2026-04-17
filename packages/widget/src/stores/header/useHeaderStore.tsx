@@ -6,7 +6,9 @@ import type { HeaderState, HeaderStore } from './types.js'
 
 const HeaderStoreContext = createContext<HeaderStore | null>(null)
 
-export function HeaderStoreProvider({ children }: PersistStoreProviderProps) {
+export function HeaderStoreProvider({
+  children,
+}: PersistStoreProviderProps): any {
   const storeRef = useRef<HeaderStore>(null)
   if (!storeRef.current) {
     storeRef.current = createHeaderStore()
@@ -38,7 +40,7 @@ export function useHeaderStore<T>(selector: (state: HeaderState) => T): T {
 // As the header is position fixed its not in the document flow anymore.
 // To prevent the remaining page content from appearing behind the header we need to
 // pass the headers height so that the position of the page content can be adjusted
-export function useHeaderHeight() {
+export function useHeaderHeight(): any {
   const headerHeight = useHeaderStore((state) => state.headerHeight)
 
   return {
@@ -46,7 +48,7 @@ export function useHeaderHeight() {
   }
 }
 
-export function useSetHeaderHeight() {
+export function useSetHeaderHeight(): any {
   const setHeaderHeight = useHeaderStore((state) => state.setHeaderHeight)
 
   return {

@@ -1,4 +1,5 @@
 import type { WidgetConfig, WidgetTheme } from '@lifi/widget'
+import type { StoreApi, UseBoundStore } from 'zustand'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { addValueFromPathString } from '../../utils/addValue.js'
@@ -13,7 +14,7 @@ export const createWidgetConfigStore = (
   initialConfig: Partial<WidgetConfig>,
   themeItems: ThemeItem[],
   prefersDarkMode: boolean
-) =>
+): UseBoundStore<StoreApi<WidgetConfigState>> =>
   create<WidgetConfigState>()(
     persist(
       (set, get) => ({
@@ -71,7 +72,7 @@ export const createWidgetConfigStore = (
             },
           })
         },
-        setChainSidebarEnabled: (enabled) => {
+        setChainSidebarDisabled: (disabled) => {
           set({
             config: {
               ...get().config,
@@ -79,7 +80,7 @@ export const createWidgetConfigStore = (
                 ...get().config?.subvariantOptions,
                 wide: {
                   ...get().config?.subvariantOptions?.wide,
-                  enableChainSidebar: enabled,
+                  disableChainSidebar: disabled,
                 },
               },
             },

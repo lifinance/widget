@@ -1,4 +1,4 @@
-import { createContext, useContext, useRef } from 'react'
+import { createContext, type JSX, useContext, useRef } from 'react'
 import type { StoreApi, UseBoundStore } from 'zustand'
 import { useShallow } from 'zustand/shallow'
 import type { PersistStoreProviderProps } from '../types.js'
@@ -14,7 +14,7 @@ const RouteExecutionStoreContext = createContext<RouteExecutionStore | null>(
 export function RouteExecutionStoreProvider({
   children,
   ...props
-}: PersistStoreProviderProps) {
+}: PersistStoreProviderProps): JSX.Element {
   const storeRef = useRef<RouteExecutionStore>(null)
   if (!storeRef.current) {
     storeRef.current = createRouteExecutionStore(props)
@@ -26,7 +26,7 @@ export function RouteExecutionStoreProvider({
   )
 }
 
-export function useRouteExecutionStoreContext() {
+export function useRouteExecutionStoreContext(): any {
   const useStore = useContext(RouteExecutionStoreContext)
   if (!useStore) {
     throw new Error(

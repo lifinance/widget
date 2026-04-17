@@ -1,9 +1,9 @@
 import type {
+  ExecutionAction,
+  ExecutionActionStatus,
   ExtendedTransactionInfo,
   FeeCost,
   FullStatusData,
-  Process,
-  ProcessStatus,
   Substatus,
   TokenAmount,
   ToolsResponse,
@@ -11,7 +11,7 @@ import type {
 import type { RouteExecution } from '../stores/routes/types.js'
 import { formatTokenPrice } from './format.js'
 
-const buildProcessFromTxHistory = (tx: FullStatusData): Process[] => {
+const buildActionsFromTxHistory = (tx: FullStatusData): ExecutionAction[] => {
   const sending = tx.sending as ExtendedTransactionInfo
   const receiving = tx.receiving as ExtendedTransactionInfo
 
@@ -19,59 +19,54 @@ const buildProcessFromTxHistory = (tx: FullStatusData): Process[] => {
     return []
   }
 
-  const processStatus: ProcessStatus = tx.status === 'DONE' ? 'DONE' : 'FAILED'
+  const actionStatus: ExecutionActionStatus =
+    tx.status === 'DONE' ? 'DONE' : 'FAILED'
   const substatus: Substatus =
-    processStatus === 'FAILED' ? 'UNKNOWN_ERROR' : 'COMPLETED'
+    actionStatus === 'FAILED' ? 'UNKNOWN_ERROR' : 'COMPLETED'
 
   if (sending.chainId === receiving.chainId) {
     return [
       {
         type: 'SWAP', // operations on same chain will be swaps
-        startedAt: sending.timestamp ?? Date.now(),
         message: '',
-        status: processStatus,
+        status: actionStatus,
         chainId: sending.chainId,
         txHash: sending.txHash,
         txLink: sending.txLink,
-        doneAt: receiving.timestamp ?? Date.now(),
         substatus,
         substatusMessage: '',
       },
     ]
   }
 
-  const process: Process[] = [
+  const actions: ExecutionAction[] = [
     {
       type: 'CROSS_CHAIN', // first step of bridging, ignoring the approvals
-      startedAt: sending.timestamp ?? Date.now(),
       message: '',
-      status: processStatus, // can be FAILED
+      status: actionStatus, // can be FAILED
       chainId: sending.chainId,
       txHash: sending.txHash,
       txLink: sending.txLink,
-      doneAt: sending.timestamp,
     },
     {
       type: 'RECEIVING_CHAIN', // final step of bridging, post swaps
-      startedAt: receiving.timestamp ?? Date.now(),
       message: '',
-      status: processStatus,
+      status: actionStatus,
       substatus,
       substatusMessage: '',
-      doneAt: receiving.timestamp ?? Date.now(),
       chainId: receiving.chainId,
       txHash: receiving.txHash,
       txLink: receiving.txLink,
     },
   ]
 
-  return process
+  return actions
 }
 
 export const buildRouteFromTxHistory = (
   tx: FullStatusData,
   tools?: ToolsResponse
-) => {
+): RouteExecution | undefined => {
   const sending = tx.sending as ExtendedTransactionInfo
   const receiving = tx.receiving as ExtendedTransactionInfo
 
@@ -155,7 +150,7 @@ export const buildRouteFromTxHistory = (
       gasCostUSD: sending.gasAmountUSD,
       steps: [
         {
-          id: crypto.randomUUID(),
+          id: (tx as FullStatusData).transactionId,
           type: 'lifi',
           tool: tx.tool,
           toolDetails: usedTool,
@@ -181,7 +176,7 @@ export const buildRouteFromTxHistory = (
           },
           includedSteps: [
             {
-              id: '',
+              id: (tx as FullStatusData).transactionId,
               type: sending.chainId === receiving.chainId ? 'swap' : 'cross',
               action: {
                 fromChainId: sending.chainId,
@@ -208,9 +203,10 @@ export const buildRouteFromTxHistory = (
           integrator: tx.metadata?.integrator ?? '',
           execution: {
             status: 'DONE', // can be FAILED
-            startedAt: sending.timestamp ?? Date.now(),
-            doneAt: receiving.timestamp ?? Date.now(),
-            process: buildProcessFromTxHistory(tx),
+            startedAt: sending.timestamp
+              ? sending.timestamp * 1000
+              : Date.now(),
+            actions: buildActionsFromTxHistory(tx),
             fromAmount: sending.amount,
             toAmount: receiving.amount,
             toToken: receiving.token,

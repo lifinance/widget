@@ -1,3 +1,4 @@
+import type { StoreApi, UseBoundStore } from 'zustand'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { widgetEvents } from '../../hooks/useWidgetEvents.js'
@@ -7,17 +8,19 @@ import type { ChainOrderState } from './types.js'
 
 // (10 tiles: 9 + 1 for "All chains")
 export const maxGridItemsToShow = 10
-export const maxChainsToShow = maxGridItemsToShow - 1
+export const maxChainsToShow: number = maxGridItemsToShow - 1
 // If there are more than maxChainsToShow chains to show,
 // -1 tile to show a button "+ N" more chains
-export const maxChainsToOrder = maxChainsToShow - 1
+export const maxChainsToOrder: number = maxChainsToShow - 1
 
 const defaultChainState = {
   from: [],
   to: [],
 }
 
-export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
+export const createChainOrderStore = ({
+  namePrefix,
+}: PersistStoreProps): UseBoundStore<StoreApi<ChainOrderState>> =>
   create<ChainOrderState>()(
     persist(
       (set, get) => ({
@@ -115,13 +118,9 @@ export const createChainOrderStore = ({ namePrefix }: PersistStoreProps) =>
       }),
       {
         name: `${namePrefix || 'li.fi'}-widget-chains-order`,
-        version: 2,
+        version: 4,
         partialize: (state) => ({
           chainOrder: state.chainOrder,
-          fromIsAllNetworks: state.fromIsAllNetworks,
-          toIsAllNetworks: state.toIsAllNetworks,
-          fromShowAllNetworks: state.fromShowAllNetworks,
-          toShowAllNetworks: state.toShowAllNetworks,
           pinnedChains: state.pinnedChains,
         }),
       }

@@ -18,6 +18,8 @@
     "buy": "Comprar",
     "cancel": "Cancelar",
     "checkoutReview": "Revisar compra",
+    "clearAllFailed": "",
+    "clearTransaction": "",
     "close": "Cerrar",
     "confirm": "Confirmar",
     "connectAnotherWallet": "Conectar otra cartera",
@@ -39,7 +41,6 @@
     "max": "",
     "ok": "Ok",
     "options": "Opciones",
-    "removeTransaction": "Eliminar transacción",
     "reset": "Reiniciar",
     "resetSettings": "Reiniciar ajustes",
     "seeDetails": "Ver detalles",
@@ -54,7 +55,6 @@
     "viewOnExplorer": "Ver en explorador"
   },
   "header": {
-    "activeTransactions": "Transacciones activas",
     "amount": "Cantidad",
     "bookmarkedWallets": "Billeteras preferidas",
     "bridge": "Puente",
@@ -79,7 +79,7 @@
     "swap": "Swap",
     "to": "Swap a",
     "transactionDetails": "Detalles de transacción",
-    "transactionHistory": "Historial de transacciones",
+    "activities": "",
     "walletConnected": "Billetera conectada",
     "youGet": "Usted obtiene",
     "youPay": "Tú pagas"
@@ -88,19 +88,16 @@
     "message": {
       "accountDeployedMessage": "",
       "autoRefuel": "Tienes poco gas en {{chainName}}. Al continuar, obtendrás suficiente gas para completar la transacción.",
-      "emptyActiveTransactions": "Las transacciones en progreso aparecerán aquí. Una vez completadas, encuéntralas en el historial de transacciones.",
       "emptyBridgesList": "No pudimos encontrar ningún puente que coincida con tu búsqueda",
       "emptyChainList": "No pudimos encontrar ninguna cadena que coincida con tu búsqueda",
       "emptyExchangesList": "No pudimos encontrar ningún intercambio que coincida con su búsqueda",
       "emptyTokenListAllNetworks": "",
       "emptyTransactionHistory": "El historial de intercambio solo se almacena localmente y se eliminará si borra los datos de su navegador.",
       "routeNotFound": "Razones para eso: baja liquidez, cantidad seleccionada es demasiado baja, Los costos de gas son demasiado altos o no hay rutas para la combinación seleccionada.",
-      "toAddressIsRequired": "La dirección de la cartera de destino es necesaria para proceder con la transferencia.",
       "missingRouteRequiredAccount": ""
     },
     "title": {
       "autoRefuel": "Obtener gas {{chainName}}",
-      "emptyActiveTransactions": "No hay transacciones activas",
       "emptyTransactionHistory": "No hay transacciones recientes",
       "routeNotFound": "No hay rutas disponibles"
     }
@@ -123,10 +120,10 @@
     "message": {
       "accountNotDeployedMessage": "",
       "lowAddressActivity": "Esta dirección tiene poca actividad en la red {{chainName}}. Por favor, comprueba que estás enviando a la dirección y a la red correctas para evitar la pérdida potencial de fondos.",
-      "deleteActiveTransactions": "Las transacciones activas solo se almacenan localmente y no se pueden recuperar si las elimina.",
-      "deleteTransactionHistory": "El historial de transacciones solo se almacena localmente y no se puede recuperar si lo elimina.",
+      "clearFailedTransactions": "",
       "fundsLossPrevention": "Asegúrate de que las cuentas de Contratos Inteligentes estén bien configuradas en la cadena de destino y evita transferencias directas a plataformas de intercambio centralizadas para no perder fondos.",
       "highValueLoss": "El valor de los tokens recibidos es significativamente menor que los tokens intercambiados y el costo de la transacción.",
+      "unverifiedToken": "",
       "insufficientFunds": "No tiene fondos suficientes para ejecutar el intercambio.",
       "insufficientGas": "Debes agregar al menos:",
       "minFromAmountUSD": "",
@@ -136,9 +133,7 @@
       "slippageUnderRecommendedLimits": "Elegir una baja tolerancia en el deslizamiento del intercambio puede causar retrasos o fallos en las transacciones."
     },
     "title": {
-      "deleteActiveTransactions": "¿Eliminar todas las transacciones activas?",
-      "deleteTransaction": "¿Eliminar esta transacción?",
-      "deleteTransactionHistory": "¿Eliminar historial de transacciones?",
+      "clearFailedTransactions": "",
       "highValueLoss": "Pérdida de alto valor",
       "insufficientGas": "Gas insuficiente",
       "rateChanged": "Cambios de precio detectado",
@@ -198,6 +193,7 @@
   "tooltip": {
     "deselectAll": "Deseleccionar todo",
     "estimatedTime": "",
+    "exchangeRate": "",
     "feeCollection": "",
     "minReceived": "La cantidad mínima estimada puede cambiar hasta que la transacción de intercambio/puente sea firmada. Para transferencias de dos pasos, esto se aplica hasta que la transacción de segundo paso sea firmada.",
     "notFound": {
@@ -220,6 +216,8 @@
     "checkoutStepDetails": "Comprar a través de {{tool}}",
     "currentAmount": "Cantidad actual",
     "depositStepDetails": "Depositar vía {{tool}}",
+    "estimatedTime": "",
+    "exchangeRate": "",
     "featuredTokens": "Tokens destacados",
     "fees": {
       "defaultIntegrator": "Comisión del integrador",
@@ -237,6 +235,7 @@
     "myTokens": "Mis tokens",
     "onChain": "en {{chainName}}",
     "ownedBy": "Propiedad de",
+    "pinnedTokens": "",
     "popularTokens": "Tokens populares",
     "priceImpact": "Impacto en el precio",
     "process": {
@@ -284,9 +283,8 @@
     "rateChange": "Cambios de precio detectado",
     "receiving": "Recibiendo",
     "refuelStepDetails": "Obtener gas a través de {{tool}}",
-    "selectChain": "Cadena",
-    "selectChainAndToken": "Seleccione cadena y token",
-    "selectToken": "Token",
+    "route": "",
+    "select": "",
     "sendToAddress": "Enviar a {{address}}",
     "sendToWallet": "Enviar a una billetera diferente",
     "sending": "Enviando",
@@ -302,6 +300,8 @@
     "stepSwapAndBuy": "Intercambiar y comprar",
     "stepSwapAndDeposit": "Intercambiar y depositar",
     "swapStepDetails": "Intercambiar en {{chain}} a través de {{tool}}",
+    "receipts": "",
+    "sentToWallet": "",
     "transferId": "ID de transacción",
     "tags": {
       "cheapest": "Mejor retorno",
@@ -331,7 +331,8 @@
     "routePriority": "Prioridad de ruta",
     "slippage": "Máx. deslizamiento",
     "custom": "Personalizado",
-    "resetSettings": "Estás usando ajustes personalizados que pueden afectar el número o la ordenación de rutas disponibles."
+    "resetSettings": "Estás usando ajustes personalizados que pueden afectar el número o la ordenación de rutas disponibles.",
+    "hideSmallBalances": ""
   },
   "sendToWallet": {
     "addBookmark": "Añadir marcador",
@@ -343,7 +344,8 @@
     "enterName": "Introducir nombre",
     "noBookmarkedWallets": "No hay billeteras preferidas",
     "noConnectedWallets": "No hay billeteras conectadas",
-    "noRecentWallets": "No hay billeteras recientes"
+    "noRecentWallets": "No hay billeteras recientes",
+    "required": ""
   },
   "tokenMetric": {
     "currentPrice": "",

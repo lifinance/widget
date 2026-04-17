@@ -1,7 +1,7 @@
 import Wallet from '@mui/icons-material/Wallet'
 import WarningRounded from '@mui/icons-material/WarningRounded'
 import { Button, Typography } from '@mui/material'
-import type { RefObject } from 'react'
+import type { ForwardRefExoticComponent, RefAttributes, RefObject } from 'react'
 import { forwardRef, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
@@ -11,7 +11,6 @@ import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useSetContentHeight } from '../../hooks/useSetContentHeight.js'
 import type { Bookmark } from '../../stores/bookmarks/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
-import { useSendToWalletActions } from '../../stores/settings/useSendToWalletStore.js'
 import {
   IconContainer,
   SendToWalletButtonRow,
@@ -29,10 +28,9 @@ interface ConfirmAddressSheetContentProps extends ConfirmAddressSheetProps {
   onClose: () => void
 }
 
-export const ConfirmAddressSheet = forwardRef<
-  BottomSheetBase,
-  ConfirmAddressSheetProps
->((props, ref) => {
+export const ConfirmAddressSheet: ForwardRefExoticComponent<
+  ConfirmAddressSheetProps & RefAttributes<BottomSheetBase>
+> = forwardRef<BottomSheetBase, ConfirmAddressSheetProps>((props, ref) => {
   const handleClose = () => {
     ;(ref as RefObject<BottomSheetBase>).current?.close()
   }
@@ -52,8 +50,6 @@ const ConfirmAddressSheetContent: React.FC<ConfirmAddressSheetContentProps> = ({
   const { t } = useTranslation()
   const navigateBack = useNavigateBack()
   const { setFieldValue } = useFieldActions()
-  const { setSendToWallet } = useSendToWalletActions()
-
   const containerRef = useRef<HTMLElement>(null)
   useSetContentHeight(containerRef)
 
@@ -64,7 +60,6 @@ const ConfirmAddressSheetContent: React.FC<ConfirmAddressSheetContentProps> = ({
         isDirty: true,
       })
       onConfirm?.(validatedBookmark)
-      setSendToWallet(true)
       onClose()
       navigateBack()
     }

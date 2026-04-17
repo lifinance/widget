@@ -20,7 +20,7 @@ export const getWalletIcon = (id: string): string | undefined => {
   }
 }
 
-export const getChainTypeIcon = (chainType: ChainType) => {
+export const getChainTypeIcon = (chainType: ChainType): string | undefined => {
   switch (chainType) {
     case ChainType.EVM:
       return 'https://lifinance.github.io/types/src/assets/icons/chains/ethereum.svg'
@@ -32,6 +32,8 @@ export const getChainTypeIcon = (chainType: ChainType) => {
       return 'https://lifinance.github.io/types/src/assets/icons/chains/sui.svg'
     case ChainType.TVM:
       return 'https://lifinance.github.io/types/src/assets/icons/chains/tron.svg'
+    case ChainType.STL:
+      return 'https://lifinance.github.io/types/src/assets/icons/chains/stellar.svg'
   }
 }
 

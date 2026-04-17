@@ -34,19 +34,28 @@ export const widgetBaseConfig: WidgetConfig = {
   //   },
   // ],
   providers: [
-    EthereumProvider(),
+    EthereumProvider({
+      baseAccount: true,
+      coinbase: true,
+      metaMask: true,
+      walletConnect: true,
+      porto: true,
+    }),
     SuiProvider(),
     SolanaProvider(),
     BitcoinProvider(),
   ],
   variant: 'wide',
   // subvariant: 'split',
-  subvariantOptions: {
-    wide: {
-      enableChainSidebar: true,
-    },
-  },
+  // subvariantOptions: {
+  //   wide: {
+  //     disableChainSidebar: true,
+  //   },
+  // },
   integrator: 'li.fi-playground',
+  ...(import.meta.env?.VITE_API_KEY && {
+    apiKey: import.meta.env.VITE_API_KEY,
+  }),
   // fee: 0.01,
   // feeConfig: {
   //   name: 'DApp fee',
@@ -68,12 +77,17 @@ export const widgetBaseConfig: WidgetConfig = {
   // usePartialWalletManagement: true,
   // },
   sdkConfig: {
-    apiUrl: 'https://li.quest/v1',
+    apiUrl: import.meta.env?.VITE_API_URL || 'https://li.quest/v1',
+    preloadChains: false,
     rpcUrls: {
-      [ChainId.SOL]: ['https://dacey-pp61jd-fast-mainnet.helius-rpc.com/'],
+      [ChainId.SOL]: [
+        'https://wild-winter-frog.solana-mainnet.quiknode.pro/2370a45ff891f6dc9e5b1753460290fe0f1ef103/',
+        'https://dacey-pp61jd-fast-mainnet.helius-rpc.com/',
+      ],
     },
     routeOptions: {
       maxPriceImpact: 0.4,
+      jitoBundle: true,
       // slippage: 0.03,
       // order: 'SAFEST',
       // allowSwitchChain: false,

@@ -13,7 +13,7 @@ export const getPriceImpact = ({
   toToken,
   fromAmount,
   toAmount,
-}: GetPriceImpactProps) => {
+}: GetPriceImpactProps): number => {
   const fromTokenPrice = formatTokenPrice(
     fromAmount,
     fromToken.priceUSD,

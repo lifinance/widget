@@ -1,5 +1,6 @@
 import { ChainId, ChainType } from '@lifi/sdk'
 import { useSuiContext } from '@lifi/widget-provider'
+import type { JSX } from 'react'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
 import { getChainTypeIcon } from '../icons.js'
@@ -15,7 +16,7 @@ export const SuiListItemButton = ({
   onConnected,
   onConnecting,
   onError,
-}: WalletListItemButtonProps) => {
+}: WalletListItemButtonProps): JSX.Element => {
   const emitter = useWalletManagementEvents()
   const { connect, disconnect, isConnected } = useSuiContext()
   const { setLastConnectedAccount } = useLastConnectedAccount()
@@ -39,8 +40,8 @@ export const SuiListItemButton = ({
         setLastConnectedAccount(connector)
         emitter.emit(WalletManagementEvent.WalletConnected, {
           address: address,
-          chainId: ChainId.SOL,
-          chainType: ChainType.SVM,
+          chainId: ChainId.SUI,
+          chainType: ChainType.MVM,
           connectorId: connector.id ?? connector.name,
           connectorName: connector.name,
         })
@@ -56,7 +57,7 @@ export const SuiListItemButton = ({
       key={connectorDisplayName}
       icon={
         ecosystemSelection
-          ? getChainTypeIcon(ChainType.MVM)
+          ? (getChainTypeIcon(ChainType.MVM) ?? '')
           : (connector.icon ?? '')
       }
       onClick={handleSuiConnect}

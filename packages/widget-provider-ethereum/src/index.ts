@@ -4,3 +4,4 @@ export {
   convertExtendedChain,
   isExtendedChain,
 } from './utils/convertExtendedChain.js'
+export { createDefaultWagmiConfig } from './utils/createDefaultWagmiConfig.js'

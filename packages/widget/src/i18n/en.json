@@ -18,6 +18,8 @@
     "buy": "Buy",
     "cancel": "Cancel",
     "checkoutReview": "Review purchase",
+    "clearAllFailed": "Clear all failed",
+    "clearTransaction": "Clear transaction",
     "close": "Close",
     "confirm": "Confirm",
     "connectAnotherWallet": "Connect another wallet",
@@ -39,7 +41,6 @@
     "max": "MAX",
     "ok": "Ok",
     "options": "Options",
-    "removeTransaction": "Remove transaction",
     "reset": "Reset",
     "resetSettings": "Reset settings",
     "seeDetails": "See details",
@@ -54,7 +55,6 @@
     "viewOnExplorer": "View on explorer"
   },
   "header": {
-    "activeTransactions": "Active transactions",
     "amount": "Amount",
     "bookmarkedWallets": "Bookmarked wallets",
     "bridge": "Bridge",
@@ -79,7 +79,7 @@
     "swap": "Swap",
     "to": "Exchange to",
     "transactionDetails": "Transaction details",
-    "transactionHistory": "Transaction history",
+    "activities": "Activities",
     "walletConnected": "Wallet connected",
     "youGet": "You get",
     "youPay": "You pay"
@@ -88,19 +88,16 @@
     "message": {
       "accountDeployedMessage": "Your smart account may not have the same address on other chains. Please double-check before proceeding.",
       "autoRefuel": "You're low on {{chainName}} gas. By continuing, you'll get enough gas to complete the transaction.",
-      "emptyActiveTransactions": "Transactions in progress will appear here. Once completed, find them in transaction history.",
       "emptyBridgesList": "We couldn't find any bridges that match your search",
       "emptyChainList": "We couldn't find any chains that match your search",
       "emptyExchangesList": "We couldn't find any exchanges that match your search",
       "emptyTokenListAllNetworks": "We couldn't find any tokens. Please search by contract address if your token doesn't appear, or try selecting a different chain.",
       "emptyTransactionHistory": "Transaction history is only stored locally and will be deleted if you clear your browser data.",
       "routeNotFound": "Reasons for that could be: low liquidity, amount selected is too low, gas costs are too high or there are no routes for the selected combination.",
-      "toAddressIsRequired": "The destination wallet address is required to proceed with the transfer.",
       "missingRouteRequiredAccount": "Connect your {{chainName}} wallet to proceed. {{address}}"
     },
     "title": {
       "autoRefuel": "Get {{chainName}} gas",
-      "emptyActiveTransactions": "No active transactions",
       "emptyTransactionHistory": "No recent transactions",
       "routeNotFound": "No routes available"
     }
@@ -123,10 +120,10 @@
     "message": {
       "accountNotDeployedMessage": "Smart contract account doesn't exist on the destination chain. Sending funds to a non-existent smart contract account can result in permanent loss.",
       "lowAddressActivity": "This address has low activity on {{chainName}} network. Please verify you're sending to the correct address and network to prevent potential loss of funds.",
-      "deleteActiveTransactions": "Active transactions are only stored locally and can't be recovered if you delete them.",
-      "deleteTransactionHistory": "Transaction history is only stored locally and can't be recovered if you delete it.",
+      "clearFailedTransactions": "Failed transactions are only stored locally and can't be recovered once cleared.",
       "fundsLossPrevention": "Always ensure smart contract accounts are properly set up on the destination chain and avoid direct transfers to exchanges to prevent fund loss.",
       "highValueLoss": "The value of the received tokens is significantly lower than the exchanged tokens and transaction cost.",
+      "unverifiedToken": "Unverified token. Always do your own research before proceeding.",
       "insufficientFunds": "You don't have enough funds to complete the transaction.",
       "insufficientGas": "You don't have enough gas to complete the transaction. You need to add at least:",
       "minFromAmountUSD": "Minimum amount is {{amount, currencyExt(currency: USD)}}. Please enter a higher amount.",
@@ -136,9 +133,7 @@
       "slippageUnderRecommendedLimits": "Low slippage tolerance may cause transaction delays or failures."
     },
     "title": {
-      "deleteActiveTransactions": "Delete all active transactions?",
-      "deleteTransaction": "Delete this transaction?",
-      "deleteTransactionHistory": "Delete transaction history?",
+      "clearFailedTransactions": "Clear all failed transactions?",
       "highValueLoss": "High value loss",
       "insufficientGas": "Insufficient gas",
       "rateChanged": "Rate changed",
@@ -198,6 +193,7 @@
   "tooltip": {
     "deselectAll": "Deselect all",
     "estimatedTime": "Time to complete the swap or bridge transaction, excluding chain switching and token approval.",
+    "exchangeRate": "The estimated conversion rate between source and destination tokens. Click to toggle the direction.",
     "feeCollection": "The fee is applied to selected token pairs and ensures we can provide the best experience.",
     "minReceived": "The estimated minimum amount may change until the swapping/bridging transaction is signed. For 2-step transfers, this applies until the second step transaction is signed.",
     "notFound": {
@@ -220,6 +216,8 @@
     "checkoutStepDetails": "Purchase via {{tool}}",
     "currentAmount": "Current amount",
     "depositStepDetails": "Deposit via {{tool}}",
+    "estimatedTime": "Estimated time",
+    "exchangeRate": "Exchange rate",
     "featuredTokens": "Featured tokens",
     "fees": {
       "defaultIntegrator": "Integrator fee",
@@ -237,6 +235,7 @@
     "myTokens": "My tokens",
     "onChain": "on {{chainName}}",
     "ownedBy": "Owned by",
+    "pinnedTokens": "Pinned tokens",
     "popularTokens": "Popular tokens",
     "priceImpact": "Price impact",
     "process": {
@@ -284,9 +283,8 @@
     "rateChange": "Rate change",
     "receiving": "Receiving",
     "refuelStepDetails": "Get gas via {{tool}}",
-    "selectChain": "Select chain",
-    "selectChainAndToken": "Select chain and token",
-    "selectToken": "Select token",
+    "route": "Route",
+    "select": "Select",
     "sendToAddress": "Send to {{address}}",
     "sendToWallet": "Send to a different wallet",
     "sending": "Sending",
@@ -302,6 +300,8 @@
     "stepSwapAndBuy": "Swap and buy",
     "stepSwapAndDeposit": "Swap and deposit",
     "swapStepDetails": "Swap on {{chain}} via {{tool}}",
+    "receipts": "Receipts",
+    "sentToWallet": "Sent to wallet",
     "transferId": "Transfer ID",
     "tags": {
       "cheapest": "Best Return",
@@ -331,7 +331,8 @@
     "routePriority": "Route priority",
     "slippage": "Max. slippage",
     "custom": "Custom",
-    "resetSettings": "You're using custom settings that can affect the number or sorting of available routes."
+    "resetSettings": "You're using custom settings that can affect the number or sorting of available routes.",
+    "hideSmallBalances": "Hide small balances"
   },
   "sendToWallet": {
     "addBookmark": "Add bookmark",
@@ -343,7 +344,8 @@
     "enterName": "Enter name",
     "noBookmarkedWallets": "No bookmarked wallets",
     "noConnectedWallets": "No connected wallets",
-    "noRecentWallets": "No recent wallets"
+    "noRecentWallets": "No recent wallets",
+    "required": "Required"
   },
   "tokenMetric": {
     "currentPrice": "Current price",

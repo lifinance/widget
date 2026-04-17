@@ -2,14 +2,11 @@ import { getConnectorIcon } from '@lifi/wallet-management'
 import type { Account } from '@lifi/widget-provider'
 import Wallet from '@mui/icons-material/Wallet'
 import { Badge } from '@mui/material'
+import type { JSX } from 'react'
 import { useChain } from '../../hooks/useChain.js'
 import type { ToAddress } from '../../types/widget.js'
-import {
-  AvatarDefault,
-  AvatarDefaultBadge,
-  AvatarMasked,
-} from './Avatar.style.js'
-import { SmallAvatar } from './SmallAvatar.js'
+import { AvatarDefault, AvatarMasked } from './Avatar.style.js'
+import { ChainBadgeContent } from './ChainBadgeContent.js'
 
 interface AccountAvatarProps {
   chainId?: number
@@ -23,7 +20,7 @@ export const AccountAvatar = ({
   account,
   empty,
   toAddress,
-}: AccountAvatarProps) => {
+}: AccountAvatarProps): JSX.Element => {
   const { chain } = useChain(chainId)
 
   const avatar = empty ? (
@@ -45,15 +42,7 @@ export const AccountAvatar = ({
     <Badge
       overlap="circular"
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      badgeContent={
-        chain ? (
-          <SmallAvatar src={chain.logoURI} alt={chain.name}>
-            {chain.name[0]}
-          </SmallAvatar>
-        ) : (
-          <AvatarDefaultBadge />
-        )
-      }
+      badgeContent={<ChainBadgeContent chain={chain} />}
     >
       {avatar}
     </Badge>

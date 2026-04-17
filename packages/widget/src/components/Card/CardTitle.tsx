@@ -1,6 +1,9 @@
 import { styled, Typography } from '@mui/material'
+import type React from 'react'
 
-export const CardTitle = styled(Typography, {
+export const CardTitle: React.FC<
+  React.ComponentProps<typeof Typography> & { required?: boolean }
+> = styled(Typography, {
   shouldForwardProp: (prop) => !['required'].includes(prop as string),
 })<{ required?: boolean }>(({ theme }) => ({
   fontSize: 14,

@@ -6,9 +6,12 @@ import {
   tabsClasses,
 } from '@mui/material'
 import { styled } from '@mui/material/styles'
+import type React from 'react'
 import { getCardFieldsetBackgroundColor } from '../../utils/color.js'
 
-export const Tabs = styled(MuiTabs)(({ theme }) => ({
+export const Tabs: React.FC<React.ComponentProps<typeof MuiTabs>> = styled(
+  MuiTabs
+)(({ theme }) => ({
   ...getCardFieldsetBackgroundColor(theme),
   borderRadius: Math.max(
     theme.shape.borderRadius,
@@ -22,17 +25,20 @@ export const Tabs = styled(MuiTabs)(({ theme }) => ({
     backgroundColor: theme.vars.palette.common.white,
     borderRadius:
       Math.max(theme.shape.borderRadius, theme.shape.borderRadiusSecondary) - 4,
-    boxShadow: `0px 2px 4px rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+    boxShadow: `0px 2px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
     ...theme.applyStyles('dark', {
       backgroundColor: theme.vars.palette.background.default,
-      boxShadow: `0px 2px 4px rgba(${theme.vars.palette.common.backgroundChannel} / 0.04)`,
+      boxShadow: `0px 2px 4px color-mix(in srgb, ${theme.vars.palette.common.background} 4%, transparent)`,
     }),
   },
 }))
 
-export const Tab = styled(MuiTab, {
-  shouldForwardProp: (prop) => prop !== 'isDarkMode',
-})<TabProps>(({ theme }) => ({
+export const Tab: React.FC<React.ComponentProps<typeof MuiTab>> = styled(
+  MuiTab,
+  {
+    shouldForwardProp: (prop) => prop !== 'isDarkMode',
+  }
+)<TabProps>(({ theme }) => ({
   zIndex: 1,
   flex: 1,
   textTransform: 'none',

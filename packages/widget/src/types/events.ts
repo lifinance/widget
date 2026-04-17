@@ -1,4 +1,4 @@
-import type { ChainId, ChainType, Process, Route } from '@lifi/sdk'
+import type { ChainId, ChainType, ExecutionAction, Route } from '@lifi/sdk'
 import type { DefaultValues } from '../stores/form/types.js'
 import type { SettingsProps } from '../stores/settings/types.js'
 import type { NavigationRouteType } from '../utils/navigationRoutes.js'
@@ -66,7 +66,7 @@ export type RouteHighValueLossUpdate = {
 
 export type RouteExecutionUpdate = {
   route: Route
-  process: Process
+  action: ExecutionAction
 }
 
 export type RouteSelected = {

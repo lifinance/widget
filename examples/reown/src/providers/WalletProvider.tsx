@@ -1,4 +1,4 @@
-import { ChainType, type ExtendedChain, useAvailableChains } from '@lifi/widget'
+import { ChainType, type ExtendedChain } from '@lifi/sdk'
 import { bitcoin, mainnet, solana } from '@reown/appkit/networks'
 import {
   type AppKit,
@@ -10,11 +10,12 @@ import { BitcoinAdapter } from '@reown/appkit-adapter-bitcoin'
 import { SolanaAdapter } from '@reown/appkit-adapter-solana'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import type { AppKitNetwork } from '@reown/appkit-common'
-
 import { useEffect, useRef } from 'react'
 import { WagmiProvider } from 'wagmi'
-import { metadata, projectId } from '../config/appkit'
-import { chainToAppKitNetworks, getChainImagesConfig } from '../utils/appkit'
+import { metadata, projectId } from '../config/appkit.js'
+import { useChains } from '../hooks/useChains.js'
+import { chainToAppKitNetworks, getChainImagesConfig } from '../utils/appkit.js'
+import { BitcoinProvider } from './BitcoinProvider.js'
 import { SolanaProvider } from './SolanaProvider'
 
 export function ReownEVMWalletProvider({
@@ -52,9 +53,9 @@ export function ReownEVMWalletProvider({
     })
 
     const appKit = createAppKit({
+      projectId,
       adapters: [wagmiAdapter, solanaWeb3JsAdapter, bitcoinAdapter],
       networks,
-      projectId,
       metadata,
       chainImages,
       themeMode: 'light',
@@ -113,7 +114,7 @@ export function ReownEVMWalletProvider({
 
 export function WalletProvider({ children }: { children: React.ReactNode }) {
   // fetch available chains before rendering the WalletProvider
-  const { chains, isLoading } = useAvailableChains()
+  const { chains, isLoading } = useChains()
 
   if (!chains || isLoading) {
     return null
@@ -125,7 +126,9 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <ReownEVMWalletProvider chains={chains}>
-      <SolanaProvider>{children}</SolanaProvider>
+      <SolanaProvider>
+        <BitcoinProvider>{children}</BitcoinProvider>
+      </SolanaProvider>
     </ReownEVMWalletProvider>
   )
 }

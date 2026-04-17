@@ -1,10 +1,13 @@
-import { createContext, useContext, useEffect, useRef } from 'react'
+import { createContext, type JSX, useContext, useEffect, useRef } from 'react'
 import type { StoreApi, UseBoundStore } from 'zustand'
 import { useShallow } from 'zustand/shallow'
 import { useChains } from '../../hooks/useChains.js'
+import { useSwapOnly } from '../../hooks/useSwapOnly.js'
 import { useExternalWalletProvider } from '../../providers/WalletProvider/useExternalWalletProvider.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { HiddenUI } from '../../types/widget.js'
 import { getConfigItemSets, isItemAllowedForSets } from '../../utils/item.js'
+import { getDefaultValuesFromQueryString } from '../form/getDefaultValuesFromQueryString.js'
 import type { FormType } from '../form/types.js'
 import { useFieldActions } from '../form/useFieldActions.js'
 import type { PersistStoreProviderProps } from '../types.js'
@@ -18,17 +21,26 @@ const ChainOrderStoreContext = createContext<ChainOrderStore | null>(null)
 export function ChainOrderStoreProvider({
   children,
   ...props
-}: PersistStoreProviderProps) {
-  const { chains: chainsConfig } = useWidgetConfig()
+}: PersistStoreProviderProps): JSX.Element {
+  const {
+    chains: chainsConfig,
+    hiddenUI,
+    fromChain: fromChainConfig,
+    toChain: toChainConfig,
+    buildUrl,
+  } = useWidgetConfig()
   const storeRef = useRef<ChainOrderStore>(null)
   const { chains } = useChains()
   const { setFieldValue, getFieldValues } = useFieldActions()
+  const swapOnly = useSwapOnly()
   const { variant, subvariantOptions } = useWidgetConfig()
   const { externalChainTypes, useExternalWalletProvidersOnly } =
     useExternalWalletProvider()
 
   if (!storeRef.current) {
-    storeRef.current = createChainOrderStore(props)
+    storeRef.current = createChainOrderStore({
+      ...props,
+    })
   }
 
   useEffect(() => {
@@ -61,12 +73,39 @@ export function ChainOrderStoreProvider({
           key
         )
 
+        const isSwapTo = swapOnly && key === 'to'
+
         // Show "All networks" button if there are multiple networks
-        const showAllNetworks = filteredChains.length > 1
-        if (!showAllNetworks) {
-          storeRef.current?.getState().setIsAllNetworks(false, key)
-        }
+        const showAllNetworks =
+          filteredChains.length > 1 &&
+          !hiddenUI?.includes(HiddenUI.AllNetworks) &&
+          !isSwapTo
+
+        // Initialize the isAllNetworks with true if the tab is shown,
+        // there is no config chain value and no url chain value
+        const urlValues = getDefaultValuesFromQueryString({ buildUrl })
+        const urlChainValue =
+          key === 'from' ? urlValues.fromChain : urlValues.toChain
+        const configChainValue =
+          key === 'from' ? fromChainConfig : toChainConfig
+        const initialIsAllNetworks =
+          showAllNetworks && !configChainValue && !urlChainValue
+        storeRef.current?.getState().setIsAllNetworks(initialIsAllNetworks, key)
         storeRef.current?.getState().setShowAllNetworks(showAllNetworks, key)
+
+        // If swap only, set the to chain to the from chain
+        if (isSwapTo) {
+          const [fromChainValue] = getFieldValues('fromChain')
+          setFieldValue('toChain', fromChainValue)
+        }
+
+        // When "All Networks" is active, don't auto-select a chain from the
+        // persisted chain order. This prevents stale cross-ecosystem selections
+        // (e.g. EVM from + Solana to) from triggering the "destination wallet
+        // address required" message after a page refresh.
+        if (initialIsAllNetworks) {
+          return
+        }
 
         const [chainValue] = getFieldValues(`${key}Chain`)
         if (chainValue) {
@@ -80,7 +119,7 @@ export function ChainOrderStoreProvider({
           )
         if (
           variant === 'wide' &&
-          subvariantOptions?.wide?.enableChainSidebar &&
+          !subvariantOptions?.wide?.disableChainSidebar &&
           firstAllowedPinnedChain
         ) {
           setFieldValue(`${key}Chain`, firstAllowedPinnedChain)
@@ -97,7 +136,12 @@ export function ChainOrderStoreProvider({
     setFieldValue,
     useExternalWalletProvidersOnly,
     variant,
-    subvariantOptions?.wide?.enableChainSidebar,
+    subvariantOptions?.wide?.disableChainSidebar,
+    hiddenUI,
+    swapOnly,
+    fromChainConfig,
+    toChainConfig,
+    buildUrl,
   ])
 
   return (

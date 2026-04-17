@@ -1,5 +1,5 @@
 import { Box } from '@mui/material'
-import { type PropsWithChildren, useRef } from 'react'
+import { type JSX, type PropsWithChildren, useRef } from 'react'
 import { Transition } from 'react-transition-group'
 import {
   animationDuration,
@@ -18,7 +18,7 @@ export function ExpansionTransition({
   children,
   width,
   onExited,
-}: PropsWithChildren<ExpansionTransitionProps>) {
+}: PropsWithChildren<ExpansionTransitionProps>): JSX.Element {
   const nodeRef = useRef(null)
   return (
     <Transition

@@ -1,3 +1,4 @@
+import type { StoreApi, UseBoundStore } from 'zustand'
 import { create } from 'zustand'
 import type { FormTypeProps } from '../form/types.js'
 
@@ -9,21 +10,22 @@ interface InputModeState {
   toggleInputMode: (formType: FormTypeProps['formType']) => void
 }
 
-export const useInputModeStore = create<InputModeState>((set, get) => ({
-  inputMode: {
-    from: 'amount',
-    to: 'amount',
-  },
-  setInputMode: (formType, mode) =>
-    set((state) => ({
-      inputMode: {
-        ...state.inputMode,
-        [formType]: mode,
-      },
-    })),
-  toggleInputMode: (formType) => {
-    const currentMode = get().inputMode[formType]
-    const newMode = currentMode === 'amount' ? 'price' : 'amount'
-    get().setInputMode(formType, newMode)
-  },
-}))
+export const useInputModeStore: UseBoundStore<StoreApi<InputModeState>> =
+  create<InputModeState>((set, get) => ({
+    inputMode: {
+      from: 'amount',
+      to: 'amount',
+    },
+    setInputMode: (formType, mode) =>
+      set((state) => ({
+        inputMode: {
+          ...state.inputMode,
+          [formType]: mode,
+        },
+      })),
+    toggleInputMode: (formType) => {
+      const currentMode = get().inputMode[formType]
+      const newMode = currentMode === 'amount' ? 'price' : 'amount'
+      get().setInputMode(formType, newMode)
+    },
+  }))

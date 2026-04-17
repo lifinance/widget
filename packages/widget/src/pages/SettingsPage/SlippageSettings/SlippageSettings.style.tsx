@@ -6,91 +6,96 @@ import {
   inputBaseClasses,
   styled,
 } from '@mui/material'
+import type React from 'react'
 
-export const SettingsFieldSet = styled(Box)(({ theme }) => ({
+export const SettingsFieldSet: React.FC<
+  React.ComponentProps<typeof Box> & SettingsControlProps
+> = styled(Box)(({ theme }) => ({
   display: 'flex',
   borderRadius: theme.vars.shape.borderRadius,
   padding: theme.spacing(0.5),
   gap: theme.spacing(0.5),
   height: '3.5rem',
-  backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+  backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
   ...theme.applyStyles('dark', {
-    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.08)`,
+    backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 8%, transparent)`,
   }),
 }))
 
-const slippageControlSelected = (theme: Theme) => ({
+const settingsControlSelected = (theme: Theme) => ({
   backgroundColor: theme.vars.palette.background.paper,
-  boxShadow: `0px 2px 4px rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+  boxShadow: `0px 2px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
   ...theme.applyStyles('dark', {
-    backgroundColor: `rgba(${theme.vars.palette.common.backgroundChannel} / 0.56)`,
-    boxShadow: `0px 2px 4px rgba(${theme.vars.palette.common.backgroundChannel} / 0.04)`,
+    backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.background} 56%, transparent)`,
+    boxShadow: `0px 2px 4px color-mix(in srgb, ${theme.vars.palette.common.background} 4%, transparent)`,
   }),
   borderRadius: `calc(${theme.vars.shape.borderRadius} - 4px)`,
 })
 
-interface SlippageDefaultProps {
+interface SettingsControlProps {
   selected?: boolean
 }
 
-export const SlippageDefaultButton = styled(ButtonBase)<SlippageDefaultProps>(
-  ({ theme, selected }) => {
-    const slippageControlSelectedStyles = slippageControlSelected(theme)
-    const selectedStyle = selected
-      ? {
-          '&:not(:focus)': {
-            ...slippageControlSelectedStyles,
-          },
-        }
-      : {}
+export const SettingsDefaultButton: React.FC<
+  React.ComponentProps<typeof ButtonBase> & SettingsControlProps
+> = styled(ButtonBase)<SettingsControlProps>(({ theme, selected }) => {
+  const settingsControlSelectedStyles = settingsControlSelected(theme)
+  const selectedStyle = selected
+    ? {
+        '&:not(:focus)': {
+          ...settingsControlSelectedStyles,
+        },
+      }
+    : {}
 
-    return {
+  return {
+    height: '100%',
+    width: '100%',
+    fontSize: '1rem',
+    fontWeight: 700,
+    '&:focus': {
+      ...settingsControlSelectedStyles,
+    },
+    ...selectedStyle,
+  }
+})
+
+export const SettingsCustomInput: React.FC<
+  React.ComponentProps<typeof InputBase> & SettingsControlProps
+> = styled(InputBase)<SettingsControlProps>(({ theme, selected }) => {
+  const settingsControlSelectedStyles = settingsControlSelected(theme)
+  const selectedStyle = selected
+    ? {
+        '&:not(:focus)': {
+          ...settingsControlSelectedStyles,
+        },
+      }
+    : {}
+
+  return {
+    height: '100%',
+    width: '100%',
+    [`.${inputBaseClasses.input}`]: {
       height: '100%',
       width: '100%',
-      fontSize: '1rem',
-      fontWeight: 700,
+      padding: 0,
+      textAlign: 'center',
+      '&::placeholder': {
+        fontSize: '1rem',
+        fontWeight: 700,
+        opacity: 1,
+      },
       '&:focus': {
-        ...slippageControlSelectedStyles,
+        ...settingsControlSelectedStyles,
       },
       ...selectedStyle,
-    }
+    },
   }
-)
+})
 
-export const SlippageCustomInput = styled(InputBase)<SlippageDefaultProps>(
-  ({ theme, selected }) => {
-    const slippageControlSelectedStyles = slippageControlSelected(theme)
-    const selectedStyle = selected
-      ? {
-          '&:not(:focus)': {
-            ...slippageControlSelectedStyles,
-          },
-        }
-      : {}
-
-    return {
-      height: '100%',
-      width: '100%',
-      [`.${inputBaseClasses.input}`]: {
-        height: '100%',
-        width: '100%',
-        padding: 0,
-        textAlign: 'center',
-        '&::placeholder': {
-          fontSize: '1rem',
-          fontWeight: 700,
-          opacity: 1,
-        },
-        '&:focus': {
-          ...slippageControlSelectedStyles,
-        },
-        ...selectedStyle,
-      },
-    }
-  }
-)
-
-export const SlippageLimitsWarningContainer = styled(Box)(({ theme }) => ({
+export const SlippageLimitsWarningContainer: React.FC<
+  React.ComponentProps<typeof Box>
+> = styled(Box)(({ theme }) => ({
   display: 'flex',
   gap: theme.spacing(1.25),
   marginTop: theme.spacing(1.5),
