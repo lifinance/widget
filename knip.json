@@ -1,7 +1,15 @@
 {
-  "ignore": ["examples/**", "packages/widget-embedded/**", "scripts/**"],
+  "ignore": [
+    "examples/**",
+    "packages/widget-embedded/**",
+    "packages/widget-storybook/**",
+    "scripts/**"
+  ],
   "ignoreDependencies": ["@mui/system", "csstype"],
   "workspaces": {
+    "packages/widget": {
+      "ignore": ["src/components/TransactionStatusCard/index.ts"]
+    },
     "packages/widget-light": {
       "ignore": ["src/config/version.ts"],
       "ignoreDependencies": [
