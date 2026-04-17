@@ -24,7 +24,7 @@ export const AlertMessage = ({
   <AlertMessageCard severity={severity} {...rest}>
     <AlertMessageCardTitle
       severity={severity}
-      alignItems={multiline ? 'start' : 'center'}
+      sx={{ alignItems: multiline ? 'start' : 'center' }}
     >
       {icon}
       {title}

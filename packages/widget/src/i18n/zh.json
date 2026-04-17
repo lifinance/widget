@@ -132,6 +132,9 @@
       "slippageOutsideRecommendedLimits": "过高的滑点可能会导致交易被抢跑，造成财产损失",
       "slippageUnderRecommendedLimits": "低幻灯片宽度可能会导致交易延迟或失败。"
     },
+    "checkbox": {
+      "highValueLoss": ""
+    },
     "title": {
       "clearFailedTransactions": "",
       "highValueLoss": "大额资金损失",

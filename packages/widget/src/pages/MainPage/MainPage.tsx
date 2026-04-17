@@ -49,14 +49,14 @@ export const MainPage: React.FC = () => {
       {custom ? (
         <ContractComponent sx={marginSx}>{contractComponent}</ContractComponent>
       ) : null}
-      <SelectChainAndToken mb={2} />
+      <SelectChainAndToken sx={marginSx} />
       {!custom || subvariantOptions?.custom === 'deposit' ? (
         <AmountInput formType="from" sx={marginSx} />
       ) : null}
       {!wideVariant ? <Routes sx={marginSx} /> : null}
       <SendToWalletButton sx={marginSx} />
-      {showGasRefuelMessage ? <GasRefuelMessage mb={2} /> : null}
-      <MainWarningMessages mb={2} />
+      {showGasRefuelMessage ? <GasRefuelMessage sx={marginSx} /> : null}
+      <MainWarningMessages sx={marginSx} />
       <Box
         sx={{
           display: 'flex',

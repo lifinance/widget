@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-light",
-  "version": "4.0.0-beta.8",
+  "version": "4.0.0-beta.17",
   "description": "LI.FI Widget Light - a lightweight version of the LI.FI Widget for cross-chain bridging and swapping.",
   "type": "module",
   "main": "./src/index.ts",
@@ -10,7 +10,8 @@
     "./ethereum": "./src/handlers/ethereum/index.ts",
     "./solana": "./src/handlers/solana/index.ts",
     "./bitcoin": "./src/handlers/bitcoin/index.ts",
-    "./sui": "./src/handlers/sui/index.ts"
+    "./sui": "./src/handlers/sui/index.ts",
+    "./tron": "./src/handlers/tron/index.ts"
   },
   "sideEffects": false,
   "scripts": {
@@ -48,6 +49,7 @@
     "solana",
     "bitcoin",
     "sui",
+    "tron",
     "web3",
     "iframe",
     "lifi"

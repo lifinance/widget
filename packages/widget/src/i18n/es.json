@@ -132,6 +132,9 @@
       "slippageOutsideRecommendedLimits": "La tolerancia de los deslizamientos altos puede resultar en un comercio desfavorable causado por front-running.",
       "slippageUnderRecommendedLimits": "Elegir una baja tolerancia en el deslizamiento del intercambio puede causar retrasos o fallos en las transacciones."
     },
+    "checkbox": {
+      "highValueLoss": ""
+    },
     "title": {
       "clearFailedTransactions": "",
       "highValueLoss": "Pérdida de alto valor",

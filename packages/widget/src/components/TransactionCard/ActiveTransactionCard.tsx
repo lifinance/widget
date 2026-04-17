@@ -1,5 +1,5 @@
 import type { RouteExtended } from '@lifi/sdk'
-import DeleteOutline from '@mui/icons-material/DeleteOutline'
+import DeleteOutline from '@mui/icons-material/DeleteOutlined'
 import { Box, Tooltip, Typography } from '@mui/material'
 import type { JSX, MouseEvent } from 'react'
 import { useTranslation } from 'react-i18next'

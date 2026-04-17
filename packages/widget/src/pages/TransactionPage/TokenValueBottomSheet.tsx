@@ -1,8 +1,14 @@
 import type { Route } from '@lifi/sdk'
 import WarningRounded from '@mui/icons-material/WarningRounded'
-import { Box, Button, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Typography,
+} from '@mui/material'
 import type { ForwardRefExoticComponent, RefAttributes, RefObject } from 'react'
-import { forwardRef, useRef } from 'react'
+import { forwardRef, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
@@ -44,6 +50,7 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
   onCancel,
   onContinue,
 }) => {
+  const [accepted, setAccepted] = useState(false)
   const { t } = useTranslation()
   const ref = useRef<HTMLElement>(null)
   useSetContentHeight(ref)
@@ -59,7 +66,7 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
       }}
     >
       <CenterContainer>
-        <IconCircle status="warning" mb={1}>
+        <IconCircle status="warning" sx={{ mb: 1 }}>
           <WarningRounded color="warning" />
         </IconCircle>
         <Typography
@@ -173,10 +180,20 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
           %
         </Typography>
       </Box>
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={accepted}
+            onChange={(_, checked) => setAccepted(checked)}
+          />
+        }
+        label={t('warning.checkbox.highValueLoss')}
+        sx={{ mt: 1 }}
+      />
       <Box
         sx={{
           display: 'flex',
-          mt: 3,
+          mt: 1,
         }}
       >
         <Button variant="text" onClick={onCancel} fullWidth>
@@ -188,7 +205,12 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
             p: 1,
           }}
         />
-        <Button variant="contained" onClick={onContinue} fullWidth>
+        <Button
+          variant="contained"
+          onClick={onContinue}
+          disabled={!accepted}
+          fullWidth
+        >
           {t('button.continue')}
         </Button>
       </Box>

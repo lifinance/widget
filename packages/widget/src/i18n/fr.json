@@ -132,6 +132,9 @@
       "slippageOutsideRecommendedLimits": "Une tolérance élevée au glissement peut entraîner un échange défavorable causé par le front-running.",
       "slippageUnderRecommendedLimits": ""
     },
+    "checkbox": {
+      "highValueLoss": ""
+    },
     "title": {
       "clearFailedTransactions": "",
       "highValueLoss": "Perte de valeur élevée",
