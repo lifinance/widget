@@ -21,7 +21,7 @@
 - Embeddable variants - compact, wide, and drawer
 - Options to allow or deny certain chains, tokens, bridges, and exchanges
 - Pre-configured themes and lots of customization options with dark mode support so you can match the look and feel of your web app 
-- Built-in wallet management UI with support for external wallet providers ([Wagmi](https://wagmi.sh/), [Bigmi](https://github.com/lifinance/bigmi), [@solana/wallet-adapter-react](https://github.com/anza-xyz/wallet-adapter), and [@mysten/dapp-kit](https://sdk.mystenlabs.com/dapp-kit))
+- Built-in wallet management UI with support for external wallet providers ([Wagmi](https://wagmi.sh/), [Bigmi](https://github.com/lifinance/bigmi), [Wallet Standard](https://github.com/wallet-standard/wallet-standard), and [@mysten/dapp-kit-react](https://sdk.mystenlabs.com/dapp-kit))
 - Supports widely adopted industry standards, including [EIP-5792](https://eips.ethereum.org/EIPS/eip-5792), [ERC-2612](https://eips.ethereum.org/EIPS/eip-2612), [EIP-712](https://eips.ethereum.org/EIPS/eip-712), [EIP-6963](https://eips.ethereum.org/EIPS/eip-6963), and [Permit2](https://github.com/Uniswap/permit2)
 - View of transactions in progress and transaction history
 - Curated wallet lists and wallet bookmarks
@@ -64,19 +64,19 @@ Install the provider packages for the blockchains you want to support:
 **pnpm:**
 
 ```sh
-pnpm add @lifi/widget-provider-ethereum wagmi
+pnpm add @lifi/widget-provider-ethereum wagmi @wagmi/core
 ```
 
 **npm:**
 
 ```sh
-npm install @lifi/widget-provider-ethereum wagmi
+npm install @lifi/widget-provider-ethereum wagmi @wagmi/core
 ```
 
 **yarn:**
 
 ```sh
-yarn add @lifi/widget-provider-ethereum wagmi
+yarn add @lifi/widget-provider-ethereum wagmi @wagmi/core
 ```
 
 **Bitcoin:**
@@ -104,19 +104,19 @@ yarn add @lifi/widget-provider-bitcoin @bigmi/react
 **pnpm:**
 
 ```sh
-pnpm add @lifi/widget-provider-solana @solana/wallet-adapter-react
+pnpm add @lifi/widget-provider-solana bs58
 ```
 
 **npm:**
 
 ```sh
-npm install @lifi/widget-provider-solana @solana/wallet-adapter-react
+npm install @lifi/widget-provider-solana bs58
 ```
 
 **yarn:**
 
 ```sh
-yarn add @lifi/widget-provider-solana @solana/wallet-adapter-react
+yarn add @lifi/widget-provider-solana bs58
 ```
 
 **Sui:**
@@ -124,19 +124,19 @@ yarn add @lifi/widget-provider-solana @solana/wallet-adapter-react
 **pnpm:**
 
 ```sh
-pnpm add @lifi/widget-provider-sui @mysten/dapp-kit
+pnpm add @lifi/widget-provider-sui @mysten/dapp-kit-react
 ```
 
 **npm:**
 
 ```sh
-npm install @lifi/widget-provider-sui @mysten/dapp-kit
+npm install @lifi/widget-provider-sui @mysten/dapp-kit-react
 ```
 
 **yarn:**
 
 ```sh
-yarn add @lifi/widget-provider-sui @mysten/dapp-kit
+yarn add @lifi/widget-provider-sui @mysten/dapp-kit-react
 ```
 
 **Note:** You only need to install the provider packages for the blockchains you want to support. Each provider package includes its required peer dependencies.
@@ -171,9 +171,10 @@ The LI.FI Widget uses a **provider-based architecture** that allows you to selec
 - **`@lifi/widget-provider`** - Base provider package with shared types and utilities
 - **`@lifi/widget-provider-ethereum`** - Ethereum/EVM chains support (requires [Wagmi](https://wagmi.sh/))
 - **`@lifi/widget-provider-bitcoin`** - Bitcoin support (requires [Bigmi](https://github.com/lifinance/bigmi))
-- **`@lifi/widget-provider-solana`** - Solana support (requires [@solana/wallet-adapter-react](https://github.com/anza-xyz/wallet-adapter))
-- **`@lifi/widget-provider-sui`** - Sui support (requires [@mysten/dapp-kit](https://sdk.mystenlabs.com/dapp-kit))
+- **`@lifi/widget-provider-solana`** - Solana support (requires [bs58](https://www.npmjs.com/package/bs58))
+- **`@lifi/widget-provider-sui`** - Sui support (requires [@mysten/dapp-kit-react](https://sdk.mystenlabs.com/dapp-kit))
 - **`@lifi/wallet-management`** - Wallet management UI components
+- **`@lifi/widget-light`** - Lightweight iframe-based integration ([docs](https://docs.li.fi/widget/widget-light-overview))
 
 This architecture provides:
 - **Modularity**: Only install and bundle what you need
