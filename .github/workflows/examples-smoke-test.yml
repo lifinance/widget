@@ -1,0 +1,156 @@
+name: Examples Smoke Test
+
+on:
+  pull_request:
+    types: [labeled, opened, reopened, synchronize]
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+# Supported examples and their serve configuration.
+env:
+  EXAMPLES_CONFIG: >
+    {
+      "vite-project":            { "dir": "vite",                  "command": "preview", "port": 4173 },
+      "connectkit":              { "dir": "connectkit",            "command": "preview", "port": 4173 },
+      "privy":                   { "dir": "privy",                 "command": "preview", "port": 4173 },
+      "privy-ethers-example":    { "dir": "privy-ethers",          "command": "preview", "port": 4173 },
+      "rainbowkit":              { "dir": "rainbowkit",            "command": "preview", "port": 4173 },
+      "reown":                   { "dir": "reown",                 "command": "preview", "port": 4173 },
+      "svelte":                  { "dir": "svelte",                "command": "preview", "port": 4173 },
+      "zustand-widget-config":   { "dir": "zustand-widget-config", "command": "preview", "port": 4173 },
+      "nextjs":                  { "dir": "nextjs",                "command": "start",   "port": 3000 },
+      "nextjs15":                { "dir": "nextjs15",              "command": "start",   "port": 3000 }
+    }
+
+jobs:
+  detect-changes:
+    name: Detect affected examples
+    if: contains(github.event.pull_request.labels.*.name, 'check-examples')
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    outputs:
+      matrix: ${{ steps.detect.outputs.matrix }}
+      has-examples: ${{ steps.detect.outputs.has-examples }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Detect affected examples
+        id: detect
+        run: |
+          BASE_SHA=${{ github.event.pull_request.base.sha }}
+          HEAD_SHA=${{ github.event.pull_request.head.sha }}
+
+          CHANGED_FILES=$(git diff --name-only "$BASE_SHA"..."$HEAD_SHA")
+
+          COMPATIBLE=$(echo '${{ env.EXAMPLES_CONFIG }}' | jq -r 'keys[]')
+
+          # Check if shared dependencies changed
+          SHARED_CHANGED=false
+          while IFS= read -r file; do
+            case "$file" in
+              packages/widget/*|packages/wallet-management/*|packages/widget-provider/*|packages/widget-provider-*/*|packages/widget-playground/*)
+                SHARED_CHANGED=true ;;
+              pnpm-workspace.yaml|pnpm-lock.yaml|package.json)
+                SHARED_CHANGED=true ;;
+              e2e/*)
+                SHARED_CHANGED=true ;;
+            esac
+          done <<< "$CHANGED_FILES"
+
+          if [ "$SHARED_CHANGED" = "true" ]; then
+            AFFECTED=($COMPATIBLE)
+          else
+            AFFECTED=()
+            for name in $COMPATIBLE; do
+              DIR=$(echo '${{ env.EXAMPLES_CONFIG }}' | jq -r --arg name "$name" '.[$name].dir')
+              if echo "$CHANGED_FILES" | grep -q "^examples/${DIR}/"; then
+                AFFECTED+=("$name")
+              fi
+            done
+          fi
+
+          if [ ${#AFFECTED[@]} -eq 0 ]; then
+            echo "matrix=[]" >> "$GITHUB_OUTPUT"
+            echo "has-examples=false" >> "$GITHUB_OUTPUT"
+            echo "No affected examples detected."
+          else
+            JSON=$(printf '%s\n' "${AFFECTED[@]}" | jq -R . | jq -sc .)
+            echo "matrix=$JSON" >> "$GITHUB_OUTPUT"
+            echo "has-examples=true" >> "$GITHUB_OUTPUT"
+            echo "Affected examples: $JSON"
+          fi
+
+  smoke-test:
+    name: Smoke ${{ matrix.example }}
+    needs: detect-changes
+    if: needs.detect-changes.outputs.has-examples == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        example: ${{ fromJson(needs.detect-changes.outputs.matrix) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+
+      - name: Build workspace packages
+        run: pnpm -r --parallel --filter './packages/**' --filter !'*-playground-*' --filter !'*-embedded' build
+
+      - name: Build example
+        run: |
+          set -euo pipefail
+          MATCH=$(pnpm --filter ${{ matrix.example }} exec pwd 2>/dev/null || true)
+          if [ -z "$MATCH" ]; then
+            echo "::error::No workspace package found matching filter '${{ matrix.example }}'"
+            exit 1
+          fi
+          pnpm --filter ${{ matrix.example }} build
+
+      - name: Resolve serve command and port
+        id: serve
+        run: |
+          CONFIG=$(echo '${{ env.EXAMPLES_CONFIG }}' | jq -r '.["${{ matrix.example }}"]')
+          echo "command=$(echo "$CONFIG" | jq -r '.command')" >> "$GITHUB_OUTPUT"
+          echo "port=$(echo "$CONFIG" | jq -r '.port')" >> "$GITHUB_OUTPUT"
+
+      - name: Start example server
+        run: |
+          pnpm --filter ${{ matrix.example }} ${{ steps.serve.outputs.command }} &
+
+          # Wait for server to be ready (max 60s)
+          URL="http://localhost:${{ steps.serve.outputs.port }}"
+          for i in $(seq 1 60); do
+            if curl -sf "$URL" > /dev/null 2>&1; then
+              echo "Server ready at $URL after ${i}s"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::Server failed to start within 60s at $URL"
+          exit 1
+
+      - name: Install Playwright browsers
+        run: pnpm --filter @lifi/widget-e2e exec playwright install chromium --with-deps
+
+      - name: Run @example smoke tests
+        env:
+          BASE_URL: http://localhost:${{ steps.serve.outputs.port }}
+        run: pnpm --filter @lifi/widget-e2e exec playwright test --grep @example --reporter=list
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: playwright-report-${{ matrix.example }}
+          path: e2e/playwright-report/
+          retention-days: 7
