@@ -335,6 +335,9 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
       boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
       borderRadius: '16px',
     },
+    // pageContainer: {
+    //   padding: 0,
+    // },
     // routesContainer: {
     //   boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
     //   borderRadius: '16px',

@@ -23,6 +23,7 @@ export const PageContainer: React.FC<
     bottomGutters ? 3 : 0,
     halfGutters ? 1.5 : 3
   ),
+  ...theme.pageContainer,
   variants: [
     {
       props: ({ disableGutters }) => disableGutters,

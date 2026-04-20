@@ -42,7 +42,7 @@ export const NavigationHeader: React.FC = () => {
     <HeaderAppBar elevation={0} sx={{ paddingTop: 1, paddingBottom: 0.5 }}>
       {backButtonRoutes.includes(path) ? <BackButton /> : null}
       {showSplitOptions ? (
-        <Box sx={{ flex: 1, marginRight: 1 }}>
+        <Box sx={{ flex: 1, marginRight: 1, minWidth: 0 }}>
           <SplitNavigationTabs />
         </Box>
       ) : (
@@ -53,6 +53,7 @@ export const NavigationHeader: React.FC = () => {
             fontSize: hasPath ? 18 : 24,
             fontWeight: '700',
             flex: 1,
+            minWidth: 0,
           }}
         >
           {title}

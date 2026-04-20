@@ -20,6 +20,7 @@ declare module '@mui/material/styles' {
   interface Theme {
     shape: Shape
     container: CSSProperties
+    pageContainer: CSSProperties
     routesContainer: CSSProperties
     chainSidebarContainer: CSSProperties
     header: CSSProperties
@@ -28,6 +29,7 @@ declare module '@mui/material/styles' {
   interface ThemeOptions {
     shape?: Partial<Shape>
     container?: CSSProperties
+    pageContainer?: CSSProperties
     routesContainer?: CSSProperties
     chainSidebarContainer?: CSSProperties
     header?: CSSProperties

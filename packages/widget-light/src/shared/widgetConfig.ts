@@ -106,6 +106,7 @@ export interface WidgetNavigationProps {
 
 export interface WidgetTheme {
   container?: WidgetCSSProperties
+  pageContainer?: WidgetCSSProperties
   routesContainer?: WidgetCSSProperties
   chainSidebarContainer?: WidgetCSSProperties
   header?: WidgetCSSProperties

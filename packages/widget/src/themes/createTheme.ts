@@ -20,6 +20,62 @@ import { palette, paletteDark, paletteLight } from './palettes.js'
 import type {} from './types.js'
 import { getStyleOverrides } from './utils.js'
 
+const zeroCssValuePattern = /^0(?:[a-z%]+)?$/i
+
+const isZeroCssValue = (value: string | number | undefined): boolean => {
+  if (value === undefined) {
+    return false
+  }
+
+  if (typeof value === 'number') {
+    return value === 0
+  }
+
+  return zeroCssValuePattern.test(value.trim())
+}
+
+const hasZeroHorizontalPadding = (header?: WidgetTheme['header']): boolean => {
+  if (!header) {
+    return false
+  }
+
+  const explicitHorizontalValues = [
+    header.paddingInlineStart,
+    header.paddingLeft,
+    header.paddingInlineEnd,
+    header.paddingRight,
+  ].filter((value) => value !== undefined)
+
+  if (explicitHorizontalValues.length) {
+    return explicitHorizontalValues.every((value) => isZeroCssValue(value))
+  }
+
+  const shorthand = header.paddingInline ?? header.padding
+
+  if (shorthand === undefined) {
+    return false
+  }
+
+  if (typeof shorthand === 'number') {
+    return shorthand === 0
+  }
+
+  const parts = shorthand.trim().split(/\s+/).filter(Boolean)
+
+  if (parts.length === 0) {
+    return false
+  }
+
+  const horizontalParts =
+    parts.length === 1
+      ? [parts[0]]
+      : parts.length === 2 || parts.length === 3
+        ? [parts[1]]
+        : [parts[1], parts[3]]
+
+  return horizontalParts.every((value) => isZeroCssValue(value))
+}
+
 const shape: Shape = {
   borderRadius: 12,
   borderRadiusSecondary: 12,
@@ -120,11 +176,14 @@ export const createTheme = (widgetTheme: WidgetTheme = {}): Theme => {
       },
     },
     container: widgetTheme.container,
+    pageContainer: widgetTheme.pageContainer,
     routesContainer: widgetTheme.routesContainer,
     chainSidebarContainer: widgetTheme.chainSidebarContainer,
     header: widgetTheme.header,
     navigation: {
-      edge: true,
+      edge:
+        widgetTheme.navigation?.edge ??
+        !hasZeroHorizontalPadding(widgetTheme.header),
       ...widgetTheme.navigation,
     },
     typography: {

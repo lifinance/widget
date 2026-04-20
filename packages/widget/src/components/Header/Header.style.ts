@@ -20,6 +20,8 @@ export const HeaderAppBar: React.FC<
   flexDirection: 'row',
   alignItems: 'center',
   position: 'relative',
+  width: '100%',
+  minWidth: 0,
 }))
 
 export const Container: React.FC<
@@ -36,7 +38,8 @@ export const Container: React.FC<
     zIndex: 1200,
     gap: theme.spacing(0.5),
     padding: theme.spacing(1.5, 3, 1.5, 3),
-    overflow: 'auto',
+    overflowX: 'clip',
+    overflowY: 'auto',
     borderRadius: theme.container?.borderRadius ?? 0,
     ...theme.header,
     ...(theme.header?.position === 'fixed'
@@ -87,6 +90,7 @@ export const DrawerWalletContainer: React.FC<
   width: '100%',
   display: 'flex',
   justifyContent: 'space-between',
+  minWidth: 0,
 
   ...(theme.navigation.edge && {
     '& button:first-of-type': {
@@ -103,6 +107,7 @@ export const HeaderControlsContainer: React.FC<
 > = styled(Box)(({ theme }) => ({
   display: 'flex',
   gap: theme.spacing(0.5),
+  flexShrink: 0,
   ...(theme.navigation.edge && {
     '& button:last-of-type': {
       marginRight: theme.spacing(-1.25),

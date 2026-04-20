@@ -93,6 +93,7 @@ export type WidgetTheme = {
   typography?: TypographyVariantsOptions
   components?: WidgetThemeComponents
   container?: CSSProperties
+  pageContainer?: CSSProperties
   routesContainer?: CSSProperties
   chainSidebarContainer?: CSSProperties
   header?: CSSProperties
