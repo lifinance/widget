@@ -315,6 +315,7 @@ export interface WidgetConfig {
   providers?: WidgetProvider[]
 
   contractCalls?: ContractCall[]
+  enableContractCallsForAllModes?: boolean
   contractComponent?: ReactNode
   contractSecondaryComponent?: ReactNode
   contractCompactComponent?: ReactNode

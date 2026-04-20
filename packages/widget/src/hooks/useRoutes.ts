@@ -59,6 +59,7 @@ export const useRoutes = ({
     subvariant,
     subvariantOptions,
     contractTool,
+    enableContractCallsForAllModes,
     bridges,
     exchanges,
     fee,
@@ -120,8 +121,13 @@ export const useRoutes = ({
 
   const hasAmount = Number(fromTokenAmount) > 0 || Number(toTokenAmount) > 0
 
-  const contractCallQuoteEnabled: boolean =
-    subvariant === 'custom' ? Boolean(contractCalls && account.address) : true
+  const shouldUseContractCallsQuote =
+    Boolean(contractCalls?.length) &&
+    (subvariant === 'custom' || enableContractCallsForAllModes)
+
+  const contractCallQuoteEnabled: boolean = shouldUseContractCallsQuote
+    ? Boolean(account.address)
+    : true
 
   // When we bridge between ecosystems we need to be sure toAddress is set and has the same chainType as toChain
   // If toAddress is set, it must have the same chainType as toChain
@@ -179,6 +185,7 @@ export const useRoutes = ({
         allowedExchanges,
         routePriority,
         subvariant,
+        enableContractCallsForAllModes,
         allowSwitchChain,
         enabledRefuel && enabledAutoRefuel,
         gasRecommendationFromAmount,
@@ -206,6 +213,7 @@ export const useRoutes = ({
       allowedExchanges,
       routePriority,
       subvariant,
+      enableContractCallsForAllModes,
       allowSwitchChain,
       enabledRefuel,
       enabledAutoRefuel,
@@ -244,6 +252,7 @@ export const useRoutes = ({
           allowedExchanges,
           routePriority,
           subvariant,
+          _enableContractCallsForAllModes,
           allowSwitchChain,
           enabledRefuel,
           gasRecommendationFromAmount,
@@ -296,7 +305,18 @@ export const useRoutes = ({
           slippage: formattedSlippage,
         })
 
-        if (subvariant === 'custom' && contractCalls && toAmount) {
+        const hasToAmount = Number(toTokenAmount) > 0
+        const hasFromAmount = Number(fromTokenAmount) > 0
+
+        if (
+          shouldUseContractCallsQuote &&
+          contractCalls &&
+          (hasToAmount || hasFromAmount)
+        ) {
+          const amountRequest = hasToAmount
+            ? { toAmount: toAmount.toString() }
+            : { fromAmount: fromAmount.toString() }
+
           const contractCallQuote = await getContractCallsQuote(
             sdkClient,
             {
@@ -304,7 +324,6 @@ export const useRoutes = ({
               fromAddress: fromAddress as string,
               fromChain: fromChainId,
               fromToken: fromTokenAddress,
-              toAmount: toAmount.toString(),
               toChain: toChainId,
               toToken: toTokenAddress,
               contractCalls,
@@ -317,18 +336,16 @@ export const useRoutes = ({
               toFallbackAddress: toAddress,
               slippage: formattedSlippage,
               fee: calculatedFee || fee,
+              ...amountRequest,
             },
             { signal }
           )
 
           contractCallQuote.action.toToken = toToken!
 
-          const customStep =
-            subvariant === 'custom'
-              ? contractCallQuote.includedSteps?.find(
-                  (step) => step.type === 'custom'
-                )
-              : undefined
+          const customStep = contractCallQuote.includedSteps?.find(
+            (step) => step.type === 'custom'
+          )
 
           if (customStep && contractTool) {
             const toolDetails = {

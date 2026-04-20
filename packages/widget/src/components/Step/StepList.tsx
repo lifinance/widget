@@ -7,8 +7,12 @@ import { Step } from './Step.js'
 export const getStepList = (
   route?: RouteExtended,
   subvariant?: WidgetSubvariant
-): JSX.Element[] | undefined =>
-  route?.steps.map((step, index, steps) => {
+): JSX.Element[] | undefined => {
+  const hasCustomRouteStep = route?.steps.some((step) =>
+    step.includedSteps.some((includedStep) => includedStep.type === 'custom')
+  )
+
+  return route?.steps.map((step, index, steps) => {
     const lastIndex = steps.length - 1
     const fromToken: TokenAmount | undefined =
       index === 0
@@ -24,7 +28,7 @@ export const getStepList = (
         ...(step.execution?.toToken ?? step.action.toToken),
         amount: step.execution?.toAmount
           ? BigInt(step.execution.toAmount)
-          : subvariant === 'custom'
+          : subvariant === 'custom' || hasCustomRouteStep
             ? BigInt(route.toAmount)
             : BigInt(step.estimate.toAmount),
       }
@@ -52,3 +56,4 @@ export const getStepList = (
       </Fragment>
     )
   })
+}

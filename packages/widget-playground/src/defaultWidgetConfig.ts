@@ -300,6 +300,15 @@ export const widgetBaseConfig: WidgetConfig = {
   //     },
   //   },
   // ],
+  // contractCalls: [
+  //   {
+  //     toContractAddress: '0x0000000000000000000000000000000000000000',
+  //     toContractCallData: '0x',
+  //     toContractGasLimit: '300000',
+  //     toTokenAddress: '0x0000000000000000000000000000000000000000',
+  //   },
+  // ],
+  // enableContractCallsForAllModes: true,
 }
 
 export const defaultWidgetConfig: Partial<WidgetConfig> = {

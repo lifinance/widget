@@ -13,7 +13,7 @@ export interface StepActionsProps extends BoxProps {
 
 export interface StepDetailsLabelProps {
   step: Step
-  subvariant?: Extract<WidgetSubvariant, 'custom'>
+  subvariant?: WidgetSubvariant
   subvariantOptions?: SubvariantOptions
   feeConfig?: WidgetFeeConfig
   relayerSupport?: boolean

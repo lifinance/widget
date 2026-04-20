@@ -1,4 +1,4 @@
-import type { LiFiStep, RouteExtended, StepExtended } from '@lifi/sdk'
+import type { RouteExtended, StepExtended } from '@lifi/sdk'
 import { useEthereumContext } from '@lifi/widget-provider'
 import ArrowForward from '@mui/icons-material/ArrowForward'
 import { Box, Divider, Tooltip } from '@mui/material'
@@ -17,6 +17,18 @@ import {
   StepActionsTitle,
   StepLabelTypography,
 } from './StepActions.style.js'
+
+type StepLikeWithIncludedSteps = {
+  toolDetails: StepExtended['toolDetails']
+  includedSteps?: Array<Pick<StepExtended, 'type' | 'toolDetails'>>
+}
+
+const getCustomToolDetails = (step: StepLikeWithIncludedSteps) =>
+  step.includedSteps?.find(
+    (includedStep) =>
+      includedStep.type === 'custom' &&
+      includedStep.toolDetails.key !== 'custom'
+  )?.toolDetails
 
 export const StepActions: React.FC<{
   route: RouteExtended
@@ -79,7 +91,7 @@ export const StepActions: React.FC<{
               <Box
                 sx={{ display: 'flex', flexDirection: 'column', minHeight: 32 }}
               >
-                {step.type === 'custom' && subvariant === 'custom' ? (
+                {step.type === 'custom' ? (
                   <CustomStepDetailsLabel
                     step={step}
                     subvariant={subvariant}
@@ -243,21 +255,19 @@ const CustomStepDetailsLabel: React.FC<StepDetailsLabelProps> = ({
 }) => {
   const { t } = useTranslation()
 
-  if (!subvariant) {
-    return null
+  const toolDetails = getCustomToolDetails(step) || step.toolDetails
+
+  if (subvariant !== 'custom') {
+    return (
+      <StepLabelTypography>
+        {t('main.stepDetails', {
+          tool: toolDetails.name,
+        })}
+      </StepLabelTypography>
+    )
   }
 
-  // FIXME: step transaction request overrides step tool details, but not included step tool details
-  const toolDetails =
-    subvariant === 'custom' &&
-    (step as unknown as LiFiStep).includedSteps?.length > 0
-      ? (step as unknown as LiFiStep).includedSteps.find(
-          (step) => step.tool === 'custom' && step.toolDetails.key !== 'custom'
-        )?.toolDetails || step.toolDetails
-      : step.toolDetails
-
-  const stepDetailsKey =
-    (subvariant === 'custom' && subvariantOptions?.custom) || 'checkout'
+  const stepDetailsKey = subvariantOptions?.custom || 'checkout'
 
   return (
     <StepLabelTypography>

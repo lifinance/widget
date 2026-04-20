@@ -342,6 +342,7 @@ export interface WidgetLightConfig {
 
   // -- Contract calls --
   contractCalls?: WidgetContractCall[]
+  enableContractCallsForAllModes?: boolean
   contractTool?: WidgetContractTool
 
   // -- API / fees --
