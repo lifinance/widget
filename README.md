@@ -205,7 +205,7 @@ npm install @lifi/widget-light
 yarn add @lifi/widget-light
 ```
 
-Ecosystem handlers are available as subpath imports (`@lifi/widget-light/ethereum`, `@lifi/widget-light/solana`, `@lifi/widget-light/bitcoin`, `@lifi/widget-light/sui`) — install the corresponding peer dependencies only for the chains you need. See the [widget-light integration guide](/packages/widget-embedded/README.md) for full setup instructions.
+Ecosystem handlers are available as subpath imports (`@lifi/widget-light/ethereum`, `@lifi/widget-light/solana`, `@lifi/widget-light/bitcoin`, `@lifi/widget-light/sui`, `@lifi/widget-light/tron`) — install the corresponding peer dependencies only for the chains you need. See the [widget-light integration guide](/packages/widget-embedded/README.md) for full setup instructions.
 
 ## Architecture
 
