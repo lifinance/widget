@@ -16,12 +16,12 @@
 
 [**LI.FI Widget**](https://docs.li.fi/widget/overview) features include:
 
-- **Provider-based architecture** - Modular blockchain support with separate packages for Ethereum, Bitcoin, Solana, and Sui
+- **Provider-based architecture** - Modular blockchain support with separate packages for Ethereum, Bitcoin, Solana, Sui, and Tron
 - All ecosystems, chains, bridges, exchanges, and solvers that [LI.FI](https://docs.li.fi/introduction/chains) supports
 - Embeddable variants - compact, wide, and drawer
 - Options to allow or deny certain chains, tokens, bridges, and exchanges
 - Pre-configured themes and lots of customization options with dark mode support so you can match the look and feel of your web app 
-- Built-in wallet management UI with support for external wallet providers ([Wagmi](https://wagmi.sh/), [Bigmi](https://github.com/lifinance/bigmi), [Wallet Standard](https://github.com/wallet-standard/wallet-standard), and [@mysten/dapp-kit-react](https://sdk.mystenlabs.com/dapp-kit))
+- Built-in wallet management UI with support for external wallet providers ([Wagmi](https://wagmi.sh/), [Bigmi](https://github.com/lifinance/bigmi), [Wallet Standard](https://github.com/wallet-standard/wallet-standard), [@mysten/dapp-kit-react](https://sdk.mystenlabs.com/dapp-kit), and [TronWallet Adapters](https://github.com/tronweb3/tronwallet-adapter))
 - Supports widely adopted industry standards, including [EIP-5792](https://eips.ethereum.org/EIPS/eip-5792), [ERC-2612](https://eips.ethereum.org/EIPS/eip-2612), [EIP-712](https://eips.ethereum.org/EIPS/eip-712), [EIP-6963](https://eips.ethereum.org/EIPS/eip-6963), and [Permit2](https://github.com/Uniswap/permit2)
 - View of transactions in progress and transaction history
 - Curated wallet lists and wallet bookmarks
@@ -139,6 +139,26 @@ npm install @lifi/widget-provider-sui @mysten/dapp-kit-react
 yarn add @lifi/widget-provider-sui @mysten/dapp-kit-react
 ```
 
+**Tron:**
+
+**pnpm:**
+
+```sh
+pnpm add @lifi/widget-provider-tron @tronweb3/tronwallet-adapter-react-hooks
+```
+
+**npm:**
+
+```sh
+npm install @lifi/widget-provider-tron @tronweb3/tronwallet-adapter-react-hooks
+```
+
+**yarn:**
+
+```sh
+yarn add @lifi/widget-provider-tron @tronweb3/tronwallet-adapter-react-hooks
+```
+
 **Note:** You only need to install the provider packages for the blockchains you want to support. Each provider package includes its required peer dependencies.
 
 ### LI.FI Wallet Management
@@ -163,6 +183,30 @@ npm install @lifi/wallet-management
 yarn add @lifi/wallet-management
 ```
 
+### LI.FI Widget Light
+
+LI.FI Widget Light is available as an [npm package](https://www.npmjs.com/package/@lifi/widget-light) and provides a lightweight, iframe-based integration. Your app manages wallets while the widget runs in a sandboxed iframe.
+
+**pnpm:**
+
+```sh
+pnpm add @lifi/widget-light
+```
+
+**npm:**
+
+```sh
+npm install @lifi/widget-light
+```
+
+**yarn:**
+
+```sh
+yarn add @lifi/widget-light
+```
+
+Ecosystem handlers are available as subpath imports (`@lifi/widget-light/ethereum`, `@lifi/widget-light/solana`, `@lifi/widget-light/bitcoin`, `@lifi/widget-light/sui`) — install the corresponding peer dependencies only for the chains you need. See the [widget-light integration guide](/packages/widget-embedded/README.md) for full setup instructions.
+
 ## Architecture
 
 The LI.FI Widget uses a **provider-based architecture** that allows you to selectively enable support for different blockchains:
@@ -173,6 +217,7 @@ The LI.FI Widget uses a **provider-based architecture** that allows you to selec
 - **`@lifi/widget-provider-bitcoin`** - Bitcoin support (requires [Bigmi](https://github.com/lifinance/bigmi))
 - **`@lifi/widget-provider-solana`** - Solana support (requires [bs58](https://www.npmjs.com/package/bs58))
 - **`@lifi/widget-provider-sui`** - Sui support (requires [@mysten/dapp-kit-react](https://sdk.mystenlabs.com/dapp-kit))
+- **`@lifi/widget-provider-tron`** - Tron support (requires [@tronweb3/tronwallet-adapter-react-hooks](https://github.com/tronweb3/tronwallet-adapter))
 - **`@lifi/wallet-management`** - Wallet management UI components
 - **`@lifi/widget-light`** - Lightweight iframe-based integration ([docs](https://docs.li.fi/widget/widget-light-overview))
 
@@ -209,7 +254,7 @@ export const WidgetPage = () => {
 };
 ```
 
-**Multi-chain example** (Ethereum, Solana, Bitcoin, and Sui):
+**Multi-chain example** (Ethereum, Solana, Bitcoin, Sui, and Tron):
 
 ```tsx
 import { LiFiWidget, WidgetConfig } from '@lifi/widget';
@@ -217,6 +262,7 @@ import { BitcoinProvider } from '@lifi/widget-provider-bitcoin';
 import { EthereumProvider } from '@lifi/widget-provider-ethereum';
 import { SolanaProvider } from '@lifi/widget-provider-solana';
 import { SuiProvider } from '@lifi/widget-provider-sui';
+import { TronProvider } from '@lifi/widget-provider-tron';
 
 const widgetConfig: WidgetConfig = {
   providers: [
@@ -224,6 +270,7 @@ const widgetConfig: WidgetConfig = {
     SolanaProvider(),
     BitcoinProvider(),
     SuiProvider(),
+    TronProvider(),
   ],
   theme: {
     container: {
