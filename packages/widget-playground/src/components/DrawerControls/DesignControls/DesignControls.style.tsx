@@ -301,6 +301,10 @@ export const Select: React.FC<React.ComponentProps<typeof MuiSelect>> = styled(
 export const CapitalizeFirstLetter: React.FC<
   React.ComponentProps<typeof Typography>
 > = styled(Typography)(() => ({
+  fontSize: 'inherit',
+  fontWeight: 'inherit',
+  lineHeight: 'inherit',
+  color: 'inherit',
   '&::first-letter': {
     textTransform: 'capitalize',
   },

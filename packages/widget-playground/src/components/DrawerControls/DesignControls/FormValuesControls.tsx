@@ -1,18 +1,19 @@
 import { ChainType } from '@lifi/widget'
-import { Button } from '@mui/material'
+import { Box } from '@mui/material'
 import type { JSX } from 'react'
-import { useState } from 'react'
-import { useDevView } from '../../../hooks/useDevView.js'
+import { useCallback, useState } from 'react'
 import { useEditToolsActions } from '../../../store/editTools/useEditToolsActions.js'
 import type { FormValues } from '../../../store/types.js'
 import { useConfigActions } from '../../../store/widgetConfig/useConfigActions.js'
-import { CardRowContainer } from '../../Card/Card.style.js'
-import { ExpandableCard } from '../../Card/ExpandableCard.js'
-import { Switch } from '../../Switch.js'
 import {
-  CapitalizeFirstLetter,
-  ColorControlContainer,
-} from './DesignControls.style.js'
+  FormBlock,
+  MethodHint,
+  MethodTab,
+  MethodTabs,
+  OptionButton,
+  PresetStack,
+  SectionLabel,
+} from './FormValuesControls.style.js'
 
 interface FormValuesLookUp {
   [key: string]: FormValues
@@ -117,136 +118,176 @@ const forceConfigUpdate = (nextValue: FormValues): FormValues => ({
   formUpdateKey: Date.now().toString(),
 })
 
-export const FormValuesControl = (): JSX.Element | null => {
+const chainTokenPresetRows: { id: string; label: string }[] = [
+  { id: 'ETH-ETH | ARB-USDC', label: 'ETH-ETH → ARB-USDC' },
+  { id: 'ARB-USDC | OPT-USDT', label: 'ARB-USDC → OPT-USDT' },
+  { id: 'RESET', label: 'RESET' },
+]
+
+const amountPresetKeys = ['1', '0.5', 'RESET'] as const
+
+const addressPresetRows: { id: string; label: string }[] = [
+  { id: '0x29D...94eD7', label: '0x29D…94eD7' },
+  { id: '0x457...22CE0', label: '0x457…22CE0' },
+  { id: 'RESET', label: 'RESET' },
+]
+
+export const FormValuesDevPanel = (): JSX.Element => {
   const { setFormValues: setFormValuesViaConfig } = useConfigActions()
   const { setFormValues: setFormValuesViaFormApiRef } = useEditToolsActions()
-  const { isDevView } = useDevView()
   const [formUpdateMethod, setFormUpdateMethod] = useState<
     'formApi' | 'config'
   >('config')
 
-  const setFormValues =
-    formUpdateMethod === 'formApi'
-      ? setFormValuesViaFormApiRef
-      : setFormValuesViaConfig
+  const [chainKey, setChainKey] = useState<string>('ETH-ETH | ARB-USDC')
+  const [fromAmountKey, setFromAmountKey] = useState<string>('1')
+  const [toAmountKey, setToAmountKey] = useState<string>('1')
+  const [addressKey, setAddressKey] = useState<string>('0x29D...94eD7')
 
-  const handleChainAndTokenChange = (value: string) => {
-    const chainsAndTokens = ChainsAndTokensLookUp[value]
+  const applyFormValues = useCallback(
+    (next: FormValues): void => {
+      const apply =
+        formUpdateMethod === 'formApi'
+          ? setFormValuesViaFormApiRef
+          : setFormValuesViaConfig
+      apply(forceConfigUpdate(next))
+    },
+    [formUpdateMethod, setFormValuesViaConfig, setFormValuesViaFormApiRef]
+  )
 
-    if (chainsAndTokens) {
-      setFormValues(forceConfigUpdate(chainsAndTokens))
-    }
-  }
+  const handleChainAndTokenChange = useCallback(
+    (value: string) => {
+      const chainsAndTokens = ChainsAndTokensLookUp[value]
+      if (chainsAndTokens) {
+        setChainKey(value)
+        applyFormValues(chainsAndTokens)
+      }
+    },
+    [applyFormValues]
+  )
 
-  const handleToAddressChange = (value: string) => {
-    const addressValue = AddressLookUp[value]
+  const handleToAddressChange = useCallback(
+    (value: string) => {
+      const addressValue = AddressLookUp[value]
+      if (addressValue) {
+        setAddressKey(value)
+        applyFormValues(addressValue)
+      }
+    },
+    [applyFormValues]
+  )
 
-    if (addressValue) {
-      setFormValues(forceConfigUpdate(addressValue))
-    }
-  }
+  const handleFromAmountChange = useCallback(
+    (value: string) => {
+      const amountValue = fromAmountLookUp[value]
+      if (amountValue) {
+        setFromAmountKey(value)
+        applyFormValues(amountValue)
+      }
+    },
+    [applyFormValues]
+  )
 
-  const handleFromAmountChange = (value: string) => {
-    const amountValue = fromAmountLookUp[value]
+  const handleToAmountChange = useCallback(
+    (value: string) => {
+      const amountValue = toAmountLookUp[value]
+      if (amountValue) {
+        setToAmountKey(value)
+        applyFormValues(amountValue)
+      }
+    },
+    [applyFormValues]
+  )
 
-    if (amountValue) {
-      setFormValues(forceConfigUpdate(amountValue))
-    }
-  }
+  const handleMethodChange = useCallback(
+    (_: React.SyntheticEvent, value: 'formApi' | 'config'): void => {
+      setFormUpdateMethod(value)
+    },
+    []
+  )
 
-  const handleToAmountChange = (value: string) => {
-    const amountValue = toAmountLookUp[value]
-
-    if (amountValue) {
-      setFormValues(forceConfigUpdate(amountValue))
-    }
-  }
-
-  return isDevView ? (
-    <ExpandableCard title={'Form values'} value=" ">
-      <CardRowContainer sx={{ paddingBottom: 1, paddingLeft: 1 }}>
-        <CapitalizeFirstLetter variant="caption">
-          This tool allows you to set the values in the config for fromChain,
-          fromToken, toChain, toToken, toAddress and fromAmount. You should see
-          the values update in the Widget and when the buildUrl property is not
-          set as false changes should be reflected in the query string
-        </CapitalizeFirstLetter>
-      </CardRowContainer>
-      <ColorControlContainer sx={{ marginBottom: 1, paddingRight: 2 }}>
-        Use config
-        <Switch
-          checked={formUpdateMethod === 'config'}
-          onChange={() => setFormUpdateMethod('config')}
-          aria-label="Set form values using reactive config"
-        />
-      </ColorControlContainer>
-      <ColorControlContainer sx={{ marginBottom: 1, paddingRight: 2 }}>
-        Use formRef
-        <Switch
-          checked={formUpdateMethod === 'formApi'}
-          onChange={() => setFormUpdateMethod('formApi')}
-          aria-label="Set form values using formRef"
-        />
-      </ColorControlContainer>
-      <CardRowContainer sx={{ paddingBottom: 1, paddingLeft: 1 }}>
-        Chains And Tokens
-      </CardRowContainer>
-      {Object.keys(ChainsAndTokensLookUp).map((key) => (
-        <Button
-          key={key}
-          variant="outlined"
-          onClick={() => handleChainAndTokenChange(key)}
-          sx={{ marginBottom: 1 }}
-          fullWidth
+  return (
+    <Box
+      sx={{ display: 'flex', flexDirection: 'column', gap: 3, width: '100%' }}
+    >
+      <FormBlock>
+        <MethodTabs
+          value={formUpdateMethod}
+          onChange={handleMethodChange}
+          aria-label="Form values update method"
         >
-          {key}
-        </Button>
-      ))}
+          <MethodTab label="config" value="config" disableRipple />
+          <MethodTab label="formRef" value="formApi" disableRipple />
+        </MethodTabs>
+        <MethodHint>
+          Use config if you need static values, or use formRef if you want to
+          update values from your app.
+        </MethodHint>
+      </FormBlock>
 
-      <CardRowContainer sx={{ paddingBottom: 1, paddingLeft: 1 }}>
-        From Amount
-      </CardRowContainer>
-      {Object.keys(fromAmountLookUp).map((key) => (
-        <Button
-          key={key}
-          variant="outlined"
-          onClick={() => handleFromAmountChange(key)}
-          sx={{ marginBottom: 1 }}
-          fullWidth
-        >
-          {key}
-        </Button>
-      ))}
+      <FormBlock>
+        <SectionLabel>Chains and tokens</SectionLabel>
+        <PresetStack>
+          {chainTokenPresetRows.map(({ id, label }) => (
+            <OptionButton
+              key={id}
+              type="button"
+              selected={chainKey === id}
+              onClick={() => handleChainAndTokenChange(id)}
+            >
+              {label}
+            </OptionButton>
+          ))}
+        </PresetStack>
+      </FormBlock>
 
-      <CardRowContainer sx={{ paddingBottom: 1, paddingLeft: 1 }}>
-        To Amount
-      </CardRowContainer>
-      {Object.keys(toAmountLookUp).map((key) => (
-        <Button
-          key={key}
-          variant="outlined"
-          onClick={() => handleToAmountChange(key)}
-          sx={{ marginBottom: 1 }}
-          fullWidth
-        >
-          {key}
-        </Button>
-      ))}
+      <FormBlock>
+        <SectionLabel>From amount</SectionLabel>
+        <PresetStack>
+          {amountPresetKeys.map((key) => (
+            <OptionButton
+              key={key}
+              type="button"
+              selected={fromAmountKey === key}
+              onClick={() => handleFromAmountChange(key)}
+            >
+              {key}
+            </OptionButton>
+          ))}
+        </PresetStack>
+      </FormBlock>
 
-      <CardRowContainer sx={{ paddingBottom: 1, paddingLeft: 1 }}>
-        To Address
-      </CardRowContainer>
-      {Object.keys(AddressLookUp).map((key) => (
-        <Button
-          key={key}
-          variant="outlined"
-          onClick={() => handleToAddressChange(key)}
-          sx={{ marginBottom: 1 }}
-          fullWidth
-        >
-          {key}
-        </Button>
-      ))}
-    </ExpandableCard>
-  ) : null
+      <FormBlock>
+        <SectionLabel>To amount</SectionLabel>
+        <PresetStack>
+          {amountPresetKeys.map((key) => (
+            <OptionButton
+              key={key}
+              type="button"
+              selected={toAmountKey === key}
+              onClick={() => handleToAmountChange(key)}
+            >
+              {key}
+            </OptionButton>
+          ))}
+        </PresetStack>
+      </FormBlock>
+
+      <FormBlock>
+        <SectionLabel>To address</SectionLabel>
+        <PresetStack>
+          {addressPresetRows.map(({ id, label }) => (
+            <OptionButton
+              key={id}
+              type="button"
+              selected={addressKey === id}
+              onClick={() => handleToAddressChange(id)}
+            >
+              {label}
+            </OptionButton>
+          ))}
+        </PresetStack>
+      </FormBlock>
+    </Box>
+  )
 }
