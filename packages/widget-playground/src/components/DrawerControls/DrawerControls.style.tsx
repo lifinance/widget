@@ -13,8 +13,6 @@ export const autocompletePopperZIndex: number = drawerZIndex + 1
 export const tooltipPopperZIndex: number = drawerZIndex + 2
 export const popperZIndex: number = drawerZIndex + 3
 
-const headerZIndex = tooltipPopperZIndex
-
 interface DrawerProps extends MuiDrawerProps {
   drawerWidth: number
 }
@@ -24,62 +22,12 @@ export const Drawer: React.FC<
   shouldForwardProp: (prop) => !['drawerWidth'].includes(prop as string),
 })<DrawerProps>(({ drawerWidth }) => ({
   width: drawerWidth,
-  // NOTE: setting the zIndex seems to prevent clicks underneath where the
-  //  draw was when closed - so we only want to see the zIndex when its open
   variants: [
     {
       props: ({ open }) => open,
       style: { zIndex: drawerZIndex },
     },
   ],
-}))
-
-export const Header: React.FC<
-  React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLHeadingElement>,
-    HTMLHeadingElement
-  >
-> = styled('h1')({
-  fontSize: '1.5em',
-  margin: 0,
-  lineHeight: 0.8,
-})
-
-export const HeaderRow: React.FC<React.ComponentProps<typeof Box>> = styled(
-  Box
-)(({ theme }) => ({
-  position: 'sticky',
-  top: 0,
-  zIndex: headerZIndex,
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  backgroundColor: theme.vars.palette.background.paper,
-  padding: theme.spacing(1),
-  margin: theme.spacing(-1),
-}))
-
-export const WidgetConfigControls: React.FC<React.ComponentProps<typeof Box>> =
-  styled(Box)(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    gap: theme.spacing(2),
-  }))
-
-export const DrawerContentContainer: React.FC<
-  React.ComponentProps<typeof Box> & { drawerWidth: number }
-> = styled(Box, {
-  shouldForwardProp: (prop) => !['drawerWidth'].includes(prop as string),
-})<{
-  drawerWidth: number
-}>(({ theme, drawerWidth }) => ({
-  display: 'flex',
-  width: drawerWidth,
-  padding: theme.spacing(3),
-  flexDirection: 'column',
-  flexGrow: 1,
-  gap: theme.spacing(2),
-  zIndex: 1200,
 }))
 
 export const TabContentContainer: React.FC<
@@ -142,3 +90,75 @@ export const DrawerIconLeft: React.FC<
     color: theme.vars.palette.grey[600],
   }),
 }))
+
+export type SidebarView =
+  | 'nav'
+  | 'mode'
+  | 'variant'
+  | 'height'
+  | 'wallet'
+  | 'developer'
+  | 'themeEdit'
+
+export const SidebarContainer: React.FC<
+  React.ComponentProps<typeof Box> & { drawerWidth: number }
+> = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'drawerWidth',
+})<{ drawerWidth: number }>(({ drawerWidth }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  width: drawerWidth,
+  height: '100%',
+  overflow: 'hidden',
+}))
+
+export const SidebarViewTrack: React.FC<
+  React.ComponentProps<typeof Box> & { activeView: SidebarView }
+> = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'activeView',
+})<{ activeView: SidebarView }>(({ theme, activeView }) => ({
+  display: 'flex',
+  flex: '1 0 0',
+  minHeight: 0,
+  width: '200%',
+  transition: theme.transitions.create('transform', {
+    duration: theme.transitions.duration.enteringScreen,
+    easing: theme.transitions.easing.sharp,
+  }),
+  transform: activeView === 'nav' ? 'none' : 'translateX(-50%)',
+}))
+
+export const SidebarSlidePanel: React.FC<React.ComponentProps<typeof Box>> =
+  styled(Box)({
+    display: 'flex',
+    flexDirection: 'column',
+    flex: '0 0 50%',
+    width: '50%',
+    maxWidth: '50%',
+    minWidth: 0,
+    minHeight: 0,
+    overflow: 'hidden',
+  })
+
+export const NavContent: React.FC<React.ComponentProps<typeof Box>> = styled(
+  Box
+)({
+  display: 'flex',
+  flexDirection: 'column',
+  flex: '1 0 0',
+  minHeight: 0,
+  overflowY: 'auto',
+  padding: '24px 20px',
+  '& > *': {
+    flexShrink: 0,
+  },
+})
+
+export const SidebarDivider: React.FC<React.ComponentProps<typeof Box>> =
+  styled(Box)({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 16,
+    width: '100%',
+  })

@@ -1,54 +1,66 @@
-import CloseIcon from '@mui/icons-material/Close'
-import DesignServicesIcon from '@mui/icons-material/DesignServices'
-import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstructions'
-import RestartAltIcon from '@mui/icons-material/RestartAlt'
-import TabContext from '@mui/lab/TabContext'
-import { Box, IconButton, Tooltip } from '@mui/material'
+import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined'
+import DataObjectOutlinedIcon from '@mui/icons-material/DataObjectOutlined'
+import HeightOutlinedIcon from '@mui/icons-material/HeightOutlined'
+import PaletteOutlinedIcon from '@mui/icons-material/PaletteOutlined'
+import TableRowsOutlinedIcon from '@mui/icons-material/TableRowsOutlined'
+import ViewSidebarOutlinedIcon from '@mui/icons-material/ViewSidebarOutlined'
+import { Divider } from '@mui/material'
 import type { JSX } from 'react'
+import { useCallback, useState } from 'react'
 import { useFontInitialisation } from '../../providers/FontLoaderProvider/FontLoaderProvider.js'
 import { useDrawerToolValues } from '../../store/editTools/useDrawerToolValues.js'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
 import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
-import { ExpandableCardAccordion } from '../Card/ExpandableCardAccordion.js'
-import { Tab, Tabs } from '../Tabs/Tabs.style.js'
-import { CodeControl } from './CodeControl/CodeControl.js'
-import { AppearanceControl } from './DesignControls/AppearanceControl.js'
-import { ButtonRadiusControl } from './DesignControls/ButtonRaduisControl.js'
-import { CardRadiusControl } from './DesignControls/CardRadiusControl.js'
-import { ColorControl } from './DesignControls/ColorControls.js'
-import { FontsControl } from './DesignControls/FontsControl/FontsControl.js'
-import { FormValuesControl } from './DesignControls/FormValuesControls.js'
-import { LayoutControl } from './DesignControls/LayoutControls/LayoutControl.js'
-import { PlaygroundSettingsControl } from './DesignControls/PlaygroundSettingsControl/PlaygroundSettingsControl.js'
-import { SkeletonControl } from './DesignControls/SkeletonControl.js'
-import { SubvariantControl } from './DesignControls/SubvariantControl.js'
 import { ThemeControl } from './DesignControls/ThemeControl.js'
-import { VariantControl } from './DesignControls/VariantControl.js'
-import { WalletManagementControl } from './DesignControls/WalletManagementControl.js'
-import { WidgetEventControls } from './DesignControls/WidgetEventsControls.js'
+import { DeveloperControlsDetailView } from './DeveloperControlsDetailView.js'
 import {
   Drawer,
-  DrawerContentContainer,
-  Header,
-  HeaderRow,
-  TabContentContainer,
-  tooltipPopperZIndex,
-  WidgetConfigControls,
+  NavContent,
+  SidebarContainer,
+  SidebarDivider,
+  SidebarSlidePanel,
+  type SidebarView,
+  SidebarViewTrack,
 } from './DrawerControls.style.js'
 import { DrawerHandle } from './DrawerHandle.js'
+import { HeightDetailView } from './HeightDetailView.js'
+import { ModeDetailView } from './ModeDetailView.js'
+import { NavListItem } from './NavListItem.js'
+import { SidebarFooter } from './SidebarFooter.js'
+import { SidebarHeader } from './SidebarHeader.js'
+import { ThemeEditDetailView } from './ThemeEditDetailView.js'
+import { VariantDetailView } from './VariantDetailView.js'
+import { WalletManagementDetailView } from './WalletManagementDetailView.js'
 
 export const DrawerControls = (): JSX.Element => {
-  const { isDrawerOpen, drawerWidth, visibleControls } = useDrawerToolValues()
-  const { setDrawerOpen, setVisibleControls } = useEditToolsActions()
+  const { isDrawerOpen, drawerWidth } = useDrawerToolValues()
+  const { setDrawerOpen } = useEditToolsActions()
   const { resetConfig } = useConfigActions()
   const { resetEditTools } = useEditToolsActions()
+  const [activeView, setActiveView] = useState<SidebarView>('nav')
+  const [expandedItem, setExpandedItem] = useState<string | null>(null)
 
   useFontInitialisation()
 
-  const handleReset = () => {
+  const handleReset = useCallback((): void => {
     resetConfig()
     resetEditTools()
-  }
+  }, [resetConfig, resetEditTools])
+
+  const handleToggleDrawer = useCallback((): void => {
+    setDrawerOpen(!isDrawerOpen)
+  }, [isDrawerOpen, setDrawerOpen])
+
+  const handleNavigateBack = useCallback((): void => {
+    setActiveView('nav')
+  }, [])
+
+  const handleToggleItem = useCallback(
+    (item: string): void => {
+      setExpandedItem(expandedItem === item ? null : item)
+    },
+    [expandedItem]
+  )
 
   return (
     <>
@@ -59,86 +71,94 @@ export const DrawerControls = (): JSX.Element => {
         open={isDrawerOpen}
         drawerWidth={drawerWidth}
       >
-        <DrawerContentContainer drawerWidth={drawerWidth}>
-          <HeaderRow>
-            <Header>LI.FI Widget</Header>
-            <Box>
-              <Tooltip
-                title="Reset config"
-                slotProps={{
-                  popper: { style: { zIndex: tooltipPopperZIndex } },
-                }}
-                arrow
-              >
-                <IconButton onClick={handleReset}>
-                  <RestartAltIcon />
-                </IconButton>
-              </Tooltip>
-              <Tooltip
-                title="Close tools"
-                slotProps={{
-                  popper: { style: { zIndex: tooltipPopperZIndex } },
-                }}
-                arrow
-              >
-                <IconButton onClick={() => setDrawerOpen(!isDrawerOpen)}>
-                  <CloseIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          </HeaderRow>
-          <Box sx={{ maxWidth: 344, height: 56 }}>
-            <Tabs
-              value={visibleControls}
-              aria-label="tabs"
-              indicatorColor="primary"
-              onChange={(_, value) => setVisibleControls(value)}
-            >
-              <Tab
-                icon={<DesignServicesIcon />}
-                iconPosition="start"
-                label={'Design'}
-                value="design"
-                disableRipple
+        <SidebarContainer drawerWidth={drawerWidth}>
+          <SidebarViewTrack activeView={activeView}>
+            <SidebarSlidePanel>
+              <SidebarHeader
+                onReset={handleReset}
+                onToggleDrawer={handleToggleDrawer}
               />
-              <Tab
-                icon={<IntegrationInstructionsIcon />}
-                iconPosition="start"
-                label={'Code'}
-                value="code"
-                disableRipple
-              />
-            </Tabs>
-          </Box>
-          <TabContext value={visibleControls}>
-            <TabContentContainer
-              value="design"
-              sx={{ justifyContent: 'space-between' }}
-            >
-              <ExpandableCardAccordion>
-                <WidgetConfigControls>
-                  <VariantControl />
-                  <SubvariantControl />
-                  <AppearanceControl />
-                  <ThemeControl />
-                  <ColorControl />
-                  <FontsControl />
-                  <CardRadiusControl />
-                  <ButtonRadiusControl />
-                  <FormValuesControl />
-                  <WidgetEventControls />
-                  <WalletManagementControl />
-                  <SkeletonControl />
-                  <LayoutControl />
-                </WidgetConfigControls>
-                <PlaygroundSettingsControl />
-              </ExpandableCardAccordion>
-            </TabContentContainer>
-            <TabContentContainer value="code">
-              <CodeControl />
-            </TabContentContainer>
-          </TabContext>
-        </DrawerContentContainer>
+              <NavContent>
+                <NavListItem
+                  icon={<TableRowsOutlinedIcon />}
+                  label="Mode"
+                  onClick={() => setActiveView('mode')}
+                />
+                <NavListItem
+                  icon={<ViewSidebarOutlinedIcon />}
+                  label="Variant"
+                  onClick={() => setActiveView('variant')}
+                />
+                <NavListItem
+                  icon={<HeightOutlinedIcon />}
+                  label="Height"
+                  onClick={() => setActiveView('height')}
+                />
+                <NavListItem
+                  icon={<AccountBalanceWalletOutlinedIcon />}
+                  label="Wallet management"
+                  onClick={() => setActiveView('wallet')}
+                />
+                <SidebarDivider>
+                  <Divider sx={{ width: '100%' }} />
+                </SidebarDivider>
+                <NavListItem
+                  icon={<DataObjectOutlinedIcon />}
+                  label="Developer controls"
+                  onClick={() => setActiveView('developer')}
+                />
+                <SidebarDivider>
+                  <Divider sx={{ width: '100%' }} />
+                </SidebarDivider>
+                <NavListItem
+                  icon={<PaletteOutlinedIcon />}
+                  label="Theme"
+                  expandable
+                  expanded={expandedItem === 'theme'}
+                  onToggle={() => handleToggleItem('theme')}
+                >
+                  <ThemeControl
+                    onOpenEditTheme={() => setActiveView('themeEdit')}
+                  />
+                </NavListItem>
+              </NavContent>
+              <SidebarFooter />
+            </SidebarSlidePanel>
+            <SidebarSlidePanel>
+              {activeView === 'mode' ? (
+                <ModeDetailView
+                  onBack={handleNavigateBack}
+                  onReset={handleReset}
+                />
+              ) : activeView === 'variant' ? (
+                <VariantDetailView
+                  onBack={handleNavigateBack}
+                  onReset={handleReset}
+                />
+              ) : activeView === 'height' ? (
+                <HeightDetailView
+                  onBack={handleNavigateBack}
+                  onReset={handleReset}
+                />
+              ) : activeView === 'wallet' ? (
+                <WalletManagementDetailView
+                  onBack={handleNavigateBack}
+                  onReset={handleReset}
+                />
+              ) : activeView === 'developer' ? (
+                <DeveloperControlsDetailView
+                  onBack={handleNavigateBack}
+                  onReset={handleReset}
+                />
+              ) : activeView === 'themeEdit' ? (
+                <ThemeEditDetailView
+                  onBack={handleNavigateBack}
+                  onReset={handleReset}
+                />
+              ) : null}
+            </SidebarSlidePanel>
+          </SidebarViewTrack>
+        </SidebarContainer>
       </Drawer>
     </>
   )
