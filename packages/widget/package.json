@@ -17,7 +17,7 @@
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
     "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg",
-    "dev:mock-api": "tsx --env-file=mock-api/.env mock-api/index.ts",
+    "dev:mock-api": "tsx --env-file=mock-api/.env.local mock-api/index.ts",
     "test": "vitest run"
   },
   "author": "Eugene Chybisov <eugene@li.finance>",

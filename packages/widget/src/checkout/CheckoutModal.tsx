@@ -1,5 +1,9 @@
 import { Box, Modal } from '@mui/material'
-import type { PropsWithChildren } from 'react'
+import type {
+  ForwardRefExoticComponent,
+  PropsWithChildren,
+  RefAttributes,
+} from 'react'
 import {
   createContext,
   forwardRef,
@@ -28,94 +32,95 @@ export const useCheckoutModal = (): CheckoutModalContextValue | null => {
 
 export type { CheckoutModalRef }
 
-export const CheckoutModal = forwardRef<
-  CheckoutModalRef,
-  PropsWithChildren<CheckoutModalProps>
->(({ elementRef, open, onClose, children }, ref) => {
-  const openRef = useRef(Boolean(open))
-  const [visible, setVisible] = useState(Boolean(open))
+export const CheckoutModal: ForwardRefExoticComponent<
+  PropsWithChildren<CheckoutModalProps> & RefAttributes<CheckoutModalRef>
+> = forwardRef<CheckoutModalRef, PropsWithChildren<CheckoutModalProps>>(
+  ({ elementRef, open, onClose, children }, ref) => {
+    const openRef = useRef(Boolean(open))
+    const [visible, setVisible] = useState(Boolean(open))
 
-  useEffect(() => {
-    if (open !== undefined) {
-      setVisible(open)
-      openRef.current = open
-    }
-  }, [open])
+    useEffect(() => {
+      if (open !== undefined) {
+        setVisible(open)
+        openRef.current = open
+      }
+    }, [open])
 
-  const openPanel = useCallback(() => {
-    setVisible(true)
-    openRef.current = true
-  }, [])
+    const openPanel = useCallback(() => {
+      setVisible(true)
+      openRef.current = true
+    }, [])
 
-  const closePanel = useCallback(() => {
-    setVisible(false)
-    openRef.current = false
-    onClose?.()
-  }, [onClose])
+    const closePanel = useCallback(() => {
+      setVisible(false)
+      openRef.current = false
+      onClose?.()
+    }, [onClose])
 
-  useImperativeHandle(
-    ref,
-    () => ({
-      isOpen: () => openRef.current,
-      open: openPanel,
-      close: closePanel,
-    }),
-    [closePanel, openPanel]
-  )
+    useImperativeHandle(
+      ref,
+      () => ({
+        isOpen: () => openRef.current,
+        open: openPanel,
+        close: closePanel,
+      }),
+      [closePanel, openPanel]
+    )
 
-  const modalContext: CheckoutModalContextValue = useMemo(
-    () => ({
-      closeModal: closePanel,
-    }),
-    [closePanel]
-  )
+    const modalContext: CheckoutModalContextValue = useMemo(
+      () => ({
+        closeModal: closePanel,
+      }),
+      [closePanel]
+    )
 
-  return (
-    <CheckoutModalContext.Provider value={modalContext}>
-      <Modal
-        open={visible}
-        onClose={closePanel}
-        keepMounted={false}
-        slotProps={
-          {
-            backdrop: {
-              sx: (theme: import('@mui/material').Theme) => ({
-                backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.48)`,
-              }),
-            },
-            transition: {
-              timeout: { appear: 0, enter: 160, exit: 80 },
-            },
-          } as Parameters<typeof Modal>[0]['slotProps']
-        }
-      >
-        <Box
-          ref={elementRef}
-          tabIndex={-1}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Checkout"
-          sx={(theme) => ({
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: `min(calc(100vw - 32px), ${theme.breakpoints.values.sm}px)`,
-            maxHeight: 'min(90dvh, 720px)',
-            display: 'flex',
-            flexDirection: 'column',
-            outline: 'none',
-            borderRadius: theme.vars.shape.borderRadiusTertiary,
-            boxShadow: theme.shadows[24],
-            bgcolor: 'background.paper',
-            overflow: 'hidden',
-          })}
+    return (
+      <CheckoutModalContext.Provider value={modalContext}>
+        <Modal
+          open={visible}
+          onClose={closePanel}
+          keepMounted={false}
+          slotProps={
+            {
+              backdrop: {
+                sx: (theme: import('@mui/material').Theme) => ({
+                  backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.48)`,
+                }),
+              },
+              transition: {
+                timeout: { appear: 0, enter: 160, exit: 80 },
+              },
+            } as Parameters<typeof Modal>[0]['slotProps']
+          }
         >
-          {children}
-        </Box>
-      </Modal>
-    </CheckoutModalContext.Provider>
-  )
-})
+          <Box
+            ref={elementRef}
+            tabIndex={-1}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Checkout"
+            sx={(theme) => ({
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: `min(calc(100vw - 32px), ${theme.breakpoints.values.sm}px)`,
+              maxHeight: 'min(90dvh, 720px)',
+              display: 'flex',
+              flexDirection: 'column',
+              outline: 'none',
+              borderRadius: theme.vars.shape.borderRadiusTertiary,
+              boxShadow: theme.shadows[24],
+              bgcolor: 'background.paper',
+              overflow: 'hidden',
+            })}
+          >
+            {children}
+          </Box>
+        </Modal>
+      </CheckoutModalContext.Provider>
+    )
+  }
+)
 
 CheckoutModal.displayName = 'CheckoutModal'

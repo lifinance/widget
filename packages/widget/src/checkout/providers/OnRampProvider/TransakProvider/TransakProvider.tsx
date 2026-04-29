@@ -275,7 +275,12 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
     widgetUrl,
   ])
 
-  useEffect(() => router.subscribe('onResolved', close), [close, router])
+  useEffect(() => {
+    if (!router) {
+      return
+    }
+    return router.subscribe('onResolved', close)
+  }, [close, router])
 
   const value = useMemo(
     () => ({

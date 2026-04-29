@@ -7,7 +7,7 @@ export const setThemeAppearanceWithFallback = (
 ): void => {
   const themeId =
     state.themeId &&
-    !!state.widgetThemeItems.find((themeItem) => themeItem.id === state.themeId)
+    state.widgetThemeItems.find((themeItem) => themeItem.id === state.themeId)
       ? state.themeId
       : 'default'
 

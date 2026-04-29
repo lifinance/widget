@@ -127,7 +127,7 @@ export function SelectSourceFundingOptions({
               <SyncAltIcon />
             </GenericIconWrap>
             <OptionTextCell>
-              <Stack spacing={0.5} alignItems="flex-start">
+              <Stack spacing={0.5} sx={{ alignItems: 'flex-start' }}>
                 <OptionTitle>{t('checkout.connectExchange')}</OptionTitle>
                 <Chip
                   label={t('checkout.comingSoon')}
