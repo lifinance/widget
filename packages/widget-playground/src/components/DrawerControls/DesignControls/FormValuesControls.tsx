@@ -1,5 +1,5 @@
 import { ChainType } from '@lifi/widget'
-import { Box, ToggleButton, ToggleButtonGroup } from '@mui/material'
+import { Box } from '@mui/material'
 import type { JSX } from 'react'
 import { useCallback, useState } from 'react'
 import { useEditToolsActions } from '../../../store/editTools/useEditToolsActions.js'
@@ -8,6 +8,8 @@ import { useConfigActions } from '../../../store/widgetConfig/useConfigActions.j
 import {
   FormBlock,
   MethodHint,
+  MethodTab,
+  MethodTabs,
   OptionButton,
   PresetStack,
   SectionLabel,
@@ -198,13 +200,8 @@ export const FormValuesDevPanel = (): JSX.Element => {
   )
 
   const handleMethodChange = useCallback(
-    (
-      _: React.MouseEvent<HTMLElement>,
-      value: 'formApi' | 'config' | null
-    ): void => {
-      if (value) {
-        setFormUpdateMethod(value)
-      }
+    (_: React.SyntheticEvent, value: 'formApi' | 'config'): void => {
+      setFormUpdateMethod(value)
     },
     []
   )
@@ -214,58 +211,14 @@ export const FormValuesDevPanel = (): JSX.Element => {
       sx={{ display: 'flex', flexDirection: 'column', gap: 3, width: '100%' }}
     >
       <FormBlock>
-        <ToggleButtonGroup
-          exclusive
+        <MethodTabs
           value={formUpdateMethod}
           onChange={handleMethodChange}
           aria-label="Form values update method"
-          sx={(theme) => ({
-            display: 'flex',
-            width: '100%',
-            p: 0.5,
-            borderRadius: 999,
-            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 6%, transparent)`,
-            gap: 0,
-            ...theme.applyStyles('dark', {
-              backgroundColor: theme.vars.palette.grey[800],
-            }),
-          })}
         >
-          <ToggleButton
-            value="config"
-            disableRipple
-            sx={(theme) => ({
-              flex: 1,
-              textTransform: 'none',
-              fontWeight: 500,
-              border: 'none',
-              borderRadius: 999,
-              '&.Mui-selected': {
-                boxShadow: theme.shadows[1],
-                backgroundColor: theme.vars.palette.background.paper,
-              },
-            })}
-          >
-            config
-          </ToggleButton>
-          <ToggleButton
-            value="formApi"
-            disableRipple
-            sx={(theme) => ({
-              flex: 1,
-              textTransform: 'none',
-              fontWeight: 500,
-              border: 'none',
-              borderRadius: 999,
-              '&.Mui-selected': {
-                boxShadow: theme.shadows[1],
-                backgroundColor: theme.vars.palette.background.paper,
-              },
-            })}
-          >
-            formRef
-          </ToggleButton>
-        </ToggleButtonGroup>
+          <MethodTab label="config" value="config" disableRipple />
+          <MethodTab label="formRef" value="formApi" disableRipple />
+        </MethodTabs>
         <MethodHint>
           Use config if you need static values, or use formRef if you want to
           update values from your app.

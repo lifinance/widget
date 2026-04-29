@@ -1,39 +1,41 @@
 import type { WidgetConfig } from '@lifi/widget'
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined'
+import LineWeightOutlinedIcon from '@mui/icons-material/LineWeightOutlined'
 import type { CSSObject } from '@mui/material'
-import {
-  Box,
-  Divider,
-  Slider,
-  ToggleButton,
-  ToggleButtonGroup,
-} from '@mui/material'
+import { Box, Divider } from '@mui/material'
 import type { JSX } from 'react'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
 import { useThemeValues } from '../../store/widgetConfig/useThemeValues.js'
 import { useWidgetConfigStore } from '../../store/widgetConfig/WidgetConfigProvider.js'
 import { safe6DigitHexColor } from '../../utils/color.js'
 import { getValueFromPath } from '../../utils/getValueFromPath.js'
 import { Switch } from '../Switch.js'
+import { CapitalizeFirstLetter } from './DesignControls/DesignControls.style.js'
 import {
-  CapitalizeFirstLetter,
-  ColorInput,
-} from './DesignControls/DesignControls.style.js'
+  MethodTab,
+  MethodTabs,
+} from './DesignControls/FormValuesControls.style.js'
 import { DetailViewHeader } from './DetailViewHeader.js'
 import {
+  ColorSwatch,
   Content,
   HexLabel,
-  ModeToggleBox,
   PageDescription,
   PageTitle,
   Row,
   RowLabel,
   RowValue,
   SectionHeading,
+  SliderRow,
+  SliderValueInput,
   SubRow,
   SubSection,
+  ThemeSlider,
+  ToggleRow,
+  ToggleRowLabel,
+  ValueInput,
 } from './ThemeEditDetailView.style.js'
 
 function pxFromCss(
@@ -50,16 +52,22 @@ function pxFromCss(
   return Number.isFinite(n) ? n : fallback
 }
 
-function buildBoxShadow(blur: number): string {
-  return `0px 8px ${blur}px rgba(0, 0, 0, 0.12)`
+function buildBoxShadow(blur: number, spread: number): string {
+  return `0px 8px ${blur}px ${spread}px rgba(0, 0, 0, 0.12)`
 }
 
-function parseBoxShadowBlur(boxShadow: string): number {
-  const px = boxShadow.match(/\d+px/g)
-  if (px && px.length >= 3) {
-    return Number.parseInt(px[2], 10)
+function parseBoxShadow(boxShadow: string): { blur: number; spread: number } {
+  const px = boxShadow.match(/-?\d+px/g)
+  if (px && px.length >= 4) {
+    return {
+      blur: Math.max(0, Number.parseInt(px[2], 10)),
+      spread: Number.parseInt(px[3], 10),
+    }
   }
-  return 32
+  if (px && px.length >= 3) {
+    return { blur: Math.max(0, Number.parseInt(px[2], 10)), spread: 0 }
+  }
+  return { blur: 32, spread: 0 }
 }
 
 function parseCssBorder(border: string | number | undefined): {
@@ -201,9 +209,11 @@ export const ThemeEditDetailView = ({
     !!widgetShadowStr &&
     widgetShadowStr !== 'none' &&
     widgetShadowStr.length > 0
-  const widgetShadowBlur = widgetShadowOn
-    ? parseBoxShadowBlur(widgetShadowStr)
-    : 32
+  const widgetShadowParsed = widgetShadowOn
+    ? parseBoxShadow(widgetShadowStr)
+    : { blur: 32, spread: 0 }
+  const widgetShadowBlur = widgetShadowParsed.blur
+  const widgetShadowSpread = widgetShadowParsed.spread
 
   const borderParsed = parseCssBorder(container.border as string | undefined)
   const widgetBorderOn = borderParsed.on
@@ -216,7 +226,11 @@ export const ThemeEditDetailView = ({
     typeof cardRootObj.boxShadow === 'string' ? cardRootObj.boxShadow : ''
   const cardShadowOn =
     !!cardShadowStr && cardShadowStr !== 'none' && cardShadowStr.length > 0
-  const cardShadowBlur = cardShadowOn ? parseBoxShadowBlur(cardShadowStr) : 4
+  const cardShadowParsed = cardShadowOn
+    ? parseBoxShadow(cardShadowStr)
+    : { blur: 4, spread: 0 }
+  const cardShadowBlur = cardShadowParsed.blur
+  const cardShadowSpread = cardShadowParsed.spread
   const cardBorderParsed = parseCssBorder(
     cardRootObj.border as string | undefined
   )
@@ -231,9 +245,11 @@ export const ThemeEditDetailView = ({
     !!buttonShadowStr &&
     buttonShadowStr !== 'none' &&
     buttonShadowStr.length > 0
-  const buttonShadowBlur = buttonShadowOn
-    ? parseBoxShadowBlur(buttonShadowStr)
-    : 4
+  const buttonShadowParsed = buttonShadowOn
+    ? parseBoxShadow(buttonShadowStr)
+    : { blur: 4, spread: 0 }
+  const buttonShadowBlur = buttonShadowParsed.blur
+  const buttonShadowSpread = buttonShadowParsed.spread
   const buttonBorderParsed = parseCssBorder(
     buttonRootObj.border as string | undefined
   )
@@ -273,35 +289,27 @@ export const ThemeEditDetailView = ({
         </PageDescription>
 
         <SectionHeading>Color palette</SectionHeading>
-        <ModeToggleBox>
-          <ToggleButtonGroup
-            exclusive
-            value={effectivePaletteMode}
-            onChange={(_, value: 'light' | 'dark' | null) => {
-              if (value === 'light' || value === 'dark') {
-                setPaletteMode(value)
-              }
-            }}
-            aria-label="Palette mode"
-          >
-            <ToggleButton
-              value="light"
-              disabled={!canLight}
-              aria-label="Light palette"
-            >
-              <LightModeOutlinedIcon sx={{ mr: 0.5, fontSize: 18 }} />
-              Light
-            </ToggleButton>
-            <ToggleButton
-              value="dark"
-              disabled={!canDark}
-              aria-label="Dark palette"
-            >
-              <DarkModeOutlinedIcon sx={{ mr: 0.5, fontSize: 18 }} />
-              Dark
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </ModeToggleBox>
+        <MethodTabs
+          value={effectivePaletteMode}
+          onChange={(_, value: 'light' | 'dark') => setPaletteMode(value)}
+          aria-label="Palette mode"
+          sx={{ marginBottom: 1 }}
+        >
+          <MethodTab
+            value="light"
+            disabled={!canLight}
+            disableRipple
+            label={<LightModeOutlinedIcon sx={{ fontSize: 24 }} />}
+            aria-label="Light palette"
+          />
+          <MethodTab
+            value="dark"
+            disabled={!canDark}
+            disableRipple
+            label={<DarkModeOutlinedIcon sx={{ fontSize: 24 }} />}
+            aria-label="Dark palette"
+          />
+        </MethodTabs>
 
         {PALETTE_LABELS.map(({ label, suffix }) => (
           <PaletteColorRow
@@ -324,13 +332,25 @@ export const ThemeEditDetailView = ({
           shadowOn={widgetShadowOn}
           onShadowOnChange={(on) =>
             updateContainer({
-              boxShadow: on ? buildBoxShadow(widgetShadowBlur) : 'none',
+              boxShadow: on
+                ? buildBoxShadow(widgetShadowBlur, widgetShadowSpread)
+                : 'none',
             })
           }
           shadowBlur={widgetShadowBlur}
           onShadowBlurChange={(blur) =>
             updateContainer({
-              boxShadow: widgetShadowOn ? buildBoxShadow(blur) : 'none',
+              boxShadow: widgetShadowOn
+                ? buildBoxShadow(blur, widgetShadowSpread)
+                : 'none',
+            })
+          }
+          shadowSpread={widgetShadowSpread}
+          onShadowSpreadChange={(spread) =>
+            updateContainer({
+              boxShadow: widgetShadowOn
+                ? buildBoxShadow(widgetShadowBlur, spread)
+                : 'none',
             })
           }
           borderOn={widgetBorderOn}
@@ -371,13 +391,25 @@ export const ThemeEditDetailView = ({
           shadowOn={cardShadowOn}
           onShadowOnChange={(on) =>
             updateCardComponent({
-              boxShadow: on ? buildBoxShadow(cardShadowBlur) : 'none',
+              boxShadow: on
+                ? buildBoxShadow(cardShadowBlur, cardShadowSpread)
+                : 'none',
             })
           }
           shadowBlur={cardShadowBlur}
           onShadowBlurChange={(blur) =>
             updateCardComponent({
-              boxShadow: cardShadowOn ? buildBoxShadow(blur) : 'none',
+              boxShadow: cardShadowOn
+                ? buildBoxShadow(blur, cardShadowSpread)
+                : 'none',
+            })
+          }
+          shadowSpread={cardShadowSpread}
+          onShadowSpreadChange={(spread) =>
+            updateCardComponent({
+              boxShadow: cardShadowOn
+                ? buildBoxShadow(cardShadowBlur, spread)
+                : 'none',
             })
           }
           borderOn={cardBorderParsed.on}
@@ -418,13 +450,25 @@ export const ThemeEditDetailView = ({
           shadowOn={buttonShadowOn}
           onShadowOnChange={(on) =>
             updateButtonComponent({
-              boxShadow: on ? buildBoxShadow(buttonShadowBlur) : 'none',
+              boxShadow: on
+                ? buildBoxShadow(buttonShadowBlur, buttonShadowSpread)
+                : 'none',
             })
           }
           shadowBlur={buttonShadowBlur}
           onShadowBlurChange={(blur) =>
             updateButtonComponent({
-              boxShadow: buttonShadowOn ? buildBoxShadow(blur) : 'none',
+              boxShadow: buttonShadowOn
+                ? buildBoxShadow(blur, buttonShadowSpread)
+                : 'none',
+            })
+          }
+          shadowSpread={buttonShadowSpread}
+          onShadowSpreadChange={(spread) =>
+            updateButtonComponent({
+              boxShadow: buttonShadowOn
+                ? buildBoxShadow(buttonShadowBlur, spread)
+                : 'none',
             })
           }
           borderOn={buttonBorderParsed.on}
@@ -475,20 +519,181 @@ const PaletteColorRow = ({
   const hex = safe6DigitHexColor(colorValue).toUpperCase()
 
   return (
+    <EditableColorRow
+      label={<CapitalizeFirstLetter>{label}</CapitalizeFirstLetter>}
+      hex={hex}
+      ariaLabel={label}
+      onChange={(newHex) => setColor(colorPath, newHex)}
+    />
+  )
+}
+
+interface EditableColorRowProps {
+  label: React.ReactNode
+  hex: string
+  ariaLabel: string
+  onChange: (hex: string) => void
+}
+
+const EditableColorRow = ({
+  label,
+  hex,
+  ariaLabel,
+  onChange,
+}: EditableColorRowProps): JSX.Element => {
+  const stripped = hex.replace(/^#/, '').toUpperCase()
+  const [draft, setDraft] = useState(stripped)
+
+  useEffect(() => {
+    setDraft(hex.replace(/^#/, '').toUpperCase())
+  }, [hex])
+
+  const commit = useCallback(() => {
+    const cleaned = draft.replace(/[^0-9a-fA-F]/g, '')
+    if (cleaned.length === 6 || cleaned.length === 3) {
+      const full = safe6DigitHexColor(`#${cleaned}`)
+      onChange(full)
+      setDraft(full.replace(/^#/, '').toUpperCase())
+    } else {
+      setDraft(stripped)
+    }
+  }, [draft, stripped, onChange])
+
+  return (
     <Row>
-      <RowLabel>
-        <CapitalizeFirstLetter>{label}</CapitalizeFirstLetter>
-      </RowLabel>
+      <RowLabel>{label}</RowLabel>
       <RowValue>
-        <HexLabel>{hex}</HexLabel>
-        <ColorInput
-          aria-label={label}
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <HexLabel>#</HexLabel>
+          <ValueInput
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            onBlur={commit}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                commit()
+                ;(e.target as HTMLInputElement).blur()
+              }
+            }}
+            inputProps={{
+              'aria-label': ariaLabel,
+              style: { width: 56 },
+            }}
+          />
+        </Box>
+        <ColorSwatch
+          aria-label={`${ariaLabel} picker`}
           type="color"
-          value={safe6DigitHexColor(colorValue)}
-          onChange={(e) => setColor(colorPath, e.target.value)}
+          swatchColor={safe6DigitHexColor(`#${stripped}`)}
+          value={safe6DigitHexColor(`#${stripped}`)}
+          onChange={(e) => onChange(e.target.value)}
         />
       </RowValue>
     </Row>
+  )
+}
+
+interface BorderWeightRowProps {
+  title: string
+  value: number
+  onChange: (w: number) => void
+}
+
+const BorderWeightRow = ({
+  title,
+  value,
+  onChange,
+}: BorderWeightRowProps): JSX.Element => {
+  const [draft, setDraft] = useState(String(value))
+
+  useEffect(() => {
+    setDraft(String(value))
+  }, [value])
+
+  const commit = useCallback(() => {
+    const n = Number.parseInt(draft, 10)
+    if (Number.isFinite(n) && n >= 1 && n <= 4) {
+      onChange(n)
+      setDraft(String(n))
+    } else {
+      setDraft(String(value))
+    }
+  }, [draft, value, onChange])
+
+  return (
+    <Row>
+      <RowLabel>Weight</RowLabel>
+      <RowValue>
+        <ValueInput
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          onBlur={commit}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              commit()
+              ;(e.target as HTMLInputElement).blur()
+            }
+          }}
+          inputProps={{
+            'aria-label': `${title} border weight`,
+            inputMode: 'numeric',
+            style: { width: 16 },
+          }}
+        />
+        <LineWeightOutlinedIcon sx={{ fontSize: 24, color: 'action.active' }} />
+      </RowValue>
+    </Row>
+  )
+}
+
+interface EditableSliderValueProps {
+  value: number
+  min: number
+  max: number
+  onChange: (n: number) => void
+  ariaLabel: string
+}
+
+const EditableSliderValue = ({
+  value,
+  min,
+  max,
+  onChange,
+  ariaLabel,
+}: EditableSliderValueProps): JSX.Element => {
+  const [draft, setDraft] = useState(String(value))
+
+  useEffect(() => {
+    setDraft(String(value))
+  }, [value])
+
+  const commit = useCallback(() => {
+    const n = Number.parseInt(draft, 10)
+    if (Number.isFinite(n)) {
+      const clamped = Math.max(min, Math.min(max, n))
+      onChange(clamped)
+      setDraft(String(clamped))
+    } else {
+      setDraft(String(value))
+    }
+  }, [draft, value, min, max, onChange])
+
+  return (
+    <SliderValueInput
+      value={draft}
+      onChange={(e) => setDraft(e.target.value)}
+      onBlur={commit}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          commit()
+          ;(e.target as HTMLInputElement).blur()
+        }
+      }}
+      inputProps={{
+        'aria-label': ariaLabel,
+        inputMode: 'numeric',
+      }}
+    />
   )
 }
 
@@ -503,6 +708,8 @@ interface SurfaceBlockProps {
   onShadowOnChange: (on: boolean) => void
   shadowBlur: number
   onShadowBlurChange: (blur: number) => void
+  shadowSpread: number
+  onShadowSpreadChange: (spread: number) => void
   borderOn: boolean
   onBorderOnChange: (on: boolean) => void
   borderColor: string
@@ -522,6 +729,8 @@ const SurfaceBlock = ({
   onShadowOnChange,
   shadowBlur,
   onShadowBlurChange,
+  shadowSpread,
+  onShadowSpreadChange,
   borderOn,
   onBorderOnChange,
   borderColor,
@@ -530,108 +739,104 @@ const SurfaceBlock = ({
   onBorderWeightChange,
 }: SurfaceBlockProps): JSX.Element => {
   return (
-    <Box sx={{ pb: 2 }}>
-      <SectionHeading>{title}</SectionHeading>
-      <Row>
-        <RowLabel>Color</RowLabel>
-        <RowValue>
-          <HexLabel>{surfaceColor}</HexLabel>
-          <ColorInput
-            aria-label={`${title} color`}
-            type="color"
-            value={safe6DigitHexColor(surfaceColor)}
-            onChange={(e) => onSurfaceColorChange(e.target.value)}
-          />
-        </RowValue>
-      </Row>
-      <Row sx={{ flexWrap: 'wrap', alignItems: 'center' }}>
+    <Box>
+      <Divider sx={{ my: '40px' }} />
+      <SectionHeading sx={{ marginTop: 0 }}>{title}</SectionHeading>
+      <EditableColorRow
+        label="Color"
+        hex={surfaceColor}
+        ariaLabel={`${title} color`}
+        onChange={onSurfaceColorChange}
+      />
+      <SliderRow>
         <RowLabel>Corner radius</RowLabel>
-        <RowValue sx={{ flex: '1 1 160px', maxWidth: 220 }}>
-          <Slider
-            size="small"
-            value={radius}
-            min={0}
-            max={radiusMax}
-            onChange={(_, v) => onRadiusChange(v as number)}
-            valueLabelDisplay="auto"
-            aria-label={`${title} corner radius`}
-          />
-        </RowValue>
-        <HexLabel sx={{ minWidth: 24 }}>{radius}</HexLabel>
-      </Row>
-      <Row>
-        <RowLabel>Shadow</RowLabel>
-        <RowValue>
-          <Switch
-            checked={shadowOn}
-            onChange={(_, c) => onShadowOnChange(c)}
-            aria-label={`${title} shadow`}
-          />
-        </RowValue>
-      </Row>
+        <ThemeSlider
+          size="small"
+          value={radius}
+          min={0}
+          max={radiusMax}
+          onChange={(_, v) => onRadiusChange(v as number)}
+          aria-label={`${title} corner radius`}
+        />
+        <EditableSliderValue
+          value={radius}
+          min={0}
+          max={radiusMax}
+          onChange={onRadiusChange}
+          ariaLabel={`${title} corner radius`}
+        />
+      </SliderRow>
+      <ToggleRow>
+        <ToggleRowLabel>Shadow</ToggleRowLabel>
+        <Switch
+          checked={shadowOn}
+          onChange={(_, c) => onShadowOnChange(c)}
+          aria-label={`${title} shadow`}
+        />
+      </ToggleRow>
       {shadowOn ? (
         <SubSection>
           <SubRow>
             <RowLabel>Blur</RowLabel>
-            <RowValue sx={{ flex: 1, maxWidth: 200 }}>
-              <Slider
-                size="small"
-                value={shadowBlur}
-                min={0}
-                max={48}
-                onChange={(_, v) => onShadowBlurChange(v as number)}
-                aria-label={`${title} shadow blur`}
-              />
-            </RowValue>
-            <HexLabel>{shadowBlur}</HexLabel>
+            <ThemeSlider
+              size="small"
+              value={shadowBlur}
+              min={0}
+              max={48}
+              onChange={(_, v) => onShadowBlurChange(v as number)}
+              aria-label={`${title} shadow blur`}
+            />
+            <EditableSliderValue
+              value={shadowBlur}
+              min={0}
+              max={48}
+              onChange={onShadowBlurChange}
+              ariaLabel={`${title} shadow blur`}
+            />
+          </SubRow>
+          <SubRow>
+            <RowLabel>Spread</RowLabel>
+            <ThemeSlider
+              size="small"
+              value={shadowSpread}
+              min={-20}
+              max={20}
+              onChange={(_, v) => onShadowSpreadChange(v as number)}
+              aria-label={`${title} shadow spread`}
+            />
+            <EditableSliderValue
+              value={shadowSpread}
+              min={-20}
+              max={20}
+              onChange={onShadowSpreadChange}
+              ariaLabel={`${title} shadow spread`}
+            />
           </SubRow>
         </SubSection>
       ) : null}
-      <Row>
-        <RowLabel>Border</RowLabel>
-        <RowValue>
-          <Switch
-            checked={borderOn}
-            onChange={(_, c) => onBorderOnChange(c)}
-            aria-label={`${title} border`}
-          />
-        </RowValue>
-      </Row>
+      <ToggleRow>
+        <ToggleRowLabel>Border</ToggleRowLabel>
+        <Switch
+          checked={borderOn}
+          onChange={(_, c) => onBorderOnChange(c)}
+          aria-label={`${title} border`}
+        />
+      </ToggleRow>
       {borderOn ? (
         <SubSection>
-          <SubRow>
-            <RowLabel>Color</RowLabel>
-            <RowValue>
-              <HexLabel>
-                {safe6DigitHexColor(borderColor).toUpperCase()}
-              </HexLabel>
-              <ColorInput
-                aria-label={`${title} border color`}
-                type="color"
-                value={safe6DigitHexColor(borderColor)}
-                onChange={(e) => onBorderColorChange(e.target.value)}
-              />
-            </RowValue>
-          </SubRow>
-          <SubRow sx={{ flexWrap: 'wrap' }}>
-            <RowLabel>Weight</RowLabel>
-            <RowValue sx={{ flex: '1 1 120px', maxWidth: 180 }}>
-              <Slider
-                size="small"
-                value={borderWeight}
-                min={1}
-                max={4}
-                step={1}
-                marks
-                onChange={(_, v) => onBorderWeightChange(v as number)}
-                aria-label={`${title} border weight`}
-              />
-            </RowValue>
-            <HexLabel sx={{ minWidth: 16 }}>{borderWeight}</HexLabel>
-          </SubRow>
+          <EditableColorRow
+            label="Color"
+            hex={safe6DigitHexColor(borderColor).toUpperCase()}
+            ariaLabel={`${title} border color`}
+            onChange={onBorderColorChange}
+          />
+          <BorderWeightRow
+            title={title}
+            value={borderWeight}
+            onChange={onBorderWeightChange}
+          />
         </SubSection>
       ) : null}
-      <Divider sx={{ mt: 1 }} />
     </Box>
   )
 }

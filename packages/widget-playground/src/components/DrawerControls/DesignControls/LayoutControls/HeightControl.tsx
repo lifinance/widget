@@ -61,7 +61,7 @@ export const HeightControl = ({
     selectedLayoutId === 'restricted-max-height'
   ) {
     const isMaxHeight = selectedLayoutId === 'restricted-max-height'
-    const label = isMaxHeight ? 'Add max height' : 'Set height'
+    const label = isMaxHeight ? 'Set max height (px)' : 'Set height (px)'
     const key = isMaxHeight ? 'maxHeight' : 'height'
 
     return (
@@ -125,7 +125,12 @@ export const HeightControl = ({
               size="small"
               onClick={onClearMaxHeight}
               aria-label="Clear max height"
-              sx={{ p: 0, flexShrink: 0 }}
+              sx={{
+                p: '4px',
+                flexShrink: 0,
+                color: 'text.primary',
+                marginRight: '-12px',
+              }}
             >
               <CloseOutlinedIcon />
             </IconButton>

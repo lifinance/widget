@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Box, Collapse } from '@mui/material'
 import type { JSX, ReactNode } from 'react'
 import {
   CardDescription,
@@ -35,16 +35,16 @@ export const CardSelect = ({
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardTextContainer>
-      {footer ? (
+      <Collapse in={!!footer} sx={{ width: '100%' }} unmountOnExit>
         <Box
           onClick={(e) => {
             e.stopPropagation()
           }}
-          sx={{ width: '100%' }}
+          sx={{ width: '100%', paddingTop: '16px' }}
         >
           {footer}
         </Box>
-      ) : null}
+      </Collapse>
     </CardSelectRoot>
   )
 }

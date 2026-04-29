@@ -1,5 +1,5 @@
 import { useWidgetEvents, WidgetEvent, type WidgetEvents } from '@lifi/widget'
-import { Box, Divider } from '@mui/material'
+import { Box, Collapse, Divider } from '@mui/material'
 import type { JSX } from 'react'
 import { useEffect, useState } from 'react'
 import { useDevView } from '../../hooks/useDevView.js'
@@ -258,7 +258,11 @@ export const DeveloperControlsDetailView = ({
               Used for testing prefilled routes and values. It will update the
               widget&apos;s form and URL.
             </ToggleDescription>
-            {isDevView ? <FormValuesDevPanel /> : null}
+            <Collapse in={isDevView} unmountOnExit>
+              <Box sx={{ paddingTop: '12px' }}>
+                <FormValuesDevPanel />
+              </Box>
+            </Collapse>
           </ToggleItem>
           <Divider />
           <ToggleItem>

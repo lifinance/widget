@@ -13,7 +13,6 @@ export const CardSelectRoot: FC<
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'flex-start',
-  gap: 16,
   width: '100%',
   padding: 20,
   borderRadius: 12,
@@ -23,14 +22,14 @@ export const CardSelectRoot: FC<
     : theme.vars.palette.grey[300],
   backgroundColor: theme.vars.palette.background.paper,
   textAlign: 'left',
-  transition: theme.transitions.create(
-    ['background-color', 'border-color', 'opacity'],
-    {
-      duration: theme.transitions.duration.shorter,
-    }
-  ),
+  transition: theme.transitions.create(['border-color', 'opacity'], {
+    duration: theme.transitions.duration.shorter,
+  }),
   '&:not(.Mui-disabled):hover': {
-    backgroundColor: theme.vars.palette.action.hover,
+    borderColor: selected
+      ? theme.vars.palette.primary.main
+      : theme.vars.palette.grey[400],
+    backgroundColor: theme.vars.palette.background.paper,
   },
   '&.Mui-disabled': {
     opacity: 0.45,
@@ -39,6 +38,11 @@ export const CardSelectRoot: FC<
     borderColor: selected
       ? theme.vars.palette.primary.main
       : theme.vars.palette.grey[700],
+    '&:not(.Mui-disabled):hover': {
+      borderColor: selected
+        ? theme.vars.palette.primary.main
+        : theme.vars.palette.grey[600],
+    },
   }),
 }))
 

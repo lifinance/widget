@@ -32,8 +32,7 @@ export const ToggleSection: FC<React.ComponentProps<typeof Box>> = styled(Box)({
 export const ToggleItem: FC<React.ComponentProps<typeof Box>> = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
-  gap: 12,
-  padding: '24px 0',
+  padding: '32px 0',
   width: '100%',
 })
 
@@ -61,6 +60,7 @@ export const ToggleDescription: FC<React.ComponentProps<typeof Typography>> =
     fontWeight: 400,
     lineHeight: '20px',
     margin: 0,
+    paddingTop: 12,
     color: theme.vars.palette.text.secondary,
   }))
 
@@ -80,5 +80,9 @@ export const ConfigureLink: FC<React.ComponentProps<typeof ButtonBase>> =
     lineHeight: '18px',
     color: theme.vars.palette.primary.main,
     padding: 0,
+    paddingTop: 12,
     alignSelf: 'flex-start',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
   }))
