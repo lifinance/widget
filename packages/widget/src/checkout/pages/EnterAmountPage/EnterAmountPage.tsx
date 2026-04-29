@@ -19,10 +19,10 @@ export const EnterAmountPage: React.FC = () => {
 
   return (
     <PageContainer>
-      <SelectChainAndToken mb={2} />
+      <SelectChainAndToken sx={{ mb: 2 }} />
       <AmountInput formType="from" sx={{ mb: 2 }} />
       <Routes sx={{ mb: 2 }} />
-      <MainWarningMessages mb={2} />
+      <MainWarningMessages sx={{ mb: 2 }} />
       <Box sx={{ display: 'flex', mb: showPoweredBy ? 1 : 3, gap: 1.5 }}>
         <ReviewButton />
       </Box>

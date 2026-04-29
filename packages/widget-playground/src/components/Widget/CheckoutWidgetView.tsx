@@ -40,7 +40,11 @@ export function CheckoutWidgetView() {
         minHeight: 320,
       }}
     >
-      <Typography variant="body2" color="text.secondary" textAlign="center">
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        sx={{ textAlign: 'center' }}
+      >
         Path v1 checkout — opens as a centered widget via ref (
         <code>open()</code> / <code>close()</code>).
       </Typography>
