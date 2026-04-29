@@ -139,7 +139,6 @@ export const useRouteExecution = ({
       return executeRoute(sdkClient, routeExecution.route, {
         updateRouteHook,
         acceptExchangeRateUpdateHook,
-        infiniteApproval: false,
         executeInBackground,
         ...sdkClient.config?.executionOptions,
       })
@@ -164,7 +163,6 @@ export const useRouteExecution = ({
       return resumeRoute(sdkClient, resumedRoute ?? routeExecution.route, {
         updateRouteHook,
         acceptExchangeRateUpdateHook,
-        infiniteApproval: false,
         executeInBackground,
       })
     },
