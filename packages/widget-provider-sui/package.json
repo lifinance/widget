@@ -38,10 +38,10 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "4.0.0-beta.7",
-    "@lifi/sdk-provider-sui": "4.0.0-beta.7",
+    "@lifi/sdk": "^4.0.0-beta.8",
+    "@lifi/sdk-provider-sui": "^4.0.0-beta.8",
     "@lifi/widget-provider": "workspace:*",
-    "@mysten/sui": "^2.15.0"
+    "@mysten/sui": "^2.16.0"
   },
   "peerDependencies": {
     "@mysten/dapp-kit-react": "^2.0.0"
@@ -50,6 +50,6 @@
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "react": "^19.2.5",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.3"
   }
 }

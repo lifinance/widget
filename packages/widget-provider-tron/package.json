@@ -38,11 +38,11 @@
     "trx"
   ],
   "dependencies": {
-    "@lifi/sdk": "4.0.0-beta.7",
-    "@lifi/sdk-provider-tron": "4.0.0-beta.7",
+    "@lifi/sdk": "^4.0.0-beta.8",
+    "@lifi/sdk-provider-tron": "^4.0.0-beta.8",
     "@lifi/widget-provider": "workspace:*",
-    "@tronweb3/tronwallet-abstract-adapter": "1.1.12",
-    "@tronweb3/tronwallet-adapters": "^1.2.21"
+    "@tronweb3/tronwallet-abstract-adapter": "1.1.13",
+    "@tronweb3/tronwallet-adapters": "^1.2.25"
   },
   "peerDependencies": {
     "@tronweb3/tronwallet-adapter-react-hooks": "^1.1.11"
@@ -51,6 +51,6 @@
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "react": "^19.2.4",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.3"
   }
 }

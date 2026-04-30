@@ -45,14 +45,14 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "4.0.0-beta.7",
+    "@lifi/sdk": "^4.0.0-beta.8",
     "@lifi/widget-provider": "workspace:*",
     "@mui/icons-material": "^9.0.0",
     "@mui/material": "^9.0.0",
     "@mui/system": "^9.0.0",
-    "i18next": "^26.0.4",
+    "i18next": "^26.0.8",
     "mitt": "^3.0.1",
-    "react-i18next": "^17.0.2",
+    "react-i18next": "^17.0.6",
     "zustand": "^5.0.12"
   },
   "devDependencies": {
@@ -60,7 +60,7 @@
     "madge": "^8.0.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.3"
   },
   "peerDependencies": {
     "@tanstack/react-query": ">=5.90.0",

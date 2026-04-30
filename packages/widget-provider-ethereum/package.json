@@ -39,10 +39,10 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "4.0.0-beta.7",
-    "@lifi/sdk-provider-ethereum": "4.0.0-beta.7",
+    "@lifi/sdk": "^4.0.0-beta.8",
+    "@lifi/sdk-provider-ethereum": "^4.0.0-beta.8",
     "@lifi/widget-provider": "workspace:*",
-    "viem": "^2.47.11"
+    "viem": "^2.48.4"
   },
   "peerDependencies": {
     "@wagmi/core": "^3.x",
@@ -52,6 +52,6 @@
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "react": "^19.2.5",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.3"
   }
 }

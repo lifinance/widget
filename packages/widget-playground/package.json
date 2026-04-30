@@ -18,7 +18,7 @@
     "./widget-config": "./src/defaultWidgetConfig.ts"
   },
   "dependencies": {
-    "@base-org/account": "~2.5.3",
+    "@base-org/account": "~2.5.5",
     "@bigmi/client": "^0.8.0",
     "@bigmi/core": "^0.8.0",
     "@bigmi/react": "^0.8.0",
@@ -31,7 +31,7 @@
     "@lifi/widget-provider-solana": "workspace:*",
     "@lifi/widget-provider-sui": "workspace:*",
     "@lifi/widget-provider-tron": "workspace:*",
-    "@metamask/connect-evm": "^0.10.0",
+    "@metamask/connect-evm": "^1.0.0",
     "@monaco-editor/react": "^4.7.0",
     "@mui/icons-material": "^9.0.0",
     "@mui/lab": "9.0.0-beta.2",
@@ -44,7 +44,7 @@
     "@reown/appkit-adapter-wagmi": "^1.8.19",
     "@reown/appkit-common": "^1.8.19",
     "@reown/appkit-controllers": "^1.8.19",
-    "@tronweb3/tronwallet-abstract-adapter": "1.1.12",
+    "@tronweb3/tronwallet-abstract-adapter": "1.1.13",
     "@tronweb3/tronwallet-adapter-react-hooks": "^1.1.11",
     "@walletconnect/ethereum-provider": "~2.23.9",
     "csstype": "^3.2.3",
@@ -53,8 +53,8 @@
     "porto": "^0.2.37",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
-    "viem": "^2.47.11",
-    "wagmi": "^3.6.1",
+    "viem": "^2.48.4",
+    "wagmi": "^3.6.8",
     "zustand": "^5.0.12"
   },
   "devDependencies": {
@@ -63,8 +63,8 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "madge": "^8.0.0",
-    "typescript": "^6.0.2",
-    "vitest": "^4.1.4"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.5"
   },
   "peerDependencies": {
     "@tanstack/react-query": ">=5.90.0"

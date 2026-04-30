@@ -16,7 +16,7 @@
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
     "@lifi/widget-playground": "workspace:*",
-    "@tanstack/react-query": "^5.97.0",
+    "@tanstack/react-query": "^5.100.6",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "vite-plugin-mkcert": "^2.0.0"
@@ -25,8 +25,8 @@
     "@vitejs/plugin-react": "^6.0.1",
     "react-scan": "^0.5.3",
     "source-map-explorer": "^2.5.3",
-    "typescript": "^6.0.2",
-    "vite": "^8.0.8",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.10",
     "vite-plugin-node-polyfills": "0.26.0",
     "web-vitals": "^5.2.0"
   },
