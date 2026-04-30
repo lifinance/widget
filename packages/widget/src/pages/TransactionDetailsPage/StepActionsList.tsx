@@ -46,20 +46,27 @@ export const StepActionsList: React.FC<StepActionsListProps> = ({
     return null
   }
 
+  const lastStepIndex = stepRows.length - 1
+
   return (
     <TransactionList>
-      {stepRows.map(({ step, rows }) => (
-        <TransactionList key={step.id}>
-          {rows.map(({ action, href }, index) => (
-            <StepActionRow
-              key={index}
-              step={step}
-              action={action!}
-              href={href!}
-            />
-          ))}
-        </TransactionList>
-      ))}
+      {stepRows.map(({ step, rows }, stepIndex) => {
+        const lastRowIndex = rows.length - 1
+        const isLastStep = stepIndex === lastStepIndex
+        return (
+          <TransactionList key={step.id}>
+            {rows.map(({ action, href }, rowIndex) => (
+              <StepActionRow
+                key={rowIndex}
+                step={step}
+                action={action!}
+                href={href!}
+                defaultLabelsOnly={!(isLastStep && rowIndex === lastRowIndex)}
+              />
+            ))}
+          </TransactionList>
+        )
+      })}
       {toAddress ? (
         <SentToWalletRow toAddress={toAddress} toChainId={route.toChainId} />
       ) : null}
