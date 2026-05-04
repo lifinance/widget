@@ -1,12 +1,16 @@
+import type { AutocompleteProps } from '@mui/material'
 import {
   Box,
   InputBase,
   inputBaseClasses,
+  Autocomplete as MuiAutocomplete,
+  Popper,
   Slider,
   sliderClasses,
   styled,
 } from '@mui/material'
-import type { FC } from 'react'
+import { autocompleteClasses } from '@mui/material/Autocomplete'
+import type { FC, JSX } from 'react'
 
 export const Content: FC<React.ComponentProps<typeof Box>> = styled(Box)({
   display: 'flex',
@@ -249,3 +253,65 @@ export const ValueInput: FC<React.ComponentProps<typeof InputBase>> = styled(
     },
   },
 }))
+
+const FontAutocompleteBase: any = styled(MuiAutocomplete)(({ theme }) => ({
+  borderRadius: 12,
+  border: '1px solid',
+  borderColor: theme.vars.palette.divider,
+  backgroundColor: theme.vars.palette.background.paper,
+  transition: 'border-color 0.15s',
+  '&:hover': {
+    borderColor: 'rgba(0,0,0,0.24)',
+  },
+  '&:focus-within': {
+    borderColor: theme.vars.palette.primary.main,
+  },
+  '& .MuiOutlinedInput-notchedOutline': {
+    border: 'none',
+  },
+  [`& .${autocompleteClasses.inputRoot}`]: {
+    padding: '12px',
+    fontSize: 14,
+    fontWeight: 500,
+    lineHeight: '20px',
+    color: theme.vars.palette.text.secondary,
+  },
+  [`& .${autocompleteClasses.inputRoot} .${autocompleteClasses.input}`]: {
+    padding: 0,
+  },
+  [`& .${autocompleteClasses.endAdornment}`]: {
+    right: '12px !important',
+    color: theme.vars.palette.text.secondary,
+  },
+}))
+
+export const FontAutocomplete = <
+  T,
+  Multiple extends boolean | undefined = undefined,
+  DisableClearable extends boolean | undefined = undefined,
+  FreeSolo extends boolean | undefined = undefined,
+>(
+  props: AutocompleteProps<T, Multiple, DisableClearable, FreeSolo>
+): JSX.Element => {
+  return <FontAutocompleteBase {...props} />
+}
+
+export const FontPopper: React.FC<React.ComponentProps<typeof Popper>> = styled(
+  Popper
+)({
+  [`&.${autocompleteClasses.popper}`]: {
+    zIndex: 1502,
+  },
+  [`& .${autocompleteClasses.groupLabel}`]: {
+    position: 'static',
+  },
+})
+
+export const HelperText: FC<React.ComponentProps<typeof Box>> = styled(Box)(
+  ({ theme }) => ({
+    fontSize: 12,
+    fontWeight: 500,
+    lineHeight: '16px',
+    color: theme.vars.palette.text.secondary,
+  })
+)

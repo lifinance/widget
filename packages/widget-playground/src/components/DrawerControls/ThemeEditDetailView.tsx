@@ -3,16 +3,21 @@ import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined'
 import LineWeightOutlinedIcon from '@mui/icons-material/LineWeightOutlined'
 import type { CSSObject } from '@mui/material'
-import { Box, Divider } from '@mui/material'
-import type { JSX } from 'react'
+import { Box, Divider, TextField } from '@mui/material'
+import type { FocusEventHandler, JSX, SyntheticEvent } from 'react'
 import { useCallback, useEffect, useState } from 'react'
+import { useFontLoader } from '../../providers/FontLoaderProvider/FontLoaderProvider.js'
+import type { Font } from '../../providers/FontLoaderProvider/types.js'
+import { useEditToolsStore } from '../../store/editTools/EditToolsProvider.js'
+import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
 import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
+import { useConfigColorsFromPath } from '../../store/widgetConfig/useConfigValues.js'
 import { useThemeValues } from '../../store/widgetConfig/useThemeValues.js'
 import { useWidgetConfigStore } from '../../store/widgetConfig/WidgetConfigProvider.js'
 import { safe6DigitHexColor } from '../../utils/color.js'
-import { getValueFromPath } from '../../utils/getValueFromPath.js'
 import { Switch } from '../Switch.js'
 import { CapitalizeFirstLetter } from './DesignControls/DesignControls.style.js'
+import { allFonts } from './DesignControls/FontsControl/defaultFonts.js'
 import {
   MethodTab,
   MethodTabs,
@@ -21,6 +26,9 @@ import { DetailViewHeader } from './DetailViewHeader.js'
 import {
   ColorSwatch,
   Content,
+  FontAutocomplete,
+  FontPopper,
+  HelperText,
   HexLabel,
   PageDescription,
   PageTitle,
@@ -113,6 +121,7 @@ function mergeComponentRoot(
         ...theme?.components,
         [componentName]: {
           ...existing,
+          ...(componentName === 'MuiCard' && { variants: [] }),
           styleOverrides: {
             ...styleOverrides,
             root: {
@@ -146,11 +155,11 @@ export const ThemeEditDetailView = ({
   onReset,
 }: ThemeEditDetailViewProps): JSX.Element => {
   const {
-    setColor,
     setContainer,
     setBorderRadius,
     setBorderRadiusSecondary,
     setConfig,
+    setFontFamily,
   } = useConfigActions()
   const { selectedThemeItem } = useThemeValues()
   const config = useWidgetConfigStore((s) => s.config)
@@ -198,10 +207,6 @@ export const ThemeEditDetailView = ({
   const borderRadiusCard = shape.borderRadius ?? 8
   const borderRadiusButton = shape.borderRadiusSecondary ?? 8
 
-  const widgetBg =
-    (typeof container.backgroundColor === 'string' &&
-      container.backgroundColor) ||
-    '#FFFFFF'
   const widgetRadius = pxFromCss(container.borderRadius, 16)
   const widgetShadowStr =
     typeof container.boxShadow === 'string' ? container.boxShadow : ''
@@ -218,10 +223,6 @@ export const ThemeEditDetailView = ({
   const borderParsed = parseCssBorder(container.border as string | undefined)
   const widgetBorderOn = borderParsed.on
 
-  const cardBg =
-    (typeof cardRootObj.backgroundColor === 'string' &&
-      cardRootObj.backgroundColor) ||
-    '#FFFFFF'
   const cardShadowStr =
     typeof cardRootObj.boxShadow === 'string' ? cardRootObj.boxShadow : ''
   const cardShadowOn =
@@ -235,10 +236,6 @@ export const ThemeEditDetailView = ({
     cardRootObj.border as string | undefined
   )
 
-  const buttonBg =
-    (typeof buttonRootObj.backgroundColor === 'string' &&
-      buttonRootObj.backgroundColor) ||
-    '#FFFFFF'
   const buttonShadowStr =
     typeof buttonRootObj.boxShadow === 'string' ? buttonRootObj.boxShadow : ''
   const buttonShadowOn =
@@ -253,6 +250,72 @@ export const ThemeEditDetailView = ({
   const buttonBorderParsed = parseCssBorder(
     buttonRootObj.border as string | undefined
   )
+
+  const selectedFont = useEditToolsStore(
+    (store) => store.fontControl.selectedFont
+  )
+  const { setSelectedFont } = useEditToolsActions()
+  const { loadFont } = useFontLoader()
+
+  const setAndLoadFont = useCallback(
+    async (font: Font) => {
+      setSelectedFont(font)
+      await loadFont(font)
+      setFontFamily(
+        font.fallbackFonts
+          ? `${font.family}, ${font.fallbackFonts}`
+          : font.family
+      )
+    },
+    [setSelectedFont, loadFont, setFontFamily]
+  )
+
+  const handleFontChange = useCallback(
+    (_: SyntheticEvent<Element, Event>, value: Font | string | null) => {
+      if (typeof value === 'string') {
+        const cleanValue = value.replace(/['"`]/g, '')
+        setSelectedFont({ family: cleanValue, source: 'Custom fonts' })
+        setFontFamily(cleanValue)
+      } else {
+        setAndLoadFont(value ?? allFonts[0])
+      }
+    },
+    [setAndLoadFont, setSelectedFont, setFontFamily]
+  )
+
+  const handleFontBlur: FocusEventHandler<HTMLInputElement> = useCallback(
+    (event) => {
+      const inputValue = event.target.value.replace(/['"`]/g, '').trim()
+      const getFullName = (font: Font): string =>
+        font.fallbackFonts
+          ? `${font.family}, ${font.fallbackFonts}`
+          : font.family
+
+      if (!selectedFont || inputValue !== getFullName(selectedFont)) {
+        if (inputValue) {
+          const matchingFont = allFonts.find(
+            (font) =>
+              inputValue.toLowerCase() === getFullName(font).toLowerCase()
+          )
+          if (matchingFont) {
+            setAndLoadFont(matchingFont)
+          } else {
+            setSelectedFont({ family: inputValue, source: 'Custom fonts' })
+            setFontFamily(inputValue)
+          }
+        }
+      }
+    },
+    [selectedFont, setAndLoadFont, setSelectedFont, setFontFamily]
+  )
+
+  const sortedFonts = [...allFonts].sort((a, b) => {
+    let order = b.source.localeCompare(a.source)
+    if (order === 0) {
+      order = b.family.localeCompare(a.family)
+    }
+    return -order
+  }) as Font[]
 
   const updateContainer = useCallback(
     (patch: Record<string, string | number | undefined>) => {
@@ -312,20 +375,69 @@ export const ThemeEditDetailView = ({
         </MethodTabs>
 
         {PALETTE_LABELS.map(({ label, suffix }) => (
-          <PaletteColorRow
+          <ThemeColorRow
             key={suffix}
             label={`${label} color`}
             colorPath={colorPath(suffix)}
-            setColor={setColor}
           />
         ))}
 
+        <Box>
+          <Divider sx={{ my: '40px' }} />
+          <SectionHeading sx={{ marginTop: 0 }}>Typography</SectionHeading>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '12px',
+              mb: 3,
+            }}
+          >
+            {selectedFont && (
+              <FontAutocomplete
+                freeSolo
+                slots={{ popper: FontPopper }}
+                options={sortedFonts}
+                groupBy={(font) => (font as Font).source}
+                getOptionLabel={(font) => {
+                  if (typeof font === 'string') {
+                    return font
+                  }
+                  const f = font as Font
+                  return f.source === 'Custom fonts'
+                    ? f.family
+                    : f.fallbackFonts
+                      ? `${f.family}, ${f.fallbackFonts}`
+                      : f.family
+                }}
+                value={selectedFont}
+                isOptionEqualToValue={(option, value) =>
+                  (option as Font).family ===
+                  (typeof value === 'string' ? value : (value as Font).family)
+                }
+                onChange={handleFontChange}
+                onBlur={handleFontBlur}
+                renderInput={(params) => (
+                  <TextField {...params} aria-label="font selection" />
+                )}
+              />
+            )}
+            <HelperText>
+              To use custom fonts, embed them in your project.
+            </HelperText>
+          </Box>
+          <ThemeColorRow
+            label="Text primary"
+            colorPath={colorPath('text.primary')}
+          />
+          <ThemeColorRow
+            label="Text secondary"
+            colorPath={colorPath('text.secondary')}
+          />
+        </Box>
+
         <SurfaceBlock
           title="Widget"
-          surfaceColor={safe6DigitHexColor(widgetBg).toUpperCase()}
-          onSurfaceColorChange={(hex) =>
-            updateContainer({ backgroundColor: hex })
-          }
           radius={widgetRadius}
           onRadiusChange={(n) => updateContainer({ borderRadius: `${n}px` })}
           radiusMax={32}
@@ -381,10 +493,6 @@ export const ThemeEditDetailView = ({
 
         <SurfaceBlock
           title="Card"
-          surfaceColor={safe6DigitHexColor(cardBg).toUpperCase()}
-          onSurfaceColorChange={(hex) =>
-            updateCardComponent({ backgroundColor: hex })
-          }
           radius={borderRadiusCard}
           onRadiusChange={(n) => setBorderRadius(n)}
           radiusMax={24}
@@ -440,10 +548,6 @@ export const ThemeEditDetailView = ({
 
         <SurfaceBlock
           title="Button"
-          surfaceColor={safe6DigitHexColor(buttonBg).toUpperCase()}
-          onSurfaceColorChange={(hex) =>
-            updateButtonComponent({ backgroundColor: hex })
-          }
           radius={borderRadiusButton}
           onRadiusChange={(n) => setBorderRadiusSecondary(n)}
           radiusMax={24}
@@ -501,21 +605,22 @@ export const ThemeEditDetailView = ({
   )
 }
 
-interface PaletteColorRowProps {
+interface ThemeColorRowProps {
   label: string
   colorPath: string
-  setColor: (path: string, color: string) => void
 }
 
-const PaletteColorRow = ({
+const ThemeColorRow = ({
   label,
   colorPath,
-  setColor,
-}: PaletteColorRowProps): JSX.Element => {
-  const raw = useWidgetConfigStore((s) =>
-    getValueFromPath<string>(s.config, colorPath)
-  )
-  const colorValue = raw ?? '#000000'
+}: ThemeColorRowProps): JSX.Element | null => {
+  const [colorValue] = useConfigColorsFromPath(colorPath)
+  const { setColor } = useConfigActions()
+
+  if (!colorValue) {
+    return null
+  }
+
   const hex = safe6DigitHexColor(colorValue).toUpperCase()
 
   return (
@@ -626,7 +731,14 @@ const BorderWeightRow = ({
       <RowValue>
         <ValueInput
           value={draft}
-          onChange={(e) => setDraft(e.target.value)}
+          onChange={(e) => {
+            const v = e.target.value
+            setDraft(v)
+            const n = Number.parseInt(v, 10)
+            if (Number.isFinite(n) && n >= 1 && n <= 4) {
+              onChange(n)
+            }
+          }}
           onBlur={commit}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
@@ -699,8 +811,6 @@ const EditableSliderValue = ({
 
 interface SurfaceBlockProps {
   title: string
-  surfaceColor: string
-  onSurfaceColorChange: (hex: string) => void
   radius: number
   onRadiusChange: (n: number) => void
   radiusMax: number
@@ -720,8 +830,6 @@ interface SurfaceBlockProps {
 
 const SurfaceBlock = ({
   title,
-  surfaceColor,
-  onSurfaceColorChange,
   radius,
   onRadiusChange,
   radiusMax,
@@ -742,12 +850,6 @@ const SurfaceBlock = ({
     <Box>
       <Divider sx={{ my: '40px' }} />
       <SectionHeading sx={{ marginTop: 0 }}>{title}</SectionHeading>
-      <EditableColorRow
-        label="Color"
-        hex={surfaceColor}
-        ariaLabel={`${title} color`}
-        onChange={onSurfaceColorChange}
-      />
       <SliderRow>
         <RowLabel>Corner radius</RowLabel>
         <ThemeSlider
