@@ -5,24 +5,23 @@ import LineWeightOutlinedIcon from '@mui/icons-material/LineWeightOutlined'
 import type { CSSObject } from '@mui/material'
 import { Box, Divider, TextField } from '@mui/material'
 import type { FocusEventHandler, JSX, SyntheticEvent } from 'react'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { useThemeMode } from '../../hooks/useThemeMode.js'
 import { useFontLoader } from '../../providers/FontLoaderProvider/FontLoaderProvider.js'
 import type { Font } from '../../providers/FontLoaderProvider/types.js'
 import { useEditToolsStore } from '../../store/editTools/EditToolsProvider.js'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
+import { usePlaygroundSettingValues } from '../../store/editTools/usePlaygroundSettingValues.js'
 import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
 import { useConfigColorsFromPath } from '../../store/widgetConfig/useConfigValues.js'
 import { useThemeValues } from '../../store/widgetConfig/useThemeValues.js'
 import { useWidgetConfigStore } from '../../store/widgetConfig/WidgetConfigProvider.js'
 import { safe6DigitHexColor } from '../../utils/color.js'
 import { Switch } from '../Switch.js'
-import { CapitalizeFirstLetter } from './DesignControls/DesignControls.style.js'
 import { allFonts } from './DesignControls/FontsControl/defaultFonts.js'
-import {
-  MethodTab,
-  MethodTabs,
-} from './DesignControls/FormValuesControls.style.js'
+import { CapitalizeFirstLetter } from './DetailView.style.js'
 import { DetailViewHeader } from './DetailViewHeader.js'
+import { MethodTab, MethodTabs } from './FormValuesControls.style.js'
 import {
   ColorSwatch,
   Content,
@@ -137,7 +136,6 @@ function mergeComponentRoot(
 
 interface ThemeEditDetailViewProps {
   onBack: () => void
-  onReset: () => void
 }
 
 const PALETTE_LABELS: Array<{ label: string; suffix: string }> = [
@@ -152,7 +150,6 @@ const PALETTE_LABELS: Array<{ label: string; suffix: string }> = [
 
 export const ThemeEditDetailView = ({
   onBack,
-  onReset,
 }: ThemeEditDetailViewProps): JSX.Element => {
   const {
     setContainer,
@@ -160,9 +157,21 @@ export const ThemeEditDetailView = ({
     setBorderRadiusSecondary,
     setConfig,
     setFontFamily,
+    setConfigTheme,
+    setAppearance,
   } = useConfigActions()
+  const { setSelectedFont, setViewportBackgroundColor } = useEditToolsActions()
+  const { viewportColor } = usePlaygroundSettingValues()
+  const { themeMode, setMode } = useThemeMode()
   const { selectedThemeItem } = useThemeValues()
   const config = useWidgetConfigStore((s) => s.config)
+  const defaultConfig = useWidgetConfigStore((s) => s.defaultConfig)
+
+  const handleReset = useCallback((): void => {
+    const defaultTheme = defaultConfig?.theme ?? {}
+    setConfigTheme(defaultTheme, 'default')
+    setSelectedFont(allFonts[0])
+  }, [defaultConfig, setConfigTheme, setSelectedFont])
 
   const schemeKeys = Object.keys(selectedThemeItem?.theme.colorSchemes ?? {})
   const canLight = schemeKeys.includes('light')
@@ -254,7 +263,6 @@ export const ThemeEditDetailView = ({
   const selectedFont = useEditToolsStore(
     (store) => store.fontControl.selectedFont
   )
-  const { setSelectedFont } = useEditToolsActions()
   const { loadFont } = useFontLoader()
 
   const setAndLoadFont = useCallback(
@@ -343,7 +351,7 @@ export const ThemeEditDetailView = ({
 
   return (
     <>
-      <DetailViewHeader onBack={onBack} onReset={onReset} />
+      <DetailViewHeader onBack={onBack} onReset={handleReset} />
       <Content>
         <PageTitle>Edit theme</PageTitle>
         <PageDescription>
@@ -352,26 +360,37 @@ export const ThemeEditDetailView = ({
         </PageDescription>
 
         <SectionHeading>Color palette</SectionHeading>
+        <RowLabel>Mode</RowLabel>
         <MethodTabs
           value={effectivePaletteMode}
-          onChange={(_, value: 'light' | 'dark') => setPaletteMode(value)}
+          onChange={(_, value: 'light' | 'dark') => {
+            setPaletteMode(value)
+            setAppearance(value)
+            setMode(value)
+            setViewportBackgroundColor(
+              selectedThemeItem?.theme.colorSchemes?.[value]?.palette
+                ?.playground?.main
+            )
+          }}
           aria-label="Palette mode"
           sx={{ marginBottom: 1 }}
         >
-          <MethodTab
-            value="light"
-            disabled={!canLight}
-            disableRipple
-            label={<LightModeOutlinedIcon sx={{ fontSize: 24 }} />}
-            aria-label="Light palette"
-          />
-          <MethodTab
-            value="dark"
-            disabled={!canDark}
-            disableRipple
-            label={<DarkModeOutlinedIcon sx={{ fontSize: 24 }} />}
-            aria-label="Dark palette"
-          />
+          {canLight ? (
+            <MethodTab
+              value="light"
+              disableRipple
+              label={<LightModeOutlinedIcon sx={{ fontSize: 24 }} />}
+              aria-label="Light palette"
+            />
+          ) : null}
+          {canDark ? (
+            <MethodTab
+              value="dark"
+              disableRipple
+              label={<DarkModeOutlinedIcon sx={{ fontSize: 24 }} />}
+              aria-label="Dark palette"
+            />
+          ) : null}
         </MethodTabs>
 
         {PALETTE_LABELS.map(({ label, suffix }) => (
@@ -381,6 +400,16 @@ export const ThemeEditDetailView = ({
             colorPath={colorPath(suffix)}
           />
         ))}
+        <EditableColorRow
+          label={
+            <CapitalizeFirstLetter>Viewport background</CapitalizeFirstLetter>
+          }
+          hex={safe6DigitHexColor(
+            viewportColor || (themeMode === 'dark' ? '#000000' : '#F5F5F5')
+          ).toUpperCase()}
+          ariaLabel="Viewport background"
+          onChange={(newHex) => setViewportBackgroundColor(newHex)}
+        />
 
         <Box>
           <Divider sx={{ my: '40px' }} />
@@ -648,6 +677,8 @@ const EditableColorRow = ({
 }: EditableColorRowProps): JSX.Element => {
   const stripped = hex.replace(/^#/, '').toUpperCase()
   const [draft, setDraft] = useState(stripped)
+  const colorInputRef = useRef<HTMLInputElement>(null)
+  const hexInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     setDraft(hex.replace(/^#/, '').toUpperCase())
@@ -664,15 +695,26 @@ const EditableColorRow = ({
     }
   }, [draft, stripped, onChange])
 
+  const handleRowClick = useCallback(() => {
+    hexInputRef.current?.focus()
+    hexInputRef.current?.select()
+    colorInputRef.current?.click()
+  }, [])
+
   return (
-    <Row>
+    <Row onClick={handleRowClick} sx={{ cursor: 'pointer' }}>
       <RowLabel>{label}</RowLabel>
       <RowValue>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box
+          sx={{ display: 'flex', alignItems: 'center' }}
+          onClick={(e) => e.stopPropagation()}
+        >
           <HexLabel>#</HexLabel>
           <ValueInput
+            inputRef={hexInputRef}
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
+            onFocus={(e) => (e.target as HTMLInputElement).select()}
             onBlur={commit}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
@@ -687,6 +729,7 @@ const EditableColorRow = ({
           />
         </Box>
         <ColorSwatch
+          inputRef={colorInputRef}
           aria-label={`${ariaLabel} picker`}
           type="color"
           swatchColor={safe6DigitHexColor(`#${stripped}`)}
@@ -710,6 +753,7 @@ const BorderWeightRow = ({
   onChange,
 }: BorderWeightRowProps): JSX.Element => {
   const [draft, setDraft] = useState(String(value))
+  const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     setDraft(String(value))
@@ -725,11 +769,17 @@ const BorderWeightRow = ({
     }
   }, [draft, value, onChange])
 
+  const handleRowClick = useCallback(() => {
+    inputRef.current?.focus()
+    inputRef.current?.select()
+  }, [])
+
   return (
-    <Row>
+    <Row onClick={handleRowClick} sx={{ cursor: 'pointer' }}>
       <RowLabel>Weight</RowLabel>
       <RowValue>
         <ValueInput
+          inputRef={inputRef}
           value={draft}
           onChange={(e) => {
             const v = e.target.value
@@ -739,6 +789,7 @@ const BorderWeightRow = ({
               onChange(n)
             }
           }}
+          onFocus={(e) => (e.target as HTMLInputElement).select()}
           onBlur={commit}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
@@ -794,6 +845,7 @@ const EditableSliderValue = ({
     <SliderValueInput
       value={draft}
       onChange={(e) => setDraft(e.target.value)}
+      onFocus={(e) => (e.target as HTMLInputElement).select()}
       onBlur={commit}
       onKeyDown={(e) => {
         if (e.key === 'Enter') {

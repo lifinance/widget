@@ -11,7 +11,6 @@ import { useFontInitialisation } from '../../providers/FontLoaderProvider/FontLo
 import { useDrawerToolValues } from '../../store/editTools/useDrawerToolValues.js'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
 import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
-import { ThemeControl } from './DesignControls/ThemeControl.js'
 import { DeveloperControlsDetailView } from './DeveloperControlsDetailView.js'
 import {
   Drawer,
@@ -28,21 +27,21 @@ import { ModeDetailView } from './ModeDetailView.js'
 import { NavListItem } from './NavListItem.js'
 import { SidebarFooter } from './SidebarFooter.js'
 import { SidebarHeader } from './SidebarHeader.js'
+import { ThemeControl } from './ThemeControl.js'
 import { ThemeEditDetailView } from './ThemeEditDetailView.js'
 import { VariantDetailView } from './VariantDetailView.js'
 import { WalletManagementDetailView } from './WalletManagementDetailView.js'
 
 export const DrawerControls = (): JSX.Element => {
   const { isDrawerOpen, drawerWidth } = useDrawerToolValues()
-  const { setDrawerOpen } = useEditToolsActions()
+  const { setDrawerOpen, resetEditTools } = useEditToolsActions()
   const { resetConfig } = useConfigActions()
-  const { resetEditTools } = useEditToolsActions()
   const [activeView, setActiveView] = useState<SidebarView>('nav')
   const [expandedItem, setExpandedItem] = useState<string | null>(null)
 
   useFontInitialisation()
 
-  const handleReset = useCallback((): void => {
+  const handleResetAll = useCallback((): void => {
     resetConfig()
     resetEditTools()
   }, [resetConfig, resetEditTools])
@@ -75,7 +74,7 @@ export const DrawerControls = (): JSX.Element => {
           <SidebarViewTrack activeView={activeView}>
             <SidebarSlidePanel>
               <SidebarHeader
-                onReset={handleReset}
+                onReset={handleResetAll}
                 onToggleDrawer={handleToggleDrawer}
               />
               <NavContent>
@@ -126,35 +125,17 @@ export const DrawerControls = (): JSX.Element => {
             </SidebarSlidePanel>
             <SidebarSlidePanel>
               {activeView === 'mode' ? (
-                <ModeDetailView
-                  onBack={handleNavigateBack}
-                  onReset={handleReset}
-                />
+                <ModeDetailView onBack={handleNavigateBack} />
               ) : activeView === 'variant' ? (
-                <VariantDetailView
-                  onBack={handleNavigateBack}
-                  onReset={handleReset}
-                />
+                <VariantDetailView onBack={handleNavigateBack} />
               ) : activeView === 'height' ? (
-                <HeightDetailView
-                  onBack={handleNavigateBack}
-                  onReset={handleReset}
-                />
+                <HeightDetailView onBack={handleNavigateBack} />
               ) : activeView === 'wallet' ? (
-                <WalletManagementDetailView
-                  onBack={handleNavigateBack}
-                  onReset={handleReset}
-                />
+                <WalletManagementDetailView onBack={handleNavigateBack} />
               ) : activeView === 'developer' ? (
-                <DeveloperControlsDetailView
-                  onBack={handleNavigateBack}
-                  onReset={handleReset}
-                />
+                <DeveloperControlsDetailView onBack={handleNavigateBack} />
               ) : activeView === 'themeEdit' ? (
-                <ThemeEditDetailView
-                  onBack={handleNavigateBack}
-                  onReset={handleReset}
-                />
+                <ThemeEditDetailView onBack={handleNavigateBack} />
               ) : null}
             </SidebarSlidePanel>
           </SidebarViewTrack>

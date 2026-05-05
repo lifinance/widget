@@ -8,7 +8,7 @@ export const HeaderContainer: FC<React.ComponentProps<typeof Box>> = styled(
   alignItems: 'center',
   gap: 32,
   padding: theme.spacing(1.5, 2.5),
-  backgroundColor: theme.vars.palette.background.default,
+  backgroundColor: theme.vars.palette.background.paper,
 }))
 
 export const HeaderActions: FC<React.ComponentProps<typeof Box>> = styled(Box)(

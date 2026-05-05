@@ -5,6 +5,7 @@ import {
   useConfigSubvariant,
   useConfigSubvariantOptions,
 } from '../../store/widgetConfig/useConfigValues.js'
+import { useDefaultConfig } from '../../store/widgetConfig/useDefaultConfig.js'
 import { CardSelect } from './CardSelect.js'
 import { DetailViewHeader } from './DetailViewHeader.js'
 import {
@@ -38,21 +39,26 @@ function getActiveMode(
 
 interface ModeDetailViewProps {
   onBack: () => void
-  onReset: () => void
 }
 
 export const ModeDetailView = ({
   onBack,
-  onReset,
 }: ModeDetailViewProps): JSX.Element => {
   const { subvariant } = useConfigSubvariant()
   const { subvariantOptions } = useConfigSubvariantOptions()
   const { setSubvariant, setSplitOption } = useConfigActions()
+  const { defaultConfig } = useDefaultConfig()
 
   const activeMode = getActiveMode(
     subvariant,
     subvariantOptions?.split as string | undefined
   )
+
+  const handleReset = useCallback((): void => {
+    setSubvariant(defaultConfig?.subvariant ?? 'default')
+    const defaultSplit = defaultConfig?.subvariantOptions?.split
+    setSplitOption(typeof defaultSplit === 'string' ? defaultSplit : undefined)
+  }, [defaultConfig, setSubvariant, setSplitOption])
 
   const handleSelect = useCallback(
     (mode: ModeOption): void => {
@@ -84,7 +90,7 @@ export const ModeDetailView = ({
 
   return (
     <>
-      <DetailViewHeader onBack={onBack} onReset={onReset} />
+      <DetailViewHeader onBack={onBack} onReset={handleReset} />
       <Content>
         <TitleSection>
           <Title>Mode</Title>

@@ -1,6 +1,8 @@
 import type { JSX } from 'react'
 import { useCallback } from 'react'
 import type { Layout } from '../../store/editTools/types.js'
+import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
+import { useDefaultConfig } from '../../store/widgetConfig/useDefaultConfig.js'
 import { CardSelect } from './CardSelect.js'
 import { HeightControl } from './DesignControls/LayoutControls/HeightControl.js'
 import { usePlaygroundLayoutControls } from './DesignControls/LayoutControls/usePlaygroundLayoutControls.js'
@@ -15,12 +17,10 @@ import {
 
 interface HeightDetailViewProps {
   onBack: () => void
-  onReset: () => void
 }
 
 export const HeightDetailView = ({
   onBack,
-  onReset,
 }: HeightDetailViewProps): JSX.Element => {
   const {
     selectedLayoutId,
@@ -29,8 +29,15 @@ export const HeightDetailView = ({
     setHeightValue,
     variant,
   } = usePlaygroundLayoutControls()
+  const { setHeader, setContainer } = useConfigActions()
+  const { defaultConfig } = useDefaultConfig()
 
   const isDrawerVariant = variant === 'drawer'
+
+  const handleReset = useCallback((): void => {
+    setHeader(defaultConfig?.theme?.header)
+    setContainer(defaultConfig?.theme?.container)
+  }, [defaultConfig, setHeader, setContainer])
 
   const handleSelect = useCallback(
     (layoutId: Layout): void => {
@@ -64,7 +71,7 @@ export const HeightDetailView = ({
 
   return (
     <>
-      <DetailViewHeader onBack={onBack} onReset={onReset} />
+      <DetailViewHeader onBack={onBack} onReset={handleReset} />
       <Content>
         <TitleSection>
           <Title>Height</Title>

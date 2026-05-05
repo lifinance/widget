@@ -1,18 +1,17 @@
 import { useWidgetEvents, WidgetEvent, type WidgetEvents } from '@lifi/widget'
 import { Box, Collapse, Divider } from '@mui/material'
 import type { JSX } from 'react'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useDevView } from '../../hooks/useDevView.js'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
 import { useSkeletonToolValues } from '../../store/editTools/useSkeletonToolValues.js'
 import { setQueryStringParam } from '../../utils/setQueryStringParam.js'
 import { Switch } from '../Switch.js'
-import { FormValuesDevPanel } from './DesignControls/FormValuesControls.js'
 import {
   clearPlaygroundBookmarkStores,
   readPlaygroundBookmarksSeeded,
   seedPlaygroundBookmarkStores,
-} from './DesignControls/PlaygroundSettingsControl/BookmarkStoreControls.js'
+} from './BookmarkStoreControls.js'
 import { DetailViewHeader } from './DetailViewHeader.js'
 import {
   ConfigureLink,
@@ -25,10 +24,10 @@ import {
   ToggleRow,
   ToggleSection,
 } from './DeveloperControlsDetailView.style.js'
+import { FormValuesDevPanel } from './FormValuesControls.js'
 
 interface DeveloperControlsDetailViewProps {
   onBack: () => void
-  onReset: () => void
 }
 
 type WidgetEventName = (typeof WidgetEvent)[keyof typeof WidgetEvent]
@@ -119,12 +118,16 @@ const getAllWidgetEventsOnFromQueryString = (): boolean => {
 
 export const DeveloperControlsDetailView = ({
   onBack,
-  onReset,
 }: DeveloperControlsDetailViewProps): JSX.Element => {
   const { isDevView, toggleDevView } = useDevView()
   const widgetEvents = useWidgetEvents()
   const { isSkeletonShown } = useSkeletonToolValues()
   const { setSkeletonShow } = useEditToolsActions()
+
+  const handleReset = useCallback((): void => {
+    setSkeletonShow(false)
+  }, [setSkeletonShow])
+
   const [activeSection, setActiveSection] =
     useState<DeveloperControlsSection>('main')
   const [allWidgetEventsOn, setAllWidgetEventsOn] = useState(
@@ -190,7 +193,7 @@ export const DeveloperControlsDetailView = ({
       <>
         <DetailViewHeader
           onBack={() => setActiveSection('main')}
-          onReset={onReset}
+          onReset={handleReset}
         />
         <Content sx={{ gap: '32px' }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -241,7 +244,7 @@ export const DeveloperControlsDetailView = ({
 
   return (
     <>
-      <DetailViewHeader onBack={onBack} onReset={onReset} />
+      <DetailViewHeader onBack={onBack} onReset={handleReset} />
       <Content>
         <Title>Developer controls</Title>
         <ToggleSection>

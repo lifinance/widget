@@ -2,9 +2,9 @@ import { ChainType } from '@lifi/widget'
 import { Box } from '@mui/material'
 import type { JSX } from 'react'
 import { useCallback, useState } from 'react'
-import { useEditToolsActions } from '../../../store/editTools/useEditToolsActions.js'
-import type { FormValues } from '../../../store/types.js'
-import { useConfigActions } from '../../../store/widgetConfig/useConfigActions.js'
+import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
+import type { FormValues } from '../../store/types.js'
+import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
 import {
   FormBlock,
   MethodHint,

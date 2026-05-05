@@ -71,7 +71,7 @@ export const ThemeName: FC<React.ComponentProps<typeof Typography>> = styled(
   color: theme.vars.palette.text.primary,
 }))
 
-export const EditThemeButton: FC<ComponentProps<'button'>> = styled('button')(
+export const EditThemeButton: FC<ComponentProps<'span'>> = styled('span')(
   ({ theme }) => ({
     border: 'none',
     borderRadius: 8,

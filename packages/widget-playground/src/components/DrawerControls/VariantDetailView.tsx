@@ -3,6 +3,7 @@ import type { JSX } from 'react'
 import { useCallback } from 'react'
 import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
 import { useConfigVariant } from '../../store/widgetConfig/useConfigValues.js'
+import { useDefaultConfig } from '../../store/widgetConfig/useDefaultConfig.js'
 import { CardSelect } from './CardSelect.js'
 import { DetailViewHeader } from './DetailViewHeader.js'
 import {
@@ -15,16 +16,21 @@ import {
 
 interface VariantDetailViewProps {
   onBack: () => void
-  onReset: () => void
 }
 
 export const VariantDetailView = ({
   onBack,
-  onReset,
 }: VariantDetailViewProps): JSX.Element => {
   const { variant } = useConfigVariant()
   const { setVariant, setHeader, setContainer, getCurrentConfigTheme } =
     useConfigActions()
+  const { defaultConfig } = useDefaultConfig()
+
+  const handleReset = useCallback((): void => {
+    setVariant(defaultConfig?.variant ?? 'compact')
+    setHeader(defaultConfig?.theme?.header)
+    setContainer(defaultConfig?.theme?.container)
+  }, [defaultConfig, setVariant, setHeader, setContainer])
 
   const handleSelect = useCallback(
     (value: WidgetVariant): void => {
@@ -54,7 +60,7 @@ export const VariantDetailView = ({
 
   return (
     <>
-      <DetailViewHeader onBack={onBack} onReset={onReset} />
+      <DetailViewHeader onBack={onBack} onReset={handleReset} />
       <Content>
         <TitleSection>
           <Title>Variant</Title>

@@ -9,7 +9,7 @@ import {
   tabsClasses,
 } from '@mui/material'
 import type { FC } from 'react'
-import { getCardFieldsetBackgroundColor } from '../../../utils/color.js'
+import { getCardFieldsetBackgroundColor } from '../../utils/color.js'
 
 export const SectionLabel: FC<React.ComponentProps<typeof Typography>> = styled(
   Typography

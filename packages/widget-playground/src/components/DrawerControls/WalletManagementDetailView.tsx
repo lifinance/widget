@@ -3,6 +3,7 @@ import type { JSX } from 'react'
 import { useCallback, useMemo } from 'react'
 import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
 import { useConfigWalletManagement } from '../../store/widgetConfig/useConfigValues.js'
+import { useDefaultConfig } from '../../store/widgetConfig/useDefaultConfig.js'
 import { CardSelect } from './CardSelect.js'
 import { DetailViewHeader } from './DetailViewHeader.js'
 import {
@@ -17,12 +18,10 @@ type WalletManagementMode = 'internal' | 'external' | 'partial'
 
 interface WalletManagementDetailViewProps {
   onBack: () => void
-  onReset: () => void
 }
 
 export const WalletManagementDetailView = ({
   onBack,
-  onReset,
 }: WalletManagementDetailViewProps): JSX.Element => {
   const {
     replacementWalletConfig,
@@ -30,6 +29,7 @@ export const WalletManagementDetailView = ({
     isPartialWalletManagement,
   } = useConfigWalletManagement()
   const { setWalletConfig } = useConfigActions()
+  const { defaultConfig } = useDefaultConfig()
 
   const activeMode = useMemo((): WalletManagementMode => {
     if (!isExternalWalletManagement) {
@@ -40,6 +40,10 @@ export const WalletManagementDetailView = ({
     }
     return 'external'
   }, [isExternalWalletManagement, isPartialWalletManagement])
+
+  const handleReset = useCallback((): void => {
+    setWalletConfig(defaultConfig?.walletConfig)
+  }, [defaultConfig, setWalletConfig])
 
   const handleSelectInternal = useCallback((): void => {
     setWalletConfig(undefined)
@@ -63,7 +67,7 @@ export const WalletManagementDetailView = ({
 
   return (
     <>
-      <DetailViewHeader onBack={onBack} onReset={onReset} />
+      <DetailViewHeader onBack={onBack} onReset={handleReset} />
       <Content>
         <TitleSection>
           <Title>Wallet management</Title>

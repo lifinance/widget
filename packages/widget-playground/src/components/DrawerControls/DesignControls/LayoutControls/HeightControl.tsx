@@ -5,7 +5,7 @@ import { inputBaseClasses } from '@mui/material/InputBase'
 import { type FocusEventHandler, type JSX, useCallback, useId } from 'react'
 import type { Layout } from '../../../../store/editTools/types.js'
 import { useConfigActions } from '../../../../store/widgetConfig/useConfigActions.js'
-import { Input } from '../DesignControls.style.js'
+import { Input } from './HeightControl.style.js'
 
 export const HeightControl = ({
   selectedLayoutId,

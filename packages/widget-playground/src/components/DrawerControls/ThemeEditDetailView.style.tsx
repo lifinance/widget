@@ -1,4 +1,3 @@
-import type { AutocompleteProps } from '@mui/material'
 import {
   Box,
   InputBase,
@@ -10,7 +9,7 @@ import {
   styled,
 } from '@mui/material'
 import { autocompleteClasses } from '@mui/material/Autocomplete'
-import type { FC, JSX } from 'react'
+import type { FC } from 'react'
 
 export const Content: FC<React.ComponentProps<typeof Box>> = styled(Box)({
   display: 'flex',
@@ -70,6 +69,9 @@ export const Row: FC<React.ComponentProps<typeof Box>> = styled(Box)(
     transition: 'border-color 0.15s',
     '&:hover': {
       borderColor: 'rgba(0,0,0,0.24)',
+      ...theme.applyStyles('dark', {
+        borderColor: 'rgba(255,255,255,0.24)',
+      }),
     },
     '&:focus-within': {
       borderColor: theme.vars.palette.primary.main,
@@ -113,14 +115,15 @@ export const ColorSwatch: FC<
   React.ComponentProps<typeof InputBase> & { swatchColor: string }
 > = styled(InputBase, {
   shouldForwardProp: (prop) => prop !== 'swatchColor',
-})<{ swatchColor: string }>(({ swatchColor }) => ({
+})<{ swatchColor: string }>(({ theme, swatchColor }) => ({
   width: 24,
   height: 24,
   minHeight: 0,
   padding: 0,
   borderRadius: 4,
   backgroundColor: swatchColor,
-  border: '1px solid rgba(0,0,0,0.08)',
+  border: '1px solid',
+  borderColor: theme.vars.palette.divider,
   overflow: 'hidden',
   cursor: 'pointer',
   [`& .${inputBaseClasses.input}`]: {
@@ -176,7 +179,7 @@ export const ThemeSlider: FC<React.ComponentProps<typeof Slider>> = styled(
   [`& .${sliderClasses.rail}`]: {
     height: 4,
     borderRadius: 4,
-    backgroundColor: 'rgba(0,0,0,0.12)',
+    backgroundColor: theme.vars.palette.divider,
     opacity: 1,
   },
   [`& .${sliderClasses.track}`]: {
@@ -190,10 +193,10 @@ export const ThemeSlider: FC<React.ComponentProps<typeof Slider>> = styled(
     height: 16,
     backgroundColor: '#fff',
     border: '1px solid',
-    borderColor: 'rgba(0,0,0,0.24)',
+    borderColor: theme.vars.palette.divider,
     boxShadow: 'none',
     '&:hover, &.Mui-focusVisible': {
-      boxShadow: `0 0 0 4px rgba(92, 103, 255, 0.16)`,
+      boxShadow: '0 0 0 4px rgba(92, 103, 255, 0.16)',
     },
     '&::before': {
       display: 'none',
@@ -254,7 +257,7 @@ export const ValueInput: FC<React.ComponentProps<typeof InputBase>> = styled(
   },
 }))
 
-const FontAutocompleteBase: any = styled(MuiAutocomplete)(({ theme }) => ({
+export const FontAutocomplete = styled(MuiAutocomplete)(({ theme }) => ({
   borderRadius: 12,
   border: '1px solid',
   borderColor: theme.vars.palette.divider,
@@ -262,6 +265,9 @@ const FontAutocompleteBase: any = styled(MuiAutocomplete)(({ theme }) => ({
   transition: 'border-color 0.15s',
   '&:hover': {
     borderColor: 'rgba(0,0,0,0.24)',
+    ...theme.applyStyles('dark', {
+      borderColor: 'rgba(255,255,255,0.24)',
+    }),
   },
   '&:focus-within': {
     borderColor: theme.vars.palette.primary.main,
@@ -283,18 +289,7 @@ const FontAutocompleteBase: any = styled(MuiAutocomplete)(({ theme }) => ({
     right: '12px !important',
     color: theme.vars.palette.text.secondary,
   },
-}))
-
-export const FontAutocomplete = <
-  T,
-  Multiple extends boolean | undefined = undefined,
-  DisableClearable extends boolean | undefined = undefined,
-  FreeSolo extends boolean | undefined = undefined,
->(
-  props: AutocompleteProps<T, Multiple, DisableClearable, FreeSolo>
-): JSX.Element => {
-  return <FontAutocompleteBase {...props} />
-}
+})) as typeof MuiAutocomplete
 
 export const FontPopper: React.FC<React.ComponentProps<typeof Popper>> = styled(
   Popper

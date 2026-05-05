@@ -1,11 +1,11 @@
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined'
 import type { JSX } from 'react'
-import { useThemeMode } from '../../../hooks/useThemeMode.js'
-import type { ThemeItem } from '../../../store/editTools/types.js'
-import { useEditToolsActions } from '../../../store/editTools/useEditToolsActions.js'
-import { useConfigActions } from '../../../store/widgetConfig/useConfigActions.js'
-import { useThemeValues } from '../../../store/widgetConfig/useThemeValues.js'
+import { useThemeMode } from '../../hooks/useThemeMode.js'
+import type { ThemeItem } from '../../store/editTools/types.js'
+import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
+import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
+import { useThemeValues } from '../../store/widgetConfig/useThemeValues.js'
 import {
   EditThemeButton,
   PreviewButton,
@@ -107,8 +107,8 @@ interface ThemeControlProps {
 export const ThemeControl = ({
   onOpenEditTheme,
 }: ThemeControlProps): JSX.Element => {
-  const { setConfigTheme } = useConfigActions()
-  const { themeMode } = useThemeMode()
+  const { setConfigTheme, setAppearance } = useConfigActions()
+  const { themeMode, setMode } = useThemeMode()
   const { selectedThemeId, allThemesItems } = useThemeValues()
   const { setViewportBackgroundColor } = useEditToolsActions()
 
@@ -125,6 +125,10 @@ export const ThemeControl = ({
             : undefined
 
     setConfigTheme(themeItem.theme, themeItem.id)
+    if (nextThemeMode && nextThemeMode !== themeMode) {
+      setAppearance(nextThemeMode)
+      setMode(nextThemeMode)
+    }
     setViewportBackgroundColor(
       nextThemeMode
         ? themeItem.theme.colorSchemes?.[nextThemeMode]?.palette?.playground
@@ -155,7 +159,7 @@ export const ThemeControl = ({
               <ThemeName>{displayName}</ThemeName>
               {isSelected ? (
                 <EditThemeButton
-                  type="button"
+                  role="button"
                   onClick={(event) => {
                     event.stopPropagation()
                     onOpenEditTheme?.()

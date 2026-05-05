@@ -10,7 +10,7 @@ export const HeaderContainer: FC<React.ComponentProps<typeof Box>> = styled(
   justifyContent: 'space-between',
   width: '100%',
   padding: theme.spacing(1.5, 2.5),
-  backgroundColor: theme.vars.palette.background.default,
+  backgroundColor: theme.vars.palette.background.paper,
 }))
 
 export const BackButton: FC<React.ComponentProps<typeof ButtonBase>> = styled(
