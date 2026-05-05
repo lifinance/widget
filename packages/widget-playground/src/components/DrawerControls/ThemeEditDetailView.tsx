@@ -365,12 +365,15 @@ export const ThemeEditDetailView = ({
           value={effectivePaletteMode}
           onChange={(_, value: 'light' | 'dark') => {
             setPaletteMode(value)
-            setAppearance(value)
-            setMode(value)
-            setViewportBackgroundColor(
-              selectedThemeItem?.theme.colorSchemes?.[value]?.palette
-                ?.playground?.main
-            )
+            setTimeout(() => {
+              setAppearance(value)
+              setMode(value)
+              setViewportBackgroundColor(
+                selectedThemeItem?.theme.colorSchemes?.[value]?.palette
+                  ?.playground?.main ||
+                  (value === 'dark' ? '#000000' : '#F5F5F5')
+              )
+            }, 300)
           }}
           aria-label="Palette mode"
           sx={{ marginBottom: 1 }}
@@ -378,17 +381,15 @@ export const ThemeEditDetailView = ({
           {canLight ? (
             <MethodTab
               value="light"
+              icon={<LightModeOutlinedIcon sx={{ fontSize: 18 }} />}
               disableRipple
-              label={<LightModeOutlinedIcon sx={{ fontSize: 24 }} />}
-              aria-label="Light palette"
             />
           ) : null}
           {canDark ? (
             <MethodTab
               value="dark"
+              icon={<DarkModeOutlinedIcon sx={{ fontSize: 18 }} />}
               disableRipple
-              label={<DarkModeOutlinedIcon sx={{ fontSize: 24 }} />}
-              aria-label="Dark palette"
             />
           ) : null}
         </MethodTabs>

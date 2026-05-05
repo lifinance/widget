@@ -19,7 +19,7 @@ export const SectionLabel: FC<React.ComponentProps<typeof Typography>> = styled(
   fontWeight: 500,
   lineHeight: '20px',
   color: theme.vars.palette.text.secondary,
-  marginBottom: 8,
+  marginBottom: theme.spacing(1),
 }))
 
 export const MethodHint: FC<React.ComponentProps<typeof Typography>> = styled(
@@ -29,7 +29,7 @@ export const MethodHint: FC<React.ComponentProps<typeof Typography>> = styled(
   fontWeight: 400,
   lineHeight: '20px',
   margin: 0,
-  marginTop: 12,
+  marginTop: theme.spacing(1.5),
   color: theme.vars.palette.text.secondary,
 }))
 
@@ -48,7 +48,7 @@ export const OptionButton: FC<
   justifyContent: 'center',
   width: '100%',
   minHeight: 44,
-  padding: '10px 16px',
+  padding: theme.spacing(1.25, 2),
   borderRadius: 8,
   border: '1px solid',
   borderColor: selected
@@ -80,12 +80,14 @@ export const OptionButton: FC<
   }),
 }))
 
-export const PresetStack: FC<React.ComponentProps<typeof Box>> = styled(Box)({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 8,
-  width: '100%',
-})
+export const PresetStack: FC<React.ComponentProps<typeof Box>> = styled(Box)(
+  ({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(1),
+    width: '100%',
+  })
+)
 
 export const FormBlock: FC<React.ComponentProps<typeof Box>> = styled(Box)({
   display: 'flex',

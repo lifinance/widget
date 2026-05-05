@@ -177,7 +177,6 @@ export const createEditToolsStore = (
           return (state) => {
             if (state) {
               state.setCodeDrawerWidth(defaultDrawerWidth)
-
               if (initialTheme) {
                 if (
                   !initialTheme.colorSchemes?.light?.palette?.playground

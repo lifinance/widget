@@ -6,12 +6,12 @@ export const NavItemButton: FC<React.ComponentProps<typeof ButtonBase>> =
   styled(ButtonBase)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
-    gap: 16,
+    gap: theme.spacing(2),
     width: '100%',
     flexShrink: 0,
     minHeight: 48,
     height: 48,
-    padding: '12px 8px',
+    padding: theme.spacing(1.5, 1),
     borderRadius: 12,
     transition: theme.transitions.create('background-color', {
       duration: theme.transitions.duration.shorter,
@@ -25,13 +25,13 @@ export const NavItemButton: FC<React.ComponentProps<typeof ButtonBase>> =
   }))
 
 export const NavItemContent: FC<React.ComponentProps<typeof Box>> = styled(Box)(
-  {
+  ({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
-    gap: 8,
+    gap: theme.spacing(1),
     flex: '1 0 0',
     minWidth: 0,
-  }
+  })
 )
 
 export const NavItemLabel: FC<React.ComponentProps<typeof Typography>> = styled(
@@ -65,5 +65,5 @@ export const NavItemExpandedContent: FC<React.ComponentProps<typeof Box>> =
     display: 'flex',
     flexDirection: 'column',
     gap: theme.spacing(2),
-    padding: '8px 0',
+    padding: theme.spacing(1, 0),
   }))

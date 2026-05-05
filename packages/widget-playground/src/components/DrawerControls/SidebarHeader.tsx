@@ -1,13 +1,15 @@
 import MenuOpenIcon from '@mui/icons-material/MenuOpen'
 import RefreshIcon from '@mui/icons-material/Refresh'
-import { Tooltip } from '@mui/material'
+import { Tooltip, useTheme } from '@mui/material'
 import type { JSX } from 'react'
+import { LiFiLogo } from '../../logo/LiFiLogo.js'
 import { tooltipPopperZIndex } from './DrawerControls.style.js'
-import { LiFiPlaygroundLogo } from './LiFiPlaygroundLogo.js'
 import {
+  BrandSuffix,
   HeaderActions,
   HeaderContainer,
   HeaderIconButton,
+  LogoContainer,
 } from './SidebarHeader.style.js'
 
 interface SidebarHeaderProps {
@@ -19,9 +21,22 @@ export const SidebarHeader = ({
   onReset,
   onToggleDrawer,
 }: SidebarHeaderProps): JSX.Element => {
+  const theme = useTheme()
   return (
     <HeaderContainer>
-      <LiFiPlaygroundLogo />
+      <LogoContainer>
+        <LiFiLogo
+          style={{
+            display: 'block',
+            height: 24,
+            width: 'auto',
+            maxWidth: '100%',
+            color: theme.vars.palette.text.primary,
+            marginTop: -1,
+          }}
+        />
+        <BrandSuffix>PLAYGROUND</BrandSuffix>
+      </LogoContainer>
       <HeaderActions>
         <Tooltip
           title="Reset config"

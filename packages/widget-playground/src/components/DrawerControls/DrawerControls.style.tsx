@@ -142,17 +142,17 @@ export const SidebarSlidePanel: React.FC<React.ComponentProps<typeof Box>> =
 
 export const NavContent: React.FC<React.ComponentProps<typeof Box>> = styled(
   Box
-)({
+)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   flex: '1 0 0',
   minHeight: 0,
   overflowY: 'auto',
-  padding: '24px 20px',
+  padding: theme.spacing(3, 2.5),
   '& > *': {
     flexShrink: 0,
   },
-})
+}))
 
 export const SidebarDivider: React.FC<React.ComponentProps<typeof Box>> =
   styled(Box)({

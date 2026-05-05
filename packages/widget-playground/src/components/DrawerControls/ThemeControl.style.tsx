@@ -1,11 +1,13 @@
 import { Box, ButtonBase, styled, Typography } from '@mui/material'
 import type { ComponentProps, FC } from 'react'
 
-export const ThemeCardsContainer: FC<ComponentProps<typeof Box>> = styled(Box)({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 8,
-})
+export const ThemeCardsContainer: FC<ComponentProps<typeof Box>> = styled(Box)(
+  ({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(1),
+  })
+)
 
 interface ThemeCardProps {
   selected: boolean
@@ -20,8 +22,8 @@ export const ThemeCard: FC<ComponentProps<typeof ButtonBase> & ThemeCardProps> =
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    gap: 24,
-    padding: 16,
+    gap: theme.spacing(3),
+    padding: theme.spacing(2),
     borderRadius: 16,
     borderStyle: 'solid',
     borderWidth: selected ? 2 : 1,
@@ -75,7 +77,7 @@ export const EditThemeButton: FC<ComponentProps<'span'>> = styled('span')(
   ({ theme }) => ({
     border: 'none',
     borderRadius: 8,
-    padding: '6px 12px',
+    padding: theme.spacing(0.75, 1.5),
     minHeight: 28,
     fontSize: 12,
     fontWeight: 700,
@@ -87,13 +89,15 @@ export const EditThemeButton: FC<ComponentProps<'span'>> = styled('span')(
   })
 )
 
-export const SchemeIcons: FC<ComponentProps<typeof Box>> = styled(Box)({
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: 6,
-  paddingTop: 6,
-  paddingBottom: 6,
-})
+export const SchemeIcons: FC<ComponentProps<typeof Box>> = styled(Box)(
+  ({ theme }) => ({
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: theme.spacing(0.75),
+    paddingTop: theme.spacing(0.75),
+    paddingBottom: theme.spacing(0.75),
+  })
+)
 
 export const SchemeIconSlot: FC<ComponentProps<typeof Box>> = styled(Box)(
   ({ theme }) => ({
@@ -127,24 +131,28 @@ export const ThemePreview: FC<ComponentProps<typeof Box> & ThemePreviewProps> =
     boxShadow: `0px 12px 12px -12px rgba(18,18,18,0.04), 0px 6px 6px -3px rgba(18,18,18,0.04), 0px 3px 3px -1.5px rgba(18,18,18,0.04), 0px 1px 1px -0.5px rgba(18,18,18,0.04), 0px 0px 0px 0.5px ${previewOutlineColor}`,
   }))
 
-export const PreviewHeaderPill: FC<ComponentProps<typeof Box>> = styled(Box)({
-  position: 'absolute',
-  top: 8,
-  left: 12,
-  width: 41,
-  height: 8,
-  borderRadius: 80,
-})
+export const PreviewHeaderPill: FC<ComponentProps<typeof Box>> = styled(Box)(
+  ({ theme }) => ({
+    position: 'absolute',
+    top: theme.spacing(1),
+    left: theme.spacing(1.5),
+    width: 41,
+    height: 8,
+    borderRadius: 80,
+  })
+)
 
-export const PreviewCard: FC<ComponentProps<typeof Box>> = styled(Box)({
-  position: 'absolute',
-  top: 22,
-  left: 12,
-  width: 128,
-  height: 46,
-  borderRadius: 8,
-  overflow: 'hidden',
-})
+export const PreviewCard: FC<ComponentProps<typeof Box>> = styled(Box)(
+  ({ theme }) => ({
+    position: 'absolute',
+    top: 22,
+    left: theme.spacing(1.5),
+    width: 128,
+    height: 46,
+    borderRadius: 8,
+    overflow: 'hidden',
+  })
+)
 
 export const PreviewCardText: FC<ComponentProps<typeof Box>> = styled(Box)({
   position: 'absolute',
@@ -155,11 +163,13 @@ export const PreviewCardText: FC<ComponentProps<typeof Box>> = styled(Box)({
   borderRadius: 80,
 })
 
-export const PreviewButton: FC<ComponentProps<typeof Box>> = styled(Box)({
-  position: 'absolute',
-  top: 74,
-  left: 12,
-  width: 128,
-  height: 14,
-  borderRadius: 16,
-})
+export const PreviewButton: FC<ComponentProps<typeof Box>> = styled(Box)(
+  ({ theme }) => ({
+    position: 'absolute',
+    top: 74,
+    left: theme.spacing(1.5),
+    width: 128,
+    height: 14,
+    borderRadius: 16,
+  })
+)

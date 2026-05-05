@@ -14,7 +14,7 @@ export const CardSelectRoot: FC<
   flexDirection: 'column',
   alignItems: 'flex-start',
   width: '100%',
-  padding: 20,
+  padding: theme.spacing(2.5),
   borderRadius: 12,
   border: '1px solid',
   borderColor: selected
@@ -67,9 +67,9 @@ export const CardDescription: FC<React.ComponentProps<typeof Typography>> =
 
 export const CardTextContainer: FC<React.ComponentProps<typeof Box>> = styled(
   Box
-)({
+)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  gap: 4,
+  gap: theme.spacing(0.5),
   width: '100%',
-})
+}))

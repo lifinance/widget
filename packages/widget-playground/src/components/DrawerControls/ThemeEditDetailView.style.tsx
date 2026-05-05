@@ -11,15 +11,17 @@ import {
 import { autocompleteClasses } from '@mui/material/Autocomplete'
 import type { FC } from 'react'
 
-export const Content: FC<React.ComponentProps<typeof Box>> = styled(Box)({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: 0,
-  flex: '1 0 0',
-  minHeight: 0,
-  overflowY: 'auto',
-  padding: '24px 20px',
-})
+export const Content: FC<React.ComponentProps<typeof Box>> = styled(Box)(
+  ({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 0,
+    flex: '1 0 0',
+    minHeight: 0,
+    overflowY: 'auto',
+    padding: theme.spacing(3, 2.5),
+  })
+)
 
 export const PageTitle: FC<React.ComponentProps<typeof Box>> = styled(Box)(
   ({ theme }) => ({
@@ -27,7 +29,7 @@ export const PageTitle: FC<React.ComponentProps<typeof Box>> = styled(Box)(
     fontWeight: 700,
     lineHeight: '32px',
     color: theme.vars.palette.text.primary,
-    marginBottom: 8,
+    marginBottom: theme.spacing(1),
   })
 )
 
@@ -38,7 +40,7 @@ export const PageDescription: FC<React.ComponentProps<typeof Box>> = styled(
   fontWeight: 500,
   lineHeight: '24px',
   color: theme.vars.palette.text.secondary,
-  marginBottom: 24,
+  marginBottom: theme.spacing(3),
 }))
 
 export const SectionHeading: FC<React.ComponentProps<typeof Box>> = styled(Box)(
@@ -47,8 +49,8 @@ export const SectionHeading: FC<React.ComponentProps<typeof Box>> = styled(Box)(
     fontWeight: 700,
     lineHeight: '20px',
     color: theme.vars.palette.text.primary,
-    marginTop: 24,
-    marginBottom: 24,
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
     '&:first-of-type': {
       marginTop: 0,
     },
@@ -60,8 +62,8 @@ export const Row: FC<React.ComponentProps<typeof Box>> = styled(Box)(
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    gap: 16,
-    padding: 12,
+    gap: theme.spacing(2),
+    padding: theme.spacing(1.5),
     borderRadius: 12,
     border: '1px solid',
     borderColor: theme.vars.palette.divider,
@@ -77,7 +79,7 @@ export const Row: FC<React.ComponentProps<typeof Box>> = styled(Box)(
       borderColor: theme.vars.palette.primary.main,
     },
     '& + &': {
-      marginTop: 16,
+      marginTop: theme.spacing(2),
     },
   })
 )
@@ -93,13 +95,15 @@ export const RowLabel: FC<React.ComponentProps<typeof Box>> = styled(Box)(
   })
 )
 
-export const RowValue: FC<React.ComponentProps<typeof Box>> = styled(Box)({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'flex-end',
-  gap: 12,
-  flexShrink: 0,
-})
+export const RowValue: FC<React.ComponentProps<typeof Box>> = styled(Box)(
+  ({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    gap: theme.spacing(1.5),
+    flexShrink: 0,
+  })
+)
 
 export const HexLabel: FC<React.ComponentProps<typeof Box>> = styled(Box)(
   ({ theme }) => ({
@@ -144,13 +148,15 @@ export const ColorSwatch: FC<
   },
 }))
 
-export const ToggleRow: FC<React.ComponentProps<typeof Box>> = styled(Box)({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  gap: 16,
-  marginTop: 16,
-})
+export const ToggleRow: FC<React.ComponentProps<typeof Box>> = styled(Box)(
+  ({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: theme.spacing(2),
+    marginTop: theme.spacing(2),
+  })
+)
 
 export const ToggleRowLabel: FC<React.ComponentProps<typeof Box>> = styled(Box)(
   ({ theme }) => ({
@@ -163,13 +169,15 @@ export const ToggleRowLabel: FC<React.ComponentProps<typeof Box>> = styled(Box)(
   })
 )
 
-export const SliderRow: FC<React.ComponentProps<typeof Box>> = styled(Box)({
-  display: 'flex',
-  alignItems: 'center',
-  gap: 16,
-  padding: 0,
-  marginTop: 16,
-})
+export const SliderRow: FC<React.ComponentProps<typeof Box>> = styled(Box)(
+  ({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.spacing(2),
+    padding: 0,
+    marginTop: theme.spacing(2),
+  })
+)
 
 export const ThemeSlider: FC<React.ComponentProps<typeof Slider>> = styled(
   Slider
@@ -208,7 +216,7 @@ export const SliderValueInput: FC<React.ComponentProps<typeof InputBase>> =
   styled(InputBase)(({ theme }) => ({
     width: 48,
     flexShrink: 0,
-    padding: '6px 12px',
+    padding: theme.spacing(0.75, 1.5),
     borderRadius: 8,
     border: '1px solid',
     borderColor: theme.vars.palette.divider,
@@ -227,18 +235,22 @@ export const SliderValueInput: FC<React.ComponentProps<typeof InputBase>> =
     },
   }))
 
-export const SubSection: FC<React.ComponentProps<typeof Box>> = styled(Box)({
-  paddingLeft: 0,
-  paddingTop: 12,
-  paddingBottom: 4,
-})
+export const SubSection: FC<React.ComponentProps<typeof Box>> = styled(Box)(
+  ({ theme }) => ({
+    paddingLeft: 0,
+    paddingTop: theme.spacing(1.5),
+    paddingBottom: theme.spacing(0.5),
+  })
+)
 
-export const SubRow: FC<React.ComponentProps<typeof Box>> = styled(Box)({
-  display: 'flex',
-  alignItems: 'center',
-  gap: 16,
-  padding: '8px 0',
-})
+export const SubRow: FC<React.ComponentProps<typeof Box>> = styled(Box)(
+  ({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.spacing(2),
+    padding: theme.spacing(1, 0),
+  })
+)
 
 export const ValueInput: FC<React.ComponentProps<typeof InputBase>> = styled(
   InputBase
@@ -276,7 +288,7 @@ export const FontAutocomplete = styled(MuiAutocomplete)(({ theme }) => ({
     border: 'none',
   },
   [`& .${autocompleteClasses.inputRoot}`]: {
-    padding: '12px',
+    padding: theme.spacing(1.5),
     fontSize: 14,
     fontWeight: 500,
     lineHeight: '20px',
@@ -286,7 +298,7 @@ export const FontAutocomplete = styled(MuiAutocomplete)(({ theme }) => ({
     padding: 0,
   },
   [`& .${autocompleteClasses.endAdornment}`]: {
-    right: '12px !important',
+    right: `${theme.spacing(1.5)} !important`,
     color: theme.vars.palette.text.secondary,
   },
 })) as typeof MuiAutocomplete

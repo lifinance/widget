@@ -18,7 +18,7 @@ export const BackButton: FC<React.ComponentProps<typeof ButtonBase>> = styled(
 )(({ theme }) => ({
   display: 'inline-flex',
   alignItems: 'center',
-  gap: 4,
+  gap: theme.spacing(0.5),
   flexShrink: 0,
   margin: theme.spacing(0, -1),
   padding: theme.spacing(0.5, 1),
@@ -40,12 +40,12 @@ export const BackButton: FC<React.ComponentProps<typeof ButtonBase>> = styled(
 }))
 
 export const BackIcon: FC<React.ComponentProps<typeof ArrowBackOutlinedIcon>> =
-  styled(ArrowBackOutlinedIcon)({
+  styled(ArrowBackOutlinedIcon)(({ theme }) => ({
     fontSize: 24,
     width: 24,
     height: 24,
-    marginLeft: -4,
-  })
+    marginLeft: theme.spacing(-0.5),
+  }))
 
 export const HeaderIconButton: FC<React.ComponentProps<typeof IconButton>> =
   styled(IconButton)(({ theme }) => ({

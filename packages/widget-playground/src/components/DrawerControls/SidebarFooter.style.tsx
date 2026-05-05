@@ -3,12 +3,12 @@ import type { FC } from 'react'
 
 export const FooterContainer: FC<React.ComponentProps<typeof Box>> = styled(
   Box
-)({
+)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  gap: 12,
-  padding: 20,
-})
+  gap: theme.spacing(1.5),
+  padding: theme.spacing(2.5),
+}))
 
 export const PrimaryButton: FC<React.ComponentProps<typeof Button>> = styled(
   Button
@@ -16,7 +16,7 @@ export const PrimaryButton: FC<React.ComponentProps<typeof Button>> = styled(
   backgroundColor: theme.vars.palette.primary.main,
   color: '#fff',
   borderRadius: 12,
-  padding: 8,
+  padding: theme.spacing(1),
   fontSize: 16,
   fontWeight: 700,
   lineHeight: '20px',
@@ -33,7 +33,7 @@ export const SecondaryButton: FC<React.ComponentProps<typeof Button>> = styled(
   backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} 20%, transparent)`,
   color: theme.vars.palette.primary.main,
   borderRadius: 12,
-  padding: 8,
+  padding: theme.spacing(1),
   fontSize: 16,
   fontWeight: 700,
   lineHeight: '20px',
