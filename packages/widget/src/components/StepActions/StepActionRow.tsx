@@ -1,10 +1,10 @@
 import type { ExecutionAction, LiFiStepExtended } from '@lifi/sdk'
 import OpenInNew from '@mui/icons-material/OpenInNew'
 import type React from 'react'
-import { IconCircle } from '../../components/IconCircle/IconCircle.js'
 import { useActionMessage } from '../../hooks/useActionMessage.js'
-import { ActionRow } from './ActionRow.js'
-import { ExternalLink } from './ReceiptsCard.style.js'
+import { ActionRow } from '../ActionRow/ActionRow.js'
+import { IconCircle } from '../IconCircle/IconCircle.js'
+import { ExternalLink } from './StepActionRow.style.js'
 
 export const StepActionRow: React.FC<{
   step: LiFiStepExtended

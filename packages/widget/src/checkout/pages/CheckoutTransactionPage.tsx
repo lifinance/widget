@@ -5,11 +5,11 @@ import { useLocation, useNavigate } from '@tanstack/react-router'
 import { type JSX, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
+import { Card } from '../../components/Card/Card.js'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
 import { WarningMessages } from '../../components/Messages/WarningMessages.js'
 import { PageContainer } from '../../components/PageContainer.js'
-import { getStepList } from '../../components/Step/StepList.js'
-import { TransactionDetails } from '../../components/TransactionDetails.js'
+import { RouteTokens } from '../../components/RouteCard/RouteTokens.js'
 import { useAddressActivity } from '../../hooks/useAddressActivity.js'
 import { useHeader } from '../../hooks/useHeader.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
@@ -18,10 +18,11 @@ import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { ConfirmToAddressSheet } from '../../pages/TransactionPage/ConfirmToAddressSheet.js'
 import type { ExchangeRateBottomSheetBase } from '../../pages/TransactionPage/ExchangeRateBottomSheet.js'
 import { ExchangeRateBottomSheet } from '../../pages/TransactionPage/ExchangeRateBottomSheet.js'
+import { ExecutionProgressCards } from '../../pages/TransactionPage/ExecutionProgressCards.js'
 import { RouteTracker } from '../../pages/TransactionPage/RouteTracker.js'
 import { StartTransactionButton } from '../../pages/TransactionPage/StartTransactionButton.js'
-import { StatusBottomSheet } from '../../pages/TransactionPage/StatusBottomSheet.js'
 import { TokenValueBottomSheet } from '../../pages/TransactionPage/TokenValueBottomSheet.js'
+import { TransactionDoneButtons } from '../../pages/TransactionPage/TransactionDoneButtons.js'
 import {
   calculateValueLossPercentage,
   getTokenValueLossThreshold,
@@ -96,6 +97,7 @@ export const CheckoutTransactionPage = (): JSX.Element | null => {
     subvariantOptions,
     contractSecondaryComponent,
     hiddenUI,
+    defaultUI,
   } = useWidgetConfig()
   const { search }: { search?: Record<string, unknown> } = useLocation()
   const stateRouteId = search?.routeId as string | undefined
@@ -163,7 +165,7 @@ export const CheckoutTransactionPage = (): JSX.Element | null => {
 
   useHeader(getHeaderTitle(), headerAction)
 
-  if (!route) {
+  if (!route || !status) {
     return null
   }
 
@@ -277,13 +279,22 @@ export const CheckoutTransactionPage = (): JSX.Element | null => {
         />
       ) : null}
       <PageContainer bottomGutters>
-        {getStepList(route, subvariant)}
+        {status === RouteExecutionStatus.Idle ? (
+          <Card type="default" indented>
+            <RouteTokens
+              route={route}
+              showEssentials
+              defaultExpanded={defaultUI?.transactionDetailsExpanded}
+            />
+          </Card>
+        ) : (
+          <ExecutionProgressCards route={route} status={status} />
+        )}
         {subvariant === 'custom' && contractSecondaryComponent ? (
           <ContractComponent sx={{ marginTop: 2 }}>
             {contractSecondaryComponent}
           </ContractComponent>
         ) : null}
-        <TransactionDetails route={route} sx={{ marginTop: 2 }} />
         {status === RouteExecutionStatus.Idle ||
         status === RouteExecutionStatus.Failed ? (
           <>
@@ -319,7 +330,7 @@ export const CheckoutTransactionPage = (): JSX.Element | null => {
             </Box>
           </>
         ) : null}
-        {status ? <StatusBottomSheet status={status} route={route} /> : null}
+        <TransactionDoneButtons route={route} status={status} />
         {subvariant !== 'custom' ? (
           <TokenValueBottomSheet
             route={route}

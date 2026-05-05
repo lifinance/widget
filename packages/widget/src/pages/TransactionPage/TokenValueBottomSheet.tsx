@@ -1,21 +1,24 @@
 import type { Route } from '@lifi/sdk'
-import WarningRounded from '@mui/icons-material/WarningRounded'
-import {
-  Box,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  Typography,
-} from '@mui/material'
+import { Button } from '@mui/material'
 import type { ForwardRefExoticComponent, RefAttributes, RefObject } from 'react'
-import { forwardRef, useRef, useState } from 'react'
+import { forwardRef, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { FeeBreakdownTooltip } from '../../components/FeeBreakdownTooltip.js'
+import { IconCircle } from '../../components/IconCircle/IconCircle.js'
 import { useSetContentHeight } from '../../hooks/useSetContentHeight.js'
 import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
-import { CenterContainer, IconCircle } from './StatusBottomSheet.style.js'
+import {
+  ButtonRow,
+  CenterContainer,
+  ContentContainer,
+  DetailLabel,
+  DetailRow,
+  DetailValue,
+  WarningMessage,
+  WarningTitle,
+} from './TokenValueBottomSheet.style.js'
 import { calculateValueLossPercentage } from './utils.js'
 
 interface TokenValueBottomSheetProps {
@@ -50,7 +53,6 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
   onCancel,
   onContinue,
 }) => {
-  const [accepted, setAccepted] = useState(false)
   const { t } = useTranslation()
   const ref = useRef<HTMLElement>(null)
   useSetContentHeight(ref)
@@ -58,119 +60,49 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
     getAccumulatedFeeCostsBreakdown(route)
   const fromAmountUSD = Number.parseFloat(route.fromAmountUSD)
   const toAmountUSD = Number.parseFloat(route.toAmountUSD)
+
   return (
-    <Box
-      ref={ref}
-      sx={{
-        p: 3,
-      }}
-    >
+    <ContentContainer ref={ref}>
       <CenterContainer>
-        <IconCircle status="warning" sx={{ mb: 1 }}>
-          <WarningRounded color="warning" />
-        </IconCircle>
-        <Typography
-          sx={{
-            py: 1,
-            fontSize: 18,
-            fontWeight: 700,
-          }}
-        >
-          {t('warning.title.highValueLoss')}
-        </Typography>
+        <IconCircle status="warning" sx={{ mb: 2.5 }} />
+        <WarningTitle>{t('warning.title.highValueLoss')}</WarningTitle>
       </CenterContainer>
-      <Typography
-        sx={{
-          py: 1,
-        }}
-      >
-        {t('warning.message.highValueLoss')}
-      </Typography>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          mt: 1,
-        }}
-      >
-        <Typography>{t('main.sending')}</Typography>
-        <Typography
-          sx={{
-            fontWeight: 600,
-          }}
-        >
+      <WarningMessage>{t('warning.message.highValueLoss')}</WarningMessage>
+      <DetailRow>
+        <DetailLabel>{t('main.sending')}</DetailLabel>
+        <DetailValue>
           {t('format.currency', { value: route.fromAmountUSD })}
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          mt: 0.25,
-        }}
-      >
-        <Typography>{t('main.fees.network')}</Typography>
+        </DetailValue>
+      </DetailRow>
+      <DetailRow>
+        <DetailLabel>{t('main.fees.network')}</DetailLabel>
         <FeeBreakdownTooltip gasCosts={gasCosts} gasless={!gasCostUSD}>
-          <Typography
-            sx={{
-              fontWeight: 600,
-            }}
-          >
+          <DetailValue>
             {!gasCostUSD
               ? t('main.fees.free')
               : t('format.currency', { value: gasCostUSD })}
-          </Typography>
+          </DetailValue>
         </FeeBreakdownTooltip>
-      </Box>
+      </DetailRow>
       {feeCostUSD ? (
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            mt: 0.25,
-          }}
-        >
-          <Typography>{t('main.fees.provider')}</Typography>
+        <DetailRow>
+          <DetailLabel>{t('main.fees.provider')}</DetailLabel>
           <FeeBreakdownTooltip feeCosts={feeCosts}>
-            <Typography
-              sx={{
-                fontWeight: 600,
-              }}
-            >
+            <DetailValue>
               {t('format.currency', { value: feeCostUSD })}
-            </Typography>
+            </DetailValue>
           </FeeBreakdownTooltip>
-        </Box>
+        </DetailRow>
       ) : null}
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          mt: 0.25,
-        }}
-      >
-        <Typography>{t('main.receiving')}</Typography>
-        <Typography
-          sx={{
-            fontWeight: 600,
-          }}
-        >
+      <DetailRow>
+        <DetailLabel>{t('main.receiving')}</DetailLabel>
+        <DetailValue>
           {t('format.currency', { value: route.toAmountUSD })}
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          mt: 0.25,
-        }}
-      >
-        <Typography>{t('main.valueLoss')}</Typography>
-        <Typography
-          sx={{
-            fontWeight: 600,
-          }}
-        >
+        </DetailValue>
+      </DetailRow>
+      <DetailRow>
+        <DetailLabel>{t('main.valueLoss')}</DetailLabel>
+        <DetailValue>
           {calculateValueLossPercentage(
             fromAmountUSD,
             toAmountUSD,
@@ -178,42 +110,16 @@ const TokenValueBottomSheetContent: React.FC<TokenValueBottomSheetProps> = ({
             feeCostUSD
           )}
           %
-        </Typography>
-      </Box>
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={accepted}
-            onChange={(_, checked) => setAccepted(checked)}
-          />
-        }
-        label={t('warning.checkbox.highValueLoss')}
-        sx={{ mt: 1 }}
-      />
-      <Box
-        sx={{
-          display: 'flex',
-          mt: 1,
-        }}
-      >
+        </DetailValue>
+      </DetailRow>
+      <ButtonRow>
         <Button variant="text" onClick={onCancel} fullWidth>
           {t('button.cancel')}
         </Button>
-        <Box
-          sx={{
-            display: 'flex',
-            p: 1,
-          }}
-        />
-        <Button
-          variant="contained"
-          onClick={onContinue}
-          disabled={!accepted}
-          fullWidth
-        >
+        <Button variant="contained" onClick={onContinue} fullWidth>
           {t('button.continue')}
         </Button>
-      </Box>
-    </Box>
+      </ButtonRow>
+    </ContentContainer>
   )
 }

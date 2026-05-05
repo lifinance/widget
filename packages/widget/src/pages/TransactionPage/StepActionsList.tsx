@@ -1,5 +1,6 @@
 import type { RouteExtended } from '@lifi/sdk'
 import { Box } from '@mui/material'
+import { Fragment } from 'react'
 import { SentToWalletRow } from '../../components/StepActions/SentToWalletRow.js'
 import { StepActionRow } from '../../components/StepActions/StepActionRow.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
@@ -15,6 +16,7 @@ export const StepActionsList: React.FC<StepActionsListProps> = ({
   toAddress,
 }) => {
   const { getTransactionLink } = useExplorer()
+
   const stepRows = route.steps
     .map((step) => {
       const rows = prepareActions(step.execution?.actions ?? [])
@@ -46,30 +48,20 @@ export const StepActionsList: React.FC<StepActionsListProps> = ({
     return null
   }
 
-  const lastStepIndex = stepRows.length - 1
-
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-      {stepRows.map(({ step, rows }, stepIndex) => {
-        const lastRowIndex = rows.length - 1
-        const isLastStep = stepIndex === lastStepIndex
-        return (
-          <Box
-            key={step.id}
-            sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}
-          >
-            {rows.map(({ action, href }, rowIndex) => (
-              <StepActionRow
-                key={rowIndex}
-                step={step}
-                action={action!}
-                href={href!}
-                defaultLabelsOnly={!(isLastStep && rowIndex === lastRowIndex)}
-              />
-            ))}
-          </Box>
-        )
-      })}
+      {stepRows.map(({ step, rows }) => (
+        <Fragment key={step.id}>
+          {rows.map(({ action, href }, index) => (
+            <StepActionRow
+              key={index}
+              step={step}
+              action={action!}
+              href={href!}
+            />
+          ))}
+        </Fragment>
+      ))}
       {toAddress ? (
         <SentToWalletRow toAddress={toAddress} toChainId={route.toChainId} />
       ) : null}

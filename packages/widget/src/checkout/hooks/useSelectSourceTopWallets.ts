@@ -1,52 +1,43 @@
-import {
-  type CombinedWallet,
-  getConnectorId,
-  getSortedByTags,
-  getWalletTagType,
-  useAccount,
-  useCombinedWallets,
-  type WalletTagType,
-} from '@lifi/wallet-management'
+import { useAccount } from '@lifi/wallet-management'
 import { useMemo } from 'react'
 
-type TaggedCombinedWallet = CombinedWallet & { tagType?: WalletTagType }
+type TopWallet = {
+  id: string
+  name?: string
+  icon?: string
+}
 
 export function useSelectSourceTopWallets(): {
-  topWallets: TaggedCombinedWallet[]
+  topWallets: TopWallet[]
   walletOverflowCount: number
 } {
-  const installedWallets = useCombinedWallets()
   const { accounts } = useAccount()
 
-  const connectedConnectorIds: string[] = useMemo(() => {
-    return accounts
-      .filter((account) => account.isConnected)
-      .map((account) => getConnectorId(account.connector, account.chainType))
-      .filter(Boolean) as string[]
-  }, [accounts])
-
-  const filteredWalletsWithTagTypes = useMemo(
-    () =>
-      getSortedByTags(
-        installedWallets
-          .filter((wallet) => wallet.connectors?.length)
-          .map((wallet) => ({
-            ...wallet,
-            tagType: getWalletTagType(wallet, connectedConnectorIds),
-          }))
-      ),
-    [installedWallets, connectedConnectorIds]
-  )
-
   const topWallets = useMemo(
-    () => filteredWalletsWithTagTypes.slice(0, 3),
-    [filteredWalletsWithTagTypes]
+    () =>
+      accounts
+        .filter((account) => account.isConnected && account.connector)
+        .map((account) => ({
+          id:
+            account.connector?.name ??
+            account.connector?.displayName ??
+            account.name ??
+            'wallet',
+          name:
+            account.connector?.displayName ??
+            account.connector?.name ??
+            account.name,
+          icon: account.connector?.icon,
+        }))
+        .filter(
+          (wallet, index, wallets) =>
+            wallets.findIndex((w) => w.id === wallet.id) === index
+        )
+        .slice(0, 3),
+    [accounts]
   )
 
-  const walletOverflowCount = useMemo(
-    () => Math.max(0, filteredWalletsWithTagTypes.length - topWallets.length),
-    [filteredWalletsWithTagTypes.length, topWallets.length]
-  )
+  const walletOverflowCount = 0
 
   return { topWallets, walletOverflowCount }
 }

@@ -1,11 +1,15 @@
 import { Box, Link, styled } from '@mui/material'
 import type React from 'react'
 
-export const TransactionList: React.FC<React.ComponentProps<typeof Box>> =
+export const ActionIconCircle: React.FC<React.ComponentProps<typeof Box>> =
   styled(Box)(({ theme }) => ({
     display: 'flex',
-    flexDirection: 'column',
-    gap: theme.spacing(1.5),
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 24,
+    height: 24,
+    borderRadius: '50%',
+    backgroundColor: `color-mix(in srgb, rgb(${theme.vars.palette.success.mainChannel}) 12%, ${theme.vars.palette.background.paper})`,
   }))
 
 export const ExternalLink: React.FC<React.ComponentProps<typeof Link>> = styled(
