@@ -1,15 +1,18 @@
 import { Box, styled, Typography } from '@mui/material'
 
-export const SelectSourceHeaderRow = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '100%',
-  paddingTop: theme.spacing(1),
-  paddingBottom: theme.spacing(1),
-}))
+export const SelectSourceHeaderRow: React.FC<React.ComponentProps<typeof Box>> =
+  styled(Box)(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+  }))
 
-export const SelectSourceHeaderTitle = styled(Typography)({
+export const SelectSourceHeaderTitle: React.FC<
+  React.ComponentProps<typeof Typography>
+> = styled(Typography)({
   flex: 1,
   textAlign: 'center',
   fontWeight: 700,
@@ -17,7 +20,9 @@ export const SelectSourceHeaderTitle = styled(Typography)({
   lineHeight: '24px',
 })
 
-export const SelectSourceMainColumn = styled(Box)(({ theme }) => ({
+export const SelectSourceMainColumn: React.FC<
+  React.ComponentProps<typeof Box>
+> = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: theme.spacing(1.5),

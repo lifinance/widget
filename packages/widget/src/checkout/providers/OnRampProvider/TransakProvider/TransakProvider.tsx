@@ -1,6 +1,7 @@
 'use client'
 import { ChainType } from '@lifi/sdk'
 import { useAccount, useWalletMenu } from '@lifi/wallet-management'
+import type { Theme } from '@mui/material'
 import {
   Box,
   Button,
@@ -24,6 +25,8 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import { modalProps } from '../../../../components/Dialog/Dialog.js'
+import { useGetScrollableContainer } from '../../../../hooks/useScrollableContainer.js'
 import type { WidgetConfig } from '../../../../types/widget.js'
 import type { OnrampSessionRequest } from '../../../types/onrampSession.js'
 import { useCheckoutConfig } from '../../CheckoutProvider.js'
@@ -66,6 +69,7 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
   children,
   widgetConfig,
 }) => {
+  const getScrollableContainer = useGetScrollableContainer()
   const { t } = useTranslation()
   const { integrator, onError, onSuccess, onrampSessionApiUrl } =
     useCheckoutConfig()
@@ -315,13 +319,27 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
         maxWidth="md"
         open={open}
         onClose={close}
+        container={getScrollableContainer}
+        sx={modalProps.sx}
         slotProps={{
-          paper: {
+          backdrop: {
             sx: {
+              position: 'absolute',
+              backgroundColor: 'rgb(0 0 0 / 32%)',
+              backdropFilter: 'blur(3px)',
+            },
+          },
+          paper: {
+            sx: (theme: Theme) => ({
+              position: 'absolute',
+              backgroundImage: 'none',
+              backgroundColor: theme.vars.palette.background.default,
+              borderTopLeftRadius: theme.vars.shape.borderRadius,
+              borderTopRightRadius: theme.vars.shape.borderRadius,
               height: 'min(90dvh, 720px)',
               display: 'flex',
               flexDirection: 'column',
-            },
+            }),
           },
         }}
       >

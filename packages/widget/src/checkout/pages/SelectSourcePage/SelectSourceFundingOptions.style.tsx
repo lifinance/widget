@@ -1,156 +1,189 @@
-import {
-  Avatar,
-  AvatarGroup,
-  Box,
-  Card,
-  styled,
-  Typography,
-} from '@mui/material'
+import { Avatar, Box, Card, styled, Typography } from '@mui/material'
 
-export const OptionsRoot = styled(Box)(({ theme }) => ({
+export const OptionsRoot: React.FC<React.ComponentProps<typeof Box>> = styled(
+  Box
+)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  gap: theme.spacing(1.5),
-  paddingTop: theme.spacing(1.5),
-}))
-
-export const OptionCard = styled(Card)()
-
-/** Mesh / exchange linking — disabled until the flow is wired up */
-export const OptionCardComingSoon = styled(Card)({
-  cursor: 'not-allowed',
-  opacity: 0.55,
-  pointerEvents: 'none',
-  userSelect: 'none',
-})
-
-export const OptionRow = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: theme.spacing(1.5),
-  padding: theme.spacing(2),
+  gap: theme.spacing(2),
   width: '100%',
 }))
 
-export const GenericIconWrap = styled(Box)(({ theme }) => ({
-  width: 40,
-  height: 40,
-  borderRadius: '50%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  flexShrink: 0,
-  backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
-  color: theme.vars.palette.text.primary,
-  '& .MuiSvgIcon-root': {
-    fontSize: 22,
-  },
+export const FundingSectionStack: React.FC<React.ComponentProps<typeof Box>> =
+  styled(Box)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(1.5),
+    width: '100%',
+  }))
+
+export const FundingSectionLabel: React.FC<
+  React.ComponentProps<typeof Typography>
+> = styled(Typography)(({ theme }) => ({
+  fontWeight: 500,
+  fontSize: 14,
+  lineHeight: '18px',
+  color: theme.vars.palette.text.secondary,
+  width: '100%',
 }))
 
-export const StackAvatar = styled(Avatar)(({ theme }) => ({
-  width: 24,
-  height: 24,
-  fontSize: 10,
-  fontWeight: 700,
-  border: `2px solid ${theme.vars.palette.background.paper}`,
+export const FundingOptionCard: React.FC<React.ComponentProps<typeof Card>> =
+  styled(Card)(({ theme }) => ({
+    cursor: 'pointer',
+    borderRadius: 12,
+    boxShadow: '0px 2px 8px 0px rgba(0,0,0,0.04)',
+    backgroundColor: theme.vars.palette.background.paper,
+    overflow: 'hidden',
+    transition: theme.transitions.create('box-shadow', {
+      duration: theme.transitions.duration.shortest,
+    }),
+    '&:hover': {
+      boxShadow: theme.shadows[3],
+    },
+  }))
+
+export const FundingOptionCardDisabled: React.FC<
+  React.ComponentProps<typeof Card>
+> = styled(Card)(({ theme }) => ({
+  cursor: 'not-allowed',
+  borderRadius: 12,
+  boxShadow: '0px 2px 8px 0px rgba(0,0,0,0.04)',
+  backgroundColor: theme.vars.palette.background.paper,
+  opacity: 0.55,
+  pointerEvents: 'none',
+  userSelect: 'none',
 }))
 
-export const OptionTitle = styled(Typography)({
+export const FundingOptionRow: React.FC<React.ComponentProps<typeof Box>> =
+  styled(Box)(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.spacing(1.5),
+    padding: theme.spacing(2),
+    width: '100%',
+  }))
+
+export const GenericIconWrap: React.FC<React.ComponentProps<typeof Box>> =
+  styled(Box)(({ theme }) => ({
+    width: 40,
+    height: 40,
+    borderRadius: '50%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
+    color: theme.vars.palette.text.primary,
+    '& .MuiSvgIcon-root': {
+      fontSize: 22,
+    },
+  }))
+
+export const OptionTextCell: React.FC<React.ComponentProps<typeof Box>> =
+  styled(Box)({
+    flex: 1,
+    minWidth: 0,
+  })
+
+export const FundingOptionTitle: React.FC<
+  React.ComponentProps<typeof Typography>
+> = styled(Typography)(({ theme }) => ({
   fontWeight: 700,
   fontSize: 16,
   lineHeight: '20px',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
-})
-
-export const OptionTextCell = styled(Box)({
-  flex: 1,
-  minWidth: 0,
-})
-
-export const ChainAvatarGroup = styled(AvatarGroup)({
-  flexShrink: 0,
-  '& .MuiAvatar-root': {
-    width: 24,
-    height: 24,
-    fontSize: 10,
-    borderWidth: 2,
-  },
-})
-
-export const ExchangeAvatarsWrap = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: theme.spacing(0.5),
-  flexShrink: 0,
-  paddingRight: theme.spacing(1),
+  color: theme.vars.palette.text.primary,
 }))
 
-export const PaymentMarksWrap = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: theme.spacing(0.5),
-  flexShrink: 0,
-}))
-
-export const PaymentMarkMastercard = styled(Box)({
-  width: 24,
-  height: 24,
-  borderRadius: 4,
-  background: 'linear-gradient(135deg, #EB001B 0%, #F79E1B 100%)',
-  flexShrink: 0,
-})
-
-export const PaymentMarkVisa = styled(Box)({
-  width: 24,
-  height: 24,
-  borderRadius: 4,
-  backgroundColor: '#1434CB',
-  flexShrink: 0,
-  position: 'relative',
+export const FundingOptionSubtitle: React.FC<
+  React.ComponentProps<typeof Typography>
+> = styled(Typography)(({ theme }) => ({
+  fontWeight: 500,
+  fontSize: 12,
+  lineHeight: '16px',
+  color: theme.vars.palette.text.secondary,
   overflow: 'hidden',
-  '&::after': {
-    content: '""',
-    position: 'absolute',
-    right: 2,
-    top: '50%',
-    transform: 'translateY(-50%)',
-    width: 10,
-    height: 14,
-    borderRadius: '2px',
-    backgroundColor: '#F7B600',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+}))
+
+export const FundingDividerRow: React.FC<React.ComponentProps<typeof Box>> =
+  styled(Box)(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.spacing(1.5),
+    width: '100%',
+  }))
+
+export const FundingDividerLine: React.FC<React.ComponentProps<typeof Box>> =
+  styled(Box)(({ theme }) => ({
+    flex: 1,
+    height: 1,
+    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.06)`,
+  }))
+
+export const FundingOrLabel: React.FC<React.ComponentProps<typeof Typography>> =
+  styled(Typography)(({ theme }) => ({
+    fontSize: 12,
+    fontWeight: 500,
+    lineHeight: '16px',
+    color: theme.vars.palette.text.secondary,
+    flexShrink: 0,
+  }))
+
+export const OverlapRow: React.FC<React.ComponentProps<typeof Box>> = styled(
+  Box
+)({
+  display: 'flex',
+  alignItems: 'center',
+  flexDirection: 'row',
+  flexShrink: 0,
+  paddingRight: 8,
+  '& .MuiAvatar-root': {
+    marginLeft: -8,
+  },
+  '& .MuiAvatar-root:first-of-type': {
+    marginLeft: 0,
   },
 })
 
-export const TransferAvatarEth = styled(StackAvatar)({
-  backgroundColor: '#627EEA',
-  zIndex: 4,
-})
+export const PreviewWalletAvatar: React.FC<
+  React.ComponentProps<typeof Avatar>
+> = styled(Avatar)(({ theme }) => ({
+  width: 24,
+  height: 24,
+  fontSize: 10,
+  border: `2px solid ${theme.vars.palette.background.paper}`,
+}))
 
-export const TransferAvatarBase = styled(StackAvatar)({
-  backgroundColor: '#0052FF',
-  zIndex: 3,
-})
+export const OverflowPreviewAvatar: React.FC<
+  React.ComponentProps<typeof Avatar>
+> = styled(Avatar)(({ theme }) => ({
+  width: 24,
+  height: 24,
+  fontSize: 10,
+  fontWeight: 700,
+  lineHeight: '14px',
+  border: `1.5px solid ${theme.vars.palette.background.paper}`,
+  backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.06)`,
+  color: theme.vars.palette.text.secondary,
+}))
 
-export const TransferAvatarPoly = styled(StackAvatar)({
-  backgroundColor: '#8247E5',
-  zIndex: 2,
-})
+export const PaymentMarksWrap: React.FC<React.ComponentProps<typeof Box>> =
+  styled(Box)(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.spacing(0.75),
+    flexShrink: 0,
+  }))
 
-export const TransferAvatarOp = styled(StackAvatar)({
-  backgroundColor: '#FF0420',
-  zIndex: 1,
-})
-
-export const ExchangeAvatarCoinbase = styled(StackAvatar)({
-  backgroundColor: '#0052FF',
-  zIndex: 2,
-  marginRight: -8,
-})
-
-export const ExchangeAvatarBinance = styled(StackAvatar)({
-  backgroundColor: '#F0B90B',
-  color: '#000',
-  zIndex: 1,
+export const PaymentBrandImg: React.FC<React.ComponentProps<'img'>> = styled(
+  'img'
+)({
+  width: 40,
+  height: 26,
+  objectFit: 'contain',
+  flexShrink: 0,
 })

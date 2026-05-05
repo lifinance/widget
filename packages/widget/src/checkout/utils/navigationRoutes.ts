@@ -1,3 +1,14 @@
+import { navigationRoutes } from '../../utils/navigationRoutes.js'
+
+/**
+ * Root-absolute paths for `navigate({ to })` inside checkout.
+ * Relative segments resolve against the current path (e.g. `/enter-amount`)
+ * and break for nested targets like `transaction-execution`.
+ */
+export const checkoutAbsolutePaths: { transactionExecution: string } = {
+  transactionExecution: `/${navigationRoutes.transactionExecution}`,
+}
+
 /**
  * Checkout routes + widget-aligned segments so composed @lifi/widget components navigate correctly.
  */

@@ -4,6 +4,7 @@ import type {
   WalletTagType,
 } from '@lifi/wallet-management'
 import { CardListItemButton, getConnectorId } from '@lifi/wallet-management'
+import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   MoreWalletsButton,
@@ -25,7 +26,7 @@ export function TopWalletRows({
   topWallets,
   onOpenWalletMenu,
   onConnected,
-}: TopWalletRowsProps) {
+}: TopWalletRowsProps): JSX.Element {
   const { t } = useTranslation()
   return (
     <WalletRowsShell>

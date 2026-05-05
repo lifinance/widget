@@ -5,12 +5,12 @@ import {
   createRouter,
   RouterProvider,
 } from '@tanstack/react-router'
-import { RoutesPage } from '../pages/RoutesPage/RoutesPage.js'
 import { SelectChainPage } from '../pages/SelectChainPage/SelectChainPage.js'
 import { TransactionDetailsPage } from '../pages/TransactionDetailsPage/TransactionDetailsPage.js'
-import { TransactionPage } from '../pages/TransactionPage/TransactionPage.js'
 import { navigationRoutes } from '../utils/navigationRoutes.js'
 import { CheckoutLayout } from './CheckoutLayout.js'
+import { CheckoutRoutesPage } from './pages/CheckoutRoutesPage.js'
+import { CheckoutTransactionPage } from './pages/CheckoutTransactionPage.js'
 import { EnterAmountPage } from './pages/EnterAmountPage/EnterAmountPage.js'
 import { ProgressPage } from './pages/ProgressPage/ProgressPage.js'
 import { SelectDepositTokenPage } from './pages/SelectDepositTokenPage/SelectDepositTokenPage.js'
@@ -64,7 +64,7 @@ const routesLayoutRoute = createRoute({
 const routesIndexRoute = createRoute({
   getParentRoute: () => routesLayoutRoute,
   path: '/',
-  component: RoutesPage,
+  component: CheckoutRoutesPage,
 })
 
 const routesTransactionExecutionRoute = createRoute({
@@ -75,7 +75,7 @@ const routesTransactionExecutionRoute = createRoute({
 const routesTransactionExecutionIndexRoute = createRoute({
   getParentRoute: () => routesTransactionExecutionRoute,
   path: '/',
-  component: TransactionPage,
+  component: CheckoutTransactionPage,
 })
 
 const routesTransactionExecutionDetailsRoute = createRoute({
@@ -92,7 +92,7 @@ const transactionExecutionLayoutRoute = createRoute({
 const transactionExecutionIndexRoute = createRoute({
   getParentRoute: () => transactionExecutionLayoutRoute,
   path: '/',
-  component: TransactionPage,
+  component: CheckoutTransactionPage,
 })
 
 const transactionExecutionDetailsRoute = createRoute({

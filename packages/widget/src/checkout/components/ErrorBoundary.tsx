@@ -1,4 +1,5 @@
 import { Box, Button, Typography } from '@mui/material'
+import type { ReactNode } from 'react'
 import { Component, type ErrorInfo, type PropsWithChildren } from 'react'
 
 interface State {
@@ -12,15 +13,15 @@ export class ErrorBoundary extends Component<PropsWithChildren, State> {
     return { error }
   }
 
-  componentDidCatch(error: Error, info: ErrorInfo) {
+  componentDidCatch(error: Error, info: ErrorInfo): void {
     console.error('[LifiWidgetCheckout] Render error:', error, info)
   }
 
-  handleRetry = () => {
+  handleRetry = (): void => {
     this.setState({ error: null })
   }
 
-  render() {
+  render(): ReactNode {
     if (this.state.error) {
       return (
         <Box sx={{ p: 3, textAlign: 'center' }}>

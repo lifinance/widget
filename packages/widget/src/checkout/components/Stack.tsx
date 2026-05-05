@@ -1,7 +1,9 @@
 import { Box, styled } from '@mui/material'
 
 /** Shared column layout for checkout routes: gap, padding, flex growth. */
-export const Stack = styled(Box, {
+export const Stack: React.FC<
+  React.ComponentProps<typeof Box> & { compact?: boolean }
+> = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'compact',
 })<{ compact?: boolean }>(({ theme, compact }) => ({
   display: 'flex',

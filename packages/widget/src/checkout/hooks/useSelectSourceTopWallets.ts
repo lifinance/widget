@@ -1,13 +1,20 @@
 import {
+  type CombinedWallet,
   getConnectorId,
   getSortedByTags,
   getWalletTagType,
   useAccount,
   useCombinedWallets,
+  type WalletTagType,
 } from '@lifi/wallet-management'
 import { useMemo } from 'react'
 
-export function useSelectSourceTopWallets() {
+type TaggedCombinedWallet = CombinedWallet & { tagType?: WalletTagType }
+
+export function useSelectSourceTopWallets(): {
+  topWallets: TaggedCombinedWallet[]
+  walletOverflowCount: number
+} {
   const installedWallets = useCombinedWallets()
   const { accounts } = useAccount()
 
@@ -32,9 +39,14 @@ export function useSelectSourceTopWallets() {
   )
 
   const topWallets = useMemo(
-    () => filteredWalletsWithTagTypes.slice(0, 2),
+    () => filteredWalletsWithTagTypes.slice(0, 3),
     [filteredWalletsWithTagTypes]
   )
 
-  return { topWallets }
+  const walletOverflowCount = useMemo(
+    () => Math.max(0, filteredWalletsWithTagTypes.length - topWallets.length),
+    [filteredWalletsWithTagTypes.length, topWallets.length]
+  )
+
+  return { topWallets, walletOverflowCount }
 }

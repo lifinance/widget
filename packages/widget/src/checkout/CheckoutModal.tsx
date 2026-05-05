@@ -1,3 +1,4 @@
+import type { Theme } from '@mui/material'
 import { Box, Modal } from '@mui/material'
 import type {
   ForwardRefExoticComponent,
@@ -83,7 +84,7 @@ export const CheckoutModal: ForwardRefExoticComponent<
           slotProps={
             {
               backdrop: {
-                sx: (theme: import('@mui/material').Theme) => ({
+                sx: (theme: Theme) => ({
                   backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.48)`,
                 }),
               },

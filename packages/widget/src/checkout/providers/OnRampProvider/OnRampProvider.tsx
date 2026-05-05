@@ -11,6 +11,7 @@ import {
 } from 'react'
 import { StoreProvider } from '../../../stores/StoreProvider.js'
 import type { FormRef, WidgetConfig } from '../../../types/widget.js'
+import { CheckoutDepositContractCallsInit } from '../../components/CheckoutDepositContractCallsInit.js'
 import { resolveOnRampAdapters } from './resolveAdapters.js'
 import type { LoadedOnRampAdapter, OnRampProviderMeta } from './types.js'
 
@@ -70,6 +71,7 @@ export const OnRampProvider: FC<OnRampProviderProps> = ({
   const wrapped = useMemo(() => {
     let tree: ReactNode = (
       <StoreProvider config={widgetConfig} formRef={formRef}>
+        <CheckoutDepositContractCallsInit />
         {children}
       </StoreProvider>
     )

@@ -6,6 +6,7 @@ import {
   SolanaListItemButton,
   SuiListItemButton,
 } from '@lifi/wallet-management'
+import type { JSX } from 'react'
 
 type WalletConnectRowComponent =
   | typeof EthereumListItemButton
@@ -33,7 +34,7 @@ export function WalletConnectRow({
   onConnected,
   onConnecting,
   onError,
-}: WalletConnectRowProps) {
+}: WalletConnectRowProps): JSX.Element | null {
   let ListItemButtonComponent: WalletConnectRowComponent | null = null
   switch (chainType) {
     case ChainType.EVM:
