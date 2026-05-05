@@ -1,4 +1,6 @@
 export type {
+  CexSessionRequest,
+  CexSessionResponse,
   OnrampSessionRequest,
   OnrampSessionResponse,
 } from '../src/checkout/types/onrampSession.js'

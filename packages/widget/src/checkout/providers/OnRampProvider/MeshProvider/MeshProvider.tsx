@@ -15,21 +15,25 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useToken } from '../../../../hooks/useToken.js'
 import type { WidgetConfig } from '../../../../types/widget.js'
 import { useCheckoutUserId } from '../../../hooks/useCheckoutUserId.js'
-import type { CexSessionRequest } from '../../../types/onrampSession.js'
+import type {
+  CexSessionRequest,
+  CexSessionResponse,
+} from '../../../types/onrampSession.js'
 import { useCheckoutConfig } from '../../CheckoutProvider.js'
+import { postCheckoutSession } from '../sessionClient.js'
 import type { LoadedOnRampAdapter, OnRampProviderMeta } from '../types.js'
 import { MeshContext } from './meshContext.js'
 
 const meshCallbackMessages = {
-  MISSING_API_URL:
-    'CEX deposit is not configured: widget sdkConfig.apiUrl is not set.',
+  MISSING_API_URL: 'CEX deposit is not configured: set onrampSessionApiUrl.',
   ONRAMP_TARGET_NOT_CONFIGURED:
     'CEX deposit target is not configured: set widget.toChain and widget.toToken.',
   WALLET_NOT_CONNECTED:
     'An EVM wallet must be connected before starting a Mesh deposit.',
+  MISSING_API_KEY:
+    'CEX deposit is not configured: set widget apiKey to call checkout sessions.',
   ONRAMP_INVALID_RESPONSE:
     'Invalid response from onramp server (missing linkToken).',
   ONRAMP_NETWORK_ERROR: 'Network error starting Mesh session.',
@@ -56,12 +60,9 @@ export type MeshProviderProps = PropsWithChildren<{
 const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
   const { t } = useTranslation()
   const checkoutUserId = useCheckoutUserId()
-  const { integrator, onError, onSuccess } = useCheckoutConfig()
+  const { integrator, onError, onSuccess, onrampSessionApiUrl } =
+    useCheckoutConfig()
   const { account } = useAccount({ chainType: ChainType.EVM })
-  const { token: toToken } = useToken(
-    widgetConfig.toChain,
-    widgetConfig.toToken
-  )
 
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -77,7 +78,10 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
     setUiError(null)
     setIsLoading(true)
 
-    const apiUrl = widgetConfig.sdkConfig?.apiUrl?.replace(/\/$/, '')
+    // TODO(config-alignment): Keep `onrampSessionApiUrl` aligned with `widgetConfig.sdkConfig.apiUrl`
+    // by default; only diverge when checkout session APIs are intentionally routed elsewhere.
+    const apiUrl = onrampSessionApiUrl?.replace(/\/$/, '')
+    const apiKey = widgetConfig.apiKey?.trim()
     if (!apiUrl) {
       setUiError({ kind: 'fixed', code: 'MISSING_API_URL' })
       onError?.({
@@ -88,11 +92,20 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
       setIsLoading(false)
       return
     }
+    if (!apiKey) {
+      setUiError({ kind: 'fixed', code: 'MISSING_API_KEY' })
+      onError?.({
+        code: 'MISSING_API_KEY',
+        message: meshCallbackMessages.MISSING_API_KEY,
+        provider: 'mesh',
+      })
+      setIsLoading(false)
+      return
+    }
 
     const chainId = widgetConfig.toChain
     const tokenAddress = widgetConfig.toToken
-    const tokenSymbol = toToken?.symbol
-    if (chainId === undefined || !tokenAddress || !tokenSymbol) {
+    if (chainId === undefined || !tokenAddress) {
       setUiError({ kind: 'fixed', code: 'ONRAMP_TARGET_NOT_CONFIGURED' })
       onError?.({
         code: 'ONRAMP_TARGET_NOT_CONFIGURED',
@@ -116,29 +129,26 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
     }
 
     const body: CexSessionRequest = {
+      walletAddress,
+      tokenAddress,
+      chainId,
       userId: checkoutUserId,
-      transactionId: crypto.randomUUID(),
       integrator,
-      toAddress: {
-        address: walletAddress,
-        tokenAddress,
-        chainId,
-        symbol: tokenSymbol,
-        networkId: String(chainId),
-      },
     }
 
     try {
-      const res = await fetch(`${apiUrl}/path/cex-session`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
+      const res = await postCheckoutSession<
+        CexSessionRequest,
+        CexSessionResponse
+      >({
+        baseUrl: apiUrl,
+        integrator,
+        endpointPath: '/v1/checkout/cex/session',
+        apiKey,
+        body,
       })
-
-      const data: unknown = await res.json().catch(() => null)
-
       if (!res.ok) {
-        const errObj = data as { error?: string; code?: string } | null
+        const errObj = res.apiError
         if (errObj?.error) {
           setUiError({
             kind: 'text',
@@ -162,8 +172,7 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
         return
       }
 
-      const ok = data as { linkToken?: string }
-      if (!ok?.linkToken) {
+      if (!res.data.linkToken) {
         setUiError({ kind: 'fixed', code: 'ONRAMP_INVALID_RESPONSE' })
         onError?.({
           code: 'ONRAMP_INVALID_RESPONSE',
@@ -204,7 +213,7 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
 
       setIsLoading(false)
       setIsOpen(true)
-      link.openLink(ok.linkToken)
+      link.openLink(res.data.linkToken)
     } catch (e) {
       const message =
         e instanceof Error
@@ -229,8 +238,8 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
     integrator,
     onError,
     onSuccess,
-    toToken?.symbol,
-    widgetConfig.sdkConfig?.apiUrl,
+    onrampSessionApiUrl,
+    widgetConfig.apiKey,
     widgetConfig.toChain,
     widgetConfig.toToken,
   ])

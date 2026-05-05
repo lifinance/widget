@@ -391,6 +391,7 @@
       "close": "Close",
       "errors": {
         "MISSING_ONRAMP_API": "Cash deposit is not configured: set onrampSessionApiUrl on the checkout.",
+        "MISSING_API_KEY": "Cash deposit is not configured: set widget apiKey to call checkout sessions.",
         "ONRAMP_TARGET_NOT_CONFIGURED": "Cash deposit target is not configured: set widget.toChain and widget.toToken.",
         "WALLET_NOT_CONNECTED": "Connect an Ethereum wallet to deposit with cash.",
         "ONRAMP_INVALID_RESPONSE": "Invalid response from onramp server (missing widgetUrl).",
@@ -402,7 +403,8 @@
     },
     "mesh": {
       "errors": {
-        "MISSING_API_URL": "Exchange deposit is not configured: widget sdkConfig.apiUrl is not set.",
+        "MISSING_API_URL": "Exchange deposit is not configured: set onrampSessionApiUrl on the checkout.",
+        "MISSING_API_KEY": "Exchange deposit is not configured: set widget apiKey to call checkout sessions.",
         "ONRAMP_TARGET_NOT_CONFIGURED": "Exchange deposit target is not configured: set widget.toChain and widget.toToken.",
         "WALLET_NOT_CONNECTED": "Connect an Ethereum wallet to deposit from an exchange.",
         "ONRAMP_INVALID_RESPONSE": "Invalid response from onramp server (missing linkToken).",

@@ -1,4 +1,4 @@
-/** Body for `POST /v1/path/onramp-session` (mock API and Core-aligned). */
+/** Body for `POST /v1/checkout/onramp/session`. */
 export interface OnrampSessionRequest {
   walletAddress: string
   tokenAddress: string
@@ -10,20 +10,21 @@ export interface OnrampSessionResponse {
   widgetUrl: string
 }
 
-/** Body for `POST /v1/path/cex-session` (Mesh CEX funding). */
+/** Body for `POST /v1/checkout/cex/session` (Mesh CEX funding). */
 export interface CexSessionRequest {
-  userId: string
-  transactionId: string
-  integrator: string
-  toAddress: {
-    address: string
-    tokenAddress: string
-    chainId: number
-    symbol: string
-    networkId: string
-  }
+  walletAddress: string
+  tokenAddress: string
+  chainId: number
+  userId?: string
+  integrator?: string
 }
 
 export interface CexSessionResponse {
   linkToken: string
+}
+
+/** Common non-2xx payload shape returned by checkout session APIs. */
+export interface CheckoutSessionApiError {
+  error?: string
+  code?: string
 }

@@ -17,6 +17,7 @@ export const LifiWidgetCheckout: ForwardRefExoticComponent<
   const config: CheckoutConfig = useMemo(
     () => ({
       integrator: props.integrator ?? 'lifi-widget-checkout',
+      // Checkout session API base URL, e.g. https://develop.li.quest
       onrampSessionApiUrl: props.onrampSessionApiUrl,
       onSuccess: props.onSuccess,
       onError: props.onError,

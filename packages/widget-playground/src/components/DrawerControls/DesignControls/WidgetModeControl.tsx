@@ -1,4 +1,4 @@
-import type { SyntheticEvent } from 'react'
+import type { JSX, SyntheticEvent } from 'react'
 import type { PlaygroundWidgetMode } from '../../../store/widgetConfig/types.js'
 import { useConfigActions } from '../../../store/widgetConfig/useConfigActions.js'
 import { usePlaygroundWidgetMode } from '../../../store/widgetConfig/useConfigValues.js'
@@ -11,7 +11,7 @@ const modeLabels: Record<PlaygroundWidgetMode, string> = {
   checkout: 'Checkout (Path v1)',
 }
 
-export const WidgetModeControl = () => {
+export const WidgetModeControl = (): JSX.Element => {
   const { playgroundWidgetMode } = usePlaygroundWidgetMode()
   const { setPlaygroundWidgetMode } = useConfigActions()
 

@@ -23,6 +23,7 @@ export const useConfigActions = (): Pick<
   | 'setFormValues'
   | 'setChainSidebarDisabled'
   | 'setSplitOption'
+  | 'setPlaygroundWidgetMode'
 > => {
   const actions = useWidgetConfigStore((state) => ({
     setConfig: state.setConfig,

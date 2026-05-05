@@ -28,8 +28,12 @@ import { useTranslation } from 'react-i18next'
 import { modalProps } from '../../../../components/Dialog/Dialog.js'
 import { useGetScrollableContainer } from '../../../../hooks/useScrollableContainer.js'
 import type { WidgetConfig } from '../../../../types/widget.js'
-import type { OnrampSessionRequest } from '../../../types/onrampSession.js'
+import type {
+  OnrampSessionRequest,
+  OnrampSessionResponse,
+} from '../../../types/onrampSession.js'
 import { useCheckoutConfig } from '../../CheckoutProvider.js'
+import { postCheckoutSession } from '../sessionClient.js'
 import type { LoadedOnRampAdapter, OnRampProviderMeta } from '../types.js'
 import { TransakContext } from './transakContext.js'
 
@@ -41,6 +45,8 @@ const transakCallbackMessages = {
     'Cash deposit target is not configured: set widget.toChain and widget.toToken.',
   WALLET_NOT_CONNECTED:
     'An EVM wallet must be connected before starting a Transak deposit.',
+  MISSING_API_KEY:
+    'Cash deposit is not configured: set widget apiKey to call checkout sessions.',
   ONRAMP_INVALID_RESPONSE:
     'Invalid response from onramp server (missing widgetUrl).',
   ONRAMP_NETWORK_ERROR: 'Network error starting Transak session.',
@@ -52,6 +58,12 @@ type TransakUiError =
   | { kind: 'fixed'; code: TransakFixedErrorCode }
   | { kind: 'http'; status: number }
   | { kind: 'text'; text: string; reportCode: string }
+
+// TODO(cleanup-remove-transak-native-eth-retry-hack): Remove this forced ETH fallback token
+// and replace with explicit provider capability/config-driven behavior.
+const NATIVE_EVM_TOKEN_ADDRESS = '0x0000000000000000000000000000000000000000'
+const TRANSAK_FALLBACK_CHAIN_IDS = [1]
+const TRANSAK_RETRYABLE_STATUS_CODES = [500, 502, 503, 504]
 
 const transakMeta: OnRampProviderMeta = {
   id: 'transak',
@@ -96,6 +108,8 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
     setWidgetUrl(null)
     setIsLoading(true)
 
+    // TODO(config-alignment): Keep `onrampSessionApiUrl` aligned with `widgetConfig.sdkConfig.apiUrl`
+    // by default; only diverge when checkout session APIs are intentionally routed elsewhere.
     const base = onrampSessionApiUrl?.replace(/\/$/, '')
     if (!base) {
       setUiError({ kind: 'fixed', code: 'MISSING_ONRAMP_API' })
@@ -122,11 +136,22 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
     }
 
     const walletAddress = account.address
+    const apiKey = widgetConfig.apiKey?.trim()
     if (!walletAddress) {
       setUiError({ kind: 'fixed', code: 'WALLET_NOT_CONNECTED' })
       onError?.({
         code: 'WALLET_NOT_CONNECTED',
         message: transakCallbackMessages.WALLET_NOT_CONNECTED,
+        provider: 'transak',
+      })
+      setIsLoading(false)
+      return
+    }
+    if (!apiKey) {
+      setUiError({ kind: 'fixed', code: 'MISSING_API_KEY' })
+      onError?.({
+        code: 'MISSING_API_KEY',
+        message: transakCallbackMessages.MISSING_API_KEY,
         provider: 'transak',
       })
       setIsLoading(false)
@@ -140,17 +165,46 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
       integrator,
     }
 
+    const canRetryWithNativeEth =
+      TRANSAK_FALLBACK_CHAIN_IDS.includes(chainId) &&
+      tokenAddress.toLowerCase() !== NATIVE_EVM_TOKEN_ADDRESS.toLowerCase()
+
     try {
-      const res = await fetch(`${base}/v1/path/onramp-session`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
+      let res = await postCheckoutSession<
+        OnrampSessionRequest,
+        OnrampSessionResponse
+      >({
+        baseUrl: base,
+        endpointPath: '/v1/checkout/onramp/session',
+        apiKey,
+        integrator,
+        body,
       })
 
-      const data: unknown = await res.json().catch(() => null)
+      // TODO(cleanup-remove-transak-native-eth-retry-hack): This retry is a temporary workaround
+      // for develop instability. Replace with deterministic provider capability handling.
+      if (
+        !res.ok &&
+        TRANSAK_RETRYABLE_STATUS_CODES.includes(res.status) &&
+        canRetryWithNativeEth
+      ) {
+        res = await postCheckoutSession<
+          OnrampSessionRequest,
+          OnrampSessionResponse
+        >({
+          baseUrl: base,
+          endpointPath: '/v1/checkout/onramp/session',
+          apiKey,
+          integrator,
+          body: {
+            ...body,
+            tokenAddress: NATIVE_EVM_TOKEN_ADDRESS,
+          },
+        })
+      }
 
       if (!res.ok) {
-        const errObj = data as { error?: string; code?: string } | null
+        const errObj = res.apiError
         if (errObj?.error) {
           setUiError({
             kind: 'text',
@@ -174,8 +228,7 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
         return
       }
 
-      const ok = data as { widgetUrl?: string }
-      if (!ok?.widgetUrl) {
+      if (!res.data.widgetUrl) {
         setUiError({ kind: 'fixed', code: 'ONRAMP_INVALID_RESPONSE' })
         onError?.({
           code: 'ONRAMP_INVALID_RESPONSE',
@@ -186,7 +239,7 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
         return
       }
 
-      setWidgetUrl(ok.widgetUrl)
+      setWidgetUrl(res.data.widgetUrl)
     } catch (e) {
       const message =
         e instanceof Error
@@ -216,6 +269,7 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
     onrampSessionApiUrl,
     widgetConfig.toChain,
     widgetConfig.toToken,
+    widgetConfig.apiKey,
   ])
 
   useEffect(() => {

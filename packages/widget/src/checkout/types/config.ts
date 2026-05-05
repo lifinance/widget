@@ -4,6 +4,7 @@ import type { CheckoutError, CheckoutResult } from './results.js'
 
 export interface CheckoutConfig {
   integrator: string
+  /** Core API base URL for checkout sessions, e.g. `https://develop.li.quest`. */
   onrampSessionApiUrl?: string
   onSuccess?: (result: CheckoutResult) => void
   onError?: (error: CheckoutError) => void

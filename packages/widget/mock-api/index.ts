@@ -10,7 +10,7 @@ import {
   getAccessToken,
   TransakHttpError,
 } from './transak.js'
-import type { OnrampSessionRequest } from './types.js'
+import type { CexSessionRequest, OnrampSessionRequest } from './types.js'
 
 const PORT = Number(process.env.PORT) || 8080
 const REFERRER_DOMAIN = process.env.REFERRER_DOMAIN
@@ -70,6 +70,18 @@ function validateRequest(body: unknown): body is OnrampSessionRequest {
   )
 }
 
+function validateCexRequest(body: unknown): body is CexSessionRequest {
+  if (!body || typeof body !== 'object') {
+    return false
+  }
+  const b = body as Record<string, unknown>
+  return (
+    typeof b.walletAddress === 'string' &&
+    typeof b.tokenAddress === 'string' &&
+    typeof b.chainId === 'number'
+  )
+}
+
 const app = express()
 
 app.use((req, res, next) => {
@@ -77,7 +89,10 @@ app.use((req, res, next) => {
   if (origin && ALLOWED_ORIGIN_PATTERN.test(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin)
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+    res.setHeader(
+      'Access-Control-Allow-Headers',
+      'Content-Type, x-lifi-api-key'
+    )
   }
   if (req.method === 'OPTIONS') {
     res.status(204).end()
@@ -97,7 +112,7 @@ async function proxyToCore(
   res: express.Response
 ): Promise<void> {
   try {
-    const response = await fetch(`${CORE_API_URL}/v1/path/onramp-session`, {
+    const response = await fetch(`${CORE_API_URL}/v1/checkout/onramp/session`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
@@ -113,6 +128,35 @@ async function proxyToCore(
   }
 }
 
+async function proxyCexToCore(
+  body: CexSessionRequest,
+  apiKey: string | undefined,
+  res: express.Response
+): Promise<void> {
+  try {
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    }
+    if (apiKey) {
+      headers['x-lifi-api-key'] = apiKey
+    }
+
+    const response = await fetch(`${CORE_API_URL}/v1/checkout/cex/session`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(body),
+    })
+    const data = await response.json()
+    res.status(response.status).json(data)
+  } catch (err) {
+    console.error('Failed to proxy CEX session to Core:', err)
+    res.status(502).json({
+      error: 'Failed to connect to Core API',
+      code: 'PROXY_ERROR',
+    })
+  }
+}
+
 function simulateTimeout(): Promise<never> {
   return new Promise((_, reject) => {
     setTimeout(() => {
@@ -121,7 +165,10 @@ function simulateTimeout(): Promise<never> {
   })
 }
 
-app.post('/v1/path/onramp-session', async (req, res) => {
+async function handleOnrampSession(
+  req: express.Request,
+  res: express.Response
+): Promise<void> {
   try {
     // Handle error simulation modes
     if (SIMULATE_ERROR === 'timeout') {
@@ -244,6 +291,36 @@ app.post('/v1/path/onramp-session', async (req, res) => {
       .status(500)
       .json({ error: 'Internal server error', code: 'INTERNAL_ERROR' })
   }
+}
+
+app.post('/v1/path/onramp-session', handleOnrampSession)
+app.post('/v1/checkout/onramp/session', handleOnrampSession)
+
+app.post('/v1/checkout/cex/session', async (req, res) => {
+  const body = req.body
+
+  if (!validateCexRequest(body)) {
+    res.status(400).json({
+      error:
+        'Missing or invalid fields: walletAddress (string), tokenAddress (string), chainId (number)',
+      code: 'VALIDATION_ERROR',
+    })
+    return
+  }
+
+  if (USE_REAL_CORE) {
+    await proxyCexToCore(
+      body,
+      typeof req.headers['x-lifi-api-key'] === 'string'
+        ? req.headers['x-lifi-api-key']
+        : undefined,
+      res
+    )
+    return
+  }
+
+  // Local Mesh mock: keeps checkout flow unblocked without external Core call.
+  res.json({ linkToken: 'mock-link-token' })
 })
 
 async function start(): Promise<void> {
@@ -251,6 +328,8 @@ async function start(): Promise<void> {
   app.listen(PORT, () => {
     console.warn(`Mock onramp session server listening on port ${PORT}`)
     console.warn(`  POST http://localhost:${PORT}/v1/path/onramp-session`)
+    console.warn(`  POST http://localhost:${PORT}/v1/checkout/onramp/session`)
+    console.warn(`  POST http://localhost:${PORT}/v1/checkout/cex/session`)
     console.warn(`  GET  http://localhost:${PORT}/health`)
     console.warn('')
     if (USE_REAL_CORE) {
