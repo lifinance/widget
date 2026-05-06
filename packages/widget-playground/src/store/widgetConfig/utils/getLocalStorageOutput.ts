@@ -6,6 +6,9 @@ export const getLocalStorageOutput = (
   return {
     ...(config.variant ? { variant: config.variant } : {}),
     ...(config.subvariant ? { subvariant: config.subvariant } : {}),
+    ...(config.subvariantOptions
+      ? { subvariantOptions: config.subvariantOptions }
+      : {}),
     ...(config.appearance ? { appearance: config.appearance } : {}),
     ...(config.theme
       ? {
