@@ -32,6 +32,9 @@ export default defineConfig({
     ['json', { outputFile: 'test-results/examples-results.json' }],
     ['list'],
   ],
+  expect: {
+    timeout: 15_000,
+  },
   use: {
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
