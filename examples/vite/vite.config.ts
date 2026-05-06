@@ -9,6 +9,13 @@ export default defineConfig({
     target: 'esnext',
   },
 
+  build: {
+    rolldownOptions: {
+      output: {
+        strictExecutionOrder: true,
+      },
+    },
+  },
   server: {
     port: 3000,
     open: true,

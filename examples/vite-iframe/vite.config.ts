@@ -9,6 +9,13 @@ export default defineConfig({
   oxc: {
     target: 'esnext',
   },
+  build: {
+    rolldownOptions: {
+      output: {
+        strictExecutionOrder: true,
+      },
+    },
+  },
   server: {
     port: 4000,
     open: true,

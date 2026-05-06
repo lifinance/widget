@@ -10,6 +10,11 @@ export default defineConfig({
   },
   build: {
     sourcemap: true,
+    rolldownOptions: {
+      output: {
+        strictExecutionOrder: true,
+      },
+    },
   },
   server: {
     port: 3000,

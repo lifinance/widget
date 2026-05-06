@@ -5,4 +5,11 @@ import EnvCompatible from 'vite-plugin-env-compatible'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), EnvCompatible()],
+  build: {
+    rolldownOptions: {
+      output: {
+        strictExecutionOrder: true,
+      },
+    },
+  },
 })
