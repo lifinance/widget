@@ -363,6 +363,19 @@
   },
   "checkout": {
     "deposit": "Deposit",
+    "transactionStatus": {
+      "detailsTitle": "Transaction details",
+      "watching": "Watching for transaction",
+      "executing": "Processing transaction",
+      "success": "Transaction successful",
+      "seeDetails": "See details",
+      "steps": {
+        "transferInitiated": "Transfer initiated",
+        "tokenReceived": "{{symbol}} received",
+        "swappedTo": "Swapped to {{symbol}}",
+        "bridgedTo": "Bridged to {{chain}}"
+      }
+    },
     "chooseFundingSource": "Choose funding source",
     "useYourTokens": "Use your tokens",
     "buyTokens": "Buy tokens",
@@ -410,6 +423,12 @@
         "CEX_SESSION_FAILED": "Could not start Mesh session. Try again later.",
         "CEX_SESSION_HTTP": "Could not start Mesh session ({{status}}). Try again later.",
         "generic": "Something went wrong. Try again later."
+      },
+      "failure": {
+        "connectionTitle": "Connection failed",
+        "connectionDescription": "We couldn't connect to your exchange. Try again or contact support.",
+        "withdrawalTitle": "Withdrawal failed",
+        "withdrawalDescription": "The exchange couldn't process your withdrawal. Your funds remain in your exchange account."
       }
     }
   }

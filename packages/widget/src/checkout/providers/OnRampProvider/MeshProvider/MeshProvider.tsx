@@ -2,6 +2,7 @@
 import { ChainType } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import type {
+  LinkEventType,
   LinkPayload,
   TransferFinishedPayload,
 } from '@meshconnect/web-link-sdk'
@@ -12,6 +13,7 @@ import {
   type ReactNode,
   useCallback,
   useMemo,
+  useRef,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -23,7 +25,11 @@ import type {
 } from '../../../types/onrampSession.js'
 import { useCheckoutConfig } from '../../CheckoutProvider.js'
 import { postCheckoutSession } from '../sessionClient.js'
-import type { LoadedOnRampAdapter, OnRampProviderMeta } from '../types.js'
+import type {
+  LoadedOnRampAdapter,
+  OnRampFailureState,
+  OnRampProviderMeta,
+} from '../types.js'
 import { MeshContext } from './meshContext.js'
 
 const meshCallbackMessages = {
@@ -67,6 +73,16 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [uiError, setUiError] = useState<MeshUiError | null>(null)
+  const [failure, setFailure] = useState<OnRampFailureState | null>(null)
+  const [depositTxHash, setDepositTxHash] = useState<string | null>(null)
+  // Track in-Mesh errors as they stream through onEvent so we can classify
+  // the terminal close from onExit. Refs (not state) because Mesh's callbacks
+  // capture the value at link-creation time.
+  const lastEventErrorRef = useRef<{
+    kind: 'connection' | 'withdrawal'
+    message: string
+  } | null>(null)
+  const transferSucceededRef = useRef(false)
 
   const close = useCallback(() => {
     setIsOpen(false)
@@ -74,8 +90,16 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
     setUiError(null)
   }, [])
 
+  const acknowledgeDepositTxHash = useCallback(() => {
+    setDepositTxHash(null)
+  }, [])
+
   const openDepositFlow = useCallback(async () => {
     setUiError(null)
+    setFailure(null)
+    setDepositTxHash(null)
+    lastEventErrorRef.current = null
+    transferSucceededRef.current = false
     setIsLoading(true)
 
     // TODO(config-alignment): Keep `onrampSessionApiUrl` aligned with `widgetConfig.sdkConfig.apiUrl`
@@ -188,26 +212,105 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
           // Exchange account linked — no action needed for transfer flow
         },
         onTransferFinished: (payload: TransferFinishedPayload) => {
+          transferSucceededRef.current = true
+          // Only hand off a real on-chain hash. Mesh's `txId` is an internal
+          // identifier that won't resolve via LI.FI's status endpoint.
+          // TODO(test-mode): remove DEV override once Mesh/test backend
+          // returns a /status-resolvable hash.
+          const onChainHash =
+            process.env.NODE_ENV === 'development'
+              ? '0xed295238d734db823a5d2791fd2e55afa2b398ab66d8ec55e4be09b2ee6eec1c'
+              : payload.txHash?.trim()
+          if (onChainHash) {
+            setDepositTxHash(onChainHash)
+          }
           if (onSuccess) {
             onSuccess({
               provider: 'mesh',
-              transactionHash: payload.txHash ?? payload.txId,
+              transactionHash: onChainHash ?? payload.txId,
               amount: String(payload.amount),
               token: payload.symbol,
               chainId: Number(widgetConfig.toChain ?? 0),
             })
           }
-          close()
+          // Leave the modal-state alone here; onExit fires next and is the
+          // single terminal cleanup point.
+        },
+        onEvent: (event: LinkEventType) => {
+          switch (event.type) {
+            case 'transferExecutionError':
+              lastEventErrorRef.current = {
+                kind: 'withdrawal',
+                message: event.payload.errorMessage,
+              }
+              break
+            case 'integrationConnectionError':
+              lastEventErrorRef.current = {
+                kind: 'connection',
+                message: event.payload.errorMessage,
+              }
+              break
+            default:
+              break
+          }
         },
         onExit: (error?: string) => {
+          // Reset transient open/loading flags but keep failure/depositTxHash
+          // so the consumer can render the post-Mesh state.
+          setIsOpen(false)
+          setIsLoading(false)
+
+          if (transferSucceededRef.current) {
+            return
+          }
+
+          const tracked = lastEventErrorRef.current
+          if (tracked) {
+            const message =
+              tracked.message ||
+              (tracked.kind === 'withdrawal'
+                ? t('checkout.mesh.failure.withdrawalDescription')
+                : t('checkout.mesh.failure.connectionDescription'))
+            setFailure({
+              kind: tracked.kind,
+              message,
+              reportCode:
+                tracked.kind === 'withdrawal'
+                  ? 'MESH_WITHDRAWAL_FAILED'
+                  : 'MESH_CONNECTION_FAILED',
+              retry: () => {
+                setFailure(null)
+                void openDepositFlow()
+              },
+            })
+            onError?.({
+              code:
+                tracked.kind === 'withdrawal'
+                  ? 'MESH_WITHDRAWAL_FAILED'
+                  : 'MESH_CONNECTION_FAILED',
+              message,
+              provider: 'mesh',
+            })
+            return
+          }
+
           if (error) {
+            const message = error
+            setFailure({
+              kind: 'connection',
+              message,
+              reportCode: 'MESH_EXIT_ERROR',
+              retry: () => {
+                setFailure(null)
+                void openDepositFlow()
+              },
+            })
             onError?.({
               code: 'MESH_EXIT_ERROR',
-              message: error,
+              message,
               provider: 'mesh',
             })
           }
-          close()
         },
       })
 
@@ -234,11 +337,11 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
   }, [
     account.address,
     checkoutUserId,
-    close,
     integrator,
     onError,
     onSuccess,
     onrampSessionApiUrl,
+    t,
     widgetConfig.apiKey,
     widgetConfig.toChain,
     widgetConfig.toToken,
@@ -260,8 +363,21 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
                   status: uiError.status,
                 })
               : uiError.text,
+      failure,
+      depositTxHash,
+      acknowledgeDepositTxHash,
     }),
-    [close, isLoading, isOpen, openDepositFlow, t, uiError]
+    [
+      acknowledgeDepositTxHash,
+      close,
+      depositTxHash,
+      failure,
+      isLoading,
+      isOpen,
+      openDepositFlow,
+      t,
+      uiError,
+    ]
   )
 
   return <MeshContext.Provider value={value}>{children}</MeshContext.Provider>

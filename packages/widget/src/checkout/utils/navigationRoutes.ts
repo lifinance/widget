@@ -22,6 +22,7 @@ export const checkoutNavigationRoutes = {
   routes: 'routes',
   transactionExecution: 'transaction-execution',
   transactionDetails: 'transaction-details',
+  transactionStatus: 'transaction-status',
 } as const
 
 export type CheckoutNavigationRoute =

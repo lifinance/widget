@@ -6,11 +6,12 @@ import {
   RouterProvider,
 } from '@tanstack/react-router'
 import { SelectChainPage } from '../pages/SelectChainPage/SelectChainPage.js'
-import { TransactionDetailsPage } from '../pages/TransactionDetailsPage/TransactionDetailsPage.js'
 import { navigationRoutes } from '../utils/navigationRoutes.js'
 import { CheckoutLayout } from './CheckoutLayout.js'
 import { CheckoutRoutesPage } from './pages/CheckoutRoutesPage.js'
+import { CheckoutTransactionDetailsPage } from './pages/CheckoutTransactionDetailsPage/CheckoutTransactionDetailsPage.js'
 import { CheckoutTransactionPage } from './pages/CheckoutTransactionPage.js'
+import { CheckoutTransactionStatusPage } from './pages/CheckoutTransactionStatusPage/CheckoutTransactionStatusPage.js'
 import { EnterAmountPage } from './pages/EnterAmountPage/EnterAmountPage.js'
 import { ProgressPage } from './pages/ProgressPage/ProgressPage.js'
 import { SelectDepositTokenPage } from './pages/SelectDepositTokenPage/SelectDepositTokenPage.js'
@@ -81,7 +82,13 @@ const routesTransactionExecutionIndexRoute = createRoute({
 const routesTransactionExecutionDetailsRoute = createRoute({
   getParentRoute: () => routesTransactionExecutionRoute,
   path: navigationRoutes.transactionDetails,
-  component: TransactionDetailsPage,
+  component: CheckoutTransactionDetailsPage,
+})
+
+const routesTransactionExecutionStatusRoute = createRoute({
+  getParentRoute: () => routesTransactionExecutionRoute,
+  path: checkoutNavigationRoutes.transactionStatus,
+  component: CheckoutTransactionStatusPage,
 })
 
 const transactionExecutionLayoutRoute = createRoute({
@@ -98,7 +105,13 @@ const transactionExecutionIndexRoute = createRoute({
 const transactionExecutionDetailsRoute = createRoute({
   getParentRoute: () => transactionExecutionLayoutRoute,
   path: navigationRoutes.transactionDetails,
-  component: TransactionDetailsPage,
+  component: CheckoutTransactionDetailsPage,
+})
+
+const transactionExecutionStatusRoute = createRoute({
+  getParentRoute: () => transactionExecutionLayoutRoute,
+  path: checkoutNavigationRoutes.transactionStatus,
+  component: CheckoutTransactionStatusPage,
 })
 
 const routeTree = rootRoute.addChildren([
@@ -114,11 +127,13 @@ const routeTree = rootRoute.addChildren([
     routesTransactionExecutionRoute.addChildren([
       routesTransactionExecutionIndexRoute,
       routesTransactionExecutionDetailsRoute,
+      routesTransactionExecutionStatusRoute,
     ]),
   ]),
   transactionExecutionLayoutRoute.addChildren([
     transactionExecutionIndexRoute,
     transactionExecutionDetailsRoute,
+    transactionExecutionStatusRoute,
   ]),
 ])
 

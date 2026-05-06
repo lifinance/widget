@@ -356,6 +356,9 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
                   status: uiError.status,
                 })
               : uiError.text,
+      failure: null,
+      depositTxHash: null,
+      acknowledgeDepositTxHash: () => {},
     }),
     [close, isLoading, open, openDepositFlow, t, uiError]
   )

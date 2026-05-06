@@ -1,7 +1,9 @@
 import { useAccount, useWalletMenu } from '@lifi/wallet-management'
 import { Box } from '@mui/material'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { PoweredBy } from '../../../components/PoweredBy/PoweredBy.js'
+import { useHeader } from '../../../hooks/useHeader.js'
 import { Stack } from '../../components/Stack.js'
 import { useCheckoutNavigate } from '../../hooks/useCheckoutNavigate.js'
 import { useOnRamp } from '../../hooks/useOnRamp.js'
@@ -11,6 +13,8 @@ import { SelectSourceFundingOptions } from './SelectSourceFundingOptions.js'
 import { SelectSourceMainColumn } from './SelectSourceLayout.js'
 
 export const SelectSourcePage: React.FC = () => {
+  const { t } = useTranslation()
+  useHeader(t('checkout.chooseFundingSource'))
   const navigate = useCheckoutNavigate()
   const { openWalletMenu } = useWalletMenu()
   const { accounts } = useAccount()

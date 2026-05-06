@@ -7,7 +7,10 @@ import { useTranslation } from 'react-i18next'
 import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate.js'
 import { useRoutes } from '../../hooks/useRoutes.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { useSetHeaderHeight } from '../../stores/header/useHeaderStore.js'
+import {
+  useHeaderStore,
+  useSetHeaderHeight,
+} from '../../stores/header/useHeaderStore.js'
 import { createElementId, ElementId } from '../../utils/elements.js'
 import { useCheckoutModal } from '../CheckoutModal.js'
 import { useCheckoutNavigate } from '../hooks/useCheckoutNavigate.js'
@@ -28,7 +31,9 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ title: titleProp }) => {
   const { elementId } = useWidgetConfig()
   const { t } = useTranslation()
-  const title = titleProp ?? t('checkout.deposit')
+  // Children can override the layout's pathname-derived title via useHeader().
+  const storeTitle = useHeaderStore((state) => state.title)
+  const title = storeTitle ?? titleProp ?? t('checkout.deposit')
   const { pathname } = useLocation()
   const router = useRouter()
   const navigate = useCheckoutNavigate()
@@ -63,7 +68,11 @@ export const Header: React.FC<HeaderProps> = ({ title: titleProp }) => {
   const path = cleanedPathname.substring(cleanedPathname.lastIndexOf('/') + 1)
   const showBackButton = backButtonRoutes.includes(path)
   const isHomePage = pathname === checkoutNavigationRoutes.home
-  const showQuoteIndicator = !isHomePage && path !== 'enter-amount'
+  const showQuoteIndicator =
+    !isHomePage &&
+    path !== 'enter-amount' &&
+    path !== checkoutNavigationRoutes.transactionStatus &&
+    path !== checkoutNavigationRoutes.transactionDetails
 
   const handleBack = () => {
     if (router.history.length > 1) {
@@ -77,7 +86,10 @@ export const Header: React.FC<HeaderProps> = ({ title: titleProp }) => {
     modalContext?.closeModal()
   }
 
-  const titleAlignCenter = isHomePage || showBackButton
+  // The back-button slot is always rendered (with `visibility: hidden` when
+  // not active) so layout space is reserved on every page; always center the
+  // title rather than tying centering to back-button presence.
+  const titleAlignCenter = true
 
   return (
     <HeaderAppBar
