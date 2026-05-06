@@ -172,7 +172,7 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
             subheader={headerSubheader}
             selected={!!toAddressFieldValue || disabledToAddress}
             action={
-              !!toAddressFieldValue && !disabledForChanges ? (
+              toAddressFieldValue && !disabledForChanges ? (
                 <CardIconButton onClick={clearSelectedBookmark} size="small">
                   <CloseRounded fontSize="inherit" />
                 </CardIconButton>

@@ -46,7 +46,7 @@ const chainTypeIcons = [
   },
 ]
 
-const maxChainAvatarsCount = chainTypeIcons.length
+const maxChainAvatarsCount = 4
 
 export const AllChainsAvatar: React.NamedExoticComponent<AllChainsAvatarProps> =
   memo(({ chains, size }: AllChainsAvatarProps): JSX.Element => {
