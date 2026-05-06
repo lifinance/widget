@@ -10,7 +10,9 @@
     "test:debug": "playwright test --debug",
     "test:ui": "playwright test --ui",
     "typecheck": "tsc --noEmit",
-    "report": "playwright show-report"
+    "report": "playwright show-report",
+    "e2e:examples": "playwright test --config playwright.examples.config.ts",
+    "e2e:example": "playwright test --config playwright.examples.config.ts --project"
   },
   "devDependencies": {
     "@playwright/test": "^1.59.1"
