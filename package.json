@@ -41,8 +41,7 @@
     "knip:all": "knip",
     "knip:check": "knip --dependencies --files --no-config-hints --exclude binaries",
     "knip:write": "pnpm knip:check --fix",
-    "smoketest": "pnpm --filter @lifi/widget-e2e smoketest",
-    "smoke:example": "pnpm --filter @lifi/widget-e2e smoke:example"
+    "smoketest": "pnpm --filter @lifi/widget-e2e smoketest"
   },
   "lint-staged": {
     "*": [

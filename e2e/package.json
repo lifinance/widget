@@ -5,8 +5,7 @@
   "description": "Playwright E2E smoke tests for the LI.FI Widget playground",
   "scripts": {
     "test": "playwright test",
-    "smoketest": "playwright test tests/smoke",
-    "smoke:example": "playwright test tests/smoke --grep @example",
+    "smoketest": "playwright test tests/playground",
     "test:headed": "playwright test --headed",
     "test:debug": "playwright test --debug",
     "test:ui": "playwright test --ui",

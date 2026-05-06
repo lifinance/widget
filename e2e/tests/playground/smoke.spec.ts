@@ -1,13 +1,11 @@
 import { expect, test, waitForTokens } from '../fixtures/base.fixture.js'
 
-test.describe('Widget Playground Smoke Tests', () => {
+test.describe('Playground smoke', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/')
   })
 
-  test('playground sidebar is visible with Design controls', async ({
-    sidebar,
-  }) => {
+  test('sidebar is visible with Design controls', async ({ sidebar }) => {
     await test.step('sidebar heading is rendered', async () => {
       await expect(sidebar.heading).toBeVisible()
     })
@@ -24,7 +22,7 @@ test.describe('Widget Playground Smoke Tests', () => {
     })
   })
 
-  test('@example widget container is displayed with Exchange heading', async ({
+  test('widget container is displayed with Exchange heading', async ({
     exchange,
   }) => {
     await test.step('widget root is visible', async () => {
@@ -46,7 +44,7 @@ test.describe('Widget Playground Smoke Tests', () => {
     })
   })
 
-  test('@example clicking the Settings icon opens the Settings view', async ({
+  test('clicking the Settings icon opens the Settings view', async ({
     exchange,
     settings,
   }) => {
@@ -71,13 +69,12 @@ test.describe('Widget Playground Smoke Tests', () => {
     })
   })
 
-  test('@example token route setup — From and To tokens selected via UI', async ({
+  test('token route setup — From and To tokens selected via UI', async ({
     page,
     exchange,
     tokenSelector,
   }) => {
-    await test.step('navigate to plain / and wait for token list to load', async () => {
-      // waitForTokens must be set up before goto so we don't miss the response
+    await test.step('wait for token list to load', async () => {
       await Promise.all([waitForTokens(page), page.goto('/')])
     })
 
