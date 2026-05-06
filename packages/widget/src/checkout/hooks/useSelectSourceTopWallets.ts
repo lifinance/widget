@@ -1,5 +1,7 @@
-import { useAccount } from '@lifi/wallet-management'
+import { useCombinedWallets } from '@lifi/wallet-management'
 import { useMemo } from 'react'
+
+const VISIBLE_WALLET_COUNT = 3
 
 type TopWallet = {
   id: string
@@ -11,33 +13,27 @@ export function useSelectSourceTopWallets(): {
   topWallets: TopWallet[]
   walletOverflowCount: number
 } {
-  const { accounts } = useAccount()
+  const combinedWallets = useCombinedWallets()
+
+  const walletsWithIcons = useMemo(
+    () => combinedWallets.filter((w) => Boolean(w.icon)),
+    [combinedWallets]
+  )
 
   const topWallets = useMemo(
     () =>
-      accounts
-        .filter((account) => account.isConnected && account.connector)
-        .map((account) => ({
-          id:
-            account.connector?.name ??
-            account.connector?.displayName ??
-            account.name ??
-            'wallet',
-          name:
-            account.connector?.displayName ??
-            account.connector?.name ??
-            account.name,
-          icon: account.connector?.icon,
-        }))
-        .filter(
-          (wallet, index, wallets) =>
-            wallets.findIndex((w) => w.id === wallet.id) === index
-        )
-        .slice(0, 3),
-    [accounts]
+      walletsWithIcons.slice(0, VISIBLE_WALLET_COUNT).map((w) => ({
+        id: w.id ?? w.name,
+        name: w.name,
+        icon: w.icon,
+      })),
+    [walletsWithIcons]
   )
 
-  const walletOverflowCount = 0
+  const walletOverflowCount = useMemo(
+    () => Math.max(0, combinedWallets.length - VISIBLE_WALLET_COUNT),
+    [combinedWallets]
+  )
 
   return { topWallets, walletOverflowCount }
 }

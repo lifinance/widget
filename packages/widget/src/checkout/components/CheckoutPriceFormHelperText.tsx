@@ -77,13 +77,12 @@ const CheckoutPriceFormHelperTextBase: React.FC<
         justifyContent: 'space-between',
         alignItems: 'center',
         margin: 0,
-        marginLeft: 1.25,
-        marginTop: 0.5,
       }}
     >
       <InputPriceButton
         onClick={token?.priceUSD ? handleToggleMode : undefined}
       >
+        {token?.priceUSD && <SwapVertIcon sx={{ fontSize: 14 }} />}
         <Typography
           sx={{
             color: 'text.secondary',
@@ -114,7 +113,6 @@ const CheckoutPriceFormHelperTextBase: React.FC<
             {token.symbol}
           </Typography>
         ) : null}
-        {token?.priceUSD && <SwapVertIcon sx={{ fontSize: 14 }} />}
       </InputPriceButton>
       {isLoading && tokenAddress ? (
         <Skeleton variant="text" width={140} height={16} sx={{ ml: 0.5 }} />

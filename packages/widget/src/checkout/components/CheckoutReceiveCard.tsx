@@ -1,12 +1,16 @@
 import type { Route } from '@lifi/sdk'
 import AccessTimeFilled from '@mui/icons-material/AccessTimeFilled'
+import ExpandMoreRounded from '@mui/icons-material/ExpandMoreRounded'
 import LocalGasStationRounded from '@mui/icons-material/LocalGasStationRounded'
-import { Box, Skeleton, Typography } from '@mui/material'
+import { Box, Collapse, IconButton, Skeleton, Typography } from '@mui/material'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TokenAvatar } from '../../components/Avatar/TokenAvatar.js'
 import { ChainAvatar } from '../../components/ChainSelect/ChainSelect.style.js'
 import { FeeBreakdownTooltip } from '../../components/FeeBreakdownTooltip.js'
 import { IconTypography } from '../../components/IconTypography.js'
+import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate.js'
+import { RouteDetails } from '../../components/RouteCard/RouteDetails.js'
 import { RouteNotFoundCard } from '../../components/RouteCard/RouteNotFoundCard.js'
 import { TokenRate } from '../../components/TokenRate/TokenRate.js'
 import { useChain } from '../../hooks/useChain.js'
@@ -21,10 +25,10 @@ import {
   formatTokenPrice,
 } from '../../utils/format.js'
 import { getPriceImpact } from '../../utils/getPriceImpact.js'
-
 /** Receive (output) quote card for checkout deposit — matches Figma before/after quote states. */
 export const CheckoutReceiveCard: React.FC = () => {
   const { t, i18n } = useTranslation()
+  const [expanded, setExpanded] = useState(false)
   const [fromAmount] = useFieldValues('fromAmount')
   const [toChainId, toTokenAddress] = useFieldValues(
     FormKeyHelper.getChainKey('to'),
@@ -32,9 +36,21 @@ export const CheckoutReceiveCard: React.FC = () => {
   )
   const { chain } = useChain(toChainId)
   const { token: toToken } = useToken(toChainId, toTokenAddress)
-  const { routes, isLoading, isFetching, isFetched } = useRoutes()
+  const {
+    routes,
+    isLoading,
+    isFetching,
+    isFetched,
+    dataUpdatedAt,
+    refetchTime,
+  } = useRoutes()
 
-  const hasAmount = Number(fromAmount) > 0
+  const parsedAmount = Number.parseFloat(
+    typeof fromAmount === 'string'
+      ? fromAmount.replace(',', '.')
+      : `${fromAmount ?? ''}`
+  )
+  const hasAmount = Number.isFinite(parsedAmount) && parsedAmount > 0
   const route = routes?.[0] as Route | undefined
   const routeNotFound =
     hasAmount && !route && !isLoading && !isFetching && isFetched
@@ -83,6 +99,13 @@ export const CheckoutReceiveCard: React.FC = () => {
     ? getAccumulatedFeeCostsBreakdown(route)
     : { gasCosts: [], feeCosts: [], combinedFeesUSD: 0 }
 
+  const handleToggleExpanded = () => {
+    if (!route) {
+      return
+    }
+    setExpanded((prev) => !prev)
+  }
+
   return (
     <Box
       sx={{
@@ -96,26 +119,42 @@ export const CheckoutReceiveCard: React.FC = () => {
         gap: 1.5,
       }}
     >
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-        {toToken && chain ? (
-          <TokenAvatar token={toToken} chain={chain} />
-        ) : (
-          <Skeleton variant="circular" width={32} height={32} />
-        )}
-        <Box>
-          <Typography
-            variant="body2"
-            sx={{ color: 'text.secondary', fontSize: 12, fontWeight: 500 }}
-          >
-            {t('header.receive')}
-          </Typography>
-          <Typography
-            variant="body2"
-            sx={{ fontWeight: 700, fontSize: 14, lineHeight: '20px' }}
-          >
-            {toToken?.symbol ?? '—'}
-          </Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 1.5,
+        }}
+      >
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+          {toToken && chain ? (
+            <TokenAvatar token={toToken} chain={chain} />
+          ) : (
+            <Skeleton variant="circular" width={32} height={32} />
+          )}
+          <Box>
+            <Typography
+              variant="body2"
+              sx={{ color: 'text.secondary', fontSize: 12, fontWeight: 500 }}
+            >
+              {t('header.receive')}
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{ fontWeight: 700, fontSize: 14, lineHeight: '20px' }}
+            >
+              {toToken?.symbol ?? '—'}
+            </Typography>
+          </Box>
         </Box>
+        {hasAmount ? (
+          <ProgressToNextUpdate
+            updatedAt={dataUpdatedAt}
+            timeToUpdate={refetchTime}
+            isLoading={isLoading || (isFetching && !route)}
+          />
+        ) : null}
       </Box>
 
       {routeNotFound ? (
@@ -129,7 +168,7 @@ export const CheckoutReceiveCard: React.FC = () => {
               gap: 1,
             }}
           >
-            <Box sx={{ flex: 1, minWidth: 0 }}>
+            <Box sx={{ flex: 1, minWidth: 0, overflow: 'hidden' }}>
               {showLoading ? (
                 <Typography
                   sx={{
@@ -236,6 +275,25 @@ export const CheckoutReceiveCard: React.FC = () => {
                 </Box>
               </Box>
             </Box>
+            <IconButton
+              size="small"
+              onClick={handleToggleExpanded}
+              disabled={!route}
+              aria-label={t('main.route')}
+              sx={{
+                width: 24,
+                height: 24,
+                borderRadius: 1.5,
+                bgcolor: 'action.hover',
+                flexShrink: 0,
+                alignSelf: 'flex-start',
+                mt: 0.25,
+                transition: 'transform 0.2s',
+                transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+              }}
+            >
+              <ExpandMoreRounded sx={{ fontSize: 16 }} />
+            </IconButton>
           </Box>
 
           <Box
@@ -277,7 +335,7 @@ export const CheckoutReceiveCard: React.FC = () => {
                       <Typography
                         sx={{
                           fontSize: 14,
-                          fontWeight: 700,
+                          fontWeight: 600,
                           lineHeight: 1,
                         }}
                       >
@@ -299,7 +357,7 @@ export const CheckoutReceiveCard: React.FC = () => {
                     <Typography
                       sx={{
                         fontSize: 14,
-                        fontWeight: 700,
+                        fontWeight: 600,
                         lineHeight: 1,
                       }}
                     >
@@ -319,7 +377,7 @@ export const CheckoutReceiveCard: React.FC = () => {
                     <Typography
                       sx={{
                         fontSize: 14,
-                        fontWeight: 700,
+                        fontWeight: 600,
                         lineHeight: 1,
                       }}
                     >
@@ -336,7 +394,7 @@ export const CheckoutReceiveCard: React.FC = () => {
                     <Typography
                       sx={{
                         fontSize: 14,
-                        fontWeight: 700,
+                        fontWeight: 600,
                         lineHeight: 1,
                       }}
                     >
@@ -347,6 +405,9 @@ export const CheckoutReceiveCard: React.FC = () => {
               )}
             </Box>
           </Box>
+          <Collapse in={expanded} unmountOnExit>
+            {route ? <RouteDetails route={route} /> : null}
+          </Collapse>
         </>
       )}
     </Box>

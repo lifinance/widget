@@ -2,7 +2,6 @@ import { Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { PageContainer } from '../../../components/PageContainer.js'
 import { PoweredBy } from '../../../components/PoweredBy/PoweredBy.js'
-import { SelectChainAndToken } from '../../../components/SelectChainAndToken.js'
 import { useHeader } from '../../../hooks/useHeader.js'
 import { MainWarningMessages } from '../../../pages/MainPage/MainWarningMessages.js'
 import { useWidgetConfig } from '../../../providers/WidgetProvider/WidgetProvider.js'
@@ -18,8 +17,7 @@ export const EnterAmountPage: React.FC = () => {
   const showPoweredBy = !hiddenUI?.includes(HiddenUI.PoweredBy)
 
   return (
-    <PageContainer>
-      <SelectChainAndToken sx={{ mb: 2 }} />
+    <PageContainer topGutters>
       <CheckoutAmountInput formType="from" sx={{ mb: 2 }} />
       <CheckoutReceiveCard />
       <MainWarningMessages sx={{ mt: 2, mb: 2 }} />

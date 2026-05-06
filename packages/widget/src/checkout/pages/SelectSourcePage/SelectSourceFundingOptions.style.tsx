@@ -31,6 +31,7 @@ export const FundingOptionCard: React.FC<React.ComponentProps<typeof Card>> =
   styled(Card)(({ theme }) => ({
     cursor: 'pointer',
     borderRadius: 12,
+    border: 'none',
     boxShadow: '0px 2px 8px 0px rgba(0,0,0,0.04)',
     backgroundColor: theme.vars.palette.background.paper,
     overflow: 'hidden',
@@ -47,6 +48,7 @@ export const FundingOptionCardDisabled: React.FC<
 > = styled(Card)(({ theme }) => ({
   cursor: 'not-allowed',
   borderRadius: 12,
+  border: 'none',
   boxShadow: '0px 2px 8px 0px rgba(0,0,0,0.04)',
   backgroundColor: theme.vars.palette.background.paper,
   opacity: 0.55,
@@ -121,7 +123,7 @@ export const FundingDividerLine: React.FC<React.ComponentProps<typeof Box>> =
   styled(Box)(({ theme }) => ({
     flex: 1,
     height: 1,
-    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.06)`,
+    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.04)`,
   }))
 
 export const FundingOrLabel: React.FC<React.ComponentProps<typeof Typography>> =
@@ -167,7 +169,7 @@ export const OverflowPreviewAvatar: React.FC<
   fontWeight: 700,
   lineHeight: '14px',
   border: `1.5px solid ${theme.vars.palette.background.paper}`,
-  backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.06)`,
+  backgroundColor: theme.vars.palette.background.default,
   color: theme.vars.palette.text.secondary,
 }))
 

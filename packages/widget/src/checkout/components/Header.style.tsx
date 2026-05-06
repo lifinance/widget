@@ -9,9 +9,8 @@ export const HeaderAppBar: React.FC<React.ComponentProps<typeof AppBar>> =
     position: 'sticky',
     top: 0,
     zIndex: 1,
-    minHeight: 48,
-    padding: theme.spacing(1, 2),
-    paddingTop: theme.spacing(1.5),
+    minHeight: 56,
+    padding: theme.spacing(1.5, 2),
   }))
 
 export const HeaderControlsContainer: React.FC<

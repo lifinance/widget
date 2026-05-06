@@ -1,20 +1,19 @@
 import type { Token } from '@lifi/sdk'
 import type { CardProps } from '@mui/material'
-import type { ChangeEvent, ReactNode } from 'react'
+import { Box, Typography } from '@mui/material'
+import { styled } from '@mui/material/styles'
+import type { ChangeEvent, ComponentProps, ReactNode } from 'react'
 import { useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  AmountInputCardHeader,
-  AmountInputCardTitle,
-  FormContainer,
   FormControl,
   Input,
-  maxInputFontSize,
-  minInputFontSize,
 } from '../../components/AmountInput/AmountInput.style.js'
 import { AmountInputEndAdornment } from '../../components/AmountInput/AmountInputEndAdornment.js'
-import { AmountInputStartAdornment } from '../../components/AmountInput/AmountInputStartAdornment.js'
+import { AvatarBadgedDefault } from '../../components/Avatar/Avatar.js'
+import { TokenAvatar } from '../../components/Avatar/TokenAvatar.js'
 import { InputCard } from '../../components/Card/InputCard.js'
+import { useChain } from '../../hooks/useChain.js'
 import { useToken } from '../../hooks/useToken.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { FormKeyHelper, type FormTypeProps } from '../../stores/form/types.js'
@@ -29,7 +28,20 @@ import {
   usdDecimals,
 } from '../../utils/format.js'
 import { fitInputText } from '../../utils/input.js'
+import { useCheckoutNavigate } from '../hooks/useCheckoutNavigate.js'
+import { checkoutNavigationRoutes } from '../utils/navigationRoutes.js'
 import { CheckoutPriceFormHelperText } from './CheckoutPriceFormHelperText.js'
+
+const CheckoutInputCard: React.FC<ComponentProps<typeof InputCard>> = styled(
+  InputCard
+)(({ theme }) => ({
+  border: 'none',
+  boxShadow: '0px 2px 4px rgba(0,0,0,0.02)',
+  backgroundColor: theme.vars.palette.background.paper,
+  minHeight: 168,
+  display: 'flex',
+  flexDirection: 'column',
+}))
 
 export const CheckoutAmountInput: React.FC<FormTypeProps & CardProps> = ({
   formType,
@@ -72,8 +84,6 @@ const CheckoutAmountInputBase: React.FC<
   disabled,
   ...props
 }) => {
-  const { t } = useTranslation()
-  const { subvariant, subvariantOptions } = useWidgetConfig()
   const ref = useRef<HTMLInputElement>(null)
 
   const isEditingRef = useRef(false)
@@ -154,24 +164,41 @@ const CheckoutAmountInputBase: React.FC<
   // biome-ignore lint/correctness/useExhaustiveDependencies: we need run effect on value change
   useLayoutEffect(() => {
     if (ref.current) {
-      fitInputText(maxInputFontSize, minInputFontSize, ref.current)
+      fitInputText(48, 16, ref.current)
     }
   }, [displayValue])
 
-  const title =
-    subvariant === 'custom'
-      ? subvariantOptions?.custom === 'deposit'
-        ? t('header.amount')
-        : t('header.youPay')
-      : t('header.send')
-
   return (
-    <InputCard {...props}>
-      <AmountInputCardHeader>
-        <AmountInputCardTitle>{title}</AmountInputCardTitle>
-      </AmountInputCardHeader>
-      <FormContainer>
-        <AmountInputStartAdornment formType={formType} />
+    <CheckoutInputCard {...props}>
+      <Box
+        sx={{
+          px: 2,
+          pt: 2,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 1,
+        }}
+      >
+        <CheckoutTokenFlow formType={formType} />
+        {!disabled ? (
+          <Box
+            sx={{
+              '& > div': {
+                p: '0 !important',
+                gap: 0.75,
+              },
+              '& button': {
+                px: 1.25,
+                minWidth: 48,
+              },
+            }}
+          >
+            <AmountInputEndAdornment formType={formType} />
+          </Box>
+        ) : null}
+      </Box>
+      <Box sx={{ px: 2, flex: 1, display: 'flex', alignItems: 'center' }}>
         <FormControl fullWidth>
           <Input
             inputRef={ref}
@@ -194,11 +221,108 @@ const CheckoutAmountInputBase: React.FC<
             name={amountKey}
             disabled={disabled}
             required
+            sx={{
+              fontSize: 48,
+              lineHeight: 1.05,
+              '.MuiInputBase-input': {
+                height: 40,
+                paddingLeft: 0,
+                paddingTop: 0,
+                paddingBottom: 0,
+              },
+            }}
           />
-          {bottomAdornment}
         </FormControl>
-      </FormContainer>
-      {!disabled && <AmountInputEndAdornment formType={formType} />}
-    </InputCard>
+      </Box>
+      <Box sx={{ px: 2, pb: 2 }}>{bottomAdornment}</Box>
+    </CheckoutInputCard>
+  )
+}
+
+const CheckoutTokenFlow: React.FC<FormTypeProps> = ({ formType }) => {
+  const { t } = useTranslation()
+  const navigate = useCheckoutNavigate()
+  const [fromChainId, fromTokenAddress] = useFieldValues(
+    FormKeyHelper.getChainKey(formType),
+    FormKeyHelper.getTokenKey(formType)
+  )
+  const { chain } = useChain(fromChainId)
+  const { token } = useToken(fromChainId, fromTokenAddress)
+  const isInteractive = formType === 'from'
+
+  const handleClick = () => {
+    if (!isInteractive) {
+      return
+    }
+
+    navigate({ to: `/${checkoutNavigationRoutes.fromToken}` })
+  }
+
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 0.75,
+      }}
+    >
+      <Box
+        component="button"
+        type="button"
+        onClick={handleClick}
+        disabled={!isInteractive}
+        aria-label={
+          token?.symbol
+            ? `${t('main.select')} ${token.symbol}`
+            : t('main.select')
+        }
+        sx={{
+          border: 0,
+          bgcolor: 'transparent',
+          p: 0,
+          m: 0,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 0.5,
+          cursor: isInteractive ? 'pointer' : 'default',
+        }}
+      >
+        {token && chain ? (
+          <TokenAvatar
+            token={token}
+            chain={chain}
+            tokenAvatarSize={32}
+            chainAvatarSize={12}
+          />
+        ) : (
+          <AvatarBadgedDefault />
+        )}
+        <Box sx={{ minWidth: 0, textAlign: 'left' }}>
+          <Typography
+            variant="body2"
+            sx={{
+              fontSize: 12,
+              fontWeight: 500,
+              lineHeight: 1.1,
+              color: 'text.secondary',
+            }}
+          >
+            {t('header.send')}
+          </Typography>
+          <Typography
+            variant="body2"
+            noWrap
+            sx={{
+              fontSize: 14,
+              fontWeight: 700,
+              lineHeight: '20px',
+              color: 'text.primary',
+            }}
+          >
+            {token?.symbol ?? t('main.select')}
+          </Typography>
+        </Box>
+      </Box>
+    </Box>
   )
 }

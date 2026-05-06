@@ -4,6 +4,8 @@ import { Box, IconButton } from '@mui/material'
 import { useLocation, useRouter } from '@tanstack/react-router'
 import { useLayoutEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate.js'
+import { useRoutes } from '../../hooks/useRoutes.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useSetHeaderHeight } from '../../stores/header/useHeaderStore.js'
 import { createElementId, ElementId } from '../../utils/elements.js'
@@ -33,6 +35,8 @@ export const Header: React.FC<HeaderProps> = ({ title: titleProp }) => {
   const modalContext = useCheckoutModal()
   const headerRef = useRef<HTMLDivElement>(null)
   const { setHeaderHeight } = useSetHeaderHeight()
+  const { isLoading, isFetching, routes, dataUpdatedAt, refetchTime } =
+    useRoutes()
 
   useLayoutEffect(() => {
     const handleResize = () => {
@@ -59,6 +63,7 @@ export const Header: React.FC<HeaderProps> = ({ title: titleProp }) => {
   const path = cleanedPathname.substring(cleanedPathname.lastIndexOf('/') + 1)
   const showBackButton = backButtonRoutes.includes(path)
   const isHomePage = pathname === checkoutNavigationRoutes.home
+  const showQuoteIndicator = !isHomePage && path !== 'enter-amount'
 
   const handleBack = () => {
     if (router.history.length > 1) {
@@ -82,23 +87,22 @@ export const Header: React.FC<HeaderProps> = ({ title: titleProp }) => {
     >
       <Box
         sx={{
-          width: 48,
           flexShrink: 0,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'flex-start',
         }}
       >
-        {showBackButton ? (
-          <IconButton
-            onClick={handleBack}
-            size="medium"
-            edge="start"
-            aria-label="back"
-          >
-            <ArrowBackIcon />
-          </IconButton>
-        ) : null}
+        <IconButton
+          onClick={showBackButton ? handleBack : undefined}
+          size="medium"
+          edge="start"
+          aria-label={t('button.cancel')}
+          tabIndex={showBackButton ? undefined : -1}
+          sx={{ visibility: showBackButton ? 'visible' : 'hidden' }}
+        >
+          <ArrowBackIcon />
+        </IconButton>
       </Box>
       <HeaderTitleTypography
         variant="h6"
@@ -108,9 +112,20 @@ export const Header: React.FC<HeaderProps> = ({ title: titleProp }) => {
         {title}
       </HeaderTitleTypography>
       <HeaderControlsContainer
-        sx={{ width: 48, justifyContent: 'flex-end', flexShrink: 0 }}
+        sx={{ justifyContent: 'flex-end', flexShrink: 0 }}
       >
-        <IconButton onClick={handleClose} size="medium" aria-label="close">
+        {showQuoteIndicator ? (
+          <ProgressToNextUpdate
+            updatedAt={dataUpdatedAt}
+            timeToUpdate={refetchTime}
+            isLoading={isLoading || (isFetching && !routes?.[0])}
+          />
+        ) : null}
+        <IconButton
+          onClick={handleClose}
+          size="medium"
+          aria-label={t('button.close')}
+        >
           <CloseIcon />
         </IconButton>
       </HeaderControlsContainer>

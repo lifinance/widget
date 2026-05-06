@@ -35,6 +35,7 @@ import { WidgetEvent } from '../../types/events.js'
 import { HiddenUI } from '../../types/widget.js'
 import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import { checkoutNavigationRoutes } from '../utils/navigationRoutes.js'
 
 function CheckoutDepositAutoStarter({
   enabled,
@@ -190,16 +191,21 @@ export const CheckoutTransactionPage = (): JSX.Element | null => {
     tokenValueBottomSheetRef.current?.close()
     executeRoute()
     setFieldValue('fromAmount', '')
-    if (subvariant === 'custom') {
+    const isDepositCheckout =
+      subvariant === 'custom' && subvariantOptions?.custom === 'deposit'
+    if (subvariant === 'custom' && !isDepositCheckout) {
       setFieldValue('fromToken', '')
-      // Deposit checkout pins receive token via widget config; clearing `toToken` breaks quotes/UI after
-      // a failed execution + browser back (`FormUpdater` does not resync unchanged config).
-      if (subvariantOptions?.custom !== 'deposit') {
-        setFieldValue('toToken', '')
-      }
+      setFieldValue('toToken', '')
     }
     setBackAction(() => {
-      navigate({ to: navigationRoutes.home, replace: true })
+      // Deposit checkout: send users back to EnterAmountPage so the preserved fromToken/fromAmount
+      // remain editable after a failed execution. Other flows return to home as before.
+      navigate({
+        to: isDepositCheckout
+          ? checkoutNavigationRoutes.enterAmount
+          : navigationRoutes.home,
+        replace: true,
+      })
     })
   }
 

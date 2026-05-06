@@ -106,13 +106,13 @@ export const CheckoutModal: ForwardRefExoticComponent<
               left: '50%',
               transform: 'translate(-50%, -50%)',
               width: `min(calc(100vw - 32px), ${theme.breakpoints.values.sm}px)`,
-              maxHeight: 'min(90dvh, 720px)',
+              maxHeight: '90dvh',
               display: 'flex',
               flexDirection: 'column',
               outline: 'none',
               borderRadius: theme.vars.shape.borderRadiusTertiary,
               boxShadow: theme.shadows[24],
-              bgcolor: 'background.paper',
+              bgcolor: 'background.default',
               overflow: 'hidden',
             })}
           >
