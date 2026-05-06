@@ -15,13 +15,12 @@ export default defineConfig({
     target: 'esnext',
   },
   build: {
-    // TODO: revert: Cloudflare Pages rejects individual files > 25 MiB; full app maps exceed that.
     sourcemap: false,
     chunkSizeWarningLimit: 5000,
     rolldownOptions: {
-      // output: {
-      //   strictExecutionOrder: true,
-      // },
+      output: {
+        strictExecutionOrder: true,
+      },
       onwarn(warning, defaultHandler) {
         if (
           warning.code === 'EVAL' ||
