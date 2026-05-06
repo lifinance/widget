@@ -15,7 +15,8 @@ export default defineConfig({
     target: 'esnext',
   },
   build: {
-    sourcemap: true,
+    // TODO: revert: Cloudflare Pages rejects individual files > 25 MiB; full app maps exceed that.
+    sourcemap: false,
     chunkSizeWarningLimit: 5000,
     rolldownOptions: {
       // output: {
