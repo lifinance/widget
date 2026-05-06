@@ -54,7 +54,10 @@ export const HeightDetailView = ({
         setInitialLayout={setInitialLayout}
         heightValue={heightValue}
         setHeightValue={setHeightValue}
-        onClearMaxHeight={() => handleSelect('default')}
+        onClearMaxHeight={() => {
+          setHeightValue(undefined)
+          setInitialLayout(selectedLayoutId)
+        }}
       />
     ) : null
 
@@ -65,7 +68,10 @@ export const HeightDetailView = ({
         setInitialLayout={setInitialLayout}
         heightValue={heightValue}
         setHeightValue={setHeightValue}
-        onClearMaxHeight={() => handleSelect('default')}
+        onClearMaxHeight={() => {
+          setHeightValue(undefined)
+          setInitialLayout(selectedLayoutId)
+        }}
       />
     ) : null
 

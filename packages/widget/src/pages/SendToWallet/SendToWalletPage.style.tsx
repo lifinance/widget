@@ -100,8 +100,8 @@ export const IconContainer: React.FC<React.ComponentProps<typeof Box>> = styled(
   width: 80,
   height: 80,
   borderRadius: '50%',
-  color: theme.vars.palette.grey[700],
-  background: theme.vars.palette.grey[200],
+  color: theme.vars.palette.grey[800],
+  background: theme.vars.palette.grey[300],
   ...theme.applyStyles('dark', {
     color: theme.vars.palette.grey[300],
     background: theme.vars.palette.grey[800],

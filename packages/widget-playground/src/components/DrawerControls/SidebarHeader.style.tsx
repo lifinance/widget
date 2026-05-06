@@ -15,6 +15,7 @@ export const HeaderActions: FC<React.ComponentProps<typeof Box>> = styled(Box)(
   ({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
+    gap: theme.spacing(0.5),
     flexShrink: 0,
     marginRight: theme.spacing(-1),
   })

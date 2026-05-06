@@ -1,9 +1,9 @@
 import type { WidgetConfig } from '@lifi/widget'
-import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
-import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined'
+import DarkModeIcon from '@mui/icons-material/DarkMode'
+import LightModeIcon from '@mui/icons-material/LightMode'
 import LineWeightOutlinedIcon from '@mui/icons-material/LineWeightOutlined'
 import type { CSSObject } from '@mui/material'
-import { Box, Divider, TextField } from '@mui/material'
+import { Box, Collapse, Divider, TextField } from '@mui/material'
 import type { FocusEventHandler, JSX, SyntheticEvent } from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useThemeMode } from '../../hooks/useThemeMode.js'
@@ -139,13 +139,15 @@ interface ThemeEditDetailViewProps {
 }
 
 const PALETTE_LABELS: Array<{ label: string; suffix: string }> = [
-  { label: 'Primary', suffix: 'primary.main' },
-  { label: 'Secondary', suffix: 'secondary.main' },
-  { label: 'Background', suffix: 'background.default' },
-  { label: 'Paper', suffix: 'background.paper' },
+  { label: 'Primary color', suffix: 'primary.main' },
+  { label: 'Secondary color', suffix: 'secondary.main' },
+  { label: 'Widget background', suffix: 'background.default' },
+  { label: 'Card background', suffix: 'background.paper' },
   { label: 'Success', suffix: 'success.main' },
   { label: 'Warning', suffix: 'warning.main' },
   { label: 'Error', suffix: 'error.main' },
+  { label: 'Accent light', suffix: 'grey.300' },
+  { label: 'Accent dark', suffix: 'grey.800' },
 ]
 
 export const ThemeEditDetailView = ({
@@ -177,9 +179,12 @@ export const ThemeEditDetailView = ({
   const canLight = schemeKeys.includes('light')
   const canDark = schemeKeys.includes('dark')
 
-  const [paletteMode, setPaletteMode] = useState<'light' | 'dark'>(() =>
-    canLight ? 'light' : 'dark'
-  )
+  const [paletteMode, setPaletteMode] = useState<'light' | 'dark'>(() => {
+    if (canLight && canDark) {
+      return themeMode
+    }
+    return canLight ? 'light' : 'dark'
+  })
 
   const effectivePaletteMode: 'light' | 'dark' =
     paletteMode === 'light' && !canLight && canDark
@@ -360,7 +365,7 @@ export const ThemeEditDetailView = ({
         </PageDescription>
 
         <SectionHeading>Color palette</SectionHeading>
-        <RowLabel>Mode</RowLabel>
+        <RowLabel sx={{ mb: 1 }}>Mode</RowLabel>
         <MethodTabs
           value={effectivePaletteMode}
           onChange={(_, value: 'light' | 'dark') => {
@@ -376,19 +381,19 @@ export const ThemeEditDetailView = ({
             }, 300)
           }}
           aria-label="Palette mode"
-          sx={{ marginBottom: 1 }}
+          sx={{ marginBottom: 3 }}
         >
           {canLight ? (
             <MethodTab
               value="light"
-              icon={<LightModeOutlinedIcon sx={{ fontSize: 18 }} />}
+              icon={<LightModeIcon sx={{ fontSize: 18 }} />}
               disableRipple
             />
           ) : null}
           {canDark ? (
             <MethodTab
               value="dark"
-              icon={<DarkModeOutlinedIcon sx={{ fontSize: 18 }} />}
+              icon={<DarkModeIcon sx={{ fontSize: 18 }} />}
               disableRipple
             />
           ) : null}
@@ -397,7 +402,7 @@ export const ThemeEditDetailView = ({
         {PALETTE_LABELS.map(({ label, suffix }) => (
           <ThemeColorRow
             key={suffix}
-            label={`${label} color`}
+            label={label}
             colorPath={colorPath(suffix)}
           />
         ))}
@@ -801,7 +806,7 @@ const BorderWeightRow = ({
           inputProps={{
             'aria-label': `${title} border weight`,
             inputMode: 'numeric',
-            style: { width: 16 },
+            style: { width: 20 },
           }}
         />
         <LineWeightOutlinedIcon sx={{ fontSize: 24, color: 'action.active' }} />
@@ -929,7 +934,7 @@ const SurfaceBlock = ({
           aria-label={`${title} shadow`}
         />
       </ToggleRow>
-      {shadowOn ? (
+      <Collapse in={shadowOn} unmountOnExit>
         <SubSection>
           <SubRow>
             <RowLabel>Blur</RowLabel>
@@ -968,8 +973,8 @@ const SurfaceBlock = ({
             />
           </SubRow>
         </SubSection>
-      ) : null}
-      <ToggleRow>
+      </Collapse>
+      <ToggleRow sx={{ mt: 2 }}>
         <ToggleRowLabel>Border</ToggleRowLabel>
         <Switch
           checked={borderOn}
@@ -977,7 +982,7 @@ const SurfaceBlock = ({
           aria-label={`${title} border`}
         />
       </ToggleRow>
-      {borderOn ? (
+      <Collapse in={borderOn} unmountOnExit>
         <SubSection>
           <EditableColorRow
             label="Color"
@@ -991,7 +996,7 @@ const SurfaceBlock = ({
             onChange={onBorderWeightChange}
           />
         </SubSection>
-      ) : null}
+      </Collapse>
     </Box>
   )
 }

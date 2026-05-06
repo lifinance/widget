@@ -1,7 +1,7 @@
 import { ChainType } from '@lifi/widget'
 import { Box } from '@mui/material'
 import type { JSX } from 'react'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
 import type { FormValues } from '../../store/types.js'
 import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
@@ -101,18 +101,6 @@ const fromAmountLookUp: FormValuesLookUp = {
   },
 }
 
-const toAmountLookUp: FormValuesLookUp = {
-  '1': {
-    toAmount: '1',
-  },
-  '0.5': {
-    toAmount: 0.5,
-  },
-  RESET: {
-    toAmount: undefined,
-  },
-}
-
 const forceConfigUpdate = (nextValue: FormValues): FormValues => ({
   ...nextValue,
   formUpdateKey: Date.now().toString(),
@@ -132,6 +120,10 @@ const addressPresetRows: { id: string; label: string }[] = [
   { id: 'RESET', label: 'RESET' },
 ]
 
+const defaultChainKey = 'ETH-ETH | ARB-USDC'
+const defaultAmountKey = '1'
+const defaultAddressKey = '0x29D...94eD7'
+
 export const FormValuesDevPanel = (): JSX.Element => {
   const { setFormValues: setFormValuesViaConfig } = useConfigActions()
   const { setFormValues: setFormValuesViaFormApiRef } = useEditToolsActions()
@@ -139,10 +131,9 @@ export const FormValuesDevPanel = (): JSX.Element => {
     'formApi' | 'config'
   >('config')
 
-  const [chainKey, setChainKey] = useState<string>('ETH-ETH | ARB-USDC')
-  const [fromAmountKey, setFromAmountKey] = useState<string>('1')
-  const [toAmountKey, setToAmountKey] = useState<string>('1')
-  const [addressKey, setAddressKey] = useState<string>('0x29D...94eD7')
+  const [chainKey, setChainKey] = useState<string>(defaultChainKey)
+  const [fromAmountKey, setFromAmountKey] = useState<string>(defaultAmountKey)
+  const [addressKey, setAddressKey] = useState<string>(defaultAddressKey)
 
   const applyFormValues = useCallback(
     (next: FormValues): void => {
@@ -154,6 +145,23 @@ export const FormValuesDevPanel = (): JSX.Element => {
     },
     [formUpdateMethod, setFormValuesViaConfig, setFormValuesViaFormApiRef]
   )
+
+  useEffect(() => {
+    applyFormValues({
+      ...ChainsAndTokensLookUp[defaultChainKey],
+      ...fromAmountLookUp[defaultAmountKey],
+      ...AddressLookUp[defaultAddressKey],
+    })
+    return () => {
+      applyFormValues(
+        forceConfigUpdate({
+          ...ChainsAndTokensLookUp.RESET,
+          ...fromAmountLookUp.RESET,
+          ...AddressLookUp.RESET,
+        })
+      )
+    }
+  }, [applyFormValues])
 
   const handleChainAndTokenChange = useCallback(
     (value: string) => {
@@ -182,17 +190,6 @@ export const FormValuesDevPanel = (): JSX.Element => {
       const amountValue = fromAmountLookUp[value]
       if (amountValue) {
         setFromAmountKey(value)
-        applyFormValues(amountValue)
-      }
-    },
-    [applyFormValues]
-  )
-
-  const handleToAmountChange = useCallback(
-    (value: string) => {
-      const amountValue = toAmountLookUp[value]
-      if (amountValue) {
-        setToAmountKey(value)
         applyFormValues(amountValue)
       }
     },
@@ -242,7 +239,7 @@ export const FormValuesDevPanel = (): JSX.Element => {
       </FormBlock>
 
       <FormBlock>
-        <SectionLabel>From amount</SectionLabel>
+        <SectionLabel>Amount</SectionLabel>
         <PresetStack>
           {amountPresetKeys.map((key) => (
             <OptionButton
@@ -250,22 +247,6 @@ export const FormValuesDevPanel = (): JSX.Element => {
               type="button"
               selected={fromAmountKey === key}
               onClick={() => handleFromAmountChange(key)}
-            >
-              {key}
-            </OptionButton>
-          ))}
-        </PresetStack>
-      </FormBlock>
-
-      <FormBlock>
-        <SectionLabel>To amount</SectionLabel>
-        <PresetStack>
-          {amountPresetKeys.map((key) => (
-            <OptionButton
-              key={key}
-              type="button"
-              selected={toAmountKey === key}
-              onClick={() => handleToAmountChange(key)}
             >
               {key}
             </OptionButton>

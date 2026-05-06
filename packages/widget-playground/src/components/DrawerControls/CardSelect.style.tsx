@@ -1,12 +1,19 @@
-import { Box, ButtonBase, styled, Typography } from '@mui/material'
+import type { StyledComponent } from '@emotion/styled'
+import {
+  Box,
+  ButtonBase,
+  type ButtonBaseProps,
+  styled,
+  Typography,
+} from '@mui/material'
 import type { FC } from 'react'
 
 export interface CardSelectRootProps {
   selected: boolean
 }
 
-export const CardSelectRoot: FC<
-  React.ComponentProps<typeof ButtonBase> & CardSelectRootProps
+export const CardSelectRoot: StyledComponent<
+  ButtonBaseProps & CardSelectRootProps
 > = styled(ButtonBase, {
   shouldForwardProp: (prop) => prop !== 'selected',
 })<CardSelectRootProps>(({ theme, selected }) => ({

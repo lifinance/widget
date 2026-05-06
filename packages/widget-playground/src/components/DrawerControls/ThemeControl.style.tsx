@@ -86,6 +86,12 @@ export const EditThemeButton: FC<ComponentProps<'span'>> = styled('span')(
     color: theme.vars.palette.primary.contrastText,
     cursor: 'pointer',
     fontFamily: 'inherit',
+    transition: theme.transitions.create(['background-color'], {
+      duration: theme.transitions.duration.shorter,
+    }),
+    '&:hover': {
+      backgroundColor: theme.vars.palette.primary.dark,
+    },
   })
 )
 

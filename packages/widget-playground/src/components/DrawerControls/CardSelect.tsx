@@ -26,6 +26,7 @@ export const CardSelect = ({
 }: CardSelectProps): JSX.Element => {
   return (
     <CardSelectRoot
+      component="div"
       selected={selected}
       onClick={disabled ? undefined : onClick}
       disableRipple

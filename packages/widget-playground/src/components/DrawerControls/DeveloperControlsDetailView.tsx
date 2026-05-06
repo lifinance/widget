@@ -17,6 +17,8 @@ import {
   ConfigureLink,
   Content,
   SubtitleDescription,
+  SubViewPanel,
+  SubViewTrack,
   Title,
   ToggleDescription,
   ToggleItem,
@@ -122,11 +124,7 @@ export const DeveloperControlsDetailView = ({
   const { isDevView, toggleDevView } = useDevView()
   const widgetEvents = useWidgetEvents()
   const { isSkeletonShown } = useSkeletonToolValues()
-  const { setSkeletonShow } = useEditToolsActions()
-
-  const handleReset = useCallback((): void => {
-    setSkeletonShow(false)
-  }, [setSkeletonShow])
+  const { setSkeletonShow, setIsDevView } = useEditToolsActions()
 
   const [activeSection, setActiveSection] =
     useState<DeveloperControlsSection>('main')
@@ -136,6 +134,18 @@ export const DeveloperControlsDetailView = ({
   const [monitoredEvents, setMonitoredEvents] = useState<
     Record<WidgetEventName, boolean>
   >(initialiseMonitoredEvents(allWidgetEventsOn))
+
+  const setAllWidgetEventsOnForPageLoad = useCallback((on: boolean): void => {
+    setQueryStringParam('allWidgetEvents', on)
+    setAllWidgetEventsOn(on)
+  }, [])
+
+  const handleReset = useCallback((): void => {
+    setIsDevView(false)
+    setSkeletonShow(false)
+    setAllWidgetEventsOnForPageLoad(false)
+    setMonitoredEvents(initialiseMonitoredEvents(false))
+  }, [setIsDevView, setSkeletonShow, setAllWidgetEventsOnForPageLoad])
 
   useEffect(() => {
     const listeners: Partial<
@@ -165,11 +175,6 @@ export const DeveloperControlsDetailView = ({
     }
   }, [widgetEvents, monitoredEvents])
 
-  const setAllWidgetEventsOnForPageLoad = (on: boolean): void => {
-    setQueryStringParam('allWidgetEvents', on)
-    setAllWidgetEventsOn(on)
-  }
-
   const handleAllEventsChange = (): void => {
     const nextAllEventsOn = !allWidgetEventsOn
     setAllWidgetEventsOnForPageLoad(nextAllEventsOn)
@@ -188,9 +193,89 @@ export const DeveloperControlsDetailView = ({
     setAllWidgetEventsOnForPageLoad(areAllEventsOn)
   }
 
-  if (activeSection === 'widget-events') {
-    return (
-      <>
+  return (
+    <SubViewTrack showSubView={activeSection === 'widget-events'}>
+      <SubViewPanel>
+        <DetailViewHeader onBack={onBack} onReset={handleReset} />
+        <Content>
+          <Title>Developer controls</Title>
+          <ToggleSection>
+            <ToggleItem>
+              <ToggleRow>
+                <ToggleLabel>Form values</ToggleLabel>
+                <Switch
+                  checked={isDevView}
+                  onChange={toggleDevView}
+                  aria-label="Toggle form values"
+                />
+              </ToggleRow>
+              <ToggleDescription>
+                Used for testing prefilled routes and values. It will update the
+                widget&apos;s form and URL.
+              </ToggleDescription>
+              <Collapse in={isDevView} unmountOnExit>
+                <Box sx={{ paddingTop: '12px' }}>
+                  <FormValuesDevPanel />
+                </Box>
+              </Collapse>
+            </ToggleItem>
+            <Divider />
+            <ToggleItem>
+              <ToggleRow>
+                <ToggleLabel>Bookmark stores</ToggleLabel>
+                <Switch
+                  checked={readPlaygroundBookmarksSeeded()}
+                  onChange={(_, checked) => {
+                    if (checked) {
+                      seedPlaygroundBookmarkStores()
+                    } else {
+                      clearPlaygroundBookmarkStores()
+                    }
+                  }}
+                  aria-label="Toggle bookmark stores seed data"
+                />
+              </ToggleRow>
+              <ToggleDescription>
+                Toggle to seed or clear dummy wallet addresses for testing the
+                &quot;Bookmarked wallets&quot; screen.
+              </ToggleDescription>
+            </ToggleItem>
+            <Divider />
+            <ToggleItem>
+              <ToggleRow>
+                <ToggleLabel>Loading preview</ToggleLabel>
+                <Switch
+                  checked={isSkeletonShown}
+                  onChange={() => setSkeletonShow(!isSkeletonShown)}
+                  aria-label="Toggle loading preview"
+                />
+              </ToggleRow>
+              <ToggleDescription>
+                Preview the skeleton loader to see how the widget will look
+                while data is loading.
+              </ToggleDescription>
+            </ToggleItem>
+            <Divider />
+            <ToggleItem>
+              <ToggleRow>
+                <ToggleLabel>Widget events</ToggleLabel>
+              </ToggleRow>
+              <ToggleDescription>
+                Widget event listeners to log activity in your browser console
+                for debugging.
+              </ToggleDescription>
+              <ConfigureLink
+                disableRipple
+                type="button"
+                onClick={() => setActiveSection('widget-events')}
+              >
+                Configure
+              </ConfigureLink>
+            </ToggleItem>
+          </ToggleSection>
+        </Content>
+      </SubViewPanel>
+      <SubViewPanel>
         <DetailViewHeader
           onBack={() => setActiveSection('main')}
           onReset={handleReset}
@@ -238,90 +323,7 @@ export const DeveloperControlsDetailView = ({
             ))}
           </ToggleSection>
         </Content>
-      </>
-    )
-  }
-
-  return (
-    <>
-      <DetailViewHeader onBack={onBack} onReset={handleReset} />
-      <Content>
-        <Title>Developer controls</Title>
-        <ToggleSection>
-          <ToggleItem>
-            <ToggleRow>
-              <ToggleLabel>Form values</ToggleLabel>
-              <Switch
-                checked={isDevView}
-                onChange={toggleDevView}
-                aria-label="Toggle form values"
-              />
-            </ToggleRow>
-            <ToggleDescription>
-              Used for testing prefilled routes and values. It will update the
-              widget&apos;s form and URL.
-            </ToggleDescription>
-            <Collapse in={isDevView} unmountOnExit>
-              <Box sx={{ paddingTop: '12px' }}>
-                <FormValuesDevPanel />
-              </Box>
-            </Collapse>
-          </ToggleItem>
-          <Divider />
-          <ToggleItem>
-            <ToggleRow>
-              <ToggleLabel>Bookmark stores</ToggleLabel>
-              <Switch
-                checked={readPlaygroundBookmarksSeeded()}
-                onChange={(_, checked) => {
-                  if (checked) {
-                    seedPlaygroundBookmarkStores()
-                  } else {
-                    clearPlaygroundBookmarkStores()
-                  }
-                }}
-                aria-label="Toggle bookmark stores seed data"
-              />
-            </ToggleRow>
-            <ToggleDescription>
-              Toggle to seed or clear dummy wallet addresses for testing the
-              &quot;Bookmarked wallets&quot; screen.
-            </ToggleDescription>
-          </ToggleItem>
-          <Divider />
-          <ToggleItem>
-            <ToggleRow>
-              <ToggleLabel>Loading preview</ToggleLabel>
-              <Switch
-                checked={isSkeletonShown}
-                onChange={() => setSkeletonShow(!isSkeletonShown)}
-                aria-label="Toggle loading preview"
-              />
-            </ToggleRow>
-            <ToggleDescription>
-              Preview the skeleton loader to see how the widget will look while
-              data is loading.
-            </ToggleDescription>
-          </ToggleItem>
-          <Divider />
-          <ToggleItem>
-            <ToggleRow>
-              <ToggleLabel>Widget events</ToggleLabel>
-            </ToggleRow>
-            <ToggleDescription>
-              Widget event listeners to log activity in your browser console for
-              debugging.
-            </ToggleDescription>
-            <ConfigureLink
-              disableRipple
-              type="button"
-              onClick={() => setActiveSection('widget-events')}
-            >
-              Configure
-            </ConfigureLink>
-          </ToggleItem>
-        </ToggleSection>
-      </Content>
-    </>
+      </SubViewPanel>
+    </SubViewTrack>
   )
 }

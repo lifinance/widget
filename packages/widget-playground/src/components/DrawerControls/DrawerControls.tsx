@@ -7,6 +7,7 @@ import ViewSidebarOutlinedIcon from '@mui/icons-material/ViewSidebarOutlined'
 import { Divider } from '@mui/material'
 import type { JSX } from 'react'
 import { useCallback, useState } from 'react'
+import { useThemeMode } from '../../hooks/useThemeMode.js'
 import { useFontInitialisation } from '../../providers/FontLoaderProvider/FontLoaderProvider.js'
 import { useDrawerToolValues } from '../../store/editTools/useDrawerToolValues.js'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
@@ -36,6 +37,7 @@ export const DrawerControls = (): JSX.Element => {
   const { isDrawerOpen, drawerWidth } = useDrawerToolValues()
   const { setDrawerOpen, resetEditTools } = useEditToolsActions()
   const { resetConfig } = useConfigActions()
+  const { setMode } = useThemeMode()
   const [activeView, setActiveView] = useState<SidebarView>('nav')
   const [expandedItem, setExpandedItem] = useState<string | null>(null)
 
@@ -44,7 +46,8 @@ export const DrawerControls = (): JSX.Element => {
   const handleResetAll = useCallback((): void => {
     resetConfig()
     resetEditTools()
-  }, [resetConfig, resetEditTools])
+    setMode('system')
+  }, [resetConfig, resetEditTools, setMode])
 
   const handleToggleDrawer = useCallback((): void => {
     setDrawerOpen(!isDrawerOpen)

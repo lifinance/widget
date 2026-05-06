@@ -1,4 +1,4 @@
-import MenuOpenIcon from '@mui/icons-material/MenuOpen'
+import CloseIcon from '@mui/icons-material/Close'
 import RefreshIcon from '@mui/icons-material/Refresh'
 import { Tooltip, useTheme } from '@mui/material'
 import type { JSX } from 'react'
@@ -50,14 +50,14 @@ export const SidebarHeader = ({
           </HeaderIconButton>
         </Tooltip>
         <Tooltip
-          title="Toggle sidebar"
+          title="Close tools"
           slotProps={{
             popper: { style: { zIndex: tooltipPopperZIndex } },
           }}
           arrow
         >
           <HeaderIconButton onClick={onToggleDrawer} size="small">
-            <MenuOpenIcon />
+            <CloseIcon />
           </HeaderIconButton>
         </Tooltip>
       </HeaderActions>

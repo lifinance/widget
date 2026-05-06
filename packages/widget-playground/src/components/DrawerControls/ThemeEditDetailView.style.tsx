@@ -79,7 +79,7 @@ export const Row: FC<React.ComponentProps<typeof Box>> = styled(Box)(
       borderColor: theme.vars.palette.primary.main,
     },
     '& + &': {
-      marginTop: theme.spacing(2),
+      marginTop: theme.spacing(1),
     },
   })
 )
@@ -154,7 +154,7 @@ export const ToggleRow: FC<React.ComponentProps<typeof Box>> = styled(Box)(
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: theme.spacing(2),
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(3),
   })
 )
 
@@ -216,7 +216,7 @@ export const SliderValueInput: FC<React.ComponentProps<typeof InputBase>> =
   styled(InputBase)(({ theme }) => ({
     width: 48,
     flexShrink: 0,
-    padding: theme.spacing(0.75, 1.5),
+    padding: theme.spacing(0.75, 1),
     borderRadius: 8,
     border: '1px solid',
     borderColor: theme.vars.palette.divider,
@@ -238,7 +238,7 @@ export const SliderValueInput: FC<React.ComponentProps<typeof InputBase>> =
 export const SubSection: FC<React.ComponentProps<typeof Box>> = styled(Box)(
   ({ theme }) => ({
     paddingLeft: 0,
-    paddingTop: theme.spacing(1.5),
+    paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(0.5),
   })
 )

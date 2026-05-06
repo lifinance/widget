@@ -5,7 +5,7 @@ import { inputBaseClasses } from '@mui/material/InputBase'
 import { type FocusEventHandler, type JSX, useCallback, useId } from 'react'
 import type { Layout } from '../../../../store/editTools/types.js'
 import { useConfigActions } from '../../../../store/widgetConfig/useConfigActions.js'
-import { Input } from './HeightControl.style.js'
+import { HeightHelperText, Input } from './HeightControl.style.js'
 
 export const HeightControl = ({
   selectedLayoutId,
@@ -61,7 +61,7 @@ export const HeightControl = ({
     selectedLayoutId === 'restricted-max-height'
   ) {
     const isMaxHeight = selectedLayoutId === 'restricted-max-height'
-    const label = isMaxHeight ? 'Set max height (px)' : 'Set height (px)'
+    const label = isMaxHeight ? 'Set max height' : 'Set height'
     const key = isMaxHeight ? 'maxHeight' : 'height'
 
     return (
@@ -95,7 +95,7 @@ export const HeightControl = ({
           <Input
             id={maxHeightInputId}
             type="number"
-            value={heightValue}
+            value={heightValue ?? ''}
             placeholder={`${defaultMaxHeight}`}
             onChange={handleHeightChange(key)}
             onBlur={handleBlur}
@@ -129,13 +129,13 @@ export const HeightControl = ({
                 p: '4px',
                 flexShrink: 0,
                 color: 'text.primary',
-                marginRight: '-12px',
               }}
             >
               <CloseOutlinedIcon />
             </IconButton>
           ) : null}
         </Box>
+        <HeightHelperText>Minimum {defaultMaxHeight}px</HeightHelperText>
       </Box>
     )
   }
