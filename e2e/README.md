@@ -1,223 +1,183 @@
 # LI.FI Widget — E2E Test Suite
 
-Playwright TypeScript E2E tests for the LI.FI Widget playground
-(`packages/widget-playground-vite`).
+Playwright TypeScript E2E tests for the LI.FI Widget. Two test suites share this directory:
 
-## Prerequisites
+| Suite | Config | What it tests |
+|---|---|---|
+| **Playground** | `playwright.config.ts` | Widget playground (`packages/widget-playground-vite`) |
+| **Examples** | `playwright.examples.config.ts` | All example apps in `examples/` |
 
-- Node.js ≥ 18
-- pnpm ≥ 9
-- Widget playground running locally (`pnpm dev` from the repo root — serves on port 3000)
+---
 
 ## Setup
 
-The `e2e/` directory is a workspace member (`pnpm-workspace.yaml` includes `e2e`).
-Dependencies are installed automatically when you run `pnpm install` at the repo root.
+Dependencies are installed automatically with `pnpm install` from the repo root.
 
 ```bash
-# From the repo root — installs everything including e2e deps
-pnpm install
-
-# Install Playwright browsers (once)
+# Install Playwright browsers (once, or after Playwright version bumps)
 pnpm --filter @lifi/widget-e2e exec playwright install chromium
 ```
 
-## Running Tests
+### Prerequisite: build workspace packages
 
-Tests can be run from the **repo root** or from the **e2e directory**.
+Examples consume `@lifi/widget`, `@lifi/wallet-management`, etc. as workspace deps that resolve to `packages/*/dist`. Stale dist artifacts cause silent runtime failures (e.g. `Class extends value undefined …` when the widget mounts), so build packages before running the example suite:
 
-**From the repo root:**
+```bash
+# From repo root
+pnpm -r --parallel --filter './packages/**' --filter '!*-playground-*' --filter '!*-embedded' build
+```
+
+CI runs the same command before tests.
+
+---
+
+## Playground Tests
+
+The playground must be running before tests can execute.
+
+```bash
+# Terminal 1
+pnpm dev   # starts widget-playground-vite on http://localhost:3000
+
+# Terminal 2 — from repo root
+pnpm smoketest   # playground smoke tests
+```
+
+From the `e2e/` directory:
 
 | Command | Description |
 |---|---|
-| `pnpm smoketest` | All smoke tests (playground + example) |
-| `pnpm smoke:example` | Only `@example`-tagged tests (works against any example app) |
-
-**From the e2e directory:**
-
-| Command | Description |
-|---|---|
-| `pnpm smoketest` | All smoke tests |
-| `pnpm smoke:example` | Only `@example`-tagged tests |
 | `pnpm test` | Full test suite |
-| `pnpm test:headed` | Run with visible browser |
+| `pnpm smoketest` | Smoke tests only |
+| `pnpm test:headed` | Visible browser |
 | `pnpm test:debug` | Playwright debug inspector |
 | `pnpm test:ui` | Playwright interactive UI |
-| `pnpm typecheck` | TypeScript type-check (no emit) |
 | `pnpm report` | Open last HTML report |
 
-**Running against an example app:**
+---
+
+## Example Tests
+
+Each example is built, served, and tested in isolation. The local scripts handle the full lifecycle.
 
 ```bash
-# Terminal 1 — build and serve an example
-pnpm --filter vite-project build
-pnpm --filter vite-project preview
+# From repo root
 
-# Terminal 2 — run @example tests against it
-cd e2e
-BASE_URL=http://localhost:4173 pnpm smoke:example
+# Single example — build → serve → test → kill
+pnpm test:example vite
+pnpm test:example tanstack-router
+pnpm test:example nft-checkout
+
+# All 17 active examples sequentially
+pnpm test:examples
 ```
 
-## Environment Variables
+Reports land in `e2e/playwright-report-examples/`.
 
-Copy `.env.test.example` to `.env.test` and adjust as needed:
+### Active examples and their profiles
 
-```bash
-cp .env.test.example .env.test
-```
-
-| Variable | Default | Description |
+| Profile | Examples | What makes it different |
 |---|---|---|
-| `BASE_URL` | `http://localhost:3000` | Playground URL — override for staging/prod runs |
+| `standard` | vite, connectkit, privy, privy-ethers, rainbowkit, reown, svelte, zustand-widget-config, vue, nextjs, nextjs15, remix, react-router-7 | Widget at `/`, Exchange heading |
+| `routed` | tanstack-router | Widget at a custom route (`/widget`) |
+| `iframe` | vite-iframe, vite-iframe-wagmi | Widget inside `<iframe>` via `LiFiWidgetLight`; loads from `https://widget.li.fi` |
+| `nft` | nft-checkout | NFT checkout subvariant — Checkout heading, Pay with section |
+
+### What each profile asserts
+
+**standard / routed** — widget root visible, Exchange heading, From/To buttons, send amount input, Settings view opens with all rows, back navigation, token selector From/To end-to-end.
+
+**iframe** — iframe present in DOM, widget root visible inside frame, Exchange heading inside frame, Settings button clickable inside frame.
+
+**nft** — widget root visible, Checkout heading, Pay with section, no error boundary.
+
+### Per-example build/serve notes
+
+Most examples use the framework's standard preview command. A few quirks captured in `e2e/examples.config.ts`:
+
+- **`buildCmd: 'vite-build'`** (instead of `'build'`) — used for examples whose `package.json` build script is `tsc && vite build`, where `tsc` currently fails due to a MUI v7 props vs. `@lifi/types` mismatch. We invoke Vite directly to skip the type check until upstream types catch up. Affects: `vite`, `connectkit`, `privy`, `privy-ethers`, `rainbowkit`, `reown`, `vite-iframe`, `dynamic`, `deposit-flow`.
+- **`PORT` env var** — `remix` and `react-router-7` use `remix-serve` / `react-router-serve`, which honor `process.env.PORT` and otherwise pick the next free port. The script always sets `PORT` for these.
+- **`nextjs` / `nextjs15`** — `next start` defaults to port 3000.
+- **`nuxt`** — `nuxt preview` defaults to port 3000.
+
+### Known broken examples (not tested)
+
+> Fix these and flip `status: 'broken' → 'active'` in `e2e/examples.config.ts` to include them.
+
+| Example | Issue | Ticket |
+|---|---|---|
+| `dynamic` | `vite-plugin-env-compatible` doesn't shim `process` globally — Dynamic SDK crashes at runtime | [EMB-349](https://linear.app/lifi-linear/issue/EMB-349) |
+| `nuxt` | veaury's React bridge fails in Nuxt SSR production build (`R is not a function`) | [EMB-350](https://linear.app/lifi-linear/issue/EMB-350) |
+| `deposit-flow` | Widget's own error boundary fires at runtime — root never mounts | [EMB-351](https://linear.app/lifi-linear/issue/EMB-351) |
+
+### Stale directories (ignore)
+
+`examples/nextjs14`, `examples/nextjs14-page-router`, and `examples/nextjs-page-router` have no `package.json` and are leftover scaffolding. They are not in `examples.config.ts` and are not built or tested.
+
+### Adding a new example
+
+1. Add an entry to `e2e/examples.config.ts` (the TypeScript source of truth)
+2. Add the same entry to the case statement in `scripts/test-example.sh`
+3. Add the name to `ACTIVE_EXAMPLES` in `scripts/test-all-examples.sh`
+4. Add the name and metadata to the four lookup tables in `.github/workflows/e2e-examples.yml`
+
+---
 
 ## Architecture
 
-### Pattern: Component Object Model (COM)
+### Two configs, clean separation
 
-The widget is a single-page component with internal navigation (TanStack Router) that
-does **not** change the URL on view transitions. A traditional Page Object Model with
-URL-based page boundaries doesn't apply. Instead, each widget *view* (Exchange, Token
-Selector, Settings) has its own Component Object encapsulating its selectors and
-interactions.
+`playwright.config.ts` runs the playground suite (`tests/playground/`). It ignores `tests/profiles/` entirely via `testIgnore`.
+
+`playwright.examples.config.ts` generates one Playwright project per active example from `examples.config.ts`. Each project sets `baseURL` to the example's port and `testMatch` to its profile spec. No `webServer` — server lifecycle is managed externally by the scripts or CI.
+
+### Component Object Model
+
+The widget uses internal TanStack Router navigation that does not change the URL. A Page Object Model with URL-based boundaries doesn't apply. Each widget view has its own Component Object:
 
 ```
 tests/
 ├── fixtures/
-│   └── base.fixture.ts       # Extends Playwright test with widget fixtures + waitForTokens()
+│   └── base.fixture.ts          # Extended test with widget fixtures + waitForTokens()
 ├── components/
-│   ├── PlaygroundSidebar.ts  # Left sidebar: Design/Code tabs, variant controls
-│   ├── WidgetExchange.ts     # Exchange view: From/To buttons, Settings icon, Send input
-│   ├── TokenSelectorView.ts  # Token list (listitem rows), search input, chain sidebar
-│   └── SettingsView.ts       # Settings rows, back navigation
-└── smoke/
-    └── smoke.spec.ts         # Smoke tests for quick UI verification
+│   ├── PlaygroundSidebar.ts     # Left sidebar: Design/Code tabs, variant controls
+│   ├── WidgetExchange.ts        # Exchange view: From/To buttons, Settings icon, send input
+│   ├── TokenSelectorView.ts     # Token list, chain sidebar
+│   └── SettingsView.ts          # Settings rows, back navigation
+├── playground/
+│   └── playground.spec.ts       # Playground smoke tests
+└── profiles/
+    ├── widget-smoke.spec.ts     # standard + routed (reads mountPath from project metadata)
+    ├── iframe.spec.ts
+    └── nft.spec.ts
 ```
 
-### Selector Strategy
+### Selector strategy
 
-| ✅ Use | ❌ Avoid |
+| Use | Avoid |
 |---|---|
-| `getByRole('button', {name: '...'})` | CSS class names (MUI generates dynamic names) |
-| `getByText()` for stable visible text | `id*="widget-"` suffix — varies per build session |
-| `locator('[id^="widget-app-expanded-container"]')` for widget root | `locator('main')` — only exists in the playground, not in example apps |
-| `locator('p', {hasText: /^Exchange$/})` for headings | `getByRole('paragraph')` — `<p>` has no implicit ARIA role |
-| `getByRole('list').locator('listitem')` for token rows | Positional index assumptions in non-searched token lists |
+| `getByRole('button', { name: '...' })` | CSS class names — MUI generates dynamic names |
+| `locator('[id^="widget-app-expanded-container"]')` for widget root | `locator('main')` — playground-specific, absent in example apps |
+| `locator('p', { hasText: /^Exchange$/ })` for headings | `getByRole('paragraph')` — `<p>` has no implicit ARIA role |
+| `getByRole('list').locator('listitem')` for token rows | Positional index assumptions without prior search |
 
-**Widget root selector:** The widget renders into `<div id="widget-app-expanded-container-{suffix}">`.
-The suffix varies per build session, so always use the starts-with attribute selector:
-`page.locator('[id^="widget-app-expanded-container"]')`. This selector works in both
-the playground (`<main>` → widget) and any example app (`<div id="root">` → widget directly).
-**Never use `locator('main')`** — it is playground-specific and will not match widget content
-in example apps (`examples/vite`, `examples/next`, etc.).
+**Widget root:** `<div id="widget-app-expanded-container-{suffix}">` — the suffix varies per build session, always use the prefix selector `[id^="widget-app-expanded-container"]`.
 
-**Key pitfall:** The widget header's back button and Settings button
-are siblings. `querySelector('[id*="widget-header"] button')` grabs the first button
-(often the wrong one). Use `getByRole('button', {name: 'Settings', exact: true})`.
+### Token list
 
-### Token Selection
+The widget fetches tokens on page load, not on selector open. Use `waitForTokens(page)` paired with `page.goto()` in a `Promise.all` to guarantee the response is captured:
 
-The widget fetches the token list on page load (not on selector open) via:
-
-```
-GET https://li.quest/v1/tokens?chainTypes=EVM,SVM,UTXO,MVM&...
-```
-
-Before interacting with the token selector, wait for this response to ensure the list is
-populated. Use `waitForTokens(page)` exported from `base.fixture.ts`, paired with
-`page.goto()` in a `Promise.all` so the response is never missed:
-
-```typescript
-import { waitForTokens } from '../fixtures/base.fixture.js'
-
+```ts
 await Promise.all([waitForTokens(page), page.goto('/')])
 ```
 
-All items in the token list are real clickable token rows (each is a `listitem` containing
-a `button`). Use `tokenSelector.selectFirstToken()` or `tokenSelector.selectTokenByIndex(n)`
-from `TokenSelectorView`. After clicking a token the widget automatically navigates back
-to the Exchange view — no explicit back-navigation needed.
-
-> **Note:** The `@example` tests do **not** require `buildUrl: true` in widget configs.
-> Never add `buildUrl: true` to example apps for testing purposes.
-
-## Smoke Tests
-
-All smoke tests run with `pnpm smoketest`.
-
-| # | Test | What it verifies |
-|---|---|---|
-| 1 | Playground sidebar visible | LI.FI Widget heading · Design/Code tabs · Variant/Subvariant controls |
-| 2 | Widget container displayed | Widget root (`[id^="widget-app-expanded-container"]`) visible · Exchange heading · From/To buttons · Send amount input |
-| 3 | Settings accessible | Cog icon opens Settings · all setting rows visible · back returns to Exchange |
-| 4 | Token route setup | Waits for token list API · opens From selector · selects first token · opens To selector · selects second token · Exchange view reflects both selections |
-
-## Test Results
-
-Results are written to `playwright-report/` (HTML) and `test-results/results.json`.
-
-Failures include screenshot, video, and trace attachments in `test-results/`.
-
-```bash
-# View trace for a failing test
-pnpm exec playwright show-trace test-results/<test-dir>/trace.zip
-```
-
-### Compatible (pass all @example tests)
-
-| Example | Notes |
-|---|---|
-| vite | Reference target |
-| connectkit | ✅ |
-| nextjs | ✅ |
-| nextjs15 | ✅ |
-| privy | ✅ |
-| privy-ethers | ✅ |
-| rainbowkit | ✅ |
-| reown | ✅ |
-| svelte | ✅ |
-| zustand-widget-config | ✅ after scoping `fromButton`/`toButton` to `widgetRoot` (sidebar had extra From/To buttons causing strict mode violations) |
-
-### Incompatible — requires separate test approach
-
-| Example | Reason |
-|---|---|
-| deposit-flow | `subvariant: 'custom'` renders "Deposit" heading, not "Exchange" |
-| nft-checkout | `subvariant: 'custom'` renders NFT checkout UI, not "Exchange" |
-| tanstack-router | Widget renders at `/widget` route, not `/` |
-| vite-iframe | Widget inside `<iframe>` — requires `page.frameLocator()` |
-| vite-iframe-wagmi | Same iframe isolation |
-| vue | React-in-Vue wrapper (veaury) — widget root ID not found in DOM |
-| dynamic | Requires wallet auth init before widget renders |
-
-### Build or serve failures (not test issues)
-
-| Example | Issue |
-|---|---|
-| nextjs14 | `@metamask/connect-evm` missing |
-| nextjs14-page-router | Same missing dependency |
-| nuxt | Rollup SSR polyfill error (`isIP` not exported) |
-| react-router-7 | ESM directory import rejected (`use-sync-external-store/shim`) |
-| remix | Same ESM issue |
-
-### Skipped
-
-| Example | Reason |
-|---|---|
-| nextjs-page-router | No `package.json` — empty directory |
-
 ---
 
-## Known Findings / Notes
+## CI
 
-- **No `data-testid` attributes** exist in the widget codebase (only a handful of
-  `aria-label` attributes). All selectors rely on ARIA roles and visible text — this
-  means selector updates may be needed if i18n strings change.
-- The widget's `<p>` heading elements (`Exchange`, `Settings`) have **no implicit ARIA
-  role** in Playwright's accessibility model. Use `locator('p', {hasText: ...})` instead
-  of `getByRole('paragraph')`.
-- In Wide variant (default), the token selector opens a **second panel** (chain sidebar)
-  to the right. The first `getByRole('list')` is the token list; the second is the
-  chain sidebar.
-- The token list (without a wallet connection) contains only real clickable token rows —
-  no section headers like "Pinned tokens" / "All tokens". Clicking by index (0 = first,
-  1 = second, …) is safe. Tokens are ordered by 24 h volume descending.
+`e2e-examples.yml` triggers on every PR to `main`. The `detect-changes` job computes which examples to test:
+
+- A change to `examples/<name>/` → runs that example only
+- A change to `packages/widget/**`, `packages/wallet-management/**`, `packages/widget-provider*/**`, or `e2e/**` → runs all 17 examples
+
+Each example runs as an isolated matrix job (parallel, `fail-fast: false`).
