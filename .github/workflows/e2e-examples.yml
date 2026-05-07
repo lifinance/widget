@@ -200,3 +200,37 @@ jobs:
           name: playwright-report-${{ matrix.example }}
           path: e2e/playwright-report-examples/
           retention-days: 7
+
+  # ── Summarise failures as a single PR comment ────────────────────────────────
+  report:
+    name: Report failures
+    needs: test
+    if: always() && needs.test.result == 'failure'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Find failed examples
+        id: failures
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          FAILED=$(gh api "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs" \
+            --paginate \
+            --jq '[.jobs[] | select(.name | test("^E2E ")) | select(.conclusion == "failure") | .name | ltrimstr("E2E ")] | sort | map("- `"+.+"`") | join("\n")')
+          echo "list<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$FAILED"   >> "$GITHUB_OUTPUT"
+          echo "EOF"       >> "$GITHUB_OUTPUT"
+
+      - name: Post PR comment
+        uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # v3.0.4
+        with:
+          header: e2e-failures
+          message: |
+            ## E2E Examples — failures
+
+            The following example(s) failed:
+
+            ${{ steps.failures.outputs.list }}
+
+            See the [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for Playwright reports and logs.
