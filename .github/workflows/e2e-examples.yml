@@ -202,14 +202,15 @@ jobs:
 
   # ── Summarise failures as a single PR comment ────────────────────────────────
   report:
-    name: Report failures
-    needs: test
-    if: always() && needs.test.result == 'failure'
+    name: Report results
+    needs: [detect-changes, test]
+    if: always() && needs.detect-changes.outputs.has-examples == 'true' && needs.test.result != 'skipped'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
     steps:
       - name: Find failed examples
+        if: needs.test.result == 'failure'
         id: failures
         env:
           GH_TOKEN: ${{ github.token }}
@@ -221,10 +222,21 @@ jobs:
           echo "$FAILED"   >> "$GITHUB_OUTPUT"
           echo "EOF"       >> "$GITHUB_OUTPUT"
 
-      - name: Post PR comment
+      - name: Post success comment
+        if: needs.test.result == 'success'
         uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # v3.0.4
         with:
-          header: e2e-failures
+          header: e2e-results
+          message: |
+            ## E2E Examples — all passed
+
+            All examples passed in the [latest run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}).
+
+      - name: Post failure comment
+        if: needs.test.result == 'failure'
+        uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # v3.0.4
+        with:
+          header: e2e-results
           message: |
             ## E2E Examples — failures
 
