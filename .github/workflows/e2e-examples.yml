@@ -5,6 +5,10 @@ on:
     types: [opened, reopened, synchronize]
     branches: [main]
 
+concurrency:
+  group: e2e-examples-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
