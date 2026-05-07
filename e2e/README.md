@@ -145,7 +145,7 @@ tests/
 │   ├── TokenSelectorView.ts     # Token list, chain sidebar
 │   └── SettingsView.ts          # Settings rows, back navigation
 ├── playground/
-│   └── playground.spec.ts       # Playground smoke tests
+│   └── smoke.spec.ts            # Playground smoke tests
 └── profiles/
     ├── widget-smoke.spec.ts     # standard + routed (reads mountPath from project metadata)
     ├── iframe.spec.ts
@@ -180,4 +180,4 @@ await Promise.all([waitForTokens(page), page.goto('/')])
 - A change to `examples/<name>/` → runs that example only
 - A change to `packages/widget/**`, `packages/wallet-management/**`, `packages/widget-provider*/**`, or `e2e/**` → runs all 17 examples
 
-Each example runs as an isolated matrix job (parallel, `fail-fast: false`).
+Each example runs as an isolated matrix job (parallel, `fail-fast: false`). If any example fails, a sticky comment is posted on the PR listing which ones failed with a link to the workflow run.
