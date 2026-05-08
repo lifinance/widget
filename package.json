@@ -88,6 +88,9 @@
       "miniflare>zod": "3.22.3",
       "miniflare>zod-validation-error": "3.0.3",
       "use-sync-external-store": "1.4.0",
+      "axios": ">=1.15.2",
+      "follow-redirects": ">=1.16.0",
+      "uuid": ">=11.1.1",
       "utf-8-validate": "6.0.6",
       "zod": ">=4.1.11"
     }
