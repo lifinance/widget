@@ -14,7 +14,7 @@ export const PrimaryButton: FC<React.ComponentProps<typeof Button>> = styled(
   Button
 )(({ theme }) => ({
   backgroundColor: theme.vars.palette.primary.main,
-  color: '#fff',
+  color: theme.vars.palette.primary.contrastText,
   borderRadius: 12,
   padding: theme.spacing(1),
   fontSize: 16,

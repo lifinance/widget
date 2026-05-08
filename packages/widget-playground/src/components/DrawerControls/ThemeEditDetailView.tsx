@@ -5,7 +5,7 @@ import LineWeightOutlinedIcon from '@mui/icons-material/LineWeightOutlined'
 import type { CSSObject } from '@mui/material'
 import { Box, Collapse, Divider, TextField } from '@mui/material'
 import type { FocusEventHandler, JSX, SyntheticEvent } from 'react'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useThemeMode } from '../../hooks/useThemeMode.js'
 import { useFontLoader } from '../../providers/FontLoaderProvider/FontLoaderProvider.js'
 import type { Font } from '../../providers/FontLoaderProvider/types.js'
@@ -193,6 +193,19 @@ export const ThemeEditDetailView = ({
         ? 'light'
         : paletteMode
 
+  const handlePaletteModeChange = useCallback(
+    (_: SyntheticEvent, value: 'light' | 'dark'): void => {
+      setPaletteMode(value)
+      setAppearance(value)
+      setMode(value)
+      setViewportBackgroundColor(
+        selectedThemeItem?.theme.colorSchemes?.[value]?.palette?.playground
+          ?.main || (value === 'dark' ? '#000000' : '#F5F5F5')
+      )
+    },
+    [setAppearance, setMode, setViewportBackgroundColor, selectedThemeItem]
+  )
+
   const colorPath = useCallback(
     (suffix: string): string =>
       `theme.colorSchemes.${effectivePaletteMode}.palette.${suffix}`,
@@ -322,36 +335,44 @@ export const ThemeEditDetailView = ({
     [selectedFont, setAndLoadFont, setSelectedFont, setFontFamily]
   )
 
-  const sortedFonts = [...allFonts].sort((a, b) => {
-    let order = b.source.localeCompare(a.source)
-    if (order === 0) {
-      order = b.family.localeCompare(a.family)
-    }
-    return -order
-  }) as Font[]
+  const sortedFonts = useMemo(
+    () =>
+      [...allFonts].sort((a, b) => {
+        let order = b.source.localeCompare(a.source)
+        if (order === 0) {
+          order = b.family.localeCompare(a.family)
+        }
+        return -order
+      }) as Font[],
+    []
+  )
+
+  const configRef = useRef(config)
+  configRef.current = config
 
   const updateContainer = useCallback(
     (patch: Record<string, string | number | undefined>) => {
+      const current = configRef.current?.theme?.container ?? {}
       setContainer({
-        ...container,
+        ...current,
         ...patch,
       })
     },
-    [container, setContainer]
+    [setContainer]
   )
 
   const updateCardComponent = useCallback(
     (patch: CSSObject): void => {
-      setConfig(mergeComponentRoot(config, 'MuiCard', patch))
+      setConfig(mergeComponentRoot(configRef.current, 'MuiCard', patch))
     },
-    [config, setConfig]
+    [setConfig]
   )
 
   const updateButtonComponent = useCallback(
     (patch: CSSObject): void => {
-      setConfig(mergeComponentRoot(config, 'MuiButton', patch))
+      setConfig(mergeComponentRoot(configRef.current, 'MuiButton', patch))
     },
-    [config, setConfig]
+    [setConfig]
   )
 
   return (
@@ -368,18 +389,7 @@ export const ThemeEditDetailView = ({
         <RowLabel sx={{ mb: 1 }}>Mode</RowLabel>
         <MethodTabs
           value={effectivePaletteMode}
-          onChange={(_, value: 'light' | 'dark') => {
-            setPaletteMode(value)
-            setTimeout(() => {
-              setAppearance(value)
-              setMode(value)
-              setViewportBackgroundColor(
-                selectedThemeItem?.theme.colorSchemes?.[value]?.palette
-                  ?.playground?.main ||
-                  (value === 'dark' ? '#000000' : '#F5F5F5')
-              )
-            }, 300)
-          }}
+          onChange={handlePaletteModeChange}
           aria-label="Palette mode"
           sx={{ marginBottom: 3 }}
         >

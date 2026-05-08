@@ -102,6 +102,8 @@ export const useConfigFontFamily = (): {
   }
 }
 
+const defaultWalletConfigFallback = { onConnect: () => {} }
+
 export const useConfigWalletManagement = (): {
   replacementWalletConfig: WidgetWalletConfig | { onConnect: () => void }
   isExternalWalletManagement: boolean
@@ -113,9 +115,8 @@ export const useConfigWalletManagement = (): {
     store.defaultConfig?.walletConfig,
   ])
 
-  const replacementWalletConfig = defaultWalletConfig
-    ? defaultWalletConfig
-    : { onConnect: () => {} }
+  const replacementWalletConfig =
+    defaultWalletConfig || defaultWalletConfigFallback
 
   return {
     replacementWalletConfig: replacementWalletConfig,

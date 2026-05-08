@@ -3,8 +3,6 @@ import type { StoreApi, UseBoundStore } from 'zustand'
 import type { Font } from '../../providers/FontLoaderProvider/types.js'
 import type { FormValues } from '../types.js'
 
-type ControlType = 'design' | 'code'
-type CodeControlTab = 'config' | 'examples'
 export type Layout =
   | 'default'
   | 'restricted-height'
@@ -20,11 +18,6 @@ export interface ThemeItem {
 interface EditToolsValues {
   drawer: {
     open: boolean
-    visibleControls: ControlType
-    codeDrawerWidth: number
-  }
-  codeControl: {
-    openTab: CodeControlTab
   }
   fontControl: {
     selectedFont: Font | undefined // move to config
@@ -50,9 +43,6 @@ interface EditToolsValues {
 
 interface EditToolsActions {
   setDrawerOpen: (open: boolean) => void
-  setCodeDrawerWidth: (width: number) => void
-  setVisibleControls: (controls: ControlType) => void
-  setCodeControlTab: (tab: CodeControlTab) => void
   resetEditTools: () => void
   setSelectedFont: (font: Font) => void
   setViewportBackgroundColor: (color: string | undefined) => void

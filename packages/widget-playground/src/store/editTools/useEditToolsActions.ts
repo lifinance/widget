@@ -5,9 +5,6 @@ import type { ToolsState } from './types.js'
 export const useEditToolsActions = (): Pick<
   ToolsState,
   | 'setDrawerOpen'
-  | 'setCodeDrawerWidth'
-  | 'setVisibleControls'
-  | 'setCodeControlTab'
   | 'resetEditTools'
   | 'setSelectedFont'
   | 'setViewportBackgroundColor'
@@ -22,9 +19,6 @@ export const useEditToolsActions = (): Pick<
 > => {
   const actions = useEditToolsStore((state) => ({
     setDrawerOpen: state.setDrawerOpen,
-    setCodeDrawerWidth: state.setCodeDrawerWidth,
-    setVisibleControls: state.setVisibleControls,
-    setCodeControlTab: state.setCodeControlTab,
     resetEditTools: state.resetEditTools,
     setSelectedFont: state.setSelectedFont,
     setViewportBackgroundColor: state.setViewportBackgroundColor,

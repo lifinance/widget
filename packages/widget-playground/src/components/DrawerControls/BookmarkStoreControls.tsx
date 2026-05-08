@@ -23,9 +23,10 @@ const createEmptyStore = (): StoreProp => ({
 
 const fillBookmarks = (store: StoreProp, num: number): StoreProp => {
   for (let i = 0; i < num; i++) {
+    const hex = i.toString(16).padStart(2, '0')
     store.state.bookmarks.push({
       name: `asdf ${i}`,
-      address: `0x29DaCdF7cCaDf4eE67c923b4C22255A4B2494e${i}`,
+      address: `0x29DaCdF7cCaDf4eE67c923b4C22255A4B24940${hex}`,
       chainType: ChainType.EVM,
     })
   }
@@ -35,8 +36,9 @@ const fillBookmarks = (store: StoreProp, num: number): StoreProp => {
 
 const fillRecents = (store: StoreProp, num: number): StoreProp => {
   for (let i = 0; i < num; i++) {
+    const hex = i.toString(16).padStart(2, '0')
     store.state.recentWallets.push({
-      address: `0x29DaCdF7cCaDf4eE67c923b4C22255A4B2494e${i}`,
+      address: `0x29DaCdF7cCaDf4eE67c923b4C22255A4B24940${hex}`,
       chainType: ChainType.EVM,
     })
   }

@@ -10,6 +10,7 @@ import {
 } from '@mui/material'
 import { autocompleteClasses } from '@mui/material/Autocomplete'
 import type { FC } from 'react'
+import { autocompletePopperZIndex } from './DrawerControls.style.js'
 
 export const Content: FC<React.ComponentProps<typeof Box>> = styled(Box)(
   ({ theme }) => ({
@@ -307,7 +308,7 @@ export const FontPopper: React.FC<React.ComponentProps<typeof Popper>> = styled(
   Popper
 )({
   [`&.${autocompleteClasses.popper}`]: {
-    zIndex: 1502,
+    zIndex: autocompletePopperZIndex,
   },
   [`& .${autocompleteClasses.groupLabel}`]: {
     position: 'static',

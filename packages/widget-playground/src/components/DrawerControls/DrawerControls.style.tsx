@@ -1,11 +1,6 @@
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import TabPanel from '@mui/lab/TabPanel'
-import type {
-  ButtonBaseProps,
-  DrawerProps as MuiDrawerProps,
-} from '@mui/material'
-import { Box, ButtonBase, Drawer as MuiDrawer, styled } from '@mui/material'
+import type { DrawerProps as MuiDrawerProps } from '@mui/material'
+import { Box, Drawer as MuiDrawer, styled } from '@mui/material'
 import type React from 'react'
 
 export const drawerZIndex = 1501
@@ -42,53 +37,6 @@ export const TabContentContainer: React.FC<
   '&[hidden]': {
     display: 'none',
   },
-}))
-
-export const DrawerHandleButton: React.FC<ButtonBaseProps> = styled(
-  (props: ButtonBaseProps) => (
-    <ButtonBase {...props} disableRipple>
-      &nbsp;
-    </ButtonBase>
-  )
-)({
-  background: 'none',
-  color: 'inherit',
-  border: 'none',
-  font: 'inherit',
-  outline: 'inherit',
-  height: '100%',
-  cursor: 'col-resize',
-  position: 'fixed',
-  transform: 'translateX(-8px)',
-  zIndex: drawerZIndex + 1,
-})
-
-export const DrawerIconRight: React.FC<
-  React.ComponentProps<typeof KeyboardArrowRightIcon>
-> = styled(KeyboardArrowRightIcon)(({ theme }) => ({
-  position: 'fixed',
-  top: '50%',
-  transform: 'translateY(-50%)',
-  pointerEvents: 'none',
-  zIndex: drawerZIndex + 1,
-  color: theme.vars.palette.grey[400],
-  ...theme.applyStyles('dark', {
-    color: theme.vars.palette.grey[600],
-  }),
-}))
-
-export const DrawerIconLeft: React.FC<
-  React.ComponentProps<typeof KeyboardArrowLeftIcon>
-> = styled(KeyboardArrowLeftIcon)(({ theme }) => ({
-  position: 'fixed',
-  top: '50%',
-  transform: 'translate(-75%, -50%)',
-  pointerEvents: 'none',
-  zIndex: drawerZIndex + 1,
-  color: theme.vars.palette.grey[400],
-  ...theme.applyStyles('dark', {
-    color: theme.vars.palette.grey[600],
-  }),
 }))
 
 export type SidebarView =

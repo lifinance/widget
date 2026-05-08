@@ -1,7 +1,7 @@
 import { ChainType } from '@lifi/widget'
 import { Box } from '@mui/material'
 import type { JSX } from 'react'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
 import type { FormValues } from '../../store/types.js'
 import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
@@ -146,14 +146,17 @@ export const FormValuesDevPanel = (): JSX.Element => {
     [formUpdateMethod, setFormValuesViaConfig, setFormValuesViaFormApiRef]
   )
 
+  const applyRef = useRef(applyFormValues)
+  applyRef.current = applyFormValues
+
   useEffect(() => {
-    applyFormValues({
+    applyRef.current({
       ...ChainsAndTokensLookUp[defaultChainKey],
       ...fromAmountLookUp[defaultAmountKey],
       ...AddressLookUp[defaultAddressKey],
     })
     return () => {
-      applyFormValues(
+      applyRef.current(
         forceConfigUpdate({
           ...ChainsAndTokensLookUp.RESET,
           ...fromAmountLookUp.RESET,
@@ -161,7 +164,7 @@ export const FormValuesDevPanel = (): JSX.Element => {
         })
       )
     }
-  }, [applyFormValues])
+  }, [])
 
   const handleChainAndTokenChange = useCallback(
     (value: string) => {

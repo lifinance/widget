@@ -5,14 +5,14 @@ import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
 import { useConfigVariant } from '../../store/widgetConfig/useConfigValues.js'
 import { useDefaultConfig } from '../../store/widgetConfig/useDefaultConfig.js'
 import { CardSelect } from './CardSelect.js'
-import { DetailViewHeader } from './DetailViewHeader.js'
 import {
   CardsContainer,
   Content,
   Description,
   Title,
   TitleSection,
-} from './VariantDetailView.style.js'
+} from './DetailView.style.js'
+import { DetailViewHeader } from './DetailViewHeader.js'
 
 interface VariantDetailViewProps {
   onBack: () => void

@@ -73,27 +73,27 @@ export const ThemeName: FC<React.ComponentProps<typeof Typography>> = styled(
   color: theme.vars.palette.text.primary,
 }))
 
-export const EditThemeButton: FC<ComponentProps<'span'>> = styled('span')(
-  ({ theme }) => ({
-    border: 'none',
-    borderRadius: 8,
-    padding: theme.spacing(0.75, 1.5),
-    minHeight: 28,
-    fontSize: 12,
-    fontWeight: 700,
-    lineHeight: '16px',
-    backgroundColor: theme.vars.palette.primary.main,
-    color: theme.vars.palette.primary.contrastText,
-    cursor: 'pointer',
-    fontFamily: 'inherit',
-    transition: theme.transitions.create(['background-color'], {
-      duration: theme.transitions.duration.shorter,
-    }),
-    '&:hover': {
-      backgroundColor: theme.vars.palette.primary.dark,
-    },
-  })
-)
+export const EditThemeButton: FC<ComponentProps<typeof ButtonBase>> = styled(
+  ButtonBase
+)(({ theme }) => ({
+  border: 'none',
+  borderRadius: 8,
+  padding: theme.spacing(0.75, 1.5),
+  minHeight: 28,
+  fontSize: 12,
+  fontWeight: 700,
+  lineHeight: '16px',
+  backgroundColor: theme.vars.palette.primary.main,
+  color: theme.vars.palette.primary.contrastText,
+  cursor: 'pointer',
+  fontFamily: 'inherit',
+  transition: theme.transitions.create(['background-color'], {
+    duration: theme.transitions.duration.shorter,
+  }),
+  '&:hover': {
+    backgroundColor: theme.vars.palette.primary.dark,
+  },
+}))
 
 export const SchemeIcons: FC<ComponentProps<typeof Box>> = styled(Box)(
   ({ theme }) => ({

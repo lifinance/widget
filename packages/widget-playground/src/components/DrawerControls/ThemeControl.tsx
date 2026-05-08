@@ -1,6 +1,7 @@
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined'
 import type { JSX } from 'react'
+import { useCallback } from 'react'
 import { useThemeMode } from '../../hooks/useThemeMode.js'
 import type { ThemeItem } from '../../store/editTools/types.js'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
@@ -112,34 +113,41 @@ export const ThemeControl = ({
   const { selectedThemeId, allThemesItems } = useThemeValues()
   const { setViewportBackgroundColor } = useEditToolsActions()
 
-  const themesList = allThemesItems
+  const handleSelectTheme = useCallback(
+    (themeItem: ThemeItem): void => {
+      const nextThemeMode =
+        themeItem.theme.colorSchemes?.[themeMode] !== undefined
+          ? themeMode
+          : themeItem.theme.colorSchemes?.light
+            ? 'light'
+            : themeItem.theme.colorSchemes?.dark
+              ? 'dark'
+              : undefined
 
-  const handleSelectTheme = (themeItem: ThemeItem): void => {
-    const nextThemeMode =
-      themeItem.theme.colorSchemes?.[themeMode] !== undefined
-        ? themeMode
-        : themeItem.theme.colorSchemes?.light
-          ? 'light'
-          : themeItem.theme.colorSchemes?.dark
-            ? 'dark'
-            : undefined
-
-    setConfigTheme(themeItem.theme, themeItem.id)
-    if (nextThemeMode && nextThemeMode !== themeMode) {
-      setAppearance(nextThemeMode)
-      setMode(nextThemeMode)
-    }
-    setViewportBackgroundColor(
-      nextThemeMode
-        ? themeItem.theme.colorSchemes?.[nextThemeMode]?.palette?.playground
-            ?.main
-        : undefined
-    )
-  }
+      setConfigTheme(themeItem.theme, themeItem.id)
+      if (nextThemeMode && nextThemeMode !== themeMode) {
+        setAppearance(nextThemeMode)
+        setMode(nextThemeMode)
+      }
+      setViewportBackgroundColor(
+        nextThemeMode
+          ? themeItem.theme.colorSchemes?.[nextThemeMode]?.palette?.playground
+              ?.main
+          : undefined
+      )
+    },
+    [
+      themeMode,
+      setConfigTheme,
+      setAppearance,
+      setMode,
+      setViewportBackgroundColor,
+    ]
+  )
 
   return (
     <ThemeCardsContainer>
-      {themesList.map((themeItem: ThemeItem) => {
+      {allThemesItems.map((themeItem: ThemeItem) => {
         const isSelected = selectedThemeId === themeItem.id
         const colorSchemeKeys = Object.keys(themeItem.theme.colorSchemes ?? {})
         const supportsLight =
@@ -159,7 +167,7 @@ export const ThemeControl = ({
               <ThemeName>{displayName}</ThemeName>
               {isSelected ? (
                 <EditThemeButton
-                  role="button"
+                  disableRipple
                   onClick={(event) => {
                     event.stopPropagation()
                     onOpenEditTheme?.()

@@ -3,7 +3,6 @@ import type { StoreApi, UseBoundStore } from 'zustand'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { FormValues } from '../types.js'
-import { defaultDrawerWidth } from './constants.js'
 import type { ToolsState } from './types.js'
 
 export const createEditToolsStore = (
@@ -15,11 +14,6 @@ export const createEditToolsStore = (
         formValues: undefined,
         drawer: {
           open: true,
-          visibleControls: 'design',
-          codeDrawerWidth: defaultDrawerWidth,
-        },
-        codeControl: {
-          openTab: 'config',
         },
         fontControl: {
           selectedFont: undefined,
@@ -47,38 +41,6 @@ export const createEditToolsStore = (
               open,
             },
           })
-        },
-        setCodeDrawerWidth: (codeDrawerWidth) => {
-          set({
-            drawer: {
-              ...get().drawer,
-              codeDrawerWidth,
-            },
-          })
-        },
-        setVisibleControls: (visibleControls) => {
-          set({
-            drawer: {
-              ...get().drawer,
-              visibleControls,
-            },
-          })
-
-          if (visibleControls !== 'code') {
-            get().setCodeDrawerWidth(defaultDrawerWidth)
-          }
-        },
-        setCodeControlTab: (openTab) => {
-          set({
-            codeControl: {
-              ...get().codeControl,
-              openTab,
-            },
-          })
-
-          if (openTab !== 'config') {
-            get().setCodeDrawerWidth(defaultDrawerWidth)
-          }
         },
         resetEditTools: () => {
           set({
@@ -163,11 +125,10 @@ export const createEditToolsStore = (
       }),
       {
         name: 'li.fi-playground-tools',
-        version: 1,
+        version: 2,
         partialize: (state) => ({
           drawer: {
             open: state.drawer.open,
-            visibleControls: state.drawer.visibleControls || 'design',
           },
           playgroundSettings: {
             viewportColor: state.playgroundSettings?.viewportColor,
@@ -176,7 +137,6 @@ export const createEditToolsStore = (
         onRehydrateStorage: () => {
           return (state) => {
             if (state) {
-              state.setCodeDrawerWidth(defaultDrawerWidth)
               if (initialTheme) {
                 if (
                   !initialTheme.colorSchemes?.light?.palette?.playground
