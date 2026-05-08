@@ -15,12 +15,9 @@ export default defineConfig({
     target: 'esnext',
   },
   build: {
-    sourcemap: false,
+    sourcemap: true,
     chunkSizeWarningLimit: 5000,
     rolldownOptions: {
-      output: {
-        strictExecutionOrder: true,
-      },
       onwarn(warning, defaultHandler) {
         if (
           warning.code === 'EVAL' ||
