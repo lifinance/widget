@@ -1,3 +1,18 @@
 packages:
   - 'packages/*'
   - 'examples/*'
+allowBuilds:
+  '@opensea/seaport-js': false
+  '@parcel/watcher': false
+  '@reown/appkit': false
+  bigint-buffer: false
+  bufferutil: false
+  core-js: false
+  esbuild: true
+  keccak: false
+  nx: true
+  protobufjs: false
+  sharp: false
+  svelte-preprocess: false
+  tsl-apple-cloudkit: false
+  utf-8-validate: false
