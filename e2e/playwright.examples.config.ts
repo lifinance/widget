@@ -33,7 +33,7 @@ export default defineConfig({
     ['list'],
   ],
   expect: {
-    timeout: 15_000,
+    timeout: 10_000,
   },
   use: {
     screenshot: 'only-on-failure',
