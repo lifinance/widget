@@ -1,17 +1,18 @@
-// biome-ignore assist/source/organizeImports: should be at the top
-import { scan } from 'react-scan'
-
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { App } from './App.js'
 import './index.css'
 import { reportWebVitals } from './reportWebVitals.js'
 
-scan({
-  enabled: false,
-  trackUnnecessaryRenders: true,
-  showToolbar: true,
-})
+if (import.meta.env.DEV) {
+  import('react-scan').then(({ scan }) =>
+    scan({
+      enabled: false,
+      trackUnnecessaryRenders: true,
+      showToolbar: true,
+    })
+  )
+}
 
 const rootElement = document.getElementById('root')
 if (!rootElement) {
