@@ -18,9 +18,6 @@ export default defineConfig({
     sourcemap: true,
     chunkSizeWarningLimit: 5000,
     rolldownOptions: {
-      output: {
-        strictExecutionOrder: true,
-      },
       onwarn(warning, defaultHandler) {
         if (
           warning.code === 'EVAL' ||
