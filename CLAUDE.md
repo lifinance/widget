@@ -15,6 +15,7 @@ pnpm dev:next                # Start Next.js playground
 
 # Building
 pnpm build                   # Build all packages in parallel
+pnpm --filter widget-playground-vite analyze   # source-map-explorer on the built bundle
 
 # Code Quality
 pnpm check                   # Biome lint + format check
@@ -62,6 +63,8 @@ pnpm knip:check
 @lifi/widget-embedded          ← Vite app that runs inside the iframe (private)
 ```
 
+**`@lifi/sdk` and `@lifi/types` must be single-copy in any consumer bundle** — the SDK keeps `executionState` as a module-level singleton; duplicates surface as `"Execution data not found"` errors during route execution. Use `pnpm.overrides` (in `pnpm-workspace.yaml`) or bundler `resolve.dedupe` to enforce.
+
 ### widget-light iframe bridge
 
 `widget-light` provides an iframe-based integration where the widget runs inside an iframe (`widget-embedded`) and communicates with the host page via `postMessage`.
@@ -100,6 +103,7 @@ QueryClient → Settings → WidgetConfig → I18n → Theme → SDK → Wallet 
 - **Biome** for linting and formatting (not ESLint/Prettier). Single quotes, no semicolons, 2-space indent, trailing commas (ES5). **Always run `pnpm check:write` after making changes** so Biome can auto-fix formatting.
 - **Biome sorts imports** — running `pnpm check:write` may reorder import/export statements. This is expected.
 - **Conventional commits** enforced by commitlint (`feat:`, `fix:`, `chore:`, etc.).
+- **pnpm settings live in `pnpm-workspace.yaml` only** — pnpm v11 silently ignores `package.json#pnpm` and most non-auth `.npmrc` keys. Verify any setting with `pnpm config get <kebab-name>` (returns `undefined` if pnpm isn't reading it). npm publish provenance is set via `NPM_CONFIG_PROVENANCE=true` env in `.github/workflows/publish.yaml`, not pnpm config.
 - **`console.log` is an error** — only `console.warn` and `console.error` are allowed (except in `examples/`).
 - **`useExhaustiveDependencies`** and **`useHookAtTopLevel`** are errors.
 - **No unused variables or imports** — enforced as errors.
