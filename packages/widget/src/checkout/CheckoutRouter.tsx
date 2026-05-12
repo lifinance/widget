@@ -12,6 +12,7 @@ import { CheckoutRoutesPage } from './pages/CheckoutRoutesPage.js'
 import { CheckoutTransactionDetailsPage } from './pages/CheckoutTransactionDetailsPage/CheckoutTransactionDetailsPage.js'
 import { CheckoutTransactionPage } from './pages/CheckoutTransactionPage.js'
 import { CheckoutTransactionStatusPage } from './pages/CheckoutTransactionStatusPage/CheckoutTransactionStatusPage.js'
+import { DepositErrorRoutePage } from './pages/DepositErrorPages/DepositErrorRoutePage.js'
 import { EnterAmountPage } from './pages/EnterAmountPage/EnterAmountPage.js'
 import { ProgressPage } from './pages/ProgressPage/ProgressPage.js'
 import { SelectCashCurrencyPage } from './pages/SelectCashCurrencyPage/SelectCashCurrencyPage.js'
@@ -46,6 +47,12 @@ const transferDepositRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: checkoutNavigationRoutes.transferDeposit,
   component: TransferDepositPage,
+})
+
+const depositErrorRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: checkoutNavigationRoutes.depositError,
+  component: DepositErrorRoutePage,
 })
 
 const selectCashRoute = createRoute({
@@ -133,6 +140,7 @@ const routeTree = rootRoute.addChildren([
   enterAmountRoute,
   progressRoute,
   transferDepositRoute,
+  depositErrorRoute,
   selectCashRoute,
   fromTokenLayoutRoute.addChildren([
     fromTokenIndexRoute,

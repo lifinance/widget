@@ -44,9 +44,13 @@
     "max": "MAX",
     "ok": "Ok",
     "options": "Options",
+    "requestRefund": "Request refund",
     "reset": "Reset",
     "resetSettings": "Reset settings",
+    "resumeTransaction": "Resume transaction",
     "seeDetails": "See details",
+    "topUp": "Top up",
+    "viewRefundStatus": "View refund status",
     "showAll": "Show all",
     "startBridging": "Start bridging",
     "startSwapping": "Start swapping",
@@ -64,11 +68,13 @@
     "checkout": "Checkout",
     "checkoutDetails": "Checkout details",
     "deposit": "Deposit",
+    "depositAddress": "Deposit address",
     "depositDetails": "Deposit details",
     "depositTo": "Deposit to",
     "depositWithCash": "Deposit with cash",
     "connectExchange": "Connect exchange",
     "transferCrypto": "Transfer crypto",
+    "currency": "Currency",
     "exchange": "Exchange",
     "from": "Exchange from",
     "gas": "Gas",
@@ -322,6 +328,7 @@
     "tokenSearch": "Search by token or address",
     "valueLoss": "Value loss",
     "searchBridges": "Search by bridge name",
+    "searchCurrency": "Search currency",
     "searchExchanges": "Search by exchange name",
     "searchNetwork": "Search network"
   },
@@ -370,14 +377,60 @@
   "checkout": {
     "deposit": "Deposit",
     "transferDeposit": {
-      "title": "Send {{amount}} {{symbol}} on {{chain}}",
-      "instructions": "Scan the QR or copy the address below. The deposit window expires in {{minutes}}m {{seconds}}s.",
+      "warning": "Only send <b>{{amount}} {{symbol}}</b> on <b>{{chain}}</b>. Wrong token or chain may be unrecoverable.",
+      "expiresIn": "Deposit address expires in {{minutes}}:{{seconds}}",
       "addressLabel": "Deposit address",
       "copyAddress": "Copy address",
-      "copyAmount": "Copy amount",
       "regenerate": "Generate new deposit address",
       "expired": "This deposit window expired. Generate a new one to continue.",
-      "polling": "Waiting for your transfer…"
+      "polling": "Watching for your deposit…",
+      "detailsTitle": "Deposit details",
+      "table": {
+        "required": "Required",
+        "received": "Received",
+        "minRefundable": "Min. refundable",
+        "remaining": "Remaining",
+        "excess": "Excess",
+        "timeRemaining": "Time remaining"
+      },
+      "errors": {
+        "unexpected": {
+          "title": "Unexpected deposit",
+          "description": "We received a deposit that doesn't match a supported route. Contact support for next steps."
+        },
+        "amountLowThreshold": {
+          "title": "Deposit incomplete",
+          "description": "Top up to complete your order, or to enable a refund."
+        },
+        "amountLowTopUp": {
+          "title": "Deposit incomplete",
+          "description": "Send the remaining before the deposit window closes."
+        },
+        "amountLowExpired": {
+          "title": "Deposit incomplete",
+          "description": "The deposit window has expired. You can request a refund for the amount received."
+        },
+        "excessHeld": {
+          "title": "Excess held",
+          "description": "Your order is processing. The excess is held — request a refund to retrieve it."
+        },
+        "lateArrival": {
+          "title": "Deposit arrived late",
+          "description": "Your funds reached us after the deposit window closed. You can reactivate to continue, or request a refund."
+        },
+        "addressExpired": {
+          "title": "Deposit address expired",
+          "description": "The deposit address has expired without receiving funds. You can try again with a new deposit address."
+        },
+        "marketMoved": {
+          "title": "Transaction failed",
+          "description": "The exchange rate moved before your order could complete. Your funds are safe — a refund has been started."
+        },
+        "refunding": {
+          "title": "Transaction failed — refunding",
+          "description": "We couldn't complete the transfer after several attempts. Your funds are being refunded to the wallet that sent them."
+        }
+      }
     },
     "fiatCurrency": {
       "label": "Pay with",

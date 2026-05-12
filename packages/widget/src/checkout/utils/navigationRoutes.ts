@@ -18,6 +18,7 @@ export const checkoutNavigationRoutes = {
   enterAmount: '/enter-amount',
   progress: '/progress',
   transferDeposit: '/transfer-deposit',
+  depositError: '/deposit-error/$kind',
   selectCash: '/select-cash',
   fromToken: 'from-token',
   fromChain: 'from-chain',
