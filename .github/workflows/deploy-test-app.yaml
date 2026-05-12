@@ -113,9 +113,8 @@ jobs:
               })
             })
 
-      # Required to install wrangler during the next step
-      - name: Set pnpm config to ignore workspace root check
-        run: pnpm config set ignore-workspace-root-check true
+      - name: Install Wrangler
+        run: pnpm add -w --ignore-scripts wrangler@3
 
       - name: Deploy Page
         uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65 # v3.14.1
