@@ -38,10 +38,10 @@ export function StatusCompleted({
       : undefined
 
   return (
-    <Stack spacing={2} sx={{ flex: 1 }}>
-      <Card variant="elevation" indented sx={{ filter: 'none' }}>
+    <Stack spacing={1.5} sx={{ flex: 1 }}>
+      <Card variant="elevation" indented sx={{ p: 3, filter: 'none' }}>
         <Stack
-          spacing={1}
+          spacing={2}
           sx={{ alignItems: 'center', textAlign: 'center', pb: 2 }}
         >
           <Box
@@ -76,13 +76,13 @@ export function StatusCompleted({
       </Card>
 
       {receivingTokenAmount ? (
-        <Card variant="elevation" indented sx={{ filter: 'none' }}>
+        <Card variant="elevation" indented sx={{ p: 3, filter: 'none' }}>
           <CardTitle sx={{ p: 0, mb: 1.5 }}>{t('header.received')}</CardTitle>
           <Token token={receivingTokenAmount} disableDescription={false} />
         </Card>
       ) : null}
 
-      <Stack direction="row" spacing={1.5} sx={{ pt: 1 }}>
+      <Stack direction="row" spacing={2} sx={{ pt: 1.5 }}>
         <Button
           variant="text"
           fullWidth

@@ -11,6 +11,7 @@ export const HeaderAppBar: React.FC<React.ComponentProps<typeof AppBar>> =
     zIndex: 1,
     minHeight: 56,
     padding: theme.spacing(1.5, 2),
+    marginBottom: theme.spacing(1.5),
   }))
 
 export const HeaderControlsContainer: React.FC<

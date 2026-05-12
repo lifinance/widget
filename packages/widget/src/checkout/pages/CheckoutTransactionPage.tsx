@@ -31,8 +31,10 @@ import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.j
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useHeaderStore } from '../../stores/header/useHeaderStore.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
+import { getSourceTxHash } from '../../stores/routes/utils.js'
 import { WidgetEvent } from '../../types/events.js'
 import { HiddenUI } from '../../types/widget.js'
+import { hasEnumFlag } from '../../utils/enum.js'
 import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { checkoutNavigationRoutes } from '../utils/navigationRoutes.js'
@@ -336,7 +338,31 @@ export const CheckoutTransactionPage = (): JSX.Element | null => {
             </Box>
           </>
         ) : null}
-        <TransactionDoneButtons route={route} status={status} />
+        {hasEnumFlag(status, RouteExecutionStatus.Done) ? (
+          <Box sx={{ mt: 1.5, display: 'flex', gap: 2 }}>
+            <Button
+              variant="text"
+              fullWidth
+              size="large"
+              sx={{ flex: 1 }}
+              onClick={() => {
+                const txHash = getSourceTxHash(route)
+                if (!txHash) {
+                  return
+                }
+                navigate({
+                  to: `/${navigationRoutes.transactionExecution}/${checkoutNavigationRoutes.transactionDetails}`,
+                  search: { transactionHash: txHash },
+                })
+              }}
+            >
+              {t('checkout.transactionStatus.seeDetails')}
+            </Button>
+            <Box sx={{ flex: 1 }}>
+              <TransactionDoneButtons route={route} status={status} />
+            </Box>
+          </Box>
+        ) : null}
         {subvariant !== 'custom' ? (
           <TokenValueBottomSheet
             route={route}

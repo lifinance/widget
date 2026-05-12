@@ -1,6 +1,6 @@
 import type { FullStatusData } from '@lifi/sdk'
-import { Box } from '@mui/material'
-import { useLocation } from '@tanstack/react-router'
+import { Box, Button } from '@mui/material'
+import { useLocation, useNavigate } from '@tanstack/react-router'
 import { type JSX, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Card } from '../../../components/Card/Card.js'
@@ -16,8 +16,10 @@ import { useTools } from '../../../hooks/useTools.js'
 import { StepActionsList } from '../../../pages/TransactionDetailsPage/StepActionsList.js'
 import { getSourceTxHash } from '../../../stores/routes/utils.js'
 import { buildRouteFromTxHistory } from '../../../utils/converters.js'
+import { navigationRoutes } from '../../../utils/navigationRoutes.js'
 import { useCheckoutTransactionStatus } from '../../hooks/useCheckoutTransactionStatus.js'
 import { isTransactionStatusSimulationKind } from '../../utils/transactionStatusSimulation.js'
+import { CheckoutTransactionDetailsSkeleton } from './CheckoutTransactionDetailsSkeleton.js'
 import { CheckoutTransferIdCard } from './CheckoutTransferIdCard.js'
 
 interface DetailsSearch {
@@ -43,6 +45,7 @@ export const CheckoutTransactionDetailsPage: React.FC = (): JSX.Element => {
 
   useHeader(t('checkout.transactionStatus.detailsTitle'))
 
+  const navigate = useNavigate()
   const { tools } = useTools()
   const { status } = useCheckoutTransactionStatus(transactionHash, simulate)
   const { getTransactionLink } = useExplorer()
@@ -54,8 +57,19 @@ export const CheckoutTransactionDetailsPage: React.FC = (): JSX.Element => {
     return buildRouteFromTxHistory(status as FullStatusData, tools)?.route
   }, [status, tools])
 
+  const goHome = () => {
+    navigate({ to: navigationRoutes.home })
+  }
+
   if (!route) {
-    return <PageContainer bottomGutters />
+    return (
+      <PageContainer
+        bottomGutters
+        sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+      >
+        <CheckoutTransactionDetailsSkeleton />
+      </PageContainer>
+    )
   }
 
   const sourceTxHash = getSourceTxHash(route)
@@ -89,6 +103,15 @@ export const CheckoutTransactionDetailsPage: React.FC = (): JSX.Element => {
       {supportId ? (
         <CheckoutTransferIdCard transferId={supportId} txLink={txLink} />
       ) : null}
+      <Button
+        variant="contained"
+        fullWidth
+        size="large"
+        onClick={goHome}
+        sx={{ mt: 1.5 }}
+      >
+        {t('button.done')}
+      </Button>
     </PageContainer>
   )
 }

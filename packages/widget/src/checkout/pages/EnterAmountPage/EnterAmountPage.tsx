@@ -74,7 +74,9 @@ export const EnterAmountPage: React.FC = (): JSX.Element => {
           {t('checkout.errors.noQuoteAvailable')}
         </Alert>
       ) : null}
-      <Box sx={{ display: 'flex', mb: showPoweredBy ? 1 : 3, gap: 1.5 }}>
+      <Box
+        sx={{ display: 'flex', mt: 1.5, mb: showPoweredBy ? 1 : 3, gap: 1.5 }}
+      >
         <CheckoutFlowCtaButton />
       </Box>
       {showPoweredBy ? <PoweredBy /> : null}
