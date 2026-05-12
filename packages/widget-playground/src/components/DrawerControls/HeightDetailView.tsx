@@ -10,6 +10,7 @@ import {
   CardsContainer,
   Content,
   Description,
+  DocsLink,
   Title,
   TitleSection,
 } from './DetailView.style.js'
@@ -84,6 +85,7 @@ export const HeightDetailView = ({
           <Description>
             Configure how the widget is embedded and how tall it can be.
           </Description>
+          <DocsLink href="https://docs.li.fi/widget/customize-widget" />
         </TitleSection>
         <CardsContainer>
           <CardSelect

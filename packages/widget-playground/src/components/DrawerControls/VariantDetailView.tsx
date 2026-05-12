@@ -9,6 +9,7 @@ import {
   CardsContainer,
   Content,
   Description,
+  DocsLink,
   Title,
   TitleSection,
 } from './DetailView.style.js'
@@ -68,6 +69,7 @@ export const VariantDetailView = ({
             Choose how secondary panels like the chain selector and route
             summary are displayed.
           </Description>
+          <DocsLink href="https://docs.li.fi/widget/select-widget-variants" />
         </TitleSection>
         <CardsContainer>
           <CardSelect

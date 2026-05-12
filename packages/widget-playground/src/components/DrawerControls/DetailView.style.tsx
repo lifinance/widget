@@ -1,4 +1,4 @@
-import { Box, styled, Typography } from '@mui/material'
+import { Box, ButtonBase, styled, Typography } from '@mui/material'
 import type { FC } from 'react'
 
 export const Content: FC<React.ComponentProps<typeof Box>> = styled(Box)(
@@ -49,6 +49,30 @@ export const CardsContainer: FC<React.ComponentProps<typeof Box>> = styled(Box)(
     gap: theme.spacing(1),
     width: '100%',
   })
+)
+
+const DocsLinkRoot: FC<React.ComponentProps<typeof ButtonBase>> = styled(
+  ButtonBase
+)(({ theme }) => ({
+  fontSize: 14,
+  fontWeight: 500,
+  lineHeight: '18px',
+  color: theme.vars.palette.primary.main,
+  padding: 0,
+  alignSelf: 'flex-start',
+  '&:hover': {
+    textDecoration: 'underline',
+  },
+}))
+
+export const DocsLink = ({ href }: { href: string }): React.ReactElement => (
+  <DocsLinkRoot
+    disableRipple
+    onClick={() => window.open(href, '_blank')}
+    type="button"
+  >
+    Read docs
+  </DocsLinkRoot>
 )
 
 export const CapitalizeFirstLetter: FC<

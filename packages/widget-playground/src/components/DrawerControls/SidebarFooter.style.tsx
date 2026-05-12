@@ -10,23 +10,6 @@ export const FooterContainer: FC<React.ComponentProps<typeof Box>> = styled(
   padding: theme.spacing(2.5),
 }))
 
-export const PrimaryButton: FC<React.ComponentProps<typeof Button>> = styled(
-  Button
-)(({ theme }) => ({
-  backgroundColor: theme.vars.palette.primary.main,
-  color: theme.vars.palette.primary.contrastText,
-  borderRadius: 12,
-  padding: theme.spacing(1),
-  fontSize: 16,
-  fontWeight: 700,
-  lineHeight: '20px',
-  textTransform: 'none',
-  height: 48,
-  '&:hover': {
-    backgroundColor: theme.vars.palette.primary.dark,
-  },
-}))
-
 export const SecondaryButton: FC<React.ComponentProps<typeof Button>> = styled(
   Button
 )(({ theme }) => ({

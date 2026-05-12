@@ -11,6 +11,7 @@ import {
   CardsContainer,
   Content,
   Description,
+  DocsLink,
   Title,
   TitleSection,
 } from './DetailView.style.js'
@@ -98,6 +99,7 @@ export const ModeDetailView = ({
             Configure which flows are enabled. Pick a general-purpose or narrow
             it down.
           </Description>
+          <DocsLink href="https://docs.li.fi/widget/select-widget-variants" />
         </TitleSection>
         <CardsContainer>
           <CardSelect

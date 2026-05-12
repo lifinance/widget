@@ -19,7 +19,7 @@ import { useWidgetConfigStore } from '../../store/widgetConfig/WidgetConfigProvi
 import { safe6DigitHexColor } from '../../utils/color.js'
 import { Switch } from '../Switch.js'
 import { allFonts } from './DesignControls/FontsControl/defaultFonts.js'
-import { CapitalizeFirstLetter } from './DetailView.style.js'
+import { CapitalizeFirstLetter, DocsLink } from './DetailView.style.js'
 import { DetailViewHeader } from './DetailViewHeader.js'
 import { MethodTab, MethodTabs } from './FormValuesControls.style.js'
 import {
@@ -384,6 +384,7 @@ export const ThemeEditDetailView = ({
           Set the widget&apos;s visual theme and override any colors you need to
           match your app.
         </PageDescription>
+        <DocsLink href="https://docs.li.fi/widget/customize-widget" />
 
         <SectionHeading>Color palette</SectionHeading>
         <RowLabel sx={{ mb: 1 }}>Mode</RowLabel>

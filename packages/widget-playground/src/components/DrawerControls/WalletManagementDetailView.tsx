@@ -9,6 +9,7 @@ import {
   CardsContainer,
   Content,
   Description,
+  DocsLink,
   Title,
   TitleSection,
 } from './DetailView.style.js'
@@ -75,6 +76,7 @@ export const WalletManagementDetailView = ({
             Choose who handles the wallet connection, the widget, your app, or a
             mix of both.
           </Description>
+          <DocsLink href="https://docs.li.fi/widget/wallet-management" />
         </TitleSection>
         <CardsContainer>
           <CardSelect

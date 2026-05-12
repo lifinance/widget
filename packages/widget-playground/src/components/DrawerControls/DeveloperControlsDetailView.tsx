@@ -12,6 +12,7 @@ import {
   readPlaygroundBookmarksSeeded,
   seedPlaygroundBookmarkStores,
 } from './BookmarkStoreControls.js'
+import { DocsLink } from './DetailView.style.js'
 import { DetailViewHeader } from './DetailViewHeader.js'
 import {
   ConfigureLink,
@@ -199,6 +200,7 @@ export const DeveloperControlsDetailView = ({
         <DetailViewHeader onBack={onBack} onReset={handleReset} />
         <Content>
           <Title>Developer controls</Title>
+          <DocsLink href="https://docs.li.fi/widget/widget-events" />
           <ToggleSection>
             <ToggleItem>
               <ToggleRow>
