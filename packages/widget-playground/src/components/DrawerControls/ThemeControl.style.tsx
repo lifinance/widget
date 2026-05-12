@@ -39,17 +39,17 @@ export const ThemeCard: FC<ComponentProps<typeof ButtonBase> & ThemeCardProps> =
     '&:hover': {
       borderColor: selected
         ? theme.vars.palette.primary.main
-        : theme.vars.palette.grey[400],
+        : `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 32%, transparent)`,
       backgroundColor: theme.vars.palette.background.paper,
     },
     ...theme.applyStyles('dark', {
       borderColor: selected
         ? theme.vars.palette.primary.main
-        : theme.vars.palette.grey[700],
+        : theme.vars.palette.grey[800],
       '&:hover': {
         borderColor: selected
           ? theme.vars.palette.primary.main
-          : theme.vars.palette.grey[600],
+          : `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 48%, transparent)`,
       },
     }),
   }))

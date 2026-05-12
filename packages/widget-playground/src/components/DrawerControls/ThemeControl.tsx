@@ -86,8 +86,8 @@ function extractPreviewColors(themeItem: ThemeItem): PreviewColors {
       ? palette.grey
       : null
   const headerPill =
-    grey && typeof grey === 'object' && '400' in grey
-      ? String(grey['400'])
+    grey && typeof grey === 'object' && '300' in grey
+      ? String(grey['300'])
       : '#c0c4cc'
 
   return {

@@ -16,7 +16,7 @@ export const WalletTag: StyledComponent<ChipProps & WalletTagProps> = styled(
     fontSize: 12,
     fontWeight: 600,
     color: theme.vars.palette.text.primary,
-    backgroundColor: theme.vars.palette.grey[200],
+    backgroundColor: theme.vars.palette.grey[300],
     ...theme.applyStyles('dark', {
       backgroundColor: theme.vars.palette.grey[800],
     }),

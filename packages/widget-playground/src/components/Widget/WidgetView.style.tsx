@@ -61,12 +61,12 @@ export const WidgetContainerRow: React.FC<React.ComponentProps<typeof Box>> =
 
 const floatingToolButtonColors = (theme: Theme) => ({
   color: theme.vars.palette.text.primary,
-  backgroundColor: theme.vars.palette.common.white,
+  backgroundColor: '#fff',
   '&:hover': {
     backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.background} 8%, transparent)`,
   },
   ...theme.applyStyles('dark', {
-    backgroundColor: theme.vars.palette.grey[900],
+    backgroundColor: theme.vars.palette.grey[800],
     '&:hover': {
       backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.background} 4%, transparent)`,
     },

@@ -66,16 +66,16 @@ export const OptionButton: FC<
   '&:hover': {
     borderColor: selected
       ? theme.vars.palette.primary.main
-      : theme.vars.palette.grey[400],
+      : `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 32%, transparent)`,
   },
   ...theme.applyStyles('dark', {
     borderColor: selected
       ? theme.vars.palette.primary.main
-      : theme.vars.palette.grey[700],
+      : theme.vars.palette.grey[800],
     '&:hover': {
       borderColor: selected
         ? theme.vars.palette.primary.main
-        : theme.vars.palette.grey[600],
+        : `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 48%, transparent)`,
     },
   }),
 }))
@@ -108,7 +108,7 @@ export const MethodTabs: FC<React.ComponentProps<typeof MuiTabs>> = styled(
   [`.${tabsClasses.indicator}`]: {
     height: '100%',
     width: '100%',
-    backgroundColor: theme.vars.palette.common.white,
+    backgroundColor: '#fff',
     borderRadius:
       Math.max(theme.shape.borderRadius, theme.shape.borderRadiusSecondary) - 4,
     boxShadow: `0px 2px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
