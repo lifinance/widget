@@ -43,8 +43,14 @@ const CheckoutInputCard: React.FC<ComponentProps<typeof InputCard>> = styled(
   flexDirection: 'column',
 }))
 
-export const CheckoutAmountInput: React.FC<FormTypeProps & CardProps> = ({
+export type CheckoutAmountInputProps = FormTypeProps &
+  CardProps & {
+    sendSlot?: ReactNode
+  }
+
+export const CheckoutAmountInput: React.FC<CheckoutAmountInputProps> = ({
   formType,
+  sendSlot,
   ...props
 }) => {
   const { disabledUI } = useWidgetConfig()
@@ -63,6 +69,7 @@ export const CheckoutAmountInput: React.FC<FormTypeProps & CardProps> = ({
       token={token}
       bottomAdornment={<CheckoutPriceFormHelperText formType={formType} />}
       disabled={disabled}
+      sendSlot={sendSlot}
       {...props}
     />
   )
@@ -75,6 +82,7 @@ const CheckoutAmountInputBase: React.FC<
       startAdornment?: ReactNode
       bottomAdornment?: ReactNode
       disabled?: boolean
+      sendSlot?: ReactNode
     }
 > = ({
   formType,
@@ -82,6 +90,7 @@ const CheckoutAmountInputBase: React.FC<
   startAdornment,
   bottomAdornment,
   disabled,
+  sendSlot,
   ...props
 }) => {
   const ref = useRef<HTMLInputElement>(null)
@@ -180,7 +189,7 @@ const CheckoutAmountInputBase: React.FC<
           gap: 1,
         }}
       >
-        <CheckoutTokenFlow formType={formType} />
+        {sendSlot ?? <CheckoutTokenFlow formType={formType} />}
         {!disabled ? (
           <Box
             sx={{

@@ -1,6 +1,4 @@
 'use client'
-import { ChainType } from '@lifi/sdk'
-import { useAccount, useWalletMenu } from '@lifi/wallet-management'
 import type { Theme } from '@mui/material'
 import {
   Box,
@@ -34,7 +32,11 @@ import type {
 } from '../../../types/onrampSession.js'
 import { useCheckoutConfig } from '../../CheckoutProvider.js'
 import { postCheckoutSession } from '../sessionClient.js'
-import type { LoadedOnRampAdapter, OnRampProviderMeta } from '../types.js'
+import type {
+  LoadedOnRampAdapter,
+  OnRampFlowOpenArgs,
+  OnRampProviderMeta,
+} from '../types.js'
 import { TransakContext } from './transakContext.js'
 
 /** English messages for `onError` callbacks (stable for logs / support). */
@@ -85,9 +87,6 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
   const { t } = useTranslation()
   const { integrator, onError, onSuccess, onrampSessionApiUrl } =
     useCheckoutConfig()
-  const { account } = useAccount({ chainType: ChainType.EVM })
-  const { openWalletMenu } = useWalletMenu()
-
   const [open, setOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [uiError, setUiError] = useState<TransakUiError | null>(null)
@@ -102,93 +101,67 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
     setWidgetUrl(null)
   }, [])
 
-  const openDepositFlow = useCallback(async () => {
-    setOpen(true)
-    setUiError(null)
-    setWidgetUrl(null)
-    setIsLoading(true)
+  const openDepositFlow = useCallback(
+    async (args: OnRampFlowOpenArgs) => {
+      setOpen(true)
+      setUiError(null)
+      setWidgetUrl(null)
+      setIsLoading(true)
 
-    // TODO(config-alignment): Keep `onrampSessionApiUrl` aligned with `widgetConfig.sdkConfig.apiUrl`
-    // by default; only diverge when checkout session APIs are intentionally routed elsewhere.
-    const base = onrampSessionApiUrl?.replace(/\/$/, '')
-    if (!base) {
-      setUiError({ kind: 'fixed', code: 'MISSING_ONRAMP_API' })
-      onError?.({
-        code: 'MISSING_ONRAMP_API',
-        message: transakCallbackMessages.MISSING_ONRAMP_API,
-        provider: 'transak',
-      })
-      setIsLoading(false)
-      return
-    }
+      // TODO(config-alignment): Keep `onrampSessionApiUrl` aligned with `widgetConfig.sdkConfig.apiUrl`
+      // by default; only diverge when checkout session APIs are intentionally routed elsewhere.
+      const base = onrampSessionApiUrl?.replace(/\/$/, '')
+      if (!base) {
+        setUiError({ kind: 'fixed', code: 'MISSING_ONRAMP_API' })
+        onError?.({
+          code: 'MISSING_ONRAMP_API',
+          message: transakCallbackMessages.MISSING_ONRAMP_API,
+          provider: 'transak',
+        })
+        setIsLoading(false)
+        return
+      }
 
-    const chainId = widgetConfig.toChain
-    const tokenAddress = widgetConfig.toToken
-    if (chainId === undefined || !tokenAddress) {
-      setUiError({ kind: 'fixed', code: 'ONRAMP_TARGET_NOT_CONFIGURED' })
-      onError?.({
-        code: 'ONRAMP_TARGET_NOT_CONFIGURED',
-        message: transakCallbackMessages.ONRAMP_TARGET_NOT_CONFIGURED,
-        provider: 'transak',
-      })
-      setIsLoading(false)
-      return
-    }
+      const chainId = widgetConfig.toChain
+      const tokenAddress = widgetConfig.toToken
+      if (chainId === undefined || !tokenAddress) {
+        setUiError({ kind: 'fixed', code: 'ONRAMP_TARGET_NOT_CONFIGURED' })
+        onError?.({
+          code: 'ONRAMP_TARGET_NOT_CONFIGURED',
+          message: transakCallbackMessages.ONRAMP_TARGET_NOT_CONFIGURED,
+          provider: 'transak',
+        })
+        setIsLoading(false)
+        return
+      }
 
-    const walletAddress = account.address
-    const apiKey = widgetConfig.apiKey?.trim()
-    if (!walletAddress) {
-      setUiError({ kind: 'fixed', code: 'WALLET_NOT_CONNECTED' })
-      onError?.({
-        code: 'WALLET_NOT_CONNECTED',
-        message: transakCallbackMessages.WALLET_NOT_CONNECTED,
-        provider: 'transak',
-      })
-      setIsLoading(false)
-      return
-    }
-    if (!apiKey) {
-      setUiError({ kind: 'fixed', code: 'MISSING_API_KEY' })
-      onError?.({
-        code: 'MISSING_API_KEY',
-        message: transakCallbackMessages.MISSING_API_KEY,
-        provider: 'transak',
-      })
-      setIsLoading(false)
-      return
-    }
+      const apiKey = widgetConfig.apiKey?.trim()
+      if (!apiKey) {
+        setUiError({ kind: 'fixed', code: 'MISSING_API_KEY' })
+        onError?.({
+          code: 'MISSING_API_KEY',
+          message: transakCallbackMessages.MISSING_API_KEY,
+          provider: 'transak',
+        })
+        setIsLoading(false)
+        return
+      }
 
-    const body: OnrampSessionRequest = {
-      walletAddress,
-      tokenAddress,
-      chainId,
-      integrator,
-    }
-
-    const canRetryWithNativeEth =
-      TRANSAK_FALLBACK_CHAIN_IDS.includes(chainId) &&
-      tokenAddress.toLowerCase() !== NATIVE_EVM_TOKEN_ADDRESS.toLowerCase()
-
-    try {
-      let res = await postCheckoutSession<
-        OnrampSessionRequest,
-        OnrampSessionResponse
-      >({
-        baseUrl: base,
-        endpointPath: '/v1/checkout/onramp/session',
-        apiKey,
+      const body: OnrampSessionRequest = {
+        walletAddress: args.depositAddress,
+        tokenAddress,
+        chainId,
         integrator,
-        body,
-      })
+        amount: args.amount,
+        fiatCurrency: args.fiatCurrency,
+      }
 
-      // TODO(cleanup-remove-transak-native-eth-retry-hack): This retry is a temporary workaround
-      // for develop instability. Replace with deterministic provider capability handling.
-      if (
-        !res.ok &&
-        TRANSAK_RETRYABLE_STATUS_CODES.includes(res.status) &&
-        canRetryWithNativeEth
-      ) {
-        res = await postCheckoutSession<
+      const canRetryWithNativeEth =
+        TRANSAK_FALLBACK_CHAIN_IDS.includes(chainId) &&
+        tokenAddress.toLowerCase() !== NATIVE_EVM_TOKEN_ADDRESS.toLowerCase()
+
+      try {
+        let res = await postCheckoutSession<
           OnrampSessionRequest,
           OnrampSessionResponse
         >({
@@ -196,81 +169,100 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
           endpointPath: '/v1/checkout/onramp/session',
           apiKey,
           integrator,
-          body: {
-            ...body,
-            tokenAddress: NATIVE_EVM_TOKEN_ADDRESS,
-          },
+          body,
         })
-      }
 
-      if (!res.ok) {
-        const errObj = res.apiError
-        if (errObj?.error) {
-          setUiError({
-            kind: 'text',
-            text: errObj.error,
-            reportCode: errObj.code ?? 'ONRAMP_SESSION_FAILED',
-          })
-          onError?.({
-            code: errObj.code ?? 'ONRAMP_SESSION_FAILED',
-            message: errObj.error,
-            provider: 'transak',
-          })
-        } else {
-          setUiError({ kind: 'http', status: res.status })
-          onError?.({
-            code: 'ONRAMP_SESSION_FAILED',
-            message: `Could not start Transak session (${res.status}). Try again later.`,
-            provider: 'transak',
+        // TODO(cleanup-remove-transak-native-eth-retry-hack): This retry is a temporary workaround
+        // for develop instability. Replace with deterministic provider capability handling.
+        if (
+          !res.ok &&
+          TRANSAK_RETRYABLE_STATUS_CODES.includes(res.status) &&
+          canRetryWithNativeEth
+        ) {
+          res = await postCheckoutSession<
+            OnrampSessionRequest,
+            OnrampSessionResponse
+          >({
+            baseUrl: base,
+            endpointPath: '/v1/checkout/onramp/session',
+            apiKey,
+            integrator,
+            body: {
+              ...body,
+              tokenAddress: NATIVE_EVM_TOKEN_ADDRESS,
+            },
           })
         }
-        setIsLoading(false)
-        return
-      }
 
-      if (!res.data.widgetUrl) {
-        setUiError({ kind: 'fixed', code: 'ONRAMP_INVALID_RESPONSE' })
+        if (!res.ok) {
+          const errObj = res.apiError
+          if (errObj?.error) {
+            setUiError({
+              kind: 'text',
+              text: errObj.error,
+              reportCode: errObj.code ?? 'ONRAMP_SESSION_FAILED',
+            })
+            onError?.({
+              code: errObj.code ?? 'ONRAMP_SESSION_FAILED',
+              message: errObj.error,
+              provider: 'transak',
+            })
+          } else {
+            setUiError({ kind: 'http', status: res.status })
+            onError?.({
+              code: 'ONRAMP_SESSION_FAILED',
+              message: `Could not start Transak session (${res.status}). Try again later.`,
+              provider: 'transak',
+            })
+          }
+          setIsLoading(false)
+          return
+        }
+
+        if (!res.data.widgetUrl) {
+          setUiError({ kind: 'fixed', code: 'ONRAMP_INVALID_RESPONSE' })
+          onError?.({
+            code: 'ONRAMP_INVALID_RESPONSE',
+            message: transakCallbackMessages.ONRAMP_INVALID_RESPONSE,
+            provider: 'transak',
+          })
+          setIsLoading(false)
+          return
+        }
+
+        setWidgetUrl(res.data.widgetUrl)
+      } catch (e) {
+        const message =
+          e instanceof Error
+            ? e.message
+            : transakCallbackMessages.ONRAMP_NETWORK_ERROR
+        setUiError(
+          e instanceof Error
+            ? {
+                kind: 'text',
+                text: e.message,
+                reportCode: 'ONRAMP_NETWORK_ERROR',
+              }
+            : { kind: 'fixed', code: 'ONRAMP_NETWORK_ERROR' }
+        )
         onError?.({
-          code: 'ONRAMP_INVALID_RESPONSE',
-          message: transakCallbackMessages.ONRAMP_INVALID_RESPONSE,
+          code: 'ONRAMP_NETWORK_ERROR',
+          message,
           provider: 'transak',
         })
+      } finally {
         setIsLoading(false)
-        return
       }
-
-      setWidgetUrl(res.data.widgetUrl)
-    } catch (e) {
-      const message =
-        e instanceof Error
-          ? e.message
-          : transakCallbackMessages.ONRAMP_NETWORK_ERROR
-      setUiError(
-        e instanceof Error
-          ? {
-              kind: 'text',
-              text: e.message,
-              reportCode: 'ONRAMP_NETWORK_ERROR',
-            }
-          : { kind: 'fixed', code: 'ONRAMP_NETWORK_ERROR' }
-      )
-      onError?.({
-        code: 'ONRAMP_NETWORK_ERROR',
-        message,
-        provider: 'transak',
-      })
-    } finally {
-      setIsLoading(false)
-    }
-  }, [
-    account.address,
-    integrator,
-    onError,
-    onrampSessionApiUrl,
-    widgetConfig.toChain,
-    widgetConfig.toToken,
-    widgetConfig.apiKey,
-  ])
+    },
+    [
+      integrator,
+      onError,
+      onrampSessionApiUrl,
+      widgetConfig.toChain,
+      widgetConfig.toToken,
+      widgetConfig.apiKey,
+    ]
+  )
 
   useEffect(() => {
     if (!open || !widgetUrl || isLoading) {
@@ -363,9 +355,6 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
     [close, isLoading, open, openDepositFlow, t, uiError]
   )
 
-  const showWalletCta =
-    uiError?.kind === 'fixed' && uiError.code === 'WALLET_NOT_CONNECTED'
-
   const errorMessage = value.error
 
   return (
@@ -443,11 +432,6 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
           ) : null}
         </DialogContent>
         <DialogActions>
-          {showWalletCta ? (
-            <Button variant="contained" onClick={() => openWalletMenu()}>
-              {t('checkout.connectWallet')}
-            </Button>
-          ) : null}
           <Button onClick={close}>{t('checkout.transak.close')}</Button>
         </DialogActions>
       </Dialog>

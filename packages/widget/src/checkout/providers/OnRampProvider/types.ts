@@ -29,8 +29,14 @@ export interface OnRampFailureState {
   retry: () => void
 }
 
+export interface OnRampFlowOpenArgs {
+  depositAddress: string
+  amount: string
+  fiatCurrency?: 'USD' | 'EUR' | 'GBP'
+}
+
 export interface OnRampFlowValue {
-  openDepositFlow: () => void
+  openDepositFlow: (args: OnRampFlowOpenArgs) => void
   close: () => void
   isOpen: boolean
   isLoading: boolean

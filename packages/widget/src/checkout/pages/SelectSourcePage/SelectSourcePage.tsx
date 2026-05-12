@@ -5,9 +5,14 @@ import { useTranslation } from 'react-i18next'
 import { PoweredBy } from '../../../components/PoweredBy/PoweredBy.js'
 import { useHeader } from '../../../hooks/useHeader.js'
 import { Stack } from '../../components/Stack.js'
+import {
+  INTENT_FACTORY_ONLY,
+  useCheckoutExchangesOverride,
+} from '../../hooks/useCheckoutExchangesOverride.js'
 import { useCheckoutNavigate } from '../../hooks/useCheckoutNavigate.js'
 import { useOnRamp } from '../../hooks/useOnRamp.js'
 import { useSelectSourceTopWallets } from '../../hooks/useSelectSourceTopWallets.js'
+import { useCheckoutFlowStore } from '../../stores/useCheckoutFlowStore.js'
 import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
 import { SelectSourceFundingOptions } from './SelectSourceFundingOptions.js'
 import { SelectSourceMainColumn } from './SelectSourceLayout.js'
@@ -21,6 +26,13 @@ export const SelectSourcePage: React.FC = () => {
   const { transak, getProvider, resolutionLoading, isAvailable } = useOnRamp()
   const mesh = getProvider('mesh')
   const { topWallets, walletOverflowCount } = useSelectSourceTopWallets()
+  const setFundingSource = useCheckoutFlowStore((s) => s.setFundingSource)
+  const resetFlow = useCheckoutFlowStore((s) => s.reset)
+  const overrideExchanges = useCheckoutExchangesOverride()
+
+  useEffect(() => {
+    resetFlow()
+  }, [resetFlow])
 
   const payFromWalletAccount = useMemo(
     () => accounts.find((acct) => acct.isConnected && acct.address) ?? null,
@@ -60,12 +72,31 @@ export const SelectSourcePage: React.FC = () => {
   }, [hasWalletConnected, goToToken])
 
   const handlePayFromWallet = useCallback(() => {
+    setFundingSource('wallet')
     if (hasWalletConnected) {
       goToToken()
       return
     }
     openWalletMenu()
-  }, [hasWalletConnected, goToToken, openWalletMenu])
+  }, [hasWalletConnected, goToToken, openWalletMenu, setFundingSource])
+
+  const handleTransferCrypto = useCallback(() => {
+    overrideExchanges([...INTENT_FACTORY_ONLY])
+    setFundingSource('transfer')
+    goToToken()
+  }, [goToToken, overrideExchanges, setFundingSource])
+
+  const handleConnectExchange = useCallback(() => {
+    overrideExchanges([...INTENT_FACTORY_ONLY])
+    setFundingSource('exchange')
+    goToToken()
+  }, [goToToken, overrideExchanges, setFundingSource])
+
+  const handleDepositCash = useCallback(() => {
+    overrideExchanges([...INTENT_FACTORY_ONLY])
+    setFundingSource('cash')
+    navigate({ to: checkoutNavigationRoutes.selectCash })
+  }, [navigate, overrideExchanges, setFundingSource])
 
   const payFromWalletIcons = useMemo(
     () =>
@@ -87,11 +118,11 @@ export const SelectSourcePage: React.FC = () => {
       <SelectSourceMainColumn sx={{ flex: 1 }}>
         <SelectSourceFundingOptions
           onPayFromWallet={handlePayFromWallet}
-          onTransferCrypto={goToToken}
-          onDepositCash={() => transak?.openDepositFlow()}
+          onTransferCrypto={handleTransferCrypto}
+          onDepositCash={handleDepositCash}
           depositCashEnabled={Boolean(transak)}
           depositCashResolutionLoading={resolutionLoading}
-          onConnectExchange={() => mesh?.openDepositFlow()}
+          onConnectExchange={handleConnectExchange}
           showConnectExchange={!resolutionLoading && isAvailable('mesh')}
           meshLoading={mesh?.isLoading ?? false}
           meshError={mesh?.error ?? null}

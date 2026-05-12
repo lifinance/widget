@@ -17,6 +17,8 @@ export const checkoutNavigationRoutes = {
   /** Full paths for typed `navigate({ to })` (TanStack expects leading `/` on root routes). */
   enterAmount: '/enter-amount',
   progress: '/progress',
+  transferDeposit: '/transfer-deposit',
+  selectCash: '/select-cash',
   fromToken: 'from-token',
   fromChain: 'from-chain',
   routes: 'routes',
@@ -36,6 +38,8 @@ export const checkoutNavigationRoutesValues: string[] = Object.values(
 export const backButtonRoutes: string[] = [
   'enter-amount',
   'progress',
+  'transfer-deposit',
+  'select-cash',
   checkoutNavigationRoutes.fromToken,
   checkoutNavigationRoutes.fromChain,
   checkoutNavigationRoutes.routes,

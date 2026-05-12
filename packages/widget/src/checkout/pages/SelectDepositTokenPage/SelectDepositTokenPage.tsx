@@ -9,6 +9,7 @@ import { SearchTokenInput } from '../../../pages/SelectTokenPage/SearchTokenInpu
 import { useWidgetConfig } from '../../../providers/WidgetProvider/WidgetProvider.js'
 import { HiddenUI } from '../../../types/widget.js'
 import { useCheckoutNavigate } from '../../hooks/useCheckoutNavigate.js'
+import { useCheckoutFlowStore } from '../../stores/useCheckoutFlowStore.js'
 import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
 import { SelectDepositTokenList } from './SelectDepositTokenList.js'
 
@@ -25,7 +26,10 @@ export const SelectDepositTokenPage: React.FC = () => {
 
   useHeader(title)
 
-  const hideChainSelect = hiddenUI?.includes(HiddenUI.ChainSelect)
+  const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
+  // Exchange flow shows all tokens across chains — no chain filter.
+  const hideChainSelect =
+    hiddenUI?.includes(HiddenUI.ChainSelect) || fundingSource === 'exchange'
 
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down(theme.breakpoints.values.xs)
@@ -43,6 +47,7 @@ export const SelectDepositTokenPage: React.FC = () => {
       <Box
         ref={headerRef}
         sx={{
+          pt: hasHeader ? 2 : 0,
           pb: hasHeader ? 2 : 0,
           px: 3,
         }}

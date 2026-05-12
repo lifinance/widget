@@ -14,8 +14,10 @@ import { CheckoutTransactionPage } from './pages/CheckoutTransactionPage.js'
 import { CheckoutTransactionStatusPage } from './pages/CheckoutTransactionStatusPage/CheckoutTransactionStatusPage.js'
 import { EnterAmountPage } from './pages/EnterAmountPage/EnterAmountPage.js'
 import { ProgressPage } from './pages/ProgressPage/ProgressPage.js'
+import { SelectCashCurrencyPage } from './pages/SelectCashCurrencyPage/SelectCashCurrencyPage.js'
 import { SelectDepositTokenPage } from './pages/SelectDepositTokenPage/SelectDepositTokenPage.js'
 import { SelectSourcePage } from './pages/SelectSourcePage/SelectSourcePage.js'
+import { TransferDepositPage } from './pages/TransferDepositPage/TransferDepositPage.js'
 import { checkoutNavigationRoutes } from './utils/navigationRoutes.js'
 
 const rootRoute = createRootRoute({
@@ -38,6 +40,18 @@ const progressRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: checkoutNavigationRoutes.progress,
   component: ProgressPage,
+})
+
+const transferDepositRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: checkoutNavigationRoutes.transferDeposit,
+  component: TransferDepositPage,
+})
+
+const selectCashRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: checkoutNavigationRoutes.selectCash,
+  component: SelectCashCurrencyPage,
 })
 
 const fromTokenLayoutRoute = createRoute({
@@ -118,6 +132,8 @@ const routeTree = rootRoute.addChildren([
   indexRoute,
   enterAmountRoute,
   progressRoute,
+  transferDepositRoute,
+  selectCashRoute,
   fromTokenLayoutRoute.addChildren([
     fromTokenIndexRoute,
     fromTokenFromChainRoute,

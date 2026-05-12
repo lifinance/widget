@@ -32,6 +32,9 @@
     "delete": "Delete",
     "deposit": "Deposit",
     "depositReview": "Review deposit",
+    "depositWithCash": "Deposit with cash",
+    "connectExchange": "Connect exchange",
+    "transferCrypto": "Transfer crypto",
     "disconnect": "Disconnect",
     "done": "Done",
     "exchange": "Exchange",
@@ -63,6 +66,9 @@
     "deposit": "Deposit",
     "depositDetails": "Deposit details",
     "depositTo": "Deposit to",
+    "depositWithCash": "Deposit with cash",
+    "connectExchange": "Connect exchange",
+    "transferCrypto": "Transfer crypto",
     "exchange": "Exchange",
     "from": "Exchange from",
     "gas": "Gas",
@@ -363,6 +369,31 @@
   },
   "checkout": {
     "deposit": "Deposit",
+    "transferDeposit": {
+      "title": "Send {{amount}} {{symbol}} on {{chain}}",
+      "instructions": "Scan the QR or copy the address below. The deposit window expires in {{minutes}}m {{seconds}}s.",
+      "addressLabel": "Deposit address",
+      "copyAddress": "Copy address",
+      "copyAmount": "Copy amount",
+      "regenerate": "Generate new deposit address",
+      "expired": "This deposit window expired. Generate a new one to continue.",
+      "polling": "Waiting for your transfer…"
+    },
+    "fiatCurrency": {
+      "label": "Pay with",
+      "USD": "US Dollar",
+      "EUR": "Euro",
+      "GBP": "British Pound"
+    },
+    "flowSummary": {
+      "wallet": "From your wallet",
+      "transfer": "Transfer crypto",
+      "exchange": "From an exchange",
+      "cash": "Buy with cash"
+    },
+    "errors": {
+      "noQuoteAvailable": "We couldn't fetch a quote for this amount. Try a different amount or come back later."
+    },
     "transactionStatus": {
       "detailsTitle": "Transaction details",
       "watching": "Watching for transaction",

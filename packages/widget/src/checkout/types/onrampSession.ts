@@ -4,6 +4,8 @@ export interface OnrampSessionRequest {
   tokenAddress: string
   chainId: number
   integrator: string
+  amount?: string
+  fiatCurrency?: 'USD' | 'EUR' | 'GBP'
 }
 
 export interface OnrampSessionResponse {
@@ -17,6 +19,7 @@ export interface CexSessionRequest {
   chainId: number
   userId?: string
   integrator?: string
+  amount?: string
 }
 
 export interface CexSessionResponse {
