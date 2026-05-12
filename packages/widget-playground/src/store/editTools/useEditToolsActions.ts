@@ -9,7 +9,6 @@ export const useEditToolsActions = (): Pick<
   | 'setSelectedFont'
   | 'setViewportBackgroundColor'
   | 'setSkeletonShow'
-  | 'setSkeletonSideBySide'
   | 'setHeaderVisibility'
   | 'setFooterVisibility'
   | 'setFixedFooter'
@@ -23,7 +22,6 @@ export const useEditToolsActions = (): Pick<
     setSelectedFont: state.setSelectedFont,
     setViewportBackgroundColor: state.setViewportBackgroundColor,
     setSkeletonShow: state.setSkeletonShow,
-    setSkeletonSideBySide: state.setSkeletonSideBySide,
     setHeaderVisibility: state.setHeaderVisibility,
     setFooterVisibility: state.setFooterVisibility,
     setFixedFooter: state.setFixedFooter,

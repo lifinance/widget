@@ -23,7 +23,6 @@ export const createEditToolsStore = (
         },
         skeletonControl: {
           show: false,
-          sideBySide: false,
         },
         headerAndFooterControl: {
           showMockHeader: false,
@@ -68,15 +67,6 @@ export const createEditToolsStore = (
           set({
             skeletonControl: {
               show,
-              sideBySide: !show ? false : get().skeletonControl.sideBySide,
-            },
-          })
-        },
-        setSkeletonSideBySide: (sideBySide) => {
-          set({
-            skeletonControl: {
-              sideBySide,
-              show: sideBySide ? true : get().skeletonControl.show,
             },
           })
         },

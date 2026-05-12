@@ -3,6 +3,7 @@ import { useCallback } from 'react'
 import type { Layout } from '../../store/editTools/types.js'
 import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
 import { useDefaultConfig } from '../../store/widgetConfig/useDefaultConfig.js'
+import { docsLinks } from '../../utils/docsLinks.js'
 import { CardSelect } from './CardSelect.js'
 import { HeightControl } from './DesignControls/LayoutControls/HeightControl.js'
 import { usePlaygroundLayoutControls } from './DesignControls/LayoutControls/usePlaygroundLayoutControls.js'
@@ -15,7 +16,6 @@ import {
   TitleSection,
 } from './DetailView.style.js'
 import { DetailViewHeader } from './DetailViewHeader.js'
-import { docsLinks } from './docsLinks.js'
 
 interface HeightDetailViewProps {
   onBack: () => void
@@ -86,7 +86,7 @@ export const HeightDetailView = ({
           <Description>
             Configure how the widget is embedded and how tall it can be.
           </Description>
-          <DocsLink href={docsLinks.customize} />
+          <DocsLink href={docsLinks.layout} />
         </TitleSection>
         <CardsContainer>
           <CardSelect

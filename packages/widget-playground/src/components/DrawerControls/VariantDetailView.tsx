@@ -4,6 +4,7 @@ import { useCallback } from 'react'
 import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
 import { useConfigVariant } from '../../store/widgetConfig/useConfigValues.js'
 import { useDefaultConfig } from '../../store/widgetConfig/useDefaultConfig.js'
+import { docsLinks } from '../../utils/docsLinks.js'
 import { CardSelect } from './CardSelect.js'
 import {
   CardsContainer,
@@ -14,7 +15,6 @@ import {
   TitleSection,
 } from './DetailView.style.js'
 import { DetailViewHeader } from './DetailViewHeader.js'
-import { docsLinks } from './docsLinks.js'
 
 interface VariantDetailViewProps {
   onBack: () => void

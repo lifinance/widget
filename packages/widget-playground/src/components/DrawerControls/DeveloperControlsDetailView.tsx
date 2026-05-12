@@ -5,13 +5,14 @@ import { useCallback, useEffect, useState } from 'react'
 import { useDevView } from '../../hooks/useDevView.js'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
 import { useSkeletonToolValues } from '../../store/editTools/useSkeletonToolValues.js'
-import { setQueryStringParam } from '../../utils/setQueryStringParam.js'
-import { Switch } from '../Switch.js'
 import {
   clearPlaygroundBookmarkStores,
   readPlaygroundBookmarksSeeded,
   seedPlaygroundBookmarkStores,
-} from './BookmarkStoreControls.js'
+} from '../../utils/bookmarkStores.js'
+import { docsLinks } from '../../utils/docsLinks.js'
+import { setQueryStringParam } from '../../utils/setQueryStringParam.js'
+import { Switch } from '../Switch.js'
 import { DocsLink } from './DetailView.style.js'
 import { DetailViewHeader } from './DetailViewHeader.js'
 import {
@@ -27,7 +28,6 @@ import {
   ToggleRow,
   ToggleSection,
 } from './DeveloperControlsDetailView.style.js'
-import { docsLinks } from './docsLinks.js'
 import { FormValuesDevPanel } from './FormValuesControls.js'
 
 interface DeveloperControlsDetailViewProps {
@@ -201,7 +201,7 @@ export const DeveloperControlsDetailView = ({
         <DetailViewHeader onBack={onBack} onReset={handleReset} />
         <Content>
           <Title>Developer controls</Title>
-          <DocsLink href={docsLinks.events} />
+          <DocsLink href={docsLinks.configure} />
           <ToggleSection>
             <ToggleItem>
               <ToggleRow>
@@ -290,6 +290,7 @@ export const DeveloperControlsDetailView = ({
               Turn on listeners to log selected widget events in your browser
               console. No visual changes are shown in the preview.
             </SubtitleDescription>
+            <DocsLink href={docsLinks.events} />
           </Box>
           <ToggleSection>
             <Divider />

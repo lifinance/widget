@@ -13,8 +13,8 @@ interface ThemeCardProps {
   selected: boolean
 }
 
-export const ThemeCard: FC<ComponentProps<typeof ButtonBase> & ThemeCardProps> =
-  styled(ButtonBase, {
+export const ThemeCard: FC<ComponentProps<typeof Box> & ThemeCardProps> =
+  styled(Box, {
     shouldForwardProp: (prop) => prop !== 'selected',
   })<ThemeCardProps>(({ theme, selected }) => ({
     width: '100%',
@@ -28,6 +28,7 @@ export const ThemeCard: FC<ComponentProps<typeof ButtonBase> & ThemeCardProps> =
     borderStyle: 'solid',
     borderWidth: selected ? 2 : 1,
     overflow: 'hidden',
+    cursor: 'pointer',
     borderColor: selected
       ? theme.vars.palette.primary.main
       : theme.vars.palette.grey[300],

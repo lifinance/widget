@@ -161,7 +161,6 @@ export const ThemeControl = ({
             key={themeItem.id}
             selected={isSelected}
             onClick={() => handleSelectTheme(themeItem)}
-            disableRipple
           >
             <ThemeCardInfo>
               <ThemeName>{displayName}</ThemeName>

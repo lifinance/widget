@@ -27,7 +27,6 @@ interface EditToolsValues {
   }
   skeletonControl: {
     show: boolean
-    sideBySide: boolean
   }
   headerAndFooterControl: {
     showMockHeader: boolean
@@ -47,7 +46,6 @@ interface EditToolsActions {
   setSelectedFont: (font: Font) => void
   setViewportBackgroundColor: (color: string | undefined) => void
   setSkeletonShow: (show: boolean) => void
-  setSkeletonSideBySide: (sideBySide: boolean) => void
   setHeaderVisibility: (show: boolean) => void
   setFooterVisibility: (show: boolean) => void
   setFixedFooter: (isFixed: boolean) => void

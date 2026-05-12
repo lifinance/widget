@@ -1,5 +1,5 @@
 import type { JSX } from 'react'
-import { docsLinks } from './docsLinks.js'
+import { docsLinks } from '../../utils/docsLinks.js'
 import { FooterContainer, FooterLink } from './SidebarFooter.style.js'
 
 export const SidebarFooter = (): JSX.Element => {

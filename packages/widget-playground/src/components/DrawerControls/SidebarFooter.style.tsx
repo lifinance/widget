@@ -15,8 +15,8 @@ export const FooterLink: FC<React.ComponentProps<typeof Link>> = styled(Link)(
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} 20%, transparent)`,
-    color: theme.vars.palette.primary.main,
+    backgroundColor: theme.vars.palette.primary.main,
+    color: theme.vars.palette.primary.contrastText,
     borderRadius: 12,
     padding: theme.spacing(1),
     fontSize: 16,
@@ -26,7 +26,7 @@ export const FooterLink: FC<React.ComponentProps<typeof Link>> = styled(Link)(
     textTransform: 'none',
     height: 48,
     '&:hover': {
-      backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} 30%, transparent)`,
+      backgroundColor: theme.vars.palette.primary.dark,
     },
   })
 )

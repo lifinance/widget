@@ -1,12 +1,5 @@
 import type { BookmarkProps } from '@lifi/widget'
 import { ChainType } from '@lifi/widget'
-import { Box, Button } from '@mui/material'
-import type { JSX } from 'react'
-import { useDevView } from '../../hooks/useDevView.js'
-import {
-  CapitalizeFirstLetter,
-  ColorControlContainer,
-} from './BookmarkStoreControls.style.js'
 
 interface StoreProp {
   state: BookmarkProps
@@ -73,30 +66,4 @@ export const seedPlaygroundBookmarkStores = (): void => {
 export const clearPlaygroundBookmarkStores = (): void => {
   localStorage.setItem('li.fi-bookmarks', JSON.stringify(createEmptyStore()))
   window.location.reload()
-}
-
-export const BookmarkStoreControls = (): JSX.Element | null => {
-  const { isDevView } = useDevView()
-
-  const handleFill = (): void => {
-    seedPlaygroundBookmarkStores()
-  }
-
-  const handleEmpty = (): void => {
-    clearPlaygroundBookmarkStores()
-  }
-
-  return isDevView ? (
-    <ColorControlContainer>
-      <CapitalizeFirstLetter>Bookmark store</CapitalizeFirstLetter>
-      <Box sx={{ display: 'flex', gap: 1, pr: 1 }}>
-        <Button variant="contained" onClick={handleFill}>
-          Fill
-        </Button>
-        <Button variant="contained" onClick={handleEmpty}>
-          Empty
-        </Button>
-      </Box>
-    </ColorControlContainer>
-  ) : null
 }

@@ -17,11 +17,11 @@ import { useConfigColorsFromPath } from '../../store/widgetConfig/useConfigValue
 import { useThemeValues } from '../../store/widgetConfig/useThemeValues.js'
 import { useWidgetConfigStore } from '../../store/widgetConfig/WidgetConfigProvider.js'
 import { safe6DigitHexColor } from '../../utils/color.js'
+import { docsLinks } from '../../utils/docsLinks.js'
 import { Switch } from '../Switch.js'
 import { allFonts } from './DesignControls/FontsControl/defaultFonts.js'
-import { CapitalizeFirstLetter, DocsLink } from './DetailView.style.js'
+import { DocsLink } from './DetailView.style.js'
 import { DetailViewHeader } from './DetailViewHeader.js'
-import { docsLinks } from './docsLinks.js'
 import { MethodTab, MethodTabs } from './FormValuesControls.style.js'
 import {
   ColorSwatch,
@@ -385,7 +385,7 @@ export const ThemeEditDetailView = ({
           Set the widget&apos;s visual theme and override any colors you need to
           match your app.
         </PageDescription>
-        <DocsLink href={docsLinks.customize} />
+        <DocsLink href={docsLinks.theme} />
 
         <SectionHeading>Color palette</SectionHeading>
         <RowLabel sx={{ mb: 1 }}>Mode</RowLabel>
@@ -419,9 +419,7 @@ export const ThemeEditDetailView = ({
           />
         ))}
         <EditableColorRow
-          label={
-            <CapitalizeFirstLetter>Viewport background</CapitalizeFirstLetter>
-          }
+          label="Viewport background"
           hex={safe6DigitHexColor(
             viewportColor || (themeMode === 'dark' ? '#000000' : '#F5F5F5')
           ).toUpperCase()}
@@ -672,7 +670,7 @@ const ThemeColorRow = ({
 
   return (
     <EditableColorRow
-      label={<CapitalizeFirstLetter>{label}</CapitalizeFirstLetter>}
+      label={label}
       hex={hex}
       ariaLabel={label}
       onChange={(newHex) => setColor(colorPath, newHex)}

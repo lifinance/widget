@@ -70,15 +70,3 @@ export const DocsLink = ({ href }: { href: string }): React.ReactElement => (
     Read docs
   </StyledDocsLink>
 )
-
-export const CapitalizeFirstLetter: FC<
-  React.ComponentProps<typeof Typography>
-> = styled(Typography)(() => ({
-  fontSize: 'inherit',
-  fontWeight: 'inherit',
-  lineHeight: 'inherit',
-  color: 'inherit',
-  '&::first-letter': {
-    textTransform: 'capitalize',
-  },
-}))

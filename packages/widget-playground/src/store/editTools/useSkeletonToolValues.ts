@@ -2,15 +2,12 @@ import { useEditToolsStore } from './EditToolsProvider.js'
 
 export const useSkeletonToolValues = (): {
   isSkeletonShown: boolean
-  isSkeletonSideBySide: boolean
 } => {
-  const [isSkeletonShown, isSkeletonSideBySide] = useEditToolsStore((store) => [
-    store.skeletonControl.show,
-    store.skeletonControl.sideBySide,
-  ])
+  const isSkeletonShown = useEditToolsStore(
+    (store) => store.skeletonControl.show
+  )
 
   return {
-    isSkeletonShown: isSkeletonShown,
-    isSkeletonSideBySide: isSkeletonSideBySide,
+    isSkeletonShown,
   }
 }

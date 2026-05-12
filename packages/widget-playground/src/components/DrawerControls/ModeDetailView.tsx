@@ -6,6 +6,7 @@ import {
   useConfigSubvariantOptions,
 } from '../../store/widgetConfig/useConfigValues.js'
 import { useDefaultConfig } from '../../store/widgetConfig/useDefaultConfig.js'
+import { docsLinks } from '../../utils/docsLinks.js'
 import { CardSelect } from './CardSelect.js'
 import {
   CardsContainer,
@@ -16,7 +17,6 @@ import {
   TitleSection,
 } from './DetailView.style.js'
 import { DetailViewHeader } from './DetailViewHeader.js'
-import { docsLinks } from './docsLinks.js'
 
 type ModeOption = 'exchange' | 'split' | 'swap' | 'bridge' | 'refuel'
 
@@ -100,7 +100,7 @@ export const ModeDetailView = ({
             Configure which flows are enabled. Pick a general-purpose or narrow
             it down.
           </Description>
-          <DocsLink href={docsLinks.variants} />
+          <DocsLink href={docsLinks.subvariants} />
         </TitleSection>
         <CardsContainer>
           <CardSelect
