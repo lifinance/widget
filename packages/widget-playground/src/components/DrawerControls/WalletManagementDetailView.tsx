@@ -14,6 +14,7 @@ import {
   TitleSection,
 } from './DetailView.style.js'
 import { DetailViewHeader } from './DetailViewHeader.js'
+import { docsLinks } from './docsLinks.js'
 
 type WalletManagementMode = 'internal' | 'external' | 'partial'
 
@@ -76,7 +77,7 @@ export const WalletManagementDetailView = ({
             Choose who handles the wallet connection, the widget, your app, or a
             mix of both.
           </Description>
-          <DocsLink href="https://docs.li.fi/widget/wallet-management" />
+          <DocsLink href={docsLinks.walletManagement} />
         </TitleSection>
         <CardsContainer>
           <CardSelect

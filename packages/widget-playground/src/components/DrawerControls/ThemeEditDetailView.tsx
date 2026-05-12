@@ -21,6 +21,7 @@ import { Switch } from '../Switch.js'
 import { allFonts } from './DesignControls/FontsControl/defaultFonts.js'
 import { CapitalizeFirstLetter, DocsLink } from './DetailView.style.js'
 import { DetailViewHeader } from './DetailViewHeader.js'
+import { docsLinks } from './docsLinks.js'
 import { MethodTab, MethodTabs } from './FormValuesControls.style.js'
 import {
   ColorSwatch,
@@ -384,7 +385,7 @@ export const ThemeEditDetailView = ({
           Set the widget&apos;s visual theme and override any colors you need to
           match your app.
         </PageDescription>
-        <DocsLink href="https://docs.li.fi/widget/customize-widget" />
+        <DocsLink href={docsLinks.customize} />
 
         <SectionHeading>Color palette</SectionHeading>
         <RowLabel sx={{ mb: 1 }}>Mode</RowLabel>

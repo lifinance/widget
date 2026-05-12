@@ -16,6 +16,7 @@ import {
   TitleSection,
 } from './DetailView.style.js'
 import { DetailViewHeader } from './DetailViewHeader.js'
+import { docsLinks } from './docsLinks.js'
 
 type ModeOption = 'exchange' | 'split' | 'swap' | 'bridge' | 'refuel'
 
@@ -99,7 +100,7 @@ export const ModeDetailView = ({
             Configure which flows are enabled. Pick a general-purpose or narrow
             it down.
           </Description>
-          <DocsLink href="https://docs.li.fi/widget/select-widget-variants" />
+          <DocsLink href={docsLinks.variants} />
         </TitleSection>
         <CardsContainer>
           <CardSelect

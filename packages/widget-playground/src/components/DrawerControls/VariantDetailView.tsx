@@ -14,6 +14,7 @@ import {
   TitleSection,
 } from './DetailView.style.js'
 import { DetailViewHeader } from './DetailViewHeader.js'
+import { docsLinks } from './docsLinks.js'
 
 interface VariantDetailViewProps {
   onBack: () => void
@@ -69,7 +70,7 @@ export const VariantDetailView = ({
             Choose how secondary panels like the chain selector and route
             summary are displayed.
           </Description>
-          <DocsLink href="https://docs.li.fi/widget/select-widget-variants" />
+          <DocsLink href={docsLinks.variants} />
         </TitleSection>
         <CardsContainer>
           <CardSelect

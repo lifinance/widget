@@ -27,6 +27,7 @@ import {
   ToggleRow,
   ToggleSection,
 } from './DeveloperControlsDetailView.style.js'
+import { docsLinks } from './docsLinks.js'
 import { FormValuesDevPanel } from './FormValuesControls.js'
 
 interface DeveloperControlsDetailViewProps {
@@ -200,7 +201,7 @@ export const DeveloperControlsDetailView = ({
         <DetailViewHeader onBack={onBack} onReset={handleReset} />
         <Content>
           <Title>Developer controls</Title>
-          <DocsLink href="https://docs.li.fi/widget/widget-events" />
+          <DocsLink href={docsLinks.events} />
           <ToggleSection>
             <ToggleItem>
               <ToggleRow>

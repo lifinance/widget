@@ -15,6 +15,7 @@ import {
   TitleSection,
 } from './DetailView.style.js'
 import { DetailViewHeader } from './DetailViewHeader.js'
+import { docsLinks } from './docsLinks.js'
 
 interface HeightDetailViewProps {
   onBack: () => void
@@ -85,7 +86,7 @@ export const HeightDetailView = ({
           <Description>
             Configure how the widget is embedded and how tall it can be.
           </Description>
-          <DocsLink href="https://docs.li.fi/widget/customize-widget" />
+          <DocsLink href={docsLinks.customize} />
         </TitleSection>
         <CardsContainer>
           <CardSelect
