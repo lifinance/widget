@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-provider-ethereum",
-  "version": "4.0.0-beta.18",
+  "version": "4.0.0-beta.19",
   "description": "LI.FI Widget Provider for Ethereum blockchain integration.",
   "type": "module",
   "main": "./src/index.ts",
@@ -39,10 +39,10 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "^4.0.0-beta.8",
-    "@lifi/sdk-provider-ethereum": "^4.0.0-beta.8",
+    "@lifi/sdk": "^4.0.0-beta.10",
+    "@lifi/sdk-provider-ethereum": "^4.0.0-beta.10",
     "@lifi/widget-provider": "workspace:*",
-    "viem": "^2.48.4"
+    "viem": "^2.48.11"
   },
   "peerDependencies": {
     "@wagmi/core": "^3.x",
@@ -51,7 +51,7 @@
   "devDependencies": {
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
-    "react": "^19.2.5",
+    "react": "^19.2.6",
     "typescript": "^6.0.3"
   }
 }
