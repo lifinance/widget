@@ -203,14 +203,9 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
           },
           onTransferFinished: (payload: TransferFinishedPayload) => {
             transferSucceededRef.current = true
-            // Only hand off a real on-chain hash. Mesh's `txId` is an internal
-            // identifier that won't resolve via LI.FI's status endpoint.
-            // TODO(test-mode): remove DEV override once Mesh/test backend
-            // returns a /status-resolvable hash.
-            const onChainHash =
-              process.env.NODE_ENV === 'development'
-                ? '0xed295238d734db823a5d2791fd2e55afa2b398ab66d8ec55e4be09b2ee6eec1c'
-                : payload.txHash?.trim()
+            // Mesh's `txId` is an internal identifier that won't resolve via
+            // LI.FI's status endpoint — only forward a real on-chain hash.
+            const onChainHash = payload.txHash?.trim()
             if (onChainHash) {
               setDepositTxHash(onChainHash)
             }

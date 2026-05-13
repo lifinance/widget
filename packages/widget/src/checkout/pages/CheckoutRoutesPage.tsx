@@ -85,7 +85,7 @@ export const CheckoutRoutesPage = (): JSX.Element => {
       ) : (
         routes?.map((route: Route, index: number) => (
           <RouteCard
-            key={index}
+            key={route.id}
             route={route}
             onClick={
               allowInteraction ? () => handleRouteClick(route) : undefined

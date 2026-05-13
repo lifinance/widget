@@ -1,5 +1,14 @@
 import type { Route } from '@lifi/sdk'
-import { useCallback, useEffect, useState } from 'react'
+import {
+  createContext,
+  type JSX,
+  type PropsWithChildren,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import type { StoreApi, UseBoundStore } from 'zustand'
 import { create } from 'zustand'
 
@@ -11,16 +20,45 @@ export interface FrozenQuote {
   expiresAt: number
 }
 
-interface FrozenQuoteStore {
+interface FrozenQuoteState {
   frozen: FrozenQuote | null
   set: (frozen: FrozenQuote | null) => void
 }
 
-const useFrozenQuoteStore: UseBoundStore<StoreApi<FrozenQuoteStore>> =
-  create<FrozenQuoteStore>((set) => ({
+type FrozenQuoteStore = UseBoundStore<StoreApi<FrozenQuoteState>>
+
+function createFrozenQuoteStore(): FrozenQuoteStore {
+  return create<FrozenQuoteState>((set) => ({
     frozen: null,
     set: (frozen) => set({ frozen }),
   }))
+}
+
+const FrozenQuoteStoreContext = createContext<FrozenQuoteStore | null>(null)
+
+export function FrozenQuoteStoreProvider({
+  children,
+}: PropsWithChildren): JSX.Element {
+  const storeRef = useRef<FrozenQuoteStore>(null)
+  if (!storeRef.current) {
+    storeRef.current = createFrozenQuoteStore()
+  }
+  return (
+    <FrozenQuoteStoreContext.Provider value={storeRef.current}>
+      {children}
+    </FrozenQuoteStoreContext.Provider>
+  )
+}
+
+function useFrozenQuoteStore<T>(selector: (state: FrozenQuoteState) => T): T {
+  const store = useContext(FrozenQuoteStoreContext)
+  if (!store) {
+    throw new Error(
+      'useFrozenQuote must be used within FrozenQuoteStoreProvider'
+    )
+  }
+  return store(selector)
+}
 
 export interface UseFrozenQuote {
   frozen: FrozenQuote | null

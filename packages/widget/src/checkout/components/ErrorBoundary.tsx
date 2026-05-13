@@ -1,12 +1,18 @@
 import { Box, Button, Typography } from '@mui/material'
-import type { ReactNode } from 'react'
+import type { TFunction } from 'i18next'
+import type { JSX, ReactNode } from 'react'
 import { Component, type ErrorInfo, type PropsWithChildren } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface State {
   error: Error | null
 }
 
-export class ErrorBoundary extends Component<PropsWithChildren, State> {
+interface InnerProps extends PropsWithChildren {
+  t: TFunction
+}
+
+class ErrorBoundaryInner extends Component<InnerProps, State> {
   state: State = { error: null }
 
   static getDerivedStateFromError(error: Error): State {
@@ -23,20 +29,26 @@ export class ErrorBoundary extends Component<PropsWithChildren, State> {
 
   render(): ReactNode {
     if (this.state.error) {
+      const { t } = this.props
       return (
         <Box sx={{ p: 3, textAlign: 'center' }}>
           <Typography variant="h6" gutterBottom>
-            Something went wrong
+            {t('error.title.unknown')}
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-            {this.state.error.message}
+            {t('error.message.unknown')}
           </Typography>
           <Button variant="outlined" onClick={this.handleRetry}>
-            Try again
+            {t('button.tryAgain')}
           </Button>
         </Box>
       )
     }
     return this.props.children
   }
+}
+
+export function ErrorBoundary({ children }: PropsWithChildren): JSX.Element {
+  const { t } = useTranslation()
+  return <ErrorBoundaryInner t={t}>{children}</ErrorBoundaryInner>
 }

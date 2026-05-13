@@ -3,8 +3,14 @@ export { ChainId, ChainType, CoinKey } from '@lifi/sdk'
 export { App as LiFiWidget } from './App.js'
 export type { WidgetDrawer } from './AppDrawer.js'
 export * from './checkout/index.js'
+/**
+ * @experimental
+ * The exports below are low-level building blocks intended for advanced
+ * composition (e.g. the checkout flow). Their shapes are not yet covered by
+ * the package's semver contract and may change in any release. Use the
+ * top-level `LiFiWidget` for stable integrations.
+ */
 export { AmountInput } from './components/AmountInput/AmountInput.js'
-// Checkout / compositor: UI building blocks
 export { AccountAvatar } from './components/Avatar/AccountAvatar.js'
 export { CardButton } from './components/Card/CardButton.js'
 export { ChainSelect } from './components/ChainSelect/ChainSelect.js'

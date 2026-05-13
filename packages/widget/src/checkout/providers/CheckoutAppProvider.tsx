@@ -1,4 +1,4 @@
-import type { PropsWithChildren } from 'react'
+import type { JSX, PropsWithChildren } from 'react'
 import { useMemo } from 'react'
 import { I18nProvider } from '../../providers/I18nProvider/I18nProvider.js'
 import { QueryClientProvider } from '../../providers/QueryClientProvider.js'
@@ -7,7 +7,12 @@ import { WalletProvider } from '../../providers/WalletProvider/WalletProvider.js
 import { WidgetProvider } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { SettingsStoreProvider } from '../../stores/settings/SettingsStore.js'
 import type { FormRef, WidgetConfig } from '../../types/widget.js'
-import { useCheckoutFlowStore } from '../stores/useCheckoutFlowStore.js'
+import { FrozenQuoteStoreProvider } from '../hooks/useFrozenQuote.js'
+import {
+  CheckoutFlowStoreProvider,
+  useCheckoutFlowStore,
+} from '../stores/useCheckoutFlowStore.js'
+import { FiatCurrencyStoreProvider } from '../stores/useFiatCurrencyStore.js'
 import { OnRampProvider } from './OnRampProvider/OnRampProvider.js'
 import { ThemeProvider } from './ThemeProvider.js'
 
@@ -18,7 +23,12 @@ export interface CheckoutAppProviderProps extends PropsWithChildren {
 
 const NON_WALLET_EXCHANGES_ALLOW: readonly string[] = ['intentFactory']
 
-export const CheckoutAppProvider: React.FC<CheckoutAppProviderProps> = ({
+interface CheckoutAppShellProps extends PropsWithChildren {
+  widgetConfig: WidgetConfig
+  formRef?: FormRef
+}
+
+const CheckoutAppShell: React.FC<CheckoutAppShellProps> = ({
   children,
   widgetConfig,
   formRef,
@@ -63,3 +73,19 @@ export const CheckoutAppProvider: React.FC<CheckoutAppProviderProps> = ({
     </QueryClientProvider>
   )
 }
+
+export const CheckoutAppProvider: React.FC<CheckoutAppProviderProps> = ({
+  children,
+  widgetConfig,
+  formRef,
+}): JSX.Element => (
+  <CheckoutFlowStoreProvider>
+    <FiatCurrencyStoreProvider>
+      <FrozenQuoteStoreProvider>
+        <CheckoutAppShell widgetConfig={widgetConfig} formRef={formRef}>
+          {children}
+        </CheckoutAppShell>
+      </FrozenQuoteStoreProvider>
+    </FiatCurrencyStoreProvider>
+  </CheckoutFlowStoreProvider>
+)

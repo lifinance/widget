@@ -2,12 +2,12 @@ import type { RouteExtended } from '@lifi/sdk'
 import { Box } from '@mui/material'
 import type React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Card } from '../../components/Card/Card'
-import { CardTitle } from '../../components/Card/CardTitle'
-import { Token } from '../../components/Token/Token'
-import { RouteExecutionStatus } from '../../stores/routes/types'
-import { hasEnumFlag } from '../../utils/enum'
-import { getExecutionToToken } from '../../utils/token'
+import { Card } from '../../components/Card/Card.js'
+import { CardTitle } from '../../components/Card/CardTitle.js'
+import { Token } from '../../components/Token/Token.js'
+import { RouteExecutionStatus } from '../../stores/routes/types.js'
+import { hasEnumFlag } from '../../utils/enum.js'
+import { getExecutionToToken } from '../../utils/token.js'
 
 interface ExecutionDoneCardProps {
   route: RouteExtended

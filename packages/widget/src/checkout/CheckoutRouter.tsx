@@ -5,6 +5,7 @@ import {
   createRouter,
   RouterProvider,
 } from '@tanstack/react-router'
+import { useState } from 'react'
 import { SelectChainPage } from '../pages/SelectChainPage/SelectChainPage.js'
 import { navigationRoutes } from '../utils/navigationRoutes.js'
 import { CheckoutLayout } from './CheckoutLayout.js'
@@ -161,16 +162,13 @@ const routeTree = rootRoute.addChildren([
   ]),
 ])
 
-const history = createMemoryHistory({
-  initialEntries: ['/'],
-})
-
-const router = createRouter({
-  routeTree,
-  history,
-  defaultPreload: 'intent',
-})
-
 export const CheckoutRouter: React.FC = () => {
+  const [router] = useState(() =>
+    createRouter({
+      routeTree,
+      history: createMemoryHistory({ initialEntries: ['/'] }),
+      defaultPreload: 'intent',
+    })
+  )
   return <RouterProvider router={router} />
 }
