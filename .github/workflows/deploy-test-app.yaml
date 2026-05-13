@@ -16,7 +16,10 @@ jobs:
     permissions:
       contents: read
       deployments: write
-      pull-requests: write
+
+    environment:
+      name: widget-test-pr-${{ github.event.pull_request.number }}
+      url: ${{ steps.preview-url.outputs.url }}
 
     name: Publish to Cloudflare Pages
     steps:
@@ -120,27 +123,20 @@ jobs:
         run: |
           pnpm dlx --ignore-scripts wrangler@4.90.1 pages deploy ./packages/widget-playground-vite/dist/ --project-name ${{ env.PROJECT_NAME }} --branch ${{ env.BRANCH_NAME }}
 
-      - name: Comment Test Endpoint
+      - name: Resolve preview URL
+        id: preview-url
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
-            fetch("https://api.cloudflare.com/client/v4/accounts/${{ secrets.CF_ACCOUNT_ID }}/pages/projects/${{ env.PROJECT_NAME }}/deployments", {
+            const res = await fetch(`https://api.cloudflare.com/client/v4/accounts/${{ secrets.CF_ACCOUNT_ID }}/pages/projects/${{ env.PROJECT_NAME }}/deployments`, {
               headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ${{ secrets.CF_PAGES_API_TOKEN }}'
               }
             })
-            .then((r) => r.json())
-            .then((r) => {
-              if (!r.success) {
-                console.log(r)
-                process.exit(1)
-              }
-              const obj = r.result[0]
-              github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: `Hey! This is your new endpoint: [${obj.url}](${obj.url})`
-              })
-            })
+            const data = await res.json()
+            if (!data.success) {
+              console.log(data)
+              process.exit(1)
+            }
+            core.setOutput('url', data.result[0].url)
