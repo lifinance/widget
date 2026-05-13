@@ -1,5 +1,5 @@
 name: 'PNPM install'
-description: 'Run pnpm install with node_modules + store cache'
+description: 'Run pnpm install with pnpm store cache'
 
 runs:
   using: 'composite'
@@ -11,20 +11,8 @@ runs:
       with:
         node-version: '24'
         registry-url: 'https://registry.npmjs.org'
-    - name: Resolve pnpm store path
-      id: pnpm-store
-      shell: bash
-      run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
-    - name: Cache pnpm store and node_modules
-      id: cache
-      uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
-      with:
-        path: |
-          ${{ steps.pnpm-store.outputs.path }}
-          **/node_modules
-        key: pnpm-${{ runner.os }}-node24-${{ hashFiles('pnpm-lock.yaml', 'pnpm-workspace.yaml') }}
+        cache: 'pnpm' # https://github.com/actions/setup-node/blob/main/docs/advanced-usage.md#caching-packages-dependencies
     - name: Install dependencies
-      if: steps.cache.outputs.cache-hit != 'true'
       env:
         HUSKY: '0' # By default do not run HUSKY install
       shell: bash
