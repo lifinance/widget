@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { PageContainer } from '../../../components/PageContainer.js'
 import { useHeader } from '../../../hooks/useHeader.js'
 import { navigationRoutes } from '../../../utils/navigationRoutes.js'
-import { MeshErrorScreen } from '../../components/MeshErrorScreen.js'
+import { OnRampFailureScreen } from '../../components/OnRampFailureScreen.js'
 import { useCheckoutTransactionStatus } from '../../hooks/useCheckoutTransactionStatus.js'
 import { isTransactionStatusSimulationKind } from '../../utils/transactionStatusSimulation.js'
 import { StatusCompleted } from './StatusCompleted.js'
@@ -69,11 +69,17 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
   if (phase === 'failed') {
     return (
       <PageContainer bottomGutters>
-        <MeshErrorScreen
+        {/* TODO(checkout-failure-provider): thread the actual funding-source
+            provider through to this page; hardcoding "Mesh" preserves prior
+            copy but reads wrong for non-Mesh deposits. */}
+        <OnRampFailureScreen
           kind="withdrawal"
+          providerName="Mesh"
           description={
             (status as StatusResponse | undefined)?.substatusMessage ??
-            t('checkout.mesh.failure.withdrawalDescription')
+            t('checkout.onramp.failure.withdrawalDescription', {
+              providerName: 'Mesh',
+            })
           }
           onRetry={() => window.history.back()}
         />

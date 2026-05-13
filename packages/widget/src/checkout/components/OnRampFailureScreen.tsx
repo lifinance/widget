@@ -1,33 +1,35 @@
+import type { OnRampFailureKind } from '@lifi/widget-provider/checkout'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutlineRounded'
 import { Box, Button, Stack, Typography } from '@mui/material'
 import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { OnRampFailureKind } from '../providers/OnRampProvider/types.js'
 
-export interface MeshErrorScreenProps {
+export interface OnRampFailureScreenProps {
   kind: OnRampFailureKind
+  providerName: string
   /** Optional override message; falls back to the default copy for `kind`. */
   description?: string
   onRetry: () => void
   onContactSupport?: () => void
 }
 
-export function MeshErrorScreen({
+export function OnRampFailureScreen({
   kind,
+  providerName,
   description,
   onRetry,
   onContactSupport,
-}: MeshErrorScreenProps): JSX.Element {
+}: OnRampFailureScreenProps): JSX.Element {
   const { t } = useTranslation()
 
   const titleKey =
     kind === 'withdrawal'
-      ? 'checkout.mesh.failure.withdrawalTitle'
-      : 'checkout.mesh.failure.connectionTitle'
+      ? 'checkout.onramp.failure.withdrawalTitle'
+      : 'checkout.onramp.failure.connectionTitle'
   const descriptionKey =
     kind === 'withdrawal'
-      ? 'checkout.mesh.failure.withdrawalDescription'
-      : 'checkout.mesh.failure.connectionDescription'
+      ? 'checkout.onramp.failure.withdrawalDescription'
+      : 'checkout.onramp.failure.connectionDescription'
 
   return (
     <Stack
@@ -58,7 +60,7 @@ export function MeshErrorScreen({
           {t(titleKey)}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {description ?? t(descriptionKey)}
+          {description ?? t(descriptionKey, { providerName })}
         </Typography>
       </Stack>
       <Stack spacing={1} sx={{ width: '100%', maxWidth: 320 }}>

@@ -1,16 +1,20 @@
 import { useAccount, useWalletMenu } from '@lifi/wallet-management'
+import {
+  useMeshSession,
+  useTransakSession,
+} from '@lifi/widget-provider/checkout'
 import { Box } from '@mui/material'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { PoweredBy } from '../../../components/PoweredBy/PoweredBy.js'
 import { useHeader } from '../../../hooks/useHeader.js'
+import { formatOnRampError } from '../../components/OnRampDialogs.js'
 import { Stack } from '../../components/Stack.js'
 import {
   INTENT_FACTORY_ONLY,
   useCheckoutExchangesOverride,
 } from '../../hooks/useCheckoutExchangesOverride.js'
 import { useCheckoutNavigate } from '../../hooks/useCheckoutNavigate.js'
-import { useOnRamp } from '../../hooks/useOnRamp.js'
 import { useSelectSourceTopWallets } from '../../hooks/useSelectSourceTopWallets.js'
 import { useCheckoutFlowStore } from '../../stores/useCheckoutFlowStore.js'
 import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
@@ -23,8 +27,8 @@ export const SelectSourcePage: React.FC = () => {
   const navigate = useCheckoutNavigate()
   const { openWalletMenu } = useWalletMenu()
   const { accounts } = useAccount()
-  const { transak, getProvider, resolutionLoading, isAvailable } = useOnRamp()
-  const mesh = getProvider('mesh')
+  const transak = useTransakSession()
+  const mesh = useMeshSession()
   const { topWallets, walletOverflowCount } = useSelectSourceTopWallets()
   const setFundingSource = useCheckoutFlowStore((s) => s.setFundingSource)
   const resetFlow = useCheckoutFlowStore((s) => s.reset)
@@ -121,11 +125,11 @@ export const SelectSourcePage: React.FC = () => {
           onTransferCrypto={handleTransferCrypto}
           onDepositCash={handleDepositCash}
           depositCashEnabled={Boolean(transak)}
-          depositCashResolutionLoading={resolutionLoading}
+          depositCashResolutionLoading={false}
           onConnectExchange={handleConnectExchange}
-          showConnectExchange={!resolutionLoading && isAvailable('mesh')}
+          showConnectExchange={Boolean(mesh)}
           meshLoading={mesh?.isLoading ?? false}
-          meshError={mesh?.error ?? null}
+          meshError={formatOnRampError(mesh?.error ?? null, 'Mesh', t)}
           payFromWalletIcons={payFromWalletIcons}
           payFromWalletOverflow={walletOverflowCount}
           payFromWalletConnected={payFromWalletConnected}

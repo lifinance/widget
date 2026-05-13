@@ -1,14 +1,10 @@
 {
-  "name": "@lifi/widget-provider",
-  "version": "4.0.0-beta.20",
-  "description": "LI.FI Widget Provider - base provider package for blockchain integrations.",
+  "name": "@lifi/widget-provider-mesh",
+  "version": "4.0.0-beta.17",
+  "description": "LI.FI Widget on-ramp provider for Mesh (CEX transfers). Plug into LifiWidgetCheckout via the onRampProviders prop.",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
-  "exports": {
-    ".": "./src/index.ts",
-    "./checkout": "./src/checkout/index.ts"
-  },
   "sideEffects": false,
   "scripts": {
     "watch": "tsdown --watch",
@@ -26,7 +22,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/lifinance/widget.git",
-    "directory": "packages/widget-provider"
+    "directory": "packages/widget-provider-mesh"
   },
   "bugs": {
     "url": "https://github.com/lifinance/widget/issues"
@@ -35,19 +31,23 @@
   "keywords": [
     "widget",
     "lifi-widget",
-    "provider",
-    "blockchain",
-    "wallet",
-    "web3",
+    "onramp",
+    "mesh",
+    "cex",
+    "checkout",
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "^4.0.0-beta.11"
+    "@lifi/widget-provider": "workspace:*",
+    "@meshconnect/web-link-sdk": "^3.9.1"
+  },
+  "peerDependencies": {
+    "react": ">=18"
   },
   "devDependencies": {
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
-    "react": "^19.2.6",
-    "typescript": "^6.0.3"
+    "react": "^19.2.5",
+    "typescript": "^6.0.2"
   }
 }

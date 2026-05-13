@@ -1,3 +1,7 @@
+import {
+  useMeshSession,
+  useTransakSession,
+} from '@lifi/widget-provider/checkout'
 import { useNavigate } from '@tanstack/react-router'
 import type { JSX } from 'react'
 import { useCallback } from 'react'
@@ -9,7 +13,6 @@ import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { WidgetEvent } from '../../types/events.js'
 import { useCheckoutFlowQuote } from '../hooks/useCheckoutFlowQuote.js'
 import { useFrozenQuote } from '../hooks/useFrozenQuote.js'
-import { useOnRamp } from '../hooks/useOnRamp.js'
 import {
   type CheckoutFundingSource,
   useCheckoutFlowStore,
@@ -44,7 +47,8 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
   const { route, routes, depositAddress, setReviewableRoute } =
     useCheckoutFlowQuote()
   const { freeze } = useFrozenQuote()
-  const { getProvider } = useOnRamp()
+  const transakSession = useTransakSession()
+  const meshSession = useMeshSession()
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
   const setFrozenRouteId = useCheckoutFlowStore((s) => s.setFrozenRouteId)
   const fiatCurrency = useFiatCurrencyStore((s) => s.currency)
@@ -80,17 +84,15 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
       return
     }
     if (flow === 'exchange') {
-      const meshProvider = getProvider('mesh')
-      if (!meshProvider) {
+      if (!meshSession) {
         return
       }
-      meshProvider.openDepositFlow({ depositAddress, amount })
+      meshSession.open({ depositAddress, amount })
     } else if (flow === 'cash') {
-      const transakProvider = getProvider('transak')
-      if (!transakProvider) {
+      if (!transakSession) {
         return
       }
-      transakProvider.openDepositFlow({
+      transakSession.open({
         depositAddress,
         amount,
         fiatCurrency,
@@ -111,7 +113,8 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
     setFrozenRouteId,
     fromAmount,
     fiatCurrency,
-    getProvider,
+    meshSession,
+    transakSession,
     navigate,
   ])
 

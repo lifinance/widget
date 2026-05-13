@@ -1,11 +1,11 @@
+import { useMeshSession } from '@lifi/widget-provider/checkout'
 import { Outlet, useLocation, useNavigate } from '@tanstack/react-router'
 import { type JSX, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHeaderStore } from '../../stores/header/useHeaderStore.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { useMaybeMesh } from '../providers/OnRampProvider/MeshProvider/meshContext.js'
 import { checkoutNavigationRoutes } from '../utils/navigationRoutes.js'
-import { MeshErrorScreen } from './MeshErrorScreen.js'
+import { OnRampFailureScreen } from './OnRampFailureScreen.js'
 
 const statusPath = `/${navigationRoutes.transactionExecution}/${checkoutNavigationRoutes.transactionStatus}`
 
@@ -23,7 +23,7 @@ export function OnRampFlowOutlet(): JSX.Element {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { pathname } = useLocation()
-  const mesh = useMaybeMesh()
+  const mesh = useMeshSession()
   const failure = mesh?.failure ?? null
   const isOpen = mesh?.isOpen ?? false
   const depositTxHash = mesh?.depositTxHash ?? null
@@ -72,8 +72,9 @@ export function OnRampFlowOutlet(): JSX.Element {
 
   if (failure) {
     return (
-      <MeshErrorScreen
+      <OnRampFailureScreen
         kind={failure.kind}
+        providerName="Mesh"
         description={failure.message}
         onRetry={failure.retry}
       />

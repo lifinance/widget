@@ -1,4 +1,17 @@
 'use client'
+import {
+  type CexSessionRequest,
+  type CexSessionResponse,
+  MeshContext,
+  type OnRampError,
+  type OnRampFailure,
+  type OnRampHostWidgetConfig,
+  type OnRampOpenArgs,
+  type OnRampSession,
+  postCheckoutSession,
+  useCheckoutConfig,
+  useCheckoutUserId,
+} from '@lifi/widget-provider/checkout'
 import type {
   LinkEventType,
   LinkPayload,
@@ -8,69 +21,30 @@ import { createLink } from '@meshconnect/web-link-sdk'
 import {
   type FC,
   type PropsWithChildren,
-  type ReactNode,
   useCallback,
   useMemo,
   useRef,
   useState,
 } from 'react'
-import { useTranslation } from 'react-i18next'
-import type { WidgetConfig } from '../../../../types/widget.js'
-import { useCheckoutUserId } from '../../../hooks/useCheckoutUserId.js'
-import type {
-  CexSessionRequest,
-  CexSessionResponse,
-} from '../../../types/onrampSession.js'
-import { useCheckoutConfig } from '../../CheckoutProvider.js'
-import { postCheckoutSession } from '../sessionClient.js'
-import type {
-  LoadedOnRampAdapter,
-  OnRampFailureState,
-  OnRampFlowOpenArgs,
-  OnRampProviderMeta,
-} from '../types.js'
-import { MeshContext } from './meshContext.js'
 
-const meshCallbackMessages = {
-  MISSING_API_URL: 'CEX deposit is not configured: set onrampSessionApiUrl.',
-  ONRAMP_TARGET_NOT_CONFIGURED:
-    'CEX deposit target is not configured: set widget.toChain and widget.toToken.',
-  WALLET_NOT_CONNECTED:
-    'An EVM wallet must be connected before starting a Mesh deposit.',
-  MISSING_API_KEY:
-    'CEX deposit is not configured: set widget apiKey to call checkout sessions.',
-  ONRAMP_INVALID_RESPONSE:
-    'Invalid response from onramp server (missing linkToken).',
-  ONRAMP_NETWORK_ERROR: 'Network error starting Mesh session.',
-} as const
-
-type MeshFixedErrorCode = keyof typeof meshCallbackMessages
-
-type MeshUiError =
-  | { kind: 'fixed'; code: MeshFixedErrorCode }
-  | { kind: 'http'; status: number }
-  | { kind: 'text'; text: string; reportCode: string }
-
-const meshMeta: OnRampProviderMeta = {
-  id: 'mesh',
-  name: 'Mesh',
-  description: 'Transfer from your exchange account',
-  features: ['Coinbase', 'Binance', '300+ Exchanges'],
-}
-
-export type MeshProviderProps = PropsWithChildren<{
-  widgetConfig: WidgetConfig
+export type MeshHostProps = PropsWithChildren<{
+  widgetConfig: OnRampHostWidgetConfig
 }>
 
-const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
-  const { t } = useTranslation()
+/**
+ * Logic-only host: holds Mesh session state, runs the Mesh link SDK (which
+ * provides its own overlay UI), and publishes the session via `MeshContext`.
+ * `mountTargetId` is `null` because Mesh manages its own modal — no hosted
+ * `<div>` from the widget is required.
+ */
+export const MeshHost: FC<MeshHostProps> = ({ children, widgetConfig }) => {
   const checkoutUserId = useCheckoutUserId()
   const { integrator, onError, onSuccess, onrampSessionApiUrl } =
     useCheckoutConfig()
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [uiError, setUiError] = useState<MeshUiError | null>(null)
-  const [failure, setFailure] = useState<OnRampFailureState | null>(null)
+  const [error, setError] = useState<OnRampError | null>(null)
+  const [failure, setFailure] = useState<OnRampFailure | null>(null)
   const [depositTxHash, setDepositTxHash] = useState<string | null>(null)
   // Track in-Mesh errors as they stream through onEvent so we can classify
   // the terminal close from onExit. Refs (not state) because Mesh's callbacks
@@ -81,12 +55,12 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
   } | null>(null)
   const transferSucceededRef = useRef(false)
 
-  const lastOpenArgsRef = useRef<OnRampFlowOpenArgs | null>(null)
+  const lastOpenArgsRef = useRef<OnRampOpenArgs | null>(null)
 
   const close = useCallback(() => {
     setIsOpen(false)
     setIsLoading(false)
-    setUiError(null)
+    setError(null)
   }, [])
 
   const acknowledgeDepositTxHash = useCallback(() => {
@@ -94,34 +68,33 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
   }, [])
 
   const openDepositFlow = useCallback(
-    async (args: OnRampFlowOpenArgs) => {
+    async (args: OnRampOpenArgs) => {
       lastOpenArgsRef.current = args
-      setUiError(null)
+      setError(null)
       setFailure(null)
       setDepositTxHash(null)
       lastEventErrorRef.current = null
       transferSucceededRef.current = false
       setIsLoading(true)
 
-      // TODO(config-alignment): Keep `onrampSessionApiUrl` aligned with `widgetConfig.sdkConfig.apiUrl`
-      // by default; only diverge when checkout session APIs are intentionally routed elsewhere.
       const apiUrl = onrampSessionApiUrl?.replace(/\/$/, '')
       const apiKey = widgetConfig.apiKey?.trim()
       if (!apiUrl) {
-        setUiError({ kind: 'fixed', code: 'MISSING_API_URL' })
+        setError({ code: 'MISSING_API_URL' })
         onError?.({
           code: 'MISSING_API_URL',
-          message: meshCallbackMessages.MISSING_API_URL,
+          message: 'CEX deposit is not configured: set onrampSessionApiUrl.',
           provider: 'mesh',
         })
         setIsLoading(false)
         return
       }
       if (!apiKey) {
-        setUiError({ kind: 'fixed', code: 'MISSING_API_KEY' })
+        setError({ code: 'MISSING_API_KEY' })
         onError?.({
           code: 'MISSING_API_KEY',
-          message: meshCallbackMessages.MISSING_API_KEY,
+          message:
+            'CEX deposit is not configured: set widget apiKey to call checkout sessions.',
           provider: 'mesh',
         })
         setIsLoading(false)
@@ -131,10 +104,11 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
       const chainId = widgetConfig.toChain
       const tokenAddress = widgetConfig.toToken
       if (chainId === undefined || !tokenAddress) {
-        setUiError({ kind: 'fixed', code: 'ONRAMP_TARGET_NOT_CONFIGURED' })
+        setError({ code: 'TARGET_NOT_CONFIGURED' })
         onError?.({
           code: 'ONRAMP_TARGET_NOT_CONFIGURED',
-          message: meshCallbackMessages.ONRAMP_TARGET_NOT_CONFIGURED,
+          message:
+            'CEX deposit target is not configured: set widget.toChain and widget.toToken.',
           provider: 'mesh',
         })
         setIsLoading(false)
@@ -164,18 +138,17 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
         if (!res.ok) {
           const errObj = res.apiError
           if (errObj?.error) {
-            setUiError({
-              kind: 'text',
-              text: errObj.error,
-              reportCode: errObj.code ?? 'CEX_SESSION_FAILED',
-            })
+            setError({ message: errObj.error })
             onError?.({
               code: errObj.code ?? 'CEX_SESSION_FAILED',
               message: errObj.error,
               provider: 'mesh',
             })
           } else {
-            setUiError({ kind: 'http', status: res.status })
+            setError({
+              code: 'SESSION_HTTP',
+              params: { status: res.status },
+            })
             onError?.({
               code: 'CEX_SESSION_FAILED',
               message: `Could not start Mesh session (${res.status}). Try again later.`,
@@ -187,10 +160,10 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
         }
 
         if (!res.data.linkToken) {
-          setUiError({ kind: 'fixed', code: 'ONRAMP_INVALID_RESPONSE' })
+          setError({ code: 'INVALID_RESPONSE' })
           onError?.({
             code: 'ONRAMP_INVALID_RESPONSE',
-            message: meshCallbackMessages.ONRAMP_INVALID_RESPONSE,
+            message: 'Invalid response from onramp server (missing linkToken).',
             provider: 'mesh',
           })
           setIsLoading(false)
@@ -239,7 +212,7 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
                 break
             }
           },
-          onExit: (error?: string) => {
+          onExit: (exitError?: string) => {
             // Reset transient open/loading flags but keep failure/depositTxHash
             // so the consumer can render the post-Mesh state.
             setIsOpen(false)
@@ -251,14 +224,9 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
 
             const tracked = lastEventErrorRef.current
             if (tracked) {
-              const message =
-                tracked.message ||
-                (tracked.kind === 'withdrawal'
-                  ? t('checkout.mesh.failure.withdrawalDescription')
-                  : t('checkout.mesh.failure.connectionDescription'))
               setFailure({
                 kind: tracked.kind,
-                message,
+                message: tracked.message || undefined,
                 reportCode:
                   tracked.kind === 'withdrawal'
                     ? 'MESH_WITHDRAWAL_FAILED'
@@ -275,17 +243,16 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
                   tracked.kind === 'withdrawal'
                     ? 'MESH_WITHDRAWAL_FAILED'
                     : 'MESH_CONNECTION_FAILED',
-                message,
+                message: tracked.message,
                 provider: 'mesh',
               })
               return
             }
 
-            if (error) {
-              const message = error
+            if (exitError) {
               setFailure({
                 kind: 'connection',
-                message,
+                message: exitError,
                 reportCode: 'MESH_EXIT_ERROR',
                 retry: () => {
                   setFailure(null)
@@ -296,7 +263,7 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
               })
               onError?.({
                 code: 'MESH_EXIT_ERROR',
-                message,
+                message: exitError,
                 provider: 'mesh',
               })
             }
@@ -310,15 +277,11 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
         const message =
           e instanceof Error
             ? e.message
-            : meshCallbackMessages.ONRAMP_NETWORK_ERROR
-        setUiError(
+            : 'Network error starting Mesh session.'
+        setError(
           e instanceof Error
-            ? {
-                kind: 'text',
-                text: e.message,
-                reportCode: 'ONRAMP_NETWORK_ERROR',
-              }
-            : { kind: 'fixed', code: 'ONRAMP_NETWORK_ERROR' }
+            ? { message: e.message }
+            : { code: 'NETWORK_ERROR' }
         )
         onError?.({ code: 'ONRAMP_NETWORK_ERROR', message, provider: 'mesh' })
         setIsLoading(false)
@@ -330,57 +293,35 @@ const MeshCexProvider: FC<MeshProviderProps> = ({ children, widgetConfig }) => {
       onError,
       onSuccess,
       onrampSessionApiUrl,
-      t,
       widgetConfig.apiKey,
       widgetConfig.toChain,
       widgetConfig.toToken,
     ]
   )
 
-  const value = useMemo(
+  const session = useMemo<OnRampSession>(
     () => ({
-      openDepositFlow,
+      open: openDepositFlow,
       close,
       isOpen,
       isLoading,
-      error:
-        uiError === null
-          ? null
-          : uiError.kind === 'fixed'
-            ? t(`checkout.mesh.errors.${uiError.code}`)
-            : uiError.kind === 'http'
-              ? t('checkout.mesh.errors.CEX_SESSION_HTTP', {
-                  status: uiError.status,
-                })
-              : uiError.text,
+      error,
       failure,
       depositTxHash,
       acknowledgeDepositTxHash,
+      mountTargetId: null,
     }),
     [
       acknowledgeDepositTxHash,
       close,
       depositTxHash,
+      error,
       failure,
       isLoading,
       isOpen,
       openDepositFlow,
-      t,
-      uiError,
     ]
   )
 
-  return <MeshContext.Provider value={value}>{children}</MeshContext.Provider>
-}
-
-const MeshCexRoot: FC<{ widgetConfig: WidgetConfig; children: ReactNode }> = ({
-  widgetConfig,
-  children,
-}) => <MeshCexProvider widgetConfig={widgetConfig}>{children}</MeshCexProvider>
-
-export function createMeshLoadedAdapter(): LoadedOnRampAdapter {
-  return {
-    meta: meshMeta,
-    Wrap: MeshCexRoot,
-  }
+  return <MeshContext.Provider value={session}>{children}</MeshContext.Provider>
 }

@@ -1,4 +1,4 @@
-import type { CheckoutSessionApiError } from '../../types/onrampSession.js'
+import type { CheckoutSessionApiError } from '../api.js'
 
 export interface CheckoutSessionRequestArgs<TBody> {
   baseUrl: string
@@ -27,8 +27,8 @@ function parseSessionApiError(data: unknown): CheckoutSessionApiError | null {
 }
 
 function normalizeSessionApiBaseUrl(baseUrl: string): string {
-  // TODO(cleanup-review-baseurl-v1-normalization-hack): Remove this compatibility shim once
-  // all callers consistently provide base URLs without /v1.
+  // TODO(cleanup-review-baseurl-v1-normalization-hack): Drop this compat shim
+  // once all callers consistently provide base URLs without `/v1`.
   const trimmed = baseUrl.replace(/\/+$/, '')
   if (trimmed.endsWith('/v1')) {
     return trimmed.slice(0, -3)

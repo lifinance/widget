@@ -22,6 +22,7 @@ export const LifiWidgetCheckout: ForwardRefExoticComponent<
       onSuccess: props.onSuccess,
       onError: props.onError,
       config: props.config,
+      onRampProviders: props.onRampProviders,
     }),
     [
       props.integrator,
@@ -29,6 +30,7 @@ export const LifiWidgetCheckout: ForwardRefExoticComponent<
       props.onSuccess,
       props.onError,
       props.config,
+      props.onRampProviders,
     ]
   )
 
@@ -37,9 +39,18 @@ export const LifiWidgetCheckout: ForwardRefExoticComponent<
     [config]
   )
 
+  const onRampProviders = useMemo(
+    () => props.onRampProviders ?? [],
+    [props.onRampProviders]
+  )
+
   return (
     <CheckoutProvider config={config}>
-      <CheckoutAppProvider widgetConfig={widgetConfig} formRef={props.formRef}>
+      <CheckoutAppProvider
+        widgetConfig={widgetConfig}
+        formRef={props.formRef}
+        onRampProviders={onRampProviders}
+      >
         <CheckoutModal
           ref={ref}
           elementRef={props.elementRef}

@@ -1,6 +1,8 @@
 import { LifiWidgetCheckout } from '@lifi/widget/checkout'
+import { meshProvider } from '@lifi/widget-provider-mesh'
+import { transakProvider } from '@lifi/widget-provider-transak'
 import { Box, Button, Typography } from '@mui/material'
-import { type JSX, useCallback, useState } from 'react'
+import { type JSX, useCallback, useMemo, useState } from 'react'
 import { widgetBaseConfig } from '../../defaultWidgetConfig.js'
 import { useEnvVariables } from '../../providers/EnvVariablesProvider.js'
 import { useConfig } from '../../store/widgetConfig/useConfig.js'
@@ -54,6 +56,8 @@ export function CheckoutWidgetView(): JSX.Element {
       DEFAULT_CHECKOUT_ONRAMP_TARGET.toToken,
   }
 
+  const onRampProviders = useMemo(() => [transakProvider(), meshProvider()], [])
+
   return (
     <Box
       sx={{
@@ -84,6 +88,7 @@ export function CheckoutWidgetView(): JSX.Element {
           onrampSessionApiUrl?.trim() || DEFAULT_CHECKOUT_CORE_API_URL
         }
         config={checkoutConfig}
+        onRampProviders={onRampProviders}
         onClose={handleClose}
       />
     </Box>

@@ -1,15 +1,25 @@
 export {
-  type UseOnRampValues,
-  useOnRamp,
-} from './hooks/useOnRamp.js'
+  type CexSessionRequest,
+  type CexSessionResponse,
+  type CheckoutContextValue,
+  type CheckoutError,
+  type CheckoutResult,
+  type CheckoutSessionApiError,
+  type CheckoutSessionRequestArgs,
+  type CheckoutSessionRequestResult,
+  type OnrampSessionRequest,
+  type OnrampSessionResponse,
+  postCheckoutSession,
+  useCheckoutConfig,
+  useCheckoutUserId,
+} from '@lifi/widget-provider/checkout'
+export { modalProps } from '../components/Dialog/Dialog.js'
+export { useGetScrollableContainer } from '../hooks/useScrollableContainer.js'
+export {
+  type UseOnRampProvidersResult,
+  useOnRampProviders,
+} from './hooks/useOnRampProviders.js'
 export { LifiWidgetCheckout } from './LifiWidgetCheckout.js'
-export type { MeshContextValue } from './providers/OnRampProvider/MeshProvider/meshContext.js'
-export { useMaybeMesh } from './providers/OnRampProvider/MeshProvider/meshContext.js'
-export type { TransakContextValue } from './providers/OnRampProvider/TransakProvider/transakContext.js'
-export type {
-  LoadedOnRampAdapter,
-  OnRampFlowValue,
-  OnRampProviderMeta,
-} from './providers/OnRampProvider/types.js'
+export type { OnRampProviderInfo } from './providers/OnRampProvider/OnRampProvider.js'
 export * from './types/checkout.js'
 export { checkoutNavigationRoutes } from './utils/navigationRoutes.js'
