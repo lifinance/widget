@@ -1,5 +1,13 @@
 'use client'
-import type { OnRampProvider as OnRampProviderAdapter } from '@lifi/widget-provider/checkout'
+import {
+  type OnRampFailure,
+  type OnRampFundingCategory,
+  type OnRampProvider as OnRampProviderAdapter,
+  type OnRampSession,
+  OnRampSessionsContext,
+  useOnRampSession,
+  useOnRampSessionsRegistry,
+} from '@lifi/widget-provider/checkout'
 import {
   createContext,
   type FC,
@@ -10,10 +18,11 @@ import {
 import { StoreProvider } from '../../../stores/StoreProvider.js'
 import type { FormRef, WidgetConfig } from '../../../types/widget.js'
 import { CheckoutDepositContractCallsInit } from '../../components/CheckoutDepositContractCallsInit.js'
-import { OnRampDialogs } from '../../components/OnRampDialogs.js'
+import { useCheckoutFlowStore } from '../../stores/useCheckoutFlowStore.js'
 
 export interface OnRampProviderInfo {
   id: string
+  fundingCategory: OnRampFundingCategory
   name: string
   description: string
   features: string[]
@@ -26,6 +35,61 @@ export function useOnRampProviderMetas(): OnRampProviderInfo[] {
   return useContext(OnRampMetaContext)
 }
 
+/** Looks up a registered provider's meta by funding category. */
+export function useOnRampProviderByCategory(
+  category: OnRampFundingCategory | null | undefined
+): OnRampProviderInfo | null {
+  const metas = useOnRampProviderMetas()
+  if (!category) {
+    return null
+  }
+  return metas.find((m) => m.fundingCategory === category) ?? null
+}
+
+/**
+ * Returns the registered session for the provider that serves `category`.
+ * `useOnRampSession` is called with an empty string when no provider
+ * matches, which always returns `null` — preserves rules-of-hooks.
+ */
+export function useOnRampSessionByCategory(
+  category: OnRampFundingCategory | null | undefined
+): OnRampSession | null {
+  const provider = useOnRampProviderByCategory(category)
+  return useOnRampSession(provider?.id ?? '')
+}
+
+export interface ActiveOnRampDeposit {
+  failure: OnRampFailure | null
+  depositTxHash: string | null
+  acknowledgeDepositTxHash: () => void
+  providerName: string
+}
+
+/**
+ * Wires the active deposit session for the page that owns the
+ * deposit-watching UX. Reads the current `fundingSource` from the
+ * checkout flow store, finds the matching provider, and returns its
+ * session enriched with the provider's display name.
+ */
+export function useActiveOnRampDeposit(): ActiveOnRampDeposit | null {
+  const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
+  const category =
+    fundingSource === 'cash' || fundingSource === 'exchange'
+      ? fundingSource
+      : null
+  const provider = useOnRampProviderByCategory(category)
+  const session = useOnRampSession(provider?.id ?? '')
+  if (!provider || !session) {
+    return null
+  }
+  return {
+    failure: session.failure,
+    depositTxHash: session.depositTxHash,
+    acknowledgeDepositTxHash: session.acknowledgeDepositTxHash,
+    providerName: provider.name,
+  }
+}
+
 export interface OnRampProviderRegistryProps extends PropsWithChildren {
   widgetConfig: WidgetConfig
   formRef?: FormRef
@@ -33,11 +97,12 @@ export interface OnRampProviderRegistryProps extends PropsWithChildren {
 }
 
 /**
- * Nests each configured on-ramp provider's `Host` around the checkout
- * subtree. Each Host publishes its session via the shared per-provider
- * context exported from `@lifi/widget-provider` (e.g. `TransakContext`),
- * which consumer pages read through `useTransakSession` / `useMeshSession`.
- * The metadata list is exposed separately for funding-source UI lookup.
+ * Owns the on-ramp session registry: stores each registered provider's
+ * meta and `OnRampSession`. Each Host calls `useRegisterOnRampSession`
+ * into `OnRampSessionsContext` on mount; consumers read sessions via
+ * `useOnRampSession(id)` (or the higher-level helpers above). Hosts are
+ * rendered as flat siblings — they have no children and no shared parent
+ * context beyond the registry.
  */
 export const OnRampProviderRegistry: FC<OnRampProviderRegistryProps> = ({
   children,
@@ -49,6 +114,7 @@ export const OnRampProviderRegistry: FC<OnRampProviderRegistryProps> = ({
     () =>
       providers.map((p) => ({
         id: p.id,
+        fundingCategory: p.fundingCategory,
         name: p.name,
         description: p.description,
         features: p.features,
@@ -57,54 +123,20 @@ export const OnRampProviderRegistry: FC<OnRampProviderRegistryProps> = ({
     [providers]
   )
 
+  const registry = useOnRampSessionsRegistry()
+
   return (
-    <OnRampMetaContext.Provider value={metas}>
-      <OnRampHostsTree
-        widgetConfig={widgetConfig}
-        providers={providers}
-        index={0}
-      >
+    <OnRampSessionsContext.Provider value={registry}>
+      <OnRampMetaContext.Provider value={metas}>
+        {providers.map((adapter) => {
+          const Host = adapter.Host
+          return <Host key={adapter.id} widgetConfig={widgetConfig} />
+        })}
         <StoreProvider config={widgetConfig} formRef={formRef}>
           <CheckoutDepositContractCallsInit />
-          <OnRampDialogs />
           {children}
         </StoreProvider>
-      </OnRampHostsTree>
-    </OnRampMetaContext.Provider>
-  )
-}
-
-interface OnRampHostsTreeProps extends PropsWithChildren {
-  widgetConfig: WidgetConfig
-  providers: OnRampProviderAdapter[]
-  index: number
-}
-
-/**
- * Recursive component that nests each provider's `Host` around `children`.
- * Recursion (vs a `.reduceRight` chain) keeps the React tree stable across
- * renders even when an individual `Host` is a closure.
- */
-const OnRampHostsTree: FC<OnRampHostsTreeProps> = ({
-  widgetConfig,
-  providers,
-  index,
-  children,
-}) => {
-  if (index >= providers.length) {
-    return <>{children}</>
-  }
-  const adapter = providers[index]
-  const Host = adapter.Host
-  return (
-    <Host widgetConfig={widgetConfig}>
-      <OnRampHostsTree
-        widgetConfig={widgetConfig}
-        providers={providers}
-        index={index + 1}
-      >
-        {children}
-      </OnRampHostsTree>
-    </Host>
+      </OnRampMetaContext.Provider>
+    </OnRampSessionsContext.Provider>
   )
 }

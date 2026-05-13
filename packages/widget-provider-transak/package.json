@@ -37,13 +37,14 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/widget-provider": "workspace:*",
     "@transak/ui-js-sdk": "^1.0.0"
   },
   "peerDependencies": {
+    "@lifi/widget-provider": "workspace:*",
     "react": ">=18"
   },
   "devDependencies": {
+    "@lifi/widget-provider": "workspace:*",
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "react": "^19.2.5",

@@ -20,7 +20,7 @@ describe('postCheckoutSession', () => {
   })
 
   it('returns ok=true with parsed data on 2xx response', async () => {
-    const data = { widgetUrl: 'https://transak.example/iframe' }
+    const data = { widgetUrl: 'https://onramp.example/iframe' }
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       ok: true,
       status: 200,
@@ -32,22 +32,41 @@ describe('postCheckoutSession', () => {
     expect(result).toEqual({ ok: true, data })
   })
 
-  it('strips trailing /v1 from baseUrl before appending endpointPath', async () => {
+  it.each([
+    ['https://api.example.com', 'https://api.example.com'],
+    ['https://api.example.com/', 'https://api.example.com'],
+    ['https://api.example.com/v1', 'https://api.example.com'],
+    ['https://api.example.com/v1/', 'https://api.example.com'],
+  ])('normalizes baseUrl %s before appending endpointPath', async (input, expectedBase) => {
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
       ok: true,
       status: 200,
       json: async () => ({}),
     })
 
-    await postCheckoutSession({
-      ...baseArgs,
-      baseUrl: 'https://api.example.com/v1/',
-    })
+    await postCheckoutSession({ ...baseArgs, baseUrl: input })
 
     const fetchMock = globalThis.fetch as ReturnType<typeof vi.fn>
     expect(fetchMock.mock.calls[0]?.[0]).toBe(
-      'https://api.example.com/v1/checkout/onramp/session'
+      `${expectedBase}/v1/checkout/onramp/session`
     )
+  })
+
+  it('omits the integrator header when integrator is undefined', async () => {
+    ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+      ok: true,
+      status: 200,
+      json: async () => ({}),
+    })
+
+    await postCheckoutSession({ ...baseArgs, integrator: undefined })
+
+    const fetchMock = globalThis.fetch as ReturnType<typeof vi.fn>
+    const headers = fetchMock.mock.calls[0]?.[1]?.headers as Record<
+      string,
+      string
+    >
+    expect(headers['x-lifi-integrator']).toBeUndefined()
   })
 
   it('returns parsed apiError on non-2xx with shape { error, code }', async () => {

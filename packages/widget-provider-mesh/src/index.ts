@@ -4,6 +4,7 @@ import { MeshHost } from './MeshHost.js'
 export function meshProvider(): OnRampProvider {
   return {
     id: 'mesh',
+    fundingCategory: 'exchange',
     name: 'Mesh',
     description: 'Transfer from your exchange account',
     features: ['Coinbase', 'Binance', '300+ Exchanges'],

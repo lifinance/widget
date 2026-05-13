@@ -1,4 +1,4 @@
-import type { FC, PropsWithChildren } from 'react'
+import type { FC } from 'react'
 
 /**
  * Structural subset of the widget's `WidgetConfig` that an on-ramp Host
@@ -14,11 +14,16 @@ export interface OnRampHostWidgetConfig {
 }
 
 /**
+ * Funding category the widget routes by. The checkout's funding-source
+ * UI offers each category to the user; the registered provider for that
+ * category receives the `open()` call.
+ */
+export type OnRampFundingCategory = 'cash' | 'exchange'
+
+/**
  * Adapter contract each `@lifi/widget-provider-*` on-ramp package implements.
- * The factory returns identity metadata for the funding-source UI plus a
- * `Host` component that mounts the provider's SDK and publishes its session
- * via the shared per-provider context exported from
- * `@lifi/widget-provider/checkout` (e.g. `TransakContext`).
+ * The factory returns identity metadata plus a `Host` component that mounts
+ * the provider's SDK and registers its session via `useRegisterOnRampSession`.
  *
  * Partners pass the array of adapters via `LifiWidgetCheckout`'s
  * `onRampProviders` prop. Not installing a provider package keeps its SDK
@@ -26,11 +31,12 @@ export interface OnRampHostWidgetConfig {
  */
 export interface OnRampProvider {
   id: string
+  fundingCategory: OnRampFundingCategory
   name: string
   description: string
   features: string[]
   recommended?: boolean
-  Host: FC<PropsWithChildren<{ widgetConfig: OnRampHostWidgetConfig }>>
+  Host: FC<{ widgetConfig: OnRampHostWidgetConfig }>
 }
 
 export type OnRampProviderFactory<TOptions = void> = TOptions extends void
@@ -55,6 +61,10 @@ export interface OnRampSession {
    * (not an internal txId). Consumed by the checkout to drive status polling.
    */
   depositTxHash: string | null
+  /**
+   * Clears `depositTxHash` after the consumer consumes it. Providers that
+   * never emit a hash (e.g. Transak) may implement this as a no-op.
+   */
   acknowledgeDepositTxHash: () => void
   /**
    * DOM element id the provider's SDK targets. The widget renders a
@@ -79,10 +89,8 @@ export type OnRampErrorCode =
   | 'MISSING_API_URL'
   | 'MISSING_API_KEY'
   | 'TARGET_NOT_CONFIGURED'
-  | 'WALLET_NOT_CONNECTED'
   | 'INVALID_RESPONSE'
   | 'NETWORK_ERROR'
-  | 'SESSION_FAILED'
   | 'SESSION_HTTP'
 
 export interface OnRampError {

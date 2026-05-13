@@ -1,7 +1,3 @@
-import {
-  useMeshSession,
-  useTransakSession,
-} from '@lifi/widget-provider/checkout'
 import { useNavigate } from '@tanstack/react-router'
 import type { JSX } from 'react'
 import { useCallback } from 'react'
@@ -13,6 +9,7 @@ import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { WidgetEvent } from '../../types/events.js'
 import { useCheckoutFlowQuote } from '../hooks/useCheckoutFlowQuote.js'
 import { useFrozenQuote } from '../hooks/useFrozenQuote.js'
+import { useOnRampSessionByCategory } from '../providers/OnRampProvider/OnRampProvider.js'
 import {
   type CheckoutFundingSource,
   useCheckoutFlowStore,
@@ -23,21 +20,14 @@ import {
   checkoutNavigationRoutes,
 } from '../utils/navigationRoutes.js'
 
-function ctaLabel(
-  t: ReturnType<typeof useTranslation>['t'],
-  flow: CheckoutFundingSource
-): string {
-  switch (flow) {
-    case 'wallet':
-      return t('button.deposit')
-    case 'transfer':
-      return t('button.transferCrypto')
-    case 'exchange':
-      return t('button.connectExchange')
-    case 'cash':
-      return t('button.depositWithCash')
-  }
-}
+const ctaLabelKey = {
+  wallet: 'button.deposit',
+  transfer: 'button.transferCrypto',
+  exchange: 'button.connectExchange',
+  cash: 'button.depositWithCash',
+} as const satisfies Record<CheckoutFundingSource, string>
+
+const statusPath = `/${checkoutNavigationRoutes.transactionExecution}/${checkoutNavigationRoutes.transactionStatus}`
 
 export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
   const { t } = useTranslation()
@@ -47,14 +37,15 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
   const { route, routes, depositAddress, setReviewableRoute } =
     useCheckoutFlowQuote()
   const { freeze } = useFrozenQuote()
-  const transakSession = useTransakSession()
-  const meshSession = useMeshSession()
-  const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
+  const fundingSource = useCheckoutFlowStore((s) => s.fundingSource) ?? 'wallet'
   const setFrozenRouteId = useCheckoutFlowStore((s) => s.setFrozenRouteId)
   const fiatCurrency = useFiatCurrencyStore((s) => s.currency)
   const [fromAmount] = useFieldValues('fromAmount')
-
-  const flow: CheckoutFundingSource = fundingSource ?? 'wallet'
+  const onRampSession = useOnRampSessionByCategory(
+    fundingSource === 'cash' || fundingSource === 'exchange'
+      ? fundingSource
+      : null
+  )
 
   const handleWalletDeposit = useCallback(() => {
     if (!route) {
@@ -71,35 +62,28 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
     })
   }, [route, routes, setReviewableRoute, navigate, emitter])
 
-  const handleNonWalletCta = useCallback(() => {
+  const handleTransferDeposit = useCallback(() => {
     if (!route || !depositAddress) {
       return
     }
     freeze(route)
     setFrozenRouteId(route.id)
-    const amount = String(fromAmount ?? '')
+    navigate({ to: checkoutNavigationRoutes.transferDeposit })
+  }, [route, depositAddress, freeze, setFrozenRouteId, navigate])
 
-    if (flow === 'transfer') {
-      navigate({ to: checkoutNavigationRoutes.transferDeposit })
+  const handleOnRampDeposit = useCallback(() => {
+    if (!route || !depositAddress || !onRampSession) {
       return
     }
-    if (flow === 'exchange') {
-      if (!meshSession) {
-        return
-      }
-      meshSession.open({ depositAddress, amount })
-    } else if (flow === 'cash') {
-      if (!transakSession) {
-        return
-      }
-      transakSession.open({
-        depositAddress,
-        amount,
-        fiatCurrency,
-      })
-    }
+    freeze(route)
+    setFrozenRouteId(route.id)
+    onRampSession.open({
+      depositAddress,
+      amount: String(fromAmount ?? ''),
+      fiatCurrency,
+    })
     navigate({
-      to: `/${checkoutNavigationRoutes.transactionExecution}/${checkoutNavigationRoutes.transactionStatus}`,
+      to: statusPath,
       search:
         process.env.NODE_ENV !== 'production'
           ? { simulateTransactionStatus: 'watching' }
@@ -108,28 +92,30 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
   }, [
     route,
     depositAddress,
-    flow,
+    onRampSession,
     freeze,
     setFrozenRouteId,
     fromAmount,
     fiatCurrency,
-    meshSession,
-    transakSession,
     navigate,
   ])
 
-  const handleClick =
-    flow === 'wallet' ? handleWalletDeposit : handleNonWalletCta
+  const handlersByFunding: Record<CheckoutFundingSource, () => void> = {
+    wallet: handleWalletDeposit,
+    transfer: handleTransferDeposit,
+    exchange: handleOnRampDeposit,
+    cash: handleOnRampDeposit,
+  }
 
   const disabled =
-    flow === 'wallet'
+    fundingSource === 'wallet'
       ? !route || (requiredToAddress && !toAddress)
       : !route || !depositAddress
 
   return (
     <BaseTransactionButton
-      text={ctaLabel(t, flow)}
-      onClick={handleClick}
+      text={t(ctaLabelKey[fundingSource])}
+      onClick={handlersByFunding[fundingSource]}
       disabled={disabled}
       route={route}
       sx={{ flex: 1 }}

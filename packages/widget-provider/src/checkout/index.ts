@@ -10,13 +10,11 @@ export {
   useCheckoutConfig,
 } from './contexts/CheckoutContext.js'
 export {
-  MeshContext,
-  useMeshSession,
-} from './contexts/MeshContext.js'
-export {
-  TransakContext,
-  useTransakSession,
-} from './contexts/TransakContext.js'
+  OnRampSessionsContext,
+  useOnRampSession,
+  useOnRampSessionsRegistry,
+  useRegisterOnRampSession,
+} from './contexts/OnRampSessionsContext.js'
 export { useCheckoutUserId } from './hooks/useCheckoutUserId.js'
 export type {
   CheckoutContextValue,
@@ -26,6 +24,7 @@ export type {
   OnRampErrorCode,
   OnRampFailure,
   OnRampFailureKind,
+  OnRampFundingCategory,
   OnRampHostWidgetConfig,
   OnRampOpenArgs,
   OnRampProvider,

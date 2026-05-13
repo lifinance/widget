@@ -7,6 +7,8 @@ import { useHeader } from '../../../hooks/useHeader.js'
 import { navigationRoutes } from '../../../utils/navigationRoutes.js'
 import { OnRampFailureScreen } from '../../components/OnRampFailureScreen.js'
 import { useCheckoutTransactionStatus } from '../../hooks/useCheckoutTransactionStatus.js'
+import { useActiveOnRampDeposit } from '../../providers/OnRampProvider/OnRampProvider.js'
+import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
 import { isTransactionStatusSimulationKind } from '../../utils/transactionStatusSimulation.js'
 import { StatusCompleted } from './StatusCompleted.js'
 import { StatusExecuting } from './StatusExecuting.js'
@@ -36,7 +38,34 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
     ? search.simulateTransactionStatus
     : null
 
-  useHeader(t('checkout.transactionStatus.detailsTitle'))
+  // Active deposit session for the current funding source. The provider
+  // may emit a real on-chain hash (driving polling) or a terminal
+  // pre-hash failure (rendered below). Null for `wallet` / `transfer` /
+  // no registered provider.
+  const deposit = useActiveOnRampDeposit()
+  const providerName = deposit?.providerName ?? ''
+
+  // Title is "deposit" while we're showing the on-ramp failure screen,
+  // otherwise the standard transaction-status title.
+  useHeader(
+    deposit?.failure
+      ? t('checkout.deposit')
+      : t('checkout.transactionStatus.detailsTitle')
+  )
+
+  // Pull the on-chain hash emitted by the provider into the URL so polling
+  // kicks in. `acknowledge` clears it on the provider side so re-renders
+  // don't loop.
+  useEffect(() => {
+    if (!deposit?.depositTxHash) {
+      return
+    }
+    navigate({
+      to: `/${navigationRoutes.transactionExecution}/${checkoutNavigationRoutes.transactionStatus}`,
+      search: { transactionHash: deposit.depositTxHash },
+    })
+    deposit.acknowledgeDepositTxHash()
+  }, [deposit, navigate])
 
   const { status, phase, isLoading } = useCheckoutTransactionStatus(
     transactionHash,
@@ -58,6 +87,21 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
     return () => clearTimeout(id)
   }, [inExecutingState])
 
+  // Pre-hash provider failure preempts any other status state because
+  // polling can't have started without a hash.
+  if (deposit?.failure) {
+    return (
+      <PageContainer bottomGutters>
+        <OnRampFailureScreen
+          kind={deposit.failure.kind}
+          providerName={providerName}
+          description={deposit.failure.message}
+          onRetry={deposit.failure.retry}
+        />
+      </PageContainer>
+    )
+  }
+
   if (simulate === 'watching' || (!transactionHash && !status)) {
     return (
       <PageContainer bottomGutters>
@@ -69,17 +113,12 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
   if (phase === 'failed') {
     return (
       <PageContainer bottomGutters>
-        {/* TODO(checkout-failure-provider): thread the actual funding-source
-            provider through to this page; hardcoding "Mesh" preserves prior
-            copy but reads wrong for non-Mesh deposits. */}
         <OnRampFailureScreen
           kind="withdrawal"
-          providerName="Mesh"
+          providerName={providerName}
           description={
             (status as StatusResponse | undefined)?.substatusMessage ??
-            t('checkout.onramp.failure.withdrawalDescription', {
-              providerName: 'Mesh',
-            })
+            t('checkout.onramp.failure.withdrawalDescription', { providerName })
           }
           onRetry={() => window.history.back()}
         />

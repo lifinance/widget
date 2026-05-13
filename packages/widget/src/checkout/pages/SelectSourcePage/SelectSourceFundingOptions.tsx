@@ -53,7 +53,7 @@ export type SelectSourceFundingOptionsProps = {
   onPayFromWallet: () => void
   onTransferCrypto: () => void
   onDepositCash: () => void
-  /** When false, cash card is visible but not interactive (e.g. Transak not configured). */
+  /** When false, cash card is visible but not interactive (no cash on-ramp provider configured). */
   depositCashEnabled: boolean
   /** When true, cash card shows a non-interactive loading state. */
   depositCashResolutionLoading?: boolean
@@ -61,9 +61,9 @@ export type SelectSourceFundingOptionsProps = {
   /** When true, removes "Coming Soon" chip and enables the card click. */
   showConnectExchange?: boolean
   /** When true, shows a loading spinner in place of exchange avatars. */
-  meshLoading?: boolean
+  exchangeLoading?: boolean
   /** When set, shows an inline error below the exchange card. */
-  meshError?: string | null
+  exchangeError?: string | null
   payFromWalletIcons: PayFromWalletPreviewIcon[]
   payFromWalletOverflow: number
   /** When set, replaces the disconnected “browser wallets” teaser with wallet + address (connected state). */
@@ -80,8 +80,8 @@ export function SelectSourceFundingOptions({
   depositCashResolutionLoading = false,
   onConnectExchange,
   showConnectExchange = false,
-  meshLoading = false,
-  meshError = null,
+  exchangeLoading = false,
+  exchangeError = null,
   payFromWalletIcons,
   payFromWalletOverflow,
   payFromWalletConnected = null,
@@ -220,11 +220,11 @@ export function SelectSourceFundingOptions({
           {showConnectExchange ? (
             <>
               <FundingOptionCard
-                onClick={meshLoading ? undefined : onConnectExchange}
+                onClick={exchangeLoading ? undefined : onConnectExchange}
                 elevation={0}
-                aria-disabled={meshLoading}
+                aria-disabled={exchangeLoading}
                 sx={
-                  meshLoading
+                  exchangeLoading
                     ? { pointerEvents: 'none', opacity: 0.7 }
                     : undefined
                 }
@@ -241,7 +241,7 @@ export function SelectSourceFundingOptions({
                       {t('checkout.connectExchangeSubtitle')}
                     </FundingOptionSubtitle>
                   </OptionTextCell>
-                  {meshLoading ? (
+                  {exchangeLoading ? (
                     <CircularProgress size={24} sx={{ flexShrink: 0, mr: 1 }} />
                   ) : (
                     <OverlapRow aria-hidden>
@@ -268,9 +268,9 @@ export function SelectSourceFundingOptions({
                   )}
                 </FundingOptionRow>
               </FundingOptionCard>
-              {meshError ? (
+              {exchangeError ? (
                 <Alert severity="error" sx={{ mt: -0.5 }}>
-                  {meshError}
+                  {exchangeError}
                 </Alert>
               ) : null}
             </>

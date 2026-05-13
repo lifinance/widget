@@ -2,7 +2,6 @@
 import {
   type CexSessionRequest,
   type CexSessionResponse,
-  MeshContext,
   type OnRampError,
   type OnRampFailure,
   type OnRampHostWidgetConfig,
@@ -11,6 +10,7 @@ import {
   postCheckoutSession,
   useCheckoutConfig,
   useCheckoutUserId,
+  useRegisterOnRampSession,
 } from '@lifi/widget-provider/checkout'
 import type {
   LinkEventType,
@@ -18,26 +18,20 @@ import type {
   TransferFinishedPayload,
 } from '@meshconnect/web-link-sdk'
 import { createLink } from '@meshconnect/web-link-sdk'
-import {
-  type FC,
-  type PropsWithChildren,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { type FC, useCallback, useMemo, useRef, useState } from 'react'
 
-export type MeshHostProps = PropsWithChildren<{
+export interface MeshHostProps {
   widgetConfig: OnRampHostWidgetConfig
-}>
+}
 
 /**
  * Logic-only host: holds Mesh session state, runs the Mesh link SDK (which
- * provides its own overlay UI), and publishes the session via `MeshContext`.
- * `mountTargetId` is `null` because Mesh manages its own modal — no hosted
- * `<div>` from the widget is required.
+ * provides its own overlay UI), and registers the session into the
+ * widget's `OnRampSessionsContext`. `mountTargetId` is `null` because
+ * Mesh manages its own modal — no hosted `<div>` from the widget is
+ * required.
  */
-export const MeshHost: FC<MeshHostProps> = ({ children, widgetConfig }) => {
+export const MeshHost: FC<MeshHostProps> = ({ widgetConfig }) => {
   const checkoutUserId = useCheckoutUserId()
   const { integrator, onError, onSuccess, onrampSessionApiUrl } =
     useCheckoutConfig()
@@ -323,5 +317,6 @@ export const MeshHost: FC<MeshHostProps> = ({ children, widgetConfig }) => {
     ]
   )
 
-  return <MeshContext.Provider value={session}>{children}</MeshContext.Provider>
+  useRegisterOnRampSession('mesh', session)
+  return null
 }

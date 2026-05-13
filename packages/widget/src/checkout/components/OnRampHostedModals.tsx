@@ -1,6 +1,8 @@
 'use client'
-import type { OnRampError, OnRampSession } from '@lifi/widget-provider/checkout'
-import { useTransakSession } from '@lifi/widget-provider/checkout'
+import {
+  type OnRampSession,
+  useOnRampSession,
+} from '@lifi/widget-provider/checkout'
 import type { Theme } from '@mui/material'
 import {
   Box,
@@ -13,56 +15,74 @@ import {
   Typography,
 } from '@mui/material'
 import { useRouter } from '@tanstack/react-router'
-import type { TFunction } from 'i18next'
 import { type JSX, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { modalProps } from '../../components/Dialog/Dialog.js'
 import { useGetScrollableContainer } from '../../hooks/useScrollableContainer.js'
+import {
+  type OnRampProviderInfo,
+  useOnRampProviderMetas,
+} from '../providers/OnRampProvider/OnRampProvider.js'
+import { formatOnRampError } from './formatOnRampError.js'
 
 /**
- * Renders the hosted modal shell around each on-ramp provider whose session
- * exposes a `mountTargetId`. Providers stay logic-only — the widget owns the
- * `<Dialog>` chrome, translation lookups, and router-driven close behavior.
+ * Renders one hosted modal per registered on-ramp provider. A provider
+ * opts into the hosted modal by publishing a non-null `mountTargetId` on
+ * its session; providers that paint their own overlay keep
+ * `mountTargetId: null` and the matching `<OnRampHostedModal>` renders
+ * nothing.
  *
- * Translation keys are static (`checkout.onramp.*`); the provider name
- * varies via `{{providerName}}` interpolation.
+ * Iterating metas keeps the component provider-agnostic — adding a new
+ * iframe-style provider requires no changes here.
  */
-// Only providers whose SDK is an iframe (Transak) need the hosted modal.
-// Overlay-style SDKs (Mesh) set `mountTargetId: null` and never render here.
-// Adding a new modal-style provider requires another `<OnRampHostedModal>`
-// below — keep the list flat so rules-of-hooks stays straightforward.
-export function OnRampDialogs(): JSX.Element {
-  const transak = useTransakSession()
-  return <OnRampHostedModal providerName="Transak" session={transak} />
-}
-
-interface OnRampHostedModalProps {
-  providerName: string
-  session: OnRampSession | null
+export function OnRampHostedModals(): JSX.Element {
+  const metas = useOnRampProviderMetas()
+  return (
+    <>
+      {metas.map((meta) => (
+        <OnRampHostedModal key={meta.id} meta={meta} />
+      ))}
+    </>
+  )
 }
 
 function OnRampHostedModal({
-  providerName,
+  meta,
+}: {
+  meta: OnRampProviderInfo
+}): JSX.Element | null {
+  const session = useOnRampSession(meta.id)
+  if (!session) {
+    return null
+  }
+  return <HostedModalDialog meta={meta} session={session} />
+}
+
+interface HostedModalDialogProps {
+  meta: OnRampProviderInfo
+  session: OnRampSession
+}
+
+function HostedModalDialog({
+  meta,
   session,
-}: OnRampHostedModalProps): JSX.Element | null {
+}: HostedModalDialogProps): JSX.Element | null {
   const { t } = useTranslation()
   const getScrollableContainer = useGetScrollableContainer()
   const router = useRouter()
 
-  // Subscribe only while a hosted modal is registered (mountTargetId != null);
-  // overlay-style providers don't need router-driven close handling.
   useEffect(() => {
-    if (!router || !session?.mountTargetId) {
+    if (!router || !session.mountTargetId) {
       return
     }
     return router.subscribe('onResolved', session.close)
-  }, [router, session])
+  }, [router, session.mountTargetId, session.close])
 
-  if (!session?.mountTargetId) {
+  if (!session.mountTargetId) {
     return null
   }
 
-  const errorText = formatOnRampError(session.error, providerName, t)
+  const errorText = formatOnRampError(session.error, meta.name, t)
   const mountTargetId = session.mountTargetId
 
   return (
@@ -96,7 +116,7 @@ function OnRampHostedModal({
       }}
     >
       <DialogTitle>
-        {t('checkout.onramp.dialogTitle', { providerName })}
+        {t('checkout.onramp.dialogTitle', { providerName: meta.name })}
       </DialogTitle>
       <DialogContent
         sx={{
@@ -144,26 +164,4 @@ function OnRampHostedModal({
       </DialogActions>
     </Dialog>
   )
-}
-
-export function formatOnRampError(
-  error: OnRampError | null,
-  providerName: string,
-  t: TFunction
-): string | null {
-  if (!error) {
-    return null
-  }
-  if (error.message) {
-    return error.message
-  }
-  if (error.code) {
-    // `providerName` after the spread so a stray host-supplied param can't
-    // overwrite the widget-resolved provider name.
-    return t(`checkout.onramp.errors.${error.code}`, {
-      ...error.params,
-      providerName,
-    })
-  }
-  return null
 }

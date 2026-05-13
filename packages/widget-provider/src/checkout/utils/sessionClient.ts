@@ -26,9 +26,12 @@ function parseSessionApiError(data: unknown): CheckoutSessionApiError | null {
   return { error, code }
 }
 
+/**
+ * `endpointPath` already includes `/v1/...`, so a `baseUrl` that itself
+ * ends in `/v1` would otherwise produce a doubled `/v1/v1/...`. Strip the
+ * trailing `/v1` (and any trailing slashes) so both forms work.
+ */
 function normalizeSessionApiBaseUrl(baseUrl: string): string {
-  // TODO(cleanup-review-baseurl-v1-normalization-hack): Drop this compat shim
-  // once all callers consistently provide base URLs without `/v1`.
   const trimmed = baseUrl.replace(/\/+$/, '')
   if (trimmed.endsWith('/v1')) {
     return trimmed.slice(0, -3)

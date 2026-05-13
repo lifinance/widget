@@ -7,13 +7,12 @@ import {
   type OnrampSessionRequest,
   type OnrampSessionResponse,
   postCheckoutSession,
-  TransakContext,
   useCheckoutConfig,
+  useRegisterOnRampSession,
 } from '@lifi/widget-provider/checkout'
 import { Transak } from '@transak/ui-js-sdk'
 import {
   type FC,
-  type PropsWithChildren,
   useCallback,
   useEffect,
   useId,
@@ -28,20 +27,18 @@ const NATIVE_EVM_TOKEN_ADDRESS = '0x0000000000000000000000000000000000000000'
 const TRANSAK_FALLBACK_CHAIN_IDS = [1]
 const TRANSAK_RETRYABLE_STATUS_CODES = [500, 502, 503, 504]
 
-export type TransakHostProps = PropsWithChildren<{
+export interface TransakHostProps {
   widgetConfig: OnRampHostWidgetConfig
-}>
+}
 
 /**
  * Logic-only host: holds Transak session state, runs the SDK against the
- * mount target the widget renders, and publishes the session via
- * `TransakContext`. No modal UI lives here — the widget owns rendering the
- * `<div id={session.mountTargetId}>` inside its own Dialog.
+ * mount target the widget renders, and registers the session into the
+ * widget's `OnRampSessionsContext`. No modal UI lives here — the widget
+ * owns rendering the `<div id={session.mountTargetId}>` inside its own
+ * Dialog.
  */
-export const TransakHost: FC<TransakHostProps> = ({
-  children,
-  widgetConfig,
-}) => {
+export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
   const { integrator, onError, onSuccess, onrampSessionApiUrl } =
     useCheckoutConfig()
   const [open, setOpen] = useState(false)
@@ -319,9 +316,6 @@ export const TransakHost: FC<TransakHostProps> = ({
     [close, error, isLoading, mountTargetId, open, openDepositFlow]
   )
 
-  return (
-    <TransakContext.Provider value={session}>
-      {children}
-    </TransakContext.Provider>
-  )
+  useRegisterOnRampSession('transak', session)
+  return null
 }
