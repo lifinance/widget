@@ -3,8 +3,8 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import { Box, IconButton } from '@mui/material'
 import { inputBaseClasses } from '@mui/material/InputBase'
 import { type FocusEventHandler, type JSX, useCallback, useId } from 'react'
-import type { Layout } from '../../../../store/editTools/types.js'
-import { useConfigActions } from '../../../../store/widgetConfig/useConfigActions.js'
+import type { Layout } from '../../store/editTools/types.js'
+import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
 import { HeightHelperText, Input } from './HeightControl.style.js'
 
 export const HeightControl = ({

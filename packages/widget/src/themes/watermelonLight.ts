@@ -61,14 +61,14 @@ export const watermelonLightTheme: WidgetTheme = {
     // MuiIconButton: {
     //   styleOverrides: {
     //     root: ({ theme }) => ({
-    //       backgroundColor: alpha('#fff', 0.04),
+    //       backgroundColor: alpha(theme.palette.common.white, 0.04),
     //       color: 'inherit',
     //       borderRadius: theme.vars.shape.borderRadiusSecondary,
     //       '&:hover': {
     //         backgroundColor: alpha(
     //           theme.palette.mode === 'light'
-    //             ? '#000'
-    //             : '#fff',
+    //             ? theme.palette.common.black
+    //             : theme.palette.common.white,
     //           0.08,
     //         ),
     //         color: 'inherit',

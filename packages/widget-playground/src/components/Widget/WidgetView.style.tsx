@@ -2,7 +2,7 @@ import type { BoxProps, Theme } from '@mui/material'
 import { Box, IconButton } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import type React from 'react'
-import { drawerZIndex } from '../DrawerControls/DrawerControls.style.js'
+import { drawerZIndex } from '../Sidebar/DrawerControls.style.js'
 
 export const FloatingToolsContainer: React.FC<
   React.ComponentProps<typeof Box>
@@ -61,12 +61,12 @@ export const WidgetContainerRow: React.FC<React.ComponentProps<typeof Box>> =
 
 const floatingToolButtonColors = (theme: Theme) => ({
   color: theme.vars.palette.text.primary,
-  backgroundColor: '#fff',
+  backgroundColor: theme.vars.palette.common.white,
   '&:hover': {
     backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.background} 8%, transparent)`,
   },
   ...theme.applyStyles('dark', {
-    backgroundColor: theme.vars.palette.grey[800],
+    backgroundColor: theme.vars.palette.grey[900],
     '&:hover': {
       backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.background} 4%, transparent)`,
     },

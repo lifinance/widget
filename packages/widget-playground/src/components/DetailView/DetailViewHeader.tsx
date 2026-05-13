@@ -1,13 +1,13 @@
 import RefreshOutlinedIcon from '@mui/icons-material/RefreshOutlined'
 import { Tooltip } from '@mui/material'
 import type { JSX } from 'react'
+import { tooltipPopperZIndex } from '../Sidebar/DrawerControls.style.js'
 import {
   BackButton,
   BackIcon,
   HeaderContainer,
   HeaderIconButton,
 } from './DetailViewHeader.style.js'
-import { tooltipPopperZIndex } from './DrawerControls.style.js'
 
 interface DetailViewHeaderProps {
   onBack: () => void

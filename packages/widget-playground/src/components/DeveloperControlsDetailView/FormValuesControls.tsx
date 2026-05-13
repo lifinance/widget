@@ -5,11 +5,10 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
 import type { FormValues } from '../../store/types.js'
 import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
+import { Tab, Tabs } from '../Tabs.js'
 import {
   FormBlock,
   MethodHint,
-  MethodTab,
-  MethodTabs,
   OptionButton,
   PresetStack,
   SectionLabel,
@@ -211,14 +210,14 @@ export const FormValuesDevPanel = (): JSX.Element => {
       sx={{ display: 'flex', flexDirection: 'column', gap: 3, width: '100%' }}
     >
       <FormBlock>
-        <MethodTabs
+        <Tabs
           value={formUpdateMethod}
           onChange={handleMethodChange}
           aria-label="Form values update method"
         >
-          <MethodTab label="config" value="config" disableRipple />
-          <MethodTab label="formRef" value="formApi" disableRipple />
-        </MethodTabs>
+          <Tab label="config" value="config" disableRipple />
+          <Tab label="formRef" value="formApi" disableRipple />
+        </Tabs>
         <MethodHint>
           Use config if you need static values, or use formRef if you want to
           update values from your app.

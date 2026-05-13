@@ -8,6 +8,7 @@ import type { FocusEventHandler, JSX, SyntheticEvent } from 'react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useThemeMode } from '../../hooks/useThemeMode.js'
 import { useFontLoader } from '../../providers/FontLoaderProvider/FontLoaderProvider.js'
+import { allFonts } from '../../providers/FontLoaderProvider/fonts/defaultFonts.js'
 import type { Font } from '../../providers/FontLoaderProvider/types.js'
 import { useEditToolsStore } from '../../store/editTools/EditToolsProvider.js'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
@@ -18,11 +19,10 @@ import { useThemeValues } from '../../store/widgetConfig/useThemeValues.js'
 import { useWidgetConfigStore } from '../../store/widgetConfig/WidgetConfigProvider.js'
 import { safe6DigitHexColor } from '../../utils/color.js'
 import { docsLinks } from '../../utils/docsLinks.js'
+import { DetailViewHeader } from '../DetailView/DetailViewHeader.js'
+import { DocsLink } from '../DocsLink/DocsLink.js'
 import { Switch } from '../Switch.js'
-import { allFonts } from './DesignControls/FontsControl/defaultFonts.js'
-import { DocsLink } from './DetailView.style.js'
-import { DetailViewHeader } from './DetailViewHeader.js'
-import { MethodTab, MethodTabs } from './FormValuesControls.style.js'
+import { Tab, Tabs } from '../Tabs.js'
 import {
   ColorSwatch,
   Content,
@@ -412,27 +412,27 @@ export const ThemeEditDetailView = ({
 
         <SectionHeading>Color palette</SectionHeading>
         <RowLabel sx={{ mb: 1 }}>Mode</RowLabel>
-        <MethodTabs
+        <Tabs
           value={effectivePaletteMode}
           onChange={handlePaletteModeChange}
           aria-label="Palette mode"
           sx={{ marginBottom: 3 }}
         >
           {canLight ? (
-            <MethodTab
+            <Tab
               value="light"
               icon={<LightModeIcon sx={{ fontSize: 18 }} />}
               disableRipple
             />
           ) : null}
           {canDark ? (
-            <MethodTab
+            <Tab
               value="dark"
               icon={<DarkModeIcon sx={{ fontSize: 18 }} />}
               disableRipple
             />
           ) : null}
-        </MethodTabs>
+        </Tabs>
 
         {PALETTE_LABELS.map(({ label, suffix }) => (
           <ThemeColorRow

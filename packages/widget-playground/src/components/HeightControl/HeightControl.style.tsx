@@ -1,6 +1,6 @@
 import { Box, InputBase, inputBaseClasses, styled } from '@mui/material'
 import type { FC } from 'react'
-import { getCardFieldsetBackgroundColor } from '../../../../utils/color.js'
+import { getCardFieldsetBackgroundColor } from '../../utils/color.js'
 
 export const HeightHelperText: FC<React.ComponentProps<typeof Box>> = styled(
   Box

@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 import { autocompleteClasses } from '@mui/material/Autocomplete'
 import type { FC } from 'react'
-import { autocompletePopperZIndex } from './DrawerControls.style.js'
+import { autocompletePopperZIndex } from '../Sidebar/DrawerControls.style.js'
 
 export const Content: FC<React.ComponentProps<typeof Box>> = styled(Box)(
   ({ theme }) => ({

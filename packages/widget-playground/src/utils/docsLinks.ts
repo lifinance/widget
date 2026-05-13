@@ -6,5 +6,5 @@ export const docsLinks = {
   subvariants: 'https://docs.li.fi/widget/select-widget-variants#subvariants',
   configure: 'https://docs.li.fi/widget/configure-widget',
   events: 'https://docs.li.fi/widget/widget-events',
-  walletManagement: 'https://docs.li.fi/widget/wallet-management#configuration',
+  walletManagement: 'https://docs.li.fi/widget/wallet-management',
 } as const

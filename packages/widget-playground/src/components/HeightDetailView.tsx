@@ -1,21 +1,21 @@
 import type { JSX } from 'react'
 import { useCallback } from 'react'
-import type { Layout } from '../../store/editTools/types.js'
-import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
-import { useDefaultConfig } from '../../store/widgetConfig/useDefaultConfig.js'
-import { docsLinks } from '../../utils/docsLinks.js'
-import { CardSelect } from './CardSelect.js'
-import { HeightControl } from './DesignControls/LayoutControls/HeightControl.js'
-import { usePlaygroundLayoutControls } from './DesignControls/LayoutControls/usePlaygroundLayoutControls.js'
+import { usePlaygroundLayoutControls } from '../hooks/usePlaygroundLayoutControls.js'
+import type { Layout } from '../store/editTools/types.js'
+import { useConfigActions } from '../store/widgetConfig/useConfigActions.js'
+import { useDefaultConfig } from '../store/widgetConfig/useDefaultConfig.js'
+import { docsLinks } from '../utils/docsLinks.js'
+import { CardSelect } from './CardSelect/CardSelect.js'
 import {
   CardsContainer,
   Content,
   Description,
-  DocsLink,
   Title,
   TitleSection,
-} from './DetailView.style.js'
-import { DetailViewHeader } from './DetailViewHeader.js'
+} from './DetailView/DetailView.style.js'
+import { DetailViewHeader } from './DetailView/DetailViewHeader.js'
+import { DocsLink } from './DocsLink/DocsLink.js'
+import { HeightControl } from './HeightControl/HeightControl.js'
 
 interface HeightDetailViewProps {
   onBack: () => void

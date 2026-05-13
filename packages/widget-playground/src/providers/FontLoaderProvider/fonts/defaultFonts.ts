@@ -1,4 +1,4 @@
-import type { Font } from '../../../../providers/FontLoaderProvider/types.js'
+import type { Font } from '../types.js'
 import { googleFonts } from './googleFonts.js'
 import { systemFonts } from './systemFonts.js'
 

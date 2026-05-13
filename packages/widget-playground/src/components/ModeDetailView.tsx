@@ -1,22 +1,22 @@
 import type { JSX } from 'react'
 import { useCallback } from 'react'
-import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
+import { useConfigActions } from '../store/widgetConfig/useConfigActions.js'
 import {
   useConfigSubvariant,
   useConfigSubvariantOptions,
-} from '../../store/widgetConfig/useConfigValues.js'
-import { useDefaultConfig } from '../../store/widgetConfig/useDefaultConfig.js'
-import { docsLinks } from '../../utils/docsLinks.js'
-import { CardSelect } from './CardSelect.js'
+} from '../store/widgetConfig/useConfigValues.js'
+import { useDefaultConfig } from '../store/widgetConfig/useDefaultConfig.js'
+import { docsLinks } from '../utils/docsLinks.js'
+import { CardSelect } from './CardSelect/CardSelect.js'
 import {
   CardsContainer,
   Content,
   Description,
-  DocsLink,
   Title,
   TitleSection,
-} from './DetailView.style.js'
-import { DetailViewHeader } from './DetailViewHeader.js'
+} from './DetailView/DetailView.style.js'
+import { DetailViewHeader } from './DetailView/DetailViewHeader.js'
+import { DocsLink } from './DocsLink/DocsLink.js'
 
 type ModeOption = 'exchange' | 'split' | 'swap' | 'bridge' | 'refuel'
 

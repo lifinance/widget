@@ -12,9 +12,9 @@ import {
 } from '../../utils/bookmarkStores.js'
 import { docsLinks } from '../../utils/docsLinks.js'
 import { setQueryStringParam } from '../../utils/setQueryStringParam.js'
+import { DetailViewHeader } from '../DetailView/DetailViewHeader.js'
+import { DocsLink } from '../DocsLink/DocsLink.js'
 import { Switch } from '../Switch.js'
-import { DocsLink } from './DetailView.style.js'
-import { DetailViewHeader } from './DetailViewHeader.js'
 import {
   ConfigureLink,
   Content,

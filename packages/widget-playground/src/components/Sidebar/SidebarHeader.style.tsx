@@ -1,5 +1,17 @@
 import { Box, IconButton, styled, Typography } from '@mui/material'
 import type { FC } from 'react'
+import { LiFiLogo } from '../../logo/LiFiLogo.js'
+
+export const HeaderLogo: FC<React.ComponentProps<typeof LiFiLogo>> = styled(
+  LiFiLogo
+)(({ theme }) => ({
+  display: 'block',
+  height: 24,
+  width: 'auto',
+  maxWidth: '100%',
+  color: theme.vars.palette.text.primary,
+  marginTop: theme.spacing(-0.125),
+}))
 
 export const HeaderContainer: FC<React.ComponentProps<typeof Box>> = styled(
   Box

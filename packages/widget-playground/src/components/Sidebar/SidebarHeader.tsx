@@ -1,14 +1,14 @@
 import CloseIcon from '@mui/icons-material/Close'
 import RefreshIcon from '@mui/icons-material/Refresh'
-import { Tooltip, useTheme } from '@mui/material'
+import { Tooltip } from '@mui/material'
 import type { JSX } from 'react'
-import { LiFiLogo } from '../../logo/LiFiLogo.js'
 import { tooltipPopperZIndex } from './DrawerControls.style.js'
 import {
   BrandSuffix,
   HeaderActions,
   HeaderContainer,
   HeaderIconButton,
+  HeaderLogo,
   LogoContainer,
 } from './SidebarHeader.style.js'
 
@@ -21,20 +21,10 @@ export const SidebarHeader = ({
   onReset,
   onToggleDrawer,
 }: SidebarHeaderProps): JSX.Element => {
-  const theme = useTheme()
   return (
     <HeaderContainer>
       <LogoContainer>
-        <LiFiLogo
-          style={{
-            display: 'block',
-            height: 24,
-            width: 'auto',
-            maxWidth: '100%',
-            color: theme.vars.palette.text.primary,
-            marginTop: -1,
-          }}
-        />
+        <HeaderLogo />
         <BrandSuffix>PLAYGROUND</BrandSuffix>
       </LogoContainer>
       <HeaderActions>

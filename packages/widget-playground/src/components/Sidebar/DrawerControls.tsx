@@ -12,7 +12,14 @@ import { useFontInitialisation } from '../../providers/FontLoaderProvider/FontLo
 import { useDrawerToolValues } from '../../store/editTools/useDrawerToolValues.js'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
 import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
-import { DeveloperControlsDetailView } from './DeveloperControlsDetailView.js'
+import { DeveloperControlsDetailView } from '../DeveloperControlsDetailView/DeveloperControlsDetailView.js'
+import { HeightDetailView } from '../HeightDetailView.js'
+import { ModeDetailView } from '../ModeDetailView.js'
+import { NavListItem } from '../NavListItem/NavListItem.js'
+import { ThemeControl } from '../ThemeControl/ThemeControl.js'
+import { ThemeEditDetailView } from '../ThemeEditDetailView/ThemeEditDetailView.js'
+import { VariantDetailView } from '../VariantDetailView.js'
+import { WalletManagementDetailView } from '../WalletManagementDetailView.js'
 import {
   Drawer,
   NavContent,
@@ -22,15 +29,8 @@ import {
   type SidebarView,
   SidebarViewTrack,
 } from './DrawerControls.style.js'
-import { HeightDetailView } from './HeightDetailView.js'
-import { ModeDetailView } from './ModeDetailView.js'
-import { NavListItem } from './NavListItem.js'
 import { SidebarFooter } from './SidebarFooter.js'
 import { SidebarHeader } from './SidebarHeader.js'
-import { ThemeControl } from './ThemeControl.js'
-import { ThemeEditDetailView } from './ThemeEditDetailView.js'
-import { VariantDetailView } from './VariantDetailView.js'
-import { WalletManagementDetailView } from './WalletManagementDetailView.js'
 
 export const DrawerControls = (): JSX.Element => {
   const { isDrawerOpen, drawerWidth } = useDrawerToolValues()
