@@ -1,6 +1,6 @@
-import { type CheckoutModalRef, LifiWidgetCheckout } from '@lifi/widget'
+import { LifiWidgetCheckout } from '@lifi/widget'
 import { Box, Button, Typography } from '@mui/material'
-import { type JSX, useCallback, useRef } from 'react'
+import { type JSX, useCallback, useState } from 'react'
 import { widgetBaseConfig } from '../../defaultWidgetConfig.js'
 import { useEnvVariables } from '../../providers/EnvVariablesProvider.js'
 import { useConfig } from '../../store/widgetConfig/useConfig.js'
@@ -24,10 +24,14 @@ export function CheckoutWidgetView(): JSX.Element {
     checkoutToChain,
     checkoutToToken,
   } = useEnvVariables()
-  const checkoutRef = useRef<CheckoutModalRef>(null)
+  const [open, setOpen] = useState(false)
 
   const handleOpen = useCallback(() => {
-    checkoutRef.current?.open()
+    setOpen(true)
+  }, [])
+
+  const handleClose = useCallback(() => {
+    setOpen(false)
   }, [])
 
   // TODO(cleanup-remove-integrator-override-heuristic): Remove this heuristic comparison against
@@ -68,20 +72,19 @@ export function CheckoutWidgetView(): JSX.Element {
         color="text.secondary"
         sx={{ textAlign: 'center' }}
       >
-        Path v1 checkout — opens as a centered widget via ref (
-        <code>open()</code> / <code>close()</code>).
+        Checkout — opens as a centered widget
       </Typography>
       <Button variant="contained" onClick={handleOpen}>
         Deposit
       </Button>
       <LifiWidgetCheckout
-        ref={checkoutRef}
+        open={open}
         integrator={resolvedIntegrator}
         onrampSessionApiUrl={
           onrampSessionApiUrl?.trim() || DEFAULT_CHECKOUT_CORE_API_URL
         }
         config={checkoutConfig}
-        onClose={() => {}}
+        onClose={handleClose}
       />
     </Box>
   )

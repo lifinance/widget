@@ -8,7 +8,7 @@ import { Tab, Tabs } from '../../Tabs/Tabs.style.js'
 
 const modeLabels: Record<PlaygroundWidgetMode, string> = {
   swap: 'Swap / bridge',
-  checkout: 'Checkout (Path v1)',
+  checkout: 'Checkout',
 }
 
 export const WidgetModeControl = (): JSX.Element => {
