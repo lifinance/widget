@@ -299,6 +299,13 @@ export const widgetBaseConfig: WidgetConfig = {
   //       allow: ['lifidexaggregator'],
   //     },
   //   },
+  //   {
+  //     label: { text: 'Low gas' },
+  //     // Custom match function — AND'd with the other criteria on the rule.
+  //     // Useful for matching on fields the built-in criteria don't cover.
+  //     match: (route) =>
+  //       route.gasCostUSD ? Number(route.gasCostUSD) < 1 : false,
+  //   },
   // ],
 }
 

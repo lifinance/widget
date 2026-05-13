@@ -292,7 +292,7 @@ export type WidgetExplorerUrl =
 
 // ---------------------------------------------------------------------------
 // Route labels — serializable subset.
-// Excluded: RouteLabel.sx (SxProps<Theme>)
+// Excluded: RouteLabel.sx (SxProps<Theme>), RouteLabelRule.match (function)
 // ---------------------------------------------------------------------------
 
 export interface WidgetRouteLabel {
