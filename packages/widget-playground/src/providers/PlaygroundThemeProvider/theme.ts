@@ -132,7 +132,7 @@ export const createTheme = (playgroundColor?: string): Theme =>
                 ownerState.variant === 'elevation' && {
                   '&:hover': {
                     cursor: 'pointer',
-                    filter: `drop-shadow(0 1px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 8%, transparent))`,
+                    boxShadow: `0px 1px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 8%, transparent)`,
                   },
                 }),
               ...(!ownerState.onClick && {
@@ -157,8 +157,7 @@ export const createTheme = (playgroundColor?: string): Theme =>
             props: { variant: 'elevation' },
             style: ({ theme }) => ({
               border: 'none',
-              boxShadow: 'none',
-              filter: `drop-shadow(0 1px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent))`,
+              boxShadow: `0px 1px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
             }),
           },
           {

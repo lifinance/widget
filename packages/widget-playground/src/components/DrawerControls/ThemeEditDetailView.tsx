@@ -60,22 +60,39 @@ function pxFromCss(
   return Number.isFinite(n) ? n : fallback
 }
 
-function buildBoxShadow(blur: number, spread: number): string {
-  return `0px 8px ${blur}px ${spread}px rgba(0, 0, 0, 0.12)`
+function buildBoxShadow(
+  offsetX: number,
+  offsetY: number,
+  blur: number,
+  spread: number
+): string {
+  return `${offsetX}px ${offsetY}px ${blur}px ${spread}px rgba(0, 0, 0, 0.12)`
 }
 
-function parseBoxShadow(boxShadow: string): { blur: number; spread: number } {
+function parseBoxShadow(boxShadow: string): {
+  offsetX: number
+  offsetY: number
+  blur: number
+  spread: number
+} {
   const px = boxShadow.match(/-?\d+px/g)
   if (px && px.length >= 4) {
     return {
+      offsetX: Number.parseInt(px[0], 10),
+      offsetY: Number.parseInt(px[1], 10),
       blur: Math.max(0, Number.parseInt(px[2], 10)),
       spread: Number.parseInt(px[3], 10),
     }
   }
   if (px && px.length >= 3) {
-    return { blur: Math.max(0, Number.parseInt(px[2], 10)), spread: 0 }
+    return {
+      offsetX: Number.parseInt(px[0], 10),
+      offsetY: Number.parseInt(px[1], 10),
+      blur: Math.max(0, Number.parseInt(px[2], 10)),
+      spread: 0,
+    }
   }
-  return { blur: 32, spread: 0 }
+  return { offsetX: 0, offsetY: 8, blur: 32, spread: 0 }
 }
 
 function parseCssBorder(border: string | number | undefined): {
@@ -244,7 +261,9 @@ export const ThemeEditDetailView = ({
     widgetShadowStr.length > 0
   const widgetShadowParsed = widgetShadowOn
     ? parseBoxShadow(widgetShadowStr)
-    : { blur: 32, spread: 0 }
+    : { offsetX: 0, offsetY: 8, blur: 32, spread: 0 }
+  const widgetShadowOffsetX = widgetShadowParsed.offsetX
+  const widgetShadowOffsetY = widgetShadowParsed.offsetY
   const widgetShadowBlur = widgetShadowParsed.blur
   const widgetShadowSpread = widgetShadowParsed.spread
 
@@ -257,7 +276,9 @@ export const ThemeEditDetailView = ({
     !!cardShadowStr && cardShadowStr !== 'none' && cardShadowStr.length > 0
   const cardShadowParsed = cardShadowOn
     ? parseBoxShadow(cardShadowStr)
-    : { blur: 4, spread: 0 }
+    : { offsetX: 0, offsetY: 8, blur: 4, spread: 0 }
+  const cardShadowOffsetX = cardShadowParsed.offsetX
+  const cardShadowOffsetY = cardShadowParsed.offsetY
   const cardShadowBlur = cardShadowParsed.blur
   const cardShadowSpread = cardShadowParsed.spread
   const cardBorderParsed = parseCssBorder(
@@ -272,7 +293,9 @@ export const ThemeEditDetailView = ({
     buttonShadowStr.length > 0
   const buttonShadowParsed = buttonShadowOn
     ? parseBoxShadow(buttonShadowStr)
-    : { blur: 4, spread: 0 }
+    : { offsetX: 0, offsetY: 8, blur: 4, spread: 0 }
+  const buttonShadowOffsetX = buttonShadowParsed.offsetX
+  const buttonShadowOffsetY = buttonShadowParsed.offsetY
   const buttonShadowBlur = buttonShadowParsed.blur
   const buttonShadowSpread = buttonShadowParsed.spread
   const buttonBorderParsed = parseCssBorder(
@@ -490,7 +513,38 @@ export const ThemeEditDetailView = ({
           onShadowOnChange={(on) =>
             updateContainer({
               boxShadow: on
-                ? buildBoxShadow(widgetShadowBlur, widgetShadowSpread)
+                ? buildBoxShadow(
+                    widgetShadowOffsetX,
+                    widgetShadowOffsetY,
+                    widgetShadowBlur,
+                    widgetShadowSpread
+                  )
+                : 'none',
+            })
+          }
+          shadowOffsetX={widgetShadowOffsetX}
+          onShadowOffsetXChange={(x) =>
+            updateContainer({
+              boxShadow: widgetShadowOn
+                ? buildBoxShadow(
+                    x,
+                    widgetShadowOffsetY,
+                    widgetShadowBlur,
+                    widgetShadowSpread
+                  )
+                : 'none',
+            })
+          }
+          shadowOffsetY={widgetShadowOffsetY}
+          onShadowOffsetYChange={(y) =>
+            updateContainer({
+              boxShadow: widgetShadowOn
+                ? buildBoxShadow(
+                    widgetShadowOffsetX,
+                    y,
+                    widgetShadowBlur,
+                    widgetShadowSpread
+                  )
                 : 'none',
             })
           }
@@ -498,7 +552,12 @@ export const ThemeEditDetailView = ({
           onShadowBlurChange={(blur) =>
             updateContainer({
               boxShadow: widgetShadowOn
-                ? buildBoxShadow(blur, widgetShadowSpread)
+                ? buildBoxShadow(
+                    widgetShadowOffsetX,
+                    widgetShadowOffsetY,
+                    blur,
+                    widgetShadowSpread
+                  )
                 : 'none',
             })
           }
@@ -506,7 +565,12 @@ export const ThemeEditDetailView = ({
           onShadowSpreadChange={(spread) =>
             updateContainer({
               boxShadow: widgetShadowOn
-                ? buildBoxShadow(widgetShadowBlur, spread)
+                ? buildBoxShadow(
+                    widgetShadowOffsetX,
+                    widgetShadowOffsetY,
+                    widgetShadowBlur,
+                    spread
+                  )
                 : 'none',
             })
           }
@@ -545,7 +609,38 @@ export const ThemeEditDetailView = ({
           onShadowOnChange={(on) =>
             updateCardComponent({
               boxShadow: on
-                ? buildBoxShadow(cardShadowBlur, cardShadowSpread)
+                ? buildBoxShadow(
+                    cardShadowOffsetX,
+                    cardShadowOffsetY,
+                    cardShadowBlur,
+                    cardShadowSpread
+                  )
+                : 'none',
+            })
+          }
+          shadowOffsetX={cardShadowOffsetX}
+          onShadowOffsetXChange={(x) =>
+            updateCardComponent({
+              boxShadow: cardShadowOn
+                ? buildBoxShadow(
+                    x,
+                    cardShadowOffsetY,
+                    cardShadowBlur,
+                    cardShadowSpread
+                  )
+                : 'none',
+            })
+          }
+          shadowOffsetY={cardShadowOffsetY}
+          onShadowOffsetYChange={(y) =>
+            updateCardComponent({
+              boxShadow: cardShadowOn
+                ? buildBoxShadow(
+                    cardShadowOffsetX,
+                    y,
+                    cardShadowBlur,
+                    cardShadowSpread
+                  )
                 : 'none',
             })
           }
@@ -553,7 +648,12 @@ export const ThemeEditDetailView = ({
           onShadowBlurChange={(blur) =>
             updateCardComponent({
               boxShadow: cardShadowOn
-                ? buildBoxShadow(blur, cardShadowSpread)
+                ? buildBoxShadow(
+                    cardShadowOffsetX,
+                    cardShadowOffsetY,
+                    blur,
+                    cardShadowSpread
+                  )
                 : 'none',
             })
           }
@@ -561,7 +661,12 @@ export const ThemeEditDetailView = ({
           onShadowSpreadChange={(spread) =>
             updateCardComponent({
               boxShadow: cardShadowOn
-                ? buildBoxShadow(cardShadowBlur, spread)
+                ? buildBoxShadow(
+                    cardShadowOffsetX,
+                    cardShadowOffsetY,
+                    cardShadowBlur,
+                    spread
+                  )
                 : 'none',
             })
           }
@@ -600,7 +705,38 @@ export const ThemeEditDetailView = ({
           onShadowOnChange={(on) =>
             updateButtonComponent({
               boxShadow: on
-                ? buildBoxShadow(buttonShadowBlur, buttonShadowSpread)
+                ? buildBoxShadow(
+                    buttonShadowOffsetX,
+                    buttonShadowOffsetY,
+                    buttonShadowBlur,
+                    buttonShadowSpread
+                  )
+                : 'none',
+            })
+          }
+          shadowOffsetX={buttonShadowOffsetX}
+          onShadowOffsetXChange={(x) =>
+            updateButtonComponent({
+              boxShadow: buttonShadowOn
+                ? buildBoxShadow(
+                    x,
+                    buttonShadowOffsetY,
+                    buttonShadowBlur,
+                    buttonShadowSpread
+                  )
+                : 'none',
+            })
+          }
+          shadowOffsetY={buttonShadowOffsetY}
+          onShadowOffsetYChange={(y) =>
+            updateButtonComponent({
+              boxShadow: buttonShadowOn
+                ? buildBoxShadow(
+                    buttonShadowOffsetX,
+                    y,
+                    buttonShadowBlur,
+                    buttonShadowSpread
+                  )
                 : 'none',
             })
           }
@@ -608,7 +744,12 @@ export const ThemeEditDetailView = ({
           onShadowBlurChange={(blur) =>
             updateButtonComponent({
               boxShadow: buttonShadowOn
-                ? buildBoxShadow(blur, buttonShadowSpread)
+                ? buildBoxShadow(
+                    buttonShadowOffsetX,
+                    buttonShadowOffsetY,
+                    blur,
+                    buttonShadowSpread
+                  )
                 : 'none',
             })
           }
@@ -616,7 +757,12 @@ export const ThemeEditDetailView = ({
           onShadowSpreadChange={(spread) =>
             updateButtonComponent({
               boxShadow: buttonShadowOn
-                ? buildBoxShadow(buttonShadowBlur, spread)
+                ? buildBoxShadow(
+                    buttonShadowOffsetX,
+                    buttonShadowOffsetY,
+                    buttonShadowBlur,
+                    spread
+                  )
                 : 'none',
             })
           }
@@ -884,6 +1030,10 @@ interface SurfaceBlockProps {
   radiusMax: number
   shadowOn: boolean
   onShadowOnChange: (on: boolean) => void
+  shadowOffsetX: number
+  onShadowOffsetXChange: (x: number) => void
+  shadowOffsetY: number
+  onShadowOffsetYChange: (y: number) => void
   shadowBlur: number
   onShadowBlurChange: (blur: number) => void
   shadowSpread: number
@@ -903,6 +1053,10 @@ const SurfaceBlock = ({
   radiusMax,
   shadowOn,
   onShadowOnChange,
+  shadowOffsetX,
+  onShadowOffsetXChange,
+  shadowOffsetY,
+  onShadowOffsetYChange,
   shadowBlur,
   onShadowBlurChange,
   shadowSpread,
@@ -947,19 +1101,55 @@ const SurfaceBlock = ({
       <Collapse in={shadowOn} unmountOnExit>
         <SubSection>
           <SubRow>
+            <RowLabel>Offset X</RowLabel>
+            <ThemeSlider
+              size="small"
+              value={shadowOffsetX}
+              min={-8}
+              max={8}
+              onChange={(_, v) => onShadowOffsetXChange(v as number)}
+              aria-label={`${title} shadow offset x`}
+            />
+            <EditableSliderValue
+              value={shadowOffsetX}
+              min={-8}
+              max={8}
+              onChange={onShadowOffsetXChange}
+              ariaLabel={`${title} shadow offset x`}
+            />
+          </SubRow>
+          <SubRow>
+            <RowLabel>Offset Y</RowLabel>
+            <ThemeSlider
+              size="small"
+              value={shadowOffsetY}
+              min={-8}
+              max={8}
+              onChange={(_, v) => onShadowOffsetYChange(v as number)}
+              aria-label={`${title} shadow offset y`}
+            />
+            <EditableSliderValue
+              value={shadowOffsetY}
+              min={-8}
+              max={8}
+              onChange={onShadowOffsetYChange}
+              ariaLabel={`${title} shadow offset y`}
+            />
+          </SubRow>
+          <SubRow>
             <RowLabel>Blur</RowLabel>
             <ThemeSlider
               size="small"
               value={shadowBlur}
               min={0}
-              max={48}
+              max={24}
               onChange={(_, v) => onShadowBlurChange(v as number)}
               aria-label={`${title} shadow blur`}
             />
             <EditableSliderValue
               value={shadowBlur}
               min={0}
-              max={48}
+              max={24}
               onChange={onShadowBlurChange}
               ariaLabel={`${title} shadow blur`}
             />
@@ -969,15 +1159,15 @@ const SurfaceBlock = ({
             <ThemeSlider
               size="small"
               value={shadowSpread}
-              min={-20}
-              max={20}
+              min={0}
+              max={8}
               onChange={(_, v) => onShadowSpreadChange(v as number)}
               aria-label={`${title} shadow spread`}
             />
             <EditableSliderValue
               value={shadowSpread}
-              min={-20}
-              max={20}
+              min={0}
+              max={8}
               onChange={onShadowSpreadChange}
               ariaLabel={`${title} shadow spread`}
             />

@@ -206,9 +206,9 @@ export const createTheme = (widgetTheme: WidgetTheme = {}): Theme => {
                 ownerState.variant === 'elevation' && {
                   '&:hover': {
                     cursor: 'pointer',
-                    filter: `drop-shadow(0 1px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 8%, transparent))`,
+                    boxShadow: `0px 1px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 8%, transparent)`,
                     ...theme.applyStyles('dark', {
-                      filter: `drop-shadow(0 1px 4px color-mix(in srgb, ${theme.vars.palette.common.background} 8%, transparent))`,
+                      boxShadow: `0px 1px 4px color-mix(in srgb, ${theme.vars.palette.common.background} 8%, transparent)`,
                     }),
                   },
                 }),
@@ -244,10 +244,9 @@ export const createTheme = (widgetTheme: WidgetTheme = {}): Theme => {
             props: { variant: 'elevation' },
             style: ({ theme }) => ({
               border: 'none',
-              boxShadow: 'none',
-              filter: `drop-shadow(0 1px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent))`,
+              boxShadow: `0px 1px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
               ...theme.applyStyles('dark', {
-                filter: `drop-shadow(0 1px 4px color-mix(in srgb, ${theme.vars.palette.common.background} 4%, transparent))`,
+                boxShadow: `0px 1px 4px color-mix(in srgb, ${theme.vars.palette.common.background} 4%, transparent)`,
               }),
             }),
           },
