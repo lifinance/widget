@@ -1,13 +1,16 @@
 import type {} from '@mui/material/themeCssVarsAugmentation'
 
-export * from './components/BitcoinListItemButton.js'
-export * from './components/CardListItemButton.js'
-export * from './components/EthereumListItemButton.js'
-export * from './components/SolanaListItemButton.js'
-export * from './components/SuiListItemButton.js'
+export { BitcoinListItemButton } from './components/BitcoinListItemButton.js'
+export { CardListItemButton } from './components/CardListItemButton.js'
+export { EthereumListItemButton } from './components/EthereumListItemButton.js'
+export { SolanaListItemButton } from './components/SolanaListItemButton.js'
+export { SuiListItemButton } from './components/SuiListItemButton.js'
 export * from './hooks/useAccount.js'
 export * from './hooks/useAccountDisconnect.js'
-export * from './hooks/useCombinedWallets.js'
+export {
+  type CombinedWallet,
+  useCombinedWallets,
+} from './hooks/useCombinedWallets.js'
 export * from './hooks/useWalletManagementEvents.js'
 export * from './icons.js'
 export * from './providers/WalletManagementProvider/types.js'
@@ -16,9 +19,12 @@ export * from './providers/WalletManagementProviders.js'
 export type { WalletMenuOpenArgs } from './providers/WalletMenuProvider/types.js'
 export * from './providers/WalletMenuProvider/WalletMenuContext.js'
 export * from './types/events.js'
-export * from './types/walletTagType.js'
+export { WalletTagType } from './types/walletTagType.js'
 export * from './utils/getConnectorIcon.js'
-export * from './utils/getConnectorId.js'
-export * from './utils/getSortedByTags.js'
+export { getConnectorId } from './utils/getConnectorId.js'
+export { getSortedByTags } from './utils/getSortedByTags.js'
 export * from './utils/getWalletPriority.js'
-export * from './utils/walletTags.js'
+export {
+  getConnectorTagType,
+  getWalletTagType,
+} from './utils/walletTags.js'

@@ -1,4 +1,4 @@
-import { LifiWidgetCheckout } from '@lifi/widget'
+import { LifiWidgetCheckout } from '@lifi/widget/checkout'
 import { Box, Button, Typography } from '@mui/material'
 import { type JSX, useCallback, useState } from 'react'
 import { widgetBaseConfig } from '../../defaultWidgetConfig.js'

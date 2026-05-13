@@ -293,11 +293,26 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
       widgetHeight: '100%',
     })
 
+    // Transak emits `TRANSAK_ORDER_SUCCESSFUL` and `TRANSAK_WIDGET_CLOSE` in
+    // quick succession on a successful order, and its handlers live on a
+    // module-level singleton emitter we can't selectively detach from. This
+    // per-run flag guarantees `onSuccess` fires at most once and prevents any
+    // stale closure from running between an SDK emit and effect cleanup.
+    const runState = { active: true }
+
     const onWidgetClose = () => {
+      if (!runState.active) {
+        return
+      }
+      runState.active = false
       close()
     }
 
     const onOrderSuccessful = (data: unknown) => {
+      if (!runState.active) {
+        return
+      }
+      runState.active = false
       const onSuccessCb = onSuccessRef.current
       if (onSuccessCb) {
         const order =
@@ -328,11 +343,8 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
 
     transak.init()
 
-    // Transak's SDK does not expose a public `.off()` API; `transak.cleanup()`
-    // tears down the instance (iframe + internal listeners) and is the
-    // intended teardown path per their docs. Runs when the modal closes
-    // (open → false clears widgetUrl) or the component unmounts.
     return () => {
+      runState.active = false
       transak.cleanup()
     }
   }, [close, isLoading, open, transakContainerId, widgetUrl])

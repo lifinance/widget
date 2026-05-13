@@ -1,7 +1,7 @@
 import { defineConfig, type UserConfig } from 'tsdown'
 
 const defaultConfig: UserConfig = defineConfig({
-  entry: ['src/index.ts'],
+  entry: ['src/index.ts', 'src/checkout/index.ts'],
   outDir: 'dist/esm',
   format: 'esm',
   unbundle: true,
