@@ -1,4 +1,4 @@
-import { Alert, Box } from '@mui/material'
+import { Box } from '@mui/material'
 import type { JSX, ReactNode } from 'react'
 import { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -7,7 +7,6 @@ import { PoweredBy } from '../../../components/PoweredBy/PoweredBy.js'
 import { useHeader } from '../../../hooks/useHeader.js'
 import { MainWarningMessages } from '../../../pages/MainPage/MainWarningMessages.js'
 import { useWidgetConfig } from '../../../providers/WidgetProvider/WidgetProvider.js'
-import { useFieldValues } from '../../../stores/form/useFieldValues.js'
 import { HiddenUI } from '../../../types/widget.js'
 import { CheckoutAmountInput } from '../../components/CheckoutAmountInput.js'
 import { CheckoutFlowCtaButton } from '../../components/CheckoutFlowCtaButton.js'
@@ -17,7 +16,6 @@ import {
   INTENT_FACTORY_ONLY,
   useCheckoutExchangesOverride,
 } from '../../hooks/useCheckoutExchangesOverride.js'
-import { useCheckoutFlowQuote } from '../../hooks/useCheckoutFlowQuote.js'
 import { useCheckoutFlowStore } from '../../stores/useCheckoutFlowStore.js'
 
 const headerKeyByFlow = {
@@ -43,37 +41,16 @@ export const EnterAmountPage: React.FC = (): JSX.Element => {
     }
   }, [fundingSource, overrideExchanges])
 
-  const { isLoading, isFetching, isFetched, route } = useCheckoutFlowQuote()
-  const [fromAmount] = useFieldValues('fromAmount')
-  const parsedFromAmount = Number.parseFloat(
-    typeof fromAmount === 'string'
-      ? fromAmount.replace(',', '.')
-      : `${fromAmount ?? ''}`
-  )
-  const hasAmount = Number.isFinite(parsedFromAmount) && parsedFromAmount > 0
-  const showQuoteUnavailable =
-    fundingSource !== 'wallet' &&
-    hasAmount &&
-    !route &&
-    !isLoading &&
-    !isFetching &&
-    isFetched
-
   let sendSlot: ReactNode | undefined
   if (fundingSource === 'cash') {
     sendSlot = <FiatCurrencyChip />
   }
 
   return (
-    <PageContainer topGutters>
+    <PageContainer>
       <CheckoutAmountInput formType="from" sx={{ mb: 2 }} sendSlot={sendSlot} />
       <CheckoutReceiveCard />
       <MainWarningMessages sx={{ mt: 2, mb: 2 }} />
-      {showQuoteUnavailable ? (
-        <Alert severity="error" sx={{ mb: 1.5 }}>
-          {t('checkout.errors.noQuoteAvailable')}
-        </Alert>
-      ) : null}
       <Box
         sx={{ display: 'flex', mt: 1.5, mb: showPoweredBy ? 1 : 3, gap: 1.5 }}
       >

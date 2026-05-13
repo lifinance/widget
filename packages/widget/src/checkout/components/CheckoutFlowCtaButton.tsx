@@ -80,9 +80,17 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
       return
     }
     if (flow === 'exchange') {
-      getProvider('mesh')?.openDepositFlow({ depositAddress, amount })
+      const meshProvider = getProvider('mesh')
+      if (!meshProvider) {
+        return
+      }
+      meshProvider.openDepositFlow({ depositAddress, amount })
     } else if (flow === 'cash') {
-      getProvider('transak')?.openDepositFlow({
+      const transakProvider = getProvider('transak')
+      if (!transakProvider) {
+        return
+      }
+      transakProvider.openDepositFlow({
         depositAddress,
         amount,
         fiatCurrency,
@@ -90,7 +98,10 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
     }
     navigate({
       to: `/${checkoutNavigationRoutes.transactionExecution}/${checkoutNavigationRoutes.transactionStatus}`,
-      search: { simulateTransactionStatus: 'watching' },
+      search:
+        process.env.NODE_ENV !== 'production'
+          ? { simulateTransactionStatus: 'watching' }
+          : {},
     })
   }, [
     route,

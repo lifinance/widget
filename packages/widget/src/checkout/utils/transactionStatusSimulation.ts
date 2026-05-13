@@ -15,9 +15,16 @@ export const transactionStatusSimulationKinds = [
 export type TransactionStatusSimulationKind =
   (typeof transactionStatusSimulationKinds)[number]
 
+// Bundlers (Vite/tsdown/Rollup) replace this at build time, so the simulation
+// helpers below dead-code-eliminate in production consumer bundles.
+const isDevSimulationEnabled = process.env.NODE_ENV !== 'production'
+
 export function isTransactionStatusSimulationKind(
   value: string | null | undefined
 ): value is TransactionStatusSimulationKind {
+  if (!isDevSimulationEnabled) {
+    return false
+  }
   return (
     typeof value === 'string' &&
     (transactionStatusSimulationKinds as readonly string[]).includes(value)
@@ -117,6 +124,9 @@ const baseFixture = {
 export function getSimulatedStatus(
   kind: TransactionStatusSimulationKind
 ): StatusResponse | undefined {
+  if (!isDevSimulationEnabled) {
+    return undefined
+  }
   if (kind === 'watching') {
     return undefined
   }

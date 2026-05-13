@@ -158,19 +158,22 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
       .filter(Boolean) as typeof installedWallets
   }, [installedWallets, walletChainArgs])
 
+  const filteredWalletsRef = useRef(filteredWallets)
+  filteredWalletsRef.current = filteredWallets
+
   useEffect(() => {
     const walletId = walletChainArgs?.walletId
     if (!walletId) {
       dispatch({ type: 'SHOW_WALLET_LIST' })
       return
     }
-    const wallet = filteredWallets.find((w) => w.id === walletId)
+    const wallet = filteredWalletsRef.current.find((w) => w.id === walletId)
     if (!wallet) {
       dispatch({ type: 'SHOW_WALLET_LIST' })
       return
     }
     dispatch({ type: 'SHOW_MULTI_ECOSYSTEM', id: walletId })
-  }, [walletChainArgs?.walletId, filteredWallets])
+  }, [walletChainArgs?.walletId])
 
   const isMultiEcosystem = state.view === 'multi-ecosystem'
   const isConnecting = state.view === 'connecting'

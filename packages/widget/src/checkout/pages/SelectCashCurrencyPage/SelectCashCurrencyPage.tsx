@@ -45,7 +45,7 @@ export const SelectCashCurrencyPage: React.FC = (): JSX.Element => {
   })
 
   return (
-    <PageContainer topGutters bottomGutters>
+    <PageContainer bottomGutters>
       <Box sx={{ py: 1 }}>
         <SearchInput
           name="fiatCurrencySearch"

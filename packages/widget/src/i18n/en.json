@@ -444,9 +444,6 @@
       "exchange": "From an exchange",
       "cash": "Buy with cash"
     },
-    "errors": {
-      "noQuoteAvailable": "We couldn't fetch a quote for this amount. Try a different amount or come back later."
-    },
     "transactionStatus": {
       "detailsTitle": "Transaction details",
       "watching": "Watching for transaction",

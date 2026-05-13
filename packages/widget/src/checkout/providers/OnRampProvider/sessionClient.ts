@@ -12,6 +12,20 @@ export type CheckoutSessionRequestResult<TData> =
   | { ok: true; data: TData }
   | { ok: false; status: number; apiError: CheckoutSessionApiError | null }
 
+function parseSessionApiError(data: unknown): CheckoutSessionApiError | null {
+  if (data == null || typeof data !== 'object') {
+    return null
+  }
+  const candidate = data as Record<string, unknown>
+  const error =
+    typeof candidate.error === 'string' ? candidate.error : undefined
+  const code = typeof candidate.code === 'string' ? candidate.code : undefined
+  if (error === undefined && code === undefined) {
+    return null
+  }
+  return { error, code }
+}
+
 function normalizeSessionApiBaseUrl(baseUrl: string): string {
   // TODO(cleanup-review-baseurl-v1-normalization-hack): Remove this compatibility shim once
   // all callers consistently provide base URLs without /v1.
@@ -47,7 +61,7 @@ export async function postCheckoutSession<TBody, TData>({
     return {
       ok: false,
       status: res.status,
-      apiError: (data as CheckoutSessionApiError | null) ?? null,
+      apiError: parseSessionApiError(data),
     }
   }
 

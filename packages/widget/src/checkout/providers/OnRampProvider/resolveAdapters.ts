@@ -10,6 +10,10 @@ export async function resolveOnRampAdapters(): Promise<LoadedOnRampAdapter[]> {
     loadMeshAdapter(),
   ])
 
+  // On-ramp providers are optional peer deps. If a provider's SDK isn't
+  // installed (or fails to load), we intentionally drop it from the list so
+  // the UI simply doesn't render that funding option — no user-facing error.
+  // The warn is dev-only signal for integrators debugging a missing install.
   const adapters: LoadedOnRampAdapter[] = []
   for (let i = 0; i < settled.length; i++) {
     const r = settled[i]

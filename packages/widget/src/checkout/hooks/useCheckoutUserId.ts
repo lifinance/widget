@@ -19,7 +19,11 @@ function getOrCreateCheckoutUserId(): string {
 
 /** Returns a stable anonymous userId for the checkout session.
  *  Reads from / persists to `lifi.checkout.userId` in localStorage.
- *  Falls back to an ephemeral UUID per component mount if storage is unavailable. */
+ *  Falls back to an ephemeral UUID per component mount if storage is unavailable.
+ *
+ *  The persistent identifier (no expiry / rotation) is intentional and part of
+ *  the checkout spec: providers like Mesh require a stable user id across
+ *  sessions to resume link tokens and reconcile deposits. */
 export function useCheckoutUserId(): string {
   const [userId] = useState(getOrCreateCheckoutUserId)
   return userId

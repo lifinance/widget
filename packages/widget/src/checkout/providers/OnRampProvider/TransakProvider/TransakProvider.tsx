@@ -20,6 +20,7 @@ import {
   useEffect,
   useId,
   useMemo,
+  useRef,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -93,6 +94,22 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
   const [widgetUrl, setWidgetUrl] = useState<string | null>(null)
   const transakContainerId = useId()
   const router = useRouter()
+
+  const onSuccessRef = useRef(onSuccess)
+  useEffect(() => {
+    onSuccessRef.current = onSuccess
+  }, [onSuccess])
+
+  const widgetTargetRef = useRef({
+    toToken: widgetConfig.toToken,
+    toChain: widgetConfig.toChain,
+  })
+  useEffect(() => {
+    widgetTargetRef.current = {
+      toToken: widgetConfig.toToken,
+      toChain: widgetConfig.toChain,
+    }
+  }, [widgetConfig.toToken, widgetConfig.toChain])
 
   const close = useCallback(() => {
     setOpen(false)
@@ -281,7 +298,8 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
     }
 
     const onOrderSuccessful = (data: unknown) => {
-      if (onSuccess) {
+      const onSuccessCb = onSuccessRef.current
+      if (onSuccessCb) {
         const order =
           data != null &&
           typeof data === 'object' &&
@@ -290,17 +308,16 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
           typeof data.status === 'object'
             ? (data.status as Record<string, unknown>)
             : {}
-        onSuccess({
+        const { toToken, toChain } = widgetTargetRef.current
+        onSuccessCb({
           provider: 'transak',
           transactionHash:
             typeof order.transactionHash === 'string'
               ? order.transactionHash
               : undefined,
           amount: String(order.cryptoAmount ?? order.fiatAmount ?? ''),
-          token: String(order.cryptoCurrency ?? widgetConfig.toToken ?? ''),
-          chainId: Number(
-            order.chainId ?? order.networkId ?? widgetConfig.toChain ?? 0
-          ),
+          token: String(order.cryptoCurrency ?? toToken ?? ''),
+          chainId: Number(order.chainId ?? order.networkId ?? toChain ?? 0),
         })
       }
       close()
@@ -311,19 +328,14 @@ const TransakCashProvider: FC<TransakCashProviderProps> = ({
 
     transak.init()
 
+    // Transak's SDK does not expose a public `.off()` API; `transak.cleanup()`
+    // tears down the instance (iframe + internal listeners) and is the
+    // intended teardown path per their docs. Runs when the modal closes
+    // (open → false clears widgetUrl) or the component unmounts.
     return () => {
       transak.cleanup()
     }
-  }, [
-    close,
-    isLoading,
-    onSuccess,
-    open,
-    transakContainerId,
-    widgetConfig.toChain,
-    widgetConfig.toToken,
-    widgetUrl,
-  ])
+  }, [close, isLoading, open, transakContainerId, widgetUrl])
 
   useEffect(() => {
     if (!router) {
