@@ -22,7 +22,6 @@ export const LifiWidgetCheckout: ForwardRefExoticComponent<
       onSuccess: props.onSuccess,
       onError: props.onError,
       config: props.config,
-      onRampProviders: props.onRampProviders,
     }),
     [
       props.integrator,
@@ -30,7 +29,6 @@ export const LifiWidgetCheckout: ForwardRefExoticComponent<
       props.onSuccess,
       props.onError,
       props.config,
-      props.onRampProviders,
     ]
   )
 

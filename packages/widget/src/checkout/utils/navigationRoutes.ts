@@ -31,9 +31,8 @@ export const checkoutNavigationRoutes = {
 export type CheckoutNavigationRoute =
   (typeof checkoutNavigationRoutes)[keyof typeof checkoutNavigationRoutes]
 
-export const checkoutNavigationRoutesValues: string[] = Object.values(
-  checkoutNavigationRoutes
-)
+export const checkoutNavigationRoutesValues: CheckoutNavigationRoute[] =
+  Object.values(checkoutNavigationRoutes)
 
 /** Last path segment (or nested leaf) for showing the checkout header back control. */
 export const backButtonRoutes: string[] = [
