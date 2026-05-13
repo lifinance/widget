@@ -1,87 +1,76 @@
 'use client'
-import {
-  type Context,
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import { type Context, createContext, useContext, useEffect } from 'react'
+import { useStore } from 'zustand'
+import { createStore, type StoreApi } from 'zustand/vanilla'
 import type { OnRampSession } from '../types.js'
 
-interface OnRampSessionsRegistry {
+interface OnRampSessionsState {
   sessions: Record<string, OnRampSession>
   register: (id: string, session: OnRampSession) => void
   unregister: (id: string) => void
 }
 
-const noopRegister = () => {}
-const noopUnregister = () => {}
+export type OnRampSessionsStore = StoreApi<OnRampSessionsState>
 
-export const OnRampSessionsContext: Context<OnRampSessionsRegistry> =
-  createContext<OnRampSessionsRegistry>({
+/**
+ * Creates a per-instance store that holds the registered `OnRampSession`s.
+ * The widget owns one store per `<LifiWidgetCheckout>` mount; Hosts register
+ * into it and consumers subscribe to specific session slots via selectors.
+ */
+export function createOnRampSessionsStore(): OnRampSessionsStore {
+  return createStore<OnRampSessionsState>((set) => ({
     sessions: {},
-    register: noopRegister,
-    unregister: noopUnregister,
-  })
+    register: (id, session) =>
+      set((s) =>
+        s.sessions[id] === session
+          ? s
+          : { sessions: { ...s.sessions, [id]: session } }
+      ),
+    unregister: (id) =>
+      set((s) => {
+        if (!(id in s.sessions)) {
+          return s
+        }
+        const { [id]: _, ...rest } = s.sessions
+        return { sessions: rest }
+      }),
+  }))
+}
 
-export interface OnRampSessionsRegistryValue {
-  sessions: Record<string, OnRampSession>
-  register: (id: string, session: OnRampSession) => void
-  unregister: (id: string) => void
+export const OnRampSessionsContext: Context<OnRampSessionsStore | null> =
+  createContext<OnRampSessionsStore | null>(null)
+
+function useOnRampSessionsStore(): OnRampSessionsStore {
+  const store = useContext(OnRampSessionsContext)
+  if (!store) {
+    throw new Error(
+      'OnRampSessionsContext.Provider is missing — wrap descendants with <OnRampProviderRegistry>'
+    )
+  }
+  return store
 }
 
 /**
- * Hook for on-ramp Hosts: registers their `OnRampSession` into the shared
- * registry under `id`. Re-runs when the memoized `session` object changes
- * (i.e. on every state update inside the Host), so consumers see fresh
- * state via the registry.
+ * Host hook: registers `session` under `id` for the lifetime of the mount.
+ * Re-runs when the memoized `session` object changes so consumers always see
+ * the latest state.
  */
 export function useRegisterOnRampSession(
   id: string,
   session: OnRampSession
 ): void {
-  const { register, unregister } = useContext(OnRampSessionsContext)
+  const store = useOnRampSessionsStore()
   useEffect(() => {
-    register(id, session)
-    return () => unregister(id)
-  }, [id, session, register, unregister])
-}
-
-/** Reads the registered session for `id`, or `null` if none is mounted. */
-export function useOnRampSession(id: string): OnRampSession | null {
-  const { sessions } = useContext(OnRampSessionsContext)
-  return sessions[id] ?? null
+    store.getState().register(id, session)
+    return () => store.getState().unregister(id)
+  }, [id, session, store])
 }
 
 /**
- * Builds a stable `OnRampSessionsRegistry` value for the
- * `OnRampSessionsContext.Provider` to expose. Owned by the widget — every
- * Host descendant will register into it.
+ * Consumer hook: subscribes to a single session slot. Re-renders only when
+ * `sessions[id]` changes — other providers' updates do not trigger re-renders.
  */
-export function useOnRampSessionsRegistry(): OnRampSessionsRegistryValue {
-  const [sessions, setSessions] = useState<Record<string, OnRampSession>>({})
-
-  const register = useCallback((id: string, session: OnRampSession) => {
-    setSessions((prev) =>
-      prev[id] === session ? prev : { ...prev, [id]: session }
-    )
-  }, [])
-
-  const unregister = useCallback((id: string) => {
-    setSessions((prev) => {
-      if (!(id in prev)) {
-        return prev
-      }
-      const next = { ...prev }
-      delete next[id]
-      return next
-    })
-  }, [])
-
-  return useMemo(
-    () => ({ sessions, register, unregister }),
-    [sessions, register, unregister]
-  )
+export function useOnRampSession(id: string): OnRampSession | null {
+  const store = useOnRampSessionsStore()
+  return useStore(store, (s) => s.sessions[id] ?? null)
 }

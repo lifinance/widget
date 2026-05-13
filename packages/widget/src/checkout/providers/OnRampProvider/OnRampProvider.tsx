@@ -1,12 +1,13 @@
 'use client'
 import {
+  createOnRampSessionsStore,
   type OnRampFailure,
   type OnRampFundingCategory,
   type OnRampProvider as OnRampProviderAdapter,
   type OnRampSession,
   OnRampSessionsContext,
+  type OnRampSessionsStore,
   useOnRampSession,
-  useOnRampSessionsRegistry,
 } from '@lifi/widget-provider/checkout'
 import {
   createContext,
@@ -14,6 +15,7 @@ import {
   type PropsWithChildren,
   useContext,
   useMemo,
+  useRef,
 } from 'react'
 import { StoreProvider } from '../../../stores/StoreProvider.js'
 import type { FormRef, WidgetConfig } from '../../../types/widget.js'
@@ -123,10 +125,13 @@ export const OnRampProviderRegistry: FC<OnRampProviderRegistryProps> = ({
     [providers]
   )
 
-  const registry = useOnRampSessionsRegistry()
+  const storeRef = useRef<OnRampSessionsStore | null>(null)
+  if (!storeRef.current) {
+    storeRef.current = createOnRampSessionsStore()
+  }
 
   return (
-    <OnRampSessionsContext.Provider value={registry}>
+    <OnRampSessionsContext.Provider value={storeRef.current}>
       <OnRampMetaContext.Provider value={metas}>
         {providers.map((adapter) => {
           const Host = adapter.Host

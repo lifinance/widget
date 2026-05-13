@@ -10,9 +10,10 @@ export {
   useCheckoutConfig,
 } from './contexts/CheckoutContext.js'
 export {
+  createOnRampSessionsStore,
   OnRampSessionsContext,
+  type OnRampSessionsStore,
   useOnRampSession,
-  useOnRampSessionsRegistry,
   useRegisterOnRampSession,
 } from './contexts/OnRampSessionsContext.js'
 export { useCheckoutUserId } from './hooks/useCheckoutUserId.js'
