@@ -68,7 +68,8 @@
     "lint-staged": "^17.0.4",
     "standard-version": "^9.5.0",
     "tsdown": "^0.22.0",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "web3-common": "^1.0.0"
   },
   "optionalDependencies": {
     "@gemini-wallet/core": "^0.3.2",
