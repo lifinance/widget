@@ -1,3 +1,4 @@
+/** Reads a nested value from an object using a dot-separated path (e.g. "theme.palette.primary.main"). */
 export const getValueFromPath = <T>(
   object: any | undefined,
   path: string

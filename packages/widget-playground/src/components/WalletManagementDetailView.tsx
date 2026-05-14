@@ -16,7 +16,7 @@ import {
 } from './DetailView/DetailView.style.js'
 import { DetailViewHeader } from './DetailView/DetailViewHeader.js'
 import { DocsLink } from './DocsLink/DocsLink.js'
-import { Switch } from './Switch.js'
+import { Switch } from './Switch.style.js'
 
 type WalletManagementMode = 'internal' | 'external' | 'partial'
 

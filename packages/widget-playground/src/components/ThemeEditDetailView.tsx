@@ -1,156 +1,40 @@
-import type { WidgetConfig } from '@lifi/widget'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import LightModeIcon from '@mui/icons-material/LightMode'
-import LineWeightOutlinedIcon from '@mui/icons-material/LineWeightOutlined'
 import type { CSSObject } from '@mui/material'
-import { Box, Collapse, Divider, TextField } from '@mui/material'
-import type { FocusEventHandler, JSX, SyntheticEvent } from 'react'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useThemeMode } from '../../hooks/useThemeMode.js'
-import { useFontLoader } from '../../providers/FontLoaderProvider/FontLoaderProvider.js'
-import { allFonts } from '../../providers/FontLoaderProvider/fonts/defaultFonts.js'
-import type { Font } from '../../providers/FontLoaderProvider/types.js'
-import { useEditToolsStore } from '../../store/editTools/EditToolsProvider.js'
-import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
-import { usePlaygroundSettingValues } from '../../store/editTools/usePlaygroundSettingValues.js'
-import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
-import { useConfigColorsFromPath } from '../../store/widgetConfig/useConfigValues.js'
-import { useThemeValues } from '../../store/widgetConfig/useThemeValues.js'
-import { useWidgetConfigStore } from '../../store/widgetConfig/WidgetConfigProvider.js'
-import { safe6DigitHexColor } from '../../utils/color.js'
-import { docsLinks } from '../../utils/docsLinks.js'
-import { DetailViewHeader } from '../DetailView/DetailViewHeader.js'
-import { DocsLink } from '../DocsLink/DocsLink.js'
-import { Switch } from '../Switch.js'
-import { Tab, Tabs } from '../Tabs.js'
+import { Box, Divider } from '@mui/material'
+import type { JSX, SyntheticEvent } from 'react'
+import { useCallback, useRef, useState } from 'react'
+import { useThemeMode } from '../hooks/useThemeMode.js'
+import { allFonts } from '../providers/FontLoaderProvider/fonts/defaultFonts.js'
+import { useEditToolsActions } from '../store/editTools/useEditToolsActions.js'
+import { usePlaygroundSettingValues } from '../store/editTools/usePlaygroundSettingValues.js'
+import { useConfigActions } from '../store/widgetConfig/useConfigActions.js'
+import { useConfigColorsFromPath } from '../store/widgetConfig/useConfigValues.js'
+import { useThemeValues } from '../store/widgetConfig/useThemeValues.js'
+import { useWidgetConfigStore } from '../store/widgetConfig/WidgetConfigProvider.js'
+import { safe6DigitHexColor } from '../utils/color.js'
+import { docsLinks } from '../utils/docsLinks.js'
 import {
-  ColorSwatch,
+  buildBoxShadow,
+  mergeComponentRoot,
+  parseBoxShadow,
+  parseCssBorder,
+  pxFromCss,
+} from '../utils/theme.js'
+import {
   Content,
-  FontAutocomplete,
-  FontPopper,
+  Description,
   HelperText,
-  HexLabel,
-  PageDescription,
-  PageTitle,
-  Row,
-  RowLabel,
-  RowValue,
   SectionHeading,
-  SliderRow,
-  SliderValueInput,
-  SubRow,
-  SubSection,
-  ThemeSlider,
-  ToggleRow,
-  ToggleRowLabel,
-  ValueInput,
-} from './ThemeEditDetailView.style.js'
-
-function pxFromCss(
-  value: string | number | undefined,
-  fallback: number
-): number {
-  if (value === undefined || value === '') {
-    return fallback
-  }
-  if (typeof value === 'number') {
-    return value
-  }
-  const n = Number.parseInt(String(value).replace(/px/g, '').trim(), 10)
-  return Number.isFinite(n) ? n : fallback
-}
-
-function buildBoxShadow(
-  offsetX: number,
-  offsetY: number,
-  blur: number,
-  spread: number
-): string {
-  return `${offsetX}px ${offsetY}px ${blur}px ${spread}px rgba(0, 0, 0, 0.12)`
-}
-
-function parseBoxShadow(boxShadow: string): {
-  offsetX: number
-  offsetY: number
-  blur: number
-  spread: number
-} {
-  const px = boxShadow.match(/-?\d+px/g)
-  if (px && px.length >= 4) {
-    return {
-      offsetX: Number.parseInt(px[0], 10),
-      offsetY: Number.parseInt(px[1], 10),
-      blur: Math.max(0, Number.parseInt(px[2], 10)),
-      spread: Number.parseInt(px[3], 10),
-    }
-  }
-  if (px && px.length >= 3) {
-    return {
-      offsetX: Number.parseInt(px[0], 10),
-      offsetY: Number.parseInt(px[1], 10),
-      blur: Math.max(0, Number.parseInt(px[2], 10)),
-      spread: 0,
-    }
-  }
-  return { offsetX: 0, offsetY: 8, blur: 32, spread: 0 }
-}
-
-function parseCssBorder(border: string | number | undefined): {
-  on: boolean
-  width: number
-  color: string
-} {
-  if (border === undefined || border === '' || border === 'none') {
-    return { on: false, width: 1, color: '#E5E7EB' }
-  }
-  const s = String(border).trim()
-  const wMatch = s.match(/^(\d+(?:\.\d+)?)px/)
-  const width = wMatch ? Math.max(1, Math.round(Number(wMatch[1]))) : 1
-  const colorMatch = s.match(/solid\s+(.+)$/i)
-  let color = '#E5E7EB'
-  if (colorMatch?.[1]) {
-    const c = colorMatch[1].trim()
-    if (c.startsWith('#')) {
-      color = safe6DigitHexColor(c)
-    }
-  }
-  return { on: true, width, color }
-}
-
-function mergeComponentRoot(
-  config: Partial<WidgetConfig> | undefined,
-  componentName: 'MuiCard' | 'MuiButton',
-  patch: CSSObject
-): Partial<WidgetConfig> {
-  const theme = config?.theme
-  const existing = theme?.components?.[componentName]
-  const styleOverrides = existing?.styleOverrides
-  const root = styleOverrides?.root
-  const prevRoot =
-    root && typeof root === 'object' && !Array.isArray(root)
-      ? (root as CSSObject)
-      : {}
-
-  return {
-    theme: {
-      ...theme,
-      components: {
-        ...theme?.components,
-        [componentName]: {
-          ...existing,
-          ...(componentName === 'MuiCard' && { variants: [] }),
-          styleOverrides: {
-            ...styleOverrides,
-            root: {
-              ...prevRoot,
-              ...patch,
-            },
-          },
-        },
-      },
-    },
-  }
-}
+  Title,
+} from './DetailView/DetailView.style.js'
+import { DetailViewHeader } from './DetailView/DetailViewHeader.js'
+import { DocsLink } from './DocsLink/DocsLink.js'
+import { EditableColorRow } from './EditableColorRow/EditableColorRow.js'
+import { FontAutocomplete } from './FontAutocomplete/FontAutocomplete.js'
+import { RowLabel } from './Row.style.js'
+import { SurfaceBlock } from './SurfaceBlock.js'
+import { Tab, Tabs } from './Tabs.style.js'
 
 interface ThemeEditDetailViewProps {
   onBack: () => void
@@ -176,7 +60,6 @@ export const ThemeEditDetailView = ({
     setBorderRadius,
     setBorderRadiusSecondary,
     setConfig,
-    setFontFamily,
     setConfigTheme,
     setAppearance,
   } = useConfigActions()
@@ -302,75 +185,6 @@ export const ThemeEditDetailView = ({
     buttonRootObj.border as string | undefined
   )
 
-  const selectedFont = useEditToolsStore(
-    (store) => store.fontControl.selectedFont
-  )
-  const { loadFont } = useFontLoader()
-
-  const setAndLoadFont = useCallback(
-    async (font: Font) => {
-      setSelectedFont(font)
-      await loadFont(font)
-      setFontFamily(
-        font.fallbackFonts
-          ? `${font.family}, ${font.fallbackFonts}`
-          : font.family
-      )
-    },
-    [setSelectedFont, loadFont, setFontFamily]
-  )
-
-  const handleFontChange = useCallback(
-    (_: SyntheticEvent<Element, Event>, value: Font | string | null) => {
-      if (typeof value === 'string') {
-        const cleanValue = value.replace(/['"`]/g, '')
-        setSelectedFont({ family: cleanValue, source: 'Custom fonts' })
-        setFontFamily(cleanValue)
-      } else {
-        setAndLoadFont(value ?? allFonts[0])
-      }
-    },
-    [setAndLoadFont, setSelectedFont, setFontFamily]
-  )
-
-  const handleFontBlur: FocusEventHandler<HTMLInputElement> = useCallback(
-    (event) => {
-      const inputValue = event.target.value.replace(/['"`]/g, '').trim()
-      const getFullName = (font: Font): string =>
-        font.fallbackFonts
-          ? `${font.family}, ${font.fallbackFonts}`
-          : font.family
-
-      if (!selectedFont || inputValue !== getFullName(selectedFont)) {
-        if (inputValue) {
-          const matchingFont = allFonts.find(
-            (font) =>
-              inputValue.toLowerCase() === getFullName(font).toLowerCase()
-          )
-          if (matchingFont) {
-            setAndLoadFont(matchingFont)
-          } else {
-            setSelectedFont({ family: inputValue, source: 'Custom fonts' })
-            setFontFamily(inputValue)
-          }
-        }
-      }
-    },
-    [selectedFont, setAndLoadFont, setSelectedFont, setFontFamily]
-  )
-
-  const sortedFonts = useMemo(
-    () =>
-      [...allFonts].sort((a, b) => {
-        let order = b.source.localeCompare(a.source)
-        if (order === 0) {
-          order = b.family.localeCompare(a.family)
-        }
-        return -order
-      }) as Font[],
-    []
-  )
-
   const configRef = useRef(config)
   configRef.current = config
 
@@ -402,12 +216,12 @@ export const ThemeEditDetailView = ({
   return (
     <>
       <DetailViewHeader onBack={onBack} onReset={handleReset} />
-      <Content>
-        <PageTitle>Edit theme</PageTitle>
-        <PageDescription>
+      <Content sx={{ gap: 0 }}>
+        <Title sx={{ mb: 1 }}>Edit theme</Title>
+        <Description sx={{ mb: 3 }}>
           Set the widget&apos;s visual theme and override any colors you need to
           match your app.
-        </PageDescription>
+        </Description>
         <DocsLink href={docsLinks.theme} />
 
         <SectionHeading>Color palette</SectionHeading>
@@ -461,35 +275,7 @@ export const ThemeEditDetailView = ({
               mb: 3,
             }}
           >
-            {selectedFont && (
-              <FontAutocomplete
-                freeSolo
-                slots={{ popper: FontPopper }}
-                options={sortedFonts}
-                groupBy={(font) => (font as Font).source}
-                getOptionLabel={(font) => {
-                  if (typeof font === 'string') {
-                    return font
-                  }
-                  const f = font as Font
-                  return f.source === 'Custom fonts'
-                    ? f.family
-                    : f.fallbackFonts
-                      ? `${f.family}, ${f.fallbackFonts}`
-                      : f.family
-                }}
-                value={selectedFont}
-                isOptionEqualToValue={(option, value) =>
-                  (option as Font).family ===
-                  (typeof value === 'string' ? value : (value as Font).family)
-                }
-                onChange={handleFontChange}
-                onBlur={handleFontBlur}
-                renderInput={(params) => (
-                  <TextField {...params} aria-label="font selection" />
-                )}
-              />
-            )}
+            <FontAutocomplete />
             <HelperText>
               To use custom fonts, embed them in your project.
             </HelperText>
@@ -821,382 +607,5 @@ const ThemeColorRow = ({
       ariaLabel={label}
       onChange={(newHex) => setColor(colorPath, newHex)}
     />
-  )
-}
-
-interface EditableColorRowProps {
-  label: React.ReactNode
-  hex: string
-  ariaLabel: string
-  onChange: (hex: string) => void
-}
-
-const EditableColorRow = ({
-  label,
-  hex,
-  ariaLabel,
-  onChange,
-}: EditableColorRowProps): JSX.Element => {
-  const stripped = hex.replace(/^#/, '').toUpperCase()
-  const [draft, setDraft] = useState(stripped)
-  const colorInputRef = useRef<HTMLInputElement>(null)
-  const hexInputRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    setDraft(hex.replace(/^#/, '').toUpperCase())
-  }, [hex])
-
-  const commit = useCallback(() => {
-    const cleaned = draft.replace(/[^0-9a-fA-F]/g, '')
-    if (cleaned.length === 6 || cleaned.length === 3) {
-      const full = safe6DigitHexColor(`#${cleaned}`)
-      onChange(full)
-      setDraft(full.replace(/^#/, '').toUpperCase())
-    } else {
-      setDraft(stripped)
-    }
-  }, [draft, stripped, onChange])
-
-  const handleRowClick = useCallback(() => {
-    hexInputRef.current?.focus()
-    hexInputRef.current?.select()
-    colorInputRef.current?.click()
-  }, [])
-
-  return (
-    <Row onClick={handleRowClick} sx={{ cursor: 'pointer' }}>
-      <RowLabel>{label}</RowLabel>
-      <RowValue>
-        <Box
-          sx={{ display: 'flex', alignItems: 'center' }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <HexLabel>#</HexLabel>
-          <ValueInput
-            inputRef={hexInputRef}
-            value={draft}
-            onChange={(e) => setDraft(e.target.value)}
-            onFocus={(e) => (e.target as HTMLInputElement).select()}
-            onBlur={commit}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                commit()
-                ;(e.target as HTMLInputElement).blur()
-              }
-            }}
-            inputProps={{
-              'aria-label': ariaLabel,
-              style: { width: 56 },
-            }}
-          />
-        </Box>
-        <ColorSwatch
-          inputRef={colorInputRef}
-          aria-label={`${ariaLabel} picker`}
-          type="color"
-          swatchColor={safe6DigitHexColor(`#${stripped}`)}
-          value={safe6DigitHexColor(`#${stripped}`)}
-          onChange={(e) => onChange(e.target.value)}
-        />
-      </RowValue>
-    </Row>
-  )
-}
-
-interface BorderWeightRowProps {
-  title: string
-  value: number
-  onChange: (w: number) => void
-}
-
-const BorderWeightRow = ({
-  title,
-  value,
-  onChange,
-}: BorderWeightRowProps): JSX.Element => {
-  const [draft, setDraft] = useState(String(value))
-  const inputRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    setDraft(String(value))
-  }, [value])
-
-  const commit = useCallback(() => {
-    const n = Number.parseInt(draft, 10)
-    if (Number.isFinite(n) && n >= 1 && n <= 4) {
-      onChange(n)
-      setDraft(String(n))
-    } else {
-      setDraft(String(value))
-    }
-  }, [draft, value, onChange])
-
-  const handleRowClick = useCallback(() => {
-    inputRef.current?.focus()
-    inputRef.current?.select()
-  }, [])
-
-  return (
-    <Row onClick={handleRowClick} sx={{ cursor: 'pointer' }}>
-      <RowLabel>Weight</RowLabel>
-      <RowValue>
-        <ValueInput
-          inputRef={inputRef}
-          value={draft}
-          onChange={(e) => {
-            const v = e.target.value
-            setDraft(v)
-            const n = Number.parseInt(v, 10)
-            if (Number.isFinite(n) && n >= 1 && n <= 4) {
-              onChange(n)
-            }
-          }}
-          onFocus={(e) => (e.target as HTMLInputElement).select()}
-          onBlur={commit}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              commit()
-              ;(e.target as HTMLInputElement).blur()
-            }
-          }}
-          inputProps={{
-            'aria-label': `${title} border weight`,
-            inputMode: 'numeric',
-            style: { width: 20 },
-          }}
-        />
-        <LineWeightOutlinedIcon sx={{ fontSize: 24, color: 'action.active' }} />
-      </RowValue>
-    </Row>
-  )
-}
-
-interface EditableSliderValueProps {
-  value: number
-  min: number
-  max: number
-  onChange: (n: number) => void
-  ariaLabel: string
-}
-
-const EditableSliderValue = ({
-  value,
-  min,
-  max,
-  onChange,
-  ariaLabel,
-}: EditableSliderValueProps): JSX.Element => {
-  const [draft, setDraft] = useState(String(value))
-
-  useEffect(() => {
-    setDraft(String(value))
-  }, [value])
-
-  const commit = useCallback(() => {
-    const n = Number.parseInt(draft, 10)
-    if (Number.isFinite(n)) {
-      const clamped = Math.max(min, Math.min(max, n))
-      onChange(clamped)
-      setDraft(String(clamped))
-    } else {
-      setDraft(String(value))
-    }
-  }, [draft, value, min, max, onChange])
-
-  return (
-    <SliderValueInput
-      value={draft}
-      onChange={(e) => setDraft(e.target.value)}
-      onFocus={(e) => (e.target as HTMLInputElement).select()}
-      onBlur={commit}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter') {
-          commit()
-          ;(e.target as HTMLInputElement).blur()
-        }
-      }}
-      inputProps={{
-        'aria-label': ariaLabel,
-        inputMode: 'numeric',
-      }}
-    />
-  )
-}
-
-interface SurfaceBlockProps {
-  title: string
-  radius: number
-  onRadiusChange: (n: number) => void
-  radiusMax: number
-  shadowOn: boolean
-  onShadowOnChange: (on: boolean) => void
-  shadowOffsetX: number
-  onShadowOffsetXChange: (x: number) => void
-  shadowOffsetY: number
-  onShadowOffsetYChange: (y: number) => void
-  shadowBlur: number
-  onShadowBlurChange: (blur: number) => void
-  shadowSpread: number
-  onShadowSpreadChange: (spread: number) => void
-  borderOn: boolean
-  onBorderOnChange: (on: boolean) => void
-  borderColor: string
-  onBorderColorChange: (hex: string) => void
-  borderWeight: number
-  onBorderWeightChange: (w: number) => void
-}
-
-const SurfaceBlock = ({
-  title,
-  radius,
-  onRadiusChange,
-  radiusMax,
-  shadowOn,
-  onShadowOnChange,
-  shadowOffsetX,
-  onShadowOffsetXChange,
-  shadowOffsetY,
-  onShadowOffsetYChange,
-  shadowBlur,
-  onShadowBlurChange,
-  shadowSpread,
-  onShadowSpreadChange,
-  borderOn,
-  onBorderOnChange,
-  borderColor,
-  onBorderColorChange,
-  borderWeight,
-  onBorderWeightChange,
-}: SurfaceBlockProps): JSX.Element => {
-  return (
-    <Box>
-      <Divider sx={{ my: '40px' }} />
-      <SectionHeading sx={{ marginTop: 0 }}>{title}</SectionHeading>
-      <SliderRow>
-        <RowLabel>Corner radius</RowLabel>
-        <ThemeSlider
-          size="small"
-          value={radius}
-          min={0}
-          max={radiusMax}
-          onChange={(_, v) => onRadiusChange(v as number)}
-          aria-label={`${title} corner radius`}
-        />
-        <EditableSliderValue
-          value={radius}
-          min={0}
-          max={radiusMax}
-          onChange={onRadiusChange}
-          ariaLabel={`${title} corner radius`}
-        />
-      </SliderRow>
-      <ToggleRow>
-        <ToggleRowLabel>Shadow</ToggleRowLabel>
-        <Switch
-          checked={shadowOn}
-          onChange={(_, c) => onShadowOnChange(c)}
-          aria-label={`${title} shadow`}
-        />
-      </ToggleRow>
-      <Collapse in={shadowOn} unmountOnExit>
-        <SubSection>
-          <SubRow>
-            <RowLabel>Offset X</RowLabel>
-            <ThemeSlider
-              size="small"
-              value={shadowOffsetX}
-              min={-8}
-              max={8}
-              onChange={(_, v) => onShadowOffsetXChange(v as number)}
-              aria-label={`${title} shadow offset x`}
-            />
-            <EditableSliderValue
-              value={shadowOffsetX}
-              min={-8}
-              max={8}
-              onChange={onShadowOffsetXChange}
-              ariaLabel={`${title} shadow offset x`}
-            />
-          </SubRow>
-          <SubRow>
-            <RowLabel>Offset Y</RowLabel>
-            <ThemeSlider
-              size="small"
-              value={shadowOffsetY}
-              min={-8}
-              max={8}
-              onChange={(_, v) => onShadowOffsetYChange(v as number)}
-              aria-label={`${title} shadow offset y`}
-            />
-            <EditableSliderValue
-              value={shadowOffsetY}
-              min={-8}
-              max={8}
-              onChange={onShadowOffsetYChange}
-              ariaLabel={`${title} shadow offset y`}
-            />
-          </SubRow>
-          <SubRow>
-            <RowLabel>Blur</RowLabel>
-            <ThemeSlider
-              size="small"
-              value={shadowBlur}
-              min={0}
-              max={24}
-              onChange={(_, v) => onShadowBlurChange(v as number)}
-              aria-label={`${title} shadow blur`}
-            />
-            <EditableSliderValue
-              value={shadowBlur}
-              min={0}
-              max={24}
-              onChange={onShadowBlurChange}
-              ariaLabel={`${title} shadow blur`}
-            />
-          </SubRow>
-          <SubRow>
-            <RowLabel>Spread</RowLabel>
-            <ThemeSlider
-              size="small"
-              value={shadowSpread}
-              min={0}
-              max={8}
-              onChange={(_, v) => onShadowSpreadChange(v as number)}
-              aria-label={`${title} shadow spread`}
-            />
-            <EditableSliderValue
-              value={shadowSpread}
-              min={0}
-              max={8}
-              onChange={onShadowSpreadChange}
-              ariaLabel={`${title} shadow spread`}
-            />
-          </SubRow>
-        </SubSection>
-      </Collapse>
-      <ToggleRow sx={{ mt: 2 }}>
-        <ToggleRowLabel>Border</ToggleRowLabel>
-        <Switch
-          checked={borderOn}
-          onChange={(_, c) => onBorderOnChange(c)}
-          aria-label={`${title} border`}
-        />
-      </ToggleRow>
-      <Collapse in={borderOn} unmountOnExit>
-        <SubSection>
-          <EditableColorRow
-            label="Color"
-            hex={safe6DigitHexColor(borderColor).toUpperCase()}
-            ariaLabel={`${title} border color`}
-            onChange={onBorderColorChange}
-          />
-          <BorderWeightRow
-            title={title}
-            value={borderWeight}
-            onChange={onBorderWeightChange}
-          />
-        </SubSection>
-      </Collapse>
-    </Box>
   )
 }

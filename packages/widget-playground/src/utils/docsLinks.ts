@@ -1,3 +1,4 @@
+/** Centralized map of LI.FI documentation URLs used by DocsLink components across the playground. */
 export const docsLinks = {
   overview: 'https://docs.li.fi/widget/overview',
   theme: 'https://docs.li.fi/widget/customize-widget#theme',

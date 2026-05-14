@@ -50,3 +50,26 @@ export const CardsContainer: FC<React.ComponentProps<typeof Box>> = styled(Box)(
     width: '100%',
   })
 )
+
+export const SectionHeading: FC<React.ComponentProps<typeof Box>> = styled(Box)(
+  ({ theme }) => ({
+    fontSize: 18,
+    fontWeight: 700,
+    lineHeight: '20px',
+    color: theme.vars.palette.text.primary,
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
+    '&:first-of-type': {
+      marginTop: 0,
+    },
+  })
+)
+
+export const HelperText: FC<React.ComponentProps<typeof Box>> = styled(Box)(
+  ({ theme }) => ({
+    fontSize: 12,
+    fontWeight: 500,
+    lineHeight: '16px',
+    color: theme.vars.palette.text.secondary,
+  })
+)

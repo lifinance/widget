@@ -15,6 +15,7 @@ const ChainTypeSpaceMap: Record<AppKitSupportedChainTypes, ChainNamespace> = {
 
 type ChainImages = Record<number, string>
 
+/** Converts LI.FI ExtendedChain[] to Reown AppKit network definitions. */
 export const chainToAppKitNetworks = (
   chains: ExtendedChain[]
 ): AppKitNetwork[] =>
@@ -44,6 +45,7 @@ export const chainToAppKitNetworks = (
     })
   )
 
+/** Builds a chain ID -> logo URL map for AppKit's image config. */
 export const getChainImagesConfig = (chains: ExtendedChain[]): ChainImages => {
   const chainImages: ChainImages = {}
   for (const chain of chains) {

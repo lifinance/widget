@@ -39,6 +39,7 @@ const fillRecents = (store: StoreProp, num: number): StoreProp => {
   return store
 }
 
+/** Checks whether localStorage already has seeded bookmark data. */
 export const readPlaygroundBookmarksSeeded = (): boolean => {
   if (typeof localStorage === 'undefined') {
     return false
@@ -55,6 +56,7 @@ export const readPlaygroundBookmarksSeeded = (): boolean => {
   }
 }
 
+/** Fills localStorage with 50 dummy bookmarks and 50 recent wallets, then reloads. */
 export const seedPlaygroundBookmarkStores = (): void => {
   const fresh = createEmptyStore()
   fillBookmarks(fresh, 50)
@@ -63,6 +65,7 @@ export const seedPlaygroundBookmarkStores = (): void => {
   window.location.reload()
 }
 
+/** Resets localStorage bookmark store to empty and reloads. */
 export const clearPlaygroundBookmarkStores = (): void => {
   localStorage.setItem('li.fi-bookmarks', JSON.stringify(createEmptyStore()))
   window.location.reload()

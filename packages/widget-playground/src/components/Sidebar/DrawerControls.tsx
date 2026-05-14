@@ -17,7 +17,7 @@ import { HeightDetailView } from '../HeightDetailView.js'
 import { ModeDetailView } from '../ModeDetailView.js'
 import { NavListItem } from '../NavListItem/NavListItem.js'
 import { ThemeControl } from '../ThemeControl/ThemeControl.js'
-import { ThemeEditDetailView } from '../ThemeEditDetailView/ThemeEditDetailView.js'
+import { ThemeEditDetailView } from '../ThemeEditDetailView.js'
 import { VariantDetailView } from '../VariantDetailView.js'
 import { WalletManagementDetailView } from '../WalletManagementDetailView.js'
 import {

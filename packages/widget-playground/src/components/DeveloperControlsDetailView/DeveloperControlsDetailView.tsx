@@ -14,7 +14,7 @@ import { docsLinks } from '../../utils/docsLinks.js'
 import { setQueryStringParam } from '../../utils/setQueryStringParam.js'
 import { DetailViewHeader } from '../DetailView/DetailViewHeader.js'
 import { DocsLink } from '../DocsLink/DocsLink.js'
-import { Switch } from '../Switch.js'
+import { Switch } from '../Switch.style.js'
 import {
   ConfigureLink,
   Content,

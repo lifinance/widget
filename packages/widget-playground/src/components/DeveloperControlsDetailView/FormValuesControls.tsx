@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
 import type { FormValues } from '../../store/types.js'
 import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
-import { Tab, Tabs } from '../Tabs.js'
+import { Tab, Tabs } from '../Tabs.style.js'
 import {
   FormBlock,
   MethodHint,
