@@ -31,33 +31,44 @@ if (!['link', 'unlink'].includes(action)) {
   process.exit(1)
 }
 
+const MARKER = '  # LOCAL ONLY — do not commit (sdk link)'
+
 let content = fs.readFileSync(workspacePath, 'utf-8')
 
 function removeOverrides(yaml) {
+  let next = yaml.replace(/^\s*# LOCAL ONLY.*\(sdk link\).*\r?\n/gm, '')
   for (const pkg of sdkPackages) {
     const escaped = pkg.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    yaml = yaml.replace(new RegExp(`^  '${escaped}':.*\\n`, 'gm'), '')
+    next = next.replace(
+      new RegExp(`^\\s+['"]?${escaped}['"]?\\s*:.*\\r?\\n`, 'gm'),
+      ''
+    )
   }
-  return yaml
+  return next
 }
 
 content = removeOverrides(content)
 
+if (!content.endsWith('\n')) {
+  content += '\n'
+}
+
 if (action === 'link') {
   const lines = sdkPackages.map((pkg) => `  '${pkg}': '${sdkOverrides[pkg]}'`)
-  const overridesBlock = lines.join('\n')
+  const block = `${MARKER}\n${lines.join('\n')}\n`
 
-  if (content.includes('overrides:')) {
-    const insertPoint = content.indexOf('overrides:') + 'overrides:\n'.length
-    content =
-      content.slice(0, insertPoint) +
-      overridesBlock +
-      '\n' +
-      content.slice(insertPoint)
+  // Anchor on a real top-level "overrides:" key. Tolerates trailing whitespace
+  // and CRLF on the header line.
+  const headerMatch = content.match(/^overrides:[ \t]*\r?\n/m)
+  if (headerMatch) {
+    const insertPoint = headerMatch.index + headerMatch[0].length
+    content = content.slice(0, insertPoint) + block + content.slice(insertPoint)
   } else {
-    content += `overrides:\n${overridesBlock}\n`
+    content += `overrides:\n${block}`
   }
-  console.log('Linked SDK packages via pnpm-workspace.yaml overrides')
+  console.log(
+    'Linked SDK packages via pnpm-workspace.yaml overrides. DO NOT commit pnpm-workspace.yaml while linked.'
+  )
 } else {
   console.log('Unlinked SDK packages from pnpm-workspace.yaml overrides')
 }
