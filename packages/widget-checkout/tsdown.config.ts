@@ -1,7 +1,7 @@
 import { defineConfig, type UserConfig } from 'tsdown'
 
 const defaultConfig: UserConfig = defineConfig({
-  entry: ['src/index.ts', 'src/shared.ts'],
+  entry: ['src/index.ts'],
   outDir: 'dist/esm',
   format: 'esm',
   unbundle: true,
@@ -14,6 +14,5 @@ const defaultConfig: UserConfig = defineConfig({
     skipNodeModulesBundle: true,
     neverBundle: [/\.json$/],
   },
-  copy: [{ from: 'src/i18n/*.json', to: 'dist/esm/i18n', flatten: true }],
 })
 export default defaultConfig

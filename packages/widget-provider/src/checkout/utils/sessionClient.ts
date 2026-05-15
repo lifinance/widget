@@ -68,6 +68,14 @@ export async function postCheckoutSession<TBody, TData>({
     }
   }
 
+  // A 2xx with a non-object body (empty body, HTML from a misconfigured
+  // proxy, JSON `null`) would otherwise be cast straight to `TData` and
+  // propagate as a structurally-invalid success. Treat it as a failure with
+  // no parseable api error.
+  if (data == null || typeof data !== 'object') {
+    return { ok: false, status: res.status, apiError: null }
+  }
+
   return {
     ok: true,
     data: data as TData,

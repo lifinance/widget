@@ -1,4 +1,4 @@
-import { LifiWidgetCheckout } from '@lifi/widget/checkout'
+import { LifiWidgetCheckout } from '@lifi/widget-checkout'
 import { meshProvider } from '@lifi/widget-provider-mesh'
 import { transakProvider } from '@lifi/widget-provider-transak'
 import { Box, Button, Typography } from '@mui/material'

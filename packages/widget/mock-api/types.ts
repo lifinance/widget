@@ -3,7 +3,7 @@ export type {
   CexSessionResponse,
   OnrampSessionRequest,
   OnrampSessionResponse,
-} from '../src/checkout/types/onrampSession.js'
+} from '@lifi/widget-provider/checkout'
 
 export interface ErrorResponse {
   error: string

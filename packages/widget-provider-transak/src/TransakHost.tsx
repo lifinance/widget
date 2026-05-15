@@ -250,6 +250,15 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
     // singleton emitter. This per-run flag guarantees `onSuccess` fires at
     // most once and prevents stale closures from running between an SDK emit
     // and effect cleanup.
+    //
+    // SDK constraint: `@transak/ui-js-sdk` v1.0.0 exposes only static
+    // `Transak.on` — there is no `Transak.off`. Handler removal is only
+    // possible via `transak.cleanup()`, which internally calls
+    // `m.removeAllListeners()` on the shared emitter. That's adequate for a
+    // single host instance, but it also wipes listeners belonging to any
+    // other live Transak instance. If we ever support multiple concurrent
+    // Transak sessions, switch to an SDK build that exposes per-listener
+    // removal (or proxy through our own emitter).
     const runState = { active: true }
 
     const onWidgetClose = () => {
@@ -296,6 +305,10 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
     transak.init()
 
     return () => {
+      // `runState.active = false` is the primary safeguard: even if a queued
+      // SDK event fires between this cleanup and `transak.cleanup()` clearing
+      // the emitter, the handlers above no-op. `transak.cleanup()` then
+      // removes the listeners (see SDK constraint note above).
       runState.active = false
       transak.cleanup()
     }

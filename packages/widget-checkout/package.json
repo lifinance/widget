@@ -1,27 +1,24 @@
 {
-  "name": "@lifi/widget",
-  "version": "4.0.0-beta.20",
-  "description": "LI.FI Widget for cross-chain bridging and swapping. It will drive your multi-chain strategy and attract new users from everywhere.",
+  "name": "@lifi/widget-checkout",
+  "version": "4.0.0-beta.17",
+  "description": "LI.FI Widget Checkout — on-ramp and cross-chain checkout flow built on @lifi/widget.",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
   "exports": {
-    ".": "./src/index.ts",
-    "./shared": "./src/shared.ts"
+    ".": "./src/index.ts"
   },
   "sideEffects": false,
   "scripts": {
     "watch": "tsdown --watch",
-    "build": "pnpm clean && pnpm build:version && tsdown",
+    "build": "pnpm clean && tsdown",
     "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../README.md' .",
     "build:postrelease": "node ../../scripts/postrelease.js && rm -rf README.md",
-    "build:version": "node ../../scripts/version.js",
     "release:build": "pnpm build",
     "clean": "rm -rf dist",
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
     "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg",
-    "dev:mock-api": "tsx --env-file=mock-api/.env.local mock-api/index.ts",
     "test": "vitest run"
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
@@ -29,7 +26,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/lifinance/widget.git",
-    "directory": "packages/widget"
+    "directory": "packages/widget-checkout"
   },
   "bugs": {
     "url": "https://github.com/lifinance/widget/issues"
@@ -43,48 +40,36 @@
   "keywords": [
     "widget",
     "lifi-widget",
-    "bridge",
-    "swap",
+    "checkout",
+    "onramp",
+    "fiat",
     "cross-chain",
-    "multi-chain",
-    "ethereum",
-    "solana",
-    "bitcoin",
-    "sui",
-    "web3",
     "lifi"
   ],
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^4.0.0-beta.11",
+    "@lifi/sdk": "4.0.0-beta.7",
     "@lifi/wallet-management": "workspace:*",
+    "@lifi/widget": "workspace:*",
     "@lifi/widget-provider": "workspace:*",
-    "@mui/icons-material": "^9.0.1",
-    "@mui/material": "^9.0.1",
-    "@mui/system": "^9.0.1",
-    "@tanstack/react-router": "^1.169.2",
-    "@tanstack/react-virtual": "^3.13.24",
-    "i18next": "^26.1.0",
-    "microdiff": "^1.5.0",
-    "mitt": "^3.0.1",
-    "react-i18next": "^17.0.7",
-    "react-intersection-observer": "^10.0.3",
-    "react-transition-group": "^4.4.5",
-    "zustand": "^5.0.13"
+    "@mui/icons-material": "^9.0.0",
+    "@mui/material": "^9.0.0",
+    "@mui/system": "^9.0.0",
+    "@tanstack/react-router": "^1.168.10",
+    "i18next": "^26.0.4",
+    "qrcode.react": "^4.2.0",
+    "react-i18next": "^17.0.2",
+    "zustand": "^5.0.12"
   },
   "devDependencies": {
-    "@types/express": "^5.0.6",
-    "@types/node": "^25.6.2",
-    "@types/react-transition-group": "^4.4.12",
+    "@types/node": "^25.5.2",
     "cpy-cli": "^7.0.0",
-    "express": "^5.2.1",
     "madge": "^8.0.0",
-    "react": "^19.2.6",
-    "react-dom": "^19.2.6",
-    "tsx": "^4.19.4",
-    "typescript": "^6.0.3",
-    "vitest": "^4.1.5"
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.4"
   },
   "peerDependencies": {
     "@tanstack/react-query": ">=5.90.0",
