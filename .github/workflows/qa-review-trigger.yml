@@ -11,33 +11,19 @@ jobs:
     permissions:
       contents: read
     steps:
-      - name: Format private key
-        id: format-key
-        env:
-          KEY: ${{ secrets.QA_APP_PRIVATE_KEY }}
-        run: |
-          FORMATTED=$(printf '%s' "$KEY" \
-            | sed 's/-----BEGIN RSA PRIVATE KEY----- /-----BEGIN RSA PRIVATE KEY-----\n/' \
-            | sed 's/ -----END RSA PRIVATE KEY-----/\n-----END RSA PRIVATE KEY-----/' \
-            | awk '/^-----/{print; next} {gsub(/ /,"\n"); print}')
-          echo "::add-mask::$FORMATTED"
-          echo "pem<<KEYEOF" >> $GITHUB_OUTPUT
-          echo "$FORMATTED" >> $GITHUB_OUTPUT
-          echo "KEYEOF" >> $GITHUB_OUTPUT
-
       - name: Create GitHub App token
         id: app-token
         uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2
         with:
           app-id: ${{ secrets.QA_APP_ID }}
-          private-key: ${{ steps.format-key.outputs.pem }}
+          private-key: ${{ secrets.QA_APP_PRIVATE_KEY }}
           owner: lifinance
 
       - name: Trigger Zeus QA review
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
         run: |
-          gh api repos/lifinance/QA/dispatches \
-            --method POST \
-            --field event_type=qa-review-embeddables \
-            --raw-field client_payload='{"pr_url":"${{ github.event.pull_request.html_url }}"}'
+          jq -n --arg url "$PR_URL" \
+            '{"event_type":"qa-review-embeddables","client_payload":{"pr_url":$url}}' | \
+            gh api repos/lifinance/QA/dispatches --method POST --input -
