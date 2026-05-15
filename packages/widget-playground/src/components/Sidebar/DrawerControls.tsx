@@ -7,11 +7,19 @@ import ViewSidebarOutlinedIcon from '@mui/icons-material/ViewSidebarOutlined'
 import { Divider } from '@mui/material'
 import type { JSX } from 'react'
 import { useCallback, useRef, useState } from 'react'
+import { usePlaygroundLayoutControls } from '../../hooks/usePlaygroundLayoutControls.js'
 import { useThemeMode } from '../../hooks/useThemeMode.js'
 import { useFontInitialisation } from '../../providers/FontLoaderProvider/FontLoaderProvider.js'
 import { useDrawerToolValues } from '../../store/editTools/useDrawerToolValues.js'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
 import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
+import {
+  useConfigSubvariant,
+  useConfigSubvariantOptions,
+  useConfigVariant,
+  useConfigWalletManagement,
+} from '../../store/widgetConfig/useConfigValues.js'
+import { useThemeValues } from '../../store/widgetConfig/useThemeValues.js'
 import { DeveloperControlsDetailView } from '../DeveloperControlsDetailView/DeveloperControlsDetailView.js'
 import { HeightDetailView } from '../HeightDetailView.js'
 import { ModeDetailView } from '../ModeDetailView.js'
@@ -32,6 +40,44 @@ import {
 import { SidebarFooter } from './SidebarFooter.js'
 import { SidebarHeader } from './SidebarHeader.js'
 
+const modeLabels: Record<string, string> = {
+  exchange: 'Exchange',
+  split: 'Swap or Bridge',
+  swap: 'Swap',
+  bridge: 'Bridge',
+  refuel: 'Refuel',
+}
+
+const heightLabels: Record<string, string> = {
+  default: 'Default',
+  'restricted-height': 'Restricted height',
+  'restricted-max-height': 'Restricted max height',
+  'full-height': 'Full height',
+}
+
+function getModeLabel(subvariant: string, splitOption?: string): string {
+  if (subvariant === 'refuel') {
+    return modeLabels.refuel
+  }
+  if (subvariant === 'split') {
+    if (splitOption === 'swap') {
+      return modeLabels.swap
+    }
+    if (splitOption === 'bridge') {
+      return modeLabels.bridge
+    }
+    return modeLabels.split
+  }
+  return modeLabels.exchange
+}
+
+function getWalletLabel(isExternal: boolean, isPartial: boolean): string {
+  if (!isExternal) {
+    return 'Internal'
+  }
+  return isPartial ? 'Partial' : 'External'
+}
+
 export const DrawerControls = (): JSX.Element => {
   const { isDrawerOpen, drawerWidth } = useDrawerToolValues()
   const { setDrawerOpen, resetEditTools } = useEditToolsActions()
@@ -39,6 +85,26 @@ export const DrawerControls = (): JSX.Element => {
   const { setMode } = useThemeMode()
   const [activeView, setActiveView] = useState<SidebarView>('nav')
   const [expandedItem, setExpandedItem] = useState<string | null>(null)
+
+  const { subvariant } = useConfigSubvariant()
+  const { subvariantOptions } = useConfigSubvariantOptions()
+  const { variant } = useConfigVariant()
+  const { selectedLayoutId } = usePlaygroundLayoutControls()
+  const { isExternalWalletManagement, isPartialWalletManagement } =
+    useConfigWalletManagement()
+  const { selectedThemeItem } = useThemeValues()
+
+  const modeValue = getModeLabel(
+    subvariant,
+    subvariantOptions?.split as string | undefined
+  )
+  const variantValue =
+    variant === 'compact' ? 'Compact' : variant === 'wide' ? 'Wide' : 'Drawer'
+  const heightValue = heightLabels[selectedLayoutId] ?? 'Default'
+  const walletValue = getWalletLabel(
+    isExternalWalletManagement,
+    isPartialWalletManagement
+  )
 
   useFontInitialisation()
 
@@ -81,21 +147,25 @@ export const DrawerControls = (): JSX.Element => {
               <NavListItem
                 icon={<TableRowsOutlinedIcon />}
                 label="Mode"
+                value={modeValue}
                 onClick={() => setActiveView('mode')}
               />
               <NavListItem
                 icon={<ViewSidebarOutlinedIcon />}
                 label="Variant"
+                value={variantValue}
                 onClick={() => setActiveView('variant')}
               />
               <NavListItem
                 icon={<HeightOutlinedIcon />}
                 label="Height"
+                value={heightValue}
                 onClick={() => setActiveView('height')}
               />
               <NavListItem
                 icon={<AccountBalanceWalletOutlinedIcon />}
                 label="Wallet management"
+                value={walletValue}
                 onClick={() => setActiveView('wallet')}
               />
               <SidebarDivider>
@@ -112,6 +182,7 @@ export const DrawerControls = (): JSX.Element => {
               <NavListItem
                 icon={<PaletteOutlinedIcon />}
                 label="Theme"
+                value={selectedThemeItem?.name.replace(/\s+Light$/i, '')}
                 expandable
                 expanded={expandedItem === 'theme'}
                 onToggle={() => handleToggleItem('theme')}

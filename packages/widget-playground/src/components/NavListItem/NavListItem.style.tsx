@@ -1,4 +1,5 @@
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined'
+import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined'
 import { Box, ButtonBase, styled, Typography } from '@mui/material'
 import type { FC } from 'react'
 
@@ -58,6 +59,32 @@ export const ChevronIcon: FC<
   color: theme.vars.palette.text.secondary,
   transition: 'transform 0.2s ease',
   transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+}))
+
+export const NavItemValue: FC<React.ComponentProps<typeof Typography>> = styled(
+  Typography
+)(({ theme }) => ({
+  fontSize: 14,
+  fontWeight: 400,
+  lineHeight: '20px',
+  color: theme.vars.palette.text.secondary,
+  whiteSpace: 'nowrap',
+  flexShrink: 0,
+}))
+
+export const NavItemTrailing: FC<React.ComponentProps<typeof Box>> = styled(
+  Box
+)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: theme.spacing(0.25),
+  flexShrink: 0,
+}))
+
+export const NavChevronIcon: FC<
+  React.ComponentProps<typeof KeyboardArrowRightOutlinedIcon>
+> = styled(KeyboardArrowRightOutlinedIcon)(({ theme }) => ({
+  color: theme.vars.palette.text.secondary,
 }))
 
 export const NavItemExpandedContent: FC<React.ComponentProps<typeof Box>> =
