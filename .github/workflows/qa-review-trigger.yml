@@ -16,12 +16,13 @@ jobs:
         env:
           KEY: ${{ secrets.QA_APP_PRIVATE_KEY }}
         run: |
-          echo "pem<<KEYEOF" >> $GITHUB_OUTPUT
-          printf '%s' "$KEY" \
+          FORMATTED=$(printf '%s' "$KEY" \
             | sed 's/-----BEGIN RSA PRIVATE KEY----- /-----BEGIN RSA PRIVATE KEY-----\n/' \
             | sed 's/ -----END RSA PRIVATE KEY-----/\n-----END RSA PRIVATE KEY-----/' \
-            | awk '/^-----/{print; next} {gsub(/ /,"\n"); print}' \
-            >> $GITHUB_OUTPUT
+            | awk '/^-----/{print; next} {gsub(/ /,"\n"); print}')
+          echo "::add-mask::$FORMATTED"
+          echo "pem<<KEYEOF" >> $GITHUB_OUTPUT
+          echo "$FORMATTED" >> $GITHUB_OUTPUT
           echo "KEYEOF" >> $GITHUB_OUTPUT
 
       - name: Create GitHub App token
