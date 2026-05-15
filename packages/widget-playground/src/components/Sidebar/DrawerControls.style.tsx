@@ -15,15 +15,35 @@ export const Drawer: React.FC<
   React.ComponentProps<typeof MuiDrawer> & DrawerProps
 > = styled(MuiDrawer, {
   shouldForwardProp: (prop) => !['drawerWidth'].includes(prop as string),
-})<DrawerProps>(({ drawerWidth }) => ({
-  width: drawerWidth,
-  variants: [
-    {
-      props: ({ open }) => open,
-      style: { zIndex: drawerZIndex },
+})<DrawerProps>(({ theme, drawerWidth }) => {
+  const gap = theme.spacing(1.5)
+  return {
+    width: 0,
+    flexShrink: 0,
+    variants: [
+      {
+        props: ({ open }) => open,
+        style: { zIndex: drawerZIndex },
+      },
+    ],
+    '& .MuiDrawer-paper': {
+      position: 'fixed',
+      top: gap,
+      left: gap,
+      width: drawerWidth,
+      height: `calc(100% - ${gap} - ${gap})`,
+      borderRadius: theme.spacing(1.5),
+      border: `1px solid ${theme.vars.palette.divider}`,
+      boxShadow:
+        '0 20px 40px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04)',
+      overflow: 'hidden',
+      ...theme.applyStyles('dark', {
+        boxShadow:
+          '0 20px 40px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.15)',
+      }),
     },
-  ],
-}))
+  }
+})
 
 export const TabContentContainer: React.FC<
   React.ComponentProps<typeof TabPanel>

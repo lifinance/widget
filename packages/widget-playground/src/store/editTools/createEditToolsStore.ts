@@ -19,7 +19,8 @@ export const createEditToolsStore = (
           selectedFont: undefined,
         },
         playgroundSettings: {
-          viewportColor: undefined,
+          viewportColorLight: undefined,
+          viewportColorDark: undefined,
         },
         skeletonControl: {
           show: false,
@@ -44,7 +45,8 @@ export const createEditToolsStore = (
         resetEditTools: () => {
           set({
             playgroundSettings: {
-              viewportColor: undefined,
+              viewportColorLight: undefined,
+              viewportColorDark: undefined,
             },
           })
         },
@@ -55,11 +57,13 @@ export const createEditToolsStore = (
             },
           })
         },
-        setViewportBackgroundColor: (viewportColor) => {
+        setViewportBackgroundColor: (color, mode) => {
           set({
             playgroundSettings: {
               ...get().playgroundSettings,
-              viewportColor,
+              ...(mode === 'light'
+                ? { viewportColorLight: color }
+                : { viewportColorDark: color }),
             },
           })
         },
@@ -121,7 +125,8 @@ export const createEditToolsStore = (
             open: state.drawer.open,
           },
           playgroundSettings: {
-            viewportColor: state.playgroundSettings?.viewportColor,
+            viewportColorLight: state.playgroundSettings?.viewportColorLight,
+            viewportColorDark: state.playgroundSettings?.viewportColorDark,
           },
         }),
         onRehydrateStorage: () => {
@@ -133,7 +138,8 @@ export const createEditToolsStore = (
                     ?.main &&
                   !initialTheme.colorSchemes?.dark?.palette?.playground?.main
                 ) {
-                  state.setViewportBackgroundColor(undefined)
+                  state.setViewportBackgroundColor(undefined, 'light')
+                  state.setViewportBackgroundColor(undefined, 'dark')
                 }
               }
             }

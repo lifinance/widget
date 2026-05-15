@@ -64,7 +64,7 @@ export const ThemeEditDetailView = ({
     setAppearance,
   } = useConfigActions()
   const { setSelectedFont, setViewportBackgroundColor } = useEditToolsActions()
-  const { viewportColor } = usePlaygroundSettingValues()
+  const { viewportColorLight, viewportColorDark } = usePlaygroundSettingValues()
   const { themeMode, setMode } = useThemeMode()
   const { selectedThemeItem } = useThemeValues()
   const config = useWidgetConfigStore((s) => s.config)
@@ -101,7 +101,8 @@ export const ThemeEditDetailView = ({
       setMode(value)
       setViewportBackgroundColor(
         selectedThemeItem?.theme.colorSchemes?.[value]?.palette?.playground
-          ?.main || (value === 'dark' ? '#000000' : '#F5F5F5')
+          ?.main || (value === 'dark' ? '#000000' : '#F5F5F5'),
+        value
       )
     },
     [setAppearance, setMode, setViewportBackgroundColor, selectedThemeItem]
@@ -224,359 +225,366 @@ export const ThemeEditDetailView = ({
         </Description>
         <DocsLink href={docsLinks.theme} />
 
-        <SectionHeading>Color palette</SectionHeading>
-        <RowLabel sx={{ mb: 1 }}>Mode</RowLabel>
-        <Tabs
-          value={effectivePaletteMode}
-          onChange={handlePaletteModeChange}
-          aria-label="Palette mode"
-          sx={{ marginBottom: 3 }}
-        >
-          {canLight ? (
-            <Tab
-              value="light"
-              icon={<LightModeIcon sx={{ fontSize: 18 }} />}
-              disableRipple
-            />
-          ) : null}
-          {canDark ? (
-            <Tab
-              value="dark"
-              icon={<DarkModeIcon sx={{ fontSize: 18 }} />}
-              disableRipple
-            />
-          ) : null}
-        </Tabs>
-
-        {PALETTE_LABELS.map(({ label, suffix }) => (
-          <ThemeColorRow
-            key={suffix}
-            label={label}
-            colorPath={colorPath(suffix)}
-          />
-        ))}
-        <EditableColorRow
-          label="Viewport background"
-          hex={safe6DigitHexColor(
-            viewportColor || (themeMode === 'dark' ? '#000000' : '#F5F5F5')
-          ).toUpperCase()}
-          ariaLabel="Viewport background"
-          onChange={(newHex) => setViewportBackgroundColor(newHex)}
-        />
-
-        <Box>
-          <Divider sx={{ my: '40px' }} />
-          <SectionHeading sx={{ marginTop: 0 }}>Typography</SectionHeading>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '12px',
-              mb: 3,
-            }}
+        <Box sx={{ my: 4 }}>
+          <SectionHeading>Color palette</SectionHeading>
+          <RowLabel sx={{ mb: 1 }}>Mode</RowLabel>
+          <Tabs
+            value={effectivePaletteMode}
+            onChange={handlePaletteModeChange}
+            aria-label="Palette mode"
+            sx={{ marginBottom: 3 }}
           >
-            <FontAutocomplete />
-            <HelperText>
-              To use custom fonts, embed them in your project.
-            </HelperText>
-          </Box>
-          <ThemeColorRow
-            label="Text primary"
-            colorPath={colorPath('text.primary')}
+            {canLight ? (
+              <Tab
+                value="light"
+                icon={<LightModeIcon sx={{ fontSize: 18 }} />}
+                disableRipple
+              />
+            ) : null}
+            {canDark ? (
+              <Tab
+                value="dark"
+                icon={<DarkModeIcon sx={{ fontSize: 18 }} />}
+                disableRipple
+              />
+            ) : null}
+          </Tabs>
+
+          {PALETTE_LABELS.map(({ label, suffix }) => (
+            <ThemeColorRow
+              key={suffix}
+              label={label}
+              colorPath={colorPath(suffix)}
+            />
+          ))}
+          <EditableColorRow
+            label="Viewport background"
+            hex={safe6DigitHexColor(
+              (effectivePaletteMode === 'dark'
+                ? viewportColorDark
+                : viewportColorLight) ||
+                (effectivePaletteMode === 'dark' ? '#000000' : '#F5F5F5')
+            ).toUpperCase()}
+            ariaLabel="Viewport background"
+            onChange={(newHex) =>
+              setViewportBackgroundColor(newHex, effectivePaletteMode)
+            }
           />
-          <ThemeColorRow
-            label="Text secondary"
-            colorPath={colorPath('text.secondary')}
+
+          <Box>
+            <Divider sx={{ my: '40px' }} />
+            <SectionHeading sx={{ marginTop: 0 }}>Typography</SectionHeading>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '12px',
+                mb: 3,
+              }}
+            >
+              <FontAutocomplete />
+              <HelperText>
+                To use custom fonts, embed them in your project.
+              </HelperText>
+            </Box>
+            <ThemeColorRow
+              label="Text primary"
+              colorPath={colorPath('text.primary')}
+            />
+            <ThemeColorRow
+              label="Text secondary"
+              colorPath={colorPath('text.secondary')}
+            />
+          </Box>
+
+          <SurfaceBlock
+            title="Widget"
+            radius={widgetRadius}
+            onRadiusChange={(n) => updateContainer({ borderRadius: `${n}px` })}
+            radiusMax={32}
+            shadowOn={widgetShadowOn}
+            onShadowOnChange={(on) =>
+              updateContainer({
+                boxShadow: on
+                  ? buildBoxShadow(
+                      widgetShadowOffsetX,
+                      widgetShadowOffsetY,
+                      widgetShadowBlur,
+                      widgetShadowSpread
+                    )
+                  : 'none',
+              })
+            }
+            shadowOffsetX={widgetShadowOffsetX}
+            onShadowOffsetXChange={(x) =>
+              updateContainer({
+                boxShadow: widgetShadowOn
+                  ? buildBoxShadow(
+                      x,
+                      widgetShadowOffsetY,
+                      widgetShadowBlur,
+                      widgetShadowSpread
+                    )
+                  : 'none',
+              })
+            }
+            shadowOffsetY={widgetShadowOffsetY}
+            onShadowOffsetYChange={(y) =>
+              updateContainer({
+                boxShadow: widgetShadowOn
+                  ? buildBoxShadow(
+                      widgetShadowOffsetX,
+                      y,
+                      widgetShadowBlur,
+                      widgetShadowSpread
+                    )
+                  : 'none',
+              })
+            }
+            shadowBlur={widgetShadowBlur}
+            onShadowBlurChange={(blur) =>
+              updateContainer({
+                boxShadow: widgetShadowOn
+                  ? buildBoxShadow(
+                      widgetShadowOffsetX,
+                      widgetShadowOffsetY,
+                      blur,
+                      widgetShadowSpread
+                    )
+                  : 'none',
+              })
+            }
+            shadowSpread={widgetShadowSpread}
+            onShadowSpreadChange={(spread) =>
+              updateContainer({
+                boxShadow: widgetShadowOn
+                  ? buildBoxShadow(
+                      widgetShadowOffsetX,
+                      widgetShadowOffsetY,
+                      widgetShadowBlur,
+                      spread
+                    )
+                  : 'none',
+              })
+            }
+            borderOn={widgetBorderOn}
+            onBorderOnChange={(on) =>
+              updateContainer({
+                border: on
+                  ? `${borderParsed.width}px solid ${borderParsed.color}`
+                  : undefined,
+              })
+            }
+            borderColor={borderParsed.color}
+            onBorderColorChange={(hex) =>
+              updateContainer({
+                border: widgetBorderOn
+                  ? `${borderParsed.width}px solid ${hex}`
+                  : undefined,
+              })
+            }
+            borderWeight={borderParsed.width}
+            onBorderWeightChange={(w) =>
+              updateContainer({
+                border: widgetBorderOn
+                  ? `${w}px solid ${borderParsed.color}`
+                  : undefined,
+              })
+            }
+          />
+
+          <SurfaceBlock
+            title="Card"
+            radius={borderRadiusCard}
+            onRadiusChange={(n) => setBorderRadius(n)}
+            radiusMax={24}
+            shadowOn={cardShadowOn}
+            onShadowOnChange={(on) =>
+              updateCardComponent({
+                boxShadow: on
+                  ? buildBoxShadow(
+                      cardShadowOffsetX,
+                      cardShadowOffsetY,
+                      cardShadowBlur,
+                      cardShadowSpread
+                    )
+                  : 'none',
+              })
+            }
+            shadowOffsetX={cardShadowOffsetX}
+            onShadowOffsetXChange={(x) =>
+              updateCardComponent({
+                boxShadow: cardShadowOn
+                  ? buildBoxShadow(
+                      x,
+                      cardShadowOffsetY,
+                      cardShadowBlur,
+                      cardShadowSpread
+                    )
+                  : 'none',
+              })
+            }
+            shadowOffsetY={cardShadowOffsetY}
+            onShadowOffsetYChange={(y) =>
+              updateCardComponent({
+                boxShadow: cardShadowOn
+                  ? buildBoxShadow(
+                      cardShadowOffsetX,
+                      y,
+                      cardShadowBlur,
+                      cardShadowSpread
+                    )
+                  : 'none',
+              })
+            }
+            shadowBlur={cardShadowBlur}
+            onShadowBlurChange={(blur) =>
+              updateCardComponent({
+                boxShadow: cardShadowOn
+                  ? buildBoxShadow(
+                      cardShadowOffsetX,
+                      cardShadowOffsetY,
+                      blur,
+                      cardShadowSpread
+                    )
+                  : 'none',
+              })
+            }
+            shadowSpread={cardShadowSpread}
+            onShadowSpreadChange={(spread) =>
+              updateCardComponent({
+                boxShadow: cardShadowOn
+                  ? buildBoxShadow(
+                      cardShadowOffsetX,
+                      cardShadowOffsetY,
+                      cardShadowBlur,
+                      spread
+                    )
+                  : 'none',
+              })
+            }
+            borderOn={cardBorderParsed.on}
+            onBorderOnChange={(on) =>
+              updateCardComponent({
+                border: on
+                  ? `${cardBorderParsed.width}px solid ${cardBorderParsed.color}`
+                  : 'none',
+              })
+            }
+            borderColor={cardBorderParsed.color}
+            onBorderColorChange={(hex) =>
+              updateCardComponent({
+                border: cardBorderParsed.on
+                  ? `${cardBorderParsed.width}px solid ${hex}`
+                  : 'none',
+              })
+            }
+            borderWeight={cardBorderParsed.width}
+            onBorderWeightChange={(w) =>
+              updateCardComponent({
+                border: cardBorderParsed.on
+                  ? `${w}px solid ${cardBorderParsed.color}`
+                  : 'none',
+              })
+            }
+          />
+
+          <SurfaceBlock
+            title="Button"
+            radius={borderRadiusButton}
+            onRadiusChange={(n) => setBorderRadiusSecondary(n)}
+            radiusMax={24}
+            shadowOn={buttonShadowOn}
+            onShadowOnChange={(on) =>
+              updateButtonComponent({
+                boxShadow: on
+                  ? buildBoxShadow(
+                      buttonShadowOffsetX,
+                      buttonShadowOffsetY,
+                      buttonShadowBlur,
+                      buttonShadowSpread
+                    )
+                  : 'none',
+              })
+            }
+            shadowOffsetX={buttonShadowOffsetX}
+            onShadowOffsetXChange={(x) =>
+              updateButtonComponent({
+                boxShadow: buttonShadowOn
+                  ? buildBoxShadow(
+                      x,
+                      buttonShadowOffsetY,
+                      buttonShadowBlur,
+                      buttonShadowSpread
+                    )
+                  : 'none',
+              })
+            }
+            shadowOffsetY={buttonShadowOffsetY}
+            onShadowOffsetYChange={(y) =>
+              updateButtonComponent({
+                boxShadow: buttonShadowOn
+                  ? buildBoxShadow(
+                      buttonShadowOffsetX,
+                      y,
+                      buttonShadowBlur,
+                      buttonShadowSpread
+                    )
+                  : 'none',
+              })
+            }
+            shadowBlur={buttonShadowBlur}
+            onShadowBlurChange={(blur) =>
+              updateButtonComponent({
+                boxShadow: buttonShadowOn
+                  ? buildBoxShadow(
+                      buttonShadowOffsetX,
+                      buttonShadowOffsetY,
+                      blur,
+                      buttonShadowSpread
+                    )
+                  : 'none',
+              })
+            }
+            shadowSpread={buttonShadowSpread}
+            onShadowSpreadChange={(spread) =>
+              updateButtonComponent({
+                boxShadow: buttonShadowOn
+                  ? buildBoxShadow(
+                      buttonShadowOffsetX,
+                      buttonShadowOffsetY,
+                      buttonShadowBlur,
+                      spread
+                    )
+                  : 'none',
+              })
+            }
+            borderOn={buttonBorderParsed.on}
+            onBorderOnChange={(on) =>
+              updateButtonComponent({
+                border: on
+                  ? `${buttonBorderParsed.width}px solid ${buttonBorderParsed.color}`
+                  : 'none',
+              })
+            }
+            borderColor={buttonBorderParsed.color}
+            onBorderColorChange={(hex) =>
+              updateButtonComponent({
+                border: buttonBorderParsed.on
+                  ? `${buttonBorderParsed.width}px solid ${hex}`
+                  : 'none',
+              })
+            }
+            borderWeight={buttonBorderParsed.width}
+            onBorderWeightChange={(w) =>
+              updateButtonComponent({
+                border: buttonBorderParsed.on
+                  ? `${w}px solid ${buttonBorderParsed.color}`
+                  : 'none',
+              })
+            }
           />
         </Box>
-
-        <SurfaceBlock
-          title="Widget"
-          radius={widgetRadius}
-          onRadiusChange={(n) => updateContainer({ borderRadius: `${n}px` })}
-          radiusMax={32}
-          shadowOn={widgetShadowOn}
-          onShadowOnChange={(on) =>
-            updateContainer({
-              boxShadow: on
-                ? buildBoxShadow(
-                    widgetShadowOffsetX,
-                    widgetShadowOffsetY,
-                    widgetShadowBlur,
-                    widgetShadowSpread
-                  )
-                : 'none',
-            })
-          }
-          shadowOffsetX={widgetShadowOffsetX}
-          onShadowOffsetXChange={(x) =>
-            updateContainer({
-              boxShadow: widgetShadowOn
-                ? buildBoxShadow(
-                    x,
-                    widgetShadowOffsetY,
-                    widgetShadowBlur,
-                    widgetShadowSpread
-                  )
-                : 'none',
-            })
-          }
-          shadowOffsetY={widgetShadowOffsetY}
-          onShadowOffsetYChange={(y) =>
-            updateContainer({
-              boxShadow: widgetShadowOn
-                ? buildBoxShadow(
-                    widgetShadowOffsetX,
-                    y,
-                    widgetShadowBlur,
-                    widgetShadowSpread
-                  )
-                : 'none',
-            })
-          }
-          shadowBlur={widgetShadowBlur}
-          onShadowBlurChange={(blur) =>
-            updateContainer({
-              boxShadow: widgetShadowOn
-                ? buildBoxShadow(
-                    widgetShadowOffsetX,
-                    widgetShadowOffsetY,
-                    blur,
-                    widgetShadowSpread
-                  )
-                : 'none',
-            })
-          }
-          shadowSpread={widgetShadowSpread}
-          onShadowSpreadChange={(spread) =>
-            updateContainer({
-              boxShadow: widgetShadowOn
-                ? buildBoxShadow(
-                    widgetShadowOffsetX,
-                    widgetShadowOffsetY,
-                    widgetShadowBlur,
-                    spread
-                  )
-                : 'none',
-            })
-          }
-          borderOn={widgetBorderOn}
-          onBorderOnChange={(on) =>
-            updateContainer({
-              border: on
-                ? `${borderParsed.width}px solid ${borderParsed.color}`
-                : undefined,
-            })
-          }
-          borderColor={borderParsed.color}
-          onBorderColorChange={(hex) =>
-            updateContainer({
-              border: widgetBorderOn
-                ? `${borderParsed.width}px solid ${hex}`
-                : undefined,
-            })
-          }
-          borderWeight={borderParsed.width}
-          onBorderWeightChange={(w) =>
-            updateContainer({
-              border: widgetBorderOn
-                ? `${w}px solid ${borderParsed.color}`
-                : undefined,
-            })
-          }
-        />
-
-        <SurfaceBlock
-          title="Card"
-          radius={borderRadiusCard}
-          onRadiusChange={(n) => setBorderRadius(n)}
-          radiusMax={24}
-          shadowOn={cardShadowOn}
-          onShadowOnChange={(on) =>
-            updateCardComponent({
-              boxShadow: on
-                ? buildBoxShadow(
-                    cardShadowOffsetX,
-                    cardShadowOffsetY,
-                    cardShadowBlur,
-                    cardShadowSpread
-                  )
-                : 'none',
-            })
-          }
-          shadowOffsetX={cardShadowOffsetX}
-          onShadowOffsetXChange={(x) =>
-            updateCardComponent({
-              boxShadow: cardShadowOn
-                ? buildBoxShadow(
-                    x,
-                    cardShadowOffsetY,
-                    cardShadowBlur,
-                    cardShadowSpread
-                  )
-                : 'none',
-            })
-          }
-          shadowOffsetY={cardShadowOffsetY}
-          onShadowOffsetYChange={(y) =>
-            updateCardComponent({
-              boxShadow: cardShadowOn
-                ? buildBoxShadow(
-                    cardShadowOffsetX,
-                    y,
-                    cardShadowBlur,
-                    cardShadowSpread
-                  )
-                : 'none',
-            })
-          }
-          shadowBlur={cardShadowBlur}
-          onShadowBlurChange={(blur) =>
-            updateCardComponent({
-              boxShadow: cardShadowOn
-                ? buildBoxShadow(
-                    cardShadowOffsetX,
-                    cardShadowOffsetY,
-                    blur,
-                    cardShadowSpread
-                  )
-                : 'none',
-            })
-          }
-          shadowSpread={cardShadowSpread}
-          onShadowSpreadChange={(spread) =>
-            updateCardComponent({
-              boxShadow: cardShadowOn
-                ? buildBoxShadow(
-                    cardShadowOffsetX,
-                    cardShadowOffsetY,
-                    cardShadowBlur,
-                    spread
-                  )
-                : 'none',
-            })
-          }
-          borderOn={cardBorderParsed.on}
-          onBorderOnChange={(on) =>
-            updateCardComponent({
-              border: on
-                ? `${cardBorderParsed.width}px solid ${cardBorderParsed.color}`
-                : 'none',
-            })
-          }
-          borderColor={cardBorderParsed.color}
-          onBorderColorChange={(hex) =>
-            updateCardComponent({
-              border: cardBorderParsed.on
-                ? `${cardBorderParsed.width}px solid ${hex}`
-                : 'none',
-            })
-          }
-          borderWeight={cardBorderParsed.width}
-          onBorderWeightChange={(w) =>
-            updateCardComponent({
-              border: cardBorderParsed.on
-                ? `${w}px solid ${cardBorderParsed.color}`
-                : 'none',
-            })
-          }
-        />
-
-        <SurfaceBlock
-          title="Button"
-          radius={borderRadiusButton}
-          onRadiusChange={(n) => setBorderRadiusSecondary(n)}
-          radiusMax={24}
-          shadowOn={buttonShadowOn}
-          onShadowOnChange={(on) =>
-            updateButtonComponent({
-              boxShadow: on
-                ? buildBoxShadow(
-                    buttonShadowOffsetX,
-                    buttonShadowOffsetY,
-                    buttonShadowBlur,
-                    buttonShadowSpread
-                  )
-                : 'none',
-            })
-          }
-          shadowOffsetX={buttonShadowOffsetX}
-          onShadowOffsetXChange={(x) =>
-            updateButtonComponent({
-              boxShadow: buttonShadowOn
-                ? buildBoxShadow(
-                    x,
-                    buttonShadowOffsetY,
-                    buttonShadowBlur,
-                    buttonShadowSpread
-                  )
-                : 'none',
-            })
-          }
-          shadowOffsetY={buttonShadowOffsetY}
-          onShadowOffsetYChange={(y) =>
-            updateButtonComponent({
-              boxShadow: buttonShadowOn
-                ? buildBoxShadow(
-                    buttonShadowOffsetX,
-                    y,
-                    buttonShadowBlur,
-                    buttonShadowSpread
-                  )
-                : 'none',
-            })
-          }
-          shadowBlur={buttonShadowBlur}
-          onShadowBlurChange={(blur) =>
-            updateButtonComponent({
-              boxShadow: buttonShadowOn
-                ? buildBoxShadow(
-                    buttonShadowOffsetX,
-                    buttonShadowOffsetY,
-                    blur,
-                    buttonShadowSpread
-                  )
-                : 'none',
-            })
-          }
-          shadowSpread={buttonShadowSpread}
-          onShadowSpreadChange={(spread) =>
-            updateButtonComponent({
-              boxShadow: buttonShadowOn
-                ? buildBoxShadow(
-                    buttonShadowOffsetX,
-                    buttonShadowOffsetY,
-                    buttonShadowBlur,
-                    spread
-                  )
-                : 'none',
-            })
-          }
-          borderOn={buttonBorderParsed.on}
-          onBorderOnChange={(on) =>
-            updateButtonComponent({
-              border: on
-                ? `${buttonBorderParsed.width}px solid ${buttonBorderParsed.color}`
-                : 'none',
-            })
-          }
-          borderColor={buttonBorderParsed.color}
-          onBorderColorChange={(hex) =>
-            updateButtonComponent({
-              border: buttonBorderParsed.on
-                ? `${buttonBorderParsed.width}px solid ${hex}`
-                : 'none',
-            })
-          }
-          borderWeight={buttonBorderParsed.width}
-          onBorderWeightChange={(w) =>
-            updateButtonComponent({
-              border: buttonBorderParsed.on
-                ? `${w}px solid ${buttonBorderParsed.color}`
-                : 'none',
-            })
-          }
-        />
       </Content>
     </>
   )

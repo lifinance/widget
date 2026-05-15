@@ -25,7 +25,7 @@ export function WidgetViewContainer({
   toggleDrawer,
 }: WidgetViewContainerProps): JSX.Element {
   const { config } = useConfig()
-  const { isDrawerOpen, drawerWidth } = useDrawerToolValues()
+  const { isDrawerOpen } = useDrawerToolValues()
   const { setDrawerOpen } = useEditToolsActions()
   const { showMockHeader, showMockFooter, isFooterFixed } =
     useHeaderAndFooterToolValues()
@@ -40,7 +40,7 @@ export function WidgetViewContainer({
   const showFooter = isFullHeightLayout && showMockFooter
 
   return (
-    <Main open={isDrawerOpen} drawerWidth={drawerWidth}>
+    <Main>
       <ExternalWalletProvider isExternalProvider={isWalletManagementExternal}>
         <FloatingToolsContainer>
           {!isDrawerOpen ? (

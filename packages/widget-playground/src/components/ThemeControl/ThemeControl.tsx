@@ -129,11 +129,10 @@ export const ThemeControl = ({
         setAppearance(nextThemeMode)
         setMode(nextThemeMode)
       }
+      const resolvedMode = nextThemeMode ?? themeMode
       setViewportBackgroundColor(
-        nextThemeMode
-          ? themeItem.theme.colorSchemes?.[nextThemeMode]?.palette?.playground
-              ?.main
-          : undefined
+        themeItem.theme.colorSchemes?.[resolvedMode]?.palette?.playground?.main,
+        resolvedMode
       )
     },
     [

@@ -31,7 +31,7 @@ export const WidgetContainer: React.FC<
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    paddingTop: theme.spacing(14),
+    paddingTop: theme.spacing(12.5),
     variants: [
       {
         props: ({ alignTop }) => alignTop,
@@ -82,40 +82,14 @@ export const DrawerOpenButton: React.FC<
 }))
 
 export const Main: React.FC<
-  React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
-    drawerWidth: number
-    open?: boolean
-  }
-> = styled('main', {
-  shouldForwardProp: (prop) =>
-    !['drawerWidth', 'open'].includes(prop as string),
-})<{
-  drawerWidth: number
-  open?: boolean
-}>(({ theme, drawerWidth }) => ({
+  React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>
+> = styled('main')(() => ({
   display: 'flex',
   justifyContent: 'stretch',
   position: 'relative',
   flexGrow: 1,
-  transition: theme.transitions.create('margin', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  marginLeft: `-${drawerWidth}px`,
   '& > [data-rk]': {
     display: 'flex',
     flexGrow: '1',
   },
-  variants: [
-    {
-      props: ({ open }) => open,
-      style: {
-        transition: theme.transitions.create('margin', {
-          easing: theme.transitions.easing.easeOut,
-          duration: theme.transitions.duration.enteringScreen,
-        }),
-        marginLeft: 0,
-      },
-    },
-  ],
 }))

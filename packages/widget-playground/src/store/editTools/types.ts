@@ -23,7 +23,8 @@ interface EditToolsValues {
     selectedFont: Font | undefined // move to config
   }
   playgroundSettings: {
-    viewportColor?: string | undefined
+    viewportColorLight?: string | undefined
+    viewportColorDark?: string | undefined
   }
   skeletonControl: {
     show: boolean
@@ -44,7 +45,10 @@ interface EditToolsActions {
   setDrawerOpen: (open: boolean) => void
   resetEditTools: () => void
   setSelectedFont: (font: Font) => void
-  setViewportBackgroundColor: (color: string | undefined) => void
+  setViewportBackgroundColor: (
+    color: string | undefined,
+    mode: 'light' | 'dark'
+  ) => void
   setSkeletonShow: (show: boolean) => void
   setHeaderVisibility: (show: boolean) => void
   setFooterVisibility: (show: boolean) => void
