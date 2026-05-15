@@ -4,14 +4,27 @@ import { styled } from '@mui/material/styles'
 import type React from 'react'
 import { drawerZIndex } from '../Sidebar/DrawerControls.style.js'
 
+interface FloatingToolsContainerProps extends BoxProps {
+  drawerOpen?: boolean
+  drawerWidth?: number
+}
+
 export const FloatingToolsContainer: React.FC<
-  React.ComponentProps<typeof Box>
-> = styled(Box)(({ theme }) => ({
+  React.ComponentProps<typeof Box> & FloatingToolsContainerProps
+> = styled(Box, {
+  shouldForwardProp: (prop) =>
+    !['drawerOpen', 'drawerWidth'].includes(prop as string),
+})<FloatingToolsContainerProps>(({ theme, drawerOpen, drawerWidth = 0 }) => ({
   display: 'flex',
   gap: theme.spacing(2),
   position: 'absolute',
   zIndex: drawerZIndex,
   padding: theme.spacing(3, 0, 0, 3),
+  left: drawerOpen ? drawerWidth : 0,
+  transition: theme.transitions.create('left', {
+    duration: theme.transitions.duration.enteringScreen,
+    easing: theme.transitions.easing.sharp,
+  }),
 }))
 
 interface WidgetContainerProps extends BoxProps {

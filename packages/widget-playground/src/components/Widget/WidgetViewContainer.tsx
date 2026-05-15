@@ -25,7 +25,7 @@ export function WidgetViewContainer({
   toggleDrawer,
 }: WidgetViewContainerProps): JSX.Element {
   const { config } = useConfig()
-  const { isDrawerOpen } = useDrawerToolValues()
+  const { isDrawerOpen, drawerWidth } = useDrawerToolValues()
   const { setDrawerOpen } = useEditToolsActions()
   const { showMockHeader, showMockFooter, isFooterFixed } =
     useHeaderAndFooterToolValues()
@@ -42,7 +42,10 @@ export function WidgetViewContainer({
   return (
     <Main>
       <ExternalWalletProvider isExternalProvider={isWalletManagementExternal}>
-        <FloatingToolsContainer>
+        <FloatingToolsContainer
+          drawerOpen={isDrawerOpen}
+          drawerWidth={drawerWidth}
+        >
           {!isDrawerOpen ? (
             <Tooltip title="Open tools" arrow>
               <DrawerOpenButton onClick={() => setDrawerOpen(true)}>
