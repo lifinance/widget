@@ -8,7 +8,7 @@ import {
   useWidgetConfig,
 } from '@lifi/widget/shared'
 import { Box, type Theme, useMediaQuery } from '@mui/material'
-import { useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCheckoutNavigate } from '../../hooks/useCheckoutNavigate.js'
 import { useCheckoutFlowStore } from '../../stores/useCheckoutFlowStore.js'
@@ -29,14 +29,22 @@ export const SelectDepositTokenPage: React.FC = () => {
   useHeader(title)
 
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
-  // Exchange flow shows all tokens across chains — no chain filter.
+  const isExchangeFlow = fundingSource === 'exchange'
+  // V1 CEX funding accepts only USDC/USDT/ETH withdrawals.
+  const exchangeAllowedSymbols = useMemo(
+    () => new Set(['USDC', 'USDT', 'ETH']),
+    []
+  )
+  // Exchange flow renders a curated, flat token list — chain + search are
+  // both unnecessary for the simplified UX.
   const hideChainSelect =
-    hiddenUI?.includes(HiddenUI.ChainSelect) || fundingSource === 'exchange'
+    hiddenUI?.includes(HiddenUI.ChainSelect) || isExchangeFlow
 
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down(theme.breakpoints.values.xs)
   )
-  const hideSearchTokenInput = hiddenUI?.includes(HiddenUI.SearchTokenInput)
+  const hideSearchTokenInput =
+    hiddenUI?.includes(HiddenUI.SearchTokenInput) || isExchangeFlow
 
   const hasHeader = !hideChainSelect || !hideSearchTokenInput
 
@@ -76,6 +84,7 @@ export const SelectDepositTokenPage: React.FC = () => {
         headerRef={headerRef}
         formType={formType}
         afterTokenSelect={afterTokenSelect}
+        allowedSymbols={isExchangeFlow ? exchangeAllowedSymbols : undefined}
       />
     </FullPageContainer>
   )

@@ -493,7 +493,9 @@
         "connectionTitle": "Connection failed",
         "connectionDescription": "We couldn't connect to {{providerName}}. Try again or contact support.",
         "withdrawalTitle": "Withdrawal failed",
-        "withdrawalDescription": "{{providerName}} couldn't process your withdrawal. Your funds remain in your account."
+        "withdrawalDescription": "{{providerName}} couldn't process your withdrawal. Your funds remain in your account.",
+        "transferTitle": "Transaction failed - refunding",
+        "transferDescription": "We couldn't complete the transfer after several attempts. Your funds are being refunded to the wallet that sent them."
       }
     }
   }

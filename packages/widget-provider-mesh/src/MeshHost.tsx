@@ -95,24 +95,10 @@ export const MeshHost: FC<MeshHostProps> = ({ widgetConfig }) => {
         return
       }
 
-      const chainId = widgetConfig.toChain
-      const tokenAddress = widgetConfig.toToken
-      if (chainId === undefined || !tokenAddress) {
-        setError({ code: 'TARGET_NOT_CONFIGURED' })
-        onError?.({
-          code: 'ONRAMP_TARGET_NOT_CONFIGURED',
-          message:
-            'CEX deposit target is not configured: set widget.toChain and widget.toToken.',
-          provider: 'mesh',
-        })
-        setIsLoading(false)
-        return
-      }
-
       const body: CexSessionRequest = {
         walletAddress: args.depositAddress,
-        tokenAddress,
-        chainId,
+        tokenAddress: args.fromTokenAddress,
+        chainId: args.fromChainId,
         userId: checkoutUserId,
         integrator,
         amount: args.amount,
@@ -182,7 +168,7 @@ export const MeshHost: FC<MeshHostProps> = ({ widgetConfig }) => {
                 transactionHash: onChainHash ?? payload.txId,
                 amount: String(payload.amount),
                 token: payload.symbol,
-                chainId: Number(widgetConfig.toChain ?? 0),
+                chainId: args.fromChainId,
               })
             }
             // Leave the modal-state alone here; onExit fires next and is the
@@ -288,8 +274,6 @@ export const MeshHost: FC<MeshHostProps> = ({ widgetConfig }) => {
       onSuccess,
       onrampSessionApiUrl,
       widgetConfig.apiKey,
-      widgetConfig.toChain,
-      widgetConfig.toToken,
     ]
   )
 

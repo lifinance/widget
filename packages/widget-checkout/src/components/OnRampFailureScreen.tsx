@@ -7,6 +7,8 @@ import { useTranslation } from 'react-i18next'
 export interface OnRampFailureScreenProps {
   kind: OnRampFailureKind
   providerName: string
+  /** Optional override title; falls back to the default copy for `kind`. */
+  title?: string
   /** Optional override message; falls back to the default copy for `kind`. */
   description?: string
   onRetry: () => void
@@ -16,6 +18,7 @@ export interface OnRampFailureScreenProps {
 export function OnRampFailureScreen({
   kind,
   providerName,
+  title,
   description,
   onRetry,
   onContactSupport,
@@ -57,7 +60,7 @@ export function OnRampFailureScreen({
       </Box>
       <Stack spacing={1} sx={{ alignItems: 'center' }}>
         <Typography variant="h6" sx={{ fontWeight: 700 }}>
-          {t(titleKey)}
+          {title ?? t(titleKey)}
         </Typography>
         <Typography variant="body2" color="text.secondary">
           {description ?? t(descriptionKey, { providerName })}

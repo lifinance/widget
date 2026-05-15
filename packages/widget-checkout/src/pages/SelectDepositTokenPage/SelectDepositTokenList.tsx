@@ -14,17 +14,23 @@ import {
 } from '@lifi/widget/shared'
 import { Box } from '@mui/material'
 import type { RefObject } from 'react'
-import { type FC, memo, useEffect, useRef } from 'react'
+import { type FC, memo, useEffect, useMemo, useRef } from 'react'
 
 export interface SelectDepositTokenListProps {
   formType: FormType
   headerRef: RefObject<HTMLElement | null>
   afterTokenSelect: () => void
+  /**
+   * When provided, restrict the rendered token list to these symbols
+   * (case-insensitive). Categories and pinned sections are suppressed so
+   * the curated set renders as a flat list.
+   */
+  allowedSymbols?: ReadonlySet<string>
 }
 
 /** Token list with checkout navigation after selection (widget `TokenList` uses internal back navigation). */
 export const SelectDepositTokenList: FC<SelectDepositTokenListProps> = memo(
-  ({ formType, headerRef, afterTokenSelect }) => {
+  ({ formType, headerRef, afterTokenSelect, allowedSymbols }) => {
     const listParentRef = useRef<HTMLUListElement | null>(null)
     const { listHeight } = useListHeight({
       listParentRef,
@@ -63,8 +69,21 @@ export const SelectDepositTokenList: FC<SelectDepositTokenListProps> = memo(
 
     const handleTokenClick = useTokenSelect(formType, afterTokenSelect)
 
+    // Strip on-wallet balance fields so the curated CEX list doesn't suggest
+    // self-custody amounts — the user funds from an exchange, not their wallet.
+    const filteredTokens = useMemo(() => {
+      if (!allowedSymbols || allowedSymbols.size === 0) {
+        return tokens
+      }
+      return tokens
+        .filter((token) => allowedSymbols.has(token.symbol.toUpperCase()))
+        .map((token) => ({ ...token, amount: undefined }))
+    }, [tokens, allowedSymbols])
+
     const showCategories =
-      withCategories && !tokenSearchFilter && !isAllNetworks
+      !allowedSymbols && withCategories && !tokenSearchFilter && !isAllNetworks
+    const showPinnedTokens = allowedSymbols ? false : withPinnedTokens
+    const balanceLoading = allowedSymbols ? false : isBalanceLoading
 
     useEffect(() => {
       const normalizedSearchFilter = tokenSearchFilter?.replaceAll('$', '')
@@ -78,17 +97,17 @@ export const SelectDepositTokenList: FC<SelectDepositTokenListProps> = memo(
 
     return (
       <Box ref={listParentRef} style={{ height: listHeight, overflow: 'auto' }}>
-        {!tokens.length && !isTokensLoading && !isSearchLoading ? (
+        {!filteredTokens.length && !isTokensLoading && !isSearchLoading ? (
           <TokenNotFound formType={formType} />
         ) : null}
         <VirtualizedTokenList
-          tokens={tokens}
+          tokens={filteredTokens}
           scrollElementRef={listParentRef}
           chainId={selectedChainId}
           isLoading={isTokensLoading || isSearchLoading}
-          isBalanceLoading={isBalanceLoading}
+          isBalanceLoading={balanceLoading}
           showCategories={showCategories}
-          showPinnedTokens={withPinnedTokens}
+          showPinnedTokens={showPinnedTokens}
           onClick={handleTokenClick}
           selectedTokenAddress={selectedTokenAddress}
           isAllNetworks={isAllNetworks}

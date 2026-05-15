@@ -1,6 +1,6 @@
 import {
   BaseTransactionButton,
-  useFieldValues,
+  formatTokenAmount,
   useToAddressRequirements,
   useWidgetEvents,
   WidgetEvent,
@@ -42,7 +42,6 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource) ?? 'wallet'
   const setFrozenRouteId = useCheckoutFlowStore((s) => s.setFrozenRouteId)
   const fiatCurrency = useFiatCurrencyStore((s) => s.currency)
-  const [fromAmount] = useFieldValues('fromAmount')
   const onRampSession = useOnRampSessionByCategory(
     fundingSource === 'cash' || fundingSource === 'exchange'
       ? fundingSource
@@ -81,8 +80,13 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
     setFrozenRouteId(route.id)
     onRampSession.open({
       depositAddress,
-      amount: String(fromAmount ?? ''),
+      amount: formatTokenAmount(
+        BigInt(route.fromAmount),
+        route.fromToken.decimals
+      ),
       fiatCurrency,
+      fromChainId: route.fromChainId,
+      fromTokenAddress: route.fromToken.address,
     })
     navigate({
       to: statusPath,
@@ -97,7 +101,6 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
     onRampSession,
     freeze,
     setFrozenRouteId,
-    fromAmount,
     fiatCurrency,
     navigate,
   ])

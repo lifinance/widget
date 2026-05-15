@@ -6,8 +6,12 @@ import { useTranslation } from 'react-i18next'
 import { OnRampFailureScreen } from '../../components/OnRampFailureScreen.js'
 import { useCheckoutTransactionStatus } from '../../hooks/useCheckoutTransactionStatus.js'
 import { useActiveOnRampDeposit } from '../../providers/OnRampProvider/OnRampProvider.js'
+import { useCheckoutFlowStore } from '../../stores/useCheckoutFlowStore.js'
 import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
-import { isTransactionStatusSimulationKind } from '../../utils/transactionStatusSimulation.js'
+import {
+  getPendingSimulationDuration,
+  isTransactionStatusSimulationKind,
+} from '../../utils/transactionStatusSimulation.js'
 import { StatusCompleted } from './StatusCompleted.js'
 import { StatusExecuting } from './StatusExecuting.js'
 import { StatusWatching } from './StatusWatching.js'
@@ -42,6 +46,8 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
   // no registered provider.
   const deposit = useActiveOnRampDeposit()
   const providerName = deposit?.providerName ?? ''
+  const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
+  const isTransferFlow = fundingSource === 'transfer'
 
   // Title is "deposit" while we're showing the on-ramp failure screen,
   // otherwise the standard transaction-status title.
@@ -53,17 +59,47 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
 
   // Pull the on-chain hash emitted by the provider into the URL so polling
   // kicks in. `acknowledge` clears it on the provider side so re-renders
-  // don't loop.
+  // don't loop. When a simulation is active, the hash arrival also marks the
+  // end of "watching" — flip the simulation to `pending` so the page walks
+  // through the executing screen instead of jumping straight to done.
   useEffect(() => {
     if (!deposit?.depositTxHash) {
       return
     }
+    const nextSimulate = simulate === 'watching' ? 'pending' : simulate
     navigate({
       to: `/${navigationRoutes.transactionExecution}/${checkoutNavigationRoutes.transactionStatus}`,
-      search: { transactionHash: deposit.depositTxHash },
+      search: {
+        transactionHash: deposit.depositTxHash,
+        ...(nextSimulate ? { simulateTransactionStatus: nextSimulate } : {}),
+      },
     })
     deposit.acknowledgeDepositTxHash()
-  }, [deposit, navigate])
+  }, [deposit, navigate, simulate])
+
+  // Dev-only: after the page lands in `simulate=pending`, auto-advance to
+  // `done` after a short delay so the user sees the full watching → pending
+  // → done arc. Real polling is bypassed when a simulation is engaged
+  // (`useCheckoutTransactionStatus` short-circuits to fixture data).
+  useEffect(() => {
+    if (simulate !== 'pending') {
+      return
+    }
+    const delayMs = getPendingSimulationDuration()
+    if (delayMs === null) {
+      return
+    }
+    const id = setTimeout(() => {
+      navigate({
+        to: `/${navigationRoutes.transactionExecution}/${checkoutNavigationRoutes.transactionStatus}`,
+        search: (prev: StatusSearch) => ({
+          ...prev,
+          simulateTransactionStatus: 'done',
+        }),
+      })
+    }, delayMs)
+    return () => clearTimeout(id)
+  }, [simulate, navigate])
 
   const { status, phase, isLoading } = useCheckoutTransactionStatus(
     transactionHash,
@@ -100,7 +136,7 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
     )
   }
 
-  if (simulate === 'watching' || (!transactionHash && !status)) {
+  if (simulate === 'watching' || (!simulate && !transactionHash && !status)) {
     return (
       <PageContainer bottomGutters>
         <StatusWatching />
@@ -114,9 +150,18 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
         <OnRampFailureScreen
           kind="withdrawal"
           providerName={providerName}
+          title={
+            isTransferFlow
+              ? t('checkout.onramp.failure.transferTitle')
+              : undefined
+          }
           description={
-            (status as StatusResponse | undefined)?.substatusMessage ??
-            t('checkout.onramp.failure.withdrawalDescription', { providerName })
+            isTransferFlow
+              ? t('checkout.onramp.failure.transferDescription')
+              : ((status as StatusResponse | undefined)?.substatusMessage ??
+                t('checkout.onramp.failure.withdrawalDescription', {
+                  providerName,
+                }))
           }
           onRetry={() => window.history.back()}
         />

@@ -52,16 +52,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
     onSuccessRef.current = onSuccess
   }, [onSuccess])
 
-  const widgetTargetRef = useRef({
-    toToken: widgetConfig.toToken,
-    toChain: widgetConfig.toChain,
-  })
-  useEffect(() => {
-    widgetTargetRef.current = {
-      toToken: widgetConfig.toToken,
-      toChain: widgetConfig.toChain,
-    }
-  }, [widgetConfig.toToken, widgetConfig.toChain])
+  const lastOpenArgsRef = useRef<OnRampOpenArgs | null>(null)
 
   const close = useCallback(() => {
     setOpen(false)
@@ -72,6 +63,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
 
   const openDepositFlow = useCallback(
     async (args: OnRampOpenArgs) => {
+      lastOpenArgsRef.current = args
       setOpen(true)
       setError(null)
       setWidgetUrl(null)
@@ -90,19 +82,8 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
         return
       }
 
-      const chainId = widgetConfig.toChain
-      const tokenAddress = widgetConfig.toToken
-      if (chainId === undefined || !tokenAddress) {
-        setError({ code: 'TARGET_NOT_CONFIGURED' })
-        onError?.({
-          code: 'ONRAMP_TARGET_NOT_CONFIGURED',
-          message:
-            'Cash deposit target is not configured: set widget.toChain and widget.toToken.',
-          provider: 'transak',
-        })
-        setIsLoading(false)
-        return
-      }
+      const chainId = args.fromChainId
+      const tokenAddress = args.fromTokenAddress
 
       const apiKey = widgetConfig.apiKey?.trim()
       if (!apiKey) {
@@ -220,14 +201,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
         setIsLoading(false)
       }
     },
-    [
-      integrator,
-      onError,
-      onrampSessionApiUrl,
-      widgetConfig.toChain,
-      widgetConfig.toToken,
-      widgetConfig.apiKey,
-    ]
+    [integrator, onError, onrampSessionApiUrl, widgetConfig.apiKey]
   )
 
   // SDK lifecycle: init when the modal is open and we have a widgetUrl;
@@ -284,7 +258,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
           typeof data.status === 'object'
             ? (data.status as Record<string, unknown>)
             : {}
-        const { toToken, toChain } = widgetTargetRef.current
+        const lastArgs = lastOpenArgsRef.current
         onSuccessCb({
           provider: 'transak',
           transactionHash:
@@ -292,8 +266,12 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
               ? order.transactionHash
               : undefined,
           amount: String(order.cryptoAmount ?? order.fiatAmount ?? ''),
-          token: String(order.cryptoCurrency ?? toToken ?? ''),
-          chainId: Number(order.chainId ?? order.networkId ?? toChain ?? 0),
+          token: String(
+            order.cryptoCurrency ?? lastArgs?.fromTokenAddress ?? ''
+          ),
+          chainId: Number(
+            order.chainId ?? order.networkId ?? lastArgs?.fromChainId ?? 0
+          ),
         })
       }
       close()

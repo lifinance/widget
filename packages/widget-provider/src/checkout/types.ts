@@ -113,6 +113,13 @@ export interface OnRampOpenArgs {
   depositAddress: string
   amount: string
   fiatCurrency?: 'USD' | 'EUR' | 'GBP'
+  /**
+   * The deposit asset the on-ramp must withdraw to `depositAddress`. This is
+   * the route's source token/chain (not the widget's destination): the LI.FI
+   * deposit address handles any final swap to the destination asset.
+   */
+  fromChainId: number
+  fromTokenAddress: string
 }
 
 export type OnRampFailureKind = 'connection' | 'withdrawal'

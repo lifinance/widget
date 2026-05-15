@@ -1,7 +1,7 @@
 import type { StatusResponse } from '@lifi/sdk'
 import { getStatus } from '@lifi/sdk'
 import { useSDKClient } from '@lifi/widget/shared'
-import { useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import {
   getSimulatedStatus,
   isTransactionStatusSimulationKind,
@@ -38,6 +38,9 @@ export const useCheckoutTransactionStatus = (
       return getStatus(sdkClient, { txHash: transactionHash }, { signal })
     },
     enabled: isSimulated || Boolean(transactionHash),
+    // Keep the previous fixture/status visible while a new simulate kind or
+    // hash loads so the status page doesn't flash back to a "no data" state.
+    placeholderData: keepPreviousData,
     refetchInterval: (query) => {
       if (isSimulated) {
         return false

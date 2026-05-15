@@ -3,6 +3,7 @@ import type {
   CheckoutDepositAddressBearer,
   CheckoutRoute,
 } from '../types/checkoutRoute.js'
+import { getMockDepositAddress } from './transactionStatusSimulation.js'
 
 const isNonEmptyString = (value: unknown): value is string =>
   typeof value === 'string' && value.length > 0
@@ -33,6 +34,11 @@ export function extractDepositAddress(
   const top = readDepositField(r)
   if (top) {
     return top
+  }
+
+  const fromMock = getMockDepositAddress()
+  if (fromMock) {
+    return fromMock
   }
 
   for (const step of r.steps ?? []) {
