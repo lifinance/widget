@@ -4,7 +4,11 @@ import type { JSX } from 'react'
 import { useCallback, useEffect, useState } from 'react'
 import { useDevView } from '../../hooks/useDevView.js'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
+import { useHeaderAndFooterToolValues } from '../../store/editTools/useHeaderAndFooterToolValues.js'
+import { useLayoutValues } from '../../store/editTools/useLayoutValues.js'
 import { useSkeletonToolValues } from '../../store/editTools/useSkeletonToolValues.js'
+import { useConfig } from '../../store/widgetConfig/useConfig.js'
+import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
 import {
   clearPlaygroundBookmarkStores,
   readPlaygroundBookmarksSeeded,
@@ -126,7 +130,17 @@ export const DeveloperControlsDetailView = ({
   const { isDevView, toggleDevView } = useDevView()
   const widgetEvents = useWidgetEvents()
   const { isSkeletonShown } = useSkeletonToolValues()
-  const { setSkeletonShow, setIsDevView } = useEditToolsActions()
+  const { showMockHeader, showMockFooter } = useHeaderAndFooterToolValues()
+  const { selectedLayoutId } = useLayoutValues()
+  const isFullHeight = selectedLayoutId === 'full-height'
+  const { config } = useConfig()
+  const { setHeader } = useConfigActions()
+  const {
+    setSkeletonShow,
+    setIsDevView,
+    setHeaderVisibility,
+    setFooterVisibility,
+  } = useEditToolsActions()
 
   const [activeSection, setActiveSection] =
     useState<DeveloperControlsSection>('main')
@@ -142,12 +156,35 @@ export const DeveloperControlsDetailView = ({
     setAllWidgetEventsOn(on)
   }, [])
 
+  const handleHeaderVisibilityChange = useCallback(
+    (_: React.ChangeEvent<HTMLInputElement>, checked: boolean): void => {
+      setHeaderVisibility(checked)
+      if (config?.theme?.header?.position === 'fixed') {
+        setHeader({ position: 'fixed', top: checked ? 48 : 0 })
+      }
+    },
+    [setHeaderVisibility, setHeader, config?.theme?.header?.position]
+  )
+
   const handleReset = useCallback((): void => {
     setIsDevView(false)
     setSkeletonShow(false)
+    setHeaderVisibility(false)
+    setFooterVisibility(false)
+    if (config?.theme?.header?.position === 'fixed') {
+      setHeader({ position: 'fixed', top: 0 })
+    }
     setAllWidgetEventsOnForPageLoad(false)
     setMonitoredEvents(initialiseMonitoredEvents(false))
-  }, [setIsDevView, setSkeletonShow, setAllWidgetEventsOnForPageLoad])
+  }, [
+    setIsDevView,
+    setSkeletonShow,
+    setHeaderVisibility,
+    setFooterVisibility,
+    setHeader,
+    config?.theme?.header?.position,
+    setAllWidgetEventsOnForPageLoad,
+  ])
 
   useEffect(() => {
     const listeners: Partial<
@@ -256,6 +293,48 @@ export const DeveloperControlsDetailView = ({
               <ToggleDescription>
                 Preview the skeleton loader to see how the widget will look
                 while data is loading.
+              </ToggleDescription>
+            </ToggleItem>
+            <Divider />
+            <ToggleItem
+              sx={{
+                opacity: isFullHeight ? 1 : 0.5,
+                pointerEvents: isFullHeight ? 'auto' : 'none',
+              }}
+            >
+              <ToggleRow>
+                <ToggleLabel>Mock header</ToggleLabel>
+                <Switch
+                  checked={showMockHeader}
+                  onChange={handleHeaderVisibilityChange}
+                  aria-label="Toggle mock header"
+                />
+              </ToggleRow>
+              <ToggleDescription>
+                Show a mock header element above the widget. Only enabled in
+                full-height layout.
+              </ToggleDescription>
+            </ToggleItem>
+            <Divider />
+            <ToggleItem
+              sx={{
+                opacity: isFullHeight ? 1 : 0.5,
+                pointerEvents: isFullHeight ? 'auto' : 'none',
+              }}
+            >
+              <ToggleRow>
+                <ToggleLabel>Mock footer</ToggleLabel>
+                <Switch
+                  checked={showMockFooter}
+                  onChange={(_, checked) => {
+                    setFooterVisibility(checked)
+                  }}
+                  aria-label="Toggle mock footer"
+                />
+              </ToggleRow>
+              <ToggleDescription>
+                Show a mock footer element below the widget. Only enabled in
+                full-height layout.
               </ToggleDescription>
             </ToggleItem>
             <Divider />

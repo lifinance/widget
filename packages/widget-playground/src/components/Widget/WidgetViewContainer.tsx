@@ -1,4 +1,5 @@
 import MenuOpenIcon from '@mui/icons-material/MenuOpen'
+import type { Theme } from '@mui/material'
 import { Box, Tooltip } from '@mui/material'
 import type { JSX, PropsWithChildren } from 'react'
 import { ExternalWalletProvider } from '../../providers/ExternalWalletProvider/ExternalWalletProvider.js'
@@ -27,8 +28,7 @@ export function WidgetViewContainer({
   const { config } = useConfig()
   const { isDrawerOpen, drawerWidth } = useDrawerToolValues()
   const { setDrawerOpen } = useEditToolsActions()
-  const { showMockHeader, showMockFooter, isFooterFixed } =
-    useHeaderAndFooterToolValues()
+  const { showMockHeader, showMockFooter } = useHeaderAndFooterToolValues()
 
   const isWalletManagementExternal = !!config?.walletConfig
 
@@ -38,6 +38,18 @@ export function WidgetViewContainer({
 
   const showHeader = isFullHeightLayout && showMockHeader
   const showFooter = isFullHeightLayout && showMockFooter
+
+  const mockElementSx = {
+    position: 'fixed' as const,
+    zIndex: 1,
+    left: 0,
+    paddingLeft: isDrawerOpen ? `${drawerWidth}px` : 0,
+    transition: (theme: Theme) =>
+      theme.transitions.create('padding-left', {
+        duration: theme.transitions.duration.enteringScreen,
+        easing: theme.transitions.easing.sharp,
+      }),
+  }
 
   return (
     <Main>
@@ -65,25 +77,27 @@ export function WidgetViewContainer({
         <WidgetContainer
           removePaddingTop={isFullHeightLayout && !showHeader}
           alignTop={isFullHeightLayout}
+          sx={{
+            marginLeft: isDrawerOpen ? `${drawerWidth}px` : 0,
+            transition: (theme) =>
+              theme.transitions.create('margin-left', {
+                duration: theme.transitions.duration.enteringScreen,
+                easing: theme.transitions.easing.sharp,
+              }),
+          }}
         >
           {showHeader ? (
-            <MockElement sx={{ position: 'fixed', zIndex: 1, top: 0 }}>
+            <MockElement sx={{ ...mockElementSx, top: 0 }}>
               Mock header
             </MockElement>
           ) : null}
           <WidgetContainerRow
-            sx={{ marginBottom: !isFullHeightLayout || isFooterFixed ? 6 : 0 }}
+            sx={{ marginBottom: !isFullHeightLayout || showFooter ? 6 : 0 }}
           >
             {children}
           </WidgetContainerRow>
           {showFooter ? (
-            <MockElement
-              sx={
-                isFullHeightLayout && isFooterFixed
-                  ? { position: 'fixed', zIndex: 1, bottom: 0 }
-                  : undefined
-              }
-            >
+            <MockElement sx={{ ...mockElementSx, bottom: 0 }}>
               Mock footer
             </MockElement>
           ) : null}

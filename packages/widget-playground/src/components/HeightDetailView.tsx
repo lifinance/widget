@@ -35,6 +35,7 @@ export const HeightDetailView = ({
   const { defaultConfig } = useDefaultConfig()
 
   const isDrawerVariant = variant === 'drawer'
+  const isFullHeightDisabled = isDrawerVariant || variant === 'wide'
 
   const handleReset = useCallback((): void => {
     setHeader(defaultConfig?.theme?.header)
@@ -116,7 +117,7 @@ export const HeightDetailView = ({
             title="Full height"
             description="The widget uses the full viewport height. Best with the compact variant."
             selected={selectedLayoutId === 'full-height'}
-            disabled={isDrawerVariant}
+            disabled={isFullHeightDisabled}
             onClick={() => handleSelect('full-height')}
           />
         </CardsContainer>
