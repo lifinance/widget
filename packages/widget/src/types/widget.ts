@@ -5,6 +5,7 @@ import type {
   ExecutionOptions,
   ExtendedChain,
   Order,
+  Route,
   RouteExtended,
   RouteOptions,
   SDKConfig,
@@ -286,6 +287,14 @@ export interface RouteLabelRule {
   toChainId?: number[]
   fromTokenAddress?: string[]
   toTokenAddress?: string[]
+  /**
+   * Custom match function evaluated against the route. When provided, its
+   * result is AND'd with the other matching criteria — all specified
+   * conditions must pass for the label to apply. Use this for matching logic
+   * that the built-in fields cannot express (gas costs, step count, route
+   * tags, etc.).
+   */
+  match?: (route: Route) => boolean
 }
 
 export type ExplorerUrl =

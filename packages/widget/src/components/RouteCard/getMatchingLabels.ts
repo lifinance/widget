@@ -54,6 +54,11 @@ export const getMatchingLabels = (
         conditions.push(rule.toChainId.includes(route.toChainId))
       }
 
+      // Evaluate custom match function if specified
+      if (rule.match) {
+        conditions.push(rule.match(route))
+      }
+
       // Must have at least one condition and all conditions must be true
       return conditions.length && conditions.every(Boolean)
     })
