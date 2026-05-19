@@ -65,9 +65,6 @@ export const SelectSourcePage: React.FC = () => {
     wasExchangeFlow ? prevChainId : undefined
   )
 
-  // Compare in raw base units with BigInt so high-decimal tokens (e.g. 18)
-  // don't lose precision through Number(). `parseUnits` may throw on
-  // malformed input — fall back to null so we never surface a false alert.
   const tokenDecimals = prevToken?.decimals ?? meshDecimals ?? null
   const prevRequestedRaw = useMemo<bigint | null>(() => {
     if (!prevAmountStr || tokenDecimals === null) {

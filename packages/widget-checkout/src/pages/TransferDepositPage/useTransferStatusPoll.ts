@@ -54,9 +54,7 @@ export function useTransferStatusPoll({
   const navigate = useNavigate()
   const sdkClient = useSDKClient()
 
-  // Reads window.location.search; without memoization the returned object
-  // reference changes every render and the effect below resets its timer
-  // each pass, so the receipt timer never fires.
+  // Stable reference so the receipt-timer effect doesn't reset each render.
   const sim = useMemo(() => getTransferReceiptSimulation(), [])
 
   useEffect(() => {
