@@ -3,7 +3,7 @@ import type { OnRampFailureKind } from '@lifi/widget-provider/checkout'
 import type { CheckoutFundingSource } from '../../stores/useCheckoutFlowStore.js'
 
 export type StatusVariantTone = 'success' | 'pending' | 'error' | 'warning'
-export type StatusVariantIcon = 'check' | 'spinner' | 'error' | 'refund'
+export type StatusVariantIcon = 'check' | 'spinner' | 'error'
 export type StatusVariantPrimaryAction =
   | 'tryAgain'
   | 'viewDetails'
@@ -80,15 +80,15 @@ export function resolveStatusVariant({
     if (substatus === 'REFUNDED') {
       return {
         tone: 'success',
-        icon: 'refund',
+        icon: 'check',
         titleKey: isWallet
           ? 'checkout.status.walletSuccessRefund.title'
           : 'checkout.status.successRefund.title',
         descriptionKey: isWallet
           ? 'checkout.status.walletSuccessRefund.description'
           : 'checkout.status.successRefund.description',
-        primaryAction: 'viewRefund',
-        secondaryAction: 'done',
+        primaryAction: 'done',
+        secondaryAction: 'viewDetails',
       }
     }
     // COMPLETED or PARTIAL — treat PARTIAL as success
@@ -105,15 +105,15 @@ export function resolveStatusVariant({
   if (rawStatus === 'PENDING') {
     if (substatus === 'REFUND_IN_PROGRESS') {
       return {
-        tone: 'pending',
-        icon: 'refund',
+        tone: 'warning',
+        icon: 'spinner',
         titleKey: isWallet
           ? 'checkout.status.walletPendingRefund.title'
           : 'checkout.status.pendingRefund.title',
         descriptionKey: isWallet
           ? 'checkout.status.walletPendingRefund.description'
           : 'checkout.status.pendingRefund.description',
-        primaryAction: 'contactSupport',
+        primaryAction: 'viewDetails',
       }
     }
     if (

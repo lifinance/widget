@@ -1,4 +1,4 @@
-import type { FullStatusData } from '@lifi/sdk'
+import type { FullStatusData, Substatus } from '@lifi/sdk'
 import {
   navigationRoutes,
   PageContainer,
@@ -18,6 +18,9 @@ import { getReceivingTxHash } from '../../utils/depositAddressStatus.js'
 import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
 import {
   getPendingSimulationDuration,
+  getSimulatedFundingSource,
+  getSimulatedOnRampFailure,
+  getSimulatedSubstatus,
   isTransactionStatusSimulationKind,
 } from '../../utils/transactionStatusSimulation.js'
 import { StatusCompleted } from './StatusCompleted.js'
@@ -41,6 +44,20 @@ interface StatusSearch {
  */
 const MIN_EXECUTING_MS = 2500
 
+/**
+ * Substatuses that need the compact CheckoutStatusScreen treatment rather
+ * than the rich StatusCompleted / StatusExecuting templates. These are the
+ * variants `resolveStatusVariant` returns dedicated copy + tone for —
+ * refund states, intent retrying — and rendering them with the default
+ * "transaction successful" / "executing" templates loses the distinction.
+ */
+const COMPACT_VARIANT_SUBSTATUSES = new Set<Substatus>([
+  'REFUNDED',
+  'REFUND_IN_PROGRESS',
+  'INTENT_FAILED_RETRYABLE',
+  'INTENT_SIMULATION_FAILURE',
+])
+
 export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -56,13 +73,19 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
     : null
   const walletDisconnected = search.walletDisconnected === true
 
+  // Dev-only URL-driven overrides for status simulation.
+  const simulatedSubstatus = getSimulatedSubstatus()
+  const simulatedOnRampFailure = getSimulatedOnRampFailure()
+  const simulatedFundingSource = getSimulatedFundingSource()
+
   // Active deposit session for the current funding source. The provider
   // may emit a real on-chain hash (driving polling) or a terminal
   // pre-hash failure (rendered below). Null for `wallet` / `transfer` /
   // no registered provider.
   const deposit = useActiveOnRampDeposit()
   const providerName = deposit?.providerName ?? ''
-  const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
+  const storeFundingSource = useCheckoutFlowStore((s) => s.fundingSource)
+  const fundingSource = simulatedFundingSource ?? storeFundingSource
   const isTransferFlow = fundingSource === 'transfer'
 
   // Title is "deposit" while we're showing the on-ramp failure screen,
@@ -122,6 +145,7 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
     depositAddress,
     fromChain,
     simulate,
+    simulateSubstatus: simulatedSubstatus,
   })
 
   // Track when executing first becomes visible so we can hold it briefly
@@ -159,6 +183,10 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
     })
   }
 
+  const goHome = (): void => {
+    navigate({ to: navigationRoutes.home })
+  }
+
   // Pre-hash provider failure preempts any other status state because
   // polling can't have started without a hash.
   if (deposit?.failure) {
@@ -172,6 +200,25 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
           variant={variant}
           description={deposit.failure.message}
           primaryAction={{ tryAgain: deposit.failure.retry }}
+          secondaryAction={{ contactSupport: handleContactSupport }}
+        />
+      </PageContainer>
+    )
+  }
+
+  // Dev-only: URL-driven on-ramp failure simulation. Mirrors the real
+  // `deposit.failure` branch above so every OnRampFailureKind variant is
+  // reachable without running the actual provider flow.
+  if (simulatedOnRampFailure) {
+    const variant = resolveStatusVariant({
+      fundingSource,
+      onRampFailureKind: simulatedOnRampFailure,
+    })
+    return (
+      <PageContainer bottomGutters>
+        <CheckoutStatusScreen
+          variant={variant}
+          primaryAction={{ tryAgain: goToEnterAmount }}
           secondaryAction={{ contactSupport: handleContactSupport }}
         />
       </PageContainer>
@@ -246,10 +293,37 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
     )
   }
 
+  // Refund / intent-retrying substatuses render the compact variant screen
+  // so the dedicated copy + tone (amber spinner for refund-in-progress,
+  // green check for refunded) actually surfaces — StatusCompleted /
+  // StatusExecuting hardcode their own copy and would otherwise mask it.
+  if (status?.substatus && COMPACT_VARIANT_SUBSTATUSES.has(status.substatus)) {
+    const variant = resolveStatusVariant({
+      status,
+      substatus: status.substatus,
+      fundingSource,
+    })
+    return (
+      <PageContainer bottomGutters>
+        <CheckoutStatusScreen
+          variant={variant}
+          primaryAction={{
+            done: goHome,
+            viewDetails: goToDetails,
+            tryAgain: goToEnterAmount,
+            contactSupport: handleContactSupport,
+          }}
+          secondaryAction={{
+            done: goHome,
+            viewDetails: goToDetails,
+            contactSupport: handleContactSupport,
+          }}
+        />
+      </PageContainer>
+    )
+  }
+
   if (phase === 'done' && minHoldElapsed && status) {
-    const goHome = () => {
-      navigate({ to: navigationRoutes.home })
-    }
     return (
       <PageContainer bottomGutters>
         <StatusCompleted
