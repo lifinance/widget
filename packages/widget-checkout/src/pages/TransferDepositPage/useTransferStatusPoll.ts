@@ -16,6 +16,24 @@ import {
   depositAddressQueryKey,
 } from '../../utils/statusPolling.js'
 import { getTransferReceiptSimulation } from '../../utils/transactionStatusSimulation.js'
+import type { DepositErrorKind } from '../DepositErrorPages/DepositErrorPages.js'
+
+/**
+ * Terminal substatus → deposit-error page kind. Refund substatuses
+ * (REFUND_IN_PROGRESS, REFUNDED) intentionally fall through to the status
+ * page — they use the shared refund variants, not the deposit-error pages.
+ */
+function resolveDepositErrorKind(
+  data: StatusResponse
+): DepositErrorKind | null {
+  if (data.status !== 'FAILED' && data.status !== 'INVALID') {
+    return null
+  }
+  if (data.substatus === 'EXPIRED') {
+    return 'address-expired'
+  }
+  return 'unexpected'
+}
 
 export interface UseTransferStatusPollArgs {
   depositAddress: string | null
@@ -95,6 +113,14 @@ export function useTransferStatusPoll({
       return
     }
     if (data.status === 'NOT_FOUND') {
+      return
+    }
+    const depositErrorKind = resolveDepositErrorKind(data)
+    if (depositErrorKind) {
+      navigate({
+        to: checkoutNavigationRoutes.depositError,
+        params: { kind: depositErrorKind },
+      })
       return
     }
     const receivingTxHash = getReceivingTxHash(data)
