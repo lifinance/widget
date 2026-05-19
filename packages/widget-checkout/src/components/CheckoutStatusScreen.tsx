@@ -1,7 +1,13 @@
-import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded'
-import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded'
-import ReplayRoundedIcon from '@mui/icons-material/ReplayRounded'
-import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material'
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded'
+import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded'
+import {
+  alpha,
+  Box,
+  Button,
+  CircularProgress,
+  Stack,
+  Typography,
+} from '@mui/material'
 import type { JSX, ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import type {
@@ -76,45 +82,65 @@ function ToneIcon({
   icon,
   tone,
 }: Pick<StatusVariant, 'icon' | 'tone'>): JSX.Element {
-  const iconColor =
+  const paletteKey: 'success' | 'warning' | 'error' | 'primary' =
     tone === 'success'
-      ? 'success.main'
+      ? 'success'
       : tone === 'warning'
-        ? 'warning.main'
+        ? 'warning'
         : tone === 'error'
-          ? 'error.main'
-          : 'primary.main'
+          ? 'error'
+          : 'primary'
 
-  const bgColor =
-    tone === 'success'
-      ? 'success.light'
-      : tone === 'warning'
-        ? 'warning.light'
-        : tone === 'error'
-          ? 'error.light'
-          : 'primary.light'
+  // Error variants nest a solid disc inside the halo (white glyph on a
+  // tone-coloured background). Success / pending / warning variants are
+  // a single light halo with the tone-coloured glyph centred — matches
+  // the Figma refund-states spec where only the failure case is filled.
+  const Glyph =
+    icon === 'check' ? (
+      <CheckRoundedIcon sx={{ fontSize: tone === 'error' ? 36 : 44 }} />
+    ) : icon === 'spinner' ? (
+      <CircularProgress
+        size={tone === 'error' ? 32 : 36}
+        color="inherit"
+        thickness={4.5}
+      />
+    ) : (
+      <ErrorRoundedIcon sx={{ fontSize: tone === 'error' ? 36 : 44 }} />
+    )
 
   return (
     <Box
-      sx={{
-        width: 64,
-        height: 64,
+      sx={(theme) => ({
+        width: 96,
+        height: 96,
         borderRadius: '50%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: bgColor,
-        color: iconColor,
-      }}
+        backgroundColor: alpha(
+          theme.palette[paletteKey].main,
+          theme.palette.mode === 'dark' ? 0.24 : 0.12
+        ),
+        color: theme.palette[paletteKey].main,
+      })}
     >
-      {icon === 'check' ? (
-        <CheckCircleOutlineRoundedIcon sx={{ fontSize: 32 }} />
-      ) : icon === 'spinner' ? (
-        <CircularProgress size={32} color="inherit" />
-      ) : icon === 'refund' ? (
-        <ReplayRoundedIcon sx={{ fontSize: 32 }} />
+      {tone === 'error' ? (
+        <Box
+          sx={(theme) => ({
+            width: 64,
+            height: 64,
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: theme.palette[paletteKey].main,
+            color: theme.palette[paletteKey].contrastText,
+          })}
+        >
+          {Glyph}
+        </Box>
       ) : (
-        <ErrorOutlineRoundedIcon sx={{ fontSize: 32 }} />
+        Glyph
       )}
     </Box>
   )

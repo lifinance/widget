@@ -160,9 +160,9 @@ describe('resolveStatusVariant — DONE branch', () => {
       fundingSource: 'wallet',
     })
     expect(variant.titleKey).toBe('checkout.status.walletSuccessRefund.title')
-    expect(variant.primaryAction).toBe('viewRefund')
-    expect(variant.secondaryAction).toBe('done')
-    expect(variant.icon).toBe('refund')
+    expect(variant.primaryAction).toBe('done')
+    expect(variant.secondaryAction).toBe('viewDetails')
+    expect(variant.icon).toBe('check')
   })
 
   it('DONE + REFUNDED → success-refund (non-wallet copy)', () => {
@@ -172,7 +172,7 @@ describe('resolveStatusVariant — DONE branch', () => {
       fundingSource: 'exchange',
     })
     expect(variant.titleKey).toBe('checkout.status.successRefund.title')
-    expect(variant.primaryAction).toBe('viewRefund')
+    expect(variant.primaryAction).toBe('done')
   })
 })
 
@@ -184,8 +184,9 @@ describe('resolveStatusVariant — PENDING branch', () => {
       fundingSource: 'wallet',
     })
     expect(variant.titleKey).toBe('checkout.status.walletPendingRefund.title')
-    expect(variant.icon).toBe('refund')
-    expect(variant.primaryAction).toBe('contactSupport')
+    expect(variant.tone).toBe('warning')
+    expect(variant.icon).toBe('spinner')
+    expect(variant.primaryAction).toBe('viewDetails')
   })
 
   it('PENDING + REFUND_IN_PROGRESS → pending-refund (non-wallet)', () => {

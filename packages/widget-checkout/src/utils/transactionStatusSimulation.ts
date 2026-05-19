@@ -1,4 +1,6 @@
-import type { StatusResponse } from '@lifi/sdk'
+import type { StatusResponse, Substatus } from '@lifi/sdk'
+import type { OnRampFailureKind } from '@lifi/widget-provider/checkout'
+import type { CheckoutFundingSource } from '../stores/useCheckoutFlowStore.js'
 
 export const transactionStatusSimulationKinds = [
   'watching',
@@ -9,6 +11,20 @@ export const transactionStatusSimulationKinds = [
 
 export type TransactionStatusSimulationKind =
   (typeof transactionStatusSimulationKinds)[number]
+
+const onRampFailureKinds: readonly OnRampFailureKind[] = [
+  'connection',
+  'withdrawal',
+  'cancelled',
+  'unavailable',
+]
+
+const fundingSources: readonly CheckoutFundingSource[] = [
+  'wallet',
+  'transfer',
+  'exchange',
+  'cash',
+]
 
 // Bundlers (Vite/tsdown/Rollup) replace this at build time, so the simulation
 // helpers below dead-code-eliminate in production consumer bundles.
@@ -86,6 +102,40 @@ export function isTransactionStatusSimulationKind(
     typeof value === 'string' &&
     (transactionStatusSimulationKinds as readonly string[]).includes(value)
   )
+}
+
+export function getSimulatedSubstatus(): Substatus | null {
+  if (!isDevSimulationEnabled || typeof window === 'undefined') {
+    return null
+  }
+  const value = new URLSearchParams(window.location.search).get(
+    'simulateSubstatus'
+  )
+  return value && value.length > 0 ? (value as Substatus) : null
+}
+
+export function getSimulatedOnRampFailure(): OnRampFailureKind | null {
+  if (!isDevSimulationEnabled || typeof window === 'undefined') {
+    return null
+  }
+  const value = new URLSearchParams(window.location.search).get(
+    'simulateOnRampFailure'
+  )
+  return value && (onRampFailureKinds as readonly string[]).includes(value)
+    ? (value as OnRampFailureKind)
+    : null
+}
+
+export function getSimulatedFundingSource(): CheckoutFundingSource | null {
+  if (!isDevSimulationEnabled || typeof window === 'undefined') {
+    return null
+  }
+  const value = new URLSearchParams(window.location.search).get(
+    'simulateFundingSource'
+  )
+  return value && (fundingSources as readonly string[]).includes(value)
+    ? (value as CheckoutFundingSource)
+    : null
 }
 
 const usdt = {
@@ -179,7 +229,8 @@ const baseFixture = {
 } as unknown as StatusResponse
 
 export function getSimulatedStatus(
-  kind: TransactionStatusSimulationKind
+  kind: TransactionStatusSimulationKind,
+  substatusOverride?: Substatus | null
 ): StatusResponse | undefined {
   if (!isDevSimulationEnabled) {
     return undefined
@@ -187,8 +238,20 @@ export function getSimulatedStatus(
   if (kind === 'watching') {
     return undefined
   }
+  // When an explicit substatus is provided, clear substatusMessage so the
+  // variant's i18n descriptionKey drives the copy (otherwise the fixture
+  // message overrides it and the variant isn't visually testable).
+  const applyOverride = (fixture: StatusResponse): StatusResponse =>
+    substatusOverride
+      ? ({
+          ...fixture,
+          substatus: substatusOverride,
+          substatusMessage: undefined,
+        } as unknown as StatusResponse)
+      : fixture
+
   if (kind === 'pending') {
-    return {
+    return applyOverride({
       ...baseFixture,
       status: 'PENDING',
       substatus: 'WAIT_DESTINATION_TRANSACTION',
@@ -197,15 +260,15 @@ export function getSimulatedStatus(
         chainId: 1,
         token: eth,
       },
-    } as unknown as StatusResponse
+    } as unknown as StatusResponse)
   }
   if (kind === 'failed') {
-    return {
+    return applyOverride({
       ...baseFixture,
       status: 'FAILED',
       substatus: 'UNKNOWN_ERROR',
       substatusMessage: 'The transfer failed. Please contact support.',
-    } as unknown as StatusResponse
+    } as unknown as StatusResponse)
   }
-  return baseFixture
+  return applyOverride(baseFixture)
 }

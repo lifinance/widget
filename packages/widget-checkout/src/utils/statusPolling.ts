@@ -14,9 +14,10 @@ export function txHashQueryKey(
 }
 
 export function simulateQueryKey(
-  simulate: string | null | undefined
+  simulate: string | null | undefined,
+  substatus?: string | null
 ): readonly unknown[] {
-  return [ROOT, 'sim', simulate ?? null]
+  return [ROOT, 'sim', simulate ?? null, substatus ?? null]
 }
 
 /**

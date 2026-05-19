@@ -1,4 +1,4 @@
-import type { StatusResponse } from '@lifi/sdk'
+import type { StatusResponse, Substatus } from '@lifi/sdk'
 import { getStatus } from '@lifi/sdk'
 import { useSDKClient } from '@lifi/widget/shared'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
@@ -28,6 +28,7 @@ export interface UseCheckoutTransactionStatusArgs {
   depositAddress?: string | null
   fromChain?: number | null
   simulate?: string | null
+  simulateSubstatus?: Substatus | null
 }
 
 export const useCheckoutTransactionStatus = ({
@@ -35,6 +36,7 @@ export const useCheckoutTransactionStatus = ({
   depositAddress,
   fromChain,
   simulate,
+  simulateSubstatus,
 }: UseCheckoutTransactionStatusArgs): CheckoutTransactionStatus => {
   const sdkClient = useSDKClient()
   const isSimulated = isTransactionStatusSimulationKind(simulate)
@@ -44,7 +46,7 @@ export const useCheckoutTransactionStatus = ({
   // Same key as the QR-page poll when we're polling by deposit address —
   // react-query shares the cache entry so the handoff is instant.
   const queryKey = isSimulated
-    ? simulateQueryKey(simulate)
+    ? simulateQueryKey(simulate, simulateSubstatus)
     : canPollByHash
       ? txHashQueryKey(transactionHash)
       : depositAddressQueryKey(depositAddress, fromChain)
@@ -55,7 +57,7 @@ export const useCheckoutTransactionStatus = ({
     queryKey,
     queryFn: async ({ signal }) => {
       if (isSimulated) {
-        return getSimulatedStatus(simulate!)
+        return getSimulatedStatus(simulate!, simulateSubstatus)
       }
       if (canPollByHash) {
         return getStatus(sdkClient, { txHash: transactionHash! }, { signal })
