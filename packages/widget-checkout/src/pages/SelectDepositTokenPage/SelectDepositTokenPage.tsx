@@ -1,13 +1,18 @@
 import {
   ChainSelect,
+  FormKeyHelper,
   FullPageContainer,
   HiddenUI,
   SearchTokenInput,
+  useChain,
+  useFieldValues,
   useHeader,
   useScrollableOverflowHidden,
+  useToken,
   useWidgetConfig,
 } from '@lifi/widget/shared'
-import { Box, type Theme, useMediaQuery } from '@mui/material'
+import { useMeshBalance } from '@lifi/widget-provider-mesh'
+import { Alert, Box, type Theme, useMediaQuery } from '@mui/material'
 import { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCheckoutNavigate } from '../../hooks/useCheckoutNavigate.js'
@@ -52,8 +57,44 @@ export const SelectDepositTokenPage: React.FC = () => {
     navigate({ to: checkoutNavigationRoutes.enterAmount })
   }
 
+  // Insufficient-funds alert for exchange flow
+  const [selectedChainId, selectedTokenAddress, fromAmountStr] = useFieldValues(
+    FormKeyHelper.getChainKey(formType),
+    FormKeyHelper.getTokenKey(formType),
+    FormKeyHelper.getAmountKey(formType)
+  )
+  const { token: selectedToken } = useToken(
+    isExchangeFlow ? selectedChainId : undefined,
+    isExchangeFlow ? selectedTokenAddress : undefined
+  )
+  const { chain: selectedChain } = useChain(
+    isExchangeFlow ? selectedChainId : undefined
+  )
+  const { balance: meshBalance } = useMeshBalance(
+    isExchangeFlow ? selectedTokenAddress : undefined,
+    isExchangeFlow ? selectedChainId : undefined
+  )
+
+  const requestedAmount =
+    fromAmountStr && fromAmountStr !== '' ? Number(fromAmountStr) : null
+  const showInsufficientFunds =
+    isExchangeFlow &&
+    meshBalance !== null &&
+    requestedAmount !== null &&
+    meshBalance < requestedAmount
+
   return (
     <FullPageContainer disableGutters>
+      {showInsufficientFunds && selectedToken && selectedChain ? (
+        <Box sx={{ px: 3, pt: 2 }}>
+          <Alert severity="warning">
+            {t('checkout.insufficientFunds', {
+              symbol: selectedToken.symbol,
+              chain: selectedChain.name,
+            })}
+          </Alert>
+        </Box>
+      ) : null}
       <Box
         ref={headerRef}
         sx={{

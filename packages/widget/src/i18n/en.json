@@ -459,6 +459,7 @@
       }
     },
     "chooseFundingSource": "Choose funding source",
+    "insufficientFunds": "Insufficient funds — You don't have enough {{symbol}} on {{chain}}. Select a different token to try again.",
     "useYourTokens": "Use your tokens",
     "buyTokens": "Buy tokens",
     "or": "or",
@@ -530,7 +531,11 @@
       },
       "errorConnection": {
         "title": "Connection failed",
-        "description": "We couldn't connect to the payment provider. Try again or contact support."
+        "description": "We couldn't connect to the payment provider. Try again or contact support.",
+        "exchange": {
+          "title": "Exchange connection failed",
+          "description": "We couldn't connect to your exchange account. Try again or contact support."
+        }
       },
       "errorWithdrawal": {
         "title": "Withdrawal failed",
@@ -538,6 +543,10 @@
         "cash": {
           "title": "Payment didn't complete",
           "description": "Your payment didn't go through. No funds were taken."
+        },
+        "exchange": {
+          "title": "Exchange withdrawal failed",
+          "description": "Your exchange couldn't process the withdrawal. Your funds remain in your exchange account."
         }
       },
       "errorCancelled": {
