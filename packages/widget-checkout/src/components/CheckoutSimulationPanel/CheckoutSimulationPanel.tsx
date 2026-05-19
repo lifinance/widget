@@ -44,7 +44,7 @@ const SIM_PARAM_KEYS = [
 
 type Tone = 'success' | 'pending' | 'warning' | 'error' | 'neutral'
 
-interface SimPreset {
+interface SimPresetBase {
   label: string
   /** Tone hint that drives the chip color so variants are scannable. */
   tone: Tone
@@ -52,13 +52,23 @@ interface SimPreset {
   subtitle?: string
   /** Query params to write to window.location.search (read by helpers). */
   windowParams?: Record<string, string>
-  /** Router target path. */
-  to: string
   /** Router search to apply (read by useLocation in components). */
   routerSearch?: Record<string, string | number | boolean>
-  /** Route params for parameterised routes (e.g. /deposit-error/$kind). */
-  params?: Record<string, string>
 }
+
+interface SimPresetSearch extends SimPresetBase {
+  /** Router target path without route params. */
+  to: typeof STATUS_PATH | typeof TRANSFER_DEPOSIT_PATH | typeof HOME_PATH
+  params?: undefined
+}
+
+interface SimPresetParamPath extends SimPresetBase {
+  /** Parameterised route, e.g. `/deposit-error/$kind`. */
+  to: '/deposit-error/$kind'
+  params: { kind: string }
+}
+
+type SimPreset = SimPresetSearch | SimPresetParamPath
 
 const STATUS_PRESETS: SimPreset[] = [
   {
@@ -517,11 +527,18 @@ export function CheckoutSimulationPanel(): JSX.Element | null {
       }
     }
     window.history.replaceState({}, '', url.toString())
-    navigate({
-      to: preset.to,
-      params: preset.params,
-      search: preset.routerSearch,
-    } as Parameters<typeof navigate>[0])
+    if (preset.params) {
+      navigate({
+        to: preset.to,
+        params: preset.params,
+        search: preset.routerSearch ?? {},
+      })
+    } else {
+      navigate({
+        to: preset.to,
+        search: preset.routerSearch ?? {},
+      })
+    }
   }
 
   const resetAll = (): void => {

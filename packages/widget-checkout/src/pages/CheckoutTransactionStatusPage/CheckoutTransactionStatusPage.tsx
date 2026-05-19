@@ -53,6 +53,7 @@ const MIN_EXECUTING_MS = 2500
  */
 const COMPACT_VARIANT_SUBSTATUSES = new Set<Substatus>([
   'REFUNDED',
+  'PARTIAL',
   'REFUND_IN_PROGRESS',
   'INTENT_FAILED_RETRYABLE',
   'INTENT_SIMULATION_FAILURE',
@@ -101,20 +102,22 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
   // don't loop. When a simulation is active, the hash arrival also marks the
   // end of "watching" — flip the simulation to `pending` so the page walks
   // through the executing screen instead of jumping straight to done.
+  const depositTxHash = deposit?.depositTxHash ?? null
+  const acknowledgeDepositTxHash = deposit?.acknowledgeDepositTxHash
   useEffect(() => {
-    if (!deposit?.depositTxHash) {
+    if (!depositTxHash) {
       return
     }
     const nextSimulate = simulate === 'watching' ? 'pending' : simulate
     navigate({
       to: `/${navigationRoutes.transactionExecution}/${checkoutNavigationRoutes.transactionStatus}`,
       search: {
-        transactionHash: deposit.depositTxHash,
+        transactionHash: depositTxHash,
         ...(nextSimulate ? { simulateTransactionStatus: nextSimulate } : {}),
       },
     })
-    deposit.acknowledgeDepositTxHash()
-  }, [deposit, navigate, simulate])
+    acknowledgeDepositTxHash?.()
+  }, [depositTxHash, acknowledgeDepositTxHash, navigate, simulate])
 
   // Dev-only: after the page lands in `simulate=pending`, auto-advance to
   // `done` after a short delay so the user sees the full watching → pending

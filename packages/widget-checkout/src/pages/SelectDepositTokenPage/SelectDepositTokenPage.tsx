@@ -1,3 +1,4 @@
+import { parseUnits } from '@lifi/sdk'
 import {
   ChainSelect,
   FormKeyHelper,
@@ -66,18 +67,30 @@ export const SelectDepositTokenPage: React.FC = () => {
   const { chain: selectedChain } = useChain(
     isExchangeFlow ? selectedChainId : undefined
   )
-  const { balance: meshBalance } = useMeshBalance(
+  const { rawBalance: meshRawBalance, decimals: meshDecimals } = useMeshBalance(
     isExchangeFlow ? selectedTokenAddress : undefined,
     isExchangeFlow ? selectedChainId : undefined
   )
 
-  const requestedAmount =
-    fromAmountStr && fromAmountStr !== '' ? Number(fromAmountStr) : null
+  // Compare in raw BigInt units so high-decimal tokens don't lose precision
+  // through Number(). `parseUnits` may throw on malformed input — fall back
+  // to null so we never surface a false alert.
+  const tokenDecimals = selectedToken?.decimals ?? meshDecimals ?? null
+  const requestedRaw = useMemo<bigint | null>(() => {
+    if (!fromAmountStr || tokenDecimals === null) {
+      return null
+    }
+    try {
+      return parseUnits(fromAmountStr, tokenDecimals)
+    } catch {
+      return null
+    }
+  }, [fromAmountStr, tokenDecimals])
   const showInsufficientFunds =
     isExchangeFlow &&
-    meshBalance !== null &&
-    requestedAmount !== null &&
-    meshBalance < requestedAmount
+    meshRawBalance !== null &&
+    requestedRaw !== null &&
+    meshRawBalance < requestedRaw
 
   return (
     <FullPageContainer disableGutters>

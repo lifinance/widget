@@ -1,3 +1,4 @@
+import { parseUnits } from '@lifi/sdk'
 import { useAccount, useWalletMenu } from '@lifi/wallet-management'
 import {
   FormKeyHelper,
@@ -59,18 +60,31 @@ export const SelectSourcePage: React.FC = () => {
   const { chain: prevChain } = useChain(
     wasExchangeFlow ? prevChainId : undefined
   )
-  const { balance: meshBalance } = useMeshBalance(
+  const { rawBalance: meshRawBalance, decimals: meshDecimals } = useMeshBalance(
     wasExchangeFlow ? prevTokenAddress : undefined,
     wasExchangeFlow ? prevChainId : undefined
   )
 
-  const prevRequestedAmount =
-    prevAmountStr && prevAmountStr !== '' ? Number(prevAmountStr) : null
+  // Compare in raw base units with BigInt so high-decimal tokens (e.g. 18)
+  // don't lose precision through Number(). `parseUnits` may throw on
+  // malformed input — fall back to null so we never surface a false alert.
+  const tokenDecimals = prevToken?.decimals ?? meshDecimals ?? null
+  const prevRequestedRaw = useMemo<bigint | null>(() => {
+    if (!prevAmountStr || tokenDecimals === null) {
+      return null
+    }
+    try {
+      return parseUnits(prevAmountStr, tokenDecimals)
+    } catch {
+      return null
+    }
+  }, [prevAmountStr, tokenDecimals])
+
   const showInsufficientFunds =
     wasExchangeFlow &&
-    meshBalance !== null &&
-    prevRequestedAmount !== null &&
-    meshBalance < prevRequestedAmount
+    meshRawBalance !== null &&
+    prevRequestedRaw !== null &&
+    meshRawBalance < prevRequestedRaw
 
   useEffect(() => {
     resetFlow()

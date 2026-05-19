@@ -159,8 +159,6 @@ export function CheckoutStatusScreen({
   const resolvedDescription = description ?? t(variant.descriptionKey)
   const resolvedTitle = title ?? t(variant.titleKey)
 
-  const allHandlers: ActionHandlers = { ...primaryAction, ...secondaryAction }
-
   return (
     <Stack
       spacing={3}
@@ -184,13 +182,13 @@ export function CheckoutStatusScreen({
       <Stack spacing={1} sx={{ width: '100%', maxWidth: 320 }}>
         <ActionButton
           action={variant.primaryAction}
-          handlers={allHandlers}
+          handlers={primaryAction}
           variant="contained"
         />
-        {variant.secondaryAction ? (
+        {variant.secondaryAction && secondaryAction ? (
           <ActionButton
             action={variant.secondaryAction}
-            handlers={allHandlers}
+            handlers={secondaryAction}
             variant="text"
           />
         ) : null}

@@ -2,7 +2,7 @@ import type { StatusResponse } from '@lifi/sdk'
 import { useSDKClient } from '@lifi/widget/shared'
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import {
   getDepositAddressStatus,
   getReceivingTxHash,
@@ -54,7 +54,10 @@ export function useTransferStatusPoll({
   const navigate = useNavigate()
   const sdkClient = useSDKClient()
 
-  const sim = getTransferReceiptSimulation()
+  // Reads window.location.search; without memoization the returned object
+  // reference changes every render and the effect below resets its timer
+  // each pass, so the receipt timer never fires.
+  const sim = useMemo(() => getTransferReceiptSimulation(), [])
 
   useEffect(() => {
     if (!enabled || !sim) {

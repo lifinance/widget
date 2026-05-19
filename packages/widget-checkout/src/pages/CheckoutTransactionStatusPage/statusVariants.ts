@@ -39,6 +39,7 @@ export interface ResolveStatusVariantArgs {
  *
  * Variant table:
  *   DONE + COMPLETED             → success-completed
+ *   DONE + PARTIAL               → success-partial
  *   DONE + REFUNDED              → success-refund
  *   PENDING + REFUND_IN_PROGRESS → pending-refund
  *   PENDING + INTENT_AWAITING_FUNDS | INTENT_READY | INTENT_EXECUTING → pending-default
@@ -58,7 +59,11 @@ export function resolveStatusVariant({
   const isWallet = fundingSource === 'wallet'
 
   // Wallet disconnect during execution — surfaces before any status check.
-  if (walletDisconnected) {
+  // Only meaningful for the wallet funding source; non-wallet flows can't
+  // emit this state (the URL flag is set by the wallet-disconnect effect in
+  // CheckoutTransactionPage). For any other source we fall through so we
+  // don't render wallet-specific copy under the wrong funding context.
+  if (walletDisconnected && isWallet) {
     return {
       tone: 'error',
       icon: 'error',
@@ -91,7 +96,19 @@ export function resolveStatusVariant({
         secondaryAction: 'viewDetails',
       }
     }
-    // COMPLETED or PARTIAL — treat PARTIAL as success
+    if (substatus === 'PARTIAL') {
+      // Bridge/swap landed but delivered a different token mix than
+      // requested. Surface that explicitly and lead with "view details" so
+      // the user can see what actually arrived.
+      return {
+        tone: 'success',
+        icon: 'check',
+        titleKey: 'checkout.status.successPartial.title',
+        descriptionKey: 'checkout.status.successPartial.description',
+        primaryAction: 'viewDetails',
+        secondaryAction: 'done',
+      }
+    }
     return {
       tone: 'success',
       icon: 'check',
@@ -181,67 +198,76 @@ export function resolveStatusVariant({
   }
 }
 
+/**
+ * Picks the most specific i18n key for a given on-ramp variant + funding
+ * source. Returns the funding-source-scoped key if it exists in `overrides`,
+ * otherwise the generic key for that variant.
+ *
+ * Example: `pickCopy('checkout.status.errorWithdrawal', 'cash', { cash: true, exchange: true })`
+ *   → 'checkout.status.errorWithdrawal.cash.title' (when suffix='title')
+ */
+function pickCopy(
+  baseKey: string,
+  fundingSource: CheckoutFundingSource | null,
+  overrides: Partial<Record<CheckoutFundingSource, true>>,
+  suffix: 'title' | 'description'
+): string {
+  if (fundingSource && overrides[fundingSource]) {
+    return `${baseKey}.${fundingSource}.${suffix}`
+  }
+  return `${baseKey}.${suffix}`
+}
+
+interface OnRampVariantSpec {
+  base: string
+  tone: StatusVariantTone
+  /** Which funding-source-specific i18n overrides exist for this variant. */
+  overrides: Partial<Record<CheckoutFundingSource, true>>
+  secondaryAction?: StatusVariantSecondaryAction
+}
+
+const ON_RAMP_SPECS: Record<OnRampFailureKind, OnRampVariantSpec> = {
+  withdrawal: {
+    base: 'checkout.status.errorWithdrawal',
+    tone: 'error',
+    overrides: { cash: true, exchange: true },
+    secondaryAction: 'contactSupport',
+  },
+  cancelled: {
+    base: 'checkout.status.errorCancelled',
+    tone: 'warning',
+    overrides: { cash: true },
+  },
+  unavailable: {
+    base: 'checkout.status.errorUnavailable',
+    tone: 'error',
+    overrides: { cash: true },
+    secondaryAction: 'contactSupport',
+  },
+  connection: {
+    base: 'checkout.status.errorConnection',
+    tone: 'error',
+    overrides: { exchange: true },
+    secondaryAction: 'contactSupport',
+  },
+}
+
 function resolveOnRampFailureVariant(
   kind: OnRampFailureKind,
   fundingSource: CheckoutFundingSource | null
 ): StatusVariant {
-  const isCash = fundingSource === 'cash'
-  const isExchange = fundingSource === 'exchange'
-  switch (kind) {
-    case 'withdrawal':
-      return {
-        tone: 'error',
-        icon: 'error',
-        titleKey: isCash
-          ? 'checkout.status.errorWithdrawal.cash.title'
-          : isExchange
-            ? 'checkout.status.errorWithdrawal.exchange.title'
-            : 'checkout.status.errorWithdrawal.title',
-        descriptionKey: isCash
-          ? 'checkout.status.errorWithdrawal.cash.description'
-          : isExchange
-            ? 'checkout.status.errorWithdrawal.exchange.description'
-            : 'checkout.status.errorWithdrawal.description',
-        primaryAction: 'tryAgain',
-        secondaryAction: 'contactSupport',
-      }
-    case 'cancelled':
-      return {
-        tone: 'warning',
-        icon: 'error',
-        titleKey: isCash
-          ? 'checkout.status.errorCancelled.cash.title'
-          : 'checkout.status.errorCancelled.title',
-        descriptionKey: isCash
-          ? 'checkout.status.errorCancelled.cash.description'
-          : 'checkout.status.errorCancelled.description',
-        primaryAction: 'tryAgain',
-      }
-    case 'unavailable':
-      return {
-        tone: 'error',
-        icon: 'error',
-        titleKey: isCash
-          ? 'checkout.status.errorUnavailable.cash.title'
-          : 'checkout.status.errorUnavailable.title',
-        descriptionKey: isCash
-          ? 'checkout.status.errorUnavailable.cash.description'
-          : 'checkout.status.errorUnavailable.description',
-        primaryAction: 'tryAgain',
-        secondaryAction: 'contactSupport',
-      }
-    default:
-      return {
-        tone: 'error',
-        icon: 'error',
-        titleKey: isExchange
-          ? 'checkout.status.errorConnection.exchange.title'
-          : 'checkout.status.errorConnection.title',
-        descriptionKey: isExchange
-          ? 'checkout.status.errorConnection.exchange.description'
-          : 'checkout.status.errorConnection.description',
-        primaryAction: 'tryAgain',
-        secondaryAction: 'contactSupport',
-      }
+  const spec = ON_RAMP_SPECS[kind] ?? ON_RAMP_SPECS.connection
+  return {
+    tone: spec.tone,
+    icon: 'error',
+    titleKey: pickCopy(spec.base, fundingSource, spec.overrides, 'title'),
+    descriptionKey: pickCopy(
+      spec.base,
+      fundingSource,
+      spec.overrides,
+      'description'
+    ),
+    primaryAction: 'tryAgain',
+    secondaryAction: spec.secondaryAction,
   }
 }
