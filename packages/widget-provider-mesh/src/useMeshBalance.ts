@@ -20,8 +20,13 @@ export interface MeshBalanceResponse {
 }
 
 export interface MeshBalanceResult {
-  /** Human-readable balance (already divided by decimals). */
-  balance: number | null
+  /**
+   * Raw token balance in base units (no decimal scaling). BigInt is used so
+   * comparisons against `parseUnits(amount, decimals)` are precision-safe
+   * for tokens with up to 18 decimals.
+   */
+  rawBalance: bigint | null
+  decimals: number | null
   isLoading: boolean
   error: string | null
 }
@@ -36,6 +41,13 @@ function keyOf(k: FetchKey): string {
   return `${k.account}:${k.tokenAddress}:${k.chainId}`
 }
 
+const EMPTY: MeshBalanceResult = {
+  rawBalance: null,
+  decimals: null,
+  isLoading: false,
+  error: null,
+}
+
 /**
  * Fetch-once hook that retrieves the user's Mesh exchange balance for a
  * specific token/chain combination. Re-fetches only when (account, token,
@@ -44,8 +56,8 @@ function keyOf(k: FetchKey): string {
  * Uses `GET /v1/checkout/cex/balance?tokenAddress=&chainId=&userId=`.
  *
  * TODO: replace stub with real fetch once Core ships the balance endpoint.
- * Until then the hook returns `{ balance: null, isLoading: false, error: null }`
- * so callers never show a false insufficient-funds alert.
+ * Until then the hook returns the empty result so callers never show a false
+ * insufficient-funds alert.
  */
 export function useMeshBalance(
   tokenAddress: string | undefined,
@@ -54,18 +66,20 @@ export function useMeshBalance(
   const { onrampSessionApiUrl } = useCheckoutConfig()
   const userId = useCheckoutUserId()
 
-  const [result, setResult] = useState<MeshBalanceResult>({
-    balance: null,
-    isLoading: false,
-    error: null,
-  })
+  const [result, setResult] = useState<MeshBalanceResult>(EMPTY)
 
   const lastKeyRef = useRef<string | null>(null)
 
   useEffect(() => {
     const apiUrl = onrampSessionApiUrl?.replace(/\/$/, '')
     if (!apiUrl || !tokenAddress || !chainId || !userId) {
-      setResult({ balance: null, isLoading: false, error: null })
+      // Only clear state if we were previously holding a value for a
+      // different key — avoids re-setting EMPTY on unrelated renders and
+      // discarding any in-flight fetch result.
+      if (lastKeyRef.current !== null) {
+        lastKeyRef.current = null
+        setResult(EMPTY)
+      }
       return
     }
 
@@ -76,17 +90,17 @@ export function useMeshBalance(
     lastKeyRef.current = key
 
     // TODO: remove stub and uncomment the fetch block below once Core ships
-    // the `/v1/checkout/cex/balance` endpoint.
-    setResult({ balance: null, isLoading: false, error: null })
+    // the `/v1/checkout/cex/balance` endpoint. Compare in raw BigInt units
+    // against `parseUnits(amount, decimals)` to avoid float precision loss.
+    setResult(EMPTY)
 
     /*
-    setResult({ balance: null, isLoading: true, error: null })
+    setResult({ rawBalance: null, decimals: null, isLoading: true, error: null })
 
     const params = new URLSearchParams({
       tokenAddress,
       chainId: String(chainId),
       userId,
-      ...(integrator ? { integrator } : {}),
     })
 
     fetch(`${apiUrl}/v1/checkout/cex/balance?${params.toString()}`, {
@@ -96,17 +110,30 @@ export function useMeshBalance(
     })
       .then(async (res) => {
         if (!res.ok) {
-          setResult({ balance: null, isLoading: false, error: `HTTP ${res.status}` })
+          setResult({
+            rawBalance: null,
+            decimals: null,
+            isLoading: false,
+            error: `HTTP ${res.status}`,
+          })
           return
         }
         const data = (await res.json()) as MeshBalanceResponse
-        const raw = Number(data.balance)
-        const human = raw / 10 ** data.decimals
-        setResult({ balance: human, isLoading: false, error: null })
+        setResult({
+          rawBalance: BigInt(data.balance),
+          decimals: data.decimals,
+          isLoading: false,
+          error: null,
+        })
       })
       .catch((e: unknown) => {
         const msg = e instanceof Error ? e.message : 'Network error fetching balance.'
-        setResult({ balance: null, isLoading: false, error: msg })
+        setResult({
+          rawBalance: null,
+          decimals: null,
+          isLoading: false,
+          error: msg,
+        })
       })
     */
   }, [userId, tokenAddress, chainId, onrampSessionApiUrl])

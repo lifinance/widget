@@ -505,6 +505,10 @@
         "title": "Transaction successful",
         "description": "Your transaction has been completed successfully."
       },
+      "successPartial": {
+        "title": "Partially completed",
+        "description": "Your transaction completed, but some of the received tokens are not the requested destination tokens. Open the details to see what you received."
+      },
       "successRefund": {
         "title": "Funds refunded",
         "description": "Your transaction could not be completed and your funds have been refunded."

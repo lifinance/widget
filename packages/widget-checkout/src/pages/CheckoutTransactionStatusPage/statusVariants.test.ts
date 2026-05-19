@@ -143,14 +143,19 @@ describe('resolveStatusVariant — DONE branch', () => {
     })
   })
 
-  it('DONE + PARTIAL is treated as success-completed', () => {
+  it('DONE + PARTIAL maps to its own success-partial variant', () => {
     const variant = resolveStatusVariant({
       status: statusOf('DONE'),
       substatus: 'PARTIAL' as Substatus,
       fundingSource: 'transfer',
     })
     expect(variant.tone).toBe('success')
-    expect(variant.titleKey).toBe('checkout.status.successCompleted.title')
+    expect(variant.icon).toBe('check')
+    expect(variant.titleKey).toBe('checkout.status.successPartial.title')
+    // Lead with "view details" so the user can inspect what actually landed
+    // (different token / partial amount), with "done" as the dismiss path.
+    expect(variant.primaryAction).toBe('viewDetails')
+    expect(variant.secondaryAction).toBe('done')
   })
 
   it('DONE + REFUNDED → success-refund (wallet copy)', () => {
