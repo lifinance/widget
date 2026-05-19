@@ -59,7 +59,7 @@ export function useMeshBalance(
   tokenAddress: string | undefined,
   chainId: number | undefined
 ): MeshBalanceResult {
-  const { onrampSessionApiUrl } = useCheckoutConfig()
+  const { apiUrl } = useCheckoutConfig()
   const userId = useCheckoutUserId()
 
   const [result, setResult] = useState<MeshBalanceResult>(EMPTY)
@@ -67,7 +67,6 @@ export function useMeshBalance(
   const lastKeyRef = useRef<string | null>(null)
 
   useEffect(() => {
-    const apiUrl = onrampSessionApiUrl?.replace(/\/$/, '')
     if (!apiUrl || !tokenAddress || !chainId || !userId) {
       if (lastKeyRef.current !== null) {
         lastKeyRef.current = null
@@ -82,52 +81,10 @@ export function useMeshBalance(
     }
     lastKeyRef.current = key
 
-    // TODO: replace stub once Core ships `/v1/checkout/cex/balance`.
+    // TODO: replace stub once Core ships `/v1/checkout/cex/balance`. Normalize
+    // `apiUrl` the same way `sessionClient.ts` does to avoid a doubled `/v1`.
     setResult(EMPTY)
-
-    /*
-    setResult({ rawBalance: null, decimals: null, isLoading: true, error: null })
-
-    const params = new URLSearchParams({
-      tokenAddress,
-      chainId: String(chainId),
-      userId,
-    })
-
-    fetch(`${apiUrl}/v1/checkout/cex/balance?${params.toString()}`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(async (res) => {
-        if (!res.ok) {
-          setResult({
-            rawBalance: null,
-            decimals: null,
-            isLoading: false,
-            error: `HTTP ${res.status}`,
-          })
-          return
-        }
-        const data = (await res.json()) as MeshBalanceResponse
-        setResult({
-          rawBalance: BigInt(data.balance),
-          decimals: data.decimals,
-          isLoading: false,
-          error: null,
-        })
-      })
-      .catch((e: unknown) => {
-        const msg = e instanceof Error ? e.message : 'Network error fetching balance.'
-        setResult({
-          rawBalance: null,
-          decimals: null,
-          isLoading: false,
-          error: msg,
-        })
-      })
-    */
-  }, [userId, tokenAddress, chainId, onrampSessionApiUrl])
+  }, [userId, tokenAddress, chainId, apiUrl])
 
   return result
 }

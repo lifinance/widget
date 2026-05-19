@@ -40,8 +40,7 @@ export interface TransakHostProps {
  * Dialog.
  */
 export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
-  const { integrator, onError, onSuccess, onrampSessionApiUrl } =
-    useCheckoutConfig()
+  const { integrator, onError, onSuccess, apiUrl } = useCheckoutConfig()
   const [open, setOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<OnRampError | null>(null)
@@ -73,13 +72,12 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
       setWidgetUrl(null)
       setIsLoading(true)
 
-      const base = onrampSessionApiUrl?.replace(/\/$/, '')
-      if (!base) {
+      if (!apiUrl) {
         setError({ code: 'MISSING_API_URL' })
         onError?.({
-          code: 'MISSING_ONRAMP_API',
+          code: 'MISSING_API_URL',
           message:
-            'Cash deposit is not configured: set onrampSessionApiUrl on the checkout.',
+            'Cash deposit is not configured: set sdkConfig.apiUrl on the checkout.',
           provider: 'transak',
         })
         setIsLoading(false)
@@ -120,7 +118,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
           OnrampSessionRequest,
           OnrampSessionResponse
         >({
-          baseUrl: base,
+          baseUrl: apiUrl,
           endpointPath: '/v1/checkout/onramp/session',
           apiKey,
           integrator,
@@ -139,7 +137,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
             OnrampSessionRequest,
             OnrampSessionResponse
           >({
-            baseUrl: base,
+            baseUrl: apiUrl,
             endpointPath: '/v1/checkout/onramp/session',
             apiKey,
             integrator,
@@ -205,7 +203,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
         setIsLoading(false)
       }
     },
-    [integrator, onError, onrampSessionApiUrl, widgetConfig.apiKey]
+    [apiUrl, integrator, onError, widgetConfig.apiKey]
   )
 
   // SDK lifecycle: init when the modal is open and we have a widgetUrl;

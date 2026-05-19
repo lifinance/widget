@@ -16,6 +16,7 @@ import {
   useCheckoutFlowStore,
 } from '../stores/useCheckoutFlowStore.js'
 import { FiatCurrencyStoreProvider } from '../stores/useFiatCurrencyStore.js'
+import { CheckoutSdkBridge } from './CheckoutSdkBridge.js'
 import { OnRampProviderRegistry } from './OnRampProvider/OnRampProvider.js'
 import { ThemeProvider } from './ThemeProvider.js'
 
@@ -63,15 +64,17 @@ const CheckoutAppShell: React.FC<CheckoutAppShellProps> = ({
           <I18nProvider>
             <ThemeProvider>
               <SDKClientProvider>
-                <WalletProvider providers={widgetConfig.providers ?? []}>
-                  <OnRampProviderRegistry
-                    widgetConfig={effectiveWidgetConfig}
-                    formRef={formRef}
-                    providers={onRampProviders}
-                  >
-                    {children}
-                  </OnRampProviderRegistry>
-                </WalletProvider>
+                <CheckoutSdkBridge>
+                  <WalletProvider providers={widgetConfig.providers ?? []}>
+                    <OnRampProviderRegistry
+                      widgetConfig={effectiveWidgetConfig}
+                      formRef={formRef}
+                      providers={onRampProviders}
+                    >
+                      {children}
+                    </OnRampProviderRegistry>
+                  </WalletProvider>
+                </CheckoutSdkBridge>
               </SDKClientProvider>
             </ThemeProvider>
           </I18nProvider>

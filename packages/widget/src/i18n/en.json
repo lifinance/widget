@@ -483,7 +483,7 @@
       "dialogTitle": "Deposit with {{providerName}}",
       "close": "Close",
       "errors": {
-        "MISSING_API_URL": "{{providerName}} deposit is not configured: set onrampSessionApiUrl on the checkout.",
+        "MISSING_API_URL": "{{providerName}} deposit is not configured: set sdkConfig.apiUrl on the checkout.",
         "MISSING_API_KEY": "{{providerName}} deposit is not configured: set widget apiKey to call checkout sessions.",
         "TARGET_NOT_CONFIGURED": "{{providerName}} deposit target is not configured: set widget.toChain and widget.toToken.",
         "INVALID_RESPONSE": "Invalid response from {{providerName}} session API.",

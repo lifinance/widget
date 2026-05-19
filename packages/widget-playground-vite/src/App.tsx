@@ -23,11 +23,6 @@ const AppProvider = ({ children }: PropsWithChildren) => {
     <EnvVariablesProvider
       EVMWalletConnectId={import.meta.env.VITE_EVM_WALLET_CONNECT}
       TVMWalletConnectId={import.meta.env.VITE_TVM_WALLET_CONNECT}
-      onrampSessionApiUrl={
-        import.meta.env.VITE_CHECKOUT_API_BASE_URL ||
-        import.meta.env.VITE_ONRAMP_SESSION_API_URL ||
-        undefined
-      }
       checkoutIntegrator={import.meta.env.VITE_CHECKOUT_INTEGRATOR || undefined}
       checkoutToChain={
         Number.isNaN(checkoutToChain) ? undefined : checkoutToChain

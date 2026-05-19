@@ -7,17 +7,12 @@ import { widgetBaseConfig } from '../../defaultWidgetConfig.js'
 import { useEnvVariables } from '../../providers/EnvVariablesProvider.js'
 import { useConfig } from '../../store/widgetConfig/useConfig.js'
 
-const DEFAULT_CHECKOUT_CORE_API_URL = 'https://develop.li.quest'
 const DEFAULT_CHECKOUT_INTEGRATOR = 'local-test'
 
 export function CheckoutWidgetView(): JSX.Element {
   const { config } = useConfig()
-  const {
-    onrampSessionApiUrl,
-    checkoutIntegrator,
-    checkoutToChain,
-    checkoutToToken,
-  } = useEnvVariables()
+  const { checkoutIntegrator, checkoutToChain, checkoutToToken } =
+    useEnvVariables()
   const [open, setOpen] = useState(false)
 
   const handleOpen = useCallback(() => {
@@ -72,9 +67,6 @@ export function CheckoutWidgetView(): JSX.Element {
       <LifiWidgetCheckout
         open={open}
         integrator={resolvedIntegrator}
-        onrampSessionApiUrl={
-          onrampSessionApiUrl?.trim() || DEFAULT_CHECKOUT_CORE_API_URL
-        }
         config={checkoutConfig}
         onRampProviders={onRampProviders}
         onClose={handleClose}

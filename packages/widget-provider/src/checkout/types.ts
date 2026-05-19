@@ -146,8 +146,8 @@ export interface OnRampFailure {
  */
 export interface CheckoutContextValue {
   integrator: string
-  /** Core API base URL for checkout sessions, e.g. `https://develop.li.quest`. */
-  onrampSessionApiUrl?: string
+  /** Resolved from `sdkConfig.apiUrl` by `CheckoutSdkBridge`. */
+  apiUrl?: string
   onSuccess?: (result: CheckoutResult) => void
   onError?: (error: CheckoutError) => void
 }

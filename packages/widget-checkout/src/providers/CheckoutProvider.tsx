@@ -14,16 +14,10 @@ export const CheckoutProvider: React.FC<CheckoutProviderProps> = ({
   const value = useMemo<CheckoutContextValue>(
     () => ({
       integrator: config.integrator,
-      onrampSessionApiUrl: config.onrampSessionApiUrl,
       onSuccess: config.onSuccess,
       onError: config.onError,
     }),
-    [
-      config.integrator,
-      config.onrampSessionApiUrl,
-      config.onSuccess,
-      config.onError,
-    ]
+    [config.integrator, config.onSuccess, config.onError]
   )
 
   return (

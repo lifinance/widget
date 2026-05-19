@@ -33,8 +33,7 @@ export interface MeshHostProps {
  */
 export const MeshHost: FC<MeshHostProps> = ({ widgetConfig }) => {
   const checkoutUserId = useCheckoutUserId()
-  const { integrator, onError, onSuccess, onrampSessionApiUrl } =
-    useCheckoutConfig()
+  const { integrator, onError, onSuccess, apiUrl } = useCheckoutConfig()
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<OnRampError | null>(null)
@@ -71,13 +70,12 @@ export const MeshHost: FC<MeshHostProps> = ({ widgetConfig }) => {
       transferSucceededRef.current = false
       setIsLoading(true)
 
-      const apiUrl = onrampSessionApiUrl?.replace(/\/$/, '')
       const apiKey = widgetConfig.apiKey?.trim()
       if (!apiUrl) {
         setError({ code: 'MISSING_API_URL' })
         onError?.({
           code: 'MISSING_API_URL',
-          message: 'CEX deposit is not configured: set onrampSessionApiUrl.',
+          message: 'CEX deposit is not configured: set sdkConfig.apiUrl.',
           provider: 'mesh',
         })
         setIsLoading(false)
@@ -268,11 +266,11 @@ export const MeshHost: FC<MeshHostProps> = ({ widgetConfig }) => {
       }
     },
     [
+      apiUrl,
       checkoutUserId,
       integrator,
       onError,
       onSuccess,
-      onrampSessionApiUrl,
       widgetConfig.apiKey,
     ]
   )

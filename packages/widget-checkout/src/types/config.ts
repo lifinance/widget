@@ -8,10 +8,9 @@ import type { PropsWithChildren, RefObject } from 'react'
 
 export interface CheckoutConfig {
   integrator: string
-  onrampSessionApiUrl?: string
   onSuccess?: (result: CheckoutResult) => void
   onError?: (error: CheckoutError) => void
-  /** `WidgetConfig` overrides — pass `apiKey`, `providers`, `theme`, `toChain`, `toToken`, etc. here. */
+  /** `WidgetConfig` overrides. Set the session API URL via `sdkConfig.apiUrl`. */
   config?: Partial<WidgetConfig>
 }
 
