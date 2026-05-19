@@ -50,6 +50,7 @@
     "resumeTransaction": "Resume transaction",
     "seeDetails": "See details",
     "topUp": "Top up",
+    "viewRefund": "View refund",
     "viewRefundStatus": "View refund status",
     "showAll": "Show all",
     "startBridging": "Start bridging",
@@ -496,6 +497,52 @@
         "withdrawalDescription": "{{providerName}} couldn't process your withdrawal. Your funds remain in your account.",
         "transferTitle": "Transaction failed - refunding",
         "transferDescription": "We couldn't complete the transfer after several attempts. Your funds are being refunded to the wallet that sent them."
+      }
+    },
+    "status": {
+      "successCompleted": {
+        "title": "Transaction successful",
+        "description": "Your transaction has been completed successfully."
+      },
+      "successRefund": {
+        "title": "Funds refunded",
+        "description": "Your transaction could not be completed and your funds have been refunded."
+      },
+      "pendingDefault": {
+        "title": "Processing transaction",
+        "description": "Your transaction is being processed. This may take a few minutes."
+      },
+      "pendingRefund": {
+        "title": "Refund in progress",
+        "description": "Your funds are being returned. This may take a few minutes."
+      },
+      "pendingRetrying": {
+        "title": "Retrying transaction",
+        "description": "We encountered an issue and are automatically retrying your transaction."
+      },
+      "errorExpired": {
+        "title": "Transaction expired",
+        "description": "The transaction window has expired. Please try again."
+      },
+      "errorFailed": {
+        "title": "Transaction failed",
+        "description": "We couldn't complete your transaction. Try again or contact support."
+      },
+      "errorConnection": {
+        "title": "Connection failed",
+        "description": "We couldn't connect to the payment provider. Try again or contact support."
+      },
+      "errorWithdrawal": {
+        "title": "Withdrawal failed",
+        "description": "The payment provider couldn't process your withdrawal. Your funds remain in your account."
+      },
+      "errorCancelled": {
+        "title": "Transaction cancelled",
+        "description": "Your transaction was cancelled. You can try again whenever you're ready."
+      },
+      "errorUnavailable": {
+        "title": "Service unavailable",
+        "description": "The payment provider is temporarily unavailable. Please try again later or contact support."
       }
     }
   }

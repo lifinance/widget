@@ -122,7 +122,11 @@ export interface OnRampOpenArgs {
   fromTokenAddress: string
 }
 
-export type OnRampFailureKind = 'connection' | 'withdrawal'
+export type OnRampFailureKind =
+  | 'connection'
+  | 'withdrawal'
+  | 'cancelled'
+  | 'unavailable'
 
 export interface OnRampFailure {
   kind: OnRampFailureKind

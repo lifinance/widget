@@ -1,9 +1,9 @@
-import type { FullStatusData, StatusResponse } from '@lifi/sdk'
+import type { FullStatusData } from '@lifi/sdk'
 import { navigationRoutes, PageContainer, useHeader } from '@lifi/widget/shared'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { type JSX, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { OnRampFailureScreen } from '../../components/OnRampFailureScreen.js'
+import { CheckoutStatusScreen } from '../../components/CheckoutStatusScreen.js'
 import { useCheckoutTransactionStatus } from '../../hooks/useCheckoutTransactionStatus.js'
 import { useActiveOnRampDeposit } from '../../providers/OnRampProvider/OnRampProvider.js'
 import { useCheckoutFlowStore } from '../../stores/useCheckoutFlowStore.js'
@@ -16,6 +16,7 @@ import {
 import { StatusCompleted } from './StatusCompleted.js'
 import { StatusExecuting } from './StatusExecuting.js'
 import { StatusWatching } from './StatusWatching.js'
+import { resolveStatusVariant } from './statusVariants.js'
 
 interface StatusSearch {
   transactionHash?: string
@@ -132,13 +133,16 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
   // Pre-hash provider failure preempts any other status state because
   // polling can't have started without a hash.
   if (deposit?.failure) {
+    const variant = resolveStatusVariant({
+      fundingSource,
+      onRampFailureKind: deposit.failure.kind,
+    })
     return (
       <PageContainer bottomGutters>
-        <OnRampFailureScreen
-          kind={deposit.failure.kind}
-          providerName={providerName}
+        <CheckoutStatusScreen
+          variant={variant}
           description={deposit.failure.message}
-          onRetry={deposit.failure.retry}
+          primaryAction={{ tryAgain: deposit.failure.retry }}
         />
       </PageContainer>
     )
@@ -153,25 +157,25 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
   }
 
   if (phase === 'failed') {
+    const variant = resolveStatusVariant({
+      status,
+      substatus: status?.substatus,
+      fundingSource,
+    })
+    const description = isTransferFlow
+      ? t('checkout.onramp.failure.transferDescription')
+      : (status?.substatusMessage ??
+        t(variant.descriptionKey, { providerName }))
+    const title = isTransferFlow
+      ? t('checkout.onramp.failure.transferTitle')
+      : undefined
     return (
       <PageContainer bottomGutters>
-        <OnRampFailureScreen
-          kind="withdrawal"
-          providerName={providerName}
-          title={
-            isTransferFlow
-              ? t('checkout.onramp.failure.transferTitle')
-              : undefined
-          }
-          description={
-            isTransferFlow
-              ? t('checkout.onramp.failure.transferDescription')
-              : ((status as StatusResponse | undefined)?.substatusMessage ??
-                t('checkout.onramp.failure.withdrawalDescription', {
-                  providerName,
-                }))
-          }
-          onRetry={() => window.history.back()}
+        <CheckoutStatusScreen
+          variant={variant}
+          title={title}
+          description={description}
+          primaryAction={{ tryAgain: () => window.history.back() }}
         />
       </PageContainer>
     )
