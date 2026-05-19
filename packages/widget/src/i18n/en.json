@@ -555,6 +555,26 @@
           "title": "Card payment unavailable",
           "description": "Card payments are temporarily unavailable. Try again later or use a different method."
         }
+      },
+      "walletDisconnected": {
+        "title": "Wallet disconnected",
+        "description": "Your wallet was disconnected during the transaction. Reconnect and try again."
+      },
+      "walletErrorFailed": {
+        "title": "Transaction failed",
+        "description": "We couldn't complete your transaction. View the details or try again."
+      },
+      "walletErrorExpired": {
+        "title": "Order expired",
+        "description": "The transaction window expired before your order could be processed. Please try again."
+      },
+      "walletPendingRefund": {
+        "title": "Refund in progress",
+        "description": "Your transaction could not be completed. Your funds are being returned to your wallet."
+      },
+      "walletSuccessRefund": {
+        "title": "Funds refunded",
+        "description": "Your transaction could not be completed and your funds have been refunded to your wallet."
       }
     }
   }
