@@ -12,25 +12,10 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-ACTIVE_EXAMPLES=(
-  vite
-  connectkit
-  privy
-  privy-ethers
-  rainbowkit
-  reown
-  svelte
-  zustand-widget-config
-  vue
-  nextjs
-  nextjs15
-  remix
-  react-router-7
-  tanstack-router
-  vite-iframe
-  vite-iframe-wagmi
-  nft-checkout
-)
+ACTIVE_EXAMPLES=()
+while IFS= read -r name; do
+  ACTIVE_EXAMPLES+=("$name")
+done < <(jq -r '.[] | select(.status=="active") | .name' "$REPO_ROOT/e2e/examples.json")
 
 PASSED=()
 FAILED=()

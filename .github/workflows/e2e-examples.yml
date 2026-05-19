@@ -35,35 +35,7 @@ jobs:
 
           CHANGED=$(git diff --name-only "$BASE_SHA"..."$HEAD_SHA")
 
-          # All 17 active examples
-          ALL_EXAMPLES=(
-            vite connectkit privy privy-ethers rainbowkit reown
-            svelte zustand-widget-config vue nextjs nextjs15
-            remix react-router-7 tanstack-router
-            vite-iframe vite-iframe-wagmi nft-checkout
-          )
-
-          # Example directory mapping (name → examples/<dir>)
-          declare -A EXAMPLE_DIR
-          EXAMPLE_DIR=(
-            [vite]="vite"
-            [connectkit]="connectkit"
-            [privy]="privy"
-            [privy-ethers]="privy-ethers"
-            [rainbowkit]="rainbowkit"
-            [reown]="reown"
-            [svelte]="svelte"
-            [zustand-widget-config]="zustand-widget-config"
-            [vue]="vue"
-            [nextjs]="nextjs"
-            [nextjs15]="nextjs15"
-            [remix]="remix"
-            [react-router-7]="react-router-7"
-            [tanstack-router]="tanstack-router"
-            [vite-iframe]="vite-iframe"
-            [vite-iframe-wagmi]="vite-iframe-wagmi"
-            [nft-checkout]="nft-checkout"
-          )
+          mapfile -t ALL_EXAMPLES < <(jq -r '.[] | select(.status=="active") | .name' e2e/examples.json)
 
           # Check if shared packages changed — if so, run all examples
           SHARED_CHANGED=false
@@ -81,8 +53,7 @@ jobs:
             AFFECTED=("${ALL_EXAMPLES[@]}")
           else
             for name in "${ALL_EXAMPLES[@]}"; do
-              dir="${EXAMPLE_DIR[$name]}"
-              if echo "$CHANGED" | grep -q "^examples/${dir}/"; then
+              if echo "$CHANGED" | grep -q "^examples/${name}/"; then
                 AFFECTED+=("$name")
               fi
             done
@@ -123,41 +94,13 @@ jobs:
       - name: Resolve example metadata
         id: meta
         run: |
-          declare -A PKG BUILD SERVE PORT ENV
-          PKG=([vite]=vite-project [connectkit]=connectkit [privy]=privy
-               [privy-ethers]=privy-ethers-example [rainbowkit]=rainbowkit
-               [reown]=reown [svelte]=svelte
-               [zustand-widget-config]=zustand-widget-config [vue]=vue
-               [nextjs]=nextjs [nextjs15]=nextjs15 [remix]=remix
-               [react-router-7]=react-router-7
-               [tanstack-router]=tanstack-router-example
-               [vite-iframe]=vite-iframe [vite-iframe-wagmi]=vite-iframe-wagmi
-               [nft-checkout]=nft-checkout)
-          BUILD=([vite]=vite-build [connectkit]=vite-build [privy]=vite-build
-                 [privy-ethers]=vite-build [rainbowkit]=vite-build [reown]=vite-build
-                 [svelte]=build [zustand-widget-config]=build [vue]=build
-                 [nextjs]=build [nextjs15]=build [remix]=build
-                 [react-router-7]=build [tanstack-router]=build
-                 [vite-iframe]=vite-build [vite-iframe-wagmi]=build [nft-checkout]=build)
-          SERVE=([vite]=preview [connectkit]=preview [privy]=preview
-                 [privy-ethers]=preview [rainbowkit]=preview [reown]=preview
-                 [svelte]=preview [zustand-widget-config]=preview [vue]=preview
-                 [nextjs]=start [nextjs15]=start [remix]=start
-                 [react-router-7]=start [tanstack-router]=preview
-                 [vite-iframe]=preview [vite-iframe-wagmi]=preview [nft-checkout]=preview)
-          PORT=([vite]=4173 [connectkit]=4173 [privy]=4173 [privy-ethers]=4173
-                [rainbowkit]=4173 [reown]=4173 [svelte]=4173
-                [zustand-widget-config]=4173 [vue]=4173 [nextjs]=3000 [nextjs15]=3000
-                [remix]=4173 [react-router-7]=4173 [tanstack-router]=4173
-                [vite-iframe]=4173 [vite-iframe-wagmi]=4173 [nft-checkout]=4173)
-          ENV=([remix]="PORT=4173" [react-router-7]="PORT=4173")
-
           NAME="${{ matrix.example }}"
-          echo "pkg=${PKG[$NAME]}"           >> "$GITHUB_OUTPUT"
-          echo "build=${BUILD[$NAME]}"       >> "$GITHUB_OUTPUT"
-          echo "serve=${SERVE[$NAME]}"       >> "$GITHUB_OUTPUT"
-          echo "port=${PORT[$NAME]}"         >> "$GITHUB_OUTPUT"
-          echo "serve_env=${ENV[$NAME]:-}"   >> "$GITHUB_OUTPUT"
+          Q='.[] | select(.name==$n)'
+          echo "pkg=$(jq -r --arg n "$NAME" "$Q | .pkg" e2e/examples.json)"           >> "$GITHUB_OUTPUT"
+          echo "build=$(jq -r --arg n "$NAME" "$Q | .buildCmd" e2e/examples.json)"    >> "$GITHUB_OUTPUT"
+          echo "serve=$(jq -r --arg n "$NAME" "$Q | .serveCmd" e2e/examples.json)"    >> "$GITHUB_OUTPUT"
+          echo "port=$(jq -r --arg n "$NAME" "$Q | .port" e2e/examples.json)"         >> "$GITHUB_OUTPUT"
+          echo "serve_env=$(jq -r --arg n "$NAME" "$Q | .serveEnv // {} | to_entries | map(.key+\"=\"+.value) | join(\" \")" e2e/examples.json)" >> "$GITHUB_OUTPUT"
 
       - name: Build example
         run: |

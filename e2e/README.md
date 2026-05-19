@@ -116,10 +116,7 @@ Most examples use the framework's standard preview command. A few quirks capture
 
 ### Adding a new example
 
-1. Add an entry to `e2e/examples.config.ts` (the TypeScript source of truth)
-2. Add the same entry to the case statement in `scripts/test-example.sh`
-3. Add the name to `ACTIVE_EXAMPLES` in `scripts/test-all-examples.sh`
-4. Add the name and metadata to the four lookup tables in `.github/workflows/e2e-examples.yml`
+Add a single entry to `e2e/examples.json` — it is the only source of truth. The Playwright config, CI workflow, and local scripts all read from it automatically.
 
 ---
 

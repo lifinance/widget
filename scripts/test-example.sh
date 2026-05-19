@@ -12,44 +12,27 @@
 set -euo pipefail
 
 EXAMPLE="${1:-}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+EXAMPLES_JSON="$SCRIPT_DIR/../e2e/examples.json"
 
 if [ -z "$EXAMPLE" ]; then
   echo "Usage: $0 <example-name>" >&2
   exit 1
 fi
 
-# ── Lookup (mirrors e2e/examples.config.ts) ──────────────────────────────────
-# resolve_example <name>  →  sets PKG BUILD_CMD SERVE_CMD PORT SERVE_ENV
-resolve_example() {
-  case "$1" in
-    vite)                PKG="vite-project";           BUILD_CMD="vite-build"; SERVE_CMD="preview"; PORT=4173; SERVE_ENV="" ;;
-    connectkit)          PKG="connectkit";              BUILD_CMD="vite-build"; SERVE_CMD="preview"; PORT=4173; SERVE_ENV="" ;;
-    privy)               PKG="privy";                   BUILD_CMD="vite-build"; SERVE_CMD="preview"; PORT=4173; SERVE_ENV="" ;;
-    privy-ethers)        PKG="privy-ethers-example";   BUILD_CMD="vite-build"; SERVE_CMD="preview"; PORT=4173; SERVE_ENV="" ;;
-    rainbowkit)          PKG="rainbowkit";              BUILD_CMD="vite-build"; SERVE_CMD="preview"; PORT=4173; SERVE_ENV="" ;;
-    reown)               PKG="reown";                   BUILD_CMD="vite-build"; SERVE_CMD="preview"; PORT=4173; SERVE_ENV="" ;;
-    svelte)              PKG="svelte";                  BUILD_CMD="build";      SERVE_CMD="preview"; PORT=4173; SERVE_ENV="" ;;
-    zustand-widget-config) PKG="zustand-widget-config"; BUILD_CMD="build";     SERVE_CMD="preview"; PORT=4173; SERVE_ENV="" ;;
-    vue)                 PKG="vue";                     BUILD_CMD="build";      SERVE_CMD="preview"; PORT=4173; SERVE_ENV="" ;;
-    nextjs)              PKG="nextjs";                  BUILD_CMD="build";      SERVE_CMD="start";   PORT=3000; SERVE_ENV="" ;;
-    nextjs15)            PKG="nextjs15";                BUILD_CMD="build";      SERVE_CMD="start";   PORT=3000; SERVE_ENV="" ;;
-    remix)               PKG="remix";                   BUILD_CMD="build";      SERVE_CMD="start";   PORT=4173; SERVE_ENV="PORT=4173" ;;
-    react-router-7)      PKG="react-router-7";          BUILD_CMD="build";      SERVE_CMD="start";   PORT=4173; SERVE_ENV="PORT=4173" ;;
-    tanstack-router)     PKG="tanstack-router-example"; BUILD_CMD="build";      SERVE_CMD="preview"; PORT=4173; SERVE_ENV="" ;;
-    vite-iframe)         PKG="vite-iframe";             BUILD_CMD="vite-build"; SERVE_CMD="preview"; PORT=4173; SERVE_ENV="" ;;
-    vite-iframe-wagmi)   PKG="vite-iframe-wagmi";       BUILD_CMD="build";      SERVE_CMD="preview"; PORT=4173; SERVE_ENV="" ;;
-    nft-checkout)        PKG="nft-checkout";            BUILD_CMD="build";      SERVE_CMD="preview"; PORT=4173; SERVE_ENV="" ;;
-    *)
-      echo "Unknown example: '$1'" >&2
-      echo "Available: vite connectkit privy privy-ethers rainbowkit reown svelte" >&2
-      echo "           zustand-widget-config vue nextjs nextjs15 remix react-router-7" >&2
-      echo "           tanstack-router vite-iframe vite-iframe-wagmi nft-checkout" >&2
-      exit 1
-      ;;
-  esac
-}
+# ── Lookup (reads e2e/examples.json) ─────────────────────────────────────────
+Q='.[] | select(.name==$n)'
+if ! jq -e --arg n "$EXAMPLE" "$Q | .name" "$EXAMPLES_JSON" > /dev/null 2>&1; then
+  echo "Unknown example: '$EXAMPLE'" >&2
+  echo "Available: $(jq -r '.[] | select(.status=="active") | .name' "$EXAMPLES_JSON" | tr '\n' ' ')" >&2
+  exit 1
+fi
 
-resolve_example "$EXAMPLE"
+PKG=$(jq -r      --arg n "$EXAMPLE" "$Q | .pkg"      "$EXAMPLES_JSON")
+BUILD_CMD=$(jq -r --arg n "$EXAMPLE" "$Q | .buildCmd" "$EXAMPLES_JSON")
+SERVE_CMD=$(jq -r --arg n "$EXAMPLE" "$Q | .serveCmd" "$EXAMPLES_JSON")
+PORT=$(jq -r     --arg n "$EXAMPLE" "$Q | .port"     "$EXAMPLES_JSON")
+SERVE_ENV=$(jq -r --arg n "$EXAMPLE" "$Q | .serveEnv // {} | to_entries | map(.key+\"=\"+.value) | join(\" \")" "$EXAMPLES_JSON")
 
 echo "──────────────────────────────────────────────────────────"
 echo "  Example : $EXAMPLE"
