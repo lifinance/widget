@@ -1,5 +1,12 @@
 import type { FullStatusData } from '@lifi/sdk'
-import { navigationRoutes, PageContainer, useHeader } from '@lifi/widget/shared'
+import {
+  navigationRoutes,
+  PageContainer,
+  useContactSupport,
+  useHeader,
+} from '@lifi/widget/shared'
+import OpenInNewRoundedIcon from '@mui/icons-material/OpenInNewRounded'
+import { Link } from '@mui/material'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { type JSX, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -132,6 +139,26 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
     return () => clearTimeout(id)
   }, [inExecutingState])
 
+  const detailsTxHash = transactionHash ?? getReceivingTxHash(status) ?? null
+  const handleContactSupport = useContactSupport(detailsTxHash ?? undefined)
+
+  const goToEnterAmount = (): void => {
+    navigate({
+      to: checkoutNavigationRoutes.enterAmount,
+      replace: true,
+    })
+  }
+
+  const goToDetails = (): void => {
+    if (!detailsTxHash) {
+      return
+    }
+    navigate({
+      to: `/${navigationRoutes.transactionExecution}/${navigationRoutes.transactionDetails}`,
+      search: { transactionHash: detailsTxHash },
+    })
+  }
+
   // Pre-hash provider failure preempts any other status state because
   // polling can't have started without a hash.
   if (deposit?.failure) {
@@ -145,6 +172,7 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
           variant={variant}
           description={deposit.failure.message}
           primaryAction={{ tryAgain: deposit.failure.retry }}
+          secondaryAction={{ contactSupport: handleContactSupport }}
         />
       </PageContainer>
     )
@@ -156,7 +184,8 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
       <PageContainer bottomGutters>
         <CheckoutStatusScreen
           variant={variant}
-          primaryAction={{ tryAgain: () => window.history.back() }}
+          primaryAction={{ tryAgain: goToEnterAmount }}
+          secondaryAction={{ contactSupport: handleContactSupport }}
         />
       </PageContainer>
     )
@@ -183,29 +212,41 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
     const title = isTransferFlow
       ? t('checkout.onramp.failure.transferTitle')
       : undefined
+    // Figma places the "View transaction details" affordance as an inline
+    // link inside the description block, not as a secondary CTA. Only render
+    // it when we have a hash to deep-link to.
+    const descriptionAddon = detailsTxHash ? (
+      <Link
+        component="button"
+        type="button"
+        onClick={goToDetails}
+        underline="hover"
+        sx={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 0.5,
+          fontSize: '0.875rem',
+        }}
+      >
+        {t('checkout.transactionStatus.seeDetails')}
+        <OpenInNewRoundedIcon sx={{ fontSize: 16 }} />
+      </Link>
+    ) : null
     return (
       <PageContainer bottomGutters>
         <CheckoutStatusScreen
           variant={variant}
           title={title}
           description={description}
-          primaryAction={{ tryAgain: () => window.history.back() }}
+          descriptionAddon={descriptionAddon}
+          primaryAction={{ tryAgain: goToEnterAmount }}
+          secondaryAction={{ contactSupport: handleContactSupport }}
         />
       </PageContainer>
     )
   }
 
   if (phase === 'done' && minHoldElapsed && status) {
-    const detailsTxHash = transactionHash ?? getReceivingTxHash(status) ?? null
-    const goToDetails = () => {
-      if (!detailsTxHash) {
-        return
-      }
-      navigate({
-        to: `/${navigationRoutes.transactionExecution}/${navigationRoutes.transactionDetails}`,
-        search: { transactionHash: detailsTxHash },
-      })
-    }
     const goHome = () => {
       navigate({ to: navigationRoutes.home })
     }

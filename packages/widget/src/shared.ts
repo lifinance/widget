@@ -68,6 +68,7 @@ export {
 export { useAddressActivity } from './hooks/useAddressActivity.js'
 export { useAvailableChains } from './hooks/useAvailableChains.js'
 export { useChain } from './hooks/useChain.js'
+export { useContactSupport } from './hooks/useContactSupport.js'
 export { useDebouncedWatch } from './hooks/useDebouncedWatch.js'
 export { useExplorer } from './hooks/useExplorer.js'
 export { useHeader } from './hooks/useHeader.js'

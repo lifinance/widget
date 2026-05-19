@@ -153,7 +153,10 @@ export function resolveStatusVariant({
         secondaryAction: 'contactSupport',
       }
     }
-    // UNKNOWN_FAILED_ERROR or any other failed/invalid substatus
+    // UNKNOWN_FAILED_ERROR or any other failed/invalid substatus.
+    // View-transaction-details renders as an inline link inside the
+    // description (see CheckoutStatusScreen.descriptionAddon), not as a
+    // secondary CTA.
     return {
       tone: 'error',
       icon: 'error',
@@ -164,7 +167,7 @@ export function resolveStatusVariant({
         ? 'checkout.status.walletErrorFailed.description'
         : 'checkout.status.errorFailed.description',
       primaryAction: 'tryAgain',
-      secondaryAction: isWallet ? 'viewDetails' : 'contactSupport',
+      secondaryAction: 'contactSupport',
     }
   }
 
