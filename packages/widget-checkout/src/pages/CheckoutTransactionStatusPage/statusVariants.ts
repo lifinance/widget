@@ -49,12 +49,12 @@ export interface ResolveStatusVariantArgs {
 export function resolveStatusVariant({
   status,
   substatus,
-  fundingSource: _fundingSource,
+  fundingSource,
   onRampFailureKind,
 }: ResolveStatusVariantArgs): StatusVariant {
   // Pre-hash provider failure takes priority — polling hasn't started yet.
   if (onRampFailureKind) {
-    return resolveOnRampFailureVariant(onRampFailureKind)
+    return resolveOnRampFailureVariant(onRampFailureKind, fundingSource)
   }
 
   const rawStatus = status?.status
@@ -145,14 +145,22 @@ export function resolveStatusVariant({
   }
 }
 
-function resolveOnRampFailureVariant(kind: OnRampFailureKind): StatusVariant {
+function resolveOnRampFailureVariant(
+  kind: OnRampFailureKind,
+  fundingSource: CheckoutFundingSource | null
+): StatusVariant {
+  const isCash = fundingSource === 'cash'
   switch (kind) {
     case 'withdrawal':
       return {
         tone: 'error',
         icon: 'error',
-        titleKey: 'checkout.status.errorWithdrawal.title',
-        descriptionKey: 'checkout.status.errorWithdrawal.description',
+        titleKey: isCash
+          ? 'checkout.status.errorWithdrawal.cash.title'
+          : 'checkout.status.errorWithdrawal.title',
+        descriptionKey: isCash
+          ? 'checkout.status.errorWithdrawal.cash.description'
+          : 'checkout.status.errorWithdrawal.description',
         primaryAction: 'tryAgain',
         secondaryAction: 'contactSupport',
       }
@@ -160,16 +168,24 @@ function resolveOnRampFailureVariant(kind: OnRampFailureKind): StatusVariant {
       return {
         tone: 'warning',
         icon: 'error',
-        titleKey: 'checkout.status.errorCancelled.title',
-        descriptionKey: 'checkout.status.errorCancelled.description',
+        titleKey: isCash
+          ? 'checkout.status.errorCancelled.cash.title'
+          : 'checkout.status.errorCancelled.title',
+        descriptionKey: isCash
+          ? 'checkout.status.errorCancelled.cash.description'
+          : 'checkout.status.errorCancelled.description',
         primaryAction: 'tryAgain',
       }
     case 'unavailable':
       return {
         tone: 'error',
         icon: 'error',
-        titleKey: 'checkout.status.errorUnavailable.title',
-        descriptionKey: 'checkout.status.errorUnavailable.description',
+        titleKey: isCash
+          ? 'checkout.status.errorUnavailable.cash.title'
+          : 'checkout.status.errorUnavailable.title',
+        descriptionKey: isCash
+          ? 'checkout.status.errorUnavailable.cash.description'
+          : 'checkout.status.errorUnavailable.description',
         primaryAction: 'tryAgain',
         secondaryAction: 'contactSupport',
       }

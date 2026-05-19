@@ -534,15 +534,27 @@
       },
       "errorWithdrawal": {
         "title": "Withdrawal failed",
-        "description": "The payment provider couldn't process your withdrawal. Your funds remain in your account."
+        "description": "The payment provider couldn't process your withdrawal. Your funds remain in your account.",
+        "cash": {
+          "title": "Payment didn't complete",
+          "description": "Your payment didn't go through. No funds were taken."
+        }
       },
       "errorCancelled": {
         "title": "Transaction cancelled",
-        "description": "Your transaction was cancelled. You can try again whenever you're ready."
+        "description": "Your transaction was cancelled. You can try again whenever you're ready.",
+        "cash": {
+          "title": "Payment cancelled",
+          "description": "You closed the payment window. Your order wasn't placed."
+        }
       },
       "errorUnavailable": {
         "title": "Service unavailable",
-        "description": "The payment provider is temporarily unavailable. Please try again later or contact support."
+        "description": "The payment provider is temporarily unavailable. Please try again later or contact support.",
+        "cash": {
+          "title": "Card payment unavailable",
+          "description": "Card payments are temporarily unavailable. Try again later or use a different method."
+        }
       }
     }
   }
