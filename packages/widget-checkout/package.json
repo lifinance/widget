@@ -53,6 +53,7 @@
     "@lifi/wallet-management": "workspace:*",
     "@lifi/widget": "workspace:*",
     "@lifi/widget-provider": "workspace:*",
+    "@lifi/widget-provider-mesh": "workspace:*",
     "@mui/icons-material": "^9.0.1",
     "@mui/material": "^9.0.1",
     "@mui/system": "^9.0.1",
