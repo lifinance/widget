@@ -1,22 +1,6 @@
-import type { StatusResponse } from '@lifi/sdk'
+import type { StatusResponse, Substatus } from '@lifi/sdk'
 import type { OnRampFailureKind } from '@lifi/widget-provider/checkout'
 import type { CheckoutFundingSource } from '../../stores/useCheckoutFlowStore.js'
-
-/**
- * INTENT_* substatuses are defined in CORE-203/205 and will ship in a future
- * @lifi/types release. Until they are published, treat them as opaque strings
- * on top of the base Substatus union.
- *
- * TODO: remove string literal union once @lifi/types exports INTENT_* values.
- */
-type IntentSubstatus =
-  | 'INTENT_AWAITING_FUNDS'
-  | 'INTENT_READY'
-  | 'INTENT_EXECUTING'
-  | 'INTENT_FAILED_RETRYABLE'
-  | 'INTENT_SIMULATION_FAILURE'
-
-type AnySubstatus = string | IntentSubstatus
 
 export type StatusVariantTone = 'success' | 'pending' | 'error' | 'warning'
 export type StatusVariantIcon = 'check' | 'spinner' | 'error' | 'refund'
@@ -42,7 +26,7 @@ export interface StatusVariant {
 
 export interface ResolveStatusVariantArgs {
   status?: StatusResponse
-  substatus?: AnySubstatus
+  substatus?: Substatus
   fundingSource: CheckoutFundingSource | null
   onRampFailureKind?: OnRampFailureKind
 }
