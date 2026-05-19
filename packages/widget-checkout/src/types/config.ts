@@ -8,7 +8,6 @@ import type { PropsWithChildren, RefObject } from 'react'
 
 export interface CheckoutConfig {
   integrator: string
-  /** Core API base URL for checkout sessions, e.g. `https://develop.li.quest`. */
   onrampSessionApiUrl?: string
   onSuccess?: (result: CheckoutResult) => void
   onError?: (error: CheckoutError) => void
@@ -22,7 +21,6 @@ export interface CheckoutModalProps {
   onClose?(): void
 }
 
-/** Props for `<LifiWidgetCheckout />`. Modal-only props (`open`, `elementRef`) are always top-level. */
 export type CheckoutProps = CheckoutModalProps &
   CheckoutConfig & {
     formRef?: FormRef

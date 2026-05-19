@@ -18,7 +18,6 @@ import { type JSX, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { checkoutAbsolutePaths } from '../utils/navigationRoutes.js'
 
-/** Same as main `RoutesPage`, but navigation uses checkout absolute paths. */
 export const CheckoutRoutesPage = (): JSX.Element => {
   const { t } = useTranslation()
   const navigate = useNavigate()

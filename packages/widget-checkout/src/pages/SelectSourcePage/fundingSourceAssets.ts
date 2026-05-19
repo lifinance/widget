@@ -1,6 +1,3 @@
-/**
- * Public logo URLs for checkout funding cards (tokens, exchanges, card networks).
- */
 export const fundingSourceImages = {
   tokenEth:
     'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png',

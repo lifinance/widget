@@ -5,7 +5,6 @@ import { IconButton } from '@mui/material'
 import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 
-/** Muted small power icon for dense checkout rows (disconnect, `stopPropagation`). */
 export function CheckoutDisconnectIconButton({
   account,
 }: {

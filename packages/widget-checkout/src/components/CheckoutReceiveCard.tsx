@@ -25,7 +25,6 @@ import LocalGasStationRounded from '@mui/icons-material/LocalGasStationRounded'
 import { Box, Collapse, IconButton, Skeleton, Typography } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-/** Receive (output) quote card for checkout deposit — matches Figma before/after quote states. */
 export const CheckoutReceiveCard: React.FC = () => {
   const { t, i18n } = useTranslation()
   const [expanded, setExpanded] = useState(false)

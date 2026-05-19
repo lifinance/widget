@@ -30,7 +30,6 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ title: titleProp }) => {
   const { elementId } = useWidgetConfig()
   const { t } = useTranslation()
-  // Children can override the layout's pathname-derived title via useHeader().
   const storeTitle = useHeaderStore((state) => state.title)
   const title = storeTitle ?? titleProp ?? t('checkout.deposit')
   const { pathname } = useLocation()

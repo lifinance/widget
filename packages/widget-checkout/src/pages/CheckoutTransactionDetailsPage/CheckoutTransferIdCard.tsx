@@ -17,10 +17,6 @@ interface CheckoutTransferIdCardProps {
   txLink?: string
 }
 
-/**
- * Checkout copy of the shared TransferIdCard that uses `variant="elevation"`
- * so the page sits on shadows rather than 1px outlines.
- */
 export const CheckoutTransferIdCard = ({
   transferId,
   txLink,

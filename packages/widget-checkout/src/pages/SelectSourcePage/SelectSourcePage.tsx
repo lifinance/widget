@@ -46,7 +46,6 @@ export const SelectSourcePage: React.FC = () => {
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
   const wasExchangeFlow = fundingSource === 'exchange'
 
-  // Insufficient-funds shortfall check — only active when re-entering from exchange flow.
   const formType = 'from' as const
   const [prevChainId, prevTokenAddress, prevAmountStr] = useFieldValues(
     FormKeyHelper.getChainKey(formType),

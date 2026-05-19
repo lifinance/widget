@@ -28,7 +28,6 @@ export interface SelectDepositTokenListProps {
   allowedSymbols?: ReadonlySet<string>
 }
 
-/** Token list with checkout navigation after selection (widget `TokenList` uses internal back navigation). */
 export const SelectDepositTokenList: FC<SelectDepositTokenListProps> = memo(
   ({ formType, headerRef, afterTokenSelect, allowedSymbols }) => {
     const listParentRef = useRef<HTMLUListElement | null>(null)
