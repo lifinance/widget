@@ -1,6 +1,14 @@
 import { useAccount, useWalletMenu } from '@lifi/wallet-management'
-import { PoweredBy, useHeader } from '@lifi/widget/shared'
-import { Box } from '@mui/material'
+import {
+  FormKeyHelper,
+  PoweredBy,
+  useChain,
+  useFieldValues,
+  useHeader,
+  useToken,
+} from '@lifi/widget/shared'
+import { useMeshBalance } from '@lifi/widget-provider-mesh'
+import { Alert, Box } from '@mui/material'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { formatOnRampError } from '../../components/formatOnRampError.js'
@@ -33,6 +41,37 @@ export const SelectSourcePage: React.FC = () => {
   const setFundingSource = useCheckoutFlowStore((s) => s.setFundingSource)
   const resetFlow = useCheckoutFlowStore((s) => s.reset)
   const overrideExchanges = useCheckoutExchangesOverride()
+
+  // Capture fundingSource before resetFlow fires (runs after first render).
+  const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
+  const wasExchangeFlow = fundingSource === 'exchange'
+
+  // Insufficient-funds shortfall check — only active when re-entering from exchange flow.
+  const formType = 'from' as const
+  const [prevChainId, prevTokenAddress, prevAmountStr] = useFieldValues(
+    FormKeyHelper.getChainKey(formType),
+    FormKeyHelper.getTokenKey(formType),
+    FormKeyHelper.getAmountKey(formType)
+  )
+  const { token: prevToken } = useToken(
+    wasExchangeFlow ? prevChainId : undefined,
+    wasExchangeFlow ? prevTokenAddress : undefined
+  )
+  const { chain: prevChain } = useChain(
+    wasExchangeFlow ? prevChainId : undefined
+  )
+  const { balance: meshBalance } = useMeshBalance(
+    wasExchangeFlow ? prevTokenAddress : undefined,
+    wasExchangeFlow ? prevChainId : undefined
+  )
+
+  const prevRequestedAmount =
+    prevAmountStr && prevAmountStr !== '' ? Number(prevAmountStr) : null
+  const showInsufficientFunds =
+    wasExchangeFlow &&
+    meshBalance !== null &&
+    prevRequestedAmount !== null &&
+    meshBalance < prevRequestedAmount
 
   useEffect(() => {
     resetFlow()
@@ -120,6 +159,14 @@ export const SelectSourcePage: React.FC = () => {
       })}
     >
       <SelectSourceMainColumn sx={{ flex: 1 }}>
+        {showInsufficientFunds && prevToken && prevChain ? (
+          <Alert severity="warning" sx={{ mb: 2 }}>
+            {t('checkout.insufficientFunds', {
+              symbol: prevToken.symbol,
+              chain: prevChain.name,
+            })}
+          </Alert>
+        ) : null}
         <SelectSourceFundingOptions
           onPayFromWallet={handlePayFromWallet}
           onTransferCrypto={handleTransferCrypto}

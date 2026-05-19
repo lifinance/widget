@@ -183,6 +183,7 @@ function resolveOnRampFailureVariant(
   fundingSource: CheckoutFundingSource | null
 ): StatusVariant {
   const isCash = fundingSource === 'cash'
+  const isExchange = fundingSource === 'exchange'
   switch (kind) {
     case 'withdrawal':
       return {
@@ -190,10 +191,14 @@ function resolveOnRampFailureVariant(
         icon: 'error',
         titleKey: isCash
           ? 'checkout.status.errorWithdrawal.cash.title'
-          : 'checkout.status.errorWithdrawal.title',
+          : isExchange
+            ? 'checkout.status.errorWithdrawal.exchange.title'
+            : 'checkout.status.errorWithdrawal.title',
         descriptionKey: isCash
           ? 'checkout.status.errorWithdrawal.cash.description'
-          : 'checkout.status.errorWithdrawal.description',
+          : isExchange
+            ? 'checkout.status.errorWithdrawal.exchange.description'
+            : 'checkout.status.errorWithdrawal.description',
         primaryAction: 'tryAgain',
         secondaryAction: 'contactSupport',
       }
@@ -226,8 +231,12 @@ function resolveOnRampFailureVariant(
       return {
         tone: 'error',
         icon: 'error',
-        titleKey: 'checkout.status.errorConnection.title',
-        descriptionKey: 'checkout.status.errorConnection.description',
+        titleKey: isExchange
+          ? 'checkout.status.errorConnection.exchange.title'
+          : 'checkout.status.errorConnection.title',
+        descriptionKey: isExchange
+          ? 'checkout.status.errorConnection.exchange.description'
+          : 'checkout.status.errorConnection.description',
         primaryAction: 'tryAgain',
         secondaryAction: 'contactSupport',
       }
