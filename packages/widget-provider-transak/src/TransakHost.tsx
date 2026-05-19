@@ -1,6 +1,7 @@
 'use client'
 import {
   type OnRampError,
+  type OnRampFailure,
   type OnRampHostWidgetConfig,
   type OnRampOpenArgs,
   type OnRampSession,
@@ -44,6 +45,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
   const [open, setOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<OnRampError | null>(null)
+  const [failure, setFailure] = useState<OnRampFailure | null>(null)
   const [widgetUrl, setWidgetUrl] = useState<string | null>(null)
   const mountTargetId = useId()
 
@@ -58,6 +60,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
     setOpen(false)
     setIsLoading(false)
     setError(null)
+    setFailure(null)
     setWidgetUrl(null)
   }, [])
 
@@ -66,6 +69,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
       lastOpenArgsRef.current = args
       setOpen(true)
       setError(null)
+      setFailure(null)
       setWidgetUrl(null)
       setIsLoading(true)
 
@@ -233,21 +237,14 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
     // other live Transak instance. If we ever support multiple concurrent
     // Transak sessions, switch to an SDK build that exposes per-listener
     // removal (or proxy through our own emitter).
-    const runState = { active: true }
-
-    const onWidgetClose = () => {
-      if (!runState.active) {
-        return
-      }
-      runState.active = false
-      close()
-    }
+    const runState = { active: true, succeeded: false }
 
     const onOrderSuccessful = (data: unknown) => {
       if (!runState.active) {
         return
       }
       runState.active = false
+      runState.succeeded = true
       const onSuccessCb = onSuccessRef.current
       if (onSuccessCb) {
         const order =
@@ -277,8 +274,55 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
       close()
     }
 
-    Transak.on(Transak.EVENTS.TRANSAK_WIDGET_CLOSE, onWidgetClose)
+    const onOrderCancelled = () => {
+      if (!runState.active) {
+        return
+      }
+      runState.active = false
+      const retryArgs = lastOpenArgsRef.current
+      setFailure({
+        kind: 'cancelled',
+        retry: retryArgs ? () => openDepositFlow(retryArgs) : close,
+      })
+      setOpen(false)
+      setWidgetUrl(null)
+    }
+
+    const onOrderFailed = () => {
+      if (!runState.active) {
+        return
+      }
+      runState.active = false
+      const retryArgs = lastOpenArgsRef.current
+      setFailure({
+        kind: 'withdrawal',
+        retry: retryArgs ? () => openDepositFlow(retryArgs) : close,
+      })
+      setOpen(false)
+      setWidgetUrl(null)
+    }
+
+    const onWidgetClose = () => {
+      if (!runState.active) {
+        return
+      }
+      runState.active = false
+      // If no terminal event fired first, treat close as user cancellation.
+      if (!runState.succeeded) {
+        const retryArgs = lastOpenArgsRef.current
+        setFailure({
+          kind: 'cancelled',
+          retry: retryArgs ? () => openDepositFlow(retryArgs) : close,
+        })
+        setOpen(false)
+        setWidgetUrl(null)
+      }
+    }
+
     Transak.on(Transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, onOrderSuccessful)
+    Transak.on(Transak.EVENTS.TRANSAK_ORDER_CANCELLED, onOrderCancelled)
+    Transak.on(Transak.EVENTS.TRANSAK_ORDER_FAILED, onOrderFailed)
+    Transak.on(Transak.EVENTS.TRANSAK_WIDGET_CLOSE, onWidgetClose)
 
     transak.init()
 
@@ -290,7 +334,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
       runState.active = false
       transak.cleanup()
     }
-  }, [close, isLoading, open, mountTargetId, widgetUrl])
+  }, [close, isLoading, open, mountTargetId, openDepositFlow, widgetUrl])
 
   const session = useMemo<OnRampSession>(
     () => ({
@@ -299,12 +343,12 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
       isOpen: open,
       isLoading,
       error,
-      failure: null,
+      failure,
       depositTxHash: null,
       acknowledgeDepositTxHash: () => {},
       mountTargetId,
     }),
-    [close, error, isLoading, mountTargetId, open, openDepositFlow]
+    [close, error, failure, isLoading, mountTargetId, open, openDepositFlow]
   )
 
   useRegisterOnRampSession('transak', session)
