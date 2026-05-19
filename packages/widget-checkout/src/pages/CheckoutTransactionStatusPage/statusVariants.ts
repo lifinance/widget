@@ -29,6 +29,8 @@ export interface ResolveStatusVariantArgs {
   substatus?: Substatus
   fundingSource: CheckoutFundingSource | null
   onRampFailureKind?: OnRampFailureKind
+  /** Wallet was disconnected mid-execution; maps to error-connection with wallet-disconnect copy. */
+  walletDisconnected?: boolean
 }
 
 /**
@@ -51,7 +53,22 @@ export function resolveStatusVariant({
   substatus,
   fundingSource,
   onRampFailureKind,
+  walletDisconnected,
 }: ResolveStatusVariantArgs): StatusVariant {
+  const isWallet = fundingSource === 'wallet'
+
+  // Wallet disconnect during execution — surfaces before any status check.
+  if (walletDisconnected) {
+    return {
+      tone: 'error',
+      icon: 'error',
+      titleKey: 'checkout.status.walletDisconnected.title',
+      descriptionKey: 'checkout.status.walletDisconnected.description',
+      primaryAction: 'tryAgain',
+      secondaryAction: 'contactSupport',
+    }
+  }
+
   // Pre-hash provider failure takes priority — polling hasn't started yet.
   if (onRampFailureKind) {
     return resolveOnRampFailureVariant(onRampFailureKind, fundingSource)
@@ -64,8 +81,12 @@ export function resolveStatusVariant({
       return {
         tone: 'success',
         icon: 'refund',
-        titleKey: 'checkout.status.successRefund.title',
-        descriptionKey: 'checkout.status.successRefund.description',
+        titleKey: isWallet
+          ? 'checkout.status.walletSuccessRefund.title'
+          : 'checkout.status.successRefund.title',
+        descriptionKey: isWallet
+          ? 'checkout.status.walletSuccessRefund.description'
+          : 'checkout.status.successRefund.description',
         primaryAction: 'viewRefund',
         secondaryAction: 'done',
       }
@@ -86,8 +107,12 @@ export function resolveStatusVariant({
       return {
         tone: 'pending',
         icon: 'refund',
-        titleKey: 'checkout.status.pendingRefund.title',
-        descriptionKey: 'checkout.status.pendingRefund.description',
+        titleKey: isWallet
+          ? 'checkout.status.walletPendingRefund.title'
+          : 'checkout.status.pendingRefund.title',
+        descriptionKey: isWallet
+          ? 'checkout.status.walletPendingRefund.description'
+          : 'checkout.status.pendingRefund.description',
         primaryAction: 'contactSupport',
       }
     }
@@ -118,8 +143,12 @@ export function resolveStatusVariant({
       return {
         tone: 'error',
         icon: 'error',
-        titleKey: 'checkout.status.errorExpired.title',
-        descriptionKey: 'checkout.status.errorExpired.description',
+        titleKey: isWallet
+          ? 'checkout.status.walletErrorExpired.title'
+          : 'checkout.status.errorExpired.title',
+        descriptionKey: isWallet
+          ? 'checkout.status.walletErrorExpired.description'
+          : 'checkout.status.errorExpired.description',
         primaryAction: 'tryAgain',
         secondaryAction: 'contactSupport',
       }
@@ -128,10 +157,14 @@ export function resolveStatusVariant({
     return {
       tone: 'error',
       icon: 'error',
-      titleKey: 'checkout.status.errorFailed.title',
-      descriptionKey: 'checkout.status.errorFailed.description',
+      titleKey: isWallet
+        ? 'checkout.status.walletErrorFailed.title'
+        : 'checkout.status.errorFailed.title',
+      descriptionKey: isWallet
+        ? 'checkout.status.walletErrorFailed.description'
+        : 'checkout.status.errorFailed.description',
       primaryAction: 'tryAgain',
-      secondaryAction: 'contactSupport',
+      secondaryAction: isWallet ? 'viewDetails' : 'contactSupport',
     }
   }
 

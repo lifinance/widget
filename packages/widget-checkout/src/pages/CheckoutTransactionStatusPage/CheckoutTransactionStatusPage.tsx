@@ -23,6 +23,7 @@ interface StatusSearch {
   depositAddress?: string
   fromChain?: number
   simulateTransactionStatus?: string
+  walletDisconnected?: boolean
 }
 
 /**
@@ -46,6 +47,7 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
   )
     ? search.simulateTransactionStatus
     : null
+  const walletDisconnected = search.walletDisconnected === true
 
   // Active deposit session for the current funding source. The provider
   // may emit a real on-chain hash (driving polling) or a terminal
@@ -143,6 +145,18 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
           variant={variant}
           description={deposit.failure.message}
           primaryAction={{ tryAgain: deposit.failure.retry }}
+        />
+      </PageContainer>
+    )
+  }
+
+  if (walletDisconnected) {
+    const variant = resolveStatusVariant({ fundingSource, walletDisconnected })
+    return (
+      <PageContainer bottomGutters>
+        <CheckoutStatusScreen
+          variant={variant}
+          primaryAction={{ tryAgain: () => window.history.back() }}
         />
       </PageContainer>
     )
