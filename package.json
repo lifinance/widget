@@ -24,6 +24,7 @@
     "check:write:unsafe": "biome check --write --unsafe",
     "check:types": "pnpm -r --parallel check:types",
     "check:circular-deps": "pnpm -r --parallel check:circular-deps",
+    "check:deduped-deps": "node scripts/check-deduped-deps.js",
     "link:bigmi": "node scripts/linkBigmi.js link && pnpm install",
     "unlink:bigmi": "node scripts/linkBigmi.js unlink && pnpm install",
     "link:sdk": "node scripts/linkSdk.js link && pnpm install",
