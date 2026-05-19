@@ -59,9 +59,7 @@ export const useTransactionDetails = (
         if (fromAddress) {
           queryClient.setQueryData<StatusResponse[]>(
             [transactionHistoryQueryKey, fromAddress],
-            (data) => {
-              return [...data!, transaction!]
-            }
+            (data) => (data ? [...data, transaction!] : [transaction!])
           )
         }
 

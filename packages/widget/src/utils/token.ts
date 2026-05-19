@@ -1,4 +1,10 @@
-import type { BaseToken, Token, TokenExtended } from '@lifi/sdk'
+import type {
+  BaseToken,
+  RouteExtended,
+  Token,
+  TokenAmount,
+  TokenExtended,
+} from '@lifi/sdk'
 import type { FormType } from '../stores/form/types.js'
 import type { TokensByChain } from '../types/token.js'
 import type { WidgetChains, WidgetTokens } from '../types/widget.js'
@@ -126,3 +132,12 @@ export const filterAllowedTokens = (
 
   return allowedTokensByChain
 }
+
+export const getExecutionToToken = (route: RouteExtended): TokenAmount => ({
+  ...(route.steps.at(-1)?.execution?.toToken ?? route.toToken),
+  amount: BigInt(
+    route.steps.at(-1)?.execution?.toAmount ??
+      route.steps.at(-1)?.estimate.toAmount ??
+      route.toAmount
+  ),
+})

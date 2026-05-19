@@ -1,9 +1,9 @@
 import type { RouteExtended } from '@lifi/sdk'
+import { Box } from '@mui/material'
+import { SentToWalletRow } from '../../components/StepActions/SentToWalletRow.js'
+import { StepActionRow } from '../../components/StepActions/StepActionRow.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { prepareActions } from '../../utils/prepareActions.js'
-import { TransactionList } from './ReceiptsCard.style.js'
-import { SentToWalletRow } from './SentToWalletRow.js'
-import { StepActionRow } from './StepActionRow.js'
 
 interface StepActionsListProps {
   route: RouteExtended
@@ -49,12 +49,15 @@ export const StepActionsList: React.FC<StepActionsListProps> = ({
   const lastStepIndex = stepRows.length - 1
 
   return (
-    <TransactionList>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
       {stepRows.map(({ step, rows }, stepIndex) => {
         const lastRowIndex = rows.length - 1
         const isLastStep = stepIndex === lastStepIndex
         return (
-          <TransactionList key={step.id}>
+          <Box
+            key={step.id}
+            sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}
+          >
             {rows.map(({ action, href }, rowIndex) => (
               <StepActionRow
                 key={rowIndex}
@@ -64,12 +67,12 @@ export const StepActionsList: React.FC<StepActionsListProps> = ({
                 defaultLabelsOnly={!(isLastStep && rowIndex === lastRowIndex)}
               />
             ))}
-          </TransactionList>
+          </Box>
         )
       })}
       {toAddress ? (
         <SentToWalletRow toAddress={toAddress} toChainId={route.toChainId} />
       ) : null}
-    </TransactionList>
+    </Box>
   )
 }

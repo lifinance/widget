@@ -5,15 +5,17 @@ import type { JSX, MouseEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useActionMessage } from '../../hooks/useActionMessage.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
+import { getExpiryTimestamp } from '../../utils/timer.js'
+import { ActionRow } from '../ActionRow/ActionRow.js'
 import { Card } from '../Card/Card.js'
 import { IconCircle } from '../IconCircle/IconCircle.js'
 import { RouteTokens } from '../RouteCard/RouteTokens.js'
-import { CircularProgressPending } from '../Step/CircularProgress.style.js'
-import { ExecutionTimerText, getExpiryTimestamp } from '../Timer/StepTimer.js'
+import { ExecutionTimerText } from '../Timer/ExecutionTimerText.js'
+import { CircularProgressPending } from '../Timer/StepStatusTimer.style.js'
 import {
   DeleteButton,
   PendingCircle,
-  StatusRow,
+  RetryButton,
 } from './ActiveTransactionCard.style.js'
 
 interface ActiveTransactionCardProps {
@@ -21,6 +23,7 @@ interface ActiveTransactionCardProps {
   status?: RouteExecutionStatus
   onClick: () => void
   onDelete: (e: MouseEvent) => void
+  onRetry?: () => void
 }
 
 export const ActiveTransactionCard = ({
@@ -28,6 +31,7 @@ export const ActiveTransactionCard = ({
   status,
   onClick,
   onDelete,
+  onRetry,
 }: ActiveTransactionCardProps): JSX.Element => {
   const { t } = useTranslation()
 
@@ -57,27 +61,33 @@ export const ActiveTransactionCard = ({
 
   return (
     <Card onClick={onClick} indented>
-      <StatusRow sx={{ mb: 1.5 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-          {statusIcon}
-          <Typography sx={{ fontSize: 12, fontWeight: 500 }}>
-            {title}
-          </Typography>
-        </Box>
-        {isFailed ? (
-          <Tooltip title={t('button.clearTransaction')}>
-            <DeleteButton size="small" onClick={onDelete}>
-              <DeleteOutline sx={{ fontSize: 16 }} />
-            </DeleteButton>
-          </Tooltip>
-        ) : lastActiveStep?.execution?.signedAt ? (
-          <Typography sx={{ fontSize: 12, fontWeight: 600 }}>
-            <ExecutionTimerText
-              expiryTimestamp={getExpiryTimestamp(lastActiveStep)}
-            />
-          </Typography>
-        ) : null}
-      </StatusRow>
+      <ActionRow
+        sx={{ mb: 1.5 }}
+        startAdornment={statusIcon}
+        message={title ?? ''}
+        endAdornment={
+          isFailed ? (
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              {onRetry ? (
+                <RetryButton size="small" onClick={onRetry}>
+                  {t('button.tryAgain')}
+                </RetryButton>
+              ) : null}
+              <Tooltip title={t('button.clearTransaction')}>
+                <DeleteButton size="small" onClick={onDelete}>
+                  <DeleteOutline sx={{ fontSize: 16 }} />
+                </DeleteButton>
+              </Tooltip>
+            </Box>
+          ) : lastActiveStep?.execution?.signedAt ? (
+            <Typography sx={{ fontSize: 12, fontWeight: 600 }}>
+              <ExecutionTimerText
+                expiryTimestamp={getExpiryTimestamp(lastActiveStep)}
+              />
+            </Typography>
+          ) : undefined
+        }
+      />
       <RouteTokens route={route} />
     </Card>
   )

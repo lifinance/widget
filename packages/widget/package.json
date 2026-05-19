@@ -5,6 +5,10 @@
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./shared": "./src/shared.ts"
+  },
   "sideEffects": false,
   "scripts": {
     "watch": "tsdown --watch",
@@ -17,6 +21,7 @@
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
     "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg",
+    "dev:mock-api": "tsx --env-file=mock-api/.env.local mock-api/index.ts",
     "test": "vitest run"
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
@@ -30,6 +35,11 @@
     "url": "https://github.com/lifinance/widget/issues"
   },
   "license": "Apache-2.0",
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
   "keywords": [
     "widget",
     "lifi-widget",
@@ -64,12 +74,15 @@
     "zustand": "^5.0.13"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@types/node": "^25.6.2",
     "@types/react-transition-group": "^4.4.12",
     "cpy-cli": "^7.0.0",
+    "express": "^5.2.1",
     "madge": "^8.0.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
+    "tsx": "^4.19.4",
     "typescript": "^6.0.3",
     "vitest": "^4.1.5"
   },
