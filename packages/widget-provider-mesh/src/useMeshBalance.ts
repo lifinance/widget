@@ -20,11 +20,7 @@ export interface MeshBalanceResponse {
 }
 
 export interface MeshBalanceResult {
-  /**
-   * Raw token balance in base units (no decimal scaling). BigInt is used so
-   * comparisons against `parseUnits(amount, decimals)` are precision-safe
-   * for tokens with up to 18 decimals.
-   */
+  /** Base-unit balance (no decimal scaling); compare against `parseUnits(amount, decimals)`. */
   rawBalance: bigint | null
   decimals: number | null
   isLoading: boolean
@@ -73,9 +69,6 @@ export function useMeshBalance(
   useEffect(() => {
     const apiUrl = onrampSessionApiUrl?.replace(/\/$/, '')
     if (!apiUrl || !tokenAddress || !chainId || !userId) {
-      // Only clear state if we were previously holding a value for a
-      // different key — avoids re-setting EMPTY on unrelated renders and
-      // discarding any in-flight fetch result.
       if (lastKeyRef.current !== null) {
         lastKeyRef.current = null
         setResult(EMPTY)
@@ -89,9 +82,7 @@ export function useMeshBalance(
     }
     lastKeyRef.current = key
 
-    // TODO: remove stub and uncomment the fetch block below once Core ships
-    // the `/v1/checkout/cex/balance` endpoint. Compare in raw BigInt units
-    // against `parseUnits(amount, decimals)` to avoid float precision loss.
+    // TODO: replace stub once Core ships `/v1/checkout/cex/balance`.
     setResult(EMPTY)
 
     /*

@@ -58,11 +58,7 @@ export function resolveStatusVariant({
 }: ResolveStatusVariantArgs): StatusVariant {
   const isWallet = fundingSource === 'wallet'
 
-  // Wallet disconnect during execution — surfaces before any status check.
-  // Only meaningful for the wallet funding source; non-wallet flows can't
-  // emit this state (the URL flag is set by the wallet-disconnect effect in
-  // CheckoutTransactionPage). For any other source we fall through so we
-  // don't render wallet-specific copy under the wrong funding context.
+  // Only meaningful for wallet flow; non-wallet falls through to status logic.
   if (walletDisconnected && isWallet) {
     return {
       tone: 'error',
@@ -97,9 +93,6 @@ export function resolveStatusVariant({
       }
     }
     if (substatus === 'PARTIAL') {
-      // Bridge/swap landed but delivered a different token mix than
-      // requested. Surface that explicitly and lead with "view details" so
-      // the user can see what actually arrived.
       return {
         tone: 'success',
         icon: 'check',
@@ -198,14 +191,6 @@ export function resolveStatusVariant({
   }
 }
 
-/**
- * Picks the most specific i18n key for a given on-ramp variant + funding
- * source. Returns the funding-source-scoped key if it exists in `overrides`,
- * otherwise the generic key for that variant.
- *
- * Example: `pickCopy('checkout.status.errorWithdrawal', 'cash', { cash: true, exchange: true })`
- *   → 'checkout.status.errorWithdrawal.cash.title' (when suffix='title')
- */
 function pickCopy(
   baseKey: string,
   fundingSource: CheckoutFundingSource | null,
@@ -221,7 +206,6 @@ function pickCopy(
 interface OnRampVariantSpec {
   base: string
   tone: StatusVariantTone
-  /** Which funding-source-specific i18n overrides exist for this variant. */
   overrides: Partial<Record<CheckoutFundingSource, true>>
   secondaryAction?: StatusVariantSecondaryAction
 }

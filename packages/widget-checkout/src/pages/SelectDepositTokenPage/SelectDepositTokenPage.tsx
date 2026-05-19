@@ -72,9 +72,6 @@ export const SelectDepositTokenPage: React.FC = () => {
     isExchangeFlow ? selectedChainId : undefined
   )
 
-  // Compare in raw BigInt units so high-decimal tokens don't lose precision
-  // through Number(). `parseUnits` may throw on malformed input — fall back
-  // to null so we never surface a false alert.
   const tokenDecimals = selectedToken?.decimals ?? meshDecimals ?? null
   const requestedRaw = useMemo<bigint | null>(() => {
     if (!fromAmountStr || tokenDecimals === null) {

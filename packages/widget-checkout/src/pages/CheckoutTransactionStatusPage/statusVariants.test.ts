@@ -152,8 +152,6 @@ describe('resolveStatusVariant — DONE branch', () => {
     expect(variant.tone).toBe('success')
     expect(variant.icon).toBe('check')
     expect(variant.titleKey).toBe('checkout.status.successPartial.title')
-    // Lead with "view details" so the user can inspect what actually landed
-    // (different token / partial amount), with "done" as the dismiss path.
     expect(variant.primaryAction).toBe('viewDetails')
     expect(variant.secondaryAction).toBe('done')
   })

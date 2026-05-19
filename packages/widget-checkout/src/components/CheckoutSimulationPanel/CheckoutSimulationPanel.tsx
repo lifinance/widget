@@ -57,13 +57,11 @@ interface SimPresetBase {
 }
 
 interface SimPresetSearch extends SimPresetBase {
-  /** Router target path without route params. */
   to: typeof STATUS_PATH | typeof TRANSFER_DEPOSIT_PATH | typeof HOME_PATH
   params?: undefined
 }
 
 interface SimPresetParamPath extends SimPresetBase {
-  /** Parameterised route, e.g. `/deposit-error/$kind`. */
   to: '/deposit-error/$kind'
   params: { kind: string }
 }
