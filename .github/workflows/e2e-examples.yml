@@ -1,0 +1,194 @@
+name: E2E Examples
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches: [main]
+
+concurrency:
+  group: e2e-examples-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # ── Detect which examples need testing ──────────────────────────────────────
+  detect-changes:
+    name: Detect affected examples
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    outputs:
+      matrix: ${{ steps.build-matrix.outputs.matrix }}
+      has-examples: ${{ steps.build-matrix.outputs.has-examples }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Build test matrix
+        id: build-matrix
+        run: |
+          BASE_SHA=${{ github.event.pull_request.base.sha }}
+          HEAD_SHA=${{ github.event.pull_request.head.sha }}
+
+          CHANGED=$(git diff --name-only "$BASE_SHA"..."$HEAD_SHA")
+
+          mapfile -t ALL_EXAMPLES < <(jq -r '.[] | select(.status=="active") | .name' e2e/examples.json)
+
+          # Check if shared packages changed — if so, run all examples
+          SHARED_CHANGED=false
+          while IFS= read -r file; do
+            case "$file" in
+              packages/widget/*|packages/widget-provider*/**|packages/wallet-management/*|e2e/*)
+                SHARED_CHANGED=true ;;
+              pnpm-workspace.yaml|pnpm-lock.yaml|package.json)
+                SHARED_CHANGED=true ;;
+            esac
+          done <<< "$CHANGED"
+
+          AFFECTED=()
+          if [ "$SHARED_CHANGED" = "true" ]; then
+            AFFECTED=("${ALL_EXAMPLES[@]}")
+          else
+            for name in "${ALL_EXAMPLES[@]}"; do
+              if echo "$CHANGED" | grep -q "^examples/${name}/"; then
+                AFFECTED+=("$name")
+              fi
+            done
+          fi
+
+          if [ ${#AFFECTED[@]} -eq 0 ]; then
+            echo "matrix=[]" >> "$GITHUB_OUTPUT"
+            echo "has-examples=false" >> "$GITHUB_OUTPUT"
+            echo "No affected examples detected."
+          else
+            JSON=$(printf '%s\n' "${AFFECTED[@]}" | jq -R . | jq -sc .)
+            echo "matrix=$JSON" >> "$GITHUB_OUTPUT"
+            echo "has-examples=true" >> "$GITHUB_OUTPUT"
+            echo "Affected examples: $JSON"
+          fi
+
+  # ── Run tests per example ────────────────────────────────────────────────────
+  test:
+    name: E2E ${{ matrix.example }}
+    needs: detect-changes
+    if: needs.detect-changes.outputs.has-examples == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        example: ${{ fromJson(needs.detect-changes.outputs.matrix) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+
+      - name: Build workspace packages
+        run: pnpm -r --parallel --filter './packages/**' --filter !'*-playground-*' --filter !'*-embedded' build
+
+      - name: Resolve example metadata
+        id: meta
+        run: |
+          NAME="${{ matrix.example }}"
+          Q='.[] | select(.name==$n)'
+          echo "pkg=$(jq -r --arg n "$NAME" "$Q | .pkg" e2e/examples.json)"           >> "$GITHUB_OUTPUT"
+          echo "build=$(jq -r --arg n "$NAME" "$Q | .buildCmd" e2e/examples.json)"    >> "$GITHUB_OUTPUT"
+          echo "serve=$(jq -r --arg n "$NAME" "$Q | .serveCmd" e2e/examples.json)"    >> "$GITHUB_OUTPUT"
+          echo "port=$(jq -r --arg n "$NAME" "$Q | .port" e2e/examples.json)"         >> "$GITHUB_OUTPUT"
+          echo "serve_env=$(jq -r --arg n "$NAME" "$Q | .serveEnv // {} | to_entries | map(.key+\"=\"+.value) | join(\" \")" e2e/examples.json)" >> "$GITHUB_OUTPUT"
+
+      - name: Build example
+        run: |
+          if [ "${{ steps.meta.outputs.build }}" = "vite-build" ]; then
+            pnpm --filter "${{ steps.meta.outputs.pkg }}" exec vite build
+          else
+            pnpm --filter "${{ steps.meta.outputs.pkg }}" build
+          fi
+
+      - name: Start example server
+        run: |
+          SERVE_ENV="${{ steps.meta.outputs.serve_env }}"
+          if [ -n "$SERVE_ENV" ]; then
+            env $SERVE_ENV pnpm --filter "${{ steps.meta.outputs.pkg }}" "${{ steps.meta.outputs.serve }}" &
+          else
+            pnpm --filter "${{ steps.meta.outputs.pkg }}" "${{ steps.meta.outputs.serve }}" &
+          fi
+
+          URL="http://localhost:${{ steps.meta.outputs.port }}"
+          for i in $(seq 1 60); do
+            if curl -sf "$URL" > /dev/null 2>&1; then
+              echo "Server ready at $URL after ${i}s"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::Server failed to start within 60s at $URL"
+          exit 1
+
+      - name: Install Playwright browsers
+        run: pnpm --filter @lifi/widget-e2e exec playwright install chromium --with-deps
+
+      - name: Run example tests
+        run: |
+          pnpm --filter @lifi/widget-e2e exec playwright test \
+            --config playwright.examples.config.ts \
+            --project "${{ matrix.example }}"
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: playwright-report-${{ matrix.example }}
+          path: e2e/playwright-report-examples/
+          retention-days: 7
+
+  # ── Summarise failures as a single PR comment ────────────────────────────────
+  report:
+    name: Report results
+    needs: [detect-changes, test]
+    if: always() && needs.detect-changes.outputs.has-examples == 'true' && needs.test.result != 'skipped'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Find failed examples
+        if: needs.test.result == 'failure'
+        id: failures
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          FAILED=$(gh api "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs" \
+            --paginate \
+            --jq '[.jobs[] | select(.name | test("^E2E ")) | select(.conclusion == "failure") | .name | ltrimstr("E2E ")] | sort | map("- `"+.+"`") | join("\n")')
+          echo "list<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$FAILED"   >> "$GITHUB_OUTPUT"
+          echo "EOF"       >> "$GITHUB_OUTPUT"
+
+      - name: Post success comment
+        if: needs.test.result == 'success'
+        uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # v3.0.4
+        with:
+          header: e2e-results
+          message: |
+            ## E2E Examples — all passed
+
+            All examples passed in the [latest run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}).
+
+      - name: Post failure comment
+        if: needs.test.result == 'failure'
+        uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # v3.0.4
+        with:
+          header: e2e-results
+          message: |
+            ## E2E Examples — failures
+
+            The following example(s) failed:
+
+            ${{ steps.failures.outputs.list }}
+
+            See the [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for Playwright reports and logs.
