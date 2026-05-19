@@ -45,21 +45,6 @@ export interface UseTransferStatusPollArgs {
 const statusPath =
   `/${checkoutNavigationRoutes.transactionExecution}/${checkoutNavigationRoutes.transactionStatus}` as `/${CheckoutNavigationRoute}/${CheckoutNavigationRoute}`
 
-/**
- * Polls `/v1/status?depositAddress=…&fromChain=…` (CORE-206) while the user
- * is on the QR/transfer page. Backs off from 5 s → 15 s → 30 s as the deposit
- * window stretches (most CEX/transfer deposits take minutes). While funds
- * haven't landed the backend returns `NOT_FOUND`; the first non-`NOT_FOUND`
- * response navigates to the status page. If the response already carries a
- * `receiving.txHash`, we hand the hash to the status page; otherwise we hand
- * the deposit address so the status page can keep polling.
- *
- * The query key matches the status page's deposit-address key so the two
- * pages share a single cache entry across the handoff.
- *
- * Dev-only: when `?simulateTransferReceipt=done|pending|failed` is present,
- * skips polling and navigates to the status page after the configured delay.
- */
 export function useTransferStatusPoll({
   depositAddress,
   fromChain,

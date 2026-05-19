@@ -24,16 +24,6 @@ import {
 } from '../providers/OnRampProvider/OnRampProvider.js'
 import { formatOnRampError } from './formatOnRampError.js'
 
-/**
- * Renders one hosted modal per registered on-ramp provider. A provider
- * opts into the hosted modal by publishing a non-null `mountTargetId` on
- * its session; providers that paint their own overlay keep
- * `mountTargetId: null` and the matching `<OnRampHostedModal>` renders
- * nothing.
- *
- * Iterating metas keeps the component provider-agnostic — adding a new
- * iframe-style provider requires no changes here.
- */
 export function OnRampHostedModals(): JSX.Element {
   const metas = useOnRampProviderMetas()
   return (

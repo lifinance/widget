@@ -39,13 +39,6 @@ const ExternalLink = styled(Link)(({ theme }) => ({
   },
 }))
 
-/**
- * Renders the receipt-style pill list shown on the checkout transaction
- * status pages (in-progress + completed). Driven from the `StatusResponse`
- * payload (`sending.includedSteps[]`), it surfaces synthetic
- * "Transfer initiated" / "{symbol} received" / "Sent to wallet" rows
- * around the on-chain hops.
- */
 export function StatusStepList({
   status,
   phase,

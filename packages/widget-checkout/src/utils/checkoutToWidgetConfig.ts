@@ -13,7 +13,6 @@ function mergeUniqueUiFlags<T extends string>(
   return [...new Set<T>([...(existing ?? []), ...required])]
 }
 
-/** Checkout always uses a non-drawer widget layout: compact + deposit custom subvariant. */
 export function checkoutConfigToWidgetConfig(
   checkout: CheckoutConfig
 ): WidgetConfig {

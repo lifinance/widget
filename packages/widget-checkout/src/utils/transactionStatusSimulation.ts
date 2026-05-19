@@ -1,10 +1,5 @@
 import type { StatusResponse } from '@lifi/sdk'
 
-/**
- * Dev-only fixtures that let the transaction status page render each phase
- * without an actual on-ramp transfer. Activated via `?simulateTransactionStatus=`
- * query param on the status route.
- */
 export const transactionStatusSimulationKinds = [
   'watching',
   'pending',
@@ -19,11 +14,6 @@ export type TransactionStatusSimulationKind =
 // helpers below dead-code-eliminate in production consumer bundles.
 const isDevSimulationEnabled = process.env.NODE_ENV !== 'production'
 
-/**
- * Dev-only deposit-address override. Read from the current URL's
- * `?mockDepositAddress=` query param so the deposit / cex / card flows
- * can be exercised without a real IntentFactory quote response.
- */
 export function getMockDepositAddress(): string | null {
   if (!isDevSimulationEnabled) {
     return null
@@ -39,11 +29,6 @@ export function getMockDepositAddress(): string | null {
 
 const DEFAULT_PENDING_DURATION_MS = 4_000
 
-/**
- * Dev-only: when the simulated status flow lands on `pending`, how long to
- * hold it before auto-advancing to `done`. Override via
- * `?simulatePendingDuration=<ms>` (default 4s, must be >= 0).
- */
 export function getPendingSimulationDuration(): number | null {
   if (!isDevSimulationEnabled) {
     return null
@@ -65,11 +50,6 @@ export function getPendingSimulationDuration(): number | null {
 
 const DEFAULT_TRANSFER_RECEIPT_DELAY_MS = 5_000
 
-/**
- * Dev-only: lets the transfer deposit page simulate funds being received and
- * auto-advance to the status page. Activated via `?simulateTransferReceipt=<kind>`
- * with an optional `?simulateTransferReceiptAfter=<ms>` delay (default 5s).
- */
 export function getTransferReceiptSimulation(): {
   kind: TransactionStatusSimulationKind
   delayMs: number

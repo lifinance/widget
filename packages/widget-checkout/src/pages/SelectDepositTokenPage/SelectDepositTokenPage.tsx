@@ -35,13 +35,10 @@ export const SelectDepositTokenPage: React.FC = () => {
 
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
   const isExchangeFlow = fundingSource === 'exchange'
-  // V1 CEX funding accepts only USDC/USDT/ETH withdrawals.
   const exchangeAllowedSymbols = useMemo(
     () => new Set(['USDC', 'USDT', 'ETH']),
     []
   )
-  // Exchange flow renders a curated, flat token list — chain + search are
-  // both unnecessary for the simplified UX.
   const hideChainSelect =
     hiddenUI?.includes(HiddenUI.ChainSelect) || isExchangeFlow
 
@@ -57,7 +54,6 @@ export const SelectDepositTokenPage: React.FC = () => {
     navigate({ to: checkoutNavigationRoutes.enterAmount })
   }
 
-  // Insufficient-funds alert for exchange flow
   const [selectedChainId, selectedTokenAddress, fromAmountStr] = useFieldValues(
     FormKeyHelper.getChainKey(formType),
     FormKeyHelper.getTokenKey(formType),

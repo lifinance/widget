@@ -1,10 +1,3 @@
-/**
- * Shared keys + backoff for both deposit-address polling on the QR page
- * (`useTransferStatusPoll`) and the status page (`useCheckoutTransactionStatus`).
- * Matching keys let react-query share a single cache entry across the
- * QR → status handoff so the status page hydrates without a refetch.
- */
-
 const ROOT = 'checkout-status' as const
 
 export function depositAddressQueryKey(

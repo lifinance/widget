@@ -27,12 +27,6 @@ interface DetailsSearch {
   simulateTransactionStatus?: string
 }
 
-/**
- * Checkout-specific success view. Single combined card with date +
- * sending → receiving + step pills, plus a Transfer ID card. Both use
- * `variant="elevation"` to drop the outlined border in favor of the
- * theme's drop-shadow.
- */
 export const CheckoutTransactionDetailsPage: React.FC = (): JSX.Element => {
   const { t, i18n } = useTranslation()
   const { search } = useLocation() as { search: DetailsSearch }

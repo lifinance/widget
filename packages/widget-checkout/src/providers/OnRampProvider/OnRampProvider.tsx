@@ -37,7 +37,6 @@ export function useOnRampProviderMetas(): OnRampProviderInfo[] {
   return useContext(OnRampMetaContext)
 }
 
-/** Looks up a registered provider's meta by funding category. */
 export function useOnRampProviderByCategory(
   category: OnRampFundingCategory | null | undefined
 ): OnRampProviderInfo | null {
@@ -48,11 +47,6 @@ export function useOnRampProviderByCategory(
   return metas.find((m) => m.fundingCategory === category) ?? null
 }
 
-/**
- * Returns the registered session for the provider that serves `category`.
- * `useOnRampSession` is called with an empty string when no provider
- * matches, which always returns `null` — preserves rules-of-hooks.
- */
 export function useOnRampSessionByCategory(
   category: OnRampFundingCategory | null | undefined
 ): OnRampSession | null {
@@ -67,12 +61,6 @@ export interface ActiveOnRampDeposit {
   providerName: string
 }
 
-/**
- * Wires the active deposit session for the page that owns the
- * deposit-watching UX. Reads the current `fundingSource` from the
- * checkout flow store, finds the matching provider, and returns its
- * session enriched with the provider's display name.
- */
 export function useActiveOnRampDeposit(): ActiveOnRampDeposit | null {
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
   const category =
@@ -98,14 +86,6 @@ export interface OnRampProviderRegistryProps extends PropsWithChildren {
   providers: OnRampProviderAdapter[]
 }
 
-/**
- * Owns the on-ramp session registry: stores each registered provider's
- * meta and `OnRampSession`. Each Host calls `useRegisterOnRampSession`
- * into `OnRampSessionsContext` on mount; consumers read sessions via
- * `useOnRampSession(id)` (or the higher-level helpers above). Hosts are
- * rendered as flat siblings — they have no children and no shared parent
- * context beyond the registry.
- */
 export const OnRampProviderRegistry: FC<OnRampProviderRegistryProps> = ({
   children,
   widgetConfig,

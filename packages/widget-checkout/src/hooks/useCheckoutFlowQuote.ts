@@ -15,7 +15,6 @@ export interface CheckoutFlowQuote {
   isFetched: boolean
   refetch: () => void
   setReviewableRoute: (route: Route) => void
-  /** Resolved destination wallet — connected wallet first, then widget.toAddress fallback. */
   resolvedToAddress: string | null
 }
 

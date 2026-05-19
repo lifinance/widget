@@ -87,11 +87,6 @@ function CheckoutDepositAutoStarter({
   return null
 }
 
-/**
- * Checkout transaction / execution UI — mirrors `TransactionPage` with deposit-checkout-only behavior:
- * optional auto-start from `checkoutAutoDeposit` search param, preserve receive `toToken` on execute when
- * the flow fails so back navigation keeps quotes coherent.
- */
 export const CheckoutTransactionPage = (): JSX.Element | null => {
   const { t } = useTranslation()
   const { setFieldValue } = useFieldActions()
@@ -139,7 +134,6 @@ export const CheckoutTransactionPage = (): JSX.Element | null => {
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
   const { account } = useAccount()
 
-  // Detect wallet disconnect during active execution and surface the error screen.
   useEffect(() => {
     if (
       fundingSource !== 'wallet' ||
