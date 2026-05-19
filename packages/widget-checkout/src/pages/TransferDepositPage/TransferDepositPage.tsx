@@ -83,6 +83,7 @@ export const TransferDepositPage: React.FC = (): JSX.Element => {
 
   useTransferStatusPoll({
     depositAddress,
+    fromChain: route?.fromChainId ?? null,
     routeId: frozen?.id ?? null,
     enabled: !!frozen && !expired,
   })

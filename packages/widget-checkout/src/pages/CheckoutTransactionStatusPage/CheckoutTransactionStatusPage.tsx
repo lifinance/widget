@@ -7,6 +7,7 @@ import { OnRampFailureScreen } from '../../components/OnRampFailureScreen.js'
 import { useCheckoutTransactionStatus } from '../../hooks/useCheckoutTransactionStatus.js'
 import { useActiveOnRampDeposit } from '../../providers/OnRampProvider/OnRampProvider.js'
 import { useCheckoutFlowStore } from '../../stores/useCheckoutFlowStore.js'
+import { getReceivingTxHash } from '../../utils/depositAddressStatus.js'
 import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
 import {
   getPendingSimulationDuration,
@@ -18,6 +19,8 @@ import { StatusWatching } from './StatusWatching.js'
 
 interface StatusSearch {
   transactionHash?: string
+  depositAddress?: string
+  fromChain?: number
   simulateTransactionStatus?: string
 }
 
@@ -34,6 +37,9 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
   const { search } = useLocation() as { search: StatusSearch }
   const transactionHash = search.transactionHash ?? null
+  const depositAddress = search.depositAddress ?? null
+  const fromChain =
+    typeof search.fromChain === 'number' ? search.fromChain : null
   const simulate = isTransactionStatusSimulationKind(
     search.simulateTransactionStatus
   )
@@ -101,10 +107,12 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
     return () => clearTimeout(id)
   }, [simulate, navigate])
 
-  const { status, phase, isLoading } = useCheckoutTransactionStatus(
+  const { status, phase, isLoading } = useCheckoutTransactionStatus({
     transactionHash,
-    simulate
-  )
+    depositAddress,
+    fromChain,
+    simulate,
+  })
 
   // Track when executing first becomes visible so we can hold it briefly
   // before swapping to the success view.
@@ -170,13 +178,14 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
   }
 
   if (phase === 'done' && minHoldElapsed && status) {
+    const detailsTxHash = transactionHash ?? getReceivingTxHash(status) ?? null
     const goToDetails = () => {
-      if (!transactionHash) {
+      if (!detailsTxHash) {
         return
       }
       navigate({
         to: `/${navigationRoutes.transactionExecution}/${navigationRoutes.transactionDetails}`,
-        search: { transactionHash },
+        search: { transactionHash: detailsTxHash },
       })
     }
     const goHome = () => {

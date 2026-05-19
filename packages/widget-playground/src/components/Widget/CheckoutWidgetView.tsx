@@ -7,14 +7,6 @@ import { widgetBaseConfig } from '../../defaultWidgetConfig.js'
 import { useEnvVariables } from '../../providers/EnvVariablesProvider.js'
 import { useConfig } from '../../store/widgetConfig/useConfig.js'
 
-// TODO(cleanup-remove-playground-hardcoded-checkout-defaults): Replace these literals with
-// explicit env/config contract defaults once migration is complete.
-/** Default checkout target for Mesh/Transak demos (native ETH on Ethereum). Playground `config` overrides when set. */
-const DEFAULT_CHECKOUT_ONRAMP_TARGET = {
-  toChain: 1,
-  toToken: '0x0000000000000000000000000000000000000000',
-} as const
-
 const DEFAULT_CHECKOUT_CORE_API_URL = 'https://develop.li.quest'
 const DEFAULT_CHECKOUT_INTEGRATOR = 'local-test'
 
@@ -43,17 +35,13 @@ export function CheckoutWidgetView(): JSX.Element {
       ? config.integrator
       : checkoutIntegrator?.trim() || DEFAULT_CHECKOUT_INTEGRATOR
 
+  const resolvedToChain = config?.toChain ?? checkoutToChain
+  const resolvedToToken = config?.toToken ?? checkoutToToken
   const checkoutConfig = {
     ...config,
     providers: config?.providers ?? widgetBaseConfig.providers,
-    toChain:
-      config?.toChain ??
-      checkoutToChain ??
-      DEFAULT_CHECKOUT_ONRAMP_TARGET.toChain,
-    toToken:
-      config?.toToken ??
-      checkoutToToken ??
-      DEFAULT_CHECKOUT_ONRAMP_TARGET.toToken,
+    ...(resolvedToChain !== undefined ? { toChain: resolvedToChain } : null),
+    ...(resolvedToToken !== undefined ? { toToken: resolvedToToken } : null),
   }
 
   const onRampProviders = useMemo(() => [transakProvider(), meshProvider()], [])

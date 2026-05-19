@@ -16,19 +16,19 @@ describe('checkoutConfigToWidgetConfig', () => {
     expect(result.subvariantOptions).toEqual({ custom: 'deposit' })
   })
 
-  it('pins toChain=1 and toToken to Lido stETH', () => {
+  it('defaults toChain=1 and toToken to Lido stETH when integrator omits them', () => {
     const result = checkoutConfigToWidgetConfig(minimalCheckout)
     expect(result.toChain).toBe(1)
     expect(result.toToken).toBe('0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84')
   })
 
-  it('overrides integrator-supplied toChain/toToken', () => {
+  it('respects integrator-supplied toChain/toToken', () => {
     const result = checkoutConfigToWidgetConfig({
       integrator: 'x',
       config: { toChain: 137, toToken: '0xdeadbeef' },
     })
-    expect(result.toChain).toBe(1)
-    expect(result.toToken).toBe('0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84')
+    expect(result.toChain).toBe(137)
+    expect(result.toToken).toBe('0xdeadbeef')
   })
 
   it('appends required hiddenUI flags without losing existing entries', () => {

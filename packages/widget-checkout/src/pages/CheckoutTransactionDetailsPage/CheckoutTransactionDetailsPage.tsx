@@ -47,7 +47,10 @@ export const CheckoutTransactionDetailsPage: React.FC = (): JSX.Element => {
 
   const navigate = useNavigate()
   const { tools } = useTools()
-  const { status } = useCheckoutTransactionStatus(transactionHash, simulate)
+  const { status } = useCheckoutTransactionStatus({
+    transactionHash,
+    simulate,
+  })
   const { getTransactionLink } = useExplorer()
 
   const route = useMemo(() => {
