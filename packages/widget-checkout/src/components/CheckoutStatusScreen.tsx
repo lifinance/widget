@@ -2,7 +2,7 @@ import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlin
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded'
 import ReplayRoundedIcon from '@mui/icons-material/ReplayRounded'
 import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material'
-import type { JSX } from 'react'
+import type { JSX, ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import type {
   StatusVariant,
@@ -16,6 +16,12 @@ export interface CheckoutStatusScreenProps {
   title?: string
   /** Optional description override; falls back to the variant's descriptionKey. */
   description?: string
+  /**
+   * Optional node rendered directly under the description text — used for
+   * inline links such as "View transaction details" on the failed-status
+   * screen, which Figma specifies as a link, not a secondary button.
+   */
+  descriptionAddon?: ReactNode
   /** Handler map keyed by action name. Only the actions referenced by the variant need to be supplied. */
   primaryAction: ActionHandlers
   secondaryAction?: ActionHandlers
@@ -118,6 +124,7 @@ export function CheckoutStatusScreen({
   variant,
   title,
   description,
+  descriptionAddon,
   primaryAction,
   secondaryAction,
 }: CheckoutStatusScreenProps): JSX.Element {
@@ -146,6 +153,7 @@ export function CheckoutStatusScreen({
         <Typography variant="body2" color="text.secondary">
           {resolvedDescription}
         </Typography>
+        {descriptionAddon}
       </Stack>
       <Stack spacing={1} sx={{ width: '100%', maxWidth: 320 }}>
         <ActionButton
