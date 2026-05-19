@@ -9,12 +9,25 @@ import type { DepositAmountRow } from './DepositAmountTable.js'
 import { DepositAmountTable } from './DepositAmountTable.js'
 import { DepositStatusScreen } from './DepositStatusScreen.js'
 
-const PLACEHOLDER = '—'
+// Mock values used while these pages aren't wired to real session data yet.
+// They give designers / QA a realistic preview when reached via the dev
+// simulation panel.
+const MOCK = {
+  required: '100 USDT',
+  receivedLow: '5 USDT',
+  receivedNearlyEnough: '70 USDT',
+  receivedExcess: '120 USDT',
+  minRefundable: '10 USDT',
+  remainingToTopUp: '30 USDT',
+  excess: '20 USDT',
+  timeRemaining: '8m 32s',
+} as const
 
 function useDepositErrorActions(): {
   goHome: () => void
   retryTransfer: () => void
   closeModal: () => void
+  requestRefund: () => void
 } {
   const navigate = useNavigate()
   const { clear } = useFrozenQuote()
@@ -29,6 +42,11 @@ function useDepositErrorActions(): {
       navigate({ to: checkoutNavigationRoutes.enterAmount })
     },
     closeModal: () => modalContext?.closeModal(),
+    requestRefund: () =>
+      navigate({
+        to: checkoutNavigationRoutes.depositError,
+        params: { kind: 'refunding' },
+      }),
   }
 }
 
@@ -63,15 +81,21 @@ export function DepositAmountLowBelowThresholdPage(): JSX.Element {
   const { t } = useTranslation()
   const { retryTransfer } = useDepositErrorActions()
   const rows: DepositAmountRow[] = [
-    { label: t('checkout.transferDeposit.table.required'), value: PLACEHOLDER },
-    { label: t('checkout.transferDeposit.table.received'), value: PLACEHOLDER },
+    {
+      label: t('checkout.transferDeposit.table.required'),
+      value: MOCK.required,
+    },
+    {
+      label: t('checkout.transferDeposit.table.received'),
+      value: MOCK.receivedLow,
+    },
     {
       label: t('checkout.transferDeposit.table.minRefundable'),
-      value: PLACEHOLDER,
+      value: MOCK.minRefundable,
     },
     {
       label: t('checkout.transferDeposit.table.timeRemaining'),
-      value: PLACEHOLDER,
+      value: MOCK.timeRemaining,
       emphasize: true,
     },
   ]
@@ -97,17 +121,23 @@ export function DepositAmountLowBelowThresholdPage(): JSX.Element {
 export function DepositAmountLowTopUpPage(): JSX.Element {
   useDepositHeader()
   const { t } = useTranslation()
-  const { retryTransfer, closeModal } = useDepositErrorActions()
+  const { retryTransfer, requestRefund } = useDepositErrorActions()
   const rows: DepositAmountRow[] = [
-    { label: t('checkout.transferDeposit.table.required'), value: PLACEHOLDER },
-    { label: t('checkout.transferDeposit.table.received'), value: PLACEHOLDER },
+    {
+      label: t('checkout.transferDeposit.table.required'),
+      value: MOCK.required,
+    },
+    {
+      label: t('checkout.transferDeposit.table.received'),
+      value: MOCK.receivedNearlyEnough,
+    },
     {
       label: t('checkout.transferDeposit.table.remaining'),
-      value: PLACEHOLDER,
+      value: MOCK.remainingToTopUp,
     },
     {
       label: t('checkout.transferDeposit.table.timeRemaining'),
-      value: PLACEHOLDER,
+      value: MOCK.timeRemaining,
       emphasize: true,
     },
   ]
@@ -125,7 +155,7 @@ export function DepositAmountLowTopUpPage(): JSX.Element {
         }}
         secondaryAction={{
           label: t('button.requestRefund'),
-          onClick: closeModal,
+          onClick: requestRefund,
         }}
       >
         <DepositAmountTable rows={rows} />
@@ -137,10 +167,16 @@ export function DepositAmountLowTopUpPage(): JSX.Element {
 export function DepositAmountLowExpiredPage(): JSX.Element {
   useDepositHeader()
   const { t } = useTranslation()
-  const { closeModal } = useDepositErrorActions()
+  const { requestRefund } = useDepositErrorActions()
   const rows: DepositAmountRow[] = [
-    { label: t('checkout.transferDeposit.table.required'), value: PLACEHOLDER },
-    { label: t('checkout.transferDeposit.table.received'), value: PLACEHOLDER },
+    {
+      label: t('checkout.transferDeposit.table.required'),
+      value: MOCK.required,
+    },
+    {
+      label: t('checkout.transferDeposit.table.received'),
+      value: MOCK.receivedNearlyEnough,
+    },
   ]
   return (
     <PageContainer bottomGutters>
@@ -152,7 +188,7 @@ export function DepositAmountLowExpiredPage(): JSX.Element {
         )}
         primaryAction={{
           label: t('button.requestRefund'),
-          onClick: closeModal,
+          onClick: requestRefund,
         }}
       >
         <DepositAmountTable rows={rows} />
@@ -164,11 +200,17 @@ export function DepositAmountLowExpiredPage(): JSX.Element {
 export function DepositExcessHeldPage(): JSX.Element {
   useDepositHeader()
   const { t } = useTranslation()
-  const { closeModal } = useDepositErrorActions()
+  const { requestRefund } = useDepositErrorActions()
   const rows: DepositAmountRow[] = [
-    { label: t('checkout.transferDeposit.table.required'), value: PLACEHOLDER },
-    { label: t('checkout.transferDeposit.table.received'), value: PLACEHOLDER },
-    { label: t('checkout.transferDeposit.table.excess'), value: PLACEHOLDER },
+    {
+      label: t('checkout.transferDeposit.table.required'),
+      value: MOCK.required,
+    },
+    {
+      label: t('checkout.transferDeposit.table.received'),
+      value: MOCK.receivedExcess,
+    },
+    { label: t('checkout.transferDeposit.table.excess'), value: MOCK.excess },
   ]
   return (
     <PageContainer bottomGutters>
@@ -180,7 +222,7 @@ export function DepositExcessHeldPage(): JSX.Element {
         )}
         primaryAction={{
           label: t('button.requestRefund'),
-          onClick: closeModal,
+          onClick: requestRefund,
         }}
       >
         <DepositAmountTable rows={rows} />
