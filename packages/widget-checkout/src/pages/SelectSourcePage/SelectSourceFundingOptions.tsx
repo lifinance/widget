@@ -8,7 +8,6 @@ import {
   Alert,
   Avatar,
   Box,
-  Chip,
   CircularProgress,
   Stack,
   Typography,
@@ -21,7 +20,6 @@ import {
   FundingDividerLine,
   FundingDividerRow,
   FundingOptionCard,
-  FundingOptionCardDisabled,
   FundingOptionRow,
   FundingOptionSubtitle,
   FundingOptionTitle,
@@ -53,12 +51,10 @@ export type SelectSourceFundingOptionsProps = {
   onPayFromWallet: () => void
   onTransferCrypto: () => void
   onDepositCash: () => void
-  /** When false, cash card is visible but not interactive (no cash on-ramp provider configured). */
-  depositCashEnabled: boolean
-  /** When true, cash card shows a non-interactive loading state. */
-  depositCashResolutionLoading?: boolean
+  /** When false, the cash card is not rendered (no cash on-ramp provider configured). */
+  showDepositCash?: boolean
   onConnectExchange: () => void
-  /** When true, removes "Coming Soon" chip and enables the card click. */
+  /** When false, the exchange card is not rendered (no exchange provider configured). */
   showConnectExchange?: boolean
   /** When true, shows a loading spinner in place of exchange avatars. */
   exchangeLoading?: boolean
@@ -76,8 +72,7 @@ export function SelectSourceFundingOptions({
   onPayFromWallet,
   onTransferCrypto,
   onDepositCash,
-  depositCashEnabled,
-  depositCashResolutionLoading = false,
+  showDepositCash = false,
   onConnectExchange,
   showConnectExchange = false,
   exchangeLoading = false,
@@ -88,8 +83,6 @@ export function SelectSourceFundingOptions({
   payFromWalletAccount = null,
 }: SelectSourceFundingOptionsProps): JSX.Element {
   const { t } = useTranslation()
-
-  const cashInteractive = depositCashEnabled && !depositCashResolutionLoading
 
   return (
     <OptionsRoot>
@@ -274,103 +267,45 @@ export function SelectSourceFundingOptions({
                 </Alert>
               ) : null}
             </>
-          ) : (
-            <FundingOptionCardDisabled elevation={0} aria-disabled="true">
-              <FundingOptionRow>
-                <GenericIconWrap>
-                  <AccountBalance />
-                </GenericIconWrap>
-                <OptionTextCell>
-                  <Stack spacing={0.5} sx={{ alignItems: 'flex-start' }}>
-                    <FundingOptionTitle>
-                      {t('checkout.connectExchange')}
-                    </FundingOptionTitle>
-                    <FundingOptionSubtitle>
-                      {t('checkout.connectExchangeSubtitle')}
-                    </FundingOptionSubtitle>
-                    <Chip
-                      label={t('checkout.comingSoon')}
-                      size="small"
-                      variant="outlined"
-                      sx={{ mt: 0.25 }}
-                    />
-                  </Stack>
-                </OptionTextCell>
-                <OverlapRow aria-hidden>
-                  <Avatar
-                    src={fundingSourceImages.exchangeCoinbase}
-                    alt="Coinbase"
-                    sx={(theme) => ({
-                      width: 24,
-                      height: 24,
-                      border: `2px solid ${theme.vars.palette.background.paper}`,
-                    })}
-                  />
-                  <Avatar
-                    src={fundingSourceImages.exchangeBinance}
-                    alt="Binance"
-                    sx={(theme) => ({
-                      width: 24,
-                      height: 24,
-                      border: `2px solid ${theme.vars.palette.background.paper}`,
-                    })}
-                  />
-                  <OverflowPreviewAvatar>10+</OverflowPreviewAvatar>
-                </OverlapRow>
-              </FundingOptionRow>
-            </FundingOptionCardDisabled>
-          )}
+          ) : null}
         </Stack>
       </FundingSectionStack>
 
-      <FundingDividerRow>
-        <FundingDividerLine />
-        <FundingOrLabel>{t('checkout.or')}</FundingOrLabel>
-        <FundingDividerLine />
-      </FundingDividerRow>
+      {showDepositCash ? (
+        <>
+          <FundingDividerRow>
+            <FundingDividerLine />
+            <FundingOrLabel>{t('checkout.or')}</FundingOrLabel>
+            <FundingDividerLine />
+          </FundingDividerRow>
 
-      <FundingSectionStack>
-        <FundingSectionLabel>{t('checkout.buyTokens')}</FundingSectionLabel>
-        <FundingOptionCard
-          onClick={cashInteractive ? onDepositCash : undefined}
-          elevation={0}
-          aria-disabled={!cashInteractive}
-          sx={
-            !cashInteractive
-              ? {
-                  opacity: depositCashResolutionLoading ? 0.65 : 0.5,
-                  cursor: 'default',
-                  pointerEvents: 'none',
-                }
-              : undefined
-          }
-        >
-          <FundingOptionRow>
-            <GenericIconWrap>
-              {depositCashResolutionLoading ? (
-                <CircularProgress size={22} />
-              ) : (
-                <CreditCardIcon />
-              )}
-            </GenericIconWrap>
-            <OptionTextCell>
-              <FundingOptionTitle>
-                {t('checkout.depositWithCash')}
-              </FundingOptionTitle>
-              <FundingOptionSubtitle>
-                {t('checkout.depositWithCashSubtitle')}
-              </FundingOptionSubtitle>
-            </OptionTextCell>
-            <PaymentMarksWrap>
-              <PaymentBrandImg
-                src={fundingSourceImages.mastercard}
-                alt="Mastercard"
-              />
-              <PaymentBrandImg src={fundingSourceImages.visa} alt="Visa" />
-            </PaymentMarksWrap>
-          </FundingOptionRow>
-        </FundingOptionCard>
-      </FundingSectionStack>
+          <FundingSectionStack>
+            <FundingSectionLabel>{t('checkout.buyTokens')}</FundingSectionLabel>
+            <FundingOptionCard onClick={onDepositCash} elevation={0}>
+              <FundingOptionRow>
+                <GenericIconWrap>
+                  <CreditCardIcon />
+                </GenericIconWrap>
+                <OptionTextCell>
+                  <FundingOptionTitle>
+                    {t('checkout.depositWithCash')}
+                  </FundingOptionTitle>
+                  <FundingOptionSubtitle>
+                    {t('checkout.depositWithCashSubtitle')}
+                  </FundingOptionSubtitle>
+                </OptionTextCell>
+                <PaymentMarksWrap>
+                  <PaymentBrandImg
+                    src={fundingSourceImages.mastercard}
+                    alt="Mastercard"
+                  />
+                  <PaymentBrandImg src={fundingSourceImages.visa} alt="Visa" />
+                </PaymentMarksWrap>
+              </FundingOptionRow>
+            </FundingOptionCard>
+          </FundingSectionStack>
+        </>
+      ) : null}
     </OptionsRoot>
   )
 }

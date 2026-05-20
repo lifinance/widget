@@ -204,8 +204,7 @@ export const SelectSourcePage: React.FC = () => {
           onPayFromWallet={handlePayFromWallet}
           onTransferCrypto={handleTransferCrypto}
           onDepositCash={handleDepositCash}
-          depositCashEnabled={Boolean(cashSession)}
-          depositCashResolutionLoading={false}
+          showDepositCash={Boolean(cashSession)}
           onConnectExchange={handleConnectExchange}
           showConnectExchange={Boolean(exchangeSession)}
           exchangeLoading={exchangeSession?.isLoading ?? false}

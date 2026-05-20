@@ -43,19 +43,6 @@ export const FundingOptionCard: React.FC<React.ComponentProps<typeof Card>> =
     },
   }))
 
-export const FundingOptionCardDisabled: React.FC<
-  React.ComponentProps<typeof Card>
-> = styled(Card)(({ theme }) => ({
-  cursor: 'not-allowed',
-  borderRadius: 12,
-  border: 'none',
-  boxShadow: '0px 2px 8px 0px rgba(0,0,0,0.04)',
-  backgroundColor: theme.vars.palette.background.paper,
-  opacity: 0.55,
-  pointerEvents: 'none',
-  userSelect: 'none',
-}))
-
 export const FundingOptionRow: React.FC<React.ComponentProps<typeof Box>> =
   styled(Box)(({ theme }) => ({
     display: 'flex',
