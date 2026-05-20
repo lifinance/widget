@@ -28,6 +28,7 @@ import type { ChangeEvent, ComponentProps, ReactNode } from 'react'
 import { useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCheckoutNavigate } from '../hooks/useCheckoutNavigate.js'
+import { useIsWalletFundedFlow } from '../hooks/useIsWalletFundedFlow.js'
 import { checkoutNavigationRoutes } from '../utils/navigationRoutes.js'
 import { CheckoutPriceFormHelperText } from './CheckoutPriceFormHelperText.js'
 
@@ -101,6 +102,7 @@ const CheckoutAmountInputBase: React.FC<
   const [value] = useFieldValues(amountKey)
   const { setFieldValue } = useFieldActions()
   const { inputMode } = useInputModeStore()
+  const isWalletFunded = useIsWalletFundedFlow()
 
   const currentInputMode = inputMode[formType]
   let displayValue: string
@@ -189,7 +191,7 @@ const CheckoutAmountInputBase: React.FC<
         }}
       >
         {sendSlot ?? <CheckoutTokenFlow formType={formType} />}
-        {!disabled ? (
+        {!disabled && isWalletFunded ? (
           <Box
             sx={{
               '& > div': {

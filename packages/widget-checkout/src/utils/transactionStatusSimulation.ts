@@ -30,6 +30,37 @@ const fundingSources: readonly CheckoutFundingSource[] = [
 // helpers below dead-code-eliminate in production consumer bundles.
 const isDevSimulationEnabled = process.env.NODE_ENV !== 'production'
 
+// All window-level dev simulation params written by CheckoutSimulationPanel.
+// Listed here so the normal flow can scrub leftover state when the user
+// navigates outside the panel.
+export const SIM_WINDOW_PARAM_KEYS = [
+  'mockDepositAddress',
+  'simulatePendingDuration',
+  'simulateWatchingDuration',
+  'simulateTransferReceipt',
+  'simulateTransferReceiptAfter',
+  'simulateSubstatus',
+  'simulateOnRampFailure',
+  'simulateFundingSource',
+] as const
+
+export function clearSimWindowParams(): void {
+  if (!isDevSimulationEnabled || typeof window === 'undefined') {
+    return
+  }
+  const url = new URL(window.location.href)
+  let changed = false
+  for (const key of SIM_WINDOW_PARAM_KEYS) {
+    if (url.searchParams.has(key)) {
+      url.searchParams.delete(key)
+      changed = true
+    }
+  }
+  if (changed) {
+    window.history.replaceState({}, '', url.toString())
+  }
+}
+
 export function getMockDepositAddress(): string | null {
   if (!isDevSimulationEnabled) {
     return null
@@ -41,6 +72,27 @@ export function getMockDepositAddress(): string | null {
     'mockDepositAddress'
   )
   return value && value.length > 0 ? value : null
+}
+
+const DEFAULT_WATCHING_DURATION_MS = 5_000
+
+export function getWatchingSimulationDuration(): number | null {
+  if (!isDevSimulationEnabled) {
+    return null
+  }
+  if (typeof window === 'undefined') {
+    return null
+  }
+  const raw = new URLSearchParams(window.location.search).get(
+    'simulateWatchingDuration'
+  )
+  if (raw === null) {
+    return DEFAULT_WATCHING_DURATION_MS
+  }
+  const parsed = Number.parseInt(raw, 10)
+  return Number.isFinite(parsed) && parsed >= 0
+    ? parsed
+    : DEFAULT_WATCHING_DURATION_MS
 }
 
 const DEFAULT_PENDING_DURATION_MS = 4_000

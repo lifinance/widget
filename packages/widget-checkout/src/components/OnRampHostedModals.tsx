@@ -1,5 +1,4 @@
 'use client'
-import { modalProps, useGetScrollableContainer } from '@lifi/widget/shared'
 import {
   type OnRampSession,
   useOnRampSession,
@@ -7,21 +6,18 @@ import {
 import type { Theme } from '@mui/material'
 import {
   Box,
-  Button,
   CircularProgress,
   Dialog,
-  DialogActions,
   DialogContent,
-  DialogTitle,
   Typography,
 } from '@mui/material'
-import { useRouter } from '@tanstack/react-router'
-import { type JSX, useEffect } from 'react'
+import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   type OnRampProviderInfo,
   useOnRampProviderMetas,
 } from '../providers/OnRampProvider/OnRampProvider.js'
+import { ErrorBoundary } from './ErrorBoundary.js'
 import { formatOnRampError } from './formatOnRampError.js'
 
 export function OnRampHostedModals(): JSX.Element {
@@ -57,15 +53,6 @@ function HostedModalDialog({
   session,
 }: HostedModalDialogProps): JSX.Element | null {
   const { t } = useTranslation()
-  const getScrollableContainer = useGetScrollableContainer()
-  const router = useRouter()
-
-  useEffect(() => {
-    if (!router || !session.mountTargetId) {
-      return
-    }
-    return router.subscribe('onResolved', session.close)
-  }, [router, session.mountTargetId, session.close])
 
   if (!session.mountTargetId) {
     return null
@@ -77,80 +64,114 @@ function HostedModalDialog({
   return (
     <Dialog
       fullWidth
-      maxWidth="md"
+      maxWidth={false}
       open={session.isOpen}
       onClose={session.close}
-      container={getScrollableContainer}
-      sx={modalProps.sx}
       slotProps={{
         backdrop: {
           sx: {
-            position: 'absolute',
-            backgroundColor: 'rgb(0 0 0 / 32%)',
+            backgroundColor: 'rgb(0 0 0 / 48%)',
             backdropFilter: 'blur(3px)',
           },
         },
         paper: {
           sx: (theme: Theme) => ({
-            position: 'absolute',
             backgroundImage: 'none',
             backgroundColor: theme.vars.palette.background.default,
-            borderTopLeftRadius: theme.vars.shape.borderRadius,
-            borderTopRightRadius: theme.vars.shape.borderRadius,
-            height: 'min(90dvh, 720px)',
+            borderRadius: theme.vars.shape.borderRadius,
+            width: 'min(96vw, 480px)',
+            height: 'min(96dvh, 600px)',
+            margin: 0,
             display: 'flex',
             flexDirection: 'column',
+            overflow: 'hidden',
           }),
         },
       }}
     >
-      <DialogTitle>
-        {t('checkout.onramp.dialogTitle', { providerName: meta.name })}
-      </DialogTitle>
       <DialogContent
         sx={{
           flex: 1,
           display: 'flex',
           flexDirection: 'column',
           minHeight: 0,
-          pt: 1,
+          padding: 0,
+          '&:first-of-type': { paddingTop: 0 },
         }}
       >
-        {session.isLoading ? (
+        <ErrorBoundary
+          onError={(error) =>
+            console.error(
+              `[LifiWidgetCheckout] ${meta.name} modal render error:`,
+              error
+            )
+          }
+          fallback={(error) => (
+            <Box sx={{ py: 2 }}>
+              <Typography variant="body2" color="text.secondary">
+                {t('checkout.onramp.errors.generic')}
+              </Typography>
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                sx={{ mt: 1, display: 'block' }}
+              >
+                {error.message}
+              </Typography>
+            </Box>
+          )}
+        >
           <Box
             sx={{
               flex: 1,
+              position: 'relative',
               display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <CircularProgress />
-          </Box>
-        ) : null}
-        {!session.isLoading && errorText ? (
-          <Box sx={{ py: 2 }}>
-            <Typography variant="body2" color="text.secondary">
-              {errorText}
-            </Typography>
-          </Box>
-        ) : null}
-        {!session.isLoading && !errorText ? (
-          <Box
-            id={mountTargetId}
-            sx={{
-              flex: 1,
-              display: 'flex',
-              minHeight: 480,
+              minHeight: 0,
               minWidth: 0,
               width: '100%',
             }}
-          />
-        ) : null}
+          >
+            <Box
+              id={mountTargetId}
+              sx={{
+                position: 'absolute',
+                inset: 0,
+                display: 'flex',
+              }}
+            />
+            {session.isLoading ? (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  inset: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <CircularProgress />
+              </Box>
+            ) : null}
+            {!session.isLoading && errorText ? (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  inset: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  px: 2,
+                  textAlign: 'center',
+                }}
+              >
+                <Typography variant="body2" color="text.secondary">
+                  {errorText}
+                </Typography>
+              </Box>
+            ) : null}
+          </Box>
+        </ErrorBoundary>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={session.close}>{t('checkout.onramp.close')}</Button>
-      </DialogActions>
     </Dialog>
   )
 }

@@ -4,6 +4,7 @@ import {
   FormKeyHelper,
   PoweredBy,
   useChain,
+  useFieldActions,
   useFieldValues,
   useHeader,
   useToken,
@@ -29,6 +30,10 @@ import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
 import { SelectSourceFundingOptions } from './SelectSourceFundingOptions.js'
 import { SelectSourceMainColumn } from './SelectSourceLayout.js'
 
+const CASH_DEFAULT_FROM_CHAIN_ID = 1
+const CASH_DEFAULT_FROM_TOKEN_ADDRESS =
+  '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
+
 export const SelectSourcePage: React.FC = () => {
   const { t } = useTranslation()
   useHeader(t('checkout.chooseFundingSource'))
@@ -42,6 +47,7 @@ export const SelectSourcePage: React.FC = () => {
   const setFundingSource = useCheckoutFlowStore((s) => s.setFundingSource)
   const resetFlow = useCheckoutFlowStore((s) => s.reset)
   const overrideExchanges = useCheckoutExchangesOverride()
+  const { setFieldValue } = useFieldActions()
 
   // Capture fundingSource before resetFlow fires (runs after first render).
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
@@ -125,13 +131,20 @@ export const SelectSourcePage: React.FC = () => {
   }, [hasWalletConnected, goToToken])
 
   const handlePayFromWallet = useCallback(() => {
+    overrideExchanges([...INTENT_FACTORY_ONLY])
     setFundingSource('wallet')
     if (hasWalletConnected) {
       goToToken()
       return
     }
     openWalletMenu()
-  }, [hasWalletConnected, goToToken, openWalletMenu, setFundingSource])
+  }, [
+    hasWalletConnected,
+    goToToken,
+    openWalletMenu,
+    overrideExchanges,
+    setFundingSource,
+  ])
 
   const handleTransferCrypto = useCallback(() => {
     overrideExchanges([...INTENT_FACTORY_ONLY])
@@ -148,8 +161,18 @@ export const SelectSourcePage: React.FC = () => {
   const handleDepositCash = useCallback(() => {
     overrideExchanges([...INTENT_FACTORY_ONLY])
     setFundingSource('cash')
+    // Cash deposits aren't wallet-funded, so seed the from-token to USDC on
+    // mainnet — otherwise the form keeps the prior wallet/transfer selection
+    // (default ETH) and the quote, balance, and Transak session all run
+    // against the wrong token.
+    setFieldValue(FormKeyHelper.getChainKey('from'), CASH_DEFAULT_FROM_CHAIN_ID)
+    setFieldValue(
+      FormKeyHelper.getTokenKey('from'),
+      CASH_DEFAULT_FROM_TOKEN_ADDRESS
+    )
+    setFieldValue(FormKeyHelper.getAmountKey('from'), '')
     navigate({ to: checkoutNavigationRoutes.selectCash })
-  }, [navigate, overrideExchanges, setFundingSource])
+  }, [navigate, overrideExchanges, setFieldValue, setFundingSource])
 
   const payFromWalletIcons = useMemo(
     () =>

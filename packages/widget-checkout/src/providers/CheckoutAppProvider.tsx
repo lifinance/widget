@@ -26,7 +26,7 @@ export interface CheckoutAppProviderProps extends PropsWithChildren {
   onRampProviders: OnRampProvider[]
 }
 
-const NON_WALLET_EXCHANGES_ALLOW: readonly string[] = ['intentFactory']
+const CHECKOUT_EXCHANGES_ALLOW: readonly string[] = ['intentFactory']
 
 interface CheckoutAppShellProps extends PropsWithChildren {
   widgetConfig: WidgetConfig
@@ -42,17 +42,16 @@ const CheckoutAppShell: React.FC<CheckoutAppShellProps> = ({
 }) => {
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
 
-  // Non-wallet flows force `exchanges.allow=['intentFactory']` so the IF tool surfaces a route.
-  // Wallet flow keeps the integrator's original config untouched.
+  // All checkout flows force `exchanges.allow=['intentFactory']` so the IF tool surfaces a route.
   const effectiveWidgetConfig = useMemo<WidgetConfig>(() => {
-    if (!fundingSource || fundingSource === 'wallet') {
+    if (!fundingSource) {
       return widgetConfig
     }
     return {
       ...widgetConfig,
       exchanges: {
         ...widgetConfig.exchanges,
-        allow: [...NON_WALLET_EXCHANGES_ALLOW],
+        allow: [...CHECKOUT_EXCHANGES_ALLOW],
       },
     }
   }, [widgetConfig, fundingSource])

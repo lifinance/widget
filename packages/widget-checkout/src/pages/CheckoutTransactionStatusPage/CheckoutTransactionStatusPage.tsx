@@ -21,6 +21,7 @@ import {
   getSimulatedFundingSource,
   getSimulatedOnRampFailure,
   getSimulatedSubstatus,
+  getWatchingSimulationDuration,
   isTransactionStatusSimulationKind,
 } from '../../utils/transactionStatusSimulation.js'
 import { StatusCompleted } from './StatusCompleted.js'
@@ -119,10 +120,46 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
     acknowledgeDepositTxHash?.()
   }, [depositTxHash, acknowledgeDepositTxHash, navigate, simulate])
 
-  // Dev-only: after the page lands in `simulate=pending`, auto-advance to
-  // `done` after a short delay so the user sees the full watching → pending
-  // → done arc. Real polling is bypassed when a simulation is engaged
-  // (`useCheckoutTransactionStatus` short-circuits to fixture data).
+  // Dev-only: on-ramp providers (e.g. Transak) never deliver an on-chain
+  // hash through the SDK. Once the provider's modal opens then closes
+  // cleanly (no failure → user completed the card charge) we treat that
+  // as the cue to advance the watching → pending simulation after a hold.
+  // Tracking the open→close transition guards against a race on first
+  // mount where the store hasn't yet committed isOpen=true.
+  const depositModalOpen = deposit?.isOpen ?? false
+  const depositFailure = deposit?.failure ?? null
+  const [sawModalOpen, setSawModalOpen] = useState(false)
+  useEffect(() => {
+    if (depositModalOpen && !sawModalOpen) {
+      setSawModalOpen(true)
+    }
+  }, [depositModalOpen, sawModalOpen])
+  const cardChargeAccepted =
+    sawModalOpen && !depositModalOpen && !depositFailure
+  useEffect(() => {
+    if (simulate !== 'watching') {
+      return
+    }
+    if (!cardChargeAccepted) {
+      return
+    }
+    const delayMs = getWatchingSimulationDuration()
+    if (delayMs === null) {
+      return
+    }
+    const id = setTimeout(() => {
+      navigate({
+        to: `/${navigationRoutes.transactionExecution}/${checkoutNavigationRoutes.transactionStatus}`,
+        search: (prev: StatusSearch) => ({
+          ...prev,
+          simulateTransactionStatus: 'pending',
+        }),
+      })
+    }, delayMs)
+    return () => clearTimeout(id)
+  }, [simulate, cardChargeAccepted, navigate])
+
+  // Dev-only: after `simulate=pending`, auto-advance to `done`.
   useEffect(() => {
     if (simulate !== 'pending') {
       return

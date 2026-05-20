@@ -8,7 +8,12 @@ interface State {
   error: Error | null
 }
 
-interface InnerProps extends PropsWithChildren {
+interface BoundaryProps extends PropsWithChildren {
+  fallback?: (error: Error, retry: () => void) => ReactNode
+  onError?: (error: Error, info: ErrorInfo) => void
+}
+
+interface InnerProps extends BoundaryProps {
   t: TFunction
 }
 
@@ -21,6 +26,7 @@ class ErrorBoundaryInner extends Component<InnerProps, State> {
 
   componentDidCatch(error: Error, info: ErrorInfo): void {
     console.error('[LifiWidgetCheckout] Render error:', error, info)
+    this.props.onError?.(error, info)
   }
 
   handleRetry = (): void => {
@@ -28,7 +34,11 @@ class ErrorBoundaryInner extends Component<InnerProps, State> {
   }
 
   render(): ReactNode {
-    if (this.state.error) {
+    const { error } = this.state
+    if (error) {
+      if (this.props.fallback) {
+        return this.props.fallback(error, this.handleRetry)
+      }
       const { t } = this.props
       return (
         <Box sx={{ p: 3, textAlign: 'center' }}>
@@ -48,7 +58,15 @@ class ErrorBoundaryInner extends Component<InnerProps, State> {
   }
 }
 
-export function ErrorBoundary({ children }: PropsWithChildren): JSX.Element {
+export function ErrorBoundary({
+  children,
+  fallback,
+  onError,
+}: BoundaryProps): JSX.Element {
   const { t } = useTranslation()
-  return <ErrorBoundaryInner t={t}>{children}</ErrorBoundaryInner>
+  return (
+    <ErrorBoundaryInner t={t} fallback={fallback} onError={onError}>
+      {children}
+    </ErrorBoundaryInner>
+  )
 }

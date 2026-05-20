@@ -18,6 +18,7 @@ import {
   INTENT_FACTORY_ONLY,
   useCheckoutExchangesOverride,
 } from '../../hooks/useCheckoutExchangesOverride.js'
+import { useIsWalletFundedFlow } from '../../hooks/useIsWalletFundedFlow.js'
 import { useCheckoutFlowStore } from '../../stores/useCheckoutFlowStore.js'
 
 const headerKeyByFlow = {
@@ -31,6 +32,7 @@ export const EnterAmountPage: React.FC = (): JSX.Element => {
   const { t } = useTranslation()
   const { hiddenUI } = useWidgetConfig()
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource) ?? 'wallet'
+  const isWalletFunded = useIsWalletFundedFlow()
   useHeader(t(headerKeyByFlow[fundingSource]))
   const showPoweredBy = !hiddenUI?.includes(HiddenUI.PoweredBy)
   const overrideExchanges = useCheckoutExchangesOverride()
@@ -52,7 +54,8 @@ export const EnterAmountPage: React.FC = (): JSX.Element => {
     <PageContainer>
       <CheckoutAmountInput formType="from" sx={{ mb: 2 }} sendSlot={sendSlot} />
       <CheckoutReceiveCard />
-      <MainWarningMessages sx={{ mt: 2, mb: 2 }} />
+      {/* Warnings cover wallet balance / gas — only show for wallet flow. */}
+      {isWalletFunded ? <MainWarningMessages sx={{ mt: 2, mb: 2 }} /> : null}
       <Box
         sx={{ display: 'flex', mt: 1.5, mb: showPoweredBy ? 1 : 3, gap: 1.5 }}
       >

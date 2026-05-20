@@ -7,7 +7,7 @@ import { widgetBaseConfig } from '../../defaultWidgetConfig.js'
 import { useEnvVariables } from '../../providers/EnvVariablesProvider.js'
 import { useConfig } from '../../store/widgetConfig/useConfig.js'
 
-const DEFAULT_CHECKOUT_INTEGRATOR = 'local-test'
+const DEFAULT_CHECKOUT_INTEGRATOR = 'widget-transak-test'
 
 export function CheckoutWidgetView(): JSX.Element {
   const { config } = useConfig()

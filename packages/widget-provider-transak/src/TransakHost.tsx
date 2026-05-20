@@ -28,6 +28,14 @@ const NATIVE_EVM_TOKEN_ADDRESS = '0x0000000000000000000000000000000000000000'
 const TRANSAK_FALLBACK_CHAIN_IDS = [1]
 const TRANSAK_RETRYABLE_STATUS_CODES = [500, 502, 503, 504]
 
+const debug = (event: string, payload?: unknown): void => {
+  if (payload !== undefined) {
+    console.warn(`[transak] ${event}`, payload)
+  } else {
+    console.warn(`[transak] ${event}`)
+  }
+}
+
 export interface TransakHostProps {
   widgetConfig: OnRampHostWidgetConfig
 }
@@ -46,7 +54,13 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
   const [error, setError] = useState<OnRampError | null>(null)
   const [failure, setFailure] = useState<OnRampFailure | null>(null)
   const [widgetUrl, setWidgetUrl] = useState<string | null>(null)
-  const mountTargetId = useId()
+  // `useId()` can return ids with colons (e.g. `:r0:`); Transak's SDK looks
+  // the container up via `#${id}` selector and throws on those.
+  const reactId = useId()
+  const mountTargetId = useMemo(
+    () => `transak-${reactId.replace(/:/g, '')}`,
+    [reactId]
+  )
 
   const onSuccessRef = useRef(onSuccess)
   useEffect(() => {
@@ -65,6 +79,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
 
   const openDepositFlow = useCallback(
     async (args: OnRampOpenArgs) => {
+      debug('openDepositFlow', args)
       lastOpenArgsRef.current = args
       setOpen(true)
       setError(null)
@@ -183,6 +198,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
           return
         }
 
+        debug('session received', { widgetUrl: res.data.widgetUrl })
         setWidgetUrl(res.data.widgetUrl)
       } catch (e) {
         const message =
@@ -206,73 +222,87 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
     [apiUrl, integrator, onError, widgetConfig.apiKey]
   )
 
-  // SDK lifecycle: init when the modal is open and we have a widgetUrl;
-  // tear down on cleanup. The widget must render `<div id={mountTargetId}>`
-  // inside its modal so Transak can portal its iframe into it.
   useEffect(() => {
     if (!open || !widgetUrl || isLoading) {
       return
     }
 
-    const transak = new Transak({
-      widgetUrl,
-      containerId: mountTargetId,
-      widgetWidth: '100%',
-      widgetHeight: '100%',
-    })
+    debug('sdk init', { mountTargetId })
 
-    // Transak emits `TRANSAK_ORDER_SUCCESSFUL` and `TRANSAK_WIDGET_CLOSE` in
-    // quick succession on success, and its handlers live on a module-level
-    // singleton emitter. This per-run flag guarantees `onSuccess` fires at
-    // most once and prevents stale closures from running between an SDK emit
-    // and effect cleanup.
-    //
-    // SDK constraint: `@transak/ui-js-sdk` v1.0.0 exposes only static
-    // `Transak.on` — there is no `Transak.off`. Handler removal is only
-    // possible via `transak.cleanup()`, which internally calls
-    // `m.removeAllListeners()` on the shared emitter. That's adequate for a
-    // single host instance, but it also wipes listeners belonging to any
-    // other live Transak instance. If we ever support multiple concurrent
-    // Transak sessions, switch to an SDK build that exposes per-listener
-    // removal (or proxy through our own emitter).
+    let transak: Transak
+    try {
+      transak = new Transak({
+        widgetUrl,
+        containerId: mountTargetId,
+        widgetWidth: '100%',
+        widgetHeight: '100%',
+      })
+    } catch (e) {
+      const message =
+        e instanceof Error ? e.message : 'Transak SDK failed to initialise.'
+      setError({ message })
+      onError?.({
+        code: 'ONRAMP_SDK_INIT_ERROR',
+        message,
+        provider: 'transak',
+      })
+      setOpen(false)
+      setWidgetUrl(null)
+      return
+    }
+
+    // `@transak/ui-js-sdk` v1.0.0 only has static `Transak.on`/no `Transak.off`,
+    // and `cleanup()` clears all listeners on the shared emitter — fine for one
+    // live host, not safe with concurrent Transak instances.
     const runState = { active: true, succeeded: false }
 
     const onOrderSuccessful = (data: unknown) => {
+      debug('TRANSAK_ORDER_SUCCESSFUL', data)
       if (!runState.active) {
+        debug('TRANSAK_ORDER_SUCCESSFUL ignored (already terminal)')
         return
       }
       runState.active = false
       runState.succeeded = true
-      const onSuccessCb = onSuccessRef.current
-      if (onSuccessCb) {
-        const order =
-          data != null &&
-          typeof data === 'object' &&
-          'status' in data &&
-          data.status != null &&
-          typeof data.status === 'object'
-            ? (data.status as Record<string, unknown>)
-            : {}
-        const lastArgs = lastOpenArgsRef.current
-        onSuccessCb({
-          provider: 'transak',
-          transactionHash:
-            typeof order.transactionHash === 'string'
-              ? order.transactionHash
-              : undefined,
-          amount: String(order.cryptoAmount ?? order.fiatAmount ?? ''),
-          token: String(
-            order.cryptoCurrency ?? lastArgs?.fromTokenAddress ?? ''
-          ),
-          chainId: Number(
-            order.chainId ?? order.networkId ?? lastArgs?.fromChainId ?? 0
-          ),
-        })
-      }
-      close()
+      const order: Record<string, unknown> =
+        data != null && typeof data === 'object'
+          ? (data as Record<string, unknown>)
+          : {}
+      const lastArgs = lastOpenArgsRef.current
+      const orderId = typeof order.id === 'string' ? order.id : undefined
+
+      debug('order extracted', {
+        orderId,
+        status: order.status,
+        cryptoAmount: order.cryptoAmount,
+        cryptoCurrency: order.cryptoCurrency,
+        chainId: order.chainId ?? order.networkId,
+        walletAddress: order.walletAddress,
+      })
+
+      // Transak's SDK fires TRANSAK_ORDER_SUCCESSFUL at card-charge time
+      // (status=PROCESSING) with no on-chain hash. The status page resolves
+      // the real hash by polling /v1/status?depositAddress=…&fromChain=…
+      onSuccessRef.current?.({
+        provider: 'transak',
+        transactionHash: undefined,
+        amount: String(order.cryptoAmount ?? order.fiatAmount ?? ''),
+        token: String(order.cryptoCurrency ?? lastArgs?.fromTokenAddress ?? ''),
+        chainId: Number(
+          order.chainId ?? order.networkId ?? lastArgs?.fromChainId ?? 0
+        ),
+      })
+
+      debug('closing modal (preserving depositTxHash)')
+      setOpen(false)
+      setIsLoading(false)
+      setError(null)
+      setFailure(null)
+      setWidgetUrl(null)
     }
 
     const onOrderCancelled = () => {
+      debug('TRANSAK_ORDER_CANCELLED')
       if (!runState.active) {
         return
       }
@@ -287,6 +317,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
     }
 
     const onOrderFailed = () => {
+      debug('TRANSAK_ORDER_FAILED')
       if (!runState.active) {
         return
       }
@@ -301,6 +332,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
     }
 
     const onWidgetClose = () => {
+      debug('TRANSAK_WIDGET_CLOSE', { succeeded: runState.succeeded })
       if (!runState.active) {
         return
       }
@@ -322,17 +354,37 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
     Transak.on(Transak.EVENTS.TRANSAK_ORDER_FAILED, onOrderFailed)
     Transak.on(Transak.EVENTS.TRANSAK_WIDGET_CLOSE, onWidgetClose)
 
-    transak.init()
+    try {
+      transak.init()
+    } catch (e) {
+      const message =
+        e instanceof Error ? e.message : 'Transak SDK failed to mount.'
+      runState.active = false
+      transak.cleanup()
+      setError({ message })
+      onError?.({
+        code: 'ONRAMP_SDK_INIT_ERROR',
+        message,
+        provider: 'transak',
+      })
+      setOpen(false)
+      setWidgetUrl(null)
+      return
+    }
 
     return () => {
-      // `runState.active = false` is the primary safeguard: even if a queued
-      // SDK event fires between this cleanup and `transak.cleanup()` clearing
-      // the emitter, the handlers above no-op. `transak.cleanup()` then
-      // removes the listeners (see SDK constraint note above).
       runState.active = false
       transak.cleanup()
     }
-  }, [close, isLoading, open, mountTargetId, openDepositFlow, widgetUrl])
+  }, [
+    close,
+    isLoading,
+    onError,
+    open,
+    mountTargetId,
+    openDepositFlow,
+    widgetUrl,
+  ])
 
   const session = useMemo<OnRampSession>(
     () => ({

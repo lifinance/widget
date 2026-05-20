@@ -20,6 +20,7 @@ import {
   useRef,
 } from 'react'
 import { CheckoutDepositContractCallsInit } from '../../components/CheckoutDepositContractCallsInit.js'
+import { ErrorBoundary } from '../../components/ErrorBoundary.js'
 import { useCheckoutFlowStore } from '../../stores/useCheckoutFlowStore.js'
 
 export interface OnRampProviderInfo {
@@ -59,6 +60,7 @@ export interface ActiveOnRampDeposit {
   depositTxHash: string | null
   acknowledgeDepositTxHash: () => void
   providerName: string
+  isOpen: boolean
 }
 
 export function useActiveOnRampDeposit(): ActiveOnRampDeposit | null {
@@ -77,6 +79,7 @@ export function useActiveOnRampDeposit(): ActiveOnRampDeposit | null {
     depositTxHash: session.depositTxHash,
     acknowledgeDepositTxHash: session.acknowledgeDepositTxHash,
     providerName: provider.name,
+    isOpen: session.isOpen,
   }
 }
 
@@ -115,7 +118,20 @@ export const OnRampProviderRegistry: FC<OnRampProviderRegistryProps> = ({
       <OnRampMetaContext.Provider value={metas}>
         {providers.map((adapter) => {
           const Host = adapter.Host
-          return <Host key={adapter.id} widgetConfig={widgetConfig} />
+          return (
+            <ErrorBoundary
+              key={adapter.id}
+              onError={(error) =>
+                console.error(
+                  `[LifiWidgetCheckout] ${adapter.name} host crashed:`,
+                  error
+                )
+              }
+              fallback={() => null}
+            >
+              <Host widgetConfig={widgetConfig} />
+            </ErrorBoundary>
+          )
         })}
         <StoreProvider config={widgetConfig} formRef={formRef}>
           <CheckoutDepositContractCallsInit />
