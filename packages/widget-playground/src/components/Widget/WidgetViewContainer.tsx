@@ -28,7 +28,8 @@ export function WidgetViewContainer({
   const { config } = useConfig()
   const { isDrawerOpen, drawerWidth } = useDrawerToolValues()
   const { setDrawerOpen } = useEditToolsActions()
-  const { showMockHeader, showMockFooter } = useHeaderAndFooterToolValues()
+  const { showMockHeader, showMockFooter, isFooterFixed } =
+    useHeaderAndFooterToolValues()
 
   const isWalletManagementExternal = !!config?.walletConfig
 
@@ -97,7 +98,9 @@ export function WidgetViewContainer({
             {children}
           </WidgetContainerRow>
           {showFooter ? (
-            <MockElement sx={{ ...mockElementSx, bottom: 0 }}>
+            <MockElement
+              sx={isFooterFixed ? { ...mockElementSx, bottom: 0 } : undefined}
+            >
               Mock footer
             </MockElement>
           ) : null}

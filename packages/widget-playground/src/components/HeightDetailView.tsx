@@ -91,7 +91,7 @@ export const HeightDetailView = ({
         </TitleSection>
         <CardsContainer>
           <CardSelect
-            title="Default (fit content)"
+            title="Default"
             description="The widget height grows automatically with its content."
             selected={selectedLayoutId === 'default'}
             disabled={isDrawerVariant}
@@ -115,7 +115,7 @@ export const HeightDetailView = ({
           />
           <CardSelect
             title="Full height"
-            description="The widget uses the full viewport height. Best with the compact variant."
+            description="The widget uses the full height of the container. Available for compact variant."
             selected={selectedLayoutId === 'full-height'}
             disabled={isFullHeightDisabled}
             onClick={() => handleSelect('full-height')}

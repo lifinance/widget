@@ -131,7 +131,8 @@ export const DeveloperControlsDetailView = ({
   const { isDevView, toggleDevView } = useDevView()
   const widgetEvents = useWidgetEvents()
   const { isSkeletonShown } = useSkeletonToolValues()
-  const { showMockHeader, showMockFooter } = useHeaderAndFooterToolValues()
+  const { showMockHeader, showMockFooter, isFooterFixed } =
+    useHeaderAndFooterToolValues()
   const { selectedLayoutId } = useLayoutValues()
   const { variant } = useConfigVariant()
   const isDrawerVariant = variant === 'drawer'
@@ -144,6 +145,7 @@ export const DeveloperControlsDetailView = ({
     setIsDevView,
     setHeaderVisibility,
     setFooterVisibility,
+    setFixedFooter,
   } = useEditToolsActions()
 
   const [activeSection, setActiveSection] =
@@ -175,6 +177,7 @@ export const DeveloperControlsDetailView = ({
     setSkeletonShow(false)
     setHeaderVisibility(false)
     setFooterVisibility(false)
+    setFixedFooter(false)
     if (config?.theme?.header?.position === 'fixed') {
       setHeader({ position: 'fixed', top: 0 })
     }
@@ -185,6 +188,7 @@ export const DeveloperControlsDetailView = ({
     setSkeletonShow,
     setHeaderVisibility,
     setFooterVisibility,
+    setFixedFooter,
     setHeader,
     config?.theme?.header?.position,
     setAllWidgetEventsOnForPageLoad,
@@ -346,6 +350,19 @@ export const DeveloperControlsDetailView = ({
                 Show a mock footer element below the widget. Only available for
                 compact variant in full-height layout.
               </ToggleDescription>
+              <Collapse in={showMockFooter && isFullHeight}>
+                <ToggleRow sx={{ pt: 1.5 }}>
+                  <ToggleLabel>Stick to viewport bottom</ToggleLabel>
+                  <Switch
+                    size="small"
+                    checked={isFooterFixed}
+                    onChange={(_, checked) => {
+                      setFixedFooter(checked)
+                    }}
+                    aria-label="Toggle fixed footer"
+                  />
+                </ToggleRow>
+              </Collapse>
             </ToggleItem>
             <Divider />
             <ToggleItem>
