@@ -45,7 +45,7 @@ function useActionLabel(
     case 'tryAgain':
       return t('button.tryAgain')
     case 'viewDetails':
-      return t('button.seeDetails')
+      return t('button.viewTransferDetails')
     case 'done':
       return t('button.done')
     case 'contactSupport':

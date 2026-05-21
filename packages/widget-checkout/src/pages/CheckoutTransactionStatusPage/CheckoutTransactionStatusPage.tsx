@@ -2,11 +2,15 @@ import type { FullStatusData, Substatus } from '@lifi/sdk'
 import {
   navigationRoutes,
   PageContainer,
+  shortenAddress,
+  useChain,
   useContactSupport,
+  useFieldValues,
   useHeader,
+  useToken,
 } from '@lifi/widget/shared'
 import OpenInNewRoundedIcon from '@mui/icons-material/OpenInNewRounded'
-import { Link } from '@mui/material'
+import { Link, Stack, Typography } from '@mui/material'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { type JSX, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -90,14 +94,6 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
   const fundingSource = simulatedFundingSource ?? storeFundingSource
   const isTransferFlow = fundingSource === 'transfer'
 
-  // Title is "deposit" while we're showing the on-ramp failure screen,
-  // otherwise the standard transaction-status title.
-  useHeader(
-    deposit?.failure
-      ? t('checkout.deposit')
-      : t('checkout.transactionStatus.detailsTitle')
-  )
-
   // Pull the on-chain hash emitted by the provider into the URL so polling
   // kicks in. `acknowledge` clears it on the provider side so re-renders
   // don't loop. When a simulation is active, the hash arrival also marks the
@@ -180,12 +176,36 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
     return () => clearTimeout(id)
   }, [simulate, navigate])
 
+  const [formFromChainId, formFromTokenAddress] = useFieldValues(
+    'fromChain',
+    'fromToken'
+  )
+  const [formToChainId, formToTokenAddress] = useFieldValues(
+    'toChain',
+    'toToken'
+  )
+  const [formFromAmount] = useFieldValues('fromAmount')
+  const { token: formFromToken } = useToken(
+    formFromChainId,
+    formFromTokenAddress
+  )
+  const { token: formToToken } = useToken(formToChainId, formToTokenAddress)
+
+  const simulateTokenOverrides = simulate
+    ? {
+        fromToken: formFromToken ?? null,
+        toToken: formToToken ?? null,
+        fromAmount: typeof formFromAmount === 'string' ? formFromAmount : null,
+      }
+    : undefined
+
   const { status, phase, isLoading } = useCheckoutTransactionStatus({
     transactionHash,
     depositAddress,
     fromChain,
     simulate,
     simulateSubstatus: simulatedSubstatus,
+    simulateTokenOverrides,
   })
 
   // Track when executing first becomes visible so we can hold it briefly
@@ -205,6 +225,23 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
 
   const detailsTxHash = transactionHash ?? getReceivingTxHash(status) ?? null
   const handleContactSupport = useContactSupport(detailsTxHash ?? undefined)
+
+  const refundChainId =
+    typeof status?.sending?.chainId === 'number'
+      ? status.sending.chainId
+      : undefined
+  const { chain: refundChain } = useChain(refundChainId)
+
+  // Header reads "Deposit" for on-ramp failure and refund-in-progress
+  // screens (per Figma); standard transaction-status title otherwise.
+  const isRefundInProgress =
+    simulatedSubstatus === 'REFUND_IN_PROGRESS' ||
+    status?.substatus === 'REFUND_IN_PROGRESS'
+  useHeader(
+    deposit?.failure || isRefundInProgress
+      ? t('checkout.deposit')
+      : t('checkout.transactionStatus.detailsTitle')
+  )
 
   const goToEnterAmount = (): void => {
     navigate({
@@ -343,10 +380,34 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
       substatus: status.substatus,
       fundingSource,
     })
+    const isRefundProgress = status.substatus === 'REFUND_IN_PROGRESS'
+    const refundAddress =
+      (status as { fromAddress?: string }).fromAddress ?? null
+    const refundShort = refundAddress
+      ? (shortenAddress(refundAddress) ?? refundAddress)
+      : null
+    const sentToLabel =
+      fundingSource === 'wallet'
+        ? t('checkout.status.walletPendingRefund.sentToWallet')
+        : t('checkout.status.pendingRefund.sentTo')
+    const descriptionAddon =
+      isRefundProgress && refundShort ? (
+        <Stack spacing={0.5} sx={{ alignItems: 'center', mt: 1 }}>
+          <Typography variant="caption" color="text.secondary">
+            {sentToLabel}
+          </Typography>
+          <Typography variant="caption" sx={{ fontWeight: 600 }}>
+            {refundChain?.name
+              ? `${refundShort} on ${refundChain.name}`
+              : refundShort}
+          </Typography>
+        </Stack>
+      ) : undefined
     return (
       <PageContainer bottomGutters>
         <CheckoutStatusScreen
           variant={variant}
+          descriptionAddon={descriptionAddon}
           primaryAction={{
             done: goHome,
             viewDetails: goToDetails,

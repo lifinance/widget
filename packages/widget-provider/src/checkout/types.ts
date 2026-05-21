@@ -114,6 +114,12 @@ export interface OnRampOpenArgs {
   amount: string
   fiatCurrency?: 'USD' | 'EUR' | 'GBP'
   /**
+   * Prefilled fiat amount for the provider's widget (e.g. Transak's
+   * `fiatAmount`). Derived from the checkout's EnterAmount value times the
+   * source token's USD price; optional because not every provider honors it.
+   */
+  fiatAmount?: string
+  /**
    * The deposit asset the on-ramp must withdraw to `depositAddress`. This is
    * the route's source token/chain (not the widget's destination): the LI.FI
    * deposit address handles any final swap to the destination asset.

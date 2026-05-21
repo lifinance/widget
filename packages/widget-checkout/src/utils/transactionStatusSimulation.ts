@@ -214,75 +214,151 @@ const eth = {
   priceUSD: '2359.65',
 }
 
-const baseFixture = {
-  transactionId:
-    '0x66cce2e5e81b64e159eaca64173948578a83b1d1615aa3c680ea3135db0849ad',
-  fromAddress: '0x74890864d2a135b98eae5f90c5e6bf96c7283929',
-  toAddress: '0x74890864d2a135b98eae5f90c5e6bf96c7283929',
-  tool: 'sushiswap',
-  status: 'DONE',
-  substatus: 'COMPLETED',
-  substatusMessage: 'The transfer is complete.',
-  sending: {
-    txHash:
-      '0xed295238d734db823a5d2791fd2e55afa2b398ab66d8ec55e4be09b2ee6eec1c',
-    txLink:
-      'https://etherscan.io/tx/0xed295238d734db823a5d2791fd2e55afa2b398ab66d8ec55e4be09b2ee6eec1c',
-    chainId: 1,
-    amount: '5000695096',
-    amountUSD: '4998.3198',
-    gasAmountUSD: '1.4566',
-    timestamp: Math.floor(Date.now() / 1000),
-    token: usdt,
-    includedSteps: [
-      {
-        tool: 'feeCollection',
-        toolDetails: {
-          key: 'feeCollection',
-          name: 'Integrator Fee',
-          logoURI:
-            'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/protocols/feeCollection.svg',
+export interface SimulationToken {
+  address: string
+  chainId: number
+  symbol: string
+  decimals: number
+  name?: string
+  coinKey?: string
+  logoURI?: string
+  priceUSD?: string
+}
+
+export interface SimulationTokenOverrides {
+  fromToken?: SimulationToken | null
+  toToken?: SimulationToken | null
+  fromAmount?: string | null
+}
+
+function parseAmountToBaseUnits(
+  amount: string | null | undefined,
+  decimals: number
+): bigint | null {
+  if (!amount) {
+    return null
+  }
+  const trimmed = amount.trim()
+  if (!trimmed || !/^\d*\.?\d*$/.test(trimmed)) {
+    return null
+  }
+  const [whole = '0', frac = ''] = trimmed.split('.')
+  const fracPadded = (frac + '0'.repeat(decimals)).slice(0, decimals)
+  try {
+    return BigInt(whole) * 10n ** BigInt(decimals) + BigInt(fracPadded || '0')
+  } catch {
+    return null
+  }
+}
+
+function buildBaseFixture(
+  overrides?: SimulationTokenOverrides
+): StatusResponse {
+  const sendingToken = overrides?.fromToken ?? usdt
+  const receivingToken = overrides?.toToken ?? eth
+
+  const sendingDecimals = sendingToken.decimals
+  const receivingDecimals = receivingToken.decimals
+  const sendingPrice =
+    Number.parseFloat(sendingToken.priceUSD ?? '') ||
+    (sendingToken === usdt ? 1 : 0)
+  const receivingPrice =
+    Number.parseFloat(receivingToken.priceUSD ?? '') ||
+    (receivingToken === eth ? 1 : 0)
+
+  const parsedSending =
+    parseAmountToBaseUnits(overrides?.fromAmount, sendingDecimals) ??
+    10n ** BigInt(sendingDecimals)
+  const sendingAmount = parsedSending.toString()
+  const sendingTokens = Number(parsedSending) / 10 ** sendingDecimals
+  const sendingAmountUSD = sendingPrice
+    ? (sendingTokens * sendingPrice).toFixed(2)
+    : '0'
+
+  const receivingTokens =
+    sendingPrice && receivingPrice
+      ? (sendingTokens * sendingPrice) / receivingPrice
+      : sendingTokens
+  const receivingAmount = receivingPrice
+    ? BigInt(
+        Math.max(0, Math.floor(receivingTokens * 10 ** receivingDecimals))
+      ).toString()
+    : parsedSending.toString()
+  const receivingAmountUSD = receivingPrice
+    ? (receivingTokens * receivingPrice).toFixed(2)
+    : sendingAmountUSD
+
+  return {
+    transactionId:
+      '0x66cce2e5e81b64e159eaca64173948578a83b1d1615aa3c680ea3135db0849ad',
+    fromAddress: '0x74890864d2a135b98eae5f90c5e6bf96c7283929',
+    toAddress: '0x74890864d2a135b98eae5f90c5e6bf96c7283929',
+    tool: 'sushiswap',
+    status: 'DONE',
+    substatus: 'COMPLETED',
+    substatusMessage: 'The transfer is complete.',
+    sending: {
+      txHash:
+        '0xed295238d734db823a5d2791fd2e55afa2b398ab66d8ec55e4be09b2ee6eec1c',
+      txLink:
+        'https://etherscan.io/tx/0xed295238d734db823a5d2791fd2e55afa2b398ab66d8ec55e4be09b2ee6eec1c',
+      chainId: sendingToken.chainId,
+      amount: sendingAmount,
+      amountUSD: sendingAmountUSD,
+      gasAmountUSD: '1.4566',
+      timestamp: Math.floor(Date.now() / 1000),
+      token: sendingToken,
+      includedSteps: [
+        {
+          tool: 'feeCollection',
+          toolDetails: {
+            key: 'feeCollection',
+            name: 'Integrator Fee',
+            logoURI:
+              'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/protocols/feeCollection.svg',
+          },
+          fromAmount: sendingAmount,
+          fromToken: sendingToken,
+          toAmount: sendingAmount,
+          toToken: sendingToken,
         },
-        fromAmount: '5000695096',
-        fromToken: usdt,
-        toAmount: '4950688146',
-        toToken: usdt,
-      },
-      {
-        tool: 'sushiswap',
-        toolDetails: {
-          key: 'sushiswap',
-          name: 'SushiSwap Aggregator',
-          logoURI:
-            'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/exchanges/sushi.svg',
+        {
+          tool: 'sushiswap',
+          toolDetails: {
+            key: 'sushiswap',
+            name: 'SushiSwap Aggregator',
+            logoURI:
+              'https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/exchanges/sushi.svg',
+          },
+          fromAmount: sendingAmount,
+          fromToken: sendingToken,
+          toAmount: receivingAmount,
+          toToken: receivingToken,
         },
-        fromAmount: '4950688146',
-        fromToken: usdt,
-        toAmount: '2097405759475624450',
-        toToken: eth,
-      },
-    ],
-  },
-  receiving: {
-    txHash:
-      '0xed295238d734db823a5d2791fd2e55afa2b398ab66d8ec55e4be09b2ee6eec1c',
-    txLink:
-      'https://etherscan.io/tx/0xed295238d734db823a5d2791fd2e55afa2b398ab66d8ec55e4be09b2ee6eec1c',
-    chainId: 1,
-    amount: '2097405759475624450',
-    amountUSD: '4949.14',
-    timestamp: Math.floor(Date.now() / 1000),
-    token: eth,
-  },
-  feeCosts: [],
-  lifiExplorerLink:
-    'https://explorer.li.fi/tx/0xed295238d734db823a5d2791fd2e55afa2b398ab66d8ec55e4be09b2ee6eec1c',
-  metadata: { integrator: 'simulated' },
-} as unknown as StatusResponse
+      ],
+    },
+    receiving: {
+      txHash:
+        '0xed295238d734db823a5d2791fd2e55afa2b398ab66d8ec55e4be09b2ee6eec1c',
+      txLink:
+        'https://etherscan.io/tx/0xed295238d734db823a5d2791fd2e55afa2b398ab66d8ec55e4be09b2ee6eec1c',
+      chainId: receivingToken.chainId,
+      amount: receivingAmount,
+      amountUSD: receivingAmountUSD,
+      timestamp: Math.floor(Date.now() / 1000),
+      token: receivingToken,
+    },
+    feeCosts: [],
+    lifiExplorerLink:
+      'https://explorer.li.fi/tx/0xed295238d734db823a5d2791fd2e55afa2b398ab66d8ec55e4be09b2ee6eec1c',
+    metadata: { integrator: 'simulated' },
+  } as unknown as StatusResponse
+}
 
 export function getSimulatedStatus(
   kind: TransactionStatusSimulationKind,
-  substatusOverride?: Substatus | null
+  substatusOverride?: Substatus | null,
+  tokenOverrides?: SimulationTokenOverrides
 ): StatusResponse | undefined {
   if (!isDevSimulationEnabled) {
     return undefined
@@ -290,6 +366,8 @@ export function getSimulatedStatus(
   if (kind === 'watching') {
     return undefined
   }
+  const baseFixture = buildBaseFixture(tokenOverrides)
+  const receivingToken = tokenOverrides?.toToken ?? eth
   // When an explicit substatus is provided, clear substatusMessage so the
   // variant's i18n descriptionKey drives the copy (otherwise the fixture
   // message overrides it and the variant isn't visually testable).
@@ -309,8 +387,8 @@ export function getSimulatedStatus(
       substatus: 'WAIT_DESTINATION_TRANSACTION',
       substatusMessage: 'Waiting for the destination transaction.',
       receiving: {
-        chainId: 1,
-        token: eth,
+        chainId: receivingToken.chainId,
+        token: receivingToken,
       },
     } as unknown as StatusResponse)
   }

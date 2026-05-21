@@ -82,13 +82,24 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
     clearSimWindowParams()
     freeze(route)
     setFrozenRouteId(route.id)
+    const cryptoAmount = formatTokenAmount(
+      BigInt(route.fromAmount),
+      route.fromToken.decimals
+    )
+    const priceUSD = Number.parseFloat(route.fromToken.priceUSD ?? '')
+    const cryptoAmountNumber = Number.parseFloat(cryptoAmount)
+    const fiatAmount =
+      Number.isFinite(priceUSD) &&
+      priceUSD > 0 &&
+      Number.isFinite(cryptoAmountNumber) &&
+      cryptoAmountNumber > 0
+        ? (cryptoAmountNumber * priceUSD).toFixed(2)
+        : undefined
     onRampSession.open({
       depositAddress,
-      amount: formatTokenAmount(
-        BigInt(route.fromAmount),
-        route.fromToken.decimals
-      ),
+      amount: cryptoAmount,
       fiatCurrency,
+      fiatAmount,
       fromChainId: route.fromChainId,
       fromTokenAddress: route.fromToken.address,
     })

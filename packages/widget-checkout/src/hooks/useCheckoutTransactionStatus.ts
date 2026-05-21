@@ -13,6 +13,7 @@ import {
 import {
   getSimulatedStatus,
   isTransactionStatusSimulationKind,
+  type SimulationTokenOverrides,
 } from '../utils/transactionStatusSimulation.js'
 
 export type CheckoutTransactionPhase = 'pending' | 'done' | 'failed'
@@ -29,6 +30,7 @@ export interface UseCheckoutTransactionStatusArgs {
   fromChain?: number | null
   simulate?: string | null
   simulateSubstatus?: Substatus | null
+  simulateTokenOverrides?: SimulationTokenOverrides
 }
 
 export const useCheckoutTransactionStatus = ({
@@ -37,16 +39,27 @@ export const useCheckoutTransactionStatus = ({
   fromChain,
   simulate,
   simulateSubstatus,
+  simulateTokenOverrides,
 }: UseCheckoutTransactionStatusArgs): CheckoutTransactionStatus => {
   const sdkClient = useSDKClient()
   const isSimulated = isTransactionStatusSimulationKind(simulate)
   const canPollByDeposit = !!depositAddress && !!fromChain
   const canPollByHash = !!transactionHash
 
+  const simTokenKey = isSimulated
+    ? [
+        simulateTokenOverrides?.fromToken?.chainId ?? null,
+        simulateTokenOverrides?.fromToken?.address ?? null,
+        simulateTokenOverrides?.toToken?.chainId ?? null,
+        simulateTokenOverrides?.toToken?.address ?? null,
+        simulateTokenOverrides?.fromAmount ?? null,
+      ]
+    : null
+
   // Same key as the QR-page poll when we're polling by deposit address —
   // react-query shares the cache entry so the handoff is instant.
   const queryKey = isSimulated
-    ? simulateQueryKey(simulate, simulateSubstatus)
+    ? [...simulateQueryKey(simulate, simulateSubstatus), simTokenKey]
     : canPollByHash
       ? txHashQueryKey(transactionHash)
       : depositAddressQueryKey(depositAddress, fromChain)
@@ -57,7 +70,11 @@ export const useCheckoutTransactionStatus = ({
     queryKey,
     queryFn: async ({ signal }) => {
       if (isSimulated) {
-        return getSimulatedStatus(simulate!, simulateSubstatus)
+        return getSimulatedStatus(
+          simulate!,
+          simulateSubstatus,
+          simulateTokenOverrides
+        )
       }
       if (canPollByHash) {
         return getStatus(sdkClient, { txHash: transactionHash! }, { signal })

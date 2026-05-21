@@ -42,11 +42,18 @@ function useDepositErrorActions(): {
       navigate({ to: checkoutNavigationRoutes.enterAmount })
     },
     closeModal: () => modalContext?.closeModal(),
-    requestRefund: () =>
+    requestRefund: () => {
+      if (typeof window !== 'undefined') {
+        const url = new URL(window.location.href)
+        url.searchParams.set('simulateSubstatus', 'REFUND_IN_PROGRESS')
+        url.searchParams.set('simulatePendingDuration', '99999')
+        window.history.replaceState({}, '', url.toString())
+      }
       navigate({
-        to: checkoutNavigationRoutes.depositError,
-        params: { kind: 'refunding' },
-      }),
+        to: `/${checkoutNavigationRoutes.transactionExecution}/${checkoutNavigationRoutes.transactionStatus}`,
+        search: { simulateTransactionStatus: 'pending' },
+      })
+    },
   }
 }
 
@@ -298,29 +305,6 @@ export function DepositMarketMovedPage(): JSX.Element {
   )
 }
 
-export function DepositRefundingPage(): JSX.Element {
-  useDepositHeader()
-  const { t } = useTranslation()
-  const { goHome, closeModal } = useDepositErrorActions()
-  return (
-    <PageContainer bottomGutters>
-      <DepositStatusScreen
-        variant="error"
-        title={t('checkout.transferDeposit.errors.refunding.title')}
-        description={t('checkout.transferDeposit.errors.refunding.description')}
-        primaryAction={{
-          label: t('button.viewRefundStatus'),
-          onClick: goHome,
-        }}
-        secondaryAction={{
-          label: t('button.contactSupport'),
-          onClick: closeModal,
-        }}
-      />
-    </PageContainer>
-  )
-}
-
 export type DepositErrorKind =
   | 'unexpected'
   | 'amount-low-threshold'
@@ -330,7 +314,6 @@ export type DepositErrorKind =
   | 'late-arrival'
   | 'address-expired'
   | 'market-moved'
-  | 'refunding'
 
 export const depositErrorPages: Record<DepositErrorKind, () => JSX.Element> = {
   unexpected: DepositUnexpectedPage,
@@ -341,5 +324,4 @@ export const depositErrorPages: Record<DepositErrorKind, () => JSX.Element> = {
   'late-arrival': DepositLateArrivalPage,
   'address-expired': DepositAddressExpiredPage,
   'market-moved': DepositMarketMovedPage,
-  refunding: DepositRefundingPage,
 }

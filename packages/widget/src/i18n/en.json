@@ -52,6 +52,7 @@
     "topUp": "Top up",
     "viewRefund": "View refund",
     "viewRefundStatus": "View refund status",
+    "viewTransferDetails": "View transfer details",
     "showAll": "Show all",
     "startBridging": "Start bridging",
     "startSwapping": "Start swapping",
@@ -517,8 +518,9 @@
         "description": "Your transaction is being processed. This may take a few minutes."
       },
       "pendingRefund": {
-        "title": "Refund in progress",
-        "description": "Your funds are being returned. This may take a few minutes."
+        "title": "Refunding your deposit",
+        "description": "We're sending your funds back. This usually takes a few minutes.",
+        "sentTo": "Sent to:"
       },
       "pendingRetrying": {
         "title": "Retrying transaction",
@@ -581,8 +583,9 @@
         "description": "The transaction window expired before your order could be processed. Please try again."
       },
       "walletPendingRefund": {
-        "title": "Refund in progress",
-        "description": "Your transaction could not be completed. Your funds are being returned to your wallet."
+        "title": "Refunding your deposit",
+        "description": "We're sending your funds back to the wallet you deposited from. This usually takes a few minutes.",
+        "sentToWallet": "Sent to wallet:"
       },
       "walletSuccessRefund": {
         "title": "Funds refunded",

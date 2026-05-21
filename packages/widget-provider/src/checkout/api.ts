@@ -6,6 +6,7 @@ export interface OnrampSessionRequest {
   integrator: string
   amount?: string
   fiatCurrency?: 'USD' | 'EUR' | 'GBP'
+  fiatAmount?: string
 }
 
 export interface OnrampSessionResponse {

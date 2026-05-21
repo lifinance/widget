@@ -1,5 +1,4 @@
 import type { ExchangeRateUpdateParams, RouteExtended } from '@lifi/sdk'
-import { useAccount } from '@lifi/wallet-management'
 import type {
   BottomSheetBase,
   ExchangeRateBottomSheetBase,
@@ -40,7 +39,6 @@ import { Box, Button, Tooltip } from '@mui/material'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { type JSX, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useCheckoutFlowStore } from '../stores/useCheckoutFlowStore.js'
 import { checkoutNavigationRoutes } from '../utils/navigationRoutes.js'
 
 function CheckoutDepositAutoStarter({
@@ -130,23 +128,6 @@ export const CheckoutTransactionPage = (): JSX.Element | null => {
       routeId: routeId,
       onAcceptExchangeRateUpdate,
     })
-
-  const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
-  const { account } = useAccount()
-
-  useEffect(() => {
-    if (
-      fundingSource !== 'wallet' ||
-      account.address !== undefined ||
-      !hasEnumFlag(status ?? 0, RouteExecutionStatus.Pending)
-    ) {
-      return
-    }
-    navigate({
-      to: `/${navigationRoutes.transactionExecution}/${checkoutNavigationRoutes.transactionStatus}`,
-      search: { walletDisconnected: true },
-    })
-  }, [fundingSource, account.address, status, navigate])
 
   const {
     toAddress,

@@ -1,3 +1,4 @@
+import type { Route } from '@lifi/sdk'
 import BugReportRoundedIcon from '@mui/icons-material/BugReportRounded'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import RestartAltRoundedIcon from '@mui/icons-material/RestartAltRounded'
@@ -19,6 +20,7 @@ import {
 } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import { type JSX, useState } from 'react'
+import { useFrozenQuote } from '../../hooks/useFrozenQuote.js'
 
 // Bundlers replace this at build time, so the entire panel — including its
 // MUI imports — dead-code-eliminates in production consumer bundles.
@@ -199,6 +201,7 @@ const STATUS_PRESETS: SimPreset[] = [
   {
     label: 'Wallet disconnected',
     tone: 'error',
+    windowParams: { simulateFundingSource: 'wallet' },
     to: STATUS_PATH,
     routerSearch: { walletDisconnected: true },
   },
@@ -337,12 +340,6 @@ const DEPOSIT_ERROR_PRESETS: SimPreset[] = [
     to: '/deposit-error/$kind',
     params: { kind: 'market-moved' },
   },
-  {
-    label: 'Refunding',
-    tone: 'error',
-    to: '/deposit-error/$kind',
-    params: { kind: 'refunding' },
-  },
 ]
 
 const TRANSFER_FLOW_PRESETS: SimPreset[] = [
@@ -395,6 +392,38 @@ const TABS: { id: string; label: string; presets: SimPreset[] }[] = [
   { id: 'deposit', label: 'Deposit', presets: DEPOSIT_ERROR_PRESETS },
   { id: 'transfer', label: 'Transfer', presets: TRANSFER_FLOW_PRESETS },
 ]
+
+function buildSimulatedRoute(depositAddress: string): Route {
+  const usdt = {
+    address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+    chainId: 1,
+    symbol: 'USDT',
+    decimals: 6,
+    name: 'USDT',
+    coinKey: 'USDT',
+    logoURI: '',
+    priceUSD: '1',
+  }
+  return {
+    id: 'sim-route',
+    fromChainId: 1,
+    fromAmount: '1000000',
+    fromAmountUSD: '1.00',
+    fromToken: usdt,
+    fromAddress: depositAddress,
+    toChainId: 1,
+    toAmount: '1000000',
+    toAmountMin: '1000000',
+    toAmountUSD: '1.00',
+    toToken: usdt,
+    toAddress: depositAddress,
+    gasCostUSD: '0',
+    containsSwitchChain: false,
+    steps: [],
+    insurance: { state: 'NOT_INSURABLE', feeAmountUsd: '0' },
+    depositAddress,
+  } as unknown as Route
+}
 
 function clearSimParams(url: URL): void {
   for (const key of SIM_PARAM_KEYS) {
@@ -510,6 +539,7 @@ function PresetButton({
 
 export function CheckoutSimulationPanel(): JSX.Element | null {
   const navigate = useNavigate()
+  const { freeze, clear } = useFrozenQuote()
   const [open, setOpen] = useState(false)
   const [tab, setTab] = useState(0)
   if (!IS_DEV) {
@@ -525,6 +555,12 @@ export function CheckoutSimulationPanel(): JSX.Element | null {
       }
     }
     window.history.replaceState({}, '', url.toString())
+    if (preset.to === TRANSFER_DEPOSIT_PATH) {
+      const mock = preset.windowParams?.mockDepositAddress
+      if (mock) {
+        freeze(buildSimulatedRoute(mock))
+      }
+    }
     if (preset.params) {
       navigate({
         to: preset.to,
@@ -543,6 +579,7 @@ export function CheckoutSimulationPanel(): JSX.Element | null {
     const url = new URL(window.location.href)
     clearSimParams(url)
     window.history.replaceState({}, '', url.toString())
+    clear()
     navigate({ to: HOME_PATH })
   }
 
@@ -583,6 +620,7 @@ export function CheckoutSimulationPanel(): JSX.Element | null {
         anchor="right"
         open={open}
         onClose={() => setOpen(false)}
+        variant="persistent"
         sx={{ zIndex: 2147483601 }}
         slotProps={{
           paper: {

@@ -120,7 +120,11 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
         tokenAddress,
         chainId,
         integrator,
-        amount: args.amount,
+        // Prefer fiatAmount so Transak shows the fiat the user typed; the
+        // crypto amount is informational and can drift with conversion.
+        ...(args.fiatAmount
+          ? { fiatAmount: args.fiatAmount }
+          : { amount: args.amount }),
         fiatCurrency: args.fiatCurrency,
       }
 
