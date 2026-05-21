@@ -1,5 +1,5 @@
 {
-  "version": "4.0.0-beta.19",
+  "version": "4.0.0-beta.20",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -40,7 +40,12 @@
     "postinstall": "husky",
     "knip:all": "knip",
     "knip:check": "knip --dependencies --files --no-config-hints --exclude binaries",
-    "knip:write": "pnpm knip:check --fix"
+    "knip:write": "pnpm knip:check --fix",
+    "smoketest": "pnpm --filter @lifi/widget-e2e smoketest",
+    "e2e:examples": "pnpm --filter @lifi/widget-e2e e2e:examples",
+    "e2e:example": "pnpm --filter @lifi/widget-e2e e2e:example",
+    "test:examples": "bash scripts/test-all-examples.sh",
+    "test:example": "bash scripts/test-example.sh"
   },
   "lint-staged": {
     "*": [
