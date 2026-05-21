@@ -9,6 +9,7 @@ import { useLayoutValues } from '../../store/editTools/useLayoutValues.js'
 import { useSkeletonToolValues } from '../../store/editTools/useSkeletonToolValues.js'
 import { useConfig } from '../../store/widgetConfig/useConfig.js'
 import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
+import { useConfigVariant } from '../../store/widgetConfig/useConfigValues.js'
 import {
   clearPlaygroundBookmarkStores,
   readPlaygroundBookmarksSeeded,
@@ -132,7 +133,10 @@ export const DeveloperControlsDetailView = ({
   const { isSkeletonShown } = useSkeletonToolValues()
   const { showMockHeader, showMockFooter } = useHeaderAndFooterToolValues()
   const { selectedLayoutId } = useLayoutValues()
+  const { variant } = useConfigVariant()
+  const isDrawerVariant = variant === 'drawer'
   const isFullHeight = selectedLayoutId === 'full-height'
+  const isSkeletonEnabled = !isDrawerVariant
   const { config } = useConfig()
   const { setHeader } = useConfigActions()
   const {
@@ -277,11 +281,16 @@ export const DeveloperControlsDetailView = ({
               </ToggleRow>
               <ToggleDescription>
                 Toggle to seed or clear dummy wallet addresses for testing the
-                &quot;Bookmarked wallets&quot; screen.
+                &quot;Bookmarked wallets&quot; screen. The page will reload.
               </ToggleDescription>
             </ToggleItem>
             <Divider />
-            <ToggleItem>
+            <ToggleItem
+              sx={{
+                opacity: isSkeletonEnabled ? 1 : 0.5,
+                pointerEvents: isSkeletonEnabled ? 'auto' : 'none',
+              }}
+            >
               <ToggleRow>
                 <ToggleLabel>Loading preview</ToggleLabel>
                 <Switch
@@ -292,7 +301,8 @@ export const DeveloperControlsDetailView = ({
               </ToggleRow>
               <ToggleDescription>
                 Preview the skeleton loader to see how the widget will look
-                while data is loading.
+                while data is loading. Only available for compact and wide
+                variants.
               </ToggleDescription>
             </ToggleItem>
             <Divider />
@@ -311,8 +321,8 @@ export const DeveloperControlsDetailView = ({
                 />
               </ToggleRow>
               <ToggleDescription>
-                Show a mock header element above the widget. Only enabled in
-                full-height layout.
+                Show a mock header element above the widget. Only available for
+                compact variant in full-height layout.
               </ToggleDescription>
             </ToggleItem>
             <Divider />
@@ -333,8 +343,8 @@ export const DeveloperControlsDetailView = ({
                 />
               </ToggleRow>
               <ToggleDescription>
-                Show a mock footer element below the widget. Only enabled in
-                full-height layout.
+                Show a mock footer element below the widget. Only available for
+                compact variant in full-height layout.
               </ToggleDescription>
             </ToggleItem>
             <Divider />

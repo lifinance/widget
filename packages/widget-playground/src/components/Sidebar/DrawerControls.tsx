@@ -82,7 +82,7 @@ export const DrawerControls = (): JSX.Element => {
   const { isDrawerOpen, drawerWidth } = useDrawerToolValues()
   const { setDrawerOpen, resetEditTools } = useEditToolsActions()
   const { resetConfig } = useConfigActions()
-  const { setMode } = useThemeMode()
+  const { setMode, themeMode } = useThemeMode()
   const [activeView, setActiveView] = useState<SidebarView>('nav')
   const [expandedItem, setExpandedItem] = useState<string | null>(null)
 
@@ -93,6 +93,22 @@ export const DrawerControls = (): JSX.Element => {
   const { isExternalWalletManagement, isPartialWalletManagement } =
     useConfigWalletManagement()
   const { selectedThemeItem } = useThemeValues()
+
+  const themeLabel = (() => {
+    if (!selectedThemeItem) {
+      return undefined
+    }
+    const displayName = selectedThemeItem.name.replace(/\s+Light$/i, '')
+    const colorSchemeKeys = Object.keys(
+      selectedThemeItem.theme.colorSchemes ?? {}
+    )
+    const hasBothModes =
+      colorSchemeKeys.includes('light') && colorSchemeKeys.includes('dark')
+    if (hasBothModes) {
+      return `${displayName} (${themeMode === 'dark' ? 'Dark' : 'Light'})`
+    }
+    return displayName
+  })()
 
   const modeValue = getModeLabel(
     subvariant,
@@ -182,7 +198,7 @@ export const DrawerControls = (): JSX.Element => {
               <NavListItem
                 icon={<PaletteOutlinedIcon />}
                 label="Theme"
-                value={selectedThemeItem?.name.replace(/\s+Light$/i, '')}
+                value={themeLabel}
                 expandable
                 expanded={expandedItem === 'theme'}
                 onToggle={() => handleToggleItem('theme')}

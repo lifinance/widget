@@ -72,6 +72,7 @@ export type WidgetThemeComponents = Partial<
     | 'MuiAvatar'
     | 'MuiButton'
     | 'MuiCard'
+    | 'MuiDrawer'
     | 'MuiIconButton'
     | 'MuiInputCard'
     | 'MuiNavigationTabs'

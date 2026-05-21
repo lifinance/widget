@@ -32,7 +32,7 @@ export const Drawer: React.FC<
       left: gap,
       width: drawerWidth,
       height: `calc(100% - ${gap} - ${gap})`,
-      borderRadius: theme.spacing(1.5),
+      borderRadius: 32,
       border: `1px solid ${theme.vars.palette.divider}`,
       boxShadow:
         '0 20px 40px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04)',
