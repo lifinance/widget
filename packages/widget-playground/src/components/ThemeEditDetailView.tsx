@@ -79,6 +79,7 @@ export const ThemeEditDetailView = ({
   const schemeKeys = Object.keys(selectedThemeItem?.theme.colorSchemes ?? {})
   const canLight = schemeKeys.includes('light')
   const canDark = schemeKeys.includes('dark')
+  const hasBothModes = canLight && canDark
 
   const [paletteMode, setPaletteMode] = useState<'light' | 'dark'>(() => {
     if (canLight && canDark) {
@@ -165,9 +166,33 @@ export const ThemeEditDetailView = ({
   const cardShadowOffsetY = cardShadowParsed.offsetY
   const cardShadowBlur = cardShadowParsed.blur
   const cardShadowSpread = cardShadowParsed.spread
-  const cardBorderParsed = parseCssBorder(
+  const cardBorderFallbackColor = safe6DigitHexColor(
+    (effectivePaletteMode === 'dark'
+      ? themeSnapshot?.colorSchemes?.dark?.palette?.grey?.[800]
+      : themeSnapshot?.colorSchemes?.light?.palette?.grey?.[300]) ?? '#E5E7EB'
+  )
+  const muiCard = themeSnapshot?.components?.MuiCard
+  const cardBorderFromRoot = parseCssBorder(
     cardRootObj.border as string | undefined
   )
+  const cardVariantsEdited = muiCard?.variants?.length === 0
+  const cardBorderExplicitlyOff =
+    cardRootObj.border === 'none' ||
+    cardRootObj.borderWidth === 0 ||
+    cardRootObj.borderWidth === '0' ||
+    cardRootObj.borderWidth === '0px'
+  const cardBorderOn =
+    cardBorderFromRoot.on ||
+    (!cardVariantsEdited &&
+      !cardBorderExplicitlyOff &&
+      (muiCard?.defaultProps?.variant ?? 'outlined') === 'outlined')
+  const cardBorderParsed = {
+    on: cardBorderOn,
+    width: cardBorderFromRoot.on ? cardBorderFromRoot.width : 1,
+    color: cardBorderFromRoot.on
+      ? cardBorderFromRoot.color
+      : cardBorderFallbackColor,
+  }
 
   const buttonShadowStr =
     typeof buttonRootObj.boxShadow === 'string' ? buttonRootObj.boxShadow : ''
@@ -227,28 +252,28 @@ export const ThemeEditDetailView = ({
 
         <Box sx={{ my: 4 }}>
           <SectionHeading>Color palette</SectionHeading>
-          <RowLabel sx={{ mb: 1 }}>Mode</RowLabel>
-          <Tabs
-            value={effectivePaletteMode}
-            onChange={handlePaletteModeChange}
-            aria-label="Palette mode"
-            sx={{ marginBottom: 3 }}
-          >
-            {canLight ? (
-              <Tab
-                value="light"
-                icon={<LightModeIcon sx={{ fontSize: 18 }} />}
-                disableRipple
-              />
-            ) : null}
-            {canDark ? (
-              <Tab
-                value="dark"
-                icon={<DarkModeIcon sx={{ fontSize: 18 }} />}
-                disableRipple
-              />
-            ) : null}
-          </Tabs>
+          {hasBothModes ? (
+            <>
+              <RowLabel sx={{ mb: 1 }}>Mode</RowLabel>
+              <Tabs
+                value={effectivePaletteMode}
+                onChange={handlePaletteModeChange}
+                aria-label="Palette mode"
+                sx={{ marginBottom: 3 }}
+              >
+                <Tab
+                  value="light"
+                  icon={<LightModeIcon sx={{ fontSize: 18 }} />}
+                  disableRipple
+                />
+                <Tab
+                  value="dark"
+                  icon={<DarkModeIcon sx={{ fontSize: 18 }} />}
+                  disableRipple
+                />
+              </Tabs>
+            </>
+          ) : null}
 
           {PALETTE_LABELS.map(({ label, suffix }) => (
             <ThemeColorRow
