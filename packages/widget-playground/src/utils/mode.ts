@@ -53,6 +53,7 @@ export const MODE_OPTIONS: ModeOptionConfig[] = [
   },
 ]
 
+/** Normalises subvariantOptions.split when stored as a plain string. */
 export const getSplitOption = (
   subvariantOptions?: SubvariantOptions
 ): SplitSubvariant | undefined => {
@@ -60,6 +61,7 @@ export const getSplitOption = (
   return typeof split === 'string' ? split : undefined
 }
 
+/** Maps widget subvariant and split option to the mode detail view selection id. */
 export const getActiveMode = (
   subvariant: WidgetSubvariant | 'default',
   splitOption?: SplitSubvariant

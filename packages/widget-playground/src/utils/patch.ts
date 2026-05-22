@@ -1,13 +1,5 @@
 type Indexable = Record<string | number, any>
 
-/**
- * This patch function is written by the creator of microdiff and can be found in the micropatch repo. It can be used to
- * apply changes to an object using the differences output from microdiff
- * https://github.com/AsyncBanana/micropatch
- * Thought the readme file states it can be installed with npm its actually not currently available from the npm registry
- * I've made some minor changes just to get it to play nice with our type system and our linting
- * - see https://github.com/AsyncBanana/micropatch/issues/3
- */
 interface Difference {
   type: 'CREATE' | 'REMOVE' | 'CHANGE'
   path: (string | number)[]
@@ -15,6 +7,7 @@ interface Difference {
   oldValue?: any
 }
 
+/** Applies microdiff difference objects to a target object (micropatch algorithm). */
 export function patch(
   obj: Record<string, any> | any[],
   diffs: Difference[]

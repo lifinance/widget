@@ -31,6 +31,7 @@ export const THEME_PREVIEW_LAYOUT = {
   },
 } as const
 
+/** Layered box-shadow stack for the theme card mini-preview outline. */
 export const buildThemePreviewBoxShadow = (
   theme: Theme,
   outlineColor: string
@@ -65,6 +66,7 @@ const defaultPreviewColors: PreviewColors = {
   outlineColor: '#dde2eb',
 }
 
+/** Maps a theme item palette to the colors used by ThemePreviewMock. */
 export const extractPreviewColors = (themeItem: ThemeItem): PreviewColors => {
   if (themeItem.id === 'default') {
     return defaultPreviewColors

@@ -104,6 +104,7 @@ export const SHADOW_SLIDER_FIELDS: ShadowSliderField[] = [
   },
 ]
 
+/** Parses box-shadow CSS into toggle state plus offset/blur/spread, using defaults when off or missing. */
 export function parseShadowState(
   boxShadow: unknown,
   defaults: { offsetX: number; offsetY: number; blur: number; spread: number }
@@ -120,6 +121,7 @@ export function extractCssObject(root: unknown): CSSObject {
     : {}
 }
 
+/** Resolves MuiCard border state, including default outlined borders when variants were not customised. */
 export function parseCardBorderState(
   cardRootObj: CSSObject,
   muiCard:
@@ -159,6 +161,7 @@ export function parseCardBorderState(
   }
 }
 
+/** Builds SurfaceBlock handlers that write shadow and border patches through the given update function. */
 export function buildSurfaceHandlers(
   shadow: ShadowState,
   border: BorderState,

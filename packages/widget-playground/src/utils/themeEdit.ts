@@ -41,6 +41,7 @@ export const getPaletteColorPath = (
 export const getAccentColorPath = (mode: PaletteMode): string =>
   getPaletteColorPath(mode, ACCENT_SUFFIX[mode])
 
+/** Reports which color schemes exist on the active theme item. */
 export const getThemeSchemeSupport = (
   colorSchemes: Record<string, unknown> | undefined
 ): {
@@ -59,6 +60,7 @@ export const getThemeSchemeSupport = (
   }
 }
 
+/** Clamps palette mode when the theme only defines one color scheme. */
 export const getEffectivePaletteMode = (
   paletteMode: PaletteMode,
   canLight: boolean,
@@ -73,6 +75,7 @@ export const getEffectivePaletteMode = (
   return paletteMode
 }
 
+/** Picks the initial palette editor mode from theme scheme support and the current UI mode. */
 export const getInitialPaletteMode = (
   canLight: boolean,
   canDark: boolean,
@@ -84,6 +87,7 @@ export const getInitialPaletteMode = (
   return canLight ? 'light' : 'dark'
 }
 
+/** Viewport background hex for the color picker, falling back to playground defaults. */
 export const getViewportBackgroundHex = (
   mode: PaletteMode,
   viewportColorLight?: string,
@@ -94,6 +98,7 @@ export const getViewportBackgroundHex = (
       DEFAULT_VIEWPORT_BACKGROUND[mode]
   ).toUpperCase()
 
+/** Viewport background from the theme playground palette, with playground defaults as fallback. */
 export const getThemeViewportBackground = (
   mode: PaletteMode,
   selectedThemeItem: ThemeItem | undefined
@@ -104,6 +109,7 @@ export const getThemeViewportBackground = (
 export const stripThemeNameSuffix = (name: string): string =>
   name.replace(/\s+Light$/i, '')
 
+/** Theme label for nav/cards; appends Light/Dark when the theme supports both schemes. */
 export const formatThemeDisplayName = (
   themeItem: ThemeItem,
   themeMode?: PaletteMode
@@ -118,6 +124,7 @@ export const formatThemeDisplayName = (
   return displayName
 }
 
+/** Default theme always exposes light; other themes depend on colorSchemes. */
 export const themeItemSupportsLight = (themeItem: ThemeItem): boolean => {
   const colorSchemeKeys = Object.keys(themeItem.theme.colorSchemes ?? {})
   return themeItem.id === 'default' || colorSchemeKeys.includes('light')

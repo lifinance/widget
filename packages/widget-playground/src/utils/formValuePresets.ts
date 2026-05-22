@@ -78,18 +78,21 @@ export const defaultFormValueKeys = {
   address: '0x29D...94eD7',
 } as const
 
+/** Default dev form values merged from the chain, amount, and address presets. */
 export const getDefaultFormValues = (): FormValues => ({
   ...chainsAndTokensPresets[defaultFormValueKeys.chain],
   ...amountPresets[defaultFormValueKeys.amount],
   ...addressPresets[defaultFormValueKeys.address],
 })
 
+/** Clears all dev form value overrides via the RESET preset entries. */
 export const getResetFormValues = (): FormValues => ({
   ...chainsAndTokensPresets.RESET,
   ...amountPresets.RESET,
   ...addressPresets.RESET,
 })
 
+/** Adds formUpdateKey so the widget re-applies prefilled values after a preset change. */
 export const withFormUpdateKey = (values: FormValues): FormValues => ({
   ...values,
   formUpdateKey: Date.now().toString(),

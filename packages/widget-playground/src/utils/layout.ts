@@ -2,6 +2,7 @@ import type { WidgetVariant } from '@lifi/widget'
 import type { CSSProperties } from 'react'
 import type { Layout } from '../store/editTools/types.js'
 
+/** Infers the playground layout id from theme.container CSS (height, maxHeight, display). */
 export const getLayoutMode = (container?: CSSProperties): Layout => {
   if (!container) {
     return 'default'
@@ -23,6 +24,7 @@ export const getLayoutMode = (container?: CSSProperties): Layout => {
 export const isFullHeightLayout = (container?: CSSProperties): boolean =>
   getLayoutMode(container) === 'full-height'
 
+/** Sidebar nav label for a layout option; default copy differs for drawer variant. */
 export const getLayoutLabel = (
   layoutId: Layout,
   isDrawerVariant: boolean
@@ -71,6 +73,7 @@ export const LAYOUT_OPTIONS: LayoutOptionConfig[] = [
   },
 ]
 
+/** Returns whether a height layout option should be disabled for the current variant. */
 export const isLayoutOptionDisabled = (
   layoutId: Layout,
   variant: WidgetVariant | 'default',
@@ -120,6 +123,7 @@ const RESTRICTED_LAYOUT_FIELDS: Record<
   },
 }
 
+/** Maps a restricted layout id to the height control field metadata, or null for other layouts. */
 export const getRestrictedLayoutField = (
   layoutId: Layout
 ): RestrictedLayoutField | null => {

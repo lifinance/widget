@@ -27,6 +27,7 @@ export const VARIANT_OPTIONS: VariantOptionConfig[] = [
   },
 ]
 
+/** Applies variant-specific container height/display overrides when switching variant. */
 export const getContainerConfigForVariant = (
   variant: WidgetVariant,
   baseContainer: CSSProperties

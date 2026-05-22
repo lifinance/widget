@@ -70,6 +70,7 @@ export const eventKeyByValue = Object.fromEntries(
   Object.entries(WidgetEvent).map(([key, value]) => [value, key])
 ) as Record<WidgetEventName, string>
 
+/** Builds a full event monitor map with every widget event on or off. */
 export const initialiseMonitoredEvents = (
   allEventsOn: boolean
 ): Record<WidgetEventName, boolean> =>
@@ -85,6 +86,7 @@ export const areAllWidgetEventsOn = (
   events: Record<WidgetEventName, boolean>
 ): boolean => allWidgetEventNames.every((name) => events[name])
 
+/** Reads ?allWidgetEvents=true from the page URL. */
 export const getAllWidgetEventsOnFromQueryString = (): boolean => {
   if (typeof window !== 'undefined') {
     const urlParams = new URLSearchParams(window.location.search)

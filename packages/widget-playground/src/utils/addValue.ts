@@ -1,20 +1,4 @@
-/**
- * Takes an object and then sets a value on that object using the location path stated.
- * For example the path 'theme.palette.primary.main' would match to
- * {
- *   theme: {
- *     palette: {
- *       primary: {
- *         main: "YourValueHere"
- *       }
- *     }
- *   }
- * }
- * Current only supports object syntax, not arrays
- * @param object The object you want to add the value too
- * @param path The location within that object as a string, e.g. 'theme.palette.primary.main'
- * @param value The value to be added at that location
- */
+/** Sets a nested value on an object using a dot-separated path (object keys only, not arrays). */
 export const addValueFromPathString = <ReturnType>(
   object: ReturnType | undefined,
   path: string,

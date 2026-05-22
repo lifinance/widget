@@ -31,12 +31,8 @@ import { DocsLink } from '../DocsLink/DocsLink.js'
 import { Switch } from '../Switch.style.js'
 import {
   ConfigureLink,
-  DevToggleRow,
   NestedToggleLabel,
   NestedToggleRow,
-  ToggleDescription,
-  ToggleItem,
-  ToggleLabel,
   ToggleSection,
 } from './DeveloperControlsDetailView.style.js'
 import { DeveloperToggleItem } from './DeveloperToggleItem.js'
@@ -176,14 +172,11 @@ export const DeveloperControlsDetailView = ({
                 </NestedToggleRow>
               </Collapse>
             </DeveloperToggleItem>
-            <ToggleItem>
-              <DevToggleRow>
-                <ToggleLabel>Widget events</ToggleLabel>
-              </DevToggleRow>
-              <ToggleDescription>
-                Widget event listeners to log activity in your browser console
-                for debugging.
-              </ToggleDescription>
+            <DeveloperToggleItem
+              label="Widget events"
+              description="Widget event listeners to log activity in your browser console for debugging."
+              hideSwitch
+            >
               <ConfigureLink
                 disableRipple
                 type="button"
@@ -191,7 +184,7 @@ export const DeveloperControlsDetailView = ({
               >
                 Configure
               </ConfigureLink>
-            </ToggleItem>
+            </DeveloperToggleItem>
           </ToggleSection>
         </Content>
       </SlideViewPanel>

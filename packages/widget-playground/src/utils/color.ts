@@ -15,6 +15,7 @@ export const safe6DigitHexColor = (color: string): string => {
   return color
 }
 
+/** Validates and normalizes a hex draft from the editable color input. */
 export const parseEditableHex = (draft: string): string | null => {
   const cleaned = draft.replace(/[^0-9a-fA-F]/g, '')
   if (cleaned.length === 6 || cleaned.length === 3) {

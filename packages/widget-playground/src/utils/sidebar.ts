@@ -10,6 +10,7 @@ export const modeLabels: Record<string, string> = {
   refuel: 'Refuel',
 }
 
+/** Sidebar nav label for the current subvariant and split configuration. */
 export function getModeLabel(subvariant: string, splitOption?: string): string {
   if (subvariant === 'refuel') {
     return modeLabels.refuel
