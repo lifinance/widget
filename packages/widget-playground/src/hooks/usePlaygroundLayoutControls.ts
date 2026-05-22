@@ -1,31 +1,16 @@
 import type { WidgetVariant } from '@lifi/widget'
 import { defaultMaxHeight } from '@lifi/widget'
-import type { CSSProperties } from 'react'
 import { useCallback, useEffect, useState } from 'react'
 import type { Layout } from '../store/editTools/types.js'
 import { useEditToolsActions } from '../store/editTools/useEditToolsActions.js'
 import { useHeaderAndFooterToolValues } from '../store/editTools/useHeaderAndFooterToolValues.js'
 import { useLayoutValues } from '../store/editTools/useLayoutValues.js'
-import { useConfig } from '../store/widgetConfig/useConfig.js'
 import { useConfigActions } from '../store/widgetConfig/useConfigActions.js'
-import { useConfigVariant } from '../store/widgetConfig/useConfigValues.js'
-
-export const getLayoutMode = (container?: CSSProperties): Layout => {
-  let layoutMode: Layout = 'default'
-  if (!container) {
-    return layoutMode
-  }
-
-  if (container.display === 'flex' && container.height === '100%') {
-    layoutMode = 'full-height'
-  } else if (Number.isFinite(container.height)) {
-    layoutMode = 'restricted-height'
-  } else if (Number.isFinite(container.maxHeight)) {
-    layoutMode = 'restricted-max-height'
-  }
-
-  return layoutMode
-}
+import {
+  useConfigContainer,
+  useConfigVariant,
+} from '../store/widgetConfig/useConfigValues.js'
+import { getLayoutMode } from '../utils/layout.js'
 
 export const usePlaygroundLayoutControls = (): {
   selectedLayoutId: Layout
@@ -34,7 +19,7 @@ export const usePlaygroundLayoutControls = (): {
   setHeightValue: (height: number | undefined) => void
   variant: WidgetVariant | 'default'
 } => {
-  const { config } = useConfig()
+  const { container } = useConfigContainer()
   const { variant } = useConfigVariant()
   const { showMockHeader } = useHeaderAndFooterToolValues()
   const { setHeader, setContainer, getCurrentConfigTheme, setVariant } =
@@ -44,8 +29,8 @@ export const usePlaygroundLayoutControls = (): {
   const [heightValue, setHeightValue] = useState<number | undefined>()
 
   useEffect(() => {
-    setSelectedLayoutId(getLayoutMode(config?.theme?.container))
-  }, [config?.theme?.container, setSelectedLayoutId])
+    setSelectedLayoutId(getLayoutMode(container))
+  }, [container, setSelectedLayoutId])
 
   const setInitialLayout = useCallback(
     (layoutId: Layout) => {

@@ -2,7 +2,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import RefreshIcon from '@mui/icons-material/Refresh'
 import { Tooltip } from '@mui/material'
 import type { JSX } from 'react'
-import { tooltipPopperZIndex } from './DrawerControls.style.js'
+import { tooltipPopperZIndex } from '../../utils/sidebar.js'
 import {
   BrandSuffix,
   HeaderActions,

@@ -1,11 +1,28 @@
 import { defaultMaxHeight } from '@lifi/widget'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
-import { Box, IconButton } from '@mui/material'
-import { inputBaseClasses } from '@mui/material/InputBase'
-import { type FocusEventHandler, type JSX, useCallback, useId } from 'react'
+import { type JSX, useCallback, useId } from 'react'
 import type { Layout } from '../../store/editTools/types.js'
 import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
-import { HeightHelperText, Input } from './HeightControl.style.js'
+import {
+  getRestrictedLayoutField,
+  parseHeightInput,
+} from '../../utils/layout.js'
+import {
+  ClearHeightButton,
+  HeightControlInput,
+  HeightControlLabel,
+  HeightControlRoot,
+  HeightControlRow,
+  HeightHelperText,
+} from './HeightControl.style.js'
+
+interface HeightControlProps {
+  selectedLayoutId: Layout
+  setInitialLayout: (layoutId: Layout) => void
+  heightValue: number | undefined
+  setHeightValue: (height: number | undefined) => void
+  onClearMaxHeight?: () => void
+}
 
 export const HeightControl = ({
   selectedLayoutId,
@@ -13,42 +30,45 @@ export const HeightControl = ({
   heightValue,
   setHeightValue,
   onClearMaxHeight,
-}: {
-  selectedLayoutId: Layout
-  setInitialLayout: (layoutId: Layout) => void
-  heightValue: number | undefined
-  setHeightValue: (height: number | undefined) => void
-  onClearMaxHeight?: () => void
-}): JSX.Element | null => {
+}: HeightControlProps): JSX.Element | null => {
   const { setHeader, setContainer, getCurrentConfigTheme } = useConfigActions()
-  const maxHeightInputId = useId()
+  const heightInputId = useId()
 
   const handleHeightChange = useCallback(
-    (key: 'height' | 'maxHeight') =>
-      (e: React.ChangeEvent<HTMLInputElement>) => {
-        const val = Number.parseInt(e.target.value, 10)
-        const parsed = Number.isFinite(val) ? val : undefined
+    (event: React.ChangeEvent<HTMLInputElement>): void => {
+      const field = getRestrictedLayoutField(selectedLayoutId)
+      if (!field) {
+        return
+      }
 
-        setHeightValue(parsed)
+      const parsed = parseHeightInput(event.target.value)
+      setHeightValue(parsed)
 
-        if (getCurrentConfigTheme()?.header) {
-          setHeader()
-        }
+      const currentTheme = getCurrentConfigTheme()
+      if (currentTheme?.header) {
+        setHeader()
+      }
 
-        if (parsed && parsed >= defaultMaxHeight) {
-          setContainer({
-            ...(getCurrentConfigTheme()?.container ?? {}),
-            [key]: parsed,
-          })
-        }
-      },
-    [setHeightValue, getCurrentConfigTheme, setContainer, setHeader]
+      if (parsed && parsed >= defaultMaxHeight) {
+        setContainer({
+          ...(currentTheme?.container ?? {}),
+          [field.containerKey]: parsed,
+        })
+      }
+    },
+    [
+      selectedLayoutId,
+      setHeightValue,
+      getCurrentConfigTheme,
+      setContainer,
+      setHeader,
+    ]
   )
 
-  const handleBlur: FocusEventHandler<HTMLInputElement> = useCallback(
-    (e) => {
-      const val = Number.parseInt(e.target.value, 10)
-      if (!Number.isFinite(val) || val < defaultMaxHeight) {
+  const handleBlur = useCallback(
+    (event: React.FocusEvent<HTMLInputElement>): void => {
+      const parsed = parseHeightInput(event.target.value)
+      if (parsed === undefined || parsed < defaultMaxHeight) {
         setHeightValue(undefined)
         setInitialLayout(selectedLayoutId)
       }
@@ -56,89 +76,36 @@ export const HeightControl = ({
     [selectedLayoutId, setHeightValue, setInitialLayout]
   )
 
-  if (
-    selectedLayoutId === 'restricted-height' ||
-    selectedLayoutId === 'restricted-max-height'
-  ) {
-    const isMaxHeight = selectedLayoutId === 'restricted-max-height'
-    const label = isMaxHeight ? 'Set max height' : 'Set height'
-    const key = isMaxHeight ? 'maxHeight' : 'height'
-
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 1,
-          width: '100%',
-        }}
-      >
-        <Box
-          component="label"
-          htmlFor={maxHeightInputId}
-          sx={{
-            fontSize: 14,
-            fontWeight: 500,
-            lineHeight: '18px',
-          }}
-        >
-          {label}
-        </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1,
-            width: '100%',
-          }}
-        >
-          <Input
-            id={maxHeightInputId}
-            type="number"
-            value={heightValue ?? ''}
-            placeholder={`${defaultMaxHeight}`}
-            onChange={handleHeightChange(key)}
-            onBlur={handleBlur}
-            sx={(theme) => ({
-              minHeight: 44,
-              backgroundColor: theme.vars.palette.background.default,
-              border: '1px solid',
-              borderColor: theme.vars.palette.divider,
-              borderRadius: '12px',
-              boxShadow: 'none',
-              [`.${inputBaseClasses.input}`]: {
-                minHeight: 'auto',
-                textAlign: 'left',
-                padding: theme.spacing(1.5),
-                fontSize: 16,
-                fontWeight: 500,
-                lineHeight: '20px',
-                '&::placeholder': {
-                  opacity: 1,
-                  color: theme.vars.palette.text.secondary,
-                },
-              },
-            })}
-          />
-          {onClearMaxHeight ? (
-            <IconButton
-              size="small"
-              onClick={onClearMaxHeight}
-              aria-label="Clear max height"
-              sx={{
-                p: '4px',
-                flexShrink: 0,
-                color: 'text.primary',
-              }}
-            >
-              <CloseOutlinedIcon />
-            </IconButton>
-          ) : null}
-        </Box>
-        <HeightHelperText>Minimum {defaultMaxHeight}px</HeightHelperText>
-      </Box>
-    )
+  const layoutField = getRestrictedLayoutField(selectedLayoutId)
+  if (!layoutField) {
+    return null
   }
 
-  return null
+  return (
+    <HeightControlRoot>
+      <HeightControlLabel htmlFor={heightInputId}>
+        {layoutField.label}
+      </HeightControlLabel>
+      <HeightControlRow>
+        <HeightControlInput
+          id={heightInputId}
+          type="number"
+          value={heightValue ?? ''}
+          placeholder={`${defaultMaxHeight}`}
+          onChange={handleHeightChange}
+          onBlur={handleBlur}
+        />
+        {onClearMaxHeight ? (
+          <ClearHeightButton
+            size="small"
+            onClick={onClearMaxHeight}
+            aria-label={layoutField.clearLabel}
+          >
+            <CloseOutlinedIcon />
+          </ClearHeightButton>
+        ) : null}
+      </HeightControlRow>
+      <HeightHelperText>Minimum {defaultMaxHeight}px</HeightHelperText>
+    </HeightControlRoot>
+  )
 }

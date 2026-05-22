@@ -41,7 +41,7 @@ export const CardSelect = ({
           onClick={(e) => {
             e.stopPropagation()
           }}
-          sx={{ width: '100%', paddingTop: '16px' }}
+          sx={{ width: '100%', paddingTop: 2 }}
         >
           {footer}
         </Box>

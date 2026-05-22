@@ -1,5 +1,6 @@
 import type { JSX } from 'react'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback } from 'react'
+import { useEditableDraft } from '../../hooks/useEditableDraft.js'
 import { SliderValueInput } from './EditableSliderValue.style.js'
 
 interface EditableSliderValueProps {
@@ -10,6 +11,8 @@ interface EditableSliderValueProps {
   ariaLabel: string
 }
 
+const toNumericDraft = (value: number): string => String(value)
+
 export const EditableSliderValue = ({
   value,
   min,
@@ -17,22 +20,23 @@ export const EditableSliderValue = ({
   onChange,
   ariaLabel,
 }: EditableSliderValueProps): JSX.Element => {
-  const [draft, setDraft] = useState(String(value))
+  const parseDraft = useCallback(
+    (draft: string): number | null => {
+      const n = Number.parseInt(draft, 10)
+      if (Number.isFinite(n)) {
+        return Math.max(min, Math.min(max, n))
+      }
+      return null
+    },
+    [min, max]
+  )
 
-  useEffect(() => {
-    setDraft(String(value))
-  }, [value])
-
-  const commit = useCallback(() => {
-    const n = Number.parseInt(draft, 10)
-    if (Number.isFinite(n)) {
-      const clamped = Math.max(min, Math.min(max, n))
-      onChange(clamped)
-      setDraft(String(clamped))
-    } else {
-      setDraft(String(value))
-    }
-  }, [draft, value, min, max, onChange])
+  const { draft, setDraft, commit } = useEditableDraft(
+    value,
+    toNumericDraft,
+    parseDraft,
+    onChange
+  )
 
   return (
     <SliderValueInput

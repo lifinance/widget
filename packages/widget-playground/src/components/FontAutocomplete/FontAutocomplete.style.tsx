@@ -1,6 +1,8 @@
 import { Autocomplete as MuiAutocomplete, Popper, styled } from '@mui/material'
 import { autocompleteClasses } from '@mui/material/Autocomplete'
-import { autocompletePopperZIndex } from '../Sidebar/DrawerControls.style.js'
+import type React from 'react'
+import type { FC } from 'react'
+import { autocompletePopperZIndex } from '../../utils/sidebar.js'
 
 export const StyledFontAutocomplete = styled(MuiAutocomplete)(({ theme }) => ({
   borderRadius: 12,
@@ -9,10 +11,7 @@ export const StyledFontAutocomplete = styled(MuiAutocomplete)(({ theme }) => ({
   backgroundColor: theme.vars.palette.background.paper,
   transition: 'border-color 0.15s',
   '&:hover': {
-    borderColor: 'rgba(0,0,0,0.24)',
-    ...theme.applyStyles('dark', {
-      borderColor: 'rgba(255,255,255,0.24)',
-    }),
+    borderColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 24%, transparent)`,
   },
   '&:focus-within': {
     borderColor: theme.vars.palette.primary.main,
@@ -36,7 +35,7 @@ export const StyledFontAutocomplete = styled(MuiAutocomplete)(({ theme }) => ({
   },
 })) as typeof MuiAutocomplete
 
-export const FontPopper: React.FC<React.ComponentProps<typeof Popper>> = styled(
+export const FontPopper: FC<React.ComponentProps<typeof Popper>> = styled(
   Popper
 )({
   [`&.${autocompleteClasses.popper}`]: {

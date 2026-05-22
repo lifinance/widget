@@ -20,7 +20,7 @@ export const Tabs: FC<React.ComponentProps<typeof MuiTabs>> = styled(MuiTabs)(
     [`.${tabsClasses.indicator}`]: {
       height: '100%',
       width: '100%',
-      backgroundColor: '#fff',
+      backgroundColor: theme.vars.palette.common.white,
       borderRadius:
         Math.max(theme.shape.borderRadius, theme.shape.borderRadiusSecondary) -
         4,

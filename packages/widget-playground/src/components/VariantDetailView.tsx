@@ -5,16 +5,12 @@ import { useConfigActions } from '../store/widgetConfig/useConfigActions.js'
 import { useConfigVariant } from '../store/widgetConfig/useConfigValues.js'
 import { useDefaultConfig } from '../store/widgetConfig/useDefaultConfig.js'
 import { docsLinks } from '../utils/docsLinks.js'
-import { CardSelect } from './CardSelect/CardSelect.js'
 import {
-  CardsContainer,
-  Content,
-  Description,
-  Title,
-  TitleSection,
-} from './DetailView/DetailView.style.js'
-import { DetailViewHeader } from './DetailView/DetailViewHeader.js'
-import { DocsLink } from './DocsLink/DocsLink.js'
+  getContainerConfigForVariant,
+  VARIANT_OPTIONS,
+} from '../utils/variant.js'
+import { CardSelect } from './CardSelect/CardSelect.js'
+import { DetailViewLayout } from './DetailView/DetailViewLayout.js'
 
 interface VariantDetailViewProps {
   onBack: () => void
@@ -38,61 +34,34 @@ export const VariantDetailView = ({
     (value: WidgetVariant): void => {
       setVariant(value)
       setHeader()
-
-      const baseContainer = getCurrentConfigTheme()?.container || {}
-
-      const containerConfig =
-        value === 'drawer'
-          ? {
-              ...baseContainer,
-              maxHeight: undefined,
-              display: undefined,
-              height: '100%',
-            }
-          : {
-              ...baseContainer,
-              display: undefined,
-              height: undefined,
-            }
-
-      setContainer(containerConfig)
+      setContainer(
+        getContainerConfigForVariant(
+          value,
+          getCurrentConfigTheme()?.container ?? {}
+        )
+      )
     },
     [getCurrentConfigTheme, setContainer, setHeader, setVariant]
   )
 
   return (
-    <>
-      <DetailViewHeader onBack={onBack} onReset={handleReset} />
-      <Content>
-        <TitleSection>
-          <Title>Variant</Title>
-          <Description>
-            Choose how secondary panels like the chain selector and route
-            summary are displayed.
-          </Description>
-          <DocsLink href={docsLinks.variants} />
-        </TitleSection>
-        <CardsContainer>
-          <CardSelect
-            title="Compact"
-            description="Information details appear stacked within a single column."
-            selected={variant === 'compact'}
-            onClick={() => handleSelect('compact')}
-          />
-          <CardSelect
-            title="Wide"
-            description="Information details can open in a dedicated side panel next to the main form."
-            selected={variant === 'wide'}
-            onClick={() => handleSelect('wide')}
-          />
-          <CardSelect
-            title="Drawer"
-            description="Widget opens as a slide-out drawer anchored to the side of the viewport."
-            selected={variant === 'drawer'}
-            onClick={() => handleSelect('drawer')}
-          />
-        </CardsContainer>
-      </Content>
-    </>
+    <DetailViewLayout
+      onBack={onBack}
+      onReset={handleReset}
+      resetLabel="Reset variant"
+      title="Variant"
+      description="Choose how secondary panels like the chain selector and route summary are displayed."
+      docsHref={docsLinks.variants}
+    >
+      {VARIANT_OPTIONS.map(({ id, title, description }) => (
+        <CardSelect
+          key={id}
+          title={title}
+          description={description}
+          selected={variant === id}
+          onClick={() => handleSelect(id)}
+        />
+      ))}
+    </DetailViewLayout>
   )
 }

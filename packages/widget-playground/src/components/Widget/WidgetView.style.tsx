@@ -2,7 +2,7 @@ import type { BoxProps, Theme } from '@mui/material'
 import { Box, IconButton } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import type React from 'react'
-import { drawerZIndex } from '../Sidebar/DrawerControls.style.js'
+import { drawerZIndex } from '../../utils/sidebar.js'
 
 interface FloatingToolsContainerProps extends BoxProps {
   drawerOpen?: boolean

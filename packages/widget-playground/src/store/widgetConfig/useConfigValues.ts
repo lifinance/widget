@@ -5,6 +5,7 @@ import type {
   WidgetWalletConfig,
 } from '@lifi/widget'
 import { palette, paletteDark, paletteLight } from '@lifi/widget'
+import type { CSSProperties } from 'react'
 import { getValueFromPath } from '../../utils/getValueFromPath.js'
 import { useWidgetConfigStore } from './WidgetConfigProvider.js'
 
@@ -88,6 +89,37 @@ export const useConfigColorsFromPath = (
     }
     return color
   })
+}
+
+export const useConfigColor = (path: string): string | undefined => {
+  const color = useWidgetConfigStore((store) =>
+    getValueFromPath<string>(store.config, path)
+  )
+
+  if (!color) {
+    return getValueFromPath<string>(defaultThemePalette, path)
+  }
+  return color
+}
+
+export const useConfigContainer = (): {
+  container: CSSProperties | undefined
+} => {
+  const container = useWidgetConfigStore(
+    (store) => store.config?.theme?.container
+  )
+
+  return { container }
+}
+
+export const useConfigHeaderPosition = (): {
+  headerPosition: string | undefined
+} => {
+  const headerPosition = useWidgetConfigStore(
+    (store) => store.config?.theme?.header?.position
+  )
+
+  return { headerPosition }
 }
 
 export const useConfigFontFamily = (): {

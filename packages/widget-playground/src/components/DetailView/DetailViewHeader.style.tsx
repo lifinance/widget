@@ -9,6 +9,7 @@ export const HeaderContainer: FC<React.ComponentProps<typeof Box>> = styled(
   alignItems: 'center',
   justifyContent: 'space-between',
   width: '100%',
+  minHeight: 58,
   padding: theme.spacing(1.5, 2.5),
   backgroundColor: theme.vars.palette.background.paper,
 }))

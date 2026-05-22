@@ -1,4 +1,4 @@
-import { Box, styled, Typography } from '@mui/material'
+import { Box, Divider, styled, Typography } from '@mui/material'
 import type { FC } from 'react'
 
 export const Content: FC<React.ComponentProps<typeof Box>> = styled(Box)(
@@ -73,3 +73,10 @@ export const HelperText: FC<React.ComponentProps<typeof Box>> = styled(Box)(
     color: theme.vars.palette.text.secondary,
   })
 )
+
+export const SectionDivider: FC<React.ComponentProps<typeof Divider>> = styled(
+  Divider
+)(({ theme }) => ({
+  marginTop: theme.spacing(5),
+  marginBottom: theme.spacing(5),
+}))

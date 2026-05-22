@@ -38,7 +38,6 @@ export const addValueFromPathString = <ReturnType>(
           accum[nodeKey] = nodeValue
         } else {
           nodeValue = lastNodeValue[nodeKey]
-          nodeValue = lastNodeValue[nodeKey]
             ? { ...lastNodeValue[nodeKey] }
             : {}
           lastNodeValue[nodeKey] = nodeValue

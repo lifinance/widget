@@ -3,6 +3,7 @@ import type { StoreApi, UseBoundStore } from 'zustand'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { FormValues } from '../types.js'
+import { defaultEditToolsValues } from './constants.js'
 import type { ToolsState } from './types.js'
 
 export const createEditToolsStore = (
@@ -11,29 +12,7 @@ export const createEditToolsStore = (
   create<ToolsState>()(
     persist(
       (set, get) => ({
-        formValues: undefined,
-        drawer: {
-          open: true,
-        },
-        fontControl: {
-          selectedFont: undefined,
-        },
-        playgroundSettings: {
-          viewportColorLight: undefined,
-          viewportColorDark: undefined,
-        },
-        skeletonControl: {
-          show: false,
-        },
-        headerAndFooterControl: {
-          showMockHeader: false,
-          showMockFooter: false,
-          isFooterFixed: false,
-        },
-        layoutControl: {
-          selectedLayoutId: 'default',
-        },
-        isDevView: false,
+        ...defaultEditToolsValues,
         setDrawerOpen: (open) => {
           set({
             drawer: {
@@ -43,11 +22,10 @@ export const createEditToolsStore = (
           })
         },
         resetEditTools: () => {
+          const { drawer } = get()
           set({
-            playgroundSettings: {
-              viewportColorLight: undefined,
-              viewportColorDark: undefined,
-            },
+            ...defaultEditToolsValues,
+            drawer,
           })
         },
         setSelectedFont: (selectedFont) => {
@@ -109,6 +87,14 @@ export const createEditToolsStore = (
         setIsDevView: (isDevView) => {
           set({
             isDevView,
+          })
+        },
+        setWidgetEventMonitors: (allWidgetEventsOn, monitoredEvents) => {
+          set({
+            widgetEventsControl: {
+              allWidgetEventsOn,
+              monitoredEvents,
+            },
           })
         },
         setFormValues: (formValues: FormValues) => {

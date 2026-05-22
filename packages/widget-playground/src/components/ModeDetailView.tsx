@@ -7,37 +7,15 @@ import {
 } from '../store/widgetConfig/useConfigValues.js'
 import { useDefaultConfig } from '../store/widgetConfig/useDefaultConfig.js'
 import { docsLinks } from '../utils/docsLinks.js'
-import { CardSelect } from './CardSelect/CardSelect.js'
 import {
-  CardsContainer,
-  Content,
-  Description,
-  Title,
-  TitleSection,
-} from './DetailView/DetailView.style.js'
-import { DetailViewHeader } from './DetailView/DetailViewHeader.js'
-import { DocsLink } from './DocsLink/DocsLink.js'
-
-type ModeOption = 'exchange' | 'split' | 'swap' | 'bridge' | 'refuel'
-
-function getActiveMode(
-  subvariant: string,
-  splitOption: string | undefined
-): ModeOption {
-  if (subvariant === 'refuel') {
-    return 'refuel'
-  }
-  if (subvariant === 'split') {
-    if (splitOption === 'swap') {
-      return 'swap'
-    }
-    if (splitOption === 'bridge') {
-      return 'bridge'
-    }
-    return 'split'
-  }
-  return 'exchange'
-}
+  getActiveMode,
+  getModeConfig,
+  getSplitOption,
+  MODE_OPTIONS,
+  type ModeOption,
+} from '../utils/mode.js'
+import { CardSelect } from './CardSelect/CardSelect.js'
+import { DetailViewLayout } from './DetailView/DetailViewLayout.js'
 
 interface ModeDetailViewProps {
   onBack: () => void
@@ -51,10 +29,8 @@ export const ModeDetailView = ({
   const { setSubvariant, setSplitOption } = useConfigActions()
   const { defaultConfig } = useDefaultConfig()
 
-  const activeMode = getActiveMode(
-    subvariant,
-    subvariantOptions?.split as string | undefined
-  )
+  const splitOption = getSplitOption(subvariantOptions)
+  const activeMode = getActiveMode(subvariant, splitOption)
 
   const handleReset = useCallback((): void => {
     setSubvariant(defaultConfig?.subvariant ?? 'default')
@@ -64,77 +40,32 @@ export const ModeDetailView = ({
 
   const handleSelect = useCallback(
     (mode: ModeOption): void => {
-      switch (mode) {
-        case 'exchange':
-          setSubvariant('default')
-          setSplitOption(undefined)
-          break
-        case 'split':
-          setSubvariant('split')
-          setSplitOption(undefined)
-          break
-        case 'swap':
-          setSubvariant('split')
-          setSplitOption('swap')
-          break
-        case 'bridge':
-          setSubvariant('split')
-          setSplitOption('bridge')
-          break
-        case 'refuel':
-          setSubvariant('refuel')
-          setSplitOption(undefined)
-          break
-      }
+      const { subvariant: nextSubvariant, splitOption: nextSplitOption } =
+        getModeConfig(mode)
+      setSubvariant(nextSubvariant)
+      setSplitOption(nextSplitOption)
     },
     [setSubvariant, setSplitOption]
   )
 
   return (
-    <>
-      <DetailViewHeader onBack={onBack} onReset={handleReset} />
-      <Content>
-        <TitleSection>
-          <Title>Mode</Title>
-          <Description>
-            Configure which flows are enabled. Pick a general-purpose or narrow
-            it down.
-          </Description>
-          <DocsLink href={docsLinks.subvariants} />
-        </TitleSection>
-        <CardsContainer>
-          <CardSelect
-            title="Exchange"
-            description="Switch between flows automatically based on the selected assets and best route."
-            selected={activeMode === 'exchange'}
-            onClick={() => handleSelect('exchange')}
-          />
-          <CardSelect
-            title="Swap or Bridge"
-            description="Separate Swap and Bridge options so users choose the flow explicitly."
-            selected={activeMode === 'split'}
-            onClick={() => handleSelect('split')}
-          />
-          <CardSelect
-            title="Swap"
-            description="Pure swap experience, no bridging shown in this widget."
-            selected={activeMode === 'swap'}
-            onClick={() => handleSelect('swap')}
-          />
-          <CardSelect
-            title="Bridge"
-            description="Move funds between chains only. No swap functionality in this widget."
-            selected={activeMode === 'bridge'}
-            onClick={() => handleSelect('bridge')}
-          />
-          <CardSelect
-            title="Refuel"
-            description="Dedicated gas-refuel flow that bridges a small amount of native token."
-            selected={activeMode === 'refuel'}
-            onClick={() => handleSelect('refuel')}
-          />
-        </CardsContainer>
-      </Content>
-    </>
+    <DetailViewLayout
+      onBack={onBack}
+      onReset={handleReset}
+      resetLabel="Reset mode"
+      title="Mode"
+      description="Configure which flows are enabled. Pick a general-purpose or narrow it down."
+      docsHref={docsLinks.subvariants}
+    >
+      {MODE_OPTIONS.map(({ id, title, description }) => (
+        <CardSelect
+          key={id}
+          title={title}
+          description={description}
+          selected={activeMode === id}
+          onClick={() => handleSelect(id)}
+        />
+      ))}
+    </DetailViewLayout>
   )
 }

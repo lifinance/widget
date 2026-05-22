@@ -1,33 +1,9 @@
 import { Box, ButtonBase, styled, Typography } from '@mui/material'
 import type { FC } from 'react'
 
-export const Content: FC<React.ComponentProps<typeof Box>> = styled(Box)(
-  ({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 0,
-    flex: '1 0 0',
-    minHeight: 0,
-    overflowY: 'auto',
-    padding: theme.spacing(3, 2.5),
-  })
-)
-
-export const Title: FC<React.ComponentProps<typeof Typography>> = styled(
-  Typography
-)(({ theme }) => ({
-  fontSize: 24,
-  fontWeight: 700,
-  lineHeight: '32px',
-  margin: 0,
-  marginBottom: theme.spacing(1),
-  color: theme.vars.palette.text.primary,
-}))
-
 export const ToggleSection: FC<React.ComponentProps<typeof Box>> = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
-  gap: 0,
   width: '100%',
 })
 
@@ -40,7 +16,7 @@ export const ToggleItem: FC<React.ComponentProps<typeof Box>> = styled(Box)(
   })
 )
 
-export const ToggleRow: FC<React.ComponentProps<typeof Box>> = styled(Box)(
+export const DevToggleRow: FC<React.ComponentProps<typeof Box>> = styled(Box)(
   ({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
@@ -70,41 +46,25 @@ export const ToggleDescription: FC<React.ComponentProps<typeof Typography>> =
     color: theme.vars.palette.text.secondary,
   }))
 
-export const SubtitleDescription: FC<React.ComponentProps<typeof Typography>> =
-  styled(Typography)(({ theme }) => ({
-    fontSize: 16,
-    fontWeight: 500,
-    lineHeight: '24px',
-    margin: 0,
-    color: theme.vars.palette.text.secondary,
-  }))
-
-export const SubViewTrack: FC<
-  React.ComponentProps<typeof Box> & { showSubView: boolean }
-> = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'showSubView',
-})<{ showSubView: boolean }>(({ theme, showSubView }) => ({
+export const NestedToggleRow: FC<React.ComponentProps<typeof Box>> = styled(
+  Box
+)(({ theme }) => ({
   display: 'flex',
-  flex: '1 0 0',
-  minHeight: 0,
-  width: '200%',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.enteringScreen,
-    easing: theme.transitions.easing.sharp,
-  }),
-  transform: showSubView ? 'translateX(-50%)' : 'none',
+  alignItems: 'center',
+  gap: theme.spacing(3),
+  width: '100%',
+  paddingTop: theme.spacing(1.5),
 }))
 
-export const SubViewPanel: FC<React.ComponentProps<typeof Box>> = styled(Box)({
-  display: 'flex',
-  flexDirection: 'column',
-  flex: '0 0 50%',
-  width: '50%',
-  maxWidth: '50%',
-  minWidth: 0,
-  minHeight: 0,
-  overflow: 'hidden',
-})
+export const NestedToggleLabel: FC<React.ComponentProps<typeof Typography>> =
+  styled(Typography)(({ theme }) => ({
+    flex: '1 0 0',
+    minWidth: 0,
+    fontSize: 14,
+    fontWeight: 500,
+    lineHeight: '20px',
+    color: theme.vars.palette.text.primary,
+  }))
 
 export const ConfigureLink: FC<React.ComponentProps<typeof ButtonBase>> =
   styled(ButtonBase)(({ theme }) => ({

@@ -1,24 +1,19 @@
 import type { WidgetWalletConfig } from '@lifi/widget'
-import { Box, Typography } from '@mui/material'
 import type { JSX } from 'react'
 import { useCallback } from 'react'
 import { useConfigActions } from '../store/widgetConfig/useConfigActions.js'
 import { useConfigWalletManagement } from '../store/widgetConfig/useConfigValues.js'
 import { useDefaultConfig } from '../store/widgetConfig/useDefaultConfig.js'
 import { docsLinks } from '../utils/docsLinks.js'
-import { CardSelect } from './CardSelect/CardSelect.js'
 import {
-  CardsContainer,
-  Content,
-  Description,
-  Title,
-  TitleSection,
-} from './DetailView/DetailView.style.js'
-import { DetailViewHeader } from './DetailView/DetailViewHeader.js'
-import { DocsLink } from './DocsLink/DocsLink.js'
+  getActiveWalletManagementMode,
+  WALLET_MANAGEMENT_OPTIONS,
+  type WalletManagementMode,
+} from '../utils/walletManagement.js'
+import { CardSelect } from './CardSelect/CardSelect.js'
+import { DetailViewLayout } from './DetailView/DetailViewLayout.js'
+import { ToggleRow, ToggleRowLabel } from './Row.style.js'
 import { Switch } from './Switch.style.js'
-
-type WalletManagementMode = 'internal' | 'external' | 'partial'
 
 interface WalletManagementDetailViewProps {
   onBack: () => void
@@ -36,11 +31,10 @@ export const WalletManagementDetailView = ({
   const { setWalletConfig } = useConfigActions()
   const { defaultConfig } = useDefaultConfig()
 
-  const activeMode: WalletManagementMode = !isExternalWalletManagement
-    ? 'internal'
-    : isPartialWalletManagement
-      ? 'partial'
-      : 'external'
+  const activeMode = getActiveWalletManagementMode(
+    isExternalWalletManagement,
+    isPartialWalletManagement
+  )
 
   const handleReset = useCallback((): void => {
     setWalletConfig(defaultConfig?.walletConfig)
@@ -50,6 +44,9 @@ export const WalletManagementDetailView = ({
     (mode: WalletManagementMode): void => {
       if (mode === 'internal') {
         setWalletConfig(undefined)
+        return
+      }
+      if (!replacementWalletConfig) {
         return
       }
       setWalletConfig({
@@ -63,6 +60,9 @@ export const WalletManagementDetailView = ({
 
   const handleForceInternal = useCallback(
     (_: React.ChangeEvent<HTMLInputElement>, checked: boolean): void => {
+      if (!replacementWalletConfig) {
+        return
+      }
       setWalletConfig({
         ...(replacementWalletConfig as WidgetWalletConfig),
         forceInternalWalletManagement: checked,
@@ -73,52 +73,35 @@ export const WalletManagementDetailView = ({
 
   const forceInternalFooter =
     activeMode === 'external' ? (
-      <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-        <Typography sx={{ flex: 1, fontSize: 14, fontWeight: 500 }}>
-          Force internal wallets
-        </Typography>
+      <ToggleRow sx={{ mt: 0 }}>
+        <ToggleRowLabel>Force internal wallets</ToggleRowLabel>
         <Switch
           checked={isForceInternalWalletManagement}
           onChange={handleForceInternal}
           aria-label="Force internal wallet management"
         />
-      </Box>
+      </ToggleRow>
     ) : null
 
   return (
-    <>
-      <DetailViewHeader onBack={onBack} onReset={handleReset} />
-      <Content>
-        <TitleSection>
-          <Title>Wallet management</Title>
-          <Description>
-            Choose whether the widget, your app, or both handle wallet
-            connections.
-          </Description>
-          <DocsLink href={docsLinks.walletManagement} />
-        </TitleSection>
-        <CardsContainer>
-          <CardSelect
-            title="Internal"
-            description="Widget manages all wallets."
-            selected={activeMode === 'internal'}
-            onClick={() => handleSelect('internal')}
-          />
-          <CardSelect
-            title="External"
-            description="Your app's wallet handles connection."
-            selected={activeMode === 'external'}
-            onClick={() => handleSelect('external')}
-            footer={forceInternalFooter}
-          />
-          <CardSelect
-            title="Partial"
-            description="Combination of both."
-            selected={activeMode === 'partial'}
-            onClick={() => handleSelect('partial')}
-          />
-        </CardsContainer>
-      </Content>
-    </>
+    <DetailViewLayout
+      onBack={onBack}
+      onReset={handleReset}
+      resetLabel="Reset wallet management"
+      title="Wallet management"
+      description="Choose whether the widget, your app, or both handle wallet connections."
+      docsHref={docsLinks.walletManagement}
+    >
+      {WALLET_MANAGEMENT_OPTIONS.map(({ id, title, description }) => (
+        <CardSelect
+          key={id}
+          title={title}
+          description={description}
+          selected={activeMode === id}
+          onClick={() => handleSelect(id)}
+          footer={id === 'external' ? forceInternalFooter : undefined}
+        />
+      ))}
+    </DetailViewLayout>
   )
 }

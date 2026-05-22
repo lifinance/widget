@@ -14,16 +14,10 @@ export const Row: FC<React.ComponentProps<typeof Box>> = styled(Box)(
     backgroundColor: theme.vars.palette.background.paper,
     transition: 'border-color 0.15s',
     '&:hover': {
-      borderColor: 'rgba(0,0,0,0.24)',
-      ...theme.applyStyles('dark', {
-        borderColor: 'rgba(255,255,255,0.24)',
-      }),
+      borderColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 24%, transparent)`,
     },
     '&:focus-within': {
       borderColor: theme.vars.palette.primary.main,
-    },
-    '& + &': {
-      marginTop: theme.spacing(1),
     },
   })
 )
@@ -86,3 +80,7 @@ export const ToggleRowLabel: FC<React.ComponentProps<typeof Box>> = styled(Box)(
     minWidth: 0,
   })
 )
+
+export const ClickableRow: FC<React.ComponentProps<typeof Row>> = styled(Row)({
+  cursor: 'pointer',
+})

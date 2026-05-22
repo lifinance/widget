@@ -3,6 +3,12 @@ import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRig
 import { Box, ButtonBase, styled, Typography } from '@mui/material'
 import type { FC } from 'react'
 
+export const NavListItemRoot: FC<React.ComponentProps<typeof Box>> = styled(
+  Box
+)({
+  flexShrink: 0,
+})
+
 export const NavItemButton: FC<React.ComponentProps<typeof ButtonBase>> =
   styled(ButtonBase)(({ theme }) => ({
     display: 'flex',

@@ -1,20 +1,20 @@
 import type { JSX } from 'react'
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { usePlaygroundLayoutControls } from '../hooks/usePlaygroundLayoutControls.js'
 import type { Layout } from '../store/editTools/types.js'
+import { useEditToolsActions } from '../store/editTools/useEditToolsActions.js'
 import { useConfigActions } from '../store/widgetConfig/useConfigActions.js'
 import { useDefaultConfig } from '../store/widgetConfig/useDefaultConfig.js'
 import { docsLinks } from '../utils/docsLinks.js'
-import { CardSelect } from './CardSelect/CardSelect.js'
 import {
-  CardsContainer,
-  Content,
-  Description,
-  Title,
-  TitleSection,
-} from './DetailView/DetailView.style.js'
-import { DetailViewHeader } from './DetailView/DetailViewHeader.js'
-import { DocsLink } from './DocsLink/DocsLink.js'
+  getDefaultLayoutCopy,
+  getLayoutMode,
+  isLayoutOptionDisabled,
+  isRestrictedLayout,
+  LAYOUT_OPTIONS,
+} from '../utils/layout.js'
+import { CardSelect } from './CardSelect/CardSelect.js'
+import { DetailViewLayout } from './DetailView/DetailViewLayout.js'
 import { HeightControl } from './HeightControl/HeightControl.js'
 
 interface HeightDetailViewProps {
@@ -32,15 +32,24 @@ export const HeightDetailView = ({
     variant,
   } = usePlaygroundLayoutControls()
   const { setHeader, setContainer } = useConfigActions()
+  const { setSelectedLayoutId } = useEditToolsActions()
   const { defaultConfig } = useDefaultConfig()
 
   const isDrawerVariant = variant === 'drawer'
-  const isFullHeightDisabled = isDrawerVariant || variant === 'wide'
+  const defaultLayoutCopy = getDefaultLayoutCopy(isDrawerVariant)
 
   const handleReset = useCallback((): void => {
     setHeader(defaultConfig?.theme?.header)
     setContainer(defaultConfig?.theme?.container)
-  }, [defaultConfig, setHeader, setContainer])
+    setHeightValue(undefined)
+    setSelectedLayoutId(getLayoutMode(defaultConfig?.theme?.container))
+  }, [
+    defaultConfig,
+    setHeader,
+    setContainer,
+    setHeightValue,
+    setSelectedLayoutId,
+  ])
 
   const handleSelect = useCallback(
     (layoutId: Layout): void => {
@@ -50,78 +59,60 @@ export const HeightDetailView = ({
     [setHeightValue, setInitialLayout]
   )
 
-  const heightFooter =
-    !isDrawerVariant && selectedLayoutId === 'restricted-height' ? (
-      <HeightControl
-        selectedLayoutId={selectedLayoutId}
-        setInitialLayout={setInitialLayout}
-        heightValue={heightValue}
-        setHeightValue={setHeightValue}
-        onClearMaxHeight={() => {
-          setHeightValue(undefined)
-          setInitialLayout(selectedLayoutId)
-        }}
-      />
-    ) : null
+  const heightControl = useMemo(
+    () =>
+      !isDrawerVariant ? (
+        <HeightControl
+          selectedLayoutId={selectedLayoutId}
+          setInitialLayout={setInitialLayout}
+          heightValue={heightValue}
+          setHeightValue={setHeightValue}
+          onClearMaxHeight={() => {
+            setHeightValue(undefined)
+            setInitialLayout(selectedLayoutId)
+          }}
+        />
+      ) : null,
+    [
+      isDrawerVariant,
+      selectedLayoutId,
+      setInitialLayout,
+      heightValue,
+      setHeightValue,
+    ]
+  )
 
-  const maxHeightFooter =
-    !isDrawerVariant && selectedLayoutId === 'restricted-max-height' ? (
-      <HeightControl
-        selectedLayoutId={selectedLayoutId}
-        setInitialLayout={setInitialLayout}
-        heightValue={heightValue}
-        setHeightValue={setHeightValue}
-        onClearMaxHeight={() => {
-          setHeightValue(undefined)
-          setInitialLayout(selectedLayoutId)
-        }}
-      />
-    ) : null
+  const getRestrictedHeightFooter = (layoutId: Layout): JSX.Element | null =>
+    isRestrictedLayout(layoutId) && selectedLayoutId === layoutId
+      ? heightControl
+      : null
 
   return (
-    <>
-      <DetailViewHeader onBack={onBack} onReset={handleReset} />
-      <Content>
-        <TitleSection>
-          <Title>Height</Title>
-          <Description>
-            Configure how the widget is embedded and how tall it can be.
-          </Description>
-          <DocsLink href={docsLinks.layout} />
-        </TitleSection>
-        <CardsContainer>
-          <CardSelect
-            title="Default"
-            description="The widget height grows automatically with its content."
-            selected={selectedLayoutId === 'default'}
-            disabled={isDrawerVariant}
-            onClick={() => handleSelect('default')}
-          />
-          <CardSelect
-            title="Restricted height"
-            description="Set a fixed height for the widget container."
-            selected={selectedLayoutId === 'restricted-height'}
-            disabled={isDrawerVariant}
-            onClick={() => handleSelect('restricted-height')}
-            footer={heightFooter}
-          />
-          <CardSelect
-            title="Restricted max height"
-            description="The widget grows with its content up to a maximum height."
-            selected={selectedLayoutId === 'restricted-max-height'}
-            disabled={isDrawerVariant}
-            onClick={() => handleSelect('restricted-max-height')}
-            footer={maxHeightFooter}
-          />
-          <CardSelect
-            title="Full height"
-            description="The widget uses the full height of the container. Available for compact variant."
-            selected={selectedLayoutId === 'full-height'}
-            disabled={isFullHeightDisabled}
-            onClick={() => handleSelect('full-height')}
-          />
-        </CardsContainer>
-      </Content>
-    </>
+    <DetailViewLayout
+      onBack={onBack}
+      onReset={handleReset}
+      resetLabel="Reset height"
+      title="Height"
+      description="Configure how the widget is embedded and how tall it can be."
+      docsHref={docsLinks.layout}
+    >
+      <CardSelect
+        title={defaultLayoutCopy.title}
+        description={defaultLayoutCopy.description}
+        selected={selectedLayoutId === 'default'}
+        onClick={() => handleSelect('default')}
+      />
+      {LAYOUT_OPTIONS.map(({ id, title, description }) => (
+        <CardSelect
+          key={id}
+          title={title}
+          description={description}
+          selected={selectedLayoutId === id}
+          disabled={isLayoutOptionDisabled(id, variant, isDrawerVariant)}
+          onClick={() => handleSelect(id)}
+          footer={getRestrictedHeightFooter(id)}
+        />
+      ))}
+    </DetailViewLayout>
   )
 }

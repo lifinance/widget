@@ -6,3 +6,12 @@ export type FunctionReference = {
 }
 
 export type Collection = Record<string | number, any>
+
+export type SidebarView =
+  | 'nav'
+  | 'mode'
+  | 'variant'
+  | 'height'
+  | 'wallet'
+  | 'developer'
+  | 'themeEdit'

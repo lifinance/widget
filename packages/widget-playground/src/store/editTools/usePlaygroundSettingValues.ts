@@ -4,11 +4,8 @@ export const usePlaygroundSettingValues = (): {
   viewportColorLight: string | undefined
   viewportColorDark: string | undefined
 } => {
-  const viewportColorLight = useEditToolsStore(
-    (store) => store.playgroundSettings.viewportColorLight
-  )
-  const viewportColorDark = useEditToolsStore(
-    (store) => store.playgroundSettings.viewportColorDark
+  const { viewportColorLight, viewportColorDark } = useEditToolsStore(
+    (store) => store.playgroundSettings
   )
 
   return {

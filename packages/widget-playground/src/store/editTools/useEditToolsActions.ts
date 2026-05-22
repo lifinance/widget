@@ -14,6 +14,7 @@ export const useEditToolsActions = (): Pick<
   | 'setFixedFooter'
   | 'setSelectedLayoutId'
   | 'setIsDevView'
+  | 'setWidgetEventMonitors'
   | 'setFormValues'
 > => {
   const actions = useEditToolsStore((state) => ({
@@ -27,6 +28,7 @@ export const useEditToolsActions = (): Pick<
     setFixedFooter: state.setFixedFooter,
     setSelectedLayoutId: state.setSelectedLayoutId,
     setIsDevView: state.setIsDevView,
+    setWidgetEventMonitors: state.setWidgetEventMonitors,
     setFormValues: state.setFormValues,
   }))
 

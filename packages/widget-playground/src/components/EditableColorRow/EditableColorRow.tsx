@@ -1,9 +1,14 @@
 import { Box } from '@mui/material'
 import type { JSX } from 'react'
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { safe6DigitHexColor } from '../../utils/color.js'
+import { useCallback, useRef } from 'react'
+import { useEditableDraft } from '../../hooks/useEditableDraft.js'
+import {
+  parseEditableHex,
+  safe6DigitHexColor,
+  stripHexPrefix,
+} from '../../utils/color.js'
 import { ValueInput } from '../Input.style.js'
-import { Row, RowLabel, RowValue } from '../Row.style.js'
+import { ClickableRow, RowLabel, RowValue } from '../Row.style.js'
 import { ColorSwatch, HexLabel } from './EditableColorRow.style.js'
 
 interface EditableColorRowProps {
@@ -13,40 +18,39 @@ interface EditableColorRowProps {
   onChange: (hex: string) => void
 }
 
+const toHexDraft = (value: string): string => stripHexPrefix(value)
+
 export const EditableColorRow = ({
   label,
   hex,
   ariaLabel,
   onChange,
 }: EditableColorRowProps): JSX.Element => {
-  const stripped = hex.replace(/^#/, '').toUpperCase()
-  const [draft, setDraft] = useState(stripped)
+  const stripped = stripHexPrefix(hex)
+  const resolvedHex = safe6DigitHexColor(`#${stripped}`)
   const colorInputRef = useRef<HTMLInputElement>(null)
   const hexInputRef = useRef<HTMLInputElement>(null)
 
-  useEffect(() => {
-    setDraft(hex.replace(/^#/, '').toUpperCase())
-  }, [hex])
+  const parseDraft = useCallback(
+    (draft: string): string | null => parseEditableHex(draft),
+    []
+  )
 
-  const commit = useCallback(() => {
-    const cleaned = draft.replace(/[^0-9a-fA-F]/g, '')
-    if (cleaned.length === 6 || cleaned.length === 3) {
-      const full = safe6DigitHexColor(`#${cleaned}`)
-      onChange(full)
-      setDraft(full.replace(/^#/, '').toUpperCase())
-    } else {
-      setDraft(stripped)
-    }
-  }, [draft, stripped, onChange])
+  const { draft, setDraft, commit } = useEditableDraft(
+    stripped,
+    toHexDraft,
+    parseDraft,
+    onChange
+  )
 
-  const handleRowClick = useCallback(() => {
+  const handleRowClick = (): void => {
     hexInputRef.current?.focus()
     hexInputRef.current?.select()
     colorInputRef.current?.click()
-  }, [])
+  }
 
   return (
-    <Row onClick={handleRowClick} sx={{ cursor: 'pointer' }}>
+    <ClickableRow onClick={handleRowClick}>
       <RowLabel>{label}</RowLabel>
       <RowValue>
         <Box
@@ -76,11 +80,11 @@ export const EditableColorRow = ({
           inputRef={colorInputRef}
           aria-label={`${ariaLabel} picker`}
           type="color"
-          swatchColor={safe6DigitHexColor(`#${stripped}`)}
-          value={safe6DigitHexColor(`#${stripped}`)}
+          swatchColor={resolvedHex}
+          value={resolvedHex}
           onChange={(e) => onChange(e.target.value)}
         />
       </RowValue>
-    </Row>
+    </ClickableRow>
   )
 }

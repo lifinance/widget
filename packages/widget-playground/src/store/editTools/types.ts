@@ -1,6 +1,7 @@
 import type { WidgetTheme } from '@lifi/widget'
 import type { StoreApi, UseBoundStore } from 'zustand'
 import type { Font } from '../../providers/FontLoaderProvider/types.js'
+import type { WidgetEventName } from '../../utils/events.js'
 import type { FormValues } from '../types.js'
 
 export type Layout =
@@ -15,7 +16,7 @@ export interface ThemeItem {
   theme: WidgetTheme
 }
 
-interface EditToolsValues {
+export interface EditToolsValues {
   drawer: {
     open: boolean
   }
@@ -38,6 +39,10 @@ interface EditToolsValues {
     selectedLayoutId: Layout
   }
   isDevView: boolean
+  widgetEventsControl: {
+    allWidgetEventsOn: boolean
+    monitoredEvents: Record<WidgetEventName, boolean>
+  }
   formValues?: Partial<FormValues>
 }
 
@@ -55,6 +60,10 @@ interface EditToolsActions {
   setFixedFooter: (isFixed: boolean) => void
   setSelectedLayoutId: (layoutId: Layout) => void
   setIsDevView: (isDevView: boolean) => void
+  setWidgetEventMonitors: (
+    allWidgetEventsOn: boolean,
+    monitoredEvents: Record<WidgetEventName, boolean>
+  ) => void
   setFormValues: (formValues: FormValues) => void
 }
 

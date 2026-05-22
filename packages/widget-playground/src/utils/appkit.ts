@@ -40,7 +40,7 @@ export const chainToAppKitNetworks = (
       caipNetworkId: `${ChainTypeSpaceMap[chain.chainType as AppKitSupportedChainTypes]}:${chain.id}`,
       assets: {
         imageId: `${ChainTypeSpaceMap[chain.chainType as AppKitSupportedChainTypes]}:${chain.id}`,
-        imageUrl: chain.logoURI!,
+        imageUrl: chain.logoURI || '',
       },
     })
   )

@@ -13,8 +13,8 @@ interface ThemeCardProps {
   selected: boolean
 }
 
-export const ThemeCard: FC<ComponentProps<typeof Box> & ThemeCardProps> =
-  styled(Box, {
+export const ThemeCard: FC<ComponentProps<typeof ButtonBase> & ThemeCardProps> =
+  styled(ButtonBase, {
     shouldForwardProp: (prop) => prop !== 'selected',
   })<ThemeCardProps>(({ theme, selected }) => ({
     width: '100%',
@@ -25,13 +25,12 @@ export const ThemeCard: FC<ComponentProps<typeof Box> & ThemeCardProps> =
     gap: theme.spacing(3),
     padding: theme.spacing(2),
     borderRadius: 16,
-    borderStyle: 'solid',
-    borderWidth: selected ? 2 : 1,
+    border: '1px solid',
     overflow: 'hidden',
     cursor: 'pointer',
     borderColor: selected
       ? theme.vars.palette.primary.main
-      : theme.vars.palette.grey[300],
+      : theme.vars.palette.divider,
     backgroundColor: theme.vars.palette.background.paper,
     textAlign: 'left',
     transition: theme.transitions.create(['border-color'], {
@@ -46,7 +45,7 @@ export const ThemeCard: FC<ComponentProps<typeof Box> & ThemeCardProps> =
     ...theme.applyStyles('dark', {
       borderColor: selected
         ? theme.vars.palette.primary.main
-        : theme.vars.palette.grey[800],
+        : theme.vars.palette.divider,
       '&:hover': {
         borderColor: selected
           ? theme.vars.palette.primary.main
@@ -65,7 +64,7 @@ export const ThemeCardInfo: FC<ComponentProps<typeof Box>> = styled(Box)({
   alignSelf: 'stretch',
 })
 
-export const ThemeName: FC<React.ComponentProps<typeof Typography>> = styled(
+export const ThemeName: FC<ComponentProps<typeof Typography>> = styled(
   Typography
 )(({ theme }) => ({
   fontSize: 16,
@@ -74,9 +73,12 @@ export const ThemeName: FC<React.ComponentProps<typeof Typography>> = styled(
   color: theme.vars.palette.text.primary,
 }))
 
-export const EditThemeButton: FC<ComponentProps<typeof ButtonBase>> = styled(
-  ButtonBase
-)(({ theme }) => ({
+export const EditThemeAction: FC<
+  ComponentProps<'span'> & {
+    onClick?: React.MouseEventHandler<HTMLSpanElement>
+    onKeyDown?: React.KeyboardEventHandler<HTMLSpanElement>
+  }
+> = styled('span')(({ theme }) => ({
   border: 'none',
   borderRadius: 8,
   padding: theme.spacing(0.75, 1.5),
@@ -94,6 +96,9 @@ export const EditThemeButton: FC<ComponentProps<typeof ButtonBase>> = styled(
   '&:hover': {
     backgroundColor: theme.vars.palette.primary.dark,
   },
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 }))
 
 export const SchemeIcons: FC<ComponentProps<typeof Box>> = styled(Box)(
@@ -101,8 +106,7 @@ export const SchemeIcons: FC<ComponentProps<typeof Box>> = styled(Box)(
     display: 'inline-flex',
     alignItems: 'center',
     gap: theme.spacing(0.75),
-    paddingTop: theme.spacing(0.75),
-    paddingBottom: theme.spacing(0.75),
+    padding: theme.spacing(0.75, 0),
   })
 )
 
@@ -117,66 +121,5 @@ export const SchemeIconSlot: FC<ComponentProps<typeof Box>> = styled(Box)(
     '& > svg': {
       fontSize: 20,
     },
-  })
-)
-
-interface ThemePreviewProps {
-  previewOutlineColor: string
-}
-
-export const ThemePreview: FC<ComponentProps<typeof Box> & ThemePreviewProps> =
-  styled(Box, {
-    shouldForwardProp: (prop) => prop !== 'previewOutlineColor',
-  })<ThemePreviewProps>(({ previewOutlineColor }) => ({
-    flex: '0 0 152px',
-    width: 152,
-    height: 100,
-    flexShrink: 0,
-    borderRadius: 12,
-    position: 'relative',
-    overflow: 'hidden',
-    boxShadow: `0px 12px 12px -12px rgba(18,18,18,0.04), 0px 6px 6px -3px rgba(18,18,18,0.04), 0px 3px 3px -1.5px rgba(18,18,18,0.04), 0px 1px 1px -0.5px rgba(18,18,18,0.04), 0px 0px 0px 0.5px ${previewOutlineColor}`,
-  }))
-
-export const PreviewHeaderPill: FC<ComponentProps<typeof Box>> = styled(Box)(
-  ({ theme }) => ({
-    position: 'absolute',
-    top: theme.spacing(1),
-    left: theme.spacing(1.5),
-    width: 41,
-    height: 8,
-    borderRadius: 80,
-  })
-)
-
-export const PreviewCard: FC<ComponentProps<typeof Box>> = styled(Box)(
-  ({ theme }) => ({
-    position: 'absolute',
-    top: 22,
-    left: theme.spacing(1.5),
-    width: 128,
-    height: 46,
-    borderRadius: 8,
-    overflow: 'hidden',
-  })
-)
-
-export const PreviewCardText: FC<ComponentProps<typeof Box>> = styled(Box)({
-  position: 'absolute',
-  top: 5.5,
-  left: 5.5,
-  width: 16,
-  height: 4,
-  borderRadius: 80,
-})
-
-export const PreviewButton: FC<ComponentProps<typeof Box>> = styled(Box)(
-  ({ theme }) => ({
-    position: 'absolute',
-    top: 74,
-    left: theme.spacing(1.5),
-    width: 128,
-    height: 14,
-    borderRadius: 16,
   })
 )

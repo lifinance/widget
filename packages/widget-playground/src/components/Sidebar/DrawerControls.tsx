@@ -7,25 +7,28 @@ import ViewSidebarOutlinedIcon from '@mui/icons-material/ViewSidebarOutlined'
 import { Divider } from '@mui/material'
 import type { JSX } from 'react'
 import { useCallback, useRef, useState } from 'react'
-import { usePlaygroundLayoutControls } from '../../hooks/usePlaygroundLayoutControls.js'
+import { useSidebarNavLabels } from '../../hooks/useSidebarNavLabels.js'
 import { useThemeMode } from '../../hooks/useThemeMode.js'
 import { useFontInitialisation } from '../../providers/FontLoaderProvider/FontLoaderProvider.js'
 import { useDrawerToolValues } from '../../store/editTools/useDrawerToolValues.js'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
 import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
+import type { SidebarView } from '../../types.js'
 import {
-  useConfigSubvariant,
-  useConfigSubvariantOptions,
-  useConfigVariant,
-  useConfigWalletManagement,
-} from '../../store/widgetConfig/useConfigValues.js'
-import { useThemeValues } from '../../store/widgetConfig/useThemeValues.js'
+  clearPlaygroundBookmarkStores,
+  readPlaygroundBookmarksSeeded,
+} from '../../utils/bookmarkStores.js'
+import { setQueryStringParam } from '../../utils/setQueryStringParam.js'
+import {
+  SlideViewPanel,
+  SlideViewTrack,
+} from '../DetailView/SlideView.style.js'
 import { DeveloperControlsDetailView } from '../DeveloperControlsDetailView/DeveloperControlsDetailView.js'
 import { HeightDetailView } from '../HeightDetailView.js'
 import { ModeDetailView } from '../ModeDetailView.js'
 import { NavListItem } from '../NavListItem/NavListItem.js'
 import { ThemeControl } from '../ThemeControl/ThemeControl.js'
-import { ThemeEditDetailView } from '../ThemeEditDetailView.js'
+import { ThemeEditDetailView } from '../ThemeEditDetailView/ThemeEditDetailView.js'
 import { VariantDetailView } from '../VariantDetailView.js'
 import { WalletManagementDetailView } from '../WalletManagementDetailView.js'
 import {
@@ -33,101 +36,46 @@ import {
   NavContent,
   SidebarContainer,
   SidebarDivider,
-  SidebarSlidePanel,
-  type SidebarView,
-  SidebarViewTrack,
 } from './DrawerControls.style.js'
 import { SidebarFooter } from './SidebarFooter.js'
 import { SidebarHeader } from './SidebarHeader.js'
 
-const modeLabels: Record<string, string> = {
-  exchange: 'Exchange',
-  split: 'Swap or Bridge',
-  swap: 'Swap',
-  bridge: 'Bridge',
-  refuel: 'Refuel',
+interface DetailViewProps {
+  onBack: () => void
 }
 
-const heightLabels: Record<string, string> = {
-  default: 'Default',
-  'restricted-height': 'Restricted height',
-  'restricted-max-height': 'Restricted max height',
-  'full-height': 'Full height',
-}
-
-function getModeLabel(subvariant: string, splitOption?: string): string {
-  if (subvariant === 'refuel') {
-    return modeLabels.refuel
-  }
-  if (subvariant === 'split') {
-    if (splitOption === 'swap') {
-      return modeLabels.swap
-    }
-    if (splitOption === 'bridge') {
-      return modeLabels.bridge
-    }
-    return modeLabels.split
-  }
-  return modeLabels.exchange
-}
-
-function getWalletLabel(isExternal: boolean, isPartial: boolean): string {
-  if (!isExternal) {
-    return 'Internal'
-  }
-  return isPartial ? 'Partial' : 'External'
+const DETAIL_VIEWS: Partial<
+  Record<Exclude<SidebarView, 'nav'>, (props: DetailViewProps) => JSX.Element>
+> = {
+  mode: ModeDetailView,
+  variant: VariantDetailView,
+  height: HeightDetailView,
+  wallet: WalletManagementDetailView,
+  developer: DeveloperControlsDetailView,
+  themeEdit: ThemeEditDetailView,
 }
 
 export const DrawerControls = (): JSX.Element => {
   const { isDrawerOpen, drawerWidth } = useDrawerToolValues()
   const { setDrawerOpen, resetEditTools } = useEditToolsActions()
   const { resetConfig } = useConfigActions()
-  const { setMode, themeMode } = useThemeMode()
+  const { setMode } = useThemeMode()
   const [activeView, setActiveView] = useState<SidebarView>('nav')
   const [expandedItem, setExpandedItem] = useState<string | null>(null)
-
-  const { subvariant } = useConfigSubvariant()
-  const { subvariantOptions } = useConfigSubvariantOptions()
-  const { variant } = useConfigVariant()
-  const { selectedLayoutId } = usePlaygroundLayoutControls()
-  const { isExternalWalletManagement, isPartialWalletManagement } =
-    useConfigWalletManagement()
-  const { selectedThemeItem } = useThemeValues()
-
-  const themeLabel = (() => {
-    if (!selectedThemeItem) {
-      return undefined
-    }
-    const displayName = selectedThemeItem.name.replace(/\s+Light$/i, '')
-    const colorSchemeKeys = Object.keys(
-      selectedThemeItem.theme.colorSchemes ?? {}
-    )
-    const hasBothModes =
-      colorSchemeKeys.includes('light') && colorSchemeKeys.includes('dark')
-    if (hasBothModes) {
-      return `${displayName} (${themeMode === 'dark' ? 'Dark' : 'Light'})`
-    }
-    return displayName
-  })()
-
-  const modeValue = getModeLabel(
-    subvariant,
-    subvariantOptions?.split as string | undefined
-  )
-  const variantValue =
-    variant === 'compact' ? 'Compact' : variant === 'wide' ? 'Wide' : 'Drawer'
-  const heightValue = heightLabels[selectedLayoutId] ?? 'Default'
-  const walletValue = getWalletLabel(
-    isExternalWalletManagement,
-    isPartialWalletManagement
-  )
+  const { themeLabel, modeValue, variantValue, heightValue, walletValue } =
+    useSidebarNavLabels()
 
   useFontInitialisation()
 
   const handleResetAll = useCallback((): void => {
+    setQueryStringParam('devView', false)
+    setQueryStringParam('allWidgetEvents', false)
     resetConfig()
     resetEditTools()
     setMode('system')
+    if (readPlaygroundBookmarksSeeded()) {
+      clearPlaygroundBookmarkStores()
+    }
   }, [resetConfig, resetEditTools, setMode])
 
   const isDrawerOpenRef = useRef(isDrawerOpen)
@@ -145,6 +93,9 @@ export const DrawerControls = (): JSX.Element => {
     setExpandedItem((prev) => (prev === item ? null : item))
   }, [])
 
+  const ActiveDetailView =
+    activeView !== 'nav' ? DETAIL_VIEWS[activeView] : undefined
+
   return (
     <Drawer
       variant="persistent"
@@ -153,8 +104,8 @@ export const DrawerControls = (): JSX.Element => {
       drawerWidth={drawerWidth}
     >
       <SidebarContainer drawerWidth={drawerWidth}>
-        <SidebarViewTrack activeView={activeView}>
-          <SidebarSlidePanel>
+        <SlideViewTrack showSecondary={activeView !== 'nav'}>
+          <SlideViewPanel>
             <SidebarHeader
               onReset={handleResetAll}
               onToggleDrawer={handleToggleDrawer}
@@ -209,23 +160,13 @@ export const DrawerControls = (): JSX.Element => {
               </NavListItem>
             </NavContent>
             <SidebarFooter />
-          </SidebarSlidePanel>
-          <SidebarSlidePanel>
-            {activeView === 'mode' ? (
-              <ModeDetailView onBack={handleNavigateBack} />
-            ) : activeView === 'variant' ? (
-              <VariantDetailView onBack={handleNavigateBack} />
-            ) : activeView === 'height' ? (
-              <HeightDetailView onBack={handleNavigateBack} />
-            ) : activeView === 'wallet' ? (
-              <WalletManagementDetailView onBack={handleNavigateBack} />
-            ) : activeView === 'developer' ? (
-              <DeveloperControlsDetailView onBack={handleNavigateBack} />
-            ) : activeView === 'themeEdit' ? (
-              <ThemeEditDetailView onBack={handleNavigateBack} />
+          </SlideViewPanel>
+          <SlideViewPanel>
+            {ActiveDetailView ? (
+              <ActiveDetailView onBack={handleNavigateBack} />
             ) : null}
-          </SidebarSlidePanel>
-        </SidebarViewTrack>
+          </SlideViewPanel>
+        </SlideViewTrack>
       </SidebarContainer>
     </Drawer>
   )

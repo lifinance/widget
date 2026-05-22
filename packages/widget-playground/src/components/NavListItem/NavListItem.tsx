@@ -1,4 +1,4 @@
-import { Box, Collapse } from '@mui/material'
+import { Collapse } from '@mui/material'
 import type { JSX, ReactNode } from 'react'
 import {
   ChevronIcon,
@@ -9,6 +9,7 @@ import {
   NavItemLabel,
   NavItemTrailing,
   NavItemValue,
+  NavListItemRoot,
 } from './NavListItem.style.js'
 
 interface NavListItemExpandableProps {
@@ -36,7 +37,7 @@ export const NavListItem = (props: NavListItemProps): JSX.Element => {
 
   if (props.expandable) {
     return (
-      <Box>
+      <NavListItemRoot>
         <NavItemButton onClick={props.onToggle} disableRipple>
           <NavItemContent>
             {icon}
@@ -50,7 +51,7 @@ export const NavListItem = (props: NavListItemProps): JSX.Element => {
         <Collapse in={props.expanded}>
           <NavItemExpandedContent>{props.children}</NavItemExpandedContent>
         </Collapse>
-      </Box>
+      </NavListItemRoot>
     )
   }
 

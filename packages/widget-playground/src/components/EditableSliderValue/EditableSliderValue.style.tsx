@@ -38,12 +38,12 @@ export const ThemeSlider: FC<React.ComponentProps<typeof Slider>> = styled(
   [`& .${sliderClasses.thumb}`]: {
     width: 16,
     height: 16,
-    backgroundColor: '#fff',
+    backgroundColor: theme.vars.palette.common.white,
     border: '1px solid',
     borderColor: theme.vars.palette.divider,
     boxShadow: 'none',
     '&:hover, &.Mui-focusVisible': {
-      boxShadow: '0 0 0 4px rgba(92, 103, 255, 0.16)',
+      boxShadow: `0 0 0 4px color-mix(in srgb, ${theme.vars.palette.primary.main} 16%, transparent)`,
     },
     '&::before': {
       display: 'none',
