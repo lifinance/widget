@@ -45,7 +45,20 @@ const combineWalletLists = (
       icon: getConnectorIcon(ethereum),
       connectors: [] as CombinedWalletConnector[],
     }
-    existing.connectors.push({ connector: ethereum, chainType: ChainType.EVM })
+    // A single wallet can surface more than one EVM connector (for example a
+    // configured SDK connector and its matching EIP-6963 announcement). Keep
+    // only the first one we see for a given wallet entry so the picker shows
+    // it once. Configured connectors are unshifted to the front of the wagmi
+    // connector list, so they take precedence over auto-discovered ones.
+    const hasEvmConnector = existing.connectors.some(
+      (c) => c.chainType === ChainType.EVM
+    )
+    if (!hasEvmConnector) {
+      existing.connectors.push({
+        connector: ethereum,
+        chainType: ChainType.EVM,
+      })
+    }
     walletMap.set(normalizedName, existing)
   })
 
