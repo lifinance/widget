@@ -1,4 +1,4 @@
-import type { ChainId, ChainType, ExecutionAction, Route } from '@lifi/sdk'
+import type { ChainId, ExecutionAction, Route } from '@lifi/sdk'
 import type { DefaultValues } from '../stores/form/types.js'
 import type { SettingsProps } from '../stores/settings/types.js'
 import type { NavigationRouteType } from '../utils/navigationRoutes.js'
@@ -83,12 +83,6 @@ export type TokenSearch = {
 export type ChainTokenSelected = {
   chainId: ChainId
   tokenAddress: string
-}
-
-export type WalletConnected = {
-  address?: string
-  chainId?: number
-  chainType?: ChainType
 }
 
 export type FormFieldChanged = {

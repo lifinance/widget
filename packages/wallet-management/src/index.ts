@@ -2,7 +2,11 @@ import type {} from '@mui/material/themeCssVarsAugmentation'
 
 export * from './hooks/useAccount.js'
 export * from './hooks/useAccountDisconnect.js'
-export * from './hooks/useWalletManagementEvents.js'
+export {
+  useWalletManagementEvents,
+  type WalletManagementEventEmitter,
+  widgetEvents,
+} from './hooks/useWalletManagementEvents.js'
 export * from './icons.js'
 export * from './providers/WalletManagementProvider/types.js'
 export * from './providers/WalletManagementProvider/WalletManagementProvider.js'
