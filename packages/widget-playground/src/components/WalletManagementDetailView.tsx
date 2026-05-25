@@ -74,7 +74,9 @@ export const WalletManagementDetailView = ({
   const forceInternalFooter =
     activeMode === 'external' ? (
       <ToggleRow sx={{ mt: 0 }}>
-        <ToggleRowLabel>Force internal wallets</ToggleRowLabel>
+        <ToggleRowLabel sx={{ fontSize: 14, lineHeight: '18px' }}>
+          Force internal wallets
+        </ToggleRowLabel>
         <Switch
           checked={isForceInternalWalletManagement}
           onChange={handleForceInternal}

@@ -72,9 +72,9 @@ export const ToggleRow: FC<React.ComponentProps<typeof Box>> = styled(Box)(
 
 export const ToggleRowLabel: FC<React.ComponentProps<typeof Box>> = styled(Box)(
   ({ theme }) => ({
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 500,
-    lineHeight: '18px',
+    lineHeight: '20px',
     color: theme.vars.palette.text.primary,
     flex: '1 0 0',
     minWidth: 0,

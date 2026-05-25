@@ -13,7 +13,7 @@ export const Switch: React.FC<React.ComponentProps<typeof MuiSwitch>> = styled(
     transitionDuration: theme.transitions.duration.standard,
     [`&.${switchClasses.checked}`]: {
       transform: 'translateX(18px)',
-      color: '#fff',
+      color: theme.vars.palette.common.white,
       [`& + .${switchClasses.track}`]: {
         backgroundColor: theme.vars.palette.primary.main,
         opacity: 1,
@@ -26,7 +26,7 @@ export const Switch: React.FC<React.ComponentProps<typeof MuiSwitch>> = styled(
     [`&.Mui-focusVisible .${switchClasses.thumb}`]: {
       color: theme.vars.palette.primary.main,
       border: '6px solid',
-      borderColor: '#fff',
+      borderColor: theme.vars.palette.common.white,
     },
     [`&.${switchClasses.disabled} .${switchClasses.thumb}`]: {
       color: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 12%, transparent)`,

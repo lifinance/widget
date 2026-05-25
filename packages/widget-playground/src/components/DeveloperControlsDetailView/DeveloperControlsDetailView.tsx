@@ -103,7 +103,7 @@ export const DeveloperControlsDetailView = ({
     <SlideViewTrack showSecondary={activeSection === 'widget-events'}>
       <SlideViewPanel>
         <DetailViewHeader onBack={onBack} />
-        <Content>
+        <Content sx={{ gap: 0 }}>
           <TitleSection>
             <Title>Developer controls</Title>
             <DocsLink href={docsLinks.configure} />
