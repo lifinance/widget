@@ -28,7 +28,7 @@ export function App() {
       integrator: 'ProtocolName',
       disabledUI: [DisabledUI.ToAddress],
       hiddenUI: [HiddenUI.Appearance, HiddenUI.Language],
-      useRecommendedRoute: true,
+      showSingleRoute: true,
       theme: {
         container: {
           border: '1px solid rgb(234, 234, 234)',
