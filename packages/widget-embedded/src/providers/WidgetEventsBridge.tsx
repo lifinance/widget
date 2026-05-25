@@ -1,7 +1,7 @@
 import {
   WalletManagementEvent,
   type WalletManagementEvents,
-  widgetEvents as walletMgmtEvents,
+  walletManagementEvents,
 } from '@lifi/wallet-management'
 import { WidgetEvent, type WidgetEvents, widgetEvents } from '@lifi/widget'
 import { GuestBridge } from '@lifi/widget-light'
@@ -60,7 +60,7 @@ export function WidgetEventsBridge() {
         attached.add(name)
       } else if (walletEventNames.has(name)) {
         const key = name as keyof WalletManagementEvents
-        walletMgmtEvents.on(key, walletHandlers.get(key)! as never)
+        walletManagementEvents.on(key, walletHandlers.get(key)! as never)
         attached.add(name)
       }
     }
@@ -74,7 +74,7 @@ export function WidgetEventsBridge() {
         widgetEvents.off(key, widgetHandlers.get(key)! as never)
       } else if (walletEventNames.has(name)) {
         const key = name as keyof WalletManagementEvents
-        walletMgmtEvents.off(key, walletHandlers.get(key)! as never)
+        walletManagementEvents.off(key, walletHandlers.get(key)! as never)
       }
       attached.delete(name)
     }

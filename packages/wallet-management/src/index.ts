@@ -5,7 +5,7 @@ export * from './hooks/useAccountDisconnect.js'
 export {
   useWalletManagementEvents,
   type WalletManagementEventEmitter,
-  widgetEvents,
+  walletManagementEvents,
 } from './hooks/useWalletManagementEvents.js'
 export * from './icons.js'
 export * from './providers/WalletManagementProvider/types.js'
