@@ -7,82 +7,86 @@ import { useEffect } from 'react'
  * Guest-side (iframe) bridge that forwards widget events to the host.
  *
  * Listens for WIDGET_EVENT_SUBSCRIBE/UNSUBSCRIBE messages from the host
- * and only forwards events that the host has subscribed to.
+ * and only attaches widget-side listeners for events the host has
+ * subscribed to. This keeps `widgetEvents.listenerCount(name)` honest:
+ * features like `useContactSupport` gate on whether anyone is listening
+ * for a specific event, so the bridge must not register listeners
+ * the host doesn't actually want.
  *
  * Renders nothing — mount once, high in the tree.
  */
 export function WidgetEventsBridge() {
   useEffect(() => {
     const bridge = GuestBridge.getInstance()
-    let listenersAttached = false
 
-    const widgetEventNames = Object.values(WidgetEvent) as Array<
-      keyof WidgetEvents
-    >
+    const widgetEventNames = new Set(Object.values(WidgetEvent)) as Set<string>
+
     const widgetHandlers = new Map<
       keyof WidgetEvents,
       (data: unknown) => void
     >()
-    widgetEventNames.forEach((name) => {
-      widgetHandlers.set(name, (data) => {
-        if (bridge.getSubscribedEvents().has(name)) {
-          bridge.sendWidgetEvent(name, data)
-        }
-      })
-    })
-
-    const walletConnectedHandler = (data: unknown) => {
-      if (bridge.getSubscribedEvents().has('walletConnected')) {
-        bridge.sendWidgetEvent('walletConnected', data)
-      }
+    for (const name of Object.values(WidgetEvent) as Array<
+      keyof WidgetEvents
+    >) {
+      widgetHandlers.set(name, (data) => bridge.sendWidgetEvent(name, data))
     }
-    const walletDisconnectedHandler = (data: unknown) => {
-      if (bridge.getSubscribedEvents().has('walletDisconnected')) {
-        bridge.sendWidgetEvent('walletDisconnected', data)
-      }
-    }
+    const walletConnectedHandler = (data: unknown) =>
+      bridge.sendWidgetEvent('walletConnected', data)
+    const walletDisconnectedHandler = (data: unknown) =>
+      bridge.sendWidgetEvent('walletDisconnected', data)
 
-    const attach = () => {
-      if (listenersAttached) {
+    const attached = new Set<string>()
+
+    const attachEvent = (name: string) => {
+      if (attached.has(name)) {
         return
       }
-      listenersAttached = true
-      widgetHandlers.forEach((handler, name) => {
-        widgetEvents.on(name, handler as never)
-      })
-      walletMgmtEvents.on('walletConnected', walletConnectedHandler)
-      walletMgmtEvents.on('walletDisconnected', walletDisconnectedHandler)
+      if (widgetEventNames.has(name)) {
+        const key = name as keyof WidgetEvents
+        widgetEvents.on(key, widgetHandlers.get(key)! as never)
+        attached.add(name)
+      } else if (name === 'walletConnected') {
+        walletMgmtEvents.on('walletConnected', walletConnectedHandler)
+        attached.add(name)
+      } else if (name === 'walletDisconnected') {
+        walletMgmtEvents.on('walletDisconnected', walletDisconnectedHandler)
+        attached.add(name)
+      }
     }
 
-    const detach = () => {
-      if (!listenersAttached) {
+    const detachEvent = (name: string) => {
+      if (!attached.has(name)) {
         return
       }
-      listenersAttached = false
-      widgetHandlers.forEach((handler, name) => {
-        widgetEvents.off(name, handler as never)
-      })
-      walletMgmtEvents.off('walletConnected', walletConnectedHandler)
-      walletMgmtEvents.off('walletDisconnected', walletDisconnectedHandler)
+      if (widgetEventNames.has(name)) {
+        const key = name as keyof WidgetEvents
+        widgetEvents.off(key, widgetHandlers.get(key)! as never)
+      } else if (name === 'walletConnected') {
+        walletMgmtEvents.off('walletConnected', walletConnectedHandler)
+      } else if (name === 'walletDisconnected') {
+        walletMgmtEvents.off('walletDisconnected', walletDisconnectedHandler)
+      }
+      attached.delete(name)
     }
 
-    if (bridge.getSubscribedEvents().size > 0) {
-      attach()
-    }
+    bridge.getSubscribedEvents().forEach(attachEvent)
 
     const unsubBridge = bridge.onWidgetEventSubscriptionChange(
-      (_event, isSubscribed) => {
+      (event, isSubscribed) => {
         if (isSubscribed) {
-          attach()
-        } else if (bridge.getSubscribedEvents().size === 0) {
-          detach()
+          attachEvent(event)
+        } else {
+          detachEvent(event)
         }
       }
     )
 
     return () => {
       unsubBridge()
-      detach()
+      // Snapshot — detachEvent mutates the set.
+      for (const name of [...attached]) {
+        detachEvent(name)
+      }
     }
   }, [])
 
