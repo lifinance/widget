@@ -5,7 +5,6 @@ import { type JSX, useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { PageContainer } from '../../components/PageContainer.js'
 import { TransactionCardSkeleton } from '../../components/TransactionCard/TransactionCardSkeleton.js'
-import { listPageMinHeight } from '../../config/constants.js'
 import { useHeader } from '../../hooks/useHeader.js'
 import { useListHeight } from '../../hooks/useListHeight.js'
 import { useTransactionList } from '../../hooks/useTransactionList.js'
@@ -22,6 +21,7 @@ export const ActivitiesPage = (): JSX.Element => {
   // Parent ref and useVirtualizer should be in one file to avoid blank page (0 virtual items) issue
   const parentRef = useRef<HTMLDivElement | null>(null)
   const { items, isLoading } = useTransactionList()
+
   const { t } = useTranslation()
   const { accounts } = useAccount()
   const accountAddresses = useMemo(
@@ -81,7 +81,7 @@ export const ActivitiesPage = (): JSX.Element => {
   }
 
   return (
-    <PageContainer disableGutters style={{ minHeight: listPageMinHeight }}>
+    <PageContainer disableGutters>
       <Box
         ref={parentRef}
         style={{ height: listHeight }}

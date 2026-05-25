@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import { ChainSelect } from '../../components/ChainSelect/ChainSelect.js'
 import { PageContainer } from '../../components/PageContainer.js'
 import { TokenList } from '../../components/TokenList/TokenList.js'
-import { listPageMinHeight } from '../../config/constants.js'
 import { useHeader } from '../../hooks/useHeader.js'
 import { useSwapOnly } from '../../hooks/useSwapOnly.js'
 import { useWideVariant } from '../../hooks/useWideVariant.js'
@@ -45,7 +44,7 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   const hasHeader = !hideChainSelect || !hideSearchTokenInput
 
   return (
-    <PageContainer disableGutters style={{ minHeight: listPageMinHeight }}>
+    <PageContainer disableGutters>
       <Box
         ref={headerRef}
         sx={{
