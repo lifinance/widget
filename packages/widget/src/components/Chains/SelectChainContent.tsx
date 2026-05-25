@@ -2,15 +2,14 @@ import type { ExtendedChain } from '@lifi/sdk'
 import { Box, debounce, useTheme } from '@mui/material'
 import type React from 'react'
 import { memo, useCallback, useMemo, useRef, useState } from 'react'
-import { useDefaultElementId } from '../../hooks/useDefaultElementId.js'
-import { useScrollableContainer } from '../../hooks/useScrollableContainer.js'
+import { useTranslation } from 'react-i18next'
 import { FormKeyHelper, type FormType } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { getWidgetMaxHeight } from '../../utils/widgetSize.js'
 import { useChainSelect } from '../ChainSelect/useChainSelect.js'
-import { FullPageContainer } from '../FullPageContainer.js'
+import { PageContainer } from '../PageContainer.js'
+import { SearchInput } from '../Search/SearchInput.js'
 import { ChainList } from './ChainList.js'
-import { ChainSearchInput } from './ChainSearchInput.js'
 
 interface SelectChainContentProps {
   formType: FormType
@@ -28,8 +27,7 @@ export const SelectChainContent: React.NamedExoticComponent<SelectChainContentPr
   }: SelectChainContentProps) {
     const theme = useTheme()
     const { chains, isLoading, setCurrentChain } = useChainSelect(formType)
-    const elementId = useDefaultElementId()
-    const scrollableContainer = useScrollableContainer(elementId ?? '')
+    const { t } = useTranslation()
     const [selectedChainId] = useFieldValues(
       FormKeyHelper.getChainKey(formType)
     )
@@ -47,11 +45,8 @@ export const SelectChainContent: React.NamedExoticComponent<SelectChainContentPr
     }, [chains, debouncedSearchValue])
 
     const scrollToTop = useCallback(() => {
-      // Scroll widget container to top
-      if (!inExpansion && scrollableContainer) {
-        scrollableContainer.scrollTop = 0
-      }
-    }, [inExpansion, scrollableContainer])
+      listRef.current?.scrollTo(0, 0)
+    }, [])
 
     const debouncedFilterChains = useMemo(
       () =>
@@ -75,6 +70,9 @@ export const SelectChainContent: React.NamedExoticComponent<SelectChainContentPr
     }, [debouncedFilterChains])
 
     const onClear = useCallback(() => {
+      if (inputRef.current) {
+        inputRef.current.value = ''
+      }
       setDebouncedSearchValue('')
       scrollToTop()
     }, [scrollToTop])
@@ -89,19 +87,26 @@ export const SelectChainContent: React.NamedExoticComponent<SelectChainContentPr
     }, [theme])
 
     return (
-      <FullPageContainer disableGutters>
-        <ChainSearchInput
-          inputRef={inputRef}
-          inExpansion={inExpansion}
-          onChange={onChange}
-          onClear={onClear}
-          searchHeaderHeight={searchHeaderHeight}
-        />
+      <PageContainer disableGutters>
+        <Box
+          sx={{
+            pb: 2,
+            px: inExpansion ? 2.5 : 3,
+            pt: inExpansion ? 3 : 0,
+          }}
+        >
+          <SearchInput
+            inputRef={inputRef}
+            onChange={onChange}
+            placeholder={t('main.searchNetwork')}
+            size={inExpansion ? 'small' : 'medium'}
+            onClear={onClear}
+            autoFocus={!inExpansion}
+          />
+        </Box>
         <Box
           ref={listRef}
-          sx={
-            inExpansion ? { height: listContainerHeight, overflow: 'auto' } : {}
-          }
+          style={{ height: listContainerHeight, overflow: 'auto' }}
         >
           <ChainList
             parentRef={listRef}
@@ -114,6 +119,6 @@ export const SelectChainContent: React.NamedExoticComponent<SelectChainContentPr
             inExpansion={inExpansion}
           />
         </Box>
-      </FullPageContainer>
+      </PageContainer>
     )
   })

@@ -1,9 +1,9 @@
 import type { ToolsResponse } from '@lifi/sdk'
+import { List } from '@mui/material'
 import { type JSX, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSettingsStore } from '../../stores/settings/SettingsStore.js'
 import { useSettingsActions } from '../../stores/settings/useSettingsActions.js'
-import { SearchList } from '../Search/SearchInput.style.js'
 import { SearchNotFound } from '../Search/SearchNotFound.js'
 import { ToolItem } from './ToolItem.js'
 
@@ -37,16 +37,16 @@ export const Tools = ({ filteredTools, type }: ToolsProps): JSX.Element => {
   }, [filteredTools, setToolValue, type])
 
   if (!filteredTools.length) {
-    return (
-      <SearchNotFound
-        message={t(`info.message.empty${type}List`)}
-        adjustForStickySearchInput
-      />
-    )
+    return <SearchNotFound message={t(`info.message.empty${type}List`)} />
   }
 
   return (
-    <SearchList className="long-list" data-testid={`${typeKey}-list`}>
+    <List
+      className="long-list"
+      disablePadding
+      data-testid={`${typeKey}-list`}
+      sx={{ px: 1.5, pb: 2 }}
+    >
       {filteredTools.map((tool) => (
         <ToolItem
           key={tool.key}
@@ -56,6 +56,6 @@ export const Tools = ({ filteredTools, type }: ToolsProps): JSX.Element => {
           onToggle={toggleCallbacks[tool.key]}
         />
       ))}
-    </SearchList>
+    </List>
   )
 }

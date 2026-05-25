@@ -17,13 +17,16 @@ export const FloatingToolsContainer: React.FC<
 interface WidgetContainerProps extends BoxProps {
   removePaddingTop?: boolean
   alignTop?: boolean
+  withFixedHeaderOnPage?: boolean
 }
 
 export const WidgetContainer: React.FC<
   React.ComponentProps<typeof Box> & WidgetContainerProps
 > = styled(Box, {
   shouldForwardProp: (prop) =>
-    !['removePaddingTop', 'alignTop'].includes(prop as string),
+    !['removePaddingTop', 'alignTop', 'withFixedHeaderOnPage'].includes(
+      prop as string
+    ),
 })<WidgetContainerProps>(({ theme }) => {
   return {
     display: 'flex',
@@ -43,6 +46,12 @@ export const WidgetContainer: React.FC<
         props: ({ removePaddingTop }) => removePaddingTop,
         style: {
           paddingTop: 0,
+        },
+      },
+      {
+        props: ({ withFixedHeaderOnPage }) => withFixedHeaderOnPage,
+        style: {
+          paddingTop: theme.spacing(6), // height of the fixed header
         },
       },
     ],

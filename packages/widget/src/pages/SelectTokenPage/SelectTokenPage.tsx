@@ -3,10 +3,10 @@ import type { FC } from 'react'
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChainSelect } from '../../components/ChainSelect/ChainSelect.js'
-import { FullPageContainer } from '../../components/FullPageContainer.js'
+import { PageContainer } from '../../components/PageContainer.js'
 import { TokenList } from '../../components/TokenList/TokenList.js'
+import { listPageMinHeight } from '../../config/constants.js'
 import { useHeader } from '../../hooks/useHeader.js'
-import { useScrollableOverflowHidden } from '../../hooks/useScrollableContainer.js'
 import { useSwapOnly } from '../../hooks/useSwapOnly.js'
 import { useWideVariant } from '../../hooks/useWideVariant.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
@@ -15,8 +15,6 @@ import { HiddenUI } from '../../types/widget.js'
 import { SearchTokenInput } from './SearchTokenInput.js'
 
 export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
-  useScrollableOverflowHidden()
-
   const headerRef = useRef<HTMLElement>(null)
 
   const swapOnly = useSwapOnly()
@@ -47,7 +45,7 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   const hasHeader = !hideChainSelect || !hideSearchTokenInput
 
   return (
-    <FullPageContainer disableGutters>
+    <PageContainer disableGutters style={{ minHeight: listPageMinHeight }}>
       <Box
         ref={headerRef}
         sx={{
@@ -78,6 +76,6 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
         headerRef={headerRef}
         formType={formType}
       />
-    </FullPageContainer>
+    </PageContainer>
   )
 }

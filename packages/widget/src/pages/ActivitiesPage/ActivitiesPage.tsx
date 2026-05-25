@@ -5,6 +5,7 @@ import { type JSX, useCallback, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { PageContainer } from '../../components/PageContainer.js'
 import { TransactionCardSkeleton } from '../../components/TransactionCard/TransactionCardSkeleton.js'
+import { listPageMinHeight } from '../../config/constants.js'
 import { useHeader } from '../../hooks/useHeader.js'
 import { useListHeight } from '../../hooks/useListHeight.js'
 import { useTransactionList } from '../../hooks/useTransactionList.js'
@@ -80,7 +81,7 @@ export const ActivitiesPage = (): JSX.Element => {
   }
 
   return (
-    <PageContainer disableGutters style={{ minHeight: 544 }}>
+    <PageContainer disableGutters style={{ minHeight: listPageMinHeight }}>
       <Box
         ref={parentRef}
         style={{ height: listHeight }}

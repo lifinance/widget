@@ -2,7 +2,6 @@ import type { BoxProps, ContainerProps } from '@mui/material'
 import { Box, Container, ScopedCssBaseline, styled } from '@mui/material'
 import type React from 'react'
 import type { PropsWithChildren } from 'react'
-import { defaultMaxHeight } from '../config/constants.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useHeaderHeight } from '../stores/header/useHeaderStore.js'
 import type { WidgetVariant } from '../types/widget.js'
@@ -104,16 +103,10 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
     overflowY: 'auto',
     height: theme.container?.display === 'flex' ? 'auto' : '100%',
     paddingTop: paddingTopAdjustment,
-    // This allows FullPageContainer.tsx to expand and fill the available vertical space in max height and default layout modes
-    '&:has(.full-page-container)': {
-      height:
-        theme.container?.maxHeight ||
-        theme.container?.height ||
-        defaultMaxHeight,
-    },
     '&:has(.long-list)': {
       minHeight: getWidgetMaxHeight(theme),
       maxHeight: getWidgetMaxHeight(theme),
+      overflowY: 'hidden', // only long lists scroll, not the whole container
     },
   }
 })

@@ -62,6 +62,7 @@ export function WidgetViewContainer({
         <WidgetContainer
           removePaddingTop={isFullHeightLayout && !showHeader}
           alignTop={isFullHeightLayout}
+          withFixedHeaderOnPage={showHeader}
         >
           {showHeader ? (
             <MockElement sx={{ position: 'fixed', zIndex: 1, top: 0 }}>

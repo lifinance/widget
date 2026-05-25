@@ -1,6 +1,7 @@
 import { createContext, useContext, useRef } from 'react'
 import { create } from 'zustand'
 import { useShallow } from 'zustand/shallow'
+import { defaultHeaderHeight } from '../../config/constants.js'
 import type { PersistStoreProviderProps } from '../types.js'
 import type { HeaderState, HeaderStore } from './types.js'
 
@@ -58,7 +59,7 @@ export function useSetHeaderHeight(): any {
 
 const createHeaderStore = () =>
   create<HeaderState>((set, get) => ({
-    headerHeight: 108, // a basic default height
+    headerHeight: defaultHeaderHeight,
     setAction: (element) => {
       set(() => ({
         element,
