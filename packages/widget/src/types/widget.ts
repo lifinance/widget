@@ -104,35 +104,48 @@ export interface DisabledUIConfig {
 }
 
 export interface HiddenUIConfig {
+  addressBookConnectedWallets?: boolean
+  allNetworks?: boolean
   appearance?: boolean
+  bridgesSettings?: boolean
+  chainSelect?: boolean
+  /**
+   * Hide the chain sidebar in the `wide` variant. No effect in other variants.
+   * @default false
+   */
   chainSidebar?: boolean
+  contactSupport?: boolean
+  /**
+   * Hide the drawer close button. Only meaningful when `variant === 'drawer'`.
+   * @default false
+   */
   drawerCloseButton?: boolean
-  history?: boolean
-  language?: boolean
-  poweredBy?: boolean
-  toAddress?: boolean
   fromToken?: boolean
+  gasRefuelMessage?: boolean
+  hideSmallBalances?: boolean
+  history?: boolean
+  insufficientGasMessage?: boolean
+  integratorStepDetails?: boolean
+  language?: boolean
+  /**
+   * Hide the warning shown when sending to an address with low historical
+   * on-chain activity (low transaction count or contract-like behavior).
+   * @default false
+   */
+  lowAddressActivityConfirmation?: boolean
+  poweredBy?: boolean
+  reverseTokensButton?: boolean
+  routeCardPriceImpact?: boolean
+  routeTokenDescription?: boolean
+  searchTokenInput?: boolean
+  toAddress?: boolean
   toToken?: boolean
   walletMenu?: boolean
-  integratorStepDetails?: boolean
-  reverseTokensButton?: boolean
-  routeTokenDescription?: boolean
-  routeCardPriceImpact?: boolean
-  chainSelect?: boolean
-  bridgesSettings?: boolean
-  addressBookConnectedWallets?: boolean
-  lowAddressActivityConfirmation?: boolean
-  gasRefuelMessage?: boolean
-  searchTokenInput?: boolean
-  insufficientGasMessage?: boolean
-  contactSupport?: boolean
-  hideSmallBalances?: boolean
-  allNetworks?: boolean
 }
 
 export interface RequiredUIConfig {
-  toAddress?: boolean
   accountDeployedMessage?: boolean
+  toAddress?: boolean
 }
 
 export type DefaultUI = {
