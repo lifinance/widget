@@ -12,7 +12,6 @@ import { SendToWalletExpandButton } from '../../components/SendToWallet/SendToWa
 import { useHeader } from '../../hooks/useHeader.js'
 import { useWideVariant } from '../../hooks/useWideVariant.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { HiddenUI } from '../../types/widget.js'
 import { MainWarningMessages } from './MainWarningMessages.js'
 import { ReviewButton } from './ReviewButton.js'
 
@@ -22,8 +21,8 @@ export const MainPage: React.FC = () => {
   const { subvariant, subvariantOptions, contractComponent, hiddenUI } =
     useWidgetConfig()
   const custom = subvariant === 'custom'
-  const showPoweredBy = !hiddenUI?.includes(HiddenUI.PoweredBy)
-  const showGasRefuelMessage = !hiddenUI?.includes(HiddenUI.GasRefuelMessage)
+  const showPoweredBy = !hiddenUI?.poweredBy
+  const showGasRefuelMessage = !hiddenUI?.gasRefuelMessage
 
   const splitTitle =
     subvariantOptions?.split === 'bridge'

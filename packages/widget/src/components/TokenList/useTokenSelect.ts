@@ -8,7 +8,7 @@ import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useSplitSubvariantStore } from '../../stores/settings/useSplitSubvariantStore.js'
 import { WidgetEvent } from '../../types/events.js'
-import type { DisabledUI } from '../../types/widget.js'
+import type { DisabledUIConfig } from '../../types/widget.js'
 import { isItemAllowed } from '../../utils/item.js'
 
 export const useTokenSelect = (
@@ -38,7 +38,7 @@ export const useTokenSelect = (
         isTouched: true,
       })
       const amountKey = FormKeyHelper.getAmountKey(formType)
-      if (!disabledUI?.includes(amountKey as DisabledUI)) {
+      if (!disabledUI?.[amountKey as keyof DisabledUIConfig]) {
         setFieldValue(amountKey, '')
       }
       const oppositeFormType = formType === 'from' ? 'to' : 'from'

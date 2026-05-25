@@ -100,46 +100,43 @@ export type WidgetTheme = {
   navigation?: NavigationProps
 }
 
-export enum DisabledUI {
-  FromAmount = 'fromAmount',
-  FromToken = 'fromToken',
-  ToAddress = 'toAddress',
-  ToToken = 'toToken',
+export interface DisabledUIConfig {
+  fromAmount?: boolean
+  fromToken?: boolean
+  toAddress?: boolean
+  toToken?: boolean
 }
-export type DisabledUIType = `${DisabledUI}`
 
-export enum HiddenUI {
-  Appearance = 'appearance',
-  DrawerCloseButton = 'drawerCloseButton',
-  History = 'history',
-  Language = 'language',
-  PoweredBy = 'poweredBy',
-  ToAddress = 'toAddress',
-  FromToken = 'fromToken',
-  ToToken = 'toToken',
-  WalletMenu = 'walletMenu',
-  IntegratorStepDetails = 'integratorStepDetails',
-  ReverseTokensButton = 'reverseTokensButton',
-  RouteTokenDescription = 'routeTokenDescription',
-  RouteCardPriceImpact = 'routeCardPriceImpact',
-  ChainSelect = 'chainSelect',
-  BridgesSettings = 'bridgesSettings',
-  AddressBookConnectedWallets = 'addressBookConnectedWallets',
-  LowAddressActivityConfirmation = 'lowAddressActivityConfirmation',
-  GasRefuelMessage = 'gasRefuelMessage',
-  SearchTokenInput = 'searchTokenInput',
-  InsufficientGasMessage = 'insufficientGasMessage',
-  ContactSupport = 'contactSupport',
-  HideSmallBalances = 'hideSmallBalances',
-  AllNetworks = 'allNetworks',
+export interface HiddenUIConfig {
+  appearance?: boolean
+  drawerCloseButton?: boolean
+  history?: boolean
+  language?: boolean
+  poweredBy?: boolean
+  toAddress?: boolean
+  fromToken?: boolean
+  toToken?: boolean
+  walletMenu?: boolean
+  integratorStepDetails?: boolean
+  reverseTokensButton?: boolean
+  routeTokenDescription?: boolean
+  routeCardPriceImpact?: boolean
+  chainSelect?: boolean
+  bridgesSettings?: boolean
+  addressBookConnectedWallets?: boolean
+  lowAddressActivityConfirmation?: boolean
+  gasRefuelMessage?: boolean
+  searchTokenInput?: boolean
+  insufficientGasMessage?: boolean
+  contactSupport?: boolean
+  hideSmallBalances?: boolean
+  allNetworks?: boolean
 }
-export type HiddenUIType = `${HiddenUI}`
 
-export enum RequiredUI {
-  ToAddress = 'toAddress',
-  AccountDeployedMessage = 'accountDeployedMessage',
+export interface RequiredUIConfig {
+  toAddress?: boolean
+  accountDeployedMessage?: boolean
 }
-export type RequiredUIType = `${RequiredUI}`
 
 export type DefaultUI = {
   transactionDetailsExpanded?: boolean
@@ -344,9 +341,9 @@ export interface WidgetConfig {
   appearance?: Appearance
   theme?: WidgetTheme
 
-  disabledUI?: DisabledUIType[]
-  hiddenUI?: HiddenUIType[]
-  requiredUI?: RequiredUIType[]
+  disabledUI?: DisabledUIConfig
+  hiddenUI?: HiddenUIConfig
+  requiredUI?: RequiredUIConfig
   defaultUI?: DefaultUI
   useRecommendedRoute?: boolean
   useRelayerRoutes?: boolean

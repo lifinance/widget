@@ -14,7 +14,7 @@ export const widgetBaseConfig: WidgetConfig = {
     SolanaProvider(),
     SuiProvider(),
   ],
-  hiddenUI: ['history'],
+  hiddenUI: { history: true },
   // buildUrl: true,
   sdkConfig: {
     apiUrl: 'https://li.quest/v1',

@@ -11,7 +11,6 @@ import { useSwapOnly } from '../../hooks/useSwapOnly.js'
 import { useWideVariant } from '../../hooks/useWideVariant.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { FormTypeProps } from '../../stores/form/types.js'
-import { HiddenUI } from '../../types/widget.js'
 import { SearchTokenInput } from './SearchTokenInput.js'
 
 export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
@@ -37,12 +36,12 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   const hideChainSelect =
     (wideVariant && !subvariantOptions?.wide?.disableChainSidebar) ||
     (swapOnly && formType === 'to') ||
-    hiddenUI?.includes(HiddenUI.ChainSelect)
+    hiddenUI?.chainSelect
 
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down(theme.breakpoints.values.xs)
   )
-  const hideSearchTokenInput = hiddenUI?.includes(HiddenUI.SearchTokenInput)
+  const hideSearchTokenInput = hiddenUI?.searchTokenInput
 
   const hasHeader = !hideChainSelect || !hideSearchTokenInput
 

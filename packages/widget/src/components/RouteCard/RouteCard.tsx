@@ -3,7 +3,7 @@ import { Box, Tooltip } from '@mui/material'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { HiddenUI, type RouteLabel } from '../../types/widget.js'
+import type { RouteLabel } from '../../types/widget.js'
 import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
 import type { CardProps } from '../Card/Card.js'
 import { Card } from '../Card/Card.js'
@@ -30,8 +30,7 @@ export const RouteCard: React.FC<
       ? { ...route.fromToken, amount: BigInt(route.fromAmount) }
       : { ...route.toToken, amount: BigInt(route.toAmount) }
   const impactToken: TokenAmount | undefined =
-    subvariant !== 'custom' &&
-    !hiddenUI?.includes(HiddenUI.RouteCardPriceImpact)
+    subvariant !== 'custom' && !hiddenUI?.routeCardPriceImpact
       ? { ...route.fromToken, amount: BigInt(route.fromAmount) }
       : undefined
 

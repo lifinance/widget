@@ -9,7 +9,6 @@ import { FormKeyHelper, type FormTypeProps } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { useInputModeStore } from '../../stores/inputMode/useInputModeStore.js'
-import { DisabledUI } from '../../types/widget.js'
 import {
   formatInputAmount,
   formatTokenPrice,
@@ -44,7 +43,7 @@ export const AmountInput: React.FC<FormTypeProps & CardProps> = ({
 
   const { token } = useToken(chainId, tokenAddress)
 
-  const disabled = disabledUI?.includes(DisabledUI.FromAmount)
+  const disabled = disabledUI?.fromAmount
   return (
     <AmountInputBase
       formType={formType}

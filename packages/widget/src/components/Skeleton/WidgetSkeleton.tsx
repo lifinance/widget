@@ -68,8 +68,8 @@ export const WidgetSkeleton = ({
   config,
 }: WidgetConfigPartialProps): JSX.Element => {
   const appearance = config?.appearance
-  const hiddenUI = config?.hiddenUI || []
-  const requiredUI = config?.requiredUI || []
+  const hiddenUI = config?.hiddenUI
+  const requiredUI = config?.requiredUI
   const configTheme = config?.theme
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
   const appearanceMode =
@@ -92,7 +92,7 @@ export const WidgetSkeleton = ({
       <AppExpandedContainer>
         <RelativeContainer sx={{ display: 'flex', flexDirection: 'column' }}>
           <SkeletonHeaderContainer>
-            {!hiddenUI.includes('walletMenu') ? (
+            {!hiddenUI?.walletMenu ? (
               <SkeletonHeaderAppBar>
                 <SkeletonWalletMenuButton />
               </SkeletonHeaderAppBar>
@@ -108,27 +108,27 @@ export const WidgetSkeleton = ({
           <FlexContainer
             sx={{
               gap: 2,
-              paddingBottom: hiddenUI.includes('poweredBy') ? 3 : 2,
+              paddingBottom: hiddenUI?.poweredBy ? 3 : 2,
             }}
           >
             <SkeletonSelectCard />
             <SkeletonSelectCard />
             <SkeletonYouPayCard />
-            {requiredUI.includes('toAddress') ? (
+            {requiredUI?.toAddress ? (
               <SkeletonSelectCard titleWidth={104} placeholderWidth={175} />
             ) : null}
             <SkeletonReviewButtonContainer>
               <SkeletonReviewButton variant="contained" fullWidth>
                 &nbsp;
               </SkeletonReviewButton>
-              {!requiredUI.includes('toAddress') ? (
+              {!requiredUI?.toAddress ? (
                 <SkeletonSendToWalletButton variant="text" fullWidth>
                   &nbsp;
                 </SkeletonSendToWalletButton>
               ) : null}
             </SkeletonReviewButtonContainer>
           </FlexContainer>
-          {!hiddenUI.includes('poweredBy') ? (
+          {!hiddenUI?.poweredBy ? (
             <SkeletonPoweredByContainer>
               <Skeleton width={96} height={18} variant="text" />
             </SkeletonPoweredByContainer>

@@ -12,7 +12,6 @@ import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js
 import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { DisabledUI, HiddenUI } from '../../types/widget.js'
 import { defaultChainIdsByType } from '../../utils/chainType.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { shortenAddress } from '../../utils/wallet.js'
@@ -50,8 +49,8 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
   const { accounts } = useAccount()
   const { getChainTypeFromAddress } = useChainTypeFromAddress()
   const { requiredToAddress } = useToAddressRequirements()
-  const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress)
-  const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress)
+  const disabledToAddress = disabledUI?.toAddress
+  const hiddenToAddress = hiddenUI?.toAddress
 
   const address = toAddressFieldValue
     ? shortenAddress(toAddressFieldValue)

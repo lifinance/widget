@@ -9,6 +9,7 @@ import type { ChainOrderState } from '../../stores/chains/types.js'
 import type { FormTypeProps } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
+import type { DisabledUIConfig } from '../../types/widget.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { AvatarBadgedDefault, AvatarBadgedSkeleton } from '../Avatar/Avatar.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
@@ -51,7 +52,9 @@ export const SelectTokenButton: React.FC<
   }
 
   const isSelected = !!(chain && token)
-  const onClick = !disabledUI?.includes(tokenKey) ? handleClick : undefined
+  const onClick = !disabledUI?.[tokenKey as keyof DisabledUIConfig]
+    ? handleClick
+    : undefined
   const defaultPlaceholder = `${t('main.select')}...`
   const cardTitle: string =
     formType === 'from' && subvariant === 'custom'

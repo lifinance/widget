@@ -113,41 +113,46 @@ export interface WidgetTheme {
 }
 
 // ---------------------------------------------------------------------------
-// UI controls (mirrors DisabledUI, HiddenUI, RequiredUI string enums)
+// UI controls (mirrors DisabledUIConfig, HiddenUIConfig, RequiredUIConfig)
 // ---------------------------------------------------------------------------
 
-export type WidgetDisabledUI =
-  | 'fromAmount'
-  | 'fromToken'
-  | 'toAddress'
-  | 'toToken'
+export interface WidgetDisabledUIConfig {
+  fromAmount?: boolean
+  fromToken?: boolean
+  toAddress?: boolean
+  toToken?: boolean
+}
 
-export type WidgetHiddenUI =
-  | 'appearance'
-  | 'drawerCloseButton'
-  | 'history'
-  | 'language'
-  | 'poweredBy'
-  | 'toAddress'
-  | 'fromToken'
-  | 'toToken'
-  | 'walletMenu'
-  | 'integratorStepDetails'
-  | 'reverseTokensButton'
-  | 'routeTokenDescription'
-  | 'routeCardPriceImpact'
-  | 'chainSelect'
-  | 'bridgesSettings'
-  | 'addressBookConnectedWallets'
-  | 'lowAddressActivityConfirmation'
-  | 'gasRefuelMessage'
-  | 'searchTokenInput'
-  | 'insufficientGasMessage'
-  | 'contactSupport'
-  | 'hideSmallBalances'
-  | 'allNetworks'
+export interface WidgetHiddenUIConfig {
+  appearance?: boolean
+  drawerCloseButton?: boolean
+  history?: boolean
+  language?: boolean
+  poweredBy?: boolean
+  toAddress?: boolean
+  fromToken?: boolean
+  toToken?: boolean
+  walletMenu?: boolean
+  integratorStepDetails?: boolean
+  reverseTokensButton?: boolean
+  routeTokenDescription?: boolean
+  routeCardPriceImpact?: boolean
+  chainSelect?: boolean
+  bridgesSettings?: boolean
+  addressBookConnectedWallets?: boolean
+  lowAddressActivityConfirmation?: boolean
+  gasRefuelMessage?: boolean
+  searchTokenInput?: boolean
+  insufficientGasMessage?: boolean
+  contactSupport?: boolean
+  hideSmallBalances?: boolean
+  allNetworks?: boolean
+}
 
-export type WidgetRequiredUI = 'toAddress' | 'accountDeployedMessage'
+export interface WidgetRequiredUIConfig {
+  toAddress?: boolean
+  accountDeployedMessage?: boolean
+}
 
 export interface WidgetDefaultUI {
   transactionDetailsExpanded?: boolean
@@ -364,9 +369,9 @@ export interface WidgetLightConfig {
   theme?: WidgetTheme
 
   // -- UI controls --
-  disabledUI?: WidgetDisabledUI[]
-  hiddenUI?: WidgetHiddenUI[]
-  requiredUI?: WidgetRequiredUI[]
+  disabledUI?: WidgetDisabledUIConfig
+  hiddenUI?: WidgetHiddenUIConfig
+  requiredUI?: WidgetRequiredUIConfig
   defaultUI?: WidgetDefaultUI
   useRecommendedRoute?: boolean
   useRelayerRoutes?: boolean

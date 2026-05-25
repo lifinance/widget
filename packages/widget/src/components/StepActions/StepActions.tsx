@@ -18,7 +18,6 @@ import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { lifiLogoUrl } from '../../icons/lifi.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { HiddenUI } from '../../types/widget.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { SmallAvatar } from '../Avatar/SmallAvatar.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
@@ -126,7 +125,7 @@ const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
   const { isGaslessStep } = useEthereumContext()
 
   let includedSteps = step.includedSteps
-  if (hiddenUI?.includes(HiddenUI.IntegratorStepDetails)) {
+  if (hiddenUI?.integratorStepDetails) {
     const feeCollectionStep = includedSteps.find(
       (step) => step.tool === 'feeCollection'
     )

@@ -6,7 +6,6 @@ import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { HiddenUI } from '../../types/widget.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { SmallAvatar } from '../Avatar/SmallAvatar.js'
 import { Card } from '../Card/Card.js'
@@ -30,7 +29,7 @@ export const StepActions: React.FC<{
 
   const flatSteps = route.steps.flatMap((routeStep) => {
     let steps = routeStep.includedSteps
-    if (hiddenUI?.includes(HiddenUI.IntegratorStepDetails)) {
+    if (hiddenUI?.integratorStepDetails) {
       const feeCollectionStep = steps.find((s) => s.tool === 'feeCollection')
       if (feeCollectionStep) {
         steps = structuredClone(steps.filter((s) => s.tool !== 'feeCollection'))

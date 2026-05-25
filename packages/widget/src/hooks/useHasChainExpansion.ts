@@ -1,6 +1,6 @@
 import { useLocation } from '@tanstack/react-router'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import { ExpansionType, HiddenUI } from '../types/widget.js'
+import { ExpansionType } from '../types/widget.js'
 import { navigationRoutes } from '../utils/navigationRoutes.js'
 import { useSwapOnly } from './useSwapOnly.js'
 
@@ -25,7 +25,7 @@ export const useHasChainExpansion = (): readonly [
     (expansionType === ExpansionType.FromChain ||
       expansionType === ExpansionType.ToChain) &&
     !(swapOnly && expansionType === ExpansionType.ToChain) &&
-    !hiddenUI?.includes(HiddenUI.ChainSelect) &&
+    !hiddenUI?.chainSelect &&
     !subvariantOptions?.wide?.disableChainSidebar
 
   return [withChainExpansion, expansionType] as const

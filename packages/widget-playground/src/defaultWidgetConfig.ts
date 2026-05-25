@@ -77,9 +77,9 @@ export const widgetBaseConfig: WidgetConfig = {
   // useRecommendedRoute: true,
   useRelayerRoutes: true,
   buildUrl: true,
-  // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton', 'toAddress'],
-  // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
-  // requiredUI: ['toAddress'],
+  // hiddenUI: { poweredBy: true, language: true, appearance: true, drawerCloseButton: true, toAddress: true },
+  // disabledUI: { toAddress: true, fromAmount: true, toToken: true, fromToken: true },
+  // requiredUI: { toAddress: true },
   // defaultUI: {
   //   navigationHeaderTitleNoWrap: false,
   // },

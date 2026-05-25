@@ -3,7 +3,6 @@ import { Box, Typography } from '@mui/material'
 import { useLocation } from '@tanstack/react-router'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useHeaderStore } from '../../stores/header/useHeaderStore.js'
-import { HiddenUI } from '../../types/widget.js'
 import {
   backButtonRoutes,
   navigationRoutes,
@@ -60,12 +59,9 @@ export const NavigationHeader: React.FC = () => {
       )}
       {pathname === navigationRoutes.home ? (
         <HeaderControlsContainer>
-          {account.isConnected && !hiddenUI?.includes(HiddenUI.History) && (
-            <ActivitiesButton />
-          )}
+          {account.isConnected && !hiddenUI?.history && <ActivitiesButton />}
           <SettingsButton />
-          {variant === 'drawer' &&
-          !hiddenUI?.includes(HiddenUI.DrawerCloseButton) ? (
+          {variant === 'drawer' && !hiddenUI?.drawerCloseButton ? (
             <CloseDrawerButton header="navigation" />
           ) : null}
         </HeaderControlsContainer>

@@ -20,7 +20,6 @@ import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useHeaderStore } from '../../stores/header/useHeaderStore.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { WidgetEvent } from '../../types/events.js'
-import { HiddenUI } from '../../types/widget.js'
 import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { ConfirmToAddressSheet } from './ConfirmToAddressSheet.js'
@@ -148,7 +147,7 @@ export const TransactionPage = (): JSX.Element | null => {
         !hasActivity &&
         !isLoadingAddressActivity &&
         isActivityAddressFetched &&
-        !hiddenUI?.includes(HiddenUI.LowAddressActivityConfirmation)
+        !hiddenUI?.lowAddressActivityConfirmation
       ) {
         confirmToAddressSheetRef.current?.open()
         return
@@ -255,7 +254,7 @@ export const TransactionPage = (): JSX.Element | null => {
         />
       ) : null}
       <ExchangeRateBottomSheet ref={exchangeRateBottomSheetRef} />
-      {!hiddenUI?.includes(HiddenUI.LowAddressActivityConfirmation) ? (
+      {!hiddenUI?.lowAddressActivityConfirmation ? (
         <ConfirmToAddressSheet
           ref={confirmToAddressSheetRef}
           onContinue={handleExecuteRoute}
