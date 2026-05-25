@@ -9,10 +9,12 @@ import { useTranslation } from 'react-i18next'
 import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { ContextMenu } from '../../components/ContextMenu.js'
+import { EmptyListIndicator } from '../../components/EmptyListIndicator/EmptyListIndicator.js'
 import { ListItem } from '../../components/ListItem/ListItem.js'
 import { ListItemButton } from '../../components/ListItem//ListItemButton.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { useHeader } from '../../hooks/useHeader.js'
+import { useScrollableOverflowHidden } from '../../hooks/useScrollableContainer.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { Bookmark } from '../../stores/bookmarks/types.js'
@@ -23,7 +25,6 @@ import { defaultChainIdsByType } from '../../utils/chainType.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { BookmarkAddressSheet } from './BookmarkAddressSheet.js'
-import { EmptyListIndicator } from './EmptyListIndicator.js'
 import {
   BookmarkButtonContainer,
   BookmarksListContainer,
@@ -31,6 +32,8 @@ import {
 } from './SendToWalletPage.style.js'
 
 export const BookmarksPage = (): JSX.Element => {
+  useScrollableOverflowHidden()
+
   const { t } = useTranslation()
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null)
   const { bookmarks } = useBookmarks()
@@ -62,7 +65,7 @@ export const BookmarksPage = (): JSX.Element => {
       disableGutters
       enableFullHeight={variant !== 'drawer'}
     >
-      <BookmarksListContainer>
+      <BookmarksListContainer className="long-list">
         {bookmarks.map((bookmark) => (
           <ListItem key={bookmark.address} sx={{ position: 'relative' }}>
             <ListItemButton
@@ -118,9 +121,11 @@ export const BookmarksPage = (): JSX.Element => {
           </ListItem>
         ))}
         {!bookmarks.length && (
-          <EmptyListIndicator icon={<TurnedIn sx={{ fontSize: 48 }} />}>
-            {t('sendToWallet.noBookmarkedWallets')}
-          </EmptyListIndicator>
+          <EmptyListIndicator
+            icon={<TurnedIn />}
+            title={t('sendToWallet.noBookmarkedWallets')}
+            message={t('sendToWallet.noBookmarkedWalletsMessage')}
+          />
         )}
       </BookmarksListContainer>
       <BookmarkButtonContainer>

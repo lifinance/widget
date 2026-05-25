@@ -5,20 +5,21 @@ import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import Wallet from '@mui/icons-material/Wallet'
 import { ListItemAvatar, ListItemText } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
-import type { JSX } from 'react'
+import { type JSX, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js'
 import { ContextMenu } from '../../components/ContextMenu.js'
+import { EmptyListIndicator } from '../../components/EmptyListIndicator/EmptyListIndicator.js'
 import { ListItem } from '../../components/ListItem/ListItem.js'
 import { ListItemButton } from '../../components/ListItem/ListItemButton.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { useHeader } from '../../hooks/useHeader.js'
+import { useListHeight } from '../../hooks/useListHeight.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { shortenAddress } from '../../utils/wallet.js'
-import { EmptyListIndicator } from './EmptyListIndicator.js'
 import {
   ListContainer,
   SendToWalletPageContainer,
@@ -32,8 +33,11 @@ export const ConnectedWalletsPage = (): JSX.Element => {
   const navigate = useNavigate()
   const { setFieldValue } = useFieldActions()
   const { getAddressLink } = useExplorer()
+  const listParentRef = useRef<HTMLUListElement | null>(null)
 
   useHeader(t('sendToWallet.connectedWallets'))
+
+  const { listHeight } = useListHeight({ listParentRef: listParentRef })
 
   const handleWalletSelected = (account: Account) => {
     setFieldValue('toAddress', account.address!, {
@@ -54,7 +58,11 @@ export const ConnectedWalletsPage = (): JSX.Element => {
 
   return (
     <SendToWalletPageContainer disableGutters>
-      <ListContainer>
+      <ListContainer
+        className="long-list"
+        ref={listParentRef}
+        style={{ height: listHeight, overflow: 'auto' }}
+      >
         {accounts.map((account) => {
           const walletAddress = shortenAddress(account.address)
           const menuItems = [
@@ -115,9 +123,11 @@ export const ConnectedWalletsPage = (): JSX.Element => {
           )
         })}
         {!accounts.length && (
-          <EmptyListIndicator icon={<Wallet sx={{ fontSize: 48 }} />}>
-            {t('sendToWallet.noConnectedWallets')}
-          </EmptyListIndicator>
+          <EmptyListIndicator
+            icon={<Wallet />}
+            title={t('sendToWallet.noConnectedWallets')}
+            message={t('sendToWallet.noConnectedWalletsMessage')}
+          />
         )}
       </ListContainer>
     </SendToWalletPageContainer>

@@ -130,33 +130,22 @@ export const ListContainer: React.FC<React.ComponentProps<typeof List>> =
 
 export const BookmarksListContainer: React.FC<
   React.ComponentProps<typeof ListContainer>
-> = styled(ListContainer)(({ theme }) => ({
-  ...(theme.container?.height === '100%'
-    ? { minHeight: 360, height: 360, flexGrow: 1, overflow: 'auto' }
-    : { minHeight: 440 }),
+> = styled(ListContainer)(() => ({
+  flex: 1,
+  minHeight: 0,
+  overflow: 'auto',
 }))
+
 export const BookmarkButtonContainer: React.FC<
   React.ComponentProps<typeof Box>
 > = styled(Box)(({ theme }) => ({
   background: theme.vars.palette.background.default,
   display: 'flex',
   flexDirection: 'column',
-  bottom: 0,
+  flexShrink: 0,
   padding: theme.spacing(0, 3, 3),
-  zIndex: 2,
-  position: 'sticky',
   width: '100%',
 }))
-
-export const EmptyContainer: React.FC<React.ComponentProps<typeof Box>> =
-  styled(Box)(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexGrow: 1,
-    gap: theme.spacing(2),
-  }))
 
 export const ValidationAlert: React.FC<React.ComponentProps<typeof Alert>> =
   styled(Alert)(({ theme }) => ({
