@@ -1,4 +1,5 @@
 import type {
+  HiddenUIConfig,
   SubvariantOptions,
   WidgetSubvariant,
   WidgetVariant,
@@ -35,6 +36,16 @@ export const useConfigSubvariantOptions = (): {
 
   return {
     subvariantOptions: subvariantOptions,
+  }
+}
+
+export const useConfigHiddenUI = (): {
+  hiddenUI: HiddenUIConfig | undefined
+} => {
+  const hiddenUI = useWidgetConfigStore((store) => store.config?.hiddenUI)
+
+  return {
+    hiddenUI: hiddenUI,
   }
 }
 

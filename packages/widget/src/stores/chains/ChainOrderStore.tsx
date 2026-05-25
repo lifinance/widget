@@ -32,7 +32,7 @@ export function ChainOrderStoreProvider({
   const { chains } = useChains()
   const { setFieldValue, getFieldValues } = useFieldActions()
   const swapOnly = useSwapOnly()
-  const { variant, subvariantOptions } = useWidgetConfig()
+  const { variant } = useWidgetConfig()
   const { externalChainTypes, useExternalWalletProvidersOnly } =
     useExternalWalletProvider()
 
@@ -116,7 +116,7 @@ export function ChainOrderStoreProvider({
           )
         if (
           variant === 'wide' &&
-          !subvariantOptions?.wide?.disableChainSidebar &&
+          !hiddenUI?.chainSidebar &&
           firstAllowedPinnedChain
         ) {
           setFieldValue(`${key}Chain`, firstAllowedPinnedChain)
@@ -133,7 +133,6 @@ export function ChainOrderStoreProvider({
     setFieldValue,
     useExternalWalletProvidersOnly,
     variant,
-    subvariantOptions?.wide?.disableChainSidebar,
     hiddenUI,
     swapOnly,
     fromChainConfig,

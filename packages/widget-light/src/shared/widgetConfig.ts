@@ -81,9 +81,6 @@ export interface WidgetSplitSubvariantOptions {
 export interface WidgetSubvariantOptions {
   split?: WidgetSplitSubvariant | WidgetSplitSubvariantOptions
   custom?: WidgetCustomSubvariant
-  wide?: {
-    disableChainSidebar?: boolean
-  }
 }
 
 // ---------------------------------------------------------------------------
@@ -125,6 +122,7 @@ export interface WidgetDisabledUIConfig {
 
 export interface WidgetHiddenUIConfig {
   appearance?: boolean
+  chainSidebar?: boolean
   drawerCloseButton?: boolean
   history?: boolean
   language?: boolean

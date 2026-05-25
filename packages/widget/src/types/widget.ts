@@ -43,9 +43,6 @@ export type SplitSubvariantOptions = {
   defaultTab: SplitSubvariant
 }
 export type CustomSubvariant = 'checkout' | 'deposit'
-export type WideSubvariant = {
-  disableChainSidebar?: boolean
-}
 export interface SubvariantOptions {
   /**
    * Configure split subvariant behavior:
@@ -54,7 +51,6 @@ export interface SubvariantOptions {
    */
   split?: SplitSubvariant | SplitSubvariantOptions
   custom?: CustomSubvariant
-  wide?: WideSubvariant
 }
 
 export type Appearance = PaletteMode | 'system'
@@ -109,6 +105,7 @@ export interface DisabledUIConfig {
 
 export interface HiddenUIConfig {
   appearance?: boolean
+  chainSidebar?: boolean
   drawerCloseButton?: boolean
   history?: boolean
   language?: boolean

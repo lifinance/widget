@@ -76,12 +76,9 @@ export const createWidgetConfigStore = (
           set({
             config: {
               ...get().config,
-              subvariantOptions: {
-                ...get().config?.subvariantOptions,
-                wide: {
-                  ...get().config?.subvariantOptions?.wide,
-                  disableChainSidebar: disabled,
-                },
+              hiddenUI: {
+                ...get().config?.hiddenUI,
+                chainSidebar: disabled,
               },
             },
           })

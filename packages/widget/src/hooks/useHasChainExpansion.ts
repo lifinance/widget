@@ -8,7 +8,7 @@ export const useHasChainExpansion = (): readonly [
   boolean,
   ExpansionType | null,
 ] => {
-  const { hiddenUI, subvariantOptions } = useWidgetConfig()
+  const { hiddenUI } = useWidgetConfig()
   const swapOnly = useSwapOnly()
   const { pathname } = useLocation()
 
@@ -26,7 +26,7 @@ export const useHasChainExpansion = (): readonly [
       expansionType === ExpansionType.ToChain) &&
     !(swapOnly && expansionType === ExpansionType.ToChain) &&
     !hiddenUI?.chainSelect &&
-    !subvariantOptions?.wide?.disableChainSidebar
+    !hiddenUI?.chainSidebar
 
   return [withChainExpansion, expansionType] as const
 }

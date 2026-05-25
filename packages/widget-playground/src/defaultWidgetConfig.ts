@@ -58,10 +58,8 @@ export const widgetBaseConfig: WidgetConfig = {
   ],
   variant: 'wide',
   // subvariant: 'split',
-  // subvariantOptions: {
-  //   wide: {
-  //     disableChainSidebar: true,
-  //   },
+  // hiddenUI: {
+  //   chainSidebar: true,
   // },
   integrator: 'li.fi-playground',
   ...(import.meta.env?.VITE_API_KEY && {

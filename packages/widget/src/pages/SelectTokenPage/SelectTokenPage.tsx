@@ -20,7 +20,7 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
 
   const swapOnly = useSwapOnly()
 
-  const { subvariant, hiddenUI, subvariantOptions } = useWidgetConfig()
+  const { subvariant, hiddenUI } = useWidgetConfig()
   const wideVariant = useWideVariant()
 
   const { t } = useTranslation()
@@ -34,7 +34,7 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   useHeader(title)
 
   const hideChainSelect =
-    (wideVariant && !subvariantOptions?.wide?.disableChainSidebar) ||
+    (wideVariant && !hiddenUI?.chainSidebar) ||
     (swapOnly && formType === 'to') ||
     hiddenUI?.chainSelect
 
