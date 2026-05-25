@@ -1,13 +1,8 @@
-import _mitt, { type Emitter, type EventHandlerMap, type EventType } from 'mitt'
+import EventEmitter from 'eventemitter3'
 import type { WidgetEvents } from '../types/events.js'
 
-// https://github.com/developit/mitt/issues/191
-const mitt = _mitt as unknown as <Events extends Record<EventType, unknown>>(
-  all?: EventHandlerMap<Events>
-) => Emitter<Events>
+export type WidgetEventEmitter = EventEmitter<WidgetEvents>
 
-export const widgetEvents: Emitter<WidgetEvents> = mitt<WidgetEvents>()
+export const widgetEvents: WidgetEventEmitter = new EventEmitter<WidgetEvents>()
 
-export const useWidgetEvents = (): Emitter<WidgetEvents> => {
-  return widgetEvents
-}
+export const useWidgetEvents = (): WidgetEventEmitter => widgetEvents

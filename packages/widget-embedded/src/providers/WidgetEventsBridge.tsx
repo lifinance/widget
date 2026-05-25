@@ -1,5 +1,5 @@
 import { widgetEvents as walletMgmtEvents } from '@lifi/wallet-management'
-import { widgetEvents } from '@lifi/widget'
+import { WidgetEvent, type WidgetEvents, widgetEvents } from '@lifi/widget'
 import { GuestBridge } from '@lifi/widget-light'
 import { useEffect } from 'react'
 
@@ -14,26 +14,28 @@ import { useEffect } from 'react'
 export function WidgetEventsBridge() {
   useEffect(() => {
     const bridge = GuestBridge.getInstance()
-    const noopHandler = () => {}
     let listenersAttached = false
 
-    // Events that gate on widgetEvents.all.has() need a specific no-op
-    // listener so the gate check passes (mitt wildcard doesn't register
-    // under specific event keys).
-    const isGatedEvent = (event: string) => event === 'contactSupport'
-
-    const wildcardHandler = (type: string, data: unknown) => {
-      if (bridge.getSubscribedEvents().has(type)) {
-        bridge.sendWidgetEvent(type, data)
-      }
-    }
+    const widgetEventNames = Object.values(WidgetEvent) as Array<
+      keyof WidgetEvents
+    >
+    const widgetHandlers = new Map<
+      keyof WidgetEvents,
+      (data: unknown) => void
+    >()
+    widgetEventNames.forEach((name) => {
+      widgetHandlers.set(name, (data) => {
+        if (bridge.getSubscribedEvents().has(name)) {
+          bridge.sendWidgetEvent(name, data)
+        }
+      })
+    })
 
     const walletConnectedHandler = (data: unknown) => {
       if (bridge.getSubscribedEvents().has('walletConnected')) {
         bridge.sendWidgetEvent('walletConnected', data)
       }
     }
-
     const walletDisconnectedHandler = (data: unknown) => {
       if (bridge.getSubscribedEvents().has('walletDisconnected')) {
         bridge.sendWidgetEvent('walletDisconnected', data)
@@ -45,7 +47,9 @@ export function WidgetEventsBridge() {
         return
       }
       listenersAttached = true
-      widgetEvents.on('*', wildcardHandler)
+      widgetHandlers.forEach((handler, name) => {
+        widgetEvents.on(name, handler as never)
+      })
       walletMgmtEvents.on('walletConnected', walletConnectedHandler)
       walletMgmtEvents.on('walletDisconnected', walletDisconnectedHandler)
     }
@@ -55,10 +59,11 @@ export function WidgetEventsBridge() {
         return
       }
       listenersAttached = false
-      widgetEvents.off('*', wildcardHandler)
+      widgetHandlers.forEach((handler, name) => {
+        widgetEvents.off(name, handler as never)
+      })
       walletMgmtEvents.off('walletConnected', walletConnectedHandler)
       walletMgmtEvents.off('walletDisconnected', walletDisconnectedHandler)
-      widgetEvents.off('contactSupport', noopHandler)
     }
 
     if (bridge.getSubscribedEvents().size > 0) {
@@ -66,19 +71,11 @@ export function WidgetEventsBridge() {
     }
 
     const unsubBridge = bridge.onWidgetEventSubscriptionChange(
-      (event, isSubscribed) => {
+      (_event, isSubscribed) => {
         if (isSubscribed) {
           attach()
-          if (isGatedEvent(event)) {
-            widgetEvents.on('contactSupport', noopHandler)
-          }
-        } else {
-          if (isGatedEvent(event)) {
-            widgetEvents.off('contactSupport', noopHandler)
-          }
-          if (bridge.getSubscribedEvents().size === 0) {
-            detach()
-          }
+        } else if (bridge.getSubscribedEvents().size === 0) {
+          detach()
         }
       }
     )
