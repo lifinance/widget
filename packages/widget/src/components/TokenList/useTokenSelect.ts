@@ -6,7 +6,7 @@ import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import type { FormType } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
-import { useSplitSubvariantStore } from '../../stores/settings/useSplitSubvariantStore.js'
+import { useSplitModeStore } from '../../stores/settings/useSplitModeStore.js'
 import { WidgetEvent } from '../../types/events.js'
 import type { DisabledUIConfig } from '../../types/widget.js'
 import { isItemAllowed } from '../../utils/item.js'
@@ -16,7 +16,7 @@ export const useTokenSelect = (
   onClick?: () => void
 ): ((tokenAddress: string, chainId?: number) => void) => {
   const { mode, disabledUI, chains: chainsConfig } = useWidgetConfig()
-  const splitSubvariant = useSplitSubvariantStore((store) => store.state)
+  const splitMode = useSplitModeStore((store) => store.state)
   const emitter = useWidgetEvents()
   const { setFieldValue, getFieldValues } = useFieldActions()
   const autoPopulateToAddress = useToAddressAutoPopulate()
@@ -59,7 +59,7 @@ export const useTokenSelect = (
 
       const isBridgeToSameChain =
         mode === 'split' &&
-        splitSubvariant === 'bridge' &&
+        splitMode === 'bridge' &&
         selectedOppositeChainId === selectedChainId
 
       if ((isSameTokenTransfer || isBridgeToSameChain) && mode !== 'custom') {
@@ -127,7 +127,7 @@ export const useTokenSelect = (
       setIsAllNetworks,
       setFieldValue,
       mode,
-      splitSubvariant,
+      splitMode,
       tokenKey,
       chainsConfig,
     ]

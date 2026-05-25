@@ -7,7 +7,7 @@ import { FormStoreProvider } from './form/FormStore.js'
 import { HeaderStoreProvider } from './header/useHeaderStore.js'
 import { PinnedTokensStoreProvider } from './pinnedTokens/PinnedTokensStore.js'
 import { RouteExecutionStoreProvider } from './routes/RouteExecutionStore.js'
-import { SplitSubvariantStoreProvider } from './settings/useSplitSubvariantStore.js'
+import { SplitModeStoreProvider } from './settings/useSplitModeStore.js'
 
 export const StoreProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
   children,
@@ -15,7 +15,7 @@ export const StoreProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
   formRef,
 }) => {
   return (
-    <SplitSubvariantStoreProvider
+    <SplitModeStoreProvider
       state={
         config.mode === 'split'
           ? getSplitMode(config.modeOptions?.split)
@@ -35,6 +35,6 @@ export const StoreProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
           </PinnedTokensStoreProvider>
         </BookmarkStoreProvider>
       </HeaderStoreProvider>
-    </SplitSubvariantStoreProvider>
+    </SplitModeStoreProvider>
   )
 }

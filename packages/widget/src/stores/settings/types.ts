@@ -48,19 +48,18 @@ export interface SettingsActions {
 
 export type SettingsState = SettingsProps & SettingsActions
 
-export interface SplitSubvariantState {
+export interface SplitModeState {
   state?: SplitMode
   setState(state: SplitMode): void
 }
 
-export type SplitSubvariantStore = UseBoundStore<StoreApi<SplitSubvariantState>>
+export type SplitModeStore = UseBoundStore<StoreApi<SplitModeState>>
 
-export interface SplitSubvariantProps {
+export interface SplitModeProps {
   state?: SplitMode
 }
 
-export type SplitSubvariantProviderProps =
-  PropsWithChildren<SplitSubvariantProps>
+export type SplitModeProviderProps = PropsWithChildren<SplitModeProps>
 
 export interface SettingsStoreProviderProps {
   config: WidgetConfig
