@@ -1,4 +1,8 @@
-import { widgetEvents as walletMgmtEvents } from '@lifi/wallet-management'
+import {
+  WalletManagementEvent,
+  type WalletManagementEvents,
+  widgetEvents as walletMgmtEvents,
+} from '@lifi/wallet-management'
 import { WidgetEvent, type WidgetEvents, widgetEvents } from '@lifi/widget'
 import { GuestBridge } from '@lifi/widget-light'
 import { useEffect } from 'react'
@@ -20,6 +24,9 @@ export function WidgetEventsBridge() {
     const bridge = GuestBridge.getInstance()
 
     const widgetEventNames = new Set(Object.values(WidgetEvent)) as Set<string>
+    const walletEventNames = new Set(
+      Object.values(WalletManagementEvent)
+    ) as Set<string>
 
     const widgetHandlers = new Map<
       keyof WidgetEvents,
@@ -30,10 +37,16 @@ export function WidgetEventsBridge() {
     >) {
       widgetHandlers.set(name, (data) => bridge.sendWidgetEvent(name, data))
     }
-    const walletConnectedHandler = (data: unknown) =>
-      bridge.sendWidgetEvent('walletConnected', data)
-    const walletDisconnectedHandler = (data: unknown) =>
-      bridge.sendWidgetEvent('walletDisconnected', data)
+
+    const walletHandlers = new Map<
+      keyof WalletManagementEvents,
+      (data: unknown) => void
+    >()
+    for (const name of Object.values(WalletManagementEvent) as Array<
+      keyof WalletManagementEvents
+    >) {
+      walletHandlers.set(name, (data) => bridge.sendWidgetEvent(name, data))
+    }
 
     const attached = new Set<string>()
 
@@ -45,11 +58,9 @@ export function WidgetEventsBridge() {
         const key = name as keyof WidgetEvents
         widgetEvents.on(key, widgetHandlers.get(key)! as never)
         attached.add(name)
-      } else if (name === 'walletConnected') {
-        walletMgmtEvents.on('walletConnected', walletConnectedHandler)
-        attached.add(name)
-      } else if (name === 'walletDisconnected') {
-        walletMgmtEvents.on('walletDisconnected', walletDisconnectedHandler)
+      } else if (walletEventNames.has(name)) {
+        const key = name as keyof WalletManagementEvents
+        walletMgmtEvents.on(key, walletHandlers.get(key)! as never)
         attached.add(name)
       }
     }
@@ -61,10 +72,9 @@ export function WidgetEventsBridge() {
       if (widgetEventNames.has(name)) {
         const key = name as keyof WidgetEvents
         widgetEvents.off(key, widgetHandlers.get(key)! as never)
-      } else if (name === 'walletConnected') {
-        walletMgmtEvents.off('walletConnected', walletConnectedHandler)
-      } else if (name === 'walletDisconnected') {
-        walletMgmtEvents.off('walletDisconnected', walletDisconnectedHandler)
+      } else if (walletEventNames.has(name)) {
+        const key = name as keyof WalletManagementEvents
+        walletMgmtEvents.off(key, walletHandlers.get(key)! as never)
       }
       attached.delete(name)
     }
