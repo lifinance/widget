@@ -40,7 +40,7 @@ const SelectAllCheckbox = memo<SelectAllCheckboxProps>(
           indeterminate={anyCheckboxesSelected && !allCheckboxesSelected}
           onChange={onClick}
           disabled={noCheckboxesAvailable}
-          sx={{ mr: -1.5 }}
+          sx={{ mr: -1.5, height: 20 }}
         />
       </Tooltip>
     )

@@ -1,11 +1,11 @@
 import type { ExtendedChain } from '@lifi/sdk'
-import { Box, debounce, useTheme } from '@mui/material'
+import { Box, debounce } from '@mui/material'
 import type React from 'react'
 import { memo, useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useSelectChainListHeight } from '../../hooks/useSelectChainListHeight.js'
 import { FormKeyHelper, type FormType } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { getWidgetMaxHeight } from '../../utils/widgetSize.js'
 import { useChainSelect } from '../ChainSelect/useChainSelect.js'
 import { PageContainer } from '../PageContainer.js'
 import { SearchInput } from '../Search/SearchInput.js'
@@ -17,23 +17,28 @@ interface SelectChainContentProps {
   inExpansion: boolean
 }
 
-const searchHeaderHeight = '80px'
-
 export const SelectChainContent: React.NamedExoticComponent<SelectChainContentProps> =
   memo(function SelectChainContent({
     formType,
     onSelect,
     inExpansion,
   }: SelectChainContentProps) {
-    const theme = useTheme()
-    const { chains, isLoading, setCurrentChain } = useChainSelect(formType)
     const { t } = useTranslation()
+    const { chains, isLoading, setCurrentChain } = useChainSelect(formType)
     const [selectedChainId] = useFieldValues(
       FormKeyHelper.getChainKey(formType)
     )
+
     const inputRef = useRef<HTMLInputElement>(null)
+    const headerRef = useRef<HTMLElement>(null)
     const listRef = useRef<HTMLDivElement>(null)
     const [debouncedSearchValue, setDebouncedSearchValue] = useState('')
+
+    const listContainerHeight = useSelectChainListHeight(
+      inExpansion,
+      listRef,
+      headerRef
+    )
 
     const filteredChains = useMemo(() => {
       const value = debouncedSearchValue.toLowerCase()
@@ -77,18 +82,10 @@ export const SelectChainContent: React.NamedExoticComponent<SelectChainContentPr
       scrollToTop()
     }, [scrollToTop])
 
-    const listContainerHeight = useMemo(() => {
-      const fullContainerHeight = getWidgetMaxHeight(theme)
-      const heightValue =
-        typeof fullContainerHeight === 'number'
-          ? `${fullContainerHeight}px`
-          : fullContainerHeight
-      return `calc(${heightValue} - ${searchHeaderHeight})`
-    }, [theme])
-
     return (
       <PageContainer disableGutters>
         <Box
+          ref={headerRef}
           sx={{
             pb: 2,
             px: inExpansion ? 2.5 : 3,

@@ -106,7 +106,6 @@ const CssBaselineContainer = styled(ScopedCssBaseline, {
     '&:has(.long-list)': {
       minHeight: getWidgetMaxHeight(theme),
       maxHeight: getWidgetMaxHeight(theme),
-      overflowY: 'hidden', // only long lists scroll, not the whole container
     },
   }
 })
