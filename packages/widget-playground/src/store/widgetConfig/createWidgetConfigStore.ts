@@ -64,11 +64,11 @@ export const createWidgetConfigStore = (
             },
           })
         },
-        setSubvariant: (subvariant) => {
+        setMode: (mode) => {
           set({
             config: {
               ...get().config,
-              subvariant,
+              mode,
             },
           })
         },
@@ -87,8 +87,8 @@ export const createWidgetConfigStore = (
           set({
             config: {
               ...get().config,
-              subvariantOptions: {
-                ...get().config?.subvariantOptions,
+              modeOptions: {
+                ...get().config?.modeOptions,
                 split: option,
               },
             },

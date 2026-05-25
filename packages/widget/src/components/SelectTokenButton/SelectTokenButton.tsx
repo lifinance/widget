@@ -27,7 +27,7 @@ export const SelectTokenButton: React.FC<
 > = ({ formType, hiddenReverse }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { disabledUI, subvariant } = useWidgetConfig()
+  const { disabledUI, mode } = useWidgetConfig()
   const tokenKey = FormKeyHelper.getTokenKey(formType)
   const [chainId, tokenAddress] = useFieldValues(
     FormKeyHelper.getChainKey(formType),
@@ -45,7 +45,7 @@ export const SelectTokenButton: React.FC<
       to:
         formType === 'from'
           ? navigationRoutes.fromToken
-          : subvariant === 'refuel'
+          : mode === 'refuel'
             ? navigationRoutes.toTokenNative
             : navigationRoutes.toToken,
     })
@@ -57,7 +57,7 @@ export const SelectTokenButton: React.FC<
     : undefined
   const defaultPlaceholder = `${t('main.select')}...`
   const cardTitle: string =
-    formType === 'from' && subvariant === 'custom'
+    formType === 'from' && mode === 'custom'
       ? t('header.payWith')
       : t(`main.${formType}`)
   return (

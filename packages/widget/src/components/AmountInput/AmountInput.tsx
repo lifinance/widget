@@ -72,7 +72,7 @@ const AmountInputBase: React.FC<
   ...props
 }) => {
   const { t } = useTranslation()
-  const { subvariant, subvariantOptions } = useWidgetConfig()
+  const { mode, modeOptions } = useWidgetConfig()
   const ref = useRef<HTMLInputElement>(null)
 
   const isEditingRef = useRef(false)
@@ -158,8 +158,8 @@ const AmountInputBase: React.FC<
   }, [displayValue])
 
   const title =
-    subvariant === 'custom'
-      ? subvariantOptions?.custom === 'deposit'
+    mode === 'custom'
+      ? modeOptions?.custom?.type === 'deposit'
         ? t('header.amount')
         : t('header.youPay')
       : t('header.send')

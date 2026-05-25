@@ -15,7 +15,7 @@ export const useTokenSelect = (
   formType: FormType,
   onClick?: () => void
 ): ((tokenAddress: string, chainId?: number) => void) => {
-  const { subvariant, disabledUI, chains: chainsConfig } = useWidgetConfig()
+  const { mode, disabledUI, chains: chainsConfig } = useWidgetConfig()
   const splitSubvariant = useSplitSubvariantStore((store) => store.state)
   const emitter = useWidgetEvents()
   const { setFieldValue, getFieldValues } = useFieldActions()
@@ -58,14 +58,11 @@ export const useTokenSelect = (
         selectedOppositeChainId === selectedChainId
 
       const isBridgeToSameChain =
-        subvariant === 'split' &&
+        mode === 'split' &&
         splitSubvariant === 'bridge' &&
         selectedOppositeChainId === selectedChainId
 
-      if (
-        (isSameTokenTransfer || isBridgeToSameChain) &&
-        subvariant !== 'custom'
-      ) {
+      if ((isSameTokenTransfer || isBridgeToSameChain) && mode !== 'custom') {
         setFieldValue(FormKeyHelper.getTokenKey(oppositeFormType), '', {
           isDirty: true,
           isTouched: true,
@@ -81,7 +78,7 @@ export const useTokenSelect = (
         selectedChainId &&
         isItemAllowed(selectedChainId, chainsConfig?.[oppositeFormType])
       ) {
-        const isDefaultExchange = !subvariant || subvariant === 'default'
+        const isDefaultExchange = !mode || mode === 'default'
         if (isDefaultExchange) {
           setIsAllNetworks(false, oppositeFormType)
         }
@@ -129,7 +126,7 @@ export const useTokenSelect = (
       setChain,
       setIsAllNetworks,
       setFieldValue,
-      subvariant,
+      mode,
       splitSubvariant,
       tokenKey,
       chainsConfig,

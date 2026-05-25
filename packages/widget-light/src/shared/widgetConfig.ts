@@ -66,21 +66,21 @@ export interface WidgetToAddress {
 }
 
 // ---------------------------------------------------------------------------
-// Widget variant / subvariant
+// Widget variant / mode
 // ---------------------------------------------------------------------------
 
 export type WidgetVariant = 'compact' | 'wide' | 'drawer'
-export type WidgetSubvariant = 'default' | 'split' | 'custom' | 'refuel'
-export type WidgetSplitSubvariant = 'bridge' | 'swap'
-export type WidgetCustomSubvariant = 'checkout' | 'deposit'
+export type WidgetMode = 'default' | 'split' | 'custom' | 'refuel'
+export type WidgetSplitMode = 'bridge' | 'swap'
+export type WidgetCustomMode = 'checkout' | 'deposit'
 
-export interface WidgetSplitSubvariantOptions {
-  defaultTab: WidgetSplitSubvariant
+export interface WidgetSplitModeOptions {
+  defaultTab: WidgetSplitMode
 }
 
-export interface WidgetSubvariantOptions {
-  split?: WidgetSplitSubvariant | WidgetSplitSubvariantOptions
-  custom?: WidgetCustomSubvariant
+export interface WidgetModeOptions {
+  split?: WidgetSplitMode | WidgetSplitModeOptions
+  custom?: { type: WidgetCustomMode }
 }
 
 // ---------------------------------------------------------------------------
@@ -359,8 +359,8 @@ export interface WidgetLightConfig {
 
   // -- Layout --
   variant?: WidgetVariant
-  subvariant?: WidgetSubvariant
-  subvariantOptions?: WidgetSubvariantOptions
+  mode?: WidgetMode
+  modeOptions?: WidgetModeOptions
 
   // -- Appearance --
   appearance?: WidgetAppearance

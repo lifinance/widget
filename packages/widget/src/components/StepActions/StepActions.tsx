@@ -40,7 +40,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
   ...other
 }) => {
   const { t } = useTranslation()
-  const { subvariant } = useWidgetConfig()
+  const { mode } = useWidgetConfig()
   const [cardExpanded, setCardExpanded] = useState(false)
 
   const handleExpand: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -50,7 +50,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
 
   // FIXME: step transaction request overrides step tool details, but not included step tool details
   const toolDetails =
-    subvariant === 'custom'
+    mode === 'custom'
       ? step.includedSteps.find(
           (step) => step.tool === 'custom' && step.toolDetails.key !== 'custom'
         )?.toolDetails || step.toolDetails
@@ -120,8 +120,7 @@ export const StepActions: React.FC<StepActionsProps> = ({
 }
 
 const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
-  const { subvariant, subvariantOptions, feeConfig, hiddenUI } =
-    useWidgetConfig()
+  const { mode, modeOptions, feeConfig, hiddenUI } = useWidgetConfig()
   const { isGaslessStep } = useEthereumContext()
 
   let includedSteps = step.includedSteps
@@ -183,11 +182,11 @@ const IncludedSteps: React.FC<IncludedStepsProps> = ({ step }) => {
                 stepIcon: StepIconComponent,
               }}
             >
-              {step.type === 'custom' && subvariant === 'custom' ? (
+              {step.type === 'custom' && mode === 'custom' ? (
                 <CustomStepDetailsLabel
                   step={step}
-                  subvariant={subvariant}
-                  subvariantOptions={subvariantOptions}
+                  mode={mode}
+                  modeOptions={modeOptions}
                 />
               ) : step.type === 'cross' ? (
                 <BridgeStepDetailsLabel step={step} />
@@ -295,26 +294,25 @@ const StepDetailsContent: React.FC<{
 
 const CustomStepDetailsLabel: React.FC<StepDetailsLabelProps> = ({
   step,
-  subvariant,
-  subvariantOptions,
+  mode,
+  modeOptions,
 }) => {
   const { t } = useTranslation()
 
-  if (!subvariant) {
+  if (!mode) {
     return null
   }
 
   // FIXME: step transaction request overrides step tool details, but not included step tool details
   const toolDetails =
-    subvariant === 'custom' &&
-    (step as unknown as LiFiStep).includedSteps?.length > 0
+    mode === 'custom' && (step as unknown as LiFiStep).includedSteps?.length > 0
       ? (step as unknown as LiFiStep).includedSteps.find(
           (step) => step.tool === 'custom' && step.toolDetails.key !== 'custom'
         )?.toolDetails || step.toolDetails
       : step.toolDetails
 
   const stepDetailsKey =
-    (subvariant === 'custom' && subvariantOptions?.custom) || 'checkout'
+    (mode === 'custom' && modeOptions?.custom?.type) || 'checkout'
 
   return (
     <StepLabelTypography>

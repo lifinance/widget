@@ -6,10 +6,10 @@ import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { ReverseTokensButtonEmpty } from './ReverseTokensButton/ReverseTokensButton.style.js'
 
 export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
-  const { disabledUI, hiddenUI, subvariant } = useWidgetConfig()
+  const { disabledUI, hiddenUI, mode } = useWidgetConfig()
 
   const hiddenReverse =
-    subvariant === 'refuel' ||
+    mode === 'refuel' ||
     disabledUI?.fromToken ||
     disabledUI?.toToken ||
     hiddenUI?.fromToken ||
@@ -17,7 +17,7 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
     hiddenUI?.reverseTokensButton
 
   const hiddenFromToken = hiddenUI?.fromToken
-  const hiddenToToken = subvariant === 'custom' || hiddenUI?.toToken
+  const hiddenToToken = mode === 'custom' || hiddenUI?.toToken
 
   const showReverseButton = !hiddenToToken && !hiddenFromToken
 

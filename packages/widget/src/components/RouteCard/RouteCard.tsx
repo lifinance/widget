@@ -22,15 +22,14 @@ export const RouteCard: React.FC<
   ...other
 }) => {
   const { t } = useTranslation()
-  const { subvariant, subvariantOptions, routeLabels, hiddenUI } =
-    useWidgetConfig()
+  const { mode, modeOptions, routeLabels, hiddenUI } = useWidgetConfig()
 
   const token: TokenAmount =
-    subvariant === 'custom' && subvariantOptions?.custom !== 'deposit'
+    mode === 'custom' && modeOptions?.custom?.type !== 'deposit'
       ? { ...route.fromToken, amount: BigInt(route.fromAmount) }
       : { ...route.toToken, amount: BigInt(route.toAmount) }
   const impactToken: TokenAmount | undefined =
-    subvariant !== 'custom' && !hiddenUI?.routeCardPriceImpact
+    mode !== 'custom' && !hiddenUI?.routeCardPriceImpact
       ? { ...route.fromToken, amount: BigInt(route.fromAmount) }
       : undefined
 
@@ -56,7 +55,7 @@ export const RouteCard: React.FC<
         flex: 1,
       }}
     >
-      {subvariant !== 'refuel' && (tags.length || customLabels.length) ? (
+      {mode !== 'refuel' && (tags.length || customLabels.length) ? (
         <Box
           sx={{
             display: 'flex',
@@ -114,7 +113,7 @@ export const RouteCard: React.FC<
     </Box>
   )
 
-  return subvariant === 'refuel' || variant === 'cardless' ? (
+  return mode === 'refuel' || variant === 'cardless' ? (
     cardContent
   ) : (
     <Card

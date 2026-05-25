@@ -30,14 +30,8 @@ import {
 export const SendToWalletButton: React.FC<CardProps> = (props) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const {
-    disabledUI,
-    hiddenUI,
-    toAddress,
-    toAddresses,
-    subvariant,
-    subvariantOptions,
-  } = useWidgetConfig()
+  const { disabledUI, hiddenUI, toAddress, toAddresses, mode, modeOptions } =
+    useWidgetConfig()
   const [toAddressFieldValue, toChainId, toTokenAddress] = useFieldValues(
     'toAddress',
     'toChain',
@@ -124,7 +118,7 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
     !hiddenToAddress && (requiredToAddress || !!toAddressFieldValue)
 
   const title =
-    subvariant === 'custom' && subvariantOptions?.custom === 'deposit'
+    mode === 'custom' && modeOptions?.custom?.type === 'deposit'
       ? t('header.depositTo')
       : t('header.sendToWallet')
 

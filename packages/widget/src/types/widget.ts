@@ -37,20 +37,20 @@ import type {
 import type { DefaultFieldValues } from '../stores/form/types.js'
 
 export type WidgetVariant = 'compact' | 'wide' | 'drawer'
-export type WidgetSubvariant = 'default' | 'split' | 'custom' | 'refuel'
-export type SplitSubvariant = 'bridge' | 'swap'
-export type SplitSubvariantOptions = {
-  defaultTab: SplitSubvariant
+export type WidgetMode = 'default' | 'split' | 'custom' | 'refuel'
+export type SplitMode = 'bridge' | 'swap'
+export type SplitModeOptions = {
+  defaultTab: SplitMode
 }
-export type CustomSubvariant = 'checkout' | 'deposit'
-export interface SubvariantOptions {
+export type CustomMode = 'checkout' | 'deposit'
+export interface ModeOptions {
   /**
-   * Configure split subvariant behavior:
+   * Configure split mode behavior:
    * - 'bridge' | 'swap': Single mode without tabs
    * - { defaultTab: 'bridge' | 'swap' }: Tabs mode with configurable default tab
    */
-  split?: SplitSubvariant | SplitSubvariantOptions
-  custom?: CustomSubvariant
+  split?: SplitMode | SplitModeOptions
+  custom?: { type: CustomMode }
 }
 
 export type Appearance = PaletteMode | 'system'
@@ -332,8 +332,8 @@ export interface WidgetConfig {
   slippage?: number
 
   variant?: WidgetVariant
-  subvariant?: WidgetSubvariant
-  subvariantOptions?: SubvariantOptions
+  mode?: WidgetMode
+  modeOptions?: ModeOptions
 
   appearance?: Appearance
   theme?: WidgetTheme

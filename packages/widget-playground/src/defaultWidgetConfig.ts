@@ -57,7 +57,7 @@ export const widgetBaseConfig: WidgetConfig = {
     }),
   ],
   variant: 'wide',
-  // subvariant: 'split',
+  // mode: 'split',
   // hiddenUI: {
   //   chainSidebar: true,
   // },

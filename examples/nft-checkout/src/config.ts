@@ -6,7 +6,7 @@ import { SuiProvider } from '@lifi/widget-provider-sui'
 import './index.css'
 
 export const widgetBaseConfig: WidgetConfig = {
-  subvariant: 'custom',
+  mode: 'custom',
   integrator: 'li.fi-playground',
   providers: [
     EthereumProvider(),

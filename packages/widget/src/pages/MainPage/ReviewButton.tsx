@@ -13,7 +13,7 @@ export const ReviewButton: React.FC = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const emitter = useWidgetEvents()
-  const { subvariant, subvariantOptions } = useWidgetConfig()
+  const { mode, modeOptions } = useWidgetConfig()
   const splitState = useSplitSubvariantStore((state) => state.state)
   const { toAddress, requiredToAddress } = useToAddressRequirements()
   const { routes, setReviewableRoute } = useRoutes()
@@ -38,9 +38,9 @@ export const ReviewButton: React.FC = () => {
 
   const getButtonText = (): string => {
     if (currentRoute) {
-      switch (subvariant) {
+      switch (mode) {
         case 'custom':
-          return t(`button.${subvariantOptions?.custom ?? 'checkout'}Review`)
+          return t(`button.${modeOptions?.custom?.type ?? 'checkout'}Review`)
         case 'refuel':
           return t('button.getGas')
         default: {
@@ -52,9 +52,9 @@ export const ReviewButton: React.FC = () => {
         }
       }
     }
-    switch (subvariant) {
+    switch (mode) {
       case 'custom':
-        return subvariantOptions?.custom === 'deposit'
+        return modeOptions?.custom?.type === 'deposit'
           ? t('button.deposit')
           : t('button.buy')
       case 'refuel':

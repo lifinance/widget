@@ -18,24 +18,23 @@ import { ReviewButton } from './ReviewButton.js'
 export const MainPage: React.FC = () => {
   const { t } = useTranslation()
   const wideVariant = useWideVariant()
-  const { subvariant, subvariantOptions, contractComponent, hiddenUI } =
-    useWidgetConfig()
-  const custom = subvariant === 'custom'
+  const { mode, modeOptions, contractComponent, hiddenUI } = useWidgetConfig()
+  const custom = mode === 'custom'
   const showPoweredBy = !hiddenUI?.poweredBy
   const showGasRefuelMessage = !hiddenUI?.gasRefuelMessage
 
   const splitTitle =
-    subvariantOptions?.split === 'bridge'
+    modeOptions?.split === 'bridge'
       ? t('header.bridge')
-      : subvariantOptions?.split === 'swap'
+      : modeOptions?.split === 'swap'
         ? t('header.swap')
         : undefined
   const title =
-    subvariant === 'custom'
-      ? t(`header.${subvariantOptions?.custom ?? 'checkout'}`)
-      : subvariant === 'refuel'
+    mode === 'custom'
+      ? t(`header.${modeOptions?.custom?.type ?? 'checkout'}`)
+      : mode === 'refuel'
         ? t('header.gas')
-        : subvariant === 'split' && splitTitle
+        : mode === 'split' && splitTitle
           ? splitTitle
           : t('header.exchange')
 
@@ -49,7 +48,7 @@ export const MainPage: React.FC = () => {
         <ContractComponent sx={marginSx}>{contractComponent}</ContractComponent>
       ) : null}
       <SelectChainAndToken sx={marginSx} />
-      {!custom || subvariantOptions?.custom === 'deposit' ? (
+      {!custom || modeOptions?.custom?.type === 'deposit' ? (
         <AmountInput formType="from" sx={marginSx} />
       ) : null}
       {!wideVariant ? <Routes sx={marginSx} /> : null}

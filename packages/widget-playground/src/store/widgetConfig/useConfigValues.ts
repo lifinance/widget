@@ -1,7 +1,7 @@
 import type {
   HiddenUIConfig,
-  SubvariantOptions,
-  WidgetSubvariant,
+  ModeOptions,
+  WidgetMode,
   WidgetVariant,
   WidgetWalletConfig,
 } from '@lifi/widget'
@@ -18,9 +18,9 @@ export const useConfigVariant = (): { variant: WidgetVariant | 'default' } => {
 }
 
 export const useConfigSubvariant = (): {
-  subvariant: WidgetSubvariant | 'default'
+  subvariant: WidgetMode | 'default'
 } => {
-  const subvariant = useWidgetConfigStore((store) => store.config?.subvariant)
+  const subvariant = useWidgetConfigStore((store) => store.config?.mode)
 
   return {
     subvariant: !subvariant ? 'default' : subvariant,
@@ -28,10 +28,10 @@ export const useConfigSubvariant = (): {
 }
 
 export const useConfigSubvariantOptions = (): {
-  subvariantOptions: SubvariantOptions | undefined
+  subvariantOptions: ModeOptions | undefined
 } => {
   const subvariantOptions = useWidgetConfigStore(
-    (store) => store.config?.subvariantOptions
+    (store) => store.config?.modeOptions
   )
 
   return {

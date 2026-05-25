@@ -20,13 +20,13 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
 
   const swapOnly = useSwapOnly()
 
-  const { subvariant, hiddenUI } = useWidgetConfig()
+  const { mode, hiddenUI } = useWidgetConfig()
   const wideVariant = useWideVariant()
 
   const { t } = useTranslation()
   const title =
     formType === 'from'
-      ? subvariant === 'custom'
+      ? mode === 'custom'
         ? t('header.payWith')
         : t('header.from')
       : t('header.to')

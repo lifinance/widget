@@ -1,8 +1,8 @@
 import type {
   Appearance,
-  SplitSubvariant,
+  SplitMode,
   WidgetConfig,
-  WidgetSubvariant,
+  WidgetMode,
   WidgetTheme,
   WidgetVariant,
   WidgetWalletConfig,
@@ -25,7 +25,7 @@ interface WidgetConfigActions {
   resetConfig: () => void
   setAppearance: (appearance: Appearance) => void
   setVariant: (variant: WidgetVariant) => void
-  setSubvariant: (subvariant: WidgetSubvariant) => void
+  setMode: (mode: WidgetMode) => void
   setBorderRadius: (radius: number) => void
   resetBorderRadius: () => void
   setBorderRadiusSecondary: (radius: number) => void
@@ -41,7 +41,7 @@ interface WidgetConfigActions {
   setContainer: (container?: CSSProperties) => void
   setFormValues: (formValues: FormValues) => void
   setChainSidebarDisabled: (disabled: boolean) => void
-  setSplitOption: (option?: SplitSubvariant) => void
+  setSplitOption: (option?: SplitMode) => void
 }
 
 export type WidgetConfigState = WidgetConfigValues & WidgetConfigActions

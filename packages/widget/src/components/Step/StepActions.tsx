@@ -21,8 +21,7 @@ export const StepActions: React.FC<{
   route: RouteExtended
 }> = ({ route }) => {
   const { t } = useTranslation()
-  const { subvariant, subvariantOptions, feeConfig, hiddenUI } =
-    useWidgetConfig()
+  const { mode, modeOptions, feeConfig, hiddenUI } = useWidgetConfig()
   const { isGaslessStep } = useEthereumContext()
 
   const headerIncludedSteps = route.steps.flatMap((step) => step.includedSteps)
@@ -78,11 +77,11 @@ export const StepActions: React.FC<{
               <Box
                 sx={{ display: 'flex', flexDirection: 'column', minHeight: 32 }}
               >
-                {step.type === 'custom' && subvariant === 'custom' ? (
+                {step.type === 'custom' && mode === 'custom' ? (
                   <CustomStepDetailsLabel
                     step={step}
-                    subvariant={subvariant}
-                    subvariantOptions={subvariantOptions}
+                    mode={mode}
+                    modeOptions={modeOptions}
                   />
                 ) : step.type === 'cross' ? (
                   <BridgeStepDetailsLabel step={step} />
@@ -237,26 +236,25 @@ const StepDetailsContent: React.FC<{
 
 const CustomStepDetailsLabel: React.FC<StepDetailsLabelProps> = ({
   step,
-  subvariant,
-  subvariantOptions,
+  mode,
+  modeOptions,
 }) => {
   const { t } = useTranslation()
 
-  if (!subvariant) {
+  if (!mode) {
     return null
   }
 
   // FIXME: step transaction request overrides step tool details, but not included step tool details
   const toolDetails =
-    subvariant === 'custom' &&
-    (step as unknown as LiFiStep).includedSteps?.length > 0
+    mode === 'custom' && (step as unknown as LiFiStep).includedSteps?.length > 0
       ? (step as unknown as LiFiStep).includedSteps.find(
           (step) => step.tool === 'custom' && step.toolDetails.key !== 'custom'
         )?.toolDetails || step.toolDetails
       : step.toolDetails
 
   const stepDetailsKey =
-    (subvariant === 'custom' && subvariantOptions?.custom) || 'checkout'
+    (mode === 'custom' && modeOptions?.custom?.type) || 'checkout'
 
   return (
     <StepLabelTypography>

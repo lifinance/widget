@@ -1,4 +1,4 @@
-import type { SplitSubvariant, WidgetSubvariant } from '@lifi/widget'
+import type { SplitMode, WidgetMode } from '@lifi/widget'
 import type { JSX, SyntheticEvent } from 'react'
 import { useConfigActions } from '../../../store/widgetConfig/useConfigActions.js'
 import {
@@ -17,14 +17,11 @@ export const SubvariantControl = (): JSX.Element => {
   const { subvariant } = useConfigSubvariant()
   const { subvariantOptions } = useConfigSubvariantOptions()
   const { hiddenUI } = useConfigHiddenUI()
-  const { setSubvariant, setSplitOption, setChainSidebarDisabled } =
+  const { setMode, setSplitOption, setChainSidebarDisabled } =
     useConfigActions()
 
-  const handleSubvariantChange = (
-    _: SyntheticEvent,
-    value: WidgetSubvariant
-  ) => {
-    setSubvariant(value)
+  const handleSubvariantChange = (_: SyntheticEvent, value: WidgetMode) => {
+    setMode(value)
   }
 
   const handleDisableChainSidebarChange = (
@@ -36,7 +33,7 @@ export const SubvariantControl = (): JSX.Element => {
 
   const handleSplitOptionChange = (
     _: SyntheticEvent,
-    value: SplitSubvariant | 'default'
+    value: SplitMode | 'default'
   ) => {
     setSplitOption(value === 'default' ? undefined : value)
   }
