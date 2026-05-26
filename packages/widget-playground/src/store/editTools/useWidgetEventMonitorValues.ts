@@ -1,3 +1,4 @@
+import { useShallow } from 'zustand/shallow'
 import type { WidgetEventName } from '../../utils/events.js'
 import { useEditToolsStore } from './EditToolsProvider.js'
 
@@ -6,7 +7,7 @@ export const useWidgetEventMonitorValues = (): {
   monitoredEvents: Record<WidgetEventName, boolean>
 } => {
   const { allWidgetEventsOn, monitoredEvents } = useEditToolsStore(
-    (store) => store.widgetEventsControl
+    useShallow((store) => store.widgetEventsControl)
   )
 
   return {

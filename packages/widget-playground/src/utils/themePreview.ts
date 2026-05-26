@@ -66,6 +66,16 @@ const defaultPreviewColors: PreviewColors = {
   outlineColor: '#dde2eb',
 }
 
+const getStringProp = (obj: unknown, key: string, fallback: string): string => {
+  if (obj && typeof obj === 'object' && key in obj) {
+    const value = (obj as Record<string, unknown>)[key]
+    if (typeof value === 'string') {
+      return value
+    }
+  }
+  return fallback
+}
+
 /** Maps a theme item palette to the colors used by ThemePreviewMock. */
 export const extractPreviewColors = (themeItem: ThemeItem): PreviewColors => {
   if (themeItem.id === 'default') {
@@ -78,42 +88,11 @@ export const extractPreviewColors = (themeItem: ThemeItem): PreviewColors => {
     colorSchemes?.dark?.palette ||
     Object.values(colorSchemes ?? {})[0]?.palette
 
-  const primary = palette?.primary
-  const buttonColor =
-    primary &&
-    typeof primary === 'object' &&
-    'main' in primary &&
-    typeof primary.main === 'string'
-      ? primary.main
-      : '#5c67ff'
-
-  const divider =
-    typeof palette?.divider === 'string' ? palette.divider : '#dde2eb'
-
-  const bg =
-    typeof palette?.background === 'object' &&
-    palette.background &&
-    'default' in palette.background &&
-    typeof palette.background.default === 'string'
-      ? palette.background.default
-      : '#fcfcfc'
-
-  const cardBg =
-    typeof palette?.background === 'object' &&
-    palette.background &&
-    'paper' in palette.background &&
-    typeof palette.background.paper === 'string'
-      ? palette.background.paper
-      : '#ffffff'
-
-  const grey =
-    palette && 'grey' in palette && typeof palette.grey === 'object'
-      ? palette.grey
-      : null
-  const headerPill =
-    grey && typeof grey === 'object' && '300' in grey
-      ? String(grey['300'])
-      : '#c0c4cc'
+  const buttonColor = getStringProp(palette?.primary, 'main', '#5c67ff')
+  const divider = getStringProp(palette, 'divider', '#dde2eb')
+  const bg = getStringProp(palette?.background, 'default', '#fcfcfc')
+  const cardBg = getStringProp(palette?.background, 'paper', '#ffffff')
+  const headerPill = getStringProp(palette?.grey, '300', '#c0c4cc')
 
   return {
     bg,

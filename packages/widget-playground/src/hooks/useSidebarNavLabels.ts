@@ -1,3 +1,4 @@
+import { useLayoutValues } from '../store/editTools/useLayoutValues.js'
 import {
   useConfigSubvariant,
   useConfigSubvariantOptions,
@@ -8,7 +9,6 @@ import { useThemeValues } from '../store/widgetConfig/useThemeValues.js'
 import { getLayoutLabel } from '../utils/layout.js'
 import { getModeLabel, getWalletLabel } from '../utils/sidebar.js'
 import { formatThemeDisplayName } from '../utils/themeEdit.js'
-import { usePlaygroundLayoutControls } from './usePlaygroundLayoutControls.js'
 import { useThemeMode } from './useThemeMode.js'
 
 export const useSidebarNavLabels = (): {
@@ -22,7 +22,7 @@ export const useSidebarNavLabels = (): {
   const { subvariant } = useConfigSubvariant()
   const { subvariantOptions } = useConfigSubvariantOptions()
   const { variant } = useConfigVariant()
-  const { selectedLayoutId } = usePlaygroundLayoutControls()
+  const { selectedLayoutId } = useLayoutValues()
   const { isExternalWalletManagement, isPartialWalletManagement } =
     useConfigWalletManagement()
   const { selectedThemeItem } = useThemeValues()

@@ -1,3 +1,4 @@
+import { useShallow } from 'zustand/shallow'
 import { useEditToolsStore } from './EditToolsProvider.js'
 
 export const usePlaygroundSettingValues = (): {
@@ -5,7 +6,7 @@ export const usePlaygroundSettingValues = (): {
   viewportColorDark: string | undefined
 } => {
   const { viewportColorLight, viewportColorDark } = useEditToolsStore(
-    (store) => store.playgroundSettings
+    useShallow((store) => store.playgroundSettings)
   )
 
   return {

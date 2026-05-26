@@ -1,4 +1,4 @@
-import type { Theme } from '@mui/material'
+import type { CSSObject, Theme } from '@mui/material'
 
 export const stripHexPrefix = (hex: string): string =>
   hex.replace(/^#/, '').toUpperCase()
@@ -25,9 +25,7 @@ export const parseEditableHex = (draft: string): string | null => {
 }
 
 /** Returns a theme-aware background color for card fieldsets (light: 4% onBackground, dark: grey.800). */
-export const getCardFieldsetBackgroundColor = (
-  theme: Theme
-): Record<string, any> => ({
+export const getCardFieldsetBackgroundColor = (theme: Theme): CSSObject => ({
   backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
   ...theme.applyStyles('dark', {
     backgroundColor: theme.vars.palette.grey[800],

@@ -117,7 +117,7 @@ export const DeveloperControlsDetailView = ({
               onChange={() => toggleDevView()}
               ariaLabel="Toggle form values"
             >
-              <Collapse in={isDevView} unmountOnExit>
+              <Collapse in={isDevView}>
                 <Box sx={{ pt: 1.5 }}>
                   <FormValuesControls />
                 </Box>

@@ -14,6 +14,12 @@ export function drawerShiftTransition(
   })
 }
 
+const paddingLeftTransition = (theme: Theme) =>
+  drawerShiftTransition(theme, 'padding-left')
+
+const marginLeftTransition = (theme: Theme) =>
+  drawerShiftTransition(theme, 'margin-left')
+
 export function getDrawerOffset(
   isDrawerOpen: boolean,
   drawerWidth: number
@@ -32,7 +38,7 @@ function getMockElementDrawerOffset(
   return {
     ...mockElementBase,
     paddingLeft: drawerOffset,
-    transition: (theme) => drawerShiftTransition(theme, 'padding-left'),
+    transition: paddingLeftTransition,
   }
 }
 
@@ -62,6 +68,6 @@ export function getWidgetContainerDrawerSx(
 ): SxProps<Theme> {
   return {
     marginLeft: drawerOffset,
-    transition: (theme) => drawerShiftTransition(theme, 'margin-left'),
+    transition: marginLeftTransition,
   }
 }
