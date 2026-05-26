@@ -73,7 +73,7 @@ export const widgetBaseConfig: WidgetConfig = {
   //   showFeePercentage: true,
   //   showFeeTooltip: true,
   // },
-  // useRecommendedRoute: true,
+  // showSingleRoute: true,
   useRelayerRoutes: true,
   buildUrl: true,
   // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton', 'toAddress'],
