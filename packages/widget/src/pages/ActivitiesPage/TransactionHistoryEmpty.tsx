@@ -8,7 +8,7 @@ export const TransactionHistoryEmpty: React.FC = () => {
     <EmptyListIndicator
       icon={<HistoryIcon />}
       title={t('info.title.emptyTransactionHistory')}
-      message={t('info.message.emptyTransactionsHistory')}
+      message={t('info.message.emptyTransactionHistory')}
     />
   )
 }
