@@ -219,7 +219,7 @@ export type WidgetTokens = {
 
 // ---------------------------------------------------------------------------
 // Fee configuration — serializable subset.
-// Excluded: feeTooltipComponent (ReactNode), calculateFee (fn), _vcComponent
+// Excluded: feeTooltipComponent (ReactNode), calculateFee (fn)
 // ---------------------------------------------------------------------------
 
 export interface WidgetFeeConfig {
