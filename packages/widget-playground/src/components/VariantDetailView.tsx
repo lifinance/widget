@@ -2,7 +2,10 @@ import type { WidgetVariant } from '@lifi/widget'
 import type { JSX } from 'react'
 import { useCallback } from 'react'
 import { useConfigActions } from '../store/widgetConfig/useConfigActions.js'
-import { useConfigVariant } from '../store/widgetConfig/useConfigValues.js'
+import {
+  useConfigSubvariantOptions,
+  useConfigVariant,
+} from '../store/widgetConfig/useConfigValues.js'
 import { useDefaultConfig } from '../store/widgetConfig/useDefaultConfig.js'
 import { docsLinks } from '../utils/docsLinks.js'
 import {
@@ -11,6 +14,8 @@ import {
 } from '../utils/variant.js'
 import { CardSelect } from './CardSelect/CardSelect.js'
 import { DetailViewLayout } from './DetailView/DetailViewLayout.js'
+import { ToggleRow, ToggleRowLabel } from './Row.style.js'
+import { Switch } from './Switch.style.js'
 
 interface VariantDetailViewProps {
   onBack: () => void
@@ -20,15 +25,28 @@ export const VariantDetailView = ({
   onBack,
 }: VariantDetailViewProps): JSX.Element => {
   const { variant } = useConfigVariant()
-  const { setVariant, setHeader, setContainer, getCurrentConfigTheme } =
-    useConfigActions()
+  const { subvariantOptions } = useConfigSubvariantOptions()
+  const {
+    setVariant,
+    setHeader,
+    setContainer,
+    getCurrentConfigTheme,
+    setChainSidebarDisabled,
+  } = useConfigActions()
   const { defaultConfig } = useDefaultConfig()
 
   const handleReset = useCallback((): void => {
     setVariant(defaultConfig?.variant ?? 'compact')
     setHeader(defaultConfig?.theme?.header)
     setContainer(defaultConfig?.theme?.container)
-  }, [defaultConfig, setVariant, setHeader, setContainer])
+    setChainSidebarDisabled(false)
+  }, [
+    defaultConfig,
+    setVariant,
+    setHeader,
+    setContainer,
+    setChainSidebarDisabled,
+  ])
 
   const handleSelect = useCallback(
     (value: WidgetVariant): void => {
@@ -42,6 +60,26 @@ export const VariantDetailView = ({
       )
     },
     [getCurrentConfigTheme, setContainer, setHeader, setVariant]
+  )
+
+  const handleDisableChainSidebar = useCallback(
+    (_: React.ChangeEvent<HTMLInputElement>, checked: boolean): void => {
+      setChainSidebarDisabled(checked)
+    },
+    [setChainSidebarDisabled]
+  )
+
+  const wideFooter = (
+    <ToggleRow sx={{ mt: 0 }}>
+      <ToggleRowLabel sx={{ fontSize: 14, lineHeight: '18px' }}>
+        Disable chain sidebar
+      </ToggleRowLabel>
+      <Switch
+        checked={!!subvariantOptions?.wide?.disableChainSidebar}
+        onChange={handleDisableChainSidebar}
+        aria-label="Disable chain sidebar"
+      />
+    </ToggleRow>
   )
 
   return (
@@ -60,6 +98,7 @@ export const VariantDetailView = ({
           description={description}
           selected={variant === id}
           onClick={() => handleSelect(id)}
+          footer={id === 'wide' && variant === 'wide' ? wideFooter : undefined}
         />
       ))}
     </DetailViewLayout>

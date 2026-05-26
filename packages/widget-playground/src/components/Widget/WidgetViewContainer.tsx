@@ -103,7 +103,16 @@ export function WidgetViewContainer({
           </WidgetContainerRow>
           {showFooter ? (
             <MockElement
-              sx={isFooterFixed ? { ...mockElementSx, bottom: 0 } : undefined}
+              sx={
+                isFooterFixed
+                  ? { ...mockElementSx, bottom: 0 }
+                  : {
+                      ...mockElementSx,
+                      position: 'absolute' as const,
+                      bottom: 0,
+                      width: '100vw',
+                    }
+              }
             >
               Mock footer
             </MockElement>

@@ -22,8 +22,13 @@ const shallowReferences = () => {
 }
 
 /**
- * Clones config objects that contain functions by temporarily substituting them,
- * then rehydrating both the clone and the original.
+ * Some parts of the config use functions which can't easily be cloned, converted to JSON or output to
+ * localstorage. This function should help to temporary substitute those values when we clone and restore
+ * those values afterwards.
+ * NOTE: any shallow references like walletConfig.onConnect are not treated as deep copies - the reference in the configs is different
+ * but the object of that reference with be share between the original and the cloned config.
+ *
+ * @param original The object that you want to clone
  */
 export const cloneStructuredConfig = <T>(original: T) => {
   const { substituteShallowReferences, rehydrateShallowReferences } =
@@ -33,6 +38,7 @@ export const cloneStructuredConfig = <T>(original: T) => {
     structuredClone(substituteShallowReferences(original))
   )
 
+  // we need restore the original as well
   rehydrateShallowReferences(original)
 
   return clone as T
