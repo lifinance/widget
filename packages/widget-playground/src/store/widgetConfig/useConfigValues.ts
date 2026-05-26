@@ -6,6 +6,7 @@ import type {
 } from '@lifi/widget'
 import { palette, paletteDark, paletteLight } from '@lifi/widget'
 import type { CSSProperties } from 'react'
+import { useShallow } from 'zustand/shallow'
 import { getValueFromPath } from '../../utils/getValueFromPath.js'
 import { useWidgetConfigStore } from './WidgetConfigProvider.js'
 
@@ -76,21 +77,6 @@ const defaultThemePalette = {
   },
 }
 
-export const useConfigColorsFromPath = (
-  ...paths: string[]
-): (string | undefined)[] => {
-  const colors = useWidgetConfigStore((store) =>
-    paths.map((path) => getValueFromPath<string>(store.config, path))
-  ) as Array<string | undefined>
-
-  return colors.map((color, i) => {
-    if (!color) {
-      return getValueFromPath<string>(defaultThemePalette, paths[i])
-    }
-    return color
-  })
-}
-
 export const useConfigColor = (path: string): string | undefined => {
   const color = useWidgetConfigStore((store) =>
     getValueFromPath<string>(store.config, path)
@@ -142,10 +128,12 @@ export const useConfigWalletManagement = (): {
   isPartialWalletManagement: boolean
   isForceInternalWalletManagement: boolean
 } => {
-  const [walletConfig, defaultWalletConfig] = useWidgetConfigStore((store) => [
-    store.config?.walletConfig,
-    store.defaultConfig?.walletConfig,
-  ])
+  const [walletConfig, defaultWalletConfig] = useWidgetConfigStore(
+    useShallow((store) => [
+      store.config?.walletConfig,
+      store.defaultConfig?.walletConfig,
+    ])
+  )
 
   const replacementWalletConfig =
     defaultWalletConfig || defaultWalletConfigFallback
