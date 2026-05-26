@@ -6,7 +6,6 @@ import type {
   ExtendedChain,
   Order,
   Route,
-  RouteExtended,
   RouteOptions,
   SDKConfig,
   StaticToken,
@@ -25,7 +24,6 @@ import type {
 import type { TypographyVariantsOptions } from '@mui/material/styles'
 import type {
   CSSProperties,
-  FC,
   PropsWithChildren,
   ReactNode,
   RefObject,
@@ -175,7 +173,10 @@ export interface WidgetSDKConfig
     | 'routeOptions'
     | 'widgetVersion'
   > {
-  routeOptions?: Omit<RouteOptions, 'bridges' | 'exchanges'>
+  routeOptions?: Omit<
+    RouteOptions,
+    'bridges' | 'exchanges' | 'fee' | 'referrer' | 'order' | 'slippage'
+  >
   executionOptions?: Pick<ExecutionOptions, 'updateTransactionRequestHook'>
 }
 
@@ -223,10 +224,6 @@ export interface WidgetFeeConfig {
    * @returns A promise that resolves to the calculated fee as a number (e.g., 0.03 represents a 3% fee)
    */
   calculateFee?(params: CalculateFeeParams): Promise<number | undefined>
-  /**
-   * @internal
-   */
-  _vcComponent?: FC<{ route: RouteExtended }>
 }
 
 export interface ToAddress {
@@ -330,7 +327,6 @@ export interface WidgetConfig {
   contractTool?: WidgetContractTool
   integrator: string
   apiKey?: string
-  fee?: number
   feeConfig?: WidgetFeeConfig
   referrer?: string
 
@@ -348,7 +344,13 @@ export interface WidgetConfig {
   hiddenUI?: HiddenUIType[]
   requiredUI?: RequiredUIType[]
   defaultUI?: DefaultUI
-  useRecommendedRoute?: boolean
+  /**
+   * When true, shows only the recommended route and hides the route
+   * selector UI. Distinct from `routePriority`, which sets the SDK
+   * ranking order across multiple displayed routes.
+   * @default false
+   */
+  showSingleRoute?: boolean
   useRelayerRoutes?: boolean
 
   walletConfig?: WidgetWalletConfig

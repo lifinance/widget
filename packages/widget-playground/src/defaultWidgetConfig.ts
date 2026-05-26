@@ -67,14 +67,13 @@ export const widgetBaseConfig: WidgetConfig = {
   ...(import.meta.env?.VITE_API_KEY && {
     apiKey: import.meta.env.VITE_API_KEY,
   }),
-  // fee: 0.01,
   // feeConfig: {
   //   name: 'DApp fee',
   //   fee: 0.01,
   //   showFeePercentage: true,
   //   showFeeTooltip: true,
   // },
-  // useRecommendedRoute: true,
+  // showSingleRoute: true,
   useRelayerRoutes: true,
   buildUrl: true,
   // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton', 'toAddress'],
@@ -99,10 +98,7 @@ export const widgetBaseConfig: WidgetConfig = {
     routeOptions: {
       maxPriceImpact: 0.4,
       jitoBundle: true,
-      // slippage: 0.03,
-      // order: 'SAFEST',
       // allowSwitchChain: false,
-      // fee: 0.05
     },
   },
   // theme: {
