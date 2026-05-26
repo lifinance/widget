@@ -16,7 +16,7 @@ import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js'
 export const Routes: React.FC<CardProps> = (props) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { mode, modeOptions, useRecommendedRoute } = useWidgetConfig()
+  const { mode, modeOptions, showSingleRoute } = useWidgetConfig()
   const {
     routes,
     isLoading,
@@ -38,9 +38,9 @@ export const Routes: React.FC<CardProps> = (props) => {
   }
 
   const routeNotFound = !currentRoute && !isLoading && !isFetching
-  const onlyRecommendedRoute = mode === 'refuel' || useRecommendedRoute
+  const onlySingleRoute = mode === 'refuel' || showSingleRoute
   const showAll =
-    !onlyRecommendedRoute && !routeNotFound && (routes?.length ?? 0) > 1
+    !onlySingleRoute && !routeNotFound && (routes?.length ?? 0) > 1
 
   const title =
     mode === 'custom'

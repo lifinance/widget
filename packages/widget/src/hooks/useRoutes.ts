@@ -61,7 +61,6 @@ export const useRoutes = ({
     contractTool,
     bridges,
     exchanges,
-    fee,
     feeConfig,
     useRelayerRoutes,
     keyPrefix,
@@ -182,7 +181,7 @@ export const useRoutes = ({
         allowSwitchChain,
         enabledRefuel && enabledAutoRefuel,
         gasRecommendationFromAmount,
-        feeConfig?.fee || fee,
+        feeConfig?.fee,
         disableMessageSigning,
         !!isBatchingSupported,
         observableRoute?.id,
@@ -211,7 +210,6 @@ export const useRoutes = ({
       enabledAutoRefuel,
       gasRecommendationFromAmount,
       feeConfig?.fee,
-      fee,
       disableMessageSigning,
       isBatchingSupported,
       observableRoute?.id,
@@ -247,7 +245,7 @@ export const useRoutes = ({
           allowSwitchChain,
           enabledRefuel,
           gasRecommendationFromAmount,
-          fee,
+          configuredFee,
           disableMessageSigning,
           isBatchingSupported,
           // _observableRouteId must be the last element in the query key
@@ -316,7 +314,7 @@ export const useRoutes = ({
               allowExchanges,
               toFallbackAddress: toAddress,
               slippage: formattedSlippage,
-              fee: calculatedFee || fee,
+              fee: calculatedFee || configuredFee,
             },
             { signal }
           )
@@ -410,7 +408,7 @@ export const useRoutes = ({
                       : undefined,
                   order: routePriority,
                   slippage: formattedSlippage,
-                  fee: calculatedFee || fee,
+                  fee: calculatedFee || configuredFee,
                   executionType: disableMessageSigning ? 'transaction' : 'all',
                 },
               },
@@ -435,7 +433,7 @@ export const useRoutes = ({
                     : undefined,
                 order: routePriority,
                 slippage: formattedSlippage,
-                fee: calculatedFee || fee,
+                fee: calculatedFee || configuredFee,
                 ...(allowBridges?.length || disabledBridges.length
                   ? {
                       allowBridges: allowBridges,

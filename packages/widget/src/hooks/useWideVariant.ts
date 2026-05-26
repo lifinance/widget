@@ -5,9 +5,9 @@ import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 const defaultExpandableWidth = 852
 
 export const useWideVariant = (): boolean => {
-  const { variant, useRecommendedRoute } = useWidgetConfig()
+  const { variant, showSingleRoute } = useWidgetConfig()
   const expandableAllowed = useMediaQuery((theme: Theme) =>
     theme.breakpoints.up(defaultExpandableWidth)
   )
-  return variant === 'wide' && expandableAllowed && !useRecommendedRoute
+  return variant === 'wide' && expandableAllowed && !showSingleRoute
 }

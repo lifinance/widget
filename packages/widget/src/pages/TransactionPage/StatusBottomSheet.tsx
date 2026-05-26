@@ -73,7 +73,6 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
     modeOptions,
     contractSecondaryComponent,
     contractCompactComponent,
-    feeConfig,
   } = useWidgetConfig()
   const { getChainById } = useAvailableChains()
 
@@ -207,9 +206,6 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
     hasEnumFlag(status, RouteExecutionStatus.Done) &&
     (contractCompactComponent || contractSecondaryComponent)
 
-  const VcComponent =
-    status === RouteExecutionStatus.Done ? feeConfig?._vcComponent : undefined
-
   return (
     <Box
       ref={ref}
@@ -264,7 +260,7 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
             flexDirection: 'column',
             gap: 2,
             marginTop: 2,
-            marginBottom: VcComponent ? 2 : 3,
+            marginBottom: 3,
           }}
         >
           <Card
@@ -294,7 +290,6 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
               </Typography>
             )}
           </Card>
-          {VcComponent ? <VcComponent route={route} /> : null}
         </Box>
       ) : null}
       <Box sx={{ display: 'flex', marginTop: 2, gap: 1.5 }}>

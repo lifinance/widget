@@ -235,7 +235,7 @@ export type WidgetTokens = {
 
 // ---------------------------------------------------------------------------
 // Fee configuration — serializable subset.
-// Excluded: feeTooltipComponent (ReactNode), calculateFee (fn), _vcComponent
+// Excluded: feeTooltipComponent (ReactNode), calculateFee (fn)
 // ---------------------------------------------------------------------------
 
 export interface WidgetFeeConfig {
@@ -274,10 +274,7 @@ export interface WidgetWalletConfig {
 // ---------------------------------------------------------------------------
 
 export interface WidgetRouteOptions {
-  fee?: number
   maxPriceImpact?: number
-  order?: WidgetRoutePriority
-  slippage?: number
   allowSwitchChain?: boolean
   allowDestinationCall?: boolean
   bridges?: { allow?: string[]; deny?: string[]; prefer?: string[] }
@@ -362,7 +359,6 @@ export interface WidgetLightConfig {
 
   // -- API / fees --
   apiKey?: string
-  fee?: number
   feeConfig?: WidgetFeeConfig
   referrer?: string
 
@@ -384,7 +380,13 @@ export interface WidgetLightConfig {
   hiddenUI?: WidgetHiddenUIConfig
   requiredUI?: WidgetRequiredUIConfig
   defaultUI?: WidgetDefaultUI
-  useRecommendedRoute?: boolean
+  /**
+   * When true, shows only the recommended route and hides the route
+   * selector UI. Distinct from `routePriority`, which sets the SDK
+   * ranking order across multiple displayed routes.
+   * @default false
+   */
+  showSingleRoute?: boolean
   useRelayerRoutes?: boolean
 
   // -- Wallet / SDK --

@@ -22,7 +22,7 @@ export function App() {
       integrator: 'ProtocolName',
       disabledUI: { toAddress: true },
       hiddenUI: { appearance: true, language: true },
-      useRecommendedRoute: true,
+      showSingleRoute: true,
       theme: {
         container: {
           border: '1px solid rgb(234, 234, 234)',
