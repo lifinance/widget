@@ -1,5 +1,4 @@
 import MenuOpenIcon from '@mui/icons-material/MenuOpen'
-import type { Theme } from '@mui/material'
 import { Box, Tooltip } from '@mui/material'
 import type { JSX, PropsWithChildren } from 'react'
 import { ExternalWalletProvider } from '../../providers/ExternalWalletProvider/ExternalWalletProvider.js'
@@ -12,6 +11,12 @@ import {
 } from '../../store/widgetConfig/useConfigValues.js'
 import { useWidgetConfigStore } from '../../store/widgetConfig/WidgetConfigProvider.js'
 import { isFullHeightLayout } from '../../utils/layout.js'
+import {
+  getDrawerOffset,
+  getMockFooterSx,
+  getMockHeaderSx,
+  getWidgetContainerDrawerSx,
+} from '../../utils/widgetViewDrawer.js'
 import { MockElement } from '../Mock/MockElement.js'
 import { ToggleDrawerButton } from './ToggleDrawerButton.js'
 import {
@@ -44,17 +49,7 @@ export function WidgetViewContainer({
   const showHeader = isFullHeight && showMockHeader
   const showFooter = isFullHeight && showMockFooter
 
-  const mockElementSx = {
-    position: 'fixed' as const,
-    zIndex: 1,
-    left: 0,
-    paddingLeft: isDrawerOpen ? `${drawerWidth}px` : 0,
-    transition: (theme: Theme) =>
-      theme.transitions.create('padding-left', {
-        duration: theme.transitions.duration.enteringScreen,
-        easing: theme.transitions.easing.sharp,
-      }),
-  }
+  const drawerOffset = getDrawerOffset(isDrawerOpen, drawerWidth)
 
   return (
     <Main>
@@ -82,17 +77,10 @@ export function WidgetViewContainer({
         <WidgetContainer
           removePaddingTop={isFullHeight && !showHeader}
           alignTop={isFullHeight}
-          sx={{
-            marginLeft: isDrawerOpen ? `${drawerWidth}px` : 0,
-            transition: (theme) =>
-              theme.transitions.create('margin-left', {
-                duration: theme.transitions.duration.enteringScreen,
-                easing: theme.transitions.easing.sharp,
-              }),
-          }}
+          sx={getWidgetContainerDrawerSx(drawerOffset)}
         >
           {showHeader ? (
-            <MockElement sx={{ ...mockElementSx, top: 0 }}>
+            <MockElement sx={getMockHeaderSx(drawerOffset)}>
               Mock header
             </MockElement>
           ) : null}
@@ -102,18 +90,7 @@ export function WidgetViewContainer({
             {children}
           </WidgetContainerRow>
           {showFooter ? (
-            <MockElement
-              sx={
-                isFooterFixed
-                  ? { ...mockElementSx, bottom: 0 }
-                  : {
-                      ...mockElementSx,
-                      position: 'absolute' as const,
-                      bottom: 0,
-                      width: '100vw',
-                    }
-              }
-            >
+            <MockElement sx={getMockFooterSx(drawerOffset, isFooterFixed)}>
               Mock footer
             </MockElement>
           ) : null}

@@ -3,6 +3,7 @@ import { Box, IconButton } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import type React from 'react'
 import { drawerZIndex } from '../../utils/sidebar.js'
+import { drawerShiftTransition } from '../../utils/widgetViewDrawer.js'
 
 interface FloatingToolsContainerProps extends BoxProps {
   drawerOpen?: boolean
@@ -21,10 +22,7 @@ export const FloatingToolsContainer: React.FC<
   zIndex: drawerZIndex,
   padding: theme.spacing(3, 0, 0, 3),
   left: drawerOpen ? drawerWidth : 0,
-  transition: theme.transitions.create('left', {
-    duration: theme.transitions.duration.enteringScreen,
-    easing: theme.transitions.easing.sharp,
-  }),
+  transition: drawerShiftTransition(theme, 'left'),
 }))
 
 interface WidgetContainerProps extends BoxProps {
