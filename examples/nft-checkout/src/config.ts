@@ -6,7 +6,7 @@ import { SuiProvider } from '@lifi/widget-provider-sui'
 import './index.css'
 
 export const widgetBaseConfig: WidgetConfig = {
-  subvariant: 'custom',
+  mode: 'custom',
   integrator: 'li.fi-playground',
   providers: [
     EthereumProvider(),
@@ -14,7 +14,7 @@ export const widgetBaseConfig: WidgetConfig = {
     SolanaProvider(),
     SuiProvider(),
   ],
-  hiddenUI: ['history'],
+  hiddenUI: { history: true },
   // buildUrl: true,
   sdkConfig: {
     apiUrl: 'https://li.quest/v1',

@@ -1,7 +1,8 @@
-import type { SplitSubvariant, WidgetSubvariant } from '@lifi/widget'
+import type { SplitMode, WidgetMode } from '@lifi/widget'
 import type { JSX, SyntheticEvent } from 'react'
 import { useConfigActions } from '../../../store/widgetConfig/useConfigActions.js'
 import {
+  useConfigHiddenUI,
   useConfigSubvariant,
   useConfigSubvariantOptions,
   useConfigVariant,
@@ -15,14 +16,12 @@ export const SubvariantControl = (): JSX.Element => {
   const { variant } = useConfigVariant()
   const { subvariant } = useConfigSubvariant()
   const { subvariantOptions } = useConfigSubvariantOptions()
-  const { setSubvariant, setSplitOption, setChainSidebarDisabled } =
+  const { hiddenUI } = useConfigHiddenUI()
+  const { setMode, setSplitOption, setChainSidebarDisabled } =
     useConfigActions()
 
-  const handleSubvariantChange = (
-    _: SyntheticEvent,
-    value: WidgetSubvariant
-  ) => {
-    setSubvariant(value)
+  const handleSubvariantChange = (_: SyntheticEvent, value: WidgetMode) => {
+    setMode(value)
   }
 
   const handleDisableChainSidebarChange = (
@@ -34,7 +33,7 @@ export const SubvariantControl = (): JSX.Element => {
 
   const handleSplitOptionChange = (
     _: SyntheticEvent,
-    value: SplitSubvariant | 'default'
+    value: SplitMode | 'default'
   ) => {
     setSplitOption(value === 'default' ? undefined : value)
   }
@@ -74,7 +73,7 @@ export const SubvariantControl = (): JSX.Element => {
         <CardRowContainer sx={{ paddingLeft: 1, paddingRight: 1 }}>
           Disable chain sidebar
           <Switch
-            checked={!!subvariantOptions?.wide?.disableChainSidebar}
+            checked={!!hiddenUI?.chainSidebar}
             onChange={handleDisableChainSidebarChange}
             aria-label="Disable chain sidebar"
           />

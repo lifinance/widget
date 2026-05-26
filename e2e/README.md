@@ -81,7 +81,7 @@ Reports land in `e2e/playwright-report-examples/`.
 | `standard` | vite, connectkit, privy, privy-ethers, rainbowkit, reown, svelte, zustand-widget-config, vue, nextjs, nextjs15, remix, react-router-7 | Widget at `/`, Exchange heading |
 | `routed` | tanstack-router | Widget at a custom route (`/widget`) |
 | `iframe` | vite-iframe, vite-iframe-wagmi | Widget inside `<iframe>` via `LiFiWidgetLight`; loads from `https://widget.li.fi` |
-| `nft` | nft-checkout | NFT checkout subvariant — Checkout heading, Pay with section |
+| `nft` | nft-checkout | NFT checkout mode — Checkout heading, Pay with section |
 
 ### What each profile asserts
 

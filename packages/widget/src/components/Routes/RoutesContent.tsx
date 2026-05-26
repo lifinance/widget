@@ -39,7 +39,7 @@ export const RoutesContent: React.NamedExoticComponent<RoutesContentProps> =
     onRouteClick,
   }: RoutesContentProps) {
     const { t } = useTranslation()
-    const { subvariant, subvariantOptions } = useWidgetConfig()
+    const { mode, modeOptions } = useWidgetConfig()
 
     const { account } = useAccount({ chainType: fromChain?.chainType })
     const [toAddress] = useFieldValues('toAddress')
@@ -52,8 +52,8 @@ export const RoutesContent: React.NamedExoticComponent<RoutesContentProps> =
     const allowInteraction = account.isConnected && !toAddressUnsatisfied
 
     const title =
-      subvariant === 'custom'
-        ? subvariantOptions?.custom === 'deposit'
+      mode === 'custom'
+        ? modeOptions?.custom?.type === 'deposit'
           ? t('header.deposit')
           : t('header.youPay')
         : t('header.receive')

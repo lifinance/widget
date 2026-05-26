@@ -47,7 +47,7 @@ export const azureLightTheme: WidgetTheme = {
     MuiCard: {
       defaultProps: { variant: 'filled' },
     },
-    // Used only for 'split' subvariant and can be safely removed if not used
+    // Used only for 'split' mode and can be safely removed if not used
     MuiNavigationTabs: {
       styleOverrides: {
         root: {

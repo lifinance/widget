@@ -69,8 +69,8 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
   const navigate = useNavigate()
   const { setFieldValue } = useFieldActions()
   const {
-    subvariant,
-    subvariantOptions,
+    mode,
+    modeOptions,
     contractSecondaryComponent,
     contractCompactComponent,
   } = useWidgetConfig()
@@ -152,9 +152,9 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
   switch (status) {
     case RouteExecutionStatus.Done: {
       title =
-        subvariant === 'custom'
+        mode === 'custom'
           ? t(
-              `success.title.${subvariantOptions?.custom ?? 'checkout'}Successful`
+              `success.title.${modeOptions?.custom?.type ?? 'checkout'}Successful`
             )
           : t(`success.title.${transactionType}Successful`)
       handlePrimaryButton = handleDone
@@ -202,7 +202,7 @@ const StatusBottomSheetContent: React.FC<StatusBottomSheetContentProps> = ({
   }
 
   const showContractComponent =
-    subvariant === 'custom' &&
+    mode === 'custom' &&
     hasEnumFlag(status, RouteExecutionStatus.Done) &&
     (contractCompactComponent || contractSecondaryComponent)
 
