@@ -8,7 +8,6 @@ import {
 } from '../../utils/themeEdit.js'
 import { SectionHeading } from '../DetailView/DetailView.style.js'
 import { EditableColorRow } from '../EditableColorRow/EditableColorRow.js'
-import { RowLabel } from '../Row.style.js'
 import { Tab, Tabs } from '../Tabs.style.js'
 import { ThemeColorRow } from '../ThemeColorRow.js'
 import { ColorRowStack } from './ThemeEditDetailView.style.js'
@@ -35,7 +34,6 @@ export const ThemePaletteSection = ({
       <SectionHeading>Color palette</SectionHeading>
       {hasBothModes ? (
         <>
-          <RowLabel sx={{ mb: 1 }}>Mode</RowLabel>
           <Tabs
             value={effectivePaletteMode}
             onChange={handlePaletteModeChange}
