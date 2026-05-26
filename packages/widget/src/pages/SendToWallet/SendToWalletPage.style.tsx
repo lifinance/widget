@@ -3,7 +3,6 @@ import {
   alertClasses,
   Box,
   inputBaseClasses,
-  List,
   styled,
   Typography,
 } from '@mui/material'
@@ -33,14 +32,6 @@ export const BookmarkInputFields: React.FC<
   width: '100%',
 }))
 
-export const SendToWalletPageContainer: React.FC<
-  React.ComponentProps<typeof PageContainer> & PageContainerProps
-> = styled(PageContainer)<PageContainerProps>(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: theme.spacing(1),
-}))
-
 interface FullHeightAdjustablePageContainerProps extends PageContainerProps {
   enableFullHeight?: boolean
 }
@@ -48,13 +39,15 @@ interface FullHeightAdjustablePageContainerProps extends PageContainerProps {
 export const FullHeightAdjustablePageContainer: React.FC<
   React.ComponentProps<typeof PageContainer> &
     FullHeightAdjustablePageContainerProps
-> = styled(SendToWalletPageContainer, {
+> = styled(PageContainer, {
   shouldForwardProp: (prop) => prop !== 'enableFullHeight',
 })<FullHeightAdjustablePageContainerProps>(({ theme, enableFullHeight }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(1),
   justifyContent: 'space-between',
   ...(enableFullHeight && theme.container?.height === '100%'
     ? {
-        justifyContent: 'space-between',
         height: '100%',
       }
     : {}),
@@ -120,22 +113,6 @@ export const SheetAddressContainer: React.FC<React.ComponentProps<typeof Box>> =
     wordWrap: 'break-word',
   }))
 
-export const ListContainer: React.FC<React.ComponentProps<typeof List>> =
-  styled(List)(() => ({
-    display: 'flex',
-    flexDirection: 'column',
-    padding: 0,
-    minHeight: 400,
-  }))
-
-export const BookmarksListContainer: React.FC<
-  React.ComponentProps<typeof ListContainer>
-> = styled(ListContainer)(() => ({
-  flex: 1,
-  minHeight: 0,
-  overflow: 'auto',
-}))
-
 export const BookmarkButtonContainer: React.FC<
   React.ComponentProps<typeof Box>
 > = styled(Box)(({ theme }) => ({
@@ -143,7 +120,7 @@ export const BookmarkButtonContainer: React.FC<
   display: 'flex',
   flexDirection: 'column',
   flexShrink: 0,
-  padding: theme.spacing(0, 3, 3),
+  padding: theme.spacing(2, 3, 3),
   width: '100%',
 }))
 

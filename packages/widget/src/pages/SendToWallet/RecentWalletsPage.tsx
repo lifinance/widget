@@ -3,7 +3,7 @@ import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
 import DeleteOutline from '@mui/icons-material/DeleteOutlined'
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import TurnedInNot from '@mui/icons-material/TurnedInNot'
-import { ListItemAvatar, ListItemText } from '@mui/material'
+import { List, ListItemAvatar, ListItemText } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import { type JSX, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -13,6 +13,7 @@ import { ContextMenu } from '../../components/ContextMenu.js'
 import { EmptyListIndicator } from '../../components/EmptyListIndicator/EmptyListIndicator.js'
 import { ListItem } from '../../components/ListItem/ListItem.js'
 import { ListItemButton } from '../../components/ListItem/ListItemButton.js'
+import { PageContainer } from '../../components/PageContainer.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { useHeader } from '../../hooks/useHeader.js'
 import { useListHeight } from '../../hooks/useListHeight.js'
@@ -25,10 +26,6 @@ import { defaultChainIdsByType } from '../../utils/chainType.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { BookmarkAddressSheet } from './BookmarkAddressSheet.js'
-import {
-  ListContainer,
-  SendToWalletPageContainer,
-} from './SendToWalletPage.style.js'
 
 export const RecentWalletsPage = (): JSX.Element => {
   const { t } = useTranslation()
@@ -49,7 +46,7 @@ export const RecentWalletsPage = (): JSX.Element => {
 
   useHeader(t('header.recentWallets'))
 
-  const { listHeight } = useListHeight({ listParentRef: listParentRef })
+  const { listHeight } = useListHeight({ listParentRef })
 
   const handleRecentSelected = (recentWallet: Bookmark) => {
     addRecentWallet(recentWallet)
@@ -70,11 +67,12 @@ export const RecentWalletsPage = (): JSX.Element => {
   }
 
   return (
-    <SendToWalletPageContainer disableGutters>
-      <ListContainer
+    <PageContainer disableGutters>
+      <List
         className="long-list"
         ref={listParentRef}
         style={{ height: listHeight, overflow: 'auto' }}
+        disablePadding
       >
         {recentWallets.map((recentWallet) => (
           <ListItem key={recentWallet.address} sx={{ position: 'relative' }}>
@@ -151,12 +149,12 @@ export const RecentWalletsPage = (): JSX.Element => {
             message={t('sendToWallet.noRecentWalletsMessage')}
           />
         )}
-      </ListContainer>
+      </List>
       <BookmarkAddressSheet
         ref={bookmarkAddressSheetRef}
         validatedWallet={bookmarkTarget}
         onAddBookmark={handleAddBookmark}
       />
-    </SendToWalletPageContainer>
+    </PageContainer>
   )
 }
