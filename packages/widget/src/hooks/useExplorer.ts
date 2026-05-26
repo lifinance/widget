@@ -10,10 +10,7 @@ const explorerPathOverrides: Partial<
   Record<ChainType | ChainId, { txPath: string; addressPath: string }>
 > = {
   [ChainId.SUI]: { txPath: 'txblock', addressPath: 'coin' },
-  [ChainId.LTR]: {
-    txPath: 'explorer/logs',
-    addressPath: 'explorer/accounts',
-  },
+  [ChainId.LTR]: { txPath: 'logs', addressPath: 'accounts' },
   [ChainType.TVM]: { txPath: '#/transaction', addressPath: '#/address' },
 }
 
