@@ -131,9 +131,6 @@ importers:
       connectkit:
         specifier: ^1.9.2
         version: 1.9.2(@babel/core@7.29.0)(@tanstack/react-query@5.100.9(react@19.2.6))(react-dom@19.2.6(react@19.2.6))(react-is@19.2.6)(react@19.2.6)(viem@2.48.11(bufferutil@4.1.0)(typescript@6.0.3)(utf-8-validate@6.0.6)(zod@4.4.3))(wagmi@3.6.12)
-      mitt:
-        specifier: ^3.0.1
-        version: 3.0.1
       react:
         specifier: ^19.2.6
         version: 19.2.6
@@ -295,9 +292,6 @@ importers:
       bs58:
         specifier: '>=4.0.1'
         version: 6.0.0
-      mitt:
-        specifier: ^3.0.1
-        version: 3.0.1
       react:
         specifier: ^19.2.6
         version: 19.2.6
@@ -548,9 +542,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.100.9
         version: 5.100.9(react@19.2.6)
-      mitt:
-        specifier: ^3.0.1
-        version: 3.0.1
+      eventemitter3:
+        specifier: ^5.0.4
+        version: 5.0.4
       permissionless:
         specifier: ^0.3.4
         version: 0.3.5(viem@2.48.11(bufferutil@4.1.0)(typescript@6.0.3)(utf-8-validate@6.0.6)(zod@4.4.3))
@@ -636,9 +630,9 @@ importers:
       ethers:
         specifier: ^6.16.0
         version: 6.16.0(bufferutil@4.1.0)(utf-8-validate@6.0.6)
-      mitt:
-        specifier: ^3.0.1
-        version: 3.0.1
+      eventemitter3:
+        specifier: ^5.0.4
+        version: 5.0.4
       react:
         specifier: ^19.2.6
         version: 19.2.6
@@ -895,9 +889,6 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.100.9
         version: 5.100.9(react@19.2.6)
-      mitt:
-        specifier: ^3.0.1
-        version: 3.0.1
       react:
         specifier: ^19.2.6
         version: 19.2.6
@@ -1320,12 +1311,12 @@ importers:
       '@tanstack/react-query':
         specifier: '>=5.90.0'
         version: 5.100.9(react@19.2.6)
+      eventemitter3:
+        specifier: ^5.0.4
+        version: 5.0.4
       i18next:
         specifier: ^26.1.0
         version: 26.1.0(typescript@6.0.3)
-      mitt:
-        specifier: ^3.0.1
-        version: 3.0.1
       react-i18next:
         specifier: ^17.0.7
         version: 17.0.7(i18next@26.1.0(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react-native@0.85.3(@babel/core@7.29.0)(@types/react@19.2.14)(bufferutil@4.1.0)(react@19.2.6)(utf-8-validate@6.0.6))(react@19.2.6)(typescript@6.0.3)
@@ -1384,15 +1375,15 @@ importers:
       '@tanstack/react-virtual':
         specifier: ^3.13.24
         version: 3.13.24(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
+      eventemitter3:
+        specifier: ^5.0.4
+        version: 5.0.4
       i18next:
         specifier: ^26.1.0
         version: 26.1.0(typescript@6.0.3)
       microdiff:
         specifier: ^1.5.0
         version: 1.5.0
-      mitt:
-        specifier: ^3.0.1
-        version: 3.0.1
       react-i18next:
         specifier: ^17.0.7
         version: 17.0.7(i18next@26.1.0(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react-native@0.85.3(@babel/core@7.29.0)(@types/react@19.2.14)(bufferutil@4.1.0)(react@19.2.6)(utf-8-validate@6.0.6))(react@19.2.6)(typescript@6.0.3)
@@ -5839,8 +5830,8 @@ packages:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
       react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
 
-  '@react-grab/cli@0.1.34':
-    resolution: {integrity: sha512-L2eAxN46Vq2Ss3nDegrH7wQVMeWH03ahawp+OdzUtQWqL3cq6Bt149q9XhY3cWc9fJsxuWjLfCn+3T9uApIlBA==}
+  '@react-grab/cli@0.1.37':
+    resolution: {integrity: sha512-1ln28VkVHUbd5qy+ccXG68voWc0mgZMhBnwG0umxfD+wbkXUcvRzVrLjSqao7N8hCrDqp+Pt5j9Tsqef+9yQQQ==}
     hasBin: true
 
   '@react-native-async-storage/async-storage@3.0.2':
@@ -8970,8 +8961,8 @@ packages:
     peerDependencies:
       react: '>=17.0.1'
 
-  bippy@0.5.40:
-    resolution: {integrity: sha512-3QPSDG5tgd7FCIkcKsUqmbGdlHxBxP7II5drXPNp1I0rpA9+4+/VjQOigDTbzeqTi6Xkaf1Dq7x4E8vbOuwOkA==}
+  bippy@0.5.41:
+    resolution: {integrity: sha512-jCP2pXXLhXqPrAN+iSEFZmLI4uUM4fjSqajh0K+TmM062VehfDT3ZJNkrTGyN701Z5XMejs9qAudSqkMGhSMKg==}
     peerDependencies:
       react: '>=17.0.1'
 
@@ -14106,8 +14097,8 @@ packages:
       '@types/react':
         optional: true
 
-  react-grab@0.1.34:
-    resolution: {integrity: sha512-jtdOdv0kb90oqL+pMszSh9DOLgVRaX4ZE6XN4GkDEpNNUqveQfZT014+EeJraljpqQfuWKW+96NrrRqUD93D2g==}
+  react-grab@0.1.37:
+    resolution: {integrity: sha512-XVAc/qPyxsDT8Putu9UnP7iVHmAORMzvaN/3GDTOfbuLIRXWdOt7vebPOzM9RVTVUjucXv0135JI++kSVPSfYg==}
     hasBin: true
     peerDependencies:
       react: '>=17.0.0'
@@ -21564,7 +21555,7 @@ snapshots:
       react-aria: 3.48.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       react-dom: 19.2.6(react@19.2.6)
 
-  '@react-grab/cli@0.1.34':
+  '@react-grab/cli@0.1.37':
     dependencies:
       commander: 14.0.3
       ignore: 7.0.5
@@ -27295,7 +27286,7 @@ snapshots:
     dependencies:
       react: 19.2.6
 
-  bippy@0.5.40(react@19.2.6):
+  bippy@0.5.41(react@19.2.6):
     dependencies:
       react: 19.2.6
 
@@ -33753,10 +33744,10 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.2.14
 
-  react-grab@0.1.34(react@19.2.6):
+  react-grab@0.1.37(react@19.2.6):
     dependencies:
-      '@react-grab/cli': 0.1.34
-      bippy: 0.5.40(react@19.2.6)
+      '@react-grab/cli': 0.1.37
+      bippy: 0.5.41(react@19.2.6)
     optionalDependencies:
       react: 19.2.6
 
@@ -33915,7 +33906,7 @@ snapshots:
       prompts: 2.4.2
       react: 19.2.6
       react-dom: 19.2.6(react@19.2.6)
-      react-grab: 0.1.34(react@19.2.6)
+      react-grab: 0.1.37(react@19.2.6)
     optionalDependencies:
       esbuild: 0.28.0
       unplugin: 2.1.0
