@@ -3,7 +3,6 @@ import { Box, Typography } from '@mui/material'
 import { useLocation } from '@tanstack/react-router'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useHeaderStore } from '../../stores/header/useHeaderStore.js'
-import { HiddenUI } from '../../types/widget.js'
 import {
   backButtonRoutes,
   navigationRoutes,
@@ -17,8 +16,7 @@ import { SettingsButton } from './SettingsButton.js'
 import { SplitNavigationTabs } from './SplitNavigationTabs.js'
 
 export const NavigationHeader: React.FC = () => {
-  const { subvariant, hiddenUI, variant, defaultUI, subvariantOptions } =
-    useWidgetConfig()
+  const { mode, hiddenUI, variant, defaultUI, modeOptions } = useWidgetConfig()
   const { account } = useAccount()
   const [element, title] = useHeaderStore((state) => [
     state.element,
@@ -34,9 +32,7 @@ export const NavigationHeader: React.FC = () => {
   // Show tabs when split is undefined (default tabs) or an object with defaultTab
   // Hide tabs when split is a string ('bridge' or 'swap' - single mode)
   const showSplitOptions =
-    subvariant === 'split' &&
-    !hasPath &&
-    typeof subvariantOptions?.split !== 'string'
+    mode === 'split' && !hasPath && typeof modeOptions?.split !== 'string'
 
   return (
     <HeaderAppBar elevation={0} sx={{ paddingTop: 1, paddingBottom: 0.5 }}>
@@ -60,12 +56,9 @@ export const NavigationHeader: React.FC = () => {
       )}
       {pathname === navigationRoutes.home ? (
         <HeaderControlsContainer>
-          {account.isConnected && !hiddenUI?.includes(HiddenUI.History) && (
-            <ActivitiesButton />
-          )}
+          {account.isConnected && !hiddenUI?.history && <ActivitiesButton />}
           <SettingsButton />
-          {variant === 'drawer' &&
-          !hiddenUI?.includes(HiddenUI.DrawerCloseButton) ? (
+          {variant === 'drawer' && !hiddenUI?.drawerCloseButton ? (
             <CloseDrawerButton header="navigation" />
           ) : null}
         </HeaderControlsContainer>

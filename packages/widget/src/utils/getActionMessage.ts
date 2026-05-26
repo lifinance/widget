@@ -6,7 +6,7 @@ import type {
   Substatus,
 } from '@lifi/sdk'
 import type { TFunction } from 'i18next'
-import type { SubvariantOptions, WidgetSubvariant } from '../types/widget'
+import type { ModeOptions, WidgetMode } from '../types/widget'
 
 export function getActionMessage(
   t: TFunction,
@@ -14,8 +14,8 @@ export function getActionMessage(
   type: ExecutionActionType,
   status: ExecutionActionStatus,
   substatus?: Substatus,
-  subvariant?: WidgetSubvariant,
-  subvariantOptions?: SubvariantOptions
+  mode?: WidgetMode,
+  modeOptions?: ModeOptions
 ): {
   title?: string
   message?: string
@@ -25,12 +25,7 @@ export function getActionMessage(
     : undefined
   const title =
     messageWithSubstatus ??
-    actionStatusMessages[type]?.[status]?.(
-      t,
-      step,
-      subvariant,
-      subvariantOptions
-    )
+    actionStatusMessages[type]?.[status]?.(t, step, mode, modeOptions)
   return { title }
 }
 
@@ -42,8 +37,8 @@ const actionStatusMessages: Record<
       (
         t: TFunction,
         step: LiFiStepExtended,
-        subvariant?: WidgetSubvariant,
-        subvariantOptions?: SubvariantOptions
+        mode?: WidgetMode,
+        modeOptions?: ModeOptions
       ) => string
     >
   >
@@ -115,9 +110,9 @@ const actionStatusMessages: Record<
     ACTION_REQUIRED: (t) => t('main.process.swap.actionRequired'),
     MESSAGE_REQUIRED: (t) => t('main.process.swap.messageRequired'),
     PENDING: (t) => t('main.process.swap.pending'),
-    DONE: (t, _, subvariant, subvariantOptions) =>
-      subvariant === 'custom'
-        ? t(`main.process.${subvariantOptions?.custom ?? 'checkout'}.done`)
+    DONE: (t, _, mode, modeOptions) =>
+      mode === 'custom'
+        ? t(`main.process.${modeOptions?.custom?.type ?? 'checkout'}.done`)
         : t('main.process.swap.done'),
   },
   CROSS_CHAIN: {
@@ -130,9 +125,9 @@ const actionStatusMessages: Record<
   RECEIVING_CHAIN: {
     STARTED: (t) => t('main.process.receivingChain.pending'),
     PENDING: (t) => t('main.process.receivingChain.pending'),
-    DONE: (t, _, subvariant, subvariantOptions) =>
-      subvariant === 'custom'
-        ? t(`main.process.${subvariantOptions?.custom ?? 'checkout'}.done`)
+    DONE: (t, _, mode, modeOptions) =>
+      mode === 'custom'
+        ? t(`main.process.${modeOptions?.custom?.type ?? 'checkout'}.done`)
         : t('main.process.receivingChain.done'),
   },
 }

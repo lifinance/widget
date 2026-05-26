@@ -56,12 +56,11 @@ export const useRoutes = ({
   setReviewableRoute: (route: Route) => void
 } => {
   const {
-    subvariant,
-    subvariantOptions,
+    mode,
+    modeOptions,
     contractTool,
     bridges,
     exchanges,
-    fee,
     feeConfig,
     useRelayerRoutes,
     keyPrefix,
@@ -121,7 +120,7 @@ export const useRoutes = ({
   const hasAmount = Number(fromTokenAmount) > 0 || Number(toTokenAmount) > 0
 
   const contractCallQuoteEnabled: boolean =
-    subvariant === 'custom' ? Boolean(contractCalls && account.address) : true
+    mode === 'custom' ? Boolean(contractCalls && account.address) : true
 
   // When we bridge between ecosystems we need to be sure toAddress is set and has the same chainType as toChain
   // If toAddress is set, it must have the same chainType as toChain
@@ -178,11 +177,11 @@ export const useRoutes = ({
         allowedBridges,
         allowedExchanges,
         routePriority,
-        subvariant,
+        mode,
         allowSwitchChain,
         enabledRefuel && enabledAutoRefuel,
         gasRecommendationFromAmount,
-        feeConfig?.fee || fee,
+        feeConfig?.fee,
         disableMessageSigning,
         !!isBatchingSupported,
         observableRoute?.id,
@@ -205,13 +204,12 @@ export const useRoutes = ({
       allowedBridges,
       allowedExchanges,
       routePriority,
-      subvariant,
+      mode,
       allowSwitchChain,
       enabledRefuel,
       enabledAutoRefuel,
       gasRecommendationFromAmount,
       feeConfig?.fee,
-      fee,
       disableMessageSigning,
       isBatchingSupported,
       observableRoute?.id,
@@ -243,11 +241,11 @@ export const useRoutes = ({
           allowedBridges,
           allowedExchanges,
           routePriority,
-          subvariant,
+          mode,
           allowSwitchChain,
           enabledRefuel,
           gasRecommendationFromAmount,
-          fee,
+          configuredFee,
           disableMessageSigning,
           isBatchingSupported,
           // _observableRouteId must be the last element in the query key
@@ -296,7 +294,7 @@ export const useRoutes = ({
           slippage: formattedSlippage,
         })
 
-        if (subvariant === 'custom' && contractCalls && toAmount) {
+        if (mode === 'custom' && contractCalls && toAmount) {
           const contractCallQuote = await getContractCallsQuote(
             sdkClient,
             {
@@ -316,7 +314,7 @@ export const useRoutes = ({
               allowExchanges,
               toFallbackAddress: toAddress,
               slippage: formattedSlippage,
-              fee: calculatedFee || fee,
+              fee: calculatedFee || configuredFee,
             },
             { signal }
           )
@@ -324,7 +322,7 @@ export const useRoutes = ({
           contractCallQuote.action.toToken = toToken!
 
           const customStep =
-            subvariant === 'custom'
+            mode === 'custom'
               ? contractCallQuote.includedSteps?.find(
                   (step) => step.type === 'custom'
                 )
@@ -346,11 +344,11 @@ export const useRoutes = ({
         }
 
         // Prevent sending a request for the same chain token combinations.
-        // Exception: proceed anyway if subvariant is custom and subvariantOptions is deposit
+        // Exception: proceed anyway if mode is custom and modeOptions custom type is deposit
         if (
           fromChainId === toChainId &&
           fromTokenAddress === toTokenAddress &&
-          !(subvariant === 'custom' && subvariantOptions?.custom === 'deposit')
+          !(mode === 'custom' && modeOptions?.custom?.type === 'deposit')
         ) {
           return
         }
@@ -389,7 +387,7 @@ export const useRoutes = ({
                     : undefined,
                 options: {
                   allowSwitchChain:
-                    subvariant === 'refuel' ? false : allowSwitchChain,
+                    mode === 'refuel' ? false : allowSwitchChain,
                   bridges:
                     allowBridges?.length || disabledBridges.length
                       ? {
@@ -410,7 +408,7 @@ export const useRoutes = ({
                       : undefined,
                   order: routePriority,
                   slippage: formattedSlippage,
-                  fee: calculatedFee || fee,
+                  fee: calculatedFee || configuredFee,
                   executionType: disableMessageSigning ? 'transaction' : 'all',
                 },
               },
@@ -435,7 +433,7 @@ export const useRoutes = ({
                     : undefined,
                 order: routePriority,
                 slippage: formattedSlippage,
-                fee: calculatedFee || fee,
+                fee: calculatedFee || configuredFee,
                 ...(allowBridges?.length || disabledBridges.length
                   ? {
                       allowBridges: allowBridges,

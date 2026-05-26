@@ -5,7 +5,6 @@ import { useChains } from '../../hooks/useChains.js'
 import { useSwapOnly } from '../../hooks/useSwapOnly.js'
 import { useExternalWalletProvider } from '../../providers/WalletProvider/useExternalWalletProvider.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { HiddenUI } from '../../types/widget.js'
 import { getConfigItemSets, isItemAllowedForSets } from '../../utils/item.js'
 import { getDefaultValuesFromQueryString } from '../form/getDefaultValuesFromQueryString.js'
 import type { FormType } from '../form/types.js'
@@ -33,7 +32,7 @@ export function ChainOrderStoreProvider({
   const { chains } = useChains()
   const { setFieldValue, getFieldValues } = useFieldActions()
   const swapOnly = useSwapOnly()
-  const { variant, subvariantOptions } = useWidgetConfig()
+  const { variant } = useWidgetConfig()
   const { externalChainTypes, useExternalWalletProvidersOnly } =
     useExternalWalletProvider()
 
@@ -77,9 +76,7 @@ export function ChainOrderStoreProvider({
 
         // Show "All networks" button if there are multiple networks
         const showAllNetworks =
-          filteredChains.length > 1 &&
-          !hiddenUI?.includes(HiddenUI.AllNetworks) &&
-          !isSwapTo
+          filteredChains.length > 1 && !hiddenUI?.allNetworks && !isSwapTo
 
         // Initialize the isAllNetworks with true if the tab is shown,
         // there is no config chain value and no url chain value
@@ -119,7 +116,7 @@ export function ChainOrderStoreProvider({
           )
         if (
           variant === 'wide' &&
-          !subvariantOptions?.wide?.disableChainSidebar &&
+          !hiddenUI?.chainSidebar &&
           firstAllowedPinnedChain
         ) {
           setFieldValue(`${key}Chain`, firstAllowedPinnedChain)
@@ -136,7 +133,6 @@ export function ChainOrderStoreProvider({
     setFieldValue,
     useExternalWalletProvidersOnly,
     variant,
-    subvariantOptions?.wide?.disableChainSidebar,
     hiddenUI,
     swapOnly,
     fromChainConfig,

@@ -1,9 +1,9 @@
 import type { LiFiStepExtended, Step } from '@lifi/sdk'
 import type { BoxProps } from '@mui/material'
 import type {
-  SubvariantOptions,
+  ModeOptions,
   WidgetFeeConfig,
-  WidgetSubvariant,
+  WidgetMode,
 } from '../../types/widget.js'
 
 export interface StepActionsProps extends BoxProps {
@@ -13,8 +13,8 @@ export interface StepActionsProps extends BoxProps {
 
 export interface StepDetailsLabelProps {
   step: Step
-  subvariant?: Extract<WidgetSubvariant, 'custom'>
-  subvariantOptions?: SubvariantOptions
+  mode?: Extract<WidgetMode, 'custom'>
+  modeOptions?: ModeOptions
   feeConfig?: WidgetFeeConfig
   relayerSupport?: boolean
 }

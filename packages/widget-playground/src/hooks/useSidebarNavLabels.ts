@@ -1,7 +1,7 @@
 import { useLayoutValues } from '../store/editTools/useLayoutValues.js'
 import {
-  useConfigSubvariant,
-  useConfigSubvariantOptions,
+  useConfigMode,
+  useConfigModeOptions,
   useConfigVariant,
   useConfigWalletManagement,
 } from '../store/widgetConfig/useConfigValues.js'
@@ -19,8 +19,8 @@ export const useSidebarNavLabels = (): {
   walletValue: string
 } => {
   const { themeMode } = useThemeMode()
-  const { subvariant } = useConfigSubvariant()
-  const { subvariantOptions } = useConfigSubvariantOptions()
+  const { mode } = useConfigMode()
+  const { modeOptions } = useConfigModeOptions()
   const { variant } = useConfigVariant()
   const { selectedLayoutId } = useLayoutValues()
   const { isExternalWalletManagement, isPartialWalletManagement } =
@@ -33,10 +33,7 @@ export const useSidebarNavLabels = (): {
     themeLabel: selectedThemeItem
       ? formatThemeDisplayName(selectedThemeItem, themeMode)
       : undefined,
-    modeValue: getModeLabel(
-      subvariant,
-      subvariantOptions?.split as string | undefined
-    ),
+    modeValue: getModeLabel(mode, modeOptions?.split as string | undefined),
     variantValue:
       variant === 'compact'
         ? 'Compact'

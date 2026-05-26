@@ -58,29 +58,26 @@ export const widgetBaseConfig: WidgetConfig = {
     }),
   ],
   variant: 'wide',
-  // subvariant: 'split',
-  // subvariantOptions: {
-  //   wide: {
-  //     disableChainSidebar: true,
-  //   },
+  // mode: 'split',
+  // hiddenUI: {
+  //   chainSidebar: true,
   // },
   integrator: 'li.fi-playground',
   ...(import.meta.env?.VITE_API_KEY && {
     apiKey: import.meta.env.VITE_API_KEY,
   }),
-  // fee: 0.01,
   // feeConfig: {
   //   name: 'DApp fee',
   //   fee: 0.01,
   //   showFeePercentage: true,
   //   showFeeTooltip: true,
   // },
-  // useRecommendedRoute: true,
+  // showSingleRoute: true,
   useRelayerRoutes: true,
   buildUrl: true,
-  // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton', 'toAddress'],
-  // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
-  // requiredUI: ['toAddress'],
+  // hiddenUI: { poweredBy: true, language: true, appearance: true, drawerCloseButton: true, toAddress: true },
+  // disabledUI: { toAddress: true, fromAmount: true, toToken: true, fromToken: true },
+  // requiredUI: { toAddress: true },
   // defaultUI: {
   //   navigationHeaderTitleNoWrap: false,
   // },
@@ -100,10 +97,7 @@ export const widgetBaseConfig: WidgetConfig = {
     routeOptions: {
       maxPriceImpact: 0.4,
       jitoBundle: true,
-      // slippage: 0.03,
-      // order: 'SAFEST',
       // allowSwitchChain: false,
-      // fee: 0.05
     },
   },
   // theme: {

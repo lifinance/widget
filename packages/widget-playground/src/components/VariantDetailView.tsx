@@ -3,7 +3,7 @@ import type { JSX } from 'react'
 import { useCallback } from 'react'
 import { useConfigActions } from '../store/widgetConfig/useConfigActions.js'
 import {
-  useConfigSubvariantOptions,
+  useConfigHiddenUI,
   useConfigVariant,
 } from '../store/widgetConfig/useConfigValues.js'
 import { useDefaultConfig } from '../store/widgetConfig/useDefaultConfig.js'
@@ -25,7 +25,7 @@ export const VariantDetailView = ({
   onBack,
 }: VariantDetailViewProps): JSX.Element => {
   const { variant } = useConfigVariant()
-  const { subvariantOptions } = useConfigSubvariantOptions()
+  const { hiddenUI } = useConfigHiddenUI()
   const {
     setVariant,
     setHeader,
@@ -75,7 +75,7 @@ export const VariantDetailView = ({
         Disable chain sidebar
       </ToggleRowLabel>
       <Switch
-        checked={!!subvariantOptions?.wide?.disableChainSidebar}
+        checked={!!hiddenUI?.chainSidebar}
         onChange={handleDisableChainSidebar}
         aria-label="Disable chain sidebar"
       />
