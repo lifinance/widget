@@ -16,8 +16,7 @@ import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js'
 export const Routes: React.FC<CardProps> = (props) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { subvariant, subvariantOptions, useRecommendedRoute } =
-    useWidgetConfig()
+  const { subvariant, subvariantOptions, showSingleRoute } = useWidgetConfig()
   const {
     routes,
     isLoading,
@@ -39,9 +38,9 @@ export const Routes: React.FC<CardProps> = (props) => {
   }
 
   const routeNotFound = !currentRoute && !isLoading && !isFetching
-  const onlyRecommendedRoute = subvariant === 'refuel' || useRecommendedRoute
+  const onlySingleRoute = subvariant === 'refuel' || showSingleRoute
   const showAll =
-    !onlyRecommendedRoute && !routeNotFound && (routes?.length ?? 0) > 1
+    !onlySingleRoute && !routeNotFound && (routes?.length ?? 0) > 1
 
   const title =
     subvariant === 'custom'
