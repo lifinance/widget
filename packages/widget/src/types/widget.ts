@@ -173,7 +173,10 @@ export interface WidgetSDKConfig
     | 'routeOptions'
     | 'widgetVersion'
   > {
-  routeOptions?: Omit<RouteOptions, 'bridges' | 'exchanges'>
+  routeOptions?: Omit<
+    RouteOptions,
+    'bridges' | 'exchanges' | 'fee' | 'referrer' | 'order' | 'slippage'
+  >
   executionOptions?: Pick<ExecutionOptions, 'updateTransactionRequestHook'>
 }
 
@@ -324,7 +327,6 @@ export interface WidgetConfig {
   contractTool?: WidgetContractTool
   integrator: string
   apiKey?: string
-  fee?: number
   feeConfig?: WidgetFeeConfig
   referrer?: string
 

@@ -88,11 +88,8 @@ export const useSettingsActions = (): {
       const routePriority = actions.getValue('routePriority')
       const gasPrice = actions.getValue('gasPrice')
 
-      const defaultSlippage =
-        (config?.slippage || config?.sdkConfig?.routeOptions?.slippage || 0) *
-        100
-      const defaultRoutePriority =
-        config?.routePriority || config?.sdkConfig?.routeOptions?.order
+      const defaultSlippage = (config?.slippage || 0) * 100
+      const defaultRoutePriority = config?.routePriority
 
       defaultConfigurableSettings.slippage = (
         defaultSlippage || defaultConfigurableSettings.slippage
