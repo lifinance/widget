@@ -6,17 +6,17 @@ import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import type { FormType } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
-import { useSplitSubvariantStore } from '../../stores/settings/useSplitSubvariantStore.js'
+import { useSplitModeStore } from '../../stores/settings/useSplitModeStore.js'
 import { WidgetEvent } from '../../types/events.js'
-import type { DisabledUI } from '../../types/widget.js'
+import type { DisabledUIConfig } from '../../types/widget.js'
 import { isItemAllowed } from '../../utils/item.js'
 
 export const useTokenSelect = (
   formType: FormType,
   onClick?: () => void
 ): ((tokenAddress: string, chainId?: number) => void) => {
-  const { subvariant, disabledUI, chains: chainsConfig } = useWidgetConfig()
-  const splitSubvariant = useSplitSubvariantStore((store) => store.state)
+  const { mode, disabledUI, chains: chainsConfig } = useWidgetConfig()
+  const splitMode = useSplitModeStore((store) => store.state)
   const emitter = useWidgetEvents()
   const { setFieldValue, getFieldValues } = useFieldActions()
   const autoPopulateToAddress = useToAddressAutoPopulate()
@@ -38,7 +38,7 @@ export const useTokenSelect = (
         isTouched: true,
       })
       const amountKey = FormKeyHelper.getAmountKey(formType)
-      if (!disabledUI?.includes(amountKey as DisabledUI)) {
+      if (!disabledUI?.[amountKey as keyof DisabledUIConfig]) {
         setFieldValue(amountKey, '')
       }
       const oppositeFormType = formType === 'from' ? 'to' : 'from'
@@ -58,14 +58,11 @@ export const useTokenSelect = (
         selectedOppositeChainId === selectedChainId
 
       const isBridgeToSameChain =
-        subvariant === 'split' &&
-        splitSubvariant === 'bridge' &&
+        mode === 'split' &&
+        splitMode === 'bridge' &&
         selectedOppositeChainId === selectedChainId
 
-      if (
-        (isSameTokenTransfer || isBridgeToSameChain) &&
-        subvariant !== 'custom'
-      ) {
+      if ((isSameTokenTransfer || isBridgeToSameChain) && mode !== 'custom') {
         setFieldValue(FormKeyHelper.getTokenKey(oppositeFormType), '', {
           isDirty: true,
           isTouched: true,
@@ -81,7 +78,7 @@ export const useTokenSelect = (
         selectedChainId &&
         isItemAllowed(selectedChainId, chainsConfig?.[oppositeFormType])
       ) {
-        const isDefaultExchange = !subvariant || subvariant === 'default'
+        const isDefaultExchange = !mode || mode === 'default'
         if (isDefaultExchange) {
           setIsAllNetworks(false, oppositeFormType)
         }
@@ -129,8 +126,8 @@ export const useTokenSelect = (
       setChain,
       setIsAllNetworks,
       setFieldValue,
-      subvariant,
-      splitSubvariant,
+      mode,
+      splitMode,
       tokenKey,
       chainsConfig,
     ]

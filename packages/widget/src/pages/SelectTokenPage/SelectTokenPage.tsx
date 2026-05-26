@@ -10,7 +10,6 @@ import { useSwapOnly } from '../../hooks/useSwapOnly.js'
 import { useWideVariant } from '../../hooks/useWideVariant.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { FormTypeProps } from '../../stores/form/types.js'
-import { HiddenUI } from '../../types/widget.js'
 import { SearchTokenInput } from './SearchTokenInput.js'
 
 export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
@@ -18,13 +17,13 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
 
   const swapOnly = useSwapOnly()
 
-  const { subvariant, hiddenUI, subvariantOptions } = useWidgetConfig()
+  const { mode, hiddenUI } = useWidgetConfig()
   const wideVariant = useWideVariant()
 
   const { t } = useTranslation()
   const title =
     formType === 'from'
-      ? subvariant === 'custom'
+      ? mode === 'custom'
         ? t('header.payWith')
         : t('header.from')
       : t('header.to')
@@ -32,14 +31,14 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
   useHeader(title)
 
   const hideChainSelect =
-    (wideVariant && !subvariantOptions?.wide?.disableChainSidebar) ||
+    (wideVariant && !hiddenUI?.chainSidebar) ||
     (swapOnly && formType === 'to') ||
-    hiddenUI?.includes(HiddenUI.ChainSelect)
+    hiddenUI?.chainSelect
 
   const isMobile = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down(theme.breakpoints.values.xs)
   )
-  const hideSearchTokenInput = hiddenUI?.includes(HiddenUI.SearchTokenInput)
+  const hideSearchTokenInput = hiddenUI?.searchTokenInput
 
   const hasHeader = !hideChainSelect || !hideSearchTokenInput
 

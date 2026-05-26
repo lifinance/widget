@@ -10,7 +10,7 @@ export const useActionMessage = (
   action?: ExecutionAction,
   defaultLabelsOnly?: boolean
 ): { title?: string; message?: string } => {
-  const { subvariant, subvariantOptions } = useWidgetConfig()
+  const { mode, modeOptions } = useWidgetConfig()
   const { t } = useTranslation()
   const { getChainById } = useAvailableChains()
 
@@ -28,7 +28,7 @@ export const useActionMessage = (
     action.type,
     action.status,
     action.substatus,
-    defaultLabelsOnly ? undefined : subvariant,
-    defaultLabelsOnly ? undefined : subvariantOptions
+    defaultLabelsOnly ? undefined : mode,
+    defaultLabelsOnly ? undefined : modeOptions
   )
 }

@@ -57,11 +57,9 @@ export const widgetBaseConfig: WidgetConfig = {
     }),
   ],
   variant: 'wide',
-  // subvariant: 'split',
-  // subvariantOptions: {
-  //   wide: {
-  //     disableChainSidebar: true,
-  //   },
+  // mode: 'split',
+  // hiddenUI: {
+  //   chainSidebar: true,
   // },
   integrator: 'li.fi-playground',
   ...(import.meta.env?.VITE_API_KEY && {
@@ -76,9 +74,9 @@ export const widgetBaseConfig: WidgetConfig = {
   // showSingleRoute: true,
   useRelayerRoutes: true,
   buildUrl: true,
-  // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton', 'toAddress'],
-  // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
-  // requiredUI: ['toAddress'],
+  // hiddenUI: { poweredBy: true, language: true, appearance: true, drawerCloseButton: true, toAddress: true },
+  // disabledUI: { toAddress: true, fromAmount: true, toToken: true, fromToken: true },
+  // requiredUI: { toAddress: true },
   // defaultUI: {
   //   navigationHeaderTitleNoWrap: false,
   // },

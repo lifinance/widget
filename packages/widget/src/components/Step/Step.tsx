@@ -25,7 +25,7 @@ export const Step: React.FC<{
   toAddress?: string
 }> = ({ step, fromToken, toToken, impactToken, toAddress }) => {
   const { t } = useTranslation()
-  const { subvariant, subvariantOptions } = useWidgetConfig()
+  const { mode, modeOptions } = useWidgetConfig()
   const { getAddressLink } = useExplorer()
 
   // If execution status is failed outside of actions scope,
@@ -44,31 +44,31 @@ export const Step: React.FC<{
       (step) => step.type === 'custom'
     )
 
-    const isCustomVariant = hasCustomStep && subvariant === 'custom'
+    const isCustomVariant = hasCustomStep && mode === 'custom'
 
     if (hasBridgeStep && hasSwapStep) {
       return isCustomVariant
-        ? subvariantOptions?.custom === 'deposit'
+        ? modeOptions?.custom?.type === 'deposit'
           ? t('main.stepBridgeAndDeposit')
           : t('main.stepBridgeAndBuy')
         : t('main.stepSwapAndBridge')
     }
     if (hasBridgeStep) {
       return isCustomVariant
-        ? subvariantOptions?.custom === 'deposit'
+        ? modeOptions?.custom?.type === 'deposit'
           ? t('main.stepBridgeAndDeposit')
           : t('main.stepBridgeAndBuy')
         : t('main.stepBridge')
     }
     if (hasSwapStep) {
       return isCustomVariant
-        ? subvariantOptions?.custom === 'deposit'
+        ? modeOptions?.custom?.type === 'deposit'
           ? t('main.stepSwapAndDeposit')
           : t('main.stepSwapAndBuy')
         : t('main.stepSwap')
     }
     return isCustomVariant
-      ? subvariantOptions?.custom === 'deposit'
+      ? modeOptions?.custom?.type === 'deposit'
         ? t('main.stepDeposit')
         : t('main.stepBuy')
       : t('main.stepSwap')

@@ -6,7 +6,6 @@ import { CardValue } from '../../components/Card/CardButton.style.js'
 import { useLanguages } from '../../hooks/useLanguages.js'
 import { languageNames } from '../../providers/I18nProvider/constants.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { HiddenUI } from '../../types/widget.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 
 export const LanguageSetting: React.FC = () => {
@@ -15,7 +14,7 @@ export const LanguageSetting: React.FC = () => {
   const { hiddenUI } = useWidgetConfig()
   const { selectedLanguageCode } = useLanguages()
 
-  if (hiddenUI?.includes(HiddenUI.Language)) {
+  if (hiddenUI?.language) {
     return null
   }
 

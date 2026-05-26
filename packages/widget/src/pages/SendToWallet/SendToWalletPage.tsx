@@ -25,7 +25,6 @@ import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js
 import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { HiddenUI, RequiredUI } from '../../types/widget.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { BookmarkAddressSheet } from './BookmarkAddressSheet.js'
 import { ConfirmAddressSheet } from './ConfirmAddressSheet.js'
@@ -252,9 +251,7 @@ export const SendToWalletPage: React.FC = () => {
             onAddBookmark={handleAddBookmark}
           />
         </SendToWalletCard>
-        {requiredUI?.includes(RequiredUI.AccountDeployedMessage) && (
-          <AccountDeployedMessage />
-        )}
+        {requiredUI?.accountDeployedMessage && <AccountDeployedMessage />}
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         <CardButton
@@ -272,7 +269,7 @@ export const SendToWalletPage: React.FC = () => {
             </Typography>
           )}
         </CardButton>
-        {!hiddenUI?.includes(HiddenUI.AddressBookConnectedWallets) && (
+        {!hiddenUI?.addressBookConnectedWallets && (
           <CardButton
             title={t('sendToWallet.connectedWallets')}
             icon={<Wallet />}

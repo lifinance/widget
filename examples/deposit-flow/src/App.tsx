@@ -1,11 +1,5 @@
 import type { ContractCall, WidgetConfig } from '@lifi/widget'
-import {
-  ChainType,
-  CoinKey,
-  DisabledUI,
-  HiddenUI,
-  LiFiWidget,
-} from '@lifi/widget'
+import { ChainType, CoinKey, LiFiWidget } from '@lifi/widget'
 import { useMemo } from 'react'
 import { DepositCard } from './components/DepositCard'
 import { contractTool } from './config'
@@ -23,11 +17,11 @@ export function App() {
         address: depositAddress,
         chainType: ChainType.EVM,
       },
-      subvariant: 'custom',
-      subvariantOptions: { custom: 'deposit' },
+      mode: 'custom',
+      modeOptions: { custom: { type: 'deposit' } },
       integrator: 'ProtocolName',
-      disabledUI: [DisabledUI.ToAddress],
-      hiddenUI: [HiddenUI.Appearance, HiddenUI.Language],
+      disabledUI: { toAddress: true },
+      hiddenUI: { appearance: true, language: true },
       showSingleRoute: true,
       theme: {
         container: {

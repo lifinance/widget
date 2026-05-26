@@ -1,11 +1,8 @@
-import type {
-  SplitSubvariant,
-  SplitSubvariantOptions,
-} from '../types/widget.js'
+import type { SplitMode, SplitModeOptions } from '../types/widget.js'
 
-export const getSplitSubvariant = (
-  split?: SplitSubvariant | SplitSubvariantOptions
-): SplitSubvariant => {
+export const getSplitMode = (
+  split?: SplitMode | SplitModeOptions
+): SplitMode => {
   if (!split) {
     return 'swap'
   }

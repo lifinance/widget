@@ -4,7 +4,6 @@ import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useBookmarkActions } from '../stores/bookmarks/useBookmarkActions.js'
 import { useBookmarks } from '../stores/bookmarks/useBookmarks.js'
 import { useFieldActions } from '../stores/form/useFieldActions.js'
-import { RequiredUI } from '../types/widget.js'
 
 export const useToAddressReset = (): {
   tryResetToAddress: (toChain: ExtendedChain) => void
@@ -16,7 +15,7 @@ export const useToAddressReset = (): {
 
   const tryResetToAddress = useCallback(
     (toChain: ExtendedChain) => {
-      const requiredToAddress = requiredUI?.includes(RequiredUI.ToAddress)
+      const requiredToAddress = requiredUI?.toAddress
 
       const bookmarkSatisfiesToChainType =
         selectedBookmark?.chainType === toChain?.chainType

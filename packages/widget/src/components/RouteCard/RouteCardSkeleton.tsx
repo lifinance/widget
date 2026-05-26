@@ -8,7 +8,7 @@ import type { RouteCardSkeletonProps } from './types.js'
 export const RouteCardSkeleton: React.FC<
   RouteCardSkeletonProps & Omit<CardProps, 'variant'>
 > = ({ variant, ...other }) => {
-  const { subvariant } = useWidgetConfig()
+  const { mode } = useWidgetConfig()
 
   const cardContent = (
     <Box
@@ -16,7 +16,7 @@ export const RouteCardSkeleton: React.FC<
         flex: 1,
       }}
     >
-      {subvariant !== 'refuel' && subvariant !== 'custom' ? (
+      {mode !== 'refuel' && mode !== 'custom' ? (
         <Box
           sx={{
             display: 'flex',
@@ -48,7 +48,7 @@ export const RouteCardSkeleton: React.FC<
     </Box>
   )
 
-  return subvariant === 'refuel' || variant === 'cardless' ? (
+  return mode === 'refuel' || variant === 'cardless' ? (
     cardContent
   ) : (
     <Card indented {...other}>
