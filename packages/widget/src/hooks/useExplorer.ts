@@ -10,19 +10,15 @@ const explorerPathOverrides: Partial<
   Record<ChainType | ChainId, { txPath: string; addressPath: string }>
 > = {
   [ChainId.SUI]: { txPath: 'txblock', addressPath: 'coin' },
+  [ChainId.LTR]: { txPath: 'logs', addressPath: 'accounts' },
   [ChainType.TVM]: { txPath: '#/transaction', addressPath: '#/address' },
 }
 
-type TransactionLinkProps = { chain?: Chain | number } & (
-  | {
-      txHash: string
-      txLink?: never
-    }
-  | {
-      txHash?: never
-      txLink: string
-    }
-)
+type TransactionLinkProps = {
+  chain?: Chain | number
+  txHash?: string
+  txLink?: string
+}
 
 export const useExplorer = (): {
   getTransactionLink: (props: TransactionLinkProps) => string | undefined
@@ -65,6 +61,7 @@ export const useExplorer = (): {
       txPath,
       addressPath,
       resolvedChain,
+      hasOverride: Boolean(overrides),
     }
   }
 
@@ -73,20 +70,20 @@ export const useExplorer = (): {
     txLink,
     chain,
   }: TransactionLinkProps): string | undefined => {
-    if (!txHash) {
-      return txLink
-    }
-
-    const config = getExplorerConfig(chain)
-
-    // For EVM chains, validate the transaction hash as some relayers return custom task hashes that are not visible on-chain
-    if (config.resolvedChain?.chainType === ChainType.EVM) {
-      if (!isHex(txHash, { strict: true })) {
-        return undefined
+    if (txHash) {
+      const config = getExplorerConfig(chain)
+      // For EVM chains, sanity-check the transaction hash as some relayers return custom task hashes that are not visible on-chain.
+      // Skip the check when a chain-specific path override is registered — that's an explicit signal the chain's
+      // explorer accepts a non-hex hash (e.g. Lighter, whose hash has no 0x prefix).
+      const validForEvm =
+        config.resolvedChain?.chainType !== ChainType.EVM ||
+        config.hasOverride ||
+        isHex(txHash, { strict: false })
+      if (validForEvm) {
+        return `${config.url}/${config.txPath}/${txHash}`
       }
     }
-
-    return `${config.url}/${config.txPath}/${txHash}`
+    return txLink
   }
 
   const getAddressLink = (address: string, chain?: Chain | number) => {
