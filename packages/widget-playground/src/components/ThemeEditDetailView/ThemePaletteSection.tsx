@@ -33,25 +33,23 @@ export const ThemePaletteSection = ({
     <>
       <SectionHeading>Color palette</SectionHeading>
       {hasBothModes ? (
-        <>
-          <Tabs
-            value={effectivePaletteMode}
-            onChange={handlePaletteModeChange}
-            aria-label="Palette mode"
-            sx={{ marginBottom: 3 }}
-          >
-            <Tab
-              value="light"
-              icon={<LightModeIcon sx={{ fontSize: 18 }} />}
-              disableRipple
-            />
-            <Tab
-              value="dark"
-              icon={<DarkModeIcon sx={{ fontSize: 18 }} />}
-              disableRipple
-            />
-          </Tabs>
-        </>
+        <Tabs
+          value={effectivePaletteMode}
+          onChange={handlePaletteModeChange}
+          aria-label="Palette mode"
+          sx={{ marginBottom: 3 }}
+        >
+          <Tab
+            value="light"
+            icon={<LightModeIcon sx={{ fontSize: 18 }} />}
+            disableRipple
+          />
+          <Tab
+            value="dark"
+            icon={<DarkModeIcon sx={{ fontSize: 18 }} />}
+            disableRipple
+          />
+        </Tabs>
       ) : null}
 
       <ColorRowStack>

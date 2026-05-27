@@ -78,6 +78,7 @@ export function WidgetViewContainer({
           removePaddingTop={isFullHeight && !showHeader}
           alignTop={isFullHeight}
           sx={getWidgetContainerDrawerSx(drawerOffset)}
+          withFixedHeaderOnPage={showHeader}
         >
           {showHeader ? (
             <MockElement sx={getMockHeaderSx(drawerOffset)}>

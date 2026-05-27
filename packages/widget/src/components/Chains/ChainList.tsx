@@ -71,12 +71,7 @@ export const ChainList = ({
   }
 
   if (!chains.length) {
-    return (
-      <SearchNotFound
-        message={t('info.message.emptyChainList')}
-        adjustForStickySearchInput={!inExpansion}
-      />
-    )
+    return <SearchNotFound message={t('info.message.emptyChainList')} />
   }
 
   return (

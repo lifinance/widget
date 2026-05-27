@@ -58,7 +58,7 @@ export function useSetHeaderHeight(): any {
 
 const createHeaderStore = () =>
   create<HeaderState>((set, get) => ({
-    headerHeight: 108, // a basic default height
+    headerHeight: 108, // default header height
     setAction: (element) => {
       set(() => ({
         element,

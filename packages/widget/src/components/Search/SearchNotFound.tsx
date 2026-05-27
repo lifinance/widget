@@ -8,14 +8,12 @@ import {
 
 interface SearchNotFoundProps {
   message: string
-  adjustForStickySearchInput?: boolean
 }
 
 export const SearchNotFound = ({
   message,
-  adjustForStickySearchInput,
 }: SearchNotFoundProps): JSX.Element => (
-  <NotFoundContainer adjustForStickySearchInput={adjustForStickySearchInput}>
+  <NotFoundContainer>
     <NotFoundIconContainer>
       <SearchOff fontSize="inherit" />
     </NotFoundIconContainer>
