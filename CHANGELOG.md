@@ -1,6 +1,12 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+> **Archived.** This monorepo-wide changelog is frozen as of the migration to
+> [Changesets](https://github.com/changesets/changesets). It is kept for historical
+> reference up to the v3 line. Going forward, each published package maintains its
+> **own** `CHANGELOG.md` (e.g. `packages/widget/CHANGELOG.md`), which is the
+> authoritative source of release notes. Do not add new entries to this file.
+
+All notable changes to this project (through the standard-version era) are documented below. See [standard-version](https://github.com/conventional-changelog/standard-version) for the historical commit guidelines.
 
 ## [3.38.0](https://github.com/lifinance/widget/compare/v3.37.0...v3.38.0) (2025-12-16)
 
