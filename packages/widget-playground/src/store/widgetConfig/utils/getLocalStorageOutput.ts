@@ -42,6 +42,9 @@ export const getLocalStorageOutput = (
                   },
                 }
               : {}),
+            ...(config.theme.container
+              ? { container: config.theme.container }
+              : {}),
           },
         }
       : {}),

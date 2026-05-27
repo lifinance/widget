@@ -1,6 +1,6 @@
 import type { WidgetVariant } from '@lifi/widget'
 import { defaultMaxHeight } from '@lifi/widget'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { Layout } from '../store/editTools/types.js'
 import { useEditToolsActions } from '../store/editTools/useEditToolsActions.js'
 import { useHeaderAndFooterToolValues } from '../store/editTools/useHeaderAndFooterToolValues.js'
@@ -10,7 +10,7 @@ import {
   useConfigContainer,
   useConfigVariant,
 } from '../store/widgetConfig/useConfigValues.js'
-import { getLayoutMode } from '../utils/layout.js'
+import { getLayoutMode, getRestrictedLayoutField } from '../utils/layout.js'
 
 export const usePlaygroundLayoutControls = (): {
   selectedLayoutId: Layout
@@ -26,7 +26,22 @@ export const usePlaygroundLayoutControls = (): {
     useConfigActions()
   const { selectedLayoutId } = useLayoutValues()
   const { setSelectedLayoutId } = useEditToolsActions()
-  const [heightValue, setHeightValue] = useState<number | undefined>()
+
+  const initialHeightValue = useMemo(() => {
+    const layout = getLayoutMode(container)
+    const field = getRestrictedLayoutField(layout)
+    if (!field) {
+      return undefined
+    }
+    const value = container?.[field.containerKey]
+    return typeof value === 'number' && Number.isFinite(value)
+      ? value
+      : undefined
+  }, [container])
+
+  const [heightValue, setHeightValue] = useState<number | undefined>(
+    initialHeightValue
+  )
 
   useEffect(() => {
     setSelectedLayoutId(getLayoutMode(container))
