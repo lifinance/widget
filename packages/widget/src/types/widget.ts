@@ -35,24 +35,20 @@ import type {
 import type { DefaultFieldValues } from '../stores/form/types.js'
 
 export type WidgetVariant = 'compact' | 'wide' | 'drawer'
-export type WidgetSubvariant = 'default' | 'split' | 'custom' | 'refuel'
-export type SplitSubvariant = 'bridge' | 'swap'
-export type SplitSubvariantOptions = {
-  defaultTab: SplitSubvariant
+export type WidgetMode = 'default' | 'split' | 'custom' | 'refuel'
+export type SplitMode = 'bridge' | 'swap'
+export type SplitModeOptions = {
+  defaultTab: SplitMode
 }
-export type CustomSubvariant = 'checkout' | 'deposit'
-export type WideSubvariant = {
-  disableChainSidebar?: boolean
-}
-export interface SubvariantOptions {
+export type CustomMode = 'checkout' | 'deposit'
+export interface ModeOptions {
   /**
-   * Configure split subvariant behavior:
+   * Configure split mode behavior:
    * - 'bridge' | 'swap': Single mode without tabs
    * - { defaultTab: 'bridge' | 'swap' }: Tabs mode with configurable default tab
    */
-  split?: SplitSubvariant | SplitSubvariantOptions
-  custom?: CustomSubvariant
-  wide?: WideSubvariant
+  split?: SplitMode | SplitModeOptions
+  custom?: { type: CustomMode }
 }
 
 export type Appearance = PaletteMode | 'system'
@@ -98,46 +94,57 @@ export type WidgetTheme = {
   navigation?: NavigationProps
 }
 
-export enum DisabledUI {
-  FromAmount = 'fromAmount',
-  FromToken = 'fromToken',
-  ToAddress = 'toAddress',
-  ToToken = 'toToken',
+export interface DisabledUIConfig {
+  fromAmount?: boolean
+  fromToken?: boolean
+  toAddress?: boolean
+  toToken?: boolean
 }
-export type DisabledUIType = `${DisabledUI}`
 
-export enum HiddenUI {
-  Appearance = 'appearance',
-  DrawerCloseButton = 'drawerCloseButton',
-  History = 'history',
-  Language = 'language',
-  PoweredBy = 'poweredBy',
-  ToAddress = 'toAddress',
-  FromToken = 'fromToken',
-  ToToken = 'toToken',
-  WalletMenu = 'walletMenu',
-  IntegratorStepDetails = 'integratorStepDetails',
-  ReverseTokensButton = 'reverseTokensButton',
-  RouteTokenDescription = 'routeTokenDescription',
-  RouteCardPriceImpact = 'routeCardPriceImpact',
-  ChainSelect = 'chainSelect',
-  BridgesSettings = 'bridgesSettings',
-  AddressBookConnectedWallets = 'addressBookConnectedWallets',
-  LowAddressActivityConfirmation = 'lowAddressActivityConfirmation',
-  GasRefuelMessage = 'gasRefuelMessage',
-  SearchTokenInput = 'searchTokenInput',
-  InsufficientGasMessage = 'insufficientGasMessage',
-  ContactSupport = 'contactSupport',
-  HideSmallBalances = 'hideSmallBalances',
-  AllNetworks = 'allNetworks',
+export interface HiddenUIConfig {
+  addressBookConnectedWallets?: boolean
+  allNetworks?: boolean
+  appearance?: boolean
+  bridgesSettings?: boolean
+  chainSelect?: boolean
+  /**
+   * Hide the chain sidebar in the `wide` variant. No effect in other variants.
+   * @default false
+   */
+  chainSidebar?: boolean
+  contactSupport?: boolean
+  /**
+   * Hide the drawer close button. Only meaningful when `variant === 'drawer'`.
+   * @default false
+   */
+  drawerCloseButton?: boolean
+  fromToken?: boolean
+  gasRefuelMessage?: boolean
+  hideSmallBalances?: boolean
+  history?: boolean
+  insufficientGasMessage?: boolean
+  integratorStepDetails?: boolean
+  language?: boolean
+  /**
+   * Hide the warning shown when sending to an address with low historical
+   * on-chain activity (low transaction count or contract-like behavior).
+   * @default false
+   */
+  lowAddressActivityConfirmation?: boolean
+  poweredBy?: boolean
+  reverseTokensButton?: boolean
+  routeCardPriceImpact?: boolean
+  routeTokenDescription?: boolean
+  searchTokenInput?: boolean
+  toAddress?: boolean
+  toToken?: boolean
+  walletMenu?: boolean
 }
-export type HiddenUIType = `${HiddenUI}`
 
-export enum RequiredUI {
-  ToAddress = 'toAddress',
-  AccountDeployedMessage = 'accountDeployedMessage',
+export interface RequiredUIConfig {
+  accountDeployedMessage?: boolean
+  toAddress?: boolean
 }
-export type RequiredUIType = `${RequiredUI}`
 
 export type DefaultUI = {
   transactionDetailsExpanded?: boolean
@@ -334,15 +341,15 @@ export interface WidgetConfig {
   slippage?: number
 
   variant?: WidgetVariant
-  subvariant?: WidgetSubvariant
-  subvariantOptions?: SubvariantOptions
+  mode?: WidgetMode
+  modeOptions?: ModeOptions
 
   appearance?: Appearance
   theme?: WidgetTheme
 
-  disabledUI?: DisabledUIType[]
-  hiddenUI?: HiddenUIType[]
-  requiredUI?: RequiredUIType[]
+  disabledUI?: DisabledUIConfig
+  hiddenUI?: HiddenUIConfig
+  requiredUI?: RequiredUIConfig
   defaultUI?: DefaultUI
   /**
    * When true, shows only the recommended route and hides the route

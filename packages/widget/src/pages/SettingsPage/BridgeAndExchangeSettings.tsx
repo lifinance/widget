@@ -6,7 +6,6 @@ import { CardButton } from '../../components/Card/CardButton.js'
 import { useSettingMonitor } from '../../hooks/useSettingMonitor.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useSettingsStore } from '../../stores/settings/SettingsStore.js'
-import { HiddenUI } from '../../types/widget.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { BadgedValue } from './SettingsCard/BadgedValue.js'
 
@@ -28,7 +27,7 @@ export const BridgeAndExchangeSettings: React.FC<{
 
   const { hiddenUI } = useWidgetConfig()
 
-  if (type === 'Bridges' && hiddenUI?.includes(HiddenUI.BridgesSettings)) {
+  if (type === 'Bridges' && hiddenUI?.bridgesSettings) {
     return null
   }
 

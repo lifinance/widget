@@ -5,7 +5,7 @@ export const useContactSupport = (supportId?: string): (() => void) => {
   const widgetEvents = useWidgetEvents()
 
   const handleContactSupport = () => {
-    if (!widgetEvents.all.has(WidgetEvent.ContactSupport)) {
+    if (widgetEvents.listenerCount(WidgetEvent.ContactSupport) === 0) {
       window.open('https://help.li.fi', '_blank', 'nofollow noreferrer')
     } else {
       widgetEvents.emit(WidgetEvent.ContactSupport, { supportId })

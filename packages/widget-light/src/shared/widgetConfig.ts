@@ -66,24 +66,21 @@ export interface WidgetToAddress {
 }
 
 // ---------------------------------------------------------------------------
-// Widget variant / subvariant
+// Widget variant / mode
 // ---------------------------------------------------------------------------
 
 export type WidgetVariant = 'compact' | 'wide' | 'drawer'
-export type WidgetSubvariant = 'default' | 'split' | 'custom' | 'refuel'
-export type WidgetSplitSubvariant = 'bridge' | 'swap'
-export type WidgetCustomSubvariant = 'checkout' | 'deposit'
+export type WidgetMode = 'default' | 'split' | 'custom' | 'refuel'
+export type WidgetSplitMode = 'bridge' | 'swap'
+export type WidgetCustomMode = 'checkout' | 'deposit'
 
-export interface WidgetSplitSubvariantOptions {
-  defaultTab: WidgetSplitSubvariant
+export interface WidgetSplitModeOptions {
+  defaultTab: WidgetSplitMode
 }
 
-export interface WidgetSubvariantOptions {
-  split?: WidgetSplitSubvariant | WidgetSplitSubvariantOptions
-  custom?: WidgetCustomSubvariant
-  wide?: {
-    disableChainSidebar?: boolean
-  }
+export interface WidgetModeOptions {
+  split?: WidgetSplitMode | WidgetSplitModeOptions
+  custom?: { type: WidgetCustomMode }
 }
 
 // ---------------------------------------------------------------------------
@@ -113,41 +110,60 @@ export interface WidgetTheme {
 }
 
 // ---------------------------------------------------------------------------
-// UI controls (mirrors DisabledUI, HiddenUI, RequiredUI string enums)
+// UI controls (mirrors DisabledUIConfig, HiddenUIConfig, RequiredUIConfig)
 // ---------------------------------------------------------------------------
 
-export type WidgetDisabledUI =
-  | 'fromAmount'
-  | 'fromToken'
-  | 'toAddress'
-  | 'toToken'
+export interface WidgetDisabledUIConfig {
+  fromAmount?: boolean
+  fromToken?: boolean
+  toAddress?: boolean
+  toToken?: boolean
+}
 
-export type WidgetHiddenUI =
-  | 'appearance'
-  | 'drawerCloseButton'
-  | 'history'
-  | 'language'
-  | 'poweredBy'
-  | 'toAddress'
-  | 'fromToken'
-  | 'toToken'
-  | 'walletMenu'
-  | 'integratorStepDetails'
-  | 'reverseTokensButton'
-  | 'routeTokenDescription'
-  | 'routeCardPriceImpact'
-  | 'chainSelect'
-  | 'bridgesSettings'
-  | 'addressBookConnectedWallets'
-  | 'lowAddressActivityConfirmation'
-  | 'gasRefuelMessage'
-  | 'searchTokenInput'
-  | 'insufficientGasMessage'
-  | 'contactSupport'
-  | 'hideSmallBalances'
-  | 'allNetworks'
+export interface WidgetHiddenUIConfig {
+  addressBookConnectedWallets?: boolean
+  allNetworks?: boolean
+  appearance?: boolean
+  bridgesSettings?: boolean
+  chainSelect?: boolean
+  /**
+   * Hide the chain sidebar in the `wide` variant. No effect in other variants.
+   * @default false
+   */
+  chainSidebar?: boolean
+  contactSupport?: boolean
+  /**
+   * Hide the drawer close button. Only meaningful when `variant === 'drawer'`.
+   * @default false
+   */
+  drawerCloseButton?: boolean
+  fromToken?: boolean
+  gasRefuelMessage?: boolean
+  hideSmallBalances?: boolean
+  history?: boolean
+  insufficientGasMessage?: boolean
+  integratorStepDetails?: boolean
+  language?: boolean
+  /**
+   * Hide the warning shown when sending to an address with low historical
+   * on-chain activity (low transaction count or contract-like behavior).
+   * @default false
+   */
+  lowAddressActivityConfirmation?: boolean
+  poweredBy?: boolean
+  reverseTokensButton?: boolean
+  routeCardPriceImpact?: boolean
+  routeTokenDescription?: boolean
+  searchTokenInput?: boolean
+  toAddress?: boolean
+  toToken?: boolean
+  walletMenu?: boolean
+}
 
-export type WidgetRequiredUI = 'toAddress' | 'accountDeployedMessage'
+export interface WidgetRequiredUIConfig {
+  accountDeployedMessage?: boolean
+  toAddress?: boolean
+}
 
 export interface WidgetDefaultUI {
   transactionDetailsExpanded?: boolean
@@ -352,17 +368,17 @@ export interface WidgetLightConfig {
 
   // -- Layout --
   variant?: WidgetVariant
-  subvariant?: WidgetSubvariant
-  subvariantOptions?: WidgetSubvariantOptions
+  mode?: WidgetMode
+  modeOptions?: WidgetModeOptions
 
   // -- Appearance --
   appearance?: WidgetAppearance
   theme?: WidgetTheme
 
   // -- UI controls --
-  disabledUI?: WidgetDisabledUI[]
-  hiddenUI?: WidgetHiddenUI[]
-  requiredUI?: WidgetRequiredUI[]
+  disabledUI?: WidgetDisabledUIConfig
+  hiddenUI?: WidgetHiddenUIConfig
+  requiredUI?: WidgetRequiredUIConfig
   defaultUI?: WidgetDefaultUI
   /**
    * When true, shows only the recommended route and hides the route

@@ -9,7 +9,7 @@ export const RouteTokens: React.FC<{
   route: RouteExtended
   showEssentials?: boolean
 }> = ({ route, showEssentials }) => {
-  const { subvariant } = useWidgetConfig()
+  const { mode } = useWidgetConfig()
 
   const fromToken = {
     ...route.steps[0].action.fromToken,
@@ -22,7 +22,7 @@ export const RouteTokens: React.FC<{
       route.steps[lastStepIndex].action.toToken),
     amount: route.steps[lastStepIndex].execution?.toAmount
       ? BigInt(route.steps[lastStepIndex].execution.toAmount)
-      : subvariant === 'custom'
+      : mode === 'custom'
         ? BigInt(route.toAmount)
         : BigInt(route.steps[lastStepIndex].estimate.toAmount),
   }
