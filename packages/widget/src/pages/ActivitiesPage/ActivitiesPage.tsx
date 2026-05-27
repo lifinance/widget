@@ -15,7 +15,7 @@ import { ActivitiesPageMenuButton } from './ActivitiesPageMenuButton.js'
 import { TransactionHistoryEmpty } from './TransactionHistoryEmpty.js'
 import { TransactionHistoryItem } from './TransactionHistoryItem.js'
 
-const SKELETON_COUNT = 3
+const SKELETON_COUNT = 2
 
 export const ActivitiesPage = (): JSX.Element => {
   // Parent ref and useVirtualizer should be in one file to avoid blank page (0 virtual items) issue
@@ -76,18 +76,19 @@ export const ActivitiesPage = (): JSX.Element => {
     getItemKey,
   })
 
-  if (!items.length && !isLoading) {
-    return <TransactionHistoryEmpty />
-  }
+  const isEmpty = !items.length && !isLoading
 
   return (
     <PageContainer disableGutters>
       <Box
+        className="long-list"
         ref={parentRef}
         style={{ height: listHeight }}
         sx={{ overflow: 'auto', paddingX: 3 }}
       >
-        {isLoading && !hasStoreItems ? (
+        {isEmpty ? (
+          <TransactionHistoryEmpty />
+        ) : isLoading && !hasStoreItems ? (
           <List
             disablePadding
             sx={{
@@ -103,7 +104,6 @@ export const ActivitiesPage = (): JSX.Element => {
           </List>
         ) : (
           <List
-            className="long-list"
             style={{ height: getTotalSize(), position: 'relative' }}
             disablePadding
           >
