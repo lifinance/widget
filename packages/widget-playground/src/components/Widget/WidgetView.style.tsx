@@ -3,6 +3,7 @@ import { Box, IconButton } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import type React from 'react'
 import { drawerZIndex } from '../DrawerControls/DrawerControls.style.js'
+import { mockElementHeight } from '../Mock/MockElement.js'
 
 export const FloatingToolsContainer: React.FC<
   React.ComponentProps<typeof Box>
@@ -51,7 +52,7 @@ export const WidgetContainer: React.FC<
       {
         props: ({ withFixedHeaderOnPage }) => withFixedHeaderOnPage,
         style: {
-          paddingTop: theme.spacing(6), // height of the fixed header
+          paddingTop: mockElementHeight,
         },
       },
     ],
