@@ -8,10 +8,8 @@ export const getConfigOutput = (
 
   return {
     ...(config.variant ? { variant: config.variant } : {}),
-    ...(config.subvariant ? { subvariant: config.subvariant } : {}),
-    ...(config.subvariantOptions
-      ? { subvariantOptions: config.subvariantOptions }
-      : {}),
+    ...(config.mode ? { mode: config.mode } : {}),
+    ...(config.modeOptions ? { modeOptions: config.modeOptions } : {}),
     ...(config.appearance ? { appearance: config.appearance } : {}),
     ...(theme
       ? {

@@ -20,7 +20,6 @@ import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useHeaderStore } from '../../stores/header/useHeaderStore.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { WidgetEvent } from '../../types/events.js'
-import { HiddenUI } from '../../types/widget.js'
 import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { ConfirmToAddressSheet } from './ConfirmToAddressSheet.js'
@@ -42,12 +41,8 @@ export const TransactionPage = (): JSX.Element | null => {
   const setBackAction = useHeaderStore((state) => state.setBackAction)
   const navigate = useNavigate()
   const navigateBack = useNavigateBack()
-  const {
-    subvariant,
-    subvariantOptions,
-    contractSecondaryComponent,
-    hiddenUI,
-  } = useWidgetConfig()
+  const { mode, modeOptions, contractSecondaryComponent, hiddenUI } =
+    useWidgetConfig()
   const { search }: any = useLocation()
   const stateRouteId = search?.routeId
   const [routeId, setRouteId] = useState<string>(stateRouteId)
@@ -78,8 +73,8 @@ export const TransactionPage = (): JSX.Element | null => {
   } = useAddressActivity(route?.toChainId)
 
   const getHeaderTitle = () => {
-    if (subvariant === 'custom') {
-      return t(`header.${subvariantOptions?.custom ?? 'checkout'}`)
+    if (mode === 'custom') {
+      return t(`header.${modeOptions?.custom?.type ?? 'checkout'}`)
     }
     if (route) {
       const transactionType =
@@ -131,7 +126,7 @@ export const TransactionPage = (): JSX.Element | null => {
     tokenValueBottomSheetRef.current?.close()
     executeRoute()
     setFieldValue('fromAmount', '')
-    if (subvariant === 'custom') {
+    if (mode === 'custom') {
       setFieldValue('fromToken', '')
       setFieldValue('toToken', '')
     }
@@ -148,7 +143,7 @@ export const TransactionPage = (): JSX.Element | null => {
         !hasActivity &&
         !isLoadingAddressActivity &&
         isActivityAddressFetched &&
-        !hiddenUI?.includes(HiddenUI.LowAddressActivityConfirmation)
+        !hiddenUI?.lowAddressActivityConfirmation
       ) {
         confirmToAddressSheetRef.current?.open()
         return
@@ -163,7 +158,7 @@ export const TransactionPage = (): JSX.Element | null => {
         gasCostUSD,
         feeCostUSD
       )
-      if (tokenValueLossThresholdExceeded && subvariant !== 'custom') {
+      if (tokenValueLossThresholdExceeded && mode !== 'custom') {
         tokenValueBottomSheetRef.current?.open()
       } else {
         handleExecuteRoute()
@@ -182,9 +177,9 @@ export const TransactionPage = (): JSX.Element | null => {
   const getButtonText = (): string => {
     switch (status) {
       case RouteExecutionStatus.Idle:
-        switch (subvariant) {
+        switch (mode) {
           case 'custom':
-            return subvariantOptions?.custom === 'deposit'
+            return modeOptions?.custom?.type === 'deposit'
               ? t('button.deposit')
               : t('button.buy')
           case 'refuel':
@@ -204,8 +199,8 @@ export const TransactionPage = (): JSX.Element | null => {
 
   return (
     <PageContainer bottomGutters>
-      {getStepList(route, subvariant)}
-      {subvariant === 'custom' && contractSecondaryComponent ? (
+      {getStepList(route, mode)}
+      {mode === 'custom' && contractSecondaryComponent ? (
         <ContractComponent sx={{ marginTop: 2 }}>
           {contractSecondaryComponent}
         </ContractComponent>
@@ -247,7 +242,7 @@ export const TransactionPage = (): JSX.Element | null => {
         </>
       ) : null}
       {status ? <StatusBottomSheet status={status} route={route} /> : null}
-      {subvariant !== 'custom' ? (
+      {mode !== 'custom' ? (
         <TokenValueBottomSheet
           route={route}
           ref={tokenValueBottomSheetRef}
@@ -255,7 +250,7 @@ export const TransactionPage = (): JSX.Element | null => {
         />
       ) : null}
       <ExchangeRateBottomSheet ref={exchangeRateBottomSheetRef} />
-      {!hiddenUI?.includes(HiddenUI.LowAddressActivityConfirmation) ? (
+      {!hiddenUI?.lowAddressActivityConfirmation ? (
         <ConfirmToAddressSheet
           ref={confirmToAddressSheetRef}
           onContinue={handleExecuteRoute}

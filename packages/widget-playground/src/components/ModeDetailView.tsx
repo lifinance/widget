@@ -2,8 +2,8 @@ import type { JSX } from 'react'
 import { useCallback } from 'react'
 import { useConfigActions } from '../store/widgetConfig/useConfigActions.js'
 import {
-  useConfigSubvariant,
-  useConfigSubvariantOptions,
+  useConfigMode,
+  useConfigModeOptions,
 } from '../store/widgetConfig/useConfigValues.js'
 import { useDefaultConfig } from '../store/widgetConfig/useDefaultConfig.js'
 import { docsLinks } from '../utils/docsLinks.js'
@@ -24,28 +24,28 @@ interface ModeDetailViewProps {
 export const ModeDetailView = ({
   onBack,
 }: ModeDetailViewProps): JSX.Element => {
-  const { subvariant } = useConfigSubvariant()
-  const { subvariantOptions } = useConfigSubvariantOptions()
-  const { setSubvariant, setSplitOption } = useConfigActions()
+  const { mode } = useConfigMode()
+  const { modeOptions } = useConfigModeOptions()
+  const { setMode, setSplitOption } = useConfigActions()
   const { defaultConfig } = useDefaultConfig()
 
-  const splitOption = getSplitOption(subvariantOptions)
-  const activeMode = getActiveMode(subvariant, splitOption)
+  const splitOption = getSplitOption(modeOptions)
+  const activeMode = getActiveMode(mode, splitOption)
 
   const handleReset = useCallback((): void => {
-    setSubvariant(defaultConfig?.subvariant ?? 'default')
-    const defaultSplit = defaultConfig?.subvariantOptions?.split
+    setMode(defaultConfig?.mode ?? 'default')
+    const defaultSplit = defaultConfig?.modeOptions?.split
     setSplitOption(typeof defaultSplit === 'string' ? defaultSplit : undefined)
-  }, [defaultConfig, setSubvariant, setSplitOption])
+  }, [defaultConfig, setMode, setSplitOption])
 
   const handleSelect = useCallback(
-    (mode: ModeOption): void => {
-      const { subvariant: nextSubvariant, splitOption: nextSplitOption } =
-        getModeConfig(mode)
-      setSubvariant(nextSubvariant)
+    (selectedMode: ModeOption): void => {
+      const { mode: nextMode, splitOption: nextSplitOption } =
+        getModeConfig(selectedMode)
+      setMode(nextMode)
       setSplitOption(nextSplitOption)
     },
-    [setSubvariant, setSplitOption]
+    [setMode, setSplitOption]
   )
 
   return (

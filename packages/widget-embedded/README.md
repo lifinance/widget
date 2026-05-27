@@ -229,7 +229,7 @@ const config: WidgetLightConfig = {
 
   // Layout
   variant: 'wide',                    // 'compact' | 'wide' | 'drawer'
-  subvariant: 'default',              // 'default' | 'split' | 'custom' | 'refuel'
+  mode: 'default',                    // 'default' | 'split' | 'custom' | 'refuel'
   appearance: 'light',                // 'light' | 'dark' | 'system'
 
   // Pre-fill form

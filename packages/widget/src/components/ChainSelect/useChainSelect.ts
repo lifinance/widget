@@ -9,7 +9,7 @@ import { useChainOrder } from '../../stores/chains/useChainOrder.js'
 import type { FormType } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
-import type { DisabledUI } from '../../types/widget.js'
+import type { DisabledUIConfig } from '../../types/widget.js'
 
 export const useChainSelect = (
   formType: FormType
@@ -59,11 +59,11 @@ export const useChainSelect = (
         })
       }
       const tokenKey = FormKeyHelper.getTokenKey(formType)
-      if (!disabledUI?.includes(tokenKey as DisabledUI)) {
+      if (!disabledUI?.[tokenKey as keyof DisabledUIConfig]) {
         setFieldValue(tokenKey, '')
       }
       const amountKey = FormKeyHelper.getAmountKey(formType)
-      if (!disabledUI?.includes(amountKey as DisabledUI)) {
+      if (!disabledUI?.[amountKey as keyof DisabledUIConfig]) {
         setFieldValue(amountKey, '')
       }
 

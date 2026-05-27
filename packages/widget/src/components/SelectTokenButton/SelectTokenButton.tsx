@@ -9,6 +9,7 @@ import type { ChainOrderState } from '../../stores/chains/types.js'
 import type { FormTypeProps } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
+import type { DisabledUIConfig } from '../../types/widget.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { AvatarBadgedDefault, AvatarBadgedSkeleton } from '../Avatar/Avatar.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
@@ -26,7 +27,7 @@ export const SelectTokenButton: React.FC<
 > = ({ formType, hiddenReverse }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { disabledUI, subvariant } = useWidgetConfig()
+  const { disabledUI, mode } = useWidgetConfig()
   const tokenKey = FormKeyHelper.getTokenKey(formType)
   const [chainId, tokenAddress] = useFieldValues(
     FormKeyHelper.getChainKey(formType),
@@ -44,17 +45,19 @@ export const SelectTokenButton: React.FC<
       to:
         formType === 'from'
           ? navigationRoutes.fromToken
-          : subvariant === 'refuel'
+          : mode === 'refuel'
             ? navigationRoutes.toTokenNative
             : navigationRoutes.toToken,
     })
   }
 
   const isSelected = !!(chain && token)
-  const onClick = !disabledUI?.includes(tokenKey) ? handleClick : undefined
+  const onClick = !disabledUI?.[tokenKey as keyof DisabledUIConfig]
+    ? handleClick
+    : undefined
   const defaultPlaceholder = `${t('main.select')}...`
   const cardTitle: string =
-    formType === 'from' && subvariant === 'custom'
+    formType === 'from' && mode === 'custom'
       ? t('header.payWith')
       : t(`main.${formType}`)
   return (
