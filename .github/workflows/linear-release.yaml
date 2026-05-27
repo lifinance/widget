@@ -10,9 +10,18 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: linear-release-${{ github.event.workflow_run.head_sha }}
+  cancel-in-progress: false
+
 jobs:
   linear:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # Only for successful runs that originated from this repo (not a fork) — the
+    # upstream publish workflow is tag-push/dispatch only, so this can't be
+    # triggered by untrusted contributors.
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -25,7 +34,7 @@ jobs:
       - name: Resolve tag, version, channel
         id: meta
         run: |
-          TAG="$(git tag --points-at HEAD | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+' | head -1)"
+          TAG="$(git tag --points-at HEAD | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+' | head -1 || true)"
           if [ -z "$TAG" ]; then
             echo "No release tag at HEAD; skipping Linear sync."
             echo "skip=true" >> "$GITHUB_OUTPUT"
