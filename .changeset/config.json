@@ -1,0 +1,17 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@3.0.5/schema.json",
+  "changelog": [
+    "@svitejs/changesets-changelog-github-compact",
+    { "repo": "lifinance/widget" }
+  ],
+  "commit": false,
+  "access": "public",
+  "baseBranch": "main",
+  "updateInternalDependencies": "minor",
+  "ignore": [
+    "@lifi/widget-embedded",
+    "@lifi/widget-playground",
+    "@lifi/widget-playground-next",
+    "@lifi/widget-playground-vite"
+  ]
+}
