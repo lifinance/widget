@@ -1,37 +1,195 @@
 name: Release & Publish
 
-# Orchestrator: composes the release pipeline from single-purpose reusable
-# workflows. GitHub Release and npm publish run in parallel; the Linear sync
-# runs only after npm publish succeeds, so tickets move to Done strictly when
-# the packages are actually on npm.
+# Changesets-driven release pipeline.
+#
+# On push to main:
+#   1. verify     — lint, types, build (gate).
+#   2. changesets — opens/updates the "Version Packages" PR. When that PR is
+#                   merged (no changesets left on main), this run instead has
+#                   hasChangesets == 'false'.
+#   3. release    — runs ONLY when there are no pending changesets, i.e. the
+#                   version PR has just been merged. Builds + runs the
+#                   per-package prerelease transform, then `changeset publish`
+#                   (flat per-package `npm publish` with OIDC provenance) and
+#                   creates GitHub Releases. Exposes publishedPackages.
+#   4. linear-*   — one static gated job per release anchor. Each derives its
+#                   version + channel from publishedPackages and syncs Linear.
 on:
   push:
-    tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+-alpha.[0-9]+'
-      - 'v[0-9]+.[0-9]+.[0-9]+-beta.[0-9]+'
-      - 'v[0-9]+.[0-9]+.[0-9]+'
+    branches: [main]
   workflow_dispatch:
 
+# Never run two releases at once; do NOT cancel an in-flight publish.
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
 jobs:
-  github-release:
+  verify:
+    name: Verify
+    runs-on: ubuntu-latest
     permissions:
-      contents: write
-    uses: ./.github/workflows/github-release.yaml
+      contents: read
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+      - name: Check code
+        run: pnpm check
+      - name: Check types
+        run: pnpm check:types
+      - name: Build
+        run: pnpm build
 
-  npm-publish:
+  changesets:
+    name: Changesets
+    needs: verify
+    # Prevent this action from running on forks.
+    if: github.repository == 'lifinance/widget'
+    runs-on: ubuntu-latest
     permissions:
-      contents: write
-      id-token: write
-    uses: ./.github/workflows/npm-publish.yaml
+      contents: write # to create the version PR / push tags
+      pull-requests: write # to create the version PR
+    outputs:
+      hasChangesets: ${{ steps.changesets.outputs.hasChangesets }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          # Fetch full history so Changesets can generate changelogs.
+          fetch-depth: 0
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+      - name: Create version pull request
+        id: changesets
+        uses: changesets/action@e0145edc7d9d8679003495b11f87bd8ef63c0cba # v1.5.3
+        with:
+          version: pnpm changeset:version
+          title: 'chore: version packages'
+          commit: 'chore: version packages'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  linear-release:
-    needs: npm-publish
-    # Only for real release tags — skip manual branch dispatches.
-    if: startsWith(github.ref, 'refs/tags/v')
+  release:
+    name: Release
+    needs: changesets
+    # Only publish once the version PR has been merged (no changesets left).
+    if: needs.changesets.outputs.hasChangesets == 'false'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # to create GitHub Releases
+      id-token: write # OIDC token for npm provenance / trusted publishing
+    outputs:
+      publishedPackages: ${{ steps.changesets.outputs.publishedPackages }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+      - name: Publish to npm
+        id: changesets
+        uses: changesets/action@e0145edc7d9d8679003495b11f87bd8ef63c0cba # v1.5.3
+        with:
+          publish: pnpm changeset:publish
+          createGithubReleases: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
+
+  # ---------------------------------------------------------------------------
+  # Linear release sync — one STATIC gated job per anchor package. Secret refs
+  # must be static YAML, so we cannot use a dynamic matrix. Each job derives the
+  # version + channel from publishedPackages (NOT from a git tag) and forwards
+  # them to the reusable linear-release.yaml.
+  # ---------------------------------------------------------------------------
+  linear-widget:
+    name: Linear Sync (Widget)
+    needs: release
+    # Fires only when @lifi/widget was actually published this run.
+    if: contains(needs.release.outputs.publishedPackages, '"@lifi/widget"')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      full: ${{ steps.meta.outputs.full }}
+      version: ${{ steps.meta.outputs.version }}
+      channel: ${{ steps.meta.outputs.channel }}
+    steps:
+      - name: Derive version and channel from publishedPackages
+        id: meta
+        env:
+          PUBLISHED: ${{ needs.release.outputs.publishedPackages }}
+        run: |
+          FULL=$(echo "$PUBLISHED" | jq -r '.[] | select(.name=="@lifi/widget") | .version')
+          VERSION="${FULL%%-*}" # 4.0.0-beta.21 -> 4.0.0
+          case "$FULL" in
+            *-alpha.*) CHANNEL=alpha ;;
+            *-beta.*)  CHANNEL=beta ;;
+            *)         CHANNEL=stable ;;
+          esac
+          echo "full=$FULL" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "channel=$CHANNEL" >> "$GITHUB_OUTPUT"
+          echo "Resolved @lifi/widget $FULL -> version=$VERSION channel=$CHANNEL"
+
+  linear-widget-sync:
+    name: Linear Sync (Widget) · run
+    needs: linear-widget
     permissions:
       contents: read
     uses: ./.github/workflows/linear-release.yaml
     with:
-      tag: ${{ github.ref_name }}
+      release_name: Widget
+      version: ${{ needs.linear-widget.outputs.version }}
+      channel: ${{ needs.linear-widget.outputs.channel }}
+      release_tag: '@lifi/widget@${{ needs.linear-widget.outputs.full }}'
     secrets:
-      access_key: ${{ secrets.LINEAR_RELEASE_ACCESS_KEY }}
+      access_key: ${{ secrets.WIDGET_LINEAR_RELEASE_ACCESS_KEY }}
+
+  # DORMANT until @lifi/widget-checkout ships (PR #727). The `if` never matches
+  # today; enabling it later requires no further change.
+  linear-checkout:
+    name: Linear Sync (Checkout)
+    needs: release
+    if: contains(needs.release.outputs.publishedPackages, '"@lifi/widget-checkout"')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      full: ${{ steps.meta.outputs.full }}
+      version: ${{ steps.meta.outputs.version }}
+      channel: ${{ steps.meta.outputs.channel }}
+    steps:
+      - name: Derive version and channel from publishedPackages
+        id: meta
+        env:
+          PUBLISHED: ${{ needs.release.outputs.publishedPackages }}
+        run: |
+          FULL=$(echo "$PUBLISHED" | jq -r '.[] | select(.name=="@lifi/widget-checkout") | .version')
+          VERSION="${FULL%%-*}"
+          case "$FULL" in
+            *-alpha.*) CHANNEL=alpha ;;
+            *-beta.*)  CHANNEL=beta ;;
+            *)         CHANNEL=stable ;;
+          esac
+          echo "full=$FULL" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "channel=$CHANNEL" >> "$GITHUB_OUTPUT"
+          echo "Resolved @lifi/widget-checkout $FULL -> version=$VERSION channel=$CHANNEL"
+
+  linear-checkout-sync:
+    name: Linear Sync (Checkout) · run
+    needs: linear-checkout
+    permissions:
+      contents: read
+    uses: ./.github/workflows/linear-release.yaml
+    with:
+      release_name: Checkout
+      version: ${{ needs.linear-checkout.outputs.version }}
+      channel: ${{ needs.linear-checkout.outputs.channel }}
+      release_tag: '@lifi/widget-checkout@${{ needs.linear-checkout.outputs.full }}'
+    secrets:
+      access_key: ${{ secrets.CHECKOUT_LINEAR_RELEASE_ACCESS_KEY }}
