@@ -1,5 +1,6 @@
 import type { Dispatch, SetStateAction } from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEditToolsStore } from '../store/editTools/EditToolsProvider.js'
 import { useEditToolsActions } from '../store/editTools/useEditToolsActions.js'
 import type { FormValues } from '../store/types.js'
 import { useConfigActions } from '../store/widgetConfig/useConfigActions.js'
@@ -25,6 +26,7 @@ export const useFormValuesDevPanel = (): {
   selectAmountPreset: (key: string) => void
   selectAddressPreset: (key: string) => void
 } => {
+  const isDevView = useEditToolsStore((store) => store.isDevView)
   const { setFormValues: setFormValuesViaConfig } = useConfigActions()
   const { setFormValues: setFormValuesViaFormApiRef } = useEditToolsActions()
   const [formUpdateMethod, setFormUpdateMethod] =
@@ -53,11 +55,14 @@ export const useFormValuesDevPanel = (): {
   applyRef.current = applyFormValues
 
   useEffect(() => {
+    if (!isDevView) {
+      return
+    }
     applyRef.current(getDefaultFormValues())
     return () => {
       applyRef.current(withFormUpdateKey(getResetFormValues()))
     }
-  }, [])
+  }, [isDevView])
 
   const selectPreset = useCallback(
     (
