@@ -8,7 +8,7 @@ import {
   chainExpansionWidth,
   SelectChainExpansionContainer,
 } from './ChainsExpanded.style.js'
-import { SelectChainContent } from './SelectChainContent.js'
+import { SelectChainExpansionContent } from './SelectChainExpansionContent.js'
 
 interface ChainsExpandedProps {
   formType: FormType
@@ -24,7 +24,7 @@ export const ChainsExpanded: React.NamedExoticComponent<ChainsExpandedProps> =
         <SelectChainExpansionContainer
           expansionHeight={getWidgetMaxHeight(theme)}
         >
-          <SelectChainContent inExpansion formType={formType} />
+          <SelectChainExpansionContent formType={formType} />
         </SelectChainExpansionContainer>
       </ExpansionTransition>
     )

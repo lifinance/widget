@@ -27,18 +27,3 @@ export const useScrollableContainer = (
 
   return containerElement
 }
-
-export const useScrollableOverflowHidden = (): void => {
-  const elementId = useDefaultElementId() ?? ''
-  useLayoutEffect(() => {
-    const element = getScrollableContainer(elementId)
-    if (element) {
-      element.style.overflowY = 'hidden'
-    }
-    return () => {
-      if (element) {
-        element.style.overflowY = 'auto'
-      }
-    }
-  }, [elementId])
-}

@@ -1,19 +1,12 @@
-import { Checkbox, debounce, Tooltip } from '@mui/material'
-import type { ChangeEvent } from 'react'
-import {
-  type FormEventHandler,
-  memo,
-  useCallback,
-  useMemo,
-  useState,
-} from 'react'
+import { Box, Checkbox, debounce, Tooltip } from '@mui/material'
+import type { ChangeEvent, ChangeEventHandler } from 'react'
+import { memo, useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FullPageContainer } from '../components/FullPageContainer.js'
-import { StickySearchInput } from '../components/Search/SearchInput.js'
+import { PageContainer } from '../components/PageContainer.js'
+import { SearchInput } from '../components/Search/SearchInput.js'
 import { type ToolCollectionTypes, Tools } from '../components/Tools/Tools.js'
-import { useDefaultElementId } from '../hooks/useDefaultElementId.js'
 import { useHeader } from '../hooks/useHeader.js'
-import { useScrollableContainer } from '../hooks/useScrollableContainer.js'
+import { useListHeight } from '../hooks/useListHeight.js'
 import { useTools } from '../hooks/useTools.js'
 import { useSettingsStore } from '../stores/settings/SettingsStore.js'
 import { useSettingsActions } from '../stores/settings/useSettingsActions.js'
@@ -47,7 +40,7 @@ const SelectAllCheckbox = memo<SelectAllCheckboxProps>(
           indeterminate={anyCheckboxesSelected && !allCheckboxesSelected}
           onChange={onClick}
           disabled={noCheckboxesAvailable}
-          sx={{ mr: -1.5 }}
+          sx={{ mr: -1.5, height: 20 }}
         />
       </Tooltip>
     )
@@ -64,9 +57,14 @@ export const SelectEnabledToolsPage: React.FC<{
   const disabledTools = useSettingsStore((state) => state[`disabled${type}`])
 
   const { t } = useTranslation()
-  const elementId = useDefaultElementId()
-  const scrollableContainer = useScrollableContainer(elementId ?? '')
+  const headerRef = useRef<HTMLElement>(null)
+  const listRef = useRef<HTMLDivElement>(null)
   const [searchValue, setSearchValue] = useState('')
+
+  const { listHeight } = useListHeight({
+    listParentRef: listRef,
+    headerRef,
+  })
 
   const filteredTools = useMemo(() => {
     const toolsList = tools?.[typeKey] ?? []
@@ -108,28 +106,26 @@ export const SelectEnabledToolsPage: React.FC<{
 
   useHeader(t(`settings.enabled${type}`), headerAction)
 
-  const handleSearchInputChange: FormEventHandler<HTMLInputElement> =
-    useCallback(
-      (e) => {
-        const value = (e.target as HTMLInputElement).value
-        setSearchValue(value)
-
-        if (scrollableContainer) {
-          scrollableContainer.scrollTop = 0
-        }
-      },
-      [scrollableContainer]
-    )
+  const handleSearchInputChange: ChangeEventHandler<HTMLInputElement> =
+    useCallback((e) => {
+      setSearchValue(e.target.value)
+      listRef.current?.scrollTo(0, 0)
+    }, [])
 
   const debouncedSearchInputChange = debounce(handleSearchInputChange, 250)
 
   return (
-    <FullPageContainer disableGutters>
-      <StickySearchInput
-        onChange={debouncedSearchInputChange}
-        placeholder={t(`main.search${type}`)}
-      />
-      <Tools filteredTools={filteredTools} type={type} />
-    </FullPageContainer>
+    <PageContainer disableGutters>
+      <Box ref={headerRef} sx={{ px: 3, pb: 2 }}>
+        <SearchInput
+          onChange={debouncedSearchInputChange}
+          placeholder={t(`main.search${type}`)}
+          autoFocus
+        />
+      </Box>
+      <Box ref={listRef} style={{ height: listHeight, overflow: 'auto' }}>
+        <Tools filteredTools={filteredTools} type={type} />
+      </Box>
+    </PageContainer>
   )
 }
