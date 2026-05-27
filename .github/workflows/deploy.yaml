@@ -5,6 +5,14 @@ on:
     branches:
       - main
 
+# The Changesets release job pushes a "chore: version packages" commit and a
+# publish commit to main, each of which also triggers this deploy. Collapse
+# rapid back-to-back main pushes onto one deploy and supersede any in-flight
+# run so we never race two S3 syncs.
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     permissions:
