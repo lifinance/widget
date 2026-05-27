@@ -1,0 +1,82 @@
+name: Changeset Check
+
+# Fail-closed PR gate: if a pull request modifies a PUBLISHABLE package but
+# adds no changeset, the build fails. Docs-only changes and private/ignored
+# packages (widget-embedded, widget-playground*) are exempt.
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: changeset-check-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  changeset-check:
+    name: Changeset present
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          # Need history back to the merge base for the diff + changeset status.
+          fetch-depth: 0
+
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+
+      # Layer 1 — Changesets' own view: errors if publishable packages changed
+      # since the base branch but no changeset is present.
+      - name: changeset status
+        run: pnpm changeset status --since=origin/${{ github.base_ref }}
+
+      # Layer 2 — Independent fail-closed guard. Even if `changeset status`
+      # heuristics miss something, fail when publishable package source changed
+      # and no new .changeset/*.md was added in this PR.
+      - name: Guard — publishable change requires a changeset
+        env:
+          BASE: origin/${{ github.base_ref }}
+        run: |
+          set -euo pipefail
+
+          # Publishable package globs (private packages are intentionally excluded:
+          # widget-embedded, widget-playground, widget-playground-next, widget-playground-vite).
+          PUBLISHABLE=(
+            'packages/widget/**'
+            'packages/wallet-management/**'
+            'packages/widget-light/**'
+            'packages/widget-provider/**'
+            'packages/widget-provider-bitcoin/**'
+            'packages/widget-provider-ethereum/**'
+            'packages/widget-provider-solana/**'
+            'packages/widget-provider-sui/**'
+            'packages/widget-provider-tron/**'
+          )
+
+          # Changed files under publishable packages, excluding docs-only files
+          # (*.md) which don't warrant a release.
+          CHANGED=$(git diff --name-only "$BASE"...HEAD -- "${PUBLISHABLE[@]}" \
+            | grep -v -E '\.md$' || true)
+
+          # New changeset markdown files added in this PR (README.md is not a changeset).
+          ADDED_CHANGESETS=$(git diff --name-only --diff-filter=A "$BASE"...HEAD -- '.changeset/*.md' \
+            | grep -v -E '\.changeset/README\.md$' || true)
+
+          if [ -n "$CHANGED" ] && [ -z "$ADDED_CHANGESETS" ]; then
+            echo "::error::A publishable package changed but no changeset was added."
+            echo "Changed publishable files:"
+            echo "$CHANGED" | sed 's/^/  - /'
+            echo ""
+            echo "Add one with: pnpm changeset"
+            echo "(feat -> minor, fix -> patch, breaking -> major; skip cascade-only dependents)"
+            exit 1
+          fi
+
+          echo "Changeset check passed."
+          if [ -z "$CHANGED" ]; then
+            echo "No publishable package source changed (docs/private-only or no package change)."
+          else
+            echo "Publishable changes are accompanied by a changeset."
+          fi
