@@ -1,84 +1,74 @@
-name: Linear Release Sync
+name: 'Release · Linear Sync'
 
-# Runs only after "Release & Publish Beta" finishes successfully, so issues are
-# attached/completed in Linear only once the packages are actually on npm.
+# Reusable: syncs the published release into the Linear "Widget" pipeline.
+# Called by publish.yaml after npm publish succeeds; not triggered on its own.
 on:
-  workflow_run:
-    workflows: ['Release & Publish Beta']
-    types: [completed]
+  workflow_call:
+    inputs:
+      tag:
+        description: 'Release tag that was published (e.g. v4.0.0-beta.20)'
+        required: true
+        type: string
+    secrets:
+      access_key:
+        description: 'Linear pipeline access key'
+        required: true
 
 permissions:
   contents: read
 
-concurrency:
-  group: linear-release-${{ github.event.workflow_run.head_sha }}
-  cancel-in-progress: false
-
 jobs:
   linear:
-    # Only for successful runs that originated from this repo (not a fork) — the
-    # upstream publish workflow is tag-push/dispatch only, so this can't be
-    # triggered by untrusted contributors.
-    if: >-
-      github.event.workflow_run.conclusion == 'success' &&
-      github.event.workflow_run.head_repository.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          ref: ${{ github.event.workflow_run.head_sha }}
           fetch-depth: 0
           fetch-tags: true
           persist-credentials: false
 
-      - name: Resolve tag, version, channel
+      - name: Resolve version and channel
         id: meta
+        env:
+          TAG: ${{ inputs.tag }}
         run: |
-          TAG="$(git tag --points-at HEAD | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+' | head -1 || true)"
-          if [ -z "$TAG" ]; then
-            echo "No release tag at HEAD; skipping Linear sync."
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          VERSION="${TAG#v}"      # strip leading v -> 4.0.0-beta.20
+          VERSION="${TAG#v}"       # strip leading v -> 4.0.0-beta.20
           VERSION="${VERSION%%-*}" # strip prerelease  -> 4.0.0
           case "$TAG" in
             *-alpha.*) CHANNEL=alpha ;;
             *-beta.*)  CHANNEL=beta ;;
             *)         CHANNEL=stable ;;
           esac
-          echo "tag=$TAG"         >> "$GITHUB_OUTPUT"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "channel=$CHANNEL" >> "$GITHUB_OUTPUT"
           echo "Resolved tag=$TAG version=$VERSION channel=$CHANNEL"
 
       # Attach merged issues to the X.Y.Z release and record this tag as a link.
       - name: Sync issues to release
-        if: steps.meta.outputs.skip != 'true'
         uses: linear/linear-release-action@ad7da502eec3a93dd17e2e249e6c1cd84e3ee588 # v0
         with:
-          access_key: ${{ secrets.LINEAR_RELEASE_ACCESS_KEY }}
+          access_key: ${{ secrets.access_key }}
           command: sync
           release_version: ${{ steps.meta.outputs.version }}
           name: Widget ${{ steps.meta.outputs.version }}
           links: |
-            ${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ steps.meta.outputs.tag }}
+            ${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ inputs.tag }}
 
       # Prerelease: advance the stage only (release stays open -> tickets stay "Ready for Release").
       - name: Advance stage (alpha/beta)
-        if: steps.meta.outputs.skip != 'true' && steps.meta.outputs.channel != 'stable'
+        if: steps.meta.outputs.channel != 'stable'
         uses: linear/linear-release-action@ad7da502eec3a93dd17e2e249e6c1cd84e3ee588 # v0
         with:
-          access_key: ${{ secrets.LINEAR_RELEASE_ACCESS_KEY }}
+          access_key: ${{ secrets.access_key }}
           command: update
           release_version: ${{ steps.meta.outputs.version }}
           stage: ${{ steps.meta.outputs.channel == 'alpha' && 'Alpha' || 'Beta' }}
 
       # Stable: complete the release -> fires the "On release completion -> Done" automation.
       - name: Complete release (stable)
-        if: steps.meta.outputs.skip != 'true' && steps.meta.outputs.channel == 'stable'
+        if: steps.meta.outputs.channel == 'stable'
         uses: linear/linear-release-action@ad7da502eec3a93dd17e2e249e6c1cd84e3ee588 # v0
         with:
-          access_key: ${{ secrets.LINEAR_RELEASE_ACCESS_KEY }}
+          access_key: ${{ secrets.access_key }}
           command: complete
           release_version: ${{ steps.meta.outputs.version }}

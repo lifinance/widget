@@ -1,5 +1,9 @@
-name: Release & Publish Beta
+name: Release & Publish
 
+# Orchestrator: composes the release pipeline from single-purpose reusable
+# workflows. GitHub Release and npm publish run in parallel; the Linear sync
+# runs only after npm publish succeeds, so tickets move to Done strictly when
+# the packages are actually on npm.
 on:
   push:
     tags:
@@ -9,36 +13,25 @@ on:
   workflow_dispatch:
 
 jobs:
-  release:
+  github-release:
     permissions:
       contents: write
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          generate_release_notes: true
-          name: ${{ github.ref_name }}
-          draft: false
-          prerelease: false
+    uses: ./.github/workflows/github-release.yaml
 
-  publish:
+  npm-publish:
     permissions:
       contents: write
       id-token: write
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - name: Install dependencies
-        uses: ./.github/actions/pnpm-install
-      - name: Build
-        run: pnpm release:build
-      - name: Publish to npm
-        run: |
-          pnpm release:publish${{ contains(github.ref_name, 'alpha') && ':alpha' || contains(github.ref_name, 'beta') && ':beta' || '' }}
-        env:
-          NPM_CONFIG_PROVENANCE: true
+    uses: ./.github/workflows/npm-publish.yaml
+
+  linear-release:
+    needs: npm-publish
+    # Only for real release tags — skip manual branch dispatches.
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: read
+    uses: ./.github/workflows/linear-release.yaml
+    with:
+      tag: ${{ github.ref_name }}
+    secrets:
+      access_key: ${{ secrets.LINEAR_RELEASE_ACCESS_KEY }}
