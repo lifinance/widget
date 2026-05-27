@@ -3,6 +3,7 @@ import { Box, IconButton } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import type React from 'react'
 import { drawerZIndex } from '../DrawerControls/DrawerControls.style.js'
+import { mockElementHeight } from '../Mock/MockElement.js'
 
 export const FloatingToolsContainer: React.FC<
   React.ComponentProps<typeof Box>
@@ -17,13 +18,16 @@ export const FloatingToolsContainer: React.FC<
 interface WidgetContainerProps extends BoxProps {
   removePaddingTop?: boolean
   alignTop?: boolean
+  withFixedHeaderOnPage?: boolean
 }
 
 export const WidgetContainer: React.FC<
   React.ComponentProps<typeof Box> & WidgetContainerProps
 > = styled(Box, {
   shouldForwardProp: (prop) =>
-    !['removePaddingTop', 'alignTop'].includes(prop as string),
+    !['removePaddingTop', 'alignTop', 'withFixedHeaderOnPage'].includes(
+      prop as string
+    ),
 })<WidgetContainerProps>(({ theme }) => {
   return {
     display: 'flex',
@@ -43,6 +47,12 @@ export const WidgetContainer: React.FC<
         props: ({ removePaddingTop }) => removePaddingTop,
         style: {
           paddingTop: 0,
+        },
+      },
+      {
+        props: ({ withFixedHeaderOnPage }) => withFixedHeaderOnPage,
+        style: {
+          paddingTop: mockElementHeight,
         },
       },
     ],
