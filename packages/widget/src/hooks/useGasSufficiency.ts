@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { useSettings } from '../stores/settings/useSettings.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useAvailableChains } from './useAvailableChains.js'
 import { useIsContractAddress } from './useIsContractAddress.js'
@@ -33,6 +34,8 @@ export const useGasSufficiency = (
   })
   const { keyPrefix, hiddenUI } = useWidgetConfig()
   const sdkClient = useSDKClient()
+
+  const { enabledAutoRefuel } = useSettings(['enabledAutoRefuel'])
 
   const { relevantAccounts, relevantAccountsQueryKey } = useMemo(() => {
     const chainTypes = route?.steps.reduce((acc, step) => {
@@ -73,6 +76,11 @@ export const useGasSufficiency = (
     ] as const,
     queryFn: async () => {
       if (!route) {
+        return []
+      }
+
+      // Do not check for gas sufficiency if auto refuel is enabled
+      if (enabledAutoRefuel) {
         return []
       }
 
