@@ -1,6 +1,6 @@
 import { useAccount } from '@lifi/wallet-management'
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 import ErrorIcon from '@mui/icons-material/Error'
-import History from '@mui/icons-material/History'
 import TurnedIn from '@mui/icons-material/TurnedIn'
 import Wallet from '@mui/icons-material/Wallet'
 import { Box, Tooltip, Typography } from '@mui/material'
@@ -256,7 +256,7 @@ export const SendToWalletPage: React.FC = () => {
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         <CardButton
           title={t('header.recentWallets')}
-          icon={<History />}
+          icon={<AccountBalanceWalletIcon />}
           onClick={handleRecentWalletsClick}
         >
           {!!recentWallets.length && (

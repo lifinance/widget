@@ -1,14 +1,16 @@
 import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
-import { ListItemAvatar, ListItemText } from '@mui/material'
-import type { JSX } from 'react'
+import { List, ListItemAvatar, ListItemText } from '@mui/material'
+import { type JSX, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js'
 import { ContextMenu } from '../../components/ContextMenu.js'
 import { ListItem } from '../../components/ListItem/ListItem.js'
 import { ListItemButton } from '../../components/ListItem/ListItemButton.js'
+import { PageContainer } from '../../components/PageContainer.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { useHeader } from '../../hooks/useHeader.js'
+import { useListHeight } from '../../hooks/useListHeight.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
@@ -17,10 +19,6 @@ import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import type { ToAddress } from '../../types/widget.js'
 import { defaultChainIdsByType } from '../../utils/chainType.js'
 import { shortenAddress } from '../../utils/wallet.js'
-import {
-  ListContainer,
-  SendToWalletPageContainer,
-} from './SendToWalletPage.style.js'
 
 export const SendToConfiguredWalletPage = (): JSX.Element => {
   const { t } = useTranslation()
@@ -30,8 +28,11 @@ export const SendToConfiguredWalletPage = (): JSX.Element => {
   const { setSelectedBookmark } = useBookmarkActions()
   const { setFieldValue } = useFieldActions()
   const { getAddressLink } = useExplorer()
+  const listParentRef = useRef<HTMLUListElement | null>(null)
 
   useHeader(t('header.sendToWallet'))
+
+  const { listHeight } = useListHeight({ listParentRef })
 
   const handleCuratedSelected = (toAddress: ToAddress) => {
     setSelectedBookmark(toAddress)
@@ -43,8 +44,13 @@ export const SendToConfiguredWalletPage = (): JSX.Element => {
   }
 
   return (
-    <SendToWalletPageContainer disableGutters>
-      <ListContainer sx={{ minHeight: 418 }}>
+    <PageContainer disableGutters>
+      <List
+        className="long-list"
+        ref={listParentRef}
+        style={{ height: listHeight, overflow: 'auto' }}
+        disablePadding
+      >
         {toAddresses?.map((toAddress) => (
           <ListItem key={toAddress.address} sx={{ position: 'relative' }}>
             <ListItemButton
@@ -97,7 +103,7 @@ export const SendToConfiguredWalletPage = (): JSX.Element => {
             />
           </ListItem>
         ))}
-      </ListContainer>
-    </SendToWalletPageContainer>
+      </List>
+    </PageContainer>
   )
 }
