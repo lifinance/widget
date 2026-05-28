@@ -92,7 +92,7 @@
       "emptyChainList": "",
       "emptyExchangesList": "",
       "emptyTokenListAllNetworks": "",
-      "emptyTransactionHistory": "ประวัติการแลกเปลี่ยนจะถูกเก็บไว้ในเครื่องเท่านั้นและจะถูกลบหากคุณล้างข้อมูลเบราว์เซอร์ของคุณ.",
+      "emptyTransactionHistory": "",
       "routeNotFound": "เหตุผลที่อาจเกิดขึ้น : สภาพคล่องต่ำ , จำนวนที่เลือกน้อยเกินไป , ต้นทุนแก็สสูงหรือไม่มีเส้นทางที่ใช้งานได้",
       "missingRouteRequiredAccount": ""
     },
@@ -346,8 +346,11 @@
     "enterAddress_short": "ป้อนที่อยู่กระเป๋าเงิน",
     "enterName": "ใส่ชื่อ",
     "noBookmarkedWallets": "ไม่มีกระเป๋าเงินที่ bookmark ไว้",
+    "noBookmarkedWalletsMessage": "",
     "noConnectedWallets": "ไม่มีกระเป๋าเงินที่เชื่อมต่อไว้",
+    "noConnectedWalletsMessage": "",
     "noRecentWallets": "ไม่พบกระเป๋าเงินล่าสุด",
+    "noRecentWalletsMessage": "",
     "required": ""
   },
   "tokenMetric": {
