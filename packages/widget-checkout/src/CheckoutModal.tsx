@@ -16,16 +16,19 @@ import {
   useRef,
   useState,
 } from 'react'
+import { CloseConfirmationDialog } from './components/CloseConfirmationDialog.js'
+import { useIsCheckoutBusy } from './hooks/useIsCheckoutBusy.js'
 import type { CheckoutModalProps } from './types/config.js'
 import type { CheckoutModalRef } from './types/modal.js'
 
 interface CheckoutModalContextValue {
   closeModal: () => void
+  openCloseConfirmation: () => void
+  panelEl: HTMLDivElement | null
 }
 
-const CheckoutModalContext = createContext<CheckoutModalContextValue | null>(
-  null
-)
+export const CheckoutModalContext: React.Context<CheckoutModalContextValue | null> =
+  createContext<CheckoutModalContextValue | null>(null)
 
 export const useCheckoutModal = (): CheckoutModalContextValue | null => {
   return useContext(CheckoutModalContext)
@@ -39,6 +42,9 @@ export const CheckoutModal: ForwardRefExoticComponent<
   ({ elementRef, open, onClose, children }, ref) => {
     const openRef = useRef(Boolean(open))
     const [visible, setVisible] = useState(Boolean(open))
+    const [confirmOpen, setConfirmOpen] = useState(false)
+    const [panelEl, setPanelEl] = useState<HTMLDivElement | null>(null)
+    const busy = useIsCheckoutBusy()
 
     useEffect(() => {
       if (open !== undefined) {
@@ -68,18 +74,42 @@ export const CheckoutModal: ForwardRefExoticComponent<
       [closePanel, openPanel]
     )
 
+    const handleModalClose = useCallback(
+      (_event: object, reason: 'backdropClick' | 'escapeKeyDown') => {
+        if (
+          busy &&
+          (reason === 'backdropClick' || reason === 'escapeKeyDown')
+        ) {
+          return
+        }
+        closePanel()
+      },
+      [busy, closePanel]
+    )
+
+    const handleCancelConfirm = useCallback(() => {
+      setConfirmOpen(false)
+    }, [])
+
+    const handleConfirmConfirm = useCallback(() => {
+      setConfirmOpen(false)
+      closePanel()
+    }, [closePanel])
+
     const modalContext: CheckoutModalContextValue = useMemo(
       () => ({
         closeModal: closePanel,
+        openCloseConfirmation: () => setConfirmOpen(true),
+        panelEl,
       }),
-      [closePanel]
+      [closePanel, panelEl]
     )
 
     return (
       <CheckoutModalContext.Provider value={modalContext}>
         <Modal
           open={visible}
-          onClose={closePanel}
+          onClose={handleModalClose}
           keepMounted={false}
           slotProps={
             {
@@ -95,7 +125,12 @@ export const CheckoutModal: ForwardRefExoticComponent<
           }
         >
           <Box
-            ref={elementRef}
+            ref={(el: HTMLDivElement | null) => {
+              setPanelEl(el)
+              if (elementRef) {
+                elementRef.current = el
+              }
+            }}
             tabIndex={-1}
             role="dialog"
             aria-modal="true"
@@ -117,6 +152,12 @@ export const CheckoutModal: ForwardRefExoticComponent<
             })}
           >
             {children}
+            <CloseConfirmationDialog
+              open={confirmOpen}
+              onCancel={handleCancelConfirm}
+              onConfirm={handleConfirmConfirm}
+              container={panelEl}
+            />
           </Box>
         </Modal>
       </CheckoutModalContext.Provider>

@@ -3,22 +3,30 @@ import {
   type OnRampSession,
   useOnRampSession,
 } from '@lifi/widget-provider/checkout'
+import CloseIcon from '@mui/icons-material/Close'
 import type { Theme } from '@mui/material'
 import {
   Box,
   CircularProgress,
   Dialog,
   DialogContent,
+  IconButton,
+  Tooltip,
   Typography,
 } from '@mui/material'
-import type { JSX } from 'react'
+import { type JSX, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { usePendingCheckoutWriter } from '../hooks/usePendingCheckoutWriter.js'
+import { useResumeKey } from '../hooks/useResumeKey.js'
 import {
   type OnRampProviderInfo,
   useOnRampProviderMetas,
 } from '../providers/OnRampProvider/OnRampProvider.js'
 import { ErrorBoundary } from './ErrorBoundary.js'
 import { formatOnRampError } from './formatOnRampError.js'
+
+// Escape hatch for wedged iframes; Transak SDK owns normal close.
+const FORCE_CLOSE_GRACE_MS = 15_000
 
 export function OnRampHostedModals(): JSX.Element {
   const metas = useOnRampProviderMetas()
@@ -53,6 +61,23 @@ function HostedModalDialog({
   session,
 }: HostedModalDialogProps): JSX.Element | null {
   const { t } = useTranslation()
+  const [showForceClose, setShowForceClose] = useState(false)
+  const resumeKey = useResumeKey()
+  const { clearForKey } = usePendingCheckoutWriter()
+
+  useEffect(() => {
+    if (!session.isOpen) {
+      setShowForceClose(false)
+      return
+    }
+    const timer = setTimeout(
+      () => setShowForceClose(true),
+      FORCE_CLOSE_GRACE_MS
+    )
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [session.isOpen])
 
   if (!session.mountTargetId) {
     return null
@@ -66,7 +91,8 @@ function HostedModalDialog({
       fullWidth
       maxWidth={false}
       open={session.isOpen}
-      onClose={session.close}
+      // Provider SDK owns close (TRANSAK_WIDGET_CLOSE); backdrop + ESC are no-ops.
+      onClose={() => {}}
       slotProps={{
         backdrop: {
           sx: {
@@ -89,6 +115,26 @@ function HostedModalDialog({
         },
       }}
     >
+      {showForceClose && session.isOpen ? (
+        <Tooltip title={t('checkout.transak.forceClose.tooltip')}>
+          <IconButton
+            aria-label={t('checkout.transak.forceClose.tooltip')}
+            onClick={() => {
+              clearForKey(resumeKey)
+              session.close()
+            }}
+            size="small"
+            sx={{
+              position: 'absolute',
+              top: 8,
+              right: 8,
+              zIndex: 1,
+            }}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
+      ) : null}
       <DialogContent
         sx={{
           flex: 1,

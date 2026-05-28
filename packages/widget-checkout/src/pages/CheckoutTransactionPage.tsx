@@ -39,7 +39,30 @@ import { Box, Button, Tooltip } from '@mui/material'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { type JSX, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { usePendingCheckoutWriter } from '../hooks/usePendingCheckoutWriter.js'
 import { checkoutNavigationRoutes } from '../utils/navigationRoutes.js'
+
+function PendingCheckoutWalletWriter({
+  route,
+}: {
+  route: RouteExtended | undefined
+}): null {
+  const { writeWallet } = usePendingCheckoutWriter()
+  const writtenHashRef = useRef<string | null>(null)
+  useEffect(() => {
+    if (!route) {
+      writtenHashRef.current = null
+      return
+    }
+    const hash = getSourceTxHash(route)
+    if (!hash || writtenHashRef.current === hash) {
+      return
+    }
+    writtenHashRef.current = hash
+    writeWallet({ transactionHash: hash, fromChain: route.fromChainId })
+  }, [route, writeWallet])
+  return null
+}
 
 function CheckoutDepositAutoStarter({
   enabled,
@@ -271,6 +294,7 @@ export const CheckoutTransactionPage = (): JSX.Element | null => {
 
   return (
     <>
+      <PendingCheckoutWalletWriter route={route} />
       {shouldAutoCheckoutDeposit &&
       route &&
       routeId &&

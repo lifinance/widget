@@ -12,12 +12,15 @@ import {
 import OpenInNewRoundedIcon from '@mui/icons-material/OpenInNewRounded'
 import { Link, Stack, Typography } from '@mui/material'
 import { useLocation, useNavigate } from '@tanstack/react-router'
-import { type JSX, useEffect, useState } from 'react'
+import { type JSX, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CheckoutStatusScreen } from '../../components/CheckoutStatusScreen.js'
 import { useCheckoutTransactionStatus } from '../../hooks/useCheckoutTransactionStatus.js'
+import { usePendingCheckoutWriter } from '../../hooks/usePendingCheckoutWriter.js'
+import { useResumeKey } from '../../hooks/useResumeKey.js'
 import { useActiveOnRampDeposit } from '../../providers/OnRampProvider/OnRampProvider.js'
 import { useCheckoutFlowStore } from '../../stores/useCheckoutFlowStore.js'
+import { useCheckoutToastStore } from '../../stores/useCheckoutToastStore.js'
 import { getReceivingTxHash } from '../../utils/depositAddressStatus.js'
 import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
 import {
@@ -39,23 +42,12 @@ interface StatusSearch {
   fromChain?: number
   simulateTransactionStatus?: string
   walletDisconnected?: boolean
+  resumed?: string
 }
 
-/**
- * Hold the executing screen for a minimum duration so the user actually
- * registers it. Without this, fast-resolving txs (or the dev simulation)
- * jump straight from "watching" to "successful" and the in-flight state
- * is never visible.
- */
+// Minimum visible hold so fast-resolving txs still show the executing state.
 const MIN_EXECUTING_MS = 2500
 
-/**
- * Substatuses that need the compact CheckoutStatusScreen treatment rather
- * than the rich StatusCompleted / StatusExecuting templates. These are the
- * variants `resolveStatusVariant` returns dedicated copy + tone for —
- * refund states, intent retrying — and rendering them with the default
- * "transaction successful" / "executing" templates loses the distinction.
- */
 const COMPACT_VARIANT_SUBSTATUSES = new Set<Substatus>([
   'REFUNDED',
   'PARTIAL',
@@ -199,7 +191,7 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
       }
     : undefined
 
-  const { status, phase, isLoading } = useCheckoutTransactionStatus({
+  const { status, phase, isLoading, notFound } = useCheckoutTransactionStatus({
     transactionHash,
     depositAddress,
     fromChain,
@@ -207,6 +199,26 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
     simulateSubstatus: simulatedSubstatus,
     simulateTokenOverrides,
   })
+
+  const resumeKey = useResumeKey()
+  const { clearForKey } = usePendingCheckoutWriter()
+  useEffect(() => {
+    if (phase === 'done' || phase === 'failed') {
+      clearForKey(resumeKey)
+    }
+  }, [phase, resumeKey, clearForKey])
+
+  const isResumed = search.resumed === '1'
+  const showToast = useCheckoutToastStore((s) => s.show)
+  const notFoundHandledRef = useRef(false)
+  useEffect(() => {
+    if (notFound && isResumed && !notFoundHandledRef.current) {
+      notFoundHandledRef.current = true
+      clearForKey(resumeKey)
+      showToast('resumeNotFound')
+      navigate({ to: checkoutNavigationRoutes.enterAmount, replace: true })
+    }
+  }, [notFound, isResumed, resumeKey, clearForKey, showToast, navigate])
 
   // Track when executing first becomes visible so we can hold it briefly
   // before swapping to the success view.
@@ -244,6 +256,7 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
   )
 
   const goToEnterAmount = (): void => {
+    clearForKey(resumeKey)
     navigate({
       to: checkoutNavigationRoutes.enterAmount,
       replace: true,

@@ -13,6 +13,7 @@ import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded'
 import {
   Alert,
   Box,
+  Button,
   CircularProgress,
   Collapse,
   IconButton,
@@ -21,12 +22,18 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material'
+import { useNavigate } from '@tanstack/react-router'
 import { QRCodeSVG } from 'qrcode.react'
 import type { JSX } from 'react'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import { useCheckoutModal } from '../../CheckoutModal.js'
+import { ConfirmationBottomSheet } from '../../components/ConfirmationBottomSheet.js'
 import { useFrozenQuote } from '../../hooks/useFrozenQuote.js'
+import { usePendingCheckoutWriter } from '../../hooks/usePendingCheckoutWriter.js'
+import { useResumeKey } from '../../hooks/useResumeKey.js'
 import { extractDepositAddress } from '../../utils/extractDepositAddress.js'
+import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
 import { DepositAddressExpiredPage } from '../DepositErrorPages/DepositErrorPages.js'
 import { DepositDetails } from './DepositDetails.js'
 import { useTransferStatusPoll } from './useTransferStatusPoll.js'
@@ -88,9 +95,50 @@ export const TransferDepositPage: React.FC = (): JSX.Element => {
     enabled: !!frozen && !expired,
   })
 
+  const { writeTransfer } = usePendingCheckoutWriter()
+  const writtenAddressRef = useRef<string | null>(null)
+  useEffect(() => {
+    if (!frozen || !route || !depositAddress || expired) {
+      return
+    }
+    if (writtenAddressRef.current === depositAddress) {
+      return
+    }
+    writtenAddressRef.current = depositAddress
+    writeTransfer({
+      depositAddress,
+      fromChain: route.fromChainId,
+      frozenRouteId: frozen.id,
+      frozenQuote: {
+        id: frozen.id,
+        route: frozen.route,
+        expiresAt: frozen.expiresAt,
+      },
+    })
+  }, [frozen, route, depositAddress, expired, writeTransfer])
+
   useHeader(t('header.depositAddress'))
 
   const [detailsOpen, setDetailsOpen] = useState(true)
+  const [startNewOpen, setStartNewOpen] = useState(false)
+  const navigate = useNavigate()
+  const resumeKey = useResumeKey()
+  const { clearForKey } = usePendingCheckoutWriter()
+  const { clear: clearFrozen } = useFrozenQuote()
+  const modalContext = useCheckoutModal()
+
+  const handleStartNew = (): void => {
+    setStartNewOpen(true)
+  }
+  const handleCancelStartNew = (): void => {
+    setStartNewOpen(false)
+  }
+  const handleConfirmStartNew = (): void => {
+    setStartNewOpen(false)
+    clearForKey(resumeKey)
+    clearFrozen()
+    navigate({ to: checkoutNavigationRoutes.enterAmount, replace: true })
+  }
 
   if (!frozen || !route || !depositAddress || expired) {
     return <DepositAddressExpiredPage />
@@ -199,7 +247,23 @@ export const TransferDepositPage: React.FC = (): JSX.Element => {
             <DepositDetails route={route} />
           </Collapse>
         </Card>
+
+        <Button variant="text" onClick={handleStartNew} fullWidth>
+          {t('checkout.transferDeposit.startNew')}
+        </Button>
       </Stack>
+      <ConfirmationBottomSheet
+        open={startNewOpen}
+        onCancel={handleCancelStartNew}
+        onConfirm={handleConfirmStartNew}
+        container={modalContext?.panelEl ?? null}
+        title={t('checkout.transferDeposit.startNewConfirmation.title')}
+        body={t('checkout.transferDeposit.startNewConfirmation.body')}
+        cancelLabel={t('checkout.transferDeposit.startNewConfirmation.cancel')}
+        confirmLabel={t(
+          'checkout.transferDeposit.startNewConfirmation.confirm'
+        )}
+      />
     </PageContainer>
   )
 }

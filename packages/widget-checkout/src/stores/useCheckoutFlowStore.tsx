@@ -18,7 +18,7 @@ export interface CheckoutFlowState {
   reset: () => void
 }
 
-type CheckoutFlowStore = UseBoundStore<StoreApi<CheckoutFlowState>>
+export type CheckoutFlowStore = UseBoundStore<StoreApi<CheckoutFlowState>>
 
 export function createCheckoutFlowStore(): CheckoutFlowStore {
   return create<CheckoutFlowState>((set) => ({
@@ -30,7 +30,8 @@ export function createCheckoutFlowStore(): CheckoutFlowStore {
   }))
 }
 
-const CheckoutFlowStoreContext = createContext<CheckoutFlowStore | null>(null)
+export const CheckoutFlowStoreContext: React.Context<CheckoutFlowStore | null> =
+  createContext<CheckoutFlowStore | null>(null)
 
 export function CheckoutFlowStoreProvider({
   children,

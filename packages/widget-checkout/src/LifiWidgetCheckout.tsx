@@ -20,8 +20,15 @@ export const LifiWidgetCheckout: ForwardRefExoticComponent<
       onSuccess: props.onSuccess,
       onError: props.onError,
       config: props.config,
+      resumePending: props.resumePending,
     }),
-    [props.integrator, props.onSuccess, props.onError, props.config]
+    [
+      props.integrator,
+      props.onSuccess,
+      props.onError,
+      props.config,
+      props.resumePending,
+    ]
   )
 
   const widgetConfig = useMemo(

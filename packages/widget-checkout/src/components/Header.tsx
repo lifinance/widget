@@ -13,6 +13,7 @@ import { useLayoutEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCheckoutModal } from '../CheckoutModal.js'
 import { useCheckoutNavigate } from '../hooks/useCheckoutNavigate.js'
+import { useIsCheckoutBusy } from '../hooks/useIsCheckoutBusy.js'
 import {
   backButtonRoutes,
   checkoutNavigationRoutes,
@@ -36,6 +37,7 @@ export const Header: React.FC<HeaderProps> = ({ title: titleProp }) => {
   const router = useRouter()
   const navigate = useCheckoutNavigate()
   const modalContext = useCheckoutModal()
+  const busy = useIsCheckoutBusy()
   const headerRef = useRef<HTMLDivElement>(null)
   const { setHeaderHeight } = useSetHeaderHeight()
 
@@ -74,6 +76,10 @@ export const Header: React.FC<HeaderProps> = ({ title: titleProp }) => {
   }
 
   const handleClose = () => {
+    if (busy) {
+      modalContext?.openCloseConfirmation()
+      return
+    }
     modalContext?.closeModal()
   }
 

@@ -22,6 +22,7 @@ export interface CheckoutTransactionStatus {
   status: StatusResponse | undefined
   phase: CheckoutTransactionPhase | undefined
   isLoading: boolean
+  notFound: boolean
 }
 
 export interface UseCheckoutTransactionStatusArgs {
@@ -117,5 +118,7 @@ export const useCheckoutTransactionStatus = ({
         : 'pending'
     : undefined
 
-  return { status: resolvedStatus, phase, isLoading }
+  const notFound = data?.status === 'NOT_FOUND'
+
+  return { status: resolvedStatus, phase, isLoading, notFound }
 }

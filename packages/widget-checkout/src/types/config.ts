@@ -12,6 +12,8 @@ export interface CheckoutConfig {
   onError?: (error: CheckoutError) => void
   /** `WidgetConfig` overrides. Set the session API URL via `sdkConfig.apiUrl`. */
   config?: Partial<WidgetConfig>
+  /** Persist pending checkouts and resume on next mount. @default true */
+  resumePending?: boolean
 }
 
 export interface CheckoutModalProps {

@@ -377,6 +377,20 @@
     "qrCode": "QR Code"
   },
   "checkout": {
+    "closeConfirmation": {
+      "title": "Leave with transaction in progress?",
+      "body": "Your transaction is still being processed. You can come back to it any time by reopening the widget — we'll pick up where you left off.",
+      "confirm": "Yes, leave",
+      "cancel": "Stay"
+    },
+    "transak": {
+      "forceClose": {
+        "tooltip": "Close (transaction won't resume)"
+      }
+    },
+    "resume": {
+      "notFoundToast": "We couldn't find your transaction. Start over or contact support if you think this is a mistake."
+    },
     "deposit": "Deposit",
     "transferDeposit": {
       "warning": "Only send <b>{{amount}} {{symbol}}</b> on <b>{{chain}}</b>. Wrong token or chain may be unrecoverable.",
@@ -387,6 +401,13 @@
       "expired": "This deposit window expired. Generate a new one to continue.",
       "polling": "Watching for your deposit…",
       "detailsTitle": "Deposit details",
+      "startNew": "Start a new transfer",
+      "startNewConfirmation": {
+        "title": "Start a new transfer?",
+        "body": "If you've already sent funds, they'll still reach your destination — check transaction history to confirm. Otherwise, this clears your previous transfer so you can pick a different token.",
+        "cancel": "Cancel",
+        "confirm": "Yes, start over"
+      },
       "table": {
         "required": "Required",
         "received": "Received",

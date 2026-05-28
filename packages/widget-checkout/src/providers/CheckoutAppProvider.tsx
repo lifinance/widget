@@ -18,6 +18,7 @@ import {
 import { FiatCurrencyStoreProvider } from '../stores/useFiatCurrencyStore.js'
 import { CheckoutSdkBridge } from './CheckoutSdkBridge.js'
 import { OnRampProviderRegistry } from './OnRampProvider/OnRampProvider.js'
+import { PendingCheckoutPersistenceBridge } from './PendingCheckoutPersistenceBridge.js'
 import { ThemeProvider } from './ThemeProvider.js'
 
 export interface CheckoutAppProviderProps extends PropsWithChildren {
@@ -65,13 +66,15 @@ const CheckoutAppShell: React.FC<CheckoutAppShellProps> = ({
               <SDKClientProvider>
                 <CheckoutSdkBridge>
                   <WalletProvider providers={widgetConfig.providers ?? []}>
-                    <OnRampProviderRegistry
-                      widgetConfig={effectiveWidgetConfig}
-                      formRef={formRef}
-                      providers={onRampProviders}
-                    >
-                      {children}
-                    </OnRampProviderRegistry>
+                    <PendingCheckoutPersistenceBridge>
+                      <OnRampProviderRegistry
+                        widgetConfig={effectiveWidgetConfig}
+                        formRef={formRef}
+                        providers={onRampProviders}
+                      >
+                        {children}
+                      </OnRampProviderRegistry>
+                    </PendingCheckoutPersistenceBridge>
                   </WalletProvider>
                 </CheckoutSdkBridge>
               </SDKClientProvider>

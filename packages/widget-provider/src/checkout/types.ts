@@ -156,6 +156,8 @@ export interface CheckoutContextValue {
   apiUrl?: string
   onSuccess?: (result: CheckoutResult) => void
   onError?: (error: CheckoutError) => void
+  /** @default true */
+  resumePending?: boolean
 }
 
 export interface CheckoutResult {

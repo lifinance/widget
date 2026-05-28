@@ -98,3 +98,18 @@ export function useFrozenQuote(): UseFrozenQuote {
 
   return { frozen, expired, freeze, clear }
 }
+
+export function useSeedFrozenQuote(): (frozen: FrozenQuote) => void {
+  const store = useContext(FrozenQuoteStoreContext)
+  if (!store) {
+    throw new Error(
+      'useSeedFrozenQuote must be used within FrozenQuoteStoreProvider'
+    )
+  }
+  return useCallback(
+    (frozen) => {
+      store.setState({ frozen })
+    },
+    [store]
+  )
+}
