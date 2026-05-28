@@ -41,18 +41,20 @@ jobs:
         run: |
           set -euo pipefail
 
-          # Publishable package globs (private packages are intentionally excluded:
+          # Publishable package directories (private packages are intentionally excluded:
           # widget-embedded, widget-playground, widget-playground-next, widget-playground-vite).
+          # Trailing slash = directory pathspec; git matches everything beneath it without
+          # needing the (glob) magic prefix that `**` would require.
           PUBLISHABLE=(
-            'packages/widget/**'
-            'packages/wallet-management/**'
-            'packages/widget-light/**'
-            'packages/widget-provider/**'
-            'packages/widget-provider-bitcoin/**'
-            'packages/widget-provider-ethereum/**'
-            'packages/widget-provider-solana/**'
-            'packages/widget-provider-sui/**'
-            'packages/widget-provider-tron/**'
+            'packages/widget/'
+            'packages/wallet-management/'
+            'packages/widget-light/'
+            'packages/widget-provider/'
+            'packages/widget-provider-bitcoin/'
+            'packages/widget-provider-ethereum/'
+            'packages/widget-provider-solana/'
+            'packages/widget-provider-sui/'
+            'packages/widget-provider-tron/'
           )
 
           # Changed files under publishable packages, excluding docs-only files

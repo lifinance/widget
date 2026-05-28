@@ -148,7 +148,7 @@ The repo is in Changesets **pre mode** (`.changeset/pre.json`, `tag: beta`). Whi
 ### Root scripts
 
 - `pnpm changeset:version` — `changeset version` + `pnpm install --lockfile-only` + `pnpm check:write`.
-- `pnpm changeset:prepublish` — `pnpm clean && pnpm build`, then `build:prerelease` across publishable packages. **This is where the publish transform runs:** `changeset publish` does flat per-package `npm publish` and does NOT run each package's `build:prerelease` lifecycle, so the transform (`scripts/prerelease.js` → `scripts/formatPackageJson.js`, rewriting entry points to `dist/esm/` and copying `README.md`) must run here.
+- `pnpm changeset:prepublish` — `pnpm build`, then `build:prerelease` across publishable packages. **This is where the publish transform runs:** `changeset publish` does flat per-package `npm publish` and does NOT run each package's `build:prerelease` lifecycle, so the transform (`scripts/prerelease.js` → `scripts/formatPackageJson.js`, rewriting entry points to `dist/esm/` and copying `README.md`) must run here.
 - `pnpm changeset:publish` — `pnpm changeset:prepublish && changeset publish` (used by CI).
 
 `workspace:*` internal deps are resolved to concrete versions by `changeset publish` at publish time; `formatPackageJson.js` leaves `dependencies` untouched. `scripts/version.js` generates `src/config/version.ts` during build for `@lifi/widget` and `@lifi/widget-light` only.
