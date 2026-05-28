@@ -3,7 +3,6 @@ import {
   alertClasses,
   Box,
   inputBaseClasses,
-  List,
   styled,
   Typography,
 } from '@mui/material'
@@ -33,14 +32,6 @@ export const BookmarkInputFields: React.FC<
   width: '100%',
 }))
 
-export const SendToWalletPageContainer: React.FC<
-  React.ComponentProps<typeof PageContainer> & PageContainerProps
-> = styled(PageContainer)<PageContainerProps>(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: theme.spacing(1),
-}))
-
 interface FullHeightAdjustablePageContainerProps extends PageContainerProps {
   enableFullHeight?: boolean
 }
@@ -48,13 +39,15 @@ interface FullHeightAdjustablePageContainerProps extends PageContainerProps {
 export const FullHeightAdjustablePageContainer: React.FC<
   React.ComponentProps<typeof PageContainer> &
     FullHeightAdjustablePageContainerProps
-> = styled(SendToWalletPageContainer, {
+> = styled(PageContainer, {
   shouldForwardProp: (prop) => prop !== 'enableFullHeight',
 })<FullHeightAdjustablePageContainerProps>(({ theme, enableFullHeight }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(1),
   justifyContent: 'space-between',
   ...(enableFullHeight && theme.container?.height === '100%'
     ? {
-        justifyContent: 'space-between',
         height: '100%',
       }
     : {}),
@@ -120,43 +113,16 @@ export const SheetAddressContainer: React.FC<React.ComponentProps<typeof Box>> =
     wordWrap: 'break-word',
   }))
 
-export const ListContainer: React.FC<React.ComponentProps<typeof List>> =
-  styled(List)(() => ({
-    display: 'flex',
-    flexDirection: 'column',
-    padding: 0,
-    minHeight: 400,
-  }))
-
-export const BookmarksListContainer: React.FC<
-  React.ComponentProps<typeof ListContainer>
-> = styled(ListContainer)(({ theme }) => ({
-  ...(theme.container?.height === '100%'
-    ? { minHeight: 360, height: 360, flexGrow: 1, overflow: 'auto' }
-    : { minHeight: 440 }),
-}))
 export const BookmarkButtonContainer: React.FC<
   React.ComponentProps<typeof Box>
 > = styled(Box)(({ theme }) => ({
   background: theme.vars.palette.background.default,
   display: 'flex',
   flexDirection: 'column',
-  bottom: 0,
-  padding: theme.spacing(0, 3, 3),
-  zIndex: 2,
-  position: 'sticky',
+  flexShrink: 0,
+  padding: theme.spacing(2, 3, 3),
   width: '100%',
 }))
-
-export const EmptyContainer: React.FC<React.ComponentProps<typeof Box>> =
-  styled(Box)(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexGrow: 1,
-    gap: theme.spacing(2),
-  }))
 
 export const ValidationAlert: React.FC<React.ComponentProps<typeof Alert>> =
   styled(Alert)(({ theme }) => ({
