@@ -14,6 +14,7 @@ import { CheckoutAmountInput } from '../../components/CheckoutAmountInput.js'
 import { CheckoutFlowCtaButton } from '../../components/CheckoutFlowCtaButton.js'
 import { CheckoutReceiveCard } from '../../components/CheckoutReceiveCard.js'
 import { FiatCurrencyChip } from '../../components/FiatCurrencyChip.js'
+import { TermsDisclaimer } from '../../components/TermsDisclaimer.js'
 import {
   INTENT_FACTORY_ONLY,
   useCheckoutExchangesOverride,
@@ -56,10 +57,11 @@ export const EnterAmountPage: React.FC = (): JSX.Element => {
       <CheckoutReceiveCard />
       {/* Warnings cover wallet balance / gas — only show for wallet flow. */}
       {isWalletFunded ? <MainWarningMessages sx={{ mt: 2, mb: 2 }} /> : null}
-      <Box
-        sx={{ display: 'flex', mt: 1.5, mb: showPoweredBy ? 1 : 3, gap: 1.5 }}
-      >
-        <CheckoutFlowCtaButton />
+      <Box sx={{ mt: 1.5, mb: showPoweredBy ? 1 : 3 }}>
+        <Box sx={{ display: 'flex', gap: 1.5 }}>
+          <CheckoutFlowCtaButton />
+        </Box>
+        <TermsDisclaimer />
       </Box>
       {showPoweredBy ? <PoweredBy /> : null}
     </PageContainer>

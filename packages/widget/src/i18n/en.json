@@ -388,6 +388,9 @@
         "tooltip": "Close (transaction won't resume)"
       }
     },
+    "legal": {
+      "termsDisclaimer": "By continuing, you agree to LI.FI's <terms>Terms of Service</terms>."
+    },
     "resume": {
       "notFoundToast": "We couldn't find your transaction. Start over or contact support if you think this is a mistake."
     },
