@@ -40,7 +40,7 @@ export const watermelonLightTheme: WidgetTheme = {
     fontFamily: 'Inter, sans-serif',
   },
   container: {
-    boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.12)',
+    filter: 'drop-shadow(0px 8px 32px rgba(0, 0, 0, 0.12))',
     borderRadius: '16px',
   },
   components: {
@@ -52,7 +52,7 @@ export const watermelonLightTheme: WidgetTheme = {
         root: ({ theme }) => ({
           [`.${tabsClasses.indicator}`]: {
             backgroundColor: '#ffffff',
-            boxShadow: `0px 1px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 8%, transparent)`,
+            filter: `drop-shadow(0 1px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 8%, transparent))`,
             borderRadius: '16px',
           },
         }),

@@ -334,7 +334,7 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
       fontFamily: 'Inter, sans-serif',
     },
     container: {
-      boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
+      filter: 'drop-shadow(0px 8px 32px rgba(0, 0, 0, 0.08))',
       borderRadius: '16px',
     },
     // routesContainer: {

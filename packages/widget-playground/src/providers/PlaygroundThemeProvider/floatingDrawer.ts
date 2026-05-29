@@ -9,7 +9,7 @@ const floatingDrawerStyleOverrides: WidgetTheme['components'] = {
         height: `calc(100% - ${theme.spacing(3)})`,
         borderRadius: theme.spacing(4),
         border: `1px solid ${theme.vars.palette.divider}`,
-        boxShadow: `0 20px 40px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 8%, transparent), 0 4px 12px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
+        filter: 'drop-shadow(0px 8px 32px rgba(0, 0, 0, 0.08))',
       }),
     },
   },

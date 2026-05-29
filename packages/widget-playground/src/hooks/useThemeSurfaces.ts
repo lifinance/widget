@@ -71,7 +71,7 @@ export function useThemeSurfaces(effectivePaletteMode: 'light' | 'dark'): {
     )
 
     const widgetShadow = parseShadowState(
-      container.boxShadow,
+      container.filter,
       WIDGET_SHADOW_DEFAULTS
     )
     const widgetBorder = parseCssBorder(container.border as string | undefined)
@@ -84,12 +84,12 @@ export function useThemeSurfaces(effectivePaletteMode: 'light' | 'dark'): {
       themeSnapshot?.colorSchemes?.dark?.palette?.grey?.[800]
     )
     const cardShadow = parseShadowState(
-      cardRootObj.boxShadow,
+      cardRootObj.filter,
       COMPONENT_SHADOW_DEFAULTS
     )
 
     const buttonShadow = parseShadowState(
-      buttonRootObj.boxShadow,
+      buttonRootObj.filter,
       COMPONENT_SHADOW_DEFAULTS
     )
     const buttonBorder = parseCssBorder(

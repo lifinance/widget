@@ -43,7 +43,7 @@ export const MainPage: React.FC = () => {
   const marginSx = { marginBottom: 2 }
 
   return (
-    <PageContainer>
+    <PageContainer topGutters>
       {custom ? (
         <ContractComponent sx={marginSx}>{contractComponent}</ContractComponent>
       ) : null}

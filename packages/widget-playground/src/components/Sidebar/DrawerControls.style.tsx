@@ -29,12 +29,12 @@ export const Drawer: React.FC<
       height: `calc(100% - ${gap} - ${gap})`,
       borderRadius: 32,
       border: `1px solid ${theme.vars.palette.divider}`,
-      boxShadow:
-        '0 20px 40px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04)',
+      filter:
+        'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.08)) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.04))',
       overflow: 'hidden',
       ...theme.applyStyles('dark', {
-        boxShadow:
-          '0 20px 40px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.15)',
+        filter:
+          'drop-shadow(0 20px 40px rgba(0, 0, 0, 0.25)) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15))',
       }),
     },
   }

@@ -51,7 +51,7 @@ export const SurfaceBlock: FC<SurfaceBlockProps> = memo(function SurfaceBlock(
       />
       <SurfaceFeatureToggle
         title={title}
-        label="Shadow"
+        label="Drop shadow"
         checked={shadowOn}
         onChange={onShadowOnChange}
       >

@@ -136,7 +136,7 @@ export const createTheme = (
                 ownerState.variant === 'elevation' && {
                   '&:hover': {
                     cursor: 'pointer',
-                    boxShadow: `0px 1px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 8%, transparent)`,
+                    filter: `drop-shadow(0 1px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 8%, transparent))`,
                   },
                 }),
               ...(!ownerState.onClick && {
@@ -161,7 +161,8 @@ export const createTheme = (
             props: { variant: 'elevation' },
             style: ({ theme }) => ({
               border: 'none',
-              boxShadow: `0px 1px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
+              boxShadow: 'none',
+              filter: `drop-shadow(0 1px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent))`,
             }),
           },
           {

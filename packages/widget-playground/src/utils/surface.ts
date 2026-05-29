@@ -1,13 +1,12 @@
 import type { CSSObject } from '@mui/material'
 import { safe6DigitHexColor } from './color.js'
-import { buildBoxShadow, parseBoxShadow, parseCssBorder } from './theme.js'
+import { buildDropShadow, parseCssBorder, parseDropShadow } from './theme.js'
 
 interface ShadowState {
   on: boolean
   offsetX: number
   offsetY: number
   blur: number
-  spread: number
 }
 
 interface BorderState {
@@ -20,14 +19,12 @@ export const WIDGET_SHADOW_DEFAULTS = {
   offsetX: 0,
   offsetY: 8,
   blur: 32,
-  spread: 0,
 }
 
 export const COMPONENT_SHADOW_DEFAULTS = {
   offsetX: 0,
   offsetY: 8,
   blur: 4,
-  spread: 0,
 }
 
 export interface SurfaceHandlers {
@@ -39,8 +36,6 @@ export interface SurfaceHandlers {
   onShadowOffsetYChange: (y: number) => void
   shadowBlur: number
   onShadowBlurChange: (blur: number) => void
-  shadowSpread: number
-  onShadowSpreadChange: (spread: number) => void
   borderOn: boolean
   onBorderOnChange: (on: boolean) => void
   borderColor: string
@@ -61,18 +56,17 @@ export interface ShadowSliderField {
   ariaSuffix: string
   min: number
   max: number
-  valueKey: 'shadowOffsetX' | 'shadowOffsetY' | 'shadowBlur' | 'shadowSpread'
+  valueKey: 'shadowOffsetX' | 'shadowOffsetY' | 'shadowBlur'
   onChangeKey:
     | 'onShadowOffsetXChange'
     | 'onShadowOffsetYChange'
     | 'onShadowBlurChange'
-    | 'onShadowSpreadChange'
 }
 
 export const SHADOW_SLIDER_FIELDS: ShadowSliderField[] = [
   {
     label: 'Offset X',
-    ariaSuffix: 'shadow offset x',
+    ariaSuffix: 'drop shadow offset x',
     min: -8,
     max: 8,
     valueKey: 'shadowOffsetX',
@@ -80,7 +74,7 @@ export const SHADOW_SLIDER_FIELDS: ShadowSliderField[] = [
   },
   {
     label: 'Offset Y',
-    ariaSuffix: 'shadow offset y',
+    ariaSuffix: 'drop shadow offset y',
     min: -8,
     max: 8,
     valueKey: 'shadowOffsetY',
@@ -88,31 +82,27 @@ export const SHADOW_SLIDER_FIELDS: ShadowSliderField[] = [
   },
   {
     label: 'Blur',
-    ariaSuffix: 'shadow blur',
+    ariaSuffix: 'drop shadow blur',
     min: 0,
     max: 32,
     valueKey: 'shadowBlur',
     onChangeKey: 'onShadowBlurChange',
   },
-  {
-    label: 'Spread',
-    ariaSuffix: 'shadow spread',
-    min: 0,
-    max: 8,
-    valueKey: 'shadowSpread',
-    onChangeKey: 'onShadowSpreadChange',
-  },
 ]
 
-/** Parses box-shadow CSS into toggle state plus offset/blur/spread, using defaults when off or missing. */
+const shadowOffPatch = { filter: 'none', boxShadow: 'none' } as const
+
+/** Parses filter drop-shadow CSS into toggle state plus offset/blur, using defaults when off or missing. */
 export function parseShadowState(
-  boxShadow: unknown,
-  defaults: { offsetX: number; offsetY: number; blur: number; spread: number }
+  filter: unknown,
+  defaults: { offsetX: number; offsetY: number; blur: number }
 ): ShadowState {
-  const str = typeof boxShadow === 'string' ? boxShadow : ''
-  const on = !!str && str !== 'none'
-  const parsed = on ? parseBoxShadow(str) : defaults
-  return { on, ...parsed }
+  const filterStr = typeof filter === 'string' ? filter : ''
+  if (filterStr && filterStr !== 'none') {
+    return { on: true, ...parseDropShadow(filterStr) }
+  }
+
+  return { on: false, ...defaults }
 }
 
 export function extractCssObject(root: unknown): CSSObject {
@@ -169,29 +159,34 @@ export function buildSurfaceHandlers(
   borderOffValue: string | undefined = 'none'
 ): SurfaceHandlers {
   const makeShadow = (overrides: Partial<ShadowState>): string =>
-    buildBoxShadow(
+    buildDropShadow(
       overrides.offsetX ?? shadow.offsetX,
       overrides.offsetY ?? shadow.offsetY,
-      overrides.blur ?? shadow.blur,
-      overrides.spread ?? shadow.spread
+      overrides.blur ?? shadow.blur
     )
+
+  const shadowPatch = (filter: string) => ({
+    filter,
+    boxShadow: 'none',
+  })
 
   return {
     shadowOn: shadow.on,
     onShadowOnChange: (on) =>
-      update({ boxShadow: on ? makeShadow({}) : 'none' }),
+      update(on ? shadowPatch(makeShadow({})) : shadowOffPatch),
     shadowOffsetX: shadow.offsetX,
     onShadowOffsetXChange: (x) =>
-      update({ boxShadow: shadow.on ? makeShadow({ offsetX: x }) : 'none' }),
+      update(
+        shadow.on ? shadowPatch(makeShadow({ offsetX: x })) : shadowOffPatch
+      ),
     shadowOffsetY: shadow.offsetY,
     onShadowOffsetYChange: (y) =>
-      update({ boxShadow: shadow.on ? makeShadow({ offsetY: y }) : 'none' }),
+      update(
+        shadow.on ? shadowPatch(makeShadow({ offsetY: y })) : shadowOffPatch
+      ),
     shadowBlur: shadow.blur,
     onShadowBlurChange: (blur) =>
-      update({ boxShadow: shadow.on ? makeShadow({ blur }) : 'none' }),
-    shadowSpread: shadow.spread,
-    onShadowSpreadChange: (spread) =>
-      update({ boxShadow: shadow.on ? makeShadow({ spread }) : 'none' }),
+      update(shadow.on ? shadowPatch(makeShadow({ blur })) : shadowOffPatch),
     borderOn: border.on,
     onBorderOnChange: (on) =>
       update({

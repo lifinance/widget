@@ -1,5 +1,4 @@
 'use client'
-import { Box } from '@mui/material'
 import { Outlet } from '@tanstack/react-router'
 import {
   AppContainer,
@@ -29,9 +28,7 @@ export const AppLayout: React.FC = () => {
         <Initializer />
         {buildUrl ? <URLSearchParamsBuilder /> : null}
         <PageEntered />
-        <Box sx={{ paddingTop: 1.5 }}>
-          <Outlet />
-        </Box>
+        <Outlet />
       </AppContainer>
       {wideVariant && <Expansion />}
     </AppExpandedContainer>

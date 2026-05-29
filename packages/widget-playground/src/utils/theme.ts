@@ -17,41 +17,32 @@ export function pxFromCss(
   return Number.isFinite(n) ? n : fallback
 }
 
-/** Constructs a box-shadow CSS string with a fixed rgba(0,0,0,0.12) color. */
-export function buildBoxShadow(
+/** Constructs a filter drop-shadow CSS string with a fixed rgba(0,0,0,0.12) color. */
+export function buildDropShadow(
   offsetX: number,
   offsetY: number,
-  blur: number,
-  spread: number
+  blur: number
 ): string {
-  return `${offsetX}px ${offsetY}px ${blur}px ${spread}px rgba(0, 0, 0, 0.12)`
+  return `drop-shadow(${offsetX}px ${offsetY}px ${blur}px rgba(0, 0, 0, 0.12))`
 }
 
-/** Inverse of buildBoxShadow — extracts offsetX/Y, blur, spread from a box-shadow string. Handles 3-value (no spread) and 4-value formats. Falls back to 0/8/32/0 defaults. */
-export function parseBoxShadow(boxShadow: string): {
+/** Inverse of buildDropShadow — extracts offsetX/Y and blur from a filter string. */
+export function parseDropShadow(filter: string): {
   offsetX: number
   offsetY: number
   blur: number
-  spread: number
 } {
-  const px = boxShadow.match(/-?\d+px/g)
-  if (px && px.length >= 4) {
+  const match = filter.match(
+    /drop-shadow\s*\(\s*(-?\d+(?:\.\d+)?)px\s+(-?\d+(?:\.\d+)?)px\s+(\d+(?:\.\d+)?)px/
+  )
+  if (match) {
     return {
-      offsetX: Number.parseInt(px[0], 10),
-      offsetY: Number.parseInt(px[1], 10),
-      blur: Math.max(0, Number.parseInt(px[2], 10)),
-      spread: Number.parseInt(px[3], 10),
+      offsetX: Number.parseInt(match[1], 10),
+      offsetY: Number.parseInt(match[2], 10),
+      blur: Math.max(0, Number.parseInt(match[3], 10)),
     }
   }
-  if (px && px.length >= 3) {
-    return {
-      offsetX: Number.parseInt(px[0], 10),
-      offsetY: Number.parseInt(px[1], 10),
-      blur: Math.max(0, Number.parseInt(px[2], 10)),
-      spread: 0,
-    }
-  }
-  return { offsetX: 0, offsetY: 8, blur: 32, spread: 0 }
+  return { offsetX: 0, offsetY: 8, blur: 32 }
 }
 
 /** Parses a CSS border shorthand ("2px solid #E5E7EB") into { on, width, color }. Returns on: false with defaults when border is undefined/empty/"none". */
