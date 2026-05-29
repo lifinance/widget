@@ -27,8 +27,7 @@ concurrency:
   group: release-${{ github.ref }}
   cancel-in-progress: false
 
-permissions:
-  contents: read
+permissions: {} # each job declares only the permissions it needs
 
 jobs:
   verify:
@@ -68,6 +67,8 @@ jobs:
           fetch-depth: 0
       - name: Install dependencies
         uses: ./.github/actions/pnpm-install
+        with:
+          cache: 'false' # privileged job — don't restore a potentially poisoned cache
       - name: Create version pull request
         id: changesets
         uses: changesets/action@63a615b9cd06ba9a3e6d13796c7fbcb080a60a0b # v1.8.0
@@ -95,6 +96,8 @@ jobs:
           fetch-depth: 0
       - name: Install dependencies
         uses: ./.github/actions/pnpm-install
+        with:
+          cache: 'false' # privileged job — don't restore a potentially poisoned cache
       - name: Publish to npm
         id: changesets
         uses: changesets/action@63a615b9cd06ba9a3e6d13796c7fbcb080a60a0b # v1.8.0
@@ -241,6 +244,8 @@ jobs:
 
       - name: Install dependencies
         uses: ./.github/actions/pnpm-install
+        with:
+          cache: 'false' # privileged job — don't restore a potentially poisoned cache
 
       # Snapshot-publish to the `canary` dist-tag + comment the install command.
       # Composite (not reusable workflow) so OIDC stays bound to publish.yaml.
