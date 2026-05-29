@@ -161,8 +161,7 @@ removed after a successful publish (one-shot — re-add it to cut another canary
 - Guardrails: applying a label requires Triage+ on the repo, so external people / fork-PR
   authors can't trigger it; the same-repo guard means the published code was pushed by
   someone with Write access (forks excluded); and the job is isolated (no deploy/Linear
-  secrets). This is GitHub's native label-permission gate — no in-workflow role check —
-  mirroring (slightly broader than) the old `pnpm release:beta` + `v*-beta.N` tag flow.
+  secrets). This is GitHub's native label-permission gate — no in-workflow role check.
 
 ### Root scripts
 

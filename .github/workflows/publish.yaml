@@ -207,21 +207,13 @@ jobs:
   # Canary preview release (opt-in, per PR).
   #
   # Add the `release-canary` label to a PR to publish a throwaway
-  # 0.0.0-canary-<timestamp> build of the changed packages to npm under the
-  # `canary` dist-tag, so the branch can be shared for testing (internally or
-  # with external integrators). One-shot: the label is removed after a publish;
-  # re-add it to cut another canary.
+  # 0.0.0-canary-<timestamp> build to the npm `canary` dist-tag for testing.
+  # One-shot: the label is removed after a publish; re-add to cut another.
   #
-  # Trust boundary — gated by GitHub's native label permissions, no in-workflow
-  # role check needed:
-  #   * applying a label requires Triage+ on the repo, so external people and
-  #     fork-PR authors cannot trigger this (GitHub has no per-label permission;
-  #     the trigger population is "collaborators with Triage+", matching — and
-  #     slightly broader than — the old `v*-beta.N` tag-push flow that needed Write).
-  #   * same-repo branches only (forks excluded) → the published code was pushed
-  #     to the repo, which requires Write access.
-  #   * isolated job: only id-token/contents/PR perms; no deploy/Linear secrets.
-  #   * versions are throwaway 0.0.0-canary — they can never become `latest`/`beta`.
+  # Trust boundary (no in-workflow role check): applying a label requires Triage+,
+  # and the same-repo guard means the code was pushed with Write access — so
+  # forks/externals can't trigger it. The job is isolated (no deploy/Linear
+  # secrets), and 0.0.0-canary can never become `latest`/`beta`.
   # NEVER convert this to pull_request_target.
   canary:
     name: Canary release (PR preview)
