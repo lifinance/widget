@@ -130,7 +130,7 @@ pnpm changeset    # interactive: pick packages + bump type, write a summary
 - Do **not** author changesets for cascade-only dependents — Changesets bumps internal dependents automatically (`updateInternalDependencies: minor`).
 - Publishable packages: `@lifi/widget`, `@lifi/wallet-management`, `@lifi/widget-light`, `@lifi/widget-provider`, `@lifi/widget-provider-{bitcoin,ethereum,solana,sui,tron}`.
 - Private/ignored (never need a changeset): `@lifi/widget-embedded`, `@lifi/widget-playground`, `@lifi/widget-playground-next`, `@lifi/widget-playground-vite`, examples, e2e.
-- CI enforces this: `.github/workflows/changeset-check.yaml` fails any PR that edits a publishable package without adding a changeset.
+- `changeset-bot` comments a reminder on any PR that edits a publishable package without a changeset (a nudge, not a hard block — the maintainer-reviewed Version PR is the real gate).
 
 ### PRE-MODE — currently in `beta` (DO NOT EXIT)
 
