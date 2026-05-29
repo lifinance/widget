@@ -2,21 +2,27 @@ import { useCallback } from 'react'
 import { allFonts } from '../providers/FontLoaderProvider/fonts/defaultFonts.js'
 import { useEditToolsActions } from '../store/editTools/useEditToolsActions.js'
 import { useConfigActions } from '../store/widgetConfig/useConfigActions.js'
-import { useDefaultConfig } from '../store/widgetConfig/useDefaultConfig.js'
+import { useThemeValues } from '../store/widgetConfig/useThemeValues.js'
 
 export const useResetTheme = (): (() => void) => {
-  const { setConfigTheme } = useConfigActions()
+  const { setConfigTheme, getCurrentThemePreset } = useConfigActions()
   const { setSelectedFont, setViewportBackgroundColor } = useEditToolsActions()
-  const { defaultConfig } = useDefaultConfig()
+  const { selectedThemeId } = useThemeValues()
 
   return useCallback((): void => {
-    const defaultTheme = defaultConfig?.theme ?? {}
-    setConfigTheme(defaultTheme, 'default')
+    const presetTheme = getCurrentThemePreset() ?? {}
+    setConfigTheme(presetTheme, selectedThemeId)
     setSelectedFont(allFonts[0])
-    setViewportBackgroundColor(undefined, 'light')
-    setViewportBackgroundColor(undefined, 'dark')
+
+    const lightPlayground =
+      presetTheme.colorSchemes?.light?.palette?.playground?.main
+    const darkPlayground =
+      presetTheme.colorSchemes?.dark?.palette?.playground?.main
+    setViewportBackgroundColor(lightPlayground, 'light')
+    setViewportBackgroundColor(darkPlayground, 'dark')
   }, [
-    defaultConfig,
+    getCurrentThemePreset,
+    selectedThemeId,
     setConfigTheme,
     setSelectedFont,
     setViewportBackgroundColor,
