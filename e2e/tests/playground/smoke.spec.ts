@@ -18,7 +18,7 @@ test.describe('Playground smoke', () => {
 
     await test.step('Variant controls are visible', async () => {
       await expect(sidebar.variantButton).toBeVisible()
-      await expect(sidebar.subvariantButton).toBeVisible()
+      await expect(sidebar.modeButton).toBeVisible()
     })
   })
 

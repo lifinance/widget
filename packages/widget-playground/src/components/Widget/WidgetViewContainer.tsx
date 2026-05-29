@@ -5,7 +5,18 @@ import { ExternalWalletProvider } from '../../providers/ExternalWalletProvider/E
 import { useDrawerToolValues } from '../../store/editTools/useDrawerToolValues.js'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
 import { useHeaderAndFooterToolValues } from '../../store/editTools/useHeaderAndFooterToolValues.js'
-import { useConfig } from '../../store/widgetConfig/useConfig.js'
+import {
+  useConfigContainer,
+  useConfigVariant,
+} from '../../store/widgetConfig/useConfigValues.js'
+import { useWidgetConfigStore } from '../../store/widgetConfig/WidgetConfigProvider.js'
+import { isFullHeightLayout } from '../../utils/layout.js'
+import {
+  getDrawerOffset,
+  getMockFooterSx,
+  getMockHeaderSx,
+  getWidgetContainerDrawerSx,
+} from '../../utils/widgetViewDrawer.js'
 import { MockElement } from '../Mock/MockElement.js'
 import { ToggleDrawerButton } from './ToggleDrawerButton.js'
 import {
@@ -24,25 +35,29 @@ export function WidgetViewContainer({
   children,
   toggleDrawer,
 }: WidgetViewContainerProps): JSX.Element {
-  const { config } = useConfig()
+  const { container } = useConfigContainer()
+  const { variant } = useConfigVariant()
+  const walletConfig = useWidgetConfigStore((s) => s.config?.walletConfig)
   const { isDrawerOpen, drawerWidth } = useDrawerToolValues()
   const { setDrawerOpen } = useEditToolsActions()
   const { showMockHeader, showMockFooter, isFooterFixed } =
     useHeaderAndFooterToolValues()
 
-  const isWalletManagementExternal = !!config?.walletConfig
+  const isWalletManagementExternal = !!walletConfig
+  const isFullHeight = isFullHeightLayout(container)
 
-  const isFullHeightLayout =
-    config?.theme?.container?.height === '100%' &&
-    config?.theme?.container?.display === 'flex'
+  const showHeader = isFullHeight && showMockHeader
+  const showFooter = isFullHeight && showMockFooter
 
-  const showHeader = isFullHeightLayout && showMockHeader
-  const showFooter = isFullHeightLayout && showMockFooter
+  const drawerOffset = getDrawerOffset(isDrawerOpen, drawerWidth)
 
   return (
-    <Main open={isDrawerOpen} drawerWidth={drawerWidth}>
+    <Main>
       <ExternalWalletProvider isExternalProvider={isWalletManagementExternal}>
-        <FloatingToolsContainer>
+        <FloatingToolsContainer
+          drawerOpen={isDrawerOpen}
+          drawerWidth={drawerWidth}
+        >
           {!isDrawerOpen ? (
             <Tooltip title="Open tools" arrow>
               <DrawerOpenButton onClick={() => setDrawerOpen(true)}>
@@ -55,33 +70,28 @@ export function WidgetViewContainer({
               <appkit-button />
             </Box>
           ) : null}
-          {config?.variant === 'drawer' ? (
+          {variant === 'drawer' ? (
             <ToggleDrawerButton onClick={toggleDrawer} />
           ) : null}
         </FloatingToolsContainer>
         <WidgetContainer
-          removePaddingTop={isFullHeightLayout && !showHeader}
-          alignTop={isFullHeightLayout}
+          removePaddingTop={isFullHeight && !showHeader}
+          alignTop={isFullHeight}
+          sx={getWidgetContainerDrawerSx(drawerOffset)}
           withFixedHeaderOnPage={showHeader}
         >
           {showHeader ? (
-            <MockElement sx={{ position: 'fixed', zIndex: 1, top: 0 }}>
+            <MockElement sx={getMockHeaderSx(drawerOffset)}>
               Mock header
             </MockElement>
           ) : null}
           <WidgetContainerRow
-            sx={{ marginBottom: !isFullHeightLayout || isFooterFixed ? 6 : 0 }}
+            sx={{ marginBottom: !isFullHeight || showFooter ? 6 : 0 }}
           >
             {children}
           </WidgetContainerRow>
           {showFooter ? (
-            <MockElement
-              sx={
-                isFullHeightLayout && isFooterFixed
-                  ? { position: 'fixed', zIndex: 1, bottom: 0 }
-                  : undefined
-              }
-            >
+            <MockElement sx={getMockFooterSx(drawerOffset, isFooterFixed)}>
               Mock footer
             </MockElement>
           ) : null}

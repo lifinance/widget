@@ -39,18 +39,26 @@ describe('getLocalStorageOutput', () => {
     })
   })
 
-  test('presents copy of the config with a primary main color property if present', () => {
+  test('presents copy of the config with colorSchemes if present', () => {
     const config = {
       theme: {
-        palette: {
-          primary: {
-            main: '#5C67FF',
+        colorSchemes: {
+          light: {
+            palette: {
+              primary: {
+                main: '#5C67FF',
+              },
+              secondary: {
+                main: '#F7C2FF',
+              },
+            },
           },
-          secondary: {
-            main: '#F7C2FF',
-          },
-          common: {
-            black: '#000000',
+          dark: {
+            palette: {
+              primary: {
+                main: '#3A45CC',
+              },
+            },
           },
         },
       },
@@ -60,15 +68,23 @@ describe('getLocalStorageOutput', () => {
 
     expect(whitelistedConfig).toEqual({
       theme: {
-        palette: {
-          primary: {
-            main: '#5C67FF',
+        colorSchemes: {
+          light: {
+            palette: {
+              primary: {
+                main: '#5C67FF',
+              },
+              secondary: {
+                main: '#F7C2FF',
+              },
+            },
           },
-          secondary: {
-            main: '#F7C2FF',
-          },
-          common: {
-            black: '#000000',
+          dark: {
+            palette: {
+              primary: {
+                main: '#3A45CC',
+              },
+            },
           },
         },
       },

@@ -6,6 +6,8 @@ import type {
   WidgetWalletConfig,
 } from '@lifi/widget'
 import { palette, paletteDark, paletteLight } from '@lifi/widget'
+import type { CSSProperties } from 'react'
+import { useShallow } from 'zustand/shallow'
 import { getValueFromPath } from '../../utils/getValueFromPath.js'
 import { useWidgetConfigStore } from './WidgetConfigProvider.js'
 
@@ -17,25 +19,23 @@ export const useConfigVariant = (): { variant: WidgetVariant | 'default' } => {
   }
 }
 
-export const useConfigSubvariant = (): {
-  subvariant: WidgetMode | 'default'
+export const useConfigMode = (): {
+  mode: WidgetMode | 'default'
 } => {
-  const subvariant = useWidgetConfigStore((store) => store.config?.mode)
+  const mode = useWidgetConfigStore((store) => store.config?.mode)
 
   return {
-    subvariant: !subvariant ? 'default' : subvariant,
+    mode: !mode ? 'default' : mode,
   }
 }
 
-export const useConfigSubvariantOptions = (): {
-  subvariantOptions: ModeOptions | undefined
+export const useConfigModeOptions = (): {
+  modeOptions: ModeOptions | undefined
 } => {
-  const subvariantOptions = useWidgetConfigStore(
-    (store) => store.config?.modeOptions
-  )
+  const modeOptions = useWidgetConfigStore((store) => store.config?.modeOptions)
 
   return {
-    subvariantOptions: subvariantOptions,
+    modeOptions: modeOptions,
   }
 }
 
@@ -86,19 +86,35 @@ const defaultThemePalette = {
   },
 }
 
-export const useConfigColorsFromPath = (
-  ...paths: string[]
-): (string | undefined)[] => {
-  const colors = useWidgetConfigStore((store) =>
-    paths.map((path) => getValueFromPath<string>(store.config, path))
-  ) as Array<string | undefined>
+export const useConfigColor = (path: string): string | undefined => {
+  const color = useWidgetConfigStore((store) =>
+    getValueFromPath<string>(store.config, path)
+  )
 
-  return colors.map((color, i) => {
-    if (!color) {
-      return getValueFromPath<string>(defaultThemePalette, paths[i])
-    }
-    return color
-  })
+  if (!color) {
+    return getValueFromPath<string>(defaultThemePalette, path)
+  }
+  return color
+}
+
+export const useConfigContainer = (): {
+  container: CSSProperties | undefined
+} => {
+  const container = useWidgetConfigStore(
+    (store) => store.config?.theme?.container
+  )
+
+  return { container }
+}
+
+export const useConfigHeaderPosition = (): {
+  headerPosition: string | undefined
+} => {
+  const headerPosition = useWidgetConfigStore(
+    (store) => store.config?.theme?.header?.position
+  )
+
+  return { headerPosition }
 }
 
 export const useConfigFontFamily = (): {
@@ -113,20 +129,23 @@ export const useConfigFontFamily = (): {
   }
 }
 
+const defaultWalletConfigFallback = { onConnect: () => {} }
+
 export const useConfigWalletManagement = (): {
   replacementWalletConfig: WidgetWalletConfig | { onConnect: () => void }
   isExternalWalletManagement: boolean
   isPartialWalletManagement: boolean
   isForceInternalWalletManagement: boolean
 } => {
-  const [walletConfig, defaultWalletConfig] = useWidgetConfigStore((store) => [
-    store.config?.walletConfig,
-    store.defaultConfig?.walletConfig,
-  ])
+  const [walletConfig, defaultWalletConfig] = useWidgetConfigStore(
+    useShallow((store) => [
+      store.config?.walletConfig,
+      store.defaultConfig?.walletConfig,
+    ])
+  )
 
-  const replacementWalletConfig = defaultWalletConfig
-    ? defaultWalletConfig
-    : { onConnect: () => {} }
+  const replacementWalletConfig =
+    defaultWalletConfig || defaultWalletConfigFallback
 
   return {
     replacementWalletConfig: replacementWalletConfig,

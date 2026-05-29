@@ -6,7 +6,7 @@ export const jumperTheme: WidgetTheme = {
     overflow: 'visible',
   },
   container: {
-    boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.12)',
+    filter: 'drop-shadow(0px 8px 32px rgba(0, 0, 0, 0.12))',
     borderRadius: '24px',
   },
   shape: {

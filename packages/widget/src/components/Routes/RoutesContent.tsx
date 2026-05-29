@@ -25,7 +25,7 @@ interface RoutesContentProps {
   onRouteClick: (route: Route) => void
 }
 
-const headerHeight = '64px'
+const headerHeight = '52px'
 
 export const RoutesContent: React.NamedExoticComponent<RoutesContentProps> =
   memo(function RoutesContent({
@@ -87,6 +87,7 @@ export const RoutesContent: React.NamedExoticComponent<RoutesContentProps> =
             spacing={2}
             sx={{
               flex: 1,
+              paddingTop: 1.5,
               paddingBottom: 3,
             }}
           >

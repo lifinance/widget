@@ -1,7 +1,11 @@
 import type { WidgetTheme } from '@lifi/widget'
 import { createTheme as createMuiTheme, type Theme } from '@mui/material'
+import { DEFAULT_VIEWPORT_BACKGROUND } from '../../utils/themeEdit.js'
 
-export const createTheme = (playgroundColor?: string): Theme =>
+export const createTheme = (
+  playgroundColorLight?: string,
+  playgroundColorDark?: string
+): Theme =>
   createMuiTheme({
     cssVariables: {
       cssVarPrefix: 'lifi-pg',
@@ -26,7 +30,7 @@ export const createTheme = (playgroundColor?: string): Theme =>
             disabled: 'rgba(0, 0, 0, 0.38)',
           },
           playground: {
-            main: playgroundColor || '#F5F5F5',
+            main: playgroundColorLight || DEFAULT_VIEWPORT_BACKGROUND.light,
           },
         },
       },
@@ -62,7 +66,7 @@ export const createTheme = (playgroundColor?: string): Theme =>
             activatedOpacity: 0.24,
           },
           playground: {
-            main: playgroundColor || '#000000',
+            main: playgroundColorDark || DEFAULT_VIEWPORT_BACKGROUND.dark,
           },
         },
       },

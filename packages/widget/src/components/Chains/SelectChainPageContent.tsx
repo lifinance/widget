@@ -39,7 +39,7 @@ export function SelectChainPageContent({
 
   return (
     <PageContainer disableGutters>
-      <Box ref={headerRef} sx={{ pb: 2, px: 3 }}>
+      <Box ref={headerRef} sx={{ pb: 2, px: 3, pt: 1.5 }}>
         <SearchInput
           inputRef={inputRef}
           onChange={onChange}

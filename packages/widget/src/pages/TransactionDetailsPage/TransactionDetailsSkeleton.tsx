@@ -6,7 +6,7 @@ import { TokenSkeleton } from '../../components/Token/Token.js'
 
 export const TransactionDetailsSkeleton = (): JSX.Element => {
   return (
-    <PageContainer>
+    <PageContainer topGutters>
       <Box
         sx={{
           pb: 1,

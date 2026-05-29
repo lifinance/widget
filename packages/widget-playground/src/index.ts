@@ -1,4 +1,4 @@
-export { DrawerControls } from './components/DrawerControls/DrawerControls.js'
+export { DrawerControls } from './components/Sidebar/DrawerControls.js'
 export { WidgetView } from './components/Widget/WidgetView.js'
 export { WidgetViewContainer } from './components/Widget/WidgetViewContainer.js'
 export { EnvVariablesProvider } from './providers/EnvVariablesProvider.js'
