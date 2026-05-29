@@ -38,7 +38,7 @@ export const Header: React.FC<React.ComponentProps<typeof Box>> = styled(Box)(
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: theme.spacing(1.5, 3),
+    padding: theme.spacing(1.5, 3, 0, 3),
     position: 'sticky',
     top: 0,
     zIndex: 1200,

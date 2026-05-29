@@ -18,7 +18,7 @@ export const PageContainer: React.FC<
   flexDirection: 'column',
   flex: 1,
   padding: theme.spacing(
-    topGutters ? 1 : 0,
+    topGutters ? 1.5 : 0,
     halfGutters ? 1.5 : 3,
     bottomGutters ? 3 : 0,
     halfGutters ? 1.5 : 3

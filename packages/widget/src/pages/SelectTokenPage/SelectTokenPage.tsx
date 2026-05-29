@@ -47,6 +47,7 @@ export const SelectTokenPage: FC<FormTypeProps> = ({ formType }) => {
       <Box
         ref={headerRef}
         sx={{
+          pt: 1.5,
           pb: hasHeader ? 2 : 0,
           px: 3,
         }}

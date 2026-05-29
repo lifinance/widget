@@ -73,6 +73,7 @@ export const RecentWalletsPage = (): JSX.Element => {
         ref={listParentRef}
         style={{ height: listHeight, overflow: 'auto' }}
         disablePadding
+        sx={{ paddingTop: 1.5 }}
       >
         {recentWallets.map((recentWallet) => (
           <ListItem key={recentWallet.address} sx={{ position: 'relative' }}>

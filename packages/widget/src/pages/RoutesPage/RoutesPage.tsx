@@ -73,7 +73,7 @@ export const RoutesPage = (): JSX.Element => {
       className="long-list"
       direction="column"
       spacing={2}
-      sx={{ flex: 1 }}
+      sx={{ flex: 1, pt: 1.5 }}
     >
       {routeNotFound ? (
         <RouteNotFoundCard />
