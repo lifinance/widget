@@ -92,7 +92,7 @@
       "emptyChainList": "Aradığın zinciri bulamadık",
       "emptyExchangesList": "Aradığın borsayı bulamadık",
       "emptyTokenListAllNetworks": "",
-      "emptyTransactionHistory": "İşlem geçmişi yalnızca yerel olarak saklanır ve tarayıcı verilerinizi temizlerseniz silinir.",
+      "emptyTransactionHistory": "",
       "routeNotFound": "Muhtemel sebepler şunlar olabilir: Düşük likidite, seçilen miktarın çok düşük olması, gaz masrafının çok olması ya da seçilen kombinasyon için rota olmaması.",
       "missingRouteRequiredAccount": ""
     },
@@ -346,8 +346,11 @@
     "enterAddress_short": "Cüzdan adresini girin",
     "enterName": "İsim girin",
     "noBookmarkedWallets": "Kayıtlı cüzdan bulunamadı",
+    "noBookmarkedWalletsMessage": "",
     "noConnectedWallets": "Bağlı cüzdan bulunamadı",
+    "noConnectedWalletsMessage": "",
     "noRecentWallets": "Son kullanılan cüzdan bulunamadı",
+    "noRecentWalletsMessage": "",
     "required": ""
   },
   "tokenMetric": {

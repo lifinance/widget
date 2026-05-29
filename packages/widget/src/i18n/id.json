@@ -92,7 +92,7 @@
       "emptyChainList": "Kami tidak dapat menemukan chain yang sesuai dengan pencarian Anda",
       "emptyExchangesList": "Kami tidak dapat menemukan exchanges yang sesuai dengan pencarian Anda",
       "emptyTokenListAllNetworks": "",
-      "emptyTransactionHistory": "Riwayat transaksi hanya disimpan secara lokal dan akan dihapus jika Anda menghapus data browser.",
+      "emptyTransactionHistory": "",
       "routeNotFound": "Alasannya mungkin: likuiditas rendah, jumlah yang dipilih terlalu rendah, biaya gas terlalu tinggi, atau tidak ada rute untuk kombinasi yang dipilih.",
       "missingRouteRequiredAccount": ""
     },
@@ -346,8 +346,11 @@
     "enterAddress_short": "Masukkan alamat dompet",
     "enterName": "Masukkan nama",
     "noBookmarkedWallets": "Tidak ada dompet yang ditandai",
+    "noBookmarkedWalletsMessage": "",
     "noConnectedWallets": "Tida ada dompet yang di hubungkan",
+    "noConnectedWalletsMessage": "",
     "noRecentWallets": "Tidak ada dompet terakhir yang digunakan",
+    "noRecentWalletsMessage": "",
     "required": ""
   },
   "tokenMetric": {

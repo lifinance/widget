@@ -92,7 +92,7 @@
       "emptyChainList": "",
       "emptyExchangesList": "",
       "emptyTokenListAllNetworks": "",
-      "emptyTransactionHistory": "Die Transaktionshistorie wird nur lokal gespeichert und gelöscht, wenn Sie Ihre Browserdaten löschen.",
+      "emptyTransactionHistory": "",
       "routeNotFound": "Gründe dafür könnten lauten: geringe Liquidität, gewählter Betrag ist zu niedrig, die Gaskosten sind zu hoch oder es gibt keine Routen für die ausgewählte Kombination.",
       "missingRouteRequiredAccount": ""
     },
@@ -346,8 +346,11 @@
     "enterAddress_short": "",
     "enterName": "",
     "noBookmarkedWallets": "",
+    "noBookmarkedWalletsMessage": "",
     "noConnectedWallets": "",
+    "noConnectedWalletsMessage": "",
     "noRecentWallets": "",
+    "noRecentWalletsMessage": "",
     "required": ""
   },
   "tokenMetric": {

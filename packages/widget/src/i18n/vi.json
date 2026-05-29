@@ -92,7 +92,7 @@
       "emptyChainList": "",
       "emptyExchangesList": "",
       "emptyTokenListAllNetworks": "",
-      "emptyTransactionHistory": "Lịch sử Swap chỉ được lưu trữ cục bộ và sẽ bị xóa nếu bạn xóa dữ liệu trình duyệt của mình.",
+      "emptyTransactionHistory": "",
       "routeNotFound": "Lý do cho điều đó có thể là: tính thanh khoản thấp, số tiền được chọn quá thấp, chi phí gas quá cao hoặc không có lộ trình cho cặp giao dịch đã chọn.",
       "missingRouteRequiredAccount": ""
     },
@@ -346,8 +346,11 @@
     "enterAddress_short": "Nhập địa chỉ ví",
     "enterName": "Nhập tên",
     "noBookmarkedWallets": "Không có ví được đánh dấu",
+    "noBookmarkedWalletsMessage": "",
     "noConnectedWallets": "Không có ví được kết nối",
+    "noConnectedWalletsMessage": "",
     "noRecentWallets": "Không có ví gần đây",
+    "noRecentWalletsMessage": "",
     "required": ""
   },
   "tokenMetric": {
