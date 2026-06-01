@@ -12,8 +12,8 @@
   "scripts": {
     "watch": "tsdown --watch",
     "build": "pnpm clean && tsdown",
-    "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../README.md' .",
-    "build:postrelease": "node ../../scripts/postrelease.js && rm -rf README.md",
+    "build:prerelease": "node ../../scripts/prerelease.js",
+    "build:postrelease": "node ../../scripts/postrelease.js",
     "release:build": "pnpm build",
     "clean": "rm -rf dist",
     "check:types": "tsc --noEmit",
@@ -67,7 +67,6 @@
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.1.0",
     "@types/node": "^25.5.2",
-    "cpy-cli": "^7.0.0",
     "happy-dom": "^15.11.7",
     "madge": "^8.0.0",
     "react": "^19.2.6",
