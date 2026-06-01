@@ -18,7 +18,7 @@
     "dev:next": "pnpm --filter widget-playground-next dev",
     "changeset:version": "changeset version && pnpm install --lockfile-only && pnpm check:write",
     "changeset:prepublish": "pnpm build && pnpm -r --filter './packages/**' --filter '!*-playground-*' --filter '!*-embedded' build:prerelease",
-    "changeset:publish": "pnpm changeset:prepublish && changeset publish",
+    "changeset:publish": "pnpm changeset:prepublish && pnpm --config.verify-deps-before-run=false changeset publish",
     "check": "biome check",
     "check:write": "biome check --write",
     "check:write:unsafe": "biome check --write --unsafe",
