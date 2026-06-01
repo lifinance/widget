@@ -1,5 +1,6 @@
 import { Typography, type TypographyProps } from '@mui/material'
-import { motion, useReducedMotion } from 'motion/react'
+import { useReducedMotion } from 'motion/react'
+import * as m from 'motion/react-m'
 import type { JSX } from 'react'
 import { Fragment } from 'react'
 
@@ -38,7 +39,7 @@ export function StaggeredRevealTypography({
       {words.map((word, i) => (
         <Fragment key={`${word}-${i}`}>
           {i > 0 && ' '}
-          <motion.span
+          <m.span
             initial={{ opacity: 0, y: WORD_ENTER_Y }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
@@ -50,7 +51,7 @@ export function StaggeredRevealTypography({
             style={{ display: 'inline-block' }}
           >
             {word}
-          </motion.span>
+          </m.span>
         </Fragment>
       ))}
     </Typography>

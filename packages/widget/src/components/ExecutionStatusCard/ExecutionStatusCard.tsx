@@ -1,7 +1,8 @@
 import { Box, Typography } from '@mui/material'
 import { stagger } from 'motion'
 import type { Transition, Variants } from 'motion/react'
-import { AnimatePresence, motion } from 'motion/react'
+import { AnimatePresence } from 'motion/react'
+import * as m from 'motion/react-m'
 import type { JSX, ReactNode } from 'react'
 import { Card } from '../Card/Card.js'
 import type { ExecutionRow } from '../StepActions/executionRows.js'
@@ -121,14 +122,14 @@ export function ExecutionStatusCard({
        * follows the accordion via normal flow instead.
        */}
       <Card type="default" indented>
-        <motion.div
+        <m.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
           style={{ width: '100%', transformOrigin: 'top center' }}
         >
           <Box
-            component={motion.div}
+            component={m.div}
             layout
             transition={{ layout: layoutTransition }}
             variants={heroColumnVariants}
@@ -141,7 +142,7 @@ export function ExecutionStatusCard({
               boxSizing: 'border-box',
             }}
           >
-            <motion.div
+            <m.div
               layout
               variants={heroItemVariants}
               style={{
@@ -151,17 +152,17 @@ export function ExecutionStatusCard({
               }}
             >
               {iconSlot}
-            </motion.div>
+            </m.div>
 
             {title && (
-              <motion.div
+              <m.div
                 layout
                 variants={heroItemVariants}
                 style={{ width: '100%', paddingTop: 12 }}
               >
                 {/* mode="wait": old title exits before the new one enters */}
                 <AnimatePresence initial={false} mode="wait">
-                  <motion.div
+                  <m.div
                     key={title}
                     variants={titleVariants}
                     initial="hidden"
@@ -179,15 +180,15 @@ export function ExecutionStatusCard({
                     >
                       {title}
                     </Typography>
-                  </motion.div>
+                  </m.div>
                 </AnimatePresence>
-              </motion.div>
+              </m.div>
             )}
 
             {/* mode="popLayout": old description leaves layout at once so the column reflows */}
             <AnimatePresence initial={false} mode="popLayout">
               {description && (
-                <motion.div
+                <m.div
                   key={description}
                   variants={textContainerVariants}
                   initial="hidden"
@@ -205,24 +206,24 @@ export function ExecutionStatusCard({
                       textAlign: 'center',
                     }}
                   />
-                </motion.div>
+                </m.div>
               )}
             </AnimatePresence>
 
             {vcSlot && (
-              <motion.div
+              <m.div
                 layout
                 variants={heroItemVariants}
                 style={{ width: '100%' }}
               >
                 {vcSlot}
-              </motion.div>
+              </m.div>
             )}
           </Box>
 
           <AnimatePresence initial={false}>
             {hasRows && (
-              <motion.div
+              <m.div
                 key="checklist"
                 layout
                 transition={{ layout: layoutTransition }}
@@ -233,16 +234,16 @@ export function ExecutionStatusCard({
                 style={{ width: '100%' }}
               >
                 <ExecutionChecklist rows={rows} />
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
-        </motion.div>
+        </m.div>
       </Card>
 
       {/* layout makes the footer shift smoothly when the card above grows */}
-      <motion.div layout transition={{ layout: layoutTransition }}>
+      <m.div layout transition={{ layout: layoutTransition }}>
         {footerSlot}
-      </motion.div>
+      </m.div>
     </Box>
   )
 }

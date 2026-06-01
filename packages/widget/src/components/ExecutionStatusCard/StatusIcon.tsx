@@ -1,6 +1,7 @@
 import type { RouteExtended } from '@lifi/sdk'
 import type { Transition, Variants } from 'motion/react'
-import { AnimatePresence, motion } from 'motion/react'
+import { AnimatePresence } from 'motion/react'
+import * as m from 'motion/react-m'
 import type { JSX } from 'react'
 import type { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { IconCircle } from '../IconCircle/IconCircle.js'
@@ -72,7 +73,7 @@ export function StatusIcon({ route, status }: StatusIconProps): JSX.Element {
   return (
     <StatusIconContainer>
       <AnimatePresence mode="popLayout" initial={false}>
-        <motion.div
+        <m.div
           key={iconKey}
           custom={iconKey}
           variants={iconVariants}
@@ -92,7 +93,7 @@ export function StatusIcon({ route, status }: StatusIconProps): JSX.Element {
           ) : (
             <IconCircle status={iconKey} />
           )}
-        </motion.div>
+        </m.div>
       </AnimatePresence>
     </StatusIconContainer>
   )

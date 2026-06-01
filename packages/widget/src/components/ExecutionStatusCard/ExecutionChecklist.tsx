@@ -1,5 +1,6 @@
 import { Box } from '@mui/material'
-import { AnimatePresence, motion } from 'motion/react'
+import { AnimatePresence } from 'motion/react'
+import * as m from 'motion/react-m'
 import type { JSX } from 'react'
 import type { ExecutionRow } from '../StepActions/executionRows.js'
 import { renderExecutionRow } from '../StepActions/executionRows.js'
@@ -27,7 +28,7 @@ export function ExecutionChecklist({
   return (
     <AnimatePresence mode="popLayout">
       {rows.map((row, index) => (
-        <motion.div
+        <m.div
           key={row.kind === 'action' ? row.href : 'wallet'}
           layout
           initial={{ opacity: 0, y: 14, scaleX: 0.8 }}
@@ -46,7 +47,7 @@ export function ExecutionChecklist({
           style={{ transformOrigin: 'center bottom' }}
         >
           <Box sx={{ paddingTop: 1.5 }}>{renderExecutionRow(row)}</Box>
-        </motion.div>
+        </m.div>
       ))}
     </AnimatePresence>
   )
