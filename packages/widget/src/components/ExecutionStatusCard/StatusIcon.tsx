@@ -1,14 +1,13 @@
 import type { RouteExtended } from '@lifi/sdk'
-import { Box } from '@mui/material'
 import type { Transition, Variants } from 'motion/react'
 import { AnimatePresence, motion } from 'motion/react'
 import type { JSX } from 'react'
 import type { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { IconCircle } from '../IconCircle/IconCircle.js'
-import { iconCircleSize } from '../IconCircle/IconCircle.style.js'
 import { TimerRing } from '../Timer/StepStatusTimer.js'
 import type { ExecutionIconKey } from './iconKey.js'
 import { resolveExecutionIconKey } from './iconKey.js'
+import { StatusIconContainer } from './StatusIcon.style.js'
 
 const ICON_EXIT = { duration: 0.08, ease: [0.22, 1, 0.36, 1] as const }
 
@@ -71,16 +70,7 @@ export function StatusIcon({ route, status }: StatusIconProps): JSX.Element {
   const step = route.steps.at(-1)
 
   return (
-    <Box
-      sx={{
-        position: 'relative',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: iconCircleSize,
-        height: iconCircleSize,
-      }}
-    >
+    <StatusIconContainer>
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.div
           key={iconKey}
@@ -104,6 +94,6 @@ export function StatusIcon({ route, status }: StatusIconProps): JSX.Element {
           )}
         </motion.div>
       </AnimatePresence>
-    </Box>
+    </StatusIconContainer>
   )
 }

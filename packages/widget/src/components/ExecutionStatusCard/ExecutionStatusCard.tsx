@@ -2,11 +2,26 @@ import { Box, Typography } from '@mui/material'
 import { stagger } from 'motion'
 import type { Transition, Variants } from 'motion/react'
 import { AnimatePresence, motion } from 'motion/react'
-import type { JSX } from 'react'
+import type { JSX, ReactNode } from 'react'
 import { Card } from '../Card/Card.js'
+import type { ExecutionRow } from '../StepActions/executionRows.js'
 import { ExecutionChecklist } from './ExecutionChecklist.js'
-import type { ExecutionStatusCardProps } from './ExecutionStatusCard.types.js'
 import { StaggeredRevealTypography } from './StaggeredRevealTypography.js'
+
+interface ExecutionStatusCardProps {
+  /** Phase title; `undefined` until the first action resolves a message. */
+  title: string | undefined
+  /** Status subtitle; `undefined` when the action has no description. */
+  description: string | undefined
+  /** Completed step rows for the animated checklist. */
+  rows: ExecutionRow[]
+  /** Icon well — a `StatusIcon` or a custom-variant contract component. */
+  iconSlot: ReactNode
+  /** Footer card: `ExecutionDoneCard` when done, otherwise `RouteTokens`. */
+  footerSlot: ReactNode
+  /** Partner/VC component, shown after the icon/title when done. */
+  vcSlot?: ReactNode
+}
 
 const containerVariants: Variants = {
   hidden: { opacity: 0, scale: 0.97 },
@@ -34,10 +49,7 @@ const heroItemVariants: Variants = {
   },
 }
 
-/**
- * Title swap — outgoing exits fully before the incoming one appears.
- * Has three states: `hidden` (before enter), `visible` (settled), `exit`.
- */
+/** Title swap: the outgoing title fully exits before the next one enters. */
 const titleVariants: Variants = {
   hidden: { opacity: 0, y: 10, filter: 'blur(2px)' },
   visible: {
@@ -54,10 +66,7 @@ const titleVariants: Variants = {
   },
 }
 
-/**
- * Description container. Enters instantly — word-level stagger is the sole
- * reveal. Exit duration matches titleVariants exit so both leave together.
- */
+/** Enters instantly (the word-level stagger is the reveal); exit matches the title's. */
 const textContainerVariants: Variants = {
   hidden: {
     opacity: 0,
@@ -67,17 +76,10 @@ const textContainerVariants: Variants = {
 }
 
 /**
- * Checklist accordion. Explicit height animation keeps DOM and visual height
- * in sync — a layout-only FLIP would set `height: auto` immediately in the
- * DOM (using scaleY to fake height: 0), which causes the card background to
- * snap to full height before the content appears.
- *
- * `layout` is kept on this element for position tracking only: when the hero
- * column above changes height (title/description update), the accordion
- * FLIP-animates its vertical shift. This does not conflict with the explicit
- * height animation because `layout` fires only on re-renders of an already-
- * mounted element — on first mount inside AnimatePresence there is no prior
- * position to compare against, so only the explicit height animation runs.
+ * Animate height explicitly: a layout-only FLIP would set `height: auto` at
+ * once and snap the card background to full height before the content appears.
+ * `layout` stays only to track the accordion's shift when the hero column
+ * above it resizes.
  */
 const accordionVariants: Variants = {
   hidden: {
@@ -114,12 +116,9 @@ export function ExecutionStatusCard({
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       {/*
-       * Card is intentionally a plain (non-motion) element. Making it a
-       * layout-animated element would cause its scaleY FLIP transform to
-       * compose with the checklist rows' translateY FLIP transforms, producing
-       * visual artifacts where rows appear to teleport during layout changes.
-       * The card height follows the accordion's explicit height animation
-       * smoothly via CSS flow without needing its own FLIP.
+       * Keep Card non-animated: a layout FLIP here would compose with the
+       * checklist rows' FLIP transforms and make rows teleport. Its height
+       * follows the accordion via normal flow instead.
        */}
       <Card type="default" indented>
         <motion.div
@@ -160,7 +159,7 @@ export function ExecutionStatusCard({
                 variants={heroItemVariants}
                 style={{ width: '100%', paddingTop: 12 }}
               >
-                {/* mode="wait": the outgoing title must fully exit before the incoming one enters */}
+                {/* mode="wait": old title exits before the new one enters */}
                 <AnimatePresence initial={false} mode="wait">
                   <motion.div
                     key={title}
@@ -185,8 +184,7 @@ export function ExecutionStatusCard({
               </motion.div>
             )}
 
-            {/* mode="popLayout": old description leaves layout immediately so the
-                column can reflow without waiting for the exit animation to finish */}
+            {/* mode="popLayout": old description leaves layout at once so the column reflows */}
             <AnimatePresence initial={false} mode="popLayout">
               {description && (
                 <motion.div

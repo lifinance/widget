@@ -11,14 +11,8 @@ import { SentToWalletRow } from './SentToWalletRow.js'
 import { StepActionRow } from './StepActionRow.js'
 
 /**
- * A single row in an execution list.
- *
- * Discriminated union covering the two row kinds that can appear in a
- * transaction progress or history view:
- * - `'action'` — a completed or failed step action with a resolvable
- *   explorer link. Rendered by {@link StepActionRow}.
- * - `'wallet'` — the recipient wallet row, appended when a route has a
- *   `toAddress` (typically once completed). Rendered by {@link SentToWalletRow}.
+ * A row in an execution list: either a completed/failed action with an explorer
+ * link, or the recipient wallet row appended when a route has a `toAddress`.
  */
 export type ExecutionRow =
   | {
@@ -30,16 +24,9 @@ export type ExecutionRow =
   | { kind: 'wallet'; toAddress: string; toChainId: number }
 
 /**
- * Derives the list of rows to display for a route.
- *
- * Iterates every step's actions, collapses allowance-type actions via
- * {@link prepareActions}, keeps only `DONE`/`FAILED` actions that have a
- * resolvable transaction link, and appends a `'wallet'` row when
- * `toAddress` is provided.
- *
- * Single source of truth for "which rows should appear" — consumed by
- * static step lists (in-page progress and history) and the animated
- * execution checklist.
+ * The rows to display for a route: every `DONE`/`FAILED` action that has a
+ * transaction link, plus a wallet row when `toAddress` is set. Shared by the
+ * static step lists and the animated checklist.
  */
 export function useExecutionRows(
   route: RouteExtended,
