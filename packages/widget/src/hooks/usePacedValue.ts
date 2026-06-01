@@ -18,6 +18,9 @@ export function usePacedValue<T>(live: T, paced = true): T {
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   useEffect(() => {
+    if (live === value) {
+      return
+    }
     if (!paced) {
       setValue(live)
       return
@@ -33,7 +36,7 @@ export function usePacedValue<T>(live: T, paced = true): T {
     }
     timer.current = setTimeout(show, remaining)
     return () => clearTimeout(timer.current)
-  }, [live, paced])
+  }, [live, paced, value])
 
   return value
 }

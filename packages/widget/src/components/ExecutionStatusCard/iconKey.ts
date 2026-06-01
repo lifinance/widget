@@ -24,7 +24,13 @@ export function resolveExecutionIconKey(
   if (hasEnumFlag(status, RouteExecutionStatus.Failed)) {
     return 'error'
   }
-  if (route.steps.at(-1)?.execution?.status === 'ACTION_REQUIRED') {
+  const activeStep =
+    route.steps.find(
+      (step) =>
+        step.execution?.status === 'PENDING' ||
+        step.execution?.status === 'ACTION_REQUIRED'
+    ) ?? route.steps.at(-1)
+  if (activeStep?.execution?.status === 'ACTION_REQUIRED') {
     return 'info'
   }
   return 'timer'
