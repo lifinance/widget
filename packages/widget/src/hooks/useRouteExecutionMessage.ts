@@ -22,8 +22,8 @@ export const useRouteExecutionMessage = (
 
   switch (status) {
     case RouteExecutionStatus.Pending: {
-      // Find the first step that is currently executing rather than assuming
-      // the last step is active — on resume the failing step may not be last.
+      // Use the first executing step, not the last one — in a multi-step route
+      // the active step is often not the last.
       const activeStep =
         route.steps.find(
           (s) =>

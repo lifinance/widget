@@ -8,7 +8,7 @@ interface StepActionsListProps {
   toAddress?: string
 }
 
-/** Static list of completed execution step rows, used in history and receipt views. */
+/** Non-animated list of completed execution step rows (transaction details view). */
 export const StepActionsList: React.FC<StepActionsListProps> = ({
   route,
   toAddress,

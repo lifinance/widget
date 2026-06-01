@@ -62,9 +62,8 @@ interface StatusIconProps {
 }
 
 /**
- * Animated icon slot for the execution status.
- * Enter animations reflect the semantic weight of each state;
- * all exits share the same recession.
+ * The animated status icon. Each state animates in its own way; they all
+ * animate out the same way.
  */
 export function StatusIcon({ route, status }: StatusIconProps): JSX.Element {
   const iconKey = resolveExecutionIconKey(route, status)

@@ -10,13 +10,13 @@ import { ExecutionChecklist } from './ExecutionChecklist.js'
 import { StaggeredRevealTypography } from './StaggeredRevealTypography.js'
 
 interface ExecutionStatusCardProps {
-  /** Phase title; `undefined` until the first action resolves a message. */
+  /** Title for the current phase. `undefined` until an action has a message. */
   title: string | undefined
-  /** Status subtitle; `undefined` when the action has no description. */
+  /** Subtitle under the title. `undefined` when the action has no description. */
   description: string | undefined
   /** Completed step rows for the animated checklist. */
   rows: ExecutionRow[]
-  /** Icon well — a `StatusIcon` or a custom-variant contract component. */
+  /** The top icon: a `StatusIcon`, or a contract component for the custom variant. */
   iconSlot: ReactNode
   /** Footer card: `ExecutionDoneCard` when done, otherwise `RouteTokens`. */
   footerSlot: ReactNode
@@ -67,7 +67,7 @@ const titleVariants: Variants = {
   },
 }
 
-/** Enters instantly (the word-level stagger is the reveal); exit matches the title's. */
+/** No enter animation — the per-word stagger reveals it. Exit timing matches the title. */
 const textContainerVariants: Variants = {
   hidden: {
     opacity: 0,
@@ -77,10 +77,10 @@ const textContainerVariants: Variants = {
 }
 
 /**
- * Animate height explicitly: a layout-only FLIP would set `height: auto` at
- * once and snap the card background to full height before the content appears.
- * `layout` stays only to track the accordion's shift when the hero column
- * above it resizes.
+ * Animate height explicitly. A plain `layout` animation sets `height: auto`
+ * immediately, so the card background would jump to full height before the
+ * content appears. `layout` stays only to animate the accordion's position
+ * when the hero column above it resizes.
  */
 const accordionVariants: Variants = {
   hidden: {
@@ -97,7 +97,7 @@ const accordionVariants: Variants = {
 
 const layoutTransition: Transition = { duration: 0.3, ease: [0.19, 1, 0.22, 1] }
 
-/** Seconds before the first word begins animating, coordinated with container stagger. */
+/** Seconds before the first word animates. */
 const WORD_STAGGER_DELAY = 0.08
 
 /**
@@ -117,9 +117,9 @@ export function ExecutionStatusCard({
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       {/*
-       * Keep Card non-animated: a layout FLIP here would compose with the
-       * checklist rows' FLIP transforms and make rows teleport. Its height
-       * follows the accordion via normal flow instead.
+       * Keep Card non-animated. Animating its layout would combine with the
+       * rows' layout animations and make the rows jump. Its height follows
+       * the accordion through normal layout instead.
        */}
       <Card type="default" indented>
         <m.div
