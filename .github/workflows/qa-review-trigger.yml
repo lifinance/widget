@@ -1,0 +1,35 @@
+name: Trigger Zeus QA Review
+
+on:
+  pull_request:
+    types: [labeled]
+
+concurrency:
+  group: qa-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  trigger-zeus:
+    if: ${{ github.event.label.name == 'Agent review' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Create GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2
+        with:
+          app-id: ${{ secrets.QA_APP_ID }}
+          private-key: ${{ secrets.QA_APP_PRIVATE_KEY }}
+          owner: lifinance
+          repositories: QA
+
+      - name: Trigger Zeus QA review
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          jq -n --arg url "$PR_URL" \
+            '{"event_type":"qa-review-embeddables","client_payload":{"pr_url":$url}}' | \
+            gh api repos/lifinance/QA/dispatches --method POST --input -
