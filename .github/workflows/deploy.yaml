@@ -5,10 +5,8 @@ on:
     branches:
       - main
 
-# The Changesets release job pushes a "chore: version packages" commit and a
-# publish commit to main, each of which also triggers this deploy. Collapse
-# rapid back-to-back main pushes onto one deploy and supersede any in-flight
-# run so we never race two S3 syncs.
+# Collapse rapid main pushes (e.g. the Changesets version + publish commits) onto one
+# deploy; supersede any in-flight run so two S3 syncs never race.
 concurrency:
   group: deploy-${{ github.ref }}
   cancel-in-progress: true
@@ -39,10 +37,8 @@ jobs:
       
       - name: Deploy app build to S3 bucket
         run: |
-          # This single command deploys all files with a "no-cache" rule.
           aws s3 sync ./packages/widget-playground-vite/dist/ s3://playground.li.fi --cache-control 'no-cache,no-store,must-revalidate' --delete
           
-          # Repeats the same process for the second application.
           aws s3 sync ./packages/widget-embedded/dist/ s3://widget.li.fi --cache-control 'no-cache,no-store,must-revalidate' --delete
       
       - name: Purge Cloudflare Cache by Hostname

@@ -1,19 +1,6 @@
 name: Release & Publish
 
-# Changesets-driven release pipeline.
-#
-# On push to main:
-#   1. verify     — lint, types, build (gate).
-#   2. changesets — opens/updates the "Version Packages" PR. When that PR is
-#                   merged (no changesets left on main), this run instead has
-#                   hasChangesets == 'false'.
-#   3. release    — runs ONLY when there are no pending changesets, i.e. the
-#                   version PR has just been merged. Builds + runs the
-#                   per-package prerelease transform, then `changeset publish`
-#                   (flat per-package `npm publish` with OIDC provenance) and
-#                   creates GitHub Releases. Exposes publishedPackages.
-#   4. linear-*   — one static gated job per release anchor. Each derives its
-#                   version + channel from publishedPackages and syncs Linear.
+# Changesets-driven release pipeline: push to main → version PR → publish → Linear sync.
 on:
   push:
     branches: [main]
@@ -32,8 +19,7 @@ permissions: {} # each job declares only the permissions it needs
 jobs:
   verify:
     name: Verify
-    # The main-release chain runs on push/dispatch only — never on the
-    # pull_request (labeled) event that drives preview releases.
+    # Main release chain runs on push/dispatch only, not the preview label event.
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     permissions:
@@ -108,12 +94,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
 
-  # ---------------------------------------------------------------------------
-  # Linear release sync — one STATIC gated call per anchor package. The two
-  # anchors use two different secrets, so a dynamic matrix can't select them
-  # (secret refs must be static YAML). Each call passes publishedPackages + the
-  # anchor name; linear-release.yaml derives the version + channel internally.
-  # ---------------------------------------------------------------------------
+  # Linear sync — one static call per anchor (two anchors use two secrets, so no matrix).
   linear-widget:
     name: Linear Sync (Widget)
     needs: release
@@ -145,17 +126,9 @@ jobs:
     secrets:
       access_key: ${{ secrets.CHECKOUT_LINEAR_RELEASE_ACCESS_KEY }}
 
-  # ---------------------------------------------------------------------------
-  # Preview release (opt-in, per PR).
-  #
-  # Add the `release-preview` label to a PR to publish a throwaway
-  # 0.0.0-preview-<sha> build to the npm `preview` dist-tag for testing.
-  # One-shot: the label is removed after a publish; re-add to cut another.
-  #
-  # Trust boundary (no in-workflow role check): applying a label requires Triage+,
-  # and the same-repo guard means the code was pushed with Write access — so
-  # forks/externals can't trigger it. The job is isolated (no deploy/Linear
-  # secrets), and 0.0.0-preview can never become `latest`/`beta`.
+  # Preview release (opt-in): the `release-preview` label publishes a throwaway
+  # 0.0.0-preview-<sha> to the `preview` dist-tag. Gated by same-repo + Triage+-to-label
+  # (forks can't trigger); secret-isolated; 0.0.0-preview can't become latest/beta.
   # NEVER convert this to pull_request_target.
   preview:
     name: Preview release (PR)
@@ -181,9 +154,6 @@ jobs:
         with:
           cache: 'false' # privileged job — don't restore a potentially poisoned cache
 
-      # Snapshot-publish to the `preview` dist-tag + comment the install command.
-      # Composite (not reusable workflow) so OIDC stays bound to publish.yaml.
-      # The action auto-detects pre mode from .changeset/pre.json and exits it
-      # ephemerally when present (widget is currently in pre-beta).
+      # Composite (not a reusable workflow) so npm OIDC stays bound to publish.yaml.
       - name: Publish preview
         uses: ./.github/actions/preview-publish
