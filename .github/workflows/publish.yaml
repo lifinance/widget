@@ -109,52 +109,23 @@ jobs:
           NPM_CONFIG_PROVENANCE: true
 
   # ---------------------------------------------------------------------------
-  # Linear release sync — one STATIC gated job per anchor package. Secret refs
-  # must be static YAML, so we cannot use a dynamic matrix. Each job derives the
-  # version + channel from publishedPackages (NOT from a git tag) and forwards
-  # them to the reusable linear-release.yaml.
+  # Linear release sync — one STATIC gated call per anchor package. The two
+  # anchors use two different secrets, so a dynamic matrix can't select them
+  # (secret refs must be static YAML). Each call passes publishedPackages + the
+  # anchor name; linear-release.yaml derives the version + channel internally.
   # ---------------------------------------------------------------------------
   linear-widget:
     name: Linear Sync (Widget)
     needs: release
     # Fires only when @lifi/widget was actually published this run.
     if: contains(needs.release.outputs.publishedPackages, '"@lifi/widget"')
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    outputs:
-      full: ${{ steps.meta.outputs.full }}
-      version: ${{ steps.meta.outputs.version }}
-      channel: ${{ steps.meta.outputs.channel }}
-    steps:
-      - name: Derive version and channel from publishedPackages
-        id: meta
-        env:
-          PUBLISHED: ${{ needs.release.outputs.publishedPackages }}
-        run: |
-          FULL=$(echo "$PUBLISHED" | jq -r '.[] | select(.name=="@lifi/widget") | .version')
-          VERSION="${FULL%%-*}" # 4.0.0-beta.21 -> 4.0.0
-          case "$FULL" in
-            *-alpha.*) CHANNEL=alpha ;;
-            *-beta.*)  CHANNEL=beta ;;
-            *)         CHANNEL=stable ;;
-          esac
-          echo "full=$FULL" >> "$GITHUB_OUTPUT"
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          echo "channel=$CHANNEL" >> "$GITHUB_OUTPUT"
-          echo "Resolved @lifi/widget $FULL -> version=$VERSION channel=$CHANNEL"
-
-  linear-widget-sync:
-    name: Linear Sync (Widget) · run
-    needs: linear-widget
     permissions:
       contents: read
     uses: ./.github/workflows/linear-release.yaml
     with:
       release_name: Widget
-      version: ${{ needs.linear-widget.outputs.version }}
-      channel: ${{ needs.linear-widget.outputs.channel }}
-      release_tag: '@lifi/widget@${{ needs.linear-widget.outputs.full }}'
+      package_name: '@lifi/widget'
+      published_packages: ${{ needs.release.outputs.publishedPackages }}
     secrets:
       access_key: ${{ secrets.WIDGET_LINEAR_RELEASE_ACCESS_KEY }}
 
@@ -164,42 +135,13 @@ jobs:
     name: Linear Sync (Checkout)
     needs: release
     if: contains(needs.release.outputs.publishedPackages, '"@lifi/widget-checkout"')
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    outputs:
-      full: ${{ steps.meta.outputs.full }}
-      version: ${{ steps.meta.outputs.version }}
-      channel: ${{ steps.meta.outputs.channel }}
-    steps:
-      - name: Derive version and channel from publishedPackages
-        id: meta
-        env:
-          PUBLISHED: ${{ needs.release.outputs.publishedPackages }}
-        run: |
-          FULL=$(echo "$PUBLISHED" | jq -r '.[] | select(.name=="@lifi/widget-checkout") | .version')
-          VERSION="${FULL%%-*}"
-          case "$FULL" in
-            *-alpha.*) CHANNEL=alpha ;;
-            *-beta.*)  CHANNEL=beta ;;
-            *)         CHANNEL=stable ;;
-          esac
-          echo "full=$FULL" >> "$GITHUB_OUTPUT"
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          echo "channel=$CHANNEL" >> "$GITHUB_OUTPUT"
-          echo "Resolved @lifi/widget-checkout $FULL -> version=$VERSION channel=$CHANNEL"
-
-  linear-checkout-sync:
-    name: Linear Sync (Checkout) · run
-    needs: linear-checkout
     permissions:
       contents: read
     uses: ./.github/workflows/linear-release.yaml
     with:
       release_name: Checkout
-      version: ${{ needs.linear-checkout.outputs.version }}
-      channel: ${{ needs.linear-checkout.outputs.channel }}
-      release_tag: '@lifi/widget-checkout@${{ needs.linear-checkout.outputs.full }}'
+      package_name: '@lifi/widget-checkout'
+      published_packages: ${{ needs.release.outputs.publishedPackages }}
     secrets:
       access_key: ${{ secrets.CHECKOUT_LINEAR_RELEASE_ACCESS_KEY }}
 
