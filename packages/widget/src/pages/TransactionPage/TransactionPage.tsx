@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
 import { PageContainer } from '../../components/PageContainer.js'
 import { useHeader } from '../../hooks/useHeader.js'
-import { useRouteExecution } from '../../hooks/useRouteExecution.js'
+import { usePacedRouteExecution } from '../../hooks/usePacedRouteExecution.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useClearAmountFields } from '../../stores/form/useClearAmountFields.js'
@@ -37,7 +37,7 @@ export const TransactionPage = (): JSX.Element | null => {
   }
 
   const { route, status, executeRoute, restartRoute, deleteRoute } =
-    useRouteExecution({
+    usePacedRouteExecution({
       routeId: routeId,
       onAcceptExchangeRateUpdate,
     })

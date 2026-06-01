@@ -31,20 +31,23 @@ export const useRouteExecutionMessage = (
             s.execution?.status === 'ACTION_REQUIRED'
         ) ?? route.steps.at(-1)
       const lastAction = activeStep?.execution?.actions?.at(-1)
-      if (!activeStep || !lastAction) {
-        break
-      }
-      const actionMessage = getActionMessage(
-        t,
-        activeStep,
-        lastAction.type,
-        lastAction.status,
-        lastAction.substatus,
-        subvariant,
-        subvariantOptions
-      )
-      title = actionMessage.title
-      message = actionMessage.message
+      const actionMessage =
+        activeStep && lastAction
+          ? getActionMessage(
+              t,
+              activeStep,
+              lastAction.type,
+              lastAction.status,
+              lastAction.substatus,
+              subvariant,
+              subvariantOptions
+            )
+          : undefined
+      // Fall back to a generic title when the step has no action to describe yet
+      // (just after a restart, or before the first action exists).
+      title =
+        actionMessage?.title ?? t(`main.process.${transactionType}.pending`)
+      message = actionMessage?.message
       break
     }
     case RouteExecutionStatus.Done: {

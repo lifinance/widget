@@ -20,8 +20,6 @@ import { WidgetEvent } from '../types/events.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useWidgetEvents } from './useWidgetEvents.js'
 
-const STAGGER_INTERVAL = 1200
-
 interface RouteExecutionProps {
   routeId: string
   executeInBackground?: boolean
@@ -45,11 +43,6 @@ export const useRouteExecution = ({
   const queryClient = useQueryClient()
   const { account } = useAccount()
   const resumedAfterMount = useRef(false)
-  const staggerRef = useRef({
-    next: (): void => {},
-    lastAt: 0,
-    scheduled: false,
-  })
   const { keyPrefix } = useWidgetConfig()
   const sdkClient = useSDKClient()
   const emitter = useWidgetEvents()
@@ -62,80 +55,59 @@ export const useRouteExecution = ({
     state.deleteRoute,
   ])
 
-  const enqueueStaggered = (task: () => void): void => {
-    const q = staggerRef.current
-    q.next = task
-    if (q.scheduled) {
+  const updateRouteHook = (updatedRoute: Route) => {
+    const routeExecution =
+      routeExecutionStoreContext.getState().routes[updatedRoute.id]
+    if (!routeExecution) {
       return
     }
-    q.scheduled = true
-    setTimeout(
-      () => {
-        const run = staggerRef.current.next
-        staggerRef.current.next = () => {}
-        staggerRef.current.scheduled = false
-        staggerRef.current.lastAt = Date.now()
-        run()
-      },
-      q.lastAt + STAGGER_INTERVAL - Date.now()
-    )
-  }
-
-  const updateRouteHook = (updatedRoute: Route) => {
     const clonedUpdatedRoute = structuredClone(updatedRoute)
-    enqueueStaggered(() => {
-      const routeExecution =
-        routeExecutionStoreContext.getState().routes[clonedUpdatedRoute.id]
-      if (!routeExecution) {
-        return
+    updateRoute(clonedUpdatedRoute)
+    const action = getUpdatedAction(routeExecution.route, clonedUpdatedRoute)
+    if (action) {
+      emitter.emit(WidgetEvent.RouteExecutionUpdated, {
+        route: clonedUpdatedRoute,
+        action,
+      })
+    }
+    const executionCompleted = isRouteDone(clonedUpdatedRoute)
+    const executionFailed = isRouteFailed(clonedUpdatedRoute)
+    if (executionCompleted) {
+      emitter.emit(WidgetEvent.RouteExecutionCompleted, clonedUpdatedRoute)
+    }
+    if (executionFailed && action) {
+      emitter.emit(WidgetEvent.RouteExecutionFailed, {
+        route: clonedUpdatedRoute,
+        action,
+      })
+    }
+    if (executionCompleted || executionFailed) {
+      const invalidateKeys = [
+        [
+          getQueryKey('token-balances', keyPrefix),
+          clonedUpdatedRoute.fromAddress,
+          clonedUpdatedRoute.fromChainId,
+        ],
+        [
+          getQueryKey('token-balances', keyPrefix),
+          clonedUpdatedRoute.toAddress,
+          clonedUpdatedRoute.toChainId,
+        ],
+        [getQueryKey('transaction-history', keyPrefix)],
+      ]
+      for (const key of invalidateKeys) {
+        queryClient.invalidateQueries(
+          {
+            queryKey: key,
+            exact: false,
+            refetchType: 'all',
+          },
+          { cancelRefetch: false }
+        )
       }
-      updateRoute(clonedUpdatedRoute)
-      const action = getUpdatedAction(routeExecution.route, clonedUpdatedRoute)
-      if (action) {
-        emitter.emit(WidgetEvent.RouteExecutionUpdated, {
-          route: clonedUpdatedRoute,
-          action,
-        })
-      }
-      const executionCompleted = isRouteDone(clonedUpdatedRoute)
-      const executionFailed = isRouteFailed(clonedUpdatedRoute)
-      if (executionCompleted) {
-        emitter.emit(WidgetEvent.RouteExecutionCompleted, clonedUpdatedRoute)
-      }
-      if (executionFailed && action) {
-        emitter.emit(WidgetEvent.RouteExecutionFailed, {
-          route: clonedUpdatedRoute,
-          action,
-        })
-      }
-      if (executionCompleted || executionFailed) {
-        const invalidateKeys = [
-          [
-            getQueryKey('token-balances', keyPrefix),
-            clonedUpdatedRoute.fromAddress,
-            clonedUpdatedRoute.fromChainId,
-          ],
-          [
-            getQueryKey('token-balances', keyPrefix),
-            clonedUpdatedRoute.toAddress,
-            clonedUpdatedRoute.toChainId,
-          ],
-          [getQueryKey('transaction-history', keyPrefix)],
-        ]
-        for (const key of invalidateKeys) {
-          queryClient.invalidateQueries(
-            {
-              queryKey: key,
-              exact: false,
-              refetchType: 'all',
-            },
-            { cancelRefetch: false }
-          )
-        }
-      }
-      // biome-ignore lint/suspicious/noConsole: logs route information
-      console.log('Route updated.', clonedUpdatedRoute)
-    })
+    }
+    // biome-ignore lint/suspicious/noConsole: logs route information
+    console.log('Route updated.', clonedUpdatedRoute)
   }
 
   const acceptExchangeRateUpdateHook = async (
@@ -228,39 +200,11 @@ export const useRouteExecution = ({
   )
 
   const restartRouteMutation = useCallback(() => {
-    const route = routeExecution?.route
-    if (route) {
-      // Reset failed steps and their actions to PENDING so the UI transitions
-      // immediately instead of waiting up to STAGGER_INTERVAL for the SDK's
-      // first post-resume update. Action status must also be reset — not just
-      // step status — because getActionMessage has no entry for FAILED actions
-      // in the Pending route context, which would leave title undefined and
-      // briefly unmount the text blocks. Clearing error/substatus keeps the
-      // action-row view consistent with the new status.
-      const reset = structuredClone(route)
-      for (const step of reset.steps) {
-        if (step.execution?.status === 'FAILED') {
-          step.execution.status = 'PENDING'
-          for (const action of step.execution.actions ?? []) {
-            if (action.status === 'FAILED') {
-              action.status = 'PENDING'
-              action.error = undefined
-              action.substatus = undefined
-              action.substatusMessage = undefined
-            }
-          }
-        }
-      }
-      updateRoute(reset)
-      // Sync reset bypasses enqueueStaggered — record now as the last flush
-      // so the first SDK update after resume waits the full throttle window.
-      staggerRef.current.lastAt = Date.now()
-    }
     resumeRouteMutation.mutateAsync({
       route: routeExecution?.route,
       executeInBackground: false,
     })
-  }, [resumeRouteMutation, routeExecution?.route, updateRoute])
+  }, [resumeRouteMutation, routeExecution?.route])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when routeId changes
   const deleteRouteMutation = useCallback(() => {
