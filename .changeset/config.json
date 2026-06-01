@@ -4,7 +4,7 @@
   "commit": false,
   "access": "public",
   "baseBranch": "main",
-  "updateInternalDependencies": "minor",
+  "updateInternalDependencies": "patch",
   "ignore": [
     "@lifi/widget-embedded",
     "@lifi/widget-playground",

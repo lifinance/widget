@@ -41,7 +41,7 @@ on the stable line, because it determines the eventual stable bump on `pre exit`
 @lifi/widget-light   (standalone, zero deps)
 ```
 
-`updateInternalDependencies: minor` means when you bump a package, every dependent
+`updateInternalDependencies: patch` means when you bump a package, every dependent
 **re-releases automatically** with an updated range. So if you change only
 `@lifi/widget-provider`, declare a changeset for **just** `@lifi/widget-provider` —
 `wallet-management` and `widget` bump on their own. Authoring changesets for those
