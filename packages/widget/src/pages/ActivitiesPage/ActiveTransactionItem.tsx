@@ -9,7 +9,7 @@ export const ActiveTransactionItem: React.FC<{ routeId: string }> = ({
   routeId,
 }) => {
   const navigate = useNavigate()
-  const { route, status, deleteRoute, restartRoute } = useRouteExecution({
+  const { route, status, deleteRoute } = useRouteExecution({
     routeId,
     executeInBackground: true,
   })
@@ -32,19 +32,12 @@ export const ActiveTransactionItem: React.FC<{ routeId: string }> = ({
     deleteRoute()
   }
 
-  const handleRetry = () => {
-    // NB: Do not stop propagation here:
-    // open the transaction execution page and retry the transaction simultaneously
-    restartRoute()
-  }
-
   return (
     <ActiveTransactionCard
       route={route}
       status={status}
       onClick={handleClick}
       onDelete={handleDelete}
-      onRetry={handleRetry}
     />
   )
 }

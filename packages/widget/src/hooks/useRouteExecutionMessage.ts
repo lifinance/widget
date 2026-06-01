@@ -22,22 +22,32 @@ export const useRouteExecutionMessage = (
 
   switch (status) {
     case RouteExecutionStatus.Pending: {
-      const lastStep = route.steps.at(-1)
-      const lastAction = lastStep?.execution?.actions?.at(-1)
-      if (!lastStep || !lastAction) {
-        break
-      }
-      const actionMessage = getActionMessage(
-        t,
-        lastStep,
-        lastAction.type,
-        lastAction.status,
-        lastAction.substatus,
-        subvariant,
-        subvariantOptions
-      )
-      title = actionMessage.title
-      message = actionMessage.message
+      // Use the first executing step, not the last one — in a multi-step route
+      // the active step is often not the last.
+      const activeStep =
+        route.steps.find(
+          (s) =>
+            s.execution?.status === 'PENDING' ||
+            s.execution?.status === 'ACTION_REQUIRED'
+        ) ?? route.steps.at(-1)
+      const lastAction = activeStep?.execution?.actions?.at(-1)
+      const actionMessage =
+        activeStep && lastAction
+          ? getActionMessage(
+              t,
+              activeStep,
+              lastAction.type,
+              lastAction.status,
+              lastAction.substatus,
+              subvariant,
+              subvariantOptions
+            )
+          : undefined
+      // Fall back to a generic title when the step has no action to describe yet
+      // (just after a restart, or before the first action exists).
+      title =
+        actionMessage?.title ?? t(`main.process.${transactionType}.pending`)
+      message = actionMessage?.message
       break
     }
     case RouteExecutionStatus.Done: {

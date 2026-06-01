@@ -22,14 +22,3 @@ export const DeleteButton: React.FC<React.ComponentProps<typeof IconButton>> =
     width: 24,
     height: 24,
   }))
-
-export const RetryButton: React.FC<React.ComponentProps<typeof IconButton>> =
-  styled(IconButton)(({ theme }) => ({
-    fontWeight: 700,
-    fontSize: 12,
-    height: 24,
-    borderRadius: theme.vars.shape.borderRadius,
-    padding: theme.spacing(0.5, 1.5),
-    color: theme.vars.palette.text.primary,
-    backgroundColor: theme.vars.palette.background.paper,
-  }))
