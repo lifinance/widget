@@ -13,5 +13,6 @@
     "@lifi/widget-playground",
     "@lifi/widget-playground-next",
     "@lifi/widget-playground-vite"
-  ]
+  ],
+  "snapshot": { "prereleaseTemplate": "{tag}" }
 }
