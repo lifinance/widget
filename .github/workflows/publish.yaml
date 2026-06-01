@@ -44,10 +44,10 @@ jobs:
         uses: ./.github/actions/pnpm-install
       - name: Check code
         run: pnpm check
-      - name: Check types
-        run: pnpm check:types
       - name: Build
         run: pnpm build
+      - name: Check types
+        run: pnpm check:types
 
   changesets:
     name: Changesets
