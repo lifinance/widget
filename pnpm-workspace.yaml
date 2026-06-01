@@ -26,6 +26,7 @@ allowBuilds:
   core-js: false
   esbuild: true
   keccak: false
+  msgpackr-extract: false
   nx: true
   protobufjs: false
   sharp: false
