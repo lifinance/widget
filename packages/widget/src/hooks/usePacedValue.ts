@@ -1,61 +1,39 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 /** Smallest gap between UI updates, in milliseconds. */
 const DISPLAY_INTERVAL = 1200
 
 /**
- * Limits how often `live` updates the UI to once per {@link DISPLAY_INTERVAL}.
- * If `live` changes several times quickly, only the latest value is shown once
- * the interval passes.
+ * Returns `live`, but changes it at most once every {@link DISPLAY_INTERVAL}
+ * milliseconds. If `live` changes several times within that window, only the
+ * newest value is shown.
  *
- * @remarks
- * The interval is measured from mount, so a just-mounted hook holds its first
- * value for one interval (time for an animation to play), while one mounted
- * longer shows the next change right away. With `paced` set to `false`, `live`
- * passes through unchanged. `flush` shows a value now and restarts the interval.
- *
- * @returns `value` to render, and `flush` to show a value immediately.
+ * Set `paced` to `false` to turn this off and update on every change.
  */
-export function usePacedValue<T>(
-  live: T,
-  paced = true
-): {
-  value: T
-  flush: (next: T) => void
-} {
+export function usePacedValue<T>(live: T, paced = true): T {
   const [value, setValue] = useState(live)
 
-  // Set once at mount, not on every render.
-  const windowStart = useRef<number | null>(null)
-  if (windowStart.current === null) {
-    windowStart.current = Date.now()
-  }
-
+  // Starts at 0 so the first update shows immediately, then throttles.
+  const windowStart = useRef(0)
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
-  const emit = useCallback((next: T): void => {
-    clearTimeout(timer.current)
-    windowStart.current = Date.now()
-    setValue(next)
-  }, [])
-
   useEffect(() => {
-    // Not pacing: show live as-is. We don't restart the interval here, so the
-    // first paced update later isn't delayed.
     if (!paced) {
       setValue(live)
       return
     }
-    const remaining = windowStart.current! + DISPLAY_INTERVAL - Date.now()
+    const show = () => {
+      windowStart.current = Date.now()
+      setValue(live)
+    }
+    const remaining = windowStart.current + DISPLAY_INTERVAL - Date.now()
     if (remaining <= 0) {
-      emit(live)
+      show()
       return
     }
-    // Otherwise wait it out, then show the latest live. A newer live cancels and
-    // reschedules this (via cleanup), so quick bursts become a single update.
-    timer.current = setTimeout(() => emit(live), remaining)
+    timer.current = setTimeout(show, remaining)
     return () => clearTimeout(timer.current)
-  }, [live, paced, emit])
+  }, [live, paced])
 
-  return { value, flush: emit }
+  return value
 }
