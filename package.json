@@ -16,16 +16,9 @@
     "dev:staging": "pnpm --filter widget-playground-vite dev:staging",
     "dev:local": "pnpm --filter widget-playground-vite dev:local",
     "dev:next": "pnpm --filter widget-playground-next dev",
-    "release": "pnpm release:version && pnpm release:build && pnpm standard-version -a -s",
-    "release:alpha": "pnpm release:version --preid alpha && pnpm release:build && pnpm standard-version -a -s --prerelease alpha --skip.changelog",
-    "release:beta": "pnpm release:version --preid beta && pnpm release:build && pnpm standard-version -a -s --prerelease beta --skip.changelog",
-    "release:version": "lerna version --no-changelog --no-push --no-git-tag-version --no-private",
-    "release:build": "pnpm -r --parallel release:build",
-    "release:publish:build": "pnpm release:build && pnpm -r --parallel build:prerelease",
-    "release:publish": "pnpm release:publish:build && pnpm -r publish --access public --no-git-checks --tag latest && pnpm release:clean",
-    "release:publish:alpha": "pnpm release:publish:build && pnpm -r publish --access public --no-git-checks --tag alpha && pnpm release:clean",
-    "release:publish:beta": "pnpm release:publish:build && pnpm -r publish --access public --no-git-checks --tag beta && pnpm release:clean",
-    "release:clean": "pnpm -r --parallel --filter './packages/**' --filter '!*-playground-*' --filter '!*-embedded' exec sh -c \"node ../../scripts/postrelease.js && rm -rf *.md\"",
+    "changeset:version": "changeset version && pnpm install --lockfile-only && pnpm check:write",
+    "changeset:prepublish": "pnpm build && pnpm -r --filter './packages/**' --filter '!*-playground-*' --filter '!*-embedded' build:prerelease",
+    "changeset:publish": "pnpm changeset:prepublish && pnpm --config.verify-deps-before-run=false changeset publish",
     "check": "biome check",
     "check:write": "biome check --write",
     "check:write:unsafe": "biome check --write --unsafe",
@@ -53,14 +46,10 @@
       "bash -c 'pnpm knip:check'"
     ]
   },
-  "standard-version": {
-    "scripts": {
-      "prerelease": "pnpm install && git add .",
-      "postbump": "pnpm check:write && git add ."
-    }
-  },
   "devDependencies": {
     "@biomejs/biome": "^2.4.15",
+    "@changesets/cli": "^2.31.0",
+    "@changesets/changelog-github": "^0.7.0",
     "@commitlint/cli": "^21.0.0",
     "@commitlint/config-conventional": "^21.0.0",
     "@types/node": "^25.6.2",
@@ -69,9 +58,7 @@
     "fs-extra": "^11.3.5",
     "husky": "^9.1.7",
     "knip": "^6.12.2",
-    "lerna": "^9.0.7",
     "lint-staged": "^17.0.4",
-    "standard-version": "^9.5.0",
     "tsdown": "^0.22.0",
     "typescript": "^6.0.3"
   },
