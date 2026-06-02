@@ -47,17 +47,11 @@ export function useExecutionRows(
         if (!isDoneOrFailed) {
           continue
         }
-        const href = action.txHash
-          ? getTransactionLink({
-              txHash: action.txHash,
-              chain: action.chainId,
-            })
-          : action.txLink
-            ? getTransactionLink({
-                txLink: action.txLink,
-                chain: action.chainId,
-              })
-            : undefined
+        const href = getTransactionLink({
+          txHash: action.txHash,
+          txLink: action.txLink,
+          chain: action.chainId,
+        })
         if (!href) {
           continue
         }
