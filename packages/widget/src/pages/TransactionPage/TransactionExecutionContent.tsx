@@ -1,6 +1,7 @@
 import type { RouteExtended } from '@lifi/sdk'
 import { Box } from '@mui/material'
 import { LazyMotion, MotionConfig } from 'motion/react'
+import type React from 'react'
 import type { JSX } from 'react'
 import { Card } from '../../components/Card/Card.js'
 import { ExecutionStatusCard } from '../../components/ExecutionStatusCard/ExecutionStatusCard.js'

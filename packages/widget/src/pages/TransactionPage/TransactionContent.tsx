@@ -1,4 +1,5 @@
 import type { RouteExtended } from '@lifi/sdk'
+import type React from 'react'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { TransactionExecutionContent } from './TransactionExecutionContent.js'
 import { TransactionReview } from './TransactionReview.js'
