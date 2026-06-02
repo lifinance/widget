@@ -1,5 +1,6 @@
 import type { RouteExtended } from '@lifi/sdk'
 import { Box } from '@mui/material'
+import { domMax, LazyMotion, MotionConfig } from 'motion/react'
 import type { JSX } from 'react'
 import { Card } from '../../components/Card/Card.js'
 import { ExecutionStatusCard } from '../../components/ExecutionStatusCard/ExecutionStatusCard.js'
@@ -68,25 +69,29 @@ export const TransactionExecutionContent: React.FC<
   )
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-      <ExecutionStatusCard
-        title={title}
-        description={message}
-        rows={rows}
-        iconSlot={iconSlot}
-        footerSlot={footerSlot}
-        vcSlot={VcComponent ? <VcComponent route={route} /> : undefined}
-      />
-      <WarningMessages route={route} allowInteraction />
-      {status === RouteExecutionStatus.Failed ? (
-        <TransactionFailedButtons
-          route={route}
-          restartRoute={restartRoute}
-          deleteRoute={deleteRoute}
-        />
-      ) : isDone ? (
-        <TransactionDoneButtons route={route} status={status} />
-      ) : null}
-    </Box>
+    <LazyMotion features={domMax} strict>
+      <MotionConfig reducedMotion="user">
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <ExecutionStatusCard
+            title={title}
+            description={message}
+            rows={rows}
+            iconSlot={iconSlot}
+            footerSlot={footerSlot}
+            vcSlot={VcComponent ? <VcComponent route={route} /> : undefined}
+          />
+          <WarningMessages route={route} allowInteraction />
+          {status === RouteExecutionStatus.Failed ? (
+            <TransactionFailedButtons
+              route={route}
+              restartRoute={restartRoute}
+              deleteRoute={deleteRoute}
+            />
+          ) : isDone ? (
+            <TransactionDoneButtons route={route} status={status} />
+          ) : null}
+        </Box>
+      </MotionConfig>
+    </LazyMotion>
   )
 }

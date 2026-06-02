@@ -50,7 +50,6 @@ const heroItemVariants: Variants = {
   },
 }
 
-/** Title swap: the outgoing title fully exits before the next one enters. */
 const titleVariants: Variants = {
   hidden: { opacity: 0, y: 10, filter: 'blur(2px)' },
   visible: {
@@ -79,10 +78,10 @@ const textContainerVariants: Variants = {
 /**
  * Animate height explicitly. A plain `layout` animation sets `height: auto`
  * immediately, so the card background would jump to full height before the
- * content appears. `layout` stays only to animate the accordion's position
+ * content appears. `layout` stays only to animate the checklist's position
  * when the hero column above it resizes.
  */
-const accordionVariants: Variants = {
+const checklistVariants: Variants = {
   hidden: {
     height: 0,
     opacity: 0,
@@ -97,13 +96,8 @@ const accordionVariants: Variants = {
 
 const layoutTransition: Transition = { duration: 0.3, ease: [0.19, 1, 0.22, 1] }
 
-/** Seconds before the first word animates. */
 const WORD_STAGGER_DELAY = 0.08
 
-/**
- * Displays the current execution status: icon, title, description,
- * completed steps, and a footer card.
- */
 export function ExecutionStatusCard({
   title,
   description,
@@ -119,7 +113,7 @@ export function ExecutionStatusCard({
       {/*
        * Keep Card non-animated. Animating its layout would combine with the
        * rows' layout animations and make the rows jump. Its height follows
-       * the accordion through normal layout instead.
+       * the checklist through normal layout instead.
        */}
       <Card type="default" indented>
         <m.div
@@ -160,7 +154,6 @@ export function ExecutionStatusCard({
                 variants={heroItemVariants}
                 style={{ width: '100%', paddingTop: 12 }}
               >
-                {/* mode="wait": old title exits before the new one enters */}
                 <AnimatePresence initial={false} mode="wait">
                   <m.div
                     key={title}
@@ -227,7 +220,7 @@ export function ExecutionStatusCard({
                 key="checklist"
                 layout
                 transition={{ layout: layoutTransition }}
-                variants={accordionVariants}
+                variants={checklistVariants}
                 initial="hidden"
                 animate="visible"
                 exit="hidden"

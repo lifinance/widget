@@ -1,4 +1,3 @@
-import { LazyMotion, MotionConfig } from 'motion/react'
 import type { PropsWithChildren } from 'react'
 import { I18nProvider } from './providers/I18nProvider/I18nProvider.js'
 import { QueryClientProvider } from './providers/QueryClientProvider.js'
@@ -9,9 +8,6 @@ import { WidgetProvider } from './providers/WidgetProvider/WidgetProvider.js'
 import { StoreProvider } from './stores/StoreProvider.js'
 import { SettingsStoreProvider } from './stores/settings/SettingsStore.js'
 import type { WidgetConfigProps } from './types/widget.js'
-
-const loadMotionFeatures = () =>
-  import('./motionFeatures.js').then((module) => module.default)
 
 export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
   children,
@@ -27,11 +23,7 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
               <SDKClientProvider>
                 <WalletProvider providers={config.providers ?? []}>
                   <StoreProvider config={config} formRef={formRef}>
-                    <LazyMotion features={loadMotionFeatures} strict>
-                      <MotionConfig reducedMotion="user">
-                        {children}
-                      </MotionConfig>
-                    </LazyMotion>
+                    {children}
                   </StoreProvider>
                 </WalletProvider>
               </SDKClientProvider>

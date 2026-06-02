@@ -13,20 +13,23 @@ const DISPLAY_INTERVAL = 1200
 export function usePacedValue<T>(live: T, paced = true): T {
   const [value, setValue] = useState(live)
 
-  // Starts at 0 so the first update shows immediately, then throttles.
+  const shown = useRef(live)
+  // 0 so the first update shows immediately, then throttles.
   const windowStart = useRef(0)
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   useEffect(() => {
-    if (live === value) {
+    if (live === shown.current) {
       return
     }
     if (!paced) {
+      shown.current = live
       setValue(live)
       return
     }
     const show = () => {
       windowStart.current = Date.now()
+      shown.current = live
       setValue(live)
     }
     const remaining = windowStart.current + DISPLAY_INTERVAL - Date.now()
@@ -36,7 +39,7 @@ export function usePacedValue<T>(live: T, paced = true): T {
     }
     timer.current = setTimeout(show, remaining)
     return () => clearTimeout(timer.current)
-  }, [live, paced, value])
+  }, [live, paced])
 
   return value
 }
