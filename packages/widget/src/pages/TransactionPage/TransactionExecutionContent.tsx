@@ -1,6 +1,6 @@
 import type { RouteExtended } from '@lifi/sdk'
 import { Box } from '@mui/material'
-import { domMax, LazyMotion, MotionConfig } from 'motion/react'
+import { LazyMotion, MotionConfig } from 'motion/react'
 import type { JSX } from 'react'
 import { Card } from '../../components/Card/Card.js'
 import { ExecutionStatusCard } from '../../components/ExecutionStatusCard/ExecutionStatusCard.js'
@@ -15,6 +15,10 @@ import { hasEnumFlag } from '../../utils/enum.js'
 import { ExecutionDoneCard } from './ExecutionDoneCard.js'
 import { TransactionDoneButtons } from './TransactionDoneButtons.js'
 import { TransactionFailedButtons } from './TransactionFailedButtons.js'
+
+const loadFeatures = (): Promise<
+  typeof import('./motionFeatures.js').default
+> => import('./motionFeatures.js').then((res) => res.default)
 
 export interface TransactionExecutionContentProps {
   route: RouteExtended
@@ -65,7 +69,7 @@ export const TransactionExecutionContent: React.FC<
   )
 
   return (
-    <LazyMotion features={domMax} strict>
+    <LazyMotion features={loadFeatures} strict>
       <MotionConfig reducedMotion="user">
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <ExecutionStatusCard
