@@ -20,11 +20,19 @@ export const StepActionsList: React.FC<StepActionsListProps> = ({
     return null
   }
 
+  const lastActionIndex = rows.findLastIndex((r) => r.kind === 'action')
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-      {rows.map((row) => (
-        <Fragment key={row.kind === 'action' ? row.href : 'wallet'}>
-          {renderExecutionRow(row)}
+      {rows.map((row, index) => (
+        <Fragment
+          key={
+            row.kind === 'action'
+              ? `${row.step.id}-${row.action.type}-${index}`
+              : `wallet-${row.toChainId}`
+          }
+        >
+          {renderExecutionRow(row, index === lastActionIndex)}
         </Fragment>
       ))}
     </Box>

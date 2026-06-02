@@ -24,11 +24,17 @@ export function ExecutionChecklist({
     return null
   }
 
+  const lastActionIndex = rows.findLastIndex((r) => r.kind === 'action')
+
   return (
     <AnimatePresence mode="popLayout">
       {rows.map((row, index) => (
         <m.div
-          key={row.kind === 'action' ? row.href : 'wallet'}
+          key={
+            row.kind === 'action'
+              ? `${row.step.id}-${row.action.type}-${index}`
+              : `wallet-${row.toChainId}`
+          }
           layout
           initial={{ opacity: 0, y: 14, scaleX: 0.8 }}
           animate={{ opacity: 1, y: 0, scaleX: 1 }}
@@ -45,7 +51,9 @@ export function ExecutionChecklist({
           }}
           style={{ transformOrigin: 'center bottom' }}
         >
-          <Box sx={{ paddingTop: 1.5 }}>{renderExecutionRow(row)}</Box>
+          <Box sx={{ paddingTop: 1.5 }}>
+            {renderExecutionRow(row, index === lastActionIndex)}
+          </Box>
         </m.div>
       ))}
     </AnimatePresence>
