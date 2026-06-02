@@ -92,7 +92,7 @@
       "emptyChainList": "Não conseguimos encontrar nenhuma rede que corresponda à sua pesquisa",
       "emptyExchangesList": "Não conseguimos encontrar nenhuma corretora que corresponda à sua pesquisa",
       "emptyTokenListAllNetworks": "Não conseguimos encontrar nenhum token. Por favor, busque por endereço de contrato se o token não aparecer, ou tente selecionar uma cadeia diferente.",
-      "emptyTransactionHistory": "O histórico de transações é armazenado apenas localmente e será excluído se você limpar os dados do seu navegador.",
+      "emptyTransactionHistory": "",
       "routeNotFound": "Razões para isso podem ser: baixa liquidez, valor selecionado é muito baixo, os custos com gás são muito elevados ou não há rotas para a combinação selecionada.",
       "missingRouteRequiredAccount": "Conecte sua carteira {{chainName}} para continuar. {{address}}"
     },
@@ -131,6 +131,9 @@
       "resetSettings": "Isto redefinirá sua prioridade de rota, tolerância a derrapagem, preço de gás, pontes e trocas ativadas.",
       "slippageOutsideRecommendedLimits": "Alta tolerância na derrapagem pode resultar em negociação desfavorável ​​causada pelo front-running.",
       "slippageUnderRecommendedLimits": "Baixa tolerância à diferença na cotação pode causar atrasos e falhas na transação."
+    },
+    "checkbox": {
+      "highValueLoss": ""
     },
     "title": {
       "clearFailedTransactions": "",
@@ -343,8 +346,11 @@
     "enterAddress_short": "Insira o endereço da carteira",
     "enterName": "Insira o nome",
     "noBookmarkedWallets": "Sem carteiras favoritas",
+    "noBookmarkedWalletsMessage": "",
     "noConnectedWallets": "Sem carteiras conectadas",
+    "noConnectedWalletsMessage": "",
     "noRecentWallets": "Sem carteiras recentes",
+    "noRecentWalletsMessage": "",
     "required": ""
   },
   "tokenMetric": {

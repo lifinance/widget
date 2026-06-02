@@ -1,8 +1,13 @@
 import type { WidgetProviderProps } from '@lifi/widget-provider'
 import { DAppKitContext } from '@mysten/dapp-kit-react'
 import { type JSX, type PropsWithChildren, useContext } from 'react'
+import type { SuiProviderConfig } from '../types.js'
 import { SuiBaseProvider } from './SuiBaseProvider.js'
 import { SuiProviderValues } from './SuiProviderValues.js'
+
+interface SuiWidgetProviderProps extends WidgetProviderProps {
+  config?: SuiProviderConfig
+}
 
 function useInSuiContext(): boolean {
   const context = useContext(DAppKitContext)
@@ -14,29 +19,39 @@ const SuiWidgetProvider = ({
   isExternalContext = false,
   chains,
   children,
-}: PropsWithChildren<WidgetProviderProps>) => {
+  config,
+}: PropsWithChildren<SuiWidgetProviderProps>) => {
   const inSuiContext = useInSuiContext()
   const effectiveIsExternal = isExternalContext || inSuiContext
 
   if (inSuiContext && !forceInternalWalletManagement) {
     return (
-      <SuiProviderValues isExternalContext={effectiveIsExternal}>
+      <SuiProviderValues
+        isExternalContext={effectiveIsExternal}
+        config={config}
+      >
         {children}
       </SuiProviderValues>
     )
   }
 
   return (
-    <SuiBaseProvider chains={chains} isExternalContext={effectiveIsExternal}>
+    <SuiBaseProvider
+      chains={chains}
+      isExternalContext={effectiveIsExternal}
+      config={config}
+    >
       {children}
     </SuiBaseProvider>
   )
 }
 
-export const SuiProvider = (): ((
-  props: PropsWithChildren<WidgetProviderProps>
-) => JSX.Element) => {
+export const SuiProvider = (
+  config?: SuiProviderConfig
+): ((props: PropsWithChildren<WidgetProviderProps>) => JSX.Element) => {
   return ({ children, ...props }: PropsWithChildren<WidgetProviderProps>) => (
-    <SuiWidgetProvider {...props}>{children}</SuiWidgetProvider>
+    <SuiWidgetProvider {...props} config={config}>
+      {children}
+    </SuiWidgetProvider>
   )
 }

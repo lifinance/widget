@@ -5,7 +5,6 @@ import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import { HiddenUI } from '../types/widget.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useAvailableChains } from './useAvailableChains.js'
 import { useIsContractAddress } from './useIsContractAddress.js'
@@ -221,7 +220,7 @@ export const useGasSufficiency = (
         !isContractAddressLoading &&
         relevantAccounts.length > 0 &&
         route &&
-        !hiddenUI?.includes(HiddenUI.InsufficientGasMessage)
+        !hiddenUI?.insufficientGasMessage
     ),
     refetchInterval,
     staleTime: refetchInterval,

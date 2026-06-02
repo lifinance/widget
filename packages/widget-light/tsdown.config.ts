@@ -7,6 +7,7 @@ export default defineConfig({
     'src/handlers/solana/index.ts',
     'src/handlers/bitcoin/index.ts',
     'src/handlers/sui/index.ts',
+    'src/handlers/tron/index.ts',
   ],
   outDir: 'dist/esm',
   format: 'esm',

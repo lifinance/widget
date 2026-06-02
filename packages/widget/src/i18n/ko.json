@@ -92,7 +92,7 @@
       "emptyChainList": "",
       "emptyExchangesList": "",
       "emptyTokenListAllNetworks": "",
-      "emptyTransactionHistory": "스왑 기록은 로컬에만 저장되며 브라우저 데이터를 지우면 삭제됩니다.",
+      "emptyTransactionHistory": "",
       "routeNotFound": "이유: 낮은 유동성, 선택된 수량이 너무 적음, 가스비가 너무 비싸거나 경로가 존재하지 않음",
       "missingRouteRequiredAccount": ""
     },
@@ -131,6 +131,9 @@
       "resetSettings": "우선 경로, 슬리피지, 가스 비용, 활성화된 브릿지 및 거래소가 재설정됩니다.",
       "slippageOutsideRecommendedLimits": "",
       "slippageUnderRecommendedLimits": ""
+    },
+    "checkbox": {
+      "highValueLoss": ""
     },
     "title": {
       "clearFailedTransactions": "",
@@ -343,8 +346,11 @@
     "enterAddress_short": "",
     "enterName": "",
     "noBookmarkedWallets": "",
+    "noBookmarkedWalletsMessage": "",
     "noConnectedWallets": "",
+    "noConnectedWalletsMessage": "",
     "noRecentWallets": "",
+    "noRecentWalletsMessage": "",
     "required": ""
   },
   "tokenMetric": {

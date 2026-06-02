@@ -151,7 +151,7 @@ const TokenBase: FC<TokenProps & BoxProps> = ({
             })}
           </TextSecondary>
           {impactToken ? (
-            <TextSecondary px={0.5} dot>
+            <TextSecondary sx={{ px: 0.5 }} dot>
               &#x2022;
             </TextSecondary>
           ) : null}
@@ -176,7 +176,7 @@ const TokenBase: FC<TokenProps & BoxProps> = ({
             )
           ) : null}
           {!disableDescription ? (
-            <TextSecondary px={0.5} dot>
+            <TextSecondary sx={{ px: 0.5 }} dot>
               &#x2022;
             </TextSecondary>
           ) : null}

@@ -13,7 +13,6 @@ import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.j
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useHeaderStore } from '../../stores/header/useHeaderStore.js'
 import { WidgetEvent } from '../../types/events.js'
-import { HiddenUI } from '../../types/widget.js'
 import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { ConfirmToAddressSheet } from './ConfirmToAddressSheet.js'
@@ -40,8 +39,7 @@ export const TransactionReview: React.FC<TransactionReviewProps> = ({
   const { setFieldValue } = useFieldActions()
   const emitter = useWidgetEvents()
   const setBackAction = useHeaderStore((state) => state.setBackAction)
-  const { subvariant, subvariantOptions, hiddenUI, defaultUI } =
-    useWidgetConfig()
+  const { mode, modeOptions, hiddenUI, defaultUI } = useWidgetConfig()
 
   const tokenValueBottomSheetRef = useRef<BottomSheetBase>(null)
   const confirmToAddressSheetRef = useRef<BottomSheetBase>(null)
@@ -74,7 +72,7 @@ export const TransactionReview: React.FC<TransactionReviewProps> = ({
     tokenValueBottomSheetRef.current?.close()
     executeRoute()
     setFieldValue('fromAmount', '')
-    if (subvariant === 'custom') {
+    if (mode === 'custom') {
       setFieldValue('fromToken', '')
       setFieldValue('toToken', '')
     }
@@ -89,7 +87,7 @@ export const TransactionReview: React.FC<TransactionReviewProps> = ({
       !hasActivity &&
       !isLoadingAddressActivity &&
       isActivityAddressFetched &&
-      !hiddenUI?.includes(HiddenUI.LowAddressActivityConfirmation)
+      !hiddenUI?.lowAddressActivityConfirmation
     ) {
       confirmToAddressSheetRef.current?.open()
       return
@@ -104,7 +102,7 @@ export const TransactionReview: React.FC<TransactionReviewProps> = ({
       gasCostUSD,
       feeCostUSD
     )
-    if (tokenValueLossThresholdExceeded && subvariant !== 'custom') {
+    if (tokenValueLossThresholdExceeded && mode !== 'custom') {
       tokenValueBottomSheetRef.current?.open()
     } else {
       handleExecuteRoute()
@@ -112,9 +110,9 @@ export const TransactionReview: React.FC<TransactionReviewProps> = ({
   }
 
   const getButtonText = (): string => {
-    switch (subvariant) {
+    switch (mode) {
       case 'custom':
-        return subvariantOptions?.custom === 'deposit'
+        return modeOptions?.custom?.type === 'deposit'
           ? t('button.deposit')
           : t('button.buy')
       case 'refuel':
@@ -136,7 +134,7 @@ export const TransactionReview: React.FC<TransactionReviewProps> = ({
           defaultExpanded={defaultUI?.transactionDetailsExpanded}
         />
       </Card>
-      <WarningMessages mt={2} route={route} allowInteraction />
+      <WarningMessages sx={{ mt: 2 }} route={route} allowInteraction />
       <Box sx={{ flex: 1 }}>
         <StartTransactionButton
           text={getButtonText()}
@@ -145,14 +143,14 @@ export const TransactionReview: React.FC<TransactionReviewProps> = ({
           loading={routeRefreshing || isLoadingAddressActivity}
         />
       </Box>
-      {subvariant !== 'custom' ? (
+      {mode !== 'custom' ? (
         <TokenValueBottomSheet
           route={route}
           ref={tokenValueBottomSheetRef}
           onContinue={handleExecuteRoute}
         />
       ) : null}
-      {!hiddenUI?.includes(HiddenUI.LowAddressActivityConfirmation) ? (
+      {!hiddenUI?.lowAddressActivityConfirmation ? (
         <ConfirmToAddressSheet
           ref={confirmToAddressSheetRef}
           onContinue={handleExecuteRoute}

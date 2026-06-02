@@ -8,15 +8,14 @@ import { useTranslation } from 'react-i18next'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { DisabledUI, HiddenUI } from '../../types/widget.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 
 export const SendToWalletExpandButton = (): JSX.Element => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { toAddresses, disabledUI, hiddenUI } = useWidgetConfig()
-  const hiddenToAddress = hiddenUI?.includes(HiddenUI.ToAddress)
-  const disabledToAddress = disabledUI?.includes(DisabledUI.ToAddress)
+  const hiddenToAddress = hiddenUI?.toAddress
+  const disabledToAddress = disabledUI?.toAddress
   const { requiredToAddress } = useToAddressRequirements()
   const [toAddressValue] = useFieldValues('toAddress')
 

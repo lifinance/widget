@@ -10,7 +10,7 @@ export const useRouteExecutionMessage = (
   route: RouteExtended,
   status: RouteExecutionStatus
 ): { title: string | undefined; message: string | undefined } => {
-  const { subvariant, subvariantOptions } = useWidgetConfig()
+  const { mode, modeOptions } = useWidgetConfig()
   const { t } = useTranslation()
   const { getChainById } = useAvailableChains()
 
@@ -39,8 +39,8 @@ export const useRouteExecutionMessage = (
               lastAction.type,
               lastAction.status,
               lastAction.substatus,
-              subvariant,
-              subvariantOptions
+              mode,
+              modeOptions
             )
           : undefined
       // Fall back to a generic title when the step has no action to describe yet
@@ -52,9 +52,9 @@ export const useRouteExecutionMessage = (
     }
     case RouteExecutionStatus.Done: {
       title =
-        subvariant === 'custom'
+        mode === 'custom'
           ? t(
-              `success.title.${subvariantOptions?.custom ?? 'checkout'}Successful`
+              `success.title.${modeOptions?.custom?.type ?? 'checkout'}Successful`
             )
           : t(`success.title.${transactionType}Successful`)
       break

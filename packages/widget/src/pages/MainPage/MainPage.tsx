@@ -12,31 +12,29 @@ import { SendToWalletExpandButton } from '../../components/SendToWallet/SendToWa
 import { useHeader } from '../../hooks/useHeader.js'
 import { useWideVariant } from '../../hooks/useWideVariant.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { HiddenUI } from '../../types/widget.js'
 import { MainWarningMessages } from './MainWarningMessages.js'
 import { ReviewButton } from './ReviewButton.js'
 
 export const MainPage: React.FC = () => {
   const { t } = useTranslation()
   const wideVariant = useWideVariant()
-  const { subvariant, subvariantOptions, contractComponent, hiddenUI } =
-    useWidgetConfig()
-  const custom = subvariant === 'custom'
-  const showPoweredBy = !hiddenUI?.includes(HiddenUI.PoweredBy)
-  const showGasRefuelMessage = !hiddenUI?.includes(HiddenUI.GasRefuelMessage)
+  const { mode, modeOptions, contractComponent, hiddenUI } = useWidgetConfig()
+  const custom = mode === 'custom'
+  const showPoweredBy = !hiddenUI?.poweredBy
+  const showGasRefuelMessage = !hiddenUI?.gasRefuelMessage
 
   const splitTitle =
-    subvariantOptions?.split === 'bridge'
+    modeOptions?.split === 'bridge'
       ? t('header.bridge')
-      : subvariantOptions?.split === 'swap'
+      : modeOptions?.split === 'swap'
         ? t('header.swap')
         : undefined
   const title =
-    subvariant === 'custom'
-      ? t(`header.${subvariantOptions?.custom ?? 'checkout'}`)
-      : subvariant === 'refuel'
+    mode === 'custom'
+      ? t(`header.${modeOptions?.custom?.type ?? 'checkout'}`)
+      : mode === 'refuel'
         ? t('header.gas')
-        : subvariant === 'split' && splitTitle
+        : mode === 'split' && splitTitle
           ? splitTitle
           : t('header.exchange')
 
@@ -49,14 +47,14 @@ export const MainPage: React.FC = () => {
       {custom ? (
         <ContractComponent sx={marginSx}>{contractComponent}</ContractComponent>
       ) : null}
-      <SelectChainAndToken mb={2} />
-      {!custom || subvariantOptions?.custom === 'deposit' ? (
+      <SelectChainAndToken sx={marginSx} />
+      {!custom || modeOptions?.custom?.type === 'deposit' ? (
         <AmountInput formType="from" sx={marginSx} />
       ) : null}
       {!wideVariant ? <Routes sx={marginSx} /> : null}
       <SendToWalletButton sx={marginSx} />
-      {showGasRefuelMessage ? <GasRefuelMessage mb={2} /> : null}
-      <MainWarningMessages mb={2} />
+      {showGasRefuelMessage ? <GasRefuelMessage sx={marginSx} /> : null}
+      <MainWarningMessages sx={marginSx} />
       <Box
         sx={{
           display: 'flex',

@@ -4,6 +4,7 @@ import { BitcoinProvider } from '@lifi/widget-provider-bitcoin'
 import { EthereumProvider } from '@lifi/widget-provider-ethereum'
 import { SolanaProvider } from '@lifi/widget-provider-solana'
 import { SuiProvider } from '@lifi/widget-provider-sui'
+import { TronProvider } from '@lifi/widget-provider-tron'
 
 export const widgetBaseConfig: WidgetConfig = {
   // fromChain: 137,
@@ -44,31 +45,38 @@ export const widgetBaseConfig: WidgetConfig = {
     SuiProvider(),
     SolanaProvider(),
     BitcoinProvider(),
+    TronProvider({
+      walletConnect: import.meta.env?.VITE_TVM_WALLET_CONNECT
+        ? {
+            network: 'mainnet',
+            options: {
+              projectId: import.meta.env.VITE_TVM_WALLET_CONNECT,
+            },
+          }
+        : true,
+    }),
   ],
   variant: 'wide',
-  // subvariant: 'split',
-  // subvariantOptions: {
-  //   wide: {
-  //     disableChainSidebar: true,
-  //   },
+  // mode: 'split',
+  // hiddenUI: {
+  //   chainSidebar: true,
   // },
   integrator: 'li.fi-playground',
   ...(import.meta.env?.VITE_API_KEY && {
     apiKey: import.meta.env.VITE_API_KEY,
   }),
-  // fee: 0.01,
   // feeConfig: {
   //   name: 'DApp fee',
   //   fee: 0.01,
   //   showFeePercentage: true,
   //   showFeeTooltip: true,
   // },
-  // useRecommendedRoute: true,
+  // showSingleRoute: true,
   useRelayerRoutes: true,
   buildUrl: true,
-  // hiddenUI: ['poweredBy', 'language', 'appearance', 'drawerButton', 'toAddress'],
-  // disabledUI: ['toAddress', 'fromAmount', 'toToken', 'fromToken'],
-  // requiredUI: ['toAddress'],
+  // hiddenUI: { poweredBy: true, language: true, appearance: true, drawerCloseButton: true, toAddress: true },
+  // disabledUI: { toAddress: true, fromAmount: true, toToken: true, fromToken: true },
+  // requiredUI: { toAddress: true },
   // defaultUI: {
   //   navigationHeaderTitleNoWrap: false,
   // },
@@ -88,10 +96,7 @@ export const widgetBaseConfig: WidgetConfig = {
     routeOptions: {
       maxPriceImpact: 0.4,
       jitoBundle: true,
-      // slippage: 0.03,
-      // order: 'SAFEST',
       // allowSwitchChain: false,
-      // fee: 0.05
     },
   },
   // theme: {
@@ -287,6 +292,13 @@ export const widgetBaseConfig: WidgetConfig = {
   //     exchanges: {
   //       allow: ['lifidexaggregator'],
   //     },
+  //   },
+  //   {
+  //     label: { text: 'Low gas' },
+  //     // Custom match function — AND'd with the other criteria on the rule.
+  //     // Useful for matching on fields the built-in criteria don't cover.
+  //     match: (route) =>
+  //       route.gasCostUSD ? Number(route.gasCostUSD) < 1 : false,
   //   },
   // ],
 }

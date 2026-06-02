@@ -7,17 +7,20 @@ import {
 import { SuiGrpcClient } from '@mysten/sui/grpc'
 import { getJsonRpcFullnodeUrl } from '@mysten/sui/jsonRpc'
 import { type FC, type PropsWithChildren, useRef } from 'react'
+import type { SuiProviderConfig } from '../types.js'
 import { SuiProviderValues } from './SuiProviderValues.js'
 
 interface SuiBaseProviderProps {
   chains?: ExtendedChain[]
   isExternalContext?: boolean
+  config?: SuiProviderConfig
 }
 
 export const SuiBaseProvider: FC<PropsWithChildren<SuiBaseProviderProps>> = ({
   chains,
   children,
   isExternalContext = false,
+  config,
 }) => {
   const storageKey = 'li.fi-sui-dapp-kit'
   const dappKit = useRef<DefaultExpectedDppKit>(null)
@@ -40,7 +43,7 @@ export const SuiBaseProvider: FC<PropsWithChildren<SuiBaseProviderProps>> = ({
 
   return (
     <DAppKitProvider dAppKit={dappKit.current}>
-      <SuiProviderValues isExternalContext={isExternalContext}>
+      <SuiProviderValues isExternalContext={isExternalContext} config={config}>
         {children}
       </SuiProviderValues>
     </DAppKitProvider>

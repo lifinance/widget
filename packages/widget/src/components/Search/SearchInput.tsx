@@ -8,8 +8,7 @@ import type {
   RefObject,
 } from 'react'
 import { InputCard } from '../../components/Card/InputCard.js'
-import { useHeaderHeight } from '../../stores/header/useHeaderStore.js'
-import { Input, StickySearchInputContainer } from './SearchInput.style.js'
+import { Input } from './SearchInput.style.js'
 
 interface SearchInputProps {
   inputRef?: RefObject<HTMLInputElement | null>
@@ -77,15 +76,5 @@ export const SearchInput = ({
         />
       </FormControl>
     </InputCard>
-  )
-}
-
-export const StickySearchInput = (props: SearchInputProps): JSX.Element => {
-  const { headerHeight } = useHeaderHeight()
-
-  return (
-    <StickySearchInputContainer headerHeight={headerHeight}>
-      <SearchInput {...props} autoFocus />
-    </StickySearchInputContainer>
   )
 }

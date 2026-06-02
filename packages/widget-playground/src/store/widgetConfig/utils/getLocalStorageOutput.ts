@@ -5,7 +5,7 @@ export const getLocalStorageOutput = (
 ): Partial<WidgetConfig> => {
   return {
     ...(config.variant ? { variant: config.variant } : {}),
-    ...(config.subvariant ? { subvariant: config.subvariant } : {}),
+    ...(config.mode ? { mode: config.mode } : {}),
     ...(config.appearance ? { appearance: config.appearance } : {}),
     ...(config.theme
       ? {
@@ -34,10 +34,10 @@ export const getLocalStorageOutput = (
                   },
                 }
               : {}),
-            ...(config.theme.palette
+            ...(config.theme.colorSchemes
               ? {
-                  palette: {
-                    ...config.theme.palette,
+                  colorSchemes: {
+                    ...config.theme.colorSchemes,
                   },
                 }
               : {}),

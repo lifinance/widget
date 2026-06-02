@@ -1,5 +1,5 @@
 import { useAccount } from '@lifi/wallet-management'
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutlined'
 import { Button } from '@mui/material'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'

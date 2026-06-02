@@ -4,6 +4,7 @@ import type { JSX, PropsWithChildren } from 'react'
 import { BitcoinIframeProviderValues } from './providers/iframe/BitcoinIframeProviderValues.js'
 import { SolanaIframeProviderValues } from './providers/iframe/SolanaIframeProviderValues.js'
 import { SuiIframeProviderValues } from './providers/iframe/SuiIframeProviderValues.js'
+import { TronIframeProviderValues } from './providers/iframe/TronIframeProviderValues.js'
 import { useEmbeddedWidgetConfig } from './providers/WidgetConfigProvider.js'
 import { WidgetEventsBridge } from './providers/WidgetEventsBridge.js'
 
@@ -17,6 +18,9 @@ const IFRAME_PROVIDERS = [
   ),
   ({ children }: PropsWithChildren) => (
     <SuiIframeProviderValues>{children}</SuiIframeProviderValues>
+  ),
+  ({ children }: PropsWithChildren) => (
+    <TronIframeProviderValues>{children}</TronIframeProviderValues>
   ),
 ]
 

@@ -7,7 +7,6 @@ import { CardValue } from '../../components/Card/CardButton.style.js'
 import { CardTabs, Tab } from '../../components/Tabs/Tabs.style.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { Appearance } from '../../types/widget.js'
-import { HiddenUI } from '../../types/widget.js'
 import { SettingCardExpandable } from './SettingsCard/SettingCardExpandable.js'
 
 const themeIcons = {
@@ -40,7 +39,7 @@ export const ThemeSettings: React.FC = () => {
   const { mode, setMode } = useColorScheme()
   const { hiddenUI } = useWidgetConfig()
 
-  if (hiddenUI?.includes(HiddenUI.Appearance)) {
+  if (hiddenUI?.appearance) {
     return null
   }
 

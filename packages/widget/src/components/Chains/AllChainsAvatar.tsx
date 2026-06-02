@@ -38,9 +38,15 @@ const chainTypeIcons = [
     icon: 'https://lifinance.github.io/types/src/assets/icons/chains/sui.svg',
     defaultChainId: ChainId.SUI,
   },
+  {
+    name: 'Tron',
+    chainType: ChainType.TVM,
+    icon: 'https://lifinance.github.io/types/src/assets/icons/chains/tron.svg',
+    defaultChainId: ChainId.TRN,
+  },
 ]
 
-const maxChainAvatarsCount = chainTypeIcons.length
+const maxChainAvatarsCount = 4
 
 export const AllChainsAvatar: React.NamedExoticComponent<AllChainsAvatarProps> =
   memo(({ chains, size }: AllChainsAvatarProps): JSX.Element => {

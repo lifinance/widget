@@ -5,6 +5,7 @@ import {
   useEthereumContext,
   useSolanaContext,
   useSuiContext,
+  useTronContext,
   type WalletConnector,
 } from '@lifi/widget-provider'
 import { useMemo } from 'react'
@@ -53,6 +54,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
   const { account: bitcoinAccount } = useBitcoinContext()
   const { account: solanaAccount } = useSolanaContext()
   const { account: suiAccount } = useSuiContext()
+  const { account: tronAccount } = useTronContext()
   const { lastConnectedAccount } = useLastConnectedAccount()
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when wallet changes
@@ -62,6 +64,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
       solanaAccount,
       bitcoinAccount,
       suiAccount,
+      tronAccount,
     ].filter(Boolean) as Account[]
     const connectedAccounts = accounts.filter(
       (account) => account.isConnected && account.address
@@ -111,6 +114,8 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
     bitcoinAccount?.chainId,
     suiAccount?.address,
     suiAccount?.status,
+    tronAccount?.address,
+    tronAccount?.status,
     args?.chainType,
     lastConnectedAccount,
   ])

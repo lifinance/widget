@@ -92,7 +92,7 @@
       "emptyChainList": "No pudimos encontrar ninguna cadena que coincida con tu búsqueda",
       "emptyExchangesList": "No pudimos encontrar ningún intercambio que coincida con su búsqueda",
       "emptyTokenListAllNetworks": "",
-      "emptyTransactionHistory": "El historial de intercambio solo se almacena localmente y se eliminará si borra los datos de su navegador.",
+      "emptyTransactionHistory": "",
       "routeNotFound": "Razones para eso: baja liquidez, cantidad seleccionada es demasiado baja, Los costos de gas son demasiado altos o no hay rutas para la combinación seleccionada.",
       "missingRouteRequiredAccount": ""
     },
@@ -131,6 +131,9 @@
       "resetSettings": "Esto restablecerá su prioridad de ruta, deslizamiento, precio de gas, puentes e intercambios habilitados.",
       "slippageOutsideRecommendedLimits": "La tolerancia de los deslizamientos altos puede resultar en un comercio desfavorable causado por front-running.",
       "slippageUnderRecommendedLimits": "Elegir una baja tolerancia en el deslizamiento del intercambio puede causar retrasos o fallos en las transacciones."
+    },
+    "checkbox": {
+      "highValueLoss": ""
     },
     "title": {
       "clearFailedTransactions": "",
@@ -343,8 +346,11 @@
     "enterAddress_short": "Introducir dirección de la billetera",
     "enterName": "Introducir nombre",
     "noBookmarkedWallets": "No hay billeteras preferidas",
+    "noBookmarkedWalletsMessage": "",
     "noConnectedWallets": "No hay billeteras conectadas",
+    "noConnectedWalletsMessage": "",
     "noRecentWallets": "No hay billeteras recientes",
+    "noRecentWalletsMessage": "",
     "required": ""
   },
   "tokenMetric": {

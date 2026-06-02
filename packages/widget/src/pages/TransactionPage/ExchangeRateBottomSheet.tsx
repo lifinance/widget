@@ -112,7 +112,7 @@ const ExchangeRateBottomSheetContent: React.FC<
       }}
     >
       <CenterContainer>
-        <IconCircle status="warning" mb={1} />
+        <IconCircle status="warning" sx={{ mb: 1 }} />
         <Typography
           sx={{
             py: 1,

@@ -229,7 +229,7 @@ const config: WidgetLightConfig = {
 
   // Layout
   variant: 'wide',                    // 'compact' | 'wide' | 'drawer'
-  subvariant: 'default',              // 'default' | 'split' | 'custom' | 'refuel'
+  mode: 'default',                    // 'default' | 'split' | 'custom' | 'refuel'
   appearance: 'light',                // 'light' | 'dark' | 'system'
 
   // Pre-fill form
@@ -351,7 +351,6 @@ function TransactionTracker() {
 | `FormFieldChanged` | `WidgetLightFormFieldChanged` | Any form field changed |
 | `WalletConnected` | `WidgetLightWalletConnected` | Wallet connected |
 | `WalletDisconnected` | `WidgetLightWalletDisconnected` | Wallet disconnected |
-| `ReviewTransactionPageEntered` | — | User entered review page |
 | `ContactSupport` | `WidgetLightContactSupport` | User clicked contact support |
 | `AvailableRoutes` | — | Routes fetched and available |
 | `PageEntered` | — | Page navigation |

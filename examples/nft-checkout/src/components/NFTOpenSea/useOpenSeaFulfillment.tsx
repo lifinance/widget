@@ -69,7 +69,9 @@ export const useOpenSeaFulfillment = (
         try {
           const signer = await getEthersSigner(config)
 
-          const seaport = new Seaport(signer)
+          // seaport-js resolves ethers from CJS while this module uses ESM,
+          // causing a phantom type mismatch on private fields.
+          const seaport = new Seaport(signer as any)
 
           const { actions } = await seaport.fulfillOrder({
             order: orderV2.protocolData,

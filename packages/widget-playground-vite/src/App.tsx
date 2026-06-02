@@ -17,6 +17,7 @@ const AppProvider = ({ children }: PropsWithChildren) => {
   return (
     <EnvVariablesProvider
       EVMWalletConnectId={import.meta.env.VITE_EVM_WALLET_CONNECT}
+      TVMWalletConnectId={import.meta.env.VITE_TVM_WALLET_CONNECT}
     >
       <QueryClientProvider client={queryClient}>
         <WidgetConfigProvider defaultWidgetConfig={defaultWidgetConfig}>

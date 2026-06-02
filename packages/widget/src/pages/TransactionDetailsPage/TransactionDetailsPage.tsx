@@ -22,12 +22,8 @@ import { TransferIdCard } from './TransferIdCard.js'
 export const TransactionDetailsPage: React.FC = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const {
-    subvariant,
-    subvariantOptions,
-    contractSecondaryComponent,
-    explorerUrls,
-  } = useWidgetConfig()
+  const { mode, modeOptions, contractSecondaryComponent, explorerUrls } =
+    useWidgetConfig()
   const { search }: any = useLocation()
   const { tools } = useTools()
   const { getTransactionLink } = useExplorer()
@@ -39,8 +35,8 @@ export const TransactionDetailsPage: React.FC = () => {
   )
 
   const title =
-    subvariant === 'custom'
-      ? t(`header.${subvariantOptions?.custom ?? 'checkout'}Details`)
+    mode === 'custom'
+      ? t(`header.${modeOptions?.custom?.type ?? 'checkout'}Details`)
       : t('header.transactionDetails')
   useHeader(title)
 
@@ -102,7 +98,7 @@ export const TransactionDetailsPage: React.FC = () => {
       sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
     >
       <TransactionCard route={routeExecution.route} date={startedAt} />
-      {subvariant === 'custom' && contractSecondaryComponent ? (
+      {mode === 'custom' && contractSecondaryComponent ? (
         <ContractComponent>{contractSecondaryComponent}</ContractComponent>
       ) : null}
       <ReceiptsCard route={routeExecution.route} />

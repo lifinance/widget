@@ -53,7 +53,7 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
               alignItems: 'center',
             }}
           >
-            <IconTypography mr={0.5} fontSize={16}>
+            <IconTypography component="span" sx={{ mr: 0.5, fontSize: 16 }}>
               <LocalGasStationRounded fontSize="inherit" />
             </IconTypography>
             <Typography
@@ -80,7 +80,7 @@ export const RouteCardEssentials: React.FC<RouteCardEssentialsProps> = ({
               alignItems: 'center',
             }}
           >
-            <IconTypography mr={0.5} fontSize={16}>
+            <IconTypography component="span" sx={{ mr: 0.5, fontSize: 16 }}>
               <AccessTimeFilled fontSize="inherit" />
             </IconTypography>
             <Typography

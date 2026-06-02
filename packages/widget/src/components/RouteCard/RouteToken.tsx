@@ -5,7 +5,6 @@ import { Box, Collapse } from '@mui/material'
 import type { JSX } from 'react'
 import { type MouseEventHandler, useState } from 'react'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { HiddenUI } from '../../types/widget.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
 import { Token } from '../Token/Token.js'
 import { RouteCardEssentials } from './RouteCardEssentials.js'
@@ -44,9 +43,7 @@ export const RouteToken = ({
           impactToken={impactToken}
           step={route.steps[0]}
           stepVisible={!cardExpanded}
-          disableDescription={hiddenUI?.includes(
-            HiddenUI.RouteTokenDescription
-          )}
+          disableDescription={hiddenUI?.routeTokenDescription}
         />
         {!defaultExpanded ? (
           <CardIconButton onClick={handleExpand} size="small">

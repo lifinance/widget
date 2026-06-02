@@ -38,10 +38,8 @@ const enterKeyframe = keyframes`
 `
 
 export const createTheme = (widgetTheme: WidgetTheme = {}): Theme => {
-  const configuredPaletteLight =
-    widgetTheme.colorSchemes?.light?.palette ?? widgetTheme.palette
-  const configuredPaletteDark =
-    widgetTheme.colorSchemes?.dark?.palette ?? widgetTheme.palette
+  const configuredPaletteLight = widgetTheme.colorSchemes?.light?.palette
+  const configuredPaletteDark = widgetTheme.colorSchemes?.dark?.palette
 
   const primaryMainColorLight =
     (configuredPaletteLight?.primary as SimplePaletteColorOptions)?.main ??
@@ -90,7 +88,7 @@ export const createTheme = (widgetTheme: WidgetTheme = {}): Theme => {
         palette: {
           ...palette,
           ...paletteLight,
-          ...(widgetTheme.colorSchemes?.light?.palette ?? widgetTheme.palette),
+          ...widgetTheme.colorSchemes?.light?.palette,
           primary: {
             main: primaryMainColorLight,
             light: primaryLightenColorLight,
@@ -107,7 +105,7 @@ export const createTheme = (widgetTheme: WidgetTheme = {}): Theme => {
         palette: {
           ...palette,
           ...paletteDark,
-          ...(widgetTheme.colorSchemes?.dark?.palette ?? widgetTheme.palette),
+          ...widgetTheme.colorSchemes?.dark?.palette,
           primary: {
             main: primaryMainColorDark,
             light: primaryLightenColorDark,

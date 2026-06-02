@@ -1,11 +1,14 @@
 import { ChainType, type ExtendedChain } from '@lifi/widget'
 import { useSyncWagmiConfig } from '@lifi/widget-provider-ethereum'
-import { bitcoin, mainnet, solana } from '@reown/appkit/networks'
+import { createTronAdapters } from '@lifi/widget-provider-tron'
+import { bitcoin, mainnet, solana, tronMainnet } from '@reown/appkit/networks'
 import { type AppKit, createAppKit } from '@reown/appkit/react'
 import { BitcoinAdapter } from '@reown/appkit-adapter-bitcoin'
 import { SolanaAdapter } from '@reown/appkit-adapter-solana'
+import { TronAdapter } from '@reown/appkit-adapter-tron'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import type { AppKitNetwork } from '@reown/appkit-common'
+import type { ChainAdapter } from '@reown/appkit-controllers'
 import type { JSX } from 'react'
 import { useEffect, useRef } from 'react'
 import { WagmiProvider } from 'wagmi'
@@ -17,6 +20,7 @@ import {
 import { useEnvVariables } from '../EnvVariablesProvider.js'
 import { BitcoinProvider } from './BitcoinProvider.js'
 import { SolanaProvider } from './SolanaProvider.js'
+import { TronReownProvider } from './TronReownProvider.js'
 
 const metadata = {
   name: 'LI.FI Widget Playground',
@@ -24,6 +28,8 @@ const metadata = {
   url: 'https://li.fi',
   icons: ['https://avatars.githubusercontent.com/u/85288935'],
 }
+
+const tronWalletAdapters = createTronAdapters()
 
 export function ReownWalletProvider({
   children,
@@ -38,7 +44,11 @@ export function ReownWalletProvider({
   const { themeMode } = useThemeMode()
 
   if (!wagmi.current || !modal.current) {
-    const networks: [AppKitNetwork, ...AppKitNetwork[]] = [solana, bitcoin]
+    const networks: [AppKitNetwork, ...AppKitNetwork[]] = [
+      solana,
+      bitcoin,
+      tronMainnet,
+    ]
     const evmChains = chains.filter(
       (chain) => chain.chainType === ChainType.EVM
     )
@@ -58,8 +68,17 @@ export function ReownWalletProvider({
       projectId: EVMWalletConnectId,
     })
 
+    const tronAdapter = new TronAdapter({ walletAdapters: tronWalletAdapters })
+
+    const adapters: ChainAdapter[] = [
+      wagmiAdapter,
+      solanaAdapter,
+      bitcoinAdapter,
+      tronAdapter,
+    ]
+
     const appKit = createAppKit({
-      adapters: [wagmiAdapter, solanaAdapter, bitcoinAdapter],
+      adapters,
       networks,
       projectId: EVMWalletConnectId,
       metadata,
@@ -89,7 +108,11 @@ export function ReownWalletProvider({
   return (
     <WagmiProvider config={wagmiConfig} reconnectOnMount={false}>
       <SolanaProvider>
-        <BitcoinProvider>{children}</BitcoinProvider>
+        <BitcoinProvider>
+          <TronReownProvider adapters={tronWalletAdapters}>
+            {children}
+          </TronReownProvider>
+        </BitcoinProvider>
       </SolanaProvider>
     </WagmiProvider>
   )

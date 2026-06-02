@@ -6,11 +6,10 @@ import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import {
-  HiddenUI,
-  type SubvariantOptions,
-  type WidgetFeeConfig,
-  type WidgetSubvariant,
+import type {
+  ModeOptions,
+  WidgetFeeConfig,
+  WidgetMode,
 } from '../../types/widget.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { SmallAvatar } from '../Avatar/SmallAvatar.js'
@@ -24,8 +23,8 @@ import {
 
 interface StepDetailsLabelProps {
   step: StepExtended
-  subvariant?: Extract<WidgetSubvariant, 'custom'>
-  subvariantOptions?: SubvariantOptions
+  mode?: Extract<WidgetMode, 'custom'>
+  modeOptions?: ModeOptions
   feeConfig?: WidgetFeeConfig
   relayerSupport?: boolean
 }
@@ -34,15 +33,14 @@ export const StepActions: React.FC<{
   route: RouteExtended
 }> = ({ route }) => {
   const { t } = useTranslation()
-  const { subvariant, subvariantOptions, feeConfig, hiddenUI } =
-    useWidgetConfig()
+  const { mode, modeOptions, feeConfig, hiddenUI } = useWidgetConfig()
   const { isGaslessStep } = useEthereumContext()
 
   const headerIncludedSteps = route.steps.flatMap((step) => step.includedSteps)
 
   const flatSteps = route.steps.flatMap((routeStep) => {
     let steps = routeStep.includedSteps
-    if (hiddenUI?.includes(HiddenUI.IntegratorStepDetails)) {
+    if (hiddenUI?.integratorStepDetails) {
       const feeCollectionStep = steps.find((s) => s.tool === 'feeCollection')
       if (feeCollectionStep) {
         steps = structuredClone(steps.filter((s) => s.tool !== 'feeCollection'))
@@ -91,11 +89,11 @@ export const StepActions: React.FC<{
               <Box
                 sx={{ display: 'flex', flexDirection: 'column', minHeight: 32 }}
               >
-                {step.type === 'custom' && subvariant === 'custom' ? (
+                {step.type === 'custom' && mode === 'custom' ? (
                   <CustomStepDetailsLabel
                     step={step}
-                    subvariant={subvariant}
-                    subvariantOptions={subvariantOptions}
+                    mode={mode}
+                    modeOptions={modeOptions}
                   />
                 ) : step.type === 'cross' ? (
                   <BridgeStepDetailsLabel step={step} />
@@ -250,26 +248,25 @@ const StepDetailsContent: React.FC<{
 
 const CustomStepDetailsLabel: React.FC<StepDetailsLabelProps> = ({
   step,
-  subvariant,
-  subvariantOptions,
+  mode,
+  modeOptions,
 }) => {
   const { t } = useTranslation()
 
-  if (!subvariant) {
+  if (!mode) {
     return null
   }
 
   // FIXME: step transaction request overrides step tool details, but not included step tool details
   const toolDetails =
-    subvariant === 'custom' &&
-    (step as unknown as LiFiStep).includedSteps?.length > 0
+    mode === 'custom' && (step as unknown as LiFiStep).includedSteps?.length > 0
       ? (step as unknown as LiFiStep).includedSteps.find(
           (step) => step.tool === 'custom' && step.toolDetails.key !== 'custom'
         )?.toolDetails || step.toolDetails
       : step.toolDetails
 
   const stepDetailsKey =
-    (subvariant === 'custom' && subvariantOptions?.custom) || 'checkout'
+    (mode === 'custom' && modeOptions?.custom?.type) || 'checkout'
 
   return (
     <StepLabelTypography>

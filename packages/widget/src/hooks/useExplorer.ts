@@ -7,6 +7,14 @@ import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 
 const sanitiseBaseUrl = (baseUrl: string) => baseUrl.trim().replace(/\/+$/, '')
 
+const explorerPathOverrides: Partial<
+  Record<ChainType | ChainId, { txPath: string; addressPath: string }>
+> = {
+  [ChainId.SUI]: { txPath: 'txblock', addressPath: 'coin' },
+  [ChainId.LTR]: { txPath: 'logs', addressPath: 'accounts' },
+  [ChainType.TVM]: { txPath: '#/transaction', addressPath: '#/address' },
+}
+
 type TransactionLinkProps = { chain?: Chain | number } & (
   | {
       txHash: string
@@ -37,12 +45,15 @@ export const useExplorer = (): {
             resolvedChain.metamask.blockExplorerUrls[0])
           : explorerUrls?.internal?.[0]) || internalExplorerUrl
 
-      const url =
+      const baseUrl =
         typeof explorerUrl === 'string' ? explorerUrl : explorerUrl.url
 
-      const defaultTxPath = resolvedChain?.id === ChainId.SUI ? 'txblock' : 'tx'
-      const defaultAddressPath =
-        resolvedChain?.id === ChainId.SUI ? 'coin' : 'address'
+      const overrides =
+        explorerPathOverrides[resolvedChain?.id as ChainId] ??
+        explorerPathOverrides[resolvedChain?.chainType as ChainType]
+
+      const defaultTxPath = overrides?.txPath ?? 'tx'
+      const defaultAddressPath = overrides?.addressPath ?? 'address'
       const txPath =
         typeof explorerUrl === 'string'
           ? defaultTxPath
@@ -53,7 +64,7 @@ export const useExplorer = (): {
           : explorerUrl.addressPath || defaultAddressPath
 
       return {
-        url: sanitiseBaseUrl(url),
+        url: sanitiseBaseUrl(baseUrl),
         txPath,
         addressPath,
         resolvedChain,

@@ -7,7 +7,6 @@ import { Card } from '../../components/Card/Card.js'
 import { CardIconButton } from '../../components/Card/CardIconButton.js'
 import { CardTitle } from '../../components/Card/CardTitle.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { HiddenUI } from '../../types/widget.js'
 import { ContactSupportButton } from './ContactSupportButton.js'
 
 interface TransferIdCardProps {
@@ -54,7 +53,7 @@ export const TransferIdCard = ({
               <OpenInNew fontSize="inherit" />
             </CardIconButton>
           ) : null}
-          {!hiddenUI?.includes(HiddenUI.ContactSupport) ? (
+          {!hiddenUI?.contactSupport ? (
             <ContactSupportButton supportId={transferId} />
           ) : null}
         </Box>

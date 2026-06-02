@@ -7,6 +7,8 @@ import type {
   SDKProvider,
 } from '@lifi/sdk'
 
+export type SDKProviderFactory<TDeps> = (deps: TDeps) => SDKProvider
+
 export type WalletConnector = {
   name: string
   id?: string

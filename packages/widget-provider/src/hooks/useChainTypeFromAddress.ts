@@ -4,6 +4,7 @@ import { useBitcoinContext } from '../contexts/BitcoinContext.js'
 import { useEthereumContext } from '../contexts/EthereumContext.js'
 import { useSolanaContext } from '../contexts/SolanaContext.js'
 import { useSuiContext } from '../contexts/SuiContext.js'
+import { useTronContext } from '../contexts/TronContext.js'
 
 export const useChainTypeFromAddress = (): {
   getChainTypeFromAddress: (address: string) => ChainType | undefined
@@ -12,6 +13,7 @@ export const useChainTypeFromAddress = (): {
   const { sdkProvider: solanaProvider } = useSolanaContext()
   const { sdkProvider: bitcoinProvider } = useBitcoinContext()
   const { sdkProvider: suiProvider } = useSuiContext()
+  const { sdkProvider: tronProvider } = useTronContext()
 
   const getChainTypeFromAddress = useCallback(
     (address: string): ChainType | undefined => {
@@ -27,8 +29,17 @@ export const useChainTypeFromAddress = (): {
       if (suiProvider?.isAddress(address)) {
         return ChainType.MVM
       }
+      if (tronProvider?.isAddress(address)) {
+        return ChainType.TVM
+      }
     },
-    [ethereumProvider, solanaProvider, bitcoinProvider, suiProvider]
+    [
+      ethereumProvider,
+      solanaProvider,
+      bitcoinProvider,
+      suiProvider,
+      tronProvider,
+    ]
   )
   return { getChainTypeFromAddress: getChainTypeFromAddress }
 }

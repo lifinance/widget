@@ -132,6 +132,9 @@
       "slippageOutsideRecommendedLimits": "",
       "slippageUnderRecommendedLimits": ""
     },
+    "checkbox": {
+      "highValueLoss": ""
+    },
     "title": {
       "clearFailedTransactions": "",
       "highValueLoss": "",
@@ -343,8 +346,11 @@
     "enterAddress_short": "",
     "enterName": "",
     "noBookmarkedWallets": "",
+    "noBookmarkedWalletsMessage": "",
     "noConnectedWallets": "",
+    "noConnectedWalletsMessage": "",
     "noRecentWallets": "",
+    "noRecentWalletsMessage": "",
     "required": ""
   },
   "tokenMetric": {

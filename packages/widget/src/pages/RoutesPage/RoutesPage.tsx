@@ -69,7 +69,12 @@ export const RoutesPage = (): JSX.Element => {
   const allowInteraction = account.isConnected && !toAddressUnsatisfied
 
   return (
-    <Stack className="long-list" direction="column" spacing={2} flex={1}>
+    <Stack
+      className="long-list"
+      direction="column"
+      spacing={2}
+      sx={{ flex: 1 }}
+    >
       {routeNotFound ? (
         <RouteNotFoundCard />
       ) : isLoading && !routes?.length ? (

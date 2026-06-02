@@ -92,7 +92,7 @@
       "emptyChainList": "We couldn't find any chains that match your search",
       "emptyExchangesList": "We couldn't find any exchanges that match your search",
       "emptyTokenListAllNetworks": "We couldn't find any tokens. Please search by contract address if your token doesn't appear, or try selecting a different chain.",
-      "emptyTransactionHistory": "Transaction history is only stored locally and will be deleted if you clear your browser data.",
+      "emptyTransactionHistory": "Your transactions will appear here once you complete your first transfer.",
       "routeNotFound": "Reasons for that could be: low liquidity, amount selected is too low, gas costs are too high or there are no routes for the selected combination.",
       "missingRouteRequiredAccount": "Connect your {{chainName}} wallet to proceed. {{address}}"
     },
@@ -131,6 +131,9 @@
       "resetSettings": "This will reset your route priority, slippage, gas price, enabled bridges and exchanges.",
       "slippageOutsideRecommendedLimits": "High slippage tolerance may result in unfavorable trade caused by front-running.",
       "slippageUnderRecommendedLimits": "Low slippage tolerance may cause transaction delays or failures."
+    },
+    "checkbox": {
+      "highValueLoss": "I accept the high value loss"
     },
     "title": {
       "clearFailedTransactions": "Clear all failed transactions?",
@@ -341,8 +344,11 @@
     "enterAddress_short": "Enter wallet address",
     "enterName": "Enter name",
     "noBookmarkedWallets": "No bookmarked wallets",
+    "noBookmarkedWalletsMessage": "Save your frequently used wallet addresses for quick access.",
     "noConnectedWallets": "No connected wallets",
+    "noConnectedWalletsMessage": "Connect a wallet to see it listed here.",
     "noRecentWallets": "No recent wallets",
+    "noRecentWalletsMessage": "Your recently used wallet addresses will appear here.",
     "required": "Required"
   },
   "tokenMetric": {

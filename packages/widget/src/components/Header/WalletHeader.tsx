@@ -13,7 +13,6 @@ import { useChain } from '../../hooks/useChain.js'
 import { useExternalWalletProvider } from '../../providers/WalletProvider/useExternalWalletProvider.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { HiddenUI } from '../../types/widget.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { SmallAvatar } from '../Avatar/SmallAvatar.js'
 import { CloseDrawerButton } from './CloseDrawerButton.js'
@@ -30,7 +29,7 @@ const useInternalWalletManagement = () => {
   const { hiddenUI } = useWidgetConfig()
   const { useExternalWalletProvidersOnly } = useExternalWalletProvider()
 
-  const isWalletMenuHidden = hiddenUI?.includes(HiddenUI.WalletMenu)
+  const isWalletMenuHidden = hiddenUI?.walletMenu
 
   const shouldShowWalletMenu =
     !useExternalWalletProvidersOnly && !isWalletMenuHidden
@@ -70,7 +69,7 @@ const WalletMenuButton: React.FC = () => {
         ) : (
           <ConnectButton />
         )}
-        {!hiddenUI?.includes(HiddenUI.DrawerCloseButton) ? (
+        {!hiddenUI?.drawerCloseButton ? (
           <CloseDrawerButton header="wallet" />
         ) : null}
       </DrawerWalletContainer>

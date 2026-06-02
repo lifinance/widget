@@ -92,7 +92,7 @@
       "emptyChainList": "",
       "emptyExchangesList": "",
       "emptyTokenListAllNetworks": "",
-      "emptyTransactionHistory": "トランザクション履歴はローカルにのみ保存され、ユーザーがブラウザデータを消去すると削除されます。",
+      "emptyTransactionHistory": "",
       "routeNotFound": "考えられる理由：流動性が低い、選択された金額が低すぎる、ガスコストが高すぎる、選択した組み合わせがルート上にない、以上の理由の複合。",
       "missingRouteRequiredAccount": ""
     },
@@ -131,6 +131,9 @@
       "resetSettings": "これにより、ルートの優先順位、スリッページ、ガス価格、使用可能なブリッジ、取引所がリセットされます。",
       "slippageOutsideRecommendedLimits": "スリッページ許容度が高すぎると、フロントランニングによる不利なトレードをひき起こす可能性があります。",
       "slippageUnderRecommendedLimits": ""
+    },
+    "checkbox": {
+      "highValueLoss": ""
     },
     "title": {
       "clearFailedTransactions": "",
@@ -343,8 +346,11 @@
     "enterAddress_short": "ウォレットアドレスを入力",
     "enterName": "名前を入力",
     "noBookmarkedWallets": "ブックマークされたウォレットはありません",
+    "noBookmarkedWalletsMessage": "",
     "noConnectedWallets": "接続中のウォレットはありません",
+    "noConnectedWalletsMessage": "",
     "noRecentWallets": "最近使ったウォレットはありません",
+    "noRecentWalletsMessage": "",
     "required": ""
   },
   "tokenMetric": {

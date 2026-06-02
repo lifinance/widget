@@ -6,11 +6,9 @@ import { ContractComponent } from '../../components/ContractComponent/ContractCo
 import { PageContainer } from '../../components/PageContainer.js'
 import { useHeader } from '../../hooks/useHeader.js'
 import { usePacedRouteExecution } from '../../hooks/usePacedRouteExecution.js'
-import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useClearAmountFields } from '../../stores/form/useClearAmountFields.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
-import { WidgetEvent } from '../../types/events.js'
 import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet.js'
 import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet.js'
 import { RouteTracker } from './RouteTracker.js'
@@ -18,9 +16,7 @@ import { TransactionContent } from './TransactionContent.js'
 
 export const TransactionPage = (): JSX.Element | null => {
   const { t } = useTranslation()
-  const emitter = useWidgetEvents()
-  const { subvariant, subvariantOptions, contractSecondaryComponent } =
-    useWidgetConfig()
+  const { mode, modeOptions, contractSecondaryComponent } = useWidgetConfig()
   const { search }: any = useLocation()
   const stateRouteId = search?.routeId
   const [routeId, setRouteId] = useState<string>(stateRouteId)
@@ -43,8 +39,8 @@ export const TransactionPage = (): JSX.Element | null => {
     })
 
   const getHeaderTitle = () => {
-    if (subvariant === 'custom') {
-      return t(`header.${subvariantOptions?.custom ?? 'checkout'}`)
+    if (mode === 'custom') {
+      return t(`header.${modeOptions?.custom?.type ?? 'checkout'}`)
     }
     if (route) {
       const transactionType =
@@ -71,13 +67,8 @@ export const TransactionPage = (): JSX.Element | null => {
 
   useHeader(getHeaderTitle(), headerAction)
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: We want to emit event only when the page is mounted
+  // biome-ignore lint/correctness/useExhaustiveDependencies: cleanup only on unmount
   useEffect(() => {
-    if (status === RouteExecutionStatus.Idle) {
-      emitter.emit(WidgetEvent.ReviewTransactionPageEntered, route)
-    }
-
-    // Clean form fields when leaving the page
     return () => {
       if (status !== RouteExecutionStatus.Idle) {
         clearAmountFields()
@@ -102,7 +93,7 @@ export const TransactionPage = (): JSX.Element | null => {
         deleteRoute={deleteRoute}
         routeRefreshing={routeRefreshing}
       />
-      {subvariant === 'custom' && contractSecondaryComponent ? (
+      {mode === 'custom' && contractSecondaryComponent ? (
         <ContractComponent>{contractSecondaryComponent}</ContractComponent>
       ) : null}
       <ExchangeRateBottomSheet ref={exchangeRateBottomSheetRef} />

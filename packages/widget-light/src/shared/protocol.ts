@@ -28,7 +28,7 @@ export const WIDGET_LIGHT_SOURCE = 'widget-light' as const
 // Chain type discriminator
 // ---------------------------------------------------------------------------
 
-export type WidgetLightChainType = 'EVM' | 'SVM' | 'UTXO' | 'MVM'
+export type WidgetLightChainType = 'EVM' | 'SVM' | 'UTXO' | 'MVM' | 'TVM'
 
 // ---------------------------------------------------------------------------
 // RPC Error (mirrors EIP-1193 ProviderRpcError)

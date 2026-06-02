@@ -92,7 +92,7 @@
       "emptyChainList": "",
       "emptyExchangesList": "",
       "emptyTokenListAllNetworks": "",
-      "emptyTransactionHistory": "L'historique de transaction est uniquement stocké au niveau local et sera supprimé si vous effacez les données de votre navigateur.",
+      "emptyTransactionHistory": "",
       "routeNotFound": "Raisons possibles : faible liquidité, le montant sélectionné est trop faible, les coûts de gaz sont trop élevés ou il n'y a pas de routes pour la combinaison sélectionnée.",
       "missingRouteRequiredAccount": ""
     },
@@ -131,6 +131,9 @@
       "resetSettings": "Cela réinitialisera la priorité de votre itinéraire, l'effet de glissement, le prix du gaz, les ponts et les plateformes d'échanges activés.",
       "slippageOutsideRecommendedLimits": "Une tolérance élevée au glissement peut entraîner un échange défavorable causé par le front-running.",
       "slippageUnderRecommendedLimits": ""
+    },
+    "checkbox": {
+      "highValueLoss": ""
     },
     "title": {
       "clearFailedTransactions": "",
@@ -343,8 +346,11 @@
     "enterAddress_short": "Entrez l'adresse du portefeuille",
     "enterName": "Saisir un nom",
     "noBookmarkedWallets": "Aucun portefeuille favori",
+    "noBookmarkedWalletsMessage": "",
     "noConnectedWallets": "Aucun portefeuille connecté",
+    "noConnectedWalletsMessage": "",
     "noRecentWallets": "Aucun portefeuille récent",
+    "noRecentWalletsMessage": "",
     "required": ""
   },
   "tokenMetric": {

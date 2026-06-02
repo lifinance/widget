@@ -15,15 +15,15 @@ describe('getLocalStorageOutput', () => {
     })
   })
 
-  test('presents copy of the config with a subvariant property if present', () => {
+  test('presents copy of the config with a mode property if present', () => {
     const config = {
-      subvariant: 'split',
+      mode: 'split',
     } as Partial<WidgetConfig>
 
     const whitelistedConfig = getLocalStorageOutput(config)
 
     expect(whitelistedConfig).toEqual({
-      subvariant: 'split',
+      mode: 'split',
     })
   })
 

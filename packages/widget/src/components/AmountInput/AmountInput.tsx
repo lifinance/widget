@@ -9,7 +9,6 @@ import { FormKeyHelper, type FormTypeProps } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { useInputModeStore } from '../../stores/inputMode/useInputModeStore.js'
-import { DisabledUI } from '../../types/widget.js'
 import {
   formatInputAmount,
   formatTokenPrice,
@@ -44,7 +43,7 @@ export const AmountInput: React.FC<FormTypeProps & CardProps> = ({
 
   const { token } = useToken(chainId, tokenAddress)
 
-  const disabled = disabledUI?.includes(DisabledUI.FromAmount)
+  const disabled = disabledUI?.fromAmount
   return (
     <AmountInputBase
       formType={formType}
@@ -73,7 +72,7 @@ const AmountInputBase: React.FC<
   ...props
 }) => {
   const { t } = useTranslation()
-  const { subvariant, subvariantOptions } = useWidgetConfig()
+  const { mode, modeOptions } = useWidgetConfig()
   const ref = useRef<HTMLInputElement>(null)
 
   const isEditingRef = useRef(false)
@@ -159,8 +158,8 @@ const AmountInputBase: React.FC<
   }, [displayValue])
 
   const title =
-    subvariant === 'custom'
-      ? subvariantOptions?.custom === 'deposit'
+    mode === 'custom'
+      ? modeOptions?.custom?.type === 'deposit'
         ? t('header.amount')
         : t('header.youPay')
       : t('header.send')

@@ -177,15 +177,7 @@ export const createSettingsStore = (
           })
           return state
         },
-        migrate: (persistedState: any, version) => {
-          if (version === 1) {
-            persistedState.slippage = defaultConfigurableSettings.slippage
-          }
-          if (version <= 3) {
-            persistedState.routePriority = 'CHEAPEST'
-          }
-          return persistedState as SettingsState
-        },
+        migrate: () => ({}),
         onRehydrateStorage: () => {
           const initializeLanguageSettings = async (
             state: SettingsState,

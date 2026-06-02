@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-provider-sui",
-  "version": "4.0.0-beta.11",
+  "version": "4.0.0-beta.20",
   "description": "LI.FI Widget Provider for Sui blockchain integration.",
   "type": "module",
   "main": "./src/index.ts",
@@ -38,10 +38,10 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "4.0.0-beta.5",
-    "@lifi/sdk-provider-sui": "4.0.0-beta.5",
+    "@lifi/sdk": "^4.0.0-beta.11",
+    "@lifi/sdk-provider-sui": "^4.0.0-beta.11",
     "@lifi/widget-provider": "workspace:*",
-    "@mysten/sui": "^2.15.0"
+    "@mysten/sui": "^2.16.2"
   },
   "peerDependencies": {
     "@mysten/dapp-kit-react": "^2.0.0"
@@ -49,7 +49,7 @@
   "devDependencies": {
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
-    "react": "^19.2.5",
-    "typescript": "^6.0.2"
+    "react": "^19.2.6",
+    "typescript": "^6.0.3"
   }
 }

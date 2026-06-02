@@ -1,6 +1,6 @@
 {
   "name": "@lifi/wallet-management",
-  "version": "4.0.0-beta.12",
+  "version": "4.0.0-beta.20",
   "description": "LI.FI Wallet Management solution.",
   "type": "module",
   "main": "./src/index.ts",
@@ -39,27 +39,28 @@
     "ENS",
     "web3",
     "blockchain",
-    "lifi"
+    "lifi",
+    "tron"
   ],
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "4.0.0-beta.5",
+    "@lifi/sdk": "^4.0.0-beta.11",
     "@lifi/widget-provider": "workspace:*",
-    "@mui/icons-material": "^7.3.10",
-    "@mui/material": "^7.3.10",
-    "@mui/system": "^7.3.10",
-    "i18next": "^26.0.4",
-    "mitt": "^3.0.1",
-    "react-i18next": "^17.0.2",
-    "zustand": "^5.0.12"
+    "@mui/icons-material": "^9.0.1",
+    "@mui/material": "^9.0.1",
+    "@mui/system": "^9.0.1",
+    "eventemitter3": "^5.0.4",
+    "i18next": "^26.1.0",
+    "react-i18next": "^17.0.7",
+    "zustand": "^5.0.13"
   },
   "devDependencies": {
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5",
-    "typescript": "^6.0.2"
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "typescript": "^6.0.3"
   },
   "peerDependencies": {
     "@tanstack/react-query": ">=5.90.0",

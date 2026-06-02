@@ -33,5 +33,5 @@ export const ItemPrice: React.FC<ItemPriceProps> = ({
       })
     }
   }, [contractCalls, setFieldValue, token])
-  return <Token token={token} p={2} />
+  return <Token token={token} sx={{ p: 2 }} />
 }

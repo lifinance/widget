@@ -19,7 +19,6 @@ export enum WidgetLightEvent {
   FormFieldChanged = 'formFieldChanged',
   LowAddressActivityConfirmed = 'lowAddressActivityConfirmed',
   PageEntered = 'pageEntered',
-  ReviewTransactionPageEntered = 'reviewTransactionPageEntered',
   RouteExecutionCompleted = 'routeExecutionCompleted',
   RouteExecutionFailed = 'routeExecutionFailed',
   RouteExecutionStarted = 'routeExecutionStarted',
@@ -124,7 +123,6 @@ export interface WidgetLightEvents {
   formFieldChanged: WidgetLightFormFieldChanged
   lowAddressActivityConfirmed: WidgetLightLowAddressActivityConfirmed
   pageEntered: string
-  reviewTransactionPageEntered: unknown
   routeExecutionCompleted: unknown
   routeExecutionFailed: WidgetLightRouteExecutionUpdate
   routeExecutionStarted: unknown

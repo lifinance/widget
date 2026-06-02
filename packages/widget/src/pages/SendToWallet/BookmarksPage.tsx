@@ -1,20 +1,22 @@
 import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
-import DeleteOutline from '@mui/icons-material/DeleteOutline'
+import DeleteOutline from '@mui/icons-material/DeleteOutlined'
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import TurnedIn from '@mui/icons-material/TurnedIn'
-import { Button, ListItemAvatar, ListItemText } from '@mui/material'
+import { Button, List, ListItemAvatar, ListItemText } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import { type JSX, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { AccountAvatar } from '../../components/Avatar/AccountAvatar.js'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { ContextMenu } from '../../components/ContextMenu.js'
+import { EmptyListIndicator } from '../../components/EmptyListIndicator/EmptyListIndicator.js'
 import { ListItem } from '../../components/ListItem/ListItem.js'
-import { ListItemButton } from '../../components/ListItem//ListItemButton.js'
+import { ListItemButton } from '../../components/ListItem/ListItemButton.js'
+import { PageContainer } from '../../components/PageContainer.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { useHeader } from '../../hooks/useHeader.js'
+import { useListHeight } from '../../hooks/useListHeight.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
-import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { Bookmark } from '../../stores/bookmarks/types.js'
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
 import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js'
@@ -23,26 +25,27 @@ import { defaultChainIdsByType } from '../../utils/chainType.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { BookmarkAddressSheet } from './BookmarkAddressSheet.js'
-import { EmptyListIndicator } from './EmptyListIndicator.js'
-import {
-  BookmarkButtonContainer,
-  BookmarksListContainer,
-  FullHeightAdjustablePageContainer,
-} from './SendToWalletPage.style.js'
+import { BookmarkButtonContainer } from './SendToWalletPage.style.js'
 
 export const BookmarksPage = (): JSX.Element => {
   const { t } = useTranslation()
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null)
+  const listParentRef = useRef<HTMLUListElement | null>(null)
+  const buttonRef = useRef<HTMLDivElement | null>(null)
   const { bookmarks } = useBookmarks()
   const { requiredToChainType } = useToAddressRequirements()
   const { addBookmark, removeBookmark, setSelectedBookmark } =
     useBookmarkActions()
   const navigate = useNavigate()
   const { setFieldValue } = useFieldActions()
-  const { variant } = useWidgetConfig()
   const { getAddressLink } = useExplorer()
 
   useHeader(t('header.bookmarkedWallets'))
+
+  const { listHeight } = useListHeight({
+    listParentRef,
+    headerRef: buttonRef,
+  })
 
   const handleAddBookmark = () => {
     bookmarkAddressSheetRef.current?.open()
@@ -58,11 +61,13 @@ export const BookmarksPage = (): JSX.Element => {
   }
 
   return (
-    <FullHeightAdjustablePageContainer
-      disableGutters
-      enableFullHeight={variant !== 'drawer'}
-    >
-      <BookmarksListContainer>
+    <PageContainer disableGutters>
+      <List
+        className="long-list"
+        ref={listParentRef}
+        style={{ height: listHeight, overflow: 'auto' }}
+        disablePadding
+      >
         {bookmarks.map((bookmark) => (
           <ListItem key={bookmark.address} sx={{ position: 'relative' }}>
             <ListItemButton
@@ -118,12 +123,14 @@ export const BookmarksPage = (): JSX.Element => {
           </ListItem>
         ))}
         {!bookmarks.length && (
-          <EmptyListIndicator icon={<TurnedIn sx={{ fontSize: 48 }} />}>
-            {t('sendToWallet.noBookmarkedWallets')}
-          </EmptyListIndicator>
+          <EmptyListIndicator
+            icon={<TurnedIn />}
+            title={t('sendToWallet.noBookmarkedWallets')}
+            message={t('sendToWallet.noBookmarkedWalletsMessage')}
+          />
         )}
-      </BookmarksListContainer>
-      <BookmarkButtonContainer>
+      </List>
+      <BookmarkButtonContainer ref={buttonRef}>
         <Button variant="contained" onClick={handleAddBookmark}>
           {t('sendToWallet.addBookmark')}
         </Button>
@@ -132,6 +139,6 @@ export const BookmarksPage = (): JSX.Element => {
         ref={bookmarkAddressSheetRef}
         onAddBookmark={addBookmark}
       />
-    </FullHeightAdjustablePageContainer>
+    </PageContainer>
   )
 }

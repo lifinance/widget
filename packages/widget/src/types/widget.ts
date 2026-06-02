@@ -5,7 +5,7 @@ import type {
   ExecutionOptions,
   ExtendedChain,
   Order,
-  RouteExtended,
+  Route,
   RouteOptions,
   SDKConfig,
   StaticToken,
@@ -24,7 +24,6 @@ import type {
 import type { TypographyVariantsOptions } from '@mui/material/styles'
 import type {
   CSSProperties,
-  FC,
   PropsWithChildren,
   ReactNode,
   RefObject,
@@ -36,24 +35,20 @@ import type {
 import type { DefaultFieldValues } from '../stores/form/types.js'
 
 export type WidgetVariant = 'compact' | 'wide' | 'drawer'
-export type WidgetSubvariant = 'default' | 'split' | 'custom' | 'refuel'
-export type SplitSubvariant = 'bridge' | 'swap'
-export type SplitSubvariantOptions = {
-  defaultTab: SplitSubvariant
+export type WidgetMode = 'default' | 'split' | 'custom' | 'refuel'
+export type SplitMode = 'bridge' | 'swap'
+export type SplitModeOptions = {
+  defaultTab: SplitMode
 }
-export type CustomSubvariant = 'checkout' | 'deposit'
-export type WideSubvariant = {
-  disableChainSidebar?: boolean
-}
-export interface SubvariantOptions {
+export type CustomMode = 'checkout' | 'deposit'
+export interface ModeOptions {
   /**
-   * Configure split subvariant behavior:
+   * Configure split mode behavior:
    * - 'bridge' | 'swap': Single mode without tabs
    * - { defaultTab: 'bridge' | 'swap' }: Tabs mode with configurable default tab
    */
-  split?: SplitSubvariant | SplitSubvariantOptions
-  custom?: CustomSubvariant
-  wide?: WideSubvariant
+  split?: SplitMode | SplitModeOptions
+  custom?: { type: CustomMode }
 }
 
 export type Appearance = PaletteMode | 'system'
@@ -81,10 +76,6 @@ export type WidgetThemeComponents = Partial<
 >
 
 export type WidgetTheme = {
-  /**
-   * @deprecated Use `colorScheme` instead.
-   */
-  palette?: PaletteOptions
   colorSchemes?: {
     light?: {
       palette: PaletteOptions
@@ -103,46 +94,57 @@ export type WidgetTheme = {
   navigation?: NavigationProps
 }
 
-export enum DisabledUI {
-  FromAmount = 'fromAmount',
-  FromToken = 'fromToken',
-  ToAddress = 'toAddress',
-  ToToken = 'toToken',
+export interface DisabledUIConfig {
+  fromAmount?: boolean
+  fromToken?: boolean
+  toAddress?: boolean
+  toToken?: boolean
 }
-export type DisabledUIType = `${DisabledUI}`
 
-export enum HiddenUI {
-  Appearance = 'appearance',
-  DrawerCloseButton = 'drawerCloseButton',
-  History = 'history',
-  Language = 'language',
-  PoweredBy = 'poweredBy',
-  ToAddress = 'toAddress',
-  FromToken = 'fromToken',
-  ToToken = 'toToken',
-  WalletMenu = 'walletMenu',
-  IntegratorStepDetails = 'integratorStepDetails',
-  ReverseTokensButton = 'reverseTokensButton',
-  RouteTokenDescription = 'routeTokenDescription',
-  RouteCardPriceImpact = 'routeCardPriceImpact',
-  ChainSelect = 'chainSelect',
-  BridgesSettings = 'bridgesSettings',
-  AddressBookConnectedWallets = 'addressBookConnectedWallets',
-  LowAddressActivityConfirmation = 'lowAddressActivityConfirmation',
-  GasRefuelMessage = 'gasRefuelMessage',
-  SearchTokenInput = 'searchTokenInput',
-  InsufficientGasMessage = 'insufficientGasMessage',
-  ContactSupport = 'contactSupport',
-  HideSmallBalances = 'hideSmallBalances',
-  AllNetworks = 'allNetworks',
+export interface HiddenUIConfig {
+  addressBookConnectedWallets?: boolean
+  allNetworks?: boolean
+  appearance?: boolean
+  bridgesSettings?: boolean
+  chainSelect?: boolean
+  /**
+   * Hide the chain sidebar in the `wide` variant. No effect in other variants.
+   * @default false
+   */
+  chainSidebar?: boolean
+  contactSupport?: boolean
+  /**
+   * Hide the drawer close button. Only meaningful when `variant === 'drawer'`.
+   * @default false
+   */
+  drawerCloseButton?: boolean
+  fromToken?: boolean
+  gasRefuelMessage?: boolean
+  hideSmallBalances?: boolean
+  history?: boolean
+  insufficientGasMessage?: boolean
+  integratorStepDetails?: boolean
+  language?: boolean
+  /**
+   * Hide the warning shown when sending to an address with low historical
+   * on-chain activity (low transaction count or contract-like behavior).
+   * @default false
+   */
+  lowAddressActivityConfirmation?: boolean
+  poweredBy?: boolean
+  reverseTokensButton?: boolean
+  routeCardPriceImpact?: boolean
+  routeTokenDescription?: boolean
+  searchTokenInput?: boolean
+  toAddress?: boolean
+  toToken?: boolean
+  walletMenu?: boolean
 }
-export type HiddenUIType = `${HiddenUI}`
 
-export enum RequiredUI {
-  ToAddress = 'toAddress',
-  AccountDeployedMessage = 'accountDeployedMessage',
+export interface RequiredUIConfig {
+  accountDeployedMessage?: boolean
+  toAddress?: boolean
 }
-export type RequiredUIType = `${RequiredUI}`
 
 export type DefaultUI = {
   transactionDetailsExpanded?: boolean
@@ -174,10 +176,14 @@ export interface WidgetSDKConfig
     | 'apiKey'
     | 'disableVersionCheck'
     | 'integrator'
+    | 'providers'
     | 'routeOptions'
     | 'widgetVersion'
   > {
-  routeOptions?: Omit<RouteOptions, 'bridges' | 'exchanges'>
+  routeOptions?: Omit<
+    RouteOptions,
+    'bridges' | 'exchanges' | 'fee' | 'referrer' | 'order' | 'slippage'
+  >
   executionOptions?: Pick<ExecutionOptions, 'updateTransactionRequestHook'>
 }
 
@@ -225,10 +231,6 @@ export interface WidgetFeeConfig {
    * @returns A promise that resolves to the calculated fee as a number (e.g., 0.03 represents a 3% fee)
    */
   calculateFee?(params: CalculateFeeParams): Promise<number | undefined>
-  /**
-   * @internal
-   */
-  _vcComponent?: FC<{ route: RouteExtended }>
 }
 
 export interface ToAddress {
@@ -289,6 +291,14 @@ export interface RouteLabelRule {
   toChainId?: number[]
   fromTokenAddress?: string[]
   toTokenAddress?: string[]
+  /**
+   * Custom match function evaluated against the route. When provided, its
+   * result is AND'd with the other matching criteria — all specified
+   * conditions must pass for the label to apply. Use this for matching logic
+   * that the built-in fields cannot express (gas costs, step count, route
+   * tags, etc.).
+   */
+  match?: (route: Route) => boolean
 }
 
 export type ExplorerUrl =
@@ -324,7 +334,6 @@ export interface WidgetConfig {
   contractTool?: WidgetContractTool
   integrator: string
   apiKey?: string
-  fee?: number
   feeConfig?: WidgetFeeConfig
   referrer?: string
 
@@ -332,17 +341,23 @@ export interface WidgetConfig {
   slippage?: number
 
   variant?: WidgetVariant
-  subvariant?: WidgetSubvariant
-  subvariantOptions?: SubvariantOptions
+  mode?: WidgetMode
+  modeOptions?: ModeOptions
 
   appearance?: Appearance
   theme?: WidgetTheme
 
-  disabledUI?: DisabledUIType[]
-  hiddenUI?: HiddenUIType[]
-  requiredUI?: RequiredUIType[]
+  disabledUI?: DisabledUIConfig
+  hiddenUI?: HiddenUIConfig
+  requiredUI?: RequiredUIConfig
   defaultUI?: DefaultUI
-  useRecommendedRoute?: boolean
+  /**
+   * When true, shows only the recommended route and hides the route
+   * selector UI. Distinct from `routePriority`, which sets the SDK
+   * ranking order across multiple displayed routes.
+   * @default false
+   */
+  showSingleRoute?: boolean
   useRelayerRoutes?: boolean
 
   walletConfig?: WidgetWalletConfig

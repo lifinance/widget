@@ -8,15 +8,17 @@ import {
   useWallets,
 } from '@mysten/dapp-kit-react'
 import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
+import type { SuiProviderConfig } from '../types.js'
 import { WalletSigner } from '../WalletSigner.js'
 
 interface SuiProviderValuesProps {
   isExternalContext: boolean
+  config?: SuiProviderConfig
 }
 
 export const SuiProviderValues: FC<
   PropsWithChildren<SuiProviderValuesProps>
-> = ({ children, isExternalContext }) => {
+> = ({ children, isExternalContext, config }) => {
   const wallets = useWallets()
   const dappKit = useDAppKit()
   const { connectWallet: connect, disconnectWallet: disconnect } = dappKit
@@ -50,14 +52,14 @@ export const SuiProviderValues: FC<
 
   const installedWallets = useMemo(() => wallets, [wallets])
 
-  const sdkProvider = useMemo(
-    () =>
-      SuiSDKProvider({
-        getClient: async () => dappKit.getClient(),
-        getSigner: async () => new WalletSigner(dappKit),
-      }),
-    [dappKit]
-  )
+  const sdkProvider = useMemo(() => {
+    const getClient = async () => dappKit.getClient()
+    const getSigner = async () => new WalletSigner(dappKit)
+    if (typeof config?.sdkProvider === 'function') {
+      return config.sdkProvider({ getClient, getSigner })
+    }
+    return config?.sdkProvider ?? SuiSDKProvider({ getClient, getSigner })
+  }, [dappKit, config?.sdkProvider])
 
   const handleConnect = useCallback(
     async (

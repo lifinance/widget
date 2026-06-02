@@ -33,8 +33,7 @@ export const TransactionExecutionContent: React.FC<
 > = ({ route, status, restartRoute, deleteRoute }): JSX.Element => {
   const { title, message } = useRouteExecutionMessage(route, status)
   const {
-    feeConfig,
-    subvariant,
+    mode,
     contractCompactComponent,
     contractSecondaryComponent,
     defaultUI,
@@ -44,12 +43,9 @@ export const TransactionExecutionContent: React.FC<
   const rows = useExecutionRows(route, isDone ? route.toAddress : undefined)
 
   const showContract =
-    subvariant === 'custom' &&
+    mode === 'custom' &&
     isDone &&
     !!(contractCompactComponent || contractSecondaryComponent)
-
-  const VcComponent =
-    status === RouteExecutionStatus.Done ? feeConfig?._vcComponent : undefined
 
   const iconSlot = showContract ? (
     contractCompactComponent || contractSecondaryComponent
@@ -78,7 +74,6 @@ export const TransactionExecutionContent: React.FC<
             rows={rows}
             iconSlot={iconSlot}
             footerSlot={footerSlot}
-            vcSlot={VcComponent ? <VcComponent route={route} /> : undefined}
           />
           <WarningMessages route={route} allowInteraction />
           {status === RouteExecutionStatus.Failed ? (

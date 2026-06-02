@@ -94,7 +94,7 @@ export const FontsControl = (): JSX.Element => {
         <Autocomplete
           freeSolo
           sx={{ mt: 1 }}
-          PopperComponent={StyledPopper}
+          slots={{ popper: StyledPopper }}
           options={
             allFonts.sort((a, b) => {
               let order = b.source.localeCompare(a.source)
@@ -115,7 +115,7 @@ export const FontsControl = (): JSX.Element => {
           }}
           value={selectedFont}
           isOptionEqualToValue={(option, value) =>
-            option.family === value.family
+            option.family === (typeof value === 'string' ? value : value.family)
           }
           onChange={handleAutocompleteChange}
           onBlur={handleAutocompleteBlur}

@@ -51,7 +51,7 @@ export function WidgetViewContainer({
             </Tooltip>
           ) : null}
           {isWalletManagementExternal ? (
-            <Box display="flex" alignItems="center">
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <appkit-button />
             </Box>
           ) : null}
@@ -62,6 +62,7 @@ export function WidgetViewContainer({
         <WidgetContainer
           removePaddingTop={isFullHeightLayout && !showHeader}
           alignTop={isFullHeightLayout}
+          withFixedHeaderOnPage={showHeader}
         >
           {showHeader ? (
             <MockElement sx={{ position: 'fixed', zIndex: 1, top: 0 }}>
