@@ -1,3 +1,4 @@
+/** Sets or removes a boolean query string parameter and pushes the updated URL to browser history. */
 export const setQueryStringParam = (
   queryStringKey: string,
   value: boolean

@@ -50,6 +50,7 @@ export const SendToConfiguredWalletPage = (): JSX.Element => {
         ref={listParentRef}
         style={{ height: listHeight, overflow: 'auto' }}
         disablePadding
+        sx={{ paddingTop: 1.5 }}
       >
         {toAddresses?.map((toAddress) => (
           <ListItem key={toAddress.address} sx={{ position: 'relative' }}>

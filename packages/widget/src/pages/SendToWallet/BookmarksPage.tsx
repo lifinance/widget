@@ -67,6 +67,7 @@ export const BookmarksPage = (): JSX.Element => {
         ref={listParentRef}
         style={{ height: listHeight, overflow: 'auto' }}
         disablePadding
+        sx={{ paddingTop: 1.5 }}
       >
         {bookmarks.map((bookmark) => (
           <ListItem key={bookmark.address} sx={{ position: 'relative' }}>

@@ -60,6 +60,7 @@ export const ConnectedWalletsPage = (): JSX.Element => {
         ref={listParentRef}
         style={{ height: listHeight, overflow: 'auto' }}
         disablePadding
+        sx={{ paddingTop: 1.5 }}
       >
         {accounts.map((account) => {
           const walletAddress = shortenAddress(account.address)

@@ -20,5 +20,5 @@ export const replayLocalStorageChangesOnTheme = (
     differences
   ) as Partial<WidgetConfig>
 
-  return updatedConfig.theme!
+  return updatedConfig.theme ?? theme
 }

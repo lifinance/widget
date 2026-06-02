@@ -20,7 +20,7 @@ export const SettingsPage = (): JSX.Element => {
   useHeader(t('header.settings'))
 
   return (
-    <PageContainer bottomGutters>
+    <PageContainer topGutters bottomGutters>
       <SettingsList>
         <SettingsCardAccordion>
           <ThemeSettings />

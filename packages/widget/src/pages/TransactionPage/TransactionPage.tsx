@@ -198,7 +198,7 @@ export const TransactionPage = (): JSX.Element | null => {
   }
 
   return (
-    <PageContainer bottomGutters>
+    <PageContainer topGutters bottomGutters>
       {getStepList(route, mode)}
       {mode === 'custom' && contractSecondaryComponent ? (
         <ContractComponent sx={{ marginTop: 2 }}>

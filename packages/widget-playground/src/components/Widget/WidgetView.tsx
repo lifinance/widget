@@ -11,7 +11,7 @@ export function WidgetView(): JSX.Element {
   const { config } = useConfig()
   const drawerRef = useRef<WidgetDrawer>(null)
   const formRef = useRef<FormState>(null)
-  const { isSkeletonShown, isSkeletonSideBySide } = useSkeletonToolValues()
+  const { isSkeletonShown } = useSkeletonToolValues()
   const { formValues } = useFormValues()
 
   const toggleDrawer = useCallback(() => {
@@ -32,7 +32,7 @@ export function WidgetView(): JSX.Element {
 
   return (
     <WidgetViewContainer toggleDrawer={toggleDrawer}>
-      {!isSkeletonShown || isSkeletonSideBySide ? (
+      {!isSkeletonShown ? (
         <LiFiWidget
           config={config}
           ref={drawerRef}

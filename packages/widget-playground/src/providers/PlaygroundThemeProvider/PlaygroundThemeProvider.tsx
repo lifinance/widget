@@ -7,8 +7,11 @@ import { createTheme } from './theme.js'
 export const PlaygroundThemeProvider = ({
   children,
 }: PropsWithChildren): JSX.Element => {
-  const { viewportColor } = usePlaygroundSettingValues()
-  const appTheme = useMemo(() => createTheme(viewportColor), [viewportColor])
+  const { viewportColorLight, viewportColorDark } = usePlaygroundSettingValues()
+  const appTheme = useMemo(
+    () => createTheme(viewportColorLight, viewportColorDark),
+    [viewportColorLight, viewportColorDark]
+  )
 
   return (
     <ThemeProvider

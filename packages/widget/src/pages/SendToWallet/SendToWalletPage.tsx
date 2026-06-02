@@ -189,6 +189,7 @@ export const SendToWalletPage: React.FC = () => {
 
   return (
     <FullHeightAdjustablePageContainer
+      topGutters
       bottomGutters
       enableFullHeight={variant !== 'drawer'}
     >

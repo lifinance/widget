@@ -5,6 +5,7 @@ import { EthereumProvider } from '@lifi/widget-provider-ethereum'
 import { SolanaProvider } from '@lifi/widget-provider-solana'
 import { SuiProvider } from '@lifi/widget-provider-sui'
 import { TronProvider } from '@lifi/widget-provider-tron'
+import { withFloatingDrawer } from './providers/PlaygroundThemeProvider/floatingDrawer.js'
 
 export const widgetBaseConfig: WidgetConfig = {
   // fromChain: 137,
@@ -306,7 +307,7 @@ export const widgetBaseConfig: WidgetConfig = {
 export const defaultWidgetConfig: Partial<WidgetConfig> = {
   ...widgetBaseConfig,
   appearance: 'system',
-  theme: {
+  theme: withFloatingDrawer({
     colorSchemes: {
       light: {
         palette: {
@@ -333,7 +334,7 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
       fontFamily: 'Inter, sans-serif',
     },
     container: {
-      boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
+      filter: 'drop-shadow(0px 8px 32px rgba(0, 0, 0, 0.08))',
       borderRadius: '16px',
     },
     // routesContainer: {
@@ -344,5 +345,5 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
     //   boxShadow: '0px 8px 32px rgba(0, 0, 0, 0.08)',
     //   borderRadius: '16px',
     // },
-  },
+  }),
 } as WidgetConfig

@@ -1,10 +1,9 @@
 import type { WidgetTheme } from '@lifi/widget'
 import type { StoreApi, UseBoundStore } from 'zustand'
 import type { Font } from '../../providers/FontLoaderProvider/types.js'
+import type { WidgetEventName } from '../../utils/events.js'
 import type { FormValues } from '../types.js'
 
-type ControlType = 'design' | 'code'
-type CodeControlTab = 'config' | 'examples'
 export type Layout =
   | 'default'
   | 'restricted-height'
@@ -17,24 +16,19 @@ export interface ThemeItem {
   theme: WidgetTheme
 }
 
-interface EditToolsValues {
+export interface EditToolsValues {
   drawer: {
     open: boolean
-    visibleControls: ControlType
-    codeDrawerWidth: number
-  }
-  codeControl: {
-    openTab: CodeControlTab
   }
   fontControl: {
     selectedFont: Font | undefined // move to config
   }
   playgroundSettings: {
-    viewportColor?: string | undefined
+    viewportColorLight?: string | undefined
+    viewportColorDark?: string | undefined
   }
   skeletonControl: {
     show: boolean
-    sideBySide: boolean
   }
   headerAndFooterControl: {
     showMockHeader: boolean
@@ -45,24 +39,31 @@ interface EditToolsValues {
     selectedLayoutId: Layout
   }
   isDevView: boolean
+  widgetEventsControl: {
+    allWidgetEventsOn: boolean
+    monitoredEvents: Record<WidgetEventName, boolean>
+  }
   formValues?: Partial<FormValues>
 }
 
 interface EditToolsActions {
   setDrawerOpen: (open: boolean) => void
-  setCodeDrawerWidth: (width: number) => void
-  setVisibleControls: (controls: ControlType) => void
-  setCodeControlTab: (tab: CodeControlTab) => void
   resetEditTools: () => void
   setSelectedFont: (font: Font) => void
-  setViewportBackgroundColor: (color: string | undefined) => void
+  setViewportBackgroundColor: (
+    color: string | undefined,
+    mode: 'light' | 'dark'
+  ) => void
   setSkeletonShow: (show: boolean) => void
-  setSkeletonSideBySide: (sideBySide: boolean) => void
   setHeaderVisibility: (show: boolean) => void
   setFooterVisibility: (show: boolean) => void
   setFixedFooter: (isFixed: boolean) => void
   setSelectedLayoutId: (layoutId: Layout) => void
   setIsDevView: (isDevView: boolean) => void
+  setWidgetEventMonitors: (
+    allWidgetEventsOn: boolean,
+    monitoredEvents: Record<WidgetEventName, boolean>
+  ) => void
   setFormValues: (formValues: FormValues) => void
 }
 
