@@ -9,6 +9,7 @@ import { usePacedRouteExecution } from '../../hooks/usePacedRouteExecution.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useClearAmountFields } from '../../stores/form/useClearAmountFields.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
+import { hasEnumFlag } from '../../utils/enum.js'
 import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet.js'
 import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet.js'
 import { RouteTracker } from './RouteTracker.js'
@@ -73,7 +74,11 @@ export const TransactionPage = (): JSX.Element | null => {
   // biome-ignore lint/correctness/useExhaustiveDependencies: cleanup only on unmount
   useEffect(() => {
     return () => {
-      if (statusRef.current !== RouteExecutionStatus.Idle) {
+      if (
+        statusRef.current &&
+        statusRef.current !== RouteExecutionStatus.Idle &&
+        !hasEnumFlag(statusRef.current, RouteExecutionStatus.Done)
+      ) {
         clearAmountFields()
       }
     }

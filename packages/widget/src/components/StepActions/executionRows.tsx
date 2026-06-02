@@ -69,9 +69,17 @@ export function useExecutionRows(
  * Renders an {@link ExecutionRow} as the appropriate row component.
  * Callers are responsible for React keys on the returned node.
  */
-export function renderExecutionRow(row: ExecutionRow): ReactNode {
+export function renderExecutionRow(
+  row: ExecutionRow,
+  isLast: boolean
+): ReactNode {
   return row.kind === 'action' ? (
-    <StepActionRow step={row.step} action={row.action} href={row.href} />
+    <StepActionRow
+      step={row.step}
+      action={row.action}
+      href={row.href}
+      defaultLabelsOnly={!isLast}
+    />
   ) : (
     <SentToWalletRow toAddress={row.toAddress} toChainId={row.toChainId} />
   )
