@@ -78,7 +78,7 @@ export const useExplorer = (): {
       const validForEvm =
         config.resolvedChain?.chainType !== ChainType.EVM ||
         config.hasOverride ||
-        isHex(txHash, { strict: false })
+        isHex(txHash, { strict: true })
       if (validForEvm) {
         return `${config.url}/${config.txPath}/${txHash}`
       }
