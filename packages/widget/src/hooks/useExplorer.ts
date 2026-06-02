@@ -1,5 +1,6 @@
 import type { Chain } from '@lifi/sdk'
 import { ChainId, ChainType, isHex } from '@lifi/sdk'
+import { useCallback } from 'react'
 import { internalExplorerUrl } from '../config/constants.js'
 import { useAvailableChains } from '../hooks/useAvailableChains.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
@@ -24,64 +25,70 @@ export const useExplorer = (): {
   const { explorerUrls } = useWidgetConfig()
   const { getChainById } = useAvailableChains()
 
-  const getExplorerConfig = (chain?: Chain | number) => {
-    const resolvedChain = Number.isFinite(chain)
-      ? getChainById(chain as number)
-      : (chain as Chain)
+  const getExplorerConfig = useCallback(
+    (chain?: Chain | number) => {
+      const resolvedChain = Number.isFinite(chain)
+        ? getChainById(chain as number)
+        : (chain as Chain)
 
-    const explorerUrl =
-      (resolvedChain
-        ? (explorerUrls?.[resolvedChain.id]?.[0] ??
-          resolvedChain.metamask.blockExplorerUrls[0])
-        : explorerUrls?.internal?.[0]) || internalExplorerUrl
+      const explorerUrl =
+        (resolvedChain
+          ? (explorerUrls?.[resolvedChain.id]?.[0] ??
+            resolvedChain.metamask.blockExplorerUrls[0])
+          : explorerUrls?.internal?.[0]) || internalExplorerUrl
 
-    const url = typeof explorerUrl === 'string' ? explorerUrl : explorerUrl.url
+      const url =
+        typeof explorerUrl === 'string' ? explorerUrl : explorerUrl.url
 
-    const defaultTxPath = resolvedChain?.id === ChainId.SUI ? 'txblock' : 'tx'
-    const defaultAddressPath =
-      resolvedChain?.id === ChainId.SUI ? 'coin' : 'address'
-    const txPath =
-      typeof explorerUrl === 'string'
-        ? defaultTxPath
-        : explorerUrl.txPath || defaultTxPath
-    const addressPath =
-      typeof explorerUrl === 'string'
-        ? defaultAddressPath
-        : explorerUrl.addressPath || defaultAddressPath
+      const defaultTxPath = resolvedChain?.id === ChainId.SUI ? 'txblock' : 'tx'
+      const defaultAddressPath =
+        resolvedChain?.id === ChainId.SUI ? 'coin' : 'address'
+      const txPath =
+        typeof explorerUrl === 'string'
+          ? defaultTxPath
+          : explorerUrl.txPath || defaultTxPath
+      const addressPath =
+        typeof explorerUrl === 'string'
+          ? defaultAddressPath
+          : explorerUrl.addressPath || defaultAddressPath
 
-    return {
-      url: sanitiseBaseUrl(url),
-      txPath,
-      addressPath,
-      resolvedChain,
-    }
-  }
-
-  const getTransactionLink = ({
-    txHash,
-    txLink,
-    chain,
-  }: TransactionLinkProps): string | undefined => {
-    if (!txHash) {
-      return txLink
-    }
-
-    const config = getExplorerConfig(chain)
-
-    // For EVM chains, validate the transaction hash as some relayers return custom task hashes that are not visible on-chain
-    if (config.resolvedChain?.chainType === ChainType.EVM) {
-      if (!isHex(txHash, { strict: true })) {
-        return undefined
+      return {
+        url: sanitiseBaseUrl(url),
+        txPath,
+        addressPath,
+        resolvedChain,
       }
-    }
+    },
+    [explorerUrls, getChainById]
+  )
 
-    return `${config.url}/${config.txPath}/${txHash}`
-  }
+  const getTransactionLink = useCallback(
+    ({ txHash, txLink, chain }: TransactionLinkProps): string | undefined => {
+      if (!txHash) {
+        return txLink
+      }
 
-  const getAddressLink = (address: string, chain?: Chain | number) => {
-    const config = getExplorerConfig(chain)
-    return `${config.url}/${config.addressPath}/${address}`
-  }
+      const config = getExplorerConfig(chain)
+
+      // For EVM chains, validate the transaction hash as some relayers return custom task hashes that are not visible on-chain
+      if (config.resolvedChain?.chainType === ChainType.EVM) {
+        if (!isHex(txHash, { strict: true })) {
+          return undefined
+        }
+      }
+
+      return `${config.url}/${config.txPath}/${txHash}`
+    },
+    [getExplorerConfig]
+  )
+
+  const getAddressLink = useCallback(
+    (address: string, chain?: Chain | number) => {
+      const config = getExplorerConfig(chain)
+      return `${config.url}/${config.addressPath}/${address}`
+    },
+    [getExplorerConfig]
+  )
 
   return {
     getTransactionLink,

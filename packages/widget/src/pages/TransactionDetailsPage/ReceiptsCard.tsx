@@ -3,7 +3,7 @@ import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Card } from '../../components/Card/Card.js'
 import { CardTitle } from '../../components/Card/CardTitle.js'
-import { StepActionsList } from './StepActionsList.js'
+import { StepActionsList } from '../../components/StepActions/StepActionsList.js'
 
 interface ReceiptsCardProps {
   route: RouteExtended
