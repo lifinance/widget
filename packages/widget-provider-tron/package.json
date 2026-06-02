@@ -41,7 +41,7 @@
     "@lifi/sdk-provider-tron": "^4.0.0-beta.11",
     "@lifi/widget-provider": "workspace:*",
     "@tronweb3/tronwallet-abstract-adapter": "1.1.13",
-    "@tronweb3/tronwallet-adapters": "^1.2.25"
+    "@tronweb3/tronwallet-adapters": "^1.2.26"
   },
   "peerDependencies": {
     "@tronweb3/tronwallet-adapter-react-hooks": "^1.1.11"
