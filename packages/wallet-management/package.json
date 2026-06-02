@@ -11,7 +11,6 @@
     "build": "pnpm clean && tsdown",
     "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../README.md' .",
     "build:postrelease": "node ../../scripts/postrelease.js && rm -rf README.md",
-    "release:build": "pnpm build",
     "clean": "rm -rf dist",
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
@@ -51,9 +50,9 @@
     "@mui/material": "^9.0.1",
     "@mui/system": "^9.0.1",
     "eventemitter3": "^5.0.4",
-    "i18next": "^26.1.0",
-    "react-i18next": "^17.0.7",
-    "zustand": "^5.0.13"
+    "i18next": "^26.3.0",
+    "react-i18next": "^17.0.8",
+    "zustand": "^5.0.14"
   },
   "devDependencies": {
     "cpy-cli": "^7.0.0",

@@ -1,10 +1,11 @@
-# Changelog
+# @lifi/widget
 
-> **Archived.** This monorepo-wide changelog is frozen as of the migration to
-> [Changesets](https://github.com/changesets/changesets). It is kept for historical
-> reference up to the v3 line. Going forward, each published package maintains its
-> **own** `CHANGELOG.md` (e.g. `packages/widget/CHANGELOG.md`), which is the
-> authoritative source of release notes. Do not add new entries to this file.
+> **Pre-Changesets history (aggregated, repo-wide).** The entries below are
+> inherited verbatim from the repository root `CHANGELOG.md`, which aggregated
+> releases across all packages of this monorepo before the Changesets cutover.
+> Many entries reference packages other than `@lifi/widget`; per-package release
+> notes (attributed by Changesets) appear above this section as future releases
+> ship.
 
 All notable changes to this project (through the standard-version era) are documented below. See [standard-version](https://github.com/conventional-changelog/standard-version) for the historical commit guidelines.
 

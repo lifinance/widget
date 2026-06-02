@@ -5,6 +5,12 @@ on:
     branches:
       - main
 
+# Collapse rapid main pushes (e.g. the Changesets version + publish commits) onto one
+# deploy; supersede any in-flight run so two S3 syncs never race.
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     permissions:
@@ -15,15 +21,11 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@d979d5b3a71173a29b74b5b88418bfda9437d885 # v6.1.1
+        uses: aws-actions/configure-aws-credentials@acca2b1b2070338fb9fd1ca27ecee81d687e58e5 # v6.1.2
         with:
           role-to-assume: arn:aws:iam::403372804574:role/github-actions
           role-session-name: github-actions-role-session
           aws-region: us-east-2
-      
-      - name: Amazon ECR login
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@fa648b43de3d4d023bcb3f89ed6940096949c419 # v2.1.5
       
       - name: Install dependencies
         uses: ./.github/actions/pnpm-install
@@ -35,10 +37,8 @@ jobs:
       
       - name: Deploy app build to S3 bucket
         run: |
-          # This single command deploys all files with a "no-cache" rule.
           aws s3 sync ./packages/widget-playground-vite/dist/ s3://playground.li.fi --cache-control 'no-cache,no-store,must-revalidate' --delete
           
-          # Repeats the same process for the second application.
           aws s3 sync ./packages/widget-embedded/dist/ s3://widget.li.fi --cache-control 'no-cache,no-store,must-revalidate' --delete
       
       - name: Purge Cloudflare Cache by Hostname

@@ -11,7 +11,6 @@
     "build": "pnpm clean && tsdown",
     "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../README.md' .",
     "build:postrelease": "node ../../scripts/postrelease.js && rm -rf README.md",
-    "release:build": "pnpm build",
     "clean": "rm -rf dist",
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
@@ -39,12 +38,12 @@
   ],
   "dependencies": {
     "@lifi/sdk": "^4.0.0-beta.11",
-    "@lifi/sdk-provider-solana": "^4.0.0-beta.11",
+    "@lifi/sdk-provider-solana": "^4.0.0-beta.12",
     "@lifi/widget-provider": "workspace:*",
     "@wallet-standard/app": "^1.1.0",
     "@wallet-standard/base": "^1.1.0",
     "@wallet-standard/features": "^1.1.0",
-    "zustand": "^5.0.13"
+    "zustand": "^5.0.14"
   },
   "peerDependencies": {
     "bs58": ">=4.0.1"

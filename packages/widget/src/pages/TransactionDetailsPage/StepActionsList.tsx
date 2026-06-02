@@ -20,17 +20,11 @@ export const StepActionsList: React.FC<StepActionsListProps> = ({
       const rows = prepareActions(step.execution?.actions ?? [])
         .map((actionsGroup) => {
           const action = actionsGroup.at(-1)
-          const href = action?.txHash
-            ? getTransactionLink({
-                txHash: action.txHash,
-                chain: action.chainId,
-              })
-            : action?.txLink
-              ? getTransactionLink({
-                  txLink: action.txLink,
-                  chain: action.chainId,
-                })
-              : undefined
+          const href = getTransactionLink({
+            txHash: action?.txHash,
+            txLink: action?.txLink,
+            chain: action?.chainId,
+          })
           return { action, href }
         })
         .filter(({ action, href }) => {
