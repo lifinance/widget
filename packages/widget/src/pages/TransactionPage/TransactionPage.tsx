@@ -38,6 +38,9 @@ export const TransactionPage = (): JSX.Element | null => {
       onAcceptExchangeRateUpdate,
     })
 
+  const statusRef = useRef(status)
+  statusRef.current = status
+
   const getHeaderTitle = () => {
     if (mode === 'custom') {
       return t(`header.${modeOptions?.custom?.type ?? 'checkout'}`)
@@ -70,7 +73,7 @@ export const TransactionPage = (): JSX.Element | null => {
   // biome-ignore lint/correctness/useExhaustiveDependencies: cleanup only on unmount
   useEffect(() => {
     return () => {
-      if (status !== RouteExecutionStatus.Idle) {
+      if (statusRef.current !== RouteExecutionStatus.Idle) {
         clearAmountFields()
       }
     }
