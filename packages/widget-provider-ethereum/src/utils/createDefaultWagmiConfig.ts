@@ -107,13 +107,10 @@ export function createDefaultWagmiConfig(
     connectors.unshift(createCoinbaseConnector(props.coinbase))
   }
 
-  // MetaMask SDK connector is always added when configured. The lazy-load gate
-  // matches any prior MetaMask connection (EIP-6963 announcement id
-  // `io.metamask` or our own `metaMaskSDK` id) so that once a user has
-  // connected MetaMask via any path, subsequent visits load the SDK and route
-  // events through it. With both connectors present in the wagmi config, the
-  // widget's wallet picker keeps the SDK entry (it is unshifted first), so
-  // SDK-level events fire consistently across desktop and mobile.
+  // Register the MetaMask SDK connector even when the extension is installed.
+  // The lazy gate matches any prior MetaMask connection (`io.metamask` or
+  // `metaMaskSDK`); reconnect probes resolve from the injected provider, so it
+  // costs no SDK download until the user connects through it.
   if (
     props?.metaMask &&
     (recentConnectorId?.toLowerCase?.().includes?.('metamask') || !props.lazy)
