@@ -17,7 +17,6 @@ interface ExecutionChecklistProps {
   rows: ExecutionRow[]
 }
 
-/** Animated list of completed execution actions. */
 export function ExecutionChecklist({
   rows,
 }: ExecutionChecklistProps): JSX.Element | null {

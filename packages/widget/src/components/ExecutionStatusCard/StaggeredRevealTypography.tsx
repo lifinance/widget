@@ -37,7 +37,7 @@ export function StaggeredRevealTypography({
   return (
     <Typography {...props}>
       {words.map((word, i) => (
-        <Fragment key={`${word}-${i}`}>
+        <Fragment key={i}>
           {i > 0 && ' '}
           <m.span
             initial={{ opacity: 0, y: WORD_ENTER_Y }}
