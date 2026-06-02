@@ -1,44 +1,159 @@
-name: Release & Publish Beta
+name: Release & Publish
 
+# Changesets-driven release pipeline: push to main → version PR → publish → Linear sync.
 on:
   push:
-    tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+-alpha.[0-9]+'
-      - 'v[0-9]+.[0-9]+.[0-9]+-beta.[0-9]+'
-      - 'v[0-9]+.[0-9]+.[0-9]+'
+    branches: [main]
   workflow_dispatch:
+  # Preview releases are opt-in via the `release-preview` PR label.
+  pull_request:
+    types: [labeled]
+
+# Never run two releases at once; do NOT cancel an in-flight publish.
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions: {} # each job declares only the permissions it needs
 
 jobs:
-  release:
-    permissions:
-      contents: write
+  verify:
+    name: Verify
+    # Main release chain runs on push/dispatch only, not the preview label event.
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2.6.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          generate_release_notes: true
-          name: ${{ github.ref_name }}
-          draft: false
-          prerelease: false
-
-  publish:
     permissions:
-      contents: write
-      id-token: write
-    runs-on: ubuntu-latest
+      contents: read
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Install dependencies
         uses: ./.github/actions/pnpm-install
+      - name: Check code
+        run: pnpm check
       - name: Build
-        run: pnpm release:build
-      - name: Publish to npm
-        run: |
-          pnpm release:publish${{ contains(github.ref_name, 'alpha') && ':alpha' || contains(github.ref_name, 'beta') && ':beta' || '' }}
+        run: pnpm build
+      - name: Check types
+        run: pnpm check:types
+
+  changesets:
+    name: Changesets
+    needs: verify
+    # Prevent this action from running on forks.
+    if: github.repository == 'lifinance/widget'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # to create the version PR / push tags
+      pull-requests: write # to create the version PR
+    outputs:
+      hasChangesets: ${{ steps.changesets.outputs.hasChangesets }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          # Fetch full history so Changesets can generate changelogs.
+          fetch-depth: 0
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+        with:
+          cache: 'false' # privileged job — don't restore a potentially poisoned cache
+      - name: Create version pull request
+        id: changesets
+        uses: changesets/action@63a615b9cd06ba9a3e6d13796c7fbcb080a60a0b # v1.8.0
+        with:
+          version: pnpm changeset:version
+          title: 'chore: version packages'
+          commit: 'chore: version packages'
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  release:
+    name: Release
+    needs: changesets
+    # Only publish once the version PR has been merged (no changesets left).
+    if: needs.changesets.outputs.hasChangesets == 'false'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # to create GitHub Releases
+      id-token: write # OIDC token for npm provenance / trusted publishing
+    outputs:
+      publishedPackages: ${{ steps.changesets.outputs.publishedPackages }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+        with:
+          cache: 'false' # privileged job — don't restore a potentially poisoned cache
+      - name: Publish to npm
+        id: changesets
+        uses: changesets/action@63a615b9cd06ba9a3e6d13796c7fbcb080a60a0b # v1.8.0
+        with:
+          publish: pnpm changeset:publish
+          createGithubReleases: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
+
+  # Linear sync — one static call per anchor (two anchors use two secrets, so no matrix).
+  linear-widget:
+    name: Linear Sync (Widget)
+    needs: release
+    # Fires only when @lifi/widget was actually published this run.
+    if: contains(needs.release.outputs.publishedPackages, '"@lifi/widget"')
+    permissions:
+      contents: read
+    uses: ./.github/workflows/linear-release.yaml
+    with:
+      release_name: Widget
+      package_name: '@lifi/widget'
+      published_packages: ${{ needs.release.outputs.publishedPackages }}
+    secrets:
+      access_key: ${{ secrets.WIDGET_LINEAR_RELEASE_ACCESS_KEY }}
+
+  # DORMANT until @lifi/widget-checkout ships (PR #727). The `if` never matches
+  # today; enabling it later requires no further change.
+  linear-checkout:
+    name: Linear Sync (Checkout)
+    needs: release
+    if: contains(needs.release.outputs.publishedPackages, '"@lifi/widget-checkout"')
+    permissions:
+      contents: read
+    uses: ./.github/workflows/linear-release.yaml
+    with:
+      release_name: Checkout
+      package_name: '@lifi/widget-checkout'
+      published_packages: ${{ needs.release.outputs.publishedPackages }}
+    secrets:
+      access_key: ${{ secrets.CHECKOUT_LINEAR_RELEASE_ACCESS_KEY }}
+
+  # Preview release (opt-in): the `release-preview` label publishes a throwaway
+  # 0.0.0-preview-<sha> to the `preview` dist-tag. Gated by same-repo + Triage+-to-label
+  # (forks can't trigger); secret-isolated; 0.0.0-preview can't become latest/beta.
+  # NEVER convert this to pull_request_target.
+  preview:
+    name: Preview release (PR)
+    if: >-
+      github.event_name == 'pull_request'
+      && github.event.label.name == 'release-preview'
+      && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write # npm OIDC trusted publishing + provenance
+      pull-requests: write # post the install comment + remove the label
+    steps:
+      - name: Checkout PR head
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+        with:
+          cache: 'false' # privileged job — don't restore a potentially poisoned cache
+
+      # Composite (not a reusable workflow) so npm OIDC stays bound to publish.yaml.
+      - name: Publish preview
+        uses: ./.github/actions/preview-publish

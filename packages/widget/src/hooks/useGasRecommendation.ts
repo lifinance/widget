@@ -3,7 +3,6 @@ import type { UseQueryResult } from '@tanstack/react-query'
 import { useQuery } from '@tanstack/react-query'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import { HiddenUI } from '../types/widget.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useAvailableChains } from './useAvailableChains.js'
 
@@ -54,7 +53,7 @@ export const useGasRecommendation = (
     },
     enabled:
       (checkRecommendationLiFuel || checkRecommendationMaxButton) &&
-      !hiddenUI?.includes(HiddenUI.GasRefuelMessage),
+      !hiddenUI?.gasRefuelMessage,
     refetchInterval,
     staleTime: refetchInterval,
   })

@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-provider-bitcoin",
-  "version": "4.0.0-beta.18",
+  "version": "4.0.0-beta.20",
   "description": "LI.FI Widget Provider for Bitcoin blockchain integration.",
   "type": "module",
   "main": "./src/index.ts",
@@ -11,7 +11,6 @@
     "build": "pnpm clean && tsdown",
     "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../README.md' .",
     "build:postrelease": "node ../../scripts/postrelease.js && rm -rf README.md",
-    "release:build": "pnpm build",
     "clean": "rm -rf dist",
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
@@ -41,8 +40,8 @@
   "dependencies": {
     "@bigmi/client": "^0.8.0",
     "@bigmi/core": "^0.8.0",
-    "@lifi/sdk": "^4.0.0-beta.8",
-    "@lifi/sdk-provider-bitcoin": "^4.0.0-beta.8",
+    "@lifi/sdk": "^4.0.0-beta.11",
+    "@lifi/sdk-provider-bitcoin": "^4.0.0-beta.11",
     "@lifi/widget-provider": "workspace:*"
   },
   "peerDependencies": {
@@ -51,7 +50,7 @@
   "devDependencies": {
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
-    "react": "^19.2.5",
+    "react": "^19.2.6",
     "typescript": "^6.0.3"
   }
 }

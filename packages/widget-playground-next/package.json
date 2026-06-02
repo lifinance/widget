@@ -13,17 +13,17 @@
     "@emotion/styled": "^11.14.1",
     "@lifi/widget": "workspace:*",
     "@lifi/widget-playground": "workspace:*",
-    "@mui/material": "^9.0.0",
-    "@mui/material-nextjs": "^9.0.0",
-    "@tanstack/react-query": "^5.100.6",
+    "@mui/material": "^9.0.1",
+    "@mui/material-nextjs": "^9.0.1",
+    "@tanstack/react-query": "^5.100.14",
     "core-js": "^3.49.0",
     "next": "^16.2.2",
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5"
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
   },
   "devDependencies": {
-    "@types/node": "^25.5.2",
-    "@types/react": "^19.2.14",
+    "@types/node": "^25.9.1",
+    "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
     "typescript": "^6.0.3"
   },

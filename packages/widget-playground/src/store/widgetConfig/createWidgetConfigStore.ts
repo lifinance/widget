@@ -64,11 +64,11 @@ export const createWidgetConfigStore = (
             },
           })
         },
-        setSubvariant: (subvariant) => {
+        setMode: (mode) => {
           set({
             config: {
               ...get().config,
-              subvariant,
+              mode,
             },
           })
         },
@@ -76,12 +76,9 @@ export const createWidgetConfigStore = (
           set({
             config: {
               ...get().config,
-              subvariantOptions: {
-                ...get().config?.subvariantOptions,
-                wide: {
-                  ...get().config?.subvariantOptions?.wide,
-                  disableChainSidebar: disabled,
-                },
+              hiddenUI: {
+                ...get().config?.hiddenUI,
+                chainSidebar: disabled,
               },
             },
           })
@@ -90,8 +87,8 @@ export const createWidgetConfigStore = (
           set({
             config: {
               ...get().config,
-              subvariantOptions: {
-                ...get().config?.subvariantOptions,
+              modeOptions: {
+                ...get().config?.modeOptions,
                 split: option,
               },
             },

@@ -4,7 +4,6 @@ import { useEthereumContext } from '@lifi/widget-provider'
 import { useChain } from '../hooks/useChain.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
-import { HiddenUI, RequiredUI } from '../types/widget.js'
 import { useIsContractAddress } from './useIsContractAddress.js'
 
 export const useToAddressRequirements = (
@@ -72,8 +71,8 @@ export const useToAddressRequirements = (
   const requiredToAddress = Boolean(
     (isDifferentChainType ||
       isCrossChainContractAddress ||
-      requiredUI?.includes(RequiredUI.ToAddress)) &&
-      !hiddenUI?.includes(HiddenUI.ToAddress)
+      requiredUI?.toAddress) &&
+      !hiddenUI?.toAddress
   )
 
   const accountNotDeployedAtDestination = Boolean(

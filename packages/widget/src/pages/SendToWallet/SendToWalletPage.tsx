@@ -1,6 +1,6 @@
 import { useAccount } from '@lifi/wallet-management'
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 import ErrorIcon from '@mui/icons-material/Error'
-import History from '@mui/icons-material/History'
 import TurnedIn from '@mui/icons-material/TurnedIn'
 import Wallet from '@mui/icons-material/Wallet'
 import { Box, Tooltip, Typography } from '@mui/material'
@@ -25,7 +25,6 @@ import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js
 import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { HiddenUI, RequiredUI } from '../../types/widget.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { BookmarkAddressSheet } from './BookmarkAddressSheet.js'
 import { ConfirmAddressSheet } from './ConfirmAddressSheet.js'
@@ -252,14 +251,12 @@ export const SendToWalletPage: React.FC = () => {
             onAddBookmark={handleAddBookmark}
           />
         </SendToWalletCard>
-        {requiredUI?.includes(RequiredUI.AccountDeployedMessage) && (
-          <AccountDeployedMessage />
-        )}
+        {requiredUI?.accountDeployedMessage && <AccountDeployedMessage />}
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
         <CardButton
           title={t('header.recentWallets')}
-          icon={<History />}
+          icon={<AccountBalanceWalletIcon />}
           onClick={handleRecentWalletsClick}
         >
           {!!recentWallets.length && (
@@ -272,7 +269,7 @@ export const SendToWalletPage: React.FC = () => {
             </Typography>
           )}
         </CardButton>
-        {!hiddenUI?.includes(HiddenUI.AddressBookConnectedWallets) && (
+        {!hiddenUI?.addressBookConnectedWallets && (
           <CardButton
             title={t('sendToWallet.connectedWallets')}
             icon={<Wallet />}

@@ -7,7 +7,7 @@ export const useConfigActions = (): Pick<
   | 'resetConfig'
   | 'setAppearance'
   | 'setVariant'
-  | 'setSubvariant'
+  | 'setMode'
   | 'setBorderRadius'
   | 'resetBorderRadius'
   | 'setBorderRadiusSecondary'
@@ -29,7 +29,7 @@ export const useConfigActions = (): Pick<
     resetConfig: state.resetConfig,
     setAppearance: state.setAppearance,
     setVariant: state.setVariant,
-    setSubvariant: state.setSubvariant,
+    setMode: state.setMode,
     setBorderRadius: state.setBorderRadius,
     resetBorderRadius: state.resetBorderRadius,
     setBorderRadiusSecondary: state.setBorderRadiusSecondary,

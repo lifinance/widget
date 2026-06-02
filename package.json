@@ -1,5 +1,5 @@
 {
-  "version": "4.0.0-beta.18",
+  "version": "4.0.0-beta.20",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -10,22 +10,15 @@
     "clean:cache": "pnpm store prune",
     "clean:modules": "find . -name \"node_modules\" -type d -prune -exec rm -rf {} +",
     "clean:modules:trash": "find . -name \"node_modules\" -type d -prune -exec trash {} +",
-    "regen": "rm -rf pnpm-lock.yaml && pnpm clean:modules && corepack use pnpm@latest",
+    "regen": "rm -rf pnpm-lock.yaml && pnpm clean:modules && corepack use pnpm@latest && pnpm dedupe",
     "dev": "pnpm --filter widget-playground-vite dev",
     "dev:dev": "pnpm --filter widget-playground-vite dev:dev",
     "dev:staging": "pnpm --filter widget-playground-vite dev:staging",
     "dev:local": "pnpm --filter widget-playground-vite dev:local",
     "dev:next": "pnpm --filter widget-playground-next dev",
-    "release": "pnpm release:version && pnpm release:build && pnpm standard-version -a -s",
-    "release:alpha": "pnpm release:version --preid alpha && pnpm release:build && pnpm standard-version -a -s --prerelease alpha --skip.changelog",
-    "release:beta": "pnpm release:version --preid beta && pnpm release:build && pnpm standard-version -a -s --prerelease beta --skip.changelog",
-    "release:version": "lerna version --no-changelog --no-push --no-git-tag-version --no-private",
-    "release:build": "pnpm -r --parallel release:build",
-    "release:publish:build": "pnpm release:build && pnpm -r --parallel build:prerelease",
-    "release:publish": "pnpm release:publish:build && pnpm -r publish --access public --no-git-checks --tag latest && pnpm release:clean",
-    "release:publish:alpha": "pnpm release:publish:build && pnpm -r publish --access public --no-git-checks --tag alpha && pnpm release:clean",
-    "release:publish:beta": "pnpm release:publish:build && pnpm -r publish --access public --no-git-checks --tag beta && pnpm release:clean",
-    "release:clean": "pnpm -r --parallel --filter './packages/**' --filter '!*-playground-*' --filter '!*-embedded' exec sh -c \"node ../../scripts/postrelease.js && rm -rf *.md\"",
+    "changeset:version": "changeset version && pnpm install --lockfile-only && pnpm check:write",
+    "changeset:prepublish": "pnpm build && pnpm -r --filter './packages/**' --filter '!*-playground-*' --filter '!*-embedded' build:prerelease",
+    "changeset:publish": "pnpm changeset:prepublish && pnpm --config.verify-deps-before-run=false changeset publish",
     "check": "biome check",
     "check:write": "biome check --write",
     "check:write:unsafe": "biome check --write --unsafe",
@@ -40,7 +33,12 @@
     "postinstall": "husky",
     "knip:all": "knip",
     "knip:check": "knip --dependencies --files --no-config-hints --exclude binaries",
-    "knip:write": "pnpm knip:check --fix"
+    "knip:write": "pnpm knip:check --fix",
+    "smoketest": "pnpm --filter @lifi/widget-e2e smoketest",
+    "e2e:examples": "pnpm --filter @lifi/widget-e2e e2e:examples",
+    "e2e:example": "pnpm --filter @lifi/widget-e2e e2e:example",
+    "test:examples": "bash scripts/test-all-examples.sh",
+    "test:example": "bash scripts/test-example.sh"
   },
   "lint-staged": {
     "*": [
@@ -48,49 +46,30 @@
       "bash -c 'pnpm knip:check'"
     ]
   },
-  "standard-version": {
-    "scripts": {
-      "prerelease": "pnpm install && git add .",
-      "postbump": "pnpm check:write && git add ."
-    }
-  },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.13",
-    "@commitlint/cli": "^20.5.3",
-    "@commitlint/config-conventional": "^20.5.3",
-    "@types/node": "^25.5.2",
-    "@types/react": "^19.2.14",
+    "@biomejs/biome": "^2.4.16",
+    "@changesets/changelog-github": "^0.7.0",
+    "@changesets/cli": "^2.31.0",
+    "@commitlint/cli": "^21.0.2",
+    "@commitlint/config-conventional": "^21.0.2",
+    "@types/node": "^25.9.1",
+    "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
-    "fs-extra": "^11.3.4",
+    "fs-extra": "^11.3.5",
     "husky": "^9.1.7",
-    "knip": "^6.9.0",
-    "lerna": "^9.0.7",
-    "lint-staged": "^16.4.0",
-    "standard-version": "^9.5.0",
-    "tsdown": "^0.21.10",
+    "knip": "^6.15.0",
+    "lint-staged": "^17.0.7",
+    "tsdown": "^0.22.1",
     "typescript": "^6.0.3"
   },
   "optionalDependencies": {
     "@gemini-wallet/core": "^0.3.2",
-    "@react-native-async-storage/async-storage": ">=2.2.0",
+    "@react-native-async-storage/async-storage": "^3.1.1",
     "db0": "^0.3.4",
     "encoding": "^0.1.13",
     "fastestsmallesttextencoderdecoder": "^1.0.22",
-    "ioredis": "^5.10.1",
-    "ws": "^8.20.0"
+    "ioredis": "^5.11.0",
+    "ws": "^8.21.0"
   },
-  "pnpm": {
-    "overrides": {
-      "@react-native-async-storage/async-storage": ">=2.2.0",
-      "@reown/appkit": ">=1.8.18",
-      "@safe-global/safe-apps-provider": ">=0.18.6",
-      "bs58": ">=4.0.1",
-      "miniflare>zod": "3.22.3",
-      "miniflare>zod-validation-error": "3.0.3",
-      "use-sync-external-store": "1.4.0",
-      "utf-8-validate": "6.0.6",
-      "zod": ">=4.1.11"
-    }
-  },
-  "packageManager": "pnpm@10.33.2+sha512.a90faf6feeab71ad6c6e57f94e0fe1a12f5dcc22cd754db40ae9593eb6a3e0b6b12e3540218bb37ae083404b1f2ce6db2a4121e979829b4aff94b99f49da1cf8"
+  "packageManager": "pnpm@11.5.1+sha512.93f7b57422ea7068257235b4c16eb60762eb68e1dc23723199cc739043ea9be2c4143274a399d8c6defa2b1176226d9ca1c4b63482d6200c1a8fbaa78c1d1485"
 }

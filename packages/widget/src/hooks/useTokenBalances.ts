@@ -4,7 +4,6 @@ import type { FormType } from '../stores/form/types.js'
 import { usePinnedTokensStore } from '../stores/pinnedTokens/PinnedTokensStore.js'
 import { useSettings } from '../stores/settings/useSettings.js'
 import type { TokenAmount } from '../types/token.js'
-import { HiddenUI } from '../types/widget.js'
 import { formatTokenPrice } from '../utils/format.js'
 import { isSearchMatch, processTokenBalances } from '../utils/tokenList.js'
 import { useAccountsBalancesData } from './useAccountsBalancesData.js'
@@ -105,7 +104,7 @@ export const useTokenBalances = (
     )
 
     const hideSmallBalances =
-      !!smallBalanceThreshold && !hiddenUI?.includes(HiddenUI.HideSmallBalances)
+      !!smallBalanceThreshold && !hiddenUI?.hideSmallBalances
     const threshold = hideSmallBalances
       ? Number.parseFloat(smallBalanceThreshold)
       : undefined

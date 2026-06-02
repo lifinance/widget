@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-provider-ethereum",
-  "version": "4.0.0-beta.18",
+  "version": "4.0.0-beta.20",
   "description": "LI.FI Widget Provider for Ethereum blockchain integration.",
   "type": "module",
   "main": "./src/index.ts",
@@ -11,7 +11,6 @@
     "build": "pnpm clean && tsdown",
     "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../README.md' .",
     "build:postrelease": "node ../../scripts/postrelease.js && rm -rf README.md",
-    "release:build": "pnpm build",
     "clean": "rm -rf dist",
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
@@ -39,19 +38,19 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "^4.0.0-beta.8",
-    "@lifi/sdk-provider-ethereum": "^4.0.0-beta.8",
+    "@lifi/sdk": "^4.0.0-beta.11",
+    "@lifi/sdk-provider-ethereum": "^4.0.0-beta.12",
     "@lifi/widget-provider": "workspace:*",
-    "viem": "^2.48.4"
+    "viem": "^2.52.0"
   },
   "peerDependencies": {
-    "@wagmi/core": "^3.x",
-    "wagmi": "^3.x"
+    "@wagmi/core": "^3.5.0",
+    "wagmi": "^3.6.16"
   },
   "devDependencies": {
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
-    "react": "^19.2.5",
+    "react": "^19.2.6",
     "typescript": "^6.0.3"
   }
 }

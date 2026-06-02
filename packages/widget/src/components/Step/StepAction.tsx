@@ -18,17 +18,11 @@ export const StepAction: React.FC<{
     return null
   }
 
-  const transactionLink = action.txHash
-    ? getTransactionLink({
-        txHash: action.txHash,
-        chain: action.chainId,
-      })
-    : action.txLink
-      ? getTransactionLink({
-          txLink: action.txLink,
-          chain: action.chainId,
-        })
-      : undefined
+  const transactionLink = getTransactionLink({
+    txHash: action.txHash,
+    txLink: action.txLink,
+    chain: action.chainId,
+  })
 
   return (
     <Box

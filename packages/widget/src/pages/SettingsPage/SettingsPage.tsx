@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { PageContainer } from '../../components/PageContainer.js'
 import { useHeader } from '../../hooks/useHeader.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { HiddenUI } from '../../types/widget.js'
 import { BridgeAndExchangeSettings } from './BridgeAndExchangeSettings.js'
 import { GasPriceSettings } from './GasPriceSettings.js'
 import { LanguageSetting } from './LanguageSetting.js'
@@ -29,9 +28,7 @@ export const SettingsPage = (): JSX.Element => {
           <RoutePrioritySettings />
           <GasPriceSettings />
           <SlippageSettings />
-          {!hiddenUI?.includes(HiddenUI.HideSmallBalances) && (
-            <SmallBalanceFilterSettings />
-          )}
+          {!hiddenUI?.hideSmallBalances && <SmallBalanceFilterSettings />}
           <BridgeAndExchangeSettings type="Bridges" />
           <BridgeAndExchangeSettings type="Exchanges" />
         </SettingsCardAccordion>

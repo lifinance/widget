@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-LI.FI Widget monorepo — a cross-chain DeFi swap/bridge widget supporting Ethereum, Solana, Bitcoin, and Sui ecosystems. Managed with pnpm workspaces, Lerna (independent versioning), and TypeScript composite builds.
+LI.FI Widget monorepo — a cross-chain DeFi swap/bridge widget supporting Ethereum, Solana, Bitcoin, and Sui ecosystems. Managed with pnpm workspaces, Changesets (independent versioning), and TypeScript composite builds.
 
 ## Commands
 
@@ -15,6 +15,7 @@ pnpm dev:next                # Start Next.js playground
 
 # Building
 pnpm build                   # Build all packages in parallel
+pnpm --filter widget-playground-vite analyze   # source-map-explorer on the built bundle
 
 # Code Quality
 pnpm check                   # Biome lint + format check
@@ -62,6 +63,8 @@ pnpm knip:check
 @lifi/widget-embedded          ← Vite app that runs inside the iframe (private)
 ```
 
+**`@lifi/sdk` and `@lifi/types` must be single-copy in any consumer bundle** — the SDK keeps `executionState` as a module-level singleton; duplicates surface as `"Execution data not found"` errors during route execution. Use `pnpm.overrides` (in `pnpm-workspace.yaml`) or bundler `resolve.dedupe` to enforce.
+
 ### widget-light iframe bridge
 
 `widget-light` provides an iframe-based integration where the widget runs inside an iframe (`widget-embedded`) and communicates with the host page via `postMessage`.
@@ -100,6 +103,7 @@ QueryClient → Settings → WidgetConfig → I18n → Theme → SDK → Wallet 
 - **Biome** for linting and formatting (not ESLint/Prettier). Single quotes, no semicolons, 2-space indent, trailing commas (ES5). **Always run `pnpm check:write` after making changes** so Biome can auto-fix formatting.
 - **Biome sorts imports** — running `pnpm check:write` may reorder import/export statements. This is expected.
 - **Conventional commits** enforced by commitlint (`feat:`, `fix:`, `chore:`, etc.).
+- **pnpm settings live in `pnpm-workspace.yaml` only** — pnpm v11 silently ignores `package.json#pnpm` and most non-auth `.npmrc` keys. Verify any setting with `pnpm config get <kebab-name>` (returns `undefined` if pnpm isn't reading it). npm publish provenance is set via `NPM_CONFIG_PROVENANCE=true` env in `.github/workflows/publish.yaml`, not pnpm config.
 - **`console.log` is an error** — only `console.warn` and `console.error` are allowed (except in `examples/`).
 - **`useExhaustiveDependencies`** and **`useHookAtTopLevel`** are errors.
 - **No unused variables or imports** — enforced as errors.
@@ -112,10 +116,58 @@ QueryClient → Settings → WidgetConfig → I18n → Theme → SDK → Wallet 
 
 ## Release
 
-Independent versioning via Lerna. Release flow:
-1. `pnpm release:version` — bump versions
-2. `pnpm release:build` — build all packages
-3. `standard-version` — generate changelog
-4. Git tag triggers GitHub Actions publish (`alpha`, `beta`, or `latest` npm tags)
+Releases are managed with **[Changesets](https://github.com/changesets/changesets)** (independent per-package versioning — no `fixed`/`linked`). Lerna and standard-version have been removed. Each published package owns its `CHANGELOG.md`; the root `CHANGELOG.md` is a frozen v3-era archive.
 
-`scripts/version.js` generates `src/config/version.ts` per-package during build.
+### Per-PR rule (do this on every feature/fix PR)
+
+When a change touches a **publishable** package (not a private package, not docs-only), add a `.changeset/*.md` before committing:
+
+```bash
+pnpm changeset    # interactive: pick packages + bump type, write a summary
+```
+
+- `feat:` → **minor**, `fix:` → **patch**, breaking change → **major**.
+- Do **not** author changesets for cascade-only dependents — Changesets bumps internal dependents automatically from the dependency graph. (`updateInternalDependencies: patch` — the default — re-releases a dependent on *any* bump to one of its workspace dependencies, including a patch, so its pinned version stays current.)
+- Publishable packages: `@lifi/widget`, `@lifi/wallet-management`, `@lifi/widget-light`, `@lifi/widget-provider`, `@lifi/widget-provider-{bitcoin,ethereum,solana,sui,tron}`.
+- Private/ignored (never need a changeset): `@lifi/widget-embedded`, `@lifi/widget-playground`, `@lifi/widget-playground-next`, `@lifi/widget-playground-vite`, examples, e2e.
+- `changeset-bot` comments a reminder on any PR that edits a publishable package without a changeset (a nudge, not a hard block — the maintainer-reviewed Version PR is the real gate).
+
+### PRE-MODE — currently in `beta` (DO NOT EXIT)
+
+The repo is in Changesets **pre mode** (`.changeset/pre.json`, `tag: beta`). While in pre mode, `changeset version` produces `4.0.0-beta.N` versions and `changeset publish` publishes under the `beta` dist-tag. `latest` on npm stays on the v3 line (`@lifi/widget@3.x`).
+
+**NEVER run `changeset pre exit`** unless you are deliberately cutting the stable `4.0.0` release. Exiting pre mode is the single action that moves the npm `latest` tag to 4.x — do it only on purpose.
+
+### How a release happens (automated)
+
+1. Open PRs with changesets (per the rule above).
+2. On merge to `main`, `.github/workflows/publish.yaml` runs the `changesets` job, which opens/updates a **`chore: version packages`** PR aggregating all pending changesets (bumps versions, regenerates per-package CHANGELOGs, refreshes the lockfile).
+3. Merging that version PR triggers the `release` job: it runs `pnpm changeset:publish` (build → per-package prerelease transform → `changeset publish`) and creates GitHub Releases. npm provenance is enabled via `NPM_CONFIG_PROVENANCE=true` + OIDC (`id-token: write`).
+4. The `linear-*` jobs sync the published versions into Linear, deriving version/channel from the action's `publishedPackages` output.
+
+### Preview releases (per-PR, opt-in)
+
+To share an unmerged PR build with other teams or external integrators, add the
+**`release-preview`** label to the PR. The `preview` job in `publish.yaml` publishes a
+throwaway `0.0.0-preview-<sha>` build of the changed packages to npm under the
+**`preview`** dist-tag and comments the exact install command on the PR. The label is
+removed after a successful publish (one-shot — re-add it to cut another preview).
+
+- Install the **exact** version it prints (e.g. `npm i @lifi/widget@0.0.0-preview-<sha>`);
+  `@preview` moves with the newest preview across PRs. `0.0.0` can never become `latest`/`beta`.
+  The `<sha>` is the PR head's short commit hash, so the version traces to the exact source.
+- This repo is in **pre mode**, where `--snapshot` is disallowed — the job therefore runs
+  `changeset pre exit` in the **throwaway CI checkout only** (never committed or pushed)
+  before snapshotting. `.changeset/pre.json` on the branch is untouched.
+- Guardrails: applying a label requires Triage+ on the repo, so external people / fork-PR
+  authors can't trigger it; the same-repo guard means the published code was pushed by
+  someone with Write access (forks excluded); and the job is isolated (no deploy/Linear
+  secrets). This is GitHub's native label-permission gate — no in-workflow role check.
+
+### Root scripts
+
+- `pnpm changeset:version` — `changeset version` + `pnpm install --lockfile-only` + `pnpm check:write`.
+- `pnpm changeset:prepublish` — `pnpm build`, then `build:prerelease` across publishable packages. **This is where the publish transform runs:** `changeset publish` does flat per-package `npm publish` and does NOT run each package's `build:prerelease` lifecycle, so the transform (`scripts/prerelease.js` → `scripts/formatPackageJson.js`, rewriting entry points to `dist/esm/` and copying `README.md`) must run here.
+- `pnpm changeset:publish` — `pnpm changeset:prepublish && changeset publish` (used by CI).
+
+`workspace:*` internal deps are resolved to concrete versions by `changeset publish` at publish time; `formatPackageJson.js` leaves `dependencies` untouched. `scripts/version.js` generates `src/config/version.ts` during build for `@lifi/widget` and `@lifi/widget-light` only.

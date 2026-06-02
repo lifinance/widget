@@ -12,31 +12,29 @@ import { SendToWalletExpandButton } from '../../components/SendToWallet/SendToWa
 import { useHeader } from '../../hooks/useHeader.js'
 import { useWideVariant } from '../../hooks/useWideVariant.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { HiddenUI } from '../../types/widget.js'
 import { MainWarningMessages } from './MainWarningMessages.js'
 import { ReviewButton } from './ReviewButton.js'
 
 export const MainPage: React.FC = () => {
   const { t } = useTranslation()
   const wideVariant = useWideVariant()
-  const { subvariant, subvariantOptions, contractComponent, hiddenUI } =
-    useWidgetConfig()
-  const custom = subvariant === 'custom'
-  const showPoweredBy = !hiddenUI?.includes(HiddenUI.PoweredBy)
-  const showGasRefuelMessage = !hiddenUI?.includes(HiddenUI.GasRefuelMessage)
+  const { mode, modeOptions, contractComponent, hiddenUI } = useWidgetConfig()
+  const custom = mode === 'custom'
+  const showPoweredBy = !hiddenUI?.poweredBy
+  const showGasRefuelMessage = !hiddenUI?.gasRefuelMessage
 
   const splitTitle =
-    subvariantOptions?.split === 'bridge'
+    modeOptions?.split === 'bridge'
       ? t('header.bridge')
-      : subvariantOptions?.split === 'swap'
+      : modeOptions?.split === 'swap'
         ? t('header.swap')
         : undefined
   const title =
-    subvariant === 'custom'
-      ? t(`header.${subvariantOptions?.custom ?? 'checkout'}`)
-      : subvariant === 'refuel'
+    mode === 'custom'
+      ? t(`header.${modeOptions?.custom?.type ?? 'checkout'}`)
+      : mode === 'refuel'
         ? t('header.gas')
-        : subvariant === 'split' && splitTitle
+        : mode === 'split' && splitTitle
           ? splitTitle
           : t('header.exchange')
 
@@ -50,7 +48,7 @@ export const MainPage: React.FC = () => {
         <ContractComponent sx={marginSx}>{contractComponent}</ContractComponent>
       ) : null}
       <SelectChainAndToken sx={marginSx} />
-      {!custom || subvariantOptions?.custom === 'deposit' ? (
+      {!custom || modeOptions?.custom?.type === 'deposit' ? (
         <AmountInput formType="from" sx={marginSx} />
       ) : null}
       {!wideVariant ? <Routes sx={marginSx} /> : null}
