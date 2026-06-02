@@ -10,7 +10,7 @@
     "clean:cache": "pnpm store prune",
     "clean:modules": "find . -name \"node_modules\" -type d -prune -exec rm -rf {} +",
     "clean:modules:trash": "find . -name \"node_modules\" -type d -prune -exec trash {} +",
-    "regen": "rm -rf pnpm-lock.yaml && pnpm clean:modules && corepack use pnpm@latest",
+    "regen": "rm -rf pnpm-lock.yaml && pnpm clean:modules && corepack use pnpm@latest && pnpm dedupe",
     "dev": "pnpm --filter widget-playground-vite dev",
     "dev:dev": "pnpm --filter widget-playground-vite dev:dev",
     "dev:staging": "pnpm --filter widget-playground-vite dev:staging",
@@ -47,29 +47,29 @@
     ]
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.15",
-    "@changesets/cli": "^2.31.0",
+    "@biomejs/biome": "^2.4.16",
     "@changesets/changelog-github": "^0.7.0",
-    "@commitlint/cli": "^21.0.0",
-    "@commitlint/config-conventional": "^21.0.0",
-    "@types/node": "^25.6.2",
-    "@types/react": "^19.2.14",
+    "@changesets/cli": "^2.31.0",
+    "@commitlint/cli": "^21.0.2",
+    "@commitlint/config-conventional": "^21.0.2",
+    "@types/node": "^25.9.1",
+    "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
     "fs-extra": "^11.3.5",
     "husky": "^9.1.7",
-    "knip": "^6.12.2",
-    "lint-staged": "^17.0.4",
-    "tsdown": "^0.22.0",
+    "knip": "^6.15.0",
+    "lint-staged": "^17.0.7",
+    "tsdown": "^0.22.1",
     "typescript": "^6.0.3"
   },
   "optionalDependencies": {
     "@gemini-wallet/core": "^0.3.2",
-    "@react-native-async-storage/async-storage": ">=2.2.0",
+    "@react-native-async-storage/async-storage": "^3.1.1",
     "db0": "^0.3.4",
     "encoding": "^0.1.13",
     "fastestsmallesttextencoderdecoder": "^1.0.22",
-    "ioredis": "^5.10.1",
-    "ws": "^8.20.0"
+    "ioredis": "^5.11.0",
+    "ws": "^8.21.0"
   },
-  "packageManager": "pnpm@11.0.9+sha512.34ce82e6780233cf9cad8685029a8f81d2e06196c5a9bad98879f7424940c6817c4e4524fb7d38b8553ceed48b9758b8ebaf1abd3600c232c4c8cf7366086f38"
+  "packageManager": "pnpm@11.5.1+sha512.93f7b57422ea7068257235b4c16eb60762eb68e1dc23723199cc739043ea9be2c4143274a399d8c6defa2b1176226d9ca1c4b63482d6200c1a8fbaa78c1d1485"
 }
