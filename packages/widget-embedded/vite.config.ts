@@ -14,7 +14,10 @@ export default defineConfig({
       onwarn(warning, defaultHandler) {
         if (
           warning.code === 'EVAL' ||
-          warning.code === 'INEFFECTIVE_DYNAMIC_IMPORT'
+          warning.code === 'INEFFECTIVE_DYNAMIC_IMPORT' ||
+          // ox ships `/*#__PURE__*/` annotations in positions Rolldown can't
+          // interpret; harmless (only affects DCE hints), so silence the noise.
+          warning.code === 'INVALID_ANNOTATION'
         ) {
           return
         }
