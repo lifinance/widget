@@ -16,7 +16,7 @@
     "dev:staging": "pnpm --filter widget-playground-vite dev:staging",
     "dev:local": "pnpm --filter widget-playground-vite dev:local",
     "dev:next": "pnpm --filter widget-playground-next dev",
-    "changeset:version": "changeset version && pnpm install --lockfile-only && pnpm check:write",
+    "changeset:version": "changeset version && bash scripts/restore-example-versions.sh && pnpm install --lockfile-only && pnpm check:write",
     "changeset:prepublish": "pnpm build && pnpm -r --filter './packages/**' --filter '!*-playground-*' --filter '!*-embedded' build:prerelease",
     "changeset:publish": "pnpm changeset:prepublish && pnpm --config.verify-deps-before-run=false changeset publish",
     "check": "biome check",
