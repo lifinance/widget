@@ -1,4 +1,4 @@
-import type { Route } from '@lifi/sdk'
+import type { Route, RouteExtended } from '@lifi/sdk'
 
 export interface RouteCardProps {
   route: Route
@@ -8,7 +8,7 @@ export interface RouteCardProps {
 }
 
 export interface RouteCardEssentialsProps {
-  route: Route
+  route: RouteExtended
 }
 
 export interface RouteCardSkeletonProps {

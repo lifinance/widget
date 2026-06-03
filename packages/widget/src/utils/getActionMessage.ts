@@ -6,7 +6,7 @@ import type {
   Substatus,
 } from '@lifi/sdk'
 import type { TFunction } from 'i18next'
-import type { ModeOptions, WidgetMode } from '../types/widget'
+import type { ModeOptions, WidgetMode } from '../types/widget.js'
 
 export function getActionMessage(
   t: TFunction,

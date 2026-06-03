@@ -48,11 +48,7 @@ export const TransactionDetailsPage: React.FC = () => {
       return
     }
     if (transaction) {
-      const routeExecution = buildRouteFromTxHistory(
-        transaction as FullStatusData,
-        tools
-      )
-      return routeExecution
+      return buildRouteFromTxHistory(transaction as FullStatusData, tools)
     }
   }, [isLoading, storedRouteExecution, tools, transaction])
 

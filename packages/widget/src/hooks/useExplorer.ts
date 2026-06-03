@@ -1,5 +1,6 @@
 import type { Chain } from '@lifi/sdk'
 import { ChainId, ChainType, isHex } from '@lifi/sdk'
+import { useCallback } from 'react'
 import { internalExplorerUrl } from '../config/constants.js'
 import { useAvailableChains } from '../hooks/useAvailableChains.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
@@ -27,69 +28,74 @@ export const useExplorer = (): {
   const { explorerUrls } = useWidgetConfig()
   const { getChainById } = useAvailableChains()
 
-  const getExplorerConfig = (chain?: Chain | number) => {
-    const resolvedChain = Number.isFinite(chain)
-      ? getChainById(chain as number)
-      : (chain as Chain)
+  const getExplorerConfig = useCallback(
+    (chain?: Chain | number) => {
+      const resolvedChain = Number.isFinite(chain)
+        ? getChainById(chain as number)
+        : (chain as Chain)
 
-    const explorerUrl =
-      (resolvedChain
-        ? (explorerUrls?.[resolvedChain.id]?.[0] ??
-          resolvedChain.metamask.blockExplorerUrls[0])
-        : explorerUrls?.internal?.[0]) || internalExplorerUrl
+      const explorerUrl =
+        (resolvedChain
+          ? (explorerUrls?.[resolvedChain.id]?.[0] ??
+            resolvedChain.metamask.blockExplorerUrls[0])
+          : explorerUrls?.internal?.[0]) || internalExplorerUrl
 
-    const baseUrl =
-      typeof explorerUrl === 'string' ? explorerUrl : explorerUrl.url
+      const baseUrl =
+        typeof explorerUrl === 'string' ? explorerUrl : explorerUrl.url
 
-    const overrides =
-      explorerPathOverrides[resolvedChain?.id as ChainId] ??
-      explorerPathOverrides[resolvedChain?.chainType as ChainType]
+      const overrides =
+        explorerPathOverrides[resolvedChain?.id as ChainId] ??
+        explorerPathOverrides[resolvedChain?.chainType as ChainType]
 
-    const defaultTxPath = overrides?.txPath ?? 'tx'
-    const defaultAddressPath = overrides?.addressPath ?? 'address'
-    const txPath =
-      typeof explorerUrl === 'string'
-        ? defaultTxPath
-        : explorerUrl.txPath || defaultTxPath
-    const addressPath =
-      typeof explorerUrl === 'string'
-        ? defaultAddressPath
-        : explorerUrl.addressPath || defaultAddressPath
+      const defaultTxPath = overrides?.txPath ?? 'tx'
+      const defaultAddressPath = overrides?.addressPath ?? 'address'
+      const txPath =
+        typeof explorerUrl === 'string'
+          ? defaultTxPath
+          : explorerUrl.txPath || defaultTxPath
+      const addressPath =
+        typeof explorerUrl === 'string'
+          ? defaultAddressPath
+          : explorerUrl.addressPath || defaultAddressPath
 
-    return {
-      url: sanitiseBaseUrl(baseUrl),
-      txPath,
-      addressPath,
-      resolvedChain,
-      hasOverride: Boolean(overrides),
-    }
-  }
-
-  const getTransactionLink = ({
-    txHash,
-    txLink,
-    chain,
-  }: TransactionLinkProps): string | undefined => {
-    if (txHash) {
-      const config = getExplorerConfig(chain)
-      // For EVM chains, sanity-check the transaction hash as some relayers return custom task hashes that are not visible on-chain.
-      // Skip the check when a chain-specific path override is registered — that's an explicit signal the chain's
-      // explorer accepts a non-hex hash (e.g. Lighter, whose hash has no 0x prefix).
-      const validForEvm =
-        config.resolvedChain?.chainType !== ChainType.EVM ||
-        config.hasOverride ||
-        isHex(txHash, { strict: true })
-      if (validForEvm) {
-        return `${config.url}/${config.txPath}/${txHash}`
+      return {
+        url: sanitiseBaseUrl(baseUrl),
+        txPath,
+        addressPath,
+        resolvedChain,
+        hasOverride: Boolean(overrides),
       }
-    }
-    return txLink
-  }
+    },
+    [explorerUrls, getChainById]
+  )
 
-  const getAddressLink = (address: string, chain?: Chain | number) => {
-    const config = getExplorerConfig(chain)
-    return `${config.url}/${config.addressPath}/${address}`
-  }
+  const getTransactionLink = useCallback(
+    ({ txHash, txLink, chain }: TransactionLinkProps): string | undefined => {
+      if (txHash) {
+        const config = getExplorerConfig(chain)
+        // For EVM chains, sanity-check the transaction hash as some relayers return custom task hashes that are not visible on-chain.
+        // Skip the check when a chain-specific path override is registered — that's an explicit signal the chain's
+        // explorer accepts a non-hex hash (e.g. Lighter, whose hash has no 0x prefix).
+        const validForEvm =
+          config.resolvedChain?.chainType !== ChainType.EVM ||
+          config.hasOverride ||
+          isHex(txHash, { strict: true })
+        if (validForEvm) {
+          return `${config.url}/${config.txPath}/${txHash}`
+        }
+      }
+      return txLink
+    },
+    [getExplorerConfig]
+  )
+
+  const getAddressLink = useCallback(
+    (address: string, chain?: Chain | number) => {
+      const config = getExplorerConfig(chain)
+      return `${config.url}/${config.addressPath}/${address}`
+    },
+    [getExplorerConfig]
+  )
 
   return {
     getTransactionLink,

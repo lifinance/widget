@@ -1,56 +1,30 @@
 import type { ExchangeRateUpdateParams } from '@lifi/sdk'
-import Delete from '@mui/icons-material/Delete'
-import { Box, Button, Tooltip } from '@mui/material'
-import { useLocation, useNavigate } from '@tanstack/react-router'
-import { type JSX, useMemo, useRef, useState } from 'react'
+import { useLocation } from '@tanstack/react-router'
+import { type JSX, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
-import { WarningMessages } from '../../components/Messages/WarningMessages.js'
 import { PageContainer } from '../../components/PageContainer.js'
-import { getStepList } from '../../components/Step/StepList.js'
-import { TransactionDetails } from '../../components/TransactionDetails.js'
-import { useAddressActivity } from '../../hooks/useAddressActivity.js'
 import { useHeader } from '../../hooks/useHeader.js'
-import { useNavigateBack } from '../../hooks/useNavigateBack.js'
-import { useRouteExecution } from '../../hooks/useRouteExecution.js'
-import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
+import { usePacedRouteExecution } from '../../hooks/usePacedRouteExecution.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { useFieldActions } from '../../stores/form/useFieldActions.js'
-import { useHeaderStore } from '../../stores/header/useHeaderStore.js'
+import { useClearAmountFields } from '../../stores/form/useClearAmountFields.js'
 import { RouteExecutionStatus } from '../../stores/routes/types.js'
-import { WidgetEvent } from '../../types/events.js'
-import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
-import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { ConfirmToAddressSheet } from './ConfirmToAddressSheet.js'
+import { hasEnumFlag } from '../../utils/enum.js'
 import type { ExchangeRateBottomSheetBase } from './ExchangeRateBottomSheet.js'
 import { ExchangeRateBottomSheet } from './ExchangeRateBottomSheet.js'
 import { RouteTracker } from './RouteTracker.js'
-import { StartTransactionButton } from './StartTransactionButton.js'
-import { StatusBottomSheet } from './StatusBottomSheet.js'
-import { TokenValueBottomSheet } from './TokenValueBottomSheet.js'
-import {
-  calculateValueLossPercentage,
-  getTokenValueLossThreshold,
-} from './utils.js'
+import { TransactionContent } from './TransactionContent.js'
 
 export const TransactionPage = (): JSX.Element | null => {
   const { t } = useTranslation()
-  const { setFieldValue } = useFieldActions()
-  const emitter = useWidgetEvents()
-  const setBackAction = useHeaderStore((state) => state.setBackAction)
-  const navigate = useNavigate()
-  const navigateBack = useNavigateBack()
-  const { mode, modeOptions, contractSecondaryComponent, hiddenUI } =
-    useWidgetConfig()
+  const { mode, modeOptions, contractSecondaryComponent } = useWidgetConfig()
   const { search }: any = useLocation()
   const stateRouteId = search?.routeId
   const [routeId, setRouteId] = useState<string>(stateRouteId)
   const [routeRefreshing, setRouteRefreshing] = useState(false)
+  const clearAmountFields = useClearAmountFields()
 
-  const tokenValueBottomSheetRef = useRef<BottomSheetBase>(null)
   const exchangeRateBottomSheetRef = useRef<ExchangeRateBottomSheetBase>(null)
-  const confirmToAddressSheetRef = useRef<BottomSheetBase>(null)
 
   const onAcceptExchangeRateUpdate = (
     resolver: (value: boolean) => void,
@@ -60,17 +34,13 @@ export const TransactionPage = (): JSX.Element | null => {
   }
 
   const { route, status, executeRoute, restartRoute, deleteRoute } =
-    useRouteExecution({
+    usePacedRouteExecution({
       routeId: routeId,
       onAcceptExchangeRateUpdate,
     })
 
-  const {
-    toAddress,
-    hasActivity,
-    isLoading: isLoadingAddressActivity,
-    isFetched: isActivityAddressFetched,
-  } = useAddressActivity(route?.toChainId)
+  const statusRef = useRef(status)
+  statusRef.current = status
 
   const getHeaderTitle = () => {
     if (mode === 'custom') {
@@ -101,163 +71,41 @@ export const TransactionPage = (): JSX.Element | null => {
 
   useHeader(getHeaderTitle(), headerAction)
 
-  if (!route) {
+  // biome-ignore lint/correctness/useExhaustiveDependencies: cleanup only on unmount
+  useEffect(() => {
+    return () => {
+      if (
+        statusRef.current &&
+        statusRef.current !== RouteExecutionStatus.Idle &&
+        !hasEnumFlag(statusRef.current, RouteExecutionStatus.Done)
+      ) {
+        clearAmountFields()
+      }
+    }
+  }, [])
+
+  if (!route || !status) {
     return null
   }
 
-  const handleExecuteRoute = () => {
-    if (tokenValueBottomSheetRef.current?.isOpen()) {
-      const { gasCostUSD, feeCostUSD } = getAccumulatedFeeCostsBreakdown(route)
-      const fromAmountUSD = Number.parseFloat(route.fromAmountUSD)
-      const toAmountUSD = Number.parseFloat(route.toAmountUSD)
-      emitter.emit(WidgetEvent.RouteHighValueLoss, {
-        fromAmountUSD,
-        toAmountUSD,
-        gasCostUSD,
-        feeCostUSD,
-        valueLoss: calculateValueLossPercentage(
-          fromAmountUSD,
-          toAmountUSD,
-          gasCostUSD,
-          feeCostUSD
-        ),
-      })
-    }
-    tokenValueBottomSheetRef.current?.close()
-    executeRoute()
-    setFieldValue('fromAmount', '')
-    if (mode === 'custom') {
-      setFieldValue('fromToken', '')
-      setFieldValue('toToken', '')
-    }
-    // Once transaction is started, set the back action to navigate to the home page
-    setBackAction(() => {
-      navigate({ to: navigationRoutes.home, replace: true })
-    })
-  }
-
-  const handleStartClick = async () => {
-    if (status === RouteExecutionStatus.Idle) {
-      if (
-        toAddress &&
-        !hasActivity &&
-        !isLoadingAddressActivity &&
-        isActivityAddressFetched &&
-        !hiddenUI?.lowAddressActivityConfirmation
-      ) {
-        confirmToAddressSheetRef.current?.open()
-        return
-      }
-
-      const { gasCostUSD, feeCostUSD } = getAccumulatedFeeCostsBreakdown(route)
-      const fromAmountUSD = Number.parseFloat(route.fromAmountUSD)
-      const toAmountUSD = Number.parseFloat(route.toAmountUSD)
-      const tokenValueLossThresholdExceeded = getTokenValueLossThreshold(
-        fromAmountUSD,
-        toAmountUSD,
-        gasCostUSD,
-        feeCostUSD
-      )
-      if (tokenValueLossThresholdExceeded && mode !== 'custom') {
-        tokenValueBottomSheetRef.current?.open()
-      } else {
-        handleExecuteRoute()
-      }
-    }
-    if (status === RouteExecutionStatus.Failed) {
-      restartRoute()
-    }
-  }
-
-  const handleRemoveRoute = () => {
-    navigateBack()
-    deleteRoute()
-  }
-
-  const getButtonText = (): string => {
-    switch (status) {
-      case RouteExecutionStatus.Idle:
-        switch (mode) {
-          case 'custom':
-            return modeOptions?.custom?.type === 'deposit'
-              ? t('button.deposit')
-              : t('button.buy')
-          case 'refuel':
-            return t('button.startBridging')
-          default: {
-            const transactionType =
-              route.fromChainId === route.toChainId ? 'Swapping' : 'Bridging'
-            return t(`button.start${transactionType}`)
-          }
-        }
-      case RouteExecutionStatus.Failed:
-        return t('button.tryAgain')
-      default:
-        return ''
-    }
-  }
-
   return (
-    <PageContainer topGutters bottomGutters>
-      {getStepList(route, mode)}
+    <PageContainer
+      topGutters
+      bottomGutters
+      sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+    >
+      <TransactionContent
+        route={route}
+        status={status}
+        executeRoute={executeRoute}
+        restartRoute={restartRoute}
+        deleteRoute={deleteRoute}
+        routeRefreshing={routeRefreshing}
+      />
       {mode === 'custom' && contractSecondaryComponent ? (
-        <ContractComponent sx={{ marginTop: 2 }}>
-          {contractSecondaryComponent}
-        </ContractComponent>
-      ) : null}
-      <TransactionDetails route={route} sx={{ marginTop: 2 }} />
-      {status === RouteExecutionStatus.Idle ||
-      status === RouteExecutionStatus.Failed ? (
-        <>
-          <WarningMessages sx={{ mt: 2 }} route={route} allowInteraction />
-          <Box
-            sx={{
-              mt: 2,
-              display: 'flex',
-            }}
-          >
-            <StartTransactionButton
-              text={getButtonText()}
-              onClick={handleStartClick}
-              route={route}
-              loading={routeRefreshing || isLoadingAddressActivity}
-            />
-            {status === RouteExecutionStatus.Failed ? (
-              <Tooltip
-                title={t('button.clearTransaction')}
-                placement="bottom-end"
-              >
-                <Button
-                  onClick={handleRemoveRoute}
-                  sx={{
-                    minWidth: 48,
-                    marginLeft: 1,
-                  }}
-                >
-                  <Delete />
-                </Button>
-              </Tooltip>
-            ) : null}
-          </Box>
-        </>
-      ) : null}
-      {status ? <StatusBottomSheet status={status} route={route} /> : null}
-      {mode !== 'custom' ? (
-        <TokenValueBottomSheet
-          route={route}
-          ref={tokenValueBottomSheetRef}
-          onContinue={handleExecuteRoute}
-        />
+        <ContractComponent>{contractSecondaryComponent}</ContractComponent>
       ) : null}
       <ExchangeRateBottomSheet ref={exchangeRateBottomSheetRef} />
-      {!hiddenUI?.lowAddressActivityConfirmation ? (
-        <ConfirmToAddressSheet
-          ref={confirmToAddressSheetRef}
-          onContinue={handleExecuteRoute}
-          toAddress={toAddress!}
-          toChainId={route.toChainId!}
-        />
-      ) : null}
     </PageContainer>
   )
 }

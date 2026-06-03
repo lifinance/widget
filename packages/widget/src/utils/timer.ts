@@ -1,3 +1,13 @@
+import type { LiFiStepExtended } from '@lifi/sdk'
+
+export function getExpiryTimestamp(step?: LiFiStepExtended): Date {
+  const { signedAt } = step?.execution ?? {}
+  if (!step || !signedAt) {
+    return new Date()
+  }
+  return new Date(signedAt + step.estimate.executionDuration * 1000)
+}
+
 export const formatTimer = ({
   days = 0,
   hours = 0,

@@ -6,7 +6,7 @@ import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useRouteExecutionIndicator } from '../../stores/routes/useRouteExecutionIndicator.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { CircularProgressPending } from '../Step/CircularProgress.style.js'
+import { CircularProgressPending } from '../Timer/StepStatusTimer.style.js'
 import {
   ActivitiesIconButton,
   ErrorBadge,
