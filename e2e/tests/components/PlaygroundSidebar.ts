@@ -3,29 +3,82 @@ import type { Locator, Page } from '@playwright/test'
 /**
  * PlaygroundSidebar — Component Object for the LI.FI Widget Playground left sidebar.
  *
- * The sidebar contains the "Design" and "Code" tabs along with all widget
- * configuration controls (variant, mode, appearance, colors, etc.).
- *
+ * The sidebar uses a nav-based layout with a header (logo + "PLAYGROUND" text),
+ * nav buttons for each settings section, theme preset chips, and a footer link.
  */
 export class PlaygroundSidebar {
   readonly page: Page
 
-  readonly heading: Locator
-  readonly designTab: Locator
-  readonly codeTab: Locator
-  readonly variantButton: Locator
+  // Header
+  readonly logo: Locator
+  readonly playgroundText: Locator
+  readonly resetConfig: Locator
+  readonly closeTools: Locator
+  readonly openTools: Locator
+
+  // Nav buttons
   readonly modeButton: Locator
+  readonly variantButton: Locator
+  readonly heightButton: Locator
+  readonly walletManagementButton: Locator
+  readonly developerControlsButton: Locator
+  readonly themeButton: Locator
+
+  // Theme preset chips
+  readonly selectDefaultTheme: Locator
+  readonly selectJumperTheme: Locator
+  readonly selectAzureTheme: Locator
+  readonly selectWatermelonTheme: Locator
+  readonly selectWindows95Theme: Locator
+  readonly editDefaultTheme: Locator
+
+  // Footer
+  readonly readOurDocs: Locator
 
   constructor(page: Page) {
     this.page = page
 
-    this.heading = page.getByRole('heading', { name: 'LI.FI Widget', level: 1 })
+    this.logo = page.getByRole('img', { name: 'LI.FI' })
+    this.playgroundText = page.getByText('PLAYGROUND', { exact: true })
+    this.resetConfig = page.getByLabel('Reset config')
+    this.closeTools = page.getByLabel('Close tools')
+    this.openTools = page.getByLabel('Open tools')
 
-    const tabList = page.getByRole('tablist', { name: 'tabs' })
-    this.designTab = tabList.getByRole('tab', { name: 'Design' })
-    this.codeTab = tabList.getByRole('tab', { name: 'Code' })
+    this.modeButton = page.getByRole('button', { name: /Mode/i, exact: false })
+    this.variantButton = page.getByRole('button', {
+      name: /Variant/i,
+      exact: false,
+    })
+    this.heightButton = page.getByRole('button', {
+      name: /Height/i,
+      exact: false,
+    })
+    this.walletManagementButton = page.getByRole('button', {
+      name: /Wallet management/i,
+      exact: false,
+    })
+    this.developerControlsButton = page.getByRole('button', {
+      name: /Developer controls/i,
+      exact: false,
+    })
+    this.themeButton = page.getByRole('button', {
+      name: /Theme/i,
+      exact: false,
+    })
 
-    this.variantButton = page.getByRole('button', { name: /^Variant/i })
-    this.modeButton = page.getByRole('button', { name: /^Mode/i })
+    this.selectDefaultTheme = page.getByLabel('Select Default theme')
+    this.selectJumperTheme = page.getByLabel('Select Jumper theme')
+    this.selectAzureTheme = page.getByLabel('Select Azure theme')
+    this.selectWatermelonTheme = page.getByLabel('Select Watermelon theme')
+    this.selectWindows95Theme = page.getByLabel('Select Windows 95 theme')
+    this.editDefaultTheme = page.getByRole('button', {
+      name: 'Edit Default theme',
+      exact: true,
+    })
+
+    this.readOurDocs = page.getByRole('link', {
+      name: 'Read our docs',
+      exact: true,
+    })
   }
 }

@@ -5,18 +5,13 @@ test.describe('Playground smoke', () => {
     await page.goto('/')
   })
 
-  test('sidebar is visible with Design controls', async ({ sidebar }) => {
-    await test.step('sidebar heading is rendered', async () => {
-      await expect(sidebar.heading).toBeVisible()
+  test('sidebar is visible with nav controls', async ({ sidebar }) => {
+    await test.step('logo and header are rendered', async () => {
+      await expect(sidebar.logo).toBeVisible()
+      await expect(sidebar.playgroundText).toBeVisible()
     })
 
-    await test.step('Design and Code tabs are present', async () => {
-      await expect(sidebar.designTab).toBeVisible()
-      await expect(sidebar.codeTab).toBeVisible()
-      await expect(sidebar.designTab).toHaveAttribute('aria-selected', 'true')
-    })
-
-    await test.step('Variant controls are visible', async () => {
+    await test.step('nav buttons are present', async () => {
       await expect(sidebar.variantButton).toBeVisible()
       await expect(sidebar.modeButton).toBeVisible()
     })

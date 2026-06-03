@@ -3,8 +3,7 @@ import { defineConfig, devices } from '@playwright/test'
 /**
  * LI.FI Widget E2E — Playwright configuration
  *
- * Targets the widget playground at http://localhost:3000 by default, or the value of BASE_URL.
- * The dev server is started automatically via webServer if not already running.
+ * Server lifecycle is managed externally. Set BASE_URL to point at the running server.
  */
 
 const isCI = !!process.env.CI
@@ -22,23 +21,25 @@ export default defineConfig({
     ['list'],
   ],
   use: {
-    baseURL: process.env.BASE_URL ?? 'http://localhost:3000',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     trace: 'retain-on-failure',
   },
-  webServer: {
-    command: 'pnpm --filter widget-playground-vite dev',
-    url: process.env.BASE_URL ?? 'http://localhost:3000',
-    reuseExistingServer: !isCI,
-    timeout: 60_000,
-  },
   projects: [
     {
-      name: 'chromium-desktop',
+      name: 'dev',
       use: {
         ...devices['Desktop Chrome'],
         viewport: { width: 1920, height: 1080 },
+        baseURL: 'http://localhost:3000',
+      },
+    },
+    {
+      name: 'preview',
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1920, height: 1080 },
+        baseURL: 'http://localhost:4173',
       },
     },
   ],
