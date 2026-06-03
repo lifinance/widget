@@ -64,6 +64,13 @@ jobs:
           commit: 'chore: version packages'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # The version-bump commit is machine-generated (versions, changelogs,
+          # lockfile) and already linted via `pnpm check:write` inside
+          # `changeset:version`. Skip the husky pre-commit hook here: it runs
+          # `check:types`, which needs build artifacts this job never produces
+          # (no `pnpm build`), so it fails with TS6305. Real correctness is
+          # gated by the Verify job and the version PR's own CI.
+          HUSKY: '0'
 
   release:
     name: Release
