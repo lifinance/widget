@@ -1,6 +1,10 @@
 import type { FC, PropsWithChildren } from 'react'
 import { createContext, useContext, useEffect, useRef } from 'react'
 import { useShallow } from 'zustand/shallow'
+import {
+  getAllWidgetEventsOnFromQueryString,
+  initialiseMonitoredEvents,
+} from '../../utils/events.js'
 import { useConfigActions } from '../widgetConfig/useConfigActions.js'
 import { createEditToolsStore } from './createEditToolsStore.js'
 import type { ToolsState, ToolsStore } from './types.js'
@@ -8,7 +12,7 @@ import type { ToolsState, ToolsStore } from './types.js'
 const getIsDevViewQueryStringParam = () => {
   if (typeof window !== 'undefined') {
     const urlParams = new URLSearchParams(window.location.search)
-    return !!urlParams.get('devView') || false
+    return !!urlParams.get('devView')
   }
   return false
 }
@@ -25,7 +29,14 @@ export const EditToolsProvider: FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     if (storeRef.current) {
+      const allWidgetEventsOn = getAllWidgetEventsOnFromQueryString()
       storeRef.current.getState().setIsDevView(getIsDevViewQueryStringParam())
+      storeRef.current
+        .getState()
+        .setWidgetEventMonitors(
+          allWidgetEventsOn,
+          initialiseMonitoredEvents(allWidgetEventsOn)
+        )
     }
   }, [])
 

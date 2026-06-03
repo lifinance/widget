@@ -84,7 +84,7 @@ export const ActivitiesPage = (): JSX.Element => {
         className="long-list"
         ref={parentRef}
         style={{ height: listHeight }}
-        sx={{ overflow: 'auto', paddingX: 3 }}
+        sx={{ overflow: 'auto', paddingX: 3, paddingTop: 1.5 }}
       >
         {isEmpty ? (
           <TransactionHistoryEmpty />

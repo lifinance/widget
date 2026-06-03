@@ -6,6 +6,7 @@ export const getLocalStorageOutput = (
   return {
     ...(config.variant ? { variant: config.variant } : {}),
     ...(config.mode ? { mode: config.mode } : {}),
+    ...(config.modeOptions ? { modeOptions: config.modeOptions } : {}),
     ...(config.appearance ? { appearance: config.appearance } : {}),
     ...(config.theme
       ? {
@@ -40,6 +41,9 @@ export const getLocalStorageOutput = (
                     ...config.theme.colorSchemes,
                   },
                 }
+              : {}),
+            ...(config.theme.container
+              ? { container: config.theme.container }
               : {}),
           },
         }

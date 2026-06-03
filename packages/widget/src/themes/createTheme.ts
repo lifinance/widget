@@ -417,10 +417,12 @@ export const createTheme = (widgetTheme: WidgetTheme = {}): Theme => {
         },
       },
       MuiDrawer: {
+        ...widgetTheme.components?.MuiDrawer,
         styleOverrides: {
           paper: {
             backgroundImage: 'none',
           },
+          ...widgetTheme.components?.MuiDrawer?.styleOverrides,
         },
       },
       MuiPaper: {

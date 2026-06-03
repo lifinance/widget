@@ -107,10 +107,13 @@ export function createDefaultWagmiConfig(
     connectors.unshift(createCoinbaseConnector(props.coinbase))
   }
 
+  // Register the MetaMask SDK connector even when the extension is installed.
+  // The lazy gate matches any prior MetaMask connection (`io.metamask` or
+  // `metaMaskSDK`); reconnect probes resolve from the injected provider, so it
+  // costs no SDK download until the user connects through it.
   if (
     props?.metaMask &&
-    !isWalletInstalled('metaMask') &&
-    (recentConnectorId?.includes?.('metaMaskSDK') || !props.lazy)
+    (recentConnectorId?.toLowerCase?.().includes?.('metamask') || !props.lazy)
   ) {
     connectors.unshift(createMetaMaskConnector(props.metaMask))
   }

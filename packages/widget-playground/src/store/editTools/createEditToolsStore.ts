@@ -3,7 +3,7 @@ import type { StoreApi, UseBoundStore } from 'zustand'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { FormValues } from '../types.js'
-import { defaultDrawerWidth } from './constants.js'
+import { defaultEditToolsValues } from './constants.js'
 import type { ToolsState } from './types.js'
 
 export const createEditToolsStore = (
@@ -12,34 +12,7 @@ export const createEditToolsStore = (
   create<ToolsState>()(
     persist(
       (set, get) => ({
-        formValues: undefined,
-        drawer: {
-          open: true,
-          visibleControls: 'design',
-          codeDrawerWidth: defaultDrawerWidth,
-        },
-        codeControl: {
-          openTab: 'config',
-        },
-        fontControl: {
-          selectedFont: undefined,
-        },
-        playgroundSettings: {
-          viewportColor: undefined,
-        },
-        skeletonControl: {
-          show: false,
-          sideBySide: false,
-        },
-        headerAndFooterControl: {
-          showMockHeader: false,
-          showMockFooter: false,
-          isFooterFixed: false,
-        },
-        layoutControl: {
-          selectedLayoutId: 'default',
-        },
-        isDevView: false,
+        ...defaultEditToolsValues,
         setDrawerOpen: (open) => {
           set({
             drawer: {
@@ -48,43 +21,11 @@ export const createEditToolsStore = (
             },
           })
         },
-        setCodeDrawerWidth: (codeDrawerWidth) => {
-          set({
-            drawer: {
-              ...get().drawer,
-              codeDrawerWidth,
-            },
-          })
-        },
-        setVisibleControls: (visibleControls) => {
-          set({
-            drawer: {
-              ...get().drawer,
-              visibleControls,
-            },
-          })
-
-          if (visibleControls !== 'code') {
-            get().setCodeDrawerWidth(defaultDrawerWidth)
-          }
-        },
-        setCodeControlTab: (openTab) => {
-          set({
-            codeControl: {
-              ...get().codeControl,
-              openTab,
-            },
-          })
-
-          if (openTab !== 'config') {
-            get().setCodeDrawerWidth(defaultDrawerWidth)
-          }
-        },
         resetEditTools: () => {
+          const { drawer } = get()
           set({
-            playgroundSettings: {
-              viewportColor: undefined,
-            },
+            ...defaultEditToolsValues,
+            drawer,
           })
         },
         setSelectedFont: (selectedFont) => {
@@ -94,11 +35,13 @@ export const createEditToolsStore = (
             },
           })
         },
-        setViewportBackgroundColor: (viewportColor) => {
+        setViewportBackgroundColor: (color, mode) => {
           set({
             playgroundSettings: {
               ...get().playgroundSettings,
-              viewportColor,
+              ...(mode === 'light'
+                ? { viewportColorLight: color }
+                : { viewportColorDark: color }),
             },
           })
         },
@@ -106,15 +49,6 @@ export const createEditToolsStore = (
           set({
             skeletonControl: {
               show,
-              sideBySide: !show ? false : get().skeletonControl.sideBySide,
-            },
-          })
-        },
-        setSkeletonSideBySide: (sideBySide) => {
-          set({
-            skeletonControl: {
-              sideBySide,
-              show: sideBySide ? true : get().skeletonControl.show,
             },
           })
         },
@@ -155,6 +89,14 @@ export const createEditToolsStore = (
             isDevView,
           })
         },
+        setWidgetEventMonitors: (allWidgetEventsOn, monitoredEvents) => {
+          set({
+            widgetEventsControl: {
+              allWidgetEventsOn,
+              monitoredEvents,
+            },
+          })
+        },
         setFormValues: (formValues: FormValues) => {
           set({
             formValues,
@@ -163,28 +105,28 @@ export const createEditToolsStore = (
       }),
       {
         name: 'li.fi-playground-tools',
-        version: 1,
+        version: 3,
+        migrate: () => ({}),
         partialize: (state) => ({
           drawer: {
             open: state.drawer.open,
-            visibleControls: state.drawer.visibleControls || 'design',
           },
           playgroundSettings: {
-            viewportColor: state.playgroundSettings?.viewportColor,
+            viewportColorLight: state.playgroundSettings?.viewportColorLight,
+            viewportColorDark: state.playgroundSettings?.viewportColorDark,
           },
         }),
         onRehydrateStorage: () => {
           return (state) => {
             if (state) {
-              state.setCodeDrawerWidth(defaultDrawerWidth)
-
               if (initialTheme) {
                 if (
                   !initialTheme.colorSchemes?.light?.palette?.playground
                     ?.main &&
                   !initialTheme.colorSchemes?.dark?.palette?.playground?.main
                 ) {
-                  state.setViewportBackgroundColor(undefined)
+                  state.setViewportBackgroundColor(undefined, 'light')
+                  state.setViewportBackgroundColor(undefined, 'dark')
                 }
               }
             }

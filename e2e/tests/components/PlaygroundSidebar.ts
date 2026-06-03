@@ -4,7 +4,7 @@ import type { Locator, Page } from '@playwright/test'
  * PlaygroundSidebar — Component Object for the LI.FI Widget Playground left sidebar.
  *
  * The sidebar contains the "Design" and "Code" tabs along with all widget
- * configuration controls (variant, subvariant, appearance, colors, etc.).
+ * configuration controls (variant, mode, appearance, colors, etc.).
  *
  */
 export class PlaygroundSidebar {
@@ -14,7 +14,7 @@ export class PlaygroundSidebar {
   readonly designTab: Locator
   readonly codeTab: Locator
   readonly variantButton: Locator
-  readonly subvariantButton: Locator
+  readonly modeButton: Locator
 
   constructor(page: Page) {
     this.page = page
@@ -26,6 +26,6 @@ export class PlaygroundSidebar {
     this.codeTab = tabList.getByRole('tab', { name: 'Code' })
 
     this.variantButton = page.getByRole('button', { name: /^Variant/i })
-    this.subvariantButton = page.getByRole('button', { name: /^Subvariant/i })
+    this.modeButton = page.getByRole('button', { name: /^Mode/i })
   }
 }

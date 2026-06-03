@@ -35,7 +35,7 @@ export const Container: React.FC<
     top: 0,
     zIndex: 1200,
     gap: theme.spacing(0.5),
-    padding: theme.spacing(1.5, 3, 1.5, 3),
+    padding: theme.spacing(1.5, 3, 0, 3),
     overflow: 'auto',
     borderRadius: theme.container?.borderRadius ?? 0,
     ...theme.header,

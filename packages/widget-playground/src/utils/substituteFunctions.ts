@@ -4,13 +4,10 @@ import type {
   ObjectWithFunctions,
 } from '../types.js'
 
+/** Walks an object tree and replaces all function values with empty object placeholders. Returns an array of references so functions can be restored later via rehydrateFunctions. */
 export function substituteFunctions(
-  obj: ObjectWithFunctions,
-  substituteMode: 'object' | 'id' = 'object'
+  obj: ObjectWithFunctions
 ): FunctionReference[] {
-  let id = 0
-  const getSubstitutionId = () => `substitution::id::${++id}`
-
   const stack: { obj: ObjectWithFunctions; path: (string | number)[] }[] = [
     { obj, path: [] },
   ]
@@ -27,15 +24,11 @@ export function substituteFunctions(
         : [...currentPath, key]
 
       if (typeof value === 'function') {
-        // Substitute the function with an empty object or id in the original object
-        const substituteId = substituteMode === 'id' ? getSubstitutionId() : {}
-        ;(currentObj as Collection)[key] = substituteId
+        ;(currentObj as Collection)[key] = {}
 
         result.push({
           path: newPath,
           funcRef: value,
-          substituteId:
-            typeof substituteId === 'string' ? substituteId : undefined,
         })
       } else if (Array.isArray(value)) {
         stack.push({ obj: value, path: newPath })

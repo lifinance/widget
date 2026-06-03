@@ -116,7 +116,7 @@ export const SelectEnabledToolsPage: React.FC<{
 
   return (
     <PageContainer disableGutters>
-      <Box ref={headerRef} sx={{ px: 3, pb: 2 }}>
+      <Box ref={headerRef} sx={{ px: 3, pb: 2, pt: 1.5 }}>
         <SearchInput
           onChange={debouncedSearchInputChange}
           placeholder={t(`main.search${type}`)}

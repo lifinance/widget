@@ -2,17 +2,28 @@ import type { BoxProps, Theme } from '@mui/material'
 import { Box, IconButton } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import type React from 'react'
-import { drawerZIndex } from '../DrawerControls/DrawerControls.style.js'
+import { drawerZIndex } from '../../utils/sidebar.js'
+import { drawerShiftTransition } from '../../utils/widgetViewDrawer.js'
 import { mockElementHeight } from '../Mock/MockElement.js'
 
+interface FloatingToolsContainerProps extends BoxProps {
+  drawerOpen?: boolean
+  drawerWidth?: number
+}
+
 export const FloatingToolsContainer: React.FC<
-  React.ComponentProps<typeof Box>
-> = styled(Box)(({ theme }) => ({
+  React.ComponentProps<typeof Box> & FloatingToolsContainerProps
+> = styled(Box, {
+  shouldForwardProp: (prop) =>
+    !['drawerOpen', 'drawerWidth'].includes(prop as string),
+})<FloatingToolsContainerProps>(({ theme, drawerOpen, drawerWidth = 0 }) => ({
   display: 'flex',
   gap: theme.spacing(2),
   position: 'absolute',
   zIndex: drawerZIndex,
   padding: theme.spacing(3, 0, 0, 3),
+  left: drawerOpen ? drawerWidth : 0,
+  transition: drawerShiftTransition(theme, 'left'),
 }))
 
 interface WidgetContainerProps extends BoxProps {
@@ -35,7 +46,7 @@ export const WidgetContainer: React.FC<
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    paddingTop: theme.spacing(14),
+    paddingTop: theme.spacing(12.5),
     variants: [
       {
         props: ({ alignTop }) => alignTop,
@@ -92,40 +103,14 @@ export const DrawerOpenButton: React.FC<
 }))
 
 export const Main: React.FC<
-  React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
-    drawerWidth: number
-    open?: boolean
-  }
-> = styled('main', {
-  shouldForwardProp: (prop) =>
-    !['drawerWidth', 'open'].includes(prop as string),
-})<{
-  drawerWidth: number
-  open?: boolean
-}>(({ theme, drawerWidth }) => ({
+  React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>
+> = styled('main')(() => ({
   display: 'flex',
   justifyContent: 'stretch',
   position: 'relative',
   flexGrow: 1,
-  transition: theme.transitions.create('margin', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  marginLeft: `-${drawerWidth}px`,
   '& > [data-rk]': {
     display: 'flex',
     flexGrow: '1',
   },
-  variants: [
-    {
-      props: ({ open }) => open,
-      style: {
-        transition: theme.transitions.create('margin', {
-          easing: theme.transitions.easing.easeOut,
-          duration: theme.transitions.duration.enteringScreen,
-        }),
-        marginLeft: 0,
-      },
-    },
-  ],
 }))

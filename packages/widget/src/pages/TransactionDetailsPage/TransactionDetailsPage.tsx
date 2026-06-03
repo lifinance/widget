@@ -94,6 +94,7 @@ export const TransactionDetailsPage: React.FC = () => {
 
   return (
     <PageContainer
+      topGutters
       bottomGutters
       sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
     >
