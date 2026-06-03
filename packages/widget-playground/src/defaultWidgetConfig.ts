@@ -317,6 +317,9 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
           secondary: {
             main: '#F7C2FF',
           },
+          playground: {
+            main: '#F5F5F5',
+          },
         },
       },
       dark: {
@@ -326,6 +329,9 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
           },
           secondary: {
             main: '#F7C2FF',
+          },
+          playground: {
+            main: '#000000',
           },
         },
       },
