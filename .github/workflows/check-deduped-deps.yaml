@@ -4,6 +4,9 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - 'pnpm-lock.yaml'
+      - 'scripts/check-deduped-deps.js'
 
 jobs:
   check-deduped-deps:
