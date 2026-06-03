@@ -166,7 +166,7 @@ removed after a successful publish (one-shot — re-add it to cut another previe
 
 ### Root scripts
 
-- `pnpm changeset:version` — `changeset version` + `pnpm install --lockfile-only` + `pnpm check:write`.
+- `pnpm changeset:version` — `changeset version` + `scripts/restore-example-versions.sh` + `pnpm install --lockfile-only` + `pnpm check:write`. **The version PR intentionally does not bump example pins.** `changeset version` rewrites every in-workspace example's `@lifi/*` range to the just-bumped, not-yet-published version (and neither `ignore` nor `privatePackages.version:false` prevents this), which then breaks `pnpm install`. `scripts/restore-example-versions.sh` reverts those edits so examples stay pinned to the *published* widget (so their bundlers — notably Next.js — consume the built package rather than the widget's TS source). Bump example pins manually when you want them to track a newer release.
 - `pnpm changeset:prepublish` — `pnpm build`, then `build:prerelease` across publishable packages. **This is where the publish transform runs:** `changeset publish` does flat per-package `npm publish` and does NOT run each package's `build:prerelease` lifecycle, so the transform (`scripts/prerelease.js` → `scripts/formatPackageJson.js`, rewriting entry points to `dist/esm/` and copying `README.md`) must run here.
 - `pnpm changeset:publish` — `pnpm changeset:prepublish && changeset publish` (used by CI).
 
