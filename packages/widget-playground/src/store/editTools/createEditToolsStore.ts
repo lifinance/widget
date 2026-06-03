@@ -105,7 +105,8 @@ export const createEditToolsStore = (
       }),
       {
         name: 'li.fi-playground-tools',
-        version: 2,
+        version: 3,
+        migrate: () => ({}),
         partialize: (state) => ({
           drawer: {
             open: state.drawer.open,
