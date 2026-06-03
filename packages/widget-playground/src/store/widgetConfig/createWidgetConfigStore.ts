@@ -267,7 +267,8 @@ export const createWidgetConfigStore = (
       }),
       {
         name: 'li.fi-playground-config',
-        version: 2,
+        version: 3,
+        migrate: () => ({}),
         partialize: (state) => ({
           config: state?.config
             ? getLocalStorageOutput(state.config)
