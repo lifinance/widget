@@ -61,7 +61,7 @@ export const useFromTokenSufficiency = (
       }
 
       const currentAction = route.steps.filter(
-        (step) => !step.execution || step.execution.status !== 'DONE'
+        (step) => step.execution?.status !== 'DONE'
       )[0]?.action
 
       if (

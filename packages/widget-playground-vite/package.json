@@ -17,8 +17,8 @@
   "dependencies": {
     "@lifi/widget-playground": "workspace:*",
     "@tanstack/react-query": "^5.100.14",
-    "react": "^19.2.6",
-    "react-dom": "^19.2.6",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
     "vite-plugin-mkcert": "^2.0.0"
   },
   "devDependencies": {

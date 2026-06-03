@@ -95,7 +95,7 @@ export const useGasSufficiency = (
         .some((includedStep) => includedStep.tool === 'gasZip')
 
       const gasCosts = filteredSteps
-        .filter((step) => !step.execution || step.execution.status !== 'DONE')
+        .filter((step) => step.execution?.status !== 'DONE')
         .reduce(
           (groupedGasCosts, step) => {
             // We need to avoid destination chain step sufficiency check if we have LI.Fuel protocol sub-step

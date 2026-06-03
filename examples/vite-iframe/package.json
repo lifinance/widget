@@ -11,10 +11,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@bigmi/react": "^0.8.0",
+    "@bigmi/react": "^0.8.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^4.0.0-beta.11",
+    "@lifi/sdk": "^4.0.0",
     "@lifi/wallet-management": "workspace:*",
     "@lifi/widget-light": "workspace:*",
     "@lifi/widget-provider": "workspace:*",
@@ -27,14 +27,14 @@
     "@tanstack/react-query": "^5.100.14",
     "@wagmi/connectors": "^8.0.15",
     "bs58": ">=4.0.1",
-    "react": "^19.2.6",
-    "react-dom": "^19.2.6",
-    "viem": "^2.52.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "viem": ">=2.52.0",
     "wagmi": "^3.6.16"
   },
   "devDependencies": {
     "@types/node": "^25.9.1",
-    "@types/react": "^19.2.15",
+    "@types/react": "^19.2.16",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.2",
     "typescript": "^6.0.3",

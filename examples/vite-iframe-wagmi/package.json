@@ -12,13 +12,13 @@
   "dependencies": {
     "@lifi/widget-light": "workspace:*",
     "@tanstack/react-query": "^5.100.14",
-    "react": "^19.2.6",
-    "react-dom": "^19.2.6",
-    "viem": "^2.52.0",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "viem": ">=2.52.0",
     "wagmi": "^3.6.16"
   },
   "devDependencies": {
-    "@types/react": "^19.2.15",
+    "@types/react": "^19.2.16",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.2",
     "typescript": "^6.0.3",
