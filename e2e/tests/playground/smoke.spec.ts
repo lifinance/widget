@@ -7,13 +7,13 @@ test.describe('Playground smoke', () => {
 
   test('sidebar is visible with nav controls', async ({ sidebar }) => {
     await test.step('logo and header are rendered', async () => {
-      await expect(sidebar.logo).toBeVisible()
-      await expect(sidebar.playgroundText).toBeVisible()
+      await expect(sidebar.header.logo).toBeVisible()
+      await expect(sidebar.header.playgroundText).toBeVisible()
     })
 
     await test.step('nav buttons are present', async () => {
-      await expect(sidebar.variantButton).toBeVisible()
-      await expect(sidebar.modeButton).toBeVisible()
+      await expect(sidebar.nav.variant).toBeVisible()
+      await expect(sidebar.nav.mode).toBeVisible()
     })
   })
 

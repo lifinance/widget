@@ -37,6 +37,17 @@ export class PlaygroundSidebar {
     }
   }
 
+  readonly modeEditor: {
+    reset: Locator
+    cards: {
+      exchange: Locator
+      swapOrBridge: Locator
+      swap: Locator
+      bridge: Locator
+      refuel: Locator
+    }
+  }
+
   readonly themeEditor: {
     paletteModeTablist: Locator
     widgetBorder: Locator
@@ -98,6 +109,29 @@ export class PlaygroundSidebar {
           name: 'Edit Default theme',
           exact: true,
         }),
+      },
+    }
+
+    // CardSelect components render as div[role="button"], distinguishing them from
+    // nav panel <button> elements even when both panels are in the DOM.
+    this.modeEditor = {
+      reset: page.getByLabel('Reset mode'),
+      cards: {
+        exchange: page
+          .locator('div[role="button"]')
+          .filter({ has: page.getByText('Exchange', { exact: true }) }),
+        swapOrBridge: page
+          .locator('div[role="button"]')
+          .filter({ has: page.getByText('Swap or Bridge', { exact: true }) }),
+        swap: page
+          .locator('div[role="button"]')
+          .filter({ has: page.getByText('Swap', { exact: true }) }),
+        bridge: page
+          .locator('div[role="button"]')
+          .filter({ has: page.getByText('Bridge', { exact: true }) }),
+        refuel: page
+          .locator('div[role="button"]')
+          .filter({ has: page.getByText('Refuel', { exact: true }) }),
       },
     }
 

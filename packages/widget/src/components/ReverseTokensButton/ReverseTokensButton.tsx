@@ -50,7 +50,7 @@ export const ReverseTokensButton = (): JSX.Element => {
   }
   return (
     <ReverseContainer>
-      <IconCard onClick={handleClick}>
+      <IconCard aria-label="Reverse tokens" onClick={handleClick}>
         <ArrowForward fontSize="inherit" />
       </IconCard>
     </ReverseContainer>
