@@ -21,6 +21,7 @@ export default defineConfig({
     ['list'],
   ],
   use: {
+    actionTimeout: 10_000,
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     trace: 'retain-on-failure',
