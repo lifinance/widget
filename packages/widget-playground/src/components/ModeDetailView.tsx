@@ -55,7 +55,7 @@ export const ModeDetailView = ({
       resetLabel="Reset mode"
       title="Mode"
       description="Configure which flows are enabled. Pick a general-purpose or narrow it down."
-      docsHref={docsLinks.subvariants}
+      docsHref={docsLinks.modes}
     >
       {MODE_OPTIONS.map(({ id, title, description }) => (
         <CardSelect
