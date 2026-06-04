@@ -14,6 +14,13 @@ export class WidgetExchange {
   readonly splitTabs: Locator
   /** Interactive arrow button between From and To. Hidden (replaced by spacer) in Refuel mode. */
   readonly reverseTokensButton: Locator
+  /**
+   * Search input inside the chain sidebar expansion panel (Wide variant only).
+   * Present in the DOM only while the sidebar is open — reliable open/closed indicator.
+   * When chain sidebar is disabled the inline ChainSelect (tile row) shows instead,
+   * which has no search input, so this locator is absent in that case too.
+   */
+  readonly chainSidebar: Locator
   readonly settingsButton: Locator
   readonly fromButton: Locator
   readonly toButton: Locator
@@ -27,9 +34,10 @@ export class WidgetExchange {
       name: 'tabs',
       exact: true,
     })
-    this.reverseTokensButton = this.widgetRoot.getByLabel('Reverse tokens', {
-      exact: true,
-    })
+    this.reverseTokensButton = this.widgetRoot.getByTestId(
+      'widget-reverse-tokens-button'
+    )
+    this.chainSidebar = this.widgetRoot.getByPlaceholder('Search network')
 
     this.settingsButton = this.widgetRoot.getByRole('button', {
       name: 'Settings',
