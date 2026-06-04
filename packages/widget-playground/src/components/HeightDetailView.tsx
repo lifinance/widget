@@ -2,13 +2,11 @@ import type { JSX } from 'react'
 import { useCallback, useMemo } from 'react'
 import { usePlaygroundLayoutControls } from '../hooks/usePlaygroundLayoutControls.js'
 import type { Layout } from '../store/editTools/types.js'
-import { useEditToolsActions } from '../store/editTools/useEditToolsActions.js'
 import { useConfigActions } from '../store/widgetConfig/useConfigActions.js'
 import { useDefaultConfig } from '../store/widgetConfig/useDefaultConfig.js'
 import { docsLinks } from '../utils/docsLinks.js'
 import {
   getDefaultLayoutCopy,
-  getLayoutMode,
   isLayoutOptionDisabled,
   isRestrictedLayout,
   LAYOUT_OPTIONS,
@@ -24,15 +22,9 @@ interface HeightDetailViewProps {
 export const HeightDetailView = ({
   onBack,
 }: HeightDetailViewProps): JSX.Element => {
-  const {
-    selectedLayoutId,
-    setInitialLayout,
-    heightValue,
-    setHeightValue,
-    variant,
-  } = usePlaygroundLayoutControls()
+  const { selectedLayoutId, setInitialLayout, variant } =
+    usePlaygroundLayoutControls()
   const { setHeader, setContainer } = useConfigActions()
-  const { setSelectedLayoutId } = useEditToolsActions()
   const { defaultConfig } = useDefaultConfig()
 
   const isDrawerVariant = variant === 'drawer'
@@ -41,23 +33,7 @@ export const HeightDetailView = ({
   const handleReset = useCallback((): void => {
     setHeader(defaultConfig?.theme?.header)
     setContainer(defaultConfig?.theme?.container)
-    setHeightValue(undefined)
-    setSelectedLayoutId(getLayoutMode(defaultConfig?.theme?.container))
-  }, [
-    defaultConfig,
-    setHeader,
-    setContainer,
-    setHeightValue,
-    setSelectedLayoutId,
-  ])
-
-  const handleSelect = useCallback(
-    (layoutId: Layout): void => {
-      setHeightValue(undefined)
-      setInitialLayout(layoutId)
-    },
-    [setHeightValue, setInitialLayout]
-  )
+  }, [defaultConfig, setHeader, setContainer])
 
   const heightControl = useMemo(
     () =>
@@ -65,21 +41,9 @@ export const HeightDetailView = ({
         <HeightControl
           selectedLayoutId={selectedLayoutId}
           setInitialLayout={setInitialLayout}
-          heightValue={heightValue}
-          setHeightValue={setHeightValue}
-          onClearMaxHeight={() => {
-            setHeightValue(undefined)
-            setInitialLayout(selectedLayoutId)
-          }}
         />
       ) : null,
-    [
-      isDrawerVariant,
-      selectedLayoutId,
-      setInitialLayout,
-      heightValue,
-      setHeightValue,
-    ]
+    [isDrawerVariant, selectedLayoutId, setInitialLayout]
   )
 
   const getRestrictedHeightFooter = (layoutId: Layout): JSX.Element | null =>
@@ -100,7 +64,7 @@ export const HeightDetailView = ({
         title={defaultLayoutCopy.title}
         description={defaultLayoutCopy.description}
         selected={selectedLayoutId === 'default'}
-        onClick={() => handleSelect('default')}
+        onClick={() => setInitialLayout('default')}
       />
       {LAYOUT_OPTIONS.map(({ id, title, description }) => (
         <CardSelect
@@ -109,7 +73,7 @@ export const HeightDetailView = ({
           description={description}
           selected={selectedLayoutId === id}
           disabled={isLayoutOptionDisabled(id, variant, isDrawerVariant)}
-          onClick={() => handleSelect(id)}
+          onClick={() => setInitialLayout(id)}
           footer={getRestrictedHeightFooter(id)}
         />
       ))}

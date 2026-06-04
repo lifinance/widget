@@ -1,8 +1,16 @@
 import { defaultMaxHeight } from '@lifi/widget'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
-import { type JSX, useCallback, useId } from 'react'
+import {
+  type JSX,
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useState,
+} from 'react'
 import type { Layout } from '../../store/editTools/types.js'
 import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
+import { useConfigContainer } from '../../store/widgetConfig/useConfigValues.js'
 import {
   getRestrictedLayoutField,
   parseHeightInput,
@@ -19,20 +27,34 @@ import {
 interface HeightControlProps {
   selectedLayoutId: Layout
   setInitialLayout: (layoutId: Layout) => void
-  heightValue: number | undefined
-  setHeightValue: (height: number | undefined) => void
-  onClearMaxHeight?: () => void
 }
 
 export const HeightControl = ({
   selectedLayoutId,
   setInitialLayout,
-  heightValue,
-  setHeightValue,
-  onClearMaxHeight,
 }: HeightControlProps): JSX.Element | null => {
+  const { container } = useConfigContainer()
   const { setHeader, setContainer, getCurrentConfigTheme } = useConfigActions()
   const heightInputId = useId()
+
+  const containerHeightValue = useMemo(() => {
+    const field = getRestrictedLayoutField(selectedLayoutId)
+    if (!field) {
+      return undefined
+    }
+    const value = container?.[field.containerKey]
+    return typeof value === 'number' && Number.isFinite(value)
+      ? value
+      : undefined
+  }, [container, selectedLayoutId])
+
+  const [heightValue, setHeightValue] = useState<number | undefined>(
+    containerHeightValue
+  )
+
+  useEffect(() => {
+    setHeightValue(containerHeightValue)
+  }, [containerHeightValue])
 
   const handleHeightChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -56,13 +78,7 @@ export const HeightControl = ({
         })
       }
     },
-    [
-      selectedLayoutId,
-      setHeightValue,
-      getCurrentConfigTheme,
-      setContainer,
-      setHeader,
-    ]
+    [selectedLayoutId, getCurrentConfigTheme, setContainer, setHeader]
   )
 
   const handleBlur = useCallback(
@@ -73,8 +89,13 @@ export const HeightControl = ({
         setInitialLayout(selectedLayoutId)
       }
     },
-    [selectedLayoutId, setHeightValue, setInitialLayout]
+    [selectedLayoutId, setInitialLayout]
   )
+
+  const handleClear = useCallback((): void => {
+    setHeightValue(undefined)
+    setInitialLayout(selectedLayoutId)
+  }, [selectedLayoutId, setInitialLayout])
 
   const layoutField = getRestrictedLayoutField(selectedLayoutId)
   if (!layoutField) {
@@ -95,15 +116,13 @@ export const HeightControl = ({
           onChange={handleHeightChange}
           onBlur={handleBlur}
         />
-        {onClearMaxHeight ? (
-          <ClearHeightButton
-            size="small"
-            onClick={onClearMaxHeight}
-            aria-label={layoutField.clearLabel}
-          >
-            <CloseOutlinedIcon />
-          </ClearHeightButton>
-        ) : null}
+        <ClearHeightButton
+          size="small"
+          onClick={handleClear}
+          aria-label={layoutField.clearLabel}
+        >
+          <CloseOutlinedIcon />
+        </ClearHeightButton>
       </HeightControlRow>
       <HeightHelperText>Minimum {defaultMaxHeight}px</HeightHelperText>
     </HeightControlRoot>
