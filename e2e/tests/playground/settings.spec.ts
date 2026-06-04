@@ -73,7 +73,7 @@ test.describe('Playground settings — general', () => {
     await test.step('global Reset config reverts all changes', async () => {
       // Reset config is in the main nav header (first slide panel), which is off-screen
       // when a detail view is open — navigate back first to bring it into the viewport.
-      await sidebar.backButton.click()
+      await sidebar.goBack()
       await sidebar.resetConfig.click()
       // Re-enter the theme editor to assert the reverted state.
       await sidebar.editDefaultTheme.click()

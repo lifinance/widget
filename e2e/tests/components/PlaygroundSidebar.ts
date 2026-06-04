@@ -19,6 +19,11 @@ export class PlaygroundSidebar {
   // Detail view navigation
   readonly backButton: Locator
 
+  async goBack(): Promise<void> {
+    await this.backButton.click()
+    await this.playgroundText.waitFor({ state: 'visible' })
+  }
+
   // Nav buttons
   readonly modeButton: Locator
   readonly variantButton: Locator
