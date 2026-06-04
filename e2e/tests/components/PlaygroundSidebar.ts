@@ -24,6 +24,15 @@ export class PlaygroundSidebar {
     await this.playgroundText.waitFor({ state: 'visible' })
   }
 
+  // Reset config lives in the main nav header, which is off-screen when a detail view
+  // is open. Navigate back first if needed so the button is in the viewport.
+  async resetAll(): Promise<void> {
+    if (await this.backButton.isVisible()) {
+      await this.goBack()
+    }
+    await this.resetConfig.click()
+  }
+
   // Nav buttons
   readonly modeButton: Locator
   readonly variantButton: Locator
