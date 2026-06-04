@@ -60,6 +60,25 @@ export class PlaygroundSidebar {
     }
   }
 
+  readonly heightEditor: {
+    reset: Locator
+    cards: {
+      /** Matches "Default (fit content)" (Wide/Compact) and "Default (fill viewport)" (Drawer). */
+      default: Locator
+      restrictedHeight: Locator
+      restrictedMaxHeight: Locator
+      fullHeight: Locator
+    }
+    /** Number input that appears when Restricted height is selected (label: "Set height"). */
+    setHeightInput: Locator
+    /** Number input that appears when Restricted max height is selected (label: "Set max height"). */
+    setMaxHeightInput: Locator
+    /** Clears the height value when Restricted height is active. */
+    clearHeight: Locator
+    /** Clears the max height value when Restricted max height is active. */
+    clearMaxHeight: Locator
+  }
+
   readonly themeEditor: {
     paletteModeTablist: Locator
     widgetBorder: Locator
@@ -165,6 +184,35 @@ export class PlaygroundSidebar {
           .locator('div[role="button"]')
           .filter({ has: page.getByText('Drawer', { exact: true }) }),
       },
+    }
+
+    this.heightEditor = {
+      reset: page.getByLabel('Reset height'),
+      cards: {
+        // hasText regex matches both "Default (fit content)" and "Default (fill viewport)"
+        default: page
+          .locator('div[role="button"]')
+          .filter({ hasText: /^Default/ }),
+        restrictedHeight: page.locator('div[role="button"]').filter({
+          has: page.getByText('Restricted height', { exact: true }),
+        }),
+        restrictedMaxHeight: page.locator('div[role="button"]').filter({
+          has: page.getByText('Restricted max height', { exact: true }),
+        }),
+        fullHeight: page
+          .locator('div[role="button"]')
+          .filter({ has: page.getByText('Full height', { exact: true }) }),
+      },
+      setHeightInput: page.getByRole('spinbutton', {
+        name: 'Set height',
+        exact: false,
+      }),
+      setMaxHeightInput: page.getByRole('spinbutton', {
+        name: 'Set max height',
+        exact: false,
+      }),
+      clearHeight: page.getByLabel('Clear height'),
+      clearMaxHeight: page.getByLabel('Clear max height'),
     }
 
     this.themeEditor = {
