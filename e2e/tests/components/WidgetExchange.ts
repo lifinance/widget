@@ -21,6 +21,12 @@ export class WidgetExchange {
    * which has no search input, so this locator is absent in that case too.
    */
   readonly chainSidebar: Locator
+  /**
+   * Floating toggle button shown in Drawer variant only ("Exchange on LI.FI").
+   * Lives outside the widget's MUI Drawer — always visible in Drawer mode regardless
+   * of whether the drawer is open or closed.
+   */
+  readonly toggleDrawerButton: Locator
   readonly settingsButton: Locator
   readonly fromButton: Locator
   readonly toButton: Locator
@@ -38,6 +44,12 @@ export class WidgetExchange {
       'widget-reverse-tokens-button'
     )
     this.chainSidebar = this.widgetRoot.getByPlaceholder('Search network')
+    // getByRole respects aria-hidden; when the MUI Drawer is open it sets aria-hidden on
+    // the background DOM, making getByRole unable to resolve this button. getByTestId uses
+    // a CSS attribute selector which ignores aria-hidden — so it works in both states.
+    this.toggleDrawerButton = page.getByTestId(
+      'playground-toggle-drawer-button'
+    )
 
     this.settingsButton = this.widgetRoot.getByRole('button', {
       name: 'Settings',

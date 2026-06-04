@@ -49,6 +49,17 @@ export class PlaygroundSidebar {
     }
   }
 
+  readonly variantEditor: {
+    reset: Locator
+    docsLink: Locator
+    disableChainSidebar: Locator
+    cards: {
+      wide: Locator
+      compact: Locator
+      drawer: Locator
+    }
+  }
+
   readonly themeEditor: {
     paletteModeTablist: Locator
     widgetBorder: Locator
@@ -134,6 +145,25 @@ export class PlaygroundSidebar {
         refuel: page
           .locator('div[role="button"]')
           .filter({ has: page.getByText('Refuel', { exact: true }) }),
+      },
+    }
+
+    this.variantEditor = {
+      reset: page.getByLabel('Reset variant'),
+      docsLink: page.getByRole('link', { name: 'Read docs', exact: true }),
+      disableChainSidebar: page.getByLabel('Disable chain sidebar', {
+        exact: true,
+      }),
+      cards: {
+        wide: page
+          .locator('div[role="button"]')
+          .filter({ has: page.getByText('Wide', { exact: true }) }),
+        compact: page
+          .locator('div[role="button"]')
+          .filter({ has: page.getByText('Compact', { exact: true }) }),
+        drawer: page
+          .locator('div[role="button"]')
+          .filter({ has: page.getByText('Drawer', { exact: true }) }),
       },
     }
 
