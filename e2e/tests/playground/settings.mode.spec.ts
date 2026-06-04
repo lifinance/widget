@@ -128,6 +128,31 @@ test.describe('Playground settings — Mode', () => {
     })
   })
 
+  test('"Read docs" link opens the subvariants docs in a new tab', async ({
+    context,
+    sidebar,
+  }) => {
+    await test.step('open the mode panel', async () => {
+      await sidebar.nav.mode.click()
+    })
+
+    await test.step('"Read docs" link is visible', async () => {
+      await expect(sidebar.modeEditor.docsLink).toBeVisible()
+    })
+
+    await test.step('clicking the link opens a new tab with the correct URL', async () => {
+      // Start listening for the new page before clicking so the event isn't missed.
+      const [newPage] = await Promise.all([
+        context.waitForEvent('page'),
+        sidebar.modeEditor.docsLink.click(),
+      ])
+      await newPage.waitForLoadState('domcontentloaded')
+      expect(newPage.url()).toBe(
+        'https://docs.li.fi/widget/select-widget-variants#subvariants'
+      )
+    })
+  })
+
   test('resets mode to default', async ({ sidebar, exchange }) => {
     await test.step('select Bridge mode', async () => {
       await sidebar.nav.mode.click()

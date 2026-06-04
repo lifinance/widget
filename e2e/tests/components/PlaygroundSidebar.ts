@@ -39,6 +39,7 @@ export class PlaygroundSidebar {
 
   readonly modeEditor: {
     reset: Locator
+    docsLink: Locator
     cards: {
       exchange: Locator
       swapOrBridge: Locator
@@ -116,6 +117,7 @@ export class PlaygroundSidebar {
     // nav panel <button> elements even when both panels are in the DOM.
     this.modeEditor = {
       reset: page.getByLabel('Reset mode'),
+      docsLink: page.getByRole('link', { name: 'Read docs', exact: true }),
       cards: {
         exchange: page
           .locator('div[role="button"]')
