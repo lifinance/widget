@@ -16,6 +16,9 @@ export class PlaygroundSidebar {
   readonly closeTools: Locator
   readonly openTools: Locator
 
+  // Detail view navigation
+  readonly backButton: Locator
+
   // Nav buttons
   readonly modeButton: Locator
   readonly variantButton: Locator
@@ -32,6 +35,12 @@ export class PlaygroundSidebar {
   readonly selectWindows95Theme: Locator
   readonly editDefaultTheme: Locator
 
+  // Theme editor controls (visible inside the Edit theme detail view)
+  readonly paletteModeTablist: Locator
+  readonly widgetBorder: Locator
+  readonly cardDropShadow: Locator
+  readonly buttonBorder: Locator
+
   // Footer
   readonly readOurDocs: Locator
 
@@ -43,6 +52,7 @@ export class PlaygroundSidebar {
     this.resetConfig = page.getByLabel('Reset config')
     this.closeTools = page.getByLabel('Close tools')
     this.openTools = page.getByLabel('Open tools')
+    this.backButton = page.getByRole('button', { name: 'Back', exact: true })
 
     this.modeButton = page.getByRole('button', { name: /Mode/i, exact: false })
     this.variantButton = page.getByRole('button', {
@@ -75,6 +85,13 @@ export class PlaygroundSidebar {
       name: 'Edit Default theme',
       exact: true,
     })
+
+    this.paletteModeTablist = page.getByRole('tablist', {
+      name: 'Palette mode',
+    })
+    this.widgetBorder = page.getByLabel('Widget border', { exact: true })
+    this.cardDropShadow = page.getByLabel('Card drop shadow', { exact: true })
+    this.buttonBorder = page.getByLabel('Button border', { exact: true })
 
     this.readOurDocs = page.getByRole('link', {
       name: 'Read our docs',
