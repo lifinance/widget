@@ -7,11 +7,11 @@ test.describe('Playground settings — general', () => {
 
   test('sidebar logo and header are visible', async ({ sidebar }) => {
     await test.step('LI.FI logo is rendered', async () => {
-      await expect(sidebar.logo).toBeVisible()
+      await expect(sidebar.header.logo).toBeVisible()
     })
 
     await test.step('"PLAYGROUND" header text is visible', async () => {
-      await expect(sidebar.playgroundText).toBeVisible()
+      await expect(sidebar.header.playgroundText).toBeVisible()
     })
   })
 
@@ -21,19 +21,19 @@ test.describe('Playground settings — general', () => {
     sidebar,
   }) => {
     await test.step('sidebar is visible initially', async () => {
-      await expect(sidebar.playgroundText).toBeVisible()
+      await expect(sidebar.header.playgroundText).toBeVisible()
     })
 
     await test.step('clicking "Close tools" collapses the sidebar', async () => {
-      await sidebar.closeTools.click()
-      await expect(sidebar.playgroundText).not.toBeVisible()
-      await expect(sidebar.openTools).toBeVisible()
+      await sidebar.header.closeTools.click()
+      await expect(sidebar.header.playgroundText).not.toBeVisible()
+      await expect(sidebar.header.openTools).toBeVisible()
     })
 
     await test.step('clicking "Open tools" restores the sidebar', async () => {
-      await sidebar.openTools.click()
-      await expect(sidebar.playgroundText).toBeVisible()
-      await expect(sidebar.openTools).not.toBeVisible()
+      await sidebar.header.openTools.click()
+      await expect(sidebar.header.playgroundText).toBeVisible()
+      await expect(sidebar.header.openTools).not.toBeVisible()
     })
   })
 
@@ -41,13 +41,17 @@ test.describe('Playground settings — general', () => {
     sidebar,
   }) => {
     await test.step('open the theme editing panel', async () => {
-      await sidebar.themeButton.click()
-      await sidebar.editDefaultTheme.click()
+      await sidebar.nav.theme.click()
+      await sidebar.nav.themePresets.editDefault.click()
     })
 
     // Tabs are icon-only (sun = light, moon = dark), so select by position.
-    const lightTab = sidebar.paletteModeTablist.getByRole('tab').nth(0)
-    const darkTab = sidebar.paletteModeTablist.getByRole('tab').nth(1)
+    const lightTab = sidebar.themeEditor.paletteModeTablist
+      .getByRole('tab')
+      .nth(0)
+    const darkTab = sidebar.themeEditor.paletteModeTablist
+      .getByRole('tab')
+      .nth(1)
 
     await test.step('color palette — switch to dark mode', async () => {
       await darkTab.click()
@@ -56,28 +60,36 @@ test.describe('Playground settings — general', () => {
 
     // MUI Switch adds `Mui-checked` to the root element when toggled on.
     await test.step('widget surface — enable border', async () => {
-      await sidebar.widgetBorder.click()
-      await expect(sidebar.widgetBorder).toHaveClass(/Mui-checked/)
+      await sidebar.themeEditor.widgetBorder.click()
+      await expect(sidebar.themeEditor.widgetBorder).toHaveClass(/Mui-checked/)
     })
 
     await test.step('card surface — enable drop shadow', async () => {
-      await sidebar.cardDropShadow.click()
-      await expect(sidebar.cardDropShadow).toHaveClass(/Mui-checked/)
+      await sidebar.themeEditor.cardDropShadow.click()
+      await expect(sidebar.themeEditor.cardDropShadow).toHaveClass(
+        /Mui-checked/
+      )
     })
 
     await test.step('button surface — enable border', async () => {
-      await sidebar.buttonBorder.click()
-      await expect(sidebar.buttonBorder).toHaveClass(/Mui-checked/)
+      await sidebar.themeEditor.buttonBorder.click()
+      await expect(sidebar.themeEditor.buttonBorder).toHaveClass(/Mui-checked/)
     })
 
     await test.step('global Reset config reverts all changes', async () => {
       await sidebar.resetAll()
       // Re-enter the theme editor to assert the reverted state.
-      await sidebar.editDefaultTheme.click()
+      await sidebar.nav.themePresets.editDefault.click()
       await expect(lightTab).toHaveAttribute('aria-selected', 'true')
-      await expect(sidebar.widgetBorder).not.toHaveClass(/Mui-checked/)
-      await expect(sidebar.cardDropShadow).not.toHaveClass(/Mui-checked/)
-      await expect(sidebar.buttonBorder).not.toHaveClass(/Mui-checked/)
+      await expect(sidebar.themeEditor.widgetBorder).not.toHaveClass(
+        /Mui-checked/
+      )
+      await expect(sidebar.themeEditor.cardDropShadow).not.toHaveClass(
+        /Mui-checked/
+      )
+      await expect(sidebar.themeEditor.buttonBorder).not.toHaveClass(
+        /Mui-checked/
+      )
     })
   })
 
@@ -86,14 +98,14 @@ test.describe('Playground settings — general', () => {
     sidebar,
   }) => {
     await test.step('"Read our docs" link is visible', async () => {
-      await expect(sidebar.readOurDocs).toBeVisible()
+      await expect(sidebar.footer.readOurDocs).toBeVisible()
     })
 
     await test.step('clicking the link opens a new tab with the correct URL', async () => {
       // Start listening for the new page before clicking so the event isn't missed.
       const [newPage] = await Promise.all([
         context.waitForEvent('page'),
-        sidebar.readOurDocs.click(),
+        sidebar.footer.readOurDocs.click(),
       ])
       await newPage.waitForLoadState('domcontentloaded')
       expect(newPage.url()).toBe('https://docs.li.fi/widget/overview')
