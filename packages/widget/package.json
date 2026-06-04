@@ -65,7 +65,10 @@
   },
   "devDependencies": {
     "@types/node": "^25.9.1",
+    "@babel/core": "^7.29.7",
+    "@rolldown/plugin-babel": "^0.2.3",
     "@types/react-transition-group": "^4.4.12",
+    "babel-plugin-react-compiler": "^1.0.0",
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "react": "^19.2.7",

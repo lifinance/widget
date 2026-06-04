@@ -55,6 +55,9 @@
     "zustand": "^5.0.14"
   },
   "devDependencies": {
+    "@babel/core": "^7.29.7",
+    "@rolldown/plugin-babel": "^0.2.3",
+    "babel-plugin-react-compiler": "^1.0.0",
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "react": "^19.2.7",

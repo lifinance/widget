@@ -1,3 +1,4 @@
+import babel from '@rolldown/plugin-babel'
 import { defineConfig, type UserConfig } from 'tsdown'
 
 const defaultConfig: UserConfig = defineConfig({
@@ -15,5 +16,12 @@ const defaultConfig: UserConfig = defineConfig({
     neverBundle: [/\.json$/],
   },
   copy: [{ from: 'src/i18n/*.json', to: 'dist/esm/i18n', flatten: true }],
+  plugins: [
+    babel({
+      exclude: [/node_modules/],
+      plugins: [['babel-plugin-react-compiler', { target: '19' }]],
+    }),
+  ],
 })
+
 export default defaultConfig

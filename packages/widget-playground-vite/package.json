@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.0.2",
+    "babel-plugin-react-compiler": "^1.0.0",
     "react-scan": "^0.5.7",
     "source-map-explorer": "^2.5.3",
     "typescript": "^6.0.3",

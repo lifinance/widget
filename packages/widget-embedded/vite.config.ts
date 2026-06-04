@@ -3,7 +3,14 @@ import { defineConfig } from 'vite'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 export default defineConfig({
-  plugins: [nodePolyfills(), react()],
+  plugins: [
+    nodePolyfills(),
+    react({
+      babel: {
+        plugins: [['babel-plugin-react-compiler', { target: '19' }]],
+      },
+    }),
+  ],
   oxc: {
     target: 'esnext',
   },

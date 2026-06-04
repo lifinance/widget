@@ -5,7 +5,11 @@
     "packages/widget-embedded/**",
     "scripts/**"
   ],
-  "ignoreDependencies": ["@mui/system", "csstype"],
+  "ignoreDependencies": [
+    "@mui/system",
+    "babel-plugin-react-compiler",
+    "csstype"
+  ],
   "workspaces": {
     "packages/widget-light": {
       "ignore": ["src/config/version.ts"],
