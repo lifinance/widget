@@ -79,6 +79,17 @@ export class PlaygroundSidebar {
     clearMaxHeight: Locator
   }
 
+  readonly walletManagementEditor: {
+    reset: Locator
+    /** Only present when External mode is selected. MUI-checked class when toggled on. */
+    forceInternalWallets: Locator
+    cards: {
+      internal: Locator
+      external: Locator
+      partial: Locator
+    }
+  }
+
   readonly themeEditor: {
     paletteModeTablist: Locator
     widgetBorder: Locator
@@ -183,6 +194,22 @@ export class PlaygroundSidebar {
         drawer: page
           .locator('div[role="button"]')
           .filter({ has: page.getByText('Drawer', { exact: true }) }),
+      },
+    }
+
+    this.walletManagementEditor = {
+      reset: page.getByLabel('Reset wallet management'),
+      forceInternalWallets: page.getByLabel('Force internal wallet management'),
+      cards: {
+        internal: page
+          .locator('div[role="button"]')
+          .filter({ has: page.getByText('Internal', { exact: true }) }),
+        external: page
+          .locator('div[role="button"]')
+          .filter({ has: page.getByText('External', { exact: true }) }),
+        partial: page
+          .locator('div[role="button"]')
+          .filter({ has: page.getByText('Partial', { exact: true }) }),
       },
     }
 

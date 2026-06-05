@@ -31,6 +31,42 @@ export class WidgetExchange {
   readonly fromButton: Locator
   readonly toButton: Locator
   readonly sendAmountInput: Locator
+  /**
+   * "Connect wallet" button rendered by WalletHeader in the widget's top AppBar.
+   * Only present when internal wallet management is active (Internal mode, Partial mode,
+   * or External mode with Force internal wallets enabled).
+   */
+  readonly walletHeaderButton: Locator
+  /**
+   * The main transaction action button (BaseTransactionButton) at the bottom of the
+   * exchange form. Shows "Connect wallet" when no wallet is connected. In external /
+   * partial modes clicking it invokes the app's onConnect handler instead of the
+   * internal wallet menu.
+   */
+  readonly transactionButton: Locator
+  /**
+   * Reown AppKit web component button shown in the playground toolbar when
+   * external wallet management is active (External or Partial mode).
+   * Lives outside the widget itself.
+   */
+  readonly appkitButton: Locator
+  /**
+   * Reown AppKit modal web component (w3m-modal). Absent from the DOM until
+   * the external onConnect handler calls AppKit's open(). Becomes visible
+   * immediately after that call fires.
+   */
+  readonly appkitModal: Locator
+  /**
+   * Content container of the internal wallet selection modal/drawer.
+   * Present in the DOM only while the internal wallet menu is open.
+   */
+  readonly walletModalContent: Locator
+  /**
+   * Heading of the internal wallet modal (MUI DialogTitle renders as h2).
+   * Lives outside #widget-wallet-modal-content in the same dialog, so it
+   * is scoped via getByRole('dialog') rather than the content container.
+   */
+  readonly walletModalHeading: Locator
 
   constructor(page: Page) {
     this.page = page
@@ -60,6 +96,31 @@ export class WidgetExchange {
     this.toButton = this.widgetRoot.getByRole('button', { name: /^To\b/i })
 
     this.sendAmountInput = this.widgetRoot.getByRole('textbox', { name: '0' })
+
+    // WalletHeader renders its AppBar as <header>; scoping to [id^="widget-header"]
+    // reliably targets only the header wallet button even when the body button is also visible.
+    this.walletHeaderButton = page
+      .locator('[id^="widget-header"]')
+      .getByRole('button', { name: 'Connect wallet', exact: true })
+
+    this.transactionButton = this.widgetRoot.getByTestId(
+      'widget-transaction-button'
+    )
+
+    // appkit-button is a Reown AppKit web component rendered in the playground toolbar,
+    // outside the widget itself — scoped to the full page, not widgetRoot.
+    this.appkitButton = page.locator('appkit-button')
+
+    // w3m-modal is absent from the DOM until AppKit's open() is called.
+    this.appkitModal = page.locator('w3m-modal')
+
+    this.walletModalContent = page.locator('#widget-wallet-modal-content')
+
+    // MUI DialogTitle renders as <h2>; the title is a sibling of DialogContent in the
+    // same MUI Dialog, not a child of #widget-wallet-modal-content.
+    this.walletModalHeading = page
+      .getByRole('dialog')
+      .getByRole('heading', { name: 'Select a wallet', exact: true })
   }
 
   /** Open the Settings view by clicking the cog icon */
