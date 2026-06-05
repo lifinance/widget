@@ -8,10 +8,8 @@ import { useHeaderAndFooterToolValues } from '../../store/editTools/useHeaderAnd
 import { useLayoutValues } from '../../store/editTools/useLayoutValues.js'
 import { useSkeletonToolValues } from '../../store/editTools/useSkeletonToolValues.js'
 import { useWidgetEventMonitorValues } from '../../store/editTools/useWidgetEventMonitorValues.js'
-import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
 import {
   useConfigContainer,
-  useConfigHeaderPosition,
   useConfigVariant,
 } from '../../store/widgetConfig/useConfigValues.js'
 import {
@@ -54,13 +52,11 @@ export const DeveloperControlsDetailView = ({
     useHeaderAndFooterToolValues()
   const { selectedLayoutId } = useLayoutValues()
   const { container } = useConfigContainer()
-  const { headerPosition } = useConfigHeaderPosition()
   const { variant } = useConfigVariant()
   const isDrawerVariant = variant === 'drawer'
   const isFullHeight =
     isFullHeightLayout(container) || selectedLayoutId === 'full-height'
   const isSkeletonEnabled = !isDrawerVariant
-  const { setHeader } = useConfigActions()
   const {
     setSkeletonShow,
     setHeaderVisibility,
@@ -76,16 +72,6 @@ export const DeveloperControlsDetailView = ({
   )
 
   useWidgetEventConsoleLogging(monitoredEvents)
-
-  const handleHeaderVisibilityChange = useCallback(
-    (_: React.ChangeEvent<HTMLInputElement>, checked: boolean): void => {
-      setHeaderVisibility(checked)
-      if (headerPosition === 'fixed') {
-        setHeader({ position: 'fixed', top: checked ? 48 : 0 })
-      }
-    },
-    [headerPosition, setHeaderVisibility, setHeader]
-  )
 
   const handleBookmarkStoresChange = useCallback(
     (_: React.ChangeEvent<HTMLInputElement>, checked: boolean): void => {
@@ -142,7 +128,7 @@ export const DeveloperControlsDetailView = ({
               label="Mock header"
               description="Show a mock header element above the widget. Only available for compact variant in full-height layout."
               checked={showMockHeader}
-              onChange={handleHeaderVisibilityChange}
+              onChange={(_, checked) => setHeaderVisibility(checked)}
               disabled={!isFullHeight}
               ariaLabel="Toggle mock header"
             />

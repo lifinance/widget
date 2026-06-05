@@ -78,11 +78,7 @@ export const usePlaygroundLayoutControls = (): {
         }
         case 'full-height': {
           setVariant('compact')
-
-          setHeader({
-            position: 'fixed',
-            top: 0,
-          })
+          setHeader()
 
           const fullHeightContainer = {
             ...(getCurrentConfigTheme()?.container ?? {}),
