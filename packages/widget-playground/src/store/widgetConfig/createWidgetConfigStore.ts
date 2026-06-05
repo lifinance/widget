@@ -184,11 +184,22 @@ export const createWidgetConfigStore = (
           })
         },
         setConfigTheme: (theme, themeId) => {
+          // Preserve user's layout settings across theme switches
+          const { height, maxHeight, display } =
+            get().config?.theme?.container ?? {}
           set({
             themeId,
             config: {
               ...get().config,
-              theme: cloneStructuredConfig<Partial<WidgetTheme>>(theme),
+              theme: {
+                ...cloneStructuredConfig<Partial<WidgetTheme>>(theme),
+                container: {
+                  ...theme.container,
+                  height,
+                  maxHeight,
+                  display,
+                },
+              },
             },
           })
         },
