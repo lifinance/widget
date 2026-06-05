@@ -4,10 +4,12 @@ import type { Locator, Page } from '@playwright/test'
  * PlaygroundSidebar — Component Object for the LI.FI Widget Playground left sidebar.
  *
  * Locators are grouped by the context in which they appear:
- *   header       — always visible when the drawer is open
- *   nav          — main nav panel (first slide panel)
- *   themeEditor  — theme editor detail view (second slide panel)
- *   footer       — always visible at the bottom of the drawer
+ *   header                            — always visible when the drawer is open
+ *   nav                               — main nav panel (first slide panel)
+ *   themeEditor                       — theme editor detail view (second slide panel)
+ *   developerControlsEditor           — developer controls detail view
+ *   developerControlsWidgetEventsEditor — widget events second-level slide view
+ *   footer                            — always visible at the bottom of the drawer
  */
 export class PlaygroundSidebar {
   readonly page: Page
@@ -95,6 +97,69 @@ export class PlaygroundSidebar {
     widgetBorder: Locator
     cardDropShadow: Locator
     buttonBorder: Locator
+  }
+
+  readonly developerControlsEditor: {
+    /**
+     * Toggle that prefills the widget with a default route (ETH→USDC, amount 1,
+     * and a to-address). Updates the widget form and URL params.
+     */
+    formValues: Locator
+    /** "config" tab in the Form values update method tab strip. */
+    formMethodTabConfig: Locator
+    /** "formRef" tab in the Form values update method tab strip. */
+    formMethodTabFormRef: Locator
+    /**
+     * Toggle that seeds 50 dummy wallet addresses into localStorage for testing
+     * the Bookmarked wallets screen. Causes a full page reload when toggled.
+     */
+    bookmarkStores: Locator
+    /**
+     * Toggle that replaces the widget with a skeleton loader preview.
+     * Disabled (pointer-events:none) when the drawer variant is active.
+     */
+    loadingPreview: Locator
+    /**
+     * Toggle that shows a mock header element above the widget.
+     * Disabled unless the current layout is full-height.
+     */
+    mockHeader: Locator
+    /**
+     * Toggle that shows a mock footer element below the widget.
+     * Disabled unless the current layout is full-height.
+     */
+    mockFooter: Locator
+    /**
+     * Nested sub-toggle inside the mock footer section — only rendered when
+     * mock footer is enabled. Makes the footer sticky (position:fixed at the
+     * bottom of the viewport).
+     */
+    fixedFooter: Locator
+    /** "Configure" link that navigates to the Widget events second-level slide. */
+    configureWidgetEvents: Locator
+  }
+
+  readonly developerControlsWidgetEventsEditor: {
+    /** Master toggle that turns on all event listeners for the current page load and sets a URL param. */
+    allEventsOnPageLoad: Locator
+    availableRoutes: Locator
+    routeSelected: Locator
+    routeExecutionStarted: Locator
+    routeExecutionUpdated: Locator
+    routeExecutionCompleted: Locator
+    routeExecutionFailed: Locator
+    routeHighValueLoss: Locator
+    contactSupport: Locator
+    sourceChainTokenSelected: Locator
+    destinationChainTokenSelected: Locator
+    sendToWalletToggled: Locator
+    widgetExpanded: Locator
+    pageEntered: Locator
+    formFieldChanged: Locator
+    settingUpdated: Locator
+    tokenSearch: Locator
+    lowAddressActivityConfirmed: Locator
+    chainPinned: Locator
   }
 
   readonly footer: {
@@ -247,6 +312,69 @@ export class PlaygroundSidebar {
       widgetBorder: page.getByLabel('Widget border', { exact: true }),
       cardDropShadow: page.getByLabel('Card drop shadow', { exact: true }),
       buttonBorder: page.getByLabel('Button border', { exact: true }),
+    }
+
+    this.developerControlsEditor = {
+      formValues: page.getByLabel('Toggle form values'),
+      formMethodTabConfig: page.getByRole('tab', {
+        name: 'config',
+        exact: true,
+      }),
+      formMethodTabFormRef: page.getByRole('tab', {
+        name: 'formRef',
+        exact: true,
+      }),
+      bookmarkStores: page.getByLabel('Toggle bookmark stores seed data'),
+      loadingPreview: page.getByLabel('Toggle loading preview'),
+      mockHeader: page.getByLabel('Toggle mock header'),
+      mockFooter: page.getByLabel('Toggle mock footer'),
+      fixedFooter: page.getByLabel('Toggle fixed footer'),
+      configureWidgetEvents: page.getByRole('button', {
+        name: 'Configure',
+        exact: true,
+      }),
+    }
+
+    this.developerControlsWidgetEventsEditor = {
+      allEventsOnPageLoad: page.getByLabel(
+        'Toggle all widget events on page load'
+      ),
+      availableRoutes: page.getByLabel('Toggle listener for AvailableRoutes'),
+      routeSelected: page.getByLabel('Toggle listener for RouteSelected'),
+      routeExecutionStarted: page.getByLabel(
+        'Toggle listener for RouteExecutionStarted'
+      ),
+      routeExecutionUpdated: page.getByLabel(
+        'Toggle listener for RouteExecutionUpdated'
+      ),
+      routeExecutionCompleted: page.getByLabel(
+        'Toggle listener for RouteExecutionCompleted'
+      ),
+      routeExecutionFailed: page.getByLabel(
+        'Toggle listener for RouteExecutionFailed'
+      ),
+      routeHighValueLoss: page.getByLabel(
+        'Toggle listener for RouteHighValueLoss'
+      ),
+      contactSupport: page.getByLabel('Toggle listener for ContactSupport'),
+      sourceChainTokenSelected: page.getByLabel(
+        'Toggle listener for SourceChainTokenSelected'
+      ),
+      destinationChainTokenSelected: page.getByLabel(
+        'Toggle listener for DestinationChainTokenSelected'
+      ),
+      sendToWalletToggled: page.getByLabel(
+        'Toggle listener for SendToWalletToggled'
+      ),
+      widgetExpanded: page.getByLabel('Toggle listener for WidgetExpanded'),
+      pageEntered: page.getByLabel('Toggle listener for PageEntered'),
+      formFieldChanged: page.getByLabel('Toggle listener for FormFieldChanged'),
+      settingUpdated: page.getByLabel('Toggle listener for SettingUpdated'),
+      tokenSearch: page.getByLabel('Toggle listener for TokenSearch'),
+      lowAddressActivityConfirmed: page.getByLabel(
+        'Toggle listener for LowAddressActivityConfirmed'
+      ),
+      chainPinned: page.getByLabel('Toggle listener for ChainPinned'),
     }
 
     this.footer = {

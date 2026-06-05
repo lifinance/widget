@@ -45,6 +45,11 @@ export class WidgetExchange {
    */
   readonly transactionButton: Locator
   /**
+   * Wallet icon button at the bottom-right of the exchange form that navigates
+   * to the Send to wallet page inside the widget.
+   */
+  readonly sendToWalletButton: Locator
+  /**
    * Reown AppKit web component button shown in the playground toolbar when
    * external wallet management is active (External or Partial mode).
    * Lives outside the widget itself.
@@ -105,6 +110,10 @@ export class WidgetExchange {
 
     this.transactionButton = this.widgetRoot.getByTestId(
       'widget-transaction-button'
+    )
+
+    this.sendToWalletButton = this.widgetRoot.getByLabel(
+      'Send to a different wallet'
     )
 
     // appkit-button is a Reown AppKit web component rendered in the playground toolbar,

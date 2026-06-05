@@ -4,6 +4,7 @@ import { PlaygroundSidebar } from '../components/PlaygroundSidebar.js'
 import { SettingsView } from '../components/SettingsView.js'
 import { TokenSelectorView } from '../components/TokenSelectorView.js'
 import { WidgetExchange } from '../components/WidgetExchange.js'
+import { WidgetSendToWalletView } from '../components/WidgetSendToWalletView.js'
 
 /**
  * Wait for the widget's token list to finish loading.
@@ -34,6 +35,8 @@ export type WidgetFixtures = {
   tokenSelector: TokenSelectorView
   /** Widget settings view (opens when clicking the cog icon) */
   settings: SettingsView
+  /** Widget Send to wallet page and nested Bookmarked wallets page */
+  sendToWallet: WidgetSendToWalletView
 }
 
 export const test = base.extend<WidgetFixtures>({
@@ -51,6 +54,10 @@ export const test = base.extend<WidgetFixtures>({
 
   settings: async ({ page }, use) => {
     await use(new SettingsView(page))
+  },
+
+  sendToWallet: async ({ page }, use) => {
+    await use(new WidgetSendToWalletView(page))
   },
 })
 
