@@ -3,7 +3,6 @@ import { defaultMaxHeight } from '@lifi/widget'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { Layout } from '../store/editTools/types.js'
 import { useEditToolsActions } from '../store/editTools/useEditToolsActions.js'
-import { useHeaderAndFooterToolValues } from '../store/editTools/useHeaderAndFooterToolValues.js'
 import { useLayoutValues } from '../store/editTools/useLayoutValues.js'
 import { useConfigActions } from '../store/widgetConfig/useConfigActions.js'
 import {
@@ -21,7 +20,6 @@ export const usePlaygroundLayoutControls = (): {
 } => {
   const { container } = useConfigContainer()
   const { variant } = useConfigVariant()
-  const { showMockHeader } = useHeaderAndFooterToolValues()
   const { setHeader, setContainer, getCurrentConfigTheme, setVariant } =
     useConfigActions()
   const { selectedLayoutId } = useLayoutValues()
@@ -83,7 +81,7 @@ export const usePlaygroundLayoutControls = (): {
 
           setHeader({
             position: 'fixed',
-            top: showMockHeader ? 48 : 0,
+            top: 0,
           })
 
           const fullHeightContainer = {
@@ -111,7 +109,7 @@ export const usePlaygroundLayoutControls = (): {
         }
       }
     },
-    [getCurrentConfigTheme, setContainer, setHeader, setVariant, showMockHeader]
+    [getCurrentConfigTheme, setContainer, setHeader, setVariant]
   )
 
   return {
