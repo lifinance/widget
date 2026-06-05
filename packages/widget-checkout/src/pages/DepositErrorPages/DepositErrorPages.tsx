@@ -52,7 +52,7 @@ function useDepositErrorActions(): {
 
 function useDepositHeader(): void {
   const { t } = useTranslation()
-  useHeader(t('header.deposit'))
+  useHeader(t('header.checkout'))
 }
 
 export function DepositUnexpectedPage(): JSX.Element {

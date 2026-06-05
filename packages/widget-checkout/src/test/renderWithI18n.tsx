@@ -18,7 +18,6 @@ testI18n.use(initReactI18next).init({
       translation: {
         button: { close: 'Close', cancel: 'Cancel' },
         checkout: {
-          deposit: 'Deposit',
           closeConfirmation: {
             title: 'Leave with transaction in progress?',
             body: "Your transaction is still being processed. You can come back to it any time by reopening the widget — we'll pick up where you left off.",

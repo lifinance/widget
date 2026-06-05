@@ -52,8 +52,8 @@ function useActionLabel(
       return t('button.contactSupport')
     case 'viewRefund':
       return t('button.viewRefund')
-    case 'retryDeposit':
-      return t('button.retryDeposit')
+    case 'retry':
+      return t('button.tryAgain')
     default:
       return ''
   }

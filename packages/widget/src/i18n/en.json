@@ -31,8 +31,9 @@
     "dark": "Dark",
     "delete": "Delete",
     "deposit": "Deposit",
-    "depositReview": "Review deposit",
     "depositWithCash": "Deposit with cash",
+    "pay": "Pay",
+    "depositReview": "Review deposit",
     "connectExchange": "Connect exchange",
     "transferCrypto": "Transfer crypto",
     "disconnect": "Disconnect",
@@ -48,7 +49,6 @@
     "reset": "Reset",
     "resetSettings": "Reset settings",
     "resumeTransaction": "Resume transaction",
-    "retryDeposit": "Retry deposit",
     "seeDetails": "See details",
     "topUp": "Top up",
     "viewRefund": "View refund",
@@ -71,10 +71,10 @@
     "checkout": "Checkout",
     "checkoutDetails": "Checkout details",
     "deposit": "Deposit",
+    "depositWithCash": "Deposit with cash",
     "depositAddress": "Deposit address",
     "depositDetails": "Deposit details",
     "depositTo": "Deposit to",
-    "depositWithCash": "Deposit with cash",
     "connectExchange": "Connect exchange",
     "transferCrypto": "Transfer crypto",
     "currency": "Currency",
@@ -398,7 +398,6 @@
     "resume": {
       "notFoundToast": "We couldn't find your transaction. Start over or contact support if you think this is a mistake."
     },
-    "deposit": "Deposit",
     "transferDeposit": {
       "warning": "Only send <b>{{amount}} {{symbol}}</b> on <b>{{chain}}</b>. Wrong token or chain may be unrecoverable.",
       "expiresIn": "Deposit address expires in {{minutes}}:{{seconds}}",
@@ -518,9 +517,9 @@
       "dialogTitle": "Deposit with {{providerName}}",
       "close": "Close",
       "errors": {
-        "MISSING_API_URL": "{{providerName}} deposit is not configured: set sdkConfig.apiUrl on the checkout.",
-        "MISSING_API_KEY": "{{providerName}} deposit is not configured: set widget apiKey to call checkout sessions.",
-        "TARGET_NOT_CONFIGURED": "{{providerName}} deposit target is not configured: set widget.toChain and widget.toToken.",
+        "MISSING_API_URL": "{{providerName}} is not configured: set sdkConfig.apiUrl on the checkout.",
+        "MISSING_API_KEY": "{{providerName}} is not configured: set widget apiKey to call checkout sessions.",
+        "TARGET_NOT_CONFIGURED": "{{providerName}} destination is not configured: set widget.toChain and widget.toToken.",
         "INVALID_RESPONSE": "Invalid response from {{providerName}} session API.",
         "NETWORK_ERROR": "Network error starting {{providerName}} session.",
         "SESSION_HTTP": "Could not start {{providerName}} session ({{status}}). Try again later.",
@@ -553,7 +552,7 @@
         "description": "Your transaction is being processed. This may take a few minutes."
       },
       "pendingRefund": {
-        "title": "Refunding your deposit",
+        "title": "Refund in progress",
         "description": "We're sending your funds back. This usually takes a few minutes.",
         "sentTo": "Sent to:"
       },
@@ -618,8 +617,8 @@
         "description": "The transaction window expired before your order could be processed. Please try again."
       },
       "walletPendingRefund": {
-        "title": "Refunding your deposit",
-        "description": "We're sending your funds back to the wallet you deposited from. This usually takes a few minutes.",
+        "title": "Refund in progress",
+        "description": "We're sending your funds back to the wallet you paid from. This usually takes a few minutes.",
         "sentToWallet": "Sent to wallet:"
       },
       "walletSuccessRefund": {

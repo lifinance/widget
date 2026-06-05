@@ -183,7 +183,7 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
     isRefundInProgress || isRefunded
       ? t('checkout.refund.title')
       : deposit?.failure
-        ? t('checkout.deposit')
+        ? t('header.checkout')
         : t('checkout.transactionStatus.detailsTitle')
   )
 
@@ -360,7 +360,7 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
             viewDetails: goToDetails,
             tryAgain: goToEnterAmount,
             contactSupport: handleContactSupport,
-            retryDeposit: goToEnterAmount,
+            retry: goToEnterAmount,
           }}
           secondaryAction={{
             done: goHome,

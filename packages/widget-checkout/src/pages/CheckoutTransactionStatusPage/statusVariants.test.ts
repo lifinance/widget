@@ -163,7 +163,7 @@ describe('resolveStatusVariant — DONE branch', () => {
       fundingSource: 'wallet',
     })
     expect(variant.titleKey).toBe('checkout.status.walletSuccessRefund.title')
-    expect(variant.primaryAction).toBe('retryDeposit')
+    expect(variant.primaryAction).toBe('retry')
     expect(variant.secondaryAction).toBeUndefined()
     expect(variant.icon).toBe('check')
   })
@@ -175,7 +175,7 @@ describe('resolveStatusVariant — DONE branch', () => {
       fundingSource: 'exchange',
     })
     expect(variant.titleKey).toBe('checkout.status.successRefund.title')
-    expect(variant.primaryAction).toBe('retryDeposit')
+    expect(variant.primaryAction).toBe('retry')
   })
 })
 
