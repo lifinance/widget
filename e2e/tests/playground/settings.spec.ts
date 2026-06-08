@@ -58,22 +58,26 @@ test.describe('Playground settings — general', () => {
       await expect(darkTab).toHaveAttribute('aria-selected', 'true')
     })
 
-    // MUI Switch adds `Mui-checked` to the root element when toggled on.
+    // MUI Switch adds the inner checkbox (role="switch") reflects checked state — use toBeChecked() on the inner input.
     await test.step('widget surface — enable border', async () => {
       await sidebar.themeEditor.widgetBorder.click()
-      await expect(sidebar.themeEditor.widgetBorder).toHaveClass(/Mui-checked/)
+      await expect(
+        sidebar.themeEditor.widgetBorder.locator('input')
+      ).toBeChecked()
     })
 
     await test.step('card surface — enable drop shadow', async () => {
       await sidebar.themeEditor.cardDropShadow.click()
-      await expect(sidebar.themeEditor.cardDropShadow).toHaveClass(
-        /Mui-checked/
-      )
+      await expect(
+        sidebar.themeEditor.cardDropShadow.locator('input')
+      ).toBeChecked()
     })
 
     await test.step('button surface — enable border', async () => {
       await sidebar.themeEditor.buttonBorder.click()
-      await expect(sidebar.themeEditor.buttonBorder).toHaveClass(/Mui-checked/)
+      await expect(
+        sidebar.themeEditor.buttonBorder.locator('input')
+      ).toBeChecked()
     })
 
     await test.step('global Reset config reverts all changes', async () => {
@@ -81,15 +85,15 @@ test.describe('Playground settings — general', () => {
       // Re-enter the theme editor to assert the reverted state.
       await sidebar.nav.themePresets.editDefault.click()
       await expect(lightTab).toHaveAttribute('aria-selected', 'true')
-      await expect(sidebar.themeEditor.widgetBorder).not.toHaveClass(
-        /Mui-checked/
-      )
-      await expect(sidebar.themeEditor.cardDropShadow).not.toHaveClass(
-        /Mui-checked/
-      )
-      await expect(sidebar.themeEditor.buttonBorder).not.toHaveClass(
-        /Mui-checked/
-      )
+      await expect(
+        sidebar.themeEditor.widgetBorder.locator('input')
+      ).not.toBeChecked()
+      await expect(
+        sidebar.themeEditor.cardDropShadow.locator('input')
+      ).not.toBeChecked()
+      await expect(
+        sidebar.themeEditor.buttonBorder.locator('input')
+      ).not.toBeChecked()
     })
   })
 

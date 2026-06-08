@@ -17,9 +17,12 @@ test.describe('Playground settings — Mode', () => {
       await expect(sidebar.nav.mode).toContainText('Exchange')
     })
 
-    await test.step('Exchange card is highlighted in the mode panel', async () => {
+    await test.step('Exchange card is the active selection in the mode panel', async () => {
       await sidebar.nav.mode.click()
-      await expect(sidebar.modeEditor.cards.exchange).toBeVisible()
+      await expect(sidebar.modeEditor.cards.exchange).toHaveAttribute(
+        'data-selected',
+        'true'
+      )
     })
 
     await test.step('reverse tokens button is visible and interactive', async () => {

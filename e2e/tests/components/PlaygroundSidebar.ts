@@ -202,24 +202,12 @@ export class PlaygroundSidebar {
      * "Read docs" link mounted while this sub-slide is showing.
      */
     docsLink: Locator
+    /** Used in the "all events on page load" test to verify a sample non-master toggle gets checked. */
     availableRoutes: Locator
-    routeSelected: Locator
-    routeExecutionStarted: Locator
-    routeExecutionUpdated: Locator
-    routeExecutionCompleted: Locator
-    routeExecutionFailed: Locator
-    routeHighValueLoss: Locator
-    contactSupport: Locator
-    sourceChainTokenSelected: Locator
-    destinationChainTokenSelected: Locator
-    sendToWalletToggled: Locator
-    widgetExpanded: Locator
-    pageEntered: Locator
-    formFieldChanged: Locator
-    settingUpdated: Locator
-    tokenSearch: Locator
-    lowAddressActivityConfirmed: Locator
+    /** Used in the "all events on page load" test as a second sample toggle. */
     chainPinned: Locator
+    pageEntered: Locator
+    settingUpdated: Locator
   }
 
   readonly footer: {
@@ -472,41 +460,9 @@ export class PlaygroundSidebar {
         .getByRole('link', { name: 'Read docs', exact: true })
         .last(),
       availableRoutes: page.getByLabel('Toggle listener for AvailableRoutes'),
-      routeSelected: page.getByLabel('Toggle listener for RouteSelected'),
-      routeExecutionStarted: page.getByLabel(
-        'Toggle listener for RouteExecutionStarted'
-      ),
-      routeExecutionUpdated: page.getByLabel(
-        'Toggle listener for RouteExecutionUpdated'
-      ),
-      routeExecutionCompleted: page.getByLabel(
-        'Toggle listener for RouteExecutionCompleted'
-      ),
-      routeExecutionFailed: page.getByLabel(
-        'Toggle listener for RouteExecutionFailed'
-      ),
-      routeHighValueLoss: page.getByLabel(
-        'Toggle listener for RouteHighValueLoss'
-      ),
-      contactSupport: page.getByLabel('Toggle listener for ContactSupport'),
-      sourceChainTokenSelected: page.getByLabel(
-        'Toggle listener for SourceChainTokenSelected'
-      ),
-      destinationChainTokenSelected: page.getByLabel(
-        'Toggle listener for DestinationChainTokenSelected'
-      ),
-      sendToWalletToggled: page.getByLabel(
-        'Toggle listener for SendToWalletToggled'
-      ),
-      widgetExpanded: page.getByLabel('Toggle listener for WidgetExpanded'),
-      pageEntered: page.getByLabel('Toggle listener for PageEntered'),
-      formFieldChanged: page.getByLabel('Toggle listener for FormFieldChanged'),
-      settingUpdated: page.getByLabel('Toggle listener for SettingUpdated'),
-      tokenSearch: page.getByLabel('Toggle listener for TokenSearch'),
-      lowAddressActivityConfirmed: page.getByLabel(
-        'Toggle listener for LowAddressActivityConfirmed'
-      ),
       chainPinned: page.getByLabel('Toggle listener for ChainPinned'),
+      pageEntered: page.getByLabel('Toggle listener for PageEntered'),
+      settingUpdated: page.getByLabel('Toggle listener for SettingUpdated'),
     }
 
     this.footer = {

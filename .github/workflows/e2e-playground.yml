@@ -72,7 +72,7 @@ jobs:
         uses: ./.github/actions/pnpm-install
 
       - name: Restore playground dist
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
         with:
           name: playground-dist
           # Restore into the workspace root so relative paths match the build output.
@@ -127,25 +127,31 @@ jobs:
         uses: ./.github/actions/pnpm-install
 
       - name: Download all blob reports
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
         with:
           path: e2e/all-blob-reports
           pattern: blob-report-*
           merge-multiple: true
 
+      - name: Check for blob reports
+        id: check-blobs
+        run: |
+          count=$(find e2e/all-blob-reports -name '*.zip' 2>/dev/null | wc -l)
+          echo "has-reports=$([ "$count" -gt 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          echo "Found $count blob report(s)"
+
       - name: Merge blob reports into HTML + JSON
+        if: steps.check-blobs.outputs.has-reports == 'true'
         working-directory: e2e
         run: |
-          pnpm --filter @lifi/widget-e2e exec playwright merge-reports \
-            --reporter html \
-            --reporter json \
-            all-blob-reports/
-
-          # merge-reports writes JSON to test-results.json in the working directory
-          # and HTML to playwright-report/
-          ls -la test-results.json playwright-report/ || true
+          # --reporter json has no built-in output-file flag on the CLI; the reporter
+          # writes to stdout when no PLAYWRIGHT_JSON_OUTPUT_FILE is set. Redirect to
+          # a file explicitly so the Parse step can read it.
+          pnpm exec playwright merge-reports --reporter html all-blob-reports/
+          pnpm exec playwright merge-reports --reporter json all-blob-reports/ > test-results.json
 
       - name: Upload merged HTML report
+        if: steps.check-blobs.outputs.has-reports == 'true'
         id: upload-report
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
@@ -158,10 +164,11 @@ jobs:
         working-directory: e2e
         run: |
           if [ ! -f test-results.json ]; then
-            echo "passed=0"   >> "$GITHUB_OUTPUT"
-            echo "failed=0"   >> "$GITHUB_OUTPUT"
-            echo "skipped=0"  >> "$GITHUB_OUTPUT"
-            echo "ok=false"   >> "$GITHUB_OUTPUT"
+            # Build failed or was cancelled before any tests ran — post an informational comment.
+            echo "passed=0"    >> "$GITHUB_OUTPUT"
+            echo "failed=0"    >> "$GITHUB_OUTPUT"
+            echo "skipped=0"   >> "$GITHUB_OUTPUT"
+            echo "ok=no-data"  >> "$GITHUB_OUTPUT"
             echo "failed_list=" >> "$GITHUB_OUTPUT"
             exit 0
           fi
@@ -169,7 +176,9 @@ jobs:
           PASSED=$(jq '.stats.expected  // 0' test-results.json)
           FAILED=$(jq '.stats.unexpected // 0' test-results.json)
           SKIPPED=$(jq '.stats.skipped   // 0' test-results.json)
-          OK=$(jq '.stats.ok             // false' test-results.json)
+
+          # stats.ok does not exist in Playwright's JSON output — derive it.
+          OK=$(jq 'if (.stats.unexpected // 0) == 0 and (.stats.flaky // 0) == 0 then "true" else "false" end' -r test-results.json)
 
           echo "passed=$PASSED"   >> "$GITHUB_OUTPUT"
           echo "failed=$FAILED"   >> "$GITHUB_OUTPUT"
@@ -186,6 +195,18 @@ jobs:
           echo "$FAILED_NAMES"    >> "$GITHUB_OUTPUT"
           echo "EOF"              >> "$GITHUB_OUTPUT"
 
+      - name: Post no-data comment
+        if: steps.results.outputs.ok == 'no-data'
+        uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # v3.0.4
+        with:
+          header: e2e-playground-results
+          message: |
+            ## ⚠️ E2E Playground — no results
+
+            The build or test run did not produce any test data (build failed or run was cancelled).
+
+            See the [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.
+
       - name: Post success comment
         if: steps.results.outputs.ok == 'true'
         uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # v3.0.4
@@ -199,7 +220,7 @@ jobs:
             📥 [Download full HTML report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) (open the run → Artifacts → `playwright-report`)
 
       - name: Post failure comment
-        if: steps.results.outputs.ok != 'true'
+        if: steps.results.outputs.ok == 'false'
         uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # v3.0.4
         with:
           header: e2e-playground-results

@@ -156,9 +156,12 @@ test.describe('Playground settings — Variant (Wide)', () => {
       await expect(sidebar.nav.variant).toContainText('Wide')
     })
 
-    await test.step('Wide card is visible in the variant panel', async () => {
+    await test.step('Wide card is the active selection in the variant panel', async () => {
       await sidebar.nav.variant.click()
-      await expect(sidebar.variantEditor.cards.wide).toBeVisible()
+      await expect(sidebar.variantEditor.cards.wide).toHaveAttribute(
+        'data-selected',
+        'true'
+      )
     })
   })
 
@@ -192,10 +195,10 @@ test.describe('Playground settings — Variant (Wide)', () => {
 
     await test.step('enable the "Disable chain sidebar" toggle', async () => {
       await sidebar.variantEditor.disableChainSidebar.click()
-      // MUI Switch adds Mui-checked to its root element when toggled on.
-      await expect(sidebar.variantEditor.disableChainSidebar).toHaveClass(
-        /Mui-checked/
-      )
+      // MUI Switch inner checkbox (role="switch") reflects checked state — use toBeChecked() on the inner input.
+      await expect(
+        sidebar.variantEditor.disableChainSidebar.locator('input')
+      ).toBeChecked()
     })
 
     await test.step('go back to the main view', async () => {
@@ -215,10 +218,10 @@ test.describe('Playground settings — Variant (Wide)', () => {
     await test.step('open variant panel and enable Disable chain sidebar', async () => {
       await sidebar.nav.variant.click()
       await sidebar.variantEditor.disableChainSidebar.click()
-      // MUI Switch adds Mui-checked to its root element when toggled on.
-      await expect(sidebar.variantEditor.disableChainSidebar).toHaveClass(
-        /Mui-checked/
-      )
+      // MUI Switch inner checkbox (role="switch") reflects checked state — use toBeChecked() on the inner input.
+      await expect(
+        sidebar.variantEditor.disableChainSidebar.locator('input')
+      ).toBeChecked()
     })
 
     await test.step('click Reset variant', async () => {
@@ -232,10 +235,10 @@ test.describe('Playground settings — Variant (Wide)', () => {
 
     await test.step('re-open variant panel — Disable chain sidebar is no longer checked', async () => {
       await sidebar.nav.variant.click()
-      // Reset calls setChainSidebarDisabled(false), clearing the Mui-checked class.
-      await expect(sidebar.variantEditor.disableChainSidebar).not.toHaveClass(
-        /Mui-checked/
-      )
+      // Reset calls setChainSidebarDisabled(false) — verified via not.toBeChecked() on the inner input.
+      await expect(
+        sidebar.variantEditor.disableChainSidebar.locator('input')
+      ).not.toBeChecked()
     })
 
     await test.step('click From — chain sidebar is visible again', async () => {
@@ -252,10 +255,10 @@ test.describe('Playground settings — Variant (Wide)', () => {
     await test.step('open variant panel and enable Disable chain sidebar', async () => {
       await sidebar.nav.variant.click()
       await sidebar.variantEditor.disableChainSidebar.click()
-      // MUI Switch adds Mui-checked to its root element when toggled on.
-      await expect(sidebar.variantEditor.disableChainSidebar).toHaveClass(
-        /Mui-checked/
-      )
+      // MUI Switch inner checkbox (role="switch") reflects checked state — use toBeChecked() on the inner input.
+      await expect(
+        sidebar.variantEditor.disableChainSidebar.locator('input')
+      ).toBeChecked()
     })
 
     await test.step('go back and click To — chain sidebar does not appear', async () => {

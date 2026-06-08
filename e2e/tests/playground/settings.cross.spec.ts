@@ -1,29 +1,5 @@
 import { expect, test } from '../fixtures/base.fixture.js'
-
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
-/**
- * Returns true when the DeveloperToggleItem container above the given switch
- * has pointer-events:none, meaning the toggle is in its disabled state.
- * DeveloperToggleItem uses opacity+pointerEvents on a Box wrapper rather than
- * the HTML disabled attribute, so standard Playwright isEnabled() won't work.
- */
-async function isToggleItemDisabled(
-  toggle: import('@playwright/test').Locator
-): Promise<boolean> {
-  return toggle.evaluate((el) => {
-    let node: Element | null = el.parentElement
-    while (node) {
-      if (window.getComputedStyle(node).pointerEvents === 'none') {
-        return true
-      }
-      node = node.parentElement
-    }
-    return false
-  })
-}
+import { isToggleItemDisabled } from '../helpers.js'
 
 // ---------------------------------------------------------------------------
 // Height × Developer Controls

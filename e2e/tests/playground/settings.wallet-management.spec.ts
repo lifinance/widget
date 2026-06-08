@@ -185,10 +185,10 @@ test.describe('Playground settings — Wallet management (External)', () => {
       await openWalletManagement({ sidebar })
       // Toggle is only rendered when External is the active mode.
       await sidebar.walletManagementEditor.forceInternalWallets.click()
-      // MUI Switch adds Mui-checked to its root element when toggled on.
+      // MUI Switch inner checkbox (role="switch") reflects checked state — use toBeChecked() on the inner input.
       await expect(
-        sidebar.walletManagementEditor.forceInternalWallets
-      ).toHaveClass(/Mui-checked/)
+        sidebar.walletManagementEditor.forceInternalWallets.locator('input')
+      ).toBeChecked()
     })
 
     await test.step('switch to Partial mode', async () => {
@@ -229,11 +229,11 @@ test.describe('Playground settings — Wallet management (External + Force inter
       await openWalletManagement({ sidebar })
     })
 
-    // MUI Switch adds Mui-checked to its root element when toggled on.
+    // MUI Switch inner checkbox (role="switch") reflects checked state — use toBeChecked() on the inner input.
     await test.step('toggle shows as checked', async () => {
       await expect(
-        sidebar.walletManagementEditor.forceInternalWallets
-      ).toHaveClass(/Mui-checked/)
+        sidebar.walletManagementEditor.forceInternalWallets.locator('input')
+      ).toBeChecked()
     })
   })
 
@@ -409,10 +409,10 @@ test.describe('Playground settings — Wallet management (Reset)', () => {
       await sidebar.walletManagementEditor.cards.external.click()
       // Toggle is only rendered when External is the active mode.
       await sidebar.walletManagementEditor.forceInternalWallets.click()
-      // MUI Switch adds Mui-checked to its root element when toggled on.
+      // MUI Switch inner checkbox (role="switch") reflects checked state — use toBeChecked() on the inner input.
       await expect(
-        sidebar.walletManagementEditor.forceInternalWallets
-      ).toHaveClass(/Mui-checked/)
+        sidebar.walletManagementEditor.forceInternalWallets.locator('input')
+      ).toBeChecked()
     })
 
     await test.step('click Reset wallet management', async () => {

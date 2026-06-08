@@ -1,5 +1,6 @@
 import type { Page } from '@playwright/test'
 import { expect, test } from '../fixtures/base.fixture.js'
+import { isToggleItemDisabled } from '../helpers.js'
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -76,27 +77,6 @@ async function openDeveloperControls({
   await sidebar.nav.developerControls.click()
 }
 
-/**
- * Returns true when the DeveloperToggleItem container above the given switch
- * has pointer-events:none, meaning the toggle is in its disabled state.
- * DeveloperToggleItem uses opacity+pointerEvents on a Box wrapper rather than
- * the HTML disabled attribute, so standard Playwright isEnabled() won't work.
- */
-async function isToggleItemDisabled(
-  toggle: import('@playwright/test').Locator
-): Promise<boolean> {
-  return toggle.evaluate((el) => {
-    let node: Element | null = el.parentElement
-    while (node) {
-      if (window.getComputedStyle(node).pointerEvents === 'none') {
-        return true
-      }
-      node = node.parentElement
-    }
-    return false
-  })
-}
-
 // ---------------------------------------------------------------------------
 // Default state
 // ---------------------------------------------------------------------------
@@ -123,21 +103,21 @@ test.describe('Playground settings — Developer controls (default state)', () =
     })
 
     await test.step('all toggles are off by default', async () => {
-      await expect(sidebar.developerControlsEditor.formValues).not.toHaveClass(
-        /Mui-checked/
-      )
       await expect(
-        sidebar.developerControlsEditor.bookmarkStores
-      ).not.toHaveClass(/Mui-checked/)
+        sidebar.developerControlsEditor.formValues.locator('input')
+      ).not.toBeChecked()
       await expect(
-        sidebar.developerControlsEditor.loadingPreview
-      ).not.toHaveClass(/Mui-checked/)
-      await expect(sidebar.developerControlsEditor.mockHeader).not.toHaveClass(
-        /Mui-checked/
-      )
-      await expect(sidebar.developerControlsEditor.mockFooter).not.toHaveClass(
-        /Mui-checked/
-      )
+        sidebar.developerControlsEditor.bookmarkStores.locator('input')
+      ).not.toBeChecked()
+      await expect(
+        sidebar.developerControlsEditor.loadingPreview.locator('input')
+      ).not.toBeChecked()
+      await expect(
+        sidebar.developerControlsEditor.mockHeader.locator('input')
+      ).not.toBeChecked()
+      await expect(
+        sidebar.developerControlsEditor.mockFooter.locator('input')
+      ).not.toBeChecked()
     })
   })
 
@@ -170,6 +150,12 @@ test.describe('Playground settings — Developer controls (default state)', () =
 // ---------------------------------------------------------------------------
 
 test.describe('Playground settings — Developer controls (Form values)', () => {
+  // Tests that assert token symbols (ETH, USDC) in the From/To buttons require
+  // the LI.FI /v1/tokens API to respond. On slow networks the symbol can take
+  // longer to resolve, so those specific assertions use a 30 s timeout.
+  // The overall test budget is raised to 60 s to accommodate this.
+  test.describe.configure({ timeout: 60_000 })
+
   test.beforeEach(async ({ page, sidebar }) => {
     await page.goto('/')
     await sidebar.resetAll()
@@ -183,14 +169,18 @@ test.describe('Playground settings — Developer controls (Form values)', () => 
   }) => {
     await test.step('toggle form values on', async () => {
       await sidebar.developerControlsEditor.formValues.click()
-      await expect(sidebar.developerControlsEditor.formValues).toHaveClass(
-        /Mui-checked/
-      )
+      await expect(
+        sidebar.developerControlsEditor.formValues.locator('input')
+      ).toBeChecked()
+      // Form values sets devView=true in the URL after the Zustand config update propagates.
+      await page.waitForURL(/devView=true/, { timeout: 5000 })
     })
 
     await test.step('widget from/to buttons show the preset tokens', async () => {
-      await expect(exchange.fromButton).toContainText('ETH')
-      await expect(exchange.toButton).toContainText('USDC')
+      await expect(exchange.fromButton).toContainText('ETH', {
+        timeout: 30_000,
+      })
+      await expect(exchange.toButton).toContainText('USDC', { timeout: 30_000 })
     })
 
     await test.step('send amount shows the preset value', async () => {
@@ -217,11 +207,13 @@ test.describe('Playground settings — Developer controls (Form values)', () => 
   }) => {
     await test.step('toggle on then off', async () => {
       await sidebar.developerControlsEditor.formValues.click()
-      await expect(exchange.fromButton).toContainText('ETH')
+      await expect(exchange.fromButton).toContainText('ETH', {
+        timeout: 30_000,
+      })
       await sidebar.developerControlsEditor.formValues.click()
-      await expect(sidebar.developerControlsEditor.formValues).not.toHaveClass(
-        /Mui-checked/
-      )
+      await expect(
+        sidebar.developerControlsEditor.formValues.locator('input')
+      ).not.toBeChecked()
     })
 
     await test.step('widget form is cleared', async () => {
@@ -262,9 +254,11 @@ test.describe('Playground settings — Developer controls (Form values)', () => 
   }) => {
     await test.step('enable Form values', async () => {
       await sidebar.developerControlsEditor.formValues.click()
-      await expect(sidebar.developerControlsEditor.formValues).toHaveClass(
-        /Mui-checked/
-      )
+      await expect(
+        sidebar.developerControlsEditor.formValues.locator('input')
+      ).toBeChecked()
+      // Form values sets devView=true in the URL after the Zustand config update propagates.
+      await page.waitForURL(/devView=true/, { timeout: 5000 })
     })
 
     await test.step('click the ETH-ETH → ARB-USDC preset', async () => {
@@ -275,16 +269,15 @@ test.describe('Playground settings — Developer controls (Form values)', () => 
     })
 
     await test.step('From button reflects ETH on Ethereum', async () => {
-      await expect(exchange.fromButton).toContainText('ETH')
+      await expect(exchange.fromButton).toContainText('ETH', {
+        timeout: 30_000,
+      })
     })
 
-    await test.step('click the first RESET button (Chains and tokens section)', async () => {
-      // Three RESET buttons exist — one per preset section (chains, amount, address).
-      // The first one belongs to "Chains and tokens".
-      await page
-        .getByRole('button', { name: 'RESET', exact: true })
-        .first()
-        .click()
+    await test.step('click the Chains and tokens RESET button', async () => {
+      const resetBtn = page.getByTestId('playground-chains-reset-button')
+      await expect(resetBtn).toHaveText('RESET')
+      await resetBtn.click()
     })
 
     await test.step('From button shows Select… after chains reset', async () => {
@@ -299,9 +292,11 @@ test.describe('Playground settings — Developer controls (Form values)', () => 
   }) => {
     await test.step('enable Form values', async () => {
       await sidebar.developerControlsEditor.formValues.click()
-      await expect(sidebar.developerControlsEditor.formValues).toHaveClass(
-        /Mui-checked/
-      )
+      await expect(
+        sidebar.developerControlsEditor.formValues.locator('input')
+      ).toBeChecked()
+      // Form values sets devView=true in the URL after the Zustand config update propagates.
+      await page.waitForURL(/devView=true/, { timeout: 5000 })
     })
 
     await test.step('click the 0.5 amount preset', async () => {
@@ -312,12 +307,10 @@ test.describe('Playground settings — Developer controls (Form values)', () => 
       await expect(exchange.sendAmountInput).toHaveValue('0.5')
     })
 
-    await test.step('click the second RESET button (Amount section) to clear the amount', async () => {
-      // Three RESET buttons in three preset sections: chains (first), amount (second), address (third).
-      await page
-        .getByRole('button', { name: 'RESET', exact: true })
-        .nth(1)
-        .click()
+    await test.step('click the Amount RESET button to clear the amount', async () => {
+      const resetBtn = page.getByTestId('playground-amount-reset-button')
+      await expect(resetBtn).toHaveText('RESET')
+      await resetBtn.click()
     })
 
     await test.step('send-amount input is empty after reset', async () => {
@@ -363,9 +356,9 @@ test.describe('Playground settings — Developer controls (Bookmark stores)', ()
   test('toggle shows as checked after page reload', async ({ sidebar }) => {
     await test.step('developer controls still shows bookmark stores as checked', async () => {
       await openDeveloperControls({ sidebar })
-      await expect(sidebar.developerControlsEditor.bookmarkStores).toHaveClass(
-        /Mui-checked/
-      )
+      await expect(
+        sidebar.developerControlsEditor.bookmarkStores.locator('input')
+      ).toBeChecked()
     })
   })
 
@@ -461,9 +454,9 @@ test.describe('Playground settings — Developer controls (Loading preview)', ()
   }) => {
     await test.step('toggle loading preview on', async () => {
       await sidebar.developerControlsEditor.loadingPreview.click()
-      await expect(sidebar.developerControlsEditor.loadingPreview).toHaveClass(
-        /Mui-checked/
-      )
+      await expect(
+        sidebar.developerControlsEditor.loadingPreview.locator('input')
+      ).toBeChecked()
     })
 
     await test.step('widget heading is replaced — Exchange text is gone', async () => {
@@ -523,8 +516,8 @@ test.describe('Playground settings — Developer controls (Loading preview)', ()
         force: true,
       })
       await expect(
-        sidebar.developerControlsEditor.loadingPreview
-      ).not.toHaveClass(/Mui-checked/)
+        sidebar.developerControlsEditor.loadingPreview.locator('input')
+      ).not.toBeChecked()
     })
 
     // Reset to avoid polluting subsequent tests.
@@ -608,9 +601,9 @@ test.describe('Playground settings — Developer controls (Mock header)', () => 
 
     await test.step('toggle mock header on', async () => {
       await sidebar.developerControlsEditor.mockHeader.click()
-      await expect(sidebar.developerControlsEditor.mockHeader).toHaveClass(
-        /Mui-checked/
-      )
+      await expect(
+        sidebar.developerControlsEditor.mockHeader.locator('input')
+      ).toBeChecked()
     })
 
     await test.step('mock header element is visible', async () => {
@@ -704,9 +697,9 @@ test.describe('Playground settings — Developer controls (Mock footer)', () => 
 
     await test.step('toggle mock footer on', async () => {
       await sidebar.developerControlsEditor.mockFooter.click()
-      await expect(sidebar.developerControlsEditor.mockFooter).toHaveClass(
-        /Mui-checked/
-      )
+      await expect(
+        sidebar.developerControlsEditor.mockFooter.locator('input')
+      ).toBeChecked()
     })
 
     await test.step('mock footer element is visible', async () => {
@@ -730,9 +723,9 @@ test.describe('Playground settings — Developer controls (Mock footer)', () => 
 
     await test.step('enable Stick to viewport bottom', async () => {
       await sidebar.developerControlsEditor.fixedFooter.click()
-      await expect(sidebar.developerControlsEditor.fixedFooter).toHaveClass(
-        /Mui-checked/
-      )
+      await expect(
+        sidebar.developerControlsEditor.fixedFooter.locator('input')
+      ).toBeChecked()
     })
 
     await test.step('mock footer has position:fixed in the DOM', async () => {
@@ -748,9 +741,9 @@ test.describe('Playground settings — Developer controls (Mock footer)', () => 
 
     await test.step('disabling Stick to viewport bottom reverts position from fixed', async () => {
       await sidebar.developerControlsEditor.fixedFooter.click()
-      await expect(sidebar.developerControlsEditor.fixedFooter).not.toHaveClass(
-        /Mui-checked/
-      )
+      await expect(
+        sidebar.developerControlsEditor.fixedFooter.locator('input')
+      ).not.toBeChecked()
       const footer = page
         .getByRole('main')
         .getByText('Mock footer', { exact: true })
@@ -864,8 +857,10 @@ test.describe('Playground settings — Developer controls (Widget events)', () =
 
     await test.step('All events on page load toggle is off by default', async () => {
       await expect(
-        sidebar.developerControlsWidgetEventsEditor.allEventsOnPageLoad
-      ).not.toHaveClass(/Mui-checked/)
+        sidebar.developerControlsWidgetEventsEditor.allEventsOnPageLoad.locator(
+          'input'
+        )
+      ).not.toBeChecked()
     })
   })
 
@@ -876,8 +871,10 @@ test.describe('Playground settings — Developer controls (Widget events)', () =
     await test.step('toggle on', async () => {
       await sidebar.developerControlsWidgetEventsEditor.allEventsOnPageLoad.click()
       await expect(
-        sidebar.developerControlsWidgetEventsEditor.allEventsOnPageLoad
-      ).toHaveClass(/Mui-checked/)
+        sidebar.developerControlsWidgetEventsEditor.allEventsOnPageLoad.locator(
+          'input'
+        )
+      ).toBeChecked()
     })
 
     await test.step('URL contains allWidgetEvents=true', async () => {
@@ -886,14 +883,16 @@ test.describe('Playground settings — Developer controls (Widget events)', () =
 
     await test.step('all individual event toggles are now checked', async () => {
       await expect(
-        sidebar.developerControlsWidgetEventsEditor.availableRoutes
-      ).toHaveClass(/Mui-checked/)
+        sidebar.developerControlsWidgetEventsEditor.availableRoutes.locator(
+          'input'
+        )
+      ).toBeChecked()
       await expect(
-        sidebar.developerControlsWidgetEventsEditor.pageEntered
-      ).toHaveClass(/Mui-checked/)
+        sidebar.developerControlsWidgetEventsEditor.pageEntered.locator('input')
+      ).toBeChecked()
       await expect(
-        sidebar.developerControlsWidgetEventsEditor.chainPinned
-      ).toHaveClass(/Mui-checked/)
+        sidebar.developerControlsWidgetEventsEditor.chainPinned.locator('input')
+      ).toBeChecked()
     })
   })
 
@@ -913,11 +912,13 @@ test.describe('Playground settings — Developer controls (Widget events)', () =
 
     await test.step('individual event toggles are unchecked again', async () => {
       await expect(
-        sidebar.developerControlsWidgetEventsEditor.availableRoutes
-      ).not.toHaveClass(/Mui-checked/)
+        sidebar.developerControlsWidgetEventsEditor.availableRoutes.locator(
+          'input'
+        )
+      ).not.toBeChecked()
       await expect(
-        sidebar.developerControlsWidgetEventsEditor.pageEntered
-      ).not.toHaveClass(/Mui-checked/)
+        sidebar.developerControlsWidgetEventsEditor.pageEntered.locator('input')
+      ).not.toBeChecked()
     })
   })
 
@@ -927,20 +928,24 @@ test.describe('Playground settings — Developer controls (Widget events)', () =
     await test.step('enable only the PageEntered event', async () => {
       await sidebar.developerControlsWidgetEventsEditor.pageEntered.click()
       await expect(
-        sidebar.developerControlsWidgetEventsEditor.pageEntered
-      ).toHaveClass(/Mui-checked/)
+        sidebar.developerControlsWidgetEventsEditor.pageEntered.locator('input')
+      ).toBeChecked()
     })
 
     await test.step('master All events toggle is NOT checked', async () => {
       await expect(
-        sidebar.developerControlsWidgetEventsEditor.allEventsOnPageLoad
-      ).not.toHaveClass(/Mui-checked/)
+        sidebar.developerControlsWidgetEventsEditor.allEventsOnPageLoad.locator(
+          'input'
+        )
+      ).not.toBeChecked()
     })
 
     await test.step('unrelated event toggle remains off', async () => {
       await expect(
-        sidebar.developerControlsWidgetEventsEditor.availableRoutes
-      ).not.toHaveClass(/Mui-checked/)
+        sidebar.developerControlsWidgetEventsEditor.availableRoutes.locator(
+          'input'
+        )
+      ).not.toBeChecked()
     })
   })
 
@@ -992,8 +997,10 @@ test.describe('Playground settings — Developer controls (Widget events)', () =
     await test.step('enable the SettingUpdated listener', async () => {
       await sidebar.developerControlsWidgetEventsEditor.settingUpdated.click()
       await expect(
-        sidebar.developerControlsWidgetEventsEditor.settingUpdated
-      ).toHaveClass(/Mui-checked/)
+        sidebar.developerControlsWidgetEventsEditor.settingUpdated.locator(
+          'input'
+        )
+      ).toBeChecked()
     })
 
     await test.step('open widget Settings', async () => {

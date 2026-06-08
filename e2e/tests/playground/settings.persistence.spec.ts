@@ -23,7 +23,7 @@ test.describe('Playground settings — Persistence after reload', () => {
 
     await test.step('reload the page', async () => {
       await page.reload()
-      await page.waitForLoadState('networkidle')
+      await page.waitForLoadState('domcontentloaded')
     })
 
     await test.step('Bridge mode persisted', async () => {
@@ -46,7 +46,7 @@ test.describe('Playground settings — Persistence after reload', () => {
 
     await test.step('reload the page', async () => {
       await page.reload()
-      await page.waitForLoadState('networkidle')
+      await page.waitForLoadState('domcontentloaded')
     })
 
     await test.step('Compact variant persisted', async () => {
@@ -76,7 +76,7 @@ test.describe('Playground settings — Persistence after reload', () => {
 
     await test.step('reload the page', async () => {
       await page.reload()
-      await page.waitForLoadState('networkidle')
+      await page.waitForLoadState('domcontentloaded')
     })
 
     await test.step('External wallet management persisted', async () => {
@@ -109,7 +109,7 @@ test.describe('Playground settings — Persistence after reload', () => {
 
     await test.step('reload the page', async () => {
       await page.reload()
-      await page.waitForLoadState('networkidle')
+      await page.waitForLoadState('domcontentloaded')
     })
 
     await test.step('Jumper theme persisted', async () => {

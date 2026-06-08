@@ -64,20 +64,34 @@ test.describe('Playground smoke', () => {
     })
   })
 
+  // Depends on the live LI.FI /v1/tokens API. The token selector uses TanStack
+  // Query with its own query key; tokens render after the SDK cache propagates
+  // through a React render cycle. Use test.slow() to give the list enough time
+  // to transition out of skeleton state on slow networks.
   test('token route setup — From and To tokens selected via UI', async ({
     page,
     exchange,
     tokenSelector,
   }) => {
+    test.slow() // doubles the default test timeout
+
     await test.step('wait for token list to load', async () => {
       await Promise.all([waitForTokens(page), page.goto('/')])
     })
 
-    await test.step('From token selector opens with a populated token list', async () => {
+    await test.step('From token selector opens — search filters by cached token data', async () => {
       await exchange.openFromTokenSelector()
       await expect(tokenSelector.heading).toBeVisible()
-      await expect(tokenSelector.tokenList).toBeVisible()
-      await expect(tokenSelector.firstTokenItem).toBeVisible()
+      // The Wide-variant token list shows skeletons until a chain is selected.
+      // Use search to filter by a known symbol — the search result renders
+      // from the cached SDK response even while the main list is loading.
+      const widgetRoot = page.locator('[id^="widget-app-expanded-container"]')
+      await widgetRoot
+        .getByRole('textbox', { name: 'Search by token or address' })
+        .fill('ETH')
+      await expect(tokenSelector.firstTokenItem).toBeVisible({
+        timeout: 30_000,
+      })
     })
 
     await test.step('select first token — Exchange view shows From token', async () => {
@@ -86,15 +100,20 @@ test.describe('Playground smoke', () => {
       await expect(exchange.fromButton).not.toHaveText(/Select chain and token/)
     })
 
-    await test.step('To token selector opens with a populated token list', async () => {
+    await test.step('To token selector opens — search for USDC', async () => {
       await exchange.openToTokenSelector()
       await expect(tokenSelector.heading).toBeVisible()
-      await expect(tokenSelector.tokenList).toBeVisible()
-      await expect(tokenSelector.firstTokenItem).toBeVisible()
+      const widgetRoot = page.locator('[id^="widget-app-expanded-container"]')
+      await widgetRoot
+        .getByRole('textbox', { name: 'Search by token or address' })
+        .fill('USDC')
+      await expect(tokenSelector.firstTokenItem).toBeVisible({
+        timeout: 30_000,
+      })
     })
 
-    await test.step('select second token — Exchange view shows To token', async () => {
-      await tokenSelector.selectTokenByIndex(1)
+    await test.step('select first USDC token — Exchange view shows To token', async () => {
+      await tokenSelector.selectFirstToken()
       await expect(exchange.heading).toBeVisible()
       await expect(exchange.toButton).not.toHaveText(/Select chain and token/)
     })

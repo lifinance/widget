@@ -19,18 +19,18 @@ async function getVar(page: Page, varName: string): Promise<string> {
 
 /**
  * Click a MUI Switch toggle and verify its state changed in either direction.
- * Mui-checked is added to the MuiSwitch-switchBase span (the element getByLabel
- * resolves to) when the toggle is ON.
+ * getByLabel resolves to the MuiSwitch-switchBase span; checked state lives on
+ * the inner input[type="checkbox"][role="switch"], accessed via .locator('input').
  */
 async function toggleAndVerify(toggle: Locator): Promise<void> {
-  const wasOn = await toggle.evaluate((el) =>
-    el.classList.contains('Mui-checked')
+  const wasOn = await toggle.evaluate(
+    (el) => (el.querySelector('input') as HTMLInputElement).checked
   )
   await toggle.click()
   if (wasOn) {
-    await expect(toggle).not.toHaveClass(/Mui-checked/)
+    await expect(toggle.locator('input')).not.toBeChecked()
   } else {
-    await expect(toggle).toHaveClass(/Mui-checked/)
+    await expect(toggle.locator('input')).toBeChecked()
   }
 }
 
@@ -384,6 +384,17 @@ test.describe('Playground settings — Theme', () => {
 
     await test.step('CSS variable updates when system dark mode is emulated', async () => {
       await page.emulateMedia({ colorScheme: 'dark' })
+      // MUI updates CSS vars via a JS matchMedia listener — wait for propagation.
+      await page.waitForFunction(
+        (v) =>
+          getComputedStyle(document.documentElement)
+            .getPropertyValue(v)
+            .trim()
+            .toLowerCase()
+            .includes('1a1a2e'),
+        VIEWPORT_BG_VAR,
+        { timeout: 5000 }
+      )
       const bg = await getVar(page, VIEWPORT_BG_VAR)
       expect(bg.toLowerCase()).toContain('1a1a2e')
       await page.emulateMedia({ colorScheme: 'light' })
@@ -473,6 +484,7 @@ test.describe('Playground settings — Theme', () => {
   // ---------------------------------------------------------------------------
 
   test('edits widget surface radius, shadow, and border', async ({
+    page,
     sidebar,
   }) => {
     await test.step('open the Default theme editor', async () => {
@@ -494,8 +506,17 @@ test.describe('Playground settings — Theme', () => {
       await toggleAndVerify(sidebar.themeEditor.widgetDropShadow)
     })
 
-    await test.step('toggle Widget border and verify state changes', async () => {
-      await toggleAndVerify(sidebar.themeEditor.widgetBorder)
+    await test.step('enable Widget border — widget container gains a border', async () => {
+      // Widget border is OFF by default; enable it and verify the visual effect.
+      await sidebar.themeEditor.widgetBorder.click()
+      await expect(
+        sidebar.themeEditor.widgetBorder.locator('input')
+      ).toBeChecked()
+      // The border is applied to the widget-relative-container element.
+      await expect(page.locator('[id^="widget-relative-container"]')).toHaveCSS(
+        'border-style',
+        'solid'
+      )
     })
   })
 
@@ -551,14 +572,16 @@ test.describe('Playground settings — Theme', () => {
 
     await test.step('enable Button drop shadow', async () => {
       await sidebar.themeEditor.buttonDropShadow.click()
-      await expect(sidebar.themeEditor.buttonDropShadow).toHaveClass(
-        /Mui-checked/
-      )
+      await expect(
+        sidebar.themeEditor.buttonDropShadow.locator('input')
+      ).toBeChecked()
     })
 
     await test.step('enable Button border', async () => {
       await sidebar.themeEditor.buttonBorder.click()
-      await expect(sidebar.themeEditor.buttonBorder).toHaveClass(/Mui-checked/)
+      await expect(
+        sidebar.themeEditor.buttonBorder.locator('input')
+      ).toBeChecked()
     })
   })
 
@@ -602,7 +625,9 @@ test.describe('Playground settings — Theme', () => {
       await sidebar.nav.themePresets.editDefault.click()
       // Widget border is OFF by default — enabling it gives us something to verify after reset.
       await sidebar.themeEditor.widgetBorder.click()
-      await expect(sidebar.themeEditor.widgetBorder).toHaveClass(/Mui-checked/)
+      await expect(
+        sidebar.themeEditor.widgetBorder.locator('input')
+      ).toBeChecked()
     })
 
     await test.step('global Reset config reverts all theme changes', async () => {
@@ -613,9 +638,9 @@ test.describe('Playground settings — Theme', () => {
     await test.step('Widget border is off again after reset', async () => {
       await sidebar.nav.theme.click()
       await sidebar.nav.themePresets.editDefault.click()
-      await expect(sidebar.themeEditor.widgetBorder).not.toHaveClass(
-        /Mui-checked/
-      )
+      await expect(
+        sidebar.themeEditor.widgetBorder.locator('input')
+      ).not.toBeChecked()
     })
   })
 
@@ -723,9 +748,11 @@ test.describe('Playground settings — Theme', () => {
     })
 
     await test.step('Widget border is OFF by default — enable it', async () => {
-      // Mui-checked class is added to the MuiSwitch-switchBase span when ON.
+      // Checked state is on the inner input[type="checkbox"][role="switch"].
       await sidebar.themeEditor.widgetBorder.click()
-      await expect(sidebar.themeEditor.widgetBorder).toHaveClass(/Mui-checked/)
+      await expect(
+        sidebar.themeEditor.widgetBorder.locator('input')
+      ).toBeChecked()
     })
 
     await test.step('border color hex input appears', async () => {
