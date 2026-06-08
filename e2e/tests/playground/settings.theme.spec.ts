@@ -458,15 +458,11 @@ test.describe('Playground settings — Theme', () => {
     })
 
     await test.step('the widget heading picks up the Poppins font family', async () => {
-      // The font-family cascades to text elements inside the widget, not the
-      // container root. Check the widget's page heading paragraph instead.
-      const widgetHeading = page
-        .locator('[id^="widget-app-expanded-container"] p')
-        .first()
-      const fontFamily = await widgetHeading.evaluate(
-        (el) => getComputedStyle(el).fontFamily
-      )
-      expect(fontFamily.toLowerCase()).toContain('poppins')
+      // Font cascades to text elements inside the widget, not the container root.
+      // Use toHaveCSS so Playwright retries until the MUI theme re-render propagates.
+      await expect(
+        page.locator('[id^="widget-app-expanded-container"] p').first()
+      ).toHaveCSS('font-family', /poppins/i)
     })
   })
 
