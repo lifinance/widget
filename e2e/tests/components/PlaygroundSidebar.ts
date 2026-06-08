@@ -35,7 +35,12 @@ export class PlaygroundSidebar {
       selectAzure: Locator
       selectWatermelon: Locator
       selectWindows95: Locator
+      /** Edit buttons are only present in the DOM when the corresponding theme is selected. */
       editDefault: Locator
+      editJumper: Locator
+      editAzure: Locator
+      editWatermelon: Locator
+      editWindows95: Locator
     }
   }
 
@@ -93,9 +98,27 @@ export class PlaygroundSidebar {
   }
 
   readonly themeEditor: {
+    reset: Locator
     paletteModeTablist: Locator
+    /** Sun tab — switches the palette editor to Light mode colors. */
+    paletteModeTabLight: Locator
+    /** Moon tab — switches the palette editor to Dark mode colors. Only present for Default and Jumper. */
+    paletteModeTabDark: Locator
+    /**
+     * Hex text input (value without '#') for the Viewport background color.
+     * aria-label="Viewport background" is on the inner <input> via inputProps.
+     */
+    viewportBackgroundInput: Locator
+    /** Font family Autocomplete — MUI sets role="combobox" on the actual input. */
+    fontInput: Locator
+    widgetCornerRadius: Locator
+    widgetDropShadow: Locator
     widgetBorder: Locator
+    cardCornerRadius: Locator
     cardDropShadow: Locator
+    cardBorder: Locator
+    buttonCornerRadius: Locator
+    buttonDropShadow: Locator
     buttonBorder: Locator
   }
 
@@ -205,7 +228,11 @@ export class PlaygroundSidebar {
         name: /Developer controls/i,
         exact: false,
       }),
-      theme: page.getByRole('button', { name: /Theme/i, exact: false }),
+      // The nav Theme button's accessible name starts with "Theme " (e.g. "Theme Default (Light)").
+      // Select/Edit preset buttons have names like "Select Jumper theme" / "Edit Jumper theme"
+      // — they do not start with "Theme " — so this anchored regex stays strict even when the
+      // theme presets panel is expanded and those buttons are in the DOM.
+      theme: page.getByRole('button', { name: /^Theme\s/i }),
       themePresets: {
         selectDefault: page.getByLabel('Select Default theme'),
         selectJumper: page.getByLabel('Select Jumper theme'),
@@ -214,6 +241,22 @@ export class PlaygroundSidebar {
         selectWindows95: page.getByLabel('Select Windows 95 theme'),
         editDefault: page.getByRole('button', {
           name: 'Edit Default theme',
+          exact: true,
+        }),
+        editJumper: page.getByRole('button', {
+          name: 'Edit Jumper theme',
+          exact: true,
+        }),
+        editAzure: page.getByRole('button', {
+          name: 'Edit Azure theme',
+          exact: true,
+        }),
+        editWatermelon: page.getByRole('button', {
+          name: 'Edit Watermelon theme',
+          exact: true,
+        }),
+        editWindows95: page.getByRole('button', {
+          name: 'Edit Windows 95 theme',
           exact: true,
         }),
       },
@@ -308,9 +351,37 @@ export class PlaygroundSidebar {
     }
 
     this.themeEditor = {
+      reset: page.getByLabel('Reset theme'),
       paletteModeTablist: page.getByRole('tablist', { name: 'Palette mode' }),
+      // Tabs are icon-only (sun / moon SVGs) with no accessible text or aria-label.
+      // Select by position within the Palette mode tablist: index 0 = Light, index 1 = Dark.
+      paletteModeTabLight: page
+        .getByRole('tablist', { name: 'Palette mode' })
+        .getByRole('tab')
+        .nth(0),
+      paletteModeTabDark: page
+        .getByRole('tablist', { name: 'Palette mode' })
+        .getByRole('tab')
+        .nth(1),
+      viewportBackgroundInput: page.getByLabel('Viewport background', {
+        exact: true,
+      }),
+      // The font Autocomplete renders its input with role="combobox" (set by MUI).
+      fontInput: page.getByRole('combobox'),
+      widgetCornerRadius: page.getByRole('slider', {
+        name: 'Widget corner radius',
+      }),
+      widgetDropShadow: page.getByLabel('Widget drop shadow', { exact: true }),
       widgetBorder: page.getByLabel('Widget border', { exact: true }),
+      cardCornerRadius: page.getByRole('slider', {
+        name: 'Card corner radius',
+      }),
       cardDropShadow: page.getByLabel('Card drop shadow', { exact: true }),
+      cardBorder: page.getByLabel('Card border', { exact: true }),
+      buttonCornerRadius: page.getByRole('slider', {
+        name: 'Button corner radius',
+      }),
+      buttonDropShadow: page.getByLabel('Button drop shadow', { exact: true }),
       buttonBorder: page.getByLabel('Button border', { exact: true }),
     }
 
