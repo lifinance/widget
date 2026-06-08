@@ -11,6 +11,8 @@ export interface OnRampHostWidgetConfig {
   apiKey?: string
   toChain?: number
   toToken?: string
+  /** Widget color mode; providers that support theming mirror it (e.g. Mesh's `theme`). */
+  appearance?: 'light' | 'dark' | 'system'
 }
 
 /**
@@ -126,10 +128,31 @@ export interface OnRampError {
   params?: Record<string, unknown>
 }
 
+/**
+ * A previously-linked exchange account passed back into a provider's flow to
+ * skip re-authentication (Mesh's `IntegrationAccessToken`). Shape mirrored here
+ * so provider packages need not import a specific SDK's types.
+ */
+export interface OnRampAccessToken {
+  accountId: string
+  accountName: string
+  accessToken: string
+  brokerType: string
+  brokerName: string
+}
+
 export interface OnRampOpenArgs {
   depositAddress: string
   amount: string
   fiatCurrency?: 'USD' | 'EUR' | 'GBP'
+  /**
+   * Previously-connected exchange accounts to resume. When set, the provider
+   * (Mesh) re-enters its flow at the asset/transfer step instead of the catalog
+   * + login. Providers that don't support reconnection ignore this.
+   */
+  accessTokens?: OnRampAccessToken[]
+  /** Active UI language (e.g. i18n `en`); providers that localize honor it. */
+  language?: string
   /**
    * Prefilled fiat amount for the provider's widget (e.g. Transak's
    * `fiatAmount`). Derived from the checkout's EnterAmount value times the

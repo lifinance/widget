@@ -33,7 +33,7 @@ const ctaLabelKey = {
 const statusPath = `/${checkoutNavigationRoutes.transactionExecution}/${checkoutNavigationRoutes.transactionStatus}`
 
 export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const emitter = useWidgetEvents()
   const { toAddress, requiredToAddress } = useToAddressRequirements()
@@ -42,6 +42,9 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
   const { freeze } = useFrozenQuote()
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource) ?? 'wallet'
   const setFrozenRouteId = useCheckoutFlowStore((s) => s.setFrozenRouteId)
+  const selectedExchangeAccount = useCheckoutFlowStore(
+    (s) => s.selectedExchangeAccount
+  )
   const fiatCurrency = useFiatCurrencyStore((s) => s.currency)
   const onRampSession = useOnRampSessionByCategory(
     fundingSource === 'cash' || fundingSource === 'exchange'
@@ -99,6 +102,10 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
       fiatAmount,
       fromChainId: route.fromChainId,
       fromTokenAddress: route.fromToken.address,
+      accessTokens: selectedExchangeAccount
+        ? [selectedExchangeAccount]
+        : undefined,
+      language: i18n.language,
     })
     navigate({
       to: statusPath,
@@ -115,6 +122,8 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
     setFrozenRouteId,
     fiatCurrency,
     navigate,
+    selectedExchangeAccount,
+    i18n.language,
   ])
 
   const handlersByFunding: Record<CheckoutFundingSource, () => void> = {
