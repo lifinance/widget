@@ -170,6 +170,51 @@ test.describe('Playground settings — Height (Restricted height)', () => {
       await expect(sidebar.heightEditor.setHeightInput).toHaveValue('')
     })
   })
+
+  test('686 is the minimum accepted value and is applied as height CSS', async ({
+    page,
+    sidebar,
+  }) => {
+    await test.step('select Restricted height', async () => {
+      await sidebar.heightEditor.cards.restrictedHeight.click()
+    })
+
+    await test.step('fill in 686 (the minimum allowed value)', async () => {
+      await sidebar.heightEditor.setHeightInput.fill('686')
+    })
+
+    await test.step('widget container height updates to 686px', async () => {
+      await expect(
+        page.locator('[id^="widget-app-expanded-container"]')
+      ).toHaveCSS('height', '686px')
+    })
+  })
+
+  test('Clear button removes the height CSS from the widget container', async ({
+    page,
+    sidebar,
+  }) => {
+    await test.step('select Restricted height and enter 800', async () => {
+      await sidebar.heightEditor.cards.restrictedHeight.click()
+      await sidebar.heightEditor.setHeightInput.fill('800')
+    })
+
+    await test.step('widget container has height: 800px', async () => {
+      await expect(
+        page.locator('[id^="widget-app-expanded-container"]')
+      ).toHaveCSS('height', '800px')
+    })
+
+    await test.step('click the Clear button', async () => {
+      await sidebar.heightEditor.clearHeight.click()
+    })
+
+    await test.step('height CSS is no longer 800px on the widget container', async () => {
+      await expect(
+        page.locator('[id^="widget-app-expanded-container"]')
+      ).not.toHaveCSS('height', '800px')
+    })
+  })
 })
 
 test.describe('Playground settings — Height (Restricted max height)', () => {
@@ -251,38 +296,36 @@ test.describe('Playground settings — Height (Restricted max height)', () => {
     })
   })
 
-  test('a value below the minimum is reset to empty on blur', async ({
+  // NOTE: input-validation behaviour (below-minimum blur reset, decimal truncation,
+  // Clear empties the input) is identical to the Restricted height case — both render the
+  // same HeightControl bound to the same heightValue state. It is verified once in the
+  // Restricted height describe and intentionally not mirrored here. Only the max-height
+  // CSS application (different container / property) is asserted below.
+
+  test('Clear button removes the max-height CSS from the widget container', async ({
+    page,
     sidebar,
   }) => {
-    await test.step('select Restricted max height', async () => {
-      await sidebar.heightEditor.cards.restrictedMaxHeight.click()
-    })
-
-    await test.step('fill a value below the 686px minimum', async () => {
-      await sidebar.heightEditor.setMaxHeightInput.fill('500')
-    })
-
-    await test.step('blur the input', async () => {
-      await sidebar.heightEditor.setMaxHeightInput.blur()
-    })
-
-    await test.step('input is cleared', async () => {
-      await expect(sidebar.heightEditor.setMaxHeightInput).toHaveValue('')
-    })
-  })
-
-  test('Clear button removes the max height value', async ({ sidebar }) => {
-    await test.step('select Restricted max height and enter a value', async () => {
+    await test.step('select Restricted max height and enter 800', async () => {
       await sidebar.heightEditor.cards.restrictedMaxHeight.click()
       await sidebar.heightEditor.setMaxHeightInput.fill('800')
+    })
+
+    await test.step('widget relative container has max-height: 800px', async () => {
+      await expect(page.locator('[id^="widget-relative-container"]')).toHaveCSS(
+        'max-height',
+        '800px'
+      )
     })
 
     await test.step('click the Clear button', async () => {
       await sidebar.heightEditor.clearMaxHeight.click()
     })
 
-    await test.step('input is cleared', async () => {
-      await expect(sidebar.heightEditor.setMaxHeightInput).toHaveValue('')
+    await test.step('max-height CSS is no longer 800px on the widget container', async () => {
+      await expect(
+        page.locator('[id^="widget-relative-container"]')
+      ).not.toHaveCSS('max-height', '800px')
     })
   })
 })
@@ -394,6 +437,165 @@ test.describe('Playground settings — Height (Reset)', () => {
     await test.step('nav button shows Default again', async () => {
       await sidebar.goBack()
       await expect(sidebar.nav.height).toContainText('Default')
+    })
+  })
+
+  test('Reset button returns height to Default from Restricted max height', async ({
+    page,
+    sidebar,
+  }) => {
+    await page.goto('/')
+    await sidebar.resetAll()
+
+    await test.step('open height panel and select Restricted max height', async () => {
+      await sidebar.nav.height.click()
+      await sidebar.heightEditor.cards.restrictedMaxHeight.click()
+    })
+
+    await test.step('click Reset height', async () => {
+      await sidebar.heightEditor.reset.click()
+    })
+
+    await test.step('nav button shows Default again', async () => {
+      await sidebar.goBack()
+      await expect(sidebar.nav.height).toContainText('Default')
+    })
+  })
+
+  test('Reset button returns height to Default from Full height', async ({
+    page,
+    sidebar,
+  }) => {
+    await page.goto('/')
+    await sidebar.resetAll()
+
+    await test.step('switch to Compact variant so Full height is enabled', async () => {
+      await sidebar.nav.variant.click()
+      await sidebar.variantEditor.cards.compact.click()
+      await sidebar.goBack()
+    })
+
+    await test.step('open height panel and select Full height', async () => {
+      await sidebar.nav.height.click()
+      await sidebar.heightEditor.cards.fullHeight.click()
+    })
+
+    await test.step('click Reset height', async () => {
+      await sidebar.heightEditor.reset.click()
+    })
+
+    await test.step('nav button shows Default again', async () => {
+      await sidebar.goBack()
+      await expect(sidebar.nav.height).toContainText('Default')
+    })
+  })
+})
+
+test.describe('Playground settings — Height (Drawer variant)', () => {
+  test('Restricted height and max height inputs are absent when Drawer variant is active', async ({
+    page,
+    sidebar,
+  }) => {
+    await page.goto('/')
+    await sidebar.resetAll()
+
+    await test.step('switch to Drawer variant', async () => {
+      await sidebar.nav.variant.click()
+      await sidebar.variantEditor.cards.drawer.click()
+      await sidebar.page.keyboard.press('Escape')
+      await sidebar.goBack()
+    })
+
+    await test.step('open height panel', async () => {
+      await sidebar.nav.height.click()
+    })
+
+    // In Drawer variant, Restricted height and Restricted max height cards are disabled
+    // (Mui-disabled). The height/max-height inputs are conditionally rendered only when
+    // those cards are selected — since they cannot be selected, the inputs never appear.
+    await test.step('height input is not attached to DOM', async () => {
+      await expect(sidebar.heightEditor.setHeightInput).not.toBeAttached()
+    })
+
+    await test.step('max height input is not attached to DOM', async () => {
+      await expect(sidebar.heightEditor.setMaxHeightInput).not.toBeAttached()
+    })
+  })
+})
+
+test.describe('Playground settings — Height (Docs link)', () => {
+  // The correct Height docs URL is fixed in PR #767 / EMB-423 (select-widget-layout#height).
+  // On the current branch the app still links to the old customize-widget#layout 404, so this
+  // assertion fails — test.fail() keeps it green until #767 lands, at which point it turns RED
+  // (unexpected pass): the signal to remove test.fail().
+  test('"Read docs" link opens the Height docs in a new tab', async ({
+    page,
+    sidebar,
+    context,
+  }) => {
+    test.fail()
+    await page.goto('/')
+    await sidebar.resetAll()
+
+    await test.step('open height panel', async () => {
+      await sidebar.nav.height.click()
+    })
+
+    await test.step('docs link is visible', async () => {
+      await expect(sidebar.heightEditor.docsLink).toBeVisible()
+    })
+
+    await test.step('clicking the link opens a new tab with the correct URL', async () => {
+      // Start listening for the new page before clicking so the event isn't missed.
+      const [newPage] = await Promise.all([
+        context.waitForEvent('page'),
+        sidebar.heightEditor.docsLink.click(),
+      ])
+      await newPage.waitForLoadState('domcontentloaded')
+      expect(newPage.url()).toBe(
+        'https://docs.li.fi/widget/select-widget-layout#height'
+      )
+    })
+  })
+})
+
+// Regression for EMB-421 (PR #766): selectedLayoutId was stored in ephemeral Zustand store
+// and not persisted. On reload it reset to 'default' even when a restricted height was
+// configured. Marked test.fail() — it stays green while the bug exists and turns RED
+// (unexpected pass) once the fix lands, signalling that test.fail() should be removed.
+test.describe('Playground settings — Height (EMB-421 regression)', () => {
+  test('restricted height persists the nav label and CSS after page reload', async ({
+    page,
+    sidebar,
+  }) => {
+    test.fail()
+    await page.goto('/')
+    await sidebar.resetAll()
+
+    await test.step('set Restricted height to 800px', async () => {
+      await sidebar.nav.height.click()
+      await sidebar.heightEditor.cards.restrictedHeight.click()
+      await sidebar.heightEditor.setHeightInput.fill('800')
+    })
+
+    await test.step('widget container has height: 800px before reload', async () => {
+      await expect(
+        page.locator('[id^="widget-app-expanded-container"]')
+      ).toHaveCSS('height', '800px')
+    })
+
+    await test.step('reload the page', async () => {
+      await page.reload()
+    })
+
+    await test.step('nav button still shows Restricted height after reload', async () => {
+      await expect(sidebar.nav.height).toContainText('Restricted height')
+    })
+
+    await test.step('height: 800px CSS is still applied after reload', async () => {
+      await expect(
+        page.locator('[id^="widget-app-expanded-container"]')
+      ).toHaveCSS('height', '800px')
     })
   })
 })

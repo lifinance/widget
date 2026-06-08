@@ -140,6 +140,29 @@ test.describe('Playground settings — Developer controls (default state)', () =
       )
     })
   })
+
+  test('"Read docs" link on the main panel points to the configure docs', async ({
+    context,
+    sidebar,
+  }) => {
+    await test.step('open developer controls', async () => {
+      await openDeveloperControls({ sidebar })
+    })
+
+    await test.step('docs link is visible', async () => {
+      await expect(sidebar.developerControlsEditor.docsLink).toBeVisible()
+    })
+
+    await test.step('clicking it opens a new tab with the configure docs URL', async () => {
+      // Start listening for the new page before clicking so the event isn't missed.
+      const [newPage] = await Promise.all([
+        context.waitForEvent('page'),
+        sidebar.developerControlsEditor.docsLink.click(),
+      ])
+      await newPage.waitForLoadState('domcontentloaded')
+      expect(newPage.url()).toBe('https://docs.li.fi/widget/configure-widget')
+    })
+  })
 })
 
 // ---------------------------------------------------------------------------
@@ -229,6 +252,76 @@ test.describe('Playground settings — Developer controls (Form values)', () => 
       await expect(
         sidebar.developerControlsEditor.formMethodTabFormRef
       ).toHaveAttribute('aria-selected', 'true')
+    })
+  })
+
+  test('chains/tokens preset buttons update the widget From/To chains', async ({
+    page,
+    sidebar,
+    exchange,
+  }) => {
+    await test.step('enable Form values', async () => {
+      await sidebar.developerControlsEditor.formValues.click()
+      await expect(sidebar.developerControlsEditor.formValues).toHaveClass(
+        /Mui-checked/
+      )
+    })
+
+    await test.step('click the ETH-ETH → ARB-USDC preset', async () => {
+      // Button label uses unicode → arrow; it is a plain <button> (not MUI).
+      await page
+        .getByRole('button', { name: 'ETH-ETH → ARB-USDC', exact: true })
+        .click()
+    })
+
+    await test.step('From button reflects ETH on Ethereum', async () => {
+      await expect(exchange.fromButton).toContainText('ETH')
+    })
+
+    await test.step('click the first RESET button (Chains and tokens section)', async () => {
+      // Three RESET buttons exist — one per preset section (chains, amount, address).
+      // The first one belongs to "Chains and tokens".
+      await page
+        .getByRole('button', { name: 'RESET', exact: true })
+        .first()
+        .click()
+    })
+
+    await test.step('From button shows Select… after chains reset', async () => {
+      await expect(exchange.fromButton).toContainText('Select')
+    })
+  })
+
+  test('amount preset button sets the send-amount input', async ({
+    page,
+    sidebar,
+    exchange,
+  }) => {
+    await test.step('enable Form values', async () => {
+      await sidebar.developerControlsEditor.formValues.click()
+      await expect(sidebar.developerControlsEditor.formValues).toHaveClass(
+        /Mui-checked/
+      )
+    })
+
+    await test.step('click the 0.5 amount preset', async () => {
+      await page.getByRole('button', { name: '0.5', exact: true }).click()
+    })
+
+    await test.step('send-amount input shows 0.5', async () => {
+      await expect(exchange.sendAmountInput).toHaveValue('0.5')
+    })
+
+    await test.step('click the second RESET button (Amount section) to clear the amount', async () => {
+      // Three RESET buttons in three preset sections: chains (first), amount (second), address (third).
+      await page
+        .getByRole('button', { name: 'RESET', exact: true })
+        .nth(1)
+        .click()
+    })
+
+    await test.step('send-amount input is empty after reset', async () => {
+      await expect(exchange.sendAmountInput).toHaveValue('')
     })
   })
 })
@@ -552,14 +645,16 @@ test.describe('Playground settings — Developer controls (Mock header)', () => 
     ).not.toBeAttached()
   })
 
-  // KNOWN BUG: widget-scrollable-container.paddingTop equals the header height but
+  // KNOWN BUG (PR #770): widget-scrollable-container.paddingTop equals the header height but
   // does not add header.top (48px). When the widget header has top:48px the scroll
   // area starts 48px too early, hiding the From/To labels behind the fixed header.
-  // Remove test.skip and the comment above when the bug is fixed.
-  test.skip('scrollable content is not obscured by the fixed widget header when mock header is on', async ({
+  // Marked test.fail() so it stays green while the bug exists and turns RED (unexpected
+  // pass) the moment the fix lands — the signal to remove test.fail() and this comment.
+  test('scrollable content is not obscured by the fixed widget header when mock header is on', async ({
     page,
     sidebar,
   }) => {
+    test.fail()
     await setCompactFullHeight({ sidebar })
     await openDeveloperControls({ sidebar })
     await sidebar.developerControlsEditor.mockHeader.click()
@@ -650,6 +745,20 @@ test.describe('Playground settings — Developer controls (Mock footer)', () => 
       )
       expect(position).toBe('fixed')
     })
+
+    await test.step('disabling Stick to viewport bottom reverts position from fixed', async () => {
+      await sidebar.developerControlsEditor.fixedFooter.click()
+      await expect(sidebar.developerControlsEditor.fixedFooter).not.toHaveClass(
+        /Mui-checked/
+      )
+      const footer = page
+        .getByRole('main')
+        .getByText('Mock footer', { exact: true })
+      const position = await footer.evaluate(
+        (el) => window.getComputedStyle(el).position
+      )
+      expect(position).not.toBe('fixed')
+    })
   })
 
   test('Stick to viewport bottom sub-toggle is hidden when footer is toggled off', async ({
@@ -671,13 +780,15 @@ test.describe('Playground settings — Developer controls (Mock footer)', () => 
     await expect(sidebar.developerControlsEditor.fixedFooter).not.toBeVisible()
   })
 
-  // KNOWN BUG (same root cause as mock header): verify footer + header combo leaves
-  // all key elements within the visible content area. Skipped until the header
-  // clipping bug is resolved — at that point remove test.skip and this comment.
-  test.skip('all key elements are within the visible content area with mock header and footer on', async ({
+  // KNOWN BUG (PR #770, same root cause as mock header): verify footer + header combo
+  // leaves all key elements within the visible content area. Marked test.fail() so it
+  // stays green while the bug exists and turns RED (unexpected pass) once the fix lands —
+  // the signal to remove test.fail() and this comment.
+  test('all key elements are within the visible content area with mock header and footer on', async ({
     page,
     sidebar,
   }) => {
+    test.fail()
     await setCompactFullHeight({ sidebar })
     await openDeveloperControls({ sidebar })
     await sidebar.developerControlsEditor.mockHeader.click()
@@ -863,6 +974,52 @@ test.describe('Playground settings — Developer controls (Widget events)', () =
     })
   })
 
+  test('SettingUpdated event fires when a widget setting is changed', async ({
+    page,
+    sidebar,
+    exchange,
+    settings,
+  }) => {
+    const consoleMessages: string[] = []
+    // Set up the console listener BEFORE enabling the toggle so we capture
+    // any events that fire immediately on attach.
+    page.on('console', (msg) => {
+      if (msg.type() === 'info') {
+        consoleMessages.push(msg.text())
+      }
+    })
+
+    await test.step('enable the SettingUpdated listener', async () => {
+      await sidebar.developerControlsWidgetEventsEditor.settingUpdated.click()
+      await expect(
+        sidebar.developerControlsWidgetEventsEditor.settingUpdated
+      ).toHaveClass(/Mui-checked/)
+    })
+
+    await test.step('open widget Settings', async () => {
+      // useWidgetEventConsoleLogging only attaches listeners while DeveloperControlsDetailView
+      // is mounted. Interact with the widget directly without navigating away from the panel.
+      await exchange.settingsButton.click()
+    })
+
+    await test.step('expand Route priority and click Fastest to change the setting', async () => {
+      // Clicking Route priority expands the accordion; then clicking the Fastest tab calls
+      // setValue('routePriority', 'FASTEST') which emits WidgetEvent.SettingUpdated.
+      await settings.routePriorityButton.click()
+      const widgetRoot = page.locator('[id^="widget-app-expanded-container"]')
+      await widgetRoot.getByRole('tab', { name: /fastest/i }).click()
+    })
+
+    await test.step('settingUpdated appears in console output', async () => {
+      // useWidgetEventConsoleLogging calls console.info(eventName, value).
+      // Playwright's msg.text() concatenates all console.info arguments.
+      await page.waitForTimeout(300)
+      expect(consoleMessages.some((m) => m.includes('settingUpdated'))).toBe(
+        true
+      )
+    })
+  })
+
   test('back button returns to the main developer controls panel', async ({
     sidebar,
   }) => {
@@ -873,5 +1030,26 @@ test.describe('Playground settings — Developer controls (Widget events)', () =
     // "Developer controls" text appears in BOTH the nav button and the panel heading.
     // Verify by the panel-unique "Form values" toggle being visible instead.
     await expect(sidebar.developerControlsEditor.formValues).toBeVisible()
+  })
+
+  test('"Read docs" link in the widget events panel points to the events docs', async ({
+    context,
+    sidebar,
+  }) => {
+    await test.step('docs link is visible (widget events panel is open from beforeEach)', async () => {
+      await expect(
+        sidebar.developerControlsWidgetEventsEditor.docsLink
+      ).toBeVisible()
+    })
+
+    await test.step('clicking it opens a new tab with the events docs URL', async () => {
+      // Start listening for the new page before clicking so the event isn't missed.
+      const [newPage] = await Promise.all([
+        context.waitForEvent('page'),
+        sidebar.developerControlsWidgetEventsEditor.docsLink.click(),
+      ])
+      await newPage.waitForLoadState('domcontentloaded')
+      expect(newPage.url()).toBe('https://docs.li.fi/widget/widget-events')
+    })
   })
 })

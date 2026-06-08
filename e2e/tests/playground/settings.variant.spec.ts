@@ -207,4 +207,110 @@ test.describe('Playground settings — Variant (Wide)', () => {
       await expect(exchange.chainSidebar).not.toBeVisible()
     })
   })
+
+  test('Reset variant button reverts the nav label and re-enables the chain sidebar', async ({
+    sidebar,
+    exchange,
+  }) => {
+    await test.step('open variant panel and enable Disable chain sidebar', async () => {
+      await sidebar.nav.variant.click()
+      await sidebar.variantEditor.disableChainSidebar.click()
+      // MUI Switch adds Mui-checked to its root element when toggled on.
+      await expect(sidebar.variantEditor.disableChainSidebar).toHaveClass(
+        /Mui-checked/
+      )
+    })
+
+    await test.step('click Reset variant', async () => {
+      await sidebar.variantEditor.reset.click()
+    })
+
+    await test.step('go back — nav shows "Wide"', async () => {
+      await sidebar.goBack()
+      await expect(sidebar.nav.variant).toContainText('Wide')
+    })
+
+    await test.step('re-open variant panel — Disable chain sidebar is no longer checked', async () => {
+      await sidebar.nav.variant.click()
+      // Reset calls setChainSidebarDisabled(false), clearing the Mui-checked class.
+      await expect(sidebar.variantEditor.disableChainSidebar).not.toHaveClass(
+        /Mui-checked/
+      )
+    })
+
+    await test.step('click From — chain sidebar is visible again', async () => {
+      await sidebar.goBack()
+      await exchange.fromButton.click()
+      await expect(exchange.chainSidebar).toBeVisible()
+    })
+  })
+
+  test('Disable chain sidebar suppresses the sidebar expansion for the To button', async ({
+    sidebar,
+    exchange,
+  }) => {
+    await test.step('open variant panel and enable Disable chain sidebar', async () => {
+      await sidebar.nav.variant.click()
+      await sidebar.variantEditor.disableChainSidebar.click()
+      // MUI Switch adds Mui-checked to its root element when toggled on.
+      await expect(sidebar.variantEditor.disableChainSidebar).toHaveClass(
+        /Mui-checked/
+      )
+    })
+
+    await test.step('go back and click To — chain sidebar does not appear', async () => {
+      await sidebar.goBack()
+      await exchange.toButton.click()
+      await expect(exchange.chainSidebar).not.toBeVisible()
+    })
+  })
+
+  test('Disable chain sidebar toggle disappears when Compact variant is selected', async ({
+    sidebar,
+  }) => {
+    await test.step('open the variant panel', async () => {
+      await sidebar.nav.variant.click()
+    })
+
+    await test.step('Disable chain sidebar toggle is visible in Wide', async () => {
+      await expect(sidebar.variantEditor.disableChainSidebar).toBeVisible()
+    })
+
+    // The Wide card footer (containing the toggle) is only rendered when
+    // id === 'wide' && variant === 'wide'. Selecting Compact removes it from the DOM.
+    await test.step('select Compact — Disable chain sidebar toggle is removed from DOM', async () => {
+      await sidebar.variantEditor.cards.compact.click()
+      await expect(sidebar.variantEditor.disableChainSidebar).not.toBeAttached()
+    })
+  })
+
+  // The correct Variant docs URL is fixed in PR #767 / EMB-423 (select-widget-layout#variant).
+  // On the current branch the app still links to the old select-widget-variants#variants
+  // 404, so this assertion fails — test.fail() keeps it green until #767 lands, at which
+  // point it turns RED (unexpected pass): the signal to remove test.fail().
+  test('"Read docs" link opens the Variant docs in a new tab', async ({
+    context,
+    sidebar,
+  }) => {
+    test.fail()
+    await test.step('open the variant panel', async () => {
+      await sidebar.nav.variant.click()
+    })
+
+    await test.step('"Read docs" link is visible', async () => {
+      await expect(sidebar.variantEditor.docsLink).toBeVisible()
+    })
+
+    await test.step('clicking the link opens a new tab with the correct URL', async () => {
+      // Start listening for the new page before clicking so the event isn't missed.
+      const [newPage] = await Promise.all([
+        context.waitForEvent('page'),
+        sidebar.variantEditor.docsLink.click(),
+      ])
+      await newPage.waitForLoadState('domcontentloaded')
+      expect(newPage.url()).toBe(
+        'https://docs.li.fi/widget/select-widget-layout#variant'
+      )
+    })
+  })
 })

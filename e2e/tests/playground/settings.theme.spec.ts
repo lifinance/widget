@@ -113,11 +113,13 @@ test.describe('Playground settings — Theme', () => {
   // Default via the theme card did NOT reset the background. The Default theme had no
   // playground.main color defined, so the handler wrote nothing and the Jumper color stayed.
   // Fix: add playground.main to Default config and update both light + dark modes on every switch.
-  // This test FAILS on the current branch and should pass once PR #764 is merged.
+  // Marked test.fail() — stays green while the bug exists, turns RED (unexpected pass) once
+  // PR #764 lands, signalling that test.fail() should be removed.
   test('viewport background resets when switching from Jumper back to Default', async ({
     page,
     sidebar,
   }) => {
+    test.fail()
     await test.step('open the theme section and record Default viewport background', async () => {
       await sidebar.nav.theme.click()
     })
@@ -561,6 +563,36 @@ test.describe('Playground settings — Theme', () => {
   })
 
   // ---------------------------------------------------------------------------
+  // Docs link (hidden inside the Edit theme detail view)
+  // ---------------------------------------------------------------------------
+
+  test('"Read docs" link in the Edit theme view points to the theme docs', async ({
+    context,
+    sidebar,
+  }) => {
+    await test.step('open the Default theme editor', async () => {
+      await sidebar.nav.theme.click()
+      await sidebar.nav.themePresets.editDefault.click()
+    })
+
+    await test.step('docs link is visible', async () => {
+      await expect(sidebar.themeEditor.docsLink).toBeVisible()
+    })
+
+    await test.step('clicking it opens a new tab with the theme docs URL', async () => {
+      // Start listening for the new page before clicking so the event isn't missed.
+      const [newPage] = await Promise.all([
+        context.waitForEvent('page'),
+        sidebar.themeEditor.docsLink.click(),
+      ])
+      await newPage.waitForLoadState('domcontentloaded')
+      expect(newPage.url()).toBe(
+        'https://docs.li.fi/widget/customize-widget#theme'
+      )
+    })
+  })
+
+  // ---------------------------------------------------------------------------
   // Reset
   // ---------------------------------------------------------------------------
 
@@ -614,6 +646,148 @@ test.describe('Playground settings — Theme', () => {
     await test.step('Jumper widget primary color is still active while the side panel is open', async () => {
       const primary = await getVar(page, WIDGET_PRIMARY_VAR)
       expect(primary.toLowerCase()).toContain('30007a')
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // Theme editor — Primary color hex edit
+  // ---------------------------------------------------------------------------
+
+  test('editing the Primary color hex input updates the widget primary CSS variable', async ({
+    page,
+    sidebar,
+  }) => {
+    await test.step('open the Default theme editor', async () => {
+      await sidebar.nav.theme.click()
+      await sidebar.nav.themePresets.editDefault.click()
+    })
+
+    const newHex = 'FF0000'
+
+    await test.step('edit Primary color to FF0000', async () => {
+      await sidebar.themeEditor.primaryColorInput.click()
+      await sidebar.themeEditor.primaryColorInput.selectText()
+      await sidebar.themeEditor.primaryColorInput.fill(newHex)
+      await sidebar.themeEditor.primaryColorInput.press('Enter')
+    })
+
+    await test.step('Primary color input shows the new value', async () => {
+      await expect(sidebar.themeEditor.primaryColorInput).toHaveValue(newHex)
+    })
+
+    await test.step('widget primary CSS variable is updated', async () => {
+      const primary = await getVar(page, WIDGET_PRIMARY_VAR)
+      expect(primary.toLowerCase()).toContain('ff0000')
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // Theme editor — Widget drop shadow sub-controls
+  // ---------------------------------------------------------------------------
+
+  test('Widget drop shadow is ON by default; adjusting Offset Y changes the value', async ({
+    sidebar,
+  }) => {
+    await test.step('open the Default theme editor', async () => {
+      await sidebar.nav.theme.click()
+      await sidebar.nav.themePresets.editDefault.click()
+    })
+
+    await test.step('Widget drop shadow sub-controls are visible (shadow is ON by default)', async () => {
+      // Widget drop shadow is ON in the Default theme, so the Offset Y slider is already visible.
+      await expect(sidebar.themeEditor.widgetDropShadowOffsetY).toBeVisible()
+    })
+
+    await test.step('decrement Offset Y slider and verify value decreases', async () => {
+      // Default Offset Y is 8 (the maximum for this slider: min -8, max 8).
+      // Press ArrowLeft to decrease from the default max so the value actually changes.
+      const slider = sidebar.themeEditor.widgetDropShadowOffsetY
+      const before = Number(await slider.getAttribute('aria-valuenow'))
+      await slider.focus()
+      await slider.press('ArrowLeft')
+      const after = Number(await slider.getAttribute('aria-valuenow'))
+      expect(after).toBeLessThan(before)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // Theme editor — Widget border sub-controls
+  // ---------------------------------------------------------------------------
+
+  test('enabling Widget border reveals the border color and weight sub-controls', async ({
+    sidebar,
+  }) => {
+    await test.step('open the Default theme editor', async () => {
+      await sidebar.nav.theme.click()
+      await sidebar.nav.themePresets.editDefault.click()
+    })
+
+    await test.step('Widget border is OFF by default — enable it', async () => {
+      // Mui-checked class is added to the MuiSwitch-switchBase span when ON.
+      await sidebar.themeEditor.widgetBorder.click()
+      await expect(sidebar.themeEditor.widgetBorder).toHaveClass(/Mui-checked/)
+    })
+
+    await test.step('border color hex input appears', async () => {
+      await expect(sidebar.themeEditor.widgetBorderColor).toBeVisible()
+    })
+
+    await test.step('border weight input appears', async () => {
+      // widgetBorderWeight is a ValueInput (numeric text field, not a slider).
+      // BorderWeightRow sets aria-label="Widget border weight" via inputProps.
+      await expect(sidebar.themeEditor.widgetBorderWeight).toBeVisible()
+    })
+
+    await test.step('change border weight and verify it updates', async () => {
+      const weightInput = sidebar.themeEditor.widgetBorderWeight
+      const before = Number(await weightInput.inputValue())
+      const newValue = before < 4 ? before + 1 : before - 1
+      await weightInput.fill(String(newValue))
+      await weightInput.press('Enter')
+      await expect(weightInput).toHaveValue(String(newValue))
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // Regression: EMB-424 — theme switch replaces entire config.theme including layout
+  // ---------------------------------------------------------------------------
+
+  // Regression for EMB-424 (PR #769 open): setConfigTheme replaced the entire config.theme
+  // including the user's layout container settings (e.g. height). This caused restricted-height
+  // values set before switching themes to be lost after the switch.
+  // Marked test.fail() — stays green while the bug exists, turns RED (unexpected pass) once
+  // PR #769 lands, signalling that test.fail() should be removed.
+  test("switching themes preserves the user's restricted height setting", async ({
+    page,
+    sidebar,
+  }) => {
+    test.fail()
+    await test.step('set Restricted height to 800px', async () => {
+      await sidebar.nav.height.click()
+      await sidebar.heightEditor.cards.restrictedHeight.click()
+      await sidebar.heightEditor.setHeightInput.fill('800')
+      await expect(
+        page.locator('[id^="widget-app-expanded-container"]')
+      ).toHaveCSS('height', '800px')
+    })
+
+    await test.step('switch to Jumper theme', async () => {
+      // Navigate back first so the nav panel is visible, then open the theme section.
+      await sidebar.goBack()
+      await sidebar.nav.theme.click()
+      await sidebar.nav.themePresets.selectJumper.click()
+    })
+
+    await test.step('height CSS is preserved after theme switch', async () => {
+      await expect(
+        page.locator('[id^="widget-app-expanded-container"]')
+      ).toHaveCSS('height', '800px')
+    })
+
+    await test.step('nav Height button still shows Restricted height', async () => {
+      // goBack() closes the theme panel and returns to the nav.
+      await sidebar.goBack()
+      await expect(sidebar.nav.height).toContainText('Restricted height')
     })
   })
 })

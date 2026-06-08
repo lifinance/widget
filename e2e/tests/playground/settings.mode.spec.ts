@@ -128,10 +128,15 @@ test.describe('Playground settings — Mode', () => {
     })
   })
 
-  test('"Read docs" link opens the subvariants docs in a new tab', async ({
+  // The correct Mode docs URL is fixed in PR #767 / EMB-423 (select-widget-layout#mode).
+  // On the current branch the app still links to the old select-widget-variants#subvariants
+  // 404, so this assertion fails — test.fail() keeps it green until #767 lands, at which
+  // point it turns RED (unexpected pass): the signal to remove test.fail().
+  test('"Read docs" link opens the Mode docs in a new tab', async ({
     context,
     sidebar,
   }) => {
+    test.fail()
     await test.step('open the mode panel', async () => {
       await sidebar.nav.mode.click()
     })
@@ -148,8 +153,56 @@ test.describe('Playground settings — Mode', () => {
       ])
       await newPage.waitForLoadState('domcontentloaded')
       expect(newPage.url()).toBe(
-        'https://docs.li.fi/widget/select-widget-variants#subvariants'
+        'https://docs.li.fi/widget/select-widget-layout#mode'
       )
+    })
+  })
+
+  test('Swap mode shows the Swap tab and no Bridge tab', async ({
+    sidebar,
+    exchange,
+  }) => {
+    await test.step('open the mode panel and click Swap', async () => {
+      await sidebar.nav.mode.click()
+      await sidebar.modeEditor.cards.swap.click()
+      await sidebar.goBack()
+    })
+
+    // Swap mode (mode='split', splitOption='swap') hides the tab strip entirely
+    // and shows a plain heading instead — the widget is locked to swap-only.
+    await test.step('heading shows "Swap" (tab strip is not rendered)', async () => {
+      await expect(exchange.heading).toHaveText('Swap')
+      await expect(exchange.splitTabs).not.toBeAttached()
+    })
+
+    await test.step('Bridge tab is absent from the DOM', async () => {
+      await expect(
+        exchange.widgetRoot.getByRole('tab', { name: 'Bridge', exact: true })
+      ).not.toBeAttached()
+    })
+  })
+
+  test('Bridge mode shows the Bridge tab and no Swap tab', async ({
+    sidebar,
+    exchange,
+  }) => {
+    await test.step('open the mode panel and click Bridge', async () => {
+      await sidebar.nav.mode.click()
+      await sidebar.modeEditor.cards.bridge.click()
+      await sidebar.goBack()
+    })
+
+    // Bridge mode (mode='split', splitOption='bridge') hides the tab strip entirely
+    // and shows a plain heading instead — the widget is locked to bridge-only.
+    await test.step('heading shows "Bridge" (tab strip is not rendered)', async () => {
+      await expect(exchange.heading).toHaveText('Bridge')
+      await expect(exchange.splitTabs).not.toBeAttached()
+    })
+
+    await test.step('Swap tab is absent from the DOM', async () => {
+      await expect(
+        exchange.widgetRoot.getByRole('tab', { name: 'Swap', exact: true })
+      ).not.toBeAttached()
     })
   })
 

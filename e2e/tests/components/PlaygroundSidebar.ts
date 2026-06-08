@@ -69,6 +69,7 @@ export class PlaygroundSidebar {
 
   readonly heightEditor: {
     reset: Locator
+    docsLink: Locator
     cards: {
       /** Matches "Default (fit content)" (Wide/Compact) and "Default (fill viewport)" (Drawer). */
       default: Locator
@@ -88,6 +89,7 @@ export class PlaygroundSidebar {
 
   readonly walletManagementEditor: {
     reset: Locator
+    docsLink: Locator
     /** Only present when External mode is selected. MUI-checked class when toggled on. */
     forceInternalWallets: Locator
     cards: {
@@ -99,11 +101,18 @@ export class PlaygroundSidebar {
 
   readonly themeEditor: {
     reset: Locator
+    /** "Read docs" link inside the Edit theme detail view. */
+    docsLink: Locator
     paletteModeTablist: Locator
     /** Sun tab — switches the palette editor to Light mode colors. */
     paletteModeTabLight: Locator
     /** Moon tab — switches the palette editor to Dark mode colors. Only present for Default and Jumper. */
     paletteModeTabDark: Locator
+    /**
+     * Hex text input (value without '#') for the Primary color row.
+     * aria-label="Primary color" is on the inner <input> via inputProps.
+     */
+    primaryColorInput: Locator
     /**
      * Hex text input (value without '#') for the Viewport background color.
      * aria-label="Viewport background" is on the inner <input> via inputProps.
@@ -113,7 +122,23 @@ export class PlaygroundSidebar {
     fontInput: Locator
     widgetCornerRadius: Locator
     widgetDropShadow: Locator
+    /**
+     * Drop shadow Offset Y slider for the Widget surface. Only visible when Widget drop shadow is ON.
+     * aria-label generated as `Widget drop shadow offset y` (title + ariaSuffix from surface.ts).
+     */
+    widgetDropShadowOffsetY: Locator
     widgetBorder: Locator
+    /**
+     * Border color hex input for the Widget surface. Only visible when Widget border is ON.
+     * aria-label="Widget border color" from SurfaceBlock ariaLabel prop.
+     */
+    widgetBorderColor: Locator
+    /**
+     * Border weight text input for the Widget surface. Only visible when Widget border is ON.
+     * BorderWeightRow renders a ValueInput (text input), not a MUI Slider.
+     * aria-label="Widget border weight" from BorderWeightRow.
+     */
+    widgetBorderWeight: Locator
     cardCornerRadius: Locator
     cardDropShadow: Locator
     cardBorder: Locator
@@ -160,11 +185,23 @@ export class PlaygroundSidebar {
     fixedFooter: Locator
     /** "Configure" link that navigates to the Widget events second-level slide. */
     configureWidgetEvents: Locator
+    /**
+     * "Read docs" link on the main developer controls panel (configure docs).
+     * Resolved as .first() because the widget-events sub-slide adds a second
+     * "Read docs" link to the DOM once it has been opened.
+     */
+    docsLink: Locator
   }
 
   readonly developerControlsWidgetEventsEditor: {
     /** Master toggle that turns on all event listeners for the current page load and sets a URL param. */
     allEventsOnPageLoad: Locator
+    /**
+     * "Read docs" link inside the widget-events sub-slide (events docs).
+     * Resolved as .last() since the main developer controls panel keeps its own
+     * "Read docs" link mounted while this sub-slide is showing.
+     */
+    docsLink: Locator
     availableRoutes: Locator
     routeSelected: Locator
     routeExecutionStarted: Locator
@@ -307,6 +344,7 @@ export class PlaygroundSidebar {
 
     this.walletManagementEditor = {
       reset: page.getByLabel('Reset wallet management'),
+      docsLink: page.getByRole('link', { name: 'Read docs', exact: true }),
       forceInternalWallets: page.getByLabel('Force internal wallet management'),
       cards: {
         internal: page
@@ -323,6 +361,7 @@ export class PlaygroundSidebar {
 
     this.heightEditor = {
       reset: page.getByLabel('Reset height'),
+      docsLink: page.getByRole('link', { name: 'Read docs', exact: true }),
       cards: {
         // hasText regex matches both "Default (fit content)" and "Default (fill viewport)"
         default: page
@@ -352,6 +391,7 @@ export class PlaygroundSidebar {
 
     this.themeEditor = {
       reset: page.getByLabel('Reset theme'),
+      docsLink: page.getByRole('link', { name: 'Read docs', exact: true }),
       paletteModeTablist: page.getByRole('tablist', { name: 'Palette mode' }),
       // Tabs are icon-only (sun / moon SVGs) with no accessible text or aria-label.
       // Select by position within the Palette mode tablist: index 0 = Light, index 1 = Dark.
@@ -363,6 +403,7 @@ export class PlaygroundSidebar {
         .getByRole('tablist', { name: 'Palette mode' })
         .getByRole('tab')
         .nth(1),
+      primaryColorInput: page.getByLabel('Primary color', { exact: true }),
       viewportBackgroundInput: page.getByLabel('Viewport background', {
         exact: true,
       }),
@@ -372,7 +413,19 @@ export class PlaygroundSidebar {
         name: 'Widget corner radius',
       }),
       widgetDropShadow: page.getByLabel('Widget drop shadow', { exact: true }),
+      // Sub-controls exposed when Widget drop shadow is ON (SHADOW_SLIDER_FIELDS ariaSuffix).
+      widgetDropShadowOffsetY: page.getByRole('slider', {
+        name: 'Widget drop shadow offset y',
+      }),
       widgetBorder: page.getByLabel('Widget border', { exact: true }),
+      // Sub-controls exposed when Widget border is ON.
+      widgetBorderColor: page.getByLabel('Widget border color', {
+        exact: true,
+      }),
+      // BorderWeightRow renders a ValueInput (text input), not a MUI Slider.
+      widgetBorderWeight: page.getByLabel('Widget border weight', {
+        exact: true,
+      }),
       cardCornerRadius: page.getByRole('slider', {
         name: 'Card corner radius',
       }),
@@ -404,12 +457,20 @@ export class PlaygroundSidebar {
         name: 'Configure',
         exact: true,
       }),
+      // .first(): the main panel's "Read docs" precedes the widget-events one in DOM order.
+      docsLink: page
+        .getByRole('link', { name: 'Read docs', exact: true })
+        .first(),
     }
 
     this.developerControlsWidgetEventsEditor = {
       allEventsOnPageLoad: page.getByLabel(
         'Toggle all widget events on page load'
       ),
+      // .last(): the widget-events "Read docs" is rendered after the main panel's one.
+      docsLink: page
+        .getByRole('link', { name: 'Read docs', exact: true })
+        .last(),
       availableRoutes: page.getByLabel('Toggle listener for AvailableRoutes'),
       routeSelected: page.getByLabel('Toggle listener for RouteSelected'),
       routeExecutionStarted: page.getByLabel(

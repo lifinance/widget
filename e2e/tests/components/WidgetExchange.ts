@@ -50,6 +50,13 @@ export class WidgetExchange {
    */
   readonly sendToWalletButton: Locator
   /**
+   * Close / disconnect button rendered in the widget navigation header when
+   * External wallet management is active WITHOUT Force internal wallets.
+   * Uses data-testid="widget-close-drawer-button" (icon-only button, no stable text).
+   * Absent in Internal, Partial, and External+ForceInternal modes.
+   */
+  readonly closeDrawerButton: Locator
+  /**
    * Reown AppKit web component button shown in the playground toolbar when
    * external wallet management is active (External or Partial mode).
    * Lives outside the widget itself.
@@ -107,6 +114,10 @@ export class WidgetExchange {
     this.walletHeaderButton = page
       .locator('[id^="widget-header"]')
       .getByRole('button', { name: 'Connect wallet', exact: true })
+
+    // Icon-only button — located by data-testid to avoid depending on translated text.
+    // Only present in External mode without Force internal wallets.
+    this.closeDrawerButton = page.getByTestId('widget-close-drawer-button')
 
     this.transactionButton = this.widgetRoot.getByTestId(
       'widget-transaction-button'
