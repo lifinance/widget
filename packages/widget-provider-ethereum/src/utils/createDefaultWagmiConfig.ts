@@ -1,6 +1,7 @@
 import { isWalletInstalled } from '@lifi/widget-provider'
-import { createClient, http } from 'viem'
-import { mainnet } from 'viem/chains'
+import type { Chain } from 'viem'
+import { createClient, fallback, http } from 'viem'
+import { mainnet as mainnetBase } from 'viem/chains'
 import type { Config, CreateConnectorFn } from 'wagmi'
 import { createConfig } from 'wagmi'
 import type {
@@ -16,6 +17,21 @@ import { createCoinbaseConnector } from '../connectors/coinbase.js'
 import { createMetaMaskConnector } from '../connectors/metaMask.js'
 import { createPortoConnector } from '../connectors/porto.js'
 import { createWalletConnectConnector } from '../connectors/walletConnect.js'
+
+// viem's bundled mainnet defaults to eth.merkle.io, which rejects browser CORS.
+const mainnetSeedRpcUrls = [
+  'https://ethereum-rpc.publicnode.com',
+  'https://eth.llamarpc.com',
+  'https://cloudflare-eth.com',
+]
+
+const mainnet: Chain = {
+  ...mainnetBase,
+  rpcUrls: {
+    ...mainnetBase.rpcUrls,
+    default: { http: mainnetSeedRpcUrls },
+  },
+}
 
 export interface DefaultWagmiConfigProps {
   walletConnect?: WalletConnectParameters
@@ -77,7 +93,13 @@ export function createDefaultWagmiConfig(
   const config = createConfig({
     chains: [mainnet],
     client({ chain }) {
-      return createClient({ chain, transport: http() })
+      const urls = chain.rpcUrls.default.http
+      return createClient({
+        chain,
+        transport: urls.length
+          ? fallback(urls.map((url) => http(url)))
+          : http(),
+      })
     },
     ...props?.wagmiConfig,
     multiInjectedProviderDiscovery,
