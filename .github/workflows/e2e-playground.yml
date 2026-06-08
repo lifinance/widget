@@ -1,0 +1,215 @@
+name: E2E Playground
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches: [main]
+
+concurrency:
+  group: e2e-playground-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # ── Build the playground once, cache the dist ────────────────────────────────
+  build:
+    name: Build playground
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+
+      - name: Build widget packages
+        run: |
+          pnpm -r --parallel \
+            --filter './packages/**' \
+            --filter '!*-playground-*' \
+            --filter '!*-embedded' \
+            build
+
+      - name: Build playground
+        run: pnpm --filter widget-playground-vite build
+
+      - name: Cache playground dist
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: playground-dist
+          # The vite build output lands in packages/widget-playground-vite/dist.
+          # We also need packages/*/dist for the widget packages at runtime.
+          path: |
+            packages/widget-playground-vite/dist
+            packages/widget/dist
+            packages/wallet-management/dist
+            packages/widget-provider/dist
+            packages/widget-provider-ethereum/dist
+            packages/widget-provider-solana/dist
+            packages/widget-provider-bitcoin/dist
+            packages/widget-provider-sui/dist
+            packages/widget-provider-tron/dist
+          retention-days: 1
+
+  # ── Run tests in parallel shards ─────────────────────────────────────────────
+  test:
+    name: E2E shard ${{ matrix.shard }}/${{ strategy.job-total }}
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+
+      - name: Restore playground dist
+        uses: actions/download-artifact@v4
+        with:
+          name: playground-dist
+          # Restore into the workspace root so relative paths match the build output.
+          path: .
+
+      - name: Install Playwright browsers
+        run: pnpm --filter @lifi/widget-e2e exec playwright install chromium --with-deps
+
+      - name: Start preview server
+        run: |
+          pnpm --filter widget-playground-vite preview &
+
+          for i in $(seq 1 60); do
+            if curl -sf http://localhost:4173 > /dev/null 2>&1; then
+              echo "Preview server ready after ${i}s"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::Preview server failed to start within 60s"
+          exit 1
+
+      - name: Run tests (shard ${{ matrix.shard }}/${{ strategy.job-total }})
+        run: |
+          pnpm --filter @lifi/widget-e2e exec playwright test \
+            --project preview \
+            --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+
+      - name: Upload blob report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: blob-report-${{ matrix.shard }}
+          path: e2e/blob-report/
+          retention-days: 1
+
+  # ── Merge reports and post PR comment ─────────────────────────────────────────
+  report:
+    name: Merge reports & publish results
+    needs: test
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pull-requests: write
+      actions: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+
+      - name: Download all blob reports
+        uses: actions/download-artifact@v4
+        with:
+          path: e2e/all-blob-reports
+          pattern: blob-report-*
+          merge-multiple: true
+
+      - name: Merge blob reports into HTML + JSON
+        working-directory: e2e
+        run: |
+          pnpm --filter @lifi/widget-e2e exec playwright merge-reports \
+            --reporter html \
+            --reporter json \
+            all-blob-reports/
+
+          # merge-reports writes JSON to test-results.json in the working directory
+          # and HTML to playwright-report/
+          ls -la test-results.json playwright-report/ || true
+
+      - name: Upload merged HTML report
+        id: upload-report
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: playwright-report
+          path: e2e/playwright-report/
+          retention-days: 14
+
+      - name: Parse test results
+        id: results
+        working-directory: e2e
+        run: |
+          if [ ! -f test-results.json ]; then
+            echo "passed=0"   >> "$GITHUB_OUTPUT"
+            echo "failed=0"   >> "$GITHUB_OUTPUT"
+            echo "skipped=0"  >> "$GITHUB_OUTPUT"
+            echo "ok=false"   >> "$GITHUB_OUTPUT"
+            echo "failed_list=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          PASSED=$(jq '.stats.expected  // 0' test-results.json)
+          FAILED=$(jq '.stats.unexpected // 0' test-results.json)
+          SKIPPED=$(jq '.stats.skipped   // 0' test-results.json)
+          OK=$(jq '.stats.ok             // false' test-results.json)
+
+          echo "passed=$PASSED"   >> "$GITHUB_OUTPUT"
+          echo "failed=$FAILED"   >> "$GITHUB_OUTPUT"
+          echo "skipped=$SKIPPED" >> "$GITHUB_OUTPUT"
+          echo "ok=$OK"           >> "$GITHUB_OUTPUT"
+
+          # Collect failed test titles (recursive through nested suites)
+          FAILED_NAMES=$(jq -r '
+            [.. | objects | select(has("outcome") and .outcome == "unexpected") | .title] |
+            sort | unique | map("- " + .) | .[]
+          ' test-results.json 2>/dev/null || echo "")
+
+          echo "failed_list<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$FAILED_NAMES"    >> "$GITHUB_OUTPUT"
+          echo "EOF"              >> "$GITHUB_OUTPUT"
+
+      - name: Post success comment
+        if: steps.results.outputs.ok == 'true'
+        uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # v3.0.4
+        with:
+          header: e2e-playground-results
+          message: |
+            ## ✅ E2E Playground — all passed
+
+            **${{ steps.results.outputs.passed }} passed · ${{ steps.results.outputs.skipped }} skipped**
+
+            📥 [Download full HTML report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) (open the run → Artifacts → `playwright-report`)
+
+      - name: Post failure comment
+        if: steps.results.outputs.ok != 'true'
+        uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # v3.0.4
+        with:
+          header: e2e-playground-results
+          message: |
+            ## ❌ E2E Playground — failures
+
+            **${{ steps.results.outputs.passed }} passed · ${{ steps.results.outputs.failed }} failed · ${{ steps.results.outputs.skipped }} skipped**
+
+            ### Failed tests
+
+            ${{ steps.results.outputs.failed_list }}
+
+            📥 [Download full HTML report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) (open the run → Artifacts → `playwright-report`)

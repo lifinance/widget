@@ -15,11 +15,13 @@ export default defineConfig({
   forbidOnly: isCI,
   retries: isCI ? 2 : 0,
   workers: isCI ? 1 : undefined,
-  reporter: [
-    ['html', { outputFolder: 'playwright-report', open: 'never' }],
-    ['json', { outputFile: 'test-results/results.json' }],
-    ['list'],
-  ],
+  // CI: blob (for shard merging) + list.  Local: html + list.
+  reporter: isCI
+    ? [['blob'], ['list']]
+    : [
+        ['html', { outputFolder: 'playwright-report', open: 'never' }],
+        ['list'],
+      ],
   use: {
     actionTimeout: 10_000,
     screenshot: 'only-on-failure',
