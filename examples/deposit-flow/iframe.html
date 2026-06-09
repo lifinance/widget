@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deposit (embedded in iframe)</title>
+    <style>
+      html, body { margin: 0; height: 100%; background: #f3f4f6; }
+      iframe { display: block; width: 100%; height: 100vh; border: 0; }
+    </style>
+  </head>
+  <body>
+    <!-- Same-origin embed of the deposit widget app, mirroring the partner's iframe integration -->
+    <iframe id="widget-frame" src="/" title="deposit"></iframe>
+  </body>
+</html>

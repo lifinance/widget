@@ -1,8 +1,18 @@
 import type { ContractCall, WidgetConfig } from '@lifi/widget'
 import { ChainType, CoinKey, LiFiWidget } from '@lifi/widget'
+import { EthereumProvider } from '@lifi/widget-provider-ethereum'
+import { SolanaProvider } from '@lifi/widget-provider-solana'
+import { TronProvider } from '@lifi/widget-provider-tron'
 import { useMemo } from 'react'
 import { DepositCard } from './components/DepositCard'
 import { contractTool } from './config'
+
+// Built once at module scope so the provider instances stay referentially stable.
+const providers = [
+  EthereumProvider({ walletConnect: true, coinbase: { appName: 'Deposit' } }),
+  SolanaProvider(),
+  TronProvider(),
+]
 
 // EXAMPLE CONTRACT, DON'T DEPOSIT
 const depositAddress = '0x4bF3E32de155359D1D75e8B474b66848221142fc'
@@ -20,6 +30,7 @@ export function App() {
       mode: 'custom',
       modeOptions: { custom: { type: 'deposit' } },
       integrator: 'ProtocolName',
+      providers,
       disabledUI: { toAddress: true },
       hiddenUI: { appearance: true, language: true },
       showSingleRoute: true,

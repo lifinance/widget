@@ -11,7 +11,10 @@
   },
   "dependencies": {
     "@lifi/sdk": "^4.0.0",
-    "@lifi/widget": "4.0.0-beta.20",
+    "@lifi/widget": "4.0.0",
+    "@lifi/widget-provider-ethereum": "4.0.0",
+    "@lifi/widget-provider-solana": "4.0.0",
+    "@lifi/widget-provider-tron": "4.0.0",
     "@mui/material": "^9.0.1",
     "@tanstack/react-query": "^5.100.14",
     "events": "^3.3.0",
