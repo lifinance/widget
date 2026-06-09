@@ -156,9 +156,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - name: Install dependencies
-        uses: ./.github/actions/pnpm-install
-
       - name: Download all blob reports
         uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
         with:
@@ -175,14 +172,14 @@ jobs:
 
       - name: Merge blob reports into HTML + JSON
         if: steps.check-blobs.outputs.has-reports == 'true'
-        working-directory: e2e
         env:
-          PLAYWRIGHT_JSON_OUTPUT_FILE: test-results.json
+          PLAYWRIGHT_JSON_OUTPUT_FILE: e2e/test-results.json
           # Absolute path so the HTML reporter writes to a known location regardless
           # of what rootDir Playwright infers from the blob metadata.
           PLAYWRIGHT_HTML_REPORT: ${{ github.workspace }}/e2e/playwright-report
         run: |
-          pnpm exec playwright merge-reports --reporter html --reporter json all-blob-reports/
+          PW_VERSION=$(node -p "require('./e2e/package.json').devDependencies['@playwright/test'].replace(/^\^/, '')")
+          npx --yes playwright@$PW_VERSION merge-reports --reporter html --reporter json e2e/all-blob-reports/
 
       - name: Upload merged HTML report
         if: steps.check-blobs.outputs.has-reports == 'true'
