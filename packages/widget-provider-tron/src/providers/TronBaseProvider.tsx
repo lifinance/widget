@@ -22,5 +22,9 @@ export const TronBaseProvider: FC<PropsWithChildren<TronBaseProviderProps>> = ({
     adapters.current = createTronAdapters()
   }
 
-  return <WalletProvider adapters={adapters.current}>{children}</WalletProvider>
+  return (
+    <WalletProvider adapters={adapters.current} disableAutoConnectOnLoad>
+      {children}
+    </WalletProvider>
+  )
 }
