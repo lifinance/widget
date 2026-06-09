@@ -18,18 +18,12 @@ import { createMetaMaskConnector } from '../connectors/metaMask.js'
 import { createPortoConnector } from '../connectors/porto.js'
 import { createWalletConnectConnector } from '../connectors/walletConnect.js'
 
-// viem's bundled mainnet defaults to eth.merkle.io, a single shared public RPC; seed CORS-enabled endpoints instead.
-const mainnetSeedRpcUrls = [
-  'https://ethereum-rpc.publicnode.com',
-  'https://eth.llamarpc.com',
-  'https://cloudflare-eth.com',
-]
-
+// Drop viem's bundled mainnet default (eth.merkle.io); BE RPCs arrive via useSyncWagmiConfig.
 const mainnet: Chain = {
   ...mainnetBase,
   rpcUrls: {
     ...mainnetBase.rpcUrls,
-    default: { http: mainnetSeedRpcUrls },
+    default: { http: [] },
   },
 }
 
