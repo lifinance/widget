@@ -131,15 +131,10 @@ test.describe('Playground settings — Mode', () => {
     })
   })
 
-  // The correct Mode docs URL is fixed in PR #767 / EMB-423 (select-widget-layout#mode).
-  // On the current branch the app still links to the old select-widget-variants#subvariants
-  // 404, so this assertion fails — test.fail() keeps it green until #767 lands, at which
-  // point it turns RED (unexpected pass): the signal to remove test.fail().
   test('"Read docs" link opens the Mode docs in a new tab', async ({
     context,
     sidebar,
   }) => {
-    test.fail()
     await test.step('open the mode panel', async () => {
       await sidebar.nav.mode.click()
     })

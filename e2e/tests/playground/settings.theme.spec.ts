@@ -108,18 +108,10 @@ test.describe('Playground settings — Theme', () => {
     })
   })
 
-  // Regression test for EMB-418 / PR #764:
-  // Switching from a theme that sets a custom viewport color (e.g. Jumper → #F3EBFF) back to
-  // Default via the theme card did NOT reset the background. The Default theme had no
-  // playground.main color defined, so the handler wrote nothing and the Jumper color stayed.
-  // Fix: add playground.main to Default config and update both light + dark modes on every switch.
-  // Marked test.fail() — stays green while the bug exists, turns RED (unexpected pass) once
-  // PR #764 lands, signalling that test.fail() should be removed.
   test('viewport background resets when switching from Jumper back to Default', async ({
     page,
     sidebar,
   }) => {
-    test.fail()
     await test.step('open the theme section and record Default viewport background', async () => {
       await sidebar.nav.theme.click()
     })

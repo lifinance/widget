@@ -524,16 +524,11 @@ test.describe('Playground settings — Height (Drawer variant)', () => {
 })
 
 test.describe('Playground settings — Height (Docs link)', () => {
-  // The correct Height docs URL is fixed in PR #767 / EMB-423 (select-widget-layout#height).
-  // On the current branch the app still links to the old customize-widget#layout 404, so this
-  // assertion fails — test.fail() keeps it green until #767 lands, at which point it turns RED
-  // (unexpected pass): the signal to remove test.fail().
   test('"Read docs" link opens the Height docs in a new tab', async ({
     page,
     sidebar,
     context,
   }) => {
-    test.fail()
     await page.goto('/')
     await sidebar.resetAll()
 
