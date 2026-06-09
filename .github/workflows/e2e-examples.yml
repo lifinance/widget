@@ -41,9 +41,17 @@ jobs:
           SHARED_CHANGED=false
           while IFS= read -r file; do
             case "$file" in
-              packages/widget/*|packages/widget-provider*/**|packages/wallet-management/*|e2e/*)
+              packages/widget/*|packages/widget-provider*/**|packages/wallet-management/*)
                 SHARED_CHANGED=true ;;
               pnpm-workspace.yaml|pnpm-lock.yaml|package.json)
+                SHARED_CHANGED=true ;;
+              # e2e shared infrastructure triggers all examples.
+              # Playground-only paths (tests/playground/, READMEs, locators.json) are excluded.
+              e2e/package.json|e2e/tsconfig.json|e2e/examples.json)
+                SHARED_CHANGED=true ;;
+              e2e/playwright.examples.config.ts|e2e/examples.config.ts)
+                SHARED_CHANGED=true ;;
+              e2e/tests/components/*|e2e/tests/fixtures/*|e2e/tests/helpers.ts)
                 SHARED_CHANGED=true ;;
             esac
           done <<< "$CHANGED"
