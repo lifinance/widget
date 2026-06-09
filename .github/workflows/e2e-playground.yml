@@ -93,8 +93,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - name: Install dependencies
-        uses: ./.github/actions/pnpm-install
+      - name: Set up pnpm
+        uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6.0.8
+
+      - name: Set up Node.js
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: '24'
+          cache: 'pnpm'
+
+      - name: Install e2e dependencies
+        # Only install the e2e package — playwright and its ~20 transitive deps.
+        # The widget/playground source packages are not needed; they are already
+        # compiled into the dist artifact restored in the next step.
+        run: pnpm install --frozen-lockfile --prefer-offline --filter @lifi/widget-e2e
+        env:
+          HUSKY: '0'
 
       - name: Restore playground dist
         uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
@@ -115,8 +129,11 @@ jobs:
         run: pnpm --filter @lifi/widget-e2e exec playwright install chromium --with-deps
 
       - name: Start preview server
+        # serve@14 is a lightweight static file server. -s enables SPA fallback
+        # (redirects 404s to index.html) required for TanStack Router client-side routing.
+        # Replaces `vite preview` so the test shard does not need vite installed.
         run: |
-          pnpm --filter widget-playground-vite preview &
+          npx --yes serve@14 -s packages/widget-playground-vite/dist -l 4173 &
 
           for i in $(seq 1 60); do
             if curl -sf http://localhost:4173 > /dev/null 2>&1; then
