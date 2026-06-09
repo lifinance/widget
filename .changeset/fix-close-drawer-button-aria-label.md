@@ -2,4 +2,4 @@
 "@lifi/widget": patch
 ---
 
-Add `data-testid="widget-close-drawer-button"` to `CloseDrawerButton` for stable test targeting.
+Add `data-testid` attributes to `CloseDrawerButton`, `ReverseTokensButton`, and `BaseTransactionButton` for stable e2e test targeting.
