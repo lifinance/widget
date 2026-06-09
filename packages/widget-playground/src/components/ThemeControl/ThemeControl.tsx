@@ -36,12 +36,14 @@ export const ThemeControl = ({
         setAppearance(nextThemeMode)
         setMode(nextThemeMode)
       }
-      const resolvedMode = nextThemeMode ?? themeMode
-      const playgroundColor =
-        themeItem.theme.colorSchemes?.[resolvedMode]?.palette?.playground?.main
-      if (playgroundColor) {
-        setViewportBackgroundColor(playgroundColor, resolvedMode)
-      }
+      setViewportBackgroundColor(
+        themeItem.theme.colorSchemes?.light?.palette?.playground?.main,
+        'light'
+      )
+      setViewportBackgroundColor(
+        themeItem.theme.colorSchemes?.dark?.palette?.playground?.main,
+        'dark'
+      )
     },
     [
       themeMode,

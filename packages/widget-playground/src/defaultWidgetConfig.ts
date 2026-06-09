@@ -6,6 +6,7 @@ import { SolanaProvider } from '@lifi/widget-provider-solana'
 import { SuiProvider } from '@lifi/widget-provider-sui'
 import { TronProvider } from '@lifi/widget-provider-tron'
 import { withFloatingDrawer } from './providers/PlaygroundThemeProvider/floatingDrawer.js'
+import { DEFAULT_VIEWPORT_BACKGROUND } from './utils/themeEdit.js'
 
 export const widgetBaseConfig: WidgetConfig = {
   // fromChain: 137,
@@ -317,6 +318,9 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
           secondary: {
             main: '#F7C2FF',
           },
+          playground: {
+            main: DEFAULT_VIEWPORT_BACKGROUND.light,
+          },
         },
       },
       dark: {
@@ -326,6 +330,9 @@ export const defaultWidgetConfig: Partial<WidgetConfig> = {
           },
           secondary: {
             main: '#F7C2FF',
+          },
+          playground: {
+            main: DEFAULT_VIEWPORT_BACKGROUND.dark,
           },
         },
       },
