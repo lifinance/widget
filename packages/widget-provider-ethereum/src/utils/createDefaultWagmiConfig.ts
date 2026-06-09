@@ -18,7 +18,7 @@ import { createMetaMaskConnector } from '../connectors/metaMask.js'
 import { createPortoConnector } from '../connectors/porto.js'
 import { createWalletConnectConnector } from '../connectors/walletConnect.js'
 
-// viem's bundled mainnet defaults to eth.merkle.io, which rejects browser CORS.
+// viem's bundled mainnet defaults to eth.merkle.io, a single shared public RPC; seed CORS-enabled endpoints instead.
 const mainnetSeedRpcUrls = [
   'https://ethereum-rpc.publicnode.com',
   'https://eth.llamarpc.com',
