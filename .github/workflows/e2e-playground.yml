@@ -172,14 +172,12 @@ jobs:
 
       - name: Merge blob reports into HTML + JSON
         if: steps.check-blobs.outputs.has-reports == 'true'
-        env:
-          PLAYWRIGHT_JSON_OUTPUT_FILE: e2e/test-results.json
-          # Absolute path so the HTML reporter writes to a known location regardless
-          # of what rootDir Playwright infers from the blob metadata.
-          PLAYWRIGHT_HTML_REPORT: ${{ github.workspace }}/e2e/playwright-report
+        working-directory: e2e
         run: |
-          PW_VERSION=$(node -p "require('./e2e/package.json').devDependencies['@playwright/test']")
-          npx --yes "playwright@${PW_VERSION}" merge-reports --reporter html --reporter json e2e/all-blob-reports/
+          PW_VERSION=$(node -p "require('./package.json').devDependencies['@playwright/test']")
+          npx --yes "@playwright/test@${PW_VERSION}" merge-reports \
+            --config playwright.merge.config.ts \
+            all-blob-reports/
 
       - name: Upload merged HTML report
         if: steps.check-blobs.outputs.has-reports == 'true'
