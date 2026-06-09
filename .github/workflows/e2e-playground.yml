@@ -178,6 +178,9 @@ jobs:
         working-directory: e2e
         env:
           PLAYWRIGHT_JSON_OUTPUT_FILE: test-results.json
+          # Absolute path so the HTML reporter writes to a known location regardless
+          # of what rootDir Playwright infers from the blob metadata.
+          PLAYWRIGHT_HTML_REPORT: ${{ github.workspace }}/e2e/playwright-report
         run: |
           pnpm exec playwright merge-reports --reporter html --reporter json all-blob-reports/
 
