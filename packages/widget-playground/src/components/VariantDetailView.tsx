@@ -89,7 +89,7 @@ export const VariantDetailView = ({
       resetLabel="Reset variant"
       title="Variant"
       description="Choose how secondary panels like the chain selector and route summary are displayed."
-      docsHref={docsLinks.variants}
+      docsHref={docsLinks.variant}
     >
       {VARIANT_OPTIONS.map(({ id, title, description }) => (
         <CardSelect

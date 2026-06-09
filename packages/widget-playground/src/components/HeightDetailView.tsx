@@ -94,7 +94,7 @@ export const HeightDetailView = ({
       resetLabel="Reset height"
       title="Height"
       description="Configure how the widget is embedded and how tall it can be."
-      docsHref={docsLinks.layout}
+      docsHref={docsLinks.height}
     >
       <CardSelect
         title={defaultLayoutCopy.title}
