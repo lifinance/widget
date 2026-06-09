@@ -143,12 +143,12 @@ jobs:
       - name: Merge blob reports into HTML + JSON
         if: steps.check-blobs.outputs.has-reports == 'true'
         working-directory: e2e
+        env:
+          # The JSON CLI reporter writes to stdout by default; this env var redirects
+          # it to a file so the Parse step can read the stats.
+          PLAYWRIGHT_JSON_OUTPUT_FILE: test-results.json
         run: |
-          # --reporter json has no built-in output-file flag on the CLI; the reporter
-          # writes to stdout when no PLAYWRIGHT_JSON_OUTPUT_FILE is set. Redirect to
-          # a file explicitly so the Parse step can read it.
-          pnpm exec playwright merge-reports --reporter html all-blob-reports/
-          pnpm exec playwright merge-reports --reporter json all-blob-reports/ > test-results.json
+          pnpm exec playwright merge-reports --reporter html --reporter json all-blob-reports/
 
       - name: Upload merged HTML report
         if: steps.check-blobs.outputs.has-reports == 'true'
