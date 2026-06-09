@@ -15,8 +15,6 @@ test.describe('Playground settings — general', () => {
     })
   })
 
-  test('opens the settings sidebar when the settings button is clicked', async () => {})
-
   test('collapses and re-opens the sidebar via the close/open tools buttons', async ({
     sidebar,
   }) => {
