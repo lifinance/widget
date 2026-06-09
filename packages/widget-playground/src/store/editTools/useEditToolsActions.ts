@@ -12,7 +12,6 @@ export const useEditToolsActions = (): Pick<
   | 'setHeaderVisibility'
   | 'setFooterVisibility'
   | 'setFixedFooter'
-  | 'setSelectedLayoutId'
   | 'setIsDevView'
   | 'setWidgetEventMonitors'
   | 'setFormValues'
@@ -26,7 +25,6 @@ export const useEditToolsActions = (): Pick<
     setHeaderVisibility: state.setHeaderVisibility,
     setFooterVisibility: state.setFooterVisibility,
     setFixedFooter: state.setFixedFooter,
-    setSelectedLayoutId: state.setSelectedLayoutId,
     setIsDevView: state.setIsDevView,
     setWidgetEventMonitors: state.setWidgetEventMonitors,
     setFormValues: state.setFormValues,

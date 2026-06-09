@@ -76,14 +76,6 @@ export const createEditToolsStore = (
             },
           })
         },
-        setSelectedLayoutId: (selectedLayoutId) => {
-          set({
-            layoutControl: {
-              ...get().layoutControl,
-              selectedLayoutId,
-            },
-          })
-        },
         setIsDevView: (isDevView) => {
           set({
             isDevView,
