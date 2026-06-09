@@ -4,6 +4,31 @@ on:
   pull_request:
     types: [opened, reopened, synchronize]
     branches: [main]
+    paths:
+      # Playground app and its logic package
+      - 'packages/widget-playground/**'
+      - 'packages/widget-playground-vite/**'
+      # Widget and wallet packages rendered inside the playground
+      - 'packages/widget/**'
+      - 'packages/wallet-management/**'
+      - 'packages/widget-provider/**'
+      - 'packages/widget-provider-ethereum/**'
+      - 'packages/widget-provider-solana/**'
+      - 'packages/widget-provider-bitcoin/**'
+      - 'packages/widget-provider-sui/**'
+      - 'packages/widget-provider-tron/**'
+      # E2E test code (widget-light and widget-embedded are not playground dependencies)
+      - 'e2e/tests/playground/**'
+      - 'e2e/tests/components/**'
+      - 'e2e/tests/fixtures/**'
+      - 'e2e/tests/helpers.ts'
+      - 'e2e/playwright.config.ts'
+      - 'e2e/package.json'
+      - 'e2e/tsconfig.json'
+      # Workspace-level dependency changes
+      - 'pnpm-workspace.yaml'
+      - 'pnpm-lock.yaml'
+      - 'package.json'
 
 concurrency:
   group: e2e-playground-${{ github.event.pull_request.number }}
