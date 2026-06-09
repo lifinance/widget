@@ -556,14 +556,12 @@ test.describe('Playground settings — Height (Docs link)', () => {
 
 // Regression for EMB-421 (PR #766): selectedLayoutId was stored in ephemeral Zustand store
 // and not persisted. On reload it reset to 'default' even when a restricted height was
-// configured. Marked test.fail() — it stays green while the bug exists and turns RED
-// (unexpected pass) once the fix lands, signalling that test.fail() should be removed.
+// configured.
 test.describe('Playground settings — Height (EMB-421 regression)', () => {
   test('restricted height persists the nav label and CSS after page reload', async ({
     page,
     sidebar,
   }) => {
-    test.fail()
     await page.goto('/')
     await sidebar.resetAll()
 
