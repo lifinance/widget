@@ -159,39 +159,44 @@ jobs:
       - name: Download all blob reports
         uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
         with:
-          path: e2e/all-blob-reports
+          path: all-blob-reports
           pattern: blob-report-*
           merge-multiple: true
 
       - name: Check for blob reports
         id: check-blobs
         run: |
-          count=$(find e2e/all-blob-reports -name '*.zip' 2>/dev/null | wc -l)
+          count=$(find all-blob-reports -name '*.zip' 2>/dev/null | wc -l)
           echo "has-reports=$([ "$count" -gt 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
           echo "Found $count blob report(s)"
 
-      - name: Merge blob reports into HTML + JSON
+      - name: Merge blob reports into HTML report
         if: steps.check-blobs.outputs.has-reports == 'true'
-        working-directory: e2e
         run: |
-          PW_VERSION=$(node -p "require('./package.json').devDependencies['@playwright/test']")
-          npx --yes "@playwright/test@${PW_VERSION}" merge-reports \
-            --config playwright.merge.config.ts \
-            all-blob-reports/
+          PW_VERSION=$(node -p "require('./e2e/package.json').devDependencies['@playwright/test']")
+          npx --yes "@playwright/test@${PW_VERSION}" merge-reports --reporter html ./all-blob-reports
+
+      - name: Merge blob reports into JSON report
+        if: steps.check-blobs.outputs.has-reports == 'true'
+        env:
+          PLAYWRIGHT_JSON_OUTPUT_NAME: report.json
+        run: |
+          PW_VERSION=$(node -p "require('./e2e/package.json').devDependencies['@playwright/test']")
+          npx --yes "@playwright/test@${PW_VERSION}" merge-reports --reporter json ./all-blob-reports
 
       - name: Upload merged HTML report
         if: steps.check-blobs.outputs.has-reports == 'true'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: playwright-report
-          path: e2e/playwright-report/
+          path: playwright-report/
           retention-days: 14
 
       - name: Post test summary comment
         if: steps.check-blobs.outputs.has-reports == 'true'
         uses: daun/playwright-report-summary@8bb85779022480a59ed8d33d9a4b8bda1c67666b # v4.0.0
         with:
-          report-file: e2e/test-results.json
+          report-file: report.json
           comment-title: 'E2E Playground results'
           report-tag: e2e-playground-results
           footer: >
