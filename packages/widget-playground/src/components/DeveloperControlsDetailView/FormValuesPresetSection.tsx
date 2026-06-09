@@ -31,9 +31,8 @@ export const FormValuesPresetSection = ({
             type="button"
             selected={selectedId === id}
             onClick={() => onSelect(id)}
-            data-testid={
-              id === 'RESET' && resetTestId ? resetTestId : undefined
-            }
+            {...(id === 'RESET' &&
+              resetTestId && { 'data-testid': resetTestId })}
           >
             {optionLabel}
           </OptionButton>
