@@ -18,33 +18,33 @@ test.describe('Playground smoke', () => {
   })
 
   test('widget container is displayed with Exchange heading', async ({
-    exchange,
+    widget,
   }) => {
     await test.step('widget root is visible', async () => {
-      await expect(exchange.widgetRoot).toBeVisible()
+      await expect(widget.root).toBeVisible()
     })
 
     await test.step('Exchange heading is rendered', async () => {
-      await expect(exchange.heading).toBeVisible()
+      await expect(widget.heading).toBeVisible()
     })
 
     await test.step('From and To buttons are present', async () => {
-      await expect(exchange.fromButton).toBeVisible()
-      await expect(exchange.toButton).toBeVisible()
+      await expect(widget.fromButton).toBeVisible()
+      await expect(widget.toButton).toBeVisible()
     })
 
     await test.step('Send amount input is present', async () => {
-      await expect(exchange.sendAmountInput).toBeVisible()
-      await expect(exchange.sendAmountInput).toHaveAttribute('placeholder', '0')
+      await expect(widget.sendAmountInput).toBeVisible()
+      await expect(widget.sendAmountInput).toHaveAttribute('placeholder', '0')
     })
   })
 
   test('clicking the Settings icon opens the Settings view', async ({
-    exchange,
+    widget,
     settings,
   }) => {
     await test.step('open Settings', async () => {
-      await exchange.openSettings()
+      await widget.openSettings()
       await expect(settings.heading).toBeVisible()
     })
 
@@ -60,7 +60,7 @@ test.describe('Playground smoke', () => {
 
     await test.step('back button returns to Exchange', async () => {
       await settings.goBack()
-      await expect(exchange.heading).toBeVisible()
+      await expect(widget.heading).toBeVisible()
     })
   })
 
@@ -70,7 +70,7 @@ test.describe('Playground smoke', () => {
   // to transition out of skeleton state on slow networks.
   test('token route setup — From and To tokens selected via UI', async ({
     page,
-    exchange,
+    widget,
     tokenSelector,
   }) => {
     test.slow() // doubles the default test timeout
@@ -80,13 +80,12 @@ test.describe('Playground smoke', () => {
     })
 
     await test.step('From token selector opens — search filters by cached token data', async () => {
-      await exchange.openFromTokenSelector()
+      await widget.openFromTokenSelector()
       await expect(tokenSelector.heading).toBeVisible()
       // The Wide-variant token list shows skeletons until a chain is selected.
       // Use search to filter by a known symbol — the search result renders
       // from the cached SDK response even while the main list is loading.
-      const widgetRoot = page.locator('[id^="widget-app-expanded-container"]')
-      await widgetRoot
+      await widget.root
         .getByRole('textbox', { name: 'Search by token or address' })
         .fill('ETH')
       await expect(tokenSelector.firstTokenItem).toBeVisible({
@@ -96,15 +95,14 @@ test.describe('Playground smoke', () => {
 
     await test.step('select first token — Exchange view shows From token', async () => {
       await tokenSelector.selectFirstToken()
-      await expect(exchange.heading).toBeVisible()
-      await expect(exchange.fromButton).not.toHaveText(/Select chain and token/)
+      await expect(widget.heading).toBeVisible()
+      await expect(widget.fromButton).not.toHaveText(/Select chain and token/)
     })
 
     await test.step('To token selector opens — search for USDC', async () => {
-      await exchange.openToTokenSelector()
+      await widget.openToTokenSelector()
       await expect(tokenSelector.heading).toBeVisible()
-      const widgetRoot = page.locator('[id^="widget-app-expanded-container"]')
-      await widgetRoot
+      await widget.root
         .getByRole('textbox', { name: 'Search by token or address' })
         .fill('USDC')
       await expect(tokenSelector.firstTokenItem).toBeVisible({
@@ -114,8 +112,8 @@ test.describe('Playground smoke', () => {
 
     await test.step('select first USDC token — Exchange view shows To token', async () => {
       await tokenSelector.selectFirstToken()
-      await expect(exchange.heading).toBeVisible()
-      await expect(exchange.toButton).not.toHaveText(/Select chain and token/)
+      await expect(widget.heading).toBeVisible()
+      await expect(widget.toButton).not.toHaveText(/Select chain and token/)
     })
   })
 })

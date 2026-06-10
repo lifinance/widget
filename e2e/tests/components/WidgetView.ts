@@ -1,13 +1,13 @@
 import type { Locator, Page } from '@playwright/test'
 
 /**
- * WidgetExchange — Component Object for the widget's main Exchange view.
+ * WidgetView — Component Object for the widget's main view.
  */
 
-export class WidgetExchange {
+export class WidgetView {
   readonly page: Page
 
-  readonly widgetRoot: Locator
+  readonly root: Locator
   /** Main title paragraph in the widget header. Not visible in Swap or Bridge mode (replaced by split tabs). */
   readonly heading: Locator
   /** Swap / Bridge tab strip — only present in Swap or Bridge mode. */
@@ -79,19 +79,27 @@ export class WidgetExchange {
    * is scoped via getByRole('dialog') rather than the content container.
    */
   readonly walletModalHeading: Locator
+  /**
+   * Root container of the WidgetSkeleton loading preview
+   * (data-testid="widget-skeleton-container"). Present only while the playground's
+   * "Loading preview" toggle is on; the skeleton replaces the live widget, so this
+   * is a direct signal that the loading state is rendered. Page-scoped because the
+   * skeleton wrapper does NOT carry the widget-app-expanded-container id.
+   */
+  readonly skeletonContainer: Locator
 
   constructor(page: Page) {
     this.page = page
-    this.widgetRoot = page.locator('[id^="widget-app-expanded-container"]')
-    this.heading = this.widgetRoot.locator('header p')
-    this.splitTabs = this.widgetRoot.getByRole('tablist', {
+    this.root = page.locator('[id^="widget-app-expanded-container"]')
+    this.heading = this.root.locator('header p')
+    this.splitTabs = this.root.getByRole('tablist', {
       name: 'tabs',
       exact: true,
     })
-    this.reverseTokensButton = this.widgetRoot.getByTestId(
+    this.reverseTokensButton = this.root.getByTestId(
       'widget-reverse-tokens-button'
     )
-    this.chainSidebar = this.widgetRoot.getByPlaceholder('Search network')
+    this.chainSidebar = this.root.getByPlaceholder('Search network')
     // getByRole respects aria-hidden; when the MUI Drawer is open it sets aria-hidden on
     // the background DOM, making getByRole unable to resolve this button. getByTestId uses
     // a CSS attribute selector which ignores aria-hidden — so it works in both states.
@@ -99,15 +107,15 @@ export class WidgetExchange {
       'playground-toggle-drawer-button'
     )
 
-    this.settingsButton = this.widgetRoot.getByRole('button', {
+    this.settingsButton = this.root.getByRole('button', {
       name: 'Settings',
       exact: true,
     })
 
-    this.fromButton = this.widgetRoot.getByRole('button', { name: /^From\b/i })
-    this.toButton = this.widgetRoot.getByRole('button', { name: /^To\b/i })
+    this.fromButton = this.root.getByRole('button', { name: /^From\b/i })
+    this.toButton = this.root.getByRole('button', { name: /^To\b/i })
 
-    this.sendAmountInput = this.widgetRoot.getByRole('textbox', { name: '0' })
+    this.sendAmountInput = this.root.getByRole('textbox', { name: '0' })
 
     // WalletHeader renders its AppBar as <header>; scoping to [id^="widget-header"]
     // reliably targets only the header wallet button even when the body button is also visible.
@@ -119,20 +127,18 @@ export class WidgetExchange {
     // Only present in External mode without Force internal wallets.
     this.closeDrawerButton = page.getByTestId('widget-close-drawer-button')
 
-    this.transactionButton = this.widgetRoot.getByTestId(
-      'widget-transaction-button'
-    )
+    this.transactionButton = this.root.getByTestId('widget-transaction-button')
 
-    this.sendToWalletButton = this.widgetRoot.getByLabel(
-      'Send to a different wallet'
-    )
+    this.sendToWalletButton = this.root.getByLabel('Send to a different wallet')
 
     // appkit-button is a Reown AppKit web component rendered in the playground toolbar,
-    // outside the widget itself — scoped to the full page, not widgetRoot.
+    // outside the widget itself — scoped to the full page, not root.
     this.appkitButton = page.locator('appkit-button')
 
     // w3m-modal is absent from the DOM until AppKit's open() is called.
     this.appkitModal = page.locator('w3m-modal')
+
+    this.skeletonContainer = page.getByTestId('widget-skeleton-container')
 
     this.walletModalContent = page.locator('#widget-wallet-modal-content')
 

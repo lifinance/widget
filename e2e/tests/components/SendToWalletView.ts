@@ -1,14 +1,14 @@
 import type { Locator, Page } from '@playwright/test'
 
 /**
- * WidgetSendToWalletView — Component Object for the widget's Send to wallet page
+ * SendToWalletView — Component Object for the widget's Send to wallet page
  * and the nested Bookmarked wallets page. Both are part of the same navigation
  * tree inside the widget, reached by clicking the wallet icon at the bottom of
- * the main exchange view.
+ * the main widget view.
  */
-export class WidgetSendToWalletView {
+export class SendToWalletView {
   readonly page: Page
-  readonly widgetRoot: Locator
+  readonly root: Locator
 
   /** "Recent wallets" card button on the Send to wallet page. */
   readonly recentWalletsButton: Locator
@@ -25,18 +25,18 @@ export class WidgetSendToWalletView {
 
   constructor(page: Page) {
     this.page = page
-    this.widgetRoot = page.locator('[id^="widget-app-expanded-container"]')
+    this.root = page.locator('[id^="widget-app-expanded-container"]')
 
-    this.recentWalletsButton = this.widgetRoot.getByRole('button', {
+    this.recentWalletsButton = this.root.getByRole('button', {
       name: /Recent wallets/i,
     })
-    this.connectedWalletsButton = this.widgetRoot.getByRole('button', {
+    this.connectedWalletsButton = this.root.getByRole('button', {
       name: /Connected wallets/i,
     })
-    this.bookmarkedWalletsButton = this.widgetRoot.getByRole('button', {
+    this.bookmarkedWalletsButton = this.root.getByRole('button', {
       name: /Bookmarked wallets/i,
     })
 
-    this.bookmarkItems = this.widgetRoot.getByRole('listitem')
+    this.bookmarkItems = this.root.getByRole('listitem')
   }
 }

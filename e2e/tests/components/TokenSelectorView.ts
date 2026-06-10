@@ -22,11 +22,11 @@ export class TokenSelectorView {
   constructor(page: Page) {
     this.page = page
 
-    const widgetRoot = page.locator('[id^="widget-app-expanded-container"]')
-    this.heading = widgetRoot.getByText(/^Exchange (from|to)$/i)
-    this.tokenList = widgetRoot.getByRole('list').first()
+    const root = page.locator('[id^="widget-app-expanded-container"]')
+    this.heading = root.getByText(/^Exchange (from|to)$/i)
+    this.tokenList = root.getByRole('list').first()
     this.firstTokenItem = this.tokenList.getByRole('listitem').first()
-    this.searchInput = widgetRoot.getByPlaceholder('Search by token or address')
+    this.searchInput = root.getByPlaceholder('Search by token or address')
   }
 
   /**

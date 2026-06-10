@@ -19,15 +19,15 @@ test.describe('Playground settings — Variant (Compact)', () => {
   })
 
   test('clicking From navigates inside the widget without opening the chain sidebar', async ({
-    exchange,
+    widget,
     tokenSelector,
   }) => {
     await test.step('click the From token button', async () => {
-      await exchange.fromButton.click()
+      await widget.fromButton.click()
     })
 
     await test.step('chain sidebar expansion does not appear', async () => {
-      await expect(exchange.chainSidebar).not.toBeVisible()
+      await expect(widget.chainSidebar).not.toBeVisible()
     })
 
     await test.step('token selector opens inside the widget', async () => {
@@ -36,15 +36,15 @@ test.describe('Playground settings — Variant (Compact)', () => {
   })
 
   test('clicking To navigates inside the widget without opening the chain sidebar', async ({
-    exchange,
+    widget,
     tokenSelector,
   }) => {
     await test.step('click the To token button', async () => {
-      await exchange.toButton.click()
+      await widget.toButton.click()
     })
 
     await test.step('chain sidebar expansion does not appear', async () => {
-      await expect(exchange.chainSidebar).not.toBeVisible()
+      await expect(widget.chainSidebar).not.toBeVisible()
     })
 
     await test.step('token selector opens inside the widget', async () => {
@@ -77,43 +77,43 @@ test.describe('Playground settings — Variant (Drawer)', () => {
   })
 
   test('"Exchange on LI.FI" toggle button is visible in Drawer mode', async ({
-    exchange,
+    widget,
   }) => {
     await test.step('toggle button is present on the page', async () => {
-      await expect(exchange.toggleDrawerButton).toBeVisible()
+      await expect(widget.toggleDrawerButton).toBeVisible()
     })
   })
 
-  test('toggle button opens and closes the drawer', async ({ exchange }) => {
+  test('toggle button opens and closes the drawer', async ({ widget }) => {
     await test.step('drawer is initially closed — From button is not visible', async () => {
-      await expect(exchange.fromButton).not.toBeVisible()
+      await expect(widget.fromButton).not.toBeVisible()
     })
 
     await test.step('click the toggle button to open the drawer', async () => {
-      await exchange.toggleDrawerButton.click()
-      await expect(exchange.fromButton).toBeVisible()
+      await widget.toggleDrawerButton.click()
+      await expect(widget.fromButton).toBeVisible()
     })
 
     await test.step('click the toggle button to close the drawer', async () => {
-      await exchange.toggleDrawerButton.click()
-      await expect(exchange.fromButton).not.toBeVisible()
+      await widget.toggleDrawerButton.click()
+      await expect(widget.fromButton).not.toBeVisible()
     })
   })
 
   test('clicking From navigates inside the widget without opening the chain sidebar', async ({
-    exchange,
+    widget,
     tokenSelector,
   }) => {
     await test.step('open the drawer via the toggle button', async () => {
-      await exchange.toggleDrawerButton.click()
+      await widget.toggleDrawerButton.click()
     })
 
     await test.step('click the From token button', async () => {
-      await exchange.fromButton.click()
+      await widget.fromButton.click()
     })
 
     await test.step('chain sidebar expansion does not appear', async () => {
-      await expect(exchange.chainSidebar).not.toBeVisible()
+      await expect(widget.chainSidebar).not.toBeVisible()
     })
 
     await test.step('token selector opens inside the widget', async () => {
@@ -122,19 +122,19 @@ test.describe('Playground settings — Variant (Drawer)', () => {
   })
 
   test('clicking To navigates inside the widget without opening the chain sidebar', async ({
-    exchange,
+    widget,
     tokenSelector,
   }) => {
     await test.step('open the drawer via the toggle button', async () => {
-      await exchange.toggleDrawerButton.click()
+      await widget.toggleDrawerButton.click()
     })
 
     await test.step('click the To token button', async () => {
-      await exchange.toButton.click()
+      await widget.toButton.click()
     })
 
     await test.step('chain sidebar expansion does not appear', async () => {
-      await expect(exchange.chainSidebar).not.toBeVisible()
+      await expect(widget.chainSidebar).not.toBeVisible()
     })
 
     await test.step('token selector opens inside the widget', async () => {
@@ -165,29 +165,29 @@ test.describe('Playground settings — Variant (Wide)', () => {
     })
   })
 
-  test('clicking From opens the chain sidebar', async ({ exchange }) => {
+  test('clicking From opens the chain sidebar', async ({ widget }) => {
     await test.step('click the From token button', async () => {
-      await exchange.fromButton.click()
+      await widget.fromButton.click()
     })
 
     await test.step('chain sidebar search input appears to the right of the widget', async () => {
-      await expect(exchange.chainSidebar).toBeVisible()
+      await expect(widget.chainSidebar).toBeVisible()
     })
   })
 
-  test('clicking To opens the chain sidebar', async ({ exchange }) => {
+  test('clicking To opens the chain sidebar', async ({ widget }) => {
     await test.step('click the To token button', async () => {
-      await exchange.toButton.click()
+      await widget.toButton.click()
     })
 
     await test.step('chain sidebar search input appears to the right of the widget', async () => {
-      await expect(exchange.chainSidebar).toBeVisible()
+      await expect(widget.chainSidebar).toBeVisible()
     })
   })
 
   test('disabling the chain sidebar hides the expansion when From is clicked', async ({
     sidebar,
-    exchange,
+    widget,
   }) => {
     await test.step('open the variant panel', async () => {
       await sidebar.nav.variant.click()
@@ -206,14 +206,14 @@ test.describe('Playground settings — Variant (Wide)', () => {
     })
 
     await test.step('click From — chain sidebar expansion does not open', async () => {
-      await exchange.fromButton.click()
-      await expect(exchange.chainSidebar).not.toBeVisible()
+      await widget.fromButton.click()
+      await expect(widget.chainSidebar).not.toBeVisible()
     })
   })
 
   test('Reset variant button reverts the nav label and re-enables the chain sidebar', async ({
     sidebar,
-    exchange,
+    widget,
   }) => {
     await test.step('open variant panel and enable Disable chain sidebar', async () => {
       await sidebar.nav.variant.click()
@@ -243,14 +243,14 @@ test.describe('Playground settings — Variant (Wide)', () => {
 
     await test.step('click From — chain sidebar is visible again', async () => {
       await sidebar.goBack()
-      await exchange.fromButton.click()
-      await expect(exchange.chainSidebar).toBeVisible()
+      await widget.fromButton.click()
+      await expect(widget.chainSidebar).toBeVisible()
     })
   })
 
   test('Disable chain sidebar suppresses the sidebar expansion for the To button', async ({
     sidebar,
-    exchange,
+    widget,
   }) => {
     await test.step('open variant panel and enable Disable chain sidebar', async () => {
       await sidebar.nav.variant.click()
@@ -263,8 +263,8 @@ test.describe('Playground settings — Variant (Wide)', () => {
 
     await test.step('go back and click To — chain sidebar does not appear', async () => {
       await sidebar.goBack()
-      await exchange.toButton.click()
-      await expect(exchange.chainSidebar).not.toBeVisible()
+      await widget.toButton.click()
+      await expect(widget.chainSidebar).not.toBeVisible()
     })
   })
 

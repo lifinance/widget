@@ -26,45 +26,43 @@ test.describe('Playground settings — Wallet management (Internal)', () => {
     })
   })
 
-  test('header Connect wallet button is visible', async ({ exchange }) => {
-    await expect(exchange.walletHeaderButton).toBeVisible()
+  test('header Connect wallet button is visible', async ({ widget }) => {
+    await expect(widget.walletHeaderButton).toBeVisible()
   })
 
-  test('appkit-button is not present in Internal mode', async ({
-    exchange,
-  }) => {
-    await expect(exchange.appkitButton).not.toBeAttached()
+  test('appkit-button is not present in Internal mode', async ({ widget }) => {
+    await expect(widget.appkitButton).not.toBeAttached()
   })
 
   test('clicking the header Connect wallet button opens the internal wallet menu', async ({
-    exchange,
+    widget,
   }) => {
     await test.step('click the header Connect wallet button', async () => {
-      await exchange.walletHeaderButton.click()
+      await widget.walletHeaderButton.click()
     })
 
     await test.step('internal wallet modal opens', async () => {
-      await expect(exchange.walletModalContent).toBeVisible()
+      await expect(widget.walletModalContent).toBeVisible()
     })
 
     await test.step('modal shows "Select a wallet" heading', async () => {
-      await expect(exchange.walletModalHeading).toBeVisible()
+      await expect(widget.walletModalHeading).toBeVisible()
     })
   })
 
   test('clicking the transaction Connect wallet button opens the internal wallet menu', async ({
-    exchange,
+    widget,
   }) => {
     await test.step('click the transaction Connect wallet button', async () => {
-      await exchange.transactionButton.click()
+      await widget.transactionButton.click()
     })
 
     await test.step('internal wallet modal opens', async () => {
-      await expect(exchange.walletModalContent).toBeVisible()
+      await expect(widget.walletModalContent).toBeVisible()
     })
 
     await test.step('modal shows "Select a wallet" heading', async () => {
-      await expect(exchange.walletModalHeading).toBeVisible()
+      await expect(widget.walletModalHeading).toBeVisible()
     })
   })
 
@@ -105,14 +103,14 @@ test.describe('Playground settings — Wallet management (External)', () => {
     await expect(sidebar.nav.walletManagement).toContainText('External')
   })
 
-  test('header Connect wallet button is not visible', async ({ exchange }) => {
-    await expect(exchange.walletHeaderButton).not.toBeVisible()
+  test('header Connect wallet button is not visible', async ({ widget }) => {
+    await expect(widget.walletHeaderButton).not.toBeVisible()
   })
 
   test('appkit-button is present in the playground toolbar', async ({
-    exchange,
+    widget,
   }) => {
-    await expect(exchange.appkitButton).toBeAttached()
+    await expect(widget.appkitButton).toBeAttached()
   })
 
   test('Force internal wallets toggle is shown inside the External card', async ({
@@ -130,25 +128,25 @@ test.describe('Playground settings — Wallet management (External)', () => {
   })
 
   test('clicking the transaction button opens the AppKit modal, not the internal wallet menu', async ({
-    exchange,
+    widget,
   }) => {
     await test.step('click the transaction Connect wallet button', async () => {
-      await exchange.transactionButton.click()
+      await widget.transactionButton.click()
     })
 
     // In External mode the click invokes walletConfig.onConnect (AppKit), not openWalletMenu.
     await test.step('AppKit modal opens', async () => {
-      await expect(exchange.appkitModal).toBeVisible()
+      await expect(widget.appkitModal).toBeVisible()
     })
 
     await test.step('internal wallet modal does not open', async () => {
-      await expect(exchange.walletModalContent).not.toBeVisible()
+      await expect(widget.walletModalContent).not.toBeVisible()
     })
   })
 
   test('navigation header shows a Close button in External mode (Drawer variant, no Force internal)', async ({
     sidebar,
-    exchange,
+    widget,
   }) => {
     // CloseDrawerButton is only rendered in variant=drawer AND External mode without Force internal.
     // Switch to Drawer variant first so the button is actually mounted.
@@ -158,28 +156,28 @@ test.describe('Playground settings — Wallet management (External)', () => {
       // Switching to Drawer opens the MUI Drawer automatically, putting the sidebar behind the
       // backdrop. Close the drawer via the widget Close button first, then navigate back in the
       // sidebar so the nav panel is restored for subsequent steps.
-      await exchange.closeDrawerButton.click()
+      await widget.closeDrawerButton.click()
       await sidebar.goBack()
     })
 
     await test.step('open the drawer to see the widget header', async () => {
-      await exchange.toggleDrawerButton.click()
+      await widget.toggleDrawerButton.click()
     })
 
     // CloseDrawerButton is located by data-testid="widget-close-drawer-button" (icon-only, no text).
     await test.step('Close button is visible in the widget header', async () => {
-      await expect(exchange.closeDrawerButton).toBeVisible()
+      await expect(widget.closeDrawerButton).toBeVisible()
     })
 
     // Sanity: the internal wallet header button is absent in pure External mode.
     await test.step('Connect wallet header button is not visible', async () => {
-      await expect(exchange.walletHeaderButton).not.toBeVisible()
+      await expect(widget.walletHeaderButton).not.toBeVisible()
     })
   })
 
   test('switching from External with Force internal to Partial clears the force-internal flag', async ({
     sidebar,
-    exchange,
+    widget,
   }) => {
     await test.step('enable Force internal wallets while in External mode', async () => {
       await openWalletManagement({ sidebar })
@@ -204,11 +202,11 @@ test.describe('Playground settings — Wallet management (External)', () => {
     })
 
     await test.step('Partial mode still shows the header wallet button', async () => {
-      await expect(exchange.walletHeaderButton).toBeVisible()
+      await expect(widget.walletHeaderButton).toBeVisible()
     })
 
     await test.step('Partial mode still has the AppKit button attached', async () => {
-      await expect(exchange.appkitButton).toBeAttached()
+      await expect(widget.appkitButton).toBeAttached()
     })
   })
 })
@@ -237,29 +235,29 @@ test.describe('Playground settings — Wallet management (External + Force inter
     })
   })
 
-  test('header Connect wallet button reappears', async ({ exchange }) => {
+  test('header Connect wallet button reappears', async ({ widget }) => {
     // forceInternalWalletManagement=true → useExternalWalletProvidersOnly=false → WalletHeader renders.
-    await expect(exchange.walletHeaderButton).toBeVisible()
+    await expect(widget.walletHeaderButton).toBeVisible()
   })
 
-  test('appkit-button remains present', async ({ exchange }) => {
-    await expect(exchange.appkitButton).toBeAttached()
+  test('appkit-button remains present', async ({ widget }) => {
+    await expect(widget.appkitButton).toBeAttached()
   })
 
   test('clicking the transaction button opens the internal wallet menu', async ({
-    exchange,
+    widget,
   }) => {
     await test.step('click the transaction Connect wallet button', async () => {
-      await exchange.transactionButton.click()
+      await widget.transactionButton.click()
     })
 
     // forceInternalWalletManagement=true → BaseTransactionButton falls through to openWalletMenu().
     await test.step('internal wallet modal opens', async () => {
-      await expect(exchange.walletModalContent).toBeVisible()
+      await expect(widget.walletModalContent).toBeVisible()
     })
 
     await test.step('modal shows "Select a wallet" heading', async () => {
-      await expect(exchange.walletModalHeading).toBeVisible()
+      await expect(widget.walletModalHeading).toBeVisible()
     })
   })
 })
@@ -277,15 +275,15 @@ test.describe('Playground settings — Wallet management (Partial)', () => {
     await expect(sidebar.nav.walletManagement).toContainText('Partial')
   })
 
-  test('header Connect wallet button is visible', async ({ exchange }) => {
+  test('header Connect wallet button is visible', async ({ widget }) => {
     // usePartialWalletManagement=true → useExternalWalletProvidersOnly=false → WalletHeader renders.
-    await expect(exchange.walletHeaderButton).toBeVisible()
+    await expect(widget.walletHeaderButton).toBeVisible()
   })
 
   test('appkit-button is present in the playground toolbar', async ({
-    exchange,
+    widget,
   }) => {
-    await expect(exchange.appkitButton).toBeAttached()
+    await expect(widget.appkitButton).toBeAttached()
   })
 
   test('Force internal wallets toggle is not shown in Partial mode', async ({
@@ -304,36 +302,36 @@ test.describe('Playground settings — Wallet management (Partial)', () => {
   })
 
   test('clicking the header button opens the internal wallet menu', async ({
-    exchange,
+    widget,
   }) => {
     await test.step('click the header Connect wallet button', async () => {
-      await exchange.walletHeaderButton.click()
+      await widget.walletHeaderButton.click()
     })
 
     // usePartialWalletManagement=true → ConnectButton falls through to openWalletMenu().
     await test.step('internal wallet modal opens', async () => {
-      await expect(exchange.walletModalContent).toBeVisible()
+      await expect(widget.walletModalContent).toBeVisible()
     })
 
     await test.step('modal shows "Select a wallet" heading', async () => {
-      await expect(exchange.walletModalHeading).toBeVisible()
+      await expect(widget.walletModalHeading).toBeVisible()
     })
   })
 
   test('clicking the transaction button opens the AppKit modal, not the internal wallet menu', async ({
-    exchange,
+    widget,
   }) => {
     await test.step('click the transaction Connect wallet button', async () => {
-      await exchange.transactionButton.click()
+      await widget.transactionButton.click()
     })
 
     // BaseTransactionButton has no usePartialWalletManagement guard — it calls onConnect() (external).
     await test.step('AppKit modal opens', async () => {
-      await expect(exchange.appkitModal).toBeVisible()
+      await expect(widget.appkitModal).toBeVisible()
     })
 
     await test.step('internal wallet modal does not open', async () => {
-      await expect(exchange.walletModalContent).not.toBeVisible()
+      await expect(widget.walletModalContent).not.toBeVisible()
     })
   })
 })
@@ -364,7 +362,7 @@ test.describe('Playground settings — Wallet management (Reset)', () => {
   test('Reset wallet management from Partial returns to Internal', async ({
     page,
     sidebar,
-    exchange,
+    widget,
   }) => {
     await page.goto('/')
     await sidebar.resetAll()
@@ -388,18 +386,18 @@ test.describe('Playground settings — Wallet management (Reset)', () => {
 
     // Back to Internal: AppKit button should be gone and the header wallet button should reappear.
     await test.step('AppKit button is no longer attached', async () => {
-      await expect(exchange.appkitButton).not.toBeAttached()
+      await expect(widget.appkitButton).not.toBeAttached()
     })
 
     await test.step('header wallet button is visible', async () => {
-      await expect(exchange.walletHeaderButton).toBeVisible()
+      await expect(widget.walletHeaderButton).toBeVisible()
     })
   })
 
   test('Reset wallet management with Force internal active reverts cleanly to Internal', async ({
     page,
     sidebar,
-    exchange,
+    widget,
   }) => {
     await page.goto('/')
     await sidebar.resetAll()
@@ -435,11 +433,11 @@ test.describe('Playground settings — Wallet management (Reset)', () => {
 
     // Back to pure Internal: AppKit button gone, header wallet button visible.
     await test.step('AppKit button is not attached', async () => {
-      await expect(exchange.appkitButton).not.toBeAttached()
+      await expect(widget.appkitButton).not.toBeAttached()
     })
 
     await test.step('header wallet button is visible', async () => {
-      await expect(exchange.walletHeaderButton).toBeVisible()
+      await expect(widget.walletHeaderButton).toBeVisible()
     })
   })
 })

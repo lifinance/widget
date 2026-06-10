@@ -1,4 +1,16 @@
-import type { Locator } from '@playwright/test'
+import type { Locator, Page } from '@playwright/test'
+
+/** Read a CSS custom property (computed value) from the document root. */
+export async function getRootCssVar(
+  page: Page,
+  varName: string
+): Promise<string> {
+  return page.evaluate(
+    (n) =>
+      getComputedStyle(document.documentElement).getPropertyValue(n).trim(),
+    varName
+  )
+}
 
 /**
  * Returns true when the DeveloperToggleItem container above the switch has

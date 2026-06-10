@@ -1,5 +1,6 @@
-import type { Locator, Page } from '@playwright/test'
+import type { Locator } from '@playwright/test'
 import { expect, test } from '../fixtures/base.fixture.js'
+import { getRootCssVar } from '../helpers.js'
 
 // CSS custom properties set by the playground theme provider (cssVarPrefix: 'lifi-pg').
 const VIEWPORT_BG_VAR = '--lifi-pg-palette-playground-main'
@@ -7,15 +8,6 @@ const VIEWPORT_BG_VAR = '--lifi-pg-palette-playground-main'
 // CSS custom properties set by the widget's own MUI theme (cssVarPrefix: 'lifi').
 // This is the primary accent colour that changes when you switch widget themes.
 const WIDGET_PRIMARY_VAR = '--lifi-palette-primary-main'
-
-/** Read a CSS custom property from the document root. */
-async function getVar(page: Page, varName: string): Promise<string> {
-  return page.evaluate(
-    (n) =>
-      getComputedStyle(document.documentElement).getPropertyValue(n).trim(),
-    varName
-  )
-}
 
 /**
  * Click a MUI Switch toggle and verify its state changed in either direction.
@@ -58,11 +50,11 @@ test.describe('Playground settings — Theme', () => {
       await sidebar.nav.theme.click()
     })
 
-    const defaultBg = await getVar(page, VIEWPORT_BG_VAR)
+    const defaultBg = await getRootCssVar(page, VIEWPORT_BG_VAR)
 
     await test.step('Jumper changes the viewport background', async () => {
       await sidebar.nav.themePresets.selectJumper.click()
-      const jumperBg = await getVar(page, VIEWPORT_BG_VAR)
+      const jumperBg = await getRootCssVar(page, VIEWPORT_BG_VAR)
       expect(jumperBg).not.toBe(defaultBg)
       await expect(sidebar.nav.themePresets.selectJumper).toHaveAttribute(
         'aria-pressed',
@@ -72,7 +64,7 @@ test.describe('Playground settings — Theme', () => {
 
     await test.step('Azure changes the viewport background', async () => {
       await sidebar.nav.themePresets.selectAzure.click()
-      const azureBg = await getVar(page, VIEWPORT_BG_VAR)
+      const azureBg = await getRootCssVar(page, VIEWPORT_BG_VAR)
       expect(azureBg).not.toBe(defaultBg)
       await expect(sidebar.nav.themePresets.selectAzure).toHaveAttribute(
         'aria-pressed',
@@ -82,7 +74,7 @@ test.describe('Playground settings — Theme', () => {
 
     await test.step('Watermelon changes the viewport background', async () => {
       await sidebar.nav.themePresets.selectWatermelon.click()
-      const watermelonBg = await getVar(page, VIEWPORT_BG_VAR)
+      const watermelonBg = await getRootCssVar(page, VIEWPORT_BG_VAR)
       expect(watermelonBg).not.toBe(defaultBg)
       await expect(sidebar.nav.themePresets.selectWatermelon).toHaveAttribute(
         'aria-pressed',
@@ -92,7 +84,7 @@ test.describe('Playground settings — Theme', () => {
 
     await test.step('Windows 95 changes the viewport background', async () => {
       await sidebar.nav.themePresets.selectWindows95.click()
-      const win95Bg = await getVar(page, VIEWPORT_BG_VAR)
+      const win95Bg = await getRootCssVar(page, VIEWPORT_BG_VAR)
       expect(win95Bg).not.toBe(defaultBg)
       await expect(sidebar.nav.themePresets.selectWindows95).toHaveAttribute(
         'aria-pressed',
@@ -102,7 +94,7 @@ test.describe('Playground settings — Theme', () => {
 
     await test.step('resetting returns the viewport background to its Default value', async () => {
       await sidebar.resetAll()
-      const restoredBg = await getVar(page, VIEWPORT_BG_VAR)
+      const restoredBg = await getRootCssVar(page, VIEWPORT_BG_VAR)
       expect(restoredBg).toBe(defaultBg)
       await expect(sidebar.nav.theme).toContainText('Default')
     })
@@ -116,11 +108,11 @@ test.describe('Playground settings — Theme', () => {
       await sidebar.nav.theme.click()
     })
 
-    const defaultBg = await getVar(page, VIEWPORT_BG_VAR)
+    const defaultBg = await getRootCssVar(page, VIEWPORT_BG_VAR)
 
     await test.step('switch to Jumper — viewport background changes to Jumper purple', async () => {
       await sidebar.nav.themePresets.selectJumper.click()
-      const jumperBg = await getVar(page, VIEWPORT_BG_VAR)
+      const jumperBg = await getRootCssVar(page, VIEWPORT_BG_VAR)
       expect(jumperBg).not.toBe(defaultBg)
     })
 
@@ -129,7 +121,7 @@ test.describe('Playground settings — Theme', () => {
     })
 
     await test.step('viewport background resets to the Default value', async () => {
-      const restoredBg = await getVar(page, VIEWPORT_BG_VAR)
+      const restoredBg = await getRootCssVar(page, VIEWPORT_BG_VAR)
       expect(restoredBg).toBe(defaultBg)
     })
   })
@@ -146,7 +138,7 @@ test.describe('Playground settings — Theme', () => {
         'aria-pressed',
         'true'
       )
-      const primary = await getVar(page, WIDGET_PRIMARY_VAR)
+      const primary = await getRootCssVar(page, WIDGET_PRIMARY_VAR)
       // Default light primary: #5C67FF
       expect(primary.toLowerCase()).toContain('5c67ff')
     })
@@ -163,7 +155,7 @@ test.describe('Playground settings — Theme', () => {
         'aria-pressed',
         'true'
       )
-      const primary = await getVar(page, WIDGET_PRIMARY_VAR)
+      const primary = await getRootCssVar(page, WIDGET_PRIMARY_VAR)
       // Jumper light primary: #30007A
       expect(primary.toLowerCase()).toContain('30007a')
     })
@@ -180,7 +172,7 @@ test.describe('Playground settings — Theme', () => {
         'aria-pressed',
         'true'
       )
-      const primary = await getVar(page, WIDGET_PRIMARY_VAR)
+      const primary = await getRootCssVar(page, WIDGET_PRIMARY_VAR)
       // Azure light primary: #006EFF
       expect(primary.toLowerCase()).toContain('006eff')
     })
@@ -197,7 +189,7 @@ test.describe('Playground settings — Theme', () => {
         'aria-pressed',
         'true'
       )
-      const primary = await getVar(page, WIDGET_PRIMARY_VAR)
+      const primary = await getRootCssVar(page, WIDGET_PRIMARY_VAR)
       // Watermelon light primary: #f7557c
       expect(primary.toLowerCase()).toContain('f7557c')
     })
@@ -214,7 +206,7 @@ test.describe('Playground settings — Theme', () => {
         'aria-pressed',
         'true'
       )
-      const primary = await getVar(page, WIDGET_PRIMARY_VAR)
+      const primary = await getRootCssVar(page, WIDGET_PRIMARY_VAR)
       // Windows 95 light primary: #0000FF
       expect(primary.toLowerCase()).toContain('0000ff')
     })
@@ -235,7 +227,7 @@ test.describe('Playground settings — Theme', () => {
     const lightBg =
       await test.step('record viewport background in light mode', async () => {
         await page.emulateMedia({ colorScheme: 'light' })
-        return getVar(page, VIEWPORT_BG_VAR)
+        return getRootCssVar(page, VIEWPORT_BG_VAR)
       })
 
     const darkBg =
@@ -251,7 +243,7 @@ test.describe('Playground settings — Theme', () => {
           [VIEWPORT_BG_VAR, lightBg] as [string, string],
           { timeout: 5000 }
         )
-        return getVar(page, VIEWPORT_BG_VAR)
+        return getRootCssVar(page, VIEWPORT_BG_VAR)
       })
 
     await test.step('dark mode applies a different viewport background than light mode', async () => {
@@ -274,7 +266,7 @@ test.describe('Playground settings — Theme', () => {
     const lightPrimary =
       await test.step('record widget primary in light mode', async () => {
         await page.emulateMedia({ colorScheme: 'light' })
-        return getVar(page, WIDGET_PRIMARY_VAR)
+        return getRootCssVar(page, WIDGET_PRIMARY_VAR)
       })
 
     const darkPrimary =
@@ -289,7 +281,7 @@ test.describe('Playground settings — Theme', () => {
           [WIDGET_PRIMARY_VAR, lightPrimary] as [string, string],
           { timeout: 5000 }
         )
-        return getVar(page, WIDGET_PRIMARY_VAR)
+        return getRootCssVar(page, WIDGET_PRIMARY_VAR)
       })
 
     await test.step('dark mode switches Jumper to its dark palette primary color', async () => {
@@ -337,7 +329,7 @@ test.describe('Playground settings — Theme', () => {
     })
 
     await test.step('CSS variable is updated to the new colour', async () => {
-      const bg = await getVar(page, VIEWPORT_BG_VAR)
+      const bg = await getRootCssVar(page, VIEWPORT_BG_VAR)
       expect(bg.toLowerCase()).toContain('ffeecc')
     })
   })
@@ -387,7 +379,7 @@ test.describe('Playground settings — Theme', () => {
         VIEWPORT_BG_VAR,
         { timeout: 5000 }
       )
-      const bg = await getVar(page, VIEWPORT_BG_VAR)
+      const bg = await getRootCssVar(page, VIEWPORT_BG_VAR)
       expect(bg.toLowerCase()).toContain('1a1a2e')
       await page.emulateMedia({ colorScheme: 'light' })
     })
@@ -439,7 +431,11 @@ test.describe('Playground settings — Theme', () => {
   // Theme editor — Typography
   // ---------------------------------------------------------------------------
 
-  test('changes the font family in Typography', async ({ page, sidebar }) => {
+  test('changes the font family in Typography', async ({
+    page,
+    sidebar,
+    widget,
+  }) => {
     // The global beforeEach resets config, which clears the font selection;
     // FontAutocomplete returns null when no font is selected. Re-navigate so
     // the page initialises fresh with the default Inter selection intact.
@@ -465,9 +461,10 @@ test.describe('Playground settings — Theme', () => {
     await test.step('the widget heading picks up the Poppins font family', async () => {
       // Font cascades to text elements inside the widget, not the container root.
       // Use toHaveCSS so Playwright retries until the MUI theme re-render propagates.
-      await expect(
-        page.locator('[id^="widget-app-expanded-container"] p').first()
-      ).toHaveCSS('font-family', /poppins/i)
+      await expect(widget.root.locator('p').first()).toHaveCSS(
+        'font-family',
+        /poppins/i
+      )
     })
   })
 
@@ -643,25 +640,25 @@ test.describe('Playground settings — Theme', () => {
   test('route side panel inherits the active theme', async ({
     page,
     sidebar,
-    exchange,
+    widget,
   }) => {
     await test.step('select Jumper theme to get a visually distinct widget primary', async () => {
       await sidebar.nav.theme.click()
       await sidebar.nav.themePresets.selectJumper.click()
       // Confirm the widget CSS primary variable is Jumper's dark purple.
-      const primary = await getVar(page, WIDGET_PRIMARY_VAR)
+      const primary = await getRootCssVar(page, WIDGET_PRIMARY_VAR)
       expect(primary.toLowerCase()).toContain('30007a')
       // The theme section (nav panel) is still visible but does not overlap the widget
       // in Wide variant — clicking From on the widget is possible without navigating away.
     })
 
     await test.step('click From — opens the chain sidebar (route side panel) in Wide variant', async () => {
-      await exchange.fromButton.click()
-      await expect(exchange.chainSidebar).toBeVisible()
+      await widget.fromButton.click()
+      await expect(widget.chainSidebar).toBeVisible()
     })
 
     await test.step('Jumper widget primary color is still active while the side panel is open', async () => {
-      const primary = await getVar(page, WIDGET_PRIMARY_VAR)
+      const primary = await getRootCssVar(page, WIDGET_PRIMARY_VAR)
       expect(primary.toLowerCase()).toContain('30007a')
     })
   })
@@ -693,7 +690,7 @@ test.describe('Playground settings — Theme', () => {
     })
 
     await test.step('widget primary CSS variable is updated', async () => {
-      const primary = await getVar(page, WIDGET_PRIMARY_VAR)
+      const primary = await getRootCssVar(page, WIDGET_PRIMARY_VAR)
       expect(primary.toLowerCase()).toContain('ff0000')
     })
   })
@@ -777,17 +774,15 @@ test.describe('Playground settings — Theme', () => {
   // Marked test.fail() — stays green while the bug exists, turns RED (unexpected pass) once
   // PR #769 lands, signalling that test.fail() should be removed.
   test("switching themes preserves the user's restricted height setting", async ({
-    page,
     sidebar,
+    widget,
   }) => {
     test.fail()
     await test.step('set Restricted height to 800px', async () => {
       await sidebar.nav.height.click()
       await sidebar.heightEditor.cards.restrictedHeight.click()
       await sidebar.heightEditor.setHeightInput.fill('800')
-      await expect(
-        page.locator('[id^="widget-app-expanded-container"]')
-      ).toHaveCSS('height', '800px')
+      await expect(widget.root).toHaveCSS('height', '800px')
     })
 
     await test.step('switch to Jumper theme', async () => {
@@ -798,9 +793,7 @@ test.describe('Playground settings — Theme', () => {
     })
 
     await test.step('height CSS is preserved after theme switch', async () => {
-      await expect(
-        page.locator('[id^="widget-app-expanded-container"]')
-      ).toHaveCSS('height', '800px')
+      await expect(widget.root).toHaveCSS('height', '800px')
     })
 
     await test.step('nav Height button still shows Restricted height', async () => {

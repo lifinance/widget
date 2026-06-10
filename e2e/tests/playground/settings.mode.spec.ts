@@ -5,12 +5,9 @@ test.describe('Playground settings — Mode', () => {
     await page.goto('/')
   })
 
-  test('Exchange mode is selected by default', async ({
-    sidebar,
-    exchange,
-  }) => {
+  test('Exchange mode is selected by default', async ({ sidebar, widget }) => {
     await test.step('widget heading shows "Exchange"', async () => {
-      await expect(exchange.heading).toHaveText('Exchange')
+      await expect(widget.heading).toHaveText('Exchange')
     })
 
     await test.step('Mode nav button value shows "Exchange"', async () => {
@@ -27,11 +24,11 @@ test.describe('Playground settings — Mode', () => {
 
     await test.step('reverse tokens button is visible and interactive', async () => {
       await sidebar.goBack()
-      await expect(exchange.reverseTokensButton).toBeVisible()
+      await expect(widget.reverseTokensButton).toBeVisible()
     })
   })
 
-  test('selects Swap or Bridge mode', async ({ sidebar, exchange }) => {
+  test('selects Swap or Bridge mode', async ({ sidebar, widget }) => {
     await test.step('open the mode panel', async () => {
       await sidebar.nav.mode.click()
     })
@@ -46,21 +43,21 @@ test.describe('Playground settings — Mode', () => {
     })
 
     await test.step('widget shows Swap / Bridge tab strip instead of a heading', async () => {
-      await expect(exchange.splitTabs).toBeVisible()
-      await expect(exchange.heading).not.toBeVisible()
+      await expect(widget.splitTabs).toBeVisible()
+      await expect(widget.heading).not.toBeVisible()
     })
 
     await test.step('tab strip contains Swap and Bridge tabs with Swap active', async () => {
       await expect(
-        exchange.splitTabs.getByRole('tab', { name: 'Swap', exact: true })
+        widget.splitTabs.getByRole('tab', { name: 'Swap', exact: true })
       ).toHaveAttribute('aria-selected', 'true')
       await expect(
-        exchange.splitTabs.getByRole('tab', { name: 'Bridge', exact: true })
+        widget.splitTabs.getByRole('tab', { name: 'Bridge', exact: true })
       ).toBeVisible()
     })
   })
 
-  test('selects Swap mode', async ({ sidebar, exchange }) => {
+  test('selects Swap mode', async ({ sidebar, widget }) => {
     await test.step('open the mode panel', async () => {
       await sidebar.nav.mode.click()
     })
@@ -75,15 +72,15 @@ test.describe('Playground settings — Mode', () => {
     })
 
     await test.step('widget heading shows "Swap"', async () => {
-      await expect(exchange.heading).toHaveText('Swap')
+      await expect(widget.heading).toHaveText('Swap')
     })
 
     await test.step('reverse tokens button is visible', async () => {
-      await expect(exchange.reverseTokensButton).toBeVisible()
+      await expect(widget.reverseTokensButton).toBeVisible()
     })
   })
 
-  test('selects Bridge mode', async ({ sidebar, exchange }) => {
+  test('selects Bridge mode', async ({ sidebar, widget }) => {
     await test.step('open the mode panel', async () => {
       await sidebar.nav.mode.click()
     })
@@ -98,15 +95,15 @@ test.describe('Playground settings — Mode', () => {
     })
 
     await test.step('widget heading shows "Bridge"', async () => {
-      await expect(exchange.heading).toHaveText('Bridge')
+      await expect(widget.heading).toHaveText('Bridge')
     })
 
     await test.step('reverse tokens button is visible', async () => {
-      await expect(exchange.reverseTokensButton).toBeVisible()
+      await expect(widget.reverseTokensButton).toBeVisible()
     })
   })
 
-  test('selects Refuel mode', async ({ sidebar, exchange }) => {
+  test('selects Refuel mode', async ({ sidebar, widget }) => {
     await test.step('open the mode panel', async () => {
       await sidebar.nav.mode.click()
     })
@@ -121,13 +118,13 @@ test.describe('Playground settings — Mode', () => {
     })
 
     await test.step('widget heading shows "Gas"', async () => {
-      await expect(exchange.heading).toHaveText('Gas')
+      await expect(widget.heading).toHaveText('Gas')
     })
 
     // In Refuel mode SelectChainAndToken replaces the interactive ReverseTokensButton
     // with an inert ReverseTokensButtonEmpty spacer, so the labelled button disappears.
     await test.step('reverse tokens button is hidden', async () => {
-      await expect(exchange.reverseTokensButton).not.toBeVisible()
+      await expect(widget.reverseTokensButton).not.toBeVisible()
     })
   })
 
@@ -158,7 +155,7 @@ test.describe('Playground settings — Mode', () => {
 
   test('Swap mode shows the Swap tab and no Bridge tab', async ({
     sidebar,
-    exchange,
+    widget,
   }) => {
     await test.step('open the mode panel and click Swap', async () => {
       await sidebar.nav.mode.click()
@@ -169,20 +166,20 @@ test.describe('Playground settings — Mode', () => {
     // Swap mode (mode='split', splitOption='swap') hides the tab strip entirely
     // and shows a plain heading instead — the widget is locked to swap-only.
     await test.step('heading shows "Swap" (tab strip is not rendered)', async () => {
-      await expect(exchange.heading).toHaveText('Swap')
-      await expect(exchange.splitTabs).not.toBeAttached()
+      await expect(widget.heading).toHaveText('Swap')
+      await expect(widget.splitTabs).not.toBeAttached()
     })
 
     await test.step('Bridge tab is absent from the DOM', async () => {
       await expect(
-        exchange.widgetRoot.getByRole('tab', { name: 'Bridge', exact: true })
+        widget.root.getByRole('tab', { name: 'Bridge', exact: true })
       ).not.toBeAttached()
     })
   })
 
   test('Bridge mode shows the Bridge tab and no Swap tab', async ({
     sidebar,
-    exchange,
+    widget,
   }) => {
     await test.step('open the mode panel and click Bridge', async () => {
       await sidebar.nav.mode.click()
@@ -193,18 +190,18 @@ test.describe('Playground settings — Mode', () => {
     // Bridge mode (mode='split', splitOption='bridge') hides the tab strip entirely
     // and shows a plain heading instead — the widget is locked to bridge-only.
     await test.step('heading shows "Bridge" (tab strip is not rendered)', async () => {
-      await expect(exchange.heading).toHaveText('Bridge')
-      await expect(exchange.splitTabs).not.toBeAttached()
+      await expect(widget.heading).toHaveText('Bridge')
+      await expect(widget.splitTabs).not.toBeAttached()
     })
 
     await test.step('Swap tab is absent from the DOM', async () => {
       await expect(
-        exchange.widgetRoot.getByRole('tab', { name: 'Swap', exact: true })
+        widget.root.getByRole('tab', { name: 'Swap', exact: true })
       ).not.toBeAttached()
     })
   })
 
-  test('resets mode to default', async ({ sidebar, exchange }) => {
+  test('resets mode to default', async ({ sidebar, widget }) => {
     await test.step('select Bridge mode', async () => {
       await sidebar.nav.mode.click()
       await sidebar.modeEditor.cards.bridge.click()
@@ -220,7 +217,7 @@ test.describe('Playground settings — Mode', () => {
     })
 
     await test.step('widget heading reverts to "Exchange"', async () => {
-      await expect(exchange.heading).toHaveText('Exchange')
+      await expect(widget.heading).toHaveText('Exchange')
     })
   })
 })

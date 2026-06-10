@@ -12,14 +12,17 @@ import { isToggleItemDisabled } from '../helpers.js'
  * viewport. Call this in any test that enables mock header / mock footer while
  * the widget is in full-height layout.
  *
- * Stable DOM anchors used here:
+ * The key interactive elements (From / To / transaction button) come from the
+ * WidgetView Component Object; the header/scroll anchors below are widget
+ * internals with no accessible hook, so they stay as id selectors:
  *   [id^="widget-header"]               — fixed header wrapper (z-index 1200)
  *   [id^="widget-scrollable-container"] — scroll area whose paddingTop should
  *                                          clear the header completely
- *   [id^="widget-app-expanded-container"] — widget root
  */
-async function assertWidgetNotClipped(page: Page): Promise<void> {
-  const widgetRoot = page.locator('[id^="widget-app-expanded-container"]')
+async function assertWidgetNotClipped(
+  page: Page,
+  widget: import('../components/WidgetView.js').WidgetView
+): Promise<void> {
   const widgetHeader = page.locator('[id^="widget-header"]')
   const scrollContainer = page.locator('[id^="widget-scrollable-container"]')
   const vp = page.viewportSize()!
@@ -41,18 +44,9 @@ async function assertWidgetNotClipped(page: Page): Promise<void> {
     loc: import('@playwright/test').Locator
     label: string
   }> = [
-    {
-      loc: widgetRoot.getByRole('button', { name: /^From\b/i }),
-      label: 'From button',
-    },
-    {
-      loc: widgetRoot.getByRole('button', { name: /^To\b/i }),
-      label: 'To button',
-    },
-    {
-      loc: widgetRoot.getByTestId('widget-transaction-button'),
-      label: 'transaction button',
-    },
+    { loc: widget.fromButton, label: 'From button' },
+    { loc: widget.toButton, label: 'To button' },
+    { loc: widget.transactionButton, label: 'transaction button' },
   ]
 
   for (const { loc, label } of elements) {
@@ -89,13 +83,13 @@ test.describe('Playground settings — Developer controls (default state)', () =
 
   test('widget is clean and all toggles are off when entering developer controls', async ({
     sidebar,
-    exchange,
+    widget,
   }) => {
     await test.step('widget shows empty form', async () => {
-      await expect(exchange.fromButton).toContainText('Select')
-      await expect(exchange.toButton).toContainText('Select')
+      await expect(widget.fromButton).toContainText('Select')
+      await expect(widget.toButton).toContainText('Select')
       // The send-amount input has placeholder "0" but its actual value is empty.
-      await expect(exchange.sendAmountInput).toHaveValue('')
+      await expect(widget.sendAmountInput).toHaveValue('')
     })
 
     await test.step('open developer controls', async () => {
@@ -165,7 +159,7 @@ test.describe('Playground settings — Developer controls (Form values)', () => 
   test('toggling on prefills the widget with the default route', async ({
     page,
     sidebar,
-    exchange,
+    widget,
   }) => {
     await test.step('toggle form values on', async () => {
       await sidebar.developerControlsEditor.formValues.click()
@@ -177,14 +171,14 @@ test.describe('Playground settings — Developer controls (Form values)', () => 
     })
 
     await test.step('widget from/to buttons show the preset tokens', async () => {
-      await expect(exchange.fromButton).toContainText('ETH', {
+      await expect(widget.fromButton).toContainText('ETH', {
         timeout: 30_000,
       })
-      await expect(exchange.toButton).toContainText('USDC', { timeout: 30_000 })
+      await expect(widget.toButton).toContainText('USDC', { timeout: 30_000 })
     })
 
     await test.step('send amount shows the preset value', async () => {
-      await expect(exchange.sendAmountInput).toHaveValue('1')
+      await expect(widget.sendAmountInput).toHaveValue('1')
     })
 
     await test.step('URL reflects devView=true', async () => {
@@ -203,11 +197,11 @@ test.describe('Playground settings — Developer controls (Form values)', () => 
   test('toggling off resets the widget form and clears URL params', async ({
     page,
     sidebar,
-    exchange,
+    widget,
   }) => {
     await test.step('toggle on then off', async () => {
       await sidebar.developerControlsEditor.formValues.click()
-      await expect(exchange.fromButton).toContainText('ETH', {
+      await expect(widget.fromButton).toContainText('ETH', {
         timeout: 30_000,
       })
       await sidebar.developerControlsEditor.formValues.click()
@@ -217,8 +211,8 @@ test.describe('Playground settings — Developer controls (Form values)', () => 
     })
 
     await test.step('widget form is cleared', async () => {
-      await expect(exchange.fromButton).toContainText('Select')
-      await expect(exchange.toButton).toContainText('Select')
+      await expect(widget.fromButton).toContainText('Select')
+      await expect(widget.toButton).toContainText('Select')
     })
 
     await test.step('devView URL param is removed', async () => {
@@ -250,7 +244,7 @@ test.describe('Playground settings — Developer controls (Form values)', () => 
   test('chains/tokens preset buttons update the widget From/To chains', async ({
     page,
     sidebar,
-    exchange,
+    widget,
   }) => {
     await test.step('enable Form values', async () => {
       await sidebar.developerControlsEditor.formValues.click()
@@ -269,7 +263,7 @@ test.describe('Playground settings — Developer controls (Form values)', () => 
     })
 
     await test.step('From button reflects ETH on Ethereum', async () => {
-      await expect(exchange.fromButton).toContainText('ETH', {
+      await expect(widget.fromButton).toContainText('ETH', {
         timeout: 30_000,
       })
     })
@@ -281,14 +275,14 @@ test.describe('Playground settings — Developer controls (Form values)', () => 
     })
 
     await test.step('From button shows Select… after chains reset', async () => {
-      await expect(exchange.fromButton).toContainText('Select')
+      await expect(widget.fromButton).toContainText('Select')
     })
   })
 
   test('amount preset button sets the send-amount input', async ({
     page,
     sidebar,
-    exchange,
+    widget,
   }) => {
     await test.step('enable Form values', async () => {
       await sidebar.developerControlsEditor.formValues.click()
@@ -304,7 +298,7 @@ test.describe('Playground settings — Developer controls (Form values)', () => 
     })
 
     await test.step('send-amount input shows 0.5', async () => {
-      await expect(exchange.sendAmountInput).toHaveValue('0.5')
+      await expect(widget.sendAmountInput).toHaveValue('0.5')
     })
 
     await test.step('click the Amount RESET button to clear the amount', async () => {
@@ -314,7 +308,7 @@ test.describe('Playground settings — Developer controls (Form values)', () => 
     })
 
     await test.step('send-amount input is empty after reset', async () => {
-      await expect(exchange.sendAmountInput).toHaveValue('')
+      await expect(widget.sendAmountInput).toHaveValue('')
     })
   })
 })
@@ -363,15 +357,15 @@ test.describe('Playground settings — Developer controls (Bookmark stores)', ()
   })
 
   test('Send to wallet page shows 50 bookmarked wallets after seeding', async ({
-    exchange,
+    widget,
     sendToWallet,
   }) => {
     await test.step('click the send-to-wallet button in the widget', async () => {
-      await exchange.sendToWalletButton.click()
+      await widget.sendToWalletButton.click()
     })
 
     await test.step('Send to wallet page opens', async () => {
-      await expect(exchange.heading).toHaveText('Send to wallet')
+      await expect(widget.heading).toHaveText('Send to wallet')
     })
 
     await test.step('Bookmarked wallets button shows count of 50', async () => {
@@ -384,17 +378,17 @@ test.describe('Playground settings — Developer controls (Bookmark stores)', ()
   })
 
   test('navigating into Bookmarked wallets shows the seeded wallet list', async ({
-    exchange,
+    widget,
     sendToWallet,
   }) => {
     await test.step('open Send to wallet page', async () => {
-      await exchange.sendToWalletButton.click()
-      await expect(exchange.heading).toHaveText('Send to wallet')
+      await widget.sendToWalletButton.click()
+      await expect(widget.heading).toHaveText('Send to wallet')
     })
 
     await test.step('click Bookmarked wallets', async () => {
       await sendToWallet.bookmarkedWalletsButton.click()
-      await expect(exchange.heading).toHaveText('Bookmarked wallets')
+      await expect(widget.heading).toHaveText('Bookmarked wallets')
     })
 
     await test.step('list shows the first seeded bookmark', async () => {
@@ -412,7 +406,7 @@ test.describe('Playground settings — Developer controls (Bookmark stores)', ()
   test('clearing bookmark stores reloads and removes bookmarks from the list', async ({
     page,
     sidebar,
-    exchange,
+    widget,
     sendToWallet,
   }) => {
     await test.step('clear the bookmark data', async () => {
@@ -425,8 +419,8 @@ test.describe('Playground settings — Developer controls (Bookmark stores)', ()
     })
 
     await test.step('open Send to wallet page', async () => {
-      await exchange.sendToWalletButton.click()
-      await expect(exchange.heading).toHaveText('Send to wallet')
+      await widget.sendToWalletButton.click()
+      await expect(widget.heading).toHaveText('Send to wallet')
     })
 
     await test.step('Bookmarked wallets button shows no count', async () => {
@@ -449,8 +443,7 @@ test.describe('Playground settings — Developer controls (Loading preview)', ()
 
   test('shows the skeleton loader when toggled on', async ({
     sidebar,
-    exchange,
-    page,
+    widget,
   }) => {
     await test.step('toggle loading preview on', async () => {
       await sidebar.developerControlsEditor.loadingPreview.click()
@@ -460,27 +453,26 @@ test.describe('Playground settings — Developer controls (Loading preview)', ()
     })
 
     await test.step('widget heading is replaced — Exchange text is gone', async () => {
-      await expect(exchange.heading).not.toBeAttached()
+      await expect(widget.heading).not.toBeAttached()
     })
 
-    await test.step('at least 10 skeleton placeholder elements are visible', async () => {
-      const skeletonCount = await page.locator('.MuiSkeleton-root').count()
-      expect(skeletonCount).toBeGreaterThanOrEqual(10)
+    await test.step('skeleton loading preview is rendered in place of the widget', async () => {
+      await expect(widget.skeletonContainer).toBeVisible()
     })
   })
 
   test('restores the live widget when toggled off', async ({
     sidebar,
-    exchange,
+    widget,
   }) => {
     await test.step('toggle on then off', async () => {
       await sidebar.developerControlsEditor.loadingPreview.click()
-      await expect(exchange.heading).not.toBeAttached()
+      await expect(widget.heading).not.toBeAttached()
       await sidebar.developerControlsEditor.loadingPreview.click()
     })
 
     await test.step('widget heading reappears', async () => {
-      await expect(exchange.heading).toBeVisible()
+      await expect(widget.heading).toBeVisible()
     })
   })
 
@@ -646,6 +638,7 @@ test.describe('Playground settings — Developer controls (Mock header)', () => 
   test('scrollable content is not obscured by the fixed widget header when mock header is on', async ({
     page,
     sidebar,
+    widget,
   }) => {
     test.fail()
     await setCompactFullHeight({ sidebar })
@@ -653,13 +646,11 @@ test.describe('Playground settings — Developer controls (Mock header)', () => 
     await sidebar.developerControlsEditor.mockHeader.click()
     await sidebar.goBack()
     // Close sidebar so it doesn't interfere with element positions.
-    await page.evaluate(() => {
-      ;(
-        document.querySelector('[aria-label="Close tools"]') as HTMLElement
-      )?.click()
-    })
-    await page.waitForTimeout(300)
-    await assertWidgetNotClipped(page)
+    await sidebar.header.closeTools.click()
+    // The Open tools button only appears once the sidebar has fully collapsed, so
+    // waiting for it confirms the close transition finished and positions settled.
+    await sidebar.header.openTools.waitFor({ state: 'visible' })
+    await assertWidgetNotClipped(page, widget)
   })
 })
 
@@ -780,6 +771,7 @@ test.describe('Playground settings — Developer controls (Mock footer)', () => 
   test('all key elements are within the visible content area with mock header and footer on', async ({
     page,
     sidebar,
+    widget,
   }) => {
     test.fail()
     await setCompactFullHeight({ sidebar })
@@ -787,18 +779,17 @@ test.describe('Playground settings — Developer controls (Mock footer)', () => 
     await sidebar.developerControlsEditor.mockHeader.click()
     await sidebar.developerControlsEditor.mockFooter.click()
     await sidebar.goBack()
-    await page.evaluate(() => {
-      ;(
-        document.querySelector('[aria-label="Close tools"]') as HTMLElement
-      )?.click()
-    })
-    await page.waitForTimeout(300)
-    await assertWidgetNotClipped(page)
+    // Close sidebar so it doesn't interfere with element positions.
+    await sidebar.header.closeTools.click()
+    // The Open tools button only appears once the sidebar has fully collapsed, so
+    // waiting for it confirms the close transition finished and positions settled.
+    await sidebar.header.openTools.waitFor({ state: 'visible' })
+    await assertWidgetNotClipped(page, widget)
   })
 
   test('mock header and footer together — widget content is not clipped and transaction button is reachable', async ({
     sidebar,
-    exchange,
+    widget,
     page,
   }) => {
     await setCompactFullHeight({ sidebar })
@@ -827,7 +818,7 @@ test.describe('Playground settings — Developer controls (Mock footer)', () => 
       // Close the sidebar so it doesn't obscure the widget.
       await sidebar.goBack()
       await sidebar.header.closeTools.click()
-      await expect(exchange.transactionButton).toBeVisible()
+      await expect(widget.transactionButton).toBeVisible()
     })
   })
 })
@@ -952,7 +943,7 @@ test.describe('Playground settings — Developer controls (Widget events)', () =
   test('enabled event listener logs to the browser console when the event fires', async ({
     page,
     sidebar,
-    exchange,
+    widget,
   }) => {
     const consoleMessages: string[] = []
     page.on('console', (msg) => {
@@ -969,20 +960,23 @@ test.describe('Playground settings — Developer controls (Widget events)', () =
       // useWidgetEventConsoleLogging only attaches listeners while DeveloperControlsDetailView
       // is mounted. We must NOT navigate away from the dev controls panel — interact with the
       // widget directly while the sidebar stays on the widget events slide.
-      await exchange.settingsButton.click()
+      await widget.settingsButton.click()
     })
 
     await test.step('pageEntered event appears in console output', async () => {
       // WidgetEvent.PageEntered = 'pageEntered' (camelCase enum value, not the key name).
-      await page.waitForTimeout(500)
-      expect(consoleMessages.some((m) => m.includes('pageEntered'))).toBe(true)
+      // Poll until the event reaches the captured console output rather than waiting a
+      // fixed delay — the listener fires asynchronously after the click.
+      await expect
+        .poll(() => consoleMessages.some((m) => m.includes('pageEntered')))
+        .toBe(true)
     })
   })
 
   test('SettingUpdated event fires when a widget setting is changed', async ({
     page,
     sidebar,
-    exchange,
+    widget,
     settings,
   }) => {
     const consoleMessages: string[] = []
@@ -1006,24 +1000,24 @@ test.describe('Playground settings — Developer controls (Widget events)', () =
     await test.step('open widget Settings', async () => {
       // useWidgetEventConsoleLogging only attaches listeners while DeveloperControlsDetailView
       // is mounted. Interact with the widget directly without navigating away from the panel.
-      await exchange.settingsButton.click()
+      await widget.settingsButton.click()
     })
 
     await test.step('expand Route priority and click Fastest to change the setting', async () => {
       // Clicking Route priority expands the accordion; then clicking the Fastest tab calls
       // setValue('routePriority', 'FASTEST') which emits WidgetEvent.SettingUpdated.
       await settings.routePriorityButton.click()
-      const widgetRoot = page.locator('[id^="widget-app-expanded-container"]')
-      await widgetRoot.getByRole('tab', { name: /fastest/i }).click()
+      await widget.root.getByRole('tab', { name: /fastest/i }).click()
     })
 
     await test.step('settingUpdated appears in console output', async () => {
       // useWidgetEventConsoleLogging calls console.info(eventName, value).
       // Playwright's msg.text() concatenates all console.info arguments.
-      await page.waitForTimeout(300)
-      expect(consoleMessages.some((m) => m.includes('settingUpdated'))).toBe(
-        true
-      )
+      // Poll until the event reaches the captured console output rather than waiting
+      // a fixed delay — the listener fires asynchronously after the setting change.
+      await expect
+        .poll(() => consoleMessages.some((m) => m.includes('settingUpdated')))
+        .toBe(true)
     })
   })
 

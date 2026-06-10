@@ -104,8 +104,8 @@ test.describe('Playground settings — Height (Restricted height)', () => {
   })
 
   test('a height value >= 686 is applied to the widget container', async ({
-    page,
     sidebar,
+    widget,
   }) => {
     await test.step('select Restricted height', async () => {
       await sidebar.heightEditor.cards.restrictedHeight.click()
@@ -116,9 +116,7 @@ test.describe('Playground settings — Height (Restricted height)', () => {
     })
 
     await test.step('widget container height updates to 800px', async () => {
-      await expect(
-        page.locator('[id^="widget-app-expanded-container"]')
-      ).toHaveCSS('height', '800px')
+      await expect(widget.root).toHaveCSS('height', '800px')
     })
   })
 
@@ -172,8 +170,8 @@ test.describe('Playground settings — Height (Restricted height)', () => {
   })
 
   test('686 is the minimum accepted value and is applied as height CSS', async ({
-    page,
     sidebar,
+    widget,
   }) => {
     await test.step('select Restricted height', async () => {
       await sidebar.heightEditor.cards.restrictedHeight.click()
@@ -184,15 +182,13 @@ test.describe('Playground settings — Height (Restricted height)', () => {
     })
 
     await test.step('widget container height updates to 686px', async () => {
-      await expect(
-        page.locator('[id^="widget-app-expanded-container"]')
-      ).toHaveCSS('height', '686px')
+      await expect(widget.root).toHaveCSS('height', '686px')
     })
   })
 
   test('Clear button removes the height CSS from the widget container', async ({
-    page,
     sidebar,
+    widget,
   }) => {
     await test.step('select Restricted height and enter 800', async () => {
       await sidebar.heightEditor.cards.restrictedHeight.click()
@@ -200,9 +196,7 @@ test.describe('Playground settings — Height (Restricted height)', () => {
     })
 
     await test.step('widget container has height: 800px', async () => {
-      await expect(
-        page.locator('[id^="widget-app-expanded-container"]')
-      ).toHaveCSS('height', '800px')
+      await expect(widget.root).toHaveCSS('height', '800px')
     })
 
     await test.step('click the Clear button', async () => {
@@ -210,9 +204,7 @@ test.describe('Playground settings — Height (Restricted height)', () => {
     })
 
     await test.step('height CSS is no longer 800px on the widget container', async () => {
-      await expect(
-        page.locator('[id^="widget-app-expanded-container"]')
-      ).not.toHaveCSS('height', '800px')
+      await expect(widget.root).not.toHaveCSS('height', '800px')
     })
   })
 })
@@ -561,6 +553,7 @@ test.describe('Playground settings — Height (EMB-421 regression)', () => {
   test('restricted height persists the nav label and CSS after page reload', async ({
     page,
     sidebar,
+    widget,
   }) => {
     await page.goto('/')
     await sidebar.resetAll()
@@ -572,9 +565,7 @@ test.describe('Playground settings — Height (EMB-421 regression)', () => {
     })
 
     await test.step('widget container has height: 800px before reload', async () => {
-      await expect(
-        page.locator('[id^="widget-app-expanded-container"]')
-      ).toHaveCSS('height', '800px')
+      await expect(widget.root).toHaveCSS('height', '800px')
     })
 
     await test.step('reload the page', async () => {
@@ -586,9 +577,7 @@ test.describe('Playground settings — Height (EMB-421 regression)', () => {
     })
 
     await test.step('height: 800px CSS is still applied after reload', async () => {
-      await expect(
-        page.locator('[id^="widget-app-expanded-container"]')
-      ).toHaveCSS('height', '800px')
+      await expect(widget.root).toHaveCSS('height', '800px')
     })
   })
 })

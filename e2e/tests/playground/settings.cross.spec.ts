@@ -1,5 +1,5 @@
 import { expect, test } from '../fixtures/base.fixture.js'
-import { isToggleItemDisabled } from '../helpers.js'
+import { getRootCssVar, isToggleItemDisabled } from '../helpers.js'
 
 // ---------------------------------------------------------------------------
 // Height × Developer Controls
@@ -76,6 +76,7 @@ test.describe('Playground settings — Cross-setting: Variant × Height state pr
 
   test('switching to Drawer when Restricted height is active disables the Restricted height card and clears the inline height', async ({
     sidebar,
+    widget,
   }) => {
     await test.step('set Restricted height 800px in Wide variant', async () => {
       await sidebar.nav.height.click()
@@ -89,9 +90,7 @@ test.describe('Playground settings — Cross-setting: Variant × Height state pr
     })
 
     await test.step('widget container has 800px height', async () => {
-      const container = sidebar.page.locator(
-        '[id^="widget-app-expanded-container"]'
-      )
+      const container = widget.root
       await expect(container).toHaveCSS('height', '800px')
     })
 
@@ -113,9 +112,7 @@ test.describe('Playground settings — Cross-setting: Variant × Height state pr
     })
 
     await test.step('widget container no longer has 800px inline height', async () => {
-      const container = sidebar.page.locator(
-        '[id^="widget-app-expanded-container"]'
-      )
+      const container = widget.root
       const inlineHeight = await container.evaluate(
         (el) => (el as HTMLElement).style.height
       )
@@ -127,6 +124,7 @@ test.describe('Playground settings — Cross-setting: Variant × Height state pr
 
   test('switching to Wide when Full height (Compact) is active disables the Full height card', async ({
     sidebar,
+    widget,
   }) => {
     await test.step('switch to Compact and set Full height', async () => {
       await sidebar.nav.variant.click()
@@ -159,9 +157,7 @@ test.describe('Playground settings — Cross-setting: Variant × Height state pr
     })
 
     await test.step('widget no longer occupies full viewport height', async () => {
-      const container = sidebar.page.locator(
-        '[id^="widget-app-expanded-container"]'
-      )
+      const container = widget.root
       const inlineHeight = await container.evaluate(
         (el) => (el as HTMLElement).style.height
       )
@@ -186,7 +182,7 @@ test.describe('Playground settings — Cross-setting: Theme × Compact variant',
   test('Jumper theme primary colour persists after switching to Compact variant', async ({
     page,
     sidebar,
-    exchange,
+    widget,
   }) => {
     await test.step('select Jumper theme', async () => {
       // The Theme nav button expands an accordion in the nav panel — there is no
@@ -197,9 +193,8 @@ test.describe('Playground settings — Cross-setting: Theme × Compact variant',
     })
 
     await test.step('Jumper primary colour is applied', async () => {
-      const primaryVar = await page.evaluate(
-        (n) =>
-          getComputedStyle(document.documentElement).getPropertyValue(n).trim(),
+      const primaryVar = await getRootCssVar(
+        page,
         '--lifi-palette-primary-main'
       )
       expect(primaryVar.toLowerCase()).toContain('30007a')
@@ -212,27 +207,25 @@ test.describe('Playground settings — Cross-setting: Theme × Compact variant',
     })
 
     await test.step('Jumper primary colour is unchanged after variant switch', async () => {
-      const primaryVar = await page.evaluate(
-        (n) =>
-          getComputedStyle(document.documentElement).getPropertyValue(n).trim(),
+      const primaryVar = await getRootCssVar(
+        page,
         '--lifi-palette-primary-main'
       )
       expect(primaryVar.toLowerCase()).toContain('30007a')
     })
 
     await test.step('click From to open token selector (Compact uses full-page token selector, not chain sidebar)', async () => {
-      await exchange.fromButton.click()
+      await widget.fromButton.click()
       // Compact variant replaces the main view with a token selector page that
       // includes a search input — confirm the selector is open.
       await expect(
-        exchange.widgetRoot.getByPlaceholder('Search by token or address')
+        widget.root.getByPlaceholder('Search by token or address')
       ).toBeVisible()
     })
 
     await test.step('Jumper primary colour is still active inside token selector view', async () => {
-      const primaryVar = await page.evaluate(
-        (n) =>
-          getComputedStyle(document.documentElement).getPropertyValue(n).trim(),
+      const primaryVar = await getRootCssVar(
+        page,
         '--lifi-palette-primary-main'
       )
       expect(primaryVar.toLowerCase()).toContain('30007a')

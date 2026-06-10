@@ -25,36 +25,36 @@ test.describe('Playground settings — Mode × Variant: Swap or Bridge + Compact
   })
 
   test('Swap or Bridge tab strip renders correctly in Compact layout', async ({
-    exchange,
+    widget,
   }) => {
     await test.step('split tabs replace the heading', async () => {
-      await expect(exchange.splitTabs).toBeVisible()
-      await expect(exchange.heading).not.toBeVisible()
+      await expect(widget.splitTabs).toBeVisible()
+      await expect(widget.heading).not.toBeVisible()
     })
 
     await test.step('Swap tab is active by default', async () => {
       await expect(
-        exchange.splitTabs.getByRole('tab', { name: 'Swap', exact: true })
+        widget.splitTabs.getByRole('tab', { name: 'Swap', exact: true })
       ).toHaveAttribute('aria-selected', 'true')
     })
 
     await test.step('Bridge tab is present', async () => {
       await expect(
-        exchange.splitTabs.getByRole('tab', { name: 'Bridge', exact: true })
+        widget.splitTabs.getByRole('tab', { name: 'Bridge', exact: true })
       ).toBeVisible()
     })
   })
 
   test('clicking From navigates inline — chain sidebar does not open', async ({
-    exchange,
+    widget,
     tokenSelector,
   }) => {
     await test.step('click the From token button', async () => {
-      await exchange.fromButton.click()
+      await widget.fromButton.click()
     })
 
     await test.step('chain sidebar expansion does not appear', async () => {
-      await expect(exchange.chainSidebar).not.toBeVisible()
+      await expect(widget.chainSidebar).not.toBeVisible()
     })
 
     await test.step('token selector opens inside the widget', async () => {
@@ -63,15 +63,15 @@ test.describe('Playground settings — Mode × Variant: Swap or Bridge + Compact
   })
 
   test('clicking To navigates inline — chain sidebar does not open', async ({
-    exchange,
+    widget,
     tokenSelector,
   }) => {
     await test.step('click the To token button', async () => {
-      await exchange.toButton.click()
+      await widget.toButton.click()
     })
 
     await test.step('chain sidebar expansion does not appear', async () => {
-      await expect(exchange.chainSidebar).not.toBeVisible()
+      await expect(widget.chainSidebar).not.toBeVisible()
     })
 
     await test.step('token selector opens inside the widget', async () => {
@@ -94,28 +94,28 @@ test.describe('Playground settings — Mode × Variant: Refuel + Compact', () =>
     await sidebar.goBack()
   })
 
-  test('Refuel mode UI is correct in Compact layout', async ({ exchange }) => {
+  test('Refuel mode UI is correct in Compact layout', async ({ widget }) => {
     await test.step('widget heading shows "Gas"', async () => {
-      await expect(exchange.heading).toHaveText('Gas')
+      await expect(widget.heading).toHaveText('Gas')
     })
 
     // In Refuel mode SelectChainAndToken replaces ReverseTokensButton with an
     // inert spacer — so the labelled button disappears.
     await test.step('reverse tokens button is hidden', async () => {
-      await expect(exchange.reverseTokensButton).not.toBeVisible()
+      await expect(widget.reverseTokensButton).not.toBeVisible()
     })
   })
 
   test('clicking From navigates inline — chain sidebar does not open', async ({
-    exchange,
+    widget,
     tokenSelector,
   }) => {
     await test.step('click the From token button', async () => {
-      await exchange.fromButton.click()
+      await widget.fromButton.click()
     })
 
     await test.step('chain sidebar expansion does not appear', async () => {
-      await expect(exchange.chainSidebar).not.toBeVisible()
+      await expect(widget.chainSidebar).not.toBeVisible()
     })
 
     await test.step('token selector opens inside the widget', async () => {
@@ -141,34 +141,34 @@ test.describe('Playground settings — Mode × Variant: Bridge + Drawer', () => 
     await sidebar.goBack()
   })
 
-  test('Bridge mode UI is correct inside the Drawer', async ({ exchange }) => {
+  test('Bridge mode UI is correct inside the Drawer', async ({ widget }) => {
     await test.step('open the drawer via the toggle button', async () => {
-      await exchange.toggleDrawerButton.click()
+      await widget.toggleDrawerButton.click()
     })
 
     await test.step('widget heading shows "Bridge"', async () => {
-      await expect(exchange.heading).toHaveText('Bridge')
+      await expect(widget.heading).toHaveText('Bridge')
     })
 
     await test.step('reverse tokens button is visible', async () => {
-      await expect(exchange.reverseTokensButton).toBeVisible()
+      await expect(widget.reverseTokensButton).toBeVisible()
     })
   })
 
   test('clicking From navigates inline — chain sidebar does not open', async ({
-    exchange,
+    widget,
     tokenSelector,
   }) => {
     await test.step('open the drawer via the toggle button', async () => {
-      await exchange.toggleDrawerButton.click()
+      await widget.toggleDrawerButton.click()
     })
 
     await test.step('click the From token button', async () => {
-      await exchange.fromButton.click()
+      await widget.fromButton.click()
     })
 
     await test.step('chain sidebar expansion does not appear', async () => {
-      await expect(exchange.chainSidebar).not.toBeVisible()
+      await expect(widget.chainSidebar).not.toBeVisible()
     })
 
     await test.step('token selector opens inside the widget', async () => {
