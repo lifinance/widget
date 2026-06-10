@@ -46,7 +46,7 @@ jobs:
               pnpm-workspace.yaml|pnpm-lock.yaml|package.json)
                 SHARED_CHANGED=true ;;
               # e2e shared infrastructure triggers all examples.
-              # Playground-only paths (tests/playground/, READMEs, locators.json) are excluded.
+              # Playground-only paths (tests/playground/, READMEs) are excluded.
               e2e/package.json|e2e/tsconfig.json|e2e/examples.json)
                 SHARED_CHANGED=true ;;
               e2e/playwright.examples.config.ts|e2e/examples.config.ts)

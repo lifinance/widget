@@ -8,52 +8,47 @@ Playwright tests for the **LI.FI Widget Playground** — the interactive sidebar
 
 ## Running locally
 
-The playground app must be running before tests execute. There are two server modes:
-
-> **Run these from `e2e/`.** Every `pnpm exec playwright …` command below assumes your shell is inside the `e2e/` directory, where the `@lifi/widget-e2e` package and its Playwright binary live. To run from the repo root instead, swap `pnpm exec` for the package filter — e.g. `pnpm --filter @lifi/widget-e2e exec playwright test --project dev`.
-
-### Dev server (recommended for development)
-
-Picks up source changes via Vite HMR — no rebuild needed.
+Run from the repo root — no need to start a server or `cd` anywhere. Each script
+builds/serves the playground automatically and tears it down when finished.
 
 ```bash
-# Terminal 1 — from repo root
-pnpm dev   # starts http://localhost:3000
-
-# Terminal 2 — from e2e/
-pnpm exec playwright test --project dev
+pnpm e2e         # preview mode — full suite against the production build (:4173); matches CI
+pnpm e2e:dev     # dev mode — smoke subset (tests/dev/) against the Vite dev server (:3000)
+pnpm e2e:ui      # preview suite in Playwright's interactive UI
+pnpm e2e:report  # open the last HTML report
 ```
 
-### Preview server (matches CI exactly)
+**Preview** (`pnpm e2e`) runs the production build — the environment closest to what
+ships, and what CI runs. Its `webServer` builds the playground on first run and reuses
+an already-running server on reruns.
 
-Runs the production build — same environment as CI.
+**Dev** (`pnpm e2e:dev`) runs against the Vite dev server — picks up source changes via
+HMR, no build. The fast sanity loop; covers the smoke subset in `tests/dev/`.
 
-```bash
-# Terminal 1 — from repo root
-pnpm --filter widget-playground-vite build
-pnpm --filter widget-playground-vite preview   # http://localhost:4173
+> If a server is already up on the target port (e.g. you ran `pnpm dev` yourself),
+> Playwright reuses it instead of starting its own.
 
-# Terminal 2 — from e2e/
-pnpm exec playwright test --project preview
-```
+### Lower-level flags
 
-### Useful flags
+These invoke the Playwright binary directly (the `webServer` still manages the server
+automatically). Run them from `e2e/`, where `@lifi/widget-e2e` and its Playwright binary
+live — or prefix with `pnpm --filter @lifi/widget-e2e exec`.
 
 ```bash
 # Run a single spec file
-pnpm exec playwright test --project dev settings.theme.spec.ts
+pnpm exec playwright test settings.theme.spec.ts
 
 # Filter by test name
-pnpm exec playwright test --project dev -g "Jumper theme"
+pnpm exec playwright test -g "Jumper theme"
 
 # Headed (visible browser)
-pnpm exec playwright test --project dev --headed -g "my test"
+pnpm exec playwright test --headed -g "my test"
 
 # Debug mode (step through)
-pnpm exec playwright test --project dev --debug -g "my test"
+pnpm exec playwright test --debug -g "my test"
 
-# Interactive UI
-pnpm exec playwright test --project dev --ui
+# Dev-mode config explicitly
+pnpm exec playwright test --config playwright.dev.config.ts
 
 # Open last HTML report
 pnpm exec playwright show-report playwright-report/
@@ -63,9 +58,10 @@ pnpm exec playwright show-report playwright-report/
 
 ## Test coverage
 
-### `smoke.spec.ts` — 4 tests
+### `tests/dev/smoke.spec.ts` — 4 tests *(dev mode)*
 
-Sanity checks that the playground loads and the widget mounts.
+Sanity checks that the playground loads and the widget mounts. Runs against the
+Vite dev server via `pnpm e2e:dev` — not part of the preview suite.
 
 | Test | Asserts |
 |---|---|
@@ -239,8 +235,6 @@ Do **not** delete or skip these tests — they are the mechanism that proves the
 
 ## Adding new tests
 
-1. Read `tests/playground/locators.json` first — it catalogues every known locator. Check before exploring the DOM.
-2. Add locators to the relevant Component Object in `tests/components/`, not to the spec file.
-3. Always sync `locators.json` when adding a locator to a COM.
-4. Use `test.describe` + `test.step` structure. Each step = one action or assertion group.
-5. Run the app first: take a screenshot with `pnpm exec playwright screenshot --browser chromium http://localhost:3000 /tmp/check.png` before writing assertions.
+1. Add locators to the relevant Component Object in `tests/components/`, not to the spec file.
+2. Use `test.describe` + `test.step` structure. Each step = one action or assertion group.
+3. Run the app first: take a screenshot with `pnpm exec playwright screenshot --browser chromium http://localhost:3000 /tmp/check.png` before writing assertions.

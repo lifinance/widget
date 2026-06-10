@@ -28,18 +28,16 @@ Tests for the widget playground sidebar settings and their effect on the widget.
 
 → **[Full playground test documentation](./README.playground.md)**
 
-**Quick start:**
+**Quick start:** (from the repo root — the server is started/stopped automatically)
 
 ```bash
-# Terminal 1 — start dev server
-pnpm dev   # http://localhost:3000
-
-# Terminal 2 — run all playground tests
-cd e2e
-pnpm exec playwright test --project dev
+pnpm e2e        # full suite, preview mode (production build at :4173) — matches CI
+pnpm e2e:dev    # smoke subset, dev mode (vite dev server at :3000)
 ```
 
-> **`pnpm exec` requires the `e2e/` directory.** The Playwright binary belongs to the `@lifi/widget-e2e` package, so `pnpm exec playwright …` only resolves from inside `e2e/`. From the repo root, use the filter form instead: `pnpm --filter @lifi/widget-e2e exec playwright test --project dev` (as in [Setup](#setup) above).
+> No need to start a server or `cd` anywhere — each config's `webServer` builds/serves
+> the playground and tears it down when finished, reusing one already running on the port.
+> See [README.playground.md](./README.playground.md) for lower-level flags and dev/preview details.
 
 ---
 
@@ -68,20 +66,22 @@ Both suites use the **Component Object Model (COM)** — locators live in `tests
 
 ```
 e2e/
-├── playwright.config.ts             # Playground: dev + preview projects
+├── playwright.config.ts             # Playground preview mode (build + serve :4173)
+├── playwright.dev.config.ts         # Playground dev mode (vite dev :3000) — smoke subset
 ├── playwright.examples.config.ts    # Examples: one project per active example
 ├── examples.config.ts               # Source of truth for example metadata
 ├── examples.json                    # Derived from examples.config.ts (for CI scripts)
 └── tests/
-    ├── fixtures/base.fixture.ts     # Extended test with sidebar/exchange fixtures
+    ├── fixtures/base.fixture.ts     # Extended test with sidebar/widget fixtures
     ├── components/
     │   ├── PlaygroundSidebar.ts     # All sidebar panels + locators
-    │   ├── WidgetExchange.ts        # Widget: From/To/send/wallet/settings
+    │   ├── WidgetView.ts            # Widget main view: From/To/send/wallet/settings
     │   ├── TokenSelectorView.ts     # Token list and search
     │   ├── SettingsView.ts          # Settings rows and navigation
-    │   └── WidgetSendToWalletView.ts
-    ├── playground/                  # Playground spec files (11 files)
-    └── profiles/                    # Example app spec files (3 profiles)
+    │   └── SendToWalletView.ts      # Send to wallet + bookmarked wallets pages
+    ├── playground/                  # Playground spec files (preview mode)
+    ├── dev/                         # Smoke spec(s) run in dev mode
+    └── profiles/                    # Example app spec files
 ```
 
 ### Reporters
