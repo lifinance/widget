@@ -11,14 +11,22 @@ export class TokenSelectorView {
   readonly heading: Locator
   readonly tokenList: Locator
   readonly firstTokenItem: Locator
+  /**
+   * Token search input inside the token selector page.
+   * Only present in Compact (and Drawer) variants — in Wide the chain sidebar
+   * opens instead and this input appears after a chain is clicked.
+   * Reliable open-indicator for in-widget navigation.
+   */
+  readonly searchInput: Locator
 
   constructor(page: Page) {
     this.page = page
 
-    const widgetRoot = page.locator('[id^="widget-app-expanded-container"]')
-    this.heading = widgetRoot.getByText(/^Exchange (from|to)$/i)
-    this.tokenList = widgetRoot.getByRole('list').first()
+    const root = page.locator('[id^="widget-app-expanded-container"]')
+    this.heading = root.getByText(/^Exchange (from|to)$/i)
+    this.tokenList = root.getByRole('list').first()
     this.firstTokenItem = this.tokenList.getByRole('listitem').first()
+    this.searchInput = root.getByPlaceholder('Search by token or address')
   }
 
   /**

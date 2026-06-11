@@ -11,6 +11,7 @@ interface FormValuesPresetSectionProps {
   options: readonly { id: string; label: string }[]
   selectedId: string
   onSelect: (id: string) => void
+  resetTestId?: string
 }
 
 export const FormValuesPresetSection = ({
@@ -18,6 +19,7 @@ export const FormValuesPresetSection = ({
   options,
   selectedId,
   onSelect,
+  resetTestId,
 }: FormValuesPresetSectionProps): JSX.Element => {
   return (
     <FormBlock>
@@ -29,6 +31,8 @@ export const FormValuesPresetSection = ({
             type="button"
             selected={selectedId === id}
             onClick={() => onSelect(id)}
+            {...(id === 'RESET' &&
+              resetTestId && { 'data-testid': resetTestId })}
           >
             {optionLabel}
           </OptionButton>
