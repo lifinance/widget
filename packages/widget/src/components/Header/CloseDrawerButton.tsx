@@ -23,7 +23,11 @@ export const CloseDrawerButton = ({
 
   return showInNavigationHeader || showInWalletHeader ? (
     <Tooltip title={t('button.close')}>
-      <IconButton size="medium" onClick={closeDrawer}>
+      <IconButton
+        size="medium"
+        data-testid="widget-close-drawer-button"
+        onClick={closeDrawer}
+      >
         <CloseRounded />
       </IconButton>
     </Tooltip>

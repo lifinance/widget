@@ -5,7 +5,6 @@ import { useDevView } from '../../hooks/useDevView.js'
 import { useWidgetEventConsoleLogging } from '../../hooks/useWidgetEventConsoleLogging.js'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
 import { useHeaderAndFooterToolValues } from '../../store/editTools/useHeaderAndFooterToolValues.js'
-import { useLayoutValues } from '../../store/editTools/useLayoutValues.js'
 import { useSkeletonToolValues } from '../../store/editTools/useSkeletonToolValues.js'
 import { useWidgetEventMonitorValues } from '../../store/editTools/useWidgetEventMonitorValues.js'
 import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
@@ -52,13 +51,11 @@ export const DeveloperControlsDetailView = ({
   const { isSkeletonShown } = useSkeletonToolValues()
   const { showMockHeader, showMockFooter, isFooterFixed } =
     useHeaderAndFooterToolValues()
-  const { selectedLayoutId } = useLayoutValues()
   const { container } = useConfigContainer()
   const { headerPosition } = useConfigHeaderPosition()
   const { variant } = useConfigVariant()
   const isDrawerVariant = variant === 'drawer'
-  const isFullHeight =
-    isFullHeightLayout(container) || selectedLayoutId === 'full-height'
+  const isFullHeight = isFullHeightLayout(container)
   const isSkeletonEnabled = !isDrawerVariant
   const { setHeader } = useConfigActions()
   const {

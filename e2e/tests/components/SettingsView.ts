@@ -20,23 +20,23 @@ export class SettingsView {
   constructor(page: Page) {
     this.page = page
 
-    const widgetRoot = page.locator('[id^="widget-app-expanded-container"]')
-    this.heading = widgetRoot.locator('p', { hasText: /^Settings$/ })
-    this.appearanceButton = widgetRoot.getByRole('button', {
+    const root = page.locator('[id^="widget-app-expanded-container"]')
+    this.heading = root.locator('p', { hasText: /^Settings$/ })
+    this.appearanceButton = root.getByRole('button', {
       name: /^Appearance/i,
     })
-    this.languageButton = widgetRoot.getByRole('button', { name: /^Language/i })
-    this.routePriorityButton = widgetRoot.getByRole('button', {
+    this.languageButton = root.getByRole('button', { name: /^Language/i })
+    this.routePriorityButton = root.getByRole('button', {
       name: /^Route priority/i,
     })
-    this.gasPriceButton = widgetRoot.getByRole('button', {
+    this.gasPriceButton = root.getByRole('button', {
       name: /^Gas price/i,
     })
-    this.maxSlippageButton = widgetRoot.getByRole('button', {
+    this.maxSlippageButton = root.getByRole('button', {
       name: /^Max\. slippage/i,
     })
-    this.bridgesButton = widgetRoot.getByRole('button', { name: /^Bridges/i })
-    this.exchangesButton = widgetRoot.getByRole('button', {
+    this.bridgesButton = root.getByRole('button', { name: /^Bridges/i })
+    this.exchangesButton = root.getByRole('button', {
       name: /^Exchanges/i,
     })
   }

@@ -23,9 +23,6 @@ export const defaultEditToolsValues: EditToolsValues = {
     showMockFooter: false,
     isFooterFixed: false,
   },
-  layoutControl: {
-    selectedLayoutId: 'default',
-  },
   isDevView: false,
   widgetEventsControl: {
     allWidgetEventsOn: false,
