@@ -35,9 +35,6 @@ export interface EditToolsValues {
     showMockFooter: boolean
     isFooterFixed: boolean
   }
-  layoutControl: {
-    selectedLayoutId: Layout
-  }
   isDevView: boolean
   widgetEventsControl: {
     allWidgetEventsOn: boolean
@@ -58,7 +55,6 @@ interface EditToolsActions {
   setHeaderVisibility: (show: boolean) => void
   setFooterVisibility: (show: boolean) => void
   setFixedFooter: (isFixed: boolean) => void
-  setSelectedLayoutId: (layoutId: Layout) => void
   setIsDevView: (isDevView: boolean) => void
   setWidgetEventMonitors: (
     allWidgetEventsOn: boolean,

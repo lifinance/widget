@@ -1,12 +1,12 @@
-import { useLayoutValues } from '../store/editTools/useLayoutValues.js'
 import {
+  useConfigContainer,
   useConfigMode,
   useConfigModeOptions,
   useConfigVariant,
   useConfigWalletManagement,
 } from '../store/widgetConfig/useConfigValues.js'
 import { useThemeValues } from '../store/widgetConfig/useThemeValues.js'
-import { getLayoutLabel } from '../utils/layout.js'
+import { getLayoutLabel, getLayoutMode } from '../utils/layout.js'
 import { getModeLabel, getWalletLabel } from '../utils/sidebar.js'
 import { formatThemeDisplayName } from '../utils/themeEdit.js'
 import { useThemeMode } from './useThemeMode.js'
@@ -22,7 +22,7 @@ export const useSidebarNavLabels = (): {
   const { mode } = useConfigMode()
   const { modeOptions } = useConfigModeOptions()
   const { variant } = useConfigVariant()
-  const { selectedLayoutId } = useLayoutValues()
+  const { container } = useConfigContainer()
   const { isExternalWalletManagement, isPartialWalletManagement } =
     useConfigWalletManagement()
   const { selectedThemeItem } = useThemeValues()
@@ -40,7 +40,7 @@ export const useSidebarNavLabels = (): {
         : variant === 'wide'
           ? 'Wide'
           : 'Drawer',
-    heightValue: getLayoutLabel(selectedLayoutId, isDrawerVariant),
+    heightValue: getLayoutLabel(getLayoutMode(container), isDrawerVariant),
     walletValue: getWalletLabel(
       isExternalWalletManagement,
       isPartialWalletManagement
