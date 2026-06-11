@@ -1,19 +1,20 @@
-import type { ExampleConfig } from '../../examples.config.js'
 import { expect, test, waitForTokens } from '../fixtures/base.fixture.js'
 
-/**
- * Widget smoke profile — covers standard (widget at /) and routed (widget at custom path).
- * mountPath is read from project metadata so the same spec handles both profiles.
- *
- * Standard  (13): vite, connectkit, privy, privy-ethers, rainbowkit, reown, svelte,
- *                 zustand-widget-config, vue, nextjs, nextjs15, remix, react-router-7
- * Routed     (1): tanstack-router (mountPath: /widget)
- */
-
-test.describe('Widget smoke', () => {
+test.describe('Playground smoke', () => {
   test.beforeEach(async ({ page }) => {
-    const { mountPath } = test.info().project.metadata as ExampleConfig
-    await page.goto(mountPath)
+    await page.goto('/')
+  })
+
+  test('sidebar is visible with nav controls', async ({ sidebar }) => {
+    await test.step('logo and header are rendered', async () => {
+      await expect(sidebar.header.logo).toBeVisible()
+      await expect(sidebar.header.playgroundText).toBeVisible()
+    })
+
+    await test.step('nav buttons are present', async () => {
+      await expect(sidebar.nav.variant).toBeVisible()
+      await expect(sidebar.nav.mode).toBeVisible()
+    })
   })
 
   test('widget container is displayed with Exchange heading', async ({
@@ -38,7 +39,7 @@ test.describe('Widget smoke', () => {
     })
   })
 
-  test('clicking Settings icon opens the Settings view', async ({
+  test('clicking the Settings icon opens the Settings view', async ({
     widget,
     settings,
   }) => {
@@ -63,22 +64,33 @@ test.describe('Widget smoke', () => {
     })
   })
 
-  test('token route setup — From and To tokens selectable', async ({
+  // Depends on the live LI.FI /v1/tokens API. The token selector uses TanStack
+  // Query with its own query key; tokens render after the SDK cache propagates
+  // through a React render cycle. Use test.slow() to give the list enough time
+  // to transition out of skeleton state on slow networks.
+  test('token route setup — From and To tokens selected via UI', async ({
     page,
     widget,
     tokenSelector,
   }) => {
-    const { mountPath } = test.info().project.metadata as ExampleConfig
+    test.slow() // doubles the default test timeout
 
     await test.step('wait for token list to load', async () => {
-      await Promise.all([waitForTokens(page), page.goto(mountPath)])
+      await Promise.all([waitForTokens(page), page.goto('/')])
     })
 
-    await test.step('From token selector opens with a populated token list', async () => {
+    await test.step('From token selector opens — search filters by cached token data', async () => {
       await widget.openFromTokenSelector()
       await expect(tokenSelector.heading).toBeVisible()
-      await expect(tokenSelector.tokenList).toBeVisible()
-      await expect(tokenSelector.firstTokenItem).toBeVisible()
+      // The Wide-variant token list shows skeletons until a chain is selected.
+      // Use search to filter by a known symbol — the search result renders
+      // from the cached SDK response even while the main list is loading.
+      await widget.root
+        .getByRole('textbox', { name: 'Search by token or address' })
+        .fill('ETH')
+      await expect(tokenSelector.firstTokenItem).toBeVisible({
+        timeout: 30_000,
+      })
     })
 
     await test.step('select first token — Exchange view shows From token', async () => {
@@ -87,15 +99,19 @@ test.describe('Widget smoke', () => {
       await expect(widget.fromButton).not.toHaveText(/Select chain and token/)
     })
 
-    await test.step('To token selector opens with a populated token list', async () => {
+    await test.step('To token selector opens — search for USDC', async () => {
       await widget.openToTokenSelector()
       await expect(tokenSelector.heading).toBeVisible()
-      await expect(tokenSelector.tokenList).toBeVisible()
-      await expect(tokenSelector.firstTokenItem).toBeVisible()
+      await widget.root
+        .getByRole('textbox', { name: 'Search by token or address' })
+        .fill('USDC')
+      await expect(tokenSelector.firstTokenItem).toBeVisible({
+        timeout: 30_000,
+      })
     })
 
-    await test.step('select second token — Exchange view shows To token', async () => {
-      await tokenSelector.selectTokenByIndex(1)
+    await test.step('select first USDC token — Exchange view shows To token', async () => {
+      await tokenSelector.selectFirstToken()
       await expect(widget.heading).toBeVisible()
       await expect(widget.toButton).not.toHaveText(/Select chain and token/)
     })

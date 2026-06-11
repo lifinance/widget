@@ -65,26 +65,35 @@ export function HostApp() {
   )
 
   return (
-    <Box height="100vh" display="flex" flexDirection="column" bgcolor="#F5F5F5">
+    <Box
+      sx={{
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        bgcolor: '#F5F5F5',
+      }}
+    >
       <WalletHeader />
 
       <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        flex={1}
-        minHeight={0}
-        pt={6}
-        gap={2}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          flex: 1,
+          minHeight: 0,
+          pt: 6,
+          gap: 2,
+        }}
       >
         {!account.isConnected && (
-          <Typography color="text.secondary" fontSize={14} mb={1}>
+          <Typography sx={{ color: 'text.secondary', fontSize: 14, mb: 1 }}>
             Connect your wallet above — all widget transactions will be signed
             through your connected wallet.
           </Typography>
         )}
 
-        <Box display="flex" gap={1}>
+        <Box sx={{ display: 'flex', gap: 1 }}>
           <Button variant="outlined" size="small" onClick={toggleVariant}>
             Toggle variant (current: {variant})
           </Button>

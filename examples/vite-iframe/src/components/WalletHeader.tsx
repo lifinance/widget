@@ -20,19 +20,21 @@ export function WalletHeader() {
 
   return (
     <Box
-      px={3}
-      py={2}
-      display="flex"
-      justifyContent="space-between"
-      alignItems="center"
-      borderBottom="1px solid #EEEEEE"
-      bgcolor="#FAFAFA"
+      sx={{
+        px: 3,
+        py: 2,
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        borderBottom: '1px solid #EEEEEE',
+        bgcolor: '#FAFAFA',
+      }}
     >
-      <Typography fontWeight={700} fontSize={20}>
+      <Typography sx={{ fontWeight: 700, fontSize: 20 }}>
         Widget Light — Host
       </Typography>
 
-      <Box display="flex" alignItems="center" gap={2}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
         {accounts.map((acc) => (
           <ConnectedAccount key={acc.address} account={acc} />
         ))}
@@ -62,11 +64,11 @@ function ConnectedAccount({ account }: { account: Account }) {
         />
       }
       label={
-        <Box display="flex" alignItems="center" gap={0.5}>
-          <Typography fontSize={13} fontWeight={500}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          <Typography sx={{ fontSize: 13, fontWeight: 500 }}>
             {shortenAddress(account.address)}
           </Typography>
-          <Typography fontSize={11} color="text.secondary">
+          <Typography sx={{ fontSize: 11, color: 'text.secondary' }}>
             ({account.chainType})
           </Typography>
         </Box>

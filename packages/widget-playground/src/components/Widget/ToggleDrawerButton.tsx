@@ -5,6 +5,7 @@ import type { JSX } from 'react'
 export function ToggleDrawerButton(props: ButtonProps): JSX.Element {
   return (
     <Button
+      data-testid="playground-toggle-drawer-button"
       variant="contained"
       sx={{ textTransform: 'none', fontWeight: 700, fontSize: 16 }}
       disableElevation
