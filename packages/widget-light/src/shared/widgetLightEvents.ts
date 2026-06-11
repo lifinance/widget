@@ -11,7 +11,10 @@
 // Event name enum
 // ---------------------------------------------------------------------------
 
+export type WidgetLightAppearance = 'light' | 'dark' | 'system'
+
 export enum WidgetLightEvent {
+  AppearanceChanged = 'appearanceChanged',
   AvailableRoutes = 'availableRoutes',
   ChainPinned = 'chainPinned',
   ContactSupport = 'contactSupport',
@@ -116,6 +119,7 @@ export interface WidgetLightWalletDisconnected {
 // ---------------------------------------------------------------------------
 
 export interface WidgetLightEvents {
+  appearanceChanged: WidgetLightAppearance
   availableRoutes: unknown[]
   chainPinned: WidgetLightChainPinned
   contactSupport: WidgetLightContactSupport
