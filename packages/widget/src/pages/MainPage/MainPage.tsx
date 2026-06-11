@@ -1,6 +1,7 @@
 import { Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { AmountInput } from '../../components/AmountInput/AmountInput.js'
+import { AmountInputCardPair } from '../../components/AmountInputCard/AmountInputCardPair.js'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
 import { GasRefuelMessage } from '../../components/Messages/GasRefuelMessage.js'
 import { PageContainer } from '../../components/PageContainer.js'
@@ -20,6 +21,7 @@ export const MainPage: React.FC = () => {
   const wideVariant = useWideVariant()
   const { mode, modeOptions, contractComponent, hiddenUI } = useWidgetConfig()
   const custom = mode === 'custom'
+  const isJumperMode = mode === 'jumper-simple' || mode === 'jumper-advanced'
   const showPoweredBy = !hiddenUI?.poweredBy
   const showGasRefuelMessage = !hiddenUI?.gasRefuelMessage
 
@@ -47,10 +49,16 @@ export const MainPage: React.FC = () => {
       {custom ? (
         <ContractComponent sx={marginSx}>{contractComponent}</ContractComponent>
       ) : null}
-      <SelectChainAndToken sx={marginSx} />
-      {!custom || modeOptions?.custom?.type === 'deposit' ? (
-        <AmountInput formType="from" sx={marginSx} />
-      ) : null}
+      {isJumperMode ? (
+        <AmountInputCardPair sx={marginSx} />
+      ) : (
+        <>
+          <SelectChainAndToken sx={marginSx} />
+          {!custom || modeOptions?.custom?.type === 'deposit' ? (
+            <AmountInput formType="from" sx={marginSx} />
+          ) : null}
+        </>
+      )}
       {!wideVariant ? <Routes sx={marginSx} /> : null}
       <SendToWalletButton sx={marginSx} />
       {showGasRefuelMessage ? <GasRefuelMessage sx={marginSx} /> : null}
