@@ -12,6 +12,7 @@ import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCheckoutFlowQuote } from '../hooks/useCheckoutFlowQuote.js'
 import { useFrozenQuote } from '../hooks/useFrozenQuote.js'
+import { useResolvedCheckoutRecipient } from '../hooks/useResolvedCheckoutRecipient.js'
 import { useOnRampSessionByCategory } from '../providers/OnRampProvider/OnRampProvider.js'
 import {
   type CheckoutFundingSource,
@@ -37,6 +38,7 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
   const emitter = useWidgetEvents()
   const { toAddress, requiredToAddress } = useToAddressRequirements()
+  const { recipient, isUserSettable } = useResolvedCheckoutRecipient()
   const { route, routes, depositAddress, setReviewableRoute } =
     useCheckoutFlowQuote()
   const { freeze } = useFrozenQuote()
@@ -135,13 +137,15 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
 
   const label = t(ctaLabelKey[fundingSource])
 
+  const needsRecipient = isUserSettable && !recipient
+
   // Only the wallet flow may connect-on-demand; other sources fund without a wallet.
   if (fundingSource === 'wallet') {
     return (
       <BaseTransactionButton
         text={label}
         onClick={handleWalletDeposit}
-        disabled={!route || (requiredToAddress && !toAddress)}
+        disabled={!route || (requiredToAddress && !toAddress) || needsRecipient}
         route={route}
         sx={{ flex: 1 }}
       />
@@ -154,7 +158,7 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
       color="primary"
       fullWidth
       onClick={handlersByFunding[fundingSource]}
-      disabled={!route || !depositAddress}
+      disabled={!route || !depositAddress || needsRecipient}
       sx={{ flex: 1 }}
     >
       {label}

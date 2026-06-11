@@ -1,15 +1,17 @@
 import { useWidgetConfig } from '@lifi/widget/shared'
 import { useMemo } from 'react'
 import { useCheckoutToAddress } from './useCheckoutToAddress.js'
+import { useResolvedCheckoutRecipient } from './useResolvedCheckoutRecipient.js'
 
-/** Returns the names of required checkout config fields (toAddress/toChain/toToken) that are missing. */
+/** Required config fields that are missing. `toAddress` is fatal only when the user can't set it in-widget. */
 export function useCheckoutConfigError(): string[] {
   const toAddress = useCheckoutToAddress()
+  const { isUserSettable } = useResolvedCheckoutRecipient()
   const { toChain, toToken } = useWidgetConfig()
 
   return useMemo(() => {
     const missing: string[] = []
-    if (!toAddress) {
+    if (!toAddress && !isUserSettable) {
       missing.push('toAddress')
     }
     if (!toChain) {
@@ -19,5 +21,5 @@ export function useCheckoutConfigError(): string[] {
       missing.push('toToken')
     }
     return missing
-  }, [toAddress, toChain, toToken])
+  }, [toAddress, isUserSettable, toChain, toToken])
 }

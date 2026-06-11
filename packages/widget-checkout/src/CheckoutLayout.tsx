@@ -8,9 +8,11 @@ import { CheckoutToastHost } from './components/CheckoutToastHost.js'
 import { Container, ExpandedContainer } from './components/Container.js'
 import { Header } from './components/Header.js'
 import { OnRampHostedModals } from './components/OnRampHostedModals.js'
+import { useSyncCheckoutRecipientToForm } from './hooks/useSyncCheckoutRecipientToForm.js'
 
 export const CheckoutLayout: React.FC = () => {
   const { elementId } = useWidgetConfig()
+  useSyncCheckoutRecipientToForm()
 
   return (
     <ExpandedContainer

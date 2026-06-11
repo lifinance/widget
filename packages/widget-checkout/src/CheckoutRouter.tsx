@@ -21,6 +21,7 @@ import { ProgressPage } from './pages/ProgressPage/ProgressPage.js'
 import { SelectCashCurrencyPage } from './pages/SelectCashCurrencyPage/SelectCashCurrencyPage.js'
 import { SelectSourcePage } from './pages/SelectSourcePage/SelectSourcePage.js'
 import { SelectTokenPage } from './pages/SelectTokenPage/SelectTokenPage.js'
+import { SetDestinationAddressPage } from './pages/SetDestinationAddressPage/SetDestinationAddressPage.js'
 import { TransferDepositPage } from './pages/TransferDepositPage/TransferDepositPage.js'
 import { CheckoutFlowStoreContext } from './stores/useCheckoutFlowStore.js'
 import {
@@ -44,6 +45,12 @@ const enterAmountRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: checkoutNavigationRoutes.enterAmount,
   component: EnterAmountPage,
+})
+
+const setDestinationRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: checkoutNavigationRoutes.setDestination,
+  component: SetDestinationAddressPage,
 })
 
 const progressRoute = createRoute({
@@ -147,6 +154,7 @@ const transactionExecutionStatusRoute = createRoute({
 const routeTree = rootRoute.addChildren([
   indexRoute,
   enterAmountRoute,
+  setDestinationRoute,
   progressRoute,
   transferDepositRoute,
   depositErrorRoute,

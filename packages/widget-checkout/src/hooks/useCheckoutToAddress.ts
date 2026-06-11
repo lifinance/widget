@@ -1,17 +1,7 @@
-import { useWidgetConfig } from '@lifi/widget/shared'
-import { useMemo } from 'react'
+import { useResolvedCheckoutRecipient } from './useResolvedCheckoutRecipient.js'
 
-/**
- * The checkout recipient — always the integrator-configured `config.toAddress`,
- * never the funding wallet. `null` means misconfigured (handled by CheckoutConfigGuard).
- */
+/** The checkout recipient address, or `null` when none is set yet. Never the funding wallet. */
 export function useCheckoutToAddress(): string | null {
-  const { toAddress } = useWidgetConfig()
-
-  return useMemo<string | null>(() => {
-    if (!toAddress) {
-      return null
-    }
-    return typeof toAddress === 'string' ? toAddress : toAddress.address
-  }, [toAddress])
+  const { recipient } = useResolvedCheckoutRecipient()
+  return recipient?.address ?? null
 }

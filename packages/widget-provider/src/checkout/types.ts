@@ -198,6 +198,12 @@ export interface CheckoutContextValue {
   onError?: (error: CheckoutError) => void
   /** @default true */
   resumePending?: boolean
+  /**
+   * When `true` and no `toAddress` is configured, the user is prompted to set
+   * the destination address in the widget instead of the checkout blocking as
+   * misconfigured. @default false
+   */
+  allowUserDestinationAddress?: boolean
 }
 
 export interface CheckoutResult {

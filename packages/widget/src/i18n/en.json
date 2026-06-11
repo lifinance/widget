@@ -488,6 +488,11 @@
       }
     },
     "chooseFundingSource": "Choose funding source",
+    "whereToSendIt": "Where to send it",
+    "sendingTo": "Sending to",
+    "required": "Required",
+    "addWalletToReceive": "Add a wallet to receive your {{token}}",
+    "walletAddressOrEns": "Wallet address or ENS name",
     "insufficientFunds": "Insufficient funds — You don't have enough {{symbol}} on {{chain}}. Select a different token to try again.",
     "useYourTokens": "Use your tokens",
     "buyTokens": "Buy tokens",
