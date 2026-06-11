@@ -25,7 +25,9 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: isCI,
   retries: isCI ? 2 : 0,
-  workers: isCI ? 1 : undefined,
+  // 2 workers per shard: tests are I/O-bound (UI transitions, network), so a second
+  // browser uses the idle CPU on a 2-vCPU CI runner without starving the first.
+  workers: isCI ? 2 : undefined,
   // CI: blob (for shard merging) + list.  Local: html + list.
   reporter: isCI
     ? [['blob'], ['list']]
