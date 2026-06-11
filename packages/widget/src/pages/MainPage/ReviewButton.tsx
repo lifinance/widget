@@ -5,7 +5,7 @@ import { useRoutes } from '../../hooks/useRoutes.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { useSplitModeStore } from '../../stores/settings/useSplitModeStore.js'
+import { useSplitMode } from '../../stores/headerTabs/useSplitMode.js'
 import { WidgetEvent } from '../../types/events.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 
@@ -14,7 +14,7 @@ export const ReviewButton: React.FC = () => {
   const navigate = useNavigate()
   const emitter = useWidgetEvents()
   const { mode, modeOptions } = useWidgetConfig()
-  const splitState = useSplitModeStore((state) => state.state)
+  const splitState = useSplitMode()
   const { toAddress, requiredToAddress } = useToAddressRequirements()
   const { routes, setReviewableRoute } = useRoutes()
 

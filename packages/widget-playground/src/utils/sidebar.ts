@@ -1,3 +1,5 @@
+import { isJumperMode } from './mode.js'
+
 export const drawerZIndex = 1501
 export const autocompletePopperZIndex: number = drawerZIndex + 1
 export const tooltipPopperZIndex: number = drawerZIndex + 2
@@ -8,14 +10,18 @@ export const modeLabels: Record<string, string> = {
   swap: 'Swap',
   bridge: 'Bridge',
   refuel: 'Refuel',
+  jumper: 'Jumper',
 }
 
-/** Sidebar nav label for the current subvariant and split configuration. */
-export function getModeLabel(subvariant: string, splitOption?: string): string {
-  if (subvariant === 'refuel') {
+/** Sidebar nav label for the current mode and split configuration. */
+export function getModeLabel(mode: string, splitOption?: string): string {
+  if (isJumperMode(mode)) {
+    return modeLabels.jumper
+  }
+  if (mode === 'refuel') {
     return modeLabels.refuel
   }
-  if (subvariant === 'split') {
+  if (mode === 'split') {
     if (splitOption === 'swap') {
       return modeLabels.swap
     }

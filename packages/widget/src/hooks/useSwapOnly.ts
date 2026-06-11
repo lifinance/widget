@@ -1,6 +1,6 @@
-import { useSplitModeStore } from '../stores/settings/useSplitModeStore.js'
+import { useSplitMode } from '../stores/headerTabs/useSplitMode.js'
 
 export const useSwapOnly = (): boolean => {
-  const state = useSplitModeStore((state) => state.state)
+  const state = useSplitMode()
   return state === 'swap'
 }

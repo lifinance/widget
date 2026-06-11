@@ -35,7 +35,13 @@ import type {
 import type { DefaultFieldValues } from '../stores/form/types.js'
 
 export type WidgetVariant = 'compact' | 'wide' | 'drawer'
-export type WidgetMode = 'default' | 'split' | 'custom' | 'refuel'
+export type WidgetMode =
+  | 'default'
+  | 'split'
+  | 'custom'
+  | 'refuel'
+  | 'jumper-simple'
+  | 'jumper-advanced'
 export type SplitMode = 'bridge' | 'swap'
 export type SplitModeOptions = {
   defaultTab: SplitMode

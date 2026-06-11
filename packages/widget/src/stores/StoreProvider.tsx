@@ -1,13 +1,12 @@
 import type { PropsWithChildren } from 'react'
 import type { WidgetConfigProps } from '../types/widget.js'
-import { getSplitMode } from '../utils/variant.js'
 import { BookmarkStoreProvider } from './bookmarks/BookmarkStore.js'
 import { ChainOrderStoreProvider } from './chains/ChainOrderStore.js'
 import { FormStoreProvider } from './form/FormStore.js'
 import { HeaderStoreProvider } from './header/useHeaderStore.js'
+import { HeaderTabsStoreProvider } from './headerTabs/useHeaderTabsStore.js'
 import { PinnedTokensStoreProvider } from './pinnedTokens/PinnedTokensStore.js'
 import { RouteExecutionStoreProvider } from './routes/RouteExecutionStore.js'
-import { SplitModeStoreProvider } from './settings/useSplitModeStore.js'
 
 export const StoreProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
   children,
@@ -15,12 +14,9 @@ export const StoreProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
   formRef,
 }) => {
   return (
-    <SplitModeStoreProvider
-      state={
-        config.mode === 'split'
-          ? getSplitMode(config.modeOptions?.split)
-          : undefined
-      }
+    <HeaderTabsStoreProvider
+      mode={config.mode ?? 'default'}
+      modeOptions={config.modeOptions}
     >
       <HeaderStoreProvider namePrefix={config?.keyPrefix}>
         <BookmarkStoreProvider namePrefix={config?.keyPrefix}>
@@ -35,6 +31,6 @@ export const StoreProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
           </PinnedTokensStoreProvider>
         </BookmarkStoreProvider>
       </HeaderStoreProvider>
-    </SplitModeStoreProvider>
+    </HeaderTabsStoreProvider>
   )
 }
