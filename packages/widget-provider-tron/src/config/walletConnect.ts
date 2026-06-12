@@ -10,17 +10,17 @@ export const resolveTronWalletConnectConfig = (
     return undefined
   }
   const config = walletConnect === true ? undefined : walletConnect
+  const network = config?.network ?? 'Mainnet'
   return {
     ...config,
-    // Must be capitalized; lowercase yields an invalid `tron:<name>` id upstream.
-    network: config?.network ?? 'Mainnet',
+    // Lowercase yields an invalid `tron:<name>` CAIP id upstream.
+    network: `${network.charAt(0).toUpperCase()}${network.slice(1)}`,
     options: {
       projectId: defaultProjectId,
-      // Isolate Tron WC storage from the EVM connector's (shared project id +
-      // origin); otherwise its eip155 namespaces leak into the Tron proposal
-      // and wallets connect as EVM ("No accounts found in session").
-      customStoragePrefix: 'tron',
       ...config?.options,
+      // Forced last: a distinct prefix keeps the EVM connector's eip155
+      // namespaces (shared project id) out of the Tron session proposal.
+      customStoragePrefix: 'tron',
     },
   }
 }
