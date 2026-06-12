@@ -89,7 +89,7 @@ export const WidgetSkeleton = ({
       colorSchemeStorageKey="li.fi-widget-color-scheme"
       disableTransitionOnChange
     >
-      <AppExpandedContainer>
+      <AppExpandedContainer data-testid="widget-skeleton-container">
         <RelativeContainer sx={{ display: 'flex', flexDirection: 'column' }}>
           <SkeletonHeaderContainer>
             {!hiddenUI?.walletMenu ? (
