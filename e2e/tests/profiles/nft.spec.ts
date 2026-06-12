@@ -15,22 +15,18 @@ test.describe('NFT checkout widget smoke', () => {
     await page.goto('/')
   })
 
-  test('widget root is visible', async ({ page }) => {
+  test('widget root is visible', async ({ widget }) => {
+    await expect(widget.root).toBeVisible()
+  })
+
+  test('Checkout heading is rendered', async ({ widget }) => {
     await expect(
-      page.locator('[id^="widget-app-expanded-container"]')
+      widget.root.locator('p', { hasText: /^Checkout$/ })
     ).toBeVisible()
   })
 
-  test('Checkout heading is rendered', async ({ page }) => {
-    const widgetRoot = page.locator('[id^="widget-app-expanded-container"]')
-    await expect(
-      widgetRoot.locator('p', { hasText: /^Checkout$/ })
-    ).toBeVisible()
-  })
-
-  test('"Pay with" section is visible', async ({ page }) => {
-    const widgetRoot = page.locator('[id^="widget-app-expanded-container"]')
-    await expect(widgetRoot.getByText(/Pay with/i)).toBeVisible()
+  test('"Pay with" section is visible', async ({ widget }) => {
+    await expect(widget.root.getByText(/Pay with/i)).toBeVisible()
   })
 
   test('no error boundary is triggered', async ({ page }) => {

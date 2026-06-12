@@ -8,7 +8,7 @@ import { expect, test } from '../fixtures/base.fixture.js'
  *
  * The widget runs inside a cross-origin iframe. Playwright accesses it via
  * frameLocator, which works across origins at the CDP level.
- * The exchange fixture is scoped to `page` and cannot be used here — locators
+ * The widget fixture is scoped to `page` and cannot be used here — locators
  * are written inline against the frame.
  */
 
