@@ -4,7 +4,7 @@ import type React from 'react'
 import type { PropsWithChildren } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useHeaderHeight } from '../stores/header/useHeaderStore.js'
-import type { WidgetVariant } from '../types/widget.js'
+import type { WidgetMode, WidgetVariant } from '../types/widget.js'
 import { createElementId, ElementId } from '../utils/elements.js'
 import { getWidgetMaxHeight } from '../utils/widgetSize.js'
 
@@ -34,20 +34,21 @@ export const AppExpandedContainer: React.FC<BoxProps> = styled(Box)(
 )
 
 export const RelativeContainer: React.FC<
-  BoxProps & { variant?: WidgetVariant }
+  BoxProps & { variant?: WidgetVariant; mode?: WidgetMode }
 > = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'variant',
-})<{ variant?: WidgetVariant }>(({ theme }) => {
+  shouldForwardProp: (prop) => prop !== 'variant' && prop !== 'mode',
+})<{ variant?: WidgetVariant; mode?: WidgetMode }>(({ theme, mode }) => {
   const maxHeight =
     theme.container?.height === 'fit-content' ||
     (!theme.container?.height && !theme.container?.maxHeight)
       ? 'none'
       : getWidgetMaxHeight(theme)
+  const isJumperMode = mode === 'jumper-simple' || mode === 'jumper-advanced'
   return {
     position: 'relative',
     boxSizing: 'content-box',
     width: '100%',
-    minWidth: theme.breakpoints.values.xs,
+    minWidth: isJumperMode ? 440 : theme.breakpoints.values.xs,
     maxWidth: theme.breakpoints.values.sm,
     background: theme.vars.palette.background.default,
     overflow: 'auto',
@@ -118,7 +119,7 @@ export const FlexContainer: React.FC<ContainerProps> = styled(Container)({
 
 export const AppContainer: React.FC<PropsWithChildren> = ({ children }) => {
   // const ref = useRef<HTMLDivElement>(null);
-  const { variant, elementId, theme } = useWidgetConfig()
+  const { variant, mode, elementId, theme } = useWidgetConfig()
   const { headerHeight } = useHeaderHeight()
   const positionFixedAdjustment =
     theme?.header?.position === 'fixed' ? headerHeight : 0
@@ -126,6 +127,7 @@ export const AppContainer: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <RelativeContainer
       variant={variant}
+      mode={mode}
       id={createElementId(ElementId.RelativeContainer, elementId)}
     >
       <CssBaselineContainer

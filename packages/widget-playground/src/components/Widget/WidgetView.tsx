@@ -39,7 +39,7 @@ export function WidgetView(): JSX.Element {
 
   return (
     <WidgetViewContainer toggleDrawer={toggleDrawer}>
-      <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
+      <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
         {showRail ? <ViewTierRail /> : null}
         {!isSkeletonShown ? (
           <LiFiWidget

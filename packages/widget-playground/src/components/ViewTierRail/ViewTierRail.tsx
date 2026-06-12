@@ -28,10 +28,10 @@ export function ViewTierRail(): JSX.Element {
       onChange={handleChange}
       aria-label="Widget view"
     >
-      <Tooltip title="Simple" placement="right" arrow>
+      <Tooltip title="Simple" placement="left" arrow>
         <RailTab icon={<SimpleIcon />} aria-label="Simple" />
       </Tooltip>
-      <Tooltip title="Advanced" placement="right" arrow>
+      <Tooltip title="Advanced" placement="left" arrow>
         <RailTab icon={<AdvancedIcon />} aria-label="Advanced" />
       </Tooltip>
     </RailTabs>
