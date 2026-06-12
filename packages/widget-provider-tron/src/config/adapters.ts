@@ -14,9 +14,13 @@ import {
   TomoWalletAdapter,
   TronLinkAdapter,
   TrustAdapter,
+  WalletConnectAdapter,
+  type WalletConnectAdapterConfig,
 } from '@tronweb3/tronwallet-adapters'
 
-export const createTronAdapters = (): Adapter[] => [
+export const createTronAdapters = (
+  walletConnect?: WalletConnectAdapterConfig
+): Adapter[] => [
   new BinanceWalletAdapter(),
   new BitKeepAdapter(),
   new BybitWalletAdapter(),
@@ -31,4 +35,5 @@ export const createTronAdapters = (): Adapter[] => [
   new TomoWalletAdapter(),
   new TronLinkAdapter(),
   new TrustAdapter(),
+  ...(walletConnect ? [new WalletConnectAdapter(walletConnect)] : []),
 ]
