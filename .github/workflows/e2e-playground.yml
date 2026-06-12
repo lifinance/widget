@@ -1,0 +1,216 @@
+name: E2E Playground
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches: [main]
+    paths:
+      # Playground app and its logic package
+      - 'packages/widget-playground/**'
+      - 'packages/widget-playground-vite/**'
+      # Widget and wallet packages rendered inside the playground
+      - 'packages/widget/**'
+      - 'packages/wallet-management/**'
+      - 'packages/widget-provider/**'
+      - 'packages/widget-provider-ethereum/**'
+      - 'packages/widget-provider-solana/**'
+      - 'packages/widget-provider-bitcoin/**'
+      - 'packages/widget-provider-sui/**'
+      - 'packages/widget-provider-tron/**'
+      # E2E test code (widget-light and widget-embedded are not playground dependencies)
+      - 'e2e/tests/playground/**'
+      - 'e2e/tests/components/**'
+      - 'e2e/tests/fixtures/**'
+      - 'e2e/tests/helpers.ts'
+      - 'e2e/playwright.config.ts'
+      - 'e2e/package.json'
+      - 'e2e/tsconfig.json'
+      # Workspace-level dependency changes
+      - 'pnpm-workspace.yaml'
+      - 'pnpm-lock.yaml'
+      - 'package.json'
+
+concurrency:
+  group: e2e-playground-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # ── Build the playground once, cache the dist ────────────────────────────────
+  build:
+    name: Build playground
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+
+      - name: Build widget packages
+        run: |
+          pnpm -r --parallel \
+            --filter './packages/**' \
+            --filter '!*-playground-*' \
+            --filter '!*-embedded' \
+            build
+
+      - name: Build playground
+        run: pnpm --filter widget-playground-vite build
+
+      - name: Cache playground dist
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: playground-dist
+          # The vite build output lands in packages/widget-playground-vite/dist.
+          # We also need packages/*/dist for the widget packages at runtime.
+          path: |
+            packages/widget-playground-vite/dist
+            packages/widget/dist
+            packages/wallet-management/dist
+            packages/widget-provider/dist
+            packages/widget-provider-ethereum/dist
+            packages/widget-provider-solana/dist
+            packages/widget-provider-bitcoin/dist
+            packages/widget-provider-sui/dist
+            packages/widget-provider-tron/dist
+          retention-days: 1
+
+  # ── Run tests in parallel shards ─────────────────────────────────────────────
+  test:
+    name: E2E shard ${{ matrix.shard }}/${{ strategy.job-total }}
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+
+      - name: Restore playground dist
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        with:
+          name: playground-dist
+          # upload-artifact strips the common ancestor (packages/) from stored paths,
+          # so restore into packages/ to reconstruct the original directory structure.
+          path: packages
+
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-browsers-${{ runner.os }}-${{ hashFiles('e2e/package.json') }}
+
+      - name: Install Playwright browsers
+        run: pnpm --filter @lifi/widget-e2e exec playwright install chromium --with-deps
+
+      - name: Start preview server
+        run: |
+          pnpm --filter widget-playground-vite preview &
+
+          for i in $(seq 1 60); do
+            if curl -sf http://localhost:4173 > /dev/null 2>&1; then
+              echo "Preview server ready after ${i}s"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::Preview server failed to start within 60s"
+          exit 1
+
+      - name: Run tests (shard ${{ matrix.shard }}/${{ strategy.job-total }})
+        run: |
+          pnpm --filter @lifi/widget-e2e exec playwright test \
+            --project preview \
+            --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+
+      - name: Upload blob report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: blob-report-${{ matrix.shard }}
+          path: e2e/blob-report/
+          retention-days: 1
+
+  # ── Merge reports and post PR comment ─────────────────────────────────────────
+  report:
+    name: Merge reports & publish results
+    needs: test
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pull-requests: write
+      actions: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Download all blob reports
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        with:
+          path: all-blob-reports
+          pattern: blob-report-*
+          merge-multiple: true
+
+      - name: Check for blob reports
+        id: check-blobs
+        run: |
+          count=$(find all-blob-reports -name '*.zip' 2>/dev/null | wc -l)
+          echo "has-reports=$([ "$count" -gt 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          echo "Found $count blob report(s)"
+
+      - name: Merge blob reports into HTML report
+        if: steps.check-blobs.outputs.has-reports == 'true'
+        run: |
+          PW_VERSION=$(node -p "require('./e2e/package.json').devDependencies['@playwright/test']")
+          npx --yes "@playwright/test@${PW_VERSION}" merge-reports --reporter html ./all-blob-reports
+
+      - name: Merge blob reports into JSON report
+        if: steps.check-blobs.outputs.has-reports == 'true'
+        env:
+          PLAYWRIGHT_JSON_OUTPUT_NAME: report.json
+        run: |
+          PW_VERSION=$(node -p "require('./e2e/package.json').devDependencies['@playwright/test']")
+          npx --yes "@playwright/test@${PW_VERSION}" merge-reports --reporter json ./all-blob-reports
+
+      - name: Upload merged HTML report
+        if: steps.check-blobs.outputs.has-reports == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
+
+      - name: Post test summary comment
+        if: steps.check-blobs.outputs.has-reports == 'true'
+        uses: daun/playwright-report-summary@8bb85779022480a59ed8d33d9a4b8bda1c67666b # v4.0.0
+        with:
+          report-file: report.json
+          comment-title: 'E2E Playground results'
+          report-tag: e2e-playground-results
+          footer: >
+            📥 [Download full HTML report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            (open the run → Artifacts → `playwright-report`)
+
+      - name: Post no-data comment
+        if: steps.check-blobs.outputs.has-reports != 'true'
+        uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # v3.0.4
+        with:
+          header: e2e-playground-results
+          message: |
+            ## ⚠️ E2E Playground — no results
+
+            The build or test run did not produce any test data (build failed or run was cancelled).
+
+            See the [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.

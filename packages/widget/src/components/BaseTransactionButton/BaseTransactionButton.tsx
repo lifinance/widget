@@ -64,6 +64,7 @@ export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
       loadingPosition="center"
       fullWidth
       sx={sx}
+      data-testid="widget-transaction-button"
     >
       {getButtonText()}
     </Button>
