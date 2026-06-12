@@ -1,6 +1,4 @@
 import SwapVertIcon from '@mui/icons-material/SwapVert'
-import { ButtonBase, styled } from '@mui/material'
-import type React from 'react'
 import { type JSX, memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useToken } from '../../hooks/useToken.js'
@@ -9,31 +7,7 @@ import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { useInputModeStore } from '../../stores/inputMode/useInputModeStore.js'
 import { formatTokenPrice } from '../../utils/format.js'
-import { FooterText } from './AmountInputCard.style.js'
-
-const ToggleButton: React.FC<
-  React.ComponentProps<typeof ButtonBase> & { clickable?: boolean }
-> = styled(ButtonBase, {
-  shouldForwardProp: (prop) => prop !== 'clickable',
-})<{ clickable?: boolean }>(({ theme, clickable }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: theme.spacing(0.25),
-  borderRadius: `calc(${theme.vars.shape.borderRadius} * 2)`,
-  padding: theme.spacing(0.25, 0.5),
-  backgroundColor: 'transparent',
-  ...(clickable
-    ? {
-        cursor: 'pointer',
-        '&:hover': {
-          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
-        },
-      }
-    : {
-        cursor: 'default',
-        pointerEvents: 'none',
-      }),
-}))
+import { FooterText, ToggleButton } from './AmountInputCard.style.js'
 
 export const FiatValueToggle: React.NamedExoticComponent<FormTypeProps> = memo(
   ({ formType }: FormTypeProps): JSX.Element => {

@@ -14,7 +14,7 @@ export const AmountInputCardPair: React.FC<BoxProps> = (props): JSX.Element => {
   return (
     <CardContainer {...props}>
       <SendAmountCard />
-      {showSwapButton ? <SwapButton /> : null}
+      <SwapButton sx={{ visibility: showSwapButton ? 'visible' : 'hidden' }} />
       <ReceiveAmountCard />
     </CardContainer>
   )

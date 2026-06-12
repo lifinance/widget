@@ -7,7 +7,7 @@ export const TokenPill: React.FC<
   shouldForwardProp: (prop) => prop !== 'selected',
 })<{ selected?: boolean }>(({ theme, selected }) => ({
   height: 36,
-  borderRadius: 16,
+  borderRadius: theme.shape.borderRadiusTertiary,
   padding: theme.spacing(0.5, 1.5, 0.5, 0.5),
   display: 'flex',
   alignItems: 'center',

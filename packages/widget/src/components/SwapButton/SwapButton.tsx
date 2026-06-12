@@ -1,4 +1,5 @@
 import ArrowDownward from '@mui/icons-material/ArrowDownward'
+import type { BoxProps } from '@mui/material'
 import type { JSX } from 'react'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useToAddressAutoPopulate } from '../../hooks/useToAddressAutoPopulate.js'
@@ -6,7 +7,10 @@ import { useToAddressReset } from '../../hooks/useToAddressReset.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { SwapButtonContainer, SwapIconCard } from './SwapButton.style.js'
 
-export const SwapButton = (): JSX.Element => {
+export const SwapButton: React.FC<BoxProps> = ({
+  sx,
+  ...props
+}): JSX.Element => {
   const { setFieldValue, getFieldValues } = useFieldActions()
   const { getChainById } = useAvailableChains()
   const { tryResetToAddress } = useToAddressReset()
@@ -46,8 +50,8 @@ export const SwapButton = (): JSX.Element => {
   }
 
   return (
-    <SwapButtonContainer>
-      <SwapIconCard onClick={handleClick}>
+    <SwapButtonContainer sx={sx} {...props}>
+      <SwapIconCard component="button" onClick={handleClick}>
         <ArrowDownward fontSize="inherit" />
       </SwapIconCard>
     </SwapButtonContainer>

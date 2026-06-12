@@ -16,9 +16,9 @@ import {
 } from '../../utils/format.js'
 import { fitInputText } from '../../utils/input.js'
 import { CardTitle } from '../Card/CardTitle.js'
-import { InputCard } from '../Card/InputCard.js'
 import { TokenPillButton } from '../TokenPillButton/TokenPillButton.js'
 import {
+  AmountCard,
   CardBodyRow,
   CardFooterRow,
   CardHeaderRow,
@@ -134,13 +134,9 @@ export const SendAmountCard: React.FC<CardProps> = (props): JSX.Element => {
   }, [displayValue])
 
   return (
-    <InputCard {...props} sx={{ padding: 2, ...props.sx }}>
+    <AmountCard {...props}>
       <CardHeaderRow>
-        <CardTitle
-          sx={{ padding: 0, display: 'flex', alignItems: 'center', gap: 0.5 }}
-        >
-          {t('header.send')}
-        </CardTitle>
+        <CardTitle sx={{ padding: 0 }}>{t('header.send')}</CardTitle>
         <PercentageChips formType={formType} />
       </CardHeaderRow>
       <CardBodyRow>
@@ -169,6 +165,6 @@ export const SendAmountCard: React.FC<CardProps> = (props): JSX.Element => {
         <FiatValueToggle formType={formType} />
         <BalanceDisplay formType={formType} />
       </CardFooterRow>
-    </InputCard>
+    </AmountCard>
   )
 }

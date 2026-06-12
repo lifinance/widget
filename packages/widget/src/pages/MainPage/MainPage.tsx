@@ -19,9 +19,10 @@ import { ReviewButton } from './ReviewButton.js'
 export const MainPage: React.FC = () => {
   const { t } = useTranslation()
   const wideVariant = useWideVariant()
-  const { mode, modeOptions, contractComponent, hiddenUI } = useWidgetConfig()
+  const { variant, mode, modeOptions, contractComponent, hiddenUI } =
+    useWidgetConfig()
   const custom = mode === 'custom'
-  const isJumperMode = mode === 'jumper-simple' || mode === 'jumper-advanced'
+  const isJumper = variant === 'jumper'
   const showPoweredBy = !hiddenUI?.poweredBy
   const showGasRefuelMessage = !hiddenUI?.gasRefuelMessage
 
@@ -49,7 +50,7 @@ export const MainPage: React.FC = () => {
       {custom ? (
         <ContractComponent sx={marginSx}>{contractComponent}</ContractComponent>
       ) : null}
-      {isJumperMode ? (
+      {isJumper ? (
         <AmountInputCardPair sx={marginSx} />
       ) : (
         <>
