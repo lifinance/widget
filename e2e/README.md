@@ -1,10 +1,11 @@
 # LI.FI Widget — E2E Tests
 
-Playwright TypeScript E2E tests for the LI.FI Widget. Two independent suites share this directory:
+Playwright TypeScript E2E tests for the LI.FI Widget. Two test suites share this directory — the **Playground** suite (run in two modes) and the **Examples** suite:
 
 | Suite | Config | Targets | CI workflow |
 |---|---|---|---|
-| **Playground** | `playwright.config.ts` | Widget Playground app | `e2e-playground.yml` |
+| **Playground** (preview) | `playwright.config.ts` | Widget Playground — production build (:4173) | `e2e-playground.yml` |
+| **Playground** (dev smoke) | `playwright.dev.config.ts` | Widget Playground — vite dev server (:3000) | `e2e-playground-dev.yml` |
 | **Examples** | `playwright.examples.config.ts` | 17 active example apps | `e2e-examples.yml` |
 
 ---
@@ -38,6 +39,10 @@ pnpm e2e:dev    # smoke subset, dev mode (vite dev server at :3000)
 > No need to start a server or `cd` anywhere — each config's `webServer` builds/serves
 > the playground and tears it down when finished, reusing one already running on the port.
 > See [README.playground.md](./README.playground.md) for lower-level flags and dev/preview details.
+
+Both modes gate PRs: `e2e-playground.yml` runs the full suite against the production build,
+and `e2e-playground-dev.yml` runs the dev-mode smoke subset to guard the source-resolution
+path (the dev server resolves `@lifi/widget` from source — a break the production build can't catch).
 
 ---
 
@@ -92,6 +97,14 @@ e2e/
 | **CI** | Blob per shard (merged after) + list |
 
 On CI, blob reports from each shard are merged into a single HTML report uploaded as a workflow artifact.
+
+The dev-mode smoke run is unsharded, so it skips blobs: in CI it emits a JSON report
+(`dev-smoke-report.json`, parsed with `jq` to build the sticky PR results comment) plus
+an HTML report (`playwright-report-dev-smoke/`, uploaded as an artifact on failure). Every
+run updates a single sticky comment summarising both checks: dev server start and smoke
+tests. If the dev server fails to start, the comment reports the broken dev build with the
+smoke suite marked "not run"; otherwise it reports the smoke result (pass or fail) with
+stats — or a ⚠️ notice if the suite never produced a verdict (setup failure, cancellation).
 
 ### Selector strategy — priority order
 
