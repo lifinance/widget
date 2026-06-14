@@ -39,6 +39,7 @@ import {
   DEFAULT_FROM_TOKEN_ADDRESS,
 } from '../../utils/checkoutDefaults.js'
 import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
+import { CheckoutActivitySection } from './CheckoutActivitySection.js'
 import { SelectSourceFundingOptions } from './SelectSourceFundingOptions.js'
 import { SelectSourceMainColumn } from './SelectSourceLayout.js'
 
@@ -239,6 +240,7 @@ export const SelectSourcePage: React.FC = () => {
       })}
     >
       <SelectSourceMainColumn sx={{ flex: 1 }}>
+        <CheckoutActivitySection />
         {showInsufficientFunds && prevToken && prevChain ? (
           <Alert severity="warning" sx={{ mb: 2 }}>
             {t('checkout.insufficientFunds', {

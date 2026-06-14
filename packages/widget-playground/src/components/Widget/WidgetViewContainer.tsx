@@ -45,7 +45,7 @@ export function WidgetViewContainer({
   const { showMockHeader, showMockFooter, isFooterFixed } =
     useHeaderAndFooterToolValues()
 
-  // Checkout owns its wallet stack via CheckoutWalletProvider; mounting here would create a second AppKit.
+  // Checkout uses the widget's own built-in wallet management — no external AppKit.
   const isWalletManagementExternal =
     playgroundWidgetMode !== 'checkout' && !!walletConfig
   const isFullHeight = isFullHeightLayout(container)

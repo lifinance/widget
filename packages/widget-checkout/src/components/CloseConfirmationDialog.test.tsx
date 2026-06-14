@@ -13,14 +13,14 @@ describe('CloseConfirmationDialog', () => {
         onConfirm={() => {}}
       />
     )
+    expect(screen.queryByText('Leave checkout?')).not.toBeNull()
     expect(
-      screen.queryByText('Leave with transaction in progress?')
+      screen.queryByText(/Closing won't cancel your deposit/)
     ).not.toBeNull()
+    expect(screen.queryByRole('button', { name: 'Cancel' })).not.toBeNull()
     expect(
-      screen.queryByText(/Your transaction is still being processed/)
+      screen.queryByRole('button', { name: 'Close checkout' })
     ).not.toBeNull()
-    expect(screen.queryByRole('button', { name: 'Stay' })).not.toBeNull()
-    expect(screen.queryByRole('button', { name: 'Yes, leave' })).not.toBeNull()
   })
 
   it('does not render content when closed', () => {
@@ -31,7 +31,7 @@ describe('CloseConfirmationDialog', () => {
         onConfirm={() => {}}
       />
     )
-    expect(screen.queryByText('Leave with transaction in progress?')).toBeNull()
+    expect(screen.queryByText('Leave checkout?')).toBeNull()
   })
 
   it('fires onCancel when Stay is clicked', () => {
@@ -44,7 +44,7 @@ describe('CloseConfirmationDialog', () => {
         onConfirm={onConfirm}
       />
     )
-    const stay = screen.getByRole('button', { name: 'Stay' })
+    const stay = screen.getByRole('button', { name: 'Cancel' })
     fireEvent.click(stay)
     expect(onCancel).toHaveBeenCalledTimes(1)
     expect(onConfirm).not.toHaveBeenCalled()
@@ -60,7 +60,7 @@ describe('CloseConfirmationDialog', () => {
         onConfirm={onConfirm}
       />
     )
-    fireEvent.click(screen.getByRole('button', { name: 'Yes, leave' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Close checkout' }))
     expect(onConfirm).toHaveBeenCalledTimes(1)
     expect(onCancel).not.toHaveBeenCalled()
   })
@@ -73,7 +73,7 @@ describe('CloseConfirmationDialog', () => {
         onConfirm={() => {}}
       />
     )
-    const stay = screen.getByRole('button', { name: 'Stay' })
+    const stay = screen.getByRole('button', { name: 'Cancel' })
     expect(stay.className).toMatch(/MuiButton-contained/)
     expect(document.activeElement).toBe(stay)
   })

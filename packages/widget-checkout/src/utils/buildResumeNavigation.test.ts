@@ -4,7 +4,9 @@ import {
   buildPendingRecord,
   type PendingRecord,
 } from '../stores/usePendingCheckoutStore.js'
-import { buildResumeUrl } from './buildResumeUrl.js'
+import { buildResumeNavigation } from './buildResumeNavigation.js'
+
+const STATUS_PATH = '/transaction-execution/transaction-status'
 
 function fakeRecord(overrides: Partial<PendingRecord>): PendingRecord {
   return {
@@ -17,9 +19,9 @@ function fakeRecord(overrides: Partial<PendingRecord>): PendingRecord {
   }
 }
 
-describe('buildResumeUrl', () => {
-  it('wallet record → depositAddress + fromChain + resumed=1', () => {
-    const url = buildResumeUrl(
+describe('buildResumeNavigation', () => {
+  it('wallet record → status page with depositAddress, fromChain, hash, resumed', () => {
+    const nav = buildResumeNavigation(
       fakeRecord({
         fundingSource: 'wallet',
         transactionHash: '0xabc',
@@ -27,39 +29,41 @@ describe('buildResumeUrl', () => {
         fromChain: 1,
       })
     )
-    expect(url).toContain('depositAddress=0xdep')
-    expect(url).toContain('fromChain=1')
-    expect(url).toContain('resumed=1')
-    // Display/details-only on the status page — never polled.
-    expect(url).toContain('transactionHash=0xabc')
+    expect(nav.to).toBe(STATUS_PATH)
+    expect(nav.search).toEqual({
+      depositAddress: '0xdep',
+      fromChain: 1,
+      transactionHash: '0xabc',
+      resumed: '1',
+    })
   })
 
   it('wallet record without depositAddress → "/"', () => {
-    const url = buildResumeUrl(
+    const nav = buildResumeNavigation(
       fakeRecord({
         fundingSource: 'wallet',
         transactionHash: '0xabc',
         fromChain: 1,
       })
     )
-    expect(url).toBe('/')
+    expect(nav.to).toBe('/')
   })
 
-  it('transfer record → depositAddress + fromChain + resumed=1', () => {
-    const url = buildResumeUrl(
+  it('transfer record (stale quote) → status page', () => {
+    const nav = buildResumeNavigation(
       fakeRecord({
         fundingSource: 'transfer',
         depositAddress: '0xdep',
         fromChain: 137,
       })
     )
-    expect(url).toContain('depositAddress=0xdep')
-    expect(url).toContain('fromChain=137')
-    expect(url).toContain('resumed=1')
+    expect(nav.to).toBe(STATUS_PATH)
+    expect(nav.search.depositAddress).toBe('0xdep')
+    expect(nav.search.fromChain).toBe(137)
   })
 
-  it('cash record → depositAddress + fromChain + resumed=1', () => {
-    const url = buildResumeUrl(
+  it('cash record → status page', () => {
+    const nav = buildResumeNavigation(
       fakeRecord({
         fundingSource: 'cash',
         provider: 'transak',
@@ -67,50 +71,54 @@ describe('buildResumeUrl', () => {
         fromChain: 8453,
       })
     )
-    expect(url).toContain('depositAddress=0xdep2')
-    expect(url).toContain('fromChain=8453')
-    expect(url).toContain('resumed=1')
+    expect(nav.to).toBe(STATUS_PATH)
+    expect(nav.search.depositAddress).toBe('0xdep2')
+    expect(nav.search.fromChain).toBe(8453)
   })
 
   it('falls back to "/" when neither hash nor depositAddress is present', () => {
-    const url = buildResumeUrl(fakeRecord({ fundingSource: 'wallet' }))
-    expect(url).toBe('/')
+    const nav = buildResumeNavigation(fakeRecord({ fundingSource: 'wallet' }))
+    expect(nav.to).toBe('/')
   })
 
-  it('transfer + fresh frozen quote → /transfer-deposit?resumed=1', () => {
-    const url = buildResumeUrl(
+  it('transfer + fresh frozen quote → /transfer-deposit', () => {
+    const nav = buildResumeNavigation(
       fakeRecord({
         fundingSource: 'transfer',
         depositAddress: '0xdep',
         fromChain: 137,
         frozenQuote: {
           id: 'r1',
-          route: {} as any,
+          route: {} as never,
           expiresAt: Date.now() + 60_000,
         },
       }),
       { frozenQuoteFresh: true }
     )
-    expect(url).toBe('/transfer-deposit?resumed=1')
+    expect(nav.to).toBe('/transfer-deposit')
+    expect(nav.search).toEqual({ resumed: '1' })
   })
 
   it('transfer + stale frozen quote → status page fallback', () => {
-    const url = buildResumeUrl(
+    const nav = buildResumeNavigation(
       fakeRecord({
         fundingSource: 'transfer',
         depositAddress: '0xdep',
         fromChain: 137,
-        frozenQuote: { id: 'r1', route: {} as any, expiresAt: Date.now() - 1 },
+        frozenQuote: {
+          id: 'r1',
+          route: {} as never,
+          expiresAt: Date.now() - 1,
+        },
       }),
       { frozenQuoteFresh: false }
     )
-    expect(url).toContain('depositAddress=0xdep')
-    expect(url).toContain('fromChain=137')
-    expect(url).toContain('transaction-status')
+    expect(nav.to).toBe(STATUS_PATH)
+    expect(nav.search.depositAddress).toBe('0xdep')
   })
 
-  it('cash + frozenQuoteFresh option is ignored (cash never uses transfer-deposit)', () => {
-    const url = buildResumeUrl(
+  it('cash + frozenQuoteFresh is ignored (cash never uses transfer-deposit)', () => {
+    const nav = buildResumeNavigation(
       fakeRecord({
         fundingSource: 'cash',
         provider: 'transak',
@@ -118,13 +126,12 @@ describe('buildResumeUrl', () => {
         fromChain: 8453,
         frozenQuote: {
           id: 'r1',
-          route: {} as any,
+          route: {} as never,
           expiresAt: Date.now() + 60_000,
         },
       }),
       { frozenQuoteFresh: true }
     )
-    expect(url).not.toContain('transfer-deposit')
-    expect(url).toContain('transaction-status')
+    expect(nav.to).toBe(STATUS_PATH)
   })
 })

@@ -1,46 +1,31 @@
 'use client'
-import { useAccount } from '@lifi/wallet-management'
 import { useCheckoutConfig } from '@lifi/widget-provider/checkout'
-import { useMemo } from 'react'
+import { useContext, useMemo } from 'react'
+import { useStore } from 'zustand'
 import {
+  type CheckoutFlowStore,
+  CheckoutFlowStoreContext,
+} from '../stores/useCheckoutFlowStore.js'
+import {
+  buildResumeKey,
   type PendingRecord,
   usePendingCheckoutStore,
 } from '../stores/usePendingCheckoutStore.js'
 
+// Stub so useStore stays unconditional when rendered outside the flow provider.
+const NO_FLOW_STATE = Object.freeze({ frozenDepositId: null })
+const NO_FLOW_STORE = {
+  getState: () => NO_FLOW_STATE,
+  getInitialState: () => NO_FLOW_STATE,
+  setState: () => {},
+  subscribe: () => () => {},
+} as unknown as CheckoutFlowStore
+
 export function useResumeKey(): string | null {
   const { integrator } = useCheckoutConfig()
-  const { accounts } = useAccount()
-  const records = usePendingCheckoutStore((s) => s.records)
-
-  return useMemo(() => {
-    const wallet = accounts.find((a) => a.isConnected && a.address)?.address
-    const walletKey = wallet ? `${integrator}:${wallet}` : null
-    const prefix = `${integrator}:`
-    const now = Date.now()
-    let bestKey: string | null = null
-    let bestCreatedAt = -1
-    for (const [key, record] of Object.entries(records)) {
-      if (!key.startsWith(prefix)) {
-        continue
-      }
-      if (record.expiresAt <= now) {
-        continue
-      }
-      // Resumable when the record carries a deposit address (transfer/cash)
-      // or it is the connected wallet's own record (wallet/relayer deposits
-      // may be keyed by wallet with only a tx hash). Scanning unconditionally
-      // keeps a deposit-keyed record visible after a wallet later connects,
-      // instead of being hidden behind the wallet key.
-      if (!record.depositAddress && key !== walletKey) {
-        continue
-      }
-      if (record.createdAt > bestCreatedAt) {
-        bestKey = key
-        bestCreatedAt = record.createdAt
-      }
-    }
-    return bestKey
-  }, [integrator, accounts, records])
+  const flowStore = useContext(CheckoutFlowStoreContext) ?? NO_FLOW_STORE
+  const frozenDepositId = useStore(flowStore, (s) => s.frozenDepositId)
+  return frozenDepositId ? buildResumeKey(integrator, frozenDepositId) : null
 }
 
 export function useResumeRecord(): PendingRecord | null {

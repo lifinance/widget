@@ -1,36 +1,43 @@
 // @vitest-environment happy-dom
 
-import type { CheckoutContextValue } from '@lifi/widget-provider/checkout'
 import { CheckoutContext } from '@lifi/widget-provider/checkout'
 import { renderHook } from '@testing-library/react'
 import type { ReactNode } from 'react'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-
-const useAccountMock = vi.fn()
-vi.mock('@lifi/wallet-management', () => ({
-  useAccount: () => useAccountMock(),
-}))
-
+import { beforeEach, describe, expect, it } from 'vitest'
+import {
+  type CheckoutFlowStore,
+  CheckoutFlowStoreContext,
+  createCheckoutFlowStore,
+} from '../stores/useCheckoutFlowStore.js'
 import {
   buildPendingRecord,
+  buildResumeKey,
   usePendingCheckoutStore,
 } from '../stores/usePendingCheckoutStore.js'
-import { useResumeKey } from './useResumeKey.js'
+import { useResumeKey, useResumeRecord } from './useResumeKey.js'
 
-function wrap(checkout: CheckoutContextValue) {
+function makeFlowStore(frozenDepositId: string | null): CheckoutFlowStore {
+  const store = createCheckoutFlowStore()
+  store.getState().setFrozenDepositId(frozenDepositId)
+  return store
+}
+
+function wrap(integrator: string, flowStore: CheckoutFlowStore) {
   return ({ children }: { children: ReactNode }) => (
-    <CheckoutContext.Provider value={checkout}>
-      {children}
+    <CheckoutContext.Provider value={{ integrator }}>
+      <CheckoutFlowStoreContext.Provider value={flowStore}>
+        {children}
+      </CheckoutFlowStoreContext.Provider>
     </CheckoutContext.Provider>
   )
 }
 
-function seedDeposit(key: string, createdAt?: number) {
+function seedRecord(key: string, createdAt?: number) {
   usePendingCheckoutStore.getState().write(
     key,
     buildPendingRecord({
       fundingSource: 'cash',
-      depositAddress: key.split(':')[1],
+      depositAddress: '0xdeposit',
       fromChain: 1,
       provider: 'transak',
       status: 'confirmed-no-hash',
@@ -39,67 +46,53 @@ function seedDeposit(key: string, createdAt?: number) {
   )
 }
 
-function connectWallet(address: string) {
-  useAccountMock.mockReturnValue({
-    accounts: [{ isConnected: true, address }],
-  })
-}
-
 describe('useResumeKey', () => {
   beforeEach(() => {
     usePendingCheckoutStore.getState().clearAll()
-    useAccountMock.mockReset()
-    useAccountMock.mockReturnValue({ accounts: [] })
   })
 
-  it('returns null when there is no live record', () => {
+  it('returns null when no deposit is frozen', () => {
     const { result } = renderHook(() => useResumeKey(), {
-      wrapper: wrap({ integrator: 'int' }),
+      wrapper: wrap('int', makeFlowStore(null)),
     })
     expect(result.current).toBeNull()
   })
 
-  it('resolves a deposit-keyed record when no wallet is connected', () => {
-    seedDeposit('int:0xdeposit')
+  it('builds the key from the frozen deposit id', () => {
     const { result } = renderHook(() => useResumeKey(), {
-      wrapper: wrap({ integrator: 'int' }),
+      wrapper: wrap('int', makeFlowStore('0xdeposit')),
     })
-    expect(result.current).toBe('int:0xdeposit')
+    expect(result.current).toBe(buildResumeKey('int', '0xdeposit'))
+  })
+})
+
+describe('useResumeRecord', () => {
+  beforeEach(() => {
+    usePendingCheckoutStore.getState().clearAll()
   })
 
-  it('keeps a deposit-keyed record visible after a wallet connects', () => {
-    // Regression: previously the wallet branch returned the (record-less)
-    // wallet key, hiding the live deposit-keyed record once a wallet connected.
-    seedDeposit('int:0xdeposit')
-    connectWallet('0xwallet')
-    const { result } = renderHook(() => useResumeKey(), {
-      wrapper: wrap({ integrator: 'int' }),
-    })
-    expect(result.current).toBe('int:0xdeposit')
-  })
-
-  it('prefers the wallet record when it is the most recent', () => {
-    seedDeposit('int:0xdeposit', Date.now() - 1000)
-    seedDeposit('int:0xwallet', Date.now())
-    connectWallet('0xwallet')
-    const { result } = renderHook(() => useResumeKey(), {
-      wrapper: wrap({ integrator: 'int' }),
-    })
-    expect(result.current).toBe('int:0xwallet')
-  })
-
-  it('ignores expired records', () => {
-    seedDeposit('int:0xdeposit', Date.now() - 25 * 60 * 60 * 1000)
-    const { result } = renderHook(() => useResumeKey(), {
-      wrapper: wrap({ integrator: 'int' }),
+  it('returns null when the keyed record is absent', () => {
+    const { result } = renderHook(() => useResumeRecord(), {
+      wrapper: wrap('int', makeFlowStore('0xdeposit')),
     })
     expect(result.current).toBeNull()
   })
 
-  it('ignores records from other integrators', () => {
-    seedDeposit('other:0xdeposit')
-    const { result } = renderHook(() => useResumeKey(), {
-      wrapper: wrap({ integrator: 'int' }),
+  it('returns the live record for the frozen key', () => {
+    seedRecord(buildResumeKey('int', '0xdeposit'))
+    const { result } = renderHook(() => useResumeRecord(), {
+      wrapper: wrap('int', makeFlowStore('0xdeposit')),
+    })
+    expect(result.current?.depositAddress).toBe('0xdeposit')
+  })
+
+  it('returns null when the keyed record is expired', () => {
+    seedRecord(
+      buildResumeKey('int', '0xdeposit'),
+      Date.now() - 25 * 60 * 60 * 1000
+    )
+    const { result } = renderHook(() => useResumeRecord(), {
+      wrapper: wrap('int', makeFlowStore('0xdeposit')),
     })
     expect(result.current).toBeNull()
   })

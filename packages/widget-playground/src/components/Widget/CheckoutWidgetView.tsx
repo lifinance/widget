@@ -3,7 +3,6 @@ import { LifiWidgetCheckout } from '@lifi/widget-checkout'
 import { meshProvider } from '@lifi/widget-provider-mesh'
 import { transakProvider } from '@lifi/widget-provider-transak'
 import { Box, Button, Typography } from '@mui/material'
-import { useAppKit } from '@reown/appkit/react'
 import { type JSX, useCallback, useMemo, useState } from 'react'
 import { widgetBaseConfig } from '../../defaultWidgetConfig.js'
 import { useEnvVariables } from '../../providers/EnvVariablesProvider.js'
@@ -23,7 +22,6 @@ export function CheckoutWidgetView(): JSX.Element {
     checkoutToAddress,
   } = useEnvVariables()
   const [open, setOpen] = useState(false)
-  const { open: openWallet } = useAppKit()
 
   const handleOpen = useCallback(() => {
     setOpen(true)
@@ -64,9 +62,8 @@ export function CheckoutWidgetView(): JSX.Element {
             },
           }
         : null),
-      walletConfig: { onConnect: () => openWallet() },
     }),
-    [config, resolvedToChain, resolvedToToken, resolvedToAddress, openWallet]
+    [config, resolvedToChain, resolvedToToken, resolvedToAddress]
   )
 
   const onRampProviders = useMemo(() => [transakProvider(), meshProvider()], [])
