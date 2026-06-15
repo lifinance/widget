@@ -75,11 +75,21 @@ export const useConnectedCexStore: UseBoundStore<StoreApi<ConnectedCexState>> =
             return
           }
           set((state) => {
-            const swept = sweepExpired(state.records, Date.now())
+            // Only prune the touched key — sweeping every integrator's records
+            // on each write would mutate slots this call has nothing to do
+            // with. Whole-store hygiene happens once on rehydrate.
+            const now = Date.now()
+            const merged = mergeAccounts(state.records[key], accounts).filter(
+              (a) => a.expiresAt > now
+            )
+            if (!merged.length) {
+              const { [key]: _removed, ...rest } = state.records
+              return { records: rest }
+            }
             return {
               records: {
-                ...swept,
-                [key]: mergeAccounts(swept[key], accounts),
+                ...state.records,
+                [key]: merged,
               },
             }
           })

@@ -66,6 +66,22 @@ describe('useConnectedCexStore', () => {
     expect(list[0].accountId).toBe('fresh')
   })
 
+  it('prunes only the touched key, leaving other integrators untouched', () => {
+    const otherKey = connectedCexKey('other-int', 'user-2')
+    const past = Date.now() - 1000
+    useConnectedCexStore.setState({
+      records: {
+        [otherKey]: [account({ accountId: 'stale', expiresAt: past })],
+      },
+    })
+    act(() => {
+      useConnectedCexStore.getState().addConnectedAccounts(KEY, [account()])
+    })
+    // A write under KEY must not sweep another integrator's records.
+    expect(useConnectedCexStore.getState().records[otherKey]).toHaveLength(1)
+    expect(useConnectedCexStore.getState().records[KEY]).toHaveLength(1)
+  })
+
   it('removeAccount drops one and clears the key when empty', () => {
     act(() => {
       useConnectedCexStore
