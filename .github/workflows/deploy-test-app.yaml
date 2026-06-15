@@ -36,8 +36,8 @@ jobs:
 
       - name: Set Project Name
         run: |
-          export NAME=$(echo ${{ env.BRANCH_NAME }} | tr -d -c '[:alnum:]' | tr '[:upper:]' '[:lower:]')
-          echo "PROJECT_NAME=widget-${NAME:0:10}" >> $GITHUB_ENV
+          HASH=$(echo -n "${{ env.BRANCH_NAME }}" | sha256sum | cut -c1-8)
+          echo "PROJECT_NAME=lifi-widget-test-app-${HASH}" >> $GITHUB_ENV
 
       - name: Create project if not present
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
