@@ -6,7 +6,8 @@ import { allLanguages } from '../../providers/I18nProvider/constants.js'
 import { loadLocale } from '../../providers/I18nProvider/i18n.js'
 import type { LanguageKey } from '../../providers/I18nProvider/types.js'
 import type { WidgetConfig } from '../../types/widget.js'
-import type { SettingsProps, SettingsState } from './types.js'
+import { getConfigItemSets, isItemAllowedForSets } from '../../utils/item.js'
+import type { SettingsProps, SettingsState, SettingsToolType } from './types.js'
 import { SettingsToolTypes } from './types.js'
 import { getStateValues } from './utils/getStateValues.js'
 
@@ -35,11 +36,43 @@ const defaultSettings: SettingsProps = {
 
 export const createSettingsStore = (
   config: WidgetConfig
-): UseBoundStore<StoreApi<SettingsState>> =>
-  create<SettingsState>()(
+): UseBoundStore<StoreApi<SettingsState>> => {
+  const configItemsByToolType = {
+    Bridges: config.bridges,
+    Exchanges: config.exchanges,
+  }
+  // Tool state from a candidate map, keeping only config-allowed tools.
+  const buildToolState = (
+    toolType: SettingsToolType,
+    enabledMap: Record<string, boolean>
+  ) => {
+    const configItemSets = getConfigItemSets(
+      configItemsByToolType[toolType],
+      (items) => new Set(items)
+    )
+    const allowed: Record<string, boolean> = Object.fromEntries(
+      Object.entries(enabledMap).filter(([key]) =>
+        isItemAllowedForSets(key, configItemSets)
+      )
+    )
+    const keys = Object.keys(allowed)
+    return {
+      [`_enabled${toolType}`]: allowed,
+      [`enabled${toolType}`]: keys.filter((key) => allowed[key]),
+      [`disabled${toolType}`]: keys.filter((key) => !allowed[key]),
+    }
+  }
+  const toEnabledMap = (keys: string[] = []): Record<string, boolean> =>
+    Object.fromEntries(keys.map((key) => [key, true] as const))
+  const initialSettings: SettingsProps = {
+    ...defaultSettings,
+    ...buildToolState('Bridges', toEnabledMap(config.bridges?.allow)),
+    ...buildToolState('Exchanges', toEnabledMap(config.exchanges?.allow)),
+  }
+  return create<SettingsState>()(
     persist(
       (set, get) => ({
-        ...defaultSettings,
+        ...initialSettings,
         setValue: (key, value) =>
           set(() => ({
             [key]: value,
@@ -163,16 +196,10 @@ export const createSettingsStore = (
         merge: (persistedState: any, currentState: SettingsState) => {
           const state = { ...currentState, ...persistedState }
           SettingsToolTypes.forEach((toolType) => {
-            if (persistedState?.[`_enabled${toolType}`]) {
-              const enabledToolKeys = Object.keys(
-                persistedState[`_enabled${toolType}`]
-              )
-              state[`enabled${toolType}`] = enabledToolKeys.filter(
-                (key) => persistedState[`_enabled${toolType}`][key]
-              )
-              state[`disabled${toolType}`] = enabledToolKeys.filter(
-                (key) => !persistedState[`_enabled${toolType}`][key]
-              )
+            const persistedEnabled = persistedState?.[`_enabled${toolType}`]
+            if (persistedEnabled) {
+              // Drop rehydrated tools the config no longer allows.
+              Object.assign(state, buildToolState(toolType, persistedEnabled))
             }
           })
           return state
@@ -217,3 +244,4 @@ export const createSettingsStore = (
       }
     )
   )
+}
