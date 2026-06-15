@@ -28,6 +28,7 @@ export const CardSelect = ({
     <CardSelectRoot
       component="div"
       selected={selected}
+      data-selected={selected}
       onClick={disabled ? undefined : onClick}
       disableRipple
       disabled={disabled}
