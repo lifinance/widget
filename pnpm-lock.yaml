@@ -1978,6 +1978,9 @@ importers:
       '@lifi/widget-provider':
         specifier: workspace:*
         version: link:../widget-provider
+      '@types/node':
+        specifier: ^25.9.1
+        version: 25.9.1
       cpy-cli:
         specifier: ^7.0.0
         version: 7.0.0

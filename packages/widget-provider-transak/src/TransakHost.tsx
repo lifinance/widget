@@ -29,6 +29,11 @@ const TRANSAK_FALLBACK_CHAIN_IDS = [1]
 const TRANSAK_RETRYABLE_STATUS_CODES = [500, 502, 503, 504]
 
 const debug = (event: string, payload?: unknown): void => {
+  // Dev-only: integrator bundlers inline NODE_ENV, so this dead-code-strips
+  // from production builds and keeps diagnostics out of consumers' consoles.
+  if (process.env.NODE_ENV !== 'development') {
+    return
+  }
   if (payload !== undefined) {
     console.warn(`[transak] ${event}`, payload)
   } else {
@@ -243,6 +248,20 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
     setWidgetUrl(null)
   }, [close, openDepositFlow])
 
+  // Latest-ref mirrors so the SDK init effect can call these without listing
+  // them as deps — otherwise an unstable onError/apiKey identity would tear
+  // down and remount the Transak iframe mid-session.
+  const onErrorRef = useRef(onError)
+  const closeRef = useRef(close)
+  const cancelRef = useRef(cancel)
+  const openDepositFlowRef = useRef(openDepositFlow)
+  useEffect(() => {
+    onErrorRef.current = onError
+    closeRef.current = close
+    cancelRef.current = cancel
+    openDepositFlowRef.current = openDepositFlow
+  }, [onError, close, cancel, openDepositFlow])
+
   useEffect(() => {
     if (!open || !widgetUrl || isLoading) {
       return
@@ -262,7 +281,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
       const message =
         e instanceof Error ? e.message : 'Transak SDK failed to initialise.'
       setError({ message })
-      onError?.({
+      onErrorRef.current?.({
         code: 'ONRAMP_SDK_INIT_ERROR',
         message,
         provider: 'transak',
@@ -295,10 +314,8 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
       debug('order extracted', {
         orderId,
         status: order.status,
-        cryptoAmount: order.cryptoAmount,
         cryptoCurrency: order.cryptoCurrency,
         chainId: order.chainId ?? order.networkId,
-        walletAddress: order.walletAddress,
       })
 
       // Transak's SDK fires TRANSAK_ORDER_SUCCESSFUL at card-charge time
@@ -328,7 +345,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
         return
       }
       runState.active = false
-      cancel()
+      cancelRef.current()
     }
 
     const onOrderFailed = () => {
@@ -340,7 +357,9 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
       const retryArgs = lastOpenArgsRef.current
       setFailure({
         kind: 'withdrawal',
-        retry: retryArgs ? () => openDepositFlow(retryArgs) : close,
+        retry: retryArgs
+          ? () => openDepositFlowRef.current(retryArgs)
+          : closeRef.current,
       })
       setOpen(false)
       setWidgetUrl(null)
@@ -354,7 +373,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
       runState.active = false
       // If no terminal event fired first, treat close as user cancellation.
       if (!runState.succeeded) {
-        cancel()
+        cancelRef.current()
       }
     }
 
@@ -371,7 +390,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
       runState.active = false
       transak.cleanup()
       setError({ message })
-      onError?.({
+      onErrorRef.current?.({
         code: 'ONRAMP_SDK_INIT_ERROR',
         message,
         provider: 'transak',
@@ -385,16 +404,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
       runState.active = false
       transak.cleanup()
     }
-  }, [
-    cancel,
-    close,
-    isLoading,
-    onError,
-    open,
-    mountTargetId,
-    openDepositFlow,
-    widgetUrl,
-  ])
+  }, [isLoading, open, mountTargetId, widgetUrl])
 
   const session = useMemo<OnRampSession>(
     () => ({

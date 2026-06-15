@@ -45,15 +45,16 @@ const EMPTY: MeshBalanceResult = {
 }
 
 /**
- * Fetch-once hook that retrieves the user's Mesh exchange balance for a
- * specific token/chain combination. Re-fetches only when (account, token,
- * chain) changes.
+ * STUB — NOT WIRED. Always returns the empty result until Core ships
+ * `GET /v1/checkout/cex/balance`; it cannot report a real or insufficient
+ * balance yet, so do NOT gate funding on it. Exported only so the wiring is
+ * ready to drop in: safe to call (no-op), but not production-functional.
  *
- * Uses `GET /v1/checkout/cex/balance?tokenAddress=&chainId=&userId=`.
+ * Intended as a fetch-once hook for the user's Mesh exchange balance for a
+ * specific token/chain combination, re-fetching only when (account, token,
+ * chain) changes via `GET /v1/checkout/cex/balance?tokenAddress=&chainId=&userId=`.
  *
  * TODO: replace stub with real fetch once Core ships the balance endpoint.
- * Until then the hook returns the empty result so callers never show a false
- * insufficient-funds alert.
  */
 export function useMeshBalance(
   tokenAddress: string | undefined,

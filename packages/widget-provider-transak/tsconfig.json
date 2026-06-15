@@ -7,7 +7,8 @@
     "outDir": "dist/esm",
     "rootDir": "./src",
     "module": "ESNext",
-    "moduleResolution": "Bundler"
+    "moduleResolution": "Bundler",
+    "types": ["node"]
   },
   "include": ["./src/**/*", "./src/**/*.json"]
 }

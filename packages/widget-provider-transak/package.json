@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "@lifi/widget-provider": "workspace:*",
+    "@types/node": "^25.9.1",
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "react": "^19.2.5",
