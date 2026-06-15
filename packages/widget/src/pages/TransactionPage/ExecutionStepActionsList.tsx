@@ -6,15 +6,14 @@ import { StepActionRow } from '../../components/StepActions/StepActionRow.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { prepareActions } from '../../utils/prepareActions.js'
 
-interface StepActionsListProps {
+interface ExecutionStepActionsListProps {
   route: RouteExtended
   toAddress?: string
 }
 
-export const StepActionsList: React.FC<StepActionsListProps> = ({
-  route,
-  toAddress,
-}) => {
+export const ExecutionStepActionsList: React.FC<
+  ExecutionStepActionsListProps
+> = ({ route, toAddress }) => {
   const { getTransactionLink } = useExplorer()
 
   const stepRows = route.steps

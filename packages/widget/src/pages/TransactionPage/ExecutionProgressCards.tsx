@@ -11,7 +11,7 @@ import { RouteExecutionStatus } from '../../stores/routes/types.js'
 import { getSourceTxHash } from '../../stores/routes/utils.js'
 import { hasEnumFlag } from '../../utils/enum.js'
 import { ExecutionDoneCard } from './ExecutionDoneCard.js'
-import { StepActionsList } from './StepActionsList.js'
+import { ExecutionStepActionsList } from './ExecutionStepActionsList.js'
 
 interface ExecutionProgressCardsProps {
   route: RouteExtended
@@ -41,7 +41,7 @@ export const ExecutionProgressCards: React.FC<ExecutionProgressCardsProps> = ({
       <Card type="default" indented>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <ExecutionProgress route={route} status={status} />
-          <StepActionsList route={route} toAddress={toAddress} />
+          <ExecutionStepActionsList route={route} toAddress={toAddress} />
           {showContactSupport && (
             <ButtonTertiary
               variant="text"

@@ -52,8 +52,9 @@ function useOnRampSessionsStore(): OnRampSessionsStore {
 
 /**
  * Host hook: registers `session` under `id` for the lifetime of the mount.
- * Re-runs when the memoized `session` object changes so consumers always see
- * the latest state.
+ * Re-runs when the `session` reference changes so consumers always see the
+ * latest state. CONTRACT: `session` must be memoized by the caller (see
+ * `OnRampSession`) — an unmemoized object re-registers every render.
  */
 export function useRegisterOnRampSession(
   id: string,

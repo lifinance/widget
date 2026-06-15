@@ -48,6 +48,13 @@ export type OnRampProviderFactory<TOptions = void> = TOptions extends void
   ? () => OnRampProvider
   : (options: TOptions) => OnRampProvider
 
+/**
+ * Session a Host registers via `useRegisterOnRampSession`. The Host MUST pass a
+ * referentially-stable (memoized) object: the registry short-circuits on
+ * reference equality, so a new object every render thrashes register/unregister
+ * and churns subscribed consumers. Memoize it with `useMemo` keyed on its
+ * fields.
+ */
 export interface OnRampSession {
   open: (args: OnRampOpenArgs) => void
   close: () => void

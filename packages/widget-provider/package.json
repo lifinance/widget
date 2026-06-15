@@ -16,6 +16,7 @@
     "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../README.md' .",
     "build:postrelease": "node ../../scripts/postrelease.js && rm -rf README.md",
     "clean": "rm -rf dist",
+    "test": "vitest run",
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
     "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg"
@@ -48,6 +49,7 @@
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "react": "^19.2.7",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.8"
   }
 }
