@@ -12,10 +12,13 @@ import { useContext, useState } from 'react'
 import { CheckoutLayout } from './CheckoutLayout.js'
 import { useSeedFrozenQuote } from './hooks/useFrozenQuote.js'
 import { CheckoutRoutesPage } from './pages/CheckoutRoutesPage.js'
+import { DepositErrorRoutePage } from './pages/DepositErrorPages/DepositErrorRoutePage.js'
 import { EnterAmountPage } from './pages/EnterAmountPage/EnterAmountPage.js'
+import { ProgressPage } from './pages/ProgressPage/ProgressPage.js'
 import { SelectCashCurrencyPage } from './pages/SelectCashCurrencyPage/SelectCashCurrencyPage.js'
 import { SelectSourcePage } from './pages/SelectSourcePage/SelectSourcePage.js'
 import { SelectTokenPage } from './pages/SelectTokenPage/SelectTokenPage.js'
+import { TransferDepositPage } from './pages/TransferDepositPage/TransferDepositPage.js'
 import { CheckoutFlowStoreContext } from './stores/useCheckoutFlowStore.js'
 import {
   readPendingRecord,
@@ -38,6 +41,24 @@ const enterAmountRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: checkoutNavigationRoutes.enterAmount,
   component: EnterAmountPage,
+})
+
+const progressRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: checkoutNavigationRoutes.progress,
+  component: ProgressPage,
+})
+
+const transferDepositRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: checkoutNavigationRoutes.transferDeposit,
+  component: TransferDepositPage,
+})
+
+const depositErrorRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: checkoutNavigationRoutes.depositError,
+  component: DepositErrorRoutePage,
 })
 
 const selectCashRoute = createRoute({
@@ -77,6 +98,9 @@ const routesIndexRoute = createRoute({
 const routeTree = rootRoute.addChildren([
   indexRoute,
   enterAmountRoute,
+  progressRoute,
+  transferDepositRoute,
+  depositErrorRoute,
   selectCashRoute,
   fromTokenLayoutRoute.addChildren([
     fromTokenIndexRoute,
