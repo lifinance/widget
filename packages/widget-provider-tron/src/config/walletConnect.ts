@@ -1,7 +1,16 @@
+import { ChainNetwork } from '@tronweb3/tronwallet-abstract-adapter'
 import type { WalletConnectAdapterConfig } from '@tronweb3/tronwallet-adapters'
 
-// Same project id as the EVM provider — lets `walletConnect: true` work with no setup.
+// Shared with the EVM provider so `walletConnect: true` works with no setup.
 const defaultProjectId = '5432e3507d41270bee46b7b85bbc2ef8'
+
+// Upstream matches network names case-sensitively; snap to canonical casing, pass chainIds through.
+const normalizeNetwork = (
+  network: WalletConnectAdapterConfig['network']
+): WalletConnectAdapterConfig['network'] =>
+  Object.values(ChainNetwork).find(
+    (name) => name.toLowerCase() === network.toLowerCase()
+  ) ?? network
 
 export const resolveTronWalletConnectConfig = (
   walletConnect: WalletConnectAdapterConfig | boolean | undefined
@@ -10,16 +19,13 @@ export const resolveTronWalletConnectConfig = (
     return undefined
   }
   const config = walletConnect === true ? undefined : walletConnect
-  const network = config?.network ?? 'Mainnet'
   return {
     ...config,
-    // Lowercase yields an invalid `tron:<name>` CAIP id upstream.
-    network: `${network.charAt(0).toUpperCase()}${network.slice(1)}`,
+    network: normalizeNetwork(config?.network ?? ChainNetwork.Mainnet),
     options: {
       projectId: defaultProjectId,
       ...config?.options,
-      // Forced last: a distinct prefix keeps the EVM connector's eip155
-      // namespaces (shared project id) out of the Tron session proposal.
+      // Forced last: isolates Tron's WC session from the EVM connector's (shared project id).
       customStoragePrefix: 'tron',
     },
   }
