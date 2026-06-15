@@ -32,6 +32,9 @@
     "delete": "Delete",
     "deposit": "Deposit",
     "depositReview": "Review deposit",
+    "depositWithCash": "Deposit with cash",
+    "connectExchange": "Connect exchange",
+    "transferCrypto": "Transfer crypto",
     "disconnect": "Disconnect",
     "done": "Done",
     "exchange": "Exchange",
@@ -41,9 +44,16 @@
     "max": "MAX",
     "ok": "Ok",
     "options": "Options",
+    "requestRefund": "Request refund",
     "reset": "Reset",
     "resetSettings": "Reset settings",
+    "resumeTransaction": "Resume transaction",
+    "retryDeposit": "Retry deposit",
     "seeDetails": "See details",
+    "topUp": "Top up",
+    "viewRefund": "View refund",
+    "viewRefundStatus": "View refund status",
+    "viewTransferDetails": "View transfer details",
     "showAll": "Show all",
     "startBridging": "Start bridging",
     "startSwapping": "Start swapping",
@@ -61,8 +71,13 @@
     "checkout": "Checkout",
     "checkoutDetails": "Checkout details",
     "deposit": "Deposit",
+    "depositAddress": "Deposit address",
     "depositDetails": "Deposit details",
     "depositTo": "Deposit to",
+    "depositWithCash": "Deposit with cash",
+    "connectExchange": "Connect exchange",
+    "transferCrypto": "Transfer crypto",
+    "currency": "Currency",
     "exchange": "Exchange",
     "from": "Exchange from",
     "gas": "Gas",
@@ -316,6 +331,7 @@
     "tokenSearch": "Search by token or address",
     "valueLoss": "Value loss",
     "searchBridges": "Search by bridge name",
+    "searchCurrency": "Search currency",
     "searchExchanges": "Search by exchange name",
     "searchNetwork": "Search network"
   },
@@ -356,5 +372,259 @@
     "contractAddress": "Contract address",
     "marketCap": "Market cap",
     "volume24h": "Volume 24h"
+  },
+  "tags": {
+    "connected": "Connected",
+    "getStarted": "Get Started",
+    "installed": "Installed",
+    "multichain": "Multichain",
+    "qrCode": "QR Code"
+  },
+  "checkout": {
+    "closeConfirmation": {
+      "title": "Leave with transaction in progress?",
+      "body": "Your transaction is still being processed. You can come back to it any time by reopening the widget — we'll pick up where you left off.",
+      "confirm": "Yes, leave",
+      "cancel": "Stay"
+    },
+    "transak": {
+      "forceClose": {
+        "tooltip": "Close (transaction won't resume)"
+      }
+    },
+    "legal": {
+      "termsDisclaimer": "By continuing, you agree to LI.FI's <terms>Terms of Service</terms>."
+    },
+    "resume": {
+      "notFoundToast": "We couldn't find your transaction. Start over or contact support if you think this is a mistake."
+    },
+    "deposit": "Deposit",
+    "transferDeposit": {
+      "warning": "Only send <b>{{amount}} {{symbol}}</b> on <b>{{chain}}</b>. Wrong token or chain may be unrecoverable.",
+      "expiresIn": "Deposit address expires in {{minutes}}:{{seconds}}",
+      "addressLabel": "Deposit address",
+      "copyAddress": "Copy address",
+      "regenerate": "Generate new deposit address",
+      "expired": "This deposit window expired. Generate a new one to continue.",
+      "polling": "Watching for your deposit…",
+      "detailsTitle": "Deposit details",
+      "startNew": "Start a new transfer",
+      "startNewConfirmation": {
+        "title": "Start a new transfer?",
+        "body": "If you've already sent funds, they'll still reach your destination — check transaction history to confirm. Otherwise, this clears your previous transfer so you can pick a different token.",
+        "cancel": "Cancel",
+        "confirm": "Yes, start over"
+      },
+      "table": {
+        "required": "Required",
+        "received": "Received",
+        "minRefundable": "Min. refundable",
+        "remaining": "Remaining",
+        "excess": "Excess",
+        "timeRemaining": "Time remaining"
+      },
+      "errors": {
+        "unexpected": {
+          "title": "Unexpected deposit",
+          "description": "We received a deposit that doesn't match a supported route. Contact support for next steps."
+        },
+        "amountLowThreshold": {
+          "title": "Deposit incomplete",
+          "description": "Top up to complete your order, or to enable a refund."
+        },
+        "amountLowTopUp": {
+          "title": "Deposit incomplete",
+          "description": "Send the remaining before the deposit window closes."
+        },
+        "amountLowExpired": {
+          "title": "Deposit incomplete",
+          "description": "The deposit window has expired. You can request a refund for the amount received."
+        },
+        "excessHeld": {
+          "title": "Excess held",
+          "description": "Your order is processing. The excess is held — request a refund to retrieve it."
+        },
+        "lateArrival": {
+          "title": "Deposit arrived late",
+          "description": "Your funds reached us after the deposit window closed. You can reactivate to continue, or request a refund."
+        },
+        "addressExpired": {
+          "title": "Deposit address expired",
+          "description": "The deposit address has expired without receiving funds. You can try again with a new deposit address."
+        },
+        "marketMoved": {
+          "title": "Transaction failed",
+          "description": "The exchange rate moved before your order could complete. Your funds are safe — a refund has been started."
+        },
+        "refunding": {
+          "title": "Transaction failed — refunding",
+          "description": "We couldn't complete the transfer after several attempts. Your funds are being refunded to the wallet that sent them."
+        }
+      }
+    },
+    "fiatCurrency": {
+      "label": "Pay with",
+      "USD": "US Dollar",
+      "EUR": "Euro",
+      "GBP": "British Pound"
+    },
+    "flowSummary": {
+      "wallet": "From your wallet",
+      "transfer": "Transfer crypto",
+      "exchange": "From an exchange",
+      "cash": "Buy with cash"
+    },
+    "transactionStatus": {
+      "detailsTitle": "Transaction details",
+      "watching": "Watching for transaction",
+      "executing": "Processing transaction",
+      "success": "Transaction successful",
+      "seeDetails": "See details",
+      "steps": {
+        "transferInitiated": "Transfer initiated",
+        "tokenReceived": "{{symbol}} received",
+        "swappedTo": "Swapped to {{symbol}}",
+        "bridgedTo": "Bridged to {{chain}}"
+      }
+    },
+    "chooseFundingSource": "Choose funding source",
+    "insufficientFunds": "Insufficient funds — You don't have enough {{symbol}} on {{chain}}. Select a different token to try again.",
+    "useYourTokens": "Use your tokens",
+    "buyTokens": "Buy tokens",
+    "or": "or",
+    "payFromWallet": "Pay from Wallet",
+    "payFromWalletSubtitle": "Connect a browser wallet",
+    "payFromWalletConnectedSubtitle": "Select token & amount",
+    "transferCrypto": "Transfer Crypto",
+    "transferCryptoSubtitle": "From any wallet",
+    "connectExchange": "Connect Exchange",
+    "connectExchangeSubtitle": "Link your exchange account",
+    "depositWithCash": "Deposit with Cash",
+    "depositWithCashSubtitle": "Debit or credit card",
+    "connectWallet": "Connect wallet",
+    "moreWallets": "More",
+    "progress": {
+      "title": "Purchase in progress",
+      "description": "We're processing your purchase. This may take a few minutes."
+    },
+    "onramp": {
+      "dialogTitle": "Deposit with {{providerName}}",
+      "close": "Close",
+      "errors": {
+        "MISSING_API_URL": "{{providerName}} deposit is not configured: set sdkConfig.apiUrl on the checkout.",
+        "MISSING_API_KEY": "{{providerName}} deposit is not configured: set widget apiKey to call checkout sessions.",
+        "TARGET_NOT_CONFIGURED": "{{providerName}} deposit target is not configured: set widget.toChain and widget.toToken.",
+        "INVALID_RESPONSE": "Invalid response from {{providerName}} session API.",
+        "NETWORK_ERROR": "Network error starting {{providerName}} session.",
+        "SESSION_HTTP": "Could not start {{providerName}} session ({{status}}). Try again later.",
+        "generic": "Something went wrong. Try again later."
+      },
+      "failure": {
+        "connectionTitle": "Connection failed",
+        "connectionDescription": "We couldn't connect to {{providerName}}. Try again or contact support.",
+        "withdrawalTitle": "Withdrawal failed",
+        "withdrawalDescription": "{{providerName}} couldn't process your withdrawal. Your funds remain in your account.",
+        "transferTitle": "Transaction failed - refunding",
+        "transferDescription": "We couldn't complete the transfer after several attempts. Your funds are being refunded to the wallet that sent them."
+      }
+    },
+    "status": {
+      "successCompleted": {
+        "title": "Transaction successful",
+        "description": "Your transaction has been completed successfully."
+      },
+      "successPartial": {
+        "title": "Partially completed",
+        "description": "Your transaction completed, but some of the received tokens are not the requested destination tokens. Open the details to see what you received."
+      },
+      "successRefund": {
+        "title": "Refund complete",
+        "description": "Your transaction could not be completed and your funds have been refunded."
+      },
+      "pendingDefault": {
+        "title": "Processing transaction",
+        "description": "Your transaction is being processed. This may take a few minutes."
+      },
+      "pendingRefund": {
+        "title": "Refunding your deposit",
+        "description": "We're sending your funds back. This usually takes a few minutes.",
+        "sentTo": "Sent to:"
+      },
+      "pendingRetrying": {
+        "title": "Retrying transaction",
+        "description": "We encountered an issue and are automatically retrying your transaction."
+      },
+      "errorExpired": {
+        "title": "Transaction expired",
+        "description": "The transaction window has expired. Please try again."
+      },
+      "errorFailed": {
+        "title": "Transaction failed",
+        "description": "We couldn't complete your transaction. Try again or contact support."
+      },
+      "errorConnection": {
+        "title": "Connection failed",
+        "description": "We couldn't connect to the payment provider. Try again or contact support.",
+        "exchange": {
+          "title": "Exchange connection failed",
+          "description": "We couldn't connect to your exchange account. Try again or contact support."
+        }
+      },
+      "errorWithdrawal": {
+        "title": "Withdrawal failed",
+        "description": "The payment provider couldn't process your withdrawal. Your funds remain in your account.",
+        "cash": {
+          "title": "Payment didn't complete",
+          "description": "Your payment didn't go through. No funds were taken."
+        },
+        "exchange": {
+          "title": "Exchange withdrawal failed",
+          "description": "Your exchange couldn't process the withdrawal. Your funds remain in your exchange account."
+        }
+      },
+      "errorCancelled": {
+        "title": "Transaction cancelled",
+        "description": "Your transaction was cancelled. You can try again whenever you're ready.",
+        "cash": {
+          "title": "Payment cancelled",
+          "description": "You closed the payment window. Your order wasn't placed."
+        }
+      },
+      "errorUnavailable": {
+        "title": "Service unavailable",
+        "description": "The payment provider is temporarily unavailable. Please try again later or contact support.",
+        "cash": {
+          "title": "Card payment unavailable",
+          "description": "Card payments are temporarily unavailable. Try again later or use a different method."
+        }
+      },
+      "walletDisconnected": {
+        "title": "Wallet disconnected",
+        "description": "Your wallet was disconnected during the transaction. Reconnect and try again."
+      },
+      "walletErrorFailed": {
+        "title": "Transaction failed",
+        "description": "We couldn't complete your transaction. View the details or try again."
+      },
+      "walletErrorExpired": {
+        "title": "Order expired",
+        "description": "The transaction window expired before your order could be processed. Please try again."
+      },
+      "walletPendingRefund": {
+        "title": "Refunding your deposit",
+        "description": "We're sending your funds back to the wallet you deposited from. This usually takes a few minutes.",
+        "sentToWallet": "Sent to wallet:"
+      },
+      "walletSuccessRefund": {
+        "title": "Refund complete",
+        "description": "Your transaction could not be completed and your funds have been refunded to your wallet."
+      }
+    },
+    "refund": {
+      "title": "Refund",
+      "inProgressDescription": "Your {{amount}} {{symbol}} on {{chain}} is being returned to your wallet. This usually takes a few minutes.",
+      "completeDescription": "Your {{amount}} {{symbol}} on {{chain}} was returned to your wallet.",
+      "viewTransaction": "View transaction"
+    }
   }
 }

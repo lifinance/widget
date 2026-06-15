@@ -15,8 +15,8 @@ const sortByBalances = (a: TokenAmount, b: TokenAmount) =>
 const sortByVolume = (a: TokenExtended, b: TokenExtended) =>
   (b.volumeUSD24H ?? 0) - (a.volumeUSD24H ?? 0)
 
-export const processTokenBalances = (
-  isBalanceLoading: boolean,
+export const processTokenList = (
+  withoutBalances: boolean,
   noCategories: boolean,
   configTokens?: WidgetTokens,
   selectedChainId?: number,
@@ -28,7 +28,7 @@ export const processTokenBalances = (
   withCategories: boolean
   withPinnedTokens: boolean
 } => {
-  if (isBalanceLoading) {
+  if (withoutBalances) {
     if (noCategories) {
       const sortedTokens = [...(tokens ?? [])].sort(sortByVolume)
       // Separate pinned tokens
