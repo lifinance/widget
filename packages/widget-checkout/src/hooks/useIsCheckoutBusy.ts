@@ -1,5 +1,4 @@
 'use client'
-import { useAccount } from '@lifi/wallet-management'
 import {
   CheckoutContext,
   OnRampSessionsContext,
@@ -26,11 +25,7 @@ export function useIsCheckoutBusy(): boolean {
     Object.values(s.sessions).some((session) => session.isOpen)
   )
   const checkoutContext = useContext(CheckoutContext)
-  const { accounts } = useAccount()
   const records = usePendingCheckoutStore((s) => s.records)
-  const walletAddress = accounts.find(
-    (a) => a.isConnected && a.address
-  )?.address
   const integrator = checkoutContext?.integrator ?? null
   const resumeEnabled = checkoutContext?.resumePending !== false
   const hasLiveRecord = useMemo(() => {
@@ -38,20 +33,16 @@ export function useIsCheckoutBusy(): boolean {
       return false
     }
     const now = Date.now()
-    if (walletAddress) {
-      const record = records[`${integrator}:${walletAddress}`]
-      return Boolean(record) && record.expiresAt > now
-    }
+    // Any live record for this integrator means busy. Scanning by prefix
+    // (rather than only the connected wallet's key) keeps deposit-keyed
+    // records visible after a wallet connects.
     const prefix = `${integrator}:`
     for (const [key, record] of Object.entries(records)) {
-      if (!key.startsWith(prefix)) {
-        continue
-      }
-      if (record.expiresAt > now) {
+      if (key.startsWith(prefix) && record.expiresAt > now) {
         return true
       }
     }
     return false
-  }, [integrator, resumeEnabled, walletAddress, records])
+  }, [integrator, resumeEnabled, records])
   return sessionBusy || hasLiveRecord
 }

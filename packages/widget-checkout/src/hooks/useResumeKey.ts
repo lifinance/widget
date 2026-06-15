@@ -14,9 +14,7 @@ export function useResumeKey(): string | null {
 
   return useMemo(() => {
     const wallet = accounts.find((a) => a.isConnected && a.address)?.address
-    if (wallet) {
-      return `${integrator}:${wallet}`
-    }
+    const walletKey = wallet ? `${integrator}:${wallet}` : null
     const prefix = `${integrator}:`
     const now = Date.now()
     let bestKey: string | null = null
@@ -28,7 +26,12 @@ export function useResumeKey(): string | null {
       if (record.expiresAt <= now) {
         continue
       }
-      if (!record.depositAddress) {
+      // Resumable when the record carries a deposit address (transfer/cash)
+      // or it is the connected wallet's own record (wallet/relayer deposits
+      // may be keyed by wallet with only a tx hash). Scanning unconditionally
+      // keeps a deposit-keyed record visible after a wallet later connects,
+      // instead of being hidden behind the wallet key.
+      if (!record.depositAddress && key !== walletKey) {
         continue
       }
       if (record.createdAt > bestCreatedAt) {
@@ -43,12 +46,14 @@ export function useResumeKey(): string | null {
 export function useResumeRecord(): PendingRecord | null {
   const key = useResumeKey()
   const records = usePendingCheckoutStore((s) => s.records)
-  if (!key) {
-    return null
-  }
-  const record = records[key]
-  if (!record || record.expiresAt <= Date.now()) {
-    return null
-  }
-  return record
+  return useMemo(() => {
+    if (!key) {
+      return null
+    }
+    const record = records[key]
+    if (!record || record.expiresAt <= Date.now()) {
+      return null
+    }
+    return record
+  }, [key, records])
 }

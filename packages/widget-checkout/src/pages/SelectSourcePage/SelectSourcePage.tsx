@@ -26,15 +26,13 @@ import {
   useOnRampSessionByCategory,
 } from '../../providers/OnRampProvider/OnRampProvider.js'
 import { useCheckoutFlowStore } from '../../stores/useCheckoutFlowStore.js'
+import {
+  DEFAULT_FROM_CHAIN_ID,
+  DEFAULT_FROM_TOKEN_ADDRESS,
+} from '../../utils/checkoutDefaults.js'
 import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
 import { SelectSourceFundingOptions } from './SelectSourceFundingOptions.js'
 import { SelectSourceMainColumn } from './SelectSourceLayout.js'
-
-// Cash and exchange deposits aren't wallet-funded, so they pin the source to
-// USDC on Ethereum mainnet rather than inheriting the prior wallet/transfer
-// selection.
-const DEFAULT_FROM_CHAIN_ID = 1
-const DEFAULT_FROM_TOKEN_ADDRESS = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
 
 export const SelectSourcePage: React.FC = () => {
   const { t } = useTranslation()
