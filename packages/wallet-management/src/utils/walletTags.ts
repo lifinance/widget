@@ -2,6 +2,7 @@ import { isWalletInstalled } from '@lifi/widget-provider'
 import type { CombinedWallet } from '../hooks/useCombinedWallets.js'
 import { WalletTagType } from '../types/walletTagType.js'
 import { getConnectorId } from './getConnectorId.js'
+import { normalizeName } from './normalizeName.js'
 
 export const getConnectorTagType = (
   connectorId: string,
@@ -41,8 +42,10 @@ export const getWalletTagType = (
   wallet: CombinedWallet,
   connectedConnectorIds: string[]
 ): WalletTagType | undefined => {
+  const isMultichain =
+    wallet.connectors.length > 1 || normalizeName(wallet.name) === 'ledger'
   let walletTagType: WalletTagType | undefined
-  if (wallet.connectors.length > 1) {
+  if (isMultichain) {
     walletTagType = wallet.connectors.some((connector) => {
       const connectorId = getConnectorId(
         connector.connector,
