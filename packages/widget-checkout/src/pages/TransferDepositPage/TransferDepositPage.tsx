@@ -71,21 +71,11 @@ function roundUpToSignificant(value: number, significantDigits = 4): number {
 
 export const TransferDepositPage: React.FC = (): JSX.Element => {
   const { t } = useTranslation()
-  const { frozen, expired } = useFrozenQuote()
+  const { frozen, expired, remainingMs } = useFrozenQuote()
   const route = frozen?.route
   const depositAddress = useMemo(() => extractDepositAddress(route), [route])
   const { chain } = useChain(route?.fromChainId)
 
-  const [now, setNow] = useState(() => Date.now())
-  useEffect(() => {
-    if (!frozen) {
-      return
-    }
-    const id = setInterval(() => setNow(Date.now()), 1000)
-    return () => clearInterval(id)
-  }, [frozen])
-
-  const remainingMs = frozen ? Math.max(0, frozen.expiresAt - now) : 0
   const { minutes, seconds } = formatRemaining(remainingMs)
 
   useTransferStatusPoll({

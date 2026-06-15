@@ -63,6 +63,8 @@ function useFrozenQuoteStore<T>(selector: (state: FrozenQuoteState) => T): T {
 export interface UseFrozenQuote {
   frozen: FrozenQuote | null
   expired: boolean
+  /** Milliseconds until the frozen quote expires (0 once expired/unset). */
+  remainingMs: number
   freeze: (route: Route) => void
   clear: () => void
 }
@@ -81,6 +83,7 @@ export function useFrozenQuote(): UseFrozenQuote {
   }, [frozen])
 
   const expired = !!frozen && now >= frozen.expiresAt
+  const remainingMs = frozen ? Math.max(0, frozen.expiresAt - now) : 0
 
   const freeze = useCallback(
     (route: Route) => {
@@ -96,7 +99,7 @@ export function useFrozenQuote(): UseFrozenQuote {
 
   const clear = useCallback(() => setFrozen(null), [setFrozen])
 
-  return { frozen, expired, freeze, clear }
+  return { frozen, expired, remainingMs, freeze, clear }
 }
 
 export function useSeedFrozenQuote(): (frozen: FrozenQuote) => void {

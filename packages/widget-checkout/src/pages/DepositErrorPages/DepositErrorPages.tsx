@@ -11,7 +11,8 @@ import { DepositStatusScreen } from './DepositStatusScreen.js'
 
 // Mock values used while these pages aren't wired to real session data yet.
 // They give designers / QA a realistic preview when reached via the dev
-// simulation panel.
+// simulation panel. The kinds that render them are dev-gated in
+// DepositErrorRoutePage so the fabricated amounts never reach production.
 const MOCK = {
   required: '100 USDT',
   receivedLow: '5 USDT',
@@ -317,3 +318,11 @@ export const depositErrorPages: Record<DepositErrorKind, () => JSX.Element> = {
   'address-expired': DepositAddressExpiredPage,
   'market-moved': DepositMarketMovedPage,
 }
+
+/**
+ * Kinds the live status poll actually navigates to (see
+ * `resolveDepositErrorKind`). Every other kind is a design/QA preview that
+ * renders mocked amounts, so it is only reachable by URL in development.
+ */
+export const PRODUCTION_DEPOSIT_ERROR_KINDS: ReadonlySet<DepositErrorKind> =
+  new Set(['unexpected', 'address-expired'])
