@@ -3,6 +3,8 @@ import type { WidgetConfig } from '../../types/widget.js'
 import { createSettingsStore } from './createSettingsStore.js'
 
 const STORAGE_KEY = 'li.fi-widget-settings'
+// Must match the persist version in createSettingsStore, else merge tests
+// silently become migration tests.
 const STORE_VERSION = 6
 
 const createLocalStorageMock = (): Storage => {
@@ -33,12 +35,15 @@ const seedPersistedState = (state: Record<string, unknown>) => {
 }
 
 describe('createSettingsStore tool allow-list', () => {
+  let originalLocalStorage: Storage | undefined
+
   beforeEach(() => {
+    originalLocalStorage = globalThis.localStorage
     globalThis.localStorage = createLocalStorageMock()
   })
 
   afterEach(() => {
-    globalThis.localStorage.clear()
+    globalThis.localStorage = originalLocalStorage as Storage
   })
 
   it('seeds enabled tools from the config allow-list on a fresh store', () => {
@@ -67,6 +72,34 @@ describe('createSettingsStore tool allow-list', () => {
     expect(state.enabledExchanges).toEqual(['fly'])
     expect(state._enabledExchanges).toEqual({ fly: true })
     expect(state.disabledExchanges).toEqual([])
+  })
+
+  it('keeps the allow-list when the persisted map has no overlap', () => {
+    seedPersistedState({
+      _enabledExchanges: { okx: true, kyber: true },
+    })
+
+    const store = createSettingsStore({
+      exchanges: { allow: ['fly'] },
+    } as WidgetConfig)
+
+    const state = store.getState()
+    expect(state.enabledExchanges).toEqual(['fly'])
+    expect(state._enabledExchanges).toEqual({ fly: true })
+  })
+
+  it('intersects a stale persisted bridges list with the current config', () => {
+    seedPersistedState({
+      _enabledBridges: { across: true, hop: true, stargate: true },
+    })
+
+    const store = createSettingsStore({
+      bridges: { allow: ['across'] },
+    } as WidgetConfig)
+
+    const state = store.getState()
+    expect(state.enabledBridges).toEqual(['across'])
+    expect(state._enabledBridges).toEqual({ across: true })
   })
 
   it('does not restrict tools when the config has no allow-list', () => {

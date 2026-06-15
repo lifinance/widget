@@ -64,6 +64,7 @@ export const createSettingsStore = (
   }
   const toEnabledMap = (keys: string[] = []): Record<string, boolean> =>
     Object.fromEntries(keys.map((key) => [key, true] as const))
+  // Deny-only configs can't be seeded; the tool universe is unknown until /tools.
   const initialSettings: SettingsProps = {
     ...defaultSettings,
     ...buildToolState('Bridges', toEnabledMap(config.bridges?.allow)),
@@ -198,8 +199,15 @@ export const createSettingsStore = (
           SettingsToolTypes.forEach((toolType) => {
             const persistedEnabled = persistedState?.[`_enabled${toolType}`]
             if (persistedEnabled) {
-              // Drop rehydrated tools the config no longer allows.
-              Object.assign(state, buildToolState(toolType, persistedEnabled))
+              // Overlay persisted toggles on the config allow seed so an empty
+              // intersection keeps the allow-list instead of going unrestricted.
+              const allowMap = toEnabledMap(
+                configItemsByToolType[toolType]?.allow
+              )
+              Object.assign(
+                state,
+                buildToolState(toolType, { ...allowMap, ...persistedEnabled })
+              )
             }
           })
           return state
