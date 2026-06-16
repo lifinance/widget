@@ -17,6 +17,7 @@ import { Box } from '@mui/material'
 import type { RefObject } from 'react'
 import { type FC, memo, useCallback, useEffect, useMemo, useRef } from 'react'
 import { useCheckoutFlowStore } from '../../stores/useCheckoutFlowStore.js'
+import { isNativeToken } from '../../utils/nativeToken.js'
 
 export interface SelectTokenListProps {
   formType: FormType
@@ -38,6 +39,8 @@ type SharedListProps = Omit<SelectTokenListProps, 'isWalletFunded'> & {
   selectedTokenAddress?: string
   isAllNetworks: boolean
   tokenSearchFilter?: string
+  // IF deposit flows can't accept the native gas token; only the wallet flow keeps it.
+  excludeNative: boolean
 }
 
 type TokenListResult = ReturnType<typeof useTokenBalances>
@@ -47,6 +50,7 @@ const TokenListView: FC<SharedListProps & TokenListResult> = ({
   headerRef,
   afterTokenSelect,
   allowedSymbols,
+  excludeNative,
   selectedChainId,
   selectedTokenAddress,
   isAllNetworks,
@@ -75,15 +79,18 @@ const TokenListView: FC<SharedListProps & TokenListResult> = ({
   )
 
   const filteredTokens = useMemo(() => {
+    const withoutNative = excludeNative
+      ? tokens.filter((token) => !isNativeToken(token.address))
+      : tokens
     if (!allowedSymbols || allowedSymbols.size === 0) {
-      return tokens
+      return withoutNative
     }
     // Strip on-wallet amounts — the curated list funds from an exchange,
     // not the connected wallet — regardless of which hook fed the list.
-    return tokens
+    return withoutNative
       .filter((token) => allowedSymbols.has(token.symbol.toUpperCase()))
       .map((token) => ({ ...token, amount: undefined }))
-  }, [tokens, allowedSymbols])
+  }, [tokens, allowedSymbols, excludeNative])
 
   const showCategories =
     !allowedSymbols && withCategories && !tokenSearchFilter && !isAllNetworks
@@ -170,6 +177,7 @@ export const SelectTokenList: FC<SelectTokenListProps> = memo(
       headerRef,
       afterTokenSelect,
       allowedSymbols,
+      excludeNative: !isWalletFunded,
       selectedChainId,
       selectedTokenAddress,
       isAllNetworks,

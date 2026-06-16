@@ -34,10 +34,8 @@ export const SelectTokenPage: React.FC = () => {
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
   const isWalletFunded = useIsWalletFundedFlow()
   const isExchangeFlow = fundingSource === 'exchange'
-  const exchangeAllowedSymbols = useMemo(
-    () => new Set(['USDC', 'USDT', 'ETH']),
-    []
-  )
+  // IF deposits can't accept the native gas token, so the curated set is ERC20-only.
+  const exchangeAllowedSymbols = useMemo(() => new Set(['USDC', 'USDT']), [])
   const hideChainSelect = hiddenUI?.chainSelect || isExchangeFlow
 
   const isMobile = useMediaQuery((theme: Theme) =>
