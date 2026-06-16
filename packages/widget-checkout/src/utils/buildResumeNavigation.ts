@@ -35,9 +35,9 @@ export function buildResumeNavigation(
   ) {
     return { to: TRANSFER_DEPOSIT, search: { resumed: '1' } }
   }
-  // Always resume via the deposit address — intent-factory fulfillment is
-  // tracked by the deposit address, not the source tx hash. The hash, when
-  // known, rides along for display/details only.
+  // Deposit-funded flows (and IF wallet routes) resume via the deposit address —
+  // fulfillment is tracked by the deposit address, not the source tx hash. The
+  // hash, when known, rides along for display/details only.
   if (record.depositAddress && record.fromChain !== undefined) {
     return {
       to: `/${TRANSACTION_EXECUTION}/${TRANSACTION_STATUS}`,
@@ -47,6 +47,18 @@ export function buildResumeNavigation(
         ...(record.transactionHash
           ? { transactionHash: record.transactionHash }
           : {}),
+        resumed: '1',
+      },
+    }
+  }
+  // A wallet payment that took a non-IF route has no deposit address — resume the
+  // status page by tx hash, which polls getStatus for the in-flight transfer.
+  if (record.transactionHash && record.fromChain !== undefined) {
+    return {
+      to: `/${TRANSACTION_EXECUTION}/${TRANSACTION_STATUS}`,
+      search: {
+        transactionHash: record.transactionHash,
+        fromChain: record.fromChain,
         resumed: '1',
       },
     }

@@ -4,6 +4,7 @@ import { useSDKClient } from '@lifi/widget/shared'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useEffect, useRef } from 'react'
 import { getDepositAddressStatus } from '../utils/depositAddressStatus.js'
+import type { HashStatusHints } from '../utils/statusHints.js'
 import {
   computeBackoffInterval,
   depositAddressQueryKey,
@@ -29,6 +30,12 @@ export interface UseCheckoutTransactionStatusArgs {
    * paused — a hash means the deposit already happened.
    */
   pauseDepositPoll?: boolean
+  /**
+   * Cross-chain hints (bridge/toChain) forwarded to the hash poll. The SDK needs
+   * `bridge` to resolve a cross-chain transfer by tx hash; ignored on the
+   * deposit-address path.
+   */
+  statusHints?: HashStatusHints
 }
 
 export const useCheckoutTransactionStatus = ({
@@ -36,11 +43,12 @@ export const useCheckoutTransactionStatus = ({
   depositAddress,
   fromChain,
   pauseDepositPoll,
+  statusHints,
 }: UseCheckoutTransactionStatusArgs): CheckoutTransactionStatus => {
   const sdkClient = useSDKClient()
-  // Status is ALWAYS polled by deposit address — the tx hash is a
-  // display/details supplement, never a status query. The hash path exists
-  // solely for the transaction details page, which has no deposit address.
+  // Deposit-funded flows (and IF wallet routes) poll by deposit address; the tx
+  // hash is a display/details supplement there. A wallet payment on a non-IF
+  // route has no deposit address, so it polls status by hash instead.
   const canPollByDeposit = !!depositAddress && !!fromChain && !pauseDepositPoll
   const canPollByHash = !!transactionHash && !canPollByDeposit
   const enabled = canPollByHash || canPollByDeposit
@@ -65,7 +73,11 @@ export const useCheckoutTransactionStatus = ({
     queryKey,
     queryFn: async ({ signal }) => {
       if (canPollByHash) {
-        return getStatus(sdkClient, { txHash: transactionHash! }, { signal })
+        return getStatus(
+          sdkClient,
+          { txHash: transactionHash!, ...statusHints },
+          { signal }
+        )
       }
       if (canPollByDeposit) {
         return getDepositAddressStatus({

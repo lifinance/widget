@@ -151,20 +151,15 @@ export const SelectSourcePage: React.FC = () => {
   }, [hasWalletConnected, goToToken])
 
   const handlePayFromWallet = useCallback(() => {
-    overrideExchanges([...INTENT_FACTORY_ONLY])
+    // The wallet flow pays directly from the connected wallet, so it keeps the
+    // integrator's full route set — no IF-only override (unlike the deposit flows).
     setFundingSource('wallet')
     if (hasWalletConnected) {
       goToToken()
       return
     }
     openWalletMenu()
-  }, [
-    hasWalletConnected,
-    goToToken,
-    openWalletMenu,
-    overrideExchanges,
-    setFundingSource,
-  ])
+  }, [hasWalletConnected, goToToken, openWalletMenu, setFundingSource])
 
   const handleTransferCrypto = useCallback(() => {
     overrideExchanges([...INTENT_FACTORY_ONLY])

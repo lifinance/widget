@@ -14,7 +14,9 @@ interface WalletWriteArgs {
   transactionHash: string
   fromChain: number
   depositAddress?: string
-  frozenQuote?: PersistedFrozenQuote
+  // Required: the activity list and resume derive cross-chain status hints
+  // (bridge/toChain) from this route, so a wallet record must always carry it.
+  frozenQuote: PersistedFrozenQuote
 }
 
 interface TransferWriteArgs {

@@ -1,5 +1,5 @@
 'use client'
-import type { StatusResponse } from '@lifi/sdk'
+import { getStatus, type StatusResponse } from '@lifi/sdk'
 import { useSDKClient } from '@lifi/widget/shared'
 import { useCheckoutConfig } from '@lifi/widget-provider/checkout'
 import { useQueries } from '@tanstack/react-query'
@@ -10,9 +10,11 @@ import {
   usePendingCheckoutStore,
 } from '../stores/usePendingCheckoutStore.js'
 import { getDepositAddressStatus } from '../utils/depositAddressStatus.js'
+import { extractStatusHints } from '../utils/statusHints.js'
 import {
   computeBackoffInterval,
   depositAddressQueryKey,
+  txHashQueryKey,
 } from '../utils/statusPolling.js'
 
 export type PendingActivityState = 'deposit' | 'refund' | 'failed'
@@ -26,8 +28,11 @@ export interface PendingActivityItem {
   depositDetected: boolean
 }
 
-// The deposit-address poll is the single reconciler: done/refunded clears the
-// record, failed marks it (kept as a dismissible card). No address → no poll.
+// The status poll is the single reconciler: done/refunded clears the record,
+// failed marks it (kept as a dismissible card). Deposit-funded records poll by
+// deposit address; wallet records that took a non-IF route (no deposit address)
+// poll by tx hash instead. Deposit address takes precedence — a record with both
+// (IF wallet) always polls by deposit address, never by hash.
 export function useCheckoutPendingRecords(): PendingActivityItem[] {
   const { integrator } = useCheckoutConfig()
   const sdkClient = useSDKClient()
@@ -50,26 +55,50 @@ export function useCheckoutPendingRecords(): PendingActivityItem[] {
 
   const results = useQueries({
     queries: entries.map(([key, record]) => {
-      const canPoll =
+      const canPollByDeposit =
         !!record.depositAddress &&
         record.fromChain !== undefined &&
         record.status !== 'failed'
+      const canPollByHash =
+        !canPollByDeposit &&
+        !!record.transactionHash &&
+        record.status !== 'failed'
+      let queryKey: readonly unknown[]
+      if (canPollByDeposit) {
+        queryKey = depositAddressQueryKey(
+          record.depositAddress,
+          record.fromChain
+        )
+      } else if (canPollByHash) {
+        queryKey = txHashQueryKey(record.transactionHash)
+      } else {
+        queryKey = ['checkout-activity-idle', key]
+      }
       return {
-        queryKey: canPoll
-          ? depositAddressQueryKey(record.depositAddress, record.fromChain)
-          : ['checkout-activity-idle', key],
+        queryKey,
         queryFn: async ({
           signal,
         }: {
           signal: AbortSignal
-        }): Promise<StatusResponse | undefined> =>
-          getDepositAddressStatus({
+        }): Promise<StatusResponse | undefined> => {
+          if (canPollByDeposit) {
+            return getDepositAddressStatus({
+              sdkClient,
+              depositAddress: record.depositAddress as string,
+              fromChain: record.fromChain as number,
+              signal,
+            })
+          }
+          return getStatus(
             sdkClient,
-            depositAddress: record.depositAddress as string,
-            fromChain: record.fromChain as number,
-            signal,
-          }),
-        enabled: canPoll,
+            {
+              txHash: record.transactionHash as string,
+              ...extractStatusHints(record.frozenQuote?.route),
+            },
+            { signal }
+          )
+        },
+        enabled: canPollByDeposit || canPollByHash,
         refetchInterval: () => computeBackoffInterval(record.createdAt),
       }
     }),

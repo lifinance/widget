@@ -38,12 +38,27 @@ describe('buildResumeNavigation', () => {
     })
   })
 
-  it('wallet record without depositAddress → "/"', () => {
+  it('wallet record without depositAddress → status page by tx hash', () => {
     const nav = buildResumeNavigation(
       fakeRecord({
         fundingSource: 'wallet',
         transactionHash: '0xabc',
         fromChain: 1,
+      })
+    )
+    expect(nav.to).toBe(STATUS_PATH)
+    expect(nav.search).toEqual({
+      transactionHash: '0xabc',
+      fromChain: 1,
+      resumed: '1',
+    })
+  })
+
+  it('wallet record with hash but no fromChain → "/"', () => {
+    const nav = buildResumeNavigation(
+      fakeRecord({
+        fundingSource: 'wallet',
+        transactionHash: '0xabc',
       })
     )
     expect(nav.to).toBe('/')

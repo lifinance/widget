@@ -30,6 +30,7 @@ import {
   getReceivingTxLink,
 } from '../../utils/depositAddressStatus.js'
 import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
+import { extractStatusHints } from '../../utils/statusHints.js'
 import { StatusCompleted } from './StatusCompleted.js'
 import { StatusExecuting } from './StatusExecuting.js'
 import { StatusWatching } from './StatusWatching.js'
@@ -84,6 +85,7 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
     depositAddress,
     fromChain,
     pauseDepositPoll: isOnRampActive,
+    statusHints: extractStatusHints(frozenRoute),
   })
 
   const isRefundInProgress = status?.substatus === 'REFUND_IN_PROGRESS'
