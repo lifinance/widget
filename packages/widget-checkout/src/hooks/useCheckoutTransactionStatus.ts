@@ -8,6 +8,7 @@ import type { HashStatusHints } from '../utils/statusHints.js'
 import {
   computeBackoffInterval,
   depositAddressQueryKey,
+  taskIdQueryKey,
   txHashQueryKey,
 } from '../utils/statusPolling.js'
 
@@ -22,6 +23,8 @@ export interface CheckoutTransactionStatus {
 
 export interface UseCheckoutTransactionStatusArgs {
   transactionHash?: string | null
+  /** Relayer/gasless task id; distinct from transactionHash in the status API. */
+  taskId?: string | null
   depositAddress?: string | null
   fromChain?: number | null
   /**
@@ -40,24 +43,28 @@ export interface UseCheckoutTransactionStatusArgs {
 
 export const useCheckoutTransactionStatus = ({
   transactionHash,
+  taskId,
   depositAddress,
   fromChain,
   pauseDepositPoll,
   statusHints,
 }: UseCheckoutTransactionStatusArgs): CheckoutTransactionStatus => {
   const sdkClient = useSDKClient()
-  // Deposit-funded flows (and IF wallet routes) poll by deposit address; the tx
-  // hash is a display/details supplement there. A wallet payment on a non-IF
-  // route has no deposit address, so it polls status by hash instead.
+  // Deposit-funded flows poll by deposit address (hash/taskId are display-only
+  // there). A non-IF wallet payment has no deposit address, so it polls by hash,
+  // or by taskId for a relayer route — distinct keys in the SDK status API.
   const canPollByDeposit = !!depositAddress && !!fromChain && !pauseDepositPoll
   const canPollByHash = !!transactionHash && !canPollByDeposit
-  const enabled = canPollByHash || canPollByDeposit
+  const canPollByTaskId = !!taskId && !canPollByDeposit && !canPollByHash
+  const enabled = canPollByDeposit || canPollByHash || canPollByTaskId
 
   // Same key as the QR-page poll when we're polling by deposit address —
   // react-query shares the cache entry so the handoff is instant.
   const queryKey = canPollByDeposit
     ? depositAddressQueryKey(depositAddress, fromChain)
-    : txHashQueryKey(transactionHash)
+    : canPollByHash
+      ? txHashQueryKey(transactionHash)
+      : taskIdQueryKey(taskId)
 
   // Lazy so the fast-poll backoff window starts when polling actually begins,
   // not when the page mounts (polling may be paused at mount).
@@ -72,13 +79,6 @@ export const useCheckoutTransactionStatus = ({
   const { data, isLoading } = useQuery({
     queryKey,
     queryFn: async ({ signal }) => {
-      if (canPollByHash) {
-        return getStatus(
-          sdkClient,
-          { txHash: transactionHash!, ...statusHints },
-          { signal }
-        )
-      }
       if (canPollByDeposit) {
         return getDepositAddressStatus({
           sdkClient,
@@ -86,6 +86,20 @@ export const useCheckoutTransactionStatus = ({
           fromChain: fromChain!,
           signal,
         })
+      }
+      if (canPollByHash) {
+        return getStatus(
+          sdkClient,
+          { txHash: transactionHash!, ...statusHints },
+          { signal }
+        )
+      }
+      if (canPollByTaskId) {
+        return getStatus(
+          sdkClient,
+          { taskId: taskId!, ...statusHints },
+          { signal }
+        )
       }
       return undefined
     },

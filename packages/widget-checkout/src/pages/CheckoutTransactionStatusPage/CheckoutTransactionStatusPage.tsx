@@ -38,6 +38,7 @@ import { resolveStatusVariant } from './statusVariants.js'
 
 interface StatusSearch {
   transactionHash?: string
+  taskId?: string
   depositAddress?: string
   fromChain?: number
   walletDisconnected?: boolean
@@ -60,6 +61,7 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
   const { search } = useLocation() as { search: StatusSearch }
   const transactionHash = search.transactionHash ?? null
+  const taskId = search.taskId ?? null
   const depositAddress = search.depositAddress ?? null
   const fromChain =
     typeof search.fromChain === 'number' ? search.fromChain : null
@@ -82,6 +84,7 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
 
   const { status, phase, isLoading, notFound } = useCheckoutTransactionStatus({
     transactionHash,
+    taskId,
     depositAddress,
     fromChain,
     pauseDepositPoll: isOnRampActive,

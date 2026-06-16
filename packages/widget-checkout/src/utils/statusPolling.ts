@@ -13,6 +13,12 @@ export function txHashQueryKey(
   return [ROOT, 'hash', transactionHash ?? null]
 }
 
+export function taskIdQueryKey(
+  taskId: string | null | undefined
+): readonly unknown[] {
+  return [ROOT, 'task', taskId ?? null]
+}
+
 export function simulateQueryKey(
   simulate: string | null | undefined,
   substatus?: string | null

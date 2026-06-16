@@ -1,6 +1,10 @@
 'use client'
 import { getStatus, type StatusResponse } from '@lifi/sdk'
-import { useSDKClient } from '@lifi/widget/shared'
+import {
+  isRouteFailed,
+  useRouteExecutionStore,
+  useSDKClient,
+} from '@lifi/widget/shared'
 import { useCheckoutConfig } from '@lifi/widget-provider/checkout'
 import { useQueries } from '@tanstack/react-query'
 import { useEffect, useMemo } from 'react'
@@ -14,6 +18,7 @@ import { extractStatusHints } from '../utils/statusHints.js'
 import {
   computeBackoffInterval,
   depositAddressQueryKey,
+  taskIdQueryKey,
   txHashQueryKey,
 } from '../utils/statusPolling.js'
 
@@ -39,6 +44,7 @@ export function useCheckoutPendingRecords(): PendingActivityItem[] {
   const records = usePendingCheckoutStore((s) => s.records)
   const clearForKey = usePendingCheckoutStore((s) => s.clearForKey)
   const markFailed = usePendingCheckoutStore((s) => s.markFailed)
+  const storedRoutes = useRouteExecutionStore((s) => s.routes)
 
   const entries = useMemo(() => {
     const now = Date.now()
@@ -63,6 +69,11 @@ export function useCheckoutPendingRecords(): PendingActivityItem[] {
         !canPollByDeposit &&
         !!record.transactionHash &&
         record.status !== 'failed'
+      const canPollByTaskId =
+        !canPollByDeposit &&
+        !canPollByHash &&
+        !!record.taskId &&
+        record.status !== 'failed'
       let queryKey: readonly unknown[]
       if (canPollByDeposit) {
         queryKey = depositAddressQueryKey(
@@ -71,6 +82,8 @@ export function useCheckoutPendingRecords(): PendingActivityItem[] {
         )
       } else if (canPollByHash) {
         queryKey = txHashQueryKey(record.transactionHash)
+      } else if (canPollByTaskId) {
+        queryKey = taskIdQueryKey(record.taskId)
       } else {
         queryKey = ['checkout-activity-idle', key]
       }
@@ -89,6 +102,16 @@ export function useCheckoutPendingRecords(): PendingActivityItem[] {
               signal,
             })
           }
+          if (canPollByTaskId) {
+            return getStatus(
+              sdkClient,
+              {
+                taskId: record.taskId as string,
+                ...extractStatusHints(record.frozenQuote?.route),
+              },
+              { signal }
+            )
+          }
           return getStatus(
             sdkClient,
             {
@@ -98,7 +121,7 @@ export function useCheckoutPendingRecords(): PendingActivityItem[] {
             { signal }
           )
         },
-        enabled: canPollByDeposit || canPollByHash,
+        enabled: canPollByDeposit || canPollByHash || canPollByTaskId,
         refetchInterval: () => computeBackoffInterval(record.createdAt),
       }
     }),
@@ -138,13 +161,20 @@ export function useCheckoutPendingRecords(): PendingActivityItem[] {
   return entries.map(([key, record], i) => {
     const data = results[i]?.data
     const depositDetected = Boolean(data && data.status !== 'NOT_FOUND')
+    // A wallet route can fail locally (e.g. a rejected signature) with no
+    // pollable status — use the route store's verdict so the card isn't stuck.
+    const storedRoute =
+      record.fundingSource === 'wallet' && record.frozenRouteId
+        ? storedRoutes[record.frozenRouteId]?.route
+        : undefined
     let state: PendingActivityState
     if (data?.substatus === 'REFUND_IN_PROGRESS') {
       state = 'refund'
     } else if (
       data?.status === 'FAILED' ||
       data?.status === 'INVALID' ||
-      record.status === 'failed'
+      record.status === 'failed' ||
+      (storedRoute && isRouteFailed(storedRoute))
     ) {
       state = 'failed'
     } else {

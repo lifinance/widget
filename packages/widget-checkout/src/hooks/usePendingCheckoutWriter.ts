@@ -9,13 +9,14 @@ import {
   type PersistedFrozenQuote,
   usePendingCheckoutStore,
 } from '../stores/usePendingCheckoutStore.js'
+import type { SourceTxIdentifier } from '../utils/getSourceTxIdentifier.js'
 
 interface WalletWriteArgs {
-  transactionHash: string
+  identifier: SourceTxIdentifier
   fromChain: number
   depositAddress?: string
-  // Required: the activity list and resume derive cross-chain status hints
-  // (bridge/toChain) from this route, so a wallet record must always carry it.
+  // Resume reads cross-chain status hints from this route and uses it to
+  // re-attach the in-flight route, so a wallet record must always carry it.
   frozenQuote: PersistedFrozenQuote
 }
 
@@ -84,7 +85,7 @@ export function usePendingCheckoutWriter(): PendingCheckoutWriter {
 
   const writeWallet = useCallback(
     ({
-      transactionHash,
+      identifier,
       fromChain,
       depositAddress,
       frozenQuote,
@@ -92,15 +93,21 @@ export function usePendingCheckoutWriter(): PendingCheckoutWriter {
       if (!enabled) {
         return
       }
-      const depositId = resolveDepositId(depositAddress ?? transactionHash)
+      const transactionHash =
+        identifier.kind === 'txHash' ? identifier.value : undefined
+      const taskId = identifier.kind === 'taskId' ? identifier.value : undefined
+      const depositId = resolveDepositId(depositAddress ?? identifier.value)
       write(
         buildResumeKey(integrator, depositId),
         buildPendingRecord({
           depositId,
           fundingSource: 'wallet',
           transactionHash,
+          taskId,
           fromChain,
           depositAddress,
+          // Route id resume uses to re-attach the in-flight route.
+          frozenRouteId: frozenQuote.id,
           frozenQuote,
           ...displayFields(frozenQuote),
           status: 'pending',

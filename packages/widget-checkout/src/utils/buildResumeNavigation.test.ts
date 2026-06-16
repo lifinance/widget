@@ -132,6 +132,48 @@ describe('buildResumeNavigation', () => {
     expect(nav.search.depositAddress).toBe('0xdep')
   })
 
+  it('wallet route still resumable → execution page with routeId (not status)', () => {
+    const nav = buildResumeNavigation(
+      fakeRecord({
+        fundingSource: 'wallet',
+        transactionHash: '0xabc',
+        fromChain: 1,
+        frozenRouteId: 'route-9',
+      }),
+      { routeResumable: true }
+    )
+    expect(nav.to).toBe('/transaction-execution')
+    expect(nav.search).toEqual({ routeId: 'route-9', resumed: '1' })
+  })
+
+  it('routeResumable is ignored when the record carries no routeId', () => {
+    const nav = buildResumeNavigation(
+      fakeRecord({
+        fundingSource: 'wallet',
+        transactionHash: '0xabc',
+        fromChain: 1,
+      }),
+      { routeResumable: true }
+    )
+    expect(nav.to).toBe(STATUS_PATH)
+  })
+
+  it('wallet record with taskId (no hash) → status page by taskId', () => {
+    const nav = buildResumeNavigation(
+      fakeRecord({
+        fundingSource: 'wallet',
+        taskId: 'task-1',
+        fromChain: 1,
+      })
+    )
+    expect(nav.to).toBe(STATUS_PATH)
+    expect(nav.search).toEqual({
+      taskId: 'task-1',
+      fromChain: 1,
+      resumed: '1',
+    })
+  })
+
   it('cash + frozenQuoteFresh is ignored (cash never uses transfer-deposit)', () => {
     const nav = buildResumeNavigation(
       fakeRecord({

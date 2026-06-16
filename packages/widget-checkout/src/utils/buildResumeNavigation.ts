@@ -8,6 +8,17 @@ const TRANSACTION_STATUS = 'transaction-status'
 const TRANSFER_DEPOSIT = '/transfer-deposit'
 const HOME = '/'
 
+function statusSearch(record: PendingRecord): Record<string, string | number> {
+  // Identifier rides along for the details link; deposit polling drives status.
+  if (record.transactionHash) {
+    return { transactionHash: record.transactionHash }
+  }
+  if (record.taskId) {
+    return { taskId: record.taskId }
+  }
+  return {}
+}
+
 export interface ResumeNavigation {
   to: string
   search: Record<string, string | number>
@@ -18,12 +29,29 @@ export interface BuildResumeNavigationOptions {
   frozenQuoteFresh?: boolean
   /** True once the deposit has been detected on-chain (live status !== NOT_FOUND). */
   depositDetected?: boolean
+  /**
+   * Wallet route present and not finished (in flight or failed). Resume re-attaches
+   * SDK execution on the transaction page so the user can continue or retry.
+   */
+  routeResumable?: boolean
 }
 
 export function buildResumeNavigation(
   record: PendingRecord,
   options: BuildResumeNavigationOptions = {}
 ): ResumeNavigation {
+  // An unfinished wallet route (in flight or failed) resumes on the execution
+  // page so the SDK can re-attach to prompt/retry; a status page can't advance it.
+  if (
+    options.routeResumable &&
+    record.fundingSource === 'wallet' &&
+    record.frozenRouteId
+  ) {
+    return {
+      to: `/${TRANSACTION_EXECUTION}`,
+      search: { routeId: record.frozenRouteId, resumed: '1' },
+    }
+  }
   // Reopen the QR/deposit-address page only while the window is still open AND
   // no deposit has landed yet — so the user can finish sending. Once a deposit
   // is detected, fall through to the status page to track it.
@@ -44,20 +72,22 @@ export function buildResumeNavigation(
       search: {
         depositAddress: record.depositAddress,
         fromChain: record.fromChain,
-        ...(record.transactionHash
-          ? { transactionHash: record.transactionHash }
-          : {}),
+        ...statusSearch(record),
         resumed: '1',
       },
     }
   }
-  // A wallet payment that took a non-IF route has no deposit address — resume the
-  // status page by tx hash, which polls getStatus for the in-flight transfer.
-  if (record.transactionHash && record.fromChain !== undefined) {
+  // Non-IF wallet payment, no deposit address and no longer resumable (done on
+  // the source side or evicted): poll status by its identifier (taskId/txHash
+  // are distinct keys).
+  if (
+    (record.transactionHash || record.taskId) &&
+    record.fromChain !== undefined
+  ) {
     return {
       to: `/${TRANSACTION_EXECUTION}/${TRANSACTION_STATUS}`,
       search: {
-        transactionHash: record.transactionHash,
+        ...statusSearch(record),
         fromChain: record.fromChain,
         resumed: '1',
       },

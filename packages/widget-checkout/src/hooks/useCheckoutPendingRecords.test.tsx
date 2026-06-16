@@ -5,7 +5,12 @@ import { renderHook, waitFor } from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('@lifi/widget/shared', () => ({ useSDKClient: () => ({}) }))
+vi.mock('@lifi/widget/shared', () => ({
+  useSDKClient: () => ({}),
+  useRouteExecutionStore: (selector: (s: { routes: object }) => unknown) =>
+    selector({ routes: {} }),
+  isRouteFailed: () => false,
+}))
 vi.mock('@lifi/widget-provider/checkout', () => ({
   useCheckoutConfig: () => ({ integrator: 'int' }),
 }))
