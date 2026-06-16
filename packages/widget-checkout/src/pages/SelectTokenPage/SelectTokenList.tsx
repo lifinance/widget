@@ -15,7 +15,8 @@ import {
 } from '@lifi/widget/shared'
 import { Box } from '@mui/material'
 import type { RefObject } from 'react'
-import { type FC, memo, useEffect, useMemo, useRef } from 'react'
+import { type FC, memo, useCallback, useEffect, useMemo, useRef } from 'react'
+import { useCheckoutFlowStore } from '../../stores/useCheckoutFlowStore.js'
 
 export interface SelectTokenListProps {
   formType: FormType
@@ -60,7 +61,18 @@ const TokenListView: FC<SharedListProps & TokenListResult> = ({
   const listParentRef = useRef<HTMLUListElement | null>(null)
   const { listHeight } = useListHeight({ listParentRef, headerRef })
   const emitter = useWidgetEvents()
-  const handleTokenClick = useTokenSelect(formType, afterTokenSelect)
+  const selectToken = useTokenSelect(formType, afterTokenSelect)
+  const tokenSelected = useCheckoutFlowStore((s) => s.tokenSelected)
+  const setTokenSelected = useCheckoutFlowStore((s) => s.setTokenSelected)
+
+  // Don't highlight the seeded default (e.g. USDC) until the user taps a token.
+  const handleTokenClick = useCallback(
+    (tokenAddress: string, chainId?: number) => {
+      setTokenSelected(true)
+      selectToken(tokenAddress, chainId)
+    },
+    [selectToken, setTokenSelected]
+  )
 
   const filteredTokens = useMemo(() => {
     if (!allowedSymbols || allowedSymbols.size === 0) {
@@ -102,7 +114,7 @@ const TokenListView: FC<SharedListProps & TokenListResult> = ({
         showCategories={showCategories}
         showPinnedTokens={showPinnedTokens}
         onClick={handleTokenClick}
-        selectedTokenAddress={selectedTokenAddress}
+        selectedTokenAddress={tokenSelected ? selectedTokenAddress : undefined}
         isAllNetworks={isAllNetworks}
       />
     </Box>

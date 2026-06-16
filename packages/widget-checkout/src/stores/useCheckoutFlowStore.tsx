@@ -18,10 +18,13 @@ export interface CheckoutFlowState {
   frozenDepositId: string | null
   /** Exchange account chosen for one-tap reconnect; in-memory, passed to the provider's `open()`. */
   selectedExchangeAccount: OnRampAccessToken | null
+  /** True once the user taps a token in this flow; gates the token-list highlight so the seeded default isn't pre-highlighted. */
+  tokenSelected: boolean
   setFundingSource: (source: CheckoutFundingSource | null) => void
   setFrozenRouteId: (routeId: string | null) => void
   setFrozenDepositId: (depositId: string | null) => void
   setSelectedExchangeAccount: (account: OnRampAccessToken | null) => void
+  setTokenSelected: (tokenSelected: boolean) => void
   reset: () => void
 }
 
@@ -33,17 +36,20 @@ export function createCheckoutFlowStore(): CheckoutFlowStore {
     frozenRouteId: null,
     frozenDepositId: null,
     selectedExchangeAccount: null,
+    tokenSelected: false,
     setFundingSource: (fundingSource) => set({ fundingSource }),
     setFrozenRouteId: (frozenRouteId) => set({ frozenRouteId }),
     setFrozenDepositId: (frozenDepositId) => set({ frozenDepositId }),
     setSelectedExchangeAccount: (selectedExchangeAccount) =>
       set({ selectedExchangeAccount }),
+    setTokenSelected: (tokenSelected) => set({ tokenSelected }),
     reset: () =>
       set({
         fundingSource: null,
         frozenRouteId: null,
         frozenDepositId: null,
         selectedExchangeAccount: null,
+        tokenSelected: false,
       }),
   }))
 }
