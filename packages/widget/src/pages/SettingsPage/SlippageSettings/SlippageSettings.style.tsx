@@ -1,11 +1,5 @@
 import type { Theme } from '@mui/material'
-import {
-  Box,
-  ButtonBase,
-  InputBase,
-  inputBaseClasses,
-  styled,
-} from '@mui/material'
+import { Box, InputBase, inputBaseClasses, styled } from '@mui/material'
 import type React from 'react'
 
 export const SettingsFieldSet: React.FC<
@@ -35,30 +29,6 @@ const settingsControlSelected = (theme: Theme) => ({
 interface SettingsControlProps {
   selected?: boolean
 }
-
-export const SettingsDefaultButton: React.FC<
-  React.ComponentProps<typeof ButtonBase> & SettingsControlProps
-> = styled(ButtonBase)<SettingsControlProps>(({ theme, selected }) => {
-  const settingsControlSelectedStyles = settingsControlSelected(theme)
-  const selectedStyle = selected
-    ? {
-        '&:not(:focus)': {
-          ...settingsControlSelectedStyles,
-        },
-      }
-    : {}
-
-  return {
-    height: '100%',
-    width: '100%',
-    fontSize: '1rem',
-    fontWeight: 700,
-    '&:focus': {
-      ...settingsControlSelectedStyles,
-    },
-    ...selectedStyle,
-  }
-})
 
 export const SettingsCustomInput: React.FC<
   React.ComponentProps<typeof InputBase> & SettingsControlProps

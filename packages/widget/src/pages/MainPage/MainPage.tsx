@@ -5,6 +5,8 @@ import { ContractComponent } from '../../components/ContractComponent/ContractCo
 import { GasRefuelMessage } from '../../components/Messages/GasRefuelMessage.js'
 import { PageContainer } from '../../components/PageContainer.js'
 import { PoweredBy } from '../../components/PoweredBy/PoweredBy.js'
+import { QuickSettings } from '../../components/QuickSettings/QuickSettings.js'
+import { advancedNavigationTabKeys } from '../../components/QuickSettings/quickSettingsRows.js'
 import { Routes } from '../../components/Routes/Routes.js'
 import { SelectChainAndToken } from '../../components/SelectChainAndToken.js'
 import { SendToWalletButton } from '../../components/SendToWallet/SendToWalletButton.js'
@@ -12,6 +14,7 @@ import { SendToWalletExpandButton } from '../../components/SendToWallet/SendToWa
 import { useHeader } from '../../hooks/useHeader.js'
 import { useWideVariant } from '../../hooks/useWideVariant.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { useNavigationTabsStore } from '../../stores/navigationTabs/useNavigationTabsStore.js'
 import { MainWarningMessages } from './MainWarningMessages.js'
 import { ReviewButton } from './ReviewButton.js'
 
@@ -20,6 +23,10 @@ export const MainPage: React.FC = () => {
   const wideVariant = useWideVariant()
   const { mode, modeOptions, contractComponent, hiddenUI } = useWidgetConfig()
   const custom = mode === 'custom'
+  const activeTab = useNavigationTabsStore((state) => state.activeTab)
+  // Surface quick settings on the main page for advanced navigation tabs.
+  const advancedMode =
+    !!activeTab && advancedNavigationTabKeys.includes(activeTab)
   const showPoweredBy = !hiddenUI?.poweredBy
   const showGasRefuelMessage = !hiddenUI?.gasRefuelMessage
 
@@ -51,6 +58,7 @@ export const MainPage: React.FC = () => {
       {!custom || modeOptions?.custom?.type === 'deposit' ? (
         <AmountInput formType="from" sx={marginSx} />
       ) : null}
+      {advancedMode ? <QuickSettings sx={marginSx} /> : null}
       {!wideVariant ? <Routes sx={marginSx} /> : null}
       <SendToWalletButton sx={marginSx} />
       {showGasRefuelMessage ? <GasRefuelMessage sx={marginSx} /> : null}

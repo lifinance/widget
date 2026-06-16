@@ -15,15 +15,17 @@ export const defaultSlippage = undefined
 
 export const defaultConfigurableSettings: Pick<
   SettingsState,
-  'routePriority' | 'slippage' | 'gasPrice'
+  'routePriority' | 'slippage' | 'gasPrice' | 'routeType'
 > = {
   routePriority: 'CHEAPEST',
   slippage: defaultSlippage,
   gasPrice: 'normal',
+  routeType: 'all',
 }
 
 const defaultSettings: SettingsProps = {
   gasPrice: 'normal',
+  routeType: 'all',
   enabledAutoRefuel: true,
   disabledBridges: [],
   disabledExchanges: [],

@@ -12,7 +12,9 @@ import { NotFound } from './components/NotFound.js'
 import { ActivitiesPage } from './pages/ActivitiesPage/ActivitiesPage.js'
 import { LanguagesPage } from './pages/LanguagesPage.js'
 import { MainPage } from './pages/MainPage/MainPage.js'
+import { RoutePriorityPage } from './pages/RoutePriorityPage.js'
 import { RoutesPage } from './pages/RoutesPage/RoutesPage.js'
+import { RouteTypePage } from './pages/RouteTypePage.js'
 import { SelectChainPage } from './pages/SelectChainPage/SelectChainPage.js'
 import { SelectEnabledToolsPage } from './pages/SelectEnabledToolsPage.js'
 import { SelectTokenPage } from './pages/SelectTokenPage/SelectTokenPage.js'
@@ -22,6 +24,7 @@ import { RecentWalletsPage } from './pages/SendToWallet/RecentWalletsPage.js'
 import { SendToConfiguredWalletPage } from './pages/SendToWallet/SendToConfiguredWalletPage.js'
 import { SendToWalletPage } from './pages/SendToWallet/SendToWalletPage.js'
 import { SettingsPage } from './pages/SettingsPage/SettingsPage.js'
+import { SlippagePage } from './pages/SettingsPage/SlippageSettings/SlippagePage.js'
 import { TransactionDetailsPage } from './pages/TransactionDetailsPage/TransactionDetailsPage.js'
 import { TransactionPage } from './pages/TransactionPage/TransactionPage.js'
 import { navigationRoutes } from './utils/navigationRoutes.js'
@@ -64,6 +67,24 @@ const settingsLanguagesRoute = createRoute({
   getParentRoute: () => settingsLayoutRoute,
   path: navigationRoutes.languages,
   component: LanguagesPage,
+})
+
+const settingsRouteTypeRoute = createRoute({
+  getParentRoute: () => settingsLayoutRoute,
+  path: navigationRoutes.routeType,
+  component: RouteTypePage,
+})
+
+const settingsRoutePriorityRoute = createRoute({
+  getParentRoute: () => settingsLayoutRoute,
+  path: navigationRoutes.routePriority,
+  component: RoutePriorityPage,
+})
+
+const settingsSlippageRoute = createRoute({
+  getParentRoute: () => settingsLayoutRoute,
+  path: navigationRoutes.slippage,
+  component: SlippagePage,
 })
 
 const fromTokenLayoutRoute = createRoute({
@@ -214,6 +235,9 @@ const routeTree = rootRoute.addChildren([
   settingsLayoutRoute.addChildren([
     settingsIndexRoute,
     settingsLanguagesRoute,
+    settingsRouteTypeRoute,
+    settingsRoutePriorityRoute,
+    settingsSlippageRoute,
     settingsBridgesRoute,
     settingsExchangesRoute,
   ]),
