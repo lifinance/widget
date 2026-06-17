@@ -2,10 +2,6 @@ import { styled } from '@mui/material/styles'
 import type React from 'react'
 import { NavigationTab, NavigationTabs } from '../Tabs/NavigationTabs.js'
 
-// Built on the header tabs so the selected-tab indicator (and any
-// MuiNavigationTabs theme override) stays in sync. Only rail-specific bits
-// are overridden: vertical layout, 48x48 icon tabs, and container chrome
-// mirroring the widget container (theme.container).
 export const RailTabs: React.FC<React.ComponentProps<typeof NavigationTabs>> =
   styled(NavigationTabs)(({ theme }) => ({
     minHeight: 'unset',

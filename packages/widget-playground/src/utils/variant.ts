@@ -33,6 +33,10 @@ export const VARIANT_OPTIONS: VariantOptionConfig[] = [
   },
 ]
 
+/** Sidebar nav label for the selected variant; `default` falls back to Compact. */
+export const getVariantLabel = (variant: WidgetVariant | 'default'): string =>
+  VARIANT_OPTIONS.find((option) => option.id === variant)?.title ?? 'Compact'
+
 /** Applies variant-specific container height/display overrides when switching variant. */
 export const getContainerConfigForVariant = (
   variant: WidgetVariant,

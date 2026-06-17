@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import type { JumperTabKey } from './types.js'
 
-/** Returns a resolver mapping a jumper tab key to its translated label. */
 export const useJumperTabLabel = (): ((key: JumperTabKey) => string) => {
   const { t } = useTranslation()
   return (key: JumperTabKey) => {

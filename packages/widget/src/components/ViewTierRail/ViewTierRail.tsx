@@ -28,7 +28,7 @@ export function ViewTierRail(): JSX.Element {
       orientation="vertical"
       value={tier === 'advanced' ? 1 : 0}
       onChange={handleChange}
-      aria-label={t('header.viewTier')}
+      aria-label="View Tier"
     >
       <Tooltip title={t('header.tier.simple')} placement="left" arrow>
         <RailTab

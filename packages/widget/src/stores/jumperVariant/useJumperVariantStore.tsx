@@ -13,8 +13,6 @@ import { getDefaultJumperTabKey } from './utils.js'
 
 const JumperVariantStoreContext = createContext<JumperVariantStore | null>(null)
 
-// State is populated only in the jumper variant; recreate the store when the
-// variant changes so its populated-ness matches.
 const shouldRecreateStore = (
   store: JumperVariantStore,
   isJumper: boolean

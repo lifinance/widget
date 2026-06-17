@@ -23,8 +23,6 @@ export function SplitModeStoreProvider({
   config,
 }: SplitModeProviderProps): JSX.Element {
   const tabKey = useJumperVariantStore((state) => state.state?.tabKey)
-  // Jumper variant prevails: follow its active tab when that tab is itself a
-  // split (swap/bridge) tab. Otherwise split mode seeds from config.
   const jumperTab = tabKey ? getJumperTab(tabKey) : undefined
   const state =
     config.variant === 'jumper'

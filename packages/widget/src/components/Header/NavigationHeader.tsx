@@ -30,6 +30,8 @@ export const NavigationHeader: React.FC = () => {
   const path = cleanedPathname.substring(cleanedPathname.lastIndexOf('/') + 1)
   const hasPath = navigationRoutesValues.includes(path)
 
+  // Show tabs when split is undefined (default tabs) or an object with defaultTab
+  // Hide tabs when split is a string ('bridge' or 'swap' - single mode)
   const isSplitWithTabs =
     mode === 'split' && typeof modeOptions?.split !== 'string'
 

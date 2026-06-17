@@ -9,6 +9,7 @@ import { useThemeValues } from '../store/widgetConfig/useThemeValues.js'
 import { getLayoutLabel, getLayoutMode } from '../utils/layout.js'
 import { getModeLabel, getWalletLabel } from '../utils/sidebar.js'
 import { formatThemeDisplayName } from '../utils/themeEdit.js'
+import { getVariantLabel } from '../utils/variant.js'
 import { useThemeMode } from './useThemeMode.js'
 
 export const useSidebarNavLabels = (): {
@@ -34,12 +35,7 @@ export const useSidebarNavLabels = (): {
       ? formatThemeDisplayName(selectedThemeItem, themeMode)
       : undefined,
     modeValue: getModeLabel(mode, modeOptions?.split as string | undefined),
-    variantValue:
-      variant === 'compact'
-        ? 'Compact'
-        : variant === 'wide'
-          ? 'Wide'
-          : 'Drawer',
+    variantValue: getVariantLabel(variant),
     heightValue: getLayoutLabel(getLayoutMode(container), isDrawerVariant),
     walletValue: getWalletLabel(
       isExternalWalletManagement,
