@@ -20,5 +20,5 @@ export const SwapButtonContainer: React.FC<React.ComponentProps<typeof Box>> =
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: theme.spacing(-1.25),
+    margin: theme.spacing(-1.5),
   }))

@@ -21,7 +21,9 @@ import {
   ToggleButton,
 } from './AmountInputCard.style.js'
 
-export const ReceiveAmountCard: React.FC<CardProps> = (props): JSX.Element => {
+export const ReceiveAmountCard: React.FC<CardProps & { mask?: boolean }> = (
+  props
+): JSX.Element => {
   const { t } = useTranslation()
   const amountRef = useRef<HTMLSpanElement>(null)
   const [showFiat, setShowFiat] = useState(false)
@@ -57,7 +59,7 @@ export const ReceiveAmountCard: React.FC<CardProps> = (props): JSX.Element => {
   }, [mainDisplay])
 
   return (
-    <AmountCard {...props}>
+    <AmountCard {...props} formType={formType}>
       <CardHeaderRow>
         <CardTitle sx={{ padding: 0 }}>{t('header.receive')}</CardTitle>
       </CardHeaderRow>

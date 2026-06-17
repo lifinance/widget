@@ -7,6 +7,7 @@ import {
   Typography,
 } from '@mui/material'
 import type React from 'react'
+import type { FormType } from '../../stores/form/types.js'
 import { InputCard } from '../Card/InputCard.js'
 
 export const maxInputFontSize = 40
@@ -14,13 +15,31 @@ export const minInputFontSize = 20
 export const amountHeight = 32
 export const footerFontSize = 12
 
-export const AmountCard: React.FC<React.ComponentProps<typeof InputCard>> =
-  styled(InputCard)(({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    gap: theme.spacing(1.5),
-    padding: theme.spacing(2),
-  }))
+export const AmountCard: React.FC<
+  React.ComponentProps<typeof InputCard> & {
+    formType?: FormType
+    mask?: boolean
+  }
+> = styled(InputCard, {
+  shouldForwardProp: (prop) => !['formType', 'mask'].includes(prop as string),
+})<{ formType?: FormType; mask?: boolean }>(
+  ({ theme, formType, mask = true }) => {
+    const cardVariant = theme.components?.MuiCard?.defaultProps?.variant
+    // Notch faces the swap button between the stacked cards: bottom edge for the
+    // top (send) card, top edge for the bottom (receive) card.
+    const vertical = formType === 'to' ? '-4px' : 'calc(100% + 4px)'
+    return {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: theme.spacing(1.5),
+      padding: theme.spacing(2),
+      ...(cardVariant !== 'outlined' &&
+        mask && {
+          mask: `radial-gradient(circle 20px at 50% ${vertical}, #fff0 96%, #fff) 100% 100% / 100% 100% no-repeat`,
+        }),
+    }
+  }
+)
 
 export const CardHeaderRow: React.FC<React.ComponentProps<typeof Box>> = styled(
   Box

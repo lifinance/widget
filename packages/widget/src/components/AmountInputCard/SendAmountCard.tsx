@@ -30,7 +30,9 @@ import { BalanceDisplay } from './BalanceDisplay.js'
 import { FiatValueToggle } from './FiatValueToggle.js'
 import { PercentageChips } from './PercentageChips.js'
 
-export const SendAmountCard: React.FC<CardProps> = (props): JSX.Element => {
+export const SendAmountCard: React.FC<CardProps & { mask?: boolean }> = (
+  props
+): JSX.Element => {
   const { t } = useTranslation()
   const { disabledUI } = useWidgetConfig()
   const ref = useRef<HTMLInputElement>(null)
@@ -134,7 +136,7 @@ export const SendAmountCard: React.FC<CardProps> = (props): JSX.Element => {
   }, [displayValue])
 
   return (
-    <AmountCard {...props}>
+    <AmountCard {...props} formType={formType}>
       <CardHeaderRow>
         <CardTitle sx={{ padding: 0 }}>{t('header.send')}</CardTitle>
         <PercentageChips formType={formType} />
