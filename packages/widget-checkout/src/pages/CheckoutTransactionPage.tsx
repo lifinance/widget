@@ -10,7 +10,6 @@ import {
   ContractComponent,
   calculateValueLossPercentage,
   ExchangeRateBottomSheet,
-  ExecutionProgressCards,
   getAccumulatedFeeCostsBreakdown,
   getSourceTxHash,
   getTokenValueLossThreshold,
@@ -39,6 +38,7 @@ import { Box, Button, Tooltip } from '@mui/material'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { type JSX, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CheckoutExecutionProgress } from '../components/CheckoutExecutionProgress.js'
 import { FROZEN_QUOTE_TTL_MS, useFrozenQuote } from '../hooks/useFrozenQuote.js'
 import { usePendingCheckoutWriter } from '../hooks/usePendingCheckoutWriter.js'
 import { extractDepositAddress } from '../utils/extractDepositAddress.js'
@@ -373,7 +373,7 @@ export const CheckoutTransactionPage = (): JSX.Element | null => {
             />
           </Card>
         ) : (
-          <ExecutionProgressCards route={route} status={status} />
+          <CheckoutExecutionProgress route={route} status={status} />
         )}
         {mode === 'custom' && contractSecondaryComponent ? (
           <ContractComponent sx={{ marginTop: 2 }}>
