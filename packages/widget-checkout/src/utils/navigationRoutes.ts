@@ -12,6 +12,7 @@ export const checkoutAbsolutePaths: { transactionExecution: string } = {
 export const checkoutNavigationRoutes = {
   home: '/',
   enterAmount: '/enter-amount',
+  setDestination: '/set-destination',
   progress: '/progress',
   transferDeposit: '/transfer-deposit',
   depositError: '/deposit-error/$kind',
@@ -39,6 +40,7 @@ export const checkoutNavigationRoutesValues: CheckoutNavigationRoute[] =
  */
 export const backButtonRoutes: string[] = [
   'enter-amount',
+  'set-destination',
   'select-cash',
   checkoutNavigationRoutes.fromToken,
   checkoutNavigationRoutes.fromChain,

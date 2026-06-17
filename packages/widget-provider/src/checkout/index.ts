@@ -17,10 +17,19 @@ export {
   useRegisterOnRampSession,
 } from './contexts/OnRampSessionsContext.js'
 export { useCheckoutUserId } from './hooks/useCheckoutUserId.js'
+export {
+  type ConnectedCexAccount,
+  type ConnectedCexBrand,
+  connectedCexKey,
+  DEFAULT_CEX_ACCOUNT_TTL_MS,
+  useConnectedCexAccounts,
+  useConnectedCexStore,
+} from './stores/useConnectedCexStore.js'
 export type {
   CheckoutContextValue,
   CheckoutError,
   CheckoutResult,
+  OnRampAccessToken,
   OnRampError,
   OnRampErrorCode,
   OnRampFailure,

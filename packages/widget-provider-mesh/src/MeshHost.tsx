@@ -2,6 +2,10 @@
 import {
   type CexSessionRequest,
   type CexSessionResponse,
+  type ConnectedCexAccount,
+  type ConnectedCexBrand,
+  connectedCexKey,
+  DEFAULT_CEX_ACCOUNT_TTL_MS,
   type OnRampError,
   type OnRampFailure,
   type OnRampHostWidgetConfig,
@@ -10,9 +14,11 @@ import {
   postCheckoutSession,
   useCheckoutConfig,
   useCheckoutUserId,
+  useConnectedCexStore,
   useRegisterOnRampSession,
 } from '@lifi/widget-provider/checkout'
 import type {
+  IntegrationAccessToken,
   LinkEventType,
   LinkPayload,
   TransferFinishedPayload,
@@ -22,6 +28,45 @@ import { type FC, useCallback, useMemo, useRef, useState } from 'react'
 
 export interface MeshHostProps {
   widgetConfig: OnRampHostWidgetConfig
+}
+
+/**
+ * Mesh Managed Tokens (MMT): store `tokenId` (stable per userId+brokerType,
+ * refreshed server-side by Mesh) rather than the short-lived raw `accessToken`.
+ * On reconnect, the `tokenId` is what goes in the SDK's `accessToken` field;
+ * falls back to the raw token if `tokenId` is absent.
+ *
+ * Both logo variants are stored raw; the consumer picks one against the active
+ * MUI color scheme at render time.
+ */
+function toConnectedAccounts(
+  payload: LinkPayload,
+  now: number
+): ConnectedCexAccount[] {
+  const at = payload.accessToken
+  if (!at?.accountTokens?.length) {
+    return []
+  }
+  const expiresAt =
+    now +
+    (at.expiresInSeconds
+      ? at.expiresInSeconds * 1000
+      : DEFAULT_CEX_ACCOUNT_TTL_MS)
+  const info = at.brokerBrandInfo
+  const brand: ConnectedCexBrand = {
+    logoLight: info?.logoLightUrl ?? info?.iconLightUrl,
+    logoDark: info?.logoDarkUrl ?? info?.iconDarkUrl,
+  }
+  return at.accountTokens.map((token) => ({
+    accountId: token.account.accountId,
+    accountName: token.account.accountName,
+    accessToken: token.tokenId ?? token.accessToken,
+    brokerType: at.brokerType,
+    brokerName: at.brokerName,
+    brand,
+    connectedAt: now,
+    expiresAt,
+  }))
 }
 
 /**
@@ -149,8 +194,25 @@ export const MeshHost: FC<MeshHostProps> = ({ widgetConfig }) => {
         }
 
         const link = createLink({
-          onIntegrationConnected: (_payload: LinkPayload) => {
-            // Exchange account linked — no action needed for transfer flow
+          accessTokens: args.accessTokens?.length
+            ? (args.accessTokens as IntegrationAccessToken[])
+            : undefined,
+          theme: widgetConfig.appearance ?? 'system',
+          language: args.language,
+          displayFiatCurrency: args.fiatCurrency,
+          onIntegrationConnected: (payload: LinkPayload) => {
+            // Persist the linked account(s) so the checkout can offer a
+            // one-tap "reconnect" on a later visit (see useConnectedCexStore).
+            const accounts = toConnectedAccounts(payload, Date.now())
+            if (!accounts.length) {
+              return
+            }
+            useConnectedCexStore
+              .getState()
+              .addConnectedAccounts(
+                connectedCexKey(integrator, checkoutUserId),
+                accounts
+              )
           },
           onTransferFinished: (payload: TransferFinishedPayload) => {
             transferSucceededRef.current = true
@@ -184,6 +246,16 @@ export const MeshHost: FC<MeshHostProps> = ({ widgetConfig }) => {
                 lastEventErrorRef.current = {
                   kind: 'connection',
                   message: event.payload.errorMessage,
+                }
+                // Reconnect failed (likely a stale token) — drop the account so
+                // the one-tap row disappears. If the user recovers in the same
+                // session, onIntegrationConnected re-adds it.
+                if (args.accessTokens?.length) {
+                  const key = connectedCexKey(integrator, checkoutUserId)
+                  const remove = useConnectedCexStore.getState().removeAccount
+                  for (const token of args.accessTokens) {
+                    remove(key, token.accountId)
+                  }
                 }
                 break
               default:
@@ -288,6 +360,7 @@ export const MeshHost: FC<MeshHostProps> = ({ widgetConfig }) => {
       onError,
       onSuccess,
       widgetConfig.apiKey,
+      widgetConfig.appearance,
     ]
   )
 

@@ -9,6 +9,14 @@ import {
   useHeader,
   useToken,
 } from '@lifi/widget/shared'
+import {
+  type ConnectedCexAccount,
+  connectedCexKey,
+  useCheckoutConfig,
+  useCheckoutUserId,
+  useConnectedCexAccounts,
+  useConnectedCexStore,
+} from '@lifi/widget-provider/checkout'
 import { useMeshBalance } from '@lifi/widget-provider-mesh'
 import { Alert, Box } from '@mui/material'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
@@ -45,9 +53,20 @@ export const SelectSourcePage: React.FC = () => {
   const exchangeProvider = useOnRampProviderByCategory('exchange')
   const { topWallets, walletOverflowCount } = useSelectSourceTopWallets()
   const setFundingSource = useCheckoutFlowStore((s) => s.setFundingSource)
+  const setSelectedExchangeAccount = useCheckoutFlowStore(
+    (s) => s.setSelectedExchangeAccount
+  )
   const resetFlow = useCheckoutFlowStore((s) => s.reset)
   const overrideExchanges = useCheckoutExchangesOverride()
   const { setFieldValue } = useFieldActions()
+  const { integrator } = useCheckoutConfig()
+  const checkoutUserId = useCheckoutUserId()
+  const connectedExchangeAccounts = useConnectedCexAccounts(
+    exchangeSession ? connectedCexKey(integrator, checkoutUserId) : null
+  )
+  const removeConnectedExchangeAccount = useConnectedCexStore(
+    (s) => s.removeAccount
+  )
 
   // Capture fundingSource before resetFlow fires (runs after first render).
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
@@ -152,7 +171,7 @@ export const SelectSourcePage: React.FC = () => {
     goToToken()
   }, [goToToken, overrideExchanges, setFundingSource])
 
-  const handleConnectExchange = useCallback(() => {
+  const pinExchangeSource = useCallback(() => {
     overrideExchanges([...INTENT_FACTORY_ONLY])
     setFundingSource('exchange')
     // Exchange deposits are limited to USDC/USDT/ETH on mainnet — pin the
@@ -161,8 +180,33 @@ export const SelectSourcePage: React.FC = () => {
     setFieldValue(FormKeyHelper.getChainKey('from'), DEFAULT_FROM_CHAIN_ID)
     setFieldValue(FormKeyHelper.getTokenKey('from'), DEFAULT_FROM_TOKEN_ADDRESS)
     setFieldValue(FormKeyHelper.getAmountKey('from'), '')
+  }, [overrideExchanges, setFieldValue, setFundingSource])
+
+  const handleConnectExchange = useCallback(() => {
+    setSelectedExchangeAccount(null)
+    pinExchangeSource()
     goToToken()
-  }, [goToToken, overrideExchanges, setFieldValue, setFundingSource])
+  }, [goToToken, pinExchangeSource, setSelectedExchangeAccount])
+
+  const handleReuseExchange = useCallback(
+    (account: ConnectedCexAccount) => {
+      // ConnectedCexAccount is a superset of OnRampAccessToken — pass through.
+      setSelectedExchangeAccount(account)
+      pinExchangeSource()
+      goToToken()
+    },
+    [goToToken, pinExchangeSource, setSelectedExchangeAccount]
+  )
+
+  const handleForgetExchange = useCallback(
+    (account: ConnectedCexAccount) => {
+      removeConnectedExchangeAccount(
+        connectedCexKey(integrator, checkoutUserId),
+        account.accountId
+      )
+    },
+    [removeConnectedExchangeAccount, integrator, checkoutUserId]
+  )
 
   const handleDepositCash = useCallback(() => {
     overrideExchanges([...INTENT_FACTORY_ONLY])
@@ -210,6 +254,9 @@ export const SelectSourcePage: React.FC = () => {
           showDepositCash={Boolean(cashSession)}
           onConnectExchange={handleConnectExchange}
           showConnectExchange={Boolean(exchangeSession)}
+          connectedExchangeAccounts={connectedExchangeAccounts}
+          onReuseExchange={handleReuseExchange}
+          onForgetExchange={handleForgetExchange}
           exchangeLoading={exchangeSession?.isLoading ?? false}
           exchangeError={formatOnRampError(
             exchangeSession?.error ?? null,

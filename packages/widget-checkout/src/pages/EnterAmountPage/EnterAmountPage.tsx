@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next'
 import { CheckoutAmountInput } from '../../components/CheckoutAmountInput.js'
 import { CheckoutFlowCtaButton } from '../../components/CheckoutFlowCtaButton.js'
 import { CheckoutReceiveCard } from '../../components/CheckoutReceiveCard.js'
+import { CheckoutRecipientCard } from '../../components/CheckoutRecipientCard.js'
 import { FiatCurrencyChip } from '../../components/FiatCurrencyChip.js'
 import { TermsDisclaimer } from '../../components/TermsDisclaimer.js'
 import {
@@ -56,6 +57,9 @@ export const EnterAmountPage: React.FC = (): JSX.Element => {
     <PageContainer>
       <CheckoutAmountInput formType="from" sx={{ mb: 2 }} sendSlot={sendSlot} />
       <CheckoutReceiveCard />
+      <Box sx={{ mt: 2 }}>
+        <CheckoutRecipientCard />
+      </Box>
       {/* Warnings cover wallet balance / gas — only show for wallet flow. */}
       {isWalletFunded ? <MainWarningMessages sx={{ mt: 2, mb: 2 }} /> : null}
       <Box sx={{ mt: 1.5, mb: showPoweredBy ? 1 : 3 }}>

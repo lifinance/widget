@@ -16,7 +16,6 @@ import {
   TokenRate,
   useChain,
   useFieldValues,
-  useRoutes,
   useToken,
 } from '@lifi/widget/shared'
 import AccessTimeFilled from '@mui/icons-material/AccessTimeFilled'
@@ -25,6 +24,7 @@ import LocalGasStationRounded from '@mui/icons-material/LocalGasStationRounded'
 import { Box, Collapse, IconButton, Skeleton, Typography } from '@mui/material'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useCheckoutRoutes } from '../hooks/useCheckoutRoutes.js'
 export const CheckoutReceiveCard: React.FC = () => {
   const { t, i18n } = useTranslation()
   const [expanded, setExpanded] = useState(false)
@@ -42,7 +42,7 @@ export const CheckoutReceiveCard: React.FC = () => {
     isFetched,
     dataUpdatedAt,
     refetchTime,
-  } = useRoutes()
+  } = useCheckoutRoutes()
 
   const parsedAmount = Number.parseFloat(
     typeof fromAmount === 'string'

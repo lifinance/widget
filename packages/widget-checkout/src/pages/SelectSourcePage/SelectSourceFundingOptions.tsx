@@ -1,20 +1,23 @@
 import { shortenAddress } from '@lifi/widget/shared'
 import type { Account } from '@lifi/widget-provider'
+import type { ConnectedCexAccount } from '@lifi/widget-provider/checkout'
 import AccountBalance from '@mui/icons-material/AccountBalance'
 import AccountBalanceWallet from '@mui/icons-material/AccountBalanceWallet'
 import CreditCardIcon from '@mui/icons-material/CreditCard'
+import PowerSettingsNewRounded from '@mui/icons-material/PowerSettingsNewRounded'
 import QrCode2Icon from '@mui/icons-material/QrCode2'
 import {
   Alert,
   Avatar,
-  Box,
   CircularProgress,
+  IconButton,
   Stack,
-  Typography,
+  useColorScheme,
 } from '@mui/material'
 import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CheckoutDisconnectIconButton } from '../../components/CheckoutDisconnectIconButton.js'
+import { ConnectedAccountRow } from './ConnectedAccountRow.js'
 import { fundingSourceImages } from './fundingSourceAssets.js'
 import {
   FundingDividerLine,
@@ -60,6 +63,12 @@ export type SelectSourceFundingOptionsProps = {
   exchangeLoading?: boolean
   /** When set, shows an inline error below the exchange card. */
   exchangeError?: string | null
+  /** Previously-linked exchange accounts; each renders a one-tap reconnect row. */
+  connectedExchangeAccounts?: ConnectedCexAccount[]
+  /** Invoked when the user picks a previously-connected exchange account. */
+  onReuseExchange?: (account: ConnectedCexAccount) => void
+  /** Invoked when the user disconnects (forgets) a saved exchange account. */
+  onForgetExchange?: (account: ConnectedCexAccount) => void
   payFromWalletIcons: PayFromWalletPreviewIcon[]
   payFromWalletOverflow: number
   /** When set, replaces the disconnected “browser wallets” teaser with wallet + address (connected state). */
@@ -77,12 +86,17 @@ export function SelectSourceFundingOptions({
   showConnectExchange = false,
   exchangeLoading = false,
   exchangeError = null,
+  connectedExchangeAccounts = [],
+  onReuseExchange,
+  onForgetExchange,
   payFromWalletIcons,
   payFromWalletOverflow,
   payFromWalletConnected = null,
   payFromWalletAccount = null,
 }: SelectSourceFundingOptionsProps): JSX.Element {
   const { t } = useTranslation()
+  const { mode, systemMode } = useColorScheme()
+  const isDark = (mode === 'system' ? systemMode : mode) === 'dark'
 
   return (
     <OptionsRoot>
@@ -91,92 +105,51 @@ export function SelectSourceFundingOptions({
 
         <Stack spacing={1.5} sx={{ width: '100%' }}>
           <FundingOptionCard onClick={onPayFromWallet} elevation={0}>
-            <FundingOptionRow
-              sx={payFromWalletConnected ? { alignItems: 'center' } : undefined}
-            >
-              {payFromWalletConnected ? (
-                <>
-                  <Avatar
-                    src={payFromWalletConnected.icon}
-                    alt=""
-                    sx={(theme) => ({
-                      width: 40,
-                      height: 40,
-                      flexShrink: 0,
-                      bgcolor: theme.vars.palette.action.hover,
-                      fontSize: 16,
-                      fontWeight: 700,
-                    })}
-                  >
-                    {!payFromWalletConnected.icon ? (
-                      <AccountBalanceWallet sx={{ fontSize: 22 }} aria-hidden />
-                    ) : null}
-                  </Avatar>
-                  <OptionTextCell>
-                    <FundingOptionTitle>
-                      {t('checkout.payFromWallet')}
-                    </FundingOptionTitle>
-                    <FundingOptionSubtitle noWrap>
-                      {shortenAddress(payFromWalletConnected.address) ??
-                        payFromWalletConnected.address}
-                    </FundingOptionSubtitle>
-                  </OptionTextCell>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexShrink: 0,
-                      alignItems: 'center',
-                      gap: 0.75,
-                    }}
-                  >
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      sx={{
-                        fontWeight: 400,
-                        lineHeight: '20px',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {t('tags.connected')}
-                    </Typography>
-                    {payFromWalletAccount ? (
-                      <CheckoutDisconnectIconButton
-                        account={payFromWalletAccount}
-                      />
-                    ) : null}
-                  </Box>
-                </>
-              ) : (
-                <>
-                  <GenericIconWrap>
-                    <AccountBalanceWallet />
-                  </GenericIconWrap>
-                  <OptionTextCell>
-                    <FundingOptionTitle>
-                      {t('checkout.payFromWallet')}
-                    </FundingOptionTitle>
-                    <FundingOptionSubtitle>
-                      {t('checkout.payFromWalletSubtitle')}
-                    </FundingOptionSubtitle>
-                  </OptionTextCell>
-                  <OverlapRow aria-hidden>
-                    {payFromWalletIcons.map((item) => (
-                      <PreviewWalletAvatar
-                        key={item.key}
-                        src={item.src}
-                        alt=""
-                      />
-                    ))}
-                    {payFromWalletOverflow > 0 ? (
-                      <OverflowPreviewAvatar>
-                        {`${Math.min(payFromWalletOverflow, 99)}+`}
-                      </OverflowPreviewAvatar>
-                    ) : null}
-                  </OverlapRow>
-                </>
-              )}
-            </FundingOptionRow>
+            {payFromWalletConnected ? (
+              <ConnectedAccountRow
+                iconSrc={payFromWalletConnected.icon}
+                fallbackIcon={
+                  <AccountBalanceWallet sx={{ fontSize: 22 }} aria-hidden />
+                }
+                title={t('checkout.payFromWallet')}
+                subtitle={
+                  shortenAddress(payFromWalletConnected.address) ??
+                  payFromWalletConnected.address
+                }
+                connectedLabel={t('tags.connected')}
+                trailing={
+                  payFromWalletAccount ? (
+                    <CheckoutDisconnectIconButton
+                      account={payFromWalletAccount}
+                    />
+                  ) : null
+                }
+              />
+            ) : (
+              <FundingOptionRow>
+                <GenericIconWrap>
+                  <AccountBalanceWallet />
+                </GenericIconWrap>
+                <OptionTextCell>
+                  <FundingOptionTitle>
+                    {t('checkout.payFromWallet')}
+                  </FundingOptionTitle>
+                  <FundingOptionSubtitle>
+                    {t('checkout.payFromWalletSubtitle')}
+                  </FundingOptionSubtitle>
+                </OptionTextCell>
+                <OverlapRow aria-hidden>
+                  {payFromWalletIcons.map((item) => (
+                    <PreviewWalletAvatar key={item.key} src={item.src} alt="" />
+                  ))}
+                  {payFromWalletOverflow > 0 ? (
+                    <OverflowPreviewAvatar>
+                      {`${Math.min(payFromWalletOverflow, 99)}+`}
+                    </OverflowPreviewAvatar>
+                  ) : null}
+                </OverlapRow>
+              </FundingOptionRow>
+            )}
           </FundingOptionCard>
 
           <FundingOptionCard onClick={onTransferCrypto} elevation={0}>
@@ -210,63 +183,109 @@ export function SelectSourceFundingOptions({
             </FundingOptionRow>
           </FundingOptionCard>
 
-          {showConnectExchange ? (
-            <>
-              <FundingOptionCard
-                onClick={exchangeLoading ? undefined : onConnectExchange}
-                elevation={0}
-                aria-disabled={exchangeLoading}
-                sx={
-                  exchangeLoading
-                    ? { pointerEvents: 'none', opacity: 0.7 }
-                    : undefined
-                }
-              >
-                <FundingOptionRow>
-                  <GenericIconWrap>
-                    <AccountBalance />
-                  </GenericIconWrap>
-                  <OptionTextCell>
-                    <FundingOptionTitle>
-                      {t('checkout.connectExchange')}
-                    </FundingOptionTitle>
-                    <FundingOptionSubtitle>
-                      {t('checkout.connectExchangeSubtitle')}
-                    </FundingOptionSubtitle>
-                  </OptionTextCell>
-                  {exchangeLoading ? (
-                    <CircularProgress size={24} sx={{ flexShrink: 0, mr: 1 }} />
-                  ) : (
-                    <OverlapRow aria-hidden>
-                      <Avatar
-                        src={fundingSourceImages.exchangeCoinbase}
-                        alt="Coinbase"
-                        sx={(theme) => ({
-                          width: 24,
-                          height: 24,
-                          border: `2px solid ${theme.vars.palette.background.paper}`,
-                        })}
-                      />
-                      <Avatar
-                        src={fundingSourceImages.exchangeBinance}
-                        alt="Binance"
-                        sx={(theme) => ({
-                          width: 24,
-                          height: 24,
-                          border: `2px solid ${theme.vars.palette.background.paper}`,
-                        })}
-                      />
-                      <OverflowPreviewAvatar>10+</OverflowPreviewAvatar>
-                    </OverlapRow>
-                  )}
-                </FundingOptionRow>
-              </FundingOptionCard>
-              {exchangeError ? (
-                <Alert severity="error" sx={{ mt: -0.5 }}>
-                  {exchangeError}
-                </Alert>
-              ) : null}
-            </>
+          {showConnectExchange && onReuseExchange
+            ? connectedExchangeAccounts.map((account) => (
+                <FundingOptionCard
+                  key={account.accountId}
+                  onClick={() => onReuseExchange(account)}
+                  elevation={0}
+                >
+                  <ConnectedAccountRow
+                    iconSrc={
+                      (isDark
+                        ? account.brand?.logoDark
+                        : account.brand?.logoLight) ?? account.brand?.logoLight
+                    }
+                    fallbackIcon={
+                      <AccountBalance sx={{ fontSize: 22 }} aria-hidden />
+                    }
+                    title={t('checkout.payWithExchange', {
+                      exchange: account.brokerName,
+                    })}
+                    subtitle={
+                      account.accountName || t('checkout.reuseExchangeSubtitle')
+                    }
+                    connectedLabel={t('tags.connected')}
+                    trailing={
+                      onForgetExchange ? (
+                        <IconButton
+                          size="small"
+                          aria-label={t('button.disconnect')}
+                          sx={{ padding: '2px', color: 'text.secondary' }}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            onForgetExchange(account)
+                          }}
+                        >
+                          <PowerSettingsNewRounded
+                            sx={{ fontSize: '1.125rem' }}
+                          />
+                        </IconButton>
+                      ) : undefined
+                    }
+                  />
+                </FundingOptionCard>
+              ))
+            : null}
+
+          {/* A saved account is the fast path — only offer the generic
+              "connect exchange" entry when there's nothing to reconnect to. */}
+          {showConnectExchange && connectedExchangeAccounts.length === 0 ? (
+            <FundingOptionCard
+              onClick={exchangeLoading ? undefined : onConnectExchange}
+              elevation={0}
+              aria-disabled={exchangeLoading}
+              sx={
+                exchangeLoading
+                  ? { pointerEvents: 'none', opacity: 0.7 }
+                  : undefined
+              }
+            >
+              <FundingOptionRow>
+                <GenericIconWrap>
+                  <AccountBalance />
+                </GenericIconWrap>
+                <OptionTextCell>
+                  <FundingOptionTitle>
+                    {t('checkout.connectExchange')}
+                  </FundingOptionTitle>
+                  <FundingOptionSubtitle>
+                    {t('checkout.connectExchangeSubtitle')}
+                  </FundingOptionSubtitle>
+                </OptionTextCell>
+                {exchangeLoading ? (
+                  <CircularProgress size={24} sx={{ flexShrink: 0, mr: 1 }} />
+                ) : (
+                  <OverlapRow aria-hidden>
+                    <Avatar
+                      src={fundingSourceImages.exchangeCoinbase}
+                      alt="Coinbase"
+                      sx={(theme) => ({
+                        width: 24,
+                        height: 24,
+                        border: `2px solid ${theme.vars.palette.background.paper}`,
+                      })}
+                    />
+                    <Avatar
+                      src={fundingSourceImages.exchangeBinance}
+                      alt="Binance"
+                      sx={(theme) => ({
+                        width: 24,
+                        height: 24,
+                        border: `2px solid ${theme.vars.palette.background.paper}`,
+                      })}
+                    />
+                    <OverflowPreviewAvatar>10+</OverflowPreviewAvatar>
+                  </OverlapRow>
+                )}
+              </FundingOptionRow>
+            </FundingOptionCard>
+          ) : null}
+
+          {showConnectExchange && exchangeError ? (
+            <Alert severity="error" sx={{ mt: -0.5 }}>
+              {exchangeError}
+            </Alert>
           ) : null}
         </Stack>
       </FundingSectionStack>

@@ -14,6 +14,12 @@ export interface CheckoutConfig {
   config?: Partial<WidgetConfig>
   /** Persist pending checkouts and resume on next mount. @default true */
   resumePending?: boolean
+  /**
+   * When `true` and `config.toAddress` is omitted, the user sets the
+   * destination address inside the widget (paste/ENS or connect wallet)
+   * instead of the checkout blocking as misconfigured. @default false
+   */
+  allowUserDestinationAddress?: boolean
 }
 
 export interface CheckoutModalProps {
