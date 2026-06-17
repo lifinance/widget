@@ -15,6 +15,7 @@ import {
   useWidgetConfig,
 } from '@lifi/widget/shared'
 import { Box } from '@mui/material'
+import { domMax, LazyMotion, MotionConfig } from 'motion/react'
 import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -70,19 +71,27 @@ export const CheckoutExecutionProgress = ({
   const handleContactSupport = useContactSupport(supportId)
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-      <ExecutionStatusCard
-        title={title}
-        description={message}
-        rows={rows}
-        iconSlot={iconSlot}
-        footerSlot={footerSlot}
-      />
-      {showContactSupport ? (
-        <ButtonTertiary variant="text" onClick={handleContactSupport} fullWidth>
-          {t('button.contactSupport')}
-        </ButtonTertiary>
-      ) : null}
-    </Box>
+    <LazyMotion features={domMax} strict>
+      <MotionConfig reducedMotion="user">
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <ExecutionStatusCard
+            title={title}
+            description={message}
+            rows={rows}
+            iconSlot={iconSlot}
+            footerSlot={footerSlot}
+          />
+          {showContactSupport ? (
+            <ButtonTertiary
+              variant="text"
+              onClick={handleContactSupport}
+              fullWidth
+            >
+              {t('button.contactSupport')}
+            </ButtonTertiary>
+          ) : null}
+        </Box>
+      </MotionConfig>
+    </LazyMotion>
   )
 }

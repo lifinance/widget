@@ -59,6 +59,7 @@
     "@mui/system": "^9.0.1",
     "@tanstack/react-router": "^1.169.2",
     "i18next": "^26.1.0",
+    "motion": "^12.38.0",
     "qrcode.react": "^4.2.0",
     "react-i18next": "^17.0.7",
     "zustand": "^5.0.12"
