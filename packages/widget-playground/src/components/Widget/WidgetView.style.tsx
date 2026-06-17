@@ -75,7 +75,6 @@ export const WidgetContainerRow: React.FC<React.ComponentProps<typeof Box>> =
     return {
       display: 'flex',
       alignItems: 'flex-start',
-      // justifyContent: 'center',
       flexGrow: 1,
       width: '100%',
     }
