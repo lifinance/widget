@@ -1,12 +1,6 @@
 import type { ModeOptions, SplitMode, WidgetMode } from '@lifi/widget'
 
-export type ModeOption =
-  | 'exchange'
-  | 'split'
-  | 'swap'
-  | 'bridge'
-  | 'refuel'
-  | 'jumper'
+export type ModeOption = 'exchange' | 'split' | 'swap' | 'bridge' | 'refuel'
 
 interface ModeOptionConfig {
   id: ModeOption
@@ -53,16 +47,7 @@ export const MODE_OPTIONS: ModeOptionConfig[] = [
       'Dedicated gas-refuel flow that bridges a small amount of native token.',
     mode: 'refuel',
   },
-  {
-    id: 'jumper',
-    title: 'Jumper',
-    description: 'Toggle Simple / Advanced from the rail.',
-    mode: 'jumper-simple',
-  },
 ]
-
-export const isJumperMode = (mode: string): boolean =>
-  mode === 'jumper-simple' || mode === 'jumper-advanced'
 
 /** Normalises modeOptions.split when stored as a plain string. */
 export const getSplitOption = (
@@ -77,15 +62,9 @@ export const getActiveMode = (
   mode: WidgetMode | 'default',
   splitOption?: SplitMode
 ): ModeOption => {
-  if (isJumperMode(mode)) {
-    return 'jumper'
-  }
   return (
     MODE_OPTIONS.find(
-      (option) =>
-        option.id !== 'jumper' &&
-        option.mode === mode &&
-        option.splitOption === splitOption
+      (option) => option.mode === mode && option.splitOption === splitOption
     )?.id ?? 'exchange'
   )
 }

@@ -25,6 +25,12 @@ export const VARIANT_OPTIONS: VariantOptionConfig[] = [
     description:
       'Widget opens as a slide-out drawer anchored to the side of the viewport.',
   },
+  {
+    id: 'jumper',
+    title: 'Jumper',
+    description:
+      'Adds a Simple / Advanced rail next to the widget for switching tab sets.',
+  },
 ]
 
 /** Applies variant-specific container height/display overrides when switching variant. */

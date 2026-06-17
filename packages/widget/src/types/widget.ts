@@ -34,14 +34,14 @@ import type {
 } from '../providers/I18nProvider/types.js'
 import type { DefaultFieldValues } from '../stores/form/types.js'
 
-export type WidgetVariant = 'compact' | 'wide' | 'drawer'
-export type WidgetMode =
-  | 'default'
-  | 'split'
-  | 'custom'
-  | 'refuel'
-  | 'jumper-simple'
-  | 'jumper-advanced'
+export type WidgetVariant = 'compact' | 'wide' | 'drawer' | 'jumper'
+export type WidgetMode = 'default' | 'split' | 'custom' | 'refuel'
+/**
+ * View tier toggled by the rail in the `jumper` variant.
+ * - 'simple': Swap & Bridge / Private / Gas tabs
+ * - 'advanced': Swap / Bridge / Limit tabs
+ */
+export type JumperTier = 'simple' | 'advanced'
 export type SplitMode = 'bridge' | 'swap'
 export type SplitModeOptions = {
   defaultTab: SplitMode

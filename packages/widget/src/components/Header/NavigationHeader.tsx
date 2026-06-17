@@ -14,6 +14,7 @@ import { CloseDrawerButton } from './CloseDrawerButton.js'
 import { HeaderAppBar, HeaderControlsContainer } from './Header.style.js'
 import { HeaderNavigationTabs } from './HeaderNavigationTabs.js'
 import { SettingsButton } from './SettingsButton.js'
+import { SplitNavigationTabs } from './SplitNavigationTabs.js'
 
 export const NavigationHeader: React.FC = () => {
   const { mode, hiddenUI, variant, defaultUI, modeOptions } = useWidgetConfig()
@@ -32,16 +33,15 @@ export const NavigationHeader: React.FC = () => {
   const isSplitWithTabs =
     mode === 'split' && typeof modeOptions?.split !== 'string'
 
-  const isJumperMode = mode === 'jumper-simple' || mode === 'jumper-advanced'
-
-  const showHeaderTabs = !hasPath && (isSplitWithTabs || isJumperMode)
+  const isJumper = variant === 'jumper'
+  const showHeaderTabs = !hasPath && (isSplitWithTabs || isJumper)
 
   return (
     <HeaderAppBar elevation={0} sx={{ paddingTop: 1, paddingBottom: 0.5 }}>
       {backButtonRoutes.includes(path) ? <BackButton /> : null}
       {showHeaderTabs ? (
         <Box sx={{ flex: 1, marginRight: 1 }}>
-          <HeaderNavigationTabs />
+          {isJumper ? <HeaderNavigationTabs /> : <SplitNavigationTabs />}
         </Box>
       ) : (
         <Typography

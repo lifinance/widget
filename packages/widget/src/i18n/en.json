@@ -80,8 +80,13 @@
     "settings": "Settings",
     "swap": "Swap",
     "swapAndBridge": "Swap & Bridge",
+    "tier": {
+      "advanced": "Advanced",
+      "simple": "Simple"
+    },
     "to": "Exchange to",
     "transactionDetails": "Transaction details",
+    "viewTier": "Widget view",
     "activities": "Activities",
     "walletConnected": "Wallet connected",
     "youGet": "You get",

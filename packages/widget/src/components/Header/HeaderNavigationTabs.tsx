@@ -1,38 +1,26 @@
 import type { JSX } from 'react'
-import { useFieldActions } from '../../stores/form/useFieldActions.js'
-import { useHeaderTabsStore } from '../../stores/headerTabs/useHeaderTabsStore.js'
-import { NavigationTab, NavigationTabs } from '../Tabs/NavigationTabs.js'
+import { useJumperTabLabel } from '../../stores/jumperVariant/useJumperTabLabel.js'
+import { useJumperVariantStore } from '../../stores/jumperVariant/useJumperVariantStore.js'
+import { getJumperTabs } from '../../stores/jumperVariant/utils.js'
+import { HeaderTabs } from './HeaderTabs.js'
 
 export const HeaderNavigationTabs = (): JSX.Element | null => {
-  const { setFieldValue } = useFieldActions()
-
-  const [activeTab, setActiveTab, tabs] = useHeaderTabsStore((state) => [
-    state.activeTab,
-    state.setActiveTab,
-    state.tabs,
+  const [state, setState] = useJumperVariantStore((store) => [
+    store.state,
+    store.setState,
   ])
+  const getLabel = useJumperTabLabel()
 
-  const activeIndex = activeTab ? tabs.indexOf(activeTab) : 0
-
-  const handleChange = (_: React.SyntheticEvent, index: number) => {
-    const tab = tabs[index]
-    if (tab) {
-      setFieldValue('fromAmount', '')
-      setFieldValue('fromToken', '')
-      setFieldValue('toToken', '')
-      setActiveTab(tab)
-    }
+  if (!state) {
+    return null
   }
 
+  const tabs = getJumperTabs(state.tier)
   return (
-    <NavigationTabs
-      value={activeIndex}
-      onChange={handleChange}
-      aria-label="tabs"
-    >
-      {tabs.map((tab) => (
-        <NavigationTab key={tab.label} label={tab.label} disableRipple />
-      ))}
-    </NavigationTabs>
+    <HeaderTabs
+      tabs={tabs.map((tab) => ({ key: tab.key, label: getLabel(tab.key) }))}
+      value={state.tabKey}
+      onChange={(tabKey) => setState({ tabKey })}
+    />
   )
 }

@@ -6,7 +6,7 @@ import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import type { FormType } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
-import { useSplitMode } from '../../stores/headerTabs/useSplitMode.js'
+import { useSplitModeStore } from '../../stores/settings/useSplitModeStore.js'
 import { WidgetEvent } from '../../types/events.js'
 import type { DisabledUIConfig } from '../../types/widget.js'
 import { isItemAllowed } from '../../utils/item.js'
@@ -16,7 +16,7 @@ export const useTokenSelect = (
   onClick?: () => void
 ): ((tokenAddress: string, chainId?: number) => void) => {
   const { mode, disabledUI, chains: chainsConfig } = useWidgetConfig()
-  const splitMode = useSplitMode()
+  const splitMode = useSplitModeStore((store) => store.state)
   const emitter = useWidgetEvents()
   const { setFieldValue, getFieldValues } = useFieldActions()
   const autoPopulateToAddress = useToAddressAutoPopulate()
