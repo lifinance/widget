@@ -38,10 +38,16 @@ const refetchTime = 60_000
 
 interface RoutesProps {
   observableRoute?: Route
+  /**
+   * Address to quote from when no wallet is connected. Treated as a non-signing
+   * placeholder, so signer-dependent (relayer/permit2) quotes are skipped.
+   */
+  quoteFromAddress?: string
 }
 
 export const useRoutes = ({
   observableRoute,
+  quoteFromAddress,
 }: RoutesProps = {}): {
   routes: Route[] | undefined
   isLoading: boolean
@@ -119,8 +125,18 @@ export const useRoutes = ({
 
   const hasAmount = Number(fromTokenAmount) > 0 || Number(toTokenAmount) > 0
 
-  const contractCallQuoteEnabled: boolean =
-    mode === 'custom' ? Boolean(contractCalls && account.address) : true
+  const customType = mode === 'custom' ? modeOptions?.custom?.type : undefined
+  const isContractCallQuote =
+    mode === 'custom' && Boolean(contractCalls?.length)
+  // A contract-call quote needs a connected wallet to resolve fromAddress.
+  // Deposit funding quotes a plain route with no contract calls and no wallet
+  // (a placeholder fromAddress arrives via quoteFromAddress); every other custom
+  // flow stays gated on a real wallet, as before.
+  const contractCallQuoteEnabled: boolean = isContractCallQuote
+    ? Boolean(account.address)
+    : mode !== 'custom' || customType === 'deposit'
+
+  const effectiveFromAddress = account.address ?? quoteFromAddress
 
   // When we bridge between ecosystems we need to be sure toAddress is set and has the same chainType as toChain
   // If toAddress is set, it must have the same chainType as toChain
@@ -161,7 +177,7 @@ export const useRoutes = ({
     () =>
       [
         getQueryKey('routes', keyPrefix),
-        account.address,
+        effectiveFromAddress,
         fromChain?.id as number,
         fromToken?.address as string,
         fromTokenAmount,
@@ -188,7 +204,7 @@ export const useRoutes = ({
       ] as const,
     [
       keyPrefix,
-      account.address,
+      effectiveFromAddress,
       fromChain?.id,
       fromToken?.address,
       fromTokenAmount,
@@ -294,7 +310,7 @@ export const useRoutes = ({
           slippage: formattedSlippage,
         })
 
-        if (mode === 'custom' && contractCalls && toAmount) {
+        if (mode === 'custom' && contractCalls?.length && toAmount) {
           const contractCallQuote = await getContractCallsQuote(
             sdkClient,
             {
@@ -360,6 +376,7 @@ export const useRoutes = ({
         const shouldUseMainRoutes =
           !observableRoute || !isObservableRelayerRoute
         const shouldUseRelayerQuote =
+          account.address &&
           fromAddress &&
           fromChain?.chainType === ChainType.EVM &&
           fromChain.permit2 &&

@@ -19,7 +19,6 @@ import {
   useMemo,
   useRef,
 } from 'react'
-import { CheckoutDepositContractCallsInit } from '../../components/CheckoutDepositContractCallsInit.js'
 import { ErrorBoundary } from '../../components/ErrorBoundary.js'
 import { useCheckoutFlowStore } from '../../stores/useCheckoutFlowStore.js'
 
@@ -138,7 +137,6 @@ export const OnRampProviderRegistry: FC<OnRampProviderRegistryProps> = ({
           )
         })}
         <StoreProvider config={widgetConfig} formRef={formRef}>
-          <CheckoutDepositContractCallsInit />
           {children}
         </StoreProvider>
       </OnRampMetaContext.Provider>

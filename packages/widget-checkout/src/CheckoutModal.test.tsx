@@ -100,7 +100,7 @@ describe('CheckoutModal close guard', () => {
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 
-  it('confirmation "Yes, leave" calls closePanel; "Stay" does not', async () => {
+  it('confirmation "Close checkout" calls closePanel; "Cancel" does not', async () => {
     const store = createOnRampSessionsStore()
     store.getState().register('s1', makeSession(true))
     const onClose = vi.fn()
@@ -111,20 +111,16 @@ describe('CheckoutModal close guard', () => {
       { wrapper: withProvider(store) }
     )
     fireEvent.click(screen.getByText('trigger-confirm'))
-    expect(
-      screen.queryByText('Leave with transaction in progress?')
-    ).not.toBeNull()
-    fireEvent.click(screen.getByRole('button', { name: 'Stay' }))
+    expect(screen.queryByText('Leave checkout?')).not.toBeNull()
+    fireEvent.click(screen.getByRole('button', { name: 'Cancel' }))
     expect(onClose).not.toHaveBeenCalled()
     await waitFor(() =>
-      expect(
-        screen.queryByText('Leave with transaction in progress?')
-      ).toBeNull()
+      expect(screen.queryByText('Leave checkout?')).toBeNull()
     )
 
     // Re-open and confirm
     fireEvent.click(screen.getByText('trigger-confirm'))
-    fireEvent.click(screen.getByRole('button', { name: 'Yes, leave' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Close checkout' }))
     expect(onClose).toHaveBeenCalledTimes(1)
   })
 })

@@ -13,7 +13,8 @@ export interface CheckoutStatusSources {
 // The status API reports the solver's addresses for intent/deposit flows, and
 // the deposit-address poll is too sparse to render the pending page. Both are
 // recovered from the locally-known quote: the in-memory frozen quote, falling
-// back to the persisted pending record so it survives a reload mid-flow.
+// back to the persisted pending record once a flow is re-entered from the
+// activity list (which re-seeds frozenDepositId, the key useResumeRecord reads).
 export function useCheckoutStatusSources(): CheckoutStatusSources {
   const configuredToAddress = useCheckoutToAddress()
   const { frozen } = useFrozenQuote()

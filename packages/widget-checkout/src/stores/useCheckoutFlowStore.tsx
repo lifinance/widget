@@ -14,10 +14,13 @@ export type CheckoutFundingSource = 'wallet' | 'transfer' | 'exchange' | 'cash'
 export interface CheckoutFlowState {
   fundingSource: CheckoutFundingSource | null
   frozenRouteId: string | null
+  /** Stable per-deposit id frozen at first write; reused by every write of the same deposit. */
+  frozenDepositId: string | null
   /** Exchange account chosen for one-tap reconnect; in-memory, passed to the provider's `open()`. */
   selectedExchangeAccount: OnRampAccessToken | null
   setFundingSource: (source: CheckoutFundingSource | null) => void
   setFrozenRouteId: (routeId: string | null) => void
+  setFrozenDepositId: (depositId: string | null) => void
   setSelectedExchangeAccount: (account: OnRampAccessToken | null) => void
   reset: () => void
 }
@@ -28,15 +31,18 @@ export function createCheckoutFlowStore(): CheckoutFlowStore {
   return create<CheckoutFlowState>((set) => ({
     fundingSource: null,
     frozenRouteId: null,
+    frozenDepositId: null,
     selectedExchangeAccount: null,
     setFundingSource: (fundingSource) => set({ fundingSource }),
     setFrozenRouteId: (frozenRouteId) => set({ frozenRouteId }),
+    setFrozenDepositId: (frozenDepositId) => set({ frozenDepositId }),
     setSelectedExchangeAccount: (selectedExchangeAccount) =>
       set({ selectedExchangeAccount }),
     reset: () =>
       set({
         fundingSource: null,
         frozenRouteId: null,
+        frozenDepositId: null,
         selectedExchangeAccount: null,
       }),
   }))

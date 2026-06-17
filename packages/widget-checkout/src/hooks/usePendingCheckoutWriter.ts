@@ -1,7 +1,7 @@
 'use client'
-import { useAccount } from '@lifi/wallet-management'
 import { useCheckoutConfig } from '@lifi/widget-provider/checkout'
-import { useCallback } from 'react'
+import { useCallback, useContext } from 'react'
+import { CheckoutFlowStoreContext } from '../stores/useCheckoutFlowStore.js'
 import {
   buildPendingRecord,
   buildResumeKey,
@@ -36,21 +36,49 @@ export interface PendingCheckoutWriter {
   writeWallet: (args: WalletWriteArgs) => void
   writeTransfer: (args: TransferWriteArgs) => void
   writeCashSuccess: (args: CashSuccessWriteArgs) => void
+  markFailed: (key: string) => void
   clearForKey: (key: string | null) => void
   clearAll: () => void
 }
 
+// Display fields, lifted off the frozen route so the activity card renders
+// without re-fetching or relying on a (possibly expired) quote.
+function displayFields(frozenQuote?: PersistedFrozenQuote) {
+  const route = frozenQuote?.route
+  if (!route) {
+    return {}
+  }
+  return {
+    fromAmount: route.fromAmount,
+    tokenSymbol: route.fromToken.symbol,
+    tokenDecimals: route.fromToken.decimals,
+    tokenLogoURI: route.fromToken.logoURI,
+  }
+}
+
 export function usePendingCheckoutWriter(): PendingCheckoutWriter {
   const { integrator, resumePending } = useCheckoutConfig()
-  const { accounts } = useAccount()
+  const flowStore = useContext(CheckoutFlowStoreContext)
   const write = usePendingCheckoutStore((s) => s.write)
+  const markFailed = usePendingCheckoutStore((s) => s.markFailed)
   const clearForKey = usePendingCheckoutStore((s) => s.clearForKey)
   const clearAll = usePendingCheckoutStore((s) => s.clearAll)
   const enabled = resumePending !== false
 
-  const walletAddress = accounts.find(
-    (a) => a.isConnected && a.address
-  )?.address
+  // The deposit id is frozen on the first write of a deposit and reused by every
+  // later write of the same deposit, so its record key stays stable (no collisions,
+  // no duplicate cards). Reset on a new flow via CheckoutFlowStore.reset().
+  const resolveDepositId = useCallback(
+    (preferred: string): string => {
+      const state = flowStore?.getState()
+      if (state?.frozenDepositId) {
+        return state.frozenDepositId
+      }
+      state?.setFrozenDepositId(preferred)
+      return preferred
+    },
+    [flowStore]
+  )
 
   const writeWallet = useCallback(
     ({
@@ -62,23 +90,22 @@ export function usePendingCheckoutWriter(): PendingCheckoutWriter {
       if (!enabled) {
         return
       }
-      if (!walletAddress) {
-        return
-      }
-      const key = buildResumeKey(integrator, walletAddress)
+      const depositId = resolveDepositId(depositAddress ?? transactionHash)
       write(
-        key,
+        buildResumeKey(integrator, depositId),
         buildPendingRecord({
+          depositId,
           fundingSource: 'wallet',
           transactionHash,
           fromChain,
           depositAddress,
           frozenQuote,
+          ...displayFields(frozenQuote),
           status: 'pending',
         })
       )
     },
-    [enabled, integrator, walletAddress, write]
+    [enabled, integrator, resolveDepositId, write]
   )
 
   const writeTransfer = useCallback(
@@ -91,21 +118,22 @@ export function usePendingCheckoutWriter(): PendingCheckoutWriter {
       if (!enabled) {
         return
       }
-      const identifier = walletAddress ?? depositAddress
-      const key = buildResumeKey(integrator, identifier)
+      const depositId = resolveDepositId(depositAddress)
       write(
-        key,
+        buildResumeKey(integrator, depositId),
         buildPendingRecord({
+          depositId,
           fundingSource: 'transfer',
           depositAddress,
           fromChain,
           frozenRouteId,
           frozenQuote,
+          ...displayFields(frozenQuote),
           status: 'pending',
         })
       )
     },
-    [enabled, integrator, walletAddress, write]
+    [enabled, integrator, resolveDepositId, write]
   )
 
   const writeCashSuccess = useCallback(
@@ -119,27 +147,29 @@ export function usePendingCheckoutWriter(): PendingCheckoutWriter {
       if (!enabled) {
         return
       }
-      const identifier = walletAddress ?? depositAddress
-      const key = buildResumeKey(integrator, identifier)
+      const depositId = resolveDepositId(depositAddress)
       write(
-        key,
+        buildResumeKey(integrator, depositId),
         buildPendingRecord({
+          depositId,
           fundingSource,
           depositAddress,
           fromChain,
           provider,
           frozenQuote,
+          ...displayFields(frozenQuote),
           status: 'confirmed-no-hash',
         })
       )
     },
-    [enabled, integrator, walletAddress, write]
+    [enabled, integrator, resolveDepositId, write]
   )
 
   return {
     writeWallet,
     writeTransfer,
     writeCashSuccess,
+    markFailed,
     clearForKey,
     clearAll,
   }

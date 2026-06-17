@@ -7,8 +7,6 @@ import {
   PENDING_RECORD_VERSION,
   PENDING_STORAGE_KEY,
   PENDING_TTL_MS,
-  readPendingRecord,
-  resolveResumeKeySync,
   usePendingCheckoutStore,
 } from './usePendingCheckoutStore.js'
 
@@ -142,135 +140,82 @@ describe('usePendingCheckoutStore', () => {
   })
 })
 
-describe('readPendingRecord (sync)', () => {
+describe('markFailed', () => {
   beforeEach(resetStore)
   afterEach(resetStore)
 
-  it('returns null when nothing is in localStorage', () => {
-    expect(readPendingRecord('int:0xA')).toBeNull()
-  })
-
-  it('returns a live record for the key', () => {
-    const record = buildPendingRecord({
-      fundingSource: 'wallet',
-      transactionHash: '0xhash',
-      fromChain: 137,
-      status: 'pending',
-      createdAt: Date.now(),
-    })
-    seedStorage({ 'int:0xA': record })
-    expect(readPendingRecord('int:0xA')).toMatchObject({
-      transactionHash: '0xhash',
-      fromChain: 137,
-    })
-  })
-
-  it('returns null for expired records', () => {
-    seedStorage({
-      'int:0xA': {
-        ...buildPendingRecord({
-          fundingSource: 'wallet',
+  it('flips a record to failed', () => {
+    const key = buildResumeKey('int', 'dep1')
+    act(() => {
+      usePendingCheckoutStore.getState().write(
+        key,
+        buildPendingRecord({
+          fundingSource: 'transfer',
+          depositAddress: '0xdep',
           status: 'pending',
-        }),
-        expiresAt: Date.now() - 1,
-      },
+        })
+      )
     })
-    expect(readPendingRecord('int:0xA')).toBeNull()
+    act(() => {
+      usePendingCheckoutStore.getState().markFailed(key)
+    })
+    expect(usePendingCheckoutStore.getState().records[key].status).toBe(
+      'failed'
+    )
   })
 
-  it('returns null for version mismatch', () => {
-    seedStorage({
-      'int:0xA': {
-        ...buildPendingRecord({ fundingSource: 'wallet', status: 'pending' }),
-        version: PENDING_RECORD_VERSION + 1,
-      },
+  it('no-ops for an unknown key', () => {
+    act(() => {
+      usePendingCheckoutStore.getState().markFailed('int:nope')
     })
-    expect(readPendingRecord('int:0xA')).toBeNull()
+    expect(
+      usePendingCheckoutStore.getState().records['int:nope']
+    ).toBeUndefined()
   })
 
-  it('round-trips a transfer record with frozenQuote', () => {
-    const now = Date.now()
-    const record = buildPendingRecord({
-      fundingSource: 'transfer',
-      depositAddress: '0xdep',
-      fromChain: 137,
-      frozenRouteId: 'r1',
-      frozenQuote: {
-        id: 'r1',
-        route: { id: 'r1', fromChainId: 137 } as any,
-        expiresAt: now + 60_000,
-      },
-      status: 'pending',
-      createdAt: now,
+  it('is idempotent once failed (same record reference)', () => {
+    const key = buildResumeKey('int', 'dep2')
+    act(() => {
+      usePendingCheckoutStore.getState().write(
+        key,
+        buildPendingRecord({
+          fundingSource: 'transfer',
+          depositAddress: '0xdep',
+          status: 'pending',
+        })
+      )
+      usePendingCheckoutStore.getState().markFailed(key)
     })
-    seedStorage({ 'int:0xdep': record })
-    expect(readPendingRecord('int:0xdep')).toMatchObject({
-      fundingSource: 'transfer',
-      frozenQuote: {
-        id: 'r1',
-        expiresAt: now + 60_000,
-      },
+    const first = usePendingCheckoutStore.getState().records[key]
+    act(() => {
+      usePendingCheckoutStore.getState().markFailed(key)
     })
-  })
-
-  it('returns null on malformed JSON', () => {
-    localStorage.setItem(PENDING_STORAGE_KEY, '{not json')
-    expect(readPendingRecord('int:0xA')).toBeNull()
+    expect(usePendingCheckoutStore.getState().records[key]).toBe(first)
   })
 })
 
-describe('resolveResumeKeySync', () => {
+describe('version migration', () => {
   beforeEach(resetStore)
   afterEach(resetStore)
 
-  it('returns wallet-keyed identifier when walletAddress is provided', () => {
-    expect(resolveResumeKeySync('int', '0xABC')).toBe('int:0xABC')
-  })
-
-  it('returns the most recent live depositAddress-keyed record when no wallet', () => {
-    const now = Date.now()
-    seedStorage({
-      'int:0xdep1': buildPendingRecord({
-        fundingSource: 'transfer',
-        depositAddress: '0xdep1',
-        status: 'pending',
-        createdAt: now - 60_000,
-      }),
-      'int:0xdep2': buildPendingRecord({
-        fundingSource: 'transfer',
-        depositAddress: '0xdep2',
-        status: 'pending',
-        createdAt: now,
-      }),
-      'other:0xdep3': buildPendingRecord({
-        fundingSource: 'transfer',
-        depositAddress: '0xdep3',
-        status: 'pending',
-        createdAt: now + 60_000,
-      }),
+  it('drops stale v2 records when a new write sweeps', () => {
+    const v2 = {
+      ...buildPendingRecord({ fundingSource: 'wallet', status: 'pending' }),
+      version: 2,
+    }
+    act(() => {
+      usePendingCheckoutStore.setState({ records: { 'int:old': v2 } })
     })
-    expect(resolveResumeKeySync('int')).toBe('int:0xdep2')
-  })
-
-  it('returns null when no record matches the integrator', () => {
-    seedStorage({
-      'other:0xdep1': buildPendingRecord({
-        fundingSource: 'transfer',
-        depositAddress: '0xdep1',
-        status: 'pending',
-      }),
+    act(() => {
+      usePendingCheckoutStore
+        .getState()
+        .write(
+          'int:new',
+          buildPendingRecord({ fundingSource: 'wallet', status: 'pending' })
+        )
     })
-    expect(resolveResumeKeySync('int')).toBeNull()
-  })
-
-  it('skips wallet-only records (no depositAddress) when no wallet provided', () => {
-    seedStorage({
-      'int:0xwallet': buildPendingRecord({
-        fundingSource: 'wallet',
-        transactionHash: '0xhash',
-        status: 'pending',
-      }),
-    })
-    expect(resolveResumeKeySync('int')).toBeNull()
+    const records = usePendingCheckoutStore.getState().records
+    expect(records['int:old']).toBeUndefined()
+    expect(records['int:new']).toBeDefined()
   })
 })

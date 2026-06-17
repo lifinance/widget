@@ -25,7 +25,7 @@ import {
 } from '../utils/navigationRoutes.js'
 
 const ctaLabelKey = {
-  wallet: 'button.deposit',
+  wallet: 'button.pay',
   transfer: 'button.transferCrypto',
   exchange: 'button.connectExchange',
   cash: 'button.depositWithCash',

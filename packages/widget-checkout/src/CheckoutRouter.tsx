@@ -1,6 +1,4 @@
-import { useAccount } from '@lifi/wallet-management'
 import { navigationRoutes, SelectChainPage } from '@lifi/widget/shared'
-import { useCheckoutConfig } from '@lifi/widget-provider/checkout'
 import {
   createMemoryHistory,
   createRootRoute,
@@ -8,9 +6,8 @@ import {
   createRouter,
   RouterProvider,
 } from '@tanstack/react-router'
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { CheckoutLayout } from './CheckoutLayout.js'
-import { useSeedFrozenQuote } from './hooks/useFrozenQuote.js'
 import { CheckoutRoutesPage } from './pages/CheckoutRoutesPage.js'
 import { CheckoutTransactionDetailsPage } from './pages/CheckoutTransactionDetailsPage/CheckoutTransactionDetailsPage.js'
 import { CheckoutTransactionPage } from './pages/CheckoutTransactionPage.js'
@@ -23,12 +20,6 @@ import { SelectSourcePage } from './pages/SelectSourcePage/SelectSourcePage.js'
 import { SelectTokenPage } from './pages/SelectTokenPage/SelectTokenPage.js'
 import { SetDestinationAddressPage } from './pages/SetDestinationAddressPage/SetDestinationAddressPage.js'
 import { TransferDepositPage } from './pages/TransferDepositPage/TransferDepositPage.js'
-import { CheckoutFlowStoreContext } from './stores/useCheckoutFlowStore.js'
-import {
-  readPendingRecord,
-  resolveResumeKeySync,
-} from './stores/usePendingCheckoutStore.js'
-import { buildResumeUrl } from './utils/buildResumeUrl.js'
 import { checkoutNavigationRoutes } from './utils/navigationRoutes.js'
 
 const rootRoute = createRootRoute({
@@ -179,45 +170,16 @@ const routeTree = rootRoute.addChildren([
 ])
 
 export const CheckoutRouter: React.FC = () => {
-  const { integrator, resumePending } = useCheckoutConfig()
-  const { accounts } = useAccount()
-  const walletAddress = accounts.find(
-    (a) => a.isConnected && a.address
-  )?.address
-  const flowStore = useContext(CheckoutFlowStoreContext)
-  const seedFrozenQuote = useSeedFrozenQuote()
-  const resumeEnabled = resumePending !== false
-
-  const [router] = useState(() => {
-    const record = resumeEnabled
-      ? (() => {
-          const key = resolveResumeKeySync(integrator, walletAddress)
-          return key ? readPendingRecord(key) : null
-        })()
-      : null
-    if (record && flowStore) {
-      flowStore.setState({
-        fundingSource: record.fundingSource,
-        frozenRouteId: record.frozenRouteId ?? null,
-      })
-    }
-    const frozenQuoteFresh =
-      !!record?.frozenQuote && record.frozenQuote.expiresAt > Date.now()
-    if (frozenQuoteFresh && record?.frozenQuote) {
-      seedFrozenQuote({
-        id: record.frozenQuote.id,
-        route: record.frozenQuote.route,
-        expiresAt: record.frozenQuote.expiresAt,
-      })
-    }
-    const initialEntry = record
-      ? buildResumeUrl(record, { frozenQuoteFresh })
-      : checkoutNavigationRoutes.home
-    return createRouter({
+  // No deep-resume on mount — pending deposits surface as a tappable activity
+  // list on the funding screen.
+  const [router] = useState(() =>
+    createRouter({
       routeTree,
-      history: createMemoryHistory({ initialEntries: [initialEntry] }),
+      history: createMemoryHistory({
+        initialEntries: [checkoutNavigationRoutes.home],
+      }),
       defaultPreload: 'intent',
     })
-  })
+  )
   return <RouterProvider router={router} />
 }
