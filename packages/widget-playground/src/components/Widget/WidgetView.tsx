@@ -2,13 +2,17 @@ import type { FieldNames, FormState, WidgetDrawer } from '@lifi/widget'
 import { LiFiWidget, WidgetSkeleton } from '@lifi/widget'
 import type { JSX } from 'react'
 import { useCallback, useEffect, useRef } from 'react'
+import { CheckoutWalletProvider } from '../../providers/ExternalWalletProvider/CheckoutWalletProvider.js'
 import { useFormValues } from '../../store/editTools/useFormValues.js'
 import { useSkeletonToolValues } from '../../store/editTools/useSkeletonToolValues.js'
 import { useConfig } from '../../store/widgetConfig/useConfig.js'
+import { usePlaygroundWidgetMode } from '../../store/widgetConfig/useConfigValues.js'
+import { CheckoutWidgetView } from './CheckoutWidgetView.js'
 import { WidgetViewContainer } from './WidgetViewContainer.js'
 
 export function WidgetView(): JSX.Element {
   const { config } = useConfig()
+  const { playgroundWidgetMode } = usePlaygroundWidgetMode()
   const drawerRef = useRef<WidgetDrawer>(null)
   const formRef = useRef<FormState>(null)
   const { isSkeletonShown } = useSkeletonToolValues()
@@ -29,6 +33,16 @@ export function WidgetView(): JSX.Element {
       })
     }
   }, [formValues])
+
+  if (playgroundWidgetMode === 'checkout') {
+    return (
+      <WidgetViewContainer>
+        <CheckoutWalletProvider>
+          <CheckoutWidgetView />
+        </CheckoutWalletProvider>
+      </WidgetViewContainer>
+    )
+  }
 
   return (
     <WidgetViewContainer toggleDrawer={toggleDrawer}>

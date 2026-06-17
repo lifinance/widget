@@ -4,6 +4,7 @@ import { useConfigActions } from '../store/widgetConfig/useConfigActions.js'
 import {
   useConfigMode,
   useConfigModeOptions,
+  usePlaygroundWidgetMode,
 } from '../store/widgetConfig/useConfigValues.js'
 import { useDefaultConfig } from '../store/widgetConfig/useDefaultConfig.js'
 import { docsLinks } from '../utils/docsLinks.js'
@@ -26,26 +27,37 @@ export const ModeDetailView = ({
 }: ModeDetailViewProps): JSX.Element => {
   const { mode } = useConfigMode()
   const { modeOptions } = useConfigModeOptions()
-  const { setMode, setSplitOption } = useConfigActions()
+  const { playgroundWidgetMode } = usePlaygroundWidgetMode()
+  const { setMode, setSplitOption, setPlaygroundWidgetMode } =
+    useConfigActions()
   const { defaultConfig } = useDefaultConfig()
 
   const splitOption = getSplitOption(modeOptions)
-  const activeMode = getActiveMode(mode, splitOption)
+  const activeMode =
+    playgroundWidgetMode === 'checkout'
+      ? 'checkout'
+      : getActiveMode(mode, splitOption)
 
   const handleReset = useCallback((): void => {
+    setPlaygroundWidgetMode('swap')
     setMode(defaultConfig?.mode ?? 'default')
     const defaultSplit = defaultConfig?.modeOptions?.split
     setSplitOption(typeof defaultSplit === 'string' ? defaultSplit : undefined)
-  }, [defaultConfig, setMode, setSplitOption])
+  }, [defaultConfig, setMode, setSplitOption, setPlaygroundWidgetMode])
 
   const handleSelect = useCallback(
     (selectedMode: ModeOption): void => {
+      if (selectedMode === 'checkout') {
+        setPlaygroundWidgetMode('checkout')
+        return
+      }
+      setPlaygroundWidgetMode('swap')
       const { mode: nextMode, splitOption: nextSplitOption } =
         getModeConfig(selectedMode)
-      setMode(nextMode)
+      setMode(nextMode ?? 'default')
       setSplitOption(nextSplitOption)
     },
-    [setMode, setSplitOption]
+    [setMode, setSplitOption, setPlaygroundWidgetMode]
   )
 
   return (
