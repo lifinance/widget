@@ -19,10 +19,12 @@ import { ReviewButton } from './ReviewButton.js'
 export const MainPage: React.FC = () => {
   const { t } = useTranslation()
   const wideVariant = useWideVariant()
-  const { variant, mode, modeOptions, contractComponent, hiddenUI } =
+  const { mode, modeOptions, contractComponent, hiddenUI, _navigationTabs } =
     useWidgetConfig()
   const custom = mode === 'custom'
-  const isJumper = variant === 'jumper'
+  // Navigation tabs drive the jumper experience, which uses the redesigned
+  // amount input cards instead of the classic chain/token + amount inputs.
+  const isJumper = !!_navigationTabs?.length
   const showPoweredBy = !hiddenUI?.poweredBy
   const showGasRefuelMessage = !hiddenUI?.gasRefuelMessage
 

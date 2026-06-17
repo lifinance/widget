@@ -56,7 +56,7 @@ export const CardBodyRow: React.FC<React.ComponentProps<typeof Box>> = styled(
 )(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  gap: theme.spacing(1),
+  gap: theme.spacing(2),
 }))
 
 export const CardFooterRow: React.FC<React.ComponentProps<typeof Box>> = styled(
@@ -69,7 +69,7 @@ export const CardFooterRow: React.FC<React.ComponentProps<typeof Box>> = styled(
 }))
 
 export const LargeInput: React.FC<React.ComponentProps<typeof InputBase>> =
-  styled(InputBase)(() => ({
+  styled(InputBase)(({ theme }) => ({
     fontSize: maxInputFontSize,
     fontWeight: 700,
     lineHeight: 1.4,
@@ -80,6 +80,10 @@ export const LargeInput: React.FC<React.ComponentProps<typeof InputBase>> =
     [`.${inputBaseClasses.input}`]: {
       height: amountHeight,
       padding: 0,
+    },
+    [`.${inputBaseClasses.input}::placeholder`]: {
+      color: theme.vars.palette.text.primary,
+      opacity: 0.5,
     },
     '& input[type="number"]::-webkit-outer-spin-button, & input[type="number"]::-webkit-inner-spin-button':
       {
@@ -135,7 +139,7 @@ export const ToggleButton: React.FC<
   display: 'flex',
   alignItems: 'center',
   gap: theme.spacing(0.25),
-  borderRadius: `calc(${theme.vars.shape.borderRadius} * 2)`,
+  borderRadius: theme.vars.shape.borderRadiusSecondary,
   padding: theme.spacing(0.25, 0.5),
   backgroundColor: 'transparent',
   ...(clickable

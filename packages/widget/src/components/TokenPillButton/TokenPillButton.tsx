@@ -15,6 +15,7 @@ import {
   TokenPill,
   TokenPillLabel,
   TokenPillSymbol,
+  TokenSelectPill,
 } from './TokenPillButton.style.js'
 
 export const TokenPillButton: React.FC<FormTypeProps> = ({
@@ -51,7 +52,6 @@ export const TokenPillButton: React.FC<FormTypeProps> = ({
   if (isSelected) {
     return (
       <TokenPill
-        selected
         onClick={isDisabled ? undefined : handleClick}
         disabled={isDisabled}
       >
@@ -67,9 +67,12 @@ export const TokenPillButton: React.FC<FormTypeProps> = ({
   }
 
   return (
-    <TokenPill onClick={isDisabled ? undefined : handleClick}>
+    <TokenSelectPill
+      variant="contained"
+      onClick={isDisabled ? undefined : handleClick}
+    >
       <AvatarBadgedDefault avatarSize={24} badgeSize={12} />
       <TokenPillLabel>{t('main.select')}</TokenPillLabel>
-    </TokenPill>
+    </TokenSelectPill>
   )
 }

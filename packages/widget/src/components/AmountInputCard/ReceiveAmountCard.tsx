@@ -1,10 +1,12 @@
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import SwapVertIcon from '@mui/icons-material/SwapVert'
 import type { CardProps } from '@mui/material'
-import { Skeleton } from '@mui/material'
+import { Box, Skeleton, Tooltip } from '@mui/material'
 import { type JSX, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useRoutes } from '../../hooks/useRoutes.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
+import { getPriceImpact } from '../../utils/getPriceImpact.js'
 import { fitInputText } from '../../utils/input.js'
 import { CardTitle } from '../Card/CardTitle.js'
 import { TokenPillButton } from '../TokenPillButton/TokenPillButton.js'
@@ -16,6 +18,7 @@ import {
   CardFooterRow,
   CardHeaderRow,
   FooterText,
+  footerFontSize,
   maxInputFontSize,
   minInputFontSize,
   ToggleButton,
@@ -43,9 +46,18 @@ export const ReceiveAmountCard: React.FC<CardProps & { mask?: boolean }> = (
 
   const canToggle = !!receiveAmount && !!route?.toToken.priceUSD
 
+  const priceImpact = route
+    ? getPriceImpact({
+        fromAmount: BigInt(route.fromAmount),
+        toAmount: BigInt(route.toAmount),
+        fromToken: route.fromToken,
+        toToken: route.toToken,
+      })
+    : undefined
+
   const mainDisplay = showFiat
     ? t('format.currency', { value: fiatValue })
-    : receiveAmount || '0'
+    : t('format.tokenAmount', { value: receiveAmount || '0' })
 
   const footerDisplay = showFiat
     ? t('format.tokenAmount', { value: receiveAmount || '0' })
@@ -65,17 +77,13 @@ export const ReceiveAmountCard: React.FC<CardProps & { mask?: boolean }> = (
       </CardHeaderRow>
       <CardBodyRow>
         {isFetching ? (
-          <Skeleton
-            variant="rounded"
-            width={120}
-            height={amountHeight}
-            sx={{ flex: 1 }}
-          />
+          <Skeleton variant="rounded" height={amountHeight} sx={{ flex: 1 }} />
         ) : (
           <AmountDisplay
             ref={amountRef}
             sx={{
-              color: receiveAmount ? 'text.primary' : 'text.secondary',
+              color: 'text.primary',
+              opacity: receiveAmount ? 1 : 0.5,
             }}
           >
             {mainDisplay}
@@ -84,15 +92,51 @@ export const ReceiveAmountCard: React.FC<CardProps & { mask?: boolean }> = (
         <TokenPillButton formType={formType} />
       </CardBodyRow>
       <CardFooterRow>
-        <ToggleButton
-          clickable={canToggle}
-          onClick={canToggle ? () => setShowFiat((v) => !v) : undefined}
-        >
-          <FooterText>{footerDisplay}</FooterText>
-          {canToggle ? (
-            <SwapVertIcon sx={{ fontSize: 14, color: 'text.secondary' }} />
-          ) : null}
-        </ToggleButton>
+        {isFetching ? (
+          <>
+            <Skeleton
+              variant="text"
+              width={72}
+              sx={{ fontSize: footerFontSize }}
+            />
+            <Skeleton
+              variant="text"
+              width={56}
+              sx={{ fontSize: footerFontSize }}
+            />
+          </>
+        ) : (
+          <>
+            <ToggleButton
+              clickable={canToggle}
+              onClick={canToggle ? () => setShowFiat((v) => !v) : undefined}
+            >
+              <FooterText>{footerDisplay}</FooterText>
+              {canToggle ? (
+                <SwapVertIcon sx={{ fontSize: 14, color: 'text.secondary' }} />
+              ) : null}
+            </ToggleButton>
+            {priceImpact !== undefined ? (
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <FooterText>
+                  {t('format.percent', {
+                    value: priceImpact,
+                    usePlusSign: true,
+                  })}
+                </FooterText>
+                <Tooltip title={t('tooltip.priceImpact')}>
+                  <InfoOutlinedIcon
+                    sx={{
+                      fontSize: 16,
+                      color: 'text.secondary',
+                      cursor: 'help',
+                    }}
+                  />
+                </Tooltip>
+              </Box>
+            ) : null}
+          </>
+        )}
       </CardFooterRow>
     </AmountCard>
   )

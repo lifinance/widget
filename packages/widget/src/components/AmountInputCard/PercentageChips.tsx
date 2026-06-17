@@ -1,4 +1,5 @@
 import { formatUnits } from '@lifi/sdk'
+import { useAccount } from '@lifi/wallet-management'
 import { type JSX, memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
@@ -21,6 +22,9 @@ export const PercentageChips: React.NamedExoticComponent<FormTypeProps> = memo(
       FormKeyHelper.getTokenKey(formType)
     )
 
+    const chain = getChainById(chainId)
+    const { account } = useAccount({ chainType: chain?.chainType })
+
     const { data } = useGasRecommendation(chainId)
     const { token } = useTokenAddressBalance(chainId, tokenAddress)
 
@@ -28,7 +32,6 @@ export const PercentageChips: React.NamedExoticComponent<FormTypeProps> = memo(
       if (!token?.amount) {
         return 0n
       }
-      const chain = getChainById(chainId)
       let maxAmount = token.amount
       if (chain?.nativeToken.address === tokenAddress && data?.recommended) {
         const recommendedAmount = BigInt(data.recommended.amount)
@@ -62,7 +65,7 @@ export const PercentageChips: React.NamedExoticComponent<FormTypeProps> = memo(
       }
     }
 
-    if (formType !== 'from' || !token) {
+    if (formType !== 'from' || !token || !account?.isConnected) {
       return null
     }
 

@@ -1,55 +1,36 @@
-import { ButtonBase, styled, Typography } from '@mui/material'
+import { Button, styled, type Theme, Typography } from '@mui/material'
 import type React from 'react'
 
-export const TokenPill: React.FC<
-  React.ComponentProps<typeof ButtonBase> & { selected?: boolean }
-> = styled(ButtonBase, {
-  shouldForwardProp: (prop) => prop !== 'selected',
-})<{ selected?: boolean }>(({ theme, selected }) => ({
+const pillLayout = (theme: Theme) => ({
   height: 36,
-  borderRadius: theme.shape.borderRadiusTertiary,
-  padding: theme.spacing(0.5, 1.5, 0.5, 0.5),
+  borderRadius: theme.shape.borderRadiusSecondary,
+  padding: theme.spacing(0.5, 1),
   display: 'flex',
   alignItems: 'center',
   gap: theme.spacing(1),
   whiteSpace: 'nowrap',
   flexShrink: 0,
-  transition: theme.transitions.create(
-    ['background-color', 'border-color', 'box-shadow'],
-    {
-      duration: theme.transitions.duration.short,
-    }
-  ),
-  ...(selected
-    ? {
-        backgroundColor: theme.vars.palette.background.paper,
-        border: '1px solid',
-        borderColor: theme.vars.palette.grey[300],
-        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.04)',
-        '&:hover': {
-          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.background.paper} 96%, ${theme.vars.palette.common.onBackground})`,
-        },
-        ...theme.applyStyles('dark', {
-          borderColor: theme.vars.palette.grey[800],
-          '&:hover': {
-            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.background.paper} 96%, ${theme.vars.palette.common.onBackground})`,
-          },
-        }),
-      }
-    : {
-        backgroundColor: theme.vars.palette.primary.main,
-        border: '1px solid transparent',
-        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.04)',
-        '&:hover': {
-          backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} 90%, black)`,
-        },
-        ...theme.applyStyles('dark', {
-          '&:hover': {
-            backgroundColor: `color-mix(in srgb, ${theme.vars.palette.primary.main} 90%, white)`,
-          },
-        }),
-      }),
+})
+
+export const TokenPill: React.FC<React.ComponentProps<typeof Button>> = styled(
+  Button
+)(({ theme }) => ({
+  ...pillLayout(theme),
+  backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
+  border: '1px solid transparent',
+  transition: theme.transitions.create(['background-color'], {
+    duration: theme.transitions.duration.short,
+  }),
+  '&:hover': {
+    backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 8%, transparent)`,
+  },
 }))
+
+export const TokenSelectPill: React.FC<React.ComponentProps<typeof Button>> =
+  styled(Button)(({ theme }) => ({
+    ...pillLayout(theme),
+    minWidth: 0,
+  }))
 
 export const TokenPillSymbol: React.FC<
   React.ComponentProps<typeof Typography>
