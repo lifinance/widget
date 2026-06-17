@@ -18,7 +18,7 @@ import { useAccount } from '../hooks/useAccount.js'
 import type { CombinedWallet } from '../hooks/useCombinedWallets.js'
 import { useCombinedWallets } from '../hooks/useCombinedWallets.js'
 import type { WalletMenuOpenArgs } from '../providers/WalletMenuProvider/types.js'
-import type { WalletTagType } from '../types/walletTagType.js'
+import { WalletTagType } from '../types/walletTagType.js'
 import { ElementId } from '../utils/elements.js'
 import { getConnectorId } from '../utils/getConnectorId.js'
 import { getSortedByTags } from '../utils/getSortedByTags.js'
@@ -146,12 +146,10 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
       getSortedByTags(
         filteredWallets
           .filter((wallet) => wallet.connectors?.length)
-          .map((wallet) => {
-            return {
-              ...wallet,
-              tagType: getWalletTagType(wallet, connectedConnectorIds),
-            }
-          })
+          .map((wallet) => ({
+            ...wallet,
+            tagType: getWalletTagType(wallet, connectedConnectorIds),
+          }))
       ),
     [filteredWallets, connectedConnectorIds]
   )
@@ -283,7 +281,10 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
               {filteredWalletsWithTagTypes.length ? (
                 filteredWalletsWithTagTypes.map(
                   ({ id, name, icon, connectors, tagType }) => {
-                    if (connectors.length === 1) {
+                    if (
+                      tagType !== WalletTagType.Multichain &&
+                      connectors.length === 1
+                    ) {
                       const { chainType, connector } = connectors[0]
                       return getWalletButton(
                         getConnectorId(connector, chainType),

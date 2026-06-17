@@ -18,8 +18,21 @@ export default defineConfig({
   testDir: './tests/dev',
   fullyParallel: true,
   forbidOnly: isCI,
-  retries: isCI ? 2 : 0,
-  reporter: [['list']],
+  // A smoke suite should not be flaky: a single CI retry is enough to ride out a transient
+  // hiccup without masking a real, reproducible break.
+  retries: isCI ? 1 : 0,
+  // CI also emits a JSON report (for the failure summary comment) and an HTML report
+  // (uploaded as an artifact on failure) into a dev-smoke-specific folder.
+  reporter: isCI
+    ? [
+        ['list'],
+        ['json', { outputFile: 'dev-smoke-report.json' }],
+        [
+          'html',
+          { outputFolder: 'playwright-report-dev-smoke', open: 'never' },
+        ],
+      ]
+    : [['list'], ['html', { open: 'never' }]],
   use: {
     actionTimeout: 10_000,
     baseURL: 'http://localhost:3000',
