@@ -3,12 +3,16 @@ import type {
   ModeOptions,
   NavigationTabKey,
   WidgetMode,
+  WidgetVariant,
 } from '../../types/widget.js'
 
 export interface NavigationTab {
   /** Stable, language-independent identity; resolved to a label via a hook. */
   key: NavigationTabKey
-  mode: WidgetMode
+  /** When omitted, the tab inherits `config.variant`. */
+  variant?: WidgetVariant
+  /** When omitted, the tab inherits `config.mode`. */
+  mode?: WidgetMode
   modeOptions?: ModeOptions
 }
 

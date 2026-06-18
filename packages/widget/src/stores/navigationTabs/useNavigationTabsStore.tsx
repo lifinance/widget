@@ -3,10 +3,15 @@ import {
   type JSX,
   type PropsWithChildren,
   useContext,
+  useMemo,
   useRef,
 } from 'react'
 import { create } from 'zustand'
 import { useShallow } from 'zustand/shallow'
+import {
+  useWidgetConfig,
+  WidgetContext,
+} from '../../providers/WidgetProvider/WidgetProvider.js'
 import type {
   NavigationTabKey,
   SplitMode,
@@ -16,7 +21,10 @@ import type { NavigationTabsState, NavigationTabsStore } from './types.js'
 import {
   getInitialActiveTab,
   getNavigationTabKeys,
+  getTabMode,
+  getTabModeOptions,
   getTabSplitMode,
+  getTabVariant,
 } from './utils.js'
 
 const NavigationTabsStoreContext = createContext<NavigationTabsStore | null>(
@@ -34,13 +42,35 @@ export function NavigationTabsStoreProvider({
   const signature = `${tabs.join(',')}|${initialActiveTab ?? ''}`
   const storeRef = useRef<NavigationTabsStore>(null)
   const signatureRef = useRef(signature)
-  if (!storeRef.current || signatureRef.current !== signature) {
-    storeRef.current = createNavigationTabsStore(tabs, initialActiveTab)
+  let store = storeRef.current
+  if (!store || signatureRef.current !== signature) {
+    store = createNavigationTabsStore(tabs, initialActiveTab)
+    storeRef.current = store
     signatureRef.current = signature
   }
+
+  // Override the widget config with the active tab's mode, variant and
+  // modeOptions (each falling back to the config), so the rest of the widget
+  // reads tab-driven config transparently. No-op when there is no active tab.
+  const widgetConfig = useWidgetConfig()
+  const activeTab = store((state) => state.activeTab)
+  const tabConfig = useMemo(() => {
+    if (!activeTab) {
+      return widgetConfig
+    }
+    return {
+      ...widgetConfig,
+      mode: getTabMode(widgetConfig, activeTab),
+      variant: getTabVariant(widgetConfig, activeTab),
+      modeOptions: getTabModeOptions(widgetConfig, activeTab),
+    }
+  }, [widgetConfig, activeTab])
+
   return (
-    <NavigationTabsStoreContext.Provider value={storeRef.current}>
-      {children}
+    <NavigationTabsStoreContext.Provider value={store}>
+      <WidgetContext.Provider value={tabConfig}>
+        {children}
+      </WidgetContext.Provider>
     </NavigationTabsStoreContext.Provider>
   )
 }
