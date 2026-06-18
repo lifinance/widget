@@ -11,7 +11,6 @@ import { useMemo } from 'react'
 import { useWalletManagementConfig } from '../providers/WalletManagementProvider/WalletManagementContext.js'
 import { getConnectorIcon } from '../utils/getConnectorIcon.js'
 import { getWalletPriority } from '../utils/getWalletPriority.js'
-import { normalizeName } from '../utils/normalizeName.js'
 
 type CombinedWalletConnector = {
   connector: WalletConnector
@@ -24,6 +23,8 @@ export type CombinedWallet = {
   icon?: string
   connectors: CombinedWalletConnector[]
 }
+
+const normalizeName = (name: string) => name.split(' ')[0].toLowerCase().trim()
 
 const combineWalletLists = (
   ethereumConnectorList: WalletConnector[],
