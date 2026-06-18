@@ -50,7 +50,7 @@ export const widgetBaseConfig: WidgetConfig = {
     TronProvider({
       walletConnect: import.meta.env?.VITE_TVM_WALLET_CONNECT
         ? {
-            network: 'mainnet',
+            network: 'Mainnet',
             options: {
               projectId: import.meta.env.VITE_TVM_WALLET_CONNECT,
             },

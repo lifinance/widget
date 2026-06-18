@@ -10,6 +10,7 @@ import {
   type FC,
   type PropsWithChildren,
   useCallback,
+  useEffect,
   useMemo,
   useRef,
 } from 'react'
@@ -44,33 +45,6 @@ export const TronProviderValues: FC<
     [currentWallet]
   )
 
-  const account = useMemo(
-    () =>
-      address
-        ? {
-            address: address,
-            chainId: ChainId.TRN,
-            chainType: ChainType.TVM,
-            connector,
-            isConnected,
-            isConnecting: connecting,
-            isReconnecting: false,
-            isDisconnected: false,
-            status: 'connected' as const,
-          }
-        : {
-            chainType: ChainType.TVM,
-            isConnected: false,
-            isConnecting: connecting,
-            isReconnecting: false,
-            isDisconnected: true,
-            status: connecting
-              ? ('connecting' as const)
-              : ('disconnected' as const),
-          },
-    [address, connector, isConnected, connecting]
-  )
-
   const walletRef = useRef(currentWallet)
   walletRef.current = currentWallet
 
@@ -92,6 +66,43 @@ export const TronProviderValues: FC<
       }) as SDKProvider)
     )
   }, [config?.sdkProvider])
+
+  // The WC wrapper can surface a foreign-namespace address (e.g. eip155 `0x…`).
+  const tronAddress =
+    address && sdkProvider.isAddress(address) ? address : undefined
+
+  useEffect(() => {
+    if (isConnected && address && !tronAddress) {
+      disconnect()
+    }
+  }, [isConnected, address, tronAddress, disconnect])
+
+  const account = useMemo(
+    () =>
+      tronAddress
+        ? {
+            address: tronAddress,
+            chainId: ChainId.TRN,
+            chainType: ChainType.TVM,
+            connector,
+            isConnected,
+            isConnecting: connecting,
+            isReconnecting: false,
+            isDisconnected: false,
+            status: 'connected' as const,
+          }
+        : {
+            chainType: ChainType.TVM,
+            isConnected: false,
+            isConnecting: connecting,
+            isReconnecting: false,
+            isDisconnected: true,
+            status: connecting
+              ? ('connecting' as const)
+              : ('disconnected' as const),
+          },
+    [tronAddress, connector, isConnected, connecting]
+  )
 
   const installedWallets = useMemo(
     () =>
