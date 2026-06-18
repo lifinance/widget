@@ -2,6 +2,7 @@ import {
   useConfigContainer,
   useConfigMode,
   useConfigModeOptions,
+  useConfigNavigationTabs,
   useConfigVariant,
   useConfigWalletManagement,
 } from '../store/widgetConfig/useConfigValues.js'
@@ -9,7 +10,7 @@ import { useThemeValues } from '../store/widgetConfig/useThemeValues.js'
 import { getLayoutLabel, getLayoutMode } from '../utils/layout.js'
 import { getModeLabel, getWalletLabel } from '../utils/sidebar.js'
 import { formatThemeDisplayName } from '../utils/themeEdit.js'
-import { getVariantLabel } from '../utils/variant.js'
+import { getActiveVariant, getVariantLabel } from '../utils/variant.js'
 import { useThemeMode } from './useThemeMode.js'
 
 export const useSidebarNavLabels = (): {
@@ -23,6 +24,7 @@ export const useSidebarNavLabels = (): {
   const { mode } = useConfigMode()
   const { modeOptions } = useConfigModeOptions()
   const { variant } = useConfigVariant()
+  const { navigationTabs } = useConfigNavigationTabs()
   const { container } = useConfigContainer()
   const { isExternalWalletManagement, isPartialWalletManagement } =
     useConfigWalletManagement()
@@ -35,7 +37,7 @@ export const useSidebarNavLabels = (): {
       ? formatThemeDisplayName(selectedThemeItem, themeMode)
       : undefined,
     modeValue: getModeLabel(mode, modeOptions?.split as string | undefined),
-    variantValue: getVariantLabel(variant),
+    variantValue: getVariantLabel(getActiveVariant(variant, navigationTabs)),
     heightValue: getLayoutLabel(getLayoutMode(container), isDrawerVariant),
     walletValue: getWalletLabel(
       isExternalWalletManagement,

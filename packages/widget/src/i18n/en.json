@@ -80,10 +80,6 @@
     "settings": "Settings",
     "swap": "Swap",
     "swapAndBridge": "Swap & Bridge",
-    "tier": {
-      "advanced": "Advanced",
-      "simple": "Simple"
-    },
     "to": "Exchange to",
     "transactionDetails": "Transaction details",
     "activities": "Activities",

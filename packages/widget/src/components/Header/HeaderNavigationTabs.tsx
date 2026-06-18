@@ -1,26 +1,25 @@
 import type { JSX } from 'react'
-import { useJumperTabLabel } from '../../stores/jumperVariant/useJumperTabLabel.js'
-import { useJumperVariantStore } from '../../stores/jumperVariant/useJumperVariantStore.js'
-import { getJumperTabs } from '../../stores/jumperVariant/utils.js'
+import { useNavigationTabLabel } from '../../stores/navigationTabs/useNavigationTabLabel.js'
+import { useNavigationTabsStore } from '../../stores/navigationTabs/useNavigationTabsStore.js'
 import { HeaderTabs } from './HeaderTabs.js'
 
 export const HeaderNavigationTabs = (): JSX.Element | null => {
-  const [state, setState] = useJumperVariantStore((store) => [
-    store.state,
-    store.setState,
+  const [tabs, activeTab, setActiveTab] = useNavigationTabsStore((store) => [
+    store.tabs,
+    store.activeTab,
+    store.setActiveTab,
   ])
-  const getLabel = useJumperTabLabel()
+  const getLabel = useNavigationTabLabel()
 
-  if (!state) {
+  if (!tabs.length || !activeTab) {
     return null
   }
 
-  const tabs = getJumperTabs(state.tier)
   return (
     <HeaderTabs
-      tabs={tabs.map((tab) => ({ key: tab.key, label: getLabel(tab.key) }))}
-      value={state.tabKey}
-      onChange={(tabKey) => setState({ tabKey })}
+      tabs={tabs.map((key) => ({ key, label: getLabel(key) }))}
+      value={activeTab}
+      onChange={(key) => setActiveTab(key)}
     />
   )
 }

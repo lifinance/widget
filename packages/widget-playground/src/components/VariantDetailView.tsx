@@ -1,15 +1,18 @@
-import type { WidgetVariant } from '@lifi/widget'
 import type { JSX } from 'react'
 import { useCallback } from 'react'
 import { useConfigActions } from '../store/widgetConfig/useConfigActions.js'
 import {
   useConfigHiddenUI,
+  useConfigNavigationTabs,
   useConfigVariant,
 } from '../store/widgetConfig/useConfigValues.js'
 import { useDefaultConfig } from '../store/widgetConfig/useDefaultConfig.js'
 import { docsLinks } from '../utils/docsLinks.js'
+import { SIMPLE_NAVIGATION_TABS } from '../utils/tabs.js'
 import {
+  getActiveVariant,
   getContainerConfigForVariant,
+  type PlaygroundVariant,
   VARIANT_OPTIONS,
 } from '../utils/variant.js'
 import { CardSelect } from './CardSelect/CardSelect.js'
@@ -25,13 +28,16 @@ export const VariantDetailView = ({
   onBack,
 }: VariantDetailViewProps): JSX.Element => {
   const { variant } = useConfigVariant()
+  const { navigationTabs } = useConfigNavigationTabs()
   const { hiddenUI } = useConfigHiddenUI()
+  const activeVariant = getActiveVariant(variant, navigationTabs)
   const {
     setVariant,
     setHeader,
     setContainer,
     getCurrentConfigTheme,
     setChainSidebarDisabled,
+    setNavigationTabs,
   } = useConfigActions()
   const { defaultConfig } = useDefaultConfig()
 
@@ -40,26 +46,37 @@ export const VariantDetailView = ({
     setHeader(defaultConfig?.theme?.header)
     setContainer(defaultConfig?.theme?.container)
     setChainSidebarDisabled(false)
+    setNavigationTabs(defaultConfig?._navigationTabs)
   }, [
     defaultConfig,
     setVariant,
     setHeader,
     setContainer,
     setChainSidebarDisabled,
+    setNavigationTabs,
   ])
 
   const handleSelect = useCallback(
-    (value: WidgetVariant): void => {
-      setVariant(value)
+    (value: PlaygroundVariant): void => {
+      // `jumper` isn't a widget variant: run as `compact` with navigation tabs.
+      const widgetVariant = value === 'jumper' ? 'compact' : value
+      setVariant(widgetVariant)
       setHeader()
       setContainer(
         getContainerConfigForVariant(
-          value,
+          widgetVariant,
           getCurrentConfigTheme()?.container ?? {}
         )
       )
+      setNavigationTabs(value === 'jumper' ? SIMPLE_NAVIGATION_TABS : undefined)
     },
-    [getCurrentConfigTheme, setContainer, setHeader, setVariant]
+    [
+      getCurrentConfigTheme,
+      setContainer,
+      setHeader,
+      setVariant,
+      setNavigationTabs,
+    ]
   )
 
   const handleDisableChainSidebar = useCallback(
@@ -96,9 +113,11 @@ export const VariantDetailView = ({
           key={id}
           title={title}
           description={description}
-          selected={variant === id}
+          selected={activeVariant === id}
           onClick={() => handleSelect(id)}
-          footer={id === 'wide' && variant === 'wide' ? wideFooter : undefined}
+          footer={
+            id === 'wide' && activeVariant === 'wide' ? wideFooter : undefined
+          }
         />
       ))}
     </DetailViewLayout>

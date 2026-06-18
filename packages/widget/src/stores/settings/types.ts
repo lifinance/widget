@@ -1,8 +1,6 @@
 import type { Order } from '@lifi/sdk'
-import type { PropsWithChildren } from 'react'
-import type { StoreApi, UseBoundStore } from 'zustand'
 import type { LanguageResource } from '../../providers/I18nProvider/types.js'
-import type { SplitMode, WidgetConfig } from '../../types/widget.js'
+import type { WidgetConfig } from '../../types/widget.js'
 
 export type ValueSetter<S> = <K extends keyof S>(
   key: K,
@@ -47,21 +45,6 @@ export interface SettingsActions {
 }
 
 export type SettingsState = SettingsProps & SettingsActions
-
-export interface SplitModeState {
-  state?: SplitMode
-  setState(state: SplitMode): void
-}
-
-export type SplitModeStore = UseBoundStore<StoreApi<SplitModeState>>
-
-export interface SplitModeProps {
-  state?: SplitMode
-}
-
-export interface SplitModeProviderProps extends PropsWithChildren {
-  config: WidgetConfig
-}
 
 export interface SettingsStoreProviderProps {
   config: WidgetConfig

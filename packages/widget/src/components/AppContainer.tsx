@@ -37,7 +37,7 @@ export const RelativeContainer: React.FC<
   BoxProps & { variant?: WidgetVariant }
 > = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'variant',
-})<{ variant?: WidgetVariant }>(({ theme, variant }) => {
+})<{ variant?: WidgetVariant }>(({ theme }) => {
   const maxHeight =
     theme.container?.height === 'fit-content' ||
     (!theme.container?.height && !theme.container?.maxHeight)
@@ -47,7 +47,7 @@ export const RelativeContainer: React.FC<
     position: 'relative',
     boxSizing: 'content-box',
     width: '100%',
-    minWidth: variant === 'jumper' ? 440 : theme.breakpoints.values.xs,
+    minWidth: theme.breakpoints.values.xs,
     maxWidth: theme.breakpoints.values.sm,
     background: theme.vars.palette.background.default,
     overflow: 'auto',

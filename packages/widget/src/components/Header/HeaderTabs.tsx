@@ -14,7 +14,8 @@ interface HeaderTabsProps<K extends string> {
 }
 
 /**
- * Presentational header tabs bar shared by split mode and the jumper variant.
+ * Presentational header tabs bar shared by split mode and configured
+ * navigation tabs.
  * Clears the form fields on switch; the caller supplies the labelled tabs, the
  * active key, and what selecting a key means for its store.
  */

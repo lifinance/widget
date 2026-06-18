@@ -4,10 +4,9 @@ import { BookmarkStoreProvider } from './bookmarks/BookmarkStore.js'
 import { ChainOrderStoreProvider } from './chains/ChainOrderStore.js'
 import { FormStoreProvider } from './form/FormStore.js'
 import { HeaderStoreProvider } from './header/useHeaderStore.js'
-import { JumperVariantStoreProvider } from './jumperVariant/useJumperVariantStore.js'
+import { NavigationTabsStoreProvider } from './navigationTabs/useNavigationTabsStore.js'
 import { PinnedTokensStoreProvider } from './pinnedTokens/PinnedTokensStore.js'
 import { RouteExecutionStoreProvider } from './routes/RouteExecutionStore.js'
-import { SplitModeStoreProvider } from './settings/useSplitModeStore.js'
 
 export const StoreProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
   children,
@@ -15,22 +14,20 @@ export const StoreProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
   formRef,
 }) => {
   return (
-    <JumperVariantStoreProvider config={config}>
-      <SplitModeStoreProvider config={config}>
-        <HeaderStoreProvider namePrefix={config?.keyPrefix}>
-          <BookmarkStoreProvider namePrefix={config?.keyPrefix}>
-            <PinnedTokensStoreProvider namePrefix={config?.keyPrefix}>
-              <FormStoreProvider formRef={formRef}>
-                <ChainOrderStoreProvider namePrefix={config?.keyPrefix}>
-                  <RouteExecutionStoreProvider namePrefix={config?.keyPrefix}>
-                    {children}
-                  </RouteExecutionStoreProvider>
-                </ChainOrderStoreProvider>
-              </FormStoreProvider>
-            </PinnedTokensStoreProvider>
-          </BookmarkStoreProvider>
-        </HeaderStoreProvider>
-      </SplitModeStoreProvider>
-    </JumperVariantStoreProvider>
+    <NavigationTabsStoreProvider config={config}>
+      <HeaderStoreProvider namePrefix={config?.keyPrefix}>
+        <BookmarkStoreProvider namePrefix={config?.keyPrefix}>
+          <PinnedTokensStoreProvider namePrefix={config?.keyPrefix}>
+            <FormStoreProvider formRef={formRef}>
+              <ChainOrderStoreProvider namePrefix={config?.keyPrefix}>
+                <RouteExecutionStoreProvider namePrefix={config?.keyPrefix}>
+                  {children}
+                </RouteExecutionStoreProvider>
+              </ChainOrderStoreProvider>
+            </FormStoreProvider>
+          </PinnedTokensStoreProvider>
+        </BookmarkStoreProvider>
+      </HeaderStoreProvider>
+    </NavigationTabsStoreProvider>
   )
 }

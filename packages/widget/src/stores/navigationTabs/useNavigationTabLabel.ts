@@ -1,19 +1,23 @@
 import { useTranslation } from 'react-i18next'
-import type { JumperTabKey } from './types.js'
+import type { NavigationTabKey } from '../../types/widget.js'
 
-export const useJumperTabLabel = (): ((key: JumperTabKey) => string) => {
+export const useNavigationTabLabel = (): ((
+  key: NavigationTabKey
+) => string) => {
   const { t } = useTranslation()
-  return (key: JumperTabKey) => {
+  return (key: NavigationTabKey) => {
     switch (key) {
-      case 'exchange':
+      case 'default':
         return t('header.swapAndBridge')
       case 'private':
         return t('header.private')
-      case 'gas':
+      case 'refuel':
         return t('header.gas')
       case 'swap':
+      case 'swap-advanced':
         return t('header.swap')
       case 'bridge':
+      case 'bridge-advanced':
         return t('header.bridge')
       case 'limit':
         return t('header.limit')

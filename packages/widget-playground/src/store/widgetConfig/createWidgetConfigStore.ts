@@ -94,6 +94,14 @@ export const createWidgetConfigStore = (
             },
           })
         },
+        setNavigationTabs: (navigationTabs) => {
+          set({
+            config: {
+              ...get().config,
+              _navigationTabs: navigationTabs,
+            },
+          })
+        },
         setBorderRadius: (radius) => {
           set({
             config: {

@@ -23,6 +23,7 @@ export const useConfigActions = (): Pick<
   | 'setFormValues'
   | 'setChainSidebarDisabled'
   | 'setSplitOption'
+  | 'setNavigationTabs'
 > => {
   const actions = useWidgetConfigStore((state) => ({
     setConfig: state.setConfig,
@@ -45,6 +46,7 @@ export const useConfigActions = (): Pick<
     setFormValues: state.setFormValues,
     setChainSidebarDisabled: state.setChainSidebarDisabled,
     setSplitOption: state.setSplitOption,
+    setNavigationTabs: state.setNavigationTabs,
   }))
 
   return actions
