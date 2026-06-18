@@ -61,13 +61,10 @@ export const getSplitOption = (
 export const getActiveMode = (
   mode: WidgetMode | 'default',
   splitOption?: SplitMode
-): ModeOption => {
-  return (
-    MODE_OPTIONS.find(
-      (option) => option.mode === mode && option.splitOption === splitOption
-    )?.id ?? 'exchange'
-  )
-}
+): ModeOption =>
+  MODE_OPTIONS.find(
+    (option) => option.mode === mode && option.splitOption === splitOption
+  )?.id ?? 'exchange'
 
 export const getModeConfig = (mode: ModeOption): ModeOptionConfig => {
   const config = MODE_OPTIONS.find((option) => option.id === mode)

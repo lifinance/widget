@@ -1,7 +1,6 @@
 import type {
   HiddenUIConfig,
   ModeOptions,
-  NavigationTabKey,
   WidgetMode,
   WidgetVariant,
   WidgetWalletConfig,
@@ -28,16 +27,6 @@ export const useConfigMode = (): {
   return {
     mode: !mode ? 'default' : mode,
   }
-}
-
-export const useConfigNavigationTabs = (): {
-  navigationTabs: NavigationTabKey[] | undefined
-} => {
-  const navigationTabs = useWidgetConfigStore(
-    (store) => store.config?._navigationTabs
-  )
-
-  return { navigationTabs }
 }
 
 export const useConfigModeOptions = (): {

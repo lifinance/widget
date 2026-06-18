@@ -1,6 +1,5 @@
 import type {
   Appearance,
-  NavigationTabKey,
   SplitMode,
   WidgetConfig,
   WidgetMode,
@@ -43,7 +42,6 @@ interface WidgetConfigActions {
   setFormValues: (formValues: FormValues) => void
   setChainSidebarDisabled: (disabled: boolean) => void
   setSplitOption: (option?: SplitMode) => void
-  setNavigationTabs: (navigationTabs?: NavigationTabKey[]) => void
 }
 
 export type WidgetConfigState = WidgetConfigValues & WidgetConfigActions
