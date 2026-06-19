@@ -3,7 +3,7 @@ import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import { Box, IconButton, Link, Skeleton, Typography } from '@mui/material'
 import type React from 'react'
-import { type JSX, type PropsWithChildren, type Ref, useMemo } from 'react'
+import { type JSX, type PropsWithChildren, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
@@ -17,12 +17,12 @@ import {
   TokenDetailsSheetContainer,
   TokenDetailsSheetHeader,
 } from './TokenDetailsSheetContent.style.js'
-import type { TokenDetailsSheetBase } from './types.js'
 
 interface TokenDetailsSheetContentProps {
   tokenAddress: string | undefined
   chainId: number | undefined
   withoutContractAddress: boolean
+  onClose: () => void
 }
 
 const noDataLabel = '-'
@@ -31,10 +31,8 @@ export const TokenDetailsSheetContent = ({
   tokenAddress,
   chainId,
   withoutContractAddress,
-  ref,
-}: TokenDetailsSheetContentProps & {
-  ref?: Ref<TokenDetailsSheetBase>
-}): JSX.Element => {
+  onClose,
+}: TokenDetailsSheetContentProps): JSX.Element => {
   const { t } = useTranslation()
   const { getAddressLink } = useExplorer()
   const { getChainById } = useAvailableChains()
@@ -96,9 +94,7 @@ export const TokenDetailsSheetContent = ({
         <IconButton
           onClick={(e) => {
             e.stopPropagation()
-            if (ref && typeof ref !== 'function') {
-              ref.current?.close()
-            }
+            onClose()
           }}
           sx={{ mt: '-8px', mr: '-8px' }}
         >

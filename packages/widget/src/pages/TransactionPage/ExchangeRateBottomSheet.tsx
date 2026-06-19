@@ -1,6 +1,6 @@
 import type { ExchangeRateUpdateParams } from '@lifi/sdk'
 import { Box, Button, Typography } from '@mui/material'
-import type { JSX, Ref, RefObject } from 'react'
+import type { JSX, Ref } from 'react'
 import { useCallback, useImperativeHandle, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
@@ -33,23 +33,27 @@ export const ExchangeRateBottomSheet = ({
   const bottomSheetRef = useRef<BottomSheetBase>(null)
   const resolverRef = useRef<(value: boolean) => void>(null)
 
-  const handleContinue = () => {
-    ;(ref as RefObject<ExchangeRateBottomSheetBase>).current?.close(true)
+  const close = useCallback((value = false, bottomSheetClose = true) => {
+    resolverRef.current?.(value)
+    if (bottomSheetClose) {
+      bottomSheetRef.current?.close()
+    }
+  }, [])
+
+  const handleContinue = useCallback(() => {
+    close(true)
     onContinue?.()
-  }
+  }, [close, onContinue])
 
   const handleCancel = useCallback(() => {
-    ;(ref as RefObject<ExchangeRateBottomSheetBase>).current?.close(false)
+    close(false)
     onCancel?.()
-  }, [onCancel, ref])
+  }, [close, onCancel])
 
   const handleClose = useCallback(() => {
-    ;(ref as RefObject<ExchangeRateBottomSheetBase>).current?.close(
-      false,
-      false
-    )
+    close(false, false)
     onCancel?.()
-  }, [onCancel, ref])
+  }, [close, onCancel])
 
   useImperativeHandle(
     ref,
@@ -60,14 +64,9 @@ export const ExchangeRateBottomSheet = ({
         resolverRef.current = resolver
         bottomSheetRef.current?.open()
       },
-      close: (value = false, bottomSheetClose = true) => {
-        resolverRef.current?.(value)
-        if (bottomSheetClose) {
-          bottomSheetRef.current?.close()
-        }
-      },
+      close,
     }),
-    []
+    [close]
   )
 
   return (

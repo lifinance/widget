@@ -37,7 +37,7 @@ export const TokenDetailsSheet = ({
   return (
     <BottomSheet ref={bottomSheetRef} keepMounted>
       <TokenDetailsSheetContent
-        ref={ref}
+        onClose={() => bottomSheetRef.current?.close()}
         tokenAddress={tokenAddress}
         withoutContractAddress={withoutContractAddress}
         chainId={chainId}
