@@ -1,7 +1,6 @@
 import { ChainType } from '@lifi/sdk'
 import { useEthereumContext } from '@lifi/widget-provider'
 import { useQuery } from '@tanstack/react-query'
-import { useAvailableChains } from './useAvailableChains.js'
 
 export const useIsContractAddress = (
   address?: string,
@@ -14,10 +13,6 @@ export const useIsContractAddress = (
   isFetched: boolean
 } => {
   const { getBytecode } = useEthereumContext()
-  const { getChainById } = useAvailableChains()
-
-  // Read on-chain only once the chain (and its synced RPC) is available.
-  const isChainAvailable = !!getChainById(chainId)
 
   const {
     data: contractCode,
@@ -32,11 +27,7 @@ export const useIsContractAddress = (
     refetchInterval: 300_000,
     staleTime: 300_000,
     enabled:
-      chainType === ChainType.EVM &&
-      !!chainId &&
-      !!address &&
-      !!getBytecode &&
-      isChainAvailable,
+      chainType === ChainType.EVM && !!chainId && !!address && !!getBytecode,
   })
 
   return {
