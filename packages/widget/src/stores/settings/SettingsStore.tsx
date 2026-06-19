@@ -2,7 +2,7 @@ import {
   createContext,
   type JSX,
   type PropsWithChildren,
-  useContext,
+  use,
   useRef,
 } from 'react'
 import type { StoreApi, UseBoundStore } from 'zustand'
@@ -23,14 +23,14 @@ export const SettingsStoreProvider = ({
     storeRef.current = createSettingsStore(config)
   }
   return (
-    <SettingsStoreContext.Provider value={storeRef.current}>
+    <SettingsStoreContext value={storeRef.current}>
       {children}
-    </SettingsStoreContext.Provider>
+    </SettingsStoreContext>
   )
 }
 
 export function useSettingsStoreContext(): any {
-  const useStore = useContext(SettingsStoreContext)
+  const useStore = use(SettingsStoreContext)
   if (!useStore) {
     throw new Error(
       'You forgot to wrap your component in SettingsStoreContext.'

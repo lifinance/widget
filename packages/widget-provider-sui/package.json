@@ -43,7 +43,8 @@
     "@mysten/sui": "^2.17.0"
   },
   "peerDependencies": {
-    "@mysten/dapp-kit-react": "^2.0.0"
+    "@mysten/dapp-kit-react": "^2.0.0",
+    "react": ">=19"
   },
   "devDependencies": {
     "cpy-cli": "^7.0.0",

@@ -1,6 +1,6 @@
 import type { WidgetProviderProps } from '@lifi/widget-provider'
 import { WalletContext } from '@tronweb3/tronwallet-adapter-react-hooks'
-import { type JSX, type PropsWithChildren, useContext } from 'react'
+import { type JSX, type PropsWithChildren, use } from 'react'
 import type { TronProviderConfig } from '../types.js'
 import { TronBaseProvider } from './TronBaseProvider.js'
 import { TronProviderValues } from './TronProviderValues.js'
@@ -14,7 +14,7 @@ interface TronWidgetProviderProps extends WidgetProviderProps {
 // while a real provider sets plain data properties. Checking the property descriptor
 // distinguishes between the two — a non-getter means a real provider is present.
 function useInTronContext(): boolean {
-  const context = useContext(WalletContext)
+  const context = use(WalletContext)
   const descriptor = Object.getOwnPropertyDescriptor(context, 'wallets')
   return Boolean(descriptor && !descriptor.get)
 }

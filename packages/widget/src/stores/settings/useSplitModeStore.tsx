@@ -1,4 +1,4 @@
-import { createContext, type JSX, useContext, useRef } from 'react'
+import { createContext, type JSX, use, useRef } from 'react'
 import { create } from 'zustand'
 import { useShallow } from 'zustand/shallow'
 import type {
@@ -24,14 +24,14 @@ export function SplitModeStoreProvider({
     storeRef.current = createSplitModeStore(props)
   }
   return (
-    <SplitModeStoreContext.Provider value={storeRef.current}>
+    <SplitModeStoreContext value={storeRef.current}>
       {children}
-    </SplitModeStoreContext.Provider>
+    </SplitModeStoreContext>
   )
 }
 
 function useSplitModeStoreContext() {
-  const useStore = useContext(SplitModeStoreContext)
+  const useStore = use(SplitModeStoreContext)
   if (!useStore) {
     throw new Error(
       `You forgot to wrap your component in <${SplitModeStoreProvider.name}>.`

@@ -39,6 +39,9 @@
   "dependencies": {
     "@lifi/sdk": "^4.0.0"
   },
+  "peerDependencies": {
+    "react": ">=19"
+  },
   "devDependencies": {
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",

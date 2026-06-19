@@ -1,13 +1,15 @@
-import type React from 'react'
-import { forwardRef, useImperativeHandle, useRef, useState } from 'react'
+import type { JSX, Ref } from 'react'
+import { useImperativeHandle, useRef, useState } from 'react'
 import { BottomSheet } from '../BottomSheet/BottomSheet.js'
 import type { BottomSheetBase } from '../BottomSheet/types.js'
 import { TokenDetailsSheetContent } from './TokenDetailsSheetContent.js'
 import type { TokenDetailsSheetBase } from './types.js'
 
-export const TokenDetailsSheet: React.ForwardRefExoticComponent<
-  React.RefAttributes<TokenDetailsSheetBase>
-> = forwardRef<TokenDetailsSheetBase>((_, ref) => {
+export const TokenDetailsSheet = ({
+  ref,
+}: {
+  ref?: Ref<TokenDetailsSheetBase>
+}): JSX.Element => {
   const bottomSheetRef = useRef<BottomSheetBase>(null)
   const [tokenAddress, setTokenAddress] = useState<string | undefined>(
     undefined
@@ -42,4 +44,4 @@ export const TokenDetailsSheet: React.ForwardRefExoticComponent<
       />
     </BottomSheet>
   )
-})
+}

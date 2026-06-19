@@ -150,7 +150,5 @@ export const TronProviderValues: FC<
     ]
   )
 
-  return (
-    <TronContext.Provider value={contextValue}>{children}</TronContext.Provider>
-  )
+  return <TronContext value={contextValue}>{children}</TronContext>
 }

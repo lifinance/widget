@@ -1,15 +1,15 @@
 'use client'
-import type { ForwardRefExoticComponent, RefAttributes } from 'react'
-import { forwardRef, useMemo } from 'react'
+import type { JSX, Ref } from 'react'
+import { useMemo } from 'react'
 import { AppDefault } from './AppDefault.js'
 import type { WidgetDrawer } from './AppDrawer.js'
 import { AppDrawer } from './AppDrawer.js'
 import { AppProvider } from './AppProvider.js'
 import type { WidgetConfig, WidgetProps } from './types/widget.js'
 
-export const App: ForwardRefExoticComponent<
-  WidgetProps & RefAttributes<WidgetDrawer>
-> = forwardRef<WidgetDrawer, WidgetProps>((props, ref) => {
+export const App = (
+  props: WidgetProps & { ref?: Ref<WidgetDrawer> }
+): JSX.Element => {
   const config: WidgetConfig = useMemo(() => {
     const config = { ...props, ...props.config }
     if (config.variant === 'drawer') {
@@ -28,7 +28,7 @@ export const App: ForwardRefExoticComponent<
     return (
       <AppProvider config={config} formRef={props.formRef}>
         <AppDrawer
-          ref={ref}
+          ref={props.ref}
           elementRef={props.elementRef}
           config={config}
           open={props.open}
@@ -45,4 +45,4 @@ export const App: ForwardRefExoticComponent<
       <AppDefault />
     </AppProvider>
   )
-})
+}
