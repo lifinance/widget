@@ -45,6 +45,7 @@
   },
   "peerDependencies": {
     "@wagmi/core": "^3.5.0",
+    "react": ">=19",
     "wagmi": "^3.6.16"
   },
   "devDependencies": {

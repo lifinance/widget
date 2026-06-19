@@ -63,7 +63,7 @@
   },
   "peerDependencies": {
     "@tanstack/react-query": ">=5.90.0",
-    "react": ">=18",
-    "react-dom": ">=18"
+    "react": ">=19",
+    "react-dom": ">=19"
   }
 }

@@ -65,7 +65,7 @@
     "@mysten/dapp-kit-react": "^2.0.0",
     "@wagmi/core": "^3.5.0",
     "@wallet-standard/base": "^1.1.0",
-    "react": ">=18",
+    "react": ">=19",
     "viem": ">=2.52.0",
     "wagmi": "^3.6.16"
   },

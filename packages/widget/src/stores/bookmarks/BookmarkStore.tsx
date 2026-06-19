@@ -1,4 +1,4 @@
-import { createContext, useContext, useRef } from 'react'
+import { createContext, use, useRef } from 'react'
 import { useShallow } from 'zustand/shallow'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { PersistStoreProviderProps } from '../types.js'
@@ -19,14 +19,14 @@ export const BookmarkStoreProvider: React.FC<PersistStoreProviderProps> = ({
   }
 
   return (
-    <BookmarkStoreContext.Provider value={storeRef.current}>
+    <BookmarkStoreContext value={storeRef.current}>
       {children}
-    </BookmarkStoreContext.Provider>
+    </BookmarkStoreContext>
   )
 }
 
 export function useBookmarkStore<T>(selector: (store: BookmarkState) => T): T {
-  const useStore = useContext(BookmarkStoreContext)
+  const useStore = use(BookmarkStoreContext)
 
   if (!useStore) {
     throw new Error(
