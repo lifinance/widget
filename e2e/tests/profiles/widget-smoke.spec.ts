@@ -6,7 +6,7 @@ import { expect, test, waitForTokens } from '../fixtures/base.fixture.js'
  * mountPath is read from project metadata so the same spec handles both profiles.
  *
  * Standard  (13): vite, connectkit, privy, privy-ethers, rainbowkit, reown, svelte,
- *                 zustand-widget-config, vue, nextjs, nextjs15, remix, react-router-7
+ *                 zustand-widget-config, vue, nextjs, nextjs15, remix, react-router
  * Routed     (1): tanstack-router (mountPath: /widget)
  */
 
