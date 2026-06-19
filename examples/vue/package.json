@@ -9,11 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/widget": "4.0.0-beta.20",
+    "@lifi/widget": "4.0.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "veaury": "^2.6.3",
-    "vue": "^3.5.35"
+    "vue": "^3.5.38"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.0.2",
@@ -22,6 +22,6 @@
     "typescript": "^6.0.3",
     "vite": "^8.0.16",
     "vite-plugin-node-polyfills": "^0.26.0",
-    "vue-tsc": "^3.3.3"
+    "vue-tsc": "^3.3.5"
   }
 }

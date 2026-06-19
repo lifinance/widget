@@ -11,19 +11,19 @@
   },
   "dependencies": {
     "@lifi/sdk": "^4.0.0",
-    "@lifi/widget": "4.0.0-beta.20",
-    "@mui/material": "^9.0.1",
-    "@tanstack/react-query": "^5.100.14",
+    "@lifi/widget": "4.0.0",
+    "@mui/material": "^9.1.1",
+    "@tanstack/react-query": "^5.101.0",
     "events": "^3.3.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "viem": ">=2.52.0",
-    "wagmi": "^3.6.16"
+    "viem": "^2.52.2",
+    "wagmi": "^3.6.17"
   },
   "devDependencies": {
     "@types/events": "^3.0.3",
-    "@types/node": "^25.9.1",
-    "@types/react": "^19.2.16",
+    "@types/node": "^25.9.3",
+    "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.2",
     "typescript": "^6.0.3",
