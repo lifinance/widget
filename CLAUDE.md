@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-LI.FI Widget monorepo — a cross-chain DeFi swap/bridge widget supporting Ethereum, Solana, Bitcoin, and Sui ecosystems. Managed with pnpm workspaces, Changesets (independent versioning), and TypeScript composite builds.
+LI.FI Widget monorepo — a cross-chain DeFi swap/bridge widget supporting Ethereum, Solana, Bitcoin, Sui, and Tron ecosystems. Managed with pnpm workspaces, Changesets (independent versioning), and TypeScript composite builds.
 
 ## Commands
 
@@ -28,7 +28,7 @@ pnpm --filter @lifi/widget check:types
 
 # Testing (vitest)
 pnpm --filter @lifi/widget test        # Run widget tests
-pnpm --filter @lifi/widget-light test  # Run widget-light tests
+pnpm --filter @lifi/widget-light test  # widget-light tests (no test files yet)
 
 # Unused code detection
 pnpm knip:check
@@ -51,9 +51,9 @@ pnpm knip:check
 ### Package Dependency Graph
 
 ```
-@lifi/widget-provider          ← base contexts (Ethereum/Solana/Bitcoin/Sui)
+@lifi/widget-provider          ← base contexts (Ethereum/Solana/Bitcoin/Sui/Tron)
   ↑
-@lifi/widget-provider-{ethereum,solana,bitcoin,sui}  ← chain-specific implementations
+@lifi/widget-provider-{ethereum,solana,bitcoin,sui,tron}  ← chain-specific implementations
   ↑
 @lifi/wallet-management        ← wallet UI + connection logic
   ↑
@@ -89,9 +89,9 @@ pnpm knip:check
 
 - **State**: Zustand stores in `packages/widget/src/stores/` (form, routes, chains, settings)
 - **Routing**: TanStack Router with page components in `src/pages/`
-- **Theming**: MUI v7 + Emotion; custom themes in `src/themes/`
+- **Theming**: MUI v9 + Emotion; custom themes in `src/themes/`
 - **Events**: mitt event bus (`widgetEvents` singleton in `src/hooks/useWidgetEvents.ts`)
-- **i18n**: i18next with 20 language translations in `src/i18n/`
+- **i18n**: i18next with language translations in `src/i18n/` (17 locales)
 
 ### Provider layering (widget)
 
@@ -132,11 +132,9 @@ pnpm changeset    # interactive: pick packages + bump type, write a summary
 - Private/ignored (never need a changeset): `@lifi/widget-embedded`, `@lifi/widget-playground`, `@lifi/widget-playground-next`, `@lifi/widget-playground-vite`, examples, e2e.
 - `changeset-bot` comments a reminder on any PR that edits a publishable package without a changeset (a nudge, not a hard block — the maintainer-reviewed Version PR is the real gate).
 
-### PRE-MODE — currently in `beta` (DO NOT EXIT)
+### Release line — `4.x` stable (pre-mode exited)
 
-The repo is in Changesets **pre mode** (`.changeset/pre.json`, `tag: beta`). While in pre mode, `changeset version` produces `4.0.0-beta.N` versions and `changeset publish` publishes under the `beta` dist-tag. `latest` on npm stays on the v3 line (`@lifi/widget@3.x`).
-
-**NEVER run `changeset pre exit`** unless you are deliberately cutting the stable `4.0.0` release. Exiting pre mode is the single action that moves the npm `latest` tag to 4.x — do it only on purpose.
+Changesets pre mode has been **exited** and stable **`@lifi/widget@4.0.0`** is published — npm `latest` is on the `4.x` line (the old `3.x` line is superseded). There is no `.changeset/pre.json`, so **standard semver applies**: `changeset version` bumps real `4.x` versions (`fix:` → patch, `feat:` → minor, breaking → major → `5.0.0`) and `changeset publish` publishes to the `latest` dist-tag. The historical `4.0.0-alpha.*` / `4.0.0-beta.*` prereleases remain parked under the `alpha` / `beta` dist-tags.
 
 ### How a release happens (automated)
 
@@ -156,9 +154,9 @@ removed after a successful publish (one-shot — re-add it to cut another previe
 - Install the **exact** version it prints (e.g. `npm i @lifi/widget@0.0.0-preview-<sha>`);
   `@preview` moves with the newest preview across PRs. `0.0.0` can never become `latest`/`beta`.
   The `<sha>` is the PR head's short commit hash, so the version traces to the exact source.
-- This repo is in **pre mode**, where `--snapshot` is disallowed — the job therefore runs
-  `changeset pre exit` in the **throwaway CI checkout only** (never committed or pushed)
-  before snapshotting. `.changeset/pre.json` on the branch is untouched.
+- The repo is no longer in pre mode, so the preview job snapshots the changed packages
+  directly; the former `changeset pre exit` workaround (needed only while in pre mode) no
+  longer applies.
 - Guardrails: applying a label requires Triage+ on the repo, so external people / fork-PR
   authors can't trigger it; the same-repo guard means the published code was pushed by
   someone with Write access (forks excluded); and the job is isolated (no deploy/Linear

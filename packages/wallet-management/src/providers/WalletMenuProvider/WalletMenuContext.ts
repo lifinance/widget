@@ -1,5 +1,5 @@
 import type { Context } from 'react'
-import { createContext, useContext } from 'react'
+import { createContext, use } from 'react'
 import type {
   WalletMenuContext as _WalletMenuContext,
   WalletMenuOpenArgs,
@@ -13,5 +13,4 @@ export const WalletMenuContext: Context<_WalletMenuContext> =
     closeWalletMenu: () => {},
   })
 
-export const useWalletMenu = (): _WalletMenuContext =>
-  useContext(WalletMenuContext)
+export const useWalletMenu = (): _WalletMenuContext => use(WalletMenuContext)

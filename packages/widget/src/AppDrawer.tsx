@@ -1,11 +1,6 @@
 import { Drawer } from '@mui/material'
-import type {
-  ForwardRefExoticComponent,
-  PropsWithChildren,
-  RefAttributes,
-} from 'react'
+import type { JSX, PropsWithChildren, Ref } from 'react'
 import {
-  forwardRef,
   useCallback,
   useImperativeHandle,
   useMemo,
@@ -23,82 +18,86 @@ export interface WidgetDrawer {
   closeDrawer(): void
 }
 
-export const AppDrawer: ForwardRefExoticComponent<
-  PropsWithChildren<WidgetDrawerProps> & RefAttributes<WidgetDrawer>
-> = forwardRef<WidgetDrawer, PropsWithChildren<WidgetDrawerProps>>(
-  ({ elementRef, open, onClose, children }, ref) => {
-    const openRef = useRef(Boolean(open))
-    const [drawerOpen, setDrawerOpen] = useState(Boolean(open))
+export const AppDrawer = ({
+  elementRef,
+  open,
+  onClose,
+  children,
+  ref,
+}: PropsWithChildren<WidgetDrawerProps> & {
+  ref?: Ref<WidgetDrawer>
+}): JSX.Element => {
+  const openRef = useRef(Boolean(open))
+  const [drawerOpen, setDrawerOpen] = useState(Boolean(open))
 
-    const toggleDrawer = useCallback(() => {
-      setDrawerOpen((open) => {
-        openRef.current = !open
-        return openRef.current
-      })
-      if (!openRef.current) {
-        onClose?.()
-      }
-    }, [onClose])
-
-    const openDrawer = useCallback(() => {
-      setDrawerOpen(true)
-      openRef.current = true
-    }, [])
-
-    const closeDrawer = useCallback(() => {
-      setDrawerOpen(false)
-      openRef.current = false
+  const toggleDrawer = useCallback(() => {
+    setDrawerOpen((open) => {
+      openRef.current = !open
+      return openRef.current
+    })
+    if (!openRef.current) {
       onClose?.()
-    }, [onClose])
+    }
+  }, [onClose])
 
-    useImperativeHandle(
-      ref,
-      () => ({
-        isOpen: () => openRef.current,
-        toggleDrawer,
-        openDrawer,
-        closeDrawer,
-      }),
-      [closeDrawer, openDrawer, toggleDrawer]
-    )
+  const openDrawer = useCallback(() => {
+    setDrawerOpen(true)
+    openRef.current = true
+  }, [])
 
-    const drawerContext: WidgetDrawerContext = useMemo(
-      () => ({
-        closeDrawer,
-      }),
-      [closeDrawer]
-    )
+  const closeDrawer = useCallback(() => {
+    setDrawerOpen(false)
+    openRef.current = false
+    onClose?.()
+  }, [onClose])
 
-    return (
-      <DrawerContext.Provider value={drawerContext}>
-        <Drawer
-          ref={elementRef}
-          anchor="right"
-          open={drawerOpen}
-          onClose={closeDrawer}
-          slotProps={{
-            paper: {
-              sx: (theme) => ({
-                background: theme.vars.palette.background.default,
-                width: theme?.container?.width ?? '100%',
-                minWidth:
-                  theme?.container?.minWidth ?? theme.breakpoints.values.xs,
-                maxWidth:
-                  theme?.container?.maxWidth ?? theme.breakpoints.values.sm,
-              }),
+  useImperativeHandle(
+    ref,
+    () => ({
+      isOpen: () => openRef.current,
+      toggleDrawer,
+      openDrawer,
+      closeDrawer,
+    }),
+    [closeDrawer, openDrawer, toggleDrawer]
+  )
+
+  const drawerContext: WidgetDrawerContext = useMemo(
+    () => ({
+      closeDrawer,
+    }),
+    [closeDrawer]
+  )
+
+  return (
+    <DrawerContext value={drawerContext}>
+      <Drawer
+        ref={elementRef}
+        anchor="right"
+        open={drawerOpen}
+        onClose={closeDrawer}
+        slotProps={{
+          paper: {
+            sx: (theme) => ({
+              background: theme.vars.palette.background.default,
+              width: theme?.container?.width ?? '100%',
+              minWidth:
+                theme?.container?.minWidth ?? theme.breakpoints.values.xs,
+              maxWidth:
+                theme?.container?.maxWidth ?? theme.breakpoints.values.sm,
+            }),
+          },
+          backdrop: {
+            sx: {
+              backgroundColor: 'rgb(0 0 0 / 48%)',
+              backdropFilter: 'blur(3px)',
             },
-            backdrop: {
-              sx: {
-                backgroundColor: 'rgb(0 0 0 / 48%)',
-                backdropFilter: 'blur(3px)',
-              },
-            },
-          }}
-          keepMounted
-        >
-          {children}
-        </Drawer>
-      </DrawerContext.Provider>
-    )
-  }
-)
+          },
+        }}
+        keepMounted
+      >
+        {children}
+      </Drawer>
+    </DrawerContext>
+  )
+}

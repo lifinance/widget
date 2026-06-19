@@ -52,7 +52,7 @@ export const WalletMenuProvider: React.FC<PropsWithChildren> = ({
   )
 
   return (
-    <WalletMenuContext.Provider value={context}>
+    <WalletMenuContext value={context}>
       {children}
       <I18nProvider locale={locale}>
         <WalletMenuModal open={open} onClose={closeWalletMenu}>
@@ -62,6 +62,6 @@ export const WalletMenuProvider: React.FC<PropsWithChildren> = ({
           />
         </WalletMenuModal>
       </I18nProvider>
-    </WalletMenuContext.Provider>
+    </WalletMenuContext>
   )
 }

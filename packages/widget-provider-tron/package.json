@@ -45,7 +45,8 @@
     "@tronweb3/tronwallet-adapters": "^1.2.26"
   },
   "peerDependencies": {
-    "@tronweb3/tronwallet-adapter-react-hooks": "^1.1.11"
+    "@tronweb3/tronwallet-adapter-react-hooks": "^1.1.11",
+    "react": ">=19"
   },
   "devDependencies": {
     "cpy-cli": "^7.0.0",

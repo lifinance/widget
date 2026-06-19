@@ -3,13 +3,13 @@ import {
   QueryClientProvider as TanstackQueryClientProvider,
 } from '@tanstack/react-query'
 import type { PropsWithChildren } from 'react'
-import { useContext } from 'react'
+import { use } from 'react'
 import { queryClient } from '../config/queryClient.js'
 
 export const QueryClientProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
-  const existingQueryClient = useContext(TanstackQueryClientContext)
+  const existingQueryClient = use(TanstackQueryClientContext)
   return existingQueryClient ? (
     children
   ) : (
