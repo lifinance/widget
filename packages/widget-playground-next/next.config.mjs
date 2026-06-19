@@ -1,12 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   typescript: {
-    // NOTE: this is a workaround. In ../widget/src/hooks/useWidgetEvents.ts we have a workaround for mitt
-    // https://github.com/developit/mitt/issues/191
-    // const mitt = _mitt as unknown as typeof _mitt.default;
-    // this was causing a type error for the production build only
-    // No other attempts to exclude this file seem to work. Once the mitt package has fixed its types we should be able to remove this
-    // WARN: Allow production builds to successfully complete even if your project has type errors.
+    // Let the production build complete despite pre-existing type errors in the
+    // playground (e.g. a skeleton-state prop mismatch) that dev mode and
+    // `pnpm check:types` don't surface. Playground-only (private), never shipped.
     ignoreBuildErrors: true,
   },
   webpack: (config) => {
