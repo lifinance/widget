@@ -38,12 +38,12 @@
   ],
   "dependencies": {
     "@lifi/sdk": "^4.0.0",
-    "@lifi/sdk-provider-sui": "^4.0.0",
+    "@lifi/sdk-provider-sui": "0.0.0-preview-162dc93",
     "@lifi/widget-provider": "workspace:*",
     "@mysten/sui": "^2.19.0"
   },
   "peerDependencies": {
-    "@mysten/dapp-kit-react": "^2.0.0",
+    "@mysten/dapp-kit-react": "^2.1.3",
     "react": ">=19"
   },
   "devDependencies": {
