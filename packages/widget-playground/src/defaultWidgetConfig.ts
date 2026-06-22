@@ -60,6 +60,7 @@ export const widgetBaseConfig: WidgetConfig = {
   ],
   variant: 'wide',
   // mode: 'split',
+  // _navigationTabs: ['default', 'private', 'refuel'], // ['swap-advanced', 'bridge-advanced', 'limit']
   // hiddenUI: {
   //   chainSidebar: true,
   // },
