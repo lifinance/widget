@@ -60,7 +60,16 @@ export const widgetBaseConfig: WidgetConfig = {
   ],
   variant: 'wide',
   // mode: 'split',
-  // _navigationTabs: ['default', 'private', 'refuel'], // ['swap-advanced', 'bridge-advanced', 'limit']
+  // _navigationTabs: [
+  //   { tabKey: 'default', config: { variant: 'wide', mode: 'default' } },
+  //   { tabKey: 'private', config: { variant: 'compact', mode: 'split', modeOptions: { split: 'swap' } } },
+  //   { tabKey: 'refuel', config: { variant: 'wide', mode: 'refuel' } },
+  // ],
+  // _navigationTabs: [
+  //   { tabKey: 'swap-advanced', config: { variant: 'wide', mode: 'split', modeOptions: { split: 'swap' } } },
+  //   { tabKey: 'bridge-advanced', config: { variant: 'wide', mode: 'split', modeOptions: { split: 'bridge' } } },
+  //   { tabKey: 'limit', config: { variant: 'compact', mode: 'limit' } },
+  // ],
   // hiddenUI: {
   //   chainSidebar: true,
   // },

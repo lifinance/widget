@@ -1,72 +1,23 @@
 import type {
-  InternalNavigationTabKey,
-  ModeOptions,
+  NavigationTabConfig,
   NavigationTabKey,
-  SplitMode,
-  SplitNavigationTabKey,
   WidgetConfig,
-  WidgetMode,
-  WidgetVariant,
 } from '../../types/widget.js'
 import { getSplitMode } from '../../utils/mode.js'
-import type { NavigationTab } from './types.js'
-
-/** Configured navigation tabs by key. Labels are resolved from the key by a hook. */
-const navigationTabsByKey: Record<InternalNavigationTabKey, NavigationTab> = {
-  default: { key: 'default', variant: 'wide', mode: 'default' },
-  private: {
-    key: 'private',
-    variant: 'compact',
-    mode: 'split',
-    modeOptions: { split: 'swap' },
-  },
-  refuel: { key: 'refuel', variant: 'wide', mode: 'refuel' },
-  limit: { key: 'limit', variant: 'compact', mode: 'limit' },
-  'swap-advanced': {
-    key: 'swap-advanced',
-    variant: 'wide',
-    mode: 'split',
-    modeOptions: { split: 'swap' },
-  },
-  'bridge-advanced': {
-    key: 'bridge-advanced',
-    variant: 'wide',
-    mode: 'split',
-    modeOptions: { split: 'bridge' },
-  },
-}
 
 /** Split-mode tabs (Swap / Bridge), shown when no navigation tabs are configured. */
-const splitTabs: NavigationTab[] = [
+const splitTabs: NavigationTabConfig[] = [
+  { tabKey: 'swap', config: { mode: 'split', modeOptions: { split: 'swap' } } },
   {
-    key: 'swap',
-    mode: 'split',
-    modeOptions: { split: 'swap' },
-  },
-  {
-    key: 'bridge',
-    mode: 'split',
-    modeOptions: { split: 'bridge' },
+    tabKey: 'bridge',
+    config: { mode: 'split', modeOptions: { split: 'bridge' } },
   },
 ]
 
-const splitTabsByKey = Object.fromEntries(
-  splitTabs.map((tab) => [tab.key, tab])
-) as Record<SplitNavigationTabKey, NavigationTab>
-
-/** Combined lookup across configured and split tabs. */
-const tabByKey: Record<NavigationTabKey, NavigationTab> = {
-  ...navigationTabsByKey,
-  ...splitTabsByKey,
-}
-
-/** Tab keys shown in split mode when no navigation tabs are configured. */
-export const splitTabKeys: NavigationTabKey[] = splitTabs.map((tab) => tab.key)
-
 /** Resolves which navigation tabs the header should render from the config. */
-export const getNavigationTabKeys = (
+export const getNavigationTabs = (
   config: WidgetConfig
-): NavigationTabKey[] => {
+): NavigationTabConfig[] => {
   if (config._navigationTabs?.length) {
     return config._navigationTabs
   }
@@ -75,7 +26,7 @@ export const getNavigationTabKeys = (
     config.mode === 'split' &&
     typeof config.modeOptions?.split !== 'string'
   ) {
-    return splitTabKeys
+    return splitTabs
   }
   return []
 }
@@ -89,46 +40,9 @@ export const getInitialActiveTab = (
   config: WidgetConfig
 ): NavigationTabKey | undefined => {
   if (config._navigationTabs?.length) {
-    return config._navigationTabs[0]
+    return config._navigationTabs[0].tabKey
   }
   return config.mode === 'split'
     ? getSplitMode(config.modeOptions?.split)
     : undefined
-}
-
-/** Split mode (`swap`/`bridge`) implied by a tab, or `undefined` if not split. */
-export const getTabSplitMode = (
-  key?: NavigationTabKey
-): SplitMode | undefined => {
-  const tab = key ? tabByKey[key] : undefined
-  return tab?.mode === 'split'
-    ? getSplitMode(tab.modeOptions?.split)
-    : undefined
-}
-
-/** Variant for a tab, falling back to the widget config's variant when unset. */
-export const getTabVariant = (
-  config: WidgetConfig,
-  key?: NavigationTabKey
-): WidgetVariant | undefined => {
-  const tab = key ? tabByKey[key] : undefined
-  return tab?.variant ?? config.variant
-}
-
-/** Mode for a tab, falling back to the widget config's mode when unset. */
-export const getTabMode = (
-  config: WidgetConfig,
-  key?: NavigationTabKey
-): WidgetMode | undefined => {
-  const tab = key ? tabByKey[key] : undefined
-  return tab?.mode ?? config.mode
-}
-
-/** Mode options for a tab, falling back to the widget config's when unset. */
-export const getTabModeOptions = (
-  config: WidgetConfig,
-  key?: NavigationTabKey
-): ModeOptions | undefined => {
-  const tab = key ? tabByKey[key] : undefined
-  return tab?.modeOptions ?? config.modeOptions
 }

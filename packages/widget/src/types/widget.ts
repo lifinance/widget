@@ -74,6 +74,16 @@ export type InternalNavigationTabKey =
   | 'limit'
 export type NavigationTabKey = InternalNavigationTabKey | SplitNavigationTabKey
 
+/**
+ * A header navigation tab: a stable key (drives identity and label) paired with
+ * the widget config overrides applied while the tab is active.
+ * @internal Not part of the public API.
+ */
+export interface NavigationTabConfig {
+  tabKey: NavigationTabKey
+  config: Partial<WidgetConfig>
+}
+
 export type Appearance = PaletteMode | 'system'
 export interface NavigationProps {
   /**
@@ -369,11 +379,12 @@ export interface WidgetConfig {
   modeOptions?: ModeOptions
   /**
    * Header navigation tabs, in order. When set, the widget renders a tab bar
-   * and the active tab drives the displayed flow. Each entry is a tab key.
+   * and the active tab applies its `config` overrides on top of the widget
+   * config. Each entry pairs a tab key with its config.
    *
    * @internal Not part of the public API.
    */
-  _navigationTabs?: NavigationTabKey[]
+  _navigationTabs?: NavigationTabConfig[]
 
   appearance?: Appearance
   theme?: WidgetTheme
