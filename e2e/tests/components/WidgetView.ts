@@ -96,9 +96,12 @@ export class WidgetView {
       name: 'tabs',
       exact: true,
     })
-    this.reverseTokensButton = this.root.getByTestId(
-      'widget-swap-tokens-button'
-    )
+    // Dual selectors: the playground renders the workspace (new) UI while the
+    // example apps are pinned to the published widget (old UI) until the next
+    // release. New test-id first, legacy selector as fallback via `.or()`.
+    this.reverseTokensButton = this.root
+      .getByTestId('widget-swap-tokens-button')
+      .or(this.root.getByTestId('widget-reverse-tokens-button'))
     this.chainSidebar = this.root.getByPlaceholder('Search network')
     // getByRole respects aria-hidden; when the MUI Drawer is open it sets aria-hidden on
     // the background DOM, making getByRole unable to resolve this button. getByTestId uses
@@ -112,8 +115,12 @@ export class WidgetView {
       exact: true,
     })
 
-    this.fromButton = this.root.getByTestId('widget-from-token-button')
-    this.toButton = this.root.getByTestId('widget-to-token-button')
+    this.fromButton = this.root
+      .getByTestId('widget-from-token-button')
+      .or(this.root.getByRole('button', { name: /^From\b/i }))
+    this.toButton = this.root
+      .getByTestId('widget-to-token-button')
+      .or(this.root.getByRole('button', { name: /^To\b/i }))
 
     this.sendAmountInput = this.root.getByRole('textbox', { name: '0' })
 
