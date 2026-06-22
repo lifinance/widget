@@ -40,9 +40,9 @@
     "@lifi/sdk": "^4.0.0",
     "@lifi/sdk-provider-solana": "^4.0.0",
     "@lifi/widget-provider": "workspace:*",
-    "@wallet-standard/app": "^1.1.0",
-    "@wallet-standard/base": "^1.1.0",
-    "@wallet-standard/features": "^1.1.0",
+    "@wallet-standard/app": "^1.1.1",
+    "@wallet-standard/base": "^1.1.1",
+    "@wallet-standard/features": "^1.1.1",
     "zustand": "^5.0.14"
   },
   "peerDependencies": {

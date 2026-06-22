@@ -121,8 +121,8 @@
     "status": "active"
   },
   {
-    "name": "react-router-7",
-    "pkg": "react-router-7",
+    "name": "react-router",
+    "pkg": "react-router",
     "port": 4173,
     "buildCmd": "build",
     "serveCmd": "start",

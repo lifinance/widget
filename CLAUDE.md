@@ -30,6 +30,11 @@ pnpm --filter @lifi/widget check:types
 pnpm --filter @lifi/widget test        # Run widget tests
 pnpm --filter @lifi/widget-light test  # widget-light tests (no test files yet)
 
+# Example E2E (build → serve → Playwright render; registry in e2e/examples.json)
+pnpm test:examples           # all active examples
+pnpm test:example <name>     # one example, e.g. nft-checkout (build + serve + render)
+pnpm e2e:examples            # Playwright only (servers managed externally / by CI)
+
 # Unused code detection
 pnpm knip:check
 ```
@@ -45,6 +50,7 @@ pnpm knip:check
   - Use proper `import type { Foo } from '...'` — never inline `import('...').Foo` in type positions
 - App packages (`widget-embedded`, `widget-playground-vite`, `examples/`) override with `isolatedDeclarations: false` in their tsconfig.
 - If `check:types` shows phantom errors after tsconfig changes, delete `.tsbuildinfo` files and retry.
+- Builds dirty the working tree: `pnpm build` regenerates `src/config/version.ts` (widget + widget-light) and `next build` rewrites `packages/widget-playground-next/tsconfig.json`. These are generated artifacts — discard, don't commit.
 
 ## Architecture
 
@@ -64,6 +70,8 @@ pnpm knip:check
 ```
 
 **`@lifi/sdk` and `@lifi/types` must be single-copy in any consumer bundle** — the SDK keeps `executionState` as a module-level singleton; duplicates surface as `"Execution data not found"` errors during route execution. Use `pnpm.overrides` (in `pnpm-workspace.yaml`) or bundler `resolve.dedupe` to enforce.
+
+**`wagmi` must likewise be single-copy** — its `WagmiProvider` React context is per-module-instance, so a version skew (e.g. a partial bump leaving `wagmi@3.6.16` beside `3.6.17`) makes the widget's provider and a consumer's `useConfig` read different contexts → `WagmiProviderNotFoundError` and crashed EVM/NFT/iframe examples. After any wagmi/connectors bump, run `pnpm dedupe` and confirm one version (`pnpm --filter <app> why wagmi` → "Found 1 version").
 
 ### widget-light iframe bridge
 
@@ -90,7 +98,7 @@ pnpm knip:check
 - **State**: Zustand stores in `packages/widget/src/stores/` (form, routes, chains, settings)
 - **Routing**: TanStack Router with page components in `src/pages/`
 - **Theming**: MUI v9 + Emotion; custom themes in `src/themes/`
-- **Events**: mitt event bus (`widgetEvents` singleton in `src/hooks/useWidgetEvents.ts`)
+- **Events**: `eventemitter3` (`widgetEvents` singleton in `src/hooks/useWidgetEvents.ts`) — clean up listeners with `.off(event, handler)` / `.removeAllListeners()`; there is no mitt-style `.all` map
 - **i18n**: i18next with language translations in `src/i18n/` (17 locales)
 
 ### Provider layering (widget)
@@ -113,6 +121,7 @@ QueryClient → Settings → WidgetConfig → I18n → Theme → SDK → Wallet 
 - Library packages use `tsdown` with `unbundle: true` mode. The widget package needs `neverBundle: [/\.json$/]` for i18n JSON files.
 - **PR template** at `.github/pull_request_template.md` — always use it when creating PRs via `gh pr create`.
 - `packages/widget-embedded/README.md` — main integration guide for widget-light (not a typical package readme).
+- **Examples** (`examples/*`) are e2e-tested via the `e2e/examples.json` registry (each entry: `buildCmd`/`serveCmd`/`port`/`profile`/`status`; `status: broken` entries are skipped). Two examples consume the widget via `workspace:*` (build against TS source); the other 16 pin the published `@lifi/widget` version. Some use `buildCmd: vite-build` to skip `tsc`.
 
 ## Release
 

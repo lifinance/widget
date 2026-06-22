@@ -21,7 +21,7 @@ export function LiFiWidget() {
   return (
     <ClientOnly fallback={<div style={{ minHeight: 682 }} />}>
       <Suspense fallback={<div style={{ minHeight: 682 }} />}>
-        <LiFiWidgetLazy config={config} integrator="react-router-7-example" />
+        <LiFiWidgetLazy config={config} integrator="react-router-example" />
       </Suspense>
     </ClientOnly>
   )

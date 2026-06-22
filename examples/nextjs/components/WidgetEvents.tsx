@@ -34,7 +34,22 @@ export const WidgetEvents = () => {
     )
     widgetEvents.on(WidgetEvent.RouteHighValueLoss, onRouteHighValueLoss)
     widgetEvents.on(WidgetEvent.RouteExecutionFailed, onRouteExecutionFailed)
-    return () => widgetEvents.all.clear()
+    return () => {
+      widgetEvents.off(
+        WidgetEvent.RouteExecutionStarted,
+        onRouteExecutionStarted
+      )
+      widgetEvents.off(
+        WidgetEvent.RouteExecutionUpdated,
+        onRouteExecutionUpdated
+      )
+      widgetEvents.off(
+        WidgetEvent.RouteExecutionCompleted,
+        onRouteExecutionCompleted
+      )
+      widgetEvents.off(WidgetEvent.RouteHighValueLoss, onRouteHighValueLoss)
+      widgetEvents.off(WidgetEvent.RouteExecutionFailed, onRouteExecutionFailed)
+    }
   }, [widgetEvents])
 
   return null

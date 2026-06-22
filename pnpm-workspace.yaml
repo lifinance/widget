@@ -5,6 +5,13 @@ packages:
 minimumReleaseAgeExclude:
   - '@bigmi/*'
   - '@lifi/*'
+  - '@react-router/dev@8.0.1'
+  - '@react-router/express@8.0.1'
+  - '@react-router/fs-routes@8.0.1'
+  - '@react-router/node@8.0.1'
+  - '@react-router/remix-routes-option-adapter@8.0.1'
+  - '@react-router/serve@8.0.1'
+  - react-router@8.0.1
 overrides:
   '@react-native-async-storage/async-storage': '>=2.2.0'
   '@reown/appkit': '>=1.8.20'
