@@ -139,7 +139,5 @@ export const SuiIframeProviderValues: FC<PropsWithChildren> = ({
     [account, sdkProvider, isConnected]
   )
 
-  return (
-    <SuiContext.Provider value={contextValue}>{children}</SuiContext.Provider>
-  )
+  return <SuiContext value={contextValue}>{children}</SuiContext>
 }

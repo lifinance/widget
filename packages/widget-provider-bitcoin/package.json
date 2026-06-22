@@ -45,7 +45,8 @@
     "@lifi/widget-provider": "workspace:*"
   },
   "peerDependencies": {
-    "@bigmi/react": "^0.8.0"
+    "@bigmi/react": "^0.8.0",
+    "react": ">=19"
   },
   "devDependencies": {
     "cpy-cli": "^7.0.0",

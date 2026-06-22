@@ -5,8 +5,8 @@ import {
   createContext,
   type FC,
   type PropsWithChildren,
+  use,
   useCallback,
-  useContext,
   useEffect,
   useMemo,
   useState,
@@ -21,7 +21,7 @@ export const EMBEDDED_DEFAULT_CONFIG: Partial<WidgetConfig> = {
 const WidgetConfigContext = createContext<Partial<WidgetConfig> | null>(null)
 
 export const useEmbeddedWidgetConfig = (): Partial<WidgetConfig> | null =>
-  useContext(WidgetConfigContext)
+  use(WidgetConfigContext)
 
 export const WidgetConfigProvider: FC<PropsWithChildren> = ({ children }) => {
   const [lightConfig, setLightConfig] = useState<WidgetLightConfig | null>(
@@ -72,9 +72,5 @@ export const WidgetConfigProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const value = isInsideIframe ? config : EMBEDDED_DEFAULT_CONFIG
 
-  return (
-    <WidgetConfigContext.Provider value={value}>
-      {children}
-    </WidgetConfigContext.Provider>
-  )
+  return <WidgetConfigContext value={value}>{children}</WidgetConfigContext>
 }

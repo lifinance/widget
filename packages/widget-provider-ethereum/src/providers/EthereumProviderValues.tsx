@@ -281,9 +281,5 @@ export const EthereumProviderValues: FC<
     ]
   )
 
-  return (
-    <EthereumContext.Provider value={contextValue}>
-      {children}
-    </EthereumContext.Provider>
-  )
+  return <EthereumContext value={contextValue}>{children}</EthereumContext>
 }

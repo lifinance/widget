@@ -2,7 +2,7 @@ import {
   createContext,
   type JSX,
   type PropsWithChildren,
-  useContext,
+  use,
   useMemo,
   useRef,
 } from 'react'
@@ -67,16 +67,14 @@ export function NavigationTabsStoreProvider({
   }, [widgetConfig, activeTab])
 
   return (
-    <NavigationTabsStoreContext.Provider value={store}>
-      <WidgetContext.Provider value={tabConfig}>
-        {children}
-      </WidgetContext.Provider>
-    </NavigationTabsStoreContext.Provider>
+    <NavigationTabsStoreContext value={store}>
+      <WidgetContext value={tabConfig}>{children}</WidgetContext>
+    </NavigationTabsStoreContext>
   )
 }
 
 function useNavigationTabsStoreContext(): NavigationTabsStore {
-  const useStore = useContext(NavigationTabsStoreContext)
+  const useStore = use(NavigationTabsStoreContext)
   if (!useStore) {
     throw new Error(
       `You forgot to wrap your component in <${NavigationTabsStoreProvider.name}>.`

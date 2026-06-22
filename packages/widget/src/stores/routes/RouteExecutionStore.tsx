@@ -1,4 +1,4 @@
-import { createContext, type JSX, useContext, useRef } from 'react'
+import { createContext, type JSX, use, useRef } from 'react'
 import type { StoreApi, UseBoundStore } from 'zustand'
 import { useShallow } from 'zustand/shallow'
 import type { PersistStoreProviderProps } from '../types.js'
@@ -20,14 +20,14 @@ export function RouteExecutionStoreProvider({
     storeRef.current = createRouteExecutionStore(props)
   }
   return (
-    <RouteExecutionStoreContext.Provider value={storeRef.current}>
+    <RouteExecutionStoreContext value={storeRef.current}>
       {children}
-    </RouteExecutionStoreContext.Provider>
+    </RouteExecutionStoreContext>
   )
 }
 
 export function useRouteExecutionStoreContext(): any {
-  const useStore = useContext(RouteExecutionStoreContext)
+  const useStore = use(RouteExecutionStoreContext)
   if (!useStore) {
     throw new Error(
       `You forgot to wrap your component in <${RouteExecutionStoreProvider.name}>.`

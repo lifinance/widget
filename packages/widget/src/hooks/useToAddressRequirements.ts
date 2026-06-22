@@ -48,12 +48,12 @@ export const useToAddressRequirements = (
     contractCode: fromContractCode,
     isLoading: isFromContractLoading,
     isFetched: isFromContractFetched,
-  } = useIsContractAddress(account.address, fromChainId, account.chainType)
+  } = useIsContractAddress(account.address, fromChain?.id, account.chainType)
   const {
     isContractAddress: isToContractAddress,
     isLoading: isToContractLoading,
     isFetched: isToContractFetched,
-  } = useIsContractAddress(toAddress, toChainId, toChain?.chainType)
+  } = useIsContractAddress(toAddress, toChain?.id, toChain?.chainType)
 
   const isDifferentChainType =
     fromChain && toChain && fromChain.chainType !== toChain.chainType

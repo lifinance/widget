@@ -3,7 +3,7 @@ import {
   createContext,
   type JSX,
   type PropsWithChildren,
-  useContext,
+  use,
   useMemo,
 } from 'react'
 import { version } from '../config/version.js'
@@ -11,7 +11,7 @@ import { useWidgetConfig } from './WidgetProvider/WidgetProvider.js'
 
 const SDKClientContext = createContext<SDKClient>({} as SDKClient)
 
-export const useSDKClient = (): SDKClient => useContext(SDKClientContext)
+export const useSDKClient = (): SDKClient => use(SDKClientContext)
 
 export const SDKClientProvider = ({
   children,
@@ -51,9 +51,5 @@ export const SDKClientProvider = ({
     slippage,
   ])
 
-  return (
-    <SDKClientContext.Provider value={client}>
-      {children}
-    </SDKClientContext.Provider>
-  )
+  return <SDKClientContext value={client}>{children}</SDKClientContext>
 }
