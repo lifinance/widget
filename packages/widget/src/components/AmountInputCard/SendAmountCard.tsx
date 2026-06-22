@@ -34,7 +34,7 @@ export const SendAmountCard: React.FC<CardProps & { mask?: boolean }> = (
   props
 ): JSX.Element => {
   const { t } = useTranslation()
-  const { disabledUI } = useWidgetConfig()
+  const { disabledUI, mode, modeOptions } = useWidgetConfig()
   const ref = useRef<HTMLInputElement>(null)
   const isEditingRef = useRef(false)
   const [formattedPriceInput, setFormattedPriceInput] = useState('')
@@ -52,6 +52,11 @@ export const SendAmountCard: React.FC<CardProps & { mask?: boolean }> = (
   const { inputMode } = useInputModeStore()
   const currentInputMode = inputMode[formType]
   const disabled = disabledUI?.fromAmount
+
+  const title =
+    mode === 'custom' && modeOptions?.custom?.type === 'deposit'
+      ? t('header.deposit')
+      : t('header.send')
 
   let displayValue: string
   if (isEditingRef.current) {
@@ -138,7 +143,7 @@ export const SendAmountCard: React.FC<CardProps & { mask?: boolean }> = (
   return (
     <AmountCard {...props} formType={formType}>
       <CardHeaderRow>
-        <CardTitle sx={{ padding: 0 }}>{t('header.send')}</CardTitle>
+        <CardTitle sx={{ padding: 0 }}>{title}</CardTitle>
         <PercentageChips formType={formType} />
       </CardHeaderRow>
       <CardBodyRow>

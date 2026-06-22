@@ -71,7 +71,6 @@ export const TokenPillButton: React.FC<FormTypeProps> = ({
 
   return (
     <TokenSelectPill
-      variant="contained"
       onClick={isDisabled ? undefined : handleClick}
       data-testid={testId}
     >

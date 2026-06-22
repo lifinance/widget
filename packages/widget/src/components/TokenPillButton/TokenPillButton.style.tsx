@@ -27,10 +27,7 @@ export const TokenPill: React.FC<React.ComponentProps<typeof Button>> = styled(
 }))
 
 export const TokenSelectPill: React.FC<React.ComponentProps<typeof Button>> =
-  styled(Button)(({ theme }) => ({
-    ...pillLayout(theme),
-    minWidth: 0,
-  }))
+  styled(TokenPill)({ minWidth: 0 })
 
 export const TokenPillSymbol: React.FC<
   React.ComponentProps<typeof Typography>
@@ -49,5 +46,5 @@ export const TokenPillLabel: React.FC<React.ComponentProps<typeof Typography>> =
     fontSize: 14,
     fontWeight: 700,
     lineHeight: '18px',
-    color: theme.vars.palette.primary.contrastText,
+    color: theme.vars.palette.text.primary,
   }))
