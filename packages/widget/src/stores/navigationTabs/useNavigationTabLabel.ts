@@ -21,6 +21,8 @@ export const useNavigationTabLabel = (): ((
         return t('header.bridge')
       case 'limit':
         return t('header.limit')
+      default:
+        return t('header.swapAndBridge')
     }
   }
 }
