@@ -49,11 +49,14 @@ export const TokenPillButton: React.FC<FormTypeProps> = ({
 
   const isDisabled = !!disabledUI?.[tokenKey as keyof DisabledUIConfig]
 
+  const testId = `widget-${formType}-token-button`
+
   if (isSelected) {
     return (
       <TokenPill
         onClick={isDisabled ? undefined : handleClick}
         disabled={isDisabled}
+        data-testid={testId}
       >
         <TokenAvatar
           token={token}
@@ -70,6 +73,7 @@ export const TokenPillButton: React.FC<FormTypeProps> = ({
     <TokenSelectPill
       variant="contained"
       onClick={isDisabled ? undefined : handleClick}
+      data-testid={testId}
     >
       <AvatarBadgedDefault avatarSize={24} badgeSize={12} />
       <TokenPillLabel>{t('main.select')}</TokenPillLabel>

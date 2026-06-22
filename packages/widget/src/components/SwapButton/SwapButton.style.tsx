@@ -2,6 +2,10 @@ import { Box, styled } from '@mui/material'
 import type React from 'react'
 import { Card } from '../Card/Card.js'
 
+// Sits just above MUI's appBar layer (1100) so the swap icon stays on top of the
+// two overlapping amount cards it bridges.
+const swapButtonZIndex = 1110
+
 export const SwapIconCard: React.FC<React.ComponentProps<typeof Card>> = styled(
   Card
 )(({ theme }) => ({
@@ -12,7 +16,7 @@ export const SwapIconCard: React.FC<React.ComponentProps<typeof Card>> = styled(
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: theme.vars.shape.borderRadiusTertiary,
-  zIndex: 1110,
+  zIndex: swapButtonZIndex,
 }))
 
 export const SwapButtonContainer: React.FC<React.ComponentProps<typeof Box>> =

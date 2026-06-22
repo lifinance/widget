@@ -5,10 +5,12 @@ import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useGasRecommendation } from '../../hooks/useGasRecommendation.js'
 import { useTokenAddressBalance } from '../../hooks/useTokenAddressBalance.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { FormTypeProps } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
+import type { DisabledUIConfig } from '../../types/widget.js'
 import { Chip, ChipContainer } from './PercentageChips.style.js'
 
 export const PercentageChips: React.NamedExoticComponent<FormTypeProps> = memo(
@@ -16,6 +18,10 @@ export const PercentageChips: React.NamedExoticComponent<FormTypeProps> = memo(
     const { t } = useTranslation()
     const { getChainById } = useAvailableChains()
     const { setFieldValue } = useFieldActions()
+    const { disabledUI } = useWidgetConfig()
+
+    const amountKey = FormKeyHelper.getAmountKey(formType)
+    const isDisabled = !!disabledUI?.[amountKey as keyof DisabledUIConfig]
 
     const [chainId, tokenAddress] = useFieldValues(
       FormKeyHelper.getChainKey(formType),
@@ -65,7 +71,7 @@ export const PercentageChips: React.NamedExoticComponent<FormTypeProps> = memo(
       }
     }
 
-    if (formType !== 'from' || !token || !account?.isConnected) {
+    if (formType !== 'from' || isDisabled || !token || !account?.isConnected) {
       return null
     }
 

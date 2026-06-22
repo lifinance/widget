@@ -2,9 +2,10 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import SwapVertIcon from '@mui/icons-material/SwapVert'
 import type { CardProps } from '@mui/material'
 import { Box, Skeleton, Tooltip } from '@mui/material'
-import { type JSX, useLayoutEffect, useRef, useState } from 'react'
+import { type JSX, useLayoutEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useRoutes } from '../../hooks/useRoutes.js'
+import { useInputModeStore } from '../../stores/inputMode/useInputModeStore.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { getPriceImpact } from '../../utils/getPriceImpact.js'
 import { fitInputText } from '../../utils/input.js'
@@ -29,8 +30,9 @@ export const ReceiveAmountCard: React.FC<CardProps & { mask?: boolean }> = (
 ): JSX.Element => {
   const { t } = useTranslation()
   const amountRef = useRef<HTMLSpanElement>(null)
-  const [showFiat, setShowFiat] = useState(false)
   const formType = 'to' as const
+  const { inputMode, toggleInputMode } = useInputModeStore()
+  const showFiat = inputMode[formType] === 'price'
   const { routes, isFetching } = useRoutes()
 
   const route = routes?.[0]
@@ -109,7 +111,8 @@ export const ReceiveAmountCard: React.FC<CardProps & { mask?: boolean }> = (
           <>
             <ToggleButton
               clickable={canToggle}
-              onClick={canToggle ? () => setShowFiat((v) => !v) : undefined}
+              onClick={canToggle ? () => toggleInputMode(formType) : undefined}
+              aria-label={canToggle ? 'Toggle fiat value' : undefined}
             >
               <FooterText>{footerDisplay}</FooterText>
               {canToggle ? (

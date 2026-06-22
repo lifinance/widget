@@ -40,6 +40,7 @@ export const FiatValueToggle: React.NamedExoticComponent<FormTypeProps> = memo(
       <ToggleButton
         clickable={canToggle}
         onClick={canToggle ? handleToggle : undefined}
+        aria-label={canToggle ? 'Toggle fiat value' : undefined}
       >
         <FooterText>{displayValue}</FooterText>
         {currentInputMode === 'price' && token?.symbol ? (

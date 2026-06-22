@@ -3,7 +3,7 @@ import type React from 'react'
 
 const pillLayout = (theme: Theme) => ({
   height: 36,
-  borderRadius: theme.shape.borderRadiusSecondary,
+  borderRadius: theme.vars.shape.borderRadiusSecondary,
   padding: theme.spacing(0.5, 1),
   display: 'flex',
   alignItems: 'center',
