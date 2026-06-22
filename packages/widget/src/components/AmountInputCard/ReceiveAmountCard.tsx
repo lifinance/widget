@@ -5,6 +5,7 @@ import { Box, Skeleton, Tooltip } from '@mui/material'
 import { type JSX, useLayoutEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useRoutes } from '../../hooks/useRoutes.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useInputModeStore } from '../../stores/inputMode/useInputModeStore.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { getPriceImpact } from '../../utils/getPriceImpact.js'
@@ -33,6 +34,7 @@ export const ReceiveAmountCard: React.FC<CardProps & { mask?: boolean }> = (
   const formType = 'to' as const
   const { inputMode, toggleInputMode } = useInputModeStore()
   const showFiat = inputMode[formType] === 'price'
+  const { hiddenUI } = useWidgetConfig()
   const { routes, isFetching } = useRoutes()
 
   const route = routes?.[0]
@@ -48,14 +50,15 @@ export const ReceiveAmountCard: React.FC<CardProps & { mask?: boolean }> = (
 
   const canToggle = !!receiveAmount && !!route?.toToken.priceUSD
 
-  const priceImpact = route
-    ? getPriceImpact({
-        fromAmount: BigInt(route.fromAmount),
-        toAmount: BigInt(route.toAmount),
-        fromToken: route.fromToken,
-        toToken: route.toToken,
-      })
-    : undefined
+  const priceImpact =
+    route && !hiddenUI?.routeCardPriceImpact
+      ? getPriceImpact({
+          fromAmount: BigInt(route.fromAmount),
+          toAmount: BigInt(route.toAmount),
+          fromToken: route.fromToken,
+          toToken: route.toToken,
+        })
+      : undefined
 
   const mainDisplay = showFiat
     ? t('format.currency', { value: fiatValue })
