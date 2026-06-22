@@ -1,6 +1,5 @@
 import { Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { AmountInput } from '../../components/AmountInput/AmountInput.js'
 import { AmountInputCardPair } from '../../components/AmountInputCard/AmountInputCardPair.js'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
 import { GasRefuelMessage } from '../../components/Messages/GasRefuelMessage.js'
@@ -19,12 +18,8 @@ import { ReviewButton } from './ReviewButton.js'
 export const MainPage: React.FC = () => {
   const { t } = useTranslation()
   const wideVariant = useWideVariant()
-  const { mode, modeOptions, contractComponent, hiddenUI, _navigationTabs } =
-    useWidgetConfig()
+  const { mode, modeOptions, contractComponent, hiddenUI } = useWidgetConfig()
   const custom = mode === 'custom'
-  // Navigation tabs drive the jumper experience, which uses the redesigned
-  // amount input cards instead of the classic chain/token + amount inputs.
-  const isJumper = !!_navigationTabs?.length
   const showPoweredBy = !hiddenUI?.poweredBy
   const showGasRefuelMessage = !hiddenUI?.gasRefuelMessage
 
@@ -47,20 +42,18 @@ export const MainPage: React.FC = () => {
 
   const marginSx = { marginBottom: 2 }
 
+  const showSelectorsWithAmount =
+    !custom || modeOptions?.custom?.type === 'deposit'
+
   return (
     <PageContainer topGutters>
-      {custom ? (
+      {custom && (
         <ContractComponent sx={marginSx}>{contractComponent}</ContractComponent>
-      ) : null}
-      {isJumper ? (
+      )}
+      {showSelectorsWithAmount ? (
         <AmountInputCardPair sx={marginSx} />
       ) : (
-        <>
-          <SelectChainAndToken sx={marginSx} />
-          {!custom || modeOptions?.custom?.type === 'deposit' ? (
-            <AmountInput formType="from" sx={marginSx} />
-          ) : null}
-        </>
+        <SelectChainAndToken sx={marginSx} />
       )}
       {!wideVariant ? <Routes sx={marginSx} /> : null}
       <SendToWalletButton sx={marginSx} />
