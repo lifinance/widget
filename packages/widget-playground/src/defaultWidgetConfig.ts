@@ -65,6 +65,21 @@ export const widgetBaseConfig: WidgetConfig = {
   //   { tabKey: 'private', config: { variant: 'compact', mode: 'split', modeOptions: { split: 'swap' } } },
   //   { tabKey: 'refuel', config: { variant: 'wide', mode: 'refuel' } },
   // ],
+  // Private tab routing through a dedicated backend endpoint. `keyPrefix` is
+  // mandatory whenever a tab overrides `sdkConfig.apiUrl` — it isolates the
+  // React Query cache so private-endpoint data isn't served from the public one.
+  // _navigationTabs: [
+  //   { tabKey: 'default', config: {} },
+  //   {
+  //     tabKey: 'private',
+  //     config: {
+  //       sdkConfig: { apiUrl: 'https://li.quest/private/v1' },
+  //       requiredUI: { toAddress: true },
+  //       useRelayerRoutes: true,
+  //       keyPrefix: 'private',
+  //     },
+  //   },
+  // ],
   // _navigationTabs: [
   //   { tabKey: 'swap-advanced', config: { variant: 'wide', mode: 'split', modeOptions: { split: 'swap' } } },
   //   { tabKey: 'bridge-advanced', config: { variant: 'wide', mode: 'split', modeOptions: { split: 'bridge' } } },
