@@ -1650,9 +1650,6 @@ importers:
       microdiff:
         specifier: ^1.5.0
         version: 1.5.0
-      porto:
-        specifier: ^0.2.37
-        version: 0.2.37(@tanstack/react-query@5.101.0(react@19.2.7))(@types/react@19.2.17)(@wagmi/core@3.5.1(@tanstack/query-core@5.101.0)(@types/react@19.2.17)(react@19.2.7)(typescript@6.0.3)(use-sync-external-store@1.4.0(react@19.2.7))(viem@2.52.2(bufferutil@4.1.0)(typescript@6.0.3)(utf-8-validate@6.0.6)(zod@4.4.3)))(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(bufferutil@4.1.0)(react@19.2.7)(utf-8-validate@6.0.6))(react@19.2.7)(typescript@6.0.3)(use-sync-external-store@1.4.0(react@19.2.7))(viem@2.52.2(bufferutil@4.1.0)(typescript@6.0.3)(utf-8-validate@6.0.6)(zod@4.4.3))(wagmi@3.6.17)
       react:
         specifier: ^19.2.7
         version: 19.2.7
@@ -9979,8 +9976,8 @@ packages:
   des.js@1.1.0:
     resolution: {integrity: sha512-r17GxjhUCjSRy8aiJpr8/UadFIzMzJGexI3Nmz4ADi9LYSFx4gTBp80+NaX/YsXWWLhpZ7v/v/ubEc/bCNfKwg==}
 
-  deslop-js@0.0.24:
-    resolution: {integrity: sha512-ygcRwJXCUedo+hN1L4Ysm7luo4VWOvKEz/kRKWMlFp5bAtTKeXo+8fk/hQaJKsJ/nfahiqkhlYTlrKIR/5nsQg==}
+  deslop-js@0.5.8:
+    resolution: {integrity: sha512-Vq9D2x4dAIW24zcH55DTrl3/vi13UNKfXgw0yj7ULTssZ6KOdw/oyBHtlvE94KFC9yYEhgFTrGjaqqZKvV9pwA==}
 
   destr@2.0.5:
     resolution: {integrity: sha512-ugFTXCtDZunbzasqBxrK93Ik/DRYsO6S/fedkWEMKqt04xZ4csmnmwGDBAb07QWNaGMAmnTIemsYZCksjATwsA==}
@@ -12760,8 +12757,8 @@ packages:
       rolldown:
         optional: true
 
-  oxlint-plugin-react-doctor@0.5.6:
-    resolution: {integrity: sha512-my/aMTDi2XmodqTK2ur+UeDLVAnOohIBfwj1AQ5LC3Q2vpcKsUiFjmwVxdy3RuanLXHXJ7hXwAqfmtIaYeyTpQ==}
+  oxlint-plugin-react-doctor@0.5.8:
+    resolution: {integrity: sha512-L0jveKAMbqF1qAqA2Ksu8aH0/Q8FDQxLwXmHYgALa2XlsxEUuamJ+1Da2MhPWJ2ahn+ekFbnWK20qixxD+fw6A==}
     engines: {node: ^20.19.0 || >=22.13.0}
 
   oxlint@1.66.0:
@@ -13569,8 +13566,8 @@ packages:
   react-devtools-core@6.1.5:
     resolution: {integrity: sha512-ePrwPfxAnB+7hgnEr8vpKxL9cmnp7F322t8oqcPshbIQQhDKgFDW4tjhF2wjVbdXF9O/nyuy3sQWd9JGpiLPvA==}
 
-  react-doctor@0.5.6:
-    resolution: {integrity: sha512-xiy7vRG08qFW5XCYvvB6zir1kWtfuEK68h4scBJtOvt1r6bUNyi4zSsUkq5jdU1afJ2+Uq8y8H9KIQlP2sCqQA==}
+  react-doctor@0.5.8:
+    resolution: {integrity: sha512-gDXDQ+48KeFq2jkVgsUhQ67oQ+kUMdnIaA+YeS9VXXZFXSg9wxY5dDxurEpILSh8RwO06W8p6uCnTR+wn5B/GA==}
     engines: {node: ^20.19.0 || >=22.13.0}
     hasBin: true
 
@@ -27815,7 +27812,7 @@ snapshots:
       inherits: 2.0.4
       minimalistic-assert: 1.0.1
 
-  deslop-js@0.0.24:
+  deslop-js@0.5.8:
     dependencies:
       '@oxc-project/types': 0.132.0
       fast-glob: 3.3.3
@@ -31515,12 +31512,12 @@ snapshots:
       oxc-parser: 0.133.0
       rolldown: 1.1.1
 
-  oxlint-plugin-react-doctor@0.5.6:
+  oxlint-plugin-react-doctor@0.5.8:
     dependencies:
       '@typescript-eslint/types': 8.61.1
       eslint-scope: 9.1.2
       eslint-visitor-keys: 5.0.1
-      oxc-parser: 0.132.0
+      oxc-parser: 0.135.0
 
   oxlint@1.66.0:
     optionalDependencies:
@@ -31868,6 +31865,7 @@ snapshots:
       - '@types/react'
       - immer
       - use-sync-external-store
+    optional: true
 
   poseidon-lite@0.2.1: {}
 
@@ -32372,19 +32370,19 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  react-doctor@0.5.6(eslint@10.5.0(jiti@2.7.0)):
+  react-doctor@0.5.8(eslint@10.5.0(jiti@2.7.0)):
     dependencies:
       '@babel/code-frame': 7.29.7
       '@sentry/node': 10.58.0
       agent-install: 0.0.5
       conf: 15.1.0
       confbox: 0.2.4
-      deslop-js: 0.0.24
+      deslop-js: 0.5.8
       eslint-plugin-react-hooks: 7.1.1(eslint@10.5.0(jiti@2.7.0))
       jiti: 2.7.0
       magicast: 0.5.3
       oxlint: 1.66.0
-      oxlint-plugin-react-doctor: 0.5.6
+      oxlint-plugin-react-doctor: 0.5.8
       prompts: 2.4.2
       typescript: 6.0.3
       vscode-languageserver: 9.0.1
@@ -32573,7 +32571,7 @@ snapshots:
       preact: 10.29.2
       prompts: 2.4.2
       react: 19.2.7
-      react-doctor: 0.5.6(eslint@10.5.0(jiti@2.7.0))
+      react-doctor: 0.5.8(eslint@10.5.0(jiti@2.7.0))
       react-dom: 19.2.7(react@19.2.7)
       react-grab: 0.1.47(react@19.2.7)
     optionalDependencies:

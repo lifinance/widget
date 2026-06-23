@@ -26,11 +26,7 @@ export const getConnectorTagType = (
       : WalletTagType.GetStarted
   }
 
-  if (
-    connectorId === 'coinbaseWalletSDK' ||
-    connectorId === 'baseAccount' ||
-    connectorId === 'xyz.ithaca.porto'
-  ) {
+  if (connectorId === 'coinbaseWalletSDK' || connectorId === 'baseAccount') {
     return WalletTagType.GetStarted
   }
 
