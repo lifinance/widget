@@ -141,6 +141,7 @@ export const ToggleButton: React.FC<
   gap: theme.spacing(0.25),
   borderRadius: theme.vars.shape.borderRadiusSecondary,
   padding: theme.spacing(0.25, 0.5),
+  marginLeft: theme.spacing(-0.5),
   backgroundColor: 'transparent',
   ...(clickable
     ? {
