@@ -43,6 +43,9 @@ export const ReceiveAmountCard: React.FC<CardProps & { mask?: boolean }> = (
       ? formatTokenAmount(BigInt(route.toAmount), route.toToken.decimals)
       : undefined
 
+  // Only show skeletons on the initial fetch
+  const showSkeleton = isFetching && !receiveAmount
+
   const fiatValue =
     receiveAmount && route?.toToken.priceUSD
       ? formatTokenPrice(receiveAmount, route.toToken.priceUSD)
@@ -50,8 +53,10 @@ export const ReceiveAmountCard: React.FC<CardProps & { mask?: boolean }> = (
 
   const canToggle = !!receiveAmount && !!route?.toToken.priceUSD
 
+  const showPriceImpact = !hiddenUI?.routeCardPriceImpact
+
   const priceImpact =
-    route && !hiddenUI?.routeCardPriceImpact
+    route && showPriceImpact
       ? getPriceImpact({
           fromAmount: BigInt(route.fromAmount),
           toAmount: BigInt(route.toAmount),
@@ -81,7 +86,7 @@ export const ReceiveAmountCard: React.FC<CardProps & { mask?: boolean }> = (
         <CardTitle sx={{ padding: 0 }}>{t('header.receive')}</CardTitle>
       </CardHeaderRow>
       <CardBodyRow>
-        {isFetching ? (
+        {showSkeleton ? (
           <Skeleton variant="rounded" height={amountHeight} sx={{ flex: 1 }} />
         ) : (
           <AmountDisplay
@@ -97,18 +102,20 @@ export const ReceiveAmountCard: React.FC<CardProps & { mask?: boolean }> = (
         <TokenPillButton formType={formType} />
       </CardBodyRow>
       <CardFooterRow>
-        {isFetching ? (
+        {showSkeleton ? (
           <>
             <Skeleton
               variant="text"
               width={72}
               sx={{ fontSize: footerFontSize }}
             />
-            <Skeleton
-              variant="text"
-              width={56}
-              sx={{ fontSize: footerFontSize }}
-            />
+            {showPriceImpact ? (
+              <Skeleton
+                variant="text"
+                width={56}
+                sx={{ fontSize: footerFontSize }}
+              />
+            ) : null}
           </>
         ) : (
           <>

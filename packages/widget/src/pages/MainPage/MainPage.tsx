@@ -22,7 +22,7 @@ export const MainPage: React.FC = () => {
   const { mode, modeOptions, contractComponent, hiddenUI, defaultUI } =
     useWidgetConfig()
   const custom = mode === 'custom'
-  const showSendReceiveCards = !!defaultUI?.cardLayout
+  const showSendReceiveCards = defaultUI?.layout === 'cards'
   const showPoweredBy = !hiddenUI?.poweredBy
   const showGasRefuelMessage = !hiddenUI?.gasRefuelMessage
 

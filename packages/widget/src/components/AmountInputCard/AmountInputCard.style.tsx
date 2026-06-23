@@ -10,7 +10,7 @@ import type React from 'react'
 import type { FormType } from '../../stores/form/types.js'
 import { InputCard } from '../Card/InputCard.js'
 
-export const maxInputFontSize = 28
+export const maxInputFontSize = 30
 export const minInputFontSize = 20
 export const amountHeight = 32
 export const footerFontSize = 12
@@ -31,11 +31,11 @@ export const AmountCard: React.FC<
     return {
       display: 'flex',
       flexDirection: 'column',
-      gap: theme.spacing(1),
+      gap: theme.spacing(1.5),
       padding: theme.spacing(2),
       ...(cardVariant !== 'outlined' &&
         mask && {
-          mask: `radial-gradient(circle 20px at 50% ${vertical}, #fff0 96%, #fff) 100% 100% / 100% 100% no-repeat`,
+          mask: `radial-gradient(circle 24px at 50% ${vertical}, #fff0 96%, #fff) 100% 100% / 100% 100% no-repeat`,
         }),
     }
   }
@@ -140,8 +140,8 @@ export const ToggleButton: React.FC<
   alignItems: 'center',
   gap: theme.spacing(0.25),
   borderRadius: theme.vars.shape.borderRadiusSecondary,
-  padding: theme.spacing(0.25, 0.5),
-  marginLeft: theme.spacing(-0.5),
+  padding: theme.spacing(0.25, 0.5, 0.25, 0.75),
+  marginLeft: theme.spacing(-0.75),
   backgroundColor: 'transparent',
   ...(clickable
     ? {
