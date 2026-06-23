@@ -8,14 +8,12 @@ import type {
   BaseAccountParameters,
   CoinbaseWalletParameters,
   MetaMaskParameters,
-  PortoParameters,
   WalletConnectParameters,
 } from 'wagmi/connectors'
 import { safe } from 'wagmi/connectors'
 import { createBaseAccountConnector } from '../connectors/baseAccount.js'
 import { createCoinbaseConnector } from '../connectors/coinbase.js'
 import { createMetaMaskConnector } from '../connectors/metaMask.js'
-import { createPortoConnector } from '../connectors/porto.js'
 import { createWalletConnectConnector } from '../connectors/walletConnect.js'
 
 // Drop viem's bundled mainnet default (eth.merkle.io); BE RPCs arrive via useSyncWagmiConfig.
@@ -32,7 +30,6 @@ export interface DefaultWagmiConfigProps {
   coinbase?: CoinbaseWalletParameters
   metaMask?: MetaMaskParameters
   baseAccount?: BaseAccountParameters
-  porto?: Partial<PortoParameters>
   wagmiConfig?: {
     ssr?: boolean
     multiInjectedProviderDiscovery?: boolean
@@ -139,10 +136,6 @@ export function createDefaultWagmiConfig(
     (recentConnectorId?.includes?.('baseAccount') || !props.lazy)
   ) {
     connectors.unshift(createBaseAccountConnector(props.baseAccount))
-  }
-
-  if (props?.porto && (recentConnectorId?.includes?.('porto') || !props.lazy)) {
-    connectors.unshift(createPortoConnector(props.porto))
   }
 
   return {

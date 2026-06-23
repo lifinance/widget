@@ -32,8 +32,7 @@ export const SuiBaseProvider: FC<PropsWithChildren<SuiBaseProviderProps>> = ({
       createClient: (network) =>
         new SuiGrpcClient({
           network,
-          baseUrl:
-            sui?.metamask?.rpcUrls[0] ?? getJsonRpcFullnodeUrl('mainnet'),
+          baseUrl: sui?.metamask?.rpcUrls[0] ?? getJsonRpcFullnodeUrl(network),
         }),
       autoConnect: true,
       storage: typeof window !== 'undefined' ? localStorage : undefined,

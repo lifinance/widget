@@ -13,8 +13,6 @@ export const getWalletIcon = (id: string): string | undefined => {
       return 'https://lifinance.github.io/types/src/assets/icons/wallets/metamask.svg'
     case 'baseAccount':
       return 'https://lifinance.github.io/types/src/assets/icons/wallets/baseAccount.svg'
-    case 'xyz.ithaca.porto':
-      return 'https://lifinance.github.io/types/src/assets/icons/wallets/porto.svg'
     default:
       break
   }

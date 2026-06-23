@@ -1,7 +1,8 @@
 import { ChainId, ChainType } from '@lifi/sdk'
 import { SuiProvider as SuiSDKProvider } from '@lifi/sdk-provider-sui'
 import { SuiContext } from '@lifi/widget-provider'
-import { SuiJsonRpcClient } from '@mysten/sui/jsonRpc'
+import { SuiGrpcClient } from '@mysten/sui/grpc'
+import { getJsonRpcFullnodeUrl } from '@mysten/sui/jsonRpc'
 import {
   type FC,
   type PropsWithChildren,
@@ -116,9 +117,9 @@ export const SuiIframeProviderValues: FC<PropsWithChildren> = ({
     () =>
       SuiSDKProvider({
         getClient: async () =>
-          new SuiJsonRpcClient({
-            url: 'https://fullnode.mainnet.sui.io:443',
+          new SuiGrpcClient({
             network: 'mainnet',
+            baseUrl: getJsonRpcFullnodeUrl('mainnet'),
           }),
         getSigner: async () => new IframeSuiSigner(address!, provider),
       }),
