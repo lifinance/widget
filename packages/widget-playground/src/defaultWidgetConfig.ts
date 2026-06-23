@@ -81,7 +81,7 @@ export const widgetBaseConfig: WidgetConfig = {
   // requiredUI: { toAddress: true },
   defaultUI: {
     //navigationHeaderTitleNoWrap: false,
-    layout: 'cards',
+    // layout: 'cards',
   },
   // slippage: 0.003,
   // walletConfig: {

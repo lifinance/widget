@@ -35,7 +35,7 @@ export const AmountCard: React.FC<
       padding: theme.spacing(2),
       ...(cardVariant !== 'outlined' &&
         mask && {
-          mask: `radial-gradient(circle 24px at 50% ${vertical}, #fff0 96%, #fff) 100% 100% / 100% 100% no-repeat`,
+          mask: `radial-gradient(circle 22px at 50% ${vertical}, #fff0 96%, #fff) 100% 100% / 100% 100% no-repeat`,
         }),
     }
   }
