@@ -1,9 +1,9 @@
-# Welcome to React Router 7!
+# Welcome to React Router 8!
 
-- [React Router 7 Docs](https://reactrouter.com/home)
+- [React Router 8 Docs](https://reactrouter.com/home)
 
 ### Migrating from Remix?
-This example was a remix app converted to a react router 7 app.
+This example was a remix app converted to a react router 8 app.
 - [Migration Docs](https://reactrouter.com/upgrading/remix)
 - [Remix Docs](https://remix.run/docs)
 

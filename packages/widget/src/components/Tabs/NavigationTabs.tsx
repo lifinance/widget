@@ -40,6 +40,9 @@ export const NavigationTab: React.FC<React.ComponentProps<typeof Tab>> = styled(
     slot: 'root',
   }
 )(({ theme }) => ({
+  flex: 'none',
+  whiteSpace: 'nowrap',
+  minWidth: 'auto',
   minHeight: theme.spacing(5),
   maxHeight: theme.spacing(5),
 }))

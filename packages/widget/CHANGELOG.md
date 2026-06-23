@@ -1,5 +1,29 @@
 # @lifi/widget
 
+## 4.1.0
+
+### Minor Changes
+
+- [#796](https://github.com/lifinance/widget/pull/796) [`80c1387`](https://github.com/lifinance/widget/commit/80c13872909381a614bbca3669b37ee2e09b4902) Thanks [@chybisov](https://github.com/chybisov)! - Drop React 18 support and require React 19+. The `react`/`react-dom` peer dependency range is narrowed from `>=18` to `>=19`, and the components are modernized to React 19 idioms (refs passed as props instead of `forwardRef`, `use()` for context). The `widget-provider-*` packages now use React-19-only APIs and declare a `react: >=19` peer dependency. Integrators must be on React 19 or newer.
+
+- [#775](https://github.com/lifinance/widget/pull/775) [`0ad86fe`](https://github.com/lifinance/widget/commit/0ad86fee75a77eb1bbdb10d3fe3eead922c4a1eb) Thanks [@effie-ms](https://github.com/effie-ms)! - Internal: header navigation tabs are now config-driven via the internal `_navigationTabs` option (not part of the public API). The active tab drives the displayed flow's mode, variant and mode options, and the split Swap/Bridge tabs are served by this unified navigation-tabs store — existing `mode: 'split'` behavior is unchanged.
+
+### Patch Changes
+
+- [#798](https://github.com/lifinance/widget/pull/798) [`873fd1e`](https://github.com/lifinance/widget/commit/873fd1eb0561415d0bcd51d42f3a292eb5ad2483) Thanks [@chybisov](https://github.com/chybisov)! - Update third-party runtime dependencies to their latest compatible versions (MUI 9.1, wagmi 3.6.17, viem ^2.52.2, TanStack Router/Virtual, i18next 26.3.1, and Tron/Sui/Solana wallet adapters).
+
+- [#797](https://github.com/lifinance/widget/pull/797) [`2210d52`](https://github.com/lifinance/widget/commit/2210d521a006ebcb08f19e848593065aebcb5647) Thanks [@chybisov](https://github.com/chybisov)! - Fix a false "Not enough funds" warning that appeared on the transaction status screen while waiting for the destination chain. Pre-flight warning messages are no longer rendered during the in-progress (pending) execution state, restoring the behavior from before the v4 execution page redesign.
+
+- [#791](https://github.com/lifinance/widget/pull/791) [`e956d45`](https://github.com/lifinance/widget/commit/e956d45e6d0c63793b573bf5ceda9641c524df31) Thanks [@tomiiide](https://github.com/tomiiide)! - Respect the integrator's `exchanges`/`bridges` allow-list on the first route request. Previously, before the `/tools` fetch populated the enabled-tools store, the initial `/advanced/routes` request omitted the exchange/bridge filter (or sent a stale persisted list), so it could return and render routes from disabled tools. The enabled-tools state is now seeded synchronously from the config allow-list and stale persisted entries are intersected against it on rehydration.
+
+- [#773](https://github.com/lifinance/widget/pull/773) [`63363e5`](https://github.com/lifinance/widget/commit/63363e52d82e594a9c0d46a0d9bdbe6a827b9a9c) Thanks [@vinzenzLIFI](https://github.com/vinzenzLIFI)! - Add `data-testid` attributes to `CloseDrawerButton`, `ReverseTokensButton`, `BaseTransactionButton`, and the `WidgetSkeleton` container for stable e2e test targeting.
+
+- [#771](https://github.com/lifinance/widget/pull/771) [`d513c30`](https://github.com/lifinance/widget/commit/d513c309026e399d007f16b99231d47cb05164a6) Thanks [@tomiiide](https://github.com/tomiiide)! - Remove the Merkle RPC (`https://eth.merkle.io`) from the default mainnet seed chain. viem bundles it as the mainnet default, but it is a shared public endpoint that surfaced intermittent CORS errors in the browser (consistent with rate-limiting), causing failed/slow Ethereum quotes until the request retried elsewhere. The seed chain no longer carries a public RPC of its own; the real RPCs arrive from the backend via `useSyncWagmiConfig` before any mainnet read fires. The default client wraps the synced RPCs in a `fallback` transport for per-request failover. `useIsContractAddress` now waits until the chain is available from the backend before reading on-chain, so it no longer runs against the unsynced default client.
+
+- Updated dependencies [[`873fd1e`](https://github.com/lifinance/widget/commit/873fd1eb0561415d0bcd51d42f3a292eb5ad2483), [`80c1387`](https://github.com/lifinance/widget/commit/80c13872909381a614bbca3669b37ee2e09b4902), [`52cbaa2`](https://github.com/lifinance/widget/commit/52cbaa2777223476b7cd4898cdd06d22b16a6037), [`900dc78`](https://github.com/lifinance/widget/commit/900dc78f1533c291ac08820753d8fe72779ff0e6)]:
+  - @lifi/wallet-management@4.1.0
+  - @lifi/widget-provider@4.1.0
+
 ## 4.0.0
 
 ### Minor Changes
