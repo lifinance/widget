@@ -39,9 +39,9 @@
   ],
   "dependencies": {
     "@lifi/sdk": "^4.0.0",
-    "@lifi/sdk-provider-ethereum": "^4.0.0",
+    "@lifi/sdk-provider-ethereum": "^4.0.2",
     "@lifi/widget-provider": "workspace:*",
-    "viem": "^2.52.2"
+    "viem": ">=2.52.0"
   },
   "peerDependencies": {
     "@wagmi/core": "^3.5.0",

@@ -1,3 +1,4 @@
+import type { Context } from 'react'
 import { createContext, use, useId, useMemo } from 'react'
 import { useSettingsActions } from '../../stores/settings/useSettingsActions.js'
 import type { WidgetContextProps, WidgetProviderProps } from './types.js'
@@ -7,7 +8,8 @@ const initialContext: WidgetContextProps = {
   integrator: '',
 }
 
-const WidgetContext = createContext<WidgetContextProps>(initialContext)
+export const WidgetContext: Context<WidgetContextProps> =
+  createContext<WidgetContextProps>(initialContext)
 
 export const useWidgetConfig = (): WidgetContextProps => use(WidgetContext)
 

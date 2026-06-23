@@ -32,7 +32,6 @@ export const EthereumBaseProvider: FC<
         defaultWalletConnectConfig
       ),
       baseAccount: resolveConfig(config?.baseAccount, defaultBaseAccountConfig),
-      porto: resolveConfig(config?.porto, undefined),
       wagmiConfig: {
         ssr: true,
       },

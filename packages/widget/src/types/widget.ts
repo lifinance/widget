@@ -35,7 +35,15 @@ import type {
 import type { DefaultFieldValues } from '../stores/form/types.js'
 
 export type WidgetVariant = 'compact' | 'wide' | 'drawer'
-export type WidgetMode = 'default' | 'split' | 'custom' | 'refuel'
+
+/** @internal Not part of the public API. */
+export type InternalWidgetMode = 'limit'
+export type WidgetMode =
+  | 'default'
+  | 'split'
+  | 'custom'
+  | 'refuel'
+  | InternalWidgetMode
 export type SplitMode = 'bridge' | 'swap'
 export type SplitModeOptions = {
   defaultTab: SplitMode
@@ -50,6 +58,21 @@ export interface ModeOptions {
   split?: SplitMode | SplitModeOptions
   custom?: { type: CustomMode }
 }
+
+/**
+ * Identity of a header navigation tab. Each key maps to a widget variant, mode and
+ * (optionally) mode options; labels are resolved from the key.
+ */
+export type SplitNavigationTabKey = SplitMode
+/** @internal Not part of the public API. */
+export type InternalNavigationTabKey =
+  | 'default'
+  | 'private'
+  | 'refuel'
+  | 'swap-advanced'
+  | 'bridge-advanced'
+  | 'limit'
+export type NavigationTabKey = InternalNavigationTabKey | SplitNavigationTabKey
 
 export type Appearance = PaletteMode | 'system'
 export interface NavigationProps {
@@ -344,6 +367,13 @@ export interface WidgetConfig {
   variant?: WidgetVariant
   mode?: WidgetMode
   modeOptions?: ModeOptions
+  /**
+   * Header navigation tabs, in order. When set, the widget renders a tab bar
+   * and the active tab drives the displayed flow. Each entry is a tab key.
+   *
+   * @internal Not part of the public API.
+   */
+  _navigationTabs?: NavigationTabKey[]
 
   appearance?: Appearance
   theme?: WidgetTheme

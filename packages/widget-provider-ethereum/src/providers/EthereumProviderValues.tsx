@@ -37,7 +37,6 @@ import { defaultWalletConnectConfig } from '../config/walletConnect.js'
 import { createBaseAccountConnector } from '../connectors/baseAccount.js'
 import { createCoinbaseConnector } from '../connectors/coinbase.js'
 import { createMetaMaskConnector } from '../connectors/metaMask.js'
-import { createPortoConnector } from '../connectors/porto.js'
 import { createWalletConnectConnector } from '../connectors/walletConnect.js'
 import type {
   CreateConnectorFnExtended,
@@ -145,16 +144,6 @@ export const EthereumProviderValues: FC<
           createBaseAccountConnector(
             resolveConfig(config.baseAccount, defaultBaseAccountConfig)!
           )
-        )
-      }
-      if (
-        config?.porto &&
-        !evmConnectors.some((connector) =>
-          connector.id.toLowerCase().includes('porto')
-        )
-      ) {
-        additionalConnectors.unshift(
-          createPortoConnector(resolveConfig(config.porto, undefined))
         )
       }
 
