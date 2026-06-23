@@ -24,8 +24,7 @@
         "@coinbase/wallet-sdk",
         "@metamask/connect-evm",
         "@metamask/connect-multichain",
-        "@walletconnect/ethereum-provider",
-        "porto"
+        "@walletconnect/ethereum-provider"
       ]
     }
   }

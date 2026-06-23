@@ -16,8 +16,8 @@
     "@lifi/widget-provider-ethereum": "4.0.0",
     "@mui/icons-material": "^9.1.1",
     "@mui/material": "^9.1.1",
-    "@privy-io/react-auth": "^3.31.0",
-    "@privy-io/wagmi": "^4.0.12",
+    "@privy-io/react-auth": "^3.32.1",
+    "@privy-io/wagmi": "^4.0.13",
     "@solana-program/memo": "^0.11.2",
     "@solana/kit": "^6.10.0",
     "@solana/wallet-adapter-base": "^0.9.27",
@@ -28,7 +28,7 @@
     "permissionless": "^0.3.6",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "viem": "^2.52.2",
+    "viem": ">=2.52.0",
     "wagmi": "^3.6.17"
   },
   "devDependencies": {
