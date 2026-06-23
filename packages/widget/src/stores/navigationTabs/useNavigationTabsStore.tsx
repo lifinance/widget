@@ -17,9 +17,12 @@ import type {
   SplitMode,
   WidgetConfig,
 } from '../../types/widget.js'
-import { getSplitMode } from '../../utils/mode.js'
 import type { NavigationTabsState, NavigationTabsStore } from './types.js'
-import { getInitialActiveTab, getNavigationTabs } from './utils.js'
+import {
+  getInitialActiveTab,
+  getNavigationTabs,
+  resolveSplitMode,
+} from './utils.js'
 
 const NavigationTabsStoreContext = createContext<NavigationTabsStore | null>(
   null
@@ -87,12 +90,7 @@ export function useNavigationTabsStore<T>(
 export function useSplitMode(): SplitMode | undefined {
   const activeTab = useNavigationTabsStore((state) => state.activeTab)
   const config = useWidgetConfig()
-  if (!activeTab) {
-    return undefined
-  }
-  return config.mode === 'split'
-    ? getSplitMode(config.modeOptions?.split)
-    : undefined
+  return resolveSplitMode(config, activeTab)
 }
 
 const createNavigationTabsStore = (

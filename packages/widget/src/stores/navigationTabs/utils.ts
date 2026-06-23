@@ -1,6 +1,7 @@
 import type {
   NavigationTabConfig,
   NavigationTabKey,
+  SplitMode,
   WidgetConfig,
 } from '../../types/widget.js'
 import { getSplitMode } from '../../utils/mode.js'
@@ -41,6 +42,29 @@ export const getInitialActiveTab = (
 ): NavigationTabKey | undefined => {
   if (config._navigationTabs?.length) {
     return config._navigationTabs[0].tabKey
+  }
+  return config.mode === 'split'
+    ? getSplitMode(config.modeOptions?.split)
+    : undefined
+}
+
+/**
+ * Resolves the effective split mode. With tabs configured it derives solely from
+ * the active tab's own config; with no tabs at all it falls back to the widget
+ * config.
+ */
+export const resolveSplitMode = (
+  config: WidgetConfig,
+  activeTab?: NavigationTabKey
+): SplitMode | undefined => {
+  const navigationTabs = getNavigationTabs(config)
+  if (navigationTabs.length) {
+    const activeConfig = navigationTabs.find(
+      (tab) => tab.tabKey === activeTab
+    )?.config
+    return activeConfig?.mode === 'split'
+      ? getSplitMode(activeConfig.modeOptions?.split)
+      : undefined
   }
   return config.mode === 'split'
     ? getSplitMode(config.modeOptions?.split)
