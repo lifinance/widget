@@ -11,9 +11,6 @@ interface HeaderTabsProps<K extends string> {
   tabs: HeaderTab<K>[]
   value: K
   onChange: (key: K) => void
-  /** Locks the bar while a route is executing, so the active tab can't switch
-   * the SDK config (e.g. apiUrl) out from under an in-flight execution. */
-  disabled?: boolean
 }
 
 /**
@@ -26,14 +23,10 @@ export const HeaderTabs = <K extends string>({
   tabs,
   value,
   onChange,
-  disabled,
 }: HeaderTabsProps<K>): JSX.Element => {
   const { setFieldValue } = useFieldActions()
 
   const handleChange = (_: React.SyntheticEvent, key: K) => {
-    if (disabled) {
-      return
-    }
     setFieldValue('fromAmount', '')
     setFieldValue('fromToken', '')
     setFieldValue('toToken', '')
@@ -47,7 +40,6 @@ export const HeaderTabs = <K extends string>({
           key={tab.key}
           value={tab.key}
           label={tab.label}
-          disabled={disabled}
           disableRipple
         />
       ))}

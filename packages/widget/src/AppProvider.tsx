@@ -5,7 +5,6 @@ import { SDKClientProvider } from './providers/SDKClientProvider.js'
 import { ThemeProvider } from './providers/ThemeProvider/ThemeProvider.js'
 import { WalletProvider } from './providers/WalletProvider/WalletProvider.js'
 import { WidgetProvider } from './providers/WidgetProvider/WidgetProvider.js'
-import { NavigationTabsStoreProvider } from './stores/navigationTabs/useNavigationTabsStore.js'
 import { StoreProvider } from './stores/StoreProvider.js'
 import { SettingsStoreProvider } from './stores/settings/SettingsStore.js'
 import type { WidgetConfigProps } from './types/widget.js'
@@ -21,15 +20,13 @@ export const AppProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
         <WidgetProvider config={config}>
           <I18nProvider>
             <ThemeProvider>
-              <NavigationTabsStoreProvider config={config}>
-                <SDKClientProvider>
-                  <WalletProvider providers={config.providers ?? []}>
-                    <StoreProvider config={config} formRef={formRef}>
-                      {children}
-                    </StoreProvider>
-                  </WalletProvider>
-                </SDKClientProvider>
-              </NavigationTabsStoreProvider>
+              <SDKClientProvider>
+                <WalletProvider providers={config.providers ?? []}>
+                  <StoreProvider config={config} formRef={formRef}>
+                    {children}
+                  </StoreProvider>
+                </WalletProvider>
+              </SDKClientProvider>
             </ThemeProvider>
           </I18nProvider>
         </WidgetProvider>
