@@ -77,10 +77,18 @@ export const PercentageChips: React.NamedExoticComponent<FormTypeProps> = memo(
 
     return (
       <ChipContainer>
-        <Chip onClick={() => handlePercentage(25)}>25%</Chip>
-        <Chip onClick={() => handlePercentage(50)}>50%</Chip>
-        <Chip onClick={() => handlePercentage(75)}>75%</Chip>
-        <Chip onClick={handleMax}>{t('button.max')}</Chip>
+        <Chip data-delay="0" onClick={() => handlePercentage(25)}>
+          25%
+        </Chip>
+        <Chip data-delay="1" onClick={() => handlePercentage(50)}>
+          50%
+        </Chip>
+        <Chip data-delay="2" onClick={() => handlePercentage(75)}>
+          75%
+        </Chip>
+        <Chip data-delay="3" onClick={handleMax}>
+          {t('button.max')}
+        </Chip>
       </ChipContainer>
     )
   }
