@@ -10,7 +10,7 @@ import type React from 'react'
 import type { FormType } from '../../stores/form/types.js'
 import { InputCard } from '../Card/InputCard.js'
 
-export const maxInputFontSize = 40
+export const maxInputFontSize = 32
 export const minInputFontSize = 20
 export const amountHeight = 32
 export const footerFontSize = 12
@@ -31,7 +31,6 @@ export const AmountCard: React.FC<
     return {
       display: 'flex',
       flexDirection: 'column',
-      gap: theme.spacing(1.5),
       padding: theme.spacing(2),
       ...(cardVariant !== 'outlined' &&
         mask && {

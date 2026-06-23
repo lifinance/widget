@@ -1,5 +1,6 @@
 import { Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+import { AmountInput } from '../../components/AmountInput/AmountInput.js'
 import { AmountInputCardPair } from '../../components/AmountInputCard/AmountInputCardPair.js'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
 import { GasRefuelMessage } from '../../components/Messages/GasRefuelMessage.js'
@@ -18,8 +19,11 @@ import { ReviewButton } from './ReviewButton.js'
 export const MainPage: React.FC = () => {
   const { t } = useTranslation()
   const wideVariant = useWideVariant()
-  const { mode, modeOptions, contractComponent, hiddenUI } = useWidgetConfig()
+  const { mode, modeOptions, contractComponent, hiddenUI, defaultUI } =
+    useWidgetConfig()
   const custom = mode === 'custom'
+  // The redesigned amount input cards are opt-in via config.
+  const useAmountInputCards = !!defaultUI?.amountInputCards
   const showPoweredBy = !hiddenUI?.poweredBy
   const showGasRefuelMessage = !hiddenUI?.gasRefuelMessage
 
@@ -42,7 +46,7 @@ export const MainPage: React.FC = () => {
 
   const marginSx = { marginBottom: 2 }
 
-  const showSelectorsWithAmount =
+  const showAmountInput =
     !custom || modeOptions?.custom?.type === 'deposit'
 
   return (
@@ -50,10 +54,13 @@ export const MainPage: React.FC = () => {
       {custom && (
         <ContractComponent sx={marginSx}>{contractComponent}</ContractComponent>
       )}
-      {showSelectorsWithAmount ? (
+      {useAmountInputCards && showAmountInput ? (
         <AmountInputCardPair sx={marginSx} />
       ) : (
-        <SelectChainAndToken sx={marginSx} />
+        <>
+          <SelectChainAndToken sx={marginSx} />
+          {showAmountInput ? <AmountInput formType="from" sx={marginSx} /> : null}
+        </>
       )}
       {!wideVariant ? <Routes sx={marginSx} /> : null}
       <SendToWalletButton sx={marginSx} />

@@ -150,6 +150,12 @@ export interface RequiredUIConfig {
 export type DefaultUI = {
   transactionDetailsExpanded?: boolean
   navigationHeaderTitleNoWrap?: boolean
+  /**
+   * Use the redesigned Send/Receive amount input cards (`AmountInputCardPair`)
+   * instead of the classic chain/token selectors plus single amount input.
+   * @default false
+   */
+  amountInputCards?: boolean
 }
 
 export interface WidgetWalletConfig {
