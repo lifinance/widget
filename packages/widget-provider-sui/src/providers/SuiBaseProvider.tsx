@@ -5,6 +5,7 @@ import {
   type DefaultExpectedDppKit,
 } from '@mysten/dapp-kit-react'
 import { SuiGrpcClient } from '@mysten/sui/grpc'
+import { getJsonRpcFullnodeUrl } from '@mysten/sui/jsonRpc'
 import { type FC, type PropsWithChildren, useRef } from 'react'
 import type { SuiProviderConfig } from '../types.js'
 import { SuiProviderValues } from './SuiProviderValues.js'
@@ -31,8 +32,7 @@ export const SuiBaseProvider: FC<PropsWithChildren<SuiBaseProviderProps>> = ({
       createClient: (network) =>
         new SuiGrpcClient({
           network,
-          baseUrl:
-            sui?.metamask?.rpcUrls[0] ?? 'https://fullnode.mainnet.sui.io:443',
+          baseUrl: sui?.metamask?.rpcUrls[0] ?? getJsonRpcFullnodeUrl(network),
         }),
       autoConnect: true,
       storage: typeof window !== 'undefined' ? localStorage : undefined,
