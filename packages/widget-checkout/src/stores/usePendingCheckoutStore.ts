@@ -3,7 +3,7 @@ import type { Route } from '@lifi/sdk'
 import { create, type StoreApi, type UseBoundStore } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
-export const PENDING_RECORD_VERSION = 4
+export const PENDING_RECORD_VERSION = 5
 export const PENDING_STORAGE_KEY = 'lifi-checkout-pending'
 export const PENDING_TTL_MS: number = 24 * 60 * 60 * 1000
 
@@ -28,6 +28,7 @@ export interface PendingRecord {
   depositAddress?: string
   fromChain?: number
   provider?: PendingProvider
+  fundingSessionId?: string
   frozenRouteId?: string
   frozenQuote?: PersistedFrozenQuote
   // Display fields, written so the activity card renders without the quote.
@@ -141,6 +142,7 @@ export function buildPendingRecord(
     depositAddress: partial.depositAddress,
     fromChain: partial.fromChain,
     provider: partial.provider,
+    fundingSessionId: partial.fundingSessionId,
     frozenRouteId: partial.frozenRouteId,
     frozenQuote: partial.frozenQuote,
     fromAmount: partial.fromAmount,

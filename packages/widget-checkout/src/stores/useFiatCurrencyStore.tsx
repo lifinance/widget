@@ -8,13 +8,18 @@ import {
 import type { StoreApi, UseBoundStore } from 'zustand'
 import { create } from 'zustand'
 
-export type FiatCurrency = 'USD' | 'EUR' | 'GBP'
+export type FiatCurrency = string
 
 export const FIAT_CURRENCIES: readonly FiatCurrency[] = ['USD', 'EUR', 'GBP']
 
 export interface FiatCurrencyState {
   currency: FiatCurrency
+  paymentMethod: string | null
+  currencyTouched: boolean
   setCurrency: (currency: FiatCurrency) => void
+  setPaymentMethod: (paymentMethod: string | null) => void
+  seedCurrency: (currency: FiatCurrency) => void
+  reset: () => void
 }
 
 type FiatCurrencyStore = UseBoundStore<StoreApi<FiatCurrencyState>>
@@ -22,7 +27,25 @@ type FiatCurrencyStore = UseBoundStore<StoreApi<FiatCurrencyState>>
 export function createFiatCurrencyStore(): FiatCurrencyStore {
   return create<FiatCurrencyState>((set) => ({
     currency: 'USD',
-    setCurrency: (currency) => set({ currency }),
+    paymentMethod: null,
+    currencyTouched: false,
+    setCurrency: (currency) =>
+      set((state) =>
+        state.currency === currency
+          ? { currencyTouched: true }
+          : { currency, paymentMethod: null, currencyTouched: true }
+      ),
+    setPaymentMethod: (paymentMethod) => set({ paymentMethod }),
+    seedCurrency: (currency) =>
+      set((state) =>
+        state.currencyTouched ? state : { currency, paymentMethod: null }
+      ),
+    reset: () =>
+      set({
+        currency: 'USD',
+        paymentMethod: null,
+        currencyTouched: false,
+      }),
   }))
 }
 

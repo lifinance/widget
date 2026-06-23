@@ -6,6 +6,7 @@ import {
   useWidgetConfig,
 } from '@lifi/widget/shared'
 import CloseIcon from '@mui/icons-material/Close'
+import ErrorRounded from '@mui/icons-material/ErrorRounded'
 import { Box, Card, Chip, IconButton, Typography } from '@mui/material'
 import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -48,9 +49,18 @@ export const CheckoutRecipientCard: React.FC = (): JSX.Element | null => {
           </Typography>
           <Chip
             size="small"
-            color="warning"
-            variant="outlined"
+            variant="filled"
+            icon={<ErrorRounded />}
             label={t('checkout.required')}
+            sx={(theme) => ({
+              bgcolor: theme.vars.palette.warning.light,
+              color: theme.vars.palette.warning.dark,
+              fontWeight: 600,
+              '& .MuiChip-icon': {
+                color: theme.vars.palette.warning.dark,
+                fontSize: 16,
+              },
+            })}
           />
         </Box>
         <Typography variant="body2" color="text.secondary">
