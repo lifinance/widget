@@ -511,6 +511,7 @@
     "depositWithCash": "Deposit with Cash",
     "depositWithCashSubtitle": "Debit or credit card",
     "connectWallet": "Connect wallet",
+    "useAnotherWallet": "Use another wallet",
     "moreWallets": "More",
     "progress": {
       "title": "Purchase in progress",

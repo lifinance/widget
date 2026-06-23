@@ -3,7 +3,7 @@ import type { Route } from '@lifi/sdk'
 import { create, type StoreApi, type UseBoundStore } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
-export const PENDING_RECORD_VERSION = 3
+export const PENDING_RECORD_VERSION = 4
 export const PENDING_STORAGE_KEY = 'lifi-checkout-pending'
 export const PENDING_TTL_MS: number = 24 * 60 * 60 * 1000
 
@@ -23,6 +23,8 @@ export interface PendingRecord {
   depositId?: string
   fundingSource: PendingFundingSource
   transactionHash?: string
+  /** Relayer/gasless task id; mutually exclusive with transactionHash. */
+  taskId?: string
   depositAddress?: string
   fromChain?: number
   provider?: PendingProvider
@@ -135,6 +137,7 @@ export function buildPendingRecord(
     depositId: partial.depositId,
     fundingSource: partial.fundingSource,
     transactionHash: partial.transactionHash,
+    taskId: partial.taskId,
     depositAddress: partial.depositAddress,
     fromChain: partial.fromChain,
     provider: partial.provider,

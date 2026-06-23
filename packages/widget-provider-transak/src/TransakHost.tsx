@@ -59,6 +59,9 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
   const [error, setError] = useState<OnRampError | null>(null)
   const [failure, setFailure] = useState<OnRampFailure | null>(null)
   const [widgetUrl, setWidgetUrl] = useState<string | null>(null)
+  const [resolvedDepositAddress, setResolvedDepositAddress] = useState<
+    string | null
+  >(null)
   // `useId()` can return ids with colons (e.g. `:r0:`); Transak's SDK looks
   // the container up via `#${id}` selector and throws on those.
   const reactId = useId()
@@ -80,6 +83,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
     setError(null)
     setFailure(null)
     setWidgetUrl(null)
+    setResolvedDepositAddress(null)
   }, [])
 
   const openDepositFlow = useCallback(
@@ -90,6 +94,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
       setError(null)
       setFailure(null)
       setWidgetUrl(null)
+      setResolvedDepositAddress(null)
       setIsLoading(true)
 
       if (!apiUrl) {
@@ -121,7 +126,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
       }
 
       const body: OnrampSessionRequest = {
-        walletAddress: args.depositAddress,
+        depositAddress: args.depositAddress,
         tokenAddress,
         chainId,
         integrator,
@@ -310,12 +315,21 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
           : {}
       const lastArgs = lastOpenArgsRef.current
       const orderId = typeof order.id === 'string' ? order.id : undefined
+      // On resume of a prior order, Transak funds that order's address, not ours.
+      const orderWalletAddress =
+        typeof order.walletAddress === 'string' && order.walletAddress
+          ? order.walletAddress
+          : null
+      if (orderWalletAddress) {
+        setResolvedDepositAddress(orderWalletAddress)
+      }
 
       debug('order extracted', {
         orderId,
         status: order.status,
         cryptoCurrency: order.cryptoCurrency,
         chainId: order.chainId ?? order.networkId,
+        walletAddress: orderWalletAddress,
       })
 
       // Transak's SDK fires TRANSAK_ORDER_SUCCESSFUL at card-charge time
@@ -329,6 +343,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
         chainId: Number(
           order.chainId ?? order.networkId ?? lastArgs?.fromChainId ?? 0
         ),
+        depositAddress: orderWalletAddress ?? undefined,
       })
 
       debug('closing modal (preserving depositTxHash)')
@@ -417,6 +432,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
       failure,
       depositTxHash: null,
       acknowledgeDepositTxHash: () => {},
+      resolvedDepositAddress,
       mountTargetId,
     }),
     [
@@ -428,6 +444,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
       mountTargetId,
       open,
       openDepositFlow,
+      resolvedDepositAddress,
     ]
   )
 

@@ -42,9 +42,11 @@ const CheckoutAppShell: React.FC<CheckoutAppShellProps> = ({
 }) => {
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
 
-  // All checkout flows force the IF-only exchange allow-list so the IF tool surfaces a route.
+  // The deposit-based flows (transfer/exchange/cash) force the IF-only exchange
+  // allow-list so the IF tool surfaces a deposit-address route. The wallet flow
+  // pays directly from the connected wallet, so it uses any integrator-allowed route.
   const effectiveWidgetConfig = useMemo<WidgetConfig>(() => {
-    if (!fundingSource) {
+    if (!fundingSource || fundingSource === 'wallet') {
       return widgetConfig
     }
     return {

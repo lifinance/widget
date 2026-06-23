@@ -5,7 +5,12 @@ import { renderHook, waitFor } from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('@lifi/widget/shared', () => ({ useSDKClient: () => ({}) }))
+vi.mock('@lifi/widget/shared', () => ({
+  useSDKClient: () => ({}),
+  useRouteExecutionStore: (selector: (s: { routes: object }) => unknown) =>
+    selector({ routes: {} }),
+  isRouteFailed: () => false,
+}))
 vi.mock('@lifi/widget-provider/checkout', () => ({
   useCheckoutConfig: () => ({ integrator: 'int' }),
 }))
@@ -14,6 +19,11 @@ const getDepositAddressStatus = vi.fn()
 vi.mock('../utils/depositAddressStatus.js', () => ({
   getDepositAddressStatus: (...args: unknown[]) =>
     getDepositAddressStatus(...args),
+}))
+
+const getStatus = vi.fn()
+vi.mock('@lifi/sdk', () => ({
+  getStatus: (...args: unknown[]) => getStatus(...args),
 }))
 
 import {
@@ -50,6 +60,8 @@ describe('useCheckoutPendingRecords', () => {
   beforeEach(() => {
     getDepositAddressStatus.mockReset()
     getDepositAddressStatus.mockResolvedValue({ status: 'PENDING' })
+    getStatus.mockReset()
+    getStatus.mockResolvedValue({ status: 'PENDING' })
     usePendingCheckoutStore.getState().clearAll()
   })
 
@@ -129,7 +141,8 @@ describe('useCheckoutPendingRecords', () => {
     expect(getDepositAddressStatus).not.toHaveBeenCalled()
   })
 
-  it('does not poll a record without a deposit address', async () => {
+  it('polls a deposit-address-less wallet record by tx hash and clears it on DONE', async () => {
+    getStatus.mockResolvedValue({ status: 'DONE' })
     usePendingCheckoutStore.getState().write(
       buildResumeKey('int', 'h1'),
       buildPendingRecord({
@@ -140,7 +153,29 @@ describe('useCheckoutPendingRecords', () => {
       })
     )
     renderHook(() => useCheckoutPendingRecords(), { wrapper: wrap() })
-    await new Promise((resolve) => setTimeout(resolve, 20))
+    await waitFor(() => expect(getStatus).toHaveBeenCalled())
+    expect(getStatus.mock.calls[0]?.[1]).toMatchObject({ txHash: '0xhash' })
     expect(getDepositAddressStatus).not.toHaveBeenCalled()
+    await waitFor(() =>
+      expect(
+        usePendingCheckoutStore.getState().records['int:h1']
+      ).toBeUndefined()
+    )
+  })
+
+  it('polls an IF wallet record (deposit + hash) by deposit address, never by hash', async () => {
+    usePendingCheckoutStore.getState().write(
+      buildResumeKey('int', 'd1'),
+      buildPendingRecord({
+        fundingSource: 'wallet',
+        depositAddress: '0xdep',
+        transactionHash: '0xhash',
+        fromChain: 1,
+        status: 'pending',
+      })
+    )
+    renderHook(() => useCheckoutPendingRecords(), { wrapper: wrap() })
+    await waitFor(() => expect(getDepositAddressStatus).toHaveBeenCalled())
+    expect(getStatus).not.toHaveBeenCalled()
   })
 })

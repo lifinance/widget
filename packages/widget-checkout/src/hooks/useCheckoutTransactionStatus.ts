@@ -4,9 +4,11 @@ import { useSDKClient } from '@lifi/widget/shared'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useEffect, useRef } from 'react'
 import { getDepositAddressStatus } from '../utils/depositAddressStatus.js'
+import type { HashStatusHints } from '../utils/statusHints.js'
 import {
   computeBackoffInterval,
   depositAddressQueryKey,
+  taskIdQueryKey,
   txHashQueryKey,
 } from '../utils/statusPolling.js'
 
@@ -17,10 +19,14 @@ export interface CheckoutTransactionStatus {
   phase: CheckoutTransactionPhase | undefined
   isLoading: boolean
   notFound: boolean
+  isError: boolean
+  refetch: () => void
 }
 
 export interface UseCheckoutTransactionStatusArgs {
   transactionHash?: string | null
+  /** Relayer/gasless task id; distinct from transactionHash in the status API. */
+  taskId?: string | null
   depositAddress?: string | null
   fromChain?: number | null
   /**
@@ -29,27 +35,38 @@ export interface UseCheckoutTransactionStatusArgs {
    * paused — a hash means the deposit already happened.
    */
   pauseDepositPoll?: boolean
+  /**
+   * Cross-chain hints (bridge/toChain) forwarded to the hash poll. The SDK needs
+   * `bridge` to resolve a cross-chain transfer by tx hash; ignored on the
+   * deposit-address path.
+   */
+  statusHints?: HashStatusHints
 }
 
 export const useCheckoutTransactionStatus = ({
   transactionHash,
+  taskId,
   depositAddress,
   fromChain,
   pauseDepositPoll,
+  statusHints,
 }: UseCheckoutTransactionStatusArgs): CheckoutTransactionStatus => {
   const sdkClient = useSDKClient()
-  // Status is ALWAYS polled by deposit address — the tx hash is a
-  // display/details supplement, never a status query. The hash path exists
-  // solely for the transaction details page, which has no deposit address.
+  // Deposit-funded flows poll by deposit address (hash/taskId are display-only
+  // there). A non-IF wallet payment has no deposit address, so it polls by hash,
+  // or by taskId for a relayer route — distinct keys in the SDK status API.
   const canPollByDeposit = !!depositAddress && !!fromChain && !pauseDepositPoll
   const canPollByHash = !!transactionHash && !canPollByDeposit
-  const enabled = canPollByHash || canPollByDeposit
+  const canPollByTaskId = !!taskId && !canPollByDeposit && !canPollByHash
+  const enabled = canPollByDeposit || canPollByHash || canPollByTaskId
 
   // Same key as the QR-page poll when we're polling by deposit address —
   // react-query shares the cache entry so the handoff is instant.
   const queryKey = canPollByDeposit
     ? depositAddressQueryKey(depositAddress, fromChain)
-    : txHashQueryKey(transactionHash)
+    : canPollByHash
+      ? txHashQueryKey(transactionHash)
+      : taskIdQueryKey(taskId)
 
   // Lazy so the fast-poll backoff window starts when polling actually begins,
   // not when the page mounts (polling may be paused at mount).
@@ -61,12 +78,9 @@ export const useCheckoutTransactionStatus = ({
     }
   }, [enabled])
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey,
     queryFn: async ({ signal }) => {
-      if (canPollByHash) {
-        return getStatus(sdkClient, { txHash: transactionHash! }, { signal })
-      }
       if (canPollByDeposit) {
         return getDepositAddressStatus({
           sdkClient,
@@ -75,11 +89,28 @@ export const useCheckoutTransactionStatus = ({
           signal,
         })
       }
+      if (canPollByHash) {
+        return getStatus(
+          sdkClient,
+          { txHash: transactionHash!, ...statusHints },
+          { signal }
+        )
+      }
+      if (canPollByTaskId) {
+        return getStatus(
+          sdkClient,
+          { taskId: taskId!, ...statusHints },
+          { signal }
+        )
+      }
       return undefined
     },
     enabled,
     placeholderData: keepPreviousData,
     refetchInterval: (query) => {
+      if (query.state.status === 'error') {
+        return false
+      }
       const status = query.state.data?.status
       if (status === 'DONE' || status === 'FAILED' || status === 'INVALID') {
         return false
@@ -91,10 +122,26 @@ export const useCheckoutTransactionStatus = ({
     },
   })
 
-  // `NOT_FOUND` from the deposit-address path means the deposit hasn't
-  // landed yet — surface it as "no status yet" so the caller keeps the
-  // watching screen up instead of flipping to executing.
-  const resolvedStatus = data && data.status !== 'NOT_FOUND' ? data : undefined
+  // IF status can regress to NOT_FOUND post-real; latch so it can't downgrade.
+  const latchedRef = useRef<{ key: string; status: StatusResponse } | null>(
+    null
+  )
+  const latchKey = queryKey.join('|')
+  if (latchedRef.current && latchedRef.current.key !== latchKey) {
+    latchedRef.current = null
+  }
+
+  let resolvedStatus: StatusResponse | undefined
+  if (data && data.status !== 'NOT_FOUND') {
+    resolvedStatus = data
+    if (canPollByDeposit) {
+      latchedRef.current = { key: latchKey, status: data }
+    }
+  } else if (canPollByDeposit && latchedRef.current) {
+    resolvedStatus = latchedRef.current.status
+  } else {
+    resolvedStatus = undefined
+  }
 
   const phase: CheckoutTransactionPhase | undefined = resolvedStatus
     ? resolvedStatus.status === 'DONE'
@@ -107,5 +154,12 @@ export const useCheckoutTransactionStatus = ({
 
   const notFound = data?.status === 'NOT_FOUND'
 
-  return { status: resolvedStatus, phase, isLoading, notFound }
+  return {
+    status: resolvedStatus,
+    phase,
+    isLoading,
+    notFound,
+    isError: isError && !resolvedStatus,
+    refetch,
+  }
 }

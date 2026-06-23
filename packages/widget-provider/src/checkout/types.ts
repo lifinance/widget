@@ -86,6 +86,11 @@ export interface OnRampSession {
    */
   acknowledgeDepositTxHash: () => void
   /**
+   * Address the resolved order funds; differs from the opened-with address when
+   * the user resumes a prior pending order (Transak). `null` until reported.
+   */
+  resolvedDepositAddress: string | null
+  /**
    * DOM element id the provider's SDK targets. The widget renders a
    * `<div id={mountTargetId}>` inside its hosted modal when this is set.
    * Providers that manage their own overlay (e.g. Mesh) set this to `null`.
@@ -212,6 +217,8 @@ export interface CheckoutResult {
   amount: string
   token: string
   chainId: number
+  /** Address the resolved order funds, when the provider reports one (Transak). */
+  depositAddress?: string
 }
 
 export interface CheckoutError {

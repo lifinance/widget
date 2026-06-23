@@ -42,6 +42,7 @@ import { CheckoutExecutionProgress } from '../components/CheckoutExecutionProgre
 import { FROZEN_QUOTE_TTL_MS, useFrozenQuote } from '../hooks/useFrozenQuote.js'
 import { usePendingCheckoutWriter } from '../hooks/usePendingCheckoutWriter.js'
 import { extractDepositAddress } from '../utils/extractDepositAddress.js'
+import { getSourceTxIdentifier } from '../utils/getSourceTxIdentifier.js'
 import { checkoutNavigationRoutes } from '../utils/navigationRoutes.js'
 
 const statusPath = `/${checkoutNavigationRoutes.transactionExecution}/${checkoutNavigationRoutes.transactionStatus}`
@@ -58,36 +59,40 @@ function PendingCheckoutWalletHandoff({
   const navigate = useNavigate()
   const { writeWallet } = usePendingCheckoutWriter()
   const { freeze } = useFrozenQuote()
-  // A hash already present when a route is first observed belongs to a
-  // previous execution (persisted route state is reused for identical
-  // quotes) — only a hash appearing live triggers the handoff.
+  // Only an identifier appearing live triggers handoff; one already present on
+  // first observe belongs to a prior execution (route state is reused across
+  // identical quotes).
   const observedRef = useRef<{
     routeId: string
-    skipHash: string | null
-    handledHash: string | null
+    skipValue: string | null
+    handledValue: string | null
   } | null>(null)
   useEffect(() => {
     if (!route) {
       observedRef.current = null
       return
     }
-    const hash = getSourceTxHash(route) ?? null
+    const identifier = getSourceTxIdentifier(route) ?? null
     const observed = observedRef.current
     if (!observed || observed.routeId !== route.id) {
       observedRef.current = {
         routeId: route.id,
-        skipHash: hash,
-        handledHash: null,
+        skipValue: identifier?.value ?? null,
+        handledValue: null,
       }
       return
     }
-    if (!hash || hash === observed.skipHash || hash === observed.handledHash) {
+    if (
+      !identifier ||
+      identifier.value === observed.skipValue ||
+      identifier.value === observed.handledValue
+    ) {
       return
     }
-    observed.handledHash = hash
+    observed.handledValue = identifier.value
     const depositAddress = extractDepositAddress(route) ?? undefined
     writeWallet({
-      transactionHash: hash,
+      identifier,
       fromChain: route.fromChainId,
       depositAddress,
       frozenQuote: {
@@ -99,19 +104,19 @@ function PendingCheckoutWalletHandoff({
     if (!handoffEnabled || !depositAddress) {
       return
     }
-    // The status page's tx-hash poll is the single status source from here —
-    // stop the SDK's background execution (it runs its own status poll) and
-    // drop the persisted route record so a re-quote of the same route can't
-    // resurface this execution.
+    // IF routes are relayer-fulfilled and tracked by deposit address from here:
+    // stop background execution and drop the route so a re-quote can't resurface it.
     freeze(route)
     stopRouteExecution(route)
     onHandoff()
     navigate({
       to: statusPath,
       search: {
-        transactionHash: hash,
         depositAddress,
         fromChain: route.fromChainId,
+        ...(identifier.kind === 'txHash'
+          ? { transactionHash: identifier.value }
+          : { taskId: identifier.value }),
       },
       replace: true,
     })

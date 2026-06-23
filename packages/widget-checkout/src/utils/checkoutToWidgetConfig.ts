@@ -1,3 +1,4 @@
+import { ChainType } from '@lifi/sdk'
 import type { WidgetConfig } from '@lifi/widget/shared'
 import type { CheckoutConfig } from '../types/config.js'
 
@@ -15,6 +16,11 @@ export function checkoutConfigToWidgetConfig(
   // toChain/toToken/toAddress are required config; CheckoutConfigGuard blocks when missing.
   return {
     ...merged,
+    // EVM-only for now; cascades to chains, tokens, routes, and the wallet menu.
+    chains: {
+      ...merged.chains,
+      types: { allow: [ChainType.EVM] },
+    },
     hiddenUI: {
       ...merged.hiddenUI,
       toToken: true,

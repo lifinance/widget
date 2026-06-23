@@ -1,6 +1,7 @@
 import { useAccount, useWalletMenu } from '@lifi/wallet-management'
 import {
   PageContainer,
+  shortenAddress,
   useAddressValidation,
   useChain,
   useFieldActions,
@@ -9,6 +10,7 @@ import {
 } from '@lifi/widget/shared'
 import WalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined'
 import {
+  Avatar,
   Box,
   Button,
   Divider,
@@ -18,7 +20,14 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import { type JSX, useCallback, useEffect, useRef, useState } from 'react'
+import {
+  type JSX,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCheckoutNavigate } from '../../hooks/useCheckoutNavigate.js'
 import { useResolvedCheckoutRecipient } from '../../hooks/useResolvedCheckoutRecipient.js'
@@ -31,7 +40,7 @@ export const SetDestinationAddressPage: React.FC = (): JSX.Element => {
   const { toChain } = useWidgetConfig()
   const { chain: destinationChain } = useChain(toChain)
   const { validateAddress, isValidating } = useAddressValidation()
-  const { setUserRecipient } = useResolvedCheckoutRecipient()
+  const { recipient, setUserRecipient } = useResolvedCheckoutRecipient()
   const { setFieldValue } = useFieldActions()
   const { openWalletMenu } = useWalletMenu()
   const { accounts } = useAccount()
@@ -96,6 +105,21 @@ export const SetDestinationAddressPage: React.FC = (): JSX.Element => {
     }
   }, [accounts, destinationChain, commitRecipient])
 
+  // Connected wallets in the destination ecosystem, offered as one-tap recipients.
+  const connectedAccounts = useMemo(() => {
+    const byAddress = new Map<string, (typeof accounts)[number]>()
+    for (const account of accounts) {
+      if (
+        account.isConnected &&
+        account.address &&
+        account.chainType === destinationChain?.chainType
+      ) {
+        byAddress.set(account.address.toLowerCase(), account)
+      }
+    }
+    return [...byAddress.values()]
+  }, [accounts, destinationChain])
+
   return (
     <PageContainer bottomGutters>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, py: 1 }}>
@@ -130,6 +154,41 @@ export const SetDestinationAddressPage: React.FC = (): JSX.Element => {
           </Typography>
           <Divider sx={{ flex: 1 }} />
         </Box>
+        {connectedAccounts.map((account) => {
+          const name =
+            account.connector?.displayName ??
+            account.connector?.name ??
+            account.name
+          const shortAddress = shortenAddress(account.address)
+          const isSelected =
+            recipient?.address?.toLowerCase() === account.address?.toLowerCase()
+          return (
+            <ListItemButton
+              key={account.address}
+              selected={isSelected}
+              onClick={() => {
+                if (account.address) {
+                  commitRecipient(account.address, account.chainType)
+                }
+              }}
+              sx={{ borderRadius: 3, height: 56 }}
+            >
+              <ListItemIcon sx={{ minWidth: 40 }}>
+                <Avatar
+                  src={account.connector?.icon}
+                  sx={{ width: 24, height: 24 }}
+                >
+                  <WalletOutlinedIcon fontSize="small" />
+                </Avatar>
+              </ListItemIcon>
+              <ListItemText
+                primary={name ?? shortAddress}
+                secondary={name ? shortAddress : undefined}
+                slotProps={{ primary: { sx: { fontWeight: 500 } } }}
+              />
+            </ListItemButton>
+          )
+        })}
         <ListItemButton
           onClick={handleConnectWallet}
           sx={{ borderRadius: 3, height: 56 }}
@@ -138,7 +197,11 @@ export const SetDestinationAddressPage: React.FC = (): JSX.Element => {
             <WalletOutlinedIcon />
           </ListItemIcon>
           <ListItemText
-            primary={t('checkout.connectWallet')}
+            primary={t(
+              connectedAccounts.length
+                ? 'checkout.useAnotherWallet'
+                : 'checkout.connectWallet'
+            )}
             slotProps={{ primary: { sx: { fontWeight: 500 } } }}
           />
         </ListItemButton>

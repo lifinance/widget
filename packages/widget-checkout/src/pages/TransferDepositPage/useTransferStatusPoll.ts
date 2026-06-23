@@ -3,10 +3,7 @@ import { useSDKClient } from '@lifi/widget/shared'
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { useEffect, useRef } from 'react'
-import {
-  getDepositAddressStatus,
-  getReceivingTxHash,
-} from '../../utils/depositAddressStatus.js'
+import { getDepositAddressStatus } from '../../utils/depositAddressStatus.js'
 import {
   type CheckoutNavigationRoute,
   checkoutNavigationRoutes,
@@ -91,15 +88,13 @@ export function useTransferStatusPoll({
       })
       return
     }
-    const receivingTxHash = getReceivingTxHash(data)
+    // By deposit address: a hash here may be the deposit-contract tx that 404-loops.
     navigate({
       to: statusPath,
-      search: receivingTxHash
-        ? { transactionHash: receivingTxHash }
-        : {
-            depositAddress: depositAddress as string,
-            fromChain: fromChain as number,
-          },
+      search: {
+        depositAddress: depositAddress as string,
+        fromChain: fromChain as number,
+      },
     })
   }, [pollEnabled, data, depositAddress, fromChain, navigate])
 }

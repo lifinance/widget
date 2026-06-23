@@ -39,8 +39,14 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
   const emitter = useWidgetEvents()
   const { toAddress, requiredToAddress } = useToAddressRequirements()
   const { recipient, isUserSettable } = useResolvedCheckoutRecipient()
-  const { route, routes, depositAddress, setReviewableRoute } =
-    useCheckoutFlowQuote()
+  const {
+    route,
+    routes,
+    depositAddress,
+    isError,
+    refetch,
+    setReviewableRoute,
+  } = useCheckoutFlowQuote()
   const { freeze } = useFrozenQuote()
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource) ?? 'wallet'
   const setFrozenRouteId = useCheckoutFlowStore((s) => s.setFrozenRouteId)
@@ -149,6 +155,21 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
         route={route}
         sx={{ flex: 1 }}
       />
+    )
+  }
+
+  // A failed step leaves no deposit address, so the CTA can never enable.
+  if (isError) {
+    return (
+      <Button
+        variant="contained"
+        color="primary"
+        fullWidth
+        onClick={() => refetch()}
+        sx={{ flex: 1 }}
+      >
+        {t('button.tryAgain')}
+      </Button>
     )
   }
 
