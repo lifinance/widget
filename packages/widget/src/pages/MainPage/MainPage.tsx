@@ -23,6 +23,9 @@ export const MainPage: React.FC = () => {
     useWidgetConfig()
   const custom = mode === 'custom'
   const showSendReceiveCards = defaultUI?.layout === 'cards'
+  // Custom non-deposit contract flows have no amount entry — they keep the
+  // chain/token selectors only, in both layouts.
+  const showAmountEntry = !custom || modeOptions?.custom?.type === 'deposit'
   const showPoweredBy = !hiddenUI?.poweredBy
   const showGasRefuelMessage = !hiddenUI?.gasRefuelMessage
 
@@ -50,12 +53,12 @@ export const MainPage: React.FC = () => {
       {custom ? (
         <ContractComponent sx={marginSx}>{contractComponent}</ContractComponent>
       ) : null}
-      {showSendReceiveCards ? (
+      {showSendReceiveCards && showAmountEntry ? (
         <AmountInputCardPair sx={marginSx} />
       ) : (
         <>
           <SelectChainAndToken sx={marginSx} />
-          {!custom || modeOptions?.custom?.type === 'deposit' ? (
+          {!showSendReceiveCards && showAmountEntry ? (
             <AmountInput formType="from" sx={marginSx} />
           ) : null}
         </>

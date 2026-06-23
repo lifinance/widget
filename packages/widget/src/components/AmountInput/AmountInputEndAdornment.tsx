@@ -1,4 +1,5 @@
 import { formatUnits } from '@lifi/sdk'
+import { useAccount } from '@lifi/wallet-management'
 import type React from 'react'
 import { type JSX, memo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -25,6 +26,9 @@ export const AmountInputEndAdornment: React.NamedExoticComponent<FormTypeProps> 
       FormKeyHelper.getTokenKey(formType)
     )
 
+    const chain = getChainById(chainId)
+    const { account } = useAccount({ chainType: chain?.chainType })
+
     // We get gas recommendations for the source chain to make sure that after pressing the Max button
     // the user will have enough funds remaining to cover gas costs
     const { data } = useGasRecommendation(chainId)
@@ -35,7 +39,6 @@ export const AmountInputEndAdornment: React.NamedExoticComponent<FormTypeProps> 
       if (!token?.amount) {
         return 0n
       }
-      const chain = getChainById(chainId)
       let maxAmount = token.amount
       if (chain?.nativeToken.address === tokenAddress && data?.recommended) {
         const recommendedAmount = BigInt(data.recommended.amount)
@@ -73,7 +76,7 @@ export const AmountInputEndAdornment: React.NamedExoticComponent<FormTypeProps> 
       }
     }
 
-    if (formType !== 'from' || !token) {
+    if (formType !== 'from' || !token || !account?.isConnected) {
       return null
     }
 
