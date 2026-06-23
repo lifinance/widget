@@ -151,11 +151,13 @@ export type DefaultUI = {
   transactionDetailsExpanded?: boolean
   navigationHeaderTitleNoWrap?: boolean
   /**
-   * Use the redesigned Send/Receive amount input cards (`AmountInputCardPair`)
-   * instead of the classic chain/token selectors plus single amount input.
+   * Use the redesigned card-based layout for the main form — stacked
+   * Send/Receive amount cards (`AmountInputCardPair`) with inline token pill
+   * selectors and a swap button — instead of the classic chain/token selectors
+   * plus single amount input.
    * @default false
    */
-  amountInputCards?: boolean
+  cardLayout?: boolean
 }
 
 export interface WidgetWalletConfig {

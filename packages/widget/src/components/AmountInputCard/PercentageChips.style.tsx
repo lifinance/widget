@@ -5,10 +5,6 @@ import type React from 'react'
 const chipCount = 4
 const staggerStepMs = 25
 
-// Staggered reveal driven by each chip's `data-delay` index. On card hover the
-// rightmost chip (highest index) reveals first; on un-hover they retract in the
-// reverse order. Keyed off the card's stable `.MuiCard-root` class so the
-// trigger works without emotion component selectors.
 const revealStagger = Object.fromEntries(
   Array.from({ length: chipCount }, (_, index) => [
     `&[data-delay="${index}"]`,

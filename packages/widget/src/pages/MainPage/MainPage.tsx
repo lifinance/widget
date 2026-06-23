@@ -22,8 +22,7 @@ export const MainPage: React.FC = () => {
   const { mode, modeOptions, contractComponent, hiddenUI, defaultUI } =
     useWidgetConfig()
   const custom = mode === 'custom'
-  // The redesigned amount input cards are opt-in via config.
-  const useAmountInputCards = !!defaultUI?.amountInputCards
+  const showSendReceiveCards = !!defaultUI?.cardLayout
   const showPoweredBy = !hiddenUI?.poweredBy
   const showGasRefuelMessage = !hiddenUI?.gasRefuelMessage
 
@@ -46,19 +45,17 @@ export const MainPage: React.FC = () => {
 
   const marginSx = { marginBottom: 2 }
 
-  const showAmountInput = !custom || modeOptions?.custom?.type === 'deposit'
-
   return (
     <PageContainer topGutters>
-      {custom && (
+      {custom ? (
         <ContractComponent sx={marginSx}>{contractComponent}</ContractComponent>
-      )}
-      {useAmountInputCards ? (
+      ) : null}
+      {showSendReceiveCards ? (
         <AmountInputCardPair sx={marginSx} />
       ) : (
         <>
           <SelectChainAndToken sx={marginSx} />
-          {showAmountInput ? (
+          {!custom || modeOptions?.custom?.type === 'deposit' ? (
             <AmountInput formType="from" sx={marginSx} />
           ) : null}
         </>

@@ -74,7 +74,7 @@ export const TokenPillButton: React.FC<FormTypeProps> = ({
       onClick={isDisabled ? undefined : handleClick}
       data-testid={testId}
     >
-      <AvatarBadgedDefault avatarSize={24} badgeSize={12} />
+      <AvatarBadgedDefault chain={chain} avatarSize={24} badgeSize={12} />
       <TokenPillLabel>{t('main.select')}</TokenPillLabel>
     </TokenSelectPill>
   )
