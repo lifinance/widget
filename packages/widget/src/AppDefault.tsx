@@ -14,7 +14,6 @@ import { LanguagesPage } from './pages/LanguagesPage.js'
 import { MainPage } from './pages/MainPage/MainPage.js'
 import { RoutePriorityPage } from './pages/RoutePriorityPage.js'
 import { RoutesPage } from './pages/RoutesPage/RoutesPage.js'
-import { RouteTypePage } from './pages/RouteTypePage.js'
 import { SelectChainPage } from './pages/SelectChainPage/SelectChainPage.js'
 import { SelectEnabledToolsPage } from './pages/SelectEnabledToolsPage.js'
 import { SelectTokenPage } from './pages/SelectTokenPage/SelectTokenPage.js'
@@ -67,12 +66,6 @@ const settingsLanguagesRoute = createRoute({
   getParentRoute: () => settingsLayoutRoute,
   path: navigationRoutes.languages,
   component: LanguagesPage,
-})
-
-const settingsRouteTypeRoute = createRoute({
-  getParentRoute: () => settingsLayoutRoute,
-  path: navigationRoutes.routeType,
-  component: RouteTypePage,
 })
 
 const settingsRoutePriorityRoute = createRoute({
@@ -235,7 +228,6 @@ const routeTree = rootRoute.addChildren([
   settingsLayoutRoute.addChildren([
     settingsIndexRoute,
     settingsLanguagesRoute,
-    settingsRouteTypeRoute,
     settingsRoutePriorityRoute,
     settingsSlippageRoute,
     settingsBridgesRoute,

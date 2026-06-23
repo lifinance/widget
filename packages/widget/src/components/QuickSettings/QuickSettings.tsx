@@ -24,11 +24,7 @@ export const QuickSettings: React.FC<BoxProps> = (props): JSX.Element => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const splitMode = useSplitMode()
-  const { slippage, routePriority, routeType } = useSettings([
-    'slippage',
-    'routePriority',
-    'routeType',
-  ])
+  const { slippage, routePriority } = useSettings(['slippage', 'routePriority'])
   const [enabledBridges, totalBridges, enabledExchanges, totalExchanges] =
     useSettingsStore((state) => [
       Object.values(state._enabledBridges).filter(Boolean).length,
@@ -40,7 +36,6 @@ export const QuickSettings: React.FC<BoxProps> = (props): JSX.Element => {
   const rows = splitMode === 'bridge' ? bridgeQuickSettings : swapQuickSettings
 
   const valueByKey: Record<QuickSettingKey, string> = {
-    routeType: t(`settings.routeType.${routeType ?? 'all'}.title`),
     routePriority: t(
       `settings.routePriorityOptions.${(routePriority ?? 'CHEAPEST').toLowerCase()}.title` as any
     ),

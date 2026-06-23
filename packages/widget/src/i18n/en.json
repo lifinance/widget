@@ -347,17 +347,6 @@
         "description": "Lowest network cost"
       }
     },
-    "routeType": {
-      "title": "Route type",
-      "all": {
-        "title": "All",
-        "description": "Every available route across bridges and exchanges"
-      },
-      "private": {
-        "title": "Private",
-        "description": "Privacy-preserving routes only"
-      }
-    },
     "slippage": "Max. slippage",
     "slippageAutoDescription": "Optimised per route",
     "custom": "Custom",

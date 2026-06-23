@@ -1,7 +1,6 @@
 import type { NavigationTabKey } from '../../types/widget.js'
 
 export type QuickSettingKey =
-  | 'routeType'
   | 'routePriority'
   | 'exchanges'
   | 'bridges'
@@ -17,15 +16,11 @@ interface QuickSettingConfig {
   /** i18n key for the row label. */
   labelKey: string
   /** Dedicated settings sub-route to navigate to. */
-  route: 'bridges' | 'exchanges' | 'routeType' | 'routePriority' | 'slippage'
+  route: 'bridges' | 'exchanges' | 'routePriority' | 'slippage'
 }
 
 export const quickSettingsConfig: Record<QuickSettingKey, QuickSettingConfig> =
   {
-    routeType: {
-      labelKey: 'settings.routeType.title',
-      route: 'routeType',
-    },
     routePriority: {
       labelKey: 'settings.routePriority',
       route: 'routePriority',
@@ -45,11 +40,7 @@ export const quickSettingsConfig: Record<QuickSettingKey, QuickSettingConfig> =
   }
 
 // Swap is same-chain, so bridges are not relevant.
-export const swapQuickSettings: QuickSettingKey[] = [
-  'routeType',
-  'exchanges',
-  'slippage',
-]
+export const swapQuickSettings: QuickSettingKey[] = ['exchanges', 'slippage']
 
 export const bridgeQuickSettings: QuickSettingKey[] = [
   'routePriority',
