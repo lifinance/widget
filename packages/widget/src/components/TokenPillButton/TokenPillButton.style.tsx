@@ -43,8 +43,8 @@ export const TokenPillSymbol: React.FC<
 
 export const TokenPillLabel: React.FC<React.ComponentProps<typeof Typography>> =
   styled(Typography)(({ theme }) => ({
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 700,
-    lineHeight: '18px',
-    color: theme.vars.palette.text.primary,
+    lineHeight: '20px',
+    color: theme.vars.palette.text.secondary,
   }))

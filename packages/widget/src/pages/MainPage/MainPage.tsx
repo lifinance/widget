@@ -46,20 +46,21 @@ export const MainPage: React.FC = () => {
 
   const marginSx = { marginBottom: 2 }
 
-  const showAmountInput =
-    !custom || modeOptions?.custom?.type === 'deposit'
+  const showAmountInput = !custom || modeOptions?.custom?.type === 'deposit'
 
   return (
     <PageContainer topGutters>
       {custom && (
         <ContractComponent sx={marginSx}>{contractComponent}</ContractComponent>
       )}
-      {useAmountInputCards && showAmountInput ? (
+      {useAmountInputCards ? (
         <AmountInputCardPair sx={marginSx} />
       ) : (
         <>
           <SelectChainAndToken sx={marginSx} />
-          {showAmountInput ? <AmountInput formType="from" sx={marginSx} /> : null}
+          {showAmountInput ? (
+            <AmountInput formType="from" sx={marginSx} />
+          ) : null}
         </>
       )}
       {!wideVariant ? <Routes sx={marginSx} /> : null}

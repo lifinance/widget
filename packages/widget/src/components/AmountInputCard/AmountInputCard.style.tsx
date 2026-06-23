@@ -10,7 +10,7 @@ import type React from 'react'
 import type { FormType } from '../../stores/form/types.js'
 import { InputCard } from '../Card/InputCard.js'
 
-export const maxInputFontSize = 32
+export const maxInputFontSize = 28
 export const minInputFontSize = 20
 export const amountHeight = 32
 export const footerFontSize = 12
@@ -31,6 +31,7 @@ export const AmountCard: React.FC<
     return {
       display: 'flex',
       flexDirection: 'column',
+      gap: theme.spacing(1),
       padding: theme.spacing(2),
       ...(cardVariant !== 'outlined' &&
         mask && {
@@ -47,7 +48,7 @@ export const CardHeaderRow: React.FC<React.ComponentProps<typeof Box>> = styled(
   justifyContent: 'space-between',
   alignItems: 'center',
   padding: 0,
-  height: theme.spacing(3),
+  height: theme.spacing(2),
 }))
 
 export const CardBodyRow: React.FC<React.ComponentProps<typeof Box>> = styled(
@@ -64,7 +65,7 @@ export const CardFooterRow: React.FC<React.ComponentProps<typeof Box>> = styled(
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  height: theme.spacing(3),
+  height: theme.spacing(2),
 }))
 
 export const LargeInput: React.FC<React.ComponentProps<typeof InputBase>> =
@@ -110,7 +111,7 @@ export const AmountDisplay: React.FC<React.ComponentProps<typeof Typography>> =
     alignItems: 'center',
     flex: 1,
     minWidth: 0,
-    overflow: 'hidden',
+    overflow: 'visible',
     whiteSpace: 'nowrap',
   }))
 
