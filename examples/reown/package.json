@@ -18,7 +18,7 @@
     "@lifi/widget": "4.0.0",
     "@lifi/widget-provider-ethereum": "4.0.0",
     "@mui/material": "^9.1.1",
-    "@reown/appkit": "^1.8.21",
+    "@reown/appkit": ">=1.8.20",
     "@reown/appkit-adapter-bitcoin": "^1.8.21",
     "@reown/appkit-adapter-solana": "^1.8.21",
     "@reown/appkit-adapter-wagmi": "^1.8.21",
@@ -29,7 +29,7 @@
     "@tanstack/react-query": "^5.101.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "viem": "^2.52.2",
+    "viem": ">=2.52.0",
     "wagmi": "^3.6.17"
   },
   "devDependencies": {
