@@ -19,6 +19,8 @@ export interface CheckoutTransactionStatus {
   phase: CheckoutTransactionPhase | undefined
   isLoading: boolean
   notFound: boolean
+  isError: boolean
+  refetch: () => void
 }
 
 export interface UseCheckoutTransactionStatusArgs {
@@ -76,7 +78,7 @@ export const useCheckoutTransactionStatus = ({
     }
   }, [enabled])
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey,
     queryFn: async ({ signal }) => {
       if (canPollByDeposit) {
@@ -106,6 +108,9 @@ export const useCheckoutTransactionStatus = ({
     enabled,
     placeholderData: keepPreviousData,
     refetchInterval: (query) => {
+      if (query.state.status === 'error') {
+        return false
+      }
       const status = query.state.data?.status
       if (status === 'DONE' || status === 'FAILED' || status === 'INVALID') {
         return false
@@ -117,10 +122,26 @@ export const useCheckoutTransactionStatus = ({
     },
   })
 
-  // `NOT_FOUND` from the deposit-address path means the deposit hasn't
-  // landed yet — surface it as "no status yet" so the caller keeps the
-  // watching screen up instead of flipping to executing.
-  const resolvedStatus = data && data.status !== 'NOT_FOUND' ? data : undefined
+  // IF status can regress to NOT_FOUND post-real; latch so it can't downgrade.
+  const latchedRef = useRef<{ key: string; status: StatusResponse } | null>(
+    null
+  )
+  const latchKey = queryKey.join('|')
+  if (latchedRef.current && latchedRef.current.key !== latchKey) {
+    latchedRef.current = null
+  }
+
+  let resolvedStatus: StatusResponse | undefined
+  if (data && data.status !== 'NOT_FOUND') {
+    resolvedStatus = data
+    if (canPollByDeposit) {
+      latchedRef.current = { key: latchKey, status: data }
+    }
+  } else if (canPollByDeposit && latchedRef.current) {
+    resolvedStatus = latchedRef.current.status
+  } else {
+    resolvedStatus = undefined
+  }
 
   const phase: CheckoutTransactionPhase | undefined = resolvedStatus
     ? resolvedStatus.status === 'DONE'
@@ -133,5 +154,12 @@ export const useCheckoutTransactionStatus = ({
 
   const notFound = data?.status === 'NOT_FOUND'
 
-  return { status: resolvedStatus, phase, isLoading, notFound }
+  return {
+    status: resolvedStatus,
+    phase,
+    isLoading,
+    notFound,
+    isError: isError && !resolvedStatus,
+    refetch,
+  }
 }

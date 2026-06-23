@@ -3,6 +3,7 @@ import type { FormRef, WidgetConfig } from '@lifi/widget/shared'
 import { StoreProvider } from '@lifi/widget/shared'
 import {
   createOnRampSessionsStore,
+  type OnRampError,
   type OnRampFailure,
   type OnRampFundingCategory,
   type OnRampProvider as OnRampProviderAdapter,
@@ -57,8 +58,10 @@ export function useOnRampSessionByCategory(
 
 export interface ActiveOnRampDeposit {
   failure: OnRampFailure | null
+  error: OnRampError | null
   depositTxHash: string | null
   acknowledgeDepositTxHash: () => void
+  resolvedDepositAddress: string | null
   providerName: string
   isOpen: boolean
   isLoading: boolean
@@ -77,8 +80,10 @@ export function useActiveOnRampDeposit(): ActiveOnRampDeposit | null {
   }
   return {
     failure: session.failure,
+    error: session.error,
     depositTxHash: session.depositTxHash,
     acknowledgeDepositTxHash: session.acknowledgeDepositTxHash,
+    resolvedDepositAddress: session.resolvedDepositAddress,
     providerName: provider.name,
     isOpen: session.isOpen,
     isLoading: session.isLoading,

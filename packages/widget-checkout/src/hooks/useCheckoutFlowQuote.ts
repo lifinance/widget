@@ -2,7 +2,7 @@ import type { LiFiStep, Route } from '@lifi/sdk'
 import { getStepTransaction } from '@lifi/sdk'
 import { useSDKClient } from '@lifi/widget/shared'
 import { useQuery } from '@tanstack/react-query'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { extractDepositAddress } from '../utils/extractDepositAddress.js'
 import { useCheckoutRoutes } from './useCheckoutRoutes.js'
 
@@ -13,6 +13,7 @@ export interface CheckoutFlowQuote {
   isLoading: boolean
   isFetching: boolean
   isFetched: boolean
+  isError: boolean
   refetch: () => void
   setReviewableRoute: (route: Route) => void
 }
@@ -37,6 +38,8 @@ export function useCheckoutFlowQuote(): CheckoutFlowQuote {
     isLoading: stepLoading,
     isFetching: stepFetching,
     isFetched: stepFetched,
+    isError: stepError,
+    refetch: refetchStep,
   } = useQuery<LiFiStep | undefined>({
     queryKey: [
       'checkout-step-transaction',
@@ -66,6 +69,12 @@ export function useCheckoutFlowQuote(): CheckoutFlowQuote {
     }
   }, [rawRoute, populatedStep])
 
+  // A step-only failure won't re-run from a routes refetch (routes stay cached).
+  const refetchAll = useCallback(() => {
+    refetch()
+    refetchStep()
+  }, [refetch, refetchStep])
+
   return {
     route,
     routes,
@@ -73,7 +82,8 @@ export function useCheckoutFlowQuote(): CheckoutFlowQuote {
     isLoading: routesLoading || (Boolean(rawRoute) && stepLoading),
     isFetching: routesFetching || (Boolean(rawRoute) && stepFetching),
     isFetched: routesFetched && (!rawRoute || stepFetched),
-    refetch,
+    isError: Boolean(rawRoute) && stepError,
+    refetch: refetchAll,
     setReviewableRoute,
   }
 }

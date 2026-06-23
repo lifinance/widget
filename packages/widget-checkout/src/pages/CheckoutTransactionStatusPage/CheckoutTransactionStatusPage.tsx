@@ -14,10 +14,11 @@ import {
 } from '@lifi/widget/shared'
 import OpenInNewRoundedIcon from '@mui/icons-material/OpenInNewRounded'
 import { Link } from '@mui/material'
-import { useLocation, useNavigate } from '@tanstack/react-router'
+import { useLocation, useNavigate, useRouter } from '@tanstack/react-router'
 import { type JSX, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CheckoutStatusScreen } from '../../components/CheckoutStatusScreen.js'
+import { formatOnRampError } from '../../components/formatOnRampError.js'
 import { useCheckoutStatusSources } from '../../hooks/useCheckoutStatusSources.js'
 import { useCheckoutTransactionStatus } from '../../hooks/useCheckoutTransactionStatus.js'
 import { usePendingCheckoutWriter } from '../../hooks/usePendingCheckoutWriter.js'
@@ -34,7 +35,7 @@ import { extractStatusHints } from '../../utils/statusHints.js'
 import { StatusCompleted } from './StatusCompleted.js'
 import { StatusExecuting } from './StatusExecuting.js'
 import { StatusWatching } from './StatusWatching.js'
-import { resolveStatusVariant } from './statusVariants.js'
+import { resolveStatusVariant, type StatusVariant } from './statusVariants.js'
 
 interface StatusSearch {
   transactionHash?: string
@@ -48,6 +49,17 @@ interface StatusSearch {
 // Minimum visible hold so fast-resolving txs still show the executing state.
 const MIN_EXECUTING_MS = 2500
 
+const statusPath = `/${checkoutNavigationRoutes.transactionExecution}/${checkoutNavigationRoutes.transactionStatus}`
+
+const ERROR_VARIANT: StatusVariant = {
+  tone: 'error',
+  icon: 'error',
+  titleKey: 'checkout.status.errorFailed.title',
+  descriptionKey: 'checkout.status.errorFailed.description',
+  primaryAction: 'tryAgain',
+  secondaryAction: 'contactSupport',
+}
+
 // Intent-retrying substatuses are intentionally NOT here — they stay on the
 // normal executing status screen instead of a dedicated "retrying" screen.
 const COMPACT_VARIANT_SUBSTATUSES = new Set<Substatus>([
@@ -59,6 +71,7 @@ const COMPACT_VARIANT_SUBSTATUSES = new Set<Substatus>([
 export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const router = useRouter()
   const { search } = useLocation() as { search: StatusSearch }
   const transactionHash = search.transactionHash ?? null
   const taskId = search.taskId ?? null
@@ -74,6 +87,8 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
   // hash, if any, is the funding tx and not the LI.FI-tracked transfer.
   const deposit = useActiveOnRampDeposit()
   const providerName = deposit?.providerName ?? ''
+  const resolvedDepositAddress = deposit?.resolvedDepositAddress ?? null
+  const effectiveDepositAddress = resolvedDepositAddress ?? depositAddress
   // Active across both the session fetch and the open modal — nothing is
   // deposited until it ends, so the page holds the loader and pauses polling.
   const isOnRampActive = deposit?.isOpen === true || deposit?.isLoading === true
@@ -82,14 +97,27 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
 
   const { frozenRoute, recipientAddress } = useCheckoutStatusSources()
 
-  const { status, phase, isLoading, notFound } = useCheckoutTransactionStatus({
-    transactionHash,
-    taskId,
-    depositAddress,
-    fromChain,
-    pauseDepositPoll: isOnRampActive,
-    statusHints: extractStatusHints(frozenRoute),
-  })
+  const { status, phase, isLoading, notFound, isError, refetch } =
+    useCheckoutTransactionStatus({
+      transactionHash,
+      taskId,
+      depositAddress: effectiveDepositAddress,
+      fromChain,
+      pauseDepositPoll: isOnRampActive,
+      statusHints: extractStatusHints(frozenRoute),
+    })
+
+  // Persist to the URL so a reload still polls it once the session is gone.
+  useEffect(() => {
+    if (!resolvedDepositAddress || resolvedDepositAddress === depositAddress) {
+      return
+    }
+    navigate({
+      to: statusPath,
+      search: { ...search, depositAddress: resolvedDepositAddress },
+      replace: true,
+    })
+  }, [resolvedDepositAddress, depositAddress, search, navigate])
 
   const isRefundInProgress = status?.substatus === 'REFUND_IN_PROGRESS'
   const isRefunded = status?.substatus === 'REFUNDED'
@@ -117,19 +145,24 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
       return
     }
     clearForKey(resumeKey)
-    navigate({ to: checkoutNavigationRoutes.enterAmount, replace: true })
-  }, [depositCancelled, clearForKey, resumeKey, navigate])
+    // Replace-navigating would stack a duplicate enter-amount, so Back looks dead.
+    if (router.history.length > 1) {
+      router.history.go(-1)
+    } else {
+      navigate({ to: checkoutNavigationRoutes.enterAmount, replace: true })
+    }
+  }, [depositCancelled, clearForKey, resumeKey, navigate, router])
 
   const isResumed = search.resumed === '1'
   const showToast = useCheckoutToastStore((s) => s.show)
   const notFoundHandledRef = useRef(false)
   useEffect(() => {
-    // With a known tx hash the deposit was funded — NOT_FOUND only means the
-    // deposit isn't indexed yet, so keep watching instead of bailing out.
+    // NOT_FOUND is ambiguous; bail only when no hash/deposit address can track it.
     if (
       notFound &&
       isResumed &&
       !transactionHash &&
+      !depositAddress &&
       !notFoundHandledRef.current
     ) {
       notFoundHandledRef.current = true
@@ -141,6 +174,7 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
     notFound,
     isResumed,
     transactionHash,
+    depositAddress,
     resumeKey,
     clearForKey,
     showToast,
@@ -217,6 +251,10 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
     navigate({ to: navigationRoutes.home })
   }
 
+  const retryStatus = (): void => {
+    refetch()
+  }
+
   // Pre-hash provider failure preempts any other status state because
   // polling can't have started without a hash. Cancellations are handled by
   // the redirect effect above, so they skip the error screen here.
@@ -237,6 +275,22 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
     )
   }
 
+  // A pre-open session error sets `error`, not `failure`, and never opens the modal.
+  if (deposit?.error && !depositCancelled) {
+    return (
+      <PageContainer bottomGutters>
+        <CheckoutStatusScreen
+          variant={ERROR_VARIANT}
+          description={
+            formatOnRampError(deposit.error, providerName, t) ?? undefined
+          }
+          primaryAction={{ tryAgain: goToEnterAmount }}
+          secondaryAction={{ contactSupport: handleContactSupport }}
+        />
+      </PageContainer>
+    )
+  }
+
   if (walletDisconnected) {
     const variant = resolveStatusVariant({ fundingSource, walletDisconnected })
     return (
@@ -244,6 +298,18 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
         <CheckoutStatusScreen
           variant={variant}
           primaryAction={{ tryAgain: goToEnterAmount }}
+          secondaryAction={{ contactSupport: handleContactSupport }}
+        />
+      </PageContainer>
+    )
+  }
+
+  if (isError) {
+    return (
+      <PageContainer bottomGutters>
+        <CheckoutStatusScreen
+          variant={ERROR_VARIANT}
+          primaryAction={{ tryAgain: retryStatus }}
           secondaryAction={{ contactSupport: handleContactSupport }}
         />
       </PageContainer>
