@@ -1,6 +1,7 @@
 import Check from '@mui/icons-material/Check'
+import CloseRounded from '@mui/icons-material/CloseRounded'
 import WarningRounded from '@mui/icons-material/WarningRounded'
-import { Box, List, Typography } from '@mui/material'
+import { Box, Collapse, List, Typography } from '@mui/material'
 import type { ChangeEventHandler, FocusEventHandler } from 'react'
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -8,18 +9,19 @@ import { ListItemText } from '../../../components/ListItemText.js'
 import { PageContainer } from '../../../components/PageContainer.js'
 import { SettingsListItemButton } from '../../../components/SettingsListItemButton.js'
 import { useHeader } from '../../../hooks/useHeader.js'
+import { useListHeight } from '../../../hooks/useListHeight.js'
 import { useSettingMonitor } from '../../../hooks/useSettingMonitor.js'
 import { defaultSlippage } from '../../../stores/settings/createSettingsStore.js'
 import { useSettings } from '../../../stores/settings/useSettings.js'
 import { useSettingsActions } from '../../../stores/settings/useSettingsActions.js'
 import { formatInputAmount, formatSlippage } from '../../../utils/format.js'
 import {
-  SettingsCustomInput,
-  SettingsFieldSet,
+  SlippageClearButton,
+  SlippageInput,
   SlippageLimitsWarningContainer,
 } from './SlippageSettings.style.js'
 
-const slippagePresets = ['0.5', '1', '3']
+const slippagePresets = ['0.5', '1']
 const maxFractionDigits = 5
 
 export const SlippagePage: React.FC = () => {
@@ -32,6 +34,8 @@ export const SlippagePage: React.FC = () => {
   const { slippage } = useSettings(['slippage'])
   const { setValue } = useSettingsActions()
   const defaultValue = useRef(slippage)
+  const listParentRef = useRef<HTMLUListElement | null>(null)
+  const { listHeight } = useListHeight({ listParentRef })
 
   useHeader(t('settings.slippage'))
 
@@ -40,10 +44,11 @@ export const SlippagePage: React.FC = () => {
   const isCustom = !isAuto && !isPreset
 
   const [customMode, setCustomMode] = useState(isCustom)
-  const [inputValue, setInputValue] = useState(isCustom ? slippage : '')
+  const [inputValue, setInputValue] = useState(isCustom ? (slippage ?? '') : '')
 
   const handleAuto = () => {
     setCustomMode(false)
+    setInputValue('')
     setValue('slippage', defaultSlippage)
   }
 
@@ -99,6 +104,9 @@ export const SlippagePage: React.FC = () => {
   return (
     <PageContainer disableGutters>
       <List
+        className="long-list"
+        ref={listParentRef}
+        style={{ height: listHeight, overflow: 'auto' }}
         sx={{
           padding: 1.5,
         }}
@@ -108,7 +116,7 @@ export const SlippagePage: React.FC = () => {
             primary={t('button.auto')}
             secondary={t('settings.slippageAutoDescription')}
           />
-          {isAuto && <Check color="primary" />}
+          {!customMode && isAuto && <Check color="primary" />}
         </SettingsListItemButton>
         {slippagePresets.map((preset) => (
           <SettingsListItemButton
@@ -116,45 +124,51 @@ export const SlippagePage: React.FC = () => {
             onClick={() => handlePreset(preset)}
           >
             <ListItemText primary={`${preset}%`} />
-            {slippage === preset && <Check color="primary" />}
+            {!customMode && slippage === preset && <Check color="primary" />}
           </SettingsListItemButton>
         ))}
         <SettingsListItemButton onClick={handleCustom}>
           <ListItemText primary={t('settings.custom')} />
-          {isCustom && <Check color="primary" />}
+          {customMode && <Check color="primary" />}
         </SettingsListItemButton>
-      </List>
-      {customMode && (
-        <Box sx={{ px: 1.5 }}>
-          <SettingsFieldSet>
-            <SettingsCustomInput
-              selected
+        <Collapse in={customMode}>
+          <Box sx={{ px: 1.5, pt: 1 }}>
+            <SlippageInput
               placeholder="0.5"
-              inputProps={{
-                inputMode: 'decimal',
-              }}
+              inputProps={{ inputMode: 'decimal' }}
               value={inputValue}
               onChange={handleInputUpdate}
               onFocus={handleInputFocus}
               onBlur={handleInputBlur}
               autoComplete="off"
+              endAdornment={
+                !isAuto && (
+                  <SlippageClearButton
+                    size="small"
+                    onClick={handleAuto}
+                    aria-label="Clear"
+                  >
+                    <CloseRounded fontSize="small" />
+                  </SlippageClearButton>
+                )
+              }
             />
-          </SettingsFieldSet>
-        </Box>
-      )}
-      {isSlippageNotRecommended && (
-        <SlippageLimitsWarningContainer sx={{ px: 1.5 }}>
-          <WarningRounded color="warning" />
-          <Typography
-            sx={{
-              fontSize: 13,
-              fontWeight: 400,
-            }}
-          >
-            {slippageWarningText}
-          </Typography>
-        </SlippageLimitsWarningContainer>
-      )}
+            {isSlippageNotRecommended && (
+              <SlippageLimitsWarningContainer>
+                <WarningRounded color="warning" />
+                <Typography
+                  sx={{
+                    fontSize: 13,
+                    fontWeight: 400,
+                  }}
+                >
+                  {slippageWarningText}
+                </Typography>
+              </SlippageLimitsWarningContainer>
+            )}
+          </Box>
+        </Collapse>
+      </List>
     </PageContainer>
   )
 }

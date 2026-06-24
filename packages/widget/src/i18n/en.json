@@ -334,17 +334,13 @@
     },
     "routePriority": "Route priority",
     "routePriorityOptions": {
-      "recommended": {
+      "cheapest": {
         "title": "Best Return",
-        "description": "Maximum tokens after all fees"
+        "description": "Lowest network cost"
       },
       "fastest": {
         "title": "Fastest",
         "description": "Shortest execution time"
-      },
-      "cheapest": {
-        "title": "Cheapest",
-        "description": "Lowest network cost"
       }
     },
     "slippage": "Max. slippage",

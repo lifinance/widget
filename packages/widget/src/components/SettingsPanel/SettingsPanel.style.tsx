@@ -1,7 +1,7 @@
 import { Box, ButtonBase, styled, Typography } from '@mui/material'
 import type React from 'react'
 
-export const QuickSettingsContainer: React.FC<
+export const SettingsPanelContainer: React.FC<
   React.ComponentProps<typeof Box>
 > = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -9,7 +9,7 @@ export const QuickSettingsContainer: React.FC<
   gap: theme.spacing(1),
 }))
 
-export const QuickSettingButton: React.FC<
+export const SettingsPanelButton: React.FC<
   React.ComponentProps<typeof ButtonBase>
 > = styled(ButtonBase)(({ theme }) => ({
   display: 'flex',
@@ -21,7 +21,7 @@ export const QuickSettingButton: React.FC<
   borderRadius: theme.vars.shape.borderRadius,
 }))
 
-export const QuickSettingTitle: React.FC<
+export const SettingsPanelTitle: React.FC<
   React.ComponentProps<typeof Typography>
 > = styled(Typography)(({ theme }) => ({
   fontSize: 14,
@@ -30,7 +30,7 @@ export const QuickSettingTitle: React.FC<
   color: theme.vars.palette.text.primary,
 }))
 
-export const QuickSettingValue: React.FC<
+export const SettingsPanelValue: React.FC<
   React.ComponentProps<typeof Typography>
 > = styled(Typography)(({ theme }) => ({
   fontSize: 14,

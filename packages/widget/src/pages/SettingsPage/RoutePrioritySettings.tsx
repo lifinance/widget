@@ -12,7 +12,6 @@ export const RoutePrioritySettings: React.FC = () => {
   const navigate = useNavigate()
   const { isRoutePriorityChanged } = useSettingMonitor()
   const { routePriority } = useSettings(['routePriority'])
-  const currentRoutePriority = (routePriority ?? 'CHEAPEST').toLowerCase()
 
   const handleClick = () => {
     navigate({ to: navigationRoutes.routePriority })
@@ -25,9 +24,9 @@ export const RoutePrioritySettings: React.FC = () => {
       title={t('settings.routePriority')}
     >
       <BadgedValue badgeColor="info" showBadge={isRoutePriorityChanged}>
-        {t(
-          `settings.routePriorityOptions.${currentRoutePriority}.title` as any
-        )}
+        {routePriority === 'FASTEST'
+          ? t('settings.routePriorityOptions.fastest.title')
+          : t('settings.routePriorityOptions.cheapest.title')}
       </BadgedValue>
     </CardButton>
   )
