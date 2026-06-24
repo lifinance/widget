@@ -1,8 +1,13 @@
-import { Box, Collapse } from '@mui/material'
+import { useAccount } from '@lifi/wallet-management'
+import { Box, Collapse, Stack } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { useRoutes } from '../../hooks/useRoutes.js'
+import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { useFieldValues } from '../../stores/form/useFieldValues.js'
+import { useLimitOrderStore } from '../../stores/limitOrder/useLimitOrderStore.js'
+import { useLimitMode } from '../../stores/navigationTabs/useLimitMode.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { ButtonTertiary } from '../ButtonTertiary.js'
 import type { CardProps } from '../Card/Card.js'
@@ -12,10 +17,15 @@ import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js'
 import { RouteCard } from '../RouteCard/RouteCard.js'
 import { RouteCardSkeleton } from '../RouteCard/RouteCardSkeleton.js'
 import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js'
+import {
+  RouteProviderCard,
+  RouteProviderCardSkeleton,
+} from '../RouteCard/RouteProviderCard.js'
 
 export const Routes: React.FC<CardProps> = (props) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const isLimit = useLimitMode()
   const { mode, modeOptions, showSingleRoute } = useWidgetConfig()
   const {
     routes,
@@ -25,7 +35,15 @@ export const Routes: React.FC<CardProps> = (props) => {
     dataUpdatedAt,
     refetchTime,
     refetch,
+    fromChain,
   } = useRoutes()
+  const { account } = useAccount({ chainType: fromChain?.chainType })
+  const [toAddress] = useFieldValues('toAddress')
+  const { requiredToAddress } = useToAddressRequirements()
+  const selectedRouteId = useLimitOrderStore((store) => store.selectedRouteId)
+  const setSelectedRouteId = useLimitOrderStore(
+    (store) => store.setSelectedRouteId
+  )
 
   const currentRoute = routes?.[0]
 
@@ -37,10 +55,51 @@ export const Routes: React.FC<CardProps> = (props) => {
     navigate({ to: navigationRoutes.routes })
   }
 
+  const toAddressUnsatisfied = currentRoute && requiredToAddress && !toAddress
+  const allowInteraction = account.isConnected && !toAddressUnsatisfied
+
+  // Falls back to the best route when nothing is selected yet or the previously
+  // selected quote is no longer present in the latest results.
+  const activeRouteId =
+    routes?.find((route) => route.id === selectedRouteId)?.id ??
+    currentRoute?.id
+
   const routeNotFound = !currentRoute && !isLoading && !isFetching
   const onlySingleRoute = mode === 'refuel' || showSingleRoute
   const showAll =
     !onlySingleRoute && !routeNotFound && (routes?.length ?? 0) > 1
+
+  if (isLimit) {
+    return (
+      <Stack
+        direction="column"
+        spacing={1}
+        sx={props.sx}
+        className={props.className}
+      >
+        {isLoading && !currentRoute ? (
+          Array.from({ length: 3 }).map((_, index) => (
+            <RouteProviderCardSkeleton key={index} />
+          ))
+        ) : !currentRoute ? (
+          <RouteNotFoundCard />
+        ) : (
+          routes?.map((route) => (
+            <RouteProviderCard
+              key={route.id}
+              route={route}
+              active={route.id === activeRouteId}
+              onClick={
+                allowInteraction
+                  ? () => setSelectedRouteId(route.id)
+                  : undefined
+              }
+            />
+          ))
+        )}
+      </Stack>
+    )
+  }
 
   const title =
     mode === 'custom'

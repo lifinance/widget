@@ -15,10 +15,16 @@ export interface LimitOrderState {
   validUntil: number
   /** Whether the order may be partially filled. */
   partiallyFillable: boolean
+  /**
+   * Id of the route/provider quote the user picked. When unset (or no longer
+   * present in the current results) the best route is treated as selected.
+   */
+  selectedRouteId?: string
   setLimitPrice: (limitPrice: string) => void
   togglePriceDirection: () => void
   setValidUntil: (seconds: number) => void
   setPartiallyFillable: (partiallyFillable: boolean) => void
+  setSelectedRouteId: (selectedRouteId?: string) => void
   reset: () => void
 }
 

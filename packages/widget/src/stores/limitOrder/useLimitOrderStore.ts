@@ -10,6 +10,7 @@ const initialState = {
   priceInverted: false,
   validUntil: DEFAULT_VALID_UNTIL_SECONDS,
   partiallyFillable: true,
+  selectedRouteId: undefined,
 }
 
 export const useLimitOrderStore: LimitOrderStore = create<LimitOrderState>(
@@ -19,6 +20,7 @@ export const useLimitOrderStore: LimitOrderStore = create<LimitOrderState>(
     togglePriceDirection: () => set({ priceInverted: !get().priceInverted }),
     setValidUntil: (validUntil) => set({ validUntil }),
     setPartiallyFillable: (partiallyFillable) => set({ partiallyFillable }),
+    setSelectedRouteId: (selectedRouteId) => set({ selectedRouteId }),
     reset: () => set({ ...initialState }),
   })
 )

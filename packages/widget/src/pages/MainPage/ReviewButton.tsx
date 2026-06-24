@@ -5,6 +5,7 @@ import { useRoutes } from '../../hooks/useRoutes.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { useLimitOrderStore } from '../../stores/limitOrder/useLimitOrderStore.js'
 import { useSplitMode } from '../../stores/navigationTabs/useNavigationTabsStore.js'
 import { WidgetEvent } from '../../types/events.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
@@ -17,8 +18,11 @@ export const ReviewButton: React.FC = () => {
   const splitState = useSplitMode()
   const { toAddress, requiredToAddress } = useToAddressRequirements()
   const { routes, setReviewableRoute } = useRoutes()
+  const selectedRouteId = useLimitOrderStore((store) => store.selectedRouteId)
 
-  const currentRoute = routes?.[0]
+  // In limit mode the user picks a provider quote; fall back to the best route.
+  const currentRoute =
+    routes?.find((route) => route.id === selectedRouteId) ?? routes?.[0]
 
   const handleClick = async () => {
     if (!currentRoute) {
