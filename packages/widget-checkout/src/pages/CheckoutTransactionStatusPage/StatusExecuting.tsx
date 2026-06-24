@@ -3,12 +3,15 @@ import { Card, RouteTokens } from '@lifi/widget/shared'
 import { Box, CircularProgress, Stack, Typography } from '@mui/material'
 import { type JSX, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CheckoutFiatOriginToken } from '../../components/CheckoutFiatOriginToken.js'
+import type { FiatOrigin } from '../../hooks/useCheckoutStatusSources.js'
 import { StatusStepList } from './StatusStepList.js'
 
 interface StatusExecutingProps {
   status: StatusResponse | undefined
   frozenRoute?: Route
   recipientAddress?: string | null
+  fiatOrigin?: FiatOrigin
   watching?: boolean
 }
 
@@ -26,6 +29,7 @@ export function StatusExecuting({
   status,
   frozenRoute,
   recipientAddress,
+  fiatOrigin,
   watching,
 }: StatusExecutingProps): JSX.Element {
   const { t } = useTranslation()
@@ -113,7 +117,17 @@ export function StatusExecuting({
 
       {frozenRoute ? (
         <Card variant="elevation" indented sx={{ filter: 'none' }}>
-          <RouteTokens route={frozenRoute} />
+          <RouteTokens
+            route={frozenRoute}
+            fromSlot={
+              fiatOrigin ? (
+                <CheckoutFiatOriginToken
+                  currency={fiatOrigin.currency}
+                  amount={fiatOrigin.amount}
+                />
+              ) : undefined
+            }
+          />
         </Card>
       ) : null}
     </Stack>

@@ -104,7 +104,12 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
     if (!route || !depositAddress || !onRampSession) {
       return
     }
-    freeze(route)
+    freeze(
+      route,
+      fundingSource === 'cash'
+        ? { fiatCurrency, fiatAmount: normalizedCashFiatAmount || undefined }
+        : undefined
+    )
     setFrozenRouteId(route.id)
     const cryptoAmount = formatTokenAmount(
       BigInt(route.fromAmount),

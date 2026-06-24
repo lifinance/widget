@@ -17,6 +17,7 @@ import { Box, Button } from '@mui/material'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { type JSX, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CheckoutFiatOriginToken } from '../../components/CheckoutFiatOriginToken.js'
 import { useCheckoutStatusSources } from '../../hooks/useCheckoutStatusSources.js'
 import { useCheckoutTransactionStatus } from '../../hooks/useCheckoutTransactionStatus.js'
 import { CheckoutTransactionDetailsSkeleton } from './CheckoutTransactionDetailsSkeleton.js'
@@ -43,7 +44,8 @@ export const CheckoutTransactionDetailsPage: React.FC = (): JSX.Element => {
       : t('checkout.transactionStatus.detailsTitle')
   )
   const { getTransactionLink } = useExplorer()
-  const { frozenRoute, recipientAddress } = useCheckoutStatusSources()
+  const { frozenRoute, recipientAddress, fiatOrigin } =
+    useCheckoutStatusSources()
 
   const route = useMemo(() => {
     if (!status || !tools) {
@@ -100,7 +102,17 @@ export const CheckoutTransactionDetailsPage: React.FC = (): JSX.Element => {
               </DateLabelText>
             </DateLabelContainer>
           ) : null}
-          <RouteTokens route={displayRoute} />
+          <RouteTokens
+            route={displayRoute}
+            fromSlot={
+              fiatOrigin ? (
+                <CheckoutFiatOriginToken
+                  currency={fiatOrigin.currency}
+                  amount={fiatOrigin.amount}
+                />
+              ) : undefined
+            }
+          />
         </Box>
         <Box sx={{ mt: 2 }}>
           <StepActionsList

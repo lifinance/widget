@@ -15,6 +15,8 @@ export interface PersistedFrozenQuote {
   id: string
   route: Route
   expiresAt: number
+  fiatCurrency?: string
+  fiatAmount?: string
 }
 
 export interface PendingRecord {
