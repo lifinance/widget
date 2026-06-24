@@ -21,6 +21,46 @@ export interface OnRampFiatCurrenciesResult {
   refetch: () => void
 }
 
+// The endpoint returns the raw on-ramp provider shape (`fiatCurrencies` keyed
+// by `symbol`); normalize to the widget contract here. Prefers `currencies` so
+// it keeps working if the backend starts returning the normalized shape.
+interface RawOnrampPaymentOption {
+  id: string
+  name?: string
+  isActive?: boolean
+}
+
+interface RawOnrampFiatCurrency {
+  currency?: string
+  symbol?: string
+  paymentOptions?: RawOnrampPaymentOption[]
+  isAllowed?: boolean
+}
+
+interface RawOnrampFiatCurrenciesResponse {
+  defaultCurrency?: string
+  currencies?: RawOnrampFiatCurrency[]
+  fiatCurrencies?: RawOnrampFiatCurrency[]
+}
+
+function normalizeFiatCurrencies(
+  raw: RawOnrampFiatCurrenciesResponse
+): OnrampFiatCurrenciesResponse {
+  const list = raw.currencies ?? raw.fiatCurrencies ?? []
+  return {
+    defaultCurrency: raw.defaultCurrency,
+    currencies: list
+      .filter((item) => item.isAllowed !== false)
+      .map((item) => ({
+        currency: item.currency ?? item.symbol ?? '',
+        paymentOptions: (item.paymentOptions ?? [])
+          .filter((option) => option.isActive !== false)
+          .map((option) => ({ id: option.id, name: option.name })),
+      }))
+      .filter((item) => item.currency),
+  }
+}
+
 export function useOnRampFiatCurrencies(): OnRampFiatCurrenciesResult {
   const [chainId, tokenAddress] = useFieldValues(
     FormKeyHelper.getChainKey('from'),
@@ -40,7 +80,7 @@ export function useOnRampFiatCurrencies(): OnRampFiatCurrenciesResult {
     queryFn: async () => {
       const response = await postCheckoutSession<
         OnrampFiatCurrenciesRequest,
-        OnrampFiatCurrenciesResponse
+        RawOnrampFiatCurrenciesResponse
       >({
         baseUrl: apiUrl!,
         endpointPath: '/v1/checkout/onramp/fiat-currencies',
@@ -56,7 +96,7 @@ export function useOnRampFiatCurrencies(): OnRampFiatCurrenciesResult {
           `Onramp fiat currencies request failed (${response.status})`
         )
       }
-      return response.data
+      return normalizeFiatCurrencies(response.data)
     },
     enabled,
     staleTime: 24 * 60 * 60 * 1000,

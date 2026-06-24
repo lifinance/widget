@@ -16,7 +16,6 @@ import {
   ListItemAvatar,
   ListItemText,
   Skeleton,
-  Typography,
 } from '@mui/material'
 import { type ChangeEvent, type JSX, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -37,7 +36,6 @@ export const SelectCashCurrencyPage: React.FC = (): JSX.Element => {
   const currency = useFiatCurrencyStore((s) => s.currency)
   const setCurrency = useFiatCurrencyStore((s) => s.setCurrency)
   const seedCurrency = useFiatCurrencyStore((s) => s.seedCurrency)
-  const paymentMethod = useFiatCurrencyStore((s) => s.paymentMethod)
   const setPaymentMethod = useFiatCurrencyStore((s) => s.setPaymentMethod)
   const { setFieldValue } = useFieldActions()
   const [search, setSearch] = useState('')
@@ -64,9 +62,7 @@ export const SelectCashCurrencyPage: React.FC = (): JSX.Element => {
   const selectedCurrency = currencies.find((item) => item.currency === currency)
 
   useEffect(() => {
-    if (selectedCurrency?.paymentOptions.length === 1) {
-      setPaymentMethod(selectedCurrency.paymentOptions[0].id)
-    }
+    setPaymentMethod(selectedCurrency?.paymentOptions[0]?.id ?? null)
   }, [selectedCurrency?.paymentOptions, setPaymentMethod])
 
   const handleSelect = (nextCurrency: string): void => {
@@ -77,10 +73,8 @@ export const SelectCashCurrencyPage: React.FC = (): JSX.Element => {
     }
     setCurrency(nextCurrency)
     const next = currencies.find((item) => item.currency === nextCurrency)
-    if (!next || next.paymentOptions.length <= 1) {
-      setPaymentMethod(next?.paymentOptions[0]?.id ?? null)
-      navigate({ to: checkoutNavigationRoutes.enterAmount })
-    }
+    setPaymentMethod(next?.paymentOptions[0]?.id ?? null)
+    navigate({ to: checkoutNavigationRoutes.enterAmount })
   }
 
   const normalizedSearch = search.trim().toLowerCase()
@@ -160,40 +154,6 @@ export const SelectCashCurrencyPage: React.FC = (): JSX.Element => {
             </ListItemButton>
           ))}
       </List>
-      {selectedCurrency && selectedCurrency.paymentOptions.length > 1 ? (
-        <Box sx={{ mt: 2 }}>
-          <Typography sx={{ mb: 1, fontSize: 12, color: 'text.secondary' }}>
-            {t('checkout.paymentMethod.label')}
-          </Typography>
-          <List disablePadding>
-            {selectedCurrency.paymentOptions.map((option) => (
-              <ListItemButton
-                key={option.id}
-                dense
-                selected={paymentMethod === option.id}
-                onClick={() => setPaymentMethod(option.id)}
-              >
-                <ListItemText
-                  primary={option.name ?? option.id}
-                  secondary={option.id}
-                  slotProps={{ primary: { sx: { fontWeight: 600 } } }}
-                />
-              </ListItemButton>
-            ))}
-          </List>
-          <Button
-            fullWidth
-            variant="contained"
-            disabled={!paymentMethod}
-            onClick={() =>
-              navigate({ to: checkoutNavigationRoutes.enterAmount })
-            }
-            sx={{ mt: 2 }}
-          >
-            {t('button.continue')}
-          </Button>
-        </Box>
-      ) : null}
     </PageContainer>
   )
 }
