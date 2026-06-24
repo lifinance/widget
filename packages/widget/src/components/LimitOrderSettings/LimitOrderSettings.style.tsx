@@ -6,7 +6,7 @@ export const Container: React.FC<React.ComponentProps<typeof Box>> = styled(
 )(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  gap: theme.spacing(1),
+  gap: theme.spacing(2),
 }))
 
 export const SettingsRow: React.FC<React.ComponentProps<typeof Box>> = styled(
@@ -15,7 +15,20 @@ export const SettingsRow: React.FC<React.ComponentProps<typeof Box>> = styled(
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  padding: theme.spacing(0, 1.5),
+  gap: theme.spacing(2),
+  padding: theme.spacing(1.5),
+}))
+
+/** Toggle label, mirroring the playground sidebar's `ToggleRowLabel`. */
+export const ToggleLabel: React.FC<React.ComponentProps<typeof Box>> = styled(
+  Box
+)(({ theme }) => ({
+  fontSize: 14,
+  fontWeight: 700,
+  lineHeight: '18px',
+  color: theme.vars.palette.text.primary,
+  flex: '1 0 0',
+  minWidth: 0,
 }))
 
 export const ExpiryValue: React.FC<React.ComponentProps<typeof Box>> = styled(
@@ -43,7 +56,7 @@ export const QuickSettingTitle: React.FC<
   React.ComponentProps<typeof Typography>
 > = styled(Typography)(({ theme }) => ({
   fontSize: 14,
-  fontWeight: 500,
+  fontWeight: 700,
   color: theme.vars.palette.text.primary,
 }))
 

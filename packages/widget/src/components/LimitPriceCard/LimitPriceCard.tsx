@@ -2,7 +2,6 @@ import SwapHorizIcon from '@mui/icons-material/SwapHoriz'
 import type { CardProps } from '@mui/material'
 import { type ChangeEvent, type JSX, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useChain } from '../../hooks/useChain.js'
 import { useLimitMarketRate } from '../../hooks/useLimitMarketRate.js'
 import { useLinkedLimitFields } from '../../hooks/useLinkedLimitFields.js'
 import { useToken } from '../../hooks/useToken.js'
@@ -11,42 +10,22 @@ import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { useLimitOrderStore } from '../../stores/limitOrder/useLimitOrderStore.js'
 import { formatInputAmount } from '../../utils/format.js'
-import { invertPrice, proximityPercent } from '../../utils/limitOrder.js'
-import { TokenAvatar } from '../Avatar/TokenAvatar.js'
-import { CardTitle } from '../Card/CardTitle.js'
+import { invertPrice } from '../../utils/limitOrder.js'
 import {
   AmountCard,
   CardBodyRow,
   CardHeaderRow,
   LargeInput,
-  TokenChip,
-  TokenSymbol,
-} from '../LimitOrderCard/LimitOrderCard.style.js'
-import {
-  ChipsRow,
-  InvertChip,
-  OffMarketAlert,
-  PresetChip,
-} from './LimitPriceCard.style.js'
+} from '../AmountInputCard/AmountInputCard.style.js'
+import { ChipContainer } from '../AmountInputCard/PercentageChips.style.js'
+import { CardTitle } from '../Card/CardTitle.js'
+import { InvertChip, PriceChip } from './LimitPriceCard.style.js'
 
 /** Quick-set presets, as percentage offsets from market (0 = at market). */
 const PRESETS = [0, 1, 5, 10] as const
-/** |distance| at/above which the limit is flagged as far from market. */
-const OFF_MARKET_THRESHOLD = 10
 
 const cleanDisplay = (value: string): string =>
   value ? formatInputAmount(value, 8) : ''
-
-const isPresetActive = (distPct: number, presetPct: number): boolean => {
-  if (!Number.isFinite(distPct)) {
-    return false
-  }
-  if (presetPct === 0) {
-    return Math.abs(distPct) < 0.5
-  }
-  // Only positive offsets match a "+N%" preset; band absorbs string round-trip.
-  return distPct > 0 && Math.abs(distPct - presetPct) <= 1
-}
 
 export const LimitPriceCard: React.FC<CardProps> = (props): JSX.Element => {
   const { t } = useTranslation()
@@ -75,19 +54,11 @@ export const LimitPriceCard: React.FC<CardProps> = (props): JSX.Element => {
   const hasTokens = Boolean(fromToken && toToken)
   const leadToken = priceInverted ? toToken : fromToken
   const unitToken = priceInverted ? fromToken : toToken
-  const { chain: unitChain } = useChain(priceInverted ? fromChainId : toChainId)
 
   const marketCanonical = useLimitMarketRate()
 
   // Canonical price is orientation-independent; flip only for display.
   const displayPrice = priceInverted ? invertPrice(limitPrice) : limitPrice
-
-  // Proximity and presets always operate on the canonical (receive-per-send)
-  // rate so "+N%" consistently means N% above market regardless of which
-  // direction the price is currently displayed in.
-  const distPct = proximityPercent(limitPrice, marketCanonical)
-  const offMarket =
-    Number.isFinite(distPct) && Math.abs(distPct) >= OFF_MARKET_THRESHOLD
 
   // Reset the limit price and derived receive amount whenever the token pair
   // changes or limit mode is (re)entered, so a stale price from a previous pair
@@ -149,11 +120,12 @@ export const LimitPriceCard: React.FC<CardProps> = (props): JSX.Element => {
     : t('limitOrder.price')
 
   return (
-    <AmountCard {...props}>
+    <AmountCard {...props} mask={false}>
       <CardHeaderRow>
         <CardTitle sx={{ padding: 0 }}>{label}</CardTitle>
         {hasTokens ? (
           <InvertChip onClick={handleInvert} aria-label="invert price">
+            {unitToken?.symbol}
             <SwapHorizIcon sx={{ fontSize: 16 }} />
           </InvertChip>
         ) : null}
@@ -170,38 +142,14 @@ export const LimitPriceCard: React.FC<CardProps> = (props): JSX.Element => {
           name="limitPrice"
           disabled={!hasTokens}
         />
-        {unitToken ? (
-          <TokenChip>
-            <TokenAvatar
-              token={unitToken}
-              chain={unitChain}
-              tokenAvatarSize={20}
-              chainAvatarSize={10}
-            />
-            <TokenSymbol>{unitToken.symbol}</TokenSymbol>
-          </TokenChip>
-        ) : null}
       </CardBodyRow>
-      {hasTokens ? (
-        <ChipsRow>
-          {PRESETS.map((pct) => (
-            <PresetChip
-              key={pct}
-              selected={isPresetActive(distPct, pct)}
-              onClick={() => handlePreset(pct)}
-            >
-              {pct === 0 ? t('limitOrder.market') : `+${pct}%`}
-            </PresetChip>
-          ))}
-        </ChipsRow>
-      ) : null}
-      {offMarket ? (
-        <OffMarketAlert>
-          {t('limitOrder.fromMarket', {
-            percent: `${distPct > 0 ? '+' : ''}${distPct.toFixed(1)}%`,
-          })}
-        </OffMarketAlert>
-      ) : null}
+      <ChipContainer sx={{ marginTop: 0.5, flexWrap: 'wrap' }}>
+        {PRESETS.map((pct) => (
+          <PriceChip key={pct} onClick={() => handlePreset(pct)}>
+            {pct === 0 ? t('limitOrder.market') : `+${pct}%`}
+          </PriceChip>
+        ))}
+      </ChipContainer>
     </AmountCard>
   )
 }

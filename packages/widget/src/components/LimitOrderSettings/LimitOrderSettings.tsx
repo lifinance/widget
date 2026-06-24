@@ -1,12 +1,13 @@
 import Check from '@mui/icons-material/Check'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import type { BoxProps } from '@mui/material'
-import { FormControlLabel, Menu, MenuItem, Switch } from '@mui/material'
+import { Menu, MenuItem } from '@mui/material'
 import { type ChangeEvent, type JSX, type MouseEvent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLimitOrderStore } from '../../stores/limitOrder/useLimitOrderStore.js'
 import { formatDuration } from '../../utils/format.js'
 import { Card } from '../Card/Card.js'
+import { Switch } from '../Switch.js'
 import {
   Container,
   ExpiryValue,
@@ -14,6 +15,7 @@ import {
   QuickSettingTitle,
   QuickSettingValue,
   SettingsRow,
+  ToggleLabel,
 } from './LimitOrderSettings.style.js'
 
 /** Selectable order-validity durations, in seconds. */
@@ -100,17 +102,17 @@ export const LimitOrderSettings: React.FC<BoxProps> = (props): JSX.Element => {
           </MenuItem>
         ))}
       </Menu>
-      <SettingsRow>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={partiallyFillable}
-              onChange={handlePartiallyFillableChange}
-            />
-          }
-          label={t('limitOrder.partiallyFillable')}
-        />
-      </SettingsRow>
+      <Card>
+        <SettingsRow>
+          <ToggleLabel>{t('limitOrder.partiallyFillable')}</ToggleLabel>
+
+          <Switch
+            checked={partiallyFillable}
+            onChange={handlePartiallyFillableChange}
+            aria-label={t('limitOrder.partiallyFillable')}
+          />
+        </SettingsRow>
+      </Card>
     </Container>
   )
 }
