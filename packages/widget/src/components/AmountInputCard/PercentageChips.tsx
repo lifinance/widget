@@ -1,25 +1,27 @@
 import { formatUnits } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
-import type React from 'react'
 import { type JSX, memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useGasRecommendation } from '../../hooks/useGasRecommendation.js'
 import { useTokenAddressBalance } from '../../hooks/useTokenAddressBalance.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { FormTypeProps } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import {
-  AmountInputButton,
-  ButtonContainer,
-} from './AmountInputEndAdornment.style.js'
+import type { DisabledUIConfig } from '../../types/widget.js'
+import { Chip, ChipContainer } from './PercentageChips.style.js'
 
-export const AmountInputEndAdornment: React.NamedExoticComponent<FormTypeProps> =
-  memo(({ formType }: FormTypeProps): JSX.Element | null => {
+export const PercentageChips: React.NamedExoticComponent<FormTypeProps> = memo(
+  ({ formType }: FormTypeProps): JSX.Element | null => {
     const { t } = useTranslation()
     const { getChainById } = useAvailableChains()
     const { setFieldValue } = useFieldActions()
+    const { disabledUI } = useWidgetConfig()
+
+    const amountKey = FormKeyHelper.getAmountKey(formType)
+    const isDisabled = !!disabledUI?.[amountKey as keyof DisabledUIConfig]
 
     const [chainId, tokenAddress] = useFieldValues(
       FormKeyHelper.getChainKey(formType),
@@ -29,13 +31,10 @@ export const AmountInputEndAdornment: React.NamedExoticComponent<FormTypeProps> 
     const chain = getChainById(chainId)
     const { account } = useAccount({ chainType: chain?.chainType })
 
-    // We get gas recommendations for the source chain to make sure that after pressing the Max button
-    // the user will have enough funds remaining to cover gas costs
     const { data } = useGasRecommendation(chainId)
-
     const { token } = useTokenAddressBalance(chainId, tokenAddress)
 
-    const getMaxAmount = () => {
+    const getMaxAmount = (): bigint => {
       if (!token?.amount) {
         return 0n
       }
@@ -49,51 +48,48 @@ export const AmountInputEndAdornment: React.NamedExoticComponent<FormTypeProps> 
       return maxAmount
     }
 
-    const handlePercentage = (percentage: number) => {
+    const handlePercentage = (percentage: number): void => {
       const maxAmount = getMaxAmount()
       if (maxAmount && token?.decimals) {
         const percentageAmount = (maxAmount * BigInt(percentage)) / 100n
         setFieldValue(
           FormKeyHelper.getAmountKey(formType),
           formatUnits(percentageAmount, token.decimals),
-          {
-            isTouched: true,
-          }
+          { isTouched: true }
         )
       }
     }
 
-    const handleMax = () => {
+    const handleMax = (): void => {
       const maxAmount = getMaxAmount()
       if (maxAmount && token?.decimals) {
         setFieldValue(
           FormKeyHelper.getAmountKey(formType),
           formatUnits(maxAmount, token.decimals),
-          {
-            isTouched: true,
-          }
+          { isTouched: true }
         )
       }
     }
 
-    if (formType !== 'from' || !token || !account?.isConnected) {
+    if (formType !== 'from' || isDisabled || !token || !account?.isConnected) {
       return null
     }
 
     return (
-      <ButtonContainer>
-        <AmountInputButton onClick={() => handlePercentage(25)}>
+      <ChipContainer>
+        <Chip data-delay="0" onClick={() => handlePercentage(25)}>
           25%
-        </AmountInputButton>
-        <AmountInputButton onClick={() => handlePercentage(50)}>
+        </Chip>
+        <Chip data-delay="1" onClick={() => handlePercentage(50)}>
           50%
-        </AmountInputButton>
-        <AmountInputButton onClick={() => handlePercentage(75)}>
+        </Chip>
+        <Chip data-delay="2" onClick={() => handlePercentage(75)}>
           75%
-        </AmountInputButton>
-        <AmountInputButton onClick={handleMax}>
+        </Chip>
+        <Chip data-delay="3" onClick={handleMax}>
           {t('button.max')}
-        </AmountInputButton>
-      </ButtonContainer>
+        </Chip>
+      </ChipContainer>
     )
-  })
+  }
+)
