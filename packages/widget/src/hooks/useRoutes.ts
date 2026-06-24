@@ -370,6 +370,31 @@ export const useRoutes = ({
           !isBatchingSupported &&
           (!observableRoute || isObservableRelayerRoute)
 
+        // TODO(EMB-323): Limit-order route fetching. When the active tab is
+        // limit mode, fetch from the dedicated limit-order API instead of
+        // getRoutes (the SDK can carry neither the extra fields nor a per-call
+        // base URL — see [[project-limit-order-api]]). The wiring is implemented
+        // but inactive pending the API reaching a stable environment:
+        //
+        //   const limitParams = useLimitRouteParams() // computed in the hook body
+        //   if (isLimitMode && limitParams) {
+        //     const { routes } = await getLimitOrderRoutes(
+        //       {
+        //         fromChainId,
+        //         fromAddress,
+        //         fromTokenAddress,
+        //         fromAmount: fromAmount.toString(),
+        //         toChainId,
+        //         toTokenAddress,
+        //         toAddress,
+        //         toAmount: limitParams.toAmount,
+        //         validUntil: limitParams.validUntil,
+        //         partiallyFillable: limitParams.partiallyFillable,
+        //       },
+        //       { signal }
+        //     )
+        //     return routes
+        //   }
         const mainRoutesPromise = shouldUseMainRoutes
           ? getRoutes(
               sdkClient,

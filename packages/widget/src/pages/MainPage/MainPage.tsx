@@ -2,6 +2,9 @@ import { Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { AmountInput } from '../../components/AmountInput/AmountInput.js'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
+import { LimitAmountCard } from '../../components/LimitAmountCard/LimitAmountCard.js'
+import { LimitOrderSettings } from '../../components/LimitOrderSettings/LimitOrderSettings.js'
+import { LimitPriceCard } from '../../components/LimitPriceCard/LimitPriceCard.js'
 import { GasRefuelMessage } from '../../components/Messages/GasRefuelMessage.js'
 import { PageContainer } from '../../components/PageContainer.js'
 import { PoweredBy } from '../../components/PoweredBy/PoweredBy.js'
@@ -12,12 +15,14 @@ import { SendToWalletExpandButton } from '../../components/SendToWallet/SendToWa
 import { useHeader } from '../../hooks/useHeader.js'
 import { useWideVariant } from '../../hooks/useWideVariant.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { useLimitMode } from '../../stores/navigationTabs/useLimitMode.js'
 import { MainWarningMessages } from './MainWarningMessages.js'
 import { ReviewButton } from './ReviewButton.js'
 
 export const MainPage: React.FC = () => {
   const { t } = useTranslation()
   const wideVariant = useWideVariant()
+  const isLimit = useLimitMode()
   const { mode, modeOptions, contractComponent, hiddenUI } = useWidgetConfig()
   const custom = mode === 'custom'
   const showPoweredBy = !hiddenUI?.poweredBy
@@ -29,8 +34,9 @@ export const MainPage: React.FC = () => {
       : modeOptions?.split === 'swap'
         ? t('header.swap')
         : undefined
-  const title =
-    mode === 'custom'
+  const title = isLimit
+    ? t('header.limit')
+    : mode === 'custom'
       ? t(`header.${modeOptions?.custom?.type ?? 'checkout'}`)
       : mode === 'refuel'
         ? t('header.gas')
@@ -48,11 +54,18 @@ export const MainPage: React.FC = () => {
         <ContractComponent sx={marginSx}>{contractComponent}</ContractComponent>
       ) : null}
       <SelectChainAndToken sx={marginSx} />
-      {!custom || modeOptions?.custom?.type === 'deposit' ? (
+      {isLimit ? (
+        <>
+          <LimitPriceCard sx={marginSx} />
+          <LimitAmountCard formType="from" sx={marginSx} />
+          <LimitAmountCard formType="to" sx={marginSx} />
+          <LimitOrderSettings sx={marginSx} />
+        </>
+      ) : !custom || modeOptions?.custom?.type === 'deposit' ? (
         <AmountInput formType="from" sx={marginSx} />
       ) : null}
       {!wideVariant ? <Routes sx={marginSx} /> : null}
-      <SendToWalletButton sx={marginSx} />
+      {!isLimit ? <SendToWalletButton sx={marginSx} /> : null}
       {showGasRefuelMessage ? <GasRefuelMessage sx={marginSx} /> : null}
       <MainWarningMessages sx={marginSx} />
       <Box
@@ -62,7 +75,7 @@ export const MainPage: React.FC = () => {
         }}
       >
         <ReviewButton />
-        <SendToWalletExpandButton />
+        {!isLimit ? <SendToWalletExpandButton /> : null}
       </Box>
       {showPoweredBy ? <PoweredBy /> : null}
     </PageContainer>
