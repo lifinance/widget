@@ -81,6 +81,11 @@ export type NavigationTabKey = InternalNavigationTabKey | SplitNavigationTabKey
  */
 export interface NavigationTabConfig {
   tabKey: NavigationTabKey
+  /**
+   * Config overrides applied while this tab is active. Note that `sdkConfig`,
+   * `theme`, `appearance` and `languages` are read above the tab provider and
+   * are therefore not tab-overridable — setting them here has no effect.
+   */
   config: Partial<WidgetConfig>
 }
 
