@@ -2,6 +2,7 @@ import { parseUnits } from '@lifi/sdk'
 import { useAccount, useWalletMenu } from '@lifi/wallet-management'
 import {
   FormKeyHelper,
+  PageContainer,
   PoweredBy,
   useChain,
   useFieldActions,
@@ -18,7 +19,7 @@ import {
   useConnectedCexStore,
 } from '@lifi/widget-provider/checkout'
 import { useMeshBalance } from '@lifi/widget-provider-mesh'
-import { Alert, Box } from '@mui/material'
+import { Alert, Box, CircularProgress } from '@mui/material'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { formatOnRampError } from '../../components/formatOnRampError.js'
@@ -28,6 +29,8 @@ import {
   useCheckoutExchangesOverride,
 } from '../../hooks/useCheckoutExchangesOverride.js'
 import { useCheckoutNavigate } from '../../hooks/useCheckoutNavigate.js'
+import { useCheckoutPendingRecords } from '../../hooks/useCheckoutPendingRecords.js'
+import { useResumeCheckout } from '../../hooks/useResumeCheckout.js'
 import { useSelectSourceTopWallets } from '../../hooks/useSelectSourceTopWallets.js'
 import {
   useOnRampProviderByCategory,
@@ -41,6 +44,7 @@ import {
 } from '../../utils/checkoutDefaults.js'
 import { isNativeToken } from '../../utils/nativeToken.js'
 import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
+import { pickAutoResumeItem } from '../../utils/pickAutoResumeItem.js'
 import { CheckoutActivitySection } from './CheckoutActivitySection.js'
 import { SelectSourceFundingOptions } from './SelectSourceFundingOptions.js'
 import { SelectSourceMainColumn } from './SelectSourceLayout.js'
@@ -74,6 +78,21 @@ export const SelectSourcePage: React.FC = () => {
 
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
   const wasExchangeFlow = fundingSource === 'exchange'
+
+  const pendingItems = useCheckoutPendingRecords()
+  const resumeCheckout = useResumeCheckout()
+  const autoResumeItem = useMemo(
+    () => pickAutoResumeItem(pendingItems),
+    [pendingItems]
+  )
+  const autoResumedRef = useRef(false)
+  useEffect(() => {
+    if (autoResumedRef.current || !autoResumeItem) {
+      return
+    }
+    autoResumedRef.current = true
+    resumeCheckout(autoResumeItem.record, autoResumeItem.depositDetected)
+  }, [autoResumeItem, resumeCheckout])
 
   const formType = 'from' as const
   const [prevChainId, prevTokenAddress, prevAmountStr] = useFieldValues(
@@ -112,8 +131,12 @@ export const SelectSourcePage: React.FC = () => {
     meshRawBalance < prevRequestedRaw
 
   useEffect(() => {
+    // Skip while auto-resuming, else it clobbers the flow the resume just set.
+    if (autoResumeItem) {
+      return
+    }
     resetFlow()
-  }, [resetFlow])
+  }, [resetFlow, autoResumeItem])
 
   const payFromWalletAccount = useMemo(
     () => accounts.find((acct) => acct.isConnected && acct.address) ?? null,
@@ -234,6 +257,24 @@ export const SelectSourcePage: React.FC = () => {
         })),
     [topWallets]
   )
+
+  // Hold a loader rather than flash the funding options before redirecting.
+  if (autoResumeItem) {
+    return (
+      <PageContainer bottomGutters>
+        <Box
+          sx={{
+            flex: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      </PageContainer>
+    )
+  }
 
   return (
     <Stack

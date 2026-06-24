@@ -387,6 +387,12 @@
       "confirm": "Close checkout",
       "cancel": "Cancel"
     },
+    "abandonConfirmation": {
+      "title": "Cancel this transfer?",
+      "body": "Your deposit details will be discarded. Don't send funds to this address after cancelling.",
+      "confirm": "Cancel transfer",
+      "cancel": "Keep transfer"
+    },
     "activity": {
       "title": "Activity",
       "deposit": "Deposit",
@@ -502,9 +508,21 @@
       "seeDetails": "See details",
       "steps": {
         "transferInitiated": "Transfer initiated",
-        "tokenReceived": "{{symbol}} received",
-        "swappedTo": "Swapped to {{symbol}}",
-        "bridgedTo": "Bridged to {{chain}}"
+        "receive": {
+          "upcoming": "Receive {{symbol}}",
+          "loading": "Receiving {{symbol}}",
+          "done": "{{symbol}} received"
+        },
+        "swap": {
+          "upcoming": "Swap to {{symbol}}",
+          "loading": "Swapping to {{symbol}}",
+          "done": "Swapped to {{symbol}}"
+        },
+        "bridge": {
+          "upcoming": "Bridge to {{chain}}",
+          "loading": "Bridging to {{chain}}",
+          "done": "Bridged to {{chain}}"
+        }
       }
     },
     "chooseFundingSource": "Choose funding source",
@@ -514,6 +532,10 @@
     "addWalletToReceive": "Add a wallet to receive your {{token}}",
     "walletAddressOrEns": "Wallet address or ENS name",
     "insufficientFunds": "Insufficient funds — You don't have enough {{symbol}} on {{chain}}. Select a different token to try again.",
+    "routeNotFound": {
+      "title": "Can't buy this token here",
+      "description": "This token isn't available through the payment method you selected. Try a different token, or pay from a connected wallet."
+    },
     "useYourTokens": "Use your tokens",
     "buyTokens": "Buy tokens",
     "or": "or",

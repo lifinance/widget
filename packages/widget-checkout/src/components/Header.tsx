@@ -9,15 +9,17 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import CloseIcon from '@mui/icons-material/Close'
 import { Box, IconButton } from '@mui/material'
 import { useLocation, useRouter } from '@tanstack/react-router'
-import { useLayoutEffect, useRef } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCheckoutModal } from '../CheckoutModal.js'
+import { useAbandonCheckout } from '../hooks/useAbandonCheckout.js'
 import { useCheckoutNavigate } from '../hooks/useCheckoutNavigate.js'
 import { useIsCheckoutBusy } from '../hooks/useIsCheckoutBusy.js'
 import {
   backButtonRoutes,
   checkoutNavigationRoutes,
 } from '../utils/navigationRoutes.js'
+import { AbandonConfirmationDialog } from './AbandonConfirmationDialog.js'
 import {
   HeaderAppBar,
   HeaderControlsContainer,
@@ -38,6 +40,8 @@ export const Header: React.FC<HeaderProps> = ({ title: titleProp }) => {
   const navigate = useCheckoutNavigate()
   const modalContext = useCheckoutModal()
   const busy = useIsCheckoutBusy()
+  const abandonCheckout = useAbandonCheckout()
+  const [abandonOpen, setAbandonOpen] = useState(false)
   const headerRef = useRef<HTMLDivElement>(null)
   const { setHeaderHeight } = useSetHeaderHeight()
 
@@ -68,10 +72,20 @@ export const Header: React.FC<HeaderProps> = ({ title: titleProp }) => {
   const isHomePage = pathname === checkoutNavigationRoutes.home
 
   const handleBack = () => {
+    if (path === 'transfer-deposit') {
+      setAbandonOpen(true)
+      return
+    }
     if (router.history.length > 1) {
       router.history.go(-1)
       return
     }
+    navigate({ to: checkoutNavigationRoutes.home, replace: true })
+  }
+
+  const confirmAbandon = () => {
+    setAbandonOpen(false)
+    abandonCheckout()
     navigate({ to: checkoutNavigationRoutes.home, replace: true })
   }
 
@@ -89,48 +103,56 @@ export const Header: React.FC<HeaderProps> = ({ title: titleProp }) => {
   const titleAlignCenter = true
 
   return (
-    <HeaderAppBar
-      ref={headerRef}
-      id={createElementId(ElementId.Header, elementId)}
-      elevation={0}
-    >
-      <Box
-        sx={{
-          flexShrink: 0,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-        }}
+    <>
+      <HeaderAppBar
+        ref={headerRef}
+        id={createElementId(ElementId.Header, elementId)}
+        elevation={0}
       >
-        <IconButton
-          onClick={showBackButton ? handleBack : undefined}
-          size="medium"
-          edge="start"
-          aria-label={t('button.cancel')}
-          tabIndex={showBackButton ? undefined : -1}
-          sx={{ visibility: showBackButton ? 'visible' : 'hidden' }}
+        <Box
+          sx={{
+            flexShrink: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+          }}
         >
-          <ArrowBackIcon />
-        </IconButton>
-      </Box>
-      <HeaderTitleTypography
-        variant="h6"
-        $isHomePage={isHomePage}
-        $alignCenter={titleAlignCenter}
-      >
-        {title}
-      </HeaderTitleTypography>
-      <HeaderControlsContainer
-        sx={{ justifyContent: 'flex-end', flexShrink: 0 }}
-      >
-        <IconButton
-          onClick={handleClose}
-          size="medium"
-          aria-label={t('button.close')}
+          <IconButton
+            onClick={showBackButton ? handleBack : undefined}
+            size="medium"
+            edge="start"
+            aria-label={t('button.cancel')}
+            tabIndex={showBackButton ? undefined : -1}
+            sx={{ visibility: showBackButton ? 'visible' : 'hidden' }}
+          >
+            <ArrowBackIcon />
+          </IconButton>
+        </Box>
+        <HeaderTitleTypography
+          variant="h6"
+          $isHomePage={isHomePage}
+          $alignCenter={titleAlignCenter}
         >
-          <CloseIcon />
-        </IconButton>
-      </HeaderControlsContainer>
-    </HeaderAppBar>
+          {title}
+        </HeaderTitleTypography>
+        <HeaderControlsContainer
+          sx={{ justifyContent: 'flex-end', flexShrink: 0 }}
+        >
+          <IconButton
+            onClick={handleClose}
+            size="medium"
+            aria-label={t('button.close')}
+          >
+            <CloseIcon />
+          </IconButton>
+        </HeaderControlsContainer>
+      </HeaderAppBar>
+      <AbandonConfirmationDialog
+        open={abandonOpen}
+        onCancel={() => setAbandonOpen(false)}
+        onConfirm={confirmAbandon}
+        container={modalContext?.panelEl ?? null}
+      />
+    </>
   )
 }

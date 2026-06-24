@@ -155,6 +155,15 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
   }, [depositCancelled, clearForKey, resumeKey, navigate, router])
 
   const isResumed = search.resumed === '1'
+  // Resumed exchange records have no live session, so a poll error can't be retried.
+  const exchangeSessionLost =
+    isResumed && fundingSource === 'exchange' && !deposit
+  useEffect(() => {
+    if (isError && exchangeSessionLost && resumeKey) {
+      markFailed(resumeKey)
+    }
+  }, [isError, exchangeSessionLost, resumeKey, markFailed])
+
   const showToast = useCheckoutToastStore((s) => s.show)
   const notFoundHandledRef = useRef(false)
   useEffect(() => {
@@ -310,7 +319,9 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
       <PageContainer bottomGutters>
         <CheckoutStatusScreen
           variant={ERROR_VARIANT}
-          primaryAction={{ tryAgain: retryStatus }}
+          primaryAction={{
+            tryAgain: exchangeSessionLost ? goToEnterAmount : retryStatus,
+          }}
           secondaryAction={{ contactSupport: handleContactSupport }}
         />
       </PageContainer>

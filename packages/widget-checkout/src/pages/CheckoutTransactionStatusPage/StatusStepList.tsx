@@ -121,12 +121,13 @@ export function StatusStepList({
         phase === 'done' ||
         sourceConfirmed ||
         (phase === 'pending' && Boolean(status))
+      const state: RowState = received ? 'done' : inFlightState
       out.push({
         key: 'tokenReceived',
-        label: t('checkout.transactionStatus.steps.tokenReceived', {
+        label: t(`checkout.transactionStatus.steps.receive.${state}`, {
           symbol: fromSymbol,
         }),
-        state: received ? 'done' : inFlightState,
+        state,
         href:
           sendingTxLink ??
           (segments.length === 0 ? receivingTxLink : undefined),
@@ -138,17 +139,18 @@ export function StatusStepList({
         typeof segment.fromChainId === 'number' &&
         typeof segment.toChainId === 'number' &&
         segment.fromChainId !== segment.toChainId
+      const state: RowState = phase === 'done' ? 'done' : inFlightState
       const label = isCrossChain
-        ? t('checkout.transactionStatus.steps.bridgedTo', {
+        ? t(`checkout.transactionStatus.steps.bridge.${state}`, {
             chain: getChainById(segment.toChainId!)?.name ?? '',
           }).trim()
-        : t('checkout.transactionStatus.steps.swappedTo', {
+        : t(`checkout.transactionStatus.steps.swap.${state}`, {
             symbol: segment.toSymbol ?? '',
           })
       out.push({
         key: `step-${i}`,
         label,
-        state: phase === 'done' ? 'done' : inFlightState,
+        state,
         href: i === segments.length - 1 ? receivingTxLink : undefined,
       })
     })

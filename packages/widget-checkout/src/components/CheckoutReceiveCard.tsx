@@ -13,7 +13,6 @@ import {
   IconTypography,
   ProgressToNextUpdate,
   RouteDetails,
-  RouteNotFoundCard,
   TokenAvatar,
   TokenRate,
   useChain,
@@ -38,6 +37,7 @@ import { useCheckoutRoutes } from '../hooks/useCheckoutRoutes.js'
 import { useOnRampQuote } from '../hooks/useOnRampQuote.js'
 import { useCheckoutFlowStore } from '../stores/useCheckoutFlowStore.js'
 import { formatFiat, normalizeFiatAmount } from '../utils/fiatFormat.js'
+import { CheckoutRouteNotFound } from './CheckoutRouteNotFound.js'
 
 export const CheckoutReceiveCard: React.FC = () => {
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
@@ -394,7 +394,7 @@ const CheckoutReceiveCardWithRoutes: React.FC = () => {
         </Box>
 
         {routeNotFound ? (
-          <RouteNotFoundCard />
+          <CheckoutRouteNotFound />
         ) : (
           <>
             <Box

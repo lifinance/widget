@@ -170,8 +170,8 @@ const routeTree = rootRoute.addChildren([
 ])
 
 export const CheckoutRouter: React.FC = () => {
-  // No deep-resume on mount — pending deposits surface as a tappable activity
-  // list on the funding screen.
+  // Always start at home; the funding screen auto-resumes a single in-flight
+  // deposit and surfaces the rest as a tappable activity list.
   const [router] = useState(() =>
     createRouter({
       routeTree,

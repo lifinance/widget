@@ -22,10 +22,18 @@ vi.mock('@lifi/widget/shared', () => ({
   useWidgetConfig: () => ({ elementId: 'test' }),
 }))
 
+const { navigateMock, routerGo, routerState } = vi.hoisted(() => ({
+  navigateMock: vi.fn(),
+  routerGo: vi.fn(),
+  routerState: { pathname: '/', historyLength: 1 },
+}))
+
 vi.mock('@tanstack/react-router', () => ({
-  useLocation: () => ({ pathname: '/' }),
-  useRouter: () => ({ history: { length: 1, go: () => {} } }),
-  useNavigate: () => () => {},
+  useLocation: () => ({ pathname: routerState.pathname }),
+  useRouter: () => ({
+    history: { length: routerState.historyLength, go: routerGo },
+  }),
+  useNavigate: () => navigateMock,
 }))
 
 vi.mock('@lifi/wallet-management', () => ({
@@ -76,6 +84,8 @@ function setup({
 describe('Header close button', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    routerState.pathname = '/'
+    routerState.historyLength = 1
   })
 
   it('calls closeModal directly when idle', () => {
@@ -94,5 +104,38 @@ describe('Header close button', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Close' }))
     expect(openCloseConfirmation).toHaveBeenCalledTimes(1)
     expect(closeModal).not.toHaveBeenCalled()
+  })
+})
+
+describe('Header back button', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+    routerState.pathname = '/'
+    routerState.historyLength = 1
+  })
+
+  it('confirms before abandoning to home from the transfer-deposit page', () => {
+    routerState.pathname = '/transfer-deposit'
+    setup({
+      busy: false,
+      closeModal: vi.fn(),
+      openCloseConfirmation: vi.fn(),
+    })
+    fireEvent.click(screen.getByRole('button', { name: 'Cancel' }))
+    // Back opens the confirmation sheet; nothing navigates yet.
+    expect(navigateMock).not.toHaveBeenCalled()
+    fireEvent.click(screen.getByRole('button', { name: 'Cancel transfer' }))
+    expect(navigateMock).toHaveBeenCalledWith({ to: '/', replace: true })
+    expect(routerGo).not.toHaveBeenCalled()
+  })
+
+  it('hides the back button on status pages', () => {
+    routerState.pathname = '/transaction-execution/transaction-status'
+    setup({
+      busy: false,
+      closeModal: vi.fn(),
+      openCloseConfirmation: vi.fn(),
+    })
+    expect(screen.queryByRole('button', { name: 'Cancel' })).toBeNull()
   })
 })
