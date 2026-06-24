@@ -6,6 +6,7 @@ import {
   ctrl,
   leather,
   magicEden,
+  metamask,
   okx,
   onekey,
   oyl,
@@ -15,6 +16,7 @@ import {
   xverse,
 } from '@bigmi/client'
 import { bitcoin, createClient, http } from '@bigmi/core'
+import { registerMetaMaskBitcoinWallet } from './registerMetaMaskBitcoinWallet.js'
 
 export interface DefaultBigmiConfigProps {
   bigmiConfig?: {
@@ -54,6 +56,11 @@ export function createDefaultBigmiConfig(
     bigmiConfig: { multiInjectedProviderDiscovery: false },
   }
 ): DefaultBigmiConfigResult {
+  // MetaMask's Bitcoin wallet is surfaced through the Wallet Standard by an
+  // adapter the dapp must register. Do it before the connectors are created
+  // (and before `useReconnect` runs) so `metamask()` can discover it.
+  registerMetaMaskBitcoinWallet()
+
   const connectors: CreateConnectorFn[] = [
     phantom(),
     xverse(),
@@ -66,6 +73,7 @@ export function createDefaultBigmiConfig(
     bitget(),
     oyl(),
     magicEden(),
+    metamask(),
     unhosted(),
     ...(props?.connectors ?? []),
   ]

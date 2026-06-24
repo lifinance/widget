@@ -42,7 +42,9 @@
     "@bigmi/core": "^0.8.1",
     "@lifi/sdk": "^4.0.0",
     "@lifi/sdk-provider-bitcoin": "^4.0.0",
-    "@lifi/widget-provider": "workspace:*"
+    "@lifi/widget-provider": "workspace:*",
+    "@metamask/bitcoin-wallet-standard": "^1.1.0",
+    "@metamask/multichain-api-client": "^0.12.0"
   },
   "peerDependencies": {
     "@bigmi/react": "^0.8.0",

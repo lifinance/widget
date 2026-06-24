@@ -1,7 +1,14 @@
 export const isWalletInstalled = (id: string): boolean => {
   const anyWindow = typeof window !== 'undefined' ? (window as any) : undefined
   switch (id) {
+    // MetaMask EVM (`metaMask`) and MetaMask Bitcoin (`io.metamask.bitcoin`)
+    // ride the same extension, so both detect via the injected `window.ethereum`
+    // signal. NOTE: the MetaMask Bitcoin wallet is always present in the Wallet
+    // Standard registry once the dapp registers its adapter, so a registry-based
+    // check would be a false positive — this extension check is the correct
+    // "installed" signal.
     case 'metaMask':
+    case 'io.metamask.bitcoin':
       return (
         anyWindow?.ethereum?.isMetaMask ||
         anyWindow?.ethereum?.providers?.some(
