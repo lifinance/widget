@@ -12,6 +12,7 @@ export interface DefaultFieldValues {
 }
 
 export interface DefaultValues extends DefaultFieldValues {
+  cashFiatAmount: string
   contractCalls?: ContractCall[]
   tokenSearchFilter: string
 }

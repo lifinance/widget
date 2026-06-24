@@ -16,6 +16,7 @@ function makeSession(): OnRampSession {
     depositTxHash: null,
     acknowledgeDepositTxHash: noop,
     resolvedDepositAddress: null,
+    fundingSessionId: null,
     mountTargetId: null,
   }
 }

@@ -18,6 +18,13 @@ export interface FrozenQuote {
   id: string
   route: Route
   expiresAt: number
+  fiatCurrency?: string
+  fiatAmount?: string
+}
+
+export interface FrozenQuoteMeta {
+  fiatCurrency?: string
+  fiatAmount?: string
 }
 
 interface FrozenQuoteState {
@@ -65,7 +72,7 @@ export interface UseFrozenQuote {
   expired: boolean
   /** Milliseconds until the frozen quote expires (0 once expired/unset). */
   remainingMs: number
-  freeze: (route: Route) => void
+  freeze: (route: Route, meta?: FrozenQuoteMeta) => void
   clear: () => void
 }
 
@@ -86,11 +93,13 @@ export function useFrozenQuote(): UseFrozenQuote {
   const remainingMs = frozen ? Math.max(0, frozen.expiresAt - now) : 0
 
   const freeze = useCallback(
-    (route: Route) => {
+    (route: Route, meta?: FrozenQuoteMeta) => {
       setFrozen({
         id: route.id,
         route,
         expiresAt: Date.now() + FROZEN_QUOTE_TTL_MS,
+        fiatCurrency: meta?.fiatCurrency,
+        fiatAmount: meta?.fiatAmount,
       })
       setNow(Date.now())
     },

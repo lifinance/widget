@@ -2,7 +2,11 @@ import type { CheckoutSessionApiError } from '../api.js'
 
 export interface CheckoutSessionRequestArgs<TBody> {
   baseUrl: string
-  endpointPath: '/v1/checkout/onramp/session' | '/v1/checkout/cex/session'
+  endpointPath:
+    | '/v1/checkout/onramp/session'
+    | '/v1/checkout/cex/session'
+    | '/v1/checkout/onramp/fiat-currencies'
+    | '/v1/checkout/onramp/quote'
   apiKey: string
   integrator?: string
   body: TBody

@@ -1,9 +1,11 @@
 import type { Route } from '@lifi/sdk'
 import {
+  AvatarBadgedDefault,
   ChainAvatar,
   FeeBreakdownTooltip,
   FormKeyHelper,
   formatDuration,
+  formatInputAmount,
   formatTokenAmount,
   formatTokenPrice,
   getAccumulatedFeeCostsBreakdown,
@@ -15,20 +17,164 @@ import {
   TokenAvatar,
   TokenRate,
   useChain,
+  useFieldActions,
   useFieldValues,
   useToken,
 } from '@lifi/widget/shared'
 import AccessTimeFilled from '@mui/icons-material/AccessTimeFilled'
 import ExpandMoreRounded from '@mui/icons-material/ExpandMoreRounded'
 import LocalGasStationRounded from '@mui/icons-material/LocalGasStationRounded'
-import { Box, Collapse, IconButton, Skeleton, Typography } from '@mui/material'
-import { useState } from 'react'
+import {
+  Box,
+  Collapse,
+  IconButton,
+  Skeleton,
+  Stack,
+  Typography,
+} from '@mui/material'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCheckoutRoutes } from '../hooks/useCheckoutRoutes.js'
+import { useOnRampQuote } from '../hooks/useOnRampQuote.js'
+import { useCheckoutFlowStore } from '../stores/useCheckoutFlowStore.js'
+import { formatFiat, normalizeFiatAmount } from '../utils/fiatFormat.js'
+
 export const CheckoutReceiveCard: React.FC = () => {
+  const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
+  const [cashFiatAmount] = useFieldValues('cashFiatAmount')
+  const parsedTypedFiatAmount = Number.parseFloat(
+    normalizeFiatAmount(cashFiatAmount)
+  )
+  const hasTypedFiatAmount =
+    Number.isFinite(parsedTypedFiatAmount) && parsedTypedFiatAmount > 0
+
+  if (fundingSource === 'cash' && !hasTypedFiatAmount) {
+    return <CheckoutReceiveIdleCard />
+  }
+
+  return <CheckoutReceiveCardWithRoutes />
+}
+
+const CheckoutReceiveIdleCard: React.FC = () => {
+  const { t } = useTranslation()
+  const [toChainId, toTokenAddress] = useFieldValues(
+    FormKeyHelper.getChainKey('to'),
+    FormKeyHelper.getTokenKey('to')
+  )
+  const { chain } = useChain(toChainId)
+  const { token: toToken } = useToken(toChainId, toTokenAddress)
+
+  return (
+    <Box
+      sx={{
+        bgcolor: 'background.paper',
+        borderRadius: 1.5,
+        p: 2,
+        mb: 2,
+        boxShadow: '0px 2px 8px rgba(0,0,0,.04)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 1.5,
+      }}
+    >
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+        {toToken && chain ? (
+          <TokenAvatar token={toToken} chain={chain} />
+        ) : (
+          <AvatarBadgedDefault />
+        )}
+        <Box>
+          <Typography
+            variant="body2"
+            sx={{ color: 'text.secondary', fontSize: 12, fontWeight: 500 }}
+          >
+            {t('header.receive')}
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{ fontWeight: 700, fontSize: 14, lineHeight: '20px' }}
+          >
+            {toToken?.symbol ?? '—'}
+          </Typography>
+        </Box>
+      </Box>
+      <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
+        <Box sx={{ flex: 1, minWidth: 0, overflow: 'hidden' }}>
+          <Typography
+            sx={{
+              fontSize: 32,
+              fontWeight: 700,
+              lineHeight: 1,
+              color: 'text.disabled',
+            }}
+            noWrap
+          >
+            0
+          </Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 0.5,
+              flexWrap: 'wrap',
+              mt: 0.5,
+            }}
+          >
+            <Typography
+              component="span"
+              variant="body2"
+              sx={{ color: 'text.secondary', fontSize: 12, fontWeight: 500 }}
+            >
+              {t('format.currency', { value: 0 })}
+            </Typography>
+            <Typography
+              component="span"
+              variant="body2"
+              sx={{ color: 'text.secondary', fontSize: 12, opacity: 0.75 }}
+            >
+              •
+            </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 0.5,
+                minWidth: 0,
+              }}
+            >
+              {chain?.logoURI ? (
+                <ChainAvatar
+                  src={chain.logoURI}
+                  alt=""
+                  sx={{ width: 16, height: 16 }}
+                />
+              ) : null}
+              <Typography
+                variant="body2"
+                noWrap
+                sx={{ color: 'text.secondary', fontSize: 12, fontWeight: 500 }}
+              >
+                {chain?.name ?? '—'}
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+  )
+}
+
+const CheckoutReceiveCardWithRoutes: React.FC = () => {
   const { t, i18n } = useTranslation()
+  const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
+  const isCash = fundingSource === 'cash'
   const [expanded, setExpanded] = useState(false)
-  const [fromAmount] = useFieldValues('fromAmount')
+  const { setFieldValue } = useFieldActions()
+  const onRampQuote = useOnRampQuote()
+  const [fromAmount, cashFiatAmount] = useFieldValues(
+    'fromAmount',
+    'cashFiatAmount'
+  )
   const [toChainId, toTokenAddress] = useFieldValues(
     FormKeyHelper.getChainKey('to'),
     FormKeyHelper.getTokenKey('to')
@@ -44,12 +190,20 @@ export const CheckoutReceiveCard: React.FC = () => {
     refetchTime,
   } = useCheckoutRoutes()
 
+  const parsedTypedFiatAmount = Number.parseFloat(
+    normalizeFiatAmount(cashFiatAmount)
+  )
+  const hasTypedFiatAmount =
+    Number.isFinite(parsedTypedFiatAmount) && parsedTypedFiatAmount > 0
   const parsedAmount = Number.parseFloat(
     typeof fromAmount === 'string'
       ? fromAmount.replace(',', '.')
       : `${fromAmount ?? ''}`
   )
-  const hasAmount = Number.isFinite(parsedAmount) && parsedAmount > 0
+  const hasAmount =
+    (!isCash || hasTypedFiatAmount) &&
+    Number.isFinite(parsedAmount) &&
+    parsedAmount > 0
   const route = routes?.[0] as Route | undefined
   const routeNotFound =
     hasAmount && !route && !isLoading && !isFetching && isFetched
@@ -99,316 +253,486 @@ export const CheckoutReceiveCard: React.FC = () => {
     : { gasCosts: [], feeCosts: [], combinedFeesUSD: 0 }
 
   const handleToggleExpanded = () => {
-    if (!route) {
+    if (!isCash && !route) {
       return
     }
     setExpanded((prev) => !prev)
   }
 
+  const estimatedFundingAmount = onRampQuote.data?.funding?.estimatedAmount
+  useEffect(() => {
+    if (!isCash) {
+      return
+    }
+    if (!hasTypedFiatAmount || onRampQuote.isError) {
+      if (!fromAmount) {
+        return
+      }
+      setFieldValue(FormKeyHelper.getAmountKey('from'), '', {
+        isDirty: true,
+        isTouched: true,
+      })
+      return
+    }
+    if (
+      onRampQuote.isDebouncePending ||
+      !onRampQuote.isReady ||
+      !estimatedFundingAmount
+    ) {
+      return
+    }
+    setFieldValue(
+      FormKeyHelper.getAmountKey('from'),
+      formatInputAmount(estimatedFundingAmount),
+      { isDirty: true, isTouched: true }
+    )
+  }, [
+    fromAmount,
+    hasTypedFiatAmount,
+    isCash,
+    estimatedFundingAmount,
+    onRampQuote.isError,
+    onRampQuote.isDebouncePending,
+    onRampQuote.isReady,
+    setFieldValue,
+  ])
+
+  const cashFees = onRampQuote.data?.fees
+  const cashFeeRows = cashFees?.breakdown?.length
+    ? cashFees.breakdown.map((fee, index) => ({
+        label:
+          fee.name ||
+          fee.label ||
+          fee.type ||
+          t('checkout.cashQuote.feeFallback', { index: index + 1 }),
+        value: formatFiat(fee.amount, cashFees.currency, i18n.language),
+      }))
+    : cashFees?.total?.amount
+      ? [
+          {
+            label: t('checkout.cashQuote.totalFeesLabel'),
+            value: formatFiat(
+              cashFees.total.amount,
+              cashFees.currency,
+              i18n.language
+            ),
+          },
+        ]
+      : []
+  const minimumReceived = route
+    ? `${t('format.tokenAmount', {
+        value: formatTokenAmount(
+          BigInt(route.toAmountMin),
+          route.toToken.decimals
+        ),
+      })} ${route.toToken.symbol}`
+    : null
+
+  const cashDetailsPending =
+    isCash &&
+    hasTypedFiatAmount &&
+    !onRampQuote.isError &&
+    (onRampQuote.isLoading ||
+      onRampQuote.isFetching ||
+      onRampQuote.isDebouncePending ||
+      (Boolean(estimatedFundingAmount) && !route))
+  const hasExpandableContent = isCash
+    ? hasTypedFiatAmount &&
+      (cashDetailsPending || cashFeeRows.length > 0 || Boolean(minimumReceived))
+    : Boolean(route)
+
   return (
-    <Box
-      sx={{
-        bgcolor: 'background.paper',
-        borderRadius: 1.5,
-        p: 2,
-        mb: 2,
-        boxShadow: '0px 2px 8px rgba(0,0,0,.04)',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 1.5,
-      }}
-    >
+    <>
       <Box
         sx={{
+          bgcolor: 'background.paper',
+          borderRadius: 1.5,
+          p: 2,
+          mb: 2,
+          boxShadow: '0px 2px 8px rgba(0,0,0,.04)',
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          flexDirection: 'column',
           gap: 1.5,
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-          {toToken && chain ? (
-            <TokenAvatar token={toToken} chain={chain} />
-          ) : (
-            <Skeleton variant="circular" width={32} height={32} />
-          )}
-          <Box>
-            <Typography
-              variant="body2"
-              sx={{ color: 'text.secondary', fontSize: 12, fontWeight: 500 }}
-            >
-              {t('header.receive')}
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{ fontWeight: 700, fontSize: 14, lineHeight: '20px' }}
-            >
-              {toToken?.symbol ?? '—'}
-            </Typography>
-          </Box>
-        </Box>
-        {hasAmount ? (
-          <ProgressToNextUpdate
-            updatedAt={dataUpdatedAt}
-            timeToUpdate={refetchTime}
-            isLoading={isLoading || (isFetching && !route)}
-          />
-        ) : null}
-      </Box>
-
-      {routeNotFound ? (
-        <RouteNotFoundCard />
-      ) : (
-        <>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'flex-start',
-              gap: 1,
-            }}
-          >
-            <Box sx={{ flex: 1, minWidth: 0, overflow: 'hidden' }}>
-              {showLoading ? (
-                <Typography
-                  sx={{
-                    fontSize: 32,
-                    fontWeight: 700,
-                    lineHeight: 1,
-                    color: 'text.disabled',
-                    '@keyframes checkoutReceiveAmountPulse': {
-                      '0%, 100%': { opacity: 0.35 },
-                      '50%': { opacity: 1 },
-                    },
-                    animation:
-                      'checkoutReceiveAmountPulse 1.1s ease-in-out infinite',
-                  }}
-                  noWrap
-                >
-                  0
-                </Typography>
-              ) : (
-                <Typography
-                  sx={{
-                    fontSize: 32,
-                    fontWeight: 700,
-                    lineHeight: 1,
-                    color: route ? 'text.primary' : 'text.disabled',
-                  }}
-                  noWrap
-                  title={route ? toAmountRaw : undefined}
-                >
-                  {toAmountDisplay}
-                </Typography>
-              )}
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 0.5,
-                  flexWrap: 'wrap',
-                  mt: 0.5,
-                }}
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 1.5,
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+            {toToken && chain ? (
+              <TokenAvatar token={toToken} chain={chain} />
+            ) : (
+              <Skeleton variant="circular" width={32} height={32} />
+            )}
+            <Box>
+              <Typography
+                variant="body2"
+                sx={{ color: 'text.secondary', fontSize: 12, fontWeight: 500 }}
               >
-                <Typography
-                  component="span"
-                  variant="body2"
-                  sx={{
-                    color: 'text.secondary',
-                    fontSize: 12,
-                    fontWeight: 500,
-                  }}
-                >
-                  {toUsdDisplay}
-                </Typography>
-                <Typography
-                  component="span"
-                  variant="body2"
-                  sx={{ color: 'text.secondary', fontSize: 12, opacity: 0.75 }}
-                >
-                  •
-                </Typography>
-                <Typography
-                  component="span"
-                  variant="body2"
-                  sx={{
-                    color: 'text.secondary',
-                    fontSize: 12,
-                    fontWeight: 500,
-                  }}
-                >
-                  {priceImpactStr}
-                </Typography>
-                <Typography
-                  component="span"
-                  variant="body2"
-                  sx={{ color: 'text.secondary', fontSize: 12, opacity: 0.75 }}
-                >
-                  •
-                </Typography>
+                {t('header.receive')}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ fontWeight: 700, fontSize: 14, lineHeight: '20px' }}
+              >
+                {toToken?.symbol ?? '—'}
+              </Typography>
+            </Box>
+          </Box>
+          {hasAmount ? (
+            <ProgressToNextUpdate
+              updatedAt={dataUpdatedAt}
+              timeToUpdate={refetchTime}
+              isLoading={isLoading || (isFetching && !route)}
+            />
+          ) : null}
+        </Box>
+
+        {routeNotFound ? (
+          <RouteNotFoundCard />
+        ) : (
+          <>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: 1,
+              }}
+            >
+              <Box sx={{ flex: 1, minWidth: 0, overflow: 'hidden' }}>
+                {showLoading ? (
+                  <Typography
+                    sx={{
+                      fontSize: 32,
+                      fontWeight: 700,
+                      lineHeight: 1,
+                      color: 'text.disabled',
+                      '@keyframes checkoutReceiveAmountPulse': {
+                        '0%, 100%': { opacity: 0.35 },
+                        '50%': { opacity: 1 },
+                      },
+                      animation:
+                        'checkoutReceiveAmountPulse 1.1s ease-in-out infinite',
+                    }}
+                    noWrap
+                  >
+                    0
+                  </Typography>
+                ) : (
+                  <Typography
+                    sx={{
+                      fontSize: 32,
+                      fontWeight: 700,
+                      lineHeight: 1,
+                      color: route ? 'text.primary' : 'text.disabled',
+                    }}
+                    noWrap
+                    title={route ? toAmountRaw : undefined}
+                  >
+                    {toAmountDisplay}
+                  </Typography>
+                )}
                 <Box
                   sx={{
                     display: 'flex',
                     alignItems: 'center',
                     gap: 0.5,
-                    minWidth: 0,
+                    flexWrap: 'wrap',
+                    mt: 0.5,
                   }}
                 >
-                  {chain?.logoURI ? (
-                    <ChainAvatar
-                      src={chain.logoURI}
-                      alt=""
-                      sx={{ width: 16, height: 16 }}
-                    />
-                  ) : null}
                   <Typography
+                    component="span"
                     variant="body2"
-                    noWrap
                     sx={{
                       color: 'text.secondary',
                       fontSize: 12,
                       fontWeight: 500,
                     }}
                   >
-                    {chain?.name ?? '—'}
+                    {toUsdDisplay}
                   </Typography>
-                </Box>
-              </Box>
-            </Box>
-            <IconButton
-              size="small"
-              onClick={handleToggleExpanded}
-              disabled={!route}
-              aria-label={t('main.route')}
-              sx={{
-                width: 24,
-                height: 24,
-                borderRadius: 1.5,
-                bgcolor: 'action.hover',
-                flexShrink: 0,
-                alignSelf: 'flex-start',
-                mt: 0.25,
-                transition: 'transform 0.2s',
-                transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
-              }}
-            >
-              <ExpandMoreRounded sx={{ fontSize: 16 }} />
-            </IconButton>
-          </Box>
-
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              gap: 1,
-              minHeight: 28,
-            }}
-          >
-            <Box
-              sx={{
-                flex: 1,
-                minWidth: 0,
-                minHeight: 20,
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              {route ? <TokenRate route={route} /> : null}
-            </Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              {route ? (
-                <>
-                  <FeeBreakdownTooltip
-                    gasCosts={gasCosts}
-                    feeCosts={feeCosts}
-                    gasless={!combinedFeesUSD}
-                  >
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <IconTypography
-                        component="span"
-                        sx={{ mr: 0.5, fontSize: 16 }}
-                      >
-                        <LocalGasStationRounded fontSize="inherit" />
-                      </IconTypography>
+                  {!isCash ? (
+                    <>
                       <Typography
+                        component="span"
+                        variant="body2"
                         sx={{
-                          fontSize: 14,
-                          fontWeight: 600,
-                          lineHeight: 1,
+                          color: 'text.secondary',
+                          fontSize: 12,
+                          opacity: 0.75,
                         }}
                       >
-                        {!combinedFeesUSD
-                          ? t('main.fees.free')
-                          : t('format.currency', {
-                              value: combinedFeesUSD,
-                            })}
+                        •
                       </Typography>
-                    </Box>
-                  </FeeBreakdownTooltip>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <IconTypography
-                      component="span"
-                      sx={{ mr: 0.5, fontSize: 16 }}
-                    >
-                      <AccessTimeFilled fontSize="inherit" />
-                    </IconTypography>
+                      <Typography
+                        component="span"
+                        variant="body2"
+                        sx={{
+                          color: 'text.secondary',
+                          fontSize: 12,
+                          fontWeight: 500,
+                        }}
+                      >
+                        {priceImpactStr}
+                      </Typography>
+                    </>
+                  ) : null}
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    sx={{
+                      color: 'text.secondary',
+                      fontSize: 12,
+                      opacity: 0.75,
+                    }}
+                  >
+                    •
+                  </Typography>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 0.5,
+                      minWidth: 0,
+                    }}
+                  >
+                    {chain?.logoURI ? (
+                      <ChainAvatar
+                        src={chain.logoURI}
+                        alt=""
+                        sx={{ width: 16, height: 16 }}
+                      />
+                    ) : null}
                     <Typography
+                      variant="body2"
+                      noWrap
                       sx={{
-                        fontSize: 14,
-                        fontWeight: 600,
-                        lineHeight: 1,
+                        color: 'text.secondary',
+                        fontSize: 12,
+                        fontWeight: 500,
                       }}
                     >
-                      {formatDuration(executionTimeSeconds, i18n.language)}
+                      {chain?.name ?? '—'}
                     </Typography>
                   </Box>
-                </>
-              ) : (
-                <>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <IconTypography
-                      component="span"
-                      sx={{ mr: 0.5, fontSize: 16 }}
-                    >
-                      <LocalGasStationRounded fontSize="inherit" />
-                    </IconTypography>
-                    <Typography
-                      sx={{
-                        fontSize: 14,
-                        fontWeight: 600,
-                        lineHeight: 1,
-                      }}
-                    >
-                      {toUsdZero}
-                    </Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <IconTypography
-                      component="span"
-                      sx={{ mr: 0.5, fontSize: 16 }}
-                    >
-                      <AccessTimeFilled fontSize="inherit" />
-                    </IconTypography>
-                    <Typography
-                      sx={{
-                        fontSize: 14,
-                        fontWeight: 600,
-                        lineHeight: 1,
-                      }}
-                    >
-                      {formatDuration(0, i18n.language)}
-                    </Typography>
-                  </Box>
-                </>
-              )}
+                </Box>
+              </Box>
+              <IconButton
+                size="small"
+                onClick={handleToggleExpanded}
+                disabled={!hasExpandableContent}
+                aria-label={t('main.route')}
+                sx={{
+                  width: 24,
+                  height: 24,
+                  borderRadius: 1.5,
+                  bgcolor: 'action.hover',
+                  flexShrink: 0,
+                  alignSelf: 'flex-start',
+                  mt: 0.25,
+                  transition: 'transform 0.2s',
+                  transform:
+                    expanded && hasExpandableContent
+                      ? 'rotate(180deg)'
+                      : 'rotate(0deg)',
+                }}
+              >
+                <ExpandMoreRounded sx={{ fontSize: 16 }} />
+              </IconButton>
             </Box>
-          </Box>
-          <Collapse in={expanded} unmountOnExit>
-            {route ? <RouteDetails route={route} /> : null}
-          </Collapse>
-        </>
-      )}
-    </Box>
+
+            {!isCash ? (
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  flexWrap: 'wrap',
+                  gap: 1,
+                  minHeight: 28,
+                }}
+              >
+                <Box
+                  sx={{
+                    flex: 1,
+                    minWidth: 0,
+                    minHeight: 20,
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  {route ? <TokenRate route={route} /> : null}
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  {route ? (
+                    <>
+                      <FeeBreakdownTooltip
+                        gasCosts={gasCosts}
+                        feeCosts={feeCosts}
+                        gasless={!combinedFeesUSD}
+                      >
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          <IconTypography
+                            component="span"
+                            sx={{ mr: 0.5, fontSize: 16 }}
+                          >
+                            <LocalGasStationRounded fontSize="inherit" />
+                          </IconTypography>
+                          <Typography
+                            sx={{
+                              fontSize: 14,
+                              fontWeight: 600,
+                              lineHeight: 1,
+                            }}
+                          >
+                            {!combinedFeesUSD
+                              ? t('main.fees.free')
+                              : t('format.currency', {
+                                  value: combinedFeesUSD,
+                                })}
+                          </Typography>
+                        </Box>
+                      </FeeBreakdownTooltip>
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <IconTypography
+                          component="span"
+                          sx={{ mr: 0.5, fontSize: 16 }}
+                        >
+                          <AccessTimeFilled fontSize="inherit" />
+                        </IconTypography>
+                        <Typography
+                          sx={{
+                            fontSize: 14,
+                            fontWeight: 600,
+                            lineHeight: 1,
+                          }}
+                        >
+                          {formatDuration(executionTimeSeconds, i18n.language)}
+                        </Typography>
+                      </Box>
+                    </>
+                  ) : (
+                    <>
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <IconTypography
+                          component="span"
+                          sx={{ mr: 0.5, fontSize: 16 }}
+                        >
+                          <LocalGasStationRounded fontSize="inherit" />
+                        </IconTypography>
+                        <Typography
+                          sx={{
+                            fontSize: 14,
+                            fontWeight: 600,
+                            lineHeight: 1,
+                          }}
+                        >
+                          {toUsdZero}
+                        </Typography>
+                      </Box>
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <IconTypography
+                          component="span"
+                          sx={{ mr: 0.5, fontSize: 16 }}
+                        >
+                          <AccessTimeFilled fontSize="inherit" />
+                        </IconTypography>
+                        <Typography
+                          sx={{
+                            fontSize: 14,
+                            fontWeight: 600,
+                            lineHeight: 1,
+                          }}
+                        >
+                          {formatDuration(0, i18n.language)}
+                        </Typography>
+                      </Box>
+                    </>
+                  )}
+                </Box>
+              </Box>
+            ) : null}
+            <Collapse in={expanded} unmountOnExit>
+              {isCash ? (
+                hasExpandableContent ? (
+                  <Stack spacing={0.75} sx={{ pt: 1.5, minHeight: 45 }}>
+                    {cashDetailsPending ? (
+                      <>
+                        <Skeleton variant="text" width="70%" height={18} />
+                        <Skeleton variant="text" width="55%" height={18} />
+                      </>
+                    ) : (
+                      cashFeeRows.map((row, index) => (
+                        <Box
+                          key={`${row.label}-${index}`}
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            gap: 2,
+                          }}
+                        >
+                          <Typography
+                            sx={{ fontSize: 12, color: 'text.secondary' }}
+                          >
+                            {row.label}
+                          </Typography>
+                          <Typography sx={{ fontSize: 12, fontWeight: 600 }}>
+                            {row.value}
+                          </Typography>
+                        </Box>
+                      ))
+                    )}
+                    {!cashDetailsPending && minimumReceived ? (
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          gap: 2,
+                        }}
+                      >
+                        <Typography
+                          sx={{ fontSize: 12, color: 'text.secondary' }}
+                        >
+                          {t('checkout.cashQuote.guaranteedMinimum')}
+                        </Typography>
+                        <Typography sx={{ fontSize: 12, fontWeight: 600 }}>
+                          {minimumReceived}
+                        </Typography>
+                      </Box>
+                    ) : null}
+                  </Stack>
+                ) : null
+              ) : route ? (
+                <RouteDetails route={route} />
+              ) : null}
+            </Collapse>
+          </>
+        )}
+      </Box>
+      {isCash && hasTypedFiatAmount ? (
+        <Typography
+          sx={{
+            fontSize: 11,
+            color: 'text.secondary',
+            minHeight: 16,
+            visibility: minimumReceived ? 'visible' : 'hidden',
+            mb: 2,
+            px: 0.5,
+          }}
+        >
+          {minimumReceived
+            ? t('checkout.cashQuote.refundNote', { value: minimumReceived })
+            : ' '}
+        </Typography>
+      ) : null}
+    </>
   )
 }

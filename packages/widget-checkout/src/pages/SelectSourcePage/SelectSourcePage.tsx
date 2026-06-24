@@ -34,6 +34,7 @@ import {
   useOnRampSessionByCategory,
 } from '../../providers/OnRampProvider/OnRampProvider.js'
 import { useCheckoutFlowStore } from '../../stores/useCheckoutFlowStore.js'
+import { useFiatCurrencyStore } from '../../stores/useFiatCurrencyStore.js'
 import {
   DEFAULT_FROM_CHAIN_ID,
   DEFAULT_FROM_TOKEN_ADDRESS,
@@ -59,6 +60,7 @@ export const SelectSourcePage: React.FC = () => {
     (s) => s.setSelectedExchangeAccount
   )
   const resetFlow = useCheckoutFlowStore((s) => s.reset)
+  const resetFiat = useFiatCurrencyStore((s) => s.reset)
   const overrideExchanges = useCheckoutExchangesOverride()
   const { setFieldValue } = useFieldActions()
   const { integrator } = useCheckoutConfig()
@@ -70,7 +72,6 @@ export const SelectSourcePage: React.FC = () => {
     (s) => s.removeAccount
   )
 
-  // Capture fundingSource before resetFlow fires (runs after first render).
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
   const wasExchangeFlow = fundingSource === 'exchange'
 
@@ -144,16 +145,12 @@ export const SelectSourcePage: React.FC = () => {
     const prev = prevHasWalletConnectedRef.current
     prevHasWalletConnectedRef.current = hasWalletConnected
 
-    // After opening the wallet menu from this screen, skip staying on funding source —
-    // go straight to token selection once the wallet connects.
     if (prev === false && hasWalletConnected) {
       goToToken()
     }
   }, [hasWalletConnected, goToToken])
 
   const handlePayFromWallet = useCallback(() => {
-    // The wallet flow pays directly from the connected wallet, so it keeps the
-    // integrator's full route set — no IF-only override (unlike the deposit flows).
     setFundingSource('wallet')
     if (hasWalletConnected) {
       goToToken()
@@ -165,7 +162,6 @@ export const SelectSourcePage: React.FC = () => {
   const handleTransferCrypto = useCallback(() => {
     overrideExchanges([...INTENT_FACTORY_ONLY])
     setFundingSource('transfer')
-    // IF deposits can't accept the native gas token; reset a carried-over pick.
     if (isNativeToken(prevTokenAddress)) {
       setFieldValue(FormKeyHelper.getChainKey('from'), DEFAULT_FROM_CHAIN_ID)
       setFieldValue(
@@ -186,9 +182,6 @@ export const SelectSourcePage: React.FC = () => {
   const pinExchangeSource = useCallback(() => {
     overrideExchanges([...INTENT_FACTORY_ONLY])
     setFundingSource('exchange')
-    // Exchange deposits are limited to USDC/USDT/ETH on mainnet — pin the
-    // from-chain and seed a valid mainnet token so a stale non-mainnet
-    // selection doesn't leak into the curated token list, balance, or quote.
     setFieldValue(FormKeyHelper.getChainKey('from'), DEFAULT_FROM_CHAIN_ID)
     setFieldValue(FormKeyHelper.getTokenKey('from'), DEFAULT_FROM_TOKEN_ADDRESS)
     setFieldValue(FormKeyHelper.getAmountKey('from'), '')
@@ -202,7 +195,6 @@ export const SelectSourcePage: React.FC = () => {
 
   const handleReuseExchange = useCallback(
     (account: ConnectedCexAccount) => {
-      // ConnectedCexAccount is a superset of OnRampAccessToken — pass through.
       setSelectedExchangeAccount(account)
       pinExchangeSource()
       goToToken()
@@ -223,15 +215,14 @@ export const SelectSourcePage: React.FC = () => {
   const handleDepositCash = useCallback(() => {
     overrideExchanges([...INTENT_FACTORY_ONLY])
     setFundingSource('cash')
-    // Cash deposits aren't wallet-funded, so seed the from-token to USDC on
-    // mainnet — otherwise the form keeps the prior wallet/transfer selection
-    // (default ETH) and the quote, balance, and Transak session all run
-    // against the wrong token.
+    resetFiat()
     setFieldValue(FormKeyHelper.getChainKey('from'), DEFAULT_FROM_CHAIN_ID)
     setFieldValue(FormKeyHelper.getTokenKey('from'), DEFAULT_FROM_TOKEN_ADDRESS)
     setFieldValue(FormKeyHelper.getAmountKey('from'), '')
+    setFieldValue(FormKeyHelper.getAmountKey('to'), '')
+    setFieldValue('cashFiatAmount', '')
     navigate({ to: checkoutNavigationRoutes.selectCash })
-  }, [navigate, overrideExchanges, setFieldValue, setFundingSource])
+  }, [navigate, overrideExchanges, resetFiat, setFieldValue, setFundingSource])
 
   const payFromWalletIcons = useMemo(
     () =>

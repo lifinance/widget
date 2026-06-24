@@ -62,6 +62,7 @@ export interface ActiveOnRampDeposit {
   depositTxHash: string | null
   acknowledgeDepositTxHash: () => void
   resolvedDepositAddress: string | null
+  fundingSessionId: string | null
   providerName: string
   isOpen: boolean
   isLoading: boolean
@@ -84,6 +85,7 @@ export function useActiveOnRampDeposit(): ActiveOnRampDeposit | null {
     depositTxHash: session.depositTxHash,
     acknowledgeDepositTxHash: session.acknowledgeDepositTxHash,
     resolvedDepositAddress: session.resolvedDepositAddress,
+    fundingSessionId: session.fundingSessionId,
     providerName: provider.name,
     isOpen: session.isOpen,
     isLoading: session.isLoading,

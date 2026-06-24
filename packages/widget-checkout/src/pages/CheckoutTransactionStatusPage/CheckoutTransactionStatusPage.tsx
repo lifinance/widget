@@ -95,7 +95,8 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
   const isTransferFlow = fundingSource === 'transfer'
 
-  const { frozenRoute, recipientAddress } = useCheckoutStatusSources()
+  const { frozenRoute, recipientAddress, fiatOrigin } =
+    useCheckoutStatusSources()
 
   const { status, phase, isLoading, notFound, isError, refetch } =
     useCheckoutTransactionStatus({
@@ -324,6 +325,7 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
             status={undefined}
             frozenRoute={frozenRoute}
             recipientAddress={recipientAddress}
+            fiatOrigin={fiatOrigin}
             watching
           />
         ) : (
@@ -467,6 +469,7 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
           status={undefined}
           frozenRoute={frozenRoute}
           recipientAddress={recipientAddress}
+          fiatOrigin={fiatOrigin}
         />
       </PageContainer>
     )
@@ -478,6 +481,7 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
         status={status}
         frozenRoute={frozenRoute}
         recipientAddress={recipientAddress}
+        fiatOrigin={fiatOrigin}
       />
     </PageContainer>
   )

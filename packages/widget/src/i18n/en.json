@@ -465,10 +465,28 @@
       }
     },
     "fiatCurrency": {
-      "label": "Pay with",
-      "USD": "US Dollar",
-      "EUR": "Euro",
-      "GBP": "British Pound"
+      "label": "Pay with"
+    },
+    "cashCurrency": {
+      "error": "Unable to load currencies right now. Try again."
+    },
+    "cashQuote": {
+      "totalFeesLabel": "Total fees",
+      "feeFallback": "Fee {{index}}",
+      "guaranteedMinimum": "Guaranteed minimum",
+      "refundNote": "You'll receive at least {{value}}, or a full refund.",
+      "error": "Unable to refresh the quote right now. Try again."
+    },
+    "cashHandoff": {
+      "title": "You'll finish paying in Transak",
+      "body": "Your payment passes through a temporary deposit address we created for this purchase, not your personal wallet. That's expected, and it happens automatically.",
+      "addressLabel": "Deposit address",
+      "addressHint": "You'll see this same address in Transak.",
+      "continue": "Continue to Transak",
+      "goBack": "Go back"
+    },
+    "paymentMethod": {
+      "label": "Payment method"
     },
     "flowSummary": {
       "wallet": "From your wallet",

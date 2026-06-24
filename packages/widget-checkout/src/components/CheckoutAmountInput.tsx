@@ -24,10 +24,13 @@ import type { CardProps } from '@mui/material'
 import { Box, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import type { ChangeEvent, ComponentProps, ReactNode } from 'react'
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCheckoutNavigate } from '../hooks/useCheckoutNavigate.js'
 import { useIsWalletFundedFlow } from '../hooks/useIsWalletFundedFlow.js'
+import { useCheckoutFlowStore } from '../stores/useCheckoutFlowStore.js'
+import { useFiatCurrencyStore } from '../stores/useFiatCurrencyStore.js'
+import { getCurrencySymbol } from '../utils/fiatFormat.js'
 import { checkoutNavigationRoutes } from '../utils/navigationRoutes.js'
 import { CheckoutPriceFormHelperText } from './CheckoutPriceFormHelperText.js'
 
@@ -45,11 +48,13 @@ const CheckoutInputCard: React.FC<ComponentProps<typeof InputCard>> = styled(
 export type CheckoutAmountInputProps = FormTypeProps &
   CardProps & {
     sendSlot?: ReactNode
+    presetsSlot?: ReactNode
   }
 
 export const CheckoutAmountInput: React.FC<CheckoutAmountInputProps> = ({
   formType,
   sendSlot,
+  presetsSlot,
   ...props
 }) => {
   const { disabledUI } = useWidgetConfig()
@@ -69,6 +74,7 @@ export const CheckoutAmountInput: React.FC<CheckoutAmountInputProps> = ({
       bottomAdornment={<CheckoutPriceFormHelperText formType={formType} />}
       disabled={disabled}
       sendSlot={sendSlot}
+      presetsSlot={presetsSlot}
       {...props}
     />
   )
@@ -82,6 +88,7 @@ const CheckoutAmountInputBase: React.FC<
       bottomAdornment?: ReactNode
       disabled?: boolean
       sendSlot?: ReactNode
+      presetsSlot?: ReactNode
     }
 > = ({
   formType,
@@ -90,8 +97,10 @@ const CheckoutAmountInputBase: React.FC<
   bottomAdornment,
   disabled,
   sendSlot,
+  presetsSlot,
   ...props
 }) => {
+  const { i18n } = useTranslation()
   const ref = useRef<HTMLInputElement>(null)
 
   const isEditingRef = useRef(false)
@@ -101,27 +110,45 @@ const CheckoutAmountInputBase: React.FC<
   const [value] = useFieldValues(amountKey)
   const { setFieldValue } = useFieldActions()
   const { inputMode } = useInputModeStore()
+  const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
+  const fiatCurrency = useFiatCurrencyStore((s) => s.currency)
   const isWalletFunded = useIsWalletFundedFlow()
+  const isCashFlow = fundingSource === 'cash'
+  const [cashFiatAmount] = useFieldValues('cashFiatAmount')
 
   const currentInputMode = inputMode[formType]
   let displayValue: string
   if (isEditingRef.current) {
     if (currentInputMode === 'price') {
-      displayValue = formattedPriceInput
+      displayValue = isCashFlow ? cashFiatAmount : formattedPriceInput
     } else {
       displayValue = value as string
     }
   } else {
     if (currentInputMode === 'price') {
-      const priceValue = formatTokenPrice(value as string, token?.priceUSD)
-      displayValue = formatInputAmount(
-        priceValue.toFixed(usdDecimals),
-        usdDecimals
-      )
+      if (isCashFlow) {
+        displayValue = formatInputAmount(cashFiatAmount, usdDecimals)
+      } else {
+        const priceValue = formatTokenPrice(value as string, token?.priceUSD)
+        displayValue = formatInputAmount(
+          priceValue.toFixed(usdDecimals),
+          usdDecimals
+        )
+      }
     } else {
       displayValue = value as string
     }
   }
+
+  const currencyPrefix = useMemo(
+    () =>
+      currentInputMode === 'price'
+        ? getCurrencySymbol(fiatCurrency, i18n.language)
+        : '',
+    [currentInputMode, fiatCurrency, i18n.language]
+  )
+  const stripCurrencyPrefix = (input: string): string =>
+    currencyPrefix ? input.split(currencyPrefix).join('').trim() : input
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -131,11 +158,19 @@ const CheckoutAmountInputBase: React.FC<
 
     let formattedValue: string
     if (currentInputMode === 'price') {
-      const cleanInputValue = inputValue.replace('$', '')
+      const cleanInputValue = stripCurrencyPrefix(inputValue)
       formattedValue = formatInputAmount(cleanInputValue, usdDecimals, true)
-      const tokenValue = priceToTokenAmount(formattedValue, token?.priceUSD)
       setFormattedPriceInput(formattedValue)
-      setFieldValue(amountKey, tokenValue, { isDirty: true, isTouched: true })
+      if (isCashFlow) {
+        setFieldValue('cashFiatAmount', formattedValue, {
+          isDirty: true,
+          isTouched: true,
+        })
+        setFieldValue(amountKey, '', { isDirty: true, isTouched: true })
+      } else {
+        const tokenValue = priceToTokenAmount(formattedValue, token?.priceUSD)
+        setFieldValue(amountKey, tokenValue, { isDirty: true, isTouched: true })
+      }
     } else {
       formattedValue = formatInputAmount(inputValue, token?.decimals, true)
       setFieldValue(amountKey, formattedValue, {
@@ -153,14 +188,24 @@ const CheckoutAmountInputBase: React.FC<
 
     let formattedValue: string
     if (currentInputMode === 'price') {
-      const cleanInputValue = inputValue.replace('$', '')
+      const cleanInputValue = stripCurrencyPrefix(inputValue)
       formattedValue = formatInputAmount(cleanInputValue, usdDecimals)
-      const tokenValue = priceToTokenAmount(formattedValue, token?.priceUSD)
-      const formattedAmount = formatInputAmount(tokenValue, token?.decimals)
-      setFieldValue(amountKey, formattedAmount, {
-        isDirty: true,
-        isTouched: true,
-      })
+      if (isCashFlow) {
+        setFieldValue('cashFiatAmount', formattedValue, {
+          isDirty: true,
+          isTouched: true,
+        })
+        if (!formattedValue) {
+          setFieldValue(amountKey, '', { isDirty: true, isTouched: true })
+        }
+      } else {
+        const tokenValue = priceToTokenAmount(formattedValue, token?.priceUSD)
+        const formattedAmount = formatInputAmount(tokenValue, token?.decimals)
+        setFieldValue(amountKey, formattedAmount, {
+          isDirty: true,
+          isTouched: true,
+        })
+      }
     } else {
       formattedValue = formatInputAmount(inputValue, token?.decimals)
       setFieldValue(amountKey, formattedValue, {
@@ -207,13 +252,17 @@ const CheckoutAmountInputBase: React.FC<
           </Box>
         ) : null}
       </Box>
-      <Box sx={{ px: 2, flex: 1, display: 'flex', alignItems: 'center' }}>
+      <Box
+        sx={{ px: 2, pt: 1.5, flex: 1, display: 'flex', alignItems: 'center' }}
+      >
         <FormControl fullWidth>
           <Input
             inputRef={ref}
             size="small"
             autoComplete="off"
-            placeholder={currentInputMode === 'price' ? '$0' : '0'}
+            placeholder={
+              currentInputMode === 'price' ? `${currencyPrefix}0` : '0'
+            }
             startAdornment={startAdornment}
             inputProps={{
               inputMode: 'decimal',
@@ -223,7 +272,7 @@ const CheckoutAmountInputBase: React.FC<
             value={
               currentInputMode === 'price'
                 ? displayValue
-                  ? `$${displayValue}`
+                  ? `${currencyPrefix}${displayValue}`
                   : ''
                 : displayValue
             }
@@ -243,7 +292,18 @@ const CheckoutAmountInputBase: React.FC<
           />
         </FormControl>
       </Box>
-      <Box sx={{ px: 2, pb: 2 }}>{bottomAdornment}</Box>
+      <Box
+        sx={{
+          px: 2,
+          pt: presetsSlot ? 1.5 : 0.5,
+          pb: presetsSlot ? 0 : 2,
+        }}
+      >
+        {bottomAdornment}
+      </Box>
+      {presetsSlot ? (
+        <Box sx={{ px: 2, pt: 1.5, pb: 2 }}>{presetsSlot}</Box>
+      ) : null}
     </CheckoutInputCard>
   )
 }

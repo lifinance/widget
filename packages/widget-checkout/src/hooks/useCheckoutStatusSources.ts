@@ -5,9 +5,15 @@ import { useCheckoutToAddress } from './useCheckoutToAddress.js'
 import { useFrozenQuote } from './useFrozenQuote.js'
 import { useResumeRecord } from './useResumeKey.js'
 
+export interface FiatOrigin {
+  currency: string
+  amount: string
+}
+
 export interface CheckoutStatusSources {
   frozenRoute: Route | undefined
   recipientAddress: string | null
+  fiatOrigin: FiatOrigin | undefined
 }
 
 // The status API reports the solver's addresses for intent/deposit flows, and
@@ -20,7 +26,8 @@ export function useCheckoutStatusSources(): CheckoutStatusSources {
   const { frozen } = useFrozenQuote()
   const resumeRecord = useResumeRecord()
 
-  const frozenRoute = frozen?.route ?? resumeRecord?.frozenQuote?.route
+  const frozenQuote = frozen ?? resumeRecord?.frozenQuote
+  const frozenRoute = frozenQuote?.route
 
   // Frozen route's toAddress is only a fallback for resumed flows where config is absent.
   const recipientAddress = useMemo<string | null>(
@@ -28,5 +35,14 @@ export function useCheckoutStatusSources(): CheckoutStatusSources {
     [configuredToAddress, frozenRoute]
   )
 
-  return { frozenRoute, recipientAddress }
+  const fiatOrigin = useMemo<FiatOrigin | undefined>(() => {
+    const currency = frozenQuote?.fiatCurrency
+    const amount = frozenQuote?.fiatAmount
+    if (!currency || !amount || !(Number.parseFloat(amount) > 0)) {
+      return undefined
+    }
+    return { currency, amount }
+  }, [frozenQuote?.fiatCurrency, frozenQuote?.fiatAmount])
+
+  return { frozenRoute, recipientAddress, fiatOrigin }
 }
