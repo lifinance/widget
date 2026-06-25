@@ -21,6 +21,54 @@ export const PriceChip: React.FC<React.ComponentProps<typeof Button>> = styled(
   },
 }))
 
+/**
+ * Editable variant of the preset pill: looks identical to {@link PriceChip} but
+ * wraps an inline input so the user can type an arbitrary percentage premium
+ * (`+__%`) instead of picking a fixed preset.
+ */
+export const EditablePriceChip: React.FC<React.ComponentProps<typeof Box>> =
+  styled(Box)(({ theme }) => ({
+    display: 'inline-flex',
+    alignItems: 'center',
+    minWidth: 0,
+    padding: theme.spacing(0.5, 1.5),
+    borderRadius: theme.vars.shape.borderRadius,
+    fontSize: 12,
+    fontWeight: 700,
+    lineHeight: 1.3334,
+    color: theme.vars.palette.text.primary,
+    backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
+    transition: 'background-color 200ms ease',
+    cursor: 'text',
+    '&:hover, &:focus-within': {
+      backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 8%, transparent)`,
+    },
+    '&[aria-disabled="true"]': {
+      opacity: 0.5,
+      pointerEvents: 'none',
+    },
+  }))
+
+/** Bare input inside {@link EditablePriceChip}; inherits the pill's typography. */
+export const PriceChipInput: React.FC<React.ComponentProps<'input'>> = styled(
+  'input'
+)(({ theme }) => ({
+  appearance: 'none',
+  border: 'none',
+  outline: 'none',
+  background: 'transparent',
+  padding: 0,
+  margin: 0,
+  font: 'inherit',
+  color: 'inherit',
+  textAlign: 'right',
+  minWidth: '1ch',
+  '&::placeholder': {
+    color: theme.vars.palette.text.secondary,
+    opacity: 1,
+  },
+}))
+
 /** Token chip-avatar in the main row (mirrors the amount cards' token pill). */
 export const UnitChip: React.FC<React.ComponentProps<typeof Box>> = styled(Box)(
   ({ theme }) => ({

@@ -19,7 +19,12 @@ import {
 } from '../AmountInputCard/AmountInputCard.style.js'
 import { ChipContainer } from '../AmountInputCard/PercentageChips.style.js'
 import { CardTitle } from '../Card/CardTitle.js'
-import { InvertChip, PriceChip } from './LimitPriceCard.style.js'
+import {
+  EditablePriceChip,
+  InvertChip,
+  PriceChip,
+  PriceChipInput,
+} from './LimitPriceCard.style.js'
 
 /** Quick-set presets, as percentage offsets from market (0 = at market). */
 const PRESETS = [0, 1, 5, 10] as const
@@ -30,7 +35,10 @@ const cleanDisplay = (value: string): string =>
 export const LimitPriceCard: React.FC<CardProps> = (props): JSX.Element => {
   const { t } = useTranslation()
   const isEditingRef = useRef(false)
+  const customInputRef = useRef<HTMLInputElement>(null)
   const [inputValue, setInputValue] = useState('')
+  const [customPct, setCustomPct] = useState('')
+  const [customFocused, setCustomFocused] = useState(false)
 
   const [fromChainId, fromTokenAddress, toChainId, toTokenAddress] =
     useFieldValues(
@@ -77,6 +85,14 @@ export const LimitPriceCard: React.FC<CardProps> = (props): JSX.Element => {
     }
   }, [displayPrice])
 
+  // The custom pill renders as a plain button until engaged; when it flips into
+  // edit mode (focused), move the caret into the freshly-mounted input.
+  useEffect(() => {
+    if (customFocused) {
+      customInputRef.current?.focus()
+    }
+  }, [customFocused])
+
   const commitDisplayedPrice = (displayed: number): void => {
     const canonical = priceInverted ? 1 / displayed : displayed
     setLimitPrice(String(canonical))
@@ -115,6 +131,58 @@ export const LimitPriceCard: React.FC<CardProps> = (props): JSX.Element => {
     setLimitPrice(String(marketCanonical * (1 + pct / 100)))
   }
 
+  // Picking a fixed preset clears any custom value so the custom pill collapses
+  // back to its "Custom" button instead of showing a stale, no-longer-applied %.
+  const handlePresetClick = (pct: number): void => {
+    setCustomPct('')
+    setCustomFocused(false)
+    handlePreset(pct)
+  }
+
+  // Free-form offset pill: apply the typed percentage live so the price input
+  // tracks the offset as the user types. Accepts an optional leading +/- sign
+  // so the price can be set above (premium) or below (discount) market.
+  const handleCustomChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    const raw = event.target.value
+    if (raw && !/^[+-]?\d*\.?\d*$/.test(raw)) {
+      return
+    }
+    setCustomPct(raw)
+    const numeric = Number(raw)
+    // Bare '', '+', '-', '.' etc. aren't applicable numbers yet — Number() maps
+    // the signs/dot to NaN, and '' to 0, so guard both.
+    if (raw === '' || Number.isNaN(numeric)) {
+      return
+    }
+    handlePreset(numeric)
+  }
+
+  const handleCustomKeyDown = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ): void => {
+    if (event.key === 'Enter') {
+      event.currentTarget.blur()
+    }
+  }
+
+  // On blur, surface an explicit sign: a bare positive entry like "10" reads as
+  // "+10" so the direction (above/below market) is unambiguous once collapsed.
+  const handleCustomBlur = (): void => {
+    setCustomFocused(false)
+    setCustomPct((prev) => {
+      if (!prev || prev.startsWith('+') || prev.startsWith('-')) {
+        return prev
+      }
+      return Number.isNaN(Number(prev)) ? prev : `+${prev}`
+    })
+  }
+
+  const customDisabled = !hasTokens || marketCanonical === undefined
+  // Collapse to a plain "Custom" label only while empty and unfocused; once the
+  // user engages (focus) or has typed a value, reveal the `+__%` affixes.
+  const customLabel = t('limitOrder.custom')
+  const showCustomLabel = customPct === '' && !customFocused
+
   const label = hasTokens
     ? t('limitOrder.priceLabel', { symbol: leadToken?.symbol })
     : t('limitOrder.price')
@@ -145,10 +213,46 @@ export const LimitPriceCard: React.FC<CardProps> = (props): JSX.Element => {
       </CardBodyRow>
       <ChipContainer sx={{ marginTop: 0.5, flexWrap: 'wrap' }}>
         {PRESETS.map((pct) => (
-          <PriceChip key={pct} onClick={() => handlePreset(pct)}>
+          <PriceChip key={pct} onClick={() => handlePresetClick(pct)}>
             {pct === 0 ? t('limitOrder.market') : `+${pct}%`}
           </PriceChip>
         ))}
+        {showCustomLabel ? (
+          <PriceChip
+            disabled={customDisabled}
+            onClick={() => setCustomFocused(true)}
+          >
+            {customLabel}
+          </PriceChip>
+        ) : (
+          <EditablePriceChip
+            aria-disabled={customDisabled}
+            onClick={(event) => {
+              const input = event.currentTarget.querySelector('input')
+              input?.focus()
+              const numeric = Number(customPct)
+              if (customPct && !Number.isNaN(numeric)) {
+                handlePreset(numeric)
+              }
+            }}
+          >
+            <PriceChipInput
+              ref={customInputRef}
+              inputMode="decimal"
+              autoComplete="off"
+              placeholder="0"
+              aria-label={t('limitOrder.customPremium')}
+              value={customPct}
+              onChange={handleCustomChange}
+              onKeyDown={handleCustomKeyDown}
+              onFocus={() => setCustomFocused(true)}
+              onBlur={handleCustomBlur}
+              disabled={customDisabled}
+              style={{ width: `${Math.max(customPct.length, 1)}ch` }}
+            />
+            %
+          </EditablePriceChip>
+        )}
       </ChipContainer>
     </AmountCard>
   )

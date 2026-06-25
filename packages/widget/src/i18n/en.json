@@ -90,6 +90,8 @@
     "youPay": "You pay"
   },
   "limitOrder": {
+    "custom": "Custom",
+    "customPremium": "Custom offset from market, in percent (use - for below market)",
     "expiresIn": "Expires in",
     "fromMarket": "{{percent}} from market",
     "market": "Market",
