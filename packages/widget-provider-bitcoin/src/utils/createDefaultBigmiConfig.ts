@@ -9,7 +9,6 @@ import {
   okx,
   onekey,
   oyl,
-  phantom,
   unhosted,
   unisat,
   xverse,
@@ -55,7 +54,6 @@ export function createDefaultBigmiConfig(
   }
 ): DefaultBigmiConfigResult {
   const connectors: CreateConnectorFn[] = [
-    phantom(),
     xverse(),
     unisat(),
     ctrl(),

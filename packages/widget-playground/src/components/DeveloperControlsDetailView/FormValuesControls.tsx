@@ -55,18 +55,21 @@ export const FormValuesControls = (): JSX.Element => {
         options={chainTokenPresetRows}
         selectedId={chainKey}
         onSelect={selectChainPreset}
+        resetTestId="playground-chains-reset-button"
       />
       <FormValuesPresetSection
         label="Amount"
         options={amountPresetRows}
         selectedId={fromAmountKey}
         onSelect={selectAmountPreset}
+        resetTestId="playground-amount-reset-button"
       />
       <FormValuesPresetSection
         label="To address"
         options={addressPresetRows}
         selectedId={addressKey}
         onSelect={selectAddressPreset}
+        resetTestId="playground-address-reset-button"
       />
     </FormValuesContainer>
   )

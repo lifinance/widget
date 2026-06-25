@@ -1,0 +1,234 @@
+name: E2E Playground (dev mode)
+
+# Gates the dev-mode path that the preview suite (e2e-playground.yml) cannot catch.
+# The preview suite tests the production build; this one boots the Vite dev server
+# (`pnpm dev`, port 3000), which resolves @lifi/widget from TypeScript source — the
+# exact path EMB-413 broke. No package prebuild: dev mode transpiles source on the fly.
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches: [main]
+    paths:
+      # Playground app and its logic package
+      - 'packages/widget-playground/**'
+      - 'packages/widget-playground-vite/**'
+      # Widget and wallet packages resolved from source by the dev server
+      - 'packages/widget/**'
+      - 'packages/wallet-management/**'
+      - 'packages/widget-provider/**'
+      - 'packages/widget-provider-ethereum/**'
+      - 'packages/widget-provider-solana/**'
+      - 'packages/widget-provider-bitcoin/**'
+      - 'packages/widget-provider-sui/**'
+      - 'packages/widget-provider-tron/**'
+      # Dev smoke test code and config
+      - 'e2e/tests/dev/**'
+      - 'e2e/tests/components/**'
+      - 'e2e/tests/fixtures/**'
+      - 'e2e/tests/helpers.ts'
+      - 'e2e/playwright.dev.config.ts'
+      - 'e2e/package.json'
+      - 'e2e/tsconfig.json'
+      # Workspace-level dependency changes
+      - 'pnpm-workspace.yaml'
+      - 'pnpm-lock.yaml'
+      - 'package.json'
+
+concurrency:
+  group: e2e-playground-dev-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # ── Boot the playground in dev mode and run the smoke suite ──────────────────
+  dev-smoke:
+    name: Dev smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # Step outcomes for the report job. Job outputs are evaluated even when the job
+    # fails, so the comment reflects what actually happened to each step — a red job
+    # caused by a later step (e.g. artifact upload) can't masquerade as a test failure.
+    outputs:
+      dev_server: ${{ steps.dev-server.outcome }}
+      smoke: ${{ steps.smoke.outcome }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+
+      # Start the dev server first so a broken dev build fails the job fast — before the
+      # (slower) Playwright browser install. The backgrounded server survives into the later
+      # steps (same pattern as e2e-playground.yml's preview server).
+      #
+      # No build step: `pnpm dev` runs Vite in development mode and resolves the widget
+      # packages from source. The committed .env supplies public wallet-connect IDs and the
+      # production API URL, so no secrets are needed (do NOT use dev:dev / --mode dev, which
+      # requires a git-ignored VITE_API_KEY).
+      - name: Start dev server
+        id: dev-server
+        run: |
+          pnpm --filter widget-playground-vite dev &
+
+          # Coarse liveness gate only — a 200 on / is just the Vite index.html shell and does
+          # not prove the module graph resolves. The real "dev build healthy" assessment is the
+          # smoke suite rendering the widget (a resolve break fails those assertions).
+          for i in $(seq 1 60); do
+            if curl -sf http://localhost:3000 > /dev/null 2>&1; then
+              echo "Dev server ready after ${i}s"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::Dev server failed to start within 60s"
+          exit 1
+
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-browsers-${{ runner.os }}-${{ hashFiles('e2e/package.json') }}
+
+      - name: Install Playwright browsers
+        run: pnpm --filter @lifi/widget-e2e exec playwright install chromium --with-deps
+
+      # reuseExistingServer in playwright.dev.config.ts attaches to the server started above.
+      - name: Run dev smoke tests
+        id: smoke
+        run: pnpm --filter @lifi/widget-e2e test:dev
+
+      - name: Upload JSON report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: dev-smoke-report-json
+          path: e2e/dev-smoke-report.json
+          # Absence is expected and handled: an early failure (dev server never started)
+          # produces no report. `ignore` keeps that path quiet — the report job uses the
+          # missing file to post the "dev build broken" comment, and the real root cause is
+          # already surfaced by the Start dev server step. (Not `error`: that would add a
+          # redundant red on a path that has already failed louder upstream.)
+          if-no-files-found: ignore
+          retention-days: 1
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: playwright-report-dev-smoke
+          path: e2e/playwright-report-dev-smoke/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  # ── Report results as a single sticky PR comment ─────────────────────────────
+  # Every run posts/updates the same comment (one header, no conditional posting).
+  # Branches on the dev-smoke job's STEP outcomes (not the job result, which a
+  # failed artifact upload would also redden) to cover all four outcomes:
+  #   - smoke passed              → ✅ with stats
+  #   - smoke ran and failed      → ❌ with stats + failed test list
+  #   - smoke never ran           → ⚠️ setup step failed or job cancelled/timed out
+  #   - dev server never started  → ❌ dev build broken, smoke marked "not run"
+  # The JSON report only supplies stats/failed-test names — never the verdict —
+  # so a missing artifact degrades the detail, not the correctness.
+  # (Dev-build success is never reported on its own — if the server starts, the
+  # smoke suite runs and its result is what gets posted.)
+  report:
+    name: Report results
+    needs: dev-smoke
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pull-requests: write
+      actions: read # download-artifact (same grant as e2e-playground.yml's report job)
+    steps:
+      - name: Download JSON report
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        # Tolerate a missing report: an early failure (e.g. dev server never started)
+        # produces no JSON. The summary step then falls back to a generic message.
+        continue-on-error: true
+        with:
+          name: dev-smoke-report-json
+
+      - name: Build comment body
+        env:
+          DEV_SERVER: ${{ needs.dev-smoke.outputs.dev_server }}
+          SMOKE: ${{ needs.dev-smoke.outputs.smoke }}
+        run: |
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          stats_line() {
+            jq -r '.stats | "\(.expected) passed · \(.unexpected) failed · \(.skipped) skipped · \((.duration/1000)|floor)s"' dev-smoke-report.json 2>/dev/null || echo "stats unavailable"
+          }
+          if [ "$DEV_SERVER" != "success" ]; then
+            # The dev server never became ready, so the smoke suite did not run: the dev
+            # build is broken before any test can execute. Surface that directly rather
+            # than reporting a generic test failure.
+            {
+              echo "## ❌ E2E Dev Smoke — dev build broken"
+              echo
+              echo "| Check | Result |"
+              echo "| --- | --- |"
+              echo "| Dev server start (\`pnpm dev\`) | ❌ failed |"
+              echo "| Smoke tests | — not run |"
+              echo
+              echo "The Vite dev server never became ready, so the smoke suite did not run. \`pnpm dev\` itself is broken (e.g. an unresolved import) — the dev build fails before any test can execute."
+              echo
+              echo "See the **Start dev server** step in the [run]($RUN_URL)."
+            } > comment.md
+          elif [ "$SMOKE" = "success" ]; then
+            {
+              echo "## ✅ E2E Dev Smoke — passing"
+              echo
+              echo "| Check | Result |"
+              echo "| --- | --- |"
+              echo "| Dev server start (\`pnpm dev\`) | ✅ started |"
+              echo "| Smoke tests | ✅ passed |"
+              echo
+              echo "**$(stats_line)**"
+              echo
+              echo "[View run]($RUN_URL)"
+            } > comment.md
+          elif [ "$SMOKE" != "failure" ]; then
+            # skipped/cancelled (or unset): the dev server started but the smoke step never
+            # produced a verdict — a setup step in between failed (e.g. browser install), or
+            # the job was cancelled/timed out. Only a confirmed step failure may report ❌.
+            {
+              echo "## ⚠️ E2E Dev Smoke — did not run"
+              echo
+              echo "| Check | Result |"
+              echo "| --- | --- |"
+              echo "| Dev server start (\`pnpm dev\`) | ✅ started |"
+              echo "| Smoke tests | — not run or interrupted |"
+              echo
+              echo "The smoke suite produced no verdict: a setup step failed (e.g. browser install), or the job was cancelled/timed out."
+              echo
+              echo "See the failing step in the [run]($RUN_URL)."
+            } > comment.md
+          else
+            FAILED=$(jq -r '[.suites[]? | recurse(.suites[]?) | .specs[]? | select(.ok | not) | .title] | unique | map("- `" + . + "`") | join("\n")' dev-smoke-report.json 2>/dev/null || true)
+            {
+              echo "## ❌ E2E Dev Smoke — failed"
+              echo
+              echo "| Check | Result |"
+              echo "| --- | --- |"
+              echo "| Dev server start (\`pnpm dev\`) | ✅ started |"
+              echo "| Smoke tests | ❌ failed |"
+              echo
+              echo "**$(stats_line)**"
+              echo
+              echo "$FAILED"
+              echo
+              echo "[View run]($RUN_URL) — the full HTML report is attached as the \`playwright-report-dev-smoke\` artifact."
+            } > comment.md
+          fi
+
+      - name: Post sticky comment
+        uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # v3.0.4
+        with:
+          header: e2e-dev-smoke-results
+          path: comment.md

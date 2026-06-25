@@ -1,28 +1,35 @@
 import { isWalletInstalled } from '@lifi/widget-provider'
-import { createClient, http } from 'viem'
-import { mainnet } from 'viem/chains'
+import type { Chain } from 'viem'
+import { createClient, fallback, http } from 'viem'
+import { mainnet as mainnetBase } from 'viem/chains'
 import type { Config, CreateConnectorFn } from 'wagmi'
 import { createConfig } from 'wagmi'
 import type {
   BaseAccountParameters,
   CoinbaseWalletParameters,
   MetaMaskParameters,
-  PortoParameters,
   WalletConnectParameters,
 } from 'wagmi/connectors'
 import { safe } from 'wagmi/connectors'
 import { createBaseAccountConnector } from '../connectors/baseAccount.js'
 import { createCoinbaseConnector } from '../connectors/coinbase.js'
 import { createMetaMaskConnector } from '../connectors/metaMask.js'
-import { createPortoConnector } from '../connectors/porto.js'
 import { createWalletConnectConnector } from '../connectors/walletConnect.js'
+
+// Drop viem's bundled mainnet default (eth.merkle.io); BE RPCs arrive via useSyncWagmiConfig.
+const mainnet: Chain = {
+  ...mainnetBase,
+  rpcUrls: {
+    ...mainnetBase.rpcUrls,
+    default: { http: [] },
+  },
+}
 
 export interface DefaultWagmiConfigProps {
   walletConnect?: WalletConnectParameters
   coinbase?: CoinbaseWalletParameters
   metaMask?: MetaMaskParameters
   baseAccount?: BaseAccountParameters
-  porto?: Partial<PortoParameters>
   wagmiConfig?: {
     ssr?: boolean
     multiInjectedProviderDiscovery?: boolean
@@ -77,7 +84,13 @@ export function createDefaultWagmiConfig(
   const config = createConfig({
     chains: [mainnet],
     client({ chain }) {
-      return createClient({ chain, transport: http() })
+      const urls = chain.rpcUrls.default.http
+      return createClient({
+        chain,
+        transport: urls.length
+          ? fallback(urls.map((url) => http(url)))
+          : http(),
+      })
     },
     ...props?.wagmiConfig,
     multiInjectedProviderDiscovery,
@@ -123,10 +136,6 @@ export function createDefaultWagmiConfig(
     (recentConnectorId?.includes?.('baseAccount') || !props.lazy)
   ) {
     connectors.unshift(createBaseAccountConnector(props.baseAccount))
-  }
-
-  if (props?.porto && (recentConnectorId?.includes?.('porto') || !props.lazy)) {
-    connectors.unshift(createPortoConnector(props.porto))
   }
 
   return {

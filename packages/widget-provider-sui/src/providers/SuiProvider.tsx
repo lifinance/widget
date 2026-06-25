@@ -1,6 +1,6 @@
 import type { WidgetProviderProps } from '@lifi/widget-provider'
 import { DAppKitContext } from '@mysten/dapp-kit-react'
-import { type JSX, type PropsWithChildren, useContext } from 'react'
+import { type JSX, type PropsWithChildren, use } from 'react'
 import type { SuiProviderConfig } from '../types.js'
 import { SuiBaseProvider } from './SuiBaseProvider.js'
 import { SuiProviderValues } from './SuiProviderValues.js'
@@ -10,7 +10,7 @@ interface SuiWidgetProviderProps extends WidgetProviderProps {
 }
 
 function useInSuiContext(): boolean {
-  const context = useContext(DAppKitContext)
+  const context = use(DAppKitContext)
   return Boolean(context)
 }
 

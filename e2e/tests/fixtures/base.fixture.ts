@@ -1,9 +1,10 @@
 import type { Page } from '@playwright/test'
 import { test as base } from '@playwright/test'
 import { PlaygroundSidebar } from '../components/PlaygroundSidebar.js'
+import { SendToWalletView } from '../components/SendToWalletView.js'
 import { SettingsView } from '../components/SettingsView.js'
 import { TokenSelectorView } from '../components/TokenSelectorView.js'
-import { WidgetExchange } from '../components/WidgetExchange.js'
+import { WidgetView } from '../components/WidgetView.js'
 
 /**
  * Wait for the widget's token list to finish loading.
@@ -28,12 +29,14 @@ export async function waitForTokens(page: Page): Promise<void> {
 export type WidgetFixtures = {
   /** Playground left sidebar (Design tab controls) */
   sidebar: PlaygroundSidebar
-  /** Widget main Exchange view */
-  exchange: WidgetExchange
+  /** Widget main view */
+  widget: WidgetView
   /** Token selector view (opens when clicking From/To buttons) */
   tokenSelector: TokenSelectorView
   /** Widget settings view (opens when clicking the cog icon) */
   settings: SettingsView
+  /** Widget Send to wallet page and nested Bookmarked wallets page */
+  sendToWallet: SendToWalletView
 }
 
 export const test = base.extend<WidgetFixtures>({
@@ -41,8 +44,8 @@ export const test = base.extend<WidgetFixtures>({
     await use(new PlaygroundSidebar(page))
   },
 
-  exchange: async ({ page }, use) => {
-    await use(new WidgetExchange(page))
+  widget: async ({ page }, use) => {
+    await use(new WidgetView(page))
   },
 
   tokenSelector: async ({ page }, use) => {
@@ -51,6 +54,10 @@ export const test = base.extend<WidgetFixtures>({
 
   settings: async ({ page }, use) => {
     await use(new SettingsView(page))
+  },
+
+  sendToWallet: async ({ page }, use) => {
+    await use(new SendToWalletView(page))
   },
 })
 

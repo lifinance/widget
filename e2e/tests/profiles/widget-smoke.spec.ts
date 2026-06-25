@@ -6,7 +6,7 @@ import { expect, test, waitForTokens } from '../fixtures/base.fixture.js'
  * mountPath is read from project metadata so the same spec handles both profiles.
  *
  * Standard  (13): vite, connectkit, privy, privy-ethers, rainbowkit, reown, svelte,
- *                 zustand-widget-config, vue, nextjs, nextjs15, remix, react-router-7
+ *                 zustand-widget-config, vue, nextjs, nextjs15, remix, react-router
  * Routed     (1): tanstack-router (mountPath: /widget)
  */
 
@@ -17,33 +17,33 @@ test.describe('Widget smoke', () => {
   })
 
   test('widget container is displayed with Exchange heading', async ({
-    exchange,
+    widget,
   }) => {
     await test.step('widget root is visible', async () => {
-      await expect(exchange.widgetRoot).toBeVisible()
+      await expect(widget.root).toBeVisible()
     })
 
     await test.step('Exchange heading is rendered', async () => {
-      await expect(exchange.heading).toBeVisible()
+      await expect(widget.heading).toBeVisible()
     })
 
     await test.step('From and To buttons are present', async () => {
-      await expect(exchange.fromButton).toBeVisible()
-      await expect(exchange.toButton).toBeVisible()
+      await expect(widget.fromButton).toBeVisible()
+      await expect(widget.toButton).toBeVisible()
     })
 
     await test.step('Send amount input is present', async () => {
-      await expect(exchange.sendAmountInput).toBeVisible()
-      await expect(exchange.sendAmountInput).toHaveAttribute('placeholder', '0')
+      await expect(widget.sendAmountInput).toBeVisible()
+      await expect(widget.sendAmountInput).toHaveAttribute('placeholder', '0')
     })
   })
 
   test('clicking Settings icon opens the Settings view', async ({
-    exchange,
+    widget,
     settings,
   }) => {
     await test.step('open Settings', async () => {
-      await exchange.openSettings()
+      await widget.openSettings()
       await expect(settings.heading).toBeVisible()
     })
 
@@ -59,13 +59,13 @@ test.describe('Widget smoke', () => {
 
     await test.step('back button returns to Exchange', async () => {
       await settings.goBack()
-      await expect(exchange.heading).toBeVisible()
+      await expect(widget.heading).toBeVisible()
     })
   })
 
   test('token route setup — From and To tokens selectable', async ({
     page,
-    exchange,
+    widget,
     tokenSelector,
   }) => {
     const { mountPath } = test.info().project.metadata as ExampleConfig
@@ -75,7 +75,7 @@ test.describe('Widget smoke', () => {
     })
 
     await test.step('From token selector opens with a populated token list', async () => {
-      await exchange.openFromTokenSelector()
+      await widget.openFromTokenSelector()
       await expect(tokenSelector.heading).toBeVisible()
       await expect(tokenSelector.tokenList).toBeVisible()
       await expect(tokenSelector.firstTokenItem).toBeVisible()
@@ -83,12 +83,12 @@ test.describe('Widget smoke', () => {
 
     await test.step('select first token — Exchange view shows From token', async () => {
       await tokenSelector.selectFirstToken()
-      await expect(exchange.heading).toBeVisible()
-      await expect(exchange.fromButton).not.toHaveText(/Select chain and token/)
+      await expect(widget.heading).toBeVisible()
+      await expect(widget.fromButton).not.toHaveText(/Select chain and token/)
     })
 
     await test.step('To token selector opens with a populated token list', async () => {
-      await exchange.openToTokenSelector()
+      await widget.openToTokenSelector()
       await expect(tokenSelector.heading).toBeVisible()
       await expect(tokenSelector.tokenList).toBeVisible()
       await expect(tokenSelector.firstTokenItem).toBeVisible()
@@ -96,8 +96,8 @@ test.describe('Widget smoke', () => {
 
     await test.step('select second token — Exchange view shows To token', async () => {
       await tokenSelector.selectTokenByIndex(1)
-      await expect(exchange.heading).toBeVisible()
-      await expect(exchange.toButton).not.toHaveText(/Select chain and token/)
+      await expect(widget.heading).toBeVisible()
+      await expect(widget.toButton).not.toHaveText(/Select chain and token/)
     })
   })
 })

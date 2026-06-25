@@ -1,4 +1,4 @@
-import { createContext, useContext, useRef } from 'react'
+import { createContext, use, useRef } from 'react'
 import { useShallow } from 'zustand/shallow'
 import type { PersistStoreProviderProps } from '../types.js'
 import { createPinnedTokensStore } from './createPinnedTokensStore.js'
@@ -17,16 +17,16 @@ export const PinnedTokensStoreProvider: React.FC<PersistStoreProviderProps> = ({
   }
 
   return (
-    <PinnedTokensStoreContext.Provider value={storeRef.current}>
+    <PinnedTokensStoreContext value={storeRef.current}>
       {children}
-    </PinnedTokensStoreContext.Provider>
+    </PinnedTokensStoreContext>
   )
 }
 
 export function usePinnedTokensStore<T>(
   selector: (store: PinnedTokensState) => T
 ): T {
-  const useStore = useContext(PinnedTokensStoreContext)
+  const useStore = use(PinnedTokensStoreContext)
 
   if (!useStore) {
     throw new Error(

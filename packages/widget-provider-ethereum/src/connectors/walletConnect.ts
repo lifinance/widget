@@ -15,6 +15,8 @@ export const createWalletConnectConnector = /*#__PURE__*/ (
         },
       },
       ...params,
+      // Isolate EVM's WC storage from Tron's (shared project id).
+      customStoragePrefix: 'evm',
     }),
     'walletConnect',
     'WalletConnect'

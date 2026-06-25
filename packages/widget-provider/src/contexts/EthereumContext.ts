@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react'
+import { createContext, use } from 'react'
 import type { EthereumProviderContext } from '../types.js'
 import { defaultContextValue } from './defaultContextValue.js'
 
@@ -12,6 +12,6 @@ export const EthereumContext: React.Context<EthereumProviderContext> =
   createContext<EthereumProviderContext>(ethereumDefaultContextValue)
 
 export const useEthereumContext = (): EthereumProviderContext => {
-  const context = useContext(EthereumContext)
+  const context = use(EthereumContext)
   return context || ethereumDefaultContextValue
 }

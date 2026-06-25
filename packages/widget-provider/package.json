@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-provider",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "LI.FI Widget Provider - base provider package for blockchain integrations.",
   "type": "module",
   "main": "./src/index.ts",
@@ -38,6 +38,9 @@
   ],
   "dependencies": {
     "@lifi/sdk": "^4.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=19"
   },
   "devDependencies": {
     "cpy-cli": "^7.0.0",

@@ -9,8 +9,8 @@ export const WalletManagementProvider: React.FC<
   React.PropsWithChildren<WalletManagementProviderProps>
 > = ({ children, config = initialContext }) => {
   return (
-    <WalletManagementContext.Provider value={config}>
+    <WalletManagementContext value={config}>
       <WalletMenuProvider>{children}</WalletMenuProvider>
-    </WalletManagementContext.Provider>
+    </WalletManagementContext>
   )
 }
