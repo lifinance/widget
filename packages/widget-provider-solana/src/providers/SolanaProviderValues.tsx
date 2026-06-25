@@ -137,9 +137,5 @@ export const SolanaProviderValues: FC<
     ]
   )
 
-  return (
-    <SolanaContext.Provider value={contextValue}>
-      {children}
-    </SolanaContext.Provider>
-  )
+  return <SolanaContext value={contextValue}>{children}</SolanaContext>
 }

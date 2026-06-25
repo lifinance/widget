@@ -3,8 +3,10 @@ import type { DefaultValues } from '../stores/form/types.js'
 import type { SettingsProps } from '../stores/settings/types.js'
 import type { NavigationRouteType } from '../utils/navigationRoutes.js'
 import type { TokenAmount } from './token.js'
+import type { Appearance } from './widget.js'
 
 export enum WidgetEvent {
+  AppearanceChanged = 'appearanceChanged',
   AvailableRoutes = 'availableRoutes',
   ChainPinned = 'chainPinned',
   ContactSupport = 'contactSupport',
@@ -26,6 +28,7 @@ export enum WidgetEvent {
 }
 
 export type WidgetEvents = {
+  appearanceChanged: (data: Appearance) => void
   availableRoutes: (data: Route[]) => void
   chainPinned: (data: ChainPinned) => void
   contactSupport: (data: ContactSupport) => void

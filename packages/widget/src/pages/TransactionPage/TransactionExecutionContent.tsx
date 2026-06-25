@@ -76,13 +76,15 @@ export const TransactionExecutionContent: React.FC<
             iconSlot={iconSlot}
             footerSlot={footerSlot}
           />
-          <WarningMessages route={route} allowInteraction />
           {status === RouteExecutionStatus.Failed ? (
-            <TransactionFailedButtons
-              route={route}
-              restartRoute={restartRoute}
-              deleteRoute={deleteRoute}
-            />
+            <>
+              <WarningMessages route={route} allowInteraction />
+              <TransactionFailedButtons
+                route={route}
+                restartRoute={restartRoute}
+                deleteRoute={deleteRoute}
+              />
+            </>
           ) : isDone ? (
             <TransactionDoneButtons route={route} status={status} />
           ) : null}

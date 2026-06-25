@@ -1,6 +1,6 @@
 import { useLocation } from '@tanstack/react-router'
 import type { FC, PropsWithChildren } from 'react'
-import { useLayoutEffect, useRef } from 'react'
+import { useCallback } from 'react'
 import { useDefaultElementId } from '../../hooks/useDefaultElementId.js'
 import { useSetHeaderHeight } from '../../stores/header/useHeaderStore.js'
 import { createElementId, ElementId } from '../../utils/elements.js'
@@ -12,31 +12,33 @@ import { WalletHeader } from './WalletHeader.js'
 const HeaderContainer: FC<PropsWithChildren> = ({ children }) => {
   const { pathname } = useLocation()
   const elementId = useDefaultElementId()
-  const headerRef = useRef<HTMLDivElement>(null)
   const { setHeaderHeight } = useSetHeaderHeight()
 
-  useLayoutEffect(() => {
-    const handleHeaderResize = () => {
-      const height = headerRef.current?.getBoundingClientRect().height
-
-      if (height) {
-        setHeaderHeight(height)
+  // React 19 ref cleanup callback: set up the ResizeObserver when the node
+  // mounts and tear it down when it unmounts.
+  const headerRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (!node) {
+        return
       }
-    }
 
-    let resizeObserver: ResizeObserver
+      const handleHeaderResize = () => {
+        const height = node.getBoundingClientRect().height
 
-    if (headerRef.current) {
-      resizeObserver = new ResizeObserver(handleHeaderResize)
-      resizeObserver.observe(headerRef.current)
-    }
+        if (height) {
+          setHeaderHeight(height)
+        }
+      }
 
-    return () => {
-      if (resizeObserver) {
+      const resizeObserver = new ResizeObserver(handleHeaderResize)
+      resizeObserver.observe(node)
+
+      return () => {
         resizeObserver.disconnect()
       }
-    }
-  }, [setHeaderHeight])
+    },
+    [setHeaderHeight]
+  )
 
   return (
     <Container

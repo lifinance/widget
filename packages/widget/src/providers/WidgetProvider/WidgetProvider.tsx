@@ -1,4 +1,5 @@
-import { createContext, useContext, useId, useMemo } from 'react'
+import type { Context } from 'react'
+import { createContext, use, useId, useMemo } from 'react'
 import { useSettingsActions } from '../../stores/settings/useSettingsActions.js'
 import type { WidgetContextProps, WidgetProviderProps } from './types.js'
 
@@ -7,10 +8,10 @@ const initialContext: WidgetContextProps = {
   integrator: '',
 }
 
-const WidgetContext = createContext<WidgetContextProps>(initialContext)
+export const WidgetContext: Context<WidgetContextProps> =
+  createContext<WidgetContextProps>(initialContext)
 
-export const useWidgetConfig = (): WidgetContextProps =>
-  useContext(WidgetContext)
+export const useWidgetConfig = (): WidgetContextProps => use(WidgetContext)
 
 export const WidgetProvider: React.FC<
   React.PropsWithChildren<WidgetProviderProps>
@@ -43,7 +44,5 @@ export const WidgetProvider: React.FC<
       }
     }
   }, [elementId, widgetConfig, setDefaultSettings])
-  return (
-    <WidgetContext.Provider value={value}>{children}</WidgetContext.Provider>
-  )
+  return <WidgetContext value={value}>{children}</WidgetContext>
 }

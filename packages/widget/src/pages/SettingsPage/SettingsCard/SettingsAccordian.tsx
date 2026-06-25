@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from 'react'
-import { createContext, useContext, useEffect, useId, useState } from 'react'
+import { createContext, use, useEffect, useId, useState } from 'react'
 
 const SettingsAccordionContext = createContext({
   setOpenCard: (_id: string) => {},
@@ -12,9 +12,9 @@ export const SettingsCardAccordion: React.FC<PropsWithChildren> = ({
   const [openCard, setOpenCard] = useState('')
 
   return (
-    <SettingsAccordionContext.Provider value={{ openCard, setOpenCard }}>
+    <SettingsAccordionContext value={{ openCard, setOpenCard }}>
       {children}
-    </SettingsAccordionContext.Provider>
+    </SettingsAccordionContext>
   )
 }
 
@@ -24,7 +24,7 @@ export const useSettingsCardExpandable = (): {
 } => {
   const settingCardExpandableId = useId()
   const [expanded, setExpanded] = useState(false)
-  const { openCard, setOpenCard } = useContext(SettingsAccordionContext)
+  const { openCard, setOpenCard } = use(SettingsAccordionContext)
 
   const toggleExpanded = (forceExpanded?: boolean) => {
     const newExpanded = forceExpanded ?? !expanded

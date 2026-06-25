@@ -3,6 +3,7 @@ import { Box, Typography } from '@mui/material'
 import { useLocation } from '@tanstack/react-router'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useHeaderStore } from '../../stores/header/useHeaderStore.js'
+import { useNavigationTabsStore } from '../../stores/navigationTabs/useNavigationTabsStore.js'
 import {
   backButtonRoutes,
   navigationRoutes,
@@ -12,11 +13,14 @@ import { ActivitiesButton } from './ActivitiesButton.js'
 import { BackButton } from './BackButton.js'
 import { CloseDrawerButton } from './CloseDrawerButton.js'
 import { HeaderAppBar, HeaderControlsContainer } from './Header.style.js'
+import { HeaderNavigationTabs } from './HeaderNavigationTabs.js'
 import { SettingsButton } from './SettingsButton.js'
-import { SplitNavigationTabs } from './SplitNavigationTabs.js'
 
 export const NavigationHeader: React.FC = () => {
-  const { mode, hiddenUI, variant, defaultUI, modeOptions } = useWidgetConfig()
+  const { hiddenUI, variant, defaultUI } = useWidgetConfig()
+  const navigationTabsCount = useNavigationTabsStore(
+    (state) => state.tabs.length
+  )
   const { account } = useAccount()
   const [element, title] = useHeaderStore((state) => [
     state.element,
@@ -29,17 +33,16 @@ export const NavigationHeader: React.FC = () => {
   const path = cleanedPathname.substring(cleanedPathname.lastIndexOf('/') + 1)
   const hasPath = navigationRoutesValues.includes(path)
 
-  // Show tabs when split is undefined (default tabs) or an object with defaultTab
-  // Hide tabs when split is a string ('bridge' or 'swap' - single mode)
-  const showSplitOptions =
-    mode === 'split' && !hasPath && typeof modeOptions?.split !== 'string'
+  // The store resolves which tabs to show (split Swap/Bridge or configured
+  // navigation tabs); the header just reflects whether there are any.
+  const showHeaderTabs = !hasPath && navigationTabsCount > 0
 
   return (
     <HeaderAppBar elevation={0} sx={{ paddingTop: 1, paddingBottom: 0.5 }}>
       {backButtonRoutes.includes(path) ? <BackButton /> : null}
-      {showSplitOptions ? (
+      {showHeaderTabs ? (
         <Box sx={{ flex: 1, marginRight: 1 }}>
-          <SplitNavigationTabs />
+          <HeaderNavigationTabs />
         </Box>
       ) : (
         <Typography

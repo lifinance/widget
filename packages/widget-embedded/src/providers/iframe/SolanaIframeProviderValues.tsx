@@ -137,11 +137,7 @@ export const SolanaIframeProviderValues: FC<PropsWithChildren> = ({
     [account, sdkProvider, isConnected]
   )
 
-  return (
-    <SolanaContext.Provider value={contextValue}>
-      {children}
-    </SolanaContext.Provider>
-  )
+  return <SolanaContext value={contextValue}>{children}</SolanaContext>
 }
 
 /**
