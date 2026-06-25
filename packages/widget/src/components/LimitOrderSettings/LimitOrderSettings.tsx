@@ -67,7 +67,9 @@ export const LimitOrderSettings: React.FC<BoxProps> = (props): JSX.Element => {
             <QuickSettingValue>
               {formatDuration(validUntil, i18n.language, 'long')}
             </QuickSettingValue>
-            <KeyboardArrowDownIcon sx={{ fontSize: 20 }} />
+            <KeyboardArrowDownIcon
+              sx={{ fontSize: 20, height: '18px', marginTop: '2px' }}
+            />
           </ExpiryValue>
         </QuickSettingButton>
       </Card>
@@ -93,7 +95,14 @@ export const LimitOrderSettings: React.FC<BoxProps> = (props): JSX.Element => {
           <MenuItem
             key={duration}
             onClick={() => handleSelect(duration)}
-            sx={{ justifyContent: 'space-between', gap: 4 }}
+            sx={(theme) => ({
+              justifyContent: 'space-between',
+              gap: 4,
+              fontSize: 14,
+              fontWeight: 700,
+              lineHeight: '18px',
+              color: theme.vars.palette.text.primary,
+            })}
           >
             {formatDuration(duration, i18n.language, 'long')}
             {duration === validUntil ? (

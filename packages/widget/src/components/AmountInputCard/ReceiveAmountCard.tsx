@@ -28,6 +28,7 @@ import {
 import { getPriceImpact } from '../../utils/getPriceImpact.js'
 import { fitInputText } from '../../utils/input.js'
 import { CardTitle } from '../Card/CardTitle.js'
+import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js'
 import { TokenPillButton } from '../TokenPillButton/TokenPillButton.js'
 import {
   AmountCard,
@@ -56,7 +57,8 @@ export const ReceiveAmountCard: React.FC<CardProps & { mask?: boolean }> = (
   const currentInputMode = inputMode[formType]
   const showFiat = currentInputMode === 'price'
   const { hiddenUI } = useWidgetConfig()
-  const { routes, isFetching } = useRoutes()
+  const { routes, isFetching, dataUpdatedAt, refetchTime, refetch } =
+    useRoutes()
 
   const isLimit = useLimitMode()
   const isEditingRef = useRef(false)
@@ -199,6 +201,13 @@ export const ReceiveAmountCard: React.FC<CardProps & { mask?: boolean }> = (
       <AmountCard {...props} formType={formType}>
         <CardHeaderRow>
           <CardTitle sx={{ padding: 0 }}>{t('header.buy')}</CardTitle>
+          <ProgressToNextUpdate
+            updatedAt={dataUpdatedAt || Date.now()}
+            timeToUpdate={refetchTime}
+            isLoading={isFetching}
+            onClick={() => refetch()}
+            sx={{ padding: 0 }}
+          />
         </CardHeaderRow>
         <CardBodyRow>
           <LargeInput

@@ -18,7 +18,7 @@ export const AmountInputCardPair: React.FC<BoxProps> = (props): JSX.Element => {
 
   return (
     <CardContainer {...props}>
-      {isLimit ? <LimitPriceCard sx={{ marginBottom: 1.5 }} /> : null}
+      {isLimit ? <LimitPriceCard sx={{ marginBottom: 1 }} /> : null}
       <SendAmountCard mask={showSwapButton} />
       <SwapButton sx={{ visibility: showSwapButton ? 'visible' : 'hidden' }} />
       <ReceiveAmountCard mask={showSwapButton} />

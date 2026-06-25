@@ -6,7 +6,7 @@ export const Container: React.FC<React.ComponentProps<typeof Box>> = styled(
 )(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  gap: theme.spacing(2),
+  gap: theme.spacing(1),
 }))
 
 export const SettingsRow: React.FC<React.ComponentProps<typeof Box>> = styled(
@@ -64,6 +64,7 @@ export const QuickSettingValue: React.FC<
   React.ComponentProps<typeof Typography>
 > = styled(Typography)(({ theme }) => ({
   fontSize: 14,
-  fontWeight: 600,
-  color: theme.vars.palette.text.secondary,
+  fontWeight: 700,
+  color: theme.vars.palette.text.primary,
+  lineHeight: '18px',
 }))
