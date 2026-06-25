@@ -241,7 +241,7 @@ export const LimitPriceCard: React.FC<CardProps> = (props): JSX.Element => {
               inputMode="decimal"
               autoComplete="off"
               placeholder="0"
-              aria-label={t('limitOrder.customPremium')}
+              aria-label={t('limitOrder.custom')}
               value={customPct}
               onChange={handleCustomChange}
               onKeyDown={handleCustomKeyDown}
