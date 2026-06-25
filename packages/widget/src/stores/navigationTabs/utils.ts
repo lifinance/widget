@@ -1,24 +1,104 @@
 import type {
-  NavigationTabConfig,
+  DefaultUI,
+  InternalNavigationTabKey,
+  ModeOptions,
   NavigationTabKey,
+  RequiredUIConfig,
   SplitMode,
+  SplitNavigationTabKey,
   WidgetConfig,
+  WidgetMode,
+  WidgetVariant,
 } from '../../types/widget.js'
 import { getSplitMode } from '../../utils/mode.js'
+import type { NavigationTab } from './types.js'
+
+/** Configured navigation tabs by key. Labels are resolved from the key by a hook. */
+const navigationTabsByKey: Record<InternalNavigationTabKey, NavigationTab> = {
+  default: {
+    key: 'default',
+    variant: 'wide',
+    mode: 'default',
+    defaultUI: {
+      layout: 'cards',
+    },
+  },
+  private: {
+    key: 'private',
+    variant: 'compact',
+    mode: 'default',
+    defaultUI: {
+      layout: 'cards',
+    },
+    requiredUI: { toAddress: true },
+  },
+  refuel: {
+    key: 'refuel',
+    variant: 'wide',
+    mode: 'refuel',
+    defaultUI: {
+      layout: 'cards',
+    },
+  },
+  limit: {
+    key: 'limit',
+    variant: 'compact',
+    mode: 'limit',
+    defaultUI: {
+      layout: 'cards',
+    },
+  },
+  'swap-advanced': {
+    key: 'swap-advanced',
+    variant: 'wide',
+    mode: 'split',
+    modeOptions: { split: 'swap' },
+    defaultUI: {
+      layout: 'cards',
+    },
+  },
+  'bridge-advanced': {
+    key: 'bridge-advanced',
+    variant: 'wide',
+    mode: 'split',
+    modeOptions: { split: 'bridge' },
+    defaultUI: {
+      layout: 'cards',
+    },
+  },
+}
 
 /** Split-mode tabs (Swap / Bridge), shown when no navigation tabs are configured. */
-const splitTabs: NavigationTabConfig[] = [
-  { tabKey: 'swap', config: { mode: 'split', modeOptions: { split: 'swap' } } },
+const splitTabs: NavigationTab[] = [
   {
-    tabKey: 'bridge',
-    config: { mode: 'split', modeOptions: { split: 'bridge' } },
+    key: 'swap',
+    mode: 'split',
+    modeOptions: { split: 'swap' },
+  },
+  {
+    key: 'bridge',
+    mode: 'split',
+    modeOptions: { split: 'bridge' },
   },
 ]
 
+const splitTabsByKey = Object.fromEntries(
+  splitTabs.map((tab) => [tab.key, tab])
+) as Record<SplitNavigationTabKey, NavigationTab>
+
+/** Combined lookup across configured and split tabs. */
+const tabByKey: Record<NavigationTabKey, NavigationTab> = {
+  ...navigationTabsByKey,
+  ...splitTabsByKey,
+}
+
+/** Tab keys shown in split mode when no navigation tabs are configured. */
+export const splitTabKeys: NavigationTabKey[] = splitTabs.map((tab) => tab.key)
+
 /** Resolves which navigation tabs the header should render from the config. */
-export const getNavigationTabs = (
+export const getNavigationTabKeys = (
   config: WidgetConfig
-): NavigationTabConfig[] => {
+): NavigationTabKey[] => {
   if (config._navigationTabs?.length) {
     return config._navigationTabs
   }
@@ -27,7 +107,7 @@ export const getNavigationTabs = (
     config.mode === 'split' &&
     typeof config.modeOptions?.split !== 'string'
   ) {
-    return splitTabs
+    return splitTabKeys
   }
   return []
 }
@@ -41,32 +121,76 @@ export const getInitialActiveTab = (
   config: WidgetConfig
 ): NavigationTabKey | undefined => {
   if (config._navigationTabs?.length) {
-    return config._navigationTabs[0].tabKey
+    return config._navigationTabs[0]
   }
   return config.mode === 'split'
     ? getSplitMode(config.modeOptions?.split)
     : undefined
 }
 
-/**
- * Resolves the effective split mode. With tabs configured it derives solely from
- * the active tab's own config; with no tabs at all it falls back to the widget
- * config.
- */
-export const resolveSplitMode = (
-  config: WidgetConfig,
-  activeTab?: NavigationTabKey
+/** Split mode (`swap`/`bridge`) implied by a tab, or `undefined` if not split. */
+export const getTabSplitMode = (
+  key?: NavigationTabKey
 ): SplitMode | undefined => {
-  const navigationTabs = getNavigationTabs(config)
-  if (navigationTabs.length) {
-    const activeConfig = navigationTabs.find(
-      (tab) => tab.tabKey === activeTab
-    )?.config
-    return activeConfig?.mode === 'split'
-      ? getSplitMode(activeConfig.modeOptions?.split)
-      : undefined
-  }
-  return config.mode === 'split'
-    ? getSplitMode(config.modeOptions?.split)
+  const tab = key ? tabByKey[key] : undefined
+  return tab?.mode === 'split'
+    ? getSplitMode(tab.modeOptions?.split)
     : undefined
+}
+
+/** Variant for a tab, falling back to the widget config's variant when unset. */
+export const getTabVariant = (
+  config: WidgetConfig,
+  key?: NavigationTabKey
+): WidgetVariant | undefined => {
+  const tab = key ? tabByKey[key] : undefined
+  return tab?.variant ?? config.variant
+}
+
+/** Mode for a tab, falling back to the widget config's mode when unset. */
+export const getTabMode = (
+  config: WidgetConfig,
+  key?: NavigationTabKey
+): WidgetMode | undefined => {
+  const tab = key ? tabByKey[key] : undefined
+  return tab?.mode ?? config.mode
+}
+
+/** Mode options for a tab, falling back to the widget config's when unset. */
+export const getTabModeOptions = (
+  config: WidgetConfig,
+  key?: NavigationTabKey
+): ModeOptions | undefined => {
+  const tab = key ? tabByKey[key] : undefined
+  return tab?.modeOptions ?? config.modeOptions
+}
+
+/**
+ * Default UI for a tab, layered over the widget config's `defaultUI` so the
+ * tab overrides only the fields it sets and inherits the rest.
+ */
+export const getTabDefaultUI = (
+  config: WidgetConfig,
+  key?: NavigationTabKey
+): DefaultUI | undefined => {
+  const tab = key ? tabByKey[key] : undefined
+  if (!tab?.defaultUI) {
+    return config.defaultUI
+  }
+  return { ...config.defaultUI, ...tab.defaultUI }
+}
+
+/**
+ * Required UI for a tab, layered over the widget config's `requiredUI` so the
+ * tab overrides only the fields it sets and inherits the rest.
+ */
+export const getTabRequiredUI = (
+  config: WidgetConfig,
+  key?: NavigationTabKey
+): RequiredUIConfig | undefined => {
+  const tab = key ? tabByKey[key] : undefined
+  if (!tab?.requiredUI) {
+    return config.requiredUI
+  }
+  return { ...config.requiredUI, ...tab.requiredUI }
 }

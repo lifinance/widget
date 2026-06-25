@@ -38,10 +38,9 @@ export const ReceiveAmountCard: React.FC<CardProps & { mask?: boolean }> = (
   const { routes, isFetching } = useRoutes()
 
   const route = routes?.[0]
-  const receiveAmount =
-    route && route.toAmount
-      ? formatTokenAmount(BigInt(route.toAmount), route.toToken.decimals)
-      : undefined
+  const receiveAmount = route?.toAmount
+    ? formatTokenAmount(BigInt(route.toAmount), route.toToken.decimals)
+    : undefined
 
   // Only show skeletons on the initial fetch
   const showSkeleton = isFetching && !receiveAmount

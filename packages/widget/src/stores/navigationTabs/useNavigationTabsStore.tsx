@@ -20,8 +20,13 @@ import type {
 import type { NavigationTabsState, NavigationTabsStore } from './types.js'
 import {
   getInitialActiveTab,
-  getNavigationTabs,
-  resolveSplitMode,
+  getNavigationTabKeys,
+  getTabDefaultUI,
+  getTabMode,
+  getTabModeOptions,
+  getTabRequiredUI,
+  getTabSplitMode,
+  getTabVariant,
 } from './utils.js'
 
 const NavigationTabsStoreContext = createContext<NavigationTabsStore | null>(
@@ -32,8 +37,7 @@ export function NavigationTabsStoreProvider({
   children,
   config,
 }: PropsWithChildren<{ config: WidgetConfig }>): JSX.Element {
-  const navigationTabs = getNavigationTabs(config)
-  const tabs = navigationTabs.map((tab) => tab.tabKey)
+  const tabs = getNavigationTabKeys(config)
   const initialActiveTab = getInitialActiveTab(config)
   // Recreate (re-seeding tabs + active tab) only when the config-driven inputs
   // change — not on runtime tab clicks, which must be preserved.
@@ -47,20 +51,25 @@ export function NavigationTabsStoreProvider({
     signatureRef.current = signature
   }
 
-  // Layer the active tab's config overrides on top of the widget config, so the
-  // rest of the widget reads tab-driven config transparently. Omitted fields
-  // fall back to the widget config. No-op when there is no active tab.
+  // Override the widget config with the active tab's mode, variant,
+  // modeOptions, defaultUI and requiredUI (each falling back to the config), so
+  // the rest of the widget reads tab-driven config transparently. No-op when
+  // there is no active tab.
   const widgetConfig = useWidgetConfig()
   const activeTab = store((state) => state.activeTab)
   const tabConfig = useMemo(() => {
-    const activeConfig = navigationTabs.find(
-      (tab) => tab.tabKey === activeTab
-    )?.config
-    if (!activeConfig) {
+    if (!activeTab) {
       return widgetConfig
     }
-    return { ...widgetConfig, ...activeConfig }
-  }, [widgetConfig, activeTab, navigationTabs])
+    return {
+      ...widgetConfig,
+      mode: getTabMode(widgetConfig, activeTab),
+      variant: getTabVariant(widgetConfig, activeTab),
+      modeOptions: getTabModeOptions(widgetConfig, activeTab),
+      defaultUI: getTabDefaultUI(widgetConfig, activeTab),
+      requiredUI: getTabRequiredUI(widgetConfig, activeTab),
+    }
+  }, [widgetConfig, activeTab])
 
   return (
     <NavigationTabsStoreContext value={store}>
@@ -86,11 +95,9 @@ export function useNavigationTabsStore<T>(
   return useStore(useShallow(selector))
 }
 
-/** Effective split mode derived from the active tab's resolved config. */
+/** Effective split mode derived from the active tab. */
 export function useSplitMode(): SplitMode | undefined {
-  const activeTab = useNavigationTabsStore((state) => state.activeTab)
-  const config = useWidgetConfig()
-  return resolveSplitMode(config, activeTab)
+  return useNavigationTabsStore((state) => getTabSplitMode(state.activeTab))
 }
 
 const createNavigationTabsStore = (

@@ -1,28 +1,30 @@
 import { describe, expect, it } from 'vitest'
-import type { NavigationTabConfig, WidgetConfig } from '../../types/widget.js'
+import type { WidgetConfig } from '../../types/widget.js'
 import {
   getInitialActiveTab,
-  getNavigationTabs,
-  resolveSplitMode,
+  getNavigationTabKeys,
+  getTabDefaultUI,
+  getTabMode,
+  getTabModeOptions,
+  getTabRequiredUI,
+  getTabSplitMode,
+  getTabVariant,
+  splitTabKeys,
 } from './utils.js'
 
 const config = (overrides: Partial<WidgetConfig> = {}): WidgetConfig =>
   overrides as WidgetConfig
 
-const tab = (
-  tabKey: NavigationTabConfig['tabKey'],
-  config: NavigationTabConfig['config'] = {}
-): NavigationTabConfig => ({ tabKey, config })
-
-describe('getNavigationTabs', () => {
+describe('getNavigationTabKeys', () => {
   it('prefers configured tabs, else split tabs, else none', () => {
-    const tabs = [tab('private', { mode: 'split' })]
-    expect(getNavigationTabs(config({ _navigationTabs: tabs }))).toBe(tabs)
     expect(
-      getNavigationTabs(config({ mode: 'split' })).map((t) => t.tabKey)
-    ).toEqual(['swap', 'bridge'])
+      getNavigationTabKeys(config({ _navigationTabs: ['private'] }))
+    ).toEqual(['private'])
+    expect(getNavigationTabKeys(config({ mode: 'split' }))).toEqual(
+      splitTabKeys
+    )
     expect(
-      getNavigationTabs(
+      getNavigationTabKeys(
         config({ mode: 'split', modeOptions: { split: 'swap' } })
       )
     ).toEqual([])
@@ -32,9 +34,7 @@ describe('getNavigationTabs', () => {
 describe('getInitialActiveTab', () => {
   it('seeds the first configured tab or the split selection', () => {
     expect(
-      getInitialActiveTab(
-        config({ _navigationTabs: [tab('refuel'), tab('private')] })
-      )
+      getInitialActiveTab(config({ _navigationTabs: ['refuel', 'private'] }))
     ).toBe('refuel')
     expect(
       getInitialActiveTab(
@@ -45,36 +45,71 @@ describe('getInitialActiveTab', () => {
   })
 })
 
-describe('resolveSplitMode', () => {
-  it('derives split mode from the active tab when tabs are configured', () => {
-    const tabs = [
-      tab('swap', { mode: 'split', modeOptions: { split: 'swap' } }),
-      tab('bridge', { mode: 'split', modeOptions: { split: 'bridge' } }),
-    ]
-    const widgetConfig = config({ _navigationTabs: tabs, mode: 'split' })
-    expect(resolveSplitMode(widgetConfig, 'bridge')).toBe('bridge')
-    expect(resolveSplitMode(widgetConfig, 'swap')).toBe('swap')
+describe('getTabSplitMode', () => {
+  it('resolves split tabs to their side, undefined otherwise', () => {
+    expect(getTabSplitMode('swap-advanced')).toBe('swap')
+    expect(getTabSplitMode('bridge')).toBe('bridge')
+    expect(getTabSplitMode('default')).toBeUndefined()
   })
+})
 
-  it('returns undefined when the active tab is not in split mode', () => {
-    const tabs = [tab('refuel', { mode: 'refuel' }), tab('private')]
-    // Even though the widget config is split, the active (non-split) tab wins.
-    const widgetConfig = config({ _navigationTabs: tabs, mode: 'split' })
-    expect(resolveSplitMode(widgetConfig, 'refuel')).toBeUndefined()
-  })
-
-  it('resolves implicit split tabs (swap/bridge) when none are configured', () => {
-    const widgetConfig = config({ mode: 'split' })
-    expect(resolveSplitMode(widgetConfig, 'swap')).toBe('swap')
-    expect(resolveSplitMode(widgetConfig, 'bridge')).toBe('bridge')
-  })
-
-  it('falls back to the widget config when there are no tabs at all', () => {
+describe('per-tab config derivation', () => {
+  it('uses the tab preset, falling back to config', () => {
+    expect(getTabVariant(config({ variant: 'compact' }), 'default')).toBe(
+      'wide'
+    )
+    expect(getTabVariant(config({ variant: 'compact' }), 'swap')).toBe(
+      'compact'
+    )
+    expect(getTabMode(config({ mode: 'default' }), 'refuel')).toBe('refuel')
+    expect(getTabModeOptions(config(), 'swap-advanced')).toEqual({
+      split: 'swap',
+    })
+    // Tab without modeOptions falls back to the widget config's.
     expect(
-      resolveSplitMode(
-        config({ mode: 'split', modeOptions: { split: 'swap' } })
+      getTabModeOptions(config({ modeOptions: { split: 'bridge' } }), 'private')
+    ).toEqual({ split: 'bridge' })
+  })
+})
+
+describe('getTabDefaultUI', () => {
+  it('layers the tab defaultUI over the config defaultUI', () => {
+    expect(
+      getTabDefaultUI(
+        config({ defaultUI: { transactionDetailsExpanded: true } }),
+        'private'
       )
-    ).toBe('swap')
-    expect(resolveSplitMode(config({ mode: 'default' }))).toBeUndefined()
+    ).toEqual({ transactionDetailsExpanded: true, layout: 'cards' })
+  })
+
+  it('lets the tab override colliding config fields', () => {
+    expect(
+      getTabDefaultUI(config({ defaultUI: { layout: 'default' } }), 'default')
+    ).toEqual({ layout: 'cards' })
+  })
+
+  it('falls back to the config when the tab has no defaultUI', () => {
+    expect(
+      getTabDefaultUI(config({ defaultUI: { layout: 'default' } }), 'swap')
+    ).toEqual({ layout: 'default' })
+    expect(getTabDefaultUI(config(), 'swap')).toBeUndefined()
+  })
+})
+
+describe('getTabRequiredUI', () => {
+  it('layers the tab requiredUI over the config requiredUI', () => {
+    expect(
+      getTabRequiredUI(
+        config({ requiredUI: { accountDeployedMessage: true } }),
+        'private'
+      )
+    ).toEqual({ accountDeployedMessage: true, toAddress: true })
+  })
+
+  it('falls back to the config when the tab has no requiredUI', () => {
+    expect(
+      getTabRequiredUI(config({ requiredUI: { toAddress: true } }), 'refuel')
+    ).toEqual({ toAddress: true })
+    expect(getTabRequiredUI(config(), 'refuel')).toBeUndefined()
   })
 })
