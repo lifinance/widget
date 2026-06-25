@@ -76,6 +76,7 @@ export type {
   WidgetLightEvents,
   WidgetLightFormFieldChanged,
   WidgetLightLowAddressActivityConfirmed,
+  WidgetLightNavigationTabChanged,
   WidgetLightRouteExecutionUpdate,
   WidgetLightRouteHighValueLoss,
   WidgetLightRouteSelected,

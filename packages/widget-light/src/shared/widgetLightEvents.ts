@@ -18,6 +18,7 @@ export enum WidgetLightEvent {
   DestinationChainTokenSelected = 'destinationChainTokenSelected',
   FormFieldChanged = 'formFieldChanged',
   LowAddressActivityConfirmed = 'lowAddressActivityConfirmed',
+  NavigationTabChanged = 'navigationTabChanged',
   PageEntered = 'pageEntered',
   RouteExecutionCompleted = 'routeExecutionCompleted',
   RouteExecutionFailed = 'routeExecutionFailed',
@@ -56,6 +57,11 @@ export interface WidgetLightChainPinned {
 export interface WidgetLightLowAddressActivityConfirmed {
   address: string
   chainId: number
+}
+
+export interface WidgetLightNavigationTabChanged {
+  tab: string
+  previousTab?: string
 }
 
 export interface WidgetLightRouteHighValueLoss {
@@ -122,6 +128,7 @@ export interface WidgetLightEvents {
   destinationChainTokenSelected: WidgetLightChainTokenSelected
   formFieldChanged: WidgetLightFormFieldChanged
   lowAddressActivityConfirmed: WidgetLightLowAddressActivityConfirmed
+  navigationTabChanged: WidgetLightNavigationTabChanged
   pageEntered: string
   routeExecutionCompleted: unknown
   routeExecutionFailed: WidgetLightRouteExecutionUpdate

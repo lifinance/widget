@@ -19,6 +19,8 @@ export const widgetEventDescriptions: Record<WidgetEventName, string> = {
     'The event fires whenever a form value is changed in the widget.',
   [WidgetEvent.LowAddressActivityConfirmed]:
     'The event fires when the user confirms proceeding despite a low address activity warning for the specified address and chain.',
+  [WidgetEvent.NavigationTabChanged]:
+    'The event fires when the user switches between navigation tabs in the widget header.',
   [WidgetEvent.PageEntered]:
     'The event fires when the user navigates to a page in the widget.',
   [WidgetEvent.RouteExecutionCompleted]:
@@ -58,6 +60,7 @@ export const widgetEventDisplayOrder: WidgetEventName[] = [
   WidgetEvent.DestinationChainTokenSelected,
   WidgetEvent.SendToWalletToggled,
   WidgetEvent.WidgetExpanded,
+  WidgetEvent.NavigationTabChanged,
   WidgetEvent.PageEntered,
   WidgetEvent.FormFieldChanged,
   WidgetEvent.SettingUpdated,

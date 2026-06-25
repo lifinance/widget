@@ -1,6 +1,9 @@
-import type { JSX } from 'react'
+import { type JSX, useEffect, useRef } from 'react'
+import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useNavigationTabLabel } from '../../stores/navigationTabs/useNavigationTabLabel.js'
 import { useNavigationTabsStore } from '../../stores/navigationTabs/useNavigationTabsStore.js'
+import { WidgetEvent } from '../../types/events.js'
+import type { NavigationTabKey } from '../../types/widget.js'
 import { HeaderTabs } from './HeaderTabs.js'
 
 export const HeaderNavigationTabs = (): JSX.Element | null => {
@@ -10,6 +13,20 @@ export const HeaderNavigationTabs = (): JSX.Element | null => {
     store.setActiveTab,
   ])
   const getLabel = useNavigationTabLabel()
+  const emitter = useWidgetEvents()
+  const previousTabRef = useRef<NavigationTabKey | undefined>(undefined)
+
+  // Emit on the first resolved tab and on every subsequent switch.
+  useEffect(() => {
+    if (!activeTab || previousTabRef.current === activeTab) {
+      return
+    }
+    emitter.emit(WidgetEvent.NavigationTabChanged, {
+      tab: activeTab,
+      previousTab: previousTabRef.current,
+    })
+    previousTabRef.current = activeTab
+  }, [emitter, activeTab])
 
   if (!tabs.length || !activeTab) {
     return null
