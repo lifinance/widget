@@ -188,6 +188,15 @@ export interface RequiredUIConfig {
 export type DefaultUI = {
   transactionDetailsExpanded?: boolean
   navigationHeaderTitleNoWrap?: boolean
+  /**
+   * Layout for the main form.
+   * - `'default'`: the chain/token selectors plus single amount input.
+   * - `'cards'`: the redesigned card-based layout — stacked Send/Receive amount
+   *   cards (`AmountInputCardPair`) with inline token pill selectors and a swap
+   *   button.
+   * @default 'default'
+   */
+  layout?: 'default' | 'cards'
 }
 
 export interface WidgetWalletConfig {
