@@ -1595,12 +1595,18 @@ importers:
       '@lifi/widget-provider-tron':
         specifier: workspace:*
         version: link:../widget-provider-tron
+      '@metamask/bitcoin-wallet-standard':
+        specifier: ^1.1.0
+        version: 1.1.0
       '@metamask/connect-evm':
         specifier: ^2.1.0
         version: 2.1.0(@react-native-async-storage/async-storage@3.1.1(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(bufferutil@4.1.0)(react@19.2.7)(utf-8-validate@6.0.6))(react@19.2.7))(bufferutil@4.1.0)(encoding@0.1.13)(utf-8-validate@6.0.6)
       '@metamask/connect-multichain':
         specifier: ^1.1.0
         version: 1.1.0(@react-native-async-storage/async-storage@3.1.1(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(bufferutil@4.1.0)(react@19.2.7)(utf-8-validate@6.0.6))(react@19.2.7))(bufferutil@4.1.0)(encoding@0.1.13)(utf-8-validate@6.0.6)
+      '@metamask/multichain-api-client':
+        specifier: ^0.12.0
+        version: 0.12.0
       '@mui/icons-material':
         specifier: ^9.1.1
         version: 9.1.1(@mui/material@9.1.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/react@19.2.17)(react@19.2.7)
@@ -1821,12 +1827,6 @@ importers:
       '@lifi/widget-provider':
         specifier: workspace:*
         version: link:../widget-provider
-      '@metamask/bitcoin-wallet-standard':
-        specifier: ^1.1.0
-        version: 1.1.0
-      '@metamask/multichain-api-client':
-        specifier: ^0.12.0
-        version: 0.12.0
     devDependencies:
       cpy-cli:
         specifier: ^7.0.0
