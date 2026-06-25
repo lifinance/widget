@@ -59,8 +59,10 @@ export const SlippagePage: React.FC = () => {
 
   const handleCustom = () => {
     setCustomMode(true)
-    if (inputValue) {
-      setValue('slippage', inputValue)
+    const initialValue = slippage || ''
+    if (initialValue) {
+      setInputValue(initialValue)
+      setValue('slippage', initialValue)
     }
   }
 
