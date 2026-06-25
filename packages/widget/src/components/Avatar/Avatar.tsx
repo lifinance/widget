@@ -8,15 +8,20 @@ import { SmallAvatarSkeleton } from './SmallAvatar.js'
 export const AvatarBadgedDefault: React.FC<{
   sx?: SxProps<Theme>
   chain?: ExtendedChain
-}> = ({ sx, chain }) => {
+  avatarSize?: number
+  badgeSize?: number
+}> = ({ sx, chain, avatarSize, badgeSize }) => {
   return (
     <Badge
       overlap="circular"
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      badgeContent={<ChainBadgeContent chain={chain} />}
+      badgeContent={<ChainBadgeContent chain={chain} size={badgeSize} />}
       sx={sx}
     >
-      <AvatarDefault />
+      <AvatarDefault
+        badgeSize={badgeSize}
+        sx={avatarSize ? { width: avatarSize, height: avatarSize } : undefined}
+      />
     </Badge>
   )
 }

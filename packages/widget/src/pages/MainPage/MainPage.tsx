@@ -1,6 +1,7 @@
 import { Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { AmountInput } from '../../components/AmountInput/AmountInput.js'
+import { AmountInputCardPair } from '../../components/AmountInputCard/AmountInputCardPair.js'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
 import { GasRefuelMessage } from '../../components/Messages/GasRefuelMessage.js'
 import { PageContainer } from '../../components/PageContainer.js'
@@ -21,12 +22,17 @@ import { ReviewButton } from './ReviewButton.js'
 export const MainPage: React.FC = () => {
   const { t } = useTranslation()
   const wideVariant = useWideVariant()
-  const { mode, modeOptions, contractComponent, hiddenUI } = useWidgetConfig()
+  const { mode, modeOptions, contractComponent, hiddenUI, defaultUI } =
+    useWidgetConfig()
   const custom = mode === 'custom'
   const activeTab = useNavigationTabsStore((state) => state.activeTab)
   // Surface the settings panel on the main page for advanced navigation tabs.
   const advancedMode =
     !!activeTab && advancedNavigationTabKeys.includes(activeTab)
+  const showSendReceiveCards = defaultUI?.layout === 'cards'
+  // Custom non-deposit contract flows have no amount entry — they keep the
+  // chain/token selectors only, in both layouts.
+  const showAmountEntry = !custom || modeOptions?.custom?.type === 'deposit'
   const showPoweredBy = !hiddenUI?.poweredBy
   const showGasRefuelMessage = !hiddenUI?.gasRefuelMessage
 
@@ -54,10 +60,16 @@ export const MainPage: React.FC = () => {
       {custom ? (
         <ContractComponent sx={marginSx}>{contractComponent}</ContractComponent>
       ) : null}
-      <SelectChainAndToken sx={marginSx} />
-      {!custom || modeOptions?.custom?.type === 'deposit' ? (
-        <AmountInput formType="from" sx={marginSx} />
-      ) : null}
+      {showSendReceiveCards && showAmountEntry ? (
+        <AmountInputCardPair sx={marginSx} />
+      ) : (
+        <>
+          <SelectChainAndToken sx={marginSx} />
+          {!showSendReceiveCards && showAmountEntry ? (
+            <AmountInput formType="from" sx={marginSx} />
+          ) : null}
+        </>
+      )}
       {advancedMode ? <SettingsPanel sx={marginSx} /> : null}
       {!wideVariant ? <Routes sx={marginSx} /> : null}
       <SendToWalletButton sx={marginSx} />
