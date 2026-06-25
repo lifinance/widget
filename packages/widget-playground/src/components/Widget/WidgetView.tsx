@@ -1,14 +1,27 @@
-import type { FieldNames, FormState, WidgetDrawer } from '@lifi/widget'
-import { LiFiWidget, WidgetSkeleton } from '@lifi/widget'
+import type {
+  Appearance,
+  FieldNames,
+  FormState,
+  WidgetDrawer,
+} from '@lifi/widget'
+import {
+  LiFiWidget,
+  useWidgetEvents,
+  WidgetEvent,
+  WidgetSkeleton,
+} from '@lifi/widget'
 import type { JSX } from 'react'
 import { useCallback, useEffect, useRef } from 'react'
 import { useFormValues } from '../../store/editTools/useFormValues.js'
 import { useSkeletonToolValues } from '../../store/editTools/useSkeletonToolValues.js'
 import { useConfig } from '../../store/widgetConfig/useConfig.js'
+import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
 import { WidgetViewContainer } from './WidgetViewContainer.js'
 
 export function WidgetView(): JSX.Element {
   const { config } = useConfig()
+  const { setAppearance } = useConfigActions()
+  const widgetEvents = useWidgetEvents()
   const drawerRef = useRef<WidgetDrawer>(null)
   const formRef = useRef<FormState>(null)
   const { isSkeletonShown } = useSkeletonToolValues()
@@ -17,6 +30,16 @@ export function WidgetView(): JSX.Element {
   const toggleDrawer = useCallback(() => {
     drawerRef?.current?.toggleDrawer()
   }, [])
+
+  useEffect(() => {
+    const handleAppearanceChanged = (appearance: Appearance) => {
+      setAppearance(appearance)
+    }
+    widgetEvents.on(WidgetEvent.AppearanceChanged, handleAppearanceChanged)
+    return () => {
+      widgetEvents.off(WidgetEvent.AppearanceChanged, handleAppearanceChanged)
+    }
+  }, [widgetEvents, setAppearance])
 
   useEffect(() => {
     if (formRef.current && formValues) {
