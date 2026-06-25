@@ -56,9 +56,7 @@ export function createDefaultBigmiConfig(
     bigmiConfig: { multiInjectedProviderDiscovery: false },
   }
 ): DefaultBigmiConfigResult {
-  // MetaMask's Bitcoin wallet is surfaced through the Wallet Standard by an
-  // adapter the dapp must register. Do it before the connectors are created
-  // (and before `useReconnect` runs) so `metamask()` can discover it.
+  // Register MetaMask's Wallet Standard adapter before connectors / useReconnect.
   registerMetaMaskBitcoinWallet()
 
   const connectors: CreateConnectorFn[] = [
