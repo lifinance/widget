@@ -9,7 +9,10 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "skipLibCheck": true,
-    "types": ["node"]
+    "types": ["node"],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["./src/**/*", "./src/**/*.json"],
   "references": [{ "path": "../wallet-management" }]

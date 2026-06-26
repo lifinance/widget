@@ -1,9 +1,10 @@
 import { useWalletMenu } from '@lifi/wallet-management'
-import { Button } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useChain } from '../../hooks/useChain.js'
 import { useRouteRequiredAccountConnection } from '../../hooks/useRouteRequiredAccountConnection.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { cn } from '../../registry/lib/utils.js'
+import { Button } from '../../registry/ui/button.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import type { BaseTransactionButtonProps } from './types.js'
 
@@ -13,7 +14,7 @@ export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
   disabled,
   loading,
   route,
-  sx,
+  className,
 }) => {
   const { t } = useTranslation()
   const { walletConfig } = useWidgetConfig()
@@ -56,17 +57,12 @@ export const BaseTransactionButton: React.FC<BaseTransactionButtonProps> = ({
 
   return (
     <Button
-      variant="contained"
-      color="primary"
+      className={cn('w-full', className)}
       onClick={handleClick}
-      disabled={connected && disabled}
-      loading={loading}
-      loadingPosition="center"
-      fullWidth
-      sx={sx}
+      disabled={Boolean((connected && disabled) || loading)}
       data-testid="widget-transaction-button"
     >
-      {getButtonText()}
+      <span>{getButtonText()}</span>
     </Button>
   )
 }

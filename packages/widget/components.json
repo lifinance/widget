@@ -1,0 +1,26 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "default",
+  "rsc": false,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "src/styles/widget.css",
+    "baseColor": "neutral",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "iconLibrary": "lucide",
+  "rtl": false,
+  "registries": {
+    "@core": "https://lifinance.github.io/design-system/r/core/{style}/customize/{name}.json",
+    "@widget": "https://lifinance.github.io/design-system/r/widget/{style}/customize/{name}.json"
+  },
+  "aliases": {
+    "components": "@/registry",
+    "utils": "@/registry/lib/utils",
+    "ui": "@/registry/ui",
+    "lib": "@/registry/lib",
+    "hooks": "@/registry/hooks"
+  }
+}

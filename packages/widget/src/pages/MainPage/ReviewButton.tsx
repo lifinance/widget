@@ -75,7 +75,7 @@ export const ReviewButton: React.FC = () => {
       onClick={handleClick}
       disabled={currentRoute && requiredToAddress && !toAddress}
       route={currentRoute}
-      sx={{ flex: 1 }}
+      className="flex-1"
     />
   )
 }

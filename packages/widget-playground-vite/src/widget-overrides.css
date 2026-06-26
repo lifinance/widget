@@ -1,0 +1,80 @@
+@property --rotate {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+:root {
+  --primary-foreground: #ffffff;
+}
+
+.dark {
+  --primary: #dd0426;
+  --secondary: #9197ae;
+  --primary-foreground: #ffffff;
+}
+
+@layer components {
+  .lifi-button-variant-default {
+    --radius: 50px;
+    background-image: linear-gradient(
+      178deg,
+      var(--secondary) -64.49%,
+      var(--primary) 71.88%
+    );
+    position: relative;
+    cursor: pointer;
+    overflow: clip;
+
+    &:hover,
+    &:hover::after {
+      background-image: linear-gradient(
+        178deg,
+        color-mix(in srgb, var(--secondary), white 15%) -64.49%,
+        color-mix(in srgb, var(--primary), white 15%) 71.88%
+      );
+    }
+
+    &:before {
+      content: "";
+      background: conic-gradient(
+        transparent 270deg,
+        hsla(0, 0%, 100%, 0.7),
+        transparent
+      );
+      position: absolute;
+      aspect-ratio: 1;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      animation: rotate 2s linear infinite;
+    }
+
+    &:after {
+      content: "";
+      background-image: linear-gradient(
+        178deg,
+        var(--secondary) -64.49%,
+        var(--primary) 71.88%
+      );
+      position: absolute;
+      inset: 2px;
+      border-radius: calc(var(--radius) - 2px);
+      transition: background-image 0.2s ease;
+    }
+
+    span {
+      z-index: 1;
+    }
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: translate(-50%, -50%) scale(1.4) rotate(0turn);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1.4) rotate(1turn);
+  }
+}
