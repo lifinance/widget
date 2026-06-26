@@ -419,6 +419,7 @@
       "expiresIn": "Deposit address expires in {{minutes}}:{{seconds}}",
       "addressLabel": "Deposit address",
       "copyAddress": "Copy address",
+      "addressCopied": "Copied!",
       "regenerate": "Generate new deposit address",
       "expired": "This deposit window expired. Generate a new one to continue.",
       "polling": "Watching for your deposit…",

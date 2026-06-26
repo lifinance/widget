@@ -14,7 +14,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material'
-import { type JSX, useEffect, useState } from 'react'
+import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import { usePendingCheckoutWriter } from '../hooks/usePendingCheckoutWriter.js'
 import { useResumeKey } from '../hooks/useResumeKey.js'
@@ -24,9 +24,6 @@ import {
 } from '../providers/OnRampProvider/OnRampProvider.js'
 import { ErrorBoundary } from './ErrorBoundary.js'
 import { formatOnRampError } from './formatOnRampError.js'
-
-// Escape hatch for wedged iframes; Transak SDK owns normal close.
-const FORCE_CLOSE_GRACE_MS = 15_000
 
 export function OnRampHostedModals(): JSX.Element {
   const metas = useOnRampProviderMetas()
@@ -61,23 +58,8 @@ function HostedModalDialog({
   session,
 }: HostedModalDialogProps): JSX.Element | null {
   const { t } = useTranslation()
-  const [showForceClose, setShowForceClose] = useState(false)
   const resumeKey = useResumeKey()
   const { clearForKey } = usePendingCheckoutWriter()
-
-  useEffect(() => {
-    if (!session.isOpen) {
-      setShowForceClose(false)
-      return
-    }
-    const timer = setTimeout(
-      () => setShowForceClose(true),
-      FORCE_CLOSE_GRACE_MS
-    )
-    return () => {
-      clearTimeout(timer)
-    }
-  }, [session.isOpen])
 
   if (!session.mountTargetId) {
     return null
@@ -115,7 +97,7 @@ function HostedModalDialog({
         },
       }}
     >
-      {showForceClose && session.isOpen ? (
+      {session.isOpen ? (
         <Tooltip title={t('checkout.transak.forceClose.tooltip')}>
           <IconButton
             aria-label={t('checkout.transak.forceClose.tooltip')}

@@ -7,6 +7,7 @@ import {
   useChain,
   useHeader,
 } from '@lifi/widget/shared'
+import CheckRoundedIcon from '@mui/icons-material/CheckRounded'
 import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded'
 import ExpandLessRoundedIcon from '@mui/icons-material/ExpandLessRounded'
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded'
@@ -104,6 +105,9 @@ export const TransferDepositPage: React.FC = (): JSX.Element => {
   useHeader(t('header.depositAddress'))
 
   const [detailsOpen, setDetailsOpen] = useState(true)
+  const [copied, setCopied] = useState(false)
+  const copiedTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
+  useEffect(() => () => clearTimeout(copiedTimer.current), [])
 
   if (!frozen || !route || !depositAddress || expired) {
     return <DepositAddressExpiredPage />
@@ -120,6 +124,9 @@ export const TransferDepositPage: React.FC = (): JSX.Element => {
   const copyAddress = (): void => {
     if (typeof navigator !== 'undefined' && navigator.clipboard) {
       void navigator.clipboard.writeText(depositAddress)
+      setCopied(true)
+      clearTimeout(copiedTimer.current)
+      copiedTimer.current = setTimeout(() => setCopied(false), 1500)
     }
   }
 
@@ -162,9 +169,23 @@ export const TransferDepositPage: React.FC = (): JSX.Element => {
             <Typography variant="body1" sx={{ fontWeight: 600 }}>
               {shortAddress}
             </Typography>
-            <Tooltip title={t('checkout.transferDeposit.copyAddress')}>
-              <CardIconButton size="small" onClick={copyAddress}>
-                <ContentCopyRoundedIcon fontSize="inherit" />
+            <Tooltip
+              title={t(
+                copied
+                  ? 'checkout.transferDeposit.addressCopied'
+                  : 'checkout.transferDeposit.copyAddress'
+              )}
+            >
+              <CardIconButton
+                size="small"
+                onClick={copyAddress}
+                aria-label={t('checkout.transferDeposit.copyAddress')}
+              >
+                {copied ? (
+                  <CheckRoundedIcon fontSize="inherit" color="success" />
+                ) : (
+                  <ContentCopyRoundedIcon fontSize="inherit" />
+                )}
               </CardIconButton>
             </Tooltip>
           </Stack>

@@ -7,7 +7,6 @@ import CreditCardIcon from '@mui/icons-material/CreditCard'
 import PowerSettingsNewRounded from '@mui/icons-material/PowerSettingsNewRounded'
 import QrCode2Icon from '@mui/icons-material/QrCode2'
 import {
-  Alert,
   Avatar,
   CircularProgress,
   IconButton,
@@ -61,8 +60,6 @@ export type SelectSourceFundingOptionsProps = {
   showConnectExchange?: boolean
   /** When true, shows a loading spinner in place of exchange avatars. */
   exchangeLoading?: boolean
-  /** When set, shows an inline error below the exchange card. */
-  exchangeError?: string | null
   /** Previously-linked exchange accounts; each renders a one-tap reconnect row. */
   connectedExchangeAccounts?: ConnectedCexAccount[]
   /** Invoked when the user picks a previously-connected exchange account. */
@@ -85,7 +82,6 @@ export function SelectSourceFundingOptions({
   onConnectExchange,
   showConnectExchange = false,
   exchangeLoading = false,
-  exchangeError = null,
   connectedExchangeAccounts = [],
   onReuseExchange,
   onForgetExchange,
@@ -104,7 +100,7 @@ export function SelectSourceFundingOptions({
         <FundingSectionLabel>{t('checkout.useYourTokens')}</FundingSectionLabel>
 
         <Stack spacing={1.5} sx={{ width: '100%' }}>
-          <FundingOptionCard onClick={onPayFromWallet} elevation={0}>
+          <FundingOptionCard onClick={onPayFromWallet}>
             {payFromWalletConnected ? (
               <ConnectedAccountRow
                 iconSrc={payFromWalletConnected.icon}
@@ -152,7 +148,7 @@ export function SelectSourceFundingOptions({
             )}
           </FundingOptionCard>
 
-          <FundingOptionCard onClick={onTransferCrypto} elevation={0}>
+          <FundingOptionCard onClick={onTransferCrypto}>
             <FundingOptionRow>
               <GenericIconWrap>
                 <QrCode2Icon />
@@ -188,7 +184,6 @@ export function SelectSourceFundingOptions({
                 <FundingOptionCard
                   key={account.accountId}
                   onClick={() => onReuseExchange(account)}
-                  elevation={0}
                 >
                   <ConnectedAccountRow
                     iconSrc={
@@ -233,7 +228,6 @@ export function SelectSourceFundingOptions({
           {showConnectExchange && connectedExchangeAccounts.length === 0 ? (
             <FundingOptionCard
               onClick={exchangeLoading ? undefined : onConnectExchange}
-              elevation={0}
               aria-disabled={exchangeLoading}
               sx={
                 exchangeLoading
@@ -281,12 +275,6 @@ export function SelectSourceFundingOptions({
               </FundingOptionRow>
             </FundingOptionCard>
           ) : null}
-
-          {showConnectExchange && exchangeError ? (
-            <Alert severity="error" sx={{ mt: -0.5 }}>
-              {exchangeError}
-            </Alert>
-          ) : null}
         </Stack>
       </FundingSectionStack>
 
@@ -300,7 +288,7 @@ export function SelectSourceFundingOptions({
 
           <FundingSectionStack>
             <FundingSectionLabel>{t('checkout.buyTokens')}</FundingSectionLabel>
-            <FundingOptionCard onClick={onDepositCash} elevation={0}>
+            <FundingOptionCard onClick={onDepositCash}>
               <FundingOptionRow>
                 <GenericIconWrap>
                   <CreditCardIcon />

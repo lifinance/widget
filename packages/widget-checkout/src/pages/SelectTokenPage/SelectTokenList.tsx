@@ -32,6 +32,8 @@ export interface SelectTokenListProps {
    * the curated set renders as a flat list.
    */
   allowedSymbols?: ReadonlySet<string>
+  /** Token (chain + address) to omit from the list, e.g. the destination token. */
+  excludeToken?: { chainId: number; address: string }
 }
 
 type SharedListProps = Omit<SelectTokenListProps, 'isWalletFunded'> & {
@@ -50,6 +52,7 @@ const TokenListView: FC<SharedListProps & TokenListResult> = ({
   headerRef,
   afterTokenSelect,
   allowedSymbols,
+  excludeToken,
   excludeNative,
   selectedChainId,
   selectedTokenAddress,
@@ -79,9 +82,18 @@ const TokenListView: FC<SharedListProps & TokenListResult> = ({
   )
 
   const filteredTokens = useMemo(() => {
-    const withoutNative = excludeNative
-      ? tokens.filter((token) => !isNativeToken(token.address))
+    const withoutExcluded = excludeToken
+      ? tokens.filter(
+          (token) =>
+            !(
+              token.chainId === excludeToken.chainId &&
+              token.address.toLowerCase() === excludeToken.address.toLowerCase()
+            )
+        )
       : tokens
+    const withoutNative = excludeNative
+      ? withoutExcluded.filter((token) => !isNativeToken(token.address))
+      : withoutExcluded
     if (!allowedSymbols || allowedSymbols.size === 0) {
       return withoutNative
     }
@@ -90,7 +102,7 @@ const TokenListView: FC<SharedListProps & TokenListResult> = ({
     return withoutNative
       .filter((token) => allowedSymbols.has(token.symbol.toUpperCase()))
       .map((token) => ({ ...token, amount: undefined }))
-  }, [tokens, allowedSymbols, excludeNative])
+  }, [tokens, allowedSymbols, excludeToken, excludeNative])
 
   const showCategories =
     !allowedSymbols && withCategories && !tokenSearchFilter && !isAllNetworks
@@ -155,6 +167,7 @@ export const SelectTokenList: FC<SelectTokenListProps> = memo(
     afterTokenSelect,
     isWalletFunded,
     allowedSymbols,
+    excludeToken,
   }) => {
     const [selectedChainId, selectedTokenAddress] = useFieldValues(
       FormKeyHelper.getChainKey(formType),
@@ -177,6 +190,7 @@ export const SelectTokenList: FC<SelectTokenListProps> = memo(
       headerRef,
       afterTokenSelect,
       allowedSymbols,
+      excludeToken,
       excludeNative: !isWalletFunded,
       selectedChainId,
       selectedTokenAddress,

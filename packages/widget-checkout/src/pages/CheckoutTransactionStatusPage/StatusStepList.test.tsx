@@ -22,6 +22,17 @@ vi.mock('@lifi/widget/shared', () => ({
       {endAdornment}
     </div>
   ),
+  ExternalLink: ({
+    href,
+    children,
+  }: {
+    href: string
+    children?: ReactNode
+  }) => (
+    <a href={href} target="_blank" rel="nofollow noreferrer">
+      {children}
+    </a>
+  ),
   IconCircle: () => <div data-testid="icon-success" />,
   SentToWalletRow: () => <div data-testid="sent-to-wallet" />,
   useAvailableChains: () => ({ getChainById: () => ({ name: 'Ethereum' }) }),

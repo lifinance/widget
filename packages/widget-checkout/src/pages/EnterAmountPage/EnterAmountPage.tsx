@@ -3,6 +3,7 @@ import {
   MainWarningMessages,
   PageContainer,
   PoweredBy,
+  SendToWalletButton,
   useFieldActions,
   useFieldValues,
   useHeader,
@@ -17,16 +18,17 @@ import { CheckoutAmountInput } from '../../components/CheckoutAmountInput.js'
 import { CheckoutAmountPresets } from '../../components/CheckoutAmountPresets.js'
 import { CheckoutFlowCtaButton } from '../../components/CheckoutFlowCtaButton.js'
 import { CheckoutReceiveCard } from '../../components/CheckoutReceiveCard.js'
-import { CheckoutRecipientCard } from '../../components/CheckoutRecipientCard.js'
 import { FiatCurrencyChip } from '../../components/FiatCurrencyChip.js'
-import { TermsDisclaimer } from '../../components/TermsDisclaimer.js'
 import {
   INTENT_FACTORY_ONLY,
   useCheckoutExchangesOverride,
 } from '../../hooks/useCheckoutExchangesOverride.js'
+import { useCheckoutNavigate } from '../../hooks/useCheckoutNavigate.js'
 import { useIsWalletFundedFlow } from '../../hooks/useIsWalletFundedFlow.js'
 import { useOnRampPreconnect } from '../../hooks/useOnRampPreconnect.js'
+import { useResolvedCheckoutRecipient } from '../../hooks/useResolvedCheckoutRecipient.js'
 import { useCheckoutFlowStore } from '../../stores/useCheckoutFlowStore.js'
+import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
 
 const headerKeyByFlow = {
   wallet: 'checkout.payFromWallet',
@@ -46,6 +48,8 @@ export const EnterAmountPage: React.FC = (): JSX.Element => {
   const setInputMode = useInputModeStore((s) => s.setInputMode)
   const { setFieldValue } = useFieldActions()
   const [cashFiatAmount] = useFieldValues('cashFiatAmount')
+  const navigate = useCheckoutNavigate()
+  const { isUserSettable, clearUserRecipient } = useResolvedCheckoutRecipient()
   useOnRampPreconnect()
 
   useLayoutEffect(() => {
@@ -89,13 +93,20 @@ export const EnterAmountPage: React.FC = (): JSX.Element => {
         presetsSlot={isCashFlow ? <CheckoutAmountPresets /> : undefined}
       />
       <CheckoutReceiveCard />
-      <CheckoutRecipientCard />
+      <SendToWalletButton
+        requireAddress={isUserSettable}
+        onEditAddress={
+          isUserSettable
+            ? () => navigate({ to: checkoutNavigationRoutes.setDestination })
+            : null
+        }
+        onClearAddress={clearUserRecipient}
+      />
       {isWalletFunded ? <MainWarningMessages sx={{ mt: 2, mb: 2 }} /> : null}
       <Box sx={{ mt: 1.5, mb: showPoweredBy ? 1 : 3 }}>
         <Box sx={{ display: 'flex', gap: 1.5 }}>
           <CheckoutFlowCtaButton />
         </Box>
-        <TermsDisclaimer />
       </Box>
       {showPoweredBy ? <PoweredBy /> : null}
     </PageContainer>

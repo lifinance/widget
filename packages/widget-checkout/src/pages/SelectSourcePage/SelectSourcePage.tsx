@@ -22,7 +22,6 @@ import { useMeshBalance } from '@lifi/widget-provider-mesh'
 import { Alert, Box, CircularProgress } from '@mui/material'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { formatOnRampError } from '../../components/formatOnRampError.js'
 import { Stack } from '../../components/Stack.js'
 import {
   INTENT_FACTORY_ONLY,
@@ -32,10 +31,7 @@ import { useCheckoutNavigate } from '../../hooks/useCheckoutNavigate.js'
 import { useCheckoutPendingRecords } from '../../hooks/useCheckoutPendingRecords.js'
 import { useResumeCheckout } from '../../hooks/useResumeCheckout.js'
 import { useSelectSourceTopWallets } from '../../hooks/useSelectSourceTopWallets.js'
-import {
-  useOnRampProviderByCategory,
-  useOnRampSessionByCategory,
-} from '../../providers/OnRampProvider/OnRampProvider.js'
+import { useOnRampSessionByCategory } from '../../providers/OnRampProvider/OnRampProvider.js'
 import { useCheckoutFlowStore } from '../../stores/useCheckoutFlowStore.js'
 import { useFiatCurrencyStore } from '../../stores/useFiatCurrencyStore.js'
 import {
@@ -45,7 +41,6 @@ import {
 import { isNativeToken } from '../../utils/nativeToken.js'
 import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
 import { pickAutoResumeItem } from '../../utils/pickAutoResumeItem.js'
-import { CheckoutActivitySection } from './CheckoutActivitySection.js'
 import { SelectSourceFundingOptions } from './SelectSourceFundingOptions.js'
 import { SelectSourceMainColumn } from './SelectSourceLayout.js'
 
@@ -57,7 +52,6 @@ export const SelectSourcePage: React.FC = () => {
   const { accounts } = useAccount()
   const cashSession = useOnRampSessionByCategory('cash')
   const exchangeSession = useOnRampSessionByCategory('exchange')
-  const exchangeProvider = useOnRampProviderByCategory('exchange')
   const { topWallets, walletOverflowCount } = useSelectSourceTopWallets()
   const setFundingSource = useCheckoutFlowStore((s) => s.setFundingSource)
   const setSelectedExchangeAccount = useCheckoutFlowStore(
@@ -283,7 +277,6 @@ export const SelectSourcePage: React.FC = () => {
       })}
     >
       <SelectSourceMainColumn sx={{ flex: 1 }}>
-        <CheckoutActivitySection />
         {showInsufficientFunds && prevToken && prevChain ? (
           <Alert severity="warning" sx={{ mb: 2 }}>
             {t('checkout.insufficientFunds', {
@@ -303,11 +296,6 @@ export const SelectSourcePage: React.FC = () => {
           onReuseExchange={handleReuseExchange}
           onForgetExchange={handleForgetExchange}
           exchangeLoading={exchangeSession?.isLoading ?? false}
-          exchangeError={formatOnRampError(
-            exchangeSession?.error ?? null,
-            exchangeProvider?.name ?? '',
-            t
-          )}
           payFromWalletIcons={payFromWalletIcons}
           payFromWalletOverflow={walletOverflowCount}
           payFromWalletConnected={payFromWalletConnected}

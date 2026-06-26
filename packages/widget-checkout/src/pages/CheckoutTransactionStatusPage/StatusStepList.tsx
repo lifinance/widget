@@ -1,13 +1,14 @@
 import type { ExtendedTransactionInfo, FullStatusData, Route } from '@lifi/sdk'
 import {
   ActionRow,
+  ExternalLink,
   IconCircle,
   SentToWalletRow,
   useAvailableChains,
   useExplorer,
 } from '@lifi/widget/shared'
 import OpenInNew from '@mui/icons-material/OpenInNew'
-import { Box, CircularProgress, Link, Stack, styled } from '@mui/material'
+import { Box, CircularProgress, Stack } from '@mui/material'
 import { type JSX, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -36,20 +37,6 @@ interface StatusStepListProps {
   frozenRoute?: Route
   recipientAddress?: string | null
 }
-
-const ExternalLink = styled(Link)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: 24,
-  height: 24,
-  borderRadius: '50%',
-  textDecoration: 'none',
-  color: theme.vars.palette.text.primary,
-  '&:hover': {
-    backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 4%, transparent)`,
-  },
-}))
 
 export function StatusStepList({
   status,
