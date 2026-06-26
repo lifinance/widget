@@ -1,6 +1,8 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { App } from './App.js'
+import '@lifi/widget/styles.css'
+import './widget-overrides.css'
 import './index.css'
 import { reportWebVitals } from './reportWebVitals.js'
 

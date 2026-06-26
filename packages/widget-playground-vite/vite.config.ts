@@ -1,3 +1,4 @@
+import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 // biome-ignore lint/correctness/noUnusedImports: used when testing wallet providers that require https
@@ -10,6 +11,7 @@ export default defineConfig({
     // mkcert(),
     nodePolyfills(),
     react(),
+    tailwindcss(),
   ],
   oxc: {
     target: 'esnext',
