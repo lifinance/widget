@@ -105,6 +105,10 @@ export const useRoutes = ({
     'toToken',
     'contractCalls'
   )
+  const [validUntilDuration, partiallyFillable] = useFieldValues(
+    'validUntil',
+    'partiallyFillable'
+  )
   const { token: fromToken } = useToken(fromChainId, fromTokenAddress)
   const { token: toToken } = useToken(toChainId, toTokenAddress)
   const { chain: fromChain } = useChain(fromChainId)
@@ -169,6 +173,8 @@ export const useRoutes = ({
         toChain?.id as number,
         toToken?.address as string,
         toTokenAmount,
+        validUntilDuration,
+        partiallyFillable,
         contractCalls,
         slippage,
         swapOnly,
@@ -196,6 +202,8 @@ export const useRoutes = ({
       toChain?.id,
       toToken?.address,
       toTokenAmount,
+      validUntilDuration,
+      partiallyFillable,
       contractCalls,
       slippage,
       swapOnly,
@@ -233,6 +241,8 @@ export const useRoutes = ({
           toChainId,
           toTokenAddress,
           toTokenAmount,
+          validUntilDuration,
+          partiallyFillable,
           contractCalls,
           slippage = defaultSlippage,
           swapOnly,
@@ -370,31 +380,15 @@ export const useRoutes = ({
           !isBatchingSupported &&
           (!observableRoute || isObservableRelayerRoute)
 
-        // TODO(EMB-323): Limit-order route fetching. When the active tab is
-        // limit mode, fetch from the dedicated limit-order API instead of
-        // getRoutes (the SDK can carry neither the extra fields nor a per-call
-        // base URL — see [[project-limit-order-api]]). The wiring is implemented
-        // but inactive pending the API reaching a stable environment:
-        //
-        //   const limitParams = useLimitRouteParams() // computed in the hook body
-        //   if (isLimitMode && limitParams) {
-        //     const { routes } = await getLimitOrderRoutes(
-        //       {
-        //         fromChainId,
-        //         fromAddress,
-        //         fromTokenAddress,
-        //         fromAmount: fromAmount.toString(),
-        //         toChainId,
-        //         toTokenAddress,
-        //         toAddress,
-        //         toAmount: limitParams.toAmount,
-        //         validUntil: limitParams.validUntil,
-        //         partiallyFillable: limitParams.partiallyFillable,
-        //       },
-        //       { signal }
-        //     )
-        //     return routes
-        //   }
+        const limitOrderRouteParams =
+          mode === 'limit'
+            ? {
+                toAmount: toAmount.toString(),
+                validUntil: Math.floor(Date.now() / 1000) + validUntilDuration,
+                partiallyFillable: partiallyFillable,
+              }
+            : undefined
+
         const mainRoutesPromise = shouldUseMainRoutes
           ? getRoutes(
               sdkClient,
@@ -410,6 +404,7 @@ export const useRoutes = ({
                   enabledRefuel && gasRecommendationFromAmount
                     ? gasRecommendationFromAmount
                     : undefined,
+                ...limitOrderRouteParams,
                 options: {
                   allowSwitchChain:
                     mode === 'refuel' ? false : allowSwitchChain,

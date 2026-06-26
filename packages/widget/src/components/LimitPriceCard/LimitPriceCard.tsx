@@ -8,7 +8,6 @@ import { useToken } from '../../hooks/useToken.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { useLimitOrderStore } from '../../stores/limitOrder/useLimitOrderStore.js'
 import { formatInputAmount } from '../../utils/format.js'
 import { invertPrice } from '../../utils/limitOrder.js'
 import {
@@ -40,23 +39,24 @@ export const LimitPriceCard: React.FC<CardProps> = (props): JSX.Element => {
   const [customPct, setCustomPct] = useState('')
   const [customFocused, setCustomFocused] = useState(false)
 
-  const [fromChainId, fromTokenAddress, toChainId, toTokenAddress] =
-    useFieldValues(
-      FormKeyHelper.getChainKey('from'),
-      FormKeyHelper.getTokenKey('from'),
-      FormKeyHelper.getChainKey('to'),
-      FormKeyHelper.getTokenKey('to')
-    )
+  const [
+    fromChainId,
+    fromTokenAddress,
+    toChainId,
+    toTokenAddress,
+    priceInverted,
+  ] = useFieldValues(
+    FormKeyHelper.getChainKey('from'),
+    FormKeyHelper.getTokenKey('from'),
+    FormKeyHelper.getChainKey('to'),
+    FormKeyHelper.getTokenKey('to'),
+    'priceInverted'
+  )
   const { token: fromToken } = useToken(fromChainId, fromTokenAddress)
   const { token: toToken } = useToken(toChainId, toTokenAddress)
 
-  const limitPrice = useLimitOrderStore((state) => state.limitPrice)
-  const priceInverted = useLimitOrderStore((state) => state.priceInverted)
-  const togglePriceDirection = useLimitOrderStore(
-    (state) => state.togglePriceDirection
-  )
-  const setStorePrice = useLimitOrderStore((state) => state.setLimitPrice)
-  const { setLimitPrice } = useLinkedLimitFields()
+  // limitPrice is derived from the from/to amount fields, not stored.
+  const { limitPrice, setLimitPrice } = useLinkedLimitFields()
   const { setFieldValue } = useFieldActions()
 
   const hasTokens = Boolean(fromToken && toToken)
@@ -68,13 +68,16 @@ export const LimitPriceCard: React.FC<CardProps> = (props): JSX.Element => {
   // Canonical price is orientation-independent; flip only for display.
   const displayPrice = priceInverted ? invertPrice(limitPrice) : limitPrice
 
-  // Reset the limit price and derived receive amount whenever the token pair
-  // changes or limit mode is (re)entered, so a stale price from a previous pair
-  // can't drive a wrong receive amount or a false off-market warning.
+  // Clear the receive amount whenever the token pair changes or limit mode is
+  // (re)entered. Since the price is derived from from/to amounts, clearing the
+  // receive amount also resets the price, preventing a stale price from a
+  // previous pair driving a wrong receive amount or a false off-market warning.
+  // The provider pick is dropped for the same reason: it belongs to the prior
+  // pair's quotes, so we restart on the best route for the new pair.
   // biome-ignore lint/correctness/useExhaustiveDependencies: pair fields are intentional re-run triggers, not read in the body
   useEffect(() => {
-    setStorePrice('')
     setFieldValue('toAmount', '', { isDirty: false, isTouched: false })
+    setFieldValue('selectedProviderKey', undefined)
   }, [fromChainId, fromTokenAddress, toChainId, toTokenAddress])
 
   // Keep the input in sync with derived/preset/invert updates, but never yank
@@ -119,7 +122,7 @@ export const LimitPriceCard: React.FC<CardProps> = (props): JSX.Element => {
 
   const handleInvert = (): void => {
     isEditingRef.current = false
-    togglePriceDirection()
+    setFieldValue('priceInverted', !priceInverted)
   }
 
   const handlePreset = (pct: number): void => {

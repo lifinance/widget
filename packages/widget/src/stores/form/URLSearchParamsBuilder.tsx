@@ -7,6 +7,7 @@ import type { FormFieldNames } from '../form/types.js'
 import { useFieldActions } from '../form/useFieldActions.js'
 import { useFieldValues } from '../form/useFieldValues.js'
 import { useTouchedFields } from '../form/useTouchedFields.js'
+import { useLimitMode } from '../navigationTabs/useLimitMode.js'
 import { getDefaultValuesFromQueryString } from './getDefaultValuesFromQueryString.js'
 
 const formValueKeys: FormFieldNames[] = [
@@ -18,10 +19,21 @@ const formValueKeys: FormFieldNames[] = [
   'toToken',
 ]
 
+// Limit-order params are only mirrored to the URL while the limit tab is
+// active, and stripped when the user leaves it. Unlike the base keys these are
+// presence-gated (not touched-gated) so the URL fully reproduces the limit
+// order — including the boolean/number fields, which are never "falsy-empty".
+const limitFormValueKeys: FormFieldNames[] = [
+  'toAmount',
+  'validUntil',
+  'partiallyFillable',
+]
+
 export const URLSearchParamsBuilder = () => {
   const { pathname } = useLocation()
   const touchedFields = useTouchedFields()
-  const values = useFieldValues(...formValueKeys)
+  const isLimit = useLimitMode()
+  const values = useFieldValues(...formValueKeys, ...limitFormValueKeys)
   const { setSelectedBookmark, addRecentWallet } = useBookmarkActions()
   const { validateAddress } = useAddressValidation()
   const { buildUrl } = useWidgetConfig()
@@ -85,9 +97,21 @@ export const URLSearchParamsBuilder = () => {
         url.searchParams.delete(key)
       }
     })
+    // Limit params live in the URL only while the limit tab is active.
+    limitFormValueKeys.forEach((key) => {
+      const value = getFieldValues(key)[0]
+      // Booleans are always "set" (false is meaningful); strings/numbers use
+      // truthiness so an empty toAmount is treated as absent.
+      const hasValue = typeof value === 'boolean' ? true : Boolean(value)
+      if (isLimit && hasValue) {
+        url.searchParams.set(key, String(value))
+      } else {
+        url.searchParams.delete(key)
+      }
+    })
     url.searchParams.sort()
     window.history.replaceState(window.history.state, '', url)
-  }, [pathname, touchedFields, values, isTouched, getFieldValues])
+  }, [pathname, touchedFields, values, isTouched, getFieldValues, isLimit])
 
   return null
 }

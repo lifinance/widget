@@ -2,7 +2,6 @@ import { parseUnits } from '@lifi/sdk'
 import { useMemo } from 'react'
 import { FormKeyHelper } from '../stores/form/types.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
-import { useLimitOrderStore } from '../stores/limitOrder/useLimitOrderStore.js'
 import { useToken } from './useToken.js'
 
 export interface LimitRouteParams {
@@ -23,16 +22,20 @@ export interface LimitRouteParams {
  * `services/limitOrder/getLimitOrderRoutes` and TODO(EMB-323) in `useRoutes`.
  */
 export const useLimitRouteParams = (): LimitRouteParams | undefined => {
-  const [toChainId, toTokenAddress, toAmount] = useFieldValues(
+  const [
+    toChainId,
+    toTokenAddress,
+    toAmount,
+    validUntilDuration,
+    partiallyFillable,
+  ] = useFieldValues(
     FormKeyHelper.getChainKey('to'),
     FormKeyHelper.getTokenKey('to'),
-    FormKeyHelper.getAmountKey('to')
+    FormKeyHelper.getAmountKey('to'),
+    'validUntil',
+    'partiallyFillable'
   )
   const { token: toToken } = useToken(toChainId, toTokenAddress)
-  const validUntilDuration = useLimitOrderStore((state) => state.validUntil)
-  const partiallyFillable = useLimitOrderStore(
-    (state) => state.partiallyFillable
-  )
 
   return useMemo(() => {
     if (!toToken || !toAmount || Number(toAmount) <= 0) {

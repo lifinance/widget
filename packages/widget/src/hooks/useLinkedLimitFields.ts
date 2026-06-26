@@ -1,7 +1,6 @@
 import { FormKeyHelper } from '../stores/form/types.js'
 import { useFieldActions } from '../stores/form/useFieldActions.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
-import { useLimitOrderStore } from '../stores/limitOrder/useLimitOrderStore.js'
 import { deriveLimitPrice, deriveReceiveAmount } from '../utils/limitOrder.js'
 import { useToken } from './useToken.js'
 
@@ -20,13 +19,16 @@ export interface LinkedLimitFields {
 /**
  * Implements the linked-field derivation for limit orders:
  * - `limitPrice = receiveAmount / sendAmount`
- * - editing sendAmount (with a price set) recomputes receiveAmount
- * - editing receiveAmount (with a send amount set) recomputes limitPrice
+ * - editing sendAmount recomputes receiveAmount, holding the current price
+ * - editing receiveAmount recomputes the (derived) limitPrice
  * - editing limitPrice (with a send amount set) recomputes receiveAmount
  * - sendAmount never changes without an explicit user edit
  *
- * The limit price is stored canonically as receive-per-send; the UI layer
- * handles base/quote display inversion.
+ * The limit price is NOT stored: it is purely a function of the `fromAmount`
+ * and `toAmount` form fields (canonical receive-per-send). The UI layer handles
+ * base/quote display inversion. Because it's derived, editing the receive
+ * amount needs no extra write, and editing the send amount only has to preserve
+ * the pre-edit price.
  */
 export const useLinkedLimitFields = (): LinkedLimitFields => {
   const { setFieldValue } = useFieldActions()
@@ -37,10 +39,12 @@ export const useLinkedLimitFields = (): LinkedLimitFields => {
     FormKeyHelper.getAmountKey('to')
   )
   const { token: toToken } = useToken(toChainId, toTokenAddress)
-  const limitPrice = useLimitOrderStore((state) => state.limitPrice)
-  const setStoreLimitPrice = useLimitOrderStore((state) => state.setLimitPrice)
+
+  const limitPrice = deriveLimitPrice(sendAmount, receiveAmount)
 
   const setSendAmount = (value: string): void => {
+    // Hold the pre-edit price (derived from the current fields) so changing the
+    // send amount rescales the receive amount instead of moving the price.
     setFieldValue('fromAmount', value, { isDirty: true, isTouched: true })
     const nextReceive = deriveReceiveAmount(
       value,
@@ -53,23 +57,20 @@ export const useLinkedLimitFields = (): LinkedLimitFields => {
   }
 
   const setReceiveAmount = (value: string): void => {
+    // limitPrice re-derives from the new toAmount automatically.
     setFieldValue('toAmount', value, { isDirty: true, isTouched: true })
-    const nextPrice = deriveLimitPrice(sendAmount, value)
-    if (nextPrice) {
-      setStoreLimitPrice(nextPrice)
-    }
   }
 
   const setLimitPrice = (value: string): void => {
-    setStoreLimitPrice(value)
+    // Write unconditionally (including '') so the receive amount tracks the
+    // price both ways — clearing the price clears the derived receive amount
+    // instead of leaving a stale value that re-derives the old price.
     const nextReceive = deriveReceiveAmount(
       sendAmount,
       value,
       toToken?.decimals
     )
-    if (nextReceive) {
-      setFieldValue('toAmount', nextReceive, { isDirty: true })
-    }
+    setFieldValue('toAmount', nextReceive, { isDirty: true })
   }
 
   return {

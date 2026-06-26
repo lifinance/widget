@@ -14,9 +14,22 @@ export interface DefaultFieldValues {
 export interface DefaultValues extends DefaultFieldValues {
   contractCalls?: ContractCall[]
   tokenSearchFilter: string
+  /** Limit-order: when true, the price is displayed/entered inverted. */
+  priceInverted: boolean
+  /** Limit-order: order validity as a duration in seconds. */
+  validUntil: number
+  /** Limit-order: whether the order may be partially filled. */
+  partiallyFillable: boolean
+  /** Limit-order: provider/tool key of the quote the user picked. */
+  selectedProviderKey?: string
 }
 
-export type GenericFormValue = string | number | ContractCall[] | undefined
+export type GenericFormValue =
+  | string
+  | number
+  | boolean
+  | ContractCall[]
+  | undefined
 export interface FormValueControl<T> {
   isTouched: boolean
   isDirty: boolean

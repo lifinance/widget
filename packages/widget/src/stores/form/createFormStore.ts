@@ -1,6 +1,6 @@
 import type { StoreApi, UseBoundStore } from 'zustand'
 import { create } from 'zustand'
-
+import { DEFAULT_VALID_UNTIL_SECONDS } from '../../utils/limitOrder.js'
 import type {
   DefaultValues,
   FormFieldArray,
@@ -14,6 +14,9 @@ export const formDefaultValues: DefaultValues = {
   fromAmount: '',
   toAmount: '',
   tokenSearchFilter: '',
+  priceInverted: false,
+  validUntil: DEFAULT_VALID_UNTIL_SECONDS,
+  partiallyFillable: true,
 }
 
 const defaultValueToFormValue = <T>(value: T): FormValueControl<T> => ({

@@ -1,4 +1,18 @@
+import type { Route } from '@lifi/sdk'
 import { formatInputAmount } from './format.js'
+
+/** Default order validity: 1 day, expressed as a duration in seconds. */
+export const DEFAULT_VALID_UNTIL_SECONDS: number = 24 * 60 * 60
+
+/**
+ * Stable identifier for the provider behind a (limit) route. A route's `id` is
+ * regenerated on every fetch, so a user's provider pick is tracked by tool key
+ * — which is stable across refetches — mirroring how observable routes track a
+ * provider across refreshes. Returns `undefined` when no provider is present.
+ */
+export function getRouteProviderKey(route: Route): string | undefined {
+  return route.steps[0]?.toolDetails?.key ?? route.steps[0]?.tool
+}
 
 /**
  * High-precision formatter for derived limit-order values. Mirrors the

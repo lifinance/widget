@@ -5,9 +5,11 @@ import { useRoutes } from '../../hooks/useRoutes.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { useLimitOrderStore } from '../../stores/limitOrder/useLimitOrderStore.js'
+import { useFieldValues } from '../../stores/form/useFieldValues.js'
+import { useLimitMode } from '../../stores/navigationTabs/useLimitMode.js'
 import { useSplitMode } from '../../stores/navigationTabs/useNavigationTabsStore.js'
 import { WidgetEvent } from '../../types/events.js'
+import { getRouteProviderKey } from '../../utils/limitOrder.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 
 export const ReviewButton: React.FC = () => {
@@ -16,13 +18,20 @@ export const ReviewButton: React.FC = () => {
   const emitter = useWidgetEvents()
   const { mode, modeOptions } = useWidgetConfig()
   const splitState = useSplitMode()
+  const isLimit = useLimitMode()
   const { toAddress, requiredToAddress } = useToAddressRequirements()
   const { routes, setReviewableRoute } = useRoutes()
-  const selectedRouteId = useLimitOrderStore((store) => store.selectedRouteId)
+  const [selectedProviderKey] = useFieldValues('selectedProviderKey')
 
-  // In limit mode the user picks a provider quote; fall back to the best route.
+  // The provider pick only applies in limit mode (it's the only flow that sets
+  // it). Honoring it in other modes would be wrong, since provider/tool keys
+  // can collide across modes. Everywhere else, fall back to the best route.
   const currentRoute =
-    routes?.find((route) => route.id === selectedRouteId) ?? routes?.[0]
+    (isLimit
+      ? routes?.find(
+          (route) => getRouteProviderKey(route) === selectedProviderKey
+        )
+      : undefined) ?? routes?.[0]
 
   const handleClick = async () => {
     if (!currentRoute) {

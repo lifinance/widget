@@ -5,9 +5,10 @@ import { useTranslation } from 'react-i18next'
 import { useRoutes } from '../../hooks/useRoutes.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { useLimitOrderStore } from '../../stores/limitOrder/useLimitOrderStore.js'
 import { useLimitMode } from '../../stores/navigationTabs/useLimitMode.js'
+import { getRouteProviderKey } from '../../utils/limitOrder.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { ButtonTertiary } from '../ButtonTertiary.js'
 import type { CardProps } from '../Card/Card.js'
@@ -38,12 +39,12 @@ export const Routes: React.FC<CardProps> = (props) => {
     fromChain,
   } = useRoutes()
   const { account } = useAccount({ chainType: fromChain?.chainType })
-  const [toAddress] = useFieldValues('toAddress')
-  const { requiredToAddress } = useToAddressRequirements()
-  const selectedRouteId = useLimitOrderStore((store) => store.selectedRouteId)
-  const setSelectedRouteId = useLimitOrderStore(
-    (store) => store.setSelectedRouteId
+  const [toAddress, selectedProviderKey] = useFieldValues(
+    'toAddress',
+    'selectedProviderKey'
   )
+  const { setFieldValue } = useFieldActions()
+  const { requiredToAddress } = useToAddressRequirements()
 
   const currentRoute = routes?.[0]
 
@@ -59,10 +60,12 @@ export const Routes: React.FC<CardProps> = (props) => {
   const allowInteraction = account.isConnected && !toAddressUnsatisfied
 
   // Falls back to the best route when nothing is selected yet or the previously
-  // selected quote is no longer present in the latest results.
+  // selected provider is no longer present in the latest results. Matching by
+  // provider key (not route id) keeps the pick stable across refetches, since
+  // route ids are regenerated on every fetch.
   const activeRouteId =
-    routes?.find((route) => route.id === selectedRouteId)?.id ??
-    currentRoute?.id
+    routes?.find((route) => getRouteProviderKey(route) === selectedProviderKey)
+      ?.id ?? currentRoute?.id
 
   const routeNotFound = !currentRoute && !isLoading && !isFetching
   const onlySingleRoute = mode === 'refuel' || showSingleRoute
@@ -91,7 +94,11 @@ export const Routes: React.FC<CardProps> = (props) => {
               active={route.id === activeRouteId}
               onClick={
                 allowInteraction
-                  ? () => setSelectedRouteId(route.id)
+                  ? () =>
+                      setFieldValue(
+                        'selectedProviderKey',
+                        getRouteProviderKey(route)
+                      )
                   : undefined
               }
             />

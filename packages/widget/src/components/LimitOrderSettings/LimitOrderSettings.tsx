@@ -4,7 +4,8 @@ import type { BoxProps } from '@mui/material'
 import { Menu, MenuItem } from '@mui/material'
 import { type ChangeEvent, type JSX, type MouseEvent, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLimitOrderStore } from '../../stores/limitOrder/useLimitOrderStore.js'
+import { useFieldActions } from '../../stores/form/useFieldActions.js'
+import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { formatDuration } from '../../utils/format.js'
 import { Card } from '../Card/Card.js'
 import { Switch } from '../Switch.js'
@@ -23,14 +24,11 @@ const DURATIONS = [3600, 86400, 604800, 2592000, 31536000]
 
 export const LimitOrderSettings: React.FC<BoxProps> = (props): JSX.Element => {
   const { t, i18n } = useTranslation()
-  const validUntil = useLimitOrderStore((state) => state.validUntil)
-  const setValidUntil = useLimitOrderStore((state) => state.setValidUntil)
-  const partiallyFillable = useLimitOrderStore(
-    (state) => state.partiallyFillable
+  const [validUntil, partiallyFillable] = useFieldValues(
+    'validUntil',
+    'partiallyFillable'
   )
-  const setPartiallyFillable = useLimitOrderStore(
-    (state) => state.setPartiallyFillable
-  )
+  const { setFieldValue } = useFieldActions()
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const open = Boolean(anchorEl)
 
@@ -43,14 +41,14 @@ export const LimitOrderSettings: React.FC<BoxProps> = (props): JSX.Element => {
   }
 
   const handleSelect = (duration: number): void => {
-    setValidUntil(duration)
+    setFieldValue('validUntil', duration)
     setAnchorEl(null)
   }
 
   const handlePartiallyFillableChange = (
     event: ChangeEvent<HTMLInputElement>
   ): void => {
-    setPartiallyFillable(event.target.checked)
+    setFieldValue('partiallyFillable', event.target.checked)
   }
 
   return (
