@@ -3,9 +3,7 @@
     "examples/**",
     "e2e/**",
     "packages/widget-embedded/**",
-    "scripts/**",
-    "packages/widget/src/services/limitOrder/**",
-    "packages/widget/src/hooks/useLimitRouteParams.ts"
+    "scripts/**"
   ],
   "ignoreDependencies": ["@mui/system", "csstype"],
   "workspaces": {

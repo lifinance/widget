@@ -1,6 +1,5 @@
 import { type JSX, useEffect, useRef } from 'react'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
-import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useNavigationTabLabel } from '../../stores/navigationTabs/useNavigationTabLabel.js'
 import { useNavigationTabsStore } from '../../stores/navigationTabs/useNavigationTabsStore.js'
 import { WidgetEvent } from '../../types/events.js'
@@ -15,7 +14,6 @@ export const HeaderNavigationTabs = (): JSX.Element | null => {
   ])
   const getLabel = useNavigationTabLabel()
   const emitter = useWidgetEvents()
-  const { setFieldValue } = useFieldActions()
   const previousTabRef = useRef<NavigationTabKey | undefined>(undefined)
 
   // Emit on the first resolved tab and on every subsequent switch.
@@ -38,12 +36,7 @@ export const HeaderNavigationTabs = (): JSX.Element | null => {
     <HeaderTabs
       tabs={tabs.map((key) => ({ key, label: getLabel(key) }))}
       value={activeTab}
-      onChange={(key) => {
-        // Drop any limit provider pick when switching tabs so a stale selection
-        // can't leak into another mode.
-        setFieldValue('selectedProviderKey', undefined)
-        setActiveTab(key)
-      }}
+      onChange={setActiveTab}
     />
   )
 }
