@@ -5,7 +5,9 @@ import { Tooltip, useColorScheme } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { CardValue } from '../../components/Card/CardButton.style.js'
 import { CardTabs, Tab } from '../../components/Tabs/Tabs.style.js'
+import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { WidgetEvent } from '../../types/events.js'
 import type { Appearance } from '../../types/widget.js'
 import { SettingCardExpandable } from './SettingsCard/SettingCardExpandable.js'
 
@@ -37,6 +39,7 @@ const ThemeTab: React.FC<ThemeTabProps> = ({
 export const ThemeSettings: React.FC = () => {
   const { t } = useTranslation()
   const { mode, setMode } = useColorScheme()
+  const widgetEvents = useWidgetEvents()
   const { hiddenUI } = useWidgetConfig()
 
   if (hiddenUI?.appearance) {
@@ -52,6 +55,7 @@ export const ThemeSettings: React.FC = () => {
     appearance: Appearance
   ) => {
     setMode(appearance)
+    widgetEvents.emit(WidgetEvent.AppearanceChanged, appearance)
   }
 
   return (
