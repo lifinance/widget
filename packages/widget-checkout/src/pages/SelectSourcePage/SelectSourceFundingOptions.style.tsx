@@ -27,21 +27,9 @@ export const FundingSectionLabel: React.FC<
   width: '100%',
 }))
 
-export const FundingOptionCard: React.FC<React.ComponentProps<typeof Card>> =
-  styled(Card)(({ theme }) => ({
-    cursor: 'pointer',
-    borderRadius: 12,
-    border: 'none',
-    boxShadow: '0px 2px 8px 0px rgba(0,0,0,0.04)',
-    backgroundColor: theme.vars.palette.background.paper,
-    overflow: 'hidden',
-    transition: theme.transitions.create('box-shadow', {
-      duration: theme.transitions.duration.shortest,
-    }),
-    '&:hover': {
-      boxShadow: theme.shadows[3],
-    },
-  }))
+// Plain MuiCard, same as the wallet-list CardListItemButton, so border/radius/
+// shadow resolve from the theme's outlined variant identically on every theme.
+export const FundingOptionCard: typeof Card = Card
 
 export const FundingOptionRow: React.FC<React.ComponentProps<typeof Box>> =
   styled(Box)(({ theme }) => ({

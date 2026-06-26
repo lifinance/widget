@@ -13,7 +13,11 @@ import {
   useChainTypeFromAddress,
   useEthereumContext,
 } from '@lifi/widget-provider'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import {
+  keepPreviousData,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
@@ -43,11 +47,17 @@ interface RoutesProps {
    * placeholder, so signer-dependent (relayer/permit2) quotes are skipped.
    */
   quoteFromAddress?: string
+  /**
+   * Keep showing the previous result while a new query (e.g. a token/amount
+   * change) is fetching, instead of clearing to a loading state.
+   */
+  keepPreviousData?: boolean
 }
 
 export const useRoutes = ({
   observableRoute,
   quoteFromAddress,
+  keepPreviousData: keepPreviousDataEnabled,
 }: RoutesProps = {}): {
   routes: Route[] | undefined
   isLoading: boolean
@@ -548,6 +558,7 @@ export const useRoutes = ({
       },
       enabled: isEnabled,
       staleTime: refetchTime,
+      placeholderData: keepPreviousDataEnabled ? keepPreviousData : undefined,
       refetchInterval(query) {
         return Math.min(
           Math.abs(refetchTime - (Date.now() - query.state.dataUpdatedAt)),

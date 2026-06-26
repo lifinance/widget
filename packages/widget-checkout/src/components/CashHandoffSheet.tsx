@@ -110,7 +110,7 @@ export const CashHandoffSheet: React.FC<CashHandoffSheetProps> = ({
           sx={{
             mt: 2,
             p: 2,
-            borderRadius: 1.5,
+            borderRadius: 1,
             bgcolor: 'background.paper',
           }}
         >

@@ -54,6 +54,18 @@ export const SelectTokenPage: React.FC = () => {
     FormKeyHelper.getTokenKey(formType),
     FormKeyHelper.getAmountKey(formType)
   )
+  const [toChainId, toTokenAddress] = useFieldValues(
+    FormKeyHelper.getChainKey('to'),
+    FormKeyHelper.getTokenKey('to')
+  )
+  // Source token can't equal the fixed destination token; hide it from the list.
+  const excludeToken = useMemo(
+    () =>
+      toChainId != null && toTokenAddress
+        ? { chainId: Number(toChainId), address: String(toTokenAddress) }
+        : undefined,
+    [toChainId, toTokenAddress]
+  )
   const { token: selectedToken } = useToken(
     isExchangeFlow ? selectedChainId : undefined,
     isExchangeFlow ? selectedTokenAddress : undefined
@@ -127,6 +139,7 @@ export const SelectTokenPage: React.FC = () => {
         afterTokenSelect={afterTokenSelect}
         isWalletFunded={isWalletFunded}
         allowedSymbols={isExchangeFlow ? exchangeAllowedSymbols : undefined}
+        excludeToken={excludeToken}
       />
     </PageContainer>
   )

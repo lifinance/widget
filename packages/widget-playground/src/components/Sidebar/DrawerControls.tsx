@@ -2,7 +2,6 @@ import AccountBalanceWalletOutlinedIcon from '@mui/icons-material/AccountBalance
 import DataObjectOutlinedIcon from '@mui/icons-material/DataObjectOutlined'
 import HeightOutlinedIcon from '@mui/icons-material/HeightOutlined'
 import PaletteOutlinedIcon from '@mui/icons-material/PaletteOutlined'
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import TableRowsOutlinedIcon from '@mui/icons-material/TableRowsOutlined'
 import ViewSidebarOutlinedIcon from '@mui/icons-material/ViewSidebarOutlined'
 import { Divider } from '@mui/material'
@@ -14,14 +13,12 @@ import { useFontInitialisation } from '../../providers/FontLoaderProvider/FontLo
 import { useDrawerToolValues } from '../../store/editTools/useDrawerToolValues.js'
 import { useEditToolsActions } from '../../store/editTools/useEditToolsActions.js'
 import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
-import { usePlaygroundWidgetMode } from '../../store/widgetConfig/useConfigValues.js'
 import type { SidebarView } from '../../types.js'
 import {
   clearPlaygroundBookmarkStores,
   readPlaygroundBookmarksSeeded,
 } from '../../utils/bookmarkStores.js'
 import { setQueryStringParam } from '../../utils/setQueryStringParam.js'
-import { CheckoutControls } from '../CheckoutControls/CheckoutControls.js'
 import {
   SlideViewPanel,
   SlideViewTrack,
@@ -56,7 +53,6 @@ const DETAIL_VIEWS: Partial<
   wallet: WalletManagementDetailView,
   developer: DeveloperControlsDetailView,
   themeEdit: ThemeEditDetailView,
-  checkout: CheckoutControls,
 }
 
 export const DrawerControls = (): JSX.Element => {
@@ -68,7 +64,6 @@ export const DrawerControls = (): JSX.Element => {
   const [expandedItem, setExpandedItem] = useState<string | null>(null)
   const { themeLabel, modeValue, variantValue, heightValue, walletValue } =
     useSidebarNavLabels()
-  const { playgroundWidgetMode } = usePlaygroundWidgetMode()
 
   useFontInitialisation()
 
@@ -122,13 +117,6 @@ export const DrawerControls = (): JSX.Element => {
                 value={modeValue}
                 onClick={() => setActiveView('mode')}
               />
-              {playgroundWidgetMode === 'checkout' ? (
-                <NavListItem
-                  icon={<ShoppingCartOutlinedIcon />}
-                  label="Checkout"
-                  onClick={() => setActiveView('checkout')}
-                />
-              ) : null}
               <NavListItem
                 icon={<ViewSidebarOutlinedIcon />}
                 label="Variant"

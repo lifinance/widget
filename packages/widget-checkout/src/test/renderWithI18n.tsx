@@ -24,6 +24,12 @@ testI18n.use(initReactI18next).init({
             confirm: 'Close checkout',
             cancel: 'Cancel',
           },
+          abandonConfirmation: {
+            title: 'Cancel this transfer?',
+            body: "Your deposit details will be discarded. Don't send funds to this address after cancelling.",
+            confirm: 'Cancel transfer',
+            cancel: 'Keep transfer',
+          },
           activity: {
             title: 'Activity',
             deposit: 'Deposit',
@@ -44,9 +50,21 @@ testI18n.use(initReactI18next).init({
             executing: 'Processing transaction',
             detailsTitle: 'Transaction details',
             steps: {
-              tokenReceived: '{{symbol}} received',
-              swappedTo: 'Swapped to {{symbol}}',
-              bridgedTo: 'Bridged to {{chain}}',
+              receive: {
+                upcoming: 'Receive {{symbol}}',
+                loading: 'Receiving {{symbol}}',
+                done: '{{symbol}} received',
+              },
+              swap: {
+                upcoming: 'Swap to {{symbol}}',
+                loading: 'Swapping to {{symbol}}',
+                done: 'Swapped to {{symbol}}',
+              },
+              bridge: {
+                upcoming: 'Bridge to {{chain}}',
+                loading: 'Bridging to {{chain}}',
+                done: 'Bridged to {{chain}}',
+              },
             },
           },
           onramp: { errors: { generic: 'Something went wrong.' } },

@@ -31,17 +31,12 @@ export type CheckoutNavigationRoute =
 export const checkoutNavigationRoutesValues: CheckoutNavigationRoute[] =
   Object.values(checkoutNavigationRoutes)
 
-/**
- * Routes that surface a back button in the header. Status/progress/error
- * pages (`progress`, `transfer-deposit`, `transaction-execution`,
- * `transaction-status`, every `deposit-error/*`) intentionally omit the
- * back button — once a transfer is committed or terminal state is reached,
- * "back" is misleading.
- */
+// Back on transfer-deposit abandons the transfer (clears quote + record), not resumes it.
 export const backButtonRoutes: string[] = [
   'enter-amount',
   'set-destination',
   'select-cash',
+  'transfer-deposit',
   checkoutNavigationRoutes.fromToken,
   checkoutNavigationRoutes.fromChain,
   checkoutNavigationRoutes.routes,

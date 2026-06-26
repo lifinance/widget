@@ -98,23 +98,9 @@ describe('OnRampHostedModals — hosted Dialog close guard', () => {
     expect(close).not.toHaveBeenCalled()
   })
 
-  it('force-close icon is hidden before the 15s grace elapses', () => {
+  it('force-close icon is available immediately when the modal opens', () => {
     const { session } = makeSession()
     setup(session)
-    act(() => {
-      vi.advanceTimersByTime(14_900)
-    })
-    expect(
-      screen.queryByRole('button', { name: "Close (transaction won't resume)" })
-    ).toBeNull()
-  })
-
-  it('force-close icon appears after 15s with the spec tooltip', () => {
-    const { session } = makeSession()
-    setup(session)
-    act(() => {
-      vi.advanceTimersByTime(15_100)
-    })
     const btn = screen.getByRole('button', {
       name: "Close (transaction won't resume)",
     })
