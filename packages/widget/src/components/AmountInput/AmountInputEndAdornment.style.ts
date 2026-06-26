@@ -18,5 +18,5 @@ export const AmountInputButton: React.FC<
   fontWeight: 700,
   lineHeight: 1.3334,
   height: 'auto',
-  borderRadius: theme.shape.borderRadiusSecondary,
+  borderRadius: theme.vars.shape.borderRadiusSecondary,
 }))

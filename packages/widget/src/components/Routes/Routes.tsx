@@ -16,7 +16,7 @@ import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js'
 export const Routes: React.FC<CardProps> = (props) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { mode, modeOptions, showSingleRoute } = useWidgetConfig()
+  const { mode, modeOptions, showSingleRoute, defaultUI } = useWidgetConfig()
   const {
     routes,
     isLoading,
@@ -51,7 +51,8 @@ export const Routes: React.FC<CardProps> = (props) => {
 
   return (
     <Card {...props}>
-      <CardTitle>{title}</CardTitle>
+      {/* The cards layout's Receive card already carries this header. */}
+      {defaultUI?.layout === 'cards' ? null : <CardTitle>{title}</CardTitle>}
       <ProgressToNextUpdate
         updatedAt={dataUpdatedAt || Date.now()}
         timeToUpdate={refetchTime}
