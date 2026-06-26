@@ -333,7 +333,18 @@
       "title": "Gas price"
     },
     "routePriority": "Route priority",
+    "routePriorityOptions": {
+      "cheapest": {
+        "title": "Best Return",
+        "description": "Lowest network cost"
+      },
+      "fastest": {
+        "title": "Fastest",
+        "description": "Shortest execution time"
+      }
+    },
     "slippage": "Max. slippage",
+    "slippageAutoDescription": "Optimised per route",
     "custom": "Custom",
     "resetSettings": "You're using custom settings that can affect the number or sorting of available routes.",
     "hideSmallBalances": "Hide small balances"
