@@ -22,8 +22,6 @@ export const isWalletInstalled = (id: string): boolean => {
           (provider: any) => provider.isCoinbaseWallet
         )
       )
-    case 'app.phantom.bitcoin':
-      return anyWindow?.phantom?.bitcoin?.isPhantom
     case 'com.okex.wallet.bitcoin':
       return anyWindow?.okxwallet?.bitcoin?.isOkxWallet
     case 'XverseProviders.BitcoinProvider':
