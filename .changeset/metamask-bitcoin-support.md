@@ -17,7 +17,4 @@ The connector itself is opt-in, mirroring `reown()`: install
 `@bigmi/client`) via `BitcoinProvider({ connectors: [metamask()] })` or
 `createDefaultBigmiConfig`. No `@metamask/*` deps are added to the widget packages.
 
-Bumps `@bigmi/client` to `^0.9.0` (and `@bigmi/react` to `^0.8.2`), which removes
-the deprecated Phantom Bitcoin connector — Phantom removed its injected
-`window.phantom.bitcoin` provider, so Phantom is no longer listed as a Bitcoin
-wallet.
+Also bumps `@bigmi/client` to `^0.9.0` and `@bigmi/react` to `^0.8.2`.
