@@ -7,6 +7,8 @@ export const allWidgetEventNames = Object.values(
 ) as WidgetEventName[]
 
 export const widgetEventDescriptions: Record<WidgetEventName, string> = {
+  [WidgetEvent.AppearanceChanged]:
+    'The event fires when the user changes the appearance (light/dark/system) via the widget settings.',
   [WidgetEvent.AvailableRoutes]:
     'The event fires when available routes are returned after the user has selected source and destination tokens, entered an amount, and requested the routes.',
   [WidgetEvent.ChainPinned]:
@@ -64,6 +66,7 @@ export const widgetEventDisplayOrder: WidgetEventName[] = [
   WidgetEvent.PageEntered,
   WidgetEvent.FormFieldChanged,
   WidgetEvent.SettingUpdated,
+  WidgetEvent.AppearanceChanged,
   WidgetEvent.TokenSearch,
   WidgetEvent.LowAddressActivityConfirmed,
   WidgetEvent.ChainPinned,

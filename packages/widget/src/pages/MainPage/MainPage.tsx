@@ -1,30 +1,40 @@
-import { Box } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { AmountInput } from '../../components/AmountInput/AmountInput.js'
 import { AmountInputCardPair } from '../../components/AmountInputCard/AmountInputCardPair.js'
 import { ContractComponent } from '../../components/ContractComponent/ContractComponent.js'
-import { LimitOrderSettings } from '../../components/LimitOrderSettings/LimitOrderSettings.js'
 import { GasRefuelMessage } from '../../components/Messages/GasRefuelMessage.js'
 import { PageContainer } from '../../components/PageContainer.js'
-import { PoweredBy } from '../../components/PoweredBy/PoweredBy.js'
 import { Routes } from '../../components/Routes/Routes.js'
 import { SelectChainAndToken } from '../../components/SelectChainAndToken.js'
 import { SendToWalletButton } from '../../components/SendToWallet/SendToWalletButton.js'
-import { SendToWalletExpandButton } from '../../components/SendToWallet/SendToWalletExpandButton.js'
+import { SettingsPanel } from '../../components/SettingsPanel/SettingsPanel.js'
+import { advancedNavigationTabKeys } from '../../components/SettingsPanel/utils.js'
 import { useHeader } from '../../hooks/useHeader.js'
 import { useWideVariant } from '../../hooks/useWideVariant.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useLimitMode } from '../../stores/navigationTabs/useLimitMode.js'
-import { MainWarningMessages } from './MainWarningMessages.js'
-import { ReviewButton } from './ReviewButton.js'
+import { useNavigationTabsStore } from '../../stores/navigationTabs/useNavigationTabsStore.js'
+import { LimitPageContent } from './LimitPageContent.js'
+import { MainPageActions } from './MainPageActions.js'
+
+const marginSx = { marginBottom: 2 }
 
 export const MainPage: React.FC = () => {
   const { t } = useTranslation()
   const wideVariant = useWideVariant()
+  const { mode, modeOptions, contractComponent, hiddenUI, defaultUI } =
+    useWidgetConfig()
   const isLimit = useLimitMode()
-  const { mode, modeOptions, contractComponent, hiddenUI } = useWidgetConfig()
+  const activeTab = useNavigationTabsStore((state) => state.activeTab)
+
   const custom = mode === 'custom'
-  const showPoweredBy = !hiddenUI?.poweredBy
+  // Surface the settings panel on the main page for advanced navigation tabs.
+  const advancedMode =
+    !!activeTab && advancedNavigationTabKeys.includes(activeTab)
+  const showSendReceiveCards = defaultUI?.layout === 'cards'
+  // Custom non-deposit contract flows have no amount entry — they keep the
+  // chain/token selectors only, in both layouts.
+  const showAmountEntry = !custom || modeOptions?.custom?.type === 'deposit'
   const showGasRefuelMessage = !hiddenUI?.gasRefuelMessage
 
   const splitTitle =
@@ -45,40 +55,30 @@ export const MainPage: React.FC = () => {
 
   useHeader(title)
 
-  const marginSx = { marginBottom: 2 }
+  if (isLimit) {
+    return <LimitPageContent />
+  }
 
   return (
     <PageContainer topGutters>
       {custom ? (
         <ContractComponent sx={marginSx}>{contractComponent}</ContractComponent>
       ) : null}
-      {isLimit ? (
-        <>
-          <AmountInputCardPair sx={marginSx} />
-          <LimitOrderSettings sx={marginSx} />
-        </>
+      {showSendReceiveCards && showAmountEntry ? (
+        <AmountInputCardPair sx={marginSx} />
       ) : (
         <>
           <SelectChainAndToken sx={marginSx} />
-          {!custom || modeOptions?.custom?.type === 'deposit' ? (
+          {!showSendReceiveCards && showAmountEntry ? (
             <AmountInput formType="from" sx={marginSx} />
           ) : null}
         </>
       )}
+      {advancedMode ? <SettingsPanel sx={marginSx} /> : null}
       {!wideVariant ? <Routes sx={marginSx} /> : null}
-      {!isLimit ? <SendToWalletButton sx={marginSx} /> : null}
+      <SendToWalletButton sx={marginSx} />
       {showGasRefuelMessage ? <GasRefuelMessage sx={marginSx} /> : null}
-      <MainWarningMessages sx={marginSx} />
-      <Box
-        sx={{
-          display: 'flex',
-          mb: showPoweredBy ? 1 : 3,
-        }}
-      >
-        <ReviewButton />
-        {!isLimit ? <SendToWalletExpandButton /> : null}
-      </Box>
-      {showPoweredBy ? <PoweredBy /> : null}
+      <MainPageActions showSendToWalletExpand />
     </PageContainer>
   )
 }
