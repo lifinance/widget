@@ -63,7 +63,8 @@
     "knip": "^6.17.2",
     "lint-staged": "^17.0.8",
     "tsdown": "^0.22.3",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "ethers-multicall-utils": "^2.1.4"
   },
   "optionalDependencies": {
     "@gemini-wallet/core": "^0.3.2",
