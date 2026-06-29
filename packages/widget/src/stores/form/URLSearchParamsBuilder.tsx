@@ -7,7 +7,6 @@ import type { FormFieldNames } from '../form/types.js'
 import { useFieldActions } from '../form/useFieldActions.js'
 import { useFieldValues } from '../form/useFieldValues.js'
 import { useTouchedFields } from '../form/useTouchedFields.js'
-import { useLimitMode } from '../navigationTabs/useLimitMode.js'
 import { getDefaultValuesFromQueryString } from './getDefaultValuesFromQueryString.js'
 
 const formValueKeys: FormFieldNames[] = [
@@ -32,11 +31,10 @@ const limitFormValueKeys: FormFieldNames[] = [
 export const URLSearchParamsBuilder = () => {
   const { pathname } = useLocation()
   const touchedFields = useTouchedFields()
-  const isLimit = useLimitMode()
   const values = useFieldValues(...formValueKeys, ...limitFormValueKeys)
   const { setSelectedBookmark, addRecentWallet } = useBookmarkActions()
   const { validateAddress } = useAddressValidation()
-  const { buildUrl } = useWidgetConfig()
+  const { buildUrl, mode } = useWidgetConfig()
   // Using these methods as trying to use the touchedFields and values above
   // often has a lag that can effect the widgets initialisation sequence
   // and accidentally cause values to be wiped from the query string
@@ -103,7 +101,7 @@ export const URLSearchParamsBuilder = () => {
       // Booleans are always "set" (false is meaningful); strings/numbers use
       // truthiness so an empty toAmount is treated as absent.
       const hasValue = typeof value === 'boolean' ? true : Boolean(value)
-      if (isLimit && hasValue) {
+      if (mode === 'limit' && hasValue) {
         url.searchParams.set(key, String(value))
       } else {
         url.searchParams.delete(key)
@@ -111,7 +109,7 @@ export const URLSearchParamsBuilder = () => {
     })
     url.searchParams.sort()
     window.history.replaceState(window.history.state, '', url)
-  }, [pathname, touchedFields, values, isTouched, getFieldValues, isLimit])
+  }, [pathname, touchedFields, values, isTouched, getFieldValues, mode])
 
   return null
 }

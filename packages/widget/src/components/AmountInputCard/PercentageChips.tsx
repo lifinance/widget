@@ -11,7 +11,6 @@ import type { FormTypeProps } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { useLimitMode } from '../../stores/navigationTabs/useLimitMode.js'
 import type { DisabledUIConfig } from '../../types/widget.js'
 import { Chip, ChipContainer } from './PercentageChips.style.js'
 
@@ -20,8 +19,7 @@ export const PercentageChips: React.NamedExoticComponent<FormTypeProps> = memo(
     const { t } = useTranslation()
     const { getChainById } = useAvailableChains()
     const { setFieldValue } = useFieldActions()
-    const { disabledUI } = useWidgetConfig()
-    const isLimit = useLimitMode()
+    const { disabledUI, mode } = useWidgetConfig()
     const { setSendAmount } = useLinkedLimitFields()
 
     const amountKey = FormKeyHelper.getAmountKey(formType)
@@ -56,7 +54,7 @@ export const PercentageChips: React.NamedExoticComponent<FormTypeProps> = memo(
     // derivation so the receive amount recomputes; otherwise it is a plain
     // form-field write.
     const applyAmount = (value: string): void => {
-      if (isLimit) {
+      if (mode === 'limit') {
         setSendAmount(value)
       } else {
         setFieldValue(amountKey, value, { isTouched: true })

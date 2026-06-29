@@ -12,7 +12,6 @@ import { advancedNavigationTabKeys } from '../../components/SettingsPanel/utils.
 import { useHeader } from '../../hooks/useHeader.js'
 import { useWideVariant } from '../../hooks/useWideVariant.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { useLimitMode } from '../../stores/navigationTabs/useLimitMode.js'
 import { useNavigationTabsStore } from '../../stores/navigationTabs/useNavigationTabsStore.js'
 import { LimitPageContent } from './LimitPageContent.js'
 import { MainPageActions } from './MainPageActions.js'
@@ -24,7 +23,6 @@ export const MainPage: React.FC = () => {
   const wideVariant = useWideVariant()
   const { mode, modeOptions, contractComponent, hiddenUI, defaultUI } =
     useWidgetConfig()
-  const isLimit = useLimitMode()
   const activeTab = useNavigationTabsStore((state) => state.activeTab)
 
   const custom = mode === 'custom'
@@ -43,19 +41,20 @@ export const MainPage: React.FC = () => {
       : modeOptions?.split === 'swap'
         ? t('header.swap')
         : undefined
-  const title = isLimit
-    ? t('header.limit')
-    : mode === 'custom'
-      ? t(`header.${modeOptions?.custom?.type ?? 'checkout'}`)
-      : mode === 'refuel'
-        ? t('header.gas')
-        : mode === 'split' && splitTitle
-          ? splitTitle
-          : t('header.exchange')
+  const title =
+    mode === 'limit'
+      ? t('header.limit')
+      : mode === 'custom'
+        ? t(`header.${modeOptions?.custom?.type ?? 'checkout'}`)
+        : mode === 'refuel'
+          ? t('header.gas')
+          : mode === 'split' && splitTitle
+            ? splitTitle
+            : t('header.exchange')
 
   useHeader(title)
 
-  if (isLimit) {
+  if (mode === 'limit') {
     return <LimitPageContent />
   }
 

@@ -19,7 +19,6 @@ import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.j
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { useInputModeStore } from '../../stores/inputMode/useInputModeStore.js'
-import { useLimitMode } from '../../stores/navigationTabs/useLimitMode.js'
 import {
   formatInputAmount,
   formatTokenAmount,
@@ -213,13 +212,15 @@ const LimitReceiveCard = (props: ReceiveCardProps): JSX.Element => {
       cardProps={props}
       title={t('header.buy')}
       headerEnd={
-        <ProgressToNextUpdate
-          updatedAt={dataUpdatedAt || Date.now()}
-          timeToUpdate={refetchTime}
-          isLoading={isFetching}
-          onClick={() => refetch()}
-          sx={{ padding: 0 }}
-        />
+        isFetching || routes?.length ? (
+          <ProgressToNextUpdate
+            updatedAt={dataUpdatedAt || Date.now()}
+            timeToUpdate={refetchTime}
+            isLoading={isFetching}
+            onClick={() => refetch()}
+            sx={{ padding: 0 }}
+          />
+        ) : undefined
       }
       amount={
         <LargeInput
@@ -340,8 +341,8 @@ const QuoteReceiveCard = (props: ReceiveCardProps): JSX.Element => {
 export const ReceiveAmountCard: React.FC<ReceiveCardProps> = (
   props
 ): JSX.Element => {
-  const isLimit = useLimitMode()
-  return isLimit ? (
+  const { mode } = useWidgetConfig()
+  return mode === 'limit' ? (
     <LimitReceiveCard {...props} />
   ) : (
     <QuoteReceiveCard {...props} />

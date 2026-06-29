@@ -9,7 +9,6 @@ import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { useInputModeStore } from '../../stores/inputMode/useInputModeStore.js'
-import { useLimitMode } from '../../stores/navigationTabs/useLimitMode.js'
 import {
   formatInputAmount,
   formatTokenPrice,
@@ -52,7 +51,6 @@ export const SendAmountCard: React.FC<CardProps & { mask?: boolean }> = (
   const { token } = useToken(chainId, tokenAddress)
   const { setFieldValue } = useFieldActions()
   const { inputMode } = useInputModeStore()
-  const isLimit = useLimitMode()
   const { setSendAmount } = useLinkedLimitFields()
   const currentInputMode = inputMode[formType]
   const disabled = disabledUI?.fromAmount
@@ -60,18 +58,19 @@ export const SendAmountCard: React.FC<CardProps & { mask?: boolean }> = (
   // In limit mode the send amount drives the linked receive amount; otherwise
   // it is a plain form-field write.
   const applyFromAmount = (value: string): void => {
-    if (isLimit) {
+    if (mode === 'limit') {
       setSendAmount(value)
     } else {
       setFieldValue('fromAmount', value, { isDirty: true, isTouched: true })
     }
   }
 
-  const title = isLimit
-    ? t('header.sell')
-    : mode === 'custom' && modeOptions?.custom?.type === 'deposit'
-      ? t('header.deposit')
-      : t('header.send')
+  const title =
+    mode === 'limit'
+      ? t('header.sell')
+      : mode === 'custom' && modeOptions?.custom?.type === 'deposit'
+        ? t('header.deposit')
+        : t('header.send')
 
   let displayValue: string
   if (isEditingRef.current) {

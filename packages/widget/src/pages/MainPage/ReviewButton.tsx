@@ -6,7 +6,6 @@ import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.j
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { useLimitMode } from '../../stores/navigationTabs/useLimitMode.js'
 import { useSplitMode } from '../../stores/navigationTabs/useNavigationTabsStore.js'
 import { WidgetEvent } from '../../types/events.js'
 import { getRouteProviderKey } from '../../utils/limitOrder.js'
@@ -18,7 +17,6 @@ export const ReviewButton: React.FC = () => {
   const emitter = useWidgetEvents()
   const { mode, modeOptions } = useWidgetConfig()
   const splitState = useSplitMode()
-  const isLimit = useLimitMode()
   const { toAddress, requiredToAddress } = useToAddressRequirements()
   const { routes, setReviewableRoute } = useRoutes()
   const [selectedProviderKey] = useFieldValues('selectedProviderKey')
@@ -27,7 +25,7 @@ export const ReviewButton: React.FC = () => {
   // it). Honoring it in other modes would be wrong, since provider/tool keys
   // can collide across modes. Everywhere else, fall back to the best route.
   const currentRoute =
-    (isLimit
+    (mode === 'limit'
       ? routes?.find(
           (route) => getRouteProviderKey(route) === selectedProviderKey
         )
