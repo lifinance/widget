@@ -109,15 +109,3 @@ export function formatPrice(value: number): string {
   }
   return value >= 1 ? value.toFixed(4) : value.toFixed(6)
 }
-
-/**
- * Signed percentage distance of a price from a market reference, e.g. a price
- * 5% above market returns `5`. Returns `NaN` when inputs are missing/invalid.
- */
-export function proximityPercent(price?: string, market?: number): number {
-  const parsed = parsePositive(price)
-  if (parsed === undefined || !market || market <= 0) {
-    return Number.NaN
-  }
-  return ((parsed - market) / market) * 100
-}

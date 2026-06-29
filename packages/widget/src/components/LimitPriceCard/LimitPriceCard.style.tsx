@@ -69,17 +69,6 @@ export const PriceChipInput: React.FC<React.ComponentProps<'input'>> = styled(
   },
 }))
 
-/** Token chip-avatar in the main row (mirrors the amount cards' token pill). */
-export const UnitChip: React.FC<React.ComponentProps<typeof Box>> = styled(Box)(
-  ({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    gap: theme.spacing(0.75),
-    paddingInline: theme.spacing(0.5),
-    flexShrink: 0,
-  })
-)
-
 export const UnitSymbol: React.FC<React.ComponentProps<typeof Typography>> =
   styled(Typography)(({ theme }) => ({
     fontSize: 18,
@@ -111,17 +100,4 @@ export const InvertChip: React.FC<React.ComponentProps<typeof ButtonBase>> =
     '&:hover': {
       backgroundColor: `color-mix(in srgb, ${theme.vars.palette.common.onBackground} 8%, transparent)`,
     },
-  }))
-
-/** Loud "far from market" warning, shown when |distance| >= threshold. */
-export const OffMarketAlert: React.FC<React.ComponentProps<typeof Box>> =
-  styled(Box)(({ theme }) => ({
-    marginTop: theme.spacing(0.5),
-    padding: theme.spacing(0.75, 1),
-    borderRadius: `calc(${theme.vars.shape.borderRadius} * 2)`,
-    fontSize: 12,
-    fontWeight: 500,
-    lineHeight: 1.3,
-    color: theme.vars.palette.warning.main,
-    backgroundColor: `color-mix(in srgb, ${theme.vars.palette.warning.main} 12%, transparent)`,
   }))
