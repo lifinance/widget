@@ -70,15 +70,28 @@ export const WidgetContainer: React.FC<
   }
 })
 
-export const WidgetContainerRow: React.FC<React.ComponentProps<typeof Box>> =
-  styled(Box)(() => {
-    return {
-      display: 'flex',
-      alignItems: 'flex-start',
-      flexGrow: 1,
-      width: '100%',
-    }
-  })
+interface WidgetContainerRowProps {
+  withMockHeader?: boolean
+  withFixedFooter?: boolean
+}
+
+export const WidgetContainerRow: React.FC<
+  React.ComponentProps<typeof Box> & WidgetContainerRowProps
+> = styled(Box, {
+  shouldForwardProp: (prop) =>
+    !['withMockHeader', 'withFixedFooter'].includes(prop as string),
+})<WidgetContainerRowProps>(({ withMockHeader, withFixedFooter }) => {
+  const offset =
+    (withMockHeader ? mockElementHeight : 0) +
+    (withFixedFooter ? mockElementHeight : 0)
+  return {
+    display: 'flex',
+    alignItems: 'flex-start',
+    flexGrow: 1,
+    width: '100%',
+    ...(offset > 0 && { maxHeight: `calc(100vh - ${offset}px)` }),
+  }
+})
 
 const floatingToolButtonColors = (theme: Theme) => ({
   color: theme.vars.palette.text.primary,
