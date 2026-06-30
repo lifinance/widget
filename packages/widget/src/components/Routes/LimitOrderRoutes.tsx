@@ -4,7 +4,6 @@ import { useRoutes } from '../../hooks/useRoutes.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import { getRouteProviderKey } from '../../utils/limitOrder.js'
 import type { CardProps } from '../Card/Card.js'
 import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js'
 import {
@@ -15,9 +14,9 @@ import {
 export const LimitOrderRoutes: React.FC<CardProps> = (props) => {
   const { routes, isLoading, isFetching, isFetched, fromChain } = useRoutes()
   const { account } = useAccount({ chainType: fromChain?.chainType })
-  const [toAddress, selectedProviderKey] = useFieldValues(
+  const [toAddress, selectedRouteId] = useFieldValues(
     'toAddress',
-    'selectedProviderKey'
+    'selectedRouteId'
   )
   const { setFieldValue } = useFieldActions()
   const { requiredToAddress } = useToAddressRequirements()
@@ -36,8 +35,8 @@ export const LimitOrderRoutes: React.FC<CardProps> = (props) => {
   // provider key (not route id) keeps the pick stable across refetches, since
   // route ids are regenerated on every fetch.
   const activeRouteId =
-    routes?.find((route) => getRouteProviderKey(route) === selectedProviderKey)
-      ?.id ?? currentRoute?.id
+    routes?.find((route) => route.id === selectedRouteId)?.id ??
+    currentRoute?.id
 
   return (
     <Stack
@@ -60,11 +59,7 @@ export const LimitOrderRoutes: React.FC<CardProps> = (props) => {
             active={route.id === activeRouteId}
             onClick={
               allowInteraction
-                ? () =>
-                    setFieldValue(
-                      'selectedProviderKey',
-                      getRouteProviderKey(route)
-                    )
+                ? () => setFieldValue('selectedRouteId', route.id)
                 : undefined
             }
           />

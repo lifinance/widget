@@ -20,8 +20,8 @@ export interface DefaultValues extends DefaultFieldValues {
   validUntil: number
   /** Limit-order: whether the order may be partially filled. */
   partiallyFillable: boolean
-  /** Limit-order: provider/tool key of the quote the user picked. */
-  selectedProviderKey?: string
+  /** Limit-order: id of the route the user picked. */
+  selectedRouteId?: string
 }
 
 export type GenericFormValue =

@@ -1,35 +1,11 @@
-import type { Route } from '@lifi/sdk'
 import { describe, expect, it } from 'vitest'
 import {
   applyPriceOffset,
   deriveLimitPrice,
   deriveReceiveAmount,
   formatPrice,
-  getRouteProviderKey,
   invertPrice,
 } from './limitOrder.js'
-
-const route = (overrides: object): Route => overrides as Route
-
-describe('getRouteProviderKey', () => {
-  it('prefers toolDetails.key over tool', () => {
-    expect(
-      getRouteProviderKey(
-        route({ steps: [{ toolDetails: { key: 'across' }, tool: 'fallback' }] })
-      )
-    ).toBe('across')
-  })
-
-  it('falls back to tool when toolDetails.key is absent', () => {
-    expect(getRouteProviderKey(route({ steps: [{ tool: 'lifi' }] }))).toBe(
-      'lifi'
-    )
-  })
-
-  it('returns undefined for an empty steps array', () => {
-    expect(getRouteProviderKey(route({ steps: [] }))).toBeUndefined()
-  })
-})
 
 describe('deriveReceiveAmount', () => {
   it('multiplies send by price', () => {

@@ -8,7 +8,6 @@ import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.j
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { useSplitMode } from '../../stores/navigationTabs/useNavigationTabsStore.js'
 import { WidgetEvent } from '../../types/events.js'
-import { getRouteProviderKey } from '../../utils/limitOrder.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 
 export const ReviewButton: React.FC = () => {
@@ -19,16 +18,14 @@ export const ReviewButton: React.FC = () => {
   const splitState = useSplitMode()
   const { toAddress, requiredToAddress } = useToAddressRequirements()
   const { routes, setReviewableRoute } = useRoutes()
-  const [selectedProviderKey] = useFieldValues('selectedProviderKey')
+  const [selectedRouteId] = useFieldValues('selectedRouteId')
 
   // The provider pick only applies in limit mode (it's the only flow that sets
   // it). Honoring it in other modes would be wrong, since provider/tool keys
   // can collide across modes. Everywhere else, fall back to the best route.
   const currentRoute =
     (mode === 'limit'
-      ? routes?.find(
-          (route) => getRouteProviderKey(route) === selectedProviderKey
-        )
+      ? routes?.find((route) => route.id === selectedRouteId)
       : undefined) ?? routes?.[0]
 
   const handleClick = async () => {

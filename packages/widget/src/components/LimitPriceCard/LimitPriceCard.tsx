@@ -66,7 +66,7 @@ export const LimitPriceCard: React.FC<CardProps> = (props): JSX.Element => {
   // biome-ignore lint/correctness/useExhaustiveDependencies: pair fields are intentional re-run triggers, not read in the body
   useEffect(() => {
     setFieldValue('toAmount', '', { isDirty: false, isTouched: false })
-    setFieldValue('selectedProviderKey', undefined)
+    setFieldValue('selectedRouteId', undefined)
   }, [fromChainId, fromTokenAddress, toChainId, toTokenAddress])
 
   // Keep the input in sync with derived/preset/invert updates, but never yank
