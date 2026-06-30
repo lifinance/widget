@@ -18,6 +18,7 @@ import { useCallback, useMemo } from 'react'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
+import { useNavigationTabsStore } from '../stores/navigationTabs/useNavigationTabsStore.js'
 import { useIntermediateRoutesStore } from '../stores/routes/useIntermediateRoutesStore.js'
 import { useSetExecutableRoute } from '../stores/routes/useSetExecutableRoute.js'
 import { defaultSlippage } from '../stores/settings/createSettingsStore.js'
@@ -70,6 +71,10 @@ export const useRoutes = ({
   const queryClient = useQueryClient()
   const emitter = useWidgetEvents()
   const swapOnly = useSwapOnly()
+  const isPrivate = useNavigationTabsStore(
+    (state) => state.activeTab === 'private'
+  )
+
   const {
     disabledBridges,
     disabledExchanges,
@@ -190,6 +195,7 @@ export const useRoutes = ({
         feeConfig?.fee,
         disableMessageSigning,
         !!isBatchingSupported,
+        isPrivate,
         observableRoute?.id,
       ] as const,
     [
@@ -220,6 +226,7 @@ export const useRoutes = ({
       feeConfig?.fee,
       disableMessageSigning,
       isBatchingSupported,
+      isPrivate,
       observableRoute?.id,
     ]
   )
@@ -258,6 +265,7 @@ export const useRoutes = ({
           configuredFee,
           disableMessageSigning,
           isBatchingSupported,
+          isPrivate,
           // _observableRouteId must be the last element in the query key
           _observableRouteId,
         ],
@@ -430,6 +438,7 @@ export const useRoutes = ({
                   slippage: formattedSlippage,
                   fee: calculatedFee || configuredFee,
                   executionType: disableMessageSigning ? 'transaction' : 'all',
+                  ...(isPrivate && { private: true }),
                 },
               },
               { signal }

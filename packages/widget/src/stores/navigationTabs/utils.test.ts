@@ -3,8 +3,10 @@ import type { WidgetConfig } from '../../types/widget.js'
 import {
   getInitialActiveTab,
   getNavigationTabKeys,
+  getTabDefaultUI,
   getTabMode,
   getTabModeOptions,
+  getTabRequiredUI,
   getTabSplitMode,
   getTabVariant,
   splitTabKeys,
@@ -60,6 +62,54 @@ describe('per-tab config derivation', () => {
       'compact'
     )
     expect(getTabMode(config({ mode: 'default' }), 'refuel')).toBe('refuel')
-    expect(getTabModeOptions(config(), 'private')).toEqual({ split: 'swap' })
+    expect(getTabModeOptions(config(), 'swap-advanced')).toEqual({
+      split: 'swap',
+    })
+    // Tab without modeOptions falls back to the widget config's.
+    expect(
+      getTabModeOptions(config({ modeOptions: { split: 'bridge' } }), 'private')
+    ).toEqual({ split: 'bridge' })
+  })
+})
+
+describe('getTabDefaultUI', () => {
+  it('layers the tab defaultUI over the config defaultUI', () => {
+    expect(
+      getTabDefaultUI(
+        config({ defaultUI: { transactionDetailsExpanded: true } }),
+        'private'
+      )
+    ).toEqual({ transactionDetailsExpanded: true, layout: 'cards' })
+  })
+
+  it('lets the tab override colliding config fields', () => {
+    expect(
+      getTabDefaultUI(config({ defaultUI: { layout: 'default' } }), 'default')
+    ).toEqual({ layout: 'cards' })
+  })
+
+  it('falls back to the config when the tab has no defaultUI', () => {
+    expect(
+      getTabDefaultUI(config({ defaultUI: { layout: 'default' } }), 'swap')
+    ).toEqual({ layout: 'default' })
+    expect(getTabDefaultUI(config(), 'swap')).toBeUndefined()
+  })
+})
+
+describe('getTabRequiredUI', () => {
+  it('layers the tab requiredUI over the config requiredUI', () => {
+    expect(
+      getTabRequiredUI(
+        config({ requiredUI: { accountDeployedMessage: true } }),
+        'private'
+      )
+    ).toEqual({ accountDeployedMessage: true, toAddress: true })
+  })
+
+  it('falls back to the config when the tab has no requiredUI', () => {
+    expect(
+      getTabRequiredUI(config({ requiredUI: { toAddress: true } }), 'refuel')
+    ).toEqual({ toAddress: true })
+    expect(getTabRequiredUI(config(), 'refuel')).toBeUndefined()
   })
 })

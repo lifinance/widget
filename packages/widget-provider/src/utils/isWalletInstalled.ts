@@ -1,7 +1,10 @@
 export const isWalletInstalled = (id: string): boolean => {
   const anyWindow = typeof window !== 'undefined' ? (window as any) : undefined
   switch (id) {
+    // MetaMask EVM + BTC share one extension; detect via `window.ethereum`, not the
+    // Wallet Standard registry (the adapter registers unconditionally → false positive).
     case 'metaMask':
+    case 'io.metamask.bitcoin':
       return (
         anyWindow?.ethereum?.isMetaMask ||
         anyWindow?.ethereum?.providers?.some(
