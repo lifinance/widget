@@ -11,7 +11,7 @@ import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { formatInputAmount } from '../../utils/format.js'
-import { invertPrice } from '../../utils/limitOrder.js'
+import { applyPriceOffset, invertPrice } from '../../utils/limitOrder.js'
 import {
   AmountCard,
   amountHeight,
@@ -115,7 +115,7 @@ export const LimitPriceCard: React.FC<CardProps> = (props): JSX.Element => {
       return
     }
     isEditingRef.current = false
-    setLimitPrice(String(marketCanonical * (1 + pct / 100)))
+    setLimitPrice(applyPriceOffset(String(marketCanonical), pct))
   }
 
   const label = hasTokens

@@ -3,7 +3,6 @@ import {
   applyPriceOffset,
   deriveLimitPrice,
   deriveReceiveAmount,
-  formatPrice,
   invertPrice,
 } from './limitOrder.js'
 
@@ -67,22 +66,5 @@ describe('applyPriceOffset', () => {
   it('returns empty string for missing price', () => {
     expect(applyPriceOffset(undefined, 2)).toBe('')
     expect(applyPriceOffset('', 2)).toBe('')
-  })
-})
-
-describe('formatPrice', () => {
-  it('uses 4 decimals for values >= 1', () => {
-    expect(formatPrice(2227.17)).toBe('2227.1700')
-  })
-
-  it('uses 6 decimals for values < 1', () => {
-    expect(formatPrice(0.000449)).toBe('0.000449')
-  })
-
-  it('returns empty string for non-positive or non-finite input', () => {
-    expect(formatPrice(0)).toBe('')
-    expect(formatPrice(-1)).toBe('')
-    expect(formatPrice(Number.NaN)).toBe('')
-    expect(formatPrice(Number.POSITIVE_INFINITY)).toBe('')
   })
 })

@@ -92,7 +92,6 @@
   "limitOrder": {
     "custom": "Custom",
     "expiresIn": "Expires in",
-    "fromMarket": "{{percent}} from market",
     "market": "Market",
     "partiallyFillable": "Allow partial fills",
     "price": "Limit price",

@@ -86,15 +86,3 @@ export function applyPriceOffset(
   }
   return preciseFormatter.format(parsed * (1 + percent / 100))
 }
-
-/**
- * Format a price for display: 4 decimals for values ≥ 1, 6 below — covers the
- * typical stablecoin ↔ asset pair (e.g. 2227.17 ↔ 0.000449) without per-token
- * branching. Returns an empty string for non-positive/invalid input.
- */
-export function formatPrice(value: number): string {
-  if (!Number.isFinite(value) || value <= 0) {
-    return ''
-  }
-  return value >= 1 ? value.toFixed(4) : value.toFixed(6)
-}
