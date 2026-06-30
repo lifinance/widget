@@ -36,7 +36,7 @@ const BitcoinWidgetProvider = ({
   }
 
   return (
-    <BitcoinBaseProvider>
+    <BitcoinBaseProvider connectors={config?.connectors}>
       <BitcoinProviderValues
         isExternalContext={effectiveIsExternal}
         config={config}
