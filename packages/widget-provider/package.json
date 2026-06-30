@@ -37,7 +37,7 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "^4.0.0"
+    "@lifi/sdk": "^4.1.0"
   },
   "peerDependencies": {
     "react": ">=19"
