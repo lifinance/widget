@@ -12,9 +12,9 @@ import { Switch } from '../Switch.js'
 import {
   Container,
   ExpiryValue,
-  QuickSettingButton,
-  QuickSettingTitle,
-  QuickSettingValue,
+  SettingItemButton,
+  SettingItemTitle,
+  SettingItemValue,
   SettingsRow,
   ToggleLabel,
 } from './LimitOrderSettings.style.js'
@@ -54,22 +54,22 @@ export const LimitOrderSettings: React.FC<BoxProps> = (props): JSX.Element => {
   return (
     <Container {...props}>
       <Card>
-        <QuickSettingButton
+        <SettingItemButton
           onClick={handleOpen}
           disableRipple
           aria-haspopup="menu"
           aria-expanded={open}
         >
-          <QuickSettingTitle>{t('limitOrder.expiresIn')}</QuickSettingTitle>
+          <SettingItemTitle>{t('limitOrder.expiresIn')}</SettingItemTitle>
           <ExpiryValue>
-            <QuickSettingValue>
+            <SettingItemValue>
               {formatDuration(validUntil, i18n.language, 'long')}
-            </QuickSettingValue>
+            </SettingItemValue>
             <KeyboardArrowDownIcon
               sx={{ fontSize: 20, height: '18px', marginTop: '2px' }}
             />
           </ExpiryValue>
-        </QuickSettingButton>
+        </SettingItemButton>
       </Card>
       <Menu
         anchorEl={anchorEl}
@@ -112,7 +112,6 @@ export const LimitOrderSettings: React.FC<BoxProps> = (props): JSX.Element => {
       <Card>
         <SettingsRow>
           <ToggleLabel>{t('limitOrder.partiallyFillable')}</ToggleLabel>
-
           <Switch
             checked={partiallyFillable}
             onChange={handlePartiallyFillableChange}

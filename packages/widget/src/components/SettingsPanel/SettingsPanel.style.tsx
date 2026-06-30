@@ -17,7 +17,7 @@ export const SettingsPanelButton: React.FC<
   justifyContent: 'space-between',
   alignItems: 'center',
   gap: theme.spacing(1),
-  padding: theme.spacing(1.5),
+  padding: theme.spacing(2),
   borderRadius: theme.vars.shape.borderRadius,
 }))
 
