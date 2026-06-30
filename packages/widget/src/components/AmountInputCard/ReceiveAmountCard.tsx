@@ -7,6 +7,7 @@ import {
   type ChangeEvent,
   type JSX,
   type ReactNode,
+  useEffect,
   useLayoutEffect,
   useRef,
   useState,
@@ -17,6 +18,7 @@ import { useRoutes } from '../../hooks/useRoutes.js'
 import { useToken } from '../../hooks/useToken.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
+import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { useInputModeStore } from '../../stores/inputMode/useInputModeStore.js'
 import {
@@ -142,6 +144,21 @@ const LimitReceiveCard = (props: ReceiveCardProps): JSX.Element => {
   const { routes, isFetching, dataUpdatedAt, refetchTime, refetch } =
     useRoutes()
   const priceImpact = useReceivePriceImpact(routes?.[0])
+  const { setFieldValue } = useFieldActions()
+
+  // Populate buy amount from the best quote on every fetch/refetch so the
+  // receive card always reflects the current market rate. Skipped while the
+  // user is actively typing to avoid yanking the value mid-edit.
+  useEffect(() => {
+    if (isEditingRef.current || !routes?.[0]) {
+      return
+    }
+    const amount = formatTokenAmount(
+      BigInt(routes[0].toAmount),
+      routes[0].toToken.decimals
+    )
+    setFieldValue('toAmount', amount, { isDirty: false })
+  }, [routes, setFieldValue])
 
   const [toChainId, toTokenAddress, toAmount] = useFieldValues(
     FormKeyHelper.getChainKey(formType),
@@ -150,6 +167,8 @@ const LimitReceiveCard = (props: ReceiveCardProps): JSX.Element => {
   )
   const { token: toToken } = useToken(toChainId, toTokenAddress)
   const { setReceiveAmount } = useLinkedLimitFields()
+
+  const showSkeleton = isFetching && !toAmount
 
   let displayValue: string
   if (isEditingRef.current) {
@@ -223,19 +242,23 @@ const LimitReceiveCard = (props: ReceiveCardProps): JSX.Element => {
         ) : undefined
       }
       amount={
-        <LargeInput
-          inputRef={inputRef}
-          size="small"
-          autoComplete="off"
-          placeholder={showFiat ? '$0' : '0'}
-          inputProps={{ inputMode: 'decimal' }}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={
-            showFiat ? (displayValue ? `$${displayValue}` : '') : displayValue
-          }
-          name="toAmount"
-        />
+        showSkeleton ? (
+          <Skeleton variant="rounded" height={amountHeight} sx={{ flex: 1 }} />
+        ) : (
+          <LargeInput
+            inputRef={inputRef}
+            size="small"
+            autoComplete="off"
+            placeholder={showFiat ? '$0' : '0'}
+            inputProps={{ inputMode: 'decimal' }}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={
+              showFiat ? (displayValue ? `$${displayValue}` : '') : displayValue
+            }
+            name="toAmount"
+          />
+        )
       }
       footerStart={<FiatValueToggle formType={formType} />}
       footerEnd={<PriceImpactBadge priceImpact={priceImpact} />}

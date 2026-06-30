@@ -1,4 +1,3 @@
-import { useAccount } from '@lifi/wallet-management'
 import { Stack } from '@mui/material'
 import { useRoutes } from '../../hooks/useRoutes.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
@@ -12,8 +11,7 @@ import {
 } from '../RouteCard/RouteProviderCard.js'
 
 export const LimitOrderRoutes: React.FC<CardProps> = (props) => {
-  const { routes, isLoading, isFetching, isFetched, fromChain } = useRoutes()
-  const { account } = useAccount({ chainType: fromChain?.chainType })
+  const { routes, isLoading, isFetching, isFetched } = useRoutes()
   const [toAddress, selectedRouteId] = useFieldValues(
     'toAddress',
     'selectedRouteId'
@@ -28,12 +26,8 @@ export const LimitOrderRoutes: React.FC<CardProps> = (props) => {
   }
 
   const toAddressUnsatisfied = currentRoute && requiredToAddress && !toAddress
-  const allowInteraction = account.isConnected && !toAddressUnsatisfied
+  const allowInteraction = !toAddressUnsatisfied
 
-  // Falls back to the best route when nothing is selected yet or the previously
-  // selected provider is no longer present in the latest results. Matching by
-  // provider key (not route id) keeps the pick stable across refetches, since
-  // route ids are regenerated on every fetch.
   const activeRouteId =
     routes?.find((route) => route.id === selectedRouteId)?.id ??
     currentRoute?.id

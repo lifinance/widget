@@ -126,7 +126,14 @@ export const useRoutes = ({
   const { isBatchingSupported, isBatchingSupportedLoading } =
     useIsBatchingSupported(fromChain, account.address)
 
-  const hasAmount = Number(fromTokenAmount) > 0 || Number(toTokenAmount) > 0
+  // In limit mode toAmount is an output (populated from the quote), not an
+  // input — exclude it from the query key and enable check so writing it back
+  // from the route result doesn't re-trigger a fetch.
+  const limitedToTokenAmount = mode === 'limit' ? undefined : toTokenAmount
+  const hasAmount =
+    mode === 'limit'
+      ? Number(fromTokenAmount) > 0
+      : Number(fromTokenAmount) > 0 || Number(toTokenAmount) > 0
 
   const contractCallQuoteEnabled: boolean =
     mode === 'custom' ? Boolean(contractCalls && account.address) : true
@@ -177,7 +184,7 @@ export const useRoutes = ({
         toWalletAddress,
         toChain?.id as number,
         toToken?.address as string,
-        toTokenAmount,
+        limitedToTokenAmount,
         validUntilDuration,
         partiallyFillable,
         contractCalls,
@@ -207,7 +214,7 @@ export const useRoutes = ({
       toWalletAddress,
       toChain?.id,
       toToken?.address,
-      toTokenAmount,
+      limitedToTokenAmount,
       validUntilDuration,
       partiallyFillable,
       contractCalls,
@@ -272,7 +279,9 @@ export const useRoutes = ({
         signal,
       }) => {
         const fromAmount = parseUnits(fromTokenAmount, fromToken!.decimals)
-        const toAmount = parseUnits(toTokenAmount, toToken!.decimals)
+        const toAmount = toTokenAmount
+          ? parseUnits(toTokenAmount, toToken!.decimals)
+          : undefined
         const formattedSlippage = slippage
           ? Number.parseFloat(slippage) / 100
           : defaultSlippage
@@ -391,7 +400,6 @@ export const useRoutes = ({
         const limitOrderRouteParams =
           mode === 'limit'
             ? {
-                toAmount: toAmount.toString(),
                 validUntil: Math.floor(Date.now() / 1000) + validUntilDuration,
                 partiallyFillable: partiallyFillable,
               }

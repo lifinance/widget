@@ -1,9 +1,11 @@
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz'
 import type { CardProps } from '@mui/material'
+import { Skeleton } from '@mui/material'
 import { type ChangeEvent, type JSX, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLimitMarketRate } from '../../hooks/useLimitMarketRate.js'
 import { useLinkedLimitFields } from '../../hooks/useLinkedLimitFields.js'
+import { useRoutes } from '../../hooks/useRoutes.js'
 import { useToken } from '../../hooks/useToken.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
@@ -12,6 +14,7 @@ import { formatInputAmount } from '../../utils/format.js'
 import { invertPrice } from '../../utils/limitOrder.js'
 import {
   AmountCard,
+  amountHeight,
   CardBodyRow,
   CardHeaderRow,
   LargeInput,
@@ -44,11 +47,14 @@ export const LimitPriceCard: React.FC<CardProps> = (props): JSX.Element => {
   const { token: fromToken } = useToken(fromChainId, fromTokenAddress)
   const { token: toToken } = useToken(toChainId, toTokenAddress)
 
+  const { isFetching } = useRoutes()
+
   // limitPrice is derived from the from/to amount fields, not stored.
   const { limitPrice, setLimitPrice } = useLinkedLimitFields()
   const { setFieldValue } = useFieldActions()
 
   const hasTokens = Boolean(fromToken && toToken)
+  const showSkeleton = isFetching && !limitPrice
   const leadToken = priceInverted ? toToken : fromToken
   const unitToken = priceInverted ? fromToken : toToken
 
@@ -128,17 +134,21 @@ export const LimitPriceCard: React.FC<CardProps> = (props): JSX.Element => {
         ) : null}
       </CardHeaderRow>
       <CardBodyRow>
-        <LargeInput
-          size="small"
-          autoComplete="off"
-          placeholder="0"
-          inputProps={{ inputMode: 'decimal' }}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={inputValue}
-          name="limitPrice"
-          disabled={!hasTokens}
-        />
+        {showSkeleton ? (
+          <Skeleton variant="rounded" height={amountHeight} sx={{ flex: 1 }} />
+        ) : (
+          <LargeInput
+            size="small"
+            autoComplete="off"
+            placeholder="0"
+            inputProps={{ inputMode: 'decimal' }}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={inputValue}
+            name="limitPrice"
+            disabled={!hasTokens}
+          />
+        )}
       </CardBodyRow>
       <LimitPricePresets
         onSelect={handlePreset}
