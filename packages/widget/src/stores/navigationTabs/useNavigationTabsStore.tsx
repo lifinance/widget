@@ -21,8 +21,10 @@ import type { NavigationTabsState, NavigationTabsStore } from './types.js'
 import {
   getInitialActiveTab,
   getNavigationTabKeys,
+  getTabDefaultUI,
   getTabMode,
   getTabModeOptions,
+  getTabRequiredUI,
   getTabSplitMode,
   getTabVariant,
 } from './utils.js'
@@ -49,9 +51,10 @@ export function NavigationTabsStoreProvider({
     signatureRef.current = signature
   }
 
-  // Override the widget config with the active tab's mode, variant and
-  // modeOptions (each falling back to the config), so the rest of the widget
-  // reads tab-driven config transparently. No-op when there is no active tab.
+  // Override the widget config with the active tab's mode, variant,
+  // modeOptions, defaultUI and requiredUI (each falling back to the config), so
+  // the rest of the widget reads tab-driven config transparently. No-op when
+  // there is no active tab.
   const widgetConfig = useWidgetConfig()
   const activeTab = store((state) => state.activeTab)
   const tabConfig = useMemo(() => {
@@ -63,6 +66,8 @@ export function NavigationTabsStoreProvider({
       mode: getTabMode(widgetConfig, activeTab),
       variant: getTabVariant(widgetConfig, activeTab),
       modeOptions: getTabModeOptions(widgetConfig, activeTab),
+      defaultUI: getTabDefaultUI(widgetConfig, activeTab),
+      requiredUI: getTabRequiredUI(widgetConfig, activeTab),
     }
   }, [widgetConfig, activeTab])
 
