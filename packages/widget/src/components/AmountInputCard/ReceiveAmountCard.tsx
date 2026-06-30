@@ -144,13 +144,17 @@ const LimitReceiveCard = (props: ReceiveCardProps): JSX.Element => {
   const { routes, isFetching, dataUpdatedAt, refetchTime, refetch } =
     useRoutes()
   const priceImpact = useReceivePriceImpact(routes?.[0])
-  const { setFieldValue } = useFieldActions()
+  const { setFieldValue, isDirty } = useFieldActions()
 
-  // Populate buy amount from the best quote on every fetch/refetch so the
-  // receive card always reflects the current market rate. Skipped while the
-  // user is actively typing to avoid yanking the value mid-edit.
+  // Seed the buy amount from the best quote so the card reflects the current
+  // market rate by default, re-seeding on every refetch while the price is
+  // untouched. Skipped once the user sets a price (toAmount becomes dirty) so a
+  // limit away from market isn't clobbered back to market on the next refetch,
+  // and while the user is actively typing to avoid yanking the value mid-edit.
+  // The pair-change clear resets the dirty flag, so seeding resumes for the new
+  // pair.
   useEffect(() => {
-    if (isEditingRef.current || !routes?.[0]) {
+    if (isEditingRef.current || isDirty('toAmount') || !routes?.[0]) {
       return
     }
     const amount = formatTokenAmount(
@@ -158,7 +162,7 @@ const LimitReceiveCard = (props: ReceiveCardProps): JSX.Element => {
       routes[0].toToken.decimals
     )
     setFieldValue('toAmount', amount, { isDirty: false })
-  }, [routes, setFieldValue])
+  }, [routes, setFieldValue, isDirty])
 
   const [toChainId, toTokenAddress, toAmount] = useFieldValues(
     FormKeyHelper.getChainKey(formType),

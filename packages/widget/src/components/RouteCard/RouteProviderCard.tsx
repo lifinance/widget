@@ -26,7 +26,7 @@ export const RouteProviderCard: React.FC<
       type={active ? 'selected' : 'default'}
       selectionColor="secondary"
       onClick={onClick}
-      sx={{ p: 1.5, ...(onClick ? { cursor: 'pointer' } : {}) }}
+      sx={{ py: 1.5, px: 2, ...(onClick ? { cursor: 'pointer' } : {}) }}
       {...other}
     >
       <Box
@@ -93,7 +93,7 @@ export const RouteProviderCardSkeleton: React.FC<Omit<CardProps, 'variant'>> = (
   props
 ) => {
   return (
-    <Card sx={{ p: 1.5 }} {...props}>
+    <Card sx={{ py: 1.5, px: 2 }} {...props}>
       <Box
         sx={{
           display: 'flex',
