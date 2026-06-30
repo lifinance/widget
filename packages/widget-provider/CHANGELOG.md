@@ -1,5 +1,30 @@
 # @lifi/widget-provider
 
+## 4.2.0
+
+### Minor Changes
+
+- [#805](https://github.com/lifinance/widget/pull/805) [`6d19d22`](https://github.com/lifinance/widget/commit/6d19d22f9ed796a0067cccb14885c15d0ca6061d) Thanks [@chybisov](https://github.com/chybisov)! - feat: recognize MetaMask Bitcoin in the wallet list
+
+  Adds MetaMask Bitcoin (`io.metamask.bitcoin`) detection (via the shared
+  `window.ethereum.isMetaMask` signal, same extension as MetaMask EVM) and icon, so
+  it dedupes with MetaMask EVM in the wallet list. `BitcoinProvider` now accepts a
+  `connectors` option to append extra Bigmi connectors.
+
+  The connector itself is opt-in, mirroring `reown()`: install
+  `@metamask/bitcoin-wallet-standard` + `@metamask/multichain-api-client`, call
+  `registerBitcoinWalletStandard({ client })`, and add `metamask()` (from
+  `@bigmi/client`) via `BitcoinProvider({ connectors: [metamask()] })` or
+  `createDefaultBigmiConfig`. No `@metamask/*` deps are added to the widget packages.
+
+  Also bumps `@bigmi/client` to `^0.9.0` and `@bigmi/react` to `^0.8.2`.
+
+### Patch Changes
+
+- [#816](https://github.com/lifinance/widget/pull/816) [`5071e9e`](https://github.com/lifinance/widget/commit/5071e9e93febb833b7a5989ab30586d4dcf527d5) Thanks [@chybisov](https://github.com/chybisov)! - Bump dependencies (@lifi/sdk → 4.1.x, MUI, wagmi, vite, and others).
+
+- [#804](https://github.com/lifinance/widget/pull/804) [`bf91f25`](https://github.com/lifinance/widget/commit/bf91f25149496c00e1e5635e6d65d848c49a56c9) Thanks [@chybisov](https://github.com/chybisov)! - Remove Phantom from the Bitcoin wallet connectors. Phantom deprecated its Bitcoin wallet and removed the injected `window.phantom.bitcoin` provider, so it no longer connects for Bitcoin. The default Bitcoin config no longer registers the `phantom()` connector, and the `app.phantom.bitcoin` installed-wallet detection has been removed. Phantom for Solana/EVM is unaffected.
+
 ## 4.1.0
 
 ### Minor Changes
