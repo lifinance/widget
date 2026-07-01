@@ -61,12 +61,8 @@ const mergeDefaultFormValues = (
           userValues[key]?.isTouched || defaultValues[key]?.isTouched
         ),
         isDirty: !!(userValues[key]?.isDirty || defaultValues[key]?.isTouched),
-        // Preserve any explicit user value — including falsy ones like `false`
-        // (partiallyFillable) or `0`. Only fall back to the default when the
-        // user has no value at all, so a config-driven `setDefaultValues` can't
-        // clobber a deliberate `false`.
         value:
-          userValues[key]?.value !== undefined
+          userValues[key]?.value !== undefined && userValues[key]?.value !== ''
             ? userValues[key]?.value
             : defaultValues[key]?.value,
       }
