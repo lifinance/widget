@@ -5,6 +5,7 @@ import { useRoutes } from '../../hooks/useRoutes.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { useSplitMode } from '../../stores/navigationTabs/useNavigationTabsStore.js'
 import { WidgetEvent } from '../../types/events.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
@@ -17,8 +18,15 @@ export const ReviewButton: React.FC = () => {
   const splitState = useSplitMode()
   const { toAddress, requiredToAddress } = useToAddressRequirements()
   const { routes, setReviewableRoute } = useRoutes()
+  const [selectedRouteId] = useFieldValues('selectedRouteId')
 
-  const currentRoute = routes?.[0]
+  // The provider pick only applies in limit mode (it's the only flow that sets
+  // it). Honoring it in other modes would be wrong, since provider/tool keys
+  // can collide across modes. Everywhere else, fall back to the best route.
+  const currentRoute =
+    (mode === 'limit'
+      ? routes?.find((route) => route.id === selectedRouteId)
+      : undefined) ?? routes?.[0]
 
   const handleClick = async () => {
     if (!currentRoute) {
@@ -43,6 +51,8 @@ export const ReviewButton: React.FC = () => {
           return t(`button.${modeOptions?.custom?.type ?? 'checkout'}Review`)
         case 'refuel':
           return t('button.getGas')
+        case 'limit':
+          return t('button.review')
         default: {
           const transactionType =
             currentRoute.fromChainId === currentRoute.toChainId
@@ -59,6 +69,8 @@ export const ReviewButton: React.FC = () => {
           : t('button.buy')
       case 'refuel':
         return t('button.getGas')
+      case 'limit':
+        return t('button.review')
       case 'split':
         if (splitState) {
           return t(`button.${splitState}`)

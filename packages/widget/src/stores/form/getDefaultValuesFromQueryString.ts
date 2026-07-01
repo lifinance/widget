@@ -41,6 +41,17 @@ export const getDefaultValuesFromQueryString = ({
     ...(Number.isFinite(Number.parseFloat(searchParams.fromAmount))
       ? { fromAmount: formatInputAmount(searchParams.fromAmount) }
       : {}),
+    ...(Number.isFinite(Number.parseFloat(searchParams.toAmount))
+      ? { toAmount: formatInputAmount(searchParams.toAmount) }
+      : {}),
+    // Limit-order params (written only while on the limit tab).
+    ...(Number.isFinite(Number.parseInt(searchParams.validUntil, 10))
+      ? { validUntil: Number.parseInt(searchParams.validUntil, 10) }
+      : {}),
+    ...(searchParams.partiallyFillable === 'true' ||
+    searchParams.partiallyFillable === 'false'
+      ? { partiallyFillable: searchParams.partiallyFillable === 'true' }
+      : {}),
     ...(includeToAddress && searchParams.toAddress
       ? { toAddress: searchParams.toAddress }
       : {}),

@@ -6,5 +6,6 @@ export const useClearAmountFields = (): (() => void) => {
   return useCallback(() => {
     setFieldValue('fromAmount', '')
     setFieldValue('toAmount', '')
+    setFieldValue('selectedRouteId', undefined)
   }, [setFieldValue])
 }

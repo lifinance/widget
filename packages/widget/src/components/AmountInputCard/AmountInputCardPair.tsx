@@ -2,6 +2,7 @@ import type { BoxProps } from '@mui/material'
 import type React from 'react'
 import type { JSX } from 'react'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { LimitPriceCard } from '../LimitPriceCard/LimitPriceCard.js'
 import { SwapButton } from '../SwapButton/SwapButton.js'
 import { CardContainer } from './AmountInputCard.style.js'
 import { ReceiveAmountCard } from './ReceiveAmountCard.js'
@@ -15,6 +16,7 @@ export const AmountInputCardPair: React.FC<BoxProps> = (props): JSX.Element => {
 
   return (
     <CardContainer {...props}>
+      {mode === 'limit' ? <LimitPriceCard sx={{ marginBottom: 1 }} /> : null}
       <SendAmountCard mask={showSwapButton} />
       <SwapButton sx={{ visibility: showSwapButton ? 'visible' : 'hidden' }} />
       <ReceiveAmountCard mask={showSwapButton} />

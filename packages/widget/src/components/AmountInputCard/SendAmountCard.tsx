@@ -2,6 +2,7 @@ import type { CardProps } from '@mui/material'
 import type { ChangeEvent, JSX } from 'react'
 import { useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useLinkedLimitFields } from '../../hooks/useLinkedLimitFields.js'
 import { useToken } from '../../hooks/useToken.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
@@ -50,13 +51,26 @@ export const SendAmountCard: React.FC<CardProps & { mask?: boolean }> = (
   const { token } = useToken(chainId, tokenAddress)
   const { setFieldValue } = useFieldActions()
   const { inputMode } = useInputModeStore()
+  const { setSendAmount } = useLinkedLimitFields()
   const currentInputMode = inputMode[formType]
   const disabled = disabledUI?.fromAmount
 
+  // In limit mode the send amount drives the linked receive amount; otherwise
+  // it is a plain form-field write.
+  const applyFromAmount = (value: string): void => {
+    if (mode === 'limit') {
+      setSendAmount(value)
+    } else {
+      setFieldValue('fromAmount', value, { isDirty: true, isTouched: true })
+    }
+  }
+
   const title =
-    mode === 'custom' && modeOptions?.custom?.type === 'deposit'
-      ? t('header.deposit')
-      : t('header.send')
+    mode === 'limit'
+      ? t('header.sell')
+      : mode === 'custom' && modeOptions?.custom?.type === 'deposit'
+        ? t('header.deposit')
+        : t('header.send')
 
   let displayValue: string
   if (isEditingRef.current) {
@@ -92,20 +106,14 @@ export const SendAmountCard: React.FC<CardProps & { mask?: boolean }> = (
       )
       const tokenValue = priceToTokenAmount(formattedValue, token?.priceUSD)
       setFormattedPriceInput(formattedValue)
-      setFieldValue('fromAmount', tokenValue, {
-        isDirty: true,
-        isTouched: true,
-      })
+      applyFromAmount(tokenValue)
     } else {
       const formattedValue = formatInputAmount(
         inputValue,
         token?.decimals,
         true
       )
-      setFieldValue('fromAmount', formattedValue, {
-        isDirty: true,
-        isTouched: true,
-      })
+      applyFromAmount(formattedValue)
     }
   }
 
@@ -120,16 +128,10 @@ export const SendAmountCard: React.FC<CardProps & { mask?: boolean }> = (
       const formattedValue = formatInputAmount(cleanInputValue, usdDecimals)
       const tokenValue = priceToTokenAmount(formattedValue, token?.priceUSD)
       const formattedAmount = formatInputAmount(tokenValue, token?.decimals)
-      setFieldValue('fromAmount', formattedAmount, {
-        isDirty: true,
-        isTouched: true,
-      })
+      applyFromAmount(formattedAmount)
     } else {
       const formattedValue = formatInputAmount(inputValue, token?.decimals)
-      setFieldValue('fromAmount', formattedValue, {
-        isDirty: true,
-        isTouched: true,
-      })
+      applyFromAmount(formattedValue)
     }
   }
 
