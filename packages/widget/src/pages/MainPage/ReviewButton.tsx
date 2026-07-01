@@ -51,6 +51,8 @@ export const ReviewButton: React.FC = () => {
           return t(`button.${modeOptions?.custom?.type ?? 'checkout'}Review`)
         case 'refuel':
           return t('button.getGas')
+        case 'limit':
+          return t('button.review')
         default: {
           const transactionType =
             currentRoute.fromChainId === currentRoute.toChainId
@@ -67,6 +69,8 @@ export const ReviewButton: React.FC = () => {
           : t('button.buy')
       case 'refuel':
         return t('button.getGas')
+      case 'limit':
+        return t('button.review')
       case 'split':
         if (splitState) {
           return t(`button.${splitState}`)

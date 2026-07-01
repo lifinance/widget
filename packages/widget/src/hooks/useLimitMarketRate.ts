@@ -23,6 +23,9 @@ export const useLimitMarketRate = (): number | undefined => {
   const fromPrice = Number(fromToken?.priceUSD)
   const toPrice = Number(toToken?.priceUSD)
 
+  // A `priceUSD` of `"0"` (or missing) means the price is unknown — there's no
+  // meaningful spot ratio to derive, and dividing by a zero `toPrice` would be
+  // `Infinity`, so the falsy guard intentionally suppresses the rate here.
   if (
     !fromPrice ||
     !toPrice ||

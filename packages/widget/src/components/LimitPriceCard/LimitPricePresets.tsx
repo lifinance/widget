@@ -104,6 +104,11 @@ export const LimitPricePresets = ({
         <EditablePriceChip
           aria-disabled={disabled}
           onClick={(event) => {
+            // `aria-disabled` only announces the state; enforce it so a
+            // programmatic click can't apply an offset while disabled.
+            if (disabled) {
+              return
+            }
             const input = event.currentTarget.querySelector('input')
             input?.focus()
             const numeric = Number(customPct)
