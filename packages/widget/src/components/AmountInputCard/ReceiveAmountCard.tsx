@@ -3,31 +3,13 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import SwapVertIcon from '@mui/icons-material/SwapVert'
 import type { CardProps } from '@mui/material'
 import { Box, Skeleton, Tooltip } from '@mui/material'
-import {
-  type ChangeEvent,
-  type JSX,
-  type ReactNode,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react'
+import { type JSX, type ReactNode, useLayoutEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLinkedLimitFields } from '../../hooks/useLinkedLimitFields.js'
 import { useRoutes } from '../../hooks/useRoutes.js'
-import { useToken } from '../../hooks/useToken.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
-import { FormKeyHelper } from '../../stores/form/types.js'
-import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { useInputModeStore } from '../../stores/inputMode/useInputModeStore.js'
-import {
-  formatInputAmount,
-  formatTokenAmount,
-  formatTokenPrice,
-  priceToTokenAmount,
-  usdDecimals,
-} from '../../utils/format.js'
+import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { getPriceImpact } from '../../utils/getPriceImpact.js'
 import { fitInputText } from '../../utils/input.js'
 import { CardTitle } from '../Card/CardTitle.js'
@@ -42,22 +24,15 @@ import {
   CardHeaderRow,
   FooterText,
   footerFontSize,
-  LargeInput,
   maxInputFontSize,
   minInputFontSize,
   ToggleButton,
 } from './AmountInputCard.style.js'
-import { FiatValueToggle } from './FiatValueToggle.js'
 
 const formType = 'to' as const
 
 type ReceiveCardProps = CardProps & { mask?: boolean }
 
-/**
- * Shared presentational shell for both receive modes. The limit-order and quote
- * variants only differ in what they render into these slots — the card chrome
- * (header / body / footer rows + token pill) stays identical.
- */
 const ReceiveAmountCardLayout = ({
   cardProps,
   title,
@@ -128,161 +103,28 @@ const useReceivePriceImpact = (
 }
 
 /**
- * Limit mode: the receive amount is user-editable and linked to the limit price
- * (editing it re-derives the price), so we render an input that mirrors the send
- * card — same fiat toggle and price impact, in either token or fiat input mode.
+ * The receive amount is a read-only quote derived from the best route, with a
+ * fiat/token toggle and price impact in the footer. In limit mode the amount is
+ * still the quote for the current limit (the limit price drives it via the
+ * dedicated price card); it is never edited here, and the header shows the
+ * refetch progress indicator with a "Buy" title.
  */
-const LimitReceiveCard = (props: ReceiveCardProps): JSX.Element => {
-  const { t } = useTranslation()
-  const inputRef = useRef<HTMLInputElement>(null)
-  const isEditingRef = useRef(false)
-  const [formattedPriceInput, setFormattedPriceInput] = useState('')
-
-  const { inputMode } = useInputModeStore()
-  const showFiat = inputMode[formType] === 'price'
-
-  const { routes, isFetching, dataUpdatedAt, refetchTime, refetch } =
-    useRoutes()
-  const priceImpact = useReceivePriceImpact(routes?.[0])
-  const { setFieldValue, isDirty } = useFieldActions()
-
-  // Seed the buy amount from the best quote so the card reflects the current
-  // market rate by default, re-seeding on every refetch while the price is
-  // untouched. Skipped once the user sets a price (toAmount becomes dirty) so a
-  // limit away from market isn't clobbered back to market on the next refetch,
-  // and while the user is actively typing to avoid yanking the value mid-edit.
-  // The pair-change clear resets the dirty flag, so seeding resumes for the new
-  // pair.
-  useEffect(() => {
-    if (isEditingRef.current || isDirty('toAmount') || !routes?.[0]) {
-      return
-    }
-    const amount = formatTokenAmount(
-      BigInt(routes[0].toAmount),
-      routes[0].toToken.decimals
-    )
-    setFieldValue('toAmount', amount, { isDirty: false })
-  }, [routes, setFieldValue, isDirty])
-
-  const [toChainId, toTokenAddress, toAmount] = useFieldValues(
-    FormKeyHelper.getChainKey(formType),
-    FormKeyHelper.getTokenKey(formType),
-    FormKeyHelper.getAmountKey(formType)
-  )
-  const { token: toToken } = useToken(toChainId, toTokenAddress)
-  const { setReceiveAmount } = useLinkedLimitFields()
-
-  const showSkeleton = isFetching && !toAmount
-
-  let displayValue: string
-  if (isEditingRef.current) {
-    displayValue = showFiat ? formattedPriceInput : (toAmount as string)
-  } else if (showFiat) {
-    const priceValue = formatTokenPrice(toAmount as string, toToken?.priceUSD)
-    displayValue = formatInputAmount(
-      priceValue.toFixed(usdDecimals),
-      usdDecimals
-    )
-  } else {
-    displayValue = toAmount as string
-  }
-
-  // `isFinal` (blur) re-formats to the token's decimals; the live (change) path
-  // keeps the raw input so typing isn't fought by reformatting mid-edit.
-  const commitAmount = (rawValue: string, isFinal: boolean): void => {
-    if (showFiat) {
-      const cleanValue = rawValue.replace('$', '')
-      const formattedPrice = formatInputAmount(
-        cleanValue,
-        usdDecimals,
-        !isFinal
-      )
-      const tokenValue = priceToTokenAmount(formattedPrice, toToken?.priceUSD)
-      if (isFinal) {
-        setReceiveAmount(formatInputAmount(tokenValue, toToken?.decimals))
-      } else {
-        setFormattedPriceInput(formattedPrice)
-        setReceiveAmount(tokenValue)
-      }
-    } else {
-      setReceiveAmount(formatInputAmount(rawValue, toToken?.decimals, !isFinal))
-    }
-  }
-
-  const handleChange = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void => {
-    isEditingRef.current = true
-    commitAmount(event.target.value, false)
-  }
-
-  const handleBlur = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void => {
-    isEditingRef.current = false
-    commitAmount(event.target.value, true)
-  }
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: effect must run on value change
-  useLayoutEffect(() => {
-    if (inputRef.current) {
-      fitInputText(maxInputFontSize, minInputFontSize, inputRef.current)
-    }
-  }, [displayValue])
-
-  return (
-    <ReceiveAmountCardLayout
-      cardProps={props}
-      title={t('header.buy')}
-      headerEnd={
-        isFetching || routes?.length ? (
-          <ProgressToNextUpdate
-            updatedAt={dataUpdatedAt || Date.now()}
-            timeToUpdate={refetchTime}
-            isLoading={isFetching}
-            onClick={() => refetch()}
-            sx={{ padding: 0 }}
-          />
-        ) : undefined
-      }
-      amount={
-        showSkeleton ? (
-          <Skeleton variant="rounded" height={amountHeight} sx={{ flex: 1 }} />
-        ) : (
-          <LargeInput
-            inputRef={inputRef}
-            size="small"
-            autoComplete="off"
-            placeholder={showFiat ? '$0' : '0'}
-            inputProps={{ inputMode: 'decimal' }}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={
-              showFiat ? (displayValue ? `$${displayValue}` : '') : displayValue
-            }
-            name="toAmount"
-          />
-        )
-      }
-      footerStart={<FiatValueToggle formType={formType} />}
-      footerEnd={<PriceImpactBadge priceImpact={priceImpact} />}
-    />
-  )
-}
-
-/**
- * Default (swap/bridge) mode: the receive amount is a read-only quote derived
- * from the best route, with a fiat/token toggle and price impact in the footer.
- */
-const QuoteReceiveCard = (props: ReceiveCardProps): JSX.Element => {
+export const ReceiveAmountCard: React.FC<ReceiveCardProps> = (
+  props
+): JSX.Element => {
   const { t } = useTranslation()
   const amountRef = useRef<HTMLSpanElement>(null)
   const { inputMode, toggleInputMode } = useInputModeStore()
   const showFiat = inputMode[formType] === 'price'
-  const { hiddenUI } = useWidgetConfig()
+  const { hiddenUI, mode } = useWidgetConfig()
+  const isLimit = mode === 'limit'
 
-  const { routes, isFetching } = useRoutes()
-  const route = routes?.[0]
+  const [selectedRouteId] = useFieldValues('selectedRouteId')
+  const { routes, isFetching, dataUpdatedAt, refetchTime, refetch } =
+    useRoutes()
+  // Reflect the route the user selected in the routes list (falling back to the
+  // best route), so the buy amount matches the highlighted provider card.
+  const route = routes?.find((r) => r.id === selectedRouteId) ?? routes?.[0]
   const priceImpact = useReceivePriceImpact(route)
   const showPriceImpact = !hiddenUI?.routeCardPriceImpact
 
@@ -315,7 +157,18 @@ const QuoteReceiveCard = (props: ReceiveCardProps): JSX.Element => {
   return (
     <ReceiveAmountCardLayout
       cardProps={props}
-      title={t('header.receive')}
+      title={isLimit ? t('header.buy') : t('header.receive')}
+      headerEnd={
+        isLimit && (isFetching || routes?.length) ? (
+          <ProgressToNextUpdate
+            updatedAt={dataUpdatedAt || Date.now()}
+            timeToUpdate={refetchTime}
+            isLoading={isFetching}
+            onClick={() => refetch()}
+            sx={{ padding: 0 }}
+          />
+        ) : undefined
+      }
       amount={
         showSkeleton ? (
           <Skeleton variant="rounded" height={amountHeight} sx={{ flex: 1 }} />
@@ -362,16 +215,5 @@ const QuoteReceiveCard = (props: ReceiveCardProps): JSX.Element => {
         )
       }
     />
-  )
-}
-
-export const ReceiveAmountCard: React.FC<ReceiveCardProps> = (
-  props
-): JSX.Element => {
-  const { mode } = useWidgetConfig()
-  return mode === 'limit' ? (
-    <LimitReceiveCard {...props} />
-  ) : (
-    <QuoteReceiveCard {...props} />
   )
 }

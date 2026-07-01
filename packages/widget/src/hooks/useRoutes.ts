@@ -126,13 +126,14 @@ export const useRoutes = ({
   const { isBatchingSupported, isBatchingSupportedLoading } =
     useIsBatchingSupported(fromChain, account.address)
 
-  // In limit mode toAmount is an output (populated from the quote), not an
-  // input — exclude it from the query key and enable check so writing it back
-  // from the route result doesn't re-trigger a fetch.
-  const limitedToTokenAmount = mode === 'limit' ? undefined : toTokenAmount
+  // In limit mode toAmount is the user's limit target, derived from the sell
+  // amount and limit price. It's keyed and sent to the backend so changing the
+  // limit fetches a fresh quote. The receive card is read-only (it displays the
+  // quote and never writes toAmount back), so keying on it can't loop. Both a
+  // sell amount and a limit price (→ toAmount) are required before fetching.
   const hasAmount =
     mode === 'limit'
-      ? Number(fromTokenAmount) > 0
+      ? Number(fromTokenAmount) > 0 && Number(toTokenAmount) > 0
       : Number(fromTokenAmount) > 0 || Number(toTokenAmount) > 0
 
   const contractCallQuoteEnabled: boolean =
@@ -184,7 +185,7 @@ export const useRoutes = ({
         toWalletAddress,
         toChain?.id as number,
         toToken?.address as string,
-        limitedToTokenAmount,
+        toTokenAmount,
         validUntilDuration,
         partiallyFillable,
         contractCalls,
@@ -214,7 +215,7 @@ export const useRoutes = ({
       toWalletAddress,
       toChain?.id,
       toToken?.address,
-      limitedToTokenAmount,
+      toTokenAmount,
       validUntilDuration,
       partiallyFillable,
       contractCalls,
@@ -400,6 +401,7 @@ export const useRoutes = ({
         const limitOrderRouteParams =
           mode === 'limit'
             ? {
+                toAmount: toAmount?.toString(),
                 validUntil: Math.floor(Date.now() / 1000) + validUntilDuration,
                 partiallyFillable: partiallyFillable,
               }

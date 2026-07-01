@@ -63,12 +63,6 @@ export const LimitPriceCard: React.FC<CardProps> = (props): JSX.Element => {
   // Canonical price is orientation-independent; flip only for display.
   const displayPrice = priceInverted ? invertPrice(limitPrice) : limitPrice
 
-  // Clear the receive amount whenever the token pair changes or limit mode is
-  // (re)entered. Since the price is derived from from/to amounts, clearing the
-  // receive amount also resets the price, preventing a stale price from a
-  // previous pair driving a wrong receive amount or a false off-market warning.
-  // The provider pick is dropped for the same reason: it belongs to the prior
-  // pair's quotes, so we restart on the best route for the new pair.
   // biome-ignore lint/correctness/useExhaustiveDependencies: pair fields are intentional re-run triggers, not read in the body
   useEffect(() => {
     setFieldValue('toAmount', '', { isDirty: false, isTouched: false })
