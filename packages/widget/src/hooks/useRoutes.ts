@@ -93,11 +93,12 @@ export const useRoutes = ({
     'slippage',
   ])
   const [fromTokenAmount] = useDebouncedWatch(500, 'fromAmount')
+  // Debounce toAmount like fromAmount to avoid a request per keystroke
+  const [toTokenAmount] = useDebouncedWatch(500, 'toAmount')
   const [
     fromChainId,
     fromTokenAddress,
     toAddress,
-    toTokenAmount,
     toChainId,
     toTokenAddress,
     contractCalls,
@@ -105,7 +106,6 @@ export const useRoutes = ({
     'fromChain',
     'fromToken',
     'toAddress',
-    'toAmount',
     'toChain',
     'toToken',
     'contractCalls'
@@ -388,6 +388,8 @@ export const useRoutes = ({
         const shouldUseMainRoutes =
           !observableRoute || !isObservableRelayerRoute
         const shouldUseRelayerQuote =
+          // Relayer quotes don't support limit-order params
+          mode !== 'limit' &&
           fromAddress &&
           fromChain?.chainType === ChainType.EVM &&
           fromChain.permit2 &&
