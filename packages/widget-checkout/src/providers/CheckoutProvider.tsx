@@ -17,8 +17,15 @@ export const CheckoutProvider: React.FC<CheckoutProviderProps> = ({
       onSuccess: config.onSuccess,
       onError: config.onError,
       resumePending: config.resumePending,
+      allowUserDestinationAddress: config.allowUserDestinationAddress,
     }),
-    [config.integrator, config.onSuccess, config.onError, config.resumePending]
+    [
+      config.integrator,
+      config.onSuccess,
+      config.onError,
+      config.resumePending,
+      config.allowUserDestinationAddress,
+    ]
   )
 
   return (

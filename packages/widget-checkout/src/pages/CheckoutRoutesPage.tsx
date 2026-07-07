@@ -8,7 +8,6 @@ import {
   Stack,
   useFieldValues,
   useHeader,
-  useRoutes,
   useToAddressRequirements,
   useWidgetEvents,
   WidgetEvent,
@@ -16,6 +15,7 @@ import {
 import { useNavigate } from '@tanstack/react-router'
 import { type JSX, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useCheckoutRoutes } from '../hooks/useCheckoutRoutes.js'
 import { checkoutAbsolutePaths } from '../utils/navigationRoutes.js'
 
 export const CheckoutRoutesPage = (): JSX.Element => {
@@ -31,7 +31,7 @@ export const CheckoutRoutesPage = (): JSX.Element => {
     fromChain,
     refetch,
     setReviewableRoute,
-  } = useRoutes()
+  } = useCheckoutRoutes()
   const { account } = useAccount({ chainType: fromChain?.chainType })
   const [toAddress] = useFieldValues('toAddress')
   const { requiredToAddress } = useToAddressRequirements()

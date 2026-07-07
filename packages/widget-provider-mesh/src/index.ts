@@ -14,6 +14,8 @@ export function meshProvider(): OnRampProvider {
     name: 'Mesh',
     description: 'Transfer from your exchange account',
     features: ['Coinbase', 'Binance', '300+ Exchanges'],
+    // Mesh serves its Link UI (and auto-prewarms its catalog) from here.
+    preconnectOrigins: ['https://web.meshconnect.com'],
     Host: MeshHost,
   }
 }

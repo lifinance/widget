@@ -1,3 +1,4 @@
+import type { OnRampAccessToken } from '@lifi/widget-provider/checkout'
 import {
   createContext,
   type JSX,
@@ -13,8 +14,11 @@ export type CheckoutFundingSource = 'wallet' | 'transfer' | 'exchange' | 'cash'
 export interface CheckoutFlowState {
   fundingSource: CheckoutFundingSource | null
   frozenRouteId: string | null
+  /** Exchange account chosen for one-tap reconnect; in-memory, passed to the provider's `open()`. */
+  selectedExchangeAccount: OnRampAccessToken | null
   setFundingSource: (source: CheckoutFundingSource | null) => void
   setFrozenRouteId: (routeId: string | null) => void
+  setSelectedExchangeAccount: (account: OnRampAccessToken | null) => void
   reset: () => void
 }
 
@@ -24,9 +28,17 @@ export function createCheckoutFlowStore(): CheckoutFlowStore {
   return create<CheckoutFlowState>((set) => ({
     fundingSource: null,
     frozenRouteId: null,
+    selectedExchangeAccount: null,
     setFundingSource: (fundingSource) => set({ fundingSource }),
     setFrozenRouteId: (frozenRouteId) => set({ frozenRouteId }),
-    reset: () => set({ fundingSource: null, frozenRouteId: null }),
+    setSelectedExchangeAccount: (selectedExchangeAccount) =>
+      set({ selectedExchangeAccount }),
+    reset: () =>
+      set({
+        fundingSource: null,
+        frozenRouteId: null,
+        selectedExchangeAccount: null,
+      }),
   }))
 }
 

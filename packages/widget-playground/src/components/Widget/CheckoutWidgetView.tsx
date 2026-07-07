@@ -3,8 +3,8 @@ import { LifiWidgetCheckout } from '@lifi/widget-checkout'
 import { meshProvider } from '@lifi/widget-provider-mesh'
 import { transakProvider } from '@lifi/widget-provider-transak'
 import { Box, Button, Typography } from '@mui/material'
-import { useAppKit, useAppKitAccount } from '@reown/appkit/react'
-import { type JSX, useCallback, useEffect, useMemo, useState } from 'react'
+import { useAppKit } from '@reown/appkit/react'
+import { type JSX, useCallback, useMemo, useState } from 'react'
 import { widgetBaseConfig } from '../../defaultWidgetConfig.js'
 import { useEnvVariables } from '../../providers/EnvVariablesProvider.js'
 import { useConfig } from '../../store/widgetConfig/useConfig.js'
@@ -24,15 +24,6 @@ export function CheckoutWidgetView(): JSX.Element {
   } = useEnvVariables()
   const [open, setOpen] = useState(false)
   const { open: openWallet } = useAppKit()
-  const { address: connectedAddress } = useAppKitAccount()
-
-  // Keep the first connected address — disconnecting a funding wallet must not wipe the recipient.
-  const [demoRecipient, setDemoRecipient] = useState<string>()
-  useEffect(() => {
-    if (connectedAddress) {
-      setDemoRecipient(connectedAddress)
-    }
-  }, [connectedAddress])
 
   const handleOpen = useCallback(() => {
     setOpen(true)
@@ -42,10 +33,6 @@ export function CheckoutWidgetView(): JSX.Element {
     setOpen(false)
   }, [])
 
-  const handleConnect = useCallback(() => {
-    openWallet()
-  }, [openWallet])
-
   // TODO(cleanup-remove-integrator-override-heuristic): Remove this heuristic comparison against
   // widgetBaseConfig.integrator and use a strict precedence contract.
   const resolvedIntegrator =
@@ -53,11 +40,15 @@ export function CheckoutWidgetView(): JSX.Element {
       ? config.integrator
       : checkoutIntegrator?.trim() || DEFAULT_CHECKOUT_INTEGRATOR
 
+  const configToAddress =
+    typeof config?.toAddress === 'string'
+      ? config.toAddress
+      : config?.toAddress?.address
   const resolvedToChain =
     config?.toChain ?? checkoutToChain ?? DEFAULT_CHECKOUT_TO_CHAIN
   const resolvedToToken =
     config?.toToken ?? checkoutToToken ?? DEFAULT_CHECKOUT_TO_TOKEN
-  const resolvedToAddress = checkoutToAddress ?? demoRecipient
+  const resolvedToAddress = configToAddress ?? checkoutToAddress
 
   const checkoutConfig = useMemo(
     () => ({
@@ -101,36 +92,22 @@ export function CheckoutWidgetView(): JSX.Element {
         Checkout — opens as a centered widget
       </Typography>
       {resolvedToAddress ? (
-        <>
-          <Typography
-            variant="caption"
-            color="text.secondary"
-            sx={{ textAlign: 'center', wordBreak: 'break-all' }}
-          >
-            Recipient: {resolvedToAddress}
-          </Typography>
-          <Button variant="contained" onClick={handleOpen}>
-            Deposit
-          </Button>
-        </>
-      ) : (
-        <>
-          <Typography
-            variant="caption"
-            color="text.secondary"
-            sx={{ textAlign: 'center' }}
-          >
-            Connect a wallet to set the checkout recipient.
-          </Typography>
-          <Button variant="contained" onClick={handleConnect}>
-            Connect wallet
-          </Button>
-        </>
-      )}
+        <Typography
+          variant="caption"
+          color="text.secondary"
+          sx={{ textAlign: 'center', wordBreak: 'break-all' }}
+        >
+          Recipient: {resolvedToAddress}
+        </Typography>
+      ) : null}
+      <Button variant="contained" onClick={handleOpen}>
+        Deposit
+      </Button>
       <LifiWidgetCheckout
         open={open}
         integrator={resolvedIntegrator}
         config={checkoutConfig}
+        allowUserDestinationAddress={!resolvedToAddress}
         onRampProviders={onRampProviders}
         onClose={handleClose}
       />

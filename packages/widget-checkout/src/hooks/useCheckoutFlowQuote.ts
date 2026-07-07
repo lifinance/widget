@@ -1,9 +1,10 @@
 import type { LiFiStep, Route } from '@lifi/sdk'
 import { getStepTransaction } from '@lifi/sdk'
-import { useRoutes, useSDKClient } from '@lifi/widget/shared'
+import { useSDKClient } from '@lifi/widget/shared'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { extractDepositAddress } from '../utils/extractDepositAddress.js'
+import { useCheckoutRoutes } from './useCheckoutRoutes.js'
 
 export interface CheckoutFlowQuote {
   route: Route | undefined
@@ -26,7 +27,7 @@ export function useCheckoutFlowQuote(): CheckoutFlowQuote {
     isFetched: routesFetched,
     refetch,
     setReviewableRoute,
-  } = useRoutes()
+  } = useCheckoutRoutes()
 
   const rawRoute = routes?.[0]
   const firstStep = rawRoute?.steps?.[0]

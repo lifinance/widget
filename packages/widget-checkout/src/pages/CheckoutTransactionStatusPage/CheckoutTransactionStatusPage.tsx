@@ -71,9 +71,9 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
   // hash, if any, is the funding tx and not the LI.FI-tracked transfer.
   const deposit = useActiveOnRampDeposit()
   const providerName = deposit?.providerName ?? ''
-  // While the provider modal is open nothing has happened yet — the page
-  // shows only the loader and the deposit poll stays paused.
-  const isOnRampOpen = deposit?.isOpen === true
+  // Active across both the session fetch and the open modal — nothing is
+  // deposited until it ends, so the page holds the loader and pauses polling.
+  const isOnRampActive = deposit?.isOpen === true || deposit?.isLoading === true
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
   const isTransferFlow = fundingSource === 'transfer'
 
@@ -83,7 +83,7 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
     transactionHash,
     depositAddress,
     fromChain,
-    pauseDepositPoll: isOnRampOpen,
+    pauseDepositPoll: isOnRampActive,
   })
 
   const isRefundInProgress = status?.substatus === 'REFUND_IN_PROGRESS'
@@ -245,7 +245,7 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
   if (!transactionHash && !status) {
     return (
       <PageContainer bottomGutters>
-        {frozenRoute && !isOnRampOpen ? (
+        {frozenRoute && !isOnRampActive ? (
           <StatusExecuting
             status={undefined}
             frozenRoute={frozenRoute}

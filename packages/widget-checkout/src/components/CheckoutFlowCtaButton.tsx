@@ -12,6 +12,7 @@ import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCheckoutFlowQuote } from '../hooks/useCheckoutFlowQuote.js'
 import { useFrozenQuote } from '../hooks/useFrozenQuote.js'
+import { useResolvedCheckoutRecipient } from '../hooks/useResolvedCheckoutRecipient.js'
 import { useOnRampSessionByCategory } from '../providers/OnRampProvider/OnRampProvider.js'
 import {
   type CheckoutFundingSource,
@@ -33,15 +34,19 @@ const ctaLabelKey = {
 const statusPath = `/${checkoutNavigationRoutes.transactionExecution}/${checkoutNavigationRoutes.transactionStatus}`
 
 export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const emitter = useWidgetEvents()
   const { toAddress, requiredToAddress } = useToAddressRequirements()
+  const { recipient, isUserSettable } = useResolvedCheckoutRecipient()
   const { route, routes, depositAddress, setReviewableRoute } =
     useCheckoutFlowQuote()
   const { freeze } = useFrozenQuote()
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource) ?? 'wallet'
   const setFrozenRouteId = useCheckoutFlowStore((s) => s.setFrozenRouteId)
+  const selectedExchangeAccount = useCheckoutFlowStore(
+    (s) => s.selectedExchangeAccount
+  )
   const fiatCurrency = useFiatCurrencyStore((s) => s.currency)
   const onRampSession = useOnRampSessionByCategory(
     fundingSource === 'cash' || fundingSource === 'exchange'
@@ -99,6 +104,10 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
       fiatAmount,
       fromChainId: route.fromChainId,
       fromTokenAddress: route.fromToken.address,
+      accessTokens: selectedExchangeAccount
+        ? [selectedExchangeAccount]
+        : undefined,
+      language: i18n.language,
     })
     navigate({
       to: statusPath,
@@ -115,6 +124,8 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
     setFrozenRouteId,
     fiatCurrency,
     navigate,
+    selectedExchangeAccount,
+    i18n.language,
   ])
 
   const handlersByFunding: Record<CheckoutFundingSource, () => void> = {
@@ -126,13 +137,15 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
 
   const label = t(ctaLabelKey[fundingSource])
 
+  const needsRecipient = isUserSettable && !recipient
+
   // Only the wallet flow may connect-on-demand; other sources fund without a wallet.
   if (fundingSource === 'wallet') {
     return (
       <BaseTransactionButton
         text={label}
         onClick={handleWalletDeposit}
-        disabled={!route || (requiredToAddress && !toAddress)}
+        disabled={!route || (requiredToAddress && !toAddress) || needsRecipient}
         route={route}
         sx={{ flex: 1 }}
       />
@@ -145,7 +158,7 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
       color="primary"
       fullWidth
       onClick={handlersByFunding[fundingSource]}
-      disabled={!route || !depositAddress}
+      disabled={!route || !depositAddress || needsRecipient}
       sx={{ flex: 1 }}
     >
       {label}

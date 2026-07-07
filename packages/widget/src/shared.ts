@@ -72,6 +72,10 @@ export {
 } from './components/TransactionCard/TransactionCard.style.js'
 // ── hooks ────────────────────────────────────────────────────────────────────
 export { useAddressActivity } from './hooks/useAddressActivity.js'
+export {
+  AddressType,
+  useAddressValidation,
+} from './hooks/useAddressValidation.js'
 export { useAvailableChains } from './hooks/useAvailableChains.js'
 export { useChain } from './hooks/useChain.js'
 export { useContactSupport } from './hooks/useContactSupport.js'
