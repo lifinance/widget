@@ -1,0 +1,81 @@
+{
+  "name": "@lifi/widget-checkout",
+  "version": "4.0.0-beta.17",
+  "description": "LI.FI Widget Checkout — on-ramp and cross-chain checkout flow built on @lifi/widget.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "watch": "tsdown --watch",
+    "build": "pnpm clean && tsdown",
+    "build:prerelease": "node ../../scripts/prerelease.js",
+    "build:postrelease": "node ../../scripts/postrelease.js",
+    "release:build": "pnpm build",
+    "clean": "rm -rf dist",
+    "check:types": "tsc --noEmit",
+    "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
+    "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg",
+    "test": "vitest run"
+  },
+  "author": "Eugene Chybisov <eugene@li.finance>",
+  "homepage": "https://github.com/lifinance/widget",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lifinance/widget.git",
+    "directory": "packages/widget-checkout"
+  },
+  "bugs": {
+    "url": "https://github.com/lifinance/widget/issues"
+  },
+  "license": "Apache-2.0",
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "keywords": [
+    "widget",
+    "lifi-widget",
+    "checkout",
+    "onramp",
+    "fiat",
+    "cross-chain",
+    "lifi"
+  ],
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@lifi/sdk": "^4.0.0",
+    "@lifi/wallet-management": "workspace:*",
+    "@lifi/widget": "workspace:*",
+    "@lifi/widget-provider": "workspace:*",
+    "@lifi/widget-provider-mesh": "workspace:*",
+    "@mui/icons-material": "^9.0.1",
+    "@mui/material": "^9.0.1",
+    "@mui/system": "^9.0.1",
+    "@tanstack/react-router": "^1.169.2",
+    "i18next": "^26.1.0",
+    "react-i18next": "^17.0.7",
+    "zustand": "^5.0.12"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.1.0",
+    "@types/node": "^25.5.2",
+    "happy-dom": "^15.11.7",
+    "madge": "^8.0.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.4"
+  },
+  "peerDependencies": {
+    "@tanstack/react-query": ">=5.90.0",
+    "react": ">=18",
+    "react-dom": ">=18"
+  }
+}
