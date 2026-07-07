@@ -3,13 +3,13 @@ import type { Route } from '@lifi/sdk'
 import { create, type StoreApi, type UseBoundStore } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
-export const PENDING_RECORD_VERSION = 2
+export const PENDING_RECORD_VERSION = 3
 export const PENDING_STORAGE_KEY = 'lifi-checkout-pending'
 export const PENDING_TTL_MS: number = 24 * 60 * 60 * 1000
 
 export type PendingFundingSource = 'wallet' | 'transfer' | 'cash' | 'exchange'
 export type PendingProvider = 'mesh' | 'transak'
-export type PendingStatus = 'pending' | 'confirmed-no-hash'
+export type PendingStatus = 'pending' | 'confirmed-no-hash' | 'failed'
 
 export interface PersistedFrozenQuote {
   id: string
@@ -19,6 +19,8 @@ export interface PersistedFrozenQuote {
 
 export interface PendingRecord {
   version: number
+  /** Stable per-deposit id, frozen at first write; embedded in the record key. */
+  depositId?: string
   fundingSource: PendingFundingSource
   transactionHash?: string
   depositAddress?: string
@@ -26,6 +28,11 @@ export interface PendingRecord {
   provider?: PendingProvider
   frozenRouteId?: string
   frozenQuote?: PersistedFrozenQuote
+  // Display fields, written so the activity card renders without the quote.
+  fromAmount?: string
+  tokenSymbol?: string
+  tokenDecimals?: number
+  tokenLogoURI?: string
   createdAt: number
   expiresAt: number
   status: PendingStatus
@@ -34,11 +41,12 @@ export interface PendingRecord {
 interface PendingCheckoutState {
   records: Record<string, PendingRecord>
   write: (key: string, record: PendingRecord) => void
+  markFailed: (key: string) => void
   clearForKey: (key: string | null) => void
   clearAll: () => void
 }
 
-function isRecordLive(record: PendingRecord, now: number): boolean {
+export function isRecordLive(record: PendingRecord, now: number): boolean {
   return record.version === PENDING_RECORD_VERSION && record.expiresAt > now
 }
 
@@ -68,6 +76,19 @@ export const usePendingCheckoutStore: UseBoundStore<
             [key]: record,
           },
         })),
+      markFailed: (key) =>
+        set((state) => {
+          const record = state.records[key]
+          if (!record || record.status === 'failed') {
+            return state
+          }
+          return {
+            records: {
+              ...state.records,
+              [key]: { ...record, status: 'failed' },
+            },
+          }
+        }),
       clearForKey: (key) => {
         if (!key) {
           return
@@ -97,72 +118,6 @@ export const usePendingCheckoutStore: UseBoundStore<
   )
 )
 
-// Bypasses Zustand persist's async hydration so the router seed reads on first tick.
-export function readPendingRecord(key: string): PendingRecord | null {
-  try {
-    const raw = localStorage.getItem(PENDING_STORAGE_KEY)
-    if (!raw) {
-      return null
-    }
-    const parsed = JSON.parse(raw) as { state?: { records?: unknown } }
-    const records = parsed.state?.records
-    if (!records || typeof records !== 'object') {
-      return null
-    }
-    const record = (records as Record<string, PendingRecord>)[key]
-    if (!record || !isRecordLive(record, Date.now())) {
-      return null
-    }
-    return record
-  } catch {
-    return null
-  }
-}
-
-export function resolveResumeKeySync(
-  integrator: string,
-  walletAddress?: string
-): string | null {
-  if (walletAddress) {
-    return `${integrator}:${walletAddress}`
-  }
-  try {
-    const raw = localStorage.getItem(PENDING_STORAGE_KEY)
-    if (!raw) {
-      return null
-    }
-    const parsed = JSON.parse(raw) as { state?: { records?: unknown } }
-    const records = parsed.state?.records as
-      | Record<string, PendingRecord>
-      | undefined
-    if (!records) {
-      return null
-    }
-    const now = Date.now()
-    const prefix = `${integrator}:`
-    let bestKey: string | null = null
-    let bestCreatedAt = -1
-    for (const [key, record] of Object.entries(records)) {
-      if (!key.startsWith(prefix)) {
-        continue
-      }
-      if (!isRecordLive(record, now)) {
-        continue
-      }
-      if (!record.depositAddress) {
-        continue
-      }
-      if (record.createdAt > bestCreatedAt) {
-        bestKey = key
-        bestCreatedAt = record.createdAt
-      }
-    }
-    return bestKey
-  } catch {
-    return null
-  }
-}
-
 export function buildResumeKey(integrator: string, identifier: string): string {
   return `${integrator}:${identifier}`
 }
@@ -177,6 +132,7 @@ export function buildPendingRecord(
     version: PENDING_RECORD_VERSION,
     createdAt,
     expiresAt: createdAt + PENDING_TTL_MS,
+    depositId: partial.depositId,
     fundingSource: partial.fundingSource,
     transactionHash: partial.transactionHash,
     depositAddress: partial.depositAddress,
@@ -184,6 +140,10 @@ export function buildPendingRecord(
     provider: partial.provider,
     frozenRouteId: partial.frozenRouteId,
     frozenQuote: partial.frozenQuote,
+    fromAmount: partial.fromAmount,
+    tokenSymbol: partial.tokenSymbol,
+    tokenDecimals: partial.tokenDecimals,
+    tokenLogoURI: partial.tokenLogoURI,
     status: partial.status,
   }
 }

@@ -24,7 +24,7 @@ import { useOnRampPreconnect } from '../../hooks/useOnRampPreconnect.js'
 import { useCheckoutFlowStore } from '../../stores/useCheckoutFlowStore.js'
 
 const headerKeyByFlow = {
-  wallet: 'header.deposit',
+  wallet: 'checkout.payFromWallet',
   transfer: 'header.transferCrypto',
   exchange: 'header.connectExchange',
   cash: 'header.depositWithCash',

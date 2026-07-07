@@ -211,7 +211,7 @@ export const CheckoutTransactionPage = (): JSX.Element | null => {
 
   const getHeaderTitle = () => {
     if (mode === 'custom') {
-      return t(`header.${modeOptions?.custom?.type ?? 'checkout'}`)
+      return t('header.checkout')
     }
     if (route) {
       const transactionType =
@@ -324,9 +324,7 @@ export const CheckoutTransactionPage = (): JSX.Element | null => {
       case RouteExecutionStatus.Idle:
         switch (mode) {
           case 'custom':
-            return modeOptions?.custom?.type === 'deposit'
-              ? t('button.deposit')
-              : t('button.buy')
+            return t('button.pay')
           case 'refuel':
             return t('button.startBridging')
           default: {

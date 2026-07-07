@@ -90,15 +90,18 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
   const isRefunded = status?.substatus === 'REFUNDED'
 
   const resumeKey = useResumeKey()
-  const { clearForKey } = usePendingCheckoutWriter()
+  const { clearForKey, markFailed } = usePendingCheckoutWriter()
   // A settled refund is terminal for resume purposes — the deposit is no
   // longer pending even if the status value isn't DONE. An in-progress
-  // refund stays resumable so a reload can keep tracking it.
+  // refund stays resumable so a reload can keep tracking it. A failure is
+  // kept (marked) rather than cleared so it surfaces as a failed activity card.
   useEffect(() => {
-    if (phase === 'done' || phase === 'failed' || isRefunded) {
+    if (phase === 'done' || isRefunded) {
       clearForKey(resumeKey)
+    } else if (phase === 'failed' && resumeKey) {
+      markFailed(resumeKey)
     }
-  }, [phase, isRefunded, resumeKey, clearForKey])
+  }, [phase, isRefunded, resumeKey, clearForKey, markFailed])
 
   // A cancelled on-ramp deposit (user closed the provider modal before
   // depositing) is not an error — return to amount entry instead of showing
@@ -183,7 +186,7 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
     isRefundInProgress || isRefunded
       ? t('checkout.refund.title')
       : deposit?.failure
-        ? t('checkout.deposit')
+        ? t('header.checkout')
         : t('checkout.transactionStatus.detailsTitle')
   )
 
@@ -360,7 +363,7 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
             viewDetails: goToDetails,
             tryAgain: goToEnterAmount,
             contactSupport: handleContactSupport,
-            retryDeposit: goToEnterAmount,
+            retry: goToEnterAmount,
           }}
           secondaryAction={{
             done: goHome,

@@ -18,12 +18,21 @@ testI18n.use(initReactI18next).init({
       translation: {
         button: { close: 'Close', cancel: 'Cancel' },
         checkout: {
-          deposit: 'Deposit',
           closeConfirmation: {
-            title: 'Leave with transaction in progress?',
-            body: "Your transaction is still being processed. You can come back to it any time by reopening the widget — we'll pick up where you left off.",
-            confirm: 'Yes, leave',
-            cancel: 'Stay',
+            title: 'Leave checkout?',
+            body: "Closing won't cancel your deposit. You can come back to check on it here anytime.",
+            confirm: 'Close checkout',
+            cancel: 'Cancel',
+          },
+          activity: {
+            title: 'Activity',
+            deposit: 'Deposit',
+            amountOnChain: '{{amount}} {{symbol}} on {{chain}}',
+            depositInProgress: 'Deposit in progress',
+            refundInProgress: 'Refund in progress',
+            couldNotComplete: "Couldn't complete",
+            singleFailed: 'Deposit failed. Please resolve',
+            dismiss: 'Dismiss',
           },
           transak: {
             forceClose: {

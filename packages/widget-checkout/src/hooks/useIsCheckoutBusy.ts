@@ -6,7 +6,10 @@ import {
 } from '@lifi/widget-provider/checkout'
 import { useContext, useMemo } from 'react'
 import { useStore } from 'zustand'
-import { usePendingCheckoutStore } from '../stores/usePendingCheckoutStore.js'
+import {
+  isRecordLive,
+  usePendingCheckoutStore,
+} from '../stores/usePendingCheckoutStore.js'
 
 // Immutable stub so useStore stays unconditional outside a provider.
 const EMPTY_SESSIONS = Object.freeze({}) as Readonly<Record<string, never>>
@@ -33,12 +36,12 @@ export function useIsCheckoutBusy(): boolean {
       return false
     }
     const now = Date.now()
-    // Any live record for this integrator means busy. Scanning by prefix
-    // (rather than only the connected wallet's key) keeps deposit-keyed
-    // records visible after a wallet connects.
     const prefix = `${integrator}:`
     for (const [key, record] of Object.entries(records)) {
-      if (key.startsWith(prefix) && record.expiresAt > now) {
+      if (!key.startsWith(prefix)) {
+        continue
+      }
+      if (isRecordLive(record, now)) {
         return true
       }
     }

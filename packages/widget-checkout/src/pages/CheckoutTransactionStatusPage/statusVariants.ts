@@ -10,7 +10,7 @@ export type StatusVariantPrimaryAction =
   | 'done'
   | 'contactSupport'
   | 'viewRefund'
-  | 'retryDeposit'
+  | 'retry'
 export type StatusVariantSecondaryAction =
   | 'contactSupport'
   | 'done'
@@ -90,7 +90,7 @@ export function resolveStatusVariant({
         descriptionKey: isWallet
           ? 'checkout.status.walletSuccessRefund.description'
           : 'checkout.status.successRefund.description',
-        primaryAction: 'retryDeposit',
+        primaryAction: 'retry',
       }
     }
     if (substatus === 'PARTIAL') {

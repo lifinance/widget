@@ -31,8 +31,9 @@
     "dark": "Dark",
     "delete": "Delete",
     "deposit": "Deposit",
-    "depositReview": "Review deposit",
     "depositWithCash": "Deposit with cash",
+    "pay": "Pay",
+    "depositReview": "Review deposit",
     "connectExchange": "Connect exchange",
     "transferCrypto": "Transfer crypto",
     "disconnect": "Disconnect",
@@ -48,7 +49,6 @@
     "reset": "Reset",
     "resetSettings": "Reset settings",
     "resumeTransaction": "Resume transaction",
-    "retryDeposit": "Retry deposit",
     "seeDetails": "See details",
     "topUp": "Top up",
     "viewRefund": "View refund",
@@ -71,10 +71,10 @@
     "checkout": "Checkout",
     "checkoutDetails": "Checkout details",
     "deposit": "Deposit",
+    "depositWithCash": "Deposit with cash",
     "depositAddress": "Deposit address",
     "depositDetails": "Deposit details",
     "depositTo": "Deposit to",
-    "depositWithCash": "Deposit with cash",
     "connectExchange": "Connect exchange",
     "transferCrypto": "Transfer crypto",
     "currency": "Currency",
@@ -382,10 +382,20 @@
   },
   "checkout": {
     "closeConfirmation": {
-      "title": "Leave with transaction in progress?",
-      "body": "Your transaction is still being processed. You can come back to it any time by reopening the widget — we'll pick up where you left off.",
-      "confirm": "Yes, leave",
-      "cancel": "Stay"
+      "title": "Leave checkout?",
+      "body": "Closing won't cancel your deposit. You can come back to check on it here anytime.",
+      "confirm": "Close checkout",
+      "cancel": "Cancel"
+    },
+    "activity": {
+      "title": "Activity",
+      "deposit": "Deposit",
+      "amountOnChain": "{{amount}} {{symbol}} on {{chain}}",
+      "depositInProgress": "Deposit in progress",
+      "refundInProgress": "Refund in progress",
+      "couldNotComplete": "Couldn't complete",
+      "singleFailed": "Deposit failed. Please resolve",
+      "dismiss": "Dismiss"
     },
     "transak": {
       "forceClose": {
@@ -398,7 +408,6 @@
     "resume": {
       "notFoundToast": "We couldn't find your transaction. Start over or contact support if you think this is a mistake."
     },
-    "deposit": "Deposit",
     "transferDeposit": {
       "warning": "Only send <b>{{amount}} {{symbol}}</b> on <b>{{chain}}</b>. Wrong token or chain may be unrecoverable.",
       "expiresIn": "Deposit address expires in {{minutes}}:{{seconds}}",
@@ -408,13 +417,6 @@
       "expired": "This deposit window expired. Generate a new one to continue.",
       "polling": "Watching for your deposit…",
       "detailsTitle": "Deposit details",
-      "startNew": "Start a new transfer",
-      "startNewConfirmation": {
-        "title": "Start a new transfer?",
-        "body": "If you've already sent funds, they'll still reach your destination — check transaction history to confirm. Otherwise, this clears your previous transfer so you can pick a different token.",
-        "cancel": "Cancel",
-        "confirm": "Yes, start over"
-      },
       "table": {
         "required": "Required",
         "received": "Received",
@@ -518,9 +520,9 @@
       "dialogTitle": "Deposit with {{providerName}}",
       "close": "Close",
       "errors": {
-        "MISSING_API_URL": "{{providerName}} deposit is not configured: set sdkConfig.apiUrl on the checkout.",
-        "MISSING_API_KEY": "{{providerName}} deposit is not configured: set widget apiKey to call checkout sessions.",
-        "TARGET_NOT_CONFIGURED": "{{providerName}} deposit target is not configured: set widget.toChain and widget.toToken.",
+        "MISSING_API_URL": "{{providerName}} is not configured: set sdkConfig.apiUrl on the checkout.",
+        "MISSING_API_KEY": "{{providerName}} is not configured: set widget apiKey to call checkout sessions.",
+        "TARGET_NOT_CONFIGURED": "{{providerName}} destination is not configured: set widget.toChain and widget.toToken.",
         "INVALID_RESPONSE": "Invalid response from {{providerName}} session API.",
         "NETWORK_ERROR": "Network error starting {{providerName}} session.",
         "SESSION_HTTP": "Could not start {{providerName}} session ({{status}}). Try again later.",
@@ -553,7 +555,7 @@
         "description": "Your transaction is being processed. This may take a few minutes."
       },
       "pendingRefund": {
-        "title": "Refunding your deposit",
+        "title": "Refund in progress",
         "description": "We're sending your funds back. This usually takes a few minutes.",
         "sentTo": "Sent to:"
       },
@@ -618,8 +620,8 @@
         "description": "The transaction window expired before your order could be processed. Please try again."
       },
       "walletPendingRefund": {
-        "title": "Refunding your deposit",
-        "description": "We're sending your funds back to the wallet you deposited from. This usually takes a few minutes.",
+        "title": "Refund in progress",
+        "description": "We're sending your funds back to the wallet you paid from. This usually takes a few minutes.",
         "sentToWallet": "Sent to wallet:"
       },
       "walletSuccessRefund": {

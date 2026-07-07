@@ -32,7 +32,7 @@ export const Header: React.FC<HeaderProps> = ({ title: titleProp }) => {
   const { elementId } = useWidgetConfig()
   const { t } = useTranslation()
   const storeTitle = useHeaderStore((state) => state.title)
-  const title = storeTitle ?? titleProp ?? t('checkout.deposit')
+  const title = storeTitle ?? titleProp ?? t('header.checkout')
   const { pathname } = useLocation()
   const router = useRouter()
   const navigate = useCheckoutNavigate()
