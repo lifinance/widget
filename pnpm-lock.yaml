@@ -1876,6 +1876,28 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
 
+  packages/widget-provider-mesh:
+    dependencies:
+      '@meshconnect/web-link-sdk':
+        specifier: ^3.9.1
+        version: 3.10.0(bs58@6.0.0)(bufferutil@4.1.0)(encoding@0.1.13)(typescript@6.0.3)(utf-8-validate@6.0.6)
+    devDependencies:
+      '@lifi/widget-provider':
+        specifier: workspace:*
+        version: link:../widget-provider
+      cpy-cli:
+        specifier: ^7.0.0
+        version: 7.0.0
+      madge:
+        specifier: ^8.0.0
+        version: 8.0.0(typescript@6.0.3)
+      react:
+        specifier: ^19.2.5
+        version: 19.2.7
+      typescript:
+        specifier: ^6.0.2
+        version: 6.0.3
+
   packages/widget-provider-solana:
     dependencies:
       '@lifi/sdk':
@@ -1945,6 +1967,31 @@ importers:
         version: 19.2.7
       typescript:
         specifier: ^6.0.3
+        version: 6.0.3
+
+  packages/widget-provider-transak:
+    dependencies:
+      '@transak/ui-js-sdk':
+        specifier: ^1.0.0
+        version: 1.0.0
+    devDependencies:
+      '@lifi/widget-provider':
+        specifier: workspace:*
+        version: link:../widget-provider
+      '@types/node':
+        specifier: ^25.9.1
+        version: 25.9.1
+      cpy-cli:
+        specifier: ^7.0.0
+        version: 7.0.0
+      madge:
+        specifier: ^8.0.0
+        version: 8.0.0(typescript@6.0.3)
+      react:
+        specifier: ^19.2.5
+        version: 19.2.7
+      typescript:
+        specifier: ^6.0.2
         version: 6.0.3
 
   packages/widget-provider-tron:
@@ -4030,6 +4077,15 @@ packages:
 
   '@mdx-js/mdx@2.3.0':
     resolution: {integrity: sha512-jLuwRlz8DQfQNiUCJR50Y09CGPq3fLtmtUQfVrj79E0JWu3dvsVcxVIcfhR5h0iXu+/z++zDrYeiJqifRynJkA==}
+
+  '@meshconnect/node-api@2.0.26':
+    resolution: {integrity: sha512-XLKOk6mAzrCUAhAVQepnQVTr9LCuXPNdibUl8MdNax9rI6LFZtom7szCWH/dyztFouXVk1/V3Nd+FFqyz0X/DA==}
+
+  '@meshconnect/uwc-bridge-parent@1.4.0':
+    resolution: {integrity: sha512-xAD4971xsA9+O5o7A8bNMDwGCo2cayYo1Fuggfup7cwSMTv1nhYKgzr0BAI5a3UL8lN16h2CNixQI0Mrnuvl/Q==}
+
+  '@meshconnect/web-link-sdk@3.10.0':
+    resolution: {integrity: sha512-2MGFi65GFntp+qO8xyEksSDTP7gS2kIatkQDF6GddsHbidTfeF7ALeWIYNyzDpJ75siRoIUWDl98Ecoq8QtIoA==}
 
   '@metamask/analytics@0.4.0':
     resolution: {integrity: sha512-QKjVu8RsbjeSfXXhRLvOVdWJ0jUrVdXFwa4I1VyoI7LapWS6T0apTSjM8nLJKN1NADbpSYm7ctyuTyaHlG/0yA==}
@@ -7768,6 +7824,10 @@ packages:
     resolution: {integrity: sha512-NKyqCvP6DZKlRf6aGfnKS6Kntn2gnuBxa/ztstjy+oo1t23EHzQ54shtli0yV5WAtygmK1tti/uL2C2p/kW3HQ==}
     deprecated: Please upgrade to v1
 
+  '@transak/ui-js-sdk@1.0.0':
+    resolution: {integrity: sha512-GBaRBuWBRINtSjSIGBtGBuwGybF/Fag1MFMDNLkP40TYsQ6EKeo+xpb1uepYY8oP2Pwhv/S0ItY4SddUqCaWPg==}
+    engines: {node: '>=20.0.0'}
+
   '@tronweb3/abstract-adapter-evm@1.0.4':
     resolution: {integrity: sha512-VQdz3WkZNrBEQtDnTA0yFOQPTsaW2AVWmvyxXJ2EWWOQ6uejYs2Z8Elln1Eyr/CU2i13VdANk+dOgdkYoSORzQ==}
     engines: {node: '>=16', pnpm: '>=7'}
@@ -9475,6 +9535,9 @@ packages:
     resolution: {integrity: sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==}
     engines: {node: '>= 0.8'}
 
+  comlink@4.4.2:
+    resolution: {integrity: sha512-OxGdvBmJuNKSCMO4NTl1L47VRp6xn2wG4F/2hYzB6tiCb709otOxtEYCSvK80PtjODfXXZu8ds+Nw5kVCjqd2g==}
+
   comma-separated-tokens@2.0.3:
     resolution: {integrity: sha512-Fu4hJdvzeylCfQPp9SGWidpzrMs7tTrlu6Vb8XGaRGck8QSNZJJp538Wrb60Lax4fPwR64ViY468OIUTbRlGZg==}
 
@@ -9858,6 +9921,10 @@ packages:
   decode-uri-component@0.2.2:
     resolution: {integrity: sha512-FqUYQ+8o158GyGTrMFJms9qh3CqTKvAqgqsTnkLI8sKu0028orqBhxNMFkFen0zGyg6epACD32pjVk58ngIErQ==}
     engines: {node: '>=0.10'}
+
+  decode-uri-component@0.4.1:
+    resolution: {integrity: sha512-+8VxcR21HhTy8nOt6jf20w0c9CADrw1O8d+VZ/YzzCt4bJ3uBjw+D1q2osAB8RnpwwaeYBxy0HyKQxD5JBMuuQ==}
+    engines: {node: '>=14.16'}
 
   decompress-response@6.0.0:
     resolution: {integrity: sha512-aW35yZM6Bb/4oJlZncMH2LCoZtJXTRxES17vE3hoRiowU2kWHaJKFkSBDnDR+cm9J+9QhXmREyIfv0pji9ejCQ==}
@@ -10618,6 +10685,10 @@ packages:
   filter-obj@1.1.0:
     resolution: {integrity: sha512-8rXg1ZnX7xzy2NGDVkBVaAy+lSlPNwad13BtgSlLuxfIslyt5Vg64U7tFcCt4WS1R0hvtnQybT/IyCkGZ3DpXQ==}
     engines: {node: '>=0.10.0'}
+
+  filter-obj@5.1.0:
+    resolution: {integrity: sha512-qWeTREPoT7I0bifpPUXtxkZJ1XJzxWtfoWWkdVGqa+eCr3SHW/Ocp89o8vLvbUuQnadybJpjOKu4V+RwO6sGng==}
+    engines: {node: '>=14.16'}
 
   finalhandler@1.1.2:
     resolution: {integrity: sha512-aAWcW57uxVNrQZqFXjITpW3sIUQmHGG3qSb9mUah9MgMC4NeWhNOlNjXEYq3HjRAvL6arUviZGGJsBg6z0zsWA==}
@@ -13455,6 +13526,10 @@ packages:
     resolution: {integrity: sha512-hh2WYhq4fi8+b+/2Kg9CEge4fDPvHS534aOOvOZeQ3+Vf2mCFsaFBYj0i+iXcAq6I9Vzp5fjMFBlONvayDC1qg==}
     engines: {node: '>=6'}
 
+  query-string@9.4.0:
+    resolution: {integrity: sha512-ivvWyHqU9K1Log4hJFhqVIIMoEi0nzmlRhvk2pPcTuQH/Y0K5iTTMxEx7R0PRHD2Z1hMVbWnjfsEWbIKIK+3IA==}
+    engines: {node: '>=18'}
+
   querystring-es3@0.2.1:
     resolution: {integrity: sha512-773xhDQnZBMFobEiztv8LIl70ch5MSF/jUQVlhwFyBILqq96anmoctVIYz+ZRp0qbCKATTn6ev02M3r7Ga5vqA==}
     engines: {node: '>=0.4.x'}
@@ -14272,6 +14347,10 @@ packages:
   split-on-first@1.1.0:
     resolution: {integrity: sha512-43ZssAJaMusuKWL8sKUBQXHWOpq8d6CfN/u1p4gUzfJkM05C8rxTmYrkIPTXapZpORA6LkkzcUulJ8FqA7Uudw==}
     engines: {node: '>=6'}
+
+  split-on-first@3.0.0:
+    resolution: {integrity: sha512-qxQJTx2ryR0Dw0ITYyekNQWpz6f8dGd7vffGNflQQ3Iqj9NJ6qiZ7ELpZsJ/QBhIVAiDfXdag3+Gp8RvWa62AA==}
+    engines: {node: '>=12'}
 
   split2@4.2.0:
     resolution: {integrity: sha512-UcjcJOWknrNkF6PLX83qcHM6KHgVKNkV62Y8a5uYDVv9ydGQVwAHMKqHdJje1VTWpljG0WYpCDhrCdAOYH4TWg==}
@@ -18766,6 +18845,41 @@ snapshots:
       vfile: 5.3.7
     transitivePeerDependencies:
       - supports-color
+
+  '@meshconnect/node-api@2.0.26':
+    dependencies:
+      axios: 1.16.1
+    transitivePeerDependencies:
+      - debug
+      - supports-color
+
+  '@meshconnect/uwc-bridge-parent@1.4.0(bs58@6.0.0)(bufferutil@4.1.0)(encoding@0.1.13)(typescript@6.0.3)(utf-8-validate@6.0.6)':
+    dependencies:
+      '@solana/wallet-adapter-base': 0.9.27(@solana/web3.js@1.98.4(bufferutil@4.1.0)(encoding@0.1.13)(typescript@6.0.3)(utf-8-validate@6.0.6))
+      '@solana/wallet-standard-wallet-adapter-base': 1.1.4(@solana/web3.js@1.98.4(bufferutil@4.1.0)(encoding@0.1.13)(typescript@6.0.3)(utf-8-validate@6.0.6))(bs58@6.0.0)
+      '@solana/web3.js': 1.98.4(bufferutil@4.1.0)(encoding@0.1.13)(typescript@6.0.3)(utf-8-validate@6.0.6)
+      '@wallet-standard/app': 1.1.0
+      '@wallet-standard/base': 1.1.0
+      comlink: 4.4.2
+    transitivePeerDependencies:
+      - bs58
+      - bufferutil
+      - encoding
+      - typescript
+      - utf-8-validate
+
+  '@meshconnect/web-link-sdk@3.10.0(bs58@6.0.0)(bufferutil@4.1.0)(encoding@0.1.13)(typescript@6.0.3)(utf-8-validate@6.0.6)':
+    dependencies:
+      '@meshconnect/node-api': 2.0.26
+      '@meshconnect/uwc-bridge-parent': 1.4.0(bs58@6.0.0)(bufferutil@4.1.0)(encoding@0.1.13)(typescript@6.0.3)(utf-8-validate@6.0.6)
+    transitivePeerDependencies:
+      - bs58
+      - bufferutil
+      - debug
+      - encoding
+      - supports-color
+      - typescript
+      - utf-8-validate
 
   '@metamask/analytics@0.4.0':
     dependencies:
@@ -23276,6 +23390,11 @@ snapshots:
 
   '@thumbmarkjs/thumbmarkjs@0.16.0': {}
 
+  '@transak/ui-js-sdk@1.0.0':
+    dependencies:
+      events: 3.3.0
+      query-string: 9.4.0
+
   '@tronweb3/abstract-adapter-evm@1.0.4':
     dependencies:
       eventemitter3: 4.0.7
@@ -26938,6 +27057,8 @@ snapshots:
     dependencies:
       delayed-stream: 1.0.0
 
+  comlink@4.4.2: {}
+
   comma-separated-tokens@2.0.3: {}
 
   commander@11.1.0: {}
@@ -27339,6 +27460,8 @@ snapshots:
       character-entities: 2.0.2
 
   decode-uri-component@0.2.2: {}
+
+  decode-uri-component@0.4.1: {}
 
   decompress-response@6.0.0:
     dependencies:
@@ -28266,6 +28389,8 @@ snapshots:
       to-regex-range: 5.0.1
 
   filter-obj@1.1.0: {}
+
+  filter-obj@5.1.0: {}
 
   finalhandler@1.1.2:
     dependencies:
@@ -31836,6 +31961,12 @@ snapshots:
       split-on-first: 1.1.0
       strict-uri-encode: 2.0.0
 
+  query-string@9.4.0:
+    dependencies:
+      decode-uri-component: 0.4.1
+      filter-obj: 5.1.0
+      split-on-first: 3.0.0
+
   querystring-es3@0.2.1: {}
 
   querystring@0.2.0: {}
@@ -32828,6 +32959,8 @@ snapshots:
   spdx-license-ids@3.0.23: {}
 
   split-on-first@1.1.0: {}
+
+  split-on-first@3.0.0: {}
 
   split2@4.2.0: {}
 
