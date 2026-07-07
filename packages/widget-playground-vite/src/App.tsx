@@ -14,10 +14,21 @@ import type { JSX, PropsWithChildren } from 'react'
 const queryClient = new QueryClient()
 
 const AppProvider = ({ children }: PropsWithChildren) => {
+  const checkoutToChainRaw = import.meta.env.VITE_CHECKOUT_TO_CHAIN
+  const checkoutToChain = checkoutToChainRaw
+    ? Number(checkoutToChainRaw)
+    : undefined
+
   return (
     <EnvVariablesProvider
       EVMWalletConnectId={import.meta.env.VITE_EVM_WALLET_CONNECT}
       TVMWalletConnectId={import.meta.env.VITE_TVM_WALLET_CONNECT}
+      checkoutIntegrator={import.meta.env.VITE_CHECKOUT_INTEGRATOR || undefined}
+      checkoutToChain={
+        Number.isNaN(checkoutToChain) ? undefined : checkoutToChain
+      }
+      checkoutToToken={import.meta.env.VITE_CHECKOUT_TO_TOKEN || undefined}
+      checkoutToAddress={import.meta.env.VITE_CHECKOUT_TO_ADDRESS || undefined}
     >
       <QueryClientProvider client={queryClient}>
         <WidgetConfigProvider defaultWidgetConfig={defaultWidgetConfig}>

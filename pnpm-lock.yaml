@@ -1663,18 +1663,27 @@ importers:
       '@lifi/widget':
         specifier: workspace:*
         version: link:../widget
+      '@lifi/widget-checkout':
+        specifier: workspace:*
+        version: link:../widget-checkout
       '@lifi/widget-provider-bitcoin':
         specifier: workspace:*
         version: link:../widget-provider-bitcoin
       '@lifi/widget-provider-ethereum':
         specifier: workspace:*
         version: link:../widget-provider-ethereum
+      '@lifi/widget-provider-mesh':
+        specifier: workspace:*
+        version: link:../widget-provider-mesh
       '@lifi/widget-provider-solana':
         specifier: workspace:*
         version: link:../widget-provider-solana
       '@lifi/widget-provider-sui':
         specifier: workspace:*
         version: link:../widget-provider-sui
+      '@lifi/widget-provider-transak':
+        specifier: workspace:*
+        version: link:../widget-provider-transak
       '@lifi/widget-provider-tron':
         specifier: workspace:*
         version: link:../widget-provider-tron
