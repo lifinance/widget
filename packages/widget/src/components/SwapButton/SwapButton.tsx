@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useToAddressAutoPopulate } from '../../hooks/useToAddressAutoPopulate.js'
 import { useToAddressReset } from '../../hooks/useToAddressReset.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { SwapButtonContainer, SwapIconCard } from './SwapButton.style.js'
 
@@ -13,21 +14,25 @@ export const SwapButton: React.FC<BoxProps> = ({
   ...props
 }): JSX.Element => {
   const { t } = useTranslation()
+  const { mode } = useWidgetConfig()
   const { setFieldValue, getFieldValues } = useFieldActions()
   const { getChainById } = useAvailableChains()
   const { tryResetToAddress } = useToAddressReset()
   const autoPopulateToAddress = useToAddressAutoPopulate()
 
   const handleClick = (): void => {
-    const [fromChainId, fromToken, toChainId, toToken, toAddress] =
+    const [fromChainId, fromToken, toChainId, toToken, toAddress, toAmount] =
       getFieldValues(
         'fromChain',
         'fromToken',
         'toChain',
         'toToken',
-        'toAddress'
+        'toAddress',
+        'toAmount'
       )
-    setFieldValue('fromAmount', '', { isTouched: true })
+    const newFromAmount =
+      mode === 'limit' && toAmount ? (toAmount as string) : ''
+    setFieldValue('fromAmount', newFromAmount, { isTouched: true })
     setFieldValue('fromChain', toChainId, { isTouched: true })
     setFieldValue('fromToken', toToken, { isTouched: true })
     setFieldValue('toChain', fromChainId, { isTouched: true })

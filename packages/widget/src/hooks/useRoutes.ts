@@ -93,11 +93,12 @@ export const useRoutes = ({
     'slippage',
   ])
   const [fromTokenAmount] = useDebouncedWatch(500, 'fromAmount')
+  // Debounce toAmount like fromAmount to avoid a request per keystroke
+  const [toTokenAmount] = useDebouncedWatch(500, 'toAmount')
   const [
     fromChainId,
     fromTokenAddress,
     toAddress,
-    toTokenAmount,
     toChainId,
     toTokenAddress,
     contractCalls,
@@ -105,10 +106,13 @@ export const useRoutes = ({
     'fromChain',
     'fromToken',
     'toAddress',
-    'toAmount',
     'toChain',
     'toToken',
     'contractCalls'
+  )
+  const [validUntilDuration, partiallyFillable] = useFieldValues(
+    'validUntil',
+    'partiallyFillable'
   )
   const { token: fromToken } = useToken(fromChainId, fromTokenAddress)
   const { token: toToken } = useToken(toChainId, toTokenAddress)
@@ -122,7 +126,15 @@ export const useRoutes = ({
   const { isBatchingSupported, isBatchingSupportedLoading } =
     useIsBatchingSupported(fromChain, account.address)
 
-  const hasAmount = Number(fromTokenAmount) > 0 || Number(toTokenAmount) > 0
+  // In limit mode toAmount is the user's limit target, derived from the sell
+  // amount and limit price. It's keyed and sent to the backend so changing the
+  // limit fetches a fresh quote. The receive card is read-only (it displays the
+  // quote and never writes toAmount back), so keying on it can't loop. Both a
+  // sell amount and a limit price (→ toAmount) are required before fetching.
+  const hasAmount =
+    mode === 'limit'
+      ? Number(fromTokenAmount) > 0 && Number(toTokenAmount) > 0
+      : Number(fromTokenAmount) > 0 || Number(toTokenAmount) > 0
 
   const contractCallQuoteEnabled: boolean =
     mode === 'custom' ? Boolean(contractCalls && account.address) : true
@@ -174,6 +186,8 @@ export const useRoutes = ({
         toChain?.id as number,
         toToken?.address as string,
         toTokenAmount,
+        validUntilDuration,
+        partiallyFillable,
         contractCalls,
         slippage,
         swapOnly,
@@ -202,6 +216,8 @@ export const useRoutes = ({
       toChain?.id,
       toToken?.address,
       toTokenAmount,
+      validUntilDuration,
+      partiallyFillable,
       contractCalls,
       slippage,
       swapOnly,
@@ -240,6 +256,8 @@ export const useRoutes = ({
           toChainId,
           toTokenAddress,
           toTokenAmount,
+          validUntilDuration,
+          partiallyFillable,
           contractCalls,
           slippage = defaultSlippage,
           swapOnly,
@@ -262,7 +280,9 @@ export const useRoutes = ({
         signal,
       }) => {
         const fromAmount = parseUnits(fromTokenAmount, fromToken!.decimals)
-        const toAmount = parseUnits(toTokenAmount, toToken!.decimals)
+        const toAmount = toTokenAmount
+          ? parseUnits(toTokenAmount, toToken!.decimals)
+          : undefined
         const formattedSlippage = slippage
           ? Number.parseFloat(slippage) / 100
           : defaultSlippage
@@ -368,6 +388,8 @@ export const useRoutes = ({
         const shouldUseMainRoutes =
           !observableRoute || !isObservableRelayerRoute
         const shouldUseRelayerQuote =
+          // Relayer quotes don't support limit-order params
+          mode !== 'limit' &&
           fromAddress &&
           fromChain?.chainType === ChainType.EVM &&
           fromChain.permit2 &&
@@ -377,6 +399,15 @@ export const useRoutes = ({
           useRelayerRoutes &&
           !isBatchingSupported &&
           (!observableRoute || isObservableRelayerRoute)
+
+        const limitOrderRouteParams =
+          mode === 'limit'
+            ? {
+                toAmount: toAmount?.toString(),
+                validUntil: Math.floor(Date.now() / 1000) + validUntilDuration,
+                partiallyFillable: partiallyFillable,
+              }
+            : undefined
 
         const mainRoutesPromise = shouldUseMainRoutes
           ? getRoutes(
@@ -393,6 +424,7 @@ export const useRoutes = ({
                   enabledRefuel && gasRecommendationFromAmount
                     ? gasRecommendationFromAmount
                     : undefined,
+                ...limitOrderRouteParams,
                 options: {
                   allowSwitchChain:
                     mode === 'refuel' ? false : allowSwitchChain,

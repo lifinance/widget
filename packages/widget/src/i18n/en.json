@@ -43,6 +43,7 @@
     "options": "Options",
     "reset": "Reset",
     "resetSettings": "Reset settings",
+    "review": "Review",
     "seeDetails": "See details",
     "showAll": "Show all",
     "startBridging": "Start bridging",
@@ -58,6 +59,7 @@
     "amount": "Amount",
     "bookmarkedWallets": "Bookmarked wallets",
     "bridge": "Bridge",
+    "buy": "Buy",
     "checkout": "Checkout",
     "checkoutDetails": "Checkout details",
     "deposit": "Deposit",
@@ -75,6 +77,7 @@
     "refunded": "Refunded",
     "selectChain": "Select chain",
     "selectWallet": "Select your wallet",
+    "sell": "Sell",
     "send": "Send",
     "sendToWallet": "Send to wallet",
     "settings": "Settings",
@@ -86,6 +89,14 @@
     "walletConnected": "Wallet connected",
     "youGet": "You get",
     "youPay": "You pay"
+  },
+  "limitOrder": {
+    "custom": "Custom",
+    "expiresIn": "Expires in",
+    "market": "Market",
+    "partiallyFillable": "Allow partial fills",
+    "price": "Limit price",
+    "priceLabel": "When 1 {{symbol}} is worth"
   },
   "info": {
     "message": {

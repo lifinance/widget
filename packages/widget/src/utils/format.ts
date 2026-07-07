@@ -175,7 +175,11 @@ const units = [
   ['second', 1],
 ] as const
 
-export function formatDuration(seconds: number, locale: string): string {
+export function formatDuration(
+  seconds: number,
+  locale: string,
+  unitDisplay: Intl.NumberFormatOptions['unitDisplay'] = 'narrow'
+): string {
   const match = units.find(([, v]) => seconds >= v)
   const amount = match ? Math.floor(seconds / match[1]) : 0
   const unit = match?.[0] ?? 'second'
@@ -183,7 +187,7 @@ export function formatDuration(seconds: number, locale: string): string {
   return amount.toLocaleString(locale, {
     style: 'unit',
     unit,
-    unitDisplay: 'narrow',
+    unitDisplay,
   })
 }
 

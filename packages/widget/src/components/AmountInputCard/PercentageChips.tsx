@@ -4,6 +4,7 @@ import { type JSX, memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useGasRecommendation } from '../../hooks/useGasRecommendation.js'
+import { useLinkedLimitFields } from '../../hooks/useLinkedLimitFields.js'
 import { useTokenAddressBalance } from '../../hooks/useTokenAddressBalance.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { FormTypeProps } from '../../stores/form/types.js'
@@ -18,7 +19,8 @@ export const PercentageChips: React.NamedExoticComponent<FormTypeProps> = memo(
     const { t } = useTranslation()
     const { getChainById } = useAvailableChains()
     const { setFieldValue } = useFieldActions()
-    const { disabledUI } = useWidgetConfig()
+    const { disabledUI, mode } = useWidgetConfig()
+    const { setSendAmount } = useLinkedLimitFields()
 
     const amountKey = FormKeyHelper.getAmountKey(formType)
     const isDisabled = !!disabledUI?.[amountKey as keyof DisabledUIConfig]
@@ -48,26 +50,29 @@ export const PercentageChips: React.NamedExoticComponent<FormTypeProps> = memo(
       return maxAmount
     }
 
+    // In limit mode the send amount must flow through the linked-field
+    // derivation so the receive amount recomputes; otherwise it is a plain
+    // form-field write.
+    const applyAmount = (value: string): void => {
+      if (mode === 'limit') {
+        setSendAmount(value)
+      } else {
+        setFieldValue(amountKey, value, { isTouched: true })
+      }
+    }
+
     const handlePercentage = (percentage: number): void => {
       const maxAmount = getMaxAmount()
       if (maxAmount && token?.decimals) {
         const percentageAmount = (maxAmount * BigInt(percentage)) / 100n
-        setFieldValue(
-          FormKeyHelper.getAmountKey(formType),
-          formatUnits(percentageAmount, token.decimals),
-          { isTouched: true }
-        )
+        applyAmount(formatUnits(percentageAmount, token.decimals))
       }
     }
 
     const handleMax = (): void => {
       const maxAmount = getMaxAmount()
       if (maxAmount && token?.decimals) {
-        setFieldValue(
-          FormKeyHelper.getAmountKey(formType),
-          formatUnits(maxAmount, token.decimals),
-          { isTouched: true }
-        )
+        applyAmount(formatUnits(maxAmount, token.decimals))
       }
     }
 

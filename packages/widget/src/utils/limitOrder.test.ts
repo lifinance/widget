@@ -1,0 +1,70 @@
+import { describe, expect, it } from 'vitest'
+import {
+  applyPriceOffset,
+  deriveLimitPrice,
+  deriveReceiveAmount,
+  invertPrice,
+} from './limitOrder.js'
+
+describe('deriveReceiveAmount', () => {
+  it('multiplies send by price', () => {
+    expect(deriveReceiveAmount('2', '1500')).toBe('3000')
+  })
+
+  it('returns empty string when send is missing', () => {
+    expect(deriveReceiveAmount('', '1500')).toBe('')
+    expect(deriveReceiveAmount(undefined, '1500')).toBe('')
+  })
+
+  it('returns empty string when price is missing', () => {
+    expect(deriveReceiveAmount('2', '')).toBe('')
+    expect(deriveReceiveAmount('2', undefined)).toBe('')
+  })
+
+  it('returns empty string for zero or negative send', () => {
+    expect(deriveReceiveAmount('0', '1500')).toBe('')
+    expect(deriveReceiveAmount('-1', '1500')).toBe('')
+  })
+
+  it('respects toDecimals', () => {
+    expect(deriveReceiveAmount('1', '1.123456789', 4)).toBe('1.1234')
+  })
+})
+
+describe('deriveLimitPrice', () => {
+  it('divides receive by send', () => {
+    expect(deriveLimitPrice('2', '3000')).toBe('1500')
+  })
+
+  it('returns empty string when either input is missing', () => {
+    expect(deriveLimitPrice('', '3000')).toBe('')
+    expect(deriveLimitPrice('2', '')).toBe('')
+  })
+})
+
+describe('invertPrice', () => {
+  it('returns 1/price', () => {
+    expect(invertPrice('2')).toBe('0.5')
+  })
+
+  it('returns empty string for missing or invalid input', () => {
+    expect(invertPrice('')).toBe('')
+    expect(invertPrice(undefined)).toBe('')
+    expect(invertPrice('0')).toBe('')
+  })
+})
+
+describe('applyPriceOffset', () => {
+  it('applies a positive percent', () => {
+    expect(applyPriceOffset('1000', 2)).toBe('1020')
+  })
+
+  it('applies a negative percent', () => {
+    expect(applyPriceOffset('1000', -5)).toBe('950')
+  })
+
+  it('returns empty string for missing price', () => {
+    expect(applyPriceOffset(undefined, 2)).toBe('')
+    expect(applyPriceOffset('', 2)).toBe('')
+  })
+})
