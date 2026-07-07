@@ -1,14 +1,13 @@
 import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
-import { usePinnedTokensStore } from '../stores/pinnedTokens/PinnedTokensStore.js'
 import { useSettings } from '../stores/settings/useSettings.js'
 import type { TokenAmount } from '../types/token.js'
 import { formatTokenPrice } from '../utils/format.js'
-import { isSearchMatch, processTokenBalances } from '../utils/tokenList.js'
+import { isSearchMatch, processTokenList } from '../utils/tokenList.js'
 import { useAccountsBalancesData } from './useAccountsBalancesData.js'
+import { useDisplayedTokens } from './useDisplayedTokens.js'
 import { useTokenBalancesQueries } from './useTokenBalancesQueries.js'
-import { useTokens } from './useTokens.js'
 
 export const useTokenBalances = (
   selectedChainId?: number,
@@ -23,12 +22,14 @@ export const useTokenBalances = (
   isSearchLoading: boolean
   isBalanceLoading: boolean
 } => {
-  const { hiddenUI } = useWidgetConfig()
+  const { hiddenUI, tokens: configTokens } = useWidgetConfig()
   const {
     allTokens,
-    isLoading: isTokensLoading,
+    displayedTokensList,
+    isPinnedToken,
+    isTokensLoading,
     isSearchLoading,
-  } = useTokens(formType, search, isAllNetworks ? undefined : selectedChainId)
+  } = useDisplayedTokens(selectedChainId, formType, isAllNetworks, search)
 
   const { data: accountsWithAllTokens, isLoading: isAccountsLoading } =
     useAccountsBalancesData(selectedChainId, formType, isAllNetworks, allTokens)
@@ -39,57 +40,11 @@ export const useTokenBalances = (
   const { data: allTokensWithBalances, isLoading: isBalanceQueriesLoading } =
     useTokenBalancesQueries(accountsWithAllTokens, isBalanceLoadingEnabled)
 
-  const { tokens: configTokens } = useWidgetConfig()
   const { smallBalanceThreshold } = useSettings(['smallBalanceThreshold'])
-
-  const pinnedTokens = usePinnedTokensStore((state) => state.pinnedTokens)
 
   const isBalanceLoading =
     (isBalanceQueriesLoading || isAccountsLoading) &&
     !allTokensWithBalances?.length
-
-  // Create function to check if token is pinned
-  const isPinnedToken = useMemo(() => {
-    if (isAllNetworks) {
-      // For all networks, check all pinned tokens
-      const allPinned: Array<{ chainId: number; tokenAddress: string }> = []
-      Object.entries(pinnedTokens).forEach(([chainIdStr, addresses]) => {
-        const chainId = Number.parseInt(chainIdStr, 10)
-        addresses.forEach((address) => {
-          allPinned.push({ chainId, tokenAddress: address })
-        })
-      })
-      const pinnedSet = new Set(
-        allPinned.map((p) => `${p.chainId}-${p.tokenAddress.toLowerCase()}`)
-      )
-      return (chainId: number, tokenAddress: string) => {
-        const key = `${chainId}-${tokenAddress.toLowerCase()}`
-        return pinnedSet.has(key)
-      }
-    } else if (selectedChainId) {
-      // For single chain, check only selected chain
-      const chainPinnedTokens = pinnedTokens[selectedChainId] || []
-      const pinnedSet = new Set(
-        chainPinnedTokens.map((addr) => addr.toLowerCase())
-      )
-      return (chainId: number, tokenAddress: string) => {
-        return (
-          chainId === selectedChainId &&
-          pinnedSet.has(tokenAddress.toLowerCase())
-        )
-      }
-    }
-    return undefined
-  }, [isAllNetworks, selectedChainId, pinnedTokens])
-
-  const displayedTokensList = useMemo(() => {
-    const tokensByChain = isAllNetworks
-      ? Object.values(allTokens ?? {}).flat()
-      : selectedChainId
-        ? allTokens?.[selectedChainId]
-        : undefined
-    return tokensByChain?.filter((t) => isSearchMatch(t, search)) ?? []
-  }, [allTokens, isAllNetworks, selectedChainId, search])
 
   const displayedTokensWithBalances = useMemo(() => {
     const balancesByChain = isAllNetworks
@@ -160,7 +115,7 @@ export const useTokenBalances = (
   ])
 
   const { processedTokens, withCategories, withPinnedTokens } = useMemo(() => {
-    return processTokenBalances(
+    return processTokenList(
       isBalanceLoading,
       isAllNetworks || !!search,
       configTokens,
