@@ -12,6 +12,9 @@ import { useContext, useState } from 'react'
 import { CheckoutLayout } from './CheckoutLayout.js'
 import { useSeedFrozenQuote } from './hooks/useFrozenQuote.js'
 import { CheckoutRoutesPage } from './pages/CheckoutRoutesPage.js'
+import { CheckoutTransactionDetailsPage } from './pages/CheckoutTransactionDetailsPage/CheckoutTransactionDetailsPage.js'
+import { CheckoutTransactionPage } from './pages/CheckoutTransactionPage.js'
+import { CheckoutTransactionStatusPage } from './pages/CheckoutTransactionStatusPage/CheckoutTransactionStatusPage.js'
 import { DepositErrorRoutePage } from './pages/DepositErrorPages/DepositErrorRoutePage.js'
 import { EnterAmountPage } from './pages/EnterAmountPage/EnterAmountPage.js'
 import { ProgressPage } from './pages/ProgressPage/ProgressPage.js'
@@ -95,6 +98,52 @@ const routesIndexRoute = createRoute({
   component: CheckoutRoutesPage,
 })
 
+const routesTransactionExecutionRoute = createRoute({
+  getParentRoute: () => routesLayoutRoute,
+  path: navigationRoutes.transactionExecution,
+})
+
+const routesTransactionExecutionIndexRoute = createRoute({
+  getParentRoute: () => routesTransactionExecutionRoute,
+  path: '/',
+  component: CheckoutTransactionPage,
+})
+
+const routesTransactionExecutionDetailsRoute = createRoute({
+  getParentRoute: () => routesTransactionExecutionRoute,
+  path: navigationRoutes.transactionDetails,
+  component: CheckoutTransactionDetailsPage,
+})
+
+const routesTransactionExecutionStatusRoute = createRoute({
+  getParentRoute: () => routesTransactionExecutionRoute,
+  path: checkoutNavigationRoutes.transactionStatus,
+  component: CheckoutTransactionStatusPage,
+})
+
+const transactionExecutionLayoutRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: navigationRoutes.transactionExecution,
+})
+
+const transactionExecutionIndexRoute = createRoute({
+  getParentRoute: () => transactionExecutionLayoutRoute,
+  path: '/',
+  component: CheckoutTransactionPage,
+})
+
+const transactionExecutionDetailsRoute = createRoute({
+  getParentRoute: () => transactionExecutionLayoutRoute,
+  path: navigationRoutes.transactionDetails,
+  component: CheckoutTransactionDetailsPage,
+})
+
+const transactionExecutionStatusRoute = createRoute({
+  getParentRoute: () => transactionExecutionLayoutRoute,
+  path: checkoutNavigationRoutes.transactionStatus,
+  component: CheckoutTransactionStatusPage,
+})
+
 const routeTree = rootRoute.addChildren([
   indexRoute,
   enterAmountRoute,
@@ -106,7 +155,19 @@ const routeTree = rootRoute.addChildren([
     fromTokenIndexRoute,
     fromTokenFromChainRoute,
   ]),
-  routesLayoutRoute.addChildren([routesIndexRoute]),
+  routesLayoutRoute.addChildren([
+    routesIndexRoute,
+    routesTransactionExecutionRoute.addChildren([
+      routesTransactionExecutionIndexRoute,
+      routesTransactionExecutionDetailsRoute,
+      routesTransactionExecutionStatusRoute,
+    ]),
+  ]),
+  transactionExecutionLayoutRoute.addChildren([
+    transactionExecutionIndexRoute,
+    transactionExecutionDetailsRoute,
+    transactionExecutionStatusRoute,
+  ]),
 ])
 
 export const CheckoutRouter: React.FC = () => {
