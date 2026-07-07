@@ -229,6 +229,7 @@ export type WidgetTokens = {
   featured?: WidgetStaticToken[]
   include?: WidgetToken[]
   popular?: WidgetStaticToken[]
+  verified?: WidgetBaseToken[]
   from?: WidgetAllowDeny<WidgetBaseToken>
   to?: WidgetAllowDeny<WidgetBaseToken>
 } & WidgetAllowDeny<WidgetBaseToken>
