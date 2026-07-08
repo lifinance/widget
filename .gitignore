@@ -44,3 +44,6 @@ next-env.d.ts
 .claude/worktrees/
 .omc/
 .cursor/
+.codex/
+.agents/
+AGENTS.md

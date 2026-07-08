@@ -1,8 +1,12 @@
 import {
+  FormKeyHelper,
   MainWarningMessages,
   PageContainer,
   PoweredBy,
+  useFieldActions,
+  useFieldValues,
   useHeader,
+  useInputModeStore,
   useWidgetConfig,
 } from '@lifi/widget/shared'
 import { Box } from '@mui/material'
@@ -10,6 +14,7 @@ import type { JSX, ReactNode } from 'react'
 import { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CheckoutAmountInput } from '../../components/CheckoutAmountInput.js'
+import { CheckoutAmountPresets } from '../../components/CheckoutAmountPresets.js'
 import { CheckoutFlowCtaButton } from '../../components/CheckoutFlowCtaButton.js'
 import { CheckoutReceiveCard } from '../../components/CheckoutReceiveCard.js'
 import { CheckoutRecipientCard } from '../../components/CheckoutRecipientCard.js'
@@ -38,29 +43,53 @@ export const EnterAmountPage: React.FC = (): JSX.Element => {
   useHeader(t(headerKeyByFlow[fundingSource]))
   const showPoweredBy = !hiddenUI?.poweredBy
   const overrideExchanges = useCheckoutExchangesOverride()
+  const setInputMode = useInputModeStore((s) => s.setInputMode)
+  const { setFieldValue } = useFieldActions()
+  const [cashFiatAmount] = useFieldValues('cashFiatAmount')
   useOnRampPreconnect()
 
-  // Safety net: ensure the IF override is applied even when the user lands here
-  // without going through the SelectSourcePage handlers (deep link / refresh).
   useLayoutEffect(() => {
     if (fundingSource !== 'wallet') {
       overrideExchanges([...INTENT_FACTORY_ONLY])
     }
   }, [fundingSource, overrideExchanges])
 
+  useLayoutEffect(() => {
+    if (fundingSource !== 'cash') {
+      return
+    }
+    const previousMode = useInputModeStore.getState().inputMode.from
+    if (previousMode !== 'price') {
+      setInputMode('from', 'price')
+    }
+    return () => {
+      setInputMode('from', previousMode)
+    }
+  }, [fundingSource, setInputMode])
+
+  const isCashFlow = fundingSource === 'cash'
+
+  useLayoutEffect(() => {
+    if (isCashFlow && !cashFiatAmount) {
+      setFieldValue(FormKeyHelper.getAmountKey('from'), '')
+    }
+  }, [cashFiatAmount, isCashFlow, setFieldValue])
+
   let sendSlot: ReactNode | undefined
-  if (fundingSource === 'cash') {
+  if (isCashFlow) {
     sendSlot = <FiatCurrencyChip />
   }
 
   return (
     <PageContainer>
-      <CheckoutAmountInput formType="from" sx={{ mb: 2 }} sendSlot={sendSlot} />
+      <CheckoutAmountInput
+        formType="from"
+        sx={{ mb: 2 }}
+        sendSlot={sendSlot}
+        presetsSlot={isCashFlow ? <CheckoutAmountPresets /> : undefined}
+      />
       <CheckoutReceiveCard />
-      <Box sx={{ mt: 2 }}>
-        <CheckoutRecipientCard />
-      </Box>
-      {/* Warnings cover wallet balance / gas — only show for wallet flow. */}
+      <CheckoutRecipientCard />
       {isWalletFunded ? <MainWarningMessages sx={{ mt: 2, mb: 2 }} /> : null}
       <Box sx={{ mt: 1.5, mb: showPoweredBy ? 1 : 3 }}>
         <Box sx={{ display: 'flex', gap: 1.5 }}>

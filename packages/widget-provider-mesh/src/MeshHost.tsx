@@ -390,6 +390,7 @@ export const MeshHost: FC<MeshHostProps> = ({ widgetConfig }) => {
       depositTxHash,
       acknowledgeDepositTxHash,
       resolvedDepositAddress: null,
+      fundingSessionId: null,
       mountTargetId: null,
     }),
     [

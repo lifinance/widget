@@ -1,6 +1,8 @@
+import { parseUnits } from '@lifi/sdk'
 import {
   BaseTransactionButton,
   formatTokenAmount,
+  useFieldValues,
   useToAddressRequirements,
   useWidgetEvents,
   WidgetEvent,
@@ -8,10 +10,12 @@ import {
 import { Button } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import type { JSX } from 'react'
-import { useCallback } from 'react'
+import { Fragment, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useCheckoutModal } from '../CheckoutModal.js'
 import { useCheckoutFlowQuote } from '../hooks/useCheckoutFlowQuote.js'
 import { useFrozenQuote } from '../hooks/useFrozenQuote.js'
+import { useOnRampQuote } from '../hooks/useOnRampQuote.js'
 import { useResolvedCheckoutRecipient } from '../hooks/useResolvedCheckoutRecipient.js'
 import { useOnRampSessionByCategory } from '../providers/OnRampProvider/OnRampProvider.js'
 import {
@@ -19,10 +23,12 @@ import {
   useCheckoutFlowStore,
 } from '../stores/useCheckoutFlowStore.js'
 import { useFiatCurrencyStore } from '../stores/useFiatCurrencyStore.js'
+import { normalizeFiatAmount } from '../utils/fiatFormat.js'
 import {
   checkoutAbsolutePaths,
   checkoutNavigationRoutes,
 } from '../utils/navigationRoutes.js'
+import { CashHandoffSheet } from './CashHandoffSheet.js'
 
 const ctaLabelKey = {
   wallet: 'button.pay',
@@ -54,11 +60,21 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
     (s) => s.selectedExchangeAccount
   )
   const fiatCurrency = useFiatCurrencyStore((s) => s.currency)
+  const paymentMethod = useFiatCurrencyStore((s) => s.paymentMethod)
+  const [cashFiatAmount] = useFieldValues('cashFiatAmount')
+  const onRampQuote = useOnRampQuote()
   const onRampSession = useOnRampSessionByCategory(
     fundingSource === 'cash' || fundingSource === 'exchange'
       ? fundingSource
       : null
   )
+  const normalizedCashFiatAmount = normalizeFiatAmount(cashFiatAmount)
+  const parsedFiatAmount = Number.parseFloat(normalizedCashFiatAmount)
+  const hasFiatAmount =
+    Number.isFinite(parsedFiatAmount) && parsedFiatAmount > 0
+
+  const panelEl = useCheckoutModal()?.panelEl ?? null
+  const [handoffOpen, setHandoffOpen] = useState(false)
 
   const handleWalletDeposit = useCallback(() => {
     if (!route) {
@@ -88,26 +104,27 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
     if (!route || !depositAddress || !onRampSession) {
       return
     }
-    freeze(route)
+    freeze(
+      route,
+      fundingSource === 'cash'
+        ? { fiatCurrency, fiatAmount: normalizedCashFiatAmount || undefined }
+        : undefined
+    )
     setFrozenRouteId(route.id)
     const cryptoAmount = formatTokenAmount(
       BigInt(route.fromAmount),
       route.fromToken.decimals
     )
-    const priceUSD = Number.parseFloat(route.fromToken.priceUSD ?? '')
-    const cryptoAmountNumber = Number.parseFloat(cryptoAmount)
-    const fiatAmount =
-      Number.isFinite(priceUSD) &&
-      priceUSD > 0 &&
-      Number.isFinite(cryptoAmountNumber) &&
-      cryptoAmountNumber > 0
-        ? (cryptoAmountNumber * priceUSD).toFixed(2)
-        : undefined
     onRampSession.open({
       depositAddress,
       amount: cryptoAmount,
       fiatCurrency,
-      fiatAmount,
+      fiatAmount:
+        fundingSource === 'cash'
+          ? normalizedCashFiatAmount || undefined
+          : undefined,
+      paymentMethod:
+        fundingSource === 'cash' ? (paymentMethod ?? undefined) : undefined,
       fromChainId: route.fromChainId,
       fromTokenAddress: route.fromToken.address,
       accessTokens: selectedExchangeAccount
@@ -129,6 +146,9 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
     freeze,
     setFrozenRouteId,
     fiatCurrency,
+    normalizedCashFiatAmount,
+    paymentMethod,
+    fundingSource,
     navigate,
     selectedExchangeAccount,
     i18n.language,
@@ -145,7 +165,6 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
 
   const needsRecipient = isUserSettable && !recipient
 
-  // Only the wallet flow may connect-on-demand; other sources fund without a wallet.
   if (fundingSource === 'wallet') {
     return (
       <BaseTransactionButton
@@ -158,14 +177,38 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
     )
   }
 
-  // A failed step leaves no deposit address, so the CTA can never enable.
-  if (isError) {
+  const isCash = fundingSource === 'cash'
+  let cashRouteMatchesQuote = !isCash
+  if (isCash && route && onRampQuote.data?.funding?.estimatedAmount) {
+    try {
+      cashRouteMatchesQuote =
+        parseUnits(
+          onRampQuote.data.funding.estimatedAmount,
+          route.fromToken.decimals
+        ).toString() === route.fromAmount
+    } catch {
+      cashRouteMatchesQuote = false
+    }
+  }
+
+  const cashNotReady =
+    isCash &&
+    (!hasFiatAmount ||
+      !onRampQuote.isReady ||
+      onRampQuote.isFetching ||
+      onRampQuote.isDebouncePending ||
+      !cashRouteMatchesQuote)
+
+  if (isError || (isCash && onRampQuote.isError)) {
     return (
       <Button
         variant="contained"
         color="primary"
         fullWidth
-        onClick={() => refetch()}
+        onClick={() => {
+          refetch()
+          onRampQuote.refetch()
+        }}
         sx={{ flex: 1 }}
       >
         {t('button.tryAgain')}
@@ -173,16 +216,34 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
     )
   }
 
+  const primaryAction = isCash
+    ? () => setHandoffOpen(true)
+    : handlersByFunding[fundingSource]
+
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      fullWidth
-      onClick={handlersByFunding[fundingSource]}
-      disabled={!route || !depositAddress || needsRecipient}
-      sx={{ flex: 1 }}
-    >
-      {label}
-    </Button>
+    <Fragment>
+      <Button
+        variant="contained"
+        color="primary"
+        fullWidth
+        onClick={primaryAction}
+        disabled={!route || !depositAddress || needsRecipient || cashNotReady}
+        sx={{ flex: 1 }}
+      >
+        {label}
+      </Button>
+      {isCash && depositAddress ? (
+        <CashHandoffSheet
+          open={handoffOpen}
+          depositAddress={depositAddress}
+          container={panelEl}
+          onContinue={() => {
+            setHandoffOpen(false)
+            handleOnRampDeposit()
+          }}
+          onGoBack={() => setHandoffOpen(false)}
+        />
+      ) : null}
+    </Fragment>
   )
 }

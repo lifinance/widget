@@ -62,6 +62,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
   const [resolvedDepositAddress, setResolvedDepositAddress] = useState<
     string | null
   >(null)
+  const [fundingSessionId, setFundingSessionId] = useState<string | null>(null)
   // `useId()` can return ids with colons (e.g. `:r0:`); Transak's SDK looks
   // the container up via `#${id}` selector and throws on those.
   const reactId = useId()
@@ -84,6 +85,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
     setFailure(null)
     setWidgetUrl(null)
     setResolvedDepositAddress(null)
+    setFundingSessionId(null)
   }, [])
 
   const openDepositFlow = useCallback(
@@ -95,6 +97,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
       setFailure(null)
       setWidgetUrl(null)
       setResolvedDepositAddress(null)
+      setFundingSessionId(null)
       setIsLoading(true)
 
       if (!apiUrl) {
@@ -136,6 +139,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
           ? { fiatAmount: args.fiatAmount }
           : { amount: args.amount }),
         fiatCurrency: args.fiatCurrency,
+        ...(args.paymentMethod ? { paymentMethod: args.paymentMethod } : {}),
       }
 
       const canRetryWithNativeEth =
@@ -212,8 +216,12 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
           return
         }
 
-        debug('session received', { widgetUrl: res.data.widgetUrl })
+        debug('session received', {
+          widgetUrl: res.data.widgetUrl,
+          fundingSessionId: res.data.fundingSessionId,
+        })
         setWidgetUrl(res.data.widgetUrl)
+        setFundingSessionId(res.data.fundingSessionId ?? null)
       } catch (e) {
         const message =
           e instanceof Error
@@ -260,12 +268,14 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
   const closeRef = useRef(close)
   const cancelRef = useRef(cancel)
   const openDepositFlowRef = useRef(openDepositFlow)
+  const fundingSessionIdRef = useRef(fundingSessionId)
   useEffect(() => {
     onErrorRef.current = onError
     closeRef.current = close
     cancelRef.current = cancel
     openDepositFlowRef.current = openDepositFlow
-  }, [onError, close, cancel, openDepositFlow])
+    fundingSessionIdRef.current = fundingSessionId
+  }, [onError, close, cancel, openDepositFlow, fundingSessionId])
 
   useEffect(() => {
     if (!open || !widgetUrl || isLoading) {
@@ -323,6 +333,11 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
       if (orderWalletAddress) {
         setResolvedDepositAddress(orderWalletAddress)
       }
+      // Prefer the resumed order's partnerOrderId so reconciliation matches it.
+      const orderFundingSessionId =
+        typeof order.partnerOrderId === 'string' && order.partnerOrderId
+          ? order.partnerOrderId
+          : fundingSessionIdRef.current
 
       debug('order extracted', {
         orderId,
@@ -344,6 +359,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
           order.chainId ?? order.networkId ?? lastArgs?.fromChainId ?? 0
         ),
         depositAddress: orderWalletAddress ?? undefined,
+        fundingSessionId: orderFundingSessionId ?? undefined,
       })
 
       debug('closing modal (preserving depositTxHash)')
@@ -433,6 +449,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
       depositTxHash: null,
       acknowledgeDepositTxHash: () => {},
       resolvedDepositAddress,
+      fundingSessionId,
       mountTargetId,
     }),
     [
@@ -445,6 +462,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
       open,
       openDepositFlow,
       resolvedDepositAddress,
+      fundingSessionId,
     ]
   )
 

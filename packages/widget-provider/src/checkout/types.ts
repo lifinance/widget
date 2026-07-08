@@ -90,6 +90,7 @@ export interface OnRampSession {
    * the user resumes a prior pending order (Transak). `null` until reported.
    */
   resolvedDepositAddress: string | null
+  fundingSessionId: string | null
   /**
    * DOM element id the provider's SDK targets. The widget renders a
    * `<div id={mountTargetId}>` inside its hosted modal when this is set.
@@ -149,7 +150,9 @@ export interface OnRampAccessToken {
 export interface OnRampOpenArgs {
   depositAddress: string
   amount: string
-  fiatCurrency?: 'USD' | 'EUR' | 'GBP'
+  fiatCurrency?: string
+  paymentMethod?: string
+  countryCode?: string
   /**
    * Previously-connected exchange accounts to resume. When set, the provider
    * (Mesh) re-enters its flow at the asset/transfer step instead of the catalog
@@ -219,6 +222,7 @@ export interface CheckoutResult {
   chainId: number
   /** Address the resolved order funds, when the provider reports one (Transak). */
   depositAddress?: string
+  fundingSessionId?: string
 }
 
 export interface CheckoutError {

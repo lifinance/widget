@@ -29,20 +29,23 @@ export const CheckoutPriceFormHelperText: React.NamedExoticComponent<FormTypePro
     const { inputMode, toggleInputMode } = useInputModeStore()
     const isWalletFunded = useIsWalletFundedFlow()
 
-    // Only fetch the connected-wallet balance when the funding source actually
-    // uses it. Passing undefined gates the RPC call inside the hook.
     const { token: walletToken, isLoading: walletBalanceLoading } =
       useTokenAddressBalance(
         isWalletFunded ? chainId : undefined,
         isWalletFunded ? tokenAddress : undefined
       )
-    const { token: lookupToken } = useToken(chainId, tokenAddress)
+    const { token: lookupToken, isLoading: lookupTokenLoading } = useToken(
+      chainId,
+      tokenAddress
+    )
 
     const token: TokenAmount | undefined = isWalletFunded
       ? walletToken
       : (lookupToken as TokenAmount | undefined)
     const isBalanceLoading = isWalletFunded && walletBalanceLoading
     const currentInputMode = inputMode[formType]
+    const isPriceSymbolLoading =
+      currentInputMode === 'price' && !token?.symbol && lookupTokenLoading
     const canTogglePrice = isWalletFunded && Boolean(token?.priceUSD)
 
     const priceOrAmountLabel = (() => {
@@ -81,37 +84,43 @@ export const CheckoutPriceFormHelperText: React.NamedExoticComponent<FormTypePro
         <InputPriceButton
           onClick={canTogglePrice ? handleToggleMode : undefined}
         >
-          {canTogglePrice ? <SwapVertIcon sx={{ fontSize: 14 }} /> : null}
-          <Typography
-            sx={{
-              color: 'text.secondary',
-              fontWeight: 500,
-              fontSize: 12,
-              lineHeight: 1,
-              marginRight: 0.25,
-              maxWidth: 136,
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            {priceOrAmountLabel}
-          </Typography>
-          {currentInputMode === 'price' && token?.symbol ? (
-            <Typography
-              sx={{
-                color: 'text.secondary',
-                fontWeight: 500,
-                fontSize: 12,
-                lineHeight: 1,
-                wordBreak: 'break-word',
-                overflowWrap: 'break-word',
-                marginRight: 0.25,
-              }}
-            >
-              {token.symbol}
-            </Typography>
-          ) : null}
+          {isPriceSymbolLoading ? (
+            <Skeleton variant="text" width={72} height={16} />
+          ) : (
+            <>
+              {canTogglePrice ? <SwapVertIcon sx={{ fontSize: 14 }} /> : null}
+              <Typography
+                sx={{
+                  color: 'text.secondary',
+                  fontWeight: 500,
+                  fontSize: 12,
+                  lineHeight: 1,
+                  marginRight: 0.25,
+                  maxWidth: 136,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {priceOrAmountLabel}
+              </Typography>
+              {currentInputMode === 'price' && token?.symbol ? (
+                <Typography
+                  sx={{
+                    color: 'text.secondary',
+                    fontWeight: 500,
+                    fontSize: 12,
+                    lineHeight: 1,
+                    wordBreak: 'break-word',
+                    overflowWrap: 'break-word',
+                    marginRight: 0.25,
+                  }}
+                >
+                  {token.symbol}
+                </Typography>
+              ) : null}
+            </>
+          )}
         </InputPriceButton>
         {isWalletFunded ? (
           isBalanceLoading && tokenAddress ? (
