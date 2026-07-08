@@ -8,10 +8,12 @@ import { CheckoutToastHost } from './components/CheckoutToastHost.js'
 import { Container, ExpandedContainer } from './components/Container.js'
 import { Header } from './components/Header.js'
 import { OnRampHostedModals } from './components/OnRampHostedModals.js'
+import { useDefaultWalletRecipient } from './hooks/useDefaultWalletRecipient.js'
 import { useSyncCheckoutRecipientToForm } from './hooks/useSyncCheckoutRecipientToForm.js'
 
 export const CheckoutLayout: React.FC = () => {
   const { elementId } = useWidgetConfig()
+  useDefaultWalletRecipient()
   useSyncCheckoutRecipientToForm()
 
   return (

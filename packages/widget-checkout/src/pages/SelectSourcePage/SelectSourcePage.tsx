@@ -38,6 +38,7 @@ import {
   DEFAULT_FROM_CHAIN_ID,
   DEFAULT_FROM_TOKEN_ADDRESS,
 } from '../../utils/checkoutDefaults.js'
+import { isNativeToken } from '../../utils/nativeToken.js'
 import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
 import { CheckoutActivitySection } from './CheckoutActivitySection.js'
 import { SelectSourceFundingOptions } from './SelectSourceFundingOptions.js'
@@ -151,26 +152,36 @@ export const SelectSourcePage: React.FC = () => {
   }, [hasWalletConnected, goToToken])
 
   const handlePayFromWallet = useCallback(() => {
-    overrideExchanges([...INTENT_FACTORY_ONLY])
+    // The wallet flow pays directly from the connected wallet, so it keeps the
+    // integrator's full route set — no IF-only override (unlike the deposit flows).
     setFundingSource('wallet')
     if (hasWalletConnected) {
       goToToken()
       return
     }
     openWalletMenu()
-  }, [
-    hasWalletConnected,
-    goToToken,
-    openWalletMenu,
-    overrideExchanges,
-    setFundingSource,
-  ])
+  }, [hasWalletConnected, goToToken, openWalletMenu, setFundingSource])
 
   const handleTransferCrypto = useCallback(() => {
     overrideExchanges([...INTENT_FACTORY_ONLY])
     setFundingSource('transfer')
+    // IF deposits can't accept the native gas token; reset a carried-over pick.
+    if (isNativeToken(prevTokenAddress)) {
+      setFieldValue(FormKeyHelper.getChainKey('from'), DEFAULT_FROM_CHAIN_ID)
+      setFieldValue(
+        FormKeyHelper.getTokenKey('from'),
+        DEFAULT_FROM_TOKEN_ADDRESS
+      )
+      setFieldValue(FormKeyHelper.getAmountKey('from'), '')
+    }
     goToToken()
-  }, [goToToken, overrideExchanges, setFundingSource])
+  }, [
+    goToToken,
+    overrideExchanges,
+    prevTokenAddress,
+    setFieldValue,
+    setFundingSource,
+  ])
 
   const pinExchangeSource = useCallback(() => {
     overrideExchanges([...INTENT_FACTORY_ONLY])

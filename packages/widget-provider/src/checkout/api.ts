@@ -1,6 +1,6 @@
 /** Body for `POST /v1/checkout/onramp/session`. */
 export interface OnrampSessionRequest {
-  walletAddress: string
+  depositAddress: string
   tokenAddress: string
   chainId: number
   integrator: string

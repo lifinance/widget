@@ -15,7 +15,9 @@ import {
 } from '@lifi/widget/shared'
 import { Box } from '@mui/material'
 import type { RefObject } from 'react'
-import { type FC, memo, useEffect, useMemo, useRef } from 'react'
+import { type FC, memo, useCallback, useEffect, useMemo, useRef } from 'react'
+import { useCheckoutFlowStore } from '../../stores/useCheckoutFlowStore.js'
+import { isNativeToken } from '../../utils/nativeToken.js'
 
 export interface SelectTokenListProps {
   formType: FormType
@@ -37,6 +39,8 @@ type SharedListProps = Omit<SelectTokenListProps, 'isWalletFunded'> & {
   selectedTokenAddress?: string
   isAllNetworks: boolean
   tokenSearchFilter?: string
+  // IF deposit flows can't accept the native gas token; only the wallet flow keeps it.
+  excludeNative: boolean
 }
 
 type TokenListResult = ReturnType<typeof useTokenBalances>
@@ -46,6 +50,7 @@ const TokenListView: FC<SharedListProps & TokenListResult> = ({
   headerRef,
   afterTokenSelect,
   allowedSymbols,
+  excludeNative,
   selectedChainId,
   selectedTokenAddress,
   isAllNetworks,
@@ -60,18 +65,32 @@ const TokenListView: FC<SharedListProps & TokenListResult> = ({
   const listParentRef = useRef<HTMLUListElement | null>(null)
   const { listHeight } = useListHeight({ listParentRef, headerRef })
   const emitter = useWidgetEvents()
-  const handleTokenClick = useTokenSelect(formType, afterTokenSelect)
+  const selectToken = useTokenSelect(formType, afterTokenSelect)
+  const tokenSelected = useCheckoutFlowStore((s) => s.tokenSelected)
+  const setTokenSelected = useCheckoutFlowStore((s) => s.setTokenSelected)
+
+  // Don't highlight the seeded default (e.g. USDC) until the user taps a token.
+  const handleTokenClick = useCallback(
+    (tokenAddress: string, chainId?: number) => {
+      setTokenSelected(true)
+      selectToken(tokenAddress, chainId)
+    },
+    [selectToken, setTokenSelected]
+  )
 
   const filteredTokens = useMemo(() => {
+    const withoutNative = excludeNative
+      ? tokens.filter((token) => !isNativeToken(token.address))
+      : tokens
     if (!allowedSymbols || allowedSymbols.size === 0) {
-      return tokens
+      return withoutNative
     }
     // Strip on-wallet amounts — the curated list funds from an exchange,
     // not the connected wallet — regardless of which hook fed the list.
-    return tokens
+    return withoutNative
       .filter((token) => allowedSymbols.has(token.symbol.toUpperCase()))
       .map((token) => ({ ...token, amount: undefined }))
-  }, [tokens, allowedSymbols])
+  }, [tokens, allowedSymbols, excludeNative])
 
   const showCategories =
     !allowedSymbols && withCategories && !tokenSearchFilter && !isAllNetworks
@@ -102,7 +121,7 @@ const TokenListView: FC<SharedListProps & TokenListResult> = ({
         showCategories={showCategories}
         showPinnedTokens={showPinnedTokens}
         onClick={handleTokenClick}
-        selectedTokenAddress={selectedTokenAddress}
+        selectedTokenAddress={tokenSelected ? selectedTokenAddress : undefined}
         isAllNetworks={isAllNetworks}
       />
     </Box>
@@ -158,6 +177,7 @@ export const SelectTokenList: FC<SelectTokenListProps> = memo(
       headerRef,
       afterTokenSelect,
       allowedSymbols,
+      excludeNative: !isWalletFunded,
       selectedChainId,
       selectedTokenAddress,
       isAllNetworks,

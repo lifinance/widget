@@ -29,7 +29,8 @@ export function PendingCheckoutPersistenceBridge({
           : provider === 'transak'
             ? 'cash'
             : null
-      const depositAddress = extractDepositAddress(frozen?.route)
+      const depositAddress =
+        result.depositAddress ?? extractDepositAddress(frozen?.route)
       const fromChain = frozen?.route?.fromChainId
       if (provider && fundingSource && depositAddress && fromChain) {
         writeCashSuccess({

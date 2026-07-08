@@ -141,8 +141,17 @@ export {
   useSetHeaderHeight,
 } from './stores/header/useHeaderStore.js'
 export { useInputModeStore } from './stores/inputMode/useInputModeStore.js'
+export {
+  useRouteExecutionStore,
+  useRouteExecutionStoreContext,
+} from './stores/routes/RouteExecutionStore.js'
 export { RouteExecutionStatus } from './stores/routes/types.js'
-export { getSourceTxHash } from './stores/routes/utils.js'
+export {
+  getSourceTxHash,
+  isRouteActive,
+  isRouteDone,
+  isRouteFailed,
+} from './stores/routes/utils.js'
 export { StoreProvider } from './stores/StoreProvider.js'
 export {
   SettingsStoreProvider,

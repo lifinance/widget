@@ -21,4 +21,4 @@ export function useCheckoutExchangesOverride(): (allow: string[]) => void {
   )
 }
 
-export const INTENT_FACTORY_ONLY: readonly string[] = ['intentFactoryDex']
+export const INTENT_FACTORY_ONLY: readonly string[] = ['smartDeposits']

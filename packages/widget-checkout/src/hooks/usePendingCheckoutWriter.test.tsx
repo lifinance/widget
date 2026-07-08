@@ -53,7 +53,11 @@ describe('usePendingCheckoutWriter — resumePending gate', () => {
       wrapper: wrap(undefined),
     })
     act(() => {
-      result.current.writeWallet({ transactionHash: '0xhash', fromChain: 1 })
+      result.current.writeWallet({
+        identifier: { value: '0xhash', kind: 'txHash' },
+        fromChain: 1,
+        frozenQuote: frozenQuote('route-1'),
+      })
     })
     const key = buildResumeKey('int', '0xhash')
     expect(usePendingCheckoutStore.getState().records[key]).toBeDefined()
@@ -65,7 +69,7 @@ describe('usePendingCheckoutWriter — resumePending gate', () => {
     })
     act(() => {
       result.current.writeWallet({
-        transactionHash: '0xhash',
+        identifier: { value: '0xhash', kind: 'txHash' },
         fromChain: 1,
         depositAddress: '0xdep',
         frozenQuote: frozenQuote('route-3'),
@@ -76,10 +80,32 @@ describe('usePendingCheckoutWriter — resumePending gate', () => {
     expect(record.fundingSource).toBe('wallet')
     expect(record.depositAddress).toBe('0xdep')
     expect(record.depositId).toBe('0xdep')
+    expect(record.transactionHash).toBe('0xhash')
+    expect(record.taskId).toBeUndefined()
+    // Carries the route id so resume can re-attach to the in-flight route.
+    expect(record.frozenRouteId).toBe('route-3')
     expect(record.frozenQuote?.id).toBe('route-3')
     expect(record.fromAmount).toBe('100000000')
     expect(record.tokenSymbol).toBe('USDC')
     expect(record.tokenDecimals).toBe(6)
+  })
+
+  it('writeWallet stores a relayer route under taskId, not transactionHash', () => {
+    const { result } = renderHook(() => usePendingCheckoutWriter(), {
+      wrapper: wrap(true),
+    })
+    act(() => {
+      result.current.writeWallet({
+        identifier: { value: 'task-123', kind: 'taskId' },
+        fromChain: 1,
+        frozenQuote: frozenQuote('route-task'),
+      })
+    })
+    const key = buildResumeKey('int', 'task-123')
+    const record = usePendingCheckoutStore.getState().records[key]
+    expect(record.taskId).toBe('task-123')
+    expect(record.transactionHash).toBeUndefined()
+    expect(record.frozenRouteId).toBe('route-task')
   })
 
   it('writes when resumePending is explicitly true', () => {
@@ -122,7 +148,11 @@ describe('usePendingCheckoutWriter — resumePending gate', () => {
       wrapper: wrap(false),
     })
     act(() => {
-      result.current.writeWallet({ transactionHash: '0xhash', fromChain: 1 })
+      result.current.writeWallet({
+        identifier: { value: '0xhash', kind: 'txHash' },
+        fromChain: 1,
+        frozenQuote: frozenQuote('route-1'),
+      })
       result.current.writeTransfer({
         depositAddress: '0xdep',
         fromChain: 137,
@@ -144,7 +174,11 @@ describe('usePendingCheckoutWriter — resumePending gate', () => {
       wrapper: wrap(true),
     })
     act(() => {
-      result.current.writeWallet({ transactionHash: '0xhash', fromChain: 1 })
+      result.current.writeWallet({
+        identifier: { value: '0xhash', kind: 'txHash' },
+        fromChain: 1,
+        frozenQuote: frozenQuote('route-1'),
+      })
     })
     expect(recordKeys().length).toBe(1)
     const { result: r2 } = renderHook(() => usePendingCheckoutWriter(), {
@@ -168,11 +202,16 @@ describe('usePendingCheckoutWriter — frozen deposit key', () => {
     act(() => {
       // First write has only the tx hash; a later write of the same deposit
       // also carries the deposit address. Both must land on one record.
-      result.current.writeWallet({ transactionHash: '0xhash', fromChain: 1 })
       result.current.writeWallet({
-        transactionHash: '0xhash',
+        identifier: { value: '0xhash', kind: 'txHash' },
+        fromChain: 1,
+        frozenQuote: frozenQuote('route-1'),
+      })
+      result.current.writeWallet({
+        identifier: { value: '0xhash', kind: 'txHash' },
         fromChain: 1,
         depositAddress: '0xdep',
+        frozenQuote: frozenQuote('route-1'),
       })
     })
     expect(recordKeys()).toEqual([buildResumeKey('int', '0xhash')])
@@ -189,8 +228,9 @@ describe('usePendingCheckoutWriter — frozen deposit key', () => {
     })
     act(() => {
       flowA.result.current.writeWallet({
-        transactionHash: '0xAAA',
+        identifier: { value: '0xAAA', kind: 'txHash' },
         fromChain: 1,
+        frozenQuote: frozenQuote('route-a'),
       })
     })
     const flowB = renderHook(() => usePendingCheckoutWriter(), {
@@ -198,8 +238,9 @@ describe('usePendingCheckoutWriter — frozen deposit key', () => {
     })
     act(() => {
       flowB.result.current.writeWallet({
-        transactionHash: '0xBBB',
+        identifier: { value: '0xBBB', kind: 'txHash' },
         fromChain: 1,
+        frozenQuote: frozenQuote('route-b'),
       })
     })
     expect(recordKeys().sort()).toEqual(
