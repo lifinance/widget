@@ -1,6 +1,7 @@
 {
   "name": "@lifi/widget-provider-transak",
   "version": "4.0.0-beta.17",
+  "private": true,
   "description": "LI.FI Widget on-ramp provider for Transak. Plug into LifiWidgetCheckout via the onRampProviders prop.",
   "type": "module",
   "main": "./src/index.ts",

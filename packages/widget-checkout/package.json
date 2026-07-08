@@ -1,6 +1,7 @@
 {
   "name": "@lifi/widget-checkout",
   "version": "4.0.0-beta.17",
+  "private": true,
   "description": "LI.FI Widget Checkout — on-ramp and cross-chain checkout flow built on @lifi/widget.",
   "type": "module",
   "main": "./src/index.ts",
