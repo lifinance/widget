@@ -1,4 +1,4 @@
-import { createContext, type JSX, useContext, useEffect, useRef } from 'react'
+import { createContext, type JSX, use, useEffect, useRef } from 'react'
 import type { StoreApi, UseBoundStore } from 'zustand'
 import { useShallow } from 'zustand/shallow'
 import { useChains } from '../../hooks/useChains.js'
@@ -141,14 +141,14 @@ export function ChainOrderStoreProvider({
   ])
 
   return (
-    <ChainOrderStoreContext.Provider value={storeRef.current}>
+    <ChainOrderStoreContext value={storeRef.current}>
       {children}
-    </ChainOrderStoreContext.Provider>
+    </ChainOrderStoreContext>
   )
 }
 
 function useChainOrderStoreContext() {
-  const useStore = useContext(ChainOrderStoreContext)
+  const useStore = use(ChainOrderStoreContext)
   if (!useStore) {
     throw new Error(
       `You forgot to wrap your component in <${ChainOrderStoreProvider.name}>.`

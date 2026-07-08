@@ -1,6 +1,6 @@
 import type { StoreApi, UseBoundStore } from 'zustand'
 import { create } from 'zustand'
-
+import { DEFAULT_VALID_UNTIL_SECONDS } from '../../utils/limitOrder.js'
 import type {
   DefaultValues,
   FormFieldArray,
@@ -15,6 +15,9 @@ export const formDefaultValues: DefaultValues = {
   toAmount: '',
   cashFiatAmount: '',
   tokenSearchFilter: '',
+  priceInverted: false,
+  validUntil: DEFAULT_VALID_UNTIL_SECONDS,
+  partiallyFillable: true,
 }
 
 const defaultValueToFormValue = <T>(value: T): FormValueControl<T> => ({
@@ -33,7 +36,8 @@ const valuesToFormValues = (defaultValues: DefaultValues): FormValues => {
   )
 }
 
-const isString = (str: any) => typeof str === 'string' || str instanceof String
+const isString = (str: unknown): str is string =>
+  typeof str === 'string' || str instanceof String
 
 const getUpdatedTouchedFields = (userValues: FormValues) => {
   return (Object.keys(userValues) as FormFieldNames[]).reduce(
@@ -59,7 +63,7 @@ const mergeDefaultFormValues = (
         ),
         isDirty: !!(userValues[key]?.isDirty || defaultValues[key]?.isTouched),
         value:
-          userValues[key]?.value || Number.isFinite(userValues[key]?.value)
+          userValues[key]?.value !== undefined && userValues[key]?.value !== ''
             ? userValues[key]?.value
             : defaultValues[key]?.value,
       }

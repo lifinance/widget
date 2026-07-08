@@ -125,9 +125,9 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
   useFormRef(storeRef.current, formRef)
 
   return (
-    <FormStoreContext.Provider value={storeRef.current}>
+    <FormStoreContext value={storeRef.current}>
       {children}
       <FormUpdater reactiveFormValues={reactiveFormValues} />
-    </FormStoreContext.Provider>
+    </FormStoreContext>
   )
 }

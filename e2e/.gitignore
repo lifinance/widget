@@ -2,6 +2,8 @@ node_modules/
 test-results/
 playwright-report/
 playwright-report-examples/
+playwright-report-dev-smoke/
+dev-smoke-report.json
 .auth/
 .env.test
 *.local

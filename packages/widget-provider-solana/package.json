@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-provider-solana",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "LI.FI Widget Provider for Solana blockchain integration.",
   "type": "module",
   "main": "./src/index.ts",
@@ -37,16 +37,17 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "^4.0.0",
-    "@lifi/sdk-provider-solana": "^4.0.0",
+    "@lifi/sdk": "^4.1.0",
+    "@lifi/sdk-provider-solana": "^4.0.2",
     "@lifi/widget-provider": "workspace:*",
-    "@wallet-standard/app": "^1.1.0",
-    "@wallet-standard/base": "^1.1.0",
-    "@wallet-standard/features": "^1.1.0",
+    "@wallet-standard/app": "^1.1.1",
+    "@wallet-standard/base": "^1.1.1",
+    "@wallet-standard/features": "^1.1.1",
     "zustand": "^5.0.14"
   },
   "peerDependencies": {
-    "bs58": ">=4.0.1"
+    "bs58": ">=4.0.1",
+    "react": ">=19"
   },
   "devDependencies": {
     "cpy-cli": "^7.0.0",

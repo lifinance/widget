@@ -1,5 +1,5 @@
 import type { WidgetProviderProps } from '@lifi/widget-provider'
-import { type JSX, type PropsWithChildren, useContext } from 'react'
+import { type JSX, type PropsWithChildren, use } from 'react'
 import { WagmiContext } from 'wagmi'
 import type { EthereumProviderConfig } from '../types.js'
 import { EthereumBaseProvider } from './EthereumBaseProvider.js'
@@ -10,7 +10,7 @@ interface EthereumWidgetProviderProps extends WidgetProviderProps {
 }
 
 function useInEthereumContext(): boolean {
-  const context = useContext(WagmiContext)
+  const context = use(WagmiContext)
   return Boolean(context)
 }
 

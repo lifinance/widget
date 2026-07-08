@@ -104,9 +104,5 @@ export const BitcoinProviderValues: FC<
     ]
   )
 
-  return (
-    <BitcoinContext.Provider value={contextValue}>
-      {children}
-    </BitcoinContext.Provider>
-  )
+  return <BitcoinContext value={contextValue}>{children}</BitcoinContext>
 }

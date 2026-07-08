@@ -49,6 +49,7 @@
     "reset": "Reset",
     "resetSettings": "Reset settings",
     "resumeTransaction": "Resume transaction",
+    "review": "Review",
     "seeDetails": "See details",
     "topUp": "Top up",
     "viewRefund": "View refund",
@@ -68,6 +69,7 @@
     "amount": "Amount",
     "bookmarkedWallets": "Bookmarked wallets",
     "bridge": "Bridge",
+    "buy": "Buy",
     "checkout": "Checkout",
     "checkoutDetails": "Checkout details",
     "deposit": "Deposit",
@@ -81,23 +83,35 @@
     "exchange": "Exchange",
     "from": "Exchange from",
     "gas": "Gas",
+    "limit": "Limit",
     "payWith": "Pay with",
+    "private": "Private",
     "receive": "Receive",
     "received": "Received",
     "recentWallets": "Recent wallets",
     "refunded": "Refunded",
     "selectChain": "Select chain",
     "selectWallet": "Select your wallet",
+    "sell": "Sell",
     "send": "Send",
     "sendToWallet": "Send to wallet",
     "settings": "Settings",
     "swap": "Swap",
+    "swapAndBridge": "Swap & Bridge",
     "to": "Exchange to",
     "transactionDetails": "Transaction details",
     "activities": "Activities",
     "walletConnected": "Wallet connected",
     "youGet": "You get",
     "youPay": "You pay"
+  },
+  "limitOrder": {
+    "custom": "Custom",
+    "expiresIn": "Expires in",
+    "market": "Market",
+    "partiallyFillable": "Allow partial fills",
+    "price": "Limit price",
+    "priceLabel": "When 1 {{symbol}} is worth"
   },
   "info": {
     "message": {
@@ -346,7 +360,18 @@
       "title": "Gas price"
     },
     "routePriority": "Route priority",
+    "routePriorityOptions": {
+      "cheapest": {
+        "title": "Best Return",
+        "description": "Lowest network cost"
+      },
+      "fastest": {
+        "title": "Fastest",
+        "description": "Shortest execution time"
+      }
+    },
     "slippage": "Max. slippage",
+    "slippageAutoDescription": "Optimised per route",
     "custom": "Custom",
     "resetSettings": "You're using custom settings that can affect the number or sorting of available routes.",
     "hideSmallBalances": "Hide small balances"

@@ -7,6 +7,8 @@ export const allWidgetEventNames = Object.values(
 ) as WidgetEventName[]
 
 export const widgetEventDescriptions: Record<WidgetEventName, string> = {
+  [WidgetEvent.AppearanceChanged]:
+    'The event fires when the user changes the appearance (light/dark/system) via the widget settings.',
   [WidgetEvent.AvailableRoutes]:
     'The event fires when available routes are returned after the user has selected source and destination tokens, entered an amount, and requested the routes.',
   [WidgetEvent.ChainPinned]:
@@ -19,6 +21,8 @@ export const widgetEventDescriptions: Record<WidgetEventName, string> = {
     'The event fires whenever a form value is changed in the widget.',
   [WidgetEvent.LowAddressActivityConfirmed]:
     'The event fires when the user confirms proceeding despite a low address activity warning for the specified address and chain.',
+  [WidgetEvent.NavigationTabChanged]:
+    'The event fires when the user switches between navigation tabs in the widget header.',
   [WidgetEvent.PageEntered]:
     'The event fires when the user navigates to a page in the widget.',
   [WidgetEvent.RouteExecutionCompleted]:
@@ -58,9 +62,11 @@ export const widgetEventDisplayOrder: WidgetEventName[] = [
   WidgetEvent.DestinationChainTokenSelected,
   WidgetEvent.SendToWalletToggled,
   WidgetEvent.WidgetExpanded,
+  WidgetEvent.NavigationTabChanged,
   WidgetEvent.PageEntered,
   WidgetEvent.FormFieldChanged,
   WidgetEvent.SettingUpdated,
+  WidgetEvent.AppearanceChanged,
   WidgetEvent.TokenSearch,
   WidgetEvent.LowAddressActivityConfirmed,
   WidgetEvent.ChainPinned,

@@ -1,4 +1,4 @@
-import { createContext, useContext, useRef } from 'react'
+import { createContext, use, useRef } from 'react'
 import { create } from 'zustand'
 import { useShallow } from 'zustand/shallow'
 import type { PersistStoreProviderProps } from '../types.js'
@@ -14,14 +14,12 @@ export function HeaderStoreProvider({
     storeRef.current = createHeaderStore()
   }
   return (
-    <HeaderStoreContext.Provider value={storeRef.current}>
-      {children}
-    </HeaderStoreContext.Provider>
+    <HeaderStoreContext value={storeRef.current}>{children}</HeaderStoreContext>
   )
 }
 
 function useHeaderStoreContext() {
-  const useStore = useContext(HeaderStoreContext)
+  const useStore = use(HeaderStoreContext)
   if (!useStore) {
     throw new Error(
       `You forgot to wrap your component in <${HeaderStoreProvider.name}>.`

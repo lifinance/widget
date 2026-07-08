@@ -1,4 +1,4 @@
-import { type Context, createContext, useContext } from 'react'
+import { type Context, createContext, use } from 'react'
 
 export interface WidgetDrawerContext {
   closeDrawer?(): void
@@ -7,4 +7,4 @@ export interface WidgetDrawerContext {
 export const DrawerContext: Context<WidgetDrawerContext> =
   createContext<WidgetDrawerContext>({})
 
-export const useDrawer = (): WidgetDrawerContext => useContext(DrawerContext)
+export const useDrawer = (): WidgetDrawerContext => use(DrawerContext)

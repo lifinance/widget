@@ -1,3 +1,4 @@
+import { metamask } from '@bigmi/client'
 import type { WidgetConfig } from '@lifi/widget'
 import { ChainId } from '@lifi/widget'
 import { BitcoinProvider } from '@lifi/widget-provider-bitcoin'
@@ -6,7 +7,10 @@ import { SolanaProvider } from '@lifi/widget-provider-solana'
 import { SuiProvider } from '@lifi/widget-provider-sui'
 import { TronProvider } from '@lifi/widget-provider-tron'
 import { withFloatingDrawer } from './providers/PlaygroundThemeProvider/floatingDrawer.js'
+import { registerMetaMaskBitcoin } from './utils/registerMetaMaskBitcoin.js'
 import { DEFAULT_VIEWPORT_BACKGROUND } from './utils/themeEdit.js'
+
+registerMetaMaskBitcoin()
 
 export const widgetBaseConfig: WidgetConfig = {
   // fromChain: 137,
@@ -42,15 +46,14 @@ export const widgetBaseConfig: WidgetConfig = {
       coinbase: true,
       metaMask: true,
       walletConnect: true,
-      porto: true,
     }),
     SuiProvider(),
     SolanaProvider(),
-    BitcoinProvider(),
+    BitcoinProvider({ connectors: [metamask()] }),
     TronProvider({
       walletConnect: import.meta.env?.VITE_TVM_WALLET_CONNECT
         ? {
-            network: 'mainnet',
+            network: 'Mainnet',
             options: {
               projectId: import.meta.env.VITE_TVM_WALLET_CONNECT,
             },
@@ -60,6 +63,7 @@ export const widgetBaseConfig: WidgetConfig = {
   ],
   variant: 'wide',
   // mode: 'split',
+  // _navigationTabs: ['default', 'private', 'refuel'], ['swap-advanced', 'bridge-advanced', 'limit'],
   // hiddenUI: {
   //   chainSidebar: true,
   // },
@@ -79,9 +83,10 @@ export const widgetBaseConfig: WidgetConfig = {
   // hiddenUI: { poweredBy: true, language: true, appearance: true, drawerCloseButton: true, toAddress: true },
   // disabledUI: { toAddress: true, fromAmount: true, toToken: true, fromToken: true },
   // requiredUI: { toAddress: true },
-  // defaultUI: {
-  //   navigationHeaderTitleNoWrap: false,
-  // },
+  defaultUI: {
+    //navigationHeaderTitleNoWrap: false,
+    // layout: 'cards',
+  },
   // slippage: 0.003,
   // walletConfig: {
   // usePartialWalletManagement: true,

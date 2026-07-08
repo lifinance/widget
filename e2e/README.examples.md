@@ -52,7 +52,7 @@ pnpm -r --parallel --filter './packages/**' --filter '!*-playground-*' --filter 
 
 ### `standard` profile — 13 examples
 
-> vite, connectkit, privy, privy-ethers, rainbowkit, reown, svelte, zustand-widget-config, vue, nextjs, nextjs15, remix, react-router-7
+> vite, connectkit, privy, privy-ethers, rainbowkit, reown, svelte, zustand-widget-config, vue, nextjs, nextjs15, remix, react-router
 
 Widget mounted at the root path `/`.
 
@@ -117,7 +117,7 @@ NFT checkout mode — a different widget variant.
 | nextjs | standard | 3001 | Next.js (App Router) |
 | nextjs15 | standard | 3002 | Next.js 15 |
 | remix | standard | 4010 | Remix |
-| react-router-7 | standard | 4011 | React Router 7 |
+| react-router | standard | 4011 | React Router 8 |
 | tanstack-router | routed | 4012 | TanStack Router |
 | vite-iframe | iframe | 4013 | LiFiWidgetLight iframe |
 | vite-iframe-wagmi | iframe | 4014 | LiFiWidgetLight + wagmi |
@@ -142,7 +142,7 @@ These are excluded from CI until the underlying issues are fixed. Flip `status: 
 Some examples use a non-standard build command. This is captured in `examples.config.ts` and applied automatically:
 
 - **`buildCmd: 'vite-build'`** — skips `tsc` and invokes Vite directly. Used when the `tsc` step in `build` fails due to a MUI v7 / `@lifi/types` mismatch. Affects: `vite`, `connectkit`, `privy`, `privy-ethers`, `rainbowkit`, `reown`, `vite-iframe`.
-- **`PORT` env** — `remix` and `react-router-7` need `PORT` set explicitly because their serve commands otherwise pick an unpredictable port.
+- **`PORT` env** — `remix` and `react-router` need `PORT` set explicitly because their serve commands otherwise pick an unpredictable port.
 
 ---
 

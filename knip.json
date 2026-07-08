@@ -23,8 +23,8 @@
         "@base-org/account",
         "@coinbase/wallet-sdk",
         "@metamask/connect-evm",
-        "@walletconnect/ethereum-provider",
-        "porto"
+        "@metamask/connect-multichain",
+        "@walletconnect/ethereum-provider"
       ]
     },
     "packages/widget": {

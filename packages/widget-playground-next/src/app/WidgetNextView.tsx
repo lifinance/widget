@@ -11,7 +11,7 @@ import { ClientOnly } from './ClientOnly.js'
 export function WidgetNextView() {
   const { config } = useConfig()
   const drawerRef = useRef<WidgetDrawer>(null)
-  const { isSkeletonShown, isSkeletonSideBySide } = useSkeletonToolValues()
+  const { isSkeletonShown } = useSkeletonToolValues()
 
   const toggleDrawer = useCallback(() => {
     drawerRef?.current?.toggleDrawer()
@@ -19,7 +19,7 @@ export function WidgetNextView() {
 
   return (
     <WidgetViewContainer toggleDrawer={toggleDrawer}>
-      {!isSkeletonShown || isSkeletonSideBySide ? (
+      {!isSkeletonShown ? (
         <ClientOnly fallback={<WidgetSkeleton config={config} />}>
           <LiFiWidget
             config={config}
