@@ -3,6 +3,8 @@ import { useState } from 'react'
 
 const STORAGE_KEY = 'lifi.checkout.userId'
 
+let idSequence = 0
+
 // crypto.randomUUID is unavailable in insecure contexts (plain http).
 function generateId(): string {
   const uuid = globalThis.crypto?.randomUUID?.()
@@ -22,11 +24,8 @@ function generateId(): string {
       hex.slice(10).join(''),
     ].join('-')
   }
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (char) => {
-    const random = (Math.random() * 16) | 0
-    const value = char === 'x' ? random : (random & 0x3) | 0x8
-    return value.toString(16)
-  })
+  // No Web Crypto at all (non-browser env) — time-based ephemeral id.
+  return `lifi-${Date.now().toString(36)}-${(idSequence++).toString(36)}`
 }
 
 function getOrCreateCheckoutUserId(): string {
