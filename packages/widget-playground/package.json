@@ -35,9 +35,9 @@
     "@metamask/connect-evm": "^2.1.0",
     "@metamask/connect-multichain": "^1.1.0",
     "@metamask/multichain-api-client": "^0.12.0",
-    "@mui/icons-material": "^9.1.1",
-    "@mui/material": "^9.1.2",
-    "@mui/system": "^9.1.2",
+    "@mui/icons-material": "^9.2.0",
+    "@mui/material": "^9.2.0",
+    "@mui/system": "^9.2.0",
     "@reown/appkit": ">=1.8.20",
     "@reown/appkit-adapter-bitcoin": "^1.8.21",
     "@reown/appkit-adapter-solana": "^1.8.21",
@@ -53,18 +53,18 @@
     "microdiff": "^1.5.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "viem": ">=2.52.0",
-    "wagmi": "^3.6.21",
+    "viem": "^2.54.6",
+    "wagmi": "^3.7.0",
     "zustand": "^5.0.14"
   },
   "devDependencies": {
     "@types/lodash.isequal": "^4.5.8",
-    "@types/node": "^26.0.1",
+    "@types/node": "^26.1.0",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "madge": "^8.0.0",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.9"
+    "vitest": "^4.1.10"
   },
   "peerDependencies": {
     "@tanstack/react-query": ">=5.90.0"
