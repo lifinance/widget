@@ -26,6 +26,7 @@ export function useCheckoutFlowQuote(): CheckoutFlowQuote {
     isLoading: routesLoading,
     isFetching: routesFetching,
     isFetched: routesFetched,
+    isError: routesIsError,
     refetch,
     setReviewableRoute,
   } = useCheckoutRoutes()
@@ -82,7 +83,7 @@ export function useCheckoutFlowQuote(): CheckoutFlowQuote {
     isLoading: routesLoading || (Boolean(rawRoute) && stepLoading),
     isFetching: routesFetching || (Boolean(rawRoute) && stepFetching),
     isFetched: routesFetched && (!rawRoute || stepFetched),
-    isError: Boolean(rawRoute) && stepError,
+    isError: (Boolean(rawRoute) && stepError) || routesIsError,
     refetch: refetchAll,
     setReviewableRoute,
   }

@@ -59,7 +59,7 @@ export const SelectSourcePage: React.FC = () => {
   )
   const resetFlow = useCheckoutFlowStore((s) => s.reset)
   const resetFiat = useFiatCurrencyStore((s) => s.reset)
-  const overrideExchanges = useCheckoutExchangesOverride()
+  const { overrideExchanges, restoreExchanges } = useCheckoutExchangesOverride()
   const { setFieldValue } = useFieldActions()
   const { integrator } = useCheckoutConfig()
   const checkoutUserId = useCheckoutUserId()
@@ -156,25 +156,32 @@ export const SelectSourcePage: React.FC = () => {
     navigate({ to: checkoutNavigationRoutes.fromToken })
   }, [navigate])
 
-  const prevHasWalletConnectedRef = useRef<boolean | undefined>(undefined)
+  // Navigate only after a connect this page initiated, not eager reconnects.
+  const awaitingConnectRef = useRef(false)
 
   useEffect(() => {
-    const prev = prevHasWalletConnectedRef.current
-    prevHasWalletConnectedRef.current = hasWalletConnected
-
-    if (prev === false && hasWalletConnected) {
+    if (awaitingConnectRef.current && hasWalletConnected) {
+      awaitingConnectRef.current = false
       goToToken()
     }
   }, [hasWalletConnected, goToToken])
 
   const handlePayFromWallet = useCallback(() => {
+    restoreExchanges()
     setFundingSource('wallet')
     if (hasWalletConnected) {
       goToToken()
       return
     }
+    awaitingConnectRef.current = true
     openWalletMenu()
-  }, [hasWalletConnected, goToToken, openWalletMenu, setFundingSource])
+  }, [
+    hasWalletConnected,
+    goToToken,
+    openWalletMenu,
+    restoreExchanges,
+    setFundingSource,
+  ])
 
   const handleTransferCrypto = useCallback(() => {
     overrideExchanges([...INTENT_FACTORY_ONLY])
@@ -212,11 +219,28 @@ export const SelectSourcePage: React.FC = () => {
 
   const handleReuseExchange = useCallback(
     (account: ConnectedCexAccount) => {
+      if (account.expiresAt <= Date.now()) {
+        // Token went stale since render — drop it and fall back to a fresh connect.
+        removeConnectedExchangeAccount(
+          connectedCexKey(integrator, checkoutUserId),
+          account.accountId
+        )
+        handleConnectExchange()
+        return
+      }
       setSelectedExchangeAccount(account)
       pinExchangeSource()
       goToToken()
     },
-    [goToToken, pinExchangeSource, setSelectedExchangeAccount]
+    [
+      goToToken,
+      pinExchangeSource,
+      setSelectedExchangeAccount,
+      handleConnectExchange,
+      removeConnectedExchangeAccount,
+      integrator,
+      checkoutUserId,
+    ]
   )
 
   const handleForgetExchange = useCallback(

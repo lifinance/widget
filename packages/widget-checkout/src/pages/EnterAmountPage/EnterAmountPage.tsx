@@ -44,7 +44,7 @@ export const EnterAmountPage: React.FC = (): JSX.Element => {
   const isWalletFunded = useIsWalletFundedFlow()
   useHeader(t(headerKeyByFlow[fundingSource]))
   const showPoweredBy = !hiddenUI?.poweredBy
-  const overrideExchanges = useCheckoutExchangesOverride()
+  const { overrideExchanges, restoreExchanges } = useCheckoutExchangesOverride()
   const setInputMode = useInputModeStore((s) => s.setInputMode)
   const { setFieldValue } = useFieldActions()
   const [cashFiatAmount] = useFieldValues('cashFiatAmount')
@@ -55,8 +55,10 @@ export const EnterAmountPage: React.FC = (): JSX.Element => {
   useLayoutEffect(() => {
     if (fundingSource !== 'wallet') {
       overrideExchanges([...INTENT_FACTORY_ONLY])
+    } else {
+      restoreExchanges()
     }
-  }, [fundingSource, overrideExchanges])
+  }, [fundingSource, overrideExchanges, restoreExchanges])
 
   useLayoutEffect(() => {
     if (fundingSource !== 'cash') {

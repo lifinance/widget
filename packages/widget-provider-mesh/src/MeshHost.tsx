@@ -47,7 +47,7 @@ function toConnectedAccounts(
   if (!at?.accountTokens?.length) {
     return []
   }
-  const expiresAt =
+  const rawTokenExpiresAt =
     now +
     (at.expiresInSeconds
       ? at.expiresInSeconds * 1000
@@ -65,7 +65,11 @@ function toConnectedAccounts(
     brokerName: at.brokerName,
     brand,
     connectedAt: now,
-    expiresAt,
+    // MMT tokenIds are server-refreshed, so the raw token's short expiry
+    // doesn't apply to them.
+    expiresAt: token.tokenId
+      ? now + DEFAULT_CEX_ACCOUNT_TTL_MS
+      : rawTokenExpiresAt,
   }))
 }
 
@@ -94,11 +98,15 @@ export const MeshHost: FC<MeshHostProps> = ({ widgetConfig }) => {
   const transferSucceededRef = useRef(false)
 
   const lastOpenArgsRef = useRef<OnRampOpenArgs | null>(null)
+  const linkRef = useRef<ReturnType<typeof createLink> | null>(null)
 
   const close = useCallback(() => {
+    linkRef.current?.closeLink?.()
     setIsOpen(false)
     setIsLoading(false)
     setError(null)
+    setFailure(null)
+    setDepositTxHash(null)
   }, [])
 
   const acknowledgeDepositTxHash = useCallback(() => {
@@ -336,6 +344,7 @@ export const MeshHost: FC<MeshHostProps> = ({ widgetConfig }) => {
           },
         })
 
+        linkRef.current = link
         setIsLoading(false)
         setIsOpen(true)
         link.openLink(res.data.linkToken)
@@ -365,6 +374,7 @@ export const MeshHost: FC<MeshHostProps> = ({ widgetConfig }) => {
   )
 
   const cancel = useCallback(() => {
+    linkRef.current?.closeLink?.()
     setIsOpen(false)
     setIsLoading(false)
     setFailure({

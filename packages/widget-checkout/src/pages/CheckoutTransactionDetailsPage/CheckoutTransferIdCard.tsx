@@ -28,7 +28,7 @@ export const CheckoutTransferIdCard = ({
   }
 
   const openTransferIdInExplorer = () => {
-    window.open(txLink, '_blank')
+    window.open(txLink, '_blank', 'noopener')
   }
 
   return (

@@ -97,3 +97,58 @@ describe('useCheckoutTransactionStatus — pauseDepositPoll', () => {
     expect(getDepositAddressStatus).not.toHaveBeenCalled()
   })
 })
+
+describe('useCheckoutTransactionStatus — poll errors', () => {
+  beforeEach(() => {
+    getStatus.mockReset()
+    getDepositAddressStatus.mockReset()
+  })
+
+  it('surfaces isError while keeping the latched status on the deposit path', async () => {
+    getDepositAddressStatus.mockResolvedValue({ status: 'PENDING' })
+    const { result } = renderHook(
+      () =>
+        useCheckoutTransactionStatus({
+          depositAddress: '0xdeposit',
+          fromChain: 1,
+        }),
+      { wrapper: wrap() }
+    )
+    await waitFor(() => expect(result.current.status).toBeDefined())
+    expect(result.current.isError).toBe(false)
+
+    getDepositAddressStatus.mockRejectedValue(new Error('network down'))
+    result.current.refetch()
+    await waitFor(() => expect(result.current.isError).toBe(true))
+    expect(result.current.status).toEqual({ status: 'PENDING' })
+    expect(result.current.phase).toBe('pending')
+  })
+
+  it('clears isError and resumes updating status after a successful refetch', async () => {
+    getDepositAddressStatus.mockResolvedValue({ status: 'PENDING' })
+    const { result } = renderHook(
+      () =>
+        useCheckoutTransactionStatus({
+          depositAddress: '0xdeposit',
+          fromChain: 1,
+        }),
+      { wrapper: wrap() }
+    )
+    await waitFor(() => expect(result.current.status).toBeDefined())
+
+    getDepositAddressStatus.mockRejectedValue(new Error('network down'))
+    result.current.refetch()
+    await waitFor(() => expect(result.current.isError).toBe(true))
+
+    getDepositAddressStatus.mockResolvedValue({
+      status: 'PENDING',
+      substatus: 'WAIT_DESTINATION_TRANSACTION',
+    })
+    result.current.refetch()
+    await waitFor(() => expect(result.current.isError).toBe(false))
+    expect(result.current.status).toEqual({
+      status: 'PENDING',
+      substatus: 'WAIT_DESTINATION_TRANSACTION',
+    })
+  })
+})

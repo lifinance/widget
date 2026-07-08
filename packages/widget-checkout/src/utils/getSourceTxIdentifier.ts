@@ -10,7 +10,7 @@ export interface SourceTxIdentifier {
 export const getSourceTxIdentifier = (
   route?: RouteExtended
 ): SourceTxIdentifier | undefined => {
-  const sourceAction = route?.steps[0].execution?.actions
+  const sourceAction = route?.steps[0]?.execution?.actions
     ?.filter(
       (action) => !['RESET_ALLOWANCE', 'SET_ALLOWANCE'].includes(action.type)
     )

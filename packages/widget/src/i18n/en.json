@@ -440,7 +440,7 @@
       "notFoundToast": "We couldn't find your transaction. Start over or contact support if you think this is a mistake."
     },
     "transferDeposit": {
-      "warning": "Only send <b>{{amount}} {{symbol}}</b> on <b>{{chain}}</b>. Wrong token or chain may be unrecoverable.",
+      "warning": "Send at least <b>{{amount}} {{symbol}}</b> on <b>{{chain}}</b>. Wrong token or chain may be unrecoverable.",
       "expiresIn": "Deposit address expires in {{minutes}}:{{seconds}}",
       "addressLabel": "Deposit address",
       "copyAddress": "Copy address",

@@ -159,7 +159,7 @@ export const useCheckoutTransactionStatus = ({
     phase,
     isLoading,
     notFound,
-    isError: isError && !resolvedStatus,
+    isError,
     refetch,
   }
 }

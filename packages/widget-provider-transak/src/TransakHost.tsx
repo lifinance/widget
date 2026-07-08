@@ -22,12 +22,6 @@ import {
   useState,
 } from 'react'
 
-// TODO(cleanup-remove-transak-native-eth-retry-hack): Remove this forced ETH fallback token
-// and replace with explicit provider capability/config-driven behavior.
-const NATIVE_EVM_TOKEN_ADDRESS = '0x0000000000000000000000000000000000000000'
-const TRANSAK_FALLBACK_CHAIN_IDS = [1]
-const TRANSAK_RETRYABLE_STATUS_CODES = [500, 502, 503, 504]
-
 const debug = (event: string, payload?: unknown): void => {
   // Dev-only: integrator bundlers inline NODE_ENV, so this dead-code-strips
   // from production builds and keeps diagnostics out of consumers' consoles.
@@ -92,7 +86,6 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
     async (args: OnRampOpenArgs) => {
       debug('openDepositFlow', args)
       lastOpenArgsRef.current = args
-      setOpen(true)
       setError(null)
       setFailure(null)
       setWidgetUrl(null)
@@ -142,12 +135,8 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
         ...(args.paymentMethod ? { paymentMethod: args.paymentMethod } : {}),
       }
 
-      const canRetryWithNativeEth =
-        TRANSAK_FALLBACK_CHAIN_IDS.includes(chainId) &&
-        tokenAddress.toLowerCase() !== NATIVE_EVM_TOKEN_ADDRESS.toLowerCase()
-
       try {
-        let res = await postCheckoutSession<
+        const res = await postCheckoutSession<
           OnrampSessionRequest,
           OnrampSessionResponse
         >({
@@ -157,29 +146,6 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
           integrator,
           body,
         })
-
-        // TODO(cleanup-remove-transak-native-eth-retry-hack): Temporary retry
-        // for develop instability. Replace with deterministic provider
-        // capability handling.
-        if (
-          !res.ok &&
-          TRANSAK_RETRYABLE_STATUS_CODES.includes(res.status) &&
-          canRetryWithNativeEth
-        ) {
-          res = await postCheckoutSession<
-            OnrampSessionRequest,
-            OnrampSessionResponse
-          >({
-            baseUrl: apiUrl,
-            endpointPath: '/v1/checkout/onramp/session',
-            apiKey,
-            integrator,
-            body: {
-              ...body,
-              tokenAddress: NATIVE_EVM_TOKEN_ADDRESS,
-            },
-          })
-        }
 
         if (!res.ok) {
           const errObj = res.apiError
@@ -222,6 +188,8 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
         })
         setWidgetUrl(res.data.widgetUrl)
         setFundingSessionId(res.data.fundingSessionId ?? null)
+        // Open only once a session exists; failures render inline on the status page.
+        setOpen(true)
       } catch (e) {
         const message =
           e instanceof Error

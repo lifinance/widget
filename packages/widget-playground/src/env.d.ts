@@ -6,6 +6,7 @@ declare global {
     readonly VITE_CHECKOUT_INTEGRATOR?: string
     readonly VITE_CHECKOUT_TO_CHAIN?: string
     readonly VITE_CHECKOUT_TO_TOKEN?: string
+    readonly VITE_CHECKOUT_TO_ADDRESS?: string
   }
 
   interface ImportMeta {
