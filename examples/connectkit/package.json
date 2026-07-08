@@ -14,8 +14,8 @@
     "@lifi/wallet-management": "4.1.0",
     "@lifi/widget": "4.1.0",
     "@lifi/widget-provider-ethereum": "4.1.0",
-    "@mui/icons-material": "^9.1.1",
-    "@mui/material": "^9.1.2",
+    "@mui/icons-material": "^9.2.0",
+    "@mui/material": "^9.2.0",
     "@solana/wallet-adapter-base": "^0.9.27",
     "@solana/wallet-adapter-react": "^0.15.39",
     "@solana/web3.js": "^1.98.4",
@@ -23,8 +23,8 @@
     "connectkit": "^1.9.2",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "viem": ">=2.52.0",
-    "wagmi": "^3.6.21"
+    "viem": "^2.54.6",
+    "wagmi": "^3.7.0"
   },
   "devDependencies": {
     "@types/react": "^19.2.17",
@@ -32,6 +32,6 @@
     "@vitejs/plugin-react": "^6.0.3",
     "globals": "^17.7.0",
     "typescript": "~6.0.3",
-    "vite": "^8.1.0"
+    "vite": "^8.1.3"
   }
 }
