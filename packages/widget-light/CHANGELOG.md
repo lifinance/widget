@@ -1,5 +1,11 @@
 # @lifi/widget-light
 
+## 4.2.0
+
+### Minor Changes
+
+- [#778](https://github.com/lifinance/widget/pull/778) [`eb4268f`](https://github.com/lifinance/widget/commit/eb4268fcdfedec194a35121d525fb1f7262348f6) Thanks [@effie-ms](https://github.com/effie-ms)! - Add `AppearanceChanged` widget event emitted when the user toggles light/dark/system in the settings page.
+
 ## 4.1.0
 
 ### Minor Changes
