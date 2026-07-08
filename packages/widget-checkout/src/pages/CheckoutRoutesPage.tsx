@@ -4,7 +4,6 @@ import {
   ProgressToNextUpdate,
   RouteCard,
   RouteCardSkeleton,
-  RouteNotFoundCard,
   Stack,
   useFieldValues,
   useHeader,
@@ -15,6 +14,7 @@ import {
 import { useNavigate } from '@tanstack/react-router'
 import { type JSX, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CheckoutRouteNotFound } from '../components/CheckoutRouteNotFound.js'
 import { useCheckoutRoutes } from '../hooks/useCheckoutRoutes.js'
 import { checkoutAbsolutePaths } from '../utils/navigationRoutes.js'
 
@@ -78,7 +78,7 @@ export const CheckoutRoutesPage = (): JSX.Element => {
       sx={{ flex: 1 }}
     >
       {routeNotFound ? (
-        <RouteNotFoundCard />
+        <CheckoutRouteNotFound />
       ) : isLoading && !routes?.length ? (
         Array.from({ length: 3 }).map((_, index) => (
           <RouteCardSkeleton key={index} />

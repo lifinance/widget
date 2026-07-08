@@ -24,5 +24,7 @@ export function useCheckoutRoutes(): UseRoutesResult {
       ? (toAddress as string)
       : undefined
 
-  return useRoutes({ quoteFromAddress })
+  // Keep the prior quote visible while a token/amount change refetches, so the
+  // receive amount updates in place instead of flashing a skeleton/zero.
+  return useRoutes({ quoteFromAddress, keepPreviousData: true })
 }

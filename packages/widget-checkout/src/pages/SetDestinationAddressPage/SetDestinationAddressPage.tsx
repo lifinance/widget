@@ -56,7 +56,8 @@ export const SetDestinationAddressPage: React.FC = (): JSX.Element => {
       setUserRecipient({ address, chainType })
       // Seed the form now so the route query has the recipient on the next render.
       setFieldValue('toAddress', address, { isDirty: false, isTouched: true })
-      navigate({ to: checkoutNavigationRoutes.enterAmount })
+      // Replace so Back from enter-amount skips this screen.
+      navigate({ to: checkoutNavigationRoutes.enterAmount, replace: true })
     },
     [setUserRecipient, setFieldValue, navigate]
   )

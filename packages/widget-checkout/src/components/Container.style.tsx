@@ -24,13 +24,6 @@ export const RelativeContainer: React.FC<React.ComponentProps<typeof Box>> =
     minHeight: 0,
     maxHeight: '100%',
     borderRadius: 'inherit',
-    '& .MuiPaper-outlined': {
-      border: 'none',
-      boxShadow: `0 1px 4px color-mix(in srgb, ${theme.vars.palette.common.onBackground} 8%, transparent)`,
-      ...theme.applyStyles('dark', {
-        boxShadow: `0 1px 4px color-mix(in srgb, ${theme.vars.palette.common.background} 8%, transparent)`,
-      }),
-    },
   }))
 
 export const CssBaselineContainer: React.FC<

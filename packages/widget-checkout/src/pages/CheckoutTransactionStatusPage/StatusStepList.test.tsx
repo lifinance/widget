@@ -22,6 +22,17 @@ vi.mock('@lifi/widget/shared', () => ({
       {endAdornment}
     </div>
   ),
+  ExternalLink: ({
+    href,
+    children,
+  }: {
+    href: string
+    children?: ReactNode
+  }) => (
+    <a href={href} target="_blank" rel="nofollow noreferrer">
+      {children}
+    </a>
+  ),
   IconCircle: () => <div data-testid="icon-success" />,
   SentToWalletRow: () => <div data-testid="sent-to-wallet" />,
   useAvailableChains: () => ({ getChainById: () => ({ name: 'Ethereum' }) }),
@@ -84,6 +95,9 @@ describe('StatusStepList', () => {
     expect(screen.queryAllByRole('progressbar')).toHaveLength(0)
     expect(screen.queryAllByTestId('icon-success')).toHaveLength(0)
     expect(screen.queryByRole('link')).toBeNull()
+    // Upcoming steps read in the future/base tense.
+    expect(screen.getByText('Receive USDC')).toBeTruthy()
+    expect(screen.getByText('Swap to stETH')).toBeTruthy()
   })
 
   it('pending with sparse status: received done, segment spinning, no links', () => {
@@ -97,6 +111,9 @@ describe('StatusStepList', () => {
     expect(screen.getAllByTestId('icon-success')).toHaveLength(1)
     expect(screen.getAllByRole('progressbar')).toHaveLength(1)
     expect(screen.queryByRole('link')).toBeNull()
+    // Completed step reads past, in-flight step reads present-continuous.
+    expect(screen.getByText('USDC received')).toBeTruthy()
+    expect(screen.getByText('Swapping to stETH')).toBeTruthy()
   })
 
   it('pending without status: received still spinning', () => {
@@ -122,6 +139,9 @@ describe('StatusStepList', () => {
       'https://etherscan.io/tx/0xreceiving'
     )
     expect(screen.queryByTestId('sent-to-wallet')).not.toBeNull()
+    // Terminal steps read in the past tense.
+    expect(screen.getByText('USDC received')).toBeTruthy()
+    expect(screen.getByText('Swapped to stETH')).toBeTruthy()
   })
 
   it('done without segments: received row carries the receiving link', () => {

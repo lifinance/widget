@@ -54,11 +54,13 @@ export {
 export { RouteNotFoundCard } from './components/RouteCard/RouteNotFoundCard.js'
 export { RouteTokens } from './components/RouteCard/RouteTokens.js'
 export { SearchInput } from './components/Search/SearchInput.js'
+export { SendToWalletButton } from './components/SendToWallet/SendToWalletButton.js'
 export {
   type ExecutionRow,
   useExecutionRows,
 } from './components/StepActions/executionRows.js'
 export { SentToWalletRow } from './components/StepActions/SentToWalletRow.js'
+export { ExternalLink } from './components/StepActions/StepActionRow.style.js'
 export { StepActionsList } from './components/StepActions/StepActionsList.js'
 export { Token } from './components/Token/Token.js'
 export { TokenNotFound } from './components/TokenList/TokenNotFound.js'
@@ -128,6 +130,7 @@ export {
 } from './providers/WidgetProvider/WidgetProvider.js'
 
 // ── stores ───────────────────────────────────────────────────────────────────
+export { BookmarkStoreProvider } from './stores/bookmarks/BookmarkStore.js'
 export { useChainOrderStore } from './stores/chains/ChainOrderStore.js'
 export {
   FormKeyHelper,

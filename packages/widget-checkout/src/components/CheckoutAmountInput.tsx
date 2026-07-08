@@ -352,17 +352,12 @@ const CheckoutTokenFlow: React.FC<FormTypeProps> = ({ formType }) => {
           m: 0,
           display: 'flex',
           alignItems: 'center',
-          gap: 0.5,
+          gap: 2,
           cursor: isInteractive ? 'pointer' : 'default',
         }}
       >
         {token && chain ? (
-          <TokenAvatar
-            token={token}
-            chain={chain}
-            tokenAvatarSize={32}
-            chainAvatarSize={12}
-          />
+          <TokenAvatar token={token} chain={chain} />
         ) : (
           <AvatarBadgedDefault />
         )}

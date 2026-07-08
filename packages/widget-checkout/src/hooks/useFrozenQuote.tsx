@@ -1,5 +1,6 @@
 import type { Route } from '@lifi/sdk'
 import {
+  type Context,
   createContext,
   type JSX,
   type PropsWithChildren,
@@ -41,7 +42,8 @@ function createFrozenQuoteStore(): FrozenQuoteStore {
   }))
 }
 
-const FrozenQuoteStoreContext = createContext<FrozenQuoteStore | null>(null)
+export const FrozenQuoteStoreContext: Context<FrozenQuoteStore | null> =
+  createContext<FrozenQuoteStore | null>(null)
 
 export function FrozenQuoteStoreProvider({
   children,

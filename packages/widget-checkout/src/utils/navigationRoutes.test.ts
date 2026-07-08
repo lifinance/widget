@@ -58,6 +58,7 @@ describe('backButtonRoutes', () => {
   it('includes the well-known back-eligible routes', () => {
     expect(backButtonRoutes).toContain('enter-amount')
     expect(backButtonRoutes).toContain('select-cash')
+    expect(backButtonRoutes).toContain('transfer-deposit')
     expect(backButtonRoutes).toContain(
       checkoutNavigationRoutes.transactionDetails
     )
@@ -65,7 +66,6 @@ describe('backButtonRoutes', () => {
 
   it('excludes status / progress / error routes so they never show a back button', () => {
     expect(backButtonRoutes).not.toContain('progress')
-    expect(backButtonRoutes).not.toContain('transfer-deposit')
     expect(backButtonRoutes).not.toContain(
       checkoutNavigationRoutes.transactionExecution
     )

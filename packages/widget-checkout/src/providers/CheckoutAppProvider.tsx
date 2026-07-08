@@ -1,5 +1,6 @@
 import type { FormRef, WidgetConfig } from '@lifi/widget/shared'
 import {
+  BookmarkStoreProvider,
   I18nProvider,
   QueryClientProvider,
   SDKClientProvider,
@@ -67,15 +68,17 @@ const CheckoutAppShell: React.FC<CheckoutAppShellProps> = ({
               <SDKClientProvider>
                 <CheckoutSdkBridge>
                   <WalletProvider providers={widgetConfig.providers ?? []}>
-                    <PendingCheckoutPersistenceBridge>
-                      <OnRampProviderRegistry
-                        widgetConfig={effectiveWidgetConfig}
-                        formRef={formRef}
-                        providers={onRampProviders}
-                      >
-                        {children}
-                      </OnRampProviderRegistry>
-                    </PendingCheckoutPersistenceBridge>
+                    <BookmarkStoreProvider namePrefix={widgetConfig.keyPrefix}>
+                      <PendingCheckoutPersistenceBridge>
+                        <OnRampProviderRegistry
+                          widgetConfig={effectiveWidgetConfig}
+                          formRef={formRef}
+                          providers={onRampProviders}
+                        >
+                          {children}
+                        </OnRampProviderRegistry>
+                      </PendingCheckoutPersistenceBridge>
+                    </BookmarkStoreProvider>
                   </WalletProvider>
                 </CheckoutSdkBridge>
               </SDKClientProvider>

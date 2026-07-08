@@ -16,6 +16,7 @@ import type React from 'react'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useIsWalletFundedFlow } from '../hooks/useIsWalletFundedFlow.js'
+import { useCheckoutFlowStore } from '../stores/useCheckoutFlowStore.js'
 import { formatCheckoutBalanceWithToken } from '../utils/formatCheckoutBalance.js'
 
 export const CheckoutPriceFormHelperText: React.NamedExoticComponent<FormTypeProps> =
@@ -28,6 +29,7 @@ export const CheckoutPriceFormHelperText: React.NamedExoticComponent<FormTypePro
     )
     const { inputMode, toggleInputMode } = useInputModeStore()
     const isWalletFunded = useIsWalletFundedFlow()
+    const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
 
     const { token: walletToken, isLoading: walletBalanceLoading } =
       useTokenAddressBalance(
@@ -70,6 +72,11 @@ export const CheckoutPriceFormHelperText: React.NamedExoticComponent<FormTypePro
           value: formatTokenAmount(token.amount, token.decimals),
         })
       : '0'
+
+    // The cash "pay" field already shows the fiat amount; the token subtext under it is noise.
+    if (formType === 'from' && fundingSource === 'cash') {
+      return null
+    }
 
     return (
       <FormHelperText
