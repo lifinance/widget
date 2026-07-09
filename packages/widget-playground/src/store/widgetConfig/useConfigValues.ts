@@ -107,16 +107,6 @@ export const useConfigContainer = (): {
   return { container }
 }
 
-export const useConfigHeaderPosition = (): {
-  headerPosition: string | undefined
-} => {
-  const headerPosition = useWidgetConfigStore(
-    (store) => store.config?.theme?.header?.position
-  )
-
-  return { headerPosition }
-}
-
 export const useConfigFontFamily = (): {
   fontFamily: string | undefined
 } => {

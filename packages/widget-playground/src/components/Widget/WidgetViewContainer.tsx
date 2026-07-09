@@ -86,6 +86,8 @@ export function WidgetViewContainer({
             </MockElement>
           ) : null}
           <WidgetContainerRow
+            withMockHeader={showHeader}
+            withFixedFooter={showFooter && isFooterFixed}
             sx={{ marginBottom: !isFullHeight || showFooter ? 6 : 0 }}
           >
             {children}
