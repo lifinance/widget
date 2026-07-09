@@ -1,5 +1,11 @@
 # @lifi/widget
 
+## 4.3.0
+
+### Minor Changes
+
+- [#819](https://github.com/lifinance/widget/pull/819) [`fa7c7ab`](https://github.com/lifinance/widget/commit/fa7c7abf39579133defa8bc86dacf9d56aa2f085) Thanks [@chmanie](https://github.com/chmanie)! - Add `tokens.verified` config allowlist to mark specific tokens as trusted, suppressing the unverified token warning without adding them to the featured or popular categories. Tokens from `tokens.include` are now also marked as verified.
+
 ## 4.2.0
 
 ### Minor Changes
