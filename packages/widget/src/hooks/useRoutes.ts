@@ -18,6 +18,7 @@ import { useCallback, useMemo } from 'react'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
+import { useNavigationTabsStore } from '../stores/navigationTabs/useNavigationTabsStore.js'
 import { useIntermediateRoutesStore } from '../stores/routes/useIntermediateRoutesStore.js'
 import { useSetExecutableRoute } from '../stores/routes/useSetExecutableRoute.js'
 import { defaultSlippage } from '../stores/settings/createSettingsStore.js'
@@ -70,6 +71,10 @@ export const useRoutes = ({
   const queryClient = useQueryClient()
   const emitter = useWidgetEvents()
   const swapOnly = useSwapOnly()
+  const isPrivate = useNavigationTabsStore(
+    (state) => state.activeTab === 'private'
+  )
+
   const {
     disabledBridges,
     disabledExchanges,
@@ -88,11 +93,12 @@ export const useRoutes = ({
     'slippage',
   ])
   const [fromTokenAmount] = useDebouncedWatch(500, 'fromAmount')
+  // Debounce toAmount like fromAmount to avoid a request per keystroke
+  const [toTokenAmount] = useDebouncedWatch(500, 'toAmount')
   const [
     fromChainId,
     fromTokenAddress,
     toAddress,
-    toTokenAmount,
     toChainId,
     toTokenAddress,
     contractCalls,
@@ -100,10 +106,13 @@ export const useRoutes = ({
     'fromChain',
     'fromToken',
     'toAddress',
-    'toAmount',
     'toChain',
     'toToken',
     'contractCalls'
+  )
+  const [validUntilDuration, partiallyFillable] = useFieldValues(
+    'validUntil',
+    'partiallyFillable'
   )
   const { token: fromToken } = useToken(fromChainId, fromTokenAddress)
   const { token: toToken } = useToken(toChainId, toTokenAddress)
@@ -117,7 +126,15 @@ export const useRoutes = ({
   const { isBatchingSupported, isBatchingSupportedLoading } =
     useIsBatchingSupported(fromChain, account.address)
 
-  const hasAmount = Number(fromTokenAmount) > 0 || Number(toTokenAmount) > 0
+  // In limit mode toAmount is the user's limit target, derived from the sell
+  // amount and limit price. It's keyed and sent to the backend so changing the
+  // limit fetches a fresh quote. The receive card is read-only (it displays the
+  // quote and never writes toAmount back), so keying on it can't loop. Both a
+  // sell amount and a limit price (→ toAmount) are required before fetching.
+  const hasAmount =
+    mode === 'limit'
+      ? Number(fromTokenAmount) > 0 && Number(toTokenAmount) > 0
+      : Number(fromTokenAmount) > 0 || Number(toTokenAmount) > 0
 
   const contractCallQuoteEnabled: boolean =
     mode === 'custom' ? Boolean(contractCalls && account.address) : true
@@ -169,6 +186,8 @@ export const useRoutes = ({
         toChain?.id as number,
         toToken?.address as string,
         toTokenAmount,
+        validUntilDuration,
+        partiallyFillable,
         contractCalls,
         slippage,
         swapOnly,
@@ -184,6 +203,7 @@ export const useRoutes = ({
         feeConfig?.fee,
         disableMessageSigning,
         !!isBatchingSupported,
+        isPrivate,
         observableRoute?.id,
       ] as const,
     [
@@ -196,6 +216,8 @@ export const useRoutes = ({
       toChain?.id,
       toToken?.address,
       toTokenAmount,
+      validUntilDuration,
+      partiallyFillable,
       contractCalls,
       slippage,
       swapOnly,
@@ -212,6 +234,7 @@ export const useRoutes = ({
       feeConfig?.fee,
       disableMessageSigning,
       isBatchingSupported,
+      isPrivate,
       observableRoute?.id,
     ]
   )
@@ -233,6 +256,8 @@ export const useRoutes = ({
           toChainId,
           toTokenAddress,
           toTokenAmount,
+          validUntilDuration,
+          partiallyFillable,
           contractCalls,
           slippage = defaultSlippage,
           swapOnly,
@@ -248,13 +273,16 @@ export const useRoutes = ({
           configuredFee,
           disableMessageSigning,
           isBatchingSupported,
+          isPrivate,
           // _observableRouteId must be the last element in the query key
           _observableRouteId,
         ],
         signal,
       }) => {
         const fromAmount = parseUnits(fromTokenAmount, fromToken!.decimals)
-        const toAmount = parseUnits(toTokenAmount, toToken!.decimals)
+        const toAmount = toTokenAmount
+          ? parseUnits(toTokenAmount, toToken!.decimals)
+          : undefined
         const formattedSlippage = slippage
           ? Number.parseFloat(slippage) / 100
           : defaultSlippage
@@ -360,6 +388,8 @@ export const useRoutes = ({
         const shouldUseMainRoutes =
           !observableRoute || !isObservableRelayerRoute
         const shouldUseRelayerQuote =
+          // Relayer quotes don't support limit-order params
+          mode !== 'limit' &&
           fromAddress &&
           fromChain?.chainType === ChainType.EVM &&
           fromChain.permit2 &&
@@ -369,6 +399,15 @@ export const useRoutes = ({
           useRelayerRoutes &&
           !isBatchingSupported &&
           (!observableRoute || isObservableRelayerRoute)
+
+        const limitOrderRouteParams =
+          mode === 'limit'
+            ? {
+                toAmount: toAmount?.toString(),
+                validUntil: Math.floor(Date.now() / 1000) + validUntilDuration,
+                partiallyFillable: partiallyFillable,
+              }
+            : undefined
 
         const mainRoutesPromise = shouldUseMainRoutes
           ? getRoutes(
@@ -385,6 +424,7 @@ export const useRoutes = ({
                   enabledRefuel && gasRecommendationFromAmount
                     ? gasRecommendationFromAmount
                     : undefined,
+                ...limitOrderRouteParams,
                 options: {
                   allowSwitchChain:
                     mode === 'refuel' ? false : allowSwitchChain,
@@ -410,6 +450,7 @@ export const useRoutes = ({
                   slippage: formattedSlippage,
                   fee: calculatedFee || configuredFee,
                   executionType: disableMessageSigning ? 'transaction' : 'all',
+                  ...(isPrivate && { private: true }),
                 },
               },
               { signal }

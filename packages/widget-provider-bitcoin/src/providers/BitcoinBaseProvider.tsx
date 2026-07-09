@@ -1,4 +1,4 @@
-import type { Config } from '@bigmi/client'
+import type { Config, CreateConnectorFn } from '@bigmi/client'
 import { BigmiProvider, useReconnect } from '@bigmi/react'
 import { type FC, type PropsWithChildren, useRef } from 'react'
 import {
@@ -6,7 +6,14 @@ import {
   type DefaultBigmiConfigResult,
 } from '../utils/createDefaultBigmiConfig.js'
 
-export const BitcoinBaseProvider: FC<PropsWithChildren> = ({ children }) => {
+interface BitcoinBaseProviderProps extends PropsWithChildren {
+  connectors?: CreateConnectorFn[]
+}
+
+export const BitcoinBaseProvider: FC<BitcoinBaseProviderProps> = ({
+  children,
+  connectors,
+}) => {
   const bigmi = useRef<DefaultBigmiConfigResult>(null)
 
   if (!bigmi.current) {
@@ -15,6 +22,7 @@ export const BitcoinBaseProvider: FC<PropsWithChildren> = ({ children }) => {
         ssr: true,
         multiInjectedProviderDiscovery: false,
       },
+      connectors,
     })
   }
 

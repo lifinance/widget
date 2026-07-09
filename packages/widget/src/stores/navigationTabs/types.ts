@@ -1,7 +1,9 @@
 import type { StoreApi, UseBoundStore } from 'zustand'
 import type {
+  DefaultUI,
   ModeOptions,
   NavigationTabKey,
+  RequiredUIConfig,
   WidgetMode,
   WidgetVariant,
 } from '../../types/widget.js'
@@ -14,6 +16,10 @@ export interface NavigationTab {
   /** When omitted, the tab inherits `config.mode`. */
   mode?: WidgetMode
   modeOptions?: ModeOptions
+  /** Layered over `config.defaultUI` while the tab is active. */
+  defaultUI?: DefaultUI
+  /** Layered over `config.requiredUI` while the tab is active. */
+  requiredUI?: RequiredUIConfig
 }
 
 export interface NavigationTabsState {

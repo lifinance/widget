@@ -1,14 +1,31 @@
-import type {
-  BaseToken,
-  RouteExtended,
-  Token,
-  TokenAmount,
-  TokenExtended,
-} from '@lifi/sdk'
+import type { BaseToken, RouteExtended, Token, TokenAmount } from '@lifi/sdk'
 import type { FormType } from '../stores/form/types.js'
-import type { TokensByChain } from '../types/token.js'
+import type { TokensByChain, TokenWithVerified } from '../types/token.js'
 import type { WidgetChains, WidgetTokens } from '../types/widget.js'
 import { getConfigItemSets, isFormItemAllowed } from './item.js'
+
+/**
+ * Builds per-chain sets of lowercase token addresses from the
+ * `tokens.verified` config allowlist.
+ */
+export const getVerifiedTokensSets = (
+  configTokens?: WidgetTokens
+): Map<number, Set<string>> | undefined => {
+  if (!configTokens?.verified?.length) {
+    return undefined
+  }
+  const sets = new Map<number, Set<string>>()
+  for (const token of configTokens.verified) {
+    const chainId = Number(token.chainId)
+    let addresses = sets.get(chainId)
+    if (!addresses) {
+      addresses = new Set()
+      sets.set(chainId, addresses)
+    }
+    addresses.add(token.address.toLowerCase())
+  }
+  return sets
+}
 
 /**
  * Merges verified tokens with search tokens.
@@ -74,11 +91,11 @@ export const updateTokenInCache = (
 }
 
 export const filterAllowedTokens = (
-  dataTokens: { [chainId: number]: TokenExtended[] } | undefined,
+  dataTokens: TokensByChain | undefined,
   configTokens?: WidgetTokens,
   chainsConfig?: WidgetChains,
   formType?: FormType
-): { [chainId: number]: TokenExtended[] } | undefined => {
+): TokensByChain | undefined => {
   if (!dataTokens) {
     return
   }
@@ -103,12 +120,16 @@ export const filterAllowedTokens = (
       )
     : allChainIds
 
-  const allowedTokensByChain: { [chainId: number]: TokenExtended[] } = {}
+  const verifiedTokensSets = getVerifiedTokensSets(configTokens)
+
+  const allowedTokensByChain: TokensByChain = {}
   for (const chainId of allowedChainIds) {
-    const chainTokens = [
-      ...dataTokens[chainId],
-      ...includedTokens.filter((t) => Number(t.chainId) === chainId),
-    ]
+    const chainIncludedTokens = includedTokens.filter(
+      (t) => Number(t.chainId) === chainId
+    )
+    const includedAddresses = new Set(
+      chainIncludedTokens.map((t) => t.address.toLowerCase())
+    )
 
     const allowedAddresses = getConfigItemSets(
       configTokens,
@@ -121,11 +142,41 @@ export const filterAllowedTokens = (
       formType
     )
 
-    const filtered = chainTokens.filter((token) =>
-      isFormItemAllowed(token, allowedAddresses, formType, (t) =>
-        t.address.toLowerCase()
-      )
-    )
+    const verifiedAddresses = verifiedTokensSets?.get(chainId)
+
+    const chainTokens: TokenWithVerified[] = [
+      ...(dataTokens[chainId] ?? []),
+      ...chainIncludedTokens,
+    ]
+
+    const filtered: TokenWithVerified[] = []
+    const seenAddresses = new Set<string>()
+    for (const token of chainTokens) {
+      const address = token.address.toLowerCase()
+      // Data tokens come first and win over include duplicates,
+      // keeping their extended data
+      if (seenAddresses.has(address)) {
+        continue
+      }
+      seenAddresses.add(address)
+      if (
+        !isFormItemAllowed(token, allowedAddresses, formType, (t) =>
+          t.address.toLowerCase()
+        )
+      ) {
+        continue
+      }
+      // Include and verified-allowlist tokens are explicitly set by the
+      // integrator, mark them as verified
+      if (
+        !token.verified &&
+        (includedAddresses.has(address) || verifiedAddresses?.has(address))
+      ) {
+        filtered.push({ ...token, verified: true })
+      } else {
+        filtered.push(token)
+      }
+    }
 
     allowedTokensByChain[chainId] = filtered
   }

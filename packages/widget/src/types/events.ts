@@ -3,7 +3,7 @@ import type { DefaultValues } from '../stores/form/types.js'
 import type { SettingsProps } from '../stores/settings/types.js'
 import type { NavigationRouteType } from '../utils/navigationRoutes.js'
 import type { TokenAmount } from './token.js'
-import type { Appearance } from './widget.js'
+import type { Appearance, NavigationTabKey } from './widget.js'
 
 export enum WidgetEvent {
   AppearanceChanged = 'appearanceChanged',
@@ -13,6 +13,7 @@ export enum WidgetEvent {
   DestinationChainTokenSelected = 'destinationChainTokenSelected',
   FormFieldChanged = 'formFieldChanged',
   LowAddressActivityConfirmed = 'lowAddressActivityConfirmed',
+  NavigationTabChanged = 'navigationTabChanged',
   PageEntered = 'pageEntered',
   RouteExecutionCompleted = 'routeExecutionCompleted',
   RouteExecutionFailed = 'routeExecutionFailed',
@@ -35,6 +36,7 @@ export type WidgetEvents = {
   destinationChainTokenSelected: (data: ChainTokenSelected) => void
   formFieldChanged: (data: FormFieldChanged) => void
   lowAddressActivityConfirmed: (data: LowAddressActivityConfirmed) => void
+  navigationTabChanged: (data: NavigationTabChanged) => void
   pageEntered: (data: NavigationRouteType) => void
   routeExecutionCompleted: (data: Route) => void
   routeExecutionFailed: (data: RouteExecutionUpdate) => void
@@ -114,4 +116,11 @@ export type ChainPinned = {
 export type LowAddressActivityConfirmed = {
   address: string
   chainId: number
+}
+
+export type NavigationTabChanged = {
+  /** Key of the now-active tab. */
+  tab: NavigationTabKey
+  /** Key of the previously active tab, or `undefined` on first render. */
+  previousTab?: NavigationTabKey
 }

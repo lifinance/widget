@@ -1003,11 +1003,12 @@ test.describe('Playground settings — Developer controls (Widget events)', () =
       await widget.settingsButton.click()
     })
 
-    await test.step('expand Route priority and click Fastest to change the setting', async () => {
-      // Clicking Route priority expands the accordion; then clicking the Fastest tab calls
-      // setValue('routePriority', 'FASTEST') which emits WidgetEvent.SettingUpdated.
+    await test.step('open Route priority and click Fastest to change the setting', async () => {
+      // Clicking Route priority navigates to the dedicated Route priority page; then clicking
+      // the Fastest list item calls setValue('routePriority', 'FASTEST') which emits
+      // WidgetEvent.SettingUpdated.
       await settings.routePriorityButton.click()
-      await widget.root.getByRole('tab', { name: /fastest/i }).click()
+      await widget.root.getByRole('button', { name: /fastest/i }).click()
     })
 
     await test.step('settingUpdated appears in console output', async () => {

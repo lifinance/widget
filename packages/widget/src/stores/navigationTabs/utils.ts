@@ -1,7 +1,9 @@
 import type {
+  DefaultUI,
   InternalNavigationTabKey,
   ModeOptions,
   NavigationTabKey,
+  RequiredUIConfig,
   SplitMode,
   SplitNavigationTabKey,
   WidgetConfig,
@@ -13,26 +15,56 @@ import type { NavigationTab } from './types.js'
 
 /** Configured navigation tabs by key. Labels are resolved from the key by a hook. */
 const navigationTabsByKey: Record<InternalNavigationTabKey, NavigationTab> = {
-  default: { key: 'default', variant: 'wide', mode: 'default' },
+  default: {
+    key: 'default',
+    variant: 'wide',
+    mode: 'default',
+    defaultUI: {
+      layout: 'cards',
+    },
+  },
   private: {
     key: 'private',
     variant: 'compact',
-    mode: 'split',
-    modeOptions: { split: 'swap' },
+    mode: 'default',
+    defaultUI: {
+      layout: 'cards',
+    },
+    requiredUI: { toAddress: true },
   },
-  refuel: { key: 'refuel', variant: 'wide', mode: 'refuel' },
-  limit: { key: 'limit', variant: 'compact', mode: 'limit' },
+  refuel: {
+    key: 'refuel',
+    variant: 'wide',
+    mode: 'refuel',
+    defaultUI: {
+      layout: 'cards',
+    },
+  },
+  limit: {
+    key: 'limit',
+    variant: 'compact',
+    mode: 'limit',
+    defaultUI: {
+      layout: 'cards',
+    },
+  },
   'swap-advanced': {
     key: 'swap-advanced',
     variant: 'wide',
     mode: 'split',
     modeOptions: { split: 'swap' },
+    defaultUI: {
+      layout: 'cards',
+    },
   },
   'bridge-advanced': {
     key: 'bridge-advanced',
     variant: 'wide',
     mode: 'split',
     modeOptions: { split: 'bridge' },
+    defaultUI: {
+      layout: 'cards',
+    },
   },
 }
 
@@ -131,4 +163,34 @@ export const getTabModeOptions = (
 ): ModeOptions | undefined => {
   const tab = key ? tabByKey[key] : undefined
   return tab?.modeOptions ?? config.modeOptions
+}
+
+/**
+ * Default UI for a tab, layered over the widget config's `defaultUI` so the
+ * tab overrides only the fields it sets and inherits the rest.
+ */
+export const getTabDefaultUI = (
+  config: WidgetConfig,
+  key?: NavigationTabKey
+): DefaultUI | undefined => {
+  const tab = key ? tabByKey[key] : undefined
+  if (!tab?.defaultUI) {
+    return config.defaultUI
+  }
+  return { ...config.defaultUI, ...tab.defaultUI }
+}
+
+/**
+ * Required UI for a tab, layered over the widget config's `requiredUI` so the
+ * tab overrides only the fields it sets and inherits the rest.
+ */
+export const getTabRequiredUI = (
+  config: WidgetConfig,
+  key?: NavigationTabKey
+): RequiredUIConfig | undefined => {
+  const tab = key ? tabByKey[key] : undefined
+  if (!tab?.requiredUI) {
+    return config.requiredUI
+  }
+  return { ...config.requiredUI, ...tab.requiredUI }
 }

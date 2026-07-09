@@ -1,5 +1,5 @@
 {
-  "version": "4.0.0-beta.20",
+  "version": "4.0.0",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -16,7 +16,7 @@
     "dev:staging": "pnpm --filter widget-playground-vite dev:staging",
     "dev:local": "pnpm --filter widget-playground-vite dev:local",
     "dev:next": "pnpm --filter widget-playground-next dev",
-    "changeset:version": "changeset version && bash scripts/restore-example-versions.sh && pnpm install --lockfile-only && pnpm check:write",
+    "changeset:version": "changeset version && pnpm --filter @lifi/widget --filter @lifi/widget-light build:version && bash scripts/restore-example-versions.sh && pnpm install --lockfile-only && pnpm check:write",
     "changeset:prepublish": "pnpm build && pnpm -r --filter './packages/**' --filter '!*-playground-*' --filter '!*-embedded' build:prerelease",
     "changeset:publish": "pnpm changeset:prepublish && pnpm --config.verify-deps-before-run=false changeset publish",
     "check": "biome check",
@@ -50,17 +50,17 @@
     ]
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.0",
+    "@biomejs/biome": "^2.5.2",
     "@changesets/changelog-github": "^0.7.0",
     "@changesets/cli": "^2.31.0",
-    "@commitlint/cli": "^21.0.2",
-    "@commitlint/config-conventional": "^21.0.2",
-    "@types/node": "^26.0.0",
+    "@commitlint/cli": "^21.2.0",
+    "@commitlint/config-conventional": "^21.2.0",
+    "@types/node": "^26.1.0",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "fs-extra": "^11.3.5",
+    "fs-extra": "^11.3.6",
     "husky": "^9.1.7",
-    "knip": "^6.17.2",
+    "knip": "^6.25.0",
     "lint-staged": "^17.0.8",
     "tsdown": "^0.22.3",
     "typescript": "^6.0.3"
@@ -74,5 +74,5 @@
     "ioredis": "^5.11.1",
     "ws": "^8.21.0"
   },
-  "packageManager": "pnpm@11.8.0+sha512.c1f5e7c4cb241c8f174b743851d82f42b802324afc8b0f116b96adb15aa06664948dde36960a3ba1079ba5b4b29dd0140135b94b5b5f5263592249d68e555f26"
+  "packageManager": "pnpm@11.10.0+sha512.0b7f8b98060031904c017e3a41eb187a16d40eeb829b95c4f8cb03681761fc4ab53dd219115b9b447f4dce1a05a214764461e7d3703392a9f32f9511ce8c86c8"
 }

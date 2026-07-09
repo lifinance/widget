@@ -1,7 +1,7 @@
 import type { Theme } from '@mui/material'
 import {
   Box,
-  ButtonBase,
+  IconButton,
   InputBase,
   inputBaseClasses,
   styled,
@@ -35,30 +35,6 @@ const settingsControlSelected = (theme: Theme) => ({
 interface SettingsControlProps {
   selected?: boolean
 }
-
-export const SettingsDefaultButton: React.FC<
-  React.ComponentProps<typeof ButtonBase> & SettingsControlProps
-> = styled(ButtonBase)<SettingsControlProps>(({ theme, selected }) => {
-  const settingsControlSelectedStyles = settingsControlSelected(theme)
-  const selectedStyle = selected
-    ? {
-        '&:not(:focus)': {
-          ...settingsControlSelectedStyles,
-        },
-      }
-    : {}
-
-  return {
-    height: '100%',
-    width: '100%',
-    fontSize: '1rem',
-    fontWeight: 700,
-    '&:focus': {
-      ...settingsControlSelectedStyles,
-    },
-    ...selectedStyle,
-  }
-})
 
 export const SettingsCustomInput: React.FC<
   React.ComponentProps<typeof InputBase> & SettingsControlProps
@@ -99,4 +75,35 @@ export const SlippageLimitsWarningContainer: React.FC<
   display: 'flex',
   gap: theme.spacing(1.25),
   marginTop: theme.spacing(1.5),
+}))
+
+export const SlippageInput: React.FC<React.ComponentProps<typeof InputBase>> =
+  styled(InputBase)(({ theme }) => ({
+    minHeight: 44,
+    width: '100%',
+    backgroundColor: theme.vars.palette.background.default,
+    border: '1px solid',
+    borderColor: theme.vars.palette.divider,
+    borderRadius: theme.vars.shape.borderRadius,
+    paddingRight: theme.spacing(1),
+    [`.${inputBaseClasses.input}`]: {
+      padding: theme.spacing(1.5),
+      fontSize: 16,
+      fontWeight: 500,
+      lineHeight: '20px',
+      '&::placeholder': {
+        opacity: 1,
+        color: theme.vars.palette.text.secondary,
+      },
+      '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
+        display: 'none',
+      },
+    },
+  }))
+
+export const SlippageClearButton: React.FC<
+  React.ComponentProps<typeof IconButton>
+> = styled(IconButton)(({ theme }) => ({
+  padding: theme.spacing(0.5),
+  flexShrink: 0,
 }))

@@ -11,6 +11,7 @@ import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
 import { getConfigItemSets, isFormItemAllowed } from '../utils/item.js'
+import { getVerifiedTokensSets } from '../utils/token.js'
 import { isSupportedToken } from '../utils/tokenList.js'
 
 export const useFilteredTokensByBalance = (
@@ -56,11 +57,14 @@ export const useFilteredTokensByBalance = (
       return result
     }
 
+    const verifiedTokensSets = getVerifiedTokensSets(configTokens)
+
     for (const [address, { tokens }] of Object.entries(accountsWithTokens)) {
       result[address] = {}
 
       for (const [chainIdStr, chainTokens] of Object.entries(tokens)) {
         const chainId = Number(chainIdStr)
+        const verifiedAddresses = verifiedTokensSets?.get(chainId)
         // Get balances for this specific chain
         const balances = existingBalances?.[chainId]
         // If no balances, RPC all tokens of the chain
@@ -115,10 +119,11 @@ export const useFilteredTokensByBalance = (
               )
             )
           })
-          // Mark tokens from wallet balances as unverified
+          // Mark tokens from wallet balances as unverified unless allowlisted
           .map((token: WalletTokenExtended) => ({
             ...token,
-            verified: false,
+            verified:
+              verifiedAddresses?.has(token.address.toLowerCase()) ?? false,
           })) as TokenExtended[]
 
         // Combine both sets of tokens - convert WalletTokenExtended to TokenAmount
