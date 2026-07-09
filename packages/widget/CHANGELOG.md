@@ -1,5 +1,11 @@
 # @lifi/widget
 
+## 4.3.1
+
+### Patch Changes
+
+- [#770](https://github.com/lifinance/widget/pull/770) [`f39c30a`](https://github.com/lifinance/widget/commit/f39c30aa992ed59075eae58b0c31d461a6b4565a) Thanks [@effie-ms](https://github.com/effie-ms)! - Align LanguagesPage and RoutesPage scroll behavior with the established `useListHeight` pattern used by other list pages.
+
 ## 4.3.0
 
 ### Minor Changes
