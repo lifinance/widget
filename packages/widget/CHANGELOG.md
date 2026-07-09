@@ -1,5 +1,27 @@
 # @lifi/widget
 
+## 4.2.0
+
+### Minor Changes
+
+- [#792](https://github.com/lifinance/widget/pull/792) [`549d0f0`](https://github.com/lifinance/widget/commit/549d0f0dd8e4d25a57c0c8a52181531cad8b32ee) Thanks [@effie-ms](https://github.com/effie-ms)! - Add advanced mode settings with dedicated slippage and route priority pages, plus a settings panel for configuring them.
+
+- [#778](https://github.com/lifinance/widget/pull/778) [`eb4268f`](https://github.com/lifinance/widget/commit/eb4268fcdfedec194a35121d525fb1f7262348f6) Thanks [@effie-ms](https://github.com/effie-ms)! - Add `AppearanceChanged` widget event emitted when the user toggles light/dark/system in the settings page.
+
+- [#776](https://github.com/lifinance/widget/pull/776) [`befcc74`](https://github.com/lifinance/widget/commit/befcc74bedbeb5f46814c96b67485f75517e7ab7) Thanks [@effie-ms](https://github.com/effie-ms)! - Add an opt-in redesigned Send/Receive amount input card pair (`AmountInputCardPair`), enabled via `defaultUI.layout: 'cards'` (defaults to `'default'`). With `'default'`, the chain/token selectors plus the single `AmountInput` remain the amount-entry UI. The new cards feature a token pill selector, percentage chips with gas-reserve deduction, fiat/token toggle, price (fiat) input mode, a swap button that reverses the from/to selection, and a receive card showing route price impact.
+
+- [#793](https://github.com/lifinance/widget/pull/793) [`9a746ee`](https://github.com/lifinance/widget/commit/9a746ee3fdb70f4a2435a5e9b1a3c99effc6b5dd) Thanks [@effie-ms](https://github.com/effie-ms)! - Add limit order mode with a limit price card, expiry selector, partial-fill toggle, and linked send/receive amounts.
+
+### Patch Changes
+
+- [#816](https://github.com/lifinance/widget/pull/816) [`5071e9e`](https://github.com/lifinance/widget/commit/5071e9e93febb833b7a5989ab30586d4dcf527d5) Thanks [@chybisov](https://github.com/chybisov)! - Bump dependencies (@lifi/sdk → 4.1.x, MUI, wagmi, vite, and others).
+
+- [#818](https://github.com/lifinance/widget/pull/818) [`a7e6b92`](https://github.com/lifinance/widget/commit/a7e6b92d0bbe5ca066f49a076521e9e7ce00bfcc) Thanks [@chybisov](https://github.com/chybisov)! - Bump dependencies (MUI 9.2, wagmi 3.7, viem 2.54.6, TanStack Router/Virtual, i18next, motion, and @lifi/sdk-provider-{ethereum,solana}).
+
+- Updated dependencies [[`5071e9e`](https://github.com/lifinance/widget/commit/5071e9e93febb833b7a5989ab30586d4dcf527d5), [`6d19d22`](https://github.com/lifinance/widget/commit/6d19d22f9ed796a0067cccb14885c15d0ca6061d), [`a7e6b92`](https://github.com/lifinance/widget/commit/a7e6b92d0bbe5ca066f49a076521e9e7ce00bfcc), [`bf91f25`](https://github.com/lifinance/widget/commit/bf91f25149496c00e1e5635e6d65d848c49a56c9)]:
+  - @lifi/wallet-management@4.1.1
+  - @lifi/widget-provider@4.2.0
+
 ## 4.1.0
 
 ### Minor Changes
