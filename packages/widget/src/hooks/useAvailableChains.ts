@@ -19,6 +19,12 @@ const supportedChainTypes = [
   ChainType.UTXO,
   ChainType.MVM,
   ChainType.TVM,
+  // Phase-1 gate: ChainType.STL is intentionally omitted so Stellar is not
+  // selectable as a route from/to chain while the SDK provider's
+  // getStepExecutor is not yet implemented (execution is gated on backend
+  // tx-generation, EXBE-227). Stellar wallet connection is still enabled via
+  // wallet-management. Add ChainType.STL here to enable Stellar routing in
+  // Phase 2.
 ]
 
 export const useAvailableChains = (

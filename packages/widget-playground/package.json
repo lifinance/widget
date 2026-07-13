@@ -29,6 +29,7 @@
     "@lifi/widget-provider-bitcoin": "workspace:*",
     "@lifi/widget-provider-ethereum": "workspace:*",
     "@lifi/widget-provider-solana": "workspace:*",
+    "@lifi/widget-provider-stellar": "workspace:*",
     "@lifi/widget-provider-sui": "workspace:*",
     "@lifi/widget-provider-tron": "workspace:*",
     "@metamask/bitcoin-wallet-standard": "^1.3.0",

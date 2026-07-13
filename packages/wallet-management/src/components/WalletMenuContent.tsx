@@ -27,6 +27,7 @@ import { BitcoinListItemButton } from './BitcoinListItemButton.js'
 import { CardListItemButton } from './CardListItemButton.js'
 import { EthereumListItemButton } from './EthereumListItemButton.js'
 import { SolanaListItemButton } from './SolanaListItemButton.js'
+import { StellarListItemButton } from './StellarListItemButton.js'
 import { SuiListItemButton } from './SuiListItemButton.js'
 import { TronListItemButton } from './TronListItemButton.js'
 import type { WalletListItemButtonProps } from './types.js'
@@ -183,6 +184,9 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
         break
       case ChainType.TVM:
         ListItemButtonComponent = TronListItemButton
+        break
+      case ChainType.STL:
+        ListItemButtonComponent = StellarListItemButton
         break
     }
 

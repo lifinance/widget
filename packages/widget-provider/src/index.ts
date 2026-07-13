@@ -4,6 +4,7 @@ export {
   useEthereumContext,
 } from './contexts/EthereumContext.js'
 export { SolanaContext, useSolanaContext } from './contexts/SolanaContext.js'
+export { StellarContext, useStellarContext } from './contexts/StellarContext.js'
 export { SuiContext, useSuiContext } from './contexts/SuiContext.js'
 export { TronContext, useTronContext } from './contexts/TronContext.js'
 export { useChainTypeFromAddress } from './hooks/useChainTypeFromAddress.js'
