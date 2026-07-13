@@ -63,22 +63,22 @@
     "@tanstack/react-router": "^1.170.17",
     "@tanstack/react-virtual": "^3.14.5",
     "eventemitter3": "^5.0.4",
-    "i18next": "^26.3.4",
+    "i18next": "^26.3.6",
     "microdiff": "^1.5.0",
     "motion": "^12.42.2",
-    "react-i18next": "^17.0.8",
-    "react-intersection-observer": "^10.0.3",
+    "react-i18next": "^17.0.9",
+    "react-intersection-observer": "^10.1.0",
     "react-transition-group": "^4.4.5",
     "zustand": "^5.0.14"
   },
   "devDependencies": {
-    "@types/node": "^26.1.0",
+    "@types/node": "^26.1.1",
     "@types/react-transition-group": "^4.4.12",
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "typescript": "^6.0.3",
+    "typescript": "^7.0.2",
     "vitest": "^4.1.10"
   },
   "peerDependencies": {
