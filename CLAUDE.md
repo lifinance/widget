@@ -122,6 +122,7 @@ QueryClient → Settings → WidgetConfig → I18n → Theme → SDK → Wallet 
 - Library packages use `tsdown` with `unbundle: true` mode. The widget package needs `neverBundle: [/\.json$/]` for i18n JSON files.
 - **PR template** at `.github/pull_request_template.md` — always use it when creating PRs via `gh pr create`.
 - `packages/widget-embedded/README.md` — main integration guide for widget-light (not a typical package readme).
+- **Minimal comments** — default to no comments. Add one short line only when the *why* is non-obvious (hidden constraint, subtle invariant, SDK quirk, workaround). Never narrate what the code does, never reference the task/PR/issue, never leave multi-paragraph docstrings on internal functions.
 - **Examples** (`examples/*`) are e2e-tested via the `e2e/examples.json` registry (each entry: `buildCmd`/`serveCmd`/`port`/`profile`/`status`; `status: broken` entries are skipped). Two examples consume the widget via `workspace:*` (build against TS source); the other 16 pin the published `@lifi/widget` version. Some use `buildCmd: vite-build` to skip `tsc`.
 
 ## Release

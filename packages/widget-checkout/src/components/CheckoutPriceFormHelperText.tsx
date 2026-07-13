@@ -1,0 +1,156 @@
+import type { TokenAmount } from '@lifi/sdk'
+import type { FormTypeProps } from '@lifi/widget/shared'
+import {
+  FormKeyHelper,
+  formatTokenAmount,
+  formatTokenPrice,
+  InputPriceButton,
+  useFieldValues,
+  useInputModeStore,
+  useToken,
+  useTokenAddressBalance,
+} from '@lifi/widget/shared'
+import SwapVertIcon from '@mui/icons-material/SwapVert'
+import { FormHelperText, Skeleton, Typography } from '@mui/material'
+import type React from 'react'
+import { memo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useIsWalletFundedFlow } from '../hooks/useIsWalletFundedFlow.js'
+import { useCheckoutFlowStore } from '../stores/useCheckoutFlowStore.js'
+import { formatCheckoutBalanceWithToken } from '../utils/formatCheckoutBalance.js'
+
+export const CheckoutPriceFormHelperText: React.NamedExoticComponent<FormTypeProps> =
+  memo<FormTypeProps>(({ formType }) => {
+    const { t } = useTranslation()
+    const [chainId, tokenAddress, amount] = useFieldValues(
+      FormKeyHelper.getChainKey(formType),
+      FormKeyHelper.getTokenKey(formType),
+      FormKeyHelper.getAmountKey(formType)
+    )
+    const { inputMode, toggleInputMode } = useInputModeStore()
+    const isWalletFunded = useIsWalletFundedFlow()
+    const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
+
+    const { token: walletToken, isLoading: walletBalanceLoading } =
+      useTokenAddressBalance(
+        isWalletFunded ? chainId : undefined,
+        isWalletFunded ? tokenAddress : undefined
+      )
+    const { token: lookupToken, isLoading: lookupTokenLoading } = useToken(
+      chainId,
+      tokenAddress
+    )
+
+    const token: TokenAmount | undefined = isWalletFunded
+      ? walletToken
+      : (lookupToken as TokenAmount | undefined)
+    const isBalanceLoading = isWalletFunded && walletBalanceLoading
+    const currentInputMode = inputMode[formType]
+    const isPriceSymbolLoading =
+      currentInputMode === 'price' && !token?.symbol && lookupTokenLoading
+    const canTogglePrice = isWalletFunded && Boolean(token?.priceUSD)
+
+    const priceOrAmountLabel = (() => {
+      if (currentInputMode === 'amount') {
+        const tokenPrice = formatTokenPrice(
+          amount,
+          token?.priceUSD,
+          token?.decimals
+        )
+        return t('format.currency', { value: tokenPrice })
+      }
+      return t('format.tokenAmount', { value: amount || '0' })
+    })()
+
+    const handleToggleMode = (e: React.MouseEvent) => {
+      e.stopPropagation()
+      toggleInputMode(formType)
+    }
+
+    const balanceFormatted = token
+      ? t('format.tokenAmount', {
+          value: formatTokenAmount(token.amount, token.decimals),
+        })
+      : '0'
+
+    // The cash "pay" field already shows the fiat amount; the token subtext under it is noise.
+    if (formType === 'from' && fundingSource === 'cash') {
+      return null
+    }
+
+    return (
+      <FormHelperText
+        component="div"
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          margin: 0,
+        }}
+      >
+        <InputPriceButton
+          onClick={canTogglePrice ? handleToggleMode : undefined}
+        >
+          {isPriceSymbolLoading ? (
+            <Skeleton variant="text" width={72} height={16} />
+          ) : (
+            <>
+              {canTogglePrice ? <SwapVertIcon sx={{ fontSize: 14 }} /> : null}
+              <Typography
+                sx={{
+                  color: 'text.secondary',
+                  fontWeight: 500,
+                  fontSize: 12,
+                  lineHeight: 1,
+                  marginRight: 0.25,
+                  maxWidth: 136,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {priceOrAmountLabel}
+              </Typography>
+              {currentInputMode === 'price' && token?.symbol ? (
+                <Typography
+                  sx={{
+                    color: 'text.secondary',
+                    fontWeight: 500,
+                    fontSize: 12,
+                    lineHeight: 1,
+                    wordBreak: 'break-word',
+                    overflowWrap: 'break-word',
+                    marginRight: 0.25,
+                  }}
+                >
+                  {token.symbol}
+                </Typography>
+              ) : null}
+            </>
+          )}
+        </InputPriceButton>
+        {isWalletFunded ? (
+          isBalanceLoading && tokenAddress ? (
+            <Skeleton variant="text" width={140} height={16} sx={{ ml: 0.5 }} />
+          ) : token?.amount ? (
+            <Typography
+              sx={{
+                fontWeight: 500,
+                fontSize: 12,
+                color: 'text.secondary',
+                lineHeight: 1,
+                paddingLeft: 0.25,
+                textAlign: 'right',
+                flexShrink: 0,
+              }}
+              title={balanceFormatted}
+            >
+              {token.symbol
+                ? formatCheckoutBalanceWithToken(balanceFormatted, token.symbol)
+                : `/ ${balanceFormatted}`}
+            </Typography>
+          ) : null
+        ) : null}
+      </FormHelperText>
+    )
+  })

@@ -8,6 +8,7 @@ import { useHeaderAndFooterToolValues } from '../../store/editTools/useHeaderAnd
 import {
   useConfigContainer,
   useConfigVariant,
+  usePlaygroundWidgetMode,
 } from '../../store/widgetConfig/useConfigValues.js'
 import { useWidgetConfigStore } from '../../store/widgetConfig/WidgetConfigProvider.js'
 import { isFullHeightLayout } from '../../utils/layout.js'
@@ -37,13 +38,16 @@ export function WidgetViewContainer({
 }: WidgetViewContainerProps): JSX.Element {
   const { container } = useConfigContainer()
   const { variant } = useConfigVariant()
+  const { playgroundWidgetMode } = usePlaygroundWidgetMode()
   const walletConfig = useWidgetConfigStore((s) => s.config?.walletConfig)
   const { isDrawerOpen, drawerWidth } = useDrawerToolValues()
   const { setDrawerOpen } = useEditToolsActions()
   const { showMockHeader, showMockFooter, isFooterFixed } =
     useHeaderAndFooterToolValues()
 
-  const isWalletManagementExternal = !!walletConfig
+  // Checkout uses the widget's own built-in wallet management — no external AppKit.
+  const isWalletManagementExternal =
+    playgroundWidgetMode !== 'checkout' && !!walletConfig
   const isFullHeight = isFullHeightLayout(container)
 
   const showHeader = isFullHeight && showMockHeader

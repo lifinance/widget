@@ -15,3 +15,4 @@ export type SidebarView =
   | 'wallet'
   | 'developer'
   | 'themeEdit'
+  | 'checkout'

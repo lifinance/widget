@@ -27,7 +27,16 @@ import {
   SendToWalletRequiredLabelText,
 } from './SendToWalletButton.style.js'
 
-export const SendToWalletButton: React.FC<CardProps> = (props) => {
+export const SendToWalletButton: React.FC<
+  CardProps & {
+    onEditAddress?: (() => void) | null
+    onClearAddress?: () => void
+    // Keep the card visible (and flag it required when empty) even when the
+    // widget's own toAddress requirement is off, e.g. a user-settable checkout
+    // recipient that must be filled before continuing.
+    requireAddress?: boolean
+  }
+> = ({ onEditAddress, onClearAddress, requireAddress, ...props }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { disabledUI, hiddenUI, toAddress, toAddresses, mode, modeOptions } =
@@ -87,7 +96,15 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
 
   const disabledForChanges = Boolean(toAddressFieldValue) && disabledToAddress
 
+  // `onEditAddress === null` renders the card read-only (consumer-controlled,
+  // e.g. a fixed checkout recipient); a function overrides the default route nav.
+  const readOnly = onEditAddress === null || disabledForChanges
+
   const handleOnClick = () => {
+    if (onEditAddress !== undefined) {
+      onEditAddress?.()
+      return
+    }
     navigate({
       to: toAddresses?.length
         ? navigationRoutes.configuredWallets
@@ -97,6 +114,10 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
 
   const clearSelectedBookmark: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.stopPropagation()
+    if (onClearAddress) {
+      onClearAddress()
+      return
+    }
     setFieldValue('toAddress', '', { isTouched: true })
     setSelectedBookmark()
   }
@@ -114,8 +135,9 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
     return () => clearTimeout(timeout)
   }, [])
 
+  const addressRequired = requireAddress || requiredToAddress
   const isOpenCollapse =
-    !hiddenToAddress && (requiredToAddress || !!toAddressFieldValue)
+    !hiddenToAddress && (addressRequired || !!toAddressFieldValue)
 
   const title =
     mode === 'custom' && modeOptions?.custom?.type === 'deposit'
@@ -131,12 +153,12 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
     >
       <Card
         role="button"
-        onClick={disabledForChanges ? undefined : handleOnClick}
+        onClick={readOnly ? undefined : handleOnClick}
         sx={{ width: '100%', ...props.sx }}
       >
         <SendToWalletCardTitleRow>
           <CardTitle sx={{ p: 0 }}>{title}</CardTitle>
-          {requiredToAddress && !toAddressFieldValue ? (
+          {addressRequired && !toAddressFieldValue ? (
             <SendToWalletRequiredLabel variant="warning">
               <WarningRounded sx={{ fontSize: 14 }} />
               <SendToWalletRequiredLabelText type="icon">
@@ -165,7 +187,7 @@ export const SendToWalletButton: React.FC<CardProps> = (props) => {
             subheader={headerSubheader}
             selected={!!toAddressFieldValue || disabledToAddress}
             action={
-              toAddressFieldValue && !disabledForChanges ? (
+              toAddressFieldValue && !readOnly ? (
                 <CardIconButton onClick={clearSelectedBookmark} size="small">
                   <CloseRounded fontSize="inherit" />
                 </CardIconButton>
