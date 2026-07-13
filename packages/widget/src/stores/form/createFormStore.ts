@@ -13,6 +13,7 @@ import type {
 export const formDefaultValues: DefaultValues = {
   fromAmount: '',
   toAmount: '',
+  cashFiatAmount: '',
   tokenSearchFilter: '',
   priceInverted: false,
   validUntil: DEFAULT_VALID_UNTIL_SECONDS,

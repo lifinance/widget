@@ -16,10 +16,14 @@ import { useFormValues } from '../../store/editTools/useFormValues.js'
 import { useSkeletonToolValues } from '../../store/editTools/useSkeletonToolValues.js'
 import { useConfig } from '../../store/widgetConfig/useConfig.js'
 import { useConfigActions } from '../../store/widgetConfig/useConfigActions.js'
+import { usePlaygroundWidgetMode } from '../../store/widgetConfig/useConfigValues.js'
+import { CheckoutWidgetView } from './CheckoutWidgetView.js'
+
 import { WidgetViewContainer } from './WidgetViewContainer.js'
 
 export function WidgetView(): JSX.Element {
   const { config } = useConfig()
+  const { playgroundWidgetMode } = usePlaygroundWidgetMode()
   const { setAppearance } = useConfigActions()
   const widgetEvents = useWidgetEvents()
   const drawerRef = useRef<WidgetDrawer>(null)
@@ -52,6 +56,14 @@ export function WidgetView(): JSX.Element {
       })
     }
   }, [formValues])
+
+  if (playgroundWidgetMode === 'checkout') {
+    return (
+      <WidgetViewContainer>
+        <CheckoutWidgetView />
+      </WidgetViewContainer>
+    )
+  }
 
   return (
     <WidgetViewContainer toggleDrawer={toggleDrawer}>

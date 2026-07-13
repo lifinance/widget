@@ -1,12 +1,19 @@
 import type { ModeOptions, SplitMode, WidgetMode } from '@lifi/widget'
 
-export type ModeOption = 'exchange' | 'split' | 'swap' | 'bridge' | 'refuel'
+export type ModeOption =
+  | 'exchange'
+  | 'split'
+  | 'swap'
+  | 'bridge'
+  | 'refuel'
+  | 'checkout'
 
 interface ModeOptionConfig {
   id: ModeOption
   title: string
   description: string
-  mode: WidgetMode
+  // checkout switches the playground widget instead of the widget mode config
+  mode?: WidgetMode
   splitOption?: SplitMode
 }
 
@@ -46,6 +53,12 @@ export const MODE_OPTIONS: ModeOptionConfig[] = [
     description:
       'Dedicated gas-refuel flow that bridges a small amount of native token.',
     mode: 'refuel',
+  },
+  {
+    id: 'checkout',
+    title: 'Checkout',
+    description:
+      'Outcome-based flow where users fund a predefined result, like a purchase or deposit.',
   },
 ]
 
