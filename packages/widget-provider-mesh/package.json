@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-provider-mesh",
-  "version": "4.0.0-beta.17",
+  "version": "4.0.0",
   "private": true,
   "description": "LI.FI Widget on-ramp provider for Mesh (CEX transfers). Plug into LifiWidgetCheckout via the onRampProviders prop.",
   "type": "module",
