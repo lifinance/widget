@@ -5,7 +5,8 @@ import type { Adapter } from '@tronweb3/tronwallet-abstract-adapter'
 // deps pull the `Buffer` global; in consumer Vite builds that makes Rolldown
 // resolve `vite-plugin-node-polyfills`' malformed `./shims/buffer/` export and
 // fail. The widget doesn't use the Ledger adapter, so importing directly keeps
-// it out of the bundle.
+// it out of the bundle. Revisit once the plugin's exports or Rolldown's handling
+// is fixed upstream — the barrel import can then come back.
 import { BinanceWalletAdapter } from '@tronweb3/tronwallet-adapter-binance'
 import { BitKeepAdapter } from '@tronweb3/tronwallet-adapter-bitkeep'
 import { BybitWalletAdapter } from '@tronweb3/tronwallet-adapter-bybit'
