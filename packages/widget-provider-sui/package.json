@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-provider-sui",
-  "version": "4.1.1",
+  "version": "4.1.2",
   "description": "LI.FI Widget Provider for Sui blockchain integration.",
   "type": "module",
   "main": "./src/index.ts",
