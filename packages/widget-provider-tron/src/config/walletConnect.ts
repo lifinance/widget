@@ -1,5 +1,5 @@
 import { ChainNetwork } from '@tronweb3/tronwallet-abstract-adapter'
-import type { WalletConnectAdapterConfig } from '@tronweb3/tronwallet-adapters'
+import type { WalletConnectAdapterConfig } from '@tronweb3/tronwallet-adapter-walletconnect'
 
 // Shared with the EVM provider so `walletConnect: true` works with no setup.
 const defaultProjectId = '5432e3507d41270bee46b7b85bbc2ef8'

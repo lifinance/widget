@@ -50,8 +50,8 @@
     "@mui/material": "^9.2.0",
     "@mui/system": "^9.2.0",
     "eventemitter3": "^5.0.4",
-    "i18next": "^26.3.4",
-    "react-i18next": "^17.0.8",
+    "i18next": "^26.3.6",
+    "react-i18next": "^17.0.9",
     "zustand": "^5.0.14"
   },
   "devDependencies": {
@@ -59,7 +59,7 @@
     "madge": "^8.0.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   },
   "peerDependencies": {
     "@tanstack/react-query": ">=5.90.0",

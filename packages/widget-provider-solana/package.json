@@ -53,6 +53,6 @@
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "react": "^19.2.7",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   }
 }

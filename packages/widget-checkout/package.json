@@ -59,21 +59,21 @@
     "@mui/material": "^9.0.1",
     "@mui/system": "^9.0.1",
     "@tanstack/react-router": "^1.169.2",
-    "i18next": "^26.1.0",
+    "i18next": "^26.3.6",
     "motion": "^12.38.0",
     "qrcode.react": "^4.2.0",
-    "react-i18next": "^17.0.7",
+    "react-i18next": "^17.0.9",
     "zustand": "^5.0.12"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.1.0",
-    "@types/node": "^25.5.2",
-    "happy-dom": "^15.11.7",
+    "@types/node": "^26.1.1",
+    "happy-dom": "^20.10.6",
     "madge": "^8.0.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
-    "typescript": "^6.0.2",
+    "typescript": "^7.0.2",
     "vitest": "^4.1.4"
   },
   "peerDependencies": {

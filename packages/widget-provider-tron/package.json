@@ -42,7 +42,19 @@
     "@lifi/sdk-provider-tron": "^4.0.3",
     "@lifi/widget-provider": "workspace:*",
     "@tronweb3/tronwallet-abstract-adapter": "1.2.0",
-    "@tronweb3/tronwallet-adapters": "^1.3.1"
+    "@tronweb3/tronwallet-adapter-binance": "^1.1.1",
+    "@tronweb3/tronwallet-adapter-bitkeep": "^1.2.0",
+    "@tronweb3/tronwallet-adapter-bybit": "^1.1.0",
+    "@tronweb3/tronwallet-adapter-foxwallet": "^1.1.0",
+    "@tronweb3/tronwallet-adapter-gatewallet": "^1.1.0",
+    "@tronweb3/tronwallet-adapter-guarda": "^1.1.0",
+    "@tronweb3/tronwallet-adapter-imtoken": "^1.1.0",
+    "@tronweb3/tronwallet-adapter-metamask-tron": "^1.1.0",
+    "@tronweb3/tronwallet-adapter-okxwallet": "^1.1.0",
+    "@tronweb3/tronwallet-adapter-tokenpocket": "^1.1.0",
+    "@tronweb3/tronwallet-adapter-tronlink": "^1.2.0",
+    "@tronweb3/tronwallet-adapter-trust": "^1.1.0",
+    "@tronweb3/tronwallet-adapter-walletconnect": "^3.0.5"
   },
   "peerDependencies": {
     "@tronweb3/tronwallet-adapter-react-hooks": "^1.1.11",
@@ -52,7 +64,7 @@
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "react": "^19.2.7",
-    "typescript": "^6.0.3",
+    "typescript": "^7.0.2",
     "vitest": "^4.1.10"
   }
 }
