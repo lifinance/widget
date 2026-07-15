@@ -9,7 +9,8 @@ export const RouteTokens: React.FC<{
   route: RouteExtended
   showEssentials?: boolean
   defaultExpanded?: boolean
-}> = ({ route, showEssentials, defaultExpanded }) => {
+  fromSlot?: React.ReactNode
+}> = ({ route, showEssentials, defaultExpanded, fromSlot }) => {
   const { mode } = useWidgetConfig()
 
   const fromToken = {
@@ -30,7 +31,7 @@ export const RouteTokens: React.FC<{
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-      {fromToken ? <Token token={fromToken} /> : null}
+      {fromSlot ?? (fromToken ? <Token token={fromToken} /> : null)}
       <Box
         sx={{
           width: 40,

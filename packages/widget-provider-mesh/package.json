@@ -1,0 +1,55 @@
+{
+  "name": "@lifi/widget-provider-mesh",
+  "version": "4.0.0",
+  "private": true,
+  "description": "LI.FI Widget on-ramp provider for Mesh (CEX transfers). Plug into LifiWidgetCheckout via the onRampProviders prop.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "watch": "tsdown --watch",
+    "build": "pnpm clean && tsdown",
+    "build:prerelease": "node ../../scripts/prerelease.js && cpy '../widget-checkout/README.md' .",
+    "build:postrelease": "node ../../scripts/postrelease.js && rm -rf README.md",
+    "release:build": "pnpm build",
+    "clean": "rm -rf dist",
+    "check:types": "tsc --noEmit",
+    "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
+    "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg"
+  },
+  "author": "Eugene Chybisov <eugene@li.finance>",
+  "homepage": "https://github.com/lifinance/widget",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lifinance/widget.git",
+    "directory": "packages/widget-provider-mesh"
+  },
+  "bugs": {
+    "url": "https://github.com/lifinance/widget/issues"
+  },
+  "license": "Apache-2.0",
+  "keywords": [
+    "widget",
+    "lifi-widget",
+    "onramp",
+    "mesh",
+    "cex",
+    "checkout",
+    "lifi"
+  ],
+  "dependencies": {
+    "@meshconnect/web-link-sdk": "^3.10.4"
+  },
+  "peerDependencies": {
+    "@lifi/widget-provider": "workspace:*",
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@lifi/widget-provider": "workspace:*",
+    "cpy-cli": "^7.0.0",
+    "madge": "^8.0.0",
+    "react": "^19.2.5",
+    "typescript": "^7.0.2"
+  }
+}

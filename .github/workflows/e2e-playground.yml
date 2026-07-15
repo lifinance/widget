@@ -194,7 +194,7 @@ jobs:
 
       - name: Post test summary comment
         if: steps.check-blobs.outputs.has-reports == 'true'
-        uses: daun/playwright-report-summary@8bb85779022480a59ed8d33d9a4b8bda1c67666b # v4.0.0
+        uses: daun/playwright-report-summary@31ed947ec7a623d18a66cfd20ef546dc66ef8063 # v4.1.0
         with:
           report-file: report.json
           comment-title: 'E2E Playground results'
@@ -205,7 +205,7 @@ jobs:
 
       - name: Post no-data comment
         if: steps.check-blobs.outputs.has-reports != 'true'
-        uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # v3.0.4
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
         with:
           header: e2e-playground-results
           message: |

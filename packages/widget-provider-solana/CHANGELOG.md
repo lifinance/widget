@@ -1,5 +1,12 @@
 # @lifi/widget-provider-solana
 
+## 4.1.2
+
+### Patch Changes
+
+- Updated dependencies [[`682e043`](https://github.com/lifinance/widget/commit/682e0430644efc6f4463cb5e016f7f2f21078220), [`682e043`](https://github.com/lifinance/widget/commit/682e0430644efc6f4463cb5e016f7f2f21078220), [`682e043`](https://github.com/lifinance/widget/commit/682e0430644efc6f4463cb5e016f7f2f21078220)]:
+  - @lifi/widget-provider@4.3.0
+
 ## 4.1.1
 
 ### Patch Changes

@@ -10,6 +10,7 @@ import { useWidgetEventMonitorValues } from '../../store/editTools/useWidgetEven
 import {
   useConfigContainer,
   useConfigVariant,
+  usePlaygroundWidgetMode,
 } from '../../store/widgetConfig/useConfigValues.js'
 import {
   clearPlaygroundBookmarkStores,
@@ -18,6 +19,7 @@ import {
 } from '../../utils/bookmarkStores.js'
 import { docsLinks } from '../../utils/docsLinks.js'
 import { isFullHeightLayout } from '../../utils/layout.js'
+import { CheckoutControls } from '../CheckoutControls/CheckoutControls.js'
 import { Content, Title, TitleSection } from '../DetailView/DetailView.style.js'
 import { DetailViewHeader } from '../DetailView/DetailViewHeader.js'
 import {
@@ -36,7 +38,7 @@ import { DeveloperToggleItem } from './DeveloperToggleItem.js'
 import { FormValuesControls } from './FormValuesControls.js'
 import { WidgetEventsDetailView } from './WidgetEventsDetailView.js'
 
-type DeveloperControlsSection = 'main' | 'widget-events'
+type DeveloperControlsSection = 'main' | 'widget-events' | 'checkout'
 
 interface DeveloperControlsDetailViewProps {
   onBack: () => void
@@ -61,6 +63,8 @@ export const DeveloperControlsDetailView = ({
     setFixedFooter,
   } = useEditToolsActions()
   const { monitoredEvents } = useWidgetEventMonitorValues()
+  const { playgroundWidgetMode } = usePlaygroundWidgetMode()
+  const isCheckoutMode = playgroundWidgetMode === 'checkout'
 
   const [activeSection, setActiveSection] =
     useState<DeveloperControlsSection>('main')
@@ -83,7 +87,7 @@ export const DeveloperControlsDetailView = ({
   )
 
   return (
-    <SlideViewTrack showSecondary={activeSection === 'widget-events'}>
+    <SlideViewTrack showSecondary={activeSection !== 'main'}>
       <SlideViewPanel>
         <DetailViewHeader onBack={onBack} />
         <Content sx={{ gap: 0 }}>
@@ -168,11 +172,31 @@ export const DeveloperControlsDetailView = ({
                 Configure
               </ConfigureLink>
             </DeveloperToggleItem>
+            {isCheckoutMode ? (
+              <DeveloperToggleItem
+                label="Checkout"
+                description="Set the destination chain, token, and recipient the checkout funds."
+                hideSwitch
+              >
+                <ConfigureLink
+                  disableRipple
+                  type="button"
+                  onClick={() => setActiveSection('checkout')}
+                >
+                  Configure
+                </ConfigureLink>
+              </DeveloperToggleItem>
+            ) : null}
           </ToggleSection>
         </Content>
       </SlideViewPanel>
       {activeSection === 'widget-events' ? (
         <WidgetEventsDetailView onBack={() => setActiveSection('main')} />
+      ) : null}
+      {activeSection === 'checkout' ? (
+        <SlideViewPanel>
+          <CheckoutControls onBack={() => setActiveSection('main')} />
+        </SlideViewPanel>
       ) : null}
     </SlideViewTrack>
   )

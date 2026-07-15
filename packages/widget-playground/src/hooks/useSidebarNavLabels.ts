@@ -4,6 +4,7 @@ import {
   useConfigModeOptions,
   useConfigVariant,
   useConfigWalletManagement,
+  usePlaygroundWidgetMode,
 } from '../store/widgetConfig/useConfigValues.js'
 import { useThemeValues } from '../store/widgetConfig/useThemeValues.js'
 import { getLayoutLabel, getLayoutMode } from '../utils/layout.js'
@@ -19,6 +20,7 @@ export const useSidebarNavLabels = (): {
   walletValue: string
 } => {
   const { themeMode } = useThemeMode()
+  const { playgroundWidgetMode } = usePlaygroundWidgetMode()
   const { mode } = useConfigMode()
   const { modeOptions } = useConfigModeOptions()
   const { variant } = useConfigVariant()
@@ -33,7 +35,10 @@ export const useSidebarNavLabels = (): {
     themeLabel: selectedThemeItem
       ? formatThemeDisplayName(selectedThemeItem, themeMode)
       : undefined,
-    modeValue: getModeLabel(mode, modeOptions?.split as string | undefined),
+    modeValue:
+      playgroundWidgetMode === 'checkout'
+        ? 'Checkout'
+        : getModeLabel(mode, modeOptions?.split as string | undefined),
     variantValue:
       variant === 'compact'
         ? 'Compact'

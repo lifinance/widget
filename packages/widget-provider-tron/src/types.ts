@@ -1,7 +1,7 @@
 import type { SDKProvider } from '@lifi/sdk'
 import type { SDKProviderFactory } from '@lifi/widget-provider'
 import type { Adapter } from '@tronweb3/tronwallet-abstract-adapter'
-import type { WalletConnectAdapterConfig } from '@tronweb3/tronwallet-adapters'
+import type { WalletConnectAdapterConfig } from '@tronweb3/tronwallet-adapter-walletconnect'
 
 export interface TronProviderDeps {
   getWallet: () => Promise<Adapter>

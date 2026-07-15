@@ -1,4 +1,4 @@
-import type { WalletConnectAdapterConfig } from '@tronweb3/tronwallet-adapters'
+import type { WalletConnectAdapterConfig } from '@tronweb3/tronwallet-adapter-walletconnect'
 import { describe, expect, it } from 'vitest'
 import { resolveTronWalletConnectConfig } from './walletConnect.js'
 

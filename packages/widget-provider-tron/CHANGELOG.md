@@ -1,5 +1,29 @@
 # @lifi/widget-provider-tron
 
+## 4.1.2
+
+### Patch Changes
+
+- [#828](https://github.com/lifinance/widget/pull/828) [`1c6f5a2`](https://github.com/lifinance/widget/commit/1c6f5a235ec6347fd045c14d8cea4444c1e2eb84) Thanks [@chybisov](https://github.com/chybisov)! - fix(tron): import wallet adapters from their individual packages
+
+  `@tronweb3/tronwallet-adapters@1.3.1` added a `ledger-evm` sub-adapter whose
+  `@ledgerhq/*` dependencies pull the `Buffer` global. Importing adapters from the
+  `@tronweb3/tronwallet-adapters` barrel makes bundlers resolve every re-export —
+  including `ledger-evm` — so consumer Vite builds using `vite-plugin-node-polyfills`
+  hit that plugin's malformed `./shims/buffer/` export and fail under Rolldown.
+
+  Replace the barrel dependency with the individual `@tronweb3/tronwallet-adapter-*`
+  packages for exactly the adapters the widget registers, so the unused Ledger-EVM
+  adapter (and its `@ledgerhq` dependency tree) never enters the bundle or install.
+  No behavior change — the same adapters are registered.
+
+- [#825](https://github.com/lifinance/widget/pull/825) [`8b5e5a4`](https://github.com/lifinance/widget/commit/8b5e5a4eb12c8f5e44f3024b8553c200f04422ab) Thanks [@chybisov](https://github.com/chybisov)! - fix: remove `TomoWalletAdapter` import to fix build with `@tronweb3/tronwallet-adapters@1.3.1`
+
+  `@tronweb3/tronwallet-adapters@1.3.1` removed the `TomoWalletAdapter` export (TomoWallet login is no longer available). Since the package range was `^1.3.0`, consumers resolving `1.3.1` hit a `[MISSING_EXPORT] "TomoWalletAdapter" is not exported` failure during bundler static analysis. Removed the unconditional Tomo adapter import/instantiation and bumped the dependency range to `^1.3.1`.
+
+- Updated dependencies [[`682e043`](https://github.com/lifinance/widget/commit/682e0430644efc6f4463cb5e016f7f2f21078220), [`682e043`](https://github.com/lifinance/widget/commit/682e0430644efc6f4463cb5e016f7f2f21078220), [`682e043`](https://github.com/lifinance/widget/commit/682e0430644efc6f4463cb5e016f7f2f21078220)]:
+  - @lifi/widget-provider@4.3.0
+
 ## 4.1.1
 
 ### Patch Changes
