@@ -1,5 +1,9 @@
 import { parseUnits } from '@lifi/sdk'
-import { useAccount, useWalletMenu } from '@lifi/wallet-management'
+import {
+  getConnectorIcon,
+  useAccount,
+  useWalletMenu,
+} from '@lifi/wallet-management'
 import {
   FormKeyHelper,
   PageContainer,
@@ -146,7 +150,7 @@ export const SelectSourcePage: React.FC = () => {
     }
     return {
       address: a.address,
-      icon: a.connector?.icon,
+      icon: getConnectorIcon(a.connector),
       walletName:
         a.connector?.displayName ?? a.connector?.name ?? a.name ?? undefined,
     }

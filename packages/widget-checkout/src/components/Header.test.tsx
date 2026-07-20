@@ -72,7 +72,12 @@ function setup({
   const Wrapper = ({ children }: { children: ReactNode }) => (
     <OnRampSessionsContext.Provider value={store}>
       <CheckoutModalContext.Provider
-        value={{ closeModal, openCloseConfirmation, panelEl: null }}
+        value={{
+          closeModal,
+          openCloseConfirmation,
+          panelEl: null,
+          inline: false,
+        }}
       >
         {children}
       </CheckoutModalContext.Provider>
