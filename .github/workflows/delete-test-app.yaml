@@ -19,8 +19,8 @@ jobs:
     steps:
       - name: Set Project Name
         run: |
-          export NAME=$(echo ${{ env.BRANCH_NAME }} | tr -d -c '[:alnum:]' | tr '[:upper:]' '[:lower:]')
-          echo "PROJECT_NAME=widget-${NAME:0:10}" >> $GITHUB_ENV
+          export NAME=$(printf '%s' "$BRANCH_NAME" | tr -d -c '[:alnum:]' | tr '[:upper:]' '[:lower:]')
+          echo "PROJECT_NAME=widget-${NAME:0:10}" >> "$GITHUB_ENV"
 
       - name: Delete project if present
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
