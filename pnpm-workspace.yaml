@@ -60,7 +60,9 @@ allowBuilds:
   '@opensea/seaport-js': false
   '@parcel/watcher': false
   '@reown/appkit': false
+  '@stellar/stellar-sdk': false
   bigint-buffer: false
+  blake-hash: false
   bufferutil: false
   core-js: false
   esbuild: true
@@ -68,7 +70,10 @@ allowBuilds:
   msgpackr-extract: false
   nx: true
   protobufjs: false
+  secp256k1: false
   sharp: false
   svelte-preprocess: false
+  tiny-secp256k1: false
   tsl-apple-cloudkit: false
+  usb: false
   utf-8-validate: false

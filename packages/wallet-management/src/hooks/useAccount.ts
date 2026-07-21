@@ -4,6 +4,7 @@ import {
   useBitcoinContext,
   useEthereumContext,
   useSolanaContext,
+  useStellarContext,
   useSuiContext,
   useTronContext,
   type WalletConnector,
@@ -55,6 +56,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
   const { account: solanaAccount } = useSolanaContext()
   const { account: suiAccount } = useSuiContext()
   const { account: tronAccount } = useTronContext()
+  const { account: stellarAccount } = useStellarContext()
   const { lastConnectedAccount } = useLastConnectedAccount()
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when wallet changes
@@ -65,6 +67,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
       bitcoinAccount,
       suiAccount,
       tronAccount,
+      stellarAccount,
     ].filter(Boolean) as Account[]
     const connectedAccounts = accounts.filter(
       (account) => account.isConnected && account.address
@@ -116,6 +119,8 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
     suiAccount?.status,
     tronAccount?.address,
     tronAccount?.status,
+    stellarAccount?.address,
+    stellarAccount?.status,
     args?.chainType,
     lastConnectedAccount,
   ])

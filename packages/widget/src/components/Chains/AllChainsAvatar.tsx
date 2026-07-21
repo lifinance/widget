@@ -44,6 +44,12 @@ const chainTypeIcons = [
     icon: 'https://lifinance.github.io/types/src/assets/icons/chains/tron.svg',
     defaultChainId: ChainId.TRN,
   },
+  {
+    name: 'Stellar',
+    chainType: ChainType.STL,
+    icon: 'https://lifinance.github.io/types/src/assets/icons/chains/stellar.svg',
+    defaultChainId: ChainId.XLM,
+  },
 ]
 
 const maxChainAvatarsCount = 4
