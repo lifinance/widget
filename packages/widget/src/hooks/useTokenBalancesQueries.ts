@@ -1,5 +1,5 @@
 import { getTokenBalances, type TokenExtended } from '@lifi/sdk'
-import { useQueries } from '@tanstack/react-query'
+import { keepPreviousData, useQueries } from '@tanstack/react-query'
 import { useMemo, useRef } from 'react'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
@@ -7,6 +7,10 @@ import type { TokenAmount, TokenAmountExtended } from '../types/token.js'
 import { getQueryKey } from '../utils/queries.js'
 
 const defaultRefetchInterval = 32_000
+// Max time to hold the skeleton before revealing balances in the multi-chain view.
+// Sits just below the typical full-settle time so the list reveals once, sorted,
+// instead of reordering as each chain streams in.
+const balanceRevealTimeout = 2_000
 
 export const useTokenBalancesQueries = (
   accountsWithTokens?: Record<string, Record<number, TokenExtended[]>>,
@@ -44,7 +48,10 @@ export const useTokenBalancesQueries = (
             enabled: isBalanceLoadingEnabled,
             refetchInterval: defaultRefetchInterval,
             staleTime: defaultRefetchInterval,
-            keepPreviousData: true,
+            placeholderData: keepPreviousData,
+            // Resolve a failed chain immediately instead of retrying past the reveal
+            // window (retries would pop the chain in late and re-sort the list).
+            retry: false,
           }
         })
     )
@@ -74,8 +81,9 @@ export const useTokenBalancesQueries = (
         ? now - firstLoadStartRef.current
         : 0
 
-      // Return results if all complete OR if 500ms have passed since first query started
-      const shouldReturnResults = allComplete || timeSinceStart >= 500
+      // Return results once all queries complete, or once the reveal timeout elapses
+      const shouldReturnResults =
+        allComplete || timeSinceStart >= balanceRevealTimeout
 
       if (shouldReturnResults) {
         const data: TokenAmount[] = results

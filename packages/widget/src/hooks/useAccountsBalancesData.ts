@@ -1,9 +1,8 @@
-import type { ChainType, TokenExtended } from '@lifi/sdk'
+import type { TokenExtended } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useMemo } from 'react'
 import type { FormType } from '../stores/form/types.js'
 import { useChains } from './useChains.js'
-import { useFilteredTokensByBalance } from './useFilteredByTokenBalances.js'
 
 export const useAccountsBalancesData = (
   selectedChainId?: number,
@@ -14,25 +13,6 @@ export const useAccountsBalancesData = (
   data: Record<string, Record<number, TokenExtended[]>> | undefined
   isLoading: boolean
 } => {
-  const { data: accountsWithTokens, isLoading: isAccountsLoading } =
-    useAccountsData(selectedChainId, formType, isAllNetworks, allTokens)
-
-  // Filter out EVM tokens that do not have balances
-  const { data: filteredTokens, isLoading: isCachedBalancesLoading } =
-    useFilteredTokensByBalance(accountsWithTokens, formType)
-
-  return {
-    data: filteredTokens,
-    isLoading: isAccountsLoading || isCachedBalancesLoading,
-  }
-}
-
-const useAccountsData = (
-  selectedChainId?: number,
-  formType?: FormType,
-  isAllNetworks?: boolean,
-  allTokens?: Record<number, TokenExtended[]>
-) => {
   const {
     chains: allChains,
     isLoading: isChainsLoading,
@@ -72,7 +52,7 @@ const useAccountsData = (
             )
             if (accountChains) {
               const chainIdSet = new Set(accountChains.map((chain) => chain.id))
-              const filteredTokens = Object.entries(allTokens).reduce(
+              acc[account.address] = Object.entries(allTokens).reduce(
                 (tokenAcc, [chainIdStr, tokens]) => {
                   const chainId = Number(chainIdStr)
                   if (chainIdSet.has(chainId)) {
@@ -80,20 +60,13 @@ const useAccountsData = (
                   }
                   return tokenAcc
                 },
-                {} as { [chainId: number]: TokenExtended[] }
+                {} as Record<number, TokenExtended[]>
               )
-              acc[account.address] = {
-                chainType: account.chainType,
-                tokens: filteredTokens,
-              }
             }
           }
           return acc
         },
-        {} as Record<
-          string,
-          { chainType: ChainType; tokens: Record<number, TokenExtended[]> }
-        >
+        {} as Record<string, Record<number, TokenExtended[]>>
       )
   }, [accounts, chains, allTokens])
 
