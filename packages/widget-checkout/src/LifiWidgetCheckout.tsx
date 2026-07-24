@@ -56,6 +56,7 @@ export const LifiWidgetCheckout: ForwardRefExoticComponent<
           elementRef={props.elementRef}
           open={props.open}
           onClose={props.onClose}
+          inline={props.inline}
         >
           <ErrorBoundary>
             <CheckoutConfigGuard>
