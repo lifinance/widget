@@ -1,5 +1,24 @@
 # @lifi/widget
 
+## 4.5.0
+
+### Minor Changes
+
+- [#829](https://github.com/lifinance/widget/pull/829) [`35741c6`](https://github.com/lifinance/widget/commit/35741c6a8fbf1cfc9b3239ec6a98e517fcf42c61) Thanks [@chybisov](https://github.com/chybisov)! - Token balances are now fetched exclusively from RPCs — the deprecated `/balances` API endpoint is no longer used to prefilter token lists. Wallet-held tokens outside the curated token list no longer auto-appear in "My Tokens"; they can still be found via address search. In the all-networks view, balances now reveal in a single sorted pass instead of reordering the list as each chain resolves.
+
+### Patch Changes
+
+- [#836](https://github.com/lifinance/widget/pull/836) [`676c5b4`](https://github.com/lifinance/widget/commit/676c5b4b0e763bb0c069f49ac6f5afeeacb5f617) Thanks [@chybisov](https://github.com/chybisov)! - chore: bump `@lifi/sdk` to `^4.3.0` and align duplicate-prone ranges
+
+  Move every package and example to `@lifi/sdk@^4.3.0` and refresh the
+  `@lifi/sdk-provider-*` ranges. `viem` and `@reown/appkit` ranges now match the
+  `pnpm-workspace.yaml` overrides (`>=2.52.0` / `>=1.8.20`) so consumers resolve a single
+  copy instead of a second one pulled in by a tighter caret range.
+
+- Updated dependencies [[`676c5b4`](https://github.com/lifinance/widget/commit/676c5b4b0e763bb0c069f49ac6f5afeeacb5f617)]:
+  - @lifi/wallet-management@4.1.3
+  - @lifi/widget-provider@4.3.1
+
 ## 4.4.0
 
 ### Minor Changes
