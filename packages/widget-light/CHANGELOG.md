@@ -1,5 +1,14 @@
 # @lifi/widget-light
 
+## 4.3.2
+
+### Patch Changes
+
+- [#836](https://github.com/lifinance/widget/pull/836) [`676c5b4`](https://github.com/lifinance/widget/commit/676c5b4b0e763bb0c069f49ac6f5afeeacb5f617) Thanks [@chybisov](https://github.com/chybisov)! - chore: bump `@bigmi/client` to `^0.10.1` and `@bigmi/react` to `^0.9.1`
+
+  Ranges stay aligned across `@lifi/widget-light` and `@lifi/widget-provider-bitcoin` so a single
+  `@bigmi/client` copy is resolved. `@bigmi/core` is unchanged — `^0.9.0` is already the latest release.
+
 ## 4.3.1
 
 ### Patch Changes
