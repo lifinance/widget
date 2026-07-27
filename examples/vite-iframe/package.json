@@ -14,7 +14,7 @@
     "@bigmi/react": "^0.9.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^4.1.0",
+    "@lifi/sdk": "^4.3.0",
     "@lifi/wallet-management": "workspace:*",
     "@lifi/widget-light": "workspace:*",
     "@lifi/widget-provider": "workspace:*",
@@ -29,7 +29,7 @@
     "bs58": ">=4.0.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "viem": "^2.55.1",
+    "viem": ">=2.52.0",
     "wagmi": "^3.7.1"
   },
   "devDependencies": {

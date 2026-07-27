@@ -13,12 +13,12 @@
     "@bigmi/client": "^0.10.0",
     "@bigmi/core": "^0.9.0",
     "@bigmi/react": "^0.9.0",
-    "@lifi/sdk": "^4.1.0",
+    "@lifi/sdk": "^4.3.0",
     "@lifi/wallet-management": "4.1.1",
     "@lifi/widget": "4.3.1",
     "@lifi/widget-provider-ethereum": "4.1.1",
     "@mui/material": "^9.2.0",
-    "@reown/appkit": "^1.8.22",
+    "@reown/appkit": ">=1.8.20",
     "@reown/appkit-adapter-bitcoin": "^1.8.22",
     "@reown/appkit-adapter-solana": "^1.8.22",
     "@reown/appkit-adapter-wagmi": "^1.8.22",
@@ -29,7 +29,7 @@
     "@tanstack/react-query": "^5.101.2",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "viem": "^2.55.1",
+    "viem": ">=2.52.0",
     "wagmi": "^3.7.1"
   },
   "devDependencies": {
