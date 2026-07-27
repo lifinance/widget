@@ -201,19 +201,19 @@ describe('resolveStatusVariant — PENDING branch', () => {
     expect(variant.titleKey).toBe('checkout.status.pendingRefund.title')
   })
 
-  it.each([
-    'INTENT_FAILED_RETRYABLE',
-    'INTENT_SIMULATION_FAILURE',
-  ] as const)('PENDING + %s → pending-retrying', (substatus) => {
-    const variant = resolveStatusVariant({
-      status: statusOf('PENDING'),
-      substatus,
-      fundingSource: 'wallet',
-    })
-    expect(variant.tone).toBe('warning')
-    expect(variant.icon).toBe('spinner')
-    expect(variant.titleKey).toBe('checkout.status.pendingRetrying.title')
-  })
+  it.each(['INTENT_FAILED_RETRYABLE', 'INTENT_SIMULATION_FAILURE'] as const)(
+    'PENDING + %s → pending-retrying',
+    (substatus) => {
+      const variant = resolveStatusVariant({
+        status: statusOf('PENDING'),
+        substatus,
+        fundingSource: 'wallet',
+      })
+      expect(variant.tone).toBe('warning')
+      expect(variant.icon).toBe('spinner')
+      expect(variant.titleKey).toBe('checkout.status.pendingRetrying.title')
+    }
+  )
 
   it.each([
     'INTENT_AWAITING_FUNDS',
