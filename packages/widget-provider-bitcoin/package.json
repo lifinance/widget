@@ -38,14 +38,14 @@
     "lifi"
   ],
   "dependencies": {
-    "@bigmi/client": "^0.10.0",
+    "@bigmi/client": "^0.10.1",
     "@bigmi/core": "^0.9.0",
     "@lifi/sdk": "^4.3.0",
     "@lifi/sdk-provider-bitcoin": "^4.0.5",
     "@lifi/widget-provider": "workspace:*"
   },
   "peerDependencies": {
-    "@bigmi/react": "^0.9.0",
+    "@bigmi/react": "^0.9.1",
     "react": ">=19"
   },
   "devDependencies": {
