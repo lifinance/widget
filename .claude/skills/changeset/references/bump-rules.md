@@ -6,9 +6,9 @@
 - **`fix:`** (bug fix, backwards-compatible) → **patch**
 - **breaking change** (removed/renamed export, changed signature, behavior break) → **major**
 
-While the repo is in **pre-beta** (see the `release` skill's `channels.md`), every bump
-lands as `4.0.0-beta.N` regardless of level — but still pick the level that *would* apply
-on the stable line, because it determines the eventual stable bump on `pre exit`.
+Changesets pre mode has been **exited** — there is no `.changeset/pre.json` and the `4.x`
+line is stable on the `latest` dist-tag, so standard semver applies and the level you pick
+is the version that ships. See the `release` skill for the release line and dist-tags.
 
 ## Publishable packages (these need a changeset when changed)
 
@@ -22,14 +22,19 @@ on the stable line, because it determines the eventual stable bump on `pre exit`
 - `@lifi/widget-provider-sui`
 - `@lifi/widget-provider-tron`
 
-> `@lifi/widget-checkout` and `@lifi/widget-provider-mesh` arrive with PR #727; add them
-> here when that lands.
-
-## Private / ignored (NEVER need a changeset)
+## Ignored (NEVER need a changeset)
 
 `@lifi/widget-embedded`, `@lifi/widget-playground`, `@lifi/widget-playground-next`,
 `@lifi/widget-playground-vite`, everything under `examples/` and `e2e/`. These are
 `private: true` and listed in `.changeset/config.json` `ignore`.
+
+## Private but versioned (declare these too)
+
+`@lifi/widget-checkout`, `@lifi/widget-provider-mesh`, `@lifi/widget-provider-transak` are
+`private: true` but **not** in `ignore`, and `privatePackages` is unset (defaults to
+`version: true`). Changesets bumps their versions and writes their CHANGELOGs; it just
+doesn't publish them. Declare them like any other changed package. Move one to the
+publishable list above only when its `private` flag is actually removed.
 
 ## Dependency graph — don't author cascade-only changesets
 
