@@ -1,5 +1,19 @@
 # @lifi/widget-provider-tron
 
+## 4.1.3
+
+### Patch Changes
+
+- [#836](https://github.com/lifinance/widget/pull/836) [`676c5b4`](https://github.com/lifinance/widget/commit/676c5b4b0e763bb0c069f49ac6f5afeeacb5f617) Thanks [@chybisov](https://github.com/chybisov)! - chore: bump `@lifi/sdk` to `^4.3.0` and align duplicate-prone ranges
+
+  Move every package and example to `@lifi/sdk@^4.3.0` and refresh the
+  `@lifi/sdk-provider-*` ranges. `viem` and `@reown/appkit` ranges now match the
+  `pnpm-workspace.yaml` overrides (`>=2.52.0` / `>=1.8.20`) so consumers resolve a single
+  copy instead of a second one pulled in by a tighter caret range.
+
+- Updated dependencies [[`676c5b4`](https://github.com/lifinance/widget/commit/676c5b4b0e763bb0c069f49ac6f5afeeacb5f617)]:
+  - @lifi/widget-provider@4.3.1
+
 ## 4.1.2
 
 ### Patch Changes

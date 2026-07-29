@@ -25,6 +25,7 @@ interface CheckoutModalContextValue {
   closeModal: () => void
   openCloseConfirmation: () => void
   panelEl: HTMLDivElement | null
+  inline: boolean
 }
 
 export const CheckoutModalContext: React.Context<CheckoutModalContextValue | null> =
@@ -39,7 +40,7 @@ export type { CheckoutModalRef }
 export const CheckoutModal: ForwardRefExoticComponent<
   PropsWithChildren<CheckoutModalProps> & RefAttributes<CheckoutModalRef>
 > = forwardRef<CheckoutModalRef, PropsWithChildren<CheckoutModalProps>>(
-  ({ elementRef, open, onClose, children }, ref) => {
+  ({ elementRef, open, onClose, inline, children }, ref) => {
     const openRef = useRef(Boolean(open))
     const [visible, setVisible] = useState(Boolean(open))
     const [confirmOpen, setConfirmOpen] = useState(false)
@@ -98,68 +99,103 @@ export const CheckoutModal: ForwardRefExoticComponent<
 
     const modalContext: CheckoutModalContextValue = useMemo(
       () => ({
-        closeModal: closePanel,
-        openCloseConfirmation: () => setConfirmOpen(true),
+        closeModal: inline ? () => {} : closePanel,
+        openCloseConfirmation: inline ? () => {} : () => setConfirmOpen(true),
         panelEl,
+        inline: Boolean(inline),
       }),
-      [closePanel, panelEl]
+      [inline, closePanel, panelEl]
+    )
+
+    const panel = (
+      <Box
+        ref={(el: HTMLDivElement | null) => {
+          setPanelEl(el)
+          if (elementRef) {
+            elementRef.current = el
+          }
+        }}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal={inline ? undefined : 'true'}
+        aria-label="Checkout"
+        sx={(theme) =>
+          inline
+            ? {
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                minHeight: 0,
+                outline: 'none',
+                width: `min(100%, ${theme.breakpoints.values.sm}px)`,
+                maxHeight: 'min(90dvh, 640px)',
+                overflow: 'hidden',
+                // Inherit only the host widget theme's card *appearance*
+                // (radius, shadow/border) so the inline panel matches the
+                // standard widget — never its layout props (display/height),
+                // which would break the panel's internal scroll.
+                background:
+                  theme.container?.background ??
+                  theme.vars.palette.background.default,
+                borderRadius:
+                  theme.container?.borderRadius ??
+                  theme.vars.shape.borderRadiusTertiary,
+                border: theme.container?.border,
+                boxShadow: theme.container?.boxShadow,
+                filter: theme.container?.filter,
+              }
+            : {
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: `min(calc(100vw - 32px), ${theme.breakpoints.values.sm}px)`,
+                maxHeight: '90dvh',
+                display: 'flex',
+                flexDirection: 'column',
+                outline: 'none',
+                borderRadius: theme.vars.shape.borderRadiusTertiary,
+                boxShadow: theme.shadows[24],
+                bgcolor: 'background.default',
+                overflow: 'hidden',
+              }
+        }
+      >
+        {children}
+        <CloseConfirmationDialog
+          open={confirmOpen}
+          onCancel={handleCancelConfirm}
+          onConfirm={handleConfirmConfirm}
+          container={panelEl}
+        />
+      </Box>
     )
 
     return (
       <CheckoutModalContext.Provider value={modalContext}>
-        <Modal
-          open={visible}
-          onClose={handleModalClose}
-          keepMounted={false}
-          slotProps={
-            {
-              backdrop: {
-                sx: (theme: Theme) => ({
-                  backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.48)`,
-                }),
-              },
-              transition: {
-                timeout: { appear: 0, enter: 160, exit: 80 },
-              },
-            } as Parameters<typeof Modal>[0]['slotProps']
-          }
-        >
-          <Box
-            ref={(el: HTMLDivElement | null) => {
-              setPanelEl(el)
-              if (elementRef) {
-                elementRef.current = el
-              }
-            }}
-            tabIndex={-1}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Checkout"
-            sx={(theme) => ({
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: `min(calc(100vw - 32px), ${theme.breakpoints.values.sm}px)`,
-              maxHeight: '90dvh',
-              display: 'flex',
-              flexDirection: 'column',
-              outline: 'none',
-              borderRadius: theme.vars.shape.borderRadiusTertiary,
-              boxShadow: theme.shadows[24],
-              bgcolor: 'background.default',
-              overflow: 'hidden',
-            })}
+        {inline ? (
+          panel
+        ) : (
+          <Modal
+            open={visible}
+            onClose={handleModalClose}
+            keepMounted={false}
+            slotProps={
+              {
+                backdrop: {
+                  sx: (theme: Theme) => ({
+                    backgroundColor: `rgba(${theme.vars.palette.common.onBackgroundChannel} / 0.48)`,
+                  }),
+                },
+                transition: {
+                  timeout: { appear: 0, enter: 160, exit: 80 },
+                },
+              } as Parameters<typeof Modal>[0]['slotProps']
+            }
           >
-            {children}
-            <CloseConfirmationDialog
-              open={confirmOpen}
-              onCancel={handleCancelConfirm}
-              onConfirm={handleConfirmConfirm}
-              container={panelEl}
-            />
-          </Box>
-        </Modal>
+            {panel}
+          </Modal>
+        )}
       </CheckoutModalContext.Provider>
     )
   }

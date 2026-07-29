@@ -37,20 +37,23 @@ describe('postCheckoutSession', () => {
     ['https://api.example.com/', 'https://api.example.com'],
     ['https://api.example.com/v1', 'https://api.example.com'],
     ['https://api.example.com/v1/', 'https://api.example.com'],
-  ])('normalizes baseUrl %s before appending endpointPath', async (input, expectedBase) => {
-    ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
-      ok: true,
-      status: 200,
-      json: async () => ({}),
-    })
+  ])(
+    'normalizes baseUrl %s before appending endpointPath',
+    async (input, expectedBase) => {
+      ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
+        ok: true,
+        status: 200,
+        json: async () => ({}),
+      })
 
-    await postCheckoutSession({ ...baseArgs, baseUrl: input })
+      await postCheckoutSession({ ...baseArgs, baseUrl: input })
 
-    const fetchMock = globalThis.fetch as ReturnType<typeof vi.fn>
-    expect(fetchMock.mock.calls[0]?.[0]).toBe(
-      `${expectedBase}/v1/checkout/onramp/session`
-    )
-  })
+      const fetchMock = globalThis.fetch as ReturnType<typeof vi.fn>
+      expect(fetchMock.mock.calls[0]?.[0]).toBe(
+        `${expectedBase}/v1/checkout/onramp/session`
+      )
+    }
+  )
 
   it('omits the integrator header when integrator is undefined', async () => {
     ;(globalThis.fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({

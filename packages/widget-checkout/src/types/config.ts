@@ -26,6 +26,8 @@ export interface CheckoutModalProps {
   elementRef?: RefObject<HTMLDivElement | null>
   open?: boolean
   onClose?(): void
+  /** Render inline (non-modal) instead of as a centered modal overlay. */
+  inline?: boolean
 }
 
 export type CheckoutProps = CheckoutModalProps &

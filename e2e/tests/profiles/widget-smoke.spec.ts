@@ -90,6 +90,10 @@ test.describe('Widget smoke', () => {
     await test.step('To token selector opens with a populated token list', async () => {
       await widget.openToTokenSelector()
       await expect(tokenSelector.heading).toBeVisible()
+      // Picking the From token pins the To chain to that chain. The first row in
+      // the all-networks list is BTC, and Bitcoin has exactly one token — so
+      // widen back to All networks before selecting by index.
+      await tokenSelector.selectAllNetworks()
       await expect(tokenSelector.tokenList).toBeVisible()
       await expect(tokenSelector.firstTokenItem).toBeVisible()
     })

@@ -138,13 +138,15 @@ export const Header: React.FC<HeaderProps> = ({ title: titleProp }) => {
         <HeaderControlsContainer
           sx={{ justifyContent: 'flex-end', flexShrink: 0 }}
         >
-          <IconButton
-            onClick={handleClose}
-            size="medium"
-            aria-label={t('button.close')}
-          >
-            <CloseIcon />
-          </IconButton>
+          {!modalContext?.inline ? (
+            <IconButton
+              onClick={handleClose}
+              size="medium"
+              aria-label={t('button.close')}
+            >
+              <CloseIcon />
+            </IconButton>
+          ) : null}
         </HeaderControlsContainer>
       </HeaderAppBar>
       <AbandonConfirmationDialog

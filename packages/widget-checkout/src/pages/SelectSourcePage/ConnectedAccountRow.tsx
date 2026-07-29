@@ -4,6 +4,7 @@ import {
   FundingOptionRow,
   FundingOptionSubtitle,
   FundingOptionTitle,
+  GenericIconWrap,
   OptionTextCell,
 } from './SelectSourceFundingOptions.style.js'
 
@@ -33,18 +34,15 @@ export function ConnectedAccountRow({
 }: ConnectedAccountRowProps): JSX.Element {
   return (
     <FundingOptionRow sx={{ alignItems: 'center' }}>
-      <Avatar
-        src={iconSrc}
-        alt=""
-        sx={(theme) => ({
-          width: 40,
-          height: 40,
-          flexShrink: 0,
-          bgcolor: theme.vars.palette.action.hover,
-        })}
-      >
-        {!iconSrc ? fallbackIcon : null}
-      </Avatar>
+      {iconSrc ? (
+        <Avatar
+          src={iconSrc}
+          alt=""
+          sx={{ width: 40, height: 40, flexShrink: 0 }}
+        />
+      ) : (
+        <GenericIconWrap>{fallbackIcon}</GenericIconWrap>
+      )}
       <OptionTextCell>
         <FundingOptionTitle>{title}</FundingOptionTitle>
         <FundingOptionSubtitle noWrap>{subtitle}</FundingOptionSubtitle>

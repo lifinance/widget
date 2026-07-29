@@ -1,8 +1,4 @@
-import {
-  formatUnits,
-  type TokenExtended,
-  type WalletTokenExtended,
-} from '@lifi/sdk'
+import { formatUnits, type TokenExtended } from '@lifi/sdk'
 import type { TokenAmount, TokenAmountExtended } from '../types/token.js'
 import type { WidgetTokens } from '../types/widget.js'
 
@@ -277,8 +273,4 @@ export const isSearchMatch = (
       .includes(searchLowerCase) ||
     token.address?.toLowerCase().includes(searchLowerCase)
   )
-}
-
-export const isSupportedToken = (token: WalletTokenExtended): boolean => {
-  return Boolean(token.name && token.symbol && token.priceUSD && token.chainId)
 }

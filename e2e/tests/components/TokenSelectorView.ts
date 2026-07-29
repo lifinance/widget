@@ -18,6 +18,8 @@ export class TokenSelectorView {
    * Reliable open-indicator for in-widget navigation.
    */
   readonly searchInput: Locator
+  /** "All networks" chip in the chain row — widens the list to every chain. */
+  readonly allNetworksButton: Locator
 
   constructor(page: Page) {
     this.page = page
@@ -27,6 +29,17 @@ export class TokenSelectorView {
     this.tokenList = root.getByRole('list').first()
     this.firstTokenItem = this.tokenList.getByRole('listitem').first()
     this.searchInput = root.getByPlaceholder('Search by token or address')
+    this.allNetworksButton = root.getByRole('button', { name: 'All networks' })
+  }
+
+  /**
+   * Click the "All networks" chip.
+   * Picking a From token pins the To chain to that same chain, which on a
+   * single-token chain (Bitcoin) leaves exactly one row — widen back first
+   * whenever the test needs to select by index.
+   */
+  async selectAllNetworks(): Promise<void> {
+    await this.allNetworksButton.click()
   }
 
   /**
