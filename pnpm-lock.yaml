@@ -1288,8 +1288,8 @@ importers:
         specifier: ^11.14.1
         version: 11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.8)(supports-color@10.2.2))(@types/react@19.2.17)(react@19.2.8)(supports-color@10.2.2)
       '@lifi/sdk':
-        specifier: 0.0.0-preview-207d898
-        version: 0.0.0-preview-207d898
+        specifier: 0.0.0-preview-3a18dab
+        version: 0.0.0-preview-3a18dab
       '@lifi/widget-provider':
         specifier: workspace:*
         version: link:../widget-provider
@@ -1343,8 +1343,8 @@ importers:
         specifier: ^11.14.1
         version: 11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.8)(supports-color@10.2.2))(@types/react@19.2.17)(react@19.2.8)(supports-color@10.2.2)
       '@lifi/sdk':
-        specifier: 0.0.0-preview-207d898
-        version: 0.0.0-preview-207d898
+        specifier: 0.0.0-preview-3a18dab
+        version: 0.0.0-preview-3a18dab
       '@lifi/wallet-management':
         specifier: workspace:*
         version: link:../wallet-management
@@ -1428,8 +1428,8 @@ importers:
         specifier: ^11.14.1
         version: 11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.8)(supports-color@10.2.2))(@types/react@19.2.17)(react@19.2.8)(supports-color@10.2.2)
       '@lifi/sdk':
-        specifier: 0.0.0-preview-207d898
-        version: 0.0.0-preview-207d898
+        specifier: 0.0.0-preview-3a18dab
+        version: 0.0.0-preview-3a18dab
       '@lifi/wallet-management':
         specifier: workspace:*
         version: link:../wallet-management
@@ -1504,20 +1504,20 @@ importers:
   packages/widget-embedded:
     dependencies:
       '@lifi/sdk':
-        specifier: 0.0.0-preview-207d898
-        version: 0.0.0-preview-207d898
+        specifier: 0.0.0-preview-3a18dab
+        version: 0.0.0-preview-3a18dab
       '@lifi/sdk-provider-bitcoin':
-        specifier: 0.0.0-preview-207d898
-        version: 0.0.0-preview-207d898(@types/react@19.2.17)(bs58@6.0.0)(react@19.2.8)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.2.8))
+        specifier: 0.0.0-preview-3a18dab
+        version: 0.0.0-preview-3a18dab(@types/react@19.2.17)(bs58@6.0.0)(react@19.2.8)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.2.8))
       '@lifi/sdk-provider-solana':
-        specifier: 0.0.0-preview-207d898
-        version: 0.0.0-preview-207d898(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@7.0.2)(utf-8-validate@6.0.6)
+        specifier: 0.0.0-preview-3a18dab
+        version: 0.0.0-preview-3a18dab(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@7.0.2)(utf-8-validate@6.0.6)
       '@lifi/sdk-provider-sui':
-        specifier: 0.0.0-preview-207d898
-        version: 0.0.0-preview-207d898(typescript@7.0.2)
+        specifier: 0.0.0-preview-3a18dab
+        version: 0.0.0-preview-3a18dab(typescript@7.0.2)
       '@lifi/sdk-provider-tron':
-        specifier: 0.0.0-preview-207d898
-        version: 0.0.0-preview-207d898(bufferutil@4.1.0)(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)(utf-8-validate@6.0.6)
+        specifier: 0.0.0-preview-3a18dab
+        version: 0.0.0-preview-3a18dab(bufferutil@4.1.0)(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)(utf-8-validate@6.0.6)
       '@lifi/wallet-management':
         specifier: workspace:*
         version: link:../wallet-management
@@ -1878,8 +1878,8 @@ importers:
   packages/widget-provider:
     dependencies:
       '@lifi/sdk':
-        specifier: 0.0.0-preview-207d898
-        version: 0.0.0-preview-207d898
+        specifier: 0.0.0-preview-3a18dab
+        version: 0.0.0-preview-3a18dab
       zustand:
         specifier: ^5.0.12
         version: 5.0.14(@types/react@19.2.17)(react@19.2.8)(use-sync-external-store@1.4.0(react@19.2.8))
@@ -1912,11 +1912,11 @@ importers:
         specifier: ^0.9.1
         version: 0.9.1(@tanstack/query-core@5.101.4)(@tanstack/react-query@5.101.4(react@19.2.8))(@types/react@19.2.17)(bs58@6.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.2.8))
       '@lifi/sdk':
-        specifier: 0.0.0-preview-207d898
-        version: 0.0.0-preview-207d898
+        specifier: 0.0.0-preview-3a18dab
+        version: 0.0.0-preview-3a18dab
       '@lifi/sdk-provider-bitcoin':
-        specifier: 0.0.0-preview-207d898
-        version: 0.0.0-preview-207d898(@types/react@19.2.17)(bs58@6.0.0)(react@19.2.8)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.2.8))
+        specifier: 0.0.0-preview-3a18dab
+        version: 0.0.0-preview-3a18dab(@types/react@19.2.17)(bs58@6.0.0)(react@19.2.8)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.2.8))
       '@lifi/widget-provider':
         specifier: workspace:*
         version: link:../widget-provider
@@ -1937,11 +1937,11 @@ importers:
   packages/widget-provider-ethereum:
     dependencies:
       '@lifi/sdk':
-        specifier: 0.0.0-preview-207d898
-        version: 0.0.0-preview-207d898
+        specifier: 0.0.0-preview-3a18dab
+        version: 0.0.0-preview-3a18dab
       '@lifi/sdk-provider-ethereum':
-        specifier: 0.0.0-preview-207d898
-        version: 0.0.0-preview-207d898(bufferutil@4.1.0)(typescript@7.0.2)(utf-8-validate@6.0.6)(zod@4.4.3)
+        specifier: 0.0.0-preview-3a18dab
+        version: 0.0.0-preview-3a18dab(bufferutil@4.1.0)(typescript@7.0.2)(utf-8-validate@6.0.6)(zod@4.4.3)
       '@lifi/widget-provider':
         specifier: workspace:*
         version: link:../widget-provider
@@ -1993,11 +1993,11 @@ importers:
   packages/widget-provider-solana:
     dependencies:
       '@lifi/sdk':
-        specifier: 0.0.0-preview-207d898
-        version: 0.0.0-preview-207d898
+        specifier: 0.0.0-preview-3a18dab
+        version: 0.0.0-preview-3a18dab
       '@lifi/sdk-provider-solana':
-        specifier: 0.0.0-preview-207d898
-        version: 0.0.0-preview-207d898(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@7.0.2)(utf-8-validate@6.0.6)
+        specifier: 0.0.0-preview-3a18dab
+        version: 0.0.0-preview-3a18dab(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@7.0.2)(utf-8-validate@6.0.6)
       '@lifi/widget-provider':
         specifier: workspace:*
         version: link:../widget-provider
@@ -2036,11 +2036,11 @@ importers:
         specifier: ^2.5.0
         version: 2.5.0(bcdb75718169e1304cc11ffebec32bed)
       '@lifi/sdk':
-        specifier: 0.0.0-preview-207d898
-        version: 0.0.0-preview-207d898
+        specifier: 0.0.0-preview-3a18dab
+        version: 0.0.0-preview-3a18dab
       '@lifi/sdk-provider-stellar':
-        specifier: 0.0.0-preview-207d898
-        version: 0.0.0-preview-207d898(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)
+        specifier: 0.0.0-preview-3a18dab
+        version: 0.0.0-preview-3a18dab(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)
       '@lifi/widget-provider':
         specifier: workspace:*
         version: link:../widget-provider
@@ -2064,11 +2064,11 @@ importers:
   packages/widget-provider-sui:
     dependencies:
       '@lifi/sdk':
-        specifier: 0.0.0-preview-207d898
-        version: 0.0.0-preview-207d898
+        specifier: 0.0.0-preview-3a18dab
+        version: 0.0.0-preview-3a18dab
       '@lifi/sdk-provider-sui':
-        specifier: 0.0.0-preview-207d898
-        version: 0.0.0-preview-207d898(typescript@7.0.2)
+        specifier: 0.0.0-preview-3a18dab
+        version: 0.0.0-preview-3a18dab(typescript@7.0.2)
       '@lifi/widget-provider':
         specifier: workspace:*
         version: link:../widget-provider
@@ -2120,11 +2120,11 @@ importers:
   packages/widget-provider-tron:
     dependencies:
       '@lifi/sdk':
-        specifier: 0.0.0-preview-207d898
-        version: 0.0.0-preview-207d898
+        specifier: 0.0.0-preview-3a18dab
+        version: 0.0.0-preview-3a18dab
       '@lifi/sdk-provider-tron':
-        specifier: 0.0.0-preview-207d898
-        version: 0.0.0-preview-207d898(bufferutil@4.1.0)(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)(utf-8-validate@6.0.6)
+        specifier: 0.0.0-preview-3a18dab
+        version: 0.0.0-preview-3a18dab(bufferutil@4.1.0)(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)(utf-8-validate@6.0.6)
       '@lifi/widget-provider':
         specifier: workspace:*
         version: link:../widget-provider
@@ -4115,29 +4115,29 @@ packages:
   '@ledgerhq/logs@6.17.0':
     resolution: {integrity: sha512-yra33g5q/AU7+PwAws+GaVpQGUuxnDREjVBnviJjcaJLVKuLzI4pnj8Bd3nY3fypM5k1yZEYKEXfUuGFUjP2+w==}
 
-  '@lifi/sdk-provider-bitcoin@0.0.0-preview-207d898':
-    resolution: {integrity: sha512-mybVGm4sAfMc086qIWQfXaWzjsg13TKsmu8nqK1srMltek/kA7Tvz5O7pZBbIUZxDYMwITZ5Ye/RaZpMUGo97w==}
+  '@lifi/sdk-provider-bitcoin@0.0.0-preview-3a18dab':
+    resolution: {integrity: sha512-YlJ709Frq6wQbWaoFRAuBer4EwhOBVWhHpjCK48b9sY2INUye6uabKagnGgYNzMJBAH/2AHGAwseOvohbrUbQQ==}
 
-  '@lifi/sdk-provider-ethereum@0.0.0-preview-207d898':
-    resolution: {integrity: sha512-gHOqYKf1zdiX9QekwrpjyoTPUPusOgRHt6dcKxintmLhPhvwwOWGAmKvoTMfvW3G986b2RJeLYXhY/DjsiqL8g==}
+  '@lifi/sdk-provider-ethereum@0.0.0-preview-3a18dab':
+    resolution: {integrity: sha512-cxKesgKSJrJD612+o44ux/CDFNO/tg3sYUUgqtV3tBq0pX568+XQoJxiNbviIwY/7SZC6oO5+lzJQ2hni3X5yA==}
 
   '@lifi/sdk-provider-ethereum@4.0.8':
     resolution: {integrity: sha512-Ytvr+qaWCTzyno84qJ6fGaobN+Ey6sRvUJUrlgMvA1ajn5z7Hmefu/bTpXpTfckjP8nwgRx9MVJq09MTdHUYsg==}
 
-  '@lifi/sdk-provider-solana@0.0.0-preview-207d898':
-    resolution: {integrity: sha512-FAGVRtPU4RaZ5ww60HC9cQTlvsX5HkrZJlSof2tEXjmieurq2K9j9UAfIcXYB+pohs3u3h4zaIV+lJytwC5LpQ==}
+  '@lifi/sdk-provider-solana@0.0.0-preview-3a18dab':
+    resolution: {integrity: sha512-ScwnCkNCA9wdmzoU65lp0veMTuHSsIDLUTFNh+XVcq/uLtYCTEGFmSxbTV60AkWMQ3VMD2EX/h4E2vIvZCbERA==}
 
-  '@lifi/sdk-provider-stellar@0.0.0-preview-207d898':
-    resolution: {integrity: sha512-ozabo8FrDm0NZZIF0zxfzOhW8Usfy8NhekWp6aqjaoN8HP+k8FJ0UOmt2Sxton9JELN7umj51cg0abqkGFQzag==}
+  '@lifi/sdk-provider-stellar@0.0.0-preview-3a18dab':
+    resolution: {integrity: sha512-7VnN9qGzwK36FWrqAB+BSdNnKUMmD99h33yNyXQMPUfwMai4Ty4PecRzRG1niOwU0jxap9G4L48RTgnd5ES6Fw==}
 
-  '@lifi/sdk-provider-sui@0.0.0-preview-207d898':
-    resolution: {integrity: sha512-p2nRRxHYn6Rc2tb/gyZRRd4putTvYdxMtyb5yqGFXGP+sd2zSVC/kBKAC7V6s2ki0RCdS2P2CyxUsbzxRwqecw==}
+  '@lifi/sdk-provider-sui@0.0.0-preview-3a18dab':
+    resolution: {integrity: sha512-hJTLZi1keFAjoxDX7taxmcZ6PqG05xwC1j28Oyk9aHHELu4zUGW7mTs9lpp4PmE5590u2LZ3F96Al1soKQMsOg==}
 
-  '@lifi/sdk-provider-tron@0.0.0-preview-207d898':
-    resolution: {integrity: sha512-wlYD0NN/Yvfh4WtIwTYcSXPJM5mngKhHPJebNKEVfglQqEqrMLgcNVpARwSe5StA/BeEjcYsXaC09SvEWJRYSg==}
+  '@lifi/sdk-provider-tron@0.0.0-preview-3a18dab':
+    resolution: {integrity: sha512-vnASqew8miTRLrHd052kX5AqvWNzw5ZYAGB3wpYpObKAHEj5Eu9ui3+jz8Ir5Tql7dgkzlT22k9ts2bjnRBBHg==}
 
-  '@lifi/sdk@0.0.0-preview-207d898':
-    resolution: {integrity: sha512-SVuCIAsb6gqdP0uQwMGTLIyF6k1wQTo+pHFwsGtKlCOLfinjcQULvvHzK3m4igh6PsaWIQCIuUE8Dmpf/9q2dA==}
+  '@lifi/sdk@0.0.0-preview-3a18dab':
+    resolution: {integrity: sha512-fcqbcx3KugJG0PLN32KxpaJumlUBDIT46pGntUJnWQxbctG2+4De1Gs3mjxgocE4/BWbaRsiRuv7VlekxUaaIA==}
 
   '@lifi/sdk@4.3.0':
     resolution: {integrity: sha512-0aycnDxit39VcFqAy6OijQdaR5p7NqfnfIhc93XyEwXBb/vDiNy41Jl9YrF2DEMA3Jjw1yQfxw2ZuF3OfIHbdg==}
@@ -19991,11 +19991,11 @@ snapshots:
 
   '@ledgerhq/logs@6.17.0': {}
 
-  '@lifi/sdk-provider-bitcoin@0.0.0-preview-207d898(@types/react@19.2.17)(bs58@6.0.0)(react@19.2.8)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.2.8))':
+  '@lifi/sdk-provider-bitcoin@0.0.0-preview-3a18dab(@types/react@19.2.17)(bs58@6.0.0)(react@19.2.8)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.2.8))':
     dependencies:
       '@bigmi/core': 0.9.0(@types/react@19.2.17)(bs58@6.0.0)(react@19.2.8)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.2.8))
       '@bitcoinerlab/secp256k1': 1.2.0
-      '@lifi/sdk': 0.0.0-preview-207d898
+      '@lifi/sdk': 0.0.0-preview-3a18dab
       bech32: 2.0.0
       bitcoinjs-lib: 7.0.1(typescript@7.0.2)
     transitivePeerDependencies:
@@ -20006,9 +20006,9 @@ snapshots:
       - typescript
       - use-sync-external-store
 
-  '@lifi/sdk-provider-ethereum@0.0.0-preview-207d898(bufferutil@4.1.0)(typescript@7.0.2)(utf-8-validate@6.0.6)(zod@4.4.3)':
+  '@lifi/sdk-provider-ethereum@0.0.0-preview-3a18dab(bufferutil@4.1.0)(typescript@7.0.2)(utf-8-validate@6.0.6)(zod@4.4.3)':
     dependencies:
-      '@lifi/sdk': 0.0.0-preview-207d898
+      '@lifi/sdk': 0.0.0-preview-3a18dab
       viem: 2.55.8(bufferutil@4.1.0)(typescript@7.0.2)(utf-8-validate@6.0.6)(zod@4.4.3)
     transitivePeerDependencies:
       - bufferutil
@@ -20026,9 +20026,9 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@lifi/sdk-provider-solana@0.0.0-preview-207d898(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@7.0.2)(utf-8-validate@6.0.6)':
+  '@lifi/sdk-provider-solana@0.0.0-preview-3a18dab(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@7.0.2)(utf-8-validate@6.0.6)':
     dependencies:
-      '@lifi/sdk': 0.0.0-preview-207d898
+      '@lifi/sdk': 0.0.0-preview-3a18dab
       '@solana/kit': 7.0.0(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@7.0.2)(utf-8-validate@6.0.6)
       '@solana/wallet-standard-features': 1.4.0
       '@wallet-standard/base': 1.1.1
@@ -20038,26 +20038,26 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@lifi/sdk-provider-stellar@0.0.0-preview-207d898(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)':
+  '@lifi/sdk-provider-stellar@0.0.0-preview-3a18dab(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)':
     dependencies:
-      '@lifi/sdk': 0.0.0-preview-207d898
+      '@lifi/sdk': 0.0.0-preview-3a18dab
       '@stellar/stellar-sdk': 16.1.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)
     transitivePeerDependencies:
       - debug
       - supports-color
 
-  '@lifi/sdk-provider-sui@0.0.0-preview-207d898(typescript@7.0.2)':
+  '@lifi/sdk-provider-sui@0.0.0-preview-3a18dab(typescript@7.0.2)':
     dependencies:
-      '@lifi/sdk': 0.0.0-preview-207d898
+      '@lifi/sdk': 0.0.0-preview-3a18dab
       '@mysten/sui': 2.22.1(typescript@7.0.2)
     transitivePeerDependencies:
       - '@gql.tada/svelte-support'
       - '@gql.tada/vue-support'
       - typescript
 
-  '@lifi/sdk-provider-tron@0.0.0-preview-207d898(bufferutil@4.1.0)(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)(utf-8-validate@6.0.6)':
+  '@lifi/sdk-provider-tron@0.0.0-preview-3a18dab(bufferutil@4.1.0)(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)(utf-8-validate@6.0.6)':
     dependencies:
-      '@lifi/sdk': 0.0.0-preview-207d898
+      '@lifi/sdk': 0.0.0-preview-3a18dab
       '@tronweb3/tronwallet-abstract-adapter': 1.2.0(bufferutil@4.1.0)(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)(utf-8-validate@6.0.6)
       tronweb: 6.4.0(bufferutil@4.1.0)(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)(utf-8-validate@6.0.6)
     transitivePeerDependencies:
@@ -20066,7 +20066,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@lifi/sdk@0.0.0-preview-207d898':
+  '@lifi/sdk@0.0.0-preview-3a18dab':
     dependencies:
       '@lifi/types': 17.86.0
 
