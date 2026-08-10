@@ -51,8 +51,8 @@ export const SendToWalletButton: React.FC<
   const { setSelectedBookmark } = useBookmarkActions()
   const { accounts } = useAccount()
   const { getChainTypeFromAddress } = useChainTypeFromAddress()
-  const { requiredToAddress } = useToAddressRequirements()
-  const disabledToAddress = disabledUI?.toAddress
+  const { requiredToAddress, unsupportedToAddress } = useToAddressRequirements()
+  const disabledToAddress = disabledUI?.toAddress || unsupportedToAddress
   const hiddenToAddress = hiddenUI?.toAddress
 
   const address = toAddressFieldValue
@@ -137,7 +137,9 @@ export const SendToWalletButton: React.FC<
 
   const addressRequired = requireAddress || requiredToAddress
   const isOpenCollapse =
-    !hiddenToAddress && (addressRequired || !!toAddressFieldValue)
+    !hiddenToAddress &&
+    !unsupportedToAddress &&
+    (addressRequired || !!toAddressFieldValue)
 
   const title =
     mode === 'custom' && modeOptions?.custom?.type === 'deposit'

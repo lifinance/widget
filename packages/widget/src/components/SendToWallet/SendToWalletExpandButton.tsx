@@ -16,12 +16,13 @@ export const SendToWalletExpandButton = (): JSX.Element => {
   const { toAddresses, disabledUI, hiddenUI } = useWidgetConfig()
   const hiddenToAddress = hiddenUI?.toAddress
   const disabledToAddress = disabledUI?.toAddress
-  const { requiredToAddress } = useToAddressRequirements()
+  const { requiredToAddress, unsupportedToAddress } = useToAddressRequirements()
   const [toAddressValue] = useFieldValues('toAddress')
 
   const visible =
     !hiddenToAddress &&
     !disabledToAddress &&
+    !unsupportedToAddress &&
     !toAddressValue &&
     !requiredToAddress
 

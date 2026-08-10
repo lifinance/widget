@@ -1,4 +1,4 @@
-import type { ChainType, RouteExtended } from '@lifi/sdk'
+import { ChainType, type RouteExtended } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useEthereumContext } from '@lifi/widget-provider'
 import { useChain } from '../hooks/useChain.js'
@@ -10,6 +10,7 @@ export const useToAddressRequirements = (
   route?: RouteExtended
 ): {
   requiredToAddress: boolean
+  unsupportedToAddress: boolean
   requiredToChainType: ChainType | undefined
   accountNotDeployedAtDestination: boolean
   accountDeployedAtDestination: boolean
@@ -68,11 +69,19 @@ export const useToAddressRequirements = (
     fromChainId !== toChainId &&
     !fromContractCodeHasDelegationIndicator
 
+  // Stellar routes always settle to the account that signs them, so a custom
+  // receiver can't be honoured on a Stellar-to-Stellar transfer.
+  const unsupportedToAddress = Boolean(
+    fromChain?.chainType === ChainType.STL &&
+      toChain?.chainType === ChainType.STL
+  )
+
   const requiredToAddress = Boolean(
     (isDifferentChainType ||
       isCrossChainContractAddress ||
       requiredUI?.toAddress) &&
-      !hiddenUI?.toAddress
+      !hiddenUI?.toAddress &&
+      !unsupportedToAddress
   )
 
   const accountNotDeployedAtDestination = Boolean(
@@ -91,6 +100,7 @@ export const useToAddressRequirements = (
 
   return {
     requiredToAddress,
+    unsupportedToAddress,
     requiredToChainType: toChain?.chainType,
     accountNotDeployedAtDestination,
     accountDeployedAtDestination,
