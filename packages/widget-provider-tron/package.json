@@ -38,8 +38,8 @@
     "trx"
   ],
   "dependencies": {
-    "@lifi/sdk": "0.0.0-preview-3a18dab",
-    "@lifi/sdk-provider-tron": "0.0.0-preview-3a18dab",
+    "@lifi/sdk": "0.0.0-preview-c328023",
+    "@lifi/sdk-provider-tron": "0.0.0-preview-c328023",
     "@lifi/widget-provider": "workspace:*",
     "@tronweb3/tronwallet-abstract-adapter": "1.2.0",
     "@tronweb3/tronwallet-adapter-binance": "^1.1.1",
