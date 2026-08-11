@@ -4,6 +4,7 @@ import type { CexSessionResult, FundingOrder, Route } from '@lifi/sdk'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { fireEvent, screen, waitFor } from '@testing-library/react'
 import type { ReactNode } from 'react'
+import { useState } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { renderWithI18n } from '../test/renderWithI18n.js'
 
@@ -88,11 +89,22 @@ const mockRoute = {
 } as unknown as Route
 
 const refetchMock = vi.fn()
-vi.mock('../hooks/useCheckoutFlowQuote.js', () => ({
-  useCheckoutFlowQuote: () => ({
+let checkoutFlowQuoteState: {
+  route: Route | undefined
+  routes: Route[] | undefined
+  depositAddress: string | null
+}
+function resetCheckoutFlowQuoteState(): void {
+  checkoutFlowQuoteState = {
     route: mockRoute,
     routes: [mockRoute],
     depositAddress: '0xDepositAddress',
+  }
+}
+resetCheckoutFlowQuoteState()
+vi.mock('../hooks/useCheckoutFlowQuote.js', () => ({
+  useCheckoutFlowQuote: () => ({
+    ...checkoutFlowQuoteState,
     isError: false,
     refetch: refetchMock,
     setReviewableRoute: vi.fn(),
@@ -187,13 +199,19 @@ function buildOrder(overrides?: Partial<FundingOrder>): FundingOrder {
   }
 }
 
-function wrap({ children }: { children: ReactNode }) {
-  const client = new QueryClient({
-    defaultOptions: {
-      queries: { retry: false },
-      mutations: { retry: false },
-    },
-  })
+function Wrap({ children }: { children: ReactNode }) {
+  // useState (not a bare `new QueryClient()`) keeps the client stable across
+  // `rerender()` calls — a fresh client on every render would wipe live
+  // mutation state (isPending/isError) instead of just updating props.
+  const [client] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: { retry: false },
+          mutations: { retry: false },
+        },
+      })
+  )
   return <QueryClientProvider client={client}>{children}</QueryClientProvider>
 }
 
@@ -203,13 +221,14 @@ beforeEach(() => {
   flowState.selectedExchangeAccount = null
   resetFieldValues()
   resetOnRampQuoteState()
+  resetCheckoutFlowQuoteState()
 })
 
 describe('CheckoutFlowCtaButton — transfer flow creates a SMART_DEPOSIT order', () => {
   it('builds the SMART_DEPOSIT request from the route, tracks the order, and navigates with the orderId', async () => {
     vi.mocked(createFundingOrder).mockResolvedValue(buildOrder())
 
-    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: wrap })
+    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: Wrap })
     fireEvent.click(screen.getByRole('button'))
 
     await waitFor(() => expect(createFundingOrder).toHaveBeenCalledTimes(1))
@@ -248,7 +267,7 @@ describe('CheckoutFlowCtaButton — transfer flow creates a SMART_DEPOSIT order'
         })
     )
 
-    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: wrap })
+    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: Wrap })
     const button = screen.getByRole('button') as HTMLButtonElement
     fireEvent.click(button)
 
@@ -262,7 +281,7 @@ describe('CheckoutFlowCtaButton — transfer flow creates a SMART_DEPOSIT order'
       .mockRejectedValueOnce(new Error('boom'))
       .mockResolvedValueOnce(buildOrder({ orderId: 'order-3' }))
 
-    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: wrap })
+    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: Wrap })
     fireEvent.click(screen.getByRole('button'))
     await waitFor(() => expect(createFundingOrder).toHaveBeenCalledTimes(1))
 
@@ -297,7 +316,7 @@ describe('CheckoutFlowCtaButton — wallet flow executes STANDARD funding orders
     } as unknown as Route
     vi.mocked(convertOrderToRoute).mockReturnValue(orderRoute)
 
-    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: wrap })
+    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: Wrap })
     fireEvent.click(screen.getByRole('button'))
 
     await waitFor(() => expect(createFundingOrder).toHaveBeenCalledTimes(1))
@@ -347,7 +366,7 @@ describe('CheckoutFlowCtaButton — wallet flow executes STANDARD funding orders
       id: 'order-wallet-2',
     } as unknown as Route)
 
-    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: wrap })
+    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: Wrap })
     const button = screen.getByRole('button') as HTMLButtonElement
     fireEvent.click(button)
 
@@ -367,7 +386,7 @@ describe('CheckoutFlowCtaButton — wallet flow executes STANDARD funding orders
       id: 'order-wallet-3',
     } as unknown as Route)
 
-    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: wrap })
+    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: Wrap })
     fireEvent.click(screen.getByRole('button'))
     await waitFor(() => expect(createFundingOrder).toHaveBeenCalledTimes(1))
 
@@ -400,7 +419,7 @@ describe('CheckoutFlowCtaButton — exchange flow creates a SMART_DEPOSIT order 
       linkToken: 'link-token-1',
     } as CexSessionResult)
 
-    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: wrap })
+    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: Wrap })
     fireEvent.click(screen.getByRole('button'))
 
     await waitFor(() => expect(createFundingOrder).toHaveBeenCalledTimes(1))
@@ -458,7 +477,7 @@ describe('CheckoutFlowCtaButton — exchange flow creates a SMART_DEPOSIT order 
       linkToken: 'link-token-2',
     } as CexSessionResult)
 
-    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: wrap })
+    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: Wrap })
     const button = screen.getByRole('button') as HTMLButtonElement
     fireEvent.click(button)
 
@@ -479,7 +498,7 @@ describe('CheckoutFlowCtaButton — exchange flow creates a SMART_DEPOSIT order 
       linkToken: 'link-token-3',
     } as CexSessionResult)
 
-    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: wrap })
+    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: Wrap })
     fireEvent.click(screen.getByRole('button'))
     await waitFor(() => expect(createFundingOrder).toHaveBeenCalledTimes(1))
 
@@ -495,6 +514,124 @@ describe('CheckoutFlowCtaButton — exchange flow creates a SMART_DEPOSIT order 
     fireEvent.click(screen.getByRole('button'))
     await waitFor(() => expect(createFundingOrder).toHaveBeenCalledTimes(2))
   })
+
+  it('reuses the already-created order on a CEX-session retry instead of minting a new one', async () => {
+    vi.mocked(createFundingOrder).mockResolvedValue(
+      buildOrder({
+        orderId: 'order-exchange-retry',
+        depositAddress: '0xDeposit',
+      })
+    )
+    vi.mocked(createCexSession)
+      .mockRejectedValueOnce(new Error('cex boom'))
+      .mockResolvedValueOnce({
+        linkToken: 'link-token-retry',
+      } as CexSessionResult)
+
+    const { rerender } = renderWithI18n(<CheckoutFlowCtaButton />, {
+      wrapper: Wrap,
+    })
+    fireEvent.click(screen.getByRole('button'))
+
+    await waitFor(() => expect(createFundingOrder).toHaveBeenCalledTimes(1))
+    await waitFor(() => expect(createCexSession).toHaveBeenCalledTimes(1))
+
+    // Mutation is now in an error state (the CEX session rejected) — try
+    // again resets it without re-minting the SMART_DEPOSIT order.
+    await waitFor(() =>
+      expect(screen.getByRole('button').textContent).toBe('button.tryAgain')
+    )
+    fireEvent.click(screen.getByRole('button'))
+    await waitFor(() =>
+      expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBe(
+        false
+      )
+    )
+
+    // Try Again's refetch() re-quotes the route — a new route.id with the
+    // same underlying request (chains/tokens/amount/address) must still
+    // reuse the cached order, not mint a duplicate. rerender forces the
+    // component to actually pick up the mutated mock (mutating the mock
+    // object alone doesn't trigger React to re-render on its own).
+    checkoutFlowQuoteState.route = { ...mockRoute, id: 'route-2' }
+    rerender(<CheckoutFlowCtaButton />)
+
+    fireEvent.click(screen.getByRole('button'))
+    await waitFor(() => expect(createCexSession).toHaveBeenCalledTimes(2))
+    expect(createFundingOrder).toHaveBeenCalledTimes(1)
+
+    await waitFor(() =>
+      expect(onRampSessionOpenMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          depositAddress: '0xDeposit',
+          linkToken: 'link-token-retry',
+        })
+      )
+    )
+    expect(navigateMock).toHaveBeenCalledWith({
+      to: '/transaction-execution/transaction-status',
+      search: { orderId: 'order-exchange-retry' },
+    })
+  })
+
+  it('creates a new order on retry when the underlying request actually changed', async () => {
+    vi.mocked(createFundingOrder)
+      .mockResolvedValueOnce(
+        buildOrder({
+          orderId: 'order-exchange-retry-a',
+          depositAddress: '0xDepositA',
+        })
+      )
+      .mockResolvedValueOnce(
+        buildOrder({
+          orderId: 'order-exchange-retry-b',
+          depositAddress: '0xDepositB',
+        })
+      )
+    vi.mocked(createCexSession)
+      .mockRejectedValueOnce(new Error('cex boom'))
+      .mockResolvedValueOnce({
+        linkToken: 'link-token-retry-b',
+      } as CexSessionResult)
+
+    const { rerender } = renderWithI18n(<CheckoutFlowCtaButton />, {
+      wrapper: Wrap,
+    })
+    fireEvent.click(screen.getByRole('button'))
+
+    await waitFor(() => expect(createFundingOrder).toHaveBeenCalledTimes(1))
+    await waitFor(() => expect(createCexSession).toHaveBeenCalledTimes(1))
+    await waitFor(() =>
+      expect(screen.getByRole('button').textContent).toBe('button.tryAgain')
+    )
+    fireEvent.click(screen.getByRole('button'))
+    await waitFor(() =>
+      expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBe(
+        false
+      )
+    )
+
+    // A genuinely different request (amount changed) must invalidate the
+    // cached order — reusing it here would fund the wrong amount. rerender
+    // forces the component to pick up the mutated mock before the retry.
+    checkoutFlowQuoteState.route = { ...mockRoute, fromAmount: '2000000' }
+    rerender(<CheckoutFlowCtaButton />)
+
+    fireEvent.click(screen.getByRole('button'))
+    await waitFor(() => expect(createFundingOrder).toHaveBeenCalledTimes(2))
+    await waitFor(() =>
+      expect(onRampSessionOpenMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          depositAddress: '0xDepositB',
+          linkToken: 'link-token-retry-b',
+        })
+      )
+    )
+    expect(navigateMock).toHaveBeenCalledWith({
+      to: '/transaction-execution/transaction-status',
+      search: { orderId: 'order-exchange-retry-b' },
+    })
+  })
 })
 
 describe('CheckoutFlowCtaButton — cash flow creates an ONRAMP order', () => {
@@ -506,7 +643,7 @@ describe('CheckoutFlowCtaButton — cash flow creates an ONRAMP order', () => {
 
   it('gates on hasFiatAmount && onRampQuote.isReady, not on a client route', () => {
     onRampQuoteState.isReady = false
-    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: wrap })
+    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: Wrap })
     expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBe(
       true
     )
@@ -529,7 +666,7 @@ describe('CheckoutFlowCtaButton — cash flow creates an ONRAMP order', () => {
       })
     )
 
-    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: wrap })
+    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: Wrap })
     // Cash routes through the handoff sheet: the main button opens it first.
     fireEvent.click(screen.getByRole('button'))
     expect(createFundingOrder).not.toHaveBeenCalled()
@@ -590,7 +727,7 @@ describe('CheckoutFlowCtaButton — cash flow creates an ONRAMP order', () => {
         })
       )
 
-    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: wrap })
+    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: Wrap })
     fireEvent.click(screen.getByRole('button'))
     const continueButton = await screen.findByText(
       'checkout.cashHandoff.continue'
@@ -608,5 +745,46 @@ describe('CheckoutFlowCtaButton — cash flow creates an ONRAMP order', () => {
         false
       )
     )
+  })
+
+  it('skips the handoff sheet and creates the order directly when there is no route-derived deposit address', async () => {
+    checkoutFlowQuoteState.depositAddress = null
+    // mockReset drops any queued mockResolvedValueOnce left behind by the
+    // previous test's unconsumed retry value — vi.clearAllMocks() in
+    // beforeEach clears call counts but not queued one-time implementations.
+    vi.mocked(createFundingOrder).mockReset()
+    vi.mocked(createFundingOrder).mockResolvedValue(
+      buildOrder({
+        orderId: 'order-cash-direct-1',
+        type: 'ONRAMP',
+        onramp: {
+          provider: 'transak',
+          delivery: 'DIRECT',
+          widgetUrl: 'https://transak.example/widget',
+          fiatAmount: '100',
+          fiatCurrency: 'USD',
+        },
+      })
+    )
+
+    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: Wrap })
+    fireEvent.click(screen.getByRole('button'))
+
+    // No sheet to interact with — clicking the CTA deposits directly.
+    expect(screen.queryByText('checkout.cashHandoff.continue')).toBeNull()
+
+    await waitFor(() => expect(createFundingOrder).toHaveBeenCalledTimes(1))
+
+    await waitFor(() =>
+      expect(trackOrderMock).toHaveBeenCalledWith({
+        orderId: 'order-cash-direct-1',
+        fundingSource: 'cash',
+        createdAt: expect.any(Number),
+      })
+    )
+    expect(navigateMock).toHaveBeenCalledWith({
+      to: '/transaction-execution/transaction-status',
+      search: { orderId: 'order-cash-direct-1' },
+    })
   })
 })

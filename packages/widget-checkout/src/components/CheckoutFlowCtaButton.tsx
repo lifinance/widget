@@ -1,3 +1,4 @@
+import type { FundingOrder } from '@lifi/sdk'
 import {
   convertOrderToRoute,
   createCexSession,
@@ -21,7 +22,7 @@ import { Button } from '@mui/material'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import type { JSX } from 'react'
-import { Fragment, useCallback, useState } from 'react'
+import { Fragment, useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCheckoutModal } from '../CheckoutModal.js'
 import { useCheckoutFlowQuote } from '../hooks/useCheckoutFlowQuote.js'
@@ -97,6 +98,15 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
   const [_cashEstimatedFundingAmount, setCashEstimatedFundingAmount] = useState<
     string | null
   >(null)
+  // Reuses the SMART_DEPOSIT order across a CEX-session retry so Try Again
+  // doesn't mint a second abandoned order server-side. Keyed on the request
+  // tuple (not route.id): Try Again's refetch() re-quotes the route before
+  // the retry, and a re-quote is not guaranteed to keep the same id even
+  // when every field the order request reads is unchanged.
+  const exchangeOrderRef = useRef<{
+    requestKey: string
+    order: FundingOrder
+  } | null>(null)
 
   const createWalletOrder = useMutation({
     mutationFn: async () => {
@@ -243,20 +253,33 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
       if (!route) {
         throw new Error('No route to derive the exchange deposit from.')
       }
-      const order = await createFundingOrder(
-        sdkClient,
-        buildSmartDepositOrderRequest({
-          toChainId: route.toChainId,
-          toTokenAddress: route.toToken.address,
-          toAddress: route.toAddress ?? route.fromAddress ?? '',
-          fromChainId: route.fromChainId,
-          fromTokenAddress: route.fromToken.address,
-          fromAmount: route.fromAmount,
-        })
-      )
+      const resolvedToAddress = route.toAddress ?? route.fromAddress ?? ''
+      const requestKey = [
+        route.fromChainId,
+        route.fromToken.address,
+        route.fromAmount,
+        route.toChainId,
+        route.toToken.address,
+        resolvedToAddress,
+      ].join(':')
+      const order =
+        exchangeOrderRef.current?.requestKey === requestKey
+          ? exchangeOrderRef.current.order
+          : await createFundingOrder(
+              sdkClient,
+              buildSmartDepositOrderRequest({
+                toChainId: route.toChainId,
+                toTokenAddress: route.toToken.address,
+                toAddress: resolvedToAddress,
+                fromChainId: route.fromChainId,
+                fromTokenAddress: route.fromToken.address,
+                fromAmount: route.fromAmount,
+              })
+            )
       if (!order.depositAddress) {
         throw new Error('Funding order has no deposit address.')
       }
+      exchangeOrderRef.current = { requestKey, order }
       const session = await createCexSession(sdkClient, {
         walletAddress: order.depositAddress,
         tokenAddress: route.fromToken.address,
@@ -302,6 +325,7 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
         to: statusPath,
         search: { orderId: order.orderId },
       })
+      exchangeOrderRef.current = null
     },
   })
 
@@ -369,8 +393,12 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
     )
   }
 
+  // Only route-derived cash has an address to confirm pre-order (DIRECT-delivery
+  // ONRAMP orders may legitimately have none) — skip the sheet and deposit directly.
   const primaryAction = isCash
-    ? () => setHandoffOpen(true)
+    ? depositAddress
+      ? () => setHandoffOpen(true)
+      : handleCashDeposit
     : handlersByFunding[fundingSource]
 
   const isTransferPending =
@@ -399,10 +427,10 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
       >
         {label}
       </Button>
-      {isCash ? (
+      {isCash && depositAddress ? (
         <CashHandoffSheet
           open={handoffOpen}
-          depositAddress={depositAddress ?? ''}
+          depositAddress={depositAddress}
           container={panelEl}
           onContinue={() => {
             setHandoffOpen(false)
