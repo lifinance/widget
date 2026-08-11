@@ -1,3 +1,4 @@
+import { convertQuoteToRoute } from '@lifi/sdk'
 import {
   Card,
   CardIconButton,
@@ -22,16 +23,16 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material'
+import { useNavigate, useSearch } from '@tanstack/react-router'
 import { QRCodeSVG } from 'qrcode.react'
 import type { JSX } from 'react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { useFrozenQuote } from '../../hooks/useFrozenQuote.js'
-import { usePendingCheckoutWriter } from '../../hooks/usePendingCheckoutWriter.js'
-import { extractDepositAddress } from '../../utils/extractDepositAddress.js'
-import { DepositAddressExpiredPage } from '../DepositErrorPages/DepositErrorPages.js'
+import { useFundingOrder } from '../../hooks/useFundingOrder.js'
+import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
+import { DepositUnexpectedPage } from '../DepositErrorPages/DepositErrorPages.js'
 import { DepositDetails } from './DepositDetails.js'
-import { useTransferStatusPoll } from './useTransferStatusPoll.js'
+import { shouldLeaveDepositPage } from './shouldLeaveDepositPage.js'
 
 const QR_SIZE = 224
 
@@ -47,13 +48,7 @@ const QrCodeCard = styled(Box)(({ theme }) => ({
   height: QR_SIZE,
 }))
 
-function formatRemaining(ms: number): { minutes: string; seconds: string } {
-  const total = Math.max(0, Math.floor(ms / 1000))
-  return {
-    minutes: String(Math.floor(total / 60)).padStart(2, '0'),
-    seconds: String(total % 60).padStart(2, '0'),
-  }
-}
+const statusPath = `/${checkoutNavigationRoutes.transactionExecution}/${checkoutNavigationRoutes.transactionStatus}`
 
 function roundUpToSignificant(value: number, significantDigits = 4): number {
   if (!Number.isFinite(value) || value === 0) {
@@ -64,43 +59,48 @@ function roundUpToSignificant(value: number, significantDigits = 4): number {
   return Math.ceil(value * factor) / factor
 }
 
+function DepositLoadingState(): JSX.Element {
+  return (
+    <PageContainer bottomGutters>
+      <Stack sx={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <CircularProgress />
+      </Stack>
+    </PageContainer>
+  )
+}
+
 export const TransferDepositPage: React.FC = (): JSX.Element => {
   const { t } = useTranslation()
-  const { frozen, expired, remainingMs } = useFrozenQuote()
-  const route = frozen?.route
-  const depositAddress = useMemo(() => extractDepositAddress(route), [route])
+  const navigate = useNavigate()
+  const { orderId } = useSearch({ strict: false }) as { orderId?: string }
+  const { order, phase } = useFundingOrder(orderId ?? null)
+  const depositAddress = order?.depositAddress ?? null
+  // convertOrderToRoute only accepts STANDARD orders; SMART_DEPOSIT reuses
+  // the lower-level quote converter for display purposes only (this route is
+  // never executed). A malformed quote falls back to no route rather than
+  // crashing the page.
+  const route = useMemo(() => {
+    if (!order?.quote) {
+      return undefined
+    }
+    try {
+      const converted = convertQuoteToRoute(order.quote)
+      converted.id = order.orderId
+      return converted
+    } catch {
+      return undefined
+    }
+  }, [order])
   const { chain } = useChain(route?.fromChainId)
 
-  const { minutes, seconds } = formatRemaining(remainingMs)
-
-  useTransferStatusPoll({
-    depositAddress,
-    fromChain: route?.fromChainId ?? null,
-    routeId: frozen?.id ?? null,
-    enabled: !!frozen && !expired,
-  })
-
-  const { writeTransfer } = usePendingCheckoutWriter()
-  const writtenAddressRef = useRef<string | null>(null)
   useEffect(() => {
-    if (!frozen || !route || !depositAddress || expired) {
+    if (!order) {
       return
     }
-    if (writtenAddressRef.current === depositAddress) {
-      return
+    if (shouldLeaveDepositPage({ substatus: order.substatus, phase })) {
+      navigate({ to: statusPath, search: { orderId: order.orderId } })
     }
-    writtenAddressRef.current = depositAddress
-    writeTransfer({
-      depositAddress,
-      fromChain: route.fromChainId,
-      frozenRouteId: frozen.id,
-      frozenQuote: {
-        id: frozen.id,
-        route: frozen.route,
-        expiresAt: frozen.expiresAt,
-      },
-    })
-  }, [frozen, route, depositAddress, expired, writeTransfer])
+  }, [order, phase, navigate])
 
   useHeader(t('header.depositAddress'))
 
@@ -109,14 +109,24 @@ export const TransferDepositPage: React.FC = (): JSX.Element => {
   const copiedTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
   useEffect(() => () => clearTimeout(copiedTimer.current), [])
 
-  if (!frozen || !route || !depositAddress || expired) {
-    return <DepositAddressExpiredPage />
+  if (!order) {
+    return <DepositLoadingState />
   }
 
-  const symbol = route.fromToken.symbol
-  const rawAmount = Number.parseFloat(
-    formatTokenAmount(BigInt(route.fromAmount), route.fromToken.decimals)
-  )
+  if (phase === 'failed') {
+    return <DepositUnexpectedPage />
+  }
+
+  if (!depositAddress) {
+    return <DepositLoadingState />
+  }
+
+  const symbol = route?.fromToken.symbol ?? ''
+  const rawAmount = route
+    ? Number.parseFloat(
+        formatTokenAmount(BigInt(route.fromAmount), route.fromToken.decimals)
+      )
+    : 0
   const amount = roundUpToSignificant(rawAmount)
   const chainName = chain?.name ?? ''
   const shortAddress = shortenAddress(depositAddress) ?? depositAddress
@@ -150,7 +160,7 @@ export const TransferDepositPage: React.FC = (): JSX.Element => {
               size={QR_SIZE}
               level="M"
               imageSettings={
-                route.fromToken.logoURI
+                route?.fromToken.logoURI
                   ? {
                       src: route.fromToken.logoURI,
                       height: 40,
@@ -189,9 +199,6 @@ export const TransferDepositPage: React.FC = (): JSX.Element => {
               </CardIconButton>
             </Tooltip>
           </Stack>
-          <Typography variant="caption" color="text.secondary">
-            {t('checkout.transferDeposit.expiresIn', { minutes, seconds })}
-          </Typography>
         </Stack>
 
         <Stack
@@ -205,34 +212,36 @@ export const TransferDepositPage: React.FC = (): JSX.Element => {
           </Typography>
         </Stack>
 
-        <Card variant="elevation" indented>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-            <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-              {t('checkout.transferDeposit.detailsTitle')}
-            </Typography>
-            <IconButton
-              size="small"
-              onClick={() => setDetailsOpen((open) => !open)}
-              aria-expanded={detailsOpen}
-              aria-label={t('checkout.transferDeposit.detailsTitle')}
+        {route ? (
+          <Card variant="elevation" indented>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
             >
-              {detailsOpen ? (
-                <ExpandLessRoundedIcon />
-              ) : (
-                <ExpandMoreRoundedIcon />
-              )}
-            </IconButton>
-          </Box>
-          <Collapse in={detailsOpen} timeout="auto" unmountOnExit>
-            <DepositDetails route={route} />
-          </Collapse>
-        </Card>
+              <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
+                {t('checkout.transferDeposit.detailsTitle')}
+              </Typography>
+              <IconButton
+                size="small"
+                onClick={() => setDetailsOpen((open) => !open)}
+                aria-expanded={detailsOpen}
+                aria-label={t('checkout.transferDeposit.detailsTitle')}
+              >
+                {detailsOpen ? (
+                  <ExpandLessRoundedIcon />
+                ) : (
+                  <ExpandMoreRoundedIcon />
+                )}
+              </IconButton>
+            </Box>
+            <Collapse in={detailsOpen} timeout="auto" unmountOnExit>
+              <DepositDetails route={route} />
+            </Collapse>
+          </Card>
+        ) : null}
       </Stack>
     </PageContainer>
   )

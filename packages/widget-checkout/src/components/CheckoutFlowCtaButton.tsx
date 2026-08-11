@@ -1,13 +1,15 @@
-import { parseUnits } from '@lifi/sdk'
+import { createFundingOrder, parseUnits } from '@lifi/sdk'
 import {
   BaseTransactionButton,
   formatTokenAmount,
   useFieldValues,
+  useSDKClient,
   useToAddressRequirements,
   useWidgetEvents,
   WidgetEvent,
 } from '@lifi/widget/shared'
 import { Button } from '@mui/material'
+import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import type { JSX } from 'react'
 import { Fragment, useCallback, useState } from 'react'
@@ -23,6 +25,8 @@ import {
   useCheckoutFlowStore,
 } from '../stores/useCheckoutFlowStore.js'
 import { useFiatCurrencyStore } from '../stores/useFiatCurrencyStore.js'
+import { useFundingOrderStore } from '../stores/useFundingOrderStore.js'
+import { buildSmartDepositOrderRequest } from '../utils/buildOrderRequest.js'
 import { normalizeFiatAmount } from '../utils/fiatFormat.js'
 import {
   checkoutAbsolutePaths,
@@ -43,6 +47,7 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const emitter = useWidgetEvents()
+  const sdkClient = useSDKClient()
   const { toAddress, requiredToAddress } = useToAddressRequirements()
   const { recipient, isUserSettable } = useResolvedCheckoutRecipient()
   const {
@@ -54,6 +59,7 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
     setReviewableRoute,
   } = useCheckoutFlowQuote()
   const { freeze } = useFrozenQuote()
+  const trackOrder = useFundingOrderStore((s) => s.track)
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource) ?? 'wallet'
   const setFrozenRouteId = useCheckoutFlowStore((s) => s.setFrozenRouteId)
   const selectedExchangeAccount = useCheckoutFlowStore(
@@ -91,14 +97,40 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
     })
   }, [route, routes, setReviewableRoute, navigate, emitter])
 
+  const createTransferOrder = useMutation({
+    mutationFn: async () => {
+      if (!route) {
+        throw new Error('No route to derive the transfer request from.')
+      }
+      const order = await createFundingOrder(
+        sdkClient,
+        buildSmartDepositOrderRequest({
+          toChainId: route.toChainId,
+          toTokenAddress: route.toToken.address,
+          toAddress: route.toAddress ?? route.fromAddress ?? '',
+          fromChainId: route.fromChainId,
+          fromTokenAddress: route.fromToken.address,
+          fromAmount: route.fromAmount,
+        })
+      )
+      return order
+    },
+    onSuccess: (order) => {
+      trackOrder({
+        orderId: order.orderId,
+        fundingSource: 'transfer',
+        createdAt: Date.now(),
+      })
+      navigate({
+        to: checkoutNavigationRoutes.transferDeposit,
+        search: { orderId: order.orderId },
+      })
+    },
+  })
+
   const handleTransferDeposit = useCallback(() => {
-    if (!route || !depositAddress) {
-      return
-    }
-    freeze(route)
-    setFrozenRouteId(route.id)
-    navigate({ to: checkoutNavigationRoutes.transferDeposit })
-  }, [route, depositAddress, freeze, setFrozenRouteId, navigate])
+    createTransferOrder.mutate()
+  }, [createTransferOrder])
 
   const handleOnRampDeposit = useCallback(() => {
     if (!route || !depositAddress || !onRampSession) {
@@ -199,7 +231,11 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
       onRampQuote.isDebouncePending ||
       !cashRouteMatchesQuote)
 
-  if (isError || (isCash && onRampQuote.isError)) {
+  if (
+    isError ||
+    (fundingSource === 'transfer' && createTransferOrder.isError) ||
+    (isCash && onRampQuote.isError)
+  ) {
     return (
       <Button
         variant="contained"
@@ -208,6 +244,7 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
         onClick={() => {
           refetch()
           onRampQuote.refetch()
+          createTransferOrder.reset()
         }}
         sx={{ flex: 1 }}
       >
@@ -220,6 +257,9 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
     ? () => setHandoffOpen(true)
     : handlersByFunding[fundingSource]
 
+  const isTransferPending =
+    fundingSource === 'transfer' && createTransferOrder.isPending
+
   return (
     <Fragment>
       <Button
@@ -227,7 +267,13 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
         color="primary"
         fullWidth
         onClick={primaryAction}
-        disabled={!route || !depositAddress || needsRecipient || cashNotReady}
+        disabled={
+          !route ||
+          !depositAddress ||
+          needsRecipient ||
+          cashNotReady ||
+          isTransferPending
+        }
         sx={{ flex: 1 }}
       >
         {label}

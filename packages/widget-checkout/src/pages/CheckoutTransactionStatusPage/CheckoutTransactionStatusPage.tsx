@@ -44,6 +44,10 @@ interface StatusSearch {
   fromChain?: number
   walletDisconnected?: boolean
   resumed?: string
+  // Forwarded by the transfer-deposit page once a SMART_DEPOSIT order's
+  // funds are detected. Not yet read here — Task 9 wires the order-backed
+  // status view.
+  orderId?: string
 }
 
 // Minimum visible hold so fast-resolving txs still show the executing state.
