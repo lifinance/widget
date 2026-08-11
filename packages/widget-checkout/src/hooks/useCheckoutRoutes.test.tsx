@@ -43,6 +43,14 @@ function lastAllowExchanges(): string[] | undefined {
   return lastCall?.allowExchanges
 }
 
+// The `allowExchanges` forwarding tests below are also the closest testable
+// analog for `RouteTracker`'s identical `useRoutes({ observableRoute,
+// allowExchanges })` pass-through in packages/widget: widget-core has no
+// component-test infra (no @testing-library/react, no happy-dom, no
+// vitest.config.ts), so that one-line forward is verified by reading the
+// source instead. The render site that wires the value into `RouteTracker`
+// (`CheckoutTransactionPage`) is covered separately in
+// `pages/CheckoutTransactionPage.test.tsx`.
 describe('useCheckoutRoutes', () => {
   beforeEach(() => {
     useRoutesMock.mockClear()

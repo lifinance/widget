@@ -9,12 +9,15 @@ interface RouteTrackerProps {
   observableRouteId: string
   onChange: Dispatch<SetStateAction<string>>
   onFetching: Dispatch<SetStateAction<boolean>>
+  /** Per-call exchange allow-list; overrides the settings-derived filter when set. */
+  allowExchanges?: string[]
 }
 
 export const RouteTracker = ({
   observableRouteId,
   onChange,
   onFetching,
+  allowExchanges,
 }: RouteTrackerProps): JSX.Element => {
   const routeExecutionStore = useRouteExecutionStoreContext()
   const setExecutableRoute = useSetExecutableRoute()
@@ -23,7 +26,7 @@ export const RouteTracker = ({
   )
   const observableRouteIdRef = useRef(observableRoute?.id)
   const { routes, isFetching, dataUpdatedAt, refetchTime, refetch } = useRoutes(
-    { observableRoute }
+    { observableRoute, allowExchanges }
   )
   const currentRoute = routes?.[0]
 

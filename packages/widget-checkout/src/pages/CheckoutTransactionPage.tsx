@@ -39,6 +39,7 @@ import { useLocation, useNavigate } from '@tanstack/react-router'
 import { type JSX, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CheckoutExecutionProgress } from '../components/CheckoutExecutionProgress.js'
+import { useCheckoutAllowExchanges } from '../hooks/useCheckoutAllowExchanges.js'
 import { FROZEN_QUOTE_TTL_MS, useFrozenQuote } from '../hooks/useFrozenQuote.js'
 import { usePendingCheckoutWriter } from '../hooks/usePendingCheckoutWriter.js'
 import { extractDepositAddress } from '../utils/extractDepositAddress.js'
@@ -189,6 +190,7 @@ export const CheckoutTransactionPage = (): JSX.Element | null => {
 
   const [routeId, setRouteId] = useState<string>(stateRouteId ?? '')
   const [routeRefreshing, setRouteRefreshing] = useState(false)
+  const checkoutAllowExchanges = useCheckoutAllowExchanges()
 
   const tokenValueBottomSheetRef = useRef<BottomSheetBase>(null)
   const exchangeRateBottomSheetRef = useRef<ExchangeRateBottomSheetBase>(null)
@@ -236,9 +238,10 @@ export const CheckoutTransactionPage = (): JSX.Element | null => {
           observableRouteId={stateRouteId ?? ''}
           onChange={setRouteId}
           onFetching={setRouteRefreshing}
+          allowExchanges={checkoutAllowExchanges}
         />
       ) : undefined,
-    [stateRouteId, status]
+    [stateRouteId, status, checkoutAllowExchanges]
   )
 
   useHeader(getHeaderTitle(), headerAction)
