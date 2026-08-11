@@ -5,9 +5,6 @@ import {
   type OnRampHostWidgetConfig,
   type OnRampOpenArgs,
   type OnRampSession,
-  type OnrampSessionRequest,
-  type OnrampSessionResponse,
-  postCheckoutSession,
   useCheckoutConfig,
   useRegisterOnRampSession,
 } from '@lifi/widget-provider/checkout'
@@ -46,8 +43,13 @@ export interface TransakHostProps {
  * owns rendering the `<div id={session.mountTargetId}>` inside its own
  * Dialog.
  */
-export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
-  const { integrator, onError, onSuccess, apiUrl } = useCheckoutConfig()
+// `widgetConfig` is required by the `OnRampProvider.Host` contract (every
+// host receives it) but Transak no longer reads it — the widget URL is
+// pre-created server-side by the ONRAMP funding order.
+export const TransakHost: FC<TransakHostProps> = ({
+  widgetConfig: _widgetConfig,
+}) => {
+  const { onError } = useCheckoutConfig()
   const [open, setOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<OnRampError | null>(null)
@@ -65,11 +67,6 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
     [reactId]
   )
 
-  const onSuccessRef = useRef(onSuccess)
-  useEffect(() => {
-    onSuccessRef.current = onSuccess
-  }, [onSuccess])
-
   const lastOpenArgsRef = useRef<OnRampOpenArgs | null>(null)
 
   const close = useCallback(() => {
@@ -83,7 +80,7 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
   }, [])
 
   const openDepositFlow = useCallback(
-    async (args: OnRampOpenArgs) => {
+    (args: OnRampOpenArgs) => {
       debug('openDepositFlow', args)
       lastOpenArgsRef.current = args
       setError(null)
@@ -93,123 +90,25 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
       setFundingSessionId(null)
       setIsLoading(true)
 
-      if (!apiUrl) {
-        setError({ code: 'MISSING_API_URL' })
-        onError?.({
-          code: 'MISSING_API_URL',
-          message:
-            'Cash deposit is not configured: set sdkConfig.apiUrl on the checkout.',
-          provider: 'transak',
-        })
-        setIsLoading(false)
-        return
-      }
-
-      const chainId = args.fromChainId
-      const tokenAddress = args.fromTokenAddress
-
-      const apiKey = widgetConfig.apiKey?.trim()
-      if (!apiKey) {
-        setError({ code: 'MISSING_API_KEY' })
-        onError?.({
-          code: 'MISSING_API_KEY',
-          message:
-            'Cash deposit is not configured: set widget apiKey to call checkout sessions.',
-          provider: 'transak',
-        })
-        setIsLoading(false)
-        return
-      }
-
-      const body: OnrampSessionRequest = {
-        depositAddress: args.depositAddress,
-        tokenAddress,
-        chainId,
-        integrator,
-        // Prefer fiatAmount so Transak shows the fiat the user typed; the
-        // crypto amount is informational and can drift with conversion.
-        ...(args.fiatAmount
-          ? { fiatAmount: args.fiatAmount }
-          : { amount: args.amount }),
-        fiatCurrency: args.fiatCurrency,
-        ...(args.paymentMethod ? { paymentMethod: args.paymentMethod } : {}),
-      }
-
-      try {
-        const res = await postCheckoutSession<
-          OnrampSessionRequest,
-          OnrampSessionResponse
-        >({
-          baseUrl: apiUrl,
-          endpointPath: '/v1/checkout/onramp/session',
-          apiKey,
-          integrator,
-          body,
-        })
-
-        if (!res.ok) {
-          const errObj = res.apiError
-          if (errObj?.error) {
-            setError({ message: errObj.error })
-            onError?.({
-              code: errObj.code ?? 'ONRAMP_SESSION_FAILED',
-              message: errObj.error,
-              provider: 'transak',
-            })
-          } else {
-            setError({
-              code: 'SESSION_HTTP',
-              params: { status: res.status },
-            })
-            onError?.({
-              code: 'ONRAMP_SESSION_FAILED',
-              message: `Could not start Transak session (${res.status}). Try again later.`,
-              provider: 'transak',
-            })
-          }
-          setIsLoading(false)
-          return
-        }
-
-        if (!res.data.widgetUrl) {
-          setError({ code: 'INVALID_RESPONSE' })
-          onError?.({
-            code: 'ONRAMP_INVALID_RESPONSE',
-            message: 'Invalid response from onramp server (missing widgetUrl).',
-            provider: 'transak',
-          })
-          setIsLoading(false)
-          return
-        }
-
-        debug('session received', {
-          widgetUrl: res.data.widgetUrl,
-          fundingSessionId: res.data.fundingSessionId,
-        })
-        setWidgetUrl(res.data.widgetUrl)
-        setFundingSessionId(res.data.fundingSessionId ?? null)
-        // Open only once a session exists; failures render inline on the status page.
+      // The ONRAMP funding order carries the pre-created widget URL — the
+      // host performs no HTTP itself.
+      if (args.widgetUrl) {
+        debug('widget url received', { widgetUrl: args.widgetUrl })
+        setWidgetUrl(args.widgetUrl)
         setOpen(true)
-      } catch (e) {
-        const message =
-          e instanceof Error
-            ? e.message
-            : 'Network error starting Transak session.'
-        setError(
-          e instanceof Error
-            ? { message: e.message }
-            : { code: 'NETWORK_ERROR' }
-        )
-        onError?.({
-          code: 'ONRAMP_NETWORK_ERROR',
-          message,
-          provider: 'transak',
-        })
-      } finally {
         setIsLoading(false)
+        return
       }
+
+      setError({ code: 'INVALID_RESPONSE' })
+      onError?.({
+        code: 'ONRAMP_INVALID_RESPONSE',
+        message: 'Invalid response from onramp server (missing widgetUrl).',
+        provider: 'transak',
+      })
+      setIsLoading(false)
     },
-    [apiUrl, integrator, onError, widgetConfig.apiKey]
+    [onError]
   )
 
   const cancel = useCallback(() => {
@@ -291,7 +190,6 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
         data != null && typeof data === 'object'
           ? (data as Record<string, unknown>)
           : {}
-      const lastArgs = lastOpenArgsRef.current
       const orderId = typeof order.id === 'string' ? order.id : undefined
       // On resume of a prior order, Transak funds that order's address, not ours.
       const orderWalletAddress =
@@ -301,11 +199,6 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
       if (orderWalletAddress) {
         setResolvedDepositAddress(orderWalletAddress)
       }
-      // Prefer the resumed order's partnerOrderId so reconciliation matches it.
-      const orderFundingSessionId =
-        typeof order.partnerOrderId === 'string' && order.partnerOrderId
-          ? order.partnerOrderId
-          : fundingSessionIdRef.current
 
       debug('order extracted', {
         orderId,
@@ -315,21 +208,9 @@ export const TransakHost: FC<TransakHostProps> = ({ widgetConfig }) => {
         walletAddress: orderWalletAddress,
       })
 
-      // Transak's SDK fires TRANSAK_ORDER_SUCCESSFUL at card-charge time
-      // (status=PROCESSING) with no on-chain hash. The status page resolves
-      // the real hash by polling /v1/status?depositAddress=…&fromChain=…
-      onSuccessRef.current?.({
-        provider: 'transak',
-        transactionHash: undefined,
-        amount: String(order.cryptoAmount ?? order.fiatAmount ?? ''),
-        token: String(order.cryptoCurrency ?? lastArgs?.fromTokenAddress ?? ''),
-        chainId: Number(
-          order.chainId ?? order.networkId ?? lastArgs?.fromChainId ?? 0
-        ),
-        depositAddress: orderWalletAddress ?? undefined,
-        fundingSessionId: orderFundingSessionId ?? undefined,
-      })
-
+      // Completion is owned by the order observer (Task 4), which fires
+      // onSuccess at on-chain settlement — not here at Transak's card-charge
+      // event (TRANSAK_ORDER_SUCCESSFUL, status=PROCESSING, no on-chain hash).
       debug('closing modal (preserving depositTxHash)')
       setOpen(false)
       setIsLoading(false)

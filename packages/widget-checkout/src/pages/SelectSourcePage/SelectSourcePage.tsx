@@ -1,4 +1,3 @@
-import { parseUnits } from '@lifi/sdk'
 import {
   getConnectorIcon,
   useAccount,
@@ -8,11 +7,9 @@ import {
   FormKeyHelper,
   PageContainer,
   PoweredBy,
-  useChain,
   useFieldActions,
   useFieldValues,
   useHeader,
-  useToken,
 } from '@lifi/widget/shared'
 import {
   type ConnectedCexAccount,
@@ -22,8 +19,7 @@ import {
   useConnectedCexAccounts,
   useConnectedCexStore,
 } from '@lifi/widget-provider/checkout'
-import { useMeshBalance } from '@lifi/widget-provider-mesh'
-import { Alert, Box, CircularProgress } from '@mui/material'
+import { Box, CircularProgress } from '@mui/material'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Stack } from '../../components/Stack.js'
@@ -69,9 +65,6 @@ export const SelectSourcePage: React.FC = () => {
     (s) => s.removeAccount
   )
 
-  const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
-  const wasExchangeFlow = fundingSource === 'exchange'
-
   const pendingItems = useCheckoutPendingRecords()
   const resumeCheckout = useResumeCheckout()
   const autoResumeItem = useMemo(
@@ -87,41 +80,7 @@ export const SelectSourcePage: React.FC = () => {
     resumeCheckout(autoResumeItem.record, autoResumeItem.depositDetected)
   }, [autoResumeItem, resumeCheckout])
 
-  const formType = 'from' as const
-  const [prevChainId, prevTokenAddress, prevAmountStr] = useFieldValues(
-    FormKeyHelper.getChainKey(formType),
-    FormKeyHelper.getTokenKey(formType),
-    FormKeyHelper.getAmountKey(formType)
-  )
-  const { token: prevToken } = useToken(
-    wasExchangeFlow ? prevChainId : undefined,
-    wasExchangeFlow ? prevTokenAddress : undefined
-  )
-  const { chain: prevChain } = useChain(
-    wasExchangeFlow ? prevChainId : undefined
-  )
-  const { rawBalance: meshRawBalance, decimals: meshDecimals } = useMeshBalance(
-    wasExchangeFlow ? prevTokenAddress : undefined,
-    wasExchangeFlow ? prevChainId : undefined
-  )
-
-  const tokenDecimals = prevToken?.decimals ?? meshDecimals ?? null
-  const prevRequestedRaw = useMemo<bigint | null>(() => {
-    if (!prevAmountStr || tokenDecimals === null) {
-      return null
-    }
-    try {
-      return parseUnits(prevAmountStr, tokenDecimals)
-    } catch {
-      return null
-    }
-  }, [prevAmountStr, tokenDecimals])
-
-  const showInsufficientFunds =
-    wasExchangeFlow &&
-    meshRawBalance !== null &&
-    prevRequestedRaw !== null &&
-    meshRawBalance < prevRequestedRaw
+  const [prevTokenAddress] = useFieldValues(FormKeyHelper.getTokenKey('from'))
 
   useEffect(() => {
     // Skip while auto-resuming, else it clobbers the flow the resume just set.
@@ -284,14 +243,6 @@ export const SelectSourcePage: React.FC = () => {
       })}
     >
       <SelectSourceMainColumn sx={{ flex: 1 }}>
-        {showInsufficientFunds && prevToken && prevChain ? (
-          <Alert severity="warning" sx={{ mb: 2 }}>
-            {t('checkout.insufficientFunds', {
-              symbol: prevToken.symbol,
-              chain: prevChain.name,
-            })}
-          </Alert>
-        ) : null}
         <SelectSourceFundingOptions
           onPayFromWallet={handlePayFromWallet}
           onTransferCrypto={handleTransferCrypto}

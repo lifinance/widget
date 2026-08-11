@@ -1,22 +1,21 @@
 'use client'
 import {
+  getOnrampQuote,
+  type OnrampQuoteResult as SdkOnrampQuoteResult,
+} from '@lifi/sdk'
+import {
   FormKeyHelper,
   useDebouncedWatch,
   useFieldValues,
-  useWidgetConfig,
+  useSDKClient,
 } from '@lifi/widget/shared'
-import {
-  type OnrampQuoteRequest,
-  type OnrampQuoteResponse,
-  postCheckoutSession,
-  useCheckoutConfig,
-} from '@lifi/widget-provider/checkout'
+import { useCheckoutConfig } from '@lifi/widget-provider/checkout'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useFiatCurrencyStore } from '../stores/useFiatCurrencyStore.js'
 import { normalizeFiatAmount } from '../utils/fiatFormat.js'
 
 export interface OnRampQuoteResult {
-  data: OnrampQuoteResponse | undefined
+  data: SdkOnrampQuoteResult | undefined
   isLoading: boolean
   isFetching: boolean
   isError: boolean
@@ -34,8 +33,8 @@ export function useOnRampQuote(): OnRampQuoteResult {
   )
   const [cashFiatAmount] = useFieldValues('cashFiatAmount')
   const [debouncedCashFiatAmount] = useDebouncedWatch(350, 'cashFiatAmount')
-  const { apiUrl, integrator } = useCheckoutConfig()
-  const { apiKey } = useWidgetConfig()
+  const { integrator } = useCheckoutConfig()
+  const sdkClient = useSDKClient()
   const fiatCurrency = useFiatCurrencyStore((s) => s.currency)
   const paymentMethod = useFiatCurrencyStore((s) => s.paymentMethod)
 
@@ -49,13 +48,11 @@ export function useOnRampQuote(): OnRampQuoteResult {
   const enabled =
     hasCurrentAmount &&
     hasValidAmount &&
-    Boolean(apiUrl) &&
-    Boolean(apiKey) &&
     typeof chainId === 'number' &&
     Boolean(tokenAddress) &&
     Boolean(fiatCurrency)
 
-  const query = useQuery<OnrampQuoteResponse, Error>({
+  const query = useQuery<SdkOnrampQuoteResult, Error>({
     queryKey: [
       'onramp-quote',
       integrator,
@@ -65,28 +62,14 @@ export function useOnRampQuote(): OnRampQuoteResult {
       debouncedFiatAmount,
       paymentMethod,
     ],
-    queryFn: async () => {
-      const response = await postCheckoutSession<
-        OnrampQuoteRequest,
-        OnrampQuoteResponse
-      >({
-        baseUrl: apiUrl!,
-        endpointPath: '/v1/checkout/onramp/quote',
-        apiKey: apiKey!,
-        integrator,
-        body: {
-          chainId: chainId as number,
-          tokenAddress: tokenAddress as string,
-          fiatCurrency,
-          fiatAmount: debouncedFiatAmount,
-          ...(paymentMethod ? { paymentMethod } : {}),
-        },
-      })
-      if (!response.ok) {
-        throw new Error(`Onramp quote request failed (${response.status})`)
-      }
-      return response.data
-    },
+    queryFn: () =>
+      getOnrampQuote(sdkClient, {
+        tokenAddress: tokenAddress as string,
+        chainId: chainId as number,
+        fiatAmount: debouncedFiatAmount,
+        fiatCurrency,
+        ...(paymentMethod ? { paymentMethod } : {}),
+      }),
     enabled,
     staleTime: 0,
     placeholderData: keepPreviousData,

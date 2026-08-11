@@ -322,9 +322,7 @@ const CheckoutReceiveCardWithRoutes: React.FC = () => {
   const cashFeeRows = cashFees?.breakdown?.length
     ? cashFees.breakdown.map((fee, index) => ({
         label:
-          fee.name ||
           fee.label ||
-          fee.type ||
           t('checkout.cashQuote.feeFallback', { index: index + 1 }),
         value: formatFiat(fee.amount, cashFees.currency, i18n.language),
       }))

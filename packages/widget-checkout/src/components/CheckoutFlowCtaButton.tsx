@@ -1,15 +1,22 @@
-import { convertOrderToRoute, createFundingOrder, parseUnits } from '@lifi/sdk'
+import {
+  convertOrderToRoute,
+  createCexSession,
+  createFundingOrder,
+} from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import {
   BaseTransactionButton,
+  FormKeyHelper,
   formatTokenAmount,
   useFieldValues,
   useRouteExecutionStoreContext,
   useSDKClient,
   useToAddressRequirements,
+  useWidgetConfig,
   useWidgetEvents,
   WidgetEvent,
 } from '@lifi/widget/shared'
+import { useCheckoutUserId } from '@lifi/widget-provider/checkout'
 import { Button } from '@mui/material'
 import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
@@ -18,7 +25,6 @@ import { Fragment, useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCheckoutModal } from '../CheckoutModal.js'
 import { useCheckoutFlowQuote } from '../hooks/useCheckoutFlowQuote.js'
-import { useFrozenQuote } from '../hooks/useFrozenQuote.js'
 import { useOnRampQuote } from '../hooks/useOnRampQuote.js'
 import { useResolvedCheckoutRecipient } from '../hooks/useResolvedCheckoutRecipient.js'
 import { useOnRampSessionByCategory } from '../providers/OnRampProvider/OnRampProvider.js'
@@ -29,6 +35,7 @@ import {
 import { useFiatCurrencyStore } from '../stores/useFiatCurrencyStore.js'
 import { useFundingOrderStore } from '../stores/useFundingOrderStore.js'
 import {
+  buildOnrampOrderRequest,
   buildSmartDepositOrderRequest,
   buildStandardOrderRequest,
 } from '../utils/buildOrderRequest.js'
@@ -58,16 +65,20 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
   const { toAddress, requiredToAddress } = useToAddressRequirements()
   const { recipient, isUserSettable } = useResolvedCheckoutRecipient()
   const { route, depositAddress, isError, refetch } = useCheckoutFlowQuote()
-  const { freeze } = useFrozenQuote()
+  const { toChain, toToken } = useWidgetConfig()
+  const checkoutUserId = useCheckoutUserId()
   const trackOrder = useFundingOrderStore((s) => s.track)
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource) ?? 'wallet'
-  const setFrozenRouteId = useCheckoutFlowStore((s) => s.setFrozenRouteId)
   const selectedExchangeAccount = useCheckoutFlowStore(
     (s) => s.selectedExchangeAccount
   )
   const fiatCurrency = useFiatCurrencyStore((s) => s.currency)
   const paymentMethod = useFiatCurrencyStore((s) => s.paymentMethod)
   const [cashFiatAmount] = useFieldValues('cashFiatAmount')
+  const [pinnedFromChainId, pinnedFromTokenAddress] = useFieldValues(
+    FormKeyHelper.getChainKey('from'),
+    FormKeyHelper.getTokenKey('from')
+  )
   const onRampQuote = useOnRampQuote()
   const onRampSession = useOnRampSessionByCategory(
     fundingSource === 'cash' || fundingSource === 'exchange'
@@ -81,6 +92,11 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
 
   const panelEl = useCheckoutModal()?.panelEl ?? null
   const [handoffOpen, setHandoffOpen] = useState(false)
+  // Create-response-only field (a later GET omits it) — captured for display.
+  // Not yet read anywhere; Task 9 wires it into the order-backed status view.
+  const [_cashEstimatedFundingAmount, setCashEstimatedFundingAmount] = useState<
+    string | null
+  >(null)
 
   const createWalletOrder = useMutation({
     mutationFn: async () => {
@@ -158,65 +174,146 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
     createTransferOrder.mutate()
   }, [createTransferOrder])
 
-  const handleOnRampDeposit = useCallback(() => {
-    if (!route || !depositAddress || !onRampSession) {
-      return
-    }
-    freeze(
-      route,
-      fundingSource === 'cash'
-        ? { fiatCurrency, fiatAmount: normalizedCashFiatAmount || undefined }
-        : undefined
-    )
-    setFrozenRouteId(route.id)
-    const cryptoAmount = formatTokenAmount(
-      BigInt(route.fromAmount),
-      route.fromToken.decimals
-    )
-    onRampSession.open({
-      depositAddress,
-      amount: cryptoAmount,
-      fiatCurrency,
-      fiatAmount:
-        fundingSource === 'cash'
-          ? normalizedCashFiatAmount || undefined
+  const createCashOrder = useMutation({
+    mutationFn: async () => {
+      if (!onRampSession) {
+        throw new Error('No on-ramp session available for the cash deposit.')
+      }
+      if (typeof toChain !== 'number' || !toToken || !toAddress) {
+        throw new Error('No destination configured for the cash deposit.')
+      }
+      if (typeof pinnedFromChainId !== 'number' || !pinnedFromTokenAddress) {
+        throw new Error('No source asset configured for the cash deposit.')
+      }
+      const order = await createFundingOrder(
+        sdkClient,
+        buildOnrampOrderRequest({
+          toChainId: toChain,
+          toTokenAddress: toToken,
+          toAddress,
+          fiatAmount: normalizedCashFiatAmount,
+          fiatCurrency,
+          paymentMethod: paymentMethod ?? undefined,
+        })
+      )
+      return {
+        order,
+        fromChainId: pinnedFromChainId,
+        fromTokenAddress: pinnedFromTokenAddress,
+      }
+    },
+    onSuccess: ({ order, fromChainId, fromTokenAddress }) => {
+      trackOrder({
+        orderId: order.orderId,
+        fundingSource: 'cash',
+        createdAt: Date.now(),
+      })
+      setCashEstimatedFundingAmount(
+        order.onramp?.estimatedFundingAmount ?? null
+      )
+      onRampSession?.open({
+        depositAddress: order.depositAddress ?? '',
+        amount: order.onramp?.estimatedFundingAmount ?? '',
+        fiatCurrency,
+        fiatAmount: normalizedCashFiatAmount || undefined,
+        paymentMethod: paymentMethod ?? undefined,
+        fromChainId,
+        fromTokenAddress,
+        language: i18n.language,
+        widgetUrl: order.onramp?.widgetUrl,
+      })
+      navigate({
+        to: statusPath,
+        search: { orderId: order.orderId },
+      })
+    },
+  })
+
+  const handleCashDeposit = useCallback(() => {
+    createCashOrder.mutate()
+  }, [createCashOrder])
+
+  const createExchangeOrder = useMutation({
+    mutationFn: async () => {
+      if (!onRampSession) {
+        throw new Error(
+          'No on-ramp session available for the exchange deposit.'
+        )
+      }
+      if (!route) {
+        throw new Error('No route to derive the exchange deposit from.')
+      }
+      const order = await createFundingOrder(
+        sdkClient,
+        buildSmartDepositOrderRequest({
+          toChainId: route.toChainId,
+          toTokenAddress: route.toToken.address,
+          toAddress: route.toAddress ?? route.fromAddress ?? '',
+          fromChainId: route.fromChainId,
+          fromTokenAddress: route.fromToken.address,
+          fromAmount: route.fromAmount,
+        })
+      )
+      if (!order.depositAddress) {
+        throw new Error('Funding order has no deposit address.')
+      }
+      const session = await createCexSession(sdkClient, {
+        walletAddress: order.depositAddress,
+        tokenAddress: route.fromToken.address,
+        chainId: route.fromChainId,
+        userId: checkoutUserId,
+      })
+      return {
+        order,
+        linkToken: session.linkToken,
+        amount: formatTokenAmount(
+          BigInt(route.fromAmount),
+          route.fromToken.decimals
+        ),
+        fromChainId: route.fromChainId,
+        fromTokenAddress: route.fromToken.address,
+      }
+    },
+    onSuccess: ({
+      order,
+      linkToken,
+      amount,
+      fromChainId,
+      fromTokenAddress,
+    }) => {
+      trackOrder({
+        orderId: order.orderId,
+        fundingSource: 'exchange',
+        createdAt: Date.now(),
+      })
+      onRampSession?.open({
+        depositAddress: order.depositAddress ?? '',
+        amount,
+        fiatCurrency,
+        fromChainId,
+        fromTokenAddress,
+        accessTokens: selectedExchangeAccount
+          ? [selectedExchangeAccount]
           : undefined,
-      paymentMethod:
-        fundingSource === 'cash' ? (paymentMethod ?? undefined) : undefined,
-      fromChainId: route.fromChainId,
-      fromTokenAddress: route.fromToken.address,
-      accessTokens: selectedExchangeAccount
-        ? [selectedExchangeAccount]
-        : undefined,
-      language: i18n.language,
-    })
-    navigate({
-      to: statusPath,
-      search: {
-        depositAddress,
-        fromChain: route.fromChainId,
-      },
-    })
-  }, [
-    route,
-    depositAddress,
-    onRampSession,
-    freeze,
-    setFrozenRouteId,
-    fiatCurrency,
-    normalizedCashFiatAmount,
-    paymentMethod,
-    fundingSource,
-    navigate,
-    selectedExchangeAccount,
-    i18n.language,
-  ])
+        language: i18n.language,
+        linkToken,
+      })
+      navigate({
+        to: statusPath,
+        search: { orderId: order.orderId },
+      })
+    },
+  })
+
+  const handleExchangeDeposit = useCallback(() => {
+    createExchangeOrder.mutate()
+  }, [createExchangeOrder])
 
   const handlersByFunding: Record<CheckoutFundingSource, () => void> = {
     wallet: handleWalletDeposit,
     transfer: handleTransferDeposit,
-    exchange: handleOnRampDeposit,
-    cash: handleOnRampDeposit,
+    exchange: handleExchangeDeposit,
+    cash: handleCashDeposit,
   }
 
   const label = t(ctaLabelKey[fundingSource])
@@ -241,32 +338,16 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
   }
 
   const isCash = fundingSource === 'cash'
-  let cashRouteMatchesQuote = !isCash
-  if (isCash && route && onRampQuote.data?.funding?.estimatedAmount) {
-    try {
-      cashRouteMatchesQuote =
-        parseUnits(
-          onRampQuote.data.funding.estimatedAmount,
-          route.fromToken.decimals
-        ).toString() === route.fromAmount
-    } catch {
-      cashRouteMatchesQuote = false
-    }
-  }
-
-  const cashNotReady =
-    isCash &&
-    (!hasFiatAmount ||
-      !onRampQuote.isReady ||
-      onRampQuote.isFetching ||
-      onRampQuote.isDebouncePending ||
-      !cashRouteMatchesQuote)
+  const isExchange = fundingSource === 'exchange'
+  // Cash needs no client route — the ONRAMP order is fiat + destination only.
+  const cashNotReady = isCash && !(hasFiatAmount && onRampQuote.isReady)
 
   if (
     isError ||
     (fundingSource === 'wallet' && createWalletOrder.isError) ||
     (fundingSource === 'transfer' && createTransferOrder.isError) ||
-    (isCash && onRampQuote.isError)
+    (isExchange && createExchangeOrder.isError) ||
+    (isCash && (onRampQuote.isError || createCashOrder.isError))
   ) {
     return (
       <Button
@@ -278,6 +359,8 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
           onRampQuote.refetch()
           createWalletOrder.reset()
           createTransferOrder.reset()
+          createCashOrder.reset()
+          createExchangeOrder.reset()
         }}
         sx={{ flex: 1 }}
       >
@@ -292,6 +375,10 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
 
   const isTransferPending =
     fundingSource === 'transfer' && createTransferOrder.isPending
+  const isExchangePending = isExchange && createExchangeOrder.isPending
+  const isCashPending = isCash && createCashOrder.isPending
+  // Transfer/exchange execute against the displayed route; cash doesn't.
+  const requiresRoute = fundingSource === 'transfer' || isExchange
 
   return (
     <Fragment>
@@ -301,24 +388,25 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
         fullWidth
         onClick={primaryAction}
         disabled={
-          !route ||
-          !depositAddress ||
+          (requiresRoute && (!route || !depositAddress)) ||
           needsRecipient ||
           cashNotReady ||
-          isTransferPending
+          isTransferPending ||
+          isExchangePending ||
+          isCashPending
         }
         sx={{ flex: 1 }}
       >
         {label}
       </Button>
-      {isCash && depositAddress ? (
+      {isCash ? (
         <CashHandoffSheet
           open={handoffOpen}
-          depositAddress={depositAddress}
+          depositAddress={depositAddress ?? ''}
           container={panelEl}
           onContinue={() => {
             setHandoffOpen(false)
-            handleOnRampDeposit()
+            handleCashDeposit()
           }}
           onGoBack={() => setHandoffOpen(false)}
         />

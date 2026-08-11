@@ -1,17 +1,13 @@
-import { parseUnits } from '@lifi/sdk'
 import {
   ChainSelect,
   FormKeyHelper,
   PageContainer,
   SearchTokenInput,
-  useChain,
   useFieldValues,
   useHeader,
-  useToken,
   useWidgetConfig,
 } from '@lifi/widget/shared'
-import { useMeshBalance } from '@lifi/widget-provider-mesh'
-import { Alert, Box, type Theme, useMediaQuery } from '@mui/material'
+import { Box, type Theme, useMediaQuery } from '@mui/material'
 import { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCheckoutNavigate } from '../../hooks/useCheckoutNavigate.js'
@@ -49,11 +45,6 @@ export const SelectTokenPage: React.FC = () => {
     navigate({ to: checkoutNavigationRoutes.enterAmount })
   }
 
-  const [selectedChainId, selectedTokenAddress, fromAmountStr] = useFieldValues(
-    FormKeyHelper.getChainKey(formType),
-    FormKeyHelper.getTokenKey(formType),
-    FormKeyHelper.getAmountKey(formType)
-  )
   const [toChainId, toTokenAddress] = useFieldValues(
     FormKeyHelper.getChainKey('to'),
     FormKeyHelper.getTokenKey('to')
@@ -66,47 +57,9 @@ export const SelectTokenPage: React.FC = () => {
         : undefined,
     [toChainId, toTokenAddress]
   )
-  const { token: selectedToken } = useToken(
-    isExchangeFlow ? selectedChainId : undefined,
-    isExchangeFlow ? selectedTokenAddress : undefined
-  )
-  const { chain: selectedChain } = useChain(
-    isExchangeFlow ? selectedChainId : undefined
-  )
-  const { rawBalance: meshRawBalance, decimals: meshDecimals } = useMeshBalance(
-    isExchangeFlow ? selectedTokenAddress : undefined,
-    isExchangeFlow ? selectedChainId : undefined
-  )
-
-  const tokenDecimals = selectedToken?.decimals ?? meshDecimals ?? null
-  const requestedRaw = useMemo<bigint | null>(() => {
-    if (!fromAmountStr || tokenDecimals === null) {
-      return null
-    }
-    try {
-      return parseUnits(fromAmountStr, tokenDecimals)
-    } catch {
-      return null
-    }
-  }, [fromAmountStr, tokenDecimals])
-  const showInsufficientFunds =
-    isExchangeFlow &&
-    meshRawBalance !== null &&
-    requestedRaw !== null &&
-    meshRawBalance < requestedRaw
 
   return (
     <PageContainer disableGutters>
-      {showInsufficientFunds && selectedToken && selectedChain ? (
-        <Box sx={{ px: 3, pt: 2 }}>
-          <Alert severity="warning">
-            {t('checkout.insufficientFunds', {
-              symbol: selectedToken.symbol,
-              chain: selectedChain.name,
-            })}
-          </Alert>
-        </Box>
-      ) : null}
       <Box
         ref={headerRef}
         sx={{

@@ -1,13 +1,15 @@
 'use client'
 import {
+  getOnrampFiatCurrencies,
+  type OnrampFiatCurrenciesResult as SdkOnrampFiatCurrenciesResult,
+} from '@lifi/sdk'
+import {
   FormKeyHelper,
   useFieldValues,
-  useWidgetConfig,
+  useSDKClient,
 } from '@lifi/widget/shared'
 import {
-  type OnrampFiatCurrenciesRequest,
   type OnrampFiatCurrenciesResponse,
-  postCheckoutSession,
   useCheckoutConfig,
 } from '@lifi/widget-provider/checkout'
 import { useQuery } from '@tanstack/react-query'
@@ -21,39 +23,18 @@ export interface OnRampFiatCurrenciesResult {
   refetch: () => void
 }
 
-// The endpoint returns the raw on-ramp provider shape (`fiatCurrencies` keyed
-// by `symbol`); normalize to the widget contract here. Prefers `currencies` so
-// it keeps working if the backend starts returning the normalized shape.
-interface RawOnrampPaymentOption {
-  id: string
-  name?: string
-  isActive?: boolean
-}
-
-interface RawOnrampFiatCurrency {
-  currency?: string
-  symbol?: string
-  paymentOptions?: RawOnrampPaymentOption[]
-  isAllowed?: boolean
-}
-
-interface RawOnrampFiatCurrenciesResponse {
-  defaultCurrency?: string
-  currencies?: RawOnrampFiatCurrency[]
-  fiatCurrencies?: RawOnrampFiatCurrency[]
-}
-
-function normalizeFiatCurrencies(
-  raw: RawOnrampFiatCurrenciesResponse
+// The SDK returns its raw on-ramp provider shape (`fiatCurrencies` keyed by
+// `symbol`); normalize to the widget contract here.
+export function normalizeFiatCurrencies(
+  raw: SdkOnrampFiatCurrenciesResult
 ): OnrampFiatCurrenciesResponse {
-  const list = raw.currencies ?? raw.fiatCurrencies ?? []
   return {
     defaultCurrency: raw.defaultCurrency,
-    currencies: list
+    currencies: raw.fiatCurrencies
       .filter((item) => item.isAllowed !== false)
       .map((item) => ({
-        currency: item.currency ?? item.symbol ?? '',
-        paymentOptions: (item.paymentOptions ?? [])
+        currency: item.symbol,
+        paymentOptions: item.paymentOptions
           .filter((option) => option.isActive !== false)
           .map((option) => ({ id: option.id, name: option.name })),
       }))
@@ -66,37 +47,19 @@ export function useOnRampFiatCurrencies(): OnRampFiatCurrenciesResult {
     FormKeyHelper.getChainKey('from'),
     FormKeyHelper.getTokenKey('from')
   )
-  const { apiUrl, integrator } = useCheckoutConfig()
-  const { apiKey } = useWidgetConfig()
+  const { integrator } = useCheckoutConfig()
+  const sdkClient = useSDKClient()
 
-  const enabled =
-    Boolean(apiUrl) &&
-    Boolean(apiKey) &&
-    typeof chainId === 'number' &&
-    Boolean(tokenAddress)
+  const enabled = typeof chainId === 'number' && Boolean(tokenAddress)
 
   const query = useQuery<OnrampFiatCurrenciesResponse, Error>({
     queryKey: ['onramp-fiat-currencies', integrator, chainId, tokenAddress],
     queryFn: async () => {
-      const response = await postCheckoutSession<
-        OnrampFiatCurrenciesRequest,
-        RawOnrampFiatCurrenciesResponse
-      >({
-        baseUrl: apiUrl!,
-        endpointPath: '/v1/checkout/onramp/fiat-currencies',
-        apiKey: apiKey!,
-        integrator,
-        body: {
-          chainId: chainId as number,
-          tokenAddress: tokenAddress as string,
-        },
+      const result = await getOnrampFiatCurrencies(sdkClient, {
+        tokenAddress: tokenAddress as string,
+        chainId: chainId as number,
       })
-      if (!response.ok) {
-        throw new Error(
-          `Onramp fiat currencies request failed (${response.status})`
-        )
-      }
-      return normalizeFiatCurrencies(response.data)
+      return normalizeFiatCurrencies(result)
     },
     enabled,
     staleTime: 24 * 60 * 60 * 1000,

@@ -1,7 +1,5 @@
 'use client'
 import {
-  type CexSessionRequest,
-  type CexSessionResponse,
   type ConnectedCexAccount,
   type ConnectedCexBrand,
   connectedCexKey,
@@ -11,7 +9,6 @@ import {
   type OnRampHostWidgetConfig,
   type OnRampOpenArgs,
   type OnRampSession,
-  postCheckoutSession,
   useCheckoutConfig,
   useCheckoutUserId,
   useConnectedCexStore,
@@ -82,7 +79,7 @@ function toConnectedAccounts(
  */
 export const MeshHost: FC<MeshHostProps> = ({ widgetConfig }) => {
   const checkoutUserId = useCheckoutUserId()
-  const { integrator, onError, onSuccess, apiUrl } = useCheckoutConfig()
+  const { integrator, onError } = useCheckoutConfig()
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<OnRampError | null>(null)
@@ -114,7 +111,7 @@ export const MeshHost: FC<MeshHostProps> = ({ widgetConfig }) => {
   }, [])
 
   const openDepositFlow = useCallback(
-    async (args: OnRampOpenArgs) => {
+    (args: OnRampOpenArgs) => {
       lastOpenArgsRef.current = args
       setError(null)
       setFailure(null)
@@ -123,84 +120,20 @@ export const MeshHost: FC<MeshHostProps> = ({ widgetConfig }) => {
       transferSucceededRef.current = false
       setIsLoading(true)
 
-      const apiKey = widgetConfig.apiKey?.trim()
-      if (!apiUrl) {
-        setError({ code: 'MISSING_API_URL' })
+      // The CEX session is pre-created by the SMART_DEPOSIT funding order —
+      // the host performs no HTTP itself.
+      if (!args.linkToken) {
+        setError({ code: 'INVALID_RESPONSE' })
         onError?.({
-          code: 'MISSING_API_URL',
-          message: 'CEX deposit is not configured: set sdkConfig.apiUrl.',
+          code: 'ONRAMP_INVALID_RESPONSE',
+          message: 'Invalid response from onramp server (missing linkToken).',
           provider: 'mesh',
         })
         setIsLoading(false)
         return
-      }
-      if (!apiKey) {
-        setError({ code: 'MISSING_API_KEY' })
-        onError?.({
-          code: 'MISSING_API_KEY',
-          message:
-            'CEX deposit is not configured: set widget apiKey to call checkout sessions.',
-          provider: 'mesh',
-        })
-        setIsLoading(false)
-        return
-      }
-
-      const body: CexSessionRequest = {
-        walletAddress: args.depositAddress,
-        tokenAddress: args.fromTokenAddress,
-        chainId: args.fromChainId,
-        userId: checkoutUserId,
-        integrator,
-        amount: args.amount,
       }
 
       try {
-        const res = await postCheckoutSession<
-          CexSessionRequest,
-          CexSessionResponse
-        >({
-          baseUrl: apiUrl,
-          integrator,
-          endpointPath: '/v1/checkout/cex/session',
-          apiKey,
-          body,
-        })
-        if (!res.ok) {
-          const errObj = res.apiError
-          if (errObj?.error) {
-            setError({ message: errObj.error })
-            onError?.({
-              code: errObj.code ?? 'CEX_SESSION_FAILED',
-              message: errObj.error,
-              provider: 'mesh',
-            })
-          } else {
-            setError({
-              code: 'SESSION_HTTP',
-              params: { status: res.status },
-            })
-            onError?.({
-              code: 'CEX_SESSION_FAILED',
-              message: `Could not start Mesh session (${res.status}). Try again later.`,
-              provider: 'mesh',
-            })
-          }
-          setIsLoading(false)
-          return
-        }
-
-        if (!res.data.linkToken) {
-          setError({ code: 'INVALID_RESPONSE' })
-          onError?.({
-            code: 'ONRAMP_INVALID_RESPONSE',
-            message: 'Invalid response from onramp server (missing linkToken).',
-            provider: 'mesh',
-          })
-          setIsLoading(false)
-          return
-        }
-
         const link = createLink({
           accessTokens: args.accessTokens?.length
             ? (args.accessTokens as IntegrationAccessToken[])
@@ -230,15 +163,8 @@ export const MeshHost: FC<MeshHostProps> = ({ widgetConfig }) => {
             if (onChainHash) {
               setDepositTxHash(onChainHash)
             }
-            if (onSuccess) {
-              onSuccess({
-                provider: 'mesh',
-                transactionHash: onChainHash ?? payload.txId,
-                amount: String(payload.amount),
-                token: payload.symbol,
-                chainId: args.fromChainId,
-              })
-            }
+            // Completion is owned by the order observer (Task 4), which
+            // fires onSuccess at on-chain settlement — not here.
             // Leave the modal-state alone here; onExit fires next and is the
             // single terminal cleanup point.
           },
@@ -347,7 +273,7 @@ export const MeshHost: FC<MeshHostProps> = ({ widgetConfig }) => {
         linkRef.current = link
         setIsLoading(false)
         setIsOpen(true)
-        link.openLink(res.data.linkToken)
+        link.openLink(args.linkToken)
       } catch (e) {
         const message =
           e instanceof Error
@@ -362,15 +288,7 @@ export const MeshHost: FC<MeshHostProps> = ({ widgetConfig }) => {
         setIsLoading(false)
       }
     },
-    [
-      apiUrl,
-      checkoutUserId,
-      integrator,
-      onError,
-      onSuccess,
-      widgetConfig.apiKey,
-      widgetConfig.appearance,
-    ]
+    [checkoutUserId, integrator, onError, widgetConfig.appearance]
   )
 
   const cancel = useCallback(() => {

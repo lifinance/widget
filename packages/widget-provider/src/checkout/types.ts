@@ -174,6 +174,10 @@ export interface OnRampOpenArgs {
    */
   fromChainId: number
   fromTokenAddress: string
+  /** Pre-created on-ramp widget URL (from the ONRAMP funding order). When set, the host mounts it directly and performs no HTTP. */
+  widgetUrl?: string
+  /** Pre-created CEX link token (from createCexSession). When set, the host opens it directly and performs no HTTP. */
+  linkToken?: string
 }
 
 export type OnRampFailureKind =
