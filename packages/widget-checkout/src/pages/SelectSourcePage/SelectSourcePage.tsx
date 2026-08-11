@@ -27,10 +27,6 @@ import { Alert, Box, CircularProgress } from '@mui/material'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Stack } from '../../components/Stack.js'
-import {
-  INTENT_FACTORY_ONLY,
-  useCheckoutExchangesOverride,
-} from '../../hooks/useCheckoutExchangesOverride.js'
 import { useCheckoutNavigate } from '../../hooks/useCheckoutNavigate.js'
 import { useCheckoutPendingRecords } from '../../hooks/useCheckoutPendingRecords.js'
 import { useResumeCheckout } from '../../hooks/useResumeCheckout.js'
@@ -63,7 +59,6 @@ export const SelectSourcePage: React.FC = () => {
   )
   const resetFlow = useCheckoutFlowStore((s) => s.reset)
   const resetFiat = useFiatCurrencyStore((s) => s.reset)
-  const { overrideExchanges, restoreExchanges } = useCheckoutExchangesOverride()
   const { setFieldValue } = useFieldActions()
   const { integrator } = useCheckoutConfig()
   const checkoutUserId = useCheckoutUserId()
@@ -171,7 +166,6 @@ export const SelectSourcePage: React.FC = () => {
   }, [hasWalletConnected, goToToken])
 
   const handlePayFromWallet = useCallback(() => {
-    restoreExchanges()
     setFundingSource('wallet')
     if (hasWalletConnected) {
       goToToken()
@@ -179,16 +173,9 @@ export const SelectSourcePage: React.FC = () => {
     }
     awaitingConnectRef.current = true
     openWalletMenu()
-  }, [
-    hasWalletConnected,
-    goToToken,
-    openWalletMenu,
-    restoreExchanges,
-    setFundingSource,
-  ])
+  }, [hasWalletConnected, goToToken, openWalletMenu, setFundingSource])
 
   const handleTransferCrypto = useCallback(() => {
-    overrideExchanges([...INTENT_FACTORY_ONLY])
     setFundingSource('transfer')
     if (isNativeToken(prevTokenAddress)) {
       setFieldValue(FormKeyHelper.getChainKey('from'), DEFAULT_FROM_CHAIN_ID)
@@ -199,21 +186,14 @@ export const SelectSourcePage: React.FC = () => {
       setFieldValue(FormKeyHelper.getAmountKey('from'), '')
     }
     goToToken()
-  }, [
-    goToToken,
-    overrideExchanges,
-    prevTokenAddress,
-    setFieldValue,
-    setFundingSource,
-  ])
+  }, [goToToken, prevTokenAddress, setFieldValue, setFundingSource])
 
   const pinExchangeSource = useCallback(() => {
-    overrideExchanges([...INTENT_FACTORY_ONLY])
     setFundingSource('exchange')
     setFieldValue(FormKeyHelper.getChainKey('from'), DEFAULT_FROM_CHAIN_ID)
     setFieldValue(FormKeyHelper.getTokenKey('from'), DEFAULT_FROM_TOKEN_ADDRESS)
     setFieldValue(FormKeyHelper.getAmountKey('from'), '')
-  }, [overrideExchanges, setFieldValue, setFundingSource])
+  }, [setFieldValue, setFundingSource])
 
   const handleConnectExchange = useCallback(() => {
     setSelectedExchangeAccount(null)
@@ -258,7 +238,6 @@ export const SelectSourcePage: React.FC = () => {
   )
 
   const handleDepositCash = useCallback(() => {
-    overrideExchanges([...INTENT_FACTORY_ONLY])
     setFundingSource('cash')
     resetFiat()
     setFieldValue(FormKeyHelper.getChainKey('from'), DEFAULT_FROM_CHAIN_ID)
@@ -267,7 +246,7 @@ export const SelectSourcePage: React.FC = () => {
     setFieldValue(FormKeyHelper.getAmountKey('to'), '')
     setFieldValue('cashFiatAmount', '')
     navigate({ to: checkoutNavigationRoutes.selectCash })
-  }, [navigate, overrideExchanges, resetFiat, setFieldValue, setFundingSource])
+  }, [navigate, resetFiat, setFieldValue, setFundingSource])
 
   const payFromWalletIcons = useMemo(
     () =>

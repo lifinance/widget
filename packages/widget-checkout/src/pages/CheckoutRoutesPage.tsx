@@ -15,6 +15,7 @@ import { useNavigate } from '@tanstack/react-router'
 import { type JSX, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CheckoutRouteNotFound } from '../components/CheckoutRouteNotFound.js'
+import { useCheckoutAllowExchanges } from '../hooks/useCheckoutAllowExchanges.js'
 import { useCheckoutRoutes } from '../hooks/useCheckoutRoutes.js'
 import { checkoutAbsolutePaths } from '../utils/navigationRoutes.js'
 
@@ -22,6 +23,7 @@ export const CheckoutRoutesPage = (): JSX.Element => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const emitter = useWidgetEvents()
+  const allowExchanges = useCheckoutAllowExchanges()
   const {
     routes,
     isLoading,
@@ -31,7 +33,7 @@ export const CheckoutRoutesPage = (): JSX.Element => {
     fromChain,
     refetch,
     setReviewableRoute,
-  } = useCheckoutRoutes()
+  } = useCheckoutRoutes({ allowExchanges })
   const { account } = useAccount({ chainType: fromChain?.chainType })
   const [toAddress] = useFieldValues('toAddress')
   const { requiredToAddress } = useToAddressRequirements()

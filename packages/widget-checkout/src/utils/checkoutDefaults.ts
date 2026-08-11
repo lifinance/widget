@@ -11,3 +11,9 @@
 export const DEFAULT_FROM_CHAIN_ID = 1
 export const DEFAULT_FROM_TOKEN_ADDRESS =
   '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
+
+/**
+ * Deposit-based funding sources (transfer/exchange/cash) aren't wallet-funded,
+ * so routing is pinned to the IF-only tool that surfaces a deposit address.
+ */
+export const INTENT_FACTORY_ONLY: readonly string[] = ['smartDeposits']

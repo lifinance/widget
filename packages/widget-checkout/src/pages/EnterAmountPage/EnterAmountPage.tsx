@@ -19,10 +19,6 @@ import { CheckoutAmountPresets } from '../../components/CheckoutAmountPresets.js
 import { CheckoutFlowCtaButton } from '../../components/CheckoutFlowCtaButton.js'
 import { CheckoutReceiveCard } from '../../components/CheckoutReceiveCard.js'
 import { FiatCurrencyChip } from '../../components/FiatCurrencyChip.js'
-import {
-  INTENT_FACTORY_ONLY,
-  useCheckoutExchangesOverride,
-} from '../../hooks/useCheckoutExchangesOverride.js'
 import { useCheckoutNavigate } from '../../hooks/useCheckoutNavigate.js'
 import { useIsWalletFundedFlow } from '../../hooks/useIsWalletFundedFlow.js'
 import { useOnRampPreconnect } from '../../hooks/useOnRampPreconnect.js'
@@ -44,21 +40,12 @@ export const EnterAmountPage: React.FC = (): JSX.Element => {
   const isWalletFunded = useIsWalletFundedFlow()
   useHeader(t(headerKeyByFlow[fundingSource]))
   const showPoweredBy = !hiddenUI?.poweredBy
-  const { overrideExchanges, restoreExchanges } = useCheckoutExchangesOverride()
   const setInputMode = useInputModeStore((s) => s.setInputMode)
   const { setFieldValue } = useFieldActions()
   const [cashFiatAmount] = useFieldValues('cashFiatAmount')
   const navigate = useCheckoutNavigate()
   const { isUserSettable, clearUserRecipient } = useResolvedCheckoutRecipient()
   useOnRampPreconnect()
-
-  useLayoutEffect(() => {
-    if (fundingSource !== 'wallet') {
-      overrideExchanges([...INTENT_FACTORY_ONLY])
-    } else {
-      restoreExchanges()
-    }
-  }, [fundingSource, overrideExchanges, restoreExchanges])
 
   useLayoutEffect(() => {
     if (fundingSource !== 'cash') {

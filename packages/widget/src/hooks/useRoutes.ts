@@ -53,12 +53,15 @@ interface RoutesProps {
    * change) is fetching, instead of clearing to a loading state.
    */
   keepPreviousData?: boolean
+  /** Per-call exchange allow-list; overrides the settings-derived filter when set. */
+  allowExchanges?: string[]
 }
 
 export const useRoutes = ({
   observableRoute,
   quoteFromAddress,
   keepPreviousData: keepPreviousDataEnabled,
+  allowExchanges: allowExchangesOverride,
 }: RoutesProps = {}): {
   routes: Route[] | undefined
   isLoading: boolean
@@ -184,9 +187,10 @@ export const useRoutes = ({
   const allowedBridges =
     bridges?.allow?.length || bridges?.deny?.length ? enabledBridges : undefined
   const allowedExchanges =
-    exchanges?.allow?.length || exchanges?.deny?.length
+    allowExchangesOverride ??
+    (exchanges?.allow?.length || exchanges?.deny?.length
       ? enabledExchanges
-      : undefined
+      : undefined)
   const allowSwitchChain = sdkClient.config?.routeOptions?.allowSwitchChain
 
   const isEnabled =

@@ -4,6 +4,7 @@ import { useSDKClient } from '@lifi/widget/shared'
 import { useQuery } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
 import { extractDepositAddress } from '../utils/extractDepositAddress.js'
+import { useCheckoutAllowExchanges } from './useCheckoutAllowExchanges.js'
 import { useCheckoutRoutes } from './useCheckoutRoutes.js'
 
 export interface CheckoutFlowQuote {
@@ -20,6 +21,7 @@ export interface CheckoutFlowQuote {
 
 export function useCheckoutFlowQuote(): CheckoutFlowQuote {
   const sdkClient = useSDKClient()
+  const allowExchanges = useCheckoutAllowExchanges()
 
   const {
     routes,
@@ -29,7 +31,7 @@ export function useCheckoutFlowQuote(): CheckoutFlowQuote {
     isError: routesIsError,
     refetch,
     setReviewableRoute,
-  } = useCheckoutRoutes()
+  } = useCheckoutRoutes({ allowExchanges })
 
   const rawRoute = routes?.[0]
   const firstStep = rawRoute?.steps?.[0]

@@ -10,13 +10,8 @@ import {
 } from '@lifi/widget/shared'
 import type { OnRampProvider } from '@lifi/widget-provider/checkout'
 import type { JSX, PropsWithChildren } from 'react'
-import { useMemo } from 'react'
-import { INTENT_FACTORY_ONLY } from '../hooks/useCheckoutExchangesOverride.js'
 import { FrozenQuoteStoreProvider } from '../hooks/useFrozenQuote.js'
-import {
-  CheckoutFlowStoreProvider,
-  useCheckoutFlowStore,
-} from '../stores/useCheckoutFlowStore.js'
+import { CheckoutFlowStoreProvider } from '../stores/useCheckoutFlowStore.js'
 import { FiatCurrencyStoreProvider } from '../stores/useFiatCurrencyStore.js'
 import { CheckoutSdkBridge } from './CheckoutSdkBridge.js'
 import { OnRampProviderRegistry } from './OnRampProvider/OnRampProvider.js'
@@ -41,28 +36,10 @@ const CheckoutAppShell: React.FC<CheckoutAppShellProps> = ({
   formRef,
   onRampProviders,
 }) => {
-  const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
-
-  // The deposit-based flows (transfer/exchange/cash) force the IF-only exchange
-  // allow-list so the IF tool surfaces a deposit-address route. The wallet flow
-  // pays directly from the connected wallet, so it uses any integrator-allowed route.
-  const effectiveWidgetConfig = useMemo<WidgetConfig>(() => {
-    if (!fundingSource || fundingSource === 'wallet') {
-      return widgetConfig
-    }
-    return {
-      ...widgetConfig,
-      exchanges: {
-        ...widgetConfig.exchanges,
-        allow: [...INTENT_FACTORY_ONLY],
-      },
-    }
-  }, [widgetConfig, fundingSource])
-
   return (
     <QueryClientProvider>
       <SettingsStoreProvider config={widgetConfig}>
-        <WidgetProvider config={effectiveWidgetConfig}>
+        <WidgetProvider config={widgetConfig}>
           <I18nProvider>
             <ThemeProvider>
               <SDKClientProvider>
@@ -71,7 +48,7 @@ const CheckoutAppShell: React.FC<CheckoutAppShellProps> = ({
                     <BookmarkStoreProvider namePrefix={widgetConfig.keyPrefix}>
                       <PendingCheckoutPersistenceBridge>
                         <OnRampProviderRegistry
-                          widgetConfig={effectiveWidgetConfig}
+                          widgetConfig={widgetConfig}
                           formRef={formRef}
                           providers={onRampProviders}
                         >

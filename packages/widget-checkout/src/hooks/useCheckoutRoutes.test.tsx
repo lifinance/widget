@@ -36,6 +36,13 @@ function lastQuoteFromAddress(): string | undefined {
   return lastCall?.quoteFromAddress
 }
 
+function lastAllowExchanges(): string[] | undefined {
+  const lastCall = useRoutesMock.mock.calls.at(-1)?.[0] as
+    | { allowExchanges?: string[] }
+    | undefined
+  return lastCall?.allowExchanges
+}
+
 describe('useCheckoutRoutes', () => {
   beforeEach(() => {
     useRoutesMock.mockClear()
@@ -64,5 +71,17 @@ describe('useCheckoutRoutes', () => {
     useFieldValuesMock.mockReturnValue([RECIPIENT, undefined, undefined])
     renderHook(() => useCheckoutRoutes())
     expect(lastQuoteFromAddress()).toBeUndefined()
+  })
+
+  it('omits allowExchanges by default (no options passed)', () => {
+    useFieldValuesMock.mockReturnValue([RECIPIENT, EVM_CHAIN, EVM_CHAIN])
+    renderHook(() => useCheckoutRoutes())
+    expect(lastAllowExchanges()).toBeUndefined()
+  })
+
+  it('forwards allowExchanges verbatim to useRoutes when set', () => {
+    useFieldValuesMock.mockReturnValue([RECIPIENT, EVM_CHAIN, EVM_CHAIN])
+    renderHook(() => useCheckoutRoutes({ allowExchanges: ['smartDeposits'] }))
+    expect(lastAllowExchanges()).toEqual(['smartDeposits'])
   })
 })
