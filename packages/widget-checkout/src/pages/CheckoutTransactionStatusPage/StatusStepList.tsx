@@ -36,6 +36,14 @@ interface StatusStepListProps {
   phase: 'watching' | 'pending' | 'done'
   frozenRoute?: Route
   recipientAddress?: string | null
+  /**
+   * Explorer link for the terminal receiving transaction. Takes precedence
+   * over `status.receiving` — the order-driven status page has no live
+   * StatusResponse, only the order's own `toTxHash`.
+   */
+  receivingTxLink?: string
+  /** Destination chain fallback for `SentToWalletRow` when there's no `frozenRoute` (DIRECT onramp has no quote). */
+  toChainId?: number
 }
 
 export function StatusStepList({
@@ -43,6 +51,8 @@ export function StatusStepList({
   phase,
   frozenRoute,
   recipientAddress,
+  receivingTxLink: receivingTxLinkProp,
+  toChainId: toChainIdProp,
 }: StatusStepListProps): JSX.Element {
   const { t } = useTranslation()
   const { getChainById } = useAvailableChains()
@@ -90,7 +100,8 @@ export function StatusStepList({
     // `receiving` (no sending hash) — the sole explorer link for this flow.
     const receivingTxLink =
       phase === 'done'
-        ? (receiving?.txLink ??
+        ? (receivingTxLinkProp ??
+          receiving?.txLink ??
           (receiving?.txHash
             ? getTransactionLink({
                 txHash: receiving.txHash,
@@ -102,12 +113,12 @@ export function StatusStepList({
       phase === 'watching' ? 'upcoming' : 'loading'
 
     if (fromSymbol) {
-      // Any status from the deposit-address poll means the deposit landed —
-      // NOT_FOUND is surfaced as "no status".
+      // `pending` itself means funds have landed and execution is in flight
+      // (the order-driven caller has no separate "poll data present" signal
+      // the way the deposit-address poll used to) — so phase alone, not a
+      // live status payload, marks the receive step done.
       const received =
-        phase === 'done' ||
-        sourceConfirmed ||
-        (phase === 'pending' && Boolean(status))
+        phase === 'done' || sourceConfirmed || phase === 'pending'
       const state: RowState = received ? 'done' : inFlightState
       out.push({
         key: 'tokenReceived',
@@ -149,15 +160,18 @@ export function StatusStepList({
     getTransactionLink,
     phase,
     receiving,
+    receivingTxLinkProp,
     segments,
     sending,
-    status,
     t,
   ])
 
   const toAddress = recipientAddress ?? status?.toAddress
   const toChainId =
-    frozenRoute?.toChainId ?? receiving?.chainId ?? sending?.chainId
+    frozenRoute?.toChainId ??
+    receiving?.chainId ??
+    sending?.chainId ??
+    toChainIdProp
 
   return (
     <Stack spacing={1.25}>

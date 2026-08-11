@@ -116,10 +116,34 @@ describe('StatusStepList', () => {
     expect(screen.getByText('Swapping to stETH')).toBeTruthy()
   })
 
-  it('pending without status: received still spinning', () => {
+  it('pending without status: received is still marked done — phase alone confirms funds landed (order-driven caller has no separate poll payload)', () => {
     renderWithI18n(<StatusStepList phase="pending" frozenRoute={makeRoute()} />)
-    expect(screen.queryAllByTestId('icon-success')).toHaveLength(0)
-    expect(screen.getAllByRole('progressbar')).toHaveLength(2)
+    expect(screen.getAllByTestId('icon-success')).toHaveLength(1)
+    expect(screen.getAllByRole('progressbar')).toHaveLength(1)
+  })
+
+  it('done without status: receivingTxLink prop supplies the terminal explorer link', () => {
+    renderWithI18n(
+      <StatusStepList
+        phase="done"
+        frozenRoute={makeRoute(false)}
+        receivingTxLink="https://scan/tx/order-final"
+      />
+    )
+    const links = screen.getAllByRole('link')
+    expect(links).toHaveLength(1)
+    expect(links[0].getAttribute('href')).toBe('https://scan/tx/order-final')
+  })
+
+  it('done without status or frozenRoute chain: toChainId prop feeds SentToWalletRow', () => {
+    renderWithI18n(
+      <StatusStepList
+        phase="done"
+        recipientAddress="0xrecipient"
+        toChainId={137}
+      />
+    )
+    expect(screen.queryByTestId('sent-to-wallet')).not.toBeNull()
   })
 
   it('done: all checked, last segment links to the receiving tx, sent-to-wallet shown', () => {

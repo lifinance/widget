@@ -93,11 +93,6 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
 
   const panelEl = useCheckoutModal()?.panelEl ?? null
   const [handoffOpen, setHandoffOpen] = useState(false)
-  // Create-response-only field (a later GET omits it) — captured for display.
-  // Not yet read anywhere; Task 9 wires it into the order-backed status view.
-  const [_cashEstimatedFundingAmount, setCashEstimatedFundingAmount] = useState<
-    string | null
-  >(null)
   // Reuses the SMART_DEPOSIT order across a CEX-session retry so Try Again
   // doesn't mint a second abandoned order server-side. Keyed on the request
   // tuple (not route.id): Try Again's refetch() re-quotes the route before
@@ -218,9 +213,6 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
         fundingSource: 'cash',
         createdAt: Date.now(),
       })
-      setCashEstimatedFundingAmount(
-        order.onramp?.estimatedFundingAmount ?? null
-      )
       onRampSession?.open({
         depositAddress: order.depositAddress ?? '',
         amount: order.onramp?.estimatedFundingAmount ?? '',

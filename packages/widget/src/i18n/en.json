@@ -532,6 +532,7 @@
       "executing": "Processing transaction",
       "success": "Transaction successful",
       "seeDetails": "See details",
+      "lateDelivery": "This is taking longer than usual, but your funds have been detected and delivery is in progress.",
       "steps": {
         "transferInitiated": "Transfer initiated",
         "receive": {

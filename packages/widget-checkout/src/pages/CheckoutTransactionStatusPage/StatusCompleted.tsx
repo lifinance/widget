@@ -1,11 +1,5 @@
-import type {
-  ExtendedTransactionInfo,
-  FullStatusData,
-  Route,
-  StatusResponse,
-  TokenAmount,
-} from '@lifi/sdk'
-import { Card, CardTitle, Token } from '@lifi/widget/shared'
+import type { Route, TokenAmount } from '@lifi/sdk'
+import { Card, CardTitle, Token, useExplorer } from '@lifi/widget/shared'
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded'
 import { Box, Button, Stack, Typography } from '@mui/material'
 import type { JSX } from 'react'
@@ -13,7 +7,10 @@ import { useTranslation } from 'react-i18next'
 import { StatusStepList } from './StatusStepList.js'
 
 interface StatusCompletedProps {
-  status: StatusResponse
+  /** Order result fields — there is no live StatusResponse in the order-driven page. */
+  toAmount?: string
+  toTxHash?: string
+  toChainId?: number
   onSeeDetails: () => void
   onDone: () => void
   frozenRoute?: Route
@@ -23,22 +20,31 @@ interface StatusCompletedProps {
 const ICON_SIZE = 96
 
 export function StatusCompleted({
-  status,
+  toAmount,
+  toTxHash,
+  toChainId,
   onSeeDetails,
   onDone,
   frozenRoute,
   recipientAddress,
 }: StatusCompletedProps): JSX.Element {
   const { t } = useTranslation()
-  const full = status as FullStatusData
-  const receiving = full.receiving as ExtendedTransactionInfo
+  const { getTransactionLink } = useExplorer()
+
+  const receivingToken = frozenRoute?.toToken
   const receivingTokenAmount: TokenAmount | undefined =
-    receiving?.amount && receiving?.token
+    toAmount && receivingToken
       ? ({
-          ...receiving.token,
-          amount: BigInt(receiving.amount),
+          ...receivingToken,
+          amount: BigInt(toAmount),
         } as TokenAmount)
       : undefined
+  const receivingTxLink = toTxHash
+    ? getTransactionLink({
+        txHash: toTxHash,
+        chain: frozenRoute?.toChainId ?? toChainId,
+      })
+    : undefined
 
   return (
     <Stack spacing={1.5} sx={{ flex: 1 }}>
@@ -76,10 +82,11 @@ export function StatusCompleted({
           </Typography>
         </Stack>
         <StatusStepList
-          status={full}
           phase="done"
           frozenRoute={frozenRoute}
           recipientAddress={recipientAddress}
+          receivingTxLink={receivingTxLink}
+          toChainId={toChainId}
         />
       </Card>
 
