@@ -71,7 +71,12 @@ export const useFundingOrderStore: UseBoundStore<StoreApi<FundingOrderState>> =
           if (error || !rehydrated) {
             return
           }
-          rehydrated.orders = prune(rehydrated.orders, Date.now())
+          const pruned = prune(rehydrated.orders, Date.now())
+          if (
+            Object.keys(pruned).length !== Object.keys(rehydrated.orders).length
+          ) {
+            useFundingOrderStore.setState({ orders: pruned })
+          }
         },
         version: 1,
       }
