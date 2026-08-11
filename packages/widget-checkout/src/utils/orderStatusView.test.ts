@@ -10,6 +10,43 @@ const base = {
   updatedAt: '',
 } as any
 
+const quote = {
+  id: 'quote-step-1',
+  type: 'lifi',
+  tool: 'relay',
+  action: {
+    fromChainId: 1,
+    fromAmount: '1000000',
+    fromToken: {
+      chainId: 1,
+      address: '0x0',
+      decimals: 6,
+      priceUSD: '1',
+      symbol: 'USDC',
+    },
+    fromAddress: '0xSender',
+    toChainId: 137,
+    toToken: {
+      chainId: 137,
+      address: '0x1',
+      decimals: 6,
+      priceUSD: '1',
+      symbol: 'USDC',
+    },
+    toAddress: '0xReceiver',
+  },
+  estimate: {
+    fromAmountUSD: '1.00',
+    toAmount: '990000',
+    toAmountMin: '980000',
+    toAmountUSD: '0.99',
+    approvalAddress: '0xApproval',
+    executionDuration: 30,
+  },
+  transactionRequest: { to: '0xTo', data: '0xdata' },
+  includedSteps: [],
+} as any
+
 describe('orderStatusView', () => {
   it('is watching without an order', () => {
     expect(orderStatusView(undefined).phase).toBe('watching')
@@ -50,5 +87,36 @@ describe('orderStatusView', () => {
         substatus: 'SOME_FUTURE_VALUE',
       }).phase
     ).toBe('pending')
+  })
+
+  it('derives displayRoute from a STANDARD order', () => {
+    const view = orderStatusView({
+      ...base,
+      type: 'STANDARD',
+      quote,
+      status: 'DONE',
+    })
+    expect(view.displayRoute).toBeDefined()
+    expect(view.displayRoute?.id).toBe(base.orderId)
+  })
+
+  it('derives displayRoute from a SMART_DEPOSIT order with quote', () => {
+    const view = orderStatusView({
+      ...base,
+      type: 'SMART_DEPOSIT',
+      quote,
+      status: 'PENDING',
+    })
+    expect(view.displayRoute).toBeDefined()
+    expect(view.displayRoute?.id).toBe(base.orderId)
+  })
+
+  it('returns undefined displayRoute for an ONRAMP order without quote', () => {
+    const view = orderStatusView({
+      ...base,
+      type: 'ONRAMP',
+      status: 'PENDING',
+    })
+    expect(view.displayRoute).toBeUndefined()
   })
 })

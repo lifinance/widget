@@ -249,6 +249,7 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
     return (
       <PageContainer bottomGutters>
         <StatusWatching />
+        {lateDeliveryCaption}
       </PageContainer>
     )
   }
