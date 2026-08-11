@@ -9,20 +9,43 @@ import { renderWithI18n } from '../test/renderWithI18n.js'
 
 vi.mock('@lifi/sdk', async (importOriginal) => ({
   ...(await importOriginal<object>()),
+  convertOrderToRoute: vi.fn(),
   createFundingOrder: vi.fn(),
 }))
 
+const walletAccount = { address: '0xWalletAddress' as string | undefined }
+vi.mock('@lifi/wallet-management', () => ({
+  useAccount: () => ({ account: walletAccount }),
+}))
+
+const setExecutableRouteMock = vi.fn()
+const emitMock = vi.fn()
 vi.mock('@lifi/widget/shared', () => ({
-  BaseTransactionButton: () => null,
+  BaseTransactionButton: ({
+    text,
+    onClick,
+    disabled,
+  }: {
+    text: string
+    onClick: () => void
+    disabled?: boolean
+  }) => (
+    <button type="button" onClick={onClick} disabled={disabled}>
+      {text}
+    </button>
+  ),
   formatTokenAmount: (amount: bigint) => amount.toString(),
   navigationRoutes: { transactionExecution: 'transaction-execution' },
   useFieldValues: () => [''],
+  useRouteExecutionStoreContext: () => ({
+    getState: () => ({ setExecutableRoute: setExecutableRouteMock }),
+  }),
   useSDKClient: () => ({ id: 'sdk-client' }),
   useToAddressRequirements: () => ({
     toAddress: undefined,
     requiredToAddress: false,
   }),
-  useWidgetEvents: () => ({ emit: () => {} }),
+  useWidgetEvents: () => ({ emit: emitMock }),
   WidgetEvent: { RouteSelected: 'route-selected' },
 }))
 
@@ -108,7 +131,7 @@ vi.mock('../stores/useCheckoutFlowStore.js', () => ({
     selector(flowState),
 }))
 
-import { createFundingOrder } from '@lifi/sdk'
+import { convertOrderToRoute, createFundingOrder } from '@lifi/sdk'
 import { CheckoutFlowCtaButton } from './CheckoutFlowCtaButton.js'
 
 function buildOrder(overrides?: Partial<FundingOrder>): FundingOrder {
@@ -199,6 +222,111 @@ describe('CheckoutFlowCtaButton — transfer flow creates a SMART_DEPOSIT order'
     vi.mocked(createFundingOrder)
       .mockRejectedValueOnce(new Error('boom'))
       .mockResolvedValueOnce(buildOrder({ orderId: 'order-3' }))
+
+    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: wrap })
+    fireEvent.click(screen.getByRole('button'))
+    await waitFor(() => expect(createFundingOrder).toHaveBeenCalledTimes(1))
+
+    // Mutation is now in an error state — the try-again button renders and,
+    // without resetting, would strand the CTA on the error branch forever.
+    fireEvent.click(screen.getByRole('button'))
+    expect(refetchMock).toHaveBeenCalledTimes(1)
+    expect(onRampRefetchMock).toHaveBeenCalledTimes(1)
+    await waitFor(() =>
+      expect((screen.getByRole('button') as HTMLButtonElement).disabled).toBe(
+        false
+      )
+    )
+
+    fireEvent.click(screen.getByRole('button'))
+    await waitFor(() => expect(createFundingOrder).toHaveBeenCalledTimes(2))
+  })
+})
+
+describe('CheckoutFlowCtaButton — wallet flow executes STANDARD funding orders', () => {
+  beforeEach(() => {
+    flowState.fundingSource = 'wallet'
+  })
+
+  it('builds the STANDARD request with the connected account, seeds the executable route, tracks the order, and navigates to transaction-execution', async () => {
+    vi.mocked(createFundingOrder).mockResolvedValue(
+      buildOrder({ orderId: 'order-wallet-1', type: 'STANDARD' })
+    )
+    const orderRoute = {
+      ...mockRoute,
+      id: 'order-wallet-1',
+    } as unknown as Route
+    vi.mocked(convertOrderToRoute).mockReturnValue(orderRoute)
+
+    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: wrap })
+    fireEvent.click(screen.getByRole('button'))
+
+    await waitFor(() => expect(createFundingOrder).toHaveBeenCalledTimes(1))
+    const [, request] = vi.mocked(createFundingOrder).mock.calls[0] ?? []
+    expect(request).toMatchObject({
+      type: 'STANDARD',
+      toChainId: 137,
+      toTokenAddress: '0xTo',
+      toAddress: '0xReceiver',
+      fromChainId: 1,
+      fromTokenAddress: '0xFrom',
+      fromAmount: '1000000',
+      // fromAddress carries the connected wallet account, not the route's fromAddress.
+      fromAddress: '0xWalletAddress',
+    })
+
+    await waitFor(() =>
+      expect(setExecutableRouteMock).toHaveBeenCalledWith(
+        expect.objectContaining({ id: 'order-wallet-1' })
+      )
+    )
+    expect(trackOrderMock).toHaveBeenCalledWith({
+      orderId: 'order-wallet-1',
+      fundingSource: 'wallet',
+      createdAt: expect.any(Number),
+    })
+    expect(navigateMock).toHaveBeenCalledWith({
+      to: '/transaction-execution',
+      search: { routeId: 'order-wallet-1', checkoutAutoDeposit: true },
+    })
+    expect(emitMock).toHaveBeenCalledWith('route-selected', {
+      route: orderRoute,
+      routes: [orderRoute],
+    })
+  })
+
+  it('disables the CTA while the order is being created', async () => {
+    let resolveOrder: (order: FundingOrder) => void = () => {}
+    vi.mocked(createFundingOrder).mockImplementation(
+      () =>
+        new Promise((resolve) => {
+          resolveOrder = resolve
+        })
+    )
+    vi.mocked(convertOrderToRoute).mockReturnValue({
+      ...mockRoute,
+      id: 'order-wallet-2',
+    } as unknown as Route)
+
+    renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: wrap })
+    const button = screen.getByRole('button') as HTMLButtonElement
+    fireEvent.click(button)
+
+    await waitFor(() => expect(button.disabled).toBe(true))
+    resolveOrder(buildOrder({ orderId: 'order-wallet-2', type: 'STANDARD' }))
+    await waitFor(() => expect(button.disabled).toBe(false))
+  })
+
+  it('resets the mutation error on retry so the CTA can be tried again', async () => {
+    vi.mocked(createFundingOrder)
+      .mockRejectedValueOnce(new Error('boom'))
+      .mockResolvedValueOnce(
+        buildOrder({ orderId: 'order-wallet-3', type: 'STANDARD' })
+      )
+    vi.mocked(convertOrderToRoute).mockReturnValue({
+      ...mockRoute,
+      id: 'order-wallet-3',
+    } as unknown as Route)
 
     renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: wrap })
     fireEvent.click(screen.getByRole('button'))

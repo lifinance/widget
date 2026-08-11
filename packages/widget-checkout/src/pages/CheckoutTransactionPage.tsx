@@ -1,5 +1,4 @@
 import type { ExchangeRateUpdateParams, RouteExtended } from '@lifi/sdk'
-import { stopRouteExecution } from '@lifi/sdk'
 import type {
   BottomSheetBase,
   ExchangeRateBottomSheetBase,
@@ -40,90 +39,7 @@ import { type JSX, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CheckoutExecutionProgress } from '../components/CheckoutExecutionProgress.js'
 import { useCheckoutAllowExchanges } from '../hooks/useCheckoutAllowExchanges.js'
-import { FROZEN_QUOTE_TTL_MS, useFrozenQuote } from '../hooks/useFrozenQuote.js'
-import { usePendingCheckoutWriter } from '../hooks/usePendingCheckoutWriter.js'
-import { extractDepositAddress } from '../utils/extractDepositAddress.js'
-import { getSourceTxIdentifier } from '../utils/getSourceTxIdentifier.js'
 import { checkoutNavigationRoutes } from '../utils/navigationRoutes.js'
-
-const statusPath = `/${checkoutNavigationRoutes.transactionExecution}/${checkoutNavigationRoutes.transactionStatus}`
-
-function PendingCheckoutWalletHandoff({
-  route,
-  handoffEnabled,
-  onHandoff,
-}: {
-  route: RouteExtended | undefined
-  handoffEnabled: boolean
-  onHandoff: () => void
-}): null {
-  const navigate = useNavigate()
-  const { writeWallet } = usePendingCheckoutWriter()
-  const { freeze } = useFrozenQuote()
-  // Only an identifier appearing live triggers handoff; one already present on
-  // first observe belongs to a prior execution (route state is reused across
-  // identical quotes).
-  const observedRef = useRef<{
-    routeId: string
-    skipValue: string | null
-    handledValue: string | null
-  } | null>(null)
-  useEffect(() => {
-    if (!route) {
-      observedRef.current = null
-      return
-    }
-    const identifier = getSourceTxIdentifier(route) ?? null
-    const observed = observedRef.current
-    if (!observed || observed.routeId !== route.id) {
-      observedRef.current = {
-        routeId: route.id,
-        skipValue: identifier?.value ?? null,
-        handledValue: null,
-      }
-      return
-    }
-    if (
-      !identifier ||
-      identifier.value === observed.skipValue ||
-      identifier.value === observed.handledValue
-    ) {
-      return
-    }
-    observed.handledValue = identifier.value
-    const depositAddress = extractDepositAddress(route) ?? undefined
-    writeWallet({
-      identifier,
-      fromChain: route.fromChainId,
-      depositAddress,
-      frozenQuote: {
-        id: route.id,
-        route,
-        expiresAt: Date.now() + FROZEN_QUOTE_TTL_MS,
-      },
-    })
-    if (!handoffEnabled || !depositAddress) {
-      return
-    }
-    // IF routes are relayer-fulfilled and tracked by deposit address from here:
-    // stop background execution and drop the route so a re-quote can't resurface it.
-    freeze(route)
-    stopRouteExecution(route)
-    onHandoff()
-    navigate({
-      to: statusPath,
-      search: {
-        depositAddress,
-        fromChain: route.fromChainId,
-        ...(identifier.kind === 'txHash'
-          ? { transactionHash: identifier.value }
-          : { taskId: identifier.value }),
-      },
-      replace: true,
-    })
-  }, [route, handoffEnabled, writeWallet, freeze, navigate, onHandoff])
-  return null
-}
 
 function CheckoutDepositAutoStarter({
   enabled,
@@ -350,13 +266,6 @@ export const CheckoutTransactionPage = (): JSX.Element | null => {
 
   return (
     <>
-      <PendingCheckoutWalletHandoff
-        route={route}
-        handoffEnabled={
-          mode === 'custom' && modeOptions?.custom?.type === 'deposit'
-        }
-        onHandoff={deleteRoute}
-      />
       {shouldAutoCheckoutDeposit &&
       route &&
       routeId &&

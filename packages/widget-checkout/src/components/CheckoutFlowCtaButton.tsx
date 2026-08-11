@@ -1,8 +1,10 @@
-import { createFundingOrder, parseUnits } from '@lifi/sdk'
+import { convertOrderToRoute, createFundingOrder, parseUnits } from '@lifi/sdk'
+import { useAccount } from '@lifi/wallet-management'
 import {
   BaseTransactionButton,
   formatTokenAmount,
   useFieldValues,
+  useRouteExecutionStoreContext,
   useSDKClient,
   useToAddressRequirements,
   useWidgetEvents,
@@ -26,7 +28,10 @@ import {
 } from '../stores/useCheckoutFlowStore.js'
 import { useFiatCurrencyStore } from '../stores/useFiatCurrencyStore.js'
 import { useFundingOrderStore } from '../stores/useFundingOrderStore.js'
-import { buildSmartDepositOrderRequest } from '../utils/buildOrderRequest.js'
+import {
+  buildSmartDepositOrderRequest,
+  buildStandardOrderRequest,
+} from '../utils/buildOrderRequest.js'
 import { normalizeFiatAmount } from '../utils/fiatFormat.js'
 import {
   checkoutAbsolutePaths,
@@ -48,16 +53,11 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
   const navigate = useNavigate()
   const emitter = useWidgetEvents()
   const sdkClient = useSDKClient()
+  const { account } = useAccount()
+  const routeExecutionStore = useRouteExecutionStoreContext()
   const { toAddress, requiredToAddress } = useToAddressRequirements()
   const { recipient, isUserSettable } = useResolvedCheckoutRecipient()
-  const {
-    route,
-    routes,
-    depositAddress,
-    isError,
-    refetch,
-    setReviewableRoute,
-  } = useCheckoutFlowQuote()
+  const { route, depositAddress, isError, refetch } = useCheckoutFlowQuote()
   const { freeze } = useFrozenQuote()
   const trackOrder = useFundingOrderStore((s) => s.track)
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource) ?? 'wallet'
@@ -82,20 +82,46 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
   const panelEl = useCheckoutModal()?.panelEl ?? null
   const [handoffOpen, setHandoffOpen] = useState(false)
 
+  const createWalletOrder = useMutation({
+    mutationFn: async () => {
+      if (!route || !account.address) {
+        throw new Error('No route or wallet for the deposit.')
+      }
+      return createFundingOrder(
+        sdkClient,
+        buildStandardOrderRequest({
+          toChainId: route.toChainId,
+          toTokenAddress: route.toToken.address,
+          toAddress: route.toAddress ?? account.address,
+          fromChainId: route.fromChainId,
+          fromTokenAddress: route.fromToken.address,
+          fromAmount: route.fromAmount,
+          fromAddress: account.address,
+        })
+      )
+    },
+    onSuccess: (order) => {
+      const orderRoute = convertOrderToRoute(order)
+      routeExecutionStore.getState().setExecutableRoute(orderRoute)
+      trackOrder({
+        orderId: order.orderId,
+        fundingSource: 'wallet',
+        createdAt: Date.now(),
+      })
+      navigate({
+        to: checkoutAbsolutePaths.transactionExecution,
+        search: { routeId: order.orderId, checkoutAutoDeposit: true },
+      })
+      emitter.emit(WidgetEvent.RouteSelected, {
+        route: orderRoute,
+        routes: [orderRoute],
+      })
+    },
+  })
+
   const handleWalletDeposit = useCallback(() => {
-    if (!route) {
-      return
-    }
-    setReviewableRoute(route)
-    navigate({
-      to: checkoutAbsolutePaths.transactionExecution,
-      search: { routeId: route.id, checkoutAutoDeposit: true },
-    })
-    emitter.emit(WidgetEvent.RouteSelected, {
-      route,
-      routes: routes ?? [route],
-    })
-  }, [route, routes, setReviewableRoute, navigate, emitter])
+    createWalletOrder.mutate()
+  }, [createWalletOrder])
 
   const createTransferOrder = useMutation({
     mutationFn: async () => {
@@ -197,12 +223,17 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
 
   const needsRecipient = isUserSettable && !recipient
 
-  if (fundingSource === 'wallet') {
+  if (fundingSource === 'wallet' && !createWalletOrder.isError) {
     return (
       <BaseTransactionButton
         text={label}
         onClick={handleWalletDeposit}
-        disabled={!route || (requiredToAddress && !toAddress) || needsRecipient}
+        disabled={
+          !route ||
+          (requiredToAddress && !toAddress) ||
+          needsRecipient ||
+          createWalletOrder.isPending
+        }
         route={route}
         sx={{ flex: 1 }}
       />
@@ -233,6 +264,7 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
 
   if (
     isError ||
+    (fundingSource === 'wallet' && createWalletOrder.isError) ||
     (fundingSource === 'transfer' && createTransferOrder.isError) ||
     (isCash && onRampQuote.isError)
   ) {
@@ -244,6 +276,7 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
         onClick={() => {
           refetch()
           onRampQuote.refetch()
+          createWalletOrder.reset()
           createTransferOrder.reset()
         }}
         sx={{ flex: 1 }}
