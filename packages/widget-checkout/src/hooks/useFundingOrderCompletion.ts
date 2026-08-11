@@ -1,10 +1,15 @@
 'use client'
 import type { FundingOrder } from '@lifi/sdk'
 import { useCheckoutConfig } from '@lifi/widget-provider/checkout'
-import { useContext, useEffect, useRef } from 'react'
+import { useContext, useEffect } from 'react'
 import { useStore } from 'zustand'
-import type { CheckoutFlowStore } from '../stores/useCheckoutFlowStore.js'
-import { CheckoutFlowStoreContext } from '../stores/useCheckoutFlowStore.js'
+import {
+  type CheckoutFlowStore,
+  CheckoutFlowStoreContext,
+} from '../stores/useCheckoutFlowStore.js'
+
+// Terminal callbacks fire once per orderId per session, surviving remounts.
+const firedOrderIds = new Set<string>()
 
 // Stub so useStore stays unconditional when rendered outside the flow provider.
 const NO_FLOW_STATE = Object.freeze({ fundingSource: null })
@@ -24,14 +29,13 @@ export function useFundingOrderCompletion(
     flowStore,
     (s: { fundingSource: string | null }) => s.fundingSource
   )
-  const firedRef = useRef<Set<string>>(new Set())
 
   useEffect(() => {
-    if (!order || firedRef.current.has(order.orderId)) {
+    if (!order || firedOrderIds.has(order.orderId)) {
       return
     }
     if (order.status === 'DONE') {
-      firedRef.current.add(order.orderId)
+      firedOrderIds.add(order.orderId)
       onSuccess?.({
         provider: fundingSource ?? 'checkout',
         transactionHash: order.result?.toTxHash,
@@ -41,7 +45,7 @@ export function useFundingOrderCompletion(
         depositAddress: order.depositAddress,
       })
     } else if (order.status === 'FAILED') {
-      firedRef.current.add(order.orderId)
+      firedOrderIds.add(order.orderId)
       onError?.({
         code: order.substatus ?? 'ORDER_FAILED',
         message: `Funding order ${order.orderId} failed.`,
