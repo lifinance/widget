@@ -23,8 +23,8 @@ import { Box, CircularProgress } from '@mui/material'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Stack } from '../../components/Stack.js'
+import { useCheckoutActivity } from '../../hooks/useCheckoutActivity.js'
 import { useCheckoutNavigate } from '../../hooks/useCheckoutNavigate.js'
-import { useCheckoutPendingRecords } from '../../hooks/useCheckoutPendingRecords.js'
 import { useResumeCheckout } from '../../hooks/useResumeCheckout.js'
 import { useSelectSourceTopWallets } from '../../hooks/useSelectSourceTopWallets.js'
 import { useOnRampSessionByCategory } from '../../providers/OnRampProvider/OnRampProvider.js'
@@ -65,11 +65,11 @@ export const SelectSourcePage: React.FC = () => {
     (s) => s.removeAccount
   )
 
-  const pendingItems = useCheckoutPendingRecords()
+  const activityItems = useCheckoutActivity()
   const resumeCheckout = useResumeCheckout()
   const autoResumeItem = useMemo(
-    () => pickAutoResumeItem(pendingItems),
-    [pendingItems]
+    () => pickAutoResumeItem(activityItems),
+    [activityItems]
   )
   const autoResumedRef = useRef(false)
   useEffect(() => {
@@ -77,7 +77,7 @@ export const SelectSourcePage: React.FC = () => {
       return
     }
     autoResumedRef.current = true
-    resumeCheckout(autoResumeItem.record, autoResumeItem.depositDetected)
+    resumeCheckout(autoResumeItem)
   }, [autoResumeItem, resumeCheckout])
 
   const [prevTokenAddress] = useFieldValues(FormKeyHelper.getTokenKey('from'))

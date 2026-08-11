@@ -1,57 +1,36 @@
 'use client'
-import { isRouteDone, useRouteExecutionStoreContext } from '@lifi/widget/shared'
 import { useNavigate } from '@tanstack/react-router'
 import { useCallback, useContext } from 'react'
 import { CheckoutFlowStoreContext } from '../stores/useCheckoutFlowStore.js'
-import type { PendingRecord } from '../stores/usePendingCheckoutStore.js'
-import { buildResumeNavigation } from '../utils/buildResumeNavigation.js'
-import { useSeedFrozenQuote } from './useFrozenQuote.js'
+import { checkoutNavigationRoutes } from '../utils/navigationRoutes.js'
+import type { ActivityItem } from './useCheckoutActivity.js'
 
-export function useResumeCheckout(): (
-  record: PendingRecord,
-  depositDetected?: boolean
-) => void {
+const statusPath = `/${checkoutNavigationRoutes.transactionExecution}/${checkoutNavigationRoutes.transactionStatus}`
+
+export function useResumeCheckout(): (item: ActivityItem) => void {
   const navigate = useNavigate()
   const flowStore = useContext(CheckoutFlowStoreContext)
-  const seedFrozenQuote = useSeedFrozenQuote()
-  const routeStore = useRouteExecutionStoreContext()
 
   return useCallback(
-    (record: PendingRecord, depositDetected?: boolean) => {
-      flowStore?.setState({
-        fundingSource: record.fundingSource,
-        frozenRouteId: record.frozenRouteId ?? null,
-        frozenDepositId: record.depositId ?? null,
-      })
-      const frozenQuoteFresh =
-        !!record.frozenQuote && record.frozenQuote.expiresAt > Date.now()
-      if (frozenQuoteFresh && record.frozenQuote) {
-        seedFrozenQuote({
-          id: record.frozenQuote.id,
-          route: record.frozenQuote.route,
-          expiresAt: record.frozenQuote.expiresAt,
+    (item: ActivityItem) => {
+      flowStore?.setState({ fundingSource: item.fundingSource })
+      // A still-open transfer reopens the QR/deposit-address page; the order
+      // tracks every other flow's server-side state, so those all resume on
+      // the status route — including wallet, where re-attaching an unsent
+      // local route is out of scope (the SDK re-fetches the committed quote,
+      // and an unsent order surfaces as `watching` with its own retry path).
+      if (
+        item.fundingSource === 'transfer' &&
+        item.order?.substatus === 'INTENT_AWAITING_FUNDS'
+      ) {
+        navigate({
+          to: checkoutNavigationRoutes.transferDeposit,
+          search: { orderId: item.orderId },
         })
+        return
       }
-      // Any unfinished wallet route (in flight, or failed and awaiting retry)
-      // resumes on the execution page. Re-seed from the 24h snapshot if it was
-      // evicted from the route store so resumeRoute can re-attach.
-      let routeResumable = false
-      if (record.fundingSource === 'wallet' && record.frozenRouteId) {
-        const state = routeStore.getState()
-        let stored = state.routes[record.frozenRouteId]?.route
-        if (!stored && record.frozenQuote?.route) {
-          state.setExecutableRoute(record.frozenQuote.route)
-          stored = routeStore.getState().routes[record.frozenRouteId]?.route
-        }
-        routeResumable = !!stored && !isRouteDone(stored)
-      }
-      const nav = buildResumeNavigation(record, {
-        frozenQuoteFresh,
-        depositDetected,
-        routeResumable,
-      })
-      navigate({ to: nav.to, search: nav.search })
+      navigate({ to: statusPath, search: { orderId: item.orderId } })
     },
-    [navigate, flowStore, seedFrozenQuote, routeStore]
+    [navigate, flowStore]
   )
 }

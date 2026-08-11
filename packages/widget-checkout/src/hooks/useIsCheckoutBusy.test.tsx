@@ -1,27 +1,19 @@
 // @vitest-environment happy-dom
 
-import type {
-  CheckoutContextValue,
-  OnRampSession,
-} from '@lifi/widget-provider/checkout'
 import {
-  CheckoutContext,
   createOnRampSessionsStore,
+  type OnRampSession,
   OnRampSessionsContext,
   type OnRampSessionsStore,
 } from '@lifi/widget-provider/checkout'
 import { act, renderHook } from '@testing-library/react'
 import type { ReactNode } from 'react'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 vi.mock('@lifi/wallet-management', () => ({
   useAccount: () => ({ accounts: [] }),
 }))
 
-import {
-  buildPendingRecord,
-  usePendingCheckoutStore,
-} from '../stores/usePendingCheckoutStore.js'
 import { useIsCheckoutBusy } from './useIsCheckoutBusy.js'
 
 function makeSession(isOpen: boolean): OnRampSession {
@@ -104,79 +96,5 @@ describe('useIsCheckoutBusy', () => {
       store.getState().register('s1', makeSession(true))
     })
     expect(result.current).toBe(true)
-  })
-})
-
-function wrapWithCheckout(
-  checkout: CheckoutContextValue,
-  store: OnRampSessionsStore
-) {
-  return ({ children }: { children: ReactNode }) => (
-    <CheckoutContext.Provider value={checkout}>
-      <OnRampSessionsContext.Provider value={store}>
-        {children}
-      </OnRampSessionsContext.Provider>
-    </CheckoutContext.Provider>
-  )
-}
-
-function seedRecord(key: string, createdAt?: number) {
-  usePendingCheckoutStore.getState().write(
-    key,
-    buildPendingRecord({
-      fundingSource: 'cash',
-      depositAddress: '0xdeposit',
-      fromChain: 1,
-      provider: 'transak',
-      status: 'confirmed-no-hash',
-      createdAt,
-    })
-  )
-}
-
-describe('useIsCheckoutBusy — pending record (post-payment) gate', () => {
-  beforeEach(() => {
-    usePendingCheckoutStore.getState().clearAll()
-  })
-
-  it('is busy with a live record even when all sessions are closed', () => {
-    const store = createOnRampSessionsStore()
-    store.getState().register('s1', makeSession(false))
-    seedRecord('int:0xdeposit')
-    const { result } = renderHook(() => useIsCheckoutBusy(), {
-      wrapper: wrapWithCheckout({ integrator: 'int' }, store),
-    })
-    expect(result.current).toBe(true)
-  })
-
-  it('ignores expired records', () => {
-    const store = createOnRampSessionsStore()
-    // 25h ago — past the 24h TTL.
-    seedRecord('int:0xdeposit', Date.now() - 25 * 60 * 60 * 1000)
-    const { result } = renderHook(() => useIsCheckoutBusy(), {
-      wrapper: wrapWithCheckout({ integrator: 'int' }, store),
-    })
-    expect(result.current).toBe(false)
-  })
-
-  it('ignores records from other integrators', () => {
-    const store = createOnRampSessionsStore()
-    seedRecord('other:0xdeposit')
-    const { result } = renderHook(() => useIsCheckoutBusy(), {
-      wrapper: wrapWithCheckout({ integrator: 'int' }, store),
-    })
-    expect(result.current).toBe(false)
-  })
-
-  it('is not busy when resumePending is disabled', () => {
-    const store = createOnRampSessionsStore()
-    seedRecord('int:0xdeposit')
-    const { result } = renderHook(() => useIsCheckoutBusy(), {
-      wrapper: wrapWithCheckout(
-        { integrator: 'int', resumePending: false },
-        store
-      ),
-    })
-    expect(result.current).toBe(false)
   })
 })

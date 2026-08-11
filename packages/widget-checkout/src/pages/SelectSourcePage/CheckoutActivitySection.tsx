@@ -1,4 +1,6 @@
 'use client'
+import type { FundingOrder } from '@lifi/sdk'
+import { convertQuoteToRoute } from '@lifi/sdk'
 import { formatTokenAmount, useChain } from '@lifi/widget/shared'
 import ChevronRightRounded from '@mui/icons-material/ChevronRightRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
@@ -7,12 +9,11 @@ import { Box, CircularProgress, IconButton, Stack } from '@mui/material'
 import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  type PendingActivityItem,
-  type PendingActivityState,
-  useCheckoutPendingRecords,
-} from '../../hooks/useCheckoutPendingRecords.js'
+  type ActivityItem,
+  useCheckoutActivity,
+} from '../../hooks/useCheckoutActivity.js'
 import { useResumeCheckout } from '../../hooks/useResumeCheckout.js'
-import { usePendingCheckoutStore } from '../../stores/usePendingCheckoutStore.js'
+import { useFundingOrderStore } from '../../stores/useFundingOrderStore.js'
 import {
   FundingOptionCard,
   FundingOptionRow,
@@ -23,10 +24,31 @@ import {
   OptionTextCell,
 } from './SelectSourceFundingOptions.style.js'
 
-function inProgressLabelKey(state: PendingActivityState): string {
-  return state === 'refund'
+function isRefunding(order: FundingOrder | undefined): boolean {
+  return order?.substatus === 'REFUND_IN_PROGRESS'
+}
+
+function inProgressLabelKey(item: ActivityItem): string {
+  return isRefunding(item.order)
     ? 'checkout.activity.refundInProgress'
     : 'checkout.activity.depositInProgress'
+}
+
+// convertOrderToRoute stamps `fundingOrderId` for execution — never used
+// here, the activity card only ever displays. SMART_DEPOSIT/ONRAMP orders
+// reuse the lower-level quote converter; a malformed quote or a quote-less
+// order (e.g. DIRECT onramp) falls back to the generic label below.
+function displayRoute(order: FundingOrder | undefined) {
+  if (!order?.quote) {
+    return undefined
+  }
+  try {
+    const route = convertQuoteToRoute(order.quote)
+    route.id = order.orderId
+    return route
+  } catch {
+    return undefined
+  }
 }
 
 interface ActivityStatusIconProps {
@@ -66,9 +88,9 @@ function ActivityStatusIcon({
 }
 
 interface ActivityCardProps {
-  item: PendingActivityItem
-  onResume: (item: PendingActivityItem) => void
-  onDismiss: (key: string) => void
+  item: ActivityItem
+  onResume: (item: ActivityItem) => void
+  onDismiss: (orderId: string) => void
 }
 
 function ActivityCard({
@@ -77,23 +99,20 @@ function ActivityCard({
   onDismiss,
 }: ActivityCardProps): JSX.Element {
   const { t } = useTranslation()
-  const { record, state } = item
-  const { chain } = useChain(record.fromChain)
-  const failed = state === 'failed'
+  const failed = item.phase === 'failed'
+  const route = displayRoute(item.order)
+  const { chain } = useChain(route?.fromChainId)
 
-  const title =
-    record.fromAmount &&
-    record.tokenDecimals !== undefined &&
-    record.tokenSymbol
-      ? t('checkout.activity.amountOnChain', {
-          amount: formatTokenAmount(
-            BigInt(record.fromAmount),
-            record.tokenDecimals
-          ),
-          symbol: record.tokenSymbol,
-          chain: chain?.name ?? '',
-        })
-      : t('checkout.activity.deposit')
+  const title = route
+    ? t('checkout.activity.amountOnChain', {
+        amount: formatTokenAmount(
+          BigInt(route.fromAmount),
+          route.fromToken.decimals
+        ),
+        symbol: route.fromToken.symbol,
+        chain: chain?.name ?? '',
+      })
+    : t('checkout.activity.deposit')
 
   return (
     <FundingOptionCard elevation={0} onClick={() => onResume(item)}>
@@ -112,7 +131,7 @@ function ActivityCard({
           >
             {failed
               ? t('checkout.activity.couldNotComplete')
-              : t(inProgressLabelKey(state))}
+              : t(inProgressLabelKey(item))}
           </FundingOptionSubtitle>
         </OptionTextCell>
         <Box sx={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
@@ -123,7 +142,7 @@ function ActivityCard({
               sx={{ padding: '2px', color: 'text.secondary' }}
               onClick={(e) => {
                 e.stopPropagation()
-                onDismiss(item.key)
+                onDismiss(item.orderId)
               }}
             >
               <CloseRounded sx={{ fontSize: '1.125rem' }} />
@@ -138,17 +157,16 @@ function ActivityCard({
 
 export function CheckoutActivitySection(): JSX.Element | null {
   const { t } = useTranslation()
-  const items = useCheckoutPendingRecords()
+  const items = useCheckoutActivity()
   const resume = useResumeCheckout()
-  const clearForKey = usePendingCheckoutStore((s) => s.clearForKey)
+  const acknowledge = useFundingOrderStore((s) => s.acknowledge)
 
   if (items.length === 0) {
     return null
   }
 
-  const onResume = (item: PendingActivityItem): void =>
-    resume(item.record, item.depositDetected)
-  const onDismiss = (key: string): void => clearForKey(key)
+  const onResume = (item: ActivityItem): void => resume(item)
+  const onDismiss = (orderId: string): void => acknowledge(orderId)
 
   // Single live deposit → compact one-line badge (Figma "activity" badge variant).
   if (items.length === 1) {
@@ -156,7 +174,7 @@ export function CheckoutActivitySection(): JSX.Element | null {
     if (!item) {
       return null
     }
-    const failed = item.state === 'failed'
+    const failed = item.phase === 'failed'
     return (
       <FundingOptionCard elevation={0} onClick={() => onResume(item)}>
         <FundingOptionRow>
@@ -173,7 +191,7 @@ export function CheckoutActivitySection(): JSX.Element | null {
             >
               {failed
                 ? t('checkout.activity.singleFailed')
-                : t(inProgressLabelKey(item.state))}
+                : t(inProgressLabelKey(item))}
             </FundingOptionSubtitle>
           </OptionTextCell>
           <ChevronRightRounded
@@ -190,7 +208,7 @@ export function CheckoutActivitySection(): JSX.Element | null {
       <Stack spacing={1.5} sx={{ width: '100%' }}>
         {items.map((item) => (
           <ActivityCard
-            key={item.key}
+            key={item.orderId}
             item={item}
             onResume={onResume}
             onDismiss={onDismiss}

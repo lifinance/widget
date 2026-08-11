@@ -1,26 +1,24 @@
 'use client'
-import { CheckoutContext } from '@lifi/widget-provider/checkout'
 import { useCallback, useContext } from 'react'
 import { CheckoutFlowStoreContext } from '../stores/useCheckoutFlowStore.js'
-import {
-  buildResumeKey,
-  usePendingCheckoutStore,
-} from '../stores/usePendingCheckoutStore.js'
+import { useFundingOrderStore } from '../stores/useFundingOrderStore.js'
 import { FrozenQuoteStoreContext } from './useFrozenQuote.js'
 
-export function useAbandonCheckout(): () => void {
-  const checkoutContext = useContext(CheckoutContext)
+// `orderId` is only known once a flow has created its funding order (e.g. the
+// transfer-deposit page's QR code) — callers without one just reset local state.
+export function useAbandonCheckout(): (orderId?: string) => void {
   const flowStore = useContext(CheckoutFlowStoreContext)
   const frozenStore = useContext(FrozenQuoteStoreContext)
-  const clearForKey = usePendingCheckoutStore((s) => s.clearForKey)
+  const acknowledge = useFundingOrderStore((s) => s.acknowledge)
 
-  return useCallback(() => {
-    const integrator = checkoutContext?.integrator
-    const depositId = flowStore?.getState().frozenDepositId
-    if (integrator && depositId) {
-      clearForKey(buildResumeKey(integrator, depositId))
-    }
-    frozenStore?.getState().set(null)
-    flowStore?.getState().reset()
-  }, [checkoutContext, flowStore, frozenStore, clearForKey])
+  return useCallback(
+    (orderId?: string) => {
+      if (orderId) {
+        acknowledge(orderId)
+      }
+      frozenStore?.getState().set(null)
+      flowStore?.getState().reset()
+    },
+    [flowStore, frozenStore, acknowledge]
+  )
 }

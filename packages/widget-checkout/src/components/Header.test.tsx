@@ -10,6 +10,7 @@ import { fireEvent, screen } from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { CheckoutModalContext } from '../CheckoutModal.js'
+import { useFundingOrderStore } from '../stores/useFundingOrderStore.js'
 import { renderWithI18n } from '../test/renderWithI18n.js'
 
 vi.mock('@lifi/widget/shared', () => ({
@@ -25,11 +26,18 @@ vi.mock('@lifi/widget/shared', () => ({
 const { navigateMock, routerGo, routerState } = vi.hoisted(() => ({
   navigateMock: vi.fn(),
   routerGo: vi.fn(),
-  routerState: { pathname: '/', historyLength: 1 },
+  routerState: {
+    pathname: '/',
+    historyLength: 1,
+    search: undefined as { orderId?: string } | undefined,
+  },
 }))
 
 vi.mock('@tanstack/react-router', () => ({
-  useLocation: () => ({ pathname: routerState.pathname }),
+  useLocation: () => ({
+    pathname: routerState.pathname,
+    search: routerState.search,
+  }),
   useRouter: () => ({
     history: { length: routerState.historyLength, go: routerGo },
   }),
@@ -91,6 +99,8 @@ describe('Header close button', () => {
     vi.clearAllMocks()
     routerState.pathname = '/'
     routerState.historyLength = 1
+    routerState.search = undefined
+    useFundingOrderStore.getState().clearAll()
   })
 
   it('calls closeModal directly when idle', () => {
@@ -117,10 +127,18 @@ describe('Header back button', () => {
     vi.clearAllMocks()
     routerState.pathname = '/'
     routerState.historyLength = 1
+    routerState.search = undefined
+    useFundingOrderStore.getState().clearAll()
   })
 
   it('confirms before abandoning to home from the transfer-deposit page', () => {
     routerState.pathname = '/transfer-deposit'
+    routerState.search = { orderId: 'o-1' }
+    useFundingOrderStore.getState().track({
+      orderId: 'o-1',
+      fundingSource: 'transfer',
+      createdAt: Date.now(),
+    })
     setup({
       busy: false,
       closeModal: vi.fn(),
@@ -132,6 +150,8 @@ describe('Header back button', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Cancel transfer' }))
     expect(navigateMock).toHaveBeenCalledWith({ to: '/', replace: true })
     expect(routerGo).not.toHaveBeenCalled()
+    // Abandoning acknowledges the order the page's `orderId` search points at.
+    expect(useFundingOrderStore.getState().orders['o-1']).toBeUndefined()
   })
 
   it('hides the back button on status pages', () => {

@@ -16,8 +16,6 @@ import {
 } from '@mui/material'
 import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
-import { usePendingCheckoutWriter } from '../hooks/usePendingCheckoutWriter.js'
-import { useResumeKey } from '../hooks/useResumeKey.js'
 import {
   type OnRampProviderInfo,
   useOnRampProviderMetas,
@@ -58,8 +56,6 @@ function HostedModalDialog({
   session,
 }: HostedModalDialogProps): JSX.Element | null {
   const { t } = useTranslation()
-  const resumeKey = useResumeKey()
-  const { clearForKey } = usePendingCheckoutWriter()
 
   if (!session.mountTargetId) {
     return null
@@ -101,10 +97,7 @@ function HostedModalDialog({
         <Tooltip title={t('checkout.transak.forceClose.tooltip')}>
           <IconButton
             aria-label={t('checkout.transak.forceClose.tooltip')}
-            onClick={() => {
-              clearForKey(resumeKey)
-              session.cancel()
-            }}
+            onClick={() => session.cancel()}
             size="small"
             sx={{
               position: 'absolute',

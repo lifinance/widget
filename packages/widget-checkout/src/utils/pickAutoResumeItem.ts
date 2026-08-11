@@ -1,17 +1,11 @@
-import type { PendingActivityItem } from '../hooks/useCheckoutPendingRecords.js'
+import type { ActivityItem } from '../hooks/useCheckoutActivity.js'
 
-// Only a lone in-progress deposit auto-resumes; failed or multiple stay on the funding screen.
-export function pickAutoResumeItem(
-  items: PendingActivityItem[]
-): PendingActivityItem | null {
-  const resumable = items.filter(
-    (item) =>
-      item.state !== 'failed' &&
-      Boolean(
-        item.record.depositAddress ||
-          item.record.transactionHash ||
-          item.record.taskId
-      )
+// A lone item that's still pending (or hasn't resolved its first poll yet)
+// auto-resumes; anything terminal, failed, or with siblings stays on the
+// funding screen for the user to pick.
+export function pickAutoResumeItem(items: ActivityItem[]): ActivityItem | null {
+  const pending = items.filter(
+    (item) => item.phase === 'pending' || item.phase === undefined
   )
-  return resumable.length === 1 ? resumable[0] : null
+  return pending.length === 1 ? pending[0] : null
 }

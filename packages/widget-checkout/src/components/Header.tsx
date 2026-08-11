@@ -35,7 +35,10 @@ export const Header: React.FC<HeaderProps> = ({ title: titleProp }) => {
   const { t } = useTranslation()
   const storeTitle = useHeaderStore((state) => state.title)
   const title = storeTitle ?? titleProp ?? t('header.checkout')
-  const { pathname } = useLocation()
+  const { pathname, search } = useLocation() as {
+    pathname: string
+    search?: { orderId?: string }
+  }
   const router = useRouter()
   const navigate = useCheckoutNavigate()
   const modalContext = useCheckoutModal()
@@ -85,7 +88,7 @@ export const Header: React.FC<HeaderProps> = ({ title: titleProp }) => {
 
   const confirmAbandon = () => {
     setAbandonOpen(false)
-    abandonCheckout()
+    abandonCheckout(search?.orderId)
     navigate({ to: checkoutNavigationRoutes.home, replace: true })
   }
 
