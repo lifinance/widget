@@ -1,4 +1,5 @@
 import type { ExchangeRateUpdateParams, RouteExtended } from '@lifi/sdk'
+import { isFundingOrderStep } from '@lifi/sdk'
 import type {
   BottomSheetBase,
   ExchangeRateBottomSheetBase,
@@ -147,9 +148,17 @@ export const CheckoutTransactionPage = (): JSX.Element | null => {
     return t('header.exchange')
   }
 
+  // An order route is a commitment (created via createFundingOrder) and has
+  // no re-quote endpoint; RouteTracker's useRoutes would resolve a NORMAL
+  // quote for it and evict the seeded order route, so it must never mount
+  // while the tracked route carries a fundingOrderId marker.
+  const isOrderRoute = Boolean(
+    route?.steps?.[0] && isFundingOrderStep(route.steps[0])
+  )
+
   const headerAction = useMemo(
     () =>
-      status === RouteExecutionStatus.Idle ? (
+      status === RouteExecutionStatus.Idle && !isOrderRoute ? (
         <RouteTracker
           observableRouteId={stateRouteId ?? ''}
           onChange={setRouteId}
@@ -157,7 +166,7 @@ export const CheckoutTransactionPage = (): JSX.Element | null => {
           allowExchanges={checkoutAllowExchanges}
         />
       ) : undefined,
-    [stateRouteId, status, checkoutAllowExchanges]
+    [stateRouteId, status, checkoutAllowExchanges, isOrderRoute]
   )
 
   useHeader(getHeaderTitle(), headerAction)

@@ -1,3 +1,4 @@
+import { isFundingOrderStep } from '@lifi/sdk'
 import type { Dispatch, JSX, SetStateAction } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate.js'
@@ -38,6 +39,15 @@ export const RouteTracker = ({
    */
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when currentRoute changes
   useEffect(() => {
+    // An order route (fundingOrderId marker) is a commitment with no
+    // re-quote endpoint. Safety net for the page-level guard: never adopt a
+    // re-quoted NORMAL route in its place.
+    if (
+      observableRoute?.steps?.[0] &&
+      isFundingOrderStep(observableRoute.steps[0])
+    ) {
+      return
+    }
     if (
       observableRouteIdRef.current &&
       currentRoute &&
