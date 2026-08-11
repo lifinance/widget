@@ -41,28 +41,35 @@ export function listTrackedOrders(
   )
 }
 
+type SetFundingOrderState = (partial: Partial<FundingOrderState>) => void
+
+let setFundingOrderState: SetFundingOrderState | undefined
+
 export const useFundingOrderStore: UseBoundStore<StoreApi<FundingOrderState>> =
   create<FundingOrderState>()(
     persist(
-      (set) => ({
-        orders: {},
-        track: (order) =>
-          set((state) => ({
-            orders: {
-              ...prune(state.orders, Date.now()),
-              [order.orderId]: order,
-            },
-          })),
-        acknowledge: (orderId) =>
-          set((state) => {
-            if (!(orderId in state.orders)) {
-              return state
-            }
-            const { [orderId]: _removed, ...rest } = state.orders
-            return { orders: rest }
-          }),
-        clearAll: () => set({ orders: {} }),
-      }),
+      (set) => {
+        setFundingOrderState = set
+        return {
+          orders: {},
+          track: (order) =>
+            set((state) => ({
+              orders: {
+                ...prune(state.orders, Date.now()),
+                [order.orderId]: order,
+              },
+            })),
+          acknowledge: (orderId) =>
+            set((state) => {
+              if (!(orderId in state.orders)) {
+                return state
+              }
+              const { [orderId]: _removed, ...rest } = state.orders
+              return { orders: rest }
+            }),
+          clearAll: () => set({ orders: {} }),
+        }
+      },
       {
         name: FUNDING_ORDER_STORAGE_KEY,
         storage: createJSONStorage(() => localStorage),
@@ -75,7 +82,7 @@ export const useFundingOrderStore: UseBoundStore<StoreApi<FundingOrderState>> =
           if (
             Object.keys(pruned).length !== Object.keys(rehydrated.orders).length
           ) {
-            useFundingOrderStore.setState({ orders: pruned })
+            setFundingOrderState?.({ orders: pruned })
           }
         },
         version: 1,
