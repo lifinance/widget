@@ -13,7 +13,11 @@ vi.mock('@lifi/widget/shared', () => ({
 }))
 
 import { getFundingOrder } from '@lifi/sdk'
-import { useFundingOrder } from './useFundingOrder.js'
+import {
+  ORDER_POLLING_INTERVAL_MS,
+  orderRefetchInterval,
+  useFundingOrder,
+} from './useFundingOrder.js'
 
 const order = (status: 'PENDING' | 'DONE' | 'FAILED') => ({
   orderId: 'o-1',
@@ -60,5 +64,25 @@ describe('useFundingOrder', () => {
       wrapper: wrap,
     })
     await waitFor(() => expect(result.current.phase).toBe('failed'))
+  })
+
+  it('maps PENDING to the pending phase', async () => {
+    vi.mocked(getFundingOrder).mockResolvedValue(order('PENDING') as any)
+    const { result } = renderHook(() => useFundingOrder('o-1'), {
+      wrapper: wrap,
+    })
+    await waitFor(() => expect(result.current.phase).toBe('pending'))
+  })
+})
+
+describe('orderRefetchInterval', () => {
+  it('stops on terminal statuses', () => {
+    expect(orderRefetchInterval('DONE')).toBe(false)
+    expect(orderRefetchInterval('FAILED')).toBe(false)
+  })
+
+  it('polls at the 10s floor otherwise', () => {
+    expect(orderRefetchInterval('PENDING')).toBe(ORDER_POLLING_INTERVAL_MS)
+    expect(orderRefetchInterval(undefined)).toBe(ORDER_POLLING_INTERVAL_MS)
   })
 })

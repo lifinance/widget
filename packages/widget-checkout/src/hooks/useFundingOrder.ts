@@ -1,5 +1,5 @@
 'use client'
-import type { FundingOrder } from '@lifi/sdk'
+import type { FundingOrder, FundingOrderStatus } from '@lifi/sdk'
 import { getFundingOrder } from '@lifi/sdk'
 import { useSDKClient } from '@lifi/widget/shared'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
@@ -29,6 +29,15 @@ export function orderPhase(
   return 'pending'
 }
 
+export function orderRefetchInterval(
+  status: FundingOrderStatus | undefined
+): number | false {
+  if (status === 'DONE' || status === 'FAILED') {
+    return false
+  }
+  return ORDER_POLLING_INTERVAL_MS
+}
+
 export interface UseFundingOrderResult {
   order: FundingOrder | undefined
   phase: OrderPhase | undefined
@@ -45,13 +54,7 @@ export function useFundingOrder(orderId: string | null): UseFundingOrderResult {
       getFundingOrder(sdkClient, orderId as string, undefined, { signal }),
     enabled: Boolean(orderId),
     placeholderData: keepPreviousData,
-    refetchInterval: (query) => {
-      const status = query.state.data?.status
-      if (status === 'DONE' || status === 'FAILED') {
-        return false
-      }
-      return ORDER_POLLING_INTERVAL_MS
-    },
+    refetchInterval: (query) => orderRefetchInterval(query.state.data?.status),
   })
   return {
     order: data,
