@@ -50,7 +50,7 @@ function wrap({ children }: { children: ReactNode }) {
   )
 }
 
-describe('useOnRampProviderByCategory — apiKey gate', () => {
+describe('useOnRampProviderByCategory', () => {
   it('resolves the cash and exchange providers when an apiKey is configured', () => {
     apiKey = 'key-123'
     const { result } = renderHook(
@@ -64,7 +64,10 @@ describe('useOnRampProviderByCategory — apiKey gate', () => {
     expect(result.current.exchange?.id).toBe('mesh')
   })
 
-  it('resolves nothing without an apiKey, so cash/exchange never reach a keyed endpoint', () => {
+  // A missing apiKey makes the keyed endpoints fail at call time, which the
+  // CTA surfaces as a retryable error. It must not make the funding options
+  // vanish - an absent option reads as "unsupported", not "misconfigured".
+  it('still resolves them without an apiKey', () => {
     apiKey = undefined
     const { result } = renderHook(
       () => ({
@@ -73,8 +76,8 @@ describe('useOnRampProviderByCategory — apiKey gate', () => {
       }),
       { wrapper: wrap }
     )
-    expect(result.current.cash).toBeNull()
-    expect(result.current.exchange).toBeNull()
+    expect(result.current.cash?.id).toBe('transak')
+    expect(result.current.exchange?.id).toBe('mesh')
   })
 
   it('keeps the registered metas visible so CheckoutConfigGuard can still warn', () => {
