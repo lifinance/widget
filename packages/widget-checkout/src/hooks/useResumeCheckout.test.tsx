@@ -32,6 +32,7 @@ function item(overrides: Partial<ActivityItem> = {}): ActivityItem {
     fundingSource: 'transfer',
     order: undefined,
     phase: 'pending',
+    createdAt: Date.now(),
     ...overrides,
   }
 }

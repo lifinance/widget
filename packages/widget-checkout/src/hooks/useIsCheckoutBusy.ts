@@ -7,6 +7,9 @@ import { useContext } from 'react'
 import { useStore } from 'zustand'
 import { useCheckoutActivity } from './useCheckoutActivity.js'
 
+// Mirrors the legacy pending-record TTL.
+const BUSY_TTL_MS = 24 * 60 * 60 * 1000
+
 // Immutable stub so useStore stays unconditional outside a provider.
 const EMPTY_SESSIONS = Object.freeze({}) as Readonly<Record<string, never>>
 const EMPTY_STATE = Object.freeze({ sessions: EMPTY_SESSIONS })
@@ -38,7 +41,8 @@ export function useIsCheckoutBusy(): boolean {
   const orderBusy = items.some(
     (item) =>
       item.phase === 'pending' &&
-      item.order?.substatus !== 'INTENT_AWAITING_FUNDS'
+      item.order?.substatus !== 'INTENT_AWAITING_FUNDS' &&
+      Date.now() - item.createdAt <= BUSY_TTL_MS
   )
   return sessionBusy || orderBusy
 }

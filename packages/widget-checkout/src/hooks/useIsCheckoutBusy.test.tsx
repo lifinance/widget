@@ -220,4 +220,25 @@ describe('useIsCheckoutBusy — tracked-order (post-payment) gate', () => {
     expect(result.current).toBe(false)
     expect(getFundingOrder).not.toHaveBeenCalled()
   })
+
+  it('is not busy with a pending order older than 24 hours', async () => {
+    const store = createOnRampSessionsStore()
+    store.getState().register('s1', makeSession(false))
+    useFundingOrderStore.getState().track({
+      orderId: 'o-1',
+      fundingSource: 'cash',
+      createdAt: Date.now() - 25 * 60 * 60 * 1000,
+    })
+    vi.mocked(getFundingOrder).mockResolvedValue(order('o-1', 'PENDING') as any)
+    const client = new QueryClient({
+      defaultOptions: { queries: { retry: false } },
+    })
+    const { result } = renderHook(() => useIsCheckoutBusy(), {
+      wrapper: wrap(store, client),
+    })
+    await waitFor(() =>
+      expect(client.getQueryData(['funding-order', 'o-1'])).toBeDefined()
+    )
+    expect(result.current).toBe(false)
+  })
 })

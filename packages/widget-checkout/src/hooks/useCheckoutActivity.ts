@@ -21,6 +21,7 @@ export interface ActivityItem {
   fundingSource: CheckoutFundingSource
   order: FundingOrder | undefined
   phase: OrderPhase | undefined
+  createdAt: number
 }
 
 // Fans out one poller per tracked order, sharing its query key (and cache
@@ -49,6 +50,7 @@ export function useCheckoutActivity(): ActivityItem[] {
       fundingSource: trackedOrder.fundingSource,
       order,
       phase: orderPhase(order),
+      createdAt: trackedOrder.createdAt,
     }
   })
 }

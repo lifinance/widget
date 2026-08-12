@@ -45,6 +45,7 @@ function item(
     orderId,
     fundingSource: 'transfer',
     phase,
+    createdAt: Date.now(),
     order: {
       orderId,
       partnerOrderId: `p-${orderId}`,

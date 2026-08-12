@@ -7,7 +7,13 @@ function item(
   phase: ActivityItem['phase'],
   fundingSource: ActivityItem['fundingSource'] = 'transfer'
 ): ActivityItem {
-  return { orderId, fundingSource, order: undefined, phase }
+  return {
+    orderId,
+    fundingSource,
+    order: undefined,
+    phase,
+    createdAt: Date.now(),
+  }
 }
 
 describe('pickAutoResumeItem', () => {
