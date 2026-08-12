@@ -98,7 +98,13 @@ export const TransferDepositPage: React.FC = (): JSX.Element => {
       return
     }
     if (shouldLeaveDepositPage({ substatus: order.substatus, phase })) {
-      navigate({ to: statusPath, search: { orderId: order.orderId } })
+      // Replace, not push: the deposit page is done with, and leaving it on
+      // the stack traps Back on a page that immediately re-navigates forward.
+      navigate({
+        to: statusPath,
+        search: { orderId: order.orderId },
+        replace: true,
+      })
     }
   }, [order, phase, navigate])
 

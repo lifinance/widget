@@ -1,6 +1,6 @@
 'use client'
 import type { FormRef, WidgetConfig } from '@lifi/widget/shared'
-import { StoreProvider } from '@lifi/widget/shared'
+import { StoreProvider, useWidgetConfig } from '@lifi/widget/shared'
 import {
   createOnRampSessionsStore,
   type OnRampError,
@@ -43,7 +43,14 @@ export function useOnRampProviderByCategory(
   category: OnRampFundingCategory | null | undefined
 ): OnRampProviderInfo | null {
   const metas = useOnRampProviderMetas()
+  const { apiKey } = useWidgetConfig()
   if (!category) {
+    return null
+  }
+  // Enforces what CheckoutConfigGuard documents: cash/exchange call keyed
+  // endpoints (quote, session), so without an apiKey they stay unavailable
+  // rather than letting the user into a 401 loop.
+  if (!apiKey) {
     return null
   }
   return metas.find((m) => m.fundingCategory === category) ?? null

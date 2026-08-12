@@ -12,6 +12,7 @@ import type { OnRampProvider } from '@lifi/widget-provider/checkout'
 import type { JSX, PropsWithChildren } from 'react'
 import { CheckoutFlowStoreProvider } from '../stores/useCheckoutFlowStore.js'
 import { FiatCurrencyStoreProvider } from '../stores/useFiatCurrencyStore.js'
+import { CheckoutCompletionObserver } from './CheckoutCompletionObserver.js'
 import { OnRampProviderRegistry } from './OnRampProvider/OnRampProvider.js'
 import { ThemeProvider } from './ThemeProvider.js'
 
@@ -40,6 +41,7 @@ const CheckoutAppShell: React.FC<CheckoutAppShellProps> = ({
           <I18nProvider>
             <ThemeProvider>
               <SDKClientProvider>
+                <CheckoutCompletionObserver />
                 <WalletProvider providers={widgetConfig.providers ?? []}>
                   <BookmarkStoreProvider namePrefix={widgetConfig.keyPrefix}>
                     <OnRampProviderRegistry

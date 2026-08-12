@@ -27,6 +27,17 @@ describe('useFundingOrderStore', () => {
     expect(useFundingOrderStore.getState().orders.a).toBeUndefined()
   })
 
+  it('markCompleted records the order and prunes stale completions', () => {
+    const { markCompleted } = useFundingOrderStore.getState()
+    useFundingOrderStore.setState({
+      completed: { stale: Date.now() - FUNDING_ORDER_RETENTION_MS - 1 },
+    })
+    markCompleted('fresh')
+    const { completed } = useFundingOrderStore.getState()
+    expect(completed.fresh).toEqual(expect.any(Number))
+    expect(completed.stale).toBeUndefined()
+  })
+
   it('prunes records older than the retention window on write', () => {
     const now = Date.now()
     const { track } = useFundingOrderStore.getState()

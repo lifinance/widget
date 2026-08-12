@@ -7,6 +7,7 @@ import {
   CheckoutFlowStoreContext,
   createCheckoutFlowStore,
 } from '../stores/useCheckoutFlowStore.js'
+import { useFundingOrderStore } from '../stores/useFundingOrderStore.js'
 import { useFundingOrderCompletion } from './useFundingOrderCompletion.js'
 
 const order = (
@@ -133,6 +134,34 @@ describe('useFundingOrderCompletion', () => {
 
     // onSuccess should still be called only once overall (not twice)
     expect(onSuccess).toHaveBeenCalledTimes(1)
+    expect(onError).not.toHaveBeenCalled()
+  })
+
+  it('records the fired order in the persisted store', () => {
+    renderHook(() => useFundingOrderCompletion(order('o-persisted', 'DONE')), {
+      wrapper: wrap(vi.fn(), vi.fn()),
+    })
+    expect(useFundingOrderStore.getState().completed['o-persisted']).toEqual(
+      expect.any(Number)
+    )
+  })
+
+  // A terminal order stays tracked until something acknowledges it, and the
+  // wallet flow never acknowledges — so on the next page load the layout
+  // observer re-reads a DONE order with an empty in-memory guard.
+  it('does not fire again for an order completed in a previous session', () => {
+    const onSuccess = vi.fn()
+    const onError = vi.fn()
+    useFundingOrderStore.setState({
+      completed: { 'o-prev-session': Date.now() },
+    })
+
+    renderHook(
+      () => useFundingOrderCompletion(order('o-prev-session', 'DONE')),
+      { wrapper: wrap(onSuccess, onError) }
+    )
+
+    expect(onSuccess).not.toHaveBeenCalled()
     expect(onError).not.toHaveBeenCalled()
   })
 })

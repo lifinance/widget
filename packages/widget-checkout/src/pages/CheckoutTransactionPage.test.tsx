@@ -1,12 +1,14 @@
 // @vitest-environment happy-dom
 
 import type { RouteExtended } from '@lifi/sdk'
-import type { ReactElement } from 'react'
+import type { ReactElement, ReactNode } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { renderWithI18n } from '../test/renderWithI18n.js'
 
 const useHeaderMock = vi.fn()
 const routeExecutionMock = vi.fn()
+const navigateMock = vi.fn()
+const startButtonMock = vi.fn<(props: { onClick: () => void }) => void>()
 
 // Kept separate from the identical enum declared inside the vi.mock factory
 // below: a top-level const referenced directly inside the factory body
@@ -43,13 +45,17 @@ vi.mock('@lifi/widget/shared', () => {
     getTokenValueLossThreshold: () => false,
     hasEnumFlag: () => false,
     navigationRoutes: { home: '/', transactionExecution: 'transaction' },
-    PageContainer: () => null,
+    // Renders children: the CTA under test lives inside it.
+    PageContainer: ({ children }: { children: ReactNode }) => children,
     RouteExecutionStatus,
     RouteTokens: () => null,
     // Not rendered: `useHeader` below only records the element, it never
     // mounts it, so this stub is never invoked — its identity doesn't matter.
     RouteTracker: () => null,
-    StartTransactionButton: () => null,
+    StartTransactionButton: (props: { onClick: () => void }) => {
+      startButtonMock(props)
+      return null
+    },
     TokenValueBottomSheet: () => null,
     TransactionDoneButtons: () => null,
     useAddressActivity: () => ({
@@ -79,7 +85,12 @@ vi.mock('@lifi/widget/shared', () => {
 
 vi.mock('@tanstack/react-router', () => ({
   useLocation: () => ({ search: {} }),
-  useNavigate: () => () => {},
+  useNavigate: () => navigateMock,
+}))
+
+// Non-Idle statuses render it; it pulls widget-core hooks this file doesn't stub.
+vi.mock('../components/CheckoutExecutionProgress.js', () => ({
+  CheckoutExecutionProgress: () => null,
 }))
 
 const allowExchangesMock = vi.fn()
@@ -110,11 +121,21 @@ const baseRouteExecution = {
 }
 
 beforeEach(() => {
+  navigateMock.mockClear()
+  startButtonMock.mockClear()
   routeExecutionMock.mockReturnValue({
     ...baseRouteExecution,
     route: undefined,
   })
 })
+
+function clickStartButton(): void {
+  const props = startButtonMock.mock.calls.at(-1)?.[0]
+  if (!props) {
+    throw new Error('StartTransactionButton was never rendered')
+  }
+  props.onClick()
+}
 
 describe('CheckoutTransactionPage — RouteTracker exchange-filter wiring', () => {
   // Covers the render site, which is where the review found the bug: the
@@ -175,5 +196,59 @@ describe('CheckoutTransactionPage — RouteTracker must never re-quote an order 
     })
     renderWithI18n(<CheckoutTransactionPage />)
     expect(lastHeaderAction()).toBeUndefined()
+  })
+})
+
+describe('CheckoutTransactionPage — retry after a failed execution', () => {
+  // An order is a one-shot commitment: `restartRoute()` on an order route
+  // re-runs the same committed order, which the SDK re-polls as FAILED. Retry
+  // must mint a new order, so the page sends the user back to amount entry.
+  beforeEach(() => {
+    allowExchangesMock.mockReturnValue(undefined)
+  })
+
+  it('navigates to enter-amount instead of restarting when a failed route is an order route', () => {
+    const restartRoute = vi.fn()
+    routeExecutionMock.mockReturnValue({
+      ...baseRouteExecution,
+      status: mockRouteExecutionStatus.Failed,
+      restartRoute,
+      route: {
+        id: 'order-1',
+        fromChainId: 1,
+        toChainId: 10,
+        steps: [{ id: 'step-1', fundingOrderId: 'order-1' }],
+      } as unknown as RouteExtended,
+    })
+    renderWithI18n(<CheckoutTransactionPage />)
+
+    clickStartButton()
+
+    expect(restartRoute).not.toHaveBeenCalled()
+    expect(navigateMock).toHaveBeenCalledWith({
+      to: '/enter-amount',
+      replace: true,
+    })
+  })
+
+  it('restarts the route for a failed plain swap route — negative control', () => {
+    const restartRoute = vi.fn()
+    routeExecutionMock.mockReturnValue({
+      ...baseRouteExecution,
+      status: mockRouteExecutionStatus.Failed,
+      restartRoute,
+      route: {
+        id: 'route-1',
+        fromChainId: 1,
+        toChainId: 10,
+        steps: [{ id: 'step-1' }],
+      } as unknown as RouteExtended,
+    })
+    renderWithI18n(<CheckoutTransactionPage />)
+
+    clickStartButton()
+
+    expect(restartRoute).toHaveBeenCalledTimes(1)
+    expect(navigateMock).not.toHaveBeenCalled()
   })
 })

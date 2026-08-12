@@ -7,8 +7,11 @@ import {
   type CheckoutFlowStore,
   CheckoutFlowStoreContext,
 } from '../stores/useCheckoutFlowStore.js'
+import { useFundingOrderStore } from '../stores/useFundingOrderStore.js'
 
-// Terminal callbacks fire once per orderId per session, surviving remounts.
+// In-session guard; the persisted `completed` record below carries it across
+// reloads, because a terminal order stays tracked (and re-observed) until
+// something acknowledges it.
 const firedOrderIds = new Set<string>()
 
 // Stub so useStore stays unconditional when rendered outside the flow provider.
@@ -21,21 +24,33 @@ const NO_FLOW_STORE = {
 } as unknown as CheckoutFlowStore
 
 export function useFundingOrderCompletion(
-  order: FundingOrder | undefined
+  order: FundingOrder | undefined,
+  // The layout observer watches orders from other flows, where the live flow
+  // store no longer describes this order — it passes the tracked source.
+  fundingSourceOverride?: string | null
 ): void {
   const { onSuccess, onError } = useCheckoutConfig()
   const flowStore = useContext(CheckoutFlowStoreContext) ?? NO_FLOW_STORE
-  const fundingSource = useStore(
+  const liveFundingSource = useStore(
     flowStore,
     (s: { fundingSource: string | null }) => s.fundingSource
   )
+  const fundingSource = fundingSourceOverride ?? liveFundingSource
 
   useEffect(() => {
     if (!order || firedOrderIds.has(order.orderId)) {
       return
     }
-    if (order.status === 'DONE') {
+    const { completed, markCompleted } = useFundingOrderStore.getState()
+    if (completed?.[order.orderId]) {
+      return
+    }
+    const fireOnce = (): void => {
       firedOrderIds.add(order.orderId)
+      markCompleted(order.orderId)
+    }
+    if (order.status === 'DONE') {
+      fireOnce()
       onSuccess?.({
         provider: fundingSource ?? 'checkout',
         transactionHash: order.result?.toTxHash,
@@ -45,7 +60,7 @@ export function useFundingOrderCompletion(
         depositAddress: order.depositAddress,
       })
     } else if (order.status === 'FAILED') {
-      firedOrderIds.add(order.orderId)
+      fireOnce()
       onError?.({
         code: order.substatus ?? 'ORDER_FAILED',
         message: `Funding order ${order.orderId} failed.`,

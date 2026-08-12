@@ -584,12 +584,9 @@
       "dialogTitle": "Deposit with {{providerName}}",
       "close": "Close",
       "errors": {
-        "MISSING_API_URL": "{{providerName}} is not configured: set sdkConfig.apiUrl on the checkout.",
-        "MISSING_API_KEY": "{{providerName}} is not configured: set widget apiKey to call checkout sessions.",
         "TARGET_NOT_CONFIGURED": "{{providerName}} destination is not configured: set widget.toChain and widget.toToken.",
         "INVALID_RESPONSE": "Invalid response from {{providerName}} session API.",
         "NETWORK_ERROR": "Network error starting {{providerName}} session.",
-        "SESSION_HTTP": "Could not start {{providerName}} session ({{status}}). Try again later.",
         "generic": "Something went wrong. Try again later."
       },
       "failure": {

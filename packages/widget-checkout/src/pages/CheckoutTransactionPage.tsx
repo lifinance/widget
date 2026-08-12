@@ -243,6 +243,13 @@ export const CheckoutTransactionPage = (): JSX.Element | null => {
       }
     }
     if (status === RouteExecutionStatus.Failed) {
+      // One order = one execution: restarting an order route re-polls the same
+      // FAILED order and fails again. Retry has to mint a new order, so send
+      // the user back to amount entry (same semantics as the status page).
+      if (isOrderRoute) {
+        navigate({ to: checkoutNavigationRoutes.enterAmount, replace: true })
+        return
+      }
       restartRoute()
     }
   }

@@ -14,8 +14,11 @@ export interface TrackedFundingOrder {
 
 interface FundingOrderState {
   orders: Record<string, TrackedFundingOrder>
+  /** orderId → when its terminal callback fired. */
+  completed: Record<string, number>
   track: (order: TrackedFundingOrder) => void
   acknowledge: (orderId: string) => void
+  markCompleted: (orderId: string) => void
   clearAll: () => void
 }
 
@@ -27,6 +30,19 @@ function prune(
   for (const [id, order] of Object.entries(orders)) {
     if (now - order.createdAt <= FUNDING_ORDER_RETENTION_MS) {
       out[id] = order
+    }
+  }
+  return out
+}
+
+function pruneCompleted(
+  completed: Record<string, number>,
+  now: number
+): Record<string, number> {
+  const out: Record<string, number> = {}
+  for (const [id, at] of Object.entries(completed)) {
+    if (now - at <= FUNDING_ORDER_RETENTION_MS) {
+      out[id] = at
     }
   }
   return out
@@ -52,6 +68,7 @@ export const useFundingOrderStore: UseBoundStore<StoreApi<FundingOrderState>> =
         setFundingOrderState = set
         return {
           orders: {},
+          completed: {},
           track: (order) =>
             set((state) => ({
               orders: {
@@ -67,22 +84,45 @@ export const useFundingOrderStore: UseBoundStore<StoreApi<FundingOrderState>> =
               const { [orderId]: _removed, ...rest } = state.orders
               return { orders: rest }
             }),
-          clearAll: () => set({ orders: {} }),
+          markCompleted: (orderId) =>
+            set((state) => {
+              const now = Date.now()
+              return {
+                completed: {
+                  ...pruneCompleted(state.completed ?? {}, now),
+                  [orderId]: now,
+                },
+              }
+            }),
+          clearAll: () => set({ orders: {}, completed: {} }),
         }
       },
       {
         name: FUNDING_ORDER_STORAGE_KEY,
         storage: createJSONStorage(() => localStorage),
-        partialize: (state) => ({ orders: state.orders }),
+        partialize: (state) => ({
+          orders: state.orders,
+          completed: state.completed,
+        }),
         onRehydrateStorage: () => (rehydrated, error) => {
           if (error || !rehydrated) {
             return
           }
-          const pruned = prune(rehydrated.orders, Date.now())
+          const now = Date.now()
+          const pruned = prune(rehydrated.orders, now)
           if (
             Object.keys(pruned).length !== Object.keys(rehydrated.orders).length
           ) {
             setFundingOrderState?.({ orders: pruned })
+          }
+          // Persisted before `completed` existed → the key is absent.
+          const completed = rehydrated.completed ?? {}
+          const prunedCompleted = pruneCompleted(completed, now)
+          if (
+            Object.keys(prunedCompleted).length !==
+            Object.keys(completed).length
+          ) {
+            setFundingOrderState?.({ completed: prunedCompleted })
           }
         },
         version: 1,
