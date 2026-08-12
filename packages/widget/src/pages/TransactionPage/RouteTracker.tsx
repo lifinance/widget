@@ -10,6 +10,8 @@ interface RouteTrackerProps {
   observableRouteId: string
   onChange: Dispatch<SetStateAction<string>>
   onFetching: Dispatch<SetStateAction<boolean>>
+  /** Per-call bridge allow-list; overrides the settings-derived filter when set. */
+  allowBridges?: string[]
   /** Per-call exchange allow-list; overrides the settings-derived filter when set. */
   allowExchanges?: string[]
 }
@@ -18,6 +20,7 @@ export const RouteTracker = ({
   observableRouteId,
   onChange,
   onFetching,
+  allowBridges,
   allowExchanges,
 }: RouteTrackerProps): JSX.Element => {
   const routeExecutionStore = useRouteExecutionStoreContext()
@@ -27,7 +30,7 @@ export const RouteTracker = ({
   )
   const observableRouteIdRef = useRef(observableRoute?.id)
   const { routes, isFetching, dataUpdatedAt, refetchTime, refetch } = useRoutes(
-    { observableRoute, allowExchanges }
+    { observableRoute, allowBridges, allowExchanges }
   )
   const currentRoute = routes?.[0]
 

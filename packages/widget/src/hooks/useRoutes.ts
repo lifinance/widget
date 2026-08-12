@@ -53,6 +53,8 @@ interface RoutesProps {
    * change) is fetching, instead of clearing to a loading state.
    */
   keepPreviousData?: boolean
+  /** Per-call bridge allow-list; overrides the settings-derived filter when set. */
+  allowBridges?: string[]
   /** Per-call exchange allow-list; overrides the settings-derived filter when set. */
   allowExchanges?: string[]
 }
@@ -61,6 +63,7 @@ export const useRoutes = ({
   observableRoute,
   quoteFromAddress,
   keepPreviousData: keepPreviousDataEnabled,
+  allowBridges: allowBridgesOverride,
   allowExchanges: allowExchangesOverride,
 }: RoutesProps = {}): {
   routes: Route[] | undefined
@@ -187,7 +190,10 @@ export const useRoutes = ({
 
   // We need to send the full allowed tools array if custom tool settings are applied
   const allowedBridges =
-    bridges?.allow?.length || bridges?.deny?.length ? enabledBridges : undefined
+    allowBridgesOverride ??
+    (bridges?.allow?.length || bridges?.deny?.length
+      ? enabledBridges
+      : undefined)
   const allowedExchanges =
     allowExchangesOverride ??
     (exchanges?.allow?.length || exchanges?.deny?.length

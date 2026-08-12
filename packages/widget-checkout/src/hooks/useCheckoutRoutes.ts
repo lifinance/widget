@@ -3,6 +3,8 @@ import { useChain, useFieldValues, useRoutes } from '@lifi/widget/shared'
 type UseRoutesResult = ReturnType<typeof useRoutes>
 
 export interface UseCheckoutRoutesOptions {
+  /** Per-call bridge allow-list; overrides the settings-derived filter when set. */
+  allowBridges?: string[]
   /** Per-call exchange allow-list; overrides the settings-derived filter when set. */
   allowExchanges?: string[]
 }
@@ -36,6 +38,7 @@ export function useCheckoutRoutes(
   return useRoutes({
     quoteFromAddress,
     keepPreviousData: true,
+    allowBridges: options?.allowBridges,
     allowExchanges: options?.allowExchanges,
   })
 }

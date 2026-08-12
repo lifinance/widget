@@ -33,9 +33,9 @@ import {
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useCheckoutAllowExchanges } from '../hooks/useCheckoutAllowExchanges.js'
 import { useCheckoutFlowQuote } from '../hooks/useCheckoutFlowQuote.js'
 import { useCheckoutRoutes } from '../hooks/useCheckoutRoutes.js'
+import { useCheckoutToolFilter } from '../hooks/useCheckoutToolFilter.js'
 import { useOnRampQuote } from '../hooks/useOnRampQuote.js'
 import { useCheckoutFlowStore } from '../stores/useCheckoutFlowStore.js'
 import { formatFiat, normalizeFiatAmount } from '../utils/fiatFormat.js'
@@ -184,7 +184,7 @@ const CheckoutReceiveCardWithRoutes: React.FC = () => {
   )
   const { chain } = useChain(toChainId)
   const { token: toToken } = useToken(toChainId, toTokenAddress)
-  const allowExchanges = useCheckoutAllowExchanges()
+  const toolFilter = useCheckoutToolFilter()
   const {
     routes,
     isLoading,
@@ -193,7 +193,7 @@ const CheckoutReceiveCardWithRoutes: React.FC = () => {
     dataUpdatedAt,
     refetchTime,
     refetch,
-  } = useCheckoutRoutes({ allowExchanges })
+  } = useCheckoutRoutes(toolFilter)
   const {
     depositAddress,
     isLoading: quoteLoading,

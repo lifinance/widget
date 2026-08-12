@@ -52,8 +52,8 @@ vi.mock('@lifi/widget/shared', () => ({
   useToken: () => ({ token: undefined }),
 }))
 
-vi.mock('../hooks/useCheckoutAllowExchanges.js', () => ({
-  useCheckoutAllowExchanges: () => undefined,
+vi.mock('../hooks/useCheckoutToolFilter.js', () => ({
+  useCheckoutToolFilter: () => ({}),
 }))
 
 const mockRoute = {

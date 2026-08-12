@@ -43,6 +43,13 @@ function lastAllowExchanges(): string[] | undefined {
   return lastCall?.allowExchanges
 }
 
+function lastAllowBridges(): string[] | undefined {
+  const lastCall = useRoutesMock.mock.calls.at(-1)?.[0] as
+    | { allowBridges?: string[] }
+    | undefined
+  return lastCall?.allowBridges
+}
+
 // The `allowExchanges` forwarding tests below are also the closest testable
 // analog for `RouteTracker`'s identical `useRoutes({ observableRoute,
 // allowExchanges })` pass-through in packages/widget: widget-core has no
@@ -91,5 +98,20 @@ describe('useCheckoutRoutes', () => {
     useFieldValuesMock.mockReturnValue([RECIPIENT, EVM_CHAIN, EVM_CHAIN])
     renderHook(() => useCheckoutRoutes({ allowExchanges: ['smartDeposits'] }))
     expect(lastAllowExchanges()).toEqual(['smartDeposits'])
+  })
+
+  it('omits allowBridges by default (no options passed)', () => {
+    useFieldValuesMock.mockReturnValue([RECIPIENT, EVM_CHAIN, EVM_CHAIN])
+    renderHook(() => useCheckoutRoutes())
+    expect(lastAllowBridges()).toBeUndefined()
+  })
+
+  // The bridge half is what makes a cross-chain deposit route resolve; without
+  // it the exchange allow-list never binds and the backend returns ordinary
+  // bridge routes with no deposit address.
+  it('forwards allowBridges verbatim to useRoutes when set', () => {
+    useFieldValuesMock.mockReturnValue([RECIPIENT, EVM_CHAIN, EVM_CHAIN])
+    renderHook(() => useCheckoutRoutes({ allowBridges: ['smartDeposits'] }))
+    expect(lastAllowBridges()).toEqual(['smartDeposits'])
   })
 })

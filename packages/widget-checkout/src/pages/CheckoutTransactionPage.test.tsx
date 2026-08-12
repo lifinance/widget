@@ -93,9 +93,9 @@ vi.mock('../components/CheckoutExecutionProgress.js', () => ({
   CheckoutExecutionProgress: () => null,
 }))
 
-const allowExchangesMock = vi.fn()
-vi.mock('../hooks/useCheckoutAllowExchanges.js', () => ({
-  useCheckoutAllowExchanges: () => allowExchangesMock(),
+const toolFilterMock = vi.fn()
+vi.mock('../hooks/useCheckoutToolFilter.js', () => ({
+  useCheckoutToolFilter: () => toolFilterMock(),
 }))
 
 import { CheckoutTransactionPage } from './CheckoutTransactionPage.js'
@@ -147,14 +147,17 @@ describe('CheckoutTransactionPage — RouteTracker exchange-filter wiring', () =
   // has no component-test infra (no @testing-library/react, no happy-dom, no
   // vitest.config.ts) to exercise it directly without adding one for a
   // single test.
-  it('forwards useCheckoutAllowExchanges() into RouteTracker for a non-wallet funding source', () => {
-    allowExchangesMock.mockReturnValue(['smartDeposits'])
+  it('forwards useCheckoutToolFilter() into RouteTracker for a non-wallet funding source', () => {
+    toolFilterMock.mockReturnValue({
+      allowBridges: ['smartDeposits'],
+      allowExchanges: ['smartDeposits'],
+    })
     renderWithI18n(<CheckoutTransactionPage />)
     expect(lastRouteTrackerAllowExchanges()).toEqual(['smartDeposits'])
   })
 
-  it('omits allowExchanges when useCheckoutAllowExchanges() returns undefined (wallet funding)', () => {
-    allowExchangesMock.mockReturnValue(undefined)
+  it('omits allowExchanges when useCheckoutToolFilter() returns undefined (wallet funding)', () => {
+    toolFilterMock.mockReturnValue({})
     renderWithI18n(<CheckoutTransactionPage />)
     expect(lastRouteTrackerAllowExchanges()).toBeUndefined()
   })
@@ -167,7 +170,7 @@ describe('CheckoutTransactionPage — RouteTracker must never re-quote an order 
   // task-7-report.md fix addendum). This exercises the render site's guard;
   // `isFundingOrderStep` itself runs unmocked (real @lifi/sdk import).
   beforeEach(() => {
-    allowExchangesMock.mockReturnValue(undefined)
+    toolFilterMock.mockReturnValue({})
   })
 
   it('renders RouteTracker in the header for a plain (non-order) route — positive control', () => {
@@ -204,7 +207,7 @@ describe('CheckoutTransactionPage — retry after a failed execution', () => {
   // re-runs the same committed order, which the SDK re-polls as FAILED. Retry
   // must mint a new order, so the page sends the user back to amount entry.
   beforeEach(() => {
-    allowExchangesMock.mockReturnValue(undefined)
+    toolFilterMock.mockReturnValue({})
   })
 
   it('navigates to enter-amount instead of restarting when a failed route is an order route', () => {

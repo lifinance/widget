@@ -39,7 +39,7 @@ import { useLocation, useNavigate } from '@tanstack/react-router'
 import { type JSX, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CheckoutExecutionProgress } from '../components/CheckoutExecutionProgress.js'
-import { useCheckoutAllowExchanges } from '../hooks/useCheckoutAllowExchanges.js'
+import { useCheckoutToolFilter } from '../hooks/useCheckoutToolFilter.js'
 import { checkoutNavigationRoutes } from '../utils/navigationRoutes.js'
 
 function CheckoutDepositAutoStarter({
@@ -107,7 +107,7 @@ export const CheckoutTransactionPage = (): JSX.Element | null => {
 
   const [routeId, setRouteId] = useState<string>(stateRouteId ?? '')
   const [routeRefreshing, setRouteRefreshing] = useState(false)
-  const checkoutAllowExchanges = useCheckoutAllowExchanges()
+  const checkoutToolFilter = useCheckoutToolFilter()
 
   const tokenValueBottomSheetRef = useRef<BottomSheetBase>(null)
   const exchangeRateBottomSheetRef = useRef<ExchangeRateBottomSheetBase>(null)
@@ -163,10 +163,11 @@ export const CheckoutTransactionPage = (): JSX.Element | null => {
           observableRouteId={stateRouteId ?? ''}
           onChange={setRouteId}
           onFetching={setRouteRefreshing}
-          allowExchanges={checkoutAllowExchanges}
+          allowBridges={checkoutToolFilter.allowBridges}
+          allowExchanges={checkoutToolFilter.allowExchanges}
         />
       ) : undefined,
-    [stateRouteId, status, checkoutAllowExchanges, isOrderRoute]
+    [stateRouteId, status, checkoutToolFilter, isOrderRoute]
   )
 
   useHeader(getHeaderTitle(), headerAction)
