@@ -162,7 +162,9 @@ export const useRoutes = ({
   // A contract-call quote needs a connected wallet to resolve fromAddress.
   // Deposit funding quotes a plain route with no contract calls and no wallet
   // (a placeholder fromAddress arrives via quoteFromAddress); every other custom
-  // flow stays gated on a real wallet, as before.
+  // flow stays gated on a real wallet, as before. Kept for checkout's
+  // pre-commit smart-deposit display quote (transfer/exchange), which still
+  // runs through this hook in deposit mode before any order is created.
   const contractCallQuoteEnabled: boolean = isContractCallQuote
     ? Boolean(account.address)
     : mode !== 'custom' || customType === 'deposit'
@@ -410,7 +412,9 @@ export const useRoutes = ({
       }
 
       // Prevent sending a request for the same chain token combinations.
-      // Exception: proceed anyway if mode is custom and modeOptions custom type is deposit
+      // Exception: proceed anyway if mode is custom and modeOptions custom type is
+      // deposit — checkout's pre-commit smart-deposit display quote for a
+      // same-chain/same-token transfer still needs a route here.
       if (
         fromChainId === toChainId &&
         fromTokenAddress === toTokenAddress &&

@@ -37,6 +37,7 @@ import {
 import { isNativeToken } from '../../utils/nativeToken.js'
 import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
 import { pickAutoResumeItem } from '../../utils/pickAutoResumeItem.js'
+import { CheckoutActivitySection } from './CheckoutActivitySection.js'
 import { SelectSourceFundingOptions } from './SelectSourceFundingOptions.js'
 import { SelectSourceMainColumn } from './SelectSourceLayout.js'
 
@@ -243,6 +244,7 @@ export const SelectSourcePage: React.FC = () => {
       })}
     >
       <SelectSourceMainColumn sx={{ flex: 1 }}>
+        <CheckoutActivitySection />
         <SelectSourceFundingOptions
           onPayFromWallet={handlePayFromWallet}
           onTransferCrypto={handleTransferCrypto}
