@@ -118,3 +118,40 @@ describe('CheckoutActivitySection', () => {
     expect(resumeSpy).not.toHaveBeenCalled()
   })
 })
+
+// A DONE order stays listed until `acknowledge` retires it, so the card must
+// stop claiming progress — no in-progress label and no spinner.
+describe('CheckoutActivitySection — terminal (done) items read honestly', () => {
+  beforeEach(() => {
+    mockItems = []
+    resumeSpy.mockReset()
+    acknowledgeSpy.mockReset()
+  })
+
+  it('renders the completed badge (no spinner) for a single done deposit', () => {
+    mockItems = [item('a', 'done')]
+    const { container } = renderWithI18n(<CheckoutActivitySection />)
+    expect(screen.getByText('Deposit complete')).toBeTruthy()
+    expect(screen.queryByText('Deposit in progress')).toBeNull()
+    expect(container.querySelector('.MuiCircularProgress-root')).toBeNull()
+  })
+
+  it('renders the refund-complete badge for a done+REFUNDED order', () => {
+    mockItems = [item('a', 'done', { substatus: 'REFUNDED' })]
+    renderWithI18n(<CheckoutActivitySection />)
+    expect(screen.getByText('Refund complete')).toBeTruthy()
+  })
+
+  it('renders a completed card with a dismiss action that acknowledges', () => {
+    mockItems = [item('a', 'pending'), item('b', 'done')]
+    const { container } = renderWithI18n(<CheckoutActivitySection />)
+    expect(screen.getByText('Deposit complete')).toBeTruthy()
+    // The still-pending sibling keeps its spinner; the done card lost its own.
+    expect(
+      container.querySelectorAll('.MuiCircularProgress-root')
+    ).toHaveLength(1)
+    fireEvent.click(screen.getByRole('button', { name: 'Dismiss' }))
+    expect(acknowledgeSpy).toHaveBeenCalledWith('b')
+    expect(resumeSpy).not.toHaveBeenCalled()
+  })
+})

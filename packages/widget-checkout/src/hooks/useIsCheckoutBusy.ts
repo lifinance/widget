@@ -5,6 +5,7 @@ import {
 } from '@lifi/widget-provider/checkout'
 import { useContext } from 'react'
 import { useStore } from 'zustand'
+import { isAwaitingUserAction } from '../utils/orderStatusView.js'
 import { useCheckoutActivity } from './useCheckoutActivity.js'
 
 // Mirrors the legacy pending-record TTL.
@@ -29,19 +30,19 @@ export function useIsCheckoutBusy(): boolean {
   // Mirrors the old PendingRecord "live record" gate on the thin store: an
   // on-ramp session can self-close on payment success before its order
   // resolves server-side, so the close guard must stay up while a tracked
-  // order is live-confirmed pending. Excludes INTENT_AWAITING_FUNDS (the
-  // pre-funding substatus `useResumeCheckout` also keys off) so an order the
-  // user created but never funded doesn't block closing for its whole
-  // 7-day tracking retention — see useIsCheckoutBusy.test.tsx for the case
-  // this guards against. `phase === undefined` (still loading, or errored
-  // out after retries) is deliberately excluded too: unlike the old
-  // synchronous localStorage read, a live fetch can be indeterminate, and
-  // treating "unknown" as busy would block closing indefinitely on error.
+  // order is live-confirmed pending. Excludes every awaiting-user-action
+  // substatus (`isAwaitingUserAction`) so an order the user created but never
+  // funded — an unsent crypto deposit or an unpaid cash order — doesn't block
+  // closing for the whole BUSY_TTL_MS window. `phase === undefined` (still
+  // loading, or errored out after retries) is deliberately excluded too:
+  // unlike the old synchronous localStorage read, a live fetch can be
+  // indeterminate, and treating "unknown" as busy would block closing
+  // indefinitely on error.
   const items = useCheckoutActivity()
   const orderBusy = items.some(
     (item) =>
       item.phase === 'pending' &&
-      item.order?.substatus !== 'INTENT_AWAITING_FUNDS' &&
+      !isAwaitingUserAction(item.order) &&
       Date.now() - item.createdAt <= BUSY_TTL_MS
   )
   return sessionBusy || orderBusy

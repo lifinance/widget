@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { orderStatusView } from './orderStatusView.js'
+import { isAwaitingUserAction, orderStatusView } from './orderStatusView.js'
 
 const base = {
   orderId: 'o',
@@ -79,6 +79,21 @@ describe('orderStatusView', () => {
     expect(view.toTxHash).toBe('0xd')
     expect(view.toAmount).toBe('9')
   })
+
+  it('exposes both hashes so callers can pick the source one', () => {
+    const view = orderStatusView({
+      ...base,
+      status: 'DONE',
+      result: { fromTxHash: '0xsource', toTxHash: '0xdest', toAmount: '9' },
+    })
+    expect(view.fromTxHash).toBe('0xsource')
+    expect(view.toTxHash).toBe('0xdest')
+  })
+
+  it('leaves fromTxHash undefined when the order has no result yet', () => {
+    const view = orderStatusView({ ...base, status: 'PENDING' })
+    expect(view.fromTxHash).toBeUndefined()
+  })
   it('never throws on an unknown substatus', () => {
     expect(
       orderStatusView({
@@ -118,5 +133,62 @@ describe('orderStatusView', () => {
       status: 'PENDING',
     })
     expect(view.displayRoute).toBeUndefined()
+  })
+})
+
+describe('isAwaitingUserAction', () => {
+  it('is true for an unsent crypto deposit', () => {
+    expect(
+      isAwaitingUserAction({
+        ...base,
+        status: 'PENDING',
+        substatus: 'INTENT_AWAITING_FUNDS',
+      })
+    ).toBe(true)
+  })
+
+  it('is true for an unpaid cash order', () => {
+    expect(
+      isAwaitingUserAction({
+        ...base,
+        status: 'PENDING',
+        substatus: 'ONRAMP_AWAITING_PAYMENT',
+      })
+    ).toBe(true)
+  })
+
+  it('is false for an order already in flight', () => {
+    expect(
+      isAwaitingUserAction({
+        ...base,
+        status: 'PENDING',
+        substatus: 'WAIT_DESTINATION_TRANSACTION',
+      })
+    ).toBe(false)
+  })
+
+  it('is false for a fresh STANDARD order (PENDING, no substatus)', () => {
+    expect(isAwaitingUserAction({ ...base, status: 'PENDING' })).toBe(false)
+  })
+
+  it('is false for terminal orders even on an awaiting substatus', () => {
+    expect(
+      isAwaitingUserAction({
+        ...base,
+        status: 'DONE',
+        substatus: 'INTENT_AWAITING_FUNDS',
+      })
+    ).toBe(false)
+    expect(
+      isAwaitingUserAction({
+        ...base,
+        status: 'FAILED',
+        substatus: 'ONRAMP_AWAITING_PAYMENT',
+      })
+    ).toBe(false)
+  })
+
+  it('is false without an order', () => {
+    expect(isAwaitingUserAction(undefined)).toBe(false)
   })
 })

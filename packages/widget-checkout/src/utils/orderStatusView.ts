@@ -6,6 +6,8 @@ export type OrderStatusPhase = 'watching' | 'pending' | 'done' | 'failed'
 export interface OrderStatusView {
   phase: OrderStatusPhase
   substatus?: string
+  /** Source-chain hash. `getStatus({ txHash })` resolves by this one. */
+  fromTxHash?: string
   toTxHash?: string
   toAmount?: string
   /** Display route derived from the committed quote; absent for DIRECT onramp. */
@@ -20,6 +22,21 @@ const AWAITING_ACTION_SUBSTATUSES = new Set([
   'ONRAMP_AWAITING_PAYMENT',
 ])
 
+/**
+ * Whether the order is still waiting on the user to do something (send a
+ * deposit, pay a fiat invoice) rather than on us. The single source of truth
+ * for that question — the busy gate, auto-resume and the status screens all
+ * read it, so a new awaiting substatus only has to be added above.
+ */
+export function isAwaitingUserAction(order: FundingOrder | undefined): boolean {
+  if (!order || order.status === 'DONE' || order.status === 'FAILED') {
+    return false
+  }
+  return Boolean(
+    order.substatus && AWAITING_ACTION_SUBSTATUSES.has(order.substatus)
+  )
+}
+
 function resolvePhase(order: FundingOrder | undefined): OrderStatusPhase {
   if (!order) {
     return 'watching'
@@ -30,7 +47,7 @@ function resolvePhase(order: FundingOrder | undefined): OrderStatusPhase {
   if (order.status === 'FAILED') {
     return 'failed'
   }
-  if (order.substatus && AWAITING_ACTION_SUBSTATUSES.has(order.substatus)) {
+  if (isAwaitingUserAction(order)) {
     return 'watching'
   }
   return 'pending'
@@ -72,6 +89,7 @@ export function orderStatusView(
   return {
     phase: resolvePhase(order),
     substatus: order?.substatus,
+    fromTxHash: order?.result?.fromTxHash,
     toTxHash: order?.result?.toTxHash,
     toAmount: order?.result?.toAmount,
     displayRoute: resolveDisplayRoute(order),

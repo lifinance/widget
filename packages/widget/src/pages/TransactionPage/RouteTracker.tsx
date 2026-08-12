@@ -10,9 +10,14 @@ interface RouteTrackerProps {
   observableRouteId: string
   onChange: Dispatch<SetStateAction<string>>
   onFetching: Dispatch<SetStateAction<boolean>>
-  /** Per-call bridge allow-list; overrides the settings-derived filter when set. */
+  /**
+   * Forwarded to `useRoutes` for its query key only: an observable route is
+   * always set here, so `useRoutes` derives the request's tool filter from
+   * `observableRoute.steps` instead. Pass the same values the writer used, or
+   * this reader queries a different cache entry.
+   */
   allowBridges?: string[]
-  /** Per-call exchange allow-list; overrides the settings-derived filter when set. */
+  /** See `allowBridges` — query-key alignment, not request filtering. */
   allowExchanges?: string[]
 }
 

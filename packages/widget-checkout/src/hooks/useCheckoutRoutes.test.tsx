@@ -50,14 +50,16 @@ function lastAllowBridges(): string[] | undefined {
   return lastCall?.allowBridges
 }
 
-// The `allowExchanges` forwarding tests below are also the closest testable
-// analog for `RouteTracker`'s identical `useRoutes({ observableRoute,
-// allowExchanges })` pass-through in packages/widget: widget-core has no
-// component-test infra (no @testing-library/react, no happy-dom, no
-// vitest.config.ts), so that one-line forward is verified by reading the
-// source instead. The render site that wires the value into `RouteTracker`
-// (`CheckoutTransactionPage`) is covered separately in
-// `pages/CheckoutTransactionPage.test.tsx`.
+// This hook is the writer: with no `observableRoute`, the allow-lists it
+// forwards do reach the outgoing quote request. `RouteTracker`'s reader-side
+// `useRoutes({ observableRoute, allowBridges, allowExchanges })` is not the
+// same thing — an observable route makes `useRoutes` derive the request filter
+// from `observableRoute.steps`, so there the values only keep the query key
+// aligned with the key this writer used. That one-line forward is verified by
+// reading packages/widget: widget-core has no component-test infra (no
+// @testing-library/react, no happy-dom, no vitest.config.ts). The render site
+// that wires the value into `RouteTracker` (`CheckoutTransactionPage`) is
+// covered separately in `pages/CheckoutTransactionPage.test.tsx`.
 describe('useCheckoutRoutes', () => {
   beforeEach(() => {
     useRoutesMock.mockClear()

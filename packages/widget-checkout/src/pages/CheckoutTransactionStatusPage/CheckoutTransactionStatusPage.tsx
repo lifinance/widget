@@ -114,7 +114,12 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
     return () => clearTimeout(id)
   }, [inExecutingState])
 
-  const handleContactSupport = useContactSupport(view.toTxHash)
+  // The details page and the support form both resolve a transfer by its
+  // *source* hash (`getStatus({ txHash })`), so prefer it and only fall back
+  // to the destination hash. Destination-oriented uses below stay on toTxHash.
+  const sourceTxHash = view.fromTxHash ?? view.toTxHash
+
+  const handleContactSupport = useContactSupport(sourceTxHash)
   const { getTransactionLink } = useExplorer()
 
   // Refund subject ("100 USDC on Arbitrum") describes the deposited source
@@ -151,12 +156,12 @@ export const CheckoutTransactionStatusPage: React.FC = (): JSX.Element => {
   }
 
   const goToDetails = (): void => {
-    if (!view.toTxHash) {
+    if (!sourceTxHash) {
       return
     }
     navigate({
       to: `/${navigationRoutes.transactionExecution}/${navigationRoutes.transactionDetails}`,
-      search: { transactionHash: view.toTxHash },
+      search: { transactionHash: sourceTxHash },
     })
   }
 

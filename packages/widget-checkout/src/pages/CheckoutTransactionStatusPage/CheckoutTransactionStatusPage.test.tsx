@@ -17,7 +17,10 @@ vi.mock('@lifi/widget/shared', () => ({
     <div>{children}</div>
   ),
   useChain: () => ({ chain: undefined }),
-  useContactSupport: () => () => {},
+  useContactSupport: (supportId?: string) => {
+    contactSupportSpy(supportId)
+    return () => {}
+  },
   useExplorer: () => ({
     getTransactionLink: ({ txHash }: { txHash?: string }) =>
       txHash ? `https://scan/tx/${txHash}` : undefined,
@@ -25,6 +28,10 @@ vi.mock('@lifi/widget/shared', () => ({
   useHeader: () => {},
 }))
 
+// Referenced only from inside the `useContactSupport` stub's function body, so
+// it is read at render time — a direct reference in the factory body would run
+// before this initializer.
+const contactSupportSpy = vi.fn()
 const navigateMock = vi.fn()
 const historyGoMock = vi.fn()
 let historyLength = 1
@@ -77,10 +84,21 @@ vi.mock('./StatusExecuting.js', () => ({
   ),
 }))
 vi.mock('./StatusCompleted.js', () => ({
-  StatusCompleted: ({ onDone }: { onDone: () => void }) => (
-    <div data-testid="status-completed">
+  StatusCompleted: ({
+    onDone,
+    onSeeDetails,
+    toTxHash,
+  }: {
+    onDone: () => void
+    onSeeDetails: () => void
+    toTxHash?: string
+  }) => (
+    <div data-testid="status-completed" data-to-tx-hash={toTxHash ?? ''}>
       <button type="button" onClick={onDone}>
         Done
+      </button>
+      <button type="button" onClick={onSeeDetails}>
+        See details
       </button>
     </div>
   ),
@@ -190,6 +208,66 @@ describe('CheckoutTransactionStatusPage — terminal acknowledgment', () => {
       to: '/enter-amount',
       replace: true,
     })
+  })
+})
+
+// getStatus({ txHash }) on the details page resolves a transfer by its SOURCE
+// hash, so the details navigation must carry fromTxHash whenever the order has
+// one — passing the destination hash makes the details page read NOT_FOUND.
+describe('CheckoutTransactionStatusPage — the details route carries the source hash', () => {
+  function renderDoneAndSeeDetails(result: Record<string, string>): void {
+    vi.useFakeTimers()
+    fundingOrderState.order = buildOrder({ status: 'DONE', result })
+    renderWithI18n(<CheckoutTransactionStatusPage />)
+    act(() => {
+      vi.advanceTimersByTime(2500)
+    })
+    fireEvent.click(screen.getByRole('button', { name: 'See details' }))
+  }
+
+  it('navigates with fromTxHash when the order has both hashes', () => {
+    renderDoneAndSeeDetails({
+      fromTxHash: '0xsource',
+      toTxHash: '0xdest',
+      toAmount: '9',
+    })
+    expect(navigateMock).toHaveBeenCalledWith({
+      to: '/transaction-execution/transaction-details',
+      search: { transactionHash: '0xsource' },
+    })
+  })
+
+  it('falls back to toTxHash when the order has no source hash', () => {
+    renderDoneAndSeeDetails({ toTxHash: '0xdest', toAmount: '9' })
+    expect(navigateMock).toHaveBeenCalledWith({
+      to: '/transaction-execution/transaction-details',
+      search: { transactionHash: '0xdest' },
+    })
+  })
+
+  it('hands the source hash to useContactSupport, not the destination one', () => {
+    fundingOrderState.order = buildOrder({
+      status: 'PENDING',
+      substatus: 'WAIT_DESTINATION_TRANSACTION',
+      result: { fromTxHash: '0xsource', toTxHash: '0xdest' },
+    })
+    renderWithI18n(<CheckoutTransactionStatusPage />)
+    expect(contactSupportSpy).toHaveBeenCalledWith('0xsource')
+  })
+
+  it('still hands the destination hash to StatusCompleted for its explorer link', () => {
+    vi.useFakeTimers()
+    fundingOrderState.order = buildOrder({
+      status: 'DONE',
+      result: { fromTxHash: '0xsource', toTxHash: '0xdest', toAmount: '9' },
+    })
+    renderWithI18n(<CheckoutTransactionStatusPage />)
+    act(() => {
+      vi.advanceTimersByTime(2500)
+    })
+    expect(
+      screen.getByTestId('status-completed').getAttribute('data-to-tx-hash')
+    ).toBe('0xdest')
   })
 })
 

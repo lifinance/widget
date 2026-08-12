@@ -36,6 +36,8 @@ testI18n.use(initReactI18next).init({
             amountOnChain: '{{amount}} {{symbol}} on {{chain}}',
             depositInProgress: 'Deposit in progress',
             refundInProgress: 'Refund in progress',
+            depositComplete: 'Deposit complete',
+            refundComplete: 'Refund complete',
             couldNotComplete: "Couldn't complete",
             singleFailed: 'Deposit failed. Please resolve',
             dismiss: 'Dismiss',

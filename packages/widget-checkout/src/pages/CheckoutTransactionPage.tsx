@@ -40,6 +40,7 @@ import { type JSX, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CheckoutExecutionProgress } from '../components/CheckoutExecutionProgress.js'
 import { useCheckoutToolFilter } from '../hooks/useCheckoutToolFilter.js'
+import { useFundingOrderStore } from '../stores/useFundingOrderStore.js'
 import { checkoutNavigationRoutes } from '../utils/navigationRoutes.js'
 
 function CheckoutDepositAutoStarter({
@@ -155,10 +156,19 @@ export const CheckoutTransactionPage = (): JSX.Element | null => {
   const isOrderRoute = Boolean(
     route?.steps?.[0] && isFundingOrderStep(route.steps[0])
   )
+  const trackedOrderId = isOrderRoute
+    ? route?.steps?.[0]?.fundingOrderId
+    : undefined
+  const acknowledgeOrder = useFundingOrderStore((s) => s.acknowledge)
 
   const headerAction = useMemo(
     () =>
       status === RouteExecutionStatus.Idle && !isOrderRoute ? (
+        // The allow-lists do not constrain this re-quote: `useRoutes` derives
+        // both from `observableRoute.steps`, which RouteTracker always sets.
+        // They are here for cache-key alignment — they sit in the routes query
+        // key, so the values must match the ones `useCheckoutRoutes` used when
+        // it seeded the reviewable route, or this reader misses that entry.
         <RouteTracker
           observableRouteId={stateRouteId ?? ''}
           onChange={setRouteId}
@@ -368,7 +378,19 @@ export const CheckoutTransactionPage = (): JSX.Element | null => {
               {t('checkout.transactionStatus.seeDetails')}
             </Button>
             <Box sx={{ flex: 1 }}>
-              <TransactionDoneButtons route={route} status={status} />
+              <TransactionDoneButtons
+                route={route}
+                status={status}
+                // Done dismisses the order display, so retire it from the
+                // activity list here too — the wallet flow never passes
+                // through CheckoutTransactionStatusPage, which acknowledges
+                // for every other funding source.
+                onDone={
+                  trackedOrderId
+                    ? () => acknowledgeOrder(trackedOrderId)
+                    : undefined
+                }
+              />
             </Box>
           </Box>
         ) : null}

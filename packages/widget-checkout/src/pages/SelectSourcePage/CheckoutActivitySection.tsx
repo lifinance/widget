@@ -2,6 +2,7 @@
 import type { FundingOrder } from '@lifi/sdk'
 import { convertQuoteToRoute } from '@lifi/sdk'
 import { formatTokenAmount, useChain } from '@lifi/widget/shared'
+import CheckCircleRounded from '@mui/icons-material/CheckCircleRounded'
 import ChevronRightRounded from '@mui/icons-material/ChevronRightRounded'
 import CloseRounded from '@mui/icons-material/CloseRounded'
 import ErrorRounded from '@mui/icons-material/ErrorRounded'
@@ -28,7 +29,14 @@ function isRefunding(order: FundingOrder | undefined): boolean {
   return order?.substatus === 'REFUND_IN_PROGRESS'
 }
 
-function inProgressLabelKey(item: ActivityItem): string {
+// A terminal order stays listed until `acknowledge` retires it, so the card has
+// to read honestly rather than keep claiming progress.
+function statusLabelKey(item: ActivityItem): string {
+  if (item.phase === 'done') {
+    return item.order?.substatus === 'REFUNDED'
+      ? 'checkout.activity.refundComplete'
+      : 'checkout.activity.depositComplete'
+  }
   return isRefunding(item.order)
     ? 'checkout.activity.refundInProgress'
     : 'checkout.activity.depositInProgress'
@@ -53,6 +61,7 @@ function displayRoute(order: FundingOrder | undefined) {
 
 interface ActivityStatusIconProps {
   failed: boolean
+  done: boolean
   /** Outer box dimension and the glyph/spinner sizing (card vs compact badge). */
   box: number
   errorSize: number
@@ -62,6 +71,7 @@ interface ActivityStatusIconProps {
 
 function ActivityStatusIcon({
   failed,
+  done,
   box,
   errorSize,
   spinnerSize,
@@ -80,6 +90,10 @@ function ActivityStatusIcon({
     >
       {failed ? (
         <ErrorRounded sx={{ color: 'error.main', fontSize: errorSize }} />
+      ) : done ? (
+        <CheckCircleRounded
+          sx={{ color: 'success.main', fontSize: errorSize }}
+        />
       ) : (
         <CircularProgress size={spinnerSize} thickness={spinnerThickness} />
       )}
@@ -100,6 +114,7 @@ function ActivityCard({
 }: ActivityCardProps): JSX.Element {
   const { t } = useTranslation()
   const failed = item.phase === 'failed'
+  const done = item.phase === 'done'
   const route = displayRoute(item.order)
   const { chain } = useChain(route?.fromChainId)
 
@@ -119,6 +134,7 @@ function ActivityCard({
       <FundingOptionRow>
         <ActivityStatusIcon
           failed={failed}
+          done={done}
           box={40}
           errorSize={32}
           spinnerSize={28}
@@ -131,11 +147,11 @@ function ActivityCard({
           >
             {failed
               ? t('checkout.activity.couldNotComplete')
-              : t(inProgressLabelKey(item))}
+              : t(statusLabelKey(item))}
           </FundingOptionSubtitle>
         </OptionTextCell>
         <Box sx={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-          {failed ? (
+          {failed || done ? (
             <IconButton
               size="small"
               aria-label={t('checkout.activity.dismiss')}
@@ -175,11 +191,13 @@ export function CheckoutActivitySection(): JSX.Element | null {
       return null
     }
     const failed = item.phase === 'failed'
+    const done = item.phase === 'done'
     return (
       <FundingOptionCard elevation={0} onClick={() => onResume(item)}>
         <FundingOptionRow>
           <ActivityStatusIcon
             failed={failed}
+            done={done}
             box={24}
             errorSize={20}
             spinnerSize={18}
@@ -191,7 +209,7 @@ export function CheckoutActivitySection(): JSX.Element | null {
             >
               {failed
                 ? t('checkout.activity.singleFailed')
-                : t(inProgressLabelKey(item))}
+                : t(statusLabelKey(item))}
             </FundingOptionSubtitle>
           </OptionTextCell>
           <ChevronRightRounded

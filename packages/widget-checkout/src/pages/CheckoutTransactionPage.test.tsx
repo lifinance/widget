@@ -9,6 +9,12 @@ const useHeaderMock = vi.fn()
 const routeExecutionMock = vi.fn()
 const navigateMock = vi.fn()
 const startButtonMock = vi.fn<(props: { onClick: () => void }) => void>()
+const doneButtonsMock = vi.fn<(props: { onDone?: () => void }) => void>()
+const acknowledgeMock = vi.fn()
+// Default: not done. The done-branch tests flip it on.
+const hasEnumFlagMock = vi.fn<(status: number, flag: number) => boolean>(
+  () => false
+)
 
 // Kept separate from the identical enum declared inside the vi.mock factory
 // below: a top-level const referenced directly inside the factory body
@@ -43,7 +49,8 @@ vi.mock('@lifi/widget/shared', () => {
     getAccumulatedFeeCostsBreakdown: () => ({ gasCostUSD: 0, feeCostUSD: 0 }),
     getSourceTxHash: () => undefined,
     getTokenValueLossThreshold: () => false,
-    hasEnumFlag: () => false,
+    hasEnumFlag: (status: number, flag: number) =>
+      hasEnumFlagMock(status, flag),
     navigationRoutes: { home: '/', transactionExecution: 'transaction' },
     // Renders children: the CTA under test lives inside it.
     PageContainer: ({ children }: { children: ReactNode }) => children,
@@ -57,7 +64,10 @@ vi.mock('@lifi/widget/shared', () => {
       return null
     },
     TokenValueBottomSheet: () => null,
-    TransactionDoneButtons: () => null,
+    TransactionDoneButtons: (props: { onDone?: () => void }) => {
+      doneButtonsMock(props)
+      return null
+    },
     useAddressActivity: () => ({
       toAddress: undefined,
       hasActivity: false,
@@ -98,6 +108,11 @@ vi.mock('../hooks/useCheckoutToolFilter.js', () => ({
   useCheckoutToolFilter: () => toolFilterMock(),
 }))
 
+vi.mock('../stores/useFundingOrderStore.js', () => ({
+  useFundingOrderStore: (selector: (state: unknown) => unknown) =>
+    selector({ acknowledge: acknowledgeMock }),
+}))
+
 import { CheckoutTransactionPage } from './CheckoutTransactionPage.js'
 
 function lastHeaderAction():
@@ -123,6 +138,10 @@ const baseRouteExecution = {
 beforeEach(() => {
   navigateMock.mockClear()
   startButtonMock.mockClear()
+  doneButtonsMock.mockClear()
+  acknowledgeMock.mockClear()
+  hasEnumFlagMock.mockReset()
+  hasEnumFlagMock.mockReturnValue(false)
   routeExecutionMock.mockReturnValue({
     ...baseRouteExecution,
     route: undefined,
@@ -141,8 +160,11 @@ describe('CheckoutTransactionPage — RouteTracker exchange-filter wiring', () =
   // Covers the render site, which is where the review found the bug: the
   // filter reached `useCheckoutRoutes` (see useCheckoutRoutes.test.tsx) but
   // never reached `RouteTracker`'s `useRoutes` call because this page wasn't
-  // forwarding it. `RouteTracker` itself is a one-line pass-through
-  // (`useRoutes({ observableRoute, allowExchanges })`) verified by reading
+  // forwarding it. On the reader side the values do not filter the re-quote —
+  // `useRoutes` derives that from `observableRoute.steps`, which RouteTracker
+  // always sets — they keep this reader's routes query key equal to the key
+  // the writer seeded the reviewable route under. `RouteTracker` itself is a
+  // one-line pass-through verified by reading
   // packages/widget/src/pages/TransactionPage/RouteTracker.tsx; widget-core
   // has no component-test infra (no @testing-library/react, no happy-dom, no
   // vitest.config.ts) to exercise it directly without adding one for a
@@ -253,5 +275,50 @@ describe('CheckoutTransactionPage — retry after a failed execution', () => {
 
     expect(restartRoute).toHaveBeenCalledTimes(1)
     expect(navigateMock).not.toHaveBeenCalled()
+  })
+})
+
+// The wallet flow finishes here, never on CheckoutTransactionStatusPage, so
+// this is the only place its order can be retired from the activity list.
+// Without it a completed wallet deposit keeps reading "Deposit in progress".
+describe('CheckoutTransactionPage — Done retires the funding order', () => {
+  beforeEach(() => {
+    toolFilterMock.mockReturnValue({})
+    hasEnumFlagMock.mockReturnValue(true)
+  })
+
+  it('acknowledges the order the route was created from', () => {
+    routeExecutionMock.mockReturnValue({
+      ...baseRouteExecution,
+      status: mockRouteExecutionStatus.Done,
+      route: {
+        id: 'order-1',
+        fromChainId: 1,
+        toChainId: 10,
+        steps: [{ id: 'step-1', fundingOrderId: 'order-1' }],
+      } as unknown as RouteExtended,
+    })
+    renderWithI18n(<CheckoutTransactionPage />)
+
+    const onDone = doneButtonsMock.mock.calls.at(-1)?.[0].onDone
+    expect(onDone).toBeTypeOf('function')
+    onDone?.()
+    expect(acknowledgeMock).toHaveBeenCalledWith('order-1')
+  })
+
+  it('passes no onDone for a plain swap route — nothing to acknowledge', () => {
+    routeExecutionMock.mockReturnValue({
+      ...baseRouteExecution,
+      status: mockRouteExecutionStatus.Done,
+      route: {
+        id: 'route-1',
+        fromChainId: 1,
+        toChainId: 10,
+        steps: [{ id: 'step-1' }],
+      } as unknown as RouteExtended,
+    })
+    renderWithI18n(<CheckoutTransactionPage />)
+
+    expect(doneButtonsMock.mock.calls.at(-1)?.[0].onDone).toBeUndefined()
   })
 })

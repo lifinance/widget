@@ -385,12 +385,11 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
     )
   }
 
-  // Only route-derived cash has an address to confirm pre-order (DIRECT-delivery
-  // ONRAMP orders may legitimately have none) — skip the sheet and deposit directly.
+  // Cash always confirms the hand-off to the provider first: the sheet is a
+  // "you are leaving for Transak" consent, not an address confirmation, and the
+  // real ONRAMP deposit address only exists after `createFundingOrder`.
   const primaryAction = isCash
-    ? depositAddress
-      ? () => setHandoffOpen(true)
-      : handleCashDeposit
+    ? () => setHandoffOpen(true)
     : handlersByFunding[fundingSource]
 
   const isTransferPending =
@@ -419,10 +418,9 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
       >
         {label}
       </Button>
-      {isCash && depositAddress ? (
+      {isCash ? (
         <CashHandoffSheet
           open={handoffOpen}
-          depositAddress={depositAddress}
           container={panelEl}
           onContinue={() => {
             setHandoffOpen(false)

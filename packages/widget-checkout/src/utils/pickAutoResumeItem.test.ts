@@ -16,6 +16,17 @@ function item(
   }
 }
 
+function awaitingItem(
+  orderId: string,
+  substatus: string,
+  fundingSource: ActivityItem['fundingSource'] = 'transfer'
+): ActivityItem {
+  return {
+    ...item(orderId, 'pending', fundingSource),
+    order: { status: 'PENDING', substatus } as never,
+  }
+}
+
 describe('pickAutoResumeItem', () => {
   it('returns the lone pending item', () => {
     const target = item('a', 'pending')
@@ -60,5 +71,31 @@ describe('pickAutoResumeItem', () => {
     const pending = item('a', 'pending')
     const doneNow = item('b', 'done')
     expect(pickAutoResumeItem([pending, doneNow])).toBe(pending)
+  })
+
+  // An awaiting-user-action order resumes onto a progress screen with no
+  // actions, and transaction-status is not in backButtonRoutes — a dead end.
+  // It stays tappable in the activity list instead.
+  it('returns null for a lone unpaid cash order (ONRAMP_AWAITING_PAYMENT)', () => {
+    expect(
+      pickAutoResumeItem([awaitingItem('a', 'ONRAMP_AWAITING_PAYMENT', 'cash')])
+    ).toBeNull()
+  })
+
+  it('returns null for a lone unsent crypto deposit (INTENT_AWAITING_FUNDS)', () => {
+    expect(
+      pickAutoResumeItem([awaitingItem('a', 'INTENT_AWAITING_FUNDS')])
+    ).toBeNull()
+  })
+
+  it('still resumes a lone genuinely in-flight pending order', () => {
+    const live = awaitingItem('a', 'WAIT_DESTINATION_TRANSACTION')
+    expect(pickAutoResumeItem([live])).toBe(live)
+  })
+
+  it('picks the in-flight order over an awaiting-action sibling', () => {
+    const live = awaitingItem('a', 'WAIT_DESTINATION_TRANSACTION')
+    const awaiting = awaitingItem('b', 'INTENT_AWAITING_FUNDS')
+    expect(pickAutoResumeItem([live, awaiting])).toBe(live)
   })
 })

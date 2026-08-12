@@ -14,11 +14,14 @@ import { getExecutionToToken } from '../../utils/token.js'
 interface TransactionDoneButtonsProps {
   route: RouteExtended
   status: RouteExecutionStatus
+  /** Runs before navigating home — lets a caller retire its own tracking state. */
+  onDone?: () => void
 }
 
 export const TransactionDoneButtons: React.FC<TransactionDoneButtonsProps> = ({
   route,
   status,
+  onDone,
 }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -59,6 +62,7 @@ export const TransactionDoneButtons: React.FC<TransactionDoneButtonsProps> = ({
     } else {
       clearAmountFields()
     }
+    onDone?.()
     navigate({ to: navigationRoutes.home, replace: true })
   }
 

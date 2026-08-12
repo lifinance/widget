@@ -212,6 +212,28 @@ describe('useIsCheckoutBusy — tracked-order (post-payment) gate', () => {
     expect(result.current).toBe(false)
   })
 
+  it('is not busy with a cash order the user never paid for (ONRAMP_AWAITING_PAYMENT)', async () => {
+    const store = createOnRampSessionsStore()
+    useFundingOrderStore.getState().track({
+      orderId: 'o-1',
+      fundingSource: 'cash',
+      createdAt: Date.now(),
+    })
+    vi.mocked(getFundingOrder).mockResolvedValue(
+      order('o-1', 'PENDING', 'ONRAMP_AWAITING_PAYMENT') as any
+    )
+    const client = new QueryClient({
+      defaultOptions: { queries: { retry: false } },
+    })
+    const { result } = renderHook(() => useIsCheckoutBusy(), {
+      wrapper: wrap(store, client),
+    })
+    await waitFor(() =>
+      expect(client.getQueryData(['funding-order', 'o-1'])).toBeDefined()
+    )
+    expect(result.current).toBe(false)
+  })
+
   it('is not busy with no tracked orders', () => {
     const store = createOnRampSessionsStore()
     const { result } = renderHook(() => useIsCheckoutBusy(), {

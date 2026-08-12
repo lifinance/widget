@@ -674,6 +674,9 @@ describe('CheckoutFlowCtaButton — cash flow creates an ONRAMP order', () => {
     const continueButton = await screen.findByText(
       'checkout.cashHandoff.continue'
     )
+    // The IF-only crypto quote's depositAddress is not the address Transak
+    // funds, so the sheet must not display it even when the quote resolved.
+    expect(screen.queryByText('0xDepositAddress')).toBeNull()
     fireEvent.click(continueButton)
 
     await waitFor(() => expect(createFundingOrder).toHaveBeenCalledTimes(1))
@@ -747,7 +750,14 @@ describe('CheckoutFlowCtaButton — cash flow creates an ONRAMP order', () => {
     )
   })
 
-  it('skips the handoff sheet and creates the order directly when there is no route-derived deposit address', async () => {
+  // The sheet is a "you are leaving for Transak" consent, not an address
+  // confirmation — the ONRAMP deposit address is minted by createFundingOrder,
+  // i.e. after Continue. It must not depend on the IF-only crypto quote that
+  // supplies `depositAddress`, or two users on identical configs get different
+  // flows, and it must never show that unrelated address.
+  it('still opens the handoff sheet for cash with no route and no deposit address', async () => {
+    checkoutFlowQuoteState.route = undefined
+    checkoutFlowQuoteState.routes = undefined
     checkoutFlowQuoteState.depositAddress = null
     // mockReset drops any queued mockResolvedValueOnce left behind by the
     // previous test's unconsumed retry value — vi.clearAllMocks() in
@@ -769,9 +779,15 @@ describe('CheckoutFlowCtaButton — cash flow creates an ONRAMP order', () => {
 
     renderWithI18n(<CheckoutFlowCtaButton />, { wrapper: Wrap })
     fireEvent.click(screen.getByRole('button'))
+    expect(createFundingOrder).not.toHaveBeenCalled()
 
-    // No sheet to interact with — clicking the CTA deposits directly.
-    expect(screen.queryByText('checkout.cashHandoff.continue')).toBeNull()
+    const continueButton = await screen.findByText(
+      'checkout.cashHandoff.continue'
+    )
+    // No address block: there is no address to show before the order exists.
+    expect(screen.queryByText('checkout.cashHandoff.addressLabel')).toBeNull()
+    expect(screen.queryByText('0xDepositAddress')).toBeNull()
+    fireEvent.click(continueButton)
 
     await waitFor(() => expect(createFundingOrder).toHaveBeenCalledTimes(1))
 

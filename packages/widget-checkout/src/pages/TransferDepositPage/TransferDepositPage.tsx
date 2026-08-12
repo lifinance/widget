@@ -6,6 +6,7 @@ import {
   PageContainer,
   shortenAddress,
   useChain,
+  useContactSupport,
   useHeader,
 } from '@lifi/widget/shared'
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded'
@@ -31,6 +32,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { useFundingOrder } from '../../hooks/useFundingOrder.js'
 import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
 import { DepositUnexpectedPage } from '../DepositErrorPages/DepositErrorPages.js'
+import { DepositStatusScreen } from '../DepositErrorPages/DepositStatusScreen.js'
 import { DepositDetails } from './DepositDetails.js'
 import { shouldLeaveDepositPage } from './shouldLeaveDepositPage.js'
 
@@ -73,8 +75,14 @@ export const TransferDepositPage: React.FC = (): JSX.Element => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { orderId } = useSearch({ strict: false }) as { orderId?: string }
-  const { order, phase } = useFundingOrder(orderId ?? null)
+  const { order, phase, isError, refetch } = useFundingOrder(orderId ?? null)
+  const contactSupport = useContactSupport()
   const depositAddress = order?.depositAddress ?? null
+  // No orderId means a direct/stale navigation: the query never runs, so the
+  // page can only ever spin. `isError` without an order is the same dead end.
+  // A poll that fails *after* the order loaded keeps the deposit screen up —
+  // the address is still valid and the user may already be sending to it.
+  const unresolvable = !orderId || (isError && !order)
   // convertOrderToRoute only accepts STANDARD orders; SMART_DEPOSIT reuses
   // the lower-level quote converter for display purposes only (this route is
   // never executed). A malformed quote falls back to no route rather than
@@ -108,12 +116,48 @@ export const TransferDepositPage: React.FC = (): JSX.Element => {
     }
   }, [order, phase, navigate])
 
-  useHeader(t('header.depositAddress'))
+  // The error screens are not the deposit-address screen, so they must not
+  // inherit its title (the nested page's own useHeader effect runs first and
+  // this one would overwrite it).
+  useHeader(
+    unresolvable || phase === 'failed'
+      ? t('header.checkout')
+      : t('header.depositAddress')
+  )
 
   const [detailsOpen, setDetailsOpen] = useState(true)
   const [copied, setCopied] = useState(false)
   const copiedTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
   useEffect(() => () => clearTimeout(copiedTimer.current), [])
+
+  if (unresolvable) {
+    return (
+      <PageContainer bottomGutters>
+        <DepositStatusScreen
+          variant="error"
+          title={t('checkout.status.errorFailed.title')}
+          description={t('checkout.status.errorFailed.description')}
+          primaryAction={{
+            label: t('button.tryAgain'),
+            // Without an orderId the query is disabled, so refetch() is a
+            // no-op — the only way forward is a fresh deposit.
+            onClick: orderId
+              ? refetch
+              : () => {
+                  navigate({
+                    to: checkoutNavigationRoutes.enterAmount,
+                    replace: true,
+                  })
+                },
+          }}
+          secondaryAction={{
+            label: t('button.contactSupport'),
+            onClick: contactSupport,
+          }}
+        />
+      </PageContainer>
+    )
+  }
 
   if (!order) {
     return <DepositLoadingState />

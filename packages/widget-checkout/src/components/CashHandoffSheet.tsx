@@ -17,7 +17,12 @@ import { useTranslation } from 'react-i18next'
 
 interface CashHandoffSheetProps {
   open: boolean
-  depositAddress: string
+  /**
+   * Only set when the caller already holds the address the provider will fund.
+   * Cash orders mint theirs in `createFundingOrder`, i.e. after this consent
+   * sheet, so they pass nothing and the address block is omitted.
+   */
+  depositAddress?: string
   onContinue: () => void
   onGoBack: () => void
   container?: HTMLElement | null
@@ -106,35 +111,37 @@ export const CashHandoffSheet: React.FC<CashHandoffSheetProps> = ({
         >
           {t('checkout.cashHandoff.body')}
         </Typography>
-        <Box
-          sx={{
-            mt: 2,
-            p: 2,
-            borderRadius: 1,
-            bgcolor: 'background.paper',
-          }}
-        >
-          <Typography
-            sx={{ fontSize: 12, fontWeight: 600, color: 'text.secondary' }}
-          >
-            {t('checkout.cashHandoff.addressLabel')}
-          </Typography>
-          <Typography
+        {depositAddress ? (
+          <Box
             sx={{
-              fontSize: 12,
-              fontWeight: 700,
-              overflowWrap: 'anywhere',
-              wordBreak: 'break-word',
-              mt: 0.5,
-              mb: 1,
+              mt: 2,
+              p: 2,
+              borderRadius: 1,
+              bgcolor: 'background.paper',
             }}
           >
-            {depositAddress}
-          </Typography>
-          <Typography sx={{ fontSize: 12, color: 'text.secondary' }}>
-            {t('checkout.cashHandoff.addressHint')}
-          </Typography>
-        </Box>
+            <Typography
+              sx={{ fontSize: 12, fontWeight: 600, color: 'text.secondary' }}
+            >
+              {t('checkout.cashHandoff.addressLabel')}
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: 12,
+                fontWeight: 700,
+                overflowWrap: 'anywhere',
+                wordBreak: 'break-word',
+                mt: 0.5,
+                mb: 1,
+              }}
+            >
+              {depositAddress}
+            </Typography>
+            <Typography sx={{ fontSize: 12, color: 'text.secondary' }}>
+              {t('checkout.cashHandoff.addressHint')}
+            </Typography>
+          </Box>
+        ) : null}
         <Stack spacing={1} sx={{ mt: 3 }}>
           <Button variant="contained" autoFocus fullWidth onClick={onContinue}>
             {t('checkout.cashHandoff.continue')}
