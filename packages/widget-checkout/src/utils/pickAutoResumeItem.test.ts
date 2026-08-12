@@ -16,9 +16,8 @@ describe('pickAutoResumeItem', () => {
     expect(pickAutoResumeItem([target])).toBe(target)
   })
 
-  it('returns the lone item whose phase has not resolved yet', () => {
-    const target = item('a', undefined)
-    expect(pickAutoResumeItem([target])).toBe(target)
+  it('returns null for a lone item whose phase has not resolved yet', () => {
+    expect(pickAutoResumeItem([item('a', undefined)])).toBeNull()
   })
 
   it('returns null when the only item is terminal (done)', () => {
@@ -43,5 +42,17 @@ describe('pickAutoResumeItem', () => {
     const live = item('a', 'pending')
     const done = item('b', 'done')
     expect(pickAutoResumeItem([live, done])).toBe(live)
+  })
+
+  it('returns null while a sibling item is still loading, even with a lone pending item', () => {
+    const pending = item('a', 'pending')
+    const loading = item('b', undefined)
+    expect(pickAutoResumeItem([pending, loading])).toBeNull()
+  })
+
+  it('resumes the lone pending item once the sibling finishes loading', () => {
+    const pending = item('a', 'pending')
+    const doneNow = item('b', 'done')
+    expect(pickAutoResumeItem([pending, doneNow])).toBe(pending)
   })
 })

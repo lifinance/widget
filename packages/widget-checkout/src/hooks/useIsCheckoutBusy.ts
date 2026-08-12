@@ -5,6 +5,7 @@ import {
 } from '@lifi/widget-provider/checkout'
 import { useContext } from 'react'
 import { useStore } from 'zustand'
+import { useCheckoutActivity } from './useCheckoutActivity.js'
 
 // Immutable stub so useStore stays unconditional outside a provider.
 const EMPTY_SESSIONS = Object.freeze({}) as Readonly<Record<string, never>>
@@ -19,7 +20,25 @@ const EMPTY_STORE = {
 export function useIsCheckoutBusy(): boolean {
   const contextStore = useContext(OnRampSessionsContext)
   const store = contextStore ?? EMPTY_STORE
-  return useStore(store, (s) =>
+  const sessionBusy = useStore(store, (s) =>
     Object.values(s.sessions).some((session) => session.isOpen)
   )
+  // Mirrors the old PendingRecord "live record" gate on the thin store: an
+  // on-ramp session can self-close on payment success before its order
+  // resolves server-side, so the close guard must stay up while a tracked
+  // order is live-confirmed pending. Excludes INTENT_AWAITING_FUNDS (the
+  // pre-funding substatus `useResumeCheckout` also keys off) so an order the
+  // user created but never funded doesn't block closing for its whole
+  // 7-day tracking retention — see useIsCheckoutBusy.test.tsx for the case
+  // this guards against. `phase === undefined` (still loading, or errored
+  // out after retries) is deliberately excluded too: unlike the old
+  // synchronous localStorage read, a live fetch can be indeterminate, and
+  // treating "unknown" as busy would block closing indefinitely on error.
+  const items = useCheckoutActivity()
+  const orderBusy = items.some(
+    (item) =>
+      item.phase === 'pending' &&
+      item.order?.substatus !== 'INTENT_AWAITING_FUNDS'
+  )
+  return sessionBusy || orderBusy
 }

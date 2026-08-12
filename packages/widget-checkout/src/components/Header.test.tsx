@@ -6,6 +6,7 @@ import {
   OnRampSessionsContext,
   type OnRampSessionsStore,
 } from '@lifi/widget-provider/checkout'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { fireEvent, screen } from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
@@ -21,6 +22,13 @@ vi.mock('@lifi/widget/shared', () => ({
     selector({ title: null }),
   useSetHeaderHeight: () => ({ setHeaderHeight: () => {} }),
   useWidgetConfig: () => ({ elementId: 'test' }),
+  useSDKClient: () => ({ config: {} }),
+}))
+vi.mock('@lifi/sdk', async (importOriginal) => ({
+  ...(await importOriginal<object>()),
+  // Never resolves — these tests don't exercise the order-busy gate itself,
+  // just need useCheckoutActivity()'s useSDKClient/useQueries chain to not throw.
+  getFundingOrder: vi.fn(() => new Promise(() => {})),
 }))
 
 const { navigateMock, routerGo, routerState } = vi.hoisted(() => ({
@@ -77,19 +85,24 @@ function setup({
   if (busy) {
     store.getState().register('s1', makeSession(true))
   }
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
+  })
   const Wrapper = ({ children }: { children: ReactNode }) => (
-    <OnRampSessionsContext.Provider value={store}>
-      <CheckoutModalContext.Provider
-        value={{
-          closeModal,
-          openCloseConfirmation,
-          panelEl: null,
-          inline: false,
-        }}
-      >
-        {children}
-      </CheckoutModalContext.Provider>
-    </OnRampSessionsContext.Provider>
+    <QueryClientProvider client={queryClient}>
+      <OnRampSessionsContext.Provider value={store}>
+        <CheckoutModalContext.Provider
+          value={{
+            closeModal,
+            openCloseConfirmation,
+            panelEl: null,
+            inline: false,
+          }}
+        >
+          {children}
+        </CheckoutModalContext.Provider>
+      </OnRampSessionsContext.Provider>
+    </QueryClientProvider>
   )
   return renderWithI18n(<Header />, { wrapper: Wrapper })
 }
