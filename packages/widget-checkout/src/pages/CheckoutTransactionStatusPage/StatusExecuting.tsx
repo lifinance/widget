@@ -4,15 +4,18 @@ import { Box, CircularProgress, Stack, Typography } from '@mui/material'
 import { type JSX, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CheckoutFiatOriginToken } from '../../components/CheckoutFiatOriginToken.js'
-import type { FiatOrigin } from '../../hooks/useCheckoutStatusSources.js'
 import { StatusStepList } from './StatusStepList.js'
+
+export interface FiatOrigin {
+  currency: string
+  amount: string
+}
 
 interface StatusExecutingProps {
   status: StatusResponse | undefined
   frozenRoute?: Route
   recipientAddress?: string | null
   fiatOrigin?: FiatOrigin
-  watching?: boolean
 }
 
 const RING_SIZE = 96
@@ -30,7 +33,6 @@ export function StatusExecuting({
   frozenRoute,
   recipientAddress,
   fiatOrigin,
-  watching,
 }: StatusExecutingProps): JSX.Element {
   const { t } = useTranslation()
   const [elapsed, setElapsed] = useState(0)
@@ -96,18 +98,14 @@ export function StatusExecuting({
             </Typography>
           </Box>
           <Typography variant="body1" color="text.primary">
-            {t(
-              watching
-                ? 'checkout.transactionStatus.watching'
-                : 'checkout.transactionStatus.executing'
-            )}
+            {t('checkout.transactionStatus.executing')}
           </Typography>
         </Stack>
         {fullStatus || frozenRoute ? (
           <Box sx={{ pt: 2 }}>
             <StatusStepList
               status={fullStatus}
-              phase={watching ? 'watching' : 'pending'}
+              phase="pending"
               frozenRoute={frozenRoute}
               recipientAddress={recipientAddress}
             />

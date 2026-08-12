@@ -1,16 +1,7 @@
 export type {
-  CexSessionRequest,
-  CexSessionResponse,
-  CheckoutSessionApiError,
-  OnrampFiatCurrenciesRequest,
   OnrampFiatCurrenciesResponse,
   OnrampFiatCurrency,
   OnrampPaymentOption,
-  OnrampQuoteFee,
-  OnrampQuoteRequest,
-  OnrampQuoteResponse,
-  OnrampSessionRequest,
-  OnrampSessionResponse,
 } from './api.js'
 export {
   CheckoutContext,
@@ -48,8 +39,3 @@ export type {
   OnRampProviderFactory,
   OnRampSession,
 } from './types.js'
-export {
-  type CheckoutSessionRequestArgs,
-  type CheckoutSessionRequestResult,
-  postCheckoutSession,
-} from './utils/sessionClient.js'

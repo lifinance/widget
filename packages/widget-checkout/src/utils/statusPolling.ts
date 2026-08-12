@@ -1,29 +1,9 @@
 const ROOT = 'checkout-status' as const
 
-export function depositAddressQueryKey(
-  depositAddress: string | null | undefined,
-  fromChain: number | null | undefined
-): readonly unknown[] {
-  return [ROOT, 'deposit', depositAddress ?? null, fromChain ?? null]
-}
-
 export function txHashQueryKey(
   transactionHash: string | null | undefined
 ): readonly unknown[] {
   return [ROOT, 'hash', transactionHash ?? null]
-}
-
-export function taskIdQueryKey(
-  taskId: string | null | undefined
-): readonly unknown[] {
-  return [ROOT, 'task', taskId ?? null]
-}
-
-export function simulateQueryKey(
-  simulate: string | null | undefined,
-  substatus?: string | null
-): readonly unknown[] {
-  return [ROOT, 'sim', simulate ?? null, substatus ?? null]
 }
 
 /**

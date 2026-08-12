@@ -3,13 +3,6 @@
 import { renderHook } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-vi.mock('@lifi/widget-provider/checkout', () => ({
-  useCheckoutConfig: () => ({
-    integrator: 'int',
-    apiUrl: 'https://api.example.com/v2',
-  }),
-}))
-
 let fundingSource: string | null = null
 vi.mock('../stores/useCheckoutFlowStore.js', () => ({
   useCheckoutFlowStore: (
@@ -46,22 +39,19 @@ describe('useOnRampPreconnect', () => {
     }
   })
 
-  it('injects preconnect links for the API and provider origins for cash', () => {
+  it('injects a preconnect link for the provider origin for cash', () => {
     fundingSource = 'cash'
     renderHook(() => useOnRampPreconnect())
-    expect(preconnectHrefs()).toEqual([
-      'https://api.example.com',
-      'https://global.transak.com',
-    ])
+    expect(preconnectHrefs()).toEqual(['https://global.transak.com'])
     expect(
       document.head.querySelectorAll('link[rel="dns-prefetch"]')
-    ).toHaveLength(2)
+    ).toHaveLength(1)
   })
 
   it('removes the links on unmount', () => {
     fundingSource = 'cash'
     const { unmount } = renderHook(() => useOnRampPreconnect())
-    expect(preconnectHrefs()).toHaveLength(2)
+    expect(preconnectHrefs()).toHaveLength(1)
     unmount()
     expect(preconnectHrefs()).toHaveLength(0)
   })
@@ -70,9 +60,9 @@ describe('useOnRampPreconnect', () => {
     fundingSource = 'cash'
     const first = renderHook(() => useOnRampPreconnect())
     const second = renderHook(() => useOnRampPreconnect())
-    expect(preconnectHrefs()).toHaveLength(2)
+    expect(preconnectHrefs()).toHaveLength(1)
     first.unmount()
-    expect(preconnectHrefs()).toHaveLength(2)
+    expect(preconnectHrefs()).toHaveLength(1)
     second.unmount()
     expect(preconnectHrefs()).toHaveLength(0)
   })

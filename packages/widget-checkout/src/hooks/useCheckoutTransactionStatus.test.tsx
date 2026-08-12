@@ -14,12 +14,6 @@ vi.mock('@lifi/sdk', () => ({
   getStatus: (...args: unknown[]) => getStatus(...args),
 }))
 
-const getDepositAddressStatus = vi.fn()
-vi.mock('../utils/depositAddressStatus.js', () => ({
-  getDepositAddressStatus: (...args: unknown[]) =>
-    getDepositAddressStatus(...args),
-}))
-
 import { useCheckoutTransactionStatus } from './useCheckoutTransactionStatus.js'
 
 function wrap() {
@@ -31,124 +25,64 @@ function wrap() {
   )
 }
 
-describe('useCheckoutTransactionStatus — pauseDepositPoll', () => {
+describe('useCheckoutTransactionStatus', () => {
   beforeEach(() => {
     getStatus.mockReset()
-    getDepositAddressStatus.mockReset()
-    getDepositAddressStatus.mockResolvedValue({ status: 'NOT_FOUND' })
-    getStatus.mockResolvedValue({ status: 'PENDING' })
   })
 
-  it('does not poll the deposit address while paused', async () => {
-    renderHook(
-      () =>
-        useCheckoutTransactionStatus({
-          depositAddress: '0xdeposit',
-          fromChain: 1,
-          pauseDepositPoll: true,
-        }),
-      { wrapper: wrap() }
-    )
+  it('does not poll when there is no transaction hash', async () => {
+    renderHook(() => useCheckoutTransactionStatus({}), { wrapper: wrap() })
     await new Promise((resolve) => setTimeout(resolve, 20))
-    expect(getDepositAddressStatus).not.toHaveBeenCalled()
     expect(getStatus).not.toHaveBeenCalled()
   })
 
-  it('starts polling once unpaused', async () => {
-    const { result, rerender } = renderHook(
-      ({ paused }: { paused: boolean }) =>
-        useCheckoutTransactionStatus({
-          depositAddress: '0xdeposit',
-          fromChain: 1,
-          pauseDepositPoll: paused,
-        }),
-      { wrapper: wrap(), initialProps: { paused: true } }
+  it('polls getStatus by transaction hash once one is available', async () => {
+    getStatus.mockResolvedValue({ status: 'PENDING' })
+    const { result } = renderHook(
+      () => useCheckoutTransactionStatus({ transactionHash: '0xhash' }),
+      { wrapper: wrap() }
     )
-    expect(getDepositAddressStatus).not.toHaveBeenCalled()
-    rerender({ paused: false })
-    await waitFor(() => expect(getDepositAddressStatus).toHaveBeenCalled())
+    await waitFor(() => expect(getStatus).toHaveBeenCalled())
+    const [, args] = getStatus.mock.calls[0] ?? []
+    expect(args).toMatchObject({ txHash: '0xhash' })
+    await waitFor(() => expect(result.current.status).toBeDefined())
+    expect(result.current.phase).toBe('pending')
+  })
+
+  it('reports notFound and an undefined status while NOT_FOUND', async () => {
+    getStatus.mockResolvedValue({ status: 'NOT_FOUND' })
+    const { result } = renderHook(
+      () => useCheckoutTransactionStatus({ transactionHash: '0xhash' }),
+      { wrapper: wrap() }
+    )
     await waitFor(() => expect(result.current.notFound).toBe(true))
     expect(result.current.status).toBeUndefined()
   })
 
-  it('polls by deposit address when not paused', async () => {
-    renderHook(
-      () =>
-        useCheckoutTransactionStatus({
-          depositAddress: '0xdeposit',
-          fromChain: 1,
-        }),
-      { wrapper: wrap() }
-    )
-    await waitFor(() => expect(getDepositAddressStatus).toHaveBeenCalled())
-    expect(getStatus).not.toHaveBeenCalled()
-  })
-
-  it('hash-only polling is unaffected by pause', async () => {
-    renderHook(
-      () =>
-        useCheckoutTransactionStatus({
-          transactionHash: '0xhash',
-          pauseDepositPoll: true,
-        }),
-      { wrapper: wrap() }
-    )
-    await waitFor(() => expect(getStatus).toHaveBeenCalled())
-    expect(getDepositAddressStatus).not.toHaveBeenCalled()
-  })
-})
-
-describe('useCheckoutTransactionStatus — poll errors', () => {
-  beforeEach(() => {
-    getStatus.mockReset()
-    getDepositAddressStatus.mockReset()
-  })
-
-  it('surfaces isError while keeping the latched status on the deposit path', async () => {
-    getDepositAddressStatus.mockResolvedValue({ status: 'PENDING' })
+  it('resolves done/failed phases from a terminal status', async () => {
+    getStatus.mockResolvedValue({ status: 'DONE' })
     const { result } = renderHook(
-      () =>
-        useCheckoutTransactionStatus({
-          depositAddress: '0xdeposit',
-          fromChain: 1,
-        }),
+      () => useCheckoutTransactionStatus({ transactionHash: '0xhash' }),
+      { wrapper: wrap() }
+    )
+    await waitFor(() => expect(result.current.phase).toBe('done'))
+  })
+
+  it('surfaces isError and clears it after a successful refetch', async () => {
+    getStatus.mockResolvedValue({ status: 'PENDING' })
+    const { result } = renderHook(
+      () => useCheckoutTransactionStatus({ transactionHash: '0xhash' }),
       { wrapper: wrap() }
     )
     await waitFor(() => expect(result.current.status).toBeDefined())
     expect(result.current.isError).toBe(false)
 
-    getDepositAddressStatus.mockRejectedValue(new Error('network down'))
-    result.current.refetch()
-    await waitFor(() => expect(result.current.isError).toBe(true))
-    expect(result.current.status).toEqual({ status: 'PENDING' })
-    expect(result.current.phase).toBe('pending')
-  })
-
-  it('clears isError and resumes updating status after a successful refetch', async () => {
-    getDepositAddressStatus.mockResolvedValue({ status: 'PENDING' })
-    const { result } = renderHook(
-      () =>
-        useCheckoutTransactionStatus({
-          depositAddress: '0xdeposit',
-          fromChain: 1,
-        }),
-      { wrapper: wrap() }
-    )
-    await waitFor(() => expect(result.current.status).toBeDefined())
-
-    getDepositAddressStatus.mockRejectedValue(new Error('network down'))
+    getStatus.mockRejectedValue(new Error('network down'))
     result.current.refetch()
     await waitFor(() => expect(result.current.isError).toBe(true))
 
-    getDepositAddressStatus.mockResolvedValue({
-      status: 'PENDING',
-      substatus: 'WAIT_DESTINATION_TRANSACTION',
-    })
+    getStatus.mockResolvedValue({ status: 'PENDING' })
     result.current.refetch()
     await waitFor(() => expect(result.current.isError).toBe(false))
-    expect(result.current.status).toEqual({
-      status: 'PENDING',
-      substatus: 'WAIT_DESTINATION_TRANSACTION',
-    })
   })
 })

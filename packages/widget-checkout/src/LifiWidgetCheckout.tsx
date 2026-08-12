@@ -21,7 +21,6 @@ export const LifiWidgetCheckout: ForwardRefExoticComponent<
       onSuccess: props.onSuccess,
       onError: props.onError,
       config: props.config,
-      resumePending: props.resumePending,
       allowUserDestinationAddress: props.allowUserDestinationAddress,
     }),
     [
@@ -29,7 +28,6 @@ export const LifiWidgetCheckout: ForwardRefExoticComponent<
       props.onSuccess,
       props.onError,
       props.config,
-      props.resumePending,
       props.allowUserDestinationAddress,
     ]
   )

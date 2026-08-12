@@ -3,7 +3,6 @@ import { useNavigate } from '@tanstack/react-router'
 import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCheckoutModal } from '../../CheckoutModal.js'
-import { useFrozenQuote } from '../../hooks/useFrozenQuote.js'
 import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
 import type { DepositAmountRow } from './DepositAmountTable.js'
 import { DepositAmountTable } from './DepositAmountTable.js'
@@ -31,20 +30,16 @@ function useDepositErrorActions(): {
   requestRefund: () => void
 } {
   const navigate = useNavigate()
-  const { clear } = useFrozenQuote()
   const modalContext = useCheckoutModal()
   return {
     goHome: () => {
-      clear()
       navigate({ to: checkoutNavigationRoutes.home })
     },
     retryTransfer: () => {
-      clear()
       navigate({ to: checkoutNavigationRoutes.enterAmount })
     },
     closeModal: () => modalContext?.closeModal(),
     requestRefund: () => {
-      clear()
       navigate({ to: checkoutNavigationRoutes.home })
     },
   }

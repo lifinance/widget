@@ -30,9 +30,6 @@
     "packages/widget": {
       "ignore": ["src/config/version.ts"],
       "ignoreDependencies": ["@transak/ui-js-sdk", "@meshconnect/web-link-sdk"]
-    },
-    "packages/widget-checkout": {
-      "ignore": ["src/utils/getSourceTxIdentifier.ts"]
     }
   }
 }

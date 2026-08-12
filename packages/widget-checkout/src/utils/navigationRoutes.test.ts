@@ -18,7 +18,6 @@ describe('checkoutNavigationRoutes', () => {
   it('uses absolute paths for top-level checkout routes', () => {
     expect(checkoutNavigationRoutes.home).toBe('/')
     expect(checkoutNavigationRoutes.enterAmount.startsWith('/')).toBe(true)
-    expect(checkoutNavigationRoutes.progress.startsWith('/')).toBe(true)
     expect(checkoutNavigationRoutes.transferDeposit.startsWith('/')).toBe(true)
     expect(checkoutNavigationRoutes.selectCash.startsWith('/')).toBe(true)
   })
@@ -26,7 +25,6 @@ describe('checkoutNavigationRoutes', () => {
   it('uses relative segments for nested sub-routes', () => {
     expect(checkoutNavigationRoutes.fromToken.startsWith('/')).toBe(false)
     expect(checkoutNavigationRoutes.fromChain.startsWith('/')).toBe(false)
-    expect(checkoutNavigationRoutes.routes.startsWith('/')).toBe(false)
     expect(checkoutNavigationRoutes.transactionExecution.startsWith('/')).toBe(
       false
     )

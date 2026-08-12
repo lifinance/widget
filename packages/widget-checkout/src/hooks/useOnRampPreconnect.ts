@@ -1,16 +1,7 @@
 'use client'
-import { useCheckoutConfig } from '@lifi/widget-provider/checkout'
 import { useEffect } from 'react'
 import { useOnRampProviderByCategory } from '../providers/OnRampProvider/OnRampProvider.js'
 import { useCheckoutFlowStore } from '../stores/useCheckoutFlowStore.js'
-
-function toOrigin(url: string): string | null {
-  try {
-    return new URL(url).origin
-  } catch {
-    return null
-  }
-}
 
 // Ref-counted ownership so overlapping hook instances share one link and the
 // last release removes it. Links we didn't create stay unmanaged.
@@ -55,10 +46,11 @@ function releaseLink(key: string): void {
 
 /**
  * Warms connections for the active on-ramp provider before its modal opens:
- * the session API origin (a blocking POST) and the provider's iframe hosts.
+ * the provider's iframe hosts. Hosts perform no HTTP of their own anymore
+ * (the widget URL / link token is pre-created server-side by the funding
+ * order), so there is no session API origin left to warm.
  */
 export function useOnRampPreconnect(): void {
-  const { apiUrl } = useCheckoutConfig()
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
   const provider = useOnRampProviderByCategory(
     fundingSource === 'cash' || fundingSource === 'exchange'
@@ -70,15 +62,9 @@ export function useOnRampPreconnect(): void {
     if (!provider) {
       return
     }
-    const apiOrigin = apiUrl ? toOrigin(apiUrl) : null
-    const targets: { origin: string; crossOrigin?: boolean }[] = [
-      // The session endpoint is a CORS fetch — preconnect the CORS pool.
-      ...(apiOrigin ? [{ origin: apiOrigin, crossOrigin: true }] : []),
-      ...(provider.preconnectOrigins ?? []).map((origin) => ({ origin })),
-    ]
-    const keys = targets
-      .flatMap(({ origin, crossOrigin }) => [
-        acquireLink('preconnect', origin, crossOrigin),
+    const keys = (provider.preconnectOrigins ?? [])
+      .flatMap((origin) => [
+        acquireLink('preconnect', origin),
         acquireLink('dns-prefetch', origin),
       ])
       .filter((key) => key !== null)
@@ -87,5 +73,5 @@ export function useOnRampPreconnect(): void {
         releaseLink(key)
       }
     }
-  }, [provider, apiUrl])
+  }, [provider])
 }

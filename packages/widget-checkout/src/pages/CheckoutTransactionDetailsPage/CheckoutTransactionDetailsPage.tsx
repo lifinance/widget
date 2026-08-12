@@ -17,8 +17,7 @@ import { Box, Button } from '@mui/material'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { type JSX, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { CheckoutFiatOriginToken } from '../../components/CheckoutFiatOriginToken.js'
-import { useCheckoutStatusSources } from '../../hooks/useCheckoutStatusSources.js'
+import { useCheckoutToAddress } from '../../hooks/useCheckoutToAddress.js'
 import { useCheckoutTransactionStatus } from '../../hooks/useCheckoutTransactionStatus.js'
 import { CheckoutTransactionDetailsSkeleton } from './CheckoutTransactionDetailsSkeleton.js'
 import { CheckoutTransferIdCard } from './CheckoutTransferIdCard.js'
@@ -44,8 +43,7 @@ export const CheckoutTransactionDetailsPage: React.FC = (): JSX.Element => {
       : t('checkout.transactionStatus.detailsTitle')
   )
   const { getTransactionLink } = useExplorer()
-  const { frozenRoute, recipientAddress, fiatOrigin } =
-    useCheckoutStatusSources()
+  const recipientAddress = useCheckoutToAddress()
 
   const route = useMemo(() => {
     if (!status || !tools) {
@@ -58,11 +56,7 @@ export const CheckoutTransactionDetailsPage: React.FC = (): JSX.Element => {
     navigate({ to: navigationRoutes.home })
   }
 
-  // The status endpoint may not know the transfer yet (NOT_FOUND) — fall back
-  // to the frozen quote so details render instead of an endless skeleton.
-  const displayRoute = route ?? frozenRoute
-
-  if (!displayRoute) {
+  if (!route) {
     return (
       <PageContainer
         bottomGutters
@@ -73,14 +67,12 @@ export const CheckoutTransactionDetailsPage: React.FC = (): JSX.Element => {
     )
   }
 
-  const sourceTxHash = getSourceTxHash(displayRoute)
-  const supportId = sourceTxHash ?? transactionHash ?? displayRoute.id ?? ''
+  const sourceTxHash = getSourceTxHash(route)
+  const supportId = sourceTxHash ?? transactionHash ?? route.id ?? ''
   const txLink = supportId
     ? getTransactionLink({ txHash: supportId })
     : undefined
-  // Only the status-built route carries execution data; a frozen quote has
-  // no started-at to show.
-  const startedAtMs = route?.steps[0]?.execution?.startedAt
+  const startedAtMs = route.steps[0]?.execution?.startedAt
   const startedAt = startedAtMs ? new Date(startedAtMs) : undefined
 
   return (
@@ -102,22 +94,12 @@ export const CheckoutTransactionDetailsPage: React.FC = (): JSX.Element => {
               </DateLabelText>
             </DateLabelContainer>
           ) : null}
-          <RouteTokens
-            route={displayRoute}
-            fromSlot={
-              fiatOrigin ? (
-                <CheckoutFiatOriginToken
-                  currency={fiatOrigin.currency}
-                  amount={fiatOrigin.amount}
-                />
-              ) : undefined
-            }
-          />
+          <RouteTokens route={route} />
         </Box>
         <Box sx={{ mt: 2 }}>
           <StepActionsList
-            route={displayRoute}
-            toAddress={recipientAddress ?? displayRoute.toAddress}
+            route={route}
+            toAddress={recipientAddress ?? route.toAddress}
           />
         </Box>
       </Card>

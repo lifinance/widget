@@ -58,7 +58,6 @@ export const TransakHost: FC<TransakHostProps> = ({
   const [resolvedDepositAddress, setResolvedDepositAddress] = useState<
     string | null
   >(null)
-  const [fundingSessionId, setFundingSessionId] = useState<string | null>(null)
   // `useId()` can return ids with colons (e.g. `:r0:`); Transak's SDK looks
   // the container up via `#${id}` selector and throws on those.
   const reactId = useId()
@@ -76,7 +75,6 @@ export const TransakHost: FC<TransakHostProps> = ({
     setFailure(null)
     setWidgetUrl(null)
     setResolvedDepositAddress(null)
-    setFundingSessionId(null)
   }, [])
 
   const openDepositFlow = useCallback(
@@ -87,7 +85,6 @@ export const TransakHost: FC<TransakHostProps> = ({
       setFailure(null)
       setWidgetUrl(null)
       setResolvedDepositAddress(null)
-      setFundingSessionId(null)
       setIsLoading(true)
 
       // The ONRAMP funding order carries the pre-created widget URL — the
@@ -135,14 +132,12 @@ export const TransakHost: FC<TransakHostProps> = ({
   const closeRef = useRef(close)
   const cancelRef = useRef(cancel)
   const openDepositFlowRef = useRef(openDepositFlow)
-  const fundingSessionIdRef = useRef(fundingSessionId)
   useEffect(() => {
     onErrorRef.current = onError
     closeRef.current = close
     cancelRef.current = cancel
     openDepositFlowRef.current = openDepositFlow
-    fundingSessionIdRef.current = fundingSessionId
-  }, [onError, close, cancel, openDepositFlow, fundingSessionId])
+  }, [onError, close, cancel, openDepositFlow])
 
   useEffect(() => {
     if (!open || !widgetUrl || isLoading) {
@@ -298,7 +293,7 @@ export const TransakHost: FC<TransakHostProps> = ({
       depositTxHash: null,
       acknowledgeDepositTxHash: () => {},
       resolvedDepositAddress,
-      fundingSessionId,
+      fundingSessionId: null,
       mountTargetId,
     }),
     [
@@ -311,7 +306,6 @@ export const TransakHost: FC<TransakHostProps> = ({
       open,
       openDepositFlow,
       resolvedDepositAddress,
-      fundingSessionId,
     ]
   )
 

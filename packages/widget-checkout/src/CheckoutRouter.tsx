@@ -8,13 +8,11 @@ import {
 } from '@tanstack/react-router'
 import { useState } from 'react'
 import { CheckoutLayout } from './CheckoutLayout.js'
-import { CheckoutRoutesPage } from './pages/CheckoutRoutesPage.js'
 import { CheckoutTransactionDetailsPage } from './pages/CheckoutTransactionDetailsPage/CheckoutTransactionDetailsPage.js'
 import { CheckoutTransactionPage } from './pages/CheckoutTransactionPage.js'
 import { CheckoutTransactionStatusPage } from './pages/CheckoutTransactionStatusPage/CheckoutTransactionStatusPage.js'
 import { DepositErrorRoutePage } from './pages/DepositErrorPages/DepositErrorRoutePage.js'
 import { EnterAmountPage } from './pages/EnterAmountPage/EnterAmountPage.js'
-import { ProgressPage } from './pages/ProgressPage/ProgressPage.js'
 import { SelectCashCurrencyPage } from './pages/SelectCashCurrencyPage/SelectCashCurrencyPage.js'
 import { SelectSourcePage } from './pages/SelectSourcePage/SelectSourcePage.js'
 import { SelectTokenPage } from './pages/SelectTokenPage/SelectTokenPage.js'
@@ -42,12 +40,6 @@ const setDestinationRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: checkoutNavigationRoutes.setDestination,
   component: SetDestinationAddressPage,
-})
-
-const progressRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: checkoutNavigationRoutes.progress,
-  component: ProgressPage,
 })
 
 const transferDepositRoute = createRoute({
@@ -85,40 +77,6 @@ const fromTokenFromChainRoute = createRoute({
   component: () => <SelectChainPage formType="from" />,
 })
 
-const routesLayoutRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: navigationRoutes.routes,
-})
-
-const routesIndexRoute = createRoute({
-  getParentRoute: () => routesLayoutRoute,
-  path: '/',
-  component: CheckoutRoutesPage,
-})
-
-const routesTransactionExecutionRoute = createRoute({
-  getParentRoute: () => routesLayoutRoute,
-  path: navigationRoutes.transactionExecution,
-})
-
-const routesTransactionExecutionIndexRoute = createRoute({
-  getParentRoute: () => routesTransactionExecutionRoute,
-  path: '/',
-  component: CheckoutTransactionPage,
-})
-
-const routesTransactionExecutionDetailsRoute = createRoute({
-  getParentRoute: () => routesTransactionExecutionRoute,
-  path: navigationRoutes.transactionDetails,
-  component: CheckoutTransactionDetailsPage,
-})
-
-const routesTransactionExecutionStatusRoute = createRoute({
-  getParentRoute: () => routesTransactionExecutionRoute,
-  path: checkoutNavigationRoutes.transactionStatus,
-  component: CheckoutTransactionStatusPage,
-})
-
 const transactionExecutionLayoutRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: navigationRoutes.transactionExecution,
@@ -146,21 +104,12 @@ const routeTree = rootRoute.addChildren([
   indexRoute,
   enterAmountRoute,
   setDestinationRoute,
-  progressRoute,
   transferDepositRoute,
   depositErrorRoute,
   selectCashRoute,
   fromTokenLayoutRoute.addChildren([
     fromTokenIndexRoute,
     fromTokenFromChainRoute,
-  ]),
-  routesLayoutRoute.addChildren([
-    routesIndexRoute,
-    routesTransactionExecutionRoute.addChildren([
-      routesTransactionExecutionIndexRoute,
-      routesTransactionExecutionDetailsRoute,
-      routesTransactionExecutionStatusRoute,
-    ]),
   ]),
   transactionExecutionLayoutRoute.addChildren([
     transactionExecutionIndexRoute,

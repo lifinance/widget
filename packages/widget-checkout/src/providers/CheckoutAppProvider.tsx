@@ -10,10 +10,8 @@ import {
 } from '@lifi/widget/shared'
 import type { OnRampProvider } from '@lifi/widget-provider/checkout'
 import type { JSX, PropsWithChildren } from 'react'
-import { FrozenQuoteStoreProvider } from '../hooks/useFrozenQuote.js'
 import { CheckoutFlowStoreProvider } from '../stores/useCheckoutFlowStore.js'
 import { FiatCurrencyStoreProvider } from '../stores/useFiatCurrencyStore.js'
-import { CheckoutSdkBridge } from './CheckoutSdkBridge.js'
 import { OnRampProviderRegistry } from './OnRampProvider/OnRampProvider.js'
 import { ThemeProvider } from './ThemeProvider.js'
 
@@ -42,19 +40,17 @@ const CheckoutAppShell: React.FC<CheckoutAppShellProps> = ({
           <I18nProvider>
             <ThemeProvider>
               <SDKClientProvider>
-                <CheckoutSdkBridge>
-                  <WalletProvider providers={widgetConfig.providers ?? []}>
-                    <BookmarkStoreProvider namePrefix={widgetConfig.keyPrefix}>
-                      <OnRampProviderRegistry
-                        widgetConfig={widgetConfig}
-                        formRef={formRef}
-                        providers={onRampProviders}
-                      >
-                        {children}
-                      </OnRampProviderRegistry>
-                    </BookmarkStoreProvider>
-                  </WalletProvider>
-                </CheckoutSdkBridge>
+                <WalletProvider providers={widgetConfig.providers ?? []}>
+                  <BookmarkStoreProvider namePrefix={widgetConfig.keyPrefix}>
+                    <OnRampProviderRegistry
+                      widgetConfig={widgetConfig}
+                      formRef={formRef}
+                      providers={onRampProviders}
+                    >
+                      {children}
+                    </OnRampProviderRegistry>
+                  </BookmarkStoreProvider>
+                </WalletProvider>
               </SDKClientProvider>
             </ThemeProvider>
           </I18nProvider>
@@ -72,15 +68,13 @@ export const CheckoutAppProvider: React.FC<CheckoutAppProviderProps> = ({
 }): JSX.Element => (
   <CheckoutFlowStoreProvider>
     <FiatCurrencyStoreProvider>
-      <FrozenQuoteStoreProvider>
-        <CheckoutAppShell
-          widgetConfig={widgetConfig}
-          formRef={formRef}
-          onRampProviders={onRampProviders}
-        >
-          {children}
-        </CheckoutAppShell>
-      </FrozenQuoteStoreProvider>
+      <CheckoutAppShell
+        widgetConfig={widgetConfig}
+        formRef={formRef}
+        onRampProviders={onRampProviders}
+      >
+        {children}
+      </CheckoutAppShell>
     </FiatCurrencyStoreProvider>
   </CheckoutFlowStoreProvider>
 )

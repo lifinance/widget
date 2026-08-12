@@ -6,9 +6,9 @@ export const CheckoutContext: Context<CheckoutContextValue | null> =
   createContext<CheckoutContextValue | null>(null)
 
 /**
- * Reads the runtime checkout config (integrator, callbacks, session API
- * base URL) on-ramp host components depend on. Throws when called outside
- * the widget's `CheckoutProvider`.
+ * Reads the runtime checkout config (integrator, callbacks) on-ramp host
+ * components depend on. Throws when called outside the widget's
+ * `CheckoutProvider`.
  */
 export function useCheckoutConfig(): CheckoutContextValue {
   const ctx = useContext(CheckoutContext)
