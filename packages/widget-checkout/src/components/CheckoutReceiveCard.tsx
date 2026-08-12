@@ -217,11 +217,17 @@ const CheckoutReceiveCardWithRoutes: React.FC = () => {
     Number.isFinite(parsedAmount) &&
     parsedAmount > 0
   const route = routes?.[0] as Route | undefined
+  // Cash doesn't execute against this crypto route (the ONRAMP order only
+  // takes fiat + destination) — it's a display-only conversion preview, so a
+  // missing one isn't a pre-flight failure the way it is for transfer/exchange.
   const routeNotFound =
-    hasAmount && !route && !isLoading && !isFetching && isFetched
-  // Non-wallet flows need a deposit address; a quote without one can't proceed.
+    !isCash && hasAmount && !route && !isLoading && !isFetching && isFetched
+  // Transfer/exchange route through a SMART_DEPOSIT quote that carries a
+  // deposit address; a quote without one can't proceed. Cash never has one
+  // pre-commit (the ONRAMP order only mints its address after Continue), so
+  // its availability signal is the fiat quote succeeding, not this field.
   const depositUnavailable =
-    fundingSource !== 'wallet' &&
+    (fundingSource === 'transfer' || fundingSource === 'exchange') &&
     Boolean(route) &&
     quoteFetched &&
     !quoteLoading &&

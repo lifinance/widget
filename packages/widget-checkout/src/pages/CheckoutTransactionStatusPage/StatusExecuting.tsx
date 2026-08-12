@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { CheckoutFiatOriginToken } from '../../components/CheckoutFiatOriginToken.js'
 import { StatusStepList } from './StatusStepList.js'
 
-export interface FiatOrigin {
+interface FiatOrigin {
   currency: string
   amount: string
 }

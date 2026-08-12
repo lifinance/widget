@@ -580,10 +580,6 @@
     "connectWallet": "Connect wallet",
     "useAnotherWallet": "Use another wallet",
     "moreWallets": "More",
-    "progress": {
-      "title": "Purchase in progress",
-      "description": "We're processing your purchase. This may take a few minutes."
-    },
     "onramp": {
       "dialogTitle": "Deposit with {{providerName}}",
       "close": "Close",
