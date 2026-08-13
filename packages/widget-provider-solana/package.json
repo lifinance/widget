@@ -37,8 +37,8 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "0.0.0-preview-c328023",
-    "@lifi/sdk-provider-solana": "0.0.0-preview-c328023",
+    "@lifi/sdk": "0.0.0-preview-306a9fec",
+    "@lifi/sdk-provider-solana": "0.0.0-preview-306a9fec",
     "@lifi/widget-provider": "workspace:*",
     "@wallet-standard/app": "^1.1.1",
     "@wallet-standard/base": "^1.1.1",
