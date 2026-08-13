@@ -6,6 +6,8 @@ const walletPriority: Record<string, number> = {
   coinbaseWalletSDK: 2,
   'com.coinbase.wallet': 2,
   walletConnect: 3,
+  // Stellar Wallets Kit's WalletConnect module id (WALLET_CONNECT_ID).
+  wallet_connect: 3,
   safe: 4,
 }
 

@@ -4,6 +4,7 @@ export {
 } from './hooks/useWalletAccount.js'
 export { StellarProvider } from './providers/StellarProvider.js'
 export type {
+  StellarWalletIdentity,
   StellarWalletInfo,
   StellarWalletsKitStore,
 } from './stellar-kit/types.js'

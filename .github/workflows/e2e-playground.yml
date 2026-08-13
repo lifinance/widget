@@ -15,6 +15,7 @@ on:
       - 'packages/widget-provider-ethereum/**'
       - 'packages/widget-provider-solana/**'
       - 'packages/widget-provider-bitcoin/**'
+      - 'packages/widget-provider-stellar/**'
       - 'packages/widget-provider-sui/**'
       - 'packages/widget-provider-tron/**'
       # E2E test code (widget-light and widget-embedded are not playground dependencies)

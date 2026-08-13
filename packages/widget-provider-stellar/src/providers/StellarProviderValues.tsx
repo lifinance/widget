@@ -26,18 +26,13 @@ export const StellarProviderValues: FC<
   const {
     networkPassphrase,
     wallets,
-    selectedWalletId,
+    selectedWallet,
     address,
     connected,
     connecting,
     connect,
     disconnect,
   } = useStellarWalletsKit(config)
-
-  const selectedWallet = useMemo(
-    () => wallets.find((wallet) => wallet.id === selectedWalletId),
-    [wallets, selectedWalletId]
-  )
 
   const connector = useMemo(
     () =>
@@ -103,7 +98,7 @@ export const StellarProviderValues: FC<
       }
     }
     if (typeof config?.sdkProvider === 'function') {
-      return config.sdkProvider({ getWallet })
+      return config.sdkProvider({ getWallet, networkPassphrase })
     }
     return (
       config?.sdkProvider ??
@@ -128,13 +123,11 @@ export const StellarProviderValues: FC<
       walletId: string,
       onSuccess?: (address: string, chainId: number) => void
     ) => {
-      try {
-        const connectedAddress = await connect(walletId)
-        if (connectedAddress) {
-          onSuccess?.(connectedAddress, ChainId.XLM)
-        }
-      } catch (error) {
-        console.error('Failed to connect wallet:', error)
+      // Errors propagate so the wallet menu can surface a rejected or failed
+      // connection instead of closing as if it succeeded.
+      const connectedAddress = await connect(walletId)
+      if (connectedAddress) {
+        onSuccess?.(connectedAddress, ChainId.XLM)
       }
     },
     [connect]

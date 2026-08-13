@@ -122,6 +122,22 @@ export const SendToWalletButton: React.FC<
     setSelectedBookmark()
   }
 
+  // `unsupportedToAddress` hides every control that can clear the field — the
+  // card collapses and the X button is suppressed — so an address entered
+  // before the switch would stay in the form, keep the route query disabled,
+  // and leave the user no way to recover.
+  useEffect(() => {
+    if (unsupportedToAddress && toAddressFieldValue) {
+      setFieldValue('toAddress', '', { isTouched: true })
+      setSelectedBookmark()
+    }
+  }, [
+    unsupportedToAddress,
+    toAddressFieldValue,
+    setFieldValue,
+    setSelectedBookmark,
+  ])
+
   // The collapse opens instantly on first page load/component mount when there is an address to display
   // After which it needs an animated transition for open and closing.
   // collapseTransitionTime is used specify the transition time for opening and closing
