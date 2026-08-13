@@ -29,9 +29,9 @@ export const StellarProvider = (
   // The kit is a static singleton and the first initialization wins, so claim it
   // here — `useWalletAccount()` is a public hook that creates the store without
   // config and would otherwise drop the projectId and the network passphrase.
-  if (typeof window !== 'undefined') {
-    initStellarWalletsKit(config)
-  }
+  // Unguarded on purpose: under SSR the store is created during the server
+  // render, so guarding this on `window` would hand that render the empty config.
+  initStellarWalletsKit(config)
   return ({ children, ...props }: PropsWithChildren<WidgetProviderProps>) => (
     <StellarWidgetProvider {...props} config={config}>
       {children}

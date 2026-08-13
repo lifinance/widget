@@ -162,13 +162,15 @@ export function createStellarWalletsKitStore(
 
   // Extension globals inject asynchronously and SWK's availability probe gives
   // up after 1s, so a probe issued during the first render can miss an installed
-  // wallet. Re-probe once the page finished loading, and whenever the tab
-  // becomes visible again (the user may have installed a wallet meanwhile).
+  // wallet. Re-probe once the page finished loading, and while the probe still
+  // reports nothing available, whenever the tab becomes visible again.
   const probeWallets = () => {
     store
       .getState()
       .refreshWallets()
-      .catch(() => {})
+      .catch((error) => {
+        console.error('Failed to detect Stellar wallets:', error)
+      })
   }
 
   probeWallets()
@@ -178,7 +180,10 @@ export function createStellarWalletsKitStore(
       window.addEventListener('load', probeWallets, { once: true })
     }
     document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') {
+      const foundAny = store
+        .getState()
+        .wallets.some((wallet) => wallet.isAvailable)
+      if (document.visibilityState === 'visible' && !foundAny) {
         probeWallets()
       }
     })
