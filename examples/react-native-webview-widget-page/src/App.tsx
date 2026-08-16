@@ -1,4 +1,5 @@
 import { LiFiWidget, type WidgetConfig } from '@lifi/widget'
+import { EthereumProvider } from '@lifi/widget-provider-ethereum'
 import { useEffect, useMemo, useState } from 'react'
 
 /**
@@ -55,6 +56,10 @@ export const App = () => {
   const config: WidgetConfig = useMemo(
     () => ({
       integrator: 'lifi-rn-webview-example',
+      // The widget takes wallet providers explicitly since v4. EVM only here:
+      // the RN host's injected EIP-6963 provider is discovered by wagmi's
+      // multi-injected-provider discovery inside EthereumProvider.
+      providers: [EthereumProvider()],
       appearance: 'light',
       theme: {
         container: {
