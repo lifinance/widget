@@ -6,9 +6,9 @@ import { useEffect, useMemo, useState } from 'react'
  * This page is meant to be rendered inside a react-native-webview.
  *
  * The React Native host injects an EIP-1193 provider (announced via EIP-6963)
- * before this page loads - see app/src/bridge/injectedProvider.ts. From the
- * widget's point of view the host app is just another injected wallet, so no
- * widget internals are involved at all.
+ * before this page loads - see ../react-native-webview/src/bridge/injectedProvider.ts.
+ * From the widget's point of view the host app is just another injected
+ * wallet, so no widget internals are involved at all.
  *
  * The host can optionally pass widget config overrides:
  * - via the `config` query param (URI-encoded JSON), read once at load
@@ -25,9 +25,8 @@ const readConfigFromQuery = (): Partial<WidgetConfig> => {
 }
 
 export const App = () => {
-  const [configOverrides, setConfigOverrides] = useState<Partial<WidgetConfig>>(
-    readConfigFromQuery
-  )
+  const [configOverrides, setConfigOverrides] =
+    useState<Partial<WidgetConfig>>(readConfigFromQuery)
 
   useEffect(() => {
     // RN -> page messages arrive on `document` on Android and `window` on iOS.
