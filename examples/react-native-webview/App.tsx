@@ -16,7 +16,8 @@ import {
   StyleSheet,
 } from 'react-native'
 import { WebView, type WebViewMessageEvent } from 'react-native-webview'
-import { generatePrivateKey } from 'viem/accounts'
+import { bytesToHex } from 'viem'
+import { generatePrivateKey, mnemonicToAccount } from 'viem/accounts'
 import { buildInjectedProvider } from './src/bridge/injectedProvider'
 import { isBridgeRequest } from './src/bridge/types'
 import { type ApprovalRequest, WalletHost } from './src/bridge/walletHost'
@@ -31,8 +32,12 @@ import { type ApprovalRequest, WalletHost } from './src/bridge/walletHost'
 // account #0 key is public knowledge; it holds nothing outside forks.
 const HARNESS = false
 const HARNESS_RPC = 'http://localhost:8545'
-const ANVIL_ACCOUNT_0_KEY =
-  '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80' as const
+// anvil / hardhat well-known dev mnemonic. Account #0's key is derived from it
+// at runtime rather than pasted in, so no real-looking private key literal
+// lives in the example. It's a public test account that only ever holds fork
+// funds - never put a real key here.
+const ANVIL_MNEMONIC =
+  'test test test test test test test test test test test junk'
 
 // The widget page's dev server. Use your machine's LAN IP on a real device;
 // localhost works for the iOS simulator.
@@ -50,7 +55,9 @@ const WIDGET_PAGE_URL = HARNESS
 
 // Ephemeral dev account, new on every app launch (or anvil's account #0 under
 // the harness). Never hardcode a real key anywhere near production code.
-const DEV_PRIVATE_KEY = HARNESS ? ANVIL_ACCOUNT_0_KEY : generatePrivateKey()
+const DEV_PRIVATE_KEY = HARNESS
+  ? bytesToHex(mnemonicToAccount(ANVIL_MNEMONIC).getHdKey().privateKey!)
+  : generatePrivateKey()
 
 const requestApproval = (request: ApprovalRequest): Promise<boolean> =>
   new Promise((resolve) => {
