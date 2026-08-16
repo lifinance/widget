@@ -50,6 +50,12 @@ export interface WalletHostOptions {
   requestApproval: (request: ApprovalRequest) => Promise<boolean>
   /** Sends a JSON string into the WebView (webViewRef.postMessage). */
   postToPage: (json: string) => void
+  /**
+   * Test-harness RPC overrides per chain id (e.g. an anvil mainnet fork).
+   * When set, both reads and transaction submission for that chain go to the
+   * override, so swaps execute against fork state with fake funds.
+   */
+  rpcOverrides?: Record<number, string>
 }
 
 const SUPPORTED_CHAINS: Chain[] = [mainnet, base, arbitrum, optimism, polygon]
@@ -190,7 +196,7 @@ export class WalletHost {
         const walletClient = createWalletClient({
           account: this.account,
           chain: this.chain,
-          transport: http(),
+          transport: http(this.options.rpcOverrides?.[this.chain.id]),
         })
         const hash = await walletClient.sendTransaction({
           to: tx.to,
@@ -218,7 +224,10 @@ export class WalletHost {
   private getPublicClient(): PublicClient {
     let client = this.publicClients.get(this.chain.id)
     if (!client) {
-      client = createPublicClient({ chain: this.chain, transport: http() })
+      client = createPublicClient({
+        chain: this.chain,
+        transport: http(this.options.rpcOverrides?.[this.chain.id]),
+      })
       this.publicClients.set(this.chain.id, client)
     }
     return client
