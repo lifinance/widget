@@ -14,7 +14,8 @@
     "react": "^19.2.7",
     "react-native": "0.85.3",
     "react-native-webview": "^14.0.1",
-    "viem": "^2.52.0"
+    "viem": "^2.52.0",
+    "react-native-get-random-values": "^1.11.0"
   },
   "devDependencies": {
     "@types/react": "^19.2.17",
