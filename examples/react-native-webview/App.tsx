@@ -7,7 +7,7 @@
  * gets an opaque origin, which breaks localStorage on Android and origin
  * checks on iOS.
  */
-import { useMemo, useRef } from 'react'
+import { type ComponentRef, useMemo, useRef } from 'react'
 import {
   Alert,
   Platform,
@@ -68,12 +68,7 @@ const requestApproval = (request: ApprovalRequest): Promise<boolean> =>
   })
 
 export default function App() {
-  // `WebView<object>`: react-native-webview declares `WebView<P = undefined>
-  // extends Component<WebViewProps & P>`, and under TypeScript 6 an
-  // intersection with `undefined` collapses to `never`, so any use of `ref`
-  // (which forces inference of P) type-errors. Pinning P to `object` keeps
-  // WebViewProps intact.
-  const webViewRef = useRef<WebView<object>>(null)
+  const webViewRef = useRef<ComponentRef<typeof WebView>>(null)
 
   const walletHost = useMemo(
     () =>
@@ -101,7 +96,7 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <WebView<object>
+      <WebView
         ref={webViewRef}
         source={{ uri: WIDGET_PAGE_URL }}
         injectedJavaScriptBeforeContentLoaded={
