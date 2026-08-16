@@ -7,11 +7,12 @@
  * gets an opaque origin, which breaks localStorage on Android and origin
  * checks on iOS.
  */
-import { useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { Alert, Platform, SafeAreaView, StatusBar, StyleSheet } from 'react-native'
 import { WebView, type WebViewMessageEvent } from 'react-native-webview'
 import { generatePrivateKey } from 'viem/accounts'
 import { buildInjectedProvider } from './src/bridge/injectedProvider'
+import { reportAutomationResult, startDevAutomation } from './src/devAutomation'
 import { isBridgeRequest } from './src/bridge/types'
 import { type ApprovalRequest, WalletHost } from './src/bridge/walletHost'
 
@@ -35,6 +36,8 @@ const requestApproval = (request: ApprovalRequest): Promise<boolean> =>
   })
 
 export default function App() {
+  useEffect(() => startDevAutomation(() => webViewRef.current), [])
+
   // `WebView<object>`: react-native-webview declares `WebView<P = undefined>
   // extends Component<WebViewProps & P>`, and under TypeScript 6 an
   // intersection with `undefined` collapses to `never`, so any use of `ref`
@@ -81,6 +84,10 @@ export default function App() {
           try {
             const message = JSON.parse(event.nativeEvent.data)
             const src = (message as { source?: string }).source
+            if (src === 'dev-automation') {
+              reportAutomationResult(message)
+              return
+            }
             if (src === 'debug-probe' || src === 'debug-console') {
               console.log('BRIDGE-PROBE', event.nativeEvent.data)
               return
