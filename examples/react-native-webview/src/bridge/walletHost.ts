@@ -12,17 +12,18 @@
  * iOS, which freezes the widget mid-route. Documented in the README.
  */
 import {
-  http,
   type Address,
   type Chain,
   createPublicClient,
   createWalletClient,
+  http,
   numberToHex,
   type PublicClient,
 } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { arbitrum, base, mainnet, optimism, polygon } from 'viem/chains'
 import {
+  BRIDGE_SOURCE,
   type BridgeRequest,
   type BridgeResponse,
   ProviderErrors,
@@ -236,17 +237,20 @@ export class WalletHost {
   private respond(response: Omit<BridgeResponse, 'source' | 'kind'>): void {
     this.options.postToPage(
       JSON.stringify({
-        source: 'lifi-rn-wallet-bridge',
+        source: BRIDGE_SOURCE,
         kind: 'response',
         ...response,
       })
     )
   }
 
-  private emit(event: 'chainChanged' | 'accountsChanged', params: unknown): void {
+  private emit(
+    event: 'chainChanged' | 'accountsChanged',
+    params: unknown
+  ): void {
     this.options.postToPage(
       JSON.stringify({
-        source: 'lifi-rn-wallet-bridge',
+        source: BRIDGE_SOURCE,
         kind: 'event',
         event,
         params,
@@ -261,8 +265,15 @@ const shorten = (address: string): string =>
 const normalizeError = (
   error: unknown
 ): { code: number; message: string; data?: unknown } => {
-  const candidate = error as { code?: unknown; message?: unknown; data?: unknown }
-  if (typeof candidate?.code === 'number' && typeof candidate?.message === 'string') {
+  const candidate = error as {
+    code?: unknown
+    message?: unknown
+    data?: unknown
+  }
+  if (
+    typeof candidate?.code === 'number' &&
+    typeof candidate?.message === 'string'
+  ) {
     return {
       code: candidate.code,
       message: candidate.message,
