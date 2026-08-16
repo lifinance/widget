@@ -18,6 +18,8 @@ overrides:
   use-sync-external-store: "1.4.0"
   utf-8-validate: "6.0.6"
   zod: ">=4.4.3"
+  ws: ">=8.21.1"
+  esbuild: ">=0.25.0"
 allowBuilds:
   "@opensea/seaport-js": false
   "@parcel/watcher": false
