@@ -54,6 +54,25 @@ export const buildInjectedProvider = ({
   window.__lifiRnBridgeInstalled = true;
 
   var BRIDGE_SOURCE = 'lifi-rn-wallet-bridge';
+
+  // DEBUG console forwarding - strip before PR
+  function fwd(level, args) {
+    try {
+      window.ReactNativeWebView.postMessage(JSON.stringify({
+        source: 'debug-console', level: level,
+        msg: Array.prototype.map.call(args, function (a) {
+          try { return typeof a === 'string' ? a : JSON.stringify(a); } catch (e) { return String(a); }
+        }).join(' ').slice(0, 500),
+      }));
+    } catch (e) {}
+  }
+  var origError = console.error, origWarn = console.warn;
+  console.error = function () { fwd('error', arguments); origError.apply(console, arguments); };
+  console.warn = function () { fwd('warn', arguments); origWarn.apply(console, arguments); };
+  window.addEventListener('unhandledrejection', function (e) {
+    fwd('unhandledrejection', [e.reason && (e.reason.message || String(e.reason))]);
+  });
+  window.addEventListener('error', function (e) { fwd('window.onerror', [e.message]); });
   var nextId = 1;
   var pending = Object.create(null); // id -> { resolve, reject }
   var listeners = Object.create(null); // event -> [fn]

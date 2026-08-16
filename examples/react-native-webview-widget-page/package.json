@@ -12,7 +12,8 @@
   "dependencies": {
     "@lifi/widget": "workspace:*",
     "react": "^19.2.7",
-    "react-dom": "^19.2.7"
+    "react-dom": "^19.2.7",
+    "@lifi/widget-provider-ethereum": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^19.2.17",

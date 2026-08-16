@@ -18,8 +18,8 @@ import { type ApprovalRequest, WalletHost } from './src/bridge/walletHost'
 // Dev server of ../widget-page. Use your machine's LAN IP for a device,
 // localhost works for the iOS simulator.
 const WIDGET_PAGE_URL = Platform.select({
-  ios: 'http://localhost:5173',
-  default: 'http://192.168.1.10:5173',
+  ios: 'http://localhost:5174',
+  default: 'http://192.168.1.67:5174',
 })!
 
 // Ephemeral dev account, new on every app launch. Fund it only for a
@@ -71,9 +71,20 @@ export default function App() {
         ref={webViewRef}
         source={{ uri: WIDGET_PAGE_URL }}
         injectedJavaScriptBeforeContentLoaded={injectedJavaScriptBeforeContentLoaded}
+        onLoadEnd={() => {
+          // DEBUG probe - strip before PR
+          setTimeout(() => {
+            webViewRef.current?.injectJavaScript("(function(){\n  var out = { source: 'debug-probe', kind: 'deep' };\n  var count = 0;\n  window.addEventListener('eip6963:announceProvider', function () { count++; });\n  window.dispatchEvent(new Event('eip6963:requestProvider'));\n  out.announcementsSeen = count;\n  out.installed = !!window.__lifiRnBridgeInstalled;\n  fetch('https://li.quest/v1/chains?chainTypes=EVM').then(function(r){\n    out.chainsStatus = r.status;\n    window.ReactNativeWebView.postMessage(JSON.stringify(out));\n  }).catch(function(e){\n    out.chainsStatus = 'ERR:'+ (e && e.message);\n    window.ReactNativeWebView.postMessage(JSON.stringify(out));\n  });\n})(); true;\n")
+          }, 2500)
+        }}
         onMessage={(event: WebViewMessageEvent) => {
           try {
             const message = JSON.parse(event.nativeEvent.data)
+            const src = (message as { source?: string }).source
+            if (src === 'debug-probe' || src === 'debug-console') {
+              console.log('BRIDGE-PROBE', event.nativeEvent.data)
+              return
+            }
             if (isBridgeRequest(message)) {
               walletHost.handleRequest(message)
             }

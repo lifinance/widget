@@ -6,6 +6,6 @@ export default defineConfig({
   server: {
     // The RN app loads this page over the LAN, so bind beyond localhost.
     host: true,
-    port: 5173,
+    port: 5174,
   },
 })
