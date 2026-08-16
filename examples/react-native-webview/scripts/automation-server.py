@@ -83,7 +83,8 @@ def serve():
 
 CLICK_SNIPPET = """
 var target = %(sel)s;
-var el = document.querySelector(target);
+var el = null;
+try { el = document.querySelector(target); } catch (e) { /* not CSS, use text match */ }
 if (!el) {
   var candidates = [];
   var all = document.querySelectorAll('button, a, [role="button"], input, p, span, div, li');

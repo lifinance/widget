@@ -18,14 +18,31 @@ import { type ApprovalRequest, WalletHost } from './src/bridge/walletHost'
 
 // Dev server of ../widget-page. Use your machine's LAN IP for a device,
 // localhost works for the iOS simulator.
-const WIDGET_PAGE_URL = Platform.select({
-  ios: 'http://localhost:5174',
-  default: 'http://192.168.1.67:5174',
-})!
+// Test harness: run `anvil --fork-url <mainnet rpc> --chain-id 1` on the host
+// and flip this on. The wallet becomes anvil's well-known account #0 (10k fake
+// ETH on the fork) and all chain-1 traffic - the app's AND the widget's - goes
+// to the fork, so same-chain swaps execute end-to-end with zero real funds.
+// anvil's account #0 key is public knowledge; it holds nothing outside forks.
+const HARNESS = true
+const HARNESS_RPC = 'http://localhost:8545'
+const ANVIL_ACCOUNT_0_KEY =
+  '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80' as const
 
 // Ephemeral dev account, new on every app launch. Fund it only for a
 // receipts run; never hardcode a real key.
-const DEV_PRIVATE_KEY = generatePrivateKey()
+const WIDGET_PAGE_BASE = Platform.select({
+  ios: 'http://localhost:5174',
+  default: 'http://192.168.1.67:5174',
+})!
+// Point the widget's own SDK reads at the fork too, or execution status
+// would be checked against real mainnet and never see the forked txs.
+const WIDGET_PAGE_URL = HARNESS
+  ? `${WIDGET_PAGE_BASE}/?config=${encodeURIComponent(
+      JSON.stringify({ sdkConfig: { rpcUrls: { 1: [HARNESS_RPC] } } })
+    )}`
+  : WIDGET_PAGE_BASE
+
+const DEV_PRIVATE_KEY = HARNESS ? ANVIL_ACCOUNT_0_KEY : generatePrivateKey()
 
 const requestApproval = (request: ApprovalRequest): Promise<boolean> =>
   new Promise((resolve) => {
@@ -51,6 +68,7 @@ export default function App() {
         privateKey: DEV_PRIVATE_KEY,
         requestApproval,
         postToPage: (json) => webViewRef.current?.postMessage(json),
+        rpcOverrides: HARNESS ? { 1: HARNESS_RPC } : undefined,
       }),
     []
   )
