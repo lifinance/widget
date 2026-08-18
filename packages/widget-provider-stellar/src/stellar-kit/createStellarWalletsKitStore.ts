@@ -86,6 +86,10 @@ export function createStellarWalletsKitStore(
   const { networkPassphrase } = initStellarWalletsKit(config)
 
   let refreshing: Promise<void> | undefined
+  let teardown = () => {}
+  // SWK restores `activeAddress` from localStorage at import, so an address alone
+  // is not proof the wallet is still reachable.
+  let handshakeCompleted = false
 
   const store = create<StellarWalletsKitState>((set) => ({
     networkPassphrase,
@@ -127,9 +131,11 @@ export function createStellarWalletsKitStore(
           await safeDisconnect()
           throw error
         }
+        handshakeCompleted = true
         set({ address, connected: Boolean(address), connecting: false })
         return address ?? null
       } catch (error) {
+        handshakeCompleted = false
         set({ connecting: false })
         throw error
       }
@@ -138,27 +144,40 @@ export function createStellarWalletsKitStore(
       // SWK's `disconnect()` calls the active module's own `disconnect()`
       // without awaiting it, so a WalletConnect session teardown that rejects
       // asynchronously escapes upstream; this only catches what SWK surfaces.
+      handshakeCompleted = false
       await safeDisconnect()
       set({ address: null, connected: false })
+    },
+    destroy() {
+      teardown()
     },
   }))
 
   // Keep the store's address in sync with the kit's internal state (also fires
   // on external disconnects and at launch, since SWK restores the address).
-  StellarWalletsKit.on(KitEventType.STATE_UPDATED, (event) => {
-    const address = event.payload.address ?? null
-    store.setState({ address, connected: Boolean(address) })
-  })
+  const disposeStateUpdated = StellarWalletsKit.on(
+    KitEventType.STATE_UPDATED,
+    (event) => {
+      const address = event.payload.address ?? null
+      store.setState({
+        address,
+        connected: handshakeCompleted && Boolean(address),
+      })
+    }
+  )
 
   // Fires immediately with the module SWK restored from its own storage, then
   // on every selection change.
-  StellarWalletsKit.on(KitEventType.WALLET_SELECTED, () => {
-    const selectedWallet = readSelectedWallet()
-    store.setState({
-      selectedWallet,
-      selectedWalletId: selectedWallet?.id ?? null,
-    })
-  })
+  const disposeWalletSelected = StellarWalletsKit.on(
+    KitEventType.WALLET_SELECTED,
+    () => {
+      const selectedWallet = readSelectedWallet()
+      store.setState({
+        selectedWallet,
+        selectedWalletId: selectedWallet?.id ?? null,
+      })
+    }
+  )
 
   // Extension globals inject asynchronously and SWK's availability probe gives
   // up after 1s, so a probe issued during the first render can miss an installed
@@ -175,18 +194,25 @@ export function createStellarWalletsKitStore(
 
   probeWallets()
 
+  const handleVisibilityChange = () => {
+    if (document.visibilityState === 'visible') {
+      probeWallets()
+    }
+  }
+
   if (typeof window !== 'undefined' && typeof document !== 'undefined') {
     if (document.readyState !== 'complete') {
       window.addEventListener('load', probeWallets, { once: true })
     }
-    document.addEventListener('visibilitychange', () => {
-      const foundAny = store
-        .getState()
-        .wallets.some((wallet) => wallet.isAvailable)
-      if (document.visibilityState === 'visible' && !foundAny) {
-        probeWallets()
-      }
-    })
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+  }
+
+  teardown = () => {
+    disposeStateUpdated()
+    disposeWalletSelected()
+    if (typeof document !== 'undefined') {
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }
   }
 
   return store

@@ -48,7 +48,7 @@ export const StellarProviderValues: FC<
 
   const account = useMemo(
     () =>
-      address
+      connected && address
         ? {
             address,
             chainId: ChainId.XLM,
