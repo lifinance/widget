@@ -20,6 +20,7 @@ import type { CardProps } from '../Card/Card.js'
 import { Card } from '../Card/Card.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
 import { CardTitle } from '../Card/CardTitle.js'
+import { resolveUnsupportedToAddressClear } from './resolveUnsupportedToAddressClear.js'
 import {
   SendToWalletCardHeader,
   SendToWalletCardTitleRow,
@@ -39,8 +40,15 @@ export const SendToWalletButton: React.FC<
 > = ({ onEditAddress, onClearAddress, requireAddress, ...props }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { disabledUI, hiddenUI, toAddress, toAddresses, mode, modeOptions } =
-    useWidgetConfig()
+  const {
+    disabledUI,
+    hiddenUI,
+    requiredUI,
+    toAddress,
+    toAddresses,
+    mode,
+    modeOptions,
+  } = useWidgetConfig()
   const [toAddressFieldValue, toChainId, toTokenAddress] = useFieldValues(
     'toAddress',
     'toChain',
@@ -122,18 +130,31 @@ export const SendToWalletButton: React.FC<
     setSelectedBookmark()
   }
 
-  // `unsupportedToAddress` hides every control that can clear the field — the
-  // card collapses and the X button is suppressed — so an address entered
-  // before the switch would stay in the form, keep the route query disabled,
-  // and leave the user no way to recover.
+  // `unsupportedToAddress` hides every control that can clear the field, so a
+  // stale receiver would keep the route query disabled with no way to recover.
+  const isConfiguredAddress =
+    Boolean(toAddress) || Boolean(requiredUI?.toAddress)
+
   useEffect(() => {
-    if (unsupportedToAddress && toAddressFieldValue) {
+    const action = resolveUnsupportedToAddressClear({
+      unsupportedToAddress,
+      toAddressFieldValue,
+      isConfiguredAddress,
+      hasConsumerClear: Boolean(onClearAddress),
+    })
+    if (action === 'consumer') {
+      onClearAddress?.()
+      return
+    }
+    if (action === 'form') {
       setFieldValue('toAddress', '', { isTouched: true })
       setSelectedBookmark()
     }
   }, [
     unsupportedToAddress,
     toAddressFieldValue,
+    isConfiguredAddress,
+    onClearAddress,
     setFieldValue,
     setSelectedBookmark,
   ])
