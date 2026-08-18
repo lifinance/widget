@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "name": "LI.FI RN Example",
+    "slug": "lifi-rn-webview-example",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "bundleIdentifier": "fi.li.example.rn",
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsLocalNetworking": true
+        }
+      }
+    },
+    "android": {
+      "package": "fi.li.example.rn",
+      "usesCleartextTraffic": true
+    }
+  }
+}
