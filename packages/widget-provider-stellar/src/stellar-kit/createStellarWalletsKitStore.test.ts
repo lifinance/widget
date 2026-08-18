@@ -3,6 +3,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 const listeners: Record<string, (event: unknown) => void> = {}
 const disposers: Array<ReturnType<typeof vi.fn>> = []
 
+let moduleAvailable = true
+
 vi.mock('@creit.tech/stellar-wallets-kit', () => ({
   KitEventType: {
     STATE_UPDATED: 'STATE_UPDATE',
@@ -23,8 +25,13 @@ vi.mock('@creit.tech/stellar-wallets-kit', () => ({
     getNetwork: vi.fn(async () => {
       throw new Error('does not support the getNetwork function')
     }),
-    get selectedModule(): never {
-      throw new Error('Please set the wallet first')
+    get selectedModule() {
+      return {
+        productId: 'freighter',
+        productName: 'Freighter',
+        productIcon: 'icon',
+        isAvailable: async () => moduleAvailable,
+      }
     },
   },
 }))
@@ -46,22 +53,23 @@ const { createStellarWalletsKitStore } = await import(
 
 describe('createStellarWalletsKitStore', () => {
   beforeEach(() => {
+    moduleAvailable = true
     for (const key of Object.keys(listeners)) {
       delete listeners[key]
     }
     disposers.length = 0
   })
 
-  it('does not report a restored address as connected', () => {
+  it('reports a restored address as connected', () => {
     const store = createStellarWalletsKitStore()
 
     listeners.STATE_UPDATE?.({ payload: { address: 'GRESTORED' } })
 
     expect(store.getState().address).toBe('GRESTORED')
-    expect(store.getState().connected).toBe(false)
+    expect(store.getState().connected).toBe(true)
   })
 
-  it('reports connected only after an explicit connect handshake', async () => {
+  it('reports connected after an explicit connect', async () => {
     const store = createStellarWalletsKitStore()
 
     await store.getState().connect('freighter')
@@ -80,14 +88,11 @@ describe('createStellarWalletsKitStore', () => {
     expect(store.getState().connected).toBe(false)
   })
 
-  it('disposes every kit listener on destroy', () => {
+  it('reports the wallet as unreachable when the module is unavailable', async () => {
     const store = createStellarWalletsKitStore()
-    expect(disposers.length).toBeGreaterThan(0)
 
-    store.getState().destroy()
+    moduleAvailable = false
 
-    for (const dispose of disposers) {
-      expect(dispose).toHaveBeenCalled()
-    }
+    await expect(store.getState().isWalletReachable()).resolves.toBe(false)
   })
 })
