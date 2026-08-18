@@ -81,9 +81,9 @@ export const StellarProviderValues: FC<
       if (!walletAddress) {
         throw new Error('Wallet not connected')
       }
-      // A restored session can outlive the extension that created it.
+      // A restored session can outlive the extension that created it. The probe can
+      // also time out on a live wallet, so refuse to sign but never tear the session down.
       if (!(await isWalletReachable())) {
-        await disconnect()
         throw new Error('Wallet not connected')
       }
       return {
@@ -110,7 +110,7 @@ export const StellarProviderValues: FC<
       config?.sdkProvider ??
       StellarSDKProvider({ getWallet, networkPassphrase })
     )
-  }, [config?.sdkProvider, networkPassphrase, disconnect, isWalletReachable])
+  }, [config?.sdkProvider, networkPassphrase, isWalletReachable])
 
   const installedWallets = useMemo(
     () =>

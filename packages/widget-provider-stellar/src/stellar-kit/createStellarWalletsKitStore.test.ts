@@ -4,6 +4,7 @@ const listeners: Record<string, (event: unknown) => void> = {}
 const disposers: Array<ReturnType<typeof vi.fn>> = []
 
 let moduleAvailable = true
+let moduleSelected = true
 
 vi.mock('@creit.tech/stellar-wallets-kit', () => ({
   KitEventType: {
@@ -26,6 +27,9 @@ vi.mock('@creit.tech/stellar-wallets-kit', () => ({
       throw new Error('does not support the getNetwork function')
     }),
     get selectedModule() {
+      if (!moduleSelected) {
+        throw new Error('Please set the wallet first')
+      }
       return {
         productId: 'freighter',
         productName: 'Freighter',
@@ -54,6 +58,7 @@ const { createStellarWalletsKitStore } = await import(
 describe('createStellarWalletsKitStore', () => {
   beforeEach(() => {
     moduleAvailable = true
+    moduleSelected = true
     for (const key of Object.keys(listeners)) {
       delete listeners[key]
     }
@@ -88,10 +93,24 @@ describe('createStellarWalletsKitStore', () => {
     expect(store.getState().connected).toBe(false)
   })
 
+  it('reports the wallet as reachable when the module is available', async () => {
+    const store = createStellarWalletsKitStore()
+
+    await expect(store.getState().isWalletReachable()).resolves.toBe(true)
+  })
+
   it('reports the wallet as unreachable when the module is unavailable', async () => {
     const store = createStellarWalletsKitStore()
 
     moduleAvailable = false
+
+    await expect(store.getState().isWalletReachable()).resolves.toBe(false)
+  })
+
+  it('reports the wallet as unreachable when no module is selected', async () => {
+    const store = createStellarWalletsKitStore()
+
+    moduleSelected = false
 
     await expect(store.getState().isWalletReachable()).resolves.toBe(false)
   })
