@@ -5,45 +5,24 @@ on:
     branches:
       - main
 
-# Collapse rapid main pushes (e.g. the Changesets version + publish commits) onto one
-# deploy; supersede any in-flight run so two S3 syncs never race.
 concurrency:
   group: deploy-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build:
-    permissions:
-      id-token: write
+  trigger-deploy:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c # v6.2.3
-        with:
-          role-to-assume: arn:aws:iam::403372804574:role/github-actions
-          role-session-name: github-actions-role-session
-          aws-region: us-east-2
-      
-      - name: Install dependencies
-        uses: ./.github/actions/pnpm-install
-      
-      - name: Build application
+      - name: Dispatch site to deploy
         env:
-          NODE_OPTIONS: '--max_old_space_size=4096'
-        run: pnpm build
-      
-      - name: Deploy app build to S3 bucket
+          TOKEN: ${{ secrets.WIDGET_DEPLOY_TOKEN }}
+          DISPATCH_URL: ${{ secrets.WIDGET_DEPLOY_DISPATCH_URL }}
+          SHA: ${{ github.sha }}
         run: |
-          aws s3 sync ./packages/widget-playground-vite/dist/ s3://playground.li.fi --cache-control 'no-cache,no-store,must-revalidate' --delete
-          
-          aws s3 sync ./packages/widget-embedded/dist/ s3://widget.li.fi --cache-control 'no-cache,no-store,must-revalidate' --delete
-      
-      - name: Purge Cloudflare Cache by Hostname
-        run: |
-          curl -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/purge_cache" \
-          -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" \
-          -H "Content-Type: application/json" \
-          --data '{"hosts":["playground.li.fi", "widget.li.fi"]}'
+          curl --fail --silent --show-error -X POST \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "$DISPATCH_URL" \
+            -d "{\"event_type\":\"widget-main-pushed\",\"client_payload\":{\"sha\":\"$SHA\"}}"
