@@ -15,13 +15,7 @@ import type {
   StellarWalletsKitStore,
 } from './types.js'
 
-/**
- * SWK reports xBull as always-available because it can fall back to a web popup,
- * so we gate it to the actual browser-extension global (`window.xBullSDK`) to
- * keep the "installed only" behavior. Every other wallet uses SWK's own
- * availability: extension wallets (Freighter/Rabet/Hana/Lobstr) report true only
- * when installed, and WalletConnect reports true as an always-offered QR method.
- */
+// SWK reports xBull as available via its web popup, so gate it to the extension global.
 const isWalletInstalled = (id: string, reported: boolean): boolean => {
   if (id === XBULL_ID) {
     return (
@@ -32,9 +26,7 @@ const isWalletInstalled = (id: string, reported: boolean): boolean => {
   return reported
 }
 
-// SWK persists the selected module id itself and restores it at import time, so
-// the kit is the single source of truth for which wallet is selected. It throws
-// from `selectedModule` when nothing is selected.
+// SWK owns the selected module id and restores it itself.
 const readSelectedWallet = (): StellarWalletIdentity | null => {
   try {
     const module = StellarWalletsKit.selectedModule
@@ -59,13 +51,7 @@ const safeDisconnect = async (): Promise<void> => {
   }
 }
 
-/**
- * Only Freighter, Klever and Bitget implement `getNetwork`; every other enabled
- * module rejects with "does not support the getNetwork function", so this check
- * is best-effort. SWK's own docs call out Lobstr and Rabet as wallets that
- * ignore the passphrase passed to `signTransaction` — where a wallet can report
- * its network we refuse the connection rather than sign against the wrong one.
- */
+// Best effort: only Freighter, Klever and Bitget implement getNetwork.
 const assertWalletNetwork = async (expected: string): Promise<void> => {
   let actual: string | undefined
   try {

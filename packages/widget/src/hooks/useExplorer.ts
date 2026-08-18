@@ -13,6 +13,8 @@ const explorerPathOverrides: Partial<
   [ChainId.SUI]: { txPath: 'txblock', addressPath: 'coin' },
   [ChainId.LTR]: { txPath: 'logs', addressPath: 'accounts' },
   [ChainType.TVM]: { txPath: '#/transaction', addressPath: '#/address' },
+  // StellarExpert and steexp both route accounts at /account, never /address.
+  [ChainType.STL]: { txPath: 'tx', addressPath: 'account' },
 }
 
 type TransactionLinkProps = {
