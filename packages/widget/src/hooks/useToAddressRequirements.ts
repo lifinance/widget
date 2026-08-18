@@ -12,6 +12,7 @@ export const useToAddressRequirements = (
 ): {
   requiredToAddress: boolean
   unsupportedToAddress: boolean
+  unsupportedReceiverBlocking: boolean
   requiredToChainType: ChainType | undefined
   accountNotDeployedAtDestination: boolean
   accountDeployedAtDestination: boolean
@@ -75,6 +76,11 @@ export const useToAddressRequirements = (
     toChain?.chainType
   )
 
+  // Stellar routes settle to the signer, so a required receiver is never honoured.
+  const unsupportedReceiverBlocking = Boolean(
+    unsupportedToAddress && (toAddress || requiredUI?.toAddress)
+  )
+
   const requiredToAddress = Boolean(
     (isDifferentChainType ||
       isCrossChainContractAddress ||
@@ -100,6 +106,7 @@ export const useToAddressRequirements = (
   return {
     requiredToAddress,
     unsupportedToAddress,
+    unsupportedReceiverBlocking,
     requiredToChainType: toChain?.chainType,
     accountNotDeployedAtDestination,
     accountDeployedAtDestination,
