@@ -32,6 +32,7 @@ export const StellarProviderValues: FC<
     connecting,
     connect,
     disconnect,
+    isWalletReachable,
   } = useStellarWalletsKit(config)
 
   const connector = useMemo(
@@ -80,6 +81,11 @@ export const StellarProviderValues: FC<
       if (!walletAddress) {
         throw new Error('Wallet not connected')
       }
+      // A restored session can outlive the extension that created it.
+      if (!(await isWalletReachable())) {
+        await disconnect()
+        throw new Error('Wallet not connected')
+      }
       return {
         address: walletAddress,
         networkPassphrase,
@@ -104,7 +110,7 @@ export const StellarProviderValues: FC<
       config?.sdkProvider ??
       StellarSDKProvider({ getWallet, networkPassphrase })
     )
-  }, [config?.sdkProvider, networkPassphrase])
+  }, [config?.sdkProvider, networkPassphrase, disconnect, isWalletReachable])
 
   const installedWallets = useMemo(
     () =>
