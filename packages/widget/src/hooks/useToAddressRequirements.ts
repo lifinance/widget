@@ -11,6 +11,7 @@ export const useToAddressRequirements = (
 ): {
   requiredToAddress: boolean
   unsupportedToAddress: boolean
+  unsupportedConfiguredToAddress: boolean
   requiredToChainType: ChainType | undefined
   accountNotDeployedAtDestination: boolean
   accountDeployedAtDestination: boolean
@@ -20,7 +21,7 @@ export const useToAddressRequirements = (
   isLoading: boolean
   isFetched: boolean
 } => {
-  const { requiredUI, hiddenUI } = useWidgetConfig()
+  const { requiredUI, hiddenUI, toAddress: configToAddress } = useWidgetConfig()
   const [formFromChainId, formToChainId, formToAddress] = useFieldValues(
     'fromChain',
     'toChain',
@@ -76,6 +77,12 @@ export const useToAddressRequirements = (
       toChain?.chainType === ChainType.STL
   )
 
+  // A configured receiver cannot be honoured here, and silently dropping it would
+  // settle the transfer to the payer instead.
+  const unsupportedConfiguredToAddress = Boolean(
+    unsupportedToAddress && (configToAddress || requiredUI?.toAddress)
+  )
+
   const requiredToAddress = Boolean(
     (isDifferentChainType ||
       isCrossChainContractAddress ||
@@ -101,6 +108,7 @@ export const useToAddressRequirements = (
   return {
     requiredToAddress,
     unsupportedToAddress,
+    unsupportedConfiguredToAddress,
     requiredToChainType: toChain?.chainType,
     accountNotDeployedAtDestination,
     accountDeployedAtDestination,

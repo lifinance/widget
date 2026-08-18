@@ -116,6 +116,7 @@
   "info": {
     "message": {
       "accountDeployedMessage": "Your smart account may not have the same address on other chains. Please double-check before proceeding.",
+      "unsupportedToAddressMessage": "Stellar transfers always settle to the account that signs them, so a different recipient can't be used for this route.",
       "autoRefuel": "You're low on {{chainName}} gas. By continuing, you'll get enough gas to complete the transaction.",
       "emptyBridgesList": "We couldn't find any bridges that match your search",
       "emptyChainList": "We couldn't find any chains that match your search",
