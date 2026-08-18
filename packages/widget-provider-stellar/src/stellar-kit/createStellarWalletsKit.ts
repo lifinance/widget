@@ -66,6 +66,14 @@ const resolveNetwork = (passphrase?: string): Networks => {
 // First init wins; keep the network so later callers read back what the kit uses.
 let initializedNetwork: Networks | undefined
 
+let recordedConfig: StellarProviderConfig | undefined
+
+// `StellarProvider()` runs at module scope, so it only records config; the kit is
+// constructed when the store first needs it.
+export function recordStellarConfig(config?: StellarProviderConfig): void {
+  recordedConfig ??= config
+}
+
 // Drives SWK programmatically so wallets render in LI.FI's own menu. First call wins.
 export function initStellarWalletsKit(config?: StellarProviderConfig): {
   networkPassphrase: string
@@ -74,7 +82,8 @@ export function initStellarWalletsKit(config?: StellarProviderConfig): {
     return { networkPassphrase: initializedNetwork }
   }
 
-  const network = resolveNetwork(config?.networkPassphrase)
+  const resolvedConfig = config ?? recordedConfig
+  const network = resolveNetwork(resolvedConfig?.networkPassphrase)
 
   const modules: ModuleInterface[] = [
     new FreighterModule(),
