@@ -15,5 +15,4 @@ export {
 export type {
   StellarProviderConfig,
   StellarProviderDeps,
-  StellarWalletConnectConfig,
 } from './types.js'

@@ -11,8 +11,7 @@ export const getConnectorTagType = (
     return WalletTagType.Connected
   }
 
-  // `wallet_connect` is Stellar Wallets Kit's id for the same QR method.
-  if (connectorId === 'walletConnect' || connectorId === 'wallet_connect') {
+  if (connectorId === 'walletConnect') {
     return WalletTagType.QrCode
   }
 
