@@ -20,7 +20,6 @@ import type { CardProps } from '../Card/Card.js'
 import { Card } from '../Card/Card.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
 import { CardTitle } from '../Card/CardTitle.js'
-import { resolveUnsupportedToAddressClear } from './resolveUnsupportedToAddressClear.js'
 import {
   SendToWalletCardHeader,
   SendToWalletCardTitleRow,
@@ -40,15 +39,8 @@ export const SendToWalletButton: React.FC<
 > = ({ onEditAddress, onClearAddress, requireAddress, ...props }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const {
-    disabledUI,
-    hiddenUI,
-    requiredUI,
-    toAddress,
-    toAddresses,
-    mode,
-    modeOptions,
-  } = useWidgetConfig()
+  const { disabledUI, hiddenUI, toAddress, toAddresses, mode, modeOptions } =
+    useWidgetConfig()
   const [toAddressFieldValue, toChainId, toTokenAddress] = useFieldValues(
     'toAddress',
     'toChain',
@@ -59,8 +51,8 @@ export const SendToWalletButton: React.FC<
   const { setSelectedBookmark } = useBookmarkActions()
   const { accounts } = useAccount()
   const { getChainTypeFromAddress } = useChainTypeFromAddress()
-  const { requiredToAddress, unsupportedToAddress } = useToAddressRequirements()
-  const disabledToAddress = disabledUI?.toAddress || unsupportedToAddress
+  const { requiredToAddress } = useToAddressRequirements()
+  const disabledToAddress = disabledUI?.toAddress
   const hiddenToAddress = hiddenUI?.toAddress
 
   const address = toAddressFieldValue
@@ -130,35 +122,6 @@ export const SendToWalletButton: React.FC<
     setSelectedBookmark()
   }
 
-  // `unsupportedToAddress` hides every control that can clear the field, so a
-  // stale receiver would keep the route query disabled with no way to recover.
-  const isConfiguredAddress =
-    Boolean(toAddress) || Boolean(requiredUI?.toAddress)
-
-  useEffect(() => {
-    const action = resolveUnsupportedToAddressClear({
-      unsupportedToAddress,
-      toAddressFieldValue,
-      isConfiguredAddress,
-      hasConsumerClear: Boolean(onClearAddress),
-    })
-    if (action === 'consumer') {
-      onClearAddress?.()
-      return
-    }
-    if (action === 'form') {
-      setFieldValue('toAddress', '', { isTouched: true })
-      setSelectedBookmark()
-    }
-  }, [
-    unsupportedToAddress,
-    toAddressFieldValue,
-    isConfiguredAddress,
-    onClearAddress,
-    setFieldValue,
-    setSelectedBookmark,
-  ])
-
   // The collapse opens instantly on first page load/component mount when there is an address to display
   // After which it needs an animated transition for open and closing.
   // collapseTransitionTime is used specify the transition time for opening and closing
@@ -174,9 +137,7 @@ export const SendToWalletButton: React.FC<
 
   const addressRequired = requireAddress || requiredToAddress
   const isOpenCollapse =
-    !hiddenToAddress &&
-    !unsupportedToAddress &&
-    (addressRequired || !!toAddressFieldValue)
+    !hiddenToAddress && (addressRequired || !!toAddressFieldValue)
 
   const title =
     mode === 'custom' && modeOptions?.custom?.type === 'deposit'
