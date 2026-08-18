@@ -1,9 +1,10 @@
-import { ChainType, type RouteExtended } from '@lifi/sdk'
+import type { ChainType, RouteExtended } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useEthereumContext } from '@lifi/widget-provider'
 import { useChain } from '../hooks/useChain.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
+import { isCustomReceiverUnsupported } from '../utils/customReceiver.js'
 import { useIsContractAddress } from './useIsContractAddress.js'
 
 export const useToAddressRequirements = (
@@ -11,7 +12,6 @@ export const useToAddressRequirements = (
 ): {
   requiredToAddress: boolean
   unsupportedToAddress: boolean
-  unsupportedConfiguredToAddress: boolean
   requiredToChainType: ChainType | undefined
   accountNotDeployedAtDestination: boolean
   accountDeployedAtDestination: boolean
@@ -21,7 +21,7 @@ export const useToAddressRequirements = (
   isLoading: boolean
   isFetched: boolean
 } => {
-  const { requiredUI, hiddenUI, toAddress: configToAddress } = useWidgetConfig()
+  const { requiredUI, hiddenUI } = useWidgetConfig()
   const [formFromChainId, formToChainId, formToAddress] = useFieldValues(
     'fromChain',
     'toChain',
@@ -70,17 +70,9 @@ export const useToAddressRequirements = (
     fromChainId !== toChainId &&
     !fromContractCodeHasDelegationIndicator
 
-  // Stellar routes always settle to the account that signs them, so a custom
-  // receiver can't be honoured on a Stellar-to-Stellar transfer.
-  const unsupportedToAddress = Boolean(
-    fromChain?.chainType === ChainType.STL &&
-      toChain?.chainType === ChainType.STL
-  )
-
-  // A configured receiver cannot be honoured here, and silently dropping it would
-  // settle the transfer to the payer instead.
-  const unsupportedConfiguredToAddress = Boolean(
-    unsupportedToAddress && (configToAddress || requiredUI?.toAddress)
+  const unsupportedToAddress = isCustomReceiverUnsupported(
+    fromChain?.chainType,
+    toChain?.chainType
   )
 
   const requiredToAddress = Boolean(
@@ -108,7 +100,6 @@ export const useToAddressRequirements = (
   return {
     requiredToAddress,
     unsupportedToAddress,
-    unsupportedConfiguredToAddress,
     requiredToChainType: toChain?.chainType,
     accountNotDeployedAtDestination,
     accountDeployedAtDestination,
