@@ -65,6 +65,8 @@ export const createEcosystemListItemButton = ({
         // that never returned an address.
         if (didConnect) {
           onConnected?.()
+        } else {
+          onError?.(new Error('Wallet did not return an address.'))
         }
       } catch (error) {
         onError?.(error)
