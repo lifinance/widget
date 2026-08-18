@@ -22,7 +22,8 @@ export const useMessageQueue = (
 } => {
   const {
     requiredToAddress,
-    unsupportedConfiguredToAddress,
+    unsupportedToAddress,
+    toAddress,
     accountNotDeployedAtDestination,
     accountDeployedAtDestination,
     isLoading: isToAddressRequirementsLoading,
@@ -38,10 +39,10 @@ export const useMessageQueue = (
   const messageQueue = useMemo(() => {
     const queue: QueuedMessage[] = []
 
-    if (unsupportedConfiguredToAddress) {
+    if (unsupportedToAddress && toAddress) {
       queue.push({
         id: 'UNSUPPORTED_TO_ADDRESS',
-        priority: 1,
+        priority: 0,
       })
     }
 
@@ -102,7 +103,8 @@ export const useMessageQueue = (
     accountDeployedAtDestination,
     accountNotDeployedAtDestination,
     requiredToAddress,
-    unsupportedConfiguredToAddress,
+    unsupportedToAddress,
+    toAddress,
     missingChain,
     missingAccountAddress,
     belowMinFromAmountUSD,
