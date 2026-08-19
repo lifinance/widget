@@ -35,7 +35,6 @@ import {
   XBULL_ID,
   xBullModule,
 } from '@creit.tech/stellar-wallets-kit/modules/xbull'
-import type { StellarProviderConfig } from '../types.js'
 
 // Extension wallets shown in the LI.FI menu, matched against SWK product ids.
 export const ENABLED_WALLET_IDS: string[] = [
@@ -49,41 +48,13 @@ export const ENABLED_WALLET_IDS: string[] = [
   BITGET_WALLET_ID,
 ]
 
-const supportedPassphrases = new Set<string>(Object.values(Networks))
+let initialized = false
 
-const resolveNetwork = (passphrase?: string): Networks => {
-  if (!passphrase) {
-    return Networks.PUBLIC
+// Drives SWK programmatically so wallets render in LI.FI's own menu. Mainnet only.
+export function initStellarWalletsKit(): { networkPassphrase: string } {
+  if (initialized) {
+    return { networkPassphrase: Networks.PUBLIC }
   }
-  if (!supportedPassphrases.has(passphrase)) {
-    throw new Error(
-      `Unknown Stellar network passphrase: "${passphrase}". Use one of the \`Networks\` values exported by @creit.tech/stellar-wallets-kit.`
-    )
-  }
-  return passphrase as Networks
-}
-
-// First init wins; keep the network so later callers read back what the kit uses.
-let initializedNetwork: Networks | undefined
-
-let recordedConfig: StellarProviderConfig | undefined
-
-// `StellarProvider()` runs at module scope, so it only records config; the kit is
-// constructed when the store first needs it.
-export function recordStellarConfig(config?: StellarProviderConfig): void {
-  recordedConfig ??= config
-}
-
-// Drives SWK programmatically so wallets render in LI.FI's own menu. First call wins.
-export function initStellarWalletsKit(config?: StellarProviderConfig): {
-  networkPassphrase: string
-} {
-  if (initializedNetwork) {
-    return { networkPassphrase: initializedNetwork }
-  }
-
-  const resolvedConfig = config ?? recordedConfig
-  const network = resolveNetwork(resolvedConfig?.networkPassphrase)
 
   const modules: ModuleInterface[] = [
     new FreighterModule(),
@@ -96,8 +67,8 @@ export function initStellarWalletsKit(config?: StellarProviderConfig): {
     new BitgetModule(),
   ]
 
-  StellarWalletsKit.init({ modules, network })
-  initializedNetwork = network
+  StellarWalletsKit.init({ modules, network: Networks.PUBLIC })
+  initialized = true
 
-  return { networkPassphrase: network }
+  return { networkPassphrase: Networks.PUBLIC }
 }

@@ -33,7 +33,7 @@ export const StellarProviderValues: FC<
     connect,
     disconnect,
     isWalletReachable,
-  } = useStellarWalletsKit(config)
+  } = useStellarWalletsKit()
 
   const connector = useMemo(
     () =>

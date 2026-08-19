@@ -15,9 +15,4 @@ export interface StellarProviderDeps {
 
 export interface StellarProviderConfig {
   sdkProvider?: SDKProvider | SDKProviderFactory<StellarProviderDeps>
-  /**
-   * Network passphrase the wallet signs against. Defaults to the Stellar public
-   * (mainnet) network. Use the testnet passphrase for testnet integrations.
-   */
-  networkPassphrase?: string
 }

@@ -4,7 +4,6 @@ import {
 } from '@creit.tech/stellar-wallets-kit'
 import { XBULL_ID } from '@creit.tech/stellar-wallets-kit/modules/xbull'
 import { create } from 'zustand'
-import type { StellarProviderConfig } from '../types.js'
 import {
   ENABLED_WALLET_IDS,
   initStellarWalletsKit,
@@ -66,10 +65,8 @@ const assertWalletNetwork = async (expected: string): Promise<void> => {
   }
 }
 
-export function createStellarWalletsKitStore(
-  config?: StellarProviderConfig
-): StellarWalletsKitStore {
-  const { networkPassphrase } = initStellarWalletsKit(config)
+export function createStellarWalletsKitStore(): StellarWalletsKitStore {
+  const { networkPassphrase } = initStellarWalletsKit()
 
   let refreshing: Promise<void> | undefined
 
