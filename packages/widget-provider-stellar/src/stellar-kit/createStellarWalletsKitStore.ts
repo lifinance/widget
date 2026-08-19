@@ -154,7 +154,11 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
   // The store is a process-lifetime singleton, so these listeners live as long as the page.
   StellarWalletsKit.on(KitEventType.STATE_UPDATED, (event) => {
     const address = event.payload.address ?? null
-    store.setState({ address, connected: Boolean(address) })
+    // A restored address from a module we do not enable has no usable connector.
+    store.setState({
+      address,
+      connected: Boolean(address) && readSelectedWallet() !== null,
+    })
   })
 
   // Fires immediately with the module SWK restored from its own storage, then

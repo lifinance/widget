@@ -152,4 +152,13 @@ describe('createStellarWalletsKitStore', () => {
 
     await expect(store.getState().isWalletReachable()).resolves.toBe(false)
   })
+  it('does not report a restored address as connected without a known module', () => {
+    const store = createStellarWalletsKitStore()
+
+    moduleSelected = false
+    listeners.STATE_UPDATE?.({ payload: { address: 'GRESTORED' } })
+
+    expect(store.getState().address).toBe('GRESTORED')
+    expect(store.getState().connected).toBe(false)
+  })
 })
