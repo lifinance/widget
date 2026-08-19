@@ -41,7 +41,7 @@ export const useMessageQueue = (
     if (unsupportedReceiverBlocking) {
       queue.push({
         id: 'UNSUPPORTED_TO_ADDRESS',
-        priority: 0,
+        priority: 7,
       })
     }
 

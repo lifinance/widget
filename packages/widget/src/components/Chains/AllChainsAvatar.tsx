@@ -99,7 +99,7 @@ export const AllChainsAvatar: React.NamedExoticComponent<AllChainsAvatarProps> =
         }
       )
 
-      if (existingChainTypeIcons.length === maxChainAvatarsCount) {
+      if (existingChainTypeIcons.length >= maxChainAvatarsCount) {
         return existingChainTypeIcons
       }
 
