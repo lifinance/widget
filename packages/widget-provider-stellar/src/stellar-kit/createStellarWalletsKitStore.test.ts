@@ -6,6 +6,7 @@ const disposers: Array<ReturnType<typeof vi.fn>> = []
 let moduleAvailable = true
 let moduleSelected = true
 let walletNetwork: string | null = null
+let moduleProductId = 'freighter'
 
 vi.mock('@creit.tech/stellar-wallets-kit', () => ({
   Networks: {
@@ -39,7 +40,7 @@ vi.mock('@creit.tech/stellar-wallets-kit', () => ({
         throw new Error('Please set the wallet first')
       }
       return {
-        productId: 'freighter',
+        productId: moduleProductId,
         productName: 'Freighter',
         productIcon: 'icon',
         isAvailable: async () => moduleAvailable,
@@ -72,6 +73,7 @@ describe('createStellarWalletsKitStore', () => {
     }
     disposers.length = 0
     walletNetwork = null
+    moduleProductId = 'freighter'
   })
 
   it('reports a restored address as connected', () => {
@@ -141,5 +143,13 @@ describe('createStellarWalletsKitStore', () => {
     await expect(store.getState().getWalletNetwork()).resolves.toBe(
       'Public Global Stellar Network ; September 2015'
     )
+  })
+  it('treats xBull as unreachable when the extension global is absent', async () => {
+    const store = createStellarWalletsKitStore()
+
+    moduleProductId = 'xbull'
+    moduleAvailable = true
+
+    await expect(store.getState().isWalletReachable()).resolves.toBe(false)
   })
 })

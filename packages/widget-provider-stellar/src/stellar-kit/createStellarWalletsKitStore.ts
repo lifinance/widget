@@ -135,7 +135,14 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
     },
     async isWalletReachable() {
       try {
-        return await StellarWalletsKit.selectedModule.isAvailable()
+        const module = StellarWalletsKit.selectedModule
+        // SWK races its own availability probe against 1s; an absent extension
+        // otherwise stalls every signing attempt.
+        const timeout = new Promise<boolean>((resolve) =>
+          setTimeout(() => resolve(false), 1000)
+        )
+        const reported = await Promise.race([timeout, module.isAvailable()])
+        return isWalletInstalled(module.productId, reported)
       } catch {
         return false
       }
