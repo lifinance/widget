@@ -5,8 +5,13 @@ const disposers: Array<ReturnType<typeof vi.fn>> = []
 
 let moduleAvailable = true
 let moduleSelected = true
+let walletNetwork: string | null = null
 
 vi.mock('@creit.tech/stellar-wallets-kit', () => ({
+  Networks: {
+    PUBLIC: 'Public Global Stellar Network ; September 2015',
+    TESTNET: 'Test SDF Network ; September 2015',
+  },
   KitEventType: {
     STATE_UPDATED: 'STATE_UPDATE',
     WALLET_SELECTED: 'WALLET_SELECTED',
@@ -24,7 +29,10 @@ vi.mock('@creit.tech/stellar-wallets-kit', () => ({
     fetchAddress: vi.fn(async () => ({ address: 'GCONNECTED' })),
     disconnect: vi.fn(async () => {}),
     getNetwork: vi.fn(async () => {
-      throw new Error('does not support the getNetwork function')
+      if (walletNetwork === null) {
+        throw new Error('does not support the getNetwork function')
+      }
+      return { networkPassphrase: walletNetwork }
     }),
     get selectedModule() {
       if (!moduleSelected) {
@@ -63,6 +71,7 @@ describe('createStellarWalletsKitStore', () => {
       delete listeners[key]
     }
     disposers.length = 0
+    walletNetwork = null
   })
 
   it('reports a restored address as connected', () => {
@@ -113,5 +122,24 @@ describe('createStellarWalletsKitStore', () => {
     moduleSelected = false
 
     await expect(store.getState().isWalletReachable()).resolves.toBe(false)
+  })
+  it('reports the network the wallet is actually on', async () => {
+    const store = createStellarWalletsKitStore()
+
+    walletNetwork = 'Test SDF Network ; September 2015'
+
+    await expect(store.getState().getWalletNetwork()).resolves.toBe(
+      'Test SDF Network ; September 2015'
+    )
+  })
+
+  it('falls back to mainnet when the module cannot report its network', async () => {
+    const store = createStellarWalletsKitStore()
+
+    walletNetwork = null
+
+    await expect(store.getState().getWalletNetwork()).resolves.toBe(
+      'Public Global Stellar Network ; September 2015'
+    )
   })
 })

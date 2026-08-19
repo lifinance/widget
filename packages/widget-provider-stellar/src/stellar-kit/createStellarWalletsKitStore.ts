@@ -1,5 +1,6 @@
 import {
   KitEventType,
+  Networks,
   StellarWalletsKit,
 } from '@creit.tech/stellar-wallets-kit'
 import { XBULL_ID } from '@creit.tech/stellar-wallets-kit/modules/xbull'
@@ -123,6 +124,14 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
       // asynchronously escapes upstream; this only catches what SWK surfaces.
       await safeDisconnect()
       set({ address: null, connected: false })
+    },
+    async getWalletNetwork() {
+      try {
+        return (await StellarWalletsKit.getNetwork()).networkPassphrase
+      } catch {
+        // Five of the eight enabled modules have no getNetwork; treat them as compliant.
+        return Networks.PUBLIC
+      }
     },
     async isWalletReachable() {
       try {

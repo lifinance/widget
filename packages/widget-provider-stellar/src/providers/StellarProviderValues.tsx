@@ -33,6 +33,7 @@ export const StellarProviderValues: FC<
     connect,
     disconnect,
     isWalletReachable,
+    getWalletNetwork,
   } = useStellarWalletsKit()
 
   const connector = useMemo(
@@ -88,7 +89,9 @@ export const StellarProviderValues: FC<
       }
       return {
         address: walletAddress,
-        networkPassphrase,
+        // The route's network is fixed; this is the wallet's own, so the SDK can
+        // refuse to sign a mismatch.
+        networkPassphrase: await getWalletNetwork(),
         signTransaction: (xdr, opts) =>
           StellarWalletsKit.signTransaction(xdr, {
             address: walletAddress,
@@ -110,7 +113,12 @@ export const StellarProviderValues: FC<
       config?.sdkProvider ??
       StellarSDKProvider({ getWallet, networkPassphrase })
     )
-  }, [config?.sdkProvider, networkPassphrase, isWalletReachable])
+  }, [
+    config?.sdkProvider,
+    networkPassphrase,
+    isWalletReachable,
+    getWalletNetwork,
+  ])
 
   const installedWallets = useMemo(
     () =>

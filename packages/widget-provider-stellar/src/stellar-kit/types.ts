@@ -31,6 +31,7 @@ export interface StellarWalletsKitActions {
   disconnect: () => Promise<void>
   refreshWallets: () => Promise<void>
   isWalletReachable: () => Promise<boolean>
+  getWalletNetwork: () => Promise<string>
 }
 
 export type StellarWalletsKitState = StellarWalletsKitProps &
