@@ -62,8 +62,9 @@ jobs:
           version-script: pnpm changeset:version
           pr-title: 'chore: version packages'
           commit-message: 'chore: version packages'
-          # v2 pushes via the GitHub API by default; keep the v1 Git CLI behaviour.
-          push-with-git-cli: true
+        # No `env: GITHUB_TOKEN` — v2 throws when it is set and differs from the
+        # `github-token` input. The action injects its own token into the version
+        # script's environment, which is what changelog-github needs.
         env:
           HUSKY: '0'
 
@@ -92,8 +93,9 @@ jobs:
         with:
           publish-script: pnpm changeset:publish
           create-github-releases: true
-          # v2 pushes via the GitHub API by default; keep the v1 Git CLI behaviour.
-          push-with-git-cli: true
+        # No `env: GITHUB_TOKEN` — see the Changesets job. v2 reads the published
+        # packages from the CHANGESETS_OUTPUT file it injects into the publish
+        # script's environment, not from stdout.
         env:
           NPM_CONFIG_PROVENANCE: true
 
