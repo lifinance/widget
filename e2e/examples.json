@@ -115,7 +115,9 @@
     "port": 4173,
     "buildCmd": "build",
     "serveCmd": "start",
-    "serveEnv": { "PORT": "4173" },
+    "serveEnv": {
+      "PORT": "4173"
+    },
     "profile": "standard",
     "mountPath": "/",
     "status": "active"
@@ -126,7 +128,9 @@
     "port": 4173,
     "buildCmd": "build",
     "serveCmd": "start",
-    "serveEnv": { "PORT": "4173" },
+    "serveEnv": {
+      "PORT": "4173"
+    },
     "profile": "standard",
     "mountPath": "/",
     "status": "active"
@@ -191,7 +195,7 @@
     "profile": "standard",
     "mountPath": "/",
     "status": "broken",
-    "brokenReason": "vite-plugin-env-compatible only transforms process.env.* at build time and does not shim process globally. Dynamic SDK crashes at runtime with \"process is not defined\". Fix: replace with vite-plugin-node-polyfills."
+    "brokenReason": "Dynamic SDK reads a bare `process` global (nextTick/versions/emit) and imports `buffer/index.js`, so it needs Node shims. vite-plugin-node-polyfills declares Vite 8 support but is broken under its rolldown resolver: it aliases its own shims by bare specifier, and its exports map still has legacy trailing-slash keys pointing at files, which rolldown rejects (\"Expecting folder to folder mapping\"). Fails on 0.26.0 and 0.28.0 alike, in build and in dep pre-bundling. Blocked on upstream davidmyersdev/vite-plugin-node-polyfills#158, #161 and #154. The @dynamic-labs v5 upgrade itself is fine — it type-checks and bundles."
   },
   {
     "name": "nuxt",

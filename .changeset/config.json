@@ -1,10 +1,12 @@
 {
-  "$schema": "https://unpkg.com/@changesets/config@3.0.5/schema.json",
+  "$schema": "https://unpkg.com/@changesets/config@4.0.0/schema.json",
   "changelog": ["@changesets/changelog-github", { "repo": "lifinance/widget" }],
   "commit": false,
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
+  "format": false,
+  "privatePackages": { "version": true, "tag": false },
   "ignore": [
     "@lifi/widget-embedded",
     "@lifi/widget-playground",
