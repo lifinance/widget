@@ -5,6 +5,7 @@ const sdkPackages = [
   '@lifi/sdk-provider-bitcoin',
   '@lifi/sdk-provider-ethereum',
   '@lifi/sdk-provider-solana',
+  '@lifi/sdk-provider-stellar',
   '@lifi/sdk-provider-sui',
   '@lifi/sdk-provider-tron',
 ]
