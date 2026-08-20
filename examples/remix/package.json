@@ -15,17 +15,17 @@
     "@remix-run/node": "^2.17.5",
     "@remix-run/react": "^2.17.5",
     "@remix-run/serve": "^2.17.5",
-    "isbot": "^5.2.0",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
+    "isbot": "^5.2.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "remix-utils": "^10.0.0"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.17.5",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
     "typescript": "^7.0.2",
-    "vite": "^8.1.4",
+    "vite": "^8.2.1",
     "vite-tsconfig-paths": "^6.1.1"
   },
   "engines": {

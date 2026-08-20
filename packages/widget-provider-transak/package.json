@@ -46,10 +46,10 @@
   },
   "devDependencies": {
     "@lifi/widget-provider": "workspace:*",
-    "@types/node": "^26.1.1",
+    "@types/node": "^26.2.0",
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
-    "react": "^19.2.5",
+    "react": "^19.2.8",
     "typescript": "^7.0.2"
   }
 }
