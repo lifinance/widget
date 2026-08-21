@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 import { useBitcoinContext } from '../contexts/BitcoinContext.js'
 import { useEthereumContext } from '../contexts/EthereumContext.js'
 import { useSolanaContext } from '../contexts/SolanaContext.js'
+import { useStellarContext } from '../contexts/StellarContext.js'
 import { useSuiContext } from '../contexts/SuiContext.js'
 import { useTronContext } from '../contexts/TronContext.js'
 
@@ -12,6 +13,7 @@ export const useSDKProviders = (): SDKProvider[] => {
   const { sdkProvider: svmSDKProvider } = useSolanaContext()
   const { sdkProvider: suiSDKProvider } = useSuiContext()
   const { sdkProvider: tronSDKProvider } = useTronContext()
+  const { sdkProvider: stellarSDKProvider } = useStellarContext()
 
   return useMemo(
     () =>
@@ -21,6 +23,7 @@ export const useSDKProviders = (): SDKProvider[] => {
         svmSDKProvider,
         suiSDKProvider,
         tronSDKProvider,
+        stellarSDKProvider,
       ].filter(Boolean) as SDKProvider[],
     [
       evmSDKProvider,
@@ -28,6 +31,7 @@ export const useSDKProviders = (): SDKProvider[] => {
       svmSDKProvider,
       suiSDKProvider,
       tronSDKProvider,
+      stellarSDKProvider,
     ]
   )
 }

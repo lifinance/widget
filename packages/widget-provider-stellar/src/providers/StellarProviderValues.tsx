@@ -1,0 +1,176 @@
+import { StellarWalletsKit } from '@creit.tech/stellar-wallets-kit'
+import { ChainId, ChainType } from '@lifi/sdk'
+import {
+  StellarProvider as StellarSDKProvider,
+  type StellarWallet,
+} from '@lifi/sdk-provider-stellar'
+import { StellarContext } from '@lifi/widget-provider'
+import {
+  type FC,
+  type PropsWithChildren,
+  useCallback,
+  useMemo,
+  useRef,
+} from 'react'
+import { useStellarWalletsKit } from '../stellar-kit/useStellarWalletsKit.js'
+import type { StellarProviderConfig } from '../types.js'
+
+interface StellarProviderValuesProps {
+  isExternalContext: boolean
+  config?: StellarProviderConfig
+}
+
+export const StellarProviderValues: FC<
+  PropsWithChildren<StellarProviderValuesProps>
+> = ({ children, isExternalContext, config }) => {
+  const {
+    networkPassphrase,
+    wallets,
+    selectedWallet,
+    address,
+    connected,
+    connecting,
+    connect,
+    disconnect,
+    isWalletReachable,
+    getWalletNetwork,
+  } = useStellarWalletsKit()
+
+  const connector = useMemo(
+    () =>
+      selectedWallet
+        ? {
+            id: selectedWallet.id,
+            name: selectedWallet.name,
+            icon: selectedWallet.icon,
+          }
+        : undefined,
+    [selectedWallet]
+  )
+
+  const account = useMemo(
+    () =>
+      connected && address
+        ? {
+            address,
+            chainId: ChainId.XLM,
+            chainType: ChainType.STL,
+            connector,
+            isConnected: connected,
+            isConnecting: connecting,
+            isReconnecting: false,
+            isDisconnected: false,
+            status: 'connected' as const,
+          }
+        : {
+            chainType: ChainType.STL,
+            isConnected: false,
+            isConnecting: connecting,
+            isReconnecting: false,
+            isDisconnected: true,
+            status: 'disconnected' as const,
+          },
+    [address, connected, connecting, connector]
+  )
+
+  const addressRef = useRef(address)
+  addressRef.current = address
+
+  const sdkProvider = useMemo(() => {
+    const getWallet = async (): Promise<StellarWallet> => {
+      const walletAddress = addressRef.current
+      if (!walletAddress) {
+        throw new Error('Wallet not connected')
+      }
+      // A restored session can outlive the extension that created it. The probe can
+      // also time out on a live wallet, so refuse to sign but never tear the session down.
+      if (!(await isWalletReachable())) {
+        throw new Error('Wallet not connected')
+      }
+      return {
+        address: walletAddress,
+        // The route's network is fixed; this is the wallet's own, so the SDK can
+        // refuse to sign a mismatch.
+        networkPassphrase: await getWalletNetwork(),
+        signTransaction: (xdr, opts) =>
+          StellarWalletsKit.signTransaction(xdr, {
+            address: walletAddress,
+            networkPassphrase,
+            ...opts,
+          }),
+        signAuthEntry: (authEntry, opts) =>
+          StellarWalletsKit.signAuthEntry(authEntry, {
+            address: walletAddress,
+            networkPassphrase,
+            ...opts,
+          }),
+      }
+    }
+    if (typeof config?.sdkProvider === 'function') {
+      return config.sdkProvider({ getWallet, networkPassphrase })
+    }
+    return (
+      config?.sdkProvider ??
+      StellarSDKProvider({ getWallet, networkPassphrase })
+    )
+  }, [
+    config?.sdkProvider,
+    networkPassphrase,
+    isWalletReachable,
+    getWalletNetwork,
+  ])
+
+  const installedWallets = useMemo(
+    () =>
+      wallets
+        .filter((wallet) => wallet.isAvailable)
+        .map((wallet) => ({
+          id: wallet.id,
+          name: wallet.name,
+          icon: wallet.icon,
+        })),
+    [wallets]
+  )
+
+  const handleConnect = useCallback(
+    async (
+      walletId: string,
+      onSuccess?: (address: string, chainId: number) => void
+    ) => {
+      // Errors propagate so the wallet menu can surface a rejected or failed
+      // connection instead of closing as if it succeeded.
+      const connectedAddress = await connect(walletId)
+      if (connectedAddress) {
+        onSuccess?.(connectedAddress, ChainId.XLM)
+      }
+    },
+    [connect]
+  )
+
+  const handleDisconnect = useCallback(async () => {
+    await disconnect()
+  }, [disconnect])
+
+  const contextValue = useMemo(
+    () => ({
+      isEnabled: true,
+      account,
+      sdkProvider,
+      installedWallets,
+      isConnected: account.isConnected,
+      isExternalContext,
+      connect: handleConnect,
+      disconnect: handleDisconnect,
+    }),
+    [
+      account,
+      sdkProvider,
+      installedWallets,
+      isExternalContext,
+      handleConnect,
+      handleDisconnect,
+    ]
+  )
+
+  return <StellarContext value={contextValue}>{children}</StellarContext>
+}

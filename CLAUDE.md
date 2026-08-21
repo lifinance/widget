@@ -42,6 +42,12 @@ pnpm e2e:examples            # Playwright only (servers managed externally / by 
 
 **`wagmi` must likewise be single-copy** — its `WagmiProvider` React context is per-module-instance, so a version skew (e.g. a partial bump leaving `wagmi@3.6.16` beside `3.6.17`) makes the widget's provider and a consumer's `useConfig` read different contexts → `WagmiProviderNotFoundError` and crashed EVM/NFT/iframe examples. After any wagmi/connectors bump, run `pnpm dedupe` and confirm one version (`pnpm --filter <app> why wagmi` → "Found 1 version").
 
+**`@creit.tech/stellar-wallets-kit` must likewise be single-copy** — it keeps `activeAddress`
+and `selectedModuleId` in module-level preact signals, so two copies split the connection
+state: the widget's menu connects into one kit while a consumer's own UI reads the other, and
+signing fails with `"Please set the wallet first"`. It is a `dependencies` entry of
+`@lifi/widget-provider-stellar`, so a consumer that also ships SWK can end up with two.
+
 ### widget-light iframe bridge
 
 `widget-light` provides an iframe-based integration where the widget runs inside an iframe (`widget-embedded`) and communicates with the host page via `postMessage`.

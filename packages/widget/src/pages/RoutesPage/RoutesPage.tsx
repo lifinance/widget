@@ -36,7 +36,8 @@ export const RoutesPage = (): JSX.Element => {
   } = useRoutes()
   const { account } = useAccount({ chainType: fromChain?.chainType })
   const [toAddress] = useFieldValues('toAddress')
-  const { requiredToAddress } = useToAddressRequirements()
+  const { requiredToAddress, unsupportedReceiverBlocking } =
+    useToAddressRequirements()
 
   const headerAction = useMemo(
     () => (
@@ -72,7 +73,9 @@ export const RoutesPage = (): JSX.Element => {
 
   const routeNotFound = !routes?.length && !isLoading && !isFetching
 
-  const toAddressUnsatisfied = routes?.[0] && requiredToAddress && !toAddress
+  const toAddressUnsatisfied =
+    routes?.[0] &&
+    (unsupportedReceiverBlocking || (requiredToAddress && !toAddress))
 
   const allowInteraction = account.isConnected && !toAddressUnsatisfied
 

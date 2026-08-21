@@ -43,12 +43,15 @@ export const RoutesContent: React.NamedExoticComponent<RoutesContentProps> =
 
     const { account } = useAccount({ chainType: fromChain?.chainType })
     const [toAddress] = useFieldValues('toAddress')
-    const { requiredToAddress } = useToAddressRequirements()
+    const { requiredToAddress, unsupportedReceiverBlocking } =
+      useToAddressRequirements()
 
     const currentRoute = routes?.[0]
 
     const routeNotFound = !currentRoute && !isLoading && !isFetching
-    const toAddressUnsatisfied = currentRoute && requiredToAddress && !toAddress
+    const toAddressUnsatisfied =
+      currentRoute &&
+      (unsupportedReceiverBlocking || (requiredToAddress && !toAddress))
     const allowInteraction = account.isConnected && !toAddressUnsatisfied
 
     const title =

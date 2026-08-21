@@ -45,7 +45,9 @@ export const BitcoinListItemButton = ({
       if (isConnected) {
         await disconnect()
       }
+      let didConnect = false
       await connect(connector.id ?? connector.name, (address: string) => {
+        didConnect = true
         setLastConnectedAccount(connector)
         emitter.emit(WalletManagementEvent.WalletConnected, {
           address: address,
@@ -55,7 +57,13 @@ export const BitcoinListItemButton = ({
           connectorName: connector.name,
         })
       })
-      onConnected?.()
+      // Closing the menu without a connection would report success for a wallet
+      // that never returned an address.
+      if (didConnect) {
+        onConnected?.()
+      } else {
+        onError?.(new Error('Wallet did not return an address.'))
+      }
     } catch (error) {
       onError?.(error)
     }

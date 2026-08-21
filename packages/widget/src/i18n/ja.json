@@ -87,6 +87,7 @@
   "info": {
     "message": {
       "accountDeployedMessage": "",
+      "unsupportedToAddressMessage": "",
       "autoRefuel": "{{chainName}} のガスが不足していますが、続行することでトランザクションを完了するのに十分なガスが補填されます。",
       "emptyBridgesList": "",
       "emptyChainList": "",

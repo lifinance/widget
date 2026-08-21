@@ -19,6 +19,7 @@ const supportedChainTypes = [
   ChainType.UTXO,
   ChainType.MVM,
   ChainType.TVM,
+  ChainType.STL,
 ]
 
 export const useAvailableChains = (

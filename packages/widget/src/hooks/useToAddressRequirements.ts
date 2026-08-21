@@ -4,12 +4,15 @@ import { useEthereumContext } from '@lifi/widget-provider'
 import { useChain } from '../hooks/useChain.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
+import { isCustomReceiverUnsupported } from '../utils/customReceiver.js'
 import { useIsContractAddress } from './useIsContractAddress.js'
 
 export const useToAddressRequirements = (
   route?: RouteExtended
 ): {
   requiredToAddress: boolean
+  unsupportedToAddress: boolean
+  unsupportedReceiverBlocking: boolean
   requiredToChainType: ChainType | undefined
   accountNotDeployedAtDestination: boolean
   accountDeployedAtDestination: boolean
@@ -68,11 +71,22 @@ export const useToAddressRequirements = (
     fromChainId !== toChainId &&
     !fromContractCodeHasDelegationIndicator
 
+  const unsupportedToAddress = isCustomReceiverUnsupported(
+    fromChain?.chainType,
+    toChain?.chainType
+  )
+
+  // Stellar routes settle to the signer, so a required receiver is never honoured.
+  const unsupportedReceiverBlocking = Boolean(
+    unsupportedToAddress && (toAddress || requiredUI?.toAddress)
+  )
+
   const requiredToAddress = Boolean(
     (isDifferentChainType ||
       isCrossChainContractAddress ||
       requiredUI?.toAddress) &&
-      !hiddenUI?.toAddress
+      !hiddenUI?.toAddress &&
+      !unsupportedToAddress
   )
 
   const accountNotDeployedAtDestination = Boolean(
@@ -91,6 +105,8 @@ export const useToAddressRequirements = (
 
   return {
     requiredToAddress,
+    unsupportedToAddress,
+    unsupportedReceiverBlocking,
     requiredToChainType: toChain?.chainType,
     accountNotDeployedAtDestination,
     accountDeployedAtDestination,

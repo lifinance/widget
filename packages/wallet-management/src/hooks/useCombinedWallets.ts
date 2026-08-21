@@ -3,6 +3,7 @@ import {
   useBitcoinContext,
   useEthereumContext,
   useSolanaContext,
+  useStellarContext,
   useSuiContext,
   useTronContext,
   type WalletConnector,
@@ -32,6 +33,7 @@ const combineWalletLists = (
   solanaWalletList: WalletConnector[],
   suiWalletList: WalletConnector[],
   tronWalletList: WalletConnector[],
+  stellarWalletList: WalletConnector[],
   walletEcosystemsOrder?: Record<string, ChainType[]>
 ): CombinedWallet[] => {
   const walletMap = new Map<string, CombinedWallet>()
@@ -114,6 +116,18 @@ const combineWalletLists = (
     walletMap.set(normalizedName, existing)
   })
 
+  stellarWalletList.forEach((stellar) => {
+    const normalizedName = normalizeName(stellar.name)
+    const existing = walletMap.get(normalizedName) || {
+      id: stellar.id ?? stellar.name,
+      name: stellar.name,
+      icon: stellar.icon,
+      connectors: [] as CombinedWalletConnector[],
+    }
+    existing.connectors.push({ connector: stellar, chainType: ChainType.STL })
+    walletMap.set(normalizedName, existing)
+  })
+
   let combinedWallets = Array.from(walletMap.values())
   if (walletEcosystemsOrder) {
     combinedWallets = combinedWallets.map((wallet) => {
@@ -141,6 +155,7 @@ export const useCombinedWallets = (): CombinedWallet[] => {
   const { installedWallets: installedSolanaWallets } = useSolanaContext()
   const { installedWallets: installedSuiWallets } = useSuiContext()
   const { installedWallets: installedTronWallets } = useTronContext()
+  const { installedWallets: installedStellarWallets } = useStellarContext()
 
   const combinedWallets = useMemo(() => {
     const includeEcosystem = (chainType: ChainType) =>
@@ -153,6 +168,7 @@ export const useCombinedWallets = (): CombinedWallet[] => {
       includeEcosystem(ChainType.SVM) ? installedSolanaWallets : [],
       includeEcosystem(ChainType.MVM) ? installedSuiWallets : [],
       includeEcosystem(ChainType.TVM) ? installedTronWallets : [],
+      includeEcosystem(ChainType.STL) ? installedStellarWallets : [],
       walletConfig.walletEcosystemsOrder
     )
 
@@ -165,6 +181,7 @@ export const useCombinedWallets = (): CombinedWallet[] => {
     installedSolanaWallets,
     installedSuiWallets,
     installedTronWallets,
+    installedStellarWallets,
     walletConfig,
   ])
 
