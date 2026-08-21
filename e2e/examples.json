@@ -194,8 +194,7 @@
     "serveCmd": "preview",
     "profile": "standard",
     "mountPath": "/",
-    "status": "broken",
-    "brokenReason": "Dynamic SDK reads a bare `process` global (nextTick/versions/emit) and imports `buffer/index.js`, so it needs Node shims. vite-plugin-node-polyfills declares Vite 8 support but is broken under its rolldown resolver: it aliases its own shims by bare specifier, and its exports map still has legacy trailing-slash keys pointing at files, which rolldown rejects (\"Expecting folder to folder mapping\"). Fails on 0.26.0 and 0.28.0 alike, in build and in dep pre-bundling. Blocked on upstream davidmyersdev/vite-plugin-node-polyfills#158, #161 and #154. The @dynamic-labs v5 upgrade itself is fine — it type-checks and bundles."
+    "status": "active"
   },
   {
     "name": "nuxt",

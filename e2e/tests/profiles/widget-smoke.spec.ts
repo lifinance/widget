@@ -5,8 +5,9 @@ import { expect, test, waitForTokens } from '../fixtures/base.fixture.js'
  * Widget smoke profile — covers standard (widget at /) and routed (widget at custom path).
  * mountPath is read from project metadata so the same spec handles both profiles.
  *
- * Standard  (13): vite, connectkit, privy, privy-ethers, rainbowkit, reown, svelte,
- *                 zustand-widget-config, vue, nextjs, nextjs15, remix, react-router
+ * Standard  (14): vite, connectkit, privy, privy-ethers, rainbowkit, reown, svelte,
+ *                 zustand-widget-config, vue, nextjs, nextjs15, remix, react-router,
+ *                 dynamic
  * Routed     (1): tanstack-router (mountPath: /widget)
  */
 
