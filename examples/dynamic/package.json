@@ -36,7 +36,6 @@
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "viem": ">=2.52.0",
-    "vite-plugin-env-compatible": "^2.0.1",
     "wagmi": "^3.7.6"
   },
   "devDependencies": {
@@ -45,6 +44,7 @@
     "@vitejs/plugin-react": "^6.0.5",
     "globals": "^17.11.0",
     "typescript": "^7.0.2",
-    "vite": "^8.2.1"
+    "vite": "^8.2.1",
+    "vite-plugin-node-polyfills": "^0.26.0"
   }
 }

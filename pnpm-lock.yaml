@@ -302,9 +302,6 @@ importers:
       viem:
         specifier: '>=2.52.0'
         version: 2.55.19(bufferutil@4.1.0)(typescript@7.0.2)(utf-8-validate@6.0.6)(zod@4.4.3)
-      vite-plugin-env-compatible:
-        specifier: ^2.0.1
-        version: 2.0.1
       wagmi:
         specifier: ^3.7.6
         version: 3.7.6(5b3fe36345e22f8c086849e354cafa04)
@@ -327,6 +324,9 @@ importers:
       vite:
         specifier: ^8.2.1
         version: 8.2.1(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.50.0)(yaml@2.9.0)
+      vite-plugin-node-polyfills:
+        specifier: ^0.26.0
+        version: 0.26.0(rollup@4.62.4)(vite@8.2.1(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.50.0)(yaml@2.9.0))
 
   examples/nextjs:
     dependencies:
