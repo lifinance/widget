@@ -6,6 +6,7 @@ const disposers: Array<ReturnType<typeof vi.fn>> = []
 let moduleAvailable = true
 let moduleSelected = true
 let walletNetwork: string | null = null
+let walletNetworkMissing = false
 let moduleProductId = 'freighter'
 
 vi.mock('@creit.tech/stellar-wallets-kit', () => ({
@@ -30,6 +31,10 @@ vi.mock('@creit.tech/stellar-wallets-kit', () => ({
     fetchAddress: vi.fn(async () => ({ address: 'GCONNECTED' })),
     disconnect: vi.fn(async () => {}),
     getNetwork: vi.fn(async () => {
+      // Klever and Bitget pass the extension's reply through untyped.
+      if (walletNetworkMissing) {
+        return {} as { networkPassphrase: string }
+      }
       if (walletNetwork === null) {
         throw new Error('does not support the getNetwork function')
       }
@@ -73,6 +78,7 @@ describe('createStellarWalletsKitStore', () => {
     }
     disposers.length = 0
     walletNetwork = null
+    walletNetworkMissing = false
     moduleProductId = 'freighter'
   })
 
@@ -144,6 +150,16 @@ describe('createStellarWalletsKitStore', () => {
       'Public Global Stellar Network ; September 2015'
     )
   })
+  it('falls back to mainnet when the module reports no network passphrase', async () => {
+    const store = createStellarWalletsKitStore()
+
+    walletNetworkMissing = true
+
+    await expect(store.getState().getWalletNetwork()).resolves.toBe(
+      'Public Global Stellar Network ; September 2015'
+    )
+  })
+
   it('treats xBull as unreachable when the extension global is absent', async () => {
     const store = createStellarWalletsKitStore()
 

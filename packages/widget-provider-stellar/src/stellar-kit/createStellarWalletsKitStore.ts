@@ -127,7 +127,12 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
     },
     async getWalletNetwork() {
       try {
-        return (await StellarWalletsKit.getNetwork()).networkPassphrase
+        // Klever and Bitget pass the extension's reply through untyped, so the
+        // passphrase can be absent; that is unknown, not a mismatch.
+        return (
+          (await StellarWalletsKit.getNetwork()).networkPassphrase ??
+          Networks.PUBLIC
+        )
       } catch {
         // Five of the eight enabled modules have no getNetwork; treat them as compliant.
         return Networks.PUBLIC
