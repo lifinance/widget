@@ -4,7 +4,7 @@ import type React from 'react'
 import { type JSX, memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
-import { useGasRecommendation } from '../../hooks/useGasRecommendation.js'
+import { useMaxSendAmount } from '../../hooks/useMaxSendAmount.js'
 import { useTokenAddressBalance } from '../../hooks/useTokenAddressBalance.js'
 import type { FormTypeProps } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
@@ -29,28 +29,10 @@ export const AmountInputEndAdornment: React.NamedExoticComponent<FormTypeProps> 
     const chain = getChainById(chainId)
     const { account } = useAccount({ chainType: chain?.chainType })
 
-    // We get gas recommendations for the source chain to make sure that after pressing the Max button
-    // the user will have enough funds remaining to cover gas costs
-    const { data } = useGasRecommendation(chainId)
-
     const { token } = useTokenAddressBalance(chainId, tokenAddress)
-
-    const getMaxAmount = () => {
-      if (!token?.amount) {
-        return 0n
-      }
-      let maxAmount = token.amount
-      if (chain?.nativeToken.address === tokenAddress && data?.recommended) {
-        const recommendedAmount = BigInt(data.recommended.amount)
-        if (token.amount > recommendedAmount) {
-          maxAmount = token.amount - recommendedAmount
-        }
-      }
-      return maxAmount
-    }
+    const maxAmount = useMaxSendAmount(chainId, tokenAddress)
 
     const handlePercentage = (percentage: number) => {
-      const maxAmount = getMaxAmount()
       if (maxAmount && token?.decimals) {
         const percentageAmount = (maxAmount * BigInt(percentage)) / 100n
         setFieldValue(
@@ -64,7 +46,6 @@ export const AmountInputEndAdornment: React.NamedExoticComponent<FormTypeProps> 
     }
 
     const handleMax = () => {
-      const maxAmount = getMaxAmount()
       if (maxAmount && token?.decimals) {
         setFieldValue(
           FormKeyHelper.getAmountKey(formType),
