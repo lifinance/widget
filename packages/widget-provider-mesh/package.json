@@ -39,7 +39,7 @@
     "lifi"
   ],
   "dependencies": {
-    "@meshconnect/web-link-sdk": "^3.10.4"
+    "@meshconnect/web-link-sdk": "^3.12.0"
   },
   "peerDependencies": {
     "@lifi/widget-provider": "workspace:*",
@@ -49,7 +49,7 @@
     "@lifi/widget-provider": "workspace:*",
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
-    "react": "^19.2.5",
+    "react": "^19.2.8",
     "typescript": "^7.0.2"
   }
 }

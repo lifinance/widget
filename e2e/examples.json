@@ -115,7 +115,9 @@
     "port": 4173,
     "buildCmd": "build",
     "serveCmd": "start",
-    "serveEnv": { "PORT": "4173" },
+    "serveEnv": {
+      "PORT": "4173"
+    },
     "profile": "standard",
     "mountPath": "/",
     "status": "active"
@@ -126,7 +128,9 @@
     "port": 4173,
     "buildCmd": "build",
     "serveCmd": "start",
-    "serveEnv": { "PORT": "4173" },
+    "serveEnv": {
+      "PORT": "4173"
+    },
     "profile": "standard",
     "mountPath": "/",
     "status": "active"
@@ -190,8 +194,7 @@
     "serveCmd": "preview",
     "profile": "standard",
     "mountPath": "/",
-    "status": "broken",
-    "brokenReason": "vite-plugin-env-compatible only transforms process.env.* at build time and does not shim process globally. Dynamic SDK crashes at runtime with \"process is not defined\". Fix: replace with vite-plugin-node-polyfills."
+    "status": "active"
   },
   {
     "name": "nuxt",

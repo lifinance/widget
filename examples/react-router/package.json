@@ -1,5 +1,6 @@
 {
   "name": "react-router",
+  "version": "0.0.0",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -11,21 +12,21 @@
   },
   "dependencies": {
     "@lifi/widget": "4.5.0",
-    "@react-router/node": "^8.2.0",
-    "@react-router/serve": "^8.2.0",
-    "isbot": "^5.2.0",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
-    "react-router": "^8.2.0"
+    "@react-router/node": "^8.3.0",
+    "@react-router/serve": "^8.3.0",
+    "isbot": "^5.2.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-router": "^8.3.0"
   },
   "devDependencies": {
-    "@react-router/dev": "^8.2.0",
-    "@react-router/fs-routes": "^8.2.0",
-    "@react-router/remix-routes-option-adapter": "^8.2.0",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
+    "@react-router/dev": "^8.3.0",
+    "@react-router/fs-routes": "^8.3.0",
+    "@react-router/remix-routes-option-adapter": "^8.3.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
     "typescript": "^7.0.2",
-    "vite": "^8.1.4",
+    "vite": "^8.2.1",
     "vite-tsconfig-paths": "^6.1.1"
   },
   "engines": {

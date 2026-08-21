@@ -42,7 +42,7 @@
     "@lifi/sdk": "^4.4.0",
     "@lifi/sdk-provider-stellar": "^4.2.0",
     "@lifi/widget-provider": "workspace:*",
-    "zustand": "^5.0.14"
+    "zustand": "^5.0.15"
   },
   "peerDependencies": {
     "react": ">=19"
@@ -50,8 +50,8 @@
   "devDependencies": {
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
-    "react": "^19.2.7",
+    "react": "^19.2.8",
     "typescript": "^7.0.2",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.11"
   }
 }

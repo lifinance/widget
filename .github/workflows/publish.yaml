@@ -45,7 +45,7 @@ jobs:
       contents: write # to create the version PR / push tags
       pull-requests: write # to create the version PR
     outputs:
-      hasChangesets: ${{ steps.changesets.outputs.hasChangesets }}
+      has-changesets: ${{ steps.changesets.outputs.has-changesets }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -57,26 +57,28 @@ jobs:
           cache: 'false' # privileged job — don't restore a potentially poisoned cache
       - name: Create version pull request
         id: changesets
-        uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
+        uses: changesets/action@8488615a623b1b9c987934bb89eae8af6a946ac1 # v2.1.1
         with:
-          version: pnpm changeset:version
-          title: 'chore: version packages'
-          commit: 'chore: version packages'
+          version-script: pnpm changeset:version
+          pr-title: 'chore: version packages'
+          commit-message: 'chore: version packages'
+        # No `env: GITHUB_TOKEN` — v2 throws when it is set and differs from the
+        # `github-token` input. The action injects its own token into the version
+        # script's environment, which is what changelog-github needs.
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HUSKY: '0'
 
   release:
     name: Release
     needs: changesets
     # Only publish once the version PR has been merged (no changesets left).
-    if: needs.changesets.outputs.hasChangesets == 'false'
+    if: needs.changesets.outputs.has-changesets == 'false'
     runs-on: ubuntu-latest
     permissions:
       contents: write # to create GitHub Releases
       id-token: write # OIDC token for npm provenance / trusted publishing
     outputs:
-      publishedPackages: ${{ steps.changesets.outputs.publishedPackages }}
+      published-packages: ${{ steps.changesets.outputs.published-packages }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -87,12 +89,14 @@ jobs:
           cache: 'false' # privileged job — don't restore a potentially poisoned cache
       - name: Publish to npm
         id: changesets
-        uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
+        uses: changesets/action@8488615a623b1b9c987934bb89eae8af6a946ac1 # v2.1.1
         with:
-          publish: pnpm changeset:publish
-          createGithubReleases: true
+          publish-script: pnpm changeset:publish
+          create-github-releases: true
+        # No `env: GITHUB_TOKEN` — see the Changesets job. v2 reads the published
+        # packages from the CHANGESETS_OUTPUT file it injects into the publish
+        # script's environment, not from stdout.
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
 
   # Linear sync — one static call per anchor (two anchors use two secrets, so no matrix).
@@ -100,14 +104,14 @@ jobs:
     name: Linear Sync (Widget)
     needs: release
     # Fires only when @lifi/widget was actually published this run.
-    if: contains(needs.release.outputs.publishedPackages, '"@lifi/widget"')
+    if: contains(needs.release.outputs.published-packages, '"@lifi/widget"')
     permissions:
       contents: read
     uses: ./.github/workflows/linear-release.yaml
     with:
       release_name: Widget
       package_name: '@lifi/widget'
-      published_packages: ${{ needs.release.outputs.publishedPackages }}
+      published_packages: ${{ needs.release.outputs.published-packages }}
     secrets:
       access_key: ${{ secrets.WIDGET_LINEAR_RELEASE_ACCESS_KEY }}
 
@@ -116,14 +120,14 @@ jobs:
   linear-checkout:
     name: Linear Sync (Checkout)
     needs: release
-    if: contains(needs.release.outputs.publishedPackages, '"@lifi/widget-checkout"')
+    if: contains(needs.release.outputs.published-packages, '"@lifi/widget-checkout"')
     permissions:
       contents: read
     uses: ./.github/workflows/linear-release.yaml
     with:
       release_name: Checkout
       package_name: '@lifi/widget-checkout'
-      published_packages: ${{ needs.release.outputs.publishedPackages }}
+      published_packages: ${{ needs.release.outputs.published-packages }}
     secrets:
       access_key: ${{ secrets.CHECKOUT_LINEAR_RELEASE_ACCESS_KEY }}
 

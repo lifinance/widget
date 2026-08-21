@@ -18,9 +18,14 @@ overrides:
   # release carrying CVE-2026-41242; upstream 1.5.3 moved to 7.5.5.
   protobufjs: ">=7.5.5"
   preact: ">=10.29.1"
+  # GHSA-f88m-g3jw-g9cj — libvips flaws; next@15 still resolves 0.34.x.
+  sharp: ">=0.35.0"
   use-sync-external-store: "1.4.0"
   utf-8-validate: "6.0.6"
   zod: ">=4.4.3"
+  "ws@>=7.0.0 <8.0.0": ">=7.5.12"
+  "ws@>=8.0.0": ">=8.21.1"
+  esbuild: ">=0.25.0"
 allowBuilds:
   "@opensea/seaport-js": false
   "@parcel/watcher": false
