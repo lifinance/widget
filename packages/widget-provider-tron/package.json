@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-provider-tron",
-  "version": "4.1.3",
+  "version": "4.1.4",
   "description": "LI.FI Widget Provider for Tron blockchain integration.",
   "type": "module",
   "main": "./src/index.ts",

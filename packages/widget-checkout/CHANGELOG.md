@@ -1,5 +1,16 @@
 # @lifi/widget-checkout
 
+## 4.0.2
+
+### Patch Changes
+
+- [#847](https://github.com/lifinance/widget/pull/847) [`874158c`](https://github.com/lifinance/widget/commit/874158c47bcc83eb6a12317a56e57b4b0c3d29e7) Thanks [@chybisov](https://github.com/chybisov)! - Update runtime dependencies, including Motion 13, `@lifi/sdk` 4.4.0 and MUI 9.3.
+- Updated dependencies [[`874158c`](https://github.com/lifinance/widget/commit/874158c47bcc83eb6a12317a56e57b4b0c3d29e7), [`874158c`](https://github.com/lifinance/widget/commit/874158c47bcc83eb6a12317a56e57b4b0c3d29e7)]:
+  - @lifi/wallet-management@4.1.4
+  - @lifi/widget-provider@4.3.2
+  - @lifi/widget-provider-mesh@4.0.2
+  - @lifi/widget@4.5.1
+
 ## 4.0.1
 
 ### Patch Changes

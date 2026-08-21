@@ -1,5 +1,11 @@
 # @lifi/widget-provider
 
+## 4.3.2
+
+### Patch Changes
+
+- [#847](https://github.com/lifinance/widget/pull/847) [`874158c`](https://github.com/lifinance/widget/commit/874158c47bcc83eb6a12317a56e57b4b0c3d29e7) Thanks [@chybisov](https://github.com/chybisov)! - Update runtime dependencies, including `@lifi/sdk` 4.4.0 and the `@lifi/sdk-provider-*` packages.
+
 ## 4.3.1
 
 ### Patch Changes
