@@ -87,6 +87,7 @@
   "info": {
     "message": {
       "accountDeployedMessage": "",
+      "unsupportedToAddressMessage": "",
       "autoRefuel": "Vous avez peu de gaz sur {{chainName}}. En continuant, vous aurez assez de gaz pour compléter l'échange.",
       "emptyBridgesList": "",
       "emptyChainList": "",

@@ -87,6 +87,7 @@
   "info": {
     "message": {
       "accountDeployedMessage": "",
+      "unsupportedToAddressMessage": "",
       "autoRefuel": "",
       "emptyBridgesList": "",
       "emptyChainList": "",

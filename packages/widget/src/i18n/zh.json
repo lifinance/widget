@@ -87,6 +87,7 @@
   "info": {
     "message": {
       "accountDeployedMessage": "",
+      "unsupportedToAddressMessage": "",
       "autoRefuel": "您在 {{chainName}} 链上的燃气费很低。如果启用该选项，您将获得足够的燃气费完成此次兑换。",
       "emptyBridgesList": "我们找不到任何匹配的桥",
       "emptyChainList": "我们找不到任何匹配的链",
