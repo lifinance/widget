@@ -7,6 +7,7 @@ import { FundsSufficiencyMessage } from './FundsSufficiencyMessage.js'
 import { GasSufficiencyMessage } from './GasSufficiencyMessage.js'
 import { MinFromAmountUSDMessage } from './MinFromAmountUSDMessage.js'
 import { MissingRouteRequiredAccountMessage } from './MissingRouteRequiredAccountMessage.js'
+import { UnsupportedToAddressMessage } from './UnsupportedToAddressMessage.js'
 import { useMessageQueue } from './useMessageQueue.js'
 
 type WarningMessagesProps = BoxProps & {
@@ -51,6 +52,8 @@ export const WarningMessages: React.FC<WarningMessagesProps> = ({
         return <AccountNotDeployedMessage {...props} />
       case 'ACCOUNT_DEPLOYED':
         return <AccountDeployedMessage {...props} />
+      case 'UNSUPPORTED_TO_ADDRESS':
+        return <UnsupportedToAddressMessage {...props} />
       default:
         return null
     }

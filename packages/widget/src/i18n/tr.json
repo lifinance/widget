@@ -87,6 +87,7 @@
   "info": {
     "message": {
       "accountDeployedMessage": "",
+      "unsupportedToAddressMessage": "",
       "autoRefuel": "{{chainName}} ağında gaz yetersiz. Devam ederek, işlem için gereken miktarda gaz alacaksınız.",
       "emptyBridgesList": "Aradığın köprüyü bulamadık",
       "emptyChainList": "Aradığın zinciri bulamadık",

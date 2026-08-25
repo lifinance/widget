@@ -16,7 +16,8 @@ export const ReviewButton: React.FC = () => {
   const emitter = useWidgetEvents()
   const { mode, modeOptions } = useWidgetConfig()
   const splitState = useSplitMode()
-  const { toAddress, requiredToAddress } = useToAddressRequirements()
+  const { toAddress, requiredToAddress, unsupportedReceiverBlocking } =
+    useToAddressRequirements()
   const { routes, setReviewableRoute } = useRoutes()
   const [selectedRouteId] = useFieldValues('selectedRouteId')
 
@@ -85,7 +86,10 @@ export const ReviewButton: React.FC = () => {
     <BaseTransactionButton
       text={getButtonText()}
       onClick={handleClick}
-      disabled={currentRoute && requiredToAddress && !toAddress}
+      disabled={
+        currentRoute &&
+        (unsupportedReceiverBlocking || (requiredToAddress && !toAddress))
+      }
       route={currentRoute}
       sx={{ flex: 1 }}
     />

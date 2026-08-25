@@ -87,6 +87,7 @@
   "info": {
     "message": {
       "accountDeployedMessage": "Sua conta inteligente pode não ter o mesmo endereço em outras cadeias. Por favor, verifique novamente antes de prosseguir.",
+      "unsupportedToAddressMessage": "",
       "autoRefuel": "Você está com pouco gás na rede {{chainName}}. Ao continuar, você obterá gás suficiente para completar a conversão.",
       "emptyBridgesList": "Não conseguimos encontrar nenhuma ponte que corresponda à sua pesquisa",
       "emptyChainList": "Não conseguimos encontrar nenhuma rede que corresponda à sua pesquisa",

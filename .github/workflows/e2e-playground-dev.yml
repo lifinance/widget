@@ -20,6 +20,7 @@ on:
       - 'packages/widget-provider-ethereum/**'
       - 'packages/widget-provider-solana/**'
       - 'packages/widget-provider-bitcoin/**'
+      - 'packages/widget-provider-stellar/**'
       - 'packages/widget-provider-sui/**'
       - 'packages/widget-provider-tron/**'
       # Dev smoke test code and config

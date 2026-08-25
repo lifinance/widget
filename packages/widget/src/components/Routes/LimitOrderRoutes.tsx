@@ -17,7 +17,8 @@ export const LimitOrderRoutes: React.FC<CardProps> = (props) => {
     'selectedRouteId'
   )
   const { setFieldValue } = useFieldActions()
-  const { requiredToAddress } = useToAddressRequirements()
+  const { requiredToAddress, unsupportedReceiverBlocking } =
+    useToAddressRequirements()
 
   const currentRoute = routes?.[0]
 
@@ -25,7 +26,9 @@ export const LimitOrderRoutes: React.FC<CardProps> = (props) => {
     return null
   }
 
-  const toAddressUnsatisfied = currentRoute && requiredToAddress && !toAddress
+  const toAddressUnsatisfied =
+    currentRoute &&
+    (unsupportedReceiverBlocking || (requiredToAddress && !toAddress))
   const allowInteraction = !toAddressUnsatisfied
 
   const activeRouteId =

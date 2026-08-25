@@ -4,6 +4,7 @@ import { ChainId } from '@lifi/widget'
 import { BitcoinProvider } from '@lifi/widget-provider-bitcoin'
 import { EthereumProvider } from '@lifi/widget-provider-ethereum'
 import { SolanaProvider } from '@lifi/widget-provider-solana'
+import { StellarProvider } from '@lifi/widget-provider-stellar'
 import { SuiProvider } from '@lifi/widget-provider-sui'
 import { TronProvider } from '@lifi/widget-provider-tron'
 import { withFloatingDrawer } from './providers/PlaygroundThemeProvider/floatingDrawer.js'
@@ -49,6 +50,7 @@ export const widgetBaseConfig: WidgetConfig = {
     }),
     SuiProvider(),
     SolanaProvider(),
+    StellarProvider(),
     BitcoinProvider({ connectors: [metamask()] }),
     TronProvider({
       walletConnect: import.meta.env?.VITE_TVM_WALLET_CONNECT

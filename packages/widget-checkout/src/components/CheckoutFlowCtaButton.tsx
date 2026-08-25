@@ -43,7 +43,8 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const emitter = useWidgetEvents()
-  const { toAddress, requiredToAddress } = useToAddressRequirements()
+  const { toAddress, requiredToAddress, unsupportedReceiverBlocking } =
+    useToAddressRequirements()
   const { recipient, isUserSettable } = useResolvedCheckoutRecipient()
   const {
     route,
@@ -170,7 +171,12 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
       <BaseTransactionButton
         text={label}
         onClick={handleWalletDeposit}
-        disabled={!route || (requiredToAddress && !toAddress) || needsRecipient}
+        disabled={
+          !route ||
+          unsupportedReceiverBlocking ||
+          (requiredToAddress && !toAddress) ||
+          needsRecipient
+        }
         route={route}
         sx={{ flex: 1 }}
       />

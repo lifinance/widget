@@ -4,6 +4,7 @@ import {
   useBitcoinContext,
   useEthereumContext,
   useSolanaContext,
+  useStellarContext,
   useSuiContext,
   useTronContext,
   type WalletConnector,
@@ -22,6 +23,7 @@ export const useAccountDisconnect = (): ((
   const { disconnect: solanaDisconnect } = useSolanaContext()
   const { disconnect: suiDisconnect } = useSuiContext()
   const { disconnect: tronDisconnect } = useTronContext()
+  const { disconnect: stellarDisconnect } = useStellarContext()
   const emitter = useWalletManagementEvents()
 
   return async (account: Account) => {
@@ -47,6 +49,9 @@ export const useAccountDisconnect = (): ((
         break
       case ChainType.TVM:
         await tronDisconnect()
+        break
+      case ChainType.STL:
+        await stellarDisconnect()
         break
     }
     emitter.emit(WalletManagementEvent.WalletDisconnected, walletDisconnected)

@@ -87,6 +87,7 @@
   "info": {
     "message": {
       "accountDeployedMessage": "",
+      "unsupportedToAddressMessage": "",
       "autoRefuel": "Tienes poco gas en {{chainName}}. Al continuar, obtendrás suficiente gas para completar la transacción.",
       "emptyBridgesList": "No pudimos encontrar ningún puente que coincida con tu búsqueda",
       "emptyChainList": "No pudimos encontrar ninguna cadena que coincida con tu búsqueda",

@@ -3,8 +3,8 @@ import { useAccount } from '@lifi/wallet-management'
 import { type JSX, memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
-import { useGasRecommendation } from '../../hooks/useGasRecommendation.js'
 import { useLinkedLimitFields } from '../../hooks/useLinkedLimitFields.js'
+import { useMaxSendAmount } from '../../hooks/useMaxSendAmount.js'
 import { useTokenAddressBalance } from '../../hooks/useTokenAddressBalance.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { FormTypeProps } from '../../stores/form/types.js'
@@ -33,22 +33,8 @@ export const PercentageChips: React.NamedExoticComponent<FormTypeProps> = memo(
     const chain = getChainById(chainId)
     const { account } = useAccount({ chainType: chain?.chainType })
 
-    const { data } = useGasRecommendation(chainId)
     const { token } = useTokenAddressBalance(chainId, tokenAddress)
-
-    const getMaxAmount = (): bigint => {
-      if (!token?.amount) {
-        return 0n
-      }
-      let maxAmount = token.amount
-      if (chain?.nativeToken.address === tokenAddress && data?.recommended) {
-        const recommendedAmount = BigInt(data.recommended.amount)
-        if (token.amount > recommendedAmount) {
-          maxAmount = token.amount - recommendedAmount
-        }
-      }
-      return maxAmount
-    }
+    const maxAmount = useMaxSendAmount(chainId, tokenAddress)
 
     // In limit mode the send amount must flow through the linked-field
     // derivation so the receive amount recomputes; otherwise it is a plain
@@ -62,7 +48,6 @@ export const PercentageChips: React.NamedExoticComponent<FormTypeProps> = memo(
     }
 
     const handlePercentage = (percentage: number): void => {
-      const maxAmount = getMaxAmount()
       if (maxAmount && token?.decimals) {
         const percentageAmount = (maxAmount * BigInt(percentage)) / 100n
         applyAmount(formatUnits(percentageAmount, token.decimals))
@@ -70,7 +55,6 @@ export const PercentageChips: React.NamedExoticComponent<FormTypeProps> = memo(
     }
 
     const handleMax = (): void => {
-      const maxAmount = getMaxAmount()
       if (maxAmount && token?.decimals) {
         applyAmount(formatUnits(maxAmount, token.decimals))
       }
