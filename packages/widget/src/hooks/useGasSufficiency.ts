@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { getSelfFundedGasAmount } from '../utils/gas.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useAvailableChains } from './useAvailableChains.js'
 import { useIsContractAddress } from './useIsContractAddress.js'
@@ -108,7 +109,14 @@ export const useGasSufficiency = (
                   amount + BigInt(Number(gasCost.amount).toFixed(0)),
                 0n
               )
-              if (gasCostAmount > 0n) {
+              // A previous step can deliver this step's gas token (XLM bridged to
+              // Stellar), so the user does not have to hold it up front
+              const selfFundedGasAmount = getSelfFundedGasAmount(
+                route,
+                step,
+                getChainById(token.chainId)?.chainType
+              )
+              if (gasCostAmount > 0n && gasCostAmount > selfFundedGasAmount) {
                 groupedGasCosts[token.chainId] = {
                   gasAmount: groupedGasCosts[token.chainId]
                     ? groupedGasCosts[token.chainId].gasAmount + gasCostAmount
