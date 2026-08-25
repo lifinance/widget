@@ -11,7 +11,7 @@
   "dependencies": {
     "@lifi/widget": "4.5.0",
     "@mui/material": "^9.3.1",
-    "@tanstack/react-query": "^5.101.4",
+    "@tanstack/react-query": "^5.102.2",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "wagmi": "^3.7.6",
@@ -19,11 +19,11 @@
   },
   "devDependencies": {
     "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.4",
-    "@vitejs/plugin-react": "^6.0.5",
+    "@types/react-dom": "^19.2.5",
+    "@vitejs/plugin-react": "^6.1.0",
     "globals": "^17.11.0",
     "typescript": "^7.0.2",
-    "vite": "^8.2.1",
+    "vite": "^8.2.2",
     "vite-plugin-node-polyfills": "^0.26.0"
   }
 }
