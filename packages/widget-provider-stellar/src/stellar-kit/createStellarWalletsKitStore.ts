@@ -66,7 +66,38 @@ const assertWalletNetwork = async (expected: string): Promise<void> => {
   }
 }
 
+// SWK's wallet modules read `window` in their constructors, so nothing kit-related
+// may run during a server render — Next.js prerenders this provider. Hand back an
+// inert store instead: no kit, no availability probe, no listeners. The browser
+// builds the real one in its own module instance, and its first render also shows
+// no wallets and no address, so hydration stays consistent.
+const createServerStore = (): StellarWalletsKitStore =>
+  create<StellarWalletsKitState>(() => ({
+    networkPassphrase: Networks.PUBLIC,
+    wallets: [],
+    selectedWalletId: null,
+    selectedWallet: null,
+    address: null,
+    connected: false,
+    connecting: false,
+    async connect() {
+      return null
+    },
+    async disconnect() {},
+    async refreshWallets() {},
+    async isWalletReachable() {
+      return false
+    },
+    async getWalletNetwork() {
+      return Networks.PUBLIC
+    },
+  }))
+
 export function createStellarWalletsKitStore(): StellarWalletsKitStore {
+  if (typeof window === 'undefined') {
+    return createServerStore()
+  }
+
   const { networkPassphrase } = initStellarWalletsKit()
 
   let refreshing: Promise<void> | undefined

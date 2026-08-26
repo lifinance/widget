@@ -71,6 +71,9 @@ const { createStellarWalletsKitStore } = await import(
 
 describe('createStellarWalletsKitStore', () => {
   beforeEach(() => {
+    // The default vitest environment is node, which has no `window`. The store
+    // takes its server path without one, so the client-path tests install a stub.
+    globalThis.window = {} as Window & typeof globalThis
     moduleAvailable = true
     moduleSelected = true
     for (const key of Object.keys(listeners)) {
@@ -176,5 +179,39 @@ describe('createStellarWalletsKitStore', () => {
 
     expect(store.getState().address).toBe('GRESTORED')
     expect(store.getState().connected).toBe(false)
+  })
+
+  // A Next.js prerender crashed with "window is not defined" inside the kit's
+  // module constructors, so the server must never touch SWK at all.
+  describe('without a window (server render)', () => {
+    beforeEach(() => {
+      // Runs after the outer hook, so this removes the stub it installed.
+      // @ts-expect-error - emulating a server render
+      delete globalThis.window
+    })
+
+    it('builds an inert store and registers no kit listeners', () => {
+      const store = createStellarWalletsKitStore()
+
+      expect(Object.keys(listeners)).toHaveLength(0)
+      expect(store.getState().wallets).toEqual([])
+      expect(store.getState().address).toBeNull()
+      expect(store.getState().connected).toBe(false)
+      expect(store.getState().networkPassphrase).toBe(
+        'Public Global Stellar Network ; September 2015'
+      )
+    })
+
+    it('leaves every action safe to call', async () => {
+      const store = createStellarWalletsKitStore()
+
+      await expect(store.getState().connect('freighter')).resolves.toBeNull()
+      await expect(store.getState().refreshWallets()).resolves.toBeUndefined()
+      await expect(store.getState().disconnect()).resolves.toBeUndefined()
+      await expect(store.getState().isWalletReachable()).resolves.toBe(false)
+      await expect(store.getState().getWalletNetwork()).resolves.toBe(
+        'Public Global Stellar Network ; September 2015'
+      )
+    })
   })
 })
