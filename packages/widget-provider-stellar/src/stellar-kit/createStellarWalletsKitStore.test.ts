@@ -71,8 +71,6 @@ const { createStellarWalletsKitStore } = await import(
 
 describe('createStellarWalletsKitStore', () => {
   beforeEach(() => {
-    // The default vitest environment is node, which has no `window`. The store
-    // takes its server path without one, so the client-path tests install a stub.
     globalThis.window = {} as Window & typeof globalThis
     moduleAvailable = true
     moduleSelected = true
@@ -181,11 +179,8 @@ describe('createStellarWalletsKitStore', () => {
     expect(store.getState().connected).toBe(false)
   })
 
-  // A Next.js prerender crashed with "window is not defined" inside the kit's
-  // module constructors, so the server must never touch SWK at all.
   describe('without a window (server render)', () => {
     beforeEach(() => {
-      // Runs after the outer hook, so this removes the stub it installed.
       // @ts-expect-error - emulating a server render
       delete globalThis.window
     })
