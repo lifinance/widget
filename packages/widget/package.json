@@ -54,7 +54,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^4.5.0",
+    "@lifi/sdk": "^4.6.0",
     "@lifi/wallet-management": "workspace:*",
     "@lifi/widget-provider": "workspace:*",
     "@mui/icons-material": "^9.3.1",
@@ -72,7 +72,7 @@
     "zustand": "^5.0.15"
   },
   "devDependencies": {
-    "@types/node": "^26.2.0",
+    "@types/node": "^26.3.0",
     "@types/react-transition-group": "^4.4.12",
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",

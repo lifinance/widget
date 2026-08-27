@@ -5,6 +5,7 @@ packages:
 minimumReleaseAgeExclude:
   - "@bigmi/*"
   - "@lifi/*"
+  - "@dynamic-labs/legacy-client@5.4.0"
 overrides:
   "@react-native-async-storage/async-storage": ">=2.2.0"
   "@reown/appkit": ">=1.8.20"
