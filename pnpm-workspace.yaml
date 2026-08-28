@@ -14,7 +14,10 @@ overrides:
   "@msgpack/msgpack": ">=3.1.3"
   abitype: ">=1.2.4"
   axios: "^1.16.0"
-  viem: ">=2.52.0"
+  # viem 2.56.0 drops the ./tempo/zones export that @wagmi/core 3.6.4 imports, and
+  # its peer range of 2.x does not catch it. The build fails in rolldown resolve.
+  # Lift the ceiling once wagmi stops importing it.
+  viem: ">=2.52.0 <2.56.0"
   bs58: ">=4.0.1"
   # centrifuge asks for protobufjs ^7.6.0, which already clears CVE-2026-41242, so
   # this floor guards nothing. It lifts centrifuge onto 8.x. Kept because that is
