@@ -16,7 +16,7 @@ overrides:
   viem: ">=2.52.0"
   bs58: ">=4.0.1"
   # centrifuge asks for protobufjs ^7.6.0, which already clears CVE-2026-41242, so
-  # this floor guards nothing. It lifts centrifuge onto 8.7.2. Kept because that is
+  # this floor guards nothing. It lifts centrifuge onto 8.x. Kept because that is
   # the tested resolution and removing it moves protobufjs to 7.6.6.
   protobufjs: ">=7.5.5"
   preact: ">=10.29.1"
