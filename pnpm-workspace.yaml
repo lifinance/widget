@@ -5,7 +5,13 @@ packages:
 minimumReleaseAgeExclude:
   - "@bigmi/*"
   - "@lifi/*"
+  - "@creit.tech/stellar-wallets-kit@2.6.0"
   - "@dynamic-labs/legacy-client@5.4.0"
+  # wagmi 3.7.7 is the release that carries @wagmi/core 3.6.5, which drops the
+  # viem tempo/zones import. Excluded because it is younger than the age gate.
+  - "wagmi@3.7.7"
+  - "@wagmi/core@3.6.5"
+  - "@wagmi/connectors@8.2.0"
 overrides:
   "@react-native-async-storage/async-storage": ">=2.2.0"
   "@reown/appkit": ">=1.8.20"
@@ -15,9 +21,6 @@ overrides:
   axios: "^1.16.0"
   viem: ">=2.52.0"
   bs58: ">=4.0.1"
-  # stellar-wallets-kit pulls @trezor/protobuf@1.5.2, which pins the protobufjs
-  # release carrying CVE-2026-41242; upstream 1.5.3 moved to 7.5.5.
-  protobufjs: ">=7.5.5"
   preact: ">=10.29.1"
   # GHSA-f88m-g3jw-g9cj — libvips flaws; next@15 still resolves 0.34.x.
   sharp: ">=0.35.0"
