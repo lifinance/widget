@@ -1,0 +1,5 @@
+# Expo prebuild output - regenerate with `npx expo prebuild` / `expo run:ios`
+/ios
+/android
+node_modules
+.expo
