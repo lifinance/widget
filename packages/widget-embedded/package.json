@@ -26,7 +26,7 @@
     "@lifi/widget-provider-solana": "workspace:*",
     "@lifi/widget-provider-sui": "workspace:*",
     "@mysten/sui": "^2.27.0",
-    "@tanstack/react-query": "^5.102.2",
+    "@tanstack/react-query": "^5.102.5",
     "@tronweb3/tronwallet-abstract-adapter": "1.2.0",
     "@wagmi/core": "^3.6.4",
     "react": "^19.2.8",

@@ -11,4 +11,4 @@
 "@lifi/widget-provider-tron": patch
 ---
 
-Update `@lifi/sdk` to `^4.5.0` and each `@lifi/sdk-provider-*` package to its latest release.
+Update `@lifi/sdk` to `^4.6.0` and each `@lifi/sdk-provider-*` package to its latest release.

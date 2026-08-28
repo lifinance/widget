@@ -16,7 +16,7 @@
   "author": "Eugene Chybisov <eugene@li.finance>",
   "dependencies": {
     "@lifi/widget-playground": "workspace:*",
-    "@tanstack/react-query": "^5.102.2",
+    "@tanstack/react-query": "^5.102.5",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "vite-plugin-mkcert": "^2.1.0"

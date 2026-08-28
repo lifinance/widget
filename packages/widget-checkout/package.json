@@ -68,7 +68,7 @@
   "devDependencies": {
     "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.2",
-    "@types/node": "^26.2.0",
+    "@types/node": "^26.3.0",
     "happy-dom": "^20.11.6",
     "madge": "^8.0.0",
     "react": "^19.2.8",
