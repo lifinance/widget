@@ -5,6 +5,7 @@ packages:
 minimumReleaseAgeExclude:
   - "@bigmi/*"
   - "@lifi/*"
+  - "@creit.tech/stellar-wallets-kit@2.6.0"
 overrides:
   "@react-native-async-storage/async-storage": ">=2.2.0"
   "@reown/appkit": ">=1.8.20"
@@ -14,8 +15,8 @@ overrides:
   axios: "^1.16.0"
   viem: ">=2.52.0"
   bs58: ">=4.0.1"
-  # stellar-wallets-kit pulls @trezor/protobuf@1.5.2, which pins the protobufjs
-  # release carrying CVE-2026-41242; upstream 1.5.3 moved to 7.5.5.
+  # centrifuge, via @metamask/mobile-wallet-protocol-core, asks for protobufjs ^7.6.0.
+  # The floor keeps the CVE-2026-41242 releases out.
   protobufjs: ">=7.5.5"
   preact: ">=10.29.1"
   # GHSA-f88m-g3jw-g9cj — libvips flaws; next@15 still resolves 0.34.x.

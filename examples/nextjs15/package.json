@@ -11,7 +11,7 @@
     "node": ">=21.0.0"
   },
   "dependencies": {
-    "@lifi/sdk": "^4.5.0",
+    "@lifi/sdk": "^4.6.1",
     "@lifi/widget": "4.5.0",
     "@mui/material-nextjs": "^9.3.0",
     "next": "^15",
