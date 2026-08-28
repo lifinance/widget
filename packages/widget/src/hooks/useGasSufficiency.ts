@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import { getSelfFundedGasAmount } from '../utils/gas.js'
+import { getRequiredGasAmount } from '../utils/gas.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useAvailableChains } from './useAvailableChains.js'
 import { useIsContractAddress } from './useIsContractAddress.js'
@@ -104,23 +104,19 @@ export const useGasSufficiency = (
               step.action.fromChainId === route.toChainId && hasRefuelStep
             if (step.estimate.gasCosts && !skipDueToRefuel) {
               const { token } = step.estimate.gasCosts[0]
-              const gasCostAmount = step.estimate.gasCosts.reduce(
-                (amount, gasCost) =>
-                  amount + BigInt(Number(gasCost.amount).toFixed(0)),
-                0n
-              )
               // A previous step can deliver this step's gas token (XLM bridged to
-              // Stellar), so the user does not have to hold it up front
-              const selfFundedGasAmount = getSelfFundedGasAmount(
+              // Stellar), so only the shortfall has to come from the balance
+              const requiredGasAmount = getRequiredGasAmount(
                 route,
                 step,
                 getChainById(token.chainId)?.chainType
               )
-              if (gasCostAmount > 0n && gasCostAmount > selfFundedGasAmount) {
+              if (requiredGasAmount > 0n) {
                 groupedGasCosts[token.chainId] = {
                   gasAmount: groupedGasCosts[token.chainId]
-                    ? groupedGasCosts[token.chainId].gasAmount + gasCostAmount
-                    : gasCostAmount,
+                    ? groupedGasCosts[token.chainId].gasAmount +
+                      requiredGasAmount
+                    : requiredGasAmount,
                   token,
                   chain: getChainById(token.chainId),
                 }

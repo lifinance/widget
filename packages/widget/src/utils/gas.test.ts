@@ -1,7 +1,7 @@
 import type { LiFiStepExtended, RouteExtended, Token } from '@lifi/sdk'
 import { ChainType } from '@lifi/sdk'
 import { describe, expect, it } from 'vitest'
-import { getSelfFundedGasAmount } from './gas.js'
+import { getRequiredGasAmount, getSelfFundedGasAmount } from './gas.js'
 
 const solanaChainId = 1151111081099710
 const stellarChainId = 1201081091099710
@@ -188,5 +188,68 @@ describe('getSelfFundedGasAmount', () => {
         ChainType.STL
       )
     ).toBe(191028247n)
+  })
+})
+
+describe('getRequiredGasAmount', () => {
+  // The bridge step delivers 191028247 XLM and the swap step consumes
+  // 151219467 of it, so the route self funds 39808780 towards the gas.
+  const selfFunded = 39808780n
+
+  // makeStep hardcodes a gas cost of 200, and getSelfFundedGasAmount looks the
+  // step up by identity, so the route has to be built around the same object.
+  const routeWithGasCost = (amount: string) => {
+    const step = makeStep({
+      fromToken: xlm,
+      toToken: usdcStellar,
+      fromAmount: '151219467',
+      toAmountMin: '29621641',
+      gasToken: xlm,
+    })
+    step.estimate.gasCosts = [{ ...step.estimate.gasCosts![0], amount }]
+    return { route: makeRoute([bridgeStep, step]), step }
+  }
+
+  it('should book only the shortfall when the route funds part of the gas', () => {
+    const { route, step } = routeWithGasCost(String(selfFunded + 10191220n))
+    expect(getRequiredGasAmount(route, step, ChainType.STL)).toBe(10191220n)
+  })
+
+  it('should book nothing when the route funds more than the gas cost', () => {
+    const { route, step } = routeWithGasCost(String(selfFunded - 1n))
+    expect(getRequiredGasAmount(route, step, ChainType.STL)).toBe(0n)
+  })
+
+  it('should book nothing when the route funds it exactly', () => {
+    const { route, step } = routeWithGasCost(String(selfFunded))
+    expect(getRequiredGasAmount(route, step, ChainType.STL)).toBe(0n)
+  })
+
+  it('should book the whole cost when the route funds none of it', () => {
+    const { route, step } = routeWithGasCost('50000000')
+    expect(getRequiredGasAmount(route, step, ChainType.EVM)).toBe(50000000n)
+  })
+
+  it('should sum every gas cost entry before subtracting', () => {
+    const { route, step } = routeWithGasCost('50000000')
+    step.estimate.gasCosts = [
+      ...step.estimate.gasCosts!,
+      { ...step.estimate.gasCosts![0], amount: '50000000' },
+    ]
+    expect(getRequiredGasAmount(route, step, ChainType.STL)).toBe(
+      100000000n - selfFunded
+    )
+  })
+
+  it('should book nothing without a gas cost', () => {
+    const step = makeStep({
+      fromToken: xlm,
+      toToken: usdcStellar,
+      fromAmount: '151219467',
+      toAmountMin: '29621641',
+    })
+    expect(
+      getRequiredGasAmount(makeRoute([bridgeStep, step]), step, ChainType.STL)
+    ).toBe(0n)
   })
 })

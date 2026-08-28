@@ -39,3 +39,23 @@ export const getSelfFundedGasAmount = (
     ? deliveredAmount - consumedAmount
     : 0n
 }
+
+/**
+ * Returns how much of a step's gas the user has to hold themselves. The route
+ * can deliver part of that gas, and only the shortfall comes out of the
+ * balance. Returns zero when the route already covers the whole cost.
+ */
+export const getRequiredGasAmount = (
+  route: RouteExtended,
+  step: LiFiStepExtended,
+  gasChainType?: ChainType
+): bigint => {
+  const gasCostAmount = (step.estimate.gasCosts ?? []).reduce(
+    (amount, gasCost) => amount + BigInt(Number(gasCost.amount).toFixed(0)),
+    0n
+  )
+  const selfFundedGasAmount = getSelfFundedGasAmount(route, step, gasChainType)
+  return gasCostAmount > selfFundedGasAmount
+    ? gasCostAmount - selfFundedGasAmount
+    : 0n
+}
