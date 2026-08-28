@@ -7,6 +7,9 @@ minimumReleaseAgeExclude:
   - "@lifi/*"
 overrides:
   "@react-native-async-storage/async-storage": ">=2.2.0"
+  "@stellar/stellar-sdk@14": ">=17.0.0"
+  "@stellar/stellar-sdk@16": ">=17.0.0"
+  toml@3: ">=4.2.0"
   "@reown/appkit": ">=1.8.20"
   "@reown/appkit>@walletconnect/universal-provider": ">=2.23.9"
   "@msgpack/msgpack": ">=3.1.3"
