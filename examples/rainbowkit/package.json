@@ -14,7 +14,7 @@
     "@lifi/widget": "4.5.0",
     "@lifi/widget-provider-ethereum": "4.1.3",
     "@rainbow-me/rainbowkit": "^2.2.11",
-    "@tanstack/react-query": "^5.102.5",
+    "@tanstack/react-query": "^5.102.7",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "viem": ">=2.52.0",
