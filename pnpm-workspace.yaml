@@ -15,8 +15,9 @@ overrides:
   axios: "^1.16.0"
   viem: ">=2.52.0"
   bs58: ">=4.0.1"
-  # centrifuge, via @metamask/mobile-wallet-protocol-core, asks for protobufjs ^7.6.0.
-  # The floor keeps the CVE-2026-41242 releases out.
+  # centrifuge asks for protobufjs ^7.6.0, which already clears CVE-2026-41242, so
+  # this floor guards nothing. It lifts centrifuge onto 8.7.2. Kept because that is
+  # the tested resolution and removing it moves protobufjs to 7.6.6.
   protobufjs: ">=7.5.5"
   preact: ">=10.29.1"
   # GHSA-f88m-g3jw-g9cj — libvips flaws; next@15 still resolves 0.34.x.
