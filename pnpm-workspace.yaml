@@ -21,10 +21,6 @@ overrides:
   axios: "^1.16.0"
   viem: ">=2.52.0"
   bs58: ">=4.0.1"
-  # centrifuge asks for protobufjs ^7.6.0, which already clears CVE-2026-41242, so
-  # this floor guards nothing. It lifts centrifuge onto 8.x. Kept because that is
-  # the tested resolution and removing it moves protobufjs to 7.6.6.
-  protobufjs: ">=7.5.5"
   preact: ">=10.29.1"
   # GHSA-f88m-g3jw-g9cj — libvips flaws; next@15 still resolves 0.34.x.
   sharp: ">=0.35.0"
