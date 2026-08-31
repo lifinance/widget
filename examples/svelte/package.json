@@ -16,13 +16,13 @@
     "@types/node": "^26.4.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",
-    "svelte": "^5.56.10",
+    "svelte": "^5.57.0",
     "svelte-check": "^4.7.6",
     "svelte-preprocess": "^6.0.5",
     "tslib": "^2.8.1",
-    "typescript": "^6.0.3",
+    "typescript": "^7.0.2",
     "vite": "^8.2.2",
-    "vite-plugin-node-polyfills": "^0.26.0"
+    "vite-plugin-node-polyfills": "^0.28.0"
   },
   "dependencies": {
     "@lifi/widget": "4.5.0",

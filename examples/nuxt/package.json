@@ -14,8 +14,8 @@
     "@lifi/widget": "4.5.0",
     "nuxt": "4.5.2",
     "veaury": "^2.6.3",
-    "vite-plugin-node-polyfills": "^0.26.0",
+    "vite-plugin-node-polyfills": "^0.28.0",
     "vue": "^3.5.42",
-    "vue-router": "^5.2.0"
+    "vue-router": "^5.3.0"
   }
 }
