@@ -40,7 +40,7 @@
     "@lifi/sdk": "^4.6.1",
     "@lifi/sdk-provider-sui": "^4.1.10",
     "@lifi/widget-provider": "workspace:*",
-    "@mysten/sui": "^2.27.0"
+    "@mysten/sui": "^2.27.1"
   },
   "peerDependencies": {
     "@mysten/dapp-kit-react": "^2.1.3",
