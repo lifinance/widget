@@ -31,6 +31,6 @@
     "@vitejs/plugin-react": "^6.1.1",
     "typescript": "^7.0.2",
     "vite": "^8.2.2",
-    "vite-plugin-node-polyfills": "^0.28.0"
+    "vite-plugin-node-polyfills": "^0.26.0"
   }
 }
