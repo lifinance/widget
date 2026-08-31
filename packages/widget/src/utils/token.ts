@@ -1,4 +1,11 @@
-import type { BaseToken, RouteExtended, Token, TokenAmount } from '@lifi/sdk'
+import type {
+  BaseToken,
+  ExtendedChain,
+  RouteExtended,
+  StaticToken,
+  Token,
+  TokenAmount,
+} from '@lifi/sdk'
 import type { FormType } from '../stores/form/types.js'
 import type { TokensByChain, TokenWithVerified } from '../types/token.js'
 import type { WidgetChains, WidgetTokens } from '../types/widget.js'
@@ -184,6 +191,17 @@ export const filterAllowedTokens = (
   return allowedTokensByChain
 }
 
+/**
+ * True when `tokenAddress` is the chain's native/gas token address.
+ * Hypernative flags this address as a scam on some chains even though
+ * it's just the widget's native-token convention (e.g. the EVM zero
+ * address), so this check suppresses that specific false positive.
+ */
+export const isNativeToken = (
+  tokenAddress: string,
+  chain: Pick<ExtendedChain, 'nativeToken'> | undefined
+): boolean => chain?.nativeToken.address === tokenAddress
+
 export const getExecutionToToken = (route: RouteExtended): TokenAmount => ({
   ...(route.steps.at(-1)?.execution?.toToken ?? route.toToken),
   amount: BigInt(
@@ -192,3 +210,19 @@ export const getExecutionToToken = (route: RouteExtended): TokenAmount => ({
       route.toAmount
   ),
 })
+
+/**
+ * Returns the capitalized name of the first provider that verified the token.
+ * Providers are stored lowercase (e.g. `hypernative`), so the name is
+ * capitalized for display in the verified token tooltip.
+ */
+export const getVerifiedTokenProvider = (
+  token: Pick<StaticToken, 'verificationStatusBreakdown'>
+): string | undefined => {
+  const provider = token.verificationStatusBreakdown?.find(
+    (entry) => entry.result === 'verified'
+  )?.provider
+  return provider
+    ? `${provider.charAt(0).toUpperCase()}${provider.slice(1)}`
+    : undefined
+}

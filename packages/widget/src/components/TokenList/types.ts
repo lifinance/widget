@@ -35,6 +35,7 @@ export interface TokenListItemProps extends TokenListItemBaseProps {
     chainId: number
   ) => void
   chain?: ExtendedChain
+  isNativeToken?: boolean
   isBalanceLoading?: boolean
   startAdornment?: React.ReactNode
   endAdornment?: React.ReactNode
@@ -50,6 +51,7 @@ export interface TokenListItemButtonProps {
   onClick?(tokenAddress: string, chainId?: number): void
   token: TokenAmount
   chain?: ExtendedChain
+  isNativeToken?: boolean
   isBalanceLoading?: boolean
   selected?: boolean
 }

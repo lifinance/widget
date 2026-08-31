@@ -1,7 +1,12 @@
-import type { Token } from '@lifi/sdk'
+import type { ExtendedChain, Token } from '@lifi/sdk'
 import { describe, expect, it } from 'vitest'
 import type { TokensByChain, TokenWithVerified } from '../types/token.js'
-import { filterAllowedTokens, getVerifiedTokensSets } from './token.js'
+import {
+  filterAllowedTokens,
+  getVerifiedTokenProvider,
+  getVerifiedTokensSets,
+  isNativeToken,
+} from './token.js'
 
 const makeToken = (
   chainId: number,
@@ -139,5 +144,67 @@ describe('filterAllowedTokens', () => {
 
   it('should return undefined without data tokens', () => {
     expect(filterAllowedTokens(undefined, {})).toBeUndefined()
+  })
+})
+
+describe('getVerifiedTokenProvider', () => {
+  it('should return the capitalized provider that verified the token', () => {
+    expect(
+      getVerifiedTokenProvider({
+        verificationStatusBreakdown: [
+          { provider: 'hypernative', result: 'verified' },
+        ],
+      })
+    ).toBe('Hypernative')
+  })
+
+  it('should return the first provider that verified the token', () => {
+    expect(
+      getVerifiedTokenProvider({
+        verificationStatusBreakdown: [
+          { provider: 'other', result: 'unverified' },
+          { provider: 'hypernative', result: 'verified' },
+        ],
+      })
+    ).toBe('Hypernative')
+  })
+
+  it('should return undefined when no provider verified the token', () => {
+    expect(
+      getVerifiedTokenProvider({
+        verificationStatusBreakdown: [
+          { provider: 'hypernative', result: 'flagged' },
+        ],
+      })
+    ).toBeUndefined()
+  })
+
+  it('should return undefined without a breakdown', () => {
+    expect(getVerifiedTokenProvider({})).toBeUndefined()
+    expect(
+      getVerifiedTokenProvider({ verificationStatusBreakdown: [] })
+    ).toBeUndefined()
+  })
+})
+
+describe('isNativeToken', () => {
+  const chain = {
+    nativeToken: { address: '0x0000000000000000000000000000000000000000' },
+  } as ExtendedChain
+
+  it('should return true for the native token address of the chain', () => {
+    expect(
+      isNativeToken('0x0000000000000000000000000000000000000000', chain)
+    ).toBe(true)
+  })
+
+  it('should return false for another token address', () => {
+    expect(isNativeToken('0xAAA', chain)).toBe(false)
+  })
+
+  it('should return false without a chain', () => {
+    expect(
+      isNativeToken('0x0000000000000000000000000000000000000000', undefined)
+    ).toBe(false)
   })
 })

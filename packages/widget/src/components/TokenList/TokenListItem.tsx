@@ -1,6 +1,7 @@
 import type { StaticToken } from '@lifi/sdk'
 import { ChainType } from '@lifi/sdk'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
+import VerifiedIcon from '@mui/icons-material/Verified'
 import WarningRounded from '@mui/icons-material/WarningRounded'
 import {
   Avatar,
@@ -18,6 +19,7 @@ import { memo, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLongPress } from '../../hooks/useLongPress.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
+import { getVerifiedTokenProvider } from '../../utils/token.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
 import { ListItemButton } from '../ListItem/ListItemButton.js'
@@ -36,6 +38,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
     start,
     token,
     chain,
+    isNativeToken,
     isBalanceLoading,
     startAdornment,
     endAdornment,
@@ -56,6 +59,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
           isBalanceLoading={isBalanceLoading}
           onClick={onClick}
           chain={chain}
+          isNativeToken={isNativeToken}
           selected={selected}
           onShowTokenDetails={onShowTokenDetails}
         />
@@ -121,6 +125,7 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
     onClick,
     token,
     chain,
+    isNativeToken,
     isBalanceLoading,
     selected,
     onShowTokenDetails,
@@ -166,6 +171,48 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
       onShowTokenDetails(token.address, withoutContractAddress, token.chainId)
     )
 
+    // Verification status drives the badge: a verified token gets a check, a
+    // flagged or unverified token gets a warning. A token without
+    // verification data falls back to the integrator provenance flag
+    // (`token.verified`, set from the `tokens.include`/`tokens.verified`
+    // config). Flagged native/gas tokens are exempt: the screening provider
+    // treats the chain's gas-token address convention (e.g. the EVM zero
+    // address) as a scam, which is a false positive on some chains.
+    let verificationBadge:
+      | { Icon: typeof WarningRounded; color: string; title: string }
+      | undefined
+    if (token.verificationStatus === 'flagged' && !isNativeToken) {
+      verificationBadge = {
+        Icon: WarningRounded,
+        color: 'error.main',
+        title: t('warning.message.tokenFlagged', {
+          tokenSymbol: token.symbol,
+        }),
+      }
+    } else if (token.verificationStatus === 'verified') {
+      const provider = getVerifiedTokenProvider(token)
+      verificationBadge = {
+        Icon: VerifiedIcon,
+        color: 'success.main',
+        title: provider
+          ? t('tooltip.tokenVerifiedByProvider', {
+              tokenSymbol: token.symbol,
+              provider,
+            })
+          : t('tooltip.tokenVerified', { tokenSymbol: token.symbol }),
+      }
+    } else if (
+      (token.verificationStatus === 'unverified' ||
+        !token.verificationStatus) &&
+      !token.verified
+    ) {
+      verificationBadge = {
+        Icon: WarningRounded,
+        color: 'warning.main',
+        title: t('warning.message.unverifiedToken'),
+      }
+    }
+
     return (
       <ListItemButton
         onClick={handleClick}
@@ -195,17 +242,13 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
           primary={
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
               {token.symbol}
-              {!token.verified && (
-                <Tooltip
-                  title={t('warning.message.unverifiedToken')}
-                  placement="top"
-                  arrow
-                >
-                  <WarningRounded
+              {verificationBadge && (
+                <Tooltip title={verificationBadge.title} placement="top" arrow>
+                  <verificationBadge.Icon
                     sx={{
                       display: 'flex',
                       fontSize: 16,
-                      color: 'warning.main',
+                      color: verificationBadge.color,
                       cursor: 'help',
                     }}
                   />
