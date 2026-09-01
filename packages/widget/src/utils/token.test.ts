@@ -1,11 +1,10 @@
-import type { ExtendedChain, Token } from '@lifi/sdk'
+import type { Token } from '@lifi/sdk'
 import { describe, expect, it } from 'vitest'
 import type { TokensByChain, TokenWithFlags } from '../types/token.js'
 import {
   filterAllowedTokens,
   getTokenVerificationProvider,
   getVerifiedTokensSets,
-  isNativeToken,
 } from './token.js'
 
 const makeToken = (
@@ -184,28 +183,6 @@ describe('getTokenVerificationProvider', () => {
     expect(
       getTokenVerificationProvider({ verificationStatusBreakdown: [] })
     ).toBeUndefined()
-  })
-})
-
-describe('isNativeToken', () => {
-  const chain = {
-    nativeToken: { address: '0x0000000000000000000000000000000000000000' },
-  } as ExtendedChain
-
-  it('should return true for the native token address of the chain', () => {
-    expect(
-      isNativeToken('0x0000000000000000000000000000000000000000', chain)
-    ).toBe(true)
-  })
-
-  it('should return false for another token address', () => {
-    expect(isNativeToken('0xAAA', chain)).toBe(false)
-  })
-
-  it('should return false without a chain', () => {
-    expect(
-      isNativeToken('0x0000000000000000000000000000000000000000', undefined)
-    ).toBe(false)
   })
 })
 

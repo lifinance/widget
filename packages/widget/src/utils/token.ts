@@ -1,6 +1,5 @@
 import type {
   BaseToken,
-  ExtendedChain,
   RouteExtended,
   StaticToken,
   Token,
@@ -200,17 +199,6 @@ export const filterAllowedTokens = (
 
   return allowedTokensByChain
 }
-
-/**
- * True when `tokenAddress` is the chain's native/gas token address.
- * Hypernative flags this address as a scam on some chains even though
- * it's just the widget's native-token convention (e.g. the EVM zero
- * address), so this check suppresses that specific false positive.
- */
-export const isNativeToken = (
-  tokenAddress: string,
-  chain: Pick<ExtendedChain, 'nativeToken'> | undefined
-): boolean => chain?.nativeToken.address === tokenAddress
 
 export const getExecutionToToken = (route: RouteExtended): TokenAmount => ({
   ...(route.steps.at(-1)?.execution?.toToken ?? route.toToken),
