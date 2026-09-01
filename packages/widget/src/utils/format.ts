@@ -28,6 +28,14 @@ export function formatSlippage(
   if (!slippage) {
     return slippage
   }
+  // Normalize a comma decimal separator (common outside en-US locales) to a dot
+  // before any numeric parsing below, but only when unambiguous: exactly one
+  // comma and no existing dot. Anything else (multiple commas, or a comma
+  // alongside a dot, e.g. thousands-style '1,234.5') is left as-is rather than
+  // guessing the intended locale, and falls through to the existing handling.
+  if (!slippage.includes('.') && (slippage.match(/,/g)?.length ?? 0) === 1) {
+    slippage = slippage.replace(',', '.')
+  }
   const parsedSlippage = Number.parseFloat(slippage)
   if (Number.isNaN(Number(slippage)) && !Number.isNaN(parsedSlippage)) {
     return parsedSlippage.toString()
