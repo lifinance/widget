@@ -176,10 +176,8 @@ export const filterAllowedTokens = (
         continue
       }
       // Include and verified-allowlist tokens are explicitly set by the
-      // integrator, mark them as verified. The chain's native token is
-      // marked here too, so every consumer reads `token.native` instead of
-      // resolving the chain again. A flag is only ever set to true: a token
-      // that earns none keeps its cached object rather than being cloned.
+      // integrator, mark them as verified. Flags are only ever set to true,
+      // so a token that earns none keeps its cached object.
       const markVerified =
         !token.verified &&
         (includedAddresses.has(address) || verifiedAddresses?.has(address))
@@ -210,11 +208,7 @@ export const getExecutionToToken = (route: RouteExtended): TokenAmount => ({
   ),
 })
 
-/**
- * Returns the capitalized name of the first provider that verified the token.
- * Providers are stored lowercase (e.g. `hypernative`), so the name is
- * capitalized for display in the verified token tooltip.
- */
+/** Capitalized name of the first provider that verified the token. */
 export const getTokenVerificationProvider = (
   token: Pick<StaticToken, 'verificationStatusBreakdown'>
 ): string | undefined => {
@@ -227,21 +221,15 @@ export const getTokenVerificationProvider = (
 }
 
 /**
- * Venues that declare a bridged stablecoin as their native token: Hyperliquid
- * points at Arbitrum USDC, Lighter at Ethereum USDC. Neither is a gas token
- * you hold on that chain, so the widget must not badge it as native. Chains
- * whose gas token is a chain-local stablecoin, such as Arc, Tempo and Stable,
- * are genuine and stay.
+ * Hyperliquid declares Arbitrum USDC as its native token, Lighter declares
+ * Ethereum USDC. Neither is a gas token you hold there. A chain-local
+ * stablecoin gas token, as on Arc or Stable, is genuine and stays.
  */
 const chainIdsWithoutNativeToken = new Set([
   1337, // Hyperliquid
   3586256, // Lighter
 ])
 
-/**
- * Native token address per chain, for flagging the native token while the
- * token list is built.
- */
 export const getNativeTokenAddresses = (
   chains?: ExtendedChain[]
 ): Map<number, string> =>

@@ -66,8 +66,7 @@ export const useTokens = (
         { signal }
       )
 
-      // Mark tokens as coming from the main list. The pre-transaction
-      // guard uses this to tell a listed token from a searched one.
+      // `listed` tells a main-list token from a searched one
       const tokens: TokensByChain = Object.fromEntries(
         Object.entries(tokensResponse.tokens).map(([chainId, tokens]) => [
           chainId,
@@ -142,8 +141,6 @@ export const useTokens = (
     staleTime: refetchInterval,
   })
 
-  // Native token address per chain, so `filterAllowedTokens` can flag the
-  // native token inside the pass it already makes over every token
   const { chains } = useAvailableChains()
   const nativeTokenAddresses = useMemo(
     () => getNativeTokenAddresses(chains),

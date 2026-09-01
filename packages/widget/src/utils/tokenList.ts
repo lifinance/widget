@@ -276,12 +276,9 @@ export const isSearchMatch = (
 }
 
 /**
- * Moves the chain's native token to the top of its own chain's list.
- *
- * The token only moves when no external list already places it: one the
- * integrator features, marks popular or verified, or one the user pinned,
- * keeps the position that list gives it. The array is returned unchanged
- * when nothing moves, so a memo downstream keeps its reference.
+ * Moves the chain's native token to the top of its own chain's list, unless an
+ * external list already places it. Returns the array unchanged when nothing
+ * moves, so a memo downstream keeps its reference.
  */
 export const hoistNativeToken = (
   tokens: TokenAmount[],

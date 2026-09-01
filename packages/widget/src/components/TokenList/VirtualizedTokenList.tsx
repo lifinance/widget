@@ -142,8 +142,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
           const previousToken: TokenAmount | undefined = tokens[item.index - 1]
           const chain = chainsSet?.get(currentToken.chainId)
 
-          // The native token leads the list, so the row after it opens the
-          // first category exactly as index 0 does
+          // the row after the native token opens the first category
           const isListStart = item.index === 0 || !!previousToken?.native
           const isNotPinned = !currentToken.pinned
           const isFirstPinnedToken = currentToken.pinned && isListStart

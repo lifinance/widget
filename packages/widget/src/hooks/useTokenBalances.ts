@@ -128,9 +128,8 @@ export const useTokenBalances = (
       displayedTokensWithBalances,
       isPinnedToken
     )
-    // The native token leads its own chain's list. A search keeps its
-    // results ranked by match, and "All networks" has no single native
-    // token to lead with.
+    // A search keeps its results ranked by match, and "All networks" has no
+    // single native token to lead with.
     if (isAllNetworks || search || !result.processedTokens) {
       return result
     }
