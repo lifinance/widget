@@ -1,9 +1,9 @@
 import type { ExtendedChain, Token } from '@lifi/sdk'
 import { describe, expect, it } from 'vitest'
-import type { TokensByChain, TokenWithVerified } from '../types/token.js'
+import type { TokensByChain, TokenWithFlags } from '../types/token.js'
 import {
   filterAllowedTokens,
-  getVerifiedTokenProvider,
+  getTokenVerificationProvider,
   getVerifiedTokensSets,
   isNativeToken,
 } from './token.js'
@@ -12,7 +12,7 @@ const makeToken = (
   chainId: number,
   address: string,
   verified?: boolean
-): TokenWithVerified => ({
+): TokenWithFlags => ({
   chainId,
   address,
   symbol: 'TKN',
@@ -147,10 +147,10 @@ describe('filterAllowedTokens', () => {
   })
 })
 
-describe('getVerifiedTokenProvider', () => {
+describe('getTokenVerificationProvider', () => {
   it('should return the capitalized provider that verified the token', () => {
     expect(
-      getVerifiedTokenProvider({
+      getTokenVerificationProvider({
         verificationStatusBreakdown: [
           { provider: 'hypernative', result: 'verified' },
         ],
@@ -160,7 +160,7 @@ describe('getVerifiedTokenProvider', () => {
 
   it('should return the first provider that verified the token', () => {
     expect(
-      getVerifiedTokenProvider({
+      getTokenVerificationProvider({
         verificationStatusBreakdown: [
           { provider: 'other', result: 'unverified' },
           { provider: 'hypernative', result: 'verified' },
@@ -171,7 +171,7 @@ describe('getVerifiedTokenProvider', () => {
 
   it('should return undefined when no provider verified the token', () => {
     expect(
-      getVerifiedTokenProvider({
+      getTokenVerificationProvider({
         verificationStatusBreakdown: [
           { provider: 'hypernative', result: 'flagged' },
         ],
@@ -180,9 +180,9 @@ describe('getVerifiedTokenProvider', () => {
   })
 
   it('should return undefined without a breakdown', () => {
-    expect(getVerifiedTokenProvider({})).toBeUndefined()
+    expect(getTokenVerificationProvider({})).toBeUndefined()
     expect(
-      getVerifiedTokenProvider({ verificationStatusBreakdown: [] })
+      getTokenVerificationProvider({ verificationStatusBreakdown: [] })
     ).toBeUndefined()
   })
 })
@@ -206,5 +206,59 @@ describe('isNativeToken', () => {
     expect(
       isNativeToken('0x0000000000000000000000000000000000000000', undefined)
     ).toBe(false)
+  })
+})
+
+describe('filterAllowedTokens native flag', () => {
+  const nativeAddress = '0x0000000000000000000000000000000000000000'
+  const nativeTokenAddresses = new Map([[1, nativeAddress]])
+
+  it('should mark the native token of the chain', () => {
+    const result = filterAllowedTokens(
+      { 1: [makeToken(1, nativeAddress), makeToken(1, '0xAAA')] },
+      undefined,
+      undefined,
+      undefined,
+      nativeTokenAddresses
+    )
+    expect(result?.[1][0].native).toBe(true)
+  })
+
+  it('should not add the flag to other tokens', () => {
+    const result = filterAllowedTokens(
+      { 1: [makeToken(1, '0xAAA')] },
+      undefined,
+      undefined,
+      undefined,
+      nativeTokenAddresses
+    )
+    expect('native' in result![1][0]).toBe(false)
+  })
+
+  it('should match the native address regardless of case', () => {
+    const result = filterAllowedTokens(
+      { 1: [makeToken(1, '0xABCDEF')] },
+      undefined,
+      undefined,
+      undefined,
+      new Map([[1, '0xabcdef']])
+    )
+    expect(result?.[1][0].native).toBe(true)
+  })
+
+  it('should not mark the native token of another chain', () => {
+    const result = filterAllowedTokens(
+      { 137: [makeToken(137, nativeAddress)] },
+      undefined,
+      undefined,
+      undefined,
+      nativeTokenAddresses
+    )
+    expect(result?.[137][0].native).toBeUndefined()
+  })
+
+  it('should not mark anything without native addresses', () => {
+    const result = filterAllowedTokens({ 1: [makeToken(1, nativeAddress)] })
+    expect(result?.[1][0].native).toBeUndefined()
   })
 })

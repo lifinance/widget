@@ -274,3 +274,34 @@ export const isSearchMatch = (
     token.address?.toLowerCase().includes(searchLowerCase)
   )
 }
+
+/**
+ * Moves the chain's native token to the top of its own chain's list.
+ *
+ * The token only moves when no external list already places it: one the
+ * integrator features, marks popular or verified, or one the user pinned,
+ * keeps the position that list gives it. The array is returned unchanged
+ * when nothing moves, so a memo downstream keeps its reference.
+ */
+export const hoistNativeToken = (
+  tokens: TokenAmount[],
+  selectedChainId?: number
+): TokenAmount[] => {
+  if (!selectedChainId) {
+    return tokens
+  }
+  const index = tokens.findIndex(
+    (token) =>
+      token.native &&
+      token.chainId === selectedChainId &&
+      !token.featured &&
+      !token.popular &&
+      !token.pinned &&
+      !token.verified
+  )
+  // -1 is no native token, 0 is already first
+  if (index < 1) {
+    return tokens
+  }
+  return [tokens[index], ...tokens.slice(0, index), ...tokens.slice(index + 1)]
+}

@@ -124,7 +124,7 @@
       "clearFailedTransactions": "",
       "fundsLossPrevention": "",
       "highValueLoss": "",
-      "unverifiedToken": "",
+      "tokenUnverified": "",
       "insufficientFunds": "",
       "insufficientGas": "",
       "minFromAmountUSD": "",

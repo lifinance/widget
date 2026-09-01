@@ -7,7 +7,7 @@ import type {
   TokenAmount,
 } from '@lifi/sdk'
 import type { FormType } from '../stores/form/types.js'
-import type { TokensByChain, TokenWithVerified } from '../types/token.js'
+import type { TokensByChain, TokenWithFlags } from '../types/token.js'
 import type { WidgetChains, WidgetTokens } from '../types/widget.js'
 import { getConfigItemSets, isFormItemAllowed } from './item.js'
 
@@ -101,7 +101,8 @@ export const filterAllowedTokens = (
   dataTokens: TokensByChain | undefined,
   configTokens?: WidgetTokens,
   chainsConfig?: WidgetChains,
-  formType?: FormType
+  formType?: FormType,
+  nativeTokenAddresses?: Map<number, string>
 ): TokensByChain | undefined => {
   if (!dataTokens) {
     return
@@ -150,13 +151,14 @@ export const filterAllowedTokens = (
     )
 
     const verifiedAddresses = verifiedTokensSets?.get(chainId)
+    const nativeAddress = nativeTokenAddresses?.get(chainId)?.toLowerCase()
 
-    const chainTokens: TokenWithVerified[] = [
+    const chainTokens: TokenWithFlags[] = [
       ...(dataTokens[chainId] ?? []),
       ...chainIncludedTokens,
     ]
 
-    const filtered: TokenWithVerified[] = []
+    const filtered: TokenWithFlags[] = []
     const seenAddresses = new Set<string>()
     for (const token of chainTokens) {
       const address = token.address.toLowerCase()
@@ -174,12 +176,20 @@ export const filterAllowedTokens = (
         continue
       }
       // Include and verified-allowlist tokens are explicitly set by the
-      // integrator, mark them as verified
-      if (
+      // integrator, mark them as verified. The chain's native token is
+      // marked here too, so every consumer reads `token.native` instead of
+      // resolving the chain again. A flag is only ever set to true: a token
+      // that earns none keeps its cached object rather than being cloned.
+      const markVerified =
         !token.verified &&
         (includedAddresses.has(address) || verifiedAddresses?.has(address))
-      ) {
-        filtered.push({ ...token, verified: true })
+      const markNative = !!nativeAddress && nativeAddress === address
+      if (markVerified || markNative) {
+        filtered.push({
+          ...token,
+          ...(markVerified ? { verified: true } : {}),
+          ...(markNative ? { native: true } : {}),
+        })
       } else {
         filtered.push(token)
       }
@@ -216,7 +226,7 @@ export const getExecutionToToken = (route: RouteExtended): TokenAmount => ({
  * Providers are stored lowercase (e.g. `hypernative`), so the name is
  * capitalized for display in the verified token tooltip.
  */
-export const getVerifiedTokenProvider = (
+export const getTokenVerificationProvider = (
   token: Pick<StaticToken, 'verificationStatusBreakdown'>
 ): string | undefined => {
   const provider = token.verificationStatusBreakdown?.find(

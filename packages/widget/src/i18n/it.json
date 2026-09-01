@@ -124,7 +124,7 @@
       "clearFailedTransactions": "",
       "fundsLossPrevention": "",
       "highValueLoss": "Il valore dei token ricevuti è significativamente inferiore ai token scambiati più il costo della transazione.",
-      "unverifiedToken": "",
+      "tokenUnverified": "",
       "insufficientFunds": "Non hai abbastanza fondi per completare lo scambio.",
       "insufficientGas": "Non hai abbastanza gas per completare lo scambio. Devi aggiungere almeno:",
       "minFromAmountUSD": "",

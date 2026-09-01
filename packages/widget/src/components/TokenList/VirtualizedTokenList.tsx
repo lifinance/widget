@@ -5,7 +5,6 @@ import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import type { TokenAmount } from '../../types/token.js'
-import { isNativeToken } from '../../utils/token.js'
 import { TokenDetailsSheet } from './TokenDetailsSheet.js'
 import { List } from './TokenList.style.js'
 import { TokenListItem, TokenListItemSkeleton } from './TokenListItem.js'
@@ -143,8 +142,11 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
           const previousToken: TokenAmount | undefined = tokens[item.index - 1]
           const chain = chainsSet?.get(currentToken.chainId)
 
+          // The native token leads the list, so the row after it opens the
+          // first category exactly as index 0 does
+          const isListStart = item.index === 0 || !!previousToken?.native
           const isNotPinned = !currentToken.pinned
-          const isFirstPinnedToken = currentToken.pinned && item.index === 0
+          const isFirstPinnedToken = currentToken.pinned && isListStart
           const isTransitionFromPinned = previousToken?.pinned && isNotPinned
 
           // Category transitions (excluding pinned)
@@ -169,7 +171,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
 
             if (
               (isTransitionFromPinned && currentToken.featured) ||
-              (currentToken.featured && isNotPinned && item.index === 0)
+              (currentToken.featured && isNotPinned && isListStart)
             ) {
               return t('main.featuredTokens')
             }
@@ -212,7 +214,6 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
               start={item.start}
               token={currentToken}
               chain={isAllNetworks ? chain : undefined}
-              isNativeToken={isNativeToken(currentToken.address, chain)}
               selected={isSelected}
               onShowTokenDetails={onShowTokenDetails}
               isBalanceLoading={isBalanceLoading}

@@ -19,6 +19,7 @@ import {
   filterAllowedTokens,
   mergeVerifiedWithSearchTokens,
 } from '../utils/token.js'
+import { useAvailableChains } from './useAvailableChains.js'
 
 const refetchInterval = 300_000
 
@@ -147,11 +148,33 @@ export const useTokens = (
     staleTime: refetchInterval,
   })
 
+  // Native token address per chain, so `filterAllowedTokens` can flag the
+  // native token inside the pass it already makes over every token
+  const { chains } = useAvailableChains()
+  const nativeTokenAddresses = useMemo(
+    () =>
+      new Map(chains?.map((chain) => [chain.id, chain.nativeToken.address])),
+    [chains]
+  )
+
   // Merge tokens at read time - single place where caches are combined
   const allTokens = useMemo(() => {
     const merged = mergeVerifiedWithSearchTokens(verifiedTokens, searchTokens)
-    return filterAllowedTokens(merged, configTokens, chainsConfig, formType)
-  }, [verifiedTokens, searchTokens, configTokens, chainsConfig, formType])
+    return filterAllowedTokens(
+      merged,
+      configTokens,
+      chainsConfig,
+      formType,
+      nativeTokenAddresses
+    )
+  }, [
+    verifiedTokens,
+    searchTokens,
+    configTokens,
+    chainsConfig,
+    formType,
+    nativeTokenAddresses,
+  ])
 
   return {
     allTokens,

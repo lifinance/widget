@@ -1,8 +1,8 @@
 import type { StaticToken } from '@lifi/sdk'
 import { ChainType } from '@lifi/sdk'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
+import ReportRoundedIcon from '@mui/icons-material/ReportRounded'
 import VerifiedIcon from '@mui/icons-material/Verified'
-import WarningRounded from '@mui/icons-material/WarningRounded'
 import {
   Avatar,
   Box,
@@ -20,7 +20,7 @@ import { useTranslation } from 'react-i18next'
 import { useChain } from '../../hooks/useChain.js'
 import { useLongPress } from '../../hooks/useLongPress.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
-import { getVerifiedTokenProvider } from '../../utils/token.js'
+import { getTokenVerificationProvider } from '../../utils/token.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
 import { ListItemButton } from '../ListItem/ListItemButton.js'
@@ -39,7 +39,6 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
     start,
     token,
     chain,
-    isNativeToken,
     isBalanceLoading,
     startAdornment,
     endAdornment,
@@ -60,7 +59,6 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
           isBalanceLoading={isBalanceLoading}
           onClick={onClick}
           chain={chain}
-          isNativeToken={isNativeToken}
           selected={selected}
           onShowTokenDetails={onShowTokenDetails}
         />
@@ -126,7 +124,6 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
     onClick,
     token,
     chain,
-    isNativeToken,
     isBalanceLoading,
     selected,
     onShowTokenDetails,
@@ -184,29 +181,29 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
     // (`token.verified`, set from the `tokens.include`/`tokens.verified`
     // config).
     let verificationBadge:
-      | { Icon: typeof WarningRounded; color: string; title: string }
+      | { Icon: typeof VerifiedIcon; color: string; title: string }
       | undefined
-    if (isNativeToken) {
+    if (token.native) {
       verificationBadge = {
         Icon: VerifiedIcon,
         color: 'info.main',
         title: tokenChain?.name
-          ? t('tooltip.tokenNative', {
+          ? t('tooltip.tokenNativeOnChain', {
               tokenSymbol: token.symbol,
               chainName: tokenChain.name,
             })
-          : t('tooltip.tokenNativeGeneric', { tokenSymbol: token.symbol }),
+          : t('tooltip.tokenNative', { tokenSymbol: token.symbol }),
       }
     } else if (token.verificationStatus === 'flagged') {
       verificationBadge = {
-        Icon: WarningRounded,
+        Icon: ReportRoundedIcon,
         color: 'error.main',
         title: t('warning.message.tokenFlagged', {
           tokenSymbol: token.symbol,
         }),
       }
     } else if (token.verificationStatus === 'verified') {
-      const provider = getVerifiedTokenProvider(token)
+      const provider = getTokenVerificationProvider(token)
       verificationBadge = {
         Icon: VerifiedIcon,
         color: 'success.main',
@@ -223,9 +220,9 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
       !token.verified
     ) {
       verificationBadge = {
-        Icon: WarningRounded,
+        Icon: ReportRoundedIcon,
         color: 'warning.main',
-        title: t('warning.message.unverifiedToken'),
+        title: t('warning.message.tokenUnverified'),
       }
     }
 

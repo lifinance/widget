@@ -4,7 +4,11 @@ import type { FormType } from '../stores/form/types.js'
 import { useSettings } from '../stores/settings/useSettings.js'
 import type { TokenAmount } from '../types/token.js'
 import { formatTokenPrice } from '../utils/format.js'
-import { isSearchMatch, processTokenList } from '../utils/tokenList.js'
+import {
+  hoistNativeToken,
+  isSearchMatch,
+  processTokenList,
+} from '../utils/tokenList.js'
 import { useAccountsBalancesData } from './useAccountsBalancesData.js'
 import { useDisplayedTokens } from './useDisplayedTokens.js'
 import { useTokenBalancesQueries } from './useTokenBalancesQueries.js'
@@ -115,7 +119,7 @@ export const useTokenBalances = (
   ])
 
   const { processedTokens, withCategories, withPinnedTokens } = useMemo(() => {
-    return processTokenList(
+    const result = processTokenList(
       isBalanceLoading,
       isAllNetworks || !!search,
       configTokens,
@@ -124,6 +128,19 @@ export const useTokenBalances = (
       displayedTokensWithBalances,
       isPinnedToken
     )
+    // The native token leads its own chain's list. A search keeps its
+    // results ranked by match, and "All networks" has no single native
+    // token to lead with.
+    if (isAllNetworks || search || !result.processedTokens) {
+      return result
+    }
+    return {
+      ...result,
+      processedTokens: hoistNativeToken(
+        result.processedTokens,
+        selectedChainId
+      ),
+    }
   }, [
     isBalanceLoading,
     isAllNetworks,
