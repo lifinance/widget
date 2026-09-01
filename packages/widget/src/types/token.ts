@@ -10,6 +10,8 @@ export interface TokenFlags {
   pinned?: boolean
   verified?: boolean
   native?: boolean
+  /** Came from the main token list rather than from a search. */
+  listed?: boolean
 }
 
 export interface TokenAmount extends SDKTokenAmount, TokenFlags {}

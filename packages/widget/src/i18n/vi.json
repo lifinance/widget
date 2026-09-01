@@ -124,7 +124,6 @@
       "clearFailedTransactions": "",
       "fundsLossPrevention": "",
       "highValueLoss": "Giá trị của token nhận được đang thấp hơn rất nhiều so với token được swap và chi phí giao dịch.",
-      "tokenUnverified": "",
       "insufficientFunds": "Bạn không có đủ tiền để thực hiện tác vụ này.",
       "insufficientGas": "Bạn không đủ gas để thực hiện swap. Bạn cần thêm ít nhất:",
       "minFromAmountUSD": "",

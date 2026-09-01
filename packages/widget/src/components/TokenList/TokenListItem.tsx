@@ -170,16 +170,14 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
       onShowTokenDetails(token.address, withoutContractAddress, token.chainId)
     )
 
-    // The chain's native gas token comes first and gets its own blue check:
-    // the widget knows it from the chain data, and nobody can forge it. This
-    // also takes precedence over the screening verdict, because the provider
+    // The chain's native token comes first and gets its own blue check: the
+    // widget knows it from the chain data, and nobody can forge it. This also
+    // takes precedence over the screening verdict, because the provider
     // screens the native-token address convention (e.g. the EVM zero address)
     // and calls it a scam on some chains, which is a false positive.
-    // Otherwise the screening status drives the badge: 'verified' gets a green
-    // check, 'flagged' and 'unverified' get a warning. A token without
-    // screening data falls back to the integrator provenance flag
-    // (`token.verified`, set from the `tokens.include`/`tokens.verified`
-    // config).
+    // Otherwise only a definite verdict draws a badge: 'verified' a green
+    // check, 'flagged' a red warning. 'unverified' and missing data draw
+    // nothing, because absence of a verdict is not a finding.
     let verificationBadge:
       | { Icon: typeof VerifiedIcon; color: string; title: string }
       | undefined
@@ -213,16 +211,6 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
               provider,
             })
           : t('tooltip.tokenVerified', { tokenSymbol: token.symbol }),
-      }
-    } else if (
-      (token.verificationStatus === 'unverified' ||
-        !token.verificationStatus) &&
-      !token.verified
-    ) {
-      verificationBadge = {
-        Icon: ReportRoundedIcon,
-        color: 'warning.main',
-        title: t('warning.message.tokenUnverified'),
       }
     }
 

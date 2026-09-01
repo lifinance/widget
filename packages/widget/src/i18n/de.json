@@ -124,7 +124,6 @@
       "clearFailedTransactions": "",
       "fundsLossPrevention": "",
       "highValueLoss": "Der Wert der erhaltenen Token ist deutlich niedriger als die getauschten Token und die Transaktionskosten.",
-      "tokenUnverified": "",
       "insufficientFunds": "Sie haben nicht genug Token, um diesen Swap abzuschließen.",
       "insufficientGas": "Sie haben nicht genug Gas um diesen Swap abzuschließen. Sie müssen mindestens hinzufügen:",
       "minFromAmountUSD": "",

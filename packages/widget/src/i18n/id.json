@@ -124,7 +124,6 @@
       "clearFailedTransactions": "",
       "fundsLossPrevention": "Selalu pastikan akun kontrak pintar disiapkan dengan benar di rantai tujuan dan hindari transfer langsung ke bursa untuk mencegah hilangnya dana.",
       "highValueLoss": "Nilai token yang diterima jauh lebih rendah daripada token yang ditukar dan biaya transaksi.",
-      "tokenUnverified": "",
       "insufficientFunds": "Anda tidak memiliki cukup dana untuk menyelesaikan penukaran.",
       "insufficientGas": "Anda tidak memiliki cukup gas untuk menyelesaikan penukaran. Anda perlu menambahkan setidaknya:",
       "minFromAmountUSD": "",

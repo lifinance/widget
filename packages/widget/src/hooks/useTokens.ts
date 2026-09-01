@@ -65,11 +65,12 @@ export const useTokens = (
         { signal }
       )
 
-      // Mark all tokens as verified
+      // Mark tokens as coming from the main list. The pre-transaction
+      // guard uses this to tell a listed token from a searched one.
       const tokens: TokensByChain = Object.fromEntries(
         Object.entries(tokensResponse.tokens).map(([chainId, tokens]) => [
           chainId,
-          tokens.map((token) => ({ ...token, verified: true })),
+          tokens.map((token) => ({ ...token, listed: true })),
         ])
       )
 
@@ -133,15 +134,7 @@ export const useTokens = (
         }
       }
 
-      // Mark all search tokens as unverified
-      const tokens: TokensByChain = Object.fromEntries(
-        Object.entries(tokensResponse.tokens).map(([chainId, tokens]) => [
-          chainId,
-          tokens.map((token) => ({ ...token, verified: false })),
-        ])
-      )
-
-      return tokens
+      return tokensResponse.tokens as TokensByChain
     },
     enabled: !!search,
     refetchInterval,
