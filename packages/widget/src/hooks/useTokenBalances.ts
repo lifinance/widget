@@ -130,7 +130,7 @@ export const useTokenBalances = (
     )
     // A search keeps its results ranked by match, and "All networks" has no
     // single native token to lead with.
-    if (isAllNetworks || search || !result.processedTokens) {
+    if (isAllNetworks || search) {
       return result
     }
     return {

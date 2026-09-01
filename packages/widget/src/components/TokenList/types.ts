@@ -35,6 +35,8 @@ export interface TokenListItemProps extends TokenListItemBaseProps {
     chainId: number
   ) => void
   chain?: ExtendedChain
+  /** Resolved for every row, unlike `chain`, which the list passes only in all-networks mode. */
+  chainName?: string
   isBalanceLoading?: boolean
   startAdornment?: React.ReactNode
   endAdornment?: React.ReactNode
@@ -50,6 +52,8 @@ export interface TokenListItemButtonProps {
   onClick?(tokenAddress: string, chainId?: number): void
   token: TokenAmount
   chain?: ExtendedChain
+  /** Resolved for every row, unlike `chain`, which the list passes only in all-networks mode. */
+  chainName?: string
   isBalanceLoading?: boolean
   selected?: boolean
 }

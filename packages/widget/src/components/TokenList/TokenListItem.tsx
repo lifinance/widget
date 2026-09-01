@@ -17,7 +17,6 @@ import {
 import type { JSX, MouseEventHandler } from 'react'
 import { memo, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useChain } from '../../hooks/useChain.js'
 import { useLongPress } from '../../hooks/useLongPress.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { getTokenVerificationProvider } from '../../utils/token.js'
@@ -39,6 +38,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
     start,
     token,
     chain,
+    chainName,
     isBalanceLoading,
     startAdornment,
     endAdornment,
@@ -59,6 +59,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
           isBalanceLoading={isBalanceLoading}
           onClick={onClick}
           chain={chain}
+          chainName={chainName}
           selected={selected}
           onShowTokenDetails={onShowTokenDetails}
         />
@@ -124,12 +125,12 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
     onClick,
     token,
     chain,
+    chainName,
     isBalanceLoading,
     selected,
     onShowTokenDetails,
   }) => {
     const { t } = useTranslation()
-    const { chain: tokenChain } = useChain(token.chainId)
     const container = useRef(null)
     const timeoutId = useRef<ReturnType<typeof setTimeout>>(undefined)
     const [showAddress, setShowAddress] = useState(false)
@@ -181,10 +182,10 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
       verificationBadge = {
         Icon: VerifiedIcon,
         color: 'info.main',
-        title: tokenChain?.name
+        title: chainName
           ? t('tooltip.tokenNativeOnChain', {
               tokenSymbol: token.symbol,
-              chainName: tokenChain.name,
+              chainName,
             })
           : t('tooltip.tokenNative', { tokenSymbol: token.symbol }),
       }

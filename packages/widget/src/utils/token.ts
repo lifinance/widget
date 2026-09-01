@@ -6,6 +6,7 @@ import type {
   Token,
   TokenAmount,
 } from '@lifi/sdk'
+import { ChainId } from '@lifi/sdk'
 import type { FormType } from '../stores/form/types.js'
 import type { TokensByChain, TokenWithFlags } from '../types/token.js'
 import type { WidgetChains, WidgetTokens } from '../types/widget.js'
@@ -225,10 +226,7 @@ export const getTokenVerificationProvider = (
  * Ethereum USDC. Neither is a gas token you hold there. A chain-local
  * stablecoin gas token, as on Arc or Stable, is genuine and stays.
  */
-const chainIdsWithoutNativeToken = new Set([
-  1337, // Hyperliquid
-  3586256, // Lighter
-])
+const chainIdsWithoutNativeToken = new Set([ChainId.HPL, ChainId.LTR])
 
 export const getNativeTokenAddresses = (
   chains?: ExtendedChain[]
