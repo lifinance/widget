@@ -241,6 +241,8 @@
     "selectAll": "Select all",
     "settingsModified": "Settings (modified)",
     "slippage": "The maximum percentage difference between the expected price, and the actual price at which a transfer is executed. This value can be changed in settings.",
+    "tokenNative": "{{tokenSymbol}} is the native gas token of {{chainName}}.",
+    "tokenNativeGeneric": "{{tokenSymbol}} is the native gas token of this network.",
     "tokenVerified": "{{tokenSymbol}} has been verified.",
     "tokenVerifiedByProvider": "{{tokenSymbol}} has been verified by {{provider}}."
   },

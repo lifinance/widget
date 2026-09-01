@@ -17,6 +17,7 @@ import {
 import type { JSX, MouseEventHandler } from 'react'
 import { memo, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useChain } from '../../hooks/useChain.js'
 import { useLongPress } from '../../hooks/useLongPress.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { getVerifiedTokenProvider } from '../../utils/token.js'
@@ -131,6 +132,7 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
     onShowTokenDetails,
   }) => {
     const { t } = useTranslation()
+    const { chain: tokenChain } = useChain(token.chainId)
     const container = useRef(null)
     const timeoutId = useRef<ReturnType<typeof setTimeout>>(undefined)
     const [showAddress, setShowAddress] = useState(false)
@@ -171,17 +173,31 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
       onShowTokenDetails(token.address, withoutContractAddress, token.chainId)
     )
 
-    // Verification status drives the badge: a verified token gets a check, a
-    // flagged or unverified token gets a warning. A token without
-    // verification data falls back to the integrator provenance flag
+    // The chain's native gas token comes first and gets its own blue check:
+    // the widget knows it from the chain data, and nobody can forge it. This
+    // also takes precedence over the screening verdict, because the provider
+    // screens the native-token address convention (e.g. the EVM zero address)
+    // and calls it a scam on some chains, which is a false positive.
+    // Otherwise the screening status drives the badge: 'verified' gets a green
+    // check, 'flagged' and 'unverified' get a warning. A token without
+    // screening data falls back to the integrator provenance flag
     // (`token.verified`, set from the `tokens.include`/`tokens.verified`
-    // config). Flagged native/gas tokens are exempt: the screening provider
-    // treats the chain's gas-token address convention (e.g. the EVM zero
-    // address) as a scam, which is a false positive on some chains.
+    // config).
     let verificationBadge:
       | { Icon: typeof WarningRounded; color: string; title: string }
       | undefined
-    if (token.verificationStatus === 'flagged' && !isNativeToken) {
+    if (isNativeToken) {
+      verificationBadge = {
+        Icon: VerifiedIcon,
+        color: 'info.main',
+        title: tokenChain?.name
+          ? t('tooltip.tokenNative', {
+              tokenSymbol: token.symbol,
+              chainName: tokenChain.name,
+            })
+          : t('tooltip.tokenNativeGeneric', { tokenSymbol: token.symbol }),
+      }
+    } else if (token.verificationStatus === 'flagged') {
       verificationBadge = {
         Icon: WarningRounded,
         color: 'error.main',
