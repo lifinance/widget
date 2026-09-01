@@ -64,7 +64,13 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   // opens the first one. Only a row the hoist could have moved counts.
   const nativeTokenHoisted = useMemo(() => {
     const first = tokens[0]
-    return !!first?.native && !first.pinned && !first.featured && !first.popular
+    return (
+      !!first?.native &&
+      !first.pinned &&
+      !first.featured &&
+      !first.popular &&
+      !first.verified
+    )
   }, [tokens])
 
   const isListStartIndex = useCallback(
@@ -98,9 +104,11 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
         size += 24
       }
 
-      // Category transition (excluding pinned tokens)
+      // Category transition (excluding pinned tokens). The hoisted native row
+      // sits above every band, so the row after it ends nothing.
       const isNotPinned = !currentToken.pinned && !previousToken?.pinned
       if (
+        !isListStartIndex(index) &&
         isNotPinned &&
         ((previousToken?.amount && !currentToken.amount) ||
           (previousToken?.featured && !currentToken.featured) ||
