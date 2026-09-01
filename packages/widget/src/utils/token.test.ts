@@ -1,8 +1,9 @@
-import type { Token } from '@lifi/sdk'
+import type { ExtendedChain, Token } from '@lifi/sdk'
 import { describe, expect, it } from 'vitest'
 import type { TokensByChain, TokenWithFlags } from '../types/token.js'
 import {
   filterAllowedTokens,
+  getNativeTokenAddresses,
   getTokenVerificationProvider,
   getVerifiedTokensSets,
 } from './token.js'
@@ -237,5 +238,34 @@ describe('filterAllowedTokens native flag', () => {
   it('should not mark anything without native addresses', () => {
     const result = filterAllowedTokens({ 1: [makeToken(1, nativeAddress)] })
     expect(result?.[1][0].native).toBeUndefined()
+  })
+})
+
+describe('getNativeTokenAddresses', () => {
+  const makeChain = (id: number, address: string) =>
+    ({ id, nativeToken: { address } }) as ExtendedChain
+
+  it('should map each chain to its native token address', () => {
+    const result = getNativeTokenAddresses([
+      makeChain(1, '0x0000000000000000000000000000000000000000'),
+      makeChain(42220, '0x471EcE3750Da237f93B8E339c536989b8978a438'),
+    ])
+    expect(result.get(1)).toBe('0x0000000000000000000000000000000000000000')
+    expect(result.get(42220)).toBe('0x471EcE3750Da237f93B8E339c536989b8978a438')
+  })
+
+  it('should omit venues that declare a bridged stablecoin as native', () => {
+    const result = getNativeTokenAddresses([
+      makeChain(1337, '0xaf88d065e77c8cC2239327C5EDb3A432268e5831'),
+      makeChain(3586256, '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'),
+      makeChain(1, '0x0000000000000000000000000000000000000000'),
+    ])
+    expect(result.has(1337)).toBe(false)
+    expect(result.has(3586256)).toBe(false)
+    expect(result.has(1)).toBe(true)
+  })
+
+  it('should return an empty map without chains', () => {
+    expect(getNativeTokenAddresses(undefined).size).toBe(0)
   })
 })

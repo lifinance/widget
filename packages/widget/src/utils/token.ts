@@ -1,5 +1,6 @@
 import type {
   BaseToken,
+  ExtendedChain,
   RouteExtended,
   StaticToken,
   Token,
@@ -224,3 +225,28 @@ export const getTokenVerificationProvider = (
     ? `${provider.charAt(0).toUpperCase()}${provider.slice(1)}`
     : undefined
 }
+
+/**
+ * Venues that declare a bridged stablecoin as their native token: Hyperliquid
+ * points at Arbitrum USDC, Lighter at Ethereum USDC. Neither is a gas token
+ * you hold on that chain, so the widget must not badge it as native. Chains
+ * whose gas token is a chain-local stablecoin, such as Arc, Tempo and Stable,
+ * are genuine and stay.
+ */
+const chainIdsWithoutNativeToken = new Set([
+  1337, // Hyperliquid
+  3586256, // Lighter
+])
+
+/**
+ * Native token address per chain, for flagging the native token while the
+ * token list is built.
+ */
+export const getNativeTokenAddresses = (
+  chains?: ExtendedChain[]
+): Map<number, string> =>
+  new Map(
+    chains
+      ?.filter((chain) => !chainIdsWithoutNativeToken.has(chain.id))
+      .map((chain) => [chain.id, chain.nativeToken.address])
+  )

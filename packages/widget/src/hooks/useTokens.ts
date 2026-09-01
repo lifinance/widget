@@ -17,6 +17,7 @@ import { isItemAllowed } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 import {
   filterAllowedTokens,
+  getNativeTokenAddresses,
   mergeVerifiedWithSearchTokens,
 } from '../utils/token.js'
 import { useAvailableChains } from './useAvailableChains.js'
@@ -145,8 +146,7 @@ export const useTokens = (
   // native token inside the pass it already makes over every token
   const { chains } = useAvailableChains()
   const nativeTokenAddresses = useMemo(
-    () =>
-      new Map(chains?.map((chain) => [chain.id, chain.nativeToken.address])),
+    () => getNativeTokenAddresses(chains),
     [chains]
   )
 
