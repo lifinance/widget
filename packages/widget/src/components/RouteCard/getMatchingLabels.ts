@@ -2,6 +2,28 @@ import type { Route } from '@lifi/sdk'
 import type { RouteLabel, RouteLabelRule } from '../../types/widget.js'
 import { getConfigItemSets, isItemAllowedForSets } from '../../utils/item.js'
 
+const isEvmAddress = (value: string): boolean =>
+  /^0x[a-fA-F0-9]{40}$/.test(value)
+
+// The LI.FI API returns EIP-55 checksummed (mixed-case) EVM addresses, while
+// integrator config commonly writes them lowercase (including this repo's
+// own default config), so EVM addresses must be compared case-insensitively.
+// Non-EVM chains (Solana base58, Sui coin types, etc.) use case-sensitive
+// identifiers and must be compared exactly.
+const matchesTokenAddress = (
+  configAddresses: string[],
+  routeAddress: string
+): boolean => {
+  if (isEvmAddress(routeAddress)) {
+    const lowerRouteAddress = routeAddress.toLowerCase()
+    return configAddresses.some(
+      (address) =>
+        isEvmAddress(address) && address.toLowerCase() === lowerRouteAddress
+    )
+  }
+  return configAddresses.includes(routeAddress)
+}
+
 export const getMatchingLabels = (
   route: Route,
   routeLabels?: RouteLabelRule[]
@@ -38,11 +60,15 @@ export const getMatchingLabels = (
 
       // Check token matches if specified
       if (rule.fromTokenAddress?.length) {
-        conditions.push(rule.fromTokenAddress.includes(route.fromToken.address))
+        conditions.push(
+          matchesTokenAddress(rule.fromTokenAddress, route.fromToken.address)
+        )
       }
 
       if (rule.toTokenAddress?.length) {
-        conditions.push(rule.toTokenAddress.includes(route.toToken.address))
+        conditions.push(
+          matchesTokenAddress(rule.toTokenAddress, route.toToken.address)
+        )
       }
 
       // Check chain matches if specified
