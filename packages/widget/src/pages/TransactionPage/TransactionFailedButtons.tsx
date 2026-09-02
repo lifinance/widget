@@ -10,7 +10,7 @@ import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
 import { ConfirmToAddressSheet } from './ConfirmToAddressSheet.js'
 import { StartTransactionButton } from './StartTransactionButton.js'
 import { TokenValueBottomSheet } from './TokenValueBottomSheet.js'
-import { getTokenValueLossThreshold } from './utils.js'
+import { getTokenValueLossThreshold, nextGate } from './utils.js'
 
 interface TransactionFailedButtonsProps {
   route: RouteExtended
@@ -40,32 +40,55 @@ export const TransactionFailedButtons: React.FC<
     deleteRoute()
   }
 
-  const handleRetryClick = () => {
-    if (
-      toAddress &&
-      !hasActivity &&
-      !isLoadingAddressActivity &&
-      isActivityAddressFetched &&
-      !hiddenUI?.lowAddressActivityConfirmation
-    ) {
-      confirmToAddressSheetRef.current?.open()
-      return
-    }
+  type RetryGate = 'address' | 'value'
 
+  const retryGates: readonly (readonly [RetryGate, boolean])[] = (() => {
     const { gasCostUSD, feeCostUSD } = getAccumulatedFeeCostsBreakdown(route)
     const fromAmountUSD = Number.parseFloat(route.fromAmountUSD)
     const toAmountUSD = Number.parseFloat(route.toAmountUSD)
-    const tokenValueLossThresholdExceeded = getTokenValueLossThreshold(
-      fromAmountUSD,
-      toAmountUSD,
-      gasCostUSD,
-      feeCostUSD
-    )
-    if (tokenValueLossThresholdExceeded && mode !== 'custom') {
-      tokenValueBottomSheetRef.current?.open()
-    } else {
-      restartRoute()
+    return [
+      [
+        'address',
+        Boolean(
+          toAddress &&
+            !hasActivity &&
+            !isLoadingAddressActivity &&
+            isActivityAddressFetched &&
+            !hiddenUI?.lowAddressActivityConfirmation
+        ),
+      ],
+      [
+        'value',
+        getTokenValueLossThreshold(
+          fromAmountUSD,
+          toAmountUSD,
+          gasCostUSD,
+          feeCostUSD
+        ) && mode !== 'custom',
+      ],
+    ]
+  })()
+
+  // Opens the gate that follows the one the user cleared, so accepting a sheet
+  // never skips the sheets behind it.
+  const openNextGate = (after?: RetryGate) => {
+    switch (nextGate(retryGates, after)) {
+      case 'address':
+        confirmToAddressSheetRef.current?.open()
+        break
+      case 'value':
+        tokenValueBottomSheetRef.current?.open()
+        break
+      default:
+        restartRoute()
     }
+  }
+
+  const handleRetryClick = () => openNextGate()
+
+  const handleConfirmToAddressContinue = () => {
+    confirmToAddressSheetRef.current?.close()
+    openNextGate('address')
   }
 
   return (
@@ -95,7 +118,7 @@ export const TransactionFailedButtons: React.FC<
       {!hiddenUI?.lowAddressActivityConfirmation ? (
         <ConfirmToAddressSheet
           ref={confirmToAddressSheetRef}
-          onContinue={restartRoute}
+          onContinue={handleConfirmToAddressContinue}
           toAddress={toAddress!}
           toChainId={route.toChainId!}
         />

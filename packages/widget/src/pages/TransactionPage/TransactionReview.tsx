@@ -23,6 +23,7 @@ import { TokenVerificationBottomSheet } from './TokenVerificationBottomSheet.js'
 import {
   calculateValueLossPercentage,
   getTokenValueLossThreshold,
+  nextGate,
 } from './utils.js'
 
 interface TransactionReviewProps {
@@ -86,47 +87,64 @@ export const TransactionReview: React.FC<TransactionReviewProps> = ({
     })
   }
 
-  // Runs the remaining gates. The flagged-token sheet continues into this
-  // rather than executing, so accepting it does not skip the others.
-  const handleStartAfterTokenCheck = () => {
-    if (
-      toAddress &&
-      !hasActivity &&
-      !isLoadingAddressActivity &&
-      isActivityAddressFetched &&
-      !hiddenUI?.lowAddressActivityConfirmation
-    ) {
-      confirmToAddressSheetRef.current?.open()
-      return
-    }
+  type StartGate = 'flagged' | 'address' | 'value'
 
+  const startGates: readonly (readonly [StartGate, boolean])[] = (() => {
     const { gasCostUSD, feeCostUSD } = getAccumulatedFeeCostsBreakdown(route)
     const fromAmountUSD = Number.parseFloat(route.fromAmountUSD)
     const toAmountUSD = Number.parseFloat(route.toAmountUSD)
-    const tokenValueLossThresholdExceeded = getTokenValueLossThreshold(
-      fromAmountUSD,
-      toAmountUSD,
-      gasCostUSD,
-      feeCostUSD
-    )
-    if (tokenValueLossThresholdExceeded && mode !== 'custom') {
-      tokenValueBottomSheetRef.current?.open()
-    } else {
-      handleExecuteRoute()
+    return [
+      ['flagged', flaggedTokens.length > 0],
+      [
+        'address',
+        Boolean(
+          toAddress &&
+            !hasActivity &&
+            !isLoadingAddressActivity &&
+            isActivityAddressFetched &&
+            !hiddenUI?.lowAddressActivityConfirmation
+        ),
+      ],
+      [
+        'value',
+        getTokenValueLossThreshold(
+          fromAmountUSD,
+          toAmountUSD,
+          gasCostUSD,
+          feeCostUSD
+        ) && mode !== 'custom',
+      ],
+    ]
+  })()
+
+  // Opens the gate that follows the one the user cleared, so accepting a sheet
+  // never skips the sheets behind it.
+  const openNextGate = (after?: StartGate) => {
+    switch (nextGate(startGates, after)) {
+      case 'flagged':
+        flaggedTokenSheetRef.current?.open()
+        break
+      case 'address':
+        confirmToAddressSheetRef.current?.open()
+        break
+      case 'value':
+        tokenValueBottomSheetRef.current?.open()
+        break
+      default:
+        handleExecuteRoute()
     }
   }
 
-  const handleStartClick = () => {
-    if (flaggedTokens.length) {
-      flaggedTokenSheetRef.current?.open()
-      return
-    }
-    handleStartAfterTokenCheck()
-  }
+  const handleStartClick = () => openNextGate()
 
   const handleFlaggedTokensContinue = () => {
     flaggedTokenSheetRef.current?.close()
-    handleStartAfterTokenCheck()
+    openNextGate('flagged')
+  }
+
+  const handleConfirmToAddressContinue = () => {
+    confirmToAddressSheetRef.current?.close()
+    openNextGate('address')
   }
 
   const getButtonText = (): string => {
@@ -180,7 +198,7 @@ export const TransactionReview: React.FC<TransactionReviewProps> = ({
       {!hiddenUI?.lowAddressActivityConfirmation ? (
         <ConfirmToAddressSheet
           ref={confirmToAddressSheetRef}
-          onContinue={handleExecuteRoute}
+          onContinue={handleConfirmToAddressContinue}
           toAddress={toAddress!}
           toChainId={route.toChainId!}
         />
