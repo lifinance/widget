@@ -5,12 +5,20 @@ import { useTranslation } from 'react-i18next'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { useAddressActivity } from '../../hooks/useAddressActivity.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
+import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { WidgetEvent } from '../../types/events.js'
 import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
 import { ConfirmToAddressSheet } from './ConfirmToAddressSheet.js'
 import { StartTransactionButton } from './StartTransactionButton.js'
 import { TokenValueBottomSheet } from './TokenValueBottomSheet.js'
-import { getTokenValueLossThreshold, nextGate } from './utils.js'
+import type { RetryGate } from './utils.js'
+import {
+  calculateValueLossPercentage,
+  getRetryGates,
+  getTokenValueLossThreshold,
+  openNextGate,
+} from './utils.js'
 
 interface TransactionFailedButtonsProps {
   route: RouteExtended
@@ -22,6 +30,7 @@ export const TransactionFailedButtons: React.FC<
   TransactionFailedButtonsProps
 > = ({ route, restartRoute, deleteRoute }) => {
   const { t } = useTranslation()
+  const emitter = useWidgetEvents()
   const navigateBack = useNavigateBack()
   const { mode, hiddenUI } = useWidgetConfig()
 
@@ -40,56 +49,60 @@ export const TransactionFailedButtons: React.FC<
     deleteRoute()
   }
 
-  type RetryGate = 'address' | 'value'
-
-  const retryGates: readonly (readonly [RetryGate, boolean])[] = (() => {
+  const retryGates = (() => {
     const { gasCostUSD, feeCostUSD } = getAccumulatedFeeCostsBreakdown(route)
-    const fromAmountUSD = Number.parseFloat(route.fromAmountUSD)
-    const toAmountUSD = Number.parseFloat(route.toAmountUSD)
-    return [
-      [
-        'address',
-        Boolean(
-          toAddress &&
-            !hasActivity &&
-            !isLoadingAddressActivity &&
-            isActivityAddressFetched &&
-            !hiddenUI?.lowAddressActivityConfirmation
-        ),
-      ],
-      [
-        'value',
-        getTokenValueLossThreshold(
+    return getRetryGates({
+      toAddress,
+      hasActivity,
+      isLoadingAddressActivity,
+      isActivityAddressFetched,
+      confirmationHidden: Boolean(hiddenUI?.lowAddressActivityConfirmation),
+      valueLossExceeded: getTokenValueLossThreshold(
+        Number.parseFloat(route.fromAmountUSD),
+        Number.parseFloat(route.toAmountUSD),
+        gasCostUSD,
+        feeCostUSD
+      ),
+      isCustomMode: mode === 'custom',
+    })
+  })()
+
+  const openGate = (after?: RetryGate) =>
+    openNextGate(
+      retryGates,
+      {
+        address: () => confirmToAddressSheetRef.current?.open(),
+        value: () => tokenValueBottomSheetRef.current?.open(),
+      },
+      handleRestartRoute,
+      after
+    )
+
+  const handleRestartRoute = () => {
+    if (tokenValueBottomSheetRef.current?.isOpen()) {
+      const { gasCostUSD, feeCostUSD } = getAccumulatedFeeCostsBreakdown(route)
+      const fromAmountUSD = Number.parseFloat(route.fromAmountUSD)
+      const toAmountUSD = Number.parseFloat(route.toAmountUSD)
+      emitter.emit(WidgetEvent.RouteHighValueLoss, {
+        fromAmountUSD,
+        toAmountUSD,
+        gasCostUSD,
+        feeCostUSD,
+        valueLoss: calculateValueLossPercentage(
           fromAmountUSD,
           toAmountUSD,
           gasCostUSD,
           feeCostUSD
-        ) && mode !== 'custom',
-      ],
-    ]
-  })()
-
-  // Opens the gate that follows the one the user cleared, so accepting a sheet
-  // never skips the sheets behind it.
-  const openNextGate = (after?: RetryGate) => {
-    switch (nextGate(retryGates, after)) {
-      case 'address':
-        confirmToAddressSheetRef.current?.open()
-        break
-      case 'value':
-        tokenValueBottomSheetRef.current?.open()
-        break
-      default:
-        restartRoute()
+        ),
+      })
     }
+    tokenValueBottomSheetRef.current?.close()
+    restartRoute()
   }
 
-  const handleRetryClick = () => openNextGate()
+  const handleRetryClick = () => openGate()
 
-  const handleConfirmToAddressContinue = () => {
-    confirmToAddressSheetRef.current?.close()
-    openNextGate('address')
-  }
+  const handleConfirmToAddressContinue = () => openGate('address')
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
@@ -112,7 +125,7 @@ export const TransactionFailedButtons: React.FC<
         <TokenValueBottomSheet
           route={route}
           ref={tokenValueBottomSheetRef}
-          onContinue={restartRoute}
+          onContinue={handleRestartRoute}
         />
       ) : null}
       {!hiddenUI?.lowAddressActivityConfirmation ? (

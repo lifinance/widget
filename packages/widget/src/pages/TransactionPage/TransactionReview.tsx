@@ -20,10 +20,12 @@ import { ConfirmToAddressSheet } from './ConfirmToAddressSheet.js'
 import { StartTransactionButton } from './StartTransactionButton.js'
 import { TokenValueBottomSheet } from './TokenValueBottomSheet.js'
 import { TokenVerificationBottomSheet } from './TokenVerificationBottomSheet.js'
+import type { StartGate } from './utils.js'
 import {
   calculateValueLossPercentage,
+  getStartGates,
   getTokenValueLossThreshold,
-  nextGate,
+  openNextGate,
 } from './utils.js'
 
 interface TransactionReviewProps {
@@ -87,65 +89,45 @@ export const TransactionReview: React.FC<TransactionReviewProps> = ({
     })
   }
 
-  type StartGate = 'flagged' | 'address' | 'value'
-
-  const startGates: readonly (readonly [StartGate, boolean])[] = (() => {
+  const startGates = (() => {
     const { gasCostUSD, feeCostUSD } = getAccumulatedFeeCostsBreakdown(route)
-    const fromAmountUSD = Number.parseFloat(route.fromAmountUSD)
-    const toAmountUSD = Number.parseFloat(route.toAmountUSD)
-    return [
-      ['flagged', flaggedTokens.length > 0],
-      [
-        'address',
-        Boolean(
-          toAddress &&
-            !hasActivity &&
-            !isLoadingAddressActivity &&
-            isActivityAddressFetched &&
-            !hiddenUI?.lowAddressActivityConfirmation
-        ),
-      ],
-      [
-        'value',
-        getTokenValueLossThreshold(
-          fromAmountUSD,
-          toAmountUSD,
-          gasCostUSD,
-          feeCostUSD
-        ) && mode !== 'custom',
-      ],
-    ]
+    return getStartGates({
+      flaggedTokenCount: flaggedTokens.length,
+      toAddress,
+      hasActivity,
+      isLoadingAddressActivity,
+      isActivityAddressFetched,
+      confirmationHidden: Boolean(hiddenUI?.lowAddressActivityConfirmation),
+      valueLossExceeded: getTokenValueLossThreshold(
+        Number.parseFloat(route.fromAmountUSD),
+        Number.parseFloat(route.toAmountUSD),
+        gasCostUSD,
+        feeCostUSD
+      ),
+      isCustomMode: mode === 'custom',
+    })
   })()
 
-  // Opens the gate that follows the one the user cleared, so accepting a sheet
-  // never skips the sheets behind it.
-  const openNextGate = (after?: StartGate) => {
-    switch (nextGate(startGates, after)) {
-      case 'flagged':
-        flaggedTokenSheetRef.current?.open()
-        break
-      case 'address':
-        confirmToAddressSheetRef.current?.open()
-        break
-      case 'value':
-        tokenValueBottomSheetRef.current?.open()
-        break
-      default:
-        handleExecuteRoute()
-    }
-  }
+  const openGate = (after?: StartGate) =>
+    openNextGate(
+      startGates,
+      {
+        flagged: () => flaggedTokenSheetRef.current?.open(),
+        address: () => confirmToAddressSheetRef.current?.open(),
+        value: () => tokenValueBottomSheetRef.current?.open(),
+      },
+      handleExecuteRoute,
+      after
+    )
 
-  const handleStartClick = () => openNextGate()
+  const handleStartClick = () => openGate()
 
   const handleFlaggedTokensContinue = () => {
     flaggedTokenSheetRef.current?.close()
-    openNextGate('flagged')
+    openGate('flagged')
   }
 
-  const handleConfirmToAddressContinue = () => {
-    confirmToAddressSheetRef.current?.close()
-    openNextGate('address')
-  }
+  const handleConfirmToAddressContinue = () => openGate('address')
 
   const getButtonText = (): string => {
     switch (mode) {
