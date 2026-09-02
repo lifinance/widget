@@ -119,6 +119,8 @@
   },
   "warning": {
     "message": {
+      "tokenUnverified": "",
+      "tokenUnverifiedByProvider": "",
       "accountNotDeployedMessage": "",
       "lowAddressActivity": "",
       "clearFailedTransactions": "",

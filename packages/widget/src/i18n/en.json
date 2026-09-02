@@ -148,6 +148,8 @@
   },
   "warning": {
     "message": {
+      "tokenUnverified": "Unverified token. Always do your own research before proceeding.",
+      "tokenUnverifiedByProvider": "{{tokenSymbol}} is not verified by Hypernative. Make sure you trust this token before proceeding.",
       "accountNotDeployedMessage": "Smart contract account doesn't exist on the destination chain. Sending funds to a non-existent smart contract account can result in permanent loss.",
       "lowAddressActivity": "This address has low activity on {{chainName}} network. Please verify you're sending to the correct address and network to prevent potential loss of funds.",
       "clearFailedTransactions": "Failed transactions are only stored locally and can't be recovered once cleared.",

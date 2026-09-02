@@ -119,6 +119,8 @@
   },
   "warning": {
     "message": {
+      "tokenUnverified": "",
+      "tokenUnverifiedByProvider": "",
       "accountNotDeployedMessage": "",
       "lowAddressActivity": "Bu adres {{chainName}} ağında düşük etkinliğe sahip. Olası fon kaybını önlemek için lütfen doğru adrese ve ağa gönderim yaptığınızı doğrulayın.",
       "clearFailedTransactions": "",

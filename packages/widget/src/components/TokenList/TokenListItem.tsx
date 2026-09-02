@@ -173,8 +173,8 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
 
     // The native token is badged ahead of any verdict: the provider screens
     // the native-address convention and calls it a scam on some chains.
-    // Otherwise only a definite verdict draws a badge, so 'unverified' and
-    // missing data draw nothing.
+    // A token the main list or the integrator vouches for needs no warning;
+    // anything else without a clean verdict keeps the amber one.
     let verificationBadge:
       | { Icon: typeof VerifiedIcon; color: string; title: string }
       | undefined
@@ -208,6 +208,24 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
               provider,
             })
           : t('tooltip.tokenVerified', { tokenSymbol: token.symbol }),
+      }
+    } else if (
+      token.verificationStatus === 'unverified' &&
+      !token.listed &&
+      !token.verified
+    ) {
+      verificationBadge = {
+        Icon: ReportRoundedIcon,
+        color: 'warning.main',
+        title: t('warning.message.tokenUnverifiedByProvider', {
+          tokenSymbol: token.symbol,
+        }),
+      }
+    } else if (!token.verificationStatus && !token.listed && !token.verified) {
+      verificationBadge = {
+        Icon: ReportRoundedIcon,
+        color: 'warning.main',
+        title: t('warning.message.tokenUnverified'),
       }
     }
 

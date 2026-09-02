@@ -119,6 +119,8 @@
   },
   "warning": {
     "message": {
+      "tokenUnverified": "",
+      "tokenUnverifiedByProvider": "",
       "accountNotDeployedMessage": "",
       "lowAddressActivity": "Esta dirección tiene poca actividad en la red {{chainName}}. Por favor, comprueba que estás enviando a la dirección y a la red correctas para evitar la pérdida potencial de fondos.",
       "clearFailedTransactions": "",

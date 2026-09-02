@@ -119,6 +119,8 @@
   },
   "warning": {
     "message": {
+      "tokenUnverified": "",
+      "tokenUnverifiedByProvider": "",
       "accountNotDeployedMessage": "Akun kontrak pintar tidak ada di rantai tujuan. Mengirim dana ke akun kontrak pintar yang tidak ada dapat mengakibatkan kerugian permanen.",
       "lowAddressActivity": "Alamat ini memiliki aktivitas rendah di jaringan {{chainName}}. Harap verifikasi bahwa Anda mengirim ke alamat dan jaringan yang benar untuk mencegah potensi kehilangan dana.",
       "clearFailedTransactions": "",

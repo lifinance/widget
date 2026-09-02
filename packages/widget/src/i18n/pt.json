@@ -119,6 +119,8 @@
   },
   "warning": {
     "message": {
+      "tokenUnverified": "Token não verificado. Faça sempre sua própria pesquisa antes de prosseguir.",
+      "tokenUnverifiedByProvider": "",
       "accountNotDeployedMessage": "A conta do contrato inteligente não existe na rede de destino. O envio de fundos para uma conta de contrato inteligente inexistente pode resultar em perda permanente.",
       "lowAddressActivity": "Este endereço tem baixa atividade na rede {{chainName}}. Por favor, verifique se você está enviando para o endereço e rede corretos para evitar a potencial perda de fundos.",
       "clearFailedTransactions": "",

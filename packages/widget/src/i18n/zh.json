@@ -119,6 +119,8 @@
   },
   "warning": {
     "message": {
+      "tokenUnverified": "",
+      "tokenUnverifiedByProvider": "",
       "accountNotDeployedMessage": "",
       "lowAddressActivity": "此地址在 {{chainName}} 网络上的活跃度较低。请确认您发送到了正确的地址和网络，以防止潜在的资金损失。",
       "clearFailedTransactions": "",
