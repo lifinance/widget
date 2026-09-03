@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { parseAmountToBigInt } from '../utils/fees.js'
 import { getSelfFundedGasAmount } from '../utils/gas.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useAvailableChains } from './useAvailableChains.js'
@@ -106,7 +107,7 @@ export const useGasSufficiency = (
               const { token } = step.estimate.gasCosts[0]
               const gasCostAmount = step.estimate.gasCosts.reduce(
                 (amount, gasCost) =>
-                  amount + BigInt(Number(gasCost.amount).toFixed(0)),
+                  amount + parseAmountToBigInt(gasCost.amount),
                 0n
               )
               // A previous step can deliver this step's gas token (XLM bridged to
@@ -134,7 +135,7 @@ export const useGasSufficiency = (
               const { token } = nonIncludedFeeCosts[0]
               const feeCostAmount = nonIncludedFeeCosts.reduce(
                 (amount, feeCost) =>
-                  amount + BigInt(Number(feeCost.amount).toFixed(0)),
+                  amount + parseAmountToBigInt(feeCost.amount),
                 0n
               )
               if (feeCostAmount > 0n) {
