@@ -16,6 +16,6 @@
     "veaury": "^2.6.3",
     "vite-plugin-node-polyfills": "^0.26.0",
     "vue": "^3.5.42",
-    "vue-router": "^5.3.0"
+    "vue-router": "^5.3.1"
   }
 }
