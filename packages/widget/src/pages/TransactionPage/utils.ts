@@ -25,8 +25,8 @@ export const getTokenValueLossThreshold = (
 }
 
 interface AddressGateInput {
-  toAddress?: string
-  hasActivity?: boolean
+  toAddress: string | undefined
+  hasActivity: boolean | undefined
   isLoadingAddressActivity: boolean
   isActivityAddressFetched: boolean
   confirmationHidden: boolean

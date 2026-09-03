@@ -77,7 +77,6 @@ export const TransactionReview: React.FC<TransactionReviewProps> = ({
       })
     }
     tokenValueBottomSheetRef.current?.close()
-    flaggedTokenSheetRef.current?.close()
     executeRoute()
     setFieldValue('fromAmount', '')
     if (mode === 'custom') {
