@@ -1,7 +1,8 @@
 import type { StaticToken } from '@lifi/sdk'
 import { ChainType } from '@lifi/sdk'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
-import WarningRounded from '@mui/icons-material/WarningRounded'
+import ReportRoundedIcon from '@mui/icons-material/ReportRounded'
+import VerifiedIcon from '@mui/icons-material/Verified'
 import {
   Avatar,
   Box,
@@ -18,6 +19,7 @@ import { memo, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLongPress } from '../../hooks/useLongPress.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
+import { getTokenVerificationProvider } from '../../utils/token.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
 import { ListItemButton } from '../ListItem/ListItemButton.js'
@@ -36,6 +38,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
     start,
     token,
     chain,
+    chainName,
     isBalanceLoading,
     startAdornment,
     endAdornment,
@@ -56,6 +59,7 @@ export const TokenListItem: React.FC<TokenListItemProps> = memo(
           isBalanceLoading={isBalanceLoading}
           onClick={onClick}
           chain={chain}
+          chainName={chainName}
           selected={selected}
           onShowTokenDetails={onShowTokenDetails}
         />
@@ -121,6 +125,7 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
     onClick,
     token,
     chain,
+    chainName,
     isBalanceLoading,
     selected,
     onShowTokenDetails,
@@ -166,6 +171,64 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
       onShowTokenDetails(token.address, withoutContractAddress, token.chainId)
     )
 
+    // The native token is badged ahead of any verdict: the provider screens
+    // the native-address convention and calls it a scam on some chains.
+    // A token the main list or the integrator vouches for needs no warning;
+    // anything else without a clean verdict keeps the amber one.
+    let verificationBadge:
+      | { Icon: typeof VerifiedIcon; color: string; title: string }
+      | undefined
+    if (token.native) {
+      verificationBadge = {
+        Icon: VerifiedIcon,
+        color: 'info.main',
+        title: chainName
+          ? t('tooltip.tokenNativeOnChain', {
+              tokenSymbol: token.symbol,
+              chainName,
+            })
+          : t('tooltip.tokenNative', { tokenSymbol: token.symbol }),
+      }
+    } else if (token.verificationStatus === 'flagged') {
+      verificationBadge = {
+        Icon: ReportRoundedIcon,
+        color: 'error.main',
+        title: t('warning.message.tokenFlagged', {
+          tokenSymbol: token.symbol,
+        }),
+      }
+    } else if (token.verificationStatus === 'verified') {
+      const provider = getTokenVerificationProvider(token)
+      verificationBadge = {
+        Icon: VerifiedIcon,
+        color: 'success.main',
+        title: provider
+          ? t('tooltip.tokenVerifiedByProvider', {
+              tokenSymbol: token.symbol,
+              provider,
+            })
+          : t('tooltip.tokenVerified', { tokenSymbol: token.symbol }),
+      }
+    } else if (
+      token.verificationStatus === 'unverified' &&
+      !token.listed &&
+      !token.verified
+    ) {
+      verificationBadge = {
+        Icon: ReportRoundedIcon,
+        color: 'warning.main',
+        title: t('warning.message.tokenUnverifiedByProvider', {
+          tokenSymbol: token.symbol,
+        }),
+      }
+    } else if (!token.verificationStatus && !token.listed && !token.verified) {
+      verificationBadge = {
+        Icon: ReportRoundedIcon,
+        color: 'warning.main',
+        title: t('warning.message.tokenUnverified'),
+      }
+    }
+
     return (
       <ListItemButton
         onClick={handleClick}
@@ -195,17 +258,13 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
           primary={
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
               {token.symbol}
-              {!token.verified && (
-                <Tooltip
-                  title={t('warning.message.unverifiedToken')}
-                  placement="top"
-                  arrow
-                >
-                  <WarningRounded
+              {verificationBadge && (
+                <Tooltip title={verificationBadge.title} placement="top" arrow>
+                  <verificationBadge.Icon
                     sx={{
                       display: 'flex',
                       fontSize: 16,
-                      color: 'warning.main',
+                      color: verificationBadge.color,
                       cursor: 'help',
                     }}
                   />

@@ -74,13 +74,9 @@ export const useTokenSearch = (
             ) {
               return data
             }
-            // Mark token from search as unverified
             return {
               ...data,
-              [chainId as number]: [
-                ...(chainTokens ?? []),
-                { ...token, verified: false },
-              ],
+              [chainId as number]: [...(chainTokens ?? []), token],
             }
           }
         )

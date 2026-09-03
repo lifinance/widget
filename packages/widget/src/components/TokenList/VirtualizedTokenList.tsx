@@ -60,6 +60,24 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     [tokens]
   )
 
+  // The hoisted native token sits above every category, so the row after it
+  // opens the first one. Only a row the hoist could have moved counts.
+  const nativeTokenHoisted = useMemo(() => {
+    const first = tokens[0]
+    return (
+      !!first?.native &&
+      !first.pinned &&
+      !first.featured &&
+      !first.popular &&
+      !first.verified
+    )
+  }, [tokens])
+
+  const isListStartIndex = useCallback(
+    (index: number) => index === 0 || (index === 1 && nativeTokenHoisted),
+    [nativeTokenHoisted]
+  )
+
   const estimateSize = useCallback(
     (index: number) => {
       const currentToken = tokens[index]
@@ -67,7 +85,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
       let size = tokenItemHeight
 
       // Pinned tokens (always shown, even in all networks mode)
-      if (currentToken.pinned && index === 0) {
+      if (currentToken.pinned && isListStartIndex(index)) {
         size += 24
       }
       if (previousToken?.pinned && !currentToken.pinned) {
@@ -78,13 +96,19 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
         return size
       }
 
-      if (currentToken.featured && !currentToken.pinned && index === 0) {
+      if (
+        currentToken.featured &&
+        !currentToken.pinned &&
+        isListStartIndex(index)
+      ) {
         size += 24
       }
 
-      // Category transition (excluding pinned tokens)
+      // Category transition (excluding pinned tokens). The hoisted native row
+      // sits above every band, so the row after it ends nothing.
       const isNotPinned = !currentToken.pinned && !previousToken?.pinned
       if (
+        !isListStartIndex(index) &&
         isNotPinned &&
         ((previousToken?.amount && !currentToken.amount) ||
           (previousToken?.featured && !currentToken.featured) ||
@@ -95,7 +119,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
 
       return size
     },
-    [tokens, showCategories]
+    [tokens, showCategories, isListStartIndex]
   )
 
   const virtualizerConfig = useMemo(
@@ -142,8 +166,9 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
           const previousToken: TokenAmount | undefined = tokens[item.index - 1]
           const chain = chainsSet?.get(currentToken.chainId)
 
+          const isListStart = isListStartIndex(item.index)
           const isNotPinned = !currentToken.pinned
-          const isFirstPinnedToken = currentToken.pinned && item.index === 0
+          const isFirstPinnedToken = currentToken.pinned && isListStart
           const isTransitionFromPinned = previousToken?.pinned && isNotPinned
 
           // Category transitions (excluding pinned)
@@ -168,7 +193,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
 
             if (
               (isTransitionFromPinned && currentToken.featured) ||
-              (currentToken.featured && isNotPinned && item.index === 0)
+              (currentToken.featured && isNotPinned && isListStart)
             ) {
               return t('main.featuredTokens')
             }
@@ -211,6 +236,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
               start={item.start}
               token={currentToken}
               chain={isAllNetworks ? chain : undefined}
+              chainName={chain?.name}
               selected={isSelected}
               onShowTokenDetails={onShowTokenDetails}
               isBalanceLoading={isBalanceLoading}
@@ -224,9 +250,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
                       px: 1.5,
                       pt:
                         isFirstPinnedToken ||
-                        (currentToken.featured &&
-                          isNotPinned &&
-                          item.index === 0)
+                        (currentToken.featured && isNotPinned && isListStart)
                           ? 0
                           : 1,
                       pb: 1,

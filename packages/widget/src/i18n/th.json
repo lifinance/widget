@@ -119,12 +119,13 @@
   },
   "warning": {
     "message": {
+      "tokenUnverified": "",
+      "tokenUnverifiedByProvider": "",
       "accountNotDeployedMessage": "",
       "lowAddressActivity": "",
       "clearFailedTransactions": "",
       "fundsLossPrevention": "",
       "highValueLoss": "มูลค่าของโทเค็นที่ได้รับนั้นต่ำกว่าโทเค็นที่แลกเปลี่ยนและต้นทุนการทำธุรกรรมอย่างมาก.",
-      "unverifiedToken": "",
       "insufficientFunds": "คุณมีเงินไม่เพียงพอที่จะดำเนินการแลกเปลี่ยน.",
       "insufficientGas": "คุณมีแก๊สไม่เพียงพอที่จะแลกเปลี่ยนให้เสร็จสมบูรณ์ คุณต้องเพิ่มอย่างน้อย:",
       "minFromAmountUSD": "",

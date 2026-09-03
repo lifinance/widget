@@ -17,8 +17,10 @@ import { isItemAllowed } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
 import {
   filterAllowedTokens,
+  getNativeTokenAddresses,
   mergeVerifiedWithSearchTokens,
 } from '../utils/token.js'
+import { useAvailableChains } from './useAvailableChains.js'
 
 const refetchInterval = 300_000
 
@@ -64,11 +66,11 @@ export const useTokens = (
         { signal }
       )
 
-      // Mark all tokens as verified
+      // `listed` tells a main-list token from a searched one
       const tokens: TokensByChain = Object.fromEntries(
         Object.entries(tokensResponse.tokens).map(([chainId, tokens]) => [
           chainId,
-          tokens.map((token) => ({ ...token, verified: true })),
+          tokens.map((token) => ({ ...token, listed: true })),
         ])
       )
 
@@ -132,26 +134,37 @@ export const useTokens = (
         }
       }
 
-      // Mark all search tokens as unverified
-      const tokens: TokensByChain = Object.fromEntries(
-        Object.entries(tokensResponse.tokens).map(([chainId, tokens]) => [
-          chainId,
-          tokens.map((token) => ({ ...token, verified: false })),
-        ])
-      )
-
-      return tokens
+      return tokensResponse.tokens as TokensByChain
     },
     enabled: !!search,
     refetchInterval,
     staleTime: refetchInterval,
   })
 
+  const { chains } = useAvailableChains()
+  const nativeTokenAddresses = useMemo(
+    () => getNativeTokenAddresses(chains),
+    [chains]
+  )
+
   // Merge tokens at read time - single place where caches are combined
   const allTokens = useMemo(() => {
     const merged = mergeVerifiedWithSearchTokens(verifiedTokens, searchTokens)
-    return filterAllowedTokens(merged, configTokens, chainsConfig, formType)
-  }, [verifiedTokens, searchTokens, configTokens, chainsConfig, formType])
+    return filterAllowedTokens(
+      merged,
+      configTokens,
+      chainsConfig,
+      formType,
+      nativeTokenAddresses
+    )
+  }, [
+    verifiedTokens,
+    searchTokens,
+    configTokens,
+    chainsConfig,
+    formType,
+    nativeTokenAddresses,
+  ])
 
   return {
     allTokens,

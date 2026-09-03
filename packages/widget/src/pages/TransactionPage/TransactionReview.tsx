@@ -8,6 +8,7 @@ import { Card } from '../../components/Card/Card.js'
 import { WarningMessages } from '../../components/Messages/WarningMessages.js'
 import { RouteTokens } from '../../components/RouteCard/RouteTokens.js'
 import { useAddressActivity } from '../../hooks/useAddressActivity.js'
+import { useFlaggedTokenGuard } from '../../hooks/useFlaggedTokenGuard.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
@@ -18,6 +19,7 @@ import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { ConfirmToAddressSheet } from './ConfirmToAddressSheet.js'
 import { StartTransactionButton } from './StartTransactionButton.js'
 import { TokenValueBottomSheet } from './TokenValueBottomSheet.js'
+import { TokenVerificationBottomSheet } from './TokenVerificationBottomSheet.js'
 import {
   calculateValueLossPercentage,
   getTokenValueLossThreshold,
@@ -43,6 +45,8 @@ export const TransactionReview: React.FC<TransactionReviewProps> = ({
 
   const tokenValueBottomSheetRef = useRef<BottomSheetBase>(null)
   const confirmToAddressSheetRef = useRef<BottomSheetBase>(null)
+
+  const { flaggedTokens, flaggedTokenSheetRef } = useFlaggedTokenGuard(route)
 
   const {
     toAddress,
@@ -70,6 +74,7 @@ export const TransactionReview: React.FC<TransactionReviewProps> = ({
       })
     }
     tokenValueBottomSheetRef.current?.close()
+    flaggedTokenSheetRef.current?.close()
     executeRoute()
     setFieldValue('fromAmount', '')
     if (mode === 'custom') {
@@ -81,7 +86,9 @@ export const TransactionReview: React.FC<TransactionReviewProps> = ({
     })
   }
 
-  const handleStartClick = () => {
+  // Runs the remaining gates. The flagged-token sheet continues into this
+  // rather than executing, so accepting it does not skip the others.
+  const handleStartAfterTokenCheck = () => {
     if (
       toAddress &&
       !hasActivity &&
@@ -107,6 +114,19 @@ export const TransactionReview: React.FC<TransactionReviewProps> = ({
     } else {
       handleExecuteRoute()
     }
+  }
+
+  const handleStartClick = () => {
+    if (flaggedTokens.length) {
+      flaggedTokenSheetRef.current?.open()
+      return
+    }
+    handleStartAfterTokenCheck()
+  }
+
+  const handleFlaggedTokensContinue = () => {
+    flaggedTokenSheetRef.current?.close()
+    handleStartAfterTokenCheck()
   }
 
   const getButtonText = (): string => {
@@ -148,6 +168,13 @@ export const TransactionReview: React.FC<TransactionReviewProps> = ({
           route={route}
           ref={tokenValueBottomSheetRef}
           onContinue={handleExecuteRoute}
+        />
+      ) : null}
+      {flaggedTokens.length ? (
+        <TokenVerificationBottomSheet
+          ref={flaggedTokenSheetRef}
+          tokens={flaggedTokens}
+          onContinue={handleFlaggedTokensContinue}
         />
       ) : null}
       {!hiddenUI?.lowAddressActivityConfirmation ? (

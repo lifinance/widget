@@ -1,13 +1,18 @@
-import type { Token } from '@lifi/sdk'
+import type { ExtendedChain, Token } from '@lifi/sdk'
 import { describe, expect, it } from 'vitest'
-import type { TokensByChain, TokenWithVerified } from '../types/token.js'
-import { filterAllowedTokens, getVerifiedTokensSets } from './token.js'
+import type { TokensByChain, TokenWithFlags } from '../types/token.js'
+import {
+  filterAllowedTokens,
+  getNativeTokenAddresses,
+  getTokenVerificationProvider,
+  getVerifiedTokensSets,
+} from './token.js'
 
 const makeToken = (
   chainId: number,
   address: string,
   verified?: boolean
-): TokenWithVerified => ({
+): TokenWithFlags => ({
   chainId,
   address,
   symbol: 'TKN',
@@ -139,5 +144,128 @@ describe('filterAllowedTokens', () => {
 
   it('should return undefined without data tokens', () => {
     expect(filterAllowedTokens(undefined, {})).toBeUndefined()
+  })
+})
+
+describe('getTokenVerificationProvider', () => {
+  it('should return the capitalized provider that verified the token', () => {
+    expect(
+      getTokenVerificationProvider({
+        verificationStatusBreakdown: [
+          { provider: 'hypernative', result: 'verified' },
+        ],
+      })
+    ).toBe('Hypernative')
+  })
+
+  it('should return the first provider that verified the token', () => {
+    expect(
+      getTokenVerificationProvider({
+        verificationStatusBreakdown: [
+          { provider: 'other', result: 'unverified' },
+          { provider: 'hypernative', result: 'verified' },
+        ],
+      })
+    ).toBe('Hypernative')
+  })
+
+  it('should return undefined when no provider verified the token', () => {
+    expect(
+      getTokenVerificationProvider({
+        verificationStatusBreakdown: [
+          { provider: 'hypernative', result: 'flagged' },
+        ],
+      })
+    ).toBeUndefined()
+  })
+
+  it('should return undefined without a breakdown', () => {
+    expect(getTokenVerificationProvider({})).toBeUndefined()
+    expect(
+      getTokenVerificationProvider({ verificationStatusBreakdown: [] })
+    ).toBeUndefined()
+  })
+})
+
+describe('filterAllowedTokens native flag', () => {
+  const nativeAddress = '0x0000000000000000000000000000000000000000'
+  const nativeTokenAddresses = new Map([[1, nativeAddress]])
+
+  it('should mark the native token of the chain', () => {
+    const result = filterAllowedTokens(
+      { 1: [makeToken(1, nativeAddress), makeToken(1, '0xAAA')] },
+      undefined,
+      undefined,
+      undefined,
+      nativeTokenAddresses
+    )
+    expect(result?.[1][0].native).toBe(true)
+  })
+
+  it('should not add the flag to other tokens', () => {
+    const result = filterAllowedTokens(
+      { 1: [makeToken(1, '0xAAA')] },
+      undefined,
+      undefined,
+      undefined,
+      nativeTokenAddresses
+    )
+    expect('native' in result![1][0]).toBe(false)
+  })
+
+  it('should match the native address regardless of case', () => {
+    const result = filterAllowedTokens(
+      { 1: [makeToken(1, '0xABCDEF')] },
+      undefined,
+      undefined,
+      undefined,
+      new Map([[1, '0xabcdef']])
+    )
+    expect(result?.[1][0].native).toBe(true)
+  })
+
+  it('should not mark the native token of another chain', () => {
+    const result = filterAllowedTokens(
+      { 137: [makeToken(137, nativeAddress)] },
+      undefined,
+      undefined,
+      undefined,
+      nativeTokenAddresses
+    )
+    expect(result?.[137][0].native).toBeUndefined()
+  })
+
+  it('should not mark anything without native addresses', () => {
+    const result = filterAllowedTokens({ 1: [makeToken(1, nativeAddress)] })
+    expect(result?.[1][0].native).toBeUndefined()
+  })
+})
+
+describe('getNativeTokenAddresses', () => {
+  const makeChain = (id: number, address: string) =>
+    ({ id, nativeToken: { address } }) as ExtendedChain
+
+  it('should map each chain to its native token address', () => {
+    const result = getNativeTokenAddresses([
+      makeChain(1, '0x0000000000000000000000000000000000000000'),
+      makeChain(42220, '0x471EcE3750Da237f93B8E339c536989b8978a438'),
+    ])
+    expect(result.get(1)).toBe('0x0000000000000000000000000000000000000000')
+    expect(result.get(42220)).toBe('0x471EcE3750Da237f93B8E339c536989b8978a438')
+  })
+
+  it('should omit venues that declare a bridged stablecoin as native', () => {
+    const result = getNativeTokenAddresses([
+      makeChain(1337, '0xaf88d065e77c8cC2239327C5EDb3A432268e5831'),
+      makeChain(3586256, '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'),
+      makeChain(1, '0x0000000000000000000000000000000000000000'),
+    ])
+    expect(result.has(1337)).toBe(false)
+    expect(result.has(3586256)).toBe(false)
+    expect(result.has(1)).toBe(true)
+  })
+
+  it('should return an empty map without chains', () => {
+    expect(getNativeTokenAddresses(undefined).size).toBe(0)
   })
 })

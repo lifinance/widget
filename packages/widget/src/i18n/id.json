@@ -119,12 +119,13 @@
   },
   "warning": {
     "message": {
+      "tokenUnverified": "",
+      "tokenUnverifiedByProvider": "",
       "accountNotDeployedMessage": "Akun kontrak pintar tidak ada di rantai tujuan. Mengirim dana ke akun kontrak pintar yang tidak ada dapat mengakibatkan kerugian permanen.",
       "lowAddressActivity": "Alamat ini memiliki aktivitas rendah di jaringan {{chainName}}. Harap verifikasi bahwa Anda mengirim ke alamat dan jaringan yang benar untuk mencegah potensi kehilangan dana.",
       "clearFailedTransactions": "",
       "fundsLossPrevention": "Selalu pastikan akun kontrak pintar disiapkan dengan benar di rantai tujuan dan hindari transfer langsung ke bursa untuk mencegah hilangnya dana.",
       "highValueLoss": "Nilai token yang diterima jauh lebih rendah daripada token yang ditukar dan biaya transaksi.",
-      "unverifiedToken": "",
       "insufficientFunds": "Anda tidak memiliki cukup dana untuk menyelesaikan penukaran.",
       "insufficientGas": "Anda tidak memiliki cukup gas untuk menyelesaikan penukaran. Anda perlu menambahkan setidaknya:",
       "minFromAmountUSD": "",

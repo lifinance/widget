@@ -119,12 +119,13 @@
   },
   "warning": {
     "message": {
+      "tokenUnverified": "Token não verificado. Faça sempre sua própria pesquisa antes de prosseguir.",
+      "tokenUnverifiedByProvider": "",
       "accountNotDeployedMessage": "A conta do contrato inteligente não existe na rede de destino. O envio de fundos para uma conta de contrato inteligente inexistente pode resultar em perda permanente.",
       "lowAddressActivity": "Este endereço tem baixa atividade na rede {{chainName}}. Por favor, verifique se você está enviando para o endereço e rede corretos para evitar a potencial perda de fundos.",
       "clearFailedTransactions": "",
       "fundsLossPrevention": "Sempre certifique-se de que as contas de contrato inteligente estão devidamente configuradas na cadeia de destino e evite transferências diretas para corretoras de criptomoedas para evitar perda de fundos.",
       "highValueLoss": "A quantidade de tokens a serem recebidos é significativamente menor do que os tokens convertidos e os custos da transação.",
-      "unverifiedToken": "Token não verificado. Faça sempre sua própria pesquisa antes de prosseguir.",
       "insufficientFunds": "Você não possui fundos suficientes para completar a conversão.",
       "insufficientGas": "Você não tem gás suficiente para completar a conversão. É necessário adicionar pelo menos:",
       "minFromAmountUSD": "Valor mínimo é {{amount, currencyExt(currency: USD)}}. Por favor, insira um valor maior.",

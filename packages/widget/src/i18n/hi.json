@@ -119,12 +119,13 @@
   },
   "warning": {
     "message": {
+      "tokenUnverified": "",
+      "tokenUnverifiedByProvider": "",
       "accountNotDeployedMessage": "",
       "lowAddressActivity": "",
       "clearFailedTransactions": "",
       "fundsLossPrevention": "",
       "highValueLoss": "",
-      "unverifiedToken": "",
       "insufficientFunds": "",
       "insufficientGas": "",
       "minFromAmountUSD": "",
