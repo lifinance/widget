@@ -1,5 +1,57 @@
 # @lifi/widget
 
+## 4.6.0
+
+### Minor Changes
+
+- [#859](https://github.com/lifinance/widget/pull/859) [`6569207`](https://github.com/lifinance/widget/commit/6569207b1872706e53e53fe4ecc70f150c7103ae) Thanks [@chybisov](https://github.com/chybisov)! - Warn before a transaction that moves a flagged token. When the screening provider flagged the route's source or destination token, the widget now opens a sheet naming the token and asks for an explicit acknowledgement before the transaction starts. A native token is exempt, because the provider screens the native-address convention and reports it as a scam on some chains. Unverified tokens do not open the sheet, matching the token list, where only a definite verdict draws a badge.
+
+- [#827](https://github.com/lifinance/widget/pull/827) [`1d7bf36`](https://github.com/lifinance/widget/commit/1d7bf36f298db238e0402871a82488078da4b917) Thanks [@chybisov](https://github.com/chybisov)! - Add Stellar (STL) support. Introduces the `@lifi/widget-provider-stellar` package, which integrates the Stellar Wallets Kit (Freighter, xBull, Lobstr, Rabet, Hana, Klever, OneKey, and Bitget) and exposes the connected account and signer to the widget. Adds the base `StellarContext`, wires Stellar into wallet management (account aggregation, combined wallet list, and the connect menu), enables the Stellar ecosystem in the widget's wallet providers, and makes Stellar selectable as a route chain.
+
+- [#859](https://github.com/lifinance/widget/pull/859) [`6569207`](https://github.com/lifinance/widget/commit/6569207b1872706e53e53fe4ecc70f150c7103ae) Thanks [@chybisov](https://github.com/chybisov)! - Drive the token badge from the API `verificationStatus` field. A verified token shows a green check naming the provider that verified it, and a flagged token shows a red warning. A token the main list or the integrator config vouches for needs no warning; anything else without a clean verdict keeps the amber one it had. The chain's native token shows a blue check ahead of any verdict, because the screening provider treats the native-token address convention as a scam on some chains. The native token also leads its own chain's list unless the integrator or the user already placed it. Hyperliquid and Lighter are excluded from the native badge: both declare a bridged stablecoin from another chain as their native token, so there is no gas token to mark there.
+  
+  `tokens.verified` and `tokens.include` keep their meaning, but the main token list no longer marks every token it returns as verified. That marking predated `verificationStatus` and made the flag mean "came from the main list"; tokens from the list now carry `listed` instead, and `verified` means only what the config sets.
+
+### Patch Changes
+
+- [#827](https://github.com/lifinance/widget/pull/827) [`1d7bf36`](https://github.com/lifinance/widget/commit/1d7bf36f298db238e0402871a82488078da4b917) Thanks [@chybisov](https://github.com/chybisov)! - Stop showing the insufficient gas warning on Stellar when the route bridges enough XLM to cover the destination step, so a receiver with an empty XLM balance no longer sees a false warning.
+
+- [#827](https://github.com/lifinance/widget/pull/827) [`1d7bf36`](https://github.com/lifinance/widget/commit/1d7bf36f298db238e0402871a82488078da4b917) Thanks [@chybisov](https://github.com/chybisov)! - Keep the unsupported-receiver block consistent across the limit order and checkout flows, so a route that cannot honour a required receiver stays blocked everywhere.
+
+- [#864](https://github.com/lifinance/widget/pull/864) [`e3709d0`](https://github.com/lifinance/widget/commit/e3709d0fc4bc2b8e848b1792f8b6321a2956008f) Thanks [@chybisov](https://github.com/chybisov)! - Update `i18next` to 26.4.1 and `react-i18next` to 17.0.13.
+
+- [#847](https://github.com/lifinance/widget/pull/847) [`874158c`](https://github.com/lifinance/widget/commit/874158c47bcc83eb6a12317a56e57b4b0c3d29e7) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to `^4.6.0` and each `@lifi/sdk-provider-*` package to its latest release.
+
+- [#857](https://github.com/lifinance/widget/pull/857) [`2b290ab`](https://github.com/lifinance/widget/commit/2b290abb0fe9adb1ac5c1f6eb6fbb55e158fadea) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to `^4.6.1` and each `@lifi/sdk-provider-*` package to its latest
+  release. Move `@creit.tech/stellar-wallets-kit` to `^2.6.0`, which requires
+  `@stellar/stellar-sdk` v17. No source change was needed. The widget never imports
+  `@stellar/stellar-sdk` directly, so the v17 renames and its switch from `Buffer` to
+  `Uint8Array` have no surface here.
+  
+  If you pin `@creit.tech/stellar-wallets-kit` yourself, move to `^2.6.0`. The kit keeps
+  wallet state in module level signals, so a second copy in the tree fails with "Please
+  set the wallet first".
+  
+  `@mysten/sui` moves to `^2.27.0` because `@lifi/sdk-provider-sui@4.1.10` requires it. A
+  lower range lets a fresh install resolve two copies, which breaks the Sui provider types.
+  
+  `@stellar/stellar-sdk` also drops from two copies to one. SWK `2.6.0` no longer pulls
+  `@trezor/connect-plugin-stellar`, which removes the subtree that asked for `14.2.0`, and
+  the remaining copy moves to `17.0.1`.
+
+- [#864](https://github.com/lifinance/widget/pull/864) [`e3709d0`](https://github.com/lifinance/widget/commit/e3709d0fc4bc2b8e848b1792f8b6321a2956008f) Thanks [@chybisov](https://github.com/chybisov)! - Update Motion to 13.2.0.
+
+- [#858](https://github.com/lifinance/widget/pull/858) [`a5997eb`](https://github.com/lifinance/widget/commit/a5997ebf00df18cfe105d8390a437d7d853d780d) Thanks [@chybisov](https://github.com/chybisov)! - Bump `@mui/material`, `@mui/system`, and `@mui/icons-material` to 9.4.0.
+
+- [#857](https://github.com/lifinance/widget/pull/857) [`2b290ab`](https://github.com/lifinance/widget/commit/2b290abb0fe9adb1ac5c1f6eb6fbb55e158fadea) Thanks [@chybisov](https://github.com/chybisov)! - Update `react-intersection-observer` to `^11.0.1`.
+
+- [#852](https://github.com/lifinance/widget/pull/852) [`a1cddf8`](https://github.com/lifinance/widget/commit/a1cddf8177523c6db54bd69f6c7e7b00af3314fc) Thanks [@chybisov](https://github.com/chybisov)! - Update runtime dependencies, including `i18next` 26.4, `react-i18next` 17.0.12, Motion 13.1.1 and TanStack Router 1.170.32.
+
+- [#847](https://github.com/lifinance/widget/pull/847) [`874158c`](https://github.com/lifinance/widget/commit/874158c47bcc83eb6a12317a56e57b4b0c3d29e7) Thanks [@chybisov](https://github.com/chybisov)! - Update runtime dependencies, including Motion 13, `react-intersection-observer` 11, `@lifi/sdk` 4.4.0 and MUI 9.3.
+- Updated dependencies [[`1d7bf36`](https://github.com/lifinance/widget/commit/1d7bf36f298db238e0402871a82488078da4b917), [`e3709d0`](https://github.com/lifinance/widget/commit/e3709d0fc4bc2b8e848b1792f8b6321a2956008f), [`874158c`](https://github.com/lifinance/widget/commit/874158c47bcc83eb6a12317a56e57b4b0c3d29e7), [`2b290ab`](https://github.com/lifinance/widget/commit/2b290abb0fe9adb1ac5c1f6eb6fbb55e158fadea), [`a5997eb`](https://github.com/lifinance/widget/commit/a5997ebf00df18cfe105d8390a437d7d853d780d), [`874158c`](https://github.com/lifinance/widget/commit/874158c47bcc83eb6a12317a56e57b4b0c3d29e7), [`a1cddf8`](https://github.com/lifinance/widget/commit/a1cddf8177523c6db54bd69f6c7e7b00af3314fc)]:
+  - @lifi/widget-provider@4.4.0
+  - @lifi/wallet-management@4.2.0
+
 ## 4.5.0
 
 ### Minor Changes
