@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@types/events": "^3.0.3",
-    "@types/node": "^26.4.0",
+    "@types/node": "^26.4.1",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",
     "@vitejs/plugin-react": "^6.1.1",

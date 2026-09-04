@@ -23,7 +23,7 @@
     "@lifi/widget-provider-solana": "workspace:*",
     "@lifi/widget-provider-sui": "workspace:*",
     "@mui/material": "^9.4.0",
-    "@mysten/dapp-kit-react": "^2.1.22",
+    "@mysten/dapp-kit-react": "^2.1.24",
     "@tanstack/react-query": "^5.102.8",
     "@wagmi/connectors": "^8.1.0",
     "bs58": ">=4.0.1",
@@ -33,7 +33,7 @@
     "wagmi": "^3.7.7"
   },
   "devDependencies": {
-    "@types/node": "^26.4.0",
+    "@types/node": "^26.4.1",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",
     "@vitejs/plugin-react": "^6.1.1",
