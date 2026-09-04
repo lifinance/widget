@@ -1,5 +1,42 @@
 # @lifi/wallet-management
 
+## 4.2.0
+
+### Minor Changes
+
+- [#827](https://github.com/lifinance/widget/pull/827) [`1d7bf36`](https://github.com/lifinance/widget/commit/1d7bf36f298db238e0402871a82488078da4b917) Thanks [@chybisov](https://github.com/chybisov)! - Add Stellar (STL) support. Introduces the `@lifi/widget-provider-stellar` package, which integrates the Stellar Wallets Kit (Freighter, xBull, Lobstr, Rabet, Hana, Klever, OneKey, and Bitget) and exposes the connected account and signer to the widget. Adds the base `StellarContext`, wires Stellar into wallet management (account aggregation, combined wallet list, and the connect menu), enables the Stellar ecosystem in the widget's wallet providers, and makes Stellar selectable as a route chain.
+
+### Patch Changes
+
+- [#864](https://github.com/lifinance/widget/pull/864) [`e3709d0`](https://github.com/lifinance/widget/commit/e3709d0fc4bc2b8e848b1792f8b6321a2956008f) Thanks [@chybisov](https://github.com/chybisov)! - Update `i18next` to 26.4.1 and `react-i18next` to 17.0.13.
+
+- [#847](https://github.com/lifinance/widget/pull/847) [`874158c`](https://github.com/lifinance/widget/commit/874158c47bcc83eb6a12317a56e57b4b0c3d29e7) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to `^4.6.0` and each `@lifi/sdk-provider-*` package to its latest release.
+
+- [#857](https://github.com/lifinance/widget/pull/857) [`2b290ab`](https://github.com/lifinance/widget/commit/2b290abb0fe9adb1ac5c1f6eb6fbb55e158fadea) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to `^4.6.1` and each `@lifi/sdk-provider-*` package to its latest
+  release. Move `@creit.tech/stellar-wallets-kit` to `^2.6.0`, which requires
+  `@stellar/stellar-sdk` v17. No source change was needed. The widget never imports
+  `@stellar/stellar-sdk` directly, so the v17 renames and its switch from `Buffer` to
+  `Uint8Array` have no surface here.
+  
+  If you pin `@creit.tech/stellar-wallets-kit` yourself, move to `^2.6.0`. The kit keeps
+  wallet state in module level signals, so a second copy in the tree fails with "Please
+  set the wallet first".
+  
+  `@mysten/sui` moves to `^2.27.0` because `@lifi/sdk-provider-sui@4.1.10` requires it. A
+  lower range lets a fresh install resolve two copies, which breaks the Sui provider types.
+  
+  `@stellar/stellar-sdk` also drops from two copies to one. SWK `2.6.0` no longer pulls
+  `@trezor/connect-plugin-stellar`, which removes the subtree that asked for `14.2.0`, and
+  the remaining copy moves to `17.0.1`.
+
+- [#858](https://github.com/lifinance/widget/pull/858) [`a5997eb`](https://github.com/lifinance/widget/commit/a5997ebf00df18cfe105d8390a437d7d853d780d) Thanks [@chybisov](https://github.com/chybisov)! - Bump `@mui/material`, `@mui/system`, and `@mui/icons-material` to 9.4.0.
+
+- [#847](https://github.com/lifinance/widget/pull/847) [`874158c`](https://github.com/lifinance/widget/commit/874158c47bcc83eb6a12317a56e57b4b0c3d29e7) Thanks [@chybisov](https://github.com/chybisov)! - Update runtime dependencies, including `@lifi/sdk` 4.4.0 and the `@lifi/sdk-provider-*` packages.
+
+- [#852](https://github.com/lifinance/widget/pull/852) [`a1cddf8`](https://github.com/lifinance/widget/commit/a1cddf8177523c6db54bd69f6c7e7b00af3314fc) Thanks [@chybisov](https://github.com/chybisov)! - Update runtime dependencies, including `i18next` 26.4 and `react-i18next` 17.0.12.
+- Updated dependencies [[`1d7bf36`](https://github.com/lifinance/widget/commit/1d7bf36f298db238e0402871a82488078da4b917), [`874158c`](https://github.com/lifinance/widget/commit/874158c47bcc83eb6a12317a56e57b4b0c3d29e7), [`2b290ab`](https://github.com/lifinance/widget/commit/2b290abb0fe9adb1ac5c1f6eb6fbb55e158fadea), [`874158c`](https://github.com/lifinance/widget/commit/874158c47bcc83eb6a12317a56e57b4b0c3d29e7)]:
+  - @lifi/widget-provider@4.4.0
+
 ## 4.1.3
 
 ### Patch Changes
