@@ -27,6 +27,9 @@ export const BottomSheet = ({
   const [isInert, setIsInert] = useState(!open)
 
   const close = useCallback(() => {
+    if (!openRef.current) {
+      return
+    }
     // Set inert first to prevent focus issues
     setIsInert(true)
     // Push the state update to the next event loop tick
