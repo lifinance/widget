@@ -7,6 +7,7 @@ import { useChain } from '../../hooks/useChain.js'
 import { useToken } from '../../hooks/useToken.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { getPriceImpact } from '../../utils/getPriceImpact.js'
+import { mergeFallbackToken } from '../../utils/token.js'
 import { AvatarBadgedSkeleton } from '../Avatar/Avatar.js'
 import { SmallAvatar } from '../Avatar/SmallAvatar.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
@@ -42,7 +43,7 @@ const TokenFallback: FC<TokenProps & BoxProps> = ({
 
   return (
     <TokenBase
-      token={{ ...token, ...chainToken } as TokenAmount}
+      token={mergeFallbackToken(token, chainToken)}
       isLoading={isLoading || isLoadingToken}
       {...other}
     />
