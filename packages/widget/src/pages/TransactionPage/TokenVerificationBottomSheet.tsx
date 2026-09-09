@@ -31,8 +31,8 @@ export const TokenVerificationBottomSheet = ({
   ref?: Ref<BottomSheetBase>
 }): JSX.Element => {
   const handleCancel = () => {
+    // close() reaches onClose, which is onCancel
     ;(ref as RefObject<BottomSheetBase>).current?.close()
-    onCancel?.()
   }
 
   return (

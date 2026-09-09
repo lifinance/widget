@@ -20,9 +20,12 @@ import { ConfirmToAddressSheet } from './ConfirmToAddressSheet.js'
 import { StartTransactionButton } from './StartTransactionButton.js'
 import { TokenValueBottomSheet } from './TokenValueBottomSheet.js'
 import { TokenVerificationBottomSheet } from './TokenVerificationBottomSheet.js'
+import type { StartGate } from './utils.js'
 import {
   calculateValueLossPercentage,
+  getStartGates,
   getTokenValueLossThreshold,
+  openNextGate,
 } from './utils.js'
 
 interface TransactionReviewProps {
@@ -74,7 +77,6 @@ export const TransactionReview: React.FC<TransactionReviewProps> = ({
       })
     }
     tokenValueBottomSheetRef.current?.close()
-    flaggedTokenSheetRef.current?.close()
     executeRoute()
     setFieldValue('fromAmount', '')
     if (mode === 'custom') {
@@ -86,48 +88,45 @@ export const TransactionReview: React.FC<TransactionReviewProps> = ({
     })
   }
 
-  // Runs the remaining gates. The flagged-token sheet continues into this
-  // rather than executing, so accepting it does not skip the others.
-  const handleStartAfterTokenCheck = () => {
-    if (
-      toAddress &&
-      !hasActivity &&
-      !isLoadingAddressActivity &&
-      isActivityAddressFetched &&
-      !hiddenUI?.lowAddressActivityConfirmation
-    ) {
-      confirmToAddressSheetRef.current?.open()
-      return
-    }
-
+  const startGates = (() => {
     const { gasCostUSD, feeCostUSD } = getAccumulatedFeeCostsBreakdown(route)
-    const fromAmountUSD = Number.parseFloat(route.fromAmountUSD)
-    const toAmountUSD = Number.parseFloat(route.toAmountUSD)
-    const tokenValueLossThresholdExceeded = getTokenValueLossThreshold(
-      fromAmountUSD,
-      toAmountUSD,
-      gasCostUSD,
-      feeCostUSD
-    )
-    if (tokenValueLossThresholdExceeded && mode !== 'custom') {
-      tokenValueBottomSheetRef.current?.open()
-    } else {
-      handleExecuteRoute()
-    }
-  }
+    return getStartGates({
+      flaggedTokenCount: flaggedTokens.length,
+      toAddress,
+      hasActivity,
+      isLoadingAddressActivity,
+      isActivityAddressFetched,
+      confirmationHidden: Boolean(hiddenUI?.lowAddressActivityConfirmation),
+      valueLossExceeded: getTokenValueLossThreshold(
+        Number.parseFloat(route.fromAmountUSD),
+        Number.parseFloat(route.toAmountUSD),
+        gasCostUSD,
+        feeCostUSD
+      ),
+      isCustomMode: mode === 'custom',
+    })
+  })()
 
-  const handleStartClick = () => {
-    if (flaggedTokens.length) {
-      flaggedTokenSheetRef.current?.open()
-      return
-    }
-    handleStartAfterTokenCheck()
-  }
+  const openGate = (after?: StartGate) =>
+    openNextGate(
+      startGates,
+      {
+        flagged: () => flaggedTokenSheetRef.current?.open(),
+        address: () => confirmToAddressSheetRef.current?.open(),
+        value: () => tokenValueBottomSheetRef.current?.open(),
+      },
+      handleExecuteRoute,
+      after
+    )
+
+  const handleStartClick = () => openGate()
 
   const handleFlaggedTokensContinue = () => {
     flaggedTokenSheetRef.current?.close()
-    handleStartAfterTokenCheck()
+    openGate('flagged')
   }
+
+  const handleConfirmToAddressContinue = () => openGate('address')
 
   const getButtonText = (): string => {
     switch (mode) {
@@ -180,7 +179,7 @@ export const TransactionReview: React.FC<TransactionReviewProps> = ({
       {!hiddenUI?.lowAddressActivityConfirmation ? (
         <ConfirmToAddressSheet
           ref={confirmToAddressSheetRef}
-          onContinue={handleExecuteRoute}
+          onContinue={handleConfirmToAddressContinue}
           toAddress={toAddress!}
           toChainId={route.toChainId!}
         />
