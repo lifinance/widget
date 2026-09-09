@@ -5,6 +5,7 @@ import type {
   StaticToken,
   Token,
   TokenAmount,
+  TokenExtended,
 } from '@lifi/sdk'
 import { ChainId } from '@lifi/sdk'
 import type { FormType } from '../stores/form/types.js'
@@ -72,8 +73,34 @@ export const mergeVerifiedWithSearchTokens = (
 }
 
 /**
+ * Merges a cached token into a route token for display. The route wins on every
+ * field it carries; the cache only fills gaps. Letting the cache win instead
+ * swaps the quoted price for a stale feed price.
+ *
+ * `priceUSD` is a required string, so an unknown price arrives as `'0'` or `''`
+ * rather than as an absent key, and a plain spread would let it beat a known
+ * cached price. Treat both, and an empty `logoURI`, as gaps.
+ */
+export const mergeFallbackToken = (
+  routeToken: TokenAmount,
+  cachedToken: TokenExtended | undefined
+): TokenAmount =>
+  cachedToken
+    ? {
+        ...cachedToken,
+        ...routeToken,
+        priceUSD: Number(routeToken.priceUSD)
+          ? routeToken.priceUSD
+          : cachedToken.priceUSD,
+        logoURI: routeToken.logoURI || cachedToken.logoURI,
+      }
+    : routeToken
+
+/**
  * Updates a token in the cache by chainId and address.
  * Returns a new cache object with the token updated, or the original if not found.
+ * Addresses are compared case-insensitively: the token list and the route can
+ * spell the same address differently.
  */
 export const updateTokenInCache = (
   data: TokensByChain | undefined,
@@ -86,14 +113,18 @@ export const updateTokenInCache = (
   if (!chainTokens) {
     return data
   }
-  const index = chainTokens.findIndex((t) => t.address === token.address)
+  const address = token.address.toLowerCase()
+  const index = chainTokens.findIndex(
+    (t) => t.address.toLowerCase() === address
+  )
   if (index < 0) {
     return data
   }
   return {
     ...data,
     [token.chainId]: chainTokens.map((t, i) =>
-      i === index ? { ...t, ...token } : t
+      // Keep the cached address: other cache readers hold it as the identity.
+      i === index ? { ...t, ...token, address: t.address } : t
     ),
   }
 }

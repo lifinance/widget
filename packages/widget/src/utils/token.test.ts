@@ -1,4 +1,9 @@
-import type { ExtendedChain, Token } from '@lifi/sdk'
+import type {
+  ExtendedChain,
+  Token,
+  TokenAmount,
+  TokenExtended,
+} from '@lifi/sdk'
 import { describe, expect, it } from 'vitest'
 import type { TokensByChain, TokenWithFlags } from '../types/token.js'
 import {
@@ -6,6 +11,8 @@ import {
   getNativeTokenAddresses,
   getTokenVerificationProvider,
   getVerifiedTokensSets,
+  mergeFallbackToken,
+  updateTokenInCache,
 } from './token.js'
 
 const makeToken = (
@@ -267,5 +274,123 @@ describe('getNativeTokenAddresses', () => {
 
   it('should return an empty map without chains', () => {
     expect(getNativeTokenAddresses(undefined).size).toBe(0)
+  })
+})
+
+describe('mergeFallbackToken', () => {
+  const routeToken: TokenAmount = {
+    chainId: 4663,
+    address: '0xe8ffd7e24187f72afb08d75b1bb13088a989a791',
+    symbol: 'DELTA',
+    decimals: 18,
+    name: 'Delta',
+    priceUSD: '0.01308276789',
+    amount: 759159353996000000000000n,
+  }
+
+  const cachedToken: TokenExtended = {
+    chainId: 4663,
+    address: '0xe8ffd7e24187f72afb08d75b1bb13088a989a791',
+    symbol: 'DELTA',
+    decimals: 18,
+    name: 'Delta',
+    priceUSD: '0.01298884081',
+    logoURI: 'https://example.test/delta.png',
+  }
+
+  it('should keep the route price when the cache holds a different one', () => {
+    expect(mergeFallbackToken(routeToken, cachedToken).priceUSD).toBe(
+      '0.01308276789'
+    )
+  })
+
+  it('should take the logo from the cache when the route has none', () => {
+    expect(mergeFallbackToken(routeToken, cachedToken).logoURI).toBe(
+      'https://example.test/delta.png'
+    )
+  })
+
+  it('should keep the route logo when the route has one', () => {
+    const withLogo = {
+      ...routeToken,
+      logoURI: 'https://example.test/route.png',
+    }
+    expect(mergeFallbackToken(withLogo, cachedToken).logoURI).toBe(
+      'https://example.test/route.png'
+    )
+  })
+
+  it('should take the cache price when the route price is empty', () => {
+    expect(
+      mergeFallbackToken({ ...routeToken, priceUSD: '' }, cachedToken).priceUSD
+    ).toBe('0.01298884081')
+  })
+
+  it('should take the cache price when the route price is zero', () => {
+    expect(
+      mergeFallbackToken({ ...routeToken, priceUSD: '0' }, cachedToken).priceUSD
+    ).toBe('0.01298884081')
+  })
+
+  it('should take the cache logo when the route logo is empty', () => {
+    expect(
+      mergeFallbackToken({ ...routeToken, logoURI: '' }, cachedToken).logoURI
+    ).toBe('https://example.test/delta.png')
+  })
+
+  it('should keep the route amount when the cache holds a balance', () => {
+    const withBalance = { ...cachedToken, amount: 42n } as TokenExtended
+    expect(mergeFallbackToken(routeToken, withBalance).amount).toBe(
+      759159353996000000000000n
+    )
+  })
+
+  it('should keep the route decimals when the cache disagrees', () => {
+    expect(
+      mergeFallbackToken(routeToken, { ...cachedToken, decimals: 6 }).decimals
+    ).toBe(18)
+  })
+
+  it('should return the route token without a cached token', () => {
+    expect(mergeFallbackToken(routeToken, undefined)).toEqual(routeToken)
+  })
+})
+
+describe('updateTokenInCache', () => {
+  const cache: TokensByChain = {
+    4663: [makeToken(4663, '0xE8FFd7E24187F72AFB08D75B1bb13088A989A791')],
+  }
+
+  it('should update a token whose cached address differs only in case', () => {
+    const updated = updateTokenInCache(cache, {
+      ...makeToken(4663, '0xe8ffd7e24187f72afb08d75b1bb13088a989a791'),
+      priceUSD: '0.01308276789',
+    })
+    expect(updated?.[4663][0].priceUSD).toBe('0.01308276789')
+  })
+
+  it('should keep the cached address casing while updating the price', () => {
+    const updated = updateTokenInCache(cache, {
+      ...makeToken(4663, '0xe8ffd7e24187f72afb08d75b1bb13088a989a791'),
+      priceUSD: '0.01308276789',
+    })
+    expect(updated?.[4663][0]).toEqual({
+      ...makeToken(4663, '0xE8FFd7E24187F72AFB08D75B1bb13088A989A791'),
+      priceUSD: '0.01308276789',
+    })
+  })
+
+  it('should return the cache unchanged for a token that is not in it', () => {
+    expect(updateTokenInCache(cache, makeToken(4663, '0xabc'))).toBe(cache)
+  })
+
+  it('should return the cache unchanged for a chain that is not in it', () => {
+    expect(updateTokenInCache(cache, makeToken(1, '0xe8ffd7e2'))).toBe(cache)
+  })
+
+  it('should return undefined without a cache', () => {
+    expect(
+      updateTokenInCache(undefined, makeToken(4663, '0xabc'))
+    ).toBeUndefined()
   })
 })
