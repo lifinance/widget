@@ -29,7 +29,7 @@ import { defaultSlippage } from '../stores/settings/createSettingsStore.js'
 import { useSettings } from '../stores/settings/useSettings.js'
 import { WidgetEvent } from '../types/events.js'
 import type { TokensByChain } from '../types/token.js'
-import { isCustomReceiverUnsupported } from '../utils/customReceiver.js'
+import { isCustomReceiverBlocked } from '../utils/customReceiver.js'
 import { getQueryKey } from '../utils/queries.js'
 import { updateTokenInCache } from '../utils/token.js'
 import { useChain } from './useChain.js'
@@ -178,10 +178,13 @@ export const useRoutes = ({
     ? hasToAddressAndChainTypeSatisfied
     : true
 
-  // Stellar settles to the signer, so a set receiver makes the route unfulfillable.
-  const customReceiverBlocked =
-    isCustomReceiverUnsupported(fromChain?.chainType, toChain?.chainType) &&
-    Boolean(toAddress)
+  // Not `effectiveFromAddress`: a quote placeholder must never match a receiver.
+  const customReceiverBlocked = isCustomReceiverBlocked({
+    fromChainType: fromChain?.chainType,
+    toChainType: toChain?.chainType,
+    toAddress,
+    signerAddress: account.address,
+  })
 
   // toAddress might be an empty string, but we need to pass undefined if there is no value
   const toWalletAddress = toAddress || undefined

@@ -4,7 +4,10 @@ import { useEthereumContext } from '@lifi/widget-provider'
 import { useChain } from '../hooks/useChain.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
-import { isCustomReceiverUnsupported } from '../utils/customReceiver.js'
+import {
+  isCustomReceiverBlocked,
+  isCustomReceiverUnsupported,
+} from '../utils/customReceiver.js'
 import { useIsContractAddress } from './useIsContractAddress.js'
 
 export const useToAddressRequirements = (
@@ -76,10 +79,13 @@ export const useToAddressRequirements = (
     toChain?.chainType
   )
 
-  // Stellar routes settle to the signer, so a required receiver is never honoured.
-  const unsupportedReceiverBlocking = Boolean(
-    unsupportedToAddress && (toAddress || requiredUI?.toAddress)
-  )
+  const unsupportedReceiverBlocking = isCustomReceiverBlocked({
+    fromChainType: fromChain?.chainType,
+    toChainType: toChain?.chainType,
+    toAddress,
+    signerAddress: fromAddress,
+    receiverRequired: requiredUI?.toAddress,
+  })
 
   const requiredToAddress = Boolean(
     (isDifferentChainType ||
