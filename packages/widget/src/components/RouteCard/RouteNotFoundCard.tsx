@@ -1,9 +1,24 @@
 import Route from '@mui/icons-material/Route'
-import { Box, Typography } from '@mui/material'
+import { Box, Collapse, Stack, Typography } from '@mui/material'
+import type React from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import type { RouteIssue } from '../../utils/routeIssues/types.js'
+import { ButtonTertiary } from '../ButtonTertiary.js'
+import { RouteIssueCard } from './RouteIssueCard.js'
 
-export const RouteNotFoundCard: React.FC = () => {
+interface RouteNotFoundCardProps {
+  issues?: RouteIssue[]
+}
+
+export const RouteNotFoundCard: React.FC<RouteNotFoundCardProps> = ({
+  issues,
+}) => {
   const { t } = useTranslation()
+  const [expanded, setExpanded] = useState(false)
+
+  const [primary, ...rest] = issues ?? []
+
   return (
     <Box
       sx={{
@@ -31,16 +46,37 @@ export const RouteNotFoundCard: React.FC = () => {
       >
         {t('info.title.routeNotFound')}
       </Typography>
-      <Typography
-        sx={{
-          fontSize: 14,
-          color: 'text.secondary',
-          textAlign: 'center',
-          mt: 2,
-        }}
-      >
-        {t('info.message.routeNotFound')}
-      </Typography>
+      {primary ? (
+        <Stack direction="column" spacing={1} sx={{ mt: 2, width: '100%' }}>
+          <RouteIssueCard issue={primary} />
+          <Collapse timeout={225} in={expanded} unmountOnExit mountOnEnter>
+            <Stack direction="column" spacing={1}>
+              {rest.map((issue) => (
+                <RouteIssueCard key={issue.ruleId} issue={issue} />
+              ))}
+            </Stack>
+          </Collapse>
+          {rest.length ? (
+            <ButtonTertiary
+              onClick={() => setExpanded((open) => !open)}
+              fullWidth
+            >
+              {t('info.routeIssue.otherReasons', { count: rest.length })}
+            </ButtonTertiary>
+          ) : null}
+        </Stack>
+      ) : (
+        <Typography
+          sx={{
+            fontSize: 14,
+            color: 'text.secondary',
+            textAlign: 'center',
+            mt: 2,
+          }}
+        >
+          {t('info.message.routeNotFound')}
+        </Typography>
+      )}
     </Box>
   )
 }

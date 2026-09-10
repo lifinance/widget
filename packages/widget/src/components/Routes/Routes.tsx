@@ -19,6 +19,7 @@ export const Routes: React.FC<CardProps> = (props) => {
   const { mode, modeOptions, showSingleRoute, defaultUI } = useWidgetConfig()
   const {
     routes,
+    issues,
     isLoading,
     isFetching,
     isFetched,
@@ -72,7 +73,7 @@ export const Routes: React.FC<CardProps> = (props) => {
         {isLoading && !currentRoute ? (
           <RouteCardSkeleton variant="cardless" />
         ) : !currentRoute ? (
-          <RouteNotFoundCard />
+          <RouteNotFoundCard issues={issues} />
         ) : (
           <RouteCard route={currentRoute} variant="cardless" active />
         )}
