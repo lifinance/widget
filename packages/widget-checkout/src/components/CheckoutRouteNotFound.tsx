@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useCheckoutFlowStore } from '../stores/useCheckoutFlowStore.js'
 
 export const CheckoutRouteNotFound: React.FC<{
-  issues?: RouteIssue[]
+  issues?: readonly RouteIssue[]
 }> = ({ issues }): JSX.Element => {
   const { t } = useTranslation()
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)

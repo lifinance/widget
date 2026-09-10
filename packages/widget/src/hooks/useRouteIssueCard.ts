@@ -7,6 +7,7 @@ import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { FormKeyHelper } from '../stores/form/types.js'
 import { useFieldActions } from '../stores/form/useFieldActions.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
+import { maxRecommendedSlippage } from '../stores/settings/createSettingsStore.js'
 import { useSettings } from '../stores/settings/useSettings.js'
 import { useSettingsActions } from '../stores/settings/useSettingsActions.js'
 import { getQueryKey } from '../utils/queries.js'
@@ -122,8 +123,11 @@ const buildCard = (
     return toRawAmount(halved, 'lower')
   }
 
-  const amount =
-    issue.bucket === 'amountTooLow'
+  const hasSendAmount = (currentAmount() ?? 0n) > 0n
+
+  const amount = !hasSendAmount
+    ? undefined
+    : issue.bucket === 'amountTooLow'
       ? (roundedReported() ??
         amountForUsd(issue.evidence?.minUsd ?? fallbackTargetUsd))
       : issue.bucket === 'amountTooHigh'
@@ -133,8 +137,12 @@ const buildCard = (
   const suggested =
     amount !== undefined && token ? formatUnits(amount, token.decimals) : ''
 
+  // Without a reported figure and without a setting of the user's own there is
+  // nothing to call too strict, and nothing meaningful to move.
+  const slippageKnown =
+    reportedSlippage(issue) !== '' || Number.isFinite(Number(deps.slippage))
   const slippageTarget =
-    issue.bucket === 'slippageTooTight'
+    issue.bucket === 'slippageTooTight' && slippageKnown
       ? nextSlippage(issue, deps.slippage)
       : ''
 
@@ -184,6 +192,7 @@ const buildCard = (
         // so offer any value that raises the current one, never one below it.
         const applied = Number(deps.slippage)
         return !slippageTarget ||
+          Number(slippageTarget) > maxRecommendedSlippage ||
           Number(slippageTarget) <= (Number.isFinite(applied) ? applied : 0)
           ? undefined
           : {

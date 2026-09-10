@@ -1,3 +1,4 @@
+import { maxRecommendedSlippage } from '../../stores/settings/createSettingsStore.js'
 import { formatSlippage } from '../format.js'
 import type { RouteIssue } from './types.js'
 
@@ -30,7 +31,9 @@ export const roundSuggestion = (
   }
   const scaled = value * factor
   const rounded = direction === 'raise' ? Math.ceil(scaled) : Math.floor(scaled)
-  return rounded / factor
+  // Dividing by the factor reintroduces a binary tail (1e6 came back as
+  // 999999.9999999999); an exponent literal is parsed exactly.
+  return Number(`${rounded}e${exponent - suggestionDigits + 1}`)
 }
 
 /** The reported figure, moved clear of the limit that rejected it. */
@@ -63,10 +66,9 @@ export const nextSlippage = (issue: RouteIssue, applied?: string): string => {
     return reported
   }
   const current = Number(applied)
-  return formatSlippage(
-    (Number.isFinite(current) && current > fallbackSlippage
+  const doubled =
+    Number.isFinite(current) && current > fallbackSlippage
       ? current * 2
       : fallbackSlippage
-    ).toString()
-  )
+  return formatSlippage(Math.min(doubled, maxRecommendedSlippage).toString())
 }
