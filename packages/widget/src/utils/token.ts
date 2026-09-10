@@ -73,13 +73,18 @@ export const mergeVerifiedWithSearchTokens = (
 }
 
 /**
+ * `priceUSD` is a required string, so an unknown price arrives as `'0'` or `''`
+ * rather than as an absent key — the same reading as in `useLimitMarketRate`. A
+ * known price must never lose to one, or a route that cannot price its output
+ * blanks a value the cache already knew.
+ */
+export const knownPriceUSD = (fresher: string, cached: string): string =>
+  Number(fresher) ? fresher : cached
+
+/**
  * Merges a cached token into a route token for display. The route wins on every
  * field it carries; the cache only fills gaps. Letting the cache win instead
  * swaps the quoted price for a stale feed price.
- *
- * `priceUSD` is a required string, so an unknown price arrives as `'0'` or `''`
- * rather than as an absent key, and a plain spread would let it beat a known
- * cached price. Treat both, and an empty `logoURI`, as gaps.
  */
 export const mergeFallbackToken = (
   routeToken: TokenAmount,
@@ -89,9 +94,7 @@ export const mergeFallbackToken = (
     ? {
         ...cachedToken,
         ...routeToken,
-        priceUSD: Number(routeToken.priceUSD)
-          ? routeToken.priceUSD
-          : cachedToken.priceUSD,
+        priceUSD: knownPriceUSD(routeToken.priceUSD, cachedToken.priceUSD),
         logoURI: routeToken.logoURI || cachedToken.logoURI,
       }
     : routeToken
@@ -100,7 +103,8 @@ export const mergeFallbackToken = (
  * Updates a token in the cache by chainId and address.
  * Returns a new cache object with the token updated, or the original if not found.
  * Addresses are compared case-insensitively: the token list and the route can
- * spell the same address differently.
+ * spell the same address differently. The incoming token only overwrites what it
+ * actually knows, so an unpriced or logo-less route cannot blank the cache.
  */
 export const updateTokenInCache = (
   data: TokensByChain | undefined,
@@ -123,8 +127,16 @@ export const updateTokenInCache = (
   return {
     ...data,
     [token.chainId]: chainTokens.map((t, i) =>
-      // Keep the cached address: other cache readers hold it as the identity.
-      i === index ? { ...t, ...token, address: t.address } : t
+      i === index
+        ? {
+            ...t,
+            ...token,
+            // Keep the cached address: other readers hold it as the identity.
+            address: t.address,
+            priceUSD: knownPriceUSD(token.priceUSD, t.priceUSD),
+            logoURI: token.logoURI || t.logoURI,
+          }
+        : t
     ),
   }
 }

@@ -380,6 +380,38 @@ describe('updateTokenInCache', () => {
     })
   })
 
+  it('should keep the cached price when the incoming price is zero', () => {
+    const updated = updateTokenInCache(cache, {
+      ...makeToken(4663, '0xe8ffd7e24187f72afb08d75b1bb13088a989a791'),
+      priceUSD: '0',
+    })
+    expect(updated?.[4663][0].priceUSD).toBe('1')
+  })
+
+  it('should keep the cached price when the incoming price is empty', () => {
+    const updated = updateTokenInCache(cache, {
+      ...makeToken(4663, '0xe8ffd7e24187f72afb08d75b1bb13088a989a791'),
+      priceUSD: '',
+    })
+    expect(updated?.[4663][0].priceUSD).toBe('1')
+  })
+
+  it('should keep the cached logo when the incoming logo is empty', () => {
+    const withLogo: TokensByChain = {
+      4663: [
+        {
+          ...makeToken(4663, '0xE8FFd7E24187F72AFB08D75B1bb13088A989A791'),
+          logoURI: 'https://example.test/delta.png',
+        },
+      ],
+    }
+    const updated = updateTokenInCache(withLogo, {
+      ...makeToken(4663, '0xe8ffd7e24187f72afb08d75b1bb13088a989a791'),
+      logoURI: '',
+    })
+    expect(updated?.[4663][0].logoURI).toBe('https://example.test/delta.png')
+  })
+
   it('should return the cache unchanged for a token that is not in it', () => {
     expect(updateTokenInCache(cache, makeToken(4663, '0xabc'))).toBe(cache)
   })
