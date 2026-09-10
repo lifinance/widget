@@ -4,6 +4,10 @@ import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { FormKeyHelper } from '../stores/form/types.js'
 import { useFieldActions } from '../stores/form/useFieldActions.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
+import {
+  maxRecommendedSlippage,
+  minRecommendedSlippage,
+} from '../stores/settings/createSettingsStore.js'
 import { useSettingsActions } from '../stores/settings/useSettingsActions.js'
 import { formatSlippage } from '../utils/format.js'
 import type {
@@ -37,10 +41,6 @@ const buffer = {
   raise: { numerator: 102n, denominator: 100n },
   lower: { numerator: 98n, denominator: 100n },
 }
-
-// useSettingMonitor badges anything outside this band as not recommended.
-const minRecommendedSlippage = 0.1
-const maxRecommendedSlippage = 1
 
 const suggestedAmount = (issue: RouteIssue): bigint | undefined => {
   const required = issue.evidence?.requiredFromAmount
@@ -76,9 +76,7 @@ export function useRouteIssueCopy(issue: RouteIssue): RouteIssueCopy {
     symbol: token?.symbol ?? '',
     suggested:
       suggested !== undefined && token
-        ? t('format.number', {
-            value: Number(formatUnits(suggested, token.decimals)),
-          })
+        ? formatUnits(suggested, token.decimals)
         : '',
     slippage: slippagePercent(issue),
     minUsd:
@@ -112,8 +110,8 @@ export function useRouteIssueCopy(issue: RouteIssue): RouteIssueCopy {
 }
 
 /**
- * Only mounted for a remediable bucket, so the balance and gas-recommendation
- * subscriptions below are never opened just to render static copy.
+ * Only mounted for a remediable bucket, so a card that can never carry a fix
+ * does not open the balance and gas-recommendation subscriptions below.
  */
 export function useRouteIssueRemedy(
   issue: RouteIssue
@@ -145,11 +143,13 @@ export function useRouteIssueRemedy(
     ) {
       return undefined
     }
+    // The label states the exact string `run` writes, never a rounded or
+    // locale-grouped rendering of it.
     const amount = formatUnits(suggested, token.decimals)
     return {
       label: t(`${base}.action` as any, {
         symbol: token.symbol,
-        suggested: t('format.number', { value: Number(amount) }),
+        suggested: amount,
       }),
       run: () => {
         // Matches PercentageChips: limit mode must go through the linked-field

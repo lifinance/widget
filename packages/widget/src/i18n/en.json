@@ -132,7 +132,7 @@
       "amountTooLow": {
         "title": "Amount is too low",
         "description": "Try about {{suggested}} {{symbol}}.",
-        "descriptionUsd": "Routes for this pair need at least ${{minUsd}}.",
+        "descriptionUsd": "Routes for this pair need at least {{minUsd}}.",
         "descriptionNoAmount": "The amount is below the minimum every route needs.",
         "action": "Set amount to {{suggested}} {{symbol}}"
       },

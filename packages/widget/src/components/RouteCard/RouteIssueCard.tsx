@@ -59,11 +59,7 @@ const ActionableIssueCard: React.FC<RouteIssueCardProps> = ({ issue }) => {
   const remedy = useRouteIssueRemedy(issue)
 
   if (!remedy) {
-    return (
-      <Card>
-        <IssueCardBody {...copy} />
-      </Card>
-    )
+    return <StaticIssueCard issue={issue} />
   }
 
   return (

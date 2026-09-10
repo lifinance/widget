@@ -650,7 +650,7 @@ export const useRoutes = ({
         initialRoutes.splice(1, 0, relayerRouteResult)
         // Emit the updated routes
         emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
-      } else if (!initialRoutes.length) {
+      } else if (shouldUseMainRoutes && !initialRoutes.length) {
         emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
       }
 

@@ -1,5 +1,9 @@
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import { defaultConfigurableSettings } from '../stores/settings/createSettingsStore.js'
+import {
+  defaultConfigurableSettings,
+  maxRecommendedSlippage,
+  minRecommendedSlippage,
+} from '../stores/settings/createSettingsStore.js'
 import { useSettingsStore } from '../stores/settings/SettingsStore.js'
 import { useSettingsActions } from '../stores/settings/useSettingsActions.js'
 import { useTools } from './useTools.js'
@@ -39,10 +43,10 @@ export const useSettingMonitor = (): {
     : slippage !== defaultConfigurableSettings.slippage
 
   const isSlippageOutsideRecommendedLimits =
-    isSlippageChanged && !!slippage && Number(slippage) > 1
+    isSlippageChanged && !!slippage && Number(slippage) > maxRecommendedSlippage
 
   const isSlippageUnderRecommendedLimits =
-    isSlippageChanged && !!slippage && Number(slippage) < 0.1
+    isSlippageChanged && !!slippage && Number(slippage) < minRecommendedSlippage
 
   const isSlippageNotRecommended = Boolean(
     isSlippageOutsideRecommendedLimits || isSlippageUnderRecommendedLimits
