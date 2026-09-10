@@ -4,18 +4,20 @@ import type {
   RouteIssueRule,
 } from './types.js'
 
-export const bucketOrder: RouteIssueBucket[] = [
-  'amountTooLow',
-  'amountTooHigh',
-  'slippageTooTight',
-  'destinationAccountNotReady',
-  'recipientNotSupported',
-  'gaslessNotAvailable',
-  'blockedBySettings',
-  'liquidity',
-  'temporary',
-  'pairNotSupported',
-]
+// A Record, not an array: a bucket added to the union and forgotten here is a
+// type error rather than a silent sort to the top.
+export const bucketRank: Record<RouteIssueBucket, number> = {
+  amountTooLow: 0,
+  amountTooHigh: 1,
+  slippageTooTight: 2,
+  destinationAccountNotReady: 3,
+  recipientNotSupported: 4,
+  gaslessNotAvailable: 5,
+  blockedBySettings: 6,
+  liquidity: 7,
+  temporary: 8,
+  pairNotSupported: 9,
+}
 
 const integerPattern = /^\d+$/
 
@@ -138,9 +140,10 @@ export const routeIssueRules: RouteIssueRule[] = [
       ) {
         return { direction: 'raise', minUsd: Number.parseFloat(match[2]) }
       }
+      const requiredFromAmount = (context.fromAmount * requiredUsd) / currentUsd
       return {
         direction: 'raise',
-        requiredFromAmount: (context.fromAmount * requiredUsd) / currentUsd,
+        ...(requiredFromAmount > 0n && { requiredFromAmount }),
         minUsd: Number.parseFloat(match[2]),
       }
     }
