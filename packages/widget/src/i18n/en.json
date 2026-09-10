@@ -134,19 +134,19 @@
         "description": "Try about {{suggested}} {{symbol}}.",
         "descriptionUsd": "Routes for this pair need at least {{minUsd}}.",
         "descriptionNoAmount": "The amount is below the minimum every route needs.",
-        "action": "Set amount to {{suggested}} {{symbol}}"
+        "action": "Apply {{suggested}} {{symbol}}"
       },
       "amountTooHigh": {
         "title": "Amount is too high",
         "description": "Try about {{suggested}} {{symbol}}.",
         "descriptionNoAmount": "The amount is above the maximum every route accepts.",
-        "action": "Set amount to {{suggested}} {{symbol}}"
+        "action": "Apply {{suggested}} {{symbol}}"
       },
       "slippageTooTight": {
         "title": "Slippage is too tight",
         "description": "Every route needs at least {{slippage}}% slippage.",
         "descriptionNoAmount": "Every route needs more slippage than the current setting allows.",
-        "action": "Set slippage to {{slippage}}%"
+        "action": "Apply {{slippage}}% slippage"
       },
       "destinationAccountNotReady": {
         "title": "The receiving account is not ready",
@@ -154,7 +154,8 @@
       },
       "recipientNotSupported": {
         "title": "This recipient is not supported",
-        "description": "Routes for this pair cannot send to a contract or to a different address. Try the address you send from."
+        "description": "Routes for this pair cannot send to a contract or to a different address. Try the address you send from.",
+        "action": "Send to my own address"
       },
       "gaslessNotAvailable": {
         "title": "Gasless is not available here",
@@ -170,13 +171,15 @@
       },
       "temporary": {
         "title": "Temporarily unavailable",
-        "description": "A provider is busy or under maintenance. This usually clears within a few minutes."
+        "description": "A provider is busy or under maintenance. This usually clears within a few minutes.",
+        "action": "Try again"
       },
       "pairNotSupported": {
         "title": "This pair is not supported",
         "description": "No provider connects these two tokens yet. Try a different token or chain."
       },
-      "hideOtherReasons": "Hide other reasons"
+      "hideOtherReasons": "Hide other reasons",
+      "lookForReasons": "Here is what blocked it."
     },
     "title": {
       "autoRefuel": "Get {{chainName}} gas",

@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import type React from 'react'
 import {
   remediableBuckets,
@@ -17,6 +17,7 @@ interface IssueCardBodyProps {
   description: string
   note?: string
   action?: string
+  onAction?: () => void
 }
 
 const IssueCardBody: React.FC<IssueCardBodyProps> = ({
@@ -24,6 +25,7 @@ const IssueCardBody: React.FC<IssueCardBodyProps> = ({
   description,
   note,
   action,
+  onAction,
 }) => (
   <Box sx={{ p: 2 }}>
     <Typography sx={{ fontSize: 15, fontWeight: 600 }}>{title}</Typography>
@@ -35,12 +37,15 @@ const IssueCardBody: React.FC<IssueCardBodyProps> = ({
         {note}
       </Typography>
     ) : null}
-    {action ? (
-      <Typography
-        sx={{ fontSize: 14, fontWeight: 600, mt: 1.5, color: 'primary.main' }}
+    {action && onAction ? (
+      <Button
+        variant="contained"
+        onClick={onAction}
+        fullWidth
+        sx={{ mt: 1.5, height: 40, fontSize: 14 }}
       >
         {action}
-      </Typography>
+      </Button>
     ) : null}
   </Box>
 )
@@ -55,22 +60,9 @@ const ActionableIssueCard: React.FC<RouteIssueCardProps> = ({ issue }) => {
   const copy = useRouteIssueCopy(issue)
   const remedy = useRouteIssueRemedy(issue)
 
-  if (!remedy) {
-    return (
-      <Card>
-        <IssueCardBody {...copy} />
-      </Card>
-    )
-  }
-
   return (
-    // A real button, as SelectTokenCard is.
-    <Card
-      component="button"
-      onClick={remedy.run}
-      sx={{ width: '100%', textAlign: 'left', font: 'inherit' }}
-    >
-      <IssueCardBody {...copy} action={remedy.label} />
+    <Card>
+      <IssueCardBody {...copy} action={remedy?.label} onAction={remedy?.run} />
     </Card>
   )
 }

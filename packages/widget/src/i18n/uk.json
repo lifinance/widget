@@ -125,7 +125,8 @@
       },
       "recipientNotSupported": {
         "title": "",
-        "description": ""
+        "description": "",
+        "action": ""
       },
       "gaslessNotAvailable": {
         "title": "",
@@ -141,13 +142,15 @@
       },
       "temporary": {
         "title": "",
-        "description": ""
+        "description": "",
+        "action": ""
       },
       "pairNotSupported": {
         "title": "",
         "description": ""
       },
-      "hideOtherReasons": ""
+      "hideOtherReasons": "",
+      "lookForReasons": ""
     },
     "title": {
       "autoRefuel": "Отримати {{chainName}} газ",
