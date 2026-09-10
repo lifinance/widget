@@ -185,6 +185,7 @@ const CheckoutReceiveCardWithRoutes: React.FC = () => {
   const { token: toToken } = useToken(toChainId, toTokenAddress)
   const {
     routes,
+    issues,
     isLoading,
     isFetching,
     isFetched,
@@ -421,7 +422,7 @@ const CheckoutReceiveCardWithRoutes: React.FC = () => {
       </Box>
 
       {routeNotFound || depositUnavailable ? (
-        <CheckoutRouteNotFound />
+        <CheckoutRouteNotFound issues={issues} />
       ) : (
         <>
           <Box

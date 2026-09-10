@@ -1,5 +1,5 @@
 import { formatUnits } from '@lifi/sdk'
-import { useCallback, useMemo } from 'react'
+import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { FormKeyHelper } from '../stores/form/types.js'
 import { useFieldActions } from '../stores/form/useFieldActions.js'
@@ -24,6 +24,10 @@ export interface RouteIssueCopy {
   note?: string
   remedy?: RouteIssueRemedy
 }
+
+// useSettingMonitor badges anything above this as not recommended, so it is
+// not something to apply in one click.
+const recommendedSlippageLimit = 1
 
 const buffer = {
   raise: { numerator: 102n, denominator: 100n },
@@ -62,19 +66,17 @@ export function useRouteIssueCopy(issue: RouteIssue): RouteIssueCopy {
       ? formatUnits(suggested, token.decimals)
       : ''
 
-  const applyAmount = useCallback(() => {
-    if (!suggestedLabel) {
-      return
-    }
+  // Matches PercentageChips: in limit mode the send amount must flow through
+  // the linked-field derivation so the receive amount recomputes.
+  const applyAmount = (): void => {
     if (mode === 'limit') {
       setSendAmount(suggestedLabel)
       return
     }
     setFieldValue(FormKeyHelper.getAmountKey('from'), suggestedLabel, {
-      isDirty: true,
       isTouched: true,
     })
-  }, [suggestedLabel, setFieldValue, setSendAmount, mode])
+  }
 
   // Rounded so binary error can't leak "2.9000000000000004" into the setting.
   const requiredSlippage = issue.evidence?.requiredSlippage
@@ -83,12 +85,9 @@ export function useRouteIssueCopy(issue: RouteIssue): RouteIssueCopy {
       ? formatSlippage((Math.round(requiredSlippage * 1e6) / 1e4).toString())
       : ''
 
-  const applySlippage = useCallback(() => {
-    if (!slippageLabel) {
-      return
-    }
+  const applySlippage = (): void => {
     setValue('slippage', slippageLabel)
-  }, [slippageLabel, setValue])
+  }
 
   const values: Record<string, string> = {
     symbol: token?.symbol ?? '',
@@ -106,7 +105,7 @@ export function useRouteIssueCopy(issue: RouteIssue): RouteIssueCopy {
   switch (issue.bucket) {
     case 'amountTooLow':
     case 'amountTooHigh': {
-      if (suggested === undefined) {
+      if (!suggestedLabel) {
         return {
           titleKey: `${base}.title`,
           descriptionKey:
@@ -120,6 +119,7 @@ export function useRouteIssueCopy(issue: RouteIssue): RouteIssueCopy {
       const unaffordable =
         issue.bucket === 'amountTooLow' &&
         maxSendAmount > 0n &&
+        suggested !== undefined &&
         suggested > maxSendAmount
       return {
         titleKey: `${base}.title`,
@@ -147,11 +147,14 @@ export function useRouteIssueCopy(issue: RouteIssue): RouteIssueCopy {
         titleKey: `${base}.title`,
         descriptionKey: `${base}.description`,
         values,
-        remedy: {
-          labelKey: `${base}.action`,
-          values,
-          run: applySlippage,
-        },
+        remedy:
+          Number(slippageLabel) > recommendedSlippageLimit
+            ? undefined
+            : {
+                labelKey: `${base}.action`,
+                values,
+                run: applySlippage,
+              },
       }
     }
     case 'temporary': {

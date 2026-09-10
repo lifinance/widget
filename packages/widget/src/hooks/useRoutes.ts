@@ -417,6 +417,7 @@ export const useRoutes = ({
             throw error
           }
           const cause = (error as SDKError)?.cause as HTTPError | undefined
+          emitter.emit(WidgetEvent.AvailableRoutes, [])
           return {
             routes: [],
             issues: classifyRouteIssues(
@@ -634,7 +635,7 @@ export const useRoutes = ({
         setIntermediateRoutes(queryKey, initialRoutes)
         emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
         // Return early if we're only using main routes
-      } else if (shouldUseMainRoutes) {
+      } else if (shouldUseMainRoutes && !shouldUseRelayerQuote) {
         // If we don't need relayer quote, return the initial routes
         emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
         return { routes: initialRoutes, issues }

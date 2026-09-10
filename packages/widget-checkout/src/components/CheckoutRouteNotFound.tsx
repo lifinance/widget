@@ -1,3 +1,4 @@
+import type { RouteIssue } from '@lifi/widget/shared'
 import { RouteNotFoundCard } from '@lifi/widget/shared'
 import Route from '@mui/icons-material/Route'
 import { Box, Typography } from '@mui/material'
@@ -5,13 +6,15 @@ import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useCheckoutFlowStore } from '../stores/useCheckoutFlowStore.js'
 
-export const CheckoutRouteNotFound: React.FC = (): JSX.Element => {
+export const CheckoutRouteNotFound: React.FC<{
+  issues?: RouteIssue[]
+}> = ({ issues }): JSX.Element => {
   const { t } = useTranslation()
   const fundingSource = useCheckoutFlowStore((s) => s.fundingSource)
 
   // Only the intent-factory-only sources get the checkout-specific copy.
   if (!fundingSource || fundingSource === 'wallet') {
-    return <RouteNotFoundCard />
+    return <RouteNotFoundCard issues={issues} />
   }
 
   return (
