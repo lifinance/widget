@@ -13,20 +13,20 @@
     "@sveltejs/vite-plugin-svelte": "^7.3.0",
     "@tsconfig/svelte": "^5.0.8",
     "@types/events": "^3.0.3",
-    "@types/node": "^26.4.1",
-    "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.5",
+    "@types/node": "^26.5.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "svelte": "^5.57.0",
     "svelte-check": "^4.7.6",
     "svelte-preprocess": "^6.0.5",
     "tslib": "^2.8.1",
     "typescript": "^6.0.3",
-    "vite": "^8.2.2",
+    "vite": "^8.3.0",
     "vite-plugin-node-polyfills": "^0.26.0"
   },
   "dependencies": {
-    "@lifi/widget": "4.5.0",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "@lifi/widget": "4.6.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   }
 }
