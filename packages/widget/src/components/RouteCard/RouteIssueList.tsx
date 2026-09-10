@@ -2,6 +2,7 @@ import { Collapse, Stack } from '@mui/material'
 import type React from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useRouteIssueCards } from '../../hooks/useRouteIssueCards.js'
 import type { RouteIssue } from '../../utils/routeIssues/types.js'
 import { ButtonTertiary } from '../ButtonTertiary.js'
 import { RouteIssueCard } from './RouteIssueCard.js'
@@ -14,8 +15,9 @@ interface RouteIssueListProps {
 export const RouteIssueList: React.FC<RouteIssueListProps> = ({ issues }) => {
   const { t } = useTranslation()
   const [expanded, setExpanded] = useState(false)
+  const cards = useRouteIssueCards(issues)
 
-  const [primary, ...rest] = issues
+  const [primary, ...rest] = cards
 
   if (!primary) {
     return null
@@ -23,11 +25,11 @@ export const RouteIssueList: React.FC<RouteIssueListProps> = ({ issues }) => {
 
   return (
     <Stack direction="column" spacing={1} sx={{ mt: 2, width: '100%' }}>
-      <RouteIssueCard issue={primary} />
+      <RouteIssueCard content={primary} />
       <Collapse timeout={225} in={expanded} unmountOnExit mountOnEnter>
         <Stack direction="column" spacing={1}>
-          {rest.map((issue) => (
-            <RouteIssueCard key={issue.bucket} issue={issue} />
+          {rest.map((card) => (
+            <RouteIssueCard key={card.key} content={card} />
           ))}
         </Stack>
       </Collapse>

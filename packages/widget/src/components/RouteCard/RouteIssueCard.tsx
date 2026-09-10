@@ -1,15 +1,13 @@
 import { Box, Button, Typography } from '@mui/material'
 import type React from 'react'
-import { useRouteIssueCard } from '../../hooks/useRouteIssueCard.js'
-import type { RouteIssue } from '../../utils/routeIssues/types.js'
+import { memo } from 'react'
+import type { RouteIssueCardContent } from '../../hooks/useRouteIssueCards.js'
 import { Card } from '../Card/Card.js'
 
-interface RouteIssueCardProps {
-  issue: RouteIssue
-}
-
-export const RouteIssueCard: React.FC<RouteIssueCardProps> = ({ issue }) => {
-  const { title, description, note, action } = useRouteIssueCard(issue)
+export const RouteIssueCard: React.NamedExoticComponent<{
+  content: RouteIssueCardContent
+}> = memo(function RouteIssueCard({ content }) {
+  const { title, description, note, action } = content
 
   return (
     <Card>
@@ -36,4 +34,4 @@ export const RouteIssueCard: React.FC<RouteIssueCardProps> = ({ issue }) => {
       </Box>
     </Card>
   )
-}
+})

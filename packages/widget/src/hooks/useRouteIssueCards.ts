@@ -1,0 +1,272 @@
+import type { Token } from '@lifi/sdk'
+import { formatUnits, parseUnits } from '@lifi/sdk'
+import { useQueryClient } from '@tanstack/react-query'
+import type { TFunction } from 'i18next'
+import { useTranslation } from 'react-i18next'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { FormKeyHelper } from '../stores/form/types.js'
+import { useFieldActions } from '../stores/form/useFieldActions.js'
+import { useFieldValues } from '../stores/form/useFieldValues.js'
+import { useSettings } from '../stores/settings/useSettings.js'
+import { useSettingsActions } from '../stores/settings/useSettingsActions.js'
+import { getQueryKey } from '../utils/queries.js'
+import {
+  bufferedReported,
+  fallbackTargetUsd,
+  nextSlippage,
+  reportedSlippage,
+  roundSuggestion,
+} from '../utils/routeIssues/suggestions.js'
+import type { RouteIssue } from '../utils/routeIssues/types.js'
+import { useApplyAmount } from './useApplyAmount.js'
+import { useChain } from './useChain.js'
+import { useToken } from './useToken.js'
+
+export interface RouteIssueAction {
+  label: string
+  run: () => void
+}
+
+export interface RouteIssueCardContent {
+  key: string
+  title: string
+  description: string
+  note?: string
+  action?: RouteIssueAction
+}
+
+interface CardDeps {
+  t: TFunction
+  token?: Token
+  fromAmount?: string
+  slippage?: string
+  amountLocked: boolean
+  receiverHidden: boolean
+  toAddress?: string
+  sameEcosystem: boolean
+  applyAmount: (value: string) => void
+  applySlippage: (value: string) => void
+  clearReceiver: () => void
+  retry: () => void
+}
+
+const buildCard = (
+  issue: RouteIssue,
+  deps: CardDeps
+): RouteIssueCardContent => {
+  const { t, token } = deps
+  const base = `info.routeIssue.${issue.bucket}`
+
+  const currentAmount = (): bigint | undefined => {
+    if (!token || !deps.fromAmount) {
+      return undefined
+    }
+    try {
+      return parseUnits(String(deps.fromAmount), token.decimals)
+    } catch {
+      return undefined
+    }
+  }
+
+  const toRawAmount = (
+    tokens: number,
+    direction: 'raise' | 'lower'
+  ): bigint | undefined => {
+    const rounded = roundSuggestion(tokens, direction)
+    if (!token || !Number.isFinite(rounded) || rounded <= 0) {
+      return undefined
+    }
+    try {
+      const raw = parseUnits(rounded.toFixed(token.decimals), token.decimals)
+      return raw > 0n ? raw : undefined
+    } catch {
+      return undefined
+    }
+  }
+
+  /** The backend figure, rounded like every other suggestion. */
+  const roundedReported = (): bigint | undefined => {
+    const reported = bufferedReported(issue)
+    if (reported === undefined || !token) {
+      return undefined
+    }
+    return toRawAmount(
+      Number(formatUnits(reported, token.decimals)),
+      issue.evidence?.direction ?? 'raise'
+    )
+  }
+
+  /** The amount that buys `targetUsd`, when the backend named no figure. */
+  const amountForUsd = (targetUsd: number): bigint | undefined => {
+    const price = Number(token?.priceUSD)
+    if (!token || !Number.isFinite(price) || price <= 0) {
+      return undefined
+    }
+    return toRawAmount(Math.max(targetUsd, fallbackTargetUsd) / price, 'raise')
+  }
+
+  /** Halving is only a step down while what remains is still a real amount. */
+  const halvedAmount = (): bigint | undefined => {
+    const current = currentAmount()
+    const price = Number(token?.priceUSD)
+    if (!token || !current || current <= 1n) {
+      return undefined
+    }
+    const halved = Number(formatUnits(current / 2n, token.decimals))
+    if (
+      !Number.isFinite(price) ||
+      price <= 0 ||
+      halved * price < fallbackTargetUsd
+    ) {
+      return undefined
+    }
+    return toRawAmount(halved, 'lower')
+  }
+
+  const amount =
+    issue.bucket === 'amountTooLow'
+      ? (roundedReported() ??
+        amountForUsd(issue.evidence?.minUsd ?? fallbackTargetUsd))
+      : issue.bucket === 'amountTooHigh'
+        ? (roundedReported() ?? halvedAmount())
+        : undefined
+
+  const suggested =
+    amount !== undefined && token ? formatUnits(amount, token.decimals) : ''
+
+  const slippageTarget =
+    issue.bucket === 'slippageTooTight'
+      ? nextSlippage(issue, deps.slippage)
+      : ''
+
+  const values = {
+    symbol: token?.symbol ?? '',
+    suggested,
+    slippage: slippageTarget,
+    minUsd:
+      issue.evidence?.minUsd !== undefined
+        ? t('format.currency', { value: issue.evidence.minUsd })
+        : '',
+  }
+
+  const description = ((): string => {
+    if (issue.bucket === 'amountTooLow' || issue.bucket === 'amountTooHigh') {
+      if (!suggested) {
+        return t(`${base}.descriptionNoAmount` as any)
+      }
+      return issue.bucket === 'amountTooLow' && issue.evidence?.minUsd
+        ? t(`${base}.descriptionUsd` as any, values)
+        : t(`${base}.description` as any, values)
+    }
+    if (issue.bucket === 'slippageTooTight') {
+      if (!slippageTarget) {
+        return t(`${base}.descriptionNoAmount` as any)
+      }
+      return reportedSlippage(issue)
+        ? t(`${base}.description` as any, values)
+        : t(`${base}.descriptionSuggested` as any, values)
+    }
+    return t(`${base}.description` as any)
+  })()
+
+  const action = ((): RouteIssueAction | undefined => {
+    switch (issue.bucket) {
+      case 'amountTooLow':
+      case 'amountTooHigh':
+        return !suggested || deps.amountLocked || amount === currentAmount()
+          ? undefined
+          : {
+              label: t('info.routeIssue.applySuggestion'),
+              run: () => deps.applyAmount(suggested),
+            }
+
+      case 'slippageTooTight': {
+        // The widget warns about an unusual slippage rather than blocking it,
+        // so offer any value that raises the current one, never one below it.
+        const applied = Number(deps.slippage)
+        return !slippageTarget ||
+          Number(slippageTarget) <= (Number.isFinite(applied) ? applied : 0)
+          ? undefined
+          : {
+              label: t('info.routeIssue.applySuggestion'),
+              run: () => deps.applySlippage(slippageTarget),
+            }
+      }
+
+      // Clearing the receiver only leaves a valid request when both sides share
+      // an ecosystem; a cross-ecosystem transfer needs an explicit address.
+      case 'recipientNotSupported':
+        return deps.toAddress && !deps.receiverHidden && deps.sameEcosystem
+          ? {
+              label: t(`${base}.action` as any),
+              run: deps.clearReceiver,
+            }
+          : undefined
+
+      case 'temporary':
+        return { label: t(`${base}.action` as any), run: deps.retry }
+
+      default:
+        return undefined
+    }
+  })()
+
+  return {
+    key: issue.bucket,
+    title: t(`${base}.title` as any),
+    description,
+    note: issue.bucket === 'temporary' ? issue.evidence?.note : undefined,
+    action,
+  }
+}
+
+/**
+ * One hook for the whole list: every card shares the same token, chain and
+ * form state, so resolving it per card would open the same subscriptions
+ * several times over.
+ */
+export function useRouteIssueCards(
+  issues: RouteIssue[]
+): RouteIssueCardContent[] {
+  const { t } = useTranslation()
+  const { disabledUI, hiddenUI, keyPrefix } = useWidgetConfig()
+  const queryClient = useQueryClient()
+  const [fromChainId, fromTokenAddress, fromAmount, toChainId, toAddress] =
+    useFieldValues(
+      FormKeyHelper.getChainKey('from'),
+      FormKeyHelper.getTokenKey('from'),
+      FormKeyHelper.getAmountKey('from'),
+      FormKeyHelper.getChainKey('to'),
+      'toAddress'
+    )
+  const { token } = useToken(fromChainId, fromTokenAddress)
+  const { chain: fromChain } = useChain(fromChainId)
+  const { chain: toChain } = useChain(toChainId)
+  const { setFieldValue } = useFieldActions()
+  const applyAmount = useApplyAmount('from')
+  const { setValue } = useSettingsActions()
+  const { slippage } = useSettings(['slippage'])
+
+  const deps: CardDeps = {
+    t,
+    token,
+    fromAmount,
+    slippage,
+    amountLocked: Boolean(disabledUI?.fromAmount),
+    receiverHidden: Boolean(hiddenUI?.toAddress),
+    toAddress,
+    sameEcosystem: Boolean(
+      fromChain && toChain && fromChain.chainType === toChain.chainType
+    ),
+    applyAmount,
+    applySlippage: (value) => setValue('slippage', value),
+    clearReceiver: () => setFieldValue('toAddress', '', { isTouched: true }),
+    retry: () =>
+      queryClient.invalidateQueries({
+        queryKey: [getQueryKey('routes', keyPrefix)],
+        exact: false,
+      }),
+  }
+
+  return issues.map((issue) => buildCard(issue, deps))
+}
