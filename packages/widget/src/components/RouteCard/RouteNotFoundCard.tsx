@@ -42,10 +42,22 @@ export const RouteNotFoundCard: React.FC<RouteNotFoundCardProps> = ({
         {t('info.title.routeNotFound')}
       </Typography>
       {issues?.length ? (
-        <RouteIssueList
-          key={issues.map((issue) => issue.bucket).join()}
-          issues={issues}
-        />
+        <>
+          <Typography
+            sx={{
+              fontSize: 14,
+              color: 'text.secondary',
+              textAlign: 'center',
+              mt: 1,
+            }}
+          >
+            {t('info.routeIssue.lookForReasons')}
+          </Typography>
+          <RouteIssueList
+            key={issues.map((issue) => issue.bucket).join()}
+            issues={issues}
+          />
+        </>
       ) : (
         <Typography
           sx={{

@@ -451,6 +451,37 @@ describe('ranking', () => {
     ])
   })
 
+  // Nearly every tool that dislikes the receiver emits this, so it must not
+  // crowd out a reason the user can act on.
+  it('ranks recipientNotSupported below the actionable buckets', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: sameTokenPath,
+            reason:
+              'Destination address different from source address is not supported',
+          },
+          {
+            overallPath: sameTokenPath,
+            reason: 'Pod is currently overloaded.',
+          },
+          {
+            overallPath: sameTokenPath,
+            reason: 'Price impact of 12.5% is higher than the max allowed 10%',
+          },
+        ],
+        failed: [],
+      },
+      context
+    )
+    expect(issues.map((issue) => issue.bucket)).toEqual([
+      'liquidity',
+      'temporary',
+      'recipientNotSupported',
+    ])
+  })
+
   it('puts the most actionable bucket first', () => {
     const issues = classifyRouteIssues(
       {
