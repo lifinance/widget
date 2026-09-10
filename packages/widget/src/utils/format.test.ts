@@ -22,6 +22,25 @@ describe('formatInputAmount', () => {
     expect(formatInputAmount('123.45000', 6, false)).toBe('123.45')
   })
 
+  it('should expand exponential notation without flipping the exponent', () => {
+    expect(formatInputAmount('1e-1', 18)).toBe('0.1')
+    expect(formatInputAmount('9e-1', 18)).toBe('0.9')
+    expect(formatInputAmount('1e-7', 18)).toBe('0.0000001')
+    expect(formatInputAmount('2.5e-8', 18)).toBe('0.000000025')
+    expect(formatInputAmount('1E-1', 18)).toBe('0.1')
+    expect(formatInputAmount('1e2', 18)).toBe('100')
+    expect(formatInputAmount('1.5e3', 18)).toBe('1500')
+  })
+
+  it('should keep exponential notation intact while typing', () => {
+    expect(formatInputAmount('1e-1', 18, true)).toBe('1e-1')
+    expect(formatInputAmount('2.5e-8', 18, true)).toBe('2.5e-8')
+  })
+
+  it('should drop leading zeros after a minus sign', () => {
+    expect(formatInputAmount('-00.5', 18)).toBe('0.5')
+  })
+
   it('should handle invalid input', () => {
     expect(formatInputAmount('abc')).toBe('')
     expect(formatInputAmount('-')).toBe('')
