@@ -41,20 +41,13 @@ const transferRange: RouteIssueRule = {
     if (!belowMin && !aboveMax) {
       return undefined
     }
-    // The backend reports both numbers in the bridge leg's own token, which it
-    // never names. When the leg swaps first, `translateTokenAmount` converts by
-    // USD price and rounds to an integer, so the ratio no longer describes the
-    // user's input — one real payload held ratios from 1.7x to 1e13x for the
-    // same request. Only an entry whose amount is the user's own untouched
-    // fromAmount can be turned into a figure to show.
+    // The backend reports both numbers in the unnamed bridge leg's own token,
+    // so only an entry matching the user's own fromAmount yields a real figure.
     const direction = belowMin ? 'raise' : 'lower'
     if (current !== context.fromAmount) {
       return { direction }
     }
-    return {
-      direction,
-      amountBounds: { current, required: belowMin ? min! : max! },
-    }
+    return { direction, requiredFromAmount: belowMin ? min! : max! }
   },
   bucketFrom: (evidence): RouteIssueBucket | undefined =>
     evidence.direction === 'lower'
@@ -64,8 +57,7 @@ const transferRange: RouteIssueRule = {
         : undefined,
 }
 
-// A USD pair converts to a unit-free ratio the same way a raw-amount pair does.
-// Six decimals is enough precision for a USD figure and keeps the values in bigint.
+// Six decimals keeps a USD figure exact while staying in bigint.
 const usdToBigInt = (value: string): bigint | undefined => {
   const parsed = Number.parseFloat(value)
   if (!Number.isFinite(parsed) || parsed <= 0) {
@@ -134,14 +126,23 @@ export const routeIssueRules: RouteIssueRule[] = [
     'gaslessMinTradeSize',
     'amountTooLow',
     /the trade is worth ([\d.]+) USD, below the gasless minimum of ([\d.]+) USD/,
-    (match) => {
-      const current = usdToBigInt(match[1])
-      const required = usdToBigInt(match[2])
-      if (current === undefined || required === undefined) {
+    (match, context) => {
+      const currentUsd = usdToBigInt(match[1])
+      const requiredUsd = usdToBigInt(match[2])
+      // Both figures price the same request, so the USD ratio scales the
+      // request's own amount exactly.
+      if (
+        currentUsd === undefined ||
+        requiredUsd === undefined ||
+        !currentUsd
+      ) {
         return { direction: 'raise', minUsd: Number.parseFloat(match[2]) }
       }
-      // Both figures price the same request in USD, so this ratio is exact.
-      return { direction: 'raise', amountBounds: { current, required } }
+      return {
+        direction: 'raise',
+        requiredFromAmount: (context.fromAmount * requiredUsd) / currentUsd,
+        minUsd: Number.parseFloat(match[2]),
+      }
     }
   ),
   fragmentRule(

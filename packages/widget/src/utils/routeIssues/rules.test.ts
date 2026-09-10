@@ -2,11 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { classifyRouteIssues } from './classify.js'
 import type { ClassifyContext, RouteIssue } from './types.js'
 
-const context: ClassifyContext = {
-  fromAmount: 1000n,
-  fromTokenDecimals: 18,
-  fromTokenPriceUSD: '2500',
-}
+const context: ClassifyContext = { fromAmount: 1000n }
 
 const fromReason = (reason: string, fromAmount = 1000n): RouteIssue[] =>
   classifyRouteIssues(
@@ -23,10 +19,7 @@ describe('transferRange rule', () => {
     expect(issue.bucket).toBe('amountTooLow')
     expect(issue.ruleId).toBe('transferRange')
     expect(issue.evidence?.direction).toBe('raise')
-    expect(issue.evidence?.amountBounds).toEqual({
-      current: 1000000n,
-      required: 2000000n,
-    })
+    expect(issue.evidence?.requiredFromAmount).toBe(2000000n)
   })
 
   it('reports amountTooHigh when the amount is over the maximum', () => {
@@ -36,10 +29,7 @@ describe('transferRange rule', () => {
     )
     expect(issue.bucket).toBe('amountTooHigh')
     expect(issue.evidence?.direction).toBe('lower')
-    expect(issue.evidence?.amountBounds).toEqual({
-      current: 9000000n,
-      required: 5000000n,
-    })
+    expect(issue.evidence?.requiredFromAmount).toBe(5000000n)
   })
 
   it('keeps full precision on an 18-decimal amount', () => {
@@ -47,8 +37,7 @@ describe('transferRange rule', () => {
       'Transferred amount (1000000000000000001) out of acceptable range (min: 2000000000000000003, max: Infinity)',
       1000000000000000001n
     )
-    expect(issue.evidence?.amountBounds?.current).toBe(1000000000000000001n)
-    expect(issue.evidence?.amountBounds?.required).toBe(2000000000000000003n)
+    expect(issue.evidence?.requiredFromAmount).toBe(2000000000000000003n)
   })
 
   // The backend reports the pair in the bridge leg's own token. When that is
@@ -60,7 +49,7 @@ describe('transferRange rule', () => {
       1000n
     )
     expect(issue.bucket).toBe('amountTooLow')
-    expect(issue.evidence?.amountBounds).toBeUndefined()
+    expect(issue.evidence?.requiredFromAmount).toBeUndefined()
   })
 
   it('still reports amountTooHigh without a figure in a leg token', () => {
@@ -69,7 +58,7 @@ describe('transferRange rule', () => {
       1000n
     )
     expect(issue.bucket).toBe('amountTooHigh')
-    expect(issue.evidence?.amountBounds).toBeUndefined()
+    expect(issue.evidence?.requiredFromAmount).toBeUndefined()
   })
 
   it('emits nothing when the amount is inside the range', () => {
@@ -109,7 +98,7 @@ describe('transferRange rule', () => {
       { ...context, fromAmount: 100n }
     )
     expect(issue.count).toBe(2)
-    expect(issue.evidence?.amountBounds?.required).toBe(300n)
+    expect(issue.evidence?.requiredFromAmount).toBe(300n)
   })
 })
 
@@ -277,14 +266,14 @@ describe('pinned reason fragments', () => {
     expect(issue.evidence?.note).toBeUndefined()
   })
 
-  it('derives a ratio from the gasless USD minimum', () => {
+  // 2 USD buys 1000 raw units, so 5 USD needs 2500.
+  it('scales the request amount by the gasless USD ratio', () => {
     const [issue] = fromReason(
-      'Gasless: the trade is worth 2 USD, below the gasless minimum of 5 USD on chain 1'
+      'Gasless: the trade is worth 2 USD, below the gasless minimum of 5 USD on chain 1',
+      1000n
     )
-    expect(issue.evidence?.amountBounds).toEqual({
-      current: 2000000n,
-      required: 5000000n,
-    })
+    expect(issue.evidence?.requiredFromAmount).toBe(2500n)
+    expect(issue.evidence?.minUsd).toBe(5)
   })
 
   it('reports a USD floor with no current value as minUsd', () => {
@@ -292,7 +281,7 @@ describe('pinned reason fragments', () => {
       'Bridge from ETH with fromToken value less than 100 USD'
     )
     expect(issue.evidence?.minUsd).toBe(100)
-    expect(issue.evidence?.amountBounds).toBeUndefined()
+    expect(issue.evidence?.requiredFromAmount).toBeUndefined()
   })
 })
 
