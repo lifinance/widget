@@ -14,10 +14,16 @@ export const RouteIssueCard: React.FC<RouteIssueCardProps> = ({ issue }) => {
   const { titleKey, descriptionKey, values, note, remedy } =
     useRouteIssueCopy(issue)
 
-  const actionable = Boolean(remedy && !remedy.disabled)
-
   return (
-    <Card onClick={actionable ? remedy?.run : undefined}>
+    <Card
+      // Same pattern as SelectTokenCard: a real button, so the fix is
+      // reachable by keyboard, and the theme's per-variant hover applies.
+      {...(remedy && {
+        component: 'button' as const,
+        onClick: remedy.run,
+        sx: { width: '100%', textAlign: 'left', font: 'inherit' },
+      })}
+    >
       <Box sx={{ p: 2 }}>
         <Typography sx={{ fontSize: 15, fontWeight: 600 }}>
           {t(titleKey as any)}
@@ -36,7 +42,7 @@ export const RouteIssueCard: React.FC<RouteIssueCardProps> = ({ issue }) => {
               fontSize: 14,
               fontWeight: 600,
               mt: 1.5,
-              color: remedy.disabled ? 'text.secondary' : 'primary.main',
+              color: 'primary.main',
             }}
           >
             {t(remedy.labelKey as any, remedy.values)}

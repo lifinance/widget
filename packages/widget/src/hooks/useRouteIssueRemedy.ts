@@ -5,7 +5,6 @@ import { useFieldActions } from '../stores/form/useFieldActions.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
 import { useSettings } from '../stores/settings/useSettings.js'
 import { useSettingsActions } from '../stores/settings/useSettingsActions.js'
-import { formatTokenAmount } from '../utils/format.js'
 import type { RouteIssue } from '../utils/routeIssues/types.js'
 import { useMaxSendAmount } from './useMaxSendAmount.js'
 import { useToken } from './useToken.js'
@@ -13,7 +12,6 @@ import { useToken } from './useToken.js'
 export interface RouteIssueRemedy {
   labelKey: string
   values: Record<string, string>
-  disabled: boolean
   run: () => void
 }
 
@@ -73,16 +71,22 @@ export function useRouteIssueCopy(issue: RouteIssue): RouteIssueCopy {
     fromAmount,
   ])
 
+  // One value drives both the label and the write, so the card can never
+  // promise an amount different from the one it applies.
+  const suggestedLabel =
+    suggested !== undefined && token
+      ? formatUnits(suggested, token.decimals)
+      : ''
+
   const applyAmount = useCallback(() => {
-    if (suggested === undefined || !token) {
+    if (!suggestedLabel) {
       return
     }
-    setFieldValue(
-      FormKeyHelper.getAmountKey('from'),
-      formatUnits(suggested, token.decimals),
-      { isDirty: true, isTouched: true }
-    )
-  }, [suggested, token, setFieldValue])
+    setFieldValue(FormKeyHelper.getAmountKey('from'), suggestedLabel, {
+      isDirty: true,
+      isTouched: true,
+    })
+  }, [suggestedLabel, setFieldValue])
 
   const applySlippage = useCallback(() => {
     const required = issue.evidence?.requiredSlippage
@@ -103,11 +107,6 @@ export function useRouteIssueCopy(issue: RouteIssue): RouteIssueCopy {
       toggleToolKeys('Exchanges', disabledExchanges)
     }
   }, [disabledBridges, disabledExchanges, toggleToolKeys])
-
-  const suggestedLabel =
-    suggested !== undefined && token
-      ? formatTokenAmount(suggested, token.decimals)
-      : ''
 
   const values: Record<string, string> = {
     symbol: token?.symbol ?? '',
@@ -137,21 +136,25 @@ export function useRouteIssueCopy(issue: RouteIssue): RouteIssueCopy {
           values,
         }
       }
+      // A zero max means the balance is unknown (no wallet connected), not an
+      // empty wallet, so it must not withdraw the fix. When the balance is
+      // known and short, the description still states the amount to aim for,
+      // so drop the action rather than render a control that cannot work.
+      const unaffordable =
+        issue.bucket === 'amountTooLow' &&
+        maxSendAmount > 0n &&
+        suggested > maxSendAmount
       return {
         titleKey: `${base}.title`,
         descriptionKey: `${base}.description`,
         values,
-        remedy: {
-          labelKey: `${base}.action`,
-          values,
-          // A zero max means the balance is unknown (no wallet connected), not
-          // that the wallet is empty, so it must not disable the fix.
-          disabled:
-            issue.bucket === 'amountTooLow' &&
-            maxSendAmount > 0n &&
-            suggested > maxSendAmount,
-          run: applyAmount,
-        },
+        remedy: unaffordable
+          ? undefined
+          : {
+              labelKey: `${base}.action`,
+              values,
+              run: applyAmount,
+            },
       }
     }
     case 'slippageTooTight': {
@@ -169,7 +172,6 @@ export function useRouteIssueCopy(issue: RouteIssue): RouteIssueCopy {
         remedy: {
           labelKey: `${base}.action`,
           values,
-          disabled: false,
           run: applySlippage,
         },
       }
@@ -185,7 +187,6 @@ export function useRouteIssueCopy(issue: RouteIssue): RouteIssueCopy {
           ? {
               labelKey: `${base}.action`,
               values,
-              disabled: false,
               run: resetTools,
             }
           : undefined,
