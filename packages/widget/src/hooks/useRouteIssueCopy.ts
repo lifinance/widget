@@ -1,45 +1,128 @@
 import { formatUnits } from '@lifi/sdk'
-import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { FormKeyHelper } from '../stores/form/types.js'
 import { useFieldActions } from '../stores/form/useFieldActions.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
 import { useSettingsActions } from '../stores/settings/useSettingsActions.js'
 import { formatSlippage } from '../utils/format.js'
-import type { RouteIssue } from '../utils/routeIssues/types.js'
+import type {
+  RouteIssue,
+  RouteIssueBucket,
+} from '../utils/routeIssues/types.js'
 import { useLinkedLimitFields } from './useLinkedLimitFields.js'
 import { useMaxSendAmount } from './useMaxSendAmount.js'
 import { useToken } from './useToken.js'
 
 export interface RouteIssueRemedy {
-  labelKey: string
-  values: Record<string, string>
+  label: string
   run: () => void
 }
 
 export interface RouteIssueCopy {
-  titleKey: string
-  descriptionKey: string
-  values: Record<string, string>
+  title: string
+  description: string
   note?: string
-  remedy?: RouteIssueRemedy
 }
 
-// useSettingMonitor badges anything above this as not recommended, so it is
-// not something to apply in one click.
-const recommendedSlippageLimit = 1
+const amountBuckets: RouteIssueBucket[] = ['amountTooLow', 'amountTooHigh']
+
+/** Buckets whose rules can produce evidence the widget knows how to act on. */
+export const remediableBuckets: RouteIssueBucket[] = [
+  ...amountBuckets,
+  'slippageTooTight',
+]
 
 const buffer = {
   raise: { numerator: 102n, denominator: 100n },
   lower: { numerator: 98n, denominator: 100n },
 }
 
+// useSettingMonitor badges anything outside this band as not recommended.
+const minRecommendedSlippage = 0.1
+const maxRecommendedSlippage = 1
+
+const suggestedAmount = (issue: RouteIssue): bigint | undefined => {
+  const required = issue.evidence?.requiredFromAmount
+  if (required === undefined || required <= 0n) {
+    return undefined
+  }
+  const { numerator, denominator } =
+    buffer[issue.evidence?.direction ?? 'raise']
+  const raw = (required * numerator) / denominator
+  return raw > 0n ? raw : undefined
+}
+
+// Rounded up so binary error can't leave the value under the required minimum,
+// and so "2.9000000000000004" can't reach the setting.
+const slippagePercent = (issue: RouteIssue): string => {
+  const required = issue.evidence?.requiredSlippage
+  return required === undefined
+    ? ''
+    : formatSlippage((Math.ceil(required * 1e6) / 1e4).toString())
+}
+
 export function useRouteIssueCopy(issue: RouteIssue): RouteIssueCopy {
-  const { disabledUI, mode } = useWidgetConfig()
-  const [fromChainId, fromTokenAddress, fromAmount] = useFieldValues(
+  const { t } = useTranslation()
+  const [fromChainId, fromTokenAddress] = useFieldValues(
     FormKeyHelper.getChainKey('from'),
-    FormKeyHelper.getTokenKey('from'),
-    FormKeyHelper.getAmountKey('from')
+    FormKeyHelper.getTokenKey('from')
+  )
+  const { token } = useToken(fromChainId, fromTokenAddress)
+  const base = `info.routeIssue.${issue.bucket}`
+
+  const suggested = suggestedAmount(issue)
+  const values = {
+    symbol: token?.symbol ?? '',
+    suggested:
+      suggested !== undefined && token
+        ? t('format.number', {
+            value: Number(formatUnits(suggested, token.decimals)),
+          })
+        : '',
+    slippage: slippagePercent(issue),
+    minUsd:
+      issue.evidence?.minUsd !== undefined
+        ? t('format.currency', { value: issue.evidence.minUsd })
+        : '',
+  }
+
+  const description = (): string => {
+    if (amountBuckets.includes(issue.bucket)) {
+      if (values.suggested) {
+        return t(`${base}.description` as any, values)
+      }
+      return issue.bucket === 'amountTooLow' && issue.evidence?.minUsd
+        ? t(`${base}.descriptionUsd` as any, values)
+        : t(`${base}.descriptionNoAmount` as any)
+    }
+    if (issue.bucket === 'slippageTooTight') {
+      return values.slippage
+        ? t(`${base}.description` as any, values)
+        : t(`${base}.descriptionNoAmount` as any)
+    }
+    return t(`${base}.description` as any)
+  }
+
+  return {
+    title: t(`${base}.title` as any),
+    description: description(),
+    note: issue.bucket === 'temporary' ? issue.evidence?.note : undefined,
+  }
+}
+
+/**
+ * Only mounted for a remediable bucket, so the balance and gas-recommendation
+ * subscriptions below are never opened just to render static copy.
+ */
+export function useRouteIssueRemedy(
+  issue: RouteIssue
+): RouteIssueRemedy | undefined {
+  const { t } = useTranslation()
+  const { disabledUI, mode } = useWidgetConfig()
+  const [fromChainId, fromTokenAddress] = useFieldValues(
+    FormKeyHelper.getChainKey('from'),
+    FormKeyHelper.getTokenKey('from')
   )
   const { token } = useToken(fromChainId, fromTokenAddress)
   const { setFieldValue } = useFieldActions()
@@ -47,130 +130,56 @@ export function useRouteIssueCopy(issue: RouteIssue): RouteIssueCopy {
   const { setValue } = useSettingsActions()
   const maxSendAmount = useMaxSendAmount(fromChainId, fromTokenAddress)
 
-  // The classifier already resolved this against the amount the query used, so
-  // it cannot drift with the debounced form field.
-  const suggested = useMemo(() => {
-    const required = issue.evidence?.requiredFromAmount
-    if (required === undefined || required <= 0n) {
-      return undefined
-    }
-    const { numerator, denominator } =
-      buffer[issue.evidence?.direction ?? 'raise']
-    const raw = (required * numerator) / denominator
-    return raw > 0n ? raw : undefined
-  }, [issue.evidence?.requiredFromAmount, issue.evidence?.direction])
-
-  // One value drives both the label and the write, so they can never disagree.
-  const suggestedLabel =
-    suggested !== undefined && token
-      ? formatUnits(suggested, token.decimals)
-      : ''
-
-  // Matches PercentageChips: in limit mode the send amount must flow through
-  // the linked-field derivation so the receive amount recomputes.
-  const applyAmount = (): void => {
-    if (mode === 'limit') {
-      setSendAmount(suggestedLabel)
-      return
-    }
-    setFieldValue(FormKeyHelper.getAmountKey('from'), suggestedLabel, {
-      isTouched: true,
-    })
-  }
-
-  // Rounded so binary error can't leak "2.9000000000000004" into the setting.
-  const requiredSlippage = issue.evidence?.requiredSlippage
-  const slippageLabel =
-    requiredSlippage !== undefined
-      ? formatSlippage((Math.round(requiredSlippage * 1e6) / 1e4).toString())
-      : ''
-
-  const applySlippage = (): void => {
-    setValue('slippage', slippageLabel)
-  }
-
-  const values: Record<string, string> = {
-    symbol: token?.symbol ?? '',
-    current: String(fromAmount ?? ''),
-    suggested: suggestedLabel,
-    slippage: slippageLabel,
-    minUsd:
-      issue.evidence?.minUsd !== undefined
-        ? issue.evidence.minUsd.toString()
-        : '',
-  }
-
   const base = `info.routeIssue.${issue.bucket}`
 
-  switch (issue.bucket) {
-    case 'amountTooLow':
-    case 'amountTooHigh': {
-      if (!suggestedLabel) {
-        return {
-          titleKey: `${base}.title`,
-          descriptionKey:
-            issue.bucket === 'amountTooLow' && issue.evidence?.minUsd
-              ? `${base}.descriptionUsd`
-              : `${base}.descriptionNoAmount`,
-          values,
+  if (amountBuckets.includes(issue.bucket)) {
+    const suggested = suggestedAmount(issue)
+    if (suggested === undefined || !token || disabledUI?.fromAmount) {
+      return undefined
+    }
+    // A zero max means the balance is unknown, not empty, so it can't veto.
+    if (
+      issue.bucket === 'amountTooLow' &&
+      maxSendAmount > 0n &&
+      suggested > maxSendAmount
+    ) {
+      return undefined
+    }
+    const amount = formatUnits(suggested, token.decimals)
+    return {
+      label: t(`${base}.action` as any, {
+        symbol: token.symbol,
+        suggested: t('format.number', { value: Number(amount) }),
+      }),
+      run: () => {
+        // Matches PercentageChips: limit mode must go through the linked-field
+        // derivation so the receive amount recomputes.
+        if (mode === 'limit') {
+          setSendAmount(amount)
+          return
         }
-      }
-      // A zero max means the balance is unknown, not empty, so it can't veto.
-      const unaffordable =
-        issue.bucket === 'amountTooLow' &&
-        maxSendAmount > 0n &&
-        suggested !== undefined &&
-        suggested > maxSendAmount
-      return {
-        titleKey: `${base}.title`,
-        descriptionKey: `${base}.description`,
-        values,
-        remedy:
-          unaffordable || disabledUI?.fromAmount
-            ? undefined
-            : {
-                labelKey: `${base}.action`,
-                values,
-                run: applyAmount,
-              },
-      }
-    }
-    case 'slippageTooTight': {
-      if (!slippageLabel) {
-        return {
-          titleKey: `${base}.title`,
-          descriptionKey: `${base}.descriptionNoAmount`,
-          values,
-        }
-      }
-      return {
-        titleKey: `${base}.title`,
-        descriptionKey: `${base}.description`,
-        values,
-        remedy:
-          Number(slippageLabel) > recommendedSlippageLimit
-            ? undefined
-            : {
-                labelKey: `${base}.action`,
-                values,
-                run: applySlippage,
-              },
-      }
-    }
-    case 'temporary': {
-      return {
-        titleKey: `${base}.title`,
-        descriptionKey: `${base}.description`,
-        values,
-        note: issue.evidence?.note,
-      }
-    }
-    default: {
-      return {
-        titleKey: `${base}.title`,
-        descriptionKey: `${base}.description`,
-        values,
-      }
+        setFieldValue(FormKeyHelper.getAmountKey('from'), amount, {
+          isTouched: true,
+        })
+      },
     }
   }
+
+  if (issue.bucket === 'slippageTooTight') {
+    const slippage = slippagePercent(issue)
+    const value = Number(slippage)
+    if (
+      !slippage ||
+      value < minRecommendedSlippage ||
+      value > maxRecommendedSlippage
+    ) {
+      return undefined
+    }
+    return {
+      label: t(`${base}.action` as any, { slippage }),
+      run: () => setValue('slippage', slippage),
+    }
+  }
+
+  return undefined
 }

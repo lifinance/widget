@@ -77,7 +77,6 @@ const findRule = (
   return undefined
 }
 
-// The cheapest unlock: the smallest amount to raise to, the largest to drop to.
 const isGentler = (
   candidate: RouteIssueEvidence,
   incumbent: RouteIssueEvidence
@@ -140,15 +139,13 @@ const classify = (
     if (rule.extract && !evidence) {
       continue
     }
-    // One card per bucket, however many rules and entries fed it.
     const bucket = rule.bucketFrom?.(evidence ?? {}) ?? rule.bucket
     const incumbent = collected.get(bucket)
     if (incumbent) {
-      incumbent.count += 1
       incumbent.evidence = foldEvidence(incumbent.evidence, evidence)
       continue
     }
-    collected.set(bucket, { bucket, ruleId: rule.id, count: 1, evidence })
+    collected.set(bucket, { bucket, ruleId: rule.id, evidence })
   }
 
   return [...collected.values()].sort(
@@ -166,16 +163,19 @@ export function classifyRouteIssues(
   try {
     const issues = classify(unavailableRoutes, context)
     if (process.env.NODE_ENV === 'development' && !issues.length) {
-      const unmatched = (unavailableRoutes.filteredOut ?? [])
-        .slice(0, 3)
-        .map((item) => item?.reason)
+      const unmatched = collectEntries(unavailableRoutes)
+        .slice(0, 5)
+        .map((entry) => entry.code ?? entry.text)
         .filter(Boolean)
       if (unmatched.length) {
         console.warn('No route issue rule matched:', unmatched)
       }
     }
     return issues
-  } catch {
+  } catch (error) {
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('Route issue classification failed:', error)
+    }
     return []
   }
 }
