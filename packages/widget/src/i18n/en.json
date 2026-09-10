@@ -131,14 +131,14 @@
       "otherReasons_other": "{{count}} other reasons",
       "amountTooLow": {
         "title": "Amount is too low",
-        "description": "You send {{current}} {{symbol}}. Try about {{suggested}} {{symbol}}.",
+        "description": "Try about {{suggested}} {{symbol}}.",
         "descriptionUsd": "Routes for this pair need at least ${{minUsd}}.",
         "descriptionNoAmount": "The amount is below the minimum every route needs.",
         "action": "Set amount to {{suggested}} {{symbol}}"
       },
       "amountTooHigh": {
         "title": "Amount is too high",
-        "description": "You send {{current}} {{symbol}}. Try about {{suggested}} {{symbol}}.",
+        "description": "Try about {{suggested}} {{symbol}}.",
         "descriptionNoAmount": "The amount is above the maximum every route accepts.",
         "action": "Set amount to {{suggested}} {{symbol}}"
       },

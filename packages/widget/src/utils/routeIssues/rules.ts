@@ -4,8 +4,7 @@ import type {
   RouteIssueRule,
 } from './types.js'
 
-// A Record, not an array: a bucket added to the union and forgotten here is a
-// type error rather than a silent sort to the top.
+// A Record so a bucket missing from the order is a type error.
 export const bucketRank: Record<RouteIssueBucket, number> = {
   amountTooLow: 0,
   amountTooHigh: 1,
@@ -46,7 +45,7 @@ const transferRange: RouteIssueRule = {
     // The backend reports both numbers in the unnamed bridge leg's own token,
     // so only an entry matching the user's own fromAmount yields a real figure.
     const direction = belowMin ? 'raise' : 'lower'
-    if (current !== context.fromAmount) {
+    if (current <= 0n || current !== context.fromAmount) {
       return { direction }
     }
     return { direction, requiredFromAmount: belowMin ? min! : max! }
@@ -178,7 +177,8 @@ export const routeIssueRules: RouteIssueRule[] = [
     /Path requires a slippage of ([\d.]+) but ([\d.]+) is applied/,
     (match) => {
       const required = Number.parseFloat(match[1])
-      return Number.isFinite(required)
+      // The backend reports a fraction; anything at or above 1 is not one.
+      return Number.isFinite(required) && required > 0 && required < 1
         ? { requiredSlippage: required }
         : undefined
     }

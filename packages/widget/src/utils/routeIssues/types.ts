@@ -25,7 +25,6 @@ export interface RouteIssueEvidence {
 export interface RouteIssue {
   bucket: RouteIssueBucket
   ruleId: string
-  count: number
   evidence?: RouteIssueEvidence
 }
 

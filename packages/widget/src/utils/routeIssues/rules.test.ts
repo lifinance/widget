@@ -79,7 +79,7 @@ describe('transferRange rule', () => {
   })
 
   it('keeps the gentlest requirement when several minimums collapse', () => {
-    const [issue] = classifyRouteIssues(
+    const issues = classifyRouteIssues(
       {
         filteredOut: [
           {
@@ -97,8 +97,8 @@ describe('transferRange rule', () => {
       },
       { ...context, fromAmount: 100n }
     )
-    expect(issue.count).toBe(2)
-    expect(issue.evidence?.requiredFromAmount).toBe(300n)
+    expect(issues).toHaveLength(1)
+    expect(issues[0].evidence?.requiredFromAmount).toBe(300n)
   })
 })
 

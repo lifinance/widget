@@ -412,18 +412,20 @@ export const useRoutes = ({
             { signal }
           )
         } catch (error) {
-          // A 404 carries the routing diagnostics; render them instead of an error state.
-          if ((error as SDKError)?.code !== LiFiErrorCode.NotFound) {
+          const cause = (error as SDKError)?.cause as HTTPError | undefined
+          const unavailableRoutes = cause?.responseBody?.errors
+          // Without diagnostics there is nothing to explain, so the error state
+          // and its retry affordance must stand.
+          if (
+            (error as SDKError)?.code !== LiFiErrorCode.NotFound ||
+            !unavailableRoutes
+          ) {
             throw error
           }
-          const cause = (error as SDKError)?.cause as HTTPError | undefined
           emitter.emit(WidgetEvent.AvailableRoutes, [])
           return {
             routes: [],
-            issues: classifyRouteIssues(
-              cause?.responseBody?.errors,
-              classifyContext
-            ),
+            issues: classifyRouteIssues(unavailableRoutes, classifyContext),
           }
         }
 
@@ -648,9 +650,14 @@ export const useRoutes = ({
         initialRoutes.splice(1, 0, relayerRouteResult)
         // Emit the updated routes
         emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
+      } else if (!initialRoutes.length) {
+        emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
       }
 
-      return { routes: initialRoutes, issues }
+      return {
+        routes: initialRoutes,
+        issues: initialRoutes.length ? noIssues : issues,
+      }
     },
     enabled: isEnabled,
     staleTime: refetchTime,
