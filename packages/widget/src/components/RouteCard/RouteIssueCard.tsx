@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import type React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useRouteIssueCopy } from '../../hooks/useRouteIssueRemedy.js'
+import { useRouteIssueCopy } from '../../hooks/useRouteIssueCopy.js'
 import type { RouteIssue } from '../../utils/routeIssues/types.js'
 import { Card } from '../Card/Card.js'
 

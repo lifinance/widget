@@ -1,5 +1,5 @@
 import type { UnavailableRoutes } from '@lifi/sdk'
-import { bucketOrder, routeIssueRules } from './rules.js'
+import { bucketRank, routeIssueRules } from './rules.js'
 import type {
   ClassifyContext,
   RouteIssue,
@@ -54,14 +54,19 @@ const collectEntries = (unavailableRoutes: UnavailableRoutes): RawEntry[] => {
 const findRule = (
   entry: RawEntry
 ): { rule: RouteIssueRule; match?: RegExpExecArray } | undefined => {
+  if (entry.code) {
+    const byCode = routeIssueRules.find(
+      (rule) => 'code' in rule.match && rule.match.code === entry.code
+    )
+    if (byCode) {
+      return { rule: byCode }
+    }
+  }
+  if (!entry.text) {
+    return undefined
+  }
   for (const rule of routeIssueRules) {
     if ('code' in rule.match) {
-      if (entry.code === rule.match.code) {
-        return { rule }
-      }
-      continue
-    }
-    if (!entry.text) {
       continue
     }
     const match = rule.match.fragment.exec(entry.text)
@@ -79,7 +84,7 @@ const isGentler = (
 ): boolean => {
   const a = candidate.requiredFromAmount
   const b = incumbent.requiredFromAmount
-  if (a === undefined) {
+  if (a === undefined || a <= 0n) {
     return false
   }
   if (b === undefined) {
@@ -140,12 +145,6 @@ const classify = (
     const incumbent = collected.get(bucket)
     if (incumbent) {
       incumbent.count += 1
-      if (
-        evidence?.requiredFromAmount !== undefined &&
-        (!incumbent.evidence || isGentler(evidence, incumbent.evidence))
-      ) {
-        incumbent.ruleId = rule.id
-      }
       incumbent.evidence = foldEvidence(incumbent.evidence, evidence)
       continue
     }
@@ -153,7 +152,7 @@ const classify = (
   }
 
   return [...collected.values()].sort(
-    (a, b) => bucketOrder.indexOf(a.bucket) - bucketOrder.indexOf(b.bucket)
+    (a, b) => bucketRank[a.bucket] - bucketRank[b.bucket]
   )
 }
 
