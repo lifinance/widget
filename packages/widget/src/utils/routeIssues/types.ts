@@ -13,10 +13,16 @@ export type RouteIssueBucket =
 export interface RouteIssueAmountBounds {
   current: bigint
   required: bigint
-  direction: 'raise' | 'lower'
 }
 
 export interface RouteIssueEvidence {
+  /** Which way the amount has to move. Known even when no figure is. */
+  direction?: 'raise' | 'lower'
+  /**
+   * Both amounts in the user's own from-token, so a figure derived from them is
+   * safe to show. Absent when the backend reported them in a leg token it did
+   * not name.
+   */
   amountBounds?: RouteIssueAmountBounds
   requiredSlippage?: number
   minUsd?: number

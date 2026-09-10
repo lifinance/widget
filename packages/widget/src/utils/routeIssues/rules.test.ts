@@ -8,55 +8,80 @@ const context: ClassifyContext = {
   fromTokenPriceUSD: '2500',
 }
 
-const fromReason = (reason: string): RouteIssue[] =>
+const fromReason = (reason: string, fromAmount = 1000n): RouteIssue[] =>
   classifyRouteIssues(
     { filteredOut: [{ overallPath: 'p', reason }], failed: [] },
-    context
+    { ...context, fromAmount }
   )
 
 describe('transferRange rule', () => {
   it('reports amountTooLow when the amount is under the minimum', () => {
     const [issue] = fromReason(
-      'Transferred amount (1000000) out of acceptable range (min: 2000000, max: Infinity)'
+      'Transferred amount (1000000) out of acceptable range (min: 2000000, max: Infinity)',
+      1000000n
     )
     expect(issue.bucket).toBe('amountTooLow')
     expect(issue.ruleId).toBe('transferRange')
+    expect(issue.evidence?.direction).toBe('raise')
     expect(issue.evidence?.amountBounds).toEqual({
       current: 1000000n,
       required: 2000000n,
-      direction: 'raise',
     })
   })
 
   it('reports amountTooHigh when the amount is over the maximum', () => {
     const [issue] = fromReason(
-      'Transferred amount (9000000) out of acceptable range (min: 100, max: 5000000)'
+      'Transferred amount (9000000) out of acceptable range (min: 100, max: 5000000)',
+      9000000n
     )
     expect(issue.bucket).toBe('amountTooHigh')
+    expect(issue.evidence?.direction).toBe('lower')
     expect(issue.evidence?.amountBounds).toEqual({
       current: 9000000n,
       required: 5000000n,
-      direction: 'lower',
     })
   })
 
   it('keeps full precision on an 18-decimal amount', () => {
     const [issue] = fromReason(
-      'Transferred amount (1000000000000000001) out of acceptable range (min: 2000000000000000003, max: Infinity)'
+      'Transferred amount (1000000000000000001) out of acceptable range (min: 2000000000000000003, max: Infinity)',
+      1000000000000000001n
     )
     expect(issue.evidence?.amountBounds?.current).toBe(1000000000000000001n)
     expect(issue.evidence?.amountBounds?.required).toBe(2000000000000000003n)
   })
 
-  it('emits no bounds when the amount is inside the range', () => {
+  // The backend reports the pair in the bridge leg's own token. When that is
+  // not the user's token the ratio is meaningless, so the card gets the bucket
+  // and no figure.
+  it('emits no bounds when the amounts are in a converted leg token', () => {
+    const [issue] = fromReason(
+      'Transferred amount (574535571539) out of acceptable range (min: 1000000000000, max: Infinity)',
+      1000n
+    )
+    expect(issue.bucket).toBe('amountTooLow')
+    expect(issue.evidence?.amountBounds).toBeUndefined()
+  })
+
+  it('still reports amountTooHigh without a figure in a leg token', () => {
+    const [issue] = fromReason(
+      'Transferred amount (9000000) out of acceptable range (min: 100, max: 5000000)',
+      1000n
+    )
+    expect(issue.bucket).toBe('amountTooHigh')
+    expect(issue.evidence?.amountBounds).toBeUndefined()
+  })
+
+  it('emits nothing when the amount is inside the range', () => {
     expect(
       fromReason(
-        'Transferred amount (300) out of acceptable range (min: 100, max: 5000)'
+        'Transferred amount (300) out of acceptable range (min: 100, max: 5000)',
+        300n
       )
     ).toEqual([])
   })
 
-  it('emits no bounds when a captured number is not an integer', () => {
+  it('emits nothing when a captured number is not an integer', () => {
     expect(
       fromReason(
         'Transferred amount (1e21) out of acceptable range (min: 2e21, max: Infinity)'
@@ -81,7 +106,7 @@ describe('transferRange rule', () => {
         ],
         failed: [],
       },
-      context
+      { ...context, fromAmount: 100n }
     )
     expect(issue.count).toBe(2)
     expect(issue.evidence?.amountBounds?.required).toBe(300n)
@@ -259,7 +284,6 @@ describe('pinned reason fragments', () => {
     expect(issue.evidence?.amountBounds).toEqual({
       current: 2000000n,
       required: 5000000n,
-      direction: 'raise',
     })
   })
 

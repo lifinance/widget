@@ -111,10 +111,13 @@ describe('a captured widget payload', () => {
     )
   })
 
-  it('carries a usable amount ratio on the primary issue', () => {
-    const bounds = issues[0]?.evidence?.amountBounds
-    expect(bounds?.direction).toBe('raise')
-    expect(bounds?.required).toBeGreaterThan(bounds?.current ?? 0n)
+  // context.fromAmount is 1000n, the wei amount the capture was made with, so
+  // the same-token entries in the payload are the ones that yield a figure.
+  it('takes its figure from the entry in the user own token', () => {
+    const issue = issues[0]
+    expect(issue?.evidence?.direction).toBe('raise')
+    expect(issue?.evidence?.amountBounds?.current).toBe(1000n)
+    expect(issue?.evidence?.amountBounds?.required).toBe(10000000000000000n)
   })
 
   it('reports no gasless reason, because the widget never opts in', () => {
