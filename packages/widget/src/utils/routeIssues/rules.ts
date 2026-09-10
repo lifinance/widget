@@ -52,4 +52,276 @@ const transferRange: RouteIssueRule = {
         : undefined,
 }
 
-export const routeIssueRules: RouteIssueRule[] = [transferRange]
+// A USD pair converts to a unit-free ratio the same way a raw-amount pair does.
+// Six decimals is enough precision for a USD figure and keeps the values in bigint.
+const usdToBigInt = (value: string): bigint | undefined => {
+  const parsed = Number.parseFloat(value)
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    return undefined
+  }
+  return BigInt(Math.round(parsed * 1_000_000))
+}
+
+const fragmentRule = (
+  id: string,
+  bucket: RouteIssueBucket,
+  fragment: RegExp,
+  extract?: RouteIssueRule['extract']
+): RouteIssueRule => ({ id, bucket, match: { fragment }, extract })
+
+const codeRule = (code: string, bucket: RouteIssueBucket): RouteIssueRule => ({
+  id: `code:${code}`,
+  bucket,
+  match: { code },
+})
+
+const suppressedFragment = (id: string, fragment: RegExp): RouteIssueRule => ({
+  id,
+  bucket: 'pairNotSupported',
+  suppressed: true,
+  match: { fragment },
+})
+
+const suppressedCode = (code: string): RouteIssueRule => ({
+  id: `code:${code}`,
+  bucket: 'pairNotSupported',
+  suppressed: true,
+  match: { code },
+})
+
+export const routeIssueRules: RouteIssueRule[] = [
+  suppressedCode('TOOL_NOT_ALLOWED'),
+  suppressedCode('TOOL_SPECIFIC_ERROR'),
+  suppressedCode('UNKNOWN_ERROR'),
+  suppressedFragment('lowVolume', /filtered due to low historical volume/),
+  suppressedFragment(
+    'noBridgeDefinition',
+    /Could not find bridge definition for/
+  ),
+  suppressedFragment(
+    'depositAddressSingleStep',
+    /Deposit-address bridges only support single-step routes/
+  ),
+  suppressedFragment(
+    'multipleSignatures',
+    /Route requires multiple signatures/
+  ),
+  suppressedFragment(
+    'positivePriceImpact',
+    /Positive price impact too high for blue chip route/
+  ),
+  suppressedFragment('pureBtcMode', /pure BTC mode/),
+  suppressedFragment(
+    'priceImpactFilterError',
+    /Price impact filtering returned with an error/
+  ),
+
+  transferRange,
+
+  fragmentRule(
+    'gaslessMinTradeSize',
+    'amountTooLow',
+    /the trade is worth ([\d.]+) USD, below the gasless minimum of ([\d.]+) USD/,
+    (match) => {
+      const current = usdToBigInt(match[1])
+      const required = usdToBigInt(match[2])
+      if (current === undefined || required === undefined) {
+        return { minUsd: Number.parseFloat(match[2]) }
+      }
+      return { amountBounds: { current, required, direction: 'raise' } }
+    }
+  ),
+  fragmentRule(
+    'fromTokenValueFloor',
+    'amountTooLow',
+    /with fromToken value less than ([\d.]+) USD/,
+    (match) => ({ minUsd: Number.parseFloat(match[1]) })
+  ),
+  fragmentRule(
+    'integratorMinDestination',
+    'amountTooLow',
+    /Min destination amount too low for integrator \(min: ([\d.]+)\)/,
+    (match) => ({ minUsd: Number.parseFloat(match[1]) })
+  ),
+  fragmentRule(
+    'gaslessFeeExceedsInput',
+    'amountTooLow',
+    /GASLESS_FEE_EXCEEDS_INPUT/
+  ),
+
+  fragmentRule(
+    'btcCanaryCap',
+    'amountTooHigh',
+    /exceeds the per-intent canary cap of/
+  ),
+
+  fragmentRule(
+    'slippageTooTight',
+    'slippageTooTight',
+    /Path requires a slippage of ([\d.]+) but ([\d.]+) is applied/,
+    (match) => {
+      const required = Number.parseFloat(match[1])
+      return Number.isFinite(required)
+        ? { requiredSlippage: required }
+        : undefined
+    }
+  ),
+
+  fragmentRule(
+    'stellarUnfunded',
+    'destinationAccountNotReady',
+    /Stellar receiver account is not funded/
+  ),
+  fragmentRule(
+    'stellarTrustline',
+    'destinationAccountNotReady',
+    /does not have a trustline open for/
+  ),
+  fragmentRule(
+    'stellarReserve',
+    'destinationAccountNotReady',
+    /XLM as its account reserve|XLM but needs/
+  ),
+  fragmentRule(
+    'lighterAccount',
+    'destinationAccountNotReady',
+    /No Lighter account registered for receiver address/
+  ),
+  fragmentRule(
+    'seiLink',
+    'destinationAccountNotReady',
+    /not linked to the original SEI address/
+  ),
+  fragmentRule(
+    'solAccountRent',
+    'destinationAccountNotReady',
+    /SOL balance insufficient to cover temporary token account creation/
+  ),
+
+  fragmentRule(
+    'contractRecipient',
+    'recipientNotSupported',
+    /does not send ETH to contracts|does not send WETH to EOAs|EVM contract addresses not currently supported by|EVM contract destination addresses are not currently supported by|does not support contract receivers on destination chain|Contract destination addresses which cannot receive native tokens are not supported by/
+  ),
+  fragmentRule(
+    'multistepDifferentAddress',
+    'recipientNotSupported',
+    /Multistep transactions with different sending\/receiving addresses are not supported|Multistep routes from account-abstraction chains/
+  ),
+  fragmentRule(
+    'differentRecipient',
+    'recipientNotSupported',
+    /Destination address different from source address is not supported/
+  ),
+
+  fragmentRule(
+    'gaslessDeniedTool',
+    'gaslessNotAvailable',
+    /is denied for gasless requests on chain/
+  ),
+  fragmentRule(
+    'gaslessDelegation',
+    'gaslessNotAvailable',
+    /carries no fromAddress, so the account type cannot be determined|gasless execution relies on EIP-7702 delegation|so it is not known whether a relayer can execute|which is not a delegate we relay for|is an undelegated EOA and chain|is a contract account on chain/
+  ),
+  fragmentRule(
+    'gaslessNativeFee',
+    'gaslessNotAvailable',
+    /charges a native-token fee on top of the transferred amount/
+  ),
+  fragmentRule(
+    'gaslessSvmSponsor',
+    'gaslessNotAvailable',
+    /is not supported when gasless transactions \(svmSponsor\) are requested/
+  ),
+
+  fragmentRule(
+    'destinationSignature',
+    'blockedBySettings',
+    /requires? a signature on the destination chain, but the request did not allow it/
+  ),
+  fragmentRule(
+    'stablecoinPreset',
+    'blockedBySettings',
+    /is not a stablecoin but preset requires stablecoin-only paths/
+  ),
+  fragmentRule(
+    'executionType',
+    'blockedBySettings',
+    /does not match requested type/
+  ),
+
+  fragmentRule(
+    'priceImpact',
+    'liquidity',
+    /Price impact of [\d.]+% is higher than the max allowed/
+  ),
+
+  fragmentRule(
+    'toolDisabled',
+    'temporary',
+    /is currently disabled for this action\.\s*(.*)$/,
+    (match) => {
+      const note = match[1]?.trim()
+      return note ? { note } : {}
+    }
+  ),
+  fragmentRule(
+    'toolNotApplied',
+    'temporary',
+    /Tool .+ not applied\.\s*(.*)$/,
+    (match) => {
+      const note = match[1]?.trim()
+      return note ? { note } : {}
+    }
+  ),
+  fragmentRule(
+    'routeTimingTimeout',
+    'temporary',
+    /The route estimation did not complete before the route timing strategy stopped waiting for results/
+  ),
+  fragmentRule('podOverloaded', 'temporary', /Pod is currently overloaded\./),
+
+  fragmentRule(
+    'tronSameChain',
+    'pairNotSupported',
+    /Same-chain operations on Tron are not yet supported/
+  ),
+  fragmentRule(
+    'solWrap',
+    'pairNotSupported',
+    /wSOL\/SOL wrap\/unwrap operations are not supported/
+  ),
+  fragmentRule(
+    'implicitSourceSwap',
+    'pairNotSupported',
+    /Implicit source swaps are currently not supported for non-EVM chains/
+  ),
+  fragmentRule(
+    'gnosisDai',
+    'pairNotSupported',
+    /This DAI representation is denied as destination token on gnosis chain\./
+  ),
+  fragmentRule(
+    'rwaBlocked',
+    'pairNotSupported',
+    /Path contains RWA token\(s\) and integrator policy blocks RWA/
+  ),
+  fragmentRule(
+    'acrossSwapUsdcSolana',
+    'pairNotSupported',
+    /acrossSwap is limited to USDC on Solana/
+  ),
+
+  codeRule('AMOUNT_TOO_LOW', 'amountTooLow'),
+  codeRule('FEES_HIGHER_THAN_AMOUNT', 'amountTooLow'),
+  codeRule('AMOUNT_TOO_HIGH', 'amountTooHigh'),
+  codeRule('CANNOT_GUARANTEE_MIN_AMOUNT', 'slippageTooTight'),
+  codeRule('DIFFERENT_RECIPIENT_NOT_SUPPORTED', 'recipientNotSupported'),
+  codeRule('INSUFFICIENT_LIQUIDITY', 'liquidity'),
+  codeRule('PRICE_IMPACT_TOO_HIGH', 'liquidity'),
+  codeRule('RATE_LIMIT_EXCEEDED', 'temporary'),
+  codeRule('TOOL_TIMEOUT', 'temporary'),
+  codeRule('RPC_ERROR', 'temporary'),
+  codeRule('NO_POSSIBLE_ROUTE', 'pairNotSupported'),
+]
