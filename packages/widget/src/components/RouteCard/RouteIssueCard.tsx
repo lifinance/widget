@@ -16,8 +16,7 @@ export const RouteIssueCard: React.FC<RouteIssueCardProps> = ({ issue }) => {
 
   return (
     <Card
-      // Same pattern as SelectTokenCard: a real button, so the fix is
-      // reachable by keyboard, and the theme's per-variant hover applies.
+      // A real button, as SelectTokenCard does, so the fix is keyboard reachable.
       {...(remedy && {
         component: 'button' as const,
         onClick: remedy.run,

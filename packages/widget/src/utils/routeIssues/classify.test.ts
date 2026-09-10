@@ -5,11 +5,7 @@ import ethToSol from './fixtures/no-routes-eth-to-sol.json' with {
 }
 import type { ClassifyContext } from './types.js'
 
-const context: ClassifyContext = {
-  fromAmount: 1000n,
-  fromTokenDecimals: 18,
-  fromTokenPriceUSD: '2500',
-}
+const context: ClassifyContext = { fromAmount: 1000n }
 
 describe('classifyRouteIssues safety', () => {
   it('returns an empty list when the payload is undefined', () => {
@@ -116,8 +112,7 @@ describe('a captured widget payload', () => {
   it('takes its figure from the entry in the user own token', () => {
     const issue = issues[0]
     expect(issue?.evidence?.direction).toBe('raise')
-    expect(issue?.evidence?.amountBounds?.current).toBe(1000n)
-    expect(issue?.evidence?.amountBounds?.required).toBe(10000000000000000n)
+    expect(issue?.evidence?.requiredFromAmount).toBe(10000000000000000n)
   })
 
   it('reports no gasless reason, because the widget never opts in', () => {

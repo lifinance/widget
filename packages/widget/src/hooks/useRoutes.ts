@@ -51,6 +51,9 @@ import { useWidgetEvents } from './useWidgetEvents.js'
 
 const refetchTime = 60_000
 
+// Stable identity: a fresh literal here would re-render every memoized consumer.
+const noIssues: RouteIssue[] = []
+
 interface RoutesProps {
   observableRoute?: Route
   /**
@@ -339,11 +342,7 @@ export const useRoutes = ({
       signal,
     }) => {
       const fromAmount = parseUnits(fromTokenAmount, fromToken!.decimals)
-      const classifyContext: ClassifyContext = {
-        fromAmount,
-        fromTokenDecimals: fromToken!.decimals,
-        fromTokenPriceUSD: fromToken?.priceUSD,
-      }
+      const classifyContext: ClassifyContext = { fromAmount }
       const toAmount = toTokenAmount
         ? parseUnits(toTokenAmount, toToken!.decimals)
         : undefined
@@ -694,7 +693,7 @@ export const useRoutes = ({
 
   return {
     routes,
-    issues: routes?.length ? [] : (data?.issues ?? []),
+    issues: routes?.length ? noIssues : (data?.issues ?? noIssues),
     isLoading: isEnabled && isLoading,
     isFetching,
     isFetched,
