@@ -10,6 +10,11 @@ import { useFieldValues } from '../stores/form/useFieldValues.js'
 import { maxRecommendedSlippage } from '../stores/settings/createSettingsStore.js'
 import { useSettings } from '../stores/settings/useSettings.js'
 import { useSettingsActions } from '../stores/settings/useSettingsActions.js'
+import {
+  formatTokenPrice,
+  priceToTokenAmount,
+  wrapLongWords,
+} from '../utils/format.js'
 import { getQueryKey } from '../utils/queries.js'
 import {
   bufferedReported,
@@ -97,30 +102,28 @@ const buildCard = (
   }
 
   /** The amount that buys `targetUsd`, when the backend named no figure. */
-  const amountForUsd = (targetUsd: number): bigint | undefined => {
-    const price = Number(token?.priceUSD)
-    if (!token || !Number.isFinite(price) || price <= 0) {
-      return undefined
-    }
-    return toRawAmount(Math.max(targetUsd, fallbackTargetUsd) / price, 'raise')
-  }
+  const amountForUsd = (targetUsd: number): bigint | undefined =>
+    toRawAmount(
+      Number(
+        priceToTokenAmount(
+          String(Math.max(targetUsd, fallbackTargetUsd)),
+          token?.priceUSD
+        )
+      ),
+      'raise'
+    )
 
   /** Halving is only a step down while what remains is still a real amount. */
   const halvedAmount = (): bigint | undefined => {
     const current = currentAmount()
-    const price = Number(token?.priceUSD)
     if (!token || !current || current <= 1n) {
       return undefined
     }
-    const halved = Number(formatUnits(current / 2n, token.decimals))
-    if (
-      !Number.isFinite(price) ||
-      price <= 0 ||
-      halved * price < fallbackTargetUsd
-    ) {
-      return undefined
-    }
-    return toRawAmount(halved, 'lower')
+    const halved = formatUnits(current / 2n, token.decimals)
+    const worth = formatTokenPrice(halved, token.priceUSD)
+    return worth < fallbackTargetUsd
+      ? undefined
+      : toRawAmount(Number(halved), 'lower')
   }
 
   const hasSendAmount = (currentAmount() ?? 0n) > 0n
@@ -222,7 +225,10 @@ const buildCard = (
   return {
     title: t(`${base}.title` as any),
     description,
-    note: issue.bucket === 'temporary' ? issue.evidence?.note : undefined,
+    note:
+      issue.bucket === 'temporary' && issue.evidence?.note
+        ? wrapLongWords(issue.evidence.note)
+        : undefined,
     action,
   }
 }
