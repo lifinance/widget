@@ -10,20 +10,13 @@ export type RouteIssueBucket =
   | 'temporary'
   | 'pairNotSupported'
 
-export interface RouteIssueAmountBounds {
-  current: bigint
-  required: bigint
-}
-
 export interface RouteIssueEvidence {
-  /** Which way the amount has to move. Known even when no figure is. */
   direction?: 'raise' | 'lower'
   /**
-   * Both amounts in the user's own from-token, so a figure derived from them is
-   * safe to show. Absent when the backend reported them in a leg token it did
-   * not name.
+   * The amount to aim for, in the from-token's raw units. Resolved here against
+   * the amount the query used, so it never drifts with the live form field.
    */
-  amountBounds?: RouteIssueAmountBounds
+  requiredFromAmount?: bigint
   requiredSlippage?: number
   minUsd?: number
   note?: string
@@ -38,8 +31,6 @@ export interface RouteIssue {
 
 export interface ClassifyContext {
   fromAmount: bigint
-  fromTokenDecimals: number
-  fromTokenPriceUSD?: string
 }
 
 export interface RouteIssueRule {

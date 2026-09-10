@@ -59,9 +59,12 @@ export const RouteNotFoundCard: React.FC<RouteNotFoundCardProps> = ({
           {rest.length ? (
             <ButtonTertiary
               onClick={() => setExpanded((open) => !open)}
+              aria-expanded={expanded}
               fullWidth
             >
-              {t('info.routeIssue.otherReasons', { count: rest.length })}
+              {expanded
+                ? t('info.routeIssue.hideOtherReasons')
+                : t('info.routeIssue.otherReasons', { count: rest.length })}
             </ButtonTertiary>
           ) : null}
         </Stack>

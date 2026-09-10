@@ -1,11 +1,13 @@
 import { formatUnits } from '@lifi/sdk'
 import { useCallback, useMemo } from 'react'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { FormKeyHelper } from '../stores/form/types.js'
 import { useFieldActions } from '../stores/form/useFieldActions.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
-import { useSettings } from '../stores/settings/useSettings.js'
 import { useSettingsActions } from '../stores/settings/useSettingsActions.js'
+import { formatSlippage } from '../utils/format.js'
 import type { RouteIssue } from '../utils/routeIssues/types.js'
+import { useLinkedLimitFields } from './useLinkedLimitFields.js'
 import { useMaxSendAmount } from './useMaxSendAmount.js'
 import { useToken } from './useToken.js'
 
@@ -29,6 +31,7 @@ const buffer = {
 }
 
 export function useRouteIssueCopy(issue: RouteIssue): RouteIssueCopy {
+  const { disabledUI, mode } = useWidgetConfig()
   const [fromChainId, fromTokenAddress, fromAmount] = useFieldValues(
     FormKeyHelper.getChainKey('from'),
     FormKeyHelper.getTokenKey('from'),
@@ -36,43 +39,24 @@ export function useRouteIssueCopy(issue: RouteIssue): RouteIssueCopy {
   )
   const { token } = useToken(fromChainId, fromTokenAddress)
   const { setFieldValue } = useFieldActions()
-  const { setValue, toggleToolKeys } = useSettingsActions()
-  const { disabledBridges, disabledExchanges } = useSettings([
-    'disabledBridges',
-    'disabledExchanges',
-  ])
+  const { setSendAmount } = useLinkedLimitFields()
+  const { setValue } = useSettingsActions()
   const maxSendAmount = useMaxSendAmount(fromChainId, fromTokenAddress)
 
+  // The classifier already resolved this against the amount the query used, so
+  // it cannot drift with the debounced form field.
   const suggested = useMemo(() => {
-    const bounds = issue.evidence?.amountBounds
-    if (!bounds || !token || !fromAmount) {
-      return undefined
-    }
-    let current: bigint
-    try {
-      const [whole, fraction = ''] = String(fromAmount).split('.')
-      const padded = `${whole}${fraction.padEnd(token.decimals, '0').slice(0, token.decimals)}`
-      current = BigInt(padded)
-    } catch {
-      return undefined
-    }
-    if (current <= 0n || bounds.current <= 0n) {
+    const required = issue.evidence?.requiredFromAmount
+    if (required === undefined || required <= 0n) {
       return undefined
     }
     const { numerator, denominator } =
       buffer[issue.evidence?.direction ?? 'raise']
-    const raw =
-      (current * bounds.required * numerator) / (bounds.current * denominator)
+    const raw = (required * numerator) / denominator
     return raw > 0n ? raw : undefined
-  }, [
-    issue.evidence?.amountBounds,
-    issue.evidence?.direction,
-    token,
-    fromAmount,
-  ])
+  }, [issue.evidence?.requiredFromAmount, issue.evidence?.direction])
 
-  // One value drives both the label and the write, so the card can never
-  // promise an amount different from the one it applies.
+  // One value drives both the label and the write, so they can never disagree.
   const suggestedLabel =
     suggested !== undefined && token
       ? formatUnits(suggested, token.decimals)
@@ -82,40 +66,35 @@ export function useRouteIssueCopy(issue: RouteIssue): RouteIssueCopy {
     if (!suggestedLabel) {
       return
     }
+    if (mode === 'limit') {
+      setSendAmount(suggestedLabel)
+      return
+    }
     setFieldValue(FormKeyHelper.getAmountKey('from'), suggestedLabel, {
       isDirty: true,
       isTouched: true,
     })
-  }, [suggestedLabel, setFieldValue])
+  }, [suggestedLabel, setFieldValue, setSendAmount, mode])
+
+  // Rounded so binary error can't leak "2.9000000000000004" into the setting.
+  const requiredSlippage = issue.evidence?.requiredSlippage
+  const slippageLabel =
+    requiredSlippage !== undefined
+      ? formatSlippage((Math.round(requiredSlippage * 1e6) / 1e4).toString())
+      : ''
 
   const applySlippage = useCallback(() => {
-    const required = issue.evidence?.requiredSlippage
-    if (required === undefined) {
+    if (!slippageLabel) {
       return
     }
-    setValue('slippage', (required * 100).toString())
-  }, [issue.evidence?.requiredSlippage, setValue])
-
-  // `disabledBridges` is derived from `_enabledBridges`; writing it directly
-  // would be overwritten by the next toggle. `toggleToolKeys` flips a set of
-  // keys to enabled when they are not all enabled already.
-  const resetTools = useCallback(() => {
-    if (disabledBridges.length) {
-      toggleToolKeys('Bridges', disabledBridges)
-    }
-    if (disabledExchanges.length) {
-      toggleToolKeys('Exchanges', disabledExchanges)
-    }
-  }, [disabledBridges, disabledExchanges, toggleToolKeys])
+    setValue('slippage', slippageLabel)
+  }, [slippageLabel, setValue])
 
   const values: Record<string, string> = {
     symbol: token?.symbol ?? '',
     current: String(fromAmount ?? ''),
     suggested: suggestedLabel,
-    slippage:
-      issue.evidence?.requiredSlippage !== undefined
-        ? (issue.evidence.requiredSlippage * 100).toString()
-        : '',
+    slippage: slippageLabel,
     minUsd:
       issue.evidence?.minUsd !== undefined
         ? issue.evidence.minUsd.toString()
@@ -130,16 +109,14 @@ export function useRouteIssueCopy(issue: RouteIssue): RouteIssueCopy {
       if (suggested === undefined) {
         return {
           titleKey: `${base}.title`,
-          descriptionKey: issue.evidence?.minUsd
-            ? `${base}.descriptionUsd`
-            : `${base}.descriptionNoAmount`,
+          descriptionKey:
+            issue.bucket === 'amountTooLow' && issue.evidence?.minUsd
+              ? `${base}.descriptionUsd`
+              : `${base}.descriptionNoAmount`,
           values,
         }
       }
-      // A zero max means the balance is unknown (no wallet connected), not an
-      // empty wallet, so it must not withdraw the fix. When the balance is
-      // known and short, the description still states the amount to aim for,
-      // so drop the action rather than render a control that cannot work.
+      // A zero max means the balance is unknown, not empty, so it can't veto.
       const unaffordable =
         issue.bucket === 'amountTooLow' &&
         maxSendAmount > 0n &&
@@ -148,17 +125,18 @@ export function useRouteIssueCopy(issue: RouteIssue): RouteIssueCopy {
         titleKey: `${base}.title`,
         descriptionKey: `${base}.description`,
         values,
-        remedy: unaffordable
-          ? undefined
-          : {
-              labelKey: `${base}.action`,
-              values,
-              run: applyAmount,
-            },
+        remedy:
+          unaffordable || disabledUI?.fromAmount
+            ? undefined
+            : {
+                labelKey: `${base}.action`,
+                values,
+                run: applyAmount,
+              },
       }
     }
     case 'slippageTooTight': {
-      if (issue.evidence?.requiredSlippage === undefined) {
+      if (!slippageLabel) {
         return {
           titleKey: `${base}.title`,
           descriptionKey: `${base}.descriptionNoAmount`,
@@ -174,22 +152,6 @@ export function useRouteIssueCopy(issue: RouteIssue): RouteIssueCopy {
           values,
           run: applySlippage,
         },
-      }
-    }
-    case 'blockedBySettings': {
-      const hasDisabledTools =
-        disabledBridges.length > 0 || disabledExchanges.length > 0
-      return {
-        titleKey: `${base}.title`,
-        descriptionKey: `${base}.description`,
-        values,
-        remedy: hasDisabledTools
-          ? {
-              labelKey: `${base}.action`,
-              values,
-              run: resetTools,
-            }
-          : undefined,
       }
     }
     case 'temporary': {

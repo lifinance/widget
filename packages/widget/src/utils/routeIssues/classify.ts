@@ -64,7 +64,6 @@ const findRule = (
     if (!entry.text) {
       continue
     }
-    // No rule carries the global flag, so there is no lastIndex to reset.
     const match = rule.match.fragment.exec(entry.text)
     if (match) {
       return { rule, match }
@@ -73,25 +72,20 @@ const findRule = (
   return undefined
 }
 
-// Both ratios are required/current. Cross-multiply so no division is needed and
-// no precision is lost on 18-decimal integers.
+// The cheapest unlock: the smallest amount to raise to, the largest to drop to.
 const isGentler = (
   candidate: RouteIssueEvidence,
   incumbent: RouteIssueEvidence
 ): boolean => {
-  const a = candidate.amountBounds
-  const b = incumbent.amountBounds
-  if (!a) {
+  const a = candidate.requiredFromAmount
+  const b = incumbent.requiredFromAmount
+  if (a === undefined) {
     return false
   }
-  if (!b) {
+  if (b === undefined) {
     return true
   }
-  const left = a.required * b.current
-  const right = b.required * a.current
-  return (candidate.direction ?? 'raise') === 'raise'
-    ? left < right
-    : left > right
+  return (candidate.direction ?? 'raise') === 'raise' ? a < b : a > b
 }
 
 const foldEvidence = (
@@ -106,9 +100,9 @@ const foldEvidence = (
   }
   return {
     direction: incumbent.direction ?? candidate.direction,
-    amountBounds: isGentler(candidate, incumbent)
-      ? candidate.amountBounds
-      : (incumbent.amountBounds ?? candidate.amountBounds),
+    requiredFromAmount: isGentler(candidate, incumbent)
+      ? candidate.requiredFromAmount
+      : (incumbent.requiredFromAmount ?? candidate.requiredFromAmount),
     requiredSlippage:
       incumbent.requiredSlippage === undefined
         ? candidate.requiredSlippage
@@ -141,15 +135,13 @@ const classify = (
     if (rule.extract && !evidence) {
       continue
     }
-    // The bucket is the user-facing unit: one card per bucket, however many
-    // rules and however many entries fed it. `ruleId` is kept for telemetry.
+    // One card per bucket, however many rules and entries fed it.
     const bucket = rule.bucketFrom?.(evidence ?? {}) ?? rule.bucket
     const incumbent = collected.get(bucket)
     if (incumbent) {
       incumbent.count += 1
-      // Point ruleId at whichever rule supplied the bounds the card will show.
       if (
-        evidence?.amountBounds &&
+        evidence?.requiredFromAmount !== undefined &&
         (!incumbent.evidence || isGentler(evidence, incumbent.evidence))
       ) {
         incumbent.ruleId = rule.id
