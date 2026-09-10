@@ -45,21 +45,22 @@ const IssueCardBody: React.FC<IssueCardBodyProps> = ({
   </Box>
 )
 
-const StaticIssueCard: React.FC<RouteIssueCardProps> = ({ issue }) => {
-  const copy = useRouteIssueCopy(issue)
-  return (
-    <Card>
-      <IssueCardBody {...copy} />
-    </Card>
-  )
-}
+const StaticIssueCard: React.FC<RouteIssueCardProps> = ({ issue }) => (
+  <Card>
+    <IssueCardBody {...useRouteIssueCopy(issue)} />
+  </Card>
+)
 
 const ActionableIssueCard: React.FC<RouteIssueCardProps> = ({ issue }) => {
   const copy = useRouteIssueCopy(issue)
   const remedy = useRouteIssueRemedy(issue)
 
   if (!remedy) {
-    return <StaticIssueCard issue={issue} />
+    return (
+      <Card>
+        <IssueCardBody {...copy} />
+      </Card>
+    )
   }
 
   return (

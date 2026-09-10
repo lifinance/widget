@@ -342,7 +342,11 @@ export const useRoutes = ({
       signal,
     }) => {
       const fromAmount = parseUnits(fromTokenAmount, fromToken!.decimals)
-      const classifyContext: ClassifyContext = { fromAmount }
+      const classifyContext: ClassifyContext = {
+        fromAmount,
+        fromChainId,
+        fromTokenSymbol: fromToken!.symbol,
+      }
       const toAmount = toTokenAmount
         ? parseUnits(toTokenAmount, toToken!.decimals)
         : undefined

@@ -115,6 +115,7 @@ export {
   calculateValueLossPercentage,
   getTokenValueLossThreshold,
 } from './pages/TransactionPage/utils.js'
+
 // ── providers ────────────────────────────────────────────────────────────────
 export { I18nProvider } from './providers/I18nProvider/I18nProvider.js'
 export { QueryClientProvider } from './providers/QueryClientProvider.js'
@@ -127,6 +128,7 @@ export {
   useWidgetConfig,
   WidgetProvider,
 } from './providers/WidgetProvider/WidgetProvider.js'
+
 // ── stores ───────────────────────────────────────────────────────────────────
 export { BookmarkStoreProvider } from './stores/bookmarks/BookmarkStore.js'
 export { useChainOrderStore } from './stores/chains/ChainOrderStore.js'
@@ -158,8 +160,10 @@ export {
   SettingsStoreProvider,
   useSettingsStoreContext,
 } from './stores/settings/SettingsStore.js'
+
 // ── themes ───────────────────────────────────────────────────────────────────
 export { createTheme } from './themes/createTheme.js'
+
 // ── types ────────────────────────────────────────────────────────────────────
 export { WidgetEvent } from './types/events.js'
 export type {
@@ -167,6 +171,7 @@ export type {
   WidgetConfig,
   WidgetTheme,
 } from './types/widget.js'
+
 // ── utils ────────────────────────────────────────────────────────────────────
 export { buildRouteFromTxHistory } from './utils/converters.js'
 export { createElementId, ElementId } from './utils/elements.js'

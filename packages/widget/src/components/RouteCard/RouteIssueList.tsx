@@ -10,10 +10,7 @@ interface RouteIssueListProps {
   issues: RouteIssue[]
 }
 
-/**
- * Remount this on a new issue set — the caller keys it — so the expanded state
- * never carries over to a different set of reasons.
- */
+// Keyed by the caller on the issue set, so expansion never carries over.
 export const RouteIssueList: React.FC<RouteIssueListProps> = ({ issues }) => {
   const { t } = useTranslation()
   const [expanded, setExpanded] = useState(false)
