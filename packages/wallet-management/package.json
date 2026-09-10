@@ -44,21 +44,21 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^4.6.1",
+    "@lifi/sdk": "^4.7.0",
     "@lifi/widget-provider": "workspace:*",
     "@mui/icons-material": "^9.4.0",
     "@mui/material": "^9.4.0",
     "@mui/system": "^9.4.0",
     "eventemitter3": "^5.0.4",
-    "i18next": "^26.4.1",
+    "i18next": "^26.4.2",
     "react-i18next": "^17.0.13",
     "zustand": "^5.0.15"
   },
   "devDependencies": {
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
     "typescript": "^7.0.2"
   },
   "peerDependencies": {

@@ -2,16 +2,88 @@ packages:
   - "packages/*"
   - "examples/*"
   - "e2e"
+# pnpm 12 applies a supply-chain release-age gate by default. Every entry below names
+# one exact version allowed through it, so an entry dies with its version instead of
+# exempting a package forever. Keep it that way: no bare package names except the
+# first-party '@bigmi/*' and '@lifi/*' wildcards.
+#
+# pnpm rewrites this sequence on install and drops comments placed between the items,
+# so the rationale has to live here, above the key:
+#   - wagmi 3.7.7 carries @wagmi/core 3.6.5, which drops the viem tempo/zones import.
+#     Kept so a gate cannot hold the tree below that line; these have since aged out.
+#   - The 2026-09-10 dependency bump took React 19.3.0, the Vite/Biome toolchain, the
+#     wallet SDKs (Privy, Dynamic, Mysten, Solana, Mesh) and happy-dom/react-router
+#     deliberately while they were still inside the age window.
+#   - '@biomejs/cli-*' and the other platform binaries are added by pnpm itself to
+#     match the package that pulls them.
 minimumReleaseAgeExclude:
-  - "@bigmi/*"
-  - "@lifi/*"
-  - "@creit.tech/stellar-wallets-kit@2.6.0"
-  - "@dynamic-labs/legacy-client@5.4.0"
-  # wagmi 3.7.7 is the release that carries @wagmi/core 3.6.5, which drops the
-  # viem tempo/zones import. Excluded because it is younger than the age gate.
-  - "wagmi@3.7.7"
-  - "@wagmi/core@3.6.5"
-  - "@wagmi/connectors@8.2.0"
+  - '@bigmi/*'
+  - '@lifi/*'
+  - wagmi@3.7.7
+  - '@wagmi/core@3.6.5'
+  - '@wagmi/connectors@8.2.0'
+  - '@creit.tech/stellar-wallets-kit@2.6.0'
+  - react@19.3.0
+  - react-dom@19.3.0
+  - '@types/react@19.3.0'
+  - '@types/react-dom@19.3.0'
+  - vite@8.3.0
+  - '@biomejs/biome@2.5.13'
+  - '@privy-io/react-auth@3.42.0'
+  - '@dynamic-labs/bitcoin@5.8.0'
+  - '@dynamic-labs/ethereum@5.8.0'
+  - '@dynamic-labs/ethereum-aa@5.8.0'
+  - '@dynamic-labs/sdk-react-core@5.8.0'
+  - '@dynamic-labs/solana@5.8.0'
+  - '@dynamic-labs/solana-core@5.8.0'
+  - '@dynamic-labs/wagmi-connector@5.8.0'
+  - '@mysten/sui@2.30.0'
+  - '@mysten/dapp-kit-react@2.1.26'
+  - '@solana/wallet-adapter-base@0.9.28'
+  - '@solana/wallet-adapter-react@0.15.40'
+  - '@solana/wallet-standard-features@1.5.0'
+  - '@meshconnect/web-link-sdk@3.13.0'
+  - happy-dom@20.14.3
+  - '@tanstack/react-router@1.170.34'
+  - '@biomejs/cli-darwin-arm64@2.5.13'
+  - '@biomejs/cli-darwin-x64@2.5.13'
+  - '@biomejs/cli-linux-arm64-musl@2.5.13'
+  - '@biomejs/cli-linux-arm64@2.5.13'
+  - '@biomejs/cli-linux-x64-musl@2.5.13'
+  - '@biomejs/cli-linux-x64@2.5.13'
+  - '@biomejs/cli-win32-arm64@2.5.13'
+  - '@biomejs/cli-win32-x64@2.5.13'
+  - '@dynamic-labs/assert-package-version@5.8.0'
+  - '@dynamic-labs/embedded-wallet-solana@5.8.0'
+  - '@dynamic-labs/embedded-wallet@5.8.0'
+  - '@dynamic-labs/ethereum-aa-core@5.8.0'
+  - '@dynamic-labs/ethereum-core@5.8.0'
+  - '@dynamic-labs/ethereum-gasless-core@5.8.0'
+  - '@dynamic-labs/iconic@5.8.0'
+  - '@dynamic-labs/locale@5.8.0'
+  - '@dynamic-labs/logger@5.8.0'
+  - '@dynamic-labs/multi-wallet@5.8.0'
+  - '@dynamic-labs/rpc-providers@5.8.0'
+  - '@dynamic-labs/store@5.8.0'
+  - '@dynamic-labs/sui-core@5.8.0'
+  - '@dynamic-labs/types@5.8.0'
+  - '@dynamic-labs/utils@5.8.0'
+  - '@dynamic-labs/waas-evm@5.8.0'
+  - '@dynamic-labs/waas-svm@5.8.0'
+  - '@dynamic-labs/waas@5.8.0'
+  - '@dynamic-labs/wallet-book@5.8.0'
+  - '@dynamic-labs/wallet-connect@5.8.0'
+  - '@dynamic-labs/wallet-connector-core@5.8.0'
+  - '@dynamic-labs/webauthn@5.8.0'
+  - '@mysten/dapp-kit-core@1.6.24'
+  - '@mysten/slush-wallet@1.1.24'
+  - '@mysten/wallet-standard@0.21.23'
+  - '@privy-io/chains@0.6.0'
+  - '@privy-io/js-sdk-core@0.75.0'
+  - '@privy-io/routes@0.3.0'
+  - '@tanstack/history@1.162.3'
+  - '@tanstack/router-core@1.171.29'
+  - scheduler@0.28.0
 overrides:
   "@react-native-async-storage/async-storage": ">=2.2.0"
   "@reown/appkit": ">=1.8.20"
@@ -22,6 +94,9 @@ overrides:
   viem: ">=2.52.0"
   bs58: ">=4.0.1"
   preact: ">=10.29.1"
+  # Held at 0.26.0. 0.28.0 regressed for us; an override (not just the specifier)
+  # is what stops the next `pnpm update --latest` from silently taking it again.
+  vite-plugin-node-polyfills: "0.26.0"
   # GHSA-f88m-g3jw-g9cj — libvips flaws; next@15 still resolves 0.34.x.
   sharp: ">=0.35.0"
   use-sync-external-store: "1.4.0"
