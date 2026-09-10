@@ -1,6 +1,6 @@
 import { Collapse, Stack } from '@mui/material'
 import type React from 'react'
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useRouteIssueCards } from '../../hooks/useRouteIssueCards.js'
 import type { RouteIssue } from '../../utils/routeIssues/types.js'
@@ -15,6 +15,7 @@ interface RouteIssueListProps {
 export const RouteIssueList: React.FC<RouteIssueListProps> = ({ issues }) => {
   const { t } = useTranslation()
   const [expanded, setExpanded] = useState(false)
+  const restId = useId()
   const cards = useRouteIssueCards(issues)
 
   const [primary, ...rest] = cards
@@ -26,7 +27,13 @@ export const RouteIssueList: React.FC<RouteIssueListProps> = ({ issues }) => {
   return (
     <Stack direction="column" spacing={1} sx={{ mt: 2, width: '100%' }}>
       <RouteIssueCard content={primary} />
-      <Collapse timeout={225} in={expanded} unmountOnExit mountOnEnter>
+      <Collapse
+        id={restId}
+        timeout={225}
+        in={expanded}
+        unmountOnExit
+        mountOnEnter
+      >
         <Stack direction="column" spacing={1}>
           {rest.map((card) => (
             <RouteIssueCard key={card.key} content={card} />
@@ -37,6 +44,7 @@ export const RouteIssueList: React.FC<RouteIssueListProps> = ({ issues }) => {
         <ButtonTertiary
           onClick={() => setExpanded((open) => !open)}
           aria-expanded={expanded}
+          aria-controls={restId}
           fullWidth
         >
           {expanded
