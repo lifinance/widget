@@ -346,6 +346,8 @@ export const useRoutes = ({
         fromAmount,
         fromChainId,
         fromTokenSymbol: fromToken!.symbol,
+        fromAddress,
+        toAddress,
       }
       const toAmount = toTokenAmount
         ? parseUnits(toTokenAmount, toToken!.decimals)

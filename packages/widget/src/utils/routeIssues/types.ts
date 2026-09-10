@@ -34,6 +34,8 @@ export interface ClassifyContext {
   fromAmount: bigint
   fromChainId: number
   fromTokenSymbol: string
+  fromAddress?: string
+  toAddress?: string
 }
 
 export interface RouteIssueRule {
