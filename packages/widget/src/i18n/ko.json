@@ -122,9 +122,6 @@
       "missingRouteRequiredAccount": "계속하려면 {{chainName}} 지갑을 연결하세요. {{address}}"
     },
     "routeIssue": {
-      "otherReasons_one": "",
-      "otherReasons_other": "",
-      "hideOtherReasons": "",
       "lookForReasons": "",
       "applySuggestion": "",
       "amountTooLow": {

@@ -28,7 +28,6 @@ export interface RouteIssueAction {
 }
 
 export interface RouteIssueCardContent {
-  key: string
   title: string
   description: string
   note?: string
@@ -212,7 +211,6 @@ const buildCard = (
   })()
 
   return {
-    key: issue.bucket,
     title: t(`${base}.title` as any),
     description,
     note: issue.bucket === 'temporary' ? issue.evidence?.note : undefined,
@@ -220,14 +218,9 @@ const buildCard = (
   }
 }
 
-/**
- * One hook for the whole list: every card shares the same token, chain and
- * form state, so resolving it per card would open the same subscriptions
- * several times over.
- */
-export function useRouteIssueCards(
-  issues: RouteIssue[]
-): RouteIssueCardContent[] {
+export function useRouteIssueCard(
+  issue: RouteIssue | undefined
+): RouteIssueCardContent | undefined {
   const { t } = useTranslation()
   const { disabledUI, hiddenUI, keyPrefix } = useWidgetConfig()
   const queryClient = useQueryClient()
@@ -268,5 +261,5 @@ export function useRouteIssueCards(
       }),
   }
 
-  return issues.map((issue) => buildCard(issue, deps))
+  return issue ? buildCard(issue, deps) : undefined
 }

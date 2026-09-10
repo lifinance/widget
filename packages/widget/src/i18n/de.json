@@ -122,9 +122,6 @@
       "missingRouteRequiredAccount": "Verbinde deine {{chainName}}-Wallet, um fortzufahren. {{address}}"
     },
     "routeIssue": {
-      "otherReasons_one": "",
-      "otherReasons_other": "",
-      "hideOtherReasons": "",
       "lookForReasons": "",
       "applySuggestion": "",
       "amountTooLow": {

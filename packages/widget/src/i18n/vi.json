@@ -122,9 +122,6 @@
       "missingRouteRequiredAccount": "Kết nối ví {{chainName}} của bạn để tiếp tục. {{address}}"
     },
     "routeIssue": {
-      "otherReasons_one": "",
-      "otherReasons_other": "",
-      "hideOtherReasons": "",
       "lookForReasons": "",
       "applySuggestion": "",
       "amountTooLow": {

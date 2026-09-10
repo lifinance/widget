@@ -122,9 +122,6 @@
       "missingRouteRequiredAccount": "请连接您的 {{chainName}} 钱包以继续。{{address}}"
     },
     "routeIssue": {
-      "otherReasons_one": "",
-      "otherReasons_other": "",
-      "hideOtherReasons": "",
       "lookForReasons": "",
       "applySuggestion": "",
       "amountTooLow": {
