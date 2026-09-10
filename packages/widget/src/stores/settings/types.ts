@@ -41,7 +41,14 @@ export interface SettingsActions {
   ): void
   setToolValue(toolType: SettingsToolType, tool: string, value: boolean): void
   toggleToolKeys(toolType: SettingsToolType, toolKeys: string[]): void
-  reset(bridges: string[], exchanges: string[]): void
+  reset(
+    bridges: string[],
+    exchanges: string[],
+    configurableSettings?: Pick<
+      SettingsProps,
+      'routePriority' | 'slippage' | 'gasPrice'
+    >
+  ): void
 }
 
 export type SettingsState = SettingsProps & SettingsActions

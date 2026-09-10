@@ -4,7 +4,7 @@ import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { WidgetEvent } from '../../types/events.js'
 import type { WidgetConfig } from '../../types/widget.js'
 import { deepEqual } from '../../utils/deepEqual.js'
-import { defaultConfigurableSettings } from './createSettingsStore.js'
+import { getDefaultConfigurableSettings } from './createSettingsStore.js'
 import { useSettingsStore } from './SettingsStore.js'
 import type {
   SettingsActions,
@@ -46,7 +46,11 @@ export const useSettingsActions = (): {
   setValue: ValueSetter<SettingsProps>
   setValues: (values: Partial<SettingsProps>) => void
   setDefaultSettings: (config?: WidgetConfig) => void
-  resetSettings: (bridges: string[], exchanges: string[]) => void
+  resetSettings: (
+    bridges: string[],
+    exchanges: string[],
+    config?: WidgetConfig
+  ) => void
   setToolValue: (
     toolType: SettingsToolType,
     tool: string,
@@ -88,41 +92,34 @@ export const useSettingsActions = (): {
       const routePriority = actions.getValue('routePriority')
       const gasPrice = actions.getValue('gasPrice')
 
-      const defaultSlippage = (config?.slippage || 0) * 100
-      const defaultRoutePriority = config?.routePriority
-
-      defaultConfigurableSettings.slippage = (
-        defaultSlippage || defaultConfigurableSettings.slippage
-      )?.toString()
-
-      defaultConfigurableSettings.routePriority =
-        defaultRoutePriority || defaultConfigurableSettings.routePriority
+      const configurableSettings = getDefaultConfigurableSettings(config)
 
       if (!slippage) {
-        setValueWithEmittedEvent(
-          'slippage',
-          defaultConfigurableSettings.slippage
-        )
+        setValueWithEmittedEvent('slippage', configurableSettings.slippage)
       }
       if (!routePriority) {
         setValueWithEmittedEvent(
           'routePriority',
-          defaultConfigurableSettings.routePriority
+          configurableSettings.routePriority
         )
       }
       if (!gasPrice) {
-        setValueWithEmittedEvent(
-          'gasPrice',
-          defaultConfigurableSettings.gasPrice
-        )
+        setValueWithEmittedEvent('gasPrice', configurableSettings.gasPrice)
       }
     },
     [actions, setValueWithEmittedEvent]
   )
 
   const resetWithEmittedEvents = useCallback(
-    (bridges: string[], exchanges: string[]) => {
-      emitEventOnChange(emitter, actions, actions.reset, bridges, exchanges)
+    (bridges: string[], exchanges: string[], config?: WidgetConfig) => {
+      emitEventOnChange(
+        emitter,
+        actions,
+        actions.reset,
+        bridges,
+        exchanges,
+        getDefaultConfigurableSettings(config)
+      )
     },
     [emitter, actions]
   )

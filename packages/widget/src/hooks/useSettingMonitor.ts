@@ -32,7 +32,7 @@ export const useSettingMonitor = (): {
   ])
   const { tools } = useTools()
   const config = useWidgetConfig()
-  const { setDefaultSettings, resetSettings } = useSettingsActions()
+  const { resetSettings } = useSettingsActions()
 
   const isSlippageChanged = config.slippage
     ? Number(slippage) !== config.slippage * 100
@@ -70,10 +70,9 @@ export const useSettingMonitor = (): {
     if (tools) {
       resetSettings(
         tools.bridges.map((tool) => tool.key),
-        tools.exchanges.map((tool) => tool.key)
+        tools.exchanges.map((tool) => tool.key),
+        config
       )
-
-      setDefaultSettings(config)
     }
   }
 
