@@ -173,6 +173,36 @@ const collect = (
   collected.set(bucket, { bucket, ruleId: rule.id, evidence })
 }
 
+/**
+ * Different bridges have different ranges, so one can report the amount below
+ * its minimum while another reports it above its maximum. Both are true, and
+ * showing both is nonsense, so keep whichever carries a real figure.
+ */
+const resolveAmountConflict = (issues: RouteIssue[]): RouteIssue[] => {
+  const low = issues.find((issue) => issue.bucket === 'amountTooLow')
+  const high = issues.find((issue) => issue.bucket === 'amountTooHigh')
+  if (!low || !high) {
+    return issues
+  }
+  const drop =
+    low.evidence?.requiredFromAmount !== undefined
+      ? high
+      : high.evidence?.requiredFromAmount !== undefined
+        ? low
+        : high
+  return issues.filter((issue) => issue !== drop)
+}
+
+/**
+ * `NO_POSSIBLE_ROUTE` is emitted per tool, so it means "this tool found
+ * nothing", not "nothing exists". Alongside a real reason it is both noise and
+ * untrue — the pair is supported, this amount just isn't.
+ */
+const dropUnsupportedNoise = (issues: RouteIssue[]): RouteIssue[] =>
+  issues.length > 1
+    ? issues.filter((issue) => issue.bucket !== 'pairNotSupported')
+    : issues
+
 const classify = (
   unavailableRoutes: UnavailableRoutes,
   context: ClassifyContext
@@ -189,7 +219,9 @@ const classify = (
     }
   }
 
-  return [...collected.values()].sort(compareIssues)
+  return dropUnsupportedNoise(
+    resolveAmountConflict([...collected.values()])
+  ).sort(compareIssues)
 }
 
 export function classifyRouteIssues(

@@ -414,6 +414,107 @@ describe('tool error codes', () => {
   })
 })
 
+// Both were observed together in captured payloads: bridges disagree on range.
+describe('contradictions', () => {
+  const rangeReason = (amount: string, min: string, max: string) => ({
+    overallPath: sameTokenPath,
+    reason: `Transferred amount (${amount}) out of acceptable range (min: ${min}, max: ${max})`,
+  })
+
+  it('never shows too low and too high at once', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          rangeReason('1000', '5000', 'Infinity'),
+          rangeReason('9000000', '1', '500'),
+        ],
+        failed: [],
+      },
+      context
+    )
+    const buckets = issues.map((issue) => issue.bucket)
+    expect(buckets).toContain('amountTooLow')
+    expect(buckets).not.toContain('amountTooHigh')
+  })
+
+  it('keeps whichever side carries a real figure', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          // Leg token, so no figure survives the guard.
+          {
+            overallPath: '1:ETH~1:APE-1:APE-glacis-137:APE',
+            reason: rangeReason('50', '900', 'Infinity').reason,
+          },
+          rangeReason('1000', '1', '500'),
+        ],
+        failed: [],
+      },
+      context
+    )
+    expect(issues[0].bucket).toBe('amountTooHigh')
+    expect(issues[0].evidence?.requiredFromAmount).toBe(500n)
+  })
+
+  // NO_POSSIBLE_ROUTE is per tool, so beside a real reason it is untrue.
+  it('drops "pair not supported" when anything else explains it', () => {
+    const withOthers = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: sameTokenPath,
+            reason: 'Pod is currently overloaded.',
+          },
+        ],
+        failed: [
+          {
+            overallPath: sameTokenPath,
+            subpaths: {
+              s: [
+                {
+                  errorType: 'NO_QUOTE',
+                  code: 'NO_POSSIBLE_ROUTE',
+                  tool: 'someTool',
+                  message: 'No route was found for this action.',
+                  action: {} as never,
+                },
+              ],
+            },
+          },
+        ],
+      },
+      context
+    )
+    expect(withOthers.map((issue) => issue.bucket)).toEqual(['temporary'])
+  })
+
+  it('keeps "pair not supported" when it is the only thing we know', () => {
+    const alone = classifyRouteIssues(
+      {
+        filteredOut: [],
+        failed: [
+          {
+            overallPath: sameTokenPath,
+            subpaths: {
+              s: [
+                {
+                  errorType: 'NO_QUOTE',
+                  code: 'NO_POSSIBLE_ROUTE',
+                  tool: 'someTool',
+                  message: 'No route was found for this action.',
+                  action: {} as never,
+                },
+              ],
+            },
+          },
+        ],
+      },
+      context
+    )
+    expect(alone.map((issue) => issue.bucket)).toEqual(['pairNotSupported'])
+  })
+})
+
 describe('ranking', () => {
   // The changeset promises the top card carries the fix, so an issue with a
   // figure outranks a higher bucket that has none.
@@ -501,10 +602,10 @@ describe('ranking', () => {
       },
       context
     )
+    // pairNotSupported is dropped beside a real reason, see 'contradictions'.
     expect(issues.map((issue) => issue.bucket)).toEqual([
       'amountTooLow',
       'temporary',
-      'pairNotSupported',
     ])
   })
 })
