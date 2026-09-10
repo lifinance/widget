@@ -37,9 +37,10 @@ export interface RouteIssueRule {
   bucket: RouteIssueBucket
   suppressed?: boolean
   match: { code: string } | { fragment: RegExp }
+  /** `null` rejects the entry; an object keeps the bucket, with or without a figure. */
   extract?: (
     match: RegExpExecArray,
     context: ClassifyContext
-  ) => RouteIssueEvidence | undefined
+  ) => RouteIssueEvidence | null
   bucketFrom?: (evidence: RouteIssueEvidence) => RouteIssueBucket | undefined
 }

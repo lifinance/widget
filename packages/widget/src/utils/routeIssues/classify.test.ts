@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { beforeAll, describe, expect, it } from 'vitest'
 import { classifyRouteIssues } from './classify.js'
 import ethToSol from './fixtures/no-routes-eth-to-sol.json' with {
   type: 'json',
@@ -82,7 +82,11 @@ describe('classifyRouteIssues safety', () => {
 // Ethereum -> SOL on Solana. The `failed` side is capped at three errors per
 // code; `filteredOut` is verbatim.
 describe('a captured widget payload', () => {
-  const issues = classifyRouteIssues(ethToSol as never, context)
+  let issues: ReturnType<typeof classifyRouteIssues>
+
+  beforeAll(() => {
+    issues = classifyRouteIssues(ethToSol as never, context)
+  })
 
   it('resolves the dust ETH -> SOL request to amount too low', () => {
     expect(issues[0]?.bucket).toBe('amountTooLow')

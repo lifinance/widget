@@ -30,17 +30,18 @@ const transferRange: RouteIssueRule = {
     fragment:
       /Transferred amount \(([^)]+)\) out of acceptable range \(min: ([^,]+), max: ([^)]+)\)/,
   },
-  extract: (match, context): RouteIssueEvidence | undefined => {
+  extract: (match, context): RouteIssueEvidence | null => {
     const current = toBigInt(match[1])
     if (current === undefined) {
-      return undefined
+      return null
     }
     const min = toBigInt(match[2])
     const max = toBigInt(match[3])
     const belowMin = min !== undefined && current < min
     const aboveMax = max !== undefined && current > max
+    // Nothing is out of range, so this reason is not about the amount.
     if (!belowMin && !aboveMax) {
-      return undefined
+      return null
     }
     // The backend reports both numbers in the unnamed bridge leg's own token,
     // so only an entry matching the user's own fromAmount yields a real figure.
@@ -177,10 +178,10 @@ export const routeIssueRules: RouteIssueRule[] = [
     /Path requires a slippage of ([\d.]+) but ([\d.]+) is applied/,
     (match) => {
       const required = Number.parseFloat(match[1])
-      // The backend reports a fraction; anything at or above 1 is not one.
+      // The backend reports a fraction; anything else still sets the bucket.
       return Number.isFinite(required) && required > 0 && required < 1
         ? { requiredSlippage: required }
-        : undefined
+        : {}
     }
   ),
 
@@ -277,7 +278,7 @@ export const routeIssueRules: RouteIssueRule[] = [
   fragmentRule(
     'toolDisabled',
     'temporary',
-    /is currently disabled for this action\.\s*(.*)$/,
+    /is currently disabled for this action\.\s*([\s\S]*)$/,
     (match) => {
       const note = match[1]?.trim()
       return note ? { note } : {}
@@ -286,7 +287,7 @@ export const routeIssueRules: RouteIssueRule[] = [
   fragmentRule(
     'toolNotApplied',
     'temporary',
-    /Tool .+ not applied\.\s*(.*)$/,
+    /Tool .+ not applied\.\s*([\s\S]*)$/,
     (match) => {
       const note = match[1]?.trim()
       return note ? { note } : {}

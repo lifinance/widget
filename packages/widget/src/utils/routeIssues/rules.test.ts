@@ -102,6 +102,23 @@ describe('transferRange rule', () => {
   })
 })
 
+describe('a matched rule keeps its bucket without a figure', () => {
+  it('still reports slippageTooTight when the value is not a fraction', () => {
+    const [issue] = fromReason(
+      'Path requires a slippage of 1.5 but 0.005 is applied'
+    )
+    expect(issue.bucket).toBe('slippageTooTight')
+    expect(issue.evidence?.requiredSlippage).toBeUndefined()
+  })
+
+  it('still reports temporary when the note spans several lines', () => {
+    const [issue] = fromReason(
+      'Tool relay is currently disabled for this action. Under maintenance.\nBack at 14:00 UTC.'
+    )
+    expect(issue.bucket).toBe('temporary')
+  })
+})
+
 const bucketFor = (reason: string): string | undefined =>
   fromReason(reason)[0]?.bucket
 

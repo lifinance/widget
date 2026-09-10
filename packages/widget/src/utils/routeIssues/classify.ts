@@ -135,10 +135,11 @@ const classify = (
       continue
     }
     const { rule, match } = found
-    const evidence = match ? rule.extract?.(match, context) : undefined
-    if (rule.extract && !evidence) {
+    const extracted = match ? rule.extract?.(match, context) : undefined
+    if (extracted === null) {
       continue
     }
+    const evidence = extracted ?? undefined
     const bucket = rule.bucketFrom?.(evidence ?? {}) ?? rule.bucket
     const incumbent = collected.get(bucket)
     if (incumbent) {
