@@ -173,11 +173,7 @@ const collect = (
   collected.set(bucket, { bucket, ruleId: rule.id, evidence })
 }
 
-/**
- * Different bridges have different ranges, so one can report the amount below
- * its minimum while another reports it above its maximum. Both are true, and
- * showing both is nonsense, so keep whichever carries a real figure.
- */
+// Bridges disagree on range, so both can fire. Keep the one with a figure.
 const resolveAmountConflict = (issues: RouteIssue[]): RouteIssue[] => {
   const low = issues.find((issue) => issue.bucket === 'amountTooLow')
   const high = issues.find((issue) => issue.bucket === 'amountTooHigh')
@@ -193,11 +189,7 @@ const resolveAmountConflict = (issues: RouteIssue[]): RouteIssue[] => {
   return issues.filter((issue) => issue !== drop)
 }
 
-/**
- * The receiver reasons only describe a receiver the user chose. With none set,
- * or one equal to the sender, the card describes nothing and its fix — send to
- * your own address — is already the state of the form.
- */
+// Only meaningful for a receiver the user chose that differs from them.
 const dropInapplicableReceiver = (
   issues: RouteIssue[],
   context: ClassifyContext
@@ -210,11 +202,7 @@ const dropInapplicableReceiver = (
     : issues.filter((issue) => issue.bucket !== 'recipientNotSupported')
 }
 
-/**
- * `NO_POSSIBLE_ROUTE` is emitted per tool, so it means "this tool found
- * nothing", not "nothing exists". Alongside a real reason it is both noise and
- * untrue — the pair is supported, this amount just isn't.
- */
+// Emitted per tool, so beside a real reason it is both noise and untrue.
 const dropUnsupportedNoise = (issues: RouteIssue[]): RouteIssue[] =>
   issues.length > 1
     ? issues.filter((issue) => issue.bucket !== 'pairNotSupported')
