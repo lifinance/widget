@@ -64,7 +64,8 @@ const findRule = (
     if (!entry.text) {
       continue
     }
-    const match = new RegExp(rule.match.fragment).exec(entry.text)
+    // No rule carries the global flag, so there is no lastIndex to reset.
+    const match = rule.match.fragment.exec(entry.text)
     if (match) {
       return { rule, match }
     }
