@@ -2,7 +2,6 @@ import { formatUnits } from '@lifi/sdk'
 import { useTranslation } from 'react-i18next'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { FormKeyHelper } from '../stores/form/types.js'
-import { useFieldActions } from '../stores/form/useFieldActions.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
 import {
   maxRecommendedSlippage,
@@ -14,7 +13,7 @@ import type {
   RouteIssue,
   RouteIssueBucket,
 } from '../utils/routeIssues/types.js'
-import { useLinkedLimitFields } from './useLinkedLimitFields.js'
+import { useApplyAmount } from './useApplyAmount.js'
 import { useMaxSendAmount } from './useMaxSendAmount.js'
 import { useToken } from './useToken.js'
 
@@ -53,13 +52,15 @@ const suggestedAmount = (issue: RouteIssue): bigint | undefined => {
   return raw > 0n ? raw : undefined
 }
 
-// Rounded up so binary error can't leave the value under the required minimum,
-// and so "2.9000000000000004" can't reach the setting.
+// Snap the binary error away before rounding up, or 0.0079 * 1e6 lands on
+// 7900.000000000001 and ceil turns 0.79% into 0.7901%.
 const slippagePercent = (issue: RouteIssue): string => {
   const required = issue.evidence?.requiredSlippage
-  return required === undefined
-    ? ''
-    : formatSlippage((Math.ceil(required * 1e6) / 1e4).toString())
+  if (required === undefined) {
+    return ''
+  }
+  const snapped = Number((required * 1e6).toFixed(3))
+  return formatSlippage((Math.ceil(snapped) / 1e4).toString())
 }
 
 export function useRouteIssueCopy(issue: RouteIssue): RouteIssueCopy {
@@ -109,22 +110,18 @@ export function useRouteIssueCopy(issue: RouteIssue): RouteIssueCopy {
   }
 }
 
-/**
- * Only mounted for a remediable bucket, so a card that can never carry a fix
- * does not open the balance and gas-recommendation subscriptions below.
- */
+// Mounted only for a remediable bucket, so a static card opens no balance query.
 export function useRouteIssueRemedy(
   issue: RouteIssue
 ): RouteIssueRemedy | undefined {
   const { t } = useTranslation()
-  const { disabledUI, mode } = useWidgetConfig()
+  const { disabledUI } = useWidgetConfig()
   const [fromChainId, fromTokenAddress] = useFieldValues(
     FormKeyHelper.getChainKey('from'),
     FormKeyHelper.getTokenKey('from')
   )
   const { token } = useToken(fromChainId, fromTokenAddress)
-  const { setFieldValue } = useFieldActions()
-  const { setSendAmount } = useLinkedLimitFields()
+  const applyAmount = useApplyAmount('from')
   const { setValue } = useSettingsActions()
   const maxSendAmount = useMaxSendAmount(fromChainId, fromTokenAddress)
 
@@ -151,17 +148,7 @@ export function useRouteIssueRemedy(
         symbol: token.symbol,
         suggested: amount,
       }),
-      run: () => {
-        // Matches PercentageChips: limit mode must go through the linked-field
-        // derivation so the receive amount recomputes.
-        if (mode === 'limit') {
-          setSendAmount(amount)
-          return
-        }
-        setFieldValue(FormKeyHelper.getAmountKey('from'), amount, {
-          isTouched: true,
-        })
-      },
+      run: () => applyAmount(amount),
     }
   }
 

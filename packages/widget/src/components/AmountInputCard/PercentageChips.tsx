@@ -2,14 +2,13 @@ import { formatUnits } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { type JSX, memo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useApplyAmount } from '../../hooks/useApplyAmount.js'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
-import { useLinkedLimitFields } from '../../hooks/useLinkedLimitFields.js'
 import { useMaxSendAmount } from '../../hooks/useMaxSendAmount.js'
 import { useTokenAddressBalance } from '../../hooks/useTokenAddressBalance.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { FormTypeProps } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
-import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import type { DisabledUIConfig } from '../../types/widget.js'
 import { Chip, ChipContainer } from './PercentageChips.style.js'
@@ -18,9 +17,8 @@ export const PercentageChips: React.NamedExoticComponent<FormTypeProps> = memo(
   ({ formType }: FormTypeProps): JSX.Element | null => {
     const { t } = useTranslation()
     const { getChainById } = useAvailableChains()
-    const { setFieldValue } = useFieldActions()
-    const { disabledUI, mode } = useWidgetConfig()
-    const { setSendAmount } = useLinkedLimitFields()
+    const { disabledUI } = useWidgetConfig()
+    const applyAmount = useApplyAmount(formType)
 
     const amountKey = FormKeyHelper.getAmountKey(formType)
     const isDisabled = !!disabledUI?.[amountKey as keyof DisabledUIConfig]
@@ -35,17 +33,6 @@ export const PercentageChips: React.NamedExoticComponent<FormTypeProps> = memo(
 
     const { token } = useTokenAddressBalance(chainId, tokenAddress)
     const maxAmount = useMaxSendAmount(chainId, tokenAddress)
-
-    // In limit mode the send amount must flow through the linked-field
-    // derivation so the receive amount recomputes; otherwise it is a plain
-    // form-field write.
-    const applyAmount = (value: string): void => {
-      if (mode === 'limit') {
-        setSendAmount(value)
-      } else {
-        setFieldValue(amountKey, value, { isTouched: true })
-      }
-    }
 
     const handlePercentage = (percentage: number): void => {
       if (maxAmount && token?.decimals) {

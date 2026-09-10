@@ -2,11 +2,23 @@ import { describe, expect, it } from 'vitest'
 import { classifyRouteIssues } from './classify.js'
 import type { ClassifyContext, RouteIssue } from './types.js'
 
-const context: ClassifyContext = { fromAmount: 1000n }
+const context: ClassifyContext = {
+  fromAmount: 1000n,
+  fromChainId: 1,
+  fromTokenSymbol: 'ETH',
+}
 
-const fromReason = (reason: string, fromAmount = 1000n): RouteIssue[] =>
+// stringifyPath joins a swap with `~`; a leading `-` means the bridge leg is
+// still the user's own token, which is what lets a figure be trusted.
+const sameTokenPath = '1:ETH-chainflip-137:USDC'
+
+const fromReason = (
+  reason: string,
+  fromAmount = 1000n,
+  overallPath = sameTokenPath
+): RouteIssue[] =>
   classifyRouteIssues(
-    { filteredOut: [{ overallPath: 'p', reason }], failed: [] },
+    { filteredOut: [{ overallPath, reason }], failed: [] },
     { ...context, fromAmount }
   )
 
@@ -41,14 +53,33 @@ describe('transferRange rule', () => {
   })
 
   // The backend reports the pair in the bridge leg's own token. When that is
-  // not the user's token the ratio is meaningless, so the card gets the bucket
-  // and no figure.
-  it('emits no bounds when the amounts are in a converted leg token', () => {
+  // not the user's token the figure is meaningless, so the card gets the
+  // bucket and no figure.
+  it('emits no figure when the amounts are in a converted leg token', () => {
     const [issue] = fromReason(
       'Transferred amount (574535571539) out of acceptable range (min: 1000000000000, max: Infinity)',
       1000n
     )
     expect(issue.bucket).toBe('amountTooLow')
+    expect(issue.evidence?.requiredFromAmount).toBeUndefined()
+  })
+
+  it('emits no figure when the path swaps before it bridges', () => {
+    const [issue] = fromReason(
+      'Transferred amount (1000) out of acceptable range (min: 5000, max: Infinity)',
+      1000n,
+      '1:ETH~1:APE-1:APE-glacis-137:APE'
+    )
+    expect(issue.bucket).toBe('amountTooLow')
+    expect(issue.evidence?.requiredFromAmount).toBeUndefined()
+  })
+
+  it('emits no figure when a raw amount collides across tokens', () => {
+    const [issue] = fromReason(
+      'Transferred amount (1000) out of acceptable range (min: 10000000, max: Infinity)',
+      1000n,
+      '1:ETH~1:USDC-1:USDC-stargate-137:USDC'
+    )
     expect(issue.evidence?.requiredFromAmount).toBeUndefined()
   })
 
@@ -83,12 +114,12 @@ describe('transferRange rule', () => {
       {
         filteredOut: [
           {
-            overallPath: 'a',
+            overallPath: sameTokenPath,
             reason:
               'Transferred amount (100) out of acceptable range (min: 900, max: Infinity)',
           },
           {
-            overallPath: 'b',
+            overallPath: '1:ETH-across-137:USDC',
             reason:
               'Transferred amount (100) out of acceptable range (min: 300, max: Infinity)',
           },
@@ -384,6 +415,42 @@ describe('tool error codes', () => {
 })
 
 describe('ranking', () => {
+  // The changeset promises the top card carries the fix, so an issue with a
+  // figure outranks a higher bucket that has none.
+  it('promotes the issue that carries a figure', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: sameTokenPath,
+            reason: 'Path requires a slippage of 0.005 but 0.001 is applied',
+          },
+        ],
+        failed: [
+          {
+            overallPath: sameTokenPath,
+            subpaths: {
+              s: [
+                {
+                  errorType: 'NO_QUOTE',
+                  code: 'AMOUNT_TOO_LOW',
+                  tool: 'someTool',
+                  message: 'The initial amount is too low.',
+                  action: {} as never,
+                },
+              ],
+            },
+          },
+        ],
+      },
+      context
+    )
+    expect(issues.map((issue) => issue.bucket)).toEqual([
+      'slippageTooTight',
+      'amountTooLow',
+    ])
+  })
+
   it('puts the most actionable bucket first', () => {
     const issues = classifyRouteIssues(
       {
