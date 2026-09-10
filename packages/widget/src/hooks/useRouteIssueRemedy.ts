@@ -61,11 +61,17 @@ export function useRouteIssueCopy(issue: RouteIssue): RouteIssueCopy {
     if (current <= 0n || bounds.current <= 0n) {
       return undefined
     }
-    const { numerator, denominator } = buffer[bounds.direction]
+    const { numerator, denominator } =
+      buffer[issue.evidence?.direction ?? 'raise']
     const raw =
       (current * bounds.required * numerator) / (bounds.current * denominator)
     return raw > 0n ? raw : undefined
-  }, [issue.evidence?.amountBounds, token, fromAmount])
+  }, [
+    issue.evidence?.amountBounds,
+    issue.evidence?.direction,
+    token,
+    fromAmount,
+  ])
 
   const applyAmount = useCallback(() => {
     if (suggested === undefined || !token) {
@@ -138,8 +144,12 @@ export function useRouteIssueCopy(issue: RouteIssue): RouteIssueCopy {
         remedy: {
           labelKey: `${base}.action`,
           values,
+          // A zero max means the balance is unknown (no wallet connected), not
+          // that the wallet is empty, so it must not disable the fix.
           disabled:
-            issue.bucket === 'amountTooLow' && suggested > maxSendAmount,
+            issue.bucket === 'amountTooLow' &&
+            maxSendAmount > 0n &&
+            suggested > maxSendAmount,
           run: applyAmount,
         },
       }

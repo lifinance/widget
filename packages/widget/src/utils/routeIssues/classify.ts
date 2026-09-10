@@ -88,7 +88,9 @@ const isGentler = (
   }
   const left = a.required * b.current
   const right = b.required * a.current
-  return a.direction === 'raise' ? left < right : left > right
+  return (candidate.direction ?? 'raise') === 'raise'
+    ? left < right
+    : left > right
 }
 
 const foldEvidence = (
@@ -102,6 +104,7 @@ const foldEvidence = (
     return incumbent
   }
   return {
+    direction: incumbent.direction ?? candidate.direction,
     amountBounds: isGentler(candidate, incumbent)
       ? candidate.amountBounds
       : (incumbent.amountBounds ?? candidate.amountBounds),
