@@ -53,10 +53,7 @@ export const RouteNotFoundCard: React.FC<RouteNotFoundCardProps> = ({
           >
             {t('info.routeIssue.lookForReasons')}
           </Typography>
-          <RouteIssueList
-            key={issues.map((issue) => issue.bucket).join()}
-            issues={issues}
-          />
+          <RouteIssueList issues={issues} />
         </>
       ) : (
         <Typography
