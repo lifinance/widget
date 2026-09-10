@@ -34,11 +34,11 @@ const buffer = {
 /** Aimed for when the backend named no figure of its own. */
 const fallbackTargetUsd = 1
 const fallbackSlippage = 0.5
-const suggestionDigits = 4
+const suggestionDigits = 2
 
 /**
- * A derived amount is a suggestion, not a bound, so trim it to a few
- * significant digits — away from the limit it has to clear.
+ * A suggestion should read as a round number, so trim it to two significant
+ * digits — away from the limit it has to clear, which also clears it.
  */
 const roundSuggestion = (
   value: number,
@@ -134,7 +134,7 @@ export function useRouteIssueCard(issue: RouteIssue): RouteIssueCardContent {
     if (!token || !Number.isFinite(price) || price <= 0) {
       return undefined
     }
-    return toRawAmount(targetUsd / price, 'raise')
+    return toRawAmount(Math.max(targetUsd, fallbackTargetUsd) / price, 'raise')
   }
 
   /** Halving is only a step down while what remains is still a real amount. */
@@ -155,15 +155,27 @@ export function useRouteIssueCard(issue: RouteIssue): RouteIssueCardContent {
     return toRawAmount(halved, 'lower')
   }
 
+  /** The backend figure, rounded like every other suggestion. */
+  const roundedReported = (): bigint | undefined => {
+    const reported = reportedAmount(issue)
+    if (reported === undefined || !token) {
+      return undefined
+    }
+    return toRawAmount(
+      Number(formatUnits(reported, token.decimals)),
+      issue.evidence?.direction ?? 'raise'
+    )
+  }
+
   const targetAmount = (): bigint | undefined => {
     if (issue.bucket === 'amountTooLow') {
       return (
-        reportedAmount(issue) ??
+        roundedReported() ??
         amountForUsd(issue.evidence?.minUsd ?? fallbackTargetUsd)
       )
     }
     if (issue.bucket === 'amountTooHigh') {
-      return reportedAmount(issue) ?? halvedAmount()
+      return roundedReported() ?? halvedAmount()
     }
     return undefined
   }

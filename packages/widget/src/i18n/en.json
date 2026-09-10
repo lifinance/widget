@@ -130,7 +130,7 @@
       "otherReasons_one": "{{count}} other reason",
       "otherReasons_other": "{{count}} other reasons",
       "hideOtherReasons": "Hide other reasons",
-      "lookForReasons": "Here's what got in the way.",
+      "lookForReasons": "Here's what got in the way, and what might help.",
       "applySuggestion": "Apply suggestion",
       "amountTooLow": {
         "title": "Amount is too low",
