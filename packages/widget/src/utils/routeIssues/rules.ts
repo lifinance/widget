@@ -29,25 +29,37 @@ const transferRange: RouteIssueRule = {
     fragment:
       /Transferred amount \(([^)]+)\) out of acceptable range \(min: ([^,]+), max: ([^)]+)\)/,
   },
-  extract: (match): RouteIssueEvidence | undefined => {
+  extract: (match, context): RouteIssueEvidence | undefined => {
     const current = toBigInt(match[1])
     if (current === undefined) {
       return undefined
     }
     const min = toBigInt(match[2])
-    if (min !== undefined && current < min) {
-      return { amountBounds: { current, required: min, direction: 'raise' } }
-    }
     const max = toBigInt(match[3])
-    if (max !== undefined && current > max) {
-      return { amountBounds: { current, required: max, direction: 'lower' } }
+    const belowMin = min !== undefined && current < min
+    const aboveMax = max !== undefined && current > max
+    if (!belowMin && !aboveMax) {
+      return undefined
     }
-    return undefined
+    // The backend reports both numbers in the bridge leg's own token, which it
+    // never names. When the leg swaps first, `translateTokenAmount` converts by
+    // USD price and rounds to an integer, so the ratio no longer describes the
+    // user's input — one real payload held ratios from 1.7x to 1e13x for the
+    // same request. Only an entry whose amount is the user's own untouched
+    // fromAmount can be turned into a figure to show.
+    const direction = belowMin ? 'raise' : 'lower'
+    if (current !== context.fromAmount) {
+      return { direction }
+    }
+    return {
+      direction,
+      amountBounds: { current, required: belowMin ? min! : max! },
+    }
   },
   bucketFrom: (evidence): RouteIssueBucket | undefined =>
-    evidence.amountBounds?.direction === 'lower'
+    evidence.direction === 'lower'
       ? 'amountTooHigh'
-      : evidence.amountBounds?.direction === 'raise'
+      : evidence.direction === 'raise'
         ? 'amountTooLow'
         : undefined,
 }
@@ -126,9 +138,10 @@ export const routeIssueRules: RouteIssueRule[] = [
       const current = usdToBigInt(match[1])
       const required = usdToBigInt(match[2])
       if (current === undefined || required === undefined) {
-        return { minUsd: Number.parseFloat(match[2]) }
+        return { direction: 'raise', minUsd: Number.parseFloat(match[2]) }
       }
-      return { amountBounds: { current, required, direction: 'raise' } }
+      // Both figures price the same request in USD, so this ratio is exact.
+      return { direction: 'raise', amountBounds: { current, required } }
     }
   ),
   fragmentRule(
