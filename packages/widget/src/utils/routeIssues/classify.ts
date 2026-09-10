@@ -137,15 +137,23 @@ const classify = (
     if (rule.extract && !evidence) {
       continue
     }
+    // The bucket is the user-facing unit: one card per bucket, however many
+    // rules and however many entries fed it. `ruleId` is kept for telemetry.
     const bucket = rule.bucketFrom?.(evidence ?? {}) ?? rule.bucket
-    const key = `${bucket}:${rule.id}`
-    const incumbent = collected.get(key)
+    const incumbent = collected.get(bucket)
     if (incumbent) {
       incumbent.count += 1
+      // Point ruleId at whichever rule supplied the bounds the card will show.
+      if (
+        evidence?.amountBounds &&
+        (!incumbent.evidence || isGentler(evidence, incumbent.evidence))
+      ) {
+        incumbent.ruleId = rule.id
+      }
       incumbent.evidence = foldEvidence(incumbent.evidence, evidence)
       continue
     }
-    collected.set(key, { bucket, ruleId: rule.id, count: 1, evidence })
+    collected.set(bucket, { bucket, ruleId: rule.id, count: 1, evidence })
   }
 
   return [...collected.values()].sort(
