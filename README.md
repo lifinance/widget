@@ -16,12 +16,12 @@
 
 [**LI.FI Widget**](https://docs.li.fi/widget/overview) features include:
 
-- **Provider-based architecture** - Modular blockchain support with separate packages for Ethereum, Bitcoin, Solana, Sui, and Tron
+- **Provider-based architecture** - Modular blockchain support with separate packages for Ethereum, Bitcoin, Solana, Sui, Tron, and Stellar
 - All ecosystems, chains, bridges, exchanges, and solvers that [LI.FI](https://docs.li.fi/introduction/chains) supports
 - Embeddable variants - compact, wide, and drawer
 - Options to allow or deny certain chains, tokens, bridges, and exchanges
 - Pre-configured themes and lots of customization options with dark mode support so you can match the look and feel of your web app
-- Built-in wallet management UI with support for external wallet providers ([Wagmi](https://wagmi.sh/), [Bigmi](https://github.com/lifinance/bigmi), [Wallet Standard](https://github.com/wallet-standard/wallet-standard), [@mysten/dapp-kit-react](https://sdk.mystenlabs.com/dapp-kit), and [TronWallet Adapters](https://github.com/tronweb3/tronwallet-adapter))
+- Built-in wallet management UI with support for external wallet providers ([Wagmi](https://wagmi.sh/), [Bigmi](https://github.com/lifinance/bigmi), [Wallet Standard](https://github.com/wallet-standard/wallet-standard), [@mysten/dapp-kit-react](https://sdk.mystenlabs.com/dapp-kit), [TronWallet Adapters](https://github.com/tronweb3/tronwallet-adapter), and [Stellar Wallets Kit](https://github.com/Creit-Tech/Stellar-Wallets-Kit))
 - Supports widely adopted industry standards, including [EIP-5792](https://eips.ethereum.org/EIPS/eip-5792), [ERC-2612](https://eips.ethereum.org/EIPS/eip-2612), [EIP-712](https://eips.ethereum.org/EIPS/eip-712), [EIP-6963](https://eips.ethereum.org/EIPS/eip-6963), and [Permit2](https://github.com/Uniswap/permit2)
 - View of transactions in progress and transaction history
 - Curated wallet lists and wallet bookmarks
@@ -159,6 +159,26 @@ npm install @lifi/widget-provider-tron @tronweb3/tronwallet-adapter-react-hooks
 yarn add @lifi/widget-provider-tron @tronweb3/tronwallet-adapter-react-hooks
 ```
 
+**Stellar:**
+
+**pnpm:**
+
+```sh
+pnpm add @lifi/widget-provider-stellar
+```
+
+**npm:**
+
+```sh
+npm install @lifi/widget-provider-stellar
+```
+
+**yarn:**
+
+```sh
+yarn add @lifi/widget-provider-stellar
+```
+
 **Note:** You only need to install the provider packages for the blockchains you want to support. Each provider package includes its required peer dependencies.
 
 ### LI.FI Wallet Management
@@ -218,6 +238,7 @@ The LI.FI Widget uses a **provider-based architecture** that allows you to selec
 - **`@lifi/widget-provider-solana`** - Solana support (requires [bs58](https://www.npmjs.com/package/bs58))
 - **`@lifi/widget-provider-sui`** - Sui support (requires [@mysten/dapp-kit-react](https://sdk.mystenlabs.com/dapp-kit))
 - **`@lifi/widget-provider-tron`** - Tron support (requires [@tronweb3/tronwallet-adapter-react-hooks](https://github.com/tronweb3/tronwallet-adapter))
+- **`@lifi/widget-provider-stellar`** - Stellar support (bundles [Stellar Wallets Kit](https://github.com/Creit-Tech/Stellar-Wallets-Kit); no extra install)
 - **`@lifi/wallet-management`** - Wallet management UI components
 - **`@lifi/widget-light`** - Lightweight iframe-based integration ([docs](https://docs.li.fi/widget/widget-light-overview))
 
@@ -254,13 +275,14 @@ export const WidgetPage = () => {
 };
 ```
 
-**Multi-chain example** (Ethereum, Solana, Bitcoin, Sui, and Tron):
+**Multi-chain example** (Ethereum, Solana, Bitcoin, Sui, Tron, and Stellar):
 
 ```tsx
 import { LiFiWidget, WidgetConfig } from '@lifi/widget';
 import { BitcoinProvider } from '@lifi/widget-provider-bitcoin';
 import { EthereumProvider } from '@lifi/widget-provider-ethereum';
 import { SolanaProvider } from '@lifi/widget-provider-solana';
+import { StellarProvider } from '@lifi/widget-provider-stellar';
 import { SuiProvider } from '@lifi/widget-provider-sui';
 import { TronProvider } from '@lifi/widget-provider-tron';
 
@@ -271,6 +293,7 @@ const widgetConfig: WidgetConfig = {
     BitcoinProvider(),
     SuiProvider(),
     TronProvider(),
+    StellarProvider(),
   ],
   theme: {
     container: {
