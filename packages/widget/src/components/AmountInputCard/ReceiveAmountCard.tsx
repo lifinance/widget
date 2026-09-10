@@ -6,12 +6,14 @@ import { Box, Skeleton, Tooltip } from '@mui/material'
 import { type JSX, type ReactNode, useLayoutEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useRoutes } from '../../hooks/useRoutes.js'
+import { useToken } from '../../hooks/useToken.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { useInputModeStore } from '../../stores/inputMode/useInputModeStore.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
 import { getPriceImpact } from '../../utils/getPriceImpact.js'
 import { fitInputText } from '../../utils/input.js'
+import { mergeFallbackToken } from '../../utils/token.js'
 import { CardTitle } from '../Card/CardTitle.js'
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js'
 import { TokenPillButton } from '../TokenPillButton/TokenPillButton.js'
@@ -128,6 +130,17 @@ export const ReceiveAmountCard: React.FC<ReceiveCardProps> = (
   const priceImpact = useReceivePriceImpact(route)
   const showPriceImpact = !hiddenUI?.routeCardPriceImpact
 
+  // Value the amount the way a quote card does, so the two sides of the screen
+  // cannot disagree: the route's own price wins, and the cache fills only a gap
+  // the route leaves — a token it could not price arrives as '0' or ''.
+  const { token: cachedToken } = useToken(
+    route?.toToken.chainId,
+    route?.toToken.address
+  )
+  const pricedToken = route
+    ? mergeFallbackToken(route.toToken, cachedToken)
+    : undefined
+
   const receiveAmount = route?.toAmount
     ? formatTokenAmount(BigInt(route.toAmount), route.toToken.decimals)
     : undefined
@@ -135,10 +148,10 @@ export const ReceiveAmountCard: React.FC<ReceiveCardProps> = (
   const showSkeleton = isFetching && !receiveAmount
 
   const fiatValue =
-    receiveAmount && route?.toToken.priceUSD
-      ? formatTokenPrice(receiveAmount, route.toToken.priceUSD)
+    receiveAmount && pricedToken?.priceUSD
+      ? formatTokenPrice(receiveAmount, pricedToken.priceUSD)
       : 0
-  const canToggle = !!receiveAmount && !!route?.toToken.priceUSD
+  const canToggle = !!receiveAmount && !!pricedToken?.priceUSD
 
   const mainDisplay = showFiat
     ? t('format.currency', { value: fiatValue })
