@@ -116,9 +116,10 @@ const foldEvidence = (
       : {
           requiredFromAmount:
             incumbent.requiredFromAmount ?? candidate.requiredFromAmount,
-          estimated: incumbent.requiredFromAmount
-            ? incumbent.estimated
-            : candidate.estimated,
+          estimated:
+            incumbent.requiredFromAmount !== undefined
+              ? incumbent.estimated
+              : candidate.estimated,
         }),
     requiredSlippage:
       incumbent.requiredSlippage === undefined
@@ -146,25 +147,6 @@ const compareIssues = (a: RouteIssue, b: RouteIssue): number =>
   Number(hasFigure(b)) - Number(hasFigure(a)) ||
   bucketRank[a.bucket] - bucketRank[b.bucket]
 
-const classify = (
-  unavailableRoutes: UnavailableRoutes,
-  context: ClassifyContext
-): RouteIssue[] => {
-  const collected = new Map<string, RouteIssue>()
-
-  for (const entry of collectEntries(unavailableRoutes)) {
-    try {
-      collect(collected, entry, context)
-    } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.warn('Route issue rule failed:', error)
-      }
-    }
-  }
-
-  return [...collected.values()].sort(compareIssues)
-}
-
 const collect = (
   collected: Map<string, RouteIssue>,
   entry: RawEntry,
@@ -189,6 +171,25 @@ const collect = (
     return
   }
   collected.set(bucket, { bucket, ruleId: rule.id, evidence })
+}
+
+const classify = (
+  unavailableRoutes: UnavailableRoutes,
+  context: ClassifyContext
+): RouteIssue[] => {
+  const collected = new Map<string, RouteIssue>()
+
+  for (const entry of collectEntries(unavailableRoutes)) {
+    try {
+      collect(collected, entry, context)
+    } catch (error) {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('Route issue rule failed:', error)
+      }
+    }
+  }
+
+  return [...collected.values()].sort(compareIssues)
 }
 
 export function classifyRouteIssues(
