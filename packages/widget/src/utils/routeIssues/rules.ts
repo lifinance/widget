@@ -9,12 +9,14 @@ export const bucketRank: Record<RouteIssueBucket, number> = {
   amountTooLow: 0,
   amountTooHigh: 1,
   slippageTooTight: 2,
-  destinationAccountNotReady: 3,
-  recipientNotSupported: 4,
-  gaslessNotAvailable: 5,
+  liquidity: 3,
+  temporary: 4,
+  destinationAccountNotReady: 5,
   blockedBySettings: 6,
-  liquidity: 7,
-  temporary: 8,
+  gaslessNotAvailable: 7,
+  // Emitted by nearly every tool that dislikes the receiver, so it drowns out
+  // more specific reasons unless it sits near the catch-all.
+  recipientNotSupported: 8,
   pairNotSupported: 9,
 }
 
