@@ -52,7 +52,7 @@ export const RouteNotFoundCard: React.FC<RouteNotFoundCardProps> = ({
           <Collapse timeout={225} in={expanded} unmountOnExit mountOnEnter>
             <Stack direction="column" spacing={1}>
               {rest.map((issue) => (
-                <RouteIssueCard key={issue.ruleId} issue={issue} />
+                <RouteIssueCard key={issue.bucket} issue={issue} />
               ))}
             </Stack>
           </Collapse>
