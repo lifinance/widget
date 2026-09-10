@@ -11,12 +11,20 @@ interface RouteIssueListProps {
   issues: RouteIssue[]
 }
 
-// Keyed by the caller on the issue set, so expansion never carries over.
 export const RouteIssueList: React.FC<RouteIssueListProps> = ({ issues }) => {
   const { t } = useTranslation()
   const [expanded, setExpanded] = useState(false)
   const restId = useId()
   const cards = useRouteIssueCards(issues)
+
+  // The 60s refetch can change which reasons come back. Reset the expansion
+  // rather than remounting: a remount tears the button out from under a click.
+  const signature = issues.map((issue) => issue.bucket).join()
+  const [renderedSignature, setRenderedSignature] = useState(signature)
+  if (signature !== renderedSignature) {
+    setRenderedSignature(signature)
+    setExpanded(false)
+  }
 
   const [primary, ...rest] = cards
 
