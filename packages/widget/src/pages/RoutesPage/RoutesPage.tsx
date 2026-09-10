@@ -26,6 +26,7 @@ export const RoutesPage = (): JSX.Element => {
   const listParentRef = useRef<HTMLDivElement>(null)
   const {
     routes,
+    issues,
     isLoading,
     isFetching,
     dataUpdatedAt,
@@ -88,7 +89,7 @@ export const RoutesPage = (): JSX.Element => {
       >
         <Stack direction="column" spacing={2} sx={{ pt: 1.5 }}>
           {routeNotFound ? (
-            <RouteNotFoundCard />
+            <RouteNotFoundCard issues={issues} />
           ) : isLoading && !routes?.length ? (
             Array.from({ length: 3 }).map((_, index) => (
               <RouteCardSkeleton key={index} />

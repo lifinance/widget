@@ -97,6 +97,59 @@
       "routeNotFound": "이유: 낮은 유동성, 선택된 수량이 너무 적음, 가스비가 너무 비싸거나 경로가 존재하지 않음",
       "missingRouteRequiredAccount": ""
     },
+    "routeIssue": {
+      "otherReasons_one": "{{count}} other reason",
+      "otherReasons_other": "{{count}} other reasons",
+      "amountTooLow": {
+        "title": "Amount is too low",
+        "description": "You send {{current}} {{symbol}}. Try about {{suggested}} {{symbol}}.",
+        "descriptionUsd": "Routes for this pair need at least ${{minUsd}}.",
+        "descriptionNoAmount": "The amount is below the minimum every route needs.",
+        "action": "Set amount to {{suggested}} {{symbol}}"
+      },
+      "amountTooHigh": {
+        "title": "Amount is too high",
+        "description": "You send {{current}} {{symbol}}. Try about {{suggested}} {{symbol}}.",
+        "descriptionUsd": "Routes for this pair cap the amount at ${{minUsd}}.",
+        "descriptionNoAmount": "The amount is above the maximum every route accepts.",
+        "action": "Set amount to {{suggested}} {{symbol}}"
+      },
+      "slippageTooTight": {
+        "title": "Slippage is too tight",
+        "description": "Every route needs at least {{slippage}}% slippage.",
+        "descriptionNoAmount": "Every route needs more slippage than the current setting allows.",
+        "action": "Set slippage to {{slippage}}%"
+      },
+      "destinationAccountNotReady": {
+        "title": "The receiving account is not ready",
+        "description": "The destination account needs setting up before it can receive this token."
+      },
+      "recipientNotSupported": {
+        "title": "This recipient is not supported",
+        "description": "Routes for this pair cannot send to a contract or to a different address. Try the address you send from."
+      },
+      "gaslessNotAvailable": {
+        "title": "Gasless is not available here",
+        "description": "No route supports gasless execution for this pair."
+      },
+      "blockedBySettings": {
+        "title": "Your settings block every route",
+        "description": "The bridges and exchanges you turned off are the only ones that serve this pair.",
+        "action": "Turn all bridges and exchanges back on"
+      },
+      "liquidity": {
+        "title": "Not enough liquidity",
+        "description": "The price impact for this amount is above what any route allows. A smaller amount may work."
+      },
+      "temporary": {
+        "title": "Temporarily unavailable",
+        "description": "A provider is busy or under maintenance. This usually clears within a few minutes."
+      },
+      "pairNotSupported": {
+        "title": "This pair is not supported",
+        "description": "No provider connects these two tokens yet. Try a different token or chain."
+      }
+    },
     "title": {
       "autoRefuel": "",
       "emptyTransactionHistory": "최근 거래 없음",
