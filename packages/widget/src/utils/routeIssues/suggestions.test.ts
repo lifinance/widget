@@ -33,15 +33,32 @@ describe('roundSuggestion', () => {
     expect(roundSuggestion(value, 'lower')).toBeCloseTo(expected, 12)
   })
 
+  // A narrow sample missed that dividing by the factor put 1e6 at
+  // 999999.9999999999 — under the very limit it had to clear.
+  const spread = [
+    1e-9, 1.23e-8, 0.000000123, 0.0000079, 0.0079, 0.0102, 0.5, 1, 1.0001, 7,
+    99.5, 999.9, 1000, 12345, 1e6, 1020000, 1.5e7, 1e9, 9.87e11, 1e12,
+  ]
+
   it('rounding up never lands under the value it must clear', () => {
-    for (const value of [0.0079, 1.0001, 999.9, 0.000000123, 7]) {
+    for (const value of spread) {
       expect(roundSuggestion(value, 'raise')).toBeGreaterThanOrEqual(value)
     }
   })
 
   it('rounding down never lands over the value it must stay under', () => {
-    for (const value of [0.0079, 1.0001, 999.9, 0.000000123, 7]) {
+    for (const value of spread) {
       expect(roundSuggestion(value, 'lower')).toBeLessThanOrEqual(value)
+    }
+  })
+
+  // The figure is rendered verbatim, so a binary tail becomes user-visible.
+  it('never produces more than two significant digits', () => {
+    for (const value of spread) {
+      for (const direction of ['raise', 'lower'] as const) {
+        const result = roundSuggestion(value, direction)
+        expect(Number(result.toPrecision(2))).toBe(result)
+      }
     }
   })
 
@@ -101,12 +118,15 @@ describe('nextSlippage', () => {
     expect(nextSlippage(issue({}), undefined)).toBe('0.5')
   })
 
-  it('doubles a setting already looser than the fallback', () => {
-    expect(nextSlippage(issue({}), '0.8')).toBe('1.6')
-    expect(nextSlippage(issue({}), '3')).toBe('6')
+  // Doubling is the intent, but never past the band the widget itself warns
+  // about — a one-click 90% slippage is not a fix.
+  it('doubles a setting already looser than the fallback, up to the band', () => {
+    expect(nextSlippage(issue({}), '0.4')).toBe('0.5')
+    expect(nextSlippage(issue({}), '0.8')).toBe('1')
+    expect(nextSlippage(issue({}), '3')).toBe('1')
   })
 
-  it('never proposes more than the widget allows', () => {
-    expect(nextSlippage(issue({}), '80')).toBe('100')
+  it('never proposes more than the widget calls reasonable', () => {
+    expect(Number(nextSlippage(issue({}), '80'))).toBeLessThanOrEqual(1)
   })
 })

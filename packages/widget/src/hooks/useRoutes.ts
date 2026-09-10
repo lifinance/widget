@@ -53,7 +53,7 @@ import { useWidgetEvents } from './useWidgetEvents.js'
 const refetchTime = 60_000
 
 // Stable identity: a fresh literal here would re-render every memoized consumer.
-const noIssues: RouteIssue[] = []
+const noIssues: readonly RouteIssue[] = Object.freeze([])
 
 interface RoutesProps {
   observableRoute?: Route
@@ -71,7 +71,7 @@ interface RoutesProps {
 
 interface RoutesQueryData {
   routes: Route[]
-  issues: RouteIssue[]
+  issues: readonly RouteIssue[]
 }
 
 export const useRoutes = ({
@@ -80,7 +80,7 @@ export const useRoutes = ({
   keepPreviousData: keepPreviousDataEnabled,
 }: RoutesProps = {}): {
   routes: Route[] | undefined
-  issues: RouteIssue[]
+  issues: readonly RouteIssue[]
   isLoading: boolean
   isFetching: boolean
   isFetched: boolean
@@ -641,7 +641,7 @@ export const useRoutes = ({
 
       const initialRoutes = routesResult?.routes ?? []
       const issues = initialRoutes.length
-        ? []
+        ? noIssues
         : classifyRouteIssues(routesResult?.unavailableRoutes, classifyContext)
 
       if (shouldUseRelayerQuote && initialRoutes.length) {

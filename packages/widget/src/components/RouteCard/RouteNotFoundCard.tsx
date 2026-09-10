@@ -7,7 +7,7 @@ import type { RouteIssue } from '../../utils/routeIssues/types.js'
 import { RouteIssueCard } from './RouteIssueCard.js'
 
 interface RouteNotFoundCardProps {
-  issues?: RouteIssue[]
+  issues?: readonly RouteIssue[]
 }
 
 export const RouteNotFoundCard: React.FC<RouteNotFoundCardProps> = ({

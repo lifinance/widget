@@ -17,7 +17,7 @@ import { Container, Header } from './RoutesExpanded.style.js'
 
 interface RoutesContentProps {
   routes?: Route[]
-  issues?: RouteIssue[]
+  issues?: readonly RouteIssue[]
   isFetching: boolean
   isLoading: boolean
   dataUpdatedAt: number
