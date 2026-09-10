@@ -122,9 +122,6 @@
       "missingRouteRequiredAccount": "এগিয়ে যেতে আপনার {{chainName}} ওয়ালেট কানেক্ট করুন। {{address}}"
     },
     "routeIssue": {
-      "otherReasons_one": "",
-      "otherReasons_other": "",
-      "hideOtherReasons": "",
       "lookForReasons": "",
       "applySuggestion": "",
       "amountTooLow": {

@@ -6,6 +6,8 @@ const context: ClassifyContext = {
   fromAmount: 1000n,
   fromChainId: 1,
   fromTokenSymbol: 'ETH',
+  fromAddress: '0xsender',
+  toAddress: '0xreceiver',
 }
 
 // stringifyPath joins a swap with `~`; a leading `-` means the bridge leg is
@@ -581,6 +583,32 @@ describe('ranking', () => {
       'temporary',
       'recipientNotSupported',
     ])
+  })
+
+  // The card describes a receiver the user chose; its fix is "send to your own
+  // address", which is already true when none is set or it matches the sender.
+  it.each([
+    ['no receiver', { toAddress: undefined }],
+    ['the sender', { toAddress: '0xSENDER' }],
+  ])('drops the receiver reason when it is %s', (_name, override) => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: sameTokenPath,
+            reason:
+              'Destination address different from source address is not supported',
+          },
+          {
+            overallPath: sameTokenPath,
+            reason: 'Pod is currently overloaded.',
+          },
+        ],
+        failed: [],
+      },
+      { ...context, ...override }
+    )
+    expect(issues.map((issue) => issue.bucket)).toEqual(['temporary'])
   })
 
   it('puts the most actionable bucket first', () => {

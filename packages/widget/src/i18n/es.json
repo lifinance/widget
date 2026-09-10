@@ -122,9 +122,6 @@
       "missingRouteRequiredAccount": "Conecta tu billetera de {{chainName}} para continuar. {{address}}"
     },
     "routeIssue": {
-      "otherReasons_one": "",
-      "otherReasons_other": "",
-      "hideOtherReasons": "",
       "lookForReasons": "",
       "applySuggestion": "",
       "amountTooLow": {

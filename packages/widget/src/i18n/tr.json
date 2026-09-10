@@ -122,9 +122,6 @@
       "missingRouteRequiredAccount": "Devam etmek için {{chainName}} cüzdanınızı bağlayın. {{address}}"
     },
     "routeIssue": {
-      "otherReasons_one": "",
-      "otherReasons_other": "",
-      "hideOtherReasons": "",
       "lookForReasons": "",
       "applySuggestion": "",
       "amountTooLow": {

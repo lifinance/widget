@@ -194,6 +194,23 @@ const resolveAmountConflict = (issues: RouteIssue[]): RouteIssue[] => {
 }
 
 /**
+ * The receiver reasons only describe a receiver the user chose. With none set,
+ * or one equal to the sender, the card describes nothing and its fix — send to
+ * your own address — is already the state of the form.
+ */
+const dropInapplicableReceiver = (
+  issues: RouteIssue[],
+  context: ClassifyContext
+): RouteIssue[] => {
+  const custom =
+    !!context.toAddress &&
+    context.toAddress.toLowerCase() !== context.fromAddress?.toLowerCase()
+  return custom
+    ? issues
+    : issues.filter((issue) => issue.bucket !== 'recipientNotSupported')
+}
+
+/**
  * `NO_POSSIBLE_ROUTE` is emitted per tool, so it means "this tool found
  * nothing", not "nothing exists". Alongside a real reason it is both noise and
  * untrue — the pair is supported, this amount just isn't.
@@ -220,7 +237,10 @@ const classify = (
   }
 
   return dropUnsupportedNoise(
-    resolveAmountConflict([...collected.values()])
+    dropInapplicableReceiver(
+      resolveAmountConflict([...collected.values()]),
+      context
+    )
   ).sort(compareIssues)
 }
 

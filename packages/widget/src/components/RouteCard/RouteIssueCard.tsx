@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from '@mui/material'
 import type React from 'react'
 import { memo } from 'react'
-import type { RouteIssueCardContent } from '../../hooks/useRouteIssueCards.js'
+import type { RouteIssueCardContent } from '../../hooks/useRouteIssueCard.js'
 import { Card } from '../Card/Card.js'
 
 export const RouteIssueCard: React.NamedExoticComponent<{

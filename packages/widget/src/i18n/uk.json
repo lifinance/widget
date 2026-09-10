@@ -122,9 +122,6 @@
       "missingRouteRequiredAccount": "Підключіть гаманець {{chainName}}, щоб продовжити. {{address}}"
     },
     "routeIssue": {
-      "otherReasons_one": "",
-      "otherReasons_other": "",
-      "hideOtherReasons": "",
       "lookForReasons": "",
       "applySuggestion": "",
       "amountTooLow": {

@@ -122,9 +122,6 @@
       "missingRouteRequiredAccount": "เชื่อมต่อ Wallet {{chainName}} ของคุณเพื่อดำเนินการต่อ {{address}}"
     },
     "routeIssue": {
-      "otherReasons_one": "",
-      "otherReasons_other": "",
-      "hideOtherReasons": "",
       "lookForReasons": "",
       "applySuggestion": "",
       "amountTooLow": {
