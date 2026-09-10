@@ -30,7 +30,7 @@ const transferRange: RouteIssueRule = {
     fragment:
       /Transferred amount \(([^)]+)\) out of acceptable range \(min: ([^,]+), max: ([^)]+)\)/,
   },
-  extract: (match, context): RouteIssueEvidence | null => {
+  extract: (match, context, path): RouteIssueEvidence | null => {
     const current = toBigInt(match[1])
     if (current === undefined) {
       return null
@@ -46,7 +46,12 @@ const transferRange: RouteIssueRule = {
     // The backend reports both numbers in the unnamed bridge leg's own token,
     // so only an entry matching the user's own fromAmount yields a real figure.
     const direction = belowMin ? 'raise' : 'lower'
-    if (current <= 0n || current !== context.fromAmount) {
+    const untouchedLeg = path
+      ?.toLowerCase()
+      .startsWith(
+        `${context.fromChainId}:${context.fromTokenSymbol.toLowerCase()}-`
+      )
+    if (!untouchedLeg || current <= 0n || current !== context.fromAmount) {
       return { direction }
     }
     return { direction, requiredFromAmount: belowMin ? min! : max! }
@@ -61,11 +66,11 @@ const transferRange: RouteIssueRule = {
 
 // Six decimals keeps a USD figure exact while staying in bigint.
 const usdToBigInt = (value: string): bigint | undefined => {
-  const parsed = Number.parseFloat(value)
-  if (!Number.isFinite(parsed) || parsed <= 0) {
+  const scaled = Number.parseFloat(value) * 1_000_000
+  if (!Number.isSafeInteger(Math.round(scaled)) || scaled <= 0) {
     return undefined
   }
-  return BigInt(Math.round(parsed * 1_000_000))
+  return BigInt(Math.round(scaled))
 }
 
 const fragmentRule = (
@@ -143,7 +148,7 @@ export const routeIssueRules: RouteIssueRule[] = [
       const requiredFromAmount = (context.fromAmount * requiredUsd) / currentUsd
       return {
         direction: 'raise',
-        ...(requiredFromAmount > 0n && { requiredFromAmount }),
+        ...(requiredFromAmount > 0n && { requiredFromAmount, estimated: true }),
         minUsd: Number.parseFloat(match[2]),
       }
     }

@@ -5,7 +5,11 @@ import ethToSol from './fixtures/no-routes-eth-to-sol.json' with {
 }
 import type { ClassifyContext } from './types.js'
 
-const context: ClassifyContext = { fromAmount: 1000n }
+const context: ClassifyContext = {
+  fromAmount: 1000n,
+  fromChainId: 1,
+  fromTokenSymbol: 'ETH',
+}
 
 describe('classifyRouteIssues safety', () => {
   it('returns an empty list when the payload is undefined', () => {

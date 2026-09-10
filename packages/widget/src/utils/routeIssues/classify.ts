@@ -10,6 +10,7 @@ import type {
 interface RawEntry {
   text: string
   code?: string
+  path?: string
 }
 
 const collectEntries = (unavailableRoutes: UnavailableRoutes): RawEntry[] => {
@@ -19,7 +20,7 @@ const collectEntries = (unavailableRoutes: UnavailableRoutes): RawEntry[] => {
   if (Array.isArray(filteredOut)) {
     for (const item of filteredOut) {
       if (typeof item?.reason === 'string') {
-        entries.push({ text: item.reason })
+        entries.push({ text: item.reason, path: item.overallPath })
       }
     }
   }
@@ -36,12 +37,12 @@ const collectEntries = (unavailableRoutes: UnavailableRoutes): RawEntry[] => {
           continue
         }
         for (const toolError of toolErrors) {
-          if (typeof toolError?.code === 'string') {
-            entries.push({
-              text:
-                typeof toolError.message === 'string' ? toolError.message : '',
-              code: toolError.code,
-            })
+          const code =
+            typeof toolError?.code === 'string' ? toolError.code : undefined
+          const text =
+            typeof toolError?.message === 'string' ? toolError.message : ''
+          if (code || text) {
+            entries.push({ text, code, path: route.overallPath })
           }
         }
       }
@@ -54,27 +55,27 @@ const collectEntries = (unavailableRoutes: UnavailableRoutes): RawEntry[] => {
 const findRule = (
   entry: RawEntry
 ): { rule: RouteIssueRule; match?: RegExpExecArray } | undefined => {
-  if (entry.code) {
-    const byCode = routeIssueRules.find(
-      (rule) => 'code' in rule.match && rule.match.code === entry.code
-    )
-    if (byCode) {
-      return { rule: byCode }
+  const byCode = entry.code
+    ? routeIssueRules.find(
+        (rule) => 'code' in rule.match && rule.match.code === entry.code
+      )
+    : undefined
+  // A code the widget maps is authoritative; its prose must not outrank it.
+  if (byCode && !byCode.suppressed) {
+    return { rule: byCode }
+  }
+  if (entry.text) {
+    for (const rule of routeIssueRules) {
+      if ('code' in rule.match) {
+        continue
+      }
+      const match = rule.match.fragment.exec(entry.text)
+      if (match) {
+        return { rule, match }
+      }
     }
   }
-  if (!entry.text) {
-    return undefined
-  }
-  for (const rule of routeIssueRules) {
-    if ('code' in rule.match) {
-      continue
-    }
-    const match = rule.match.fragment.exec(entry.text)
-    if (match) {
-      return { rule, match }
-    }
-  }
-  return undefined
+  return byCode ? { rule: byCode } : undefined
 }
 
 const isGentler = (
@@ -88,6 +89,9 @@ const isGentler = (
   }
   if (b === undefined) {
     return true
+  }
+  if (!!candidate.estimated !== !!incumbent.estimated) {
+    return !candidate.estimated
   }
   return (candidate.direction ?? 'raise') === 'raise' ? a < b : a > b
 }
@@ -104,9 +108,18 @@ const foldEvidence = (
   }
   return {
     direction: incumbent.direction ?? candidate.direction,
-    requiredFromAmount: isGentler(candidate, incumbent)
-      ? candidate.requiredFromAmount
-      : (incumbent.requiredFromAmount ?? candidate.requiredFromAmount),
+    ...(isGentler(candidate, incumbent)
+      ? {
+          requiredFromAmount: candidate.requiredFromAmount,
+          estimated: candidate.estimated,
+        }
+      : {
+          requiredFromAmount:
+            incumbent.requiredFromAmount ?? candidate.requiredFromAmount,
+          estimated: incumbent.requiredFromAmount
+            ? incumbent.estimated
+            : candidate.estimated,
+        }),
     requiredSlippage:
       incumbent.requiredSlippage === undefined
         ? candidate.requiredSlippage
@@ -123,6 +136,16 @@ const foldEvidence = (
   }
 }
 
+// An issue the widget can act on leads, so the one-click fix is never the one
+// hidden behind the "other reasons" toggle.
+const hasFigure = (issue: RouteIssue): boolean =>
+  issue.evidence?.requiredFromAmount !== undefined ||
+  issue.evidence?.requiredSlippage !== undefined
+
+const compareIssues = (a: RouteIssue, b: RouteIssue): number =>
+  Number(hasFigure(b)) - Number(hasFigure(a)) ||
+  bucketRank[a.bucket] - bucketRank[b.bucket]
+
 const classify = (
   unavailableRoutes: UnavailableRoutes,
   context: ClassifyContext
@@ -130,28 +153,42 @@ const classify = (
   const collected = new Map<string, RouteIssue>()
 
   for (const entry of collectEntries(unavailableRoutes)) {
-    const found = findRule(entry)
-    if (!found || found.rule.suppressed) {
-      continue
+    try {
+      collect(collected, entry, context)
+    } catch (error) {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('Route issue rule failed:', error)
+      }
     }
-    const { rule, match } = found
-    const extracted = match ? rule.extract?.(match, context) : undefined
-    if (extracted === null) {
-      continue
-    }
-    const evidence = extracted ?? undefined
-    const bucket = rule.bucketFrom?.(evidence ?? {}) ?? rule.bucket
-    const incumbent = collected.get(bucket)
-    if (incumbent) {
-      incumbent.evidence = foldEvidence(incumbent.evidence, evidence)
-      continue
-    }
-    collected.set(bucket, { bucket, ruleId: rule.id, evidence })
   }
 
-  return [...collected.values()].sort(
-    (a, b) => bucketRank[a.bucket] - bucketRank[b.bucket]
-  )
+  return [...collected.values()].sort(compareIssues)
+}
+
+const collect = (
+  collected: Map<string, RouteIssue>,
+  entry: RawEntry,
+  context: ClassifyContext
+): void => {
+  const found = findRule(entry)
+  if (!found || found.rule.suppressed) {
+    return
+  }
+  const { rule, match } = found
+  const extracted = match
+    ? rule.extract?.(match, context, entry.path)
+    : undefined
+  if (extracted === null) {
+    return
+  }
+  const evidence = extracted ?? undefined
+  const bucket = rule.bucketFrom?.(evidence ?? {}) ?? rule.bucket
+  const incumbent = collected.get(bucket)
+  if (incumbent) {
+    incumbent.evidence = foldEvidence(incumbent.evidence, evidence)
+    return
+  }
+  collected.set(bucket, { bucket, ruleId: rule.id, evidence })
 }
 
 export function classifyRouteIssues(

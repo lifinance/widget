@@ -17,6 +17,8 @@ export interface RouteIssueEvidence {
    * the amount the query used, so it never drifts with the live form field.
    */
   requiredFromAmount?: bigint
+  /** Scaled from USD rather than read off a bridge, so an exact one wins. */
+  estimated?: boolean
   requiredSlippage?: number
   minUsd?: number
   note?: string
@@ -30,6 +32,8 @@ export interface RouteIssue {
 
 export interface ClassifyContext {
   fromAmount: bigint
+  fromChainId: number
+  fromTokenSymbol: string
 }
 
 export interface RouteIssueRule {
@@ -40,7 +44,8 @@ export interface RouteIssueRule {
   /** `null` rejects the entry; an object keeps the bucket, with or without a figure. */
   extract?: (
     match: RegExpExecArray,
-    context: ClassifyContext
+    context: ClassifyContext,
+    path?: string
   ) => RouteIssueEvidence | null
   bucketFrom?: (evidence: RouteIssueEvidence) => RouteIssueBucket | undefined
 }
