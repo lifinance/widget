@@ -124,24 +124,25 @@
     "routeIssue": {
       "otherReasons_one": "",
       "otherReasons_other": "",
+      "hideOtherReasons": "",
+      "lookForReasons": "",
+      "applySuggestion": "",
       "amountTooLow": {
         "title": "",
         "description": "",
         "descriptionUsd": "",
-        "descriptionNoAmount": "",
-        "action": ""
+        "descriptionNoAmount": ""
       },
       "amountTooHigh": {
         "title": "",
         "description": "",
-        "descriptionNoAmount": "",
-        "action": ""
+        "descriptionNoAmount": ""
       },
       "slippageTooTight": {
         "title": "",
         "description": "",
-        "descriptionNoAmount": "",
-        "action": ""
+        "descriptionSuggested": "",
+        "descriptionNoAmount": ""
       },
       "destinationAccountNotReady": {
         "title": "",
@@ -172,9 +173,7 @@
       "pairNotSupported": {
         "title": "",
         "description": ""
-      },
-      "hideOtherReasons": "",
-      "lookForReasons": ""
+      }
     },
     "title": {
       "autoRefuel": "{{chainName}} ağında gas al",
