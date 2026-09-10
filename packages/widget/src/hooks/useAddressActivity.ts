@@ -1,7 +1,9 @@
 import { ChainType } from '@lifi/sdk'
 import { useEthereumContext } from '@lifi/widget-provider'
 import { useQuery } from '@tanstack/react-query'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
+import { getQueryKey } from '../utils/queries.js'
 import { useAvailableChains } from './useAvailableChains.js'
 
 interface AddressActivity {
@@ -14,6 +16,7 @@ export const useAddressActivity = (chainId?: number): AddressActivity => {
   const { getChainById } = useAvailableChains()
   const [toAddress, toChainId] = useFieldValues('toAddress', 'toChain')
   const { getTransactionCount } = useEthereumContext()
+  const { keyPrefix } = useWidgetConfig()
 
   const destinationChainId = chainId ?? toChainId
   const toChain = getChainById(destinationChainId)
@@ -24,7 +27,11 @@ export const useAddressActivity = (chainId?: number): AddressActivity => {
     isFetched,
     error,
   } = useQuery({
-    queryKey: ['getTransactionCount', toAddress, destinationChainId],
+    queryKey: [
+      getQueryKey('getTransactionCount', keyPrefix),
+      toAddress,
+      destinationChainId,
+    ],
     queryFn: async () => {
       const count = await getTransactionCount?.(destinationChainId!, toAddress!)
       return count ?? null

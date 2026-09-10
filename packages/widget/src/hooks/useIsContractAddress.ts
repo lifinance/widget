@@ -1,6 +1,8 @@
 import { ChainType } from '@lifi/sdk'
 import { useEthereumContext } from '@lifi/widget-provider'
 import { useQuery } from '@tanstack/react-query'
+import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { getQueryKey } from '../utils/queries.js'
 
 export const useIsContractAddress = (
   address?: string,
@@ -13,13 +15,14 @@ export const useIsContractAddress = (
   isFetched: boolean
 } => {
   const { getBytecode } = useEthereumContext()
+  const { keyPrefix } = useWidgetConfig()
 
   const {
     data: contractCode,
     isLoading,
     isFetched,
   } = useQuery({
-    queryKey: ['getBytecode', address, chainId],
+    queryKey: [getQueryKey('getBytecode', keyPrefix), address, chainId],
     queryFn: async () => {
       const code = await getBytecode?.(chainId!, address!)
       return code ?? null
