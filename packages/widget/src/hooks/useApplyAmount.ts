@@ -17,11 +17,12 @@ export const useApplyAmount = (
 
   return (value: string): void => {
     if (mode === 'limit') {
-      setSendAmount(value)
+      setSendAmount(value, true)
       return
     }
     setFieldValue(FormKeyHelper.getAmountKey(formType), value, {
       isTouched: true,
+      immediate: true,
     })
   }
 }

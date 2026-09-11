@@ -170,7 +170,12 @@ const collect = (
     incumbent.evidence = foldEvidence(incumbent.evidence, evidence)
     return
   }
-  collected.set(bucket, { bucket, ruleId: rule.id, evidence })
+  collected.set(bucket, {
+    bucket,
+    ruleId: rule.id,
+    evidence,
+    fromAmount: context.fromAmount,
+  })
 }
 
 // Bridges disagree on range, so both can fire. Keep the one with a figure.

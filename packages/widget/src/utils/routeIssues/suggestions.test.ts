@@ -11,6 +11,7 @@ const issue = (evidence: RouteIssue['evidence']): RouteIssue => ({
   bucket: 'amountTooLow',
   ruleId: 'test',
   evidence,
+  fromAmount: 1000n,
 })
 
 describe('roundSuggestion', () => {
