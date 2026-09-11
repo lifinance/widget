@@ -28,6 +28,8 @@ export interface RouteIssue {
   bucket: RouteIssueBucket
   ruleId: string
   evidence?: RouteIssueEvidence
+  /** The send amount this was raised for; the card must not read a newer one. */
+  fromAmount: bigint
 }
 
 export interface ClassifyContext {

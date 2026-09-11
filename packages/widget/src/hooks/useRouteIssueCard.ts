@@ -43,7 +43,6 @@ export interface RouteIssueCardContent {
 interface CardDeps {
   t: TFunction
   token?: Token
-  fromAmount?: string
   slippage?: string
   amountLocked: boolean
   receiverHidden: boolean
@@ -61,17 +60,6 @@ const buildCard = (
 ): RouteIssueCardContent => {
   const { t, token } = deps
   const base = `info.routeIssue.${issue.bucket}`
-
-  const currentAmount = (): bigint | undefined => {
-    if (!token || !deps.fromAmount) {
-      return undefined
-    }
-    try {
-      return parseUnits(String(deps.fromAmount), token.decimals)
-    } catch {
-      return undefined
-    }
-  }
 
   const toRawAmount = (
     tokens: number,
@@ -115,18 +103,17 @@ const buildCard = (
 
   /** Halving is only a step down while what remains is still a real amount. */
   const halvedAmount = (): bigint | undefined => {
-    const current = currentAmount()
-    if (!token || !current || current <= 1n) {
+    if (!token || issue.fromAmount <= 1n) {
       return undefined
     }
-    const halved = formatUnits(current / 2n, token.decimals)
+    const halved = formatUnits(issue.fromAmount / 2n, token.decimals)
     const worth = formatTokenPrice(halved, token.priceUSD)
     return worth < fallbackTargetUsd
       ? undefined
       : toRawAmount(Number(halved), 'lower')
   }
 
-  const hasSendAmount = (currentAmount() ?? 0n) > 0n
+  const hasSendAmount = issue.fromAmount > 0n
 
   const amount = !hasSendAmount
     ? undefined
@@ -183,7 +170,7 @@ const buildCard = (
     switch (issue.bucket) {
       case 'amountTooLow':
       case 'amountTooHigh':
-        return !suggested || deps.amountLocked || amount === currentAmount()
+        return !suggested || deps.amountLocked || amount === issue.fromAmount
           ? undefined
           : {
               label: t('info.routeIssue.applySuggestion'),
@@ -239,14 +226,12 @@ export function useRouteIssueCard(
   const { t } = useTranslation()
   const { disabledUI, hiddenUI, keyPrefix } = useWidgetConfig()
   const queryClient = useQueryClient()
-  const [fromChainId, fromTokenAddress, fromAmount, toChainId, toAddress] =
-    useFieldValues(
-      FormKeyHelper.getChainKey('from'),
-      FormKeyHelper.getTokenKey('from'),
-      FormKeyHelper.getAmountKey('from'),
-      FormKeyHelper.getChainKey('to'),
-      'toAddress'
-    )
+  const [fromChainId, fromTokenAddress, toChainId, toAddress] = useFieldValues(
+    FormKeyHelper.getChainKey('from'),
+    FormKeyHelper.getTokenKey('from'),
+    FormKeyHelper.getChainKey('to'),
+    'toAddress'
+  )
   const { token } = useToken(fromChainId, fromTokenAddress)
   const { chain: fromChain } = useChain(fromChainId)
   const { chain: toChain } = useChain(toChainId)
@@ -258,7 +243,6 @@ export function useRouteIssueCard(
   const deps: CardDeps = {
     t,
     token,
-    fromAmount,
     slippage,
     amountLocked: Boolean(disabledUI?.fromAmount),
     receiverHidden: Boolean(hiddenUI?.toAddress),
