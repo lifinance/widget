@@ -16,9 +16,11 @@ import {
   wrapLongWords,
 } from '../utils/format.js'
 import { getQueryKey } from '../utils/queries.js'
+import type { Suggestion } from '../utils/routeIssues/suggestions.js'
 import {
   bufferedReported,
   fallbackTargetUsd,
+  gentlerSuggestion,
   nextSlippage,
   reportedSlippage,
   roundSuggestion,
@@ -106,19 +108,22 @@ const buildCard = (
 
   // A contract-call quote is driven by the receive amount, so there is no send
   // amount to move and any figure would be invented.
-  const amount = ((): bigint | undefined => {
+  const suggestion = ((): Suggestion | undefined => {
     if (issue.fromAmount <= 0n) {
       return undefined
     }
-    if (issue.bucket === 'amountTooLow') {
-      const target = Math.max(issue.evidence?.minUsd ?? 0, fallbackTargetUsd)
-      return roundedReported() ?? amountForUsd(target)
-    }
     if (issue.bucket === 'amountTooHigh') {
-      return roundedReported() ?? halvedAmount()
+      const reported = roundedReported() ?? halvedAmount()
+      return reported === undefined ? undefined : { amount: reported }
     }
-    return undefined
+    if (issue.bucket !== 'amountTooLow') {
+      return undefined
+    }
+    const target = Math.max(issue.evidence?.minUsd ?? 0, fallbackTargetUsd)
+    return gentlerSuggestion(roundedReported(), amountForUsd(target), target)
   })()
+
+  const amount = suggestion?.amount
 
   // A figure that does not move the amount is not a suggestion: the fallback
   // target can land at or under what the user already sent.
@@ -141,14 +146,17 @@ const buildCard = (
       ? nextSlippage(issue, deps.slippage)
       : ''
 
+  // Only the bar the suggestion was derived from, so the two figures agree.
+  const quotedUsd =
+    suggestion?.usdBar !== undefined && issue.evidence?.minUsd !== undefined
+      ? t('format.currency', { value: suggestion.usdBar })
+      : ''
+
   const values = {
     symbol: token?.symbol ?? '',
     suggested,
     slippage: slippageTarget,
-    minUsd:
-      issue.evidence?.minUsd !== undefined
-        ? t('format.currency', { value: issue.evidence.minUsd })
-        : '',
+    minUsd: quotedUsd,
   }
 
   const description = ((): string => {
@@ -156,7 +164,7 @@ const buildCard = (
       if (!suggested) {
         return t(`${base}.descriptionNoAmount` as any)
       }
-      return issue.bucket === 'amountTooLow' && issue.evidence?.minUsd
+      return quotedUsd
         ? t(`${base}.descriptionUsd` as any, values)
         : t(`${base}.description` as any, values)
     }

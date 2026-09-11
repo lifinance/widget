@@ -72,3 +72,27 @@ export const nextSlippage = (issue: RouteIssue, applied?: string): string => {
       : fallbackSlippage
   return formatSlippage(Math.min(loosened, maxRecommendedSlippage).toString())
 }
+
+export interface Suggestion {
+  amount: bigint
+  /** Set when the figure came from a USD bar rather than a reported amount. */
+  usdBar?: number
+}
+
+/**
+ * The bars come from different tools and clearing either one is enough, so the
+ * gentler of the two is what the user actually has to reach.
+ */
+export const gentlerSuggestion = (
+  reported: bigint | undefined,
+  forUsd: bigint | undefined,
+  usdBar: number
+): Suggestion | undefined => {
+  if (reported === undefined) {
+    return forUsd === undefined ? undefined : { amount: forUsd, usdBar }
+  }
+  if (forUsd === undefined || reported <= forUsd) {
+    return { amount: reported }
+  }
+  return { amount: forUsd, usdBar }
+}

@@ -2,6 +2,7 @@ import { formatUnits, parseUnits } from '@lifi/sdk'
 import { describe, expect, it } from 'vitest'
 import {
   bufferedReported,
+  gentlerSuggestion,
   nextSlippage,
   reportedSlippage,
   roundSuggestion,
@@ -164,5 +165,36 @@ describe('nextSlippage', () => {
 
   it('never proposes more than the widget calls reasonable', () => {
     expect(Number(nextSlippage(issue({}), '80'))).toBeLessThanOrEqual(1)
+  })
+})
+
+describe('gentlerSuggestion', () => {
+  // Reported: a $1.20 bar from one bridge beside an 11 USDC minimum from
+  // another read as "need at least $1.20 ... around 11 USDC".
+  it('takes the USD bar when the reported figure asks for more', () => {
+    expect(gentlerSuggestion(11_000_000n, 1_200_000n, 1.2)).toEqual({
+      amount: 1_200_000n,
+      usdBar: 1.2,
+    })
+  })
+
+  it('takes the reported figure when it asks for less', () => {
+    expect(gentlerSuggestion(2_000_000n, 5_000_000n, 5)).toEqual({
+      amount: 2_000_000n,
+    })
+  })
+
+  it('keeps the reported figure when the two agree', () => {
+    expect(gentlerSuggestion(5_000_000n, 5_000_000n, 5)).toEqual({
+      amount: 5_000_000n,
+    })
+  })
+
+  it.each([
+    [undefined, 1_200_000n, { amount: 1_200_000n, usdBar: 1.2 }],
+    [3_000_000n, undefined, { amount: 3_000_000n }],
+    [undefined, undefined, undefined],
+  ])('resolves %s and %s to %s', (reported, forUsd, expected) => {
+    expect(gentlerSuggestion(reported, forUsd, 1.2)).toEqual(expected)
   })
 })
