@@ -2,11 +2,7 @@ import type { Token } from '@lifi/sdk'
 import { formatUnits, parseUnits } from '@lifi/sdk'
 import type { TFunction } from 'i18next'
 import { maxRecommendedSlippage } from '../../stores/settings/createSettingsStore.js'
-import {
-  formatTokenPrice,
-  priceToTokenAmount,
-  wrapLongWords,
-} from '../format.js'
+import { priceToTokenAmount, wrapLongWords } from '../format.js'
 import type { Suggestion } from './suggestions.js'
 import {
   bufferedReported,
@@ -83,17 +79,6 @@ export const buildRouteIssueCard = (
       'raise'
     )
 
-  /** Halving is only a step down while what remains is still a real amount. */
-  const halvedAmount = (): bigint | undefined => {
-    if (!token || issue.fromAmount <= 1n) {
-      return undefined
-    }
-    const halved = formatUnits(issue.fromAmount / 2n, token.decimals)
-    return formatTokenPrice(halved, token.priceUSD) < fallbackTargetUsd
-      ? undefined
-      : toRawAmount(halved, 'lower')
-  }
-
   // A contract-call quote is driven by the receive amount, so there is no send
   // amount to move and any figure would be invented.
   const suggestion = ((): Suggestion | undefined => {
@@ -101,7 +86,11 @@ export const buildRouteIssueCard = (
       return undefined
     }
     if (issue.bucket === 'amountTooHigh') {
-      const reported = roundedReported() ?? halvedAmount()
+      // Only a maximum the backend actually named. Halving what the user sent
+      // was measured against the live API: where a figure was reported the
+      // suggestion worked, and where it was invented the amount was still
+      // refused — so the card offered a fresh halving, and then another.
+      const reported = roundedReported()
       return reported === undefined ? undefined : { amount: reported }
     }
     if (issue.bucket !== 'amountTooLow') {
