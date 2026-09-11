@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from '@mui/material'
 import type React from 'react'
-import type { RouteIssueCardContent } from '../../hooks/useRouteIssueCard.js'
+import type { RouteIssueCardContent } from '../../utils/routeIssues/card.js'
 import { Card } from '../Card/Card.js'
 
 export const RouteIssueCard: React.FC<{
