@@ -142,14 +142,14 @@
       },
       "slippageTooTight": {
         "title": "Slippage is too tight",
-        "description": "Every route here needs at least {{slippage}}% slippage to go through, and your current setting is stricter than that.",
-        "descriptionSuggested": "Your slippage setting is stricter than these routes can work with. Loosening it to {{slippage}}% should help.",
-        "descriptionNoAmount": "Your slippage setting is stricter than any route here can work with. Try loosening it a little."
+        "description": "Every route here needs at least {{slippage}}% slippage to go through, which is more than is currently applied.",
+        "descriptionSuggested": "The slippage currently applied is stricter than these routes can work with. Loosening it to {{slippage}}% should help.",
+        "descriptionNoAmount": "The slippage currently applied is stricter than any route here can work with. Try loosening it a little."
       },
       "slippageTooLoose": {
         "title": "Slippage is too high",
-        "description": "Every route here caps slippage at {{slippage}}%. Lowering your setting to match should help.",
-        "descriptionNoAmount": "Your slippage setting is higher than any route here accepts. Try lowering it a little."
+        "description": "Every route here caps slippage at {{slippage}}%, which is less than is currently applied. Lowering it should help.",
+        "descriptionNoAmount": "The slippage currently applied is higher than any route here accepts. Try lowering it a little."
       },
       "destinationAccountNotReady": {
         "title": "The receiving account is not ready",
