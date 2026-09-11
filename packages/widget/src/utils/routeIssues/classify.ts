@@ -3,6 +3,7 @@ import { bucketRank, routeIssueRules } from './rules.js'
 import type {
   ClassifyContext,
   RouteIssue,
+  RouteIssueBucket,
   RouteIssueEvidence,
   RouteIssueRule,
 } from './types.js'
@@ -64,21 +65,32 @@ const fragmentRules = routeIssueRules.flatMap((rule) =>
     : []
 )
 
-const findRule = (
-  entry: RawEntry
-): { rule: RouteIssueRule; match?: RegExpExecArray } | undefined => {
-  const byCode = entry.code ? ruleByCode.get(entry.code) : undefined
-  // A code the widget maps is authoritative; its prose must not outrank it.
-  if (byCode && !byCode.suppressed) {
-    return { rule: byCode }
-  }
-  for (const { rule, fragment } of entry.text ? fragmentRules : []) {
-    const match = fragment.exec(entry.text)
+const matchFragment = (
+  text: string,
+  bucket?: RouteIssueBucket
+): { rule: RouteIssueRule; match: RegExpExecArray } | undefined => {
+  for (const { rule, fragment } of text ? fragmentRules : []) {
+    if (bucket && rule.bucket !== bucket) {
+      continue
+    }
+    const match = fragment.exec(text)
     if (match) {
       return { rule, match }
     }
   }
-  return byCode ? { rule: byCode } : undefined
+  return undefined
+}
+
+const findRule = (
+  entry: RawEntry
+): { rule: RouteIssueRule; match?: RegExpExecArray } | undefined => {
+  const byCode = entry.code ? ruleByCode.get(entry.code) : undefined
+  // A code the widget maps decides the bucket. Prose may still carry the figure
+  // the code omits, so it refines the code where it agrees, and never reclassifies.
+  if (byCode && !byCode.suppressed) {
+    return matchFragment(entry.text, byCode.bucket) ?? { rule: byCode }
+  }
+  return matchFragment(entry.text) ?? (byCode ? { rule: byCode } : undefined)
 }
 
 const isGentler = (

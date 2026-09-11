@@ -174,6 +174,12 @@ export const routeIssueRules: RouteIssueRule[] = [
     (match) => ({ minUsd: Number.parseFloat(match[1]) })
   ),
   fragmentRule(
+    'minSpotOrderSize',
+    'amountTooLow',
+    /min spot order size \(([\d.]+)\)/,
+    (match) => ({ minUsd: Number.parseFloat(match[1]) })
+  ),
+  fragmentRule(
     'gaslessFeeExceedsInput',
     'amountTooLow',
     /GASLESS_FEE_EXCEEDS_INPUT/

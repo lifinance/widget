@@ -120,8 +120,16 @@ const buildCard = (
     return undefined
   })()
 
+  // A figure that does not move the amount is not a suggestion: the fallback
+  // target can land at or under what the user already sent.
+  const movesAmount =
+    amount !== undefined &&
+    (issue.bucket === 'amountTooLow'
+      ? amount > issue.fromAmount
+      : amount < issue.fromAmount)
+
   const suggested =
-    amount !== undefined && token ? formatUnits(amount, token.decimals) : ''
+    movesAmount && token ? formatUnits(amount as bigint, token.decimals) : ''
 
   // Without a reported figure and without a setting of the user's own there is
   // nothing to call too strict, and nothing meaningful to move.
@@ -169,7 +177,7 @@ const buildCard = (
     switch (issue.bucket) {
       case 'amountTooLow':
       case 'amountTooHigh':
-        return !suggested || deps.amountLocked || amount === issue.fromAmount
+        return !suggested || deps.amountLocked
           ? undefined
           : { label: applySuggestion, run: () => deps.applyAmount(suggested) }
 
