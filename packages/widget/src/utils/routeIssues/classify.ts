@@ -212,6 +212,7 @@ const aboutTheRequest: Record<RouteIssueBucket, boolean> = {
   amountTooLow: true,
   amountTooHigh: true,
   slippageTooTight: true,
+  slippageTooLoose: true,
   destinationAccountNotReady: true,
   recipientNotSupported: true,
   gaslessNotAvailable: true,

@@ -115,6 +115,17 @@ describe('templates scouted from the backend', () => {
     expect(issue?.evidence?.requiredSlippage).toBe(0.005)
   })
 
+  // mayan and garden cap slippage instead of demanding one, and both report it
+  // under NO_POSSIBLE_ROUTE — which read as "this pair is not supported".
+  it.each([
+    ['Slippage is too high. Max slippage is 0.03', 0.03],
+    ['Slippage is too high. Max slippage is 0.1', 0.1],
+  ])('reads a bridge slippage cap from %s', (message, expected) => {
+    const [issue] = fromFailure('NO_POSSIBLE_ROUTE', message)
+    expect(issue?.bucket).toBe('slippageTooLoose')
+    expect(issue?.evidence?.requiredSlippage).toBe(expected)
+  })
+
   it('treats expensive gas as temporary', () => {
     expect(
       fromReason(

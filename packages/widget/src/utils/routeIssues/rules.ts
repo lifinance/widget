@@ -11,18 +11,19 @@ export const bucketRank: Record<RouteIssueBucket, number> = {
   amountTooLow: 0,
   amountTooHigh: 1,
   slippageTooTight: 2,
-  liquidity: 3,
-  destinationAccountNotReady: 4,
-  blockedBySettings: 5,
-  gaslessNotAvailable: 6,
+  slippageTooLoose: 3,
+  liquidity: 4,
+  destinationAccountNotReady: 5,
+  blockedBySettings: 6,
+  gaslessNotAvailable: 7,
   // Emitted by nearly every tool that dislikes the receiver, so it drowns out
   // more specific reasons unless it sits near the catch-all.
-  recipientNotSupported: 7,
-  pairNotSupported: 8,
+  recipientNotSupported: 8,
+  pairNotSupported: 9,
   // "Try again" is the only reason that offers the user nothing to change, and
   // one busy tool is no answer while another says the route cannot be built at
   // all. It leads only when nothing else survived, where a retry is the answer.
-  temporary: 9,
+  temporary: 10,
 }
 
 const integerPattern = /^\d+$/
@@ -323,6 +324,19 @@ export const routeIssueRules: RouteIssueRule[] = [
     (match) => {
       const required = Number.parseFloat(match[1])
       return required > 0 && required < 1 ? { requiredSlippage: required } : {}
+    }
+  ),
+
+  // The mirror of the rules above: a bridge that caps slippage rather than
+  // demanding one. `requiredSlippage` is the boundary either way, so the card
+  // reads the bucket to know which side of it the user has to move to.
+  fragmentRule(
+    'slippageCeiling',
+    'slippageTooLoose',
+    /Slippage is too high\. Max slippage is ([\d.]+)/,
+    (match) => {
+      const allowed = Number(match[1])
+      return allowed > 0 && allowed < 1 ? { requiredSlippage: allowed } : {}
     }
   ),
 

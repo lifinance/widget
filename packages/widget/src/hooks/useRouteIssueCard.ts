@@ -141,15 +141,20 @@ const buildCard = (
   const suggested =
     movesAmount && token ? formatUnits(amount as bigint, token.decimals) : ''
 
-  // Without a reported figure and without a setting of the user's own there is
-  // nothing to call too strict, and nothing meaningful to move.
   const reported = reportedSlippage(issue)
-  const slippageKnown =
-    reported !== '' || Number.isFinite(Number(deps.slippage))
-  const slippageTarget =
-    issue.bucket === 'slippageTooTight' && slippageKnown
+
+  const slippageTarget = ((): string => {
+    // A cap is only ever the bridge's own figure; there is no sane guess for it.
+    if (issue.bucket === 'slippageTooLoose') {
+      return reported
+    }
+    // Without a reported figure and without a setting of the user's own there
+    // is nothing to call too strict, and nothing meaningful to move.
+    const known = reported !== '' || Number.isFinite(Number(deps.slippage))
+    return issue.bucket === 'slippageTooTight' && known
       ? nextSlippage(issue, deps.slippage)
       : ''
+  })()
 
   // Only the bar the suggestion was derived from, so the two figures agree.
   const quotedUsd =
@@ -173,6 +178,11 @@ const buildCard = (
         ? t(`${base}.descriptionUsd` as any, values)
         : t(`${base}.description` as any, values)
     }
+    if (issue.bucket === 'slippageTooLoose') {
+      return slippageTarget
+        ? t(`${base}.description` as any, values)
+        : t(`${base}.descriptionNoAmount` as any)
+    }
     if (issue.bucket === 'slippageTooTight') {
       if (!slippageTarget) {
         return t(`${base}.descriptionNoAmount` as any)
@@ -193,6 +203,19 @@ const buildCard = (
         return !suggested || deps.amountLocked
           ? undefined
           : { label: applySuggestion, run: () => deps.applyAmount(suggested) }
+
+      // Lowering is always within range, but only helps while the user has a
+      // setting above the cap; on a resolved auto value there is nothing to set.
+      case 'slippageTooLoose': {
+        const applied = Number(deps.slippage)
+        const target = Number(slippageTarget)
+        return slippageTarget && target > 0 && target < applied
+          ? {
+              label: applySuggestion,
+              run: () => deps.applySlippage(slippageTarget),
+            }
+          : undefined
+      }
 
       case 'slippageTooTight': {
         // The widget warns about an unusual slippage rather than blocking it,

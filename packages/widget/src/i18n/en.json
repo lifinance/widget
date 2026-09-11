@@ -146,6 +146,11 @@
         "descriptionSuggested": "Your slippage setting is stricter than these routes can work with. Loosening it to {{slippage}}% should help.",
         "descriptionNoAmount": "Your slippage setting is stricter than any route here can work with. Try loosening it a little."
       },
+      "slippageTooLoose": {
+        "title": "Slippage is too high",
+        "description": "Every route here caps slippage at {{slippage}}%. Lowering your setting to match should help.",
+        "descriptionNoAmount": "Your slippage setting is higher than any route here accepts. Try lowering it a little."
+      },
       "destinationAccountNotReady": {
         "title": "The receiving account is not ready",
         "description": "The destination account needs a little setup before it can accept this token. Once that is done, routes should show up here."
