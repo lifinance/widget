@@ -163,29 +163,28 @@ const buildCard = (
     return t(`${base}.description` as any)
   })()
 
+  const applySuggestion = t('info.routeIssue.applySuggestion')
+
   const action = ((): RouteIssueAction | undefined => {
     switch (issue.bucket) {
       case 'amountTooLow':
       case 'amountTooHigh':
         return !suggested || deps.amountLocked || amount === issue.fromAmount
           ? undefined
-          : {
-              label: t('info.routeIssue.applySuggestion'),
-              run: () => deps.applyAmount(suggested),
-            }
+          : { label: applySuggestion, run: () => deps.applyAmount(suggested) }
 
       case 'slippageTooTight': {
         // The widget warns about an unusual slippage rather than blocking it,
         // so offer any value that raises the current one, never one below it.
-        const applied = Number(deps.slippage)
-        return !slippageTarget ||
-          Number(slippageTarget) > maxRecommendedSlippage ||
-          Number(slippageTarget) <= (Number.isFinite(applied) ? applied : 0)
-          ? undefined
-          : {
-              label: t('info.routeIssue.applySuggestion'),
+        const applied = Number(deps.slippage) || 0
+        const target = Number(slippageTarget)
+        const movesUp = target > applied && target <= maxRecommendedSlippage
+        return slippageTarget && movesUp
+          ? {
+              label: applySuggestion,
               run: () => deps.applySlippage(slippageTarget),
             }
+          : undefined
       }
 
       // Clearing the receiver only leaves a valid request when both sides share
