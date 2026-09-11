@@ -1,4 +1,5 @@
 import type {
+  ClassifyContext,
   RouteIssueBucket,
   RouteIssueEvidence,
   RouteIssueRule,
@@ -30,6 +31,35 @@ const bucketByDirection = {
 const toBigInt = (value: string): bigint | undefined =>
   integerPattern.test(value) ? BigInt(value) : undefined
 
+// These limits are raw units of the bridge leg's own token, and the message
+// never says which chain it sits on. Only a path whose first hop bridges the
+// user's own token proves the leg is still holding it.
+const onUntouchedLeg = (
+  limit: bigint | undefined,
+  context: ClassifyContext,
+  path?: string
+): bigint | undefined =>
+  limit !== undefined &&
+  path
+    ?.toLowerCase()
+    .startsWith(
+      `${context.fromChainId}:${context.fromTokenSymbol.toLowerCase()}-`
+    )
+    ? limit
+    : undefined
+
+const legLimit = (
+  direction: 'raise' | 'lower',
+  value: string,
+  context: ClassifyContext,
+  path?: string
+): RouteIssueEvidence => {
+  const requiredFromAmount = onUntouchedLeg(toBigInt(value), context, path)
+  return requiredFromAmount === undefined
+    ? { direction }
+    : { direction, requiredFromAmount }
+}
+
 const transferRange: RouteIssueRule = {
   id: 'transferRange',
   bucket: 'amountTooLow',
@@ -56,15 +86,14 @@ const transferRange: RouteIssueRule = {
     }
     // The backend reports both numbers in the unnamed bridge leg's own token,
     // so only an entry matching the user's own fromAmount yields a real figure.
-    const untouchedLeg = path
-      ?.toLowerCase()
-      .startsWith(
-        `${context.fromChainId}:${context.fromTokenSymbol.toLowerCase()}-`
-      )
     const { direction, limit } = exceeded
-    return untouchedLeg && current > 0n && current === context.fromAmount
-      ? { direction, requiredFromAmount: limit }
-      : { direction }
+    const required =
+      current > 0n && current === context.fromAmount
+        ? onUntouchedLeg(limit, context, path)
+        : undefined
+    return required === undefined
+      ? { direction }
+      : { direction, requiredFromAmount: required }
   },
   bucketFrom: (evidence): RouteIssueBucket | undefined =>
     evidence.direction && bucketByDirection[evidence.direction],
@@ -116,6 +145,10 @@ export const routeIssueRules: RouteIssueRule[] = [
   suppressedCode('TOOL_SPECIFIC_ERROR'),
   suppressedCode('UNKNOWN_ERROR'),
   suppressedFragment('lowVolume', /filtered due to low historical volume/),
+  suppressedFragment(
+    'preferredStep',
+    /Removing less used bridge step in favor of|Skipping cross-token bridge step in favor of/
+  ),
   suppressedFragment(
     'noBridgeDefinition',
     /Could not find bridge definition for/
@@ -174,6 +207,36 @@ export const routeIssueRules: RouteIssueRule[] = [
     (match) => ({ minUsd: Number.parseFloat(match[1]) })
   ),
   fragmentRule(
+    'bridgeTransferFloor',
+    'amountTooLow',
+    /bridged must be at least (\d+)/,
+    (match, context, path) => legLimit('raise', match[1], context, path)
+  ),
+  fragmentRule(
+    'bridgeTransferCeiling',
+    'amountTooHigh',
+    /bridged must be smaller than (\d+)/,
+    (match, context, path) => legLimit('lower', match[1], context, path)
+  ),
+  fragmentRule(
+    'declaredRangeFloor',
+    'amountTooLow',
+    /The minimum is (\d+) and the maximum is (\d+)/,
+    (match, context, path) => legLimit('raise', match[1], context, path)
+  ),
+  fragmentRule(
+    'declaredRangeCeiling',
+    'amountTooHigh',
+    /The minimum is ([\d.]+) and the maximum is ([\d.]+)/,
+    (match, context, path) => legLimit('lower', match[2], context, path)
+  ),
+  fragmentRule(
+    'dexMinSwapValue',
+    'amountTooLow',
+    /only enabled for swaps >\$(\d+(?:\.\d+)?)/,
+    (match) => ({ minUsd: Number.parseFloat(match[1]) })
+  ),
+  fragmentRule(
     'minSpotOrderSize',
     'amountTooLow',
     /min spot order size \(([\d.]+)\)/,
@@ -202,6 +265,33 @@ export const routeIssueRules: RouteIssueRule[] = [
         ? { requiredSlippage: required }
         : {}
     }
+  ),
+
+  fragmentRule(
+    'recommendedSlippage',
+    'slippageTooTight',
+    /recommended slippage tolerance ([\d.]+) is higher than the requested slippage/,
+    (match) => {
+      const percent = Number.parseFloat(match[1])
+      return percent > 0 && percent < 100
+        ? { requiredSlippage: percent / 100 }
+        : {}
+    }
+  ),
+  fragmentRule(
+    'slippageFloor',
+    'slippageTooTight',
+    /Slippage cannot be less than ([\d.]+)/,
+    (match) => {
+      const required = Number.parseFloat(match[1])
+      return required > 0 && required < 1 ? { requiredSlippage: required } : {}
+    }
+  ),
+
+  fragmentRule(
+    'gasCostsExceedLimit',
+    'temporary',
+    /gas costs for this route are higher than the max allowed costs/
   ),
 
   fragmentRule(
