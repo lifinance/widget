@@ -42,7 +42,7 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "^4.6.1",
+    "@lifi/sdk": "^4.7.0",
     "zustand": "^5.0.15"
   },
   "peerDependencies": {
@@ -51,8 +51,8 @@
   "devDependencies": {
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
-    "react": "^19.2.8",
+    "react": "^19.3.0",
     "typescript": "^7.0.2",
-    "vitest": "^4.1.11"
+    "vitest": "^5.0.0"
   }
 }
