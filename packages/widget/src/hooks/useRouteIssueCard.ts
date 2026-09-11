@@ -22,6 +22,7 @@ import {
   nextSlippage,
   reportedSlippage,
   roundSuggestion,
+  toDecimalString,
 } from '../utils/routeIssues/suggestions.js'
 import type { RouteIssue } from '../utils/routeIssues/types.js'
 import { useApplyAmount } from './useApplyAmount.js'
@@ -70,7 +71,7 @@ const buildCard = (
       return undefined
     }
     try {
-      const raw = parseUnits(rounded.toFixed(token.decimals), token.decimals)
+      const raw = parseUnits(toDecimalString(rounded), token.decimals)
       return raw > 0n ? raw : undefined
     } catch {
       return undefined
