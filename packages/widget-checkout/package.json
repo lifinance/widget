@@ -50,7 +50,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^4.6.1",
+    "@lifi/sdk": "^4.7.0",
     "@lifi/wallet-management": "workspace:*",
     "@lifi/widget": "workspace:*",
     "@lifi/widget-provider": "workspace:*",
@@ -58,8 +58,8 @@
     "@mui/icons-material": "^9.4.0",
     "@mui/material": "^9.4.0",
     "@mui/system": "^9.4.0",
-    "@tanstack/react-router": "^1.170.32",
-    "i18next": "^26.4.1",
+    "@tanstack/react-router": "^1.170.34",
+    "i18next": "^26.4.2",
     "motion": "^13.2.0",
     "qrcode.react": "^4.2.0",
     "react-i18next": "^17.0.13",
@@ -68,13 +68,13 @@
   "devDependencies": {
     "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.3",
-    "@types/node": "^26.4.1",
-    "happy-dom": "^20.13.2",
+    "@types/node": "^26.5.0",
+    "happy-dom": "^20.14.3",
     "madge": "^8.0.0",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
     "typescript": "^7.0.2",
-    "vitest": "^4.1.11"
+    "vitest": "^5.0.0"
   },
   "peerDependencies": {
     "@tanstack/react-query": ">=5.90.0",
