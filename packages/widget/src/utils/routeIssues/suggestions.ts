@@ -36,6 +36,29 @@ export const roundSuggestion = (
   return Number(`${rounded}e${exponent - suggestionDigits + 1}`)
 }
 
+/**
+ * `toFixed` re-exposes the binary tail a suggestion was just rounded free of
+ * (0.011 at 18 decimals came back as 0.010999999999999999), and `String` turns
+ * exponential below 1e-6, which `parseUnits` rejects. Expand it by hand.
+ */
+export const toDecimalString = (value: number): string => {
+  const text = String(value)
+  const parts = /^(-?)(\d+)(?:\.(\d+))?e([+-]\d+)$/.exec(text)
+  if (!parts) {
+    return text
+  }
+  const [, sign, whole, fraction = '', exponent] = parts
+  const digits = whole + fraction
+  const point = Number(exponent) + whole.length
+  if (point <= 0) {
+    return `${sign}0.${'0'.repeat(-point)}${digits}`
+  }
+  if (point >= digits.length) {
+    return `${sign}${digits}${'0'.repeat(point - digits.length)}`
+  }
+  return `${sign}${digits.slice(0, point)}.${digits.slice(point)}`
+}
+
 /** The reported figure, moved clear of the limit that rejected it. */
 export const bufferedReported = (issue: RouteIssue): bigint | undefined => {
   const required = issue.evidence?.requiredFromAmount

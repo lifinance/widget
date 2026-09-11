@@ -1,9 +1,11 @@
+import { formatUnits, parseUnits } from '@lifi/sdk'
 import { describe, expect, it } from 'vitest'
 import {
   bufferedReported,
   nextSlippage,
   reportedSlippage,
   roundSuggestion,
+  toDecimalString,
 } from './suggestions.js'
 import type { RouteIssue } from './types.js'
 
@@ -69,6 +71,37 @@ describe('roundSuggestion', () => {
       expect(Number.isNaN(roundSuggestion(value, 'raise'))).toBe(true)
     }
   )
+})
+
+describe('toDecimalString', () => {
+  it.each([
+    [0.011, '0.011'],
+    [0.0005, '0.0005'],
+    [1.1e-8, '0.000000011'],
+    [1e-9, '0.000000001'],
+    [1300, '1300'],
+    [1e6, '1000000'],
+    [9.9e11, '990000000000'],
+    [5.4, '5.4'],
+  ])('writes %s as %s', (value, expected) => {
+    expect(toDecimalString(value)).toBe(expected)
+  })
+
+  // The whole point: a suggestion must survive parseUnits without a tail.
+  it('round-trips every rounded suggestion through parseUnits', () => {
+    const values = [
+      1e-9, 1.23e-8, 0.0000079, 0.0079, 0.0102, 0.5, 1, 7, 99.5, 1000, 1e6,
+      1.5e7, 9.87e11,
+    ]
+    for (const value of values) {
+      for (const direction of ['raise', 'lower'] as const) {
+        const rounded = roundSuggestion(value, direction)
+        const text = toDecimalString(rounded)
+        expect(text).not.toMatch(/e/)
+        expect(formatUnits(parseUnits(text, 18), 18)).toBe(text)
+      }
+    }
+  })
 })
 
 describe('bufferedReported', () => {
