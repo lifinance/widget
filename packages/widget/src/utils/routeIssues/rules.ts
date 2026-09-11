@@ -172,6 +172,15 @@ export const routeIssueRules: RouteIssueRule[] = [
     /Positive price impact too high for blue chip route/
   ),
   suppressedFragment('pureBtcMode', /pure BTC mode/),
+  suppressedFragment('routeNotAllowed', /^Route not allowed: /),
+  suppressedFragment(
+    'mixedExecutionTypes',
+    /Included steps within a single step have different execution types/
+  ),
+  suppressedFragment(
+    'simulationUnsupported',
+    /Simulation is not supported for chainId/
+  ),
   suppressedFragment(
     'priceImpactFilterError',
     /Price impact filtering returned with an error/
@@ -391,7 +400,12 @@ export const routeIssueRules: RouteIssueRule[] = [
   fragmentRule(
     'destinationSignature',
     'blockedBySettings',
-    /requires? a signature on the destination chain, but the request did not allow it/
+    /require[sd] a signature on the destination chain, but the request did not allow it/
+  ),
+  fragmentRule(
+    'smartSlippageIntermediate',
+    'blockedBySettings',
+    /Intermediate tokens are not supported for the selected smart slippage type/
   ),
   fragmentRule(
     'stablecoinPreset',
@@ -422,7 +436,28 @@ export const routeIssueRules: RouteIssueRule[] = [
     /The route estimation did not complete before the route timing strategy stopped waiting for results/
   ),
   fragmentRule('podOverloaded', 'temporary', /Pod is currently overloaded\./),
+  fragmentRule('simulationFailed', 'temporary', /^Simulation failed \(/),
 
+  fragmentRule(
+    'acrossSwapDestinationCalls',
+    'pairNotSupported',
+    /AcrossSwap does not yet support destination calls/
+  ),
+  fragmentRule(
+    'invalidTokenAddress',
+    'pairNotSupported',
+    /Invalid token address format/
+  ),
+  fragmentRule(
+    'unusualTokens',
+    'pairNotSupported',
+    /Route contains unusual tokens/
+  ),
+  fragmentRule(
+    'hyperliquidSpotMetadata',
+    'pairNotSupported',
+    /Token not found in Hyperliquid spot metadata/
+  ),
   fragmentRule(
     'tronSameChain',
     'pairNotSupported',
