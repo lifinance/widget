@@ -22,7 +22,6 @@ import {
   nextSlippage,
   reportedSlippage,
   roundSuggestion,
-  toDecimalString,
 } from '../utils/routeIssues/suggestions.js'
 import type { RouteIssue } from '../utils/routeIssues/types.js'
 import { useApplyAmount } from './useApplyAmount.js'
@@ -63,42 +62,34 @@ const buildCard = (
   const base = `info.routeIssue.${issue.bucket}`
 
   const toRawAmount = (
-    tokens: number,
+    amount: string,
     direction: 'raise' | 'lower'
   ): bigint | undefined => {
-    const rounded = roundSuggestion(tokens, direction)
-    if (!token || !Number.isFinite(rounded) || rounded <= 0) {
+    if (!token) {
       return undefined
     }
     try {
-      const raw = parseUnits(toDecimalString(rounded), token.decimals)
+      const raw = parseUnits(roundSuggestion(amount, direction), token.decimals)
       return raw > 0n ? raw : undefined
     } catch {
       return undefined
     }
   }
 
-  /** The backend figure, rounded like every other suggestion. */
   const roundedReported = (): bigint | undefined => {
     const reported = bufferedReported(issue)
-    if (reported === undefined || !token) {
+    if (!reported || !token) {
       return undefined
     }
     return toRawAmount(
-      Number(formatUnits(reported, token.decimals)),
+      formatUnits(reported, token.decimals),
       issue.evidence?.direction ?? 'raise'
     )
   }
 
-  /** The amount that buys `targetUsd`, when the backend named no figure. */
   const amountForUsd = (targetUsd: number): bigint | undefined =>
     toRawAmount(
-      Number(
-        priceToTokenAmount(
-          String(Math.max(targetUsd, fallbackTargetUsd)),
-          token?.priceUSD
-        )
-      ),
+      priceToTokenAmount(targetUsd.toString(), token?.priceUSD),
       'raise'
     )
 
@@ -108,30 +99,35 @@ const buildCard = (
       return undefined
     }
     const halved = formatUnits(issue.fromAmount / 2n, token.decimals)
-    const worth = formatTokenPrice(halved, token.priceUSD)
-    return worth < fallbackTargetUsd
+    return formatTokenPrice(halved, token.priceUSD) < fallbackTargetUsd
       ? undefined
-      : toRawAmount(Number(halved), 'lower')
+      : toRawAmount(halved, 'lower')
   }
 
-  const hasSendAmount = issue.fromAmount > 0n
-
-  const amount = !hasSendAmount
-    ? undefined
-    : issue.bucket === 'amountTooLow'
-      ? (roundedReported() ??
-        amountForUsd(issue.evidence?.minUsd ?? fallbackTargetUsd))
-      : issue.bucket === 'amountTooHigh'
-        ? (roundedReported() ?? halvedAmount())
-        : undefined
+  // A contract-call quote is driven by the receive amount, so there is no send
+  // amount to move and any figure would be invented.
+  const amount = ((): bigint | undefined => {
+    if (issue.fromAmount <= 0n) {
+      return undefined
+    }
+    if (issue.bucket === 'amountTooLow') {
+      const target = Math.max(issue.evidence?.minUsd ?? 0, fallbackTargetUsd)
+      return roundedReported() ?? amountForUsd(target)
+    }
+    if (issue.bucket === 'amountTooHigh') {
+      return roundedReported() ?? halvedAmount()
+    }
+    return undefined
+  })()
 
   const suggested =
     amount !== undefined && token ? formatUnits(amount, token.decimals) : ''
 
   // Without a reported figure and without a setting of the user's own there is
   // nothing to call too strict, and nothing meaningful to move.
+  const reported = reportedSlippage(issue)
   const slippageKnown =
-    reportedSlippage(issue) !== '' || Number.isFinite(Number(deps.slippage))
+    reported !== '' || Number.isFinite(Number(deps.slippage))
   const slippageTarget =
     issue.bucket === 'slippageTooTight' && slippageKnown
       ? nextSlippage(issue, deps.slippage)
@@ -160,7 +156,7 @@ const buildCard = (
       if (!slippageTarget) {
         return t(`${base}.descriptionNoAmount` as any)
       }
-      return reportedSlippage(issue)
+      return reported
         ? t(`${base}.description` as any, values)
         : t(`${base}.descriptionSuggested` as any, values)
     }
