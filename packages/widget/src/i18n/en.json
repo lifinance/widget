@@ -137,7 +137,7 @@
       },
       "amountTooHigh": {
         "title": "Amount is too high",
-        "description": "That's more than these routes can move in one go. Trying around {{suggested}} {{symbol}} should fit.",
+        "description": "That's more than these routes can move in one go. The most we can see a route for is around {{suggested}} {{symbol}}.",
         "descriptionNoAmount": "That's above the largest amount these routes accept. Try sending a smaller amount and we'll check again."
       },
       "slippageTooTight": {
