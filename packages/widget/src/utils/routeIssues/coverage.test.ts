@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { classifyRouteIssues } from './classify.js'
+import codes from './fixtures/backend-codes.json' with { type: 'json' }
 import reasons from './fixtures/backend-reasons.json' with { type: 'json' }
 import { routeIssueRules } from './rules.js'
 import type { ClassifyContext } from './types.js'
@@ -43,5 +44,36 @@ describe('every backend filter reason', () => {
       suppressedBy(reason) ??
       (operatorConfig.test(reason) ? 'operator config' : undefined)
     expect(disposition).toBeDefined()
+  })
+})
+
+// The `code` enum the API documents, plus the internal TOOL_NOT_ALLOWED it also
+// emits. A code with no rule falls through to the generic no-routes sentence.
+describe('every backend error code', () => {
+  const suppressedCodes = new Set(
+    routeIssueRules.flatMap((rule) =>
+      rule.suppressed && 'code' in rule.match ? [rule.match.code] : []
+    )
+  )
+
+  it.each(codes)('%s', (code) => {
+    const bucket = classifyRouteIssues(
+      {
+        filteredOut: [],
+        failed: [
+          {
+            overallPath: '1:USDC-stargate-137:USDC',
+            subpaths: {
+              s: [{ errorType: 'NO_QUOTE', code, tool: 'stargate' }],
+            },
+          },
+        ],
+      } as never,
+      context
+    )[0]?.bucket
+
+    expect(
+      bucket ?? (suppressedCodes.has(code) ? 'suppressed' : undefined)
+    ).toBeDefined()
   })
 })
