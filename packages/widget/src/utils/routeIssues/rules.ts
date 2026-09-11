@@ -96,6 +96,12 @@ const suppressedFragment = (id: string, fragment: RegExp): RouteIssueRule => ({
   match: { fragment },
 })
 
+/** The provider's own words, kept when the fragment leaves any behind. */
+const trailingNote: RouteIssueRule['extract'] = (match) => {
+  const note = match[1]?.trim()
+  return note ? { note } : {}
+}
+
 const suppressedCode = (code: string): RouteIssueRule => ({
   id: `code:${code}`,
   bucket: 'pairNotSupported',
@@ -103,6 +109,8 @@ const suppressedCode = (code: string): RouteIssueRule => ({
   match: { code },
 })
 
+// The first matching fragment wins, so the suppressed ones come first: they
+// claim prose a later, more general rule would otherwise turn into a card.
 export const routeIssueRules: RouteIssueRule[] = [
   suppressedCode('TOOL_NOT_ALLOWED'),
   suppressedCode('TOOL_SPECIFIC_ERROR'),
@@ -284,19 +292,13 @@ export const routeIssueRules: RouteIssueRule[] = [
     'toolDisabled',
     'temporary',
     /is currently disabled for this action\.\s*([\s\S]*)$/,
-    (match) => {
-      const note = match[1]?.trim()
-      return note ? { note } : {}
-    }
+    trailingNote
   ),
   fragmentRule(
     'toolNotApplied',
     'temporary',
     /Tool .+ not applied\.\s*([\s\S]*)$/,
-    (match) => {
-      const note = match[1]?.trim()
-      return note ? { note } : {}
-    }
+    trailingNote
   ),
   fragmentRule(
     'routeTimingTimeout',

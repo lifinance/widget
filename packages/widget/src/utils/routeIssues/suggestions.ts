@@ -36,7 +36,7 @@ export const roundSuggestion = (
 /** The reported figure, moved clear of the limit that rejected it. */
 export const bufferedReported = (issue: RouteIssue): bigint | undefined => {
   const required = issue.evidence?.requiredFromAmount
-  if (!required || required <= 0n) {
+  if (required === undefined || required <= 0n) {
     return undefined
   }
   const direction = issue.evidence?.direction ?? 'raise'
@@ -44,6 +44,8 @@ export const bufferedReported = (issue: RouteIssue): bigint | undefined => {
   return buffered > 0n ? buffered : undefined
 }
 
+// A backend slippage carries four digits at most, so twelve keeps every real
+// one while dropping the tail that would round 0.35% a whole step up to 0.36%.
 const withoutFloatTail = (value: number): number =>
   Number(value.toPrecision(12))
 
