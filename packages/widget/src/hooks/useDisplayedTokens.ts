@@ -2,10 +2,12 @@ import type { TokenExtended } from '@lifi/sdk'
 import { useMemo } from 'react'
 import type { FormType } from '../stores/form/types.js'
 import { usePinnedTokensStore } from '../stores/pinnedTokens/PinnedTokensStore.js'
-import { isSearchMatch } from '../utils/tokenList.js'
+import { createSearchMatcher } from '../utils/tokenList.js'
 import { useTokens } from './useTokens.js'
 
 export type IsPinnedToken = (chainId: number, tokenAddress: string) => boolean
+
+export type MatchesSearch = ReturnType<typeof createSearchMatcher>
 
 // Balance-free core shared by useTokenList and useTokenBalances.
 export const useDisplayedTokens = (
@@ -17,6 +19,11 @@ export const useDisplayedTokens = (
   allTokens: Record<number, TokenExtended[]> | undefined
   displayedTokensList: TokenExtended[]
   isPinnedToken: IsPinnedToken | undefined
+  /**
+   * The filter this search applies, built once here so every list that shows
+   * the same search — with balances or without — cannot disagree with it.
+   */
+  matchesSearch: MatchesSearch
   isTokensLoading: boolean
   isSearchLoading: boolean
 } => {
@@ -24,6 +31,7 @@ export const useDisplayedTokens = (
     allTokens,
     isLoading: isTokensLoading,
     isSearchLoading,
+    isAddressSearch,
   } = useTokens(formType, search, isAllNetworks ? undefined : selectedChainId)
 
   const pinnedTokens = usePinnedTokensStore((state) => state.pinnedTokens)
@@ -51,19 +59,25 @@ export const useDisplayedTokens = (
     return undefined
   }, [isAllNetworks, selectedChainId, pinnedTokens])
 
+  const matchesSearch = useMemo<MatchesSearch>(
+    () => createSearchMatcher(search, isAddressSearch),
+    [search, isAddressSearch]
+  )
+
   const displayedTokensList = useMemo(() => {
     const tokensByChain = isAllNetworks
       ? Object.values(allTokens ?? {}).flat()
       : selectedChainId
         ? allTokens?.[selectedChainId]
         : undefined
-    return tokensByChain?.filter((t) => isSearchMatch(t, search)) ?? []
-  }, [allTokens, isAllNetworks, selectedChainId, search])
+    return tokensByChain?.filter(matchesSearch) ?? []
+  }, [allTokens, isAllNetworks, selectedChainId, matchesSearch])
 
   return {
     allTokens,
     displayedTokensList,
     isPinnedToken,
+    matchesSearch,
     isTokensLoading,
     isSearchLoading,
   }
