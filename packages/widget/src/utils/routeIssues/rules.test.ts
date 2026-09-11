@@ -6,6 +6,7 @@ const context: ClassifyContext = {
   fromAmount: 1000n,
   fromChainId: 1,
   fromTokenSymbol: 'ETH',
+  fromTokenDecimals: 18,
   fromAddress: '0xsender',
   toAddress: '0xreceiver',
 }
