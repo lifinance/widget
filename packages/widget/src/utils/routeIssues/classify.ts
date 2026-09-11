@@ -207,9 +207,25 @@ const dropInapplicableReceiver = (
     : issues.filter((issue) => issue.bucket !== 'recipientNotSupported')
 }
 
-// Emitted per tool, so beside a real reason it is both noise and untrue.
+// A Record so a new bucket has to declare which kind of reason it is.
+const aboutTheRequest: Record<RouteIssueBucket, boolean> = {
+  amountTooLow: true,
+  amountTooHigh: true,
+  slippageTooTight: true,
+  destinationAccountNotReady: true,
+  recipientNotSupported: true,
+  gaslessNotAvailable: true,
+  blockedBySettings: true,
+  liquidity: false,
+  temporary: false,
+  pairNotSupported: false,
+}
+
+// `NO_POSSIBLE_ROUTE` is emitted per tool. Beside a reason about the request it
+// is untrue — the pair works, this request does not. Beside a tool's own
+// trouble it is the more complete answer, so it stays.
 const dropUnsupportedNoise = (issues: RouteIssue[]): RouteIssue[] =>
-  issues.length > 1
+  issues.some((issue) => aboutTheRequest[issue.bucket])
     ? issues.filter((issue) => issue.bucket !== 'pairNotSupported')
     : issues
 

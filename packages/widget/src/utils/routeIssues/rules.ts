@@ -12,14 +12,17 @@ export const bucketRank: Record<RouteIssueBucket, number> = {
   amountTooHigh: 1,
   slippageTooTight: 2,
   liquidity: 3,
-  temporary: 4,
-  destinationAccountNotReady: 5,
-  blockedBySettings: 6,
-  gaslessNotAvailable: 7,
+  destinationAccountNotReady: 4,
+  blockedBySettings: 5,
+  gaslessNotAvailable: 6,
   // Emitted by nearly every tool that dislikes the receiver, so it drowns out
   // more specific reasons unless it sits near the catch-all.
-  recipientNotSupported: 8,
-  pairNotSupported: 9,
+  recipientNotSupported: 7,
+  pairNotSupported: 8,
+  // "Try again" is the only reason that offers the user nothing to change, and
+  // one busy tool is no answer while another says the route cannot be built at
+  // all. It leads only when nothing else survived, where a retry is the answer.
+  temporary: 9,
 }
 
 const integerPattern = /^\d+$/
