@@ -40,6 +40,8 @@
   "Simulation failed (relay): execution reverted",
   "Simulation is not supported for chainId 1",
   "Skipping cross-token bridge step in favor of same-token bridge step",
+  "Slippage is too high. Max slippage is 0.03",
+  "Slippage is too high. Max slippage is 0.1",
   "Step execution type 'swap' does not match requested type 'bridge'",
   "The gas costs for this route are higher than the max allowed costs of 20 USD",
   "The route estimation did not complete before the route timing strategy stopped waiting for results",

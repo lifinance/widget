@@ -2,6 +2,7 @@ export type RouteIssueBucket =
   | 'amountTooLow'
   | 'amountTooHigh'
   | 'slippageTooTight'
+  | 'slippageTooLoose'
   | 'destinationAccountNotReady'
   | 'recipientNotSupported'
   | 'gaslessNotAvailable'
