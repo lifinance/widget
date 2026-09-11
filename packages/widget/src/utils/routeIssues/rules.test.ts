@@ -268,7 +268,6 @@ describe('pinned reason fragments', () => {
       'Tool relay is currently disabled for this action. Relay is under maintenance until 14:00 UTC.',
       'temporary',
     ],
-    ['toolNotApplied', 'Tool relay not applied.', 'temporary'],
     [
       'routeTimingTimeout',
       'The route estimation did not complete before the route timing strategy stopped waiting for results',
@@ -310,11 +309,13 @@ describe('pinned reason fragments', () => {
     )
   })
 
-  it('leaves the note undefined when the backend appended none', () => {
-    const [issue] = fromReason(
-      'Tool relay is currently disabled for this action.'
-    )
-    expect(issue.evidence?.note).toBeUndefined()
+  // A path overwrite with no published note is operator routing config, not a
+  // reason the user can do anything with.
+  it.each([
+    'Tool relay is currently disabled for this action.',
+    'Tool relay not applied.',
+  ])('never surfaces %s', (reason) => {
+    expect(fromReason(reason)).toEqual([])
   })
 
   // 2 USD buys 1000 raw units, so 5 USD needs 2500.
@@ -464,7 +465,7 @@ describe('a code refined by its own prose', () => {
                   errorType: 'NO_QUOTE',
                   code: 'INSUFFICIENT_LIQUIDITY',
                   tool: 'someTool',
-                  message: 'Tool fly not applied. Chain is congested.',
+                  message: 'Pod is currently overloaded.',
                   action: {} as never,
                 },
               ],

@@ -126,10 +126,14 @@ const suppressedFragment = (id: string, fragment: RegExp): RouteIssueRule => ({
   match: { fragment },
 })
 
-/** The provider's own words, kept when the fragment leaves any behind. */
-const trailingNote: RouteIssueRule['extract'] = (match) => {
+/**
+ * A path overwrite is operator routing config, not a route failure — nothing
+ * the user waits out or retries. Only the note an operator chose to publish
+ * says anything, so without one the entry is not a reason at all.
+ */
+const operatorNote: RouteIssueRule['extract'] = (match) => {
   const note = match[1]?.trim()
-  return note ? { note } : {}
+  return note ? { note } : null
 }
 
 const suppressedCode = (code: string): RouteIssueRule => ({
@@ -146,6 +150,7 @@ export const routeIssueRules: RouteIssueRule[] = [
   suppressedCode('TOOL_SPECIFIC_ERROR'),
   suppressedCode('UNKNOWN_ERROR'),
   suppressedFragment('lowVolume', /filtered due to low historical volume/),
+  suppressedFragment('toolNotApplied', /Tool .+ not applied\./),
   suppressedFragment(
     'preferredStep',
     /Removing less used bridge step in favor of|Skipping cross-token bridge step in favor of/
@@ -409,13 +414,7 @@ export const routeIssueRules: RouteIssueRule[] = [
     'toolDisabled',
     'temporary',
     /is currently disabled for this action\.\s*([\s\S]*)$/,
-    trailingNote
-  ),
-  fragmentRule(
-    'toolNotApplied',
-    'temporary',
-    /Tool .+ not applied\.\s*([\s\S]*)$/,
-    trailingNote
+    operatorNote
   ),
   fragmentRule(
     'routeTimingTimeout',
