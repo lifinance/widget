@@ -461,7 +461,7 @@ export const useRoutes = ({
 
         const route: Route = convertQuoteToRoute(contractCallQuote)
 
-        return { routes: [route], issues: [] }
+        return { routes: [route], issues: noIssues }
       }
 
       // Prevent sending a request for the same chain token combinations.
@@ -640,9 +640,13 @@ export const useRoutes = ({
       }
 
       const initialRoutes = routesResult?.routes ?? []
-      const issues = initialRoutes.length
-        ? noIssues
-        : classifyRouteIssues(routesResult?.unavailableRoutes, classifyContext)
+      const issuesFor = (routes: Route[]): readonly RouteIssue[] =>
+        routes.length
+          ? noIssues
+          : classifyRouteIssues(
+              routesResult?.unavailableRoutes,
+              classifyContext
+            )
 
       if (shouldUseRelayerQuote && initialRoutes.length) {
         setIntermediateRoutes(queryKey, initialRoutes)
@@ -651,7 +655,7 @@ export const useRoutes = ({
       } else if (shouldUseMainRoutes && !shouldUseRelayerQuote) {
         // If we don't need relayer quote, return the initial routes
         emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
-        return { routes: initialRoutes, issues }
+        return { routes: initialRoutes, issues: issuesFor(initialRoutes) }
       }
 
       const relayerRouteResult = await relayerQuotePromise
@@ -665,10 +669,7 @@ export const useRoutes = ({
         emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
       }
 
-      return {
-        routes: initialRoutes,
-        issues: initialRoutes.length ? noIssues : issues,
-      }
+      return { routes: initialRoutes, issues: issuesFor(initialRoutes) }
     },
     enabled: isEnabled,
     staleTime: refetchTime,
@@ -698,7 +699,7 @@ export const useRoutes = ({
       const queryDataKey = queryKey.toSpliced(queryKey.length - 1, 1, route.id)
       queryClient.setQueryData<RoutesQueryData>(
         queryDataKey,
-        { routes: [route], issues: [] },
+        { routes: [route], issues: noIssues },
         {
           updatedAt: dataUpdatedAt || Date.now(),
         }
