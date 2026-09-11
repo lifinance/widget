@@ -141,6 +141,11 @@
         "descriptionSuggested": "",
         "descriptionNoAmount": ""
       },
+      "slippageTooLoose": {
+        "title": "",
+        "description": "",
+        "descriptionNoAmount": ""
+      },
       "destinationAccountNotReady": {
         "title": "",
         "description": ""
