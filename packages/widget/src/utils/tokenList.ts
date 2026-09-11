@@ -256,23 +256,36 @@ const processedTypedTokens = (
   }
 }
 
-export const isSearchMatch = (
-  token: TokenExtended | TokenAmountExtended,
-  search?: string
-): boolean => {
-  if (!search) {
-    return true
+/**
+ * Builds the filter for one search, so the query is normalized once instead of
+ * once per token: an all-networks list holds tens of thousands of rows, where
+ * normalizing per row costs more than the matching itself. Binding the mode
+ * here also keeps every call site of one search on the same rule.
+ *
+ * An address search matches the token at that address only. Impersonators
+ * embed a real address in their name or symbol, so a substring match on
+ * those fields would surface them for the very query meant to avoid them.
+ */
+export const createSearchMatcher = (
+  search: string | undefined,
+  isAddressSearch: boolean
+): ((token: TokenExtended | TokenAmountExtended) => boolean) => {
+  const searchTerm = search?.trim().toLowerCase()
+
+  if (!searchTerm) {
+    return () => true
   }
 
-  const searchLowerCase = search.toLowerCase()
-  return (
-    token.name?.toLowerCase().includes(searchLowerCase) ||
-    token.symbol
-      ?.replaceAll('₮', 'T')
-      .toLowerCase()
-      .includes(searchLowerCase) ||
-    token.address?.toLowerCase().includes(searchLowerCase)
-  )
+  if (isAddressSearch) {
+    return (token) => token.address?.toLowerCase() === searchTerm
+  }
+
+  return (token) =>
+    Boolean(
+      token.name?.toLowerCase().includes(searchTerm) ||
+        token.symbol?.replaceAll('₮', 'T').toLowerCase().includes(searchTerm) ||
+        token.address?.toLowerCase().includes(searchTerm)
+    )
 }
 
 /**

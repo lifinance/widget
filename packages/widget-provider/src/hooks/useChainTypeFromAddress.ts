@@ -1,14 +1,21 @@
 import { ChainType } from '@lifi/sdk'
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useBitcoinContext } from '../contexts/BitcoinContext.js'
 import { useEthereumContext } from '../contexts/EthereumContext.js'
 import { useSolanaContext } from '../contexts/SolanaContext.js'
 import { useStellarContext } from '../contexts/StellarContext.js'
 import { useSuiContext } from '../contexts/SuiContext.js'
 import { useTronContext } from '../contexts/TronContext.js'
+import {
+  chainTypeFromAddress,
+  chainTypeFromTokenAddress,
+  type ProvidersByChainType,
+} from '../utils/chainTypeFromAddress.js'
 
 export const useChainTypeFromAddress = (): {
   getChainTypeFromAddress: (address: string) => ChainType | undefined
+  /** A token identifier, which several ecosystems shape unlike a wallet address. */
+  getChainTypeFromTokenAddress: (address: string) => ChainType | undefined
 } => {
   const { sdkProvider: ethereumProvider } = useEthereumContext()
   const { sdkProvider: solanaProvider } = useSolanaContext()
@@ -17,27 +24,15 @@ export const useChainTypeFromAddress = (): {
   const { sdkProvider: tronProvider } = useTronContext()
   const { sdkProvider: stellarProvider } = useStellarContext()
 
-  const getChainTypeFromAddress = useCallback(
-    (address: string): ChainType | undefined => {
-      if (ethereumProvider?.isAddress(address)) {
-        return ChainType.EVM
-      }
-      if (solanaProvider?.isAddress(address)) {
-        return ChainType.SVM
-      }
-      if (bitcoinProvider?.isAddress(address)) {
-        return ChainType.UTXO
-      }
-      if (suiProvider?.isAddress(address)) {
-        return ChainType.MVM
-      }
-      if (tronProvider?.isAddress(address)) {
-        return ChainType.TVM
-      }
-      if (stellarProvider?.isAddress(address)) {
-        return ChainType.STL
-      }
-    },
+  const providers = useMemo<ProvidersByChainType>(
+    () => ({
+      [ChainType.EVM]: ethereumProvider,
+      [ChainType.SVM]: solanaProvider,
+      [ChainType.UTXO]: bitcoinProvider,
+      [ChainType.MVM]: suiProvider,
+      [ChainType.TVM]: tronProvider,
+      [ChainType.STL]: stellarProvider,
+    }),
     [
       ethereumProvider,
       solanaProvider,
@@ -47,5 +42,18 @@ export const useChainTypeFromAddress = (): {
       stellarProvider,
     ]
   )
-  return { getChainTypeFromAddress: getChainTypeFromAddress }
+
+  const getChainTypeFromAddress = useCallback(
+    (address: string): ChainType | undefined =>
+      chainTypeFromAddress(providers, address),
+    [providers]
+  )
+
+  const getChainTypeFromTokenAddress = useCallback(
+    (address: string): ChainType | undefined =>
+      chainTypeFromTokenAddress(providers, address),
+    [providers]
+  )
+
+  return { getChainTypeFromAddress, getChainTypeFromTokenAddress }
 }

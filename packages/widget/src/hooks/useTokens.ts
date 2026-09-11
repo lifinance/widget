@@ -12,6 +12,7 @@ import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
 import type { TokensByChain } from '../types/token.js'
+import { isAddressQuery } from '../utils/address.js'
 import { defaultChainIdsByType } from '../utils/chainType.js'
 import { isItemAllowed } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
@@ -32,6 +33,8 @@ export const useTokens = (
   allTokens: Record<number, TokenExtended[]> | undefined
   isLoading: boolean
   isSearchLoading: boolean
+  /** The search is a contract address, so only the token at that address matches. */
+  isAddressSearch: boolean
 } => {
   const {
     tokens: configTokens,
@@ -39,7 +42,16 @@ export const useTokens = (
     keyPrefix,
   } = useWidgetConfig()
   const sdkClient = useSDKClient()
-  const { getChainTypeFromAddress } = useChainTypeFromAddress()
+  const { getChainTypeFromTokenAddress } = useChainTypeFromAddress()
+  // A pasted address often carries a trailing space or newline, which the
+  // API rejects. Trim once so the key, the requests and the checks agree.
+  const trimmedSearch = search?.trim()
+  // Keep this memoized, and out of any per-token loop: a provider validates by
+  // parsing, which costs microseconds per call rather than nanoseconds.
+  const isAddressSearch = useMemo(
+    () => isAddressQuery(trimmedSearch, getChainTypeFromTokenAddress),
+    [trimmedSearch, getChainTypeFromTokenAddress]
+  )
 
   // Main tokens cache - verified tokens from API
   const { data: verifiedTokens, isLoading } = useQuery({
@@ -82,13 +94,14 @@ export const useTokens = (
 
   // Search tokens cache - unverified tokens from search
   const { data: searchTokens, isLoading: isSearchLoading } = useQuery({
-    queryKey: [getQueryKey('tokens-search', keyPrefix), search, chainId],
+    queryKey: [
+      getQueryKey('tokens-search', keyPrefix),
+      trimmedSearch,
+      chainId,
+      isAddressSearch,
+    ] as const,
     queryFn: async ({ queryKey, signal }) => {
-      const [, searchQuery, searchChainId] = queryKey as [
-        string,
-        string,
-        number,
-      ]
+      const [, searchQuery, searchChainId, addressSearch] = queryKey
       const chainTypes = [
         ChainType.EVM,
         ChainType.SVM,
@@ -111,32 +124,60 @@ export const useTokens = (
         { signal }
       )
 
-      // If the chainId is not provided, try to get it from the search query
-      let _chainId = searchChainId
-      if (!_chainId) {
-        const chainType = getChainTypeFromAddress(searchQuery)
-        if (chainType && chainType in defaultChainIdsByType) {
-          _chainId = defaultChainIdsByType[chainType]
-        }
-      }
-
-      // Fallback: If the main search returned no tokens for the specific chainId,
-      // fetch a single token using the /token endpoint
-      if (_chainId && searchQuery) {
-        const existingTokens = tokensResponse.tokens[_chainId] || []
-        if (!existingTokens.length) {
-          const token = await getToken(sdkClient, _chainId, searchQuery, {
-            signal,
-          })
-          if (token) {
-            tokensResponse.tokens[_chainId] = [token]
+      // Fallback: fetch a single token from the /token endpoint when the
+      // search did not deliver one. Look it up on the selected chain, or
+      // without one on the default chain of the address format.
+      if (searchQuery) {
+        const chainType = getChainTypeFromTokenAddress(searchQuery)
+        const lookupChainId =
+          searchChainId ??
+          (chainType ? defaultChainIdsByType[chainType] : undefined)
+        if (lookupChainId) {
+          const existingTokens = tokensResponse.tokens[lookupChainId] ?? []
+          // The search index also matches names, so for an address query
+          // impersonators that embed the address can fill the list while the
+          // token at that address is missing. Without a selected chain the
+          // token can sit on any chain of the response.
+          const hasTokenAtAddress = () => {
+            const address = searchQuery.toLowerCase()
+            const candidates = searchChainId
+              ? [existingTokens]
+              : Object.values(tokensResponse.tokens)
+            return candidates.some((tokens) =>
+              tokens.some((token) => token.address?.toLowerCase() === address)
+            )
+          }
+          const isTokenMissing = addressSearch
+            ? !hasTokenAtAddress()
+            : !existingTokens.length
+          if (isTokenMissing) {
+            try {
+              const token = await getToken(
+                sdkClient,
+                lookupChainId,
+                searchQuery,
+                { signal }
+              )
+              if (token) {
+                tokensResponse.tokens[lookupChainId] = [
+                  ...existingTokens,
+                  token,
+                ]
+              }
+            } catch (error) {
+              // A guessed chain may not hold the token (HTTP 400). Keep the
+              // search results instead of failing the whole query.
+              if (signal.aborted) {
+                throw error
+              }
+            }
           }
         }
       }
 
       return tokensResponse.tokens as TokensByChain
     },
-    enabled: !!search,
+    enabled: !!trimmedSearch,
     refetchInterval,
     staleTime: refetchInterval,
   })
@@ -170,5 +211,6 @@ export const useTokens = (
     allTokens,
     isLoading,
     isSearchLoading,
+    isAddressSearch,
   }
 }
