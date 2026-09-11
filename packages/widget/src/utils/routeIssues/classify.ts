@@ -85,10 +85,13 @@ const findRule = (
   entry: RawEntry
 ): { rule: RouteIssueRule; match?: RegExpExecArray } | undefined => {
   const byCode = entry.code ? ruleByCode.get(entry.code) : undefined
-  // A code the widget maps decides the bucket. Prose may still carry the figure
-  // the code omits, so it refines the code where it agrees, and never reclassifies.
+  // A code the widget maps decides the bucket, and prose that lands in the same
+  // bucket may still carry the figure the code omits. `pairNotSupported` is the
+  // catch-all, so there any prose that names a real reason is the better answer.
   if (byCode && !byCode.suppressed) {
-    return matchFragment(entry.text, byCode.bucket) ?? { rule: byCode }
+    const refinable =
+      byCode.bucket === 'pairNotSupported' ? undefined : byCode.bucket
+    return matchFragment(entry.text, refinable) ?? { rule: byCode }
   }
   return matchFragment(entry.text) ?? (byCode ? { rule: byCode } : undefined)
 }
