@@ -417,6 +417,66 @@ describe('tool error codes', () => {
 })
 
 // Both were observed together in captured payloads: bridges disagree on range.
+describe('a code refined by its own prose', () => {
+  // Reported case: 1 USDC on Arbitrum to uBTC on Hyperliquid. The code names no
+  // figure, so the card fell back to $1 and told a user holding $1 to bump to $1.
+  const hyperliquidMinimum = classifyRouteIssues(
+    {
+      filteredOut: [],
+      failed: [
+        {
+          overallPath:
+            '42161:USDC~42161:USDC-42161:USDC-relaydepository-1337:USDC-1337:USDC~1337:uBTC',
+          subpaths: {
+            '1337:USDC~1337:uBTC': [
+              {
+                errorType: 'NO_QUOTE',
+                code: 'AMOUNT_TOO_LOW',
+                tool: 'hyperliquidSpotProtocol',
+                message:
+                  'The fromAmount is lower than min spot order size (10)',
+                action: {} as never,
+              },
+            ],
+          },
+        },
+      ],
+    },
+    context
+  )
+
+  it('reads the minimum the code omitted', () => {
+    expect(hyperliquidMinimum[0]?.bucket).toBe('amountTooLow')
+    expect(hyperliquidMinimum[0]?.evidence?.minUsd).toBe(10)
+  })
+
+  it('still lets the code decide the bucket when the prose disagrees', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [],
+        failed: [
+          {
+            overallPath: 'p',
+            subpaths: {
+              s: [
+                {
+                  errorType: 'NO_QUOTE',
+                  code: 'INSUFFICIENT_LIQUIDITY',
+                  tool: 'someTool',
+                  message: 'Tool fly not applied. Chain is congested.',
+                  action: {} as never,
+                },
+              ],
+            },
+          },
+        ],
+      },
+      context
+    )
+    expect(issues.map((issue) => issue.bucket)).toEqual(['liquidity'])
+  })
+})
+
 describe('contradictions', () => {
   const rangeReason = (amount: string, min: string, max: string) => ({
     overallPath: sameTokenPath,
