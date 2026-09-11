@@ -579,9 +579,10 @@ describe('contradictions', () => {
 })
 
 describe('ranking', () => {
-  // The changeset promises the top card carries the fix, so an issue with a
-  // figure outranks a higher bucket that has none.
-  it('promotes the issue that carries a figure', () => {
+  // Reported twice: a slippage reason was the only one carrying a figure, so it
+  // led — while the bridges had refused the amount outright and loosening
+  // slippage could not have helped. The bucket order decides, not the figure.
+  it('keeps the blocking bucket ahead of one that merely carries a figure', () => {
     const issues = classifyRouteIssues(
       {
         filteredOut: [
@@ -610,8 +611,8 @@ describe('ranking', () => {
       context
     )
     expect(issues.map((issue) => issue.bucket)).toEqual([
-      'slippageTooTight',
       'amountTooLow',
+      'slippageTooTight',
     ])
   })
 
