@@ -142,13 +142,14 @@ const foldEvidence = (
   }
 }
 
-// Only the leading issue is shown, so one the widget can act on has to win.
 const hasFigure = (issue: RouteIssue): boolean =>
   issue.evidence?.requiredFromAmount !== undefined ||
   issue.evidence?.requiredSlippage !== undefined
 
+// Only the leading issue is shown, and the rank is what says which one blocks
+// the route. Carrying a figure must not promote a lesser reason above it: a
+// slippage the user can loosen is no help while the amount is still refused.
 const compareIssues = (a: RouteIssue, b: RouteIssue): number =>
-  Number(hasFigure(b)) - Number(hasFigure(a)) ||
   bucketRank[a.bucket] - bucketRank[b.bucket]
 
 const collect = (

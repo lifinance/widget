@@ -80,18 +80,19 @@ export interface Suggestion {
 }
 
 /**
- * The bars come from different tools and clearing either one is enough, so the
- * gentler of the two is what the user actually has to reach.
+ * Two tools can state two different bars and clearing either one is enough, so
+ * the gentler is what the user has to reach. `usdBar` is undefined when the USD
+ * figure is only the invented floor, which never competes with a reported one.
  */
 export const gentlerSuggestion = (
   reported: bigint | undefined,
   forUsd: bigint | undefined,
-  usdBar: number
+  usdBar: number | undefined
 ): Suggestion | undefined => {
   if (reported === undefined) {
     return forUsd === undefined ? undefined : { amount: forUsd, usdBar }
   }
-  if (forUsd === undefined || reported <= forUsd) {
+  if (usdBar === undefined || forUsd === undefined || reported <= forUsd) {
     return { amount: reported }
   }
   return { amount: forUsd, usdBar }

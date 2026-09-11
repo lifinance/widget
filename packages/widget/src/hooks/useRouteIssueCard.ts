@@ -119,8 +119,13 @@ const buildCard = (
     if (issue.bucket !== 'amountTooLow') {
       return undefined
     }
-    const target = Math.max(issue.evidence?.minUsd ?? 0, fallbackTargetUsd)
-    return gentlerSuggestion(roundedReported(), amountForUsd(target), target)
+    const declaredUsd = issue.evidence?.minUsd
+    const target = Math.max(declaredUsd ?? 0, fallbackTargetUsd)
+    return gentlerSuggestion(
+      roundedReported(),
+      amountForUsd(target),
+      declaredUsd === undefined ? undefined : target
+    )
   })()
 
   const amount = suggestion?.amount
@@ -148,9 +153,9 @@ const buildCard = (
 
   // Only the bar the suggestion was derived from, so the two figures agree.
   const quotedUsd =
-    suggestion?.usdBar !== undefined && issue.evidence?.minUsd !== undefined
-      ? t('format.currency', { value: suggestion.usdBar })
-      : ''
+    suggestion?.usdBar === undefined
+      ? ''
+      : t('format.currency', { value: suggestion.usdBar })
 
   const values = {
     symbol: token?.symbol ?? '',
