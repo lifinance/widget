@@ -63,6 +63,20 @@ describe('amount suggestions', () => {
     )
   })
 
+  // Measured against the live API: a maximum the backend named was accepted,
+  // while halving what the user sent was refused again — and the refusal
+  // carried no figure either, so the card just halved once more.
+  it('offers nothing when no maximum was reported', () => {
+    const card = buildRouteIssueCard(
+      issue('amountTooHigh', 100_000_000_000_000n, undefined),
+      deps()
+    )
+    expect(card.action).toBeUndefined()
+    expect(card.description).toBe(
+      'info.routeIssue.amountTooHigh.descriptionNoAmount'
+    )
+  })
+
   it('keeps the button away while the amount field is locked', () => {
     const card = buildRouteIssueCard(
       issue('amountTooLow', 200_000n, { requiredFromAmount: 2_000_000n }),
