@@ -520,59 +520,63 @@ describe('contradictions', () => {
     expect(issues[0].evidence?.requiredFromAmount).toBe(500n)
   })
 
-  // NO_POSSIBLE_ROUTE is per tool, so beside a real reason it is untrue.
-  it('drops "pair not supported" when anything else explains it', () => {
-    const withOthers = classifyRouteIssues(
+  const noPossibleRoute = {
+    overallPath: sameTokenPath,
+    subpaths: {
+      s: [
+        {
+          errorType: 'NO_QUOTE' as const,
+          code: 'NO_POSSIBLE_ROUTE',
+          tool: 'someTool',
+          message: 'No route was found for this action.',
+          action: {} as never,
+        },
+      ],
+    },
+  }
+
+  const podOverloaded = {
+    overallPath: sameTokenPath,
+    reason: 'Pod is currently overloaded.',
+  }
+
+  // NO_POSSIBLE_ROUTE is per tool, so beside a reason about the request it is
+  // untrue: the pair works, this request does not.
+  it('drops "pair not supported" when the request itself is the reason', () => {
+    const issues = classifyRouteIssues(
       {
-        filteredOut: [
-          {
-            overallPath: sameTokenPath,
-            reason: 'Pod is currently overloaded.',
-          },
-        ],
-        failed: [
-          {
-            overallPath: sameTokenPath,
-            subpaths: {
-              s: [
-                {
-                  errorType: 'NO_QUOTE',
-                  code: 'NO_POSSIBLE_ROUTE',
-                  tool: 'someTool',
-                  message: 'No route was found for this action.',
-                  action: {} as never,
-                },
-              ],
-            },
-          },
-        ],
+        filteredOut: [rangeReason('1000', '2000', 'Infinity')],
+        failed: [noPossibleRoute],
       },
       context
     )
-    expect(withOthers.map((issue) => issue.bucket)).toEqual(['temporary'])
+    expect(issues.map((issue) => issue.bucket)).toEqual(['amountTooLow'])
+  })
+
+  // Reported: eco was the only bridge allowed and refused every path, while one
+  // sub-swap was rate limited. "Try again" was shown, and retrying never helped.
+  it('leads with "pair not supported" over a busy tool', () => {
+    const issues = classifyRouteIssues(
+      { filteredOut: [podOverloaded], failed: [noPossibleRoute] },
+      context
+    )
+    expect(issues.map((issue) => issue.bucket)).toEqual([
+      'pairNotSupported',
+      'temporary',
+    ])
+  })
+
+  it('leads with the busy tool when nothing else explains the failure', () => {
+    const issues = classifyRouteIssues(
+      { filteredOut: [podOverloaded], failed: [] },
+      context
+    )
+    expect(issues.map((issue) => issue.bucket)).toEqual(['temporary'])
   })
 
   it('keeps "pair not supported" when it is the only thing we know', () => {
     const alone = classifyRouteIssues(
-      {
-        filteredOut: [],
-        failed: [
-          {
-            overallPath: sameTokenPath,
-            subpaths: {
-              s: [
-                {
-                  errorType: 'NO_QUOTE',
-                  code: 'NO_POSSIBLE_ROUTE',
-                  tool: 'someTool',
-                  message: 'No route was found for this action.',
-                  action: {} as never,
-                },
-              ],
-            },
-          },
-        ],
-      },
+      { filteredOut: [], failed: [noPossibleRoute] },
       context
     )
     expect(alone.map((issue) => issue.bucket)).toEqual(['pairNotSupported'])
@@ -643,8 +647,8 @@ describe('ranking', () => {
     )
     expect(issues.map((issue) => issue.bucket)).toEqual([
       'liquidity',
-      'temporary',
       'recipientNotSupported',
+      'temporary',
     ])
   })
 
