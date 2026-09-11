@@ -213,6 +213,15 @@ export const routeIssueRules: RouteIssueRule[] = [
       }
     }
   ),
+  // Seen from seven bridges on a plain USDC transfer: the tool does not serve
+  // this route shape at all. It carried no bucket, so the card fell back to the
+  // generic sentence.
+  fragmentRule(
+    'crossChainSwapsUnsupported',
+    'pairNotSupported',
+    /Cross-chain swaps not supported/i
+  ),
+
   fragmentRule(
     'fromTokenValueFloor',
     'amountTooLow',
