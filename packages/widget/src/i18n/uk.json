@@ -97,6 +97,62 @@
       "routeNotFound": "Причинами цього можуть бути: низька ліквідність, вибрана надто низька сума, занадто високі витрати на газ або відсутність маршрутів для вибраної комбінації.",
       "missingRouteRequiredAccount": "Підключіть ваш гаманець {{chainName}}, щоб продовжити. {{address}}"
     },
+    "routeIssue": {
+      "lookForReasons": "",
+      "applySuggestion": "",
+      "amountTooLow": {
+        "title": "",
+        "description": "",
+        "descriptionUsd": "",
+        "descriptionNoAmount": ""
+      },
+      "amountTooHigh": {
+        "title": "",
+        "description": "",
+        "descriptionNoAmount": ""
+      },
+      "slippageTooTight": {
+        "title": "",
+        "description": "",
+        "descriptionSuggested": "",
+        "descriptionNoAmount": ""
+      },
+      "slippageTooLoose": {
+        "title": "",
+        "description": "",
+        "descriptionNoAmount": ""
+      },
+      "destinationAccountNotReady": {
+        "title": "",
+        "description": ""
+      },
+      "recipientNotSupported": {
+        "title": "",
+        "description": "",
+        "action": ""
+      },
+      "gaslessNotAvailable": {
+        "title": "",
+        "description": ""
+      },
+      "blockedBySettings": {
+        "title": "",
+        "description": ""
+      },
+      "liquidity": {
+        "title": "",
+        "description": ""
+      },
+      "temporary": {
+        "title": "",
+        "description": "",
+        "action": ""
+      },
+      "pairNotSupported": {
+        "title": "",
+        "description": ""
+      }
+    },
     "title": {
       "autoRefuel": "Отримати {{chainName}} газ",
       "emptyTransactionHistory": "Немає останніх транзакцій",

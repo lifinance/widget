@@ -1,4 +1,11 @@
-import type { ExtendedChain, Route, Token } from '@lifi/sdk'
+import type {
+  ExtendedChain,
+  HTTPError,
+  LiFiStep,
+  Route,
+  SDKError,
+  Token,
+} from '@lifi/sdk'
 import {
   ChainType,
   convertQuoteToRoute,
@@ -31,6 +38,8 @@ import { WidgetEvent } from '../types/events.js'
 import type { TokensByChain } from '../types/token.js'
 import { isCustomReceiverBlocked } from '../utils/customReceiver.js'
 import { getQueryKey } from '../utils/queries.js'
+import { classifyRouteIssues } from '../utils/routeIssues/classify.js'
+import type { ClassifyContext, RouteIssue } from '../utils/routeIssues/types.js'
 import { updateTokenInCache } from '../utils/token.js'
 import { useChain } from './useChain.js'
 import { useDebouncedWatch } from './useDebouncedWatch.js'
@@ -41,6 +50,9 @@ import { useToken } from './useToken.js'
 import { useWidgetEvents } from './useWidgetEvents.js'
 
 const refetchTime = 60_000
+
+// Stable identity: a fresh literal here would re-render every memoized consumer.
+const noIssues: readonly RouteIssue[] = Object.freeze([])
 
 interface RoutesProps {
   observableRoute?: Route
@@ -56,12 +68,18 @@ interface RoutesProps {
   keepPreviousData?: boolean
 }
 
+interface RoutesQueryData {
+  routes: Route[]
+  issues: readonly RouteIssue[]
+}
+
 export const useRoutes = ({
   observableRoute,
   quoteFromAddress,
   keepPreviousData: keepPreviousDataEnabled,
 }: RoutesProps = {}): {
   routes: Route[] | undefined
+  issues: readonly RouteIssue[]
   isLoading: boolean
   isFetching: boolean
   isFetched: boolean
@@ -324,6 +342,14 @@ export const useRoutes = ({
       signal,
     }) => {
       const fromAmount = parseUnits(fromTokenAmount, fromToken!.decimals)
+      const classifyContext: ClassifyContext = {
+        fromAmount,
+        fromChainId,
+        fromTokenSymbol: fromToken!.symbol,
+        fromTokenDecimals: fromToken!.decimals,
+        fromAddress,
+        toAddress,
+      }
       const toAmount = toTokenAmount
         ? parseUnits(toTokenAmount, toToken!.decimals)
         : undefined
@@ -367,29 +393,48 @@ export const useRoutes = ({
       })
 
       if (mode === 'custom' && contractCalls?.length && toAmount) {
-        const contractCallQuote = await getContractCallsQuote(
-          sdkClient,
-          {
-            // Contract calls are enabled only when fromAddress is set
-            fromAddress: fromAddress as string,
-            fromChain: fromChainId,
-            fromToken: fromTokenAddress,
-            toAmount: toAmount.toString(),
-            toChain: toChainId,
-            toToken: toTokenAddress,
-            contractCalls,
-            denyBridges: disabledBridges.length ? disabledBridges : undefined,
-            denyExchanges: disabledExchanges.length
-              ? disabledExchanges
-              : undefined,
-            allowBridges,
-            allowExchanges,
-            toFallbackAddress: toAddress,
-            slippage: formattedSlippage,
-            fee: calculatedFee || configuredFee,
-          },
-          { signal }
-        )
+        let contractCallQuote: LiFiStep
+        try {
+          contractCallQuote = await getContractCallsQuote(
+            sdkClient,
+            {
+              // Contract calls are enabled only when fromAddress is set
+              fromAddress: fromAddress as string,
+              fromChain: fromChainId,
+              fromToken: fromTokenAddress,
+              toAmount: toAmount.toString(),
+              toChain: toChainId,
+              toToken: toTokenAddress,
+              contractCalls,
+              denyBridges: disabledBridges.length ? disabledBridges : undefined,
+              denyExchanges: disabledExchanges.length
+                ? disabledExchanges
+                : undefined,
+              allowBridges,
+              allowExchanges,
+              toFallbackAddress: toAddress,
+              slippage: formattedSlippage,
+              fee: calculatedFee || configuredFee,
+            },
+            { signal }
+          )
+        } catch (error) {
+          const cause = (error as SDKError)?.cause as HTTPError | undefined
+          const unavailableRoutes = cause?.responseBody?.errors
+          // Without diagnostics there is nothing to explain, so the error state
+          // and its retry affordance must stand.
+          if (
+            (error as SDKError)?.code !== LiFiErrorCode.NotFound ||
+            !unavailableRoutes
+          ) {
+            throw error
+          }
+          emitter.emit(WidgetEvent.AvailableRoutes, [])
+          return {
+            routes: [],
+            issues: classifyRouteIssues(unavailableRoutes, classifyContext),
+          }
+        }
 
         contractCallQuote.action.toToken = toToken!
 
@@ -412,7 +457,7 @@ export const useRoutes = ({
 
         const route: Route = convertQuoteToRoute(contractCallQuote)
 
-        return [route]
+        return { routes: [route], issues: noIssues }
       }
 
       // Prevent sending a request for the same chain token combinations.
@@ -591,15 +636,22 @@ export const useRoutes = ({
       }
 
       const initialRoutes = routesResult?.routes ?? []
+      const issuesFor = (routes: Route[]): readonly RouteIssue[] =>
+        routes.length
+          ? noIssues
+          : classifyRouteIssues(
+              routesResult?.unavailableRoutes,
+              classifyContext
+            )
 
       if (shouldUseRelayerQuote && initialRoutes.length) {
         setIntermediateRoutes(queryKey, initialRoutes)
         emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
         // Return early if we're only using main routes
-      } else if (shouldUseMainRoutes) {
+      } else if (shouldUseMainRoutes && !shouldUseRelayerQuote) {
         // If we don't need relayer quote, return the initial routes
         emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
-        return initialRoutes
+        return { routes: initialRoutes, issues: issuesFor(initialRoutes) }
       }
 
       const relayerRouteResult = await relayerQuotePromise
@@ -609,9 +661,11 @@ export const useRoutes = ({
         initialRoutes.splice(1, 0, relayerRouteResult)
         // Emit the updated routes
         emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
+      } else if (shouldUseMainRoutes && !initialRoutes.length) {
+        emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
       }
 
-      return initialRoutes
+      return { routes: initialRoutes, issues: issuesFor(initialRoutes) }
     },
     enabled: isEnabled,
     staleTime: refetchTime,
@@ -639,16 +693,23 @@ export const useRoutes = ({
   const setReviewableRoute = useCallback(
     (route: Route) => {
       const queryDataKey = queryKey.toSpliced(queryKey.length - 1, 1, route.id)
-      queryClient.setQueryData(queryDataKey, [route], {
-        updatedAt: dataUpdatedAt || Date.now(),
-      })
+      queryClient.setQueryData<RoutesQueryData>(
+        queryDataKey,
+        { routes: [route], issues: noIssues },
+        {
+          updatedAt: dataUpdatedAt || Date.now(),
+        }
+      )
       setExecutableRoute(route)
     },
     [queryClient, dataUpdatedAt, setExecutableRoute, queryKey]
   )
 
+  const routes = data?.routes || getIntermediateRoutes(queryKey)
+
   return {
-    routes: data || getIntermediateRoutes(queryKey),
+    routes,
+    issues: routes?.length ? noIssues : (data?.issues ?? noIssues),
     isLoading: isEnabled && isLoading,
     isFetching,
     isFetched,

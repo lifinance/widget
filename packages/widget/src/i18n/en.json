@@ -126,6 +126,62 @@
       "routeNotFound": "Reasons for that could be: low liquidity, amount selected is too low, gas costs are too high or there are no routes for the selected combination.",
       "missingRouteRequiredAccount": "Connect your {{chainName}} wallet to proceed. {{address}}"
     },
+    "routeIssue": {
+      "lookForReasons": "Here's what got in the way, and what might help.",
+      "applySuggestion": "Apply suggestion",
+      "amountTooLow": {
+        "title": "Amount is too low",
+        "description": "This is under the smallest amount these routes will take. Bumping it up to around {{suggested}} {{symbol}} should do it.",
+        "descriptionUsd": "Routes for this pair need at least {{minUsd}} to work with. Around {{suggested}} {{symbol}} should get you there.",
+        "descriptionNoAmount": "This is under the smallest amount every route will take. Try sending a little more and we'll look again."
+      },
+      "amountTooHigh": {
+        "title": "Amount is too high",
+        "description": "That's more than these routes can move in one go. The most we can see a route for is around {{suggested}} {{symbol}}.",
+        "descriptionNoAmount": "That's above the largest amount these routes accept. Try sending a smaller amount and we'll check again."
+      },
+      "slippageTooTight": {
+        "title": "Slippage is too tight",
+        "description": "Every route here needs at least {{slippage}}% slippage to go through, which is more than is currently applied.",
+        "descriptionSuggested": "The slippage currently applied is stricter than these routes can work with. Loosening it to {{slippage}}% should help.",
+        "descriptionNoAmount": "The slippage currently applied is stricter than any route here can work with. Try loosening it a little."
+      },
+      "slippageTooLoose": {
+        "title": "Slippage is too high",
+        "description": "Every route here caps slippage at {{slippage}}%, which is less than is currently applied. Lowering it should help.",
+        "descriptionNoAmount": "The slippage currently applied is higher than any route here accepts. Try lowering it a little."
+      },
+      "destinationAccountNotReady": {
+        "title": "The receiving account is not ready",
+        "description": "The destination account needs a little setup before it can accept this token. Once that is done, routes should show up here."
+      },
+      "recipientNotSupported": {
+        "title": "This recipient is not supported",
+        "description": "Routes for this pair can't deliver to a contract or to an address other than your own. Sending to the wallet you're paying from usually works.",
+        "action": "Send to my own address"
+      },
+      "gaslessNotAvailable": {
+        "title": "Gasless is not available here",
+        "description": "None of the routes for this pair can cover the gas for you, so you'll need to pay it yourself this time."
+      },
+      "blockedBySettings": {
+        "title": "Blocked by this widget’s settings",
+        "description": "Every route we found needs a step this widget does not allow, such as a signature on the destination chain."
+      },
+      "liquidity": {
+        "title": "Not enough liquidity",
+        "description": "There is not enough liquidity for an amount this size, so the price impact lands above what any route allows. A smaller amount may work better."
+      },
+      "temporary": {
+        "title": "Temporarily unavailable",
+        "description": "A provider is busy or down for maintenance right now. This usually sorts itself out within a few minutes.",
+        "action": "Try again"
+      },
+      "pairNotSupported": {
+        "title": "This pair is not supported",
+        "description": "No provider connects these two tokens just yet. Picking a different token or chain should give you more to work with."
+      }
+    },
     "title": {
       "autoRefuel": "Get {{chainName}} gas",
       "emptyTransactionHistory": "No recent transactions",
