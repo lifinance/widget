@@ -126,6 +126,26 @@ describe('templates scouted from the backend', () => {
     expect(issue?.evidence?.requiredSlippage).toBe(expected)
   })
 
+  // The figure is in sats, and nothing in the message says so. Reading it as
+  // BTC would be off by 1e8, so this reason must stay figure-free.
+  it('never reads a sats cap as an amount', () => {
+    const [issue] = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: sameTokenPath,
+            reason:
+              'BTC smart deposits amount exceeds the per-intent canary cap of 100000 sats',
+          },
+        ],
+        failed: [],
+      } as never,
+      { ...context, fromTokenSymbol: 'BTC', fromTokenDecimals: 8 }
+    )
+    expect(issue?.bucket).toBe('amountTooHigh')
+    expect(issue?.evidence?.requiredFromAmount).toBeUndefined()
+  })
+
   it('treats expensive gas as temporary', () => {
     expect(
       fromReason(
