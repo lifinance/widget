@@ -22,6 +22,11 @@ export const bucketRank: Record<RouteIssueBucket, number> = {
 
 const integerPattern = /^\d+$/
 
+const bucketByDirection = {
+  raise: 'amountTooLow',
+  lower: 'amountTooHigh',
+} as const
+
 const toBigInt = (value: string): bigint | undefined =>
   integerPattern.test(value) ? BigInt(value) : undefined
 
@@ -34,45 +39,41 @@ const transferRange: RouteIssueRule = {
   },
   extract: (match, context, path): RouteIssueEvidence | null => {
     const current = toBigInt(match[1])
+    const min = toBigInt(match[2])
+    const max = toBigInt(match[3])
     if (current === undefined) {
       return null
     }
-    const min = toBigInt(match[2])
-    const max = toBigInt(match[3])
-    const belowMin = min !== undefined && current < min
-    const aboveMax = max !== undefined && current > max
+    const exceeded =
+      min !== undefined && current < min
+        ? { direction: 'raise' as const, limit: min }
+        : max !== undefined && current > max
+          ? { direction: 'lower' as const, limit: max }
+          : undefined
     // Nothing is out of range, so this reason is not about the amount.
-    if (!belowMin && !aboveMax) {
+    if (!exceeded) {
       return null
     }
     // The backend reports both numbers in the unnamed bridge leg's own token,
     // so only an entry matching the user's own fromAmount yields a real figure.
-    const direction = belowMin ? 'raise' : 'lower'
     const untouchedLeg = path
       ?.toLowerCase()
       .startsWith(
         `${context.fromChainId}:${context.fromTokenSymbol.toLowerCase()}-`
       )
-    if (!untouchedLeg || current <= 0n || current !== context.fromAmount) {
-      return { direction }
-    }
-    return { direction, requiredFromAmount: belowMin ? min! : max! }
+    const { direction, limit } = exceeded
+    return untouchedLeg && current > 0n && current === context.fromAmount
+      ? { direction, requiredFromAmount: limit }
+      : { direction }
   },
   bucketFrom: (evidence): RouteIssueBucket | undefined =>
-    evidence.direction === 'lower'
-      ? 'amountTooHigh'
-      : evidence.direction === 'raise'
-        ? 'amountTooLow'
-        : undefined,
+    evidence.direction && bucketByDirection[evidence.direction],
 }
 
 // Six decimals keeps a USD figure exact while staying in bigint.
 const usdToBigInt = (value: string): bigint | undefined => {
-  const scaled = Number.parseFloat(value) * 1_000_000
-  if (!Number.isSafeInteger(Math.round(scaled)) || scaled <= 0) {
-    return undefined
-  }
-  return BigInt(Math.round(scaled))
+  const scaled = Math.round(Number.parseFloat(value) * 1_000_000)
+  return Number.isSafeInteger(scaled) && scaled > 0 ? BigInt(scaled) : undefined
 }
 
 const fragmentRule = (
@@ -136,22 +137,19 @@ export const routeIssueRules: RouteIssueRule[] = [
     'amountTooLow',
     /the trade is worth ([\d.]+) USD, below the gasless minimum of ([\d.]+) USD/,
     (match, context) => {
+      const minUsd = Number.parseFloat(match[2])
       const currentUsd = usdToBigInt(match[1])
       const requiredUsd = usdToBigInt(match[2])
+      if (!currentUsd || !requiredUsd) {
+        return { direction: 'raise', minUsd }
+      }
       // Both figures price the same request, so the USD ratio scales the
       // request's own amount exactly.
-      if (
-        currentUsd === undefined ||
-        requiredUsd === undefined ||
-        !currentUsd
-      ) {
-        return { direction: 'raise', minUsd: Number.parseFloat(match[2]) }
-      }
       const requiredFromAmount = (context.fromAmount * requiredUsd) / currentUsd
       return {
         direction: 'raise',
         ...(requiredFromAmount > 0n && { requiredFromAmount, estimated: true }),
-        minUsd: Number.parseFloat(match[2]),
+        minUsd,
       }
     }
   ),

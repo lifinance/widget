@@ -5,7 +5,6 @@ import {
   nextSlippage,
   reportedSlippage,
   roundSuggestion,
-  toDecimalString,
 } from './suggestions.js'
 import type { RouteIssue } from './types.js'
 
@@ -19,86 +18,89 @@ const issue = (evidence: RouteIssue['evidence']): RouteIssue => ({
 describe('roundSuggestion', () => {
   // A figure a user reads back is worth more than one that is exact.
   it.each([
-    [0.000492134057317213, 0.0005],
-    [0.0102, 0.011],
-    [5.34, 5.4],
-    [1234.5, 1300],
-    [1, 1],
+    ['0.000492134057317213', '0.0005'],
+    ['0.0102', '0.011'],
+    ['5.34', '5.4'],
+    ['1234.5', '1300'],
+    ['1', '1'],
   ])('rounds %s up to %s', (value, expected) => {
-    expect(roundSuggestion(value, 'raise')).toBeCloseTo(expected, 12)
+    expect(roundSuggestion(value, 'raise')).toBe(expected)
   })
 
   it.each([
-    [0.0102, 0.01],
-    [5.36, 5.3],
-    [1299, 1200],
+    ['0.0102', '0.01'],
+    ['5.36', '5.3'],
+    ['1299', '1200'],
   ])('rounds %s down to %s', (value, expected) => {
-    expect(roundSuggestion(value, 'lower')).toBeCloseTo(expected, 12)
+    expect(roundSuggestion(value, 'lower')).toBe(expected)
   })
 
-  // A narrow sample missed that dividing by the factor put 1e6 at
-  // 999999.9999999999 — under the very limit it had to clear.
   const spread = [
-    1e-9, 1.23e-8, 0.000000123, 0.0000079, 0.0079, 0.0102, 0.5, 1, 1.0001, 7,
-    99.5, 999.9, 1000, 12345, 1e6, 1020000, 1.5e7, 1e9, 9.87e11, 1e12,
+    '0.000000001',
+    '0.0000000123',
+    '0.000000123',
+    '0.0000079',
+    '0.0079',
+    '0.0102',
+    '0.5',
+    '1',
+    '1.0001',
+    '7',
+    '99.5',
+    '999.9',
+    '1000',
+    '12345',
+    '1000000',
+    '1020000',
+    '15000000',
+    '1000000000',
+    '987000000000',
+    '1000000000000',
   ]
 
+  // A hand-picked sample missed that the previous implementation could land
+  // under the very limit it had to clear, and inflated exact figures like 3e6.
+  const sweep: string[] = []
+  for (let exponent = -12; exponent <= 12; exponent++) {
+    for (let step = 1; step <= 400; step++) {
+      sweep.push(String((step / 37) * 10 ** exponent))
+    }
+  }
+
   it('rounding up never lands under the value it must clear', () => {
-    for (const value of spread) {
-      expect(roundSuggestion(value, 'raise')).toBeGreaterThanOrEqual(value)
+    for (const value of [...spread, ...sweep]) {
+      expect(Number(roundSuggestion(value, 'raise'))).toBeGreaterThanOrEqual(
+        Number(value)
+      )
     }
   })
 
   it('rounding down never lands over the value it must stay under', () => {
-    for (const value of spread) {
-      expect(roundSuggestion(value, 'lower')).toBeLessThanOrEqual(value)
+    for (const value of [...spread, ...sweep]) {
+      expect(Number(roundSuggestion(value, 'lower'))).toBeLessThanOrEqual(
+        Number(value)
+      )
     }
   })
 
-  // The figure is rendered verbatim, so a binary tail becomes user-visible.
-  it('never produces more than two significant digits', () => {
+  it.each([
+    ['3000000', '3000000'],
+    ['5000000', '5000000'],
+    ['0.7', '0.7'],
+    ['4200000000', '4200000000'],
+  ])('leaves %s alone — it already reads as two digits', (value, expected) => {
+    expect(roundSuggestion(value, 'raise')).toBe(expected)
+  })
+
+  // The figure is rendered verbatim and written to the form, so a binary tail
+  // or an exponent would reach the user.
+  it('stays a plain decimal of two significant digits', () => {
     for (const value of spread) {
       for (const direction of ['raise', 'lower'] as const) {
         const result = roundSuggestion(value, direction)
-        expect(Number(result.toPrecision(2))).toBe(result)
-      }
-    }
-  })
-
-  it.each([0, -1, Number.NaN, Number.POSITIVE_INFINITY])(
-    'refuses %s',
-    (value) => {
-      expect(Number.isNaN(roundSuggestion(value, 'raise'))).toBe(true)
-    }
-  )
-})
-
-describe('toDecimalString', () => {
-  it.each([
-    [0.011, '0.011'],
-    [0.0005, '0.0005'],
-    [1.1e-8, '0.000000011'],
-    [1e-9, '0.000000001'],
-    [1300, '1300'],
-    [1e6, '1000000'],
-    [9.9e11, '990000000000'],
-    [5.4, '5.4'],
-  ])('writes %s as %s', (value, expected) => {
-    expect(toDecimalString(value)).toBe(expected)
-  })
-
-  // The whole point: a suggestion must survive parseUnits without a tail.
-  it('round-trips every rounded suggestion through parseUnits', () => {
-    const values = [
-      1e-9, 1.23e-8, 0.0000079, 0.0079, 0.0102, 0.5, 1, 7, 99.5, 1000, 1e6,
-      1.5e7, 9.87e11,
-    ]
-    for (const value of values) {
-      for (const direction of ['raise', 'lower'] as const) {
-        const rounded = roundSuggestion(value, direction)
-        const text = toDecimalString(rounded)
-        expect(text).not.toMatch(/e/)
-        expect(formatUnits(parseUnits(text, 18), 18)).toBe(text)
+        expect(result).not.toMatch(/e/i)
+        expect(formatUnits(parseUnits(result, 18), 18)).toBe(result)
+        expect(Number(Number(result).toPrecision(2))).toBe(Number(result))
       }
     }
   })

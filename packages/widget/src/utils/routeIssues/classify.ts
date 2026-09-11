@@ -52,27 +52,30 @@ const collectEntries = (unavailableRoutes: UnavailableRoutes): RawEntry[] => {
   return entries
 }
 
+const ruleByCode = new Map(
+  routeIssueRules.flatMap((rule) =>
+    'code' in rule.match ? [[rule.match.code, rule] as const] : []
+  )
+)
+
+const fragmentRules = routeIssueRules.flatMap((rule) =>
+  'fragment' in rule.match
+    ? [{ rule, fragment: rule.match.fragment } as const]
+    : []
+)
+
 const findRule = (
   entry: RawEntry
 ): { rule: RouteIssueRule; match?: RegExpExecArray } | undefined => {
-  const byCode = entry.code
-    ? routeIssueRules.find(
-        (rule) => 'code' in rule.match && rule.match.code === entry.code
-      )
-    : undefined
+  const byCode = entry.code ? ruleByCode.get(entry.code) : undefined
   // A code the widget maps is authoritative; its prose must not outrank it.
   if (byCode && !byCode.suppressed) {
     return { rule: byCode }
   }
-  if (entry.text) {
-    for (const rule of routeIssueRules) {
-      if ('code' in rule.match) {
-        continue
-      }
-      const match = rule.match.fragment.exec(entry.text)
-      if (match) {
-        return { rule, match }
-      }
+  for (const { rule, fragment } of entry.text ? fragmentRules : []) {
+    const match = fragment.exec(entry.text)
+    if (match) {
+      return { rule, match }
     }
   }
   return byCode ? { rule: byCode } : undefined
@@ -96,49 +99,35 @@ const isGentler = (
   return (candidate.direction ?? 'raise') === 'raise' ? a < b : a > b
 }
 
+const smaller = (a?: number, b?: number): number | undefined =>
+  a === undefined || b === undefined ? (a ?? b) : Math.min(a, b)
+
 const foldEvidence = (
   incumbent: RouteIssueEvidence | undefined,
   candidate: RouteIssueEvidence | undefined
 ): RouteIssueEvidence | undefined => {
-  if (!incumbent) {
-    return candidate
+  if (!incumbent || !candidate) {
+    return incumbent ?? candidate
   }
-  if (!candidate) {
-    return incumbent
-  }
+  const withAmount =
+    isGentler(candidate, incumbent) ||
+    incumbent.requiredFromAmount === undefined
+      ? candidate
+      : incumbent
   return {
     direction: incumbent.direction ?? candidate.direction,
-    ...(isGentler(candidate, incumbent)
-      ? {
-          requiredFromAmount: candidate.requiredFromAmount,
-          estimated: candidate.estimated,
-        }
-      : {
-          requiredFromAmount:
-            incumbent.requiredFromAmount ?? candidate.requiredFromAmount,
-          estimated:
-            incumbent.requiredFromAmount !== undefined
-              ? incumbent.estimated
-              : candidate.estimated,
-        }),
-    requiredSlippage:
-      incumbent.requiredSlippage === undefined
-        ? candidate.requiredSlippage
-        : candidate.requiredSlippage === undefined
-          ? incumbent.requiredSlippage
-          : Math.min(incumbent.requiredSlippage, candidate.requiredSlippage),
-    minUsd:
-      incumbent.minUsd === undefined
-        ? candidate.minUsd
-        : candidate.minUsd === undefined
-          ? incumbent.minUsd
-          : Math.min(incumbent.minUsd, candidate.minUsd),
+    requiredFromAmount: withAmount.requiredFromAmount,
+    estimated: withAmount.estimated,
+    requiredSlippage: smaller(
+      incumbent.requiredSlippage,
+      candidate.requiredSlippage
+    ),
+    minUsd: smaller(incumbent.minUsd, candidate.minUsd),
     note: incumbent.note ?? candidate.note,
   }
 }
 
-// An issue the widget can act on leads, so the one-click fix is never the one
-// hidden behind the "other reasons" toggle.
+// Only the leading issue is shown, so one the widget can act on has to win.
 const hasFigure = (issue: RouteIssue): boolean =>
   issue.evidence?.requiredFromAmount !== undefined ||
   issue.evidence?.requiredSlippage !== undefined
@@ -185,12 +174,7 @@ const resolveAmountConflict = (issues: RouteIssue[]): RouteIssue[] => {
   if (!low || !high) {
     return issues
   }
-  const drop =
-    low.evidence?.requiredFromAmount !== undefined
-      ? high
-      : high.evidence?.requiredFromAmount !== undefined
-        ? low
-        : high
+  const drop = hasFigure(high) && !hasFigure(low) ? low : high
   return issues.filter((issue) => issue !== drop)
 }
 
@@ -229,12 +213,9 @@ const classify = (
     }
   }
 
-  return dropUnsupportedNoise(
-    dropInapplicableReceiver(
-      resolveAmountConflict([...collected.values()]),
-      context
-    )
-  ).sort(compareIssues)
+  const ranged = resolveAmountConflict([...collected.values()])
+  const applicable = dropInapplicableReceiver(ranged, context)
+  return dropUnsupportedNoise(applicable).sort(compareIssues)
 }
 
 export function classifyRouteIssues(

@@ -6,80 +6,55 @@ import type { RouteIssue } from './types.js'
 export const fallbackTargetUsd = 1
 export const fallbackSlippage = 0.5
 
-const suggestionDigits = 2
+const bufferPercent = { raise: 102n, lower: 98n }
 
-const buffer = {
-  raise: { numerator: 102n, denominator: 100n },
-  lower: { numerator: 98n, denominator: 100n },
+const twoSignificantDigits = (roundingMode: 'ceil' | 'floor') =>
+  new Intl.NumberFormat('en', {
+    notation: 'standard',
+    maximumSignificantDigits: 2,
+    roundingMode,
+    useGrouping: false,
+  })
+
+const suggestionFormatter = {
+  raise: twoSignificantDigits('ceil'),
+  lower: twoSignificantDigits('floor'),
 }
 
-/**
- * A suggestion should read as a round number, so trim it to two significant
- * digits — away from the limit it has to clear, which also clears it.
- */
+const slippageFormatter = new Intl.NumberFormat('en', {
+  maximumFractionDigits: 2,
+  roundingMode: 'ceil',
+  useGrouping: false,
+})
+
+/** A round number, trimmed away from the limit it has to clear. */
 export const roundSuggestion = (
-  value: number,
+  amount: string,
   direction: 'raise' | 'lower'
-): number => {
-  if (!Number.isFinite(value) || value <= 0) {
-    return Number.NaN
-  }
-  const exponent = Math.floor(Math.log10(value))
-  const factor = 10 ** (suggestionDigits - 1 - exponent)
-  if (!Number.isFinite(factor) || factor <= 0) {
-    return value
-  }
-  const scaled = value * factor
-  const rounded = direction === 'raise' ? Math.ceil(scaled) : Math.floor(scaled)
-  // Dividing by the factor reintroduces a binary tail (1e6 came back as
-  // 999999.9999999999); an exponent literal is parsed exactly.
-  return Number(`${rounded}e${exponent - suggestionDigits + 1}`)
-}
-
-/**
- * `toFixed` re-exposes the binary tail a suggestion was just rounded free of
- * (0.011 at 18 decimals came back as 0.010999999999999999), and `String` turns
- * exponential below 1e-6, which `parseUnits` rejects. Expand it by hand.
- */
-export const toDecimalString = (value: number): string => {
-  const text = String(value)
-  const parts = /^(-?)(\d+)(?:\.(\d+))?e([+-]\d+)$/.exec(text)
-  if (!parts) {
-    return text
-  }
-  const [, sign, whole, fraction = '', exponent] = parts
-  const digits = whole + fraction
-  const point = Number(exponent) + whole.length
-  if (point <= 0) {
-    return `${sign}0.${'0'.repeat(-point)}${digits}`
-  }
-  if (point >= digits.length) {
-    return `${sign}${digits}${'0'.repeat(point - digits.length)}`
-  }
-  return `${sign}${digits.slice(0, point)}.${digits.slice(point)}`
-}
+): string => suggestionFormatter[direction].format(Number(amount))
 
 /** The reported figure, moved clear of the limit that rejected it. */
 export const bufferedReported = (issue: RouteIssue): bigint | undefined => {
   const required = issue.evidence?.requiredFromAmount
-  if (required === undefined || required <= 0n) {
+  if (!required || required <= 0n) {
     return undefined
   }
-  const { numerator, denominator } =
-    buffer[issue.evidence?.direction ?? 'raise']
-  const raw = (required * numerator) / denominator
-  return raw > 0n ? raw : undefined
+  const direction = issue.evidence?.direction ?? 'raise'
+  const buffered = (required * bufferPercent[direction]) / 100n
+  return buffered > 0n ? buffered : undefined
 }
 
-// Snap the binary error away before rounding up, or 0.0079 * 1e6 lands on
-// 7900.000000000001 and ceil turns 0.79% into 0.7901%.
+const withoutFloatTail = (value: number): number =>
+  Number(value.toPrecision(12))
+
 export const reportedSlippage = (issue: RouteIssue): string => {
   const required = issue.evidence?.requiredSlippage
   if (required === undefined) {
     return ''
   }
-  const snapped = Number((required * 1e6).toFixed(3))
-  return formatSlippage((Math.ceil(snapped) / 1e4).toString())
+  return formatSlippage(
+    slippageFormatter.format(withoutFloatTail(required * 100))
+  )
 }
 
 /** With nothing reported, loosen past the current setting rather than guess. */
@@ -89,9 +64,9 @@ export const nextSlippage = (issue: RouteIssue, applied?: string): string => {
     return reported
   }
   const current = Number(applied)
-  const doubled =
+  const loosened =
     Number.isFinite(current) && current > fallbackSlippage
       ? current * 2
       : fallbackSlippage
-  return formatSlippage(Math.min(doubled, maxRecommendedSlippage).toString())
+  return formatSlippage(Math.min(loosened, maxRecommendedSlippage).toString())
 }
