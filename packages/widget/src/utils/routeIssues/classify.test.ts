@@ -9,6 +9,7 @@ const context: ClassifyContext = {
   fromAmount: 1000n,
   fromChainId: 1,
   fromTokenSymbol: 'ETH',
+  fromTokenDecimals: 18,
 }
 
 describe('classifyRouteIssues safety', () => {
@@ -115,12 +116,15 @@ describe('a captured widget payload', () => {
     )
   })
 
-  // context.fromAmount is 1000n, the wei amount the capture was made with, so
-  // the same-token entries in the payload are the ones that yield a figure.
+  // The capture carries the same minimum twice — once as 'eth' on a path that
+  // bridges the user's own token, once as 'weth' behind a swap — beside a
+  // 0.01 ETH range minimum from another bridge. Clearing the gentlest of them
+  // is enough, and only the 'eth' one is in a token we can size.
   it('takes its figure from the entry in the user own token', () => {
     const issue = issues[0]
     expect(issue?.evidence?.direction).toBe('raise')
-    expect(issue?.evidence?.requiredFromAmount).toBe(10000000000000000n)
+    expect(issue?.evidence?.requiredFromAmount).toBe(410700000000000n)
+    expect(issue?.evidence?.requiredFromAmount).toBeLessThan(10000000000000000n)
   })
 
   it('reports no gasless reason, because the widget never opts in', () => {

@@ -36,6 +36,7 @@ export interface ClassifyContext {
   fromAmount: bigint
   fromChainId: number
   fromTokenSymbol: string
+  fromTokenDecimals: number
   fromAddress?: string
   toAddress?: string
 }

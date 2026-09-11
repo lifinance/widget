@@ -1,3 +1,4 @@
+import { parseUnits } from '@lifi/sdk'
 import type {
   ClassifyContext,
   RouteIssueBucket,
@@ -235,6 +236,26 @@ export const routeIssueRules: RouteIssueRule[] = [
     'amountTooLow',
     /only enabled for swaps >\$(\d+(?:\.\d+)?)/,
     (match) => ({ minUsd: Number.parseFloat(match[1]) })
+  ),
+  fragmentRule(
+    'toolMinimumNamed',
+    'amountTooLow',
+    /amount too small \(min ~?([\d.]+) ([a-z0-9]+)\)/i,
+    (match, context) => {
+      // This one names the token its figure is in, which is the guard the
+      // range reasons lack — a leg holding another token tells us nothing.
+      if (match[2].toLowerCase() !== context.fromTokenSymbol.toLowerCase()) {
+        return { direction: 'raise' }
+      }
+      try {
+        return {
+          direction: 'raise',
+          requiredFromAmount: parseUnits(match[1], context.fromTokenDecimals),
+        }
+      } catch {
+        return { direction: 'raise' }
+      }
+    }
   ),
   fragmentRule(
     'minSpotOrderSize',
