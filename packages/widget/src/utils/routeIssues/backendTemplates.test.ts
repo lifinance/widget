@@ -7,6 +7,7 @@ const context: ClassifyContext = {
   fromAmount: 5_000_000_000_000_000_000n,
   fromChainId: 1,
   fromTokenSymbol: 'ETH',
+  fromTokenDecimals: 18,
 }
 const sameTokenPath = '1:ETH-stargate-137:USDC'
 
@@ -133,5 +134,107 @@ describe('templates scouted from the backend', () => {
         'Skipping cross-token bridge step in favor of same-token bridge step'
       )
     ).toEqual([])
+  })
+})
+
+describe('a tool minimum that names its own token', () => {
+  // Reported: 0.2 USDC Ethereum -> USDC Polygon with auto slippage. Only the
+  // slippage reason carried a figure, so it outranked the amount — and raising
+  // slippage would not have helped, since the bridges also failed on amount.
+  const usdc: ClassifyContext = {
+    fromAmount: 199_500n,
+    fromChainId: 1,
+    fromTokenSymbol: 'USDC',
+    fromTokenDecimals: 6,
+  }
+  const reported = classifyRouteIssues(
+    {
+      filteredOut: [
+        {
+          overallPath: '1:USDC~1:WETH-1:WETH-mayan-137:USDC',
+          reason: 'Path requires a slippage of 0.005 but 0.001 is applied',
+        },
+      ],
+      failed: [
+        {
+          overallPath: '1:USDC~1:USDC-1:USDC-mayan-137:USDC',
+          subpaths: {
+            a: [
+              {
+                errorType: 'NO_QUOTE',
+                code: 'AMOUNT_TOO_LOW',
+                tool: 'mayan',
+                message: 'amount too small (min ~1.3 usdc)',
+                action: {} as never,
+              },
+            ],
+          },
+        },
+        {
+          overallPath: '1:USDC~1:USDC-1:USDC-mayanMCTP-137:USDC',
+          subpaths: {
+            b: [
+              {
+                errorType: 'NO_QUOTE',
+                code: 'AMOUNT_TOO_LOW',
+                tool: 'mayanMCTP',
+                message: 'amount too small (min ~0.5345 usdc)',
+                action: {} as never,
+              },
+            ],
+          },
+        },
+        {
+          overallPath: '1:USDC~1:USDC-1:USDC~1:USDT-1:USDT-mayan-137:USDC',
+          subpaths: {
+            c: [
+              {
+                errorType: 'NO_QUOTE',
+                code: 'AMOUNT_TOO_LOW',
+                tool: 'mayan',
+                message: 'amount too small (min ~1.3 usdt)',
+                action: {} as never,
+              },
+            ],
+          },
+        },
+      ],
+    } as never,
+    usdc
+  )
+
+  it('leads with the amount, not the slippage that cannot fix it', () => {
+    expect(reported[0]?.bucket).toBe('amountTooLow')
+  })
+
+  it('takes the gentlest minimum stated in the user own token', () => {
+    expect(reported[0]?.evidence?.requiredFromAmount).toBe(534_500n)
+  })
+
+  it('ignores a minimum stated in another token', () => {
+    const [issue] = classifyRouteIssues(
+      {
+        filteredOut: [],
+        failed: [
+          {
+            overallPath: '1:USDC~1:USDT-1:USDT-mayan-137:USDC',
+            subpaths: {
+              c: [
+                {
+                  errorType: 'NO_QUOTE',
+                  code: 'AMOUNT_TOO_LOW',
+                  tool: 'mayan',
+                  message: 'amount too small (min ~1.3 usdt)',
+                  action: {} as never,
+                },
+              ],
+            },
+          },
+        ],
+      } as never,
+      usdc
+    )
+    expect(issue?.bucket).toBe('amountTooLow')
+    expect(issue?.evidence?.requiredFromAmount).toBeUndefined()
   })
 })
