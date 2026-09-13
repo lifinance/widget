@@ -48,6 +48,31 @@ export function formatSlippage(
 }
 
 /**
+ * Rewrites exponential notation into plain decimal digits, shifting the point
+ * textually so no precision is lost. `parseUnits` rejects exponential strings,
+ * so a value kept in that form would be unusable downstream.
+ */
+function expandExponential(amount: string): string {
+  const match = /^([+-]?)(\d*)(?:\.(\d*))?[eE]([+-]?\d+)$/.exec(amount)
+  if (!match) {
+    return amount
+  }
+  const [, sign, integer = '', fraction = '', exponent] = match
+  const digits = `${integer}${fraction}`
+  if (!digits) {
+    return amount
+  }
+  const pointIndex = integer.length + Number(exponent)
+  if (pointIndex <= 0) {
+    return `${sign}0.${'0'.repeat(-pointIndex)}${digits}`
+  }
+  if (pointIndex >= digits.length) {
+    return `${sign}${digits}${'0'.repeat(pointIndex - digits.length)}`
+  }
+  return `${sign}${digits.slice(0, pointIndex)}.${digits.slice(pointIndex)}`
+}
+
+/**
  * Formats a user input amount string, normalizing it and optionally limiting decimal places.
  * @param amount - The amount string to format (e.g., '123.45', '1,23', '0..')
  * @param decimals - Maximum number of decimal places to allow. If null, no limit is applied.
@@ -91,6 +116,11 @@ export function formatInputAmount(
     return ''
   }
 
+  // Left in exponential form while typing so the caret is not moved mid-entry
+  if (!returnInitial) {
+    formattedAmount = expandExponential(formattedAmount)
+  }
+
   // Split and limit decimals
   let [integer, fraction = ''] = formattedAmount.split('.')
   if (decimals !== null && fraction.length > decimals) {
@@ -104,8 +134,9 @@ export function formatInputAmount(
     return `${integer}${fraction ? `.${fraction}` : ''}`
   }
 
-  // Remove leading zeros and minus sign
-  integer = integer.replace(/^0+|-/, '')
+  // Remove the minus sign and leading zeros. The sign is anchored: an unanchored
+  // `-` also matched the one in an exponent, turning '1e-1' into '1e1'.
+  integer = integer.replace(/^-/, '').replace(/^0+/, '')
   // Remove trailing zeros
   fraction = fraction.replace(/(0+)$/, '')
 
