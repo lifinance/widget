@@ -252,6 +252,15 @@ export const routeIssueRules: RouteIssueRule[] = [
     /Cross-chain swaps not supported/i
   ),
 
+  // Arrives under TOOL_SPECIFIC_ERROR, which is suppressed wholesale, so the
+  // prose is the only thing that keeps a real ceiling from being dropped.
+  fragmentRule(
+    'toolMaxUsd',
+    'amountTooHigh',
+    /Amount too high, max available is \$([\d.]+)/i,
+    (match) => ({ direction: 'lower', maxUsd: Number.parseFloat(match[1]) })
+  ),
+
   fragmentRule(
     'fromTokenValueFloor',
     'amountTooLow',
