@@ -34,8 +34,22 @@ const bucketByDirection = {
   lower: 'amountTooHigh',
 } as const
 
-const toBigInt = (value: string): bigint | undefined =>
-  integerPattern.test(value) ? BigInt(value) : undefined
+// A bridge limit can arrive in scientific notation. The range reason is
+// rejected whole when a limit does not parse, so the amount went unexplained.
+const scientificPattern = /^(\d+)(?:\.(\d+))?e\+?(\d+)$/i
+
+const toBigInt = (value: string): bigint | undefined => {
+  if (integerPattern.test(value)) {
+    return BigInt(value)
+  }
+  const parts = scientificPattern.exec(value)
+  if (!parts) {
+    return undefined
+  }
+  const fraction = parts[2] ?? ''
+  const zeros = Number(parts[3]) - fraction.length
+  return zeros < 0 ? undefined : BigInt(parts[1] + fraction + '0'.repeat(zeros))
+}
 
 // These limits are raw units of the bridge leg's own token, and the message
 // never says which chain it sits on. Only a path whose first hop bridges the
@@ -120,15 +134,26 @@ const sendWorthLessThanFloor = (context: ClassifyContext): boolean => {
   return Number(units) * price < fallbackTargetUsd
 }
 
-const priceImpact: RouteIssueRule = {
-  id: 'priceImpact',
+// Both reasons say the same thing: the trade loses too much of its value.
+const valueLossRule = (id: string, fragment: RegExp): RouteIssueRule => ({
+  id,
   bucket: 'liquidity',
-  match: { fragment: /Price impact of [\d.]+% is higher than the max allowed/ },
+  match: { fragment },
   extract: (_match, context) =>
     sendWorthLessThanFloor(context) ? { direction: 'raise' } : {},
   bucketFrom: (evidence): RouteIssueBucket | undefined =>
     evidence.direction === 'raise' ? 'amountTooLow' : undefined,
-}
+})
+
+const priceImpact = valueLossRule(
+  'priceImpact',
+  /Price impact of [\d.]+% is higher than the max allowed/
+)
+
+const usdValueDifference = valueLossRule(
+  'usdValueDifference',
+  /USD value difference exceeds [\d.]+%/
+)
 
 // Six decimals keeps a USD figure exact while staying in bigint.
 const usdToBigInt = (value: string): bigint | undefined => {
@@ -471,6 +496,21 @@ export const routeIssueRules: RouteIssueRule[] = [
   ),
 
   priceImpact,
+  usdValueDifference,
+
+  fragmentRule(
+    'chainNotSupported',
+    'pairNotSupported',
+    /^Chain \d+ not supported/
+  ),
+  fragmentRule('upstreamTimeout', 'temporary', /^Upstream timeout/i),
+
+  // Internal router notes. None name anything the user can change, and each
+  // was reaching users as the generic sentence.
+  suppressedFragment('quoteHttpError', /^No quote available: \(HTTP \d+/),
+  suppressedFragment('unknownCause', /^Unknown error; see 'cause' for details/),
+  suppressedFragment('invalidUsdAmounts', /^Invalid USD amounts for the route/),
+  suppressedFragment('noSplitRoute', /^No viable split route was produced/),
 
   fragmentRule(
     'toolDisabled',
