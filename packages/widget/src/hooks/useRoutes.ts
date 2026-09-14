@@ -347,6 +347,7 @@ export const useRoutes = ({
         fromChainId,
         fromTokenSymbol: fromToken!.symbol,
         fromTokenDecimals: fromToken!.decimals,
+        fromTokenPriceUSD: fromToken!.priceUSD,
         fromAddress,
         toAddress,
       }

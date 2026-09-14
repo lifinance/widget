@@ -1,4 +1,5 @@
-import { parseUnits } from '@lifi/sdk'
+import { formatUnits, parseUnits } from '@lifi/sdk'
+import { fallbackTargetUsd } from './suggestions.js'
 import type {
   ClassifyContext,
   RouteIssueBucket,
@@ -102,6 +103,31 @@ const transferRange: RouteIssueRule = {
   },
   bucketFrom: (evidence): RouteIssueBucket | undefined =>
     evidence.direction && bucketByDirection[evidence.direction],
+}
+
+// Price impact is a ratio, so a send worth almost nothing reads as nearly 100%
+// however deep the pool is — the fixed costs are the whole trade. Both shapes
+// were measured against the live API at over 99.99%, one on a dust send and one
+// on 100,000,000 USDC, so the figure alone cannot tell them apart. Only a send
+// too small to be worth routing is the user's to fix, and the fix is a larger
+// amount, not the smaller one the liquidity card would advise.
+const sendWorthLessThanFloor = (context: ClassifyContext): boolean => {
+  const price = Number.parseFloat(context.fromTokenPriceUSD ?? '')
+  if (!(price > 0) || context.fromAmount <= 0n) {
+    return false
+  }
+  const units = formatUnits(context.fromAmount, context.fromTokenDecimals)
+  return Number(units) * price < fallbackTargetUsd
+}
+
+const priceImpact: RouteIssueRule = {
+  id: 'priceImpact',
+  bucket: 'liquidity',
+  match: { fragment: /Price impact of [\d.]+% is higher than the max allowed/ },
+  extract: (_match, context) =>
+    sendWorthLessThanFloor(context) ? { direction: 'raise' } : {},
+  bucketFrom: (evidence): RouteIssueBucket | undefined =>
+    evidence.direction === 'raise' ? 'amountTooLow' : undefined,
 }
 
 // Six decimals keeps a USD figure exact while staying in bigint.
@@ -444,11 +470,7 @@ export const routeIssueRules: RouteIssueRule[] = [
     /does not match requested type/
   ),
 
-  fragmentRule(
-    'priceImpact',
-    'liquidity',
-    /Price impact of [\d.]+% is higher than the max allowed/
-  ),
+  priceImpact,
 
   fragmentRule(
     'toolDisabled',
