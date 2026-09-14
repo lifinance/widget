@@ -125,7 +125,7 @@ const transferRange: RouteIssueRule = {
 // on 100,000,000 USDC, so the figure alone cannot tell them apart. Only a send
 // too small to be worth routing is the user's to fix, and the fix is a larger
 // amount, not the smaller one the liquidity card would advise.
-const sendWorthLessThanFloor = (context: ClassifyContext): boolean => {
+export const sendWorthLessThanFloor = (context: ClassifyContext): boolean => {
   const price = Number.parseFloat(context.fromTokenPriceUSD ?? '')
   if (!(price > 0) || context.fromAmount <= 0n) {
     return false
@@ -133,27 +133,6 @@ const sendWorthLessThanFloor = (context: ClassifyContext): boolean => {
   const units = formatUnits(context.fromAmount, context.fromTokenDecimals)
   return Number(units) * price < fallbackTargetUsd
 }
-
-// Both reasons say the same thing: the trade loses too much of its value.
-const valueLossRule = (id: string, fragment: RegExp): RouteIssueRule => ({
-  id,
-  bucket: 'liquidity',
-  match: { fragment },
-  extract: (_match, context) =>
-    sendWorthLessThanFloor(context) ? { direction: 'raise' } : {},
-  bucketFrom: (evidence): RouteIssueBucket | undefined =>
-    evidence.direction === 'raise' ? 'amountTooLow' : undefined,
-})
-
-const priceImpact = valueLossRule(
-  'priceImpact',
-  /Price impact of [\d.]+% is higher than the max allowed/
-)
-
-const usdValueDifference = valueLossRule(
-  'usdValueDifference',
-  /USD value difference exceeds [\d.]+%/
-)
 
 // Six decimals keeps a USD figure exact while staying in bigint.
 const usdToBigInt = (value: string): bigint | undefined => {
@@ -495,8 +474,17 @@ export const routeIssueRules: RouteIssueRule[] = [
     /does not match requested type/
   ),
 
-  priceImpact,
-  usdValueDifference,
+  // Both reasons say the same thing: the trade loses too much of its value.
+  fragmentRule(
+    'priceImpact',
+    'liquidity',
+    /Price impact of [\d.]+% is higher than the max allowed/
+  ),
+  fragmentRule(
+    'usdValueDifference',
+    'liquidity',
+    /USD value difference exceeds [\d.]+%/
+  ),
 
   fragmentRule(
     'chainNotSupported',
