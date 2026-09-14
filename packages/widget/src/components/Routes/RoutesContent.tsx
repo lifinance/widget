@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
+import type { RouteIssue } from '../../utils/routeIssues/types.js'
 import { PageContainer } from '../PageContainer.js'
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js'
 import { RouteCard } from '../RouteCard/RouteCard.js'
@@ -16,6 +17,7 @@ import { Container, Header } from './RoutesExpanded.style.js'
 
 interface RoutesContentProps {
   routes?: Route[]
+  issues?: readonly RouteIssue[]
   isFetching: boolean
   isLoading: boolean
   dataUpdatedAt: number
@@ -30,6 +32,7 @@ const headerHeight = '52px'
 export const RoutesContent: React.NamedExoticComponent<RoutesContentProps> =
   memo(function RoutesContent({
     routes,
+    issues,
     isFetching,
     isLoading,
     dataUpdatedAt,
@@ -95,7 +98,7 @@ export const RoutesContent: React.NamedExoticComponent<RoutesContentProps> =
             }}
           >
             {routeNotFound ? (
-              <RouteNotFoundCard />
+              <RouteNotFoundCard issues={issues} />
             ) : (isLoading || isFetching) && !routes?.length ? (
               Array.from({ length: 3 }).map((_, index) => (
                 <RouteCardSkeleton key={index} />

@@ -72,6 +72,8 @@ export interface FormProps {
   defaultValues: FormValues
   userValues: FormValues
   touchedFields: { [K in FormFieldNames]?: boolean }
+  /** Bumped by an `immediate` write so watchers can skip their debounce once. */
+  immediateWrites: number
 }
 
 export interface ResetOptions {
@@ -103,6 +105,11 @@ export type FormStoreStore = UseBoundStore<StoreApi<FormValuesState>>
 export interface SetOptions {
   isDirty?: boolean
   isTouched?: boolean
+  /**
+   * A settled value rather than an edit in progress, so `useDebouncedWatch`
+   * passes it on at once. Use it for a button, never for a keystroke.
+   */
+  immediate?: boolean
 }
 
 export type FormType = 'from' | 'to'

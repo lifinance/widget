@@ -97,6 +97,62 @@
       "routeNotFound": "考えられる理由：流動性が低い、選択された金額が低すぎる、ガスコストが高すぎる、選択した組み合わせがルート上にない、以上の理由の複合。",
       "missingRouteRequiredAccount": ""
     },
+    "routeIssue": {
+      "lookForReasons": "",
+      "applySuggestion": "",
+      "amountTooLow": {
+        "title": "",
+        "description": "",
+        "descriptionUsd": "",
+        "descriptionNoAmount": ""
+      },
+      "amountTooHigh": {
+        "title": "",
+        "description": "",
+        "descriptionNoAmount": ""
+      },
+      "slippageTooTight": {
+        "title": "",
+        "description": "",
+        "descriptionSuggested": "",
+        "descriptionNoAmount": ""
+      },
+      "slippageTooLoose": {
+        "title": "",
+        "description": "",
+        "descriptionNoAmount": ""
+      },
+      "destinationAccountNotReady": {
+        "title": "",
+        "description": ""
+      },
+      "recipientNotSupported": {
+        "title": "",
+        "description": "",
+        "action": ""
+      },
+      "gaslessNotAvailable": {
+        "title": "",
+        "description": ""
+      },
+      "blockedBySettings": {
+        "title": "",
+        "description": ""
+      },
+      "liquidity": {
+        "title": "",
+        "description": ""
+      },
+      "temporary": {
+        "title": "",
+        "description": "",
+        "action": ""
+      },
+      "pairNotSupported": {
+        "title": "",
+        "description": ""
+      }
+    },
     "title": {
       "autoRefuel": "",
       "emptyTransactionHistory": "最近のトランザクションはありません",

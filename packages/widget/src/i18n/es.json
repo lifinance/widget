@@ -97,6 +97,62 @@
       "routeNotFound": "Razones para eso: baja liquidez, cantidad seleccionada es demasiado baja, Los costos de gas son demasiado altos o no hay rutas para la combinación seleccionada.",
       "missingRouteRequiredAccount": ""
     },
+    "routeIssue": {
+      "lookForReasons": "",
+      "applySuggestion": "",
+      "amountTooLow": {
+        "title": "",
+        "description": "",
+        "descriptionUsd": "",
+        "descriptionNoAmount": ""
+      },
+      "amountTooHigh": {
+        "title": "",
+        "description": "",
+        "descriptionNoAmount": ""
+      },
+      "slippageTooTight": {
+        "title": "",
+        "description": "",
+        "descriptionSuggested": "",
+        "descriptionNoAmount": ""
+      },
+      "slippageTooLoose": {
+        "title": "",
+        "description": "",
+        "descriptionNoAmount": ""
+      },
+      "destinationAccountNotReady": {
+        "title": "",
+        "description": ""
+      },
+      "recipientNotSupported": {
+        "title": "",
+        "description": "",
+        "action": ""
+      },
+      "gaslessNotAvailable": {
+        "title": "",
+        "description": ""
+      },
+      "blockedBySettings": {
+        "title": "",
+        "description": ""
+      },
+      "liquidity": {
+        "title": "",
+        "description": ""
+      },
+      "temporary": {
+        "title": "",
+        "description": "",
+        "action": ""
+      },
+      "pairNotSupported": {
+        "title": "",
+        "description": ""
+      }
+    },
     "title": {
       "autoRefuel": "Obtener gas {{chainName}}",
       "emptyTransactionHistory": "No hay transacciones recientes",

@@ -97,6 +97,62 @@
       "routeNotFound": "이유: 낮은 유동성, 선택된 수량이 너무 적음, 가스비가 너무 비싸거나 경로가 존재하지 않음",
       "missingRouteRequiredAccount": ""
     },
+    "routeIssue": {
+      "lookForReasons": "",
+      "applySuggestion": "",
+      "amountTooLow": {
+        "title": "",
+        "description": "",
+        "descriptionUsd": "",
+        "descriptionNoAmount": ""
+      },
+      "amountTooHigh": {
+        "title": "",
+        "description": "",
+        "descriptionNoAmount": ""
+      },
+      "slippageTooTight": {
+        "title": "",
+        "description": "",
+        "descriptionSuggested": "",
+        "descriptionNoAmount": ""
+      },
+      "slippageTooLoose": {
+        "title": "",
+        "description": "",
+        "descriptionNoAmount": ""
+      },
+      "destinationAccountNotReady": {
+        "title": "",
+        "description": ""
+      },
+      "recipientNotSupported": {
+        "title": "",
+        "description": "",
+        "action": ""
+      },
+      "gaslessNotAvailable": {
+        "title": "",
+        "description": ""
+      },
+      "blockedBySettings": {
+        "title": "",
+        "description": ""
+      },
+      "liquidity": {
+        "title": "",
+        "description": ""
+      },
+      "temporary": {
+        "title": "",
+        "description": "",
+        "action": ""
+      },
+      "pairNotSupported": {
+        "title": "",
+        "description": ""
+      }
+    },
     "title": {
       "autoRefuel": "",
       "emptyTransactionHistory": "최근 거래 없음",

@@ -11,7 +11,7 @@ import {
 } from '../RouteCard/RouteProviderCard.js'
 
 export const LimitOrderRoutes: React.FC<CardProps> = (props) => {
-  const { routes, isLoading, isFetching, isFetched } = useRoutes()
+  const { routes, issues, isLoading, isFetching, isFetched } = useRoutes()
   const [toAddress, selectedRouteId] = useFieldValues(
     'toAddress',
     'selectedRouteId'
@@ -47,7 +47,7 @@ export const LimitOrderRoutes: React.FC<CardProps> = (props) => {
           <RouteProviderCardSkeleton key={index} />
         ))
       ) : !currentRoute ? (
-        <RouteNotFoundCard />
+        <RouteNotFoundCard issues={issues} />
       ) : (
         routes?.map((route) => (
           <RouteProviderCard
