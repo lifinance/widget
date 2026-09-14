@@ -1,5 +1,5 @@
 import type { UnavailableRoutes } from '@lifi/sdk'
-import { bucketRank, routeIssueRules } from './rules.js'
+import { bucketRank, routeIssueRules, sendWorthLessThanFloor } from './rules.js'
 import type {
   ClassifyContext,
   RouteIssue,
@@ -169,7 +169,15 @@ const collect = (
     return
   }
   const evidence = extracted ?? undefined
-  const bucket = rule.bucketFrom?.(evidence ?? {}) ?? rule.bucket
+  const named = rule.bucketFrom?.(evidence ?? {}) ?? rule.bucket
+  // A send worth almost nothing exhausts any pool and trips every value-loss
+  // check, whichever rule reports it — the code the tool returns as much as the
+  // prose. The cure is a larger amount, never the smaller one the liquidity
+  // card advises, so the whole bucket turns on the size of the send.
+  const bucket =
+    named === 'liquidity' && sendWorthLessThanFloor(context)
+      ? 'amountTooLow'
+      : named
   const incumbent = collected.get(bucket)
   if (incumbent) {
     incumbent.evidence = foldEvidence(incumbent.evidence, evidence)

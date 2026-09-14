@@ -168,6 +168,34 @@ describe('templates scouted from the backend', () => {
       expect(bucketFor({ ...usdc, fromAmount: 1n })).toBe('amountTooLow')
     })
 
+    // The reported card came from the INSUFFICIENT_LIQUIDITY *code*, not from
+    // any price-impact prose, so a fix attached to the prose rules missed it.
+    // Every route to the liquidity bucket has to turn on the size of the send.
+    it('reads a dust send as too low when a tool reports the code', () => {
+      const bucket = classifyRouteIssues(
+        {
+          filteredOut: [],
+          failed: [
+            {
+              overallPath: sameTokenPath,
+              subpaths: {
+                s: [
+                  {
+                    errorType: 'NO_QUOTE',
+                    code: 'INSUFFICIENT_LIQUIDITY',
+                    tool: 'okx',
+                    message: 'No liquidity available from OKX',
+                  },
+                ],
+              },
+            },
+          ],
+        } as never,
+        { ...usdc, fromAmount: 1n }
+      )[0]?.bucket
+      expect(bucket).toBe('amountTooLow')
+    })
+
     it('still reads a large send as illiquid', () => {
       expect(bucketFor({ ...usdc, fromAmount: 100_000_000_000_000n })).toBe(
         'liquidity'
