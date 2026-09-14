@@ -511,6 +511,7 @@ export const routeIssueRules: RouteIssueRule[] = [
   suppressedFragment('unknownCause', /^Unknown error; see 'cause' for details/),
   suppressedFragment('invalidUsdAmounts', /^Invalid USD amounts for the route/),
   suppressedFragment('noSplitRoute', /^No viable split route was produced/),
+  suppressedFragment('skippedGeneration', /skipping .+ route generation/i),
 
   fragmentRule(
     'toolDisabled',
