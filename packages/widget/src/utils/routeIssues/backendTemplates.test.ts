@@ -186,6 +186,23 @@ describe('templates scouted from the backend', () => {
     })
   })
 
+  // Seen live: a maximum in scientific notation. `toBigInt` rejected it, and
+  // because the range rule needs every limit it dropped the reason whole, so a
+  // refused amount showed the generic sentence instead.
+  it('reads a range limit written in scientific notation', () => {
+    const [issue] = fromReason(
+      'Transferred amount (7097232079488999000000000000) out of acceptable range (min: 0, max: 1.8921633406219466e+23)'
+    )
+    expect(issue?.bucket).toBe('amountTooHigh')
+  })
+
+  it('treats a USD value difference like a price impact', () => {
+    const [issue] = fromReason(
+      'USD value difference exceeds 40% ($100000000.00 in vs $54395971.18 out).'
+    )
+    expect(issue?.bucket).toBe('liquidity')
+  })
+
   it('treats expensive gas as temporary', () => {
     expect(
       fromReason(

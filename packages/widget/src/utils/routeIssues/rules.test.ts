@@ -104,10 +104,20 @@ describe('transferRange rule', () => {
     ).toEqual([])
   })
 
-  it('emits nothing when a captured number is not an integer', () => {
+  // Seen live from the deployed API. This used to emit nothing, so an amount
+  // the backend had refused reached the user as the generic sentence.
+  it('reads limits written in scientific notation', () => {
     expect(
       fromReason(
         'Transferred amount (1e21) out of acceptable range (min: 2e21, max: Infinity)'
+      ).map((issue) => issue.bucket)
+    ).toEqual(['amountTooLow'])
+  })
+
+  it('emits nothing when a captured number is not a number at all', () => {
+    expect(
+      fromReason(
+        'Transferred amount (lots) out of acceptable range (min: some, max: Infinity)'
       )
     ).toEqual([])
   })

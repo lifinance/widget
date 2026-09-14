@@ -5,9 +5,12 @@ import reasons from './fixtures/backend-reasons.json' with { type: 'json' }
 import { routeIssueRules } from './rules.js'
 import type { ClassifyContext } from './types.js'
 
-// Every `filteredOut.reason` template lifted from lifi-backend, with its
-// placeholders filled. A reason the widget neither buckets nor deliberately
-// suppresses would reach a user as the generic no-routes sentence.
+// Every `filteredOut.reason` template lifted from lifi-backend with its
+// placeholders filled, plus the templates observed live against the deployed
+// API. The deployed service is not lifi-backend, so source alone never covered
+// it — these were collected by sweeping real quotes across chains and amounts.
+// A reason the widget neither buckets nor deliberately suppresses would reach
+// a user as the generic no-routes sentence.
 const context: ClassifyContext = {
   fromAmount: 1_000_000n,
   fromChainId: 1,
