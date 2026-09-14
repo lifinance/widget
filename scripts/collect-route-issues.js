@@ -14,6 +14,8 @@
  * The routes endpoint allows about 75 requests an hour, far fewer than the
  * matrix below, so a run tops the fixture up and skips what it already has.
  * Re-run after the window resets until it reports nothing left to collect.
+ * Run `pnpm check:write` afterwards — Biome owns the fixture's formatting and
+ * JSON.stringify does not match it.
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
@@ -24,6 +26,11 @@ const apiArg = args.indexOf('--api')
 const API = apiArg === -1 ? 'https://li.quest/v1' : args[apiArg + 1]
 const FRESH = args.includes('--fresh')
 const INTEGRATOR = 'li.fi-playground'
+// Without a key the routes endpoint allows 75 requests per ~80 minutes, in a
+// fixed window that releases all at once — so spacing requests out buys
+// nothing, and the whole matrix takes several windows. Set LIFI_API_KEY to
+// collect it in one go.
+const API_KEY = process.env.LIFI_API_KEY
 
 const OUT = resolve(
   dirname(fileURLToPath(import.meta.url)),
@@ -176,7 +183,13 @@ const buildMatrix = () => {
 let remaining = Number.POSITIVE_INFINITY
 
 const call = async (path, init) => {
-  const res = await fetch(`${API}${path}`, init)
+  const res = await fetch(`${API}${path}`, {
+    ...init,
+    headers: {
+      ...init?.headers,
+      ...(API_KEY ? { 'x-lifi-api-key': API_KEY } : {}),
+    },
+  })
   const left = res.headers.get('ratelimit-remaining')
   if (left !== null) {
     remaining = Number(left)
@@ -252,7 +265,9 @@ const main = async () => {
   const matrix = buildMatrix()
   const todo = matrix.filter((testCase) => !have.has(testCase.name))
 
-  console.warn(`${have.size} collected, ${todo.length} to go, on ${API}`)
+  console.warn(
+    `${have.size} collected, ${todo.length} to go, on ${API}${API_KEY ? ' (keyed)' : ' (no key — expect several windows)'}`
+  )
   if (!todo.length) {
     console.warn('nothing left to collect')
     return
