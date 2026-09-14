@@ -3,24 +3,26 @@
  * Collects real `unavailableRoutes` payloads so the route-issue classifier can
  * be tested against what the API actually returns.
  *
- * The widget only ever sees these payloads, so replaying them through
+ * The widget only ever sees these payloads, so replaying one through
  * `classifyRouteIssues` and `buildRouteIssueCard` reproduces a card exactly,
  * without a browser and without the network.
  *
  *   node scripts/collect-route-issues.js
  *   node scripts/collect-route-issues.js --api https://api-develop.jumper.xyz/pipeline/v1
+ *   node scripts/collect-route-issues.js --fresh     # ignore what is already there
  *
- * Writes packages/widget/src/utils/routeIssues/fixtures/live-payloads.json.
- * Re-run it when the API starts returning something new; the committed fixture
- * is what CI reads.
+ * The routes endpoint allows about 75 requests an hour, far fewer than the
+ * matrix below, so a run tops the fixture up and skips what it already has.
+ * Re-run after the window resets until it reports nothing left to collect.
  */
-import { writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const args = process.argv.slice(2)
 const apiArg = args.indexOf('--api')
 const API = apiArg === -1 ? 'https://li.quest/v1' : args[apiArg + 1]
+const FRESH = args.includes('--fresh')
 const INTEGRATOR = 'li.fi-playground'
 
 const OUT = resolve(
@@ -36,77 +38,166 @@ const TOKENS = {
   usdcP: [137, '0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359'],
   wethE: [1, '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'],
   ethE: [1, NATIVE],
+  ethB: [8453, NATIVE],
   sol: [1151111081099710, '11111111111111111111111111111111'],
   btc: [20000000000001, 'bitcoin'],
   sui: [9270000000000000, '0x2::sui::SUI'],
+  trx: [728126428, 'T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb'],
   plume: [98866, NATIVE],
+  ink: [57073, NATIVE],
+  bera: [80094, NATIVE],
 }
 
-/**
- * `usd: null` means one raw unit — the smallest amount that can be sent.
- * `bridges` / `exchanges` pin the tools, which is how an empty quote is
- * produced on demand: the card only exists when no route comes back.
- */
-const CASES = [
-  { from: 'usdcB', to: 'sol', usd: null, name: 'dust to solana' },
-  { from: 'usdcE', to: 'btc', usd: null, name: 'dust to bitcoin' },
-  { from: 'usdcE', to: 'btc', usd: 1e8, name: 'huge to bitcoin' },
-  { from: 'usdcE', to: 'sui', usd: 1e8, name: 'huge to sui' },
-  { from: 'plume', to: 'usdcE', usd: 1e8, name: 'huge from a long tail chain' },
+const EOA = '0xBD55C2F306C97Fd1d3E7A023f7c4834a2F472834'
+const CONTRACT = '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE'
 
-  // The reported card: a send of one unit that read as thin liquidity.
-  {
-    from: 'usdcB',
-    to: 'sol',
-    usd: null,
-    name: 'dust, one exchange with no liquidity',
-    exchanges: ['okx'],
-  },
-  {
-    from: 'usdcE',
-    to: 'wethE',
-    usd: 1e8,
-    name: 'same chain swap, huge, one exchange',
-    exchanges: ['1inch'],
-  },
-  {
-    from: 'usdcA',
-    to: 'usdcB',
-    usd: null,
-    name: 'dust, one bridge',
-    bridges: ['across'],
-  },
-  {
-    from: 'usdcA',
-    to: 'usdcB',
-    usd: 1e8,
-    name: 'huge, bridge that names its cap',
-    bridges: ['celercircle'],
-  },
-  {
-    from: 'usdcA',
-    to: 'usdcB',
-    usd: 1e8,
-    name: 'huge, bridge that names no cap',
-    bridges: ['across'],
-  },
-  {
-    from: 'usdcA',
-    to: 'sol',
-    usd: 50,
-    name: 'one bridge that cannot serve the pair',
-    bridges: ['eco'],
-  },
-  {
-    from: 'usdcE',
-    to: 'usdcP',
-    usd: 50,
-    name: 'receiver is a contract, one bridge',
-    bridges: ['stargateV2'],
-    fromAddress: '0xBD55C2F306C97Fd1d3E7A023f7c4834a2F472834',
-    toAddress: '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE',
-  },
+// Pinning a tool is what forces an empty quote, and an empty quote is the only
+// state the card exists for.
+const BRIDGES = [
+  'across',
+  'celercircle',
+  'celercirclefast',
+  'stargateV2',
+  'mayan',
+  'mayanMCTP',
+  'garden',
+  'eco',
+  'symbiosis',
+  'glacis',
+  'relaydepository',
+  'polymerStandard',
+  'allbridge',
+  'squid',
 ]
+const EXCHANGES = [
+  '1inch',
+  'okx',
+  'paraswap',
+  'kyberswap',
+  'enso',
+  'bebop',
+  'dodo',
+  'openocean',
+  'sushiswap',
+  'gluex',
+]
+
+/** `usd: null` means one raw unit — the smallest amount that can be sent. */
+const AMOUNTS = [
+  ['dust', null],
+  ['huge', 1e8],
+]
+
+const buildMatrix = () => {
+  const cases = []
+  for (const tool of BRIDGES) {
+    for (const [band, usd] of AMOUNTS) {
+      cases.push({
+        name: `bridge ${tool}, ${band}`,
+        from: 'usdcA',
+        to: 'usdcB',
+        usd,
+        bridges: [tool],
+      })
+    }
+  }
+  for (const tool of EXCHANGES) {
+    for (const [band, usd] of AMOUNTS) {
+      cases.push({
+        name: `exchange ${tool}, ${band}`,
+        from: 'usdcE',
+        to: 'wethE',
+        usd,
+        exchanges: [tool],
+      })
+    }
+  }
+  const pairs = [
+    ['usdcB', 'sol'],
+    ['usdcE', 'btc'],
+    ['usdcE', 'sui'],
+    ['usdcE', 'trx'],
+    ['sol', 'usdcB'],
+    ['btc', 'usdcE'],
+    ['usdcE', 'plume'],
+    ['usdcE', 'ink'],
+    ['usdcE', 'bera'],
+    ['plume', 'usdcE'],
+    ['ethE', 'usdcA'],
+    ['ethB', 'usdcB'],
+  ]
+  for (const [from, to] of pairs) {
+    for (const [band, usd] of AMOUNTS) {
+      cases.push({ name: `${from} to ${to}, ${band}`, from, to, usd })
+    }
+  }
+  // Request shape reaches the receiver and slippage rules, which no amount does.
+  for (const [from, to] of [
+    ['usdcE', 'usdcP'],
+    ['usdcB', 'sol'],
+    ['usdcA', 'usdcB'],
+  ]) {
+    cases.push({
+      name: `${from} to ${to}, receiver is a contract`,
+      from,
+      to,
+      usd: 50,
+      bridges: ['stargateV2'],
+      fromAddress: EOA,
+      toAddress: CONTRACT,
+    })
+    cases.push({
+      name: `${from} to ${to}, receiver differs from sender`,
+      from,
+      to,
+      usd: 50,
+      bridges: ['across'],
+      fromAddress: CONTRACT,
+      toAddress: EOA,
+    })
+    cases.push({
+      name: `${from} to ${to}, slippage far too tight`,
+      from,
+      to,
+      usd: 50,
+      slippage: 0.00001,
+    })
+    cases.push({
+      name: `${from} to ${to}, slippage very loose`,
+      from,
+      to,
+      usd: 50,
+      slippage: 0.3,
+    })
+  }
+  return cases
+}
+
+let remaining = Number.POSITIVE_INFINITY
+
+const call = async (path, init) => {
+  const res = await fetch(`${API}${path}`, init)
+  const left = res.headers.get('ratelimit-remaining')
+  if (left !== null) {
+    remaining = Number(left)
+  }
+  return res
+}
+
+/** Stop while there is still budget, so a run never ends half-collected. */
+const budgetSpent = () => remaining < 3
+
+const rawAmount = (token, usd) => {
+  if (usd === null) {
+    return '1'
+  }
+  const units = BigInt(Math.round((usd / token.price) * 1e6))
+  const scaled =
+    token.decimals >= 6
+      ? units * 10n ** BigInt(token.decimals - 6)
+      : units / 10n ** BigInt(6 - token.decimals)
+  return (scaled > 0n ? scaled : 1n).toString()
+}
 
 /**
  * Keep only what `collectEntries` reads. A raw response carries the whole
@@ -154,33 +245,19 @@ const trim = (unavailableRoutes) => {
   return { filteredOut, failed }
 }
 
-let remaining = Number.POSITIVE_INFINITY
-
-const call = async (path, init) => {
-  const res = await fetch(`${API}${path}`, init)
-  const left = res.headers.get('ratelimit-remaining')
-  if (left !== null) {
-    remaining = Number(left)
-  }
-  return res
-}
-
-/** Stop while there is still budget, so a run never ends half-collected. */
-const budgetSpent = () => remaining < 5
-
-const rawAmount = (token, usd) => {
-  if (usd === null) {
-    return '1'
-  }
-  const units = BigInt(Math.round((usd / token.price) * 1e6))
-  const scaled =
-    token.decimals >= 6
-      ? units * 10n ** BigInt(token.decimals - 6)
-      : units / 10n ** BigInt(6 - token.decimals)
-  return scaled.toString()
-}
-
 const main = async () => {
+  const existing =
+    !FRESH && existsSync(OUT) ? JSON.parse(readFileSync(OUT, 'utf8')) : []
+  const have = new Set(existing.map((entry) => entry.name))
+  const matrix = buildMatrix()
+  const todo = matrix.filter((testCase) => !have.has(testCase.name))
+
+  console.warn(`${have.size} collected, ${todo.length} to go, on ${API}`)
+  if (!todo.length) {
+    console.warn('nothing left to collect')
+    return
+  }
+
   const meta = {}
   for (const [name, [chain, address]] of Object.entries(TOKENS)) {
     const res = await call(
@@ -199,10 +276,11 @@ const main = async () => {
     }
   }
 
-  const collected = []
-  for (const testCase of CASES) {
+  const collected = [...existing]
+  let added = 0
+  for (const testCase of todo) {
     if (budgetSpent()) {
-      console.warn(`stopping early: rate limit budget spent (${remaining})`)
+      console.warn(`\nstopping: rate limit budget spent (${remaining} left)`)
       break
     }
     const from = meta[testCase.from]
@@ -236,11 +314,13 @@ const main = async () => {
       body: JSON.stringify(body),
     })
     // A non-200 recorded as an empty payload is indistinguishable from a real
-    // "no routes", which is how an earlier sweep produced pages of nonsense.
+    // "no routes", which is how an earlier browser sweep produced pages of
+    // nonsense. Stop instead, and keep everything collected so far.
     if (res.status !== 200) {
-      throw new Error(
-        `${testCase.name}: HTTP ${res.status} ${(await res.text()).slice(0, 160)}`
+      console.warn(
+        `\n${testCase.name}: HTTP ${res.status} — stopping, keeping ${added} new`
       )
+      break
     }
     const payload = await res.json()
 
@@ -262,14 +342,18 @@ const main = async () => {
       routes: (payload.routes ?? []).length,
       unavailableRoutes: trim(payload.unavailableRoutes ?? {}),
     })
+    added++
     console.warn(
       `${testCase.name}: routes=${collected.at(-1).routes} (budget ${remaining})`
     )
-    await new Promise((r) => setTimeout(r, 600))
+    await new Promise((r) => setTimeout(r, 400))
   }
 
+  collected.sort((a, b) => a.name.localeCompare(b.name))
   writeFileSync(OUT, `${JSON.stringify(collected, null, 2)}\n`)
-  console.warn(`\nwrote ${collected.length} payloads to ${OUT}`)
+  console.warn(
+    `\nadded ${added}, ${collected.length} of ${matrix.length} collected`
+  )
 }
 
 main().catch((error) => {
