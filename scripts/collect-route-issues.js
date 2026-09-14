@@ -31,6 +31,9 @@ const INTEGRATOR = 'li.fi-playground'
 // nothing, and the whole matrix takes several windows. Set LIFI_API_KEY to
 // collect it in one go.
 const API_KEY = process.env.LIFI_API_KEY
+const VERIFY = args.includes('--verify')
+const SUGGESTIONS =
+  '/tmp/claude-501/-Users-eugene-Projects/71d17826-4937-4a23-828e-04f08fcb6e62/scratchpad/suggestions.json'
 
 const OUT = resolve(
   dirname(fileURLToPath(import.meta.url)),
@@ -258,17 +261,85 @@ const trim = (unavailableRoutes) => {
   return { filteredOut, failed }
 }
 
+/**
+ * Re-requests each suggestion at the amount the card offers. A suggestion that
+ * still returns nothing is one the user would apply and be no better off, which
+ * no offline assertion can catch.
+ */
+const verify = async (meta) => {
+  const suggestions = JSON.parse(readFileSync(SUGGESTIONS, 'utf8'))
+  const byName = new Map(buildMatrix().map((entry) => [entry.name, entry]))
+  const results = []
+  for (const { name, suggested, sent } of suggestions) {
+    if (budgetSpent()) {
+      console.warn(`\nstopping: budget spent (${remaining} left)`)
+      break
+    }
+    const testCase = byName.get(name)
+    if (!testCase) {
+      continue
+    }
+    const from = meta[testCase.from]
+    const to = meta[testCase.to]
+    const units = Number(suggested)
+    const raw = BigInt(Math.round(units * 10 ** Math.min(from.decimals, 15)))
+    const fromAmount = (
+      from.decimals > 15 ? raw * 10n ** BigInt(from.decimals - 15) : raw
+    ).toString()
+
+    const res = await call('/advanced/routes', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        fromChainId: from.chain,
+        fromTokenAddress: from.address,
+        fromAmount,
+        toChainId: to.chain,
+        toTokenAddress: to.address,
+        options: {
+          slippage: testCase.slippage ?? 0.005,
+          integrator: INTEGRATOR,
+          ...(testCase.bridges ? { bridges: { allow: testCase.bridges } } : {}),
+          ...(testCase.exchanges
+            ? { exchanges: { allow: testCase.exchanges } }
+            : {}),
+        },
+        ...(testCase.fromAddress ? { fromAddress: testCase.fromAddress } : {}),
+        ...(testCase.toAddress ? { toAddress: testCase.toAddress } : {}),
+      }),
+    })
+    if (res.status !== 200) {
+      console.warn(`${name}: HTTP ${res.status} — stopping`)
+      break
+    }
+    const payload = await res.json()
+    const routes = (payload.routes ?? []).length
+    results.push({ name, suggested, routes })
+    console.warn(
+      `${routes > 0 ? 'WORKS ' : 'FAILS '} ${name} — applied ${suggested} (sent ${sent}) -> routes=${routes}`
+    )
+    await new Promise((r) => setTimeout(r, 400))
+  }
+  const failed = results.filter((entry) => entry.routes === 0)
+  console.warn(
+    `\n${results.length - failed.length}/${results.length} suggestions produced routes`
+  )
+  for (const entry of failed) {
+    console.warn(`  still empty: ${entry.name} at ${entry.suggested}`)
+  }
+}
+
 const main = async () => {
   const existing =
     !FRESH && existsSync(OUT) ? JSON.parse(readFileSync(OUT, 'utf8')) : []
   const have = new Set(existing.map((entry) => entry.name))
   const matrix = buildMatrix()
-  const todo = matrix.filter((testCase) => !have.has(testCase.name))
+  const todo = VERIFY ? [] : matrix.filter((entry) => !have.has(entry.name))
 
   console.warn(
     `${have.size} collected, ${todo.length} to go, on ${API}${API_KEY ? ' (keyed)' : ' (no key — expect several windows)'}`
   )
-  if (!todo.length) {
+  if (!VERIFY && !todo.length) {
     console.warn('nothing left to collect')
     return
   }
@@ -289,6 +360,11 @@ const main = async () => {
       decimals: token.decimals,
       price: Number(token.priceUSD),
     }
+  }
+
+  if (VERIFY) {
+    await verify(meta)
+    return
   }
 
   const collected = [...existing]
