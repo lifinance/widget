@@ -22,6 +22,8 @@ export interface RouteIssueEvidence {
   estimated?: boolean
   requiredSlippage?: number
   minUsd?: number
+  /** A ceiling the tool stated in dollars rather than in token units. */
+  maxUsd?: number
   note?: string
 }
 

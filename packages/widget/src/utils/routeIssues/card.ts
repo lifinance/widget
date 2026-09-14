@@ -73,10 +73,13 @@ export const buildRouteIssueCard = (
     )
   }
 
-  const amountForUsd = (targetUsd: number): bigint | undefined =>
+  const amountForUsd = (
+    targetUsd: number,
+    direction: 'raise' | 'lower' = 'raise'
+  ): bigint | undefined =>
     toRawAmount(
       priceToTokenAmount(targetUsd.toString(), token?.priceUSD),
-      'raise'
+      direction
     )
 
   // A contract-call quote is driven by the receive amount, so there is no send
@@ -90,7 +93,10 @@ export const buildRouteIssueCard = (
       // was measured against the live API: where a figure was reported the
       // suggestion worked, and where it was invented the amount was still
       // refused — so the card offered a fresh halving, and then another.
-      const reported = roundedReported()
+      const maxUsd = issue.evidence?.maxUsd
+      const reported =
+        roundedReported() ??
+        (maxUsd === undefined ? undefined : amountForUsd(maxUsd, 'lower'))
       return reported === undefined ? undefined : { amount: reported }
     }
     if (issue.bucket !== 'amountTooLow') {

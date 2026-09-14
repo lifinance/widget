@@ -2,14 +2,40 @@ import type { Token } from '@lifi/sdk'
 import type { TFunction } from 'i18next'
 import { describe, expect, it } from 'vitest'
 import en from '../../i18n/en.json' with { type: 'json' }
+import { maxRecommendedSlippage } from '../../stores/settings/createSettingsStore.js'
 import { buildRouteIssueCard } from './card.js'
 import { classifyRouteIssues } from './classify.js'
-import payloads from './fixtures/live-payloads.json' with { type: 'json' }
+import rawPayloads from './fixtures/live-payloads.json' with { type: 'json' }
+import { routeIssueRules } from './rules.js'
 import type { ClassifyContext } from './types.js'
 
 // Real payloads from the API, collected by scripts/collect-route-issues.js.
 // The widget only ever sees these, so replaying one reproduces its card
 // exactly — which is what lets the sentence a user would read be asserted.
+
+interface LivePayload {
+  name: string
+  request: {
+    fromChainId: number
+    fromTokenSymbol: string
+    fromTokenDecimals: number
+    fromTokenPriceUSD: string
+    fromAmount: string
+    toChainId: number
+    fromAddress?: string
+    toAddress?: string
+    slippage: number
+    bridges?: string[]
+    exchanges?: string[]
+  }
+  routes: number
+  unavailableRoutes: {
+    filteredOut?: { reason: string; overallPath?: string }[]
+    failed?: unknown[]
+  }
+}
+
+const payloads = rawPayloads as unknown as LivePayload[]
 
 const lookup = (key: string): string =>
   key.split('.').reduce<any>((node, part) => node?.[part], en) ?? ''
@@ -23,7 +49,59 @@ const t = ((key: string, values?: Record<string, unknown>): string => {
   )
 }) as unknown as TFunction
 
-const usdValue = (request: (typeof payloads)[number]['request']): number =>
+const suppressedCodes = new Set(
+  routeIssueRules.flatMap((rule) =>
+    rule.suppressed && 'code' in rule.match ? [rule.match.code] : []
+  )
+)
+
+const isSuppressed = (text: string, code?: string): boolean =>
+  (code !== undefined && suppressedCodes.has(code)) ||
+  routeIssueRules.some(
+    (rule) =>
+      rule.suppressed &&
+      'fragment' in rule.match &&
+      rule.match.fragment.test(text)
+  )
+
+/**
+ * Reasons that produced no bucket and were not deliberately suppressed. An
+ * empty payload leaves the widget nothing to say, and a suppressed one says
+ * nothing worth repeating; a dropped reason is the bug this feature exists to
+ * prevent, so only that fails.
+ */
+const unexplained = (entry: LivePayload): string[] => {
+  const seen: { text: string; code?: string }[] = []
+  for (const item of entry.unavailableRoutes.filteredOut ?? []) {
+    seen.push({ text: item.reason })
+  }
+  for (const route of (entry.unavailableRoutes.failed ?? []) as {
+    subpaths?: Record<string, { code?: string; message?: string }[]>
+  }[]) {
+    for (const errors of Object.values(route.subpaths ?? {})) {
+      for (const error of errors) {
+        seen.push({ text: error.message ?? '', code: error.code })
+      }
+    }
+  }
+  return seen
+    .filter(({ text, code }) => !isSuppressed(text, code))
+    .map(({ text, code }) => `${code ?? 'reason'}: ${text}`)
+}
+
+/** Reasons the user can act on, as opposed to a tool's own trouble. */
+const requestLevel = new Set([
+  'amountTooLow',
+  'amountTooHigh',
+  'slippageTooTight',
+  'slippageTooLoose',
+  'destinationAccountNotReady',
+  'recipientNotSupported',
+  'gaslessNotAvailable',
+  'blockedBySettings',
+])
+
+const usdValue = (request: LivePayload['request']): number =>
   (Number(request.fromAmount) / 10 ** request.fromTokenDecimals) *
   Number(request.fromTokenPriceUSD)
 
@@ -58,18 +136,15 @@ describe('cards built from real API payloads', () => {
     const issue = issues[0]
 
     if (!issue) {
-      // Telling these apart is the whole point: an empty payload leaves the
-      // widget nothing to say, while reasons that produced no bucket are
-      // reasons dropped on the floor, which is the bug this feature exists for.
-      const u = entry.unavailableRoutes as {
-        filteredOut?: unknown[]
-        failed?: unknown[]
-      }
-      const reasonCount = (u.filteredOut?.length ?? 0) + (u.failed?.length ?? 0)
+      const dropped = unexplained(entry)
       report.push(
-        `${entry.name.padEnd(30)} ${reasonCount === 0 ? 'no diagnostics from the API' : '*** REASONS DROPPED ***'}`
+        `${entry.name.padEnd(30)} ${
+          dropped.length
+            ? `*** DROPPED: ${dropped[0].slice(0, 58)}`
+            : 'nothing to explain'
+        }`
       )
-      expect(reasonCount).toBe(0)
+      expect(dropped).toEqual([])
       return
     }
 
@@ -124,6 +199,39 @@ describe('cards built from real API payloads', () => {
     // act on. Below the floor the shortfall is the size of the send itself.
     if (issue.bucket === 'liquidity') {
       expect(usdValue(request)).toBeGreaterThanOrEqual(1)
+    }
+
+    // The button and the sentence have to name the same figure. Reported as
+    // "I receive a quote for $11 but it suggests less".
+    if (applied !== undefined && !applied.startsWith('slippage:')) {
+      expect(card.description).toContain(applied)
+    }
+
+    // A minimum the backend stated is a floor, so a suggestion under it asks
+    // the user to retry an amount already refused.
+    const minUsd = issue.evidence?.minUsd
+    if (
+      minUsd !== undefined &&
+      applied !== undefined &&
+      !applied.startsWith('slippage:')
+    ) {
+      const suggestedUsd = Number(applied) * Number(request.fromTokenPriceUSD)
+      expect(suggestedUsd).toBeGreaterThanOrEqual(minUsd * 0.99)
+    }
+
+    // Loosening past what the widget itself calls unusual is not a fix.
+    if (applied?.startsWith('slippage:')) {
+      const target = Number(applied.slice('slippage:'.length))
+      expect(target).toBeGreaterThan(0)
+      expect(target).toBeLessThanOrEqual(maxRecommendedSlippage)
+    }
+
+    // "This pair is not supported" is untrue beside a reason about the request,
+    // and it must never be what the user is left reading.
+    const buckets = issues.map((entry) => entry.bucket)
+    if (buckets.some((bucket) => requestLevel.has(bucket))) {
+      expect(buckets).not.toContain('pairNotSupported')
+      expect(issue.bucket).not.toBe('temporary')
     }
   })
 

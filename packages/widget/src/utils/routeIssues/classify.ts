@@ -138,6 +138,7 @@ const foldEvidence = (
       candidate.requiredSlippage
     ),
     minUsd: smaller(incumbent.minUsd, candidate.minUsd),
+    maxUsd: smaller(incumbent.maxUsd, candidate.maxUsd),
     note: incumbent.note ?? candidate.note,
   }
 }
