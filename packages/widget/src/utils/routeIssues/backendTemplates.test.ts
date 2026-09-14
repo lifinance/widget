@@ -146,6 +146,46 @@ describe('templates scouted from the backend', () => {
     expect(issue?.evidence?.requiredFromAmount).toBeUndefined()
   })
 
+  // Reported: 0.000001 USDC to SOL said "Not enough liquidity … a smaller
+  // amount may work better". There is no smaller amount than one unit.
+  describe('price impact', () => {
+    const impact = 'Price impact of 99.99% is higher than the max allowed 10%'
+    const usdc = {
+      fromChainId: 42161,
+      fromTokenSymbol: 'USDC',
+      fromTokenDecimals: 6,
+      fromTokenPriceUSD: '1',
+    }
+    const bucketFor = (context: ClassifyContext) =>
+      classifyRouteIssues(
+        {
+          filteredOut: [{ overallPath: sameTokenPath, reason: impact }],
+        } as never,
+        context
+      )[0]?.bucket
+
+    it('reads a dust send as too low', () => {
+      expect(bucketFor({ ...usdc, fromAmount: 1n })).toBe('amountTooLow')
+    })
+
+    it('still reads a large send as illiquid', () => {
+      expect(bucketFor({ ...usdc, fromAmount: 100_000_000_000_000n })).toBe(
+        'liquidity'
+      )
+    })
+
+    // Without a price there is nothing to measure the send against, and
+    // calling every impact a dust send would be worse than saying nothing.
+    it('stays with liquidity when the token has no price', () => {
+      expect(
+        bucketFor({ ...usdc, fromAmount: 1n, fromTokenPriceUSD: undefined })
+      ).toBe('liquidity')
+      expect(
+        bucketFor({ ...usdc, fromAmount: 1n, fromTokenPriceUSD: '0' })
+      ).toBe('liquidity')
+    })
+  })
+
   it('treats expensive gas as temporary', () => {
     expect(
       fromReason(

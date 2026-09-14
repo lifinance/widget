@@ -38,6 +38,8 @@ export interface ClassifyContext {
   fromChainId: number
   fromTokenSymbol: string
   fromTokenDecimals: number
+  /** Tells a dust send apart from a genuinely illiquid one. */
+  fromTokenPriceUSD?: string
   fromAddress?: string
   toAddress?: string
 }
