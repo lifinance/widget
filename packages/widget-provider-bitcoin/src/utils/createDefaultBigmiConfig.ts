@@ -33,16 +33,17 @@ export interface DefaultBigmiConfigResult {
 }
 
 /**
- * Creates default Bigmi config that can be later synced (via useSyncBigmiConfig) with chains fetched from LI.FI API.
+ * Creates the default Bigmi config. Bitcoin is a single chain, so unlike the
+ * Ethereum provider there is nothing to sync against the chains returned by the
+ * LI.FI API.
  * @param props Properties to setup connectors. {@link DefaultBigmiConfigProps}
  * @returns Bigmi config and connectors. {@link DefaultBigmiConfigResult}
  * @example
- *  const { config, connectors } = createDefaultBigmiConfig();
+ *  const { config } = createDefaultBigmiConfig();
  *  export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
- *    const { chains } = useAvailableChains();
- *    useSyncBigmiConfig(config, connectors, chains);
+ *    useReconnect(config);
  *    return (
- *      <BigmiProvider config={wagmi.config} reconnectOnMount={false}>
+ *      <BigmiProvider config={config} reconnectOnMount={false}>
  *        {children}
  *      </BigmiProvider>
  *    );
