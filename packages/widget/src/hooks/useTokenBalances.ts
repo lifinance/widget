@@ -4,11 +4,7 @@ import type { FormType } from '../stores/form/types.js'
 import { useSettings } from '../stores/settings/useSettings.js'
 import type { TokenAmount } from '../types/token.js'
 import { formatTokenPrice } from '../utils/format.js'
-import {
-  hoistNativeToken,
-  isSearchMatch,
-  processTokenList,
-} from '../utils/tokenList.js'
+import { hoistNativeToken, processTokenList } from '../utils/tokenList.js'
 import { useAccountsBalancesData } from './useAccountsBalancesData.js'
 import { useDisplayedTokens } from './useDisplayedTokens.js'
 import { useTokenBalancesQueries } from './useTokenBalancesQueries.js'
@@ -31,6 +27,7 @@ export const useTokenBalances = (
     allTokens,
     displayedTokensList,
     isPinnedToken,
+    matchesSearch,
     isTokensLoading,
     isSearchLoading,
   } = useDisplayedTokens(selectedChainId, formType, isAllNetworks, search)
@@ -77,10 +74,10 @@ export const useTokenBalances = (
       // Check if token is in displayed list and has amount
       const isInDisplayedList = displayedTokensSet.has(tokenKey) && token.amount
       // Check if it matches search (for cached appended tokens)
-      const matchesSearch = isSearchMatch(token, search)
+      const matchesTheSearch = matchesSearch(token)
 
       // Filter: only include tokens that match our criteria
-      if (!isInDisplayedList && !matchesSearch) {
+      if (!isInDisplayedList && !matchesTheSearch) {
         return acc
       }
 
@@ -111,7 +108,7 @@ export const useTokenBalances = (
   }, [
     allTokensWithBalances,
     displayedTokensList,
-    search,
+    matchesSearch,
     selectedChainId,
     isAllNetworks,
     smallBalanceThreshold,
