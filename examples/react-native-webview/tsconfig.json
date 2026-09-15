@@ -1,0 +1,10 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "noEmit": true,
+    // Typecheck against react-native-webview's shipped index.d.ts rather than
+    // resolving its `react-native` exports condition into untyped source.
+    "customConditions": []
+  }
+}
