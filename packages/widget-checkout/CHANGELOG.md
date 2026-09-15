@@ -1,5 +1,15 @@
 # @lifi/widget-checkout
 
+## 4.0.3
+
+### Patch Changes
+
+- Updated dependencies [[`1590c19`](https://github.com/lifinance/widget/commit/1590c1907376b800c556b139a10400fc301ca2cf), [`2aa029b`](https://github.com/lifinance/widget/commit/2aa029bd0e26fdac4e96f6dd008350e36ecab79f), [`ae17ea7`](https://github.com/lifinance/widget/commit/ae17ea726c8cf277c3d7ebb9734c42dc3b682bc2), [`1526cf2`](https://github.com/lifinance/widget/commit/1526cf23815aaf788ff5fe2ff4a11b0d13c7602b), [`e98e2d1`](https://github.com/lifinance/widget/commit/e98e2d101796c579f48e283d5e6c485229717781), [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128), [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128), [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128)]:
+  - @lifi/widget@4.6.1
+  - @lifi/widget-provider@4.5.0
+  - @lifi/wallet-management@4.2.1
+  - @lifi/widget-provider-mesh@4.0.3
+
 ## 4.0.2
 
 ### Patch Changes

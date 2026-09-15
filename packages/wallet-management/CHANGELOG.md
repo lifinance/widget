@@ -1,5 +1,15 @@
 # @lifi/wallet-management
 
+## 4.2.1
+
+### Patch Changes
+
+- [#870](https://github.com/lifinance/widget/pull/870) [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128) Thanks [@chybisov](https://github.com/chybisov)! - Update `i18next` to 26.4.2.
+
+- [#870](https://github.com/lifinance/widget/pull/870) [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.7.0.
+- Updated dependencies [[`1590c19`](https://github.com/lifinance/widget/commit/1590c1907376b800c556b139a10400fc301ca2cf), [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128)]:
+  - @lifi/widget-provider@4.5.0
+
 ## 4.2.0
 
 ### Minor Changes
