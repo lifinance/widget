@@ -11,6 +11,7 @@ import {
   chainTypeFromTokenAddress,
   type ProvidersByChainType,
 } from '../utils/chainTypeFromAddress.js'
+import { isZcashAddress } from '../utils/isZcashAddress.js'
 
 export const useChainTypeFromAddress = (): {
   getChainTypeFromAddress: (address: string) => ChainType | undefined
@@ -28,7 +29,13 @@ export const useChainTypeFromAddress = (): {
     () => ({
       [ChainType.EVM]: ethereumProvider,
       [ChainType.SVM]: solanaProvider,
-      [ChainType.UTXO]: bitcoinProvider,
+      // Zcash shares the UTXO key with Bitcoin, so both checks live in one
+      // entry. Zcash needs no wallet, so the entry stands without a provider.
+      [ChainType.UTXO]: {
+        isAddress: (address: string) =>
+          Boolean(bitcoinProvider?.isAddress(address)) ||
+          isZcashAddress(address),
+      },
       [ChainType.MVM]: suiProvider,
       [ChainType.TVM]: tronProvider,
       [ChainType.STL]: stellarProvider,

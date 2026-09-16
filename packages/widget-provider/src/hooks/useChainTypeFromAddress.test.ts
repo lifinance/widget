@@ -91,6 +91,29 @@ describe('useChainTypeFromAddress', () => {
     expect(getChainTypeFromTokenAddress(mocks.wallets.evm)).toBeUndefined()
   })
 
+  it('maps a Zcash address to UTXO, the key Bitcoin shares with it', () => {
+    const { getChainTypeFromAddress, getChainTypeFromTokenAddress } =
+      useChainTypeFromAddress()
+
+    // A transparent address, a shielded one and a unified one.
+    expect(getChainTypeFromAddress('t1KszAHEXNWDLsKKLQPZWNTgqzJgJRkYqRT')).toBe(
+      ChainType.UTXO
+    )
+    expect(
+      getChainTypeFromAddress(
+        'zs1z7rejlpsa98s2rrrfkwmaxu53e4ue0ulcrw0h4x5g8jl04tak0d3mm47vdtahatqrlkngh9slya'
+      )
+    ).toBe(ChainType.UTXO)
+    expect(
+      getChainTypeFromAddress(
+        'u1l8xunezsvhq8fgzfl7404m450nwnd76zshscn6nfys7vyz2ywyh4cc5daaq0c7q2su5lqfh23sp7fkyy6c4p8faxzv7lnrdad83xmn9t9t8'
+      )
+    ).toBe(ChainType.UTXO)
+    expect(
+      getChainTypeFromTokenAddress('t1KszAHEXNWDLsKKLQPZWNTgqzJgJRkYqRT')
+    ).toBeUndefined()
+  })
+
   it('finds no token chain type for Bitcoin, which implements no check', () => {
     const { getChainTypeFromAddress, getChainTypeFromTokenAddress } =
       useChainTypeFromAddress()
