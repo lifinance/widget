@@ -188,8 +188,16 @@ export const buildRouteIssueCard = (
       }
       // Without a reported figure or a stated bar the number is the invented
       // floor, so the copy must advise rather than report an observed minimum.
+      // `evidence.estimated` marks a requiredFromAmount the widget scaled from
+      // a USD ratio rather than one a tool stated, so a suggestion taken from
+      // it is no more observed than the floor is.
+      const scaledReport =
+        Boolean(issue.evidence?.estimated) &&
+        suggestion?.usdBar === undefined &&
+        !suggestion?.estimated
       const invented =
         suggestion?.estimated ||
+        scaledReport ||
         (suggestion?.usdBar !== undefined && !quotableBar)
       return invented && issue.bucket === 'amountTooLow'
         ? t(`${base}.descriptionEstimated` as any, values)
