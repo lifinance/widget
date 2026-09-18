@@ -1,6 +1,7 @@
 import { Stack } from '@mui/material'
 import { useRoutes } from '../../hooks/useRoutes.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
+import { useWideVariant } from '../../hooks/useWideVariant.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import type { CardProps } from '../Card/Card.js'
@@ -17,6 +18,7 @@ export const LimitOrderRoutes: React.FC<CardProps> = (props) => {
     'selectedRouteId'
   )
   const { setFieldValue } = useFieldActions()
+  const wideVariant = useWideVariant()
   const { requiredToAddress, unsupportedReceiverBlocking } =
     useToAddressRequirements()
 
@@ -47,7 +49,11 @@ export const LimitOrderRoutes: React.FC<CardProps> = (props) => {
           <RouteProviderCardSkeleton key={index} />
         ))
       ) : !currentRoute ? (
-        <RouteNotFoundCard issues={issues} />
+        // The side panel carries the card in the wide layout, where it showed
+        // twice. The route selector below stays either way.
+        wideVariant ? null : (
+          <RouteNotFoundCard issues={issues} />
+        )
       ) : (
         routes?.map((route) => (
           <RouteProviderCard
