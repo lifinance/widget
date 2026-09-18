@@ -75,6 +75,25 @@ describe('amount suggestions', () => {
     )
   })
 
+  // Reported in review: gating the quote must not also change which amount is
+  // suggested. A tool asking 0.5 is reachable at the 1 floor, so the gentler
+  // figure still wins over another tool's 5 — the card just does not name it.
+  it('still suggests the gentler amount when the bar is below the floor', () => {
+    const applyAmount = vi.fn()
+    const card = buildRouteIssueCard(
+      issue('amountTooLow', 200_000n, {
+        requiredFromAmount: 5_000_000n,
+        minUsd: 0.5,
+      }),
+      deps({ applyAmount })
+    )
+    card.action?.run()
+    expect(applyAmount).toHaveBeenCalledWith('1')
+    expect(card.description).toBe(
+      'info.routeIssue.amountTooLow.descriptionEstimated'
+    )
+  })
+
   it('quotes a bar at or above the floor', () => {
     const card = buildRouteIssueCard(
       issue('amountTooLow', 200_000n, { minUsd: 2 }),

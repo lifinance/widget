@@ -113,15 +113,13 @@ export const buildRouteIssueCard = (
     }
     const declaredUsd = issue.evidence?.minUsd
     const target = Math.max(declaredUsd ?? 0, fallbackTargetUsd)
-    // Quote the bar only when the tool's own figure is what the suggestion
-    // clears. A bar under the floor is raised to it, and naming that raised
-    // figure would put words in the tool's mouth.
+    // The bar still decides which amount is gentler — a tool asking for less
+    // than the floor is still a tool the user can reach. Whether the figure may
+    // be quoted is a separate question, settled by `quotableBar` below.
     return gentlerSuggestion(
       roundedReported(),
       amountForUsd(target),
-      declaredUsd !== undefined && declaredUsd >= fallbackTargetUsd
-        ? target
-        : undefined
+      declaredUsd === undefined ? undefined : target
     )
   })()
 
@@ -158,9 +156,16 @@ export const buildRouteIssueCard = (
       : ''
   })()
 
+  // A bar under the floor was raised to it, so the figure the suggestion clears
+  // is the widget's own. Naming it would put words in the tool's mouth.
+  const declaredMinUsd = issue.evidence?.minUsd
+  const quotableBar =
+    issue.bucket !== 'amountTooLow' ||
+    (declaredMinUsd !== undefined && declaredMinUsd >= fallbackTargetUsd)
+
   // Only the bar the suggestion was derived from, so the two figures agree.
   const quotedUsd =
-    suggestion?.usdBar === undefined
+    suggestion?.usdBar === undefined || !quotableBar
       ? ''
       : t('format.currency', { value: suggestion.usdBar })
 
@@ -183,7 +188,10 @@ export const buildRouteIssueCard = (
       }
       // Without a reported figure or a stated bar the number is the invented
       // floor, so the copy must advise rather than report an observed minimum.
-      return suggestion?.estimated && issue.bucket === 'amountTooLow'
+      const invented =
+        suggestion?.estimated ||
+        (suggestion?.usdBar !== undefined && !quotableBar)
+      return invented && issue.bucket === 'amountTooLow'
         ? t(`${base}.descriptionEstimated` as any, values)
         : t(`${base}.description` as any, values)
     }
