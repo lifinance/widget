@@ -51,6 +51,26 @@ describe('amount suggestions', () => {
     expect(card.description).toBe('info.routeIssue.amountTooLow.description')
   })
 
+  // Reported in review: with no reported figure and no stated bar, the number is
+  // the invented one-dollar floor, so the card must not call it an observed
+  // minimum. USDC at $1 puts that floor above the 0.2 sent here.
+  it('advises rather than reports when the figure is invented', () => {
+    const card = buildRouteIssueCard(issue('amountTooLow', 200_000n), deps())
+    expect(card.action).toBeDefined()
+    expect(card.description).toBe(
+      'info.routeIssue.amountTooLow.descriptionEstimated'
+    )
+  })
+
+  // A figure a tool actually stated is reported as observed.
+  it('reports a minimum a tool stated', () => {
+    const card = buildRouteIssueCard(
+      issue('amountTooLow', 200_000n, { requiredFromAmount: 5_000_000n }),
+      deps()
+    )
+    expect(card.description).toBe('info.routeIssue.amountTooLow.description')
+  })
+
   // The card must never offer a figure that leaves the amount where it is.
   it('offers nothing when the suggestion would not move the amount', () => {
     const card = buildRouteIssueCard(

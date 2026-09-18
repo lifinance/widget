@@ -327,10 +327,10 @@ describe('pinned reason fragments', () => {
     ).toEqual([])
   })
 
-  // Suppressing this left a payload carrying only it with the generic sentence.
-  // `temporary` ranks last, so it yields to anything the user can act on.
-  it('offers a retry for a tool that was not applied', () => {
-    expect(fromReason('Tool relay not applied.')[0]?.bucket).toBe('temporary')
+  // temporary always offers a retry, and a path overwrite returns the same
+  // entry on the next quote — so this stays suppressed despite the ticket.
+  it('never surfaces a tool that was not applied', () => {
+    expect(fromReason('Tool relay not applied.')).toEqual([])
   })
 
   // 2 USD buys 1000 raw units, so 5 USD needs 2500.
