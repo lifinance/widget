@@ -16,7 +16,9 @@ describe.skipIf(!process.env.DUMP_SUGGESTIONS)('dump', () => {
   it('writes the amount suggestions', () => {
     const out: { name: string; suggested: string; sent: string }[] = []
     for (const entry of raw as any[]) {
-      if (entry.routes > 0) continue
+      if (entry.routes > 0) {
+        continue
+      }
       const r = entry.request
       const context: ClassifyContext = {
         fromAmount: BigInt(r.fromAmount),
@@ -28,7 +30,9 @@ describe.skipIf(!process.env.DUMP_SUGGESTIONS)('dump', () => {
         toAddress: r.toAddress,
       }
       const issue = classifyRouteIssues(entry.unavailableRoutes, context)[0]
-      if (!issue) continue
+      if (!issue) {
+        continue
+      }
       let applied: string | undefined
       const card = buildRouteIssueCard(issue, {
         t,
