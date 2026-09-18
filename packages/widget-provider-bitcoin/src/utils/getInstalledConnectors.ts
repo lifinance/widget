@@ -13,9 +13,20 @@ export const getInstalledConnectors = async (
       }
     })
   )
-  return probed.filter((connector): connector is Connector =>
+  const installed = probed.filter((connector): connector is Connector =>
     Boolean(connector)
   )
+  // An integrator who still passes a connector that is now a default would
+  // otherwise see the same wallet twice.
+  const seen = new Set<string>()
+  return installed.filter((connector) => {
+    const id = connector.id ?? connector.name
+    if (seen.has(id)) {
+      return false
+    }
+    seen.add(id)
+    return true
+  })
 }
 
 // Keeping the previous array when nothing changed stops every wallet's

@@ -32,6 +32,20 @@ describe('getInstalledConnectors', () => {
     await expect(getInstalledConnectors([a, b, c])).resolves.toEqual([a, c])
   })
 
+  it('keeps only the first connector with a given id', async () => {
+    const first = connector('io.metamask.bitcoin', async () => ({}))
+    const duplicate = connector('io.metamask.bitcoin', async () => ({}))
+    await expect(getInstalledConnectors([first, duplicate])).resolves.toEqual([
+      first,
+    ])
+  })
+
+  it('does not merge different wallets', async () => {
+    const a = connector('xverse', async () => ({}))
+    const b = connector('unisat', async () => ({}))
+    await expect(getInstalledConnectors([a, b])).resolves.toEqual([a, b])
+  })
+
   it('returns an empty list for no connectors', async () => {
     await expect(getInstalledConnectors([])).resolves.toEqual([])
   })
