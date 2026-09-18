@@ -1,4 +1,11 @@
-import type { ExtendedChain, LiFiStep, Route, SDKError, Token } from '@lifi/sdk'
+import type {
+  ExtendedChain,
+  LiFiStep,
+  Route,
+  SDKError,
+  Token,
+  UnavailableRoutes,
+} from '@lifi/sdk'
 import {
   ChainType,
   convertQuoteToRoute,
@@ -48,6 +55,16 @@ const refetchTime = 60_000
 
 // Stable identity: a fresh literal here would re-render every memoized consumer.
 const noIssues: readonly RouteIssue[] = Object.freeze([])
+
+// Every reason can be suppressed, and a fresh empty array would then re-render
+// each memoized consumer on every refetch. Fall back to the stable one.
+const toIssues = (
+  unavailableRoutes: UnavailableRoutes | undefined,
+  context: ClassifyContext
+): readonly RouteIssue[] => {
+  const issues = classifyRouteIssues(unavailableRoutes, context)
+  return issues.length ? issues : noIssues
+}
 
 interface RoutesProps {
   observableRoute?: Route
@@ -431,7 +448,7 @@ export const useRoutes = ({
           emitter.emit(WidgetEvent.AvailableRoutes, [])
           return {
             routes: [],
-            issues: classifyRouteIssues(unavailableRoutes, classifyContext),
+            issues: toIssues(unavailableRoutes, classifyContext),
           }
         }
 
@@ -638,10 +655,7 @@ export const useRoutes = ({
       const issuesFor = (routes: Route[]): readonly RouteIssue[] =>
         routes.length
           ? noIssues
-          : classifyRouteIssues(
-              routesResult?.unavailableRoutes,
-              classifyContext
-            )
+          : toIssues(routesResult?.unavailableRoutes, classifyContext)
 
       if (shouldUseRelayerQuote && initialRoutes.length) {
         setIntermediateRoutes(queryKey, initialRoutes)
