@@ -353,8 +353,13 @@ export const useRoutes = ({
       signal,
     }) => {
       const fromAmount = parseUnits(fromTokenAmount, fromToken!.decimals)
+      // A contract-call quote is driven by the receive amount, so the sell
+      // field is not what gets sent — config and the URL can still fill it.
+      // Classifying against it would let a stale figure rewrite a liquidity
+      // reason as "amount too low" and offer a button the request ignores.
+      const receiveDriven = mode === 'custom' && Boolean(contractCalls?.length)
       const classifyContext: ClassifyContext = {
-        fromAmount,
+        fromAmount: receiveDriven ? 0n : fromAmount,
         fromChainId,
         fromTokenSymbol: fromToken!.symbol,
         fromTokenDecimals: fromToken!.decimals,
