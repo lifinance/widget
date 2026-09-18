@@ -9,6 +9,11 @@ export interface BitcoinProviderDeps {
 
 export interface BitcoinProviderConfig {
   sdkProvider?: SDKProvider | SDKProviderFactory<BitcoinProviderDeps>
-  /** Extra Bigmi connectors to append to the defaults (e.g. `metamask()`). */
+  /**
+   * Extra Bigmi connectors to append to the defaults. A connector is offered
+   * when its `getProvider()` resolves, so an injected wallet appears only when
+   * present, while a remote one (`reown()`, `dynamic()`) always appears.
+   * Passing a connector that is already a default is ignored.
+   */
   connectors?: CreateConnectorFn[]
 }

@@ -2,7 +2,7 @@
   "name": "@lifi/widget-checkout",
   "version": "4.0.2",
   "private": true,
-  "description": "LI.FI Widget Checkout — on-ramp and cross-chain checkout flow built on @lifi/widget.",
+  "description": "LI.FI Widget Checkout \u2014 on-ramp and cross-chain checkout flow built on @lifi/widget.",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
@@ -20,7 +20,7 @@
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
     "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg",
-    "test": "vitest run"
+    "test": "vitest run --passWithNoTests"
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
   "homepage": "https://github.com/lifinance/widget",

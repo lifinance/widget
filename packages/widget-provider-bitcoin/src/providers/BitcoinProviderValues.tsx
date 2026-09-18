@@ -108,11 +108,16 @@ export const BitcoinProviderValues: FC<
   )
 
   const handleDisconnect = useCallback(async () => {
-    const connectedAccount = getAccount(bigmiConfig)
-    if (connectedAccount.connector) {
-      await disconnect(bigmiConfig, {
-        connector: connectedAccount.connector,
-      })
+    // Disconnecting one connection promotes the next, so a wallet that opened
+    // more than one would stay connected after a single disconnect.
+    let connector = getAccount(bigmiConfig).connector
+    while (connector) {
+      await disconnect(bigmiConfig, { connector })
+      const next = getAccount(bigmiConfig).connector
+      if (next === connector) {
+        break
+      }
+      connector = next
     }
   }, [bigmiConfig])
 

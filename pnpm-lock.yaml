@@ -2526,11 +2526,6 @@ packages:
     peerDependencies:
       '@tanstack/query-core': '>=5.68.0'
 
-  '@bigmi/core@0.9.1':
-    resolution: {integrity: sha512-OcS2BXyKQVRZATmziHCWG1rUxPj1USd6kRqR5RaxNS28rF/lXPxvyL+TWF2hdAb2BrUN69XCIN3Fx8evJYB9bw==}
-    peerDependencies:
-      bs58: '>=4.0.1'
-
   '@bigmi/core@0.9.2':
     resolution: {integrity: sha512-b0CpRJ9FrAXaSnNc/QhSaUqbwVMn5mEA04khPGHrsmTMEQ0p5wwwKUooYK4sEhrnj7sPjBhg2j3DUMV+tmS1Sg==}
     peerDependencies:
@@ -16524,21 +16519,6 @@ snapshots:
       - typescript
       - use-sync-external-store
 
-  '@bigmi/core@0.9.1(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))':
-    dependencies:
-      '@noble/hashes': 1.8.0
-      bech32: 2.0.0
-      bitcoinjs-lib: 7.0.2(typescript@7.0.2)
-      bs58: 6.0.0
-      eventemitter3: 5.0.4
-      zustand: 5.0.15(@types/react@19.3.0)(react@19.3.0)(use-sync-external-store@1.4.0(react@19.3.0))
-    transitivePeerDependencies:
-      - '@types/react'
-      - immer
-      - react
-      - typescript
-      - use-sync-external-store
-
   '@bigmi/core@0.9.2(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))':
     dependencies:
       '@noble/hashes': 1.8.0
@@ -18681,7 +18661,7 @@ snapshots:
 
   '@lifi/sdk-provider-bitcoin@4.0.10(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))':
     dependencies:
-      '@bigmi/core': 0.9.1(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))
+      '@bigmi/core': 0.9.2(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))
       '@bitcoinerlab/secp256k1': 2.0.0
       '@lifi/sdk': 4.7.0
       bech32: 2.0.0
