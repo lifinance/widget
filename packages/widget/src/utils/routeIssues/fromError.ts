@@ -84,14 +84,11 @@ export const unavailableRoutesFromError = (
   // own. Walk out from each opening brace to the one that closes it, so each
   // candidate costs a single parse: pairing every brace with every later one
   // would square the work against a payload, which is itself full of braces.
-  for (
-    let start = message.indexOf('{'), tries = 0;
-    start >= 0 && tries < maxParseAttempts;
-    start = message.indexOf('{', start + 1), tries++
-  ) {
+  let start = message.indexOf('{')
+  for (let tries = 0; start >= 0 && tries < maxParseAttempts; tries++) {
     const end = closingBrace(message, start)
     if (end < 0) {
-      continue
+      break
     }
     try {
       const parsed = fromParsed(JSON.parse(message.slice(start, end + 1)))
@@ -99,6 +96,10 @@ export const unavailableRoutesFromError = (
         return parsed
       }
     } catch {}
+    // Past the whole candidate, not one character on: every brace nested inside
+    // a leading object would otherwise spend an attempt, and a payload further
+    // along the message would never be reached.
+    start = message.indexOf('{', end > start ? end + 1 : start + 1)
   }
   return undefined
 }

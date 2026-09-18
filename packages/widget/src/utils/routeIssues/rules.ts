@@ -194,6 +194,12 @@ const declaredRange: RouteIssueRule = {
   bucket: 'amountTooLow',
   match: { fragment: /The minimum is ([\d.]+) and the maximum is ([\d.]+)/ },
   extract: (match, context, path): RouteIssueEvidence | null => {
+    // A receive-driven quote classifies with no send amount, and zero is below
+    // every minimum — which would read as too low every time and, through
+    // resolveAmountConflict, delete a genuine too-high from the same payload.
+    if (context.fromAmount <= 0n) {
+      return null
+    }
     const min = onUntouchedLeg(toBigInt(match[1]), context, path)
     const max = onUntouchedLeg(toBigInt(match[2]), context, path)
     if (min !== undefined && context.fromAmount < min) {

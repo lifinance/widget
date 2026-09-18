@@ -94,6 +94,16 @@ describe('reading the diagnostics off a quote error', () => {
     expect(performance.now() - started).toBeLessThan(250)
   })
 
+  // Reported in review: advancing one character at a time let the braces nested
+  // inside a leading object spend the whole attempt budget.
+  it('reads a payload behind a large leading object', () => {
+    const decoy = { a: { b: { c: 1 } }, d: { e: 2 }, f: { g: 3 }, h: { i: 4 } }
+    const error = errorWith({
+      message: `${JSON.stringify(decoy)} then ${JSON.stringify(reasons)}`,
+    })
+    expect(unavailableRoutesFromError(error)).toEqual(reasons)
+  })
+
   it('accepts a payload carrying only failed routes', () => {
     const failedOnly = { failed: [{ overallPath: 'p', subpaths: {} }] }
     expect(

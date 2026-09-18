@@ -170,6 +170,7 @@ describe('cards built from real API payloads', () => {
       slippage: String(request.slippage * 100),
       amountLocked: false,
       receiverHidden: false,
+      receiverRequired: false,
       toAddress: request.toAddress,
       sameEcosystem: request.fromChainId === request.toChainId,
       applyAmount: (value) => {
