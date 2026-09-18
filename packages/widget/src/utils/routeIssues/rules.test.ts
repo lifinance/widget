@@ -333,6 +333,26 @@ describe('pinned reason fragments', () => {
     expect(fromReason('Tool relay not applied.')).toEqual([])
   })
 
+  // Reported in review: unanchored, the greedy `.+` claimed any reason ending
+  // in "not applied." and dropped what the rest of it said.
+  it('suppresses only the whole not-applied reason', () => {
+    expect(
+      fromReason(
+        'Tool relay not applied. Transferred amount (100) out of acceptable range (min: 900, max: Infinity)'
+      )[0]?.bucket
+    ).toBe('amountTooLow')
+  })
+
+  it('leaves a disabled tool its published note', () => {
+    const [issue] = fromReason(
+      'Tool relay is currently disabled for this action. Relay is under maintenance, fallback not applied.'
+    )
+    expect(issue.bucket).toBe('temporary')
+    expect(issue.evidence?.note).toBe(
+      'Relay is under maintenance, fallback not applied.'
+    )
+  })
+
   // 2 USD buys 1000 raw units, so 5 USD needs 2500.
   it('scales the request amount by the gasless USD ratio', () => {
     const [issue] = fromReason(

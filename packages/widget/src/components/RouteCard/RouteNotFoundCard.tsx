@@ -10,11 +10,11 @@ interface RouteNotFoundCardProps {
   issues?: readonly RouteIssue[]
 }
 
-// AppLayout mounts the side panel when `wideVariant`, and every form-side
-// surface — Routes and LimitOrderRoutes — stands down then and shows it
-// otherwise. Both render on the main page, which is the path the panel opens
-// on, so the two sides cover each other. Check both before changing either: a
-// duplicate and a missing card look alike in a diff.
+// AppLayout mounts the side panel when `wideVariant`, and the form side stands
+// down then, so exactly one copy shows. The gates are in MainPage (which drops
+// <Routes> entirely) and inside LimitOrderRoutes. Both render on the main page,
+// the path the panel opens on, so the two sides cover each other. Check the
+// gates before changing either: a duplicate and a missing card look alike.
 
 export const RouteNotFoundCard: React.FC<RouteNotFoundCardProps> = ({
   issues,
