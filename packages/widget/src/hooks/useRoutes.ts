@@ -1,11 +1,4 @@
-import type {
-  ExtendedChain,
-  HTTPError,
-  LiFiStep,
-  Route,
-  SDKError,
-  Token,
-} from '@lifi/sdk'
+import type { ExtendedChain, LiFiStep, Route, SDKError, Token } from '@lifi/sdk'
 import {
   ChainType,
   convertQuoteToRoute,
@@ -39,6 +32,7 @@ import type { TokensByChain } from '../types/token.js'
 import { isCustomReceiverBlocked } from '../utils/customReceiver.js'
 import { getQueryKey } from '../utils/queries.js'
 import { classifyRouteIssues } from '../utils/routeIssues/classify.js'
+import { unavailableRoutesFromError } from '../utils/routeIssues/fromError.js'
 import type { ClassifyContext, RouteIssue } from '../utils/routeIssues/types.js'
 import { updateTokenInCache } from '../utils/token.js'
 import { useChain } from './useChain.js'
@@ -420,8 +414,7 @@ export const useRoutes = ({
             { signal }
           )
         } catch (error) {
-          const cause = (error as SDKError)?.cause as HTTPError | undefined
-          const unavailableRoutes = cause?.responseBody?.errors
+          const unavailableRoutes = unavailableRoutesFromError(error)
           // Without diagnostics there is nothing to explain, so the error state
           // and its retry affordance must stand.
           if (
