@@ -12,6 +12,7 @@
     "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../README.md' .",
     "build:postrelease": "node ../../scripts/postrelease.js && rm -rf README.md",
     "clean": "rm -rf dist",
+    "test": "vitest run --passWithNoTests",
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
     "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg"
@@ -38,20 +39,21 @@
     "lifi"
   ],
   "dependencies": {
-    "@bigmi/client": "^0.10.2",
-    "@bigmi/core": "^0.9.1",
+    "@bigmi/client": "^0.10.3",
+    "@bigmi/core": "^0.9.2",
     "@lifi/sdk": "^4.7.0",
     "@lifi/sdk-provider-bitcoin": "^4.0.10",
     "@lifi/widget-provider": "workspace:*"
   },
   "peerDependencies": {
-    "@bigmi/react": "^0.9.1",
+    "@bigmi/react": "^0.9.3",
     "react": ">=19"
   },
   "devDependencies": {
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "react": "^19.3.0",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.0"
   }
 }

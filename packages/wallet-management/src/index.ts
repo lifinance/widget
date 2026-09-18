@@ -9,6 +9,7 @@ export * from './hooks/useAccount.js'
 export * from './hooks/useAccountDisconnect.js'
 export {
   type CombinedWallet,
+  defaultWalletEcosystemsOrder,
   useCombinedWallets,
 } from './hooks/useCombinedWallets.js'
 export {

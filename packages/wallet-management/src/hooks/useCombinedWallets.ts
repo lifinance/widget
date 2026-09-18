@@ -27,7 +27,16 @@ export type CombinedWallet = {
 
 const normalizeName = (name: string) => name.split(' ')[0].toLowerCase().trim()
 
-const combineWalletLists = (
+export const defaultWalletEcosystemsOrder: ChainType[] = [
+  ChainType.EVM,
+  ChainType.SVM,
+  ChainType.MVM,
+  ChainType.UTXO,
+  ChainType.TVM,
+  ChainType.STL,
+]
+
+export const combineWalletLists = (
   ethereumConnectorList: WalletConnector[],
   bitcoinConnectorList: WalletConnector[],
   solanaWalletList: WalletConnector[],
@@ -128,21 +137,20 @@ const combineWalletLists = (
     walletMap.set(normalizedName, existing)
   })
 
-  let combinedWallets = Array.from(walletMap.values())
-  if (walletEcosystemsOrder) {
-    combinedWallets = combinedWallets.map((wallet) => {
-      const order = walletEcosystemsOrder[wallet.name]
-      if (order) {
-        return {
-          ...wallet,
-          connectors: wallet.connectors.sort((a, b) =>
-            walletEcosystemsComparator(a, b, order)
-          ),
-        }
-      }
-      return wallet
-    })
-  }
+  const combinedWallets = Array.from(walletMap.values()).map((wallet) => {
+    const configured = walletEcosystemsOrder?.[wallet.name]
+    // Anything the consumer left out still follows the default, so a partial
+    // order cannot leak the list-building order back in.
+    const order = configured
+      ? [...new Set([...configured, ...defaultWalletEcosystemsOrder])]
+      : defaultWalletEcosystemsOrder
+    return {
+      ...wallet,
+      connectors: [...wallet.connectors].sort((a, b) =>
+        walletEcosystemsComparator(a, b, order)
+      ),
+    }
+  })
   combinedWallets.sort(walletComparator)
 
   return combinedWallets

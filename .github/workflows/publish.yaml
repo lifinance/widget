@@ -34,6 +34,8 @@ jobs:
         run: pnpm build
       - name: Check types
         run: pnpm check:types
+      - name: Test
+        run: pnpm test
 
   changesets:
     name: Changesets
