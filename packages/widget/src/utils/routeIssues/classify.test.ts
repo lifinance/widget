@@ -224,3 +224,41 @@ describe('folding two stated slippage caps', () => {
     expect(issues[0].evidence?.requiredSlippage).toBe(0.02)
   })
 })
+
+// Reported in review: a refining fragment that rejects an entry took the code's
+// own bucket with it, so a tool error that named its cause went unexplained.
+describe('prose that refines a code but rejects the entry', () => {
+  const ranged = (code: string) =>
+    classifyRouteIssues(
+      {
+        filteredOut: [],
+        failed: [
+          {
+            overallPath: '137:USDC-bridge-1:ETH',
+            subpaths: {
+              s: [
+                {
+                  errorType: 'NO_QUOTE',
+                  code,
+                  tool: 'someTool',
+                  message:
+                    'Amount out of range. The minimum is 1000000 and the maximum is 50000000',
+                  action: {} as never,
+                },
+              ],
+            },
+          },
+        ],
+      },
+      context
+    ).map((issue) => issue.bucket)
+
+  it.each([
+    ['AMOUNT_TOO_HIGH', 'amountTooHigh'],
+    ['INSUFFICIENT_LIQUIDITY', 'liquidity'],
+    ['TOOL_TIMEOUT', 'temporary'],
+    ['CANNOT_GUARANTEE_MIN_AMOUNT', 'slippageTooTight'],
+  ])('keeps the %s bucket the code named', (code, bucket) => {
+    expect(ranged(code)).toEqual([bucket])
+  })
+})
