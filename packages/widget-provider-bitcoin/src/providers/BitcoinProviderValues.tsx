@@ -57,15 +57,22 @@ export const BitcoinProviderValues: FC<
 
   useEffect(() => {
     let cancelled = false
-    getInstalledConnectors(connectors as readonly Connector[]).then(
-      (installed) => {
-        if (!cancelled) {
-          setInstalledWallets(installed)
+    const probe = () => {
+      getInstalledConnectors(connectors as readonly Connector[]).then(
+        (installed) => {
+          if (!cancelled) {
+            setInstalledWallets(installed)
+          }
         }
-      }
-    )
+      )
+    }
+    probe()
+    // MetaMask announces Bitcoin through the Wallet Standard registry rather
+    // than by injecting into `window`, so it can arrive after this mounts.
+    window.addEventListener('wallet-standard:register-wallet', probe)
     return () => {
       cancelled = true
+      window.removeEventListener('wallet-standard:register-wallet', probe)
     }
   }, [connectors])
 
