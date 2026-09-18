@@ -182,6 +182,32 @@ const suppressedCode = (code: string): RouteIssueRule => ({
   match: { code },
 })
 
+/**
+ * The backend's own wording is "too low or too high": it does not say which
+ * bound was crossed, so only the amount can settle it — and only while the leg
+ * still holds the user's own token, since the bounds are stated in the leg's.
+ * A rule per direction meant the first one always matched and could tell a user
+ * who sent too much to send more.
+ */
+const declaredRange: RouteIssueRule = {
+  id: 'declaredRange',
+  bucket: 'amountTooLow',
+  match: { fragment: /The minimum is ([\d.]+) and the maximum is ([\d.]+)/ },
+  extract: (match, context, path): RouteIssueEvidence | null => {
+    const min = onUntouchedLeg(toBigInt(match[1]), context, path)
+    const max = onUntouchedLeg(toBigInt(match[2]), context, path)
+    if (min !== undefined && context.fromAmount < min) {
+      return { direction: 'raise', requiredFromAmount: min }
+    }
+    if (max !== undefined && context.fromAmount > max) {
+      return { direction: 'lower', requiredFromAmount: max }
+    }
+    return null
+  },
+  bucketFrom: (evidence): RouteIssueBucket | undefined =>
+    evidence.direction && bucketByDirection[evidence.direction],
+}
+
 // The first matching fragment wins, so the suppressed ones come first: they
 // claim prose a later, more general rule would otherwise turn into a card.
 export const routeIssueRules: RouteIssueRule[] = [
@@ -289,18 +315,7 @@ export const routeIssueRules: RouteIssueRule[] = [
     /bridged must be smaller than (\d+)/,
     (match, context, path) => legLimit('lower', match[1], context, path)
   ),
-  fragmentRule(
-    'declaredRangeFloor',
-    'amountTooLow',
-    /The minimum is (\d+) and the maximum is (\d+)/,
-    (match, context, path) => legLimit('raise', match[1], context, path)
-  ),
-  fragmentRule(
-    'declaredRangeCeiling',
-    'amountTooHigh',
-    /The minimum is ([\d.]+) and the maximum is ([\d.]+)/,
-    (match, context, path) => legLimit('lower', match[2], context, path)
-  ),
+  declaredRange,
   fragmentRule(
     'dexMinSwapValue',
     'amountTooLow',

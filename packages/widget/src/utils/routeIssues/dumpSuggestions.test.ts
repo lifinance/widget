@@ -1,4 +1,6 @@
 import { writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import type { Token } from '@lifi/sdk'
 import type { TFunction } from 'i18next'
 import { describe, it } from 'vitest'
@@ -8,6 +10,11 @@ import raw from './fixtures/live-payloads.json' with { type: 'json' }
 import type { ClassifyContext } from './types.js'
 
 const t = ((key: string) => key) as unknown as TFunction
+
+// The collector's `--verify` reads this back; both default to the same file and
+// both honour SUGGESTIONS_FILE, so they stay in step wherever it is put.
+const suggestionsFile =
+  process.env.SUGGESTIONS_FILE ?? join(tmpdir(), 'route-issue-suggestions.json')
 
 // Feeds `node scripts/collect-route-issues.js --verify`, which re-requests at
 // each suggested amount to see whether applying it actually finds a route.
@@ -58,10 +65,7 @@ describe.skipIf(!process.env.DUMP_SUGGESTIONS)('dump', () => {
         out.push({ name: entry.name, suggested: applied, sent: r.fromAmount })
       }
     }
-    writeFileSync(
-      '/tmp/claude-501/-Users-eugene-Projects/71d17826-4937-4a23-828e-04f08fcb6e62/scratchpad/suggestions.json',
-      JSON.stringify(out, null, 2)
-    )
+    writeFileSync(suggestionsFile, JSON.stringify(out, null, 2))
     console.warn(`wrote ${out.length} amount suggestions`)
   })
 })

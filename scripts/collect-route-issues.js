@@ -18,7 +18,8 @@
  * JSON.stringify does not match it.
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
-import { dirname, resolve } from 'node:path'
+import { tmpdir } from 'node:os'
+import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const args = process.argv.slice(2)
@@ -32,8 +33,10 @@ const INTEGRATOR = 'li.fi-playground'
 // collect it in one go.
 const API_KEY = process.env.LIFI_API_KEY
 const VERIFY = args.includes('--verify')
+// Where `DUMP_SUGGESTIONS=1 pnpm test dumpSuggestions` leaves its file, and what
+// `--verify` reads back. Override with SUGGESTIONS_FILE to keep it elsewhere.
 const SUGGESTIONS =
-  '/tmp/claude-501/-Users-eugene-Projects/71d17826-4937-4a23-828e-04f08fcb6e62/scratchpad/suggestions.json'
+  process.env.SUGGESTIONS_FILE ?? join(tmpdir(), 'route-issue-suggestions.json')
 
 const OUT = resolve(
   dirname(fileURLToPath(import.meta.url)),
