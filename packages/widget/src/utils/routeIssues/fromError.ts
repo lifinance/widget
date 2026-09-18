@@ -55,14 +55,23 @@ export const unavailableRoutesFromError = (
     return undefined
   }
   // The SDK appends the body message to the error message, so the payload can
-  // trail prose rather than stand alone.
-  const start = message.indexOf('{')
-  if (start < 0) {
-    return undefined
+  // sit between prose on either side. Try every opening brace, and each with
+  // the tail trimmed back to the last closing one, rather than assuming the
+  // first brace in the string starts it and the string ends with it.
+  const end = message.lastIndexOf('}')
+  for (
+    let start = message.indexOf('{');
+    start >= 0 && start < end;
+    start = message.indexOf('{', start + 1)
+  ) {
+    for (const slice of [message.slice(start), message.slice(start, end + 1)]) {
+      try {
+        const parsed = fromParsed(JSON.parse(slice))
+        if (parsed) {
+          return parsed
+        }
+      } catch {}
+    }
   }
-  try {
-    return fromParsed(JSON.parse(message.slice(start)))
-  } catch {
-    return undefined
-  }
+  return undefined
 }

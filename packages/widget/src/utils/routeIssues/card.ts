@@ -99,16 +99,22 @@ export const buildRouteIssueCard = (
       const maxUsd = issue.evidence?.maxUsd
       const forUsd =
         maxUsd === undefined ? undefined : amountForUsd(maxUsd, 'lower')
-      if (reported === undefined) {
-        return forUsd === undefined
-          ? undefined
-          : { amount: forUsd, usdBar: maxUsd }
+      // A reported cap is always below what the user sent, because a tool
+      // refused that amount. A converted one is not: it is priced with the
+      // widget's own rate and can land at or above it, which would leave the
+      // card with no suggestion at all. Clearing one tool's cap is enough, so
+      // aim for the highest figure that still moves the amount down.
+      const usable = (value: bigint | undefined): bigint | undefined =>
+        value !== undefined && value < issue.fromAmount ? value : undefined
+      const reportedBelow = usable(reported)
+      const forUsdBelow = usable(forUsd)
+      if (
+        forUsdBelow !== undefined &&
+        (reportedBelow === undefined || forUsdBelow > reportedBelow)
+      ) {
+        return { amount: forUsdBelow, usdBar: maxUsd }
       }
-      // Clearing one tool's cap is enough, so the higher of the two is the one
-      // to aim for — the mirror of the gentler-minimum rule for a low amount.
-      return forUsd === undefined || reported >= forUsd
-        ? { amount: reported }
-        : { amount: forUsd, usdBar: maxUsd }
+      return reportedBelow === undefined ? undefined : { amount: reportedBelow }
     }
     if (issue.bucket !== 'amountTooLow') {
       return undefined

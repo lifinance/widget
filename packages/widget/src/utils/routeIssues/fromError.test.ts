@@ -50,6 +50,15 @@ describe('reading the diagnostics off a quote error', () => {
     expect(unavailableRoutesFromError(error)).toEqual(reasons)
   })
 
+  // Reported in review: cutting at the first brace assumed the prose held none
+  // and nothing followed the payload. Both happen.
+  it('reads a payload with prose on both sides', () => {
+    const error = errorWith({
+      message: `No quotes {for now} ${JSON.stringify(reasons)} — request 42`,
+    })
+    expect(unavailableRoutesFromError(error)).toEqual(reasons)
+  })
+
   it('accepts a payload carrying only failed routes', () => {
     const failedOnly = { failed: [{ overallPath: 'p', subpaths: {} }] }
     expect(
