@@ -13,12 +13,13 @@ export const bucketRank: Record<RouteIssueBucket, number> = {
   amountTooHigh: 1,
   slippageTooTight: 2,
   slippageTooLoose: 3,
-  liquidity: 4,
-  destinationAccountNotReady: 5,
+  destinationAccountNotReady: 4,
+  gaslessNotAvailable: 5,
   blockedBySettings: 6,
-  gaslessNotAvailable: 7,
+  liquidity: 7,
   // Emitted by nearly every tool that dislikes the receiver, so it drowns out
-  // more specific reasons unless it sits near the catch-all.
+  // more specific reasons unless it sits near the catch-all. This is the one
+  // place the order departs from the ticket, which ranks it fifth.
   recipientNotSupported: 8,
   pairNotSupported: 9,
   // "Try again" is the only reason that offers the user nothing to change, and
@@ -184,7 +185,6 @@ export const routeIssueRules: RouteIssueRule[] = [
   suppressedCode('TOOL_SPECIFIC_ERROR'),
   suppressedCode('UNKNOWN_ERROR'),
   suppressedFragment('lowVolume', /filtered due to low historical volume/),
-  suppressedFragment('toolNotApplied', /Tool .+ not applied\./),
   suppressedFragment(
     'preferredStep',
     /Removing less used bridge step in favor of|Skipping cross-token bridge step in favor of/
@@ -523,6 +523,10 @@ export const routeIssueRules: RouteIssueRule[] = [
   ),
   fragmentRule('podOverloaded', 'temporary', /Pod is currently overloaded\./),
   fragmentRule('simulationFailed', 'temporary', /^Simulation failed \(/),
+  // Suppressing this left a payload carrying only it with the generic sentence,
+  // which is the outcome this feature exists to prevent. `temporary` ranks last,
+  // so it still yields to every reason the user can act on.
+  fragmentRule('toolNotApplied', 'temporary', /Tool .+ not applied\./),
 
   fragmentRule(
     'acrossSwapDestinationCalls',
