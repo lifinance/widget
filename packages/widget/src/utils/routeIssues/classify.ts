@@ -127,7 +127,10 @@ const larger = (a?: number, b?: number): number | undefined =>
 
 const foldEvidence = (
   incumbent: RouteIssueEvidence | undefined,
-  candidate: RouteIssueEvidence | undefined
+  candidate: RouteIssueEvidence | undefined,
+  /** `requiredSlippage` is a floor to clear in one bucket and a cap in the
+   * other, so which way it folds depends on where it landed. */
+  bucket: RouteIssueBucket
 ): RouteIssueEvidence | undefined => {
   if (!incumbent || !candidate) {
     return incumbent ?? candidate
@@ -141,7 +144,7 @@ const foldEvidence = (
     direction: incumbent.direction ?? candidate.direction,
     requiredFromAmount: withAmount.requiredFromAmount,
     estimated: withAmount.estimated,
-    requiredSlippage: smaller(
+    requiredSlippage: (bucket === 'slippageTooLoose' ? larger : smaller)(
       incumbent.requiredSlippage,
       candidate.requiredSlippage
     ),
@@ -151,9 +154,14 @@ const foldEvidence = (
   }
 }
 
+// A bar stated in dollars produces a suggestion just as a token figure does, so
+// leaving it out let a USD-only ceiling lose the tie-break every time and the
+// card advise the opposite of what the payload said.
 const hasFigure = (issue: RouteIssue): boolean =>
   issue.evidence?.requiredFromAmount !== undefined ||
-  issue.evidence?.requiredSlippage !== undefined
+  issue.evidence?.requiredSlippage !== undefined ||
+  issue.evidence?.minUsd !== undefined ||
+  issue.evidence?.maxUsd !== undefined
 
 // Only the leading issue is shown, and the rank is what says which one blocks
 // the route. Carrying a figure must not promote a lesser reason above it: a
@@ -189,7 +197,7 @@ const collect = (
       : named
   const incumbent = collected.get(bucket)
   if (incumbent) {
-    incumbent.evidence = foldEvidence(incumbent.evidence, evidence)
+    incumbent.evidence = foldEvidence(incumbent.evidence, evidence, bucket)
     return
   }
   collected.set(bucket, {
