@@ -159,3 +159,68 @@ describe('folding two stated ceilings', () => {
     expect(issues[0].evidence?.maxUsd).toBe(100)
   })
 })
+
+// Reported in review: hasFigure counted only token figures, so a ceiling stated
+// in dollars always lost the tie-break and the card advised the opposite of
+// what the payload said.
+describe('choosing between a low and a high', () => {
+  const path = '1:ETH-chainflip-137:USDC'
+
+  it('keeps a ceiling stated only in dollars over a figureless low', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: path,
+            reason: 'Amount too high, max available is $500.00',
+          },
+        ],
+        failed: [
+          {
+            overallPath: path,
+            subpaths: {
+              s: [
+                {
+                  errorType: 'NO_QUOTE',
+                  code: 'AMOUNT_TOO_LOW',
+                  tool: 'someTool',
+                  message: 'The initial amount is too low to transfer.',
+                  action: {} as never,
+                },
+              ],
+            },
+          },
+        ],
+      },
+      context
+    )
+    expect(issues.map((issue) => issue.bucket)).toEqual(['amountTooHigh'])
+    expect(issues[0].evidence?.maxUsd).toBe(500)
+  })
+})
+
+// A cap has to be stayed under, and clearing one tool's cap is enough, so the
+// highest of two is the one to aim for — as maxUsd already does.
+describe('folding two stated slippage caps', () => {
+  it('keeps the loosest cap', () => {
+    const path = '1:ETH-chainflip-137:USDC'
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: path,
+            reason: 'Slippage is too high. Max slippage is 0.005',
+          },
+          {
+            overallPath: path,
+            reason: 'Slippage is too high. Max slippage is 0.02',
+          },
+        ],
+        failed: [],
+      },
+      context
+    )
+    expect(issues[0].bucket).toBe('slippageTooLoose')
+    expect(issues[0].evidence?.requiredSlippage).toBe(0.02)
+  })
+})
