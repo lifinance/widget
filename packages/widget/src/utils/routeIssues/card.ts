@@ -162,8 +162,13 @@ export const buildRouteIssueCard = (
       if (!suggested) {
         return t(`${base}.descriptionNoAmount` as any)
       }
-      return quotedUsd
-        ? t(`${base}.descriptionUsd` as any, values)
+      if (quotedUsd) {
+        return t(`${base}.descriptionUsd` as any, values)
+      }
+      // Without a reported figure or a stated bar the number is the invented
+      // floor, so the copy must advise rather than report an observed minimum.
+      return suggestion?.estimated && issue.bucket === 'amountTooLow'
+        ? t(`${base}.descriptionEstimated` as any, values)
         : t(`${base}.description` as any, values)
     }
     if (issue.bucket === 'slippageTooLoose') {
