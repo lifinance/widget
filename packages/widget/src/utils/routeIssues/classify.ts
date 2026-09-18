@@ -1,4 +1,5 @@
 import type { UnavailableRoutes } from '@lifi/sdk'
+import { formatUnits } from '@lifi/sdk'
 import { bucketRank, routeIssueRules, sendWorthLessThanFloor } from './rules.js'
 import type {
   ClassifyContext,
@@ -221,13 +222,51 @@ const collect = (
 }
 
 // Bridges disagree on range, so both can fire. Keep the one with a figure.
-const resolveAmountConflict = (issues: RouteIssue[]): RouteIssue[] => {
+/**
+ * Whether the send is actually on the wrong side of the bar this issue states.
+ * A floor the send already clears, or a ceiling it already sits under, refutes
+ * its own bucket — the card would advise moving the amount the wrong way.
+ * Without a figure there is nothing to check, so the issue stands.
+ */
+const barStands = (issue: RouteIssue, context: ClassifyContext): boolean => {
+  const { requiredFromAmount, minUsd, maxUsd } = issue.evidence ?? {}
+  const low = issue.bucket === 'amountTooLow'
+  if (requiredFromAmount !== undefined) {
+    return low
+      ? requiredFromAmount > issue.fromAmount
+      : requiredFromAmount < issue.fromAmount
+  }
+  const bar = low ? minUsd : maxUsd
+  const price = Number.parseFloat(context.fromTokenPriceUSD ?? '')
+  if (bar === undefined || !(price > 0)) {
+    return true
+  }
+  const sentUsd =
+    Number(formatUnits(issue.fromAmount, context.fromTokenDecimals)) * price
+  return low ? bar > sentUsd : bar < sentUsd
+}
+
+const resolveAmountConflict = (
+  issues: RouteIssue[],
+  context: ClassifyContext
+): RouteIssue[] => {
   const low = issues.find((issue) => issue.bucket === 'amountTooLow')
   const high = issues.find((issue) => issue.bucket === 'amountTooHigh')
   if (!low || !high) {
     return issues
   }
-  const drop = hasFigure(high) && !hasFigure(low) ? low : high
+  // A bar the send has already cleared cannot be the reason, whichever bucket
+  // states it, so it loses before the figure tie-break is even reached.
+  const lowStands = barStands(low, context)
+  const highStands = barStands(high, context)
+  const drop =
+    lowStands !== highStands
+      ? lowStands
+        ? high
+        : low
+      : hasFigure(high) && !hasFigure(low)
+        ? low
+        : high
   return issues.filter((issue) => issue !== drop)
 }
 
@@ -283,7 +322,7 @@ const classify = (
     }
   }
 
-  const ranged = resolveAmountConflict([...collected.values()])
+  const ranged = resolveAmountConflict([...collected.values()], context)
   const applicable = dropInapplicableReceiver(ranged, context)
   return dropUnsupportedNoise(applicable).sort(compareIssues)
 }
