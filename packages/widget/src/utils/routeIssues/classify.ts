@@ -86,7 +86,14 @@ const matchFragment = (
 
 const findRule = (
   entry: RawEntry
-): { rule: RouteIssueRule; match?: RegExpExecArray } | undefined => {
+):
+  | {
+      rule: RouteIssueRule
+      match?: RegExpExecArray
+      /** What the code named, for prose that turns out to refine nothing. */
+      fallback?: RouteIssueRule
+    }
+  | undefined => {
   const byCode = entry.code ? ruleByCode.get(entry.code) : undefined
   // A code the widget maps decides the bucket, and prose that lands in the same
   // bucket may still carry the figure the code omits. `pairNotSupported` is the
@@ -94,7 +101,8 @@ const findRule = (
   if (byCode && !byCode.suppressed) {
     const refinable =
       byCode.bucket === 'pairNotSupported' ? undefined : byCode.bucket
-    return matchFragment(entry.text, refinable) ?? { rule: byCode }
+    const refined = matchFragment(entry.text, refinable)
+    return refined ? { ...refined, fallback: byCode } : { rule: byCode }
   }
   return matchFragment(entry.text) ?? (byCode ? { rule: byCode } : undefined)
 }
@@ -178,13 +186,17 @@ const collect = (
   if (!found || found.rule.suppressed) {
     return
   }
-  const { rule, match } = found
-  const extracted = match
-    ? rule.extract?.(match, context, entry.path)
+  const { match, fallback } = found
+  const refined = match
+    ? found.rule.extract?.(match, context, entry.path)
     : undefined
-  if (extracted === null) {
+  // Rejecting the prose is a refusal to refine, not a verdict on the entry: the
+  // code still named a cause, and dropping it left the tool error unexplained.
+  if (refined === null && !fallback) {
     return
   }
+  const rule = refined === null ? (fallback as RouteIssueRule) : found.rule
+  const extracted = refined === null ? undefined : refined
   const evidence = extracted ?? undefined
   const named = rule.bucketFrom?.(evidence ?? {}) ?? rule.bucket
   // A send worth almost nothing exhausts any pool and trips every value-loss
