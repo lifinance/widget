@@ -1,11 +1,6 @@
 import type { Connector } from '@bigmi/client'
 
-/**
- * Asks each connector whether its wallet is actually present, rather than
- * re-deriving that from `window`. Every bigmi connector's `getProvider()`
- * delegates to `getInternalProvider()`, which resolves `undefined` when the
- * wallet is absent; `dynamic` throws instead, so a throw also means absent.
- */
+// `getProvider()` resolves undefined when the wallet is absent; `dynamic` throws.
 export const getInstalledConnectors = async (
   connectors: readonly Connector[]
 ): Promise<Connector[]> => {

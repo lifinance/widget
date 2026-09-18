@@ -8,9 +8,17 @@ import {
 import { useAccount, useConfig, useConnect } from '@bigmi/react'
 import { ChainId, ChainType } from '@lifi/sdk'
 import { BitcoinProvider as BitcoinSDKProvider } from '@lifi/sdk-provider-bitcoin'
-import { BitcoinContext, isWalletInstalled } from '@lifi/widget-provider'
-import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
+import { BitcoinContext } from '@lifi/widget-provider'
+import {
+  type FC,
+  type PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import type { BitcoinProviderConfig } from '../types'
+import { getInstalledConnectors } from '../utils/getInstalledConnectors.js'
 
 interface BitcoinProviderValuesProps {
   isExternalContext: boolean
@@ -45,13 +53,21 @@ export const BitcoinProviderValues: FC<
     return config?.sdkProvider ?? BitcoinSDKProvider({ getWalletClient })
   }, [bigmiConfig, config?.sdkProvider])
 
-  const installedWallets = useMemo(
-    () =>
-      connectors.filter((connector: Connector) =>
-        isWalletInstalled(connector.id)
-      ),
-    [connectors]
-  )
+  const [installedWallets, setInstalledWallets] = useState<Connector[]>([])
+
+  useEffect(() => {
+    let cancelled = false
+    getInstalledConnectors(connectors as readonly Connector[]).then(
+      (installed) => {
+        if (!cancelled) {
+          setInstalledWallets(installed)
+        }
+      }
+    )
+    return () => {
+      cancelled = true
+    }
+  }, [connectors])
 
   const handleConnect = useCallback(
     async (
