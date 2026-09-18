@@ -33,7 +33,9 @@ export function useRouteIssueCard(
   const { chain: fromChain } = useChain(fromChainId)
   const { chain: toChain } = useChain(toChainId)
   const { setFieldValue } = useFieldActions()
-  const applyAmount = useApplyAmount('from')
+  // The user pressed a button on a card that is already on screen, so the quote
+  // must start at once rather than wait the typing debounce out.
+  const applyAmount = useApplyAmount('from', { immediate: true })
   const { setValue } = useSettingsActions()
   const { slippage } = useSettings(['slippage'])
 
