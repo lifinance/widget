@@ -68,6 +68,32 @@ describe('reading the diagnostics off a quote error', () => {
     expect(unavailableRoutesFromError(error)).toEqual(reasons)
   })
 
+  // A reason is free prose and can hold a brace or a quote of its own, so the
+  // scan has to skip string bodies rather than count every brace it sees.
+  it('reads a payload whose reason text contains braces', () => {
+    const braced = {
+      filteredOut: [
+        { overallPath: 'p', reason: 'Pod {overloaded} on "eu-west" }' },
+      ],
+      failed: [],
+    }
+    const error = errorWith({
+      message: `No quotes ${JSON.stringify(braced)} trailing {noise}`,
+    })
+    expect(unavailableRoutesFromError(error)).toEqual(braced)
+  })
+
+  // A malformed message must fail fast rather than pair every brace with every
+  // later one: the payload itself is full of them.
+  it('gives up quickly on a brace-heavy message with no payload', () => {
+    const noise = '{"a":1} '.repeat(500)
+    const started = performance.now()
+    expect(unavailableRoutesFromError(errorWith({ message: noise }))).toBe(
+      undefined
+    )
+    expect(performance.now() - started).toBeLessThan(250)
+  })
+
   it('accepts a payload carrying only failed routes', () => {
     const failedOnly = { failed: [{ overallPath: 'p', subpaths: {} }] }
     expect(

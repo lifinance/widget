@@ -20,6 +20,31 @@ const isUnavailableRoutes = (value: unknown): value is UnavailableRoutes => {
   return shaped && (filteredOut?.length ?? 0) + (failed?.length ?? 0) > 0
 }
 
+/** Prose before a payload carries a brace or two, never a dozen. */
+const maxParseAttempts = 8
+
+/** Index of the brace closing the one at `start`, or -1. Skips string bodies. */
+const closingBrace = (text: string, start: number): number => {
+  let depth = 0
+  let inString = false
+  let escaped = false
+  for (let i = start; i < text.length; i++) {
+    const character = text[i]
+    if (escaped) {
+      escaped = false
+    } else if (inString && character === '\\') {
+      escaped = true
+    } else if (character === '"') {
+      inString = !inString
+    } else if (!inString && character === '{') {
+      depth++
+    } else if (!inString && character === '}' && --depth === 0) {
+      return i
+    }
+  }
+  return -1
+}
+
 const fromParsed = (value: unknown): UnavailableRoutes | undefined => {
   if (isUnavailableRoutes(value)) {
     return value
@@ -56,26 +81,24 @@ export const unavailableRoutesFromError = (
   }
   // The SDK appends the body message to the error message, so the payload can
   // sit between prose on either side, and either side can hold braces of its
-  // own. Try each opening brace against each closing one after it rather than
-  // assuming where the payload starts or ends. Reasons are short and braces in
-  // them are few, so the scan stays small.
+  // own. Walk out from each opening brace to the one that closes it, so each
+  // candidate costs a single parse: pairing every brace with every later one
+  // would square the work against a payload, which is itself full of braces.
   for (
-    let start = message.indexOf('{');
-    start >= 0;
-    start = message.indexOf('{', start + 1)
+    let start = message.indexOf('{'), tries = 0;
+    start >= 0 && tries < maxParseAttempts;
+    start = message.indexOf('{', start + 1), tries++
   ) {
-    for (
-      let end = message.lastIndexOf('}');
-      end > start;
-      end = message.lastIndexOf('}', end - 1)
-    ) {
-      try {
-        const parsed = fromParsed(JSON.parse(message.slice(start, end + 1)))
-        if (parsed) {
-          return parsed
-        }
-      } catch {}
+    const end = closingBrace(message, start)
+    if (end < 0) {
+      continue
     }
+    try {
+      const parsed = fromParsed(JSON.parse(message.slice(start, end + 1)))
+      if (parsed) {
+        return parsed
+      }
+    } catch {}
   }
   return undefined
 }
