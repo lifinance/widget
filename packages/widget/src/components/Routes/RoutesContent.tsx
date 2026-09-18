@@ -20,6 +20,7 @@ interface RoutesContentProps {
   issues?: readonly RouteIssue[]
   isFetching: boolean
   isLoading: boolean
+  isFetched: boolean
   dataUpdatedAt: number
   refetchTime: number
   fromChain: ExtendedChain | undefined
@@ -35,6 +36,7 @@ export const RoutesContent: React.NamedExoticComponent<RoutesContentProps> =
     issues,
     isFetching,
     isLoading,
+    isFetched,
     dataUpdatedAt,
     refetchTime,
     fromChain,
@@ -51,7 +53,10 @@ export const RoutesContent: React.NamedExoticComponent<RoutesContentProps> =
 
     const currentRoute = routes?.[0]
 
-    const routeNotFound = !currentRoute && !isLoading && !isFetching
+    // Settled without a route, and it stays that way across the periodic
+    // refetch: `isFetching` is true then, and blinking the reason out every
+    // minute reads as a bug. The form side shows no copy in this layout.
+    const routeNotFound = !currentRoute && !isLoading && isFetched
     const toAddressUnsatisfied =
       currentRoute &&
       (unsupportedReceiverBlocking || (requiredToAddress && !toAddress))
