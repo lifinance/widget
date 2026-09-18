@@ -150,7 +150,7 @@
       },
       "slippageTooLoose": {
         "title": "Slippage is too high",
-        "description": "The routes we saw cap slippage at {{slippage}}%, which is less than is currently applied. Lowering it should help.",
+        "description": "The routes we saw cap slippage at {{slippage}}%. Lowering the slippage to that should help.",
         "descriptionNoAmount": "The slippage currently applied is higher than any route here accepts. Try lowering it a little."
       },
       "destinationAccountNotReady": {

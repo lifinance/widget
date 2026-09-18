@@ -253,8 +253,10 @@ export const buildRouteIssueCard = (
       }
 
       case 'slippageTooTight': {
-        // The widget warns about an unusual slippage rather than blocking it,
-        // so offer any value that raises the current one, never one below it.
+        // Only ever upward, and only within the band the widget itself calls
+        // reasonable: a bridge asking for more than that is stated in the copy
+        // but never applied in one click, because agreeing to lose several
+        // percent is a decision to take in settings rather than on a card.
         const applied = Number(deps.slippage) || 0
         const target = Number(slippageTarget)
         const movesUp = target > applied && target <= maxRecommendedSlippage
