@@ -468,6 +468,9 @@ export const useRoutes = ({
 
         const route: Route = convertQuoteToRoute(contractCallQuote)
 
+        // The catch below reports an empty list, so the success path has to
+        // report the refill or an integrator's UI never recovers.
+        emitter.emit(WidgetEvent.AvailableRoutes, [route])
         return { routes: [route], issues: noIssues }
       }
 
