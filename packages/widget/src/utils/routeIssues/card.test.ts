@@ -25,6 +25,7 @@ const deps = (
   slippage: undefined,
   amountLocked: false,
   receiverHidden: false,
+  receiverRequired: false,
   toAddress: undefined,
   sameEcosystem: true,
   applyAmount: vi.fn(),
@@ -310,6 +311,21 @@ describe('other buckets', () => {
     )
     card.action?.run()
     expect(clearReceiver).toHaveBeenCalled()
+  })
+
+  // Reported in review: with requiredUI toAddress, or a contract wallet on a
+  // cross-chain pair, clearing the receiver destroys an address the widget
+  // needs — so the next quote that does find a route cannot be executed.
+  it('does not offer to clear a receiver the widget requires', () => {
+    const card = buildRouteIssueCard(
+      issue('recipientNotSupported', 5_000_000n),
+      deps({
+        toAddress: '0xOTHER',
+        sameEcosystem: true,
+        receiverRequired: true,
+      })
+    )
+    expect(card.action).toBeUndefined()
   })
 
   it('leaves a pair it cannot fix without an action', () => {

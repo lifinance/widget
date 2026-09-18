@@ -51,6 +51,7 @@ describe.skipIf(!process.env.DUMP_SUGGESTIONS)('dump', () => {
         slippage: String(r.slippage * 100),
         amountLocked: false,
         receiverHidden: false,
+        receiverRequired: false,
         toAddress: r.toAddress,
         sameEcosystem: r.fromChainId === r.toChainId,
         applyAmount: (v) => {
