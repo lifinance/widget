@@ -176,6 +176,26 @@ describe('amount suggestions', () => {
     expect(card.description).toBe('info.routeIssue.amountTooHigh.description')
   })
 
+  // Reported in review: one tool capping at 50 tokens and another at $100 both
+  // fold into one issue. Clearing either cap is enough, so the card must aim
+  // for the higher one rather than advise less than any tool asked for.
+  it('prefers a higher dollar ceiling over a lower token one', () => {
+    const applyAmount = vi.fn()
+    const card = buildRouteIssueCard(
+      issue('amountTooHigh', 200_000_000n, {
+        requiredFromAmount: 50_000_000n,
+        direction: 'lower',
+        maxUsd: 100,
+      }),
+      deps({ applyAmount })
+    )
+    card.action?.run()
+    expect(applyAmount).toHaveBeenCalledWith('100')
+    expect(card.description).toBe(
+      'info.routeIssue.amountTooHigh.descriptionUsd'
+    )
+  })
+
   it('keeps the button away while the amount field is locked', () => {
     const card = buildRouteIssueCard(
       issue('amountTooLow', 200_000n, { requiredFromAmount: 2_000_000n }),

@@ -333,6 +333,15 @@ describe('pinned reason fragments', () => {
     expect(fromReason('Tool relay not applied.')).toEqual([])
   })
 
+  // Nothing trims a reason before it is matched, so the anchors have to allow
+  // the whitespace a backend may pad it with.
+  it.each(['Tool relay not applied.\n', '  Tool relay not applied. '])(
+    'suppresses a padded not-applied reason',
+    (reason) => {
+      expect(fromReason(reason)).toEqual([])
+    }
+  )
+
   // Reported in review: unanchored, the greedy `.+` claimed any reason ending
   // in "not applied." and dropped what the rest of it said.
   it('suppresses only the whole not-applied reason', () => {
