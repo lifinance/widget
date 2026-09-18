@@ -20,6 +20,8 @@ export const bucketRank: Record<RouteIssueBucket, number> = {
   // Emitted by nearly every tool that dislikes the receiver, so it drowns out
   // more specific reasons unless it sits near the catch-all. The ticket ranks it
   // fifth; this is the first of two deliberate departures from that order.
+  // Everything above follows the ticket, which also moved `liquidity` down from
+  // fourth to below the settings and gasless buckets.
   recipientNotSupported: 8,
   pairNotSupported: 9,
   // The second departure: the ticket puts temporary ahead of pairNotSupported.
