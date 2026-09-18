@@ -18,13 +18,15 @@ export const bucketRank: Record<RouteIssueBucket, number> = {
   blockedBySettings: 6,
   liquidity: 7,
   // Emitted by nearly every tool that dislikes the receiver, so it drowns out
-  // more specific reasons unless it sits near the catch-all. This is the one
-  // place the order departs from the ticket, which ranks it fifth.
+  // more specific reasons unless it sits near the catch-all. The ticket ranks it
+  // fifth; this is the first of two deliberate departures from that order.
   recipientNotSupported: 8,
   pairNotSupported: 9,
+  // The second departure: the ticket puts temporary ahead of pairNotSupported.
   // "Try again" is the only reason that offers the user nothing to change, and
   // one busy tool is no answer while another says the route cannot be built at
   // all. It leads only when nothing else survived, where a retry is the answer.
+  // Neither departure changes a card on any of the 76 collected payloads.
   temporary: 10,
 }
 
