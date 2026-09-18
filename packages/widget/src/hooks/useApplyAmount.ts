@@ -26,11 +26,10 @@ export const useApplyAmount = (
 
   return (value: string): void => {
     if (mode === 'limit') {
-      // The receive amount is derived from this one by an effect that writes
-      // normally, so flushing only this half would quote the new send amount
-      // against the previous limit price for the length of the debounce. Let
-      // both settle together, as they did before the flag existed.
-      setSendAmount(value)
+      // `setSendAmount` writes the derived receive amount in the same call, so
+      // both watchers flush together and the quote never pairs a new send
+      // amount with the previous limit price.
+      setSendAmount(value, immediate)
       return
     }
     setFieldValue(FormKeyHelper.getAmountKey(formType), value, {
