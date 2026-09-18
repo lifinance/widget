@@ -21,11 +21,21 @@ const suggestionFormatter = {
   lower: twoSignificantDigits('floor'),
 }
 
-const slippageFormatter = new Intl.NumberFormat('en', {
-  maximumFractionDigits: 2,
-  roundingMode: 'ceil',
-  useGrouping: false,
-})
+// A floor has to be cleared and a cap has to be stayed under, so each rounds
+// away from the bar rather than onto it: rounding a 1.2345% cap up to 1.24%
+// writes back a value the bridge refuses for the same reason.
+const slippageFormatter = {
+  floor: new Intl.NumberFormat('en', {
+    maximumFractionDigits: 2,
+    roundingMode: 'ceil',
+    useGrouping: false,
+  }),
+  cap: new Intl.NumberFormat('en', {
+    maximumFractionDigits: 2,
+    roundingMode: 'floor',
+    useGrouping: false,
+  }),
+}
 
 /** A round number, trimmed away from the limit it has to clear. */
 export const roundSuggestion = (
@@ -54,9 +64,12 @@ export const reportedSlippage = (issue: RouteIssue): string => {
   if (required === undefined) {
     return ''
   }
-  return formatSlippage(
-    slippageFormatter.format(withoutFloatTail(required * 100))
+  const bar = issue.bucket === 'slippageTooLoose' ? 'cap' : 'floor'
+  const rounded = slippageFormatter[bar].format(
+    withoutFloatTail(required * 100)
   )
+  // A cap under 0.005% floors to zero, and zero slippage is not a setting.
+  return Number.parseFloat(rounded) > 0 ? formatSlippage(rounded) : ''
 }
 
 /** With nothing reported, loosen past the current setting rather than guess. */
@@ -70,7 +83,13 @@ export const nextSlippage = (issue: RouteIssue, applied?: string): string => {
     Number.isFinite(current) && current > fallbackSlippage
       ? current * 2
       : fallbackSlippage
-  return formatSlippage(Math.min(loosened, maxRecommendedSlippage).toString())
+  const target = Math.min(loosened, maxRecommendedSlippage)
+  // The widget warns about an unusual slippage rather than blocking it, so the
+  // applied value can already sit above the cap. Advising a smaller number on a
+  // card titled "too tight" contradicts the card and cannot be acted on.
+  return Number.isFinite(current) && target <= current
+    ? ''
+    : formatSlippage(target.toString())
 }
 
 export interface Suggestion {

@@ -131,7 +131,7 @@
       "applySuggestion": "Apply suggestion",
       "amountTooLow": {
         "title": "Amount is too low",
-        "description": "This is under the smallest amount these routes will take. The lowest minimum we saw was about {{suggested}} {{symbol}}.",
+        "description": "This is under the smallest amount these routes will take. Try about {{suggested}} {{symbol}} — a little over the smallest minimum we saw.",
         "descriptionUsd": "Routes for this pair need at least {{minUsd}} to work with, which is about {{suggested}} {{symbol}}.",
         "descriptionEstimated": "This is under the smallest amount these routes will take. Try around {{suggested}} {{symbol}} and we'll look again.",
         "descriptionNoAmount": "This is under the smallest amount every route will take. Try a slightly larger amount and we'll look again."

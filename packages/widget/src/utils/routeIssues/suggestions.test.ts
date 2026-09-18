@@ -143,6 +143,29 @@ describe('reportedSlippage', () => {
   it('is empty when the backend reported none', () => {
     expect(reportedSlippage(issue({}))).toBe('')
   })
+
+  // A cap has to be stayed under. Rounding 1.2345% up to 1.24% wrote back a
+  // value the bridge refuses for the same reason, so the card never settled.
+  it('rounds a stated cap down, away from the bar', () => {
+    const cap: RouteIssue = {
+      bucket: 'slippageTooLoose',
+      ruleId: 'test',
+      evidence: { requiredSlippage: 0.012345 },
+      fromAmount: 1000n,
+    }
+    expect(reportedSlippage(cap)).toBe('1.23')
+  })
+
+  it('offers nothing for a cap too small to express', () => {
+    expect(
+      reportedSlippage({
+        bucket: 'slippageTooLoose',
+        ruleId: 'test',
+        evidence: { requiredSlippage: 0.00001 },
+        fromAmount: 1000n,
+      })
+    ).toBe('')
+  })
 })
 
 describe('nextSlippage', () => {
@@ -160,12 +183,22 @@ describe('nextSlippage', () => {
   it('doubles a setting already looser than the fallback, up to the band', () => {
     expect(nextSlippage(issue({}), '0.4')).toBe('0.5')
     expect(nextSlippage(issue({}), '0.8')).toBe('1')
-    expect(nextSlippage(issue({}), '3')).toBe('1')
   })
 
   it('never proposes more than the widget calls reasonable', () => {
-    expect(Number(nextSlippage(issue({}), '80'))).toBeLessThanOrEqual(1)
+    expect(Number(nextSlippage(issue({}), '0.9'))).toBeLessThanOrEqual(1)
   })
+
+  // The widget warns about an unusual slippage rather than blocking it, so the
+  // applied value can already sit above the band. Capping to it then advised a
+  // smaller number on a card titled "too tight" — advice that contradicts the
+  // card and that the Apply guard refuses to act on anyway.
+  it.each([['3'], ['80']])(
+    'offers nothing when %s%% is already above the band',
+    (applied) => {
+      expect(nextSlippage(issue({}), applied)).toBe('')
+    }
+  )
 })
 
 describe('gentlerSuggestion', () => {
