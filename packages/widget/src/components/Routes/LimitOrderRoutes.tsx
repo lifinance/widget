@@ -24,7 +24,12 @@ export const LimitOrderRoutes: React.FC<CardProps> = (props) => {
 
   const currentRoute = routes?.[0]
 
-  if (!currentRoute && !isLoading && !isFetching && !isFetched) {
+  // Nothing of its own to show: the panel carries the card in the wide layout,
+  // and an empty Stack would still take its bottom margin.
+  if (
+    (!currentRoute && !isLoading && !isFetching && !isFetched) ||
+    (wideVariant && !currentRoute && !isLoading)
+  ) {
     return null
   }
 
