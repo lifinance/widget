@@ -70,7 +70,10 @@ const matchFragment = (
   bucket?: RouteIssueBucket
 ): { rule: RouteIssueRule; match: RegExpExecArray } | undefined => {
   for (const { rule, fragment } of text ? fragmentRules : []) {
-    if (bucket && rule.bucket !== bucket) {
+    // A rule that derives its bucket from the amount decides for itself, so the
+    // code's label must not filter it out: those rules read which bound was
+    // actually crossed, and their `extract` returns null when neither was.
+    if (bucket && !rule.bucketFrom && rule.bucket !== bucket) {
       continue
     }
     const match = fragment.exec(text)
