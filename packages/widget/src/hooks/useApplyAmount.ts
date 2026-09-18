@@ -10,8 +10,11 @@ import { useLinkedLimitFields } from './useLinkedLimitFields.js'
  *
  * `immediate` skips the typing debounce so the quote starts at once. Only the
  * route-issue card wants that: its button is the user's answer to a card that is
- * already on screen. The percentage chips are easy to click in a burst, and
- * skipping the debounce there sends a quote per click.
+ * already on screen.
+ *
+ * Every other caller keeps the debounce it had before this feature, which is
+ * also what the percentage chips need: they are easy to click in a burst, and
+ * skipping the delay sent a quote per click.
  */
 export const useApplyAmount = (
   formType: FormType,
