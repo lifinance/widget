@@ -7,17 +7,14 @@ import { useTranslation } from 'react-i18next'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
-import type { RouteIssue } from '../../utils/routeIssues/types.js'
 import { PageContainer } from '../PageContainer.js'
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js'
 import { RouteCard } from '../RouteCard/RouteCard.js'
 import { RouteCardSkeleton } from '../RouteCard/RouteCardSkeleton.js'
-import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js'
 import { Container, Header } from './RoutesExpanded.style.js'
 
 interface RoutesContentProps {
   routes?: Route[]
-  issues?: readonly RouteIssue[]
   isFetching: boolean
   isLoading: boolean
   dataUpdatedAt: number
@@ -32,7 +29,6 @@ const headerHeight = '52px'
 export const RoutesContent: React.NamedExoticComponent<RoutesContentProps> =
   memo(function RoutesContent({
     routes,
-    issues,
     isFetching,
     isLoading,
     dataUpdatedAt,
@@ -97,25 +93,26 @@ export const RoutesContent: React.NamedExoticComponent<RoutesContentProps> =
               paddingBottom: 3,
             }}
           >
-            {routeNotFound ? (
-              <RouteNotFoundCard issues={issues} />
-            ) : (isLoading || isFetching) && !routes?.length ? (
-              Array.from({ length: 3 }).map((_, index) => (
-                <RouteCardSkeleton key={index} />
-              ))
-            ) : (
-              routes?.map((route: Route, index: number) => (
-                <RouteCard
-                  key={index}
-                  route={route}
-                  onClick={
-                    allowInteraction ? () => onRouteClick(route) : undefined
-                  }
-                  active={index === 0}
-                  expanded={routes?.length === 1}
-                />
-              ))
-            )}
+            {/* The form always renders the no-route card, and in the wide
+                layout this panel sits beside it — so repeating it here showed
+                the same card twice. */}
+            {routeNotFound
+              ? null
+              : (isLoading || isFetching) && !routes?.length
+                ? Array.from({ length: 3 }).map((_, index) => (
+                    <RouteCardSkeleton key={index} />
+                  ))
+                : routes?.map((route: Route, index: number) => (
+                    <RouteCard
+                      key={index}
+                      route={route}
+                      onClick={
+                        allowInteraction ? () => onRouteClick(route) : undefined
+                      }
+                      active={index === 0}
+                      expanded={routes?.length === 1}
+                    />
+                  ))}
           </Stack>
         </PageContainer>
       </Container>

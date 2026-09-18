@@ -131,24 +131,24 @@
       "applySuggestion": "Apply suggestion",
       "amountTooLow": {
         "title": "Amount is too low",
-        "description": "This is under the smallest amount these routes will take. The smallest we can see a route for is around {{suggested}} {{symbol}}.",
-        "descriptionUsd": "Routes for this pair need at least {{minUsd}} to work with, which is around {{suggested}} {{symbol}}.",
+        "description": "This is under the smallest amount these routes will take. The lowest minimum we saw was about {{suggested}} {{symbol}}.",
+        "descriptionUsd": "Routes for this pair need at least {{minUsd}} to work with, which is about {{suggested}} {{symbol}}.",
         "descriptionNoAmount": "This is under the smallest amount every route will take. Try sending a little more and we'll look again."
       },
       "amountTooHigh": {
         "title": "Amount is too high",
-        "description": "That's more than these routes can move in one go. The most we can see a route for is around {{suggested}} {{symbol}}.",
+        "description": "That's more than these routes can move in one go. The highest limit we saw was about {{suggested}} {{symbol}}, so try that or less.",
         "descriptionNoAmount": "That's above the largest amount these routes accept. Try sending a smaller amount and we'll check again."
       },
       "slippageTooTight": {
         "title": "Slippage is too tight",
-        "description": "Every route here needs at least {{slippage}}% slippage to go through, which is more than is currently applied.",
+        "description": "The routes we saw need at least {{slippage}}% slippage to go through, which is more than is currently applied.",
         "descriptionSuggested": "The slippage currently applied is stricter than these routes can work with. Loosening it to {{slippage}}% should help.",
         "descriptionNoAmount": "The slippage currently applied is stricter than any route here can work with. Try loosening it a little."
       },
       "slippageTooLoose": {
         "title": "Slippage is too high",
-        "description": "Every route here caps slippage at {{slippage}}%, which is less than is currently applied. Lowering it should help.",
+        "description": "The routes we saw cap slippage at {{slippage}}%, which is less than is currently applied. Lowering it should help.",
         "descriptionNoAmount": "The slippage currently applied is higher than any route here accepts. Try lowering it a little."
       },
       "destinationAccountNotReady": {
@@ -166,7 +166,7 @@
       },
       "blockedBySettings": {
         "title": "Blocked by this widget’s settings",
-        "description": "Every route we found needs a step this widget does not allow, such as a signature on the destination chain."
+        "description": "This widget's settings block a step these routes need, such as a signature on the destination chain."
       },
       "liquidity": {
         "title": "Not enough liquidity",
