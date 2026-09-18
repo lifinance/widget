@@ -3,6 +3,7 @@ import type { TFunction } from 'i18next'
 import { describe, expect, it } from 'vitest'
 import en from '../../i18n/en.json' with { type: 'json' }
 import { maxRecommendedSlippage } from '../../stores/settings/createSettingsStore.js'
+import { compactNumberFormatter } from '../compactNumberFormatter.js'
 import { buildRouteIssueCard } from './card.js'
 import { classifyRouteIssues } from './classify.js'
 import rawPayloads from './fixtures/live-payloads.json' with { type: 'json' }
@@ -40,9 +41,17 @@ const payloads = rawPayloads as unknown as LivePayload[]
 const lookup = (key: string): string =>
   key.split('.').reduce<any>((node, part) => node?.[part], en) ?? ''
 
+// The real formatter, so the grouped figure in the sentence is the one a user
+// sees. A stub that returned the raw value would let the agreement check below
+// pass without ever exercising the formatting.
+const formatTokenAmount = compactNumberFormatter('en', {})
+
 const t = ((key: string, values?: Record<string, unknown>): string => {
   if (key === 'format.currency') {
     return `$${values?.value}`
+  }
+  if (key === 'format.tokenAmount') {
+    return formatTokenAmount(String(values?.value))
   }
   return lookup(key).replace(/{{(\w+)}}/g, (_whole, name: string) =>
     String(values?.[name] ?? `{{${name}}}`)
@@ -202,9 +211,10 @@ describe('cards built from real API payloads', () => {
     }
 
     // The button and the sentence have to name the same figure. Reported as
-    // "I receive a quote for $11 but it suggests less".
+    // "I receive a quote for $11 but it suggests less". The sentence carries the
+    // grouped rendering, so compare against that rather than the raw value.
     if (applied !== undefined && !applied.startsWith('slippage:')) {
-      expect(card.description).toContain(applied)
+      expect(card.description).toContain(formatTokenAmount(applied))
     }
 
     // A minimum the backend stated is a floor, so a suggestion under it asks
