@@ -128,6 +128,7 @@
         "title": "",
         "description": "",
         "descriptionUsd": "",
+        "descriptionEstimated": "",
         "descriptionNoAmount": ""
       },
       "amountTooHigh": {
