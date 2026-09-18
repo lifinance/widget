@@ -134,13 +134,13 @@
         "description": "This is under the smallest amount these routes will take. The lowest minimum we saw was about {{suggested}} {{symbol}}.",
         "descriptionUsd": "Routes for this pair need at least {{minUsd}} to work with, which is about {{suggested}} {{symbol}}.",
         "descriptionEstimated": "This is under the smallest amount these routes will take. Try around {{suggested}} {{symbol}} and we'll look again.",
-        "descriptionNoAmount": "This is under the smallest amount every route will take. Try sending a little more and we'll look again."
+        "descriptionNoAmount": "This is under the smallest amount every route will take. Try a slightly larger amount and we'll look again."
       },
       "amountTooHigh": {
         "title": "Amount is too high",
         "description": "That's more than these routes can move in one go. The highest limit we saw was about {{suggested}} {{symbol}}, so try that or less.",
         "descriptionUsd": "That's more than these routes can move in one go. The most any of them reported is about {{maxUsd}}, which is around {{suggested}} {{symbol}}.",
-        "descriptionNoAmount": "That's above the largest amount these routes accept. Try sending a smaller amount and we'll check again."
+        "descriptionNoAmount": "That's above the largest amount these routes accept. Try a smaller amount and we'll check again."
       },
       "slippageTooTight": {
         "title": "Slippage is too tight",
