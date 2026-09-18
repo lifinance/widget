@@ -133,3 +133,29 @@ describe('a captured widget payload', () => {
     )
   })
 })
+
+// Two tools can cap the same pair at different dollar figures, and clearing the
+// lower one is not required: the higher ceiling is the one the user can reach.
+// The token fold already keeps the highest limit for a too-high amount.
+describe('folding two stated ceilings', () => {
+  it('keeps the highest dollar ceiling', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: '1:ETH-chainflip-137:USDC',
+            reason: 'Amount too high, max available is $40.00',
+          },
+          {
+            overallPath: '1:ETH-chainflip-137:USDC',
+            reason: 'Amount too high, max available is $100.00',
+          },
+        ],
+        failed: [],
+      },
+      context
+    )
+    expect(issues[0].bucket).toBe('amountTooHigh')
+    expect(issues[0].evidence?.maxUsd).toBe(100)
+  })
+})

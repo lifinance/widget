@@ -114,8 +114,13 @@ const isGentler = (
   return (candidate.direction ?? 'raise') === 'raise' ? a < b : a > b
 }
 
+// The user has to clear one tool's bar, not every tool's — so the gentlest of
+// each kind is the one to aim for: the lowest floor, and the highest ceiling.
 const smaller = (a?: number, b?: number): number | undefined =>
   a === undefined || b === undefined ? (a ?? b) : Math.min(a, b)
+
+const larger = (a?: number, b?: number): number | undefined =>
+  a === undefined || b === undefined ? (a ?? b) : Math.max(a, b)
 
 const foldEvidence = (
   incumbent: RouteIssueEvidence | undefined,
@@ -138,7 +143,7 @@ const foldEvidence = (
       candidate.requiredSlippage
     ),
     minUsd: smaller(incumbent.minUsd, candidate.minUsd),
-    maxUsd: smaller(incumbent.maxUsd, candidate.maxUsd),
+    maxUsd: larger(incumbent.maxUsd, candidate.maxUsd),
     note: incumbent.note ?? candidate.note,
   }
 }
