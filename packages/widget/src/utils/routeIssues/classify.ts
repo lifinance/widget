@@ -103,7 +103,12 @@ const findRule = (
     const refinable =
       byCode.bucket === 'pairNotSupported' ? undefined : byCode.bucket
     const refined = matchFragment(entry.text, refinable)
-    return refined ? { ...refined, fallback: byCode } : { rule: byCode }
+    // Only the catch-all runs unfiltered, so only there can a suppressed rule
+    // match. Suppressed prose says nothing worth showing, which is no reason to
+    // lose the bucket the code named beside it.
+    return refined && !refined.rule.suppressed
+      ? { ...refined, fallback: byCode }
+      : { rule: byCode }
   }
   return matchFragment(entry.text) ?? (byCode ? { rule: byCode } : undefined)
 }

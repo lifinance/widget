@@ -318,3 +318,34 @@ describe('two amount reasons that both carry a figure', () => {
     expect(issues.map((issue) => issue.bucket)).toEqual(['amountTooLow'])
   })
 })
+
+// Reported in review: for the catch-all bucket the prose runs unfiltered, so a
+// suppressed rule could claim the entry — and dropping suppressed prose took
+// the bucket the code had named down with it.
+describe('suppressed prose beside a code that names a bucket', () => {
+  it('keeps the bucket the code named', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [],
+        failed: [
+          {
+            overallPath: '1:ETH-bridge-137:USDC',
+            subpaths: {
+              s: [
+                {
+                  errorType: 'NO_QUOTE',
+                  code: 'NO_POSSIBLE_ROUTE',
+                  tool: 'someTool',
+                  message: "Unknown error; see 'cause' for details",
+                  action: {} as never,
+                },
+              ],
+            },
+          },
+        ],
+      },
+      context
+    )
+    expect(issues.map((issue) => issue.bucket)).toEqual(['pairNotSupported'])
+  })
+})
