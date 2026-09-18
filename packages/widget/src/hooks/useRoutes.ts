@@ -353,11 +353,18 @@ export const useRoutes = ({
       signal,
     }) => {
       const fromAmount = parseUnits(fromTokenAmount, fromToken!.decimals)
-      // A contract-call quote is driven by the receive amount, so the sell
-      // field is not what gets sent — config and the URL can still fill it.
-      // Classifying against it would let a stale figure rewrite a liquidity
-      // reason as "amount too low" and offer a button the request ignores.
-      const receiveDriven = mode === 'custom' && Boolean(contractCalls?.length)
+      const toAmount = toTokenAmount
+        ? parseUnits(toTokenAmount, toToken!.decimals)
+        : undefined
+      // Mirrors the contract-call branch below exactly, `toAmount` included: it
+      // is driven by the receive amount, so the sell field is not what gets
+      // sent — config and the URL can still fill it. Classifying against it
+      // would let a stale figure rewrite a liquidity reason as "amount too low"
+      // and offer a button the request ignores. A custom flow without a
+      // `toAmount` quotes through getRoutes and does send it, so it is not one.
+      const receiveDriven = Boolean(
+        mode === 'custom' && contractCalls?.length && toAmount
+      )
       const classifyContext: ClassifyContext = {
         fromAmount: receiveDriven ? 0n : fromAmount,
         fromChainId,
@@ -367,9 +374,6 @@ export const useRoutes = ({
         fromAddress,
         toAddress,
       }
-      const toAmount = toTokenAmount
-        ? parseUnits(toTokenAmount, toToken!.decimals)
-        : undefined
       const formattedSlippage = slippage
         ? Number.parseFloat(slippage) / 100
         : defaultSlippage

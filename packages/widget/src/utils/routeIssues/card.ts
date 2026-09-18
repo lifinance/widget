@@ -94,18 +94,20 @@ export const buildRouteIssueCard = (
       // suggestion worked, and where it was invented the amount was still
       // refused — so the card offered a fresh halving, and then another.
       const reported = roundedReported()
-      if (reported !== undefined) {
-        return { amount: reported }
-      }
-      // The tool stated a ceiling in dollars, so the token figure below is a
-      // price conversion. Carry the bar so the card quotes what was said.
+      // A ceiling stated in dollars converts to tokens at the current price, so
+      // carry the bar and let the card quote what was actually said.
       const maxUsd = issue.evidence?.maxUsd
-      if (maxUsd === undefined) {
-        return undefined
+      const forUsd =
+        maxUsd === undefined ? undefined : amountForUsd(maxUsd, 'lower')
+      if (reported === undefined) {
+        return forUsd === undefined
+          ? undefined
+          : { amount: forUsd, usdBar: maxUsd }
       }
-      const forUsd = amountForUsd(maxUsd, 'lower')
-      return forUsd === undefined
-        ? undefined
+      // Clearing one tool's cap is enough, so the higher of the two is the one
+      // to aim for — the mirror of the gentler-minimum rule for a low amount.
+      return forUsd === undefined || reported >= forUsd
+        ? { amount: reported }
         : { amount: forUsd, usdBar: maxUsd }
     }
     if (issue.bucket !== 'amountTooLow') {
