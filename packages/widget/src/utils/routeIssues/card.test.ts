@@ -62,6 +62,27 @@ describe('amount suggestions', () => {
     )
   })
 
+  // Reported in review: a bar under the one-dollar floor is raised to it, and
+  // quoting the raised figure claimed the tool asked for $1 when it asked for
+  // less. That case now advises instead of quoting anything.
+  it('never quotes a bar the tool did not state', () => {
+    const card = buildRouteIssueCard(
+      issue('amountTooLow', 200_000n, { minUsd: 0.5 }),
+      deps()
+    )
+    expect(card.description).toBe(
+      'info.routeIssue.amountTooLow.descriptionEstimated'
+    )
+  })
+
+  it('quotes a bar at or above the floor', () => {
+    const card = buildRouteIssueCard(
+      issue('amountTooLow', 200_000n, { minUsd: 2 }),
+      deps()
+    )
+    expect(card.description).toBe('info.routeIssue.amountTooLow.descriptionUsd')
+  })
+
   // A figure a tool actually stated is reported as observed.
   it('reports a minimum a tool stated', () => {
     const card = buildRouteIssueCard(

@@ -104,10 +104,15 @@ export const buildRouteIssueCard = (
     }
     const declaredUsd = issue.evidence?.minUsd
     const target = Math.max(declaredUsd ?? 0, fallbackTargetUsd)
+    // Quote the bar only when the tool's own figure is what the suggestion
+    // clears. A bar under the floor is raised to it, and naming that raised
+    // figure would put words in the tool's mouth.
     return gentlerSuggestion(
       roundedReported(),
       amountForUsd(target),
-      declaredUsd === undefined ? undefined : target
+      declaredUsd !== undefined && declaredUsd >= fallbackTargetUsd
+        ? target
+        : undefined
     )
   })()
 
