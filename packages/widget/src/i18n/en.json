@@ -133,6 +133,7 @@
         "title": "Amount is too low",
         "description": "This is under the smallest amount these routes will take. The lowest minimum we saw was about {{suggested}} {{symbol}}.",
         "descriptionUsd": "Routes for this pair need at least {{minUsd}} to work with, which is about {{suggested}} {{symbol}}.",
+        "descriptionEstimated": "This is under the smallest amount these routes will take. Try around {{suggested}} {{symbol}} and we'll look again.",
         "descriptionNoAmount": "This is under the smallest amount every route will take. Try sending a little more and we'll look again."
       },
       "amountTooHigh": {

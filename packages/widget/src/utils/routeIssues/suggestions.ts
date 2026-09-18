@@ -77,6 +77,8 @@ export interface Suggestion {
   amount: bigint
   /** Set when the figure came from a USD bar rather than a reported amount. */
   usdBar?: number
+  /** The figure is the invented floor, so no tool ever named it. */
+  estimated?: boolean
 }
 
 /**
@@ -90,7 +92,12 @@ export const gentlerSuggestion = (
   usdBar: number | undefined
 ): Suggestion | undefined => {
   if (reported === undefined) {
-    return forUsd === undefined ? undefined : { amount: forUsd, usdBar }
+    if (forUsd === undefined) {
+      return undefined
+    }
+    return usdBar === undefined
+      ? { amount: forUsd, estimated: true }
+      : { amount: forUsd, usdBar }
   }
   if (usdBar === undefined || forUsd === undefined || reported <= forUsd) {
     return { amount: reported }

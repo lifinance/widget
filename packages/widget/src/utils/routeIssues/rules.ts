@@ -187,6 +187,11 @@ export const routeIssueRules: RouteIssueRule[] = [
   suppressedCode('TOOL_SPECIFIC_ERROR'),
   suppressedCode('UNKNOWN_ERROR'),
   suppressedFragment('lowVolume', /filtered due to low historical volume/),
+  // The ticket buckets this as temporary, but temporary always offers a retry
+  // and this is operator routing config: the next quote returns the same entry.
+  // Its sibling `toolDisabled` drops a note-less overwrite for the same reason,
+  // and the string appears in none of the 76 collected payloads.
+  suppressedFragment('toolNotApplied', /Tool .+ not applied\./),
   suppressedFragment(
     'preferredStep',
     /Removing less used bridge step in favor of|Skipping cross-token bridge step in favor of/
@@ -525,10 +530,6 @@ export const routeIssueRules: RouteIssueRule[] = [
   ),
   fragmentRule('podOverloaded', 'temporary', /Pod is currently overloaded\./),
   fragmentRule('simulationFailed', 'temporary', /^Simulation failed \(/),
-  // Suppressing this left a payload carrying only it with the generic sentence,
-  // which is the outcome this feature exists to prevent. `temporary` ranks last,
-  // so it still yields to every reason the user can act on.
-  fragmentRule('toolNotApplied', 'temporary', /Tool .+ not applied\./),
 
   fragmentRule(
     'acrossSwapDestinationCalls',

@@ -6,11 +6,19 @@ interface QuoteErrorBody {
   errors?: unknown
 }
 
-const isUnavailableRoutes = (value: unknown): value is UnavailableRoutes =>
-  !!value &&
-  typeof value === 'object' &&
-  (Array.isArray((value as UnavailableRoutes).filteredOut) ||
-    Array.isArray((value as UnavailableRoutes).failed))
+const isUnavailableRoutes = (value: unknown): value is UnavailableRoutes => {
+  if (!value || typeof value !== 'object') {
+    return false
+  }
+  const { filteredOut, failed } = value as Partial<UnavailableRoutes>
+  const shaped =
+    (filteredOut === undefined || Array.isArray(filteredOut)) &&
+    (failed === undefined || Array.isArray(failed))
+  // An entry is required, not just the shape: an empty `errors` explains
+  // nothing, and accepting it would both stop the caller rethrowing and hide a
+  // populated `message` behind it.
+  return shaped && (filteredOut?.length ?? 0) + (failed?.length ?? 0) > 0
+}
 
 const fromParsed = (value: unknown): UnavailableRoutes | undefined => {
   if (isUnavailableRoutes(value)) {

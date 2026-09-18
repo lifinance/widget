@@ -39,6 +39,17 @@ describe('reading the diagnostics off a quote error', () => {
     expect(unavailableRoutesFromError(error)).toEqual(reasons)
   })
 
+  // Reported in review: an empty `errors` is well shaped, so it won the
+  // precedence and the populated `message` beside it was never read — leaving
+  // the generic sentence, the outcome this feature exists to prevent.
+  it('prefers a populated message over an empty errors field', () => {
+    const error = errorWith({
+      errors: { filteredOut: [], failed: [] },
+      message: JSON.stringify(reasons),
+    })
+    expect(unavailableRoutesFromError(error)).toEqual(reasons)
+  })
+
   it('accepts a payload carrying only failed routes', () => {
     const failedOnly = { failed: [{ overallPath: 'p', subpaths: {} }] }
     expect(
@@ -55,6 +66,14 @@ describe('reading the diagnostics off a quote error', () => {
     ['unparseable braces', errorWith({ message: 'oops {not json' })],
     ['json of the wrong shape', errorWith({ message: '{"code":1002}' })],
     ['errors of the wrong shape', errorWith({ errors: { nope: true } })],
+    [
+      'an empty errors field',
+      errorWith({ errors: { filteredOut: [], failed: [] } }),
+    ],
+    [
+      'an empty payload in message',
+      errorWith({ message: '{"filteredOut":[],"failed":[]}' }),
+    ],
     ['a null body', errorWith(null)],
     ['a string body', errorWith('nope')],
     ['undefined', undefined],
