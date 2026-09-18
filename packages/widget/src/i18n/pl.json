@@ -110,6 +110,7 @@
       "amountTooHigh": {
         "title": "",
         "description": "",
+        "descriptionUsd": "",
         "descriptionNoAmount": ""
       },
       "slippageTooTight": {

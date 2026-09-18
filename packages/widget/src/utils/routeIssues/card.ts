@@ -93,11 +93,20 @@ export const buildRouteIssueCard = (
       // was measured against the live API: where a figure was reported the
       // suggestion worked, and where it was invented the amount was still
       // refused — so the card offered a fresh halving, and then another.
+      const reported = roundedReported()
+      if (reported !== undefined) {
+        return { amount: reported }
+      }
+      // The tool stated a ceiling in dollars, so the token figure below is a
+      // price conversion. Carry the bar so the card quotes what was said.
       const maxUsd = issue.evidence?.maxUsd
-      const reported =
-        roundedReported() ??
-        (maxUsd === undefined ? undefined : amountForUsd(maxUsd, 'lower'))
-      return reported === undefined ? undefined : { amount: reported }
+      if (maxUsd === undefined) {
+        return undefined
+      }
+      const forUsd = amountForUsd(maxUsd, 'lower')
+      return forUsd === undefined
+        ? undefined
+        : { amount: forUsd, usdBar: maxUsd }
     }
     if (issue.bucket !== 'amountTooLow') {
       return undefined
@@ -159,7 +168,9 @@ export const buildRouteIssueCard = (
     symbol: token?.symbol ?? '',
     suggested: suggestedDisplay,
     slippage: slippageTarget,
+    // The same figure under both names, so each card's copy can read naturally.
     minUsd: quotedUsd,
+    maxUsd: quotedUsd,
   }
 
   const description = ((): string => {

@@ -139,6 +139,7 @@
       "amountTooHigh": {
         "title": "Amount is too high",
         "description": "That's more than these routes can move in one go. The highest limit we saw was about {{suggested}} {{symbol}}, so try that or less.",
+        "descriptionUsd": "That's more than these routes can move in one go. The most any of them reported is about {{maxUsd}}, which is around {{suggested}} {{symbol}}.",
         "descriptionNoAmount": "That's above the largest amount these routes accept. Try sending a smaller amount and we'll check again."
       },
       "slippageTooTight": {

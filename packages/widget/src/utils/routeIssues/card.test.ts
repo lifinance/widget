@@ -118,6 +118,30 @@ describe('amount suggestions', () => {
     )
   })
 
+  // Reported in review: the tool named a dollar ceiling, so the token figure is
+  // a price conversion. The card quotes what was actually said.
+  it('quotes a dollar ceiling the tool stated', () => {
+    const card = buildRouteIssueCard(
+      issue('amountTooHigh', 100_000_000n, { maxUsd: 40 }),
+      deps()
+    )
+    expect(card.description).toBe(
+      'info.routeIssue.amountTooHigh.descriptionUsd'
+    )
+  })
+
+  // A token figure a tool named needs no conversion, so it is reported plainly.
+  it('reports a token maximum a tool stated', () => {
+    const card = buildRouteIssueCard(
+      issue('amountTooHigh', 100_000_000n, {
+        requiredFromAmount: 50_000_000n,
+        direction: 'lower',
+      }),
+      deps()
+    )
+    expect(card.description).toBe('info.routeIssue.amountTooHigh.description')
+  })
+
   it('keeps the button away while the amount field is locked', () => {
     const card = buildRouteIssueCard(
       issue('amountTooLow', 200_000n, { requiredFromAmount: 2_000_000n }),
