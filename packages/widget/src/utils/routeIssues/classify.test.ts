@@ -262,3 +262,59 @@ describe('prose that refines a code but rejects the entry', () => {
     expect(ranged(code)).toEqual([bucket])
   })
 })
+
+// Reported in review: when both amount buckets carry a figure the tie-break
+// kept the low unconditionally, so a send of 10,000 USDC against a stated
+// $5,000 ceiling read as "amount is too low".
+describe('two amount reasons that both carry a figure', () => {
+  const usdc: ClassifyContext = {
+    fromAmount: 10_000_000_000n,
+    fromChainId: 1,
+    fromTokenSymbol: 'USDC',
+    fromTokenDecimals: 6,
+    fromTokenPriceUSD: '1',
+  }
+  const path = '1:USDC-chainflip-137:USDC'
+
+  it('keeps the bar the send has not already cleared', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: path,
+            reason: 'Min destination amount too low for integrator (min: 10)',
+          },
+          {
+            overallPath: path,
+            reason: 'Amount too high, max available is $5000.00',
+          },
+        ],
+        failed: [],
+      },
+      usdc
+    )
+    expect(issues.map((issue) => issue.bucket)).toEqual(['amountTooHigh'])
+    expect(issues[0].evidence?.maxUsd).toBe(5000)
+  })
+
+  // The mirror: a dust send clears no floor, so the low is the one that stands.
+  it('keeps the low when the send sits under both bars', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: path,
+            reason: 'Min destination amount too low for integrator (min: 10)',
+          },
+          {
+            overallPath: path,
+            reason: 'Amount too high, max available is $5000.00',
+          },
+        ],
+        failed: [],
+      },
+      { ...usdc, fromAmount: 1_000n }
+    )
+    expect(issues.map((issue) => issue.bucket)).toEqual(['amountTooLow'])
+  })
+})

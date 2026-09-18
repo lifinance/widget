@@ -14,8 +14,6 @@
  * The routes endpoint allows about 75 requests an hour, far fewer than the
  * matrix below, so a run tops the fixture up and skips what it already has.
  * Re-run after the window resets until it reports nothing left to collect.
- * Run `pnpm check:write` afterwards — Biome owns the fixture's formatting and
- * JSON.stringify does not match it.
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
