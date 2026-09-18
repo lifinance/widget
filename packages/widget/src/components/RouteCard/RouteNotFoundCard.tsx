@@ -10,6 +10,16 @@ interface RouteNotFoundCardProps {
   issues?: readonly RouteIssue[]
 }
 
+/**
+ * Rendered from the form side (Routes, LimitOrderRoutes) and from the wide
+ * layout's side panel (RoutesContent). Exactly one must show it: MainPage drops
+ * the form-side block entirely when `wideVariant`, so on the swap page the panel
+ * is the only copy, while the limit page keeps its block for the route selector
+ * and suppresses just this card. Check which copies a layout renders before
+ * changing either side — the duplicate and the missing card look alike in a
+ * diff.
+ */
+
 export const RouteNotFoundCard: React.FC<RouteNotFoundCardProps> = ({
   issues,
 }) => {
