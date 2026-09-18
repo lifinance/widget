@@ -196,6 +196,24 @@ describe('amount suggestions', () => {
     )
   })
 
+  // Reported in review: a dollar cap converts at the widget's own price and can
+  // land at or above what the user sent. Taking it then left no suggestion at
+  // all, where the reported cap still worked.
+  it('ignores a converted ceiling that would not move the amount', () => {
+    const applyAmount = vi.fn()
+    const card = buildRouteIssueCard(
+      issue('amountTooHigh', 100_000_000n, {
+        requiredFromAmount: 50_000_000n,
+        direction: 'lower',
+        maxUsd: 500,
+      }),
+      deps({ applyAmount })
+    )
+    card.action?.run()
+    expect(applyAmount).toHaveBeenCalledWith('49')
+    expect(card.description).toBe('info.routeIssue.amountTooHigh.description')
+  })
+
   it('keeps the button away while the amount field is locked', () => {
     const card = buildRouteIssueCard(
       issue('amountTooLow', 200_000n, { requiredFromAmount: 2_000_000n }),
