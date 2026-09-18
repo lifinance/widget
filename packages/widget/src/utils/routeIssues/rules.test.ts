@@ -321,11 +321,16 @@ describe('pinned reason fragments', () => {
 
   // A path overwrite with no published note is operator routing config, not a
   // reason the user can do anything with.
-  it.each([
-    'Tool relay is currently disabled for this action.',
-    'Tool relay not applied.',
-  ])('never surfaces %s', (reason) => {
-    expect(fromReason(reason)).toEqual([])
+  it('never surfaces a disabled tool carrying no note', () => {
+    expect(
+      fromReason('Tool relay is currently disabled for this action.')
+    ).toEqual([])
+  })
+
+  // Suppressing this left a payload carrying only it with the generic sentence.
+  // `temporary` ranks last, so it yields to anything the user can act on.
+  it('offers a retry for a tool that was not applied', () => {
+    expect(fromReason('Tool relay not applied.')[0]?.bucket).toBe('temporary')
   })
 
   // 2 USD buys 1000 raw units, so 5 USD needs 2500.
