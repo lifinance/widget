@@ -18,7 +18,10 @@ import {
   useState,
 } from 'react'
 import type { BitcoinProviderConfig } from '../types'
-import { getInstalledConnectors } from '../utils/getInstalledConnectors.js'
+import {
+  getInstalledConnectors,
+  sameConnectors,
+} from '../utils/getInstalledConnectors.js'
 
 interface BitcoinProviderValuesProps {
   isExternalContext: boolean
@@ -57,12 +60,20 @@ export const BitcoinProviderValues: FC<
 
   useEffect(() => {
     let cancelled = false
+    // Every Wallet Standard wallet announces itself, so probes overlap. Only
+    // the newest may write, or a slower earlier one could restore a list that
+    // predates the registration which triggered it.
+    let latest = 0
     const probe = () => {
+      const sequence = ++latest
       getInstalledConnectors(connectors as readonly Connector[]).then(
         (installed) => {
-          if (!cancelled) {
-            setInstalledWallets(installed)
+          if (cancelled || sequence !== latest) {
+            return
           }
+          setInstalledWallets((current) =>
+            sameConnectors(current, installed) ? current : installed
+          )
         }
       )
     }

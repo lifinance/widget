@@ -17,3 +17,10 @@ export const getInstalledConnectors = async (
     Boolean(connector)
   )
 }
+
+// Keeping the previous array when nothing changed stops every wallet's
+// registration event from re-rendering the whole Bitcoin context.
+export const sameConnectors = (
+  a: readonly Connector[],
+  b: readonly Connector[]
+): boolean => a.length === b.length && a.every((c, i) => c === b[i])

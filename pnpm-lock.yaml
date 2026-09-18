@@ -324,14 +324,14 @@ importers:
   examples/dynamic:
     dependencies:
       '@bigmi/client':
-        specifier: ^0.10.2
-        version: 0.10.2(@tanstack/query-core@5.102.8)(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))
+        specifier: ^0.10.3
+        version: 0.10.3(@tanstack/query-core@5.102.8)(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))
       '@bigmi/core':
-        specifier: ^0.9.1
-        version: 0.9.1(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))
-      '@bigmi/react':
         specifier: ^0.9.2
-        version: 0.9.2(@tanstack/query-core@5.102.8)(@tanstack/react-query@5.102.8(react@19.3.0))(@types/react@19.3.0)(bs58@6.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))
+        version: 0.9.2(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))
+      '@bigmi/react':
+        specifier: ^0.9.3
+        version: 0.9.3(@tanstack/query-core@5.102.8)(@tanstack/react-query@5.102.8(react@19.3.0))(@types/react@19.3.0)(bs58@6.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))
       '@dynamic-labs/bitcoin':
         specifier: 5.8.0
         version: 5.8.0(@dynamic-labs-wallet/primitives@1.0.118)(@react-native-async-storage/async-storage@3.1.1(react-native@0.87.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.0))(@types/node@26.5.0)(bufferutil@4.1.0)(debug@4.4.3(supports-color@10.2.2))(encoding@0.1.13)(fastestsmallesttextencoderdecoder@1.0.22)(react-dom@19.3.0(react@19.3.0))(react-native@0.87.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.0)(supports-color@10.2.2)(typescript@7.0.2)(utf-8-validate@6.0.6)(viem@2.56.3(bufferutil@4.1.0)(typescript@7.0.2)(utf-8-validate@6.0.6)(zod@4.5.4))
@@ -939,14 +939,14 @@ importers:
   examples/reown:
     dependencies:
       '@bigmi/client':
-        specifier: ^0.10.2
-        version: 0.10.2(@tanstack/query-core@5.102.8)(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))
+        specifier: ^0.10.3
+        version: 0.10.3(@tanstack/query-core@5.102.8)(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))
       '@bigmi/core':
-        specifier: ^0.9.1
-        version: 0.9.1(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))
-      '@bigmi/react':
         specifier: ^0.9.2
-        version: 0.9.2(@tanstack/query-core@5.102.8)(@tanstack/react-query@5.102.8(react@19.3.0))(@types/react@19.3.0)(bs58@6.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))
+        version: 0.9.2(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))
+      '@bigmi/react':
+        specifier: ^0.9.3
+        version: 0.9.3(@tanstack/query-core@5.102.8)(@tanstack/react-query@5.102.8(react@19.3.0))(@types/react@19.3.0)(bs58@6.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))
       '@lifi/sdk':
         specifier: ^4.7.0
         version: 4.7.0
@@ -1180,8 +1180,8 @@ importers:
   examples/vite-iframe:
     dependencies:
       '@bigmi/react':
-        specifier: ^0.9.2
-        version: 0.9.2(@tanstack/query-core@5.102.8)(@tanstack/react-query@5.102.8(react@19.3.0))(@types/react@19.3.0)(bs58@6.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))
+        specifier: ^0.9.3
+        version: 0.9.3(@tanstack/query-core@5.102.8)(@tanstack/react-query@5.102.8(react@19.3.0))(@types/react@19.3.0)(bs58@6.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))
       '@emotion/react':
         specifier: ^11.14.0
         version: 11.14.0(@types/react@19.3.0)(react@19.3.0)(supports-color@10.2.2)
@@ -1791,18 +1791,6 @@ importers:
       '@lifi/widget-provider-tron':
         specifier: workspace:*
         version: link:../widget-provider-tron
-      '@metamask/bitcoin-wallet-standard':
-        specifier: ^1.3.0
-        version: 1.3.0(@metamask/multichain-api-client@0.12.0)
-      '@metamask/connect-evm':
-        specifier: ^2.1.1
-        version: 2.1.1(@react-native-async-storage/async-storage@3.1.1(react-native@0.87.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.0))(bufferutil@4.1.0)(encoding@0.1.13)(supports-color@10.2.2)(utf-8-validate@6.0.6)
-      '@metamask/connect-multichain':
-        specifier: ^1.2.0
-        version: 1.2.0(@react-native-async-storage/async-storage@3.1.1(react-native@0.87.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.0))(bufferutil@4.1.0)(encoding@0.1.13)(supports-color@10.2.2)(utf-8-validate@6.0.6)
-      '@metamask/multichain-api-client':
-        specifier: ^0.12.0
-        version: 0.12.0
       '@mui/icons-material':
         specifier: ^9.4.0
         version: 9.4.0(@mui/material@9.4.0(@emotion/react@11.14.0(@types/react@19.3.0)(react@19.3.0)(supports-color@10.2.2))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.3.0)(react@19.3.0)(supports-color@10.2.2))(@types/react@19.3.0)(react@19.3.0)(supports-color@10.2.2))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@types/react@19.3.0)(react@19.3.0)
@@ -2533,11 +2521,6 @@ packages:
       '@types/react':
         optional: true
 
-  '@bigmi/client@0.10.2':
-    resolution: {integrity: sha512-rhu6QlEvW1Yu3qhCXB9NP18uae6LT71qxtLJ32XZCfrGo/g/a3XYY7sNkJ3/lIdDRDWCM687tjPN29BcPQoBDA==}
-    peerDependencies:
-      '@tanstack/query-core': '>=5.68.0'
-
   '@bigmi/client@0.10.3':
     resolution: {integrity: sha512-/YI11ihqYq6msa+9Ur2XnqZXtE6ELcfuiyyYXAfjIm0HAP7nem2QOJ7XL+2+d+kDdFiec/oXR5F+MaWy084e7Q==}
     peerDependencies:
@@ -2552,13 +2535,6 @@ packages:
     resolution: {integrity: sha512-b0CpRJ9FrAXaSnNc/QhSaUqbwVMn5mEA04khPGHrsmTMEQ0p5wwwKUooYK4sEhrnj7sPjBhg2j3DUMV+tmS1Sg==}
     peerDependencies:
       bs58: '>=4.0.1'
-
-  '@bigmi/react@0.9.2':
-    resolution: {integrity: sha512-Eeg6ecRug09QHPjOeNKTtM2gMRbEFGkpZbz6zzcbmqkDTn7UIgXiyb0OuCAWAcbaLq5qChGbz7poHElOoOEX+g==}
-    peerDependencies:
-      '@tanstack/react-query': '>=5.68.0'
-      react: ^18.0.0 || ^19.0.0
-      react-dom: ^18.0.0 || ^19.0.0
 
   '@bigmi/react@0.9.3':
     resolution: {integrity: sha512-zT028olkFGRnh67Ji66065lksmRq1b6wwrUXzNYm62e3u5wLVK6NFY2ODCZReFNiSO0YLeoGYomjsSPBoUiFcg==}
@@ -3919,12 +3895,6 @@ packages:
     resolution: {integrity: sha512-L250lV3PANTcKqhZkmRV1Obkyddm6JDQvDBuUVAi+7TmPdOVdpavWNXyEh7ErscjwG0z2wiF9Ne0ihK/nCdX0w==}
     engines: {node: '>=20.19.0'}
 
-  '@metamask/bitcoin-wallet-standard@1.3.0':
-    resolution: {integrity: sha512-JkCOQoDxYGYVGetIMOXyPNbfhjgQFmII33ZEJ+9zf0nPs0JM2oKbf9sLh1vg7P/vpDW5V8gdr/SYHl4PmwLVIg==}
-    engines: {node: ^18.20 || ^20.17 || >=22}
-    peerDependencies:
-      '@metamask/multichain-api-client': 0.12.0
-
   '@metamask/connect-evm@2.1.0':
     resolution: {integrity: sha512-u0eYWPGWOk9w7ne+dAynO0saN2mCXfkt1QLGo829kiDLO0YGuFSNXWpRxnIygm6j9s9NOVLkL7+tkyZCR755Jw==}
     engines: {node: '>=20.19.0'}
@@ -3985,10 +3955,6 @@ packages:
 
   '@metamask/multichain-api-client@0.11.0':
     resolution: {integrity: sha512-htoO8TCMXLKl6gl4m8fB69f+pC4N6Q2hG9Zcchiypi39jasUUntDV7CTbZuzj39w7SRheR/sc6lZBA8FFb13Cg==}
-    engines: {node: ^18.20 || ^20.17 || >=22}
-
-  '@metamask/multichain-api-client@0.12.0':
-    resolution: {integrity: sha512-5YxIcK93n9DMhjTY5nuPj4aN5Nvabnnu4njf8kzXB0DKDKvvowe4YaQNvnjw/ZrHiDwE1ScPCyLgsdmPYCQhCQ==}
     engines: {node: ^18.20 || ^20.17 || >=22}
 
   '@metamask/multichain-ui@0.4.1':
@@ -16542,22 +16508,6 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.3.0
 
-  '@bigmi/client@0.10.2(@tanstack/query-core@5.102.8)(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))':
-    dependencies:
-      '@bigmi/core': 0.9.1(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))
-      '@tanstack/query-core': 5.102.8
-      '@wallet-standard/app': 1.1.1
-      '@wallet-standard/base': 1.1.1
-      eventemitter3: 5.0.4
-      zustand: 5.0.15(@types/react@19.3.0)(react@19.3.0)(use-sync-external-store@1.4.0(react@19.3.0))
-    transitivePeerDependencies:
-      - '@types/react'
-      - bs58
-      - immer
-      - react
-      - typescript
-      - use-sync-external-store
-
   '@bigmi/client@0.10.3(@tanstack/query-core@5.102.8)(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))':
     dependencies:
       '@bigmi/core': 0.9.2(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))
@@ -16601,21 +16551,6 @@ snapshots:
       - '@types/react'
       - immer
       - react
-      - typescript
-      - use-sync-external-store
-
-  '@bigmi/react@0.9.2(@tanstack/query-core@5.102.8)(@tanstack/react-query@5.102.8(react@19.3.0))(@types/react@19.3.0)(bs58@6.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))':
-    dependencies:
-      '@bigmi/client': 0.10.2(@tanstack/query-core@5.102.8)(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))
-      '@bigmi/core': 0.9.1(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.0)(typescript@7.0.2)(use-sync-external-store@1.4.0(react@19.3.0))
-      '@tanstack/react-query': 5.102.8(react@19.3.0)
-      react: 19.3.0
-      react-dom: 19.3.0(react@19.3.0)
-    transitivePeerDependencies:
-      - '@tanstack/query-core'
-      - '@types/react'
-      - bs58
-      - immer
       - typescript
       - use-sync-external-store
 
@@ -19156,14 +19091,6 @@ snapshots:
     dependencies:
       openapi-fetch: 0.13.8
 
-  '@metamask/bitcoin-wallet-standard@1.3.0(@metamask/multichain-api-client@0.12.0)':
-    dependencies:
-      '@exodus/bitcoin-wallet-standard': 0.0.0
-      '@metamask/multichain-api-client': 0.12.0
-      '@wallet-standard/base': 1.1.0
-      '@wallet-standard/features': 1.1.0
-      '@wallet-standard/wallet': 1.1.0
-
   '@metamask/connect-evm@2.1.0(@react-native-async-storage/async-storage@3.1.1(react-native@0.87.1(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.0))(bufferutil@4.1.0)(encoding@0.1.13)(supports-color@10.2.2)(utf-8-validate@6.0.6)':
     dependencies:
       '@metamask/analytics': 0.6.0
@@ -19189,6 +19116,7 @@ snapshots:
       - encoding
       - supports-color
       - utf-8-validate
+    optional: true
 
   '@metamask/connect-evm@2.1.1(@react-native-async-storage/async-storage@3.1.1(react-native@0.87.1(@babel/core@7.29.7(supports-color@5.5.0))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.0)(supports-color@5.5.0)(utf-8-validate@6.0.6))(react@19.3.0))(bufferutil@4.1.0)(encoding@0.1.13)(supports-color@5.5.0)(utf-8-validate@6.0.6)':
     dependencies:
@@ -19360,8 +19288,6 @@ snapshots:
   '@metamask/multichain-api-client@0.10.1': {}
 
   '@metamask/multichain-api-client@0.11.0': {}
-
-  '@metamask/multichain-api-client@0.12.0': {}
 
   '@metamask/multichain-ui@0.4.1':
     dependencies:

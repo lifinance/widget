@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import { getInstalledConnectors } from './getInstalledConnectors.js'
+import {
+  getInstalledConnectors,
+  sameConnectors,
+} from './getInstalledConnectors.js'
 
 const connector = (id: string, getProvider: () => Promise<unknown>) =>
   ({ id, name: id, getProvider }) as any
@@ -31,5 +34,30 @@ describe('getInstalledConnectors', () => {
 
   it('returns an empty list for no connectors', async () => {
     await expect(getInstalledConnectors([])).resolves.toEqual([])
+  })
+})
+
+describe('sameConnectors', () => {
+  const a = connector('a', async () => ({}))
+  const b = connector('b', async () => ({}))
+
+  it('treats an identical sequence as unchanged', () => {
+    expect(sameConnectors([a, b], [a, b])).toBe(true)
+  })
+
+  it('treats a different length as changed', () => {
+    expect(sameConnectors([a], [a, b])).toBe(false)
+  })
+
+  it('treats a different order as changed', () => {
+    expect(sameConnectors([a, b], [b, a])).toBe(false)
+  })
+
+  it('treats a swapped member as changed', () => {
+    expect(sameConnectors([a], [b])).toBe(false)
+  })
+
+  it('treats two empty lists as unchanged', () => {
+    expect(sameConnectors([], [])).toBe(true)
   })
 })
