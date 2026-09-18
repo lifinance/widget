@@ -632,29 +632,36 @@ describe('contradictions', () => {
 // direction meant the first one always won and could invert the advice.
 describe('a declared range', () => {
   const range =
-    'The amount is too low or too high. The minimum is 1 and the maximum is 2'
+    'The amount is too low or too high. The minimum is 2 and the maximum is 5'
 
   it('reads a send above the maximum as too high', () => {
-    const [issue] = fromReason(range, 50n)
+    const [issue] = fromReason(range, 9n)
     expect(issue.bucket).toBe('amountTooHigh')
-    expect(issue.evidence?.requiredFromAmount).toBe(2n)
+    expect(issue.evidence?.requiredFromAmount).toBe(5n)
   })
 
   it('reads a send below the minimum as too low', () => {
-    const [issue] = fromReason(range, 0n)
+    const [issue] = fromReason(range, 1n)
     expect(issue.bucket).toBe('amountTooLow')
-    expect(issue.evidence?.requiredFromAmount).toBe(1n)
+    expect(issue.evidence?.requiredFromAmount).toBe(2n)
   })
 
   it('says nothing when the send sits inside the range', () => {
-    expect(fromReason(range, 1n)).toEqual([])
+    expect(fromReason(range, 3n)).toEqual([])
+  })
+
+  // Receive-driven quotes classify with no send amount, and `0n` is below every
+  // minimum — which made every range read as too low and, through
+  // resolveAmountConflict, deleted a genuine too-high from the same payload.
+  it('says nothing when there is no send amount to compare', () => {
+    expect(fromReason(range, 0n)).toEqual([])
   })
 
   // The bounds are the leg's own token, so a converted leg cannot settle the
   // direction — and guessing it moves the amount the wrong way.
   it('says nothing when the bounds are in another token', () => {
     expect(
-      fromReason(range, 50n, '1:ETH~1:USDC-1:USDC-stargate-137:USDC')
+      fromReason(range, 9n, '1:ETH~1:USDC-1:USDC-stargate-137:USDC')
     ).toEqual([])
   })
 })

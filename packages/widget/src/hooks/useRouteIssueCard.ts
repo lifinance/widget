@@ -15,6 +15,7 @@ import { buildRouteIssueCard } from '../utils/routeIssues/card.js'
 import type { RouteIssue } from '../utils/routeIssues/types.js'
 import { useApplyAmount } from './useApplyAmount.js'
 import { useChain } from './useChain.js'
+import { useToAddressRequirements } from './useToAddressRequirements.js'
 import { useToken } from './useToken.js'
 
 export function useRouteIssueCard(
@@ -38,6 +39,8 @@ export function useRouteIssueCard(
   const applyAmount = useApplyAmount('from', { immediate: true })
   const { setValue } = useSettingsActions()
   const { slippage } = useSettings(['slippage'])
+  const { requiredToAddress, unsupportedReceiverBlocking } =
+    useToAddressRequirements()
 
   const deps: RouteIssueCardDeps = {
     t,
@@ -45,6 +48,7 @@ export function useRouteIssueCard(
     slippage,
     amountLocked: Boolean(disabledUI?.fromAmount),
     receiverHidden: Boolean(hiddenUI?.toAddress),
+    receiverRequired: requiredToAddress || unsupportedReceiverBlocking,
     toAddress,
     sameEcosystem: Boolean(
       fromChain && toChain && fromChain.chainType === toChain.chainType

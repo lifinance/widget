@@ -32,6 +32,8 @@ export interface RouteIssueCardDeps {
   slippage?: string
   amountLocked: boolean
   receiverHidden: boolean
+  /** The widget cannot execute without one, so clearing it is not a fix. */
+  receiverRequired: boolean
   toAddress?: string
   sameEcosystem: boolean
   applyAmount: (value: string) => void
@@ -267,7 +269,10 @@ export const buildRouteIssueCard = (
       // Clearing the receiver only leaves a valid request when both sides share
       // an ecosystem; a cross-ecosystem transfer needs an explicit address.
       case 'recipientNotSupported':
-        return deps.toAddress && !deps.receiverHidden && deps.sameEcosystem
+        return deps.toAddress &&
+          !deps.receiverHidden &&
+          !deps.receiverRequired &&
+          deps.sameEcosystem
           ? {
               label: t(`${base}.action` as any),
               run: deps.clearReceiver,
