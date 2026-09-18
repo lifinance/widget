@@ -54,11 +54,7 @@ export const LimitOrderRoutes: React.FC<CardProps> = (props) => {
           <RouteProviderCardSkeleton key={index} />
         ))
       ) : !currentRoute ? (
-        // The side panel carries the card in the wide layout, where it showed
-        // twice. The route selector below stays either way.
-        wideVariant ? null : (
-          <RouteNotFoundCard issues={issues} />
-        )
+        <RouteNotFoundCard issues={issues} />
       ) : (
         routes?.map((route) => (
           <RouteProviderCard

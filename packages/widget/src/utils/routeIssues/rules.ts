@@ -527,7 +527,7 @@ export const routeIssueRules: RouteIssueRule[] = [
   // Anchored, and placed after `toolDisabled`: the greedy `.+` otherwise claims
   // any reason that merely ends in "not applied.", including a disabled tool's
   // published note and an amount reason stated after it.
-  suppressedFragment('toolNotApplied', /^Tool .+ not applied\.$/),
+  suppressedFragment('toolNotApplied', /^\s*Tool .+ not applied\.\s*$/),
   fragmentRule(
     'routeTimingTimeout',
     'temporary',
