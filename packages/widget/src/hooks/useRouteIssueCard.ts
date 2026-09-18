@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { useBookmarkActions } from '../stores/bookmarks/useBookmarkActions.js'
 import { FormKeyHelper } from '../stores/form/types.js'
 import { useFieldActions } from '../stores/form/useFieldActions.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
@@ -34,6 +35,7 @@ export function useRouteIssueCard(
   const { chain: fromChain } = useChain(fromChainId)
   const { chain: toChain } = useChain(toChainId)
   const { setFieldValue } = useFieldActions()
+  const { setSelectedBookmark } = useBookmarkActions()
   // The user pressed a button on a card that is already on screen, so the quote
   // must start at once rather than wait the typing debounce out.
   const applyAmount = useApplyAmount('from', { immediate: true })
@@ -55,7 +57,13 @@ export function useRouteIssueCard(
     ),
     applyAmount,
     applySlippage: (value) => setValue('slippage', value),
-    clearReceiver: () => setFieldValue('toAddress', '', { isTouched: true }),
+    // The selected bookmark has to go with it, as every other clear site does:
+    // left behind it keeps the removed recipient's name on the receiver card,
+    // and its chainType can satisfy the guard that resets a stale address.
+    clearReceiver: () => {
+      setFieldValue('toAddress', '', { isTouched: true })
+      setSelectedBookmark()
+    },
     retry: () =>
       queryClient.invalidateQueries({
         queryKey: [getQueryKey('routes', keyPrefix)],
