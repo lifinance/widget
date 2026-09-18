@@ -121,8 +121,13 @@ export const buildRouteIssueCard = (
       ? amount > issue.fromAmount
       : amount < issue.fromAmount)
 
+  // The raw figure drives the field write, so it must stay parseable. Only the
+  // sentence gets grouped, or `parseUnits` would choke on the separators.
   const suggested =
     movesAmount && token ? formatUnits(amount as bigint, token.decimals) : ''
+  const suggestedDisplay = suggested
+    ? t('format.tokenAmount', { value: suggested })
+    : ''
 
   const reported = reportedSlippage(issue)
 
@@ -147,7 +152,7 @@ export const buildRouteIssueCard = (
 
   const values = {
     symbol: token?.symbol ?? '',
-    suggested,
+    suggested: suggestedDisplay,
     slippage: slippageTarget,
     minUsd: quotedUsd,
   }
