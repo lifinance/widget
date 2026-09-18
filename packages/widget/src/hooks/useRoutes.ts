@@ -310,6 +310,7 @@ export const useRoutes = ({
 
   const {
     data,
+    error,
     isLoading,
     isFetching,
     isFetched,
@@ -729,7 +730,15 @@ export const useRoutes = ({
 
   return {
     routes,
-    issues: routes?.length ? noIssues : (data?.issues ?? noIssues),
+    // React Query keeps the last successful payload through a failed refetch,
+    // so a 500 would otherwise leave the card explaining a quote that is no
+    // longer current — contradicting the failure message beside it and offering
+    // a button that cannot help. A confirmed 404 is a real answer and stays.
+    issues:
+      routes?.length ||
+      (isError && (error as SDKError | null)?.code !== LiFiErrorCode.NotFound)
+        ? noIssues
+        : (data?.issues ?? noIssues),
     isLoading: isEnabled && isLoading,
     isFetching,
     isFetched,
