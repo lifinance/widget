@@ -102,6 +102,21 @@ describe('amount suggestions', () => {
     expect(card.description).toBe('info.routeIssue.amountTooLow.descriptionUsd')
   })
 
+  // Reported in review: the gasless rule scales the user's own amount by a USD
+  // ratio, so that figure is the widget's arithmetic, not a stated minimum.
+  it('advises rather than reports a scaled requirement', () => {
+    const card = buildRouteIssueCard(
+      issue('amountTooLow', 200_000n, {
+        requiredFromAmount: 2_000_000n,
+        estimated: true,
+      }),
+      deps()
+    )
+    expect(card.description).toBe(
+      'info.routeIssue.amountTooLow.descriptionEstimated'
+    )
+  })
+
   // A figure a tool actually stated is reported as observed.
   it('reports a minimum a tool stated', () => {
     const card = buildRouteIssueCard(
