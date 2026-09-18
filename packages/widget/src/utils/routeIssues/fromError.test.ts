@@ -59,6 +59,15 @@ describe('reading the diagnostics off a quote error', () => {
     expect(unavailableRoutesFromError(error)).toEqual(reasons)
   })
 
+  // Reported in review: trailing prose can close a brace of its own, which put
+  // the end of the payload beyond the last one in the string.
+  it('reads a payload when the trailing prose also holds braces', () => {
+    const error = errorWith({
+      message: `No quotes ${JSON.stringify(reasons)} (trace {abc})`,
+    })
+    expect(unavailableRoutesFromError(error)).toEqual(reasons)
+  })
+
   it('accepts a payload carrying only failed routes', () => {
     const failedOnly = { failed: [{ overallPath: 'p', subpaths: {} }] }
     expect(
