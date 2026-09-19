@@ -349,3 +349,56 @@ describe('suppressed prose beside a code that names a bucket', () => {
     expect(issues.map((issue) => issue.bucket)).toEqual(['pairNotSupported'])
   })
 })
+
+// Reported in review: a receive-driven quote classifies with `fromAmount` zeroed
+// as a sentinel, and barStands read it as a real amount — so the ceiling never
+// stood, the floor always did, and the card told a user whose receive amount was
+// too high to ask for more.
+describe('two amount reasons with no send amount to judge them by', () => {
+  const receiveDriven: ClassifyContext = {
+    fromAmount: 0n,
+    fromChainId: 1,
+    fromTokenSymbol: 'USDC',
+    fromTokenDecimals: 6,
+    fromTokenPriceUSD: '1',
+  }
+  const path = '1:USDC-chainflip-137:USDC'
+
+  it('answers with neither rather than guessing', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: path,
+            reason: 'Min destination amount too low for integrator (min: 10)',
+          },
+          {
+            overallPath: path,
+            reason: 'Amount too high, max available is $50.50',
+          },
+        ],
+        failed: [],
+      },
+      receiveDriven
+    )
+    expect(issues.map((issue) => issue.bucket)).not.toContain('amountTooLow')
+    expect(issues.map((issue) => issue.bucket)).not.toContain('amountTooHigh')
+  })
+
+  // A single amount reason is not a guess, so it still answers.
+  it('keeps a lone ceiling', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: path,
+            reason: 'Amount too high, max available is $50.50',
+          },
+        ],
+        failed: [],
+      },
+      receiveDriven
+    )
+    expect(issues[0].bucket).toBe('amountTooHigh')
+  })
+})
