@@ -31,11 +31,22 @@ export interface RouteIssue {
   bucket: RouteIssueBucket
   ruleId: string
   evidence?: RouteIssueEvidence
-  /** The send amount this was raised for; the card must not read a newer one. */
+  /**
+   * The send amount this was raised for; the card must not read a newer one.
+   * Carries the same `0n` sentinel as `ClassifyContext.fromAmount`.
+   */
   fromAmount: bigint
 }
 
 export interface ClassifyContext {
+  /**
+   * `0n` is a sentinel, not an amount: a receive-driven quote — exact output,
+   * or a contract call — is sized by what the user wants to receive, so there
+   * is no send amount to reason about. Every reader must guard before treating
+   * it as a number. Three separate cards have advised the wrong direction by
+   * comparing a real bar against it: zero clears no floor and exceeds no
+   * ceiling, so the comparison silently always answers the same way.
+   */
   fromAmount: bigint
   fromChainId: number
   fromTokenSymbol: string
