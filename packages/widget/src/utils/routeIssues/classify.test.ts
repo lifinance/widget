@@ -1,0 +1,404 @@
+import { beforeAll, describe, expect, it } from 'vitest'
+import { classifyRouteIssues } from './classify.js'
+import ethToSol from './fixtures/no-routes-eth-to-sol.json' with {
+  type: 'json',
+}
+import type { ClassifyContext } from './types.js'
+
+const context: ClassifyContext = {
+  fromAmount: 1000n,
+  fromChainId: 1,
+  fromTokenSymbol: 'ETH',
+  fromTokenDecimals: 18,
+}
+
+describe('classifyRouteIssues safety', () => {
+  it('returns an empty list when the payload is undefined', () => {
+    expect(classifyRouteIssues(undefined, context)).toEqual([])
+  })
+
+  it('returns an empty list when both sides are empty', () => {
+    expect(
+      classifyRouteIssues({ filteredOut: [], failed: [] }, context)
+    ).toEqual([])
+  })
+
+  it('returns an empty list for a reason string no rule knows', () => {
+    const result = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: '1:ETH-relay-1151111081099710:SOL',
+            reason: 'Quantum flux capacitor misaligned for this path',
+          },
+        ],
+        failed: [],
+      },
+      context
+    )
+    expect(result).toEqual([])
+  })
+
+  it('returns an empty list for a tool error code no rule knows', () => {
+    const result = classifyRouteIssues(
+      {
+        filteredOut: [],
+        failed: [
+          {
+            overallPath: '1:ETH-relay-1151111081099710:SOL',
+            subpaths: {
+              'sub-1': [
+                {
+                  errorType: 'NO_QUOTE',
+                  code: 'BRAND_NEW_FUTURE_CODE',
+                  tool: 'someTool',
+                  message: 'Something the widget has never seen',
+                  action: {} as never,
+                },
+              ],
+            },
+          },
+        ],
+      },
+      context
+    )
+    expect(result).toEqual([])
+  })
+
+  it('survives a malformed payload without throwing', () => {
+    const malformed = {
+      filteredOut: null,
+      failed: [{ overallPath: 'x', subpaths: null }],
+    } as never
+    expect(() => classifyRouteIssues(malformed, context)).not.toThrow()
+    expect(classifyRouteIssues(malformed, context)).toEqual([])
+  })
+
+  it('ignores entries whose reason is missing', () => {
+    const payload = {
+      filteredOut: [{ overallPath: 'x' }],
+      failed: [],
+    } as never
+    expect(classifyRouteIssues(payload, context)).toEqual([])
+  })
+})
+
+// Captured from the widget's own POST /v1/advanced/routes for 1000 wei ETH on
+// Ethereum -> SOL on Solana. The `failed` side is capped at three errors per
+// code; `filteredOut` is verbatim.
+describe('a captured widget payload', () => {
+  let issues: ReturnType<typeof classifyRouteIssues>
+
+  beforeAll(() => {
+    issues = classifyRouteIssues(ethToSol as never, context)
+  })
+
+  it('resolves the dust ETH -> SOL request to amount too low', () => {
+    expect(issues[0]?.bucket).toBe('amountTooLow')
+  })
+
+  it('collapses 67 filtered reasons and 18 tool errors into a handful', () => {
+    expect(ethToSol.filteredOut).toHaveLength(67)
+    expect(issues.length).toBeLessThanOrEqual(5)
+  })
+
+  it('emits each bucket at most once', () => {
+    const keys = issues.map((issue) => `${issue.bucket}:${issue.ruleId}`)
+    expect(new Set(keys).size).toBe(keys.length)
+  })
+
+  it('suppresses the codes that dominate the payload', () => {
+    expect(issues.map((issue) => issue.ruleId)).not.toContain(
+      'code:TOOL_NOT_ALLOWED'
+    )
+    expect(issues.map((issue) => issue.ruleId)).not.toContain(
+      'code:TOOL_SPECIFIC_ERROR'
+    )
+  })
+
+  // The capture carries the same minimum twice — once as 'eth' on a path that
+  // bridges the user's own token, once as 'weth' behind a swap — beside a
+  // 0.01 ETH range minimum from another bridge. Clearing the gentlest of them
+  // is enough, and only the 'eth' one is in a token we can size.
+  it('takes its figure from the entry in the user own token', () => {
+    const issue = issues[0]
+    expect(issue?.evidence?.direction).toBe('raise')
+    expect(issue?.evidence?.requiredFromAmount).toBe(410700000000000n)
+    expect(issue?.evidence?.requiredFromAmount).toBeLessThan(10000000000000000n)
+  })
+
+  it('reports no gasless reason, because the widget never opts in', () => {
+    expect(issues.map((issue) => issue.bucket)).not.toContain(
+      'gaslessNotAvailable'
+    )
+  })
+})
+
+// Two tools can cap the same pair at different dollar figures, and clearing the
+// lower one is not required: the higher ceiling is the one the user can reach.
+// The token fold already keeps the highest limit for a too-high amount.
+describe('folding two stated ceilings', () => {
+  it('keeps the highest dollar ceiling', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: '1:ETH-chainflip-137:USDC',
+            reason: 'Amount too high, max available is $40.00',
+          },
+          {
+            overallPath: '1:ETH-chainflip-137:USDC',
+            reason: 'Amount too high, max available is $100.00',
+          },
+        ],
+        failed: [],
+      },
+      context
+    )
+    expect(issues[0].bucket).toBe('amountTooHigh')
+    expect(issues[0].evidence?.maxUsd).toBe(100)
+  })
+})
+
+// Reported in review: hasFigure counted only token figures, so a ceiling stated
+// in dollars always lost the tie-break and the card advised the opposite of
+// what the payload said.
+describe('choosing between a low and a high', () => {
+  const path = '1:ETH-chainflip-137:USDC'
+
+  it('keeps a ceiling stated only in dollars over a figureless low', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: path,
+            reason: 'Amount too high, max available is $500.00',
+          },
+        ],
+        failed: [
+          {
+            overallPath: path,
+            subpaths: {
+              s: [
+                {
+                  errorType: 'NO_QUOTE',
+                  code: 'AMOUNT_TOO_LOW',
+                  tool: 'someTool',
+                  message: 'The initial amount is too low to transfer.',
+                  action: {} as never,
+                },
+              ],
+            },
+          },
+        ],
+      },
+      context
+    )
+    expect(issues.map((issue) => issue.bucket)).toEqual(['amountTooHigh'])
+    expect(issues[0].evidence?.maxUsd).toBe(500)
+  })
+})
+
+// A cap has to be stayed under, and clearing one tool's cap is enough, so the
+// highest of two is the one to aim for — as maxUsd already does.
+describe('folding two stated slippage caps', () => {
+  it('keeps the loosest cap', () => {
+    const path = '1:ETH-chainflip-137:USDC'
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: path,
+            reason: 'Slippage is too high. Max slippage is 0.005',
+          },
+          {
+            overallPath: path,
+            reason: 'Slippage is too high. Max slippage is 0.02',
+          },
+        ],
+        failed: [],
+      },
+      context
+    )
+    expect(issues[0].bucket).toBe('slippageTooLoose')
+    expect(issues[0].evidence?.requiredSlippage).toBe(0.02)
+  })
+})
+
+// Reported in review: a refining fragment that rejects an entry took the code's
+// own bucket with it, so a tool error that named its cause went unexplained.
+describe('prose that refines a code but rejects the entry', () => {
+  const ranged = (code: string) =>
+    classifyRouteIssues(
+      {
+        filteredOut: [],
+        failed: [
+          {
+            overallPath: '137:USDC-bridge-1:ETH',
+            subpaths: {
+              s: [
+                {
+                  errorType: 'NO_QUOTE',
+                  code,
+                  tool: 'someTool',
+                  message:
+                    'Amount out of range. The minimum is 1000000 and the maximum is 50000000',
+                  action: {} as never,
+                },
+              ],
+            },
+          },
+        ],
+      },
+      context
+    ).map((issue) => issue.bucket)
+
+  it.each([
+    ['AMOUNT_TOO_HIGH', 'amountTooHigh'],
+    ['INSUFFICIENT_LIQUIDITY', 'liquidity'],
+    ['TOOL_TIMEOUT', 'temporary'],
+    ['CANNOT_GUARANTEE_MIN_AMOUNT', 'slippageTooTight'],
+  ])('keeps the %s bucket the code named', (code, bucket) => {
+    expect(ranged(code)).toEqual([bucket])
+  })
+})
+
+// Reported in review: when both amount buckets carry a figure the tie-break
+// kept the low unconditionally, so a send of 10,000 USDC against a stated
+// $5,000 ceiling read as "amount is too low".
+describe('two amount reasons that both carry a figure', () => {
+  const usdc: ClassifyContext = {
+    fromAmount: 10_000_000_000n,
+    fromChainId: 1,
+    fromTokenSymbol: 'USDC',
+    fromTokenDecimals: 6,
+    fromTokenPriceUSD: '1',
+  }
+  const path = '1:USDC-chainflip-137:USDC'
+
+  it('keeps the bar the send has not already cleared', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: path,
+            reason: 'Min destination amount too low for integrator (min: 10)',
+          },
+          {
+            overallPath: path,
+            reason: 'Amount too high, max available is $5000.00',
+          },
+        ],
+        failed: [],
+      },
+      usdc
+    )
+    expect(issues.map((issue) => issue.bucket)).toEqual(['amountTooHigh'])
+    expect(issues[0].evidence?.maxUsd).toBe(5000)
+  })
+
+  // The mirror: a dust send clears no floor, so the low is the one that stands.
+  it('keeps the low when the send sits under both bars', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: path,
+            reason: 'Min destination amount too low for integrator (min: 10)',
+          },
+          {
+            overallPath: path,
+            reason: 'Amount too high, max available is $5000.00',
+          },
+        ],
+        failed: [],
+      },
+      { ...usdc, fromAmount: 1_000n }
+    )
+    expect(issues.map((issue) => issue.bucket)).toEqual(['amountTooLow'])
+  })
+})
+
+// Reported in review: for the catch-all bucket the prose runs unfiltered, so a
+// suppressed rule could claim the entry — and dropping suppressed prose took
+// the bucket the code had named down with it.
+describe('suppressed prose beside a code that names a bucket', () => {
+  it('keeps the bucket the code named', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [],
+        failed: [
+          {
+            overallPath: '1:ETH-bridge-137:USDC',
+            subpaths: {
+              s: [
+                {
+                  errorType: 'NO_QUOTE',
+                  code: 'NO_POSSIBLE_ROUTE',
+                  tool: 'someTool',
+                  message: "Unknown error; see 'cause' for details",
+                  action: {} as never,
+                },
+              ],
+            },
+          },
+        ],
+      },
+      context
+    )
+    expect(issues.map((issue) => issue.bucket)).toEqual(['pairNotSupported'])
+  })
+})
+
+// Reported in review: a receive-driven quote classifies with `fromAmount` zeroed
+// as a sentinel, and barStands read it as a real amount — so the ceiling never
+// stood, the floor always did, and the card told a user whose receive amount was
+// too high to ask for more.
+describe('two amount reasons with no send amount to judge them by', () => {
+  const receiveDriven: ClassifyContext = {
+    fromAmount: 0n,
+    fromChainId: 1,
+    fromTokenSymbol: 'USDC',
+    fromTokenDecimals: 6,
+    fromTokenPriceUSD: '1',
+  }
+  const path = '1:USDC-chainflip-137:USDC'
+
+  it('answers with neither rather than guessing', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: path,
+            reason: 'Min destination amount too low for integrator (min: 10)',
+          },
+          {
+            overallPath: path,
+            reason: 'Amount too high, max available is $50.50',
+          },
+        ],
+        failed: [],
+      },
+      receiveDriven
+    )
+    expect(issues.map((issue) => issue.bucket)).not.toContain('amountTooLow')
+    expect(issues.map((issue) => issue.bucket)).not.toContain('amountTooHigh')
+  })
+
+  // A single amount reason is not a guess, so it still answers.
+  it('keeps a lone ceiling', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: path,
+            reason: 'Amount too high, max available is $50.50',
+          },
+        ],
+        failed: [],
+      },
+      receiveDriven
+    )
+    expect(issues[0].bucket).toBe('amountTooHigh')
+  })
+})

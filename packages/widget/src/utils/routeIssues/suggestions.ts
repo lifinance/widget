@@ -1,0 +1,125 @@
+import { maxRecommendedSlippage } from '../../stores/settings/createSettingsStore.js'
+import { formatSlippage } from '../format.js'
+import type { RouteIssue } from './types.js'
+
+/** Aimed for when the backend named no figure of its own. */
+export const fallbackTargetUsd = 1
+export const fallbackSlippage = 0.5
+
+const bufferPercent = { raise: 102n, lower: 98n }
+
+const twoSignificantDigits = (roundingMode: 'ceil' | 'floor') =>
+  new Intl.NumberFormat('en', {
+    notation: 'standard',
+    maximumSignificantDigits: 2,
+    roundingMode,
+    useGrouping: false,
+  })
+
+const suggestionFormatter = {
+  raise: twoSignificantDigits('ceil'),
+  lower: twoSignificantDigits('floor'),
+}
+
+// A floor has to be cleared and a cap has to be stayed under, so each rounds
+// away from the bar rather than onto it: rounding a 1.2345% cap up to 1.24%
+// writes back a value the bridge refuses for the same reason.
+const slippageFormatter = {
+  floor: new Intl.NumberFormat('en', {
+    maximumFractionDigits: 2,
+    roundingMode: 'ceil',
+    useGrouping: false,
+  }),
+  cap: new Intl.NumberFormat('en', {
+    maximumFractionDigits: 2,
+    roundingMode: 'floor',
+    useGrouping: false,
+  }),
+}
+
+/** A round number, trimmed away from the limit it has to clear. */
+export const roundSuggestion = (
+  amount: string,
+  direction: 'raise' | 'lower'
+): string => suggestionFormatter[direction].format(Number(amount))
+
+/** The reported figure, moved clear of the limit that rejected it. */
+export const bufferedReported = (issue: RouteIssue): bigint | undefined => {
+  const required = issue.evidence?.requiredFromAmount
+  if (required === undefined || required <= 0n) {
+    return undefined
+  }
+  const direction = issue.evidence?.direction ?? 'raise'
+  const buffered = (required * bufferPercent[direction]) / 100n
+  return buffered > 0n ? buffered : undefined
+}
+
+// A backend slippage carries four digits at most, so twelve keeps every real
+// one while dropping the tail that would round 0.35% a whole step up to 0.36%.
+const withoutFloatTail = (value: number): number =>
+  Number(value.toPrecision(12))
+
+export const reportedSlippage = (issue: RouteIssue): string => {
+  const required = issue.evidence?.requiredSlippage
+  if (required === undefined) {
+    return ''
+  }
+  const bar = issue.bucket === 'slippageTooLoose' ? 'cap' : 'floor'
+  const rounded = slippageFormatter[bar].format(
+    withoutFloatTail(required * 100)
+  )
+  // A cap under 0.005% floors to zero, and zero slippage is not a setting.
+  return Number.parseFloat(rounded) > 0 ? formatSlippage(rounded) : ''
+}
+
+/** With nothing reported, loosen past the current setting rather than guess. */
+export const nextSlippage = (issue: RouteIssue, applied?: string): string => {
+  const reported = reportedSlippage(issue)
+  if (reported) {
+    return reported
+  }
+  const current = Number(applied)
+  const loosened =
+    Number.isFinite(current) && current > fallbackSlippage
+      ? current * 2
+      : fallbackSlippage
+  const target = Math.min(loosened, maxRecommendedSlippage)
+  // The widget warns about an unusual slippage rather than blocking it, so the
+  // applied value can already sit above the cap. Advising a smaller number on a
+  // card titled "too tight" contradicts the card and cannot be acted on.
+  return Number.isFinite(current) && target <= current
+    ? ''
+    : formatSlippage(target.toString())
+}
+
+export interface Suggestion {
+  amount: bigint
+  /** Set when the figure came from a USD bar rather than a reported amount. */
+  usdBar?: number
+  /** The figure is the invented floor, so no tool ever named it. */
+  estimated?: boolean
+}
+
+/**
+ * Two tools can state two different bars and clearing either one is enough, so
+ * the gentler is what the user has to reach. `usdBar` is undefined when the USD
+ * figure is only the invented floor, which never competes with a reported one.
+ */
+export const gentlerSuggestion = (
+  reported: bigint | undefined,
+  forUsd: bigint | undefined,
+  usdBar: number | undefined
+): Suggestion | undefined => {
+  if (reported === undefined) {
+    if (forUsd === undefined) {
+      return undefined
+    }
+    return usdBar === undefined
+      ? { amount: forUsd, estimated: true }
+      : { amount: forUsd, usdBar }
+  }
+  if (usdBar === undefined || forUsd === undefined || reported <= forUsd) {
+    return { amount: reported }
+  }
+  return { amount: forUsd, usdBar }
+}
