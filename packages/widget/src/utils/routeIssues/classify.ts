@@ -260,6 +260,14 @@ const resolveAmountConflict = (
   if (!low || !high) {
     return issues
   }
+  // A receive-driven quote classifies with no send amount, so neither bar can
+  // be checked against anything and the tie-break would be a coin toss that
+  // bucketRank always calls "too low". Answering the wrong one tells the user
+  // to move their amount the wrong way, so answer with neither and let a
+  // lower-ranked reason, or the generic sentence, stand instead.
+  if (context.fromAmount <= 0n) {
+    return issues.filter((issue) => issue !== low && issue !== high)
+  }
   // A bar the send has already cleared cannot be the reason, whichever bucket
   // states it, so it loses before the figure tie-break is even reached.
   const lowStands = barStands(low, context)
