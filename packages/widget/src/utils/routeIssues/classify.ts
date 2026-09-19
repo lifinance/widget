@@ -226,7 +226,6 @@ const collect = (
   })
 }
 
-// Bridges disagree on range, so both can fire. Keep the one with a figure.
 /**
  * Whether the send is actually on the wrong side of the bar this issue states.
  * A floor the send already clears, or a ceiling it already sits under, refutes
