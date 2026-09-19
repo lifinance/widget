@@ -85,7 +85,7 @@ export const createFormStore = (
       defaultValues: _defaultValues,
       userValues: _defaultValues,
       touchedFields: {},
-      immediateWrites: 0,
+      immediateWrites: {},
       isValid: true,
       isValidating: false,
       errors: {},
@@ -190,7 +190,12 @@ export const createFormStore = (
         set((state) => ({
           userValues,
           touchedFields,
-          immediateWrites: state.immediateWrites + (immediate ? 1 : 0),
+          immediateWrites: immediate
+            ? {
+                ...state.immediateWrites,
+                [fieldName]: (state.immediateWrites[fieldName] ?? 0) + 1,
+              }
+            : state.immediateWrites,
         }))
       },
       getFieldValues: <T extends FormFieldNames[]>(...names: T) =>
