@@ -8,7 +8,14 @@ export const useDebouncedWatch = <T extends FormFieldNames[]>(
   ...name: T
 ): FormFieldArray<T> => {
   const watchedValue = useFieldValues(...name)
-  const immediateWrites = useFormStore((store) => store.immediateWrites)
+  // Summed over the watched fields only: a store-wide signal flushed every
+  // mounted watcher, publishing another field's half-typed value early.
+  const immediateWrites = useFormStore((store) =>
+    name.reduce(
+      (total, field) => total + (store.immediateWrites[field] ?? 0),
+      0
+    )
+  )
   const [debouncedValue, setDebouncedValue] = useState(watchedValue)
   const isMounted = useRef(false)
   const handledWrites = useRef(immediateWrites)
