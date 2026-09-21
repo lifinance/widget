@@ -30,7 +30,7 @@ export function ChainOrderStoreProvider({
   } = useWidgetConfig()
   const storeRef = useRef<ChainOrderStore>(null)
   const { chains } = useChains()
-  const { setFieldValue, getFieldValues } = useFieldActions()
+  const { setFieldValue, getFieldValues, isTouched } = useFieldActions()
   const swapOnly = useSwapOnly()
   const { variant } = useWidgetConfig()
   const { externalChainTypes, useExternalWalletProvidersOnly } =
@@ -85,8 +85,18 @@ export function ChainOrderStoreProvider({
           key === 'from' ? urlValues.fromChain : urlValues.toChain
         const configChainValue =
           key === 'from' ? fromChainConfig : toChainConfig
+
+        // A touched, empty chain field was cleared deliberately — "All
+        // networks". It has to outrank the two values above, because both
+        // still name the chain the page was opened on at that moment: the
+        // query string is rewritten a commit later, and an integrator that
+        // seeds its config from the URL never rewrites it.
+        const [chainValue] = getFieldValues(`${key}Chain`)
+        const clearedForAllNetworks = !chainValue && isTouched(`${key}Chain`)
+
         const initialIsAllNetworks =
-          showAllNetworks && !configChainValue && !urlChainValue
+          showAllNetworks &&
+          (clearedForAllNetworks || (!configChainValue && !urlChainValue))
         storeRef.current?.getState().setIsAllNetworks(initialIsAllNetworks, key)
         storeRef.current?.getState().setShowAllNetworks(showAllNetworks, key)
 
@@ -104,7 +114,6 @@ export function ChainOrderStoreProvider({
           return
         }
 
-        const [chainValue] = getFieldValues(`${key}Chain`)
         if (chainValue) {
           return
         }
@@ -130,6 +139,7 @@ export function ChainOrderStoreProvider({
     chainsConfig,
     externalChainTypes,
     getFieldValues,
+    isTouched,
     setFieldValue,
     useExternalWalletProvidersOnly,
     variant,
