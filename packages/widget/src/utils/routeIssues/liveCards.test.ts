@@ -171,6 +171,7 @@ describe('cards built from real API payloads', () => {
       amountLocked: false,
       receiverHidden: false,
       receiverRequired: false,
+      spendable: 0n,
       toAddress: request.toAddress,
       sameEcosystem: request.fromChainId === request.toChainId,
       applyAmount: (value) => {
