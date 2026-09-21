@@ -254,6 +254,11 @@ describe('pinned reason fragments', () => {
       'gaslessNotAvailable',
     ],
     [
+      'gaslessNativeFee',
+      'relay charges a native-token fee on top of the transferred amount',
+      'gaslessNotAvailable',
+    ],
+    [
       'gaslessDelegation',
       '0xabc is an undelegated EOA and chain 137 cannot delegate it',
       'gaslessNotAvailable',
