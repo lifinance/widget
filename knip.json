@@ -23,7 +23,6 @@
         "@base-org/account",
         "@coinbase/wallet-sdk",
         "@metamask/connect-evm",
-        "@metamask/connect-multichain",
         "@walletconnect/ethereum-provider"
       ]
     },

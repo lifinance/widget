@@ -2,15 +2,26 @@ import {
   type Connector,
   connect,
   disconnect,
-  getAccount,
   getConnectorClient as getBigmiConnectorClient,
 } from '@bigmi/client'
 import { useAccount, useConfig, useConnect } from '@bigmi/react'
 import { ChainId, ChainType } from '@lifi/sdk'
 import { BitcoinProvider as BitcoinSDKProvider } from '@lifi/sdk-provider-bitcoin'
-import { BitcoinContext, isWalletInstalled } from '@lifi/widget-provider'
-import { type FC, type PropsWithChildren, useCallback, useMemo } from 'react'
+import { BitcoinContext } from '@lifi/widget-provider'
+import {
+  type FC,
+  type PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import type { BitcoinProviderConfig } from '../types'
+import { disconnectAll } from '../utils/disconnectAll.js'
+import {
+  getInstalledConnectors,
+  sameConnectors,
+} from '../utils/getInstalledConnectors.js'
 
 interface BitcoinProviderValuesProps {
   isExternalContext: boolean
@@ -45,13 +56,42 @@ export const BitcoinProviderValues: FC<
     return config?.sdkProvider ?? BitcoinSDKProvider({ getWalletClient })
   }, [bigmiConfig, config?.sdkProvider])
 
-  const installedWallets = useMemo(
-    () =>
-      connectors.filter((connector: Connector) =>
-        isWalletInstalled(connector.id)
-      ),
-    [connectors]
-  )
+  const [installedWallets, setInstalledWallets] = useState<Connector[]>([])
+
+  useEffect(() => {
+    let cancelled = false
+    // Every Wallet Standard wallet announces itself, so probes overlap. Only
+    // the newest may write, or a slower earlier one could restore a list that
+    // predates the registration which triggered it.
+    let latest = 0
+    const probe = () => {
+      const sequence = ++latest
+      getInstalledConnectors(connectors as readonly Connector[]).then(
+        (installed) => {
+          if (cancelled || sequence !== latest) {
+            return
+          }
+          setInstalledWallets((current) =>
+            sameConnectors(current, installed) ? current : installed
+          )
+        }
+      )
+    }
+    probe()
+    // MetaMask announces Bitcoin through the Wallet Standard registry rather
+    // than by injecting into `window`, so it can arrive after this mounts.
+    window.addEventListener('wallet-standard:register-wallet', probe)
+    // The `window` injectors announce nothing, so an extension enabled or
+    // installed without a reload would stay hidden for the session.
+    window.addEventListener('visibilitychange', probe)
+    window.addEventListener('focus', probe)
+    return () => {
+      cancelled = true
+      window.removeEventListener('wallet-standard:register-wallet', probe)
+      window.removeEventListener('visibilitychange', probe)
+      window.removeEventListener('focus', probe)
+    }
+  }, [connectors])
 
   const handleConnect = useCallback(
     async (
@@ -74,12 +114,12 @@ export const BitcoinProviderValues: FC<
   )
 
   const handleDisconnect = useCallback(async () => {
-    const connectedAccount = getAccount(bigmiConfig)
-    if (connectedAccount.connector) {
-      await disconnect(bigmiConfig, {
-        connector: connectedAccount.connector,
-      })
-    }
+    await disconnectAll(
+      [...bigmiConfig.state.connections.values()].map(
+        (connection) => connection.connector
+      ),
+      (connector) => disconnect(bigmiConfig, { connector })
+    )
   }, [bigmiConfig])
 
   const contextValue = useMemo(

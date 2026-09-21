@@ -23,6 +23,7 @@
     "check:write": "biome check --write",
     "check:write:unsafe": "biome check --write --unsafe",
     "check:types": "pnpm -r --parallel check:types",
+    "test": "pnpm -r --parallel --filter \"./packages/**\" test",
     "check:circular-deps": "pnpm -r --parallel check:circular-deps",
     "link:bigmi": "node scripts/linkBigmi.js link && pnpm install",
     "unlink:bigmi": "node scripts/linkBigmi.js unlink && pnpm install",
