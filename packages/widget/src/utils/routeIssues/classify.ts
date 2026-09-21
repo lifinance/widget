@@ -271,6 +271,12 @@ const resolveAmountConflict = (
   // states it, so it loses before the figure tie-break is even reached.
   const lowStands = barStands(low, context)
   const highStands = barStands(high, context)
+  // Both refuted: the send sits above the floor and below the ceiling, so
+  // neither direction is supported and keeping either would advise a move the
+  // evidence contradicts — the same answer as having no send amount at all.
+  if (!lowStands && !highStands) {
+    return issues.filter((issue) => issue !== low && issue !== high)
+  }
   const drop =
     lowStands !== highStands
       ? lowStands

@@ -8,6 +8,8 @@ import { RouteIssueCard } from './RouteIssueCard.js'
 
 interface RouteNotFoundCardProps {
   issues?: readonly RouteIssue[]
+  /** `cardless` where a Card already wraps this, as the route cards do. */
+  variant?: 'card' | 'cardless'
 }
 
 // AppLayout mounts the side panel when `wideVariant`, and the form side stands
@@ -18,6 +20,7 @@ interface RouteNotFoundCardProps {
 
 export const RouteNotFoundCard: React.FC<RouteNotFoundCardProps> = ({
   issues,
+  variant,
 }) => {
   const { t } = useTranslation()
   // Only the best-ranked reason is shown; the rest are already folded into it
@@ -55,7 +58,7 @@ export const RouteNotFoundCard: React.FC<RouteNotFoundCardProps> = ({
           >
             {t('info.routeIssue.lookForReasons')}
           </Typography>
-          <RouteIssueCard content={card} />
+          <RouteIssueCard content={card} variant={variant} />
         </Box>
       ) : (
         <Typography
