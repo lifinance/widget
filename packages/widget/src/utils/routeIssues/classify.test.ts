@@ -402,3 +402,38 @@ describe('two amount reasons with no send amount to judge them by', () => {
     expect(issues[0].bucket).toBe('amountTooHigh')
   })
 })
+
+// Reported in review: when the send sits above the floor and below the ceiling
+// both bars are refuted, yet the tie-break still kept one — and bucketRank made
+// it the low, advising a larger amount the evidence contradicts.
+describe('two amount reasons the send already satisfies', () => {
+  it('answers with neither', () => {
+    const usdc: ClassifyContext = {
+      fromAmount: 100_000_000n,
+      fromChainId: 1,
+      fromTokenSymbol: 'USDC',
+      fromTokenDecimals: 6,
+      fromTokenPriceUSD: '1',
+    }
+    const path = '1:USDC-chainflip-137:USDC'
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: path,
+            reason: 'Min destination amount too low for integrator (min: 10)',
+          },
+          {
+            overallPath: path,
+            reason: 'Amount too high, max available is $5000.00',
+          },
+        ],
+        failed: [],
+      },
+      usdc
+    )
+    const buckets = issues.map((issue) => issue.bucket)
+    expect(buckets).not.toContain('amountTooLow')
+    expect(buckets).not.toContain('amountTooHigh')
+  })
+})
