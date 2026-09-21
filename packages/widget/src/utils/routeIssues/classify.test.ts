@@ -437,3 +437,33 @@ describe('two amount reasons the send already satisfies', () => {
     expect(buckets).not.toContain('amountTooHigh')
   })
 })
+
+// Reported in review: barStands only ran when both amount buckets were present,
+// so a lone floor the send already clears survived — and outranked, then
+// silenced, the truthful reason beside it.
+describe('a lone amount reason the send already satisfies', () => {
+  it('gives way to the real reason', () => {
+    const usdc: ClassifyContext = {
+      fromAmount: 1_000_000_000n,
+      fromChainId: 1,
+      fromTokenSymbol: 'USDC',
+      fromTokenDecimals: 6,
+      fromTokenPriceUSD: '1',
+    }
+    const path = '1:USDC-chainflip-137:USDC'
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          { overallPath: path, reason: 'only enabled for swaps >$25' },
+          {
+            overallPath: path,
+            reason: 'Same-chain operations on Tron are not yet supported',
+          },
+        ],
+        failed: [],
+      },
+      usdc
+    )
+    expect(issues.map((issue) => issue.bucket)).not.toContain('amountTooLow')
+  })
+})
