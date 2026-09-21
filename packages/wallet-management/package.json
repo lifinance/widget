@@ -45,14 +45,14 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^4.7.0",
+    "@lifi/sdk": "^4.8.0",
     "@lifi/widget-provider": "workspace:*",
     "@mui/icons-material": "^9.4.0",
     "@mui/material": "^9.4.0",
     "@mui/system": "^9.4.0",
     "eventemitter3": "^5.0.4",
     "i18next": "^26.4.2",
-    "react-i18next": "^17.0.13",
+    "react-i18next": "^17.0.14",
     "zustand": "^5.0.15"
   },
   "devDependencies": {

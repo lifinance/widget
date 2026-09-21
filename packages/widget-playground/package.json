@@ -40,15 +40,15 @@
     "@mui/material": "^9.4.0",
     "@mui/system": "^9.4.0",
     "@reown/appkit": ">=1.8.20",
-    "@reown/appkit-adapter-bitcoin": "^1.8.23",
-    "@reown/appkit-adapter-solana": "^1.8.23",
-    "@reown/appkit-adapter-tron": "^1.8.23",
-    "@reown/appkit-adapter-wagmi": "^1.8.23",
-    "@reown/appkit-common": "^1.8.23",
-    "@reown/appkit-controllers": "^1.8.23",
+    "@reown/appkit-adapter-bitcoin": "^1.8.24",
+    "@reown/appkit-adapter-solana": "^1.8.24",
+    "@reown/appkit-adapter-tron": "^1.8.24",
+    "@reown/appkit-adapter-wagmi": "^1.8.24",
+    "@reown/appkit-common": "^1.8.24",
+    "@reown/appkit-controllers": "^1.8.24",
     "@tronweb3/tronwallet-abstract-adapter": "1.3.0",
     "@tronweb3/tronwallet-adapter-react-hooks": "^1.1.14",
-    "@walletconnect/ethereum-provider": "~2.24.0",
+    "@walletconnect/ethereum-provider": "~2.25.0",
     "csstype": "^3.2.3",
     "lodash.isequal": "^4.5.0",
     "microdiff": "^1.6.0",
@@ -60,12 +60,12 @@
   },
   "devDependencies": {
     "@types/lodash.isequal": "^4.5.8",
-    "@types/node": "^26.5.0",
+    "@types/node": "^26.6.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "madge": "^8.0.0",
     "typescript": "^7.0.2",
-    "vitest": "^5.0.0"
+    "vitest": "^5.0.1"
   },
   "peerDependencies": {
     "@tanstack/react-query": ">=5.90.0"
