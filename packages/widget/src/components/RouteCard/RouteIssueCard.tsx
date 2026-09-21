@@ -5,11 +5,14 @@ import { Card } from '../Card/Card.js'
 
 export const RouteIssueCard: React.FC<{
   content: RouteIssueCardContent
-}> = ({ content }) => {
+  /** Where a Card already wraps this, a second surface reads as a seam. */
+  variant?: 'card' | 'cardless'
+}> = ({ content, variant = 'card' }) => {
   const { title, description, note, action } = content
+  const Surface = variant === 'cardless' ? Box : Card
 
   return (
-    <Card>
+    <Surface>
       <Box sx={{ p: 2 }}>
         <Typography sx={{ fontSize: 15, fontWeight: 600 }}>{title}</Typography>
         <Typography sx={{ fontSize: 14, color: 'text.secondary', mt: 0.5 }}>
@@ -31,6 +34,6 @@ export const RouteIssueCard: React.FC<{
           </Button>
         ) : null}
       </Box>
-    </Card>
+    </Surface>
   )
 }
