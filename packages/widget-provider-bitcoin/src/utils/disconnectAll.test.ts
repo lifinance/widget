@@ -14,7 +14,7 @@ describe('disconnectAll', () => {
     expect(seen).toEqual(['a', 'b'])
   })
 
-  it('keeps going when one connector fails', async () => {
+  it('resolves when a stale connector fails but another disconnects', async () => {
     const dead = connector('xverse')
     const alive = connector('unisat')
     const seen: string[] = []
@@ -24,14 +24,14 @@ describe('disconnectAll', () => {
         throw new Error('ProviderNotFoundError')
       }
     })
-    await expect(disconnectAll([dead, alive], attempt)).rejects.toThrow(
-      'ProviderNotFoundError'
-    )
-    // The healthy wallet must still have been disconnected.
+    // A connection left behind by a removed extension must not report the
+    // disconnect as failed, or the caller skips emitting its event and skips
+    // the connect it was preparing for.
+    await expect(disconnectAll([dead, alive], attempt)).resolves.toBeUndefined()
     expect(seen).toEqual(['xverse', 'unisat'])
   })
 
-  it('reports the first failure, not the last', async () => {
+  it('reports the first failure when nothing could be disconnected', async () => {
     const one = connector('one')
     const two = connector('two')
     await expect(
@@ -39,6 +39,14 @@ describe('disconnectAll', () => {
         throw new Error(c.id)
       })
     ).rejects.toThrow('one')
+  })
+
+  it('reports a lone connector that cannot be disconnected', async () => {
+    await expect(
+      disconnectAll([connector('unisat')], async () => {
+        throw new Error('ProviderNotFoundError')
+      })
+    ).rejects.toThrow('ProviderNotFoundError')
   })
 
   it('resolves for no connections', async () => {
