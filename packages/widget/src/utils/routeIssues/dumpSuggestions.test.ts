@@ -52,6 +52,7 @@ describe.skipIf(!process.env.DUMP_SUGGESTIONS)('dump', () => {
         amountLocked: false,
         receiverHidden: false,
         receiverRequired: false,
+        spendable: 0n,
         toAddress: r.toAddress,
         sameEcosystem: r.fromChainId === r.toChainId,
         applyAmount: (v) => {
