@@ -6,6 +6,7 @@ import {
   ctrl,
   leather,
   magicEden,
+  metamask,
   okx,
   onekey,
   oyl,
@@ -65,6 +66,7 @@ export function createDefaultBigmiConfig(
     bitget(),
     oyl(),
     magicEden(),
+    metamask(),
     unhosted(),
     ...(props?.connectors ?? []),
   ]

@@ -1,5 +1,5 @@
 import { ChainId, ChainType } from '@lifi/sdk'
-import { isWalletInstalled, useBitcoinContext } from '@lifi/widget-provider'
+import { useBitcoinContext } from '@lifi/widget-provider'
 import type { JSX } from 'react'
 import { useLastConnectedAccount } from '../hooks/useAccount.js'
 import { useWalletManagementEvents } from '../hooks/useWalletManagementEvents.js'
@@ -14,7 +14,6 @@ export const BitcoinListItemButton = ({
   ecosystemSelection,
   connector,
   tagType,
-  onNotInstalled,
   onConnected,
   onConnecting,
   onError,
@@ -34,13 +33,6 @@ export const BitcoinListItemButton = ({
     }
 
     try {
-      const identityCheckPassed = isWalletInstalled(
-        connector.id ?? connector.name
-      )
-      if (!identityCheckPassed) {
-        onNotInstalled?.(connector)
-        return
-      }
       onConnecting?.()
       if (isConnected) {
         await disconnect()
