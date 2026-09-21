@@ -467,3 +467,38 @@ describe('a lone amount reason the send already satisfies', () => {
     expect(issues.map((issue) => issue.bucket)).not.toContain('amountTooLow')
   })
 })
+
+// Reported in review: "bridged must be smaller than N" excludes N, so a send of
+// exactly N is still too high — but an inclusive reading called the bar
+// satisfied and deleted the true reason.
+describe('a send sitting exactly on a stated bar', () => {
+  const at = (reason: string, fromAmount: bigint) =>
+    classifyRouteIssues(
+      {
+        filteredOut: [{ overallPath: '1:ETH-chainflip-137:USDC', reason }],
+        failed: [],
+      },
+      {
+        fromAmount,
+        fromChainId: 1,
+        fromTokenSymbol: 'ETH',
+        fromTokenDecimals: 18,
+      }
+    ).map((issue) => issue.bucket)
+
+  it('keeps a ceiling the send exactly reaches', () => {
+    expect(at('The amount bridged must be smaller than 5000', 5000n)).toEqual([
+      'amountTooHigh',
+    ])
+  })
+
+  it('keeps a floor the send exactly reaches', () => {
+    expect(at('The amount bridged must be at least 5000', 5000n)).toEqual([
+      'amountTooLow',
+    ])
+  })
+
+  it('still refutes a ceiling the send is clearly under', () => {
+    expect(at('The amount bridged must be smaller than 5000', 10n)).toEqual([])
+  })
+})
