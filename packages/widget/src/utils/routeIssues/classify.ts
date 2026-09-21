@@ -125,10 +125,14 @@ const isGentler = (
   if (b === undefined) {
     return true
   }
-  if (!!candidate.estimated !== !!incumbent.estimated) {
-    return !candidate.estimated
+  // The size decides first: the user has to clear one tool's bar, and a scaled
+  // figure that asks for far less is still the gentler ask. `estimated` only
+  // separates two figures that ask for the same thing, where the stated one is
+  // worth more than the derived one.
+  if (a !== b) {
+    return (candidate.direction ?? 'raise') === 'raise' ? a < b : a > b
   }
-  return (candidate.direction ?? 'raise') === 'raise' ? a < b : a > b
+  return !!incumbent.estimated && !candidate.estimated
 }
 
 // The user has to clear one tool's bar, not every tool's — so the gentlest of
@@ -250,6 +254,26 @@ const barStands = (issue: RouteIssue, context: ClassifyContext): boolean => {
   return low ? bar > sentUsd : bar < sentUsd
 }
 
+/**
+ * Amount reasons whose bar the send has already cleared. A lone one is as wrong
+ * as a losing one: it outranks every other bucket, and `dropUnsupportedNoise`
+ * then deletes the truthful reason beside it as request-level noise.
+ */
+const dropRefutedAmounts = (
+  issues: RouteIssue[],
+  context: ClassifyContext
+): RouteIssue[] =>
+  // With no send amount there is nothing to refute a bar with; the conflict
+  // resolver below answers that case on its own.
+  context.fromAmount <= 0n
+    ? issues
+    : issues.filter(
+        (issue) =>
+          (issue.bucket !== 'amountTooLow' &&
+            issue.bucket !== 'amountTooHigh') ||
+          barStands(issue, context)
+      )
+
 const resolveAmountConflict = (
   issues: RouteIssue[],
   context: ClassifyContext
@@ -340,7 +364,10 @@ const classify = (
     }
   }
 
-  const ranged = resolveAmountConflict([...collected.values()], context)
+  const ranged = resolveAmountConflict(
+    dropRefutedAmounts([...collected.values()], context),
+    context
+  )
   const applicable = dropInapplicableReceiver(ranged, context)
   return dropUnsupportedNoise(applicable).sort(compareIssues)
 }
