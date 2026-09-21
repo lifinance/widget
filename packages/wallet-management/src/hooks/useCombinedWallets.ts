@@ -27,14 +27,18 @@ export type CombinedWallet = {
 
 const normalizeName = (name: string) => name.split(' ')[0].toLowerCase().trim()
 
-export const defaultWalletEcosystemsOrder: ChainType[] = [
-  ChainType.EVM,
-  ChainType.SVM,
-  ChainType.MVM,
-  ChainType.UTXO,
-  ChainType.TVM,
-  ChainType.STL,
-]
+// Frozen: it is handed to the comparator by reference, so a consumer that
+// mutated the export would reorder every wallet in the picker.
+export const defaultWalletEcosystemsOrder: readonly ChainType[] = Object.freeze(
+  [
+    ChainType.EVM,
+    ChainType.SVM,
+    ChainType.MVM,
+    ChainType.UTXO,
+    ChainType.TVM,
+    ChainType.STL,
+  ]
+)
 
 export const combineWalletLists = (
   ethereumConnectorList: WalletConnector[],
@@ -214,7 +218,7 @@ const walletComparator = (a: CombinedWallet, b: CombinedWallet) => {
 const walletEcosystemsComparator = (
   a: CombinedWalletConnector,
   b: CombinedWalletConnector,
-  order: ChainType[]
+  order: readonly ChainType[]
 ) => {
   if (!order.length) {
     return 0
