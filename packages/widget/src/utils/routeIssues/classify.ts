@@ -153,9 +153,15 @@ const foldEvidence = (
   if (!incumbent || !candidate) {
     return incumbent ?? candidate
   }
+  // A zero bar is no bar. `isGentler` and `bufferedReported` both refuse one as
+  // a candidate; an incumbent holding zero has to be replaceable for the same
+  // reason, or the result turns on which entry arrived first and a later real
+  // figure never lands.
+  const incumbentAmount = incumbent.requiredFromAmount
   const withAmount =
     isGentler(candidate, incumbent) ||
-    incumbent.requiredFromAmount === undefined
+    incumbentAmount === undefined ||
+    incumbentAmount <= 0n
       ? candidate
       : incumbent
   return {
