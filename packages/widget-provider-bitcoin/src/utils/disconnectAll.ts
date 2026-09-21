@@ -1,25 +1,18 @@
 import type { Connector } from '@bigmi/client'
 
-// Bigmi keeps a failed connector's connection, so following the active one
-// would retry it forever and never reach the rest. Attempt every connector,
-// and fail only when none could be disconnected: a connection left behind by
-// a removed extension must not make a real disconnect look unsuccessful, or
-// callers skip emitting their event and skip the connect they were preparing.
+// Bigmi detaches a connection even when the wallet's own `disconnect()`
+// throws, so the store ends up consistent either way. A wallet that has gone
+// away therefore must not stop the caller from continuing — it would abort the
+// `connect()` a disconnect is usually preparing for.
 export const disconnectAll = async (
   connectors: readonly Connector[],
   disconnectOne: (connector: Connector) => Promise<void>
 ): Promise<void> => {
-  let firstError: unknown
-  let disconnected = 0
   for (const connector of connectors) {
     try {
       await disconnectOne(connector)
-      disconnected += 1
-    } catch (error) {
-      firstError ??= error
+    } catch {
+      // Intentionally ignored: bigmi has already cleared the connection.
     }
-  }
-  if (firstError && disconnected === 0) {
-    throw firstError
   }
 }
