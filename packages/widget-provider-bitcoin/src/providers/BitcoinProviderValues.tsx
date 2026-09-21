@@ -81,9 +81,15 @@ export const BitcoinProviderValues: FC<
     // MetaMask announces Bitcoin through the Wallet Standard registry rather
     // than by injecting into `window`, so it can arrive after this mounts.
     window.addEventListener('wallet-standard:register-wallet', probe)
+    // The `window` injectors announce nothing, so an extension enabled or
+    // installed without a reload would stay hidden for the session.
+    window.addEventListener('visibilitychange', probe)
+    window.addEventListener('focus', probe)
     return () => {
       cancelled = true
       window.removeEventListener('wallet-standard:register-wallet', probe)
+      window.removeEventListener('visibilitychange', probe)
+      window.removeEventListener('focus', probe)
     }
   }, [connectors])
 

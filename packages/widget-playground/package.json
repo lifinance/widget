@@ -35,6 +35,7 @@
     "@lifi/widget-provider-sui": "workspace:*",
     "@lifi/widget-provider-transak": "workspace:*",
     "@lifi/widget-provider-tron": "workspace:*",
+    "@metamask/connect-evm": "^2.1.1",
     "@mui/icons-material": "^9.4.0",
     "@mui/material": "^9.4.0",
     "@mui/system": "^9.4.0",
