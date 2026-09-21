@@ -19,9 +19,9 @@
   },
   "dependencies": {
     "@base-org/account": "~2.5.10",
-    "@bigmi/client": "^0.10.3",
+    "@bigmi/client": "^0.10.4",
     "@bigmi/core": "^0.9.2",
-    "@bigmi/react": "^0.9.3",
+    "@bigmi/react": "^0.9.4",
     "@coinbase/wallet-sdk": "~4.3.7",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
