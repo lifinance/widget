@@ -72,8 +72,10 @@ export interface FormProps {
   defaultValues: FormValues
   userValues: FormValues
   touchedFields: { [K in FormFieldNames]?: boolean }
-  /** Bumped by an `immediate` write so watchers can skip their debounce once. */
-  /** Per field, so an immediate write only flushes the watchers reading it. */
+  /**
+   * Bumped by an `immediate` write so watchers can skip their debounce once,
+   * counted per field so it only flushes the watchers reading that field.
+   */
   immediateWrites: Record<string, number>
 }
 
