@@ -75,6 +75,7 @@
     "@types/node": "^26.5.0",
     "@types/react-transition-group": "^4.4.12",
     "cpy-cli": "^7.0.0",
+    "happy-dom": "^20.14.3",
     "madge": "^8.0.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
