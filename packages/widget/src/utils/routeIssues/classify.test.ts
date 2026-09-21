@@ -502,3 +502,39 @@ describe('a send sitting exactly on a stated bar', () => {
     expect(at('The amount bridged must be smaller than 5000', 10n)).toEqual([])
   })
 })
+
+// Reported in review: a zero bar was treated as a real figure once it was the
+// incumbent, so folding "at least 0" with "at least 5000000" kept 0 — and the
+// refutation then deleted the whole truthful reason. Order-dependent, too.
+describe('folding a zero bar with a real one', () => {
+  const both = (reasons: string[]) =>
+    classifyRouteIssues(
+      {
+        filteredOut: reasons.map((reason) => ({
+          overallPath: '1:ETH-chainflip-137:USDC',
+          reason,
+        })),
+        failed: [],
+      },
+      {
+        fromAmount: 1000n,
+        fromChainId: 1,
+        fromTokenSymbol: 'ETH',
+        fromTokenDecimals: 18,
+      }
+    )
+
+  const zeroFirst = [
+    'The amount bridged must be at least 0',
+    'The amount bridged must be at least 5000000',
+  ]
+
+  it.each([
+    ['zero first', zeroFirst],
+    ['zero second', [...zeroFirst].reverse()],
+  ])('keeps the real figure with %s', (_label, reasons) => {
+    const [issue] = both(reasons)
+    expect(issue.bucket).toBe('amountTooLow')
+    expect(issue.evidence?.requiredFromAmount).toBe(5000000n)
+  })
+})
