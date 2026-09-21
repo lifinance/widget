@@ -2,7 +2,6 @@ import {
   type Connector,
   connect,
   disconnect,
-  getAccount,
   getConnectorClient as getBigmiConnectorClient,
 } from '@bigmi/client'
 import { useAccount, useConfig, useConnect } from '@bigmi/react'
@@ -18,6 +17,7 @@ import {
   useState,
 } from 'react'
 import type { BitcoinProviderConfig } from '../types'
+import { disconnectAll } from '../utils/disconnectAll.js'
 import {
   getInstalledConnectors,
   sameConnectors,
@@ -108,28 +108,12 @@ export const BitcoinProviderValues: FC<
   )
 
   const handleDisconnect = useCallback(async () => {
-    // Disconnecting one connection promotes the next, so a wallet that opened
-    // more than one would stay connected after a single disconnect. A later
-    // failure must not hide the ones already dropped, so keep the first error
-    // and rethrow it once nothing is left to try.
-    let connector = getAccount(bigmiConfig).connector
-    let firstError: unknown
-    while (connector) {
-      try {
-        await disconnect(bigmiConfig, { connector })
-      } catch (error) {
-        firstError ??= error
-        break
-      }
-      const next = getAccount(bigmiConfig).connector
-      if (next === connector) {
-        break
-      }
-      connector = next
-    }
-    if (firstError) {
-      throw firstError
-    }
+    await disconnectAll(
+      [...bigmiConfig.state.connections.values()].map(
+        (connection) => connection.connector
+      ),
+      (connector) => disconnect(bigmiConfig, { connector })
+    )
   }, [bigmiConfig])
 
   const contextValue = useMemo(
