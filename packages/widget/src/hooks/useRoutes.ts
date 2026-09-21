@@ -682,7 +682,12 @@ export const useRoutes = ({
         initialRoutes.splice(1, 0, relayerRouteResult)
         // Emit the updated routes
         emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
-      } else if (shouldUseMainRoutes && !initialRoutes.length) {
+      } else if (!initialRoutes.length) {
+        // Whatever produced the empty list, an integrator driving its UI from
+        // this event has to hear that it is empty. Gating on
+        // `shouldUseMainRoutes` left the observed-relayer path — where the
+        // relayer quote resolved to null — silent, so a stale route list stayed
+        // on screen indefinitely.
         emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
       }
 

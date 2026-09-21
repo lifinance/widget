@@ -239,10 +239,14 @@ const collect = (
 const barStands = (issue: RouteIssue, context: ClassifyContext): boolean => {
   const { requiredFromAmount, minUsd, maxUsd } = issue.evidence ?? {}
   const low = issue.bucket === 'amountTooLow'
+  // Refute only on strict satisfaction. The bars are a mix: "bridged must be at
+  // least N" includes N, "must be smaller than N" excludes it, and the reason
+  // does not say which. Equality is therefore ambiguous, and the safe reading
+  // keeps a reason the backend actually emitted rather than deleting it.
   if (requiredFromAmount !== undefined) {
     return low
-      ? requiredFromAmount > issue.fromAmount
-      : requiredFromAmount < issue.fromAmount
+      ? requiredFromAmount >= issue.fromAmount
+      : requiredFromAmount <= issue.fromAmount
   }
   const bar = low ? minUsd : maxUsd
   const price = Number.parseFloat(context.fromTokenPriceUSD ?? '')
@@ -251,7 +255,7 @@ const barStands = (issue: RouteIssue, context: ClassifyContext): boolean => {
   }
   const sentUsd =
     Number(formatUnits(issue.fromAmount, context.fromTokenDecimals)) * price
-  return low ? bar > sentUsd : bar < sentUsd
+  return low ? bar >= sentUsd : bar <= sentUsd
 }
 
 /**
