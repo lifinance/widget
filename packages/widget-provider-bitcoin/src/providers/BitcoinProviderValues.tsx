@@ -109,15 +109,26 @@ export const BitcoinProviderValues: FC<
 
   const handleDisconnect = useCallback(async () => {
     // Disconnecting one connection promotes the next, so a wallet that opened
-    // more than one would stay connected after a single disconnect.
+    // more than one would stay connected after a single disconnect. A later
+    // failure must not hide the ones already dropped, so keep the first error
+    // and rethrow it once nothing is left to try.
     let connector = getAccount(bigmiConfig).connector
+    let firstError: unknown
     while (connector) {
-      await disconnect(bigmiConfig, { connector })
+      try {
+        await disconnect(bigmiConfig, { connector })
+      } catch (error) {
+        firstError ??= error
+        break
+      }
       const next = getAccount(bigmiConfig).connector
       if (next === connector) {
         break
       }
       connector = next
+    }
+    if (firstError) {
+      throw firstError
     }
   }, [bigmiConfig])
 
