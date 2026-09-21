@@ -16,6 +16,7 @@ import { buildRouteIssueCard } from '../utils/routeIssues/card.js'
 import type { RouteIssue } from '../utils/routeIssues/types.js'
 import { useApplyAmount } from './useApplyAmount.js'
 import { useChain } from './useChain.js'
+import { useMaxSendAmount } from './useMaxSendAmount.js'
 import { useToAddressRequirements } from './useToAddressRequirements.js'
 import { useToken } from './useToken.js'
 
@@ -39,6 +40,7 @@ export function useRouteIssueCard(
   // The user pressed a button on a card that is already on screen, so the quote
   // must start at once rather than wait the typing debounce out.
   const applyAmount = useApplyAmount('from', { immediate: true })
+  const maxAmount = useMaxSendAmount(fromChainId, fromTokenAddress)
   const { setValue } = useSettingsActions()
   const { slippage } = useSettings(['slippage'])
   const { requiredToAddress, unsupportedReceiverBlocking } =
@@ -49,6 +51,7 @@ export function useRouteIssueCard(
     token,
     slippage,
     amountLocked: Boolean(disabledUI?.fromAmount),
+    spendable: maxAmount,
     receiverHidden: Boolean(hiddenUI?.toAddress),
     receiverRequired: requiredToAddress || unsupportedReceiverBlocking,
     toAddress,

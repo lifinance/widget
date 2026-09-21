@@ -26,6 +26,7 @@ const deps = (
   amountLocked: false,
   receiverHidden: false,
   receiverRequired: false,
+  spendable: 0n,
   toAddress: undefined,
   sameEcosystem: true,
   applyAmount: vi.fn(),
@@ -213,6 +214,34 @@ describe('amount suggestions', () => {
     card.action?.run()
     expect(applyAmount).toHaveBeenCalledWith('49')
     expect(card.description).toBe('info.routeIssue.amountTooHigh.description')
+  })
+
+  // Reported in review: raising past the balance only swaps "no routes" for
+  // "insufficient funds", so the figure stays and the button goes.
+  it('keeps the button away when the wallet cannot fund the suggestion', () => {
+    const card = buildRouteIssueCard(
+      issue('amountTooLow', 200_000n, { requiredFromAmount: 2_000_000n }),
+      deps({ spendable: 400_000n })
+    )
+    expect(card.action).toBeUndefined()
+    expect(card.description).toBe('info.routeIssue.amountTooLow.description')
+  })
+
+  it('offers the button when the wallet can fund it', () => {
+    const card = buildRouteIssueCard(
+      issue('amountTooLow', 200_000n, { requiredFromAmount: 2_000_000n }),
+      deps({ spendable: 9_000_000n })
+    )
+    expect(card.action).toBeDefined()
+  })
+
+  // Zero means unknown — no wallet, or balances still loading — not broke.
+  it('still offers the button when the balance is unknown', () => {
+    const card = buildRouteIssueCard(
+      issue('amountTooLow', 200_000n, { requiredFromAmount: 2_000_000n }),
+      deps({ spendable: 0n })
+    )
+    expect(card.action).toBeDefined()
   })
 
   it('keeps the button away while the amount field is locked', () => {
