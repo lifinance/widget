@@ -63,14 +63,14 @@ export const resolveRecentTokens = (
     nativeHoisted,
   }
 
-  if (disabled || !recentTokens.length) {
+  if (disabled || !recentTokens.length || !tokens.length) {
     return inactive
   }
 
   const candidates = recentTokens.filter(
     (recent) =>
       (isAllNetworks || recent.chainId === selectedChainId) &&
-      (!availableChainIds.size || availableChainIds.has(recent.chainId))
+      availableChainIds.has(recent.chainId)
   )
 
   if (!candidates.length) {

@@ -39,7 +39,12 @@ export class TokenSelectorView {
     this.recentSearchesHeader = root.getByText('Recent searches', {
       exact: true,
     })
-    this.clearRecentsButton = root.getByRole('button', { name: 'Clear' })
+    // Scoped to the band: the search input renders its own aria-label="Clear"
+    // adornment whenever the field has a value.
+    this.clearRecentsButton = root
+      .getByRole('listitem')
+      .filter({ hasText: 'Recent searches' })
+      .getByRole('button', { name: 'Clear' })
     this.recentTokensToggle = root.getByRole('button', {
       name: /Show \d+ more|Show less/,
     })

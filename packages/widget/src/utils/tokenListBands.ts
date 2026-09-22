@@ -80,11 +80,12 @@ export const createBandResolver = (
       extra += toggleRowHeight
     }
 
-    // Only reserve the header height when a header will actually render.
-    // `isPromoted` covers recent rows, which exist independently of
-    // `showPinnedTokens`, so an ungated rule leaves a blank 32px gap.
+    // Reserve the closing header only when one will render. The recent band
+    // needs its own term: `showCategories` is always false in all-networks
+    // mode and `showPinnedTokens` is false without pinned rows, yet the band
+    // still has to be closed off from the list below it.
     if (
-      (showPinnedTokens || showCategories) &&
+      (showPinnedTokens || showCategories || recentCount > 0) &&
       isTransitionFromPromoted(index)
     ) {
       extra += bandHeaderAfterBand
@@ -125,7 +126,11 @@ export const createBandResolver = (
     if (isFirstRecent(index)) {
       return { kind: 'recent', atListStart: isListStart }
     }
-    if (showPinnedTokens && !showCategories && fromPromoted) {
+    if (
+      (showPinnedTokens || recentCount > 0) &&
+      !showCategories &&
+      fromPromoted
+    ) {
       return { kind: 'text', key: 'main.allTokens', atListStart: false }
     }
     if (!showCategories) {

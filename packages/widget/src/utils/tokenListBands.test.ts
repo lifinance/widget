@@ -195,9 +195,29 @@ describe('createBandResolver with a recent band', () => {
 
     expect(getRowExtraHeight(0)).toBe(24)
     expect(getRowBandLabel(0)).toEqual({ kind: 'recent', atListStart: true })
-    // The row below the band renders no header, so it must reserve no height.
-    expect(getRowBandLabel(1)).toBeUndefined()
-    expect(getRowExtraHeight(1)).toBe(0)
+    // The band must still be closed off from the list below, even with no
+    // pinned tokens and no categories (which is every all-networks view).
+    expect(getRowBandLabel(1)).toEqual({
+      kind: 'text',
+      key: 'main.allTokens',
+      atListStart: false,
+    })
+    expect(getRowExtraHeight(1)).toBe(32)
+  })
+
+  it('should leave the list untouched when no recent band is present', () => {
+    const plain = [makeToken('0xA'), makeToken('0xB')]
+    const { getRowExtraHeight, getRowBandLabel } = createBandResolver(plain, {
+      showCategories: false,
+      showPinnedTokens: false,
+      nativeHoisted: false,
+      recentStartIndex: 0,
+      recentCount: 0,
+      showRecentToggle: false,
+    })
+
+    expect([0, 1].map(getRowExtraHeight)).toEqual([0, 0])
+    expect([0, 1].map(getRowBandLabel)).toEqual([undefined, undefined])
   })
 
   it('should not let a recent row open a category band below it', () => {

@@ -77,6 +77,20 @@ describe('resolveRecentTokens inactive paths', () => {
     ).toBe(tokens)
   })
 
+  it('should return the same array reference when the live list is empty', () => {
+    const tokens: TokenAmount[] = []
+    expect(resolve(tokens).tokens).toBe(tokens)
+  })
+
+  it('should drop a recent whose chain is not in the resolved chain list', () => {
+    // An empty set means "no chain is available", never "allow everything";
+    // the hook waits for the query rather than passing an unresolved list.
+    const tokens = [makeToken('0xr1')]
+    expect(
+      resolve(tokens, { availableChainIds: new Set<number>() }).totalRecentCount
+    ).toBe(0)
+  })
+
   it('should return the same array reference when every entry is filtered out', () => {
     const tokens = [makeToken('0xn', { native: true })]
     expect(resolve(tokens, { recentTokens: [makeRecent('0xn')] }).tokens).toBe(

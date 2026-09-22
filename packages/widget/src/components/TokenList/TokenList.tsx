@@ -139,7 +139,7 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
 
   return (
     <Box ref={listParentRef} style={{ height: listHeight, overflow: 'auto' }}>
-      {!tokensWithRecent.length && !isTokensLoading && !isSearchLoading ? (
+      {!tokens.length && !isTokensLoading && !isSearchLoading ? (
         <TokenNotFound formType={formType} />
       ) : null}
       <VirtualizedTokenList

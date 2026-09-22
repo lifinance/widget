@@ -41,7 +41,10 @@ export const useRecentTokens = (
   // A snapshot carries no verification verdict, so the band waits for the
   // list rather than flashing an amber warning on every row while it loads.
   // A token the list never returns still renders as unverified.
-  const disabled = !!search || !!hiddenUI?.recentSearches || isTokensLoading
+  // `chains` is query-backed. Until it resolves, an allow/deny config cannot
+  // be applied, so the band waits rather than showing a denied chain.
+  const disabled =
+    !!search || !!hiddenUI?.recentSearches || isTokensLoading || !chains
 
   return useMemo(
     () =>
