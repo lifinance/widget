@@ -113,7 +113,9 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
       ) {
         addRecentToken(toRecentToken(token))
       }
-      selectToken(address, chainId)
+      // Prefer the live row's address so the form always carries the token's
+      // canonical casing, whichever copy the user clicked.
+      selectToken(token?.address ?? address, chainId)
     },
     [addRecentToken, isRecentToken, selectToken, hiddenUI?.recentSearches]
   )
