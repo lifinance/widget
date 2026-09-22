@@ -1,8 +1,9 @@
 import { Box } from '@mui/material'
-import { type FC, memo, useCallback, useEffect, useRef } from 'react'
+import { type FC, memo, useCallback, useEffect, useRef, useState } from 'react'
 import { useDebouncedWatch } from '../../hooks/useDebouncedWatch.js'
 import { useListHeight } from '../../hooks/useListHeight.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
+import { useRecentTokens } from '../../hooks/useRecentTokens.js'
 import { useTokenBalances } from '../../hooks/useTokenBalances.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
@@ -12,6 +13,7 @@ import { useRecentTokensStore } from '../../stores/recentTokens/RecentTokensStor
 import { toRecentToken } from '../../stores/recentTokens/utils.js'
 import { WidgetEvent } from '../../types/events.js'
 import type { TokenAmount } from '../../types/token.js'
+import { collapsedRecentCount } from '../../utils/recentTokens.js'
 import { TokenNotFound } from './TokenNotFound.js'
 import type { TokenListProps } from './types.js'
 import { useTokenSelect } from './useTokenSelect.js'
@@ -55,6 +57,23 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
     tokenSearchFilter
   )
 
+  const [recentExpanded, setRecentExpanded] = useState(false)
+
+  const {
+    tokens: tokensWithRecent,
+    recentStartIndex,
+    recentCount,
+    totalRecentCount,
+    nativeHoisted,
+  } = useRecentTokens(tokens, {
+    selectedChainId,
+    isAllNetworks,
+    search: tokenSearchFilter,
+    expanded: recentExpanded,
+    formType,
+    isTokensLoading,
+  })
+
   const selectToken = useTokenSelect(formType, navigateBack)
   const [addRecentToken, isRecentToken] = useRecentTokensStore((state) => [
     state.addRecentToken,
@@ -63,8 +82,8 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
 
   // onClick reaches every memoized row, so it must not depend on values that
   // change on each balance refetch or keystroke.
-  const tokensRef = useRef(tokens)
-  tokensRef.current = tokens
+  const tokensRef = useRef(tokensWithRecent)
+  tokensRef.current = tokensWithRecent
   const searchRef = useRef(tokenSearchFilter)
   searchRef.current = tokenSearchFilter
 
@@ -110,11 +129,11 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
 
   return (
     <Box ref={listParentRef} style={{ height: listHeight, overflow: 'auto' }}>
-      {!tokens.length && !isTokensLoading && !isSearchLoading ? (
+      {!tokensWithRecent.length && !isTokensLoading && !isSearchLoading ? (
         <TokenNotFound formType={formType} />
       ) : null}
       <VirtualizedTokenList
-        tokens={tokens}
+        tokens={tokensWithRecent}
         scrollElementRef={listParentRef}
         chainId={selectedChainId}
         isLoading={isTokensLoading || isSearchLoading}
@@ -124,6 +143,16 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
         onClick={handleTokenClick}
         selectedTokenAddress={selectedTokenAddress}
         isAllNetworks={isAllNetworks}
+        nativeHoisted={nativeHoisted}
+        recentStartIndex={recentStartIndex}
+        recentCount={recentCount}
+        hiddenRecentCount={totalRecentCount - recentCount}
+        recentExpanded={recentExpanded}
+        onToggleRecent={
+          totalRecentCount > collapsedRecentCount
+            ? () => setRecentExpanded((value) => !value)
+            : undefined
+        }
       />
     </Box>
   )

@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { isHoistableNative } from '../../utils/tokenList.js'
 import { createBandResolver } from '../../utils/tokenListBands.js'
+import { RecentTokensHeader } from './RecentTokensHeader.js'
+import { RecentTokensToggle } from './RecentTokensToggle.js'
 import { TokenDetailsSheet } from './TokenDetailsSheet.js'
 import { List } from './TokenList.style.js'
 import { TokenListItem, TokenListItemSkeleton } from './TokenListItem.js'
@@ -29,6 +31,8 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   isAllNetworks,
   recentStartIndex = 0,
   recentCount = 0,
+  hiddenRecentCount = 0,
+  recentExpanded = false,
   onToggleRecent,
   nativeHoisted,
 }) => {
@@ -120,6 +124,13 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     }
   }, [measure, scrollElementRef.current])
 
+  // Expanding moves the toggle row's extra height from the 4th recent row to
+  // the 10th without a count change the virtualizer would notice on its own.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: run only when the band expands
+  useEffect(() => {
+    measure()
+  }, [recentExpanded, measure])
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when chainId changes
   useEffect(() => {
     // Scroll to the top of the list when switching the chains
@@ -159,7 +170,9 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
               onShowTokenDetails={onShowTokenDetails}
               isBalanceLoading={isBalanceLoading}
               startAdornment={
-                band?.kind === 'text' ? (
+                band?.kind === 'recent' ? (
+                  <RecentTokensHeader atListStart={band.atListStart} />
+                ) : band?.kind === 'text' ? (
                   <Typography
                     sx={{
                       fontSize: 14,
@@ -172,6 +185,17 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
                   >
                     {t(band.key)}
                   </Typography>
+                ) : null
+              }
+              endAdornment={
+                onToggleRecent &&
+                recentCount > 0 &&
+                item.index === recentStartIndex + recentCount - 1 ? (
+                  <RecentTokensToggle
+                    expanded={recentExpanded}
+                    hiddenCount={hiddenRecentCount}
+                    onToggle={onToggleRecent}
+                  />
                 ) : null
               }
             />
