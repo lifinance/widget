@@ -171,7 +171,9 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
               onShowTokenDetails={onShowTokenDetails}
               isBalanceLoading={isBalanceLoading}
               startAdornment={
-                band?.kind === 'recent' && onClearRecent ? (
+                band?.kind === 'recent' ? (
+                  // Unconditional: the resolver reserves this row's height
+                  // from `recentCount` alone, so the header must always fill it.
                   <RecentTokensHeader
                     atListStart={band.atListStart}
                     onClear={onClearRecent}

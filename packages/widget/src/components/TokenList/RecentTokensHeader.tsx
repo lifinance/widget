@@ -5,7 +5,9 @@ import { IconButton } from './TokenList.style.js'
 
 interface RecentTokensHeaderProps {
   atListStart: boolean
-  onClear: () => void
+  /** Omitted leaves the header in place without the Clear action, so the
+   *  band's reserved height always has a header to fill it. */
+  onClear?: () => void
 }
 
 export const RecentTokensHeader = ({
@@ -31,19 +33,21 @@ export const RecentTokensHeader = ({
       <Typography sx={{ fontSize: 14, fontWeight: 600, lineHeight: '16px' }}>
         {t('main.recentSearches')}
       </Typography>
-      <IconButton
-        size="small"
-        // The band reserves the height of a text-only header, so this action
-        // must occupy the same 16px line as the title rather than grow the row.
-        sx={{ py: 0, lineHeight: '16px' }}
-        onClick={(e) => {
-          e.stopPropagation()
-          e.currentTarget.blur()
-          onClear()
-        }}
-      >
-        {t('button.clear')}
-      </IconButton>
+      {onClear ? (
+        <IconButton
+          size="small"
+          // The band reserves the height of a text-only header, so this action
+          // must sit on the title's 16px line rather than grow the row.
+          sx={{ py: 0, lineHeight: '16px' }}
+          onClick={(e) => {
+            e.stopPropagation()
+            e.currentTarget.blur()
+            onClear()
+          }}
+        >
+          {t('button.clear')}
+        </IconButton>
+      ) : null}
     </Box>
   )
 }
