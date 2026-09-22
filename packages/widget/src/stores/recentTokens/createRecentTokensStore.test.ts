@@ -38,7 +38,7 @@ const makeRecent = (
 })
 
 describe('toRecentToken', () => {
-  it('should keep only the persisted fields and lowercase the address', () => {
+  it("should keep only the persisted fields, in the token's own casing", () => {
     const token = {
       chainId: 8453,
       address: '0xABCDEF',

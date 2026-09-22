@@ -67,7 +67,7 @@ export const createBandResolver = (
     const previous = tokens[index - 1]
     let extra = 0
 
-    if (isFirstPinned(index)) {
+    if (showPinnedTokens && isFirstPinned(index)) {
       extra += bandHeaderAtListStart
     }
 

@@ -205,6 +205,22 @@ describe('createBandResolver with a recent band', () => {
     expect(getRowExtraHeight(1)).toBe(32)
   })
 
+  it('should reserve no pinned header when the pinned band is hidden', () => {
+    // widget-checkout hides the band while tokens keep their pinned flag.
+    const pinnedFirst = [makeToken('0xA', { pinned: true }), makeToken('0xB')]
+    const { getRowExtraHeight, getRowBandLabel } = createBandResolver(
+      pinnedFirst,
+      {
+        ...noRecents,
+        showCategories: false,
+        showPinnedTokens: false,
+      }
+    )
+
+    expect(getRowBandLabel(0)).toBeUndefined()
+    expect(getRowExtraHeight(0)).toBe(0)
+  })
+
   it('should leave the list untouched when no recent band is present', () => {
     const plain = [makeToken('0xA'), makeToken('0xB')]
     const { getRowExtraHeight, getRowBandLabel } = createBandResolver(plain, {
