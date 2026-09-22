@@ -115,6 +115,11 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
     [addRecentToken, isRecentToken, selectToken]
   )
 
+  const toggleRecentExpanded = useCallback(
+    () => setRecentExpanded((value) => !value),
+    []
+  )
+
   const showCategories = withCategories && !tokenSearchFilter && !isAllNetworks
 
   useEffect(() => {
@@ -150,7 +155,7 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
         recentExpanded={recentExpanded}
         onToggleRecent={
           totalRecentCount > collapsedRecentCount
-            ? () => setRecentExpanded((value) => !value)
+            ? toggleRecentExpanded
             : undefined
         }
       />

@@ -188,9 +188,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
                 ) : null
               }
               endAdornment={
-                onToggleRecent &&
-                recentCount > 0 &&
-                item.index === recentStartIndex + recentCount - 1 ? (
+                onToggleRecent && bands.isToggleRow(item.index) ? (
                   <RecentTokensToggle
                     expanded={recentExpanded}
                     hiddenCount={hiddenRecentCount}

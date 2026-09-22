@@ -146,7 +146,7 @@ describe('createBandResolver with a recent band', () => {
   })
 
   it('should add the toggle row height to the last visible recent row', () => {
-    const { getRowExtraHeight } = createBandResolver(tokens, {
+    const { getRowExtraHeight, isToggleRow } = createBandResolver(tokens, {
       showCategories: false,
       showPinnedTokens: true,
       nativeHoisted: true,
@@ -156,6 +156,27 @@ describe('createBandResolver with a recent band', () => {
     })
 
     expect(getRowExtraHeight(3)).toBe(32)
+    // The reserved height and the rendered toggle must agree on the row.
+    expect([0, 1, 2, 3, 4].map(isToggleRow)).toEqual([
+      false,
+      false,
+      false,
+      true,
+      false,
+    ])
+  })
+
+  it('should report no toggle row when the toggle is off', () => {
+    const { isToggleRow } = createBandResolver(tokens, {
+      showCategories: false,
+      showPinnedTokens: true,
+      nativeHoisted: true,
+      recentStartIndex: 2,
+      recentCount: 2,
+      showRecentToggle: false,
+    })
+
+    expect([0, 1, 2, 3, 4].some(isToggleRow)).toBe(false)
   })
 
   it('should use the list-start padding when nothing precedes the band', () => {

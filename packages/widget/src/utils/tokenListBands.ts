@@ -30,6 +30,8 @@ export interface BandResolver {
   getRowExtraHeight: (index: number) => number
   /** Called for visible rows only, so the label may be resolved lazily. */
   getRowBandLabel: (index: number) => BandLabel | undefined
+  /** The row the toggle hangs below. Shares one definition with the height. */
+  isToggleRow: (index: number) => boolean
 }
 
 // Pinned and recent rows are both promoted above the categorised list, so a
@@ -155,5 +157,8 @@ export const createBandResolver = (
     return undefined
   }
 
-  return { getRowExtraHeight, getRowBandLabel }
+  const isToggleRow = (index: number): boolean =>
+    showRecentToggle && isLastRecent(index)
+
+  return { getRowExtraHeight, getRowBandLabel, isToggleRow }
 }
