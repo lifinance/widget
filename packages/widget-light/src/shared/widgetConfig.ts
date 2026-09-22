@@ -151,6 +151,11 @@ export interface WidgetHiddenUIConfig {
    */
   lowAddressActivityConfirmation?: boolean
   poweredBy?: boolean
+  /**
+   * Hide the "Recent searches" section in the token select view.
+   * @default false
+   */
+  recentSearches?: boolean
   reverseTokensButton?: boolean
   routeCardPriceImpact?: boolean
   routeTokenDescription?: boolean
