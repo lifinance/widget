@@ -5,7 +5,7 @@ import { useRecentTokensStore } from '../stores/recentTokens/RecentTokensStore.j
 import type { TokenAmount } from '../types/token.js'
 import type { RecentTokensResult } from '../utils/recentTokens.js'
 import { resolveRecentTokens } from '../utils/recentTokens.js'
-import { useAvailableChains } from './useAvailableChains.js'
+import { useChains } from './useChains.js'
 
 export interface UseRecentTokensOptions {
   selectedChainId?: number
@@ -28,7 +28,9 @@ export const useRecentTokens = (
   }: UseRecentTokensOptions
 ): RecentTokensResult => {
   const { hiddenUI, tokens: configTokens } = useWidgetConfig()
-  const { chains } = useAvailableChains()
+  // useChains applies chains.allow/deny per form type; useAvailableChains
+  // filters by chain type only and would let a denied chain through.
+  const { chains } = useChains(formType)
   const recentTokens = useRecentTokensStore((state) => state.recentTokens)
 
   const availableChainIds = useMemo(
@@ -36,8 +38,9 @@ export const useRecentTokens = (
     [chains]
   )
 
-  // A snapshot carries no verification verdict, so the band waits for the list
-  // rather than flashing an amber warning on every row.
+  // A snapshot carries no verification verdict, so the band waits for the
+  // list rather than flashing an amber warning on every row while it loads.
+  // A token the list never returns still renders as unverified.
   const disabled = !!search || !!hiddenUI?.recentSearches || isTokensLoading
 
   return useMemo(

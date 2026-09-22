@@ -3,7 +3,7 @@ import type { UseBoundStoreWithEqualityFn } from 'zustand/traditional'
 
 export interface RecentToken {
   chainId: number
-  /** Stored lowercase. With chainId it forms the dedupe key. */
+  /** The token's own casing. Compared case-insensitively with chainId. */
   address: string
   symbol: string
   name: string

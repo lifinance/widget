@@ -30,7 +30,7 @@ const makeRecent = (
   overrides: Partial<RecentToken> = {}
 ): RecentToken => ({
   chainId,
-  address: address.toLowerCase(),
+  address,
   symbol: 'TKN',
   name: 'Token',
   decimals: 18,
@@ -55,7 +55,8 @@ describe('toRecentToken', () => {
 
     expect(toRecentToken(token)).toEqual({
       chainId: 8453,
-      address: '0xabcdef',
+      // Casing is preserved; it is written back into the form.
+      address: '0xABCDEF',
       symbol: 'DEGEN',
       name: 'Degen',
       decimals: 18,
@@ -89,8 +90,8 @@ describe('createRecentTokensStore', () => {
     store.getState().addRecentToken(makeRecent('0xA'))
     store.getState().addRecentToken(makeRecent('0xB'))
     expect(store.getState().recentTokens.map((t) => t.address)).toEqual([
-      '0xb',
-      '0xa',
+      '0xB',
+      '0xA',
     ])
   })
 
@@ -99,8 +100,8 @@ describe('createRecentTokensStore', () => {
     store.getState().addRecentToken(makeRecent('0xB'))
     store.getState().addRecentToken(makeRecent('0xA'))
     expect(store.getState().recentTokens.map((t) => t.address)).toEqual([
-      '0xa',
-      '0xb',
+      '0xA',
+      '0xB',
     ])
   })
 
@@ -121,11 +122,20 @@ describe('createRecentTokensStore', () => {
     expect(addresses).not.toContain('0x1')
   })
 
-  it('should lowercase a checksummed address on every action', () => {
-    store.getState().addRecentToken(makeRecent('0xA'))
-    expect(store.getState().isRecentToken(1, '0xA')).toBe(true)
-    store.getState().removeRecentToken(1, '0xA')
-    expect(store.getState().isRecentToken(1, '0xa')).toBe(false)
+  it('should match a checksummed address case-insensitively', () => {
+    store.getState().addRecentToken(makeRecent('0xAbC'))
+    expect(store.getState().isRecentToken(1, '0xABC')).toBe(true)
+    expect(store.getState().isRecentToken(1, '0xabc')).toBe(true)
+    store.getState().removeRecentToken(1, '0xABC')
+    expect(store.getState().isRecentToken(1, '0xAbC')).toBe(false)
+  })
+
+  it('should dedupe across casings while keeping the newest casing', () => {
+    store.getState().addRecentToken(makeRecent('0xabc'))
+    store.getState().addRecentToken(makeRecent('0xABC'))
+    const stored = store.getState().recentTokens
+    expect(stored).toHaveLength(1)
+    expect(stored[0].address).toBe('0xABC')
   })
 
   it('should empty the list on clear', () => {

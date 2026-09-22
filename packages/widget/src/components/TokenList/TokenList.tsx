@@ -6,6 +6,7 @@ import { useNavigateBack } from '../../hooks/useNavigateBack.js'
 import { useRecentTokens } from '../../hooks/useRecentTokens.js'
 import { useTokenBalances } from '../../hooks/useTokenBalances.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
@@ -20,6 +21,7 @@ import { useTokenSelect } from './useTokenSelect.js'
 import { VirtualizedTokenList } from './VirtualizedTokenList.js'
 
 export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
+  const { hiddenUI } = useWidgetConfig()
   const navigateBack = useNavigateBack()
   const listParentRef = useRef<HTMLUListElement | null>(null)
   const { listHeight } = useListHeight({
@@ -106,13 +108,14 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
       if (
         token &&
         chainId &&
+        !hiddenUI?.recentSearches &&
         (searchRef.current || isRecentToken(chainId, address))
       ) {
         addRecentToken(toRecentToken(token))
       }
       selectToken(address, chainId)
     },
-    [addRecentToken, isRecentToken, selectToken]
+    [addRecentToken, isRecentToken, selectToken, hiddenUI?.recentSearches]
   )
 
   const toggleRecentExpanded = useCallback(

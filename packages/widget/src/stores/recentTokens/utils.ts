@@ -5,7 +5,9 @@ import type { RecentToken } from './types.js'
 // "verified" would suppress a real warning.
 export const toRecentToken = (token: TokenAmount): RecentToken => ({
   chainId: token.chainId,
-  address: token.address.toLowerCase(),
+  // Kept in the token's own casing: it is written back into the form, and
+  // `selected` and the same-token guard compare addresses case-sensitively.
+  address: token.address,
   symbol: token.symbol,
   name: token.name,
   decimals: token.decimals,

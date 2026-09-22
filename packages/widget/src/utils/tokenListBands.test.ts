@@ -195,6 +195,9 @@ describe('createBandResolver with a recent band', () => {
 
     expect(getRowExtraHeight(0)).toBe(24)
     expect(getRowBandLabel(0)).toEqual({ kind: 'recent', atListStart: true })
+    // The row below the band renders no header, so it must reserve no height.
+    expect(getRowBandLabel(1)).toBeUndefined()
+    expect(getRowExtraHeight(1)).toBe(0)
   })
 
   it('should not let a recent row open a category band below it', () => {

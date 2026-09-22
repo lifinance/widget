@@ -80,7 +80,13 @@ export const createBandResolver = (
       extra += toggleRowHeight
     }
 
-    if (isTransitionFromPromoted(index)) {
+    // Only reserve the header height when a header will actually render.
+    // `isPromoted` covers recent rows, which exist independently of
+    // `showPinnedTokens`, so an ungated rule leaves a blank 32px gap.
+    if (
+      (showPinnedTokens || showCategories) &&
+      isTransitionFromPromoted(index)
+    ) {
       extra += bandHeaderAfterBand
     }
 

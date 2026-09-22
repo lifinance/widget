@@ -3,8 +3,10 @@ import { expect, test, waitForTokens } from '../fixtures/base.fixture.js'
 test.describe('Token select — Recent searches', () => {
   // Compact keeps the selector inside the widget, so the search input is a
   // reliable open-indicator. Each test starts with an empty recent list.
+  // The chain is pinned: an unpinned search picks whichever chain ranks the
+  // symbol first, which moves the form's chain and filters the band out.
   test.beforeEach(async ({ page, sidebar, tokenSelector }) => {
-    await Promise.all([waitForTokens(page), page.goto('/')])
+    await Promise.all([waitForTokens(page), page.goto('/?fromChain=1')])
     await tokenSelector.clearStoredRecentTokens()
     await sidebar.resetAll()
     await sidebar.nav.variant.click()

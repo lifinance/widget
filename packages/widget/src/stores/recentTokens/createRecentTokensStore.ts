@@ -17,9 +17,13 @@ export const createRecentTokensStore = ({
           const address = token.address.toLowerCase()
           set((state) => ({
             recentTokens: [
-              { ...token, address },
+              token,
               ...state.recentTokens.filter(
-                (t) => !(t.chainId === token.chainId && t.address === address)
+                (t) =>
+                  !(
+                    t.chainId === token.chainId &&
+                    t.address.toLowerCase() === address
+                  )
               ),
             ].slice(0, recentTokensLimit),
           }))
@@ -28,7 +32,11 @@ export const createRecentTokensStore = ({
           const normalizedAddress = address.toLowerCase()
           set((state) => ({
             recentTokens: state.recentTokens.filter(
-              (t) => !(t.chainId === chainId && t.address === normalizedAddress)
+              (t) =>
+                !(
+                  t.chainId === chainId &&
+                  t.address.toLowerCase() === normalizedAddress
+                )
             ),
           }))
         },
@@ -36,7 +44,9 @@ export const createRecentTokensStore = ({
         isRecentToken: (chainId, address) => {
           const normalizedAddress = address.toLowerCase()
           return get().recentTokens.some(
-            (t) => t.chainId === chainId && t.address === normalizedAddress
+            (t) =>
+              t.chainId === chainId &&
+              t.address.toLowerCase() === normalizedAddress
           )
         },
       }),
