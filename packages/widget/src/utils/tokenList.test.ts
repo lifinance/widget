@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import type { TokenAmount } from '../types/token.js'
-import { createSearchMatcher, hoistNativeToken } from './tokenList.js'
+import {
+  createSearchMatcher,
+  hoistNativeToken,
+  isHoistableNative,
+} from './tokenList.js'
 
 const makeToken = (
   address: string,
@@ -157,5 +161,35 @@ describe('createSearchMatcher', () => {
         createSearchMatcher(laptopAddress.slice(0, -1), true)(laptop)
       ).toBe(false)
     })
+  })
+})
+
+describe('isHoistableNative', () => {
+  it('should accept a plain native token', () => {
+    expect(isHoistableNative(makeToken('0xAAA', { native: true }))).toBe(true)
+  })
+
+  it('should reject a non-native token', () => {
+    expect(isHoistableNative(makeToken('0xAAA'))).toBe(false)
+  })
+
+  it('should reject undefined', () => {
+    expect(isHoistableNative(undefined)).toBe(false)
+  })
+
+  it.each(['pinned', 'featured', 'popular', 'verified'] as const)(
+    'should reject a native token that is already %s',
+    (flag) => {
+      expect(
+        isHoistableNative(makeToken('0xAAA', { native: true, [flag]: true }))
+      ).toBe(false)
+    }
+  )
+
+  it('should test the chain only when one is given', () => {
+    const token = makeToken('0xAAA', { native: true, chainId: 1 })
+    expect(isHoistableNative(token, 1)).toBe(true)
+    expect(isHoistableNative(token, 137)).toBe(false)
+    expect(isHoistableNative(token)).toBe(true)
   })
 })

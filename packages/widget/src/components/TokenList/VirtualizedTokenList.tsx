@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import type { TokenAmount } from '../../types/token.js'
+import { isHoistableNative } from '../../utils/tokenList.js'
 import { TokenDetailsSheet } from './TokenDetailsSheet.js'
 import { List } from './TokenList.style.js'
 import { TokenListItem, TokenListItemSkeleton } from './TokenListItem.js'
@@ -62,16 +63,10 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
 
   // The hoisted native token sits above every category, so the row after it
   // opens the first one. Only a row the hoist could have moved counts.
-  const nativeTokenHoisted = useMemo(() => {
-    const first = tokens[0]
-    return (
-      !!first?.native &&
-      !first.pinned &&
-      !first.featured &&
-      !first.popular &&
-      !first.verified
-    )
-  }, [tokens])
+  const nativeTokenHoisted = useMemo(
+    () => isHoistableNative(tokens[0]),
+    [tokens]
+  )
 
   const isListStartIndex = useCallback(
     (index: number) => index === 0 || (index === 1 && nativeTokenHoisted),
