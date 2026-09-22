@@ -222,7 +222,12 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
           tokenSymbol: token.symbol,
         }),
       }
-    } else if (!token.verificationStatus && !token.listed && !token.verified) {
+    } else if (
+      !token.unresolved &&
+      !token.verificationStatus &&
+      !token.listed &&
+      !token.verified
+    ) {
       verificationBadge = {
         Icon: ReportRoundedIcon,
         color: 'warning.main',

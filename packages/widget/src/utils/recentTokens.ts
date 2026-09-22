@@ -131,7 +131,8 @@ export const resolveRecentTokens = (
       continue
     }
     const resolved =
-      fresh.get(key) ?? ({ ...recent, priceUSD: '' } as TokenAmount)
+      fresh.get(key) ??
+      ({ ...recent, priceUSD: '', unresolved: true } as TokenAmount)
     if (resolved.pinned) {
       continue
     }

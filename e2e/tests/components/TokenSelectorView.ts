@@ -63,7 +63,13 @@ export class TokenSelectorView {
     })
   }
 
-  /** Wipe the persisted recent-search list so a test starts from empty. */
+  /**
+   * Wipe the persisted recent-search list.
+   *
+   * Storage only: the hydrated zustand store keeps its entries, and the next
+   * persist write restores them. Call this before the store has anything in
+   * it (a fresh context), never mid-test to empty a visible band.
+   */
   async clearStoredRecentTokens(): Promise<void> {
     await this.page.evaluate(() => {
       localStorage.removeItem('li.fi-recent-tokens')
