@@ -79,4 +79,51 @@ test.describe('Token select — Recent searches', () => {
       expect(await tokenSelector.getRecentTokens()).toHaveLength(0)
     })
   })
+  test('Clear removes only the chain on screen', async ({
+    page,
+    widget,
+    tokenSelector,
+  }) => {
+    await test.step('seed a recent on Ethereum and one on Base', async () => {
+      await page.evaluate(() => {
+        localStorage.setItem(
+          'li.fi-recent-tokens',
+          JSON.stringify({
+            state: {
+              recentTokens: [
+                {
+                  chainId: 1,
+                  address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+                  symbol: 'USDC',
+                  name: 'USD Coin',
+                  decimals: 6,
+                },
+                {
+                  chainId: 8453,
+                  address: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
+                  symbol: 'USDC',
+                  name: 'USD Coin',
+                  decimals: 6,
+                },
+              ],
+            },
+            version: 0,
+          })
+        )
+      })
+      await Promise.all([waitForTokens(page), page.reload()])
+    })
+
+    await test.step('clear while only Ethereum is on screen', async () => {
+      await widget.fromButton.click()
+      await expect(tokenSelector.recentSearchesHeader).toBeVisible()
+      await tokenSelector.clearRecentsButton.click()
+      await expect(tokenSelector.recentSearchesHeader).toBeHidden()
+    })
+
+    await test.step('the Base entry survives', async () => {
+      const remaining = await tokenSelector.getRecentTokens()
+      expect(remaining.map((t) => t.chainId)).toEqual([8453])
+    })
+  })
 })
