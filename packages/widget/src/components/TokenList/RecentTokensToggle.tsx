@@ -20,7 +20,7 @@ export const RecentTokensToggle = ({
   const ExpandIcon = expanded ? ExpandLessIcon : ExpandMoreIcon
 
   return (
-    <Box sx={{ display: 'flex', px: 1.5, pt: 1 }}>
+    <Box sx={{ width: '100%', display: 'flex', px: 1.5, pt: 1 }}>
       <IconButton
         size="small"
         onClick={(e) => {

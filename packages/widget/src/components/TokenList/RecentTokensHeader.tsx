@@ -20,6 +20,9 @@ export const RecentTokensHeader = ({
   return (
     <Box
       sx={{
+        // ListItem is a flex container, so the header must claim the row width
+        // or space-between has nothing to distribute.
+        width: '100%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',

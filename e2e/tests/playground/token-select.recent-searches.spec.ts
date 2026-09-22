@@ -42,7 +42,9 @@ test.describe('Token select — Recent searches', () => {
       await widget.fromButton.click()
       await expect(tokenSelector.searchInput).toBeVisible()
       await tokenSelector.searchInput.fill('USDC')
-      await expect(tokenSelector.firstTokenItem).toBeVisible()
+      // The search filter is debounced by 320ms. Wait for the list to actually
+      // reflect the query, or the click lands on the unfiltered first row.
+      await expect(tokenSelector.firstTokenItem).toContainText('USDC')
       await tokenSelector.selectFirstToken()
     })
 
