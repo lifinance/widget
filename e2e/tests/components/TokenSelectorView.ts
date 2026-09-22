@@ -20,6 +20,12 @@ export class TokenSelectorView {
   readonly searchInput: Locator
   /** "All networks" chip in the chain row — widens the list to every chain. */
   readonly allNetworksButton: Locator
+  /** "Recent searches" band header. Absent when the band is empty or hidden. */
+  readonly recentSearchesHeader: Locator
+  /** "Clear" action in the Recent searches header. */
+  readonly clearRecentsButton: Locator
+  /** "Show N more" / "Show less" toggle below the last visible recent row. */
+  readonly recentTokensToggle: Locator
 
   constructor(page: Page) {
     this.page = page
@@ -30,6 +36,33 @@ export class TokenSelectorView {
     this.firstTokenItem = this.tokenList.getByRole('listitem').first()
     this.searchInput = root.getByPlaceholder('Search by token or address')
     this.allNetworksButton = root.getByRole('button', { name: 'All networks' })
+    this.recentSearchesHeader = root.getByText('Recent searches', {
+      exact: true,
+    })
+    this.clearRecentsButton = root.getByRole('button', { name: 'Clear' })
+    this.recentTokensToggle = root.getByRole('button', {
+      name: /Show \d+ more|Show less/,
+    })
+  }
+
+  /**
+   * Read the persisted recent-search list.
+   * Asserting on storage keeps the check independent of how the band renders.
+   */
+  async getRecentTokens(): Promise<
+    Array<{ chainId: number; address: string }>
+  > {
+    return this.page.evaluate(() => {
+      const raw = localStorage.getItem('li.fi-recent-tokens')
+      return raw ? (JSON.parse(raw).state?.recentTokens ?? []) : []
+    })
+  }
+
+  /** Wipe the persisted recent-search list so a test starts from empty. */
+  async clearStoredRecentTokens(): Promise<void> {
+    await this.page.evaluate(() => {
+      localStorage.removeItem('li.fi-recent-tokens')
+    })
   }
 
   /**
