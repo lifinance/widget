@@ -138,22 +138,36 @@ describe('createRecentTokensStore', () => {
     expect(stored[0].address).toBe('0xABC')
   })
 
-  it('should empty the list on clear', () => {
-    store.getState().addRecentToken(makeRecent('0xA'))
-    store.getState().clearRecentTokens()
-    expect(store.getState().recentTokens).toEqual([])
-  })
-
-  it('should clear only the given chain, leaving the others intact', () => {
+  it('should clear exactly the entries it is given', () => {
     store.getState().addRecentToken(makeRecent('0xA', 1))
     store.getState().addRecentToken(makeRecent('0xB', 8453))
     store.getState().addRecentToken(makeRecent('0xC', 1))
 
-    store.getState().clearRecentTokens(1)
+    store.getState().clearRecentTokens([
+      { chainId: 1, address: '0xA' },
+      { chainId: 1, address: '0xC' },
+    ])
 
     const stored = store.getState().recentTokens
     expect(stored).toHaveLength(1)
     expect(stored[0].chainId).toBe(8453)
+  })
+
+  it('should never clear an entry the band did not list', () => {
+    store.getState().addRecentToken(makeRecent('0xA', 1))
+    store.getState().addRecentToken(makeRecent('0xB', 137))
+
+    // A band filtered by config may show chain 1 only, even in all-networks.
+    store.getState().clearRecentTokens([{ chainId: 1, address: '0xa' }])
+
+    const stored = store.getState().recentTokens
+    expect(stored.map((t) => t.chainId)).toEqual([137])
+  })
+
+  it('should clear nothing when given an empty list', () => {
+    store.getState().addRecentToken(makeRecent('0xA'))
+    store.getState().clearRecentTokens([])
+    expect(store.getState().recentTokens).toHaveLength(1)
   })
 
   it('should persist under the prefixed key', () => {

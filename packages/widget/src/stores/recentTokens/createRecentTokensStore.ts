@@ -40,13 +40,17 @@ export const createRecentTokensStore = ({
             ),
           }))
         },
-        clearRecentTokens: (chainId) =>
-          set((state) => ({
-            recentTokens:
-              chainId === undefined
-                ? []
-                : state.recentTokens.filter((t) => t.chainId !== chainId),
-          })),
+        clearRecentTokens: (entries) =>
+          set((state) => {
+            const removed = new Set(
+              entries.map((e) => `${e.chainId}-${e.address.toLowerCase()}`)
+            )
+            return {
+              recentTokens: state.recentTokens.filter(
+                (t) => !removed.has(`${t.chainId}-${t.address.toLowerCase()}`)
+              ),
+            }
+          }),
         isRecentToken: (chainId, address) => {
           const normalizedAddress = address.toLowerCase()
           return get().recentTokens.some(

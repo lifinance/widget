@@ -34,6 +34,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   hiddenRecentCount = 0,
   recentExpanded = false,
   onToggleRecent,
+  onClearRecent,
   nativeHoisted,
 }) => {
   const { t } = useTranslation()
@@ -170,10 +171,10 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
               onShowTokenDetails={onShowTokenDetails}
               isBalanceLoading={isBalanceLoading}
               startAdornment={
-                band?.kind === 'recent' ? (
+                band?.kind === 'recent' && onClearRecent ? (
                   <RecentTokensHeader
                     atListStart={band.atListStart}
-                    chainId={isAllNetworks ? undefined : chainId}
+                    onClear={onClearRecent}
                   />
                 ) : band?.kind === 'text' ? (
                   <Typography

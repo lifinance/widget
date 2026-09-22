@@ -63,6 +63,7 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
 
   const {
     tokens: tokensWithRecent,
+    bandEntries,
     recentStartIndex,
     recentCount,
     totalRecentCount,
@@ -77,10 +78,12 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
   })
 
   const selectToken = useTokenSelect(formType, navigateBack)
-  const [addRecentToken, isRecentToken] = useRecentTokensStore((state) => [
-    state.addRecentToken,
-    state.isRecentToken,
-  ])
+  const [addRecentToken, isRecentToken, clearRecentTokens] =
+    useRecentTokensStore((state) => [
+      state.addRecentToken,
+      state.isRecentToken,
+      state.clearRecentTokens,
+    ])
 
   // onClick reaches every memoized row, so it must not depend on values that
   // change on each balance refetch or keystroke.
@@ -125,6 +128,22 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
     []
   )
 
+  // The page stays mounted across a chain switch, so a band the user never
+  // expanded would otherwise inherit the previous chain's expansion.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: reset on scope change
+  useEffect(() => {
+    setRecentExpanded(false)
+  }, [selectedChainId, isAllNetworks])
+
+  // Clear removes exactly what the band owns. The band filters on chain,
+  // integrator config and pinned state, so no other scope is equivalent.
+  const bandEntriesRef = useRef(bandEntries)
+  bandEntriesRef.current = bandEntries
+  const clearRecentBand = useCallback(
+    () => clearRecentTokens(bandEntriesRef.current),
+    [clearRecentTokens]
+  )
+
   const showCategories = withCategories && !tokenSearchFilter && !isAllNetworks
 
   useEffect(() => {
@@ -163,6 +182,7 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
             ? toggleRecentExpanded
             : undefined
         }
+        onClearRecent={clearRecentBand}
       />
     </Box>
   )

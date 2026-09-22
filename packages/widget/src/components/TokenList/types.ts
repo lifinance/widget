@@ -28,6 +28,7 @@ export interface VirtualizedTokenListProps {
   hiddenRecentCount?: number
   recentExpanded?: boolean
   onToggleRecent?: () => void
+  onClearRecent?: () => void
   /** Defaults to this component's own `isHoistableNative(tokens[0])`. */
   nativeHoisted?: boolean
 }

@@ -1,6 +1,9 @@
 import type { BaseToken } from '@lifi/sdk'
 import type { FormType } from '../stores/form/types.js'
-import type { RecentToken } from '../stores/recentTokens/types.js'
+import type {
+  RecentToken,
+  RecentTokenId,
+} from '../stores/recentTokens/types.js'
 import type { TokenAmount } from '../types/token.js'
 import type { WidgetTokens } from '../types/widget.js'
 import { getConfigItemSets, isFormItemAllowed } from './item.js'
@@ -22,6 +25,8 @@ export interface ResolveRecentTokensParams {
 
 export interface RecentTokensResult {
   tokens: TokenAmount[]
+  /** Every entry this band owns, including rows hidden behind the toggle. */
+  bandEntries: RecentTokenId[]
   recentStartIndex: number
   recentCount: number
   totalRecentCount: number
@@ -57,6 +62,7 @@ export const resolveRecentTokens = (
 
   const inactive: RecentTokensResult = {
     tokens,
+    bandEntries: [],
     recentStartIndex,
     recentCount: 0,
     totalRecentCount: 0,
@@ -80,8 +86,9 @@ export const resolveRecentTokens = (
   const wanted = new Set(
     candidates.map((recent) => tokenKey(recent.chainId, recent.address))
   )
-  // All-networks holds tens of thousands of rows for at most ten matches, and
-  // recents are usually high-volume tokens near the front, so stop early.
+  // At most ten matches in a list that all-networks fills with tens of
+  // thousands of rows. The break helps only when every recent is listed; a
+  // searched-only recent never matches, so that scan still runs to the end.
   const fresh = new Map<string, TokenAmount>()
   for (const token of tokens) {
     const key = tokenKey(token.chainId, token.address)
@@ -146,6 +153,10 @@ export const resolveRecentTokens = (
   const visible = expanded ? rows : rows.slice(0, collapsedRecentCount)
 
   return {
+    bandEntries: rows.map((row) => ({
+      chainId: row.chainId,
+      address: row.address,
+    })),
     tokens: [
       ...tokens.slice(0, recentStartIndex),
       ...visible,

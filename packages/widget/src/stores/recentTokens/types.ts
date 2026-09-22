@@ -12,6 +12,12 @@ export interface RecentToken {
   native?: boolean
 }
 
+/** Identifies a stored entry. Compared case-insensitively. */
+export interface RecentTokenId {
+  chainId: number
+  address: string
+}
+
 export interface RecentTokensProps {
   recentTokens: RecentToken[]
 }
@@ -19,8 +25,8 @@ export interface RecentTokensProps {
 export interface RecentTokensActions {
   addRecentToken: (token: RecentToken) => void
   removeRecentToken: (chainId: number, address: string) => void
-  /** Without a chainId, clears every chain. */
-  clearRecentTokens: (chainId?: number) => void
+  /** Removes exactly these entries, so Clear never touches a hidden one. */
+  clearRecentTokens: (entries: RecentTokenId[]) => void
   isRecentToken: (chainId: number, address: string) => boolean
 }
 
