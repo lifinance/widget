@@ -4,8 +4,8 @@ import type { FC } from 'react'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
-import type { TokenAmount } from '../../types/token.js'
 import { isHoistableNative } from '../../utils/tokenList.js'
+import { createBandResolver } from '../../utils/tokenListBands.js'
 import { TokenDetailsSheet } from './TokenDetailsSheet.js'
 import { List } from './TokenList.style.js'
 import { TokenListItem, TokenListItemSkeleton } from './TokenListItem.js'
@@ -27,6 +27,10 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   showPinnedTokens,
   onClick,
   isAllNetworks,
+  recentStartIndex = 0,
+  recentCount = 0,
+  onToggleRecent,
+  nativeHoisted,
 }) => {
   const { t } = useTranslation()
 
@@ -61,60 +65,37 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     [tokens]
   )
 
-  // The hoisted native token sits above every category, so the row after it
-  // opens the first one. Only a row the hoist could have moved counts.
-  const nativeTokenHoisted = useMemo(
-    () => isHoistableNative(tokens[0]),
-    [tokens]
+  const resolvedNativeHoisted = useMemo(
+    () => nativeHoisted ?? isHoistableNative(tokens[0]),
+    [nativeHoisted, tokens]
   )
 
-  const isListStartIndex = useCallback(
-    (index: number) => index === 0 || (index === 1 && nativeTokenHoisted),
-    [nativeTokenHoisted]
+  const showRecentToggle = recentCount > 0 && !!onToggleRecent
+
+  const bands = useMemo(
+    () =>
+      createBandResolver(tokens, {
+        showCategories: !!showCategories,
+        showPinnedTokens: !!showPinnedTokens,
+        nativeHoisted: resolvedNativeHoisted,
+        recentStartIndex,
+        recentCount,
+        showRecentToggle,
+      }),
+    [
+      tokens,
+      showCategories,
+      showPinnedTokens,
+      resolvedNativeHoisted,
+      recentStartIndex,
+      recentCount,
+      showRecentToggle,
+    ]
   )
 
   const estimateSize = useCallback(
-    (index: number) => {
-      const currentToken = tokens[index]
-      const previousToken = tokens[index - 1]
-      let size = tokenItemHeight
-
-      // Pinned tokens (always shown, even in all networks mode)
-      if (currentToken.pinned && isListStartIndex(index)) {
-        size += 24
-      }
-      if (previousToken?.pinned && !currentToken.pinned) {
-        size += 32
-      }
-
-      if (!showCategories) {
-        return size
-      }
-
-      if (
-        currentToken.featured &&
-        !currentToken.pinned &&
-        isListStartIndex(index)
-      ) {
-        size += 24
-      }
-
-      // Category transition (excluding pinned tokens). The hoisted native row
-      // sits above every band, so the row after it ends nothing.
-      const isNotPinned = !currentToken.pinned && !previousToken?.pinned
-      if (
-        !isListStartIndex(index) &&
-        isNotPinned &&
-        ((previousToken?.amount && !currentToken.amount) ||
-          (previousToken?.featured && !currentToken.featured) ||
-          (previousToken?.popular && !currentToken.popular))
-      ) {
-        size += 32
-      }
-
-      return size
-    },
-    [tokens, showCategories, isListStartIndex]
+    (index: number) => tokenItemHeight + bands.getRowExtraHeight(index),
+    [bands]
   )
 
   const virtualizerConfig = useMemo(
@@ -158,66 +139,8 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
       >
         {getVirtualItems().map((item) => {
           const currentToken = tokens[item.index]
-          const previousToken: TokenAmount | undefined = tokens[item.index - 1]
           const chain = chainsSet?.get(currentToken.chainId)
-
-          const isListStart = isListStartIndex(item.index)
-          const isNotPinned = !currentToken.pinned
-          const isFirstPinnedToken = currentToken.pinned && isListStart
-          const isTransitionFromPinned = previousToken?.pinned && isNotPinned
-
-          // Category transitions (excluding pinned)
-          const isTransitionFromFeatured =
-            previousToken?.featured && !currentToken.featured && isNotPinned
-          const isTransitionFromMyTokens =
-            previousToken?.amount && !currentToken.amount && isNotPinned
-          const isTransitionFromPopular =
-            previousToken?.popular && !currentToken.popular && isNotPinned
-
-          // Determine which category label to show
-          const startAdornmentLabel = (() => {
-            if (showPinnedTokens && isFirstPinnedToken) {
-              return t('main.pinnedTokens')
-            }
-            if (showPinnedTokens && !showCategories && isTransitionFromPinned) {
-              return t('main.allTokens')
-            }
-            if (!showCategories) {
-              return null
-            }
-
-            if (
-              (isTransitionFromPinned && currentToken.featured) ||
-              (currentToken.featured && isNotPinned && isListStart)
-            ) {
-              return t('main.featuredTokens')
-            }
-            if (
-              (isTransitionFromFeatured || isTransitionFromPinned) &&
-              currentToken.amount &&
-              isNotPinned
-            ) {
-              return t('main.myTokens')
-            }
-            if (
-              (isTransitionFromFeatured ||
-                isTransitionFromMyTokens ||
-                isTransitionFromPinned) &&
-              currentToken.popular &&
-              isNotPinned
-            ) {
-              return t('main.popularTokens')
-            }
-            if (
-              isTransitionFromMyTokens ||
-              isTransitionFromFeatured ||
-              isTransitionFromPinned ||
-              isTransitionFromPopular
-            ) {
-              return t('main.allTokens')
-            }
-            return null
-          })()
+          const band = bands.getRowBandLabel(item.index)
 
           const isSelected =
             selectedTokenAddress === currentToken.address &&
@@ -236,22 +159,18 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
               onShowTokenDetails={onShowTokenDetails}
               isBalanceLoading={isBalanceLoading}
               startAdornment={
-                startAdornmentLabel ? (
+                band?.kind === 'text' ? (
                   <Typography
                     sx={{
                       fontSize: 14,
                       fontWeight: 600,
                       lineHeight: '16px',
                       px: 1.5,
-                      pt:
-                        isFirstPinnedToken ||
-                        (currentToken.featured && isNotPinned && isListStart)
-                          ? 0
-                          : 1,
+                      pt: band.atListStart ? 0 : 1,
                       pb: 1,
                     }}
                   >
-                    {startAdornmentLabel}
+                    {t(band.key)}
                   </Typography>
                 ) : null
               }

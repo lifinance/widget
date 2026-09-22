@@ -19,6 +19,17 @@ export interface VirtualizedTokenListProps {
   onClick(tokenAddress: string, chainId?: number): void
   selectedTokenAddress?: string
   isAllNetworks: boolean
+  /**
+   * Every recent-band prop is optional: this component is exported from
+   * `shared.ts` and rendered by `widget-checkout` with none of them.
+   */
+  recentStartIndex?: number
+  recentCount?: number
+  hiddenRecentCount?: number
+  recentExpanded?: boolean
+  onToggleRecent?: () => void
+  /** Defaults to this component's own `isHoistableNative(tokens[0])`. */
+  nativeHoisted?: boolean
 }
 
 interface TokenListItemBaseProps {
