@@ -81,11 +81,16 @@ export const resolveRecentTokens = (
   const wanted = new Set(
     candidates.map((recent) => tokenKey(recent.chainId, recent.address))
   )
+  // All-networks holds tens of thousands of rows for at most ten matches, and
+  // recents are usually high-volume tokens near the front, so stop early.
   const fresh = new Map<string, TokenAmount>()
   for (const token of tokens) {
     const key = tokenKey(token.chainId, token.address)
-    if (wanted.has(key)) {
+    if (wanted.has(key) && !fresh.has(key)) {
       fresh.set(key, token)
+      if (fresh.size === wanted.size) {
+        break
+      }
     }
   }
 

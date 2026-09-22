@@ -175,6 +175,25 @@ describe('resolveRecentTokens active band', () => {
     expect(resolve(tokens, { configTokens }).totalRecentCount).toBe(1)
   })
 
+  it('should stop scanning once every recent has a live match', () => {
+    // A sentinel past the last match must never be visited.
+    const tokens = [makeToken('0xr1', { name: 'Fresh' })]
+    let visitedAfterMatch = false
+    const probe = new Proxy(makeToken('0xzz'), {
+      get(target, prop, receiver) {
+        if (prop === 'address') {
+          visitedAfterMatch = true
+        }
+        return Reflect.get(target, prop, receiver)
+      },
+    })
+
+    const result = resolve([...tokens, probe as TokenAmount])
+
+    expect(result.totalRecentCount).toBe(1)
+    expect(visitedAfterMatch).toBe(false)
+  })
+
   it('should show 4 collapsed and 10 expanded, reporting the true total', () => {
     const tokens = [makeToken('0xA')]
     const recentTokens = Array.from({ length: 10 }, (_, i) =>
