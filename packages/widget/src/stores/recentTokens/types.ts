@@ -25,7 +25,9 @@ export interface RecentTokensProps {
 export interface RecentTokensActions {
   addRecentToken: (token: RecentToken) => void
   removeRecentToken: (chainId: number, address: string) => void
-  /** Removes exactly these entries, so Clear never touches a hidden one. */
+  /** Removes exactly these entries: every one the band owns, including
+   *  rows behind the toggle and entries a pin or the native hoist
+   *  displaced, and nothing from another form side's scope. */
   clearRecentTokens: (entries: RecentTokenId[]) => void
   isRecentToken: (chainId: number, address: string) => boolean
 }

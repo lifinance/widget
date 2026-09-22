@@ -125,22 +125,26 @@ export const resolveRecentTokens = (
     : undefined
 
   const rows: TokenAmount[] = []
+  const bandEntries: RecentTokenId[] = []
   for (const recent of candidates) {
     const key = tokenKey(recent.chainId, recent.address)
-    if (key === hoistedKey) {
-      continue
-    }
     const resolved =
       fresh.get(key) ??
       ({ ...recent, priceUSD: '', unresolved: true } as TokenAmount)
-    if (resolved.pinned) {
-      continue
-    }
     if (
       !isFormItemAllowed(resolved, allowedFor(recent.chainId), formType, (t) =>
         t.address.toLowerCase()
       )
     ) {
+      // Out of this band's scope: the opposite side may still legitimately
+      // show it, so Clear here must leave it alone.
+      continue
+    }
+    // In scope, so Clear owns it even when a promotion displaces its row.
+    // Otherwise a pinned or hoisted entry survives Clear invisibly and
+    // reappears the moment the promotion goes away.
+    bandEntries.push({ chainId: recent.chainId, address: recent.address })
+    if (key === hoistedKey || resolved.pinned) {
       continue
     }
     rows.push({ ...resolved, recent: true })
@@ -154,10 +158,7 @@ export const resolveRecentTokens = (
   const visible = expanded ? rows : rows.slice(0, collapsedRecentCount)
 
   return {
-    bandEntries: rows.map((row) => ({
-      chainId: row.chainId,
-      address: row.address,
-    })),
+    bandEntries,
     tokens: [
       ...tokens.slice(0, recentStartIndex),
       ...visible,

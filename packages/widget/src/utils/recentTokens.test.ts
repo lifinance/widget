@@ -141,6 +141,41 @@ describe('resolveRecentTokens active band', () => {
     ).toBe(0)
   })
 
+  it('should let Clear own recents that a pin or the hoist displaced', () => {
+    // The band renders 0xr1, so Clear is reachable. The pinned and hoisted
+    // entries render no row, but Clear must still remove them or they
+    // reappear the moment the promotion goes away.
+    const tokens = [
+      makeToken('0xn', { native: true }),
+      makeToken('0xp', { pinned: true }),
+      makeToken('0xr1'),
+    ]
+    const result = resolve(tokens, {
+      recentTokens: [makeRecent('0xn'), makeRecent('0xp'), makeRecent('0xr1')],
+    })
+
+    expect(result.totalRecentCount).toBe(1)
+    expect(result.bandEntries.map((e) => e.address)).toEqual([
+      '0xn',
+      '0xp',
+      '0xr1',
+    ])
+  })
+
+  it('should keep a config-denied recent out of the Clear payload', () => {
+    const tokens = [makeToken('0xr1'), makeToken('0xdenied')]
+    const configTokens: WidgetTokens = {
+      deny: [{ chainId: 1, address: '0xdenied' }],
+    }
+    const result = resolve(tokens, {
+      recentTokens: [makeRecent('0xr1'), makeRecent('0xdenied')],
+      configTokens,
+    })
+
+    // Denied on this side only; the opposite side may still show it.
+    expect(result.bandEntries.map((e) => e.address)).toEqual(['0xr1'])
+  })
+
   it('should prefer the live token over the stored snapshot', () => {
     const tokens = [makeToken('0xr1', { name: 'Fresh Name', amount: 9n })]
     const result = resolve(tokens, {
