@@ -19,7 +19,8 @@ export interface RecentTokensProps {
 export interface RecentTokensActions {
   addRecentToken: (token: RecentToken) => void
   removeRecentToken: (chainId: number, address: string) => void
-  clearRecentTokens: () => void
+  /** Without a chainId, clears every chain. */
+  clearRecentTokens: (chainId?: number) => void
   isRecentToken: (chainId: number, address: string) => boolean
 }
 

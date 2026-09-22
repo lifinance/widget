@@ -6,10 +6,13 @@ import { IconButton } from './TokenList.style.js'
 
 interface RecentTokensHeaderProps {
   atListStart: boolean
+  /** The chain the band is filtered to; undefined in all-networks mode. */
+  chainId?: number
 }
 
 export const RecentTokensHeader = ({
   atListStart,
+  chainId,
 }: RecentTokensHeaderProps): JSX.Element => {
   const { t } = useTranslation()
   // Selecting the action alone keeps this out of every store update.
@@ -36,10 +39,14 @@ export const RecentTokensHeader = ({
       </Typography>
       <IconButton
         size="small"
+        // The band reserves the height of a text-only header, so this action
+        // must occupy the same 16px line as the title rather than grow the row.
+        sx={{ py: 0, lineHeight: '16px' }}
         onClick={(e) => {
           e.stopPropagation()
           e.currentTarget.blur()
-          clearRecentTokens()
+          // Clear only what the band shows, never another chain's entries.
+          clearRecentTokens(chainId)
         }}
       >
         {t('button.clear')}

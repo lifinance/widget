@@ -144,6 +144,18 @@ describe('createRecentTokensStore', () => {
     expect(store.getState().recentTokens).toEqual([])
   })
 
+  it('should clear only the given chain, leaving the others intact', () => {
+    store.getState().addRecentToken(makeRecent('0xA', 1))
+    store.getState().addRecentToken(makeRecent('0xB', 8453))
+    store.getState().addRecentToken(makeRecent('0xC', 1))
+
+    store.getState().clearRecentTokens(1)
+
+    const stored = store.getState().recentTokens
+    expect(stored).toHaveLength(1)
+    expect(stored[0].chainId).toBe(8453)
+  })
+
   it('should persist under the prefixed key', () => {
     store.getState().addRecentToken(makeRecent('0xA'))
     const persisted = storageMock.getItem('test-recent-tokens')

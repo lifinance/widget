@@ -171,7 +171,10 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
               isBalanceLoading={isBalanceLoading}
               startAdornment={
                 band?.kind === 'recent' ? (
-                  <RecentTokensHeader atListStart={band.atListStart} />
+                  <RecentTokensHeader
+                    atListStart={band.atListStart}
+                    chainId={isAllNetworks ? undefined : chainId}
+                  />
                 ) : band?.kind === 'text' ? (
                   <Typography
                     sx={{
