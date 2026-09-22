@@ -154,9 +154,13 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
           const chain = chainsSet?.get(currentToken.chainId)
           const band = bands.getRowBandLabel(item.index)
 
+          // The band copies a row that also stays in the list, so the
+          // highlight has to pick one. Prefer the canonical list row; a
+          // snapshot has no counterpart, so it keeps its own highlight.
           const isSelected =
             selectedTokenAddress === currentToken.address &&
-            chainId === currentToken.chainId
+            chainId === currentToken.chainId &&
+            (!currentToken.recent || !!currentToken.unresolved)
 
           return (
             <TokenListItem

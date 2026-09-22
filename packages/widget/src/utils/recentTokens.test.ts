@@ -197,14 +197,15 @@ describe('resolveRecentTokens active band', () => {
     expect(result.tokens[0].priceUSD).toBe('')
   })
 
-  it('should mark a snapshot row as unresolved so it claims no verdict', () => {
+  it('should mark a snapshot row as unresolved', () => {
     const tokens = [makeToken('0xA')]
     const result = resolve(tokens, {
       recentTokens: [makeRecent('0xr1')],
     })
 
-    // The user saw a verified badge when they picked it from search results;
-    // after a reload the verdict is simply unknown, not "unverified".
+    // Marks the row that has no counterpart in the list, so the selected
+    // highlight knows it is the only copy. It does not soften the
+    // verification badge: with no verdict the row still warns.
     expect(result.tokens[0].unresolved).toBe(true)
   })
 

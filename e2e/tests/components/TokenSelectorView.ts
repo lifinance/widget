@@ -87,16 +87,25 @@ export class TokenSelectorView {
   }
 
   /**
+   * The token button inside a row.
+   *
+   * A row can hold band adornments beside the token button: the "Clear"
+   * action on the first recent row, and the expand toggle on the last one.
+   * Excluding them by name keeps strict mode satisfied.
+   */
+  private tokenButton(row: Locator): Locator {
+    return row
+      .getByRole('button')
+      .filter({ hasNotText: /^(Clear|Show \d+ more|Show less)$/ })
+      .first()
+  }
+
+  /**
    * Click the first token row in the list.
-   * Each listitem contains a single button — clicking it selects the token and
-   * auto-navigates back to the Exchange view.
+   * Clicking selects the token and auto-navigates back to the Exchange view.
    */
   async selectFirstToken(): Promise<void> {
-    await this.tokenList
-      .getByRole('listitem')
-      .first()
-      .getByRole('button')
-      .click()
+    await this.tokenButton(this.tokenList.getByRole('listitem').first()).click()
   }
 
   /**
@@ -104,10 +113,8 @@ export class TokenSelectorView {
    * Use index > 0 to select a different token from the From selection.
    */
   async selectTokenByIndex(index: number): Promise<void> {
-    await this.tokenList
-      .getByRole('listitem')
-      .nth(index)
-      .getByRole('button')
-      .click()
+    await this.tokenButton(
+      this.tokenList.getByRole('listitem').nth(index)
+    ).click()
   }
 }

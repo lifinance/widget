@@ -126,4 +126,41 @@ test.describe('Token select — Recent searches', () => {
       expect(remaining.map((t) => t.chainId)).toEqual([8453])
     })
   })
+  test('a band row can be selected while the band is showing', async ({
+    page,
+    widget,
+    tokenSelector,
+  }) => {
+    await test.step('seed a band whose first row carries the Clear action', async () => {
+      await page.evaluate(() => {
+        localStorage.setItem(
+          'li.fi-recent-tokens',
+          JSON.stringify({
+            state: {
+              recentTokens: [
+                {
+                  chainId: 1,
+                  address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+                  symbol: 'USDC',
+                  name: 'USD Coin',
+                  decimals: 6,
+                },
+              ],
+            },
+            version: 0,
+          })
+        )
+      })
+      await Promise.all([waitForTokens(page), page.reload()])
+    })
+
+    // The first listitem holds both "Clear" and the token button, which is
+    // exactly the strict-mode ambiguity the helper has to resolve.
+    await test.step('select the first row', async () => {
+      await widget.fromButton.click()
+      await expect(tokenSelector.recentSearchesHeader).toBeVisible()
+      await tokenSelector.selectFirstToken()
+      await expect(tokenSelector.searchInput).toBeHidden()
+    })
+  })
 })
