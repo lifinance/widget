@@ -7,7 +7,6 @@ import { getConfigItemSets, isFormItemAllowed } from './item.js'
 import { isHoistableNative } from './tokenList.js'
 
 export const collapsedRecentCount = 4
-const expandedRecentCount = 10
 
 export interface ResolveRecentTokensParams {
   recentTokens: RecentToken[]
@@ -143,10 +142,8 @@ export const resolveRecentTokens = (
     return inactive
   }
 
-  const visible = rows.slice(
-    0,
-    expanded ? expandedRecentCount : collapsedRecentCount
-  )
+  // Expanded shows everything kept; the store owns the storage cap.
+  const visible = expanded ? rows : rows.slice(0, collapsedRecentCount)
 
   return {
     tokens: [
