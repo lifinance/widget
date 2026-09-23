@@ -1,4 +1,4 @@
-import { ChainType, type SDKProvider } from '@lifi/sdk'
+import { type Chain, ChainType, type SDKProvider } from '@lifi/sdk'
 
 /** A provider is asked for its address checks only. */
 export type AddressChecks = Pick<SDKProvider, 'isAddress' | 'isTokenAddress'>
@@ -36,3 +36,19 @@ export const chainTypeFromTokenAddress = (
   detectionOrder.find((chainType) =>
     providers[chainType]?.isTokenAddress?.(address)
   )
+
+/** The two fields of a chain that decide which address format it takes. */
+export type ChainRef = Pick<Chain, 'id' | 'chainType'>
+
+export type IsAddressForChain = (address: string, chain: ChainRef) => boolean
+
+/**
+ * Whether `address` is a valid receiver on `chain`, asked of that chain's
+ * provider only: a chain type alone cannot tell a Bitcoin address from a Zcash
+ * one. Without a provider for the chain's ecosystem, the answer is `false`.
+ */
+export const isAddressForChain = (
+  providers: ProvidersByChainType,
+  address: string,
+  chain: ChainRef
+): boolean => providers[chain.chainType]?.isAddress(address, chain.id) ?? false
