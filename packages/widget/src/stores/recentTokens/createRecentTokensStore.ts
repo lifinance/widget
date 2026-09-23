@@ -20,7 +20,9 @@ const isStoredRecentToken = (value: unknown): value is RecentToken => {
     typeof token.address === 'string' &&
     typeof token.symbol === 'string' &&
     typeof token.name === 'string' &&
-    typeof token.decimals === 'number'
+    typeof token.decimals === 'number' &&
+    (token.logoURI === undefined || typeof token.logoURI === 'string') &&
+    (token.flagged === undefined || typeof token.flagged === 'boolean')
   )
 }
 

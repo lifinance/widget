@@ -9,7 +9,6 @@ export interface RecentToken {
   name: string
   decimals: number
   logoURI?: string
-  native?: boolean
   flagged?: boolean
 }
 

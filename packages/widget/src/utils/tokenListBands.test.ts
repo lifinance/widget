@@ -103,6 +103,27 @@ describe('createBandResolver without recents (golden: current behaviour)', () =>
     })
   })
 
+  it('should not open a band from the hoisted native token', () => {
+    // The native sits above every band: its balance must not read as a
+    // "My tokens" band ending at the next row.
+    const tokens = [
+      makeToken('0xN', { native: true, amount: 1n }),
+      makeToken('0xP', { popular: true }),
+      makeToken('0xF'),
+    ]
+    const { getRowExtraHeight, getRowBandLabel } = createBandResolver(tokens, {
+      ...noRecents,
+      nativeHoisted: true,
+      showCategories: true,
+      showPinnedTokens: false,
+    })
+
+    // Whatever renders at row 1 must fit the height reserved for it.
+    const label = getRowBandLabel(1)
+    const reserved = getRowExtraHeight(1)
+    expect(label === undefined ? 0 : label.atListStart ? 24 : 32).toBe(reserved)
+  })
+
   it('should emit no labels without categories or pinned tokens', () => {
     const tokens = [makeToken('0xA'), makeToken('0xB')]
     const { getRowExtraHeight, getRowBandLabel } = createBandResolver(tokens, {

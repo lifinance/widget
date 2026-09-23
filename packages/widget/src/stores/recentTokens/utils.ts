@@ -13,6 +13,5 @@ export const toRecentToken = (token: TokenAmount): RecentToken => ({
   name: token.name,
   decimals: token.decimals,
   logoURI: token.logoURI,
-  native: token.native,
   flagged: token.verificationStatus === 'flagged' || undefined,
 })

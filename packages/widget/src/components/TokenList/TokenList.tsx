@@ -111,7 +111,7 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
         token &&
         chainId &&
         !hiddenUI?.recentSearches &&
-        (searchRef.current || isRecentToken(chainId, address))
+        (searchRef.current?.trim() || isRecentToken(chainId, address))
       ) {
         addRecentToken(toRecentToken(token))
       }

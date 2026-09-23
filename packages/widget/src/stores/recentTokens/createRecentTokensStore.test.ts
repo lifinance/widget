@@ -61,7 +61,6 @@ describe('toRecentToken', () => {
       name: 'Degen',
       decimals: 18,
       logoURI: 'https://example.test/degen.png',
-      native: true,
     })
   })
 })
@@ -199,6 +198,7 @@ describe('createRecentTokensStore', () => {
         state: {
           recentTokens: [
             makeRecent('0xGood'),
+            { ...makeRecent('0xBadLogo'), logoURI: 42 },
             { chainId: 1 },
             { ...makeRecent('0xB'), chainId: '1' },
             null,

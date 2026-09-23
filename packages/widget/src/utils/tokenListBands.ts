@@ -58,12 +58,15 @@ export const createBandResolver = (
     recentCount > 0 && index === recentStartIndex && !!tokens[index]?.recent
   const isLastRecent = (index: number) =>
     recentCount > 0 && index === recentEndIndex && !!tokens[index]?.recent
+  // The hoisted native sits above every band, so the list-start row follows none.
+  const previousOf = (index: number) =>
+    index === listStartIndex ? undefined : tokens[index - 1]
   const isTransitionFromPromoted = (index: number) =>
     isPromoted(tokens[index - 1]) && !isPromoted(tokens[index])
 
   const getRowExtraHeight = (index: number): number => {
     const current = tokens[index]
-    const previous = tokens[index - 1]
+    const previous = previousOf(index)
     let extra = 0
 
     if (showPinnedTokens && isFirstPinned(index)) {
@@ -111,7 +114,7 @@ export const createBandResolver = (
 
   const getRowBandLabel = (index: number): BandLabel | undefined => {
     const current = tokens[index]
-    const previous = tokens[index - 1]
+    const previous = previousOf(index)
     const isListStart = index === listStartIndex
     const notPromoted = !isPromoted(current)
     const fromPromoted = isPromoted(previous) && notPromoted

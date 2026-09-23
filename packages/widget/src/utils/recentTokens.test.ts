@@ -208,14 +208,12 @@ describe('recent band active', () => {
     expect(result.tokens[0].priceUSD).toBe('')
   })
 
-  it('should keep the native flag on a snapshot row so it earns the native badge', () => {
-    const tokens = [makeToken('0xA')]
-    const result = resolve(tokens, {
-      recentTokens: [makeRecent('0xr1', 1, { native: true })],
-    })
+  it('should not let a stored native flag reach a snapshot row', () => {
+    // Forged storage must not earn a scam token the blue native badge.
+    const forged = { ...makeRecent('0xr1'), native: true } as RecentToken
+    const result = resolve([makeToken('0xA')], { recentTokens: [forged] })
 
-    // Without it a native token falls through to the amber warning.
-    expect(result.tokens[0].native).toBe(true)
+    expect(result.tokens[0].native).toBeUndefined()
   })
 
   it('should keep a flagged verdict on a snapshot row', () => {

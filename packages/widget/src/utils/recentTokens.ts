@@ -36,12 +36,17 @@ export interface RecentTokensResult {
   totalRecentCount: number
 }
 
-// A stale flag can only over-warn, so it is the one verdict worth keeping.
-const toSnapshotRow = ({ flagged, ...recent }: RecentToken): TokenAmount =>
+// Whitelisted fields; a flag is the one verdict kept, as stale it only over-warns.
+const toSnapshotRow = (recent: RecentToken): TokenAmount =>
   ({
-    ...recent,
+    chainId: recent.chainId,
+    address: recent.address,
+    symbol: recent.symbol,
+    name: recent.name,
+    decimals: recent.decimals,
+    logoURI: recent.logoURI,
     priceUSD: '',
-    verificationStatus: flagged ? 'flagged' : undefined,
+    verificationStatus: recent.flagged ? 'flagged' : undefined,
   }) as TokenAmount
 
 export const resolveRecentRows = (
