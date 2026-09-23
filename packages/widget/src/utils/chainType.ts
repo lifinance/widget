@@ -1,6 +1,7 @@
 import { ChainId, ChainType } from '@lifi/sdk'
 import type { ChainRef, IsAddressForChain } from '@lifi/widget-provider'
 import type { WidgetChains } from '../types/widget.js'
+import { isItemAllowed } from './item.js'
 
 export const defaultChainIdsByType: Record<ChainType, ChainId> = {
   [ChainType.EVM]: ChainId.ETH,
@@ -34,6 +35,11 @@ export const withDestinationOnlyChains = (
     },
   }
 }
+
+export const isDestinationAllowedAsSource = (
+  toChainId: number | undefined,
+  chains: WidgetChains | undefined
+): boolean => !toChainId || isItemAllowed(toChainId, chains?.from)
 
 // A Zcash address is valid on ZEC but not on BTC, the UTXO default chain.
 export const bookmarkChainId = (

@@ -3,6 +3,7 @@ import type { IsAddressForChain } from '@lifi/widget-provider'
 import { describe, expect, it } from 'vitest'
 import {
   bookmarkChainId,
+  isDestinationAllowedAsSource,
   isDestinationOnlyChain,
   withDestinationOnlyChains,
 } from './chainType.js'
@@ -75,5 +76,18 @@ describe('withDestinationOnlyChains', () => {
       from: { allow: [ChainId.ETH], deny: [ChainId.ARB, ChainId.ZEC] },
       to: { deny: [ChainId.OPT] },
     })
+  })
+})
+
+describe('isDestinationAllowedAsSource', () => {
+  const chains = withDestinationOnlyChains(undefined)
+
+  it('is false for a destination the config denies as a source', () => {
+    expect(isDestinationAllowedAsSource(ChainId.ZEC, chains)).toBe(false)
+  })
+
+  it('is true for an allowed destination or none', () => {
+    expect(isDestinationAllowedAsSource(ChainId.BTC, chains)).toBe(true)
+    expect(isDestinationAllowedAsSource(undefined, chains)).toBe(true)
   })
 })
