@@ -33,7 +33,7 @@ export const useToAddressRequirements = (
     'toAddress'
   )
   const { isDelegationDesignatorCode } = useEthereumContext()
-  const { isAddressForChain, hasProviderFor } = useAddressForChain()
+  const { isAddressForChain } = useAddressForChain()
 
   const fromChainId = route?.fromChainId ?? formFromChainId
   const toChainId = route?.toChainId ?? formToChainId
@@ -89,14 +89,11 @@ export const useToAddressRequirements = (
     receiverRequired: requiredUI?.toAddress,
   })
 
-  // BTC and ZEC share a chain type, so the check above misses that a Bitcoin
-  // signer cannot receive on ZEC. Ask the destination chain itself, but only
-  // when a provider can answer: without one, today's rules stand.
+  // A shared chain type is not a shared format: a Bitcoin signer cannot receive on ZEC.
   const isSignerAddressInvalidAtDestination = Boolean(
     fromAddress &&
       fromChain &&
       toChain &&
-      hasProviderFor(toChain.chainType) &&
       isAddressForChain(fromAddress, fromChain) &&
       !isAddressForChain(fromAddress, toChain)
   )
