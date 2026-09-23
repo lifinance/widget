@@ -133,7 +133,7 @@ const neverTheCard: Partial<Record<RouteIssueBucket, string>> = {
   // Every request that tripped it found another path, so no card was needed.
   recipientNotSupported: 'captured beside a route only',
   // Transient, and ranked to lead only when nothing else survived.
-  temporary: 'captured beside a request-level reason only',
+  temporary: 'captured beside a higher-ranked reason only',
   gaslessNotAvailable: 'not captured',
 }
 
