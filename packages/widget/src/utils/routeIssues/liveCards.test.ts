@@ -115,8 +115,6 @@ const usdValue = (request: LivePayload['request']): number =>
   Number(request.fromTokenPriceUSD)
 
 describe('cards built from real API payloads', () => {
-  const report: string[] = []
-
   it.each(payloads)('$name', (entry) => {
     const { request } = entry
     const context: ClassifyContext = {
@@ -132,9 +130,6 @@ describe('cards built from real API payloads', () => {
     // still produced routes carries leftover reasons the user never sees, and
     // asserting on those would be measuring something the widget never renders.
     if (entry.routes > 0) {
-      report.push(
-        `${entry.name.padEnd(30)} — routes=${entry.routes}, no card shown`
-      )
       return
     }
 
@@ -145,15 +140,7 @@ describe('cards built from real API payloads', () => {
     const issue = issues[0]
 
     if (!issue) {
-      const dropped = unexplained(entry)
-      report.push(
-        `${entry.name.padEnd(30)} ${
-          dropped.length
-            ? `*** DROPPED: ${dropped[0].slice(0, 58)}`
-            : 'nothing to explain'
-        }`
-      )
-      expect(dropped).toEqual([])
+      expect(unexplained(entry)).toEqual([])
       return
     }
 
@@ -184,10 +171,6 @@ describe('cards built from real API payloads', () => {
       retry: () => {},
     })
     card.action?.run()
-
-    report.push(
-      `${entry.name.padEnd(30)} ${issue.bucket.padEnd(22)} ${(applied ?? '-').padEnd(14)} ${card.description.slice(0, 70)}`
-    )
 
     // Every placeholder must have been given a value.
     expect(card.description).not.toContain('{{')
@@ -245,9 +228,5 @@ describe('cards built from real API payloads', () => {
       expect(buckets).not.toContain('pairNotSupported')
       expect(issue.bucket).not.toBe('temporary')
     }
-  })
-
-  it('prints what a user would read', () => {
-    console.warn(`\n${report.sort().join('\n')}`)
   })
 })
