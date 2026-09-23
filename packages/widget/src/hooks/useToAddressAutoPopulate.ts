@@ -55,15 +55,13 @@ export const useToAddressAutoPopulate = (): ((
       // Identify the destination chain based on the bridge direction ('from' or 'to')
       const destinationChain =
         formType === 'from' ? selectedOppositeChain : selectedChain
-      // Keep a selected toAddress that can receive on the destination chain
       if (
         selectedToAddress &&
         isAddressForChain(selectedToAddress, destinationChain)
       ) {
         return
       }
-      // Find a connected account that can receive on the destination chain: a
-      // Bitcoin wallet shares its chain type with ZEC but not its address format
+      // Find a connected account that can receive on the destination chain
       const destinationAccount = accounts?.find(
         (account) =>
           account.address &&

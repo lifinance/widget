@@ -8,7 +8,6 @@ import { useSuiContext } from '../contexts/SuiContext.js'
 import { useTronContext } from '../contexts/TronContext.js'
 import type { ProvidersByChainType } from '../utils/chainTypeFromAddress.js'
 
-/** The configured SDK provider of each ecosystem, keyed by chain type. */
 export const useProvidersByChainType = (): ProvidersByChainType => {
   const { sdkProvider: ethereumProvider } = useEthereumContext()
   const { sdkProvider: solanaProvider } = useSolanaContext()

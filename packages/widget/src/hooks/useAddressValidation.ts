@@ -16,14 +16,10 @@ export enum AddressType {
 
 type ValidationArgs = {
   value: string
-  /** The ecosystem to resolve a name in, when no chain is given. */
   chainType?: ChainType
-  /** Strict: the address must be valid on this chain, the route's destination. */
+  /** Strict: the receiver must be valid on this chain. */
   chain?: Chain
-  /**
-   * Lenient, for bookmarks: any address valid today passes, and an address
-   * valid only on this chain passes too. Never passed together with `chain`.
-   */
+  /** Lenient, for bookmarks: also accepts an address valid only on this chain. */
   fallbackChain?: Chain
 }
 
@@ -31,10 +27,6 @@ type ValidResponse = {
   address: string
   addressType: AddressType
   chainType: ChainType
-  /**
-   * The chain the address is bound to when its ecosystem's default chain
-   * rejects it, such as a Zcash address. A saved bookmark shows it.
-   */
   chainId?: ChainId
   isValid: true
 }
@@ -74,8 +66,7 @@ export const useAddressValidation = (): {
     if (isAddressForChain(value, chain)) {
       return validFor(value, AddressType.Address, chain)
     }
-    // An address of another ecosystem, or of another chain in this one (a
-    // Bitcoin address for ZEC), is no name to resolve.
+    // A recognised address is no name to resolve.
     if (getChainTypeFromAddress(value)) {
       return {
         isValid: false,

@@ -31,11 +31,6 @@ export const isCustomReceiverBlocked = ({
   return toAddress.toLowerCase() !== signerAddress?.toLowerCase()
 }
 
-/**
- * Whether the receiver lets a quote be requested: none is set, or the one set
- * is valid on the destination chain. A chain type alone cannot tell a Bitcoin
- * address from a Zcash one.
- */
 export const canQuoteWithToAddress = (
   toAddress: string | undefined,
   toChain: ChainRef | undefined,

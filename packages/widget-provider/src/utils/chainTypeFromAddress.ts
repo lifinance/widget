@@ -37,16 +37,11 @@ export const chainTypeFromTokenAddress = (
     providers[chainType]?.isTokenAddress?.(address)
   )
 
-/** The two fields of a chain that decide which address format it takes. */
 export type ChainRef = Pick<Chain, 'id' | 'chainType'>
 
 export type IsAddressForChain = (address: string, chain: ChainRef) => boolean
 
-/**
- * Whether `address` is a valid receiver on `chain`, asked of that chain's
- * provider only: a chain type alone cannot tell a Bitcoin address from a Zcash
- * one. Without a provider for the chain's ecosystem, the answer is `false`.
- */
+// A chain type alone cannot tell a Bitcoin address from a Zcash one.
 export const isAddressForChain = (
   providers: ProvidersByChainType,
   address: string,

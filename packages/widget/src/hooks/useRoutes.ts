@@ -167,7 +167,6 @@ export const useRoutes = ({
 
   const effectiveFromAddress = account.address ?? quoteFromAddress
 
-  // A receiver, when set, must be valid on the destination chain itself
   const isToAddressSatisfied = canQuoteWithToAddress(
     toAddress,
     toChain,

@@ -4,10 +4,7 @@ import type { ToAddress } from '../../types/widget.js'
 
 export interface Bookmark extends ToAddress {
   isConnectedAccount?: boolean
-  /**
-   * The chain to show for an address its ecosystem's default chain rejects,
-   * such as a Zcash address. It never decides whether the address is valid.
-   */
+  /** Display only: set when the ecosystem's default chain rejects the address. */
   chainId?: ChainId
 }
 

@@ -23,7 +23,7 @@ export const getDefaultValuesFromQueryString = ({
     new URLSearchParams(window.location.search)
   )
 
-  // A destination-only chain is never a source; the loop below then drops its token.
+  // The loop below then drops its token too.
   if (isDestinationOnlyChain(Number.parseInt(searchParams.fromChain, 10))) {
     delete searchParams.fromChain
   }
