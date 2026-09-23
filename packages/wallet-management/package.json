@@ -12,6 +12,7 @@
     "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../README.md' .",
     "build:postrelease": "node ../../scripts/postrelease.js && rm -rf README.md",
     "clean": "rm -rf dist",
+    "test": "vitest run",
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
     "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg"
@@ -44,14 +45,14 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^4.7.0",
+    "@lifi/sdk": "^4.8.0",
     "@lifi/widget-provider": "workspace:*",
     "@mui/icons-material": "^9.4.0",
     "@mui/material": "^9.4.0",
     "@mui/system": "^9.4.0",
     "eventemitter3": "^5.0.4",
     "i18next": "^26.4.2",
-    "react-i18next": "^17.0.13",
+    "react-i18next": "^17.0.14",
     "zustand": "^5.0.15"
   },
   "devDependencies": {
@@ -59,7 +60,8 @@
     "madge": "^8.0.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.0"
   },
   "peerDependencies": {
     "@tanstack/react-query": ">=5.90.0",

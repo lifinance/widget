@@ -1,10 +1,7 @@
 export const isWalletInstalled = (id: string): boolean => {
   const anyWindow = typeof window !== 'undefined' ? (window as any) : undefined
   switch (id) {
-    // MetaMask EVM + BTC share one extension; detect via `window.ethereum`, not the
-    // Wallet Standard registry (the adapter registers unconditionally → false positive).
     case 'metaMask':
-    case 'io.metamask.bitcoin':
       return (
         anyWindow?.ethereum?.isMetaMask ||
         anyWindow?.ethereum?.providers?.some(
@@ -22,35 +19,11 @@ export const isWalletInstalled = (id: string): boolean => {
           (provider: any) => provider.isCoinbaseWallet
         )
       )
-    case 'com.okex.wallet.bitcoin':
-      return anyWindow?.okxwallet?.bitcoin?.isOkxWallet
-    case 'XverseProviders.BitcoinProvider':
-      return anyWindow?.XverseProviders?.BitcoinProvider
-    case 'unisat':
-      return (
-        anyWindow?.unisat &&
-        !anyWindow?.unisat?.isBinance &&
-        !anyWindow?.unisat?.isBitKeep
-      )
-    case 'io.xdefi':
-      return anyWindow?.xfi
-    case 'so.onekey.app.wallet.bitcoin':
-      return anyWindow?.$onekey?.btc
-    case 'LeatherProvider':
-      return anyWindow?.LeatherProvider
-    case 'bitget':
-      return anyWindow?.bitkeep?.unisat || anyWindow?.unisat?.isBitKeep
-    case 'OylProvider':
-      return anyWindow?.oyl
-    case 'binance':
-      return anyWindow?.binancew3w?.bitcoin || anyWindow?.unisat?.isBinance
-    case 'app.magiceden.bitcoin':
-      return anyWindow?.magicEden?.bitcoin?.isMagicEden
-    case 'unhosted.bitcoin':
-      return anyWindow?.unhosted?.bitcoin?.isUnhosted
     default:
       /**
-       * Return true if the wallet is not in the list of explicitly supported or self-injected wallet
+       * Bitcoin presence is reported by each bigmi connector's `getProvider()`,
+       * which is what `getInstalledConnectors` uses. Answering here duplicated
+       * that and drifted from it.
        */
       return true
   }
