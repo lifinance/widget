@@ -1,4 +1,4 @@
-import type { ChainType, RouteExtended } from '@lifi/sdk'
+import type { RouteExtended } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { useAddressForChain, useEthereumContext } from '@lifi/widget-provider'
 import { useChain } from '../hooks/useChain.js'
@@ -16,7 +16,6 @@ export const useToAddressRequirements = (
   requiredToAddress: boolean
   unsupportedToAddress: boolean
   unsupportedReceiverBlocking: boolean
-  requiredToChainType: ChainType | undefined
   /** Whether a saved or connected address can receive on the destination chain. */
   isValidReceiver: (address?: string) => boolean
   accountNotDeployedAtDestination: boolean
@@ -132,7 +131,6 @@ export const useToAddressRequirements = (
     requiredToAddress,
     unsupportedToAddress,
     unsupportedReceiverBlocking,
-    requiredToChainType: toChain?.chainType,
     isValidReceiver,
     accountNotDeployedAtDestination,
     accountDeployedAtDestination,
