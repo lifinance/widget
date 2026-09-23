@@ -192,7 +192,8 @@
       "walletAddressInvalid_chain": "La dirección de la billetera o nombre de dominio no es válida para la cadena de destino seleccionada {{chainName}}",
       "walletAddressRequired": "Dirección de billetera es requerida.",
       "walletChainTypeInvalid": "La dirección de la billetera no coincide con la cadena de destino seleccionada {{chainName}}",
-      "walletMismatch": "La dirección de la billetera no coincide"
+      "walletMismatch": "La dirección de la billetera no coincide",
+      "zcashAddressInvalid": ""
     }
   },
   "tooltip": {

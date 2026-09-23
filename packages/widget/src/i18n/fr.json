@@ -192,7 +192,8 @@
       "walletAddressInvalid_chain": "L'adresse du portefeuille ou le nom de domaine est invalide pour la chaîne de destination sélectionnée {{chainName}}",
       "walletAddressRequired": "L'adresse du portefeuille est nécessaire.",
       "walletChainTypeInvalid": "L'adresse du portefeuille ne correspond pas à la chaîne de destination sélectionnée - {{chainName}}",
-      "walletMismatch": "Incompatibilité de l'adresse du portefeuille"
+      "walletMismatch": "Incompatibilité de l'adresse du portefeuille",
+      "zcashAddressInvalid": ""
     }
   },
   "tooltip": {

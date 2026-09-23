@@ -192,7 +192,8 @@
       "walletAddressInvalid_chain": "",
       "walletAddressRequired": "",
       "walletChainTypeInvalid": "",
-      "walletMismatch": ""
+      "walletMismatch": "",
+      "zcashAddressInvalid": ""
     }
   },
   "tooltip": {

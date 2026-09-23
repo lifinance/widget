@@ -192,7 +192,8 @@
       "walletAddressInvalid_chain": "Địa chỉ ví hoặc tên miền không hợp lệ đối với chuỗi đích đã chọn {{chainName}}",
       "walletAddressRequired": "Yêu cầu địa chỉ ví.",
       "walletChainTypeInvalid": "Địa chỉ ví không khớp với chuỗi đích đã chọn {{chainName}}",
-      "walletMismatch": "Địa chỉ ví không khớp"
+      "walletMismatch": "Địa chỉ ví không khớp",
+      "zcashAddressInvalid": ""
     }
   },
   "tooltip": {

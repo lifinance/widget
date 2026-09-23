@@ -192,7 +192,8 @@
       "walletAddressInvalid_chain": "選択された宛先チェーン {{chainName}} のウォレットアドレスまたはドメイン名が無効です",
       "walletAddressRequired": "ウォレットアドレスは必須項目です。",
       "walletChainTypeInvalid": "選択された宛先チェーン {{chainName}} のウォレットアドレスが一致しません",
-      "walletMismatch": "ウォレットアドレスが一致しません"
+      "walletMismatch": "ウォレットアドレスが一致しません",
+      "zcashAddressInvalid": ""
     }
   },
   "tooltip": {

@@ -224,7 +224,8 @@
       "walletAddressInvalid_chain": "Wallet address or domain name is invalid for selected destination chain {{chainName}}",
       "walletAddressRequired": "Wallet address is required.",
       "walletChainTypeInvalid": "Wallet address doesn't match the selected destination chain {{chainName}}",
-      "walletMismatch": "Wallet address mismatch"
+      "walletMismatch": "Wallet address mismatch",
+      "zcashAddressInvalid": "Enter a transparent Zcash address that starts with t1 or t3. Shielded, unified and TEX addresses are not supported yet."
     }
   },
   "tooltip": {

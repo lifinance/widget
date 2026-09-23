@@ -192,7 +192,8 @@
       "walletAddressInvalid_chain": "Cüzdan adresi ya da domain adı {{chainName}} hedef ağında geçerli değil",
       "walletAddressRequired": "Cüzdan adresi gereklidir.",
       "walletChainTypeInvalid": "Cüzdan adresi ile {{chainName}} hedef ağ eşleşmiyor",
-      "walletMismatch": "Cüzdan adresi uyuşmazlığı"
+      "walletMismatch": "Cüzdan adresi uyuşmazlığı",
+      "zcashAddressInvalid": ""
     }
   },
   "tooltip": {

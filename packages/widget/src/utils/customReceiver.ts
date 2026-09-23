@@ -1,4 +1,5 @@
 import { ChainType } from '@lifi/sdk'
+import type { ChainRef, IsAddressForChain } from '@lifi/widget-provider'
 
 // Stellar routes always settle to the account that signs them.
 export const isCustomReceiverUnsupported = (
@@ -28,4 +29,15 @@ export const isCustomReceiverBlocked = ({
     return Boolean(receiverRequired)
   }
   return toAddress.toLowerCase() !== signerAddress?.toLowerCase()
+}
+
+export const canQuoteWithToAddress = (
+  toAddress: string | undefined,
+  toChain: ChainRef | undefined,
+  isAddressForChain: IsAddressForChain
+): boolean => {
+  if (!toAddress) {
+    return true
+  }
+  return toChain ? isAddressForChain(toAddress, toChain) : false
 }

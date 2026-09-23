@@ -1,5 +1,5 @@
 import { useAccount } from '@lifi/wallet-management'
-import { useChainTypeFromAddress } from '@lifi/widget-provider'
+import { useAddressForChain } from '@lifi/widget-provider'
 import { useCallback } from 'react'
 import { useBookmarkActions } from '../stores/bookmarks/useBookmarkActions.js'
 import type { FormType } from '../stores/form/types.js'
@@ -24,7 +24,7 @@ export const useToAddressAutoPopulate = (): ((
   const { setSelectedBookmark } = useBookmarkActions()
   const { getChainById } = useAvailableChains()
   const { accounts } = useAccount()
-  const { getChainTypeFromAddress } = useChainTypeFromAddress()
+  const { isAddressForChain } = useAddressForChain()
 
   return useCallback(
     ({
@@ -52,22 +52,18 @@ export const useToAddressAutoPopulate = (): ((
       ) {
         return
       }
-      // Identify the destination chain type based on the bridge direction ('from' or 'to')
-      const destinationChainType =
-        formType === 'from'
-          ? selectedOppositeChain.chainType
-          : selectedChain.chainType
-      // If toAddress is already selected, verify that it matches the destination chain type
-      if (selectedToAddress) {
-        const selectedToAddressChainType =
-          getChainTypeFromAddress(selectedToAddress)
-        if (destinationChainType === selectedToAddressChainType) {
-          return
-        }
+      const destinationChain =
+        formType === 'from' ? selectedOppositeChain : selectedChain
+      if (
+        selectedToAddress &&
+        isAddressForChain(selectedToAddress, destinationChain)
+      ) {
+        return
       }
-      // Find connected account compatible with the destination chain type
       const destinationAccount = accounts?.find(
-        (account) => account.chainType === destinationChainType
+        (account) =>
+          account.address &&
+          isAddressForChain(account.address, destinationChain)
       )
       // If a compatible destination account is found, set toAddress as if selecting it from the "Send to Wallet" connected wallets page
       if (destinationAccount?.address) {
@@ -89,7 +85,7 @@ export const useToAddressAutoPopulate = (): ((
       getChainById,
       setFieldValue,
       setSelectedBookmark,
-      getChainTypeFromAddress,
+      isAddressForChain,
     ]
   )
 }

@@ -33,7 +33,7 @@ export const BookmarksPage = (): JSX.Element => {
   const listParentRef = useRef<HTMLUListElement | null>(null)
   const buttonRef = useRef<HTMLDivElement | null>(null)
   const { bookmarks } = useBookmarks()
-  const { requiredToChainType } = useToAddressRequirements()
+  const { isValidReceiver } = useToAddressRequirements()
   const { addBookmark, removeBookmark, setSelectedBookmark } =
     useBookmarkActions()
   const navigate = useNavigate()
@@ -73,14 +73,14 @@ export const BookmarksPage = (): JSX.Element => {
           <ListItem key={bookmark.address} sx={{ position: 'relative' }}>
             <ListItemButton
               onClick={() => handleBookmarkSelected(bookmark)}
-              disabled={
-                requiredToChainType &&
-                requiredToChainType !== bookmark.chainType
-              }
+              disabled={!isValidReceiver(bookmark.address)}
             >
               <ListItemAvatar>
                 <AccountAvatar
-                  chainId={defaultChainIdsByType[bookmark.chainType]}
+                  chainId={
+                    bookmark.chainId ??
+                    defaultChainIdsByType[bookmark.chainType]
+                  }
                 />
               </ListItemAvatar>
               <ListItemText
@@ -89,12 +89,7 @@ export const BookmarksPage = (): JSX.Element => {
               />
             </ListItemButton>
             <ContextMenu
-              disabled={
-                !!(
-                  requiredToChainType &&
-                  requiredToChainType !== bookmark.chainType
-                )
-              }
+              disabled={!isValidReceiver(bookmark.address)}
               items={[
                 {
                   icon: <ContentCopyRounded />,
@@ -109,7 +104,8 @@ export const BookmarksPage = (): JSX.Element => {
                     window.open(
                       getAddressLink(
                         bookmark.address,
-                        defaultChainIdsByType[bookmark.chainType]
+                        bookmark.chainId ??
+                          defaultChainIdsByType[bookmark.chainType]
                       ),
                       '_blank'
                     ),

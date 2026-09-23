@@ -192,7 +192,8 @@
       "walletAddressInvalid_chain": "Alamat dompet atau nama domain tidak valid untuk jaringan tujuan yang dipilih {{chainName}}",
       "walletAddressRequired": "Alamat dompet diperlukan.",
       "walletChainTypeInvalid": "Alamat dompet tidak cocok dengan jaringan tujuan yang dipilih {{chainName}}",
-      "walletMismatch": "Alamat dompet tidak cocok"
+      "walletMismatch": "Alamat dompet tidak cocok",
+      "zcashAddressInvalid": ""
     }
   },
   "tooltip": {
