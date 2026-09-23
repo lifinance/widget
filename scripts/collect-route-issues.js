@@ -71,8 +71,9 @@ const TOKENS = {
 const EOA = '0xBD55C2F306C97Fd1d3E7A023f7c4834a2F472834'
 const CONTRACT = '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE'
 const OTHER_EOA = '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
-// A random Stellar key: no one holds its secret, so the account stays unfunded
-// and has no trustline, which is the state the destination rules describe.
+// A random Stellar key. Anyone can fund an account without its secret, but a
+// trustline needs the account's own signature, and no one holds it — so the
+// missing trustline this case captures stays missing.
 const UNFUNDED_STELLAR =
   'GDOKJFJCZMWX4KMDETHXFDDGEFWKUJ2FOFNAUR5NSS7EZ57SEPEA36JA'
 
