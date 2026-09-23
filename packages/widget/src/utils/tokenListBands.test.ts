@@ -23,7 +23,7 @@ const noRecents = {
   showRecentToggle: false,
 }
 
-describe('createBandResolver without recents (golden: current behaviour)', () => {
+describe('createBandResolver without recents', () => {
   it('should band pinned, featured, my tokens, popular and all tokens', () => {
     const tokens = [
       makeToken('0xA', { pinned: true }),
@@ -52,7 +52,7 @@ describe('createBandResolver without recents (golden: current behaviour)', () =>
     ])
   })
 
-  it('should start the pinned band below a hoisted native token', () => {
+  it('should space the pinned header below a hoisted native like any header', () => {
     const tokens = [
       makeToken('0xN', { native: true }),
       makeToken('0xA', { pinned: true }),
@@ -65,12 +65,13 @@ describe('createBandResolver without recents (golden: current behaviour)', () =>
       showPinnedTokens: true,
     })
 
-    expect([0, 1, 2].map(getRowExtraHeight)).toEqual([0, 24, 32])
+    // A card sits above it, so it takes the same top gap as every later header.
+    expect([0, 1, 2].map(getRowExtraHeight)).toEqual([0, 32, 32])
     expect(getRowBandLabel(0)).toBeUndefined()
     expect(getRowBandLabel(1)).toEqual({
       kind: 'text',
       key: 'main.pinnedTokens',
-      atListStart: true,
+      atListStart: false,
     })
     expect(getRowBandLabel(2)).toEqual({
       kind: 'text',
@@ -99,6 +100,27 @@ describe('createBandResolver without recents (golden: current behaviour)', () =>
     expect(getRowBandLabel(1)).toEqual({
       kind: 'text',
       key: 'main.myTokens',
+      atListStart: false,
+    })
+  })
+
+  it('should space the featured header below a hoisted native like any header', () => {
+    const tokens = [
+      makeToken('0xN', { native: true }),
+      makeToken('0xC', { featured: true }),
+      makeToken('0xD', { amount: 5n }),
+    ]
+    const { getRowExtraHeight, getRowBandLabel } = createBandResolver(tokens, {
+      ...noRecents,
+      nativeHoisted: true,
+      showCategories: true,
+      showPinnedTokens: false,
+    })
+
+    expect([0, 1, 2].map(getRowExtraHeight)).toEqual([0, 32, 32])
+    expect(getRowBandLabel(1)).toEqual({
+      kind: 'text',
+      key: 'main.featuredTokens',
       atListStart: false,
     })
   })
@@ -156,7 +178,7 @@ describe('createBandResolver with a recent band', () => {
       showRecentToggle: false,
     })
 
-    expect([0, 1, 2, 3, 4].map(getRowExtraHeight)).toEqual([0, 24, 32, 0, 32])
+    expect([0, 1, 2, 3, 4].map(getRowExtraHeight)).toEqual([0, 32, 32, 0, 32])
     expect(getRowBandLabel(2)).toEqual({ kind: 'recent', atListStart: false })
     expect(getRowBandLabel(3)).toBeUndefined()
     expect(getRowBandLabel(4)).toEqual({
@@ -198,6 +220,33 @@ describe('createBandResolver with a recent band', () => {
     })
 
     expect([0, 1, 2, 3, 4].some(isToggleRow)).toBe(false)
+  })
+
+  it('should space the band below a hoisted native like the header after it', () => {
+    const hoistedFirst = [
+      makeToken('0xN', { native: true }),
+      makeToken('0xR1', { recent: true }),
+      makeToken('0xB'),
+    ]
+    const { getRowExtraHeight, getRowBandLabel } = createBandResolver(
+      hoistedFirst,
+      {
+        showCategories: false,
+        showPinnedTokens: false,
+        nativeHoisted: true,
+        recentStartIndex: 1,
+        recentCount: 1,
+        showRecentToggle: false,
+      }
+    )
+
+    expect([0, 1, 2].map(getRowExtraHeight)).toEqual([0, 32, 32])
+    expect(getRowBandLabel(1)).toEqual({ kind: 'recent', atListStart: false })
+    expect(getRowBandLabel(2)).toEqual({
+      kind: 'text',
+      key: 'main.allTokens',
+      atListStart: false,
+    })
   })
 
   it('should use the list-start padding when nothing precedes the band', () => {

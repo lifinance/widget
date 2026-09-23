@@ -63,6 +63,10 @@ export const createBandResolver = (
     index === listStartIndex ? undefined : tokens[index - 1]
   const isTransitionFromPromoted = (index: number) =>
     isPromoted(tokens[index - 1]) && !isPromoted(tokens[index])
+  // Only the top row has no card above it; below the hoisted native one does.
+  const isTopRow = (index: number) => index === 0
+  const headerHeight = (index: number) =>
+    isTopRow(index) ? bandHeaderAtListStart : bandHeaderAfterBand
 
   const getRowExtraHeight = (index: number): number => {
     const current = tokens[index]
@@ -70,12 +74,11 @@ export const createBandResolver = (
     let extra = 0
 
     if (showPinnedTokens && isFirstPinned(index)) {
-      extra += bandHeaderAtListStart
+      extra += headerHeight(index)
     }
 
     if (isFirstRecent(index)) {
-      extra +=
-        index === listStartIndex ? bandHeaderAtListStart : bandHeaderAfterBand
+      extra += headerHeight(index)
     }
 
     if (showRecentToggle && isLastRecent(index)) {
@@ -95,7 +98,7 @@ export const createBandResolver = (
     }
 
     if (current?.featured && !isPromoted(current) && index === listStartIndex) {
-      extra += bandHeaderAtListStart
+      extra += headerHeight(index)
     }
 
     const isNotPromoted = !isPromoted(current) && !isPromoted(previous)
@@ -120,10 +123,14 @@ export const createBandResolver = (
     const fromPromoted = isPromoted(previous) && notPromoted
 
     if (showPinnedTokens && isFirstPinned(index)) {
-      return { kind: 'text', key: 'main.pinnedTokens', atListStart: true }
+      return {
+        kind: 'text',
+        key: 'main.pinnedTokens',
+        atListStart: isTopRow(index),
+      }
     }
     if (isFirstRecent(index)) {
-      return { kind: 'recent', atListStart: isListStart }
+      return { kind: 'recent', atListStart: isTopRow(index) }
     }
     if (
       (showPinnedTokens || recentCount > 0) &&
@@ -148,7 +155,7 @@ export const createBandResolver = (
       return {
         kind: 'text',
         key: 'main.featuredTokens',
-        atListStart: isListStart,
+        atListStart: isTopRow(index),
       }
     }
     if ((fromFeatured || fromPromoted) && current?.amount && notPromoted) {
