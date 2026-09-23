@@ -8,40 +8,52 @@ export const fallbackSlippage = 0.5
 
 const bufferPercent = { raise: 102n, lower: 98n }
 
-const twoSignificantDigits = (roundingMode: 'ceil' | 'floor') =>
-  new Intl.NumberFormat('en', {
-    notation: 'standard',
-    maximumSignificantDigits: 2,
-    roundingMode,
-    useGrouping: false,
-  })
+const decimalPattern = /^(\d+)(?:\.(\d*))?(?:e([+-]?\d+))?$/i
 
-const suggestionFormatter = {
-  raise: twoSignificantDigits('ceil'),
-  lower: twoSignificantDigits('floor'),
-}
-
-// A floor has to be cleared and a cap has to be stayed under, so each rounds
-// away from the bar rather than onto it: rounding a 1.2345% cap up to 1.24%
-// writes back a value the bridge refuses for the same reason.
-const slippageFormatter = {
-  floor: new Intl.NumberFormat('en', {
-    maximumFractionDigits: 2,
-    roundingMode: 'ceil',
-    useGrouping: false,
-  }),
-  cap: new Intl.NumberFormat('en', {
-    maximumFractionDigits: 2,
-    roundingMode: 'floor',
-    useGrouping: false,
-  }),
+/**
+ * `value` cut to `digits` significant or fractional digits, rounded up or down.
+ *
+ * Done on the decimal digits rather than through Intl.NumberFormat's
+ * `roundingMode`: an engine without that option (Chrome < 106, Safari < 15.4,
+ * Firefox < 116) rounds half-way instead, which put a raised figure under the
+ * bar it had to clear. Anything that is not a plain positive decimal comes back
+ * as it was, for the caller to reject.
+ */
+const roundDecimal = (
+  value: string,
+  digits: number,
+  kind: 'significant' | 'fraction',
+  up: boolean
+): string => {
+  const parts = decimalPattern.exec(value.trim())
+  if (!parts) {
+    return value
+  }
+  const fraction = parts[2] ?? ''
+  let units = BigInt(parts[1] + fraction)
+  let scale = fraction.length - Number(parts[3] ?? 0)
+  if (scale < 0) {
+    units *= 10n ** BigInt(-scale)
+    scale = 0
+  }
+  const dropped =
+    kind === 'fraction' ? scale - digits : units.toString().length - digits
+  if (units > 0n && dropped > 0) {
+    const step = 10n ** BigInt(dropped)
+    const floored = (units / step) * step
+    units = up && floored !== units ? floored + step : floored
+  }
+  const padded = units.toString().padStart(scale + 1, '0')
+  const whole = padded.slice(0, padded.length - scale)
+  const fractional = padded.slice(padded.length - scale).replace(/0+$/, '')
+  return fractional ? `${whole}.${fractional}` : whole
 }
 
 /** A round number, trimmed away from the limit it has to clear. */
 export const roundSuggestion = (
   amount: string,
   direction: 'raise' | 'lower'
-): string => suggestionFormatter[direction].format(Number(amount))
+): string => roundDecimal(amount, 2, 'significant', direction === 'raise')
 
 /** The reported figure, moved clear of the limit that rejected it. */
 export const bufferedReported = (issue: RouteIssue): bigint | undefined => {
@@ -64,9 +76,14 @@ export const reportedSlippage = (issue: RouteIssue): string => {
   if (required === undefined) {
     return ''
   }
-  const bar = issue.bucket === 'slippageTooLoose' ? 'cap' : 'floor'
-  const rounded = slippageFormatter[bar].format(
-    withoutFloatTail(required * 100)
+  // A floor has to be cleared and a cap has to be stayed under, so each rounds
+  // away from the bar rather than onto it: rounding a 1.2345% cap up to 1.24%
+  // writes back a value the bridge refuses for the same reason.
+  const rounded = roundDecimal(
+    String(withoutFloatTail(required * 100)),
+    2,
+    'fraction',
+    issue.bucket !== 'slippageTooLoose'
   )
   // A cap under 0.005% floors to zero, and zero slippage is not a setting.
   return Number.parseFloat(rounded) > 0 ? formatSlippage(rounded) : ''
