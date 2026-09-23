@@ -7,28 +7,26 @@ import type {
   RouteIssueRule,
 } from './types.js'
 
-// A Record so a bucket missing from the order is a type error.
+// A Record so a bucket missing from the order is a type error. The ticket's
+// order, bar the two notes below.
 export const bucketRank: Record<RouteIssueBucket, number> = {
   amountTooLow: 0,
   amountTooHigh: 1,
   slippageTooTight: 2,
+  // Not in the ticket: a bridge's slippage cap, beside the floor it mirrors.
   slippageTooLoose: 3,
   destinationAccountNotReady: 4,
-  gaslessNotAvailable: 5,
-  blockedBySettings: 6,
-  liquidity: 7,
-  // Emitted by nearly every tool that dislikes the receiver, so it drowns out
-  // more specific reasons unless it sits near the catch-all. The ticket ranks it
-  // fifth; this is the first of two deliberate departures from that order.
-  // Everything above follows the ticket, which also moved `liquidity` down from
-  // fourth to below the settings and gasless buckets.
-  recipientNotSupported: 8,
+  recipientNotSupported: 5,
+  gaslessNotAvailable: 6,
+  blockedBySettings: 7,
+  liquidity: 8,
   pairNotSupported: 9,
-  // The second departure: the ticket puts temporary ahead of pairNotSupported.
+  // The one departure: the ticket puts temporary ahead of pairNotSupported.
   // "Try again" is the only reason that offers the user nothing to change, and
   // one busy tool is no answer while another says the route cannot be built at
-  // all. It leads only when nothing else survived, where a retry is the answer.
-  // Neither departure changes a card on any of the 76 collected payloads.
+  // all — an eco-only quote said "try again" every time, and a retry never
+  // helped. It leads only when nothing else survived, where a retry is the
+  // answer.
   temporary: 10,
 }
 
