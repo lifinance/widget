@@ -1,4 +1,3 @@
-import type { ChainType } from '@lifi/sdk'
 import { useCallback } from 'react'
 import {
   type IsAddressForChain,
@@ -9,8 +8,6 @@ import { useProvidersByChainType } from './useProvidersByChainType.js'
 export const useAddressForChain = (): {
   /** Whether `address` can receive on `chain`; `false` without a provider for its ecosystem. */
   isAddressForChain: IsAddressForChain
-  /** Whether a provider serves `chainType`, so that a `false` above is a real rejection. */
-  hasProviderFor: (chainType: ChainType) => boolean
 } => {
   const providers = useProvidersByChainType()
 
@@ -19,10 +16,5 @@ export const useAddressForChain = (): {
     [providers]
   )
 
-  const hasProviderFor = useCallback(
-    (chainType: ChainType): boolean => Boolean(providers[chainType]),
-    [providers]
-  )
-
-  return { isAddressForChain: checkAddressForChain, hasProviderFor }
+  return { isAddressForChain: checkAddressForChain }
 }

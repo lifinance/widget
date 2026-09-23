@@ -54,10 +54,14 @@ describe('useAddressForChain', () => {
     expect(isAddressForChain(mocks.evm, ethereum)).toBe(true)
   })
 
-  it('tells which ecosystems a provider serves', () => {
-    const { hasProviderFor } = useAddressForChain()
+  it('rejects every address of an ecosystem without a provider', () => {
+    const { isAddressForChain } = useAddressForChain()
 
-    expect(hasProviderFor(ChainType.UTXO)).toBe(true)
-    expect(hasProviderFor(ChainType.STL)).toBe(false)
+    expect(
+      isAddressForChain(mocks.evm, {
+        id: ChainId.XLM,
+        chainType: ChainType.STL,
+      })
+    ).toBe(false)
   })
 })

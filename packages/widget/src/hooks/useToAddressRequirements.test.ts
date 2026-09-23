@@ -27,6 +27,15 @@ const mocks = vi.hoisted(() => {
     zec: 't1VmmGiyjVNeCjxDZzg7vZmd99WyzVby9yC',
     stl: 'GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN',
   }
+  const state = {
+    fromChain: undefined as number | undefined,
+    toChain: undefined as number | undefined,
+    account: undefined as { address: string; chainType: string } | undefined,
+    fallbackAccount: undefined as
+      | { address: string; chainType: string }
+      | undefined,
+    providerTypes: [] as string[],
+  }
   return {
     chains,
     addresses,
@@ -34,6 +43,10 @@ const mocks = vi.hoisted(() => {
       address: string,
       chain: { id: number; chainType: string }
     ) => {
+      // Without a provider for the ecosystem, no address is valid.
+      if (!state.providerTypes.includes(chain.chainType)) {
+        return false
+      }
       if (chain.chainType === 'EVM') {
         return address === addresses.evm
       }
@@ -48,15 +61,7 @@ const mocks = vi.hoisted(() => {
       }
       return false
     },
-    state: {
-      fromChain: undefined as number | undefined,
-      toChain: undefined as number | undefined,
-      account: undefined as { address: string; chainType: string } | undefined,
-      fallbackAccount: undefined as
-        | { address: string; chainType: string }
-        | undefined,
-      providerTypes: [] as string[],
-    },
+    state,
   }
 })
 
@@ -91,8 +96,6 @@ vi.mock('@lifi/widget-provider', () => ({
   useEthereumContext: () => ({ isDelegationDesignatorCode: () => false }),
   useAddressForChain: () => ({
     isAddressForChain: mocks.isAddressForChain,
-    hasProviderFor: (chainType: string) =>
-      mocks.state.providerTypes.includes(chainType),
   }),
 }))
 
