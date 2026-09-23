@@ -52,6 +52,7 @@ const TOKENS = {
   usdcB: [8453, '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'],
   usdcP: [137, '0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359'],
   wethE: [1, '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'],
+  wethB: [8453, '0x4200000000000000000000000000000000000006'],
   ethE: [1, NATIVE],
   ethB: [8453, NATIVE],
   sol: [1151111081099710, '11111111111111111111111111111111'],
@@ -61,10 +62,19 @@ const TOKENS = {
   plume: [98866, NATIVE],
   ink: [57073, NATIVE],
   bera: [80094, NATIVE],
+  usdcX: [
+    1201081091099710,
+    'CCW67TSZV3SSS2HXMBQ5JFGCKJNXKZM7UQUWUZPUTHXSTZLEO7SJMI75',
+  ],
 }
 
 const EOA = '0xBD55C2F306C97Fd1d3E7A023f7c4834a2F472834'
 const CONTRACT = '0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE'
+const OTHER_EOA = '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
+// A random Stellar key: no one holds its secret, so the account stays unfunded
+// and has no trustline, which is the state the destination rules describe.
+const UNFUNDED_STELLAR =
+  'GDOKJFJCZMWX4KMDETHXFDDGEFWKUJ2FOFNAUR5NSS7EZ57SEPEA36JA'
 
 // Pinning a tool is what forces an empty quote, and an empty quote is the only
 // state the card exists for.
@@ -152,24 +162,27 @@ const buildMatrix = () => {
     ['usdcB', 'sol'],
     ['usdcA', 'usdcB'],
   ]) {
-    cases.push({
-      name: `${from} to ${to}, receiver is a contract`,
-      from,
-      to,
-      usd: 50,
-      bridges: ['stargateV2'],
-      fromAddress: EOA,
-      toAddress: CONTRACT,
-    })
-    cases.push({
-      name: `${from} to ${to}, receiver differs from sender`,
-      from,
-      to,
-      usd: 50,
-      bridges: ['across'],
-      fromAddress: CONTRACT,
-      toAddress: EOA,
-    })
+    // Both receivers are EVM addresses, which a Solana leg rejects with a 400.
+    if (to !== 'sol') {
+      cases.push({
+        name: `${from} to ${to}, receiver is a contract`,
+        from,
+        to,
+        usd: 50,
+        bridges: ['stargateV2'],
+        fromAddress: EOA,
+        toAddress: CONTRACT,
+      })
+      cases.push({
+        name: `${from} to ${to}, receiver differs from sender`,
+        from,
+        to,
+        usd: 50,
+        bridges: ['across'],
+        fromAddress: CONTRACT,
+        toAddress: EOA,
+      })
+    }
     cases.push({
       name: `${from} to ${to}, slippage far too tight`,
       from,
@@ -185,6 +198,56 @@ const buildMatrix = () => {
       slippage: 0.3,
     })
   }
+  // One request per bucket the matrix above never empties on its own. Each pins
+  // the tools down to the ones that refuse, or the API finds another way round
+  // and there is no card to show.
+  cases.push({
+    name: 'exchange eisen, slippage under its floor',
+    from: 'usdcB',
+    to: 'ethB',
+    usd: 50,
+    slippage: 0.00001,
+    exchanges: ['eisen'],
+  })
+  cases.push({
+    name: 'usdcE to usdcP, slippage above every cap',
+    from: 'usdcE',
+    to: 'usdcP',
+    usd: 50,
+    slippage: 0.3,
+    bridges: ['mayan', 'mayanMCTP', 'symbiosis'],
+  })
+  cases.push({
+    name: 'usdcE to sol, destination signature not allowed',
+    from: 'usdcE',
+    to: 'sol',
+    usd: 50,
+    bridges: ['allbridge'],
+    options: { allowSwitchChain: false },
+  })
+  // Pinned to the bridges that check the trustline, at an amount well over
+  // every floor: left open, another path gets through, and a smaller send
+  // turns a swap leg's liquidity into an amount card instead.
+  cases.push({
+    name: 'usdcE to usdcX, receiver has no trustline',
+    from: 'usdcE',
+    to: 'usdcX',
+    usd: 50,
+    bridges: ['polymer', 'polymerStandard'],
+    fromAddress: EOA,
+    toAddress: UNFUNDED_STELLAR,
+  })
+  // Across refuses WETH to an EOA, but always finds another path, so this one
+  // pins the real prose rather than a card.
+  cases.push({
+    name: 'wethE to wethB, receiver is another EOA',
+    from: 'wethE',
+    to: 'wethB',
+    usd: 50,
+    bridges: ['across'],
+    fromAddress: EOA,
+    toAddress: OTHER_EOA,
+  })
   return cases
 }
 
@@ -308,6 +371,7 @@ const verify = async (meta) => {
           ...(testCase.exchanges
             ? { exchanges: { allow: testCase.exchanges } }
             : {}),
+          ...testCase.options,
         },
         ...(testCase.fromAddress ? { fromAddress: testCase.fromAddress } : {}),
         ...(testCase.toAddress ? { toAddress: testCase.toAddress } : {}),
@@ -395,6 +459,7 @@ const main = async () => {
         ...(testCase.exchanges
           ? { exchanges: { allow: testCase.exchanges } }
           : {}),
+        ...testCase.options,
       },
     }
     if (testCase.fromAddress) {
@@ -411,7 +476,14 @@ const main = async () => {
     })
     // A non-200 recorded as an empty payload is indistinguishable from a real
     // "no routes", which is how an earlier browser sweep produced pages of
-    // nonsense. Stop instead, and keep everything collected so far.
+    // nonsense, so it is never recorded. A 400 is this request's own fault —
+    // an EVM receiver on a Solana leg, say — so skip it and go on; anything
+    // else (a rate limit, an outage) stops the run and keeps what it has.
+    if (res.status === 400) {
+      const { message } = await res.json().catch(() => ({}))
+      console.warn(`${testCase.name}: HTTP 400, skipped — ${message ?? ''}`)
+      continue
+    }
     if (res.status !== 200) {
       console.warn(
         `\n${testCase.name}: HTTP ${res.status} — stopping, keeping ${added} new`

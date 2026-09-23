@@ -6243,6 +6243,40 @@
     }
   },
   {
+    "name": "exchange eisen, slippage under its floor",
+    "request": {
+      "fromChainId": 8453,
+      "fromTokenSymbol": "USDC",
+      "fromTokenDecimals": 6,
+      "fromTokenPriceUSD": "1.003281942",
+      "fromAmount": "49836440",
+      "toChainId": 8453,
+      "slippage": 0.00001,
+      "exchanges": [
+        "eisen"
+      ]
+    },
+    "routes": 0,
+    "unavailableRoutes": {
+      "filteredOut": [],
+      "failed": [
+        {
+          "overallPath": "8453:USDC~8453:ETH",
+          "subpaths": {
+            "8453:USDC~8453:ETH": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "eisen",
+                "message": "Slippage cannot be less than 0.0001"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
     "name": "exchange enso, dust",
     "request": {
       "fromChainId": 1,
@@ -10283,6 +10317,529 @@
     }
   },
   {
+    "name": "usdcA to usdcB, receiver differs from sender",
+    "request": {
+      "fromChainId": 42161,
+      "fromTokenSymbol": "USDC",
+      "fromTokenDecimals": 6,
+      "fromTokenPriceUSD": "0.998500023",
+      "fromAmount": "50075112",
+      "toChainId": 8453,
+      "fromAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+      "toAddress": "0xBD55C2F306C97Fd1d3E7A023f7c4834a2F472834",
+      "slippage": 0.005,
+      "bridges": [
+        "across"
+      ]
+    },
+    "routes": 1,
+    "unavailableRoutes": {
+      "filteredOut": [
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC~42161:WETH-42161:WETH-across-8453:WETH-8453:WETH~8453:USDC"
+        },
+        {
+          "reason": "Across does not send ETH to contracts (receiver: ReceiverAcrossV4)",
+          "overallPath": "42161:USDC~42161:WETH-42161:WETH-across-8453:ETH-8453:ETH~8453:USDC"
+        },
+        {
+          "reason": "Across does not send ETH to contracts (receiver: ReceiverAcrossV4)",
+          "overallPath": "42161:USDC~42161:ETH-42161:ETH-across-8453:ETH-8453:ETH~8453:USDC"
+        }
+      ],
+      "failed": [
+        {
+          "overallPath": "42161:USDC~42161:USDT0-42161:USDT0-across-8453:USDC",
+          "subpaths": {
+            "42161:USDC~42161:USDT0": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_SPECIFIC_ERROR",
+                "tool": "eisen",
+                "message": "Grpc error Status { code: Unavailable, message: \"Not Found: Cannot convert nil to number.\", metadata: MetadataMap { headers: {\"content-type\": \"application/grpc\", \"date\": \"Wed, 23 Sep 2026 11:03:43 GMT\", \"content-length\": \"0\"} }, source: None }"
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "supersetDex",
+                "message": "No route was found for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "openocean",
+                "message": "Tool openocean is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "enso",
+                "message": "Tool enso is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "dodo",
+                "message": "Tool dodo is currently disabled for this action."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "usdcA to usdcB, receiver is a contract",
+    "request": {
+      "fromChainId": 42161,
+      "fromTokenSymbol": "USDC",
+      "fromTokenDecimals": 6,
+      "fromTokenPriceUSD": "0.998500023",
+      "fromAmount": "50075112",
+      "toChainId": 8453,
+      "fromAddress": "0xBD55C2F306C97Fd1d3E7A023f7c4834a2F472834",
+      "toAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+      "slippage": 0.005,
+      "bridges": [
+        "stargateV2"
+      ]
+    },
+    "routes": 1,
+    "unavailableRoutes": {
+      "filteredOut": [],
+      "failed": [
+        {
+          "overallPath": "42161:USDC~42161:ETH-42161:ETH-stargateV2-8453:ETH-8453:ETH~8453:USDC",
+          "subpaths": {
+            "42161:USDC~42161:ETH": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_SPECIFIC_ERROR",
+                "tool": "lifiIntentsDex",
+                "message": "LiFi Intents API returned empty quote data"
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_SPECIFIC_ERROR",
+                "tool": "eisen",
+                "message": "Grpc error Status { code: Unavailable, message: \"Not Found: Cannot convert nil to number.\", metadata: MetadataMap { headers: {\"content-type\": \"application/grpc\", \"date\": \"Wed, 23 Sep 2026 11:03:43 GMT\", \"content-length\": \"0\"} }, source: None }"
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "supersetDex",
+                "message": "No route was found for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "openocean",
+                "message": "Tool openocean is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "enso",
+                "message": "Tool enso is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "dodo",
+                "message": "Tool dodo is currently disabled for this action."
+              }
+            ],
+            "8453:ETH~8453:USDC": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "smartDeposits",
+                "message": "No route was found for this action (smartDeposits does not token 8453-0x0000000000000000000000000000000000000000: Token is native)"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "usdcA to usdcB, slippage far too tight",
+    "request": {
+      "fromChainId": 42161,
+      "fromTokenSymbol": "USDC",
+      "fromTokenDecimals": 6,
+      "fromTokenPriceUSD": "0.998500023",
+      "fromAmount": "50075112",
+      "toChainId": 8453,
+      "slippage": 0.00001
+    },
+    "routes": 14,
+    "unavailableRoutes": {
+      "filteredOut": [
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-across-8453:USDbC-8453:USDbC~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:SSC1_PIT-8453:SSC1_PIT~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:WETH-8453:WETH~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:cbBTC-8453:cbBTC~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:SWEAT-8453:SWEAT~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:sUSDC-8453:sUSDC~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:near-gtUSDCp-8453:near-gtUSDCp~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:near-sparkUSDC-8453:near-sparkUSDC~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:near-mwUSDC-8453:near-mwUSDC~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:laUSDC-8453:laUSDC~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:BRETT-8453:BRETT~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:FMS Token-8453:FMS Token~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:COCA-8453:COCA~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:CFI-8453:CFI~8453:USDC"
+        },
+        {
+          "reason": "Across does not send ETH to contracts (receiver: ReceiverAcrossV4)",
+          "overallPath": "42161:USDC~42161:WETH-42161:WETH-across-8453:ETH-8453:ETH~8453:USDC"
+        },
+        {
+          "reason": "Across does not send ETH to contracts (receiver: ReceiverAcrossV4)",
+          "overallPath": "42161:USDC~42161:ETH-42161:ETH-across-8453:ETH-8453:ETH~8453:USDC"
+        },
+        {
+          "reason": "Transferred amount (500000004837275760000000000000) out of acceptable range (min: 0, max: 150000000000000000000)",
+          "overallPath": "42161:USDC~42161:suETH-42161:suETH-glacis-8453:suETH-8453:suETH~8453:USDC"
+        },
+        {
+          "reason": "Transferred amount (57000000000000) out of acceptable range (min: 0, max: 2)",
+          "overallPath": "42161:USDC~42161:SolvBTC.BBN-42161:SolvBTC.BBN-glacis-8453:xSolvBTC-8453:xSolvBTC~8453:USDC"
+        },
+        {
+          "reason": "Tool relaydepository is currently disabled for this action.",
+          "overallPath": "42161:USDC~42161:APE-42161:APE-relaydepository-8453:USDC"
+        }
+      ],
+      "failed": [
+        {
+          "overallPath": "42161:USDC-lifiIntents-8453:ETH-8453:ETH~8453:USDC",
+          "subpaths": {
+            "42161:USDC-lifiIntents-8453:ETH": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_SPECIFIC_ERROR",
+                "tool": "lifiIntents",
+                "message": "LiFi Intents API returned empty quote data"
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "42161:USDC-symbiosis-8453:USDC",
+          "subpaths": {
+            "42161:USDC-symbiosis-8453:USDC": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_SPECIFIC_ERROR",
+                "tool": "symbiosis",
+                "message": "Slippage is too low"
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "42161:USDC-mayanFastMCTP-8453:USDC",
+          "subpaths": {
+            "42161:USDC-mayanFastMCTP-8453:USDC": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_SPECIFIC_ERROR",
+                "tool": "mayanFastMCTP",
+                "message": "Tool (mayanFastMCTP) slippage (0.00045401528560758755) does not match expected slippage 0.00001 (+4440.15%)."
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "42161:USDC-eco-8453:USDbC-8453:USDbC~8453:USDC",
+          "subpaths": {
+            "42161:USDC-eco-8453:USDbC": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "eco",
+                "message": "No route available for the requested transfer"
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "42161:USDC-eco-8453:oUSDT-8453:oUSDT~8453:USDC",
+          "subpaths": {
+            "42161:USDC-eco-8453:oUSDT": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "eco",
+                "message": "No route available for the requested transfer"
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "42161:USDC-near-8453:ETH-8453:ETH~8453:USDC",
+          "subpaths": {
+            "8453:ETH~8453:USDC": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "smartDeposits",
+                "message": "No route was found for this action (smartDeposits does not token 8453-0x0000000000000000000000000000000000000000: Token is native)"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "usdcA to usdcB, slippage very loose",
+    "request": {
+      "fromChainId": 42161,
+      "fromTokenSymbol": "USDC",
+      "fromTokenDecimals": 6,
+      "fromTokenPriceUSD": "0.998500023",
+      "fromAmount": "50075112",
+      "toChainId": 8453,
+      "slippage": 0.3
+    },
+    "routes": 12,
+    "unavailableRoutes": {
+      "filteredOut": [
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-across-8453:USDbC-8453:USDbC~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:SSC1_PIT-8453:SSC1_PIT~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:VVV-8453:VVV~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:WETH-8453:WETH~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:cbBTC-8453:cbBTC~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:SWEAT-8453:SWEAT~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:sUSDC-8453:sUSDC~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:near-gtUSDCp-8453:near-gtUSDCp~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:near-sparkUSDC-8453:near-sparkUSDC~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:near-mwUSDC-8453:near-mwUSDC~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:laUSDC-8453:laUSDC~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:BRETT-8453:BRETT~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:FMS Token-8453:FMS Token~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:COCA-8453:COCA~8453:USDC"
+        },
+        {
+          "reason": "The route estimation did not complete before the route timing strategy stopped waiting for results",
+          "overallPath": "42161:USDC-near-8453:CFI-8453:CFI~8453:USDC"
+        },
+        {
+          "reason": "Across does not send ETH to contracts (receiver: ReceiverAcrossV4)",
+          "overallPath": "42161:USDC~42161:WETH-42161:WETH-across-8453:ETH-8453:ETH~8453:USDC"
+        },
+        {
+          "reason": "Across does not send ETH to contracts (receiver: ReceiverAcrossV4)",
+          "overallPath": "42161:USDC~42161:ETH-42161:ETH-across-8453:ETH-8453:ETH~8453:USDC"
+        },
+        {
+          "reason": "Transferred amount (500000004837275760000000000000) out of acceptable range (min: 0, max: 150000000000000000000)",
+          "overallPath": "42161:USDC~42161:suETH-42161:suETH-glacis-8453:suETH-8453:suETH~8453:USDC"
+        },
+        {
+          "reason": "Transferred amount (57000000000000) out of acceptable range (min: 0, max: 2)",
+          "overallPath": "42161:USDC~42161:SolvBTC.BBN-42161:SolvBTC.BBN-glacis-8453:xSolvBTC-8453:xSolvBTC~8453:USDC"
+        },
+        {
+          "reason": "Tool relaydepository is currently disabled for this action.",
+          "overallPath": "42161:USDC~42161:APE-42161:APE-relaydepository-8453:USDC"
+        }
+      ],
+      "failed": [
+        {
+          "overallPath": "42161:USDC-mayan-8453:USDC",
+          "subpaths": {
+            "42161:USDC-mayan-8453:USDC": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "mayan",
+                "message": "Slippage is too high. Max slippage is 0.1"
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "42161:USDC-mayanMCTP-8453:USDC",
+          "subpaths": {
+            "42161:USDC-mayanMCTP-8453:USDC": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "mayanMCTP",
+                "message": "Slippage is too high. Max slippage is 0.1"
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "42161:USDC-mayanFastMCTP-8453:USDC",
+          "subpaths": {
+            "42161:USDC-mayanFastMCTP-8453:USDC": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "mayanFastMCTP",
+                "message": "Slippage is too high. Max slippage is 0.1"
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "42161:USDC-lifiIntents-8453:ETH-8453:ETH~8453:USDC",
+          "subpaths": {
+            "42161:USDC-lifiIntents-8453:ETH": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_SPECIFIC_ERROR",
+                "tool": "lifiIntents",
+                "message": "LiFi Intents API returned empty quote data"
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "42161:USDC-symbiosis-8453:USDC",
+          "subpaths": {
+            "42161:USDC-symbiosis-8453:USDC": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_SPECIFIC_ERROR",
+                "tool": "symbiosis",
+                "message": "Slippage is too high: 30%. Max: 10%"
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "42161:USDC-eco-8453:USDbC-8453:USDbC~8453:USDC",
+          "subpaths": {
+            "42161:USDC-eco-8453:USDbC": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "eco",
+                "message": "No route available for the requested transfer"
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "42161:USDC-eco-8453:oUSDT-8453:oUSDT~8453:USDC",
+          "subpaths": {
+            "42161:USDC-eco-8453:oUSDT": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "eco",
+                "message": "No route available for the requested transfer"
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "42161:USDC-near-8453:ETH-8453:ETH~8453:USDC",
+          "subpaths": {
+            "8453:ETH~8453:USDC": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "smartDeposits",
+                "message": "No route was found for this action (smartDeposits does not token 8453-0x0000000000000000000000000000000000000000: Token is native)"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
     "name": "usdcB to sol, dust",
     "request": {
       "fromChainId": 8453,
@@ -13545,6 +14102,392 @@
                 "code": "INSUFFICIENT_LIQUIDITY",
                 "tool": "near",
                 "message": "No liquidity available"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "usdcB to sol, slippage far too tight",
+    "request": {
+      "fromChainId": 8453,
+      "fromTokenSymbol": "USDC",
+      "fromTokenDecimals": 6,
+      "fromTokenPriceUSD": "1.003281942",
+      "fromAmount": "49836440",
+      "toChainId": 1151111081099710,
+      "slippage": 0.00001
+    },
+    "routes": 5,
+    "unavailableRoutes": {
+      "filteredOut": [
+        {
+          "reason": "Tool allbridge is currently disabled for this action.",
+          "overallPath": "8453:USDC-allbridge-1151111081099710:USDC-1151111081099710:USDC~1151111081099710:SOL"
+        },
+        {
+          "reason": "Tool allbridge is currently disabled for this action.",
+          "overallPath": "8453:USDC-allbridge-1151111081099710:USDT-1151111081099710:USDT~1151111081099710:SOL"
+        },
+        {
+          "reason": "Tool relaydepository is currently disabled for this action.",
+          "overallPath": "8453:USDC~8453:SOL-8453:SOL-relaydepository-1151111081099710:SOL"
+        }
+      ],
+      "failed": [
+        {
+          "overallPath": "8453:USDC~8453:ETH-8453:ETH-mayan-1151111081099710:SOL",
+          "subpaths": {
+            "8453:USDC~8453:ETH": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "eisen",
+                "message": "Slippage cannot be less than 0.0001"
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "supersetDex",
+                "message": "No route was found for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "okx",
+                "message": "Tool okx not applied."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "gluex",
+                "message": "Tool gluex is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "openocean",
+                "message": "Tool openocean is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "enso",
+                "message": "Tool enso is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "merkle",
+                "message": "Tool merkle is currently disabled for this action."
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "8453:USDC-smartDeposits-1151111081099710:SOL",
+          "subpaths": {
+            "8453:USDC-smartDeposits-1151111081099710:SOL": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "smartDeposits",
+                "message": "No route was found for this action (smartDeposits does not token 1151111081099710-11111111111111111111111111111111: Token is native)"
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "8453:USDC-lifiIntents-1151111081099710:SOL",
+          "subpaths": {
+            "8453:USDC-lifiIntents-1151111081099710:SOL": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_SPECIFIC_ERROR",
+                "tool": "lifiIntents",
+                "message": "LiFi Intents API returned empty quote data"
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "8453:USDC-layerswap-1151111081099710:SOL",
+          "subpaths": {
+            "8453:USDC-layerswap-1151111081099710:SOL": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_SPECIFIC_ERROR",
+                "tool": "layerswap",
+                "message": "Tool (layerswap) slippage (0.00100000340598992632) does not match expected slippage 0.00001 (+9900.03%)."
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "8453:USDC~8453:ETH-8453:ETH-gasZipBridge-1151111081099710:SOL",
+          "subpaths": {
+            "8453:USDC~8453:ETH": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "eisen",
+                "message": "Slippage cannot be less than 0.0001"
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "supersetDex",
+                "message": "No route was found for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "okx",
+                "message": "Tool okx not applied."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "gluex",
+                "message": "Tool gluex is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "openocean",
+                "message": "Tool openocean is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "enso",
+                "message": "Tool enso is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "merkle",
+                "message": "Tool merkle is currently disabled for this action."
+              }
+            ],
+            "8453:ETH-gasZipBridge-1151111081099710:SOL": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_SPECIFIC_ERROR",
+                "tool": "gasZipBridge",
+                "message": "Quote: Chain Limit Exceeded"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "usdcB to sol, slippage very loose",
+    "request": {
+      "fromChainId": 8453,
+      "fromTokenSymbol": "USDC",
+      "fromTokenDecimals": 6,
+      "fromTokenPriceUSD": "1.003281942",
+      "fromAmount": "49836440",
+      "toChainId": 1151111081099710,
+      "slippage": 0.3
+    },
+    "routes": 3,
+    "unavailableRoutes": {
+      "filteredOut": [
+        {
+          "reason": "Tool allbridge is currently disabled for this action.",
+          "overallPath": "8453:USDC-allbridge-1151111081099710:USDC-1151111081099710:USDC~1151111081099710:SOL"
+        },
+        {
+          "reason": "Tool allbridge is currently disabled for this action.",
+          "overallPath": "8453:USDC-allbridge-1151111081099710:USDT-1151111081099710:USDT~1151111081099710:SOL"
+        },
+        {
+          "reason": "Tool relaydepository is currently disabled for this action.",
+          "overallPath": "8453:USDC~8453:SOL-8453:SOL-relaydepository-1151111081099710:SOL"
+        }
+      ],
+      "failed": [
+        {
+          "overallPath": "8453:USDC-mayan-1151111081099710:SOL",
+          "subpaths": {
+            "8453:USDC-mayan-1151111081099710:SOL": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "mayan",
+                "message": "Slippage is too high. Max slippage is 0.1"
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "8453:USDC-mayanMCTP-1151111081099710:SOL",
+          "subpaths": {
+            "8453:USDC-mayanMCTP-1151111081099710:SOL": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "mayanMCTP",
+                "message": "Slippage is too high. Max slippage is 0.1"
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "8453:USDC-mayanFastMCTP-1151111081099710:SOL",
+          "subpaths": {
+            "8453:USDC-mayanFastMCTP-1151111081099710:SOL": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "mayanFastMCTP",
+                "message": "Slippage is too high. Max slippage is 0.1"
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "8453:USDC-smartDeposits-1151111081099710:SOL",
+          "subpaths": {
+            "8453:USDC-smartDeposits-1151111081099710:SOL": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "smartDeposits",
+                "message": "No route was found for this action (smartDeposits does not token 1151111081099710-11111111111111111111111111111111: Token is native)"
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "8453:USDC-lifiIntents-1151111081099710:SOL",
+          "subpaths": {
+            "8453:USDC-lifiIntents-1151111081099710:SOL": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_SPECIFIC_ERROR",
+                "tool": "lifiIntents",
+                "message": "LiFi Intents API returned empty quote data"
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "8453:USDC~8453:ETH-8453:ETH-mayan-1151111081099710:SOL",
+          "subpaths": {
+            "8453:USDC~8453:ETH": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_SPECIFIC_ERROR",
+                "tool": "eisen",
+                "message": "Grpc error Status { code: Unavailable, message: \"Not Found: Cannot convert nil to number.\", metadata: MetadataMap { headers: {\"content-type\": \"application/grpc\", \"date\": \"Wed, 23 Sep 2026 11:03:41 GMT\", \"content-length\": \"0\"} }, source: None }"
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "supersetDex",
+                "message": "No route was found for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "okx",
+                "message": "Tool okx not applied."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "gluex",
+                "message": "Tool gluex is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "openocean",
+                "message": "Tool openocean is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "enso",
+                "message": "Tool enso is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "merkle",
+                "message": "Tool merkle is currently disabled for this action."
+              }
+            ],
+            "8453:ETH-mayan-1151111081099710:SOL": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "mayan",
+                "message": "Slippage is too high. Max slippage is 0.1"
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "8453:USDC~8453:ETH-8453:ETH-gasZipBridge-1151111081099710:SOL",
+          "subpaths": {
+            "8453:USDC~8453:ETH": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_SPECIFIC_ERROR",
+                "tool": "eisen",
+                "message": "Grpc error Status { code: Unavailable, message: \"Not Found: Cannot convert nil to number.\", metadata: MetadataMap { headers: {\"content-type\": \"application/grpc\", \"date\": \"Wed, 23 Sep 2026 11:03:41 GMT\", \"content-length\": \"0\"} }, source: None }"
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "supersetDex",
+                "message": "No route was found for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "okx",
+                "message": "Tool okx not applied."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "gluex",
+                "message": "Tool gluex is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "openocean",
+                "message": "Tool openocean is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "enso",
+                "message": "Tool enso is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "merkle",
+                "message": "Tool merkle is currently disabled for this action."
+              }
+            ],
+            "8453:ETH-gasZipBridge-1151111081099710:SOL": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_SPECIFIC_ERROR",
+                "tool": "gasZipBridge",
+                "message": "Quote: Chain Limit Exceeded"
               }
             ]
           }
@@ -23970,6 +24913,51 @@
     }
   },
   {
+    "name": "usdcE to sol, destination signature not allowed",
+    "request": {
+      "fromChainId": 1,
+      "fromTokenSymbol": "USDC",
+      "fromTokenDecimals": 6,
+      "fromTokenPriceUSD": "0.9984623282",
+      "fromAmount": "50077002",
+      "toChainId": 1151111081099710,
+      "slippage": 0.005,
+      "bridges": [
+        "allbridge"
+      ]
+    },
+    "routes": 0,
+    "unavailableRoutes": {
+      "filteredOut": [
+        {
+          "reason": "Bridge allbridge requires a signature on the destination chain, but the request did not allow it (allowSwitchChain: false)",
+          "overallPath": "1:USDC-allbridge-1151111081099710:USDC-1151111081099710:USDC~1151111081099710:SOL"
+        },
+        {
+          "reason": "Bridge allbridge requires a signature on the destination chain, but the request did not allow it (allowSwitchChain: false)",
+          "overallPath": "1:USDC-allbridge-1151111081099710:USDT-1151111081099710:USDT~1151111081099710:SOL"
+        },
+        {
+          "reason": "Bridge allbridge requires a signature on the destination chain, but the request did not allow it (allowSwitchChain: false)",
+          "overallPath": "1:USDC~1:USDT-1:USDT-allbridge-1151111081099710:USDC-1151111081099710:USDC~1151111081099710:SOL"
+        },
+        {
+          "reason": "Bridge allbridge requires a signature on the destination chain, but the request did not allow it (allowSwitchChain: false)",
+          "overallPath": "1:USDC~1:USDT-1:USDT-allbridge-1151111081099710:USDT-1151111081099710:USDT~1151111081099710:SOL"
+        },
+        {
+          "reason": "Bridge allbridge requires a signature on the destination chain, but the request did not allow it (allowSwitchChain: false)",
+          "overallPath": "1:USDC~1:USDe-1:USDe-allbridge-1151111081099710:USDC-1151111081099710:USDC~1151111081099710:SOL"
+        },
+        {
+          "reason": "Bridge allbridge requires a signature on the destination chain, but the request did not allow it (allowSwitchChain: false)",
+          "overallPath": "1:USDC~1:USDe-1:USDe-allbridge-1151111081099710:USDT-1151111081099710:USDT~1151111081099710:SOL"
+        }
+      ],
+      "failed": []
+    }
+  },
+  {
     "name": "usdcE to sui, dust",
     "request": {
       "fromChainId": 1,
@@ -28982,6 +29970,257 @@
     }
   },
   {
+    "name": "usdcE to usdcP, slippage above every cap",
+    "request": {
+      "fromChainId": 1,
+      "fromTokenSymbol": "USDC",
+      "fromTokenDecimals": 6,
+      "fromTokenPriceUSD": "0.9984623282",
+      "fromAmount": "50077002",
+      "toChainId": 137,
+      "slippage": 0.3,
+      "bridges": [
+        "mayan",
+        "mayanMCTP",
+        "symbiosis"
+      ]
+    },
+    "routes": 0,
+    "unavailableRoutes": {
+      "filteredOut": [],
+      "failed": [
+        {
+          "overallPath": "1:USDC-mayan-137:USDC",
+          "subpaths": {
+            "1:USDC-mayan-137:USDC": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "mayan",
+                "message": "Slippage is too high. Max slippage is 0.1"
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "1:USDC-mayanMCTP-137:USDC",
+          "subpaths": {
+            "1:USDC-mayanMCTP-137:USDC": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "mayanMCTP",
+                "message": "Slippage is too high. Max slippage is 0.1"
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "1:USDC-symbiosis-137:USDC",
+          "subpaths": {
+            "1:USDC-symbiosis-137:USDC": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_SPECIFIC_ERROR",
+                "tool": "symbiosis",
+                "message": "Slippage is too high: 30%. Max: 10%"
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "1:USDC~1:WETH-1:WETH-mayan-137:USDC",
+          "subpaths": {
+            "1:USDC~1:WETH": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_SPECIFIC_ERROR",
+                "tool": "lifiIntentsDex",
+                "message": "LiFi Intents API returned empty quote data"
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "fly",
+                "message": "Tool fly not applied."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "okx",
+                "message": "Tool okx not applied."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "gluex",
+                "message": "Tool gluex is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "openocean",
+                "message": "Tool openocean is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "enso",
+                "message": "Tool enso is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "merkle",
+                "message": "Tool merkle is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "dodo",
+                "message": "Tool dodo is currently disabled for this action."
+              }
+            ],
+            "1:WETH-mayan-137:USDC": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "mayan",
+                "message": "Slippage is too high. Max slippage is 0.1"
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "1:USDC~1:USDT-1:USDT-mayan-137:USDC",
+          "subpaths": {
+            "1:USDC~1:USDT": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_SPECIFIC_ERROR",
+                "tool": "lifiIntentsDex",
+                "message": "LiFi Intents API returned empty quote data"
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "fly",
+                "message": "Tool fly not applied."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "okx",
+                "message": "Tool okx not applied."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "gluex",
+                "message": "Tool gluex is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "openocean",
+                "message": "Tool openocean is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "enso",
+                "message": "Tool enso is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "merkle",
+                "message": "Tool merkle is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "dodo",
+                "message": "Tool dodo is currently disabled for this action."
+              }
+            ],
+            "1:USDT-mayan-137:USDC": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "mayan",
+                "message": "Slippage is too high. Max slippage is 0.1"
+              }
+            ]
+          }
+        },
+        {
+          "overallPath": "1:USDC~1:ETH-1:ETH-mayan-137:USDC",
+          "subpaths": {
+            "1:USDC~1:ETH": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_SPECIFIC_ERROR",
+                "tool": "lifiIntentsDex",
+                "message": "LiFi Intents API returned empty quote data"
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "fly",
+                "message": "Tool fly not applied."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "okx",
+                "message": "Tool okx not applied."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "gluex",
+                "message": "Tool gluex is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "openocean",
+                "message": "Tool openocean is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "enso",
+                "message": "Tool enso is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "merkle",
+                "message": "Tool merkle is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "dodo",
+                "message": "Tool dodo is currently disabled for this action."
+              }
+            ],
+            "1:ETH-mayan-137:USDC": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "NO_POSSIBLE_ROUTE",
+                "tool": "mayan",
+                "message": "Slippage is too high. Max slippage is 0.1"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
     "name": "usdcE to usdcP, slippage far too tight",
     "request": {
       "fromChainId": 1,
@@ -29317,6 +30556,133 @@
                 "code": "TOOL_SPECIFIC_ERROR",
                 "tool": "near",
                 "message": "Temporary swap limits: minimum swap amount is $1,000"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "usdcE to usdcX, receiver has no trustline",
+    "request": {
+      "fromChainId": 1,
+      "fromTokenSymbol": "USDC",
+      "fromTokenDecimals": 6,
+      "fromTokenPriceUSD": "0.9984623282",
+      "fromAmount": "50077002",
+      "toChainId": 1201081091099710,
+      "fromAddress": "0xBD55C2F306C97Fd1d3E7A023f7c4834a2F472834",
+      "toAddress": "GDOKJFJCZMWX4KMDETHXFDDGEFWKUJ2FOFNAUR5NSS7EZ57SEPEA36JA",
+      "slippage": 0.005,
+      "bridges": [
+        "polymer",
+        "polymerStandard"
+      ]
+    },
+    "routes": 0,
+    "unavailableRoutes": {
+      "filteredOut": [
+        {
+          "reason": "Stellar receiver GDOKJFJCZMWX4KMDETHXFDDGEFWKUJ2FOFNAUR5NSS7EZ57SEPEA36JA does not have a trustline open for USDC (CCW67TSZV3SSS2HXMBQ5JFGCKJNXKZM7UQUWUZPUTHXSTZLEO7SJMI75); the account cannot receive this token until a trustline is opened.",
+          "overallPath": "1:USDC-polymer-1201081091099710:USDC"
+        },
+        {
+          "reason": "Stellar receiver GDOKJFJCZMWX4KMDETHXFDDGEFWKUJ2FOFNAUR5NSS7EZ57SEPEA36JA does not have a trustline open for USDC (CCW67TSZV3SSS2HXMBQ5JFGCKJNXKZM7UQUWUZPUTHXSTZLEO7SJMI75); the account cannot receive this token until a trustline is opened.",
+          "overallPath": "1:USDC-polymerStandard-1201081091099710:USDC"
+        }
+      ],
+      "failed": []
+    }
+  },
+  {
+    "name": "wethE to wethB, receiver is another EOA",
+    "request": {
+      "fromChainId": 1,
+      "fromTokenSymbol": "WETH",
+      "fromTokenDecimals": 18,
+      "fromTokenPriceUSD": "2733.61",
+      "fromAmount": "18291000000000000",
+      "toChainId": 8453,
+      "fromAddress": "0xBD55C2F306C97Fd1d3E7A023f7c4834a2F472834",
+      "toAddress": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+      "slippage": 0.005,
+      "bridges": [
+        "across"
+      ]
+    },
+    "routes": 1,
+    "unavailableRoutes": {
+      "filteredOut": [
+        {
+          "reason": "Across does not send WETH to EOAs (receiver: 0x742d35Cc6634C0532925a3b844Bc454e4438f44e)",
+          "overallPath": "1:WETH-across-8453:WETH"
+        },
+        {
+          "reason": "Across does not send ETH to contracts (receiver: ReceiverAcrossV4)",
+          "overallPath": "1:WETH-across-8453:ETH-8453:ETH~8453:WETH"
+        },
+        {
+          "reason": "Across does not send WETH to EOAs (receiver: 0x742d35Cc6634C0532925a3b844Bc454e4438f44e)",
+          "overallPath": "1:WETH~1:ETH-1:ETH-across-8453:WETH"
+        },
+        {
+          "reason": "Across does not send ETH to contracts (receiver: ReceiverAcrossV4)",
+          "overallPath": "1:WETH~1:ETH-1:ETH-across-8453:ETH-8453:ETH~8453:WETH"
+        }
+      ],
+      "failed": [
+        {
+          "overallPath": "1:WETH~1:USDC-1:USDC-across-8453:USDC-8453:USDC~8453:WETH",
+          "subpaths": {
+            "1:WETH~1:USDC": [
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_SPECIFIC_ERROR",
+                "tool": "lifiIntentsDex",
+                "message": "LiFi Intents API returned empty quote data"
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "fly",
+                "message": "Tool fly not applied."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "okx",
+                "message": "Tool okx not applied."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "gluex",
+                "message": "Tool gluex is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "openocean",
+                "message": "Tool openocean is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "enso",
+                "message": "Tool enso is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "merkle",
+                "message": "Tool merkle is currently disabled for this action."
+              },
+              {
+                "errorType": "NO_QUOTE",
+                "code": "TOOL_NOT_ALLOWED",
+                "tool": "dodo",
+                "message": "Tool dodo is currently disabled for this action."
               }
             ]
           }
