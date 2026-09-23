@@ -1,6 +1,6 @@
 import type { ChainType, RouteExtended } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
-import { useEthereumContext } from '@lifi/widget-provider'
+import { useAddressForChain, useEthereumContext } from '@lifi/widget-provider'
 import { useChain } from '../hooks/useChain.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
@@ -17,6 +17,8 @@ export const useToAddressRequirements = (
   unsupportedToAddress: boolean
   unsupportedReceiverBlocking: boolean
   requiredToChainType: ChainType | undefined
+  /** Whether a saved or connected address can receive on the destination chain. */
+  isValidReceiver: (address?: string) => boolean
   accountNotDeployedAtDestination: boolean
   accountDeployedAtDestination: boolean
   toAddress: string | undefined
@@ -32,6 +34,7 @@ export const useToAddressRequirements = (
     'toAddress'
   )
   const { isDelegationDesignatorCode } = useEthereumContext()
+  const { isAddressForChain, hasProviderFor } = useAddressForChain()
 
   const fromChainId = route?.fromChainId ?? formFromChainId
   const toChainId = route?.toChainId ?? formToChainId
@@ -87,13 +90,27 @@ export const useToAddressRequirements = (
     receiverRequired: requiredUI?.toAddress,
   })
 
+  // BTC and ZEC share a chain type, so the check above misses that a Bitcoin
+  // signer cannot receive on ZEC. Ask the destination chain itself, but only
+  // when a provider can answer: without one, today's rules stand.
+  const isSignerAddressInvalidAtDestination = Boolean(
+    fromAddress &&
+      toChain &&
+      hasProviderFor(toChain.chainType) &&
+      !isAddressForChain(fromAddress, toChain)
+  )
+
   const requiredToAddress = Boolean(
     (isDifferentChainType ||
       isCrossChainContractAddress ||
+      isSignerAddressInvalidAtDestination ||
       requiredUI?.toAddress) &&
       !hiddenUI?.toAddress &&
       !unsupportedToAddress
   )
+
+  const isValidReceiver = (address?: string): boolean =>
+    !toChain || (!!address && isAddressForChain(address, toChain))
 
   const accountNotDeployedAtDestination = Boolean(
     isFromContractAddress &&
@@ -114,6 +131,7 @@ export const useToAddressRequirements = (
     unsupportedToAddress,
     unsupportedReceiverBlocking,
     requiredToChainType: toChain?.chainType,
+    isValidReceiver,
     accountNotDeployedAtDestination,
     accountDeployedAtDestination,
     toAddress,
