@@ -2,6 +2,7 @@ import type { PropsWithChildren } from 'react'
 import { useMemo, useRef } from 'react'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { FormRef } from '../../types/widget.js'
+import { isDestinationOnlyChain } from '../../utils/chainType.js'
 import { createFormStore, formDefaultValues } from './createFormStore.js'
 import { FormStoreContext } from './FormStoreContext.js'
 import { FormUpdater } from './FormUpdater.js'
@@ -63,8 +64,13 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
   // biome-ignore lint/correctness/useExhaustiveDependencies: formUpdateKey is needed here.
   const reactiveFormValues = useMemo(
     () => ({
-      ...(configHasFromChain ? { fromChain } : undefined),
-      ...(configHasFromToken ? { fromToken } : undefined),
+      // A destination-only chain is never a source, so drop it with its token
+      ...(configHasFromChain && !isDestinationOnlyChain(fromChain)
+        ? { fromChain }
+        : undefined),
+      ...(configHasFromToken && !isDestinationOnlyChain(fromChain)
+        ? { fromToken }
+        : undefined),
       ...(configHasFromAmount
         ? {
             fromAmount:
