@@ -192,7 +192,8 @@
       "walletAddressInvalid_chain": "",
       "walletAddressRequired": "ওয়ালেট ঠিকানা প্রয়োজন।",
       "walletChainTypeInvalid": "",
-      "walletMismatch": ""
+      "walletMismatch": "",
+      "zcashAddressInvalid": ""
     }
   },
   "tooltip": {

@@ -192,7 +192,8 @@
       "walletAddressInvalid_chain": "钱包地址或者域名在所选中的 {{chainName}} 链无效",
       "walletAddressRequired": "请输入钱包地址。",
       "walletChainTypeInvalid": "钱包地址与所选中目标的 {{chainName}} 链不匹配",
-      "walletMismatch": "钱包地址不匹配"
+      "walletMismatch": "钱包地址不匹配",
+      "zcashAddressInvalid": ""
     }
   },
   "tooltip": {

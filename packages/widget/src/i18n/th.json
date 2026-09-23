@@ -192,7 +192,8 @@
       "walletAddressInvalid_chain": "ที่อยู่กระเป๋าเงินหรือชื่อโดเมนไม่ถูกต้องสำหรับเครือข่ายปลายทางที่เลือก {{chainName}}",
       "walletAddressRequired": "กรุณากรอกที่อยู่กระเป๋าเงิน.",
       "walletChainTypeInvalid": "ที่อยู่กระเป๋าเงินหรือชื่อโดเมนไม่ถูกต้องสำหรับเครือข่ายปลายทางที่เลือก {{chainName}}",
-      "walletMismatch": "ที่อยู่ของกระเป๋าเงินไม่ตรงกัน"
+      "walletMismatch": "ที่อยู่ของกระเป๋าเงินไม่ตรงกัน",
+      "zcashAddressInvalid": ""
     }
   },
   "tooltip": {

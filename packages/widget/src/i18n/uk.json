@@ -192,7 +192,8 @@
       "walletAddressInvalid_chain": "Адреса гаманця не відповідає обраному чейну призначення - {{chainName}}",
       "walletAddressRequired": "Необхідно вказати адресу гаманця.",
       "walletChainTypeInvalid": "Адреса гаманця не відповідає обраному чейну призначення - {{chainName}}",
-      "walletMismatch": "Невідповідність адреси гаманця"
+      "walletMismatch": "Невідповідність адреси гаманця",
+      "zcashAddressInvalid": ""
     }
   },
   "tooltip": {

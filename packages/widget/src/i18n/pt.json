@@ -192,7 +192,8 @@
       "walletAddressInvalid_chain": "O endereço da carteira ou o nome de domínio é inválido para a rede de destino selecionada {{chainName}}",
       "walletAddressRequired": "Endereço da carteira é necessário.",
       "walletChainTypeInvalid": "O endereço da carteira não corresponde à rede de destino selecionada - {{chainName}}",
-      "walletMismatch": "Incompatibilidade de endereço da carteira"
+      "walletMismatch": "Incompatibilidade de endereço da carteira",
+      "zcashAddressInvalid": ""
     }
   },
   "tooltip": {

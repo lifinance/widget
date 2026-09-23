@@ -114,7 +114,7 @@ describe('useAddressValidation', () => {
         await validateAddress({ value: addresses.zcashUnified, chain: zcash })
       ).toEqual({
         isValid: false,
-        error: 'error.title.walletAddressInvalid|zcash',
+        error: 'error.title.zcashAddressInvalid',
       })
     })
 

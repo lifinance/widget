@@ -192,7 +192,8 @@
       "walletAddressInvalid_chain": "",
       "walletAddressRequired": "지갑 주소가 필요합니다.",
       "walletChainTypeInvalid": "",
-      "walletMismatch": ""
+      "walletMismatch": "",
+      "zcashAddressInvalid": ""
     }
   },
   "tooltip": {

@@ -86,7 +86,7 @@ export const useAddressValidation = (): {
       isValid: false,
       error:
         chain.id === ChainId.ZEC
-          ? t('error.title.walletAddressInvalid', { context: 'zcash' })
+          ? t('error.title.zcashAddressInvalid')
           : t('error.title.walletAddressInvalid', {
               context: 'chain',
               chainName: chain.name,
