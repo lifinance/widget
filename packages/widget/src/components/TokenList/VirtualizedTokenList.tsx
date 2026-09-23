@@ -77,9 +77,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
 
   const showRecentToggle = recentCount > 0 && !!onToggleRecent
 
-  // The band copy is the one on screen; its canonical row can sit thousands
-  // of rows below the fold. The highlight therefore belongs to the band copy,
-  // and the canonical row yields to it.
+  // The band copy is on screen; its list row may be far below the fold.
   const bandKeys = useMemo(() => {
     if (!recentCount) {
       return undefined
@@ -142,9 +140,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     }
   }, [measure, scrollElementRef.current])
 
-  // Expanding moves the toggle row's extra height from the 4th recent row to
-  // the 10th without a count change the virtualizer would notice on its own.
-  // biome-ignore lint/correctness/useExhaustiveDependencies: run only when the band expands
+  // biome-ignore lint/correctness/useExhaustiveDependencies: expanding moves row heights, not the row count
   useEffect(() => {
     measure()
   }, [recentExpanded, measure])
@@ -193,8 +189,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
               isBalanceLoading={isBalanceLoading}
               startAdornment={
                 band?.kind === 'recent' ? (
-                  // Unconditional: the resolver reserves this row's height
-                  // from `recentCount` alone, so the header must always fill it.
+                  // Unconditional: the resolver always reserves this height.
                   <RecentTokensHeader
                     atListStart={band.atListStart}
                     onClear={onClearRecent}

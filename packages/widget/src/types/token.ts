@@ -10,8 +10,6 @@ export interface TokenFlags {
   pinned?: boolean
   /** A copy promoted into the "Recent searches" band. */
   recent?: boolean
-  /** Rendered from a local snapshot: no verification verdict is known. */
-  unresolved?: boolean
   verified?: boolean
   native?: boolean
   /** Came from the main token list rather than from a search. */

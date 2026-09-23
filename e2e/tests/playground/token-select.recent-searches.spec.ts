@@ -1,10 +1,7 @@
 import { expect, test, waitForTokens } from '../fixtures/base.fixture.js'
 
 test.describe('Token select — Recent searches', () => {
-  // Compact keeps the selector inside the widget, so the search input is a
-  // reliable open-indicator. Each test starts with an empty recent list.
-  // The chain is pinned: an unpinned search picks whichever chain ranks the
-  // symbol first, which moves the form's chain and filters the band out.
+  // Chain pinned: an unpinned search can move the form to another chain.
   test.beforeEach(async ({ page, sidebar, tokenSelector }) => {
     await Promise.all([waitForTokens(page), page.goto('/?fromChain=1')])
     await tokenSelector.clearStoredRecentTokens()
@@ -44,8 +41,7 @@ test.describe('Token select — Recent searches', () => {
       await widget.fromButton.click()
       await expect(tokenSelector.searchInput).toBeVisible()
       await tokenSelector.searchInput.fill('USDC')
-      // The search filter is debounced by 320ms. Wait for the list to actually
-      // reflect the query, or the click lands on the unfiltered first row.
+      // The filter is debounced; wait, or the click hits the unfiltered row.
       await expect(tokenSelector.firstTokenItem).toContainText('USDC')
       await tokenSelector.selectFirstToken()
     })
@@ -154,8 +150,7 @@ test.describe('Token select — Recent searches', () => {
       await Promise.all([waitForTokens(page), page.reload()])
     })
 
-    // The first listitem holds both "Clear" and the token button, which is
-    // exactly the strict-mode ambiguity the helper has to resolve.
+    // This row holds both "Clear" and the token button: a strict-mode trap.
     await test.step('select the first row', async () => {
       await widget.fromButton.click()
       await expect(tokenSelector.recentSearchesHeader).toBeVisible()

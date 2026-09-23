@@ -1,12 +1,10 @@
 import type { TokenAmount } from '../../types/token.js'
 import type { RecentToken } from './types.js'
 
-// A price or a verification verdict must never be persisted: a stale
-// "verified" would suppress a real warning.
+// Never persist a price or a verdict: a stale "verified" would hide a warning.
 export const toRecentToken = (token: TokenAmount): RecentToken => ({
   chainId: token.chainId,
-  // Kept in the token's own casing: it is written back into the form, and
-  // `selected` and the same-token guard compare addresses case-sensitively.
+  // Keep the casing: the form and the selected check compare it exactly.
   address: token.address,
   symbol: token.symbol,
   name: token.name,

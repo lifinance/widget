@@ -34,8 +34,7 @@ export interface BandResolver {
   isToggleRow: (index: number) => boolean
 }
 
-// Pinned and recent rows are both promoted above the categorised list, so a
-// category transition has to ignore them the same way.
+// Pinned and recent rows sit above the categories; transitions ignore both.
 const isPromoted = (token: TokenAmount | undefined): boolean =>
   !!token?.pinned || !!token?.recent
 
@@ -80,10 +79,7 @@ export const createBandResolver = (
       extra += toggleRowHeight
     }
 
-    // Reserve the closing header only when one will render. The recent band
-    // needs its own term: `showCategories` is always false in all-networks
-    // mode and `showPinnedTokens` is false without pinned rows, yet the band
-    // still has to be closed off from the list below it.
+    // The recent band needs its own term: all-networks has no categories.
     if (
       (showPinnedTokens || showCategories || recentCount > 0) &&
       isTransitionFromPromoted(index)

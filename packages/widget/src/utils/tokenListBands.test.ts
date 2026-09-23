@@ -195,8 +195,7 @@ describe('createBandResolver with a recent band', () => {
 
     expect(getRowExtraHeight(0)).toBe(24)
     expect(getRowBandLabel(0)).toEqual({ kind: 'recent', atListStart: true })
-    // The band must still be closed off from the list below, even with no
-    // pinned tokens and no categories (which is every all-networks view).
+    // Closed off even with no pins and no categories, as in all-networks.
     expect(getRowBandLabel(1)).toEqual({
       kind: 'text',
       key: 'main.allTokens',

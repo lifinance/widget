@@ -72,8 +72,7 @@ describe('createRecentTokensStore', () => {
   let store: ReturnType<typeof createRecentTokensStore>
 
   beforeEach(() => {
-    // zustand's persist resolves `window.localStorage`, which the node test
-    // environment does not provide; without the shim it silently no-ops.
+    // persist reads window.localStorage; node has none and would silently no-op.
     originalWindow = globalThis.window
     storageMock = createLocalStorageMock()
     globalThis.window = {

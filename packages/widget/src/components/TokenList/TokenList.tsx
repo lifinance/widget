@@ -85,8 +85,7 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
       state.clearRecentTokens,
     ])
 
-  // onClick reaches every memoized row, so it must not depend on values that
-  // change on each balance refetch or keystroke.
+  // Refs keep onClick stable across refetches and keystrokes for memoized rows.
   const tokensRef = useRef(tokensWithRecent)
   tokensRef.current = tokensWithRecent
   const searchRef = useRef(tokenSearchFilter)
@@ -100,8 +99,7 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
         if (item.chainId !== chainId || item.address.toLowerCase() !== lower) {
           continue
         }
-        // The live row wins over an injected recent copy, so bumping an entry
-        // refreshes its snapshot.
+        // Prefer the live row, so a bump refreshes the stored snapshot.
         if (!item.recent) {
           token = item
           break
@@ -116,8 +114,7 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
       ) {
         addRecentToken(toRecentToken(token))
       }
-      // Prefer the live row's address so the form always carries the token's
-      // canonical casing, whichever copy the user clicked.
+      // The live row's address carries the canonical casing.
       selectToken(token?.address ?? address, chainId)
     },
     [addRecentToken, isRecentToken, selectToken, hiddenUI?.recentSearches]
@@ -128,15 +125,12 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
     []
   )
 
-  // The page stays mounted across a chain switch, so a band the user never
-  // expanded would otherwise inherit the previous chain's expansion.
-  // biome-ignore lint/correctness/useExhaustiveDependencies: reset on scope change
+  // biome-ignore lint/correctness/useExhaustiveDependencies: collapse the band when the chain scope changes
   useEffect(() => {
     setRecentExpanded(false)
   }, [selectedChainId, isAllNetworks])
 
-  // Clear removes exactly what the band owns. The band filters on chain,
-  // integrator config and pinned state, so no other scope is equivalent.
+  // The band filters on chain, config and pins; Clear takes its exact entries.
   const bandEntriesRef = useRef(bandEntries)
   bandEntriesRef.current = bandEntries
   const clearRecentBand = useCallback(

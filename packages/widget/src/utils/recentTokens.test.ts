@@ -83,8 +83,7 @@ describe('resolveRecentTokens inactive paths', () => {
   })
 
   it('should drop a recent whose chain is not in the resolved chain list', () => {
-    // An empty set means "no chain is available", never "allow everything";
-    // the hook waits for the query rather than passing an unresolved list.
+    // An empty set means no chain is available, never "allow everything".
     const tokens = [makeToken('0xr1')]
     expect(
       resolve(tokens, { availableChainIds: new Set<number>() }).totalRecentCount
@@ -142,9 +141,7 @@ describe('resolveRecentTokens active band', () => {
   })
 
   it('should let Clear own recents that a pin or the hoist displaced', () => {
-    // The band renders 0xr1, so Clear is reachable. The pinned and hoisted
-    // entries render no row, but Clear must still remove them or they
-    // reappear the moment the promotion goes away.
+    // 0xr1 keeps Clear reachable; the displaced entries must go with it.
     const tokens = [
       makeToken('0xn', { native: true }),
       makeToken('0xp', { pinned: true }),
@@ -163,8 +160,7 @@ describe('resolveRecentTokens active band', () => {
   })
 
   it('should honour a deny entry whose chainId is a string', () => {
-    // The widget is called from plain JS too; utils/token.ts coerces here, so
-    // the band must as well or the deny list is bypassed.
+    // Plain-JS integrators may pass a string; utils/token.ts coerces it too.
     const tokens = [makeToken('0xr1')]
     const configTokens = {
       deny: [{ chainId: '1', address: '0xr1' }],
@@ -208,33 +204,13 @@ describe('resolveRecentTokens active band', () => {
     expect(result.tokens[0].priceUSD).toBe('')
   })
 
-  it('should mark a snapshot row as unresolved', () => {
-    const tokens = [makeToken('0xA')]
-    const result = resolve(tokens, {
-      recentTokens: [makeRecent('0xr1')],
-    })
-
-    // Marks the row that has no counterpart in the list, so the selected
-    // highlight knows it is the only copy. It does not soften the
-    // verification badge: with no verdict the row still warns.
-    expect(result.tokens[0].unresolved).toBe(true)
-  })
-
-  it('should not mark a live row as unresolved', () => {
-    const tokens = [makeToken('0xr1', { listed: true })]
-    const result = resolve(tokens, { recentTokens: [makeRecent('0xr1')] })
-
-    expect(result.tokens[0].unresolved).toBeUndefined()
-  })
-
   it('should keep the native flag on a snapshot row so it earns the native badge', () => {
     const tokens = [makeToken('0xA')]
     const result = resolve(tokens, {
       recentTokens: [makeRecent('0xr1', 1, { native: true })],
     })
 
-    // Without this the badge chain falls through to the amber "unverified"
-    // warning, on a native token.
+    // Without it a native token falls through to the amber warning.
     expect(result.tokens[0].native).toBe(true)
   })
 

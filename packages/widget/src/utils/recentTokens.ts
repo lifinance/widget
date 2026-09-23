@@ -25,7 +25,7 @@ export interface ResolveRecentTokensParams {
 
 export interface RecentTokensResult {
   tokens: TokenAmount[]
-  /** Every entry this band owns, including rows hidden behind the toggle. */
+  /** Everything Clear removes, including toggled-away and displaced rows. */
   bandEntries: RecentTokenId[]
   recentStartIndex: number
   recentCount: number
@@ -50,8 +50,7 @@ export const resolveRecentTokens = (
     disabled,
   }: ResolveRecentTokensParams
 ): RecentTokensResult => {
-  // hoistNativeToken only runs for a single chain with no search, so tokens[0]
-  // alone cannot say whether the hoist happened.
+  // The hoist is skipped in all-networks and search; tokens[0] alone can't tell.
   const nativeHoisted =
     !isAllNetworks && !search && isHoistableNative(tokens[0], selectedChainId)
 
@@ -86,12 +85,8 @@ export const resolveRecentTokens = (
   const wanted = new Set(
     candidates.map((recent) => tokenKey(recent.chainId, recent.address))
   )
-  // An integer test first: in all-networks most rows are on a chain no
-  // recent uses, and those never need a key string built for them.
+  // All-networks holds tens of thousands of rows: test the chain before the key.
   const wantedChains = new Set(candidates.map((recent) => recent.chainId))
-  // At most ten matches in a list that all-networks fills with tens of
-  // thousands of rows. The break helps only when every recent is listed; a
-  // searched-only recent never matches, so that scan still runs to the end.
   const fresh = new Map<string, TokenAmount>()
   for (const token of tokens) {
     if (!wantedChains.has(token.chainId)) {
@@ -116,8 +111,7 @@ export const resolveRecentTokens = (
           (items: BaseToken[]) =>
             new Set(
               items
-                // Coerced like utils/token.ts: an integrator calling from
-                // plain JS can pass chainId as a string.
+                // Plain-JS integrators may pass chainId as a string.
                 .filter((item) => Number(item.chainId) === chainId)
                 .map((item) => item.address.toLowerCase())
             ),
@@ -137,20 +131,16 @@ export const resolveRecentTokens = (
   for (const recent of candidates) {
     const key = tokenKey(recent.chainId, recent.address)
     const resolved =
-      fresh.get(key) ??
-      ({ ...recent, priceUSD: '', unresolved: true } as TokenAmount)
+      fresh.get(key) ?? ({ ...recent, priceUSD: '' } as TokenAmount)
     if (
       !isFormItemAllowed(resolved, allowedFor(recent.chainId), formType, (t) =>
         t.address.toLowerCase()
       )
     ) {
-      // Out of this band's scope: the opposite side may still legitimately
-      // show it, so Clear here must leave it alone.
+      // Denied on this side only, so Clear must leave it for the other side.
       continue
     }
-    // In scope, so Clear owns it even when a promotion displaces its row.
-    // Otherwise a pinned or hoisted entry survives Clear invisibly and
-    // reappears the moment the promotion goes away.
+    // Clear owns displaced entries too, or they reappear once unpinned.
     bandEntries.push({ chainId: recent.chainId, address: recent.address })
     if (key === hoistedKey || resolved.pinned) {
       continue
@@ -162,7 +152,6 @@ export const resolveRecentTokens = (
     return inactive
   }
 
-  // Expanded shows everything kept; the store owns the storage cap.
   const visible = expanded ? rows : rows.slice(0, collapsedRecentCount)
 
   return {

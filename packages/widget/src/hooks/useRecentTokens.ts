@@ -28,8 +28,7 @@ export const useRecentTokens = (
   }: UseRecentTokensOptions
 ): RecentTokensResult => {
   const { hiddenUI, tokens: configTokens } = useWidgetConfig()
-  // useChains applies chains.allow/deny per form type; useAvailableChains
-  // filters by chain type only and would let a denied chain through.
+  // useChains, not useAvailableChains: only it applies chains.allow/deny.
   const { chains } = useChains(formType)
   const recentTokens = useRecentTokensStore((state) => state.recentTokens)
 
@@ -38,11 +37,7 @@ export const useRecentTokens = (
     [chains]
   )
 
-  // A snapshot carries no verification verdict, so the band waits for the
-  // list rather than flashing an amber warning on every row while it loads.
-  // A token the list never returns still renders as unverified.
-  // `chains` is query-backed. Until it resolves, an allow/deny config cannot
-  // be applied, so the band waits rather than showing a denied chain.
+  // Wait for the token list (no amber flash) and the chains (allow/deny).
   const disabled =
     !!search || !!hiddenUI?.recentSearches || isTokensLoading || !chains
 
