@@ -1,9 +1,10 @@
-import { ChainType } from '@lifi/sdk'
+import { ChainId, ChainType } from '@lifi/sdk'
 import { describe, expect, it } from 'vitest'
 import {
   type AddressChecks,
   chainTypeFromAddress,
   chainTypeFromTokenAddress,
+  isAddressForChain,
   type ProvidersByChainType,
 } from './chainTypeFromAddress.js'
 
@@ -83,5 +84,45 @@ describe('chainTypeFromTokenAddress', () => {
     expect(
       chainTypeFromTokenAddress({ [ChainType.STL]: undefined }, stellarContract)
     ).toBeUndefined()
+  })
+})
+
+describe('isAddressForChain', () => {
+  const bitcoinAddress = 'bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq'
+  const zcashAddress = 't1VmmGiyjVNeCjxDZzg7vZmd99WyzVby9yC'
+  const bitcoin = { id: ChainId.BTC, chainType: ChainType.UTXO }
+  const zcash = { id: ChainId.ZEC, chainType: ChainType.UTXO }
+  const ethereum = { id: ChainId.ETH, chainType: ChainType.EVM }
+
+  // The UTXO provider answers per chain, as BitcoinProvider does.
+  const providers: ProvidersByChainType = {
+    [ChainType.EVM]: provider([evmAddress]),
+    [ChainType.UTXO]: {
+      isAddress: (address, chainId) =>
+        chainId === ChainId.ZEC
+          ? address === zcashAddress
+          : address === bitcoinAddress,
+    },
+  }
+
+  it('asks the destination provider with the destination chain', () => {
+    expect(isAddressForChain(providers, zcashAddress, zcash)).toBe(true)
+    expect(isAddressForChain(providers, bitcoinAddress, zcash)).toBe(false)
+    expect(isAddressForChain(providers, bitcoinAddress, bitcoin)).toBe(true)
+    expect(isAddressForChain(providers, zcashAddress, bitcoin)).toBe(false)
+  })
+
+  it('never asks the provider of another ecosystem', () => {
+    expect(isAddressForChain(providers, evmAddress, zcash)).toBe(false)
+    expect(isAddressForChain(providers, evmAddress, ethereum)).toBe(true)
+  })
+
+  it('refuses when no provider serves the ecosystem', () => {
+    expect(
+      isAddressForChain(providers, stellarAccount, {
+        id: ChainId.XLM,
+        chainType: ChainType.STL,
+      })
+    ).toBe(false)
   })
 })
