@@ -1,5 +1,6 @@
 import type { TokenExtended } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
+import { useAddressForChain } from '@lifi/widget-provider'
 import { useMemo } from 'react'
 import type { FormType } from '../stores/form/types.js'
 import { useChains } from './useChains.js'
@@ -30,6 +31,7 @@ export const useAccountsBalancesData = (
   const { accounts: allAccounts, account: currentAccount } = useAccount(
     isAllNetworks ? undefined : { chainType: currentChain?.chainType }
   )
+  const { isAddressForChain } = useAddressForChain()
   const accounts = useMemo(() => {
     return isAllNetworks
       ? allAccounts
@@ -47,8 +49,12 @@ export const useAccountsBalancesData = (
       .reduce(
         (acc, account) => {
           if (account.address) {
+            // Pair a wallet only with chains it can hold: a Bitcoin wallet
+            // shares its chain type with ZEC but not its address format
             const accountChains = chains?.filter(
-              (chain) => account.chainType === chain?.chainType
+              (chain) =>
+                account.chainType === chain?.chainType &&
+                isAddressForChain(account.address as string, chain)
             )
             if (accountChains) {
               const chainIdSet = new Set(accountChains.map((chain) => chain.id))
@@ -68,7 +74,7 @@ export const useAccountsBalancesData = (
         },
         {} as Record<string, Record<number, TokenExtended[]>>
       )
-  }, [accounts, chains, allTokens])
+  }, [accounts, chains, allTokens, isAddressForChain])
 
   return {
     data: accountsWithTokens,
