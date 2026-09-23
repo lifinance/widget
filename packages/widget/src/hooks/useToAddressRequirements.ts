@@ -95,8 +95,10 @@ export const useToAddressRequirements = (
   // when a provider can answer: without one, today's rules stand.
   const isSignerAddressInvalidAtDestination = Boolean(
     fromAddress &&
+      fromChain &&
       toChain &&
       hasProviderFor(toChain.chainType) &&
+      isAddressForChain(fromAddress, fromChain) &&
       !isAddressForChain(fromAddress, toChain)
   )
 

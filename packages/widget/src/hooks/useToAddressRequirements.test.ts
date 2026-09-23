@@ -52,6 +52,9 @@ const mocks = vi.hoisted(() => {
       fromChain: undefined as number | undefined,
       toChain: undefined as number | undefined,
       account: undefined as { address: string; chainType: string } | undefined,
+      fallbackAccount: undefined as
+        | { address: string; chainType: string }
+        | undefined,
       providerTypes: [] as string[],
     },
   }
@@ -79,9 +82,9 @@ vi.mock('./useIsContractAddress.js', () => ({
 vi.mock('@lifi/wallet-management', () => ({
   useAccount: ({ chainType }: { chainType?: string }) => ({
     account:
-      mocks.state.account?.chainType === chainType
+      mocks.state.account && mocks.state.account.chainType === chainType
         ? mocks.state.account
-        : { chainType },
+        : (mocks.state.fallbackAccount ?? { chainType }),
   }),
 }))
 vi.mock('@lifi/widget-provider', () => ({
@@ -113,6 +116,7 @@ const requirements = (
 describe('useToAddressRequirements', () => {
   beforeEach(() => {
     mocks.state.providerTypes = ['EVM', 'SVM', 'UTXO', 'STL']
+    mocks.state.fallbackAccount = undefined
   })
 
   it('requires a receiver from BTC to ZEC, which share a chain type', () => {
@@ -139,6 +143,16 @@ describe('useToAddressRequirements', () => {
   it('still requires none from Stellar to Stellar, where receivers are unsupported', () => {
     const stlAccount = { address: addresses.stl, chainType: 'STL' }
     expect(requirements(XLM, XLM, stlAccount).requiredToAddress).toBe(false)
+  })
+
+  it('requires no receiver between EVM chains when only a wallet of another ecosystem is connected', () => {
+    mocks.state.fallbackAccount = { address: addresses.btc, chainType: 'UTXO' }
+    expect(requirements(1, 42161).requiredToAddress).toBe(false)
+  })
+
+  it('requires no receiver while no source chain is set', () => {
+    mocks.state.fallbackAccount = { address: addresses.btc, chainType: 'UTXO' }
+    expect(requirements(undefined, ZEC).requiredToAddress).toBe(false)
   })
 
   describe('isValidReceiver', () => {
