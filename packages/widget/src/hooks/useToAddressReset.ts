@@ -1,4 +1,5 @@
 import type { ExtendedChain } from '@lifi/sdk'
+import { useAddressForChain } from '@lifi/widget-provider'
 import { useCallback } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useBookmarkActions } from '../stores/bookmarks/useBookmarkActions.js'
@@ -12,16 +13,22 @@ export const useToAddressReset = (): {
   const { setFieldValue } = useFieldActions()
   const { selectedBookmark } = useBookmarks()
   const { setSelectedBookmark } = useBookmarkActions()
+  const { isAddressForChain } = useAddressForChain()
 
   const tryResetToAddress = useCallback(
     (toChain: ExtendedChain) => {
       const requiredToAddress = requiredUI?.toAddress
 
-      const bookmarkSatisfiesToChainType =
-        selectedBookmark?.chainType === toChain?.chainType
+      // Keep the selected receiver only if it can receive on the new chain: a
+      // Bitcoin bookmark shares its chain type with ZEC but not its format.
+      const bookmarkSatisfiesToChain = Boolean(
+        selectedBookmark &&
+          toChain &&
+          isAddressForChain(selectedBookmark.address, toChain)
+      )
 
       const shouldResetToAddress =
-        !requiredToAddress && !bookmarkSatisfiesToChainType
+        !requiredToAddress && !bookmarkSatisfiesToChain
 
       // We reset toAddress on each chain change if it's no longer required, ensuring that
       // switching chain types doesn't leave a stale toAddress from a different ecosystem.
@@ -30,7 +37,13 @@ export const useToAddressReset = (): {
         setSelectedBookmark()
       }
     },
-    [setFieldValue, setSelectedBookmark, requiredUI, selectedBookmark]
+    [
+      setFieldValue,
+      setSelectedBookmark,
+      requiredUI,
+      selectedBookmark,
+      isAddressForChain,
+    ]
   )
 
   return {
