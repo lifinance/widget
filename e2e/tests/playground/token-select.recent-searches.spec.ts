@@ -10,9 +10,8 @@ const ethereumUsdc = {
 
 test.describe('Token select — Recent searches', () => {
   // Chain pinned: an unpinned search can move the form to another chain.
-  test.beforeEach(async ({ page, sidebar, tokenSelector }) => {
+  test.beforeEach(async ({ page, sidebar }) => {
     await Promise.all([waitForTokens(page), page.goto('/?fromChain=1')])
-    await tokenSelector.clearStoredRecentTokens()
     await sidebar.resetAll()
     await sidebar.nav.variant.click()
     await sidebar.variantEditor.cards.compact.click()
@@ -136,6 +135,41 @@ test.describe('Token select — Recent searches', () => {
 
     await test.step('the entry stays recorded', async () => {
       expect(await tokenSelector.getRecentTokens()).toHaveLength(1)
+    })
+  })
+
+  test('the delete action removes one entry', async ({
+    page,
+    widget,
+    tokenSelector,
+  }) => {
+    await test.step('seed two recents on Ethereum', async () => {
+      await tokenSelector.seedRecentTokens([
+        ethereumUsdc,
+        {
+          chainId: 1,
+          address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+          symbol: 'USDT',
+          name: 'Tether USD',
+          decimals: 6,
+        },
+      ])
+      await Promise.all([waitForTokens(page), page.reload()])
+    })
+
+    await test.step('delete the first band row', async () => {
+      await widget.fromButton.click()
+      await expect(tokenSelector.recentSearchesHeader).toBeVisible()
+      await tokenSelector.removeFirstRecentToken()
+    })
+
+    await test.step('only that entry is gone', async () => {
+      await expect
+        .poll(async () =>
+          (await tokenSelector.getRecentTokens()).map((t) => t.address)
+        )
+        .toEqual(['0xdAC17F958D2ee523a2206206994597C13D831ec7'])
+      await expect(tokenSelector.recentSearchesHeader).toBeVisible()
     })
   })
 

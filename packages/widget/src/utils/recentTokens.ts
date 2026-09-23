@@ -49,6 +49,9 @@ const toSnapshotRow = (recent: RecentToken): TokenAmount =>
     verificationStatus: recent.flagged ? 'flagged' : undefined,
   }) as TokenAmount
 
+const isFeaturedCopy = (token: TokenAmount): boolean =>
+  !!token.featured && !token.amount
+
 export const resolveRecentRows = (
   tokens: TokenAmount[],
   {
@@ -89,16 +92,32 @@ export const resolveRecentRows = (
   // All-networks holds tens of thousands of rows: test the chain before the key.
   const wantedChains = new Set(candidates.map((recent) => recent.chainId))
   const fresh = new Map<string, TokenAmount>()
+  // A featured config copy has no balance and sits above the row with one.
+  let awaitingBalance = 0
   for (const token of tokens) {
     if (!wantedChains.has(token.chainId)) {
       continue
     }
     const key = getTokenKey(token.chainId, token.address)
-    if (wanted.has(key) && !fresh.has(key)) {
+    if (!wanted.has(key)) {
+      continue
+    }
+    const found = fresh.get(key)
+    if (!found) {
       fresh.set(key, token)
-      if (fresh.size === wanted.size) {
-        break
+      if (isFeaturedCopy(token)) {
+        awaitingBalance++
       }
+    } else if (token.amount && isFeaturedCopy(found)) {
+      fresh.set(key, {
+        ...found,
+        amount: token.amount,
+        priceUSD: token.priceUSD || found.priceUSD,
+      })
+      awaitingBalance--
+    }
+    if (fresh.size === wanted.size && !awaitingBalance) {
+      break
     }
   }
 

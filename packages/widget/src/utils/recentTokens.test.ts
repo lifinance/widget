@@ -197,6 +197,29 @@ describe('recent band active', () => {
     expect(result.tokens[0].amount).toBe(9n)
   })
 
+  it('should take the balance from the held row behind a featured copy', () => {
+    // A featured config copy has no balance and sits above My tokens.
+    const tokens = [
+      makeToken('0xr1', { featured: true, verified: true, priceUSD: '' }),
+      makeToken('0xr1', { amount: 7n, priceUSD: '2' }),
+    ]
+    const result = resolve(tokens)
+
+    expect(result.tokens[0].recent).toBe(true)
+    expect(result.tokens[0].amount).toBe(7n)
+    expect(result.tokens[0].priceUSD).toBe('2')
+    expect(result.tokens[0].verified).toBe(true)
+  })
+
+  it('should keep a featured copy the wallet does not hold', () => {
+    const tokens = [makeToken('0xr1', { featured: true }), makeToken('0xA')]
+    const result = resolve(tokens)
+
+    expect(result.totalRecentCount).toBe(1)
+    expect(result.tokens[0].featured).toBe(true)
+    expect(result.tokens[0].amount).toBeUndefined()
+  })
+
   it('should fall back to the snapshot with no price and no amount', () => {
     const tokens = [makeToken('0xA')]
     const result = resolve(tokens, {

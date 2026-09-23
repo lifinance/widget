@@ -85,16 +85,6 @@ export class TokenSelectorView {
   }
 
   /**
-   * Wipe the persisted recent-search list. Storage only: call it before the
-   * store hydrates, as the next persist write restores the hydrated entries.
-   */
-  async clearStoredRecentTokens(): Promise<void> {
-    await this.page.evaluate(() => {
-      localStorage.removeItem('li.fi-recent-tokens')
-    })
-  }
-
-  /**
    * Click the "All networks" chip.
    * Picking a From token pins the To chain to that same chain, which on a
    * single-token chain (Bitcoin) leaves exactly one row — widen back first
@@ -127,6 +117,14 @@ export class TokenSelectorView {
    */
   async selectFirstRecentToken(): Promise<void> {
     await this.tokenButton(this.firstRecentTokenItem).click()
+  }
+
+  /** Hover the first band row until its delete action shows, then click it. */
+  async removeFirstRecentToken(): Promise<void> {
+    await this.tokenButton(this.firstRecentTokenItem).hover()
+    await this.firstRecentTokenItem
+      .getByRole('button', { name: 'Delete', exact: true })
+      .click()
   }
 
   /**

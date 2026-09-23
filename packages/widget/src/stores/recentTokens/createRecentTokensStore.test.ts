@@ -239,10 +239,10 @@ describe('createRecentTokensStore', () => {
     ])
   })
 
-  it('should hydrate an entry recorded from a token with null fields', () => {
-    // Plain-JS configs can pass null where the types expect a string.
+  it('should hydrate an entry recorded from a plain-JS config token', () => {
+    // Plain-JS configs can pass a string chainId and null fields.
     const token = {
-      chainId: 1,
+      chainId: '1',
       address: '0xA',
       symbol: 'A',
       name: null,
@@ -253,8 +253,8 @@ describe('createRecentTokensStore', () => {
 
     const hydrated = createRecentTokensStore({ namePrefix: 'test' })
 
-    expect(hydrated.getState().recentTokens.map((t) => t.address)).toEqual([
-      '0xA',
+    expect(hydrated.getState().recentTokens).toEqual([
+      { chainId: 1, address: '0xA', symbol: 'A', name: '', decimals: 18 },
     ])
   })
 

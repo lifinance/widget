@@ -132,8 +132,7 @@ export const useTokenBalances = (
         displayedTokensWithBalances,
         isPinnedToken
       )
-      // A search keeps its results ranked by match, and "All networks" has no
-      // single native token to lead with.
+      // Search results stay ranked, and All networks has no single native.
       if (isAllNetworks || search) {
         return { ...result, nativeHoisted: false }
       }

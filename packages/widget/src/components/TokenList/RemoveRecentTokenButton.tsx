@@ -1,6 +1,7 @@
 import CloseIcon from '@mui/icons-material/Close'
 import { IconButton } from '@mui/material'
 import type { JSX } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useRecentTokensStore } from '../../stores/recentTokens/RecentTokensStore.js'
 
 interface RemoveRecentTokenButtonProps {
@@ -12,6 +13,7 @@ export const RemoveRecentTokenButton = ({
   chainId,
   tokenAddress,
 }: RemoveRecentTokenButtonProps): JSX.Element => {
+  const { t } = useTranslation()
   // Selecting the action alone keeps this out of every store update.
   const removeRecentToken = useRecentTokensStore(
     (state) => state.removeRecentToken
@@ -25,6 +27,7 @@ export const RemoveRecentTokenButton = ({
 
   return (
     <IconButton
+      aria-label={t('button.delete')}
       sx={{ width: 20, height: 20 }}
       size="small"
       onClick={handleClick}

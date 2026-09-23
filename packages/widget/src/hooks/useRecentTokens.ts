@@ -45,8 +45,7 @@ export const useRecentTokens = (
     [chains]
   )
 
-  // Untrimmed, as a blank query already lays the list out as a search.
-  // Wait for the token list (no amber flash) and the chains (allow/deny).
+  // Untrimmed, like the list layout; wait for tokens (no amber flash) and chains.
   const disabled =
     !!search || !!hiddenUI?.recentSearches || isTokensLoading || !chains
 
