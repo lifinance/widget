@@ -9,10 +9,7 @@ import {
   parseUnits,
 } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
-import {
-  useChainTypeFromAddress,
-  useEthereumContext,
-} from '@lifi/widget-provider'
+import { useAddressForChain, useEthereumContext } from '@lifi/widget-provider'
 import {
   keepPreviousData,
   useQuery,
@@ -29,7 +26,10 @@ import { defaultSlippage } from '../stores/settings/createSettingsStore.js'
 import { useSettings } from '../stores/settings/useSettings.js'
 import { WidgetEvent } from '../types/events.js'
 import type { TokensByChain } from '../types/token.js'
-import { isCustomReceiverBlocked } from '../utils/customReceiver.js'
+import {
+  canQuoteWithToAddress,
+  isCustomReceiverBlocked,
+} from '../utils/customReceiver.js'
 import { getQueryKey } from '../utils/queries.js'
 import { updateTokenInCache } from '../utils/token.js'
 import { useChain } from './useChain.js'
@@ -138,7 +138,7 @@ export const useRoutes = ({
   const { chain: toChain } = useChain(toChainId)
   const { enabled: enabledRefuel, fromAmount: gasRecommendationFromAmount } =
     useGasRefuel()
-  const { getChainTypeFromAddress } = useChainTypeFromAddress()
+  const { isAddressForChain } = useAddressForChain()
   const { isGaslessStep, disableMessageSigning } = useEthereumContext()
   const { account } = useAccount({ chainType: fromChain?.chainType })
   const { isBatchingSupported, isBatchingSupportedLoading } =
@@ -167,16 +167,12 @@ export const useRoutes = ({
 
   const effectiveFromAddress = account.address ?? quoteFromAddress
 
-  // When we bridge between ecosystems we need to be sure toAddress is set and has the same chainType as toChain
-  // If toAddress is set, it must have the same chainType as toChain
-  const hasToAddressAndChainTypeSatisfied: boolean =
-    !!toChain &&
-    !!toAddress &&
-    getChainTypeFromAddress(toAddress) === toChain.chainType
-  // We need to check for toAddress only if it is set
-  const isToAddressSatisfied = toAddress
-    ? hasToAddressAndChainTypeSatisfied
-    : true
+  // A receiver, when set, must be valid on the destination chain itself
+  const isToAddressSatisfied = canQuoteWithToAddress(
+    toAddress,
+    toChain,
+    isAddressForChain
+  )
 
   // Not `effectiveFromAddress`: a quote placeholder must never match a receiver.
   const customReceiverBlocked = isCustomReceiverBlocked({
