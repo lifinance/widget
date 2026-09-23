@@ -1,6 +1,5 @@
 import { useAccount, useWalletMenu } from '@lifi/wallet-management'
 import {
-  isDestinationOnlyChain,
   PageContainer,
   shortenAddress,
   useAddressValidation,
@@ -47,8 +46,6 @@ export const SetDestinationAddressPage: React.FC = (): JSX.Element => {
   const { openWalletMenu } = useWalletMenu()
   const { accounts } = useAccount()
   const { isAddressForChain } = useAddressForChain()
-  // No wallet can connect on a destination-only chain, so offer only the field.
-  const canUseWallet = !isDestinationOnlyChain(destinationChain?.id)
 
   const [value, setValue] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -146,69 +143,64 @@ export const SetDestinationAddressPage: React.FC = (): JSX.Element => {
         >
           {t('button.done')}
         </Button>
-        {canUseWallet ? (
-          <>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-              <Divider sx={{ flex: 1 }} />
-              <Typography variant="caption" color="text.secondary">
-                {t('checkout.or')}
-              </Typography>
-              <Divider sx={{ flex: 1 }} />
-            </Box>
-            {connectedAccounts.map((account) => {
-              const name =
-                account.connector?.displayName ??
-                account.connector?.name ??
-                account.name
-              const shortAddress = shortenAddress(account.address)
-              const isSelected =
-                recipient?.address?.toLowerCase() ===
-                account.address?.toLowerCase()
-              return (
-                <ListItemButton
-                  key={account.address}
-                  selected={isSelected}
-                  onClick={() => {
-                    if (account.address) {
-                      commitRecipient(account.address, account.chainType)
-                    }
-                  }}
-                  sx={{ borderRadius: 3, height: 56 }}
-                >
-                  <ListItemIcon sx={{ minWidth: 40 }}>
-                    <Avatar
-                      src={account.connector?.icon}
-                      sx={{ width: 24, height: 24 }}
-                    >
-                      <WalletOutlinedIcon fontSize="small" />
-                    </Avatar>
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={name ?? shortAddress}
-                    secondary={name ? shortAddress : undefined}
-                    slotProps={{ primary: { sx: { fontWeight: 500 } } }}
-                  />
-                </ListItemButton>
-              )
-            })}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+          <Divider sx={{ flex: 1 }} />
+          <Typography variant="caption" color="text.secondary">
+            {t('checkout.or')}
+          </Typography>
+          <Divider sx={{ flex: 1 }} />
+        </Box>
+        {connectedAccounts.map((account) => {
+          const name =
+            account.connector?.displayName ??
+            account.connector?.name ??
+            account.name
+          const shortAddress = shortenAddress(account.address)
+          const isSelected =
+            recipient?.address?.toLowerCase() === account.address?.toLowerCase()
+          return (
             <ListItemButton
-              onClick={handleConnectWallet}
+              key={account.address}
+              selected={isSelected}
+              onClick={() => {
+                if (account.address) {
+                  commitRecipient(account.address, account.chainType)
+                }
+              }}
               sx={{ borderRadius: 3, height: 56 }}
             >
               <ListItemIcon sx={{ minWidth: 40 }}>
-                <WalletOutlinedIcon />
+                <Avatar
+                  src={account.connector?.icon}
+                  sx={{ width: 24, height: 24 }}
+                >
+                  <WalletOutlinedIcon fontSize="small" />
+                </Avatar>
               </ListItemIcon>
               <ListItemText
-                primary={t(
-                  connectedAccounts.length
-                    ? 'checkout.useAnotherWallet'
-                    : 'checkout.connectWallet'
-                )}
+                primary={name ?? shortAddress}
+                secondary={name ? shortAddress : undefined}
                 slotProps={{ primary: { sx: { fontWeight: 500 } } }}
               />
             </ListItemButton>
-          </>
-        ) : null}
+          )
+        })}
+        <ListItemButton
+          onClick={handleConnectWallet}
+          sx={{ borderRadius: 3, height: 56 }}
+        >
+          <ListItemIcon sx={{ minWidth: 40 }}>
+            <WalletOutlinedIcon />
+          </ListItemIcon>
+          <ListItemText
+            primary={t(
+              connectedAccounts.length
+                ? 'checkout.useAnotherWallet'
+                : 'checkout.connectWallet'
+            )}
+            slotProps={{ primary: { sx: { fontWeight: 500 } } }}
+          />
+        </ListItemButton>
       </Box>
     </PageContainer>
   )

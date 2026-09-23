@@ -173,7 +173,6 @@ export type {
 } from './types/widget.js'
 
 // ── utils ────────────────────────────────────────────────────────────────────
-export { isDestinationOnlyChain } from './utils/chainType.js'
 export { buildRouteFromTxHistory } from './utils/converters.js'
 export { createElementId, ElementId } from './utils/elements.js'
 export { hasEnumFlag } from './utils/enum.js'
