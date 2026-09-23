@@ -2,7 +2,7 @@ import type { TokenAmount } from '../types/token.js'
 
 const bandHeaderAtListStart = 24
 const bandHeaderAfterBand = 32
-const toggleRowHeight = 32
+const toggleRowHeight = 28
 
 type BandLabelKey =
   | 'main.pinnedTokens'

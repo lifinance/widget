@@ -241,6 +241,8 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
         sx={{
           height: 60,
           marginBottom: '4px',
+          // Not a flex-grow item: a band slot's spare height must not stretch the card.
+          flex: 'none',
         }}
       >
         <ListItemAvatar>
