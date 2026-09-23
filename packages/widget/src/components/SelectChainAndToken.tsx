@@ -13,7 +13,7 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
 
   const hiddenReverse =
     mode === 'refuel' ||
-    !isItemAllowed(toChainId, chains?.from) ||
+    (!!toChainId && !isItemAllowed(toChainId, chains?.from)) ||
     disabledUI?.fromToken ||
     disabledUI?.toToken ||
     hiddenUI?.fromToken ||
