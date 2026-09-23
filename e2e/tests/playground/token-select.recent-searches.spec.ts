@@ -151,11 +151,17 @@ test.describe('Token select — Recent searches', () => {
     })
 
     // This row holds both "Clear" and the token button: a strict-mode trap.
-    await test.step('select the first row', async () => {
+    await test.step('select the band row', async () => {
+      await expect(widget.fromButton).not.toContainText('USDC')
       await widget.fromButton.click()
       await expect(tokenSelector.recentSearchesHeader).toBeVisible()
-      await tokenSelector.selectFirstToken()
+      await tokenSelector.selectFirstRecentToken()
       await expect(tokenSelector.searchInput).toBeHidden()
+      await expect(widget.fromButton).toContainText('USDC')
+    })
+
+    await test.step('the entry stays recorded', async () => {
+      expect(await tokenSelector.getRecentTokens()).toHaveLength(1)
     })
   })
 })

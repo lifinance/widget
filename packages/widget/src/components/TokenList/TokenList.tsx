@@ -13,7 +13,6 @@ import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { useRecentTokensStore } from '../../stores/recentTokens/RecentTokensStore.js'
 import { toRecentToken } from '../../stores/recentTokens/utils.js'
 import { WidgetEvent } from '../../types/events.js'
-import type { TokenAmount } from '../../types/token.js'
 import { collapsedRecentCount } from '../../utils/recentTokens.js'
 import { TokenNotFound } from './TokenNotFound.js'
 import type { TokenListProps } from './types.js'
@@ -94,29 +93,22 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
 
   const handleTokenClick = useCallback(
     (address: string, chainId?: number) => {
-      const lower = address.toLowerCase()
-      let token: TokenAmount | undefined
-      for (const item of tokensRef.current) {
-        if (item.chainId !== chainId || item.address.toLowerCase() !== lower) {
-          continue
-        }
-        // Prefer the live row, so a bump refreshes the stored snapshot.
-        if (!item.recent) {
-          token = item
-          break
-        }
-        token ??= item
-      }
       if (
-        token &&
         chainId &&
         !hiddenUI?.recentSearches &&
         (searchRef.current?.trim() || isRecentToken(chainId, address))
       ) {
-        addRecentToken(toRecentToken(token))
+        // A band row is either a copy of the live row or has no live row.
+        const lower = address.toLowerCase()
+        const token = tokensRef.current.find(
+          (item) =>
+            item.chainId === chainId && item.address.toLowerCase() === lower
+        )
+        if (token) {
+          addRecentToken(toRecentToken(token))
+        }
       }
-      // The live row's address carries the canonical casing.
-      selectToken(token?.address ?? address, chainId)
+      selectToken(address, chainId)
     },
     [addRecentToken, isRecentToken, selectToken, hiddenUI?.recentSearches]
   )
@@ -130,13 +122,6 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
   useEffect(() => {
     setRecentExpanded(false)
   }, [selectedChainId, isAllNetworks])
-
-  // Collapse once the toggle is gone, or the next recent reopens it expanded.
-  useEffect(() => {
-    if (totalRecentCount <= collapsedRecentCount) {
-      setRecentExpanded(false)
-    }
-  }, [totalRecentCount])
 
   // The band filters on chain, config and pins; Clear takes its exact entries.
   const bandEntriesRef = useRef(bandEntries)

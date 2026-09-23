@@ -22,6 +22,8 @@ export class TokenSelectorView {
   readonly allNetworksButton: Locator
   /** "Recent searches" band header. Absent when the band is empty or hidden. */
   readonly recentSearchesHeader: Locator
+  /** The first recent row: it carries the band header and "Clear" too. */
+  readonly firstRecentTokenItem: Locator
   /** "Clear" action in the Recent searches header. */
   readonly clearRecentsButton: Locator
   /** "Show N more" / "Show less" toggle below the last visible recent row. */
@@ -39,11 +41,13 @@ export class TokenSelectorView {
     this.recentSearchesHeader = root.getByText('Recent searches', {
       exact: true,
     })
-    // Scoped to the band: the search input has its own "Clear" adornment.
-    this.clearRecentsButton = root
+    this.firstRecentTokenItem = root
       .getByRole('listitem')
       .filter({ hasText: 'Recent searches' })
-      .getByRole('button', { name: 'Clear' })
+    // Scoped to the band: the search input has its own "Clear" adornment.
+    this.clearRecentsButton = this.firstRecentTokenItem.getByRole('button', {
+      name: 'Clear',
+    })
     this.recentTokensToggle = root.getByRole('button', {
       name: /Show \d+ more|Show less/,
     })
@@ -105,6 +109,15 @@ export class TokenSelectorView {
    */
   async selectFirstToken(): Promise<void> {
     await this.tokenButton(this.tokenList.getByRole('listitem').first()).click()
+  }
+
+  /**
+   * Click the first row of the Recent searches band.
+   * The list can lead with the native token, so the first row is not always
+   * a band row.
+   */
+  async selectFirstRecentToken(): Promise<void> {
+    await this.tokenButton(this.firstRecentTokenItem).click()
   }
 
   /**
