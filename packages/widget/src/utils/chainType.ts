@@ -11,10 +11,7 @@ export const defaultChainIdsByType: Record<ChainType, ChainId> = {
   [ChainType.STL]: ChainId.XLM,
 }
 
-/**
- * Chains a route may deliver to but never start from, because no wallet can
- * sign on them yet.
- */
+// No wallet can sign on these chains yet, so a route may only deliver to them.
 export const destinationOnlyChainIds: ReadonlySet<number> = new Set<number>([
   ChainId.ZEC,
 ])
@@ -22,11 +19,6 @@ export const destinationOnlyChainIds: ReadonlySet<number> = new Set<number>([
 export const isDestinationOnlyChain = (chainId?: number): boolean =>
   chainId !== undefined && destinationOnlyChainIds.has(chainId)
 
-/**
- * The integrator's chain config with every destination-only chain denied as a
- * source, so the widget's allow/deny filters keep it out of every source chain
- * and token list.
- */
 export const withDestinationOnlyChains = (
   chains: WidgetChains | undefined
 ): WidgetChains => {
@@ -43,11 +35,7 @@ export const withDestinationOnlyChains = (
   }
 }
 
-/**
- * The chain a saved receiver must show when its ecosystem's default chain would
- * be wrong: a Zcash address is valid on ZEC but not on BTC. `address` must be
- * valid on `chain`.
- */
+// A Zcash address is valid on ZEC but not on BTC, the UTXO default chain.
 export const bookmarkChainId = (
   address: string,
   chain: ChainRef,

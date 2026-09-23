@@ -64,7 +64,7 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
   // biome-ignore lint/correctness/useExhaustiveDependencies: formUpdateKey is needed here.
   const reactiveFormValues = useMemo(
     () => ({
-      // A destination-only chain is never a source, so drop it with its token
+      // Drop a destination-only source together with its token
       ...(configHasFromChain && !isDestinationOnlyChain(fromChain)
         ? { fromChain }
         : undefined),

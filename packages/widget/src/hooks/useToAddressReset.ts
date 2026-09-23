@@ -19,8 +19,6 @@ export const useToAddressReset = (): {
     (toChain: ExtendedChain) => {
       const requiredToAddress = requiredUI?.toAddress
 
-      // Keep the selected receiver only if it can receive on the new chain: a
-      // Bitcoin bookmark shares its chain type with ZEC but not its format.
       const bookmarkSatisfiesToChain = Boolean(
         selectedBookmark &&
           toChain &&

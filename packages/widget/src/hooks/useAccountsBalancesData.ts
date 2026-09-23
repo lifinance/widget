@@ -49,8 +49,6 @@ export const useAccountsBalancesData = (
       .reduce(
         (acc, account) => {
           if (account.address) {
-            // Pair a wallet only with chains it can hold: a Bitcoin wallet
-            // shares its chain type with ZEC but not its address format
             const accountChains = chains?.filter(
               (chain) =>
                 account.chainType === chain?.chainType &&
