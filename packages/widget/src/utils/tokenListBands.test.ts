@@ -198,7 +198,7 @@ describe('createBandResolver with a recent band', () => {
       showRecentToggle: true,
     })
 
-    expect(getRowExtraHeight(3)).toBe(28)
+    expect(getRowExtraHeight(3)).toBe(26)
     // The reserved height and the rendered toggle must agree on the row.
     expect([0, 1, 2, 3, 4].map(isToggleRow)).toEqual([
       false,

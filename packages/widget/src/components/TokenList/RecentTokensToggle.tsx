@@ -23,8 +23,8 @@ export const RecentTokensToggle = ({
   const ExpandIcon = expanded ? ExpandLessIcon : ExpandMoreIcon
 
   return (
-    // 2 + 18 + 8 fills the reserved 28px: close to the band, clear of the next header.
-    <Box sx={{ width: '100%', display: 'flex', px: 1.5, pt: 0.25, pb: 1 }}>
+    // 1 + 18 + 7 fills the reserved 26px: text 8px below the band, 18px above the next header.
+    <Box sx={{ width: '100%', display: 'flex', px: 1.5, pt: '1px', pb: '7px' }}>
       <ToggleButton
         clickable
         onClick={(e) => {
