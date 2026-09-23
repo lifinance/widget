@@ -10,6 +10,10 @@
  *   node scripts/collect-route-issues.js
  *   node scripts/collect-route-issues.js --api https://api-develop.jumper.xyz/pipeline/v1
  *   node scripts/collect-route-issues.js --fresh     # ignore what is already there
+ *   node scripts/collect-route-issues.js --verify    # re-request each suggestion
+ *
+ * `--verify` reads the suggestions scripts/route-issues/report.js writes, so run
+ * that first.
  *
  * The routes endpoint allows about 75 requests an hour, far fewer than the
  * matrix below, so a run tops the fixture up and skips what it already has.
@@ -31,8 +35,8 @@ const INTEGRATOR = 'li.fi-playground'
 // collect it in one go.
 const API_KEY = process.env.LIFI_API_KEY
 const VERIFY = args.includes('--verify')
-// Where `DUMP_SUGGESTIONS=1 pnpm test dumpSuggestions` leaves its file, and what
-// `--verify` reads back. Override with SUGGESTIONS_FILE to keep it elsewhere.
+// Where scripts/route-issues/report.js leaves its file, and what `--verify`
+// reads back. Override with SUGGESTIONS_FILE to keep it elsewhere.
 const SUGGESTIONS =
   process.env.SUGGESTIONS_FILE ?? join(tmpdir(), 'route-issue-suggestions.json')
 
