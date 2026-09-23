@@ -4,7 +4,7 @@ import { ReverseTokensButton } from '../components/ReverseTokensButton/ReverseTo
 import { SelectTokenButton } from '../components/SelectTokenButton/SelectTokenButton.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
-import { isItemAllowed } from '../utils/item.js'
+import { isDestinationAllowedAsSource } from '../utils/chainType.js'
 import { ReverseTokensButtonEmpty } from './ReverseTokensButton/ReverseTokensButton.style.js'
 
 export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
@@ -13,7 +13,7 @@ export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
 
   const hiddenReverse =
     mode === 'refuel' ||
-    (!!toChainId && !isItemAllowed(toChainId, chains?.from)) ||
+    !isDestinationAllowedAsSource(toChainId, chains) ||
     disabledUI?.fromToken ||
     disabledUI?.toToken ||
     hiddenUI?.fromToken ||
