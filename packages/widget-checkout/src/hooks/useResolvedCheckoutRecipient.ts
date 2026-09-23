@@ -1,5 +1,6 @@
 import type { ChainType } from '@lifi/sdk'
 import { useChain, useWidgetConfig } from '@lifi/widget/shared'
+import { useAddressForChain } from '@lifi/widget-provider'
 import { useCheckoutConfig } from '@lifi/widget-provider/checkout'
 import { useCallback, useMemo } from 'react'
 import {
@@ -21,24 +22,25 @@ export interface ResolvedCheckoutRecipient {
 export function useResolvedCheckoutRecipient(): ResolvedCheckoutRecipient {
   const { toAddress, toChain } = useWidgetConfig()
   const { chain: destinationChain } = useChain(toChain)
+  const { isAddressForChain } = useAddressForChain()
   const { integrator, allowUserDestinationAddress } = useCheckoutConfig()
   const userRecipient = useCheckoutRecipientStore(
     (s) => s.recipients[integrator] ?? null
   )
 
-  // Drop a persisted recipient that no longer matches the destination ecosystem.
+  // Drop a persisted recipient that cannot receive on the destination chain.
   const validUserRecipient = useMemo(() => {
     if (!userRecipient) {
       return null
     }
     if (
       destinationChain &&
-      userRecipient.chainType !== destinationChain.chainType
+      !isAddressForChain(userRecipient.address, destinationChain)
     ) {
       return null
     }
     return userRecipient
-  }, [userRecipient, destinationChain])
+  }, [userRecipient, destinationChain, isAddressForChain])
   const setRecipient = useCheckoutRecipientStore((s) => s.setRecipient)
   const clearRecipient = useCheckoutRecipientStore((s) => s.clearRecipient)
 

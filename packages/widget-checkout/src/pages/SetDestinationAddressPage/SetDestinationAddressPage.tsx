@@ -1,5 +1,6 @@
 import { useAccount, useWalletMenu } from '@lifi/wallet-management'
 import {
+  isDestinationOnlyChain,
   PageContainer,
   shortenAddress,
   useAddressValidation,
@@ -8,6 +9,7 @@ import {
   useHeader,
   useWidgetConfig,
 } from '@lifi/widget/shared'
+import { useAddressForChain } from '@lifi/widget-provider'
 import WalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined'
 import {
   Avatar,
@@ -44,6 +46,9 @@ export const SetDestinationAddressPage: React.FC = (): JSX.Element => {
   const { setFieldValue } = useFieldActions()
   const { openWalletMenu } = useWalletMenu()
   const { accounts } = useAccount()
+  const { isAddressForChain } = useAddressForChain()
+  // No wallet can connect on a destination-only chain, so offer only the field.
+  const canUseWallet = !isDestinationOnlyChain(destinationChain?.id)
 
   const [value, setValue] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -66,24 +71,14 @@ export const SetDestinationAddressPage: React.FC = (): JSX.Element => {
     setError(null)
     const result = await validateAddress({
       value: value.trim(),
-      chainType: destinationChain?.chainType,
       chain: destinationChain,
     })
     if (!result.isValid) {
       setError(result.error)
       return
     }
-    if (destinationChain && result.chainType !== destinationChain.chainType) {
-      setError(
-        t('error.title.walletAddressInvalid', {
-          context: 'chain',
-          chainName: destinationChain.name,
-        })
-      )
-      return
-    }
     commitRecipient(result.address, result.chainType)
-  }, [value, destinationChain, validateAddress, commitRecipient, t])
+  }, [value, destinationChain, validateAddress, commitRecipient])
 
   // Adopt the first connected account matching the destination ecosystem after connect.
   const awaitingConnectRef = useRef(false)
@@ -98,13 +93,15 @@ export const SetDestinationAddressPage: React.FC = (): JSX.Element => {
     }
     const match = accounts.find(
       (a) =>
-        a.isConnected && a.address && a.chainType === destinationChain.chainType
+        a.isConnected &&
+        a.address &&
+        isAddressForChain(a.address, destinationChain)
     )
     if (match?.address) {
       awaitingConnectRef.current = false
       commitRecipient(match.address, destinationChain.chainType)
     }
-  }, [accounts, destinationChain, commitRecipient])
+  }, [accounts, destinationChain, commitRecipient, isAddressForChain])
 
   // Connected wallets in the destination ecosystem, offered as one-tap recipients.
   const connectedAccounts = useMemo(() => {
@@ -113,13 +110,14 @@ export const SetDestinationAddressPage: React.FC = (): JSX.Element => {
       if (
         account.isConnected &&
         account.address &&
-        account.chainType === destinationChain?.chainType
+        destinationChain &&
+        isAddressForChain(account.address, destinationChain)
       ) {
         byAddress.set(account.address.toLowerCase(), account)
       }
     }
     return [...byAddress.values()]
-  }, [accounts, destinationChain])
+  }, [accounts, destinationChain, isAddressForChain])
 
   return (
     <PageContainer bottomGutters>
@@ -148,64 +146,69 @@ export const SetDestinationAddressPage: React.FC = (): JSX.Element => {
         >
           {t('button.done')}
         </Button>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-          <Divider sx={{ flex: 1 }} />
-          <Typography variant="caption" color="text.secondary">
-            {t('checkout.or')}
-          </Typography>
-          <Divider sx={{ flex: 1 }} />
-        </Box>
-        {connectedAccounts.map((account) => {
-          const name =
-            account.connector?.displayName ??
-            account.connector?.name ??
-            account.name
-          const shortAddress = shortenAddress(account.address)
-          const isSelected =
-            recipient?.address?.toLowerCase() === account.address?.toLowerCase()
-          return (
+        {canUseWallet ? (
+          <>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+              <Divider sx={{ flex: 1 }} />
+              <Typography variant="caption" color="text.secondary">
+                {t('checkout.or')}
+              </Typography>
+              <Divider sx={{ flex: 1 }} />
+            </Box>
+            {connectedAccounts.map((account) => {
+              const name =
+                account.connector?.displayName ??
+                account.connector?.name ??
+                account.name
+              const shortAddress = shortenAddress(account.address)
+              const isSelected =
+                recipient?.address?.toLowerCase() ===
+                account.address?.toLowerCase()
+              return (
+                <ListItemButton
+                  key={account.address}
+                  selected={isSelected}
+                  onClick={() => {
+                    if (account.address) {
+                      commitRecipient(account.address, account.chainType)
+                    }
+                  }}
+                  sx={{ borderRadius: 3, height: 56 }}
+                >
+                  <ListItemIcon sx={{ minWidth: 40 }}>
+                    <Avatar
+                      src={account.connector?.icon}
+                      sx={{ width: 24, height: 24 }}
+                    >
+                      <WalletOutlinedIcon fontSize="small" />
+                    </Avatar>
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={name ?? shortAddress}
+                    secondary={name ? shortAddress : undefined}
+                    slotProps={{ primary: { sx: { fontWeight: 500 } } }}
+                  />
+                </ListItemButton>
+              )
+            })}
             <ListItemButton
-              key={account.address}
-              selected={isSelected}
-              onClick={() => {
-                if (account.address) {
-                  commitRecipient(account.address, account.chainType)
-                }
-              }}
+              onClick={handleConnectWallet}
               sx={{ borderRadius: 3, height: 56 }}
             >
               <ListItemIcon sx={{ minWidth: 40 }}>
-                <Avatar
-                  src={account.connector?.icon}
-                  sx={{ width: 24, height: 24 }}
-                >
-                  <WalletOutlinedIcon fontSize="small" />
-                </Avatar>
+                <WalletOutlinedIcon />
               </ListItemIcon>
               <ListItemText
-                primary={name ?? shortAddress}
-                secondary={name ? shortAddress : undefined}
+                primary={t(
+                  connectedAccounts.length
+                    ? 'checkout.useAnotherWallet'
+                    : 'checkout.connectWallet'
+                )}
                 slotProps={{ primary: { sx: { fontWeight: 500 } } }}
               />
             </ListItemButton>
-          )
-        })}
-        <ListItemButton
-          onClick={handleConnectWallet}
-          sx={{ borderRadius: 3, height: 56 }}
-        >
-          <ListItemIcon sx={{ minWidth: 40 }}>
-            <WalletOutlinedIcon />
-          </ListItemIcon>
-          <ListItemText
-            primary={t(
-              connectedAccounts.length
-                ? 'checkout.useAnotherWallet'
-                : 'checkout.connectWallet'
-            )}
-            slotProps={{ primary: { sx: { fontWeight: 500 } } }}
-          />
-        </ListItemButton>
+          </>
+        ) : null}
       </Box>
     </PageContainer>
   )
