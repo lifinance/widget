@@ -7,7 +7,7 @@ import { useToken } from './useToken.js'
 export interface LinkedLimitFields {
   limitPrice: string
   /** Set the send amount (explicit user edit); derives receiveAmount when a price is set. */
-  setSendAmount: (value: string) => void
+  setSendAmount: (value: string, immediate?: boolean) => void
   /** Set the limit price (canonical: receive per send); derives receiveAmount when a send amount is set. */
   setLimitPrice: (value: string) => void
 }
@@ -40,17 +40,21 @@ export const useLinkedLimitFields = (): LinkedLimitFields => {
 
   const limitPrice = deriveLimitPrice(sendAmount, receiveAmount)
 
-  const setSendAmount = (value: string): void => {
+  const setSendAmount = (value: string, immediate?: boolean): void => {
     // Hold the pre-edit price (derived from the current fields) so changing the
     // send amount rescales the receive amount instead of moving the price.
-    setFieldValue('fromAmount', value, { isDirty: true, isTouched: true })
+    setFieldValue('fromAmount', value, {
+      isDirty: true,
+      isTouched: true,
+      immediate,
+    })
     const nextReceive = deriveReceiveAmount(
       value,
       limitPrice,
       toToken?.decimals
     )
     if (nextReceive) {
-      setFieldValue('toAmount', nextReceive, { isDirty: true })
+      setFieldValue('toAmount', nextReceive, { isDirty: true, immediate })
     }
   }
 

@@ -1,0 +1,301 @@
+import { formatUnits, parseUnits } from '@lifi/sdk'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import {
+  bufferedReported,
+  gentlerSuggestion,
+  nextSlippage,
+  reportedSlippage,
+  roundSuggestion,
+} from './suggestions.js'
+import type { RouteIssue } from './types.js'
+
+const issue = (evidence: RouteIssue['evidence']): RouteIssue => ({
+  bucket: 'amountTooLow',
+  ruleId: 'test',
+  evidence,
+  fromAmount: 1000n,
+})
+
+describe('roundSuggestion', () => {
+  // A figure a user reads back is worth more than one that is exact.
+  it.each([
+    ['0.000492134057317213', '0.0005'],
+    ['0.0102', '0.011'],
+    ['5.34', '5.4'],
+    ['1234.5', '1300'],
+    ['1', '1'],
+  ])('rounds %s up to %s', (value, expected) => {
+    expect(roundSuggestion(value, 'raise')).toBe(expected)
+  })
+
+  it.each([
+    ['0.0102', '0.01'],
+    ['5.36', '5.3'],
+    ['1299', '1200'],
+  ])('rounds %s down to %s', (value, expected) => {
+    expect(roundSuggestion(value, 'lower')).toBe(expected)
+  })
+
+  const spread = [
+    '0.000000001',
+    '0.0000000123',
+    '0.000000123',
+    '0.0000079',
+    '0.0079',
+    '0.0102',
+    '0.5',
+    '1',
+    '1.0001',
+    '7',
+    '99.5',
+    '999.9',
+    '1000',
+    '12345',
+    '1000000',
+    '1020000',
+    '15000000',
+    '1000000000',
+    '987000000000',
+    '1000000000000',
+  ]
+
+  // A hand-picked sample missed that the previous implementation could land
+  // under the very limit it had to clear, and inflated exact figures like 3e6.
+  const sweep: string[] = []
+  for (let exponent = -12; exponent <= 12; exponent++) {
+    for (let step = 1; step <= 400; step++) {
+      sweep.push(String((step / 37) * 10 ** exponent))
+    }
+  }
+
+  it('rounding up never lands under the value it must clear', () => {
+    for (const value of [...spread, ...sweep]) {
+      expect(Number(roundSuggestion(value, 'raise'))).toBeGreaterThanOrEqual(
+        Number(value)
+      )
+    }
+  })
+
+  it('rounding down never lands over the value it must stay under', () => {
+    for (const value of [...spread, ...sweep]) {
+      expect(Number(roundSuggestion(value, 'lower'))).toBeLessThanOrEqual(
+        Number(value)
+      )
+    }
+  })
+
+  it.each([
+    ['3000000', '3000000'],
+    ['5000000', '5000000'],
+    ['0.7', '0.7'],
+    ['4200000000', '4200000000'],
+  ])('leaves %s alone — it already reads as two digits', (value, expected) => {
+    expect(roundSuggestion(value, 'raise')).toBe(expected)
+  })
+
+  // The figure is rendered verbatim and written to the form, so a binary tail
+  // or an exponent would reach the user.
+  it('stays a plain decimal of two significant digits', () => {
+    for (const value of spread) {
+      for (const direction of ['raise', 'lower'] as const) {
+        const result = roundSuggestion(value, direction)
+        expect(result).not.toMatch(/e/i)
+        expect(formatUnits(parseUnits(result, 18), 18)).toBe(result)
+        expect(Number(Number(result).toPrecision(2))).toBe(Number(result))
+      }
+    }
+  })
+})
+
+describe('bufferedReported', () => {
+  it('moves a minimum up and away from the limit', () => {
+    expect(
+      bufferedReported(issue({ direction: 'raise', requiredFromAmount: 1000n }))
+    ).toBe(1020n)
+  })
+
+  it('moves a maximum down and away from the limit', () => {
+    expect(
+      bufferedReported(issue({ direction: 'lower', requiredFromAmount: 1000n }))
+    ).toBe(980n)
+  })
+
+  it('has nothing to offer without a figure', () => {
+    expect(bufferedReported(issue({ direction: 'raise' }))).toBeUndefined()
+    expect(bufferedReported(issue(undefined))).toBeUndefined()
+  })
+})
+
+describe('reportedSlippage', () => {
+  // 0.0079 * 1e6 is 7900.000000000001, which a bare ceil turns into 0.7901%.
+  it.each([
+    [0.0079, '0.79'],
+    [0.029, '2.9'],
+    [0.007, '0.7'],
+    [0.0158, '1.58'],
+    [0.005, '0.5'],
+  ])('renders %s as %s%%', (fraction, expected) => {
+    expect(reportedSlippage(issue({ requiredSlippage: fraction }))).toBe(
+      expected
+    )
+  })
+
+  it('is empty when the backend reported none', () => {
+    expect(reportedSlippage(issue({}))).toBe('')
+  })
+
+  // A cap has to be stayed under. Rounding 1.2345% up to 1.24% wrote back a
+  // value the bridge refuses for the same reason, so the card never settled.
+  it('rounds a stated cap down, away from the bar', () => {
+    const cap: RouteIssue = {
+      bucket: 'slippageTooLoose',
+      ruleId: 'test',
+      evidence: { requiredSlippage: 0.012345 },
+      fromAmount: 1000n,
+    }
+    expect(reportedSlippage(cap)).toBe('1.23')
+  })
+
+  it('offers nothing for a cap too small to express', () => {
+    expect(
+      reportedSlippage({
+        bucket: 'slippageTooLoose',
+        ruleId: 'test',
+        evidence: { requiredSlippage: 0.00001 },
+        fromAmount: 1000n,
+      })
+    ).toBe('')
+  })
+})
+
+describe('nextSlippage', () => {
+  it('prefers what the backend asked for', () => {
+    expect(nextSlippage(issue({ requiredSlippage: 0.012 }), '0.5')).toBe('1.2')
+  })
+
+  it('falls back to 0.5% from a stricter setting', () => {
+    expect(nextSlippage(issue({}), '0.1')).toBe('0.5')
+    expect(nextSlippage(issue({}), undefined)).toBe('0.5')
+  })
+
+  // Doubling is the intent, but never past the band the widget itself warns
+  // about — a one-click 90% slippage is not a fix.
+  it('doubles a setting already looser than the fallback, up to the band', () => {
+    expect(nextSlippage(issue({}), '0.4')).toBe('0.5')
+    expect(nextSlippage(issue({}), '0.8')).toBe('1')
+  })
+
+  it('never proposes more than the widget calls reasonable', () => {
+    expect(Number(nextSlippage(issue({}), '0.9'))).toBeLessThanOrEqual(1)
+  })
+
+  // The widget warns about an unusual slippage rather than blocking it, so the
+  // applied value can already sit above the band. Capping to it then advised a
+  // smaller number on a card titled "too tight" — advice that contradicts the
+  // card and that the Apply guard refuses to act on anyway.
+  it.each([['3'], ['80']])(
+    'offers nothing when %s%% is already above the band',
+    (applied) => {
+      expect(nextSlippage(issue({}), applied)).toBe('')
+    }
+  )
+})
+
+describe('gentlerSuggestion', () => {
+  // Reported: a $1.20 bar from one bridge beside an 11 USDC minimum from
+  // another read as "need at least $1.20 ... around 11 USDC".
+  it('takes the USD bar when the reported figure asks for more', () => {
+    expect(gentlerSuggestion(11_000_000n, 1_200_000n, 1.2)).toEqual({
+      amount: 1_200_000n,
+      usdBar: 1.2,
+    })
+  })
+
+  it('takes the reported figure when it asks for less', () => {
+    expect(gentlerSuggestion(2_000_000n, 5_000_000n, 5)).toEqual({
+      amount: 2_000_000n,
+    })
+  })
+
+  it('keeps the reported figure when the two agree', () => {
+    expect(gentlerSuggestion(5_000_000n, 5_000_000n, 5)).toEqual({
+      amount: 5_000_000n,
+    })
+  })
+
+  it.each([
+    [undefined, 1_200_000n, { amount: 1_200_000n, usdBar: 1.2 }],
+    [3_000_000n, undefined, { amount: 3_000_000n }],
+    [undefined, undefined, undefined],
+  ])('resolves %s and %s to %s', (reported, forUsd, expected) => {
+    expect(gentlerSuggestion(reported, forUsd, 1.2)).toEqual(expected)
+  })
+})
+
+// `roundingMode` arrived with Intl.NumberFormat v3 (Chrome 106, Safari 15.4,
+// Firefox 116). An engine without it rounds half-way instead, which put a
+// raised figure under the bar it had to clear and a lowered one over its cap —
+// so the button wrote back an amount refused for the same reason.
+describe('rounding on an engine without roundingMode', () => {
+  const NativeNumberFormat = Intl.NumberFormat
+
+  beforeEach(() => {
+    vi.resetModules()
+    class OldNumberFormat extends NativeNumberFormat {
+      constructor(
+        locales?: Intl.LocalesArgument,
+        options?: Intl.NumberFormatOptions
+      ) {
+        super(
+          locales,
+          Object.fromEntries(
+            Object.entries(options ?? {}).filter(
+              ([key]) => key !== 'roundingMode'
+            )
+          )
+        )
+      }
+    }
+    vi.stubGlobal(
+      'Intl',
+      Object.assign(Object.create(Intl), { NumberFormat: OldNumberFormat })
+    )
+  })
+
+  afterEach(() => {
+    vi.unstubAllGlobals()
+    vi.resetModules()
+  })
+
+  // Reported in review: a floor of 1.02, buffered to 1.0404, came out as 1.0.
+  it('raises a buffered floor clear of it', async () => {
+    const { roundSuggestion } = await import('./suggestions.js')
+    expect(roundSuggestion('1.0404', 'raise')).toBe('1.1')
+    expect(roundSuggestion('0.000492134057317213', 'raise')).toBe('0.0005')
+  })
+
+  it('lowers a buffered cap under it', async () => {
+    const { roundSuggestion } = await import('./suggestions.js')
+    expect(roundSuggestion('5.36', 'lower')).toBe('5.3')
+    expect(roundSuggestion('1299', 'lower')).toBe('1200')
+  })
+
+  it('keeps a slippage floor and cap on the right side of the bar', async () => {
+    const { reportedSlippage } = await import('./suggestions.js')
+    const withSlippage = (
+      bucket: RouteIssue['bucket'],
+      requiredSlippage: number
+    ): RouteIssue => ({
+      bucket,
+      ruleId: 'test',
+      evidence: { requiredSlippage },
+      fromAmount: 1000n,
+    })
+    expect(reportedSlippage(withSlippage('slippageTooTight', 0.012325))).toBe(
+      '1.24'
+    )
+    expect(reportedSlippage(withSlippage('slippageTooLoose', 0.012375))).toBe(
+      '1.23'
+    )
+  })
+})
