@@ -20,9 +20,7 @@ export const useToAddressReset = (): {
       const requiredToAddress = requiredUI?.toAddress
 
       const bookmarkSatisfiesToChain = Boolean(
-        selectedBookmark &&
-          toChain &&
-          isAddressForChain(selectedBookmark.address, toChain)
+        selectedBookmark && isAddressForChain(selectedBookmark.address, toChain)
       )
 
       const shouldResetToAddress =

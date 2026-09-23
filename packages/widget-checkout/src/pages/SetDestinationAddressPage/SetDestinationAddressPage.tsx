@@ -77,7 +77,7 @@ export const SetDestinationAddressPage: React.FC = (): JSX.Element => {
     commitRecipient(result.address, result.chainType)
   }, [value, destinationChain, validateAddress, commitRecipient])
 
-  // Adopt the first connected account matching the destination ecosystem after connect.
+  // Adopt the first connected account matching the destination chain after connect.
   const awaitingConnectRef = useRef(false)
   const handleConnectWallet = useCallback(() => {
     awaitingConnectRef.current = true
@@ -100,7 +100,7 @@ export const SetDestinationAddressPage: React.FC = (): JSX.Element => {
     }
   }, [accounts, destinationChain, commitRecipient, isAddressForChain])
 
-  // Connected wallets in the destination ecosystem, offered as one-tap recipients.
+  // Connected wallets that can receive on the destination chain, offered as one-tap recipients.
   const connectedAccounts = useMemo(() => {
     const byAddress = new Map<string, (typeof accounts)[number]>()
     for (const account of accounts) {

@@ -52,7 +52,6 @@ export const useToAddressAutoPopulate = (): ((
       ) {
         return
       }
-      // Identify the destination chain based on the bridge direction ('from' or 'to')
       const destinationChain =
         formType === 'from' ? selectedOppositeChain : selectedChain
       if (
@@ -61,7 +60,6 @@ export const useToAddressAutoPopulate = (): ((
       ) {
         return
       }
-      // Find a connected account that can receive on the destination chain
       const destinationAccount = accounts?.find(
         (account) =>
           account.address &&

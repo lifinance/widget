@@ -28,7 +28,6 @@ export function useResolvedCheckoutRecipient(): ResolvedCheckoutRecipient {
     (s) => s.recipients[integrator] ?? null
   )
 
-  // Drop a persisted recipient that cannot receive on the destination chain.
   const validUserRecipient = useMemo(() => {
     if (!userRecipient) {
       return null
