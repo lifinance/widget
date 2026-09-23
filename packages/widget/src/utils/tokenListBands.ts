@@ -19,7 +19,7 @@ export interface BandResolverOptions {
   showCategories: boolean
   showPinnedTokens: boolean
   nativeHoisted: boolean
-  /** Index of the first recent row. Ignored while `recentCount` is 0. */
+  /** Ignored while `recentCount` is 0. */
   recentStartIndex: number
   recentCount: number
   showRecentToggle: boolean

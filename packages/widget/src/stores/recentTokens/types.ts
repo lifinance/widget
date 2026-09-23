@@ -12,7 +12,7 @@ export interface RecentToken {
   flagged?: boolean
 }
 
-/** Identifies a stored entry. Compared case-insensitively. */
+/** Compared case-insensitively. */
 export interface RecentTokenId {
   chainId: number
   address: string

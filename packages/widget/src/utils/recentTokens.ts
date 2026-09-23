@@ -23,7 +23,7 @@ export interface ResolveRecentRowsParams {
 }
 
 export interface RecentRows {
-  /** Every row the band shows when expanded; empty when the band is inactive. */
+  /** Unsliced; empty when the band is inactive. */
   rows: TokenAmount[]
   /** Everything Clear removes, including toggled-away and displaced rows. */
   bandEntries: RecentTokenId[]
