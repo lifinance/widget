@@ -16,7 +16,6 @@ export enum AddressType {
 
 type ValidationArgs = {
   value: string
-  chainType?: ChainType
   /** Strict: the receiver must be valid on this chain. */
   chain?: Chain
   /** Lenient, for bookmarks: also accepts an address valid only on this chain. */
@@ -97,7 +96,6 @@ export const useAddressValidation = (): {
 
   const validateWithoutChain = async (
     value: string,
-    chainType?: ChainType,
     fallbackChain?: Chain
   ): Promise<ValidResponse | undefined> => {
     const detectedChainType = getChainTypeFromAddress(value)
@@ -112,7 +110,7 @@ export const useAddressValidation = (): {
     if (fallbackChain && isAddressForChain(value, fallbackChain)) {
       return validFor(value, AddressType.Address, fallbackChain)
     }
-    const address = await getNameServiceAddress(sdkClient, value, chainType)
+    const address = await getNameServiceAddress(sdkClient, value)
     const resolvedChainType = address
       ? getChainTypeFromAddress(address)
       : undefined
@@ -131,7 +129,6 @@ export const useAddressValidation = (): {
     {
       mutationFn: async ({
         value,
-        chainType,
         chain,
         fallbackChain,
       }: ValidationArgs): Promise<ValidResponse | InvalidResponse> => {
@@ -142,11 +139,7 @@ export const useAddressValidation = (): {
           if (chain) {
             return await validateForChain(value, chain)
           }
-          const result = await validateWithoutChain(
-            value,
-            chainType,
-            fallbackChain
-          )
+          const result = await validateWithoutChain(value, fallbackChain)
           if (result) {
             return result
           }
