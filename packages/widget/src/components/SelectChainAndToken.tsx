@@ -3,13 +3,17 @@ import { Box } from '@mui/material'
 import { ReverseTokensButton } from '../components/ReverseTokensButton/ReverseTokensButton.js'
 import { SelectTokenButton } from '../components/SelectTokenButton/SelectTokenButton.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { useFieldValues } from '../stores/form/useFieldValues.js'
+import { isDestinationOnlyChain } from '../utils/chainType.js'
 import { ReverseTokensButtonEmpty } from './ReverseTokensButton/ReverseTokensButton.style.js'
 
 export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
   const { disabledUI, hiddenUI, mode } = useWidgetConfig()
+  const [toChainId] = useFieldValues('toChain')
 
   const hiddenReverse =
     mode === 'refuel' ||
+    isDestinationOnlyChain(toChainId) ||
     disabledUI?.fromToken ||
     disabledUI?.toToken ||
     hiddenUI?.fromToken ||
