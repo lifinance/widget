@@ -56,7 +56,9 @@ export const useTokens = (
   // Main tokens cache - verified tokens from API
   const { data: verifiedTokens, isLoading } = useQuery({
     queryKey: [getQueryKey('tokens', keyPrefix)],
-    queryFn: async ({ signal }) => {
+    // Leave the signal unread: the SDK shares this request between callers of
+    // the same list, so one caller's abort would fail them all.
+    queryFn: async () => {
       const chainTypes = [
         ChainType.EVM,
         ChainType.SVM,
@@ -74,8 +76,7 @@ export const useTokens = (
           extended: true,
           limit: 1000,
           minPriceUSD: 0.000001,
-        },
-        { signal }
+        }
       )
 
       // `listed` tells a main-list token from a searched one
