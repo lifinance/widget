@@ -1,6 +1,7 @@
 import type { Context } from 'react'
 import { createContext, use, useId, useMemo } from 'react'
 import { useSettingsActions } from '../../stores/settings/useSettingsActions.js'
+import { withDestinationOnlyChains } from '../../utils/chainType.js'
 import type { WidgetContextProps, WidgetProviderProps } from './types.js'
 
 const initialContext: WidgetContextProps = {
@@ -28,6 +29,7 @@ export const WidgetProvider: React.FC<
       // Create widget configuration object
       const value = {
         ...widgetConfig,
+        chains: withDestinationOnlyChains(widgetConfig.chains),
         elementId,
       } as WidgetContextProps
 
@@ -39,6 +41,7 @@ export const WidgetProvider: React.FC<
       console.warn(e)
       return {
         ...widgetConfig,
+        chains: withDestinationOnlyChains(widgetConfig.chains),
         elementId,
         integrator: widgetConfig.integrator,
       }

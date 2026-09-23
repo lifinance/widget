@@ -1,7 +1,11 @@
 import { ChainId, ChainType } from '@lifi/sdk'
 import type { IsAddressForChain } from '@lifi/widget-provider'
 import { describe, expect, it } from 'vitest'
-import { bookmarkChainId, isDestinationOnlyChain } from './chainType.js'
+import {
+  bookmarkChainId,
+  isDestinationOnlyChain,
+  withDestinationOnlyChains,
+} from './chainType.js'
 
 describe('isDestinationOnlyChain', () => {
   it('is true for ZEC only', () => {
@@ -47,5 +51,29 @@ describe('bookmarkChainId', () => {
     expect(bookmarkChainId(zcashAddress, zcash, isAddressForChain)).toBe(
       ChainId.ZEC
     )
+  })
+})
+
+describe('withDestinationOnlyChains', () => {
+  it('denies every destination-only chain as a source', () => {
+    expect(withDestinationOnlyChains(undefined)).toEqual({
+      from: { deny: [ChainId.ZEC] },
+    })
+  })
+
+  it('keeps the integrator lists and never allows ZEC as a source', () => {
+    expect(
+      withDestinationOnlyChains({
+        types: { deny: [ChainType.MVM] },
+        deny: [ChainId.BSC],
+        from: { allow: [ChainId.ETH, ChainId.ZEC], deny: [ChainId.ARB] },
+        to: { deny: [ChainId.OPT] },
+      })
+    ).toEqual({
+      types: { deny: [ChainType.MVM] },
+      deny: [ChainId.BSC],
+      from: { allow: [ChainId.ETH], deny: [ChainId.ARB, ChainId.ZEC] },
+      to: { deny: [ChainId.OPT] },
+    })
   })
 })

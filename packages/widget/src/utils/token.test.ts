@@ -6,6 +6,7 @@ import type {
 } from '@lifi/sdk'
 import { describe, expect, it } from 'vitest'
 import type { TokensByChain, TokenWithFlags } from '../types/token.js'
+import { withDestinationOnlyChains } from './chainType.js'
 import {
   filterAllowedTokens,
   getNativeTokenAddresses,
@@ -58,13 +59,19 @@ describe('filterAllowedTokens', () => {
       [zcash]: [makeToken(zcash, 'zcash')],
     }
 
+    const chainsConfig = withDestinationOnlyChains(undefined)
     const fromTokens = filterAllowedTokens(
       dataTokens,
       undefined,
-      undefined,
+      chainsConfig,
       'from'
     )
-    const toTokens = filterAllowedTokens(dataTokens, undefined, undefined, 'to')
+    const toTokens = filterAllowedTokens(
+      dataTokens,
+      undefined,
+      chainsConfig,
+      'to'
+    )
 
     expect(fromTokens).toHaveProperty('1')
     expect(fromTokens).not.toHaveProperty(String(zcash))

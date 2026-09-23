@@ -12,9 +12,13 @@ const mocks = vi.hoisted(() => ({
 vi.mock('react', () => ({
   useMemo: <T>(factory: () => T) => factory(),
 }))
-vi.mock('../providers/WidgetProvider/WidgetProvider.js', () => ({
-  useWidgetConfig: () => ({}),
-}))
+// WidgetProvider resolves the integrator config through withDestinationOnlyChains.
+vi.mock('../providers/WidgetProvider/WidgetProvider.js', async () => {
+  const { withDestinationOnlyChains } = await import('../utils/chainType.js')
+  return {
+    useWidgetConfig: () => ({ chains: withDestinationOnlyChains(undefined) }),
+  }
+})
 vi.mock('./useAvailableChains.js', () => ({
   useAvailableChains: () => ({
     chains: mocks.chains,
