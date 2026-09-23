@@ -4,16 +4,16 @@ import { ReverseTokensButton } from '../components/ReverseTokensButton/ReverseTo
 import { SelectTokenButton } from '../components/SelectTokenButton/SelectTokenButton.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
-import { isDestinationOnlyChain } from '../utils/chainType.js'
+import { isItemAllowed } from '../utils/item.js'
 import { ReverseTokensButtonEmpty } from './ReverseTokensButton/ReverseTokensButton.style.js'
 
 export const SelectChainAndToken: React.FC<BoxProps> = (props) => {
-  const { disabledUI, hiddenUI, mode } = useWidgetConfig()
+  const { disabledUI, hiddenUI, mode, chains } = useWidgetConfig()
   const [toChainId] = useFieldValues('toChain')
 
   const hiddenReverse =
     mode === 'refuel' ||
-    isDestinationOnlyChain(toChainId) ||
+    !isItemAllowed(toChainId, chains?.from) ||
     disabledUI?.fromToken ||
     disabledUI?.toToken ||
     hiddenUI?.fromToken ||
