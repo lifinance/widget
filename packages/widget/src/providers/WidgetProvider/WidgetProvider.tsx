@@ -1,7 +1,10 @@
 import type { Context } from 'react'
 import { createContext, use, useId, useMemo } from 'react'
 import { useSettingsActions } from '../../stores/settings/useSettingsActions.js'
-import { withDestinationOnlyChains } from '../../utils/chainType.js'
+import {
+  isDestinationOnlyChain,
+  withDestinationOnlyChains,
+} from '../../utils/chainType.js'
 import type { WidgetContextProps, WidgetProviderProps } from './types.js'
 
 const initialContext: WidgetContextProps = {
@@ -31,8 +34,10 @@ export const WidgetProvider: React.FC<
   )
 
   const value = useMemo((): WidgetContextProps => {
+    // Omitted, not undefined: an own undefined key resets the form field.
+    const { fromChain, fromToken, ...config } = widgetConfig
     const value = {
-      ...widgetConfig,
+      ...(isDestinationOnlyChain(fromChain) ? config : widgetConfig),
       chains,
       elementId,
     } as WidgetContextProps
