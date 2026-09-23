@@ -7,8 +7,8 @@ import { compactNumberFormatter } from '../compactNumberFormatter.js'
 import { buildRouteIssueCard } from './card.js'
 import { classifyRouteIssues } from './classify.js'
 import rawPayloads from './fixtures/live-payloads.json' with { type: 'json' }
-import { routeIssueRules } from './rules.js'
-import type { ClassifyContext } from './types.js'
+import { bucketRank, routeIssueRules } from './rules.js'
+import type { ClassifyContext, RouteIssueBucket } from './types.js'
 
 // Real payloads from the API, collected by scripts/collect-route-issues.js.
 // The widget only ever sees these, so replaying one reproduces its card
@@ -114,18 +114,66 @@ const usdValue = (request: LivePayload['request']): number =>
   (Number(request.fromAmount) / 10 ** request.fromTokenDecimals) *
   Number(request.fromTokenPriceUSD)
 
+const contextFor = (request: LivePayload['request']): ClassifyContext => ({
+  fromAmount: BigInt(request.fromAmount),
+  fromChainId: request.fromChainId,
+  fromTokenSymbol: request.fromTokenSymbol,
+  fromTokenDecimals: request.fromTokenDecimals,
+  fromTokenPriceUSD: request.fromTokenPriceUSD,
+  fromAddress: request.fromAddress,
+  toAddress: request.toAddress,
+})
+
+/**
+ * Buckets no collected request shows as its card, each with the reason. A
+ * bucket pinned only by hand-written prose goes quiet the day the backend
+ * rewords it, so a new one has to be captured or named here.
+ */
+const neverTheCard: Partial<Record<RouteIssueBucket, string>> = {
+  // Every request that tripped it found another path, so no card was needed.
+  recipientNotSupported: 'captured beside a route only',
+  // Transient, and ranked to lead only when nothing else survived.
+  temporary: 'captured beside a request-level reason only',
+  gaslessNotAvailable: 'not captured',
+}
+
+// Needs a gasless request, which the public routes endpoint does not take.
+const neverCaptured: RouteIssueBucket[] = ['gaslessNotAvailable']
+
+const allBuckets = Object.keys(bucketRank) as RouteIssueBucket[]
+
+const issuesOf = (entry: LivePayload) =>
+  classifyRouteIssues(
+    entry.unavailableRoutes as never,
+    contextFor(entry.request)
+  )
+
+describe('captured coverage', () => {
+  it('shows every bucket as a card from a real payload, bar the named ones', () => {
+    const shown = new Set(
+      payloads
+        .filter((entry) => entry.routes === 0)
+        .map((entry) => issuesOf(entry)[0]?.bucket)
+    )
+    expect(allBuckets.filter((bucket) => !shown.has(bucket))).toEqual(
+      allBuckets.filter((bucket) => neverTheCard[bucket])
+    )
+  })
+
+  it('pins real prose for every bucket, bar the one never captured', () => {
+    const found = new Set(
+      payloads.flatMap((entry) => issuesOf(entry).map((issue) => issue.bucket))
+    )
+    expect(allBuckets.filter((bucket) => !found.has(bucket))).toEqual(
+      neverCaptured
+    )
+  })
+})
+
 describe('cards built from real API payloads', () => {
   it.each(payloads)('$name', (entry) => {
     const { request } = entry
-    const context: ClassifyContext = {
-      fromAmount: BigInt(request.fromAmount),
-      fromChainId: request.fromChainId,
-      fromTokenSymbol: request.fromTokenSymbol,
-      fromTokenDecimals: request.fromTokenDecimals,
-      fromTokenPriceUSD: request.fromTokenPriceUSD,
-      fromAddress: request.fromAddress,
-      toAddress: request.toAddress,
-    }
+    const context = contextFor(request)
     // The card only exists when the quote came back empty. A payload that
     // still produced routes carries leftover reasons the user never sees, and
     // asserting on those would be measuring something the widget never renders.
@@ -214,11 +262,19 @@ describe('cards built from real API payloads', () => {
       expect(suggestedUsd).toBeGreaterThanOrEqual(minUsd * 0.99)
     }
 
-    // Loosening past what the widget itself calls unusual is not a fix.
+    // A slippage fix moves toward the bar and no further. A floor is cleared by
+    // raising, but loosening past what the widget itself calls unusual is not a
+    // fix; a cap is met by lowering, whatever the setting was.
     if (applied?.startsWith('slippage:')) {
       const target = Number(applied.slice('slippage:'.length))
+      const current = request.slippage * 100
       expect(target).toBeGreaterThan(0)
-      expect(target).toBeLessThanOrEqual(maxRecommendedSlippage)
+      if (issue.bucket === 'slippageTooLoose') {
+        expect(target).toBeLessThan(current)
+      } else {
+        expect(target).toBeGreaterThan(current)
+        expect(target).toBeLessThanOrEqual(maxRecommendedSlippage)
+      }
     }
 
     // "This pair is not supported" is untrue beside a reason about the request,
