@@ -25,7 +25,7 @@ export const SendToConfiguredWalletPage = (): JSX.Element => {
   const { t } = useTranslation()
   const navigateBack = useNavigateBack()
   const { toAddresses } = useWidgetConfig()
-  const { requiredToChainType } = useToAddressRequirements()
+  const { isValidReceiver } = useToAddressRequirements()
   const { setSelectedBookmark } = useBookmarkActions()
   const { setFieldValue } = useFieldActions()
   const { getAddressLink } = useExplorer()
@@ -56,10 +56,7 @@ export const SendToConfiguredWalletPage = (): JSX.Element => {
         {toAddresses?.map((toAddress) => (
           <ListItem key={toAddress.address} sx={{ position: 'relative' }}>
             <ListItemButton
-              disabled={
-                requiredToChainType &&
-                requiredToChainType !== toAddress.chainType
-              }
+              disabled={!isValidReceiver(toAddress.address)}
               onClick={() => handleCuratedSelected(toAddress)}
             >
               <ListItemAvatar>
@@ -76,12 +73,7 @@ export const SendToConfiguredWalletPage = (): JSX.Element => {
               />
             </ListItemButton>
             <ContextMenu
-              disabled={
-                !!(
-                  requiredToChainType &&
-                  requiredToChainType !== toAddress.chainType
-                )
-              }
+              disabled={!isValidReceiver(toAddress.address)}
               items={[
                 {
                   icon: <ContentCopyRounded />,

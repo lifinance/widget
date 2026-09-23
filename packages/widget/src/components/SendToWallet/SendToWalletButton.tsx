@@ -77,9 +77,8 @@ export const SendToWalletButton: React.FC<
       ? toChainId
       : matchingConnectedAccount
         ? matchingConnectedAccount.chainId
-        : chainType
-          ? defaultChainIdsByType[chainType]
-          : undefined
+        : (selectedBookmark?.chainId ??
+          (chainType ? defaultChainIdsByType[chainType] : undefined))
 
   const isConnectedAccount =
     selectedBookmark?.isConnectedAccount &&
