@@ -30,35 +30,28 @@ export const WidgetProvider: React.FC<
     throw new Error('Required property "integrator" is missing.')
   }
 
+  // Keyed on the integrator's `chains`: the config object is new on every render.
+  const chains = useMemo(
+    () => withDestinationOnlyChains(widgetConfig.chains),
+    [widgetConfig.chains]
+  )
+
   const value = useMemo((): WidgetContextProps => {
-    // Resolved once, so nothing below reads the deprecated keyPrefix.
-    const scopeKeys = {
+    const value = {
+      ...widgetConfig,
+      chains,
+      // Resolved once, so nothing below reads the deprecated keyPrefix.
       storageScopeKey: resolveStorageScopeKey(widgetConfig),
       queryScopeKey: resolveQueryScopeKey(widgetConfig),
-    }
+      elementId,
+    } as WidgetContextProps
     try {
-      // Create widget configuration object
-      const value = {
-        ...widgetConfig,
-        ...scopeKeys,
-        chains: withDestinationOnlyChains(widgetConfig.chains),
-        elementId,
-      } as WidgetContextProps
-
       // Set default settings for widget settings store
       setDefaultSettings(value)
-
-      return value
     } catch (e) {
       console.warn(e)
-      return {
-        ...widgetConfig,
-        ...scopeKeys,
-        chains: withDestinationOnlyChains(widgetConfig.chains),
-        elementId,
-        integrator: widgetConfig.integrator,
-      }
     }
-  }, [elementId, widgetConfig, setDefaultSettings])
+    return value
+  }, [elementId, widgetConfig, chains, setDefaultSettings])
   return <WidgetContext value={value}>{children}</WidgetContext>
 }
