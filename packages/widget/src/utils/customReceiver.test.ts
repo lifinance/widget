@@ -1,6 +1,8 @@
-import { ChainType } from '@lifi/sdk'
+import { ChainId, ChainType } from '@lifi/sdk'
+import type { IsAddressForChain } from '@lifi/widget-provider'
 import { describe, expect, it } from 'vitest'
 import {
+  canQuoteWithToAddress,
   isCustomReceiverBlocked,
   isCustomReceiverUnsupported,
 } from './customReceiver.js'
@@ -130,6 +132,39 @@ describe('isCustomReceiverBlocked', () => {
         toAddress: signer.toLowerCase(),
         signerAddress: signer,
       })
+    ).toBe(false)
+  })
+})
+
+describe('canQuoteWithToAddress', () => {
+  const zcash = { id: ChainId.ZEC, chainType: ChainType.UTXO }
+  const zcashAddress = 't1VmmGiyjVNeCjxDZzg7vZmd99WyzVby9yC'
+  const bitcoinAddress = 'bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq'
+  const isAddressForChain: IsAddressForChain = (address, chain) =>
+    chain.id === ChainId.ZEC && address === zcashAddress
+
+  it('quotes without a receiver', () => {
+    expect(canQuoteWithToAddress(undefined, zcash, isAddressForChain)).toBe(
+      true
+    )
+    expect(canQuoteWithToAddress('', zcash, isAddressForChain)).toBe(true)
+  })
+
+  it('quotes with a receiver valid on the destination chain', () => {
+    expect(canQuoteWithToAddress(zcashAddress, zcash, isAddressForChain)).toBe(
+      true
+    )
+  })
+
+  it('does not quote with a receiver of another chain in the same ecosystem', () => {
+    expect(
+      canQuoteWithToAddress(bitcoinAddress, zcash, isAddressForChain)
+    ).toBe(false)
+  })
+
+  it('does not quote with a receiver but no destination', () => {
+    expect(
+      canQuoteWithToAddress(zcashAddress, undefined, isAddressForChain)
     ).toBe(false)
   })
 })
