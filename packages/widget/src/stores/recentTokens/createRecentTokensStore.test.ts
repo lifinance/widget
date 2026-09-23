@@ -239,6 +239,25 @@ describe('createRecentTokensStore', () => {
     ])
   })
 
+  it('should hydrate an entry recorded from a token with null fields', () => {
+    // Plain-JS configs can pass null where the types expect a string.
+    const token = {
+      chainId: 1,
+      address: '0xA',
+      symbol: 'A',
+      name: null,
+      decimals: 18,
+      logoURI: null,
+    } as unknown as TokenAmount
+    store.getState().addRecentToken(toRecentToken(token))
+
+    const hydrated = createRecentTokensStore({ namePrefix: 'test' })
+
+    expect(hydrated.getState().recentTokens.map((t) => t.address)).toEqual([
+      '0xA',
+    ])
+  })
+
   it('should recover from a persisted value that is not a list', () => {
     storageMock.setItem(
       'test-recent-tokens',

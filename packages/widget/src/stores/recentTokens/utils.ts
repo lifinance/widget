@@ -10,8 +10,9 @@ export const toRecentToken = (token: TokenAmount): RecentToken => ({
   // Keep the casing: the form and the selected check compare it exactly.
   address: token.address,
   symbol: token.symbol,
-  name: token.name,
+  // Plain-JS configs can pass null, which hydration would reject.
+  name: token.name ?? '',
   decimals: token.decimals,
-  logoURI: token.logoURI,
+  logoURI: token.logoURI ?? undefined,
   flagged: token.verificationStatus === 'flagged' || undefined,
 })

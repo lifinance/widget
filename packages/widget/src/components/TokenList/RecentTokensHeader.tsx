@@ -5,7 +5,6 @@ import { IconButton } from './TokenList.style.js'
 
 interface RecentTokensHeaderProps {
   atListStart: boolean
-  /** Omitted: the header still renders, without the Clear action. */
   onClear?: () => void
 }
 

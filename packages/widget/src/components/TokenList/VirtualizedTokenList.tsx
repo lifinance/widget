@@ -63,12 +63,17 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     []
   )
 
+  // Rows below the band keep their key as it changes size, so none remount.
   const getItemKey = useCallback(
     (index: number) => {
       const token = tokens[index]
-      return `${token.chainId}-${token.address}-${index}`
+      if (token.recent) {
+        return `recent-${token.chainId}-${token.address}`
+      }
+      const shift = index >= recentStartIndex + recentCount ? recentCount : 0
+      return `${token.chainId}-${token.address}-${index - shift}`
     },
-    [tokens]
+    [tokens, recentStartIndex, recentCount]
   )
 
   const resolvedNativeHoisted = useMemo(
