@@ -97,9 +97,15 @@ describe('a captured widget payload', () => {
     expect(issues[0]?.bucket).toBe('amountTooLow')
   })
 
-  it('collapses 67 filtered reasons and 18 tool errors into a handful', () => {
+  // The card renders `issues[0]` alone, so pinning the whole ranked list pins
+  // the one message a user reads and what it outranked to get there.
+  it('collapses 67 filtered reasons and 18 tool errors into one card', () => {
     expect(ethToSol.filteredOut).toHaveLength(67)
-    expect(issues.length).toBeLessThanOrEqual(5)
+    expect(issues.map((issue) => [issue.bucket, issue.ruleId])).toEqual([
+      ['amountTooLow', 'fromTokenValueFloor'],
+      ['liquidity', 'code:INSUFFICIENT_LIQUIDITY'],
+      ['temporary', 'code:RATE_LIMIT_EXCEEDED'],
+    ])
   })
 
   it('emits each bucket at most once', () => {
