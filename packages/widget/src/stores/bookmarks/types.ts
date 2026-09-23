@@ -1,8 +1,14 @@
+import type { ChainId } from '@lifi/sdk'
 import type { StoreApi, UseBoundStore } from 'zustand'
 import type { ToAddress } from '../../types/widget.js'
 
 export interface Bookmark extends ToAddress {
   isConnectedAccount?: boolean
+  /**
+   * The chain to show for an address its ecosystem's default chain rejects,
+   * such as a Zcash address. It never decides whether the address is valid.
+   */
+  chainId?: ChainId
 }
 
 export interface BookmarkProps {
