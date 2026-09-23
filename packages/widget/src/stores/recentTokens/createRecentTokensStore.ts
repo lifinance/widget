@@ -26,6 +26,26 @@ const isStoredRecentToken = (value: unknown): value is RecentToken => {
   )
 }
 
+// The key lives on the integrator's origin, so its content is untrusted.
+const sanitizeRecentTokens = (stored: unknown): RecentToken[] => {
+  if (!Array.isArray(stored)) {
+    return []
+  }
+  const seen = new Set<string>()
+  const recentTokens: RecentToken[] = []
+  for (const token of stored) {
+    if (!isStoredRecentToken(token)) {
+      continue
+    }
+    const key = getTokenKey(token.chainId, token.address)
+    if (!seen.has(key)) {
+      seen.add(key)
+      recentTokens.push(token)
+    }
+  }
+  return recentTokens.slice(0, recentTokensLimit)
+}
+
 export const createRecentTokensStore = ({
   namePrefix,
 }: PersistStoreProps): UseBoundStore<StoreApi<RecentTokensState>> =>
@@ -76,17 +96,12 @@ export const createRecentTokensStore = ({
         partialize: (state) => ({
           recentTokens: state.recentTokens,
         }),
-        // The key lives on the integrator's origin, so its content is untrusted.
-        merge: (persisted, current) => {
-          const stored = (persisted as Partial<RecentTokensProps> | undefined)
-            ?.recentTokens
-          return {
-            ...current,
-            recentTokens: Array.isArray(stored)
-              ? stored.filter(isStoredRecentToken).slice(0, recentTokensLimit)
-              : [],
-          }
-        },
+        merge: (persisted, current) => ({
+          ...current,
+          recentTokens: sanitizeRecentTokens(
+            (persisted as Partial<RecentTokensProps> | undefined)?.recentTokens
+          ),
+        }),
       }
     )
   )

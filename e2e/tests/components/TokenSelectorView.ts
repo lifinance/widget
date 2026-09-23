@@ -66,12 +66,27 @@ export class TokenSelectorView {
     })
   }
 
+  /** Replace the persisted recent-search list; reload the page to hydrate it. */
+  async seedRecentTokens(
+    recentTokens: Array<{
+      chainId: number
+      address: string
+      symbol: string
+      name: string
+      decimals: number
+    }>
+  ): Promise<void> {
+    await this.page.evaluate((tokens) => {
+      localStorage.setItem(
+        'li.fi-recent-tokens',
+        JSON.stringify({ state: { recentTokens: tokens }, version: 0 })
+      )
+    }, recentTokens)
+  }
+
   /**
-   * Wipe the persisted recent-search list.
-   *
-   * Storage only: the hydrated zustand store keeps its entries, and the next
-   * persist write restores them. Call this before the store has anything in
-   * it (a fresh context), never mid-test to empty a visible band.
+   * Wipe the persisted recent-search list. Storage only: call it before the
+   * store hydrates, as the next persist write restores the hydrated entries.
    */
   async clearStoredRecentTokens(): Promise<void> {
     await this.page.evaluate(() => {
@@ -89,13 +104,7 @@ export class TokenSelectorView {
     await this.allNetworksButton.click()
   }
 
-  /**
-   * The token button inside a row.
-   *
-   * A row can hold band adornments beside the token button: the "Clear"
-   * action on the first recent row, and the expand toggle on the last one.
-   * Excluding them by name keeps strict mode satisfied.
-   */
+  /** The token button in a row, excluding the band's "Clear" and toggle. */
   private tokenButton(row: Locator): Locator {
     return row
       .getByRole('button')

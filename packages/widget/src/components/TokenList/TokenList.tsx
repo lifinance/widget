@@ -59,7 +59,10 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
     tokenSearchFilter
   )
 
-  const [recentExpanded, setRecentExpanded] = useState(false)
+  // Keyed by scope, so a chain switch collapses the band in the same render.
+  const recentScope = `${selectedChainId}-${!!isAllNetworks}`
+  const [expandedScope, setExpandedScope] = useState<string>()
+  const recentExpanded = expandedScope === recentScope
 
   const {
     tokens: tokensWithRecent,
@@ -114,14 +117,12 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
   )
 
   const toggleRecentExpanded = useCallback(
-    () => setRecentExpanded((value) => !value),
-    []
+    () =>
+      setExpandedScope((scope) =>
+        scope === recentScope ? undefined : recentScope
+      ),
+    [recentScope]
   )
-
-  // biome-ignore lint/correctness/useExhaustiveDependencies: collapse the band when the chain scope changes
-  useEffect(() => {
-    setRecentExpanded(false)
-  }, [selectedChainId, isAllNetworks])
 
   // The band filters on chain, config and pins; Clear takes its exact entries.
   const bandEntriesRef = useRef(bandEntries)

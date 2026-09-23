@@ -216,6 +216,29 @@ describe('createRecentTokensStore', () => {
     ])
   })
 
+  it('should keep only the first of duplicate persisted entries', () => {
+    storageMock.setItem(
+      'test-recent-tokens',
+      JSON.stringify({
+        state: {
+          recentTokens: [
+            makeRecent('0xABC'),
+            makeRecent('0xB'),
+            makeRecent('0xabc'),
+          ],
+        },
+        version: 0,
+      })
+    )
+
+    const hydrated = createRecentTokensStore({ namePrefix: 'test' })
+
+    expect(hydrated.getState().recentTokens.map((t) => t.address)).toEqual([
+      '0xABC',
+      '0xB',
+    ])
+  })
+
   it('should recover from a persisted value that is not a list', () => {
     storageMock.setItem(
       'test-recent-tokens',

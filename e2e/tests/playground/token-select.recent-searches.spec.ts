@@ -1,5 +1,13 @@
 import { expect, test, waitForTokens } from '../fixtures/base.fixture.js'
 
+const ethereumUsdc = {
+  chainId: 1,
+  address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+  symbol: 'USDC',
+  name: 'USD Coin',
+  decimals: 6,
+}
+
 test.describe('Token select — Recent searches', () => {
   // Chain pinned: an unpinned search can move the form to another chain.
   test.beforeEach(async ({ page, sidebar, tokenSelector }) => {
@@ -81,32 +89,16 @@ test.describe('Token select — Recent searches', () => {
     tokenSelector,
   }) => {
     await test.step('seed a recent on Ethereum and one on Base', async () => {
-      await page.evaluate(() => {
-        localStorage.setItem(
-          'li.fi-recent-tokens',
-          JSON.stringify({
-            state: {
-              recentTokens: [
-                {
-                  chainId: 1,
-                  address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
-                  symbol: 'USDC',
-                  name: 'USD Coin',
-                  decimals: 6,
-                },
-                {
-                  chainId: 8453,
-                  address: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
-                  symbol: 'USDC',
-                  name: 'USD Coin',
-                  decimals: 6,
-                },
-              ],
-            },
-            version: 0,
-          })
-        )
-      })
+      await tokenSelector.seedRecentTokens([
+        ethereumUsdc,
+        {
+          chainId: 8453,
+          address: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
+          symbol: 'USDC',
+          name: 'USD Coin',
+          decimals: 6,
+        },
+      ])
       await Promise.all([waitForTokens(page), page.reload()])
     })
 
@@ -128,25 +120,7 @@ test.describe('Token select — Recent searches', () => {
     tokenSelector,
   }) => {
     await test.step('seed a band whose first row carries the Clear action', async () => {
-      await page.evaluate(() => {
-        localStorage.setItem(
-          'li.fi-recent-tokens',
-          JSON.stringify({
-            state: {
-              recentTokens: [
-                {
-                  chainId: 1,
-                  address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
-                  symbol: 'USDC',
-                  name: 'USD Coin',
-                  decimals: 6,
-                },
-              ],
-            },
-            version: 0,
-          })
-        )
-      })
+      await tokenSelector.seedRecentTokens([ethereumUsdc])
       await Promise.all([waitForTokens(page), page.reload()])
     })
 
@@ -162,6 +136,44 @@ test.describe('Token select — Recent searches', () => {
 
     await test.step('the entry stays recorded', async () => {
       expect(await tokenSelector.getRecentTokens()).toHaveLength(1)
+    })
+  })
+
+  test('Show more expands the band, and a scope change collapses it', async ({
+    page,
+    widget,
+    tokenSelector,
+  }) => {
+    await test.step('seed six recents on Ethereum', async () => {
+      await tokenSelector.seedRecentTokens([
+        ethereumUsdc,
+        ...[
+          ['0xdAC17F958D2ee523a2206206994597C13D831ec7', 'USDT', 6],
+          ['0x6B175474E89094C44Da98b954EedeAC495271d0F', 'DAI', 18],
+          ['0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599', 'WBTC', 8],
+          ['0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', 'WETH', 18],
+          ['0x514910771AF9Ca656af840dff83E8264EcF986CA', 'LINK', 18],
+        ].map(([address, symbol, decimals]) => ({
+          chainId: 1,
+          address: address as string,
+          symbol: symbol as string,
+          name: symbol as string,
+          decimals: decimals as number,
+        })),
+      ])
+      await Promise.all([waitForTokens(page), page.reload()])
+    })
+
+    await test.step('expand the band', async () => {
+      await widget.fromButton.click()
+      await expect(tokenSelector.recentTokensToggle).toHaveText('Show 2 more')
+      await tokenSelector.recentTokensToggle.click()
+      await expect(tokenSelector.recentTokensToggle).toHaveText('Show less')
+    })
+
+    await test.step('All networks opens the band collapsed', async () => {
+      await tokenSelector.selectAllNetworks()
+      await expect(tokenSelector.recentTokensToggle).toHaveText('Show 2 more')
     })
   })
 })
