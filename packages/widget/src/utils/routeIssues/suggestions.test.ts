@@ -1,5 +1,5 @@
 import { formatUnits, parseUnits } from '@lifi/sdk'
-import { describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   bufferedReported,
   gentlerSuggestion,
@@ -229,5 +229,73 @@ describe('gentlerSuggestion', () => {
     [undefined, undefined, undefined],
   ])('resolves %s and %s to %s', (reported, forUsd, expected) => {
     expect(gentlerSuggestion(reported, forUsd, 1.2)).toEqual(expected)
+  })
+})
+
+// `roundingMode` arrived with Intl.NumberFormat v3 (Chrome 106, Safari 15.4,
+// Firefox 116). An engine without it rounds half-way instead, which put a
+// raised figure under the bar it had to clear and a lowered one over its cap —
+// so the button wrote back an amount refused for the same reason.
+describe('rounding on an engine without roundingMode', () => {
+  const NativeNumberFormat = Intl.NumberFormat
+
+  beforeEach(() => {
+    vi.resetModules()
+    class OldNumberFormat extends NativeNumberFormat {
+      constructor(
+        locales?: Intl.LocalesArgument,
+        options?: Intl.NumberFormatOptions
+      ) {
+        super(
+          locales,
+          Object.fromEntries(
+            Object.entries(options ?? {}).filter(
+              ([key]) => key !== 'roundingMode'
+            )
+          )
+        )
+      }
+    }
+    vi.stubGlobal(
+      'Intl',
+      Object.assign(Object.create(Intl), { NumberFormat: OldNumberFormat })
+    )
+  })
+
+  afterEach(() => {
+    vi.unstubAllGlobals()
+    vi.resetModules()
+  })
+
+  // Reported in review: a floor of 1.02, buffered to 1.0404, came out as 1.0.
+  it('raises a buffered floor clear of it', async () => {
+    const { roundSuggestion } = await import('./suggestions.js')
+    expect(roundSuggestion('1.0404', 'raise')).toBe('1.1')
+    expect(roundSuggestion('0.000492134057317213', 'raise')).toBe('0.0005')
+  })
+
+  it('lowers a buffered cap under it', async () => {
+    const { roundSuggestion } = await import('./suggestions.js')
+    expect(roundSuggestion('5.36', 'lower')).toBe('5.3')
+    expect(roundSuggestion('1299', 'lower')).toBe('1200')
+  })
+
+  it('keeps a slippage floor and cap on the right side of the bar', async () => {
+    const { reportedSlippage } = await import('./suggestions.js')
+    const withSlippage = (
+      bucket: RouteIssue['bucket'],
+      requiredSlippage: number
+    ): RouteIssue => ({
+      bucket,
+      ruleId: 'test',
+      evidence: { requiredSlippage },
+      fromAmount: 1000n,
+    })
+    expect(reportedSlippage(withSlippage('slippageTooTight', 0.012325))).toBe(
+      '1.24'
+    )
+    expect(reportedSlippage(withSlippage('slippageTooLoose', 0.012375))).toBe(
+      '1.23'
+    )
   })
 })
