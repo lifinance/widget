@@ -42,7 +42,7 @@
     "lifi"
   ],
   "dependencies": {
-    "@lifi/sdk": "^4.8.0",
+    "@lifi/sdk": "0.0.0-preview-267433d4",
     "zustand": "^5.0.15"
   },
   "peerDependencies": {
