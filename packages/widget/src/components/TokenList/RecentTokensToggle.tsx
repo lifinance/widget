@@ -3,7 +3,10 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Box } from '@mui/material'
 import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
-import { IconButton } from './TokenList.style.js'
+import {
+  FooterText,
+  ToggleButton,
+} from '../AmountInputCard/AmountInputCard.style.js'
 
 interface RecentTokensToggleProps {
   expanded: boolean
@@ -21,19 +24,21 @@ export const RecentTokensToggle = ({
 
   return (
     <Box sx={{ width: '100%', display: 'flex', px: 1.5, pt: 1 }}>
-      <IconButton
-        size="small"
+      <ToggleButton
+        clickable
         onClick={(e) => {
           e.stopPropagation()
           e.currentTarget.blur()
           onToggle()
         }}
       >
-        {expanded
-          ? t('button.showLess')
-          : t('button.showMore', { count: hiddenCount })}
-        <ExpandIcon />
-      </IconButton>
+        <FooterText>
+          {expanded
+            ? t('button.showLess')
+            : t('button.showMore', { count: hiddenCount })}
+        </FooterText>
+        <ExpandIcon sx={{ fontSize: 14, color: 'text.secondary' }} />
+      </ToggleButton>
     </Box>
   )
 }

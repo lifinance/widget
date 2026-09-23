@@ -1,7 +1,10 @@
 import { Box, Typography } from '@mui/material'
 import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
-import { IconButton } from './TokenList.style.js'
+import {
+  FooterText,
+  ToggleButton,
+} from '../AmountInputCard/AmountInputCard.style.js'
 
 interface RecentTokensHeaderProps {
   atListStart: boolean
@@ -31,18 +34,18 @@ export const RecentTokensHeader = ({
         {t('main.recentSearches')}
       </Typography>
       {onClear ? (
-        <IconButton
-          size="small"
-          // Match the title's 16px line; the band reserves only that height.
-          sx={{ py: 0, lineHeight: '16px' }}
+        <ToggleButton
+          clickable
+          // Right-aligned, so the padding hangs past the right edge instead.
+          sx={{ px: 0.75, ml: 0, mr: -0.75 }}
           onClick={(e) => {
             e.stopPropagation()
             e.currentTarget.blur()
             onClear()
           }}
         >
-          {t('button.clear')}
-        </IconButton>
+          <FooterText>{t('button.clear')}</FooterText>
+        </ToggleButton>
       ) : null}
     </Box>
   )
