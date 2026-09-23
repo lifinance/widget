@@ -66,6 +66,29 @@ describe('toRecentToken', () => {
   })
 })
 
+describe('toRecentToken verdicts', () => {
+  it('should keep a flagged verdict and drop every other one', () => {
+    const base = {
+      chainId: 1,
+      address: '0xA',
+      symbol: 'A',
+      name: 'A',
+      decimals: 18,
+    }
+    const flagged = toRecentToken({
+      ...base,
+      verificationStatus: 'flagged',
+    } as unknown as TokenAmount)
+    const verified = toRecentToken({
+      ...base,
+      verificationStatus: 'verified',
+    } as unknown as TokenAmount)
+
+    expect(flagged.flagged).toBe(true)
+    expect(verified.flagged).toBeUndefined()
+  })
+})
+
 describe('createRecentTokensStore', () => {
   let originalWindow: typeof globalThis.window | undefined
   let storageMock: Storage
@@ -167,6 +190,41 @@ describe('createRecentTokensStore', () => {
     store.getState().addRecentToken(makeRecent('0xA'))
     store.getState().clearRecentTokens([])
     expect(store.getState().recentTokens).toHaveLength(1)
+  })
+
+  it('should drop malformed persisted entries instead of crashing', () => {
+    storageMock.setItem(
+      'test-recent-tokens',
+      JSON.stringify({
+        state: {
+          recentTokens: [
+            makeRecent('0xGood'),
+            { chainId: 1 },
+            { ...makeRecent('0xB'), chainId: '1' },
+            null,
+            'garbage',
+          ],
+        },
+        version: 0,
+      })
+    )
+
+    const hydrated = createRecentTokensStore({ namePrefix: 'test' })
+
+    expect(hydrated.getState().recentTokens.map((t) => t.address)).toEqual([
+      '0xGood',
+    ])
+  })
+
+  it('should recover from a persisted value that is not a list', () => {
+    storageMock.setItem(
+      'test-recent-tokens',
+      JSON.stringify({ state: { recentTokens: null }, version: 0 })
+    )
+
+    const hydrated = createRecentTokensStore({ namePrefix: 'test' })
+
+    expect(hydrated.getState().recentTokens).toEqual([])
   })
 
   it('should persist under the prefixed key', () => {

@@ -10,6 +10,7 @@ export interface RecentToken {
   decimals: number
   logoURI?: string
   native?: boolean
+  flagged?: boolean
 }
 
 /** Identifies a stored entry. Compared case-insensitively. */

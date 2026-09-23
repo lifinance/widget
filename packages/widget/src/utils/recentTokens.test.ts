@@ -2,8 +2,12 @@ import { describe, expect, it } from 'vitest'
 import type { RecentToken } from '../stores/recentTokens/types.js'
 import type { TokenAmount } from '../types/token.js'
 import type { WidgetTokens } from '../types/widget.js'
-import type { ResolveRecentTokensParams } from './recentTokens.js'
-import { collapsedRecentCount, resolveRecentTokens } from './recentTokens.js'
+import type { ResolveRecentRowsParams } from './recentTokens.js'
+import {
+  collapsedRecentCount,
+  resolveRecentRows,
+  spliceRecentRows,
+} from './recentTokens.js'
 
 const makeToken = (
   address: string,
@@ -32,24 +36,29 @@ const makeRecent = (
   ...overrides,
 })
 
+const baseParams: ResolveRecentRowsParams = {
+  recentTokens: [makeRecent('0xr1')],
+  availableChainIds: new Set([1, 8453]),
+  configTokens: undefined,
+  formType: 'from',
+  selectedChainId: 1,
+  isAllNetworks: false,
+  nativeHoisted: false,
+  disabled: false,
+}
+
 const resolve = (
   tokens: TokenAmount[],
-  params: Partial<ResolveRecentTokensParams> = {}
-) =>
-  resolveRecentTokens(tokens, {
-    recentTokens: [makeRecent('0xr1')],
-    availableChainIds: new Set([1, 8453]),
-    configTokens: undefined,
-    formType: 'from',
-    selectedChainId: 1,
-    isAllNetworks: false,
-    search: '',
-    expanded: false,
-    disabled: false,
-    ...params,
-  })
+  {
+    expanded = false,
+    ...params
+  }: Partial<ResolveRecentRowsParams> & { expanded?: boolean } = {}
+) => {
+  const resolved = resolveRecentRows(tokens, { ...baseParams, ...params })
+  return { ...resolved, ...spliceRecentRows(tokens, resolved, expanded) }
+}
 
-describe('resolveRecentTokens inactive paths', () => {
+describe('recent band inactive paths', () => {
   it('should return the same array reference when disabled', () => {
     const tokens = [makeToken('0xA')]
     expect(resolve(tokens, { disabled: true }).tokens).toBe(tokens)
@@ -92,22 +101,24 @@ describe('resolveRecentTokens inactive paths', () => {
 
   it('should return the same array reference when every entry is filtered out', () => {
     const tokens = [makeToken('0xn', { native: true })]
-    expect(resolve(tokens, { recentTokens: [makeRecent('0xn')] }).tokens).toBe(
-      tokens
-    )
+    expect(
+      resolve(tokens, {
+        recentTokens: [makeRecent('0xn')],
+        nativeHoisted: true,
+      }).tokens
+    ).toBe(tokens)
   })
 })
 
-describe('resolveRecentTokens active band', () => {
+describe('recent band active', () => {
   it('should splice the band after the hoisted native and the pinned run', () => {
     const tokens = [
       makeToken('0xN', { native: true }),
       makeToken('0xP', { pinned: true }),
       makeToken('0xr1'),
     ]
-    const result = resolve(tokens)
+    const result = resolve(tokens, { nativeHoisted: true })
 
-    expect(result.nativeHoisted).toBe(true)
     expect(result.recentStartIndex).toBe(2)
     expect(result.recentCount).toBe(1)
     expect(result.tokens.map((t) => t.address)).toEqual([
@@ -120,17 +131,9 @@ describe('resolveRecentTokens active band', () => {
     expect(result.tokens[3].recent).toBeUndefined()
   })
 
-  it('should not treat tokens[0] as hoisted in all-networks mode', () => {
+  it('should start the band at 0 when the caller hoisted nothing', () => {
     const tokens = [makeToken('0xN', { native: true }), makeToken('0xr1')]
-    const result = resolve(tokens, { isAllNetworks: true })
-
-    expect(result.nativeHoisted).toBe(false)
-    expect(result.recentStartIndex).toBe(0)
-  })
-
-  it('should not treat tokens[0] as hoisted during a search', () => {
-    const tokens = [makeToken('0xN', { native: true }), makeToken('0xr1')]
-    expect(resolve(tokens, { search: 'tkn' }).nativeHoisted).toBe(false)
+    expect(resolve(tokens).recentStartIndex).toBe(0)
   })
 
   it('should drop a recent token that is pinned', () => {
@@ -149,6 +152,7 @@ describe('resolveRecentTokens active band', () => {
     ]
     const result = resolve(tokens, {
       recentTokens: [makeRecent('0xn'), makeRecent('0xp'), makeRecent('0xr1')],
+      nativeHoisted: true,
     })
 
     expect(result.totalRecentCount).toBe(1)
@@ -214,6 +218,16 @@ describe('resolveRecentTokens active band', () => {
     expect(result.tokens[0].native).toBe(true)
   })
 
+  it('should keep a flagged verdict on a snapshot row', () => {
+    const tokens = [makeToken('0xA')]
+    const result = resolve(tokens, {
+      recentTokens: [makeRecent('0xr1', 1, { flagged: true })],
+    })
+
+    // Red, not the weaker amber "unverified" a missing verdict would give.
+    expect(result.tokens[0].verificationStatus).toBe('flagged')
+  })
+
   it('should honour an integrator deny list per form type', () => {
     const tokens = [makeToken('0xr1')]
     const configTokens: WidgetTokens = {
@@ -262,5 +276,16 @@ describe('resolveRecentTokens active band', () => {
     expect(resolve(tokens, { recentTokens, expanded: true }).recentCount).toBe(
       10
     )
+  })
+
+  it('should re-slice without re-resolving when the band expands', () => {
+    const tokens = [makeToken('0xA')]
+    const resolved = resolveRecentRows(tokens, {
+      ...baseParams,
+      recentTokens: Array.from({ length: 6 }, (_, i) => makeRecent(`0xr${i}`)),
+    })
+
+    expect(spliceRecentRows(tokens, resolved, false).recentCount).toBe(4)
+    expect(spliceRecentRows(tokens, resolved, true).recentCount).toBe(6)
   })
 })

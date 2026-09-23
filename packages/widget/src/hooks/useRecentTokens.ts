@@ -2,9 +2,10 @@ import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
 import { useRecentTokensStore } from '../stores/recentTokens/RecentTokensStore.js'
+import type { RecentTokenId } from '../stores/recentTokens/types.js'
 import type { TokenAmount } from '../types/token.js'
 import type { RecentTokensResult } from '../utils/recentTokens.js'
-import { resolveRecentTokens } from '../utils/recentTokens.js'
+import { resolveRecentRows, spliceRecentRows } from '../utils/recentTokens.js'
 import { useChains } from './useChains.js'
 
 export interface UseRecentTokensOptions {
@@ -14,6 +15,12 @@ export interface UseRecentTokensOptions {
   expanded: boolean
   formType: FormType
   isTokensLoading: boolean
+  nativeHoisted: boolean
+}
+
+export interface UseRecentTokensResult extends RecentTokensResult {
+  bandEntries: RecentTokenId[]
+  recentStartIndex: number
 }
 
 export const useRecentTokens = (
@@ -25,8 +32,9 @@ export const useRecentTokens = (
     expanded,
     formType,
     isTokensLoading,
+    nativeHoisted,
   }: UseRecentTokensOptions
-): RecentTokensResult => {
+): UseRecentTokensResult => {
   const { hiddenUI, tokens: configTokens } = useWidgetConfig()
   // useChains, not useAvailableChains: only it applies chains.allow/deny.
   const { chains } = useChains(formType)
@@ -41,17 +49,16 @@ export const useRecentTokens = (
   const disabled =
     !!search || !!hiddenUI?.recentSearches || isTokensLoading || !chains
 
-  return useMemo(
+  const resolved = useMemo(
     () =>
-      resolveRecentTokens(tokens, {
+      resolveRecentRows(tokens, {
         recentTokens,
         availableChainIds,
         configTokens,
         formType,
         selectedChainId,
         isAllNetworks,
-        search,
-        expanded,
+        nativeHoisted,
         disabled,
       }),
     [
@@ -62,9 +69,20 @@ export const useRecentTokens = (
       formType,
       selectedChainId,
       isAllNetworks,
-      search,
-      expanded,
+      nativeHoisted,
       disabled,
     ]
   )
+
+  // Separate, so a Show more/less click redoes the slice but not the scan.
+  const spliced = useMemo(
+    () => spliceRecentRows(tokens, resolved, expanded),
+    [tokens, resolved, expanded]
+  )
+
+  return {
+    ...spliced,
+    bandEntries: resolved.bandEntries,
+    recentStartIndex: resolved.recentStartIndex,
+  }
 }

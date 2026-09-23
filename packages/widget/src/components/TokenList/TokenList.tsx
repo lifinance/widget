@@ -52,6 +52,7 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
     isTokensLoading,
     isBalanceLoading,
     isSearchLoading,
+    nativeHoisted,
   } = useTokenBalances(
     selectedChainId,
     formType,
@@ -67,7 +68,6 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
     recentStartIndex,
     recentCount,
     totalRecentCount,
-    nativeHoisted,
   } = useRecentTokens(tokens, {
     selectedChainId,
     isAllNetworks,
@@ -75,6 +75,7 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
     expanded: recentExpanded,
     formType,
     isTokensLoading,
+    nativeHoisted: !!nativeHoisted,
   })
 
   const selectToken = useTokenSelect(formType, navigateBack)
@@ -130,6 +131,13 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
     setRecentExpanded(false)
   }, [selectedChainId, isAllNetworks])
 
+  // Collapse once the toggle is gone, or the next recent reopens it expanded.
+  useEffect(() => {
+    if (totalRecentCount <= collapsedRecentCount) {
+      setRecentExpanded(false)
+    }
+  }, [totalRecentCount])
+
   // The band filters on chain, config and pins; Clear takes its exact entries.
   const bandEntriesRef = useRef(bandEntries)
   bandEntriesRef.current = bandEntries
@@ -166,7 +174,7 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
         onClick={handleTokenClick}
         selectedTokenAddress={selectedTokenAddress}
         isAllNetworks={isAllNetworks}
-        nativeHoisted={nativeHoisted}
+        nativeHoisted={!!nativeHoisted}
         recentStartIndex={recentStartIndex}
         recentCount={recentCount}
         hiddenRecentCount={totalRecentCount - recentCount}

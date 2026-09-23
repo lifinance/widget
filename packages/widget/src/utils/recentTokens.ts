@@ -1,42 +1,50 @@
-import type { BaseToken } from '@lifi/sdk'
 import type { FormType } from '../stores/form/types.js'
 import type {
   RecentToken,
   RecentTokenId,
 } from '../stores/recentTokens/types.js'
+import { getTokenKey } from '../stores/recentTokens/utils.js'
 import type { TokenAmount } from '../types/token.js'
-import type { WidgetTokens } from '../types/widget.js'
-import { getConfigItemSets, isFormItemAllowed } from './item.js'
-import { isHoistableNative } from './tokenList.js'
+import type { AllowDenySets, WidgetTokens } from '../types/widget.js'
+import { isFormItemAllowed } from './item.js'
+import { getChainTokenAllowSets } from './token.js'
 
 export const collapsedRecentCount = 4
 
-export interface ResolveRecentTokensParams {
+export interface ResolveRecentRowsParams {
   recentTokens: RecentToken[]
   availableChainIds: Set<number>
   configTokens: WidgetTokens | undefined
   formType: FormType
   selectedChainId?: number
   isAllNetworks?: boolean
-  search?: string
-  expanded: boolean
+  nativeHoisted: boolean
   disabled: boolean
+}
+
+export interface RecentRows {
+  /** Every row the band shows when expanded; empty when the band is inactive. */
+  rows: TokenAmount[]
+  /** Everything Clear removes, including toggled-away and displaced rows. */
+  bandEntries: RecentTokenId[]
+  recentStartIndex: number
 }
 
 export interface RecentTokensResult {
   tokens: TokenAmount[]
-  /** Everything Clear removes, including toggled-away and displaced rows. */
-  bandEntries: RecentTokenId[]
-  recentStartIndex: number
   recentCount: number
   totalRecentCount: number
-  nativeHoisted: boolean
 }
 
-const tokenKey = (chainId: number, address: string) =>
-  `${chainId}-${address.toLowerCase()}`
+// A stale flag can only over-warn, so it is the one verdict worth keeping.
+const toSnapshotRow = ({ flagged, ...recent }: RecentToken): TokenAmount =>
+  ({
+    ...recent,
+    priceUSD: '',
+    verificationStatus: flagged ? 'flagged' : undefined,
+  }) as TokenAmount
 
-export const resolveRecentTokens = (
+export const resolveRecentRows = (
   tokens: TokenAmount[],
   {
     recentTokens,
@@ -45,28 +53,16 @@ export const resolveRecentTokens = (
     formType,
     selectedChainId,
     isAllNetworks,
-    search,
-    expanded,
+    nativeHoisted,
     disabled,
-  }: ResolveRecentTokensParams
-): RecentTokensResult => {
-  // The hoist is skipped in all-networks and search; tokens[0] alone can't tell.
-  const nativeHoisted =
-    !isAllNetworks && !search && isHoistableNative(tokens[0], selectedChainId)
-
+  }: ResolveRecentRowsParams
+): RecentRows => {
   let recentStartIndex = nativeHoisted ? 1 : 0
   while (tokens[recentStartIndex]?.pinned) {
     recentStartIndex++
   }
 
-  const inactive: RecentTokensResult = {
-    tokens,
-    bandEntries: [],
-    recentStartIndex,
-    recentCount: 0,
-    totalRecentCount: 0,
-    nativeHoisted,
-  }
+  const inactive: RecentRows = { rows: [], bandEntries: [], recentStartIndex }
 
   if (disabled || !recentTokens.length || !tokens.length) {
     return inactive
@@ -83,7 +79,7 @@ export const resolveRecentTokens = (
   }
 
   const wanted = new Set(
-    candidates.map((recent) => tokenKey(recent.chainId, recent.address))
+    candidates.map((recent) => getTokenKey(recent.chainId, recent.address))
   )
   // All-networks holds tens of thousands of rows: test the chain before the key.
   const wantedChains = new Set(candidates.map((recent) => recent.chainId))
@@ -92,7 +88,7 @@ export const resolveRecentTokens = (
     if (!wantedChains.has(token.chainId)) {
       continue
     }
-    const key = tokenKey(token.chainId, token.address)
+    const key = getTokenKey(token.chainId, token.address)
     if (wanted.has(key) && !fresh.has(key)) {
       fresh.set(key, token)
       if (fresh.size === wanted.size) {
@@ -101,37 +97,26 @@ export const resolveRecentTokens = (
     }
   }
 
-  const allowedByChain = new Map<number, ReturnType<typeof getConfigItemSets>>()
+  const allowedByChain = new Map<number, AllowDenySets | undefined>()
   const allowedFor = (chainId: number) => {
     if (!allowedByChain.has(chainId)) {
       allowedByChain.set(
         chainId,
-        getConfigItemSets(
-          configTokens,
-          (items: BaseToken[]) =>
-            new Set(
-              items
-                // Plain-JS integrators may pass chainId as a string.
-                .filter((item) => Number(item.chainId) === chainId)
-                .map((item) => item.address.toLowerCase())
-            ),
-          formType
-        )
+        getChainTokenAllowSets(configTokens, chainId, formType)
       )
     }
     return allowedByChain.get(chainId)
   }
 
   const hoistedKey = nativeHoisted
-    ? tokenKey(tokens[0].chainId, tokens[0].address)
+    ? getTokenKey(tokens[0].chainId, tokens[0].address)
     : undefined
 
   const rows: TokenAmount[] = []
   const bandEntries: RecentTokenId[] = []
   for (const recent of candidates) {
-    const key = tokenKey(recent.chainId, recent.address)
-    const resolved =
-      fresh.get(key) ?? ({ ...recent, priceUSD: '' } as TokenAmount)
+    const key = getTokenKey(recent.chainId, recent.address)
+    const resolved = fresh.get(key) ?? toSnapshotRow(recent)
     if (
       !isFormItemAllowed(resolved, allowedFor(recent.chainId), formType, (t) =>
         t.address.toLowerCase()
@@ -152,18 +137,27 @@ export const resolveRecentTokens = (
     return inactive
   }
 
+  return { rows, bandEntries, recentStartIndex }
+}
+
+export const spliceRecentRows = (
+  tokens: TokenAmount[],
+  { rows, recentStartIndex }: RecentRows,
+  expanded: boolean
+): RecentTokensResult => {
+  if (!rows.length) {
+    return { tokens, recentCount: 0, totalRecentCount: 0 }
+  }
+
   const visible = expanded ? rows : rows.slice(0, collapsedRecentCount)
 
   return {
-    bandEntries,
     tokens: [
       ...tokens.slice(0, recentStartIndex),
       ...visible,
       ...tokens.slice(recentStartIndex),
     ],
-    recentStartIndex,
     recentCount: visible.length,
     totalRecentCount: rows.length,
-    nativeHoisted,
   }
 }

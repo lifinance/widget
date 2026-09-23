@@ -4,7 +4,11 @@ import type { FormType } from '../stores/form/types.js'
 import { useSettings } from '../stores/settings/useSettings.js'
 import type { TokenAmount } from '../types/token.js'
 import { formatTokenPrice } from '../utils/format.js'
-import { hoistNativeToken, processTokenList } from '../utils/tokenList.js'
+import {
+  hoistNativeToken,
+  isHoistableNative,
+  processTokenList,
+} from '../utils/tokenList.js'
 import { useAccountsBalancesData } from './useAccountsBalancesData.js'
 import { useDisplayedTokens } from './useDisplayedTokens.js'
 import { useTokenBalancesQueries } from './useTokenBalancesQueries.js'
@@ -21,6 +25,8 @@ export const useTokenBalances = (
   isTokensLoading: boolean
   isSearchLoading: boolean
   isBalanceLoading: boolean
+  /** Always set; optional so hand-built results of this public shape stay valid. */
+  nativeHoisted?: boolean
 } => {
   const { hiddenUI, tokens: configTokens } = useWidgetConfig()
   const {
@@ -115,38 +121,38 @@ export const useTokenBalances = (
     hiddenUI,
   ])
 
-  const { processedTokens, withCategories, withPinnedTokens } = useMemo(() => {
-    const result = processTokenList(
+  const { processedTokens, withCategories, withPinnedTokens, nativeHoisted } =
+    useMemo(() => {
+      const result = processTokenList(
+        isBalanceLoading,
+        isAllNetworks || !!search,
+        configTokens,
+        selectedChainId,
+        displayedTokensList,
+        displayedTokensWithBalances,
+        isPinnedToken
+      )
+      // A search keeps its results ranked by match, and "All networks" has no
+      // single native token to lead with.
+      if (isAllNetworks || search) {
+        return { ...result, nativeHoisted: false }
+      }
+      const hoisted = hoistNativeToken(result.processedTokens, selectedChainId)
+      return {
+        ...result,
+        processedTokens: hoisted,
+        nativeHoisted: isHoistableNative(hoisted[0], selectedChainId),
+      }
+    }, [
       isBalanceLoading,
-      isAllNetworks || !!search,
+      isAllNetworks,
       configTokens,
       selectedChainId,
       displayedTokensList,
       displayedTokensWithBalances,
-      isPinnedToken
-    )
-    // A search keeps its results ranked by match, and "All networks" has no
-    // single native token to lead with.
-    if (isAllNetworks || search) {
-      return result
-    }
-    return {
-      ...result,
-      processedTokens: hoistNativeToken(
-        result.processedTokens,
-        selectedChainId
-      ),
-    }
-  }, [
-    isBalanceLoading,
-    isAllNetworks,
-    configTokens,
-    selectedChainId,
-    displayedTokensList,
-    displayedTokensWithBalances,
-    search,
-    isPinnedToken,
-  ])
+      search,
+      isPinnedToken,
+    ])
 
   return {
     tokens: processedTokens ?? [],
@@ -155,5 +161,6 @@ export const useTokenBalances = (
     isTokensLoading,
     isSearchLoading,
     isBalanceLoading,
+    nativeHoisted,
   }
 }

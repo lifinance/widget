@@ -10,8 +10,29 @@ import type {
 import { ChainId } from '@lifi/sdk'
 import type { FormType } from '../stores/form/types.js'
 import type { TokensByChain, TokenWithFlags } from '../types/token.js'
-import type { WidgetChains, WidgetTokens } from '../types/widget.js'
+import type {
+  AllowDenySets,
+  WidgetChains,
+  WidgetTokens,
+} from '../types/widget.js'
 import { getConfigItemSets, isFormItemAllowed } from './item.js'
+
+// Number(): plain-JS integrators may pass chainId as a string.
+export const getChainTokenAllowSets = (
+  configTokens: WidgetTokens | undefined,
+  chainId: number,
+  formType?: FormType
+): AllowDenySets | undefined =>
+  getConfigItemSets(
+    configTokens,
+    (tokens: BaseToken[]) =>
+      new Set(
+        tokens
+          .filter((t) => Number(t.chainId) === chainId)
+          .map((t) => t.address.toLowerCase())
+      ),
+    formType
+  )
 
 /**
  * Builds per-chain sets of lowercase token addresses from the
@@ -183,14 +204,9 @@ export const filterAllowedTokens = (
       chainIncludedTokens.map((t) => t.address.toLowerCase())
     )
 
-    const allowedAddresses = getConfigItemSets(
+    const allowedAddresses = getChainTokenAllowSets(
       configTokens,
-      (tokens: BaseToken[]) =>
-        new Set(
-          tokens
-            .filter((t) => Number(t.chainId) === chainId)
-            .map((t) => t.address.toLowerCase())
-        ),
+      chainId,
       formType
     )
 

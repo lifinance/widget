@@ -4,6 +4,7 @@ import type { FC } from 'react'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
+import { getTokenKey } from '../../stores/recentTokens/utils.js'
 import { isHoistableNative } from '../../utils/tokenList.js'
 import { createBandResolver } from '../../utils/tokenListBands.js'
 import { RecentTokensHeader } from './RecentTokensHeader.js'
@@ -86,7 +87,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     for (let i = recentStartIndex; i < recentStartIndex + recentCount; i++) {
       const token = tokens[i]
       if (token) {
-        keys.add(`${token.chainId}-${token.address.toLowerCase()}`)
+        keys.add(getTokenKey(token.chainId, token.address))
       }
     }
     return keys
@@ -140,11 +141,6 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     }
   }, [measure, scrollElementRef.current])
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: expanding moves row heights, not the row count
-  useEffect(() => {
-    measure()
-  }, [recentExpanded, measure])
-
   // biome-ignore lint/correctness/useExhaustiveDependencies: run only when chainId changes
   useEffect(() => {
     // Scroll to the top of the list when switching the chains
@@ -172,7 +168,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
             chainId === currentToken.chainId &&
             (!!currentToken.recent ||
               !bandKeys?.has(
-                `${currentToken.chainId}-${currentToken.address.toLowerCase()}`
+                getTokenKey(currentToken.chainId, currentToken.address)
               ))
 
           return (
