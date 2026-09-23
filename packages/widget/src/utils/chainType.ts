@@ -12,7 +12,7 @@ export const defaultChainIdsByType: Record<ChainType, ChainId> = {
 }
 
 // No wallet can sign on these chains yet, so a route may only deliver to them.
-export const destinationOnlyChainIds: ReadonlySet<number> = new Set<number>([
+const destinationOnlyChainIds: ReadonlySet<number> = new Set<number>([
   ChainId.ZEC,
 ])
 
