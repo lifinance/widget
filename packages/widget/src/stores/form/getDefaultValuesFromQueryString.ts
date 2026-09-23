@@ -1,3 +1,4 @@
+import { isDestinationOnlyChain } from '../../utils/chainType.js'
 import { formatInputAmount } from '../../utils/format.js'
 import type { DefaultValues } from './types.js'
 
@@ -22,6 +23,10 @@ export const getDefaultValuesFromQueryString = ({
     new URLSearchParams(window.location.search)
   )
 
+  // A destination-only chain is never a source; the loop below then drops its token.
+  if (isDestinationOnlyChain(Number.parseInt(searchParams.fromChain, 10))) {
+    delete searchParams.fromChain
+  }
   // Prevent using fromToken/toToken params if chain is not selected.
   ;(['from', 'to'] as const).forEach((key) => {
     if (searchParams[`${key}Token`] && !searchParams[`${key}Chain`]) {

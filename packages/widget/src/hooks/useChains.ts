@@ -2,6 +2,7 @@ import type { ChainType, ExtendedChain } from '@lifi/sdk'
 import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
+import { isDestinationOnlyChain } from '../utils/chainType.js'
 import { getConfigItemSets, isFormItemAllowed } from '../utils/item.js'
 import { useAvailableChains } from './useAvailableChains.js'
 
@@ -34,7 +35,9 @@ export const useChains = (
           (chain) =>
             isFormItemAllowed(chain.id, chainsConfigSets, type) &&
             // Check against chain types if they are provided
-            (chainTypes?.includes(chain.chainType) ?? true)
+            (chainTypes?.includes(chain.chainType) ?? true) &&
+            // A destination-only chain is never a source
+            !(type === 'from' && isDestinationOnlyChain(chain.id))
         )
       : availableChains?.filter((chain) =>
           isFormItemAllowed(chain.id, chainsConfigSets)
