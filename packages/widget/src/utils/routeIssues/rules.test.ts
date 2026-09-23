@@ -709,9 +709,11 @@ describe('ranking', () => {
     ])
   })
 
-  // Nearly every tool that dislikes the receiver emits this, so it must not
-  // crowd out a reason the user can act on.
-  it('ranks recipientNotSupported below the actionable buckets', () => {
+  // Reported in review: with a receiver the user chose, every path refused it
+  // and one price-impact entry sat beside them — and the card advised a smaller
+  // amount, hiding the one fix that works. The bucket only survives for a
+  // receiver the user set, so it is never the noise it once was here.
+  it('ranks a refused receiver ahead of liquidity', () => {
     const issues = classifyRouteIssues(
       {
         filteredOut: [
@@ -734,8 +736,8 @@ describe('ranking', () => {
       context
     )
     expect(issues.map((issue) => issue.bucket)).toEqual([
-      'liquidity',
       'recipientNotSupported',
+      'liquidity',
       'temporary',
     ])
   })
