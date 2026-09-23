@@ -15,7 +15,6 @@ import type {
   WidgetChains,
   WidgetTokens,
 } from '../types/widget.js'
-import { isDestinationOnlyChain } from './chainType.js'
 import { getConfigItemSets, isFormItemAllowed } from './item.js'
 
 // Number(): plain-JS integrators may pass chainId as a string.
@@ -188,13 +187,11 @@ export const filterAllowedTokens = (
     formType
   )
 
-  const allowedChainIds = allChainIds.filter(
-    (chainId) =>
-      // A destination-only chain offers no source token
-      !(formType === 'from' && isDestinationOnlyChain(chainId)) &&
-      (!configChainIdsSet ||
-        isFormItemAllowed(chainId, configChainIdsSet, formType))
-  )
+  const allowedChainIds = configChainIdsSet
+    ? allChainIds.filter((chainId) =>
+        isFormItemAllowed(chainId, configChainIdsSet, formType)
+      )
+    : allChainIds
 
   const verifiedTokensSets = getVerifiedTokensSets(configTokens)
 

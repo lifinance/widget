@@ -6,6 +6,7 @@ import {
   resolveQueryScopeKey,
   resolveStorageScopeKey,
 } from '../../utils/scopeKeys.js'
+import { withDestinationOnlyChains } from '../../utils/chainType.js'
 import type { WidgetContextProps, WidgetProviderProps } from './types.js'
 
 const initialContext: WidgetContextProps = {
@@ -40,6 +41,7 @@ export const WidgetProvider: React.FC<
       const value = {
         ...widgetConfig,
         ...scopeKeys,
+        chains: withDestinationOnlyChains(widgetConfig.chains),
         elementId,
       } as WidgetContextProps
 
@@ -52,6 +54,7 @@ export const WidgetProvider: React.FC<
       return {
         ...widgetConfig,
         ...scopeKeys,
+        chains: withDestinationOnlyChains(widgetConfig.chains),
         elementId,
         integrator: widgetConfig.integrator,
       }
