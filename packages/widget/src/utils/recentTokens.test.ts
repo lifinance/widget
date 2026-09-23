@@ -162,6 +162,17 @@ describe('resolveRecentTokens active band', () => {
     ])
   })
 
+  it('should honour a deny entry whose chainId is a string', () => {
+    // The widget is called from plain JS too; utils/token.ts coerces here, so
+    // the band must as well or the deny list is bypassed.
+    const tokens = [makeToken('0xr1')]
+    const configTokens = {
+      deny: [{ chainId: '1', address: '0xr1' }],
+    } as unknown as WidgetTokens
+
+    expect(resolve(tokens, { configTokens }).totalRecentCount).toBe(0)
+  })
+
   it('should keep a config-denied recent out of the Clear payload', () => {
     const tokens = [makeToken('0xr1'), makeToken('0xdenied')]
     const configTokens: WidgetTokens = {

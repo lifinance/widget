@@ -77,6 +77,23 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
 
   const showRecentToggle = recentCount > 0 && !!onToggleRecent
 
+  // The band copy is the one on screen; its canonical row can sit thousands
+  // of rows below the fold. The highlight therefore belongs to the band copy,
+  // and the canonical row yields to it.
+  const bandKeys = useMemo(() => {
+    if (!recentCount) {
+      return undefined
+    }
+    const keys = new Set<string>()
+    for (let i = recentStartIndex; i < recentStartIndex + recentCount; i++) {
+      const token = tokens[i]
+      if (token) {
+        keys.add(`${token.chainId}-${token.address.toLowerCase()}`)
+      }
+    }
+    return keys
+  }, [tokens, recentStartIndex, recentCount])
+
   const bands = useMemo(
     () =>
       createBandResolver(tokens, {
@@ -154,13 +171,13 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
           const chain = chainsSet?.get(currentToken.chainId)
           const band = bands.getRowBandLabel(item.index)
 
-          // The band copies a row that also stays in the list, so the
-          // highlight has to pick one. Prefer the canonical list row; a
-          // snapshot has no counterpart, so it keeps its own highlight.
           const isSelected =
             selectedTokenAddress === currentToken.address &&
             chainId === currentToken.chainId &&
-            (!currentToken.recent || !!currentToken.unresolved)
+            (!!currentToken.recent ||
+              !bandKeys?.has(
+                `${currentToken.chainId}-${currentToken.address.toLowerCase()}`
+              ))
 
           return (
             <TokenListItem

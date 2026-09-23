@@ -86,11 +86,17 @@ export const resolveRecentTokens = (
   const wanted = new Set(
     candidates.map((recent) => tokenKey(recent.chainId, recent.address))
   )
+  // An integer test first: in all-networks most rows are on a chain no
+  // recent uses, and those never need a key string built for them.
+  const wantedChains = new Set(candidates.map((recent) => recent.chainId))
   // At most ten matches in a list that all-networks fills with tens of
   // thousands of rows. The break helps only when every recent is listed; a
   // searched-only recent never matches, so that scan still runs to the end.
   const fresh = new Map<string, TokenAmount>()
   for (const token of tokens) {
+    if (!wantedChains.has(token.chainId)) {
+      continue
+    }
     const key = tokenKey(token.chainId, token.address)
     if (wanted.has(key) && !fresh.has(key)) {
       fresh.set(key, token)
@@ -110,7 +116,9 @@ export const resolveRecentTokens = (
           (items: BaseToken[]) =>
             new Set(
               items
-                .filter((item) => item.chainId === chainId)
+                // Coerced like utils/token.ts: an integrator calling from
+                // plain JS can pass chainId as a string.
+                .filter((item) => Number(item.chainId) === chainId)
                 .map((item) => item.address.toLowerCase())
             ),
           formType
