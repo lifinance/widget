@@ -1,16 +1,12 @@
-import {
-  type BaseToken,
-  type ChainId,
-  getToken,
-  type TokenExtended,
-} from '@lifi/sdk'
+import { type ChainId, getToken, type TokenExtended } from '@lifi/sdk'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import type { FormType } from '../stores/form/types.js'
 import type { TokensByChain } from '../types/token.js'
-import { getConfigItemSets, isFormItemAllowed } from '../utils/item.js'
+import { isFormItemAllowed } from '../utils/item.js'
 import { getQueryKey } from '../utils/queries.js'
+import { getChainTokenAllowSets } from '../utils/token.js'
 
 export const useTokenSearch = (
   chainId?: number,
@@ -39,14 +35,9 @@ export const useTokenSearch = (
 
       if (token) {
         // Filter config tokens by chain before checking if token is allowed
-        const filteredConfigTokens = getConfigItemSets(
+        const filteredConfigTokens = getChainTokenAllowSets(
           configTokens,
-          (tokens: BaseToken[]) =>
-            new Set(
-              tokens
-                .filter((t) => t.chainId === token.chainId)
-                .map((t) => t.address.toLowerCase())
-            ),
+          token.chainId,
           formType
         )
 

@@ -1,20 +1,26 @@
 import { Box } from '@mui/material'
-import { type FC, memo, useEffect, useRef } from 'react'
+import { type FC, memo, useCallback, useEffect, useRef, useState } from 'react'
 import { useDebouncedWatch } from '../../hooks/useDebouncedWatch.js'
 import { useListHeight } from '../../hooks/useListHeight.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
+import { useRecentTokens } from '../../hooks/useRecentTokens.js'
 import { useTokenBalances } from '../../hooks/useTokenBalances.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
+import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
+import { useRecentTokensStore } from '../../stores/recentTokens/RecentTokensStore.js'
+import { toRecentToken } from '../../stores/recentTokens/utils.js'
 import { WidgetEvent } from '../../types/events.js'
+import { collapsedRecentCount } from '../../utils/recentTokens.js'
 import { TokenNotFound } from './TokenNotFound.js'
 import type { TokenListProps } from './types.js'
 import { useTokenSelect } from './useTokenSelect.js'
 import { VirtualizedTokenList } from './VirtualizedTokenList.js'
 
 export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
+  const { hiddenUI } = useWidgetConfig()
   const navigateBack = useNavigateBack()
   const listParentRef = useRef<HTMLUListElement | null>(null)
   const { listHeight } = useListHeight({
@@ -45,6 +51,7 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
     isTokensLoading,
     isBalanceLoading,
     isSearchLoading,
+    nativeHoisted,
   } = useTokenBalances(
     selectedChainId,
     formType,
@@ -52,7 +59,78 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
     tokenSearchFilter
   )
 
-  const handleTokenClick = useTokenSelect(formType, navigateBack)
+  // Keyed by scope, so a chain switch collapses the band in the same render.
+  const recentScope = `${selectedChainId}-${!!isAllNetworks}`
+  const [expandedScope, setExpandedScope] = useState<string>()
+  const recentExpanded = expandedScope === recentScope
+
+  const {
+    tokens: tokensWithRecent,
+    bandEntries,
+    recentStartIndex,
+    recentCount,
+    totalRecentCount,
+  } = useRecentTokens(tokens, {
+    selectedChainId,
+    isAllNetworks,
+    search: tokenSearchFilter,
+    expanded: recentExpanded,
+    formType,
+    isTokensLoading,
+    nativeHoisted: !!nativeHoisted,
+  })
+
+  const selectToken = useTokenSelect(formType, navigateBack)
+  const [addRecentToken, isRecentToken, clearRecentTokens] =
+    useRecentTokensStore((state) => [
+      state.addRecentToken,
+      state.isRecentToken,
+      state.clearRecentTokens,
+    ])
+
+  // Refs keep onClick stable across refetches and keystrokes for memoized rows.
+  const tokensRef = useRef(tokensWithRecent)
+  tokensRef.current = tokensWithRecent
+  const searchRef = useRef(tokenSearchFilter)
+  searchRef.current = tokenSearchFilter
+
+  const handleTokenClick = useCallback(
+    (address: string, chainId?: number) => {
+      if (
+        chainId &&
+        !hiddenUI?.recentSearches &&
+        (searchRef.current?.trim() || isRecentToken(chainId, address))
+      ) {
+        // A band row is either a copy of the live row or has no live row.
+        const lower = address.toLowerCase()
+        const token = tokensRef.current.find(
+          (item) =>
+            item.chainId === chainId && item.address.toLowerCase() === lower
+        )
+        if (token) {
+          addRecentToken(toRecentToken(token))
+        }
+      }
+      selectToken(address, chainId)
+    },
+    [addRecentToken, isRecentToken, selectToken, hiddenUI?.recentSearches]
+  )
+
+  const toggleRecentExpanded = useCallback(
+    () =>
+      setExpandedScope((scope) =>
+        scope === recentScope ? undefined : recentScope
+      ),
+    [recentScope]
+  )
+
+  // The band filters on chain, config and pins; Clear takes its exact entries.
+  const bandEntriesRef = useRef(bandEntries)
+  bandEntriesRef.current = bandEntries
+  const clearRecentBand = useCallback(
+    () => clearRecentTokens(bandEntriesRef.current),
+    [clearRecentTokens]
+  )
 
   const showCategories = withCategories && !tokenSearchFilter && !isAllNetworks
 
@@ -72,7 +150,7 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
         <TokenNotFound formType={formType} />
       ) : null}
       <VirtualizedTokenList
-        tokens={tokens}
+        tokens={tokensWithRecent}
         scrollElementRef={listParentRef}
         chainId={selectedChainId}
         isLoading={isTokensLoading || isSearchLoading}
@@ -82,6 +160,17 @@ export const TokenList: FC<TokenListProps> = memo(({ formType, headerRef }) => {
         onClick={handleTokenClick}
         selectedTokenAddress={selectedTokenAddress}
         isAllNetworks={isAllNetworks}
+        nativeHoisted={!!nativeHoisted}
+        recentStartIndex={recentStartIndex}
+        recentCount={recentCount}
+        hiddenRecentCount={totalRecentCount - recentCount}
+        recentExpanded={recentExpanded}
+        onToggleRecent={
+          totalRecentCount > collapsedRecentCount
+            ? toggleRecentExpanded
+            : undefined
+        }
+        onClearRecent={clearRecentBand}
       />
     </Box>
   )

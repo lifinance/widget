@@ -24,6 +24,7 @@ import { shortenAddress } from '../../utils/wallet.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
 import { ListItemButton } from '../ListItem/ListItemButton.js'
 import { PinTokenButton } from './PinTokenButton.js'
+import { RemoveRecentTokenButton } from './RemoveRecentTokenButton.js'
 import { IconButton, ListItem } from './TokenList.style.js'
 import type {
   TokenListItemAvatarProps,
@@ -240,6 +241,8 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
         sx={{
           height: 60,
           marginBottom: '4px',
+          // Not a flex-grow item: a band slot's spare height must not stretch the card.
+          flex: 'none',
         }}
       >
         <ListItemAvatar>
@@ -319,6 +322,12 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
                         chainId={token.chainId}
                         tokenAddress={token.address}
                       />
+                      {token.recent ? (
+                        <RemoveRecentTokenButton
+                          chainId={token.chainId}
+                          tokenAddress={token.address}
+                        />
+                      ) : null}
                     </Box>
                   </Slide>
                 </Box>
@@ -385,6 +394,12 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
                         chainId={token.chainId}
                         tokenAddress={token.address}
                       />
+                      {token.recent ? (
+                        <RemoveRecentTokenButton
+                          chainId={token.chainId}
+                          tokenAddress={token.address}
+                        />
+                      ) : null}
                     </Box>
                   </Box>
                 </Slide>

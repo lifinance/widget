@@ -1,0 +1,187 @@
+import type { FormType } from '../stores/form/types.js'
+import type {
+  RecentToken,
+  RecentTokenId,
+} from '../stores/recentTokens/types.js'
+import { getTokenKey } from '../stores/recentTokens/utils.js'
+import type { TokenAmount } from '../types/token.js'
+import type { AllowDenySets, WidgetTokens } from '../types/widget.js'
+import { isFormItemAllowed } from './item.js'
+import { getChainTokenAllowSets } from './token.js'
+
+export const collapsedRecentCount = 4
+
+export interface ResolveRecentRowsParams {
+  recentTokens: RecentToken[]
+  availableChainIds: Set<number>
+  configTokens: WidgetTokens | undefined
+  formType: FormType
+  selectedChainId?: number
+  isAllNetworks?: boolean
+  nativeHoisted: boolean
+  disabled: boolean
+}
+
+export interface RecentRows {
+  /** Unsliced; empty when the band is inactive. */
+  rows: TokenAmount[]
+  /** Everything Clear removes, including toggled-away and displaced rows. */
+  bandEntries: RecentTokenId[]
+  recentStartIndex: number
+}
+
+export interface RecentTokensResult {
+  tokens: TokenAmount[]
+  recentCount: number
+  totalRecentCount: number
+}
+
+// Whitelisted fields; a flag is the one verdict kept, as stale it only over-warns.
+const toSnapshotRow = (recent: RecentToken): TokenAmount =>
+  ({
+    chainId: recent.chainId,
+    address: recent.address,
+    symbol: recent.symbol,
+    name: recent.name,
+    decimals: recent.decimals,
+    logoURI: recent.logoURI,
+    priceUSD: '',
+    verificationStatus: recent.flagged ? 'flagged' : undefined,
+  }) as TokenAmount
+
+const isFeaturedCopy = (token: TokenAmount): boolean =>
+  !!token.featured && !token.amount
+
+export const resolveRecentRows = (
+  tokens: TokenAmount[],
+  {
+    recentTokens,
+    availableChainIds,
+    configTokens,
+    formType,
+    selectedChainId,
+    isAllNetworks,
+    nativeHoisted,
+    disabled,
+  }: ResolveRecentRowsParams
+): RecentRows => {
+  let recentStartIndex = nativeHoisted ? 1 : 0
+  while (tokens[recentStartIndex]?.pinned) {
+    recentStartIndex++
+  }
+
+  const inactive: RecentRows = { rows: [], bandEntries: [], recentStartIndex }
+
+  if (disabled || !recentTokens.length || !tokens.length) {
+    return inactive
+  }
+
+  const candidates = recentTokens.filter(
+    (recent) =>
+      (isAllNetworks || recent.chainId === selectedChainId) &&
+      availableChainIds.has(recent.chainId)
+  )
+
+  if (!candidates.length) {
+    return inactive
+  }
+
+  const wanted = new Set(
+    candidates.map((recent) => getTokenKey(recent.chainId, recent.address))
+  )
+  // All-networks holds tens of thousands of rows: test the chain before the key.
+  const wantedChains = new Set(candidates.map((recent) => recent.chainId))
+  const fresh = new Map<string, TokenAmount>()
+  // A featured config copy has no balance and sits above the row with one.
+  let awaitingBalance = 0
+  for (const token of tokens) {
+    if (!wantedChains.has(token.chainId)) {
+      continue
+    }
+    const key = getTokenKey(token.chainId, token.address)
+    if (!wanted.has(key)) {
+      continue
+    }
+    const found = fresh.get(key)
+    if (!found) {
+      fresh.set(key, token)
+      if (isFeaturedCopy(token)) {
+        awaitingBalance++
+      }
+    } else if (token.amount && isFeaturedCopy(found)) {
+      fresh.set(key, {
+        ...found,
+        amount: token.amount,
+        priceUSD: token.priceUSD || found.priceUSD,
+      })
+      awaitingBalance--
+    }
+    if (fresh.size === wanted.size && !awaitingBalance) {
+      break
+    }
+  }
+
+  const allowedByChain = new Map<number, AllowDenySets | undefined>()
+  const allowedFor = (chainId: number) => {
+    if (!allowedByChain.has(chainId)) {
+      allowedByChain.set(
+        chainId,
+        getChainTokenAllowSets(configTokens, chainId, formType)
+      )
+    }
+    return allowedByChain.get(chainId)
+  }
+
+  const hoistedKey = nativeHoisted
+    ? getTokenKey(tokens[0].chainId, tokens[0].address)
+    : undefined
+
+  const rows: TokenAmount[] = []
+  const bandEntries: RecentTokenId[] = []
+  for (const recent of candidates) {
+    const key = getTokenKey(recent.chainId, recent.address)
+    const resolved = fresh.get(key) ?? toSnapshotRow(recent)
+    if (
+      !isFormItemAllowed(resolved, allowedFor(recent.chainId), formType, (t) =>
+        t.address.toLowerCase()
+      )
+    ) {
+      // Denied on this side only, so Clear must leave it for the other side.
+      continue
+    }
+    // Clear owns displaced entries too, or they reappear once unpinned.
+    bandEntries.push({ chainId: recent.chainId, address: recent.address })
+    if (key === hoistedKey || resolved.pinned) {
+      continue
+    }
+    rows.push({ ...resolved, recent: true })
+  }
+
+  if (!rows.length) {
+    return inactive
+  }
+
+  return { rows, bandEntries, recentStartIndex }
+}
+
+export const spliceRecentRows = (
+  tokens: TokenAmount[],
+  { rows, recentStartIndex }: RecentRows,
+  expanded: boolean
+): RecentTokensResult => {
+  if (!rows.length) {
+    return { tokens, recentCount: 0, totalRecentCount: 0 }
+  }
+
+  const visible = expanded ? rows : rows.slice(0, collapsedRecentCount)
+
+  return {
+    tokens: [
+      ...tokens.slice(0, recentStartIndex),
+      ...visible,
+      ...tokens.slice(recentStartIndex),
+    ],
+    recentCount: visible.length,
+    totalRecentCount: rows.length,
+  }
+}
