@@ -1,5 +1,15 @@
 # @lifi/widget-checkout
 
+## 4.0.3
+
+### Patch Changes
+
+- Updated dependencies [[`1590c19`](https://github.com/lifinance/widget/commit/1590c1907376b800c556b139a10400fc301ca2cf), [`6cfb397`](https://github.com/lifinance/widget/commit/6cfb39765febba6251966d41cc9962e7d359812a), [`e9c695f`](https://github.com/lifinance/widget/commit/e9c695f9981d60bd23cff85d2c3324a739ebf0d7), [`2aa029b`](https://github.com/lifinance/widget/commit/2aa029bd0e26fdac4e96f6dd008350e36ecab79f), [`e9c695f`](https://github.com/lifinance/widget/commit/e9c695f9981d60bd23cff85d2c3324a739ebf0d7), [`6ca0991`](https://github.com/lifinance/widget/commit/6ca09911a49dda74d9450fad4a0732be789dac40), [`ae17ea7`](https://github.com/lifinance/widget/commit/ae17ea726c8cf277c3d7ebb9734c42dc3b682bc2), [`1526cf2`](https://github.com/lifinance/widget/commit/1526cf23815aaf788ff5fe2ff4a11b0d13c7602b), [`d1cbfab`](https://github.com/lifinance/widget/commit/d1cbfab97fd003d50e079b732493afc2e4eadbd7), [`6ca0991`](https://github.com/lifinance/widget/commit/6ca09911a49dda74d9450fad4a0732be789dac40), [`6ca0991`](https://github.com/lifinance/widget/commit/6ca09911a49dda74d9450fad4a0732be789dac40), [`e98e2d1`](https://github.com/lifinance/widget/commit/e98e2d101796c579f48e283d5e6c485229717781), [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128), [`0bf9966`](https://github.com/lifinance/widget/commit/0bf9966a23a1a56e79d58e6e99f02df5b913688b), [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128), [`0bf9966`](https://github.com/lifinance/widget/commit/0bf9966a23a1a56e79d58e6e99f02df5b913688b), [`0bf9966`](https://github.com/lifinance/widget/commit/0bf9966a23a1a56e79d58e6e99f02df5b913688b), [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128), [`0bf9966`](https://github.com/lifinance/widget/commit/0bf9966a23a1a56e79d58e6e99f02df5b913688b), [`e9c695f`](https://github.com/lifinance/widget/commit/e9c695f9981d60bd23cff85d2c3324a739ebf0d7)]:
+  - @lifi/widget@4.7.0
+  - @lifi/widget-provider@4.5.0
+  - @lifi/wallet-management@4.3.0
+  - @lifi/widget-provider-mesh@4.0.3
+
 ## 4.0.2
 
 ### Patch Changes

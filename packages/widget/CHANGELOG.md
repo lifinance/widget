@@ -1,5 +1,94 @@
 # @lifi/widget
 
+## 4.7.0
+
+### Minor Changes
+
+- [#881](https://github.com/lifinance/widget/pull/881) [`6ca0991`](https://github.com/lifinance/widget/commit/6ca09911a49dda74d9450fad4a0732be789dac40) Thanks [@chybisov](https://github.com/chybisov)! - Add a Recent searches section to the token select view, keeping the last 10 searched-and-selected tokens locally. Hide it with `hiddenUI.recentSearches`.
+
+### Patch Changes
+
+- [#876](https://github.com/lifinance/widget/pull/876) [`1590c19`](https://github.com/lifinance/widget/commit/1590c1907376b800c556b139a10400fc301ca2cf) Thanks [@chybisov](https://github.com/chybisov)! - Token search: a pasted contract address now matches only the token at that address, so impersonators that embed a real address in their name or symbol no longer appear. A query with surrounding whitespace resolves as well, instead of returning nothing — that held for an address and now holds for a name or symbol too.
+  
+  `useChainTypeFromAddress` also returns `getChainTypeFromTokenAddress`, which asks each configured provider's `SDKProvider.isTokenAddress`. A token identifier is not always shaped like a wallet address — Stellar tokens are `C…` contract ids and Sui tokens are `0x…::module::TYPE` coin types — so the widget no longer carries its own patterns for them. Bitcoin implements no token check, because the token list names its native coin `bitcoin`, so a `bitcoin` query stays a name search.
+
+- [#879](https://github.com/lifinance/widget/pull/879) [`6cfb397`](https://github.com/lifinance/widget/commit/6cfb39765febba6251966d41cc9962e7d359812a) Thanks [@chybisov](https://github.com/chybisov)! - fix(chains): keep "All networks" selected once the user picks it
+  
+  On a page opened with a chain — a refresh, or a shared link — choosing
+  "All networks" could put that chain straight back, and repeated clicks
+  alternated between two chains the user never picked, so the selection could
+  never be changed to all networks.
+  
+  `ChainOrderStoreProvider` decides the mode from the config chain and the query
+  string, and at the moment of the click both still name the chain the page was
+  opened on: the widget rewrites the query string a commit later, and an
+  integrator that seeds its config from the URL never rewrites it. Any integrator
+  whose config identity changes in response to form state re-runs the effect
+  inside that window, where it reads the stale values, turns the mode off and
+  refills the chain from the persisted chain order.
+  
+  A chain field that is touched and empty has been cleared deliberately, which is
+  what "All networks" does, and that now outranks both stale values.
+
+- [#868](https://github.com/lifinance/widget/pull/868) [`2aa029b`](https://github.com/lifinance/widget/commit/2aa029bd0e26fdac4e96f6dd008350e36ecab79f) Thanks [@chybisov](https://github.com/chybisov)! - fix(widget): keep a known token price when a route cannot price it
+  
+  A route that returns `priceUSD` `"0"` for its output token blanked the value on
+  every quote card. `useRoutes` writes the route's tokens back into the token
+  caches through `updateTokenInCache`, which spread that `"0"` over the price the
+  cache already held. `Token`'s logo fallback then looked for a cached price to
+  fall back to and found the same `"0"`, so the guard added in [#866](https://github.com/lifinance/widget/issues/866) had nothing
+  left to read.
+  
+  `knownPriceUSD` now applies the rule where the value is written as well as where
+  it is read: an incoming `'0'` or `''` never replaces a price the cache knows,
+  and an empty `logoURI` no longer clears a cached logo.
+
+- [#866](https://github.com/lifinance/widget/pull/866) [`ae17ea7`](https://github.com/lifinance/widget/commit/ae17ea726c8cf277c3d7ebb9734c42dc3b682bc2) Thanks [@chybisov](https://github.com/chybisov)! - fix(widget): value a route's tokens with the route's own price
+  
+  `Token` falls back to the cached token whenever a token has no `logoURI`, and
+  that fallback merged the cached token *over* the route token — so the cached
+  `priceUSD` replaced the route's. The receive card reads the route price
+  directly, so the same output amount could show two different USD values on the
+  receive card and on the quote card. Thin or newly listed tokens are the ones
+  affected: they are the tokens without a logo, and their feed price drifts
+  furthest from the route price.
+  
+  The fallback now fills only the gaps the route leaves, so a known route price
+  always wins. An unknown price arrives as `'0'` or `''` rather than as an absent
+  key, and those still fall back to the cache. `updateTokenInCache` also compares
+  addresses case-insensitively, so a casing difference between the token list and
+  the route no longer silently skips the token-list update.
+
+- [#865](https://github.com/lifinance/widget/pull/865) [`1526cf2`](https://github.com/lifinance/widget/commit/1526cf23815aaf788ff5fe2ff4a11b0d13c7602b) Thanks [@chybisov](https://github.com/chybisov)! - Load Stellar-to-Stellar routes when the receiver is your own connected Stellar account — the widget
+  fills that receiver in for you, and it no longer counts as a recipient Stellar cannot honour.
+
+- [#882](https://github.com/lifinance/widget/pull/882) [`d1cbfab`](https://github.com/lifinance/widget/commit/d1cbfab97fd003d50e079b732493afc2e4eadbd7) Thanks [@chybisov](https://github.com/chybisov)! - Split swap no longer crashes when the source is on "All networks". The destination copied the empty source, the chain-order fallback refilled it, and an integrator that rebuilds `chains` from form state re-ran that effect on every write until React threw "Maximum update depth exceeded". The destination now follows only a chosen source. An empty destination takes the source chain rather than the first chain in the order, and a destination the chain list no longer offers falls back to one it does.
+
+- [#881](https://github.com/lifinance/widget/pull/881) [`6ca0991`](https://github.com/lifinance/widget/commit/6ca09911a49dda74d9450fad4a0732be789dac40) Thanks [@chybisov](https://github.com/chybisov)! - Space the Pinned and Featured headers below the hoisted native token like every other token list header.
+
+- [#881](https://github.com/lifinance/widget/pull/881) [`6ca0991`](https://github.com/lifinance/widget/commit/6ca09911a49dda74d9450fad4a0732be789dac40) Thanks [@chybisov](https://github.com/chybisov)! - Apply a `tokens.allow` or `tokens.deny` entry whose `chainId` is a string to token search results, as the token list already does.
+
+- [#863](https://github.com/lifinance/widget/pull/863) [`e98e2d1`](https://github.com/lifinance/widget/commit/e98e2d101796c579f48e283d5e6c485229717781) Thanks [@chybisov](https://github.com/chybisov)! - Stop a confirmation sheet from skipping the sheets behind it. Continuing past the low-activity-address warning went straight to execution, so a route that was both going to a low-activity address and losing significant value never showed the high-value-loss warning. The same held on the retry path. Each sheet now resumes the chain at the gate after its own, and the order lives in one place instead of being re-decided by every sheet.
+  
+  This also makes `BottomSheet.close()` idempotent: closing an already-closed sheet no longer re-runs its `onClose`. Sheets that pass an `onCancel` therefore stop reporting a cancellation for a close they triggered themselves.
+
+- [#870](https://github.com/lifinance/widget/pull/870) [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128) Thanks [@chybisov](https://github.com/chybisov)! - Update `i18next` to 26.4.2.
+
+- [#880](https://github.com/lifinance/widget/pull/880) [`0bf9966`](https://github.com/lifinance/widget/commit/0bf9966a23a1a56e79d58e6e99f02df5b913688b) Thanks [@chybisov](https://github.com/chybisov)! - Update `react-i18next` to 17.0.14.
+
+- [#870](https://github.com/lifinance/widget/pull/870) [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.7.0.
+
+- [#880](https://github.com/lifinance/widget/pull/880) [`0bf9966`](https://github.com/lifinance/widget/commit/0bf9966a23a1a56e79d58e6e99f02df5b913688b) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.8.0.
+
+- [#880](https://github.com/lifinance/widget/pull/880) [`0bf9966`](https://github.com/lifinance/widget/commit/0bf9966a23a1a56e79d58e6e99f02df5b913688b) Thanks [@chybisov](https://github.com/chybisov)! - Update `motion` to 13.4.0.
+
+- [#870](https://github.com/lifinance/widget/pull/870) [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128) Thanks [@chybisov](https://github.com/chybisov)! - Update `@tanstack/react-router` to 1.170.34 and `@tanstack/react-virtual` to 3.14.11.
+
+- [#880](https://github.com/lifinance/widget/pull/880) [`0bf9966`](https://github.com/lifinance/widget/commit/0bf9966a23a1a56e79d58e6e99f02df5b913688b) Thanks [@chybisov](https://github.com/chybisov)! - Update `@tanstack/react-router` to 1.170.38 and `@tanstack/react-virtual` to 3.14.13.
+- Updated dependencies [[`1590c19`](https://github.com/lifinance/widget/commit/1590c1907376b800c556b139a10400fc301ca2cf), [`e9c695f`](https://github.com/lifinance/widget/commit/e9c695f9981d60bd23cff85d2c3324a739ebf0d7), [`e9c695f`](https://github.com/lifinance/widget/commit/e9c695f9981d60bd23cff85d2c3324a739ebf0d7), [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128), [`0bf9966`](https://github.com/lifinance/widget/commit/0bf9966a23a1a56e79d58e6e99f02df5b913688b), [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128), [`0bf9966`](https://github.com/lifinance/widget/commit/0bf9966a23a1a56e79d58e6e99f02df5b913688b), [`e9c695f`](https://github.com/lifinance/widget/commit/e9c695f9981d60bd23cff85d2c3324a739ebf0d7)]:
+  - @lifi/widget-provider@4.5.0
+  - @lifi/wallet-management@4.3.0
+
 ## 4.6.0
 
 ### Minor Changes

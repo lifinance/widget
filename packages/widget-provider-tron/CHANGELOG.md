@@ -1,5 +1,21 @@
 # @lifi/widget-provider-tron
 
+## 4.1.5
+
+### Patch Changes
+
+- [#870](https://github.com/lifinance/widget/pull/870) [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.7.0.
+
+- [#880](https://github.com/lifinance/widget/pull/880) [`0bf9966`](https://github.com/lifinance/widget/commit/0bf9966a23a1a56e79d58e6e99f02df5b913688b) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.8.0.
+
+- [#870](https://github.com/lifinance/widget/pull/870) [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128) Thanks [@chybisov](https://github.com/chybisov)! - Update the LI.FI SDK providers to latest: `@lifi/sdk-provider-bitcoin` 4.0.10, `@lifi/sdk-provider-ethereum` 4.1.0, `@lifi/sdk-provider-solana` 4.2.0, `@lifi/sdk-provider-stellar` 4.3.0, `@lifi/sdk-provider-sui` 4.2.0 and `@lifi/sdk-provider-tron` 4.1.0.
+
+- [#880](https://github.com/lifinance/widget/pull/880) [`0bf9966`](https://github.com/lifinance/widget/commit/0bf9966a23a1a56e79d58e6e99f02df5b913688b) Thanks [@chybisov](https://github.com/chybisov)! - Update the LI.FI SDK providers to latest: `@lifi/sdk-provider-bitcoin` 4.0.11, `@lifi/sdk-provider-ethereum` 4.2.0, `@lifi/sdk-provider-solana` 4.2.1, `@lifi/sdk-provider-stellar` 4.3.1, `@lifi/sdk-provider-sui` 4.2.1 and `@lifi/sdk-provider-tron` 4.1.1.
+
+- [#870](https://github.com/lifinance/widget/pull/870) [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128) Thanks [@chybisov](https://github.com/chybisov)! - Update the TRON wallet adapters to latest, including `@tronweb3/tronwallet-abstract-adapter` 1.3.0, `@tronweb3/tronwallet-adapter-tronlink` 1.3.0 and `@tronweb3/tronwallet-adapter-walletconnect` 3.1.0.
+- Updated dependencies [[`1590c19`](https://github.com/lifinance/widget/commit/1590c1907376b800c556b139a10400fc301ca2cf), [`e9c695f`](https://github.com/lifinance/widget/commit/e9c695f9981d60bd23cff85d2c3324a739ebf0d7), [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128), [`0bf9966`](https://github.com/lifinance/widget/commit/0bf9966a23a1a56e79d58e6e99f02df5b913688b)]:
+  - @lifi/widget-provider@4.5.0
+
 ## 4.1.4
 
 ### Patch Changes
