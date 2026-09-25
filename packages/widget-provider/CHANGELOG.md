@@ -1,5 +1,23 @@
 # @lifi/widget-provider
 
+## 4.5.0
+
+### Minor Changes
+
+- [#876](https://github.com/lifinance/widget/pull/876) [`1590c19`](https://github.com/lifinance/widget/commit/1590c1907376b800c556b139a10400fc301ca2cf) Thanks [@chybisov](https://github.com/chybisov)! - Token search: a pasted contract address now matches only the token at that address, so impersonators that embed a real address in their name or symbol no longer appear. A query with surrounding whitespace resolves as well, instead of returning nothing — that held for an address and now holds for a name or symbol too.
+  
+  `useChainTypeFromAddress` also returns `getChainTypeFromTokenAddress`, which asks each configured provider's `SDKProvider.isTokenAddress`. A token identifier is not always shaped like a wallet address — Stellar tokens are `C…` contract ids and Sui tokens are `0x…::module::TYPE` coin types — so the widget no longer carries its own patterns for them. Bitcoin implements no token check, because the token list names its native coin `bitcoin`, so a `bitcoin` query stays a name search.
+
+- [#878](https://github.com/lifinance/widget/pull/878) [`e9c695f`](https://github.com/lifinance/widget/commit/e9c695f9981d60bd23cff85d2c3324a739ebf0d7) Thanks [@chybisov](https://github.com/chybisov)! - Bitcoin wallets are now listed only when their connector can actually resolve a provider, instead of being detected by a second copy of that logic that had drifted from it. A wallet that impersonates MetaMask no longer offers a Bitcoin entry that cannot connect.
+  
+  `isWalletInstalled` no longer answers for Bitcoin connector ids and returns `true` for them, as it does for any wallet it does not explicitly know. `metaMask` and `coinbase` are unchanged.
+
+### Patch Changes
+
+- [#870](https://github.com/lifinance/widget/pull/870) [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.7.0.
+
+- [#880](https://github.com/lifinance/widget/pull/880) [`0bf9966`](https://github.com/lifinance/widget/commit/0bf9966a23a1a56e79d58e6e99f02df5b913688b) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.8.0.
+
 ## 4.4.0
 
 ### Minor Changes

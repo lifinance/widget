@@ -1,5 +1,31 @@
 # @lifi/wallet-management
 
+## 4.3.0
+
+### Minor Changes
+
+- [#878](https://github.com/lifinance/widget/pull/878) [`e9c695f`](https://github.com/lifinance/widget/commit/e9c695f9981d60bd23cff85d2c3324a739ebf0d7) Thanks [@chybisov](https://github.com/chybisov)! - Order a multichain wallet's ecosystems Ethereum, Solana, Sui, Bitcoin, Tron, Stellar, via an explicit `defaultWalletEcosystemsOrder` that is exported so integrators can read it.
+  
+  **This changes the displayed order.** It was previously a side effect of the sequence the wallet lists were combined in — Ethereum, Bitcoin, Solana, Sui, Tron, Stellar — so Bitcoin moves from second to fourth for every multichain wallet you do not name in `walletEcosystemsOrder`.
+  
+  `walletConfig.walletEcosystemsOrder` still wins for the wallets it names, and now only needs the ecosystems you want to move — anything left out follows the default instead of falling back to the list-building order.
+
+### Patch Changes
+
+- [#878](https://github.com/lifinance/widget/pull/878) [`e9c695f`](https://github.com/lifinance/widget/commit/e9c695f9981d60bd23cff85d2c3324a739ebf0d7) Thanks [@chybisov](https://github.com/chybisov)! - Offer MetaMask Bitcoin by default. `createDefaultBigmiConfig` now includes the `metamask()` connector alongside the other eleven, so integrators no longer opt in.
+  
+  This adds no dependency. The connector reaches MetaMask through the Wallet Standard registry, which the extension populates itself, and it imports only `@bigmi/core` and `@wallet-standard/app` — both already present. `@metamask/bitcoin-wallet-standard` and `@metamask/multichain-api-client` existed solely for the manual registration this replaces and are gone; `@metamask/connect-evm` stays, because `wagmi`'s EVM `metaMask()` connector imports it dynamically. The playground bundle is ~41 KB smaller.
+
+- [#870](https://github.com/lifinance/widget/pull/870) [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128) Thanks [@chybisov](https://github.com/chybisov)! - Update `i18next` to 26.4.2.
+
+- [#880](https://github.com/lifinance/widget/pull/880) [`0bf9966`](https://github.com/lifinance/widget/commit/0bf9966a23a1a56e79d58e6e99f02df5b913688b) Thanks [@chybisov](https://github.com/chybisov)! - Update `react-i18next` to 17.0.14.
+
+- [#870](https://github.com/lifinance/widget/pull/870) [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.7.0.
+
+- [#880](https://github.com/lifinance/widget/pull/880) [`0bf9966`](https://github.com/lifinance/widget/commit/0bf9966a23a1a56e79d58e6e99f02df5b913688b) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.8.0.
+- Updated dependencies [[`1590c19`](https://github.com/lifinance/widget/commit/1590c1907376b800c556b139a10400fc301ca2cf), [`e9c695f`](https://github.com/lifinance/widget/commit/e9c695f9981d60bd23cff85d2c3324a739ebf0d7), [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128), [`0bf9966`](https://github.com/lifinance/widget/commit/0bf9966a23a1a56e79d58e6e99f02df5b913688b)]:
+  - @lifi/widget-provider@4.5.0
+
 ## 4.2.0
 
 ### Minor Changes

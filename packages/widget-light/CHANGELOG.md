@@ -1,5 +1,13 @@
 # @lifi/widget-light
 
+## 4.4.0
+
+### Minor Changes
+
+- [#878](https://github.com/lifinance/widget/pull/878) [`e9c695f`](https://github.com/lifinance/widget/commit/e9c695f9981d60bd23cff85d2c3324a739ebf0d7) Thanks [@chybisov](https://github.com/chybisov)! - Require `@bigmi/client` 0.10.4, `@bigmi/core` 0.9.2 and `@bigmi/react` 0.9.4. The client release detects BitKeep when it injects only as `window.unisat`, which connector-backed wallet detection needs in order not to narrow. The core release reports a declined confirmation as a user rejection even when the wallet sends no rejection code, so a cancelled MetaMask Bitcoin signature now reads "Signature required" instead of "Unknown Error". The 0.10.4 client additionally fixes Binance detection when `window.binancew3w` carries no bitcoin provider, stops MetaMask Bitcoin opening the extension on page load, and keeps the store consistent when a wallet's own `disconnect()` throws.
+
+- [#881](https://github.com/lifinance/widget/pull/881) [`6ca0991`](https://github.com/lifinance/widget/commit/6ca09911a49dda74d9450fad4a0732be789dac40) Thanks [@chybisov](https://github.com/chybisov)! - Add `hiddenUI.recentSearches` to the config type, to hide the widget's Recent searches section.
+
 ## 4.3.2
 
 ### Patch Changes
