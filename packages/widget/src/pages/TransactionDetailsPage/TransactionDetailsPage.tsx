@@ -15,6 +15,7 @@ import { useRouteExecutionStore } from '../../stores/routes/RouteExecutionStore.
 import { getSourceTxHash } from '../../stores/routes/utils.js'
 import { buildRouteFromTxHistory } from '../../utils/converters.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import { isHttpUrl } from '../../utils/url.js'
 import { ReceiptsCard } from './ReceiptsCard.js'
 import { TransactionDetailsSkeleton } from './TransactionDetailsSkeleton.js'
 import { TransferIdCard } from './TransferIdCard.js'
@@ -70,11 +71,10 @@ export const TransactionDetailsPage: React.FC = () => {
     routeExecution?.route?.steps?.at(-1)?.execution?.externalTxLink
 
   const txLink =
-    (url
-      ? internalTxLink?.replace(internalExplorerUrl, url)
-      : internalTxLink) ||
-    externalTxLink ||
-    getTransactionLink({ txHash: supportId })
+    [
+      url ? internalTxLink?.replace(internalExplorerUrl, url) : internalTxLink,
+      externalTxLink,
+    ].find(isHttpUrl) ?? getTransactionLink({ txHash: supportId })
 
   if (process.env.NODE_ENV === 'development') {
     supportId += `_${routeExecution?.route.id}`

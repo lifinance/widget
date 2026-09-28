@@ -11,6 +11,7 @@ import OpenInNew from '@mui/icons-material/OpenInNew'
 import { Box, CircularProgress, Stack } from '@mui/material'
 import { type JSX, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { getReceivingTxLink } from '../../utils/depositAddressStatus.js'
 
 type RowState = 'done' | 'loading' | 'upcoming'
 
@@ -90,7 +91,7 @@ export function StatusStepList({
     // `receiving` (no sending hash) — the sole explorer link for this flow.
     const receivingTxLink =
       phase === 'done'
-        ? (receiving?.txLink ??
+        ? (getReceivingTxLink(status) ??
           (receiving?.txHash
             ? getTransactionLink({
                 txHash: receiving.txHash,

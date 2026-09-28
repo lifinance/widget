@@ -18,6 +18,7 @@ import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import type { ToAddress } from '../../types/widget.js'
 import { defaultChainIdsByType } from '../../utils/chainType.js'
+import { openInNewTab } from '../../utils/url.js'
 import { shortenAddress } from '../../utils/wallet.js'
 
 export const SendToConfiguredWalletPage = (): JSX.Element => {
@@ -92,12 +93,11 @@ export const SendToConfiguredWalletPage = (): JSX.Element => {
                   icon: <OpenInNewRounded />,
                   label: t('button.viewOnExplorer'),
                   onClick: () =>
-                    window.open(
+                    openInNewTab(
                       getAddressLink(
                         toAddress.address,
                         defaultChainIdsByType[toAddress.chainType]
-                      ),
-                      '_blank'
+                      )
                     ),
                 },
               ]}

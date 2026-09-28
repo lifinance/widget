@@ -6,7 +6,9 @@ import type { ReactNode } from 'react'
 import { describe, expect, it, vi } from 'vitest'
 import { renderWithI18n } from '../../test/renderWithI18n.js'
 
-vi.mock('@lifi/widget/shared', () => ({
+vi.mock('@lifi/widget/shared', async (importOriginal) => ({
+  isHttpUrl: (await importOriginal<typeof import('@lifi/widget/shared')>())
+    .isHttpUrl,
   ActionRow: ({
     startAdornment,
     message,
@@ -142,6 +144,28 @@ describe('StatusStepList', () => {
     // Terminal steps read in the past tense.
     expect(screen.getByText('USDC received')).toBeTruthy()
     expect(screen.getByText('Swapped to stETH')).toBeTruthy()
+  })
+
+  it('done: skips a non-http(s) receiving txLink and links the receiving tx hash', () => {
+    renderWithI18n(
+      <StatusStepList
+        phase="done"
+        status={
+          {
+            ...doneStatus,
+            receiving: {
+              chainId: 1,
+              txHash: '0xreceiving',
+              txLink: 'javascript:alert(document.domain)',
+            },
+          } as unknown as FullStatusData
+        }
+        frozenRoute={makeRoute()}
+      />
+    )
+    const links = screen.getAllByRole('link')
+    expect(links).toHaveLength(1)
+    expect(links[0].getAttribute('href')).toBe('https://scan/tx/0xreceiving')
   })
 
   it('done without segments: received row carries the receiving link', () => {
