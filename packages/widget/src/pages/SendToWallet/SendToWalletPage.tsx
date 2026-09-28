@@ -28,6 +28,7 @@ import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { BookmarkAddressSheet } from './BookmarkAddressSheet.js'
 import { ConfirmAddressSheet } from './ConfirmAddressSheet.js'
+import { ADDRESS_MAX_LENGTH } from './constants.js'
 import {
   AddressInput,
   FullHeightAdjustablePageContainer,
@@ -213,7 +214,7 @@ export const SendToWalletPage: React.FC = () => {
             placeholder={placeholder}
             aria-label={placeholder}
             maxRows={2}
-            inputProps={{ maxLength: 128 }}
+            inputProps={{ maxLength: ADDRESS_MAX_LENGTH }}
             multiline
           />
           {errorMessage ? (

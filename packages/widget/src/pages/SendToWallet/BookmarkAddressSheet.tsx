@@ -12,6 +12,7 @@ import { AlertMessage } from '../../components/Messages/AlertMessage.js'
 import { useAddressValidation } from '../../hooks/useAddressValidation.js'
 import type { Bookmark } from '../../stores/bookmarks/types.js'
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
+import { ADDRESS_MAX_LENGTH } from './constants.js'
 import {
   AddressInput,
   BookmarkInputFields,
@@ -198,7 +199,7 @@ export const BookmarkAddressSheet = ({
                   context: 'long',
                 })}
                 maxRows={2}
-                inputProps={{ maxLength: 128 }}
+                inputProps={{ maxLength: ADDRESS_MAX_LENGTH }}
                 multiline
               />
             </SendToWalletCard>
