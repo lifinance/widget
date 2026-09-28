@@ -18,7 +18,6 @@ import {
 } from '../../hooks/useAddressValidation.js'
 import { useChain } from '../../hooks/useChain.js'
 import { useHeader } from '../../hooks/useHeader.js'
-import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { Bookmark } from '../../stores/bookmarks/types.js'
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
@@ -57,7 +56,6 @@ export const SendToWalletPage: React.FC = () => {
   const [validatedWallet, setValidatedWallet] = useState<Bookmark>()
   const [errorMessage, setErrorMessage] = useState('')
   const { validateAddress, isValidating } = useAddressValidation()
-  const { requiredToChainType } = useToAddressRequirements()
   const [toChainId] = useFieldValues('toChain')
   const { chain: toChain } = useChain(toChainId)
   const [isDoneButtonLoading, setIsDoneButtonLoading] = useState(false)
@@ -91,24 +89,11 @@ export const SendToWalletPage: React.FC = () => {
     setIsDoneButtonLoading(true)
     const validationResult = await validateAddress({
       value: inputAddressValue,
-      chainType: requiredToChainType,
       chain: toChain,
     })
     setIsDoneButtonLoading(false)
     if (!validationResult.isValid) {
       setErrorMessage(validationResult.error)
-      return
-    }
-
-    if (
-      requiredToChainType &&
-      requiredToChainType !== validationResult.chainType
-    ) {
-      setErrorMessage(
-        t('error.title.walletChainTypeInvalid', {
-          chainName: toChain?.name,
-        })
-      )
       return
     }
 
@@ -119,6 +104,7 @@ export const SendToWalletPage: React.FC = () => {
           : undefined,
       address: validationResult.address,
       chainType: validationResult.chainType,
+      chainId: validationResult.chainId,
     })
     confirmAddressSheetRef.current?.open()
   }
@@ -144,6 +130,7 @@ export const SendToWalletPage: React.FC = () => {
     setIsBookmarkButtonLoading(true)
     const validationResult = await validateAddress({
       value: inputAddressValue,
+      fallbackChain: toChain,
     })
     setIsBookmarkButtonLoading(false)
 
@@ -155,6 +142,7 @@ export const SendToWalletPage: React.FC = () => {
             : undefined,
         address: validationResult.address,
         chainType: validationResult.chainType,
+        chainId: validationResult.chainId,
       })
       bookmarkAddressSheetRef.current?.open()
     } else {

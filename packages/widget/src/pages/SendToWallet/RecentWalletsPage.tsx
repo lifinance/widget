@@ -34,7 +34,7 @@ export const RecentWalletsPage = (): JSX.Element => {
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null)
   const listParentRef = useRef<HTMLUListElement | null>(null)
   const { recentWallets } = useBookmarks()
-  const { requiredToChainType } = useToAddressRequirements()
+  const { isValidReceiver } = useToAddressRequirements()
   const {
     removeRecentWallet,
     addBookmark,
@@ -78,15 +78,15 @@ export const RecentWalletsPage = (): JSX.Element => {
         {recentWallets.map((recentWallet) => (
           <ListItem key={recentWallet.address} sx={{ position: 'relative' }}>
             <ListItemButton
-              disabled={
-                requiredToChainType &&
-                requiredToChainType !== recentWallet.chainType
-              }
+              disabled={!isValidReceiver(recentWallet.address)}
               onClick={() => handleRecentSelected(recentWallet)}
             >
               <ListItemAvatar>
                 <AccountAvatar
-                  chainId={defaultChainIdsByType[recentWallet.chainType]}
+                  chainId={
+                    recentWallet.chainId ??
+                    defaultChainIdsByType[recentWallet.chainType]
+                  }
                 />
               </ListItemAvatar>
               <ListItemText
@@ -101,12 +101,7 @@ export const RecentWalletsPage = (): JSX.Element => {
               />
             </ListItemButton>
             <ContextMenu
-              disabled={
-                !!(
-                  requiredToChainType &&
-                  requiredToChainType !== recentWallet.chainType
-                )
-              }
+              disabled={!isValidReceiver(recentWallet.address)}
               items={[
                 {
                   icon: <ContentCopyRounded />,
@@ -121,7 +116,8 @@ export const RecentWalletsPage = (): JSX.Element => {
                     window.open(
                       getAddressLink(
                         recentWallet.address,
-                        defaultChainIdsByType[recentWallet.chainType]
+                        recentWallet.chainId ??
+                          defaultChainIdsByType[recentWallet.chainType]
                       ),
                       '_blank'
                     ),

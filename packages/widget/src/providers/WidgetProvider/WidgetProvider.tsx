@@ -1,6 +1,10 @@
 import type { Context } from 'react'
 import { createContext, use, useId, useMemo } from 'react'
 import { useSettingsActions } from '../../stores/settings/useSettingsActions.js'
+import {
+  isDestinationOnlyChain,
+  withDestinationOnlyChains,
+} from '../../utils/chainType.js'
 import type { WidgetContextProps, WidgetProviderProps } from './types.js'
 
 const initialContext: WidgetContextProps = {
@@ -23,26 +27,27 @@ export const WidgetProvider: React.FC<
     throw new Error('Required property "integrator" is missing.')
   }
 
-  const value = useMemo((): WidgetContextProps => {
-    try {
-      // Create widget configuration object
-      const value = {
-        ...widgetConfig,
-        elementId,
-      } as WidgetContextProps
+  // Keyed on the integrator's `chains`: the config object is new on every render.
+  const chains = useMemo(
+    () => withDestinationOnlyChains(widgetConfig.chains),
+    [widgetConfig.chains]
+  )
 
+  const value = useMemo((): WidgetContextProps => {
+    // Omitted, not undefined: an own undefined key resets the form field.
+    const { fromChain, fromToken, ...config } = widgetConfig
+    const value = {
+      ...(isDestinationOnlyChain(fromChain) ? config : widgetConfig),
+      chains,
+      elementId,
+    } as WidgetContextProps
+    try {
       // Set default settings for widget settings store
       setDefaultSettings(value)
-
-      return value
     } catch (e) {
       console.warn(e)
-      return {
-        ...widgetConfig,
-        elementId,
-        integrator: widgetConfig.integrator,
-      }
     }
-  }, [elementId, widgetConfig, setDefaultSettings])
+    return value
+  }, [elementId, widgetConfig, chains, setDefaultSettings])
   return <WidgetContext value={value}>{children}</WidgetContext>
 }

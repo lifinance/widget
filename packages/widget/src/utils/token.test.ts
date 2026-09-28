@@ -6,6 +6,7 @@ import type {
 } from '@lifi/sdk'
 import { describe, expect, it } from 'vitest'
 import type { TokensByChain, TokenWithFlags } from '../types/token.js'
+import { withDestinationOnlyChains } from './chainType.js'
 import {
   filterAllowedTokens,
   getNativeTokenAddresses,
@@ -51,6 +52,32 @@ describe('getVerifiedTokensSets', () => {
 })
 
 describe('filterAllowedTokens', () => {
+  it('offers no source token on a destination-only chain', () => {
+    const zcash = 20000000000005
+    const dataTokens: TokensByChain = {
+      1: [makeToken(1, '0xAAA')],
+      [zcash]: [makeToken(zcash, 'zcash')],
+    }
+
+    const chainsConfig = withDestinationOnlyChains(undefined)
+    const fromTokens = filterAllowedTokens(
+      dataTokens,
+      undefined,
+      chainsConfig,
+      'from'
+    )
+    const toTokens = filterAllowedTokens(
+      dataTokens,
+      undefined,
+      chainsConfig,
+      'to'
+    )
+
+    expect(fromTokens).toHaveProperty('1')
+    expect(fromTokens).not.toHaveProperty(String(zcash))
+    expect(toTokens).toHaveProperty(String(zcash))
+  })
+
   it('should mark allowlisted tokens as verified', () => {
     const dataTokens: TokensByChain = {
       1: [makeToken(1, '0xAAA', false), makeToken(1, '0xBBB', false)],

@@ -7,6 +7,7 @@ export { SolanaContext, useSolanaContext } from './contexts/SolanaContext.js'
 export { StellarContext, useStellarContext } from './contexts/StellarContext.js'
 export { SuiContext, useSuiContext } from './contexts/SuiContext.js'
 export { TronContext, useTronContext } from './contexts/TronContext.js'
+export { useAddressForChain } from './hooks/useAddressForChain.js'
 export { useChainTypeFromAddress } from './hooks/useChainTypeFromAddress.js'
 export { useSDKProviders } from './hooks/useSDKProviders.js'
 export type {
@@ -17,5 +18,9 @@ export type {
   WidgetProviderContext,
   WidgetProviderProps,
 } from './types.js'
+export type {
+  ChainRef,
+  IsAddressForChain,
+} from './utils/chainTypeFromAddress.js'
 export { isWalletInstalled } from './utils/isWalletInstalled.js'
 export { resolveConfig } from './utils/resolveConfig.js'

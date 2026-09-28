@@ -8,7 +8,7 @@ export * from './components/ContractComponent/NFT/NFTBase.js'
 export * from './components/ContractComponent/NFT/types.js'
 export * from './components/Skeleton/WidgetSkeleton.js'
 export { defaultMaxHeight } from './config/constants.js'
-export * from './config/version.js'
+export { name, version } from './config/version.js'
 export { useWidgetChains } from './hooks/useWidgetChains.js'
 export {
   useWidgetEvents,
