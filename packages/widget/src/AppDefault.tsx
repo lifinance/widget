@@ -276,6 +276,14 @@ export const AppDefault = (): JSX.Element => {
       routeTree,
       history: createMemoryHistory({ initialEntries: ['/'] }),
       defaultPreload: 'intent',
+      // The widget is embedded in a host page, usually below the fold. router-core runs
+      // setupScrollRestoration on every client router regardless of the history, and its
+      // onRendered handler calls window.scrollTo({ top: 0, left: 0 }) after each navigation
+      // unless resetScroll was false for that navigation. The widget's own navigations never
+      // pass it, so every internal screen change - opening a token list, settings, route
+      // details - threw the host page back to the top. Returning false here exits onRendered
+      // before any scrolling, which is what an embedded memory-history router wants.
+      scrollRestoration: () => false,
     })
   )
   return <RouterProvider router={router} />
