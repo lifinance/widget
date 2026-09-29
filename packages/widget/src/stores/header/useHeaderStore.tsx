@@ -1,14 +1,13 @@
+import type { PropsWithChildren } from 'react'
 import { createContext, use, useRef } from 'react'
 import { create } from 'zustand'
 import { useShallow } from 'zustand/shallow'
-import type { PersistStoreProviderProps } from '../types.js'
 import type { HeaderState, HeaderStore } from './types.js'
 
 const HeaderStoreContext = createContext<HeaderStore | null>(null)
 
-export function HeaderStoreProvider({
-  children,
-}: PersistStoreProviderProps): any {
+// Not persisted, so it takes no storage scope.
+export function HeaderStoreProvider({ children }: PropsWithChildren): any {
   const storeRef = useRef<HeaderStore>(null)
   if (!storeRef.current) {
     storeRef.current = createHeaderStore()

@@ -20,7 +20,7 @@ export const useTokenBalancesQueries = (
   isLoading: boolean
   isError: boolean
 } => {
-  const { keyPrefix } = useWidgetConfig()
+  const { storageScopeKey } = useWidgetConfig()
   const sdkClient = useSDKClient()
   const firstLoadStartRef = useRef<number | null>(null)
 
@@ -34,7 +34,7 @@ export const useTokenBalancesQueries = (
           const chainId = Number(chainIdStr)
           return {
             queryKey: [
-              getQueryKey('token-balances', keyPrefix),
+              getQueryKey('token-balances', storageScopeKey),
               accountAddress,
               chainId,
               tokens.length,
@@ -55,7 +55,7 @@ export const useTokenBalancesQueries = (
           }
         })
     )
-  }, [accountsWithTokens, isBalanceLoadingEnabled, keyPrefix, sdkClient])
+  }, [accountsWithTokens, isBalanceLoadingEnabled, storageScopeKey, sdkClient])
 
   const result = useQueries({
     queries: queryConfig,

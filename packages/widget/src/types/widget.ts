@@ -410,7 +410,37 @@ export interface WidgetConfig {
   sdkConfig?: WidgetSDKConfig
 
   buildUrl?: boolean
+  /**
+   * @deprecated Use `storageScopeKey` for persisted state and `queryScopeKey`
+   * for the query cache. Still honoured as the fallback for both.
+   */
   keyPrefix?: string
+  /**
+   * Namespaces the widget's persisted state in `localStorage`: bookmarks,
+   * pinned tokens, recent tokens, chain order and route history, as
+   * `keyPrefix` does. Use a different value per widget instance that should
+   * keep its own state. Settings keep one shared name.
+   *
+   * It also scopes the widget's other queries (routes, tokens, balances, …),
+   * so instances with different values keep their data apart.
+   *
+   * Falls back to `keyPrefix`, then to the historical `li.fi-*` names.
+   */
+  storageScopeKey?: string
+  /**
+   * Scopes the widget's chains and tools queries inside the host's react-query
+   * `QueryClient`. Widget instances - and a host app using the
+   * `@lifi/widget/queries` factories - that pass the same value
+   * share those entries. The other widget queries are scoped by
+   * `storageScopeKey`.
+   *
+   * The keys start with a plain `'chains'` / `'tools'`, as in wagmi, so a host
+   * that matches on those roots (for example `setQueriesData({ queryKey:
+   * ['chains'] })`) also reaches the widget's entries.
+   *
+   * Falls back to `keyPrefix`, then to `'li.fi'`.
+   */
+  queryScopeKey?: string
 
   bridges?: AllowDeny<string>
   exchanges?: AllowDeny<string>

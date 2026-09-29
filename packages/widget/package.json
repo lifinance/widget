@@ -7,7 +7,8 @@
   "types": "./src/index.d.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./shared": "./src/shared.ts"
+    "./shared": "./src/shared.ts",
+    "./queries": "./src/queries/index.ts"
   },
   "sideEffects": false,
   "scripts": {
@@ -54,7 +55,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^4.8.0",
+    "@lifi/sdk": "^4.10.0",
     "@lifi/wallet-management": "workspace:*",
     "@lifi/widget-provider": "workspace:*",
     "@mui/icons-material": "^9.4.0",

@@ -1,5 +1,6 @@
 import type { PropsWithChildren } from 'react'
 import type { WidgetConfigProps } from '../types/widget.js'
+import { resolveStorageScopeKey } from '../utils/scopeKeys.js'
 import { BookmarkStoreProvider } from './bookmarks/BookmarkStore.js'
 import { ChainOrderStoreProvider } from './chains/ChainOrderStore.js'
 import { FormStoreProvider } from './form/FormStore.js'
@@ -14,15 +15,16 @@ export const StoreProvider: React.FC<PropsWithChildren<WidgetConfigProps>> = ({
   config,
   formRef,
 }) => {
+  const storageScopeKey = resolveStorageScopeKey(config)
   return (
     <NavigationTabsStoreProvider config={config}>
-      <HeaderStoreProvider namePrefix={config?.keyPrefix}>
-        <BookmarkStoreProvider namePrefix={config?.keyPrefix}>
-          <PinnedTokensStoreProvider namePrefix={config?.keyPrefix}>
-            <RecentTokensStoreProvider namePrefix={config?.keyPrefix}>
+      <HeaderStoreProvider>
+        <BookmarkStoreProvider namePrefix={storageScopeKey}>
+          <PinnedTokensStoreProvider namePrefix={storageScopeKey}>
+            <RecentTokensStoreProvider namePrefix={storageScopeKey}>
               <FormStoreProvider formRef={formRef}>
-                <ChainOrderStoreProvider namePrefix={config?.keyPrefix}>
-                  <RouteExecutionStoreProvider namePrefix={config?.keyPrefix}>
+                <ChainOrderStoreProvider namePrefix={storageScopeKey}>
+                  <RouteExecutionStoreProvider namePrefix={storageScopeKey}>
                     {children}
                   </RouteExecutionStoreProvider>
                 </ChainOrderStoreProvider>
