@@ -1,5 +1,12 @@
 # @lifi/widget-provider-mesh
 
+## 4.0.4
+
+### Patch Changes
+
+- Updated dependencies [[`0b3811c`](https://github.com/lifinance/widget/commit/0b3811ce2492b385219659632fd157b3b4923c57)]:
+  - @lifi/widget-provider@4.5.1
+
 ## 4.0.3
 
 ### Patch Changes
