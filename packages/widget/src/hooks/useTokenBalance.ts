@@ -23,18 +23,18 @@ export const useTokenBalance = (
   getTokenBalancesWithRetry: typeof getTokenBalancesWithRetry
 } => {
   const queryClient = useQueryClient()
-  const { keyPrefix } = useWidgetConfig()
+  const { storageScopeKey } = useWidgetConfig()
   const sdkClient = useSDKClient()
 
   const tokenBalanceQueryKey = useMemo(
     () =>
       [
-        getQueryKey('token-balance', keyPrefix),
+        getQueryKey('token-balance', storageScopeKey),
         accountAddress,
         token?.chainId,
         token?.address,
       ] as const,
-    [token?.address, token?.chainId, accountAddress, keyPrefix]
+    [token?.address, token?.chainId, accountAddress, storageScopeKey]
   )
 
   const { data, isLoading, refetch } = useQuery({
@@ -67,7 +67,7 @@ export const useTokenBalance = (
       queryClient.setQueriesData<TokenAmount[]>(
         {
           queryKey: [
-            getQueryKey('token-balances', keyPrefix),
+            getQueryKey('token-balances', storageScopeKey),
             accountAddress,
             tokenChainId,
           ],

@@ -1,7 +1,10 @@
 import { defineConfig, type UserConfig } from 'tsdown'
 
 const defaultConfig: UserConfig = defineConfig({
-  entry: ['src/index.ts', 'src/shared.ts'],
+  // `queries/` is also published on its own as `@lifi/widget/queries`, so it
+  // must stay an entry in its own right rather than only a module reachable
+  // from the barrel.
+  entry: ['src/index.ts', 'src/shared.ts', 'src/queries/index.ts'],
   outDir: 'dist/esm',
   format: 'esm',
   unbundle: true,

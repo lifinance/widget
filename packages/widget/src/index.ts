@@ -15,6 +15,7 @@ export {
   type WidgetEventEmitter,
   widgetEvents,
 } from './hooks/useWidgetEvents.js'
+export * from './queries/index.js'
 export * from './stores/bookmarks/types.js'
 export * from './stores/form/types.js'
 export { useFieldActions } from './stores/form/useFieldActions.js'

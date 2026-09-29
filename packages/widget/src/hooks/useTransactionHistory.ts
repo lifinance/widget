@@ -22,14 +22,14 @@ export const useTransactionHistory = (): {
 } => {
   const store = useRouteExecutionStoreContext()
   const { accounts } = useAccount()
-  const { keyPrefix } = useWidgetConfig()
+  const { storageScopeKey } = useWidgetConfig()
   const sdkClient = useSDKClient()
   const { tools } = useTools()
 
   const { data: routeExecutions, isLoading } = useQueries({
     queries: accounts.map((account) => ({
       queryKey: [
-        getQueryKey('transaction-history', keyPrefix),
+        getQueryKey('transaction-history', storageScopeKey),
         account.address,
       ],
       queryFn: (async ({ queryKey: [, accountAddress], signal }) => {

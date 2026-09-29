@@ -1,56 +1,66 @@
-import { getTools, type ToolsResponse } from '@lifi/sdk'
+import type { ToolsResponse } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
+import { useCallback, useEffect } from 'react'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { getToolsQueryOptions } from '../queries/getTools.js'
 import { useSettingsStoreContext } from '../stores/settings/SettingsStore.js'
 import { getConfigItemSets, isItemAllowedForSets } from '../utils/item.js'
-import { getQueryKey } from '../utils/queries.js'
 
+const refetchInterval = 180_000
+
+/**
+ * The bridges and exchanges this widget may use: the shared, raw tools entry
+ * narrowed by the widget's allow/deny config.
+ */
 export const useTools = (): { tools: ToolsResponse | undefined } => {
-  const { bridges, exchanges, keyPrefix } = useWidgetConfig()
+  const { bridges, exchanges, queryScopeKey } = useWidgetConfig()
   const settingsStore = useSettingsStoreContext()
   const sdkClient = useSDKClient()
 
-  const { data } = useQuery({
-    queryKey: [
-      getQueryKey('tools', keyPrefix),
-      bridges?.allow,
-      bridges?.deny,
-      exchanges?.allow,
-      exchanges?.deny,
-    ],
-    queryFn: async (): Promise<ToolsResponse> => {
-      const tools = await getTools(sdkClient)
-      const bridgesConfigSets = getConfigItemSets(
-        bridges,
-        (bridges) => new Set(bridges)
-      )
-      const exchangesConfigSets = getConfigItemSets(
-        exchanges,
-        (exchanges) => new Set(exchanges)
-      )
-      const result = {
+  const selectAllowedTools = useCallback(
+    (tools: ToolsResponse): ToolsResponse => {
+      const bridgeSets = getConfigItemSets(bridges, (keys) => new Set(keys))
+      const exchangeSets = getConfigItemSets(exchanges, (keys) => new Set(keys))
+      return {
         bridges: tools.bridges.filter((bridge) =>
-          isItemAllowedForSets(bridge.key, bridgesConfigSets)
+          isItemAllowedForSets(bridge.key, bridgeSets)
         ),
         exchanges: tools.exchanges.filter((exchange) =>
-          isItemAllowedForSets(exchange.key, exchangesConfigSets)
+          isItemAllowedForSets(exchange.key, exchangeSets)
         ),
       }
-      const { initializeTools } = settingsStore.getState()
-      initializeTools(
-        'Bridges',
-        result.bridges.map((bridge) => bridge.key)
-      )
-      initializeTools(
-        'Exchanges',
-        result.exchanges.map((exchange) => exchange.key)
-      )
-      return result
     },
-    refetchInterval: 180_000,
-    staleTime: 180_000,
-  })
+    [bridges, exchanges]
+  )
+
+  const { data } = useQuery(
+    getToolsQueryOptions(sdkClient, {
+      scopeKey: queryScopeKey,
+      query: {
+        refetchInterval,
+        staleTime: refetchInterval,
+        select: selectAllowedTools,
+      },
+    })
+  )
+
+  // Follows the data rather than the fetch: the entry is shared with the host
+  // app, which may have filled it, in which case no widget queryFn runs.
+  useEffect(() => {
+    if (!data) {
+      return
+    }
+    const { initializeTools } = settingsStore.getState()
+    initializeTools(
+      'Bridges',
+      data.bridges.map((bridge) => bridge.key)
+    )
+    initializeTools(
+      'Exchanges',
+      data.exchanges.map((exchange) => exchange.key)
+    )
+  }, [data, settingsStore])
 
   return { tools: data }
 }

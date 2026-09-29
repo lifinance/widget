@@ -43,7 +43,7 @@ export const useRouteExecution = ({
   const queryClient = useQueryClient()
   const { account } = useAccount()
   const resumedAfterMount = useRef(false)
-  const { keyPrefix } = useWidgetConfig()
+  const { storageScopeKey } = useWidgetConfig()
   const sdkClient = useSDKClient()
   const emitter = useWidgetEvents()
   const routeExecutionStoreContext = useRouteExecutionStoreContext()
@@ -84,16 +84,16 @@ export const useRouteExecution = ({
     if (executionCompleted || executionFailed) {
       const invalidateKeys = [
         [
-          getQueryKey('token-balances', keyPrefix),
+          getQueryKey('token-balances', storageScopeKey),
           clonedUpdatedRoute.fromAddress,
           clonedUpdatedRoute.fromChainId,
         ],
         [
-          getQueryKey('token-balances', keyPrefix),
+          getQueryKey('token-balances', storageScopeKey),
           clonedUpdatedRoute.toAddress,
           clonedUpdatedRoute.toChainId,
         ],
-        [getQueryKey('transaction-history', keyPrefix)],
+        [getQueryKey('transaction-history', storageScopeKey)],
       ]
       for (const key of invalidateKeys) {
         queryClient.invalidateQueries(
@@ -133,7 +133,7 @@ export const useRouteExecution = ({
         throw new Error('Execution route not found.')
       }
       queryClient.removeQueries({
-        queryKey: [getQueryKey('routes', keyPrefix)],
+        queryKey: [getQueryKey('routes', storageScopeKey)],
         exact: false,
       })
       return executeRoute(sdkClient, routeExecution.route, {

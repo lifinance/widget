@@ -230,3 +230,49 @@ describe('useTokens search', () => {
     })
   })
 })
+
+describe('useTokens request parameters', () => {
+  const listParams = {
+    orderBy: 'volumeUSD24H',
+    extended: true,
+    limit: 1100,
+    minPriceUSD: 0.000001,
+  }
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+    mocks.useQuery.mockReturnValue({ data: undefined, isLoading: false })
+    mocks.getTokens.mockResolvedValue({ tokens: {} })
+    mocks.getChainTypeFromTokenAddress.mockReturnValue(undefined)
+  })
+
+  it('requests the main list with the list parameters', async () => {
+    useTokens('to')
+    const options = mocks.useQuery.mock.calls
+      .map(([options]) => options)
+      .find((options) => {
+        const key = String(options.queryKey[0])
+        return key.includes('tokens') && !key.includes('tokens-search')
+      })
+    await options.queryFn({
+      queryKey: options.queryKey,
+      signal: new AbortController().signal,
+    })
+
+    expect(mocks.getTokens).toHaveBeenCalledWith(
+      sdkClient,
+      expect.objectContaining(listParams),
+      expect.anything()
+    )
+  })
+
+  it('searches with the same list parameters', async () => {
+    await runSearch('laptop', baseChainId)
+
+    expect(mocks.getTokens).toHaveBeenCalledWith(
+      sdkClient,
+      expect.objectContaining({ ...listParams, search: 'laptop' }),
+      expect.anything()
+    )
+  })
+})

@@ -82,7 +82,7 @@ export const useRoutes = ({
     exchanges,
     feeConfig,
     useRelayerRoutes,
-    keyPrefix,
+    storageScopeKey,
   } = useWidgetConfig()
   const sdkClient = useSDKClient()
   const setExecutableRoute = useSetExecutableRoute()
@@ -214,7 +214,7 @@ export const useRoutes = ({
   const queryKey = useMemo(
     () =>
       [
-        getQueryKey('routes', keyPrefix),
+        getQueryKey('routes', storageScopeKey),
         effectiveFromAddress,
         fromChain?.id as number,
         fromToken?.address as string,
@@ -244,7 +244,7 @@ export const useRoutes = ({
         observableRoute?.id,
       ] as const,
     [
-      keyPrefix,
+      storageScopeKey,
       effectiveFromAddress,
       fromChain?.id,
       fromToken?.address,
@@ -550,14 +550,14 @@ export const useRoutes = ({
         ;[fromToken, toToken].forEach((token) => {
           // Update main tokens cache (verified)
           queryClient.setQueriesData<TokensByChain>(
-            { queryKey: [getQueryKey('tokens', keyPrefix)] },
+            { queryKey: [getQueryKey('tokens', storageScopeKey)] },
             (data) => updateTokenInCache(data, token)
           )
 
           // Update search tokens cache (unverified) - matches any search query
           queryClient.setQueriesData<TokensByChain>(
             {
-              queryKey: [getQueryKey('tokens-search', keyPrefix)],
+              queryKey: [getQueryKey('tokens-search', storageScopeKey)],
               exact: false,
             },
             (data) => updateTokenInCache(data, token)
@@ -566,7 +566,7 @@ export const useRoutes = ({
           queryClient.setQueriesData<Token[]>(
             {
               queryKey: [
-                getQueryKey('token-balances', keyPrefix),
+                getQueryKey('token-balances', storageScopeKey),
                 fromAddress,
                 token.chainId,
               ],

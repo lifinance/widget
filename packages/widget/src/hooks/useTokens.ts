@@ -25,6 +25,14 @@ import { useAvailableChains } from './useAvailableChains.js'
 
 const refetchInterval = 300_000
 
+// The main list and the search send the same list parameters.
+const tokenListParams = {
+  orderBy: 'volumeUSD24H',
+  extended: true,
+  limit: 1100,
+  minPriceUSD: 0.000001,
+} as const
+
 export const useTokens = (
   formType?: FormType,
   search?: string,
@@ -39,7 +47,7 @@ export const useTokens = (
   const {
     tokens: configTokens,
     chains: chainsConfig,
-    keyPrefix,
+    storageScopeKey,
   } = useWidgetConfig()
   const sdkClient = useSDKClient()
   const { getChainTypeFromTokenAddress } = useChainTypeFromAddress()
@@ -55,7 +63,7 @@ export const useTokens = (
 
   // Main tokens cache - verified tokens from API
   const { data: verifiedTokens, isLoading } = useQuery({
-    queryKey: [getQueryKey('tokens', keyPrefix)],
+    queryKey: [getQueryKey('tokens', storageScopeKey)],
     queryFn: async ({ signal }) => {
       const chainTypes = [
         ChainType.EVM,
@@ -68,13 +76,7 @@ export const useTokens = (
 
       const tokensResponse: TokensExtendedResponse = await getTokens(
         sdkClient,
-        {
-          chainTypes,
-          orderBy: 'volumeUSD24H',
-          extended: true,
-          limit: 1000,
-          minPriceUSD: 0.000001,
-        },
+        { chainTypes, ...tokenListParams },
         { signal }
       )
 
@@ -95,7 +97,7 @@ export const useTokens = (
   // Search tokens cache - unverified tokens from search
   const { data: searchTokens, isLoading: isSearchLoading } = useQuery({
     queryKey: [
-      getQueryKey('tokens-search', keyPrefix),
+      getQueryKey('tokens-search', storageScopeKey),
       trimmedSearch,
       chainId,
       isAddressSearch,
@@ -115,11 +117,8 @@ export const useTokens = (
         sdkClient,
         {
           chainTypes,
-          orderBy: 'volumeUSD24H',
-          extended: true,
           search: searchQuery,
-          limit: 1000,
-          minPriceUSD: 0.000001,
+          ...tokenListParams,
         },
         { signal }
       )

@@ -1,11 +1,17 @@
 import type { Context } from 'react'
 import { createContext, use, useId, useMemo } from 'react'
 import { useSettingsActions } from '../../stores/settings/useSettingsActions.js'
+import {
+  defaultQueryScopeKey,
+  resolveQueryScopeKey,
+  resolveStorageScopeKey,
+} from '../../utils/scopeKeys.js'
 import type { WidgetContextProps, WidgetProviderProps } from './types.js'
 
 const initialContext: WidgetContextProps = {
   elementId: '',
   integrator: '',
+  queryScopeKey: defaultQueryScopeKey,
 }
 
 export const WidgetContext: Context<WidgetContextProps> =
@@ -24,10 +30,17 @@ export const WidgetProvider: React.FC<
   }
 
   const value = useMemo((): WidgetContextProps => {
+    // Resolved once here, so nothing below has to know about the deprecated
+    // keyPrefix fallback.
+    const scopeKeys = {
+      storageScopeKey: resolveStorageScopeKey(widgetConfig),
+      queryScopeKey: resolveQueryScopeKey(widgetConfig),
+    }
     try {
       // Create widget configuration object
       const value = {
         ...widgetConfig,
+        ...scopeKeys,
         elementId,
       } as WidgetContextProps
 
@@ -39,6 +52,7 @@ export const WidgetProvider: React.FC<
       console.warn(e)
       return {
         ...widgetConfig,
+        ...scopeKeys,
         elementId,
         integrator: widgetConfig.integrator,
       }
