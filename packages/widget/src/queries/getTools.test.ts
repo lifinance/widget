@@ -13,7 +13,7 @@ vi.mock('@lifi/sdk', async (importOriginal) => ({
 
 import { getToolsQueryKey, getToolsQueryOptions } from './getTools.js'
 
-const API_URL = 'https://api.example/pipeline/v1'
+const API_URL = 'https://api.example/v1'
 const client = { config: { apiUrl: API_URL } } as unknown as SDKClient
 const TOOLS = {
   bridges: [{ key: 'across' }, { key: 'stargate' }],

@@ -17,7 +17,7 @@ server data such as chains and tools.
   recent tokens, chain order and route history, the stores `keyPrefix` named.
   Store names are unchanged, so moving a value from `keyPrefix` to
   `storageScopeKey` keeps every user's saved data. Settings keep their one
-  shared name. For now it also scopes most of the widget's other queries.
+  shared name. It also scopes the widget's other queries.
 - `queryScopeKey` scopes the chains and tools queries. Instances and a host app
   that pass the same value share those entries.
 - `keyPrefix` is deprecated and stays the fallback for both: nothing changes for

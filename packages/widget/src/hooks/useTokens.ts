@@ -76,7 +76,7 @@ export const useTokens = (
 
       const tokensResponse: TokensExtendedResponse = await getTokens(
         sdkClient,
-        { chainTypes, ...tokenListParams },
+        { ...tokenListParams, chainTypes },
         { signal }
       )
 
@@ -116,9 +116,9 @@ export const useTokens = (
       const tokensResponse: TokensExtendedResponse = await getTokens(
         sdkClient,
         {
+          ...tokenListParams,
           chainTypes,
           search: searchQuery,
-          ...tokenListParams,
         },
         { signal }
       )

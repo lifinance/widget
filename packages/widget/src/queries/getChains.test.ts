@@ -19,7 +19,7 @@ import {
   supportedChainTypes,
 } from './getChains.js'
 
-const API_URL = 'https://api.example/pipeline/v1'
+const API_URL = 'https://api.example/v1'
 const client = {
   config: { apiUrl: API_URL },
   setChains: mocks.setChains,
@@ -106,8 +106,7 @@ describe('getChainsQueryOptions', () => {
 
     await runQueryFn(options, otherKey)
 
-    // No abort signal, as before this change: a scope switch while the first
-    // fetch runs must not cancel the request the new entry shares.
+    // No signal: the result still fills the cache after observers leave.
     expect(mocks.getChains).toHaveBeenCalledWith(client, {
       chainTypes: [ChainType.SVM],
     })

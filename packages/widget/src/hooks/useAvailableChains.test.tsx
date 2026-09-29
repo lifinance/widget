@@ -15,7 +15,7 @@ import type { WidgetConfig } from '../types/widget.js'
  * gets the chains, whoever filled the entry.
  */
 
-const API_URL = 'https://api.example/pipeline/v1'
+const API_URL = 'https://api.example/v1'
 
 const mocks = vi.hoisted(() => ({
   getChains: vi.fn(),

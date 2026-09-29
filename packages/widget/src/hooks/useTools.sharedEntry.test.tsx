@@ -16,7 +16,7 @@ import type { WidgetConfig } from '../types/widget.js'
  * filtered view.
  */
 
-const API_URL = 'https://api.example/pipeline/v1'
+const API_URL = 'https://api.example/v1'
 
 const mocks = vi.hoisted(() => ({
   getTools: vi.fn(),

@@ -33,8 +33,8 @@ vi.mock('@lifi/sdk', async (importOriginal) => ({
 import { getChainsQueryOptions } from './getChains.js'
 import { getToolsQueryOptions } from './getTools.js'
 
-const V1 = 'https://api.example/pipeline/v1'
-const PRIVATE = 'https://api.example/pipeline/private/v1'
+const V1 = 'https://api.example/v1'
+const OTHER_BASE = 'https://api-b.example/v1'
 const clientFor = (apiUrl: string) =>
   ({ config: { apiUrl } }) as unknown as SDKClient
 
@@ -206,13 +206,13 @@ describe('shared chains and tools cache', () => {
     expect(mocks.getTools).toHaveBeenCalledTimes(2)
   })
 
-  // The variant bases return different chain and tool sets (69 / 15 / 38
-  // chains measured on production), so they must never share an entry.
+  // Different API bases can return different chains and tools, so they must
+  // never share an entry.
   it('does not share across API bases', async () => {
     await render(
       <>
         <Host client={clientFor(V1)} scopeKey="host" />
-        <Widget client={clientFor(PRIVATE)} scopeKey="host" />
+        <Widget client={clientFor(OTHER_BASE)} scopeKey="host" />
       </>
     )
     await settle()

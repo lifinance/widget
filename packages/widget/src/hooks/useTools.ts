@@ -9,10 +9,6 @@ import { getConfigItemSets, isItemAllowedForSets } from '../utils/item.js'
 
 const refetchInterval = 180_000
 
-/**
- * The bridges and exchanges this widget may use: the shared, raw tools entry
- * narrowed by the widget's allow/deny config.
- */
 export const useTools = (): { tools: ToolsResponse | undefined } => {
   const { bridges, exchanges, queryScopeKey } = useWidgetConfig()
   const settingsStore = useSettingsStoreContext()
@@ -45,8 +41,7 @@ export const useTools = (): { tools: ToolsResponse | undefined } => {
     })
   )
 
-  // Follows the data rather than the fetch: the entry is shared with the host
-  // app, which may have filled it, in which case no widget queryFn runs.
+  // A host may fill the shared entry, so seed from the data, not in a queryFn.
   useEffect(() => {
     if (!data) {
       return

@@ -38,8 +38,7 @@ const rank = (type: ChainType): number => {
 export function getChainsQueryKey(
   parameters: GetChainsQueryKeyParameters
 ): GetChainsQueryKey {
-  // Array order is part of react-query's hash; object key order is not. A
-  // canonical order keeps every caller that asks for the same set on one entry.
+  // Array order is part of the query hash, so sort into one canonical order.
   const chainTypes = [...new Set(parameters.chainTypes)].sort(
     (a, b) => rank(a) - rank(b) || a.localeCompare(b)
   )
@@ -87,10 +86,7 @@ export function getChainsQueryOptions<selectData = GetChainsQueryFnData>(
       chainTypes: options.chainTypes ?? supportedChainTypes,
       scopeKey: options.scopeKey,
     }),
-    // Reads its parameters from the key, never from a closure, so anything
-    // that changes the response has to be part of the key. No abort signal,
-    // as before: the request is small, and its data still lands in the cache
-    // when the last observer leaves mid-fetch.
+    // No signal: the data still fills the cache if all observers leave.
     queryFn: ({ queryKey: [, { chainTypes }] }) =>
       getChains(client, { chainTypes }),
   }

@@ -421,8 +421,8 @@ export interface WidgetConfig {
    * `keyPrefix` does. Use a different value per widget instance that should
    * keep its own state. Settings keep one shared name.
    *
-   * For now it also scopes most of the widget's other queries (routes,
-   * tokens, balances, …), which move to `queryScopeKey` later.
+   * It also scopes the widget's other queries (routes, tokens, balances, …),
+   * so instances with different values keep their data apart.
    *
    * Falls back to `keyPrefix`, then to the historical `li.fi-*` names.
    */
@@ -432,7 +432,7 @@ export interface WidgetConfig {
    * `QueryClient`. Widget instances - and a host app using the
    * `@lifi/widget/queries` factories - that pass the same value
    * share those entries. The other widget queries are scoped by
-   * `storageScopeKey` for now.
+   * `storageScopeKey`.
    *
    * The keys start with a plain `'chains'` / `'tools'`, as in wagmi, so a host
    * that matches on those roots (for example `setQueriesData({ queryKey:

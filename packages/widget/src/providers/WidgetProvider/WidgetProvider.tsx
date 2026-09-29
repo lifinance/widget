@@ -30,8 +30,7 @@ export const WidgetProvider: React.FC<
   }
 
   const value = useMemo((): WidgetContextProps => {
-    // Resolved once here, so nothing below has to know about the deprecated
-    // keyPrefix fallback.
+    // Resolved once, so nothing below reads the deprecated keyPrefix.
     const scopeKeys = {
       storageScopeKey: resolveStorageScopeKey(widgetConfig),
       queryScopeKey: resolveQueryScopeKey(widgetConfig),

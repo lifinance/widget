@@ -62,11 +62,7 @@ export const useAvailableChains = (
     })
   )
 
-  // The query has no side effects, and the data may come from an entry the
-  // host app filled, so the client's own chain storage is populated here - on
-  // every fetch and whenever the client is recreated. `dataUpdatedAt`, not
-  // `data`: an equal refetch keeps the data reference, while the client's
-  // storage still expires and must be refreshed.
+  // A host may fill the entry; key on dataUpdatedAt, as a refetch keeps data.
   useEffect(() => {
     if (data && dataUpdatedAt) {
       client.setChains(data)
