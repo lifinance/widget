@@ -183,6 +183,7 @@
   },
   "error": {
     "message": {
+      "balanceReadFailed": "Your wallet balance could not be checked. Please try again.",
       "allowanceRequired": "Transfer amount for {{tokenSymbol}} exceeds your current allowance. Please increase your allowance and try again.",
       "insufficientFunds": "You don't have enough gas to cover the cost of the transaction.",
       "rateLimitExceeded": "Too many requests have been made in a short period of time. Please wait a moment and try again or contact support if the issue persists.",
@@ -203,6 +204,7 @@
     "title": {
       "allowanceRequired": "Insufficient allowance",
       "balanceIsTooLow": "The balance is too low",
+      "balanceReadFailed": "Could not read wallet balance",
       "bookmarkAlreadyExists": "Wallet is already bookmarked as {{name}}",
       "bookmarkNameRequired": "Bookmark name is required",
       "chainSwitch": "Chain switch required",
