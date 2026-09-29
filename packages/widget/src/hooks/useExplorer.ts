@@ -4,6 +4,7 @@ import { useCallback } from 'react'
 import { internalExplorerUrl } from '../config/constants.js'
 import { useAvailableChains } from '../hooks/useAvailableChains.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { isHttpUrl } from '../utils/url.js'
 
 const sanitiseBaseUrl = (baseUrl: string) => baseUrl.trim().replace(/\/+$/, '')
 
@@ -25,7 +26,10 @@ type TransactionLinkProps = {
 
 export const useExplorer = (): {
   getTransactionLink: (props: TransactionLinkProps) => string | undefined
-  getAddressLink: (address: string, chain?: Chain | number) => string
+  getAddressLink: (
+    address: string,
+    chain?: Chain | number
+  ) => string | undefined
 } => {
   const { explorerUrls } = useWidgetConfig()
   const { getChainById } = useAvailableChains()
@@ -82,11 +86,12 @@ export const useExplorer = (): {
           config.resolvedChain?.chainType !== ChainType.EVM ||
           config.hasOverride ||
           isHex(txHash, { strict: true })
-        if (validForEvm) {
-          return `${config.url}/${config.txPath}/${txHash}`
+        const link = `${config.url}/${config.txPath}/${txHash}`
+        if (validForEvm && isHttpUrl(link)) {
+          return link
         }
       }
-      return txLink
+      return isHttpUrl(txLink) ? txLink : undefined
     },
     [getExplorerConfig]
   )
@@ -94,7 +99,8 @@ export const useExplorer = (): {
   const getAddressLink = useCallback(
     (address: string, chain?: Chain | number) => {
       const config = getExplorerConfig(chain)
-      return `${config.url}/${config.addressPath}/${address}`
+      const link = `${config.url}/${config.addressPath}/${address}`
+      return isHttpUrl(link) ? link : undefined
     },
     [getExplorerConfig]
   )

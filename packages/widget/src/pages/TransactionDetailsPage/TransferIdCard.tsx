@@ -7,6 +7,7 @@ import { Card } from '../../components/Card/Card.js'
 import { CardIconButton } from '../../components/Card/CardIconButton.js'
 import { CardTitle } from '../../components/Card/CardTitle.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { openInNewTab } from '../../utils/url.js'
 import { ContactSupportButton } from './ContactSupportButton.js'
 
 interface TransferIdCardProps {
@@ -26,7 +27,7 @@ export const TransferIdCard = ({
   }
 
   const openTransferIdInExplorer = () => {
-    window.open(txLink, '_blank')
+    openInNewTab(txLink)
   }
 
   return (

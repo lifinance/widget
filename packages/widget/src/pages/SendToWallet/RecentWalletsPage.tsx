@@ -24,6 +24,7 @@ import { useBookmarks } from '../../stores/bookmarks/useBookmarks.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { defaultChainIdsByType } from '../../utils/chainType.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import { openInNewTab } from '../../utils/url.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { BookmarkAddressSheet } from './BookmarkAddressSheet.js'
 
@@ -118,12 +119,11 @@ export const RecentWalletsPage = (): JSX.Element => {
                   icon: <OpenInNewRounded />,
                   label: t('button.viewOnExplorer'),
                   onClick: () =>
-                    window.open(
+                    openInNewTab(
                       getAddressLink(
                         recentWallet.address,
                         defaultChainIdsByType[recentWallet.chainType]
-                      ),
-                      '_blank'
+                      )
                     ),
                 },
                 {

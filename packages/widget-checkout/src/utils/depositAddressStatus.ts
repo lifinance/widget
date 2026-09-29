@@ -1,4 +1,5 @@
 import type { SDKClient, StatusResponse } from '@lifi/sdk'
+import { isHttpUrl } from '@lifi/widget/shared'
 
 export function getReceivingTxHash(
   status: StatusResponse | undefined | null
@@ -20,7 +21,7 @@ export function getReceivingTxLink(
     return undefined
   }
   const receiving = status.receiving
-  if (receiving && 'txLink' in receiving && receiving.txLink) {
+  if (receiving && 'txLink' in receiving && isHttpUrl(receiving.txLink)) {
     return receiving.txLink
   }
   return undefined

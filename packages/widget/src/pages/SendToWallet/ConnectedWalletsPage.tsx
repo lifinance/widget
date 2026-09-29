@@ -20,6 +20,7 @@ import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.j
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import { openInNewTab } from '../../utils/url.js'
 import { shortenAddress } from '../../utils/wallet.js'
 
 export const ConnectedWalletsPage = (): JSX.Element => {
@@ -81,9 +82,8 @@ export const ConnectedWalletsPage = (): JSX.Element => {
                     label: t('button.viewOnExplorer'),
                     onClick: () => {
                       if (account.address) {
-                        window.open(
-                          getAddressLink(account.address, account.chainId),
-                          '_blank'
+                        openInNewTab(
+                          getAddressLink(account.address, account.chainId)
                         )
                       }
                     },
