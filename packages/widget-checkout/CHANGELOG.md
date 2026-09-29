@@ -1,5 +1,13 @@
 # @lifi/widget-checkout
 
+## 4.0.4
+
+### Patch Changes
+
+- [#886](https://github.com/lifinance/widget/pull/886) [`8fa79be`](https://github.com/lifinance/widget/commit/8fa79be46522c18979b48ad328d3d7d6db7d298c) Thanks [@chybisov](https://github.com/chybisov)! - Only open or link explorer URLs that use `http:` or `https:`, and open explorer tabs with `noopener,noreferrer`.
+- Updated dependencies [[`8fa79be`](https://github.com/lifinance/widget/commit/8fa79be46522c18979b48ad328d3d7d6db7d298c)]:
+  - @lifi/widget@4.7.1
+
 ## 4.0.3
 
 ### Patch Changes
