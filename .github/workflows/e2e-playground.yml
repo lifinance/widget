@@ -18,6 +18,7 @@ on:
       - 'packages/widget-provider-stellar/**'
       - 'packages/widget-provider-sui/**'
       - 'packages/widget-provider-tron/**'
+      - 'packages/widget-provider-zcash/**'
       # E2E test code (widget-light and widget-embedded are not playground dependencies)
       - 'e2e/tests/playground/**'
       - 'e2e/tests/components/**'
