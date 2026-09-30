@@ -88,9 +88,14 @@ const SDKProviderInitializer: FC<PropsWithChildren> = ({ children }) => {
   const config = useWidgetConfig()
   const sdkProviders = useSDKProviders()
   // Only below the provider components is it known which chains are served.
-  const value = useMemo(() => {
-    const chains = withServedDestinationChains(config.chains, sdkProviders)
-    return chains === config.chains ? config : { ...config, chains }
-  }, [config, sdkProviders])
+  // Keyed on `config.chains`: the config object is new on every render.
+  const chains = useMemo(
+    () => withServedDestinationChains(config.chains, sdkProviders),
+    [config.chains, sdkProviders]
+  )
+  const value = useMemo(
+    () => (chains === config.chains ? config : { ...config, chains }),
+    [config, chains]
+  )
   return <WidgetContext value={value}>{children}</WidgetContext>
 }
