@@ -13,12 +13,20 @@ const mocks = vi.hoisted(() => {
   return {
     addresses,
     getNameServiceAddress: vi.fn(),
-    // Chainless detection: Zcash is not recognised without a chain.
+    // Chainless detection: a Zcash address is found on ZEC, the one chain its provider lists.
     getChainTypeFromAddress: (value: string) =>
       ({
         [addresses.evm]: 'EVM',
         [addresses.solana]: 'SVM',
         [addresses.bitcoin]: 'UTXO',
+        [addresses.zcash]: 'UTXO',
+      })[value],
+    getChainFromAddress: (value: string) =>
+      ({
+        [addresses.evm]: { chainType: 'EVM' },
+        [addresses.solana]: { chainType: 'SVM' },
+        [addresses.bitcoin]: { chainType: 'UTXO' },
+        [addresses.zcash]: { chainType: 'UTXO', chainId: 20000000000005 },
       })[value],
     isAddressForChain: (
       address: string,
@@ -56,6 +64,7 @@ vi.mock('react-i18next', () => ({
 vi.mock('@lifi/widget-provider', () => ({
   useChainTypeFromAddress: () => ({
     getChainTypeFromAddress: mocks.getChainTypeFromAddress,
+    getChainFromAddress: mocks.getChainFromAddress,
   }),
   useAddressForChain: () => ({ isAddressForChain: mocks.isAddressForChain }),
 }))
@@ -149,6 +158,18 @@ describe('useAddressValidation', () => {
       )
     })
 
+    it('refuses a Zcash address for BTC as the wrong chain', async () => {
+      const { validateAddress } = useAddressValidation()
+
+      expect(
+        await validateAddress({ value: addresses.zcash, chain: bitcoin })
+      ).toEqual({
+        isValid: false,
+        error: 'error.title.walletChainTypeInvalid|Bitcoin',
+      })
+      expect(mocks.getNameServiceAddress).not.toHaveBeenCalled()
+    })
+
     it('sets no chain for a Bitcoin address on BTC', async () => {
       const { validateAddress } = useAddressValidation()
 
@@ -184,14 +205,23 @@ describe('useAddressValidation', () => {
   })
 
   describe('without a chain', () => {
-    it('answers as today', async () => {
+    it('detects each ecosystem, and keeps ZEC for a Zcash address', async () => {
       const { validateAddress } = useAddressValidation()
 
-      expect(await validateAddress({ value: addresses.evm })).toMatchObject({
-        isValid: true,
+      expect(await validateAddress({ value: addresses.evm })).toEqual({
+        address: addresses.evm,
+        addressType: AddressType.Address,
         chainType: 'EVM',
+        isValid: true,
       })
       expect(await validateAddress({ value: addresses.zcash })).toEqual({
+        address: addresses.zcash,
+        addressType: AddressType.Address,
+        chainType: 'UTXO',
+        chainId: 20000000000005,
+        isValid: true,
+      })
+      expect(await validateAddress({ value: addresses.zcashUnified })).toEqual({
         isValid: false,
         error: 'error.title.walletAddressInvalid',
       })

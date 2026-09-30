@@ -42,7 +42,8 @@ export const useAddressValidation = (): {
   isValidating: boolean
 } => {
   const { t } = useTranslation()
-  const { getChainTypeFromAddress } = useChainTypeFromAddress()
+  const { getChainTypeFromAddress, getChainFromAddress } =
+    useChainTypeFromAddress()
   const { isAddressForChain } = useAddressForChain()
   const sdkClient = useSDKClient()
 
@@ -98,12 +99,13 @@ export const useAddressValidation = (): {
     value: string,
     fallbackChain?: Chain
   ): Promise<ValidResponse | undefined> => {
-    const detectedChainType = getChainTypeFromAddress(value)
-    if (detectedChainType) {
+    const detected = getChainFromAddress(value)
+    if (detected) {
       return {
         address: value,
         addressType: AddressType.Address,
-        chainType: detectedChainType,
+        chainType: detected.chainType,
+        ...(detected.chainId !== undefined && { chainId: detected.chainId }),
         isValid: true,
       }
     }
