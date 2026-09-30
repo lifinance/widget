@@ -17,6 +17,19 @@ describe('getDefaultValuesFromQueryString', () => {
     expect(values.toChain).toBe(1)
   })
 
+  it('ignores a destination chain the chains config denies, with its token', () => {
+    openWith('?fromChain=1&toChain=20000000000005&toToken=zcash')
+
+    const values = getDefaultValuesFromQueryString({
+      buildUrl: true,
+      chains: { deny: [20000000000005] },
+    })
+
+    expect(values.fromChain).toBe(1)
+    expect(values.toChain).toBeUndefined()
+    expect(values.toToken).toBeUndefined()
+  })
+
   it('keeps a destination-only chain as the destination', () => {
     openWith('?fromChain=1&toChain=20000000000005')
 

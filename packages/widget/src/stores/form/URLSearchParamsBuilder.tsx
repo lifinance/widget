@@ -34,16 +34,17 @@ export const URLSearchParamsBuilder = () => {
   const values = useFieldValues(...formValueKeys, ...limitFormValueKeys)
   const { setSelectedBookmark, addRecentWallet } = useBookmarkActions()
   const { validateAddress } = useAddressValidation()
-  const { buildUrl, mode } = useWidgetConfig()
+  const { buildUrl, mode, chains } = useWidgetConfig()
   // Using these methods as trying to use the touchedFields and values above
   // often has a lag that can effect the widgets initialisation sequence
   // and accidentally cause values to be wiped from the query string
   const { getFieldValues, isTouched, setUserAndDefaultValues } =
     useFieldActions()
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: the URL is read once, not again on each config render
   useEffect(() => {
     // get the initial values from the querystring
-    const formValues = getDefaultValuesFromQueryString({ buildUrl })
+    const formValues = getDefaultValuesFromQueryString({ buildUrl, chains })
     const { toAddress, ...initialFormValues } = formValues
 
     /**

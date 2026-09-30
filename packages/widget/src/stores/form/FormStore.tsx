@@ -117,11 +117,8 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
     const queryDefaults = getDefaultValuesFromQueryString({
       buildUrl,
       includeToAddress: false,
+      chains,
     })
-    if (isUnservedDestinationChain(queryDefaults.toChain, chains)) {
-      delete queryDefaults.toChain
-      delete queryDefaults.toToken
-    }
     storeRef.current = createFormStore(
       initialiseDefaultValues({
         ...reactiveFormValues,
