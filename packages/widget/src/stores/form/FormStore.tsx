@@ -2,6 +2,7 @@ import type { PropsWithChildren } from 'react'
 import { useMemo, useRef } from 'react'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { FormRef } from '../../types/widget.js'
+import { isUnservedDestinationChain } from '../../utils/chainType.js'
 import { createFormStore, formDefaultValues } from './createFormStore.js'
 import { FormStoreContext } from './FormStoreContext.js'
 import { FormUpdater } from './FormUpdater.js'
@@ -45,6 +46,7 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
     toAddress,
     formUpdateKey,
     buildUrl,
+    chains,
   } = widgetConfig
 
   const storeRef = useRef<FormStoreStore>(null)
@@ -56,6 +58,7 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
   const configHasToAddress = Object.hasOwn(widgetConfig, 'toAddress')
   const configHasToChain = Object.hasOwn(widgetConfig, 'toChain')
   const configHasToToken = Object.hasOwn(widgetConfig, 'toToken')
+  const isToChainUnserved = isUnservedDestinationChain(toChain, chains)
 
   // We use the presence/absence of a property to decide if the form values in state need to be updated
   // We only build and set a property on the memoized form values here if they are included in the
@@ -81,8 +84,8 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
                 : toAmount) || formDefaultValues.toAmount,
           }
         : undefined),
-      ...(configHasToChain ? { toChain } : undefined),
-      ...(configHasToToken ? { toToken } : undefined),
+      ...(configHasToChain && !isToChainUnserved ? { toChain } : undefined),
+      ...(configHasToToken && !isToChainUnserved ? { toToken } : undefined),
       ...(configHasToAddress
         ? {
             toAddress: toAddress?.address || formDefaultValues.toAddress,
@@ -106,6 +109,7 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
       configHasToAddress,
       configHasToChain,
       configHasToToken,
+      isToChainUnserved,
     ]
   )
 
@@ -114,6 +118,10 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
       buildUrl,
       includeToAddress: false,
     })
+    if (isUnservedDestinationChain(queryDefaults.toChain, chains)) {
+      delete queryDefaults.toChain
+      delete queryDefaults.toToken
+    }
     storeRef.current = createFormStore(
       initialiseDefaultValues({
         ...reactiveFormValues,

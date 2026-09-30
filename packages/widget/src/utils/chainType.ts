@@ -58,6 +58,12 @@ export const withServedDestinationChains = (
   }
 }
 
+// The form keeps a preset chain that the chain list does not offer.
+export const isUnservedDestinationChain = (
+  chainId: number | undefined,
+  chains: WidgetChains | undefined
+): boolean => isDestinationOnlyChain(chainId) && !isItemAllowed(chainId, chains)
+
 export const isDestinationAllowedAsSource = (
   toChainId: number | undefined,
   chains: WidgetChains | undefined

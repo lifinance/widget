@@ -5,6 +5,7 @@ import {
   bookmarkChainId,
   isDestinationAllowedAsSource,
   isDestinationOnlyChain,
+  isUnservedDestinationChain,
   withDestinationOnlyChains,
   withServedDestinationChains,
 } from './chainType.js'
@@ -120,5 +121,24 @@ describe('withServedDestinationChains', () => {
         bitcoinProvider,
       ])
     ).toEqual({ allow: [ChainId.BTC], deny: [ChainId.ZEC] })
+  })
+})
+
+describe('isUnservedDestinationChain', () => {
+  it('is true for ZEC when the chains config denies it', () => {
+    expect(
+      isUnservedDestinationChain(ChainId.ZEC, { deny: [ChainId.ZEC] })
+    ).toBe(true)
+  })
+
+  it('is false for ZEC that a provider serves', () => {
+    expect(isUnservedDestinationChain(ChainId.ZEC, undefined)).toBe(false)
+  })
+
+  it('is false for any other chain, even a denied one', () => {
+    expect(
+      isUnservedDestinationChain(ChainId.ETH, { deny: [ChainId.ETH] })
+    ).toBe(false)
+    expect(isUnservedDestinationChain(undefined, undefined)).toBe(false)
   })
 })
