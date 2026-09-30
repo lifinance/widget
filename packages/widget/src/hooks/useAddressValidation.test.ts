@@ -14,13 +14,6 @@ const mocks = vi.hoisted(() => {
     addresses,
     getNameServiceAddress: vi.fn(),
     // Chainless detection: a Zcash address is found on ZEC, the one chain its provider lists.
-    getChainTypeFromAddress: (value: string) =>
-      ({
-        [addresses.evm]: 'EVM',
-        [addresses.solana]: 'SVM',
-        [addresses.bitcoin]: 'UTXO',
-        [addresses.zcash]: 'UTXO',
-      })[value],
     getChainFromAddress: (value: string) =>
       ({
         [addresses.evm]: { chainType: 'EVM' },
@@ -63,7 +56,6 @@ vi.mock('react-i18next', () => ({
 }))
 vi.mock('@lifi/widget-provider', () => ({
   useChainTypeFromAddress: () => ({
-    getChainTypeFromAddress: mocks.getChainTypeFromAddress,
     getChainFromAddress: mocks.getChainFromAddress,
   }),
   useAddressForChain: () => ({ isAddressForChain: mocks.isAddressForChain }),

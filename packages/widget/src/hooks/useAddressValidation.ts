@@ -39,8 +39,7 @@ export const useAddressValidation = (): {
   isValidating: boolean
 } => {
   const { t } = useTranslation()
-  const { getChainTypeFromAddress, getChainFromAddress } =
-    useChainTypeFromAddress()
+  const { getChainFromAddress } = useChainTypeFromAddress()
   const { isAddressForChain } = useAddressForChain()
   const sdkClient = useSDKClient()
 
@@ -64,7 +63,7 @@ export const useAddressValidation = (): {
       return validFor(value, AddressType.Address, chain)
     }
     // A recognised address is no name to resolve.
-    if (getChainTypeFromAddress(value)) {
+    if (getChainFromAddress(value)) {
       return {
         isValid: false,
         error: t('error.title.walletChainTypeInvalid', {
