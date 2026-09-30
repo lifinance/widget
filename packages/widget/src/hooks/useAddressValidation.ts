@@ -104,8 +104,7 @@ export const useAddressValidation = (): {
       return {
         address: value,
         addressType: AddressType.Address,
-        chainType: detected.chainType,
-        ...(detected.chainId !== undefined && { chainId: detected.chainId }),
+        ...detected,
         isValid: true,
       }
     }
@@ -113,14 +112,12 @@ export const useAddressValidation = (): {
       return validFor(value, AddressType.Address, fallbackChain)
     }
     const address = await getNameServiceAddress(sdkClient, value)
-    const resolvedChainType = address
-      ? getChainTypeFromAddress(address)
-      : undefined
-    if (address && resolvedChainType) {
+    const resolved = address ? getChainFromAddress(address) : undefined
+    if (address && resolved) {
       return {
         address,
         addressType: AddressType.NameService,
-        chainType: resolvedChainType,
+        ...resolved,
         isValid: true,
       }
     }
