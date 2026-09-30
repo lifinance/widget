@@ -5,6 +5,7 @@ import {
   isDestinationOnlyChain,
   isUnservedDestinationChain,
   withDestinationOnlyChains,
+  withoutUnservedToChain,
   withServedDestinationChains,
 } from './chainType.js'
 
@@ -104,5 +105,33 @@ describe('isUnservedDestinationChain', () => {
       isUnservedDestinationChain(ChainId.ETH, { deny: [ChainId.ETH] })
     ).toBe(false)
     expect(isUnservedDestinationChain(undefined, undefined)).toBe(false)
+  })
+})
+
+describe('withoutUnservedToChain', () => {
+  it('omits a destination-only toChain and its token that no provider serves', () => {
+    const config = {
+      chains: { deny: [ChainId.ZEC] },
+      toChain: ChainId.ZEC,
+      toToken: 'ZEC',
+    }
+    const result = withoutUnservedToChain(config)
+    expect(result).toEqual({ chains: { deny: [ChainId.ZEC] } })
+    expect(Object.hasOwn(result, 'toChain')).toBe(false)
+    expect(Object.hasOwn(result, 'toToken')).toBe(false)
+  })
+
+  it('keeps the config when the destination is served', () => {
+    const config = { toChain: ChainId.ZEC, toToken: 'ZEC' }
+    expect(withoutUnservedToChain(config)).toBe(config)
+  })
+
+  it('keeps any other denied destination', () => {
+    const config = {
+      chains: { deny: [ChainId.ETH] },
+      toChain: ChainId.ETH,
+      toToken: '0x0000000000000000000000000000000000000000',
+    }
+    expect(withoutUnservedToChain(config)).toBe(config)
   })
 })

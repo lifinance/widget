@@ -1,5 +1,5 @@
 import { ChainId, ChainType, type SDKProvider } from '@lifi/sdk'
-import type { WidgetChains } from '../types/widget.js'
+import type { WidgetChains, WidgetConfig } from '../types/widget.js'
 import { isItemAllowed } from './item.js'
 
 export const defaultChainIdsByType: Record<ChainType, ChainId> = {
@@ -62,6 +62,19 @@ export const isUnservedDestinationChain = (
   chainId: number | undefined,
   chains: WidgetChains | undefined
 ): boolean => isDestinationOnlyChain(chainId) && !isItemAllowed(chainId, chains)
+
+// Omitted, not undefined: an own undefined key resets the form field.
+export const withoutUnservedToChain = <
+  T extends Pick<WidgetConfig, 'chains' | 'toChain' | 'toToken'>,
+>(
+  config: T
+): T => {
+  if (!isUnservedDestinationChain(config.toChain, config.chains)) {
+    return config
+  }
+  const { toChain: _toChain, toToken: _toToken, ...rest } = config
+  return rest as T
+}
 
 export const isDestinationAllowedAsSource = (
   toChainId: number | undefined,

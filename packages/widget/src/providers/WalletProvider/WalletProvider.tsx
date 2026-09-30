@@ -13,7 +13,10 @@ import {
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useInitializeSDKProviders } from '../../hooks/useInitializeSDKProviders.js'
-import { withServedDestinationChains } from '../../utils/chainType.js'
+import {
+  withoutUnservedToChain,
+  withServedDestinationChains,
+} from '../../utils/chainType.js'
 import { getConfigItemSets, isItemAllowedForSets } from '../../utils/item.js'
 import {
   useWidgetConfig,
@@ -94,7 +97,10 @@ const SDKProviderInitializer: FC<PropsWithChildren> = ({ children }) => {
     [config.chains, sdkProviders]
   )
   const value = useMemo(
-    () => (chains === config.chains ? config : { ...config, chains }),
+    () =>
+      withoutUnservedToChain(
+        chains === config.chains ? config : { ...config, chains }
+      ),
     [config, chains]
   )
   return <WidgetContext value={value}>{children}</WidgetContext>
