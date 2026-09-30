@@ -6,6 +6,7 @@ import {
   isDestinationAllowedAsSource,
   isDestinationOnlyChain,
   withDestinationOnlyChains,
+  withServedDestinationChains,
 } from './chainType.js'
 
 describe('isDestinationOnlyChain', () => {
@@ -89,5 +90,35 @@ describe('isDestinationAllowedAsSource', () => {
   it('is true for an allowed destination or none', () => {
     expect(isDestinationAllowedAsSource(ChainId.BTC, chains)).toBe(true)
     expect(isDestinationAllowedAsSource(undefined, chains)).toBe(true)
+  })
+})
+
+describe('withServedDestinationChains', () => {
+  const bitcoinProvider = {}
+  const zcashProvider = { chainIds: [ChainId.ZEC] }
+
+  it('keeps the config when a provider serves every destination-only chain', () => {
+    const chains = { deny: [ChainId.ETH] }
+
+    expect(
+      withServedDestinationChains(chains, [bitcoinProvider, zcashProvider])
+    ).toBe(chains)
+  })
+
+  it('denies a destination-only chain that no provider serves', () => {
+    expect(
+      withServedDestinationChains({ deny: [ChainId.ETH] }, [bitcoinProvider])
+    ).toEqual({ deny: [ChainId.ETH, ChainId.ZEC] })
+    expect(withServedDestinationChains(undefined, [])).toEqual({
+      deny: [ChainId.ZEC],
+    })
+  })
+
+  it('removes it from an allow list, which would override the deny list', () => {
+    expect(
+      withServedDestinationChains({ allow: [ChainId.BTC, ChainId.ZEC] }, [
+        bitcoinProvider,
+      ])
+    ).toEqual({ allow: [ChainId.BTC], deny: [ChainId.ZEC] })
   })
 })

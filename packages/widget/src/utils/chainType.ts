@@ -1,4 +1,4 @@
-import { ChainId, ChainType } from '@lifi/sdk'
+import { ChainId, ChainType, type SDKProvider } from '@lifi/sdk'
 import type { ChainRef, IsAddressForChain } from '@lifi/widget-provider'
 import type { WidgetChains } from '../types/widget.js'
 import { isItemAllowed } from './item.js'
@@ -33,6 +33,28 @@ export const withDestinationOnlyChains = (
       ...(allow && { allow }),
       deny: [...(chains?.from?.deny ?? []), ...destinationOnlyChainIds],
     },
+  }
+}
+
+// A destination-only chain takes a receiver only through a provider that lists it.
+export const withServedDestinationChains = (
+  chains: WidgetChains | undefined,
+  providers: readonly Pick<SDKProvider, 'chainIds'>[]
+): WidgetChains | undefined => {
+  const unserved = [...destinationOnlyChainIds].filter(
+    (chainId) =>
+      !providers.some((provider) =>
+        provider.chainIds?.some((id) => id === chainId)
+      )
+  )
+  if (!unserved.length) {
+    return chains
+  }
+  const allow = chains?.allow?.filter((chainId) => !unserved.includes(chainId))
+  return {
+    ...chains,
+    ...(allow && { allow }),
+    deny: [...(chains?.deny ?? []), ...unserved],
   }
 }
 

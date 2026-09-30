@@ -1,5 +1,8 @@
 import { WalletManagementProviders } from '@lifi/wallet-management'
-import type { WidgetProviderProps } from '@lifi/widget-provider'
+import {
+  useSDKProviders,
+  type WidgetProviderProps,
+} from '@lifi/widget-provider'
 import {
   type FC,
   type JSX,
@@ -10,8 +13,12 @@ import {
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useInitializeSDKProviders } from '../../hooks/useInitializeSDKProviders.js'
+import { withServedDestinationChains } from '../../utils/chainType.js'
 import { getConfigItemSets, isItemAllowedForSets } from '../../utils/item.js'
-import { useWidgetConfig } from '../WidgetProvider/WidgetProvider.js'
+import {
+  useWidgetConfig,
+  WidgetContext,
+} from '../WidgetProvider/WidgetProvider.js'
 import { useExternalWalletProvider } from './useExternalWalletProvider.js'
 
 interface WalletProviderProps extends PropsWithChildren {
@@ -78,5 +85,12 @@ export const WalletProvider = ({
 
 const SDKProviderInitializer: FC<PropsWithChildren> = ({ children }) => {
   useInitializeSDKProviders()
-  return children
+  const config = useWidgetConfig()
+  const sdkProviders = useSDKProviders()
+  // Only below the provider components is it known which chains are served.
+  const value = useMemo(() => {
+    const chains = withServedDestinationChains(config.chains, sdkProviders)
+    return chains === config.chains ? config : { ...config, chains }
+  }, [config, sdkProviders])
+  return <WidgetContext value={value}>{children}</WidgetContext>
 }
