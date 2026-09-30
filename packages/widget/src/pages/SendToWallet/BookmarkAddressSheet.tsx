@@ -10,10 +10,8 @@ import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { Input } from '../../components/Input.js'
 import { AlertMessage } from '../../components/Messages/AlertMessage.js'
 import { useAddressValidation } from '../../hooks/useAddressValidation.js'
-import { useChain } from '../../hooks/useChain.js'
 import type { Bookmark } from '../../stores/bookmarks/types.js'
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
-import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import {
   AddressInput,
   BookmarkInputFields,
@@ -45,8 +43,6 @@ export const BookmarkAddressSheet = ({
   const [error, setError] = useState<BookmarkError>()
   const { validateAddress, isValidating } = useAddressValidation()
   const { getBookmark } = useBookmarkActions()
-  const [toChainId] = useFieldValues('toChain')
-  const { chain: toChain } = useChain(toChainId)
 
   const nameValue = name.trim() || validatedWallet?.name || ''
   const addressValue = address || validatedWallet?.address || ''
@@ -57,10 +53,7 @@ export const BookmarkAddressSheet = ({
   }
 
   const validateWithAddressFromInput = async () => {
-    const validationResult = await validateAddress({
-      value: address,
-      fallbackChain: toChain,
-    })
+    const validationResult = await validateAddress({ value: address })
     if (!validationResult.isValid) {
       setError({ type: 'address', message: validationResult.error })
       return

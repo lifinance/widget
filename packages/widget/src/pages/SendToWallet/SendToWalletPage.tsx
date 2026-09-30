@@ -130,7 +130,6 @@ export const SendToWalletPage: React.FC = () => {
     setIsBookmarkButtonLoading(true)
     const validationResult = await validateAddress({
       value: inputAddressValue,
-      fallbackChain: toChain,
     })
     setIsBookmarkButtonLoading(false)
 

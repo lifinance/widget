@@ -7,7 +7,6 @@ import {
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
-import { bookmarkChainId } from '../utils/chainType.js'
 
 export enum AddressType {
   Address = 0,
@@ -18,8 +17,6 @@ type ValidationArgs = {
   value: string
   /** Strict: the receiver must be valid on this chain. */
   chain?: Chain
-  /** Lenient, for bookmarks: also accepts an address valid only on this chain. */
-  fallbackChain?: Chain
 }
 
 type ValidResponse = {
@@ -55,7 +52,7 @@ export const useAddressValidation = (): {
     address,
     addressType,
     chainType: chain.chainType,
-    chainId: bookmarkChainId(address, chain, isAddressForChain),
+    chainId: getChainFromAddress(address)?.chainId,
     isValid: true,
   })
 
@@ -96,8 +93,7 @@ export const useAddressValidation = (): {
   }
 
   const validateWithoutChain = async (
-    value: string,
-    fallbackChain?: Chain
+    value: string
   ): Promise<ValidResponse | undefined> => {
     const detected = getChainFromAddress(value)
     if (detected) {
@@ -107,9 +103,6 @@ export const useAddressValidation = (): {
         ...detected,
         isValid: true,
       }
-    }
-    if (fallbackChain && isAddressForChain(value, fallbackChain)) {
-      return validFor(value, AddressType.Address, fallbackChain)
     }
     const address = await getNameServiceAddress(sdkClient, value)
     const resolved = address ? getChainFromAddress(address) : undefined
@@ -129,7 +122,6 @@ export const useAddressValidation = (): {
       mutationFn: async ({
         value,
         chain,
-        fallbackChain,
       }: ValidationArgs): Promise<ValidResponse | InvalidResponse> => {
         try {
           if (!value) {
@@ -138,7 +130,7 @@ export const useAddressValidation = (): {
           if (chain) {
             return await validateForChain(value, chain)
           }
-          const result = await validateWithoutChain(value, fallbackChain)
+          const result = await validateWithoutChain(value)
           if (result) {
             return result
           }

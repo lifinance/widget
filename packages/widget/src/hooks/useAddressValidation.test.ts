@@ -179,31 +179,6 @@ describe('useAddressValidation', () => {
     })
   })
 
-  describe('with a fallback chain', () => {
-    it('keeps accepting an address of any ecosystem', async () => {
-      const { validateAddress } = useAddressValidation()
-
-      expect(
-        await validateAddress({
-          value: addresses.solana,
-          fallbackChain: ethereum,
-        })
-      ).toMatchObject({ isValid: true, chainType: 'SVM' })
-    })
-
-    it('accepts a Zcash address while ZEC is the destination', async () => {
-      const { validateAddress } = useAddressValidation()
-
-      expect(
-        await validateAddress({ value: addresses.zcash, fallbackChain: zcash })
-      ).toMatchObject({
-        isValid: true,
-        chainType: 'UTXO',
-        chainId: 20000000000005,
-      })
-    })
-  })
-
   describe('without a chain', () => {
     it('detects each ecosystem, and keeps ZEC for a Zcash address', async () => {
       const { validateAddress } = useAddressValidation()
@@ -212,6 +187,12 @@ describe('useAddressValidation', () => {
         address: addresses.evm,
         addressType: AddressType.Address,
         chainType: 'EVM',
+        isValid: true,
+      })
+      expect(await validateAddress({ value: addresses.solana })).toEqual({
+        address: addresses.solana,
+        addressType: AddressType.Address,
+        chainType: 'SVM',
         isValid: true,
       })
       expect(await validateAddress({ value: addresses.zcash })).toEqual({
