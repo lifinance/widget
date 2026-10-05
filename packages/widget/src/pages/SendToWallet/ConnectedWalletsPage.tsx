@@ -91,12 +91,13 @@ export const ConnectedWalletsPage = (): JSX.Element => {
                 ]
               : []),
           ]
+          const disabled = !isValidReceiver(account.address)
 
           return (
             <ListItem key={account.address} sx={{ position: 'relative' }}>
               <ListItemButton
                 onClick={() => handleWalletSelected(account)}
-                disabled={!isValidReceiver(account.address)}
+                disabled={disabled}
               >
                 <ListItemAvatar>
                   <AccountAvatar chainId={account.chainId} account={account} />
@@ -106,10 +107,7 @@ export const ConnectedWalletsPage = (): JSX.Element => {
                   secondary={walletAddress}
                 />
               </ListItemButton>
-              <ContextMenu
-                items={menuItems}
-                disabled={!isValidReceiver(account.address)}
-              />
+              <ContextMenu items={menuItems} disabled={disabled} />
             </ListItem>
           )
         })}

@@ -70,55 +70,49 @@ export const BookmarksPage = (): JSX.Element => {
         disablePadding
         sx={{ paddingTop: 1.5 }}
       >
-        {bookmarks.map((bookmark) => (
-          <ListItem key={bookmark.address} sx={{ position: 'relative' }}>
-            <ListItemButton
-              onClick={() => handleBookmarkSelected(bookmark)}
-              disabled={!isValidReceiver(bookmark.address)}
-            >
-              <ListItemAvatar>
-                <AccountAvatar
-                  chainId={
-                    bookmark.chainId ??
-                    defaultChainIdsByType[bookmark.chainType]
-                  }
+        {bookmarks.map((bookmark) => {
+          const disabled = !isValidReceiver(bookmark.address)
+          const chainId =
+            bookmark.chainId ?? defaultChainIdsByType[bookmark.chainType]
+          return (
+            <ListItem key={bookmark.address} sx={{ position: 'relative' }}>
+              <ListItemButton
+                onClick={() => handleBookmarkSelected(bookmark)}
+                disabled={disabled}
+              >
+                <ListItemAvatar>
+                  <AccountAvatar chainId={chainId} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={bookmark.name}
+                  secondary={shortenAddress(bookmark.address)}
                 />
-              </ListItemAvatar>
-              <ListItemText
-                primary={bookmark.name}
-                secondary={shortenAddress(bookmark.address)}
+              </ListItemButton>
+              <ContextMenu
+                disabled={disabled}
+                items={[
+                  {
+                    icon: <ContentCopyRounded />,
+                    label: t('button.copyAddress'),
+                    onClick: () =>
+                      navigator.clipboard.writeText(bookmark.address),
+                  },
+                  {
+                    icon: <OpenInNewRounded />,
+                    label: t('button.viewOnExplorer'),
+                    onClick: () =>
+                      openInNewTab(getAddressLink(bookmark.address, chainId)),
+                  },
+                  {
+                    icon: <DeleteOutline />,
+                    label: t('button.delete'),
+                    onClick: () => removeBookmark(bookmark.address),
+                  },
+                ]}
               />
-            </ListItemButton>
-            <ContextMenu
-              disabled={!isValidReceiver(bookmark.address)}
-              items={[
-                {
-                  icon: <ContentCopyRounded />,
-                  label: t('button.copyAddress'),
-                  onClick: () =>
-                    navigator.clipboard.writeText(bookmark.address),
-                },
-                {
-                  icon: <OpenInNewRounded />,
-                  label: t('button.viewOnExplorer'),
-                  onClick: () =>
-                    openInNewTab(
-                      getAddressLink(
-                        bookmark.address,
-                        bookmark.chainId ??
-                          defaultChainIdsByType[bookmark.chainType]
-                      )
-                    ),
-                },
-                {
-                  icon: <DeleteOutline />,
-                  label: t('button.delete'),
-                  onClick: () => removeBookmark(bookmark.address),
-                },
-              ]}
-            />
-          </ListItem>
-        ))}
+            </ListItem>
+          )
+        })}
         {!bookmarks.length && (
           <EmptyListIndicator
             icon={<TurnedIn />}
