@@ -50,7 +50,7 @@ export const SendToWalletButton: React.FC<
   const { selectedBookmark } = useBookmarks()
   const { setSelectedBookmark } = useBookmarkActions()
   const { accounts } = useAccount()
-  const { getChainTypeFromAddress } = useChainTypeFromAddress()
+  const { getChainFromAddress } = useChainTypeFromAddress()
   const { requiredToAddress } = useToAddressRequirements()
   const disabledToAddress = disabledUI?.toAddress
   const hiddenToAddress = hiddenUI?.toAddress
@@ -65,11 +65,16 @@ export const SendToWalletButton: React.FC<
     (account) => account.address === toAddressFieldValue
   )
 
+  // A bookmark from the config or the URL may carry no chainId.
+  const detectedChain =
+    !matchingConnectedAccount &&
+    selectedBookmark?.chainId === undefined &&
+    toAddressFieldValue
+      ? getChainFromAddress(toAddressFieldValue)
+      : undefined
+
   const chainType = !matchingConnectedAccount
-    ? selectedBookmark?.chainType ||
-      (toAddressFieldValue
-        ? getChainTypeFromAddress(toAddressFieldValue)
-        : undefined)
+    ? selectedBookmark?.chainType || detectedChain?.chainType
     : undefined
 
   const chainId =
@@ -78,6 +83,7 @@ export const SendToWalletButton: React.FC<
       : matchingConnectedAccount
         ? matchingConnectedAccount.chainId
         : (selectedBookmark?.chainId ??
+          detectedChain?.chainId ??
           (chainType ? defaultChainIdsByType[chainType] : undefined))
 
   const isConnectedAccount =

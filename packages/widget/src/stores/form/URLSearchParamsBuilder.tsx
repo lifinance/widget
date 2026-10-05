@@ -63,6 +63,7 @@ export const URLSearchParamsBuilder = () => {
             const bookmark = {
               address: validationResult.address,
               chainType: validationResult.chainType,
+              chainId: validationResult.chainId,
             }
             setUserAndDefaultValues({ toAddress })
             setSelectedBookmark(bookmark)

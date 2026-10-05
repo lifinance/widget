@@ -1,3 +1,4 @@
+import { useChainTypeFromAddress } from '@lifi/widget-provider'
 import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
 import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded'
 import { List, ListItemAvatar, ListItemText } from '@mui/material'
@@ -26,6 +27,7 @@ export const SendToConfiguredWalletPage = (): JSX.Element => {
   const navigateBack = useNavigateBack()
   const { toAddresses } = useWidgetConfig()
   const { isValidReceiver } = useToAddressRequirements()
+  const { getChainFromAddress } = useChainTypeFromAddress()
   const { setSelectedBookmark } = useBookmarkActions()
   const { setFieldValue } = useFieldActions()
   const { getAddressLink } = useExplorer()
@@ -53,49 +55,50 @@ export const SendToConfiguredWalletPage = (): JSX.Element => {
         disablePadding
         sx={{ paddingTop: 1.5 }}
       >
-        {toAddresses?.map((toAddress) => (
-          <ListItem key={toAddress.address} sx={{ position: 'relative' }}>
-            <ListItemButton
-              disabled={!isValidReceiver(toAddress.address)}
-              onClick={() => handleCuratedSelected(toAddress)}
-            >
-              <ListItemAvatar>
-                <AccountAvatar
-                  chainId={defaultChainIdsByType[toAddress.chainType]}
-                  toAddress={toAddress}
+        {toAddresses?.map((toAddress) => {
+          const disabled = !isValidReceiver(toAddress.address)
+          // A configured receiver has no chainId; its provider knows the chain.
+          const chainId =
+            getChainFromAddress(toAddress.address)?.chainId ??
+            defaultChainIdsByType[toAddress.chainType]
+          return (
+            <ListItem key={toAddress.address} sx={{ position: 'relative' }}>
+              <ListItemButton
+                disabled={disabled}
+                onClick={() => handleCuratedSelected(toAddress)}
+              >
+                <ListItemAvatar>
+                  <AccountAvatar chainId={chainId} toAddress={toAddress} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={toAddress.name || shortenAddress(toAddress.address)}
+                  secondary={
+                    toAddress.name
+                      ? shortenAddress(toAddress.address)
+                      : undefined
+                  }
                 />
-              </ListItemAvatar>
-              <ListItemText
-                primary={toAddress.name || shortenAddress(toAddress.address)}
-                secondary={
-                  toAddress.name ? shortenAddress(toAddress.address) : undefined
-                }
+              </ListItemButton>
+              <ContextMenu
+                disabled={disabled}
+                items={[
+                  {
+                    icon: <ContentCopyRounded />,
+                    label: t('button.copyAddress'),
+                    onClick: () =>
+                      navigator.clipboard.writeText(toAddress.address),
+                  },
+                  {
+                    icon: <OpenInNewRounded />,
+                    label: t('button.viewOnExplorer'),
+                    onClick: () =>
+                      openInNewTab(getAddressLink(toAddress.address, chainId)),
+                  },
+                ]}
               />
-            </ListItemButton>
-            <ContextMenu
-              disabled={!isValidReceiver(toAddress.address)}
-              items={[
-                {
-                  icon: <ContentCopyRounded />,
-                  label: t('button.copyAddress'),
-                  onClick: () =>
-                    navigator.clipboard.writeText(toAddress.address),
-                },
-                {
-                  icon: <OpenInNewRounded />,
-                  label: t('button.viewOnExplorer'),
-                  onClick: () =>
-                    openInNewTab(
-                      getAddressLink(
-                        toAddress.address,
-                        defaultChainIdsByType[toAddress.chainType]
-                      )
-                    ),
-                },
-              ]}
-            />
-          </ListItem>
-        ))}
+            </ListItem>
+          )
+        })}
       </List>
     </PageContainer>
   )
