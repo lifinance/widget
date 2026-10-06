@@ -37,8 +37,8 @@
     "zec"
   ],
   "dependencies": {
-    "@lifi/sdk": "0.0.0-preview-1b774eec",
-    "@lifi/sdk-provider-zcash": "0.0.0-preview-1b774eec",
+    "@lifi/sdk": "0.0.0-preview-b7870f68",
+    "@lifi/sdk-provider-zcash": "0.0.0-preview-b7870f68",
     "@lifi/widget-provider": "workspace:*"
   },
   "peerDependencies": {
