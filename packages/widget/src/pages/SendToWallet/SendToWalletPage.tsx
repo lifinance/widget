@@ -12,6 +12,7 @@ import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { ButtonTertiary } from '../../components/ButtonTertiary.js'
 import { CardButton } from '../../components/Card/CardButton.js'
 import { AccountDeployedMessage } from '../../components/Messages/AccountDeployedMessage.js'
+import { addressInputMaxLength } from '../../config/constants.js'
 import {
   AddressType,
   useAddressValidation,
@@ -200,7 +201,7 @@ export const SendToWalletPage: React.FC = () => {
             placeholder={placeholder}
             aria-label={placeholder}
             maxRows={2}
-            inputProps={{ maxLength: 128 }}
+            inputProps={{ maxLength: addressInputMaxLength }}
             multiline
           />
           {errorMessage ? (
