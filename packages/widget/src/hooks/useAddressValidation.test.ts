@@ -8,7 +8,8 @@ const mocks = vi.hoisted(() => {
     solana: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
     bitcoin: 'bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq',
     zcash: 't1VmmGiyjVNeCjxDZzg7vZmd99WyzVby9yC',
-    zcashUnified: 'u1l8xunezsvhq8fgzfl7404m450nwnd76zshscn6nfys7vyz2ywyh4cc5',
+    zcashUnifiedInvalid:
+      'u1l8xunezsvhq8fgzfl7404m450nwnd76zshscn6nfys7vyz2ywyh4cc5',
   }
   return {
     addresses,
@@ -112,7 +113,10 @@ describe('useAddressValidation', () => {
       const { validateAddress } = useAddressValidation()
 
       expect(
-        await validateAddress({ value: addresses.zcashUnified, chain: zcash })
+        await validateAddress({
+          value: addresses.zcashUnifiedInvalid,
+          chain: zcash,
+        })
       ).toEqual({
         isValid: false,
         error: 'error.title.zcashAddressInvalid',
@@ -194,7 +198,9 @@ describe('useAddressValidation', () => {
         chainId: 20000000000005,
         isValid: true,
       })
-      expect(await validateAddress({ value: addresses.zcashUnified })).toEqual({
+      expect(
+        await validateAddress({ value: addresses.zcashUnifiedInvalid })
+      ).toEqual({
         isValid: false,
         error: 'error.title.walletAddressInvalid',
       })
