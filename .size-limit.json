@@ -12,7 +12,8 @@
       "packages/widget/dist/esm/i18n/en.json",
       "packages/wallet-management/dist/esm/i18n/en.json"
     ],
-    "limit": "9 kB"
+    "limit": "9 kB",
+    "disablePlugins": ["@size-limit/esbuild"]
   },
   {
     "name": "@lifi/widget-light · LiFiWidgetLight",

@@ -7,7 +7,7 @@ name: Bundle size
 on:
   pull_request:
     branches: [main]
-    paths: &paths
+    paths:
       - 'packages/**'
       - 'package.json'
       - 'pnpm-lock.yaml'
@@ -15,9 +15,9 @@ on:
       - '.size-limit.json'
       - 'scripts/size-*.mjs'
       - '.github/workflows/bundle-size.yaml'
+  # Every main commit, so the next PR's base (HEAD^1 of its merge commit) is in the cache.
   push:
     branches: [main]
-    paths: *paths
 
 permissions:
   contents: read
@@ -28,7 +28,7 @@ concurrency:
 
 env:
   # Only the measured packages and their workspace dependencies. Skips the examples.
-  SIZE_PACKAGES: --filter @lifi/widget... --filter @lifi/widget-light... --filter @lifi/widget-provider-*...
+  SIZE_PACKAGES: --filter @lifi/widget... --filter @lifi/widget-light... --filter @lifi/widget-provider-*... --filter !@lifi/widget-provider-mesh --filter !@lifi/widget-provider-transak
   HUSKY: '0'
 
 jobs:
@@ -71,6 +71,7 @@ jobs:
     timeout-minutes: 20
     outputs:
       outcome: ${{ steps.result.outputs.outcome }}
+      sha: ${{ steps.target.outputs.sha }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -85,13 +86,16 @@ jobs:
           else
             echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
           fi
+          # A size-limit or esbuild bump changes the numbers, so it must miss the cache.
+          tools=$(grep -E "^  '?(size-limit|@size-limit/[a-z-]+|esbuild)@" pnpm-lock.yaml | sort -u | sha256sum | cut -c1-16)
+          echo "tools=$tools" >> "$GITHUB_OUTPUT"
       - name: Restore the cached measurement
         id: cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: out/base.json
           # A PR that changes the checks measures the base again.
-          key: bundle-size-base-${{ steps.target.outputs.sha }}-${{ hashFiles('.size-limit.json', 'scripts/size-measure.mjs') }}
+          key: bundle-size-base-${{ steps.target.outputs.sha }}-${{ steps.target.outputs.tools }}-${{ hashFiles('.size-limit.json', 'scripts/size-measure.mjs') }}
       - if: steps.cache.outputs.cache-hit != 'true'
         uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
       - if: steps.cache.outputs.cache-hit != 'true'
@@ -116,12 +120,20 @@ jobs:
           pnpm install --frozen-lockfile --prefer-offline --filter . "${packages[@]}"
           pnpm -r --parallel "${packages[@]}" build
       - name: Measure base
+        id: measure
         if: steps.cache.outputs.cache-hit != 'true' && steps.base_build.outcome == 'success'
         run: |
           mkdir -p out
-          node scripts/size-measure.mjs "$RUNNER_TEMP/base" out/base.json --ignore-missing || true
+          set +e
+          node scripts/size-measure.mjs "$RUNNER_TEMP/base" out/base.json --ignore-missing
+          status=$?
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          # Exit 1 can be a base over the PR's budgets; only cache a report with every size.
+          if [ -f out/base.json ] && node -e "process.exit(require('./out/base.json').every((r) => typeof r.size === 'number') ? 0 : 1)"; then
+            echo "complete=true" >> "$GITHUB_OUTPUT"
+          fi
       - name: Save the measurement
-        if: steps.cache.outputs.cache-hit != 'true' && hashFiles('out/base.json') != ''
+        if: steps.measure.outputs.complete == 'true'
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: out/base.json
@@ -130,8 +142,20 @@ jobs:
         id: result
         if: ${{ !cancelled() }}
         env:
-          OUTCOME: ${{ steps.cache.outputs.cache-hit == 'true' && 'success' || steps.base_build.outcome }}
-        run: echo "outcome=$OUTCOME" >> "$GITHUB_OUTPUT"
+          CACHE_HIT: ${{ steps.cache.outputs.cache-hit }}
+          BUILD: ${{ steps.base_build.outcome }}
+          MEASURE: ${{ steps.measure.outputs.status }}
+        run: |
+          if [ "$CACHE_HIT" = "true" ]; then
+            outcome=success
+          elif [ "$BUILD" != "success" ]; then
+            outcome=failure
+          elif [ "$MEASURE" != "0" ] && [ "$MEASURE" != "1" ]; then
+            outcome=measure-failure
+          else
+            outcome=success
+          fi
+          echo "outcome=$outcome" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: ${{ !cancelled() && github.event_name == 'pull_request' }}
         with:
@@ -160,9 +184,9 @@ jobs:
           path: out/base
       - name: Build report
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          BASE_SHA: ${{ needs.base.outputs.sha }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-          BASE_BUILD_OUTCOME: ${{ needs.base.outputs.outcome }}
+          BASE_OUTCOME: ${{ needs.base.outputs.outcome }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           mkdir -p out/report
