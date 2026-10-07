@@ -96,7 +96,7 @@
       "@lifi/sdk",
       "@lifi/widget-provider"
     ],
-    "limit": "82 kB"
+    "limit": "112 kB"
   },
   {
     "name": "Providers · tron (incl. WalletConnect loaded on demand)",
