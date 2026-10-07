@@ -8,6 +8,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
+import { isDestinationOnlyChain } from '../utils/chainType.js'
 import { getQueryKey } from '../utils/queries.js'
 
 const defaultRefetchInterval = 30_000
@@ -93,7 +94,11 @@ export const useTokenBalance = (
       } as TokenAmount
     },
 
-    enabled: Boolean(accountAddress && token),
+    // No provider reads a balance on a destination-only chain, and a balance
+    // without a block number is retried until the backoff gives up.
+    enabled:
+      Boolean(accountAddress && token) &&
+      !isDestinationOnlyChain(token?.chainId),
     refetchInterval: defaultRefetchInterval,
     staleTime: defaultRefetchInterval,
   })

@@ -29,6 +29,7 @@ import type { TokensByChain } from '../types/token.js'
 import {
   canQuoteWithToAddress,
   isCustomReceiverBlocked,
+  isSignerInvalidReceiver,
 } from '../utils/customReceiver.js'
 import { getQueryKey } from '../utils/queries.js'
 import { updateTokenInCache } from '../utils/token.js'
@@ -165,7 +166,16 @@ export const useRoutes = ({
     ? Boolean(account.address)
     : mode !== 'custom' || customType === 'deposit'
 
-  const effectiveFromAddress = account.address ?? quoteFromAddress
+  // Quote as if disconnected while the signer would be taken as the receiver.
+  const effectiveFromAddress = isSignerInvalidReceiver({
+    signerAddress: account.address,
+    toAddress,
+    fromChain,
+    toChain,
+    isAddressForChain,
+  })
+    ? quoteFromAddress
+    : (account.address ?? quoteFromAddress)
 
   const isToAddressSatisfied = canQuoteWithToAddress(
     toAddress,
