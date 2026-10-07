@@ -23,6 +23,7 @@ on:
       - 'packages/widget-provider-stellar/**'
       - 'packages/widget-provider-sui/**'
       - 'packages/widget-provider-tron/**'
+      - 'packages/widget-provider-zcash/**'
       # Dev smoke test code and config
       - 'e2e/tests/dev/**'
       - 'e2e/tests/components/**'

@@ -1,14 +1,15 @@
-import { ChainType } from '@lifi/sdk'
+import { ChainId, ChainType } from '@lifi/sdk'
 import { describe, expect, it, vi } from 'vitest'
 import { useChainTypeFromAddress } from './useChainTypeFromAddress.js'
 
 /**
  * One provider per ecosystem, each recognizing only its own two fixtures, so a
- * context bound to the wrong `ChainType` answers with the wrong one.
+ * provider of the wrong `ChainType` answers with the wrong one.
  */
 const mocks = vi.hoisted(() => {
-  const provider = (wallet: string, token: string) => ({
+  const provider = (type: string, wallet: string, token: string) => ({
     sdkProvider: {
+      type,
       isAddress: (value: string) => value === wallet,
       isTokenAddress: (value: string) => value === token,
     },
@@ -18,6 +19,7 @@ const mocks = vi.hoisted(() => {
       evm: '0x1111111111111111111111111111111111111111',
       svm: 'SVMwallet11111111111111111111111111111111111',
       utxo: '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa',
+      zec: 't1VmmGiyjVNeCjxDZzg7vZmd99WyzVby9yC',
       mvm: '0xmvmwallet',
       tvm: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t',
       stl: 'GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN',
@@ -39,25 +41,40 @@ vi.mock('react', () => ({
 }))
 
 vi.mock('../contexts/EthereumContext.js', () => ({
-  useEthereumContext: () => mocks.provider(mocks.wallets.evm, mocks.tokens.evm),
+  useEthereumContext: () =>
+    mocks.provider('EVM', mocks.wallets.evm, mocks.tokens.evm),
 }))
 vi.mock('../contexts/SolanaContext.js', () => ({
-  useSolanaContext: () => mocks.provider(mocks.wallets.svm, mocks.tokens.svm),
+  useSolanaContext: () =>
+    mocks.provider('SVM', mocks.wallets.svm, mocks.tokens.svm),
 }))
 vi.mock('../contexts/SuiContext.js', () => ({
-  useSuiContext: () => mocks.provider(mocks.wallets.mvm, mocks.tokens.mvm),
+  useSuiContext: () =>
+    mocks.provider('MVM', mocks.wallets.mvm, mocks.tokens.mvm),
 }))
 vi.mock('../contexts/TronContext.js', () => ({
-  useTronContext: () => mocks.provider(mocks.wallets.tvm, mocks.tokens.tvm),
+  useTronContext: () =>
+    mocks.provider('TVM', mocks.wallets.tvm, mocks.tokens.tvm),
 }))
 vi.mock('../contexts/StellarContext.js', () => ({
-  useStellarContext: () => mocks.provider(mocks.wallets.stl, mocks.tokens.stl),
+  useStellarContext: () =>
+    mocks.provider('STL', mocks.wallets.stl, mocks.tokens.stl),
 }))
 // BitcoinProvider ships no `isTokenAddress`, so the fake must not have one.
 vi.mock('../contexts/BitcoinContext.js', () => ({
   useBitcoinContext: () => ({
     sdkProvider: {
+      type: 'UTXO',
       isAddress: (value: string) => value === mocks.wallets.utxo,
+    },
+  }),
+}))
+vi.mock('../contexts/ZcashContext.js', () => ({
+  useZcashContext: () => ({
+    sdkProvider: {
+      type: 'UTXO',
+      chainIds: [20000000000005],
+      isAddress: (value: string) => value === mocks.wallets.zec,
     },
   }),
 }))
@@ -69,6 +86,7 @@ describe('useChainTypeFromAddress', () => {
     expect(getChainTypeFromAddress(mocks.wallets.evm)).toBe(ChainType.EVM)
     expect(getChainTypeFromAddress(mocks.wallets.svm)).toBe(ChainType.SVM)
     expect(getChainTypeFromAddress(mocks.wallets.utxo)).toBe(ChainType.UTXO)
+    expect(getChainTypeFromAddress(mocks.wallets.zec)).toBe(ChainType.UTXO)
     expect(getChainTypeFromAddress(mocks.wallets.mvm)).toBe(ChainType.MVM)
     expect(getChainTypeFromAddress(mocks.wallets.tvm)).toBe(ChainType.TVM)
     expect(getChainTypeFromAddress(mocks.wallets.stl)).toBe(ChainType.STL)
@@ -98,5 +116,18 @@ describe('useChainTypeFromAddress', () => {
     expect(getChainTypeFromAddress(mocks.wallets.utxo)).toBe(ChainType.UTXO)
     expect(getChainTypeFromTokenAddress(mocks.wallets.utxo)).toBeUndefined()
     expect(getChainTypeFromTokenAddress('bitcoin')).toBeUndefined()
+  })
+
+  it('reports the chain of a provider that serves one chain only', () => {
+    const { getChainFromAddress } = useChainTypeFromAddress()
+
+    expect(getChainFromAddress(mocks.wallets.zec)).toEqual({
+      chainType: ChainType.UTXO,
+      chainId: ChainId.ZEC,
+    })
+    expect(getChainFromAddress(mocks.wallets.utxo)).toEqual({
+      chainType: ChainType.UTXO,
+    })
+    expect(getChainFromAddress('not-an-address')).toBeUndefined()
   })
 })

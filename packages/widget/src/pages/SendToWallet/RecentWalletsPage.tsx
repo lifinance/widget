@@ -35,7 +35,7 @@ export const RecentWalletsPage = (): JSX.Element => {
   const bookmarkAddressSheetRef = useRef<BottomSheetBase>(null)
   const listParentRef = useRef<HTMLUListElement | null>(null)
   const { recentWallets } = useBookmarks()
-  const { requiredToChainType } = useToAddressRequirements()
+  const { isValidReceiver } = useToAddressRequirements()
   const {
     removeRecentWallet,
     addBookmark,
@@ -76,73 +76,66 @@ export const RecentWalletsPage = (): JSX.Element => {
         disablePadding
         sx={{ paddingTop: 1.5 }}
       >
-        {recentWallets.map((recentWallet) => (
-          <ListItem key={recentWallet.address} sx={{ position: 'relative' }}>
-            <ListItemButton
-              disabled={
-                requiredToChainType &&
-                requiredToChainType !== recentWallet.chainType
-              }
-              onClick={() => handleRecentSelected(recentWallet)}
-            >
-              <ListItemAvatar>
-                <AccountAvatar
-                  chainId={defaultChainIdsByType[recentWallet.chainType]}
+        {recentWallets.map((recentWallet) => {
+          const disabled = !isValidReceiver(recentWallet.address)
+          const chainId =
+            recentWallet.chainId ??
+            defaultChainIdsByType[recentWallet.chainType]
+          return (
+            <ListItem key={recentWallet.address} sx={{ position: 'relative' }}>
+              <ListItemButton
+                disabled={disabled}
+                onClick={() => handleRecentSelected(recentWallet)}
+              >
+                <ListItemAvatar>
+                  <AccountAvatar chainId={chainId} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    recentWallet.name || shortenAddress(recentWallet.address)
+                  }
+                  secondary={
+                    recentWallet.name
+                      ? shortenAddress(recentWallet.address)
+                      : undefined
+                  }
                 />
-              </ListItemAvatar>
-              <ListItemText
-                primary={
-                  recentWallet.name || shortenAddress(recentWallet.address)
-                }
-                secondary={
-                  recentWallet.name
-                    ? shortenAddress(recentWallet.address)
-                    : undefined
-                }
-              />
-            </ListItemButton>
-            <ContextMenu
-              disabled={
-                !!(
-                  requiredToChainType &&
-                  requiredToChainType !== recentWallet.chainType
-                )
-              }
-              items={[
-                {
-                  icon: <ContentCopyRounded />,
-                  label: t('button.copyAddress'),
-                  onClick: () =>
-                    navigator.clipboard.writeText(recentWallet.address),
-                },
-                {
-                  icon: <OpenInNewRounded />,
-                  label: t('button.viewOnExplorer'),
-                  onClick: () =>
-                    openInNewTab(
-                      getAddressLink(
-                        recentWallet.address,
-                        defaultChainIdsByType[recentWallet.chainType]
-                      )
-                    ),
-                },
-                {
-                  icon: <TurnedInNot />,
-                  label: t('button.bookmark'),
-                  onClick: () => {
-                    setBookmarkTarget(recentWallet)
-                    bookmarkAddressSheetRef.current?.open()
+              </ListItemButton>
+              <ContextMenu
+                disabled={disabled}
+                items={[
+                  {
+                    icon: <ContentCopyRounded />,
+                    label: t('button.copyAddress'),
+                    onClick: () =>
+                      navigator.clipboard.writeText(recentWallet.address),
                   },
-                },
-                {
-                  icon: <DeleteOutline />,
-                  label: t('button.delete'),
-                  onClick: () => removeRecentWallet(recentWallet.address),
-                },
-              ]}
-            />
-          </ListItem>
-        ))}
+                  {
+                    icon: <OpenInNewRounded />,
+                    label: t('button.viewOnExplorer'),
+                    onClick: () =>
+                      openInNewTab(
+                        getAddressLink(recentWallet.address, chainId)
+                      ),
+                  },
+                  {
+                    icon: <TurnedInNot />,
+                    label: t('button.bookmark'),
+                    onClick: () => {
+                      setBookmarkTarget(recentWallet)
+                      bookmarkAddressSheetRef.current?.open()
+                    },
+                  },
+                  {
+                    icon: <DeleteOutline />,
+                    label: t('button.delete'),
+                    onClick: () => removeRecentWallet(recentWallet.address),
+                  },
+                ]}
+              />
+            </ListItem>
+          )
+        })}
         {!recentWallets.length && (
           <EmptyListIndicator
             icon={<AccountBalanceWalletIcon />}

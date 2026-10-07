@@ -1,0 +1,54 @@
+{
+  "name": "@lifi/widget-provider-zcash",
+  "version": "4.0.0-0",
+  "description": "LI.FI Widget Provider for Zcash as a destination chain.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "watch": "tsdown --watch",
+    "build": "pnpm clean && tsdown",
+    "build:prerelease": "node ../../scripts/prerelease.js && cpy '../../README.md' .",
+    "build:postrelease": "node ../../scripts/postrelease.js && rm -rf README.md",
+    "clean": "rm -rf dist",
+    "test": "vitest run",
+    "check:types": "tsc --noEmit",
+    "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
+    "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg"
+  },
+  "author": "Eugene Chybisov <eugene@li.finance>",
+  "homepage": "https://github.com/lifinance/widget",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lifinance/widget.git",
+    "directory": "packages/widget-provider-zcash"
+  },
+  "bugs": {
+    "url": "https://github.com/lifinance/widget/issues"
+  },
+  "license": "Apache-2.0",
+  "keywords": [
+    "widget",
+    "lifi-widget",
+    "web3",
+    "lifi",
+    "zcash",
+    "zec"
+  ],
+  "dependencies": {
+    "@lifi/sdk": "^4.11.0",
+    "@lifi/sdk-provider-zcash": "^4.0.0",
+    "@lifi/widget-provider": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": ">=19"
+  },
+  "devDependencies": {
+    "cpy-cli": "^7.0.0",
+    "madge": "^8.0.0",
+    "react": "^19.3.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.1"
+  }
+}

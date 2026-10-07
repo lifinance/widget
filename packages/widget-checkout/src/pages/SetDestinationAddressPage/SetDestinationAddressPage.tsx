@@ -8,6 +8,7 @@ import {
   useHeader,
   useWidgetConfig,
 } from '@lifi/widget/shared'
+import { useAddressForChain } from '@lifi/widget-provider'
 import WalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined'
 import {
   Avatar,
@@ -44,6 +45,7 @@ export const SetDestinationAddressPage: React.FC = (): JSX.Element => {
   const { setFieldValue } = useFieldActions()
   const { openWalletMenu } = useWalletMenu()
   const { accounts } = useAccount()
+  const { isAddressForChain } = useAddressForChain()
 
   const [value, setValue] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -66,26 +68,16 @@ export const SetDestinationAddressPage: React.FC = (): JSX.Element => {
     setError(null)
     const result = await validateAddress({
       value: value.trim(),
-      chainType: destinationChain?.chainType,
       chain: destinationChain,
     })
     if (!result.isValid) {
       setError(result.error)
       return
     }
-    if (destinationChain && result.chainType !== destinationChain.chainType) {
-      setError(
-        t('error.title.walletAddressInvalid', {
-          context: 'chain',
-          chainName: destinationChain.name,
-        })
-      )
-      return
-    }
     commitRecipient(result.address, result.chainType)
-  }, [value, destinationChain, validateAddress, commitRecipient, t])
+  }, [value, destinationChain, validateAddress, commitRecipient])
 
-  // Adopt the first connected account matching the destination ecosystem after connect.
+  // Adopt the first connected account matching the destination chain after connect.
   const awaitingConnectRef = useRef(false)
   const handleConnectWallet = useCallback(() => {
     awaitingConnectRef.current = true
@@ -98,28 +90,31 @@ export const SetDestinationAddressPage: React.FC = (): JSX.Element => {
     }
     const match = accounts.find(
       (a) =>
-        a.isConnected && a.address && a.chainType === destinationChain.chainType
+        a.isConnected &&
+        a.address &&
+        isAddressForChain(a.address, destinationChain)
     )
     if (match?.address) {
       awaitingConnectRef.current = false
       commitRecipient(match.address, destinationChain.chainType)
     }
-  }, [accounts, destinationChain, commitRecipient])
+  }, [accounts, destinationChain, commitRecipient, isAddressForChain])
 
-  // Connected wallets in the destination ecosystem, offered as one-tap recipients.
+  // Connected wallets that can receive on the destination chain, offered as one-tap recipients.
   const connectedAccounts = useMemo(() => {
     const byAddress = new Map<string, (typeof accounts)[number]>()
     for (const account of accounts) {
       if (
         account.isConnected &&
         account.address &&
-        account.chainType === destinationChain?.chainType
+        destinationChain &&
+        isAddressForChain(account.address, destinationChain)
       ) {
         byAddress.set(account.address.toLowerCase(), account)
       }
     }
     return [...byAddress.values()]
-  }, [accounts, destinationChain])
+  }, [accounts, destinationChain, isAddressForChain])
 
   return (
     <PageContainer bottomGutters>

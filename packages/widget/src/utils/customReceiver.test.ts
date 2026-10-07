@@ -1,8 +1,11 @@
-import { ChainType } from '@lifi/sdk'
+import { ChainId, ChainType } from '@lifi/sdk'
+import type { IsAddressForChain } from '@lifi/widget-provider'
 import { describe, expect, it } from 'vitest'
 import {
+  canQuoteWithToAddress,
   isCustomReceiverBlocked,
   isCustomReceiverUnsupported,
+  isSignerInvalidReceiver,
 } from './customReceiver.js'
 
 describe('isCustomReceiverUnsupported', () => {
@@ -129,6 +132,109 @@ describe('isCustomReceiverBlocked', () => {
         ...stellarRoute,
         toAddress: signer.toLowerCase(),
         signerAddress: signer,
+      })
+    ).toBe(false)
+  })
+})
+
+describe('canQuoteWithToAddress', () => {
+  const zcash = { id: ChainId.ZEC, chainType: ChainType.UTXO }
+  const zcashAddress = 't1VmmGiyjVNeCjxDZzg7vZmd99WyzVby9yC'
+  const bitcoinAddress = 'bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq'
+  const isAddressForChain: IsAddressForChain = (address, chain) =>
+    chain.id === ChainId.ZEC && address === zcashAddress
+
+  it('quotes without a receiver', () => {
+    expect(canQuoteWithToAddress(undefined, zcash, isAddressForChain)).toBe(
+      true
+    )
+    expect(canQuoteWithToAddress('', zcash, isAddressForChain)).toBe(true)
+  })
+
+  it('quotes with a receiver valid on the destination chain', () => {
+    expect(canQuoteWithToAddress(zcashAddress, zcash, isAddressForChain)).toBe(
+      true
+    )
+  })
+
+  it('does not quote with a receiver of another chain in the same ecosystem', () => {
+    expect(
+      canQuoteWithToAddress(bitcoinAddress, zcash, isAddressForChain)
+    ).toBe(false)
+  })
+
+  it('does not quote with a receiver but no destination', () => {
+    expect(
+      canQuoteWithToAddress(zcashAddress, undefined, isAddressForChain)
+    ).toBe(false)
+  })
+})
+
+describe('isSignerInvalidReceiver', () => {
+  const bitcoinSigner = 'bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq'
+  const evmSigner = '0x000000000000000000000000000000000000dEaD'
+  const bitcoin = { id: ChainId.BTC, chainType: ChainType.UTXO }
+  const zcash = { id: ChainId.ZEC, chainType: ChainType.UTXO }
+  const ethereum = { id: ChainId.ETH, chainType: ChainType.EVM }
+  const solana = { id: ChainId.SOL, chainType: ChainType.SVM }
+  const isAddressForChain: IsAddressForChain = (address, chain) =>
+    address === bitcoinSigner
+      ? chain.id === ChainId.BTC
+      : chain.id !== ChainId.SOL
+
+  it('is true for a Bitcoin signer on ZEC without a receiver', () => {
+    expect(
+      isSignerInvalidReceiver({
+        signerAddress: bitcoinSigner,
+        toAddress: undefined,
+        fromChain: bitcoin,
+        toChain: zcash,
+        isAddressForChain,
+      })
+    ).toBe(true)
+  })
+
+  it('is false once a receiver is set', () => {
+    expect(
+      isSignerInvalidReceiver({
+        signerAddress: bitcoinSigner,
+        toAddress: 't1VmmGiyjVNeCjxDZzg7vZmd99WyzVby9yC',
+        fromChain: bitcoin,
+        toChain: zcash,
+        isAddressForChain,
+      })
+    ).toBe(false)
+  })
+
+  it('is false across chain types, where the API does not use the signer', () => {
+    expect(
+      isSignerInvalidReceiver({
+        signerAddress: evmSigner,
+        toAddress: undefined,
+        fromChain: ethereum,
+        toChain: solana,
+        isAddressForChain,
+      })
+    ).toBe(false)
+  })
+
+  it('is false for a signer that can receive, or no signer', () => {
+    expect(
+      isSignerInvalidReceiver({
+        signerAddress: bitcoinSigner,
+        toAddress: undefined,
+        fromChain: bitcoin,
+        toChain: bitcoin,
+        isAddressForChain,
+      })
+    ).toBe(false)
+    expect(
+      isSignerInvalidReceiver({
+        signerAddress: undefined,
+        toAddress: undefined,
+        fromChain: bitcoin,
+        toChain: zcash,
+        isAddressForChain,
       })
     ).toBe(false)
   })

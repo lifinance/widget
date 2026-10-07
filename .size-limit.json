@@ -4,7 +4,7 @@
     "path": "packages/widget/dist/esm/index.js",
     "import": "{ LiFiWidget }",
     "ignore": ["react", "react-dom", "@tanstack/react-query", "*.json"],
-    "limit": "321 kB"
+    "limit": "322 kB"
   },
   {
     "name": "@lifi/widget · English translations (always loaded)",
@@ -77,14 +77,14 @@
     "path": "packages/widget-provider-solana/dist/esm/index.js",
     "import": "{ SolanaProvider }",
     "ignore": ["react", "bs58", "@lifi/sdk", "@lifi/widget-provider"],
-    "limit": "36 kB"
+    "limit": "39 kB"
   },
   {
     "name": "Providers · bitcoin",
     "path": "packages/widget-provider-bitcoin/dist/esm/index.js",
     "import": "{ BitcoinProvider }",
     "ignore": ["react", "@bigmi/react", "@lifi/sdk", "@lifi/widget-provider"],
-    "limit": "106 kB"
+    "limit": "107 kB"
   },
   {
     "name": "Providers · sui",
@@ -108,14 +108,21 @@
       "@lifi/sdk",
       "@lifi/widget-provider"
     ],
-    "limit": "876 kB"
+    "limit": "877 kB"
   },
   {
     "name": "Providers · stellar",
     "path": "packages/widget-provider-stellar/dist/esm/index.js",
     "import": "{ StellarProvider }",
     "ignore": ["react", "@lifi/sdk", "@lifi/widget-provider"],
-    "limit": "212 kB"
+    "limit": "213 kB"
+  },
+  {
+    "name": "Providers · zcash",
+    "path": "packages/widget-provider-zcash/dist/esm/index.js",
+    "import": "{ ZcashProvider }",
+    "ignore": ["react", "@lifi/sdk", "@lifi/widget-provider"],
+    "limit": "8 kB"
   },
   {
     "name": "Full integration · LiFiWidget + all providers + their peers (incl. on-demand code)",
@@ -126,9 +133,10 @@
       "packages/widget-provider-bitcoin/dist/esm/index.js": "{ BitcoinProvider }",
       "packages/widget-provider-sui/dist/esm/index.js": "{ SuiProvider }",
       "packages/widget-provider-tron/dist/esm/index.js": "{ TronProvider }",
-      "packages/widget-provider-stellar/dist/esm/index.js": "{ StellarProvider }"
+      "packages/widget-provider-stellar/dist/esm/index.js": "{ StellarProvider }",
+      "packages/widget-provider-zcash/dist/esm/index.js": "{ ZcashProvider }"
     },
     "ignore": ["react", "react-dom", "@tanstack/react-query"],
-    "limit": "2278 kB"
+    "limit": "2292 kB"
   }
 ]

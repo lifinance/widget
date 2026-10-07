@@ -195,7 +195,8 @@
       "walletAddressInvalid_chain": "",
       "walletAddressRequired": "L'indirizzo è un campo obbligatorio.",
       "walletChainTypeInvalid": "",
-      "walletMismatch": ""
+      "walletMismatch": "",
+      "zcashAddressInvalid": ""
     }
   },
   "tooltip": {

@@ -45,6 +45,7 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
     toAddress,
     formUpdateKey,
     buildUrl,
+    chains,
   } = widgetConfig
 
   const storeRef = useRef<FormStoreStore>(null)
@@ -113,6 +114,7 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
     const queryDefaults = getDefaultValuesFromQueryString({
       buildUrl,
       includeToAddress: false,
+      chains,
     })
     storeRef.current = createFormStore(
       initialiseDefaultValues({
