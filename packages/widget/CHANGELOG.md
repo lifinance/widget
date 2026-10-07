@@ -1,5 +1,32 @@
 # @lifi/widget
 
+## 4.9.0
+
+### Minor Changes
+
+- [#884](https://github.com/lifinance/widget/pull/884) [`97e59c5`](https://github.com/lifinance/widget/commit/97e59c58c719805198e030a14fbe72fabde010c8) Thanks [@chybisov](https://github.com/chybisov)! - ZEC is a destination-only chain. It never appears as a source chain or source token, and a `fromChain` of ZEC from the widget config or the URL is ignored. A ZEC receiver must be a transparent Zcash address (`t1…` or `t3…`) or a unified address (`u1…`) with an Orchard receiver; Sapling, TEX and other unified addresses get a message that names the accepted formats. The address inputs take up to 512 characters, so a unified address fits.
+  
+  Receivers are now checked against the destination chain, not only its chain type, so a Bitcoin address no longer passes as a ZEC receiver. A connected Bitcoin wallet is never filled in, offered, seeded or priced as a ZEC receiver, and a BTC → ZEC route asks for a receiver. Bookmarks of other ecosystems still save as before, and a Zcash bookmark shows the Zcash icon. The reverse and swap controls stay hidden while the destination chain is not allowed as a source by `chains.from`, so they never select a source chain the config excludes.
+  
+  `@lifi/widget-provider` exports `useAddressForChain`, which returns `isAddressForChain(address, chain)`, and the `ChainRef` and `IsAddressForChain` types. Every package that depends on the SDK requires the release whose `isAddress` accepts a chain ID, so a consumer keeps a single `@lifi/sdk`. The widget now passes the chain ID to each provider's `isAddress`, so upgrade the `@lifi/widget-provider-*` packages together with `@lifi/widget`: an older `@lifi/widget-provider-bitcoin` refuses every Bitcoin receiver and hides Bitcoin balances. `name` and `version` exported from `@lifi/widget` stay the widget's own now that `@lifi/sdk` exports the same names.
+
+- [#884](https://github.com/lifinance/widget/pull/884) [`97e59c5`](https://github.com/lifinance/widget/commit/97e59c58c719805198e030a14fbe72fabde010c8) Thanks [@chybisov](https://github.com/chybisov)! - New package `@lifi/widget-provider-zcash`. Add `ZcashProvider()` to `providers` to offer ZEC as a destination; without it the widget shows no ZEC, because no ZEC receiver could be validated. With external wallet management the widget ignores `providers`, so render the component that `ZcashProvider()` returns around the widget, next to the other ecosystem providers. `@lifi/widget-provider` exports `ZcashContext` and `useZcashContext`, asks the provider that serves a chain for receiver checks, and recognises a Zcash address without a chain, so a Zcash bookmark keeps the Zcash icon.
+
+### Patch Changes
+
+- [#884](https://github.com/lifinance/widget/pull/884) [`97e59c5`](https://github.com/lifinance/widget/commit/97e59c58c719805198e030a14fbe72fabde010c8) Thanks [@chybisov](https://github.com/chybisov)! - A token pick that moves the destination chain, for example from "All networks", now resets a receiver the new chain cannot take, as the chain select already does.
+
+- [#896](https://github.com/lifinance/widget/pull/896) [`10d954a`](https://github.com/lifinance/widget/commit/10d954aaa9d4cc125c08045c0dd872d2549ec753) Thanks [@chybisov](https://github.com/chybisov)! - Update `react-i18next` to 17.0.16.
+
+- [#896](https://github.com/lifinance/widget/pull/896) [`10d954a`](https://github.com/lifinance/widget/commit/10d954aaa9d4cc125c08045c0dd872d2549ec753) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.11.0. A resumed route no longer signs a second transaction while the first one may still land.
+
+- [#896](https://github.com/lifinance/widget/pull/896) [`10d954a`](https://github.com/lifinance/widget/commit/10d954aaa9d4cc125c08045c0dd872d2549ec753) Thanks [@chybisov](https://github.com/chybisov)! - Update `motion` to 14.0.0.
+
+- [#896](https://github.com/lifinance/widget/pull/896) [`10d954a`](https://github.com/lifinance/widget/commit/10d954aaa9d4cc125c08045c0dd872d2549ec753) Thanks [@chybisov](https://github.com/chybisov)! - Update `@tanstack/react-router` to 1.170.41.
+- Updated dependencies [[`10d954a`](https://github.com/lifinance/widget/commit/10d954aaa9d4cc125c08045c0dd872d2549ec753), [`10d954a`](https://github.com/lifinance/widget/commit/10d954aaa9d4cc125c08045c0dd872d2549ec753), [`97e59c5`](https://github.com/lifinance/widget/commit/97e59c58c719805198e030a14fbe72fabde010c8), [`97e59c5`](https://github.com/lifinance/widget/commit/97e59c58c719805198e030a14fbe72fabde010c8)]:
+  - @lifi/wallet-management@4.3.2
+  - @lifi/widget-provider@4.6.0
+
 ## 4.8.0
 
 ### Minor Changes

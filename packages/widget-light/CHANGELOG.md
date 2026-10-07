@@ -1,5 +1,11 @@
 # @lifi/widget-light
 
+## 4.5.1
+
+### Patch Changes
+
+- [#896](https://github.com/lifinance/widget/pull/896) [`10d954a`](https://github.com/lifinance/widget/commit/10d954aaa9d4cc125c08045c0dd872d2549ec753) Thanks [@chybisov](https://github.com/chybisov)! - Raise the optional peer floors to the latest releases: `wagmi` 3.7.7, `@wagmi/core` 3.6.5, `@bigmi/client` 0.10.5, `@bigmi/react` 0.9.5, `@mysten/dapp-kit-react` 2.1.39 and `@wallet-standard/base` 1.1.1.
+
 ## 4.5.0
 
 ### Minor Changes
