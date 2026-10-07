@@ -11,27 +11,59 @@ packages:
 # so the rationale has to live here, above the key:
 #   - wagmi 3.7.7 carries @wagmi/core 3.6.5, which drops the viem tempo/zones import.
 #     Kept so a gate cannot hold the tree below that line; these have since aged out.
-#   - The 2026-09-10 dependency bump took React 19.3.0, Vite 8.3.0 and the Solana
-#     and Mesh wallet SDKs deliberately while they were still inside the age window.
-#   - '@biomejs/cli-*' and the other platform binaries are added by pnpm itself to
-#     match the package that pulls them; none is pinned here right now.
+#   - The 2026-10-07 dependency bump took the Dynamic SDK 5.9.6 set, Next.js 16.4.0,
+#     knip 6.40.0, Svelte 5.57.2 and react-i18next 17.0.16 deliberately while they
+#     were still inside the age window.
+#   - '@next/swc-*' and the other platform binaries are added by pnpm itself to
+#     match the package that pulls them.
 minimumReleaseAgeExclude:
   - '@bigmi/*'
   - '@lifi/*'
   - wagmi@3.7.7
   - '@wagmi/core@3.6.5'
   - '@wagmi/connectors@8.2.0'
-  - '@creit.tech/stellar-wallets-kit@2.6.0'
-  - react@19.3.0
-  - react-dom@19.3.0
-  - '@types/react@19.3.0'
-  - '@types/react-dom@19.3.0'
-  - vite@8.3.0
-  - '@solana/wallet-adapter-base@0.9.28'
-  - '@solana/wallet-adapter-react@0.15.40'
-  - '@solana/wallet-standard-features@1.5.0'
-  - '@meshconnect/web-link-sdk@3.13.0'
-  - scheduler@0.28.0
+  - '@dynamic-labs/assert-package-version@5.9.6'
+  - '@dynamic-labs/bitcoin@5.9.6'
+  - '@dynamic-labs/embedded-wallet-solana@5.9.6'
+  - '@dynamic-labs/embedded-wallet@5.9.6'
+  - '@dynamic-labs/ethereum-aa-core@5.9.6'
+  - '@dynamic-labs/ethereum-aa@5.9.6'
+  - '@dynamic-labs/ethereum-core@5.9.6'
+  - '@dynamic-labs/ethereum-gasless-core@5.9.6'
+  - '@dynamic-labs/ethereum@5.9.6'
+  - '@dynamic-labs/iconic@5.9.6'
+  - '@dynamic-labs/locale@5.9.6'
+  - '@dynamic-labs/logger@5.9.6'
+  - '@dynamic-labs/multi-wallet@5.9.6'
+  - '@dynamic-labs/rpc-providers@5.9.6'
+  - '@dynamic-labs/sdk-react-core@5.9.6'
+  - '@dynamic-labs/solana-core@5.9.6'
+  - '@dynamic-labs/solana@5.9.6'
+  - '@dynamic-labs/store@5.9.6'
+  - '@dynamic-labs/sui-core@5.9.6'
+  - '@dynamic-labs/types@5.9.6'
+  - '@dynamic-labs/utils@5.9.6'
+  - '@dynamic-labs/waas-evm@5.9.6'
+  - '@dynamic-labs/waas-svm@5.9.6'
+  - '@dynamic-labs/waas@5.9.6'
+  - '@dynamic-labs/wagmi-connector@5.9.6'
+  - '@dynamic-labs/wallet-book@5.9.6'
+  - '@dynamic-labs/wallet-connect@5.9.6'
+  - '@dynamic-labs/wallet-connector-core@5.9.6'
+  - '@dynamic-labs/webauthn@5.9.6'
+  - '@next/env@16.4.0'
+  - '@next/swc-darwin-arm64@16.4.0'
+  - '@next/swc-darwin-x64@16.4.0'
+  - '@next/swc-linux-arm64-gnu@16.4.0'
+  - '@next/swc-linux-arm64-musl@16.4.0'
+  - '@next/swc-linux-x64-gnu@16.4.0'
+  - '@next/swc-linux-x64-musl@16.4.0'
+  - '@next/swc-win32-arm64-msvc@16.4.0'
+  - '@next/swc-win32-x64-msvc@16.4.0'
+  - knip@6.40.0
+  - next@16.4.0
+  - react-i18next@17.0.16
+  - svelte@5.57.2
 overrides:
   "@react-native-async-storage/async-storage": ">=2.2.0"
   "@reown/appkit": ">=1.8.20"
