@@ -1,0 +1,134 @@
+[
+  {
+    "name": "@lifi/widget · LiFiWidget (without translations)",
+    "path": "packages/widget/dist/esm/index.js",
+    "import": "{ LiFiWidget }",
+    "ignore": ["react", "react-dom", "@tanstack/react-query", "*.json"],
+    "limit": "321 kB"
+  },
+  {
+    "name": "@lifi/widget · English translations (always loaded)",
+    "path": [
+      "packages/widget/dist/esm/i18n/en.json",
+      "packages/wallet-management/dist/esm/i18n/en.json"
+    ],
+    "limit": "10 kB",
+    "disablePlugins": ["@size-limit/esbuild"]
+  },
+  {
+    "name": "@lifi/widget · /shared (all exports)",
+    "path": "packages/widget/dist/esm/shared.js",
+    "import": "*",
+    "ignore": ["react", "react-dom", "@tanstack/react-query", "*.json"],
+    "limit": "206 kB"
+  },
+  {
+    "name": "@lifi/widget · /queries (all exports)",
+    "path": "packages/widget/dist/esm/queries/index.js",
+    "import": "*",
+    "ignore": ["react", "react-dom", "@tanstack/react-query", "*.json"],
+    "limit": "3 kB"
+  },
+  {
+    "name": "@lifi/widget · /skeleton (WidgetSkeleton)",
+    "path": "packages/widget/dist/esm/components/Skeleton/WidgetSkeleton.js",
+    "import": "{ WidgetSkeleton }",
+    "ignore": ["react", "react-dom", "@tanstack/react-query", "*.json"],
+    "limit": "53 kB"
+  },
+  {
+    "name": "@lifi/wallet-management · all exports (without translations)",
+    "path": "packages/wallet-management/dist/esm/index.js",
+    "import": "*",
+    "ignore": ["react", "react-dom", "@tanstack/react-query", "*.json"],
+    "limit": "88 kB"
+  },
+  {
+    "name": "@lifi/widget-light · LiFiWidgetLight",
+    "path": "packages/widget-light/dist/esm/index.js",
+    "import": "{ LiFiWidgetLight }",
+    "ignore": [
+      "react",
+      "@bigmi/client",
+      "@bigmi/react",
+      "@mysten/dapp-kit-react",
+      "@wagmi/core",
+      "@wallet-standard/base",
+      "viem",
+      "wagmi"
+    ],
+    "limit": "2 kB"
+  },
+  {
+    "name": "Providers · ethereum",
+    "path": "packages/widget-provider-ethereum/dist/esm/index.js",
+    "import": "{ EthereumProvider }",
+    "ignore": [
+      "react",
+      "wagmi",
+      "@wagmi/core",
+      "@lifi/sdk",
+      "@lifi/widget-provider"
+    ],
+    "limit": "117 kB"
+  },
+  {
+    "name": "Providers · solana",
+    "path": "packages/widget-provider-solana/dist/esm/index.js",
+    "import": "{ SolanaProvider }",
+    "ignore": ["react", "bs58", "@lifi/sdk", "@lifi/widget-provider"],
+    "limit": "36 kB"
+  },
+  {
+    "name": "Providers · bitcoin",
+    "path": "packages/widget-provider-bitcoin/dist/esm/index.js",
+    "import": "{ BitcoinProvider }",
+    "ignore": ["react", "@bigmi/react", "@lifi/sdk", "@lifi/widget-provider"],
+    "limit": "106 kB"
+  },
+  {
+    "name": "Providers · sui",
+    "path": "packages/widget-provider-sui/dist/esm/index.js",
+    "import": "{ SuiProvider }",
+    "ignore": [
+      "react",
+      "@mysten/dapp-kit-react",
+      "@lifi/sdk",
+      "@lifi/widget-provider"
+    ],
+    "limit": "82 kB"
+  },
+  {
+    "name": "Providers · tron (incl. WalletConnect loaded on demand)",
+    "path": "packages/widget-provider-tron/dist/esm/index.js",
+    "import": "{ TronProvider }",
+    "ignore": [
+      "react",
+      "@tronweb3/tronwallet-adapter-react-hooks",
+      "@lifi/sdk",
+      "@lifi/widget-provider"
+    ],
+    "limit": "876 kB"
+  },
+  {
+    "name": "Providers · stellar",
+    "path": "packages/widget-provider-stellar/dist/esm/index.js",
+    "import": "{ StellarProvider }",
+    "ignore": ["react", "@lifi/sdk", "@lifi/widget-provider"],
+    "limit": "212 kB"
+  },
+  {
+    "name": "Full integration · LiFiWidget + all providers + their peers (incl. on-demand code)",
+    "import": {
+      "packages/widget/dist/esm/index.js": "{ LiFiWidget }",
+      "packages/widget-provider-ethereum/dist/esm/index.js": "{ EthereumProvider }",
+      "packages/widget-provider-solana/dist/esm/index.js": "{ SolanaProvider }",
+      "packages/widget-provider-bitcoin/dist/esm/index.js": "{ BitcoinProvider }",
+      "packages/widget-provider-sui/dist/esm/index.js": "{ SuiProvider }",
+      "packages/widget-provider-tron/dist/esm/index.js": "{ TronProvider }",
+      "packages/widget-provider-stellar/dist/esm/index.js": "{ StellarProvider }"
+    },
+    "ignore": ["react", "react-dom", "@tanstack/react-query"],
+    "limit": "2278 kB"
+  }
+]
