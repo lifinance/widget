@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-LI.FI Widget monorepo — a cross-chain DeFi swap/bridge widget supporting Ethereum, Solana, Bitcoin, Sui, and Tron ecosystems. Managed with pnpm workspaces, Changesets (independent versioning), and TypeScript composite builds.
+LI.FI Widget monorepo — a cross-chain DeFi swap/bridge widget supporting Ethereum, Solana, Bitcoin, Sui, Tron, and Stellar ecosystems, plus Zcash as a destination-only chain. Managed with pnpm workspaces, Changesets (independent versioning), and TypeScript composite builds.
 
 ## Commands
 
