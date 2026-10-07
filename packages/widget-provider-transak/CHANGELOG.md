@@ -1,5 +1,12 @@
 # @lifi/widget-provider-transak
 
+## 4.0.5
+
+### Patch Changes
+
+- Updated dependencies [[`10d954a`](https://github.com/lifinance/widget/commit/10d954aaa9d4cc125c08045c0dd872d2549ec753), [`97e59c5`](https://github.com/lifinance/widget/commit/97e59c58c719805198e030a14fbe72fabde010c8), [`97e59c5`](https://github.com/lifinance/widget/commit/97e59c58c719805198e030a14fbe72fabde010c8)]:
+  - @lifi/widget-provider@4.6.0
+
 ## 4.0.4
 
 ### Patch Changes
