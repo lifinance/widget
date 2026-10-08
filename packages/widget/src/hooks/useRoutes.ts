@@ -674,9 +674,31 @@ export const useRoutes = ({
         setIntermediateRoutes(queryKey, initialRoutes)
         emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
         // Return early if we're only using main routes
-      } else if (shouldUseMainRoutes && !shouldUseRelayerQuote) {
+      } else if (shouldUseMainRoutes) {
         // If we don't need relayer quote, return the initial routes
         emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
+        if (shouldUseRelayerQuote) {
+          // No main route, and a relayer quote still in flight. The no-route
+          // answer goes out now rather than waiting on the relayer — seconds,
+          // or as long as it hangs — and a route it brings later takes its
+          // place, unless a newer request or answer has moved on since.
+          relayerQuotePromise.then((relayerRoute) => {
+            const state = queryClient.getQueryState<RoutesQueryData>(queryKey)
+            if (
+              !relayerRoute ||
+              !state ||
+              state.fetchStatus !== 'idle' ||
+              state.data?.routes.length
+            ) {
+              return
+            }
+            queryClient.setQueryData<RoutesQueryData>(queryKey, {
+              routes: [relayerRoute],
+              issues: noIssues,
+            })
+            emitter.emit(WidgetEvent.AvailableRoutes, [relayerRoute])
+          })
+        }
         return { routes: initialRoutes, issues: issuesFor(initialRoutes) }
       }
 
