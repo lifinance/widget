@@ -212,6 +212,45 @@ const declaredRange: RouteIssueRule = {
     evidence.direction && bucketByDirection[evidence.direction],
 }
 
+// Houdini, on the private tab, states its range beside the amount it was asked
+// to move, all three in one decimal unit — so the text alone settles the
+// direction. A figure needs the unit to be the user's token, which the stated
+// amount proves only when it is the user's own amount.
+const statedBounds: RouteIssueRule = {
+  id: 'statedBounds',
+  bucket: 'amountTooLow',
+  match: {
+    fragment:
+      /Amount ([\d.]+) is out of .+ bounds \(min ([\d.]+), max ([\d.]+)\)/,
+  },
+  extract: (match, context): RouteIssueEvidence | null => {
+    // As in declaredRange: without a send amount there is nothing it describes.
+    if (context.fromAmount <= 0n) {
+      return null
+    }
+    const [amount, min, max] = [match[1], match[2], match[3]].map(Number)
+    const direction =
+      amount < min ? 'raise' : amount > max ? 'lower' : undefined
+    if (!direction) {
+      return null
+    }
+    const inUserUnits = (value: string): bigint | undefined => {
+      try {
+        return parseUnits(value, context.fromTokenDecimals)
+      } catch {
+        return undefined
+      }
+    }
+    const own = inUserUnits(match[1]) === context.fromAmount
+    const bound = inUserUnits(direction === 'raise' ? match[2] : match[3])
+    return own && bound !== undefined
+      ? { direction, requiredFromAmount: bound }
+      : { direction }
+  },
+  bucketFrom: (evidence): RouteIssueBucket | undefined =>
+    evidence.direction && bucketByDirection[evidence.direction],
+}
+
 // The first matching fragment wins, so the suppressed ones come first: they
 // claim prose a later, more general rule would otherwise turn into a card.
 export const routeIssueRules: RouteIssueRule[] = [
@@ -320,6 +359,7 @@ export const routeIssueRules: RouteIssueRule[] = [
     (match, context, path) => legLimit('lower', match[1], context, path)
   ),
   declaredRange,
+  statedBounds,
   fragmentRule(
     'dexMinSwapValue',
     'amountTooLow',
