@@ -239,8 +239,7 @@ export const TokenDetailsSheetContent = ({
             <statusIcon.Icon
               sx={{
                 flexShrink: 0,
-                mt: '2px',
-                fontSize: 16,
+                fontSize: 20,
                 color: statusIcon.color,
               }}
             />
