@@ -335,6 +335,32 @@ describe('an empty main result beside a relayer quote', () => {
     expect(emittedRoutes()).toEqual([[], [{ id: 'relayer-route' }]])
   })
 
+  // The user changed the amount before the relayer answered. Its route belongs
+  // to an amount no longer in the form, and integrators must not hear of it.
+  it('drops a late relayer route for a request the user has left', async () => {
+    let release = (_route: unknown): void => {}
+    mocks.getRelayerQuote
+      .mockReturnValueOnce(
+        new Promise((resolve) => {
+          release = resolve
+        })
+      )
+      .mockResolvedValue(null)
+    render()
+    await settled()
+    expect(emittedRoutes()).toEqual([[]])
+
+    mocks.fields.fromAmount = '6'
+    render()
+    await vi.waitFor(() => expect(mocks.getRoutes).toHaveBeenCalledTimes(2))
+    await settled()
+
+    act(() => release({ id: 'relayer-route' }))
+    await new Promise((resolve) => setTimeout(resolve, 20))
+    expect(emittedRoutes()).toEqual([[], []])
+    expect(hook().routes).toEqual([])
+  })
+
   // The late route answers an older request. A newer answer that already has a
   // route must not be swapped for it.
   it('keeps a newer answer when the relayer arrives late', async () => {
