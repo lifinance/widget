@@ -4,370 +4,664 @@
     "title": "Ngôn ngữ"
   },
   "format": {
-    "currency": "",
-    "number": "{{value, number(maximumFractionDigits: 9)}}",
-    "percent": "",
-    "tokenAmount": ""
+    "currency": "{{value, currencyExt(currency: USD)}}",
+    "percent": "{{value, percent(maximumFractionDigits: 2)}}",
+    "tokenAmount": "{{value, numberExt}}"
   },
   "button": {
     "auto": "Tự động",
-    "bookmark": "Đánh dấu",
-    "bookmarks": "Dấu trang",
-    "bridge": "Cầu",
-    "bridgeReview": "",
+    "bookmark": "Lưu",
+    "bridge": "Cầu nối",
+    "bridgeReview": "Xem lại cầu nối",
     "buy": "Mua",
-    "cancel": "Huỷ bỏ",
-    "checkoutReview": "",
-    "clear": "",
-    "clearAllFailed": "",
-    "clearTransaction": "",
+    "cancel": "Hủy",
+    "checkoutReview": "Xem lại giao dịch mua",
+    "clear": "Xóa",
+    "clearAllFailed": "Xóa tất cả giao dịch thất bại",
+    "clearTransaction": "Xóa giao dịch",
     "close": "Đóng",
     "confirm": "Xác nhận",
-    "connectAnotherWallet": "",
-    "connectChainWallet": "",
+    "connectAnotherWallet": "Kết nối ví khác",
+    "connectChainWallet": "Kết nối ví {{chain}}",
     "connectWallet": "Kết nối ví",
     "contactSupport": "Liên hệ hỗ trợ",
     "continue": "Tiếp tục",
     "copyAddress": "Sao chép địa chỉ",
     "dark": "Tối",
     "delete": "Xóa",
-    "deposit": "",
-    "depositReview": "",
+    "deposit": "Nạp",
+    "depositWithCash": "Nạp bằng thẻ",
+    "pay": "Thanh toán",
+    "depositReview": "Xem lại khoản nạp",
+    "connectExchange": "Kết nối sàn giao dịch",
+    "transferCrypto": "Chuyển tiền mã hóa",
     "disconnect": "Ngắt kết nối",
-    "done": "Hoàn thành",
-    "exchange": "Hoán đổi",
-    "getGas": "Thiết lập gas",
-    "learnMore": "Xem thêm",
+    "done": "Xong",
+    "exchange": "Giao dịch",
+    "getGas": "Nhận gas",
     "light": "Sáng",
-    "max": "",
-    "ok": "Ok",
-    "options": "Tùy chỉnh",
+    "max": "Tối đa",
+    "options": "Tùy chọn",
+    "requestRefund": "Yêu cầu hoàn tiền",
     "reset": "Đặt lại",
     "resetSettings": "Đặt lại cài đặt",
-    "seeDetails": "Xem chi tiết",
+    "resumeTransaction": "Tiếp tục giao dịch",
+    "review": "Xem lại",
+    "topUp": "Nạp thêm",
+    "viewRefund": "Xem khoản hoàn tiền",
+    "viewRefundStatus": "Xem trạng thái hoàn tiền",
+    "viewTransferDetails": "Xem chi tiết chuyển tiền",
     "showAll": "Hiển thị tất cả",
-    "showLess": "",
-    "showMore": "",
-    "startBridging": "Bắt đầu đi cầu",
-    "startSwapping": "Bắt đầu Swap",
-    "swap": "Swap",
-    "swapReview": "",
-    "system": "",
+    "showLess": "Thu gọn",
+    "showMore": "Hiển thị thêm {{count}}",
+    "startBridging": "Bắt đầu chuyển qua cầu nối",
+    "startSwapping": "Bắt đầu hoán đổi",
+    "swap": "Hoán đổi",
+    "swapReview": "Xem lại hoán đổi",
+    "system": "Hệ thống",
     "tryAgain": "Thử lại",
-    "viewCoverage": "Xem phạm vi bảo hiểm",
-    "viewOnExplorer": "Xem tại Explorer"
+    "viewOnExplorer": "Xem trên explorer"
   },
   "header": {
-    "amount": "",
-    "bookmarkedWallets": "Ví được đánh dấu",
-    "bridge": "Cầu",
+    "amount": "Số lượng",
+    "bookmarkedWallets": "Ví đã lưu",
+    "bridge": "Cầu nối",
+    "buy": "Mua",
     "checkout": "Thanh toán",
-    "checkoutDetails": "",
-    "deposit": "",
-    "depositDetails": "",
-    "depositTo": "",
-    "exchange": "Hoán đổi",
-    "from": "Swap từ",
+    "checkoutDetails": "Chi tiết thanh toán",
+    "deposit": "Nạp",
+    "depositWithCash": "Nạp bằng thẻ",
+    "depositAddress": "Địa chỉ nạp",
+    "depositDetails": "Chi tiết nạp",
+    "depositTo": "Nạp vào",
+    "connectExchange": "Kết nối sàn giao dịch",
+    "transferCrypto": "Chuyển tiền mã hóa",
+    "currency": "Tiền tệ",
+    "exchange": "Giao dịch",
+    "from": "Giao dịch từ",
     "gas": "Gas",
+    "limit": "Giới hạn",
     "payWith": "Thanh toán bằng",
-    "receive": "",
-    "received": "",
-    "recentWallets": "Các ví đã dùng gần đây",
-    "refunded": "",
-    "selectChain": "Chọn chain",
-    "selectWallet": "Chọn ví",
-    "send": "",
-    "sendToWallet": "Chuyển đến ví",
+    "private": "Riêng tư",
+    "receive": "Nhận",
+    "received": "Đã nhận",
+    "recentWallets": "Ví gần đây",
+    "refunded": "Đã hoàn tiền",
+    "selectChain": "Chọn chuỗi",
+    "sell": "Bán",
+    "send": "Gửi",
+    "sendToWallet": "Gửi đến ví",
     "settings": "Cài đặt",
-    "swap": "Swap",
-    "to": "Swap từ",
+    "swap": "Hoán đổi",
+    "swapAndBridge": "Hoán đổi & Cầu nối",
+    "to": "Giao dịch sang",
     "transactionDetails": "Chi tiết giao dịch",
-    "activities": "",
-    "walletConnected": "Wallet connected",
-    "youGet": "Bạn nhận",
-    "youPay": ""
+    "activities": "Hoạt động",
+    "youPay": "Bạn trả"
+  },
+  "limitOrder": {
+    "custom": "Tùy chỉnh",
+    "expiresIn": "Hết hạn sau",
+    "market": "Thị trường",
+    "partiallyFillable": "Cho phép khớp một phần",
+    "price": "Giá giới hạn",
+    "priceLabel": "Khi 1 {{symbol}} có giá"
   },
   "info": {
     "message": {
-      "accountDeployedMessage": "",
-      "unsupportedToAddressMessage": "",
-      "autoRefuel": "Gas trên {{chainName}} chain của bạn đang thấp. Để tiếp tục, bạn nên có thêm gas để hoàn thành việc swap.",
-      "emptyBridgesList": "",
-      "emptyChainList": "",
-      "emptyExchangesList": "",
-      "emptyTokenListAllNetworks": "",
-      "emptyTransactionHistory": "",
-      "routeNotFound": "Lý do cho điều đó có thể là: tính thanh khoản thấp, số tiền được chọn quá thấp, chi phí gas quá cao hoặc không có lộ trình cho cặp giao dịch đã chọn.",
-      "missingRouteRequiredAccount": ""
+      "accountDeployedMessage": "Tài khoản thông minh của bạn có thể không có cùng địa chỉ trên các chuỗi khác. Vui lòng kiểm tra kỹ trước khi tiếp tục.",
+      "unsupportedToAddressMessage": "Giao dịch trên Stellar luôn được chuyển về tài khoản đã ký giao dịch, nên không thể dùng người nhận khác cho lộ trình này.",
+      "autoRefuel": "Bạn sắp hết gas trên {{chainName}}. Khi tiếp tục, bạn sẽ nhận đủ gas để hoàn tất giao dịch.",
+      "emptyBridgesList": "Không tìm thấy cầu nối nào phù hợp với tìm kiếm của bạn",
+      "emptyChainList": "Không tìm thấy chuỗi nào phù hợp với tìm kiếm của bạn",
+      "emptyExchangesList": "Không tìm thấy DEX nào phù hợp với tìm kiếm của bạn",
+      "emptyTokenListAllNetworks": "Không tìm thấy token nào. Nếu token của bạn không hiển thị, vui lòng tìm theo địa chỉ hợp đồng hoặc thử chọn chuỗi khác.",
+      "emptyTransactionHistory": "Giao dịch của bạn sẽ hiển thị tại đây sau khi bạn hoàn tất giao dịch đầu tiên.",
+      "routeNotFound": "Nguyên nhân có thể là: thanh khoản thấp, số lượng đã chọn quá thấp, chi phí gas quá cao hoặc không có lộ trình cho tổ hợp token và chuỗi đã chọn.",
+      "missingRouteRequiredAccount": "Kết nối ví {{chainName}} của bạn để tiếp tục. {{address}}"
     },
     "title": {
-      "autoRefuel": "",
-      "emptyTransactionHistory": "Chưa có giao dịch",
-      "routeNotFound": "Không có đường đi"
+      "autoRefuel": "Nhận gas trên {{chainName}}",
+      "emptyTransactionHistory": "Chưa có giao dịch gần đây",
+      "routeNotFound": "Không có lộ trình"
     }
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": ""
+      "exchangePartiallySuccessful": "Chúng tôi đã cố gắng hoàn tất giao dịch, nhưng {{tool}} không thể tiếp tục do cài đặt trượt giá hoặc thiếu thanh khoản cho token {{tokenSymbol}}."
     },
     "title": {
-      "bridgePartiallySuccessful": "Swap thành công một phần",
-      "bridgeSuccessful": "Bridge thành công",
-      "depositSuccessful": "",
-      "checkoutSuccessful": "",
-      "refundIssued": "Đã Refund",
-      "swapPartiallySuccessful": "Swap thành công một phần",
-      "swapSuccessful": "Swap thành công"
+      "bridgePartiallySuccessful": "Chuyển qua cầu nối thành công một phần",
+      "bridgeSuccessful": "Chuyển qua cầu nối thành công",
+      "depositSuccessful": "Nạp thành công",
+      "checkoutSuccessful": "Mua thành công",
+      "refundIssued": "Đã hoàn tiền",
+      "swapPartiallySuccessful": "Hoán đổi thành công một phần",
+      "swapSuccessful": "Hoán đổi thành công"
     }
   },
   "warning": {
     "message": {
-      "tokenUnverified": "",
-      "tokenUnverifiedByProvider": "",
-      "accountNotDeployedMessage": "",
-      "lowAddressActivity": "",
-      "clearFailedTransactions": "",
-      "fundsLossPrevention": "",
-      "highValueLoss": "Giá trị của token nhận được đang thấp hơn rất nhiều so với token được swap và chi phí giao dịch.",
-      "insufficientFunds": "Bạn không có đủ tiền để thực hiện tác vụ này.",
-      "insufficientGas": "Bạn không đủ gas để thực hiện swap. Bạn cần thêm ít nhất:",
-      "minFromAmountUSD": "",
-      "rateChanged": "Tỉ lệ hoán đổi đã thay đổi. Để tiếp tục Swap, bạn sẽ chấp nhận tỉ lệ mới.",
-      "resetSettings": "Thao tác này sẽ đặt lại mức độ ưu tiên của tuyến đường, độ trượt giá, giá gas, bridge và sàn giao dịch.",
-      "slippageOutsideRecommendedLimits": "Khả năng trượt giá cao có thể dẫn đến giao dịch không thành công do front-running.",
-      "slippageUnderRecommendedLimits": ""
+      "tokenUnverified": "Token chưa được xác minh. Hãy luôn tự nghiên cứu kỹ trước khi tiếp tục.",
+      "tokenUnverifiedByProvider": "{{tokenSymbol}} chưa được Hypernative xác minh. Hãy chắc chắn bạn tin tưởng token này trước khi tiếp tục.",
+      "accountNotDeployedMessage": "Tài khoản hợp đồng thông minh không tồn tại trên chuỗi đích. Gửi tiền đến tài khoản hợp đồng thông minh không tồn tại có thể khiến bạn mất tiền vĩnh viễn.",
+      "lowAddressActivity": "Địa chỉ này ít hoạt động trên mạng {{chainName}}. Vui lòng kiểm tra để chắc chắn bạn đang gửi đến đúng địa chỉ và mạng, tránh nguy cơ mất tiền.",
+      "clearFailedTransactions": "Giao dịch thất bại chỉ được lưu trên thiết bị này và không thể khôi phục sau khi xóa.",
+      "fundsLossPrevention": "Hãy luôn đảm bảo tài khoản hợp đồng thông minh đã được thiết lập đúng trên chuỗi đích và tránh chuyển trực tiếp đến sàn giao dịch để không bị mất tiền.",
+      "highValueLoss": "Giá trị token nhận được thấp hơn đáng kể so với tổng giá trị token gửi đi và chi phí giao dịch.",
+      "tokenFlagged": "{{tokenSymbol}} đã bị Hypernative gắn cờ độc hại. Hoán đổi token này có thể khiến bạn mất toàn bộ tiền.",
+      "insufficientFunds": "Bạn không có đủ tiền để hoàn tất giao dịch.",
+      "insufficientGas": "Bạn không có đủ gas để hoàn tất giao dịch. Bạn cần thêm ít nhất:",
+      "minFromAmountUSD": "Số tiền tối thiểu là {{amount, currencyExt(currency: USD)}}. Vui lòng nhập số tiền lớn hơn.",
+      "rateChanged": "Tỷ giá đã thay đổi. Nếu tiếp tục giao dịch, bạn sẽ chấp nhận tỷ giá mới.",
+      "resetSettings": "Thao tác này sẽ đặt lại ưu tiên lộ trình, trượt giá, giá gas, cầu nối và DEX đã bật.",
+      "slippageOutsideRecommendedLimits": "Mức trượt giá cao có thể khiến giao dịch bất lợi do bị front-running.",
+      "slippageUnderRecommendedLimits": "Mức trượt giá thấp có thể khiến giao dịch bị chậm hoặc thất bại."
     },
     "checkbox": {
-      "highValueLoss": ""
+      "highValueLoss": "Tôi chấp nhận tổn thất giá trị lớn",
+      "tokenFlagged": "Tôi hiểu rủi ro và vẫn muốn tiếp tục"
     },
     "title": {
-      "clearFailedTransactions": "",
-      "highValueLoss": "Tổn thất lớn",
+      "clearFailedTransactions": "Xóa tất cả giao dịch thất bại?",
+      "highValueLoss": "Tổn thất giá trị lớn",
       "insufficientGas": "Không đủ gas",
-      "rateChanged": "Tỉ giá đã thay đổi",
+      "rateChanged": "Tỷ giá đã thay đổi",
       "resetSettings": "Đặt lại cài đặt?",
-      "lowAddressActivity": ""
+      "tokenFlagged": "Phát hiện token độc hại",
+      "lowAddressActivity": "Địa chỉ ít hoạt động"
     }
   },
   "error": {
     "message": {
-      "allowanceRequired": "Chuyển số lượng {{tokenSymbol}} vượt quá mức cho phép hiện tại của bạn. Vui lòng tăng mức độ cho phép sử dụng token và thử lại.",
-      "insufficientFunds": "Bạn không có đủ gas để chi trả cho chi phí giao dịch.",
-      "rateLimitExceeded": "",
-      "remainInYourWallet": "",
-      "signatureRejected": "",
-      "slippageThreshold": "Độ trượt giá lớn hơn ngưỡng xác định. Vui lòng yêu cầu một tuyến đường mới để nhận báo giá mới.",
-      "thirdPartyError": "",
-      "transactionCanceled": "Giao dịch đã bị huỷ.",
-      "transactionConflict": "",
-      "transactionExpired": "",
-      "transactionRejected": "",
-      "transactionFailed": "Vui lòng kiểm tra block explorer để biết thêm thông tin.",
-      "transactionNotSent": "Giao dịch không được gửi.",
-      "transactionSimulationFailed": "",
-      "unknown": "Vui lòng thử lại hoặc liên hệ hỗ trợ.",
+      "allowanceRequired": "Số lượng {{tokenSymbol}} cần chuyển vượt quá hạn mức phê duyệt hiện tại. Vui lòng tăng hạn mức phê duyệt và thử lại.",
+      "insufficientFunds": "Bạn không có đủ gas để trả chi phí giao dịch.",
+      "rateLimitExceeded": "Có quá nhiều yêu cầu trong thời gian ngắn. Vui lòng chờ một lát rồi thử lại, hoặc liên hệ bộ phận hỗ trợ nếu sự cố vẫn tiếp diễn.",
+      "remainInYourWallet": "{{amount, numberExt}} {{tokenSymbol}} trên {{chainName}} vẫn còn trong ví của bạn.",
+      "signatureRejected": "Cần chữ ký của bạn để hoàn tất giao dịch. {{amount, numberExt}} {{tokenSymbol}} trên {{chainName}} vẫn còn trong ví của bạn.",
+      "slippageThreshold": "Trượt giá vượt quá ngưỡng đã đặt. Vui lòng yêu cầu báo giá mới.",
+      "thirdPartyError": "Chúng tôi không thể hoàn tất yêu cầu của bạn do sự cố từ dịch vụ bên ngoài. Vui lòng thử lại hoặc liên hệ bộ phận hỗ trợ nếu sự cố vẫn tiếp diễn.",
+      "transactionCanceled": "Giao dịch đã bị hủy.",
+      "transactionConflict": "Không thể xử lý giao dịch vì giao dịch này xung đột với một giao dịch khác đang chờ xử lý dùng cùng nguồn tiền. Vui lòng chờ giao dịch kia được xác nhận hoặc kiểm tra lịch sử giao dịch trước khi thử lại.",
+      "transactionExpired": "Chiều cao khối đã vượt quá giới hạn cho phép hoặc blockhash không còn đủ mới.",
+      "transactionRejected": "Giao dịch bị từ chối do lỗi nội bộ của ví. Vui lòng thử lại hoặc yêu cầu báo giá mới.",
+      "transactionFailed": "Vui lòng kiểm tra trên explorer để biết thêm thông tin.",
+      "transactionNotSent": "Giao dịch chưa được gửi.",
+      "transactionSimulationFailed": "Không thể thực thi giao dịch khi mô phỏng.",
+      "unknown": "Vui lòng thử lại hoặc liên hệ bộ phận hỗ trợ.",
       "walletChangedDuringExecution": "Địa chỉ ví yêu cầu báo giá không khớp với địa chỉ ví đang cố gắng ký giao dịch. Vui lòng đảm bảo sử dụng cùng một địa chỉ ví trong toàn bộ quá trình thực hiện giao dịch."
     },
     "title": {
-      "allowanceRequired": "Sự cho phép không đủ",
+      "allowanceRequired": "Hạn mức phê duyệt không đủ",
       "balanceIsTooLow": "Số dư quá thấp",
-      "bookmarkAlreadyExists": "Ví đã được đánh dấu là {{name}}",
-      "bookmarkNameRequired": "Tên dấu trang là bắt buộc",
-      "chainSwitch": "Yêu cầu đổi chain",
+      "bookmarkAlreadyExists": "Ví đã được lưu với tên {{name}}",
+      "bookmarkNameRequired": "Cần nhập tên ví",
+      "chainSwitch": "Cần chuyển chuỗi",
       "exchangeRateUpdateCanceled": "Đã hủy cập nhật tỷ giá",
       "gasLimitIsTooLow": "Giới hạn gas quá thấp",
-      "insufficientFunds": "Không đủ tài sản",
-      "insufficientGas": "",
-      "rateLimitExceeded": "",
-      "signatureRejected": "Yêu cầu chữ ký",
-      "slippageNotMet": "Điều kiện trượt giá không được đáp ứng",
-      "thirdPartyError": "",
-      "transactionCanceled": "Giao dịch bị huỷ",
-      "transactionConflict": "",
-      "transactionExpired": "",
-      "transactionFailed": "Giao dịch không thành công",
-      "transactionRejected": "",
-      "transactionSimulationFailed": "",
-      "transactionUnderpriced": "Giao dịch bị định giá thấp",
-      "transactionUnprepared": "Không thể tải giao dịch",
-      "unknown": "Xảy ra lỗi",
+      "insufficientFunds": "Không đủ tiền",
+      "insufficientGas": "Không đủ gas",
+      "rateLimitExceeded": "Đã vượt giới hạn yêu cầu",
+      "signatureRejected": "Cần chữ ký",
+      "slippageNotMet": "Không đáp ứng điều kiện trượt giá",
+      "thirdPartyError": "Dịch vụ bên thứ ba không khả dụng",
+      "transactionCanceled": "Đã hủy giao dịch",
+      "transactionConflict": "Xung đột giao dịch",
+      "transactionExpired": "Giao dịch đã hết hạn",
+      "transactionFailed": "Giao dịch thất bại",
+      "transactionRejected": "Giao dịch bị từ chối",
+      "transactionSimulationFailed": "Mô phỏng giao dịch thất bại",
+      "transactionUnderpriced": "Giá gas của giao dịch quá thấp",
+      "transactionUnprepared": "Không thể chuẩn bị giao dịch",
+      "unknown": "Đã xảy ra lỗi",
       "walletAddressInvalid": "Địa chỉ ví hoặc tên miền không hợp lệ",
       "walletAddressInvalid_chain": "Địa chỉ ví hoặc tên miền không hợp lệ đối với chuỗi đích đã chọn {{chainName}}",
-      "walletAddressRequired": "Yêu cầu địa chỉ ví.",
+      "walletAddressRequired": "Cần nhập địa chỉ ví.",
       "walletChainTypeInvalid": "Địa chỉ ví không khớp với chuỗi đích đã chọn {{chainName}}",
       "walletMismatch": "Địa chỉ ví không khớp",
-      "zcashAddressInvalid": ""
+      "zcashAddressInvalid": "Nhập địa chỉ Zcash transparent (t1 hoặc t3) hoặc địa chỉ unified (u1) có receiver Orchard. Không hỗ trợ địa chỉ Sapling (zs1) và TEX."
     }
   },
   "tooltip": {
     "deselectAll": "Bỏ chọn tất cả",
-    "estimatedTime": "",
-    "exchangeRate": "",
-    "feeCollection": "",
-    "minReceived": "",
+    "estimatedTime": "Thời gian hoàn tất giao dịch hoán đổi hoặc cầu nối, chưa tính thời gian chuyển chuỗi và phê duyệt token.",
+    "exchangeRate": "Tỷ giá quy đổi ước tính giữa token nguồn và token đích. Nhấn để đổi chiều.",
+    "feeCollection": "Phí được áp dụng cho một số cặp token nhất định và giúp chúng tôi mang lại trải nghiệm tốt nhất.",
+    "minReceived": "Số lượng tối thiểu ước tính có thể thay đổi cho đến khi giao dịch hoán đổi/cầu nối được ký. Với giao dịch 2 bước, điều này áp dụng cho đến khi giao dịch ở bước thứ hai được ký.",
     "notFound": {
       "text": "Chúng tôi không thể tìm thấy trang này.",
       "title": "404"
     },
-    "multistep": "",
-    "gasless": "",
-    "numberOfSteps": "",
-    "priceImpact": "",
-    "progressToNextUpdate": "Thông tin hiển thị sẽ tự động làm mới sau {{value}} giây. Bấm vào đây để cập nhật thủ công.",
+    "multistep": "Lộ trình này cần nhiều giao dịch để hoàn tất. Mỗi bước có thể gồm 1-2 giao dịch cần chữ ký.",
+    "gasless": "Chúng tôi lo phí gas, nên bạn có thể chuyển tài sản mà không cần giữ token gốc. Phí mạng đã được tính vào giao dịch.",
+    "priceImpact": "Chênh lệch giá trị ước tính giữa token nguồn và token đích.",
+    "progressToNextUpdate": "Báo giá sẽ cập nhật sau {{value}} giây. <0/> Nhấn vào đây để cập nhật ngay.",
     "selectAll": "Chọn tất cả",
-    "settingsModified": "Thiết lập (Đã điều chỉnh)",
-    "slippage": ""
+    "settingsModified": "Cài đặt (đã thay đổi)",
+    "slippage": "Mức chênh lệch phần trăm tối đa giữa giá dự kiến và giá thực tế khi giao dịch được thực hiện. Bạn có thể thay đổi giá trị này trong phần cài đặt.",
+    "tokenNative": "{{tokenSymbol}} là token gốc của mạng này.",
+    "tokenNativeOnChain": "{{tokenSymbol}} là token gốc của {{chainName}}.",
+    "tokenVerified": "{{tokenSymbol}} đã được xác minh.",
+    "tokenVerifiedByProvider": "{{tokenSymbol}} đã được {{provider}} xác minh."
   },
   "main": {
-    "allNetworks": "",
-    "allTokens": "Tất cả mã thông báo",
-    "bridgeStepDetails": "Chuyển từ {{from}} đến {{to}} thông qua {{tool}}",
-    "checkoutStepDetails": "Thanh toán thông qua {{tool}}",
-    "currentAmount": "Số lượng hiện tại",
-    "depositStepDetails": "Nạp thông qua {{tool}}",
-    "estimatedTime": "",
-    "exchangeRate": "",
-    "featuredTokens": "Featured tokens",
+    "allNetworks": "Tất cả mạng",
+    "allTokens": "Tất cả token",
+    "bridgeStepDetails": "Chuyển từ {{from}} sang {{to}} qua cầu nối {{tool}}",
+    "checkoutStepDetails": "Mua qua {{tool}}",
+    "currentAmount": "Số tiền hiện tại",
+    "depositStepDetails": "Nạp qua {{tool}}",
+    "estimatedTime": "Thời gian ước tính",
+    "exchangeRate": "Tỷ giá",
+    "featuredTokens": "Token nổi bật",
     "fees": {
-      "defaultIntegrator": "",
-      "relayerService": "",
-      "estimated": "",
-      "free": "",
-      "network": "",
-      "paid": "",
-      "provider": ""
+      "defaultIntegrator": "Phí tích hợp",
+      "relayerService": "Dịch vụ không cần gas",
+      "free": "Miễn phí",
+      "network": "Phí mạng",
+      "provider": "Phí nhà cung cấp"
     },
     "from": "Từ",
-    "inProgress": "đang xử lý",
-    "maxSlippage": "",
-    "minReceived": "",
-    "myTokens": "Mã thông báo của tôi",
-    "onChain": "tại {{chainName}}",
-    "ownedBy": "Được sở hữu bởi",
-    "pinnedTokens": "",
-    "popularTokens": "Mã thông báo phổ biến",
-    "priceImpact": "",
+    "maxSlippage": "Trượt giá tối đa",
+    "minReceived": "Tối thiểu nhận được",
+    "myTokens": "Token của tôi",
+    "ownedBy": "Chủ sở hữu",
+    "pinnedTokens": "Token đã ghim",
+    "popularTokens": "Token phổ biến",
+    "priceImpact": "Tác động giá",
     "process": {
       "bridge": {
-        "actionRequired": "",
-        "messageRequired": "",
-        "done": "Giao dịch cầu đã được xác nhận",
-        "pending": "",
-        "started": "Chuẩn bị giao dịch cầu"
+        "actionRequired": "Ký giao dịch cầu nối",
+        "messageRequired": "Ký tin nhắn cầu nối",
+        "done": "Đã xác nhận giao dịch cầu nối",
+        "pending": "Giao dịch cầu nối đang chờ xử lý",
+        "started": "Đang chuẩn bị giao dịch cầu nối"
       },
       "checkout": {
-        "done": "Thanh toán hoàn tất"
+        "done": "Đã hoàn tất giao dịch mua"
       },
       "deposit": {
-        "done": "Nạp hoàn tất"
+        "done": "Đã hoàn tất nạp"
       },
       "receivingChain": {
-        "done": "Bridge thành công",
-        "partial": "Bridge thành công 1 phần",
-        "pending": "Đạng chain đến",
-        "refunded": "Giao dịch Bridge đã được hoàn trả"
+        "done": "Đã hoàn tất giao dịch cầu nối",
+        "partial": "Giao dịch cầu nối hoàn tất một phần",
+        "pending": "Đang chờ chuỗi đích"
       },
       "swap": {
-        "actionRequired": "",
-        "messageRequired": "",
-        "done": "Lệnh swap đã hoàn tất",
-        "pending": "",
-        "started": "Đang chuẩn bị giao dịch Swap"
+        "actionRequired": "Ký giao dịch hoán đổi",
+        "messageRequired": "Ký tin nhắn hoán đổi",
+        "done": "Đã hoàn tất hoán đổi",
+        "pending": "Giao dịch hoán đổi đang chờ xử lý",
+        "started": "Đang chuẩn bị giao dịch hoán đổi"
       },
       "permit": {
-        "actionRequired": "",
-        "done": "",
-        "pending": "",
-        "started": ""
+        "actionRequired": "Ký tin nhắn cấp quyền",
+        "done": "Đã ký tin nhắn cấp quyền",
+        "pending": "Đang chờ tin nhắn cấp quyền",
+        "started": "Đang chuẩn bị giao dịch"
       },
       "tokenAllowance": {
-        "actionRequired": "",
-        "resetRequired": "",
-        "done": "",
-        "pending": "",
-        "started": ""
+        "actionRequired": "Phê duyệt chi tiêu {{tokenSymbol}}",
+        "resetRequired": "Thu hồi quyền chi tiêu {{tokenSymbol}}",
+        "done": "Đã phê duyệt chi tiêu {{tokenSymbol}}",
+        "pending": "Phê duyệt {{tokenSymbol}} đang chờ xử lý",
+        "started": "Đang chuẩn bị giao dịch phê duyệt"
       }
     },
-    "quotedAmount": "Số tiền trích dẫn",
-    "rateChange": "Thay đổi tỉ giá",
-    "receiving": "Đang nhận",
-    "recentSearches": "",
-    "refuelStepDetails": "Lấy gas thông qua {{tool}}",
-    "route": "",
-    "select": "",
-    "sendToAddress": "Gửi đến {{address}}",
-    "sendToWallet": "Gửi đến địa chỉ khác",
-    "sending": "Đang gửi",
-    "sentToAddress": "Gửi đến {{address}}",
-    "stepBridge": "Cầu",
-    "stepBridgeAndBuy": "Chuyển và mua",
-    "stepBridgeAndDeposit": "",
-    "stepBuy": "Mua",
-    "stepDeposit": "",
-    "stepDetails": "{{tool}} thông qua LI.FI",
-    "stepSwap": "",
-    "stepSwapAndBridge": "Swap và Bridge",
-    "stepSwapAndBuy": "Hoán đổi và mua",
-    "stepSwapAndDeposit": "",
-    "swapStepDetails": "Swap tại {{chain}} thông qua {{tool}}",
-    "receipts": "",
-    "sentToWallet": "",
-    "transferId": "",
+    "quotedAmount": "Số tiền báo giá",
+    "rateChange": "Thay đổi tỷ giá",
+    "receiving": "Nhận về",
+    "recentSearches": "Tìm kiếm gần đây",
+    "refuelStepDetails": "Nhận gas qua {{tool}}",
+    "route": "Lộ trình",
+    "select": "Chọn",
+    "sendToWallet": "Gửi đến ví khác",
+    "sending": "Gửi đi",
+    "swapStepDetails": "Hoán đổi trên {{chain}} qua {{tool}}",
+    "receipts": "Biên nhận",
+    "sentToWallet": "Đã gửi đến ví",
+    "transferId": "Mã giao dịch",
     "tags": {
-      "cheapest": "Lợi nhuận tốt nhất",
+      "cheapest": "Giá tốt nhất",
       "fastest": "Nhanh nhất",
-      "gasless": "",
-      "multistep": ""
+      "gasless": "Không cần gas",
+      "multistep": "Nhiều bước"
     },
     "to": "Đến",
-    "tokenOnChain": "{{tokenSymbol}} tại {{chainName}}",
-    "tokenOnChainAmount": "",
-    "tokenSearch": "",
-    "valueLoss": "Bạn sẽ mất",
-    "searchBridges": "",
-    "searchExchanges": "",
-    "searchNetwork": ""
+    "tokenOnChain": "{{tokenSymbol}} trên {{chainName}}",
+    "tokenOnChainAmount": "{{amount, numberExt}} {{tokenSymbol}} trên {{chainName}}",
+    "tokenSearch": "Tìm theo token hoặc địa chỉ",
+    "valueLoss": "Tổn thất giá trị",
+    "searchBridges": "Tìm theo tên cầu nối",
+    "searchCurrency": "Tìm tiền tệ",
+    "searchExchanges": "Tìm theo tên DEX",
+    "searchNetwork": "Tìm mạng"
   },
   "settings": {
-    "appearance": "",
+    "appearance": "Giao diện",
     "enabledBridges": "Cầu nối",
-    "enabledExchanges": "Sàn giao dịch",
+    "enabledExchanges": "DEX",
     "gasPrice": {
       "fast": "Nhanh",
       "normal": "Bình thường",
       "slow": "Chậm",
       "title": "Giá gas"
     },
-    "routePriority": "Tuyền đường ưu tiên",
-    "slippage": "",
-    "custom": "Tuỳ chỉnh",
-    "resetSettings": "Bạn đang sử dụng cài đặt tùy chỉnh có thể ảnh hưởng đến số lượng hoặc cách sắp xếp các tuyến đường có sẵn.",
-    "hideSmallBalances": ""
+    "routePriority": "Ưu tiên lộ trình",
+    "routePriorityOptions": {
+      "cheapest": {
+        "title": "Giá tốt nhất",
+        "description": "Phí mạng thấp nhất"
+      },
+      "fastest": {
+        "title": "Nhanh nhất",
+        "description": "Thời gian thực hiện ngắn nhất"
+      }
+    },
+    "slippage": "Trượt giá tối đa",
+    "slippageAutoDescription": "Tối ưu theo từng lộ trình",
+    "custom": "Tùy chỉnh",
+    "resetSettings": "Bạn đang dùng cài đặt tùy chỉnh, có thể ảnh hưởng đến số lượng hoặc thứ tự các lộ trình khả dụng.",
+    "hideSmallBalances": "Ẩn số dư nhỏ"
   },
   "sendToWallet": {
-    "addBookmark": "Thêm dấu trang",
-    "bookmarkWallet": "Đánh dấu ví",
+    "addBookmark": "Lưu ví mới",
+    "bookmarkWallet": "Lưu ví",
     "confirmWalletAddress": "Xác nhận địa chỉ ví",
     "connectedWallets": "Ví đã kết nối",
     "enterAddress_long": "Nhập địa chỉ ví hoặc tên miền",
     "enterAddress_short": "Nhập địa chỉ ví",
     "enterName": "Nhập tên",
-    "noBookmarkedWallets": "Không có ví được đánh dấu",
-    "noBookmarkedWalletsMessage": "",
-    "noConnectedWallets": "Không có ví được kết nối",
-    "noConnectedWalletsMessage": "",
-    "noRecentWallets": "Không có ví gần đây",
-    "noRecentWalletsMessage": "",
-    "required": ""
+    "noBookmarkedWallets": "Chưa có ví đã lưu",
+    "noBookmarkedWalletsMessage": "Lưu các địa chỉ ví bạn hay dùng để truy cập nhanh.",
+    "noConnectedWallets": "Chưa kết nối ví nào",
+    "noConnectedWalletsMessage": "Kết nối ví để hiển thị ví tại đây.",
+    "noRecentWallets": "Chưa có ví gần đây",
+    "noRecentWalletsMessage": "Các địa chỉ ví bạn dùng gần đây sẽ hiển thị tại đây.",
+    "required": "Bắt buộc"
   },
   "tokenMetric": {
-    "currentPrice": "",
-    "contractAddress": "",
-    "marketCap": "",
-    "volume24h": "",
-    "status": "",
-    "statusFlagged": "",
-    "statusUnverified": "",
-    "statusVerified": ""
+    "currentPrice": "Giá hiện tại",
+    "contractAddress": "Địa chỉ hợp đồng",
+    "marketCap": "Vốn hóa thị trường",
+    "volume24h": "Khối lượng 24h",
+    "status": "Trạng thái",
+    "statusFlagged": "Bị Hypernative gắn cờ độc hại. Giao dịch token này có thể khiến bạn mất toàn bộ tiền.",
+    "statusUnverified": "Chưa được Hypernative xác minh",
+    "statusVerified": "Đã được Hypernative xác minh. Kết quả vẫn có thể sai và chúng tôi không chịu trách nhiệm đối với các cảnh báo này. Hãy luôn tự nghiên cứu kỹ trước khi hành động."
+  },
+  "tags": {
+    "connected": "Đã kết nối",
+    "getStarted": "Bắt đầu",
+    "installed": "Đã cài đặt",
+    "multichain": "Đa chuỗi",
+    "qrCode": "Mã QR"
+  },
+  "checkout": {
+    "closeConfirmation": {
+      "title": "Rời trang thanh toán?",
+      "body": "Đóng trang sẽ không hủy khoản nạp của bạn. Bạn có thể quay lại đây để kiểm tra bất cứ lúc nào.",
+      "confirm": "Đóng trang thanh toán",
+      "cancel": "Hủy"
+    },
+    "abandonConfirmation": {
+      "title": "Hủy chuyển tiền?",
+      "body": "Thông tin nạp của bạn sẽ bị xóa. Đừng gửi tiền đến địa chỉ này sau khi hủy.",
+      "confirm": "Hủy chuyển tiền",
+      "cancel": "Tiếp tục chuyển tiền"
+    },
+    "activity": {
+      "title": "Hoạt động",
+      "deposit": "Nạp",
+      "amountOnChain": "{{amount}} {{symbol}} trên {{chain}}",
+      "depositInProgress": "Đang nạp",
+      "refundInProgress": "Đang hoàn tiền",
+      "couldNotComplete": "Không thể hoàn tất",
+      "singleFailed": "Nạp thất bại. Vui lòng xử lý",
+      "dismiss": "Bỏ qua"
+    },
+    "transak": {
+      "forceClose": {
+        "tooltip": "Đóng (giao dịch sẽ không tiếp tục)"
+      }
+    },
+    "legal": {
+      "termsDisclaimer": "Khi tiếp tục, bạn đồng ý với <terms>Điều khoản dịch vụ</terms> của LI.FI."
+    },
+    "resume": {
+      "notFoundToast": "Chúng tôi không tìm thấy giao dịch của bạn. Hãy bắt đầu lại hoặc liên hệ bộ phận hỗ trợ nếu bạn cho rằng đây là lỗi."
+    },
+    "transferDeposit": {
+      "warning": "Gửi ít nhất <b>{{amount}} {{symbol}}</b> trên <b>{{chain}}</b>. Nếu gửi sai token hoặc chuỗi, bạn có thể không lấy lại được tiền.",
+      "expiresIn": "Địa chỉ nạp hết hạn sau {{minutes}}:{{seconds}}",
+      "copyAddress": "Sao chép địa chỉ",
+      "addressCopied": "Đã sao chép!",
+      "polling": "Đang chờ khoản nạp của bạn…",
+      "detailsTitle": "Chi tiết nạp",
+      "table": {
+        "required": "Cần nạp",
+        "received": "Đã nhận",
+        "minRefundable": "Tối thiểu để hoàn tiền",
+        "remaining": "Còn lại",
+        "excess": "Phần dư",
+        "timeRemaining": "Thời gian còn lại"
+      },
+      "errors": {
+        "unexpected": {
+          "title": "Khoản nạp ngoài dự kiến",
+          "description": "Chúng tôi nhận được một khoản nạp không khớp với lộ trình được hỗ trợ. Hãy liên hệ bộ phận hỗ trợ để biết các bước tiếp theo."
+        },
+        "amountLowThreshold": {
+          "title": "Khoản nạp chưa đủ",
+          "description": "Nạp thêm để hoàn tất lệnh mua hoặc để có thể yêu cầu hoàn tiền."
+        },
+        "amountLowTopUp": {
+          "title": "Khoản nạp chưa đủ",
+          "description": "Gửi phần còn lại trước khi hết thời hạn nạp."
+        },
+        "amountLowExpired": {
+          "title": "Khoản nạp chưa đủ",
+          "description": "Đã hết thời hạn nạp. Bạn có thể yêu cầu hoàn lại khoản đã nhận."
+        },
+        "excessHeld": {
+          "title": "Đang giữ phần dư",
+          "description": "Lệnh mua của bạn đang được xử lý. Phần dư đang được giữ lại — hãy yêu cầu hoàn tiền để nhận lại."
+        },
+        "lateArrival": {
+          "title": "Khoản nạp đến muộn",
+          "description": "Tiền của bạn đến sau khi hết thời hạn nạp. Bạn có thể kích hoạt lại để tiếp tục hoặc yêu cầu hoàn tiền."
+        },
+        "addressExpired": {
+          "title": "Địa chỉ nạp đã hết hạn",
+          "description": "Địa chỉ nạp đã hết hạn mà chưa nhận được tiền. Bạn có thể thử lại với địa chỉ nạp mới."
+        },
+        "marketMoved": {
+          "title": "Giao dịch thất bại",
+          "description": "Tỷ giá đã thay đổi trước khi lệnh mua được hoàn tất. Tiền của bạn vẫn an toàn — chúng tôi đã bắt đầu hoàn tiền."
+        }
+      }
+    },
+    "fiatCurrency": {
+      "label": "Thanh toán bằng"
+    },
+    "cashCurrency": {
+      "error": "Hiện không thể tải danh sách tiền tệ. Hãy thử lại."
+    },
+    "cashQuote": {
+      "totalFeesLabel": "Tổng phí",
+      "feeFallback": "Phí {{index}}",
+      "refundNote": "Bạn sẽ nhận được ít nhất {{value}}, hoặc được hoàn tiền toàn bộ."
+    },
+    "cashHandoff": {
+      "title": "Bạn sẽ hoàn tất thanh toán trên Transak",
+      "body": "Khoản thanh toán của bạn đi qua một địa chỉ nạp tạm thời mà chúng tôi tạo cho giao dịch mua này, không phải ví cá nhân của bạn. Điều này là bình thường và diễn ra tự động.",
+      "addressLabel": "Địa chỉ nạp",
+      "addressHint": "Bạn sẽ thấy cùng địa chỉ này trên Transak.",
+      "continue": "Tiếp tục đến Transak",
+      "goBack": "Quay lại"
+    },
+    "transactionStatus": {
+      "detailsTitle": "Chi tiết giao dịch",
+      "watching": "Đang theo dõi giao dịch",
+      "executing": "Đang xử lý giao dịch",
+      "success": "Giao dịch thành công",
+      "seeDetails": "Xem chi tiết",
+      "steps": {
+        "receive": {
+          "upcoming": "Nhận {{symbol}}",
+          "loading": "Đang nhận {{symbol}}",
+          "done": "Đã nhận {{symbol}}"
+        },
+        "swap": {
+          "upcoming": "Hoán đổi sang {{symbol}}",
+          "loading": "Đang hoán đổi sang {{symbol}}",
+          "done": "Đã hoán đổi sang {{symbol}}"
+        },
+        "bridge": {
+          "upcoming": "Chuyển qua cầu nối sang {{chain}}",
+          "loading": "Đang chuyển qua cầu nối sang {{chain}}",
+          "done": "Đã chuyển qua cầu nối sang {{chain}}"
+        }
+      }
+    },
+    "chooseFundingSource": "Chọn nguồn tiền",
+    "whereToSendIt": "Gửi đến đâu",
+    "walletAddressOrEns": "Địa chỉ ví hoặc tên ENS",
+    "insufficientFunds": "Không đủ tiền — Bạn không có đủ {{symbol}} trên {{chain}}. Hãy chọn token khác để thử lại.",
+    "routeNotFound": {
+      "title": "Không thể mua token này tại đây",
+      "description": "Token này không khả dụng với phương thức thanh toán bạn đã chọn. Hãy thử token khác hoặc thanh toán từ ví đã kết nối."
+    },
+    "useYourTokens": "Dùng token của bạn",
+    "buyTokens": "Mua token",
+    "or": "hoặc",
+    "payFromWallet": "Thanh toán từ ví",
+    "payFromWalletSubtitle": "Kết nối ví trình duyệt",
+    "transferCrypto": "Chuyển tiền mã hóa",
+    "transferCryptoSubtitle": "Từ bất kỳ ví nào",
+    "connectExchange": "Kết nối sàn giao dịch",
+    "connectExchangeSubtitle": "Liên kết tài khoản sàn giao dịch của bạn",
+    "payWithExchange": "Thanh toán bằng {{exchange}}",
+    "reuseExchangeSubtitle": "Tiếp tục với tài khoản đã liên kết",
+    "depositWithCash": "Nạp bằng thẻ",
+    "depositWithCashSubtitle": "Thẻ ghi nợ hoặc thẻ tín dụng",
+    "connectWallet": "Kết nối ví",
+    "useAnotherWallet": "Dùng ví khác",
+    "progress": {
+      "title": "Đang xử lý giao dịch mua",
+      "description": "Chúng tôi đang xử lý giao dịch mua của bạn. Quá trình này có thể mất vài phút."
+    },
+    "onramp": {
+      "errors": {
+        "MISSING_API_URL": "{{providerName}} chưa được cấu hình: hãy đặt sdkConfig.apiUrl trong cấu hình checkout.",
+        "MISSING_API_KEY": "{{providerName}} chưa được cấu hình: hãy đặt apiKey của widget để gọi phiên checkout.",
+        "TARGET_NOT_CONFIGURED": "Chưa cấu hình đích đến cho {{providerName}}: hãy đặt widget.toChain và widget.toToken.",
+        "INVALID_RESPONSE": "Phản hồi không hợp lệ từ API phiên của {{providerName}}.",
+        "NETWORK_ERROR": "Lỗi mạng khi bắt đầu phiên {{providerName}}.",
+        "SESSION_HTTP": "Không thể bắt đầu phiên {{providerName}} ({{status}}). Hãy thử lại sau.",
+        "generic": "Đã xảy ra lỗi. Hãy thử lại sau."
+      },
+      "failure": {
+        "transferTitle": "Giao dịch thất bại - đang hoàn tiền",
+        "transferDescription": "Chúng tôi không thể hoàn tất giao dịch sau nhiều lần thử. Tiền của bạn đang được hoàn về ví đã gửi."
+      }
+    },
+    "status": {
+      "successCompleted": {
+        "title": "Giao dịch thành công",
+        "description": "Giao dịch của bạn đã hoàn tất thành công."
+      },
+      "successPartial": {
+        "title": "Hoàn tất một phần",
+        "description": "Giao dịch của bạn đã hoàn tất, nhưng một số token nhận được không phải là token đích bạn yêu cầu. Mở phần chi tiết để xem những gì bạn đã nhận."
+      },
+      "successRefund": {
+        "title": "Hoàn tiền thành công",
+        "description": "Không thể hoàn tất giao dịch của bạn và tiền đã được hoàn lại."
+      },
+      "pendingDefault": {
+        "title": "Đang xử lý giao dịch",
+        "description": "Giao dịch của bạn đang được xử lý. Quá trình này có thể mất vài phút."
+      },
+      "pendingRefund": {
+        "title": "Đang hoàn tiền",
+        "description": "Chúng tôi đang gửi trả tiền cho bạn. Quá trình này thường mất vài phút."
+      },
+      "pendingRetrying": {
+        "title": "Đang thử lại giao dịch",
+        "description": "Đã xảy ra sự cố và chúng tôi đang tự động thử lại giao dịch của bạn."
+      },
+      "errorExpired": {
+        "title": "Giao dịch đã hết hạn",
+        "description": "Đã hết thời hạn giao dịch. Vui lòng thử lại."
+      },
+      "errorFailed": {
+        "title": "Giao dịch thất bại",
+        "description": "Chúng tôi không thể hoàn tất giao dịch của bạn. Hãy thử lại hoặc liên hệ bộ phận hỗ trợ."
+      },
+      "errorConnection": {
+        "title": "Kết nối thất bại",
+        "description": "Chúng tôi không thể kết nối với nhà cung cấp thanh toán. Hãy thử lại hoặc liên hệ bộ phận hỗ trợ.",
+        "exchange": {
+          "title": "Kết nối sàn giao dịch thất bại",
+          "description": "Chúng tôi không thể kết nối với tài khoản sàn giao dịch của bạn. Hãy thử lại hoặc liên hệ bộ phận hỗ trợ."
+        }
+      },
+      "errorWithdrawal": {
+        "title": "Rút tiền thất bại",
+        "description": "Nhà cung cấp thanh toán không thể xử lý yêu cầu rút của bạn. Tiền của bạn vẫn còn trong tài khoản.",
+        "cash": {
+          "title": "Thanh toán chưa hoàn tất",
+          "description": "Thanh toán của bạn không thành công. Bạn không bị trừ tiền."
+        },
+        "exchange": {
+          "title": "Rút từ sàn giao dịch thất bại",
+          "description": "Sàn giao dịch không thể xử lý yêu cầu rút. Tiền của bạn vẫn còn trong tài khoản sàn giao dịch."
+        }
+      },
+      "errorCancelled": {
+        "title": "Đã hủy giao dịch",
+        "description": "Giao dịch của bạn đã bị hủy. Bạn có thể thử lại bất cứ khi nào sẵn sàng.",
+        "cash": {
+          "title": "Đã hủy thanh toán",
+          "description": "Bạn đã đóng cửa sổ thanh toán. Lệnh mua của bạn chưa được đặt."
+        }
+      },
+      "errorUnavailable": {
+        "title": "Dịch vụ không khả dụng",
+        "description": "Nhà cung cấp thanh toán tạm thời không khả dụng. Vui lòng thử lại sau hoặc liên hệ bộ phận hỗ trợ.",
+        "cash": {
+          "title": "Thanh toán bằng thẻ không khả dụng",
+          "description": "Thanh toán bằng thẻ tạm thời không khả dụng. Hãy thử lại sau hoặc dùng phương thức khác."
+        }
+      },
+      "walletDisconnected": {
+        "title": "Ví đã ngắt kết nối",
+        "description": "Ví của bạn đã bị ngắt kết nối trong khi giao dịch. Hãy kết nối lại và thử lại."
+      },
+      "walletErrorFailed": {
+        "title": "Giao dịch thất bại",
+        "description": "Chúng tôi không thể hoàn tất giao dịch của bạn. Hãy xem chi tiết hoặc thử lại."
+      },
+      "walletErrorExpired": {
+        "title": "Lệnh mua đã hết hạn",
+        "description": "Đã hết thời hạn giao dịch trước khi lệnh mua của bạn được xử lý. Vui lòng thử lại."
+      },
+      "walletPendingRefund": {
+        "title": "Đang hoàn tiền",
+        "description": "Chúng tôi đang gửi trả tiền về ví bạn đã dùng để thanh toán. Quá trình này thường mất vài phút."
+      },
+      "walletSuccessRefund": {
+        "title": "Hoàn tiền thành công",
+        "description": "Không thể hoàn tất giao dịch của bạn và tiền đã được hoàn về ví của bạn."
+      }
+    },
+    "refund": {
+      "title": "Hoàn tiền",
+      "inProgressDescription": "{{amount}} {{symbol}} trên {{chain}} của bạn đang được hoàn về ví. Quá trình này thường mất vài phút.",
+      "completeDescription": "{{amount}} {{symbol}} trên {{chain}} của bạn đã được hoàn về ví.",
+      "viewTransaction": "Xem giao dịch"
+    }
   }
 }

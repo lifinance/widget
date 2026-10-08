@@ -4,334 +4,344 @@
     "title": "言語"
   },
   "format": {
-    "currency": "",
-    "number": "{{value, number(maximumFractionDigits: 9)}}",
-    "percent": "",
-    "tokenAmount": ""
+    "currency": "{{value, currencyExt(currency: USD)}}",
+    "percent": "{{value, percent(maximumFractionDigits: 2)}}",
+    "tokenAmount": "{{value, numberExt}}"
   },
   "button": {
-    "auto": "OSに同期",
+    "auto": "自動",
     "bookmark": "ブックマーク",
-    "bookmarks": "ブックマーク",
     "bridge": "ブリッジ",
-    "bridgeReview": "",
+    "bridgeReview": "ブリッジを確認",
     "buy": "購入",
     "cancel": "キャンセル",
-    "checkoutReview": "",
-    "clear": "",
-    "clearAllFailed": "",
-    "clearTransaction": "",
+    "checkoutReview": "購入内容を確認",
+    "clear": "クリア",
+    "clearAllFailed": "失敗分をすべてクリア",
+    "clearTransaction": "トランザクションをクリア",
     "close": "閉じる",
-    "confirm": "確認する",
-    "connectAnotherWallet": "",
-    "connectChainWallet": "",
+    "confirm": "確定",
+    "connectAnotherWallet": "別のウォレットを接続",
+    "connectChainWallet": "{{chain}} ウォレットを接続",
     "connectWallet": "ウォレットを接続",
     "contactSupport": "サポートへのお問い合わせ",
-    "continue": "続ける",
-    "copyAddress": "アドレスをコピーする",
+    "continue": "続行",
+    "copyAddress": "アドレスをコピー",
     "dark": "ダーク",
-    "delete": "削除する",
-    "deposit": "",
-    "depositReview": "",
-    "disconnect": "接続を解除",
-    "done": "完了！",
-    "exchange": "スワップ",
-    "getGas": "ガス代を入手",
-    "learnMore": "さらに詳しく",
+    "delete": "削除",
+    "deposit": "入金",
+    "depositWithCash": "法定通貨で入金",
+    "pay": "支払い",
+    "depositReview": "入金を確認",
+    "connectExchange": "取引所を接続",
+    "transferCrypto": "暗号資産を送金",
+    "disconnect": "切断",
+    "done": "完了",
+    "exchange": "交換",
+    "getGas": "ガスを補充",
     "light": "ライト",
-    "max": "",
-    "ok": "OK",
+    "max": "最大",
     "options": "オプション",
+    "requestRefund": "返金をリクエスト",
     "reset": "リセット",
     "resetSettings": "設定をリセット",
-    "seeDetails": "詳細を表示",
-    "showAll": "すべて表示する",
-    "showLess": "",
-    "showMore": "",
+    "resumeTransaction": "トランザクションを再開",
+    "review": "確認",
+    "topUp": "追加入金",
+    "viewRefund": "返金を表示",
+    "viewRefundStatus": "返金状況を表示",
+    "viewTransferDetails": "送金詳細を表示",
+    "showAll": "すべて表示",
+    "showLess": "折りたたむ",
+    "showMore": "さらに {{count}} 件を表示",
     "startBridging": "ブリッジを開始",
     "startSwapping": "スワップを開始",
     "swap": "スワップ",
-    "swapReview": "",
-    "system": "",
-    "tryAgain": "再試行する",
-    "viewCoverage": "適用範囲を表示",
+    "swapReview": "スワップを確認",
+    "system": "システム",
+    "tryAgain": "再試行",
     "viewOnExplorer": "エクスプローラーで表示"
   },
   "header": {
-    "amount": "",
+    "amount": "数量",
     "bookmarkedWallets": "ブックマークされたウォレット",
     "bridge": "ブリッジ",
+    "buy": "購入",
     "checkout": "支払い",
-    "checkoutDetails": "",
-    "deposit": "",
-    "depositDetails": "",
-    "depositTo": "",
-    "exchange": "スワップ",
+    "checkoutDetails": "支払い詳細",
+    "deposit": "入金",
+    "depositWithCash": "法定通貨で入金",
+    "depositAddress": "入金アドレス",
+    "depositDetails": "入金詳細",
+    "depositTo": "入金先",
+    "connectExchange": "取引所を接続",
+    "transferCrypto": "暗号資産を送金",
+    "currency": "通貨",
+    "exchange": "交換",
     "from": "交換元",
-    "gas": "ガス",
+    "gas": "ガス補充",
+    "limit": "指値",
     "payWith": "お支払い方法",
-    "receive": "",
-    "received": "",
+    "private": "プライベート",
+    "receive": "受取",
+    "received": "受取済み",
     "recentWallets": "最近使ったウォレット",
-    "refunded": "",
-    "selectChain": "チェーン選択",
-    "selectWallet": "ウォレットを選択",
-    "send": "",
-    "sendToWallet": "ウォレットに送金する",
+    "refunded": "返金済み",
+    "selectChain": "チェーンを選択",
+    "sell": "売却",
+    "send": "送金",
+    "sendToWallet": "ウォレットに送金",
     "settings": "設定",
     "swap": "スワップ",
-    "to": "スワップ先",
+    "swapAndBridge": "スワップ＆ブリッジ",
+    "to": "交換先",
     "transactionDetails": "トランザクション詳細",
-    "activities": "",
-    "walletConnected": "ウォレットに接続",
-    "youGet": "スワップルート確認",
-    "youPay": ""
+    "activities": "アクティビティ",
+    "youPay": "支払い額"
+  },
+  "limitOrder": {
+    "custom": "カスタム",
+    "expiresIn": "有効期限",
+    "market": "市場価格",
+    "partiallyFillable": "部分約定を許容",
+    "price": "指値価格",
+    "priceLabel": "1 {{symbol}} の価格が次の値になったとき"
   },
   "info": {
     "message": {
-      "accountDeployedMessage": "",
-      "unsupportedToAddressMessage": "",
-      "autoRefuel": "{{chainName}} のガスが不足していますが、続行することでトランザクションを完了するのに十分なガスが補填されます。",
-      "emptyBridgesList": "",
-      "emptyChainList": "",
-      "emptyExchangesList": "",
-      "emptyTokenListAllNetworks": "",
-      "emptyTransactionHistory": "",
-      "routeNotFound": "考えられる理由：流動性が低い、選択された金額が低すぎる、ガスコストが高すぎる、選択した組み合わせがルート上にない、以上の理由の複合。",
-      "missingRouteRequiredAccount": ""
+      "accountDeployedMessage": "お使いのスマートアカウントは、他のチェーンでは同じアドレスにならない場合があります。続行する前に必ずご確認ください。",
+      "unsupportedToAddressMessage": "Stellar の送金は常に署名したアカウントに着金するため、このルートでは別の受取人を指定できません。",
+      "autoRefuel": "{{chainName}} のガスが不足しています。続行すると、トランザクションの完了に必要なガスが補充されます。",
+      "emptyBridgesList": "検索に一致するブリッジが見つかりませんでした",
+      "emptyChainList": "検索に一致するチェーンが見つかりませんでした",
+      "emptyExchangesList": "検索に一致する DEX が見つかりませんでした",
+      "emptyTokenListAllNetworks": "トークンが見つかりませんでした。トークンが表示されない場合は、コントラクトアドレスで検索するか、別のチェーンを選択してください。",
+      "emptyTransactionHistory": "最初の送金を完了すると、ここにトランザクションが表示されます。",
+      "routeNotFound": "流動性が低い、選択した数量が少なすぎる、ガス代が高すぎる、または選択した組み合わせに対応するルートがない、などの原因が考えられます。",
+      "missingRouteRequiredAccount": "続行するには {{chainName}} ウォレットを接続してください。{{address}}"
     },
     "title": {
-      "autoRefuel": "",
+      "autoRefuel": "{{chainName}} のガスを補充",
       "emptyTransactionHistory": "最近のトランザクションはありません",
       "routeNotFound": "利用可能なルートがありません"
     }
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": ""
+      "exchangePartiallySuccessful": "トランザクションの完了を試みましたが、スリッページ設定または {{tokenSymbol}} トークンの流動性不足により、{{tool}} で処理を続行できませんでした。"
     },
     "title": {
       "bridgePartiallySuccessful": "ブリッジは部分的に成功しました",
       "bridgeSuccessful": "ブリッジ成功",
-      "depositSuccessful": "",
-      "checkoutSuccessful": "",
-      "refundIssued": "払い戻しが発行されました",
+      "depositSuccessful": "入金成功",
+      "checkoutSuccessful": "購入成功",
+      "refundIssued": "返金されました",
       "swapPartiallySuccessful": "スワップは部分的に成功しました",
       "swapSuccessful": "スワップ成功"
     }
   },
   "warning": {
     "message": {
-      "tokenUnverified": "",
-      "tokenUnverifiedByProvider": "",
-      "accountNotDeployedMessage": "",
-      "lowAddressActivity": "",
-      "clearFailedTransactions": "",
-      "fundsLossPrevention": "",
-      "highValueLoss": "受け取るトークンの価値は、交換されたトークンとトランザクションコストよりも大幅に低くなります。",
+      "tokenUnverified": "未検証のトークンです。続行する前に必ずご自身で調査してください。",
+      "tokenUnverifiedByProvider": "{{tokenSymbol}} は Hypernative によって検証されていません。続行する前に、このトークンが信頼できることを確認してください。",
+      "accountNotDeployedMessage": "送金先チェーンにスマートコントラクトアカウントが存在しません。存在しないスマートコントラクトアカウントに資金を送ると、資金が永久に失われる可能性があります。",
+      "lowAddressActivity": "このアドレスは {{chainName}} ネットワークでのアクティビティがほとんどありません。資金の損失を防ぐため、送金先のアドレスとネットワークが正しいことを確認してください。",
+      "clearFailedTransactions": "失敗したトランザクションはローカルにのみ保存されているため、クリアすると復元できません。",
+      "fundsLossPrevention": "資金の損失を防ぐため、送金先チェーンでスマートコントラクトアカウントが正しく設定されていることを必ず確認し、取引所への直接送金は避けてください。",
+      "highValueLoss": "受け取るトークンの価値が、交換するトークンとトランザクションコストの合計を大幅に下回っています。",
+      "tokenFlagged": "{{tokenSymbol}} は Hypernative によって悪意のあるトークンと判定されています。このトークンをスワップすると、資金をすべて失う可能性があります。",
       "insufficientFunds": "トランザクションを完了するのに十分な資金がありません。",
       "insufficientGas": "トランザクションを完了するのに十分なガスがありません。少なくとも以下を追加する必要があります：",
-      "minFromAmountUSD": "",
-      "rateChanged": "交換レートが変更されました。取引を続行すると、新しい為替レートを受け入れることになります。",
-      "resetSettings": "これにより、ルートの優先順位、スリッページ、ガス価格、使用可能なブリッジ、取引所がリセットされます。",
-      "slippageOutsideRecommendedLimits": "スリッページ許容度が高すぎると、フロントランニングによる不利なトレードをひき起こす可能性があります。",
-      "slippageUnderRecommendedLimits": ""
+      "minFromAmountUSD": "最低金額は {{amount, currencyExt(currency: USD)}} です。より多い金額を入力してください。",
+      "rateChanged": "交換レートが変更されました。トランザクションを続行すると、新しいレートに同意したことになります。",
+      "resetSettings": "ルートの優先度、スリッページ、ガス価格、有効なブリッジと DEX がリセットされます。",
+      "slippageOutsideRecommendedLimits": "スリッページ許容値が高いと、フロントランニングにより不利な取引になる可能性があります。",
+      "slippageUnderRecommendedLimits": "スリッページ許容値が低いと、トランザクションの遅延や失敗の原因になる可能性があります。"
     },
     "checkbox": {
-      "highValueLoss": ""
+      "highValueLoss": "大幅な価値の損失を承諾します",
+      "tokenFlagged": "リスクを理解したうえで続行します"
     },
     "title": {
-      "clearFailedTransactions": "",
-      "highValueLoss": "高価値損失",
+      "clearFailedTransactions": "失敗したトランザクションをすべてクリアしますか？",
+      "highValueLoss": "大幅な価値の損失",
       "insufficientGas": "ガス不足",
       "rateChanged": "レートが変更されました",
       "resetSettings": "設定をリセットしますか？",
-      "lowAddressActivity": ""
+      "tokenFlagged": "悪意のあるトークンを検出",
+      "lowAddressActivity": "アクティビティの少ないアドレス"
     }
   },
   "error": {
     "message": {
-      "allowanceRequired": "{{tokenSymbol}} の送金額が現在の許可量を超えています。許可量を増やしてもう一度お試しください。",
-      "insufficientFunds": "トランザクションを完了するのに十分なガスがありません。",
-      "rateLimitExceeded": "",
-      "remainInYourWallet": "",
-      "signatureRejected": "",
-      "slippageThreshold": "スリップページが定義されたしきい値よりも大きいです。新しい見積もりをリクエストしてください。",
-      "thirdPartyError": "",
+      "allowanceRequired": "{{tokenSymbol}} の送金額が現在の使用上限を超えています。使用上限を引き上げてから、もう一度お試しください。",
+      "insufficientFunds": "トランザクションのコストを支払うのに十分なガスがありません。",
+      "rateLimitExceeded": "短時間にリクエストが集中しました。しばらく待ってからもう一度お試しいただくか、問題が解決しない場合はサポートにお問い合わせください。",
+      "remainInYourWallet": "{{chainName}} の {{amount, numberExt}} {{tokenSymbol}} はウォレットに残っています。",
+      "signatureRejected": "トランザクションを完了するには署名が必要です。{{chainName}} の {{amount, numberExt}} {{tokenSymbol}} はウォレットに残っています。",
+      "slippageThreshold": "スリッページが設定されたしきい値を超えています。新しい見積もりをリクエストしてください。",
+      "thirdPartyError": "外部サービスの問題により、リクエストを完了できませんでした。もう一度お試しいただくか、問題が解決しない場合はサポートにお問い合わせください。",
       "transactionCanceled": "トランザクションがキャンセルされました。",
-      "transactionConflict": "",
-      "transactionExpired": "",
-      "transactionRejected": "",
-      "transactionFailed": "詳細については、ブロックエクスプローラをご確認ください。",
+      "transactionConflict": "同じ資金を使用する別の保留中のトランザクションと競合しているため、トランザクションを処理できませんでした。保留中のトランザクションが確定するまで待つか、トランザクション履歴を確認してから再度お試しください。",
+      "transactionExpired": "ブロック高が許容上限を超えたか、ブロックハッシュが古くなっています。",
+      "transactionRejected": "ウォレットの内部エラーにより、トランザクションが拒否されました。もう一度お試しいただくか、新しい見積もりをリクエストしてください。",
+      "transactionFailed": "詳細はブロックエクスプローラーでご確認ください。",
       "transactionNotSent": "トランザクションは送信されませんでした。",
-      "transactionSimulationFailed": "",
-      "unknown": "再度お試しいただくか、サポートまでお問い合わせください",
-      "walletChangedDuringExecution": "見積もりを要求したウォレットアドレスがトランザクションに署名しようとしているウォレットアドレスと一致しません。 トランザクションの実行中は、同じウォレットアドレスが使用されていることを確認してください。"
+      "transactionSimulationFailed": "シミュレーションでトランザクションを実行できませんでした。",
+      "unknown": "もう一度お試しいただくか、サポートにお問い合わせください。",
+      "walletChangedDuringExecution": "見積もりをリクエストしたウォレットアドレスが、トランザクションに署名しようとしているウォレットアドレスと一致しません。トランザクションの実行中は、最初から最後まで同じウォレットアドレスを使用してください。"
     },
     "title": {
-      "allowanceRequired": "残高不足",
+      "allowanceRequired": "使用上限不足",
       "balanceIsTooLow": "残高が少なすぎます",
       "bookmarkAlreadyExists": "ウォレットはすでに {{name}} としてブックマークされています",
       "bookmarkNameRequired": "ブックマーク名が必要です",
       "chainSwitch": "チェーンの切り替えが必要です",
       "exchangeRateUpdateCanceled": "交換レートの更新がキャンセルされました",
-      "gasLimitIsTooLow": "ガス制限が低すぎます",
-      "insufficientFunds": "残高が足りません",
-      "insufficientGas": "",
-      "rateLimitExceeded": "",
+      "gasLimitIsTooLow": "ガスリミットが低すぎます",
+      "insufficientFunds": "資金不足",
+      "insufficientGas": "ガス不足",
+      "rateLimitExceeded": "レート制限を超えました",
       "signatureRejected": "署名が必要です",
       "slippageNotMet": "スリッページの条件が満たされていません",
-      "thirdPartyError": "",
+      "thirdPartyError": "外部サービスを利用できません",
       "transactionCanceled": "トランザクションはキャンセルされました",
-      "transactionConflict": "",
-      "transactionExpired": "",
+      "transactionConflict": "トランザクションの競合",
+      "transactionExpired": "トランザクションの期限切れ",
       "transactionFailed": "トランザクションが失敗しました",
-      "transactionRejected": "",
-      "transactionSimulationFailed": "",
-      "transactionUnderpriced": "トランザクションは通常より低価格です",
+      "transactionRejected": "トランザクションが拒否されました",
+      "transactionSimulationFailed": "トランザクションのシミュレーションに失敗しました",
+      "transactionUnderpriced": "トランザクションのガス価格が低すぎます",
       "transactionUnprepared": "トランザクションの準備ができませんでした",
       "unknown": "何らかのエラーが発生しました",
       "walletAddressInvalid": "ウォレットアドレスまたはドメイン名が無効です",
-      "walletAddressInvalid_chain": "選択された宛先チェーン {{chainName}} のウォレットアドレスまたはドメイン名が無効です",
-      "walletAddressRequired": "ウォレットアドレスは必須項目です。",
-      "walletChainTypeInvalid": "選択された宛先チェーン {{chainName}} のウォレットアドレスが一致しません",
+      "walletAddressInvalid_chain": "選択した送金先チェーン {{chainName}} では、このウォレットアドレスまたはドメイン名は無効です",
+      "walletAddressRequired": "ウォレットアドレスは必須です",
+      "walletChainTypeInvalid": "ウォレットアドレスが選択した送金先チェーン {{chainName}} と一致しません",
       "walletMismatch": "ウォレットアドレスが一致しません",
-      "zcashAddressInvalid": ""
+      "zcashAddressInvalid": "Zcash の透明アドレス（t1 または t3）、または Orchard レシーバーを含むユニファイドアドレス（u1）を入力してください。Sapling（zs1）アドレスと TEX アドレスには対応していません。"
     }
   },
   "tooltip": {
     "deselectAll": "すべての選択を解除",
-    "estimatedTime": "",
-    "exchangeRate": "",
-    "feeCollection": "",
-    "minReceived": "",
+    "estimatedTime": "スワップまたはブリッジのトランザクションが完了するまでの時間です（チェーンの切り替えとトークンの承認は除きます）。",
+    "exchangeRate": "送金元トークンと送金先トークンの推定交換レートです。クリックすると表示の向きを切り替えられます。",
+    "feeCollection": "この手数料は対象のトークンペアに適用され、最適な体験を提供するために使用されます。",
+    "minReceived": "推定最低受取額は、スワップ／ブリッジのトランザクションに署名するまで変わる可能性があります。2 ステップの送金では、2 番目のステップのトランザクションに署名するまで変わる可能性があります。",
     "notFound": {
       "text": "このページは見つかりませんでした。",
       "title": "404"
     },
-    "multistep": "",
-    "gasless": "",
-    "numberOfSteps": "",
-    "priceImpact": "",
+    "multistep": "このルートでは、送金を完了するために複数のトランザクションが必要です。各交換ステップには、署名が必要なトランザクションが 1～2 件含まれる場合があります。",
+    "gasless": "ガスの支払いはこちらで処理するため、ネイティブトークンを保有していなくても資産を送金できます。ネットワーク手数料は送金額に含まれています。",
+    "priceImpact": "送金元トークンと送金先トークンの推定価値の差です。",
     "progressToNextUpdate": "見積もりは {{value}} 秒後に更新されます。<0/>今すぐ更新するにはここをクリックしてください。",
     "selectAll": "すべてを選択",
-    "settingsModified": "設定 (変更済み)",
-    "slippage": ""
+    "settingsModified": "設定（変更済み）",
+    "slippage": "想定価格と、送金が実際に実行される価格との差の上限（％）です。この値は設定で変更できます。",
+    "tokenNative": "{{tokenSymbol}} はこのネットワークのネイティブトークンです。",
+    "tokenNativeOnChain": "{{tokenSymbol}} は {{chainName}} のネイティブトークンです。",
+    "tokenVerified": "{{tokenSymbol}} は検証済みです。",
+    "tokenVerifiedByProvider": "{{tokenSymbol}} は {{provider}} によって検証済みです。"
   },
   "main": {
-    "allNetworks": "",
+    "allNetworks": "すべてのネットワーク",
     "allTokens": "すべてのトークン",
-    "bridgeStepDetails": "{{from}} から {{to}} を {{tool}} でブリッジ",
+    "bridgeStepDetails": "{{tool}} 経由で {{from}} から {{to}} にブリッジ",
     "checkoutStepDetails": "{{tool}} 経由で購入",
     "currentAmount": "現在の数量",
-    "depositStepDetails": "{{tool}} 経由で入金する",
-    "estimatedTime": "",
-    "exchangeRate": "",
+    "depositStepDetails": "{{tool}} 経由で入金",
+    "estimatedTime": "推定所要時間",
+    "exchangeRate": "交換レート",
     "featuredTokens": "注目のトークン",
     "fees": {
-      "defaultIntegrator": "",
-      "relayerService": "",
-      "estimated": "",
-      "free": "",
-      "network": "",
-      "paid": "",
-      "provider": ""
+      "defaultIntegrator": "インテグレーター手数料",
+      "relayerService": "ガスレスサービス",
+      "free": "無料",
+      "network": "ネットワーク手数料",
+      "provider": "プロバイダー手数料"
     },
-    "from": "From",
-    "inProgress": "進行中",
-    "maxSlippage": "",
-    "minReceived": "",
+    "from": "送金元",
+    "maxSlippage": "最大スリッページ",
+    "minReceived": "最低受取額",
     "myTokens": "自分のトークン",
-    "onChain": "（{{chainName}}）",
     "ownedBy": "所有者",
-    "pinnedTokens": "",
+    "pinnedTokens": "ピン留めしたトークン",
     "popularTokens": "人気のトークン",
-    "priceImpact": "",
+    "priceImpact": "プライスインパクト",
     "process": {
       "bridge": {
-        "actionRequired": "",
-        "messageRequired": "",
-        "done": "ブリッジのトランザクションが確認されました",
-        "pending": "",
+        "actionRequired": "ブリッジのトランザクションに署名",
+        "messageRequired": "ブリッジのメッセージに署名",
+        "done": "ブリッジのトランザクションが確定しました",
+        "pending": "ブリッジのトランザクションが保留中",
         "started": "ブリッジのトランザクションを準備中"
       },
       "checkout": {
         "done": "購入が完了しました"
       },
       "deposit": {
-        "done": "入金完了"
+        "done": "入金が完了しました"
       },
       "receivingChain": {
-        "done": "ブリッジ完了",
-        "partial": "ブリッジの一部が完了",
-        "pending": "宛先チェーンを待機中",
-        "refunded": "ブリッジのトランザクションは払い戻しを受けました"
+        "done": "ブリッジが完了しました",
+        "partial": "ブリッジが一部完了しました",
+        "pending": "送金先チェーンを待機中"
       },
       "swap": {
-        "actionRequired": "",
-        "messageRequired": "",
-        "done": "スワップ完了",
-        "pending": "",
+        "actionRequired": "スワップのトランザクションに署名",
+        "messageRequired": "スワップのメッセージに署名",
+        "done": "スワップが完了しました",
+        "pending": "スワップのトランザクションが保留中",
         "started": "スワップのトランザクションを準備中"
       },
       "permit": {
-        "actionRequired": "",
-        "done": "",
-        "pending": "",
-        "started": ""
+        "actionRequired": "Permit メッセージに署名",
+        "done": "Permit メッセージに署名しました",
+        "pending": "Permit メッセージを待機中",
+        "started": "トランザクションを準備中"
       },
       "tokenAllowance": {
-        "actionRequired": "",
-        "resetRequired": "",
-        "done": "",
-        "pending": "",
-        "started": ""
+        "actionRequired": "{{tokenSymbol}} の使用を承認",
+        "resetRequired": "{{tokenSymbol}} の使用承認を取り消し",
+        "done": "{{tokenSymbol}} の使用を承認しました",
+        "pending": "{{tokenSymbol}} の承認が保留中",
+        "started": "承認トランザクションを準備中"
       }
     },
     "quotedAmount": "見積もり額",
     "rateChange": "レート変更",
-    "receiving": "受け取り",
-    "recentSearches": "",
-    "refuelStepDetails": "{{tool}} 経由でガスを取得",
-    "route": "",
-    "select": "",
-    "sendToAddress": "{{address}} に送る",
-    "sendToWallet": "別のウォレットに送る",
-    "sending": "送金中",
-    "sentToAddress": "{{address}} に送信しました",
-    "stepBridge": "ブリッジ",
-    "stepBridgeAndBuy": "ブリッジと購入",
-    "stepBridgeAndDeposit": "",
-    "stepBuy": "購入",
-    "stepDeposit": "",
-    "stepDetails": "LI.FI経由の{{tool}}",
-    "stepSwap": "スワップ",
-    "stepSwapAndBridge": "スワップとブリッジ",
-    "stepSwapAndBuy": "スワップと購入",
-    "stepSwapAndDeposit": "",
-    "swapStepDetails": "{{chain}} で {{tool}} 経由のスワップ",
-    "receipts": "",
-    "sentToWallet": "",
-    "transferId": "",
+    "receiving": "受取額",
+    "recentSearches": "最近の検索",
+    "refuelStepDetails": "{{tool}} 経由でガスを補充",
+    "route": "ルート",
+    "select": "選択",
+    "sendToWallet": "別のウォレットに送金",
+    "sending": "送金額",
+    "swapStepDetails": "{{chain}} 上の {{tool}} でスワップ",
+    "receipts": "明細",
+    "sentToWallet": "送金先ウォレット",
+    "transferId": "送金 ID",
     "tags": {
-      "cheapest": "最良",
+      "cheapest": "最高リターン",
       "fastest": "最速",
-      "gasless": "",
-      "multistep": ""
+      "gasless": "ガスレス",
+      "multistep": "マルチステップ"
     },
-    "to": "To",
+    "to": "送金先",
     "tokenOnChain": "{{chainName}} の {{tokenSymbol}}",
-    "tokenOnChainAmount": "",
-    "tokenSearch": "",
-    "valueLoss": "損失額",
-    "searchBridges": "",
-    "searchExchanges": "",
-    "searchNetwork": ""
+    "tokenOnChainAmount": "{{chainName}} の {{amount, numberExt}} {{tokenSymbol}}",
+    "tokenSearch": "トークン名またはアドレスで検索",
+    "valueLoss": "価値の損失",
+    "searchBridges": "ブリッジ名で検索",
+    "searchCurrency": "通貨を検索",
+    "searchExchanges": "DEX 名で検索",
+    "searchNetwork": "ネットワークを検索"
   },
   "settings": {
-    "appearance": "",
+    "appearance": "外観",
     "enabledBridges": "ブリッジ",
-    "enabledExchanges": "スワップ",
+    "enabledExchanges": "DEX",
     "gasPrice": {
       "fast": "高速",
       "normal": "通常",
@@ -339,10 +349,21 @@
       "title": "ガス価格"
     },
     "routePriority": "ルート優先度",
-    "slippage": "",
-    "custom": "カスタム設定",
-    "resetSettings": "利用可能なルートの数とソートに影響する可能性があるカスタム設定を使用しています。",
-    "hideSmallBalances": ""
+    "routePriorityOptions": {
+      "cheapest": {
+        "title": "最高リターン",
+        "description": "ネットワーク手数料が最も低い"
+      },
+      "fastest": {
+        "title": "最速",
+        "description": "実行時間が最も短い"
+      }
+    },
+    "slippage": "最大スリッページ",
+    "slippageAutoDescription": "ルートごとに最適化",
+    "custom": "カスタム",
+    "resetSettings": "利用可能なルートの数や並び順に影響する可能性があるカスタム設定を使用しています。",
+    "hideSmallBalances": "少額の残高を非表示"
   },
   "sendToWallet": {
     "addBookmark": "ブックマークに追加",
@@ -353,21 +374,294 @@
     "enterAddress_short": "ウォレットアドレスを入力",
     "enterName": "名前を入力",
     "noBookmarkedWallets": "ブックマークされたウォレットはありません",
-    "noBookmarkedWalletsMessage": "",
+    "noBookmarkedWalletsMessage": "よく使うウォレットアドレスを保存すると、すばやくアクセスできます。",
     "noConnectedWallets": "接続中のウォレットはありません",
-    "noConnectedWalletsMessage": "",
+    "noConnectedWalletsMessage": "ウォレットを接続すると、ここに表示されます。",
     "noRecentWallets": "最近使ったウォレットはありません",
-    "noRecentWalletsMessage": "",
-    "required": ""
+    "noRecentWalletsMessage": "最近使ったウォレットアドレスがここに表示されます。",
+    "required": "必須"
   },
   "tokenMetric": {
-    "currentPrice": "",
-    "contractAddress": "",
-    "marketCap": "",
-    "volume24h": "",
-    "status": "",
-    "statusFlagged": "",
-    "statusUnverified": "",
-    "statusVerified": ""
+    "currentPrice": "現在の価格",
+    "contractAddress": "コントラクトアドレス",
+    "marketCap": "時価総額",
+    "volume24h": "24 時間の出来高",
+    "status": "ステータス",
+    "statusFlagged": "Hypernative によって悪意のあるトークンと判定されています。このトークンを取引すると、資金をすべて失う可能性があります。",
+    "statusUnverified": "Hypernative による検証なし",
+    "statusVerified": "Hypernative によって検証済みです。誤検知が発生する場合があり、当社はこれらのアラートについて一切の責任を負いません。行動する前に必ずご自身で調査してください。"
+  },
+  "tags": {
+    "connected": "接続済み",
+    "getStarted": "はじめる",
+    "installed": "インストール済み",
+    "multichain": "マルチチェーン",
+    "qrCode": "QR コード"
+  },
+  "checkout": {
+    "closeConfirmation": {
+      "title": "支払い画面を閉じますか？",
+      "body": "閉じても入金はキャンセルされません。いつでもここに戻って状況を確認できます。",
+      "confirm": "支払い画面を閉じる",
+      "cancel": "キャンセル"
+    },
+    "abandonConfirmation": {
+      "title": "この送金をキャンセルしますか？",
+      "body": "入金の詳細は破棄されます。キャンセル後は、このアドレスに資金を送らないでください。",
+      "confirm": "送金をキャンセル",
+      "cancel": "送金を継続"
+    },
+    "activity": {
+      "title": "アクティビティ",
+      "deposit": "入金",
+      "amountOnChain": "{{chain}} の {{amount}} {{symbol}}",
+      "depositInProgress": "入金処理中",
+      "refundInProgress": "返金処理中",
+      "couldNotComplete": "完了できませんでした",
+      "singleFailed": "入金に失敗しました。対応が必要です",
+      "dismiss": "閉じる"
+    },
+    "transak": {
+      "forceClose": {
+        "tooltip": "閉じる（トランザクションは再開されません）"
+      }
+    },
+    "legal": {
+      "termsDisclaimer": "続行すると、LI.FI の<terms>利用規約</terms>に同意したことになります。"
+    },
+    "resume": {
+      "notFoundToast": "トランザクションが見つかりませんでした。最初からやり直すか、誤りと思われる場合はサポートにお問い合わせください。"
+    },
+    "transferDeposit": {
+      "warning": "<b>{{chain}}</b> で <b>{{amount}} {{symbol}}</b> 以上を送金してください。誤ったトークンやチェーンで送ると、資金を回復できない場合があります。",
+      "expiresIn": "入金アドレスの有効期限：残り {{minutes}}:{{seconds}}",
+      "copyAddress": "アドレスをコピー",
+      "addressCopied": "コピーしました！",
+      "polling": "入金を確認しています…",
+      "detailsTitle": "入金詳細",
+      "table": {
+        "required": "必要額",
+        "received": "受取額",
+        "minRefundable": "最低返金可能額",
+        "remaining": "残額",
+        "excess": "超過額",
+        "timeRemaining": "残り時間"
+      },
+      "errors": {
+        "unexpected": {
+          "title": "想定外の入金",
+          "description": "対応するルートと一致しない入金を受け取りました。今後の手順については、サポートにお問い合わせください。"
+        },
+        "amountLowThreshold": {
+          "title": "入金が不足しています",
+          "description": "注文を完了するか返金を可能にするには、追加入金してください。"
+        },
+        "amountLowTopUp": {
+          "title": "入金が不足しています",
+          "description": "入金期間が終了する前に、残りの金額を送金してください。"
+        },
+        "amountLowExpired": {
+          "title": "入金が不足しています",
+          "description": "入金期間が終了しました。受け取った金額の返金をリクエストできます。"
+        },
+        "excessHeld": {
+          "title": "超過分を保留中",
+          "description": "注文を処理しています。超過分は保留されています。受け取るには返金をリクエストしてください。"
+        },
+        "lateArrival": {
+          "title": "入金の到着が遅れました",
+          "description": "入金期間の終了後に資金が届きました。再開して続行するか、返金をリクエストできます。"
+        },
+        "addressExpired": {
+          "title": "入金アドレスの期限切れ",
+          "description": "資金を受け取らないまま、入金アドレスの有効期限が切れました。新しい入金アドレスでもう一度お試しください。"
+        },
+        "marketMoved": {
+          "title": "トランザクションが失敗しました",
+          "description": "注文が完了する前に交換レートが変動しました。資金は安全です。返金を開始しました。"
+        }
+      }
+    },
+    "fiatCurrency": {
+      "label": "支払い通貨"
+    },
+    "cashCurrency": {
+      "error": "現在、通貨を読み込めません。もう一度お試しください。"
+    },
+    "cashQuote": {
+      "totalFeesLabel": "手数料合計",
+      "feeFallback": "手数料 {{index}}",
+      "refundNote": "少なくとも {{value}} を受け取るか、全額返金されます。"
+    },
+    "cashHandoff": {
+      "title": "支払いは Transak で完了します",
+      "body": "お支払いは、個人のウォレットではなく、この購入用に作成した一時的な入金アドレスを経由します。これは想定どおりの動作で、自動的に行われます。",
+      "addressLabel": "入金アドレス",
+      "addressHint": "Transak でも同じアドレスが表示されます。",
+      "continue": "Transak に進む",
+      "goBack": "戻る"
+    },
+    "transactionStatus": {
+      "detailsTitle": "トランザクション詳細",
+      "watching": "トランザクションを監視中",
+      "executing": "トランザクションを処理中",
+      "success": "トランザクション成功",
+      "seeDetails": "詳細を表示",
+      "steps": {
+        "receive": {
+          "upcoming": "{{symbol}} の受取",
+          "loading": "{{symbol}} を受取中",
+          "done": "{{symbol}} を受取済み"
+        },
+        "swap": {
+          "upcoming": "{{symbol}} にスワップ",
+          "loading": "{{symbol}} にスワップ中",
+          "done": "{{symbol}} にスワップ済み"
+        },
+        "bridge": {
+          "upcoming": "{{chain}} にブリッジ",
+          "loading": "{{chain}} にブリッジ中",
+          "done": "{{chain}} にブリッジ済み"
+        }
+      }
+    },
+    "chooseFundingSource": "入金方法を選択",
+    "whereToSendIt": "送金先",
+    "walletAddressOrEns": "ウォレットアドレスまたは ENS 名",
+    "insufficientFunds": "資金不足：{{chain}} の {{symbol}} が不足しています。別のトークンを選択して、もう一度お試しください。",
+    "routeNotFound": {
+      "title": "このトークンはここでは購入できません",
+      "description": "選択した支払い方法では、このトークンを利用できません。別のトークンを試すか、接続したウォレットから支払ってください。"
+    },
+    "useYourTokens": "保有トークンを使用",
+    "buyTokens": "トークンを購入",
+    "or": "または",
+    "payFromWallet": "ウォレットから支払い",
+    "payFromWalletSubtitle": "ブラウザウォレットを接続",
+    "transferCrypto": "暗号資産を送金",
+    "transferCryptoSubtitle": "任意のウォレットから",
+    "connectExchange": "取引所を接続",
+    "connectExchangeSubtitle": "取引所アカウントをリンク",
+    "payWithExchange": "{{exchange}} で支払い",
+    "reuseExchangeSubtitle": "リンク済みのアカウントで続行",
+    "depositWithCash": "法定通貨で入金",
+    "depositWithCashSubtitle": "デビットカードまたはクレジットカード",
+    "connectWallet": "ウォレットを接続",
+    "useAnotherWallet": "別のウォレットを使用",
+    "progress": {
+      "title": "購入処理中",
+      "description": "購入を処理しています。数分かかる場合があります。"
+    },
+    "onramp": {
+      "errors": {
+        "MISSING_API_URL": "{{providerName}} が設定されていません：チェックアウトの sdkConfig.apiUrl を設定してください。",
+        "MISSING_API_KEY": "{{providerName}} が設定されていません：チェックアウトセッションを呼び出すには、ウィジェットの apiKey を設定してください。",
+        "TARGET_NOT_CONFIGURED": "{{providerName}} の送金先が設定されていません：widget.toChain と widget.toToken を設定してください。",
+        "INVALID_RESPONSE": "{{providerName}} のセッション API から無効なレスポンスが返されました。",
+        "NETWORK_ERROR": "{{providerName}} のセッション開始中にネットワークエラーが発生しました。",
+        "SESSION_HTTP": "{{providerName}} のセッションを開始できませんでした（{{status}}）。後でもう一度お試しください。",
+        "generic": "何らかのエラーが発生しました。後でもう一度お試しください。"
+      },
+      "failure": {
+        "transferTitle": "トランザクション失敗：返金中",
+        "transferDescription": "複数回試行しましたが、送金を完了できませんでした。資金は送金元のウォレットに返金されます。"
+      }
+    },
+    "status": {
+      "successCompleted": {
+        "title": "トランザクション成功",
+        "description": "トランザクションが正常に完了しました。"
+      },
+      "successPartial": {
+        "title": "一部完了",
+        "description": "トランザクションは完了しましたが、受け取ったトークンの一部は指定した送金先トークンではありません。詳細を開いて、受け取った内容をご確認ください。"
+      },
+      "successRefund": {
+        "title": "返金完了",
+        "description": "トランザクションを完了できなかったため、資金は返金されました。"
+      },
+      "pendingDefault": {
+        "title": "トランザクションを処理中",
+        "description": "トランザクションを処理しています。数分かかる場合があります。"
+      },
+      "pendingRefund": {
+        "title": "返金処理中",
+        "description": "資金を返送しています。通常、数分で完了します。"
+      },
+      "pendingRetrying": {
+        "title": "トランザクションを再試行中",
+        "description": "問題が発生したため、トランザクションを自動的に再試行しています。"
+      },
+      "errorExpired": {
+        "title": "トランザクションの期限切れ",
+        "description": "トランザクションの有効期間が終了しました。もう一度お試しください。"
+      },
+      "errorFailed": {
+        "title": "トランザクションが失敗しました",
+        "description": "トランザクションを完了できませんでした。もう一度お試しいただくか、サポートにお問い合わせください。"
+      },
+      "errorConnection": {
+        "title": "接続に失敗しました",
+        "description": "決済プロバイダーに接続できませんでした。もう一度お試しいただくか、サポートにお問い合わせください。",
+        "exchange": {
+          "title": "取引所への接続に失敗しました",
+          "description": "取引所アカウントに接続できませんでした。もう一度お試しいただくか、サポートにお問い合わせください。"
+        }
+      },
+      "errorWithdrawal": {
+        "title": "引き出しに失敗しました",
+        "description": "決済プロバイダーで引き出しを処理できませんでした。資金はアカウントに残っています。",
+        "cash": {
+          "title": "支払いが完了しませんでした",
+          "description": "お支払いは処理されませんでした。料金は請求されていません。"
+        },
+        "exchange": {
+          "title": "取引所からの引き出しに失敗しました",
+          "description": "取引所で引き出しを処理できませんでした。資金は取引所アカウントに残っています。"
+        }
+      },
+      "errorCancelled": {
+        "title": "トランザクションはキャンセルされました",
+        "description": "トランザクションはキャンセルされました。準備ができたら、いつでももう一度お試しいただけます。",
+        "cash": {
+          "title": "支払いがキャンセルされました",
+          "description": "支払い画面を閉じたため、注文は確定されていません。"
+        }
+      },
+      "errorUnavailable": {
+        "title": "サービスを利用できません",
+        "description": "決済プロバイダーが一時的に利用できません。後でもう一度お試しいただくか、サポートにお問い合わせください。",
+        "cash": {
+          "title": "カード決済を利用できません",
+          "description": "カード決済は一時的に利用できません。後でもう一度お試しいただくか、別の方法をご利用ください。"
+        }
+      },
+      "walletDisconnected": {
+        "title": "ウォレットが切断されました",
+        "description": "トランザクション中にウォレットが切断されました。再接続して、もう一度お試しください。"
+      },
+      "walletErrorFailed": {
+        "title": "トランザクションが失敗しました",
+        "description": "トランザクションを完了できませんでした。詳細を確認するか、もう一度お試しください。"
+      },
+      "walletErrorExpired": {
+        "title": "注文の期限切れ",
+        "description": "注文を処理する前に、トランザクションの有効期間が終了しました。もう一度お試しください。"
+      },
+      "walletPendingRefund": {
+        "title": "返金処理中",
+        "description": "支払いに使用したウォレットに資金を返送しています。通常、数分で完了します。"
+      },
+      "walletSuccessRefund": {
+        "title": "返金完了",
+        "description": "トランザクションを完了できなかったため、資金はウォレットに返金されました。"
+      }
+    },
+    "refund": {
+      "title": "返金",
+      "inProgressDescription": "{{chain}} の {{amount}} {{symbol}} をウォレットに返金しています。通常、数分で完了します。",
+      "completeDescription": "{{chain}} の {{amount}} {{symbol}} はウォレットに返金されました。",
+      "viewTransaction": "トランザクションを表示"
+    }
   }
 }
