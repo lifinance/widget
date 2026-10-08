@@ -32,10 +32,11 @@ export interface RouteIssueCardDeps {
   slippage?: string
   amountLocked: boolean
   /**
-   * Largest amount the wallet can actually send, or `0n` where it is unknown —
-   * no wallet, no balance yet. A suggestion above it cannot be applied.
+   * Largest amount the wallet can actually send, or `undefined` where it is
+   * unknown — no wallet, no balance yet. A suggestion above it cannot be
+   * applied, and an empty wallet (`0n`) can apply none.
    */
-  spendable: bigint
+  spendable?: bigint
   receiverHidden: boolean
   /** The widget cannot execute without one, so clearing it is not a fix. */
   receiverRequired: boolean
@@ -244,7 +245,9 @@ export const buildRouteIssueCard = (
         // balance only swaps "no routes" for "insufficient funds", so the
         // figure stays on screen and the button does not.
         const unaffordable =
-          amount !== undefined && deps.spendable > 0n && amount > deps.spendable
+          amount !== undefined &&
+          deps.spendable !== undefined &&
+          amount > deps.spendable
         return !suggested || deps.amountLocked || unaffordable
           ? undefined
           : { label: applySuggestion, run: () => deps.applyAmount(suggested) }

@@ -77,7 +77,7 @@ describe('every card the builder can produce', () => {
               amountLocked: false,
               receiverHidden: false,
               receiverRequired: false,
-              spendable: 0n,
+              spendable: undefined,
               toAddress: '0xabc',
               sameEcosystem: true,
               applyAmount: () => {},
