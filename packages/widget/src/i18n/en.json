@@ -137,7 +137,7 @@
         "description": "This is under the smallest amount these routes will take. Try about {{suggested}} {{symbol}} — a little over the smallest minimum we saw.",
         "descriptionUsd": "Routes for this pair need at least {{minUsd}} to work with, which is about {{suggested}} {{symbol}}.",
         "descriptionEstimated": "This is under the smallest amount these routes will take. Try around {{suggested}} {{symbol}} and we'll look again.",
-        "descriptionNoAmount": "This is under the smallest amount every route will take. Try a slightly larger amount and we'll look again."
+        "descriptionNoAmount": "This is under the smallest amount these routes will take. Try a slightly larger amount and we'll look again."
       },
       "amountTooHigh": {
         "title": "Amount is too high",
@@ -149,12 +149,12 @@
         "title": "Slippage is too tight",
         "description": "The routes we saw need at least {{slippage}}% slippage to go through, which is more than is currently applied.",
         "descriptionSuggested": "The slippage currently applied is stricter than these routes can work with. Loosening it to {{slippage}}% should help.",
-        "descriptionNoAmount": "The slippage currently applied is stricter than any route here can work with. Try loosening it a little."
+        "descriptionNoAmount": "The slippage currently applied is stricter than the routes we saw can work with. Try loosening it a little."
       },
       "slippageTooLoose": {
         "title": "Slippage is too high",
         "description": "The routes we saw cap slippage at {{slippage}}%. Lowering the slippage to that should help.",
-        "descriptionNoAmount": "The slippage currently applied is higher than any route here accepts. Try lowering it a little."
+        "descriptionNoAmount": "The slippage currently applied is higher than the routes we saw accept. Try lowering it a little."
       },
       "destinationAccountNotReady": {
         "title": "The receiving account is not ready",
@@ -167,7 +167,7 @@
       },
       "gaslessNotAvailable": {
         "title": "Gasless is not available here",
-        "description": "None of the routes for this pair can cover the gas for you, so you'll need to pay it yourself this time."
+        "description": "The routes we saw for this pair can't cover the gas for you, so you'll need to pay it yourself this time."
       },
       "blockedBySettings": {
         "title": "Blocked by this widget's settings",
@@ -175,7 +175,7 @@
       },
       "liquidity": {
         "title": "Not enough liquidity",
-        "description": "There is not enough liquidity for an amount this size, so the price impact lands above what any route allows. A smaller amount may work better."
+        "description": "There is not enough liquidity for an amount this size, so the price impact lands above what these routes allow. A smaller amount may work better."
       },
       "temporary": {
         "title": "Temporarily unavailable",
@@ -184,7 +184,7 @@
       },
       "pairNotSupported": {
         "title": "This pair is not supported",
-        "description": "No provider connects these two tokens just yet. Picking a different token or chain should give you more to work with."
+        "description": "None of the providers we asked can connect these two tokens right now. Picking a different token or chain should give you more to work with."
       }
     },
     "title": {
