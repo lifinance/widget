@@ -26,10 +26,7 @@ export const isRouteFailed = (route: RouteExtended): boolean => {
   return route.steps.some((step) => step.execution?.status === 'FAILED')
 }
 
-/**
- * The failed step and the action that holds its error. A step can fail before
- * it has an action, so a synthetic action then carries the step's own error.
- */
+// A step can fail before any action, so its own error then stands in.
 export const getFailedStepAction = (
   route: RouteExtended
 ): { step: LiFiStepExtended; action: ExecutionAction } | undefined => {

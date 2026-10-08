@@ -62,8 +62,7 @@ export const TransactionFailedButtons: React.FC<
 
   const showStartNewSwap = canStartNewSwap({ route, mode, swapOnly })
 
-  // Goes to the main page, not back: after a reload, the failed route opens
-  // from the activities page, and the new quote shows on the main page.
+  // Home, not back: after a reload, the route is opened from Activities.
   const handleStartNewSwap = () => {
     const values = getNewSwapFormValues(route)
     for (const fieldName of Object.keys(values) as (keyof typeof values)[]) {

@@ -107,21 +107,14 @@ export const getStartGates = (
   ['value', input.valueLossExceeded && !input.isCustomMode],
 ]
 
-// The modes whose form holds a plain from/to swap. Custom mode replaces the
-// destination, refuel fixes it to gas, and the other modes ask for values that
-// a route step does not hold.
+// Only these modes show the plain from/to swap form.
 const newSwapModes: readonly (WidgetMode | undefined)[] = [
   undefined,
   'default',
   'split',
 ]
 
-/**
- * Whether a failed route offers "Start a new swap" in place of "Delete". The
- * wallet has no record of the call bundle, so retrying waits for the same
- * bundle again. The new swap repeats the whole route, so the route must not
- * have got past its first step.
- */
+// Try again only waits for the same bundle; a new swap repeats the route.
 export const canStartNewSwap = ({
   route,
   mode,
@@ -141,7 +134,7 @@ export const canStartNewSwap = ({
       (step) => step === failed.step || !step.execution?.actions?.length
     ) &&
     newSwapModes.includes(mode) &&
-    // A swap-only form requests no bridges, so it cannot quote a cross-chain swap.
+    // A swap-only form requests no bridges.
     !(swapOnly && route.fromChainId !== route.toChainId)
   )
 }
@@ -155,12 +148,7 @@ interface NewSwapFormValues {
   toAddress: string
 }
 
-/**
- * The form values that repeat a route. The destination comes from the last
- * step, because the first step of a multi-step route ends at an intermediate
- * token. A receiver that is the sender stays empty, as for a swap to the
- * connected wallet.
- */
+// The last step has the destination; the first can end at an intermediate token.
 export const getNewSwapFormValues = (
   route: RouteExtended
 ): NewSwapFormValues => {
