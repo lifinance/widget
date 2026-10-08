@@ -65,15 +65,17 @@ export const TransactionFailedButtons: React.FC<
   // Home, not back: after a reload, the route is opened from Activities.
   const handleStartNewSwap = () => {
     const values = getNewSwapFormValues(route)
-    for (const fieldName of Object.keys(values) as (keyof typeof values)[]) {
-      setFieldValue(fieldName, values[fieldName], {
-        isDirty: true,
-        isTouched: true,
-      })
-    }
-    // A bookmark name from an earlier receiver must not label this one.
-    setSelectedBookmark()
-    navigate({ to: navigationRoutes.home, replace: true })
+    // This page clears the amounts of a failed route on unmount, so fill after it.
+    navigate({ to: navigationRoutes.home, replace: true }).then(() => {
+      for (const fieldName of Object.keys(values) as (keyof typeof values)[]) {
+        setFieldValue(fieldName, values[fieldName], {
+          isDirty: true,
+          isTouched: true,
+        })
+      }
+      // A bookmark name from an earlier receiver must not label this one.
+      setSelectedBookmark()
+    })
     deleteRoute()
   }
 
