@@ -24,7 +24,7 @@ export function useRouteIssueCard(
   issue: RouteIssue | undefined
 ): RouteIssueCardContent | undefined {
   const { t } = useTranslation()
-  const { disabledUI, hiddenUI, keyPrefix } = useWidgetConfig()
+  const { disabledUI, hiddenUI, storageScopeKey } = useWidgetConfig()
   const queryClient = useQueryClient()
   const [fromChainId, fromTokenAddress, toChainId, toAddress] = useFieldValues(
     FormKeyHelper.getChainKey('from'),
@@ -69,7 +69,7 @@ export function useRouteIssueCard(
     },
     retry: () =>
       queryClient.invalidateQueries({
-        queryKey: [getQueryKey('routes', keyPrefix)],
+        queryKey: [getQueryKey('routes', storageScopeKey)],
         exact: false,
       }),
   }

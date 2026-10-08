@@ -12,7 +12,10 @@ import { useRouteIssueCard } from './useRouteIssueCard.js'
 // each button to the store or query it has to reach.
 
 const mocks = vi.hoisted(() => ({
-  config: { mode: 'default', keyPrefix: 'test' } as Record<string, unknown>,
+  config: { mode: 'default', storageScopeKey: 'test' } as Record<
+    string,
+    unknown
+  >,
   setFieldValue: vi.fn(),
   setSendAmount: vi.fn(),
   setSelectedBookmark: vi.fn(),
@@ -101,7 +104,7 @@ const press = (issue: RouteIssue): void => {
 }
 
 beforeEach(() => {
-  mocks.config.mode = 'default'
+  mocks.config = { mode: 'default', storageScopeKey: 'test' }
   vi.clearAllMocks()
   client = new QueryClient()
   container = document.createElement('div')
@@ -162,4 +165,16 @@ it('retries by invalidating every routes query and nothing else', () => {
   expect(client.getQueryState(['test-widget-tokens'])?.isInvalidated).toBe(
     false
   )
+})
+
+// The routes query is keyed on the resolved storage scope, which wins over the
+// deprecated `keyPrefix`. Keyed on the prefix, a retry reached no query at all
+// once an integrator set both.
+it('retries the routes query under its storage scope, not the old prefix', () => {
+  mocks.config = { mode: 'default', keyPrefix: 'old', storageScopeKey: 'test' }
+  client.setQueryData(['test-widget-routes', '0xfrom', 1], { routes: [] })
+  press(withBucket('temporary'))
+  expect(
+    client.getQueryState(['test-widget-routes', '0xfrom', 1])?.isInvalidated
+  ).toBe(true)
 })
