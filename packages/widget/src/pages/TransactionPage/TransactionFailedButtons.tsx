@@ -42,7 +42,7 @@ export const TransactionFailedButtons: React.FC<
   const navigate = useNavigate()
   const { mode, hiddenUI, disabledUI } = useWidgetConfig()
   const swapOnly = useSwapOnly()
-  const { setFieldValue } = useFieldActions()
+  const { setFieldValue, getFieldValues } = useFieldActions()
   const { setSelectedBookmark } = useBookmarkActions()
 
   const tokenValueBottomSheetRef = useRef<BottomSheetBase>(null)
@@ -64,7 +64,11 @@ export const TransactionFailedButtons: React.FC<
 
   // Home, not back: after a reload, the route is opened from Activities.
   const handleStartNewSwap = () => {
-    const keepReceiver = Boolean(disabledUI?.toAddress || hiddenUI?.toAddress)
+    // An empty hidden or locked field still needs the route's receiver.
+    const [formReceiver] = getFieldValues('toAddress')
+    const keepReceiver = Boolean(
+      (disabledUI?.toAddress || hiddenUI?.toAddress) && formReceiver
+    )
     const values = getNewSwapFormValues(route, { keepReceiver })
     // This page clears the amounts of a failed route on unmount, so fill after it.
     navigate({ to: navigationRoutes.home, replace: true }).then(() => {

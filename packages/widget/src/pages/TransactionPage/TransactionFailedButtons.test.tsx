@@ -151,6 +151,22 @@ const route = {
   steps: [step],
 } as unknown as RouteExtended
 
+const SOLANA_RECEIVER = 'So1anaReceiver11111111111111111111111111111'
+const routeToSolana = {
+  ...route,
+  toChainId: 1151111081099710,
+  steps: [
+    {
+      ...step,
+      action: {
+        ...step.action,
+        toChainId: 1151111081099710,
+        toAddress: SOLANA_RECEIVER,
+      },
+    },
+  ],
+} as unknown as RouteExtended
+
 let formStore: FormStoreStore
 let bookmarks: {
   selected?: Bookmark
@@ -207,10 +223,11 @@ let router: ReturnType<typeof makeRouter>
 
 const render = async (
   status: RouteExecutionStatus,
-  config: Partial<WidgetContextProps> = {}
+  config: Partial<WidgetContextProps> = {},
+  testRoute: RouteExtended = route
 ) => {
   routeState.store = create<TestRouteState>((set) => ({
-    route,
+    route: testRoute,
     status,
     setStatus: (status) => set({ status }),
     deleteRoute: () => set({ status: undefined }),
@@ -334,6 +351,18 @@ describe('Start a new swap and the transaction page cleanup', () => {
       expect(field('fromAmount')).toBe('1.5')
       expect(field('toAddress')).toBe('0xlocked')
       expect(bookmarks.selected).toEqual(locked)
+    })
+
+    it(`should fill the route's receiver when the form has none with ${JSON.stringify(config)}`, async () => {
+      await render(RouteExecutionStatus.Failed, config, routeToSolana)
+      await waitFor(() => !!newSwapButton())
+
+      newSwapButton()!.click()
+
+      await waitFor(() => !!container.querySelector('#home'))
+      await sleep(300)
+      expect(field('fromAmount')).toBe('1.5')
+      expect(field('toAddress')).toBe(SOLANA_RECEIVER)
     })
   }
 })
