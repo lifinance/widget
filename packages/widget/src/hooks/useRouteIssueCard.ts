@@ -68,10 +68,14 @@ export function useRouteIssueCard(
       setSelectedBookmark()
     },
     retry: () =>
-      queryClient.invalidateQueries({
-        queryKey: [getQueryKey('routes', storageScopeKey)],
-        exact: false,
-      }),
+      queryClient.invalidateQueries(
+        {
+          queryKey: [getQueryKey('routes', storageScopeKey)],
+          exact: false,
+        },
+        // A second press while the first refetch runs must not restart it.
+        { cancelRefetch: false }
+      ),
   }
 
   return issue ? buildRouteIssueCard(issue, deps) : undefined
