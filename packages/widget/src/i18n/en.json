@@ -170,7 +170,7 @@
         "description": "None of the routes for this pair can cover the gas for you, so you'll need to pay it yourself this time."
       },
       "blockedBySettings": {
-        "title": "Blocked by this widget’s settings",
+        "title": "Blocked by this widget's settings",
         "description": "This widget's settings block a step these routes need, such as a signature on the destination chain."
       },
       "liquidity": {
