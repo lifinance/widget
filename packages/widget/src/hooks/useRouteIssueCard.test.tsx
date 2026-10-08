@@ -23,6 +23,7 @@ const mocks = vi.hoisted(() => ({
   setFieldValue: vi.fn(),
   setSendAmount: vi.fn(),
   setSelectedBookmark: vi.fn(),
+  balance: { token: {}, isLoading: false } as Record<string, unknown>,
 }))
 
 vi.mock('react-i18next', () => ({
@@ -60,7 +61,11 @@ vi.mock('./useChain.js', () => ({
   useChain: (chainId: number) => ({ chain: { id: chainId, chainType: 'EVM' } }),
 }))
 vi.mock('./useMaxSendAmount.js', () => ({
-  useMaxSendAmount: () => 0n,
+  useMaxSendAmount: () =>
+    (mocks.balance.token as { amount?: bigint }).amount ?? 0n,
+}))
+vi.mock('./useTokenAddressBalance.js', () => ({
+  useTokenAddressBalance: () => mocks.balance,
 }))
 vi.mock('./useToAddressRequirements.js', () => ({
   useToAddressRequirements: () => ({
@@ -108,6 +113,7 @@ const press = (issue: RouteIssue): void => {
 }
 
 beforeEach(() => {
+  mocks.balance = { token: {}, isLoading: false }
   mocks.config = { mode: 'default', storageScopeKey: 'test' }
   vi.clearAllMocks()
   client = new QueryClient()
@@ -211,4 +217,36 @@ it('sends one request for two quick presses of retry', async () => {
   )
   expect(requests).toBe(2)
   unsubscribe()
+})
+
+describe('the amount button and the wallet balance', () => {
+  const show = (): void => {
+    act(() => {
+      root.render(
+        <QueryClientProvider client={client}>
+          <Probe issue={tooLow} />
+        </QueryClientProvider>
+      )
+    })
+  }
+
+  // Reported in QA: an empty wallet kept the button that a wallet holding a
+  // little less than the suggestion lost.
+  it('withdraws it for an empty wallet', () => {
+    mocks.balance = { token: { amount: 0n }, isLoading: false }
+    show()
+    expect(card?.action).toBeUndefined()
+  })
+
+  it('keeps it while the balance is unknown', () => {
+    mocks.balance = { token: {}, isLoading: false }
+    show()
+    expect(card?.action).toBeDefined()
+  })
+
+  it('keeps it while the balance is still loading', () => {
+    mocks.balance = { token: { amount: 0n }, isLoading: true }
+    show()
+    expect(card?.action).toBeDefined()
+  })
 })

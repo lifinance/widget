@@ -19,6 +19,7 @@ import { useChain } from './useChain.js'
 import { useMaxSendAmount } from './useMaxSendAmount.js'
 import { useToAddressRequirements } from './useToAddressRequirements.js'
 import { useToken } from './useToken.js'
+import { useTokenAddressBalance } from './useTokenAddressBalance.js'
 
 export function useRouteIssueCard(
   issue: RouteIssue | undefined
@@ -41,6 +42,10 @@ export function useRouteIssueCard(
   // must start at once rather than wait the typing debounce out.
   const applyAmount = useApplyAmount('from', { immediate: true })
   const maxAmount = useMaxSendAmount(fromChainId, fromTokenAddress)
+  // useMaxSendAmount reads an unknown balance as 0n, and an empty wallet is not
+  // an unknown one: only a loaded balance may withdraw the button.
+  const { token: balance, isLoading: isBalanceLoading } =
+    useTokenAddressBalance(fromChainId, fromTokenAddress)
   const { setValue } = useSettingsActions()
   const { slippage } = useSettings(['slippage'])
   const { requiredToAddress, unsupportedReceiverBlocking } =
@@ -51,7 +56,8 @@ export function useRouteIssueCard(
     token,
     slippage,
     amountLocked: Boolean(disabledUI?.fromAmount),
-    spendable: maxAmount,
+    spendable:
+      isBalanceLoading || balance?.amount === undefined ? undefined : maxAmount,
     receiverHidden: Boolean(hiddenUI?.toAddress),
     receiverRequired: requiredToAddress || unsupportedReceiverBlocking,
     toAddress,

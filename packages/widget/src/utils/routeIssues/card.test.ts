@@ -26,7 +26,7 @@ const deps = (
   amountLocked: false,
   receiverHidden: false,
   receiverRequired: false,
-  spendable: 0n,
+  spendable: undefined,
   toAddress: undefined,
   sameEcosystem: true,
   applyAmount: vi.fn(),
@@ -235,13 +235,24 @@ describe('amount suggestions', () => {
     expect(card.action).toBeDefined()
   })
 
-  // Zero means unknown — no wallet, or balances still loading — not broke.
+  // No wallet, or balances still loading: nothing says the wallet cannot fund it.
   it('still offers the button when the balance is unknown', () => {
+    const card = buildRouteIssueCard(
+      issue('amountTooLow', 200_000n, { requiredFromAmount: 2_000_000n }),
+      deps({ spendable: undefined })
+    )
+    expect(card.action).toBeDefined()
+  })
+
+  // Reported in QA: an empty wallet kept the button that a wallet holding a
+  // little less than the suggestion lost. Zero is a known balance, not unknown.
+  it('keeps the button away from an empty wallet', () => {
     const card = buildRouteIssueCard(
       issue('amountTooLow', 200_000n, { requiredFromAmount: 2_000_000n }),
       deps({ spendable: 0n })
     )
-    expect(card.action).toBeDefined()
+    expect(card.action).toBeUndefined()
+    expect(card.description).toBe('info.routeIssue.amountTooLow.description')
   })
 
   it('keeps the button away while the amount field is locked', () => {

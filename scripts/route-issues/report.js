@@ -75,7 +75,7 @@ it('reports what a user would read', () => {
       amountLocked: false,
       receiverHidden: false,
       receiverRequired: false,
-      spendable: 0n,
+      spendable: undefined,
       toAddress: request.toAddress,
       sameEcosystem: request.fromChainId === request.toChainId,
       applyAmount: (value) => {
