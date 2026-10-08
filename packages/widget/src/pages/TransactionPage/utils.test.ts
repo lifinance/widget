@@ -253,6 +253,11 @@ describe('canStartNewSwap', () => {
     expect(canStartNewSwap({ ...base, route: later })).toBe(false)
   })
 
+  it('should not offer a new swap when a later step failed before the first step started', () => {
+    const laterFailed = route(step(1, 1), step(1, 8453, failedExecution()))
+    expect(canStartNewSwap({ ...base, route: laterFailed })).toBe(false)
+  })
+
   it('should not offer a new swap when another step has executed actions', () => {
     const executedLater = route(
       step(1, 1, failedExecution()),
