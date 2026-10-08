@@ -49,6 +49,7 @@
     "showLess": "",
     "showMore": "",
     "startBridging": "Inizia il bridge",
+    "startNewSwap": "",
     "startSwapping": "Avvia lo scambio",
     "swap": "Scambio",
     "swapReview": "",
@@ -152,6 +153,7 @@
   "error": {
     "message": {
       "allowanceRequired": "L'importo di {{tokenSymbol}} supera la tua quota massima permessa. Aumenta la quota e riprova.",
+      "callBundleNotFound": "",
       "insufficientFunds": "Non hai abbastanza gas per coprire il costo della transazione.",
       "rateLimitExceeded": "",
       "remainInYourWallet": "",
@@ -173,6 +175,7 @@
       "balanceIsTooLow": "Il saldo è troppo basso",
       "bookmarkAlreadyExists": "",
       "bookmarkNameRequired": "",
+      "callBundleNotFound": "",
       "chainSwitch": "È necessario cambiare la chain",
       "exchangeRateUpdateCanceled": "",
       "gasLimitIsTooLow": "Limite di gas troppo basso",

@@ -130,6 +130,12 @@ export function getErrorMessage(
         chainName: getChainById(step.action.fromChainId)?.name ?? '',
       })
       break
+    // The funds may already be gone, so the message does not say that they
+    // remain in the wallet.
+    case LiFiErrorCode.CallBundleNotFound:
+      title = t('error.title.callBundleNotFound')
+      message = t('error.message.callBundleNotFound')
+      break
     default:
       title = t('error.title.unknown')
       if (failedAction?.txHash) {

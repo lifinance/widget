@@ -49,6 +49,7 @@
     "showLess": "",
     "showMore": "",
     "startBridging": "Почати бридж",
+    "startNewSwap": "",
     "startSwapping": "Почати своп",
     "swap": "Своп",
     "swapReview": "Переглянути своп",
@@ -152,6 +153,7 @@
   "error": {
     "message": {
       "allowanceRequired": "Сума переказу для {{tokenSymbol}} перевищує поточну межу. Збільшіть доступну кількість у гаманці та спробуйте ще раз.",
+      "callBundleNotFound": "",
       "insufficientFunds": "Не вистачає газу для покриття вартості транзакції.",
       "rateLimitExceeded": "Занадто багато запитів зроблено за короткий проміжок часу. Будь ласка, зачекайте трохи і повторіть спробу або зверніться до служби підтримки, якщо проблема повторюватиметься.",
       "remainInYourWallet": "{{amount, numberExt}} {{tokenSymbol}} на {{chainName}} все ще знаходяться у вашому гаманці.",
@@ -173,6 +175,7 @@
       "balanceIsTooLow": "Баланс занадто низький",
       "bookmarkAlreadyExists": "Гаманець вже в закладках як {{name}}",
       "bookmarkNameRequired": "Ім'я закладки є обов'язковим",
+      "callBundleNotFound": "",
       "chainSwitch": "Потрібно переключити чейн.",
       "exchangeRateUpdateCanceled": "Оновлення обмінного курсу скасовано",
       "gasLimitIsTooLow": "Занадто низький ліміт газу",

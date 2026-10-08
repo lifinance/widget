@@ -1,5 +1,13 @@
+import {
+  type Execution,
+  LiFiErrorCode,
+  type LiFiStepExtended,
+  type RouteExtended,
+} from '@lifi/sdk'
 import { describe, expect, it, vi } from 'vitest'
 import {
+  canStartNewSwap,
+  getNewSwapFormValues,
   getRetryGates,
   getStartGates,
   nextGate,
@@ -138,5 +146,184 @@ describe('getStartGates', () => {
   it('should not need the value gate in custom mode', () => {
     const custom = { ...base, valueLossExceeded: true, isCustomMode: true }
     expect(getStartGates(custom)[2][1]).toBe(false)
+  })
+})
+
+const SENDER = '0x1111111111111111111111111111111111111111'
+const RECEIVER = '0x2222222222222222222222222222222222222222'
+
+const failedExecution = (
+  code: number = LiFiErrorCode.CallBundleNotFound
+): Execution => ({
+  status: 'FAILED',
+  startedAt: 0,
+  actions: [
+    {
+      type: 'SWAP',
+      status: 'FAILED',
+      taskId: '0xbundle',
+      error: { code, message: 'This bundle id is unknown' },
+    },
+  ],
+})
+
+const doneExecution: Execution = {
+  status: 'DONE',
+  startedAt: 0,
+  actions: [{ type: 'SWAP', status: 'DONE', txHash: '0xhash' }],
+}
+
+const step = (
+  fromChainId: number,
+  toChainId: number,
+  execution?: Execution,
+  toAddress = SENDER
+): LiFiStepExtended =>
+  ({
+    id: `${fromChainId}-${toChainId}`,
+    action: {
+      fromChainId,
+      fromAmount: '1500000',
+      fromToken: { address: `0xfrom${fromChainId}`, decimals: 6 },
+      fromAddress: SENDER,
+      toChainId,
+      toToken: { address: `0xto${toChainId}`, decimals: 18 },
+      toAddress,
+    },
+    execution,
+  }) as LiFiStepExtended
+
+const route = (...steps: LiFiStepExtended[]): RouteExtended =>
+  ({
+    fromChainId: steps[0].action.fromChainId,
+    toChainId: steps.at(-1)!.action.toChainId,
+    steps,
+  }) as RouteExtended
+
+describe('canStartNewSwap', () => {
+  const base = { mode: 'default' as const, swapOnly: false }
+
+  it('should offer a new swap when the wallet has no record of the first step', () => {
+    expect(
+      canStartNewSwap({
+        ...base,
+        route: route(step(1, 8453, failedExecution())),
+      })
+    ).toBe(true)
+  })
+
+  it('should offer a new swap when the failed step holds the error itself', () => {
+    const execution: Execution = {
+      status: 'FAILED',
+      startedAt: 0,
+      actions: [],
+      error: { code: LiFiErrorCode.CallBundleNotFound, message: '' },
+    }
+    expect(
+      canStartNewSwap({ ...base, route: route(step(1, 8453, execution)) })
+    ).toBe(true)
+  })
+
+  it('should not offer a new swap for other errors', () => {
+    for (const code of [
+      LiFiErrorCode.SignatureRejected,
+      LiFiErrorCode.TransactionRejected,
+      LiFiErrorCode.TransactionFailed,
+    ]) {
+      expect(
+        canStartNewSwap({
+          ...base,
+          route: route(step(1, 8453, failedExecution(code))),
+        })
+      ).toBe(false)
+    }
+  })
+
+  it('should not offer a new swap for a route that did not fail', () => {
+    expect(
+      canStartNewSwap({ ...base, route: route(step(1, 8453, doneExecution)) })
+    ).toBe(false)
+  })
+
+  it('should not offer a new swap when a later step failed', () => {
+    const later = route(
+      step(1, 1, doneExecution),
+      step(1, 8453, failedExecution())
+    )
+    expect(canStartNewSwap({ ...base, route: later })).toBe(false)
+  })
+
+  it('should not offer a new swap when another step has executed actions', () => {
+    const executedLater = route(
+      step(1, 1, failedExecution()),
+      step(1, 8453, doneExecution)
+    )
+    expect(canStartNewSwap({ ...base, route: executedLater })).toBe(false)
+  })
+
+  it('should offer a new swap when the later steps have not started', () => {
+    const notStarted = route(step(1, 1, failedExecution()), step(1, 8453))
+    expect(canStartNewSwap({ ...base, route: notStarted })).toBe(true)
+  })
+
+  it('should offer a new swap in the modes with the plain swap form', () => {
+    const failed = route(step(1, 8453, failedExecution()))
+    for (const mode of [undefined, 'default', 'split'] as const) {
+      expect(canStartNewSwap({ ...base, mode, route: failed })).toBe(true)
+    }
+  })
+
+  it('should not offer a new swap in modes that replace the swap form', () => {
+    const failed = route(step(1, 8453, failedExecution()))
+    for (const mode of ['custom', 'refuel', 'limit'] as const) {
+      expect(canStartNewSwap({ ...base, mode, route: failed })).toBe(false)
+    }
+  })
+
+  it('should not offer a cross-chain swap to a swap-only form', () => {
+    const crossChain = route(step(1, 8453, failedExecution()))
+    const sameChain = route(step(1, 1, failedExecution()))
+    const swapOnly = { mode: 'split' as const, swapOnly: true }
+    expect(canStartNewSwap({ ...swapOnly, route: crossChain })).toBe(false)
+    expect(canStartNewSwap({ ...swapOnly, route: sameChain })).toBe(true)
+  })
+})
+
+describe('getNewSwapFormValues', () => {
+  it('should fill the form with the same swap and no receiver for the sender', () => {
+    expect(
+      getNewSwapFormValues(route(step(1, 8453, failedExecution())))
+    ).toEqual({
+      fromChain: 1,
+      fromToken: '0xfrom1',
+      fromAmount: '1.5',
+      toChain: 8453,
+      toToken: '0xto8453',
+      toAddress: '',
+    })
+  })
+
+  it('should treat a receiver in other letter case as the sender', () => {
+    const otherCase = step(1, 8453, failedExecution(), SENDER.toUpperCase())
+    expect(getNewSwapFormValues(route(otherCase)).toAddress).toBe('')
+  })
+
+  it('should keep a receiver that differs from the sender', () => {
+    const toOther = step(1, 8453, failedExecution(), RECEIVER)
+    expect(getNewSwapFormValues(route(toOther)).toAddress).toBe(RECEIVER)
+  })
+
+  it('should take the destination of a multi-step route from its last step', () => {
+    const multiStep = route(
+      step(1, 1, failedExecution()),
+      step(1, 8453, undefined, RECEIVER)
+    )
+    expect(getNewSwapFormValues(multiStep)).toMatchObject({
+      fromChain: 1,
+      fromToken: '0xfrom1',
+      toChain: 8453,
+      toToken: '0xto8453',
+      toAddress: RECEIVER,
+    })
   })
 })

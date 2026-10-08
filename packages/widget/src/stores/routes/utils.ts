@@ -1,4 +1,9 @@
-import type { ExecutionAction, RouteExtended } from '@lifi/sdk'
+import type {
+  ExecutionAction,
+  ExecutionActionType,
+  LiFiStepExtended,
+  RouteExtended,
+} from '@lifi/sdk'
 import microdiff from 'microdiff'
 
 export const isRouteDone = (route: RouteExtended): boolean => {
@@ -19,6 +24,27 @@ export const isRouteRefunded = (route: RouteExtended): boolean => {
 
 export const isRouteFailed = (route: RouteExtended): boolean => {
   return route.steps.some((step) => step.execution?.status === 'FAILED')
+}
+
+/**
+ * The failed step and the action that holds its error. A step can fail before
+ * it has an action, so a synthetic action then carries the step's own error.
+ */
+export const getFailedStepAction = (
+  route: RouteExtended
+): { step: LiFiStepExtended; action: ExecutionAction } | undefined => {
+  const step = route.steps.find((step) => step.execution?.status === 'FAILED')
+  if (!step) {
+    return undefined
+  }
+  const action = step.execution?.actions?.find(
+    (action) => action.status === 'FAILED'
+  ) || {
+    status: 'FAILED',
+    type: 'EXECUTION' as ExecutionActionType,
+    error: step.execution?.error,
+  }
+  return { step, action }
 }
 
 export const isRouteActive = (route?: RouteExtended): boolean => {

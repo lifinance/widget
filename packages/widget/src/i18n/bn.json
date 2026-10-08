@@ -49,6 +49,7 @@
     "showLess": "",
     "showMore": "",
     "startBridging": "",
+    "startNewSwap": "",
     "startSwapping": "",
     "swap": "সোওয়াপ",
     "swapReview": "",
@@ -152,6 +153,7 @@
   "error": {
     "message": {
       "allowanceRequired": "",
+      "callBundleNotFound": "",
       "insufficientFunds": "",
       "rateLimitExceeded": "",
       "remainInYourWallet": "",
@@ -173,6 +175,7 @@
       "balanceIsTooLow": "ব্যালেন্স খুব কম",
       "bookmarkAlreadyExists": "",
       "bookmarkNameRequired": "",
+      "callBundleNotFound": "",
       "chainSwitch": "চেইন সুইচ প্রয়োজন",
       "exchangeRateUpdateCanceled": "",
       "gasLimitIsTooLow": "গ্যাসের সীমা খুব কম",

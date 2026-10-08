@@ -49,6 +49,7 @@
     "showLess": "",
     "showMore": "",
     "startBridging": "Bắt đầu đi cầu",
+    "startNewSwap": "",
     "startSwapping": "Bắt đầu Swap",
     "swap": "Swap",
     "swapReview": "",
@@ -152,6 +153,7 @@
   "error": {
     "message": {
       "allowanceRequired": "Chuyển số lượng {{tokenSymbol}} vượt quá mức cho phép hiện tại của bạn. Vui lòng tăng mức độ cho phép sử dụng token và thử lại.",
+      "callBundleNotFound": "",
       "insufficientFunds": "Bạn không có đủ gas để chi trả cho chi phí giao dịch.",
       "rateLimitExceeded": "",
       "remainInYourWallet": "",
@@ -173,6 +175,7 @@
       "balanceIsTooLow": "Số dư quá thấp",
       "bookmarkAlreadyExists": "Ví đã được đánh dấu là {{name}}",
       "bookmarkNameRequired": "Tên dấu trang là bắt buộc",
+      "callBundleNotFound": "",
       "chainSwitch": "Yêu cầu đổi chain",
       "exchangeRateUpdateCanceled": "Đã hủy cập nhật tỷ giá",
       "gasLimitIsTooLow": "Giới hạn gas quá thấp",

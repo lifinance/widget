@@ -49,6 +49,7 @@
     "showLess": "",
     "showMore": "",
     "startBridging": "ブリッジを開始",
+    "startNewSwap": "",
     "startSwapping": "スワップを開始",
     "swap": "スワップ",
     "swapReview": "",
@@ -152,6 +153,7 @@
   "error": {
     "message": {
       "allowanceRequired": "{{tokenSymbol}} の送金額が現在の許可量を超えています。許可量を増やしてもう一度お試しください。",
+      "callBundleNotFound": "",
       "insufficientFunds": "トランザクションを完了するのに十分なガスがありません。",
       "rateLimitExceeded": "",
       "remainInYourWallet": "",
@@ -173,6 +175,7 @@
       "balanceIsTooLow": "残高が少なすぎます",
       "bookmarkAlreadyExists": "ウォレットはすでに {{name}} としてブックマークされています",
       "bookmarkNameRequired": "ブックマーク名が必要です",
+      "callBundleNotFound": "",
       "chainSwitch": "チェーンの切り替えが必要です",
       "exchangeRateUpdateCanceled": "交換レートの更新がキャンセルされました",
       "gasLimitIsTooLow": "ガス制限が低すぎます",

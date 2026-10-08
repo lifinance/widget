@@ -49,6 +49,7 @@
     "showLess": "",
     "showMore": "",
     "startBridging": "Starte Bridge Protokoll",
+    "startNewSwap": "",
     "startSwapping": "Swap starten",
     "swap": "Swap",
     "swapReview": "",
@@ -152,6 +153,7 @@
   "error": {
     "message": {
       "allowanceRequired": "Überweisungsbetrag für {{tokenSymbol}} überschreitet Ihre derzeitige Zulassung. Bitte erhöhen Sie das Limit und versuchen Sie es erneut.",
+      "callBundleNotFound": "",
       "insufficientFunds": "Sie haben nicht genug Gas, um die Kosten der Transaktion zu decken.",
       "rateLimitExceeded": "",
       "remainInYourWallet": "",
@@ -173,6 +175,7 @@
       "balanceIsTooLow": "Ihr Guthaben ist zu gering",
       "bookmarkAlreadyExists": "",
       "bookmarkNameRequired": "",
+      "callBundleNotFound": "",
       "chainSwitch": "Chainwechsel erforderlich",
       "exchangeRateUpdateCanceled": "",
       "gasLimitIsTooLow": "Das Gaslimit ist zu niedrig",

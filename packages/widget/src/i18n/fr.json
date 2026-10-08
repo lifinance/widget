@@ -49,6 +49,7 @@
     "showLess": "",
     "showMore": "",
     "startBridging": "Commencer le pont",
+    "startNewSwap": "",
     "startSwapping": "Commencer à échanger",
     "swap": "Échanger",
     "swapReview": "",
@@ -152,6 +153,7 @@
   "error": {
     "message": {
       "allowanceRequired": "Le montant du transfert pour {{tokenSymbol}} dépasse votre allocation actuelle. Veuillez augmenter votre allocation et réessayer.",
+      "callBundleNotFound": "",
       "insufficientFunds": "Vous n'avez pas assez de gaz pour couvrir le coût de la transaction.",
       "rateLimitExceeded": "",
       "remainInYourWallet": "",
@@ -173,6 +175,7 @@
       "balanceIsTooLow": "Le solde est trop bas.",
       "bookmarkAlreadyExists": "Le portefeuille est déjà marqué en tant que {{name}}",
       "bookmarkNameRequired": "Le nom du marque-page est requis",
+      "callBundleNotFound": "",
       "chainSwitch": "Changement de chaîne nécessaire.",
       "exchangeRateUpdateCanceled": "Mise à jour du taux de change annulée",
       "gasLimitIsTooLow": "La limite de gaz est trop basse.",

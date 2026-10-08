@@ -49,6 +49,7 @@
     "showLess": "",
     "showMore": "",
     "startBridging": "Mulai bridge",
+    "startNewSwap": "",
     "startSwapping": "Mulai swap",
     "swap": "Swap",
     "swapReview": "Tinjau swap",
@@ -152,6 +153,7 @@
   "error": {
     "message": {
       "allowanceRequired": "Jumlah transfer untuk {{tokenSymbol}} melebihi jatah Anda saat ini. Tingkatkan jatah Anda dan coba lagi.",
+      "callBundleNotFound": "",
       "insufficientFunds": "Anda tidak memiliki cukup gas untuk menutup biaya transaksi.",
       "rateLimitExceeded": "",
       "remainInYourWallet": "{{amount, numberExt}} {{tokenSymbol}} di {{chainName}} tetap ada di dompet Anda.",
@@ -173,6 +175,7 @@
       "balanceIsTooLow": "Saldo Anda terlalu sedikit",
       "bookmarkAlreadyExists": "Dompet telah di tandai dengan nama {{name}}",
       "bookmarkNameRequired": "Nama bookmark di perlukan",
+      "callBundleNotFound": "",
       "chainSwitch": "Penggantian jaringan diperlukan",
       "exchangeRateUpdateCanceled": "Pembaruan nilai tukar dibatalkan",
       "gasLimitIsTooLow": "Gas limit terlalu rendah",

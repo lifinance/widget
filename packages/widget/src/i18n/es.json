@@ -49,6 +49,7 @@
     "showLess": "",
     "showMore": "",
     "startBridging": "Comenzar puente",
+    "startNewSwap": "",
     "startSwapping": "Iniciar intercambio",
     "swap": "Swap",
     "swapReview": "Revisar intercambio",
@@ -152,6 +153,7 @@
   "error": {
     "message": {
       "allowanceRequired": "El monto de la transferencia para {{tokenSymbol}} supera su autorización actual. Por favor, aumente su permiso e inténtelo de nuevo.",
+      "callBundleNotFound": "",
       "insufficientFunds": "No tiene suficiente gas para cubrir el coste de la transacción.",
       "rateLimitExceeded": "",
       "remainInYourWallet": "",
@@ -173,6 +175,7 @@
       "balanceIsTooLow": "El balance es demasiado bajo",
       "bookmarkAlreadyExists": "La billetera ya está marcada como {{name}}",
       "bookmarkNameRequired": "El nombre del marcador es obligatorio",
+      "callBundleNotFound": "",
       "chainSwitch": "Se requiere cambiar cadena.",
       "exchangeRateUpdateCanceled": "Actualización del tipo de cambio cancelada",
       "gasLimitIsTooLow": "Límite de gas es demasiado bajo",

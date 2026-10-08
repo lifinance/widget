@@ -49,6 +49,7 @@
     "showLess": "",
     "showMore": "",
     "startBridging": "Iniciar ponte",
+    "startNewSwap": "",
     "startSwapping": "Iniciar conversão",
     "swap": "Conversão",
     "swapReview": "Revisar conversão",
@@ -152,6 +153,7 @@
   "error": {
     "message": {
       "allowanceRequired": "A quantidade a ser transferida para {{tokenSymbol}} excede a sua permissão atual. Por favor, aumente a sua permissão e tente novamente.",
+      "callBundleNotFound": "",
       "insufficientFunds": "Você não tem gás suficiente para cobrir o custo da transação.",
       "rateLimitExceeded": "Foram feitos muitos pedidos num curto espaço de tempo. Por favor, aguarde um momento e tente novamente ou entre em contato com o suporte se o problema persistir.",
       "remainInYourWallet": "{{amount, numberExt}} {{tokenSymbol}} em {{chainName}} permanece na sua carteira.",
@@ -173,6 +175,7 @@
       "balanceIsTooLow": "O saldo é muito baixo",
       "bookmarkAlreadyExists": "Carteira já está marcada como {{name}}",
       "bookmarkNameRequired": "O nome do marcador é necessário",
+      "callBundleNotFound": "",
       "chainSwitch": "Necessário mudança de rede",
       "exchangeRateUpdateCanceled": "Atualização da taxa de conversão cancelada",
       "gasLimitIsTooLow": "O limite de gás é muito baixo",

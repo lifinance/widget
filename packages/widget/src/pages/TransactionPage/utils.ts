@@ -1,3 +1,8 @@
+import { LiFiErrorCode, type RouteExtended } from '@lifi/sdk'
+import { getFailedStepAction } from '../../stores/routes/utils.js'
+import type { WidgetMode } from '../../types/widget.js'
+import { formatTokenAmount } from '../../utils/format.js'
+
 export const calculateValueLossPercentage = (
   fromAmountUSD: number,
   toAmountUSD: number,
@@ -101,3 +106,80 @@ export const getStartGates = (
   ['address', needsAddressConfirmation(input)],
   ['value', input.valueLossExceeded && !input.isCustomMode],
 ]
+
+// The modes whose form holds a plain from/to swap. Custom mode replaces the
+// destination, refuel fixes it to gas, and the other modes ask for values that
+// a route step does not hold.
+const newSwapModes: readonly (WidgetMode | undefined)[] = [
+  undefined,
+  'default',
+  'split',
+]
+
+/**
+ * Whether a failed route offers "Start a new swap" in place of "Delete". The
+ * wallet has no record of the call bundle, so retrying waits for the same
+ * bundle again. The new swap repeats the whole route, so the route must not
+ * have got past its first step.
+ */
+export const canStartNewSwap = ({
+  route,
+  mode,
+  swapOnly,
+}: {
+  route: RouteExtended
+  mode: WidgetMode | undefined
+  swapOnly: boolean
+}): boolean => {
+  const failed = getFailedStepAction(route)
+  if (failed?.action.error?.code !== LiFiErrorCode.CallBundleNotFound) {
+    return false
+  }
+  return (
+    failed.step === route.steps[0] &&
+    route.steps.every(
+      (step) => step === failed.step || !step.execution?.actions?.length
+    ) &&
+    newSwapModes.includes(mode) &&
+    // A swap-only form requests no bridges, so it cannot quote a cross-chain swap.
+    !(swapOnly && route.fromChainId !== route.toChainId)
+  )
+}
+
+interface NewSwapFormValues {
+  fromChain: number
+  fromToken: string
+  fromAmount: string
+  toChain: number
+  toToken: string
+  toAddress: string
+}
+
+/**
+ * The form values that repeat a route. The destination comes from the last
+ * step, because the first step of a multi-step route ends at an intermediate
+ * token. A receiver that is the sender stays empty, as for a swap to the
+ * connected wallet.
+ */
+export const getNewSwapFormValues = (
+  route: RouteExtended
+): NewSwapFormValues => {
+  const { action: fromAction } = route.steps[0]
+  const { action: toAction } = route.steps[route.steps.length - 1]
+  const receiver = toAction.toAddress
+  return {
+    fromChain: fromAction.fromChainId,
+    fromToken: fromAction.fromToken.address,
+    fromAmount: formatTokenAmount(
+      BigInt(fromAction.fromAmount),
+      fromAction.fromToken.decimals
+    ),
+    toChain: toAction.toChainId,
+    toToken: toAction.toToken.address,
+    toAddress:
+      receiver &&
+      receiver.toLowerCase() !== fromAction.fromAddress?.toLowerCase()
+        ? receiver
+        : '',
+  }
+}

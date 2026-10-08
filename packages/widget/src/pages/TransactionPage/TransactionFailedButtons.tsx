@@ -1,20 +1,27 @@
 import type { RouteExtended } from '@lifi/sdk'
 import { Box, Button } from '@mui/material'
+import { useNavigate } from '@tanstack/react-router'
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { useAddressActivity } from '../../hooks/useAddressActivity.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
+import { useSwapOnly } from '../../hooks/useSwapOnly.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
+import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { WidgetEvent } from '../../types/events.js'
 import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
+import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { ConfirmToAddressSheet } from './ConfirmToAddressSheet.js'
 import { StartTransactionButton } from './StartTransactionButton.js'
 import { TokenValueBottomSheet } from './TokenValueBottomSheet.js'
 import type { RetryGate } from './utils.js'
 import {
   calculateValueLossPercentage,
+  canStartNewSwap,
+  getNewSwapFormValues,
   getRetryGates,
   getTokenValueLossThreshold,
   openNextGate,
@@ -32,7 +39,11 @@ export const TransactionFailedButtons: React.FC<
   const { t } = useTranslation()
   const emitter = useWidgetEvents()
   const navigateBack = useNavigateBack()
+  const navigate = useNavigate()
   const { mode, hiddenUI } = useWidgetConfig()
+  const swapOnly = useSwapOnly()
+  const { setFieldValue } = useFieldActions()
+  const { setSelectedBookmark } = useBookmarkActions()
 
   const tokenValueBottomSheetRef = useRef<BottomSheetBase>(null)
   const confirmToAddressSheetRef = useRef<BottomSheetBase>(null)
@@ -46,6 +57,24 @@ export const TransactionFailedButtons: React.FC<
 
   const handleRemoveRoute = () => {
     navigateBack()
+    deleteRoute()
+  }
+
+  const showStartNewSwap = canStartNewSwap({ route, mode, swapOnly })
+
+  // Goes to the main page, not back: after a reload, the failed route opens
+  // from the activities page, and the new quote shows on the main page.
+  const handleStartNewSwap = () => {
+    const values = getNewSwapFormValues(route)
+    for (const fieldName of Object.keys(values) as (keyof typeof values)[]) {
+      setFieldValue(fieldName, values[fieldName], {
+        isDirty: true,
+        isTouched: true,
+      })
+    }
+    // A bookmark name from an earlier receiver must not label this one.
+    setSelectedBookmark()
+    navigate({ to: navigationRoutes.home, replace: true })
     deleteRoute()
   }
 
@@ -108,9 +137,15 @@ export const TransactionFailedButtons: React.FC<
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
       <Box sx={{ display: 'flex', gap: 1.5 }}>
         <Box sx={{ flex: 1 }}>
-          <Button onClick={handleRemoveRoute} fullWidth>
-            {t('button.delete')}
-          </Button>
+          {showStartNewSwap ? (
+            <Button onClick={handleStartNewSwap} fullWidth>
+              {t('button.startNewSwap')}
+            </Button>
+          ) : (
+            <Button onClick={handleRemoveRoute} fullWidth>
+              {t('button.delete')}
+            </Button>
+          )}
         </Box>
         <Box sx={{ flex: 1 }}>
           <StartTransactionButton

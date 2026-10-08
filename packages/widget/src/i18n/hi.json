@@ -49,6 +49,7 @@
     "showLess": "",
     "showMore": "",
     "startBridging": "",
+    "startNewSwap": "",
     "startSwapping": "",
     "swap": "कुंजी: बटन. विनिमय \nबटन -> विनिमय ",
     "swapReview": "",
@@ -152,6 +153,7 @@
   "error": {
     "message": {
       "allowanceRequired": "",
+      "callBundleNotFound": "",
       "insufficientFunds": "",
       "rateLimitExceeded": "",
       "remainInYourWallet": "",
@@ -173,6 +175,7 @@
       "balanceIsTooLow": "",
       "bookmarkAlreadyExists": "",
       "bookmarkNameRequired": "",
+      "callBundleNotFound": "",
       "chainSwitch": "",
       "exchangeRateUpdateCanceled": "",
       "gasLimitIsTooLow": "",

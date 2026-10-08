@@ -49,6 +49,7 @@
     "showLess": "",
     "showMore": "",
     "startBridging": "Başla",
+    "startNewSwap": "",
     "startSwapping": "Takas işlemini başlat",
     "swap": "Takas et",
     "swapReview": "Takas işlemini incele",
@@ -152,6 +153,7 @@
   "error": {
     "message": {
       "allowanceRequired": "{{tokenSymbol}} için verilen izinden fazla miktarda transfer yapılamaz. Token izinlerini arttırıp tekrar deneyiniz.",
+      "callBundleNotFound": "",
       "insufficientFunds": "Bu işlemi gerçekleştirmek için yeterli gaz bulunmamaktadır.",
       "rateLimitExceeded": "",
       "remainInYourWallet": "",
@@ -173,6 +175,7 @@
       "balanceIsTooLow": "Bakiye çok düşük",
       "bookmarkAlreadyExists": "Bu cüzdan daha önce {{name}} adıyla kaydedilmiş",
       "bookmarkNameRequired": "Yer işareti için isim gereklidir",
+      "callBundleNotFound": "",
       "chainSwitch": "Lütfen ağı değiştirin",
       "exchangeRateUpdateCanceled": "Fiyat güncellemesi iptal edildi",
       "gasLimitIsTooLow": "Gaz limiti çok düşük",

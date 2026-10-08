@@ -49,6 +49,7 @@
     "showLess": "",
     "showMore": "",
     "startBridging": "开始跨链",
+    "startNewSwap": "",
     "startSwapping": "开始兑换",
     "swap": "兑换",
     "swapReview": "查看兑换详情",
@@ -152,6 +153,7 @@
   "error": {
     "message": {
       "allowanceRequired": "{{tokenSymbol}} 的转账金额超过了您设置的支出上限。请提高该代币的支出上限，然后重试。",
+      "callBundleNotFound": "",
       "insufficientFunds": "您没有足够的燃气费支付该交易。",
       "rateLimitExceeded": "",
       "remainInYourWallet": "",
@@ -173,6 +175,7 @@
       "balanceIsTooLow": "余额太低",
       "bookmarkAlreadyExists": "钱包: {{name}}，已被收藏",
       "bookmarkNameRequired": "请输入收藏钱包的名称",
+      "callBundleNotFound": "",
       "chainSwitch": "请切换当前网络",
       "exchangeRateUpdateCanceled": "兑换率更新已取消",
       "gasLimitIsTooLow": "燃气费设置过低",

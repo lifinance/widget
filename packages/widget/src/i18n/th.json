@@ -49,6 +49,7 @@
     "showLess": "",
     "showMore": "",
     "startBridging": "เริ่มต้นการบริดจ์",
+    "startNewSwap": "",
     "startSwapping": "เริ่มต้นการแลกเปลี่ยน",
     "swap": "การแลกเปลี่ยน",
     "swapReview": "",
@@ -152,6 +153,7 @@
   "error": {
     "message": {
       "allowanceRequired": "โอนด้วยจำนวน {{tokenSymbol}} ตามการอนุญาตของคุณ.ได้โปรดเพิ่มการอนุญาตของคุณอีกครั้ง",
+      "callBundleNotFound": "",
       "insufficientFunds": "คุณมีแก็สไม่พอสำหรับการธุรกรรมนี้",
       "rateLimitExceeded": "",
       "remainInYourWallet": "",
@@ -173,6 +175,7 @@
       "balanceIsTooLow": "ยอดคงเหลือต่ำเกินไป",
       "bookmarkAlreadyExists": "กระเป๋าเงินถูก bookmark แล้วในชื่อ {{name}}",
       "bookmarkNameRequired": "จำเป็นต้องมีชื่อ Bookmark ",
+      "callBundleNotFound": "",
       "chainSwitch": "จำเป็นต้องเปลี่ยนเชน",
       "exchangeRateUpdateCanceled": "การอัปเดตอัตราแลกเปลี่ยนถูกยกเลิก",
       "gasLimitIsTooLow": "แก๊สคงเหลือต่ำเกินไป",

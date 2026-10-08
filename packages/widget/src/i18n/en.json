@@ -60,6 +60,7 @@
     "showLess": "Show less",
     "showMore": "Show {{count}} more",
     "startBridging": "Start bridging",
+    "startNewSwap": "Start a new swap",
     "startSwapping": "Start swapping",
     "swap": "Swap",
     "swapReview": "Review swap",
@@ -184,6 +185,7 @@
   "error": {
     "message": {
       "allowanceRequired": "Transfer amount for {{tokenSymbol}} exceeds your current allowance. Please increase your allowance and try again.",
+      "callBundleNotFound": "Your wallet has no record of this transaction. If you rejected it, start a new swap. If you approved it, do not start a new swap. The first swap can still complete.",
       "insufficientFunds": "You don't have enough gas to cover the cost of the transaction.",
       "rateLimitExceeded": "Too many requests have been made in a short period of time. Please wait a moment and try again or contact support if the issue persists.",
       "remainInYourWallet": "{{amount, numberExt}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",
@@ -205,6 +207,7 @@
       "balanceIsTooLow": "The balance is too low",
       "bookmarkAlreadyExists": "Wallet is already bookmarked as {{name}}",
       "bookmarkNameRequired": "Bookmark name is required",
+      "callBundleNotFound": "Transaction not found in your wallet",
       "chainSwitch": "Chain switch required",
       "exchangeRateUpdateCanceled": "Exchange rate update canceled",
       "gasLimitIsTooLow": "The gas limit is too low",
