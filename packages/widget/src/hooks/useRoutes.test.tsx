@@ -310,20 +310,62 @@ describe('an empty main result beside a relayer quote', () => {
     })
   })
 
-  // Reporting "no routes" before the relayer answers would hide a route the
-  // user can take behind a card explaining why there is none.
-  it('waits for the relayer and shows its route alone', async () => {
+  // Reported in QA: the no-route answer waited on the relayer — 2.8 s live, and
+  // as long as the relayer hung. It now goes out at once, and a route the
+  // relayer brings later still takes its place.
+  it('answers at once and adds the relayer route when it arrives', async () => {
+    let release = (_route: unknown): void => {}
     mocks.getRelayerQuote.mockReturnValue(
-      new Promise((resolve) =>
-        setTimeout(() => resolve({ id: 'relayer-route' }), 20)
-      )
+      new Promise((resolve) => {
+        release = resolve
+      })
     )
     render()
     await settled()
     expect(mocks.getRelayerQuote).toHaveBeenCalledTimes(1)
-    expect(hook().routes).toEqual([{ id: 'relayer-route' }])
+    expect(hook().routes).toEqual([])
+    expect(hook().issues.map((issue) => issue.bucket)).toEqual(['temporary'])
+    expect(emittedRoutes()).toEqual([[]])
+
+    act(() => release({ id: 'relayer-route' }))
+    await vi.waitFor(() =>
+      expect(hook().routes).toEqual([{ id: 'relayer-route' }])
+    )
     expect(hook().issues).toEqual([])
-    expect(emittedRoutes()).toEqual([[{ id: 'relayer-route' }]])
+    expect(emittedRoutes()).toEqual([[], [{ id: 'relayer-route' }]])
+  })
+
+  // The late route answers an older request. A newer answer that already has a
+  // route must not be swapped for it.
+  it('keeps a newer answer when the relayer arrives late', async () => {
+    let release = (_route: unknown): void => {}
+    mocks.getRelayerQuote
+      .mockReturnValueOnce(
+        new Promise((resolve) => {
+          release = resolve
+        })
+      )
+      .mockResolvedValue(null)
+    render()
+    await settled()
+
+    // The token fields feed the cache sync that runs on the first route.
+    const mainRoute = {
+      id: 'main-route',
+      fromToken: { chainId: 1, address: '0xusdc' },
+      toToken: { chainId: 10, address: '0xusdc10' },
+    }
+    mocks.getRoutes.mockResolvedValue({
+      routes: [mainRoute],
+      unavailableRoutes: reasons,
+    })
+    refetch()
+    await vi.waitFor(() => expect(hook().routes).toEqual([mainRoute]))
+    await settled()
+
+    act(() => release({ id: 'relayer-route' }))
+    await new Promise((resolve) => setTimeout(resolve, 20))
+    expect(hook().routes).toEqual([mainRoute])
   })
 
   it('explains the empty result when the relayer has nothing either', async () => {
