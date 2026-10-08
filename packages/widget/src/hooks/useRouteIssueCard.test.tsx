@@ -1,6 +1,10 @@
 /** @vitest-environment happy-dom */
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import {
+  QueryClient,
+  QueryClientProvider,
+  QueryObserver,
+} from '@tanstack/react-query'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
@@ -177,4 +181,34 @@ it('retries the routes query under its storage scope, not the old prefix', () =>
   expect(
     client.getQueryState(['test-widget-routes', '0xfrom', 1])?.isInvalidated
   ).toBe(true)
+})
+
+// Each press invalidated afresh, and an invalidation cancels a refetch in flight
+// to start another: two presses 80 ms apart sent two quote requests.
+it('sends one request for two quick presses of retry', async () => {
+  let requests = 0
+  const observer = new QueryObserver(client, {
+    queryKey: ['test-widget-routes', '0xfrom'],
+    queryFn: () => {
+      requests++
+      return new Promise((resolve) =>
+        setTimeout(() => resolve({ routes: [] }), 50)
+      )
+    },
+  })
+  const unsubscribe = observer.subscribe(() => {})
+  await vi.waitFor(() =>
+    expect(observer.getCurrentResult().isFetched).toBe(true)
+  )
+  expect(requests).toBe(1)
+
+  press(withBucket('temporary'))
+  act(() => {
+    card?.action?.run()
+  })
+  await vi.waitFor(() =>
+    expect(observer.getCurrentResult().isFetching).toBe(false)
+  )
+  expect(requests).toBe(2)
+  unsubscribe()
 })
