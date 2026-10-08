@@ -364,6 +364,10 @@
     "currentPrice": "Поточна ціна",
     "contractAddress": "Адреса контракту",
     "marketCap": "Ринкова капіталізація",
-    "volume24h": "Обсяг 24г"
+    "volume24h": "Обсяг 24г",
+    "status": "",
+    "statusFlagged": "",
+    "statusUnverified": "",
+    "statusVerified": ""
   }
 }

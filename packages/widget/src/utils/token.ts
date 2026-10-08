@@ -280,6 +280,54 @@ export const getTokenVerificationProvider = (
     : undefined
 }
 
+export type TokenVerificationBadge =
+  | 'native'
+  | 'flagged'
+  | 'verified'
+  | 'unverifiedByProvider'
+  | 'unverified'
+
+export const getTokenVerificationBadge = (
+  token: Pick<
+    TokenWithFlags,
+    'native' | 'listed' | 'verified' | 'verificationStatus'
+  >
+): TokenVerificationBadge | undefined => {
+  // The provider calls the native-address convention a scam on some chains.
+  if (token.native) {
+    return 'native'
+  }
+  if (token.verificationStatus === 'flagged') {
+    return 'flagged'
+  }
+  if (token.verificationStatus === 'verified') {
+    return 'verified'
+  }
+  if (token.listed || token.verified) {
+    return undefined
+  }
+  return token.verificationStatus === 'unverified'
+    ? 'unverifiedByProvider'
+    : 'unverified'
+}
+
+export type TokenStatusTextKey =
+  | 'tokenMetric.statusVerified'
+  | 'tokenMetric.statusFlagged'
+  | 'tokenMetric.statusUnverified'
+
+export const getTokenStatusTextKey = (
+  token: Pick<TokenWithFlags, 'native' | 'verificationStatus'>
+): TokenStatusTextKey => {
+  if (token.verificationStatus === 'verified') {
+    return 'tokenMetric.statusVerified'
+  }
+  if (token.verificationStatus === 'flagged' && !token.native) {
+    return 'tokenMetric.statusFlagged'
+  }
+  return 'tokenMetric.statusUnverified'
+}
+
 /**
  * Hyperliquid declares Arbitrum USDC as its native token, Lighter declares
  * Ethereum USDC. Neither is a gas token you hold there. A chain-local

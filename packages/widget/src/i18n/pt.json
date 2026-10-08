@@ -364,6 +364,10 @@
     "currentPrice": "Preço atual",
     "contractAddress": "Endereço do Contrato",
     "marketCap": "Capitalização de mercado",
-    "volume24h": "Volume 24h"
+    "volume24h": "Volume 24h",
+    "status": "",
+    "statusFlagged": "",
+    "statusUnverified": "",
+    "statusVerified": ""
   }
 }

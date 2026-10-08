@@ -8,6 +8,11 @@ import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { useToken } from '../../hooks/useToken.js'
+import type { TokenAmount } from '../../types/token.js'
+import {
+  getTokenStatusTextKey,
+  getTokenVerificationBadge,
+} from '../../utils/token.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
 import { CardIconButton } from '../Card/CardIconButton.js'
@@ -17,10 +22,10 @@ import {
   TokenDetailsSheetContainer,
   TokenDetailsSheetHeader,
 } from './TokenDetailsSheetContent.style.js'
+import { tokenVerificationIcons } from './tokenVerificationIcons.js'
 
 interface TokenDetailsSheetContentProps {
-  tokenAddress: string | undefined
-  chainId: number | undefined
+  listToken: TokenAmount | undefined
   withoutContractAddress: boolean
   onClose: () => void
 }
@@ -28,8 +33,7 @@ interface TokenDetailsSheetContentProps {
 const noDataLabel = '-'
 
 export const TokenDetailsSheetContent = ({
-  tokenAddress,
-  chainId,
+  listToken,
   withoutContractAddress,
   onClose,
 }: TokenDetailsSheetContentProps): JSX.Element => {
@@ -37,8 +41,21 @@ export const TokenDetailsSheetContent = ({
   const { getAddressLink } = useExplorer()
   const { getChainById } = useAvailableChains()
 
+  const tokenAddress = listToken?.address
+  const chainId = listToken?.chainId
   const { token, isLoading } = useToken(chainId, tokenAddress, true)
   const chain = useMemo(() => getChainById(chainId), [chainId, getChainById])
+
+  // The row token, not the fetched one: only the list sets the flags.
+  const statusBadge = listToken
+    ? getTokenVerificationBadge(listToken)
+    : undefined
+  const statusIcon = statusBadge
+    ? tokenVerificationIcons[statusBadge]
+    : undefined
+  const statusText = listToken
+    ? t(getTokenStatusTextKey(listToken))
+    : noDataLabel
 
   const copyContractAddress = async (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -215,6 +232,32 @@ export const TokenDetailsSheetContent = ({
             : noDataLabel}
         </Typography>
       </MetricWithSkeleton>
+      <MetricContainer>
+        <Label>{t('tokenMetric.status')}</Label>
+        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
+          {statusIcon ? (
+            <statusIcon.Icon
+              sx={{
+                flexShrink: 0,
+                mt: '2px',
+                fontSize: 16,
+                color: statusIcon.color,
+              }}
+            />
+          ) : null}
+          <Typography
+            sx={{
+              minWidth: 0,
+              fontWeight: 500,
+              fontSize: '14px',
+              lineHeight: '20px',
+              color: 'text.primary',
+            }}
+          >
+            {statusText}
+          </Typography>
+        </Box>
+      </MetricContainer>
     </TokenDetailsSheetContainer>
   )
 }

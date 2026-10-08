@@ -10,6 +10,8 @@ import { withDestinationOnlyChains } from './chainType.js'
 import {
   filterAllowedTokens,
   getNativeTokenAddresses,
+  getTokenStatusTextKey,
+  getTokenVerificationBadge,
   getTokenVerificationProvider,
   getVerifiedTokensSets,
   mergeFallbackToken,
@@ -218,6 +220,116 @@ describe('getTokenVerificationProvider', () => {
     expect(
       getTokenVerificationProvider({ verificationStatusBreakdown: [] })
     ).toBeUndefined()
+  })
+})
+
+describe('getTokenVerificationBadge', () => {
+  it('should badge the native token ahead of any verdict', () => {
+    expect(getTokenVerificationBadge({ native: true })).toBe('native')
+    expect(
+      getTokenVerificationBadge({ native: true, verificationStatus: 'flagged' })
+    ).toBe('native')
+  })
+
+  it('should flag a flagged token even when it is vouched for', () => {
+    expect(getTokenVerificationBadge({ verificationStatus: 'flagged' })).toBe(
+      'flagged'
+    )
+    expect(
+      getTokenVerificationBadge({
+        verificationStatus: 'flagged',
+        listed: true,
+        verified: true,
+      })
+    ).toBe('flagged')
+  })
+
+  it('should mark a verified token', () => {
+    expect(getTokenVerificationBadge({ verificationStatus: 'verified' })).toBe(
+      'verified'
+    )
+    expect(
+      getTokenVerificationBadge({
+        verificationStatus: 'verified',
+        listed: true,
+      })
+    ).toBe('verified')
+  })
+
+  it('should warn about an unverified token that nothing vouches for', () => {
+    expect(
+      getTokenVerificationBadge({ verificationStatus: 'unverified' })
+    ).toBe('unverifiedByProvider')
+  })
+
+  it('should warn about a token without verification data that nothing vouches for', () => {
+    expect(getTokenVerificationBadge({})).toBe('unverified')
+  })
+
+  it('should warn about a status outside the known verdicts', () => {
+    expect(
+      getTokenVerificationBadge({
+        verificationStatus: 'pending' as unknown as 'unverified',
+      })
+    ).toBe('unverified')
+  })
+
+  it('should not badge an unverified token that the main list carries', () => {
+    expect(
+      getTokenVerificationBadge({
+        verificationStatus: 'unverified',
+        listed: true,
+      })
+    ).toBeUndefined()
+    expect(getTokenVerificationBadge({ listed: true })).toBeUndefined()
+  })
+
+  it('should not badge an unverified token that the integrator vouches for', () => {
+    expect(
+      getTokenVerificationBadge({
+        verificationStatus: 'unverified',
+        verified: true,
+      })
+    ).toBeUndefined()
+    expect(getTokenVerificationBadge({ verified: true })).toBeUndefined()
+  })
+})
+
+describe('getTokenStatusTextKey', () => {
+  it('should explain a verified token, native or not', () => {
+    expect(getTokenStatusTextKey({ verificationStatus: 'verified' })).toBe(
+      'tokenMetric.statusVerified'
+    )
+    expect(
+      getTokenStatusTextKey({ native: true, verificationStatus: 'verified' })
+    ).toBe('tokenMetric.statusVerified')
+  })
+
+  it('should explain a flagged token', () => {
+    expect(getTokenStatusTextKey({ verificationStatus: 'flagged' })).toBe(
+      'tokenMetric.statusFlagged'
+    )
+  })
+
+  it('should never call a native token malicious', () => {
+    expect(
+      getTokenStatusTextKey({ native: true, verificationStatus: 'flagged' })
+    ).toBe('tokenMetric.statusUnverified')
+  })
+
+  it('should fall back to unverified', () => {
+    expect(getTokenStatusTextKey({})).toBe('tokenMetric.statusUnverified')
+    expect(getTokenStatusTextKey({ native: true })).toBe(
+      'tokenMetric.statusUnverified'
+    )
+    expect(getTokenStatusTextKey({ verificationStatus: 'unverified' })).toBe(
+      'tokenMetric.statusUnverified'
+    )
+    expect(
+      getTokenStatusTextKey({
+        verificationStatus: 'pending' as unknown as 'unverified',
+      })
+    ).toBe('tokenMetric.statusUnverified')
   })
 })
 
