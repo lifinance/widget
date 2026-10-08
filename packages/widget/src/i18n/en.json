@@ -410,7 +410,11 @@
     "currentPrice": "Current price",
     "contractAddress": "Contract address",
     "marketCap": "Market cap",
-    "volume24h": "Volume 24h"
+    "volume24h": "Volume 24h",
+    "status": "Status",
+    "statusFlagged": "Flagged as malicious by Hypernative. Trading this token can result in a total loss of funds.",
+    "statusUnverified": "Unverified by Hypernative",
+    "statusVerified": "Verified by Hypernative. False positives can occur, and we accept no liability for these alerts. Always do your own research before taking action."
   },
   "tags": {
     "connected": "Connected",

@@ -364,6 +364,10 @@
     "currentPrice": "",
     "contractAddress": "",
     "marketCap": "",
-    "volume24h": ""
+    "volume24h": "",
+    "status": "",
+    "statusFlagged": "",
+    "statusUnverified": "",
+    "statusVerified": ""
   }
 }
