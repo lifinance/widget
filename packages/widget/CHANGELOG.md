@@ -1,5 +1,11 @@
 # @lifi/widget
 
+## 4.10.0
+
+### Minor Changes
+
+- [#899](https://github.com/lifinance/widget/pull/899) [`7cff29f`](https://github.com/lifinance/widget/commit/7cff29ff627f162c0adb95f3f9fcb008101ba95b) Thanks [@chybisov](https://github.com/chybisov)! - The token details card shows a Status line with the token's verification icon from the list and what its Hypernative verdict means.
+
 ## 4.9.0
 
 ### Minor Changes
