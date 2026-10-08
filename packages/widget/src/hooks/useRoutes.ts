@@ -683,12 +683,17 @@ export const useRoutes = ({
           // or as long as it hangs — and a route it brings later takes its
           // place, unless a newer request or answer has moved on since.
           relayerQuotePromise.then((relayerRoute) => {
-            const state = queryClient.getQueryState<RoutesQueryData>(queryKey)
+            const query = queryClient
+              .getQueryCache()
+              .find<RoutesQueryData>({ queryKey, exact: true })
+            // Only for the request still on screen: once the user has moved on,
+            // the route answers an amount no longer in the form, and the event
+            // would tell integrators about it.
             if (
               !relayerRoute ||
-              !state ||
-              state.fetchStatus !== 'idle' ||
-              state.data?.routes.length
+              !query?.getObserversCount() ||
+              query.state.fetchStatus !== 'idle' ||
+              query.state.data?.routes.length
             ) {
               return
             }
