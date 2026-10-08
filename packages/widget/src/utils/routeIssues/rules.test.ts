@@ -1,3 +1,4 @@
+import { parseUnits } from '@lifi/sdk'
 import { describe, expect, it } from 'vitest'
 import { classifyRouteIssues } from './classify.js'
 import type { ClassifyContext, RouteIssue } from './types.js'
@@ -629,6 +630,48 @@ describe('contradictions', () => {
       context
     )
     expect(alone.map((issue) => issue.bucket)).toEqual(['pairNotSupported'])
+  })
+})
+
+// Reported in QA from the private tab, where Houdini answers in its own words.
+describe('a range stated beside the amount', () => {
+  const houdini = 'Amount 5 is out of Houdini bounds (min 26.25, max 594000)'
+  const units = (value: string): bigint => parseUnits(value, 18)
+
+  it('reads an amount under the minimum as too low, with the minimum', () => {
+    const [issue] = fromReason(houdini, units('5'))
+    expect(issue.bucket).toBe('amountTooLow')
+    expect(issue.evidence?.requiredFromAmount).toBe(units('26.25'))
+  })
+
+  it('reads an amount over the maximum as too high, with the maximum', () => {
+    const [issue] = fromReason(
+      'Amount 600000 is out of Houdini bounds (min 26.25, max 594000)',
+      units('600000')
+    )
+    expect(issue.bucket).toBe('amountTooHigh')
+    expect(issue.evidence?.requiredFromAmount).toBe(units('594000'))
+  })
+
+  // The stated amount is not the user's, so its unit is unknown: the direction
+  // still holds, but a figure could be in any token.
+  it('gives no figure when the stated amount is not the user amount', () => {
+    const [issue] = fromReason(houdini, units('7'))
+    expect(issue.bucket).toBe('amountTooLow')
+    expect(issue.evidence?.requiredFromAmount).toBeUndefined()
+  })
+
+  it('says nothing when the amount sits inside the bounds', () => {
+    expect(
+      fromReason(
+        'Amount 30 is out of Houdini bounds (min 26.25, max 594000)',
+        units('30')
+      )
+    ).toEqual([])
+  })
+
+  it('says nothing when there is no send amount to compare', () => {
+    expect(fromReason(houdini, 0n)).toEqual([])
   })
 })
 
