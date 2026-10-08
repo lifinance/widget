@@ -313,6 +313,13 @@ describe('getNewSwapFormValues', () => {
     expect(getNewSwapFormValues(route(toOther)).toAddress).toBe(RECEIVER)
   })
 
+  it('should leave the receiver out when the integrator keeps it', () => {
+    const toOther = step(1, 8453, failedExecution(), RECEIVER)
+    const values = getNewSwapFormValues(route(toOther), { keepReceiver: true })
+    expect(values).not.toHaveProperty('toAddress')
+    expect(values).toMatchObject({ fromAmount: '1.5', toChain: 8453 })
+  })
+
   it('should take the destination of a multi-step route from its last step', () => {
     const multiStep = route(
       step(1, 1, failedExecution()),
