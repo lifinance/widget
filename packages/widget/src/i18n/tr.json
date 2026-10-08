@@ -18,6 +18,7 @@
     "buy": "Satın al",
     "cancel": "İptal",
     "checkoutReview": "Satın alımı incele",
+    "clear": "",
     "clearAllFailed": "",
     "clearTransaction": "",
     "close": "Kapat",
@@ -45,6 +46,8 @@
     "resetSettings": "Ayarları Sıfırla",
     "seeDetails": "Detayları Gör",
     "showAll": "Tümünü Göster",
+    "showLess": "",
+    "showMore": "",
     "startBridging": "Başla",
     "startSwapping": "Takas işlemini başlat",
     "swap": "Takas et",
@@ -250,7 +253,8 @@
       "walletAddressInvalid_chain": "Cüzdan adresi ya da domain adı {{chainName}} hedef ağında geçerli değil",
       "walletAddressRequired": "Cüzdan adresi gereklidir.",
       "walletChainTypeInvalid": "Cüzdan adresi ile {{chainName}} hedef ağ eşleşmiyor",
-      "walletMismatch": "Cüzdan adresi uyuşmazlığı"
+      "walletMismatch": "Cüzdan adresi uyuşmazlığı",
+      "zcashAddressInvalid": ""
     }
   },
   "tooltip": {
@@ -345,6 +349,7 @@
     "quotedAmount": "Teklif edilen tutar",
     "rateChange": "Değişiklik oranı",
     "receiving": "Alınıyor",
+    "recentSearches": "",
     "refuelStepDetails": "{{tool}} aracılığıyla gaz al",
     "route": "",
     "select": "",
@@ -417,6 +422,10 @@
     "currentPrice": "",
     "contractAddress": "",
     "marketCap": "",
-    "volume24h": ""
+    "volume24h": "",
+    "status": "",
+    "statusFlagged": "",
+    "statusUnverified": "",
+    "statusVerified": ""
   }
 }

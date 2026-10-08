@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-provider-stellar",
-  "version": "4.2.0",
+  "version": "4.2.3",
   "description": "LI.FI Widget Provider for Stellar blockchain integration.",
   "type": "module",
   "main": "./src/index.ts",
@@ -38,9 +38,9 @@
     "lifi"
   ],
   "dependencies": {
-    "@creit.tech/stellar-wallets-kit": "^2.6.0",
-    "@lifi/sdk": "^4.8.0",
-    "@lifi/sdk-provider-stellar": "^4.3.1",
+    "@creit.tech/stellar-wallets-kit": "^2.7.0",
+    "@lifi/sdk": "^4.11.0",
+    "@lifi/sdk-provider-stellar": "^4.3.8",
     "@lifi/widget-provider": "workspace:*",
     "zustand": "^5.0.15"
   },
@@ -52,6 +52,6 @@
     "madge": "^8.0.0",
     "react": "^19.3.0",
     "typescript": "^7.0.2",
-    "vitest": "^5.0.1"
+    "vitest": "^5.0.3"
   }
 }

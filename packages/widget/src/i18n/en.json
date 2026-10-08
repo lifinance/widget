@@ -18,6 +18,7 @@
     "buy": "Buy",
     "cancel": "Cancel",
     "checkoutReview": "Review purchase",
+    "clear": "Clear",
     "clearAllFailed": "Clear all failed",
     "clearTransaction": "Clear transaction",
     "close": "Close",
@@ -56,6 +57,8 @@
     "viewRefundStatus": "View refund status",
     "viewTransferDetails": "View transfer details",
     "showAll": "Show all",
+    "showLess": "Show less",
+    "showMore": "Show {{count}} more",
     "startBridging": "Start bridging",
     "startSwapping": "Start swapping",
     "swap": "Swap",
@@ -282,7 +285,8 @@
       "walletAddressInvalid_chain": "Wallet address or domain name is invalid for selected destination chain {{chainName}}",
       "walletAddressRequired": "Wallet address is required.",
       "walletChainTypeInvalid": "Wallet address doesn't match the selected destination chain {{chainName}}",
-      "walletMismatch": "Wallet address mismatch"
+      "walletMismatch": "Wallet address mismatch",
+      "zcashAddressInvalid": "Enter a transparent Zcash address (t1 or t3) or a unified address (u1) with an Orchard receiver. Sapling (zs1) and TEX addresses are not supported."
     }
   },
   "tooltip": {
@@ -379,6 +383,7 @@
     "quotedAmount": "Quoted amount",
     "rateChange": "Rate change",
     "receiving": "Receiving",
+    "recentSearches": "Recent searches",
     "refuelStepDetails": "Get gas via {{tool}}",
     "route": "Route",
     "select": "Select",
@@ -463,7 +468,11 @@
     "currentPrice": "Current price",
     "contractAddress": "Contract address",
     "marketCap": "Market cap",
-    "volume24h": "Volume 24h"
+    "volume24h": "Volume 24h",
+    "status": "Status",
+    "statusFlagged": "Flagged as malicious by Hypernative. Trading this token can result in a total loss of funds.",
+    "statusUnverified": "Unverified by Hypernative",
+    "statusVerified": "Verified by Hypernative. False positives can occur, and we accept no liability for these alerts. Always do your own research before taking action."
   },
   "tags": {
     "connected": "Connected",

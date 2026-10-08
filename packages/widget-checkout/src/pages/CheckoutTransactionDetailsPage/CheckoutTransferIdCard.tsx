@@ -3,6 +3,7 @@ import {
   CardIconButton,
   CardTitle,
   ContactSupportButton,
+  openInNewTab,
   useWidgetConfig,
 } from '@lifi/widget/shared'
 import ContentCopyRounded from '@mui/icons-material/ContentCopyRounded'
@@ -28,7 +29,7 @@ export const CheckoutTransferIdCard = ({
   }
 
   const openTransferIdInExplorer = () => {
-    window.open(txLink, '_blank', 'noopener')
+    openInNewTab(txLink)
   }
 
   return (

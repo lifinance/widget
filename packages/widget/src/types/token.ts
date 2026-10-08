@@ -8,6 +8,8 @@ export interface TokenFlags {
   featured?: boolean
   popular?: boolean
   pinned?: boolean
+  /** A copy promoted into the "Recent searches" band. */
+  recent?: boolean
   verified?: boolean
   native?: boolean
   /** Came from the main token list rather than from a search. */

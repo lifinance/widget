@@ -1,6 +1,9 @@
 import type { Chain, ChainType } from '@lifi/sdk'
-import { getNameServiceAddress } from '@lifi/sdk'
-import { useChainTypeFromAddress } from '@lifi/widget-provider'
+import { ChainId, getNameServiceAddress } from '@lifi/sdk'
+import {
+  useAddressForChain,
+  useChainTypeFromAddress,
+} from '@lifi/widget-provider'
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
@@ -12,7 +15,7 @@ export enum AddressType {
 
 type ValidationArgs = {
   value: string
-  chainType?: ChainType
+  /** Strict: the receiver must be valid on this chain. */
   chain?: Chain
 }
 
@@ -20,6 +23,7 @@ type ValidResponse = {
   address: string
   addressType: AddressType
   chainType: ChainType
+  chainId?: ChainId
   isValid: true
 }
 
@@ -35,49 +39,100 @@ export const useAddressValidation = (): {
   isValidating: boolean
 } => {
   const { t } = useTranslation()
-  const { getChainTypeFromAddress } = useChainTypeFromAddress()
+  const { getChainFromAddress } = useChainTypeFromAddress()
+  const { isAddressForChain } = useAddressForChain()
   const sdkClient = useSDKClient()
+
+  const validFor = (
+    address: string,
+    addressType: AddressType,
+    chain: Chain
+  ): ValidResponse => ({
+    address,
+    addressType,
+    chainType: chain.chainType,
+    chainId: getChainFromAddress(address)?.chainId,
+    isValid: true,
+  })
+
+  const validateForChain = async (
+    value: string,
+    chain: Chain
+  ): Promise<ValidResponse | InvalidResponse> => {
+    if (isAddressForChain(value, chain)) {
+      return validFor(value, AddressType.Address, chain)
+    }
+    // A recognised address is no name to resolve.
+    if (getChainFromAddress(value)) {
+      return {
+        isValid: false,
+        error: t('error.title.walletChainTypeInvalid', {
+          chainName: chain.name,
+        }),
+      }
+    }
+    const resolved = await getNameServiceAddress(
+      sdkClient,
+      value,
+      chain.chainType
+    )
+    if (resolved && isAddressForChain(resolved, chain)) {
+      return validFor(resolved, AddressType.NameService, chain)
+    }
+    return {
+      isValid: false,
+      error:
+        chain.id === ChainId.ZEC
+          ? t('error.title.zcashAddressInvalid')
+          : t('error.title.walletAddressInvalid', {
+              context: 'chain',
+              chainName: chain.name,
+            }),
+    }
+  }
+
+  const validateWithoutChain = async (
+    value: string
+  ): Promise<ValidResponse | undefined> => {
+    const detected = getChainFromAddress(value)
+    if (detected) {
+      return {
+        address: value,
+        addressType: AddressType.Address,
+        ...detected,
+        isValid: true,
+      }
+    }
+    const address = await getNameServiceAddress(sdkClient, value)
+    const resolved = address ? getChainFromAddress(address) : undefined
+    if (address && resolved) {
+      return {
+        address,
+        addressType: AddressType.NameService,
+        ...resolved,
+        isValid: true,
+      }
+    }
+    return undefined
+  }
 
   const { mutateAsync: validateAddress, isPending: isValidating } = useMutation(
     {
       mutationFn: async ({
         value,
-        chainType,
         chain,
       }: ValidationArgs): Promise<ValidResponse | InvalidResponse> => {
         try {
           if (!value) {
             throw new Error()
           }
-
-          const _chainType = getChainTypeFromAddress(value)
-          if (_chainType) {
-            return {
-              address: value,
-              addressType: AddressType.Address,
-              chainType: _chainType,
-              isValid: true,
-            }
+          if (chain) {
+            return await validateForChain(value, chain)
           }
-
-          const address = await getNameServiceAddress(
-            sdkClient,
-            value,
-            chainType
-          )
-
-          if (address) {
-            const _chainType = getChainTypeFromAddress(address)
-            if (_chainType) {
-              return {
-                address: address,
-                addressType: AddressType.NameService,
-                chainType: _chainType,
-                isValid: true,
-              }
-            }
+          const result = await validateWithoutChain(value)
+          if (result) {
+            return result
           }
-
           throw new Error()
         } catch (_) {
           return {

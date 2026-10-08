@@ -22,7 +22,7 @@ export const useFromTokenSufficiency = (
     'fromToken',
     'fromAmount'
   )
-  const { keyPrefix } = useWidgetConfig()
+  const { storageScopeKey } = useWidgetConfig()
   const sdkClient = useSDKClient()
 
   let chainId = fromChainId
@@ -42,7 +42,7 @@ export const useFromTokenSufficiency = (
 
   const { data: insufficientFromToken, isLoading } = useQuery({
     queryKey: [
-      getQueryKey('from-token-sufficiency-check', keyPrefix),
+      getQueryKey('from-token-sufficiency-check', storageScopeKey),
       account.address,
       chainId,
       tokenAddress,

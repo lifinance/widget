@@ -18,6 +18,7 @@
     "buy": "ซื้อ",
     "cancel": "ยกเลิก",
     "checkoutReview": "",
+    "clear": "",
     "clearAllFailed": "",
     "clearTransaction": "",
     "close": "ปิด",
@@ -45,6 +46,8 @@
     "resetSettings": "รีเซ็ตการตั้งค่า",
     "seeDetails": "ดูรายละเอียด",
     "showAll": "แสดงทั้งหมด",
+    "showLess": "",
+    "showMore": "",
     "startBridging": "เริ่มต้นการบริดจ์",
     "startSwapping": "เริ่มต้นการแลกเปลี่ยน",
     "swap": "การแลกเปลี่ยน",
@@ -250,7 +253,8 @@
       "walletAddressInvalid_chain": "ที่อยู่กระเป๋าเงินหรือชื่อโดเมนไม่ถูกต้องสำหรับเครือข่ายปลายทางที่เลือก {{chainName}}",
       "walletAddressRequired": "กรุณากรอกที่อยู่กระเป๋าเงิน.",
       "walletChainTypeInvalid": "ที่อยู่กระเป๋าเงินหรือชื่อโดเมนไม่ถูกต้องสำหรับเครือข่ายปลายทางที่เลือก {{chainName}}",
-      "walletMismatch": "ที่อยู่ของกระเป๋าเงินไม่ตรงกัน"
+      "walletMismatch": "ที่อยู่ของกระเป๋าเงินไม่ตรงกัน",
+      "zcashAddressInvalid": ""
     }
   },
   "tooltip": {
@@ -345,6 +349,7 @@
     "quotedAmount": "จำนวนทั้งหมดที่เสนอ",
     "rateChange": "อัตราแลกเปลี่ยน",
     "receiving": "ได้รับ",
+    "recentSearches": "",
     "refuelStepDetails": "รับแก๊สผ่าน {{tool}}",
     "route": "",
     "select": "",
@@ -417,6 +422,10 @@
     "currentPrice": "",
     "contractAddress": "",
     "marketCap": "",
-    "volume24h": ""
+    "volume24h": "",
+    "status": "",
+    "statusFlagged": "",
+    "statusUnverified": "",
+    "statusVerified": ""
   }
 }

@@ -1,8 +1,6 @@
 import type { StaticToken } from '@lifi/sdk'
 import { ChainType } from '@lifi/sdk'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
-import ReportRoundedIcon from '@mui/icons-material/ReportRounded'
-import VerifiedIcon from '@mui/icons-material/Verified'
 import {
   Avatar,
   Box,
@@ -18,13 +16,19 @@ import type { JSX, MouseEventHandler } from 'react'
 import { memo, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useLongPress } from '../../hooks/useLongPress.js'
+import type { TokenAmount } from '../../types/token.js'
 import { formatTokenAmount, formatTokenPrice } from '../../utils/format.js'
-import { getTokenVerificationProvider } from '../../utils/token.js'
+import {
+  getTokenVerificationBadge,
+  getTokenVerificationProvider,
+} from '../../utils/token.js'
 import { shortenAddress } from '../../utils/wallet.js'
 import { TokenAvatar } from '../Avatar/TokenAvatar.js'
 import { ListItemButton } from '../ListItem/ListItemButton.js'
 import { PinTokenButton } from './PinTokenButton.js'
+import { RemoveRecentTokenButton } from './RemoveRecentTokenButton.js'
 import { IconButton, ListItem } from './TokenList.style.js'
+import { tokenVerificationIcons } from './tokenVerificationIcons.js'
 import type {
   TokenListItemAvatarProps,
   TokenListItemButtonProps,
@@ -87,23 +91,17 @@ const TokenListItemAvatar = memo(({ token }: TokenListItemAvatarProps) => {
 })
 
 interface OpenTokenDetailsButtonProps {
-  tokenAddress: string | undefined
+  token: TokenAmount
   withoutContractAddress: boolean
-  chainId: number
-  onClick: (
-    tokenAddress: string,
-    withoutContractAddress: boolean,
-    chainId: number
-  ) => void
+  onClick: (token: TokenAmount, withoutContractAddress: boolean) => void
 }
 
 const OpenTokenDetailsButton = ({
-  tokenAddress,
+  token,
   withoutContractAddress,
-  chainId,
   onClick,
 }: OpenTokenDetailsButtonProps) => {
-  if (!tokenAddress) {
+  if (!token.address) {
     return null
   }
   return (
@@ -112,7 +110,7 @@ const OpenTokenDetailsButton = ({
       onClick={(e) => {
         e.stopPropagation()
         e.currentTarget.blur() // Remove focus to prevent accessibility issues when opening drawer
-        onClick(tokenAddress, withoutContractAddress, chainId)
+        onClick(token, withoutContractAddress)
       }}
     >
       <InfoOutlinedIcon />
@@ -168,65 +166,46 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
     )
 
     const longPressEvents = useLongPress(() =>
-      onShowTokenDetails(token.address, withoutContractAddress, token.chainId)
+      onShowTokenDetails(token, withoutContractAddress)
     )
 
-    // The native token is badged ahead of any verdict: the provider screens
-    // the native-address convention and calls it a scam on some chains.
-    // A token the main list or the integrator vouches for needs no warning;
-    // anything else without a clean verdict keeps the amber one.
-    let verificationBadge:
-      | { Icon: typeof VerifiedIcon; color: string; title: string }
-      | undefined
-    if (token.native) {
-      verificationBadge = {
-        Icon: VerifiedIcon,
-        color: 'info.main',
-        title: chainName
+    const verificationBadge = getTokenVerificationBadge(token)
+    const verificationIcon = verificationBadge
+      ? tokenVerificationIcons[verificationBadge]
+      : undefined
+    let verificationTitle = ''
+    switch (verificationBadge) {
+      case 'native':
+        verificationTitle = chainName
           ? t('tooltip.tokenNativeOnChain', {
               tokenSymbol: token.symbol,
               chainName,
             })
-          : t('tooltip.tokenNative', { tokenSymbol: token.symbol }),
-      }
-    } else if (token.verificationStatus === 'flagged') {
-      verificationBadge = {
-        Icon: ReportRoundedIcon,
-        color: 'error.main',
-        title: t('warning.message.tokenFlagged', {
+          : t('tooltip.tokenNative', { tokenSymbol: token.symbol })
+        break
+      case 'flagged':
+        verificationTitle = t('warning.message.tokenFlagged', {
           tokenSymbol: token.symbol,
-        }),
-      }
-    } else if (token.verificationStatus === 'verified') {
-      const provider = getTokenVerificationProvider(token)
-      verificationBadge = {
-        Icon: VerifiedIcon,
-        color: 'success.main',
-        title: provider
+        })
+        break
+      case 'verified': {
+        const provider = getTokenVerificationProvider(token)
+        verificationTitle = provider
           ? t('tooltip.tokenVerifiedByProvider', {
               tokenSymbol: token.symbol,
               provider,
             })
-          : t('tooltip.tokenVerified', { tokenSymbol: token.symbol }),
+          : t('tooltip.tokenVerified', { tokenSymbol: token.symbol })
+        break
       }
-    } else if (
-      token.verificationStatus === 'unverified' &&
-      !token.listed &&
-      !token.verified
-    ) {
-      verificationBadge = {
-        Icon: ReportRoundedIcon,
-        color: 'warning.main',
-        title: t('warning.message.tokenUnverifiedByProvider', {
+      case 'unverifiedByProvider':
+        verificationTitle = t('warning.message.tokenUnverifiedByProvider', {
           tokenSymbol: token.symbol,
-        }),
-      }
-    } else if (!token.verificationStatus && !token.listed && !token.verified) {
-      verificationBadge = {
-        Icon: ReportRoundedIcon,
-        color: 'warning.main',
-        title: t('warning.message.tokenUnverified'),
-      }
+        })
+        break
+      case 'unverified':
+        verificationTitle = t('warning.message.tokenUnverified')
+        break
     }
 
     return (
@@ -240,6 +219,8 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
         sx={{
           height: 60,
           marginBottom: '4px',
+          // Not a flex-grow item: a band slot's spare height must not stretch the card.
+          flex: 'none',
         }}
       >
         <ListItemAvatar>
@@ -258,13 +239,13 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
           primary={
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
               {token.symbol}
-              {verificationBadge && (
-                <Tooltip title={verificationBadge.title} placement="top" arrow>
-                  <verificationBadge.Icon
+              {verificationIcon && (
+                <Tooltip title={verificationTitle} placement="top" arrow>
+                  <verificationIcon.Icon
                     sx={{
                       display: 'flex',
                       fontSize: 16,
-                      color: verificationBadge.color,
+                      color: verificationIcon.color,
                       cursor: 'help',
                     }}
                   />
@@ -310,15 +291,20 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
                   >
                     <Box>
                       <OpenTokenDetailsButton
-                        tokenAddress={token.address}
+                        token={token}
                         withoutContractAddress={withoutContractAddress}
-                        chainId={token.chainId}
                         onClick={onShowTokenDetails}
                       />
                       <PinTokenButton
                         chainId={token.chainId}
                         tokenAddress={token.address}
                       />
+                      {token.recent ? (
+                        <RemoveRecentTokenButton
+                          chainId={token.chainId}
+                          tokenAddress={token.address}
+                        />
+                      ) : null}
                     </Box>
                   </Slide>
                 </Box>
@@ -376,15 +362,20 @@ const TokenListItemButton: React.FC<TokenListItemButtonProps> = memo(
                     </Box>
                     <Box>
                       <OpenTokenDetailsButton
-                        tokenAddress={token.address}
+                        token={token}
                         withoutContractAddress={withoutContractAddress}
-                        chainId={token.chainId}
                         onClick={onShowTokenDetails}
                       />
                       <PinTokenButton
                         chainId={token.chainId}
                         tokenAddress={token.address}
                       />
+                      {token.recent ? (
+                        <RemoveRecentTokenButton
+                          chainId={token.chainId}
+                          tokenAddress={token.address}
+                        />
+                      ) : null}
                     </Box>
                   </Box>
                 </Slide>

@@ -1,5 +1,65 @@
 # @lifi/widget-provider-bitcoin
 
+## 4.3.2
+
+### Patch Changes
+
+- [#896](https://github.com/lifinance/widget/pull/896) [`10d954a`](https://github.com/lifinance/widget/commit/10d954aaa9d4cc125c08045c0dd872d2549ec753) Thanks [@chybisov](https://github.com/chybisov)! - Update `@bigmi/client` to 0.10.5 and `@bigmi/core` to 0.9.3, and raise the `@bigmi/react` peer floor to 0.9.5.
+
+- [#896](https://github.com/lifinance/widget/pull/896) [`10d954a`](https://github.com/lifinance/widget/commit/10d954aaa9d4cc125c08045c0dd872d2549ec753) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.11.0. A resumed route no longer signs a second transaction while the first one may still land.
+
+- [#896](https://github.com/lifinance/widget/pull/896) [`10d954a`](https://github.com/lifinance/widget/commit/10d954aaa9d4cc125c08045c0dd872d2549ec753) Thanks [@chybisov](https://github.com/chybisov)! - Update the LI.FI SDK providers to latest: `@lifi/sdk-provider-bitcoin` 4.1.0, `@lifi/sdk-provider-ethereum` 4.2.7, `@lifi/sdk-provider-solana` 4.3.4, `@lifi/sdk-provider-stellar` 4.3.8, `@lifi/sdk-provider-sui` 4.2.8 and `@lifi/sdk-provider-tron` 4.1.7.
+
+- [#884](https://github.com/lifinance/widget/pull/884) [`97e59c5`](https://github.com/lifinance/widget/commit/97e59c58c719805198e030a14fbe72fabde010c8) Thanks [@chybisov](https://github.com/chybisov)! - ZEC is a destination-only chain. It never appears as a source chain or source token, and a `fromChain` of ZEC from the widget config or the URL is ignored. A ZEC receiver must be a transparent Zcash address (`t1…` or `t3…`) or a unified address (`u1…`) with an Orchard receiver; Sapling, TEX and other unified addresses get a message that names the accepted formats. The address inputs take up to 512 characters, so a unified address fits.
+  
+  Receivers are now checked against the destination chain, not only its chain type, so a Bitcoin address no longer passes as a ZEC receiver. A connected Bitcoin wallet is never filled in, offered, seeded or priced as a ZEC receiver, and a BTC → ZEC route asks for a receiver. Bookmarks of other ecosystems still save as before, and a Zcash bookmark shows the Zcash icon. The reverse and swap controls stay hidden while the destination chain is not allowed as a source by `chains.from`, so they never select a source chain the config excludes.
+  
+  `@lifi/widget-provider` exports `useAddressForChain`, which returns `isAddressForChain(address, chain)`, and the `ChainRef` and `IsAddressForChain` types. Every package that depends on the SDK requires the release whose `isAddress` accepts a chain ID, so a consumer keeps a single `@lifi/sdk`. The widget now passes the chain ID to each provider's `isAddress`, so upgrade the `@lifi/widget-provider-*` packages together with `@lifi/widget`: an older `@lifi/widget-provider-bitcoin` refuses every Bitcoin receiver and hides Bitcoin balances. `name` and `version` exported from `@lifi/widget` stay the widget's own now that `@lifi/sdk` exports the same names.
+- Updated dependencies [[`10d954a`](https://github.com/lifinance/widget/commit/10d954aaa9d4cc125c08045c0dd872d2549ec753), [`97e59c5`](https://github.com/lifinance/widget/commit/97e59c58c719805198e030a14fbe72fabde010c8), [`97e59c5`](https://github.com/lifinance/widget/commit/97e59c58c719805198e030a14fbe72fabde010c8)]:
+  - @lifi/widget-provider@4.6.0
+
+## 4.3.1
+
+### Patch Changes
+
+- [#891](https://github.com/lifinance/widget/pull/891) [`0b3811c`](https://github.com/lifinance/widget/commit/0b3811ce2492b385219659632fd157b3b4923c57) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.10.0 and the chain providers together: `@lifi/sdk-provider-bitcoin` 4.0.15, `@lifi/sdk-provider-ethereum` 4.2.4, `@lifi/sdk-provider-solana` 4.3.1, `@lifi/sdk-provider-stellar` 4.3.5, `@lifi/sdk-provider-sui` 4.2.5 and `@lifi/sdk-provider-tron` 4.1.5. Concurrent `getChains` and `getTokens` calls from clients on different API bases no longer share one response, and a caller that aborts a shared request no longer fails the others. `WidgetConfig.sdkConfig.rpcUrls` also accepts per-role lists (`{ read, write, bundle }`); the Solana provider sends transactions and Jito bundles through them. A rejected Solana signature shows as `SignatureRejected` instead of `UnknownError`.
+- Updated dependencies [[`0b3811c`](https://github.com/lifinance/widget/commit/0b3811ce2492b385219659632fd157b3b4923c57)]:
+  - @lifi/widget-provider@4.5.1
+
+## 4.3.0
+
+### Minor Changes
+
+- [#878](https://github.com/lifinance/widget/pull/878) [`e9c695f`](https://github.com/lifinance/widget/commit/e9c695f9981d60bd23cff85d2c3324a739ebf0d7) Thanks [@chybisov](https://github.com/chybisov)! - Bitcoin wallets are now listed only when their connector can actually resolve a provider, instead of being detected by a second copy of that logic that had drifted from it. A wallet that impersonates MetaMask no longer offers a Bitcoin entry that cannot connect.
+  
+  `isWalletInstalled` no longer answers for Bitcoin connector ids and returns `true` for them, as it does for any wallet it does not explicitly know. `metaMask` and `coinbase` are unchanged.
+
+- [#878](https://github.com/lifinance/widget/pull/878) [`e9c695f`](https://github.com/lifinance/widget/commit/e9c695f9981d60bd23cff85d2c3324a739ebf0d7) Thanks [@chybisov](https://github.com/chybisov)! - Offer MetaMask Bitcoin by default. `createDefaultBigmiConfig` now includes the `metamask()` connector alongside the other eleven, so integrators no longer opt in.
+  
+  This adds no dependency. The connector reaches MetaMask through the Wallet Standard registry, which the extension populates itself, and it imports only `@bigmi/core` and `@wallet-standard/app` — both already present. `@metamask/bitcoin-wallet-standard` and `@metamask/multichain-api-client` existed solely for the manual registration this replaces and are gone; `@metamask/connect-evm` stays, because `wagmi`'s EVM `metaMask()` connector imports it dynamically. The playground bundle is ~41 KB smaller.
+
+### Patch Changes
+
+- [#878](https://github.com/lifinance/widget/pull/878) [`e9c695f`](https://github.com/lifinance/widget/commit/e9c695f9981d60bd23cff85d2c3324a739ebf0d7) Thanks [@chybisov](https://github.com/chybisov)! - Ignore a duplicate Bitcoin connector. Passing `metamask()` through `connectors` is now redundant because it is a default, and an integrator who still does would otherwise see MetaMask listed twice.
+
+- [#878](https://github.com/lifinance/widget/pull/878) [`e9c695f`](https://github.com/lifinance/widget/commit/e9c695f9981d60bd23cff85d2c3324a739ebf0d7) Thanks [@chybisov](https://github.com/chybisov)! - Keep the newest installed-wallet probe. Every Wallet Standard wallet announces itself, so probes overlap, and a slower earlier one could restore a list predating the registration that triggered it — dropping MetaMask Bitcoin from the menu until the next event. The list is also reused when unchanged, so a registration no longer re-renders every Bitcoin consumer. Disconnecting now attempts every connection and never reports a wallet that has gone away as a failure, since `@bigmi/client` clears the connection regardless — reporting it would abort the connect a disconnect is usually preparing for.
+
+- [#878](https://github.com/lifinance/widget/pull/878) [`e9c695f`](https://github.com/lifinance/widget/commit/e9c695f9981d60bd23cff85d2c3324a739ebf0d7) Thanks [@chybisov](https://github.com/chybisov)! - Require `@bigmi/client` 0.10.4, `@bigmi/core` 0.9.2 and `@bigmi/react` 0.9.4. The client release detects BitKeep when it injects only as `window.unisat`, which connector-backed wallet detection needs in order not to narrow. The core release reports a declined confirmation as a user rejection even when the wallet sends no rejection code, so a cancelled MetaMask Bitcoin signature now reads "Signature required" instead of "Unknown Error". The 0.10.4 client additionally fixes Binance detection when `window.binancew3w` carries no bitcoin provider, stops MetaMask Bitcoin opening the extension on page load, and keeps the store consistent when a wallet's own `disconnect()` throws.
+
+- [#870](https://github.com/lifinance/widget/pull/870) [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128) Thanks [@chybisov](https://github.com/chybisov)! - Update `@bigmi/client` to 0.10.2 and `@bigmi/core` to 0.9.1.
+
+- [#880](https://github.com/lifinance/widget/pull/880) [`0bf9966`](https://github.com/lifinance/widget/commit/0bf9966a23a1a56e79d58e6e99f02df5b913688b) Thanks [@chybisov](https://github.com/chybisov)! - Update `@bigmi/client` to 0.10.3 and `@bigmi/core` to 0.9.2.
+
+- [#870](https://github.com/lifinance/widget/pull/870) [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.7.0.
+
+- [#880](https://github.com/lifinance/widget/pull/880) [`0bf9966`](https://github.com/lifinance/widget/commit/0bf9966a23a1a56e79d58e6e99f02df5b913688b) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.8.0.
+
+- [#870](https://github.com/lifinance/widget/pull/870) [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128) Thanks [@chybisov](https://github.com/chybisov)! - Update the LI.FI SDK providers to latest: `@lifi/sdk-provider-bitcoin` 4.0.10, `@lifi/sdk-provider-ethereum` 4.1.0, `@lifi/sdk-provider-solana` 4.2.0, `@lifi/sdk-provider-stellar` 4.3.0, `@lifi/sdk-provider-sui` 4.2.0 and `@lifi/sdk-provider-tron` 4.1.0.
+
+- [#880](https://github.com/lifinance/widget/pull/880) [`0bf9966`](https://github.com/lifinance/widget/commit/0bf9966a23a1a56e79d58e6e99f02df5b913688b) Thanks [@chybisov](https://github.com/chybisov)! - Update the LI.FI SDK providers to latest: `@lifi/sdk-provider-bitcoin` 4.0.11, `@lifi/sdk-provider-ethereum` 4.2.0, `@lifi/sdk-provider-solana` 4.2.1, `@lifi/sdk-provider-stellar` 4.3.1, `@lifi/sdk-provider-sui` 4.2.1 and `@lifi/sdk-provider-tron` 4.1.1.
+- Updated dependencies [[`1590c19`](https://github.com/lifinance/widget/commit/1590c1907376b800c556b139a10400fc301ca2cf), [`e9c695f`](https://github.com/lifinance/widget/commit/e9c695f9981d60bd23cff85d2c3324a739ebf0d7), [`57ae5ac`](https://github.com/lifinance/widget/commit/57ae5ac7cbdd86579e8546e31c96109308f92128), [`0bf9966`](https://github.com/lifinance/widget/commit/0bf9966a23a1a56e79d58e6e99f02df5b913688b)]:
+  - @lifi/widget-provider@4.5.0
+
 ## 4.2.3
 
 ### Patch Changes

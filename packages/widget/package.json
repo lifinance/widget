@@ -1,13 +1,14 @@
 {
   "name": "@lifi/widget",
-  "version": "4.6.0",
+  "version": "4.10.0",
   "description": "LI.FI Widget for cross-chain bridging and swapping. It will drive your multi-chain strategy and attract new users from everywhere.",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.d.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./shared": "./src/shared.ts"
+    "./shared": "./src/shared.ts",
+    "./queries": "./src/queries/index.ts"
   },
   "sideEffects": false,
   "scripts": {
@@ -54,25 +55,25 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^4.8.0",
+    "@lifi/sdk": "^4.11.0",
     "@lifi/wallet-management": "workspace:*",
     "@lifi/widget-provider": "workspace:*",
     "@mui/icons-material": "^9.4.0",
     "@mui/material": "^9.4.0",
     "@mui/system": "^9.4.0",
-    "@tanstack/react-router": "^1.170.38",
+    "@tanstack/react-router": "^1.170.41",
     "@tanstack/react-virtual": "^3.14.13",
     "eventemitter3": "^5.0.4",
     "i18next": "^26.4.2",
     "microdiff": "^1.6.0",
-    "motion": "^13.4.0",
-    "react-i18next": "^17.0.14",
+    "motion": "^14.0.0",
+    "react-i18next": "^17.0.16",
     "react-intersection-observer": "^11.0.1",
     "react-transition-group": "^4.4.5",
     "zustand": "^5.0.15"
   },
   "devDependencies": {
-    "@types/node": "^26.6.2",
+    "@types/node": "^26.6.4",
     "@types/react-transition-group": "^4.4.12",
     "cpy-cli": "^7.0.0",
     "happy-dom": "^20.14.5",
@@ -80,7 +81,7 @@
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "typescript": "^7.0.2",
-    "vitest": "^5.0.1"
+    "vitest": "^5.0.3"
   },
   "peerDependencies": {
     "@tanstack/react-query": ">=5.90.0",

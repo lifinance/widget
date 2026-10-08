@@ -20,13 +20,14 @@ import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.j
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import { openInNewTab } from '../../utils/url.js'
 import { shortenAddress } from '../../utils/wallet.js'
 
 export const ConnectedWalletsPage = (): JSX.Element => {
   const { t } = useTranslation()
   const { accounts } = useAccount()
   const { setSelectedBookmark } = useBookmarkActions()
-  const { requiredToChainType } = useToAddressRequirements()
+  const { isValidReceiver } = useToAddressRequirements()
   const navigate = useNavigate()
   const { setFieldValue } = useFieldActions()
   const { getAddressLink } = useExplorer()
@@ -81,9 +82,8 @@ export const ConnectedWalletsPage = (): JSX.Element => {
                     label: t('button.viewOnExplorer'),
                     onClick: () => {
                       if (account.address) {
-                        window.open(
-                          getAddressLink(account.address, account.chainId),
-                          '_blank'
+                        openInNewTab(
+                          getAddressLink(account.address, account.chainId)
                         )
                       }
                     },
@@ -91,15 +91,13 @@ export const ConnectedWalletsPage = (): JSX.Element => {
                 ]
               : []),
           ]
+          const disabled = !isValidReceiver(account.address)
 
           return (
             <ListItem key={account.address} sx={{ position: 'relative' }}>
               <ListItemButton
                 onClick={() => handleWalletSelected(account)}
-                disabled={
-                  requiredToChainType &&
-                  requiredToChainType !== account.chainType
-                }
+                disabled={disabled}
               >
                 <ListItemAvatar>
                   <AccountAvatar chainId={account.chainId} account={account} />
@@ -109,15 +107,7 @@ export const ConnectedWalletsPage = (): JSX.Element => {
                   secondary={walletAddress}
                 />
               </ListItemButton>
-              <ContextMenu
-                items={menuItems}
-                disabled={
-                  !!(
-                    requiredToChainType &&
-                    requiredToChainType !== account.chainType
-                  )
-                }
-              />
+              <ContextMenu items={menuItems} disabled={disabled} />
             </ListItem>
           )
         })}

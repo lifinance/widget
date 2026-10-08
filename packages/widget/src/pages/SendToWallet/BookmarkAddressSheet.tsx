@@ -9,6 +9,7 @@ import { BottomSheet } from '../../components/BottomSheet/BottomSheet.js'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { Input } from '../../components/Input.js'
 import { AlertMessage } from '../../components/Messages/AlertMessage.js'
+import { addressInputMaxLength } from '../../config/constants.js'
 import { useAddressValidation } from '../../hooks/useAddressValidation.js'
 import type { Bookmark } from '../../stores/bookmarks/types.js'
 import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
@@ -63,6 +64,7 @@ export const BookmarkAddressSheet = ({
       name: nameValue,
       address: validationResult.address,
       chainType: validationResult.chainType,
+      chainId: validationResult.chainId,
     }
   }
 
@@ -74,6 +76,7 @@ export const BookmarkAddressSheet = ({
       name: nameValue,
       address: validatedWallet.address,
       chainType: validatedWallet.chainType,
+      chainId: validatedWallet.chainId,
     }
   }
 
@@ -119,6 +122,7 @@ export const BookmarkAddressSheet = ({
         name: validatedBookmark.name,
         address: validatedBookmark.address,
         chainType: validatedBookmark.chainType,
+        chainId: validatedBookmark.chainId,
       })
     }
   }
@@ -198,7 +202,7 @@ export const BookmarkAddressSheet = ({
                   context: 'long',
                 })}
                 maxRows={2}
-                inputProps={{ maxLength: 128 }}
+                inputProps={{ maxLength: addressInputMaxLength }}
                 multiline
               />
             </SendToWalletCard>

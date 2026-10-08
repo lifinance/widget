@@ -80,7 +80,10 @@ export function ChainOrderStoreProvider({
 
         // Initialize the isAllNetworks with true if the tab is shown,
         // there is no config chain value and no url chain value
-        const urlValues = getDefaultValuesFromQueryString({ buildUrl })
+        const urlValues = getDefaultValuesFromQueryString({
+          buildUrl,
+          chains: chainsConfig,
+        })
         const urlChainValue =
           key === 'from' ? urlValues.fromChain : urlValues.toChain
         const configChainValue =
@@ -100,10 +103,15 @@ export function ChainOrderStoreProvider({
         storeRef.current?.getState().setIsAllNetworks(initialIsAllNetworks, key)
         storeRef.current?.getState().setShowAllNetworks(showAllNetworks, key)
 
-        // If swap only, set the to chain to the from chain
+        // Copying an empty source would alternate with the fallback below.
         if (isSwapTo) {
           const [fromChainValue] = getFieldValues('fromChain')
-          setFieldValue('toChain', fromChainValue)
+          if (fromChainValue) {
+            if (fromChainValue !== chainValue) {
+              setFieldValue('toChain', fromChainValue)
+            }
+            return
+          }
         }
 
         // When "All Networks" is active, don't auto-select a chain from the
@@ -114,7 +122,11 @@ export function ChainOrderStoreProvider({
           return
         }
 
-        if (chainValue) {
+        // With no source to follow, drop a destination the list no longer offers.
+        const keepsChain =
+          chainValue &&
+          (!isSwapTo || filteredChains.some((chain) => chain.id === chainValue))
+        if (keepsChain) {
           return
         }
 

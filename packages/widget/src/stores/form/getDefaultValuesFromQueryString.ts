@@ -1,14 +1,21 @@
+import type { WidgetChains } from '../../types/widget.js'
+import {
+  isDestinationOnlyChain,
+  isUnservedDestinationChain,
+} from '../../utils/chainType.js'
 import { formatInputAmount } from '../../utils/format.js'
 import type { DefaultValues } from './types.js'
 
 interface GetDefaultValuesFromQueryStringOptions {
   includeToAddress?: boolean
   buildUrl?: boolean
+  chains?: WidgetChains
 }
 
 export const getDefaultValuesFromQueryString = ({
   buildUrl = false,
   includeToAddress = true,
+  chains,
 }: GetDefaultValuesFromQueryStringOptions): Partial<DefaultValues> => {
   if (typeof window === 'undefined') {
     return {}
@@ -22,6 +29,18 @@ export const getDefaultValuesFromQueryString = ({
     new URLSearchParams(window.location.search)
   )
 
+  // The loop below then drops their tokens too.
+  if (isDestinationOnlyChain(Number.parseInt(searchParams.fromChain, 10))) {
+    delete searchParams.fromChain
+  }
+  if (
+    isUnservedDestinationChain(
+      Number.parseInt(searchParams.toChain, 10),
+      chains
+    )
+  ) {
+    delete searchParams.toChain
+  }
   // Prevent using fromToken/toToken params if chain is not selected.
   ;(['from', 'to'] as const).forEach((key) => {
     if (searchParams[`${key}Token`] && !searchParams[`${key}Chain`]) {

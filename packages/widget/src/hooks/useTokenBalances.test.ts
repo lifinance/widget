@@ -126,3 +126,55 @@ describe('useTokenBalances search', () => {
     )
   })
 })
+
+describe('useTokenBalances native hoist', () => {
+  const native: TokenExtended = {
+    chainId: baseChainId,
+    address: '0x0000000000000000000000000000000000000000',
+    symbol: 'ETH',
+    name: 'ETH',
+    decimals: 18,
+    priceUSD: '3000',
+  }
+  // `native` is stamped by the token pipeline, which the mocks bypass.
+  const nativeRow = { ...native, native: true } as TokenExtended
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+    mocks.useTokenBalancesQueries.mockReturnValue({
+      data: undefined,
+      isLoading: false,
+      isError: false,
+    })
+    mocks.useTokens.mockReturnValue({
+      allTokens: { [baseChainId]: [usdc, laptop, nativeRow] },
+      isLoading: false,
+      isSearchLoading: false,
+      isAddressSearch: false,
+    })
+  })
+
+  it('reports the hoist for a single chain with no search', () => {
+    const { tokens, nativeHoisted } = useTokenBalances(
+      baseChainId,
+      'from',
+      false,
+      undefined
+    )
+
+    expect(nativeHoisted).toBe(true)
+    expect(tokens[0].address).toBe(native.address)
+  })
+
+  it('reports no hoist during a search', () => {
+    expect(
+      useTokenBalances(baseChainId, 'from', false, 'ETH').nativeHoisted
+    ).toBe(false)
+  })
+
+  it('reports no hoist in all-networks mode', () => {
+    expect(
+      useTokenBalances(baseChainId, 'from', true, undefined).nativeHoisted
+    ).toBe(false)
+  })
+})

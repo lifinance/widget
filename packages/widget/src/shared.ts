@@ -193,4 +193,6 @@ export type {
   RouteIssueBucket,
   RouteIssueEvidence,
 } from './utils/routeIssues/types.js'
+export { resolveStorageScopeKey } from './utils/scopeKeys.js'
+export { isHttpUrl, openInNewTab } from './utils/url.js'
 export { shortenAddress } from './utils/wallet.js'

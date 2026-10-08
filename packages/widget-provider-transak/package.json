@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-provider-transak",
-  "version": "4.0.2",
+  "version": "4.0.5",
   "private": true,
   "description": "LI.FI Widget on-ramp provider for Transak. Plug into LifiWidgetCheckout via the onRampProviders prop.",
   "type": "module",
@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@lifi/widget-provider": "workspace:*",
-    "@types/node": "^26.6.2",
+    "@types/node": "^26.6.4",
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "react": "^19.3.0",

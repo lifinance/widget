@@ -18,6 +18,7 @@
     "buy": "Comprar",
     "cancel": "Cancelar",
     "checkoutReview": "Revisar compra",
+    "clear": "",
     "clearAllFailed": "",
     "clearTransaction": "",
     "close": "Fechar",
@@ -45,6 +46,8 @@
     "resetSettings": "Redefinir as configurações",
     "seeDetails": "Ver detalhes",
     "showAll": "Mostrar tudo",
+    "showLess": "",
+    "showMore": "",
     "startBridging": "Iniciar ponte",
     "startSwapping": "Iniciar conversão",
     "swap": "Conversão",
@@ -250,7 +253,8 @@
       "walletAddressInvalid_chain": "O endereço da carteira ou o nome de domínio é inválido para a rede de destino selecionada {{chainName}}",
       "walletAddressRequired": "Endereço da carteira é necessário.",
       "walletChainTypeInvalid": "O endereço da carteira não corresponde à rede de destino selecionada - {{chainName}}",
-      "walletMismatch": "Incompatibilidade de endereço da carteira"
+      "walletMismatch": "Incompatibilidade de endereço da carteira",
+      "zcashAddressInvalid": ""
     }
   },
   "tooltip": {
@@ -345,6 +349,7 @@
     "quotedAmount": "Valor da cotação",
     "rateChange": "Alterar taxa",
     "receiving": "Recebendo",
+    "recentSearches": "",
     "refuelStepDetails": "Obter gás via {{tool}}",
     "route": "",
     "select": "",
@@ -417,6 +422,10 @@
     "currentPrice": "Preço atual",
     "contractAddress": "Endereço do Contrato",
     "marketCap": "Capitalização de mercado",
-    "volume24h": "Volume 24h"
+    "volume24h": "Volume 24h",
+    "status": "",
+    "statusFlagged": "",
+    "statusUnverified": "",
+    "statusVerified": ""
   }
 }

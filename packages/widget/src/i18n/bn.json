@@ -18,6 +18,7 @@
     "buy": "",
     "cancel": "বাতিল করুন",
     "checkoutReview": "",
+    "clear": "",
     "clearAllFailed": "",
     "clearTransaction": "",
     "close": "",
@@ -45,6 +46,8 @@
     "resetSettings": "সেটিংস রিসেট করুন",
     "seeDetails": "বিস্তারিত দেখুন",
     "showAll": "সবগুলো দেখুন",
+    "showLess": "",
+    "showMore": "",
     "startBridging": "",
     "startSwapping": "",
     "swap": "সোওয়াপ",
@@ -250,7 +253,8 @@
       "walletAddressInvalid_chain": "",
       "walletAddressRequired": "ওয়ালেট ঠিকানা প্রয়োজন।",
       "walletChainTypeInvalid": "",
-      "walletMismatch": ""
+      "walletMismatch": "",
+      "zcashAddressInvalid": ""
     }
   },
   "tooltip": {
@@ -345,6 +349,7 @@
     "quotedAmount": "উদ্ধৃত পরিমাণ",
     "rateChange": "রেট পরিবর্তন",
     "receiving": "রিসিভিং",
+    "recentSearches": "",
     "refuelStepDetails": "{{tool}} এর মাধ্যমে গ্যাস পান",
     "route": "",
     "select": "",
@@ -417,6 +422,10 @@
     "currentPrice": "",
     "contractAddress": "",
     "marketCap": "",
-    "volume24h": ""
+    "volume24h": "",
+    "status": "",
+    "statusFlagged": "",
+    "statusUnverified": "",
+    "statusVerified": ""
   }
 }

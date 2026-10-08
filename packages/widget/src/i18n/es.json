@@ -18,6 +18,7 @@
     "buy": "Comprar",
     "cancel": "Cancelar",
     "checkoutReview": "Revisar compra",
+    "clear": "",
     "clearAllFailed": "",
     "clearTransaction": "",
     "close": "Cerrar",
@@ -45,6 +46,8 @@
     "resetSettings": "Reiniciar ajustes",
     "seeDetails": "Ver detalles",
     "showAll": "Mostrar todo",
+    "showLess": "",
+    "showMore": "",
     "startBridging": "Comenzar puente",
     "startSwapping": "Iniciar intercambio",
     "swap": "Swap",
@@ -250,7 +253,8 @@
       "walletAddressInvalid_chain": "La dirección de la billetera o nombre de dominio no es válida para la cadena de destino seleccionada {{chainName}}",
       "walletAddressRequired": "Dirección de billetera es requerida.",
       "walletChainTypeInvalid": "La dirección de la billetera no coincide con la cadena de destino seleccionada {{chainName}}",
-      "walletMismatch": "La dirección de la billetera no coincide"
+      "walletMismatch": "La dirección de la billetera no coincide",
+      "zcashAddressInvalid": ""
     }
   },
   "tooltip": {
@@ -345,6 +349,7 @@
     "quotedAmount": "Monto citado",
     "rateChange": "Cambios de precio detectado",
     "receiving": "Recibiendo",
+    "recentSearches": "",
     "refuelStepDetails": "Obtener gas a través de {{tool}}",
     "route": "",
     "select": "",
@@ -417,6 +422,10 @@
     "currentPrice": "",
     "contractAddress": "",
     "marketCap": "",
-    "volume24h": ""
+    "volume24h": "",
+    "status": "",
+    "statusFlagged": "",
+    "statusUnverified": "",
+    "statusVerified": ""
   }
 }

@@ -18,6 +18,7 @@
     "buy": "Beli",
     "cancel": "Batal",
     "checkoutReview": "Tinjau pembelian",
+    "clear": "",
     "clearAllFailed": "",
     "clearTransaction": "",
     "close": "Tutup",
@@ -45,6 +46,8 @@
     "resetSettings": "Setel ulang pengaturan",
     "seeDetails": "Lihat rinciannya",
     "showAll": "Tampilkan semua",
+    "showLess": "",
+    "showMore": "",
     "startBridging": "Mulai bridge",
     "startSwapping": "Mulai swap",
     "swap": "Swap",
@@ -250,7 +253,8 @@
       "walletAddressInvalid_chain": "Alamat dompet atau nama domain tidak valid untuk jaringan tujuan yang dipilih {{chainName}}",
       "walletAddressRequired": "Alamat dompet diperlukan.",
       "walletChainTypeInvalid": "Alamat dompet tidak cocok dengan jaringan tujuan yang dipilih {{chainName}}",
-      "walletMismatch": "Alamat dompet tidak cocok"
+      "walletMismatch": "Alamat dompet tidak cocok",
+      "zcashAddressInvalid": ""
     }
   },
   "tooltip": {
@@ -345,6 +349,7 @@
     "quotedAmount": "Jumlah yang dikutip",
     "rateChange": "Perubahan rate",
     "receiving": "Menerima",
+    "recentSearches": "",
     "refuelStepDetails": "Dapatkan gas melalui {{tool}}",
     "route": "",
     "select": "",
@@ -417,6 +422,10 @@
     "currentPrice": "",
     "contractAddress": "",
     "marketCap": "",
-    "volume24h": ""
+    "volume24h": "",
+    "status": "",
+    "statusFlagged": "",
+    "statusUnverified": "",
+    "statusVerified": ""
   }
 }

@@ -10,16 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/sdk": "^4.8.0",
-    "@lifi/wallet-management": "4.2.0",
-    "@lifi/widget": "4.6.0",
-    "@lifi/widget-provider-ethereum": "4.1.4",
+    "@lifi/sdk": "^4.11.0",
+    "@lifi/wallet-management": "4.3.1",
+    "@lifi/widget": "4.8.0",
+    "@lifi/widget-provider-ethereum": "4.1.6",
     "@mui/icons-material": "^9.4.0",
     "@mui/material": "^9.4.0",
     "@solana/wallet-adapter-base": "^0.9.28",
     "@solana/wallet-adapter-react": "^0.15.40",
     "@solana/web3.js": "^1.99.0",
-    "@tanstack/react-query": "^5.103.1",
+    "@tanstack/react-query": "^5.104.1",
     "connectkit": "^1.9.2",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
@@ -29,9 +29,9 @@
   "devDependencies": {
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "@vitejs/plugin-react": "^6.1.1",
-    "globals": "^17.12.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "globals": "^17.13.0",
     "typescript": "~7.0.2",
-    "vite": "^8.3.0"
+    "vite": "^8.3.3"
   }
 }

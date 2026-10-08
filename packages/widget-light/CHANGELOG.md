@@ -1,5 +1,60 @@
 # @lifi/widget-light
 
+## 4.5.1
+
+### Patch Changes
+
+- [#896](https://github.com/lifinance/widget/pull/896) [`10d954a`](https://github.com/lifinance/widget/commit/10d954aaa9d4cc125c08045c0dd872d2549ec753) Thanks [@chybisov](https://github.com/chybisov)! - Raise the optional peer floors to the latest releases: `wagmi` 3.7.7, `@wagmi/core` 3.6.5, `@bigmi/client` 0.10.5, `@bigmi/react` 0.9.5, `@mysten/dapp-kit-react` 2.1.39 and `@wallet-standard/base` 1.1.1.
+
+## 4.5.0
+
+### Minor Changes
+
+- [#891](https://github.com/lifinance/widget/pull/891) [`0b3811c`](https://github.com/lifinance/widget/commit/0b3811ce2492b385219659632fd157b3b4923c57) Thanks [@chybisov](https://github.com/chybisov)! - Split `keyPrefix` into `storageScopeKey` and `queryScopeKey`, and publish shared
+  query options at `@lifi/widget/queries`.
+  
+  `keyPrefix` did two unrelated jobs: it named the widget's persisted stores in
+  `localStorage`, which belong to one widget instance, and it prefixed every
+  react-query key, which scopes data inside the host's `QueryClient`. One field
+  cannot have both granularities, so a host app and the widget could never share
+  server data such as chains and tools.
+  
+  - `storageScopeKey` namespaces persisted state — bookmarks, pinned tokens,
+    recent tokens, chain order and route history, the stores `keyPrefix` named.
+    Store names are unchanged, so moving a value from `keyPrefix` to
+    `storageScopeKey` keeps every user's saved data. Settings keep their one
+    shared name. It also scopes the widget's other queries.
+  - `queryScopeKey` scopes the chains and tools queries. Instances and a host app
+    that pass the same value share those entries.
+  - `keyPrefix` is deprecated and stays the fallback for both: nothing changes for
+    an integration that keeps using it. With neither set, the query scope defaults
+    to `'li.fi'`.
+  
+  `@lifi/widget/queries` exports `getChainsQueryOptions` and
+  `getToolsQueryOptions` (plus their key builders), following wagmi's
+  `@wagmi/core/query` convention: keys are `['chains', { apiUrl, chainTypes,
+  scopeKey }]` and `['tools', { apiUrl, scopeKey }]`, the `queryFn` reads its
+  parameters from the key, and caller behaviour (`staleTime`, `select`, …) goes in
+  `query` and never into the key. The subpath depends only on `@lifi/sdk` at
+  runtime, so a host can import it without loading the widget.
+  
+  The widget's chains and tools queries now use these factories. Their cache
+  entries hold the raw response; tools are narrowed per widget with `select`.
+  The widget's internal query keys are not public API, but an integration that
+  invalidated them by reconstructing the old `${keyPrefix}-widget-chains` string
+  must switch to `getChainsQueryKey` / `getToolsQueryKey`.
+  
+  `@lifi/widget-checkout` names its bookmarks store from the same storage scope,
+  and `@lifi/widget-light` accepts `storageScopeKey`.
+
+## 4.4.0
+
+### Minor Changes
+
+- [#878](https://github.com/lifinance/widget/pull/878) [`e9c695f`](https://github.com/lifinance/widget/commit/e9c695f9981d60bd23cff85d2c3324a739ebf0d7) Thanks [@chybisov](https://github.com/chybisov)! - Require `@bigmi/client` 0.10.4, `@bigmi/core` 0.9.2 and `@bigmi/react` 0.9.4. The client release detects BitKeep when it injects only as `window.unisat`, which connector-backed wallet detection needs in order not to narrow. The core release reports a declined confirmation as a user rejection even when the wallet sends no rejection code, so a cancelled MetaMask Bitcoin signature now reads "Signature required" instead of "Unknown Error". The 0.10.4 client additionally fixes Binance detection when `window.binancew3w` carries no bitcoin provider, stops MetaMask Bitcoin opening the extension on page load, and keeps the store consistent when a wallet's own `disconnect()` throws.
+
+- [#881](https://github.com/lifinance/widget/pull/881) [`6ca0991`](https://github.com/lifinance/widget/commit/6ca09911a49dda74d9450fad4a0732be789dac40) Thanks [@chybisov](https://github.com/chybisov)! - Add `hiddenUI.recentSearches` to the config type, to hide the widget's Recent searches section.
+
 ## 4.3.2
 
 ### Patch Changes

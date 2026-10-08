@@ -288,6 +288,17 @@ export const createSearchMatcher = (
     )
 }
 
+export const isHoistableNative = (
+  token: TokenAmount | undefined,
+  selectedChainId?: number
+): boolean =>
+  !!token?.native &&
+  !token.pinned &&
+  !token.featured &&
+  !token.popular &&
+  !token.verified &&
+  (selectedChainId === undefined || token.chainId === selectedChainId)
+
 /**
  * Moves the chain's native token to the top of its own chain's list, unless an
  * external list already places it. Returns the array unchanged when nothing
@@ -300,14 +311,8 @@ export const hoistNativeToken = (
   if (!selectedChainId) {
     return tokens
   }
-  const index = tokens.findIndex(
-    (token) =>
-      token.native &&
-      token.chainId === selectedChainId &&
-      !token.featured &&
-      !token.popular &&
-      !token.pinned &&
-      !token.verified
+  const index = tokens.findIndex((token) =>
+    isHoistableNative(token, selectedChainId)
   )
   // -1 is no native token, 0 is already first
   if (index < 1) {

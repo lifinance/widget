@@ -3,7 +3,7 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 /**
  * Regression cover for JUM-1541.
@@ -17,11 +17,12 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 const ETHEREUM = 1
 const ARBITRUM = 42161
 const POLYGON = 137
+const SOLANA = 1151111081099710
 
 const chain = (id: number): ExtendedChain =>
   ({ id, name: `Chain ${id}`, chainType: 'EVM' }) as unknown as ExtendedChain
 
-let chainsConfig: { from?: number[] } | undefined
+let chainsConfig: { from?: { allow: number[] } } | undefined
 let availableChains: ExtendedChain[] = []
 let swapOnly = false
 let fromChainConfig: number | undefined
@@ -84,7 +85,7 @@ const { ChainOrderStoreProvider, useChainOrderStore } = await import(
 
 /** What `selectAllNetworks` does to the form: clear the field, as touched. */
 const clickAllNetworks = (key: 'from' | 'to') => {
-  formValues.delete(`${key}Chain`)
+  formValues.set(`${key}Chain`, '')
   touchedFields.add(`${key}Chain`)
 }
 
@@ -110,6 +111,15 @@ const render = () => {
 const fromChainWrites = () =>
   setFieldValue.mock.calls.filter(([key]) => key === 'fromChain')
 
+const toChainWrites = () =>
+  setFieldValue.mock.calls.filter(([key]) => key === 'toChain')
+
+/** An integrator that derives `chains` from form state rebuilds it on every write. */
+const rebuildHostConfig = () => {
+  chainsConfig = { ...chainsConfig }
+  render()
+}
+
 beforeEach(() => {
   ;(
     globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT: boolean }
@@ -123,7 +133,12 @@ beforeEach(() => {
   swapOnly = false
   fromChainConfig = undefined
   availableChains = [chain(ETHEREUM), chain(ARBITRUM)]
+  fromIsAllNetworks = undefined
   root = createRoot(document.createElement('div'))
+})
+
+afterEach(() => {
+  act(() => root.unmount())
 })
 
 describe('ChainOrderStoreProvider', () => {
@@ -177,14 +192,107 @@ describe('ChainOrderStoreProvider', () => {
     render()
     expect(fromChainWrites()).toHaveLength(0)
 
-    // The tab cannot be shown with one chain, so this side needs a fallback.
-    chainsConfig = { from: [ARBITRUM] }
-    availableChains = [chain(ARBITRUM)]
+    // An allow-list of one chain withdraws the tab, so this side needs a
+    // fallback.
+    chainsConfig = { from: { allow: [ARBITRUM] } }
     setFieldValue.mockClear()
     render()
 
     expect(fromIsAllNetworks).toBe(false)
     expect(fromChainWrites()).toHaveLength(1)
     expect(fromChainWrites()[0][1]).toBe(ARBITRUM)
+  })
+})
+
+describe('ChainOrderStoreProvider in swap-only modes', () => {
+  beforeEach(() => {
+    swapOnly = true
+  })
+
+  const pickSource = (chainId: number) => {
+    window.history.replaceState({}, '', `/?fromChain=${chainId}`)
+    formValues.set('fromChain', chainId)
+  }
+
+  // The destination used to flip on every host rebuild until React threw #185.
+  it('does not alternate the destination while the source is on "All networks"', () => {
+    const destinations: unknown[] = []
+    render()
+    destinations.push(formValues.get('toChain'))
+    for (let rebuild = 0; rebuild < 4; rebuild++) {
+      rebuildHostConfig()
+      destinations.push(formValues.get('toChain'))
+    }
+
+    expect(fromIsAllNetworks).toBe(true)
+    expect(destinations).toEqual(Array(5).fill(ETHEREUM))
+    expect(toChainWrites()).toHaveLength(1)
+  })
+
+  it('fills an empty destination from the source, not from the chain order', () => {
+    pickSource(ARBITRUM)
+    render()
+
+    expect(formValues.get('toChain')).toBe(ARBITRUM)
+  })
+
+  it('moves a stale destination onto the source', () => {
+    pickSource(ARBITRUM)
+    formValues.set('toChain', ETHEREUM)
+    render()
+
+    expect(formValues.get('toChain')).toBe(ARBITRUM)
+  })
+
+  it('stops writing the destination once it matches the source', () => {
+    pickSource(ARBITRUM)
+    render()
+    expect(formValues.get('toChain')).toBe(ARBITRUM)
+    setFieldValue.mockClear()
+
+    rebuildHostConfig()
+    rebuildHostConfig()
+
+    expect(toChainWrites()).toHaveLength(0)
+  })
+
+  it('keeps the destination when the source goes back to "All networks"', () => {
+    pickSource(ARBITRUM)
+    render()
+    expect(formValues.get('toChain')).toBe(ARBITRUM)
+    clickAllNetworks('from')
+    setFieldValue.mockClear()
+
+    rebuildHostConfig()
+    rebuildHostConfig()
+
+    expect(formValues.get('toChain')).toBe(ARBITRUM)
+    expect(toChainWrites()).toHaveLength(0)
+  })
+
+  it('treats a zero source as no source', () => {
+    formValues.set('fromChain', 0)
+    render()
+    rebuildHostConfig()
+
+    expect(formValues.get('toChain')).toBe(ETHEREUM)
+    expect(toChainWrites()).toHaveLength(1)
+  })
+
+  // The list can shrink under a destination, e.g. when the integrator narrows `chains`.
+  it('replaces a destination the chain list does not offer while there is no source', () => {
+    swapOnly = false
+    availableChains = [chain(ETHEREUM), chain(ARBITRUM), chain(SOLANA)]
+    formValues.set('toChain', SOLANA)
+    render()
+    expect(formValues.get('toChain')).toBe(SOLANA)
+
+    swapOnly = true
+    availableChains = [chain(ETHEREUM), chain(ARBITRUM)]
+    render()
+    rebuildHostConfig()
+
+    expect(formValues.get('toChain')).toBe(ETHEREUM)
+    expect(toChainWrites()).toHaveLength(1)
   })
 })

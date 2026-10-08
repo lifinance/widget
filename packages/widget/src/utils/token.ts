@@ -10,8 +10,29 @@ import type {
 import { ChainId } from '@lifi/sdk'
 import type { FormType } from '../stores/form/types.js'
 import type { TokensByChain, TokenWithFlags } from '../types/token.js'
-import type { WidgetChains, WidgetTokens } from '../types/widget.js'
+import type {
+  AllowDenySets,
+  WidgetChains,
+  WidgetTokens,
+} from '../types/widget.js'
 import { getConfigItemSets, isFormItemAllowed } from './item.js'
+
+// Number(): plain-JS integrators may pass chainId as a string.
+export const getChainTokenAllowSets = (
+  configTokens: WidgetTokens | undefined,
+  chainId: number,
+  formType?: FormType
+): AllowDenySets | undefined =>
+  getConfigItemSets(
+    configTokens,
+    (tokens: BaseToken[]) =>
+      new Set(
+        tokens
+          .filter((t) => Number(t.chainId) === chainId)
+          .map((t) => t.address.toLowerCase())
+      ),
+    formType
+  )
 
 /**
  * Builds per-chain sets of lowercase token addresses from the
@@ -183,14 +204,9 @@ export const filterAllowedTokens = (
       chainIncludedTokens.map((t) => t.address.toLowerCase())
     )
 
-    const allowedAddresses = getConfigItemSets(
+    const allowedAddresses = getChainTokenAllowSets(
       configTokens,
-      (tokens: BaseToken[]) =>
-        new Set(
-          tokens
-            .filter((t) => Number(t.chainId) === chainId)
-            .map((t) => t.address.toLowerCase())
-        ),
+      chainId,
       formType
     )
 
@@ -262,6 +278,54 @@ export const getTokenVerificationProvider = (
   return provider
     ? `${provider.charAt(0).toUpperCase()}${provider.slice(1)}`
     : undefined
+}
+
+export type TokenVerificationBadge =
+  | 'native'
+  | 'flagged'
+  | 'verified'
+  | 'unverifiedByProvider'
+  | 'unverified'
+
+export const getTokenVerificationBadge = (
+  token: Pick<
+    TokenWithFlags,
+    'native' | 'listed' | 'verified' | 'verificationStatus'
+  >
+): TokenVerificationBadge | undefined => {
+  // The provider calls the native-address convention a scam on some chains.
+  if (token.native) {
+    return 'native'
+  }
+  if (token.verificationStatus === 'flagged') {
+    return 'flagged'
+  }
+  if (token.verificationStatus === 'verified') {
+    return 'verified'
+  }
+  if (token.listed || token.verified) {
+    return undefined
+  }
+  return token.verificationStatus === 'unverified'
+    ? 'unverifiedByProvider'
+    : 'unverified'
+}
+
+export type TokenStatusTextKey =
+  | 'tokenMetric.statusVerified'
+  | 'tokenMetric.statusFlagged'
+  | 'tokenMetric.statusUnverified'
+
+export const getTokenStatusTextKey = (
+  token: Pick<TokenWithFlags, 'native' | 'verificationStatus'>
+): TokenStatusTextKey => {
+  if (token.verificationStatus === 'verified') {
+    return 'tokenMetric.statusVerified'
+  }
+  if (token.verificationStatus === 'flagged' && !token.native) {
+    return 'tokenMetric.statusFlagged'
+  }
+  return 'tokenMetric.statusUnverified'
 }
 
 /**

@@ -18,6 +18,7 @@
     "buy": "",
     "cancel": "",
     "checkoutReview": "",
+    "clear": "",
     "clearAllFailed": "",
     "clearTransaction": "",
     "close": "",
@@ -45,6 +46,8 @@
     "resetSettings": "",
     "seeDetails": "",
     "showAll": "",
+    "showLess": "",
+    "showMore": "",
     "startBridging": "",
     "startSwapping": "",
     "swap": "",
@@ -250,7 +253,8 @@
       "walletAddressInvalid_chain": "",
       "walletAddressRequired": "",
       "walletChainTypeInvalid": "",
-      "walletMismatch": ""
+      "walletMismatch": "",
+      "zcashAddressInvalid": ""
     }
   },
   "tooltip": {
@@ -345,6 +349,7 @@
     "quotedAmount": "",
     "rateChange": "",
     "receiving": "",
+    "recentSearches": "",
     "refuelStepDetails": "",
     "route": "",
     "select": "",
@@ -417,6 +422,10 @@
     "currentPrice": "",
     "contractAddress": "",
     "marketCap": "",
-    "volume24h": ""
+    "volume24h": "",
+    "status": "",
+    "statusFlagged": "",
+    "statusUnverified": "",
+    "statusVerified": ""
   }
 }
