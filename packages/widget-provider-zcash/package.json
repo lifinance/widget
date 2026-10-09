@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-provider-zcash",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "LI.FI Widget Provider for Zcash as a destination chain.",
   "type": "module",
   "main": "./src/index.ts",

@@ -1,5 +1,15 @@
 # @lifi/wallet-management
 
+## 4.3.3
+
+### Patch Changes
+
+- [#902](https://github.com/lifinance/widget/pull/902) [`8919674`](https://github.com/lifinance/widget/commit/89196746514ebb457139195aaed08a2ae8c38ed3) Thanks [@chybisov](https://github.com/chybisov)! - Complete the translations for all 16 languages and remove 52 unused i18n keys (most of them under `checkout.*` and `main.step*`). If you override a removed key in `languageResources`, delete that override.
+
+- [#903](https://github.com/lifinance/widget/pull/903) [`4458495`](https://github.com/lifinance/widget/commit/4458495061371d770ba48ff856cb0feecf0c6357) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.12.0 and the LI.FI SDK providers to latest: `@lifi/sdk-provider-bitcoin` 4.1.1, `@lifi/sdk-provider-ethereum` 4.2.8, `@lifi/sdk-provider-solana` 4.3.5, `@lifi/sdk-provider-stellar` 4.3.9, `@lifi/sdk-provider-sui` 4.2.9, `@lifi/sdk-provider-tron` 4.1.8 and `@lifi/sdk-provider-zcash` 4.0.1. After a user rejects a batched swap in MetaMask, "Try again" asks for a new signature again.
+- Updated dependencies [[`4458495`](https://github.com/lifinance/widget/commit/4458495061371d770ba48ff856cb0feecf0c6357)]:
+  - @lifi/widget-provider@4.6.1
+
 ## 4.3.2
 
 ### Patch Changes
