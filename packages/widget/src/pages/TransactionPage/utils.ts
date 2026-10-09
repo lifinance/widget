@@ -114,7 +114,6 @@ const newSwapModes: readonly (WidgetMode | undefined)[] = [
   'split',
 ]
 
-// Try again only waits for the same bundle again.
 export const isCallBundleNotFound = (route: RouteExtended): boolean =>
   getFailedStepAction(route)?.action.error?.code ===
   LiFiErrorCode.CallBundleNotFound

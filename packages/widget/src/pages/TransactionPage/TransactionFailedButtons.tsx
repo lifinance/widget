@@ -62,6 +62,7 @@ export const TransactionFailedButtons: React.FC<
   }
 
   const showStartNewSwap = canStartNewSwap({ route, mode, swapOnly })
+  // Try again would only wait for the same bundle again.
   const showRetry = !isCallBundleNotFound(route)
 
   // Home, not back: after a reload, the route is opened from Activities.
