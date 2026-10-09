@@ -114,6 +114,7 @@ export { TransactionDoneButtons } from './pages/TransactionPage/TransactionDoneB
 export {
   calculateValueLossPercentage,
   getTokenValueLossThreshold,
+  isCallBundleNotFound,
 } from './pages/TransactionPage/utils.js'
 
 // ── providers ────────────────────────────────────────────────────────────────
