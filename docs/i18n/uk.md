@@ -3,7 +3,7 @@
 Read [TRANSLATING.md](../../TRANSLATING.md) first.
 
 - Variant: Ukrainian (Ukraine), 2019 orthography. 'Своп', 'газ' and 'бридж' are the anglicisms that Ukrainian crypto users use. Wallet UIs use 'кросчейн' for the action. Do not use Russian words, Russian spellings or Russian-style calques.
-- Register: ви
+- Register: ви. Crypto wallets and exchanges in Ukrainian address the user as 'ви'. Do not use 'ти'.
 - Address the user as 'ви'. Write 'ви' and 'ваш' in lowercase inside a sentence. Use the infinitive on a button ('Підключити гаманець', 'Обміняти') and the plural imperative in an instruction ('Підпишіть транзакцію').
 - Inflect loanwords like native nouns: своп, свопу, свопом; газ, газу; токен, токена; бридж, бриджу. Write 'транзакція свопу', not 'своп транзакція'.
 - Use the apostrophe U+02BC (ʼ) in all words: імʼя, обовʼязковий. Do not mix it with U+0027 (') or U+2019 (’). The widget uk.json mixes them.

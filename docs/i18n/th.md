@@ -7,7 +7,7 @@ Read [TRANSLATING.md](../../TRANSLATING.md) first.
 - Keep these crypto terms in Latin letters with a capital first letter: Swap, Bridge, Gas, Slippage, Wallet, Price Impact, Stablecoin, Staking, Vault, Airdrop, Limit Order.
 - Put one space between Thai text and a Latin word, a number, or a {{variable}}, for example “เชื่อมต่อ Wallet”.
 - Do not add spaces inside a Thai phrase. Use a space only between phrases and between sentences.
-- Do not end Thai sentences with a period. The current files add periods, so remove them.
+- Do not end Thai sentences with a period.
 - Buttons: use a verb or a verb-object form, for example “เชื่อมต่อ Wallet” or “Swap”. Do not start a button with การ.
 - Spell โทเค็น with ไม้ไต่คู้. Do not write โทเคน.
 

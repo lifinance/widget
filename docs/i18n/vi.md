@@ -3,7 +3,7 @@
 Read [TRANSLATING.md](../../TRANSLATING.md) first.
 
 - Variant: Vietnamese (Vietnam). MetaMask, Uniswap and Rabby translate swap and bridge ('Hoán đổi', 'Cầu nối'), and OKX translates bridge. This glossary follows these wallet UIs. They keep token, gas, stablecoin, airdrop, staking, vault and acronyms in Latin script.
-- Register: bạn
+- Register: bạn. All leading crypto apps in Vietnamese address the user as 'bạn'. 'Quý khách' is too formal.
 - Write a button as a short verb phrase with no subject: 'Kết nối ví', 'Hoán đổi', 'Phê duyệt'. Do not put 'Hãy' or 'Vui lòng' on a button.
 - Keep these terms in Latin script and lowercase inside a sentence: token, gas, stablecoin, airdrop, staking, vault. Keep acronyms as is: DEX, APY, XP, TWAP.
 - Use sentence case. Capitalize only the first word and proper names: 'Kết nối ví', not 'Kết Nối Ví'.
