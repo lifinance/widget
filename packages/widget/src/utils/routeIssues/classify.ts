@@ -164,6 +164,7 @@ const foldEvidence = (
     incumbentAmount <= 0n
       ? candidate
       : incumbent
+  const minUsd = smaller(incumbent.minUsd, candidate.minUsd)
   return {
     direction: incumbent.direction ?? candidate.direction,
     requiredFromAmount: withAmount.requiredFromAmount,
@@ -172,7 +173,9 @@ const foldEvidence = (
       incumbent.requiredSlippage,
       candidate.requiredSlippage
     ),
-    minUsd: smaller(incumbent.minUsd, candidate.minUsd),
+    minUsd,
+    // Follows the bar that won, so a floor on the send can still be refuted.
+    received: (minUsd === incumbent.minUsd ? incumbent : candidate).received,
     maxUsd: larger(incumbent.maxUsd, candidate.maxUsd),
     note: incumbent.note ?? candidate.note,
   }
@@ -204,7 +207,7 @@ const collect = (
   }
   const { match, fallback } = found
   const refined = match
-    ? found.rule.extract?.(match, context, entry.path)
+    ? found.rule.extract?.(match, context, entry.path, entry.code)
     : undefined
   // Rejecting the prose is a refusal to refine, not a verdict on the entry: the
   // code still named a cause, and dropping it left the tool error unexplained.
@@ -261,7 +264,12 @@ const barStands = (issue: RouteIssue, context: ClassifyContext): boolean => {
   }
   const sentUsd =
     Number(formatUnits(issue.fromAmount, context.fromTokenDecimals)) * price
-  return low ? bar >= sentUsd : bar <= sentUsd
+  // A floor on what arrives sits above the send by fees the widget cannot see.
+  // Allowing fees as large as the floor itself keeps it while the send is
+  // under twice the floor, so the amount that was just applied to clear it
+  // cannot refute it, and a send far past it still does.
+  const floor = low && issue.evidence?.received ? bar * 2 : bar
+  return low ? floor >= sentUsd : bar <= sentUsd
 }
 
 /**
@@ -350,11 +358,18 @@ const aboutTheRequest: Record<RouteIssueBucket, boolean> = {
   pairNotSupported: false,
 }
 
+const isAmountIssue = (issue: RouteIssue): boolean =>
+  issue.bucket === 'amountTooLow' || issue.bucket === 'amountTooHigh'
+
 // `NO_POSSIBLE_ROUTE` is emitted per tool. Beside a reason about the request it
 // is untrue — the pair works, this request does not. Beside a tool's own
-// trouble it is the more complete answer, so it stays.
-const dropUnsupportedNoise = (issues: RouteIssue[]): RouteIssue[] =>
-  issues.some((issue) => aboutTheRequest[issue.bucket])
+// trouble it is the more complete answer, so it stays. A tool that judged the
+// amount routes this pair too, even where its bar was dropped above.
+const dropUnsupportedNoise = (
+  issues: RouteIssue[],
+  amountJudged: boolean
+): RouteIssue[] =>
+  amountJudged || issues.some((issue) => aboutTheRequest[issue.bucket])
     ? issues.filter((issue) => issue.bucket !== 'pairNotSupported')
     : issues
 
@@ -374,12 +389,15 @@ const classify = (
     }
   }
 
+  const all = [...collected.values()]
   const ranged = resolveAmountConflict(
-    dropRefutedAmounts([...collected.values()], context),
+    dropRefutedAmounts(all, context),
     context
   )
   const applicable = dropInapplicableReceiver(ranged, context)
-  return dropUnsupportedNoise(applicable).sort(compareIssues)
+  return dropUnsupportedNoise(applicable, all.some(isAmountIssue)).sort(
+    compareIssues
+  )
 }
 
 export function classifyRouteIssues(

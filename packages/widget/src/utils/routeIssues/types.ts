@@ -24,6 +24,11 @@ export interface RouteIssueEvidence {
   minUsd?: number
   /** A ceiling the tool stated in dollars rather than in token units. */
   maxUsd?: number
+  /**
+   * `minUsd` bars what arrives, not what is sent, so the send clears it only
+   * after fees the widget cannot see.
+   */
+  received?: boolean
   note?: string
 }
 
@@ -66,7 +71,9 @@ export interface RouteIssueRule {
   extract?: (
     match: RegExpExecArray,
     context: ClassifyContext,
-    path?: string
+    path?: string,
+    /** The tool error's code, when the text came from one. */
+    code?: string
   ) => RouteIssueEvidence | null
   bucketFrom?: (evidence: RouteIssueEvidence) => RouteIssueBucket | undefined
 }
