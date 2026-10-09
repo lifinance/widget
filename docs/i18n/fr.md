@@ -21,7 +21,7 @@ Read [TRANSLATING.md](../../TRANSLATING.md) first.
 | 4 | swap (verb) | échanger (bouton : 'Échanger') (Use 'Échanger' on the swap button, as Uniswap and MetaMask do.) | swapper (sur un bouton), permuter |
 | 5 | exchange | Échanger (onglet et titre) (French users read 'plateforme d’échange' and 'exchange' as a centralized exchange, so the tab uses the verb 'Échanger'.) | Exchange, Bourse, Plateforme d’échange |
 | 6 | cross-chain | cross-chain (invariable) : 'swap cross-chain', 'bridge cross-chain' (Write it with a hyphen and no plural mark.) | inter-chaînes, chaîne croisée |
-| 7 | gas | gaz (m.) (Use 'gaz' as the unit and the tab name. Uniswap FR and Rabby FR write 'gas', so keep one spelling everywhere.) | carburant, essence |
+| 7 | gas | gaz (m.) (Use 'gaz' as the unit and the tab name, as MetaMask, Ledger Live and OKX do. Some apps write 'gas'. Use 'gaz' everywhere.) | carburant, essence |
 | 8 | gas fee / network fee | frais de réseau (m. pl.) (Use 'Frais de réseau' as the fee label. 'frais' is always plural.) | frais de gaz (comme libellé), redevance réseau |
 | 9 | slippage | slippage (m.) : 'Slippage max.', 'tolérance de slippage' (The current widget uses 'effet de glissement'. Replace it with 'slippage'.) | effet de glissement, glissement |
 | 10 | price impact | impact sur le prix (Use the singular 'le prix'.) | impact des prix, incidence sur le prix |

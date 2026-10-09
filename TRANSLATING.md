@@ -1,6 +1,6 @@
 # Translating
 
-We do not use Crowdin. The person or the AI agent that changes an English text also translates it, in the same PR.
+The person or the AI agent that changes an English text also translates it, in the same PR.
 
 ## Rules
 
@@ -24,7 +24,7 @@ We do not use Crowdin. The person or the AI agent that changes an English text a
 3. Use the key path as context. `button.*` is a button label, `tooltip.*` is a tooltip and `error.*` is an error message.
 4. Write as a native speaker who uses crypto apps every day. Do not translate word by word.
    - If crypto users of a language use the English word, keep the English word. The glossary tells you which words to keep.
-   - Use the same word for the same concept in all texts of a locale. Read the existing texts of the locale near your key.
+   - Use the same word for the same concept in all texts of a locale. Read the existing texts of the locale near your key. If an existing text uses another word than the glossary, follow the glossary.
 5. When a text inserts another key with `$t(...)`, make the inserted text fit the sentence.
 6. Run the test. Fix every key that it names.
 7. Read each new text again as a user of that locale. Fix text that sounds literal.
