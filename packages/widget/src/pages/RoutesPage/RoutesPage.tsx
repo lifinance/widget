@@ -29,6 +29,7 @@ export const RoutesPage = (): JSX.Element => {
     issues,
     isLoading,
     isFetching,
+    isFetched,
     dataUpdatedAt,
     refetchTime,
     fromChain,
@@ -72,7 +73,9 @@ export const RoutesPage = (): JSX.Element => {
     })
   }
 
-  const routeNotFound = !routes?.length && !isLoading && !isFetching
+  // A refresh asks the same question again, so the answer stands until it
+  // returns, as it does in <Routes>.
+  const routeNotFound = !routes?.length && isFetched && !isLoading
 
   const toAddressUnsatisfied =
     routes?.[0] &&
