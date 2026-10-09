@@ -95,7 +95,7 @@ QueryClient → Settings → WidgetConfig → I18n → Theme → SDK → Wallet 
 ## Gotchas
 
 - **Fresh worktree:** `pnpm check:types` fails with TS6305 until the workspace packages have a `dist/`. Run `pnpm build` once.
-- **New i18n key:** add it to `en.json`. Add it as `""` at the same position in the 16 other locale files. `returnEmptyString: false` makes `""` fall back to English.
+- **i18n keys:** when you add a key to an `en.json` or change its English text, translate the key into the 16 other locale files of that folder in the same PR. Do not leave `""`. When you remove a key from `en.json`, remove it from every locale file. Only for this work, read `TRANSLATING.md` and `docs/i18n/<locale>.md` of each locale that you write. Do not read them for other work.
 - **Playwright:** both playground configs use `reuseExistingServer: true` on fixed ports (`pnpm e2e` → 4173, `pnpm e2e:dev` → 3000). If another checkout serves one of these ports, the suite tests that app.
 
 ## Release
