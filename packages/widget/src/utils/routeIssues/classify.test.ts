@@ -3,7 +3,7 @@ import { classifyRouteIssues } from './classify.js'
 import ethToSol from './fixtures/no-routes-eth-to-sol.json' with {
   type: 'json',
 }
-import type { ClassifyContext } from './types.js'
+import type { ClassifyContext, RouteIssue } from './types.js'
 
 const context: ClassifyContext = {
   fromAmount: 1000n,
@@ -543,4 +543,122 @@ describe('folding a zero bar with a real one', () => {
     expect(issue.bucket).toBe('amountTooLow')
     expect(issue.evidence?.requiredFromAmount).toBe(5000000n)
   })
+})
+
+describe('a floor on what arrives', () => {
+  const usdc = (fromAmount: bigint): ClassifyContext => ({
+    fromAmount,
+    fromChainId: 1,
+    fromTokenSymbol: 'USDC',
+    fromTokenDecimals: 6,
+    fromTokenPriceUSD: '1',
+  })
+  const minDestination = {
+    filteredOut: [
+      {
+        overallPath: '1:USDC-chainflip-137:USDC',
+        reason: 'Min destination amount too low for integrator (min: 10)',
+      },
+    ],
+    failed: [],
+  }
+
+  // The fees come off before the floor is checked, so the amount applied to
+  // clear it can still arrive under it. Refuting it then left the generic
+  // sentence where the answer is a larger amount.
+  it('stands for a send just past it', () => {
+    const issues = classifyRouteIssues(minDestination, usdc(10_200_000n))
+    expect(issues.map((issue) => issue.bucket)).toEqual(['amountTooLow'])
+  })
+
+  it('is refuted by a send far past it', () => {
+    expect(classifyRouteIssues(minDestination, usdc(100_000_000n))).toEqual([])
+  })
+})
+
+describe('a pair that a tool judged by its amount', () => {
+  // The tool's bar was refuted, so it is not the reason. It still routes the
+  // pair, which makes "this pair is not supported" untrue.
+  it('is never called unsupported', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: '1:USDC-chainflip-137:USDC',
+            reason: 'Bridge from USDC with fromToken value less than 10 USD',
+          },
+        ],
+        failed: [
+          {
+            overallPath: '1:USDC-across-137:USDC',
+            subpaths: {
+              s: [
+                {
+                  errorType: 'NO_QUOTE',
+                  code: 'NO_POSSIBLE_ROUTE',
+                  tool: 'across',
+                  message: 'No route was found for this action.',
+                  action: {} as never,
+                },
+              ],
+            },
+          },
+        ],
+      },
+      {
+        fromAmount: 100_000_000n,
+        fromChainId: 1,
+        fromTokenSymbol: 'USDC',
+        fromTokenDecimals: 6,
+        fromTokenPriceUSD: '1',
+      }
+    )
+    expect(issues).toEqual([])
+  })
+})
+
+describe('an operator note', () => {
+  const disabled = (code: string): RouteIssue[] =>
+    classifyRouteIssues(
+      {
+        filteredOut: [],
+        failed: [
+          {
+            overallPath: '1:USDC-relay-137:USDC',
+            subpaths: {
+              s: [
+                {
+                  errorType: 'NO_QUOTE',
+                  code,
+                  tool: 'relay',
+                  message:
+                    'Tool relay is currently disabled for this action. Relay is under maintenance.',
+                  action: {} as never,
+                },
+              ],
+            },
+          },
+        ],
+      } as never,
+      {
+        fromAmount: 1_000_000n,
+        fromChainId: 1,
+        fromTokenSymbol: 'USDC',
+        fromTokenDecimals: 6,
+      }
+    )
+
+  it('is shown when the operator published it', () => {
+    const [issue] = disabled('TOOL_NOT_ALLOWED')
+    expect(issue?.bucket).toBe('temporary')
+    expect(issue?.evidence?.note).toBe('Relay is under maintenance.')
+  })
+
+  // A partner's own error text is never user copy, even in this shape.
+  it.each(['TOOL_SPECIFIC_ERROR', 'UNKNOWN_ERROR'])(
+    'is never read from %s',
+    (code) => {
+      expect(disabled(code)).toEqual([])
+    }
+  )
 })

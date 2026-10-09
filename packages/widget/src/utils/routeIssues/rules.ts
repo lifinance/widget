@@ -166,7 +166,17 @@ const suppressedFragment = (id: string, fragment: RegExp): RouteIssueRule => ({
  * the user waits out or retries. Only the note an operator chose to publish
  * says anything, so without one the entry is not a reason at all.
  */
-const operatorNote: RouteIssueRule['extract'] = (match) => {
+const operatorNote: RouteIssueRule['extract'] = (
+  match,
+  _context,
+  _path,
+  code
+) => {
+  // An operator publishes the note through a filter reason or the internal
+  // TOOL_NOT_ALLOWED error. A partner's own error text is never user copy.
+  if (code && code !== 'TOOL_NOT_ALLOWED') {
+    return null
+  }
   const note = match[1]?.trim()
   return note ? { note } : null
 }
@@ -377,7 +387,7 @@ export const routeIssueRules: RouteIssueRule[] = [
     'integratorMinDestination',
     'amountTooLow',
     /Min destination amount too low for integrator \(min: ([\d.]+)\)/,
-    (match) => ({ minUsd: Number.parseFloat(match[1]) })
+    (match) => ({ minUsd: Number.parseFloat(match[1]), received: true })
   ),
   fragmentRule(
     'bridgeTransferFloor',
