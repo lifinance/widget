@@ -17,6 +17,7 @@ import type { ReactNode } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { create, type StoreApi, type UseBoundStore } from 'zustand'
+import { DISPLAY_INTERVAL } from '../../hooks/usePacedValue.js'
 import type { WidgetContextProps } from '../../providers/WidgetProvider/types.js'
 import { WidgetContext } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { BookmarkStoreProvider } from '../../stores/bookmarks/BookmarkStore.js'
@@ -236,6 +237,9 @@ const makeRouter = () => {
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
+// Longer than one pacing window, so the paced status has caught up.
+const PAST_PACING = DISPLAY_INTERVAL + 300
+
 const waitFor = async (check: () => boolean) => {
   for (let i = 0; i < 100 && !check(); i++) {
     await sleep(20)
@@ -355,7 +359,7 @@ describe('The buttons of a failed route', () => {
 })
 
 describe('Start a new swap and the transaction page cleanup', () => {
-  // Within the 1.2 s pacing window the page still holds the failed status when it unmounts.
+  // Within one pacing window the page still holds the failed status when it unmounts.
   it('should keep the filled amount when the route failed just before the click', async () => {
     await render(RouteExecutionStatus.Pending)
     formStore.getState().setFieldValue('toAmount', '7')
@@ -365,22 +369,22 @@ describe('Start a new swap and the transaction page cleanup', () => {
     newSwapButton()!.click()
 
     await waitFor(() => !!container.querySelector('#home'))
-    await sleep(1500)
+    await sleep(PAST_PACING)
     expect(router.state.location.pathname).toBe('/')
     expect(field('fromAmount')).toBe('1.5')
     expect(field('fromToken')).toBe('0xfrom')
     expect(field('toAmount')).toBe('')
   })
 
-  it('should keep the filled amount for a route that had already failed', async () => {
+  it('should fill the form for a route that had already failed', async () => {
     await render(RouteExecutionStatus.Failed)
     await waitFor(() => !!newSwapButton())
-    await sleep(1300)
+    await sleep(PAST_PACING)
 
     newSwapButton()!.click()
 
     await waitFor(() => !!container.querySelector('#home'))
-    await sleep(1500)
+    await sleep(PAST_PACING)
     expect(field('fromAmount')).toBe('1.5')
     expect(field('toAddress')).toBe('')
   })
