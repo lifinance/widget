@@ -194,12 +194,20 @@ const step = (
     execution,
   }) as LiFiStepExtended
 
-const route = (...steps: LiFiStepExtended[]): RouteExtended =>
-  ({
-    fromChainId: steps[0].action.fromChainId,
-    toChainId: steps.at(-1)!.action.toChainId,
+const route = (...steps: LiFiStepExtended[]): RouteExtended => {
+  const { action: first } = steps[0]
+  const { action: last } = steps.at(-1)!
+  return {
+    fromChainId: first.fromChainId,
+    fromToken: first.fromToken,
+    fromAmount: first.fromAmount,
+    fromAddress: first.fromAddress,
+    toChainId: last.toChainId,
+    toToken: last.toToken,
+    toAddress: last.toAddress,
     steps,
-  }) as RouteExtended
+  } as RouteExtended
+}
 
 describe('isCallBundleNotFound', () => {
   it('should find the error on the failed action', () => {
@@ -371,7 +379,7 @@ describe('getNewSwapFormValues', () => {
     expect(values).toMatchObject({ fromAmount: '1.5', toChain: 8453 })
   })
 
-  it('should take the destination of a multi-step route from its last step', () => {
+  it('should take the destination of a multi-step route, not of its first step', () => {
     const multiStep = route(
       step(1, 1, failedExecution()),
       step(1, 8453, undefined, RECEIVER)

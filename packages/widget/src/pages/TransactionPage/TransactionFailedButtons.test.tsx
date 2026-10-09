@@ -143,7 +143,12 @@ const step = {
 const route = {
   id: 'r1',
   fromChainId: 1,
+  fromToken: step.action.fromToken,
+  fromAmount: step.action.fromAmount,
+  fromAddress: SENDER,
   toChainId: 8453,
+  toToken: step.action.toToken,
+  toAddress: SENDER,
   fromAmountUSD: '1',
   toAmountUSD: '1',
   steps: [step],
@@ -153,6 +158,7 @@ const SOLANA_RECEIVER = 'So1anaReceiver11111111111111111111111111111'
 const routeToSolana = {
   ...route,
   toChainId: 1151111081099710,
+  toAddress: SOLANA_RECEIVER,
   steps: [
     {
       ...step,

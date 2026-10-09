@@ -152,28 +152,24 @@ interface NewSwapFormValues {
   toAddress?: string
 }
 
-// The last step has the destination; the first can end at an intermediate token.
 export const getNewSwapFormValues = (
   route: RouteExtended,
   { keepReceiver = false }: { keepReceiver?: boolean } = {}
 ): NewSwapFormValues => {
-  const { action: fromAction } = route.steps[0]
-  const { action: toAction } = route.steps[route.steps.length - 1]
-  const receiver = toAction.toAddress
+  const receiver = route.toAddress
   const values: NewSwapFormValues = {
-    fromChain: fromAction.fromChainId,
-    fromToken: fromAction.fromToken.address,
+    fromChain: route.fromChainId,
+    fromToken: route.fromToken.address,
     fromAmount: formatTokenAmount(
-      BigInt(fromAction.fromAmount),
-      fromAction.fromToken.decimals
+      BigInt(route.fromAmount),
+      route.fromToken.decimals
     ),
-    toChain: toAction.toChainId,
-    toToken: toAction.toToken.address,
+    toChain: route.toChainId,
+    toToken: route.toToken.address,
   }
   if (!keepReceiver) {
     values.toAddress =
-      receiver &&
-      receiver.toLowerCase() !== fromAction.fromAddress?.toLowerCase()
+      receiver && receiver.toLowerCase() !== route.fromAddress?.toLowerCase()
         ? receiver
         : ''
   }
