@@ -4,373 +4,667 @@
     "title": "Lingua"
   },
   "format": {
-    "currency": "",
-    "number": "{{value, number(maximumFractionDigits: 9)}}",
-    "percent": "",
-    "tokenAmount": ""
+    "currency": "{{value, currencyExt(currency: USD)}}",
+    "percent": "{{value, percent(maximumFractionDigits: 2)}}",
+    "tokenAmount": "{{value, numberExt}}"
   },
   "button": {
     "auto": "Auto",
-    "bookmark": "",
-    "bookmarks": "",
-    "bridge": "Bridge",
-    "bridgeReview": "",
+    "bookmark": "Salva",
+    "bridge": "Trasferisci",
+    "bridgeReview": "Rivedi bridge",
     "buy": "Acquista",
     "cancel": "Annulla",
-    "checkoutReview": "",
-    "clear": "",
-    "clearAllFailed": "",
-    "clearTransaction": "",
-    "close": "",
-    "confirm": "",
-    "connectAnotherWallet": "",
-    "connectChainWallet": "",
-    "connectWallet": "Collega il portafoglio",
+    "checkoutReview": "Rivedi acquisto",
+    "clear": "Cancella",
+    "clearAllFailed": "Rimuovi transazioni non riuscite",
+    "clearTransaction": "Rimuovi transazione",
+    "close": "Chiudi",
+    "confirm": "Conferma",
+    "connectAnotherWallet": "Connetti un altro wallet",
+    "connectChainWallet": "Connetti wallet {{chain}}",
+    "connectWallet": "Connetti wallet",
     "contactSupport": "Contatta l'assistenza",
     "continue": "Continua",
     "copyAddress": "Copia indirizzo",
     "dark": "Scuro",
     "delete": "Elimina",
-    "deposit": "",
-    "depositReview": "",
+    "deposit": "Deposita",
+    "depositWithCash": "Deposita con carta",
+    "pay": "Paga",
+    "depositReview": "Rivedi deposito",
+    "connectExchange": "Connetti exchange",
+    "transferCrypto": "Trasferisci crypto",
     "disconnect": "Disconnetti",
     "done": "Fatto",
     "exchange": "Scambia",
     "getGas": "Ottieni gas",
-    "learnMore": "Ulteriori informazioni",
     "light": "Chiaro",
-    "max": "",
-    "ok": "Ok",
-    "options": "",
+    "max": "Max",
+    "options": "Opzioni",
+    "requestRefund": "Richiedi rimborso",
     "reset": "Ripristina",
     "resetSettings": "Ripristina impostazioni",
-    "seeDetails": "Vedi dettagli",
+    "resumeTransaction": "Riprendi transazione",
+    "review": "Rivedi",
+    "topUp": "Integra deposito",
+    "viewRefund": "Vedi rimborso",
+    "viewRefundStatus": "Vedi stato del rimborso",
+    "viewTransferDetails": "Vedi dettagli del trasferimento",
     "showAll": "Mostra tutto",
-    "showLess": "",
-    "showMore": "",
+    "showLess": "Mostra meno",
+    "showMore": "Mostra altri {{count}}",
     "startBridging": "Inizia il bridge",
-    "startNewSwap": "",
-    "startSwapping": "Avvia lo scambio",
-    "swap": "Scambio",
-    "swapReview": "",
-    "system": "",
+    "startNewSwap": "Inizia un nuovo swap",
+    "startSwapping": "Inizia lo swap",
+    "swap": "Scambia",
+    "swapReview": "Rivedi swap",
+    "system": "Sistema",
     "tryAgain": "Riprova",
-    "viewCoverage": "Vedi copertura",
-    "viewOnExplorer": "Visualizza sull'Explorer"
+    "viewOnExplorer": "Vedi su explorer"
   },
   "header": {
-    "amount": "",
-    "bookmarkedWallets": "",
-    "bridge": "",
+    "amount": "Importo",
+    "bookmarkedWallets": "Wallet salvati",
+    "bridge": "Bridge",
+    "buy": "Acquista",
     "checkout": "Checkout",
-    "checkoutDetails": "",
-    "deposit": "",
-    "depositDetails": "",
-    "depositTo": "",
-    "exchange": "Exchange",
+    "checkoutDetails": "Dettagli del checkout",
+    "deposit": "Deposita",
+    "depositWithCash": "Deposita con carta",
+    "depositAddress": "Indirizzo di deposito",
+    "depositDetails": "Dettagli del deposito",
+    "depositTo": "Deposita in",
+    "connectExchange": "Connetti exchange",
+    "transferCrypto": "Trasferisci crypto",
+    "currency": "Valuta",
+    "exchange": "Scambia",
     "from": "Scambia da",
     "gas": "Gas",
+    "limit": "Limite",
     "payWith": "Paga con",
-    "receive": "",
-    "received": "",
-    "recentWallets": "",
-    "refunded": "",
+    "private": "Privato",
+    "receive": "Ricevi",
+    "received": "Ricevuto",
+    "recentWallets": "Wallet recenti",
+    "refunded": "Rimborsato",
     "selectChain": "Seleziona la chain",
-    "selectWallet": "Seleziona il tuo portafoglio",
-    "send": "",
-    "sendToWallet": "",
+    "sell": "Vendi",
+    "send": "Invia",
+    "sendToWallet": "Invia al wallet",
     "settings": "Impostazioni",
-    "swap": "Scambio",
-    "to": "Scambia a",
+    "swap": "Swap",
+    "swapAndBridge": "Swap e bridge",
+    "to": "Scambia in",
     "transactionDetails": "Dettagli transazione",
-    "activities": "",
-    "walletConnected": "Portafoglio collegato",
-    "youGet": "Ricevi",
-    "youPay": ""
+    "activities": "Attività",
+    "youPay": "Paghi"
+  },
+  "limitOrder": {
+    "custom": "Personalizzato",
+    "expiresIn": "Scade tra",
+    "market": "Mercato",
+    "partiallyFillable": "Consenti esecuzioni parziali",
+    "price": "Prezzo limite",
+    "priceLabel": "Quando 1 {{symbol}} vale"
   },
   "info": {
     "message": {
-      "accountDeployedMessage": "",
-      "unsupportedToAddressMessage": "",
-      "autoRefuel": "Livello basso di gas su {{chainName}}. Continuando avrai abbastanza gas per completare lo scambio.",
-      "emptyBridgesList": "",
-      "emptyChainList": "",
-      "emptyExchangesList": "",
-      "emptyTokenListAllNetworks": "",
-      "emptyTransactionHistory": "",
-      "routeNotFound": "Le ragioni potrebbero essere: bassa liquidità, la quantità selezionata è troppo bassa, i costi del gas sono troppo elevati o non ci sono routes per la combinazione selezionata.",
-      "missingRouteRequiredAccount": ""
+      "accountDeployedMessage": "Il tuo smart account potrebbe non avere lo stesso indirizzo sulle altre chain. Controlla bene prima di procedere.",
+      "unsupportedToAddressMessage": "Su Stellar i trasferimenti arrivano sempre all'account che li firma, quindi per questo percorso non puoi usare un altro destinatario.",
+      "autoRefuel": "Hai poco gas su {{chainName}}. Se continui, riceverai abbastanza gas per completare la transazione.",
+      "emptyBridgesList": "Non abbiamo trovato bridge corrispondenti alla tua ricerca",
+      "emptyChainList": "Non abbiamo trovato chain corrispondenti alla tua ricerca",
+      "emptyExchangesList": "Non abbiamo trovato DEX corrispondenti alla tua ricerca",
+      "emptyTokenListAllNetworks": "Non abbiamo trovato token. Se il tuo token non compare, cercalo per indirizzo del contratto oppure prova a selezionare un'altra chain.",
+      "emptyTransactionHistory": "Le tue transazioni compariranno qui dopo il tuo primo trasferimento.",
+      "routeNotFound": "I motivi possono essere: liquidità bassa, importo selezionato troppo basso, costi del gas troppo alti oppure nessun percorso per la combinazione selezionata.",
+      "missingRouteRequiredAccount": "Connetti il tuo wallet {{chainName}} per procedere. {{address}}"
     },
     "title": {
-      "autoRefuel": "",
+      "autoRefuel": "Ottieni gas su {{chainName}}",
       "emptyTransactionHistory": "Nessuna transazione recente",
-      "routeNotFound": "Nessuna rotta disponibile"
+      "routeNotFound": "Nessun percorso disponibile"
     }
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": ""
+      "exchangePartiallySuccessful": "Abbiamo provato a completare la transazione, ma {{tool}} non è riuscito a procedere a causa delle impostazioni di slippage o della mancanza di liquidità per il token {{tokenSymbol}}."
     },
     "title": {
-      "bridgePartiallySuccessful": "Bridge parzialmente completato con successo",
-      "bridgeSuccessful": "Bridge avvenuto con successo",
-      "depositSuccessful": "",
-      "checkoutSuccessful": "",
+      "bridgePartiallySuccessful": "Bridge parzialmente completato",
+      "bridgeSuccessful": "Bridge completato",
+      "depositSuccessful": "Deposito completato",
+      "checkoutSuccessful": "Acquisto completato",
       "refundIssued": "Rimborso inviato",
-      "swapPartiallySuccessful": "Scambio parzialmente completato con successo",
-      "swapSuccessful": "Scambio completato con successo"
+      "swapPartiallySuccessful": "Swap parzialmente completato",
+      "swapSuccessful": "Swap completato"
     }
   },
   "warning": {
     "message": {
-      "tokenUnverified": "",
-      "tokenUnverifiedByProvider": "",
-      "accountNotDeployedMessage": "",
-      "lowAddressActivity": "",
-      "clearFailedTransactions": "",
-      "fundsLossPrevention": "",
-      "highValueLoss": "Il valore dei token ricevuti è significativamente inferiore ai token scambiati più il costo della transazione.",
-      "insufficientFunds": "Non hai abbastanza fondi per completare lo scambio.",
-      "insufficientGas": "Non hai abbastanza gas per completare lo scambio. Devi aggiungere almeno:",
-      "minFromAmountUSD": "",
-      "rateChanged": "Il tasso di scambio è cambiato. Se procedi, confermi di accettare il nuovo tasso.",
-      "resetSettings": "Questo porterà al ripristino della priorità di route, slittamento di prezzo, prezzo del gas, bridge abilitati ed exchanges.",
-      "slippageOutsideRecommendedLimits": "",
-      "slippageUnderRecommendedLimits": ""
+      "tokenUnverified": "Token non verificato. Fai sempre le tue ricerche prima di procedere.",
+      "tokenUnverifiedByProvider": "{{tokenSymbol}} non è verificato da Hypernative. Assicurati di fidarti di questo token prima di procedere.",
+      "accountNotDeployedMessage": "L'account smart contract non esiste sulla chain di destinazione. Se invii fondi a un account smart contract inesistente, puoi perderli in modo definitivo.",
+      "lowAddressActivity": "Questo indirizzo ha poca attività sulla rete {{chainName}}. Verifica di inviare all'indirizzo e alla rete corretti per evitare di perdere i fondi.",
+      "clearFailedTransactions": "Le transazioni non riuscite sono salvate solo in locale e non possono essere recuperate dopo la rimozione.",
+      "fundsLossPrevention": "Assicurati sempre che gli account smart contract siano configurati correttamente sulla chain di destinazione ed evita i trasferimenti diretti agli exchange, per non perdere i fondi.",
+      "highValueLoss": "Il valore dei token ricevuti è molto inferiore al valore dei token scambiati più il costo della transazione.",
+      "tokenFlagged": "{{tokenSymbol}} è stato segnalato come malevolo da Hypernative. Se scambi questo token, potresti perdere tutti i fondi.",
+      "insufficientFunds": "Non hai abbastanza fondi per completare la transazione.",
+      "insufficientGas": "Non hai abbastanza gas per completare la transazione. Devi aggiungere almeno:",
+      "minFromAmountUSD": "L'importo minimo è {{amount, currencyExt(currency: USD)}}. Inserisci un importo più alto.",
+      "rateChanged": "Il tasso di cambio è variato. Se continui con la transazione, accetti il nuovo tasso.",
+      "resetSettings": "Verranno ripristinati la priorità del percorso, lo slippage, il prezzo del gas e i bridge e DEX abilitati.",
+      "slippageOutsideRecommendedLimits": "Una tolleranza dello slippage alta può portare a un trade sfavorevole a causa del front-running.",
+      "slippageUnderRecommendedLimits": "Una tolleranza dello slippage bassa può causare ritardi o errori nelle transazioni."
     },
     "checkbox": {
-      "highValueLoss": ""
+      "highValueLoss": "Accetto la perdita di valore elevata",
+      "tokenFlagged": "Comprendo i rischi e voglio procedere comunque"
     },
     "title": {
-      "clearFailedTransactions": "",
-      "highValueLoss": "Perdita di valore elevato",
+      "clearFailedTransactions": "Rimuovere tutte le transazioni non riuscite?",
+      "highValueLoss": "Perdita di valore elevata",
       "insufficientGas": "Gas insufficiente",
       "rateChanged": "Tasso cambiato",
       "resetSettings": "Ripristinare le impostazioni?",
-      "lowAddressActivity": ""
+      "tokenFlagged": "Rilevato token malevolo",
+      "lowAddressActivity": "Indirizzo con poca attività"
     }
   },
   "error": {
     "message": {
-      "allowanceRequired": "L'importo di {{tokenSymbol}} supera la tua quota massima permessa. Aumenta la quota e riprova.",
-      "callBundleNotFound": "",
+      "allowanceRequired": "L'importo da trasferire di {{tokenSymbol}} supera il tuo importo approvato attuale. Aumenta l'importo approvato e riprova.",
+      "callBundleNotFound": "Il tuo wallet non ha traccia di questa transazione. Se l'hai approvata, può ancora essere completata. Controlla il saldo del tuo wallet prima di scambiare di nuovo.",
       "insufficientFunds": "Non hai abbastanza gas per coprire il costo della transazione.",
-      "rateLimitExceeded": "",
-      "remainInYourWallet": "",
-      "signatureRejected": "",
-      "slippageThreshold": "Lo slittamento di prezzo è più alto della soglia definita. Si prega di richiedere una nuova route per ottenere una quota aggiornata.",
-      "thirdPartyError": "",
-      "transactionCanceled": "",
-      "transactionConflict": "",
-      "transactionExpired": "",
-      "transactionRejected": "",
-      "transactionFailed": "Per ulteriori informazioni, consultare il block explorer.",
-      "transactionNotSent": "",
-      "transactionSimulationFailed": "",
-      "unknown": "Riprova o contatta il nostro supporto.",
-      "walletChangedDuringExecution": ""
+      "rateLimitExceeded": "Troppe richieste in poco tempo. Attendi un momento e riprova, oppure contatta l'assistenza se il problema persiste.",
+      "remainInYourWallet": "{{amount, numberExt}} {{tokenSymbol}} su {{chainName}} restano nel tuo wallet.",
+      "signatureRejected": "Serve la tua firma per completare la transazione. {{amount, numberExt}} {{tokenSymbol}} su {{chainName}} restano nel tuo wallet.",
+      "slippageThreshold": "Lo slippage supera la soglia impostata. Richiedi una nuova quotazione.",
+      "thirdPartyError": "Non siamo riusciti a completare la tua richiesta a causa di un problema con un servizio esterno. Riprova oppure contatta l'assistenza se il problema persiste.",
+      "transactionCanceled": "La transazione è stata annullata.",
+      "transactionConflict": "Impossibile elaborare la transazione perché è in conflitto con un'altra transazione in attesa che usa gli stessi fondi. Attendi la conferma della transazione in attesa o controlla la cronologia delle transazioni prima di riprovare.",
+      "transactionExpired": "L'altezza del blocco ha superato il limite massimo consentito oppure il blockhash non è più abbastanza recente.",
+      "transactionRejected": "La transazione è stata rifiutata a causa di un errore interno del wallet. Riprova oppure richiedi una nuova quotazione.",
+      "transactionFailed": "Controlla il block explorer per maggiori informazioni.",
+      "transactionNotSent": "La transazione non è stata inviata.",
+      "transactionSimulationFailed": "Non è stato possibile eseguire la transazione in simulazione.",
+      "unknown": "Riprova oppure contatta l'assistenza.",
+      "walletChangedDuringExecution": "L'indirizzo del wallet che ha richiesto la quotazione non corrisponde a quello che sta firmando la transazione. Usa lo stesso indirizzo del wallet per tutta l'esecuzione della transazione."
     },
     "title": {
-      "allowanceRequired": "Quota massima insufficiente",
+      "allowanceRequired": "Importo approvato insufficiente",
       "balanceIsTooLow": "Il saldo è troppo basso",
-      "bookmarkAlreadyExists": "",
-      "bookmarkNameRequired": "",
-      "callBundleNotFound": "",
+      "bookmarkAlreadyExists": "Wallet già salvato come {{name}}",
+      "bookmarkNameRequired": "Il nome è obbligatorio",
+      "callBundleNotFound": "Transazione non trovata nel tuo wallet",
       "chainSwitch": "È necessario cambiare la chain",
-      "exchangeRateUpdateCanceled": "",
+      "exchangeRateUpdateCanceled": "Aggiornamento del tasso di cambio annullato",
       "gasLimitIsTooLow": "Limite di gas troppo basso",
       "insufficientFunds": "Fondi insufficienti",
-      "insufficientGas": "",
-      "rateLimitExceeded": "",
-      "signatureRejected": "",
-      "slippageNotMet": "Condizioni di slittamento di prezzo non rispettate",
-      "thirdPartyError": "",
-      "transactionCanceled": "Transazione cancellata",
-      "transactionConflict": "",
-      "transactionExpired": "",
-      "transactionFailed": "Transazione fallita",
-      "transactionRejected": "",
-      "transactionSimulationFailed": "",
-      "transactionUnderpriced": "L'operazione è sottostimata",
+      "insufficientGas": "Gas insufficiente",
+      "rateLimitExceeded": "Limite di richieste superato",
+      "signatureRejected": "Firma necessaria",
+      "slippageNotMet": "Condizioni di slippage non rispettate",
+      "thirdPartyError": "Servizio esterno non disponibile",
+      "transactionCanceled": "Transazione annullata",
+      "transactionConflict": "Conflitto tra transazioni",
+      "transactionExpired": "Transazione scaduta",
+      "transactionFailed": "Transazione non riuscita",
+      "transactionRejected": "Transazione rifiutata",
+      "transactionSimulationFailed": "Simulazione della transazione non riuscita",
+      "transactionUnderpriced": "Commissione di rete troppo bassa",
       "transactionUnprepared": "Impossibile preparare la transazione",
       "unknown": "Qualcosa è andato storto",
-      "walletAddressInvalid": "",
-      "walletAddressInvalid_chain": "",
-      "walletAddressRequired": "L'indirizzo è un campo obbligatorio.",
-      "walletChainTypeInvalid": "",
-      "walletMismatch": "",
-      "zcashAddressInvalid": ""
+      "walletAddressInvalid": "Indirizzo del wallet o nome di dominio non valido",
+      "walletAddressInvalid_chain": "Indirizzo del wallet o nome di dominio non valido per {{chainName}}, la chain di destinazione selezionata",
+      "walletAddressRequired": "L'indirizzo del wallet è obbligatorio.",
+      "walletChainTypeInvalid": "L'indirizzo del wallet non corrisponde a {{chainName}}, la chain di destinazione selezionata",
+      "walletMismatch": "Indirizzo del wallet non corrispondente",
+      "zcashAddressInvalid": "Inserisci un indirizzo Zcash trasparente (t1 o t3) o un indirizzo unificato (u1) con un receiver Orchard. Gli indirizzi Sapling (zs1) e TEX non sono supportati."
     }
   },
   "tooltip": {
-    "deselectAll": "",
-    "estimatedTime": "",
-    "exchangeRate": "",
-    "feeCollection": "",
-    "minReceived": "",
+    "deselectAll": "Deseleziona tutto",
+    "estimatedTime": "Tempo per completare la transazione di swap o bridge, esclusi il cambio di chain e l'approvazione del token.",
+    "exchangeRate": "Il tasso di conversione stimato tra i token di origine e di destinazione. Clicca per invertire la direzione.",
+    "feeCollection": "La commissione si applica alle coppie di token selezionate e ci permette di offrirti la migliore esperienza.",
+    "minReceived": "L'importo minimo stimato può cambiare finché non firmi la transazione di swap o bridge. Per i trasferimenti in 2 passaggi, questo vale finché non firmi la transazione del secondo passaggio.",
     "notFound": {
       "text": "Non siamo riusciti a trovare questa pagina.",
       "title": "404"
     },
-    "multistep": "",
-    "gasless": "",
-    "numberOfSteps": "",
-    "priceImpact": "",
-    "progressToNextUpdate": "I dati visualizzati si aggiorneranno automaticamente dopo {{value}} secondi. Fai click qui per aggiornare manualmente.",
-    "selectAll": "",
+    "multistep": "Questo percorso richiede più transazioni per completare il trasferimento. Ogni passaggio di swap o bridge può includere 1-2 transazioni da firmare.",
+    "gasless": "Al gas pensiamo noi: puoi trasferire asset senza avere token nativi. Le commissioni di rete sono incluse nel trasferimento.",
+    "priceImpact": "La differenza di valore stimata tra i token di origine e di destinazione.",
+    "progressToNextUpdate": "Le quotazioni si aggiorneranno tra {{value}} secondi. <0/> Clicca qui per aggiornarle ora.",
+    "selectAll": "Seleziona tutto",
     "settingsModified": "Impostazioni (modificate)",
-    "slippage": ""
+    "slippage": "La differenza percentuale massima tra il prezzo previsto e il prezzo effettivo a cui viene eseguito un trasferimento. Puoi modificare questo valore nelle impostazioni.",
+    "tokenNative": "{{tokenSymbol}} è il token nativo di questa rete.",
+    "tokenNativeOnChain": "{{tokenSymbol}} è il token nativo di {{chainName}}.",
+    "tokenVerified": "{{tokenSymbol}} è stato verificato.",
+    "tokenVerifiedByProvider": "{{tokenSymbol}} è stato verificato da {{provider}}."
   },
   "main": {
-    "allNetworks": "",
-    "allTokens": "",
-    "bridgeStepDetails": "",
-    "checkoutStepDetails": "",
-    "currentAmount": "Quantità corrente",
-    "depositStepDetails": "",
-    "estimatedTime": "",
-    "exchangeRate": "",
+    "allNetworks": "Tutte le reti",
+    "allTokens": "Tutti i token",
+    "bridgeStepDetails": "Bridge da {{from}} a {{to}} tramite {{tool}}",
+    "checkoutStepDetails": "Acquisto tramite {{tool}}",
+    "currentAmount": "Importo attuale",
+    "depositStepDetails": "Deposito tramite {{tool}}",
+    "estimatedTime": "Tempo stimato",
+    "exchangeRate": "Tasso di cambio",
     "featuredTokens": "Token in evidenza",
     "fees": {
-      "defaultIntegrator": "",
-      "relayerService": "",
-      "estimated": "",
-      "free": "",
-      "network": "",
-      "paid": "",
-      "provider": ""
+      "defaultIntegrator": "Commissione dell'integratore",
+      "relayerService": "Servizio senza gas",
+      "free": "Gratis",
+      "network": "Commissione di rete",
+      "provider": "Commissione del provider"
     },
     "from": "Da",
-    "inProgress": "in corso",
-    "maxSlippage": "",
-    "minReceived": "",
-    "myTokens": "",
-    "onChain": "su {{chainName}}",
+    "maxSlippage": "Slippage max",
+    "minReceived": "Minimo ricevuto",
+    "myTokens": "I miei token",
     "ownedBy": "Di proprietà di",
-    "pinnedTokens": "",
-    "popularTokens": "",
-    "priceImpact": "",
+    "pinnedTokens": "Token fissati",
+    "popularTokens": "Token popolari",
+    "priceImpact": "Impatto sul prezzo",
     "process": {
       "bridge": {
-        "actionRequired": "",
-        "messageRequired": "",
-        "done": "",
-        "pending": "",
-        "started": ""
+        "actionRequired": "Firma la transazione di bridge",
+        "messageRequired": "Firma il messaggio di bridge",
+        "done": "Transazione di bridge confermata",
+        "pending": "Transazione di bridge in attesa",
+        "started": "Preparazione della transazione di bridge"
       },
       "checkout": {
-        "done": ""
+        "done": "Acquisto completato"
       },
       "deposit": {
-        "done": ""
+        "done": "Deposito completato"
       },
       "receivingChain": {
         "done": "Bridge completato",
         "partial": "Bridge parzialmente completato",
-        "pending": "In attesa della chain di destinazione",
-        "refunded": "Transazione di bridge rimborsata"
+        "pending": "In attesa della chain di destinazione"
       },
       "swap": {
-        "actionRequired": "",
-        "messageRequired": "",
-        "done": "Scambio completato",
-        "pending": "",
-        "started": "Preparazione dello scambio"
+        "actionRequired": "Firma la transazione di swap",
+        "messageRequired": "Firma il messaggio di swap",
+        "done": "Swap completato",
+        "pending": "Transazione di swap in attesa",
+        "started": "Preparazione della transazione di swap"
       },
       "permit": {
-        "actionRequired": "",
-        "done": "",
-        "pending": "",
-        "started": ""
+        "actionRequired": "Firma il messaggio di permit",
+        "done": "Messaggio di permit firmato",
+        "pending": "In attesa del messaggio di permit",
+        "started": "Preparazione della transazione"
       },
       "tokenAllowance": {
-        "actionRequired": "",
-        "resetRequired": "",
-        "done": "",
-        "pending": "",
-        "started": ""
+        "actionRequired": "Approva la spesa di {{tokenSymbol}}",
+        "resetRequired": "Revoca l'approvazione di {{tokenSymbol}}",
+        "done": "Spesa di {{tokenSymbol}} approvata",
+        "pending": "Approvazione di {{tokenSymbol}} in attesa",
+        "started": "Preparazione della transazione di approvazione"
       }
     },
-    "quotedAmount": "Totale quotato",
-    "rateChange": "Tasso di scambio",
-    "receiving": "In ricezione",
-    "recentSearches": "",
+    "quotedAmount": "Importo quotato",
+    "rateChange": "Variazione del tasso",
+    "receiving": "Ricevi",
+    "recentSearches": "Ricerche recenti",
     "refuelStepDetails": "Ottieni gas tramite {{tool}}",
-    "route": "",
-    "select": "",
-    "sendToAddress": "Invia a {{address}}",
-    "sendToWallet": "Invia ad un altro portafoglio",
-    "sending": "Invio in corso",
-    "sentToAddress": "Inviati a {{address}}",
-    "stepBridge": "",
-    "stepBridgeAndBuy": "Trasferisci e acquista",
-    "stepBridgeAndDeposit": "",
-    "stepBuy": "Acquista",
-    "stepDeposit": "",
-    "stepDetails": "{{tool}} tramite LI.FI",
-    "stepSwap": "Scambio",
-    "stepSwapAndBridge": "Scambia e bridge",
-    "stepSwapAndBuy": "Scambia e acquista",
-    "stepSwapAndDeposit": "",
-    "swapStepDetails": "Scambio su {{chain}} tramite {{tool}}.",
-    "receipts": "",
-    "sentToWallet": "",
-    "transferId": "",
+    "route": "Percorso",
+    "select": "Seleziona",
+    "sendToWallet": "Invia a un altro wallet",
+    "sending": "Invii",
+    "swapStepDetails": "Swap su {{chain}} tramite {{tool}}",
+    "receipts": "Ricevute",
+    "sentToWallet": "Inviato al wallet",
+    "transferId": "ID del trasferimento",
     "tags": {
-      "cheapest": "",
-      "fastest": "",
-      "gasless": "",
-      "multistep": ""
+      "cheapest": "Più conveniente",
+      "fastest": "Più veloce",
+      "gasless": "Senza gas",
+      "multistep": "In più passaggi"
     },
     "to": "A",
     "tokenOnChain": "{{tokenSymbol}} su {{chainName}}",
-    "tokenOnChainAmount": "",
-    "tokenSearch": "",
+    "tokenOnChainAmount": "{{amount, numberExt}} {{tokenSymbol}} su {{chainName}}",
+    "tokenSearch": "Cerca per token o indirizzo",
     "valueLoss": "Perdita di valore",
-    "searchBridges": "",
-    "searchExchanges": "",
-    "searchNetwork": ""
+    "searchBridges": "Cerca per nome del bridge",
+    "searchCurrency": "Cerca valuta",
+    "searchExchanges": "Cerca per nome del DEX",
+    "searchNetwork": "Cerca rete"
   },
   "settings": {
-    "appearance": "",
-    "enabledBridges": "",
-    "enabledExchanges": "",
+    "appearance": "Aspetto",
+    "enabledBridges": "Bridge",
+    "enabledExchanges": "DEX",
     "gasPrice": {
       "fast": "Veloce",
       "normal": "Normale",
       "slow": "Lento",
-      "title": "Prezzo gas"
+      "title": "Prezzo del gas"
     },
-    "routePriority": "Priorità di route",
-    "slippage": "",
-    "custom": "",
-    "resetSettings": "",
-    "hideSmallBalances": ""
+    "routePriority": "Priorità del percorso",
+    "routePriorityOptions": {
+      "cheapest": {
+        "title": "Più conveniente",
+        "description": "Commissioni di rete più basse"
+      },
+      "fastest": {
+        "title": "Più veloce",
+        "description": "Tempo di esecuzione più breve"
+      }
+    },
+    "slippage": "Slippage max",
+    "slippageAutoDescription": "Ottimizzato per ogni percorso",
+    "custom": "Personalizzato",
+    "resetSettings": "Stai usando impostazioni personalizzate che possono influire sul numero o sull'ordine dei percorsi disponibili.",
+    "hideSmallBalances": "Nascondi piccoli saldi"
   },
   "sendToWallet": {
-    "addBookmark": "",
-    "bookmarkWallet": "",
-    "confirmWalletAddress": "",
-    "connectedWallets": "",
-    "enterAddress_long": "",
-    "enterAddress_short": "",
-    "enterName": "",
-    "noBookmarkedWallets": "",
-    "noBookmarkedWalletsMessage": "",
-    "noConnectedWallets": "",
-    "noConnectedWalletsMessage": "",
-    "noRecentWallets": "",
-    "noRecentWalletsMessage": "",
-    "required": ""
+    "addBookmark": "Salva un wallet",
+    "bookmarkWallet": "Salva wallet",
+    "confirmWalletAddress": "Conferma l'indirizzo del wallet",
+    "connectedWallets": "Wallet connessi",
+    "enterAddress_long": "Inserisci indirizzo o dominio del wallet",
+    "enterAddress_short": "Inserisci l'indirizzo del wallet",
+    "enterName": "Inserisci un nome",
+    "noBookmarkedWallets": "Nessun wallet salvato",
+    "noBookmarkedWalletsMessage": "Salva gli indirizzi dei wallet che usi spesso per accedervi rapidamente.",
+    "noConnectedWallets": "Nessun wallet connesso",
+    "noConnectedWalletsMessage": "Connetti un wallet per vederlo qui.",
+    "noRecentWallets": "Nessun wallet recente",
+    "noRecentWalletsMessage": "Gli indirizzi dei wallet che hai usato di recente compariranno qui.",
+    "required": "Obbligatorio"
   },
   "tokenMetric": {
-    "currentPrice": "",
-    "contractAddress": "",
-    "marketCap": "",
-    "volume24h": "",
-    "status": "",
-    "statusFlagged": "",
-    "statusUnverified": "",
-    "statusVerified": ""
+    "currentPrice": "Prezzo attuale",
+    "contractAddress": "Indirizzo del contratto",
+    "marketCap": "Capitalizzazione di mercato",
+    "volume24h": "Volume 24h",
+    "status": "Stato",
+    "statusFlagged": "Segnalato come malevolo da Hypernative. Se scambi questo token, potresti perdere tutti i fondi.",
+    "statusUnverified": "Non verificato da Hypernative",
+    "statusVerified": "Verificato da Hypernative. Possono verificarsi falsi positivi e non ci assumiamo alcuna responsabilità per questi avvisi. Fai sempre le tue ricerche prima di agire."
+  },
+  "tags": {
+    "connected": "Connesso",
+    "getStarted": "Inizia",
+    "installed": "Installato",
+    "multichain": "Multichain",
+    "qrCode": "Codice QR"
+  },
+  "checkout": {
+    "closeConfirmation": {
+      "title": "Uscire dal checkout?",
+      "body": "Se chiudi, il tuo deposito non viene annullato. Puoi tornare qui a controllarlo in qualsiasi momento.",
+      "confirm": "Chiudi checkout",
+      "cancel": "Annulla"
+    },
+    "abandonConfirmation": {
+      "title": "Annullare questo trasferimento?",
+      "body": "I dettagli del tuo deposito verranno eliminati. Dopo l'annullamento, non inviare fondi a questo indirizzo.",
+      "confirm": "Annulla trasferimento",
+      "cancel": "Mantieni trasferimento"
+    },
+    "activity": {
+      "title": "Attività",
+      "deposit": "Deposito",
+      "amountOnChain": "{{amount}} {{symbol}} su {{chain}}",
+      "depositInProgress": "Deposito in corso",
+      "refundInProgress": "Rimborso in corso",
+      "couldNotComplete": "Non completato",
+      "singleFailed": "Deposito non riuscito. Risolvi il problema",
+      "dismiss": "Ignora"
+    },
+    "transak": {
+      "forceClose": {
+        "tooltip": "Chiudi (la transazione non riprenderà)"
+      }
+    },
+    "legal": {
+      "termsDisclaimer": "Continuando, accetti i <terms>Termini di servizio</terms> di LI.FI."
+    },
+    "resume": {
+      "notFoundToast": "Non abbiamo trovato la tua transazione. Ricomincia oppure contatta l'assistenza se pensi che si tratti di un errore."
+    },
+    "transferDeposit": {
+      "warning": "Invia almeno <b>{{amount}} {{symbol}}</b> su <b>{{chain}}</b>. Se usi un token o una chain sbagliati, potresti non recuperare i fondi.",
+      "expiresIn": "L'indirizzo di deposito scade tra {{minutes}}:{{seconds}}",
+      "copyAddress": "Copia indirizzo",
+      "addressCopied": "Copiato!",
+      "polling": "In attesa del tuo deposito…",
+      "detailsTitle": "Dettagli del deposito",
+      "table": {
+        "required": "Richiesto",
+        "received": "Ricevuto",
+        "minRefundable": "Min. rimborsabile",
+        "remaining": "Rimanente",
+        "excess": "Eccedenza",
+        "timeRemaining": "Tempo rimanente"
+      },
+      "errors": {
+        "unexpected": {
+          "title": "Deposito imprevisto",
+          "description": "Abbiamo ricevuto un deposito che non corrisponde a un percorso supportato. Contatta l'assistenza per sapere come procedere."
+        },
+        "amountLowThreshold": {
+          "title": "Deposito incompleto",
+          "description": "Integra il deposito per completare l'ordine o per abilitare un rimborso."
+        },
+        "amountLowTopUp": {
+          "title": "Deposito incompleto",
+          "description": "Invia l'importo rimanente prima che si chiuda la finestra di deposito."
+        },
+        "amountLowExpired": {
+          "title": "Deposito incompleto",
+          "description": "La finestra di deposito è scaduta. Puoi richiedere un rimborso per l'importo ricevuto."
+        },
+        "excessHeld": {
+          "title": "Eccedenza trattenuta",
+          "description": "Il tuo ordine è in elaborazione. L'eccedenza è trattenuta: richiedi un rimborso per recuperarla."
+        },
+        "lateArrival": {
+          "title": "Deposito arrivato in ritardo",
+          "description": "I tuoi fondi sono arrivati dopo la chiusura della finestra di deposito. Puoi riattivarla per continuare oppure richiedere un rimborso."
+        },
+        "addressExpired": {
+          "title": "Indirizzo di deposito scaduto",
+          "description": "L'indirizzo di deposito è scaduto senza ricevere fondi. Puoi riprovare con un nuovo indirizzo di deposito."
+        },
+        "marketMoved": {
+          "title": "Transazione non riuscita",
+          "description": "Il tasso di cambio è variato prima che il tuo ordine fosse completato. I tuoi fondi sono al sicuro: abbiamo avviato un rimborso."
+        }
+      }
+    },
+    "fiatCurrency": {
+      "label": "Paga con"
+    },
+    "cashCurrency": {
+      "error": "Impossibile caricare le valute al momento. Riprova."
+    },
+    "cashQuote": {
+      "totalFeesLabel": "Commissioni totali",
+      "feeFallback": "Commissione {{index}}",
+      "refundNote": "Riceverai almeno {{value}} oppure un rimborso completo."
+    },
+    "cashHandoff": {
+      "title": "Completerai il pagamento su Transak",
+      "body": "Il tuo pagamento passa da un indirizzo di deposito temporaneo che abbiamo creato per questo acquisto, non dal tuo wallet personale. È normale e avviene in automatico.",
+      "addressLabel": "Indirizzo di deposito",
+      "addressHint": "Vedrai lo stesso indirizzo su Transak.",
+      "continue": "Continua su Transak",
+      "goBack": "Indietro"
+    },
+    "transactionStatus": {
+      "detailsTitle": "Dettagli transazione",
+      "watching": "In attesa della transazione",
+      "executing": "Elaborazione della transazione",
+      "success": "Transazione completata",
+      "seeDetails": "Vedi i dettagli",
+      "steps": {
+        "receive": {
+          "upcoming": "Ricevi {{symbol}}",
+          "loading": "Ricezione di {{symbol}} in corso",
+          "done": "{{symbol}} ricevuto"
+        },
+        "swap": {
+          "upcoming": "Swap in {{symbol}}",
+          "loading": "Swap in {{symbol}} in corso",
+          "done": "Swap in {{symbol}} completato"
+        },
+        "bridge": {
+          "upcoming": "Bridge verso {{chain}}",
+          "loading": "Bridge verso {{chain}} in corso",
+          "done": "Bridge verso {{chain}} completato"
+        }
+      }
+    },
+    "chooseFundingSource": "Scegli la fonte dei fondi",
+    "whereToSendIt": "Dove inviarlo",
+    "walletAddressOrEns": "Indirizzo del wallet o nome ENS",
+    "insufficientFunds": "Fondi insufficienti: non hai abbastanza {{symbol}} su {{chain}}. Seleziona un altro token per riprovare.",
+    "routeNotFound": {
+      "title": "Non puoi acquistare questo token qui",
+      "description": "Questo token non è disponibile con il metodo di pagamento selezionato. Prova un altro token oppure paga da un wallet connesso."
+    },
+    "useYourTokens": "Usa i tuoi token",
+    "buyTokens": "Acquista token",
+    "or": "oppure",
+    "payFromWallet": "Paga dal wallet",
+    "payFromWalletSubtitle": "Connetti un wallet del browser",
+    "transferCrypto": "Trasferisci crypto",
+    "transferCryptoSubtitle": "Da qualsiasi wallet",
+    "connectExchange": "Connetti exchange",
+    "connectExchangeSubtitle": "Associa il tuo account dell'exchange",
+    "payWithExchange": "Paga con {{exchange}}",
+    "reuseExchangeSubtitle": "Continua con l'account associato",
+    "depositWithCash": "Deposita con carta",
+    "depositWithCashSubtitle": "Carta di debito o di credito",
+    "connectWallet": "Connetti wallet",
+    "useAnotherWallet": "Usa un altro wallet",
+    "progress": {
+      "title": "Acquisto in corso",
+      "description": "Stiamo elaborando il tuo acquisto. Potrebbe richiedere qualche minuto."
+    },
+    "onramp": {
+      "errors": {
+        "MISSING_API_URL": "{{providerName}} non è configurato: imposta sdkConfig.apiUrl nel checkout.",
+        "MISSING_API_KEY": "{{providerName}} non è configurato: imposta l'apiKey del widget per chiamare le sessioni di checkout.",
+        "TARGET_NOT_CONFIGURED": "La destinazione di {{providerName}} non è configurata: imposta widget.toChain e widget.toToken.",
+        "INVALID_RESPONSE": "Risposta non valida dall'API delle sessioni di {{providerName}}.",
+        "NETWORK_ERROR": "Errore di rete durante l'avvio della sessione di {{providerName}}.",
+        "SESSION_HTTP": "Impossibile avviare la sessione di {{providerName}} ({{status}}). Riprova più tardi.",
+        "generic": "Qualcosa è andato storto. Riprova più tardi."
+      },
+      "failure": {
+        "transferTitle": "Transazione non riuscita - rimborso in corso",
+        "transferDescription": "Non siamo riusciti a completare il trasferimento dopo diversi tentativi. Stiamo rimborsando i tuoi fondi al wallet da cui sono stati inviati."
+      }
+    },
+    "status": {
+      "successCompleted": {
+        "title": "Transazione completata",
+        "description": "La tua transazione è stata completata."
+      },
+      "successPartial": {
+        "title": "Parzialmente completata",
+        "description": "La tua transazione è stata completata, ma alcuni dei token ricevuti non sono i token di destinazione richiesti. Apri i dettagli per vedere cosa hai ricevuto."
+      },
+      "successRefund": {
+        "title": "Rimborso completato",
+        "description": "Non è stato possibile completare la tua transazione e i tuoi fondi sono stati rimborsati."
+      },
+      "pendingDefault": {
+        "title": "Elaborazione della transazione",
+        "description": "La tua transazione è in elaborazione. Potrebbe richiedere qualche minuto."
+      },
+      "pendingRefund": {
+        "title": "Rimborso in corso",
+        "description": "Ti stiamo restituendo i fondi. Di solito servono pochi minuti."
+      },
+      "pendingRetrying": {
+        "title": "Nuovo tentativo in corso",
+        "description": "Si è verificato un problema e stiamo riprovando automaticamente la tua transazione."
+      },
+      "errorExpired": {
+        "title": "Transazione scaduta",
+        "description": "La finestra della transazione è scaduta. Riprova."
+      },
+      "errorFailed": {
+        "title": "Transazione non riuscita",
+        "description": "Non siamo riusciti a completare la tua transazione. Riprova oppure contatta l'assistenza."
+      },
+      "errorConnection": {
+        "title": "Connessione non riuscita",
+        "description": "Non siamo riusciti a connetterci al provider di pagamento. Riprova oppure contatta l'assistenza.",
+        "exchange": {
+          "title": "Connessione all'exchange non riuscita",
+          "description": "Non siamo riusciti a connetterci al tuo account dell'exchange. Riprova oppure contatta l'assistenza."
+        }
+      },
+      "errorWithdrawal": {
+        "title": "Prelievo non riuscito",
+        "description": "Il provider di pagamento non è riuscito a elaborare il tuo prelievo. I tuoi fondi restano nel tuo account.",
+        "cash": {
+          "title": "Pagamento non completato",
+          "description": "Il tuo pagamento non è andato a buon fine. Non ti è stato addebitato nulla."
+        },
+        "exchange": {
+          "title": "Prelievo dall'exchange non riuscito",
+          "description": "Il tuo exchange non è riuscito a elaborare il prelievo. I tuoi fondi restano nel tuo account dell'exchange."
+        }
+      },
+      "errorCancelled": {
+        "title": "Transazione annullata",
+        "description": "La tua transazione è stata annullata. Puoi riprovare quando vuoi.",
+        "cash": {
+          "title": "Pagamento annullato",
+          "description": "Hai chiuso la finestra di pagamento. Il tuo ordine non è stato effettuato."
+        }
+      },
+      "errorUnavailable": {
+        "title": "Servizio non disponibile",
+        "description": "Il provider di pagamento non è temporaneamente disponibile. Riprova più tardi oppure contatta l'assistenza.",
+        "cash": {
+          "title": "Pagamento con carta non disponibile",
+          "description": "I pagamenti con carta non sono temporaneamente disponibili. Riprova più tardi oppure usa un altro metodo."
+        }
+      },
+      "walletDisconnected": {
+        "title": "Wallet disconnesso",
+        "description": "Il tuo wallet si è disconnesso durante la transazione. Riconnettilo e riprova."
+      },
+      "walletErrorFailed": {
+        "title": "Transazione non riuscita",
+        "description": "Non siamo riusciti a completare la tua transazione. Vedi i dettagli oppure riprova."
+      },
+      "walletErrorExpired": {
+        "title": "Ordine scaduto",
+        "description": "La finestra della transazione è scaduta prima che il tuo ordine potesse essere elaborato. Riprova."
+      },
+      "walletPendingRefund": {
+        "title": "Rimborso in corso",
+        "description": "Stiamo restituendo i tuoi fondi al wallet da cui hai pagato. Di solito servono pochi minuti."
+      },
+      "walletSuccessRefund": {
+        "title": "Rimborso completato",
+        "description": "Non è stato possibile completare la tua transazione e i tuoi fondi sono stati rimborsati sul tuo wallet."
+      }
+    },
+    "refund": {
+      "title": "Rimborso",
+      "inProgressDescription": "I tuoi {{amount}} {{symbol}} su {{chain}} stanno tornando al tuo wallet. Di solito servono pochi minuti.",
+      "completeDescription": "I tuoi {{amount}} {{symbol}} su {{chain}} sono stati restituiti al tuo wallet.",
+      "viewTransaction": "Vedi transazione"
+    }
   }
 }

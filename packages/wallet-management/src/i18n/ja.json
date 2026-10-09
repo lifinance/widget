@@ -1,23 +1,22 @@
 {
   "title": {
-    "connectWallet": "ウォレットを接続",
-    "connecting": "",
-    "selectWallet": "",
-    "selectWalletWithChain": "",
-    "selectEcosystem": "",
-    "waitingForWallet": "",
-    "availableWalletsNotFound": ""
+    "connecting": "接続中",
+    "selectWallet": "ウォレットを選択",
+    "selectWalletWithChain": "{{chainLabel}} ウォレットを選択",
+    "selectEcosystem": "エコシステムを選択",
+    "waitingForWallet": "{{walletName}} を待機中",
+    "availableWalletsNotFound": "利用可能なウォレットが見つかりません"
   },
   "message": {
-    "connecting": "",
-    "multipleEcosystems": "",
-    "availableWalletsNotFound": ""
+    "connecting": "ウォレットのポップアップで「接続」をクリックしてください。ウォレットが表示されない場合は、他のブラウザウィンドウを確認してください。",
+    "multipleEcosystems": "{{walletName}} は複数のチェーンエコシステムに対応しています。接続するエコシステムを選択してください。",
+    "availableWalletsNotFound": "対応するウォレット拡張機能が検出されませんでした。対応ウォレットをインストールして、ページを再読み込みしてください。インストール済みの場合は、拡張機能が有効で対応しているかを確認するか、サポートにお問い合わせください。"
   },
   "tags": {
-    "connected": "",
-    "multichain": "",
-    "installed": "",
-    "qrCode": "",
-    "getStarted": ""
+    "connected": "接続済み",
+    "multichain": "マルチチェーン",
+    "installed": "インストール済み",
+    "qrCode": "QR コード",
+    "getStarted": "はじめる"
   }
 }

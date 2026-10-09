@@ -4,373 +4,667 @@
     "title": "언어"
   },
   "format": {
-    "currency": "",
-    "number": "{{value, number(maximumFractionDigits: 9)}}",
-    "percent": "",
-    "tokenAmount": ""
+    "currency": "{{value, currencyExt(currency: USD)}}",
+    "percent": "{{value, percent(maximumFractionDigits: 2)}}",
+    "tokenAmount": "{{value, numberExt}}"
   },
   "button": {
     "auto": "자동",
-    "bookmark": "",
-    "bookmarks": "",
+    "bookmark": "북마크",
     "bridge": "브릿지",
-    "bridgeReview": "",
-    "buy": "매수",
+    "bridgeReview": "브릿지 검토",
+    "buy": "구매",
     "cancel": "취소",
-    "checkoutReview": "",
-    "clear": "",
-    "clearAllFailed": "",
-    "clearTransaction": "",
-    "close": "",
-    "confirm": "",
-    "connectAnotherWallet": "",
-    "connectChainWallet": "",
+    "checkoutReview": "구매 검토",
+    "clear": "지우기",
+    "clearAllFailed": "실패 항목 모두 지우기",
+    "clearTransaction": "트랜잭션 지우기",
+    "close": "닫기",
+    "confirm": "확인",
+    "connectAnotherWallet": "다른 지갑 연결",
+    "connectChainWallet": "{{chain}} 지갑 연결",
     "connectWallet": "지갑 연결",
-    "contactSupport": "고객 지원",
+    "contactSupport": "고객 지원 문의",
     "continue": "계속",
     "copyAddress": "주소 복사",
-    "dark": "어둡게",
+    "dark": "다크",
     "delete": "삭제",
-    "deposit": "",
-    "depositReview": "",
+    "deposit": "예치",
+    "depositWithCash": "카드로 입금",
+    "pay": "결제하기",
+    "depositReview": "예치 검토",
+    "connectExchange": "거래소 연결",
+    "transferCrypto": "암호화폐 전송",
     "disconnect": "연결 해제",
     "done": "완료",
     "exchange": "교환",
-    "getGas": "가스 받기",
-    "learnMore": "자세히 알아보기",
-    "light": "밝게",
-    "max": "",
-    "ok": "확인",
-    "options": "",
+    "getGas": "가스 충전",
+    "light": "라이트",
+    "max": "최대",
+    "options": "옵션",
+    "requestRefund": "환불 요청",
     "reset": "초기화",
     "resetSettings": "설정 초기화",
-    "seeDetails": "자세히 보기",
+    "resumeTransaction": "트랜잭션 재개",
+    "review": "검토",
+    "topUp": "추가 입금",
+    "viewRefund": "환불 보기",
+    "viewRefundStatus": "환불 상태 보기",
+    "viewTransferDetails": "전송 상세 보기",
     "showAll": "모두 보기",
-    "showLess": "",
-    "showMore": "",
+    "showLess": "간략히 보기",
+    "showMore": "{{count}}개 더 보기",
     "startBridging": "브릿지 시작하기",
-    "startNewSwap": "",
+    "startNewSwap": "새 스왑 시작하기",
     "startSwapping": "스왑 시작하기",
     "swap": "스왑",
-    "swapReview": "",
-    "system": "",
+    "swapReview": "스왑 검토",
+    "system": "시스템",
     "tryAgain": "다시 시도",
-    "viewCoverage": "보장 범위",
-    "viewOnExplorer": "탐색기에서 보기"
+    "viewOnExplorer": "익스플로러에서 보기"
   },
   "header": {
-    "amount": "",
-    "bookmarkedWallets": "",
+    "amount": "금액",
+    "bookmarkedWallets": "북마크한 지갑",
     "bridge": "브릿지",
-    "checkout": "주문",
-    "checkoutDetails": "",
-    "deposit": "",
-    "depositDetails": "",
-    "depositTo": "",
+    "buy": "매수",
+    "checkout": "결제",
+    "checkoutDetails": "결제 상세 정보",
+    "deposit": "예치",
+    "depositWithCash": "카드로 입금",
+    "depositAddress": "입금 주소",
+    "depositDetails": "예치 상세 정보",
+    "depositTo": "예치 대상",
+    "connectExchange": "거래소 연결",
+    "transferCrypto": "암호화폐 전송",
+    "currency": "통화",
     "exchange": "교환",
-    "from": "다음에서 스왑",
+    "from": "출발 토큰",
     "gas": "가스",
+    "limit": "지정가",
     "payWith": "결제 수단",
-    "receive": "",
-    "received": "",
-    "recentWallets": "",
-    "refunded": "",
+    "private": "비공개",
+    "receive": "받기",
+    "received": "수령 금액",
+    "recentWallets": "최근 지갑",
+    "refunded": "환불 금액",
     "selectChain": "체인 선택",
-    "selectWallet": "지갑 선택",
-    "send": "",
-    "sendToWallet": "",
+    "sell": "매도",
+    "send": "보내기",
+    "sendToWallet": "지갑으로 보내기",
     "settings": "설정",
     "swap": "스왑",
-    "to": "다음으로 스왑",
-    "transactionDetails": "거래 세부사항",
-    "activities": "",
-    "walletConnected": "지갑 연결됨",
-    "youGet": "받는 수량",
-    "youPay": ""
+    "swapAndBridge": "스왑 & 브릿지",
+    "to": "도착 토큰",
+    "transactionDetails": "트랜잭션 상세 정보",
+    "activities": "활동 내역",
+    "youPay": "지불 금액"
+  },
+  "limitOrder": {
+    "custom": "사용자 지정",
+    "expiresIn": "만료 기간",
+    "market": "시장가",
+    "partiallyFillable": "부분 체결 허용",
+    "price": "지정가",
+    "priceLabel": "1 {{symbol}}의 가격이 다음과 같을 때"
   },
   "info": {
     "message": {
-      "accountDeployedMessage": "",
-      "unsupportedToAddressMessage": "",
-      "autoRefuel": "현재 {{chainName}} 가스가 부족합니다. 이 기능을 통하여 스왑을 완료할 가스를 보충할 수 있습니다.",
-      "emptyBridgesList": "",
-      "emptyChainList": "",
-      "emptyExchangesList": "",
-      "emptyTokenListAllNetworks": "",
-      "emptyTransactionHistory": "",
-      "routeNotFound": "이유: 낮은 유동성, 선택된 수량이 너무 적음, 가스비가 너무 비싸거나 경로가 존재하지 않음",
-      "missingRouteRequiredAccount": ""
+      "accountDeployedMessage": "스마트 계정의 주소가 다른 체인에서는 다를 수 있습니다. 진행하기 전에 다시 확인해 주세요.",
+      "unsupportedToAddressMessage": "Stellar 전송은 항상 서명한 계정으로 정산되므로 이 경로에서는 다른 받는 주소를 사용할 수 없습니다.",
+      "autoRefuel": "{{chainName}} 가스가 부족합니다. 계속하면 트랜잭션을 완료하는 데 필요한 가스가 충전됩니다.",
+      "emptyBridgesList": "검색과 일치하는 브릿지를 찾을 수 없습니다.",
+      "emptyChainList": "검색과 일치하는 체인을 찾을 수 없습니다.",
+      "emptyExchangesList": "검색과 일치하는 DEX를 찾을 수 없습니다.",
+      "emptyTokenListAllNetworks": "토큰을 찾을 수 없습니다. 토큰이 표시되지 않으면 컨트랙트 주소로 검색하거나 다른 체인을 선택해 보세요.",
+      "emptyTransactionHistory": "첫 전송을 완료하면 여기에 트랜잭션이 표시됩니다.",
+      "routeNotFound": "유동성이 부족하거나, 선택한 금액이 너무 적거나, 가스비가 너무 높거나, 선택한 조합에 맞는 경로가 없기 때문일 수 있습니다.",
+      "missingRouteRequiredAccount": "계속하려면 {{chainName}} 지갑을 연결하세요. {{address}}"
     },
     "title": {
-      "autoRefuel": "",
-      "emptyTransactionHistory": "최근 거래 없음",
-      "routeNotFound": "가능한 경로가 없음"
+      "autoRefuel": "{{chainName}} 가스 충전",
+      "emptyTransactionHistory": "최근 트랜잭션 없음",
+      "routeNotFound": "사용 가능한 경로 없음"
     }
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": ""
+      "exchangePartiallySuccessful": "트랜잭션을 완료하려고 했지만, 슬리피지 설정 또는 {{tokenSymbol}} 토큰의 유동성 부족으로 {{tool}}에서 진행할 수 없었습니다."
     },
     "title": {
-      "bridgePartiallySuccessful": "부분 스왑 성공",
+      "bridgePartiallySuccessful": "브릿지 부분 성공",
       "bridgeSuccessful": "브릿지 성공",
-      "depositSuccessful": "",
-      "checkoutSuccessful": "",
-      "refundIssued": "환불되었습니다",
-      "swapPartiallySuccessful": "부분 스왑 성공",
+      "depositSuccessful": "예치 성공",
+      "checkoutSuccessful": "구매 성공",
+      "refundIssued": "환불 완료",
+      "swapPartiallySuccessful": "스왑 부분 성공",
       "swapSuccessful": "스왑 성공"
     }
   },
   "warning": {
     "message": {
-      "tokenUnverified": "",
-      "tokenUnverifiedByProvider": "",
-      "accountNotDeployedMessage": "",
-      "lowAddressActivity": "",
-      "clearFailedTransactions": "",
-      "fundsLossPrevention": "",
-      "highValueLoss": "받은 토큰의 가치가 스왑된 토큰 및 트랜잭션 비용보다 상당히 낮습니다.",
-      "insufficientFunds": "스왑을 진행할 자금이 부족합니다.",
-      "insufficientGas": "스왑을 진행할 가스가 부족합니다. 최소 다음과 같은 가스가 필요합니다:",
-      "minFromAmountUSD": "",
-      "rateChanged": "거래 비율이 변경되었습니다. 스왑을 계속하면 새로운 비율이 적용됩니다.",
-      "resetSettings": "우선 경로, 슬리피지, 가스 비용, 활성화된 브릿지 및 거래소가 재설정됩니다.",
-      "slippageOutsideRecommendedLimits": "",
-      "slippageUnderRecommendedLimits": ""
+      "tokenUnverified": "검증되지 않은 토큰입니다. 진행하기 전에 항상 직접 조사하세요.",
+      "tokenUnverifiedByProvider": "{{tokenSymbol}}은(는) Hypernative에서 검증되지 않았습니다. 진행하기 전에 이 토큰을 신뢰할 수 있는지 확인하세요.",
+      "accountNotDeployedMessage": "도착 체인에 스마트 컨트랙트 계정이 없습니다. 존재하지 않는 스마트 컨트랙트 계정으로 자금을 보내면 영구적으로 잃을 수 있습니다.",
+      "lowAddressActivity": "이 주소는 {{chainName}} 네트워크에서 활동 내역이 적습니다. 자금 손실을 막으려면 올바른 주소와 네트워크로 보내는지 확인하세요.",
+      "clearFailedTransactions": "실패한 트랜잭션은 로컬에만 저장되므로 지우면 복구할 수 없습니다.",
+      "fundsLossPrevention": "자금 손실을 막으려면 도착 체인에 스마트 컨트랙트 계정이 올바르게 설정되어 있는지 항상 확인하고, 거래소로 직접 전송하지 마세요.",
+      "highValueLoss": "받는 토큰의 가치가 보내는 토큰과 트랜잭션 비용을 합한 것보다 훨씬 낮습니다.",
+      "tokenFlagged": "{{tokenSymbol}}은(는) Hypernative에서 악성 토큰으로 분류되었습니다. 이 토큰을 스왑하면 자금을 모두 잃을 수 있습니다.",
+      "insufficientFunds": "트랜잭션을 완료하기에 자금이 부족합니다.",
+      "insufficientGas": "트랜잭션을 완료하기에 가스가 부족합니다. 최소한 다음 금액을 추가해야 합니다:",
+      "minFromAmountUSD": "최소 금액은 {{amount, currencyExt(currency: USD)}}입니다. 더 큰 금액을 입력하세요.",
+      "rateChanged": "환율이 변경되었습니다. 트랜잭션을 계속하면 새 환율이 적용됩니다.",
+      "resetSettings": "경로 우선순위, 슬리피지, 가스 가격, 활성화된 브릿지 및 DEX가 초기화됩니다.",
+      "slippageOutsideRecommendedLimits": "슬리피지 허용치가 높으면 프론트러닝으로 인해 불리한 거래가 체결될 수 있습니다.",
+      "slippageUnderRecommendedLimits": "슬리피지 허용치가 낮으면 트랜잭션이 지연되거나 실패할 수 있습니다."
     },
     "checkbox": {
-      "highValueLoss": ""
+      "highValueLoss": "큰 가치 손실을 감수합니다",
+      "tokenFlagged": "위험을 이해했으며 그래도 계속 진행합니다"
     },
     "title": {
-      "clearFailedTransactions": "",
-      "highValueLoss": "높은 가치 손실",
+      "clearFailedTransactions": "실패한 트랜잭션을 모두 지우시겠습니까?",
+      "highValueLoss": "큰 가치 손실",
       "insufficientGas": "가스 부족",
-      "rateChanged": "비율 변경됨",
-      "resetSettings": "설정을 초기화합니까?",
-      "lowAddressActivity": ""
+      "rateChanged": "환율 변경됨",
+      "resetSettings": "설정을 초기화하시겠습니까?",
+      "tokenFlagged": "악성 토큰 감지됨",
+      "lowAddressActivity": "활동이 적은 주소"
     }
   },
   "error": {
     "message": {
-      "allowanceRequired": "{{tokenSymbol}} 이체 금액이 한도를 초과했습니다. 한도를 증액한 뒤 다시 시도해주십시오.",
-      "callBundleNotFound": "",
+      "allowanceRequired": "{{tokenSymbol}} 전송 금액이 현재 지출 한도를 초과합니다. 지출 한도를 늘린 후 다시 시도해 주세요.",
+      "callBundleNotFound": "지갑에 이 트랜잭션 기록이 없습니다. 승인했다면 아직 완료될 수 있습니다. 다시 스왑하기 전에 지갑 잔액을 확인하세요.",
       "insufficientFunds": "트랜잭션에 필요한 가스비가 부족합니다.",
-      "rateLimitExceeded": "",
-      "remainInYourWallet": "",
-      "signatureRejected": "",
-      "slippageThreshold": "슬리피지가 한계점보다 큽니다. 새로운 견적을 얻기 위해 새 경로를 요청하십시오.",
-      "thirdPartyError": "",
-      "transactionCanceled": "거래가 취소되었습니다.",
-      "transactionConflict": "",
-      "transactionExpired": "",
-      "transactionRejected": "",
-      "transactionFailed": "자세한 정보는 블록 탐색기에서 확인하세요.",
+      "rateLimitExceeded": "짧은 시간에 너무 많은 요청이 발생했습니다. 잠시 후 다시 시도하거나, 문제가 계속되면 고객 지원팀에 문의하세요.",
+      "remainInYourWallet": "{{chainName}}의 {{amount, numberExt}} {{tokenSymbol}}이(가) 지갑에 남아 있습니다.",
+      "signatureRejected": "트랜잭션을 완료하려면 서명이 필요합니다. {{chainName}}의 {{amount, numberExt}} {{tokenSymbol}}이(가) 지갑에 남아 있습니다.",
+      "slippageThreshold": "슬리피지가 설정한 한도보다 큽니다. 새 견적을 요청하세요.",
+      "thirdPartyError": "외부 서비스 문제로 요청을 완료하지 못했습니다. 다시 시도하거나, 문제가 계속되면 고객 지원팀에 문의하세요.",
+      "transactionCanceled": "트랜잭션이 취소되었습니다.",
+      "transactionConflict": "같은 자금을 사용하는 다른 대기 중인 트랜잭션과 충돌하여 트랜잭션을 처리할 수 없습니다. 대기 중인 트랜잭션이 확정될 때까지 기다리거나, 다시 시도하기 전에 트랜잭션 내역을 확인하세요.",
+      "transactionExpired": "블록 높이가 허용된 최대 한도를 초과했거나 블록해시가 더 이상 유효하지 않습니다.",
+      "transactionRejected": "지갑 내부 오류로 트랜잭션이 거부되었습니다. 다시 시도하거나 새 견적을 요청하세요.",
+      "transactionFailed": "자세한 내용은 블록 익스플로러에서 확인하세요.",
       "transactionNotSent": "트랜잭션이 전송되지 않았습니다.",
-      "transactionSimulationFailed": "",
-      "unknown": "다시 시도하거나 고객 센터에 문의하십시오.",
-      "walletChangedDuringExecution": ""
+      "transactionSimulationFailed": "시뮬레이션에서 트랜잭션을 실행할 수 없습니다.",
+      "unknown": "다시 시도하거나 고객 지원팀에 문의하세요.",
+      "walletChangedDuringExecution": "견적을 요청한 지갑 주소와 트랜잭션에 서명하려는 지갑 주소가 일치하지 않습니다. 트랜잭션 실행이 끝날 때까지 같은 지갑 주소를 사용하세요."
     },
     "title": {
-      "allowanceRequired": "한도 부족",
-      "balanceIsTooLow": "잔액이 부족합니다.",
-      "bookmarkAlreadyExists": "",
-      "bookmarkNameRequired": "",
-      "callBundleNotFound": "",
-      "chainSwitch": "체인을 변경하십시오",
-      "exchangeRateUpdateCanceled": "교환 비율 갱신이 취소되었습니다",
+      "allowanceRequired": "지출 한도 부족",
+      "balanceIsTooLow": "잔액이 너무 적습니다",
+      "bookmarkAlreadyExists": "이미 {{name}}(으)로 북마크된 지갑입니다",
+      "bookmarkNameRequired": "북마크 이름을 입력해야 합니다",
+      "callBundleNotFound": "지갑에서 트랜잭션을 찾을 수 없음",
+      "chainSwitch": "체인 변경 필요",
+      "exchangeRateUpdateCanceled": "환율 업데이트 취소됨",
       "gasLimitIsTooLow": "가스 한도가 너무 낮습니다",
-      "insufficientFunds": "잔고 부족",
-      "insufficientGas": "",
-      "rateLimitExceeded": "",
-      "signatureRejected": "서명이 필요합니다.",
-      "slippageNotMet": "슬리피지 조건을 충족하지 못했습니다.",
-      "thirdPartyError": "",
-      "transactionCanceled": "거래가 취소되었습니다",
-      "transactionConflict": "",
-      "transactionExpired": "",
-      "transactionFailed": "거래가 실패하였습니다",
-      "transactionRejected": "",
-      "transactionSimulationFailed": "",
-      "transactionUnderpriced": "거래 가격이 너무 낮습니다",
-      "transactionUnprepared": "트랜잭션을 진행할 수 없습니다.",
+      "insufficientFunds": "자금 부족",
+      "insufficientGas": "가스 부족",
+      "rateLimitExceeded": "요청 한도 초과",
+      "signatureRejected": "서명 필요",
+      "slippageNotMet": "슬리피지 조건 미충족",
+      "thirdPartyError": "외부 서비스 이용 불가",
+      "transactionCanceled": "트랜잭션 취소됨",
+      "transactionConflict": "트랜잭션 충돌",
+      "transactionExpired": "트랜잭션 만료됨",
+      "transactionFailed": "트랜잭션 실패",
+      "transactionRejected": "트랜잭션 거부됨",
+      "transactionSimulationFailed": "트랜잭션 시뮬레이션 실패",
+      "transactionUnderpriced": "트랜잭션 가스 가격이 너무 낮습니다",
+      "transactionUnprepared": "트랜잭션을 준비할 수 없습니다",
       "unknown": "문제가 발생했습니다",
-      "walletAddressInvalid": "",
-      "walletAddressInvalid_chain": "",
+      "walletAddressInvalid": "지갑 주소 또는 도메인 이름이 올바르지 않습니다",
+      "walletAddressInvalid_chain": "선택한 도착 체인 {{chainName}}에 맞지 않는 지갑 주소 또는 도메인 이름입니다",
       "walletAddressRequired": "지갑 주소가 필요합니다.",
-      "walletChainTypeInvalid": "",
-      "walletMismatch": "",
-      "zcashAddressInvalid": ""
+      "walletChainTypeInvalid": "지갑 주소가 선택한 도착 체인 {{chainName}}와(과) 일치하지 않습니다",
+      "walletMismatch": "지갑 주소 불일치",
+      "zcashAddressInvalid": "투명 Zcash 주소(t1 또는 t3) 또는 Orchard 수신자가 포함된 통합 주소(u1)를 입력하세요. Sapling(zs1) 및 TEX 주소는 지원되지 않습니다."
     }
   },
   "tooltip": {
-    "deselectAll": "전체 선택 해제",
-    "estimatedTime": "",
-    "exchangeRate": "",
-    "feeCollection": "",
-    "minReceived": "",
+    "deselectAll": "모두 선택 해제",
+    "estimatedTime": "체인 변경과 토큰 승인을 제외하고, 스왑 또는 브릿지 트랜잭션을 완료하는 데 걸리는 시간입니다.",
+    "exchangeRate": "출발 토큰과 도착 토큰 간의 예상 환율입니다. 클릭하면 방향이 바뀝니다.",
+    "feeCollection": "수수료는 특정 토큰 페어에 적용되며, 최상의 경험을 제공하는 데 사용됩니다.",
+    "minReceived": "예상 최소 수령액은 스왑/브릿지 트랜잭션에 서명하기 전까지 변경될 수 있습니다. 2단계 전송의 경우 두 번째 단계의 트랜잭션에 서명하기 전까지 변경될 수 있습니다.",
     "notFound": {
       "text": "페이지를 찾을 수 없습니다.",
       "title": "404"
     },
-    "multistep": "",
-    "gasless": "",
-    "numberOfSteps": "",
-    "priceImpact": "",
-    "progressToNextUpdate": "표시된 데이터가 {{value}} 초 후에 자동 새로고침 됩니다. 수동으로 업데이트 하려면 여기를 클릭하십시오.",
-    "selectAll": "전체 선택",
+    "multistep": "이 경로는 전송을 완료하기 위해 여러 트랜잭션이 필요합니다. 각 단계에는 서명이 필요한 트랜잭션이 1~2개 포함될 수 있습니다.",
+    "gasless": "가스는 저희가 처리하므로 네이티브 토큰 없이도 자산을 전송할 수 있습니다. 네트워크 수수료는 전송 금액에 포함됩니다.",
+    "priceImpact": "출발 토큰과 도착 토큰 간의 예상 가치 차이입니다.",
+    "progressToNextUpdate": "{{value}}초 후 견적이 업데이트됩니다. <0/> 지금 업데이트하려면 여기를 클릭하세요.",
+    "selectAll": "모두 선택",
     "settingsModified": "설정 (수정됨)",
-    "slippage": ""
+    "slippage": "예상 가격과 전송이 실제로 실행되는 가격 간의 최대 차이(%)입니다. 이 값은 설정에서 변경할 수 있습니다.",
+    "tokenNative": "{{tokenSymbol}}은(는) 이 네트워크의 네이티브 토큰입니다.",
+    "tokenNativeOnChain": "{{tokenSymbol}}은(는) {{chainName}}의 네이티브 토큰입니다.",
+    "tokenVerified": "{{tokenSymbol}}은(는) 검증되었습니다.",
+    "tokenVerifiedByProvider": "{{tokenSymbol}}은(는) {{provider}}에서 검증되었습니다."
   },
   "main": {
-    "allNetworks": "",
-    "allTokens": "",
-    "bridgeStepDetails": "",
-    "checkoutStepDetails": "",
-    "currentAmount": "현재 수량",
-    "depositStepDetails": "",
-    "estimatedTime": "",
-    "exchangeRate": "",
+    "allNetworks": "모든 네트워크",
+    "allTokens": "모든 토큰",
+    "bridgeStepDetails": "{{tool}}을(를) 통해 {{from}}에서 {{to}}(으)로 브릿지",
+    "checkoutStepDetails": "{{tool}}을(를) 통해 구매",
+    "currentAmount": "현재 금액",
+    "depositStepDetails": "{{tool}}을(를) 통해 예치",
+    "estimatedTime": "예상 시간",
+    "exchangeRate": "환율",
     "featuredTokens": "주요 토큰",
     "fees": {
-      "defaultIntegrator": "",
-      "relayerService": "",
-      "estimated": "",
-      "free": "",
-      "network": "",
-      "paid": "",
-      "provider": ""
+      "defaultIntegrator": "통합사 수수료",
+      "relayerService": "가스리스 서비스",
+      "free": "무료",
+      "network": "네트워크 수수료",
+      "provider": "제공업체 수수료"
     },
-    "from": "[Value] 를",
-    "inProgress": "진행 중",
-    "maxSlippage": "",
-    "minReceived": "",
-    "myTokens": "",
-    "onChain": "{{chainName}} 에서",
-    "ownedBy": "소유자: ",
-    "pinnedTokens": "",
-    "popularTokens": "",
-    "priceImpact": "",
+    "from": "출발",
+    "maxSlippage": "최대 슬리피지",
+    "minReceived": "최소 수령액",
+    "myTokens": "내 토큰",
+    "ownedBy": "소유자",
+    "pinnedTokens": "고정된 토큰",
+    "popularTokens": "인기 토큰",
+    "priceImpact": "가격 영향",
     "process": {
       "bridge": {
-        "actionRequired": "",
-        "messageRequired": "",
-        "done": "",
-        "pending": "",
-        "started": ""
+        "actionRequired": "브릿지 트랜잭션 서명",
+        "messageRequired": "브릿지 메시지 서명",
+        "done": "브릿지 트랜잭션 확정됨",
+        "pending": "브릿지 트랜잭션 대기 중",
+        "started": "브릿지 트랜잭션 준비 중"
       },
       "checkout": {
-        "done": ""
+        "done": "구매 완료"
       },
       "deposit": {
-        "done": ""
+        "done": "예치 완료"
       },
       "receivingChain": {
         "done": "브릿지 완료",
         "partial": "브릿지 부분 완료",
-        "pending": "도착 체인 대기 중",
-        "refunded": "브릿지 트랜잭션 환불됨"
+        "pending": "도착 체인 대기 중"
       },
       "swap": {
-        "actionRequired": "",
-        "messageRequired": "",
+        "actionRequired": "스왑 트랜잭션 서명",
+        "messageRequired": "스왑 메시지 서명",
         "done": "스왑 완료",
-        "pending": "",
+        "pending": "스왑 트랜잭션 대기 중",
         "started": "스왑 트랜잭션 준비 중"
       },
       "permit": {
-        "actionRequired": "",
-        "done": "",
-        "pending": "",
-        "started": ""
+        "actionRequired": "Permit 메시지 서명",
+        "done": "Permit 메시지 서명 완료",
+        "pending": "Permit 메시지 대기 중",
+        "started": "트랜잭션 준비 중"
       },
       "tokenAllowance": {
-        "actionRequired": "",
-        "resetRequired": "",
-        "done": "",
-        "pending": "",
-        "started": ""
+        "actionRequired": "{{tokenSymbol}} 지출 승인",
+        "resetRequired": "{{tokenSymbol}} 지출 승인 취소",
+        "done": "{{tokenSymbol}} 지출 승인 완료",
+        "pending": "{{tokenSymbol}} 승인 대기 중",
+        "started": "승인 트랜잭션 준비 중"
       }
     },
-    "quotedAmount": "견적",
-    "rateChange": "비율 변경",
-    "receiving": "받는 중",
-    "recentSearches": "",
-    "refuelStepDetails": "{{tool}} 를 통해 가스 얻기",
-    "route": "",
-    "select": "",
-    "sendToAddress": "{{address}}로 전송",
-    "sendToWallet": "다른 지갑으로 전송",
-    "sending": "전송중",
-    "sentToAddress": "{{address}}로 전송",
-    "stepBridge": "브릿지",
-    "stepBridgeAndBuy": "브릿지 그리고 매수",
-    "stepBridgeAndDeposit": "",
-    "stepBuy": "매수",
-    "stepDeposit": "",
-    "stepDetails": "LI.FI 를 통한 {{tool}}",
-    "stepSwap": "스왑",
-    "stepSwapAndBridge": "스왑 그리고 브릿지",
-    "stepSwapAndBuy": "스왑 그리고 매수",
-    "stepSwapAndDeposit": "",
-    "swapStepDetails": "{{tool}}로 {{chain}}에서 스왑",
-    "receipts": "",
-    "sentToWallet": "",
-    "transferId": "",
+    "quotedAmount": "견적 금액",
+    "rateChange": "환율 변동",
+    "receiving": "받는 금액",
+    "recentSearches": "최근 검색",
+    "refuelStepDetails": "{{tool}}을(를) 통해 가스 충전",
+    "route": "경로",
+    "select": "선택",
+    "sendToWallet": "다른 지갑으로 보내기",
+    "sending": "보내는 금액",
+    "swapStepDetails": "{{tool}}을(를) 통해 {{chain}}에서 스왑",
+    "receipts": "영수증",
+    "sentToWallet": "지갑으로 보냄",
+    "transferId": "전송 ID",
     "tags": {
-      "cheapest": "",
-      "fastest": "",
-      "gasless": "",
-      "multistep": ""
+      "cheapest": "최고 수익",
+      "fastest": "가장 빠름",
+      "gasless": "가스리스",
+      "multistep": "여러 단계"
     },
     "to": "도착",
     "tokenOnChain": "{{chainName}}의 {{tokenSymbol}}",
-    "tokenOnChainAmount": "",
-    "tokenSearch": "",
+    "tokenOnChainAmount": "{{chainName}}의 {{amount, numberExt}} {{tokenSymbol}}",
+    "tokenSearch": "토큰 또는 주소로 검색",
     "valueLoss": "가치 손실",
-    "searchBridges": "",
-    "searchExchanges": "",
-    "searchNetwork": ""
+    "searchBridges": "브릿지 이름으로 검색",
+    "searchCurrency": "통화 검색",
+    "searchExchanges": "DEX 이름으로 검색",
+    "searchNetwork": "네트워크 검색"
   },
   "settings": {
-    "appearance": "",
+    "appearance": "테마",
     "enabledBridges": "브릿지",
-    "enabledExchanges": "교환",
+    "enabledExchanges": "DEX",
     "gasPrice": {
-      "fast": "빠르게",
-      "normal": "표준",
-      "slow": "느리게",
+      "fast": "빠름",
+      "normal": "보통",
+      "slow": "느림",
       "title": "가스 가격"
     },
-    "routePriority": "우선 경로",
-    "slippage": "",
-    "custom": "사용자 정의",
-    "resetSettings": "",
-    "hideSmallBalances": ""
+    "routePriority": "경로 우선순위",
+    "routePriorityOptions": {
+      "cheapest": {
+        "title": "최고 수익",
+        "description": "가장 낮은 네트워크 수수료"
+      },
+      "fastest": {
+        "title": "가장 빠름",
+        "description": "가장 짧은 실행 시간"
+      }
+    },
+    "slippage": "최대 슬리피지",
+    "slippageAutoDescription": "경로별 최적화",
+    "custom": "사용자 지정",
+    "resetSettings": "사용 가능한 경로의 수나 정렬 순서에 영향을 줄 수 있는 사용자 지정 설정을 사용 중입니다.",
+    "hideSmallBalances": "소액 잔액 숨기기"
   },
   "sendToWallet": {
-    "addBookmark": "",
-    "bookmarkWallet": "",
-    "confirmWalletAddress": "",
-    "connectedWallets": "",
-    "enterAddress_long": "",
-    "enterAddress_short": "",
-    "enterName": "",
-    "noBookmarkedWallets": "",
-    "noBookmarkedWalletsMessage": "",
-    "noConnectedWallets": "",
-    "noConnectedWalletsMessage": "",
-    "noRecentWallets": "",
-    "noRecentWalletsMessage": "",
-    "required": ""
+    "addBookmark": "북마크 추가",
+    "bookmarkWallet": "지갑 북마크",
+    "confirmWalletAddress": "지갑 주소 확인",
+    "connectedWallets": "연결된 지갑",
+    "enterAddress_long": "주소 또는 지갑 도메인 입력",
+    "enterAddress_short": "지갑 주소 입력",
+    "enterName": "이름 입력",
+    "noBookmarkedWallets": "북마크한 지갑 없음",
+    "noBookmarkedWalletsMessage": "자주 사용하는 지갑 주소를 저장하고 빠르게 이용하세요.",
+    "noConnectedWallets": "연결된 지갑 없음",
+    "noConnectedWalletsMessage": "지갑을 연결하면 여기에 표시됩니다.",
+    "noRecentWallets": "최근 지갑 없음",
+    "noRecentWalletsMessage": "최근 사용한 지갑 주소가 여기에 표시됩니다.",
+    "required": "필수"
   },
   "tokenMetric": {
-    "currentPrice": "",
-    "contractAddress": "",
-    "marketCap": "",
-    "volume24h": "",
-    "status": "",
-    "statusFlagged": "",
-    "statusUnverified": "",
-    "statusVerified": ""
+    "currentPrice": "현재 가격",
+    "contractAddress": "컨트랙트 주소",
+    "marketCap": "시가총액",
+    "volume24h": "24시간 거래량",
+    "status": "상태",
+    "statusFlagged": "Hypernative에서 악성으로 분류되었습니다. 이 토큰을 거래하면 자금을 모두 잃을 수 있습니다.",
+    "statusUnverified": "Hypernative 미검증",
+    "statusVerified": "Hypernative에서 검증되었습니다. 오탐이 발생할 수 있으며, 당사는 이러한 알림에 대해 책임을 지지 않습니다. 조치하기 전에 항상 직접 조사하세요."
+  },
+  "tags": {
+    "connected": "연결됨",
+    "getStarted": "시작하기",
+    "installed": "설치됨",
+    "multichain": "멀티체인",
+    "qrCode": "QR 코드"
+  },
+  "checkout": {
+    "closeConfirmation": {
+      "title": "결제 화면을 나가시겠습니까?",
+      "body": "닫아도 입금은 취소되지 않습니다. 언제든지 여기로 돌아와 진행 상황을 확인할 수 있습니다.",
+      "confirm": "결제 닫기",
+      "cancel": "취소"
+    },
+    "abandonConfirmation": {
+      "title": "이 전송을 취소하시겠습니까?",
+      "body": "입금 정보가 삭제됩니다. 취소한 후에는 이 주소로 자금을 보내지 마세요.",
+      "confirm": "전송 취소",
+      "cancel": "전송 유지"
+    },
+    "activity": {
+      "title": "활동 내역",
+      "deposit": "입금",
+      "amountOnChain": "{{chain}}의 {{amount}} {{symbol}}",
+      "depositInProgress": "입금 진행 중",
+      "refundInProgress": "환불 진행 중",
+      "couldNotComplete": "완료하지 못함",
+      "singleFailed": "입금 실패. 해결이 필요합니다",
+      "dismiss": "닫기"
+    },
+    "transak": {
+      "forceClose": {
+        "tooltip": "닫기(트랜잭션이 재개되지 않음)"
+      }
+    },
+    "legal": {
+      "termsDisclaimer": "계속하면 LI.FI의 <terms>서비스 약관</terms>에 동의하게 됩니다."
+    },
+    "resume": {
+      "notFoundToast": "트랜잭션을 찾을 수 없습니다. 다시 시작하거나, 오류라고 생각되면 고객 지원팀에 문의하세요."
+    },
+    "transferDeposit": {
+      "warning": "<b>{{chain}}</b>에서 <b>{{amount}} {{symbol}}</b> 이상을 보내세요. 잘못된 토큰이나 체인으로 보내면 복구하지 못할 수 있습니다.",
+      "expiresIn": "{{minutes}}:{{seconds}} 후 입금 주소 만료",
+      "copyAddress": "주소 복사",
+      "addressCopied": "복사 완료!",
+      "polling": "입금을 확인하는 중…",
+      "detailsTitle": "입금 상세 정보",
+      "table": {
+        "required": "필요 금액",
+        "received": "수령 금액",
+        "minRefundable": "최소 환불 가능 금액",
+        "remaining": "남은 금액",
+        "excess": "초과 금액",
+        "timeRemaining": "남은 시간"
+      },
+      "errors": {
+        "unexpected": {
+          "title": "예상치 못한 입금",
+          "description": "지원되는 경로와 일치하지 않는 입금을 받았습니다. 다음 단계는 고객 지원팀에 문의하세요."
+        },
+        "amountLowThreshold": {
+          "title": "입금 미완료",
+          "description": "주문을 완료하거나 환불을 받으려면 추가 입금하세요."
+        },
+        "amountLowTopUp": {
+          "title": "입금 미완료",
+          "description": "입금 가능 시간이 끝나기 전에 남은 금액을 보내세요."
+        },
+        "amountLowExpired": {
+          "title": "입금 미완료",
+          "description": "입금 가능 시간이 만료되었습니다. 수령된 금액에 대해 환불을 요청할 수 있습니다."
+        },
+        "excessHeld": {
+          "title": "초과 금액 보류됨",
+          "description": "주문을 처리하고 있습니다. 초과 금액은 보류되어 있으며, 환불을 요청하면 돌려받을 수 있습니다."
+        },
+        "lateArrival": {
+          "title": "입금이 늦게 도착함",
+          "description": "입금 가능 시간이 끝난 후 자금이 도착했습니다. 다시 활성화하여 계속하거나 환불을 요청할 수 있습니다."
+        },
+        "addressExpired": {
+          "title": "입금 주소 만료됨",
+          "description": "자금을 받지 못한 채 입금 주소가 만료되었습니다. 새 입금 주소로 다시 시도할 수 있습니다."
+        },
+        "marketMoved": {
+          "title": "트랜잭션 실패",
+          "description": "주문이 완료되기 전에 환율이 변동되었습니다. 자금은 안전하며, 환불이 시작되었습니다."
+        }
+      }
+    },
+    "fiatCurrency": {
+      "label": "결제 통화"
+    },
+    "cashCurrency": {
+      "error": "지금은 통화를 불러올 수 없습니다. 다시 시도하세요."
+    },
+    "cashQuote": {
+      "totalFeesLabel": "총 수수료",
+      "feeFallback": "수수료 {{index}}",
+      "refundNote": "최소 {{value}}을(를) 받거나 전액 환불받습니다."
+    },
+    "cashHandoff": {
+      "title": "Transak에서 결제를 완료합니다",
+      "body": "결제 금액은 개인 지갑이 아니라 이 구매를 위해 생성된 임시 입금 주소를 거쳐 전달됩니다. 이는 정상이며 자동으로 진행됩니다.",
+      "addressLabel": "입금 주소",
+      "addressHint": "Transak에서도 같은 주소가 표시됩니다.",
+      "continue": "Transak으로 계속",
+      "goBack": "뒤로 가기"
+    },
+    "transactionStatus": {
+      "detailsTitle": "트랜잭션 상세 정보",
+      "watching": "트랜잭션 확인 중",
+      "executing": "트랜잭션 처리 중",
+      "success": "트랜잭션 성공",
+      "seeDetails": "상세 보기",
+      "steps": {
+        "receive": {
+          "upcoming": "{{symbol}} 받기",
+          "loading": "{{symbol}} 받는 중",
+          "done": "{{symbol}} 수령 완료"
+        },
+        "swap": {
+          "upcoming": "{{symbol}}(으)로 스왑",
+          "loading": "{{symbol}}(으)로 스왑 중",
+          "done": "{{symbol}}(으)로 스왑 완료"
+        },
+        "bridge": {
+          "upcoming": "{{chain}}(으)로 브릿지",
+          "loading": "{{chain}}(으)로 브릿지 중",
+          "done": "{{chain}}(으)로 브릿지 완료"
+        }
+      }
+    },
+    "chooseFundingSource": "결제 방법 선택",
+    "whereToSendIt": "받는 주소",
+    "walletAddressOrEns": "지갑 주소 또는 ENS 이름",
+    "insufficientFunds": "자금 부족 — {{chain}}에 {{symbol}}이(가) 부족합니다. 다른 토큰을 선택하여 다시 시도하세요.",
+    "routeNotFound": {
+      "title": "여기서는 이 토큰을 구매할 수 없습니다",
+      "description": "선택한 결제 방법으로는 이 토큰을 구매할 수 없습니다. 다른 토큰을 선택하거나 연결된 지갑에서 결제하세요."
+    },
+    "useYourTokens": "보유 토큰 사용",
+    "buyTokens": "토큰 구매",
+    "or": "또는",
+    "payFromWallet": "지갑에서 결제",
+    "payFromWalletSubtitle": "브라우저 지갑 연결",
+    "transferCrypto": "암호화폐 전송",
+    "transferCryptoSubtitle": "모든 지갑에서 가능",
+    "connectExchange": "거래소 연결",
+    "connectExchangeSubtitle": "거래소 계정 연동",
+    "payWithExchange": "{{exchange}}(으)로 결제",
+    "reuseExchangeSubtitle": "연동된 계정으로 계속",
+    "depositWithCash": "카드로 입금",
+    "depositWithCashSubtitle": "체크카드 또는 신용카드",
+    "connectWallet": "지갑 연결",
+    "useAnotherWallet": "다른 지갑 사용",
+    "progress": {
+      "title": "구매 진행 중",
+      "description": "구매를 처리하고 있습니다. 몇 분 정도 걸릴 수 있습니다."
+    },
+    "onramp": {
+      "errors": {
+        "MISSING_API_URL": "{{providerName}}이(가) 구성되지 않았습니다: checkout에 sdkConfig.apiUrl을 설정하세요.",
+        "MISSING_API_KEY": "{{providerName}}이(가) 구성되지 않았습니다: checkout 세션을 호출하려면 위젯 apiKey를 설정하세요.",
+        "TARGET_NOT_CONFIGURED": "{{providerName}} 도착지가 구성되지 않았습니다: widget.toChain 및 widget.toToken을 설정하세요.",
+        "INVALID_RESPONSE": "{{providerName}} 세션 API에서 잘못된 응답을 받았습니다.",
+        "NETWORK_ERROR": "{{providerName}} 세션을 시작하는 중 네트워크 오류가 발생했습니다.",
+        "SESSION_HTTP": "{{providerName}} 세션을 시작할 수 없습니다({{status}}). 나중에 다시 시도하세요.",
+        "generic": "문제가 발생했습니다. 나중에 다시 시도하세요."
+      },
+      "failure": {
+        "transferTitle": "트랜잭션 실패 - 환불 중",
+        "transferDescription": "여러 번 시도했지만 전송을 완료하지 못했습니다. 자금을 보낸 지갑으로 환불하고 있습니다."
+      }
+    },
+    "status": {
+      "successCompleted": {
+        "title": "트랜잭션 성공",
+        "description": "트랜잭션이 완료되었습니다."
+      },
+      "successPartial": {
+        "title": "부분 완료",
+        "description": "트랜잭션이 완료되었지만, 받은 토큰 중 일부가 요청한 도착 토큰이 아닙니다. 상세 정보를 열어 받은 토큰을 확인하세요."
+      },
+      "successRefund": {
+        "title": "환불 완료",
+        "description": "트랜잭션을 완료할 수 없어 자금이 환불되었습니다."
+      },
+      "pendingDefault": {
+        "title": "트랜잭션 처리 중",
+        "description": "트랜잭션을 처리하고 있습니다. 몇 분 정도 걸릴 수 있습니다."
+      },
+      "pendingRefund": {
+        "title": "환불 진행 중",
+        "description": "자금을 돌려보내고 있습니다. 보통 몇 분 정도 걸립니다."
+      },
+      "pendingRetrying": {
+        "title": "트랜잭션 재시도 중",
+        "description": "문제가 발생하여 트랜잭션을 자동으로 다시 시도하고 있습니다."
+      },
+      "errorExpired": {
+        "title": "트랜잭션 만료됨",
+        "description": "트랜잭션 가능 시간이 만료되었습니다. 다시 시도해 주세요."
+      },
+      "errorFailed": {
+        "title": "트랜잭션 실패",
+        "description": "트랜잭션을 완료하지 못했습니다. 다시 시도하거나 고객 지원팀에 문의하세요."
+      },
+      "errorConnection": {
+        "title": "연결 실패",
+        "description": "결제 제공업체에 연결하지 못했습니다. 다시 시도하거나 고객 지원팀에 문의하세요.",
+        "exchange": {
+          "title": "거래소 연결 실패",
+          "description": "거래소 계정에 연결하지 못했습니다. 다시 시도하거나 고객 지원팀에 문의하세요."
+        }
+      },
+      "errorWithdrawal": {
+        "title": "출금 실패",
+        "description": "결제 제공업체가 출금을 처리하지 못했습니다. 자금은 계정에 그대로 남아 있습니다.",
+        "cash": {
+          "title": "결제가 완료되지 않음",
+          "description": "결제가 처리되지 않았습니다. 청구된 금액은 없습니다."
+        },
+        "exchange": {
+          "title": "거래소 출금 실패",
+          "description": "거래소에서 출금을 처리하지 못했습니다. 자금은 거래소 계정에 그대로 남아 있습니다."
+        }
+      },
+      "errorCancelled": {
+        "title": "트랜잭션 취소됨",
+        "description": "트랜잭션이 취소되었습니다. 준비되면 언제든지 다시 시도할 수 있습니다.",
+        "cash": {
+          "title": "결제 취소됨",
+          "description": "결제 창을 닫았습니다. 주문이 접수되지 않았습니다."
+        }
+      },
+      "errorUnavailable": {
+        "title": "서비스 이용 불가",
+        "description": "결제 제공업체를 일시적으로 이용할 수 없습니다. 나중에 다시 시도하거나 고객 지원팀에 문의하세요.",
+        "cash": {
+          "title": "카드 결제 이용 불가",
+          "description": "카드 결제를 일시적으로 이용할 수 없습니다. 나중에 다시 시도하거나 다른 방법을 사용하세요."
+        }
+      },
+      "walletDisconnected": {
+        "title": "지갑 연결 해제됨",
+        "description": "트랜잭션 중에 지갑 연결이 해제되었습니다. 다시 연결한 후 다시 시도하세요."
+      },
+      "walletErrorFailed": {
+        "title": "트랜잭션 실패",
+        "description": "트랜잭션을 완료하지 못했습니다. 상세 정보를 확인하거나 다시 시도하세요."
+      },
+      "walletErrorExpired": {
+        "title": "주문 만료됨",
+        "description": "주문이 처리되기 전에 트랜잭션 가능 시간이 만료되었습니다. 다시 시도해 주세요."
+      },
+      "walletPendingRefund": {
+        "title": "환불 진행 중",
+        "description": "결제한 지갑으로 자금을 돌려보내고 있습니다. 보통 몇 분 정도 걸립니다."
+      },
+      "walletSuccessRefund": {
+        "title": "환불 완료",
+        "description": "트랜잭션을 완료할 수 없어 자금이 지갑으로 환불되었습니다."
+      }
+    },
+    "refund": {
+      "title": "환불",
+      "inProgressDescription": "{{chain}}의 {{amount}} {{symbol}}을(를) 지갑으로 돌려보내고 있습니다. 보통 몇 분 정도 걸립니다.",
+      "completeDescription": "{{chain}}의 {{amount}} {{symbol}}이(가) 지갑으로 반환되었습니다.",
+      "viewTransaction": "트랜잭션 보기"
+    }
   }
 }
